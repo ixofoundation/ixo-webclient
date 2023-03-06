@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react'
 import * as Modal from 'react-modal'
 import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
 import { ModalStyles, CloseButton, ModalBody, ModalWrapper, ModalRow, ModalTitle } from 'components/Modals/styles'
-import { theme, Typography } from 'components/App/App.styles'
 import { TEntityServiceModel } from 'types/protocol'
 import { Button } from 'pages/CreateEntity/Components'
 import { FormData } from 'components/JsonForm/types'
 import NodeCard from 'components/Entities/CreateEntity/CreateEntityAdvanced/Components/NodeCard/NodeCard'
+import { Typography } from 'components/Typography'
 
 interface Props {
   service: TEntityServiceModel[]
@@ -74,7 +74,7 @@ const ServiceSetupModal: React.FC<Props> = ({ service, open, onClose, onChange }
             </ModalRow>
           ))}
           <ModalRow style={{ justifyContent: 'center' }}>
-            <Typography color={theme.ixoNewBlue} style={{ cursor: 'pointer' }} onClick={handleAddNode}>
+            <Typography className='cursor-pointer' color={'blue'} onClick={handleAddNode}>
               + Add Node
             </Typography>
           </ModalRow>

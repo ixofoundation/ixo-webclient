@@ -6,7 +6,7 @@ import {
   ELocalisation,
   TEntityAccordedRightModel,
   TEntityLinkedEntityModel,
-  TEntityControllerModel,
+  TEntityAdministratorModel,
   TEntityPageModel,
   TEntityClaimModel1,
   TEntityDDOTagModel,
@@ -18,7 +18,7 @@ export interface TEntityModel {
   localisation: ELocalisation
   metadata: TEntityMetadataModel
   creator: TEntityCreatorModel
-  controller: TEntityControllerModel
+  administrator: TEntityAdministratorModel
   ddoTags: TEntityDDOTagModel[]
   page: TEntityPageModel
   service: TEntityServiceModel[]
@@ -57,7 +57,7 @@ export enum ECreateEntityActions {
 
   UpdateMetadata = 'ixo/create/entity/UPDATE_METADATA',
   UpdateCreator = 'ixo/create/entity/UPDATE_CREATOR',
-  UpdateController = 'ixo/create/entity/UPDATE_CONTROLLER',
+  UpdateAdministrator = 'ixo/create/entity/UPDATE_ADMINISTRATOR',
   UpdateDDOTags = 'ixo/create/entity/UPDATE_DDOTAGS',
   UpdatePage = 'ixo/create/entity/UPDATE_PAGE',
   UpdateService = 'ixo/create/entity/UPDATE_SERVICE',
@@ -107,9 +107,9 @@ export interface TUpdateCreatorAction {
   type: typeof ECreateEntityActions.UpdateCreator
   payload: TEntityCreatorModel
 }
-export interface TUpdateControllerAction {
-  type: typeof ECreateEntityActions.UpdateController
-  payload: TEntityControllerModel
+export interface TUpdateAdministratorAction {
+  type: typeof ECreateEntityActions.UpdateAdministrator
+  payload: TEntityAdministratorModel
 }
 export interface TUpdateDDOTagsAction {
   type: typeof ECreateEntityActions.UpdateDDOTags
@@ -189,7 +189,7 @@ export type TCreateEntityActionTypes =
   | TUpdateSubtitleAction
   | TUpdateMetaDataAction
   | TUpdateCreatorAction
-  | TUpdateControllerAction
+  | TUpdateAdministratorAction
   | TUpdateDDOTagsAction
   | TUpdatePageAction
   | TUpdateServiceAction

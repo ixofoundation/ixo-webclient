@@ -7,33 +7,7 @@ import { isAccountAddress } from 'utils/validation'
 import { CosmosMsgFor_Empty } from 'types/dao'
 import { Typography } from 'components/Typography'
 import { SetupActionsForm } from 'pages/CreateEntity/CreateDeed/Pages/SetupActions/SetupActionsForm'
-import {
-  makeAuthzAuthorizationAction,
-  makeAuthzExecAction,
-  makeBurnNftAction,
-  makeCustomAction,
-  makeDaoAdminExecAction,
-  makeExecuteAction,
-  makeGovernanceVoteAction,
-  makeInstantiateAction,
-  makeManageCw20Action,
-  makeManageCw721Action,
-  makeManageMembersAction,
-  makeManageStorageItemsAction,
-  makeManageSubDaosAction,
-  makeMigrateAction,
-  makeMintAction,
-  makePerformTokenSwapAction,
-  makeSpendAction,
-  makeStakeAction,
-  makeTransferNFTAction,
-  makeUpdateAdminAction,
-  makeUpdateInfoAction,
-  makeUpdatePreProposeConfigAction,
-  makeUpdateVotingConfigAction,
-  makeValidatorActions,
-  makeWithdrawTokenSwapAction,
-} from 'lib/protocol/proposal'
+import { useMakeProposalAction } from 'lib/protocol/proposal'
 
 export const TYPE_URL_MSG_GRANT = '/cosmos.authz.v1beta1.MsgGrant'
 export const TYPE_URL_MSG_REVOKE = '/cosmos.authz.v1beta1.MsgRevoke'
@@ -61,6 +35,33 @@ interface Props {
 }
 
 const SetupDAOAdminExecuteModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
+  const {
+    makeAuthzAuthorizationAction,
+    makeAuthzExecAction,
+    makeBurnNftAction,
+    makeCustomAction,
+    makeDaoAdminExecAction,
+    makeExecuteAction,
+    makeGovernanceVoteAction,
+    makeInstantiateAction,
+    makeManageCw20Action,
+    makeManageCw721Action,
+    makeManageMembersAction,
+    makeManageStorageItemsAction,
+    makeManageSubDaosAction,
+    makeMigrateAction,
+    makeMintAction,
+    makePerformTokenSwapAction,
+    makeSpendAction,
+    makeStakeAction,
+    makeTransferNFTAction,
+    makeUpdateAdminAction,
+    makeUpdateInfoAction,
+    makeUpdatePreProposeConfigAction,
+    makeUpdateVotingConfigAction,
+    makeValidatorActions,
+    makeWithdrawTokenSwapAction,
+  } = useMakeProposalAction()
   const [formData, setFormData] = useState<DaoAdminExecData>(initialState)
   const validActions = (formData._actions ?? []).filter((item) => item.data)
   const daoAddress = 'ixo1xc798xnhp7yy9mpp80v3tsxppw8qk0y9atm965'

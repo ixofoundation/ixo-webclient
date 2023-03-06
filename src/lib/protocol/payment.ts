@@ -1,11 +1,11 @@
 import { Coin } from '@cosmjs/proto-signing'
-import { cosmos, createQueryClient, ixo, SigningStargateClient } from '@ixo/impactxclient-sdk'
+import { cosmos, createQueryClient, ixo, SigningStargateClient, utils } from '@ixo/impactxclient-sdk'
 import { DistributionShare } from '@ixo/impactxclient-sdk/types/codegen/ixo/payments/v1/payments'
 import {
   QueryPaymentTemplateRequest,
   QueryPaymentTemplateResponse,
 } from '@ixo/impactxclient-sdk/types/codegen/ixo/payments/v1/query'
-import { fee, generateId, RPC_ENDPOINT } from './common'
+import { fee, RPC_ENDPOINT } from './common'
 
 export const CreatePaymentTemplate = async (
   client: SigningStargateClient,
@@ -25,13 +25,13 @@ export const CreatePaymentTemplate = async (
         creatorDid: did,
         creatorAddress: address,
         paymentTemplate: ixo.payments.v1.PaymentTemplate.fromPartial({
-          id: `payment:template:${generateId(10)}`,
+          id: `payment:template:${utils.common.generateId(10)}`,
           paymentAmount: [cosmos.base.v1beta1.Coin.fromPartial(paymentAmount)],
           paymentMinimum: [cosmos.base.v1beta1.Coin.fromPartial(paymentMinimum)],
           paymentMaximum: [cosmos.base.v1beta1.Coin.fromPartial(paymentMaximum)],
           discounts: [
             ixo.payments.v1.Discount.fromPartial({
-              id: `payment:contract:${generateId(10)}`,
+              id: `payment:contract:${utils.common.generateId(10)}`,
               percent: '5000000000000000000', // TODO:
             }),
           ],
@@ -73,8 +73,8 @@ export const CreatePaymentContract = async (
       typeUrl: '/ixo.payments.v1.MsgCreatePaymentContract',
       value: ixo.payments.v1.MsgCreatePaymentContract.fromPartial({
         creatorDid: did,
-        paymentTemplateId: `payment:template:${generateId(10)}`,
-        paymentContractId: `payment:contract:${generateId(10)}`,
+        paymentTemplateId: `payment:template:${utils.common.generateId(10)}`,
+        paymentContractId: `payment:contract:${utils.common.generateId(10)}`,
         payer: address,
         recipients: recipients.map((item) =>
           ixo.payments.v1.DistributionShare.fromPartial({

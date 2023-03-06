@@ -1,11 +1,12 @@
-import { FlexBox, theme } from 'components/App/App.styles'
-import React, { useEffect, useState } from 'react'
+import { FlexBox, SvgBox, theme } from 'components/App/App.styles'
+import React, { useState } from 'react'
 import { TDAOGroupModel } from 'types/protocol'
 import { CardWrapper, PlusIcon } from './SetupGroupSettings.styles'
 import { Typography } from 'components/Typography'
 import {
   AccountValidStatus,
   Button,
+  Dropdown2,
   InputWithLabel,
   NumberCounter,
   SimpleSelect,
@@ -18,16 +19,14 @@ import { ReactComponent as ProfileIcon } from 'assets/images/icon-profile.svg'
 import { ReactComponent as BinIcon } from 'assets/images/icon-bin-lg.svg'
 import { ReactComponent as SandClockIcon } from 'assets/images/icon-sandclock.svg'
 import { ReactComponent as VoteSwitchingIcon } from 'assets/images/icon-vote-switching.svg'
+import { ReactComponent as CoinsSolidIcon } from 'assets/images/icon-coins-solid.svg'
 import { ReactComponent as ThresholdIcon } from 'assets/images/icon-threshold.svg'
 import { ReactComponent as TokenContractIcon } from 'assets/images/icon-token-contract.svg'
 import { deviceWidth } from 'constants/device'
+import { DepositRefundPolicy } from 'types/dao'
 
-const initialMembership = { category: '', weightPerMember: 0, members: [''] }
+export const initialMembership = { category: '', weight: 1, members: [''] }
 const initialStakingDistribution = { category: '', totalSupplyPercent: 0, members: [''] }
-const defaultVotingDuration = { amount: 1, unit: 'day' }
-const defaultVoteSwitching = false
-const defaultPassingThreshold = { majority: {} }
-const defaultQuorum = { majority: {} }
 const inputHeight = 48
 
 interface Props {
@@ -38,57 +37,9 @@ interface Props {
 
 const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onContinue }): JSX.Element => {
   const { daoGroups } = useCreateEntityState()
-  const [data, setData] = useState<TDAOGroupModel>({ id, type: daoGroups[id].type })
+  const [data, setData] = useState<TDAOGroupModel>(daoGroups[id])
   const [useExistingToken, setUseExistingToken] = useState(false)
   const [showAdvanced, setShowAdvanced] = useState(false)
-
-  useEffect(() => {
-    if (!id) {
-      return
-    }
-
-    const type = daoGroups[id].type
-    const data = {
-      name: daoGroups[id].name ?? '',
-      description: daoGroups[id].description ?? '',
-      votingDuration: daoGroups[id].votingDuration ?? defaultVotingDuration,
-      voteSwitching: daoGroups[id].voteSwitching ?? defaultVoteSwitching,
-      passingThreshold: daoGroups[id].passingThreshold ?? defaultPassingThreshold,
-      quorum: daoGroups[id].quorum ?? defaultQuorum,
-    }
-    switch (type) {
-      case 'membership':
-        setData((pre) => ({ ...pre, ...data, memberships: daoGroups[id].memberships ?? [initialMembership] }))
-        break
-      case 'staking': {
-        const staking = daoGroups[id].staking
-        if (!staking?.tokenContractAddress) {
-          setData((pre) => ({
-            ...pre,
-            ...data,
-            staking: {
-              tokenSymbol: staking?.tokenSymbol,
-              tokenName: staking?.tokenName,
-              tokenSupply: staking?.tokenSupply,
-              treasuryPercent: staking?.treasuryPercent,
-              distributions: staking?.distributions ?? [initialStakingDistribution],
-            },
-          }))
-          setUseExistingToken(false)
-        } else {
-          setData((pre) => ({ ...pre, ...data, staking: { tokenContractAddress: staking?.tokenContractAddress } }))
-          setUseExistingToken(true)
-        }
-        break
-      }
-      case 'multisig':
-        setData((pre) => ({ ...pre, ...data, multisigMembers: daoGroups[id].multisigMembers ?? [''] }))
-        break
-      default:
-        break
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id])
 
   const renderGroupIdentity = (): JSX.Element => {
     return (
@@ -175,7 +126,7 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onContinue }): JSX.El
     }
     return (
       <FlexBox direction='column' width='100%' gap={7} marginBottom={7}>
-        {(data.memberships ?? []).map((membership, membershipIdx) => (
+        {data.memberships.map((membership, membershipIdx) => (
           <CardWrapper direction='column' gap={5} key={membershipIdx}>
             <FlexBox justifyContent='space-between' alignItems='center'>
               <FlexBox gap={2} alignItems='center'>
@@ -208,8 +159,8 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onContinue }): JSX.El
                 <NumberCounter
                   label='Voting Weight per Member'
                   height={inputHeight + 'px'}
-                  value={membership.weightPerMember ?? 0}
-                  onChange={(value): void => handleUpdateMembership(membershipIdx, 'weightPerMember', value)}
+                  value={membership.weight ?? 0}
+                  onChange={(value): void => handleUpdateMembership(membershipIdx, 'weight', value)}
                 />
               </FlexBox>
             </FlexBox>
@@ -522,25 +473,44 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onContinue }): JSX.El
    * @returns
    */
   const renderMultisigGroupMembership = (): JSX.Element => {
-    const handleAddMultisigMember = (): void => {
-      setData((pre) => ({ ...pre, multisigMembers: [...(pre.multisigMembers ?? []), ''] }))
-    }
-    const handleUpdateMultisigMember = (memberIdx: number, value: string): void => {
+    const handleUpdateMembership = (membershipIdx: number, key: string, value: any): void => {
       setData((pre) => ({
         ...pre,
-        multisigMembers: (pre.multisigMembers ?? ['']).map((member, i) => {
-          if (memberIdx === i) {
-            return value
+        memberships: pre.memberships?.map((membership, i) => {
+          if (membershipIdx === i) {
+            return { ...membership, [key]: value }
           }
-          return member
+          return membership
         }),
       }))
     }
-    const handleRemoveMultisigMember = (memberIdx: number): void => {
-      if (data.multisigMembers?.length !== 1) {
-        setData((pre) => ({ ...pre, multisigMembers: pre.multisigMembers?.filter((member, i) => i !== memberIdx) }))
+    const handleAddMember = (membershipIdx: number): void => {
+      const members = (data.memberships ?? [])[membershipIdx]?.members ?? ['']
+      handleUpdateMembership(membershipIdx, 'members', [...members, ''])
+    }
+    const handleUpdateMember = (membershipIdx: number, memberIdx: number, value: string): void => {
+      const members = (data.memberships ?? [])[membershipIdx]?.members ?? ['']
+      handleUpdateMembership(
+        membershipIdx,
+        'members',
+        members.map((item, index) => {
+          if (index === memberIdx) {
+            return value
+          }
+          return item
+        }),
+      )
+    }
+    const handleRemoveMember = (membershipIdx: number, memberIdx: number): void => {
+      const members = (data.memberships ?? [])[membershipIdx]?.members ?? ['']
+      if (members.length === 1) {
+        handleUpdateMembership(membershipIdx, 'members', [''])
       } else {
-        setData((pre) => ({ ...pre, multisigMembers: [''] }))
+        handleUpdateMembership(
+          membershipIdx,
+          'members',
+          members.filter((item, index) => memberIdx !== index),
+        )
       }
     }
     return (
@@ -558,13 +528,13 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onContinue }): JSX.El
               Members
             </Typography>
             <FlexBox direction='column' gap={4} width='100%'>
-              {(data.multisigMembers ?? ['']).map((member, memberIdx) => (
+              {data.memberships[0].members.map((member, memberIdx) => (
                 <FlexBox key={memberIdx} alignItems='center' gap={4} width='100%'>
                   <InputWithLabel
                     height={inputHeight + 'px'}
                     label='Member Account Address or Name'
                     inputValue={member}
-                    handleChange={(value): void => handleUpdateMultisigMember(memberIdx, value)}
+                    handleChange={(value): void => handleUpdateMember(0, memberIdx, value)}
                   />
                   <AccountValidStatus address={member} style={{ flex: '0 0 52px' }} />
                   <Button
@@ -573,13 +543,13 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onContinue }): JSX.El
                     width={52}
                     height={48}
                     style={{ flex: '0 0 52px' }}
-                    onClick={(): void => handleRemoveMultisigMember(memberIdx)}
+                    onClick={(): void => handleRemoveMember(0, memberIdx)}
                   >
                     <BinIcon />
                   </Button>
                 </FlexBox>
               ))}
-              <Button size='custom' width={230} height={48} onClick={handleAddMultisigMember}>
+              <Button size='custom' width={230} height={48} onClick={(): void => handleAddMember(0)}>
                 <FlexBox alignItems='center' gap={2}>
                   <PlusIcon color={theme.ixoWhite} />
                   Add Account
@@ -600,20 +570,19 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onContinue }): JSX.El
             <InputWithLabel
               label='Minimum Number of Signatories'
               height={inputHeight + 'px'}
-              inputValue={data.passingThreshold}
-              handleChange={(value): void => setData((pre) => ({ ...pre, passingThreshold: value }))}
+              inputValue={''}
+              handleChange={(value): void => {
+                // TODO:
+              }}
               width='50%'
             />
-            <Typography size='xl'>of {data.multisigMembers?.length ?? 0} accounts</Typography>
+            <Typography size='xl'>of {data.memberships[0].members.filter(Boolean).length ?? 0} accounts</Typography>
           </FlexBox>
         </CardWrapper>
       </FlexBox>
     )
   }
   const renderVotingDuration = (): JSX.Element => {
-    const handleUpdateVoting = (key: string, value: any): void => {
-      setData((pre) => ({ ...pre, votingDuration: { ...pre?.votingDuration, [key]: value } }))
-    }
     return (
       <CardWrapper direction='column' gap={5}>
         <FlexBox alignItems='center' gap={2}>
@@ -634,14 +603,19 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onContinue }): JSX.El
             direction='row-reverse'
             width='200px'
             height={inputHeight + 'px'}
-            value={data.votingDuration?.amount ?? 0}
-            onChange={(value: number): void => handleUpdateVoting('amount', value)}
+            value={data.proposalDuration}
+            onChange={(value: number): void => setData((pre) => ({ ...pre, proposalDuration: value }))}
           />
           <Typography weight='medium' size='xl'>
             <SimpleSelect
-              value={data.votingDuration?.unit ?? 'day'}
-              options={['second', 'minute', 'hour', 'day', 'week']}
-              onChange={(value) => handleUpdateVoting('unit', value)}
+              value={data.proposalDurationUnits}
+              options={['seconds', 'minutes', 'hours', 'days', 'weeks']}
+              onChange={(value) =>
+                setData((pre) => ({
+                  ...pre,
+                  proposalDurationUnits: value as 'weeks' | 'days' | 'hours' | 'minutes' | 'seconds',
+                }))
+              }
             />
           </Typography>
         </FlexBox>
@@ -656,15 +630,6 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onContinue }): JSX.El
     )
   }
   const renderAdvancedSettings = (): JSX.Element => {
-    const handleUpdateVoteSwitching = (value: boolean): void => {
-      setData((pre) => ({ ...pre, voteSwitching: value }))
-    }
-    const handleUpdatePassingThreshold = (key: string, value: any): void => {
-      setData((pre) => ({ ...pre, passingThreshold: { [key]: value } }))
-    }
-    const handleUpdateQuorum = (key: string, value: any): void => {
-      setData((pre) => ({ ...pre, quorum: { [key]: value } }))
-    }
     return (
       <FlexBox direction='column' gap={7}>
         {/* Allow Vote Switching */}
@@ -685,10 +650,79 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onContinue }): JSX.El
             <Switch
               onLabel='YES'
               offLabel='NO'
-              value={data.voteSwitching ?? false}
-              onChange={handleUpdateVoteSwitching}
+              value={data.allowRevoting}
+              onChange={(value) => setData((pre) => ({ ...pre, allowRevoting: value }))}
             />
           </FlexBox>
+        </CardWrapper>
+
+        {/* Proposal Deposit */}
+        <CardWrapper direction='column' gap={5}>
+          <FlexBox alignItems='center' gap={2}>
+            <SvgBox svgWidth={8} svgHeight={8} color='black'>
+              <CoinsSolidIcon />
+            </SvgBox>
+            <Typography size='xl' weight='medium'>
+              Proposal Deposit
+            </Typography>
+          </FlexBox>
+          <FlexBox>
+            <Typography size='md'>
+              The number of tokens that must be deposited to create a proposal. Setting this may deter spam, but setting
+              it too high may limit broad participation.
+            </Typography>
+          </FlexBox>
+          <FlexBox justifyContent='flex-end'>
+            <Switch
+              onLabel='ENABLED'
+              offLabel='DISABLED'
+              value={data.depositRequired}
+              onChange={(value) => setData((pre) => ({ ...pre, depositRequired: value }))}
+            />
+          </FlexBox>
+          {data.depositRequired && (
+            <>
+              <FlexBox width='100%' justifyContent='flex-end' gap={2}>
+                <NumberCounter
+                  direction='row-reverse'
+                  width='200px'
+                  height={inputHeight + 'px'}
+                  value={Number(data.depositInfo.amount)}
+                  onChange={(value) =>
+                    setData((pre) => ({ ...pre, depositInfo: { ...pre.depositInfo, amount: String(value) } }))
+                  }
+                />
+                <Typography weight='medium' size='xl'>
+                  <SimpleSelect
+                    value={data.depositInfo.denomOrAddress}
+                    options={['$IXO']}
+                    onChange={(value) =>
+                      setData((pre) => ({ ...pre, depositInfo: { ...pre.depositInfo, denomOrAddress: value } }))
+                    }
+                  />
+                </Typography>
+              </FlexBox>
+              <FlexBox width='100%' justifyContent='space-between' alignItems='center'>
+                <Typography size='md'>Once a proposal completes, when should deposits be refunded?</Typography>
+                <Dropdown2
+                  value={data.depositInfo.refundPolicy}
+                  options={[
+                    [DepositRefundPolicy.Always, 'Always'],
+                    [DepositRefundPolicy.OnlyPassed, 'Only passed proposals'],
+                    [DepositRefundPolicy.Never, 'Never'],
+                  ].map(([value, text]) => ({ value, text }))}
+                  onChange={(e) =>
+                    setData((pre) => ({
+                      ...pre,
+                      depositInfo: { ...pre.depositInfo, refundPolicy: e.target.value as DepositRefundPolicy },
+                    }))
+                  }
+                  wrapperStyle={{ width: '320px' }}
+                  style={{ height: '48px', textAlign: 'center' }}
+                />
+              </FlexBox>
+            </>
+          )}
         </CardWrapper>
 
         {/* Passing Threshold */}
@@ -709,21 +743,21 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onContinue }): JSX.El
             </FlexBox>
             <FlexBox justifyContent='flex-end'>
               <FlexBox gap={4}>
-                {data.passingThreshold?.percent && (
+                {data.thresholdType === '%' && (
                   <NumberCounter
                     direction='row-reverse'
                     width='200px'
                     height={inputHeight + 'px'}
-                    value={data.passingThreshold.percent ?? 0}
-                    onChange={(value: number): void => handleUpdatePassingThreshold('percent', value)}
+                    value={data.thresholdPercentage! * 100}
+                    onChange={(value) => setData((pre) => ({ ...pre, thresholdPercentage: value / 100 }))}
                   />
                 )}
                 <Typography weight='medium' size='xl'>
                   <SimpleSelect
-                    value={Object.keys(data.passingThreshold ?? defaultPassingThreshold)[0] ?? 'majority'}
+                    value={data.thresholdType}
                     options={['%', 'majority']}
                     onChange={(value) =>
-                      handleUpdatePassingThreshold(value === '%' ? 'percent' : value, value === '%' ? 20 : {})
+                      setData((pre) => ({ ...pre, thresholdType: value as '%' | 'majority', thresholdPercentage: 0.2 }))
                     }
                   />
                 </Typography>
@@ -749,23 +783,50 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onContinue }): JSX.El
           </FlexBox>
           <FlexBox alignItems='center' justifyContent='flex-end' gap={4}>
             <FlexBox gap={4}>
-              {data.quorum?.percent && (
+              {data.quorumType === '%' && (
                 <NumberCounter
                   direction='row-reverse'
                   width='200px'
                   height={inputHeight + 'px'}
-                  value={data.quorum.percent ?? 0}
-                  onChange={(value: number): void => handleUpdateQuorum('percent', value)}
+                  value={data.quorumPercentage! * 100}
+                  onChange={(value) => setData((pre) => ({ ...pre, quorumPercentage: value / 100 }))}
                 />
               )}
               <Typography weight='medium' size='xl'>
                 <SimpleSelect
-                  value={Object.keys(data.quorum ?? defaultQuorum)[0] ?? 'majority'}
+                  value={data.quorumType}
                   options={['%', 'majority']}
-                  onChange={(value) => handleUpdateQuorum(value === '%' ? 'percent' : value, value === '%' ? 20 : {})}
+                  onChange={(value) =>
+                    setData((pre) => ({ ...pre, quorumType: value as '%' | 'majority', quorumPercentage: 0.2 }))
+                  }
                 />
               </Typography>
             </FlexBox>
+          </FlexBox>
+        </CardWrapper>
+
+        {/* Proposal Submission Policy */}
+        <CardWrapper direction='column' gap={5}>
+          <FlexBox alignItems='center' gap={2}>
+            <VoteSwitchingIcon />
+            <Typography size='xl' weight='medium'>
+              Proposal Submission Policy
+            </Typography>
+          </FlexBox>
+          <FlexBox>
+            <Typography size='md'>Who is allowed to submit proposals to the DAO?</Typography>
+          </FlexBox>
+          <FlexBox justifyContent='flex-end'>
+            <Dropdown2
+              value={String(data.anyoneCanPropose)}
+              options={[
+                ['false', 'Only members'],
+                ['true', 'Anyone'],
+              ].map(([value, text]) => ({ value, text }))}
+              onChange={(e) => setData((pre) => ({ ...pre, anyoneCanPropose: e.target.value === 'true' }))}
+              wrapperStyle={{ width: '320px' }}
+              style={{ height: '48px', textAlign: 'center' }}
+            />
           </FlexBox>
         </CardWrapper>
       </FlexBox>

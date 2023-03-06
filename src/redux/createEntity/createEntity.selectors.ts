@@ -8,7 +8,7 @@ import {
   ELocalisation,
   TEntityAccordedRightModel,
   TEntityLinkedEntityModel,
-  TEntityControllerModel,
+  TEntityAdministratorModel,
   TEntityPageModel,
   TEntityClaimModel1,
   TEntityDDOTagModel,
@@ -54,9 +54,9 @@ export const selectCreateEntityCreator = createSelector(
   (createEntity: TCreateEntityState): TEntityCreatorModel => createEntity.creator,
 )
 
-export const selectCreateEntityController = createSelector(
+export const selectCreateEntityAdministrator = createSelector(
   selectCreateEntity,
-  (createEntity: TCreateEntityState): TEntityControllerModel => createEntity.controller,
+  (createEntity: TCreateEntityState): TEntityAdministratorModel => createEntity.administrator,
 )
 
 export const selectCreateEntityDDOTags = createSelector(

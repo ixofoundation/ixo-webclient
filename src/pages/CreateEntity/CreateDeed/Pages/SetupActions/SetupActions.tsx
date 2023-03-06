@@ -6,38 +6,43 @@ import { Button } from 'pages/CreateEntity/Components'
 import React from 'react'
 import { TDeedActionModel } from 'types/protocol'
 import { useHistory, useParams } from 'react-router-dom'
-import {
-  makeAuthzAuthorizationAction,
-  makeAuthzExecAction,
-  makeBurnNftAction,
-  makeCustomAction,
-  makeDaoAdminExecAction,
-  makeExecuteAction,
-  makeGovernanceVoteAction,
-  makeInstantiateAction,
-  makeManageCw20Action,
-  makeManageCw721Action,
-  makeManageMembersAction,
-  makeManageStorageItemsAction,
-  makeManageSubDaosAction,
-  makeMigrateAction,
-  makeMintAction,
-  makePerformTokenSwapAction,
-  makeSpendAction,
-  makeStakeAction,
-  makeTransferNFTAction,
-  makeUpdateAdminAction,
-  makeUpdateInfoAction,
-  makeUpdatePreProposeConfigAction,
-  makeUpdateVotingConfigAction,
-  makeValidatorActions,
-  makeWithdrawTokenSwapAction,
-} from 'lib/protocol/proposal'
 import { decodedMessagesString } from 'utils/messages'
 import { CosmosMsgFor_Empty } from 'types/dao'
 import { SetupActionsForm } from './SetupActionsForm'
+import { useMakeProposalAction } from 'lib/protocol/proposal'
+import { WasmExecuteTrx } from 'lib/protocol/cosmwasm'
+import { useAccount } from 'hooks/account'
 
 const SetupActions: React.FC = () => {
+  const {
+    makeAuthzAuthorizationAction,
+    makeAuthzExecAction,
+    makeBurnNftAction,
+    makeCustomAction,
+    makeDaoAdminExecAction,
+    makeExecuteAction,
+    makeGovernanceVoteAction,
+    makeInstantiateAction,
+    makeManageCw20Action,
+    makeManageCw721Action,
+    makeManageMembersAction,
+    makeManageStorageItemsAction,
+    makeManageSubDaosAction,
+    makeMigrateAction,
+    makeMintAction,
+    makePerformTokenSwapAction,
+    makeSpendAction,
+    makeStakeAction,
+    makeTransferNFTAction,
+    makeUpdateAdminAction,
+    makeUpdateInfoAction,
+    makeUpdatePreProposeConfigAction,
+    makeUpdateVotingConfigAction,
+    makeValidatorActions,
+    makeWithdrawTokenSwapAction,
+  } = useMakeProposalAction()
+  const { signingClient, signer } = useAccount()
+
   const history = useHistory()
   const { entityId } = useParams<{ entityId: string }>()
   const { deed, updateDeed } = useCreateEntityState()
@@ -47,7 +52,7 @@ const SetupActions: React.FC = () => {
   const handleBack = () => {
     history.push(`/create/entity/${entityId}/deed/setup-properties`)
   }
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const wasmMessage: CosmosMsgFor_Empty[] = validActions
       .map((validAction: TDeedActionModel) => {
         try {
@@ -118,7 +123,9 @@ const SetupActions: React.FC = () => {
       })
       .filter(Boolean) as CosmosMsgFor_Empty[]
 
-    console.log('wasmMessage', decodedMessagesString(wasmMessage))
+    console.log('wasmMessage', decodedMessagesString(wasmMessage), wasmMessage)
+
+    // const res = await WasmExecuteTrx(signingClient, signer, { msg: JSON.stringify(msg) })
   }
 
   return (

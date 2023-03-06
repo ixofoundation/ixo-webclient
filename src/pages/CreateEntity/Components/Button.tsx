@@ -1,7 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
-import { theme } from 'components/App/App.styles'
+import { SvgBox, theme } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
+import { ReactComponent as AssistantIcon } from 'assets/images/icon-assistant.svg'
 
 type TButtonVariant = 'primary' | 'secondary' | 'grey500' | 'grey700' | 'grey900'
 type TButtonSize = 'lg' | 'md' | 'sm' | 'custom'
@@ -82,7 +83,8 @@ interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   width?: number
   height?: number
   disabled?: boolean
-  onClick: () => void
+  loading?: boolean
+  onClick?: () => void
   children?: React.ReactNode
 }
 
@@ -92,6 +94,7 @@ const Button: React.FC<Props> = ({
   width,
   height,
   disabled = false,
+  loading = false,
   children,
   onClick,
   ...rest
@@ -103,12 +106,18 @@ const Button: React.FC<Props> = ({
       width={width}
       height={height}
       disabled={disabled}
-      onClick={onClick}
+      onClick={onClick && !loading ? onClick : undefined}
       {...rest}
     >
-      <Typography weight='inherit' size='xl' color='inherit' style={{ letterSpacing: 0.3 }}>
-        {children}
-      </Typography>
+      {loading ? (
+        <SvgBox color='currentColor'>
+          <AssistantIcon />
+        </SvgBox>
+      ) : (
+        <Typography weight='inherit' size='xl' color='inherit' style={{ letterSpacing: 0.3 }}>
+          {children}
+        </Typography>
+      )}
     </StyledButton>
   )
 }

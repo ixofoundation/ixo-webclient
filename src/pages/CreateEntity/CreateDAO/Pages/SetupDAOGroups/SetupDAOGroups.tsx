@@ -8,20 +8,30 @@ import { useCreateEntityState } from 'hooks/createEntity'
 import { v4 as uuidv4 } from 'uuid'
 import { DAOGroupConfig, TDAOGroupModel } from 'types/protocol'
 import { omitKey } from 'utils/objects'
-import SetupGroupSettings from './SetupGroupSettings'
+import SetupGroupSettings, { initialMembership } from './SetupGroupSettings'
 import { deviceWidth } from 'constants/device'
+import { initialPreProposeConfigState } from 'components/Modals/AddActionModal/SetupUpdateProposalSubmissionConfigModal'
+import { initialProposalConfigState } from 'components/Modals/AddActionModal/SetupUpdateVotingConfigModal'
 
 const SetupDAOGroups: React.FC = (): JSX.Element => {
   const { daoGroups, daoController, updateDAOGroups, updateDAOController, gotoStep } = useCreateEntityState()
   const [openAddGroupModal, setOpenAddGroupModal] = useState(false)
   const [selectedGroup, setSelectedGroup] = useState('')
-  const canSubmit = useMemo(() => Object.values(daoGroups).length > 0, [daoGroups])
+  const canSubmit = useMemo(() => !Object.values(daoGroups).some(({ name }) => !name), [daoGroups])
 
   const handleAddGroup = (type: string): void => {
     const id = uuidv4()
     updateDAOGroups({
       ...daoGroups,
-      [id]: { id, type },
+      [id]: {
+        id,
+        type,
+        name: '',
+        description: '',
+        memberships: [initialMembership],
+        ...initialPreProposeConfigState,
+        ...initialProposalConfigState,
+      },
     })
 
     // Set first group to DAO controller as default when it's added

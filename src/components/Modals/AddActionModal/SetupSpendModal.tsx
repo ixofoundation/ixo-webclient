@@ -1,11 +1,12 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { FlexBox } from 'components/App/App.styles'
-import { AccountValidStatus, Dropdown2, Input } from 'pages/CreateEntity/Components'
+import { AccountValidStatus, Input } from 'pages/CreateEntity/Components'
 import { Typography } from 'components/Typography'
 import { TDeedActionModel } from 'types/protocol'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 import { isAccountAddress } from 'utils/validation'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
+import { TokenSelector } from './Component'
 
 export interface SpendData extends Coin {
   to: string
@@ -25,7 +26,7 @@ interface Props {
 }
 
 const SetupSpendModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
-  const [formData, setFormData] = useState<any>(initialState)
+  const [formData, setFormData] = useState<SpendData>(initialState)
 
   const validate = useMemo(() => isAccountAddress(formData.to) && !!formData.amount && !!formData.denom, [formData])
 
@@ -34,7 +35,7 @@ const SetupSpendModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): 
   }, [action])
 
   const handleUpdateFormData = (key: string, value: string | number) => {
-    setFormData((data: any) => ({ ...data, [key]: value }))
+    setFormData((data: SpendData) => ({ ...data, [key]: value }))
   }
 
   const handleConfirm = () => {
@@ -56,15 +57,7 @@ const SetupSpendModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): 
           handleChange={(value) => handleUpdateFormData('amount', value)}
           style={{ textAlign: 'right' }}
         />
-        {/* TODO: missing options */}
-        <Dropdown2
-          name={'token'}
-          value={formData.denom}
-          options={[{ value: formData.denom, text: '$IXO' }]}
-          hasArrow={false}
-          onChange={(e) => handleUpdateFormData('denom', e.target.value)}
-          style={{ textAlign: 'center' }}
-        />
+        <TokenSelector denom={formData.denom} onChange={(value) => handleUpdateFormData('denom', value)} />
       </FlexBox>
 
       <FlexBox width='100%'>

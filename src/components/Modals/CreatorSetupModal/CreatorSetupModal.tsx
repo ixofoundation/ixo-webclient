@@ -99,8 +99,8 @@ const CreatorSetupModal: React.FC<Props> = ({ creator, title, open, onClose, onC
     blocksyncApi.project
       .createPublic(base64EncodedImage, cellNodeEndpoint!)
       .then((response: any) => {
-        if (response.result) {
-          const url = new URL(`/public/${response.result}`, cellNodeEndpoint)
+        if (response?.result?.key) {
+          const url = new URL(`/public/${response.result.key}`, cellNodeEndpoint)
           handleFormDataChange('logo', url.href)
         } else {
           throw new Error('Error uploading')

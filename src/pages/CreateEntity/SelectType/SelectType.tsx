@@ -45,7 +45,7 @@ const SelectType: React.FC = (): JSX.Element => {
       description: `A <b>Oracle Method</b> defines a data schema, data collection format, and evaluation methodology for any type of verifiable claim.`,
     },
     {
-      type: 'DAO',
+      type: 'Dao',
       label: 'DAO Template',
       icon: <DAOIcon />,
       description: `A <b>DAO Template</b> defines a data schema, data collection format, and evaluation methodology for any type of verifiable claim.`,

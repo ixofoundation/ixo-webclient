@@ -188,8 +188,8 @@ export const CreateEntityStrategyMap: TCreateEntityStrategyMap = {
       },
     },
   },
-  DAO: {
-    entityType: 'DAO',
+  Dao: {
+    entityType: 'Dao',
     title: 'Create a DAO',
     steps: {
       [`1`]: {

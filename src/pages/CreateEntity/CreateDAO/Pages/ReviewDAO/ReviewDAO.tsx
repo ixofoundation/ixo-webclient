@@ -1,231 +1,177 @@
+import { AccordedRight, LinkedEntity, LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { deviceWidth } from 'constants/device'
-import { useAccount } from 'hooks/account'
-import { useCreateEntityState } from 'hooks/createEntity'
-import { CreateEntity, getDidFromEvents } from 'lib/protocol'
+import { useCreateEntity, useCreateEntityState } from 'hooks/createEntity'
 import { Button } from 'pages/CreateEntity/Components'
-import React from 'react'
+import React, { useState } from 'react'
 import { TDAOMetadataModel } from 'types/protocol'
-import DAOCard from './DAOCard'
 import * as Toast from 'utils/toast'
-import { Context } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/iid'
-import { AccordedRight, LinkedEntity, LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
-import blocksyncApi from 'api/blocksync/blocksync'
-import { encode as base64Encode } from 'js-base64'
-import { PDS_URL } from 'types/entities'
-
-const cellNodeEndpoint = PDS_URL
+import DAOCard from './DAOCard'
 
 const ReviewDAO: React.FC = (): JSX.Element => {
-  const { signingClient, address, did } = useAccount()
   const createEntityState = useCreateEntityState()
   const metadata: TDAOMetadataModel = createEntityState.metadata as TDAOMetadataModel
-  const { entityType, service, creator, controller, ddoTags, page, claim, gotoStep } = createEntityState
+  const { service, gotoStep } = createEntityState
+  const {
+    // CreateDAO,
+    // CreateDAOCredsIssuer,
+    CreateDAOCore,
+    SaveProfile,
+    SaveCreator,
+    SaveAdministrator,
+    SavePage,
+    SaveTags,
+    SaveClaims,
+    CreateProtocol,
+    CreateEntityBase,
+  } = useCreateEntity()
+  const [submitting, setSubmitting] = useState(false)
 
-  const handleCreateEntityClass = async (): Promise<string> => {
-    const data = {
-      entityType,
-      context: [{ key: 'ixo', val: 'https://w3id.org/ixo/v1' }],
-      service: [],
-      linkedResource: [],
-      accordedRight: [],
-      linkedEntity: [],
+  const handleSignToCreate = async (): Promise<void> => {
+    setSubmitting(true)
+    // const daoDid = 'did:ixo:entity:cf16fe551153ec5a1b96be3f59b2ec98'
+    // const daoDid = await CreateDAO()
+    // if (!daoDid) {
+    //   Toast.errorToast(`Create DAO Failed`)
+    //   return
+    // } else {
+    //   Toast.successToast(`Create DAO Succeed`)
+    // }
+
+    const daoCredsIssuerDid = 'did:ixo:entity:c4a5588bdd7f651f5f5e742887709d57'
+    // const daoCredsIssuerDid = await CreateDAOCredsIssuer(daoDid)
+    // if (!daoCredsIssuerDid) {
+    //   Toast.errorToast(`Create DAO Creds Issuer Failed`)
+    //   return
+    // } else {
+    //   Toast.successToast(`Create DAO Creds Issuer Succeed`)
+    // }
+
+    const [saveProfileRes, saveCreatorRes, saveAdministratorRes, savePageRes, saveTagsRes, saveClaimsRes] =
+      await Promise.allSettled([
+        await SaveProfile(),
+        await SaveCreator(daoCredsIssuerDid),
+        await SaveAdministrator(daoCredsIssuerDid),
+        await SavePage(),
+        await SaveTags(),
+        await SaveClaims(),
+      ]).then((responses) => responses.map((response: any) => response.value))
+
+    // const daoContractAddress = 'ixo10y8j5tyhmqkztezz8n3hv0h9dd3l4x8y54p2889fcxna3mgga4as5xhacv'
+    const daoContractAddress = await CreateDAOCore()
+    if (!daoContractAddress) {
+      Toast.errorToast(`Create DAO Core Failed`)
+      setSubmitting(false)
+      return
+    } else {
+      Toast.successToast(`Create DAO Core Succeed`)
+      console.log({ daoContractAddress })
     }
-    const res = await CreateEntity(signingClient, address, did, [data])
-    return getDidFromEvents(res)
-  }
 
-  const mapToSDKLinkedResource = async (): Promise<LinkedResource[]> => {
     const linkedResource: LinkedResource[] = []
+    const accordedRight: AccordedRight[] = [] // TODO:
+    const linkedEntity: LinkedEntity[] = [] //  TODO:
 
-    // Mapping Profile to LinkedResource > `profile` type
-    try {
-      const profile = {
-        id: '', // TODO: ?
-        // '@type': metadata?.type,
-        name: metadata?.name,
-        description: metadata?.description,
-        image: metadata?.image,
-        logo: metadata?.icon,
-        brand: metadata?.brand,
-        location: metadata?.location,
-        attributes: metadata?.attributes ?? [],
-        metrics: metadata?.metrics ?? [],
-      }
-      console.log('mapToSDKLinkedResource', 'profile', profile)
-      const { result: cid } = (await blocksyncApi.project.createPublic(
-        `data:application/json;base64,${base64Encode(JSON.stringify(profile))}`,
-        cellNodeEndpoint!,
-      )) as any
-      if (cid) {
-        linkedResource.push({
-          id: `did:ixo:entity:abc123#${cid}`, // TODO:
-          type: 'profile',
-          description: '',
-          mediaType: 'application/json',
-          serviceEndpoint: `#cellnode-pandora/public/${cid}`,
-          proof: cid,
-          encrypted: 'false',
-          right: '',
-        })
-      }
-    } catch (e) {
-      console.error('Mapping to LinkedResource > `profile` type', e)
+    if (saveProfileRes) {
+      linkedResource.push({
+        id: '{id}#profile',
+        type: 'Settings',
+        description: 'Profile',
+        mediaType: 'application/ld+json',
+        serviceEndpoint: saveProfileRes.url,
+        proof: saveProfileRes.cid,
+        encrypted: 'false',
+        right: '',
+      })
+    }
+    if (saveCreatorRes) {
+      linkedResource.push({
+        id: '{id}#creator',
+        type: 'VerifiableCredential',
+        description: 'Creator',
+        mediaType: 'application/ld+json',
+        serviceEndpoint: `#cellnode-pandora/public/${saveCreatorRes.key}`,
+        proof: saveCreatorRes.key,
+        encrypted: 'false',
+        right: '',
+      })
+    }
+    if (saveAdministratorRes) {
+      linkedResource.push({
+        id: '{id}#administrator',
+        type: 'VerifiableCredential',
+        description: 'Administrator',
+        mediaType: 'application/ld+json',
+        serviceEndpoint: `#cellnode-pandora/public/${saveAdministratorRes.key}`,
+        proof: saveAdministratorRes.key,
+        encrypted: 'false',
+        right: '',
+      })
+    }
+    if (savePageRes) {
+      linkedResource.push({
+        id: '{id}#page',
+        type: 'Settings',
+        description: 'Page',
+        mediaType: 'application/ld+json',
+        serviceEndpoint: `#cellnode-pandora/public/${savePageRes.key}`,
+        proof: savePageRes.key,
+        encrypted: 'false',
+        right: '',
+      })
+    }
+    if (saveTagsRes) {
+      linkedResource.push({
+        id: '{id}#tags',
+        type: 'Settings',
+        description: 'Tags',
+        mediaType: 'application/ld+json',
+        serviceEndpoint: `#cellnode-pandora/public/${saveTagsRes.key}`,
+        proof: saveTagsRes.key,
+        encrypted: 'false',
+        right: '',
+      })
+    }
+    if (saveClaimsRes) {
+      linkedResource.push({
+        id: '{id}#claims',
+        type: 'Settings',
+        description: 'Claims',
+        mediaType: 'application/ld+json',
+        serviceEndpoint: `#cellnode-pandora/public/${saveClaimsRes.key}`,
+        proof: saveClaimsRes.key,
+        encrypted: 'false',
+        right: '',
+      })
     }
 
-    // Mapping Creator to LinkedResource > `creator` type
-    try {
-      console.log('mapToSDKLinkedResource', 'creator', creator)
-      const { result: cid } = (await blocksyncApi.project.createPublic(
-        `data:application/json;base64,${base64Encode(JSON.stringify(creator))}`,
-        cellNodeEndpoint!,
-      )) as any
-      if (cid) {
-        linkedResource.push({
-          id: `did:ixo:entity:abc123#${cid}`, // TODO:
-          type: 'creator',
-          description: '',
-          mediaType: 'application/json',
-          serviceEndpoint: `#cellnode-pandora/public/${cid}`,
-          proof: cid,
-          encrypted: 'false',
-          right: '',
-        })
-      }
-    } catch (e) {
-      console.error('Mapping Creator to LinkedResource > `creator` type', e)
+    if (daoContractAddress) {
+      linkedEntity.push({
+        id: `{id}#${daoContractAddress}`,
+        type: 'Group',
+        relationship: 'subsidiary',
+        service: '',
+      })
     }
 
-    // Mapping Controller to LinkedResource > `controller` type
-    try {
-      console.log('mapToSDKLinkedResource', 'controller', controller)
-      const { result: cid } = (await blocksyncApi.project.createPublic(
-        `data:application/json;base64,${base64Encode(JSON.stringify(controller))}`,
-        cellNodeEndpoint!,
-      )) as any
-      if (cid) {
-        linkedResource.push({
-          id: `did:ixo:entity:abc123#${cid}`, // TODO:
-          type: 'controller',
-          description: '',
-          mediaType: 'application/json',
-          serviceEndpoint: `#cellnode-pandora/public/${cid}`,
-          proof: cid,
-          encrypted: 'false',
-          right: '',
-        })
-      }
-    } catch (e) {
-      console.error('Mapping controller to LinkedResource > `controller` type', e)
+    const protocolDid = await CreateProtocol()
+    if (!protocolDid) {
+      setSubmitting(false)
+      return
     }
-
-    // Mapping Claims to linkedResource > `claims` type
-    try {
-      console.log('mapToSDKLinkedResource', 'claim', claim)
-      const { result: cid } = (await blocksyncApi.project.createPublic(
-        `data:application/json;base64,${base64Encode(JSON.stringify(claim))}`,
-        cellNodeEndpoint!,
-      )) as any
-      if (cid) {
-        linkedResource.push({
-          id: `did:ixo:entity:abc123#${cid}`, // TODO:
-          type: 'claims',
-          description: '',
-          mediaType: 'application/json',
-          serviceEndpoint: `#cellnode-pandora/public/${cid}`,
-          proof: cid,
-          encrypted: 'false',
-          right: '',
-        })
-      }
-    } catch (e) {
-      console.error('Mapping claim to linkedResource', e)
-    }
-
-    // Mapping Tags to linkedResource > `filters` type
-    try {
-      console.log('mapToSDKLinkedResource', 'filters', ddoTags)
-      const { result: cid } = (await blocksyncApi.project.createPublic(
-        `data:application/json;base64,${base64Encode(JSON.stringify(ddoTags))}`,
-        cellNodeEndpoint!,
-      )) as any
-      if (cid) {
-        linkedResource.push({
-          id: `did:ixo:entity:abc123#${cid}`, // TODO:
-          type: 'filters',
-          description: '',
-          mediaType: 'application/json',
-          serviceEndpoint: `#cellnode-pandora/public/${cid}`,
-          proof: cid,
-          encrypted: 'false',
-          right: '',
-        })
-      }
-    } catch (e) {
-      console.error('Mapping ddoTags to linkedResource')
-    }
-
-    // Mapping PageContent to linkedResource > `page` type
-    try {
-      console.log('mapToSDKLinkedResource', 'page', page)
-      const { result: cid } = (await blocksyncApi.project.createPublic(
-        `data:application/json;base64,${base64Encode(JSON.stringify(page))}`,
-        cellNodeEndpoint!,
-      )) as any
-      if (cid) {
-        linkedResource.push({
-          id: `did:ixo:entity:abc123#${cid}`, // TODO:
-          type: 'page',
-          description: '',
-          mediaType: 'application/json',
-          serviceEndpoint: `#cellnode-pandora/public/${cid}`,
-          proof: cid,
-          encrypted: 'false',
-          right: '',
-        })
-      }
-    } catch (e) {
-      console.error('Mapping PageContent to linkedResource')
-    }
-
-    return linkedResource
-  }
-  const handleCreateDAOClass = async (inheritEntityDid: string): Promise<string> => {
-    const context: Context[] = [{ key: 'class', val: inheritEntityDid }]
-
-    const linkedResource: LinkedResource[] = await mapToSDKLinkedResource()
-    const accordedRight: AccordedRight[] = []
-    const linkedEntity: LinkedEntity[] = []
-
-    const payload = {
-      entityType,
-      context,
+    const entityDid = await CreateEntityBase('dao', protocolDid, {
       service,
       linkedResource,
       accordedRight,
       linkedEntity,
-    }
-    const res = await CreateEntity(signingClient, address, did, [payload])
-    return getDidFromEvents(res)
-  }
-
-  const handleSignToCreate = async (): Promise<void> => {
-    const entityClassDid: string = await handleCreateEntityClass() // probably entityClassDid = "did:ixo:entity:dao"
-    if (!entityClassDid) {
-      Toast.errorToast(`Creating Entity Class Failed`)
-      return
+    })
+    if (entityDid) {
+      Toast.successToast(`Create Entity Succeed`)
     } else {
-      Toast.successToast(`Creating Entity Class Succeed`)
+      Toast.errorToast(`Create Entity Failed`)
     }
-
-    const daoDid: string = await handleCreateDAOClass(entityClassDid)
-    if (!daoDid) {
-      Toast.errorToast(`Creating DAO Failed`)
-      return
-    } else {
-      Toast.successToast(`Creating DAO Succeed`)
-    }
+    setSubmitting(false)
   }
 
   return (
@@ -266,7 +212,7 @@ const ReviewDAO: React.FC = (): JSX.Element => {
           <Button variant='secondary' onClick={(): void => gotoStep(-1)} style={{ width: '100%' }}>
             Back
           </Button>
-          <Button variant='primary' onClick={handleSignToCreate} style={{ width: '100%' }}>
+          <Button variant='primary' onClick={handleSignToCreate} style={{ width: '100%' }} loading={submitting}>
             Sign To Create
           </Button>
         </FlexBox>

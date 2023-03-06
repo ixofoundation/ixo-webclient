@@ -4,7 +4,7 @@ import {
   TDeedModel,
   TEntityAccordedRightModel,
   TEntityClaimModel1,
-  TEntityControllerModel,
+  TEntityAdministratorModel,
   TEntityCreatorModel,
   TEntityDDOTagModel,
   TEntityLinkedEntityModel,
@@ -25,7 +25,7 @@ import {
   TUpdateAssetInstanceAction,
   TUpdateBreadCrumbsAction,
   TUpdateClaimAction,
-  TUpdateControllerAction,
+  TUpdateAdministratorAction,
   TUpdateCreatorAction,
   TUpdateDAOControllerAction,
   TUpdateDAOGroupsAction,
@@ -78,9 +78,9 @@ export const updateCreatorAction = (creator: TEntityCreatorModel): TUpdateCreato
   payload: creator,
 })
 
-export const updateControllerAction = (controller: TEntityControllerModel): TUpdateControllerAction => ({
-  type: ECreateEntityActions.UpdateController,
-  payload: controller,
+export const updateAdministratorAction = (administrator: TEntityAdministratorModel): TUpdateAdministratorAction => ({
+  type: ECreateEntityActions.UpdateAdministrator,
+  payload: administrator,
 })
 
 export const updateDDOTagsAction = (ddoTags: TEntityDDOTagModel[]): TUpdateDDOTagsAction => ({

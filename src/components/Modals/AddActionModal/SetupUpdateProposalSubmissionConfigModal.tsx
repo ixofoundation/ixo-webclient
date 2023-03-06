@@ -23,8 +23,8 @@ export interface UpdatePreProposeConfigData {
   anyoneCanPropose: boolean
 }
 
-const initialState: UpdatePreProposeConfigData = {
-  depositRequired: true, //  from previous
+export const initialPreProposeConfigState: UpdatePreProposeConfigData = {
+  depositRequired: false, //  from previous
   depositInfo: {
     amount: '1',
     type: 'native',
@@ -43,7 +43,7 @@ interface Props {
 }
 
 const SetupUpdateContractAdminModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
-  const [formData, setFormData] = useState<UpdatePreProposeConfigData>(initialState)
+  const [formData, setFormData] = useState<UpdatePreProposeConfigData>(initialPreProposeConfigState)
 
   const validate = useMemo(
     () => formData.depositRequired && !!formData.depositInfo.amount && !!formData.depositInfo.denomOrAddress,
@@ -51,7 +51,7 @@ const SetupUpdateContractAdminModal: React.FC<Props> = ({ open, action, onClose,
   )
 
   useEffect(() => {
-    setFormData(action?.data ?? initialState)
+    setFormData(action?.data ?? initialPreProposeConfigState)
   }, [action])
 
   const handleUpdateFormData = (key: string, value: any) => {

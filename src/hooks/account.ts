@@ -13,6 +13,7 @@ import {
   selectAccountName,
   selectAccountRegistered,
 } from 'redux/account/account.selectors'
+import { decode } from 'bs58'
 import { getAddressFromPubKey, keysafeGetInfo } from 'lib/keysafe/keysafe'
 import {
   chooseWalletAction,
@@ -26,7 +27,7 @@ import {
   updateSigningClientAction,
 } from 'redux/account/account.actions'
 import { WalletType } from 'redux/account/account.types'
-import { GetBalances, KeyTypes } from 'lib/protocol'
+import { GetBalances, KeyTypes, TSigner } from 'lib/protocol'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 import { useKeplr } from 'lib/keplr/keplr'
 import { useIxoConfigs } from './configs'
@@ -36,12 +37,14 @@ export function useAccount(): {
   address: string
   signingClient: SigningStargateClient
   pubKey: string
+  pubKeyUint8: Uint8Array | undefined
   keyType: KeyTypes
   did: string
   balances: Coin[]
   name: string
   registered: boolean | undefined
   chooseWalletOpen: boolean
+  signer: TSigner
   updateKeysafeLoginStatus: () => Promise<void>
   updateKeplrLoginStatus: () => Promise<void>
   updateBalances: () => Promise<void>
@@ -61,12 +64,14 @@ export function useAccount(): {
   const address: string = useAppSelector(selectAccountAddress)
   const signingClient: SigningStargateClient = useAppSelector(selectAccountSigningClient)
   const pubKey: string = useAppSelector(selectAccountPubKey)
+  const pubKeyUint8: Uint8Array | undefined = pubKey ? Uint8Array.from(decode(pubKey)) : undefined
   const keyType: KeyTypes = useAppSelector(selectAccountKeyType)
   const did: string = useAppSelector(selectAccountDid)
   const name: string = useAppSelector(selectAccountName)
   const balances: Coin[] = useAppSelector(selectAccountBalances)
   const registered: boolean | undefined = useAppSelector(selectAccountRegistered)
   const chooseWalletOpen: boolean = useAppSelector(selectAccountChooseWalletOpen)
+  const signer: TSigner = { address, did, pubKey: pubKeyUint8!, keyType }
 
   const updateBalances = async (): Promise<void> => {
     try {
@@ -156,12 +161,14 @@ export function useAccount(): {
     address,
     signingClient,
     pubKey,
+    pubKeyUint8,
     keyType,
     did,
     balances,
     name,
     registered,
     chooseWalletOpen,
+    signer,
     updateKeysafeLoginStatus,
     updateKeplrLoginStatus,
     updateBalances,

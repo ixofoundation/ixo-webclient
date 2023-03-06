@@ -1,5 +1,5 @@
 import { ReactComponent as CreatorIcon } from 'assets/images/icon-creator.svg'
-import { ReactComponent as ControllerIcon } from 'assets/images/icon-controller.svg'
+import { ReactComponent as UserCircleIcon } from 'assets/images/icon-user-circle.svg'
 import { ReactComponent as TagsIcon } from 'assets/images/icon-tag.svg'
 import { ReactComponent as PageIcon } from 'assets/images/icon-laptop.svg'
 import { ReactComponent as PaymentIcon } from 'assets/images/icon-payment.svg'
@@ -49,7 +49,7 @@ import { ReactComponent as LockOnIcon } from 'assets/images/icon-lock-on.svg'
 import { ReactComponent as StarIcon } from 'assets/images/icon-star.svg'
 import { ReactComponent as FireIcon } from 'assets/images/icon-fire.svg'
 import { ReactComponent as TreasuryIcon } from 'assets/images/icon-treasury.svg'
-import { ReactComponent as DatabaseMultiIcon } from 'assets/images/icon-database-multi.svg'
+import { ReactComponent as DatabaseMultiIcon } from 'assets/images/icon-coins-solid.svg'
 import { ReactComponent as ArrowDownIcon } from 'assets/images/icon-arrow-down.svg'
 import { ReactComponent as SpendIcon } from 'assets/images/icon-spend.svg'
 import { ReactComponent as CycleIcon } from 'assets/images/icon-cycle.svg'
@@ -87,6 +87,8 @@ import Currency from 'assets/icons/Currency'
 import { Service } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { OutputBlockData } from '@editorjs/editorjs'
 import { ControlType, Type } from 'components/JsonForm/types'
+import { UpdatePreProposeConfigData } from 'components/Modals/AddActionModal/SetupUpdateProposalSubmissionConfigModal'
+import { UpdateProposalConfigData } from 'components/Modals/AddActionModal/SetupUpdateVotingConfigModal'
 
 export const EntitySettingsConfig: { [key: string]: any } = {
   // required
@@ -95,9 +97,9 @@ export const EntitySettingsConfig: { [key: string]: any } = {
     icon: CreatorIcon,
     required: true,
   },
-  controller: {
-    text: 'Controller',
-    icon: ControllerIcon,
+  administrator: {
+    text: 'Administrator',
+    icon: UserCircleIcon,
     required: true,
   },
   ddoTags: {
@@ -679,13 +681,15 @@ export interface TEntityClaimTemplateModel {
   creator: string
   createdAt: string
 }
+export interface TEntityClaimSubmissionModel {
+  maximum: number
+  startDate: string
+  endDate: string
+}
 export interface TEntityClaimModel1 {
   id: string
   template: TEntityClaimTemplateModel
-
-  maxSubmissions: number
-  submissionStartDate: string
-  submissionEndDate: string
+  submissions: TEntityClaimSubmissionModel
   approvalTarget: number
   isEncrypted?: boolean
   isHeadlineMetric?: boolean
@@ -917,27 +921,37 @@ export type TEntityMetadataModel =
   | TDAOMetadataModel
 
 // based on ixo-protocol/artefacts/profile_schema.json
+export interface TEntityProfileModel {
+  name: string
+  image: string
+  logo: string
+  brand: string
+  location: string
+  description: string
+  attributes: TEntityAttributeModel[]
+  metrics: TEntityMetricModel[]
+}
 export interface TEntityDDOTagModel {
   category: string
   tags: string[]
 }
 
 export type TEntityPageModel = { [id: string]: OutputBlockData }
-export type TEntityControllerModel = TEntityCreatorModel
+export type TEntityAdministratorModel = TEntityCreatorModel
 
 /**
  * @todo TODO: type from SDK
- * @description memberships, staking, multisigMembers
+ * @description memberships, staking
  */
-export interface TDAOGroupModel {
+export interface TDAOGroupModel extends UpdatePreProposeConfigData, UpdateProposalConfigData {
   id: string
   type: string // 'membership' | 'staking' | 'multisig'
 
-  name?: string
-  description?: string
-  memberships?: {
+  name: string
+  description: string
+  memberships: {
     category: string
-    weightPerMember: number
+    weight: number
     members: string[]
   }[]
   staking?: {
@@ -954,20 +968,29 @@ export interface TDAOGroupModel {
       members: string[]
     }[]
   }
-  multisigMembers?: string[]
-  votingDuration?: {
-    unit?: string // 'second', 'minute', 'hour', 'day', 'week'
-    amount?: number
-  }
-  voteSwitching?: boolean
-  passingThreshold?: {
-    percent?: number
-    majority?: object
-  }
-  quorum?: {
-    percent?: number
-    majority?: object
-  }
+
+  /** <extends from UpdatePreProposeConfigData>
+   *  depositRequired: boolean
+      depositInfo: {
+        amount: string
+        type: 'native' | 'cw20' | 'voting_module_token'
+        denomOrAddress: string
+        token?: GenericToken
+        refundPolicy: DepositRefundPolicy
+      }
+      anyoneCanPropose: boolean // only_members | everyone
+   */
+  /** <extends from UpdateProposalConfigData>
+   *  onlyMembersExecute: boolean
+      thresholdType: '%' | 'majority'
+      thresholdPercentage?: number
+      quorumEnabled: boolean
+      quorumType: '%' | 'majority'
+      quorumPercentage?: number
+      proposalDuration: number
+      proposalDurationUnits: 'weeks' | 'days' | 'hours' | 'minutes' | 'seconds'
+      allowRevoting: boolean
+   */
 }
 
 export interface TDeedActionModel {

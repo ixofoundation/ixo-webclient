@@ -22,7 +22,7 @@ export interface UpdateProposalConfigData {
   allowRevoting: boolean
 }
 
-const initialState: UpdateProposalConfigData = {
+export const initialProposalConfigState: UpdateProposalConfigData = {
   onlyMembersExecute: false,
   proposalDuration: 604800,
   proposalDurationUnits: 'seconds',
@@ -33,7 +33,7 @@ const initialState: UpdateProposalConfigData = {
 
   quorumEnabled: true,
   quorumType: '%',
-  quorumPercentage: 20,
+  quorumPercentage: 0.2,
 }
 
 interface Props {
@@ -44,7 +44,7 @@ interface Props {
 }
 
 const SetupUpdateVotingConfigModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
-  const [formData, setFormData] = useState<UpdateProposalConfigData>(initialState)
+  const [formData, setFormData] = useState<UpdateProposalConfigData>(initialProposalConfigState)
 
   const validate = useMemo(() => {
     if (formData.thresholdType === '%' && !formData.thresholdPercentage) {
@@ -57,7 +57,7 @@ const SetupUpdateVotingConfigModal: React.FC<Props> = ({ open, action, onClose, 
   }, [formData])
 
   useEffect(() => {
-    setFormData(action?.data ?? initialState)
+    setFormData(action?.data ?? initialProposalConfigState)
   }, [action])
 
   const handleUpdateFormData = (key: string, value: any) => {
@@ -138,8 +138,8 @@ const SetupUpdateVotingConfigModal: React.FC<Props> = ({ open, action, onClose, 
           {formData.thresholdType === '%' && (
             <NumberCounter
               direction='row-reverse'
-              value={formData.thresholdPercentage ?? 0}
-              onChange={(value: number): void => handleUpdateFormData('thresholdPercentage', value)}
+              value={formData.thresholdPercentage! * 100}
+              onChange={(value: number): void => handleUpdateFormData('thresholdPercentage', value / 100)}
             />
           )}
           <Dropdown2
@@ -150,7 +150,7 @@ const SetupUpdateVotingConfigModal: React.FC<Props> = ({ open, action, onClose, 
             ]}
             onChange={(e) => {
               handleUpdateFormData('thresholdType', e.target.value)
-              handleUpdateFormData('thresholdPercentage', e.target.value === '%' && 20)
+              handleUpdateFormData('thresholdPercentage', e.target.value === '%' && 0.2)
             }}
             style={{ textAlign: 'center' }}
           />
@@ -167,8 +167,8 @@ const SetupUpdateVotingConfigModal: React.FC<Props> = ({ open, action, onClose, 
           {formData.quorumType === '%' && (
             <NumberCounter
               direction='row-reverse'
-              value={formData.quorumPercentage ?? 0}
-              onChange={(value: number): void => handleUpdateFormData('quorumPercentage', value)}
+              value={formData.quorumPercentage! * 100}
+              onChange={(value: number): void => handleUpdateFormData('quorumPercentage', value / 100)}
             />
           )}
           <Dropdown2
@@ -179,7 +179,7 @@ const SetupUpdateVotingConfigModal: React.FC<Props> = ({ open, action, onClose, 
             ]}
             onChange={(e) => {
               handleUpdateFormData('quorumType', e.target.value)
-              handleUpdateFormData('quorumPercentage', e.target.value === '%' && 20)
+              handleUpdateFormData('quorumPercentage', e.target.value === '%' && 0.2)
             }}
             style={{ textAlign: 'center' }}
           />

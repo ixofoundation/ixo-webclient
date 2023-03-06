@@ -10,7 +10,7 @@ const CreateDAO: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): JSX
   const isSetupGroupsRoute = useRouteMatch('/create/entity/dao/setup-groups')
   const isSetupPropertiesRoute = useRouteMatch('/create/entity/dao/setup-properties')
   const isReviewRoute = useRouteMatch('/create/entity/dao/review')
-  const { steps } = getStrategyByEntityType('DAO')
+  const { steps } = getStrategyByEntityType('Dao')
 
   useEffect(() => {
     updateTitle('Create a DAO')

@@ -39,17 +39,21 @@ export function useIxoConfigs(): IxoConfigsHookExports {
   )
   const getAssetPairs = useCallback(
     (chainId: string = CHAIN_ID!) => {
-      const assets = getAssetsByChainId(chainId)
-      return assets
-        .map((asset) => {
-          const { base, denomUnits, display } = asset
-          const denomUnit = denomUnits.find((unit) => unit.denom === display)
-          if (!denomUnit) {
-            return undefined
-          }
-          return { base, display, exponent: denomUnit.exponent }
-        })
-        .filter((item) => !!item)
+      try {
+        const assets = getAssetsByChainId(chainId)
+        return assets
+          .map((asset) => {
+            const { base, denomUnits, display } = asset
+            const denomUnit = denomUnits.find((unit) => unit.denom === display)
+            if (!denomUnit) {
+              return undefined
+            }
+            return { base, display, exponent: denomUnit.exponent }
+          })
+          .filter((item) => !!item)
+      } catch {
+        return []
+      }
     },
     // eslint-disable-next-line
     [assetListConfig],

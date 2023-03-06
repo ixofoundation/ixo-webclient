@@ -67,10 +67,10 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
         creator: { ...settings.creator, data: token.creator },
       }))
     }
-    if (token.controller) {
+    if (token.administrator) {
       setEntitySettings((settings) => ({
         ...settings,
-        controller: { ...settings.controller, data: token.controller },
+        administrator: { ...settings.administrator, data: token.administrator },
       }))
     }
     if (token.page) {
@@ -179,7 +179,7 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
       ...token,
       metadata,
       creator: entitySettings.creator?.data,
-      controller: entitySettings.controller?.data,
+      administrator: entitySettings.administrator?.data,
       tags: entitySettings.tags?.data,
       page: entitySettings.page?.data,
       service: entitySettings.service?.data,

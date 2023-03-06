@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Redirect, Route } from 'react-router-dom'
 import SelectType from './SelectType/SelectType'
 import CreateAsset from './CreateAsset/CreateAsset'
@@ -9,8 +9,18 @@ import CreateDAO from './CreateDAO/CreateDAO'
 import CreateProject from './CreateProject/CreateProject'
 import CreateOracle from './CreateOracle/CreateOracle'
 import CreateDeed from './CreateDeed/CreateDeed'
+import { useAccount } from 'hooks/account'
 
 const CreateEntity: React.FC = (): JSX.Element => {
+  const { address, updateChooseWalletOpen } = useAccount()
+
+  useEffect(() => {
+    if (!address) {
+      updateChooseWalletOpen(true)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [address])
+
   return (
     <CreateEntityLayout>
       <Route strict path={`/create/entity/type`} component={SelectType} />

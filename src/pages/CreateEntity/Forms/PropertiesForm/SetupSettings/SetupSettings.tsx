@@ -6,7 +6,7 @@ import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
 import {
   AddSettingsModal,
   CreatorSetupModal,
-  CreatorSetupModal as ControllerSetupModal,
+  CreatorSetupModal as AdministratorSetupModal,
   ServiceSetupModal,
   ClaimEvaluationMethodSetupModal,
   DDOTagsSetupModal,
@@ -16,7 +16,7 @@ import { SetupPageContent } from '../SetupPageContent'
 import {
   EntitySettingsConfig,
   TEntityClaimEvaluationMethodModel,
-  TEntityControllerModel,
+  TEntityAdministratorModel,
   TEntityCreatorModel,
   TEntityDDOTagModel,
   TEntityPageModel,
@@ -27,12 +27,12 @@ const SetupSettings: React.FC = (): JSX.Element => {
   const {
     entityType,
     creator,
-    controller,
+    administrator,
     ddoTags,
     page,
     service,
     updateCreator,
-    updateController,
+    updateAdministrator,
     updateDDOTags,
     updatePage,
     updateService,
@@ -91,17 +91,17 @@ const SetupSettings: React.FC = (): JSX.Element => {
     } // eslint-disable-next-line
   }, [entitySettings.creator?.data])
 
-  // hooks - controller
+  // hooks - administrator
   useEffect(() => {
-    if (controller) {
-      handleUpdateEntitySetting('controller', controller)
+    if (administrator) {
+      handleUpdateEntitySetting('administrator', administrator)
     }
-  }, [controller])
+  }, [administrator])
   useEffect(() => {
-    if (entitySettings.controller?.data) {
-      updateController(entitySettings.controller.data)
+    if (entitySettings.administrator?.data) {
+      updateAdministrator(entitySettings.administrator.data)
     } // eslint-disable-next-line
-  }, [entitySettings.controller?.data])
+  }, [entitySettings.administrator?.data])
 
   // hooks - ddoTags
   useEffect(() => {
@@ -194,12 +194,14 @@ const SetupSettings: React.FC = (): JSX.Element => {
         onClose={(): void => handleOpenEntitySettingModal('creator', false)}
         onChange={(creator: TEntityCreatorModel): void => handleUpdateEntitySetting('creator', creator)}
       />
-      <ControllerSetupModal
-        title='Controller'
-        creator={entitySettings.controller.data}
-        open={entitySettings.controller.openModal}
-        onClose={(): void => handleOpenEntitySettingModal('controller', false)}
-        onChange={(controller: TEntityControllerModel): void => handleUpdateEntitySetting('controller', controller)}
+      <AdministratorSetupModal
+        title='Administrator'
+        creator={entitySettings.administrator.data}
+        open={entitySettings.administrator.openModal}
+        onClose={(): void => handleOpenEntitySettingModal('administrator', false)}
+        onChange={(administrator: TEntityAdministratorModel): void =>
+          handleUpdateEntitySetting('administrator', administrator)
+        }
       />
       <ServiceSetupModal
         service={entitySettings.service.data}

@@ -19,7 +19,7 @@ import {
 } from './ReviewAssetClass.styles'
 import { EAssetType, TAssetMetadataModel } from 'types/protocol'
 import { Typography } from 'components/Typography'
-import { CreateEntity, getDidFromEvents } from 'lib/protocol'
+import { CreateEntity } from 'lib/protocol'
 import { useAccount } from 'hooks/account'
 import { AccordedRight, LinkedEntity, LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { Context } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/iid'
@@ -28,6 +28,7 @@ import blocksyncApi from 'api/blocksync/blocksync'
 import { encode as base64Encode } from 'js-base64'
 import { PDS_URL } from 'types/entities'
 import * as Toast from 'utils/toast'
+import { utils } from '@ixo/impactxclient-sdk'
 
 const cellNodeEndpoint = PDS_URL
 
@@ -105,12 +106,12 @@ export const AssetCollectionImage = ({ image, sdgs }: any): JSX.Element => (
 )
 
 const ReviewAssetClass: React.FC = (): JSX.Element => {
-  const { signingClient, address, did } = useAccount()
+  const { signingClient, pubKeyUint8, address, did, keyType } = useAccount()
   const createEntityState = useCreateEntityState()
   const {
     entityType,
     creator,
-    controller,
+    administrator,
     ddoTags,
     page,
     service,
@@ -128,16 +129,9 @@ const ReviewAssetClass: React.FC = (): JSX.Element => {
   const metadata: TAssetMetadataModel = createEntityState.metadata as TAssetMetadataModel
 
   const handleCreateEntityClass = async (): Promise<string> => {
-    const data = {
-      entityType,
-      context: [{ key: 'ixo', val: 'https://w3id.org/ixo/v1' }],
-      service: [],
-      linkedResource: [],
-      accordedRight: [],
-      linkedEntity: [],
-    }
-    const res = await CreateEntity(signingClient, address, did, [data])
-    return getDidFromEvents(res)
+    const data = { entityType: 'asset' }
+    const res = await CreateEntity(signingClient, { address, did, pubKey: pubKeyUint8!, keyType }, [data])
+    return utils.common.getValueFromEvents(res!, 'wasm', 'token_id')
   }
 
   const mapToSDKLinkedResource = async (): Promise<LinkedResource[]> => {
@@ -201,17 +195,17 @@ const ReviewAssetClass: React.FC = (): JSX.Element => {
       console.error('Mapping Creator to LinkedResource > `creator` type', e)
     }
 
-    // Mapping controller to LinkedResource > `controller` type
+    // Mapping administrator to LinkedResource > `administrator` type
     try {
-      console.log('mapToSDKLinkedResource', 'controller', controller)
+      console.log('mapToSDKLinkedResource', 'administrator', administrator)
       const { result: cid } = (await blocksyncApi.project.createPublic(
-        `data:application/json;base64,${base64Encode(JSON.stringify(controller))}`,
+        `data:application/json;base64,${base64Encode(JSON.stringify(administrator))}`,
         cellNodeEndpoint!,
       )) as any
       if (cid) {
         linkedResource.push({
           id: `did:ixo:entity:abc123#${cid}`, // TODO:
-          type: 'controller',
+          type: 'administrator',
           description: '',
           mediaType: 'application/json',
           serviceEndpoint: `#cellnode-pandora/public/${cid}`,
@@ -221,7 +215,7 @@ const ReviewAssetClass: React.FC = (): JSX.Element => {
         })
       }
     } catch (e) {
-      console.error('Mapping controller to LinkedResource > `controller` type', e)
+      console.error('Mapping administrator to LinkedResource > `administrator` type', e)
     }
 
     // Mapping Token Metadata to linkedResource > `tokenMetadata` type
@@ -350,8 +344,8 @@ const ReviewAssetClass: React.FC = (): JSX.Element => {
       accordedRight,
       linkedEntity,
     }
-    const res = await CreateEntity(signingClient, address, did, [payload])
-    return getDidFromEvents(res)
+    const res = await CreateEntity(signingClient, { address, did, pubKey: pubKeyUint8!, keyType }, [payload])
+    return utils.common.getValueFromEvents(res!, 'wasm', 'token_id')
   }
 
   /**
@@ -359,7 +353,8 @@ const ReviewAssetClass: React.FC = (): JSX.Element => {
    * @returns
    */
   const handleCreate = async (): Promise<void> => {
-    const entityClassDid: string = await handleCreateEntityClass() // probably entityClassDid = "did:ixo:entity:asset"
+    const entityClassDid: string = await handleCreateEntityClass() // probably entityClassDid = "did:ixo:entity:17af9d9079f94124e2a0443b489f1ab5"
+    console.log('entityClassDid', entityClassDid)
     if (!entityClassDid) {
       Toast.errorToast(`Creating Entity Class Failed`)
       return

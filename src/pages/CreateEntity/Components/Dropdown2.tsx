@@ -34,11 +34,18 @@ interface Props extends React.SelectHTMLAttributes<HTMLSelectElement> {
   options: { value: string; text: string }[]
   placeholder?: string
   hasArrow?: boolean
+  wrapperStyle?: React.CSSProperties
 }
 
-const Dropdown: React.FC<Props> = ({ options, placeholder, hasArrow = false, ...rest }): JSX.Element => {
+const Dropdown: React.FC<Props> = ({
+  options,
+  placeholder,
+  hasArrow = false,
+  wrapperStyle = {},
+  ...rest
+}): JSX.Element => {
   return (
-    <Wrapper size='xl'>
+    <Wrapper size='xl' style={wrapperStyle}>
       <Select {...rest} hasArrow={hasArrow} color={rest.value ? theme.ixoBlack : theme.ixoGrey700}>
         {placeholder && <Option value={''}>{placeholder}</Option>}
         {options.map(({ value, text }) => (
