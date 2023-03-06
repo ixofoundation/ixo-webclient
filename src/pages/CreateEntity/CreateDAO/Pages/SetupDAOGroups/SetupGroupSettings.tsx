@@ -13,7 +13,7 @@ import {
   Switch,
   TextArea,
 } from 'pages/CreateEntity/Components'
-import { useCreateEntityState } from 'hooks/createEntity'
+import { useCreateEntity, useCreateEntityState } from 'hooks/createEntity'
 import { ReactComponent as InfoIcon } from 'assets/images/icon-info.svg'
 import { ReactComponent as ProfileIcon } from 'assets/images/icon-profile.svg'
 import { ReactComponent as BinIcon } from 'assets/images/icon-bin-lg.svg'
@@ -24,6 +24,7 @@ import { ReactComponent as ThresholdIcon } from 'assets/images/icon-threshold.sv
 import { ReactComponent as TokenContractIcon } from 'assets/images/icon-token-contract.svg'
 import { deviceWidth } from 'constants/device'
 import { DepositRefundPolicy } from 'types/dao'
+import * as Toast from 'utils/toast'
 
 export const initialMembership = { category: '', weight: 1, members: [''] }
 const initialStakingDistribution = { category: '', totalSupplyPercent: 0, members: [''] }
@@ -32,14 +33,32 @@ const inputHeight = 48
 interface Props {
   id: string
   onBack: () => void
-  onContinue: (data: TDAOGroupModel) => void
+  onSubmit: (data: TDAOGroupModel) => void
 }
 
-const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onContinue }): JSX.Element => {
+const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onSubmit }): JSX.Element => {
+  const { CreateDAOCoreByGroupId } = useCreateEntity()
   const { daoGroups } = useCreateEntityState()
   const [data, setData] = useState<TDAOGroupModel>(daoGroups[id])
   const [useExistingToken, setUseExistingToken] = useState(false)
   const [showAdvanced, setShowAdvanced] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
+
+  const handleSubmit = async (): Promise<void> => {
+    setSubmitting(true)
+
+    const daoContractAddress = await CreateDAOCoreByGroupId(data)
+    if (!daoContractAddress) {
+      Toast.errorToast(`Create DAO Core Failed`)
+      setSubmitting(false)
+      return
+    } else {
+      Toast.successToast(`Create DAO Core Succeed`)
+      setSubmitting(false)
+      console.log({ daoContractAddress })
+    }
+    onSubmit({ ...data, contractAddress: daoContractAddress })
+  }
 
   const renderGroupIdentity = (): JSX.Element => {
     return (
@@ -840,7 +859,7 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onContinue }): JSX.El
         <Button variant='grey700' style={{ width: '100%' }} onClick={onBack}>
           Back
         </Button>
-        <Button disabled={!canContinue} style={{ width: '100%' }} onClick={(): void => onContinue(data)}>
+        <Button disabled={!canContinue} style={{ width: '100%' }} loading={submitting} onClick={handleSubmit}>
           Continue
         </Button>
       </FlexBox>

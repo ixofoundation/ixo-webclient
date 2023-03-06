@@ -1,4 +1,4 @@
-import { AccordedRight, LinkedEntity, LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
+import { AccordedRight, LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { deviceWidth } from 'constants/device'
@@ -12,11 +12,10 @@ import DAOCard from './DAOCard'
 const ReviewDAO: React.FC = (): JSX.Element => {
   const createEntityState = useCreateEntityState()
   const metadata: TDAOMetadataModel = createEntityState.metadata as TDAOMetadataModel
-  const { service, gotoStep } = createEntityState
+  const { service, linkedEntity, gotoStep } = createEntityState
   const {
     // CreateDAO,
     // CreateDAOCredsIssuer,
-    CreateDAOCore,
     SaveProfile,
     SaveCreator,
     SaveAdministrator,
@@ -58,20 +57,8 @@ const ReviewDAO: React.FC = (): JSX.Element => {
         await SaveClaims(),
       ]).then((responses) => responses.map((response: any) => response.value))
 
-    // const daoContractAddress = 'ixo10y8j5tyhmqkztezz8n3hv0h9dd3l4x8y54p2889fcxna3mgga4as5xhacv'
-    const daoContractAddress = await CreateDAOCore()
-    if (!daoContractAddress) {
-      Toast.errorToast(`Create DAO Core Failed`)
-      setSubmitting(false)
-      return
-    } else {
-      Toast.successToast(`Create DAO Core Succeed`)
-      console.log({ daoContractAddress })
-    }
-
     const linkedResource: LinkedResource[] = []
     const accordedRight: AccordedRight[] = [] // TODO:
-    const linkedEntity: LinkedEntity[] = [] //  TODO:
 
     if (saveProfileRes) {
       linkedResource.push({
@@ -146,15 +133,6 @@ const ReviewDAO: React.FC = (): JSX.Element => {
       })
     }
 
-    if (daoContractAddress) {
-      linkedEntity.push({
-        id: `{id}#${daoContractAddress}`,
-        type: 'Group',
-        relationship: 'subsidiary',
-        service: '',
-      })
-    }
-
     const protocolDid = await CreateProtocol()
     if (!protocolDid) {
       setSubmitting(false)
@@ -164,7 +142,7 @@ const ReviewDAO: React.FC = (): JSX.Element => {
       service,
       linkedResource,
       accordedRight,
-      linkedEntity,
+      linkedEntity: Object.values(linkedEntity),
     })
     if (entityDid) {
       Toast.successToast(`Create Entity Succeed`)

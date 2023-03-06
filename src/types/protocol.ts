@@ -84,7 +84,7 @@ import UploadAudio from 'assets/icons/UploadAudio'
 import UploadVideo from 'assets/icons/UploadVideo'
 import SelectPicture from 'assets/icons/SelectPicture'
 import Currency from 'assets/icons/Currency'
-import { Service } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
+import { LinkedEntity, Service } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { OutputBlockData } from '@editorjs/editorjs'
 import { ControlType, Type } from 'components/JsonForm/types'
 import { UpdatePreProposeConfigData } from 'components/Modals/AddActionModal/SetupUpdateProposalSubmissionConfigModal'
@@ -586,11 +586,7 @@ export interface TEntityAccordedRightModel {
 }
 
 // TODO: add more fields
-export interface TEntityLinkedEntityModel {
-  text: string
-  icon: React.FC<React.SVGProps<SVGElement>>
-  data: any
-}
+export type TEntityLinkedEntityModel = LinkedEntity
 
 // TODO: propertyModel
 export interface TEntityPropertyModel {
@@ -946,6 +942,7 @@ export type TEntityAdministratorModel = TEntityCreatorModel
 export interface TDAOGroupModel extends UpdatePreProposeConfigData, UpdateProposalConfigData {
   id: string
   type: string // 'membership' | 'staking' | 'multisig'
+  contractAddress?: string
 
   name: string
   description: string

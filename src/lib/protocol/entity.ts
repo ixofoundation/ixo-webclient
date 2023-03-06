@@ -8,8 +8,8 @@ import {
   LinkedEntity,
   LinkedResource,
   Service,
+  Context,
 } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
-import { Context } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/iid'
 import BigNumber from 'bignumber.js'
 import { fee, RPC_ENDPOINT, TSigner } from './common'
 

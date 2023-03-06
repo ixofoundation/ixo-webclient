@@ -61,13 +61,13 @@ const SetupLinkedEntity: React.FC = (): JSX.Element => {
         <Box className='d-flex flex-wrap' style={{ gap: 20 }}>
           {Object.entries(linkedEntity).map(([key, value]) => {
             const Icon = EntityLinkedEntityConfig[key]?.icon
-            const label = EntityLinkedEntityConfig[key]?.text
+            const label = EntityLinkedEntityConfig[key]?.text || value?.type
             return (
               <PropertyBox
                 key={key}
                 icon={Icon && <Icon />}
                 label={label}
-                set={!!(value as any)?.data}
+                set={!!value?.id}
                 handleRemove={(): void => handleRemoveEntityLinkedEntity(key)}
                 handleClick={(): void => handleOpenEntityLinkedEntityModal(key, true)}
               />

@@ -1,5 +1,4 @@
 import { useCallback } from 'react'
-import { toBase64 } from '@cosmjs/encoding'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import {
   TEntityMetadataModel,
@@ -370,26 +369,15 @@ interface TCreateEntityHookRes {
       linkedEntity: LinkedEntity[]
     },
   ) => Promise<string>
-  CreateDAOCore: () => Promise<string>
+  CreateDAOCoreByGroupId: (daoGroup: TDAOGroupModel) => Promise<string>
   ExecuteContractDAOProposalPropose: (daoContractAddress: string) => Promise<any>
-}
-
-const jsonStringToBase64 = (jsonString: string) => {
-  const base64 = toBase64(utils.conversions.JsonToArray(jsonString))
-  return base64
-}
-
-export const jsonToBase64 = (json: unknown) => {
-  // return json
-  const jsonString = JSON.stringify(json)
-  return jsonStringToBase64(jsonString)
 }
 
 export function useCreateEntity(): TCreateEntityHookRes {
   const { signingClient, signer } = useAccount()
   const createEntityState = useCreateEntityState()
   const metadata = createEntityState.metadata as any
-  const { creator, administrator, page, ddoTags, claim, daoGroups } = createEntityState
+  const { creator, administrator, page, ddoTags, claim } = createEntityState
 
   const daoCoreContractCode = customQueries.contract.getContractCode('devnet', 'dao_core')
   const daoProposalContractCode = customQueries.contract.getContractCode('devnet', 'dao_proposal_single')
@@ -903,202 +891,190 @@ export function useCreateEntity(): TCreateEntityHookRes {
   //   return ''
   // }
 
-  const CreateDAOCore = async (): Promise<string> => {
+  const CreateDAOCoreByGroupId = async (daoGroup: TDAOGroupModel): Promise<string> => {
     try {
-      const daoGroupsArray = Object.values(daoGroups)
-      const messages = daoGroupsArray.map((daoGroup) => {
-        const imageUrl = metadata.image
-        const {
-          type,
-          name,
-          description,
-          depositRequired,
-          depositInfo,
-          anyoneCanPropose,
-          onlyMembersExecute,
-          thresholdType,
-          thresholdPercentage,
-          quorumEnabled,
-          quorumType,
-          quorumPercentage,
-          proposalDuration,
-          proposalDurationUnits,
-          allowRevoting,
-          memberships,
-          // staking,
-        } = daoGroup
-        const maxVotingPeriod = durationToSeconds(proposalDurationUnits ?? '', proposalDuration)
+      const imageUrl = metadata.image
+      const {
+        type,
+        name,
+        description,
+        depositRequired,
+        depositInfo,
+        anyoneCanPropose,
+        onlyMembersExecute,
+        thresholdType,
+        thresholdPercentage,
+        quorumEnabled,
+        quorumType,
+        quorumPercentage,
+        proposalDuration,
+        proposalDurationUnits,
+        allowRevoting,
+        memberships,
+        // staking,
+      } = daoGroup
+      const maxVotingPeriod = durationToSeconds(proposalDurationUnits ?? '', proposalDuration)
 
-        const msg: any = {
-          admin: null,
-          automatically_add_cw20s: true,
-          automatically_add_cw721s: true,
-          description,
-          image_url: imageUrl,
-          name,
-          proposal_modules_instantiate_info: [
-            {
-              admin: {
-                core_module: {},
+      const msg: any = {
+        admin: null,
+        automatically_add_cw20s: true,
+        automatically_add_cw721s: true,
+        description,
+        image_url: imageUrl,
+        name,
+        proposal_modules_instantiate_info: [
+          {
+            admin: {
+              core_module: {},
+            },
+            code_id: daoProposalContractCode,
+            label: `DAO_${name}_DaoProposalSingle`,
+            msg: utils.conversions.jsonToBase64({
+              allow_revoting: allowRevoting,
+              close_proposal_on_execution_failure: true,
+              max_voting_period: {
+                time: maxVotingPeriod,
               },
-              code_id: daoProposalContractCode,
-              label: `DAO_${name}_DaoProposalSingle`,
-              msg: jsonToBase64({
-                allow_revoting: allowRevoting,
-                close_proposal_on_execution_failure: true,
-                max_voting_period: {
-                  time: maxVotingPeriod,
-                },
-                min_voting_period: null,
-                only_members_execute: onlyMembersExecute,
-                pre_propose_info: {
-                  module_may_propose: {
-                    info: {
-                      admin: {
-                        core_module: {},
-                      },
-                      code_id: daoPreProposalContractCode,
-                      label: `DAO_${name}_pre-propose-DaoProposalSingle`,
-                      msg: jsonToBase64({
-                        deposit_info: depositRequired
-                          ? {
-                              amount: depositInfo.amount,
-                              denom: {
-                                token: {
-                                  denom: {
-                                    [depositInfo.type]: depositInfo.denomOrAddress,
-                                  },
+              min_voting_period: null,
+              only_members_execute: onlyMembersExecute,
+              pre_propose_info: {
+                module_may_propose: {
+                  info: {
+                    admin: {
+                      core_module: {},
+                    },
+                    code_id: daoPreProposalContractCode,
+                    label: `DAO_${name}_pre-propose-DaoProposalSingle`,
+                    msg: utils.conversions.jsonToBase64({
+                      deposit_info: depositRequired
+                        ? {
+                            amount: depositInfo.amount,
+                            denom: {
+                              token: {
+                                denom: {
+                                  [depositInfo.type]: depositInfo.denomOrAddress,
                                 },
                               },
-                              refund_policy: depositInfo.refundPolicy,
-                            }
-                          : null,
-                        // deposit_info: {
-                        //   amount: '1000000',
-                        //   denom: {
-                        //     token: {
-                        //       denom: {
-                        //         native: 'uixo',
-                        //       },
-                        //     },
-                        //   },
-                        //   refund_policy: depositInfo.refundPolicy,
-                        // },
-                        extension: {},
-                        open_proposal_submission: anyoneCanPropose,
-                      }),
-                    },
+                            },
+                            refund_policy: depositInfo.refundPolicy,
+                          }
+                        : null,
+                      extension: {},
+                      open_proposal_submission: anyoneCanPropose,
+                    }),
                   },
                 },
-                threshold: quorumEnabled
-                  ? {
-                      threshold_quorum: {
-                        quorum: {
-                          percent: quorumType === '%' ? String(quorumPercentage) : undefined,
-                          majority: quorumType === 'majority' ? {} : undefined,
-                        },
-                        threshold: {
-                          percent: thresholdType === '%' ? String(thresholdPercentage) : undefined,
-                          majority: thresholdType === 'majority' ? {} : undefined,
-                        },
+              },
+              threshold: quorumEnabled
+                ? {
+                    threshold_quorum: {
+                      quorum: {
+                        percent: quorumType === '%' ? String(quorumPercentage) : undefined,
+                        majority: quorumType === 'majority' ? {} : undefined,
                       },
-                    }
-                  : {
-                      absolute_percentage: {
-                        percentage: {
-                          percent: thresholdType === '%' ? String(thresholdPercentage) : undefined,
-                          majority: thresholdType === 'majority' ? {} : undefined,
-                        },
+                      threshold: {
+                        percent: thresholdType === '%' ? String(thresholdPercentage) : undefined,
+                        majority: thresholdType === 'majority' ? {} : undefined,
                       },
                     },
-              }),
-            },
-          ],
-        }
-        switch (type) {
-          case 'membership':
-          case 'multisig': {
-            const initialMembers: Member[] = []
-            memberships?.forEach((membership) => {
-              membership.members.forEach((member) => {
-                initialMembers.push({ addr: member, weight: membership.weight })
-              })
+                  }
+                : {
+                    absolute_percentage: {
+                      percentage: {
+                        percent: thresholdType === '%' ? String(thresholdPercentage) : undefined,
+                        majority: thresholdType === 'majority' ? {} : undefined,
+                      },
+                    },
+                  },
+            }),
+          },
+        ],
+      }
+      switch (type) {
+        case 'membership':
+        case 'multisig': {
+          const initialMembers: Member[] = []
+          memberships?.forEach((membership) => {
+            membership.members.forEach((member) => {
+              initialMembers.push({ addr: member, weight: membership.weight })
             })
-            msg.voting_module_instantiate_info = {
-              admin: { core_module: {} },
-              code_id: daoVotingCw4ContractCode,
-              label: `DAO_${name}_DaoVotingCw4`,
-              msg: jsonToBase64({
-                cw4_group_code_id: cw4ContractCode,
-                initial_members: initialMembers,
-              }),
-            }
-            break
+          })
+          msg.voting_module_instantiate_info = {
+            admin: { core_module: {} },
+            code_id: daoVotingCw4ContractCode,
+            label: `DAO_${name}_DaoVotingCw4`,
+            msg: utils.conversions.jsonToBase64({
+              cw4_group_code_id: cw4ContractCode,
+              initial_members: initialMembers,
+            }),
           }
-          case 'staking':
-            // msg.voting_module_instantiate_info = {
-            //   admin: { core_module: {} },
-            //   code_id: daoVotingCw20StakedContractCode,
-            //   label: `DAO_${name}_DaoVotingCw20Staked`,
-            //   msg: jsonToBase64({
-            //     token_info: {
-            //       new: {
-            //         code_id: cw20BaseContractCode,
-            //         decimals: 6,
-            //         initial_balances: [
-            //           {
-            //             address: 'juno1z7wa83uur7jv6mx9wd4cdwx0c853gp9tt0mt50',
-            //             amount: '200000000000',
-            //           },
-            //           {
-            //             address: 'juno1z7wa83uur7jv6mx9wd4cdwx0c853gp9tt0mt54',
-            //             amount: '200000000000',
-            //           },
-            //           {
-            //             address: 'juno1z7wa83uur7jv6mx9wd4cdwx0c853gp9tt0mt10',
-            //             amount: '166666666667',
-            //           },
-            //           {
-            //             address: 'juno1z7wa83uur7jv6mx9wd4cdwx0c853gp9tt0mt11',
-            //             amount: '166666666667',
-            //           },
-            //           {
-            //             address: 'juno1z7wa83uur7jv6mx9wd4cdwx0c853gp9tt0mt14',
-            //             amount: '166666666667',
-            //           },
-            //         ],
-            //         initial_dao_balance: '9099999999999',
-            //         label: 'safdweve',
-            //         marketing: null,
-            //         name: 'safdweve',
-            //         staking_code_id: 1683,
-            //         symbol: 'asdf',
-            //         unstaking_duration: {
-            //           time: 1209600,
-            //         },
-            //       },
-            //     },
-            //   }),
-            // }
-            break
-          default:
-            break
+          break
         }
-        console.log({
-          codeId: daoCoreContractCode!,
-          msg: msg,
-        })
-        return {
-          codeId: daoCoreContractCode!,
-          msg: JSON.stringify(msg),
-        }
+        case 'staking':
+          // msg.voting_module_instantiate_info = {
+          //   admin: { core_module: {} },
+          //   code_id: daoVotingCw20StakedContractCode,
+          //   label: `DAO_${name}_DaoVotingCw20Staked`,
+          //   msg: utils.conversions.jsonToBase64({
+          //     token_info: {
+          //       new: {
+          //         code_id: cw20BaseContractCode,
+          //         decimals: 6,
+          //         initial_balances: [
+          //           {
+          //             address: 'juno1z7wa83uur7jv6mx9wd4cdwx0c853gp9tt0mt50',
+          //             amount: '200000000000',
+          //           },
+          //           {
+          //             address: 'juno1z7wa83uur7jv6mx9wd4cdwx0c853gp9tt0mt54',
+          //             amount: '200000000000',
+          //           },
+          //           {
+          //             address: 'juno1z7wa83uur7jv6mx9wd4cdwx0c853gp9tt0mt10',
+          //             amount: '166666666667',
+          //           },
+          //           {
+          //             address: 'juno1z7wa83uur7jv6mx9wd4cdwx0c853gp9tt0mt11',
+          //             amount: '166666666667',
+          //           },
+          //           {
+          //             address: 'juno1z7wa83uur7jv6mx9wd4cdwx0c853gp9tt0mt14',
+          //             amount: '166666666667',
+          //           },
+          //         ],
+          //         initial_dao_balance: '9099999999999',
+          //         label: 'safdweve',
+          //         marketing: null,
+          //         name: 'safdweve',
+          //         staking_code_id: 1683,
+          //         symbol: 'asdf',
+          //         unstaking_duration: {
+          //           time: 1209600,
+          //         },
+          //       },
+          //     },
+          //   }),
+          // }
+          break
+        default:
+          break
+      }
+      console.log({
+        codeId: daoCoreContractCode!,
+        msg: msg,
       })
-      const res = await WasmInstantiateTrx(signingClient, signer, messages)
-      console.log('CreateDAOCore', res)
+
+      const message = {
+        codeId: daoCoreContractCode!,
+        msg: JSON.stringify(msg),
+      }
+
+      const res = await WasmInstantiateTrx(signingClient, signer, [message])
+      console.log('CreateDAOCoreByGroupId', res)
       const contractAddress = utils.common.getValueFromEvents(res!, 'instantiate', '_contract_address')
       return contractAddress
     } catch (e) {
-      console.error('CreateDAOCore', e)
+      console.error('CreateDAOCoreByGroupId', e)
       return ''
     }
   }
@@ -1121,7 +1097,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
                     execute: {
                       contract_addr: daoContractAddress,
                       funds: [],
-                      msg: jsonToBase64({
+                      msg: utils.conversions.jsonToBase64({
                         set_item: {
                           key: 'whoIsAwesome',
                           value: 'Petrus',
@@ -1166,7 +1142,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
     SaveClaims,
     CreateProtocol,
     CreateEntityBase,
-    CreateDAOCore,
+    CreateDAOCoreByGroupId,
     ExecuteContractDAOProposalPropose,
   }
 }

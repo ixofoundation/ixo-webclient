@@ -9,7 +9,7 @@ import { useHistory, useParams } from 'react-router-dom'
 import { decodedMessagesString } from 'utils/messages'
 import { CosmosMsgFor_Empty } from 'types/dao'
 import { SetupActionsForm } from './SetupActionsForm'
-import { useMakeProposalAction } from 'lib/protocol/proposal'
+import { useMakeProposalAction } from 'hooks/proposal'
 import { WasmExecuteTrx } from 'lib/protocol/cosmwasm'
 import { useAccount } from 'hooks/account'
 

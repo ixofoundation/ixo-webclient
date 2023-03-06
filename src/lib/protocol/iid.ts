@@ -56,7 +56,7 @@ export const CheckIidDoc = async (did: string): Promise<IidDocument> => {
     console.log('CheckIidDoc', iidDocument)
     return iidDocument!
   } catch (e) {
-    console.error('CheckIidDoc', e)
+    console.error('CheckIidDoc', did, e)
     return undefined!
   }
 }

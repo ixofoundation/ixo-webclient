@@ -7,7 +7,7 @@ import { isAccountAddress } from 'utils/validation'
 import { CosmosMsgFor_Empty } from 'types/dao'
 import { Typography } from 'components/Typography'
 import { SetupActionsForm } from 'pages/CreateEntity/CreateDeed/Pages/SetupActions/SetupActionsForm'
-import { useMakeProposalAction } from 'lib/protocol/proposal'
+import { useMakeProposalAction } from 'hooks/proposal'
 
 export const TYPE_URL_MSG_GRANT = '/cosmos.authz.v1beta1.MsgGrant'
 export const TYPE_URL_MSG_REVOKE = '/cosmos.authz.v1beta1.MsgRevoke'
