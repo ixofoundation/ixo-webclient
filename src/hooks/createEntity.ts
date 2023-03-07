@@ -82,14 +82,10 @@ import {
   LinkedResource,
   Service,
 } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
-import {
-  QueryDAOCoreContractDumpState,
-  QueryDAOProposalContractProposalCreationPolicy,
-  WasmExecuteTrx,
-  WasmInstantiateTrx,
-} from 'lib/protocol/cosmwasm'
+import { WasmInstantiateTrx } from 'lib/protocol/cosmwasm'
 import { durationToSeconds } from 'utils/conversions'
 import { Member } from 'types/dao'
+import { useIxoConfigs } from './configs'
 
 export function useCreateEntityStrategy(): {
   getStrategyByEntityType: (entityType: string) => TCreateEntityStrategyType
@@ -370,11 +366,11 @@ interface TCreateEntityHookRes {
     },
   ) => Promise<string>
   CreateDAOCoreByGroupId: (daoGroup: TDAOGroupModel) => Promise<string>
-  ExecuteContractDAOProposalPropose: (daoContractAddress: string) => Promise<any>
 }
 
 export function useCreateEntity(): TCreateEntityHookRes {
   const { signingClient, signer } = useAccount()
+  const { chainNetwork: cellNodeNetwork } = useIxoConfigs()
   const createEntityState = useCreateEntityState()
   const metadata = createEntityState.metadata as any
   const { creator, administrator, page, ddoTags, claim } = createEntityState
@@ -386,8 +382,6 @@ export function useCreateEntity(): TCreateEntityHookRes {
   const cw4ContractCode = customQueries.contract.getContractCode('devnet', 'cw4_group')
   // const daoVotingCw20StakedContractCode = customQueries.contract.getContractCode('devnet', 'dao_voting_cw20_staked')
   // const cw20BaseContractCode = customQueries.contract.getContractCode('devnet', 'cw20_base')
-
-  const cellNodeNetwork = 'devnet' // TODO:
 
   const CreateDAO = async (): Promise<string> => {
     try {
@@ -1079,57 +1073,6 @@ export function useCreateEntity(): TCreateEntityHookRes {
     }
   }
 
-  const ExecuteContractDAOProposalPropose = async (daoContractAddress: string): Promise<any> => {
-    try {
-      const dumpState = await QueryDAOCoreContractDumpState(daoContractAddress)
-      const proposalContractAddress = dumpState!.proposal_modules[0].address
-      const proposalCreationPolicy = await QueryDAOProposalContractProposalCreationPolicy(proposalContractAddress)
-      const preProposalContractAddress = proposalCreationPolicy.module.addr
-
-      const msg = {
-        propose: {
-          msg: {
-            propose: {
-              description: 'Testing: set item whoIsAwesome',
-              msgs: [
-                {
-                  wasm: {
-                    execute: {
-                      contract_addr: daoContractAddress,
-                      funds: [],
-                      msg: utils.conversions.jsonToBase64({
-                        set_item: {
-                          key: 'whoIsAwesome',
-                          value: 'Petrus',
-                        },
-                      }),
-                    },
-                  },
-                },
-              ],
-              title: 'Testing',
-            },
-          },
-        },
-      }
-
-      const res = await WasmExecuteTrx(
-        signingClient,
-        signer,
-        {
-          contractAddress: preProposalContractAddress,
-          msg: JSON.stringify(msg),
-        },
-        { amount: '1000000', denom: 'uixo' },
-      )
-      console.log('ExecuteContractDAOProposalPropose', res)
-      return res
-    } catch (e) {
-      console.error('ExecuteContractDAOProposalPropose', e)
-      return undefined
-    }
-  }
-
   return {
     CreateDAO,
     CreateDAOCredsIssuer,
@@ -1143,6 +1086,5 @@ export function useCreateEntity(): TCreateEntityHookRes {
     CreateProtocol,
     CreateEntityBase,
     CreateDAOCoreByGroupId,
-    ExecuteContractDAOProposalPropose,
   }
 }

@@ -21,6 +21,7 @@ import {
   UpdateSigningClientAction,
   UpdateDidAction,
   UpdateChooseWalletOpenAction,
+  UpdateCosmWasmClientAction,
 } from './account.types'
 import { RootState } from 'redux/store'
 import { Dispatch } from 'redux'
@@ -35,6 +36,7 @@ import { upperCase } from 'lodash'
 import { thousandSeparator } from 'utils/formatters'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 import { SigningStargateClient } from '@ixo/impactxclient-sdk'
+import { SigningCosmWasmClient } from '@cosmjs/cosmwasm-stargate'
 
 export const login = (userInfo: UserInfo, address: string, accountNumber: string, sequence: string): LoginAction => ({
   type: AccountActions.Login,
@@ -367,6 +369,13 @@ export const updateSigningClientAction = (signingClient: SigningStargateClient):
   return {
     type: AccountActions.UpdateSigningClient,
     payload: signingClient,
+  }
+}
+
+export const updateCosmWasmAction = (cosmWasmClient: SigningCosmWasmClient): UpdateCosmWasmClientAction => {
+  return {
+    type: AccountActions.UpdateCosmWasmClient,
+    payload: cosmWasmClient,
   }
 }
 

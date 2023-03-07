@@ -4,6 +4,7 @@ import { AccountState, UserInfo, WalletType } from './account.types'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 import { KeyTypes } from 'lib/protocol'
 import { SigningStargateClient } from '@ixo/impactxclient-sdk'
+import { SigningCosmWasmClient } from '@cosmjs/cosmwasm-stargate'
 
 export const selectAccountState = (state: RootState): AccountState => state.account
 
@@ -73,6 +74,11 @@ export const selectAccountPubKey = createSelector(
 export const selectAccountSigningClient = createSelector(
   selectAccountState,
   (account: AccountState): SigningStargateClient => account?.signingClient,
+)
+
+export const selectAccountCosmWasmClient = createSelector(
+  selectAccountState,
+  (account: AccountState): SigningCosmWasmClient => account?.cosmWasmClient,
 )
 
 export const selectAccountKeyType = createSelector(

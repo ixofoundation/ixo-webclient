@@ -1,12 +1,12 @@
 import { createSigningClient } from '@ixo/impactxclient-sdk'
-import { CheckIidDoc } from 'lib/protocol'
+import { CheckIidDoc, RPC_ENDPOINT } from 'lib/protocol'
 import { useKeplr } from 'lib/keplr/keplr'
 import { ChooseWalletModal } from 'components/Modals'
 import { useAccount } from 'hooks/account'
 import { WalletType } from 'redux/account/account.types'
 import { useEffect } from 'react'
+import { SigningCosmWasmClient } from '@cosmjs/cosmwasm-stargate'
 
-const RPC_URL = process.env.REACT_APP_RPC_URL
 let updateKeysafeLoginStatusTimer: NodeJS.Timer
 const updateKeysafeLoginStatusInterval = 1000 * 10
 
@@ -21,6 +21,7 @@ const AccountUpdateService = (): JSX.Element => {
     updateBalances,
     chooseWallet,
     updateSigningClient,
+    updateCosmWasmClient,
     updateRegistered,
     updateChooseWalletOpen,
   } = useAccount()
@@ -58,9 +59,10 @@ const AccountUpdateService = (): JSX.Element => {
     } else if (selectedWallet === WalletType.Keplr) {
       updateKeplrLoginStatus()
       const offlineSigner = keplr.getOfflineSigner()
-      createSigningClient(RPC_URL!, offlineSigner).then((client) => {
+      createSigningClient(RPC_ENDPOINT!, offlineSigner).then((client) => {
         updateSigningClient(client)
       })
+      SigningCosmWasmClient.connectWithSigner(RPC_ENDPOINT!, offlineSigner).then(updateCosmWasmClient)
     }
     // eslint-disable-next-line
   }, [selectedWallet])

@@ -918,6 +918,13 @@ export type TEntityMetadataModel =
 
 // based on ixo-protocol/artefacts/profile_schema.json
 export interface TEntityProfileModel {
+  '@context': {
+    ixo: string
+    '@id': string
+    type: string
+    '@protected': boolean
+  }
+  id: string
   name: string
   image: string
   logo: string

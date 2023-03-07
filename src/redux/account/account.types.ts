@@ -1,5 +1,6 @@
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 import { SigningStargateClient } from '@ixo/impactxclient-sdk'
+import { SigningCosmWasmClient } from '@cosmjs/cosmwasm-stargate'
 
 export interface DidDoc {
   did: string
@@ -92,6 +93,7 @@ export interface AccountState {
   registered: boolean
   pubKey: string //  base64
   signingClient: SigningStargateClient // signingClient
+  cosmWasmClient: SigningCosmWasmClient // signingClient
   did: string
   chooseWalletOpen: boolean
 }
@@ -142,6 +144,7 @@ export enum AccountActions {
   UpdateRegistered = 'ixo/Account/UPDATE_REGISTERED',
   UpdatePubKey = 'ixo/Account/UPDATE_PUBKEY',
   UpdateSigningClient = 'ixo/Account/UPDATE_SIGNING_CLIENT',
+  UpdateCosmWasmClient = 'ixo/Account/UPDATE_COSMWASM_CLIENT',
   UpdateDid = 'ixo/Account/UPDATE_DID',
   UpdateChooseWalletOpen = 'ixo/Account/UPDATE_CHOOSE_WALLET_OPEN',
 }
@@ -255,6 +258,10 @@ export interface UpdateSigningClientAction {
   type: typeof AccountActions.UpdateSigningClient
   payload: SigningStargateClient
 }
+export interface UpdateCosmWasmClientAction {
+  type: typeof AccountActions.UpdateCosmWasmClient
+  payload: SigningCosmWasmClient
+}
 export interface UpdateDidAction {
   type: typeof AccountActions.UpdateDid
   payload: string
@@ -286,5 +293,6 @@ export type AccountActionTypes =
   | UpdateRegisteredAction
   | UpdatePubKeyAction
   | UpdateSigningClientAction
+  | UpdateCosmWasmClientAction
   | UpdateDidAction
   | UpdateChooseWalletOpenAction

@@ -5,8 +5,6 @@ import { DAODashboard } from './DAODashboard'
 const DashboardPage: React.FC = (): JSX.Element | null => {
   const { entityType } = useCurrentEntity()
 
-  console.log('entityType', entityType)
-
   const Component = useMemo(() => {
     switch (entityType) {
       case 'dao':

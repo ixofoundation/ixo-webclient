@@ -1,14 +1,16 @@
-import { useCallback } from 'react'
+import { useCallback, useMemo } from 'react'
 import { useAppSelector } from 'redux/hooks'
 import { selectAssetListConfig, selectPaymentCoins, selectRelayersConfig } from 'redux/configs/configs.selectors'
 import { AssetType, PaymentCoins } from 'redux/configs/configs.types'
 import _ from 'lodash'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 import BigNumber from 'bignumber.js'
+import { ChainNetwork } from '@ixo/impactxclient-sdk/types/custom_queries/chain.types'
 
 const CHAIN_ID = process.env.REACT_APP_CHAIN_ID
 
 interface IxoConfigsHookExports {
+  chainNetwork: ChainNetwork
   paymentCoins: PaymentCoins[]
   getAssetPairs: (chainId?: string) => any[]
   convertToDenom: (coin: Coin) => Coin | undefined
@@ -23,6 +25,13 @@ export function useIxoConfigs(): IxoConfigsHookExports {
   const assetListConfig = useAppSelector(selectAssetListConfig)
   const relayersConfig = useAppSelector(selectRelayersConfig)
   const paymentCoins: PaymentCoins[] = useAppSelector(selectPaymentCoins)
+  const chainNetwork: ChainNetwork = useMemo(() => {
+    if (CHAIN_ID?.startsWith('devnet')) {
+      return 'devnet'
+    }
+    return 'devnet'
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [CHAIN_ID])
 
   const getAssetsByChainId = useCallback(
     (chainId: string): AssetType[] => {
@@ -130,6 +139,7 @@ export function useIxoConfigs(): IxoConfigsHookExports {
   )
 
   return {
+    chainNetwork,
     paymentCoins,
     getAssetPairs,
     convertToDenom,

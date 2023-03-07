@@ -54,6 +54,9 @@ const SetupDAOGroups: React.FC = (): JSX.Element => {
     const newDaoGroups = omitKey(daoGroups, id)
     updateDAOGroups(newDaoGroups)
 
+    const newLinkedEntity = omitKey(linkedEntity, id)
+    updateLinkedEntity(newLinkedEntity)
+
     // Change DAO controller if removed one was a controller
     if (daoController === id) {
       updateDAOController(Object.keys(newDaoGroups).pop() ?? '')

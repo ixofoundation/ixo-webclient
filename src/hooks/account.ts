@@ -12,6 +12,7 @@ import {
   selectAccountChooseWalletOpen,
   selectAccountName,
   selectAccountRegistered,
+  selectAccountCosmWasmClient,
 } from 'redux/account/account.selectors'
 import { decode } from 'bs58'
 import { getAddressFromPubKey, keysafeGetInfo } from 'lib/keysafe/keysafe'
@@ -20,6 +21,7 @@ import {
   updateAddressAction,
   updateBalancesAction,
   updateChooseWalletOpenAction,
+  updateCosmWasmAction,
   updateDidAction,
   updateNameAction,
   updatePubKeyAction,
@@ -30,12 +32,16 @@ import { WalletType } from 'redux/account/account.types'
 import { GetBalances, KeyTypes, TSigner } from 'lib/protocol'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 import { useKeplr } from 'lib/keplr/keplr'
+import { OfflineSigner } from '@cosmjs/proto-signing'
 import { useIxoConfigs } from './configs'
+import { useMemo } from 'react'
+import { SigningCosmWasmClient } from '@cosmjs/cosmwasm-stargate'
 
 export function useAccount(): {
   selectedWallet: WalletType
   address: string
   signingClient: SigningStargateClient
+  cosmWasmClient: SigningCosmWasmClient
   pubKey: string
   pubKeyUint8: Uint8Array | undefined
   keyType: KeyTypes
@@ -45,11 +51,13 @@ export function useAccount(): {
   registered: boolean | undefined
   chooseWalletOpen: boolean
   signer: TSigner
+  offlineSigner: OfflineSigner
   updateKeysafeLoginStatus: () => Promise<void>
   updateKeplrLoginStatus: () => Promise<void>
   updateBalances: () => Promise<void>
   chooseWallet: (wallet: WalletType | undefined) => void
   updateSigningClient: (signingClient: SigningStargateClient) => void
+  updateCosmWasmClient: (cosmWasmClient: SigningCosmWasmClient) => void
   updateRegistered: (registered: boolean) => void
   updateDid: (did: string) => void
   updatePubKey: (pubKey: string) => void
@@ -63,6 +71,7 @@ export function useAccount(): {
   const selectedWallet: WalletType = useAppSelector(selectAccountSelectedWallet)
   const address: string = useAppSelector(selectAccountAddress)
   const signingClient: SigningStargateClient = useAppSelector(selectAccountSigningClient)
+  const cosmWasmClient: SigningCosmWasmClient = useAppSelector(selectAccountCosmWasmClient)
   const pubKey: string = useAppSelector(selectAccountPubKey)
   const pubKeyUint8: Uint8Array | undefined = pubKey ? Uint8Array.from(decode(pubKey)) : undefined
   const keyType: KeyTypes = useAppSelector(selectAccountKeyType)
@@ -72,6 +81,15 @@ export function useAccount(): {
   const registered: boolean | undefined = useAppSelector(selectAccountRegistered)
   const chooseWalletOpen: boolean = useAppSelector(selectAccountChooseWalletOpen)
   const signer: TSigner = { address, did, pubKey: pubKeyUint8!, keyType }
+  const offlineSigner: OfflineSigner = useMemo(() => {
+    if (selectedWallet === WalletType.Keysafe) {
+      alert('get offlineSigner for keysafe')
+    } else if (selectedWallet === WalletType.Keplr) {
+      return keplr.getOfflineSigner()
+    }
+    return keplr.getOfflineSigner()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedWallet])
 
   const updateBalances = async (): Promise<void> => {
     try {
@@ -89,6 +107,9 @@ export function useAccount(): {
   }
   const updateSigningClient = (signingClient: SigningStargateClient): void => {
     dispatch(updateSigningClientAction(signingClient))
+  }
+  const updateCosmWasmClient = (cosmWasmClient: SigningCosmWasmClient): void => {
+    dispatch(updateCosmWasmAction(cosmWasmClient))
   }
   const updateRegistered = (registered: boolean): void => {
     dispatch(updateRegisteredAction(registered))
@@ -160,6 +181,7 @@ export function useAccount(): {
     selectedWallet,
     address,
     signingClient,
+    cosmWasmClient,
     pubKey,
     pubKeyUint8,
     keyType,
@@ -169,11 +191,13 @@ export function useAccount(): {
     registered,
     chooseWalletOpen,
     signer,
+    offlineSigner,
     updateKeysafeLoginStatus,
     updateKeplrLoginStatus,
     updateBalances,
     chooseWallet,
     updateSigningClient,
+    updateCosmWasmClient,
     updateRegistered,
     updateDid,
     updatePubKey,

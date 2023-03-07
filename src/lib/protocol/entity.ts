@@ -11,6 +11,7 @@ import {
   LinkedResource,
   Service,
   Context,
+  LinkedClaim,
 } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import BigNumber from 'bignumber.js'
 import { fee, RPC_ENDPOINT, TSigner } from './common'
@@ -26,12 +27,14 @@ export const CreateEntity = async (
     linkedResource?: LinkedResource[]
     accordedRight?: AccordedRight[]
     linkedEntity?: LinkedEntity[]
+    linkedClaim?: LinkedClaim[]
   }[],
 ) => {
   try {
     const { address, did, pubKey, keyType } = signer
     const messages = payload.map((item) => {
-      const { entityType, entityStatus, context, service, linkedResource, accordedRight, linkedEntity } = item
+      const { entityType, entityStatus, context, service, linkedResource, accordedRight, linkedEntity, linkedClaim } =
+        item
       return {
         typeUrl: '/ixo.entity.v1beta1.MsgCreateEntity',
         value: ixo.entity.v1beta1.MsgCreateEntity.fromPartial({
@@ -54,6 +57,7 @@ export const CreateEntity = async (
           ),
           accordedRight: accordedRight?.map((item: AccordedRight) => ixo.iid.v1beta1.AccordedRight.fromPartial(item)),
           linkedEntity: linkedEntity?.map((item: LinkedEntity) => ixo.iid.v1beta1.LinkedEntity.fromPartial(item)),
+          linkedClaim: linkedClaim?.map((item: LinkedClaim) => ixo.iid.v1beta1.LinkedClaim.fromPartial(item)),
           entityStatus,
         }),
       }

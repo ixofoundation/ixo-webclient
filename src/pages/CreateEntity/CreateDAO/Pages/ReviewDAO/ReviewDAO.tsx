@@ -21,7 +21,6 @@ const ReviewDAO: React.FC = (): JSX.Element => {
     SaveAdministrator,
     SavePage,
     SaveTags,
-    SaveClaims,
     CreateProtocol,
     CreateEntityBase,
   } = useCreateEntity()
@@ -47,15 +46,13 @@ const ReviewDAO: React.FC = (): JSX.Element => {
     //   Toast.successToast(`Create DAO Creds Issuer Succeed`)
     // }
 
-    const [saveProfileRes, saveCreatorRes, saveAdministratorRes, savePageRes, saveTagsRes, saveClaimsRes] =
-      await Promise.allSettled([
-        await SaveProfile(),
-        await SaveCreator(daoCredsIssuerDid),
-        await SaveAdministrator(daoCredsIssuerDid),
-        await SavePage(),
-        await SaveTags(),
-        await SaveClaims(),
-      ]).then((responses) => responses.map((response: any) => response.value))
+    const [saveProfileRes, saveCreatorRes, saveAdministratorRes, savePageRes, saveTagsRes] = await Promise.allSettled([
+      await SaveProfile(),
+      await SaveCreator(daoCredsIssuerDid),
+      await SaveAdministrator(daoCredsIssuerDid),
+      await SavePage(),
+      await SaveTags(),
+    ]).then((responses) => responses.map((response: any) => response.value))
 
     const linkedResource: LinkedResource[] = []
     const accordedRight: AccordedRight[] = [] // TODO:
@@ -120,21 +117,22 @@ const ReviewDAO: React.FC = (): JSX.Element => {
         right: '',
       })
     }
-    if (saveClaimsRes) {
-      linkedResource.push({
-        id: '{id}#claims',
-        type: 'Settings',
-        description: 'Claims',
-        mediaType: 'application/ld+json',
-        serviceEndpoint: `#cellnode-pandora/public/${saveClaimsRes.key}`,
-        proof: saveClaimsRes.key,
-        encrypted: 'false',
-        right: '',
-      })
-    }
+    // if (saveClaimsRes) {
+    //   linkedResource.push({
+    //     id: '{id}#claims',
+    //     type: 'Settings',
+    //     description: 'Claims',
+    //     mediaType: 'application/ld+json',
+    //     serviceEndpoint: `#cellnode-pandora/public/${saveClaimsRes.key}`,
+    //     proof: saveClaimsRes.key,
+    //     encrypted: 'false',
+    //     right: '',
+    //   })
+    // }
 
     const protocolDid = await CreateProtocol()
     if (!protocolDid) {
+      Toast.errorToast(`Create Entity Protocol Failed`)
       setSubmitting(false)
       return
     }
