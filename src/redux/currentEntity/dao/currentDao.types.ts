@@ -21,6 +21,7 @@ export type DaoGroup = {
     votingModuleAddress: string
     groupContractAddress: string
     members: Member[]
+    totalWeight: number
   }
   treasury: {
     cw20Balances: Cw20BalanceResponse

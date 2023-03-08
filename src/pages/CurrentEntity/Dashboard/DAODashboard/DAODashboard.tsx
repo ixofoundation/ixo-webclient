@@ -117,6 +117,7 @@ const DAODashboard: React.FC = (): JSX.Element => {
               votingModule.groupContractAddress,
             )
             votingModule.members = (await cw4GroupClient.listMembers({})).members as never[]
+            votingModule.totalWeight = (await cw4GroupClient.totalWeight({})).weight as number
 
             // treasury
             const treasury: any = {}
@@ -214,7 +215,7 @@ const DAODashboard: React.FC = (): JSX.Element => {
       entityType={entityType}
     >
       <Route exact path='/entity/:entityId/dashboard/overview' component={Overview} />
-      <Route exact path='/entity/:entityId/dashboard/overview/:groupId' component={OverviewMembers} />
+      <Route exact path='/entity/:entityId/dashboard/overview/:coreAddress' component={OverviewMembers} />
       <Route exact path='/entity/:entityId/dashboard/overview/:groupId/:address' component={OverviewIndividualMember} />
       <Route exact path='/entity/:entityId/dashboard/proposals' component={EconomyGovernance} />
       <Route exact path='/entity/:entityId/dashboard'>

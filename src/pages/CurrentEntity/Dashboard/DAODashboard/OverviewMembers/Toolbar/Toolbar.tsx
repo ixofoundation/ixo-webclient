@@ -18,6 +18,7 @@ const Button = styled(FlexBox)`
   letter-spacing: 0.003em;
   cursor: pointer;
   white-space: nowrap;
+  user-select: none;
 
   svg > path {
     fill: white;
@@ -66,6 +67,7 @@ interface Props {
   status: 'approved' | 'pending' | 'rejected' | undefined
   view: 'panel' | 'list'
   keyword: string
+  numOfMembers: number
   onStatusChange: (status: 'approved' | 'pending' | 'rejected' | undefined) => void
   onViewChange: (view: 'panel' | 'list') => void
   onKeywordChange: (keyword: string) => void
@@ -75,6 +77,7 @@ const Toolbar: React.FC<Props> = ({
   status,
   view,
   keyword,
+  numOfMembers,
   onStatusChange,
   onViewChange,
   onKeywordChange,
@@ -140,7 +143,7 @@ const Toolbar: React.FC<Props> = ({
           </Button>
 
           <Button alignItems='center' background={theme.ixoDarkBlue} opacity={0.3} gap={1}>
-            11.23K
+            {numOfMembers.toLocaleString()}
             <ProfileIcon />
           </Button>
         </>

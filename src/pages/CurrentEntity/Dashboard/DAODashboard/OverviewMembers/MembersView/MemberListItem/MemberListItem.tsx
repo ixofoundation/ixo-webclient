@@ -36,26 +36,28 @@ interface Props {
   member: {
     avatar?: string
     name?: string
-    address: string
-    role: string
-    votingPower: number
-    staking: number
-    votes: number
-    proposals: number
-    status: 'approved' | 'pending' | 'rejected'
-    verified: boolean
-    administrator: boolean
-    assignedAuthority: number
+    role?: string
+    staking?: number
+    votes?: number
+    proposals?: number
+    status?: 'approved' | 'pending' | 'rejected'
+    verified?: boolean
+    administrator?: boolean
+    assignedAuthority?: number
+
+    addr: string
+    weight: number
+    votingPower?: number
   }
 }
 
 const MemberListItem: React.FC<Props> = ({ member }): JSX.Element => {
   const history = useHistory()
-  const { avatar, name, status, address, votingPower, staking, votes, proposals } = member
+  const { avatar, name, status, addr, staking, votes, proposals, votingPower } = member
   const [detailView, setDetailView] = useState(false)
 
   const handleMemberClick = () => {
-    history.push(`${history.location.pathname}/${address}`)
+    history.push(`${history.location.pathname}/${addr}`)
   }
 
   return (
@@ -81,11 +83,11 @@ const MemberListItem: React.FC<Props> = ({ member }): JSX.Element => {
           borderRadius='100%'
           width='12px'
           height='12px'
-          background={STATUSES[status].color}
+          background={STATUSES[status!]?.color}
         />
         <FlexBox alignItems='center' gap={5} marginLeft={8}>
           <Avatar size={50} url={avatar} />
-          <CopyToClipboard text={address} onCopy={() => Toast.successToast(`Copied to clipboard`)}>
+          <CopyToClipboard text={addr} onCopy={() => Toast.successToast(`Copied to clipboard`)}>
             <Typography
               color='white'
               size='lg'
@@ -94,14 +96,14 @@ const MemberListItem: React.FC<Props> = ({ member }): JSX.Element => {
               title='Click to Copy'
               onClick={(event) => event.stopPropagation()}
             >
-              {truncateString(name ?? address, 20)}
+              {truncateString(name ?? addr, 20)}
             </Typography>
           </CopyToClipboard>
         </FlexBox>
       </TableBodyItem>
       <TableBodyItem>
         <Typography color='white' size='lg' weight='medium'>
-          {votingPower} %
+          {(votingPower ?? 0) * 100} %
         </Typography>
       </TableBodyItem>
       <TableBodyItem>
@@ -111,18 +113,18 @@ const MemberListItem: React.FC<Props> = ({ member }): JSX.Element => {
             compactDisplay: 'short',
             minimumFractionDigits: 2,
           })
-            .format(staking)
+            .format(staking ?? 0)
             .replace(/\D00$/, '')}
         </Typography>
       </TableBodyItem>
       <TableBodyItem>
         <Typography color='white' size='lg' weight='medium'>
-          {votes}
+          {votes ?? 0}
         </Typography>
       </TableBodyItem>
       <TableBodyItem>
         <Typography color='white' size='lg' weight='medium'>
-          {proposals}
+          {proposals ?? 0}
         </Typography>
       </TableBodyItem>
 

@@ -6,9 +6,10 @@ import { ReactComponent as PieIcon } from 'assets/images/icon-pie.svg'
 import { ReactComponent as ChevRightIcon } from 'assets/images/icon-chev-right.svg'
 import { Box, FlexBox, SvgBox, theme } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
-import { deviceWidth } from 'constants/device'
+// import { deviceWidth } from 'constants/device'
 import useCurrentDao from 'hooks/useCurrentDao'
 import { DaoGroup } from 'redux/currentEntity/dao/currentDao.types'
+import { NavLink, useHistory } from 'react-router-dom'
 
 const Arrow = styled(Box)`
   &:before {
@@ -56,6 +57,7 @@ interface Props {
 }
 
 const Groups: React.FC<Props> = ({ selectedGroups, setSelectedGroups }): JSX.Element | null => {
+  const history = useHistory()
   const { daoGroups } = useCurrentDao()
   const [dragging, setDragging] = useState(false)
   const settings = {
@@ -117,9 +119,11 @@ const Groups: React.FC<Props> = ({ selectedGroups, setSelectedGroups }): JSX.Ele
       }
     >
       <Box mb={0.1}>
-        <Typography color='white' size='lg' weight='medium'>
-          {daoGroup.config.name}
-        </Typography>
+        <NavLink to={`${history.location.pathname}/${daoGroup.coreAddress}`}>
+          <Typography color='white' size='lg' weight='medium' hover={{ underline: true }}>
+            {daoGroup.config.name}
+          </Typography>
+        </NavLink>
       </Box>
       <Box mb={8}>
         <Typography color='light-blue' weight='medium' size='sm'>

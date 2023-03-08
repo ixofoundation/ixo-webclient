@@ -6,11 +6,13 @@ import { selectDaoGroups } from 'redux/currentEntity/dao/currentDao.selectors'
 import { CurrentDao, DaoGroup } from 'redux/currentEntity/dao/currentDao.types'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { Member } from 'types/dao'
+import * as _ from 'lodash'
 
 export default function useCurrentDao(): {
   daoGroups: CurrentDao
   updateGroup: (group: DaoGroup) => void
-  getMembersByAddresses: (addresses: string[]) => Member[]
+  getNumOfMembersByAddresses: (addresses: string[]) => number
+  getMembersByAddress: (address: string) => Member[]
   getProposalModuleCountByAddresses: (addresses: string[]) => {
     active_proposal_module_count: number
     total_proposal_module_count: number
@@ -32,15 +34,25 @@ export default function useCurrentDao(): {
     [daoGroups],
   )
 
-  const getMembersByAddresses = useCallback(
-    (addresses: string[]): Member[] => {
-      let members: Member[] = []
+  const getNumOfMembersByAddresses = useCallback(
+    (addresses: string[]): number => {
+      let totalMembers: Member[] = []
       getDaoGroupsByAddresses(addresses).forEach((daoGroup) => {
-        members = members.concat([...daoGroup.votingModule.members])
+        const members = daoGroup.votingModule.members
+        totalMembers = totalMembers.concat([...members])
       })
-      return members
+      return _.uniqBy(totalMembers, 'addr').length
     },
     [getDaoGroupsByAddresses],
+  )
+
+  const getMembersByAddress = useCallback(
+    (address: string): Member[] => {
+      const members = daoGroups[address]?.votingModule.members ?? []
+      const totalWeight = daoGroups[address]?.votingModule.totalWeight ?? 1
+      return members.map((member) => ({ ...member, votingPower: member.weight / totalWeight }))
+    },
+    [daoGroups],
   )
 
   const getProposalModuleCountByAddresses = useCallback(
@@ -91,7 +103,8 @@ export default function useCurrentDao(): {
   return {
     daoGroups,
     updateGroup,
-    getMembersByAddresses,
+    getNumOfMembersByAddresses,
+    getMembersByAddress,
     getProposalModuleCountByAddresses,
     getProposalsByAddresses,
     getTotalCw20Balances,

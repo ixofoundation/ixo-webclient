@@ -9,16 +9,18 @@ interface Props {
   member: {
     avatar?: string
     name?: string
-    address: string
-    role: string
-    votingPower: number
-    staking: number
-    votes: number
-    proposals: number
-    status: 'approved' | 'pending' | 'rejected'
-    verified: boolean
-    administrator: boolean
-    assignedAuthority: number
+    role?: string
+    staking?: number
+    votes?: number
+    proposals?: number
+    status?: 'approved' | 'pending' | 'rejected'
+    verified?: boolean
+    administrator?: boolean
+    assignedAuthority?: number
+
+    addr: string
+    weight: number
+    votingPower?: number
   }
   onClose: () => void
 }
@@ -90,12 +92,12 @@ const MemberDetailCard: React.FC<Props> = ({ member, onClose }): JSX.Element => 
 
         <FlexBox width='100%' justifyContent='space-between' alignItems='center'>
           <Typography size='md'>Verified</Typography>
-          <Switch size='sm' value={verified} onChange={setVerified} />
+          <Switch size='sm' value={verified!} onChange={setVerified} />
         </FlexBox>
 
         <FlexBox width='100%' justifyContent='space-between' alignItems='center'>
           <Typography size='md'>Administrator</Typography>
-          <Switch size='sm' value={administrator} onChange={setAdministrator} />
+          <Switch size='sm' value={administrator!} onChange={setAdministrator} />
         </FlexBox>
 
         <FlexBox width='100%' justifyContent='space-between' alignItems='center'>
@@ -107,7 +109,7 @@ const MemberDetailCard: React.FC<Props> = ({ member, onClose }): JSX.Element => 
         <FlexBox width='100%' justifyContent='space-between' alignItems='center'>
           <Typography size='md'>Voting Power</Typography>
           <Typography size='md' weight='bold'>
-            {votingPower}%
+            {(votingPower ?? 0) * 100}%
           </Typography>
         </FlexBox>
 
@@ -115,13 +117,13 @@ const MemberDetailCard: React.FC<Props> = ({ member, onClose }): JSX.Element => 
           <Typography size='md'>Assigned Authority</Typography>
           <Box borderRadius='6px' background={theme.ixoGrey300} paddingLeft={1.5} paddingRight={1.5}>
             <Typography size='md' weight='bold' color='blue'>
-              {assignedAuthority}%
+              {assignedAuthority ?? 0}%
             </Typography>
           </Box>
         </FlexBox>
 
         <FlexBox width='100%'>
-          <RangeInput value={assignedAuthority} onChange={setAssignedAuthority} />
+          <RangeInput value={assignedAuthority ?? 0} onChange={setAssignedAuthority} />
         </FlexBox>
       </FlexBox>
 

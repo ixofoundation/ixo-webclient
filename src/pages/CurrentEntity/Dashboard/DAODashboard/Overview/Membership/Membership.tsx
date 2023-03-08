@@ -11,10 +11,9 @@ interface Props {
 }
 
 const Membership: React.FC<Props> = ({ groupAddresses = [] }): JSX.Element => {
-  const { getMembersByAddresses } = useCurrentDao()
-  const membersByAddresses = getMembersByAddresses(groupAddresses)
+  const { getNumOfMembersByAddresses } = useCurrentDao()
+  const numOfMembers = getNumOfMembersByAddresses(groupAddresses)
 
-  const numOfMembers = membersByAddresses.length
   // TODO:
   const approveds = 0
   const pendings = 0

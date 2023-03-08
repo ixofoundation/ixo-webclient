@@ -29,26 +29,28 @@ interface Props {
   member: {
     avatar?: string
     name?: string
-    address: string
-    role: string
-    votingPower: number
-    staking: number
-    votes: number
-    proposals: number
-    status: 'approved' | 'pending' | 'rejected'
-    verified: boolean
-    administrator: boolean
-    assignedAuthority: number
+    role?: string
+    staking?: number
+    votes?: number
+    proposals?: number
+    status?: 'approved' | 'pending' | 'rejected'
+    verified?: boolean
+    administrator?: boolean
+    assignedAuthority?: number
+
+    addr: string
+    weight: number
+    votingPower?: number
   }
 }
 
 const MemberCard: React.FC<Props> = ({ member }): JSX.Element => {
   const history = useHistory()
-  const { avatar, name, address, role, status, votingPower, staking, votes, proposals } = member
+  const { avatar, name, addr, role, status, staking, votes, proposals, votingPower } = member
   const [detailView, setDetailView] = useState(false)
 
   const handleMemberClick = () => {
-    history.push(`${history.location.pathname}/${address}`)
+    history.push(`${history.location.pathname}/${addr}`)
   }
 
   return !detailView ? (
@@ -77,7 +79,7 @@ const MemberCard: React.FC<Props> = ({ member }): JSX.Element => {
         borderRadius='100%'
         width='12px'
         height='12px'
-        background={STATUSES[status].color}
+        background={STATUSES[status!]?.color}
       />
       <Box
         id='three_dot'
@@ -97,7 +99,7 @@ const MemberCard: React.FC<Props> = ({ member }): JSX.Element => {
       <Avatar url={avatar} size={100} />
 
       <FlexBox direction='column' gap={2} width='100%' alignItems='center'>
-        <CopyToClipboard text={address} onCopy={() => Toast.successToast(`Copied to clipboard`)}>
+        <CopyToClipboard text={addr} onCopy={() => Toast.successToast(`Copied to clipboard`)}>
           <Typography
             size='lg'
             color='white'
@@ -106,7 +108,7 @@ const MemberCard: React.FC<Props> = ({ member }): JSX.Element => {
             title='Click to Copy'
             onClick={(event) => event.stopPropagation()}
           >
-            {truncateString(name ?? address, 20)}
+            {truncateString(name ?? addr, 20)}
           </Typography>
         </CopyToClipboard>
         <Typography size='sm' color='light-blue' weight='medium'>
@@ -120,7 +122,7 @@ const MemberCard: React.FC<Props> = ({ member }): JSX.Element => {
             <ClaimIcon />
           </SvgBox>
           <Typography size='sm' color='white' weight='medium'>
-            {votingPower}%
+            {(votingPower ?? 0) * 100}%
           </Typography>
         </FlexBox>
 
@@ -134,7 +136,7 @@ const MemberCard: React.FC<Props> = ({ member }): JSX.Element => {
               compactDisplay: 'short',
               minimumFractionDigits: 2,
             })
-              .format(staking)
+              .format(staking ?? 0)
               .replace(/\D00$/, '')}
           </Typography>
         </FlexBox>
@@ -144,7 +146,7 @@ const MemberCard: React.FC<Props> = ({ member }): JSX.Element => {
             <MultisigIcon />
           </SvgBox>
           <Typography size='sm' color='white' weight='medium'>
-            {votes}
+            {votes ?? 0}
           </Typography>
         </FlexBox>
 
@@ -153,7 +155,7 @@ const MemberCard: React.FC<Props> = ({ member }): JSX.Element => {
             <PaperIcon />
           </SvgBox>
           <Typography size='sm' color='white' weight='medium'>
-            {proposals}
+            {proposals ?? 0}
           </Typography>
         </FlexBox>
       </GridContainer>
