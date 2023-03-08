@@ -5,11 +5,10 @@ import { Avatar, Card } from '../../Components'
 import { ReactComponent as PieIcon } from 'assets/images/icon-pie.svg'
 import { ReactComponent as ChevRightIcon } from 'assets/images/icon-chev-right.svg'
 import { Box, FlexBox, SvgBox, theme } from 'components/App/App.styles'
-import { IDAOMember } from 'types/dao'
 import { Typography } from 'components/Typography'
 import { deviceWidth } from 'constants/device'
-import { useGetAllDAOGroups } from 'hooks/dao'
-import { useParams } from 'react-router-dom'
+import useCurrentDao from 'hooks/useCurrentDao'
+import { DaoGroup } from 'redux/currentEntity/dao/currentDao.types'
 
 const Arrow = styled(Box)`
   &:before {
@@ -52,67 +51,66 @@ const PrevArrow = (props: any) => (
 )
 
 interface Props {
-  selectedGroups: object
-  setSelectedGroups: (selectedGroups: object) => void
+  selectedGroups: { [coreAddress: string]: DaoGroup }
+  setSelectedGroups: any
 }
 
 const Groups: React.FC<Props> = ({ selectedGroups, setSelectedGroups }): JSX.Element | null => {
-  const { entityId: daoId } = useParams<{ entityId: string }>()
-  const { data: groups } = useGetAllDAOGroups(daoId)
+  const { daoGroups } = useCurrentDao()
   const [dragging, setDragging] = useState(false)
   const settings = {
     infinite: true,
     speed: 500,
-    slidesToShow: 5,
-    slidesToScroll: 1,
+    // slidesToShow: 5,
+    // slidesToScroll: 1,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
     beforeChange: () => setDragging(true),
     afterChange: () => setDragging(false),
-    responsive: [
-      {
-        breakpoint: deviceWidth.tablet,
-        settings: { slidesToShow: 1 },
-      },
-      {
-        breakpoint: deviceWidth.desktop,
-        settings: { slidesToShow: 2 },
-      },
-      {
-        breakpoint: deviceWidth.desktopLarge,
-        settings: { slidesToShow: 3 },
-      },
-      {
-        breakpoint: deviceWidth.desktopExtra,
-        settings: { slidesToShow: 4 },
-      },
-    ],
+    // responsive: [
+    //   {
+    //     breakpoint: deviceWidth.tablet,
+    //     settings: { slidesToShow: 1 },
+    //   },
+    //   {
+    //     breakpoint: deviceWidth.desktop,
+    //     settings: { slidesToShow: 2 },
+    //   },
+    //   {
+    //     breakpoint: deviceWidth.desktopLarge,
+    //     settings: { slidesToShow: 3 },
+    //   },
+    //   {
+    //     breakpoint: deviceWidth.desktopExtra,
+    //     settings: { slidesToShow: 4 },
+    //   },
+    // ],
   }
 
-  const renderGroupCard = (id: string, groupTitle: string, groupType: string, members: IDAOMember[]): JSX.Element => (
+  const renderGroupCard = (daoGroup: DaoGroup): JSX.Element => (
     <FlexBox
       maxWidth='240px'
       aspectRatio={1}
       direction='column'
       alignItems='center'
       justifyContent='center'
-      borderWidth={selectedGroups[id] ? '2px' : '1px'}
+      borderWidth={selectedGroups[daoGroup.coreAddress] ? '2px' : '1px'}
       borderStyle='solid'
-      borderColor={selectedGroups[id] ? theme.ixoNewBlue : theme.ixoDarkBlue}
+      borderColor={selectedGroups[daoGroup.coreAddress] ? theme.ixoNewBlue : theme.ixoDarkBlue}
       borderRadius='12px'
       cursor='pointer'
       margin='auto'
       transition='all .2s'
-      background={selectedGroups[id] && theme.ixoDarkBlue}
+      background={selectedGroups[daoGroup.coreAddress] && theme.ixoDarkBlue}
       hover={{ borderWidth: '2px', borderColor: theme.ixoNewBlue }}
       onClick={() =>
         !dragging &&
-        setSelectedGroups((groups: object) => {
+        setSelectedGroups((groups: { [coreAddress: string]: DaoGroup }) => {
           const newGroups = { ...groups }
-          if (newGroups[id]) {
-            delete newGroups[id]
+          if (newGroups[daoGroup.coreAddress]) {
+            delete newGroups[daoGroup.coreAddress]
           } else {
-            newGroups[id] = true
+            newGroups[daoGroup.coreAddress] = daoGroup
           }
           return newGroups
         })
@@ -120,44 +118,43 @@ const Groups: React.FC<Props> = ({ selectedGroups, setSelectedGroups }): JSX.Ele
     >
       <Box mb={0.1}>
         <Typography color='white' size='lg' weight='medium'>
-          {groupTitle}
+          {daoGroup.config.name}
         </Typography>
       </Box>
       <Box mb={8}>
         <Typography color='light-blue' weight='medium' size='sm'>
-          {groupType} group
+          {daoGroup.type} group
         </Typography>
       </Box>
       <FlexBox alignItems='center' gap={4} mb={1}>
         <FlexBox>
-          {members.slice(0, 4).map((member, index) => (
+          {daoGroup.votingModule.members.slice(0, 4).map((member, index) => (
             <Box key={index} width='24px'>
-              <Avatar size={32} url={member.avatar} />
+              <Avatar size={32} url={undefined} />
             </Box>
           ))}
         </FlexBox>
-        {members.length > 4 && (
+        {daoGroup.votingModule.members.length > 4 && (
           <Typography color='white' size='4xl'>
             ⋯
           </Typography>
         )}
       </FlexBox>
       <Typography color='white' weight='medium' size='lg'>
-        {members.length} members
+        {daoGroup.votingModule.members.length} members
       </Typography>
     </FlexBox>
   )
 
-  if (groups.length === 0) {
+  if (Object.values(daoGroups).length === 0) {
     return null
   }
-
   return (
     <Card icon={<PieIcon />} label='Groups'>
       <Box width='100%' color='white'>
         <Slider {...settings}>
-          {groups.map((item: any) => (
-            <div key={item.address}>{renderGroupCard(item.address, item.title, item.type, item.members)}</div>
+          {Object.values(daoGroups).map((daoGroup: DaoGroup, index: number) => (
+            <div key={daoGroup.coreAddress}>{renderGroupCard(daoGroup)}</div>
           ))}
         </Slider>
       </Box>

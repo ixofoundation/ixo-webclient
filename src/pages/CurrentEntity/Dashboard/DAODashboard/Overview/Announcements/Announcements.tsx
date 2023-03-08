@@ -11,16 +11,16 @@ const DEFAULT_LIMIT = 3
 
 interface Props {
   daoId: string
-  groupIds: string[]
+  groupAddresses: string[]
 }
-const Announcements: React.FC<Props> = ({ daoId, groupIds = [] }): JSX.Element => {
-  const { data, refetch } = useGetAnnouncements(daoId, groupIds, DEFAULT_FILTER_BY, DEFAULT_LIMIT)
+const Announcements: React.FC<Props> = ({ daoId, groupAddresses = [] }): JSX.Element => {
+  const { data, refetch } = useGetAnnouncements(daoId, groupAddresses, DEFAULT_FILTER_BY, DEFAULT_LIMIT)
   const [filterBy, setFilterBy] = useState(DEFAULT_FILTER_BY)
 
   console.log('useGetAnnouncements', data)
 
   useEffect(() => {
-    refetch({ groupIds, filterBy, limit: DEFAULT_LIMIT })
+    refetch({ groupIds: groupAddresses, filterBy, limit: DEFAULT_LIMIT })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filterBy])
 

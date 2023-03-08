@@ -1,5 +1,7 @@
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
-import { Binary, Decimal, Empty, Timestamp, Uint128 } from './common'
+import { Decimal } from '@ixo/impactxclient-sdk/types/codegen/CwFundDistributor.types'
+import { Binary, Empty, Timestamp, Uint128 } from '@ixo/impactxclient-sdk/types/codegen/DaoCore.types'
+// import { Binary, Decimal, Empty, Uint128 } from './common'
 
 /**
  * @example

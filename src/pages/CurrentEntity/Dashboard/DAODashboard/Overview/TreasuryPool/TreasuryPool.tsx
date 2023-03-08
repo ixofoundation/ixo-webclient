@@ -5,12 +5,18 @@ import { Typography } from 'components/Typography'
 import { ReactComponent as FundingIcon } from 'assets/images/icon-funding.svg'
 import { ReactComponent as CaretUpIcon } from 'assets/images/icon-caret-up.svg'
 import { useGetTreasuryPools } from 'hooks/dao'
+import useCurrentDao from 'hooks/useCurrentDao'
 
 interface Props {
   daoId: string
+  groupAddresses: string[]
 }
 
-const TreasuryPool: React.FC<Props> = ({ daoId }): JSX.Element => {
+const TreasuryPool: React.FC<Props> = ({ daoId, groupAddresses }): JSX.Element => {
+  const { getTotalCw20Balances } = useCurrentDao()
+  const totalCw20Balances = getTotalCw20Balances(groupAddresses)
+  console.log({ totalCw20Balances })
+
   const { data } = useGetTreasuryPools(daoId)
   console.log('useGetTreasuryPools', data)
   return (
@@ -25,7 +31,7 @@ const TreasuryPool: React.FC<Props> = ({ daoId }): JSX.Element => {
               currency: 'USD',
               style: 'currency',
             })
-              .format(data.totalVolumeUSD)
+              .format(totalCw20Balances)
               .replace(/\D00$/, '')}
           </Typography>
           <FlexBox position='absolute' top='50%' left='100%' transform='translate(0.5rem, -50%)' alignItems='center'>

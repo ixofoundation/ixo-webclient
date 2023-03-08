@@ -4,27 +4,28 @@ import { Card } from '../../Components'
 import { Typography } from 'components/Typography'
 import { ReactComponent as ProfileIcon } from 'assets/images/icon-profile.svg'
 import { ReactComponent as CaretUpIcon } from 'assets/images/icon-caret-up.svg'
-import { useGetMembershipInfo } from 'hooks/dao'
+import useCurrentDao from 'hooks/useCurrentDao'
 
 interface Props {
-  daoId: string
-  groupIds?: string[]
+  groupAddresses?: string[]
 }
 
-const Membership: React.FC<Props> = ({ daoId, groupIds = [] }): JSX.Element => {
-  const { data } = useGetMembershipInfo(daoId, groupIds)
-  console.info('useGetMembershipInfo', data)
-  const members = data?.members ?? 0
-  const approveds = data?.approveds ?? 0
-  const pendings = data?.pendings ?? 0
-  const rejecteds = data?.rejecteds ?? 0
-  const dayChanges = data?.dayChanges ?? 0
+const Membership: React.FC<Props> = ({ groupAddresses = [] }): JSX.Element => {
+  const { getMembersByAddresses } = useCurrentDao()
+  const membersByAddresses = getMembersByAddresses(groupAddresses)
+
+  const numOfMembers = membersByAddresses.length
+  // TODO:
+  const approveds = 0
+  const pendings = 0
+  const rejecteds = 0
+  const dayChanges = 0
   return (
     <Card icon={<ProfileIcon />} label='Membership'>
       <FlexBox width='100%' alignItems='center' direction='column' gap={1}>
         <Box position='relative'>
           <Typography color='blue' size='5xl'>
-            {members.toLocaleString()}
+            {numOfMembers.toLocaleString()}
           </Typography>
           <FlexBox position='absolute' top='50%' left='100%' transform='translate(0.5rem, -50%)' alignItems='center'>
             <Typography color='green'>

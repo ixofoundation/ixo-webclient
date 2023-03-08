@@ -2,6 +2,7 @@ import { Box, FlexBox, GridContainer, GridItem } from 'components/App/App.styles
 import { Typography } from 'components/Typography'
 import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
+import { DaoGroup } from 'redux/currentEntity/dao/currentDao.types'
 import { Activity } from './Activity'
 import { Announcements } from './Announcements'
 import { FundingClaims } from './FundingClaims'
@@ -13,9 +14,9 @@ import { TreasuryPool } from './TreasuryPool'
 
 const Overview: React.FC = (): JSX.Element => {
   const { entityId: daoId } = useParams<{ entityId: string }>()
-  const [selectedGroups, setSelectedGroups] = useState({})
-  const selectedGroupIds: string[] = Object.keys(selectedGroups)
-  const numOfSelectedGroups = selectedGroupIds.length
+  const [selectedGroups, setSelectedGroups] = useState<{ [coreAddress: string]: DaoGroup }>({})
+  const selectedGroupAddresses: string[] = Object.keys(selectedGroups)
+  const numOfSelectedGroups = selectedGroupAddresses.length
 
   return (
     <FlexBox direction='column' gap={6}>
@@ -24,8 +25,8 @@ const Overview: React.FC = (): JSX.Element => {
       {numOfSelectedGroups > 0 && (
         <>
           <Box mt={4}>
-            <Typography variant='secondary' color='white' size='5xl'>
-              {numOfSelectedGroups === 1 && 'Marketing group'}
+            <Typography variant='secondary' color='white' size='5xl' transform='capitalize'>
+              {numOfSelectedGroups === 1 && `${Object.values(selectedGroups)[0]?.type} group`}
               {numOfSelectedGroups > 1 && `${numOfSelectedGroups} selected groups`}
             </Typography>
           </Box>
@@ -37,25 +38,25 @@ const Overview: React.FC = (): JSX.Element => {
             gridGap={6}
           >
             <GridItem gridArea='a'>
-              <Membership daoId={daoId} groupIds={selectedGroupIds} />
+              <Membership groupAddresses={selectedGroupAddresses} />
             </GridItem>
             <GridItem gridArea='b'>
-              <Announcements daoId={daoId} groupIds={selectedGroupIds} />
+              <Announcements daoId={daoId} groupAddresses={selectedGroupAddresses} />
             </GridItem>
             <GridItem gridArea='c'>
-              <Governance daoId={daoId} groupIds={selectedGroupIds} />
+              <Governance daoId={daoId} groupAddresses={selectedGroupAddresses} />
             </GridItem>
             <GridItem gridArea='d'>
-              <GovernanceActivity daoId={daoId} groupIds={selectedGroupIds} />
+              <GovernanceActivity daoId={daoId} groupIds={selectedGroupAddresses} />
             </GridItem>
             <GridItem gridArea='e'>
-              <Activity daoId={daoId} groupIds={selectedGroupIds} />
+              <Activity daoId={daoId} groupIds={selectedGroupAddresses} />
             </GridItem>
             <GridItem gridArea='f'>
-              <FundingClaims daoId={daoId} groupIds={selectedGroupIds} />
+              <FundingClaims daoId={daoId} groupIds={selectedGroupAddresses} />
             </GridItem>
             <GridItem gridArea='g'>
-              <TreasuryPool daoId={daoId} />
+              <TreasuryPool daoId={daoId} groupAddresses={selectedGroupAddresses} />
             </GridItem>
           </GridContainer>
         </>

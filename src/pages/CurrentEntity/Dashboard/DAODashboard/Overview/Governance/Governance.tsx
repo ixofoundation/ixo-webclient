@@ -6,29 +6,35 @@ import { Typography } from 'components/Typography'
 import { ReactComponent as GovernanceIcon } from 'assets/images/icon-governance.svg'
 import { ReactComponent as SandClockIcon } from 'assets/images/icon-sandclock-fill.svg'
 import { ProgressBar } from 'components/ProgressBar/ProgressBar'
-import { useGetProposals } from 'hooks/dao'
+import useCurrentDao from 'hooks/useCurrentDao'
+import { Timestamp } from '@ixo/impactxclient-sdk/types/codegen/DaoCore.types'
 
 interface Props {
   daoId: string
-  groupIds: string[]
+  groupAddresses: string[]
 }
 
-const Governance: React.FC<Props> = ({ daoId, groupIds }): JSX.Element => {
-  const { data } = useGetProposals(daoId, groupIds)
-  console.log('useGetProposals', data)
-  const latestProposal = data.length > 0 ? [...data].pop() : undefined
+const Governance: React.FC<Props> = ({ daoId, groupAddresses }): JSX.Element => {
+  const { getProposalsByAddresses } = useCurrentDao()
+  const proposals = getProposalsByAddresses(groupAddresses)
+  console.log({ proposals })
+  const latestProposal = [...proposals].pop()
 
   const id = latestProposal?.id ?? 0
-  const title = latestProposal?.title
-  const description = latestProposal?.description
-  const startDate = latestProposal?.startDate
-  const endDate = latestProposal?.endDate
+  const title = latestProposal?.proposal.title
+  const description = latestProposal?.proposal.description
+  // const startDate = latestProposal?.
+  const endDate: string = (
+    latestProposal?.proposal.expiration as {
+      at_time: Timestamp
+    }
+  )?.at_time
 
   return (
     <Card icon={<GovernanceIcon />} label='Governance'>
       <FlexBox width='100%' direction='column' alignItems='center' gap={1}>
         <Typography color='blue' size='5xl'>
-          {data.length.toLocaleString()}
+          {proposals.length.toLocaleString()}
         </Typography>
         <Typography color='white'>Open Proposals</Typography>
       </FlexBox>
@@ -67,8 +73,8 @@ const Governance: React.FC<Props> = ({ daoId, groupIds }): JSX.Element => {
             </SvgBox>
             <ProgressBar
               height={8}
-              total={moment(endDate).diff(moment(startDate), 'minutes')}
-              approved={moment().diff(moment(startDate), 'minutes')}
+              total={moment(endDate).diff(moment(), 'minutes')}
+              approved={moment().diff(moment(), 'minutes')}
               rejected={0}
               activeBarColor={theme.ixoNewBlue}
               barColor={theme.ixoDarkBlue}
