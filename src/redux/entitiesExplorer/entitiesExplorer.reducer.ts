@@ -1,10 +1,10 @@
 import { EntitiesExplorerState, EntitiesExplorerActions, EntitiesActionTypes } from './entitiesExplorer.types'
-import { EntityType } from 'types/entities'
+// import { EntityType } from 'types/entities'
 import { getDefaultSelectedViewCategory, getInitialSelectedCategories, getInitialSelectedSectors } from 'utils/entities'
 import { AccountActions, AccountActionTypes } from 'redux/account/account.types'
 
 export const initialState: EntitiesExplorerState = {
-  selectedEntitiesType: EntityType.Project,
+  selectedEntitiesType: 'Project',
   entities: null,
   entityConfig: null,
   filter: {
@@ -39,6 +39,13 @@ export const reducer = (
         ...state,
         entities: action.payload,
       }
+    case EntitiesExplorerActions.GetIndividualEntity: {
+      const { did } = action.payload
+      return {
+        ...state,
+        entities: state.entities.map((entity) => (entity.did !== did ? entity : { ...entity, ...action.payload })),
+      }
+    }
     case EntitiesExplorerActions.GetEntityConfigSuccess: {
       const entityConfig = action.payload
       const filterView = getDefaultSelectedViewCategory(entityConfig[state.selectedEntitiesType])

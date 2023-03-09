@@ -21,7 +21,7 @@ import {
   Pagination,
 } from './EntitiesExplorer.container.styles'
 import {
-  getEntities,
+  getEntities1,
   filterToggleUserEntities,
   filterToggleFeaturedEntities,
   filterTogglePopularEntities,
@@ -207,14 +207,14 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
         words.push(tags[0])
       }
 
-      words.push(entityTypeMap[type].plural)
+      words.push(entityTypeMap[type]?.plural)
 
       return words.join(' ')
     }
 
     const renderNoSearchFound = (): JSX.Element => (
       <NoEntitiesContainer>
-        <p>There are no {entityTypeMap[props.type].plural.toLowerCase()} that match your search criteria</p>
+        <p>There are no {entityTypeMap[props.type]?.plural.toLowerCase()} that match your search criteria</p>
       </NoEntitiesContainer>
     )
 
@@ -288,7 +288,7 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
     } else {
       return (
         <ErrorContainer>
-          <p>No {entityTypeMap[props.type].plural.toLowerCase()} were found</p>
+          <p>No {entityTypeMap[props.type]?.plural.toLowerCase()} were found</p>
         </ErrorContainer>
       )
     }
@@ -307,8 +307,8 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
 
   useEffect(() => {
     const init = async () => {
-      const res = await EntityList({})
-      console.info('EntityList:', res)
+      const entityList = await EntityList({})
+      console.info({ entityList })
     }
     init()
 
@@ -370,7 +370,7 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
           />
           {props.entityTypeMap && props.isLoadingEntities && (
             <div style={{ height: '100%' }}>
-              <Spinner info={`Loading ${props.entityTypeMap[props.type].plural}`} />
+              <Spinner info={`Loading ${props.entityTypeMap[props.type]?.plural}`} />
             </div>
           )}
           {!props.isLoadingEntities && renderEntities()}
@@ -408,7 +408,7 @@ function mapStateToProps(state: RootState): Record<string, any> {
 }
 
 const mapDispatchToProps = (dispatch: any): any => ({
-  handleGetEntities: (): void => dispatch(getEntities()),
+  handleGetEntities: (): void => dispatch(getEntities1()),
   handleChangeEntitiesQuery: (query: string): void => dispatch(filterEntitiesQuery(query)),
   handleChangeEntitiesType: (type: EntityType): void => dispatch(changeEntitiesType(type)),
   handleFilterToggleUserEntities: (userEntities: boolean): void => dispatch(filterToggleUserEntities(userEntities)),

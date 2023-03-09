@@ -1,4 +1,4 @@
-import { Moment } from 'moment'
+import moment, { Moment } from 'moment'
 import { createSelector } from '@reduxjs/toolkit'
 import { ExplorerEntity, EntitiesExplorerState, Filter, DDOTagCategory } from './entitiesExplorer.types'
 import { EntityType, EntityConfig } from 'types/entities'
@@ -27,7 +27,7 @@ export const selectAllTemplateEntities = createSelector(
       ? entitiesState.entities
           .filter((entity) => entity.type === EntityType.Template)
           .sort((a, b) => {
-            return b.dateCreated.unix() - a.dateCreated.unix()
+            return (b.dateCreated ?? moment()).unix() - (a.dateCreated ?? moment()).unix()
           })
       : null!
   },
@@ -39,8 +39,8 @@ export const selectTokenClassTemplateEntities = createSelector(
     return entities
       ? entities.filter((entity) =>
           entity.ddoTags
-            .filter((ddoTag) => ddoTag.name === 'Entity')
-            .some((ddoTag) => ddoTag.tags.some((tag) => tag === 'Token Class')),
+            ?.filter((ddoTag: any) => ddoTag.name === 'Entity')
+            .some((ddoTag: any) => ddoTag.tags.some((tag: any) => tag === 'Token Class')),
         )
       : []
   },
@@ -55,7 +55,7 @@ export const selectEntitiesFilter = createSelector(
 
 export const selectSelectedEntitiesType = createSelector(
   selectEntitiesState,
-  (entitiesState: EntitiesExplorerState): EntityType => {
+  (entitiesState: EntitiesExplorerState): string => {
     return entitiesState.selectedEntitiesType
   },
 )
@@ -73,7 +73,7 @@ export const selectedFilteredEntities = createSelector(
     // filter by current user's entities
     if (filter.userEntities) {
       entitiesToFilter = entitiesToFilter.filter(
-        (entity) => entity.creatorDid === userDid || entity.agentDids.some((agentDid) => agentDid === userDid),
+        (entity) => entity.creatorDid === userDid || entity.agentDids?.some((agentDid) => agentDid === userDid),
       )
     }
 
@@ -83,17 +83,18 @@ export const selectedFilteredEntities = createSelector(
     if (filter.dateFrom && filter.dateTo) {
       entitiesToFilter = entitiesToFilter.filter(
         (entity) =>
-          entity.dateCreated.startOf('day') >= filter.dateFrom && entity.dateCreated.startOf('day') <= filter.dateTo,
+          (entity.dateCreated ?? moment()).startOf('day') >= filter.dateFrom &&
+          (entity.dateCreated ?? moment()).startOf('day') <= filter.dateTo,
       )
     }
 
     // filter by categories
-    if (filter.ddoTags.length > 0) {
+    if (filter.ddoTags?.length > 0) {
       filter.ddoTags.forEach((category) => {
         if (category.tags.length > 0) {
           category.tags.forEach((tag) => {
             entitiesToFilter = entitiesToFilter.filter((entity) =>
-              entity.ddoTags.some(
+              entity.ddoTags?.some(
                 (entityCategory) => entityCategory.name === category.name && entityCategory.tags.includes(tag),
               ),
             )
@@ -124,7 +125,7 @@ export const selectedFilteredEntities = createSelector(
     // filter by sector
     if (filter.sector) {
       entitiesToFilter = entitiesToFilter.filter((entity) =>
-        entity.ddoTags.some(
+        entity.ddoTags?.some(
           (entityCategory) => entityCategory.name === 'Sector' && entityCategory.tags.includes(filter.sector),
         ),
       )
@@ -132,7 +133,7 @@ export const selectedFilteredEntities = createSelector(
 
     // sort the result
     entitiesToFilter = entitiesToFilter.sort((a, b) => {
-      return b.dateCreated.unix() - a.dateCreated.unix()
+      return (b.dateCreated ?? moment()).unix() - (a.dateCreated ?? moment()).unix()
     })
 
     return entitiesToFilter
@@ -150,7 +151,7 @@ export const selectUserEntitiesCount = createSelector(
     return !entities
       ? 0
       : entities.filter(
-          (entity) => entity.creatorDid === userDid || entity.agentDids.some((agentDid) => agentDid === userDid),
+          (entity) => entity.creatorDid === userDid || entity.agentDids?.some((agentDid) => agentDid === userDid),
         ).length
   },
 )
@@ -211,7 +212,7 @@ export const selectFilterItemOffset = createSelector(selectEntitiesFilter, (filt
 export const selectFilterCategoriesSummary = createSelector(
   selectFilterCategories,
   (categories: DDOTagCategory[]): string => {
-    const totalFilters = categories.reduce((total, category) => {
+    const totalFilters = categories?.reduce((total, category) => {
       return total + category.tags.length
     }, 0)
 
@@ -238,12 +239,12 @@ export const selectFilterQuery = createSelector(selectEntitiesFilter, (filter: F
 export const selectFilterSchema = createSelector(
   selectEntitiesState,
   (entitiesState: EntitiesExplorerState): FilterSchema => {
-    return entitiesState.entityConfig[entitiesState.selectedEntitiesType].filterSchema
+    return entitiesState.entityConfig[entitiesState.selectedEntitiesType]?.filterSchema
   },
 )
 
 export const selectFilterSchemaSdgDdoTags = createSelector(selectFilterSchema, (filterSchema: FilterSchema) => {
-  return filterSchema.ddoTags.find(({ name }) => name === 'SDG')?.tags ?? []
+  return filterSchema?.ddoTags.find(({ name }) => name === 'SDG')?.tags ?? []
 })
 
 export const selectEntityConfig = createSelector(
@@ -310,11 +311,7 @@ export const selectEntityThemeHighlightLight = createSelector(selectEntityThemeC
 export const selectEntitiesCountries = createSelector(
   selectAllEntitiesByType,
   (entities: ExplorerEntity[]): string[] => {
-    return entities && entities.length
-      ? entities.map((entity) => {
-          return entity.location
-        })
-      : []
+    return entities?.map((entity) => entity.location ?? '')
   },
 )
 

@@ -85,7 +85,7 @@ import {
 import { WasmInstantiateTrx } from 'lib/protocol/cosmwasm'
 import { durationToSeconds } from 'utils/conversions'
 import { Member } from 'types/dao'
-import { useIxoConfigs } from './configs'
+import { chainNetwork } from './configs'
 
 export function useCreateEntityStrategy(): {
   getStrategyByEntityType: (entityType: string) => TCreateEntityStrategyType
@@ -370,7 +370,6 @@ interface TCreateEntityHookRes {
 
 export function useCreateEntity(): TCreateEntityHookRes {
   const { signingClient, signer } = useAccount()
-  const { chainNetwork: cellNodeNetwork } = useIxoConfigs()
   const createEntityState = useCreateEntityState()
   const metadata = createEntityState.metadata as any
   const { creator, administrator, page, ddoTags, claim } = createEntityState
@@ -436,7 +435,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
         'application/ld+json',
         buff.toString('base64'),
         undefined,
-        cellNodeNetwork,
+        chainNetwork,
       )
       console.log('SaveProfile', res)
       /**
@@ -498,7 +497,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
         'application/ld+json',
         buff.toString('base64'),
         undefined,
-        cellNodeNetwork,
+        chainNetwork,
       )
       console.log('SaveCreator', res)
       /**
@@ -560,7 +559,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
         'application/ld+json',
         buff.toString('base64'),
         undefined,
-        cellNodeNetwork,
+        chainNetwork,
       )
       console.log('SaveAdministrator', res)
       /**
@@ -593,7 +592,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
           page: Object.values(page),
         }),
         undefined,
-        cellNodeNetwork,
+        chainNetwork,
       )
       console.log('SavePage', res)
       return res
@@ -746,7 +745,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
   //       'application/ld+json',
   //       buff.toString('base64'),
   //       undefined,
-  //       cellNodeNetwork,
+  //       chainNetwork,
   //     )
   //   } catch (e) {
   //     console.error('saveProjectCreds', e)
@@ -761,7 +760,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
         'application/ld+json',
         buff.toString('base64'),
         undefined,
-        cellNodeNetwork,
+        chainNetwork,
       )
       console.log('SaveTags', res)
       return res
@@ -794,7 +793,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
         'application/ld+json',
         buff.toString('base64'),
         undefined,
-        cellNodeNetwork,
+        chainNetwork,
       )
       console.log('SaveTokenMetadata', res)
       return res
@@ -826,7 +825,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
         'application/ld+json',
         buff.toString('base64'),
         undefined,
-        cellNodeNetwork,
+        chainNetwork,
       )
       console.log('SaveClaims', res)
       return res

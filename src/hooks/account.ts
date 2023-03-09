@@ -87,7 +87,7 @@ export function useAccount(): {
     } else if (selectedWallet === WalletType.Keplr) {
       return keplr.getOfflineSigner()
     }
-    return keplr.getOfflineSigner()
+    return undefined
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedWallet])
 

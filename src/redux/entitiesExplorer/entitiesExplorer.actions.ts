@@ -1,6 +1,5 @@
 import moment, { Moment } from 'moment'
 import { Dispatch } from 'redux'
-import { EntityType } from 'types/entities'
 import {
   GetEntitiesAction,
   ChangeEntitiesTypeAction,
@@ -28,6 +27,10 @@ import { SchemaGitUrl } from 'constants/chains'
 import { ApiListedEntity } from 'api/blocksync/types/entities'
 import Axios from 'axios'
 import { getHeadlineClaimInfo } from 'utils/claims'
+import { EntityList, GetEntityIidDocument } from 'lib/protocol'
+import { toTitleCase } from 'utils/formatters'
+import { extractLinkedResource } from 'utils/entities'
+import { IidDocument } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/iid'
 
 export const getEntities =
   () =>
@@ -107,6 +110,35 @@ export const getEntities =
     }) as any
   }
 
+export const getEntities1 =
+  () =>
+  (dispatch: Dispatch): GetEntitiesAction => {
+    return dispatch({
+      type: EntitiesExplorerActions.GetEntities,
+      payload: EntityList({}).then(({ entities }) => {
+        return entities.map((entity) => {
+          const { id, type, status, startDate, endDate, relayerNode } = entity
+
+          GetEntityIidDocument({ id }).then((iidDocument: IidDocument) => {
+            const { linkedResource } = iidDocument
+            extractLinkedResource(linkedResource).then((response) => {
+              console.log({ id, linkedResource, response })
+            })
+          })
+
+          return {
+            did: id,
+            type: toTitleCase(type),
+            status,
+            startDate,
+            endDate,
+            relayerNode,
+          }
+        })
+      }),
+    })
+  }
+
 export const getEntityConfig =
   () =>
   (dispatch: Dispatch): GetEntityConfigAction => {
@@ -116,7 +148,7 @@ export const getEntityConfig =
     })
   }
 
-export const changeEntitiesType = (type: EntityType): ChangeEntitiesTypeAction => ({
+export const changeEntitiesType = (type: string): ChangeEntitiesTypeAction => ({
   type: EntitiesExplorerActions.ChangeEntitiesType,
   payload: {
     type,

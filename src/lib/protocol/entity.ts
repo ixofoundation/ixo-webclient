@@ -1,10 +1,12 @@
 import { createQueryClient, ixo, SigningStargateClient, customMessages } from '@ixo/impactxclient-sdk'
 import {
+  QueryEntityIidDocumentRequest,
   QueryEntityListRequest,
   QueryEntityListResponse,
   QueryEntityRequest,
   QueryEntityResponse,
 } from '@ixo/impactxclient-sdk/types/codegen/ixo/entity/v1beta1/query'
+import { IidDocument } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/iid'
 import {
   AccordedRight,
   LinkedEntity,
@@ -120,13 +122,13 @@ export const CreateEntity = async (
 //   return response
 // }
 
-export const EntityList = async (request: QueryEntityListRequest): Promise<QueryEntityListResponse | undefined> => {
+export const EntityList = async (request: QueryEntityListRequest): Promise<QueryEntityListResponse> => {
   try {
     const client = await createQueryClient(RPC_ENDPOINT!)
     const res: QueryEntityListResponse = await client.ixo.entity.v1beta1.entityList(request)
     return res
   } catch (e) {
-    return undefined
+    throw new Error(JSON.stringify(e))
   }
 }
 
@@ -145,5 +147,23 @@ export const GetEntity = async (request: QueryEntityRequest): Promise<QueryEntit
     return res
   } catch (e) {
     return undefined
+  }
+}
+
+/**
+ * 
+ * @param request 
+ *  export interface QueryEntityRequest {
+      id: string;
+    }
+ * @returns 
+ */
+export const GetEntityIidDocument = async (request: QueryEntityIidDocumentRequest): Promise<IidDocument> => {
+  try {
+    const client = await createQueryClient(RPC_ENDPOINT!)
+    const { iidDocument } = await client.ixo.entity.v1beta1.entityIidDocument(request)
+    return iidDocument!
+  } catch (e) {
+    throw new Error(JSON.stringify(e))
   }
 }

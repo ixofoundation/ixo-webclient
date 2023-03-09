@@ -127,7 +127,7 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
               return {
                 title,
                 did,
-                dateCreated: dateCreated.format('DD-MMM-YYYY'),
+                dateCreated: dateCreated!.format('DD-MMM-YYYY'),
                 imageUrl: null,
                 previewUrl: '',
                 ddoTags,

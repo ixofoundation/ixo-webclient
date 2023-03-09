@@ -6,6 +6,8 @@ import { AgentRole } from 'redux/account/account.types'
 import { DDOTagCategory } from 'redux/entitiesExplorer/entitiesExplorer.types'
 import { PageContent } from 'redux/selectedEntity/selectedEntity.types'
 import { ApiListedEntityData } from 'api/blocksync/types/entities'
+import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
+import { cellNodeChainMapping, chainNetwork } from 'hooks/configs'
 
 export const getCountryCoordinates = (countryCodes: string[]): any[] => {
   const coordinates: any[] = []
@@ -64,7 +66,7 @@ export const getDefaultSelectedViewCategory = (entityConfig: any): any => {
 }
 
 export const getInitialSelectedCategories = (entityConfig: any): DDOTagCategory[] => {
-  return entityConfig.filterSchema.ddoTags.map((ddoCategory: any) => ({
+  return entityConfig?.filterSchema.ddoTags.map((ddoCategory: any) => ({
     name: ddoCategory.name,
     tags: ddoCategory.selectedTags && ddoCategory.selectedTags.length ? [...ddoCategory.selectedTags] : [],
   }))
@@ -202,4 +204,48 @@ export const getBondDidFromApiListedEntityData = async (data: ApiListedEntityDat
 
     return bondToShow?.bond_did ?? undefined
   })
+}
+
+export const extractLinkedResource = async (linkedResource: LinkedResource[]): Promise<any[]> => {
+  return Promise.all(
+    linkedResource.map(async (item: LinkedResource) => {
+      const { id, serviceEndpoint } = item
+      switch (id) {
+        case '{id}#profile':
+          return fetch(serviceEndpoint)
+            .then((response) => response.json())
+            .then((profile) => ({ ...profile, id: 'profile' }))
+        case '{id}#creator': {
+          const [, ...paths] = serviceEndpoint.split('/')
+          return fetch([cellNodeChainMapping[chainNetwork], ...paths].join('/'))
+            .then((response) => response.json())
+            .then((response) => response.credentialSubject)
+            .then((credentialSubject) => ({ ...credentialSubject, id: 'creator' }))
+        }
+        case '{id}#administrator': {
+          const [, ...paths] = serviceEndpoint.split('/')
+          return fetch([cellNodeChainMapping[chainNetwork], ...paths].join('/'))
+            .then((response) => response.json())
+            .then((response) => response.credentialSubject)
+            .then((credentialSubject) => ({ ...credentialSubject, id: 'administrator' }))
+        }
+        case '{id}#page': {
+          const [, ...paths] = serviceEndpoint.split('/')
+          fetch([cellNodeChainMapping[chainNetwork], ...paths].join('/'))
+            .then((response) => response.json())
+            .then((page) => ({ ...page, id: 'page' }))
+          break
+        }
+        case '{id}#tags': {
+          const [, ...paths] = serviceEndpoint.split('/')
+          fetch([cellNodeChainMapping[chainNetwork], ...paths].join('/'))
+            .then((response) => response.json())
+            .then((ddoTags) => ({ ...ddoTags, id: 'tags' }))
+          break
+        }
+        default:
+          break
+      }
+    }),
+  )
 }

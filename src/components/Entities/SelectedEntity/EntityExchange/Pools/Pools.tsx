@@ -47,7 +47,7 @@ const Pools: React.FunctionComponent = () => {
     const filtered = entities
       .filter((entity) => entity.type === EntityType.Asset)
       .filter((entity) =>
-        entity.ddoTags.some(
+        entity.ddoTags!.some(
           (entityCategory) => entityCategory.name === 'Asset Type' && entityCategory.tags.includes('Pool'),
         ),
       )
@@ -93,11 +93,11 @@ const Pools: React.FunctionComponent = () => {
             <div className='col-lg-3 col-md-4 col-sm-6 col-12' key={i}>
               <DataCard
                 did={airdrop.did}
-                name={airdrop.name}
-                logo={airdrop.logo}
-                image={airdrop.image}
-                sdgs={airdrop.sdgs}
-                description={airdrop.description}
+                name={airdrop.name!}
+                logo={airdrop.logo!}
+                image={airdrop.image!}
+                sdgs={airdrop.sdgs!}
+                description={airdrop.description!}
                 badges={[]}
                 version={''}
                 termsType={TermsOfUseType.PayPerUse}
