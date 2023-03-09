@@ -140,13 +140,13 @@ export const EntityList = async (request: QueryEntityListRequest): Promise<Query
     }
  * @returns 
  */
-export const GetEntity = async (request: QueryEntityRequest): Promise<QueryEntityResponse | undefined> => {
+export const GetEntity = async (request: QueryEntityRequest): Promise<QueryEntityResponse> => {
   try {
     const client = await createQueryClient(RPC_ENDPOINT!)
     const res: QueryEntityResponse = await client.ixo.entity.v1beta1.entity(request)
     return res
   } catch (e) {
-    return undefined
+    throw new Error(JSON.stringify(e))
   }
 }
 

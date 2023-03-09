@@ -44,7 +44,7 @@ export default function useCurrentEntity(): {
   updateEntityAdministrator: (administrator: TEntityAdministratorModel) => void
   updateEntityPage: (page: TEntityPageModel) => void
   updateEntityTags: (tags: TEntityDDOTagModel[]) => void
-  getEntityByDid: (did: string) => void
+  getEntityByDid: (did: string) => Promise<boolean>
 } {
   const dispatch = useAppDispatch()
   const entityType: string = useAppSelector(selectEntityType)!
@@ -76,60 +76,61 @@ export default function useCurrentEntity(): {
     dispatch(updateEntityTagsAction(tags))
   }
 
-  const getEntityByDid = (did: string) => {
-    GetEntity({ id: did }).then((response: QueryEntityResponse | undefined) => {
+  const getEntityByDid = async (did: string): Promise<boolean> => {
+    return await GetEntity({ id: did }).then((response: QueryEntityResponse) => {
       try {
-        if (response) {
-          console.log('getEntityByDid', response)
-          const { entity, iidDocument } = response
-          if (entity && iidDocument) {
-            const { type, id: did, status, relayerNode, credentials, entityVerified, metadata } = entity
-
-            const {
-              context,
-              controller,
-              service,
-              verificationMethod,
-              authentication,
-              assertionMethod,
-              keyAgreement,
-              capabilityInvocation,
-              capabilityDelegation,
-              linkedResource,
-              linkedClaim,
-              accordedRight,
-              linkedEntity,
-              alsoKnownAs,
-            } = iidDocument
-
-            const data: CurrentEntity = {
-              did,
-              type,
-              status,
-              relayerNode,
-              credentials,
-              entityVerified,
-              metadata,
-              context,
-              controller,
-              service,
-              verificationMethod,
-              authentication,
-              assertionMethod,
-              keyAgreement,
-              capabilityInvocation,
-              capabilityDelegation,
-              linkedResource,
-              linkedClaim,
-              accordedRight,
-              linkedEntity,
-              alsoKnownAs,
-            }
-            updateEntity(data)
-          }
+        console.log('getEntityByDid', response)
+        const { entity, iidDocument } = response
+        if (!entity || !iidDocument) {
+          throw new Error('Incorrect response type')
         }
+        const { type, id: did, status, relayerNode, credentials, entityVerified, metadata } = entity
+
+        const {
+          context,
+          controller,
+          service,
+          verificationMethod,
+          authentication,
+          assertionMethod,
+          keyAgreement,
+          capabilityInvocation,
+          capabilityDelegation,
+          linkedResource,
+          linkedClaim,
+          accordedRight,
+          linkedEntity,
+          alsoKnownAs,
+        } = iidDocument
+
+        const data: CurrentEntity = {
+          did,
+          type,
+          status,
+          relayerNode,
+          credentials,
+          entityVerified,
+          metadata,
+          context,
+          controller,
+          service,
+          verificationMethod,
+          authentication,
+          assertionMethod,
+          keyAgreement,
+          capabilityInvocation,
+          capabilityDelegation,
+          linkedResource,
+          linkedClaim,
+          accordedRight,
+          linkedEntity,
+          alsoKnownAs,
+        }
+        updateEntity(data)
+        return true
       } catch (e) {
         console.error('getEntityByDid', e)
+        throw new Error(JSON.stringify(e))
       }
     })
   }

@@ -1,7 +1,9 @@
 import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
+import { Spinner } from 'components/Spinner/Spinner'
 import { cellNodeChainMapping, chainNetwork } from 'hooks/configs'
 import useCurrentEntity from 'hooks/useCurrentEntity'
-import React, { useEffect } from 'react'
+import NotFound from 'pages/Error/NotFound'
+import React, { useEffect, useState } from 'react'
 import { Redirect, Route, Switch, useParams } from 'react-router-dom'
 import { validateEntityDid } from 'utils/validation'
 import DashboardPage from './Dashboard/Dashboard'
@@ -19,12 +21,14 @@ const CurrentEntityPage: React.FC = (): JSX.Element | null => {
     updateEntityPage,
     updateEntityTags,
   } = useCurrentEntity()
+  const [fetchingError, setFetchingError] = useState('')
 
   console.log('entityType', entityType)
 
   useEffect(() => {
     if (validateEntityDid(entityId)) {
-      getEntityByDid(entityId)
+      setFetchingError('')
+      getEntityByDid(entityId).catch(setFetchingError)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [entityId])
@@ -89,7 +93,10 @@ const CurrentEntityPage: React.FC = (): JSX.Element | null => {
   }, [linkedResource])
 
   if (!entityType) {
-    return <>Loading...</>
+    if (!fetchingError) {
+      return <Spinner info='Loading Entity...' />
+    }
+    return <NotFound />
   }
 
   return (
