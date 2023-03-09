@@ -9,7 +9,14 @@ import { SetupLinkedEntity } from './SetupLinkedEntity'
 import { SetupService } from './SetupService'
 import { FlexBox } from 'components/App/App.styles'
 
-const Properties = ['Services', 'Settings', 'Linked Resources', 'Claims', 'Accorded Rights', 'Linked Entities']
+const Properties = [
+  // 'Services',
+  'Settings',
+  'Linked Resources',
+  'Claims',
+  'Accorded Rights',
+  'Linked Entities',
+]
 
 interface Props {
   entityType: string
@@ -38,10 +45,10 @@ const PropertiesForm: React.FC<Props> = ({ entityType }): JSX.Element => {
         <Typography variant='secondary' size='xl'>
           Configure the properties
         </Typography>
-        <FlexBox gap={2}>
+        <FlexBox gap={2} flexWrap='wrap'>
           {activeProperties.map((key) => (
             <Badge key={key} active={key === propertyView} onClick={(): void => setPropertyView(key)}>
-              <Typography size='lg' weight='medium' color='white'>
+              <Typography size='lg' weight='medium' color='white' noWrap>
                 {key}
               </Typography>
             </Badge>

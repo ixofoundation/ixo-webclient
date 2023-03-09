@@ -172,7 +172,7 @@ const SetupSettings: React.FC = (): JSX.Element => {
                 key={key}
                 icon={<value.icon />}
                 required={value.required}
-                set={Array.isArray(value.data) ? value.data.length > 0 : !!value.data}
+                set={Array.isArray(value.data) ? value.data.length > 0 : Object.keys(value.data ?? {}).length > 0}
                 label={value.text}
                 handleRemove={(): void => handleRemoveEntitySetting(key)}
                 handleClick={(): void => handleOpenEntitySettingModal(key, true)}

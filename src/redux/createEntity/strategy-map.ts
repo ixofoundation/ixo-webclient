@@ -20,6 +20,7 @@ import {
   SelectCreationProcess as SelectDAOCreationProcess,
   SetupMetadata as SetupDAOMetadata,
   SetupDAOGroups,
+  SetupProperties as SetupDAOProperties,
   ReviewDAO,
 } from 'pages/CreateEntity/CreateDAO/Pages'
 import {
@@ -219,7 +220,7 @@ export const CreateEntityStrategyMap: TCreateEntityStrategyMap = {
       [`4`]: {
         id: 4,
         name: 'Configure the DAO Settings',
-        component: SetupProperties,
+        component: SetupDAOProperties,
         url: '/create/entity/dao/setup-properties',
         prevStep: 3,
         nextStep: 5,

@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { useCallback, useMemo } from 'react'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import {
   TEntityMetadataModel,
@@ -132,6 +132,7 @@ interface TCreateEntityStateHookRes {
   daoGroups: { [id: string]: TDAOGroupModel }
   daoController: string
   deed: TDeedModel
+  validateRequiredProperties: boolean
   updateEntityType: (entityType: string) => void
   gotoStep: (type: 1 | -1) => void
   gotoStepByNo: (no: number) => void
@@ -190,6 +191,9 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
   const daoController: string = useAppSelector(selectCreateEntityDAOController)
   // for Deed
   const deed: TDeedModel = useAppSelector(selectCreateEntityDeed)
+  const validateRequiredProperties = useMemo(() => {
+    return !!creator && !!administrator && Object.keys(page ?? {}).length > 0 && service?.length > 0
+  }, [creator, administrator, page, service])
 
   const updateEntityType = (entityType: string): void => {
     dispatch(updateEntityTypeAction(entityType))
@@ -315,6 +319,7 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
     daoGroups,
     daoController,
     deed,
+    validateRequiredProperties,
     updateEntityType,
     gotoStep,
     gotoStepByNo,
