@@ -15,12 +15,9 @@ import { getMinimalAmount } from 'utils/currency'
 import { broadCastMessage } from 'lib/keysafe/keysafe'
 import { selectGovernanceProposals, selectVotingPeriodProposals } from 'redux/entityEconomy/entityEconomy.selectors'
 import { DashboardThemeContext } from 'components/Dashboard/Dashboard'
-import { useHistory, useParams } from 'react-router-dom'
 
 const EconomyGovernance: React.FunctionComponent = () => {
-  const { entityId } = useParams<{ entityId: string }>()
   const { isDark } = useContext(DashboardThemeContext)
-  const history = useHistory()
   const dispatch = useAppDispatch()
   const governanceProposals = useAppSelector(selectGovernanceProposals)
   const votingPeriodProposals = useAppSelector(selectVotingPeriodProposals)
