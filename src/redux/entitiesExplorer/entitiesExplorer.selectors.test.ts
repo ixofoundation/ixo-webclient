@@ -19,6 +19,7 @@ describe('EntitiesExplorer Selectors', () => {
           ledgered: true,
           hasKYC: false,
         },
+        did: 'someCreatorDid1',
         address: 'abc1234',
         accountNumber: null,
         sequence: null,
@@ -173,7 +174,7 @@ describe('EntitiesExplorer Selectors', () => {
             badges: ['somebadge'],
           },
           {
-            did: 'someDid4',
+            did: 'someDid5',
             type: EntityType.Template,
             creatorDid: 'someCreatorDid4',
             title: 'someTitle4',
@@ -365,7 +366,7 @@ describe('EntitiesExplorer Selectors', () => {
 
       // then ... should return result as expected
       expect(result.length).toEqual(1)
-      expect(result[0].did).toEqual('someDid4')
+      expect(result[0].did).toEqual('someDid5')
     })
   })
 
