@@ -6,10 +6,10 @@ const CreateDeed: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): JS
   const { entityId } = useParams<{ entityId: string }>()
   const { getStrategyByEntityType } = useCreateEntityStrategy()
   const { updateBreadCrumbs, updateEntityType, updateTitle, updateSubtitle } = useCreateEntityState()
-  const isSetupInfoRoute = useRouteMatch('/create/entity/:entityId/deed/info')
-  const isSetupPageRoute = useRouteMatch('/create/entity/:entityId/deed/setup-page')
-  const isSetupPropertiesRoute = useRouteMatch('/create/entity/:entityId/deed/setup-properties')
-  const isSetupActionsRoute = useRouteMatch('/create/entity/:entityId/deed/setup-actions')
+  const isSetupInfoRoute = useRouteMatch('/create/entity/:entityId/deed/:coreAddress/info')
+  const isSetupPageRoute = useRouteMatch('/create/entity/:entityId/deed/:coreAddress/setup-page')
+  const isSetupPropertiesRoute = useRouteMatch('/create/entity/:entityId/deed/:coreAddress/setup-properties')
+  const isSetupActionsRoute = useRouteMatch('/create/entity/:entityId/deed/:coreAddress/setup-actions')
   const { steps } = getStrategyByEntityType('Deed')
 
   useEffect(() => {

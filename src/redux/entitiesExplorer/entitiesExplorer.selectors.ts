@@ -1,4 +1,4 @@
-import moment, { Moment } from 'moment'
+import { Moment } from 'moment'
 import { createSelector } from '@reduxjs/toolkit'
 import { ExplorerEntity, EntitiesExplorerState, Filter, DDOTagCategory } from './entitiesExplorer.types'
 import { EntityType, EntityConfig } from 'types/entities'
@@ -27,7 +27,10 @@ export const selectAllTemplateEntities = createSelector(
       ? entitiesState.entities
           .filter((entity) => entity.type === EntityType.Template)
           .sort((a, b) => {
-            return (b.dateCreated ?? moment()).unix() - (a.dateCreated ?? moment()).unix()
+            if (b?.dateCreated && a?.dateCreated) {
+              return b.dateCreated.unix() - a.dateCreated.unix()
+            }
+            return 0
           })
       : null!
   },
@@ -63,12 +66,13 @@ export const selectSelectedEntitiesType = createSelector(
 export const selectedFilteredEntities = createSelector(
   selectAllEntitiesByType,
   selectEntitiesFilter,
-  accountSelectors.selectUserDid,
+  accountSelectors.selectAccountDid,
   (entities: ExplorerEntity[], filter: Filter, userDid: string): ExplorerEntity[] => {
     // all entities
     let entitiesToFilter = entities && entities.length ? entities : []
 
-    entitiesToFilter = entitiesToFilter.filter((entity) => entity.status === 'STARTED' || entity.creatorDid === userDid)
+    // entitiesToFilter = entitiesToFilter.filter((entity) => entity.status === 'STARTED' || entity.creatorDid === userDid)
+    entitiesToFilter = entitiesToFilter.filter((entity) => entity.status === 0 || entity.creatorDid === userDid)
 
     // filter by current user's entities
     if (filter.userEntities) {
@@ -83,8 +87,8 @@ export const selectedFilteredEntities = createSelector(
     if (filter.dateFrom && filter.dateTo) {
       entitiesToFilter = entitiesToFilter.filter(
         (entity) =>
-          (entity.dateCreated ?? moment()).startOf('day') >= filter.dateFrom &&
-          (entity.dateCreated ?? moment()).startOf('day') <= filter.dateTo,
+          !entity.dateCreated ||
+          (entity.dateCreated.startOf('day') >= filter.dateFrom && entity.dateCreated.startOf('day') <= filter.dateTo),
       )
     }
 
@@ -133,7 +137,10 @@ export const selectedFilteredEntities = createSelector(
 
     // sort the result
     entitiesToFilter = entitiesToFilter.sort((a, b) => {
-      return (b.dateCreated ?? moment()).unix() - (a.dateCreated ?? moment()).unix()
+      if (b.dateCreated && a.dateCreated) {
+        return b.dateCreated!.unix() - a.dateCreated!.unix()
+      }
+      return 0
     })
 
     return entitiesToFilter

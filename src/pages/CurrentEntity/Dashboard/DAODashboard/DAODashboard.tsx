@@ -16,9 +16,9 @@ const DAODashboard: React.FC = (): JSX.Element => {
   const { entityId } = useParams<{ entityId: string }>()
   const { address, cosmWasmClient } = useAccount()
   const isIndividualMemberRoute = useRouteMatch('/entity/:entityId/dashboard/overview/:groupId/:address')
-  const { entityType, linkedEntity } = useCurrentEntity()
+  const { entityType, linkedEntity, profile } = useCurrentEntity()
   const { updateGroup } = useCurrentDao()
-  const name = 'EducationDAO' //  TODO: from redux
+  const name = profile?.name //  TODO: from redux
 
   const routes = [
     {
@@ -38,7 +38,7 @@ const DAODashboard: React.FC = (): JSX.Element => {
 
   const breadcrumbs = [
     {
-      url: `/`,
+      url: `/explore`,
       icon: '',
       sdg: 'Explore DAOs',
       tooltip: '',
@@ -101,6 +101,10 @@ const DAODashboard: React.FC = (): JSX.Element => {
             const { proposals } = await daoProposalSingleClient.listProposals({})
             // const votes = await daoProposalSingleClient.listVotes({})
             proposalModule.proposals = proposals
+            const {
+              module: { addr: preProposalContractAddress },
+            } = (await daoProposalSingleClient.proposalCreationPolicy()) as { module: { addr: string } }
+            proposalModule.preProposalContractAddress = preProposalContractAddress
 
             // votingModule
             const votingModule: any = {}

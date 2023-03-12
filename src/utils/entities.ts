@@ -207,45 +207,56 @@ export const getBondDidFromApiListedEntityData = async (data: ApiListedEntityDat
 }
 
 export const extractLinkedResource = async (linkedResource: LinkedResource[]): Promise<any[]> => {
-  return Promise.all(
-    linkedResource.map(async (item: LinkedResource) => {
-      const { id, serviceEndpoint } = item
-      switch (id) {
-        case '{id}#profile':
-          return fetch(serviceEndpoint)
-            .then((response) => response.json())
-            .then((profile) => ({ ...profile, id: 'profile' }))
-        case '{id}#creator': {
-          const [, ...paths] = serviceEndpoint.split('/')
-          return fetch([cellNodeChainMapping[chainNetwork], ...paths].join('/'))
-            .then((response) => response.json())
-            .then((response) => response.credentialSubject)
-            .then((credentialSubject) => ({ ...credentialSubject, id: 'creator' }))
+  return (
+    await Promise.all(
+      linkedResource.map(async (item: LinkedResource) => {
+        try {
+          const { id, serviceEndpoint } = item
+          switch (id) {
+            case '{id}#profile': {
+              return fetch(serviceEndpoint)
+                .then((response) => response.json())
+                .then((profile) => ({ profile }))
+                .catch(() => undefined)
+            }
+            case '{id}#creator': {
+              const [, ...paths] = serviceEndpoint.split('/')
+              return fetch([cellNodeChainMapping[chainNetwork], ...paths].join('/'))
+                .then((response) => response.json())
+                .then((response) => response.credentialSubject)
+                .then((credentialSubject) => ({ creator: credentialSubject }))
+                .catch(() => undefined)
+            }
+            case '{id}#administrator': {
+              const [, ...paths] = serviceEndpoint.split('/')
+              return fetch([cellNodeChainMapping[chainNetwork], ...paths].join('/'))
+                .then((response) => response.json())
+                .then((response) => response.credentialSubject)
+                .then((credentialSubject) => ({ administrator: credentialSubject }))
+                .catch(() => undefined)
+            }
+            case '{id}#page': {
+              const [, ...paths] = serviceEndpoint.split('/')
+              return fetch([cellNodeChainMapping[chainNetwork], ...paths].join('/'))
+                .then((response) => response.json())
+                .then((page) => ({ page }))
+                .catch(() => undefined)
+            }
+            case '{id}#tags': {
+              const [, ...paths] = serviceEndpoint.split('/')
+              return fetch([cellNodeChainMapping[chainNetwork], ...paths].join('/'))
+                .then((response) => response.json())
+                .then((ddoTags) => ({ ddoTags }))
+                .catch(() => undefined)
+            }
+            default:
+              return undefined
+          }
+        } catch (e) {
+          console.error('extractLinkedResource', e)
+          return undefined
         }
-        case '{id}#administrator': {
-          const [, ...paths] = serviceEndpoint.split('/')
-          return fetch([cellNodeChainMapping[chainNetwork], ...paths].join('/'))
-            .then((response) => response.json())
-            .then((response) => response.credentialSubject)
-            .then((credentialSubject) => ({ ...credentialSubject, id: 'administrator' }))
-        }
-        case '{id}#page': {
-          const [, ...paths] = serviceEndpoint.split('/')
-          fetch([cellNodeChainMapping[chainNetwork], ...paths].join('/'))
-            .then((response) => response.json())
-            .then((page) => ({ ...page, id: 'page' }))
-          break
-        }
-        case '{id}#tags': {
-          const [, ...paths] = serviceEndpoint.split('/')
-          fetch([cellNodeChainMapping[chainNetwork], ...paths].join('/'))
-            .then((response) => response.json())
-            .then((ddoTags) => ({ ...ddoTags, id: 'tags' }))
-          break
-        }
-        default:
-          break
-      }
-    }),
-  )
+      }),
+    )
+  ).filter(Boolean)
 }

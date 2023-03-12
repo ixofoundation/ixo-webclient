@@ -1,3 +1,5 @@
+import { StdFee } from '@cosmjs/amino'
+
 export const RPC_ENDPOINT = process.env.REACT_APP_RPC_URL
 
 export type KeyTypes = 'ed' | 'secp'
@@ -9,7 +11,7 @@ export interface TSigner {
   keyType: KeyTypes
 }
 
-export const fee: any = {
+export const fee: StdFee = {
   amount: [
     {
       denom: 'uixo',

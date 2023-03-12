@@ -29,31 +29,31 @@ const FundingClaims: React.FC<Props> = ({ daoId, groupIds }): JSX.Element => {
           <FlexBox alignItems='center' gap={5}>
             <StatusBox color={theme.approved} />
             <Typography size='md'>
-              <Typography weight='bold'>{claimStatus.approveds}</Typography> claims approved
+              <Typography weight='bold'>{claimStatus.approveds?.toLocaleString()}</Typography> claims approved
             </Typography>
           </FlexBox>
           <FlexBox alignItems='center' gap={5}>
             <StatusBox color={theme.pending} />
             <Typography size='md'>
-              <Typography weight='bold'>{claimStatus.pendings}</Typography> claims pending approval
+              <Typography weight='bold'>{claimStatus.pendings?.toLocaleString()}</Typography> claims pending approval
             </Typography>
           </FlexBox>
           <FlexBox alignItems='center' gap={5}>
             <StatusBox color={theme.rejected} />
             <Typography size='md'>
-              <Typography weight='bold'>{claimStatus.rejecteds}</Typography> claims rejected
+              <Typography weight='bold'>{claimStatus.rejecteds?.toLocaleString()}</Typography> claims rejected
             </Typography>
           </FlexBox>
           <FlexBox alignItems='center' gap={5}>
             <StatusBox color={theme.disputed} />
             <Typography size='md'>
-              <Typography weight='bold'>{claimStatus.disputeds}</Typography> claims disputed
+              <Typography weight='bold'>{claimStatus.disputeds?.toLocaleString()}</Typography> claims disputed
             </Typography>
           </FlexBox>
           <FlexBox alignItems='center' gap={5}>
             <StatusBox color={theme.remained} />
             <Typography size='md'>
-              <Typography weight='bold'>{claimStatus.remainings}</Typography> claims remaining
+              <Typography weight='bold'>{claimStatus.remainings?.toLocaleString()}</Typography> claims remaining
             </Typography>
           </FlexBox>
 
@@ -68,13 +68,14 @@ const FundingClaims: React.FC<Props> = ({ daoId, groupIds }): JSX.Element => {
 
           <FlexBox ml={8}>
             <Typography size='md'>
-              <Typography weight='bold'>{outcomeContractStatus.actives}</Typography> Active Contracts
+              <Typography weight='bold'>{outcomeContractStatus.actives?.toLocaleString()}</Typography> Active Contracts
             </Typography>
           </FlexBox>
 
           <FlexBox ml={8}>
             <Typography size='md'>
-              <Typography weight='bold'>{outcomeContractStatus.completeds}</Typography> Completed Contracts
+              <Typography weight='bold'>{outcomeContractStatus.completeds?.toLocaleString()}</Typography> Completed
+              Contracts
             </Typography>
           </FlexBox>
         </FlexBox>
@@ -113,7 +114,7 @@ const FundingClaims: React.FC<Props> = ({ daoId, groupIds }): JSX.Element => {
             <FlexBox direction='column' alignItems='center' gap={1}>
               <Typography size='sm'>payments awarded for</Typography>
               <Typography size='sm' weight='bold'>
-                {outcomeContractStatus.actives} Contracts
+                {outcomeContractStatus.actives?.toLocaleString()} Contracts
               </Typography>
             </FlexBox>
           }

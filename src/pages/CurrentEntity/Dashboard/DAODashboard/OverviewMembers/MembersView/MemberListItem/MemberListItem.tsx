@@ -103,7 +103,11 @@ const MemberListItem: React.FC<Props> = ({ member }): JSX.Element => {
       </TableBodyItem>
       <TableBodyItem>
         <Typography color='white' size='lg' weight='medium'>
-          {(votingPower ?? 0) * 100} %
+          {new Intl.NumberFormat('en-us', {
+            style: 'percent',
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 2,
+          }).format(votingPower ?? 0)}
         </Typography>
       </TableBodyItem>
       <TableBodyItem>

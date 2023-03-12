@@ -14,8 +14,6 @@ export const initialState: TCreateEntityState = {
   accordedRight: {},
   linkedEntity: {},
 
-  entityClassDid: undefined,
-
   // for DAO
   daoGroups: {},
   daoController: '',
@@ -36,70 +34,100 @@ export const initialState: TCreateEntityState = {
 } as any
 
 export const reducer = (state = initialState, action: TCreateEntityActionTypes): TCreateEntityState => {
+  let updatedState
   switch (action.type) {
-    case ECreateEntityActions.UpdateEntityType:
-      return { ...state, entityType: action.payload }
+    case ECreateEntityActions.UpdateEntityType: {
+      const entityType = action.payload
+      const ls = localStorage.getItem(`ixo.create.entity.${entityType}`)
+      const savedState = JSON.parse(ls!)
+
+      return { ...state, entityType: action.payload, ...savedState }
+    }
     case ECreateEntityActions.GotoStep:
-      return { ...state, stepNo: action.payload }
+      updatedState = { ...state, stepNo: action.payload }
+      break
     case ECreateEntityActions.UpdateBreadCrumbs:
-      return { ...state, breadCrumbs: action.payload }
+      updatedState = { ...state, breadCrumbs: action.payload }
+      break
+    case ECreateEntityActions.UpdateLocalisation:
+      updatedState = { ...state, localisation: action.payload }
+      break
     case ECreateEntityActions.UpdateTitle:
-      return { ...state, title: action.payload }
+      updatedState = { ...state, title: action.payload }
+      break
     case ECreateEntityActions.UpdateSubtitle:
-      return { ...state, subtitle: action.payload }
+      updatedState = { ...state, subtitle: action.payload }
+      break
     case ECreateEntityActions.UpdateMetadata:
-      return { ...state, metadata: action.payload }
+      updatedState = { ...state, metadata: action.payload }
+      break
     case ECreateEntityActions.UpdateCreator:
-      return { ...state, creator: action.payload }
+      updatedState = { ...state, creator: action.payload }
+      break
     case ECreateEntityActions.UpdateAdministrator:
-      return { ...state, administrator: action.payload }
+      updatedState = { ...state, administrator: action.payload }
+      break
     case ECreateEntityActions.UpdateDDOTags:
-      return { ...state, ddoTags: action.payload }
+      updatedState = { ...state, ddoTags: action.payload }
+      break
     case ECreateEntityActions.UpdatePage:
-      return { ...state, page: action.payload }
+      updatedState = { ...state, page: action.payload }
+      break
     case ECreateEntityActions.UpdateService:
-      return { ...state, service: action.payload }
+      updatedState = { ...state, service: action.payload }
+      break
     case ECreateEntityActions.UpdateClaim:
-      return { ...state, claim: action.payload }
+      updatedState = { ...state, claim: action.payload }
+      break
     case ECreateEntityActions.UpdateLinkedResource:
-      return { ...state, linkedResource: action.payload }
+      updatedState = { ...state, linkedResource: action.payload }
+      break
     case ECreateEntityActions.UpdateAccordedRight:
-      return { ...state, accordedRight: action.payload }
+      updatedState = { ...state, accordedRight: action.payload }
+      break
     case ECreateEntityActions.UpdateLinkedEntity:
-      return { ...state, linkedEntity: action.payload }
-    case ECreateEntityActions.UpdateEntityClassDid:
-      return { ...state, entityClassDid: action.payload }
-    case ECreateEntityActions.UpdateAssetClassDid:
-      return { ...state, assetClassDid: action.payload }
+      updatedState = { ...state, linkedEntity: action.payload }
+      break
+
+    // for Asset
     case ECreateEntityActions.AddAssetInstances:
-      return {
+      updatedState = {
         ...state,
         assetInstances: (state.assetInstances ?? []).concat(action.payload),
       }
+      break
     case ECreateEntityActions.UpdateAssetInstance:
-      return {
+      updatedState = {
         ...state,
         assetInstances: [...(state.assetInstances as any)].map((instance, index) =>
           index === action.payload.id ? action.payload.data : instance,
         ),
       }
+      break
     case ECreateEntityActions.RemoveAssetInstances:
-      return { ...state, assetInstances: [] }
-    case ECreateEntityActions.UpdateLocalisation:
-      return { ...state, localisation: action.payload }
+      updatedState = { ...state, assetInstances: [] }
+      break
+
     // for DAO
     case ECreateEntityActions.UpdateDAOGroups:
-      return { ...state, daoGroups: action.payload }
+      updatedState = { ...state, daoGroups: action.payload }
+      break
     case ECreateEntityActions.UpdateDAOController:
-      return { ...state, daoController: action.payload }
+      updatedState = { ...state, daoController: action.payload }
+      break
 
     // for Deed
     case ECreateEntityActions.UpdateDeed:
-      return { ...state, deed: action.payload }
+      updatedState = { ...state, deed: action.payload }
+      break
 
-    case ECreateEntityActions.Initialize:
-      return initialState
     default:
       return state
   }
+
+  if (state.entityType) {
+    localStorage.setItem(`ixo.create.entity.${state.entityType}`, JSON.stringify(updatedState))
+  }
+
+  return updatedState
 }

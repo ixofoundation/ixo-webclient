@@ -61,7 +61,7 @@ const SetupDAOAdminExecuteModal: React.FC<Props> = ({ open, action, onClose, onS
     makeUpdateVotingConfigAction,
     makeValidatorActions,
     makeWithdrawTokenSwapAction,
-  } = useMakeProposalAction()
+  } = useMakeProposalAction('groupAddress')
   const [formData, setFormData] = useState<DaoAdminExecData>(initialState)
   const validActions = (formData._actions ?? []).filter((item) => item.data)
   const daoAddress = 'ixo1xc798xnhp7yy9mpp80v3tsxppw8qk0y9atm965'
@@ -131,7 +131,7 @@ const SetupDAOAdminExecuteModal: React.FC<Props> = ({ open, action, onClose, onS
               return makeCustomAction(data)
             case 'Change Group Membership':
               // TODO:
-              return makeManageMembersAction('ixo12wgrrvmx5jx2mxhu6dvnfu3greamemnqfvx84a', data)
+              return makeManageMembersAction(data)
             case 'Manage Storage Items':
               return makeManageStorageItemsAction('ixo12wgrrvmx5jx2mxhu6dvnfu3greamemnqfvx84a', data)
             case 'Validator Actions':

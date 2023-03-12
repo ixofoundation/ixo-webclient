@@ -9,7 +9,7 @@ interface Props {
 const SDGIcons: React.FunctionComponent<Props> = ({ sdgs }) => {
   return (
     <SDGs>
-      {sdgs.map((sdg, index) => {
+      {sdgs?.map((sdg, index) => {
         const sdgInt = Math.floor(parseInt(sdg, 10))
         if (sdgInt > 0 && sdgInt <= SDGArray.length) {
           return <i key={index} className={`icon-sdg-${SDGArray[sdgInt - 1].ico}`} />

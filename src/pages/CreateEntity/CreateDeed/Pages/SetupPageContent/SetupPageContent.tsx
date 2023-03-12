@@ -4,15 +4,15 @@ import { useHistory, useParams } from 'react-router-dom'
 import { SetupPageContent as SetupPage } from '../../../Forms/PropertiesForm/SetupPageContent'
 
 const SetupPageContent: React.FC = () => {
-  const { entityId } = useParams<{ entityId: string }>()
+  const { entityId, coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
   const history = useHistory()
   const { page, entityType, updatePage } = useCreateEntityState()
 
   const handleBack = (): void => {
-    history.push(`/create/entity/${entityId}/deed/info`)
+    history.push(`/create/entity/${entityId}/deed/${coreAddress}/info`)
   }
   const handleNext = (): void => {
-    history.push(`/create/entity/${entityId}/deed/setup-properties`)
+    history.push(`/create/entity/${entityId}/deed/${coreAddress}/setup-properties`)
   }
 
   return (

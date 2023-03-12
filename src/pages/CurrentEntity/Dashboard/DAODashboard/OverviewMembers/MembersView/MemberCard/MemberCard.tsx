@@ -122,7 +122,11 @@ const MemberCard: React.FC<Props> = ({ member }): JSX.Element => {
             <ClaimIcon />
           </SvgBox>
           <Typography size='sm' color='white' weight='medium'>
-            {(votingPower ?? 0) * 100}%
+            {new Intl.NumberFormat('en-us', {
+              style: 'percent',
+              minimumFractionDigits: 0,
+              maximumFractionDigits: 2,
+            }).format(votingPower ?? 0)}
           </Typography>
         </FlexBox>
 

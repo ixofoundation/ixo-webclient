@@ -9,7 +9,7 @@ import { useCreateEntityState } from 'hooks/createEntity'
 import { useHistory, useParams } from 'react-router-dom'
 
 const SetupInfo: React.FC = (): JSX.Element => {
-  const { entityId } = useParams<{ entityId: string }>()
+  const { entityId, coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
   const history = useHistory()
   const { deed, updateDeed } = useCreateEntityState()
   const [name, setName] = useState('')
@@ -22,7 +22,7 @@ const SetupInfo: React.FC = (): JSX.Element => {
   const onContinue = () => {
     if (name && description) {
       updateDeed({ name, description })
-      history.push(`/create/entity/${entityId}/deed/setup-page`)
+      history.push(`/create/entity/${entityId}/deed/${coreAddress}/setup-page`)
     }
   }
 

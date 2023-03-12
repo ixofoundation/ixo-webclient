@@ -1,13 +1,14 @@
 import { FlexBox } from 'components/App/App.styles'
 import React, { useMemo, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 import { MembersView } from './MembersView'
 import { Toolbar } from './Toolbar'
 // import { useGetMembers } from 'hooks/dao'
 import useCurrentDao from 'hooks/useCurrentDao'
 
 const OverviewMembers: React.FC = (): JSX.Element | null => {
-  const { coreAddress } = useParams<{ coreAddress: string }>()
+  const history = useHistory()
+  const { entityId, coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
   const { getMembersByAddress } = useCurrentDao()
   const members = getMembersByAddress(coreAddress)
   const numOfMembers = members.length
@@ -36,8 +37,8 @@ const OverviewMembers: React.FC = (): JSX.Element | null => {
         switch (sortBy) {
           case 'name':
           default:
-            if (order === 'desc') return (b?.name as string).localeCompare(a?.name as string)
-            return (a?.name as string).localeCompare(b?.name as string)
+            if (order === 'desc') return String(b?.name || '').localeCompare(String(a?.name || ''))
+            return String(a?.name || '').localeCompare(String(b?.name || ''))
           case 'votingPower':
             if (order === 'desc') return b?.weight - a?.weight
             return a?.weight - b?.weight
@@ -54,8 +55,13 @@ const OverviewMembers: React.FC = (): JSX.Element | null => {
       })
   }, [filter, sort, members])
 
+  const handleNewProposal = () => {
+    history.push(`/create/entity/${entityId}/deed/${coreAddress}/info`)
+  }
+
   return (
     <FlexBox direction='column' gap={7.5}>
+      <button onClick={handleNewProposal}>New Proposal</button>
       <Toolbar
         status={filter.status}
         view={filter.view}

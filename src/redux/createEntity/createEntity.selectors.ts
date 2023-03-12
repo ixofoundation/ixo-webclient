@@ -94,16 +94,6 @@ export const selectCreateEntityLinkedEntity = createSelector(
   (createEntity: TCreateEntityState): { [id: string]: TEntityLinkedEntityModel } => createEntity.linkedEntity ?? {},
 )
 
-export const selectCreateEntityEntityClassDid = createSelector(
-  selectCreateEntity,
-  (createEntity: TCreateEntityState): string => createEntity.entityClassDid,
-)
-
-export const selectCreateEntityAssetClassDid = createSelector(
-  selectCreateEntity,
-  (createEntity: TCreateEntityState): string => createEntity.assetClassDid!,
-)
-
 export const selectCreateEntityAssetInstances = createSelector(
   selectCreateEntity,
   (createEntity: TCreateEntityState): TEntityModel[] => createEntity.assetInstances ?? [],

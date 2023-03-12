@@ -14,6 +14,7 @@ export type DaoGroup = {
   config: Config
   proposalModule: {
     proposalModuleAddress: string
+    preProposalContractAddress: string
     proposalModuleCount: ProposalModuleCountResponse
     proposals: ProposalResponse[]
   }

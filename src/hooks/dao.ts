@@ -123,6 +123,7 @@ const GET_TRANSACTIONS = gql`
 export function useGetTransactions(daoId: string, groupIds: string[]) {
   const { loading, error, data } = useQuery(GET_TRANSACTIONS, {
     variables: { daoId, groupIds },
+    pollInterval: 1000,
   })
   return { loading, error, data: data?.getTransactions ?? [] }
 }

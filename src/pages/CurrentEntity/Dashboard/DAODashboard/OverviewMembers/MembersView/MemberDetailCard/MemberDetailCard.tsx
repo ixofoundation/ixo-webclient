@@ -109,7 +109,11 @@ const MemberDetailCard: React.FC<Props> = ({ member, onClose }): JSX.Element => 
         <FlexBox width='100%' justifyContent='space-between' alignItems='center'>
           <Typography size='md'>Voting Power</Typography>
           <Typography size='md' weight='bold'>
-            {(votingPower ?? 0) * 100}%
+            {new Intl.NumberFormat('en-us', {
+              style: 'percent',
+              minimumFractionDigits: 0,
+              maximumFractionDigits: 2,
+            }).format(votingPower ?? 0)}
           </Typography>
         </FlexBox>
 

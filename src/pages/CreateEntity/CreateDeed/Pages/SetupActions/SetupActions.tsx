@@ -7,13 +7,20 @@ import React from 'react'
 import { TDeedActionModel } from 'types/protocol'
 import { useHistory, useParams } from 'react-router-dom'
 import { decodedMessagesString } from 'utils/messages'
-import { CosmosMsgFor_Empty } from 'types/dao'
 import { SetupActionsForm } from './SetupActionsForm'
 import { useMakeProposalAction } from 'hooks/proposal'
-import { WasmExecuteTrx } from 'lib/protocol/cosmwasm'
 import { useAccount } from 'hooks/account'
+import { contracts } from '@ixo/impactxclient-sdk'
+import { useCurrentDaoGroup } from 'hooks/useCurrentDao'
+import { CosmosMsgForEmpty } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
+import { fee } from 'lib/protocol/common'
+import * as Toast from 'utils/toast'
 
 const SetupActions: React.FC = () => {
+  const history = useHistory()
+  const { entityId, coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
+  const { deed, updateDeed } = useCreateEntityState()
+  const currentDaoGroup = useCurrentDaoGroup(coreAddress)
   const {
     makeAuthzAuthorizationAction,
     makeAuthzExecAction,
@@ -40,20 +47,19 @@ const SetupActions: React.FC = () => {
     makeUpdateVotingConfigAction,
     makeValidatorActions,
     makeWithdrawTokenSwapAction,
-  } = useMakeProposalAction()
-  const { signingClient, signer } = useAccount()
+  } = useMakeProposalAction(coreAddress)
+  const { address, cosmWasmClient } = useAccount()
 
-  const history = useHistory()
-  const { entityId } = useParams<{ entityId: string }>()
-  const { deed, updateDeed } = useCreateEntityState()
+  const name = deed?.name || ''
+  const description = deed?.description || ''
   const actions = deed?.actions ?? []
   const validActions = actions.filter((item) => item.data)
 
   const handleBack = () => {
-    history.push(`/create/entity/${entityId}/deed/setup-properties`)
+    history.push(`/create/entity/${entityId}/deed/${coreAddress}/setup-properties`)
   }
   const handleSubmit = async () => {
-    const wasmMessage: CosmosMsgFor_Empty[] = validActions
+    const wasmMessage: CosmosMsgForEmpty[] = validActions
       .map((validAction: TDeedActionModel) => {
         try {
           const { type, data } = validAction
@@ -103,8 +109,7 @@ const SetupActions: React.FC = () => {
             case 'Custom':
               return makeCustomAction(data)
             case 'Change Group Membership':
-              // TODO:
-              return makeManageMembersAction('ixo12wgrrvmx5jx2mxhu6dvnfu3greamemnqfvx84a', data)
+              return makeManageMembersAction(data)
             case 'Manage Storage Items':
               return makeManageStorageItemsAction('ixo12wgrrvmx5jx2mxhu6dvnfu3greamemnqfvx84a', data)
             case 'Validator Actions':
@@ -121,11 +126,24 @@ const SetupActions: React.FC = () => {
           return undefined
         }
       })
-      .filter(Boolean) as CosmosMsgFor_Empty[]
+      .filter(Boolean) as CosmosMsgForEmpty[]
 
-    console.log('wasmMessage', decodedMessagesString(wasmMessage), wasmMessage)
+    console.log('wasmMessage', decodedMessagesString(wasmMessage))
 
-    // const res = await WasmExecuteTrx(signingClient, signer, { msg: JSON.stringify(msg) })
+    const preProposalModuleAddress = currentDaoGroup.proposalModule.preProposalContractAddress
+    const daoProposalSingleClient = new contracts.DaoPreProposeSingle.DaoPreProposeSingleClient(
+      cosmWasmClient,
+      address,
+      preProposalModuleAddress,
+    )
+    daoProposalSingleClient
+      .propose({ msg: { propose: { description: description, msgs: wasmMessage, title: name } } }, fee)
+      .then(({ transactionHash }) => {
+        Toast.successToast(`Successfully published proposals`)
+      })
+      .catch((e) => {
+        Toast.errorToast(e)
+      })
   }
 
   return (

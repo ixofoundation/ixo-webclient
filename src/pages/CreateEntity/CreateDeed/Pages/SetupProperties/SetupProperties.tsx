@@ -7,17 +7,17 @@ import { PropertiesForm } from 'pages/CreateEntity/Forms'
 import { useHistory, useParams } from 'react-router-dom'
 
 const SetupProperties: React.FC = (): JSX.Element => {
-  const { entityId } = useParams<{ entityId: string }>()
+  const { entityId, coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
   const history = useHistory()
   const { entityType } = useCreateEntityState()
   const canSubmit = true
 
   const handleBack = () => {
-    history.push(`/create/entity/${entityId}/deed/setup-page`)
+    history.push(`/create/entity/${entityId}/deed/${coreAddress}/setup-page`)
   }
 
   const handleNext = () => {
-    history.push(`/create/entity/${entityId}/deed/setup-actions`)
+    history.push(`/create/entity/${entityId}/deed/${coreAddress}/setup-actions`)
   }
 
   return (

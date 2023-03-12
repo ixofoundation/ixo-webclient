@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { ProgressBar } from 'components/ProgressBar/ProgressBar'
-import { excerptText, thousandSeparator } from 'utils/formatters'
+import { excerptText } from 'utils/formatters'
 import {
   CardContainer,
   CardLink,
@@ -44,31 +44,12 @@ interface Props {
   ratingCount: number */
 }
 
-const DAOCard: React.FunctionComponent<Props> = ({
-  did,
-  name,
-  description,
-  image,
-  logo,
-  sdgs,
-  requiredClaimsCount,
-  pendingClaimsCount,
-  successfulClaimsCount,
-  rejectedClaimsCount,
-  disputedClaimsCount,
-  goal: impactAction,
-  /*   fundedCount,
-  version,
-  activeUsage,
-  ratingScore,
-  ratingCount, */
-}) => {
-  const submittedCount = pendingClaimsCount + successfulClaimsCount + rejectedClaimsCount + disputedClaimsCount
+const DAOCard: React.FunctionComponent<Props> = ({ did, name, description, image, logo, sdgs, goal: impactAction }) => {
   return (
     <CardContainer className='col-xl-4 col-md-6 col-sm-12 col-12'>
       <CardLink
         to={{
-          pathname: `/projects/${did}/overview`,
+          pathname: `/entity/${did}/dashboard`,
         }}
       >
         <CardTop>
@@ -92,18 +73,12 @@ const DAOCard: React.FunctionComponent<Props> = ({
           <MainContent>
             <MultiLineTitle fontWeight={700}>{name}</MultiLineTitle>
           </MainContent>
-          <ProgressBar
-            total={requiredClaimsCount}
-            pending={pendingClaimsCount}
-            approved={successfulClaimsCount}
-            rejected={rejectedClaimsCount}
-            disputed={disputedClaimsCount}
-          />
+          <ProgressBar total={0} pending={0} approved={0} rejected={0} disputed={0} />
           <div className='d-flex justify-content-between align-items-center'>
             <div>
               <Progress>
-                <ProgressSuccessful>{thousandSeparator(submittedCount, ',')}</ProgressSuccessful>
-                <ProgressRequired>/{thousandSeparator(requiredClaimsCount, ',')}</ProgressRequired>
+                <ProgressSuccessful>{0}</ProgressSuccessful>
+                <ProgressRequired>/{0}</ProgressRequired>
               </Progress>
               <StatisticLabel>{impactAction}</StatisticLabel>
             </div>

@@ -23,7 +23,7 @@ export const selectUserIsLoggedIn = createSelector(selectUserInfo, (userInfo: Us
 })
 
 /**
- * @deprecated
+ * @deprecated use selectAccountDid() instead
  */
 export const selectUserDid = createSelector(selectUserInfo, (userInfo: UserInfo): string => {
   return userInfo ? userInfo.didDoc.did : ''

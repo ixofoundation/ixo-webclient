@@ -18,10 +18,8 @@ import {
 import {
   addAssetInstancesAction,
   gotoStepAction,
-  initializeAction,
   removeAssetInstancesAction,
   updateAccordedRightAction,
-  updateAssetClassDidAction,
   updateAssetInstanceAction,
   updateBreadCrumbsAction,
   updateClaimAction,
@@ -31,7 +29,6 @@ import {
   updateDAOGroupsAction,
   updateDDOTagsAction,
   updateDeedAction,
-  updateEntityClassDidAction,
   updateEntityTypeAction,
   updateLinkedEntityAction,
   updateLinkedResourceAction,
@@ -45,7 +42,6 @@ import {
 import {
   selectCreateEntityAccordedRight,
   selectCreateEntityAdministrator,
-  selectCreateEntityAssetClassDid,
   selectCreateEntityAssetInstances,
   selectCreateEntityBreadCrumbs,
   selectCreateEntityClaim,
@@ -54,7 +50,6 @@ import {
   selectCreateEntityDAOGroups,
   selectCreateEntityDDOTags,
   selectCreateEntityDeed,
-  selectCreateEntityEntityClassDid,
   selectCreateEntityLinkedEntity,
   selectCreateEntityLinkedResource,
   selectCreateEntityLocalisation,
@@ -125,8 +120,6 @@ interface TCreateEntityStateHookRes {
   linkedResource: { [id: string]: TEntityLinkedResourceModel }
   accordedRight: { [key: string]: TEntityAccordedRightModel }
   linkedEntity: { [key: string]: TEntityLinkedEntityModel }
-  entityClassDid: string
-  assetClassDid: string
   assetInstances: TEntityModel[]
   localisation: ELocalisation
   daoGroups: { [id: string]: TDAOGroupModel }
@@ -149,8 +142,6 @@ interface TCreateEntityStateHookRes {
   updateLinkedResource: (linkedResource: { [id: string]: TEntityLinkedResourceModel }) => void
   updateAccordedRight: (accordedRight: { [id: string]: TEntityAccordedRightModel }) => void
   updateLinkedEntity: (linkedEntity: { [id: string]: TEntityLinkedEntityModel }) => void
-  updateEntityClassDid: (did: string) => void
-  updateAssetClassDid: (did: string) => void
   addAssetInstances: (instances: TEntityModel[]) => void
   updateAssetInstance: (id: number, instance: TEntityModel) => void
   removeAssetInstances: () => void
@@ -158,7 +149,6 @@ interface TCreateEntityStateHookRes {
   updateDAOGroups: (daoGroups: { [id: string]: TDAOGroupModel }) => void
   updateDAOController: (controller: string) => void
   updateDeed: (deed: TDeedModel) => void
-  initialize: () => void
 }
 
 export function useCreateEntityState(): TCreateEntityStateHookRes {
@@ -182,8 +172,6 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
   } = useAppSelector(selectCreateEntityLinkedResource)
   const accordedRight: { [key: string]: TEntityAccordedRightModel } = useAppSelector(selectCreateEntityAccordedRight)
   const linkedEntity: { [key: string]: TEntityLinkedEntityModel } = useAppSelector(selectCreateEntityLinkedEntity)
-  const entityClassDid: string = useAppSelector(selectCreateEntityEntityClassDid)
-  const assetClassDid: string = useAppSelector(selectCreateEntityAssetClassDid)
   const assetInstances: TEntityModel[] = useAppSelector(selectCreateEntityAssetInstances)
   const localisation: ELocalisation = useAppSelector(selectCreateEntityLocalisation)
   // for DAO
@@ -265,12 +253,6 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
   const updateLinkedEntity = (linkedEntity: { [id: string]: TEntityLinkedEntityModel }): void => {
     dispatch(updateLinkedEntityAction(linkedEntity))
   }
-  const updateEntityClassDid = (did: string): void => {
-    dispatch(updateEntityClassDidAction(did))
-  }
-  const updateAssetClassDid = (did: string): void => {
-    dispatch(updateAssetClassDidAction(did))
-  }
   const addAssetInstances = (instances: TEntityModel[]): void => {
     dispatch(addAssetInstancesAction(instances))
   }
@@ -292,9 +274,6 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
   const updateDeed = (deed: TDeedModel): void => {
     dispatch(updateDeedAction(deed))
   }
-  const initialize = (): void => {
-    dispatch(initializeAction())
-  }
 
   return {
     entityType,
@@ -312,8 +291,6 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
     linkedResource,
     accordedRight,
     linkedEntity,
-    entityClassDid,
-    assetClassDid,
     assetInstances,
     localisation,
     daoGroups,
@@ -336,8 +313,6 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
     updateLinkedResource,
     updateAccordedRight,
     updateLinkedEntity,
-    updateEntityClassDid,
-    updateAssetClassDid,
     addAssetInstances,
     updateAssetInstance,
     removeAssetInstances,
@@ -345,7 +320,6 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
     updateDAOGroups,
     updateDAOController,
     updateDeed,
-    initialize,
   }
 }
 

@@ -31,6 +31,7 @@ import { EntityList, GetEntityIidDocument } from 'lib/protocol'
 import { toTitleCase } from 'utils/formatters'
 import { extractLinkedResource } from 'utils/entities'
 import { IidDocument } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/iid'
+import { fromTimestamp } from 'utils/conversions'
 
 export const getEntities =
   () =>
@@ -64,19 +65,7 @@ export const getEntities =
               const { claimToUse, successful, pending, rejected, disputed } = getHeadlineClaimInfo(apiEntity)
 
               return {
-                did: apiEntity.projectDid,
-                type: apiEntity.data['@type'],
-                creatorDid: apiEntity.data.createdBy,
-                status: apiEntity.status,
-                name: apiEntity.data.name,
-                description: apiEntity.data.description,
-                dateCreated: moment(parseInt(apiEntity.data.createdOn.$date.$numberLong)),
-                creatorName: apiEntity.data.creator.displayName,
-                creatorLogo: apiEntity.data.creator.logo,
-                location: apiEntity.data.location,
                 goal: claimToUse ? claimToUse.goal : undefined,
-                image: apiEntity.data.image,
-                logo: apiEntity.data.logo,
                 serviceProvidersCount: apiEntity.data.agentStats?.serviceProviders,
                 evaluatorsCount: apiEntity.data.agentStats?.evaluators,
                 requiredClaimsCount: claimToUse ? claimToUse.targetMax : 0,
@@ -94,12 +83,30 @@ export const getEntities =
                   : [],
                 termsType: apiEntity.data.terms ? apiEntity.data.terms['@type'] : undefined,
                 badges: apiEntity.data.displayCredentials.items.map((dc) => dc.badge),
-                version: apiEntity.data.version.versionNumber,
                 claims: apiEntity.data.claims,
                 entityClaims: apiEntity.data.entityClaims,
                 linkedEntities: apiEntity.data.linkedEntities,
                 funding: apiEntity.data.funding,
                 liquidity: apiEntity.data.liquidity,
+
+                // in common
+                did: apiEntity.projectDid,
+                type: apiEntity.data['@type'],
+                status: apiEntity.status,
+                dateCreated: moment(parseInt(apiEntity.data.createdOn.$date.$numberLong)),
+                version: apiEntity.data.version.versionNumber,
+
+                // profile
+                name: apiEntity.data.name,
+                description: apiEntity.data.description,
+                image: apiEntity.data.image,
+                logo: apiEntity.data.logo,
+                location: apiEntity.data.location,
+
+                // creator
+                creatorDid: apiEntity.data.createdBy,
+                creatorName: apiEntity.data.creator.displayName,
+                creatorLogo: apiEntity.data.creator.logo,
               }
             })
         })
@@ -117,14 +124,51 @@ export const getEntities1 =
       type: EntitiesExplorerActions.GetEntities,
       payload: EntityList({}).then(({ entities }) => {
         return entities.map((entity) => {
-          const { id, type, status, startDate, endDate, relayerNode } = entity
+          const { id, type, status, startDate, endDate, relayerNode, metadata } = entity
 
-          GetEntityIidDocument({ id }).then((iidDocument: IidDocument) => {
-            const { linkedResource } = iidDocument
-            extractLinkedResource(linkedResource).then((response) => {
-              console.log({ id, linkedResource, response })
+          GetEntityIidDocument({ id })
+            .then((iidDocument: IidDocument) => {
+              const { linkedResource } = iidDocument
+              console.log({ linkedResource })
+              extractLinkedResource(linkedResource).then((extractedResources) => {
+                console.log({ id, linkedResource, extractedResources })
+                extractedResources.forEach((extractedResources) => {
+                  const key = Object.keys(extractedResources)[0]
+                  const payload: any = { did: id }
+                  console.log({ key })
+                  switch (key) {
+                    case 'profile': {
+                      const { name, description, location, image, logo } = extractedResources[key]
+                      payload.name = name
+                      payload.description = description
+                      payload.image = image
+                      payload.logo = logo
+                      payload.location = location
+                      break
+                    }
+                    case 'creator': {
+                      const { displayName, id, logo } = extractedResources[key]
+                      payload.creatorDid = id
+                      payload.creatorName = displayName
+                      payload.creatorLogo = logo
+                      break
+                    }
+                    case 'ddoTags': {
+                      const ddoTags = extractedResources[key]
+                      payload.ddoTags = ddoTags
+                      break
+                    }
+                    default:
+                      break
+                  }
+                  dispatch({
+                    type: EntitiesExplorerActions.GetIndividualEntity,
+                    payload,
+                  })
+                })
+              })
             })
-          })
+            .catch(console.error)
 
           return {
             did: id,
@@ -133,6 +177,9 @@ export const getEntities1 =
             startDate,
             endDate,
             relayerNode,
+            ddoTags: [],
+            version: metadata?.versionId,
+            dateCreated: metadata?.created ? moment(fromTimestamp(metadata?.created)) : undefined,
           }
         })
       }),

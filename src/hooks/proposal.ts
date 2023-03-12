@@ -48,9 +48,11 @@ import { PerformTokenSwapData } from 'components/Modals/AddActionModal/SetupToke
 import { coins } from '@cosmjs/amino'
 import { DaoAdminExecData } from 'components/Modals/AddActionModal/SetupDAOAdminExecuteModal'
 import { useIxoConfigs } from 'hooks/configs'
+import { useCurrentDaoGroup } from './useCurrentDao'
 
-export function useMakeProposalAction() {
+export function useMakeProposalAction(coreAddress: string) {
   const { convertToMinimalDenom } = useIxoConfigs()
+  const daoGroup = useCurrentDaoGroup(coreAddress)
 
   const makeSpendAction = (data: SpendData): any => {
     const { denom, amount } = convertToMinimalDenom({ denom: data.denom, amount: data.amount })!
@@ -483,7 +485,8 @@ export function useMakeProposalAction() {
     return msg
   }
 
-  const makeManageMembersAction = (cw4GroupAddress: string, data: ManageMembersData): any => {
+  const makeManageMembersAction = (data: ManageMembersData): any => {
+    const cw4GroupAddress = daoGroup.votingModule.groupContractAddress
     return makeWasmMessage({
       wasm: {
         execute: {

@@ -26,6 +26,13 @@ export interface TEntityModel {
   linkedResource: { [id: string]: TEntityLinkedResourceModel }
   accordedRight: { [id: string]: TEntityAccordedRightModel }
   linkedEntity: { [id: string]: TEntityLinkedEntityModel }
+}
+
+export interface TCreateEntityState extends TEntityModel {
+  entityType: string
+
+  // for Asset
+  assetInstances?: TEntityModel[] // TODO: for nfts?
 
   // for DAO
   daoGroups?: { [id: string]: TDAOGroupModel }
@@ -33,15 +40,8 @@ export interface TEntityModel {
 
   // for Deed
   deed?: TDeedModel
-}
 
-export interface TCreateEntityState extends TEntityModel {
-  entityType: string
-  entityClassDid: string
-
-  assetClassDid?: string // TODO: for asset?
-  assetInstances?: TEntityModel[] // TODO: for nfts?
-
+  // extra
   stepNo: number
   breadCrumbs: { text: string; link?: string }[]
   title: string
@@ -65,13 +65,10 @@ export enum ECreateEntityActions {
   UpdateLinkedResource = 'ixo/create/entity/UPDATE_LINKED_RESOURCE',
   UpdateAccordedRight = 'ixo/create/entity/UPDATE_ACCORDED_RIGHT',
   UpdateLinkedEntity = 'ixo/create/entity/UPDATE_LINKED_ENTITY',
-  UpdateEntityClassDid = 'ixo/create/entity/UPDATE_ENTITY_CLASS_DID',
-  UpdateAssetClassDid = 'ixo/create/entity/UPDATE_ASSET_CLASS_DID',
   AddAssetInstances = 'ixo/create/entity/ADD_ASSET_INSTANCES',
   UpdateAssetInstance = 'ixo/create/entity/UPDATE_ASSET_INSTANCE',
   RemoveAssetInstances = 'ixo/create/entity/REMOVE_ASSET_INSTANCES',
   UpdateLocalisation = 'ixo/create/entity/UPDATE_LOCALISATION',
-  Initialize = 'ixo/create/entity/INITIALIZE',
   // for DAO
   UpdateDAOGroups = 'ixo/create/entity/UPDATE_DAO_GROUPS',
   UpdateDAOController = 'ixo/create/entity/UPDATE_DAO_CONTROLLER',
@@ -139,14 +136,6 @@ export interface TUpdateLinkedEntityAction {
   type: typeof ECreateEntityActions.UpdateLinkedEntity
   payload: { [id: string]: TEntityLinkedEntityModel }
 }
-export interface TUpdateEntityClassDidAction {
-  type: typeof ECreateEntityActions.UpdateEntityClassDid
-  payload: string
-}
-export interface TUpdateAssetClassDidAction {
-  type: typeof ECreateEntityActions.UpdateAssetClassDid
-  payload: string
-}
 export interface TAddAssetInstancesAction {
   type: typeof ECreateEntityActions.AddAssetInstances
   payload: TEntityModel[]
@@ -164,9 +153,6 @@ export interface TRemoveAssetInstancesAction {
 export interface TUpdateLocalisationAction {
   type: typeof ECreateEntityActions.UpdateLocalisation
   payload: ELocalisation
-}
-export interface TInitializeAction {
-  type: typeof ECreateEntityActions.Initialize
 }
 export interface TUpdateDAOGroupsAction {
   type: typeof ECreateEntityActions.UpdateDAOGroups
@@ -197,13 +183,10 @@ export type TCreateEntityActionTypes =
   | TUpdateLinkedResourceAction
   | TUpdateAccordedRightAction
   | TUpdateLinkedEntityAction
-  | TUpdateEntityClassDidAction
-  | TUpdateAssetClassDidAction
   | TAddAssetInstancesAction
   | TUpdateAssetInstanceAction
   | TRemoveAssetInstancesAction
   | TUpdateLocalisationAction
-  | TInitializeAction
   | TUpdateDAOGroupsAction
   | TUpdateDAOControllerAction
   | TUpdateDeedAction

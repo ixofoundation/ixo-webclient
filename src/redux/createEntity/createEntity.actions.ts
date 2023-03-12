@@ -18,10 +18,8 @@ import {
   TAddAssetInstancesAction,
   TEntityModel,
   TGotoStepAction,
-  TInitializeAction,
   TRemoveAssetInstancesAction,
   TUpdateAccordedRightAction,
-  TUpdateAssetClassDidAction,
   TUpdateAssetInstanceAction,
   TUpdateBreadCrumbsAction,
   TUpdateClaimAction,
@@ -31,7 +29,6 @@ import {
   TUpdateDAOGroupsAction,
   TUpdateDDOTagsAction,
   TUpdateDeedAction,
-  TUpdateEntityClassDidAction,
   TUpdateEntityTypeAction,
   TUpdateLinkedEntityAction,
   TUpdateLinkedResourceAction,
@@ -124,16 +121,6 @@ export const updateLinkedEntityAction = (linkedEntity: {
   payload: linkedEntity,
 })
 
-export const updateEntityClassDidAction = (did: string): TUpdateEntityClassDidAction => ({
-  type: ECreateEntityActions.UpdateEntityClassDid,
-  payload: did,
-})
-
-export const updateAssetClassDidAction = (did: string): TUpdateAssetClassDidAction => ({
-  type: ECreateEntityActions.UpdateAssetClassDid,
-  payload: did,
-})
-
 export const addAssetInstancesAction = (instances: TEntityModel[]): TAddAssetInstancesAction => ({
   type: ECreateEntityActions.AddAssetInstances,
   payload: instances,
@@ -151,10 +138,6 @@ export const removeAssetInstancesAction = (): TRemoveAssetInstancesAction => ({
 export const updateLocalisationAction = (localisation: ELocalisation): TUpdateLocalisationAction => ({
   type: ECreateEntityActions.UpdateLocalisation,
   payload: localisation,
-})
-
-export const initializeAction = (): TInitializeAction => ({
-  type: ECreateEntityActions.Initialize,
 })
 
 // for DAO

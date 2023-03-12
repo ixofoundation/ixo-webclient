@@ -23,8 +23,6 @@ const CurrentEntityPage: React.FC = (): JSX.Element | null => {
   } = useCurrentEntity()
   const [fetchingError, setFetchingError] = useState('')
 
-  console.log('entityType', entityType)
-
   useEffect(() => {
     if (validateEntityDid(entityId)) {
       setFetchingError('')

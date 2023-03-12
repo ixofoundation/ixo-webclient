@@ -2,7 +2,7 @@ import { ArrayOfAddr } from '@ixo/impactxclient-sdk/types/codegen/DaoCore.types'
 import { ProposalResponse } from '@ixo/impactxclient-sdk/types/codegen/DaoMigrator.types'
 import { useCallback } from 'react'
 import { updateGroupAction } from 'redux/currentEntity/dao/currentDao.actions'
-import { selectDaoGroups } from 'redux/currentEntity/dao/currentDao.selectors'
+import { selectDaoGroupByAddress, selectDaoGroups } from 'redux/currentEntity/dao/currentDao.selectors'
 import { CurrentDao, DaoGroup } from 'redux/currentEntity/dao/currentDao.types'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { Member } from 'types/dao'
@@ -109,4 +109,9 @@ export default function useCurrentDao(): {
     getProposalsByAddresses,
     getTotalCw20Balances,
   }
+}
+
+export function useCurrentDaoGroup(groupAddress: string) {
+  const daoGroup: DaoGroup = useAppSelector(selectDaoGroupByAddress(groupAddress))
+  return daoGroup
 }

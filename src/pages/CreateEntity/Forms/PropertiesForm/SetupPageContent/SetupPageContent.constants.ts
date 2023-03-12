@@ -47,7 +47,7 @@ export const EDITOR_JS_TOOLS = {
               if (!key) {
                 throw new Error(`Key doesn't exist`)
               }
-              return { success: true, file: { url: `${PDS_URL}/public/${key}` } }
+              return { success: true, file: { url: `${new URL(PDS_URL).origin}/public/${key}` } }
             })
             .catch((e) => ({ success: false }))
         },

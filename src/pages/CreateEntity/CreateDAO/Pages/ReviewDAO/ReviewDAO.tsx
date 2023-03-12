@@ -152,7 +152,7 @@ const ReviewDAO: React.FC = (): JSX.Element => {
 
   return (
     <FlexBox width={`${deviceWidth.tablet}px`} gap={10} alignItems='stretch'>
-      <DAOCard image={metadata.image ?? ''} name={metadata.name ?? ''} numberOfMembers={12} />
+      <DAOCard image={metadata?.image ?? ''} name={metadata?.name ?? ''} numberOfMembers={12} />
       <FlexBox direction='column' justifyContent='space-between' width='100%' style={{ flex: 1 }}>
         <FlexBox direction='column' width='100%' gap={4}>
           <Typography variant='secondary'>
