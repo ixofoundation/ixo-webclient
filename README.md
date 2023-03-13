@@ -65,7 +65,7 @@ git clone https://github.com/ixofoundation/ixo-webclient && cd ixo-webclient && 
 - Now build the docker image with
 
 ```shell
-docker build -t ixo-webclient:latest .
+docker build -t ixo-webclient:latest.
 ```
 
 Now run the image with either of these two options.
