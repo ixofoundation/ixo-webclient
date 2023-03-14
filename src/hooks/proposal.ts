@@ -404,9 +404,9 @@ export function useMakeProposalAction(coreAddress: string) {
         only_members_execute: data.onlyMembersExecute,
         allow_revoting: data.allowRevoting,
         // Pass through because we don't support changing them yet.
-        dao: proposalModuleConfig.dao,
-        close_proposal_on_execution_failure: proposalModuleConfig.close_proposal_on_execution_failure,
-        min_voting_period: proposalModuleConfig.min_voting_period,
+        dao: proposalModuleConfig?.dao,
+        close_proposal_on_execution_failure: proposalModuleConfig?.close_proposal_on_execution_failure,
+        min_voting_period: proposalModuleConfig?.min_voting_period,
       },
     }
 

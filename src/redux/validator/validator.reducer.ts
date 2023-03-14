@@ -16,10 +16,10 @@ export const reducer = (state = initialState, action: ValidatorActionTypes): TVa
             validator.operatorAddress,
             {
               address: validator.operatorAddress,
-              website: validator?.description?.website || '',
-              identity: validator?.description?.identity || '',
-              description: validator?.description?.details || '',
-              moniker: validator?.description?.moniker || '',
+              website: validator.description?.website || '',
+              identity: validator.description?.identity || '',
+              description: validator.description?.details || '',
+              moniker: validator.description?.moniker || '',
               commission: new BigNumber(validator.commission?.commissionRates?.rate ?? '0')
                 .dividedBy(new BigNumber(Math.pow(10, 16)))
                 .toNumber(),
