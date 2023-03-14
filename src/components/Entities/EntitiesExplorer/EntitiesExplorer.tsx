@@ -8,18 +8,18 @@ import {
   resetSectorFilter,
 } from 'redux/entitiesExplorer/entitiesExplorer.actions'
 import { EntityType, EntityTypeStrategyMap } from '../../../types/entities'
-import { DDOTagCategory } from 'redux/entitiesExplorer/entitiesExplorer.types'
 import * as entitiesUtils from '../../../utils/entities'
 import * as queryString from 'query-string'
 import { ErrorContainer } from './EntitiesExplorer.container.styles'
 import { RootState } from 'redux/store'
 import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { TEntityDDOTagModel } from 'types/protocol'
 
 interface Props {
   location: any
   entityTypeMap: EntityTypeStrategyMap
   handleChangeEntitiesType: (entityType: EntityType) => void
-  handleFilterCategories: (categories: DDOTagCategory[]) => void
+  handleFilterCategories: (categories: TEntityDDOTagModel[]) => void
   handleFilterSector: (tag: string) => void
   handleResetSectorFilter: () => void
 }
@@ -44,7 +44,7 @@ const EntitiesSelect: React.FunctionComponent<Props> = ({
       const categoriesFromParams = JSON.parse(params.categories as string)
       const remainingCategories = entitiesUtils
         .getInitialSelectedCategories(entityTypeMap[entityType])
-        .filter((c) => !categoriesFromParams.map((c: any) => c.name).includes(c.name))
+        .filter((c) => !categoriesFromParams.map((c: any) => c.name).includes(c.category))
       const categories = [...categoriesFromParams, ...remainingCategories]
 
       handleFilterCategories(categories)
@@ -79,7 +79,7 @@ const mapStateToProps = (state: RootState): Record<string, any> => ({
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleChangeEntitiesType: (entityType: EntityType): void => dispatch(changeEntitiesType(entityType)),
-  handleFilterCategories: (categories: DDOTagCategory[]): void => dispatch(filterCategories(categories)),
+  handleFilterCategories: (categories: TEntityDDOTagModel[]): void => dispatch(filterCategories(categories)),
   handleFilterSector: (tag: string): void => dispatch(filterSector(tag)),
   handleResetSectorFilter: (): void => dispatch(resetSectorFilter()),
 })

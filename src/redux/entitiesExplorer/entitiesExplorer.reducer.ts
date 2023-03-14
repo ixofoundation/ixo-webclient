@@ -136,9 +136,9 @@ export const reducer = (
         filter: {
           ...state.filter,
           ddoTags: [
-            ...state.filter.ddoTags.filter((category) => category.name !== action.payload.category),
+            ...state.filter.ddoTags.filter((category) => category.category !== action.payload.category),
             {
-              name: action.payload.category,
+              category: action.payload.category,
               tags: [...action.payload.tags],
             },
           ],
@@ -160,9 +160,9 @@ export const reducer = (
         filter: {
           ...state.filter,
           ddoTags: [
-            ...state.filter.ddoTags.filter((category) => category.name !== action.payload.category),
+            ...state.filter.ddoTags.filter((category) => category.category !== action.payload.category),
             {
-              name: action.payload.category,
+              category: action.payload.category,
               tags: [],
             },
           ],

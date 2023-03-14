@@ -33,6 +33,7 @@ export type DaoGroup = {
     cw20TokenList: ArrayOfAddr
     cw721TokenList: ArrayOfAddr
   }
+  storageItems: string[]
 }
 
 export type CurrentDao = {

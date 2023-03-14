@@ -116,7 +116,7 @@ const SetupDAOAdminExecuteModal: React.FC<Props> = ({ open, action, onClose, onS
             case 'Update Voting Config':
               // TODO:
               return makeUpdateVotingConfigAction(data)
-            case 'Vote on a Governance Proposal':
+            case 'Vote on a Network Proposal':
               // TODO:
               return makeGovernanceVoteAction('ixo12wgrrvmx5jx2mxhu6dvnfu3greamemnqfvx84a', data)
             case 'Withdraw Token Swap':

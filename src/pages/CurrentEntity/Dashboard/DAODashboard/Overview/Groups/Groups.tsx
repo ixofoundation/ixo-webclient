@@ -10,6 +10,7 @@ import { Typography } from 'components/Typography'
 import useCurrentDao from 'hooks/currentDao'
 import { DaoGroup } from 'redux/currentEntity/dao/currentDao.types'
 import { NavLink, useHistory } from 'react-router-dom'
+import { deviceWidth } from 'constants/device'
 
 const Arrow = styled(Box)`
   &:before {
@@ -61,32 +62,32 @@ const Groups: React.FC<Props> = ({ selectedGroups, setSelectedGroups }): JSX.Ele
   const { daoGroups } = useCurrentDao()
   const [dragging, setDragging] = useState(false)
   const settings = {
-    infinite: true,
+    infinite: false,
     speed: 500,
-    // slidesToShow: 5,
-    // slidesToScroll: 1,
+    slidesToShow: 5,
+    slidesToScroll: 1,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
     beforeChange: () => setDragging(true),
     afterChange: () => setDragging(false),
-    // responsive: [
-    //   {
-    //     breakpoint: deviceWidth.tablet,
-    //     settings: { slidesToShow: 1 },
-    //   },
-    //   {
-    //     breakpoint: deviceWidth.desktop,
-    //     settings: { slidesToShow: 2 },
-    //   },
-    //   {
-    //     breakpoint: deviceWidth.desktopLarge,
-    //     settings: { slidesToShow: 3 },
-    //   },
-    //   {
-    //     breakpoint: deviceWidth.desktopExtra,
-    //     settings: { slidesToShow: 4 },
-    //   },
-    // ],
+    responsive: [
+      {
+        breakpoint: deviceWidth.tablet,
+        settings: { slidesToShow: 1 },
+      },
+      {
+        breakpoint: deviceWidth.desktop,
+        settings: { slidesToShow: 2 },
+      },
+      {
+        breakpoint: deviceWidth.desktopLarge,
+        settings: { slidesToShow: 3 },
+      },
+      {
+        breakpoint: deviceWidth.desktopExtra,
+        settings: { slidesToShow: 4 },
+      },
+    ],
   }
 
   const renderGroupCard = (daoGroup: DaoGroup): JSX.Element => (
@@ -153,6 +154,7 @@ const Groups: React.FC<Props> = ({ selectedGroups, setSelectedGroups }): JSX.Ele
   if (Object.values(daoGroups).length === 0) {
     return null
   }
+
   return (
     <Card icon={<PieIcon />} label='Groups'>
       <Box width='100%' color='white'>

@@ -421,8 +421,8 @@ export const DeedActionConfig = {
         description: 'Update the voting parameters for your DAO.',
         icon: PaperIcon,
       },
-      'Vote on a Governance Proposal': {
-        text: 'Vote on a Governance Proposal',
+      'Vote on a Network Proposal': {
+        text: 'Vote on a Network Proposal',
         description: 'Vote on an open chain governance proposal, as an individual or as a validator.',
         icon: ProposalIcon,
       },

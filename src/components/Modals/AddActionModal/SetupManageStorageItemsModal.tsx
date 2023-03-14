@@ -29,12 +29,8 @@ const SetupManageStorageItemsModal: React.FC<Props> = ({ open, action, onClose, 
   const validate = useMemo(() => !!formData.key && !!formData.value, [formData])
 
   useEffect(() => {
-    setFormData(action?.data ?? initialState)
-  }, [action])
-  useEffect(() => {
-    handleUpdateFormData('key', '')
-    handleUpdateFormData('value', '')
-  }, [formData.setting])
+    setFormData(action.data)
+  }, [action.data])
 
   const handleUpdateFormData = (key: string, value: any) => {
     setFormData((data) => ({ ...data, [key]: value }))

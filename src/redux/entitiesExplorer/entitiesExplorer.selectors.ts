@@ -1,11 +1,12 @@
 import { Moment } from 'moment'
 import { createSelector } from '@reduxjs/toolkit'
-import { ExplorerEntity, EntitiesExplorerState, Filter, DDOTagCategory } from './entitiesExplorer.types'
+import { ExplorerEntity, EntitiesExplorerState, Filter } from './entitiesExplorer.types'
 import { EntityType, EntityConfig } from 'types/entities'
 import * as accountSelectors from 'redux/account/account.selectors'
 import { RootState } from 'redux/store'
 import { Schema as FilterSchema } from 'components/Entities/EntitiesExplorer/Components/EntitiesFilter/schema/types'
 import { theme } from 'components/App/App.styles'
+import { TEntityDDOTagModel } from 'types/protocol'
 
 const formatDate = (date: Moment): string => date.format("D MMM \\'YY")
 
@@ -99,7 +100,7 @@ export const selectedFilteredEntities = createSelector(
           category.tags.forEach((tag) => {
             entitiesToFilter = entitiesToFilter.filter((entity) =>
               entity.ddoTags?.some(
-                (entityCategory) => entityCategory.name === category.name && entityCategory.tags.includes(tag),
+                (entityCategory) => entityCategory.category === category.category && entityCategory.tags.includes(tag),
               ),
             )
           })
@@ -130,7 +131,7 @@ export const selectedFilteredEntities = createSelector(
     if (filter.sector) {
       entitiesToFilter = entitiesToFilter.filter((entity) =>
         entity.ddoTags?.some(
-          (entityCategory) => entityCategory.name === 'Sector' && entityCategory.tags.includes(filter.sector),
+          (entityCategory) => entityCategory.category === 'Sector' && entityCategory.tags.includes(filter.sector),
         ),
       )
     }
@@ -204,7 +205,7 @@ export const selectFilterDateSummary = createSelector(
   },
 )
 
-export const selectFilterCategories = createSelector(selectEntitiesFilter, (filter: Filter): DDOTagCategory[] => {
+export const selectFilterCategories = createSelector(selectEntitiesFilter, (filter: Filter): TEntityDDOTagModel[] => {
   return filter.ddoTags
 })
 
@@ -218,7 +219,7 @@ export const selectFilterItemOffset = createSelector(selectEntitiesFilter, (filt
 
 export const selectFilterCategoriesSummary = createSelector(
   selectFilterCategories,
-  (categories: DDOTagCategory[]): string => {
+  (categories: TEntityDDOTagModel[]): string => {
     const totalFilters = categories?.reduce((total, category) => {
       return total + category.tags.length
     }, 0)

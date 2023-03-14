@@ -232,9 +232,9 @@ const SetupActionsForm: React.FC<Props> = ({ actions, setActions }): JSX.Element
           onClose={() => setSelectedAction(undefined)}
         />
       )}
-      {selectedAction?.type === 'Vote on a Governance Proposal' && (
+      {selectedAction?.type === 'Vote on a Network Proposal' && (
         <SetupVoteOnAGovernanceProposalModal
-          open={selectedAction?.type === 'Vote on a Governance Proposal'}
+          open={selectedAction?.type === 'Vote on a Network Proposal'}
           action={selectedAction}
           onSubmit={handleUpdateAction}
           onClose={() => setSelectedAction(undefined)}

@@ -67,17 +67,20 @@ const SetupDAOGroups: React.FC = (): JSX.Element => {
   }
 
   const handleContinue = (): void => {
+    let tempLinkedEntity = { ...linkedEntity }
     Object.values(daoGroups).forEach(({ contractAddress }) => {
-      updateLinkedEntity({
-        ...linkedEntity,
+      tempLinkedEntity = {
+        ...tempLinkedEntity,
         [contractAddress!]: {
           id: `{id}#${contractAddress!}`,
           type: 'Group',
           relationship: 'subsidiary',
           service: '',
         },
-      })
+      }
     })
+
+    updateLinkedEntity(tempLinkedEntity)
     gotoStep(1)
   }
 

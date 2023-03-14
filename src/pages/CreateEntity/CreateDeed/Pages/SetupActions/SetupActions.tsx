@@ -104,7 +104,7 @@ const SetupActions: React.FC = () => {
               return makeTransferNFTAction(data)
             case 'Update Contract Admin':
               return makeUpdateAdminAction(data)
-            case 'Vote on a Governance Proposal':
+            case 'Vote on a Network Proposal':
               // TODO:
               return makeGovernanceVoteAction('ixo12wgrrvmx5jx2mxhu6dvnfu3greamemnqfvx84a', data)
             case 'Withdraw Token Swap':

@@ -48,7 +48,7 @@ const Pools: React.FunctionComponent = () => {
       .filter((entity) => entity.type === EntityType.Asset)
       .filter((entity) =>
         entity.ddoTags!.some(
-          (entityCategory) => entityCategory.name === 'Asset Type' && entityCategory.tags.includes('Pool'),
+          (entityCategory) => entityCategory.category === 'Asset Type' && entityCategory.tags.includes('Pool'),
         ),
       )
     setPoolList(filtered)

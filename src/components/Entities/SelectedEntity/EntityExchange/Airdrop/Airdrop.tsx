@@ -24,7 +24,8 @@ const Airdrop: React.FunctionComponent = () => {
       .filter((entity) => entity.type === EntityType.Project)
       .filter((entity) =>
         entity.ddoTags!.some(
-          (entityCategory) => entityCategory.name === 'Project Type' && entityCategory.tags.includes('Airdrop Mission'),
+          (entityCategory) =>
+            entityCategory.category === 'Project Type' && entityCategory.tags.includes('Airdrop Mission'),
         ),
       )
     setAirdropList(filtered)

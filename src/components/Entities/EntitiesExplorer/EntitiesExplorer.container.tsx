@@ -39,7 +39,7 @@ import {
 } from 'redux/entitiesExplorer/entitiesExplorer.actions'
 import EntitiesFilter from './Components/EntitiesFilter/EntitiesFilter'
 import { EntityType, EntityTypeStrategyMap } from 'types/entities'
-import { DDOTagCategory, ExplorerEntity } from 'redux/entitiesExplorer/entitiesExplorer.types'
+import { ExplorerEntity } from 'redux/entitiesExplorer/entitiesExplorer.types'
 import { Schema as FilterSchema } from './Components/EntitiesFilter/schema/types'
 import * as entitiesSelectors from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import * as accountSelectors from 'redux/account/account.selectors'
@@ -49,6 +49,7 @@ import { useEffect, useState } from 'react'
 import AssetCollections from './Components/AssetCollections/AssetCollections'
 import { useQuery } from 'hooks/window'
 import { EntityList } from 'lib/protocol'
+import { TEntityDDOTagModel } from 'types/protocol'
 // import { checkIsLaunchpadFromApiListedEntityData } from '../Entities.utils'
 
 const entityFilters = {
@@ -80,7 +81,7 @@ export interface Props extends RouteProps {
   filterDateTo: Moment
   filterDateToFormatted: string
   filterDateSummary: string
-  filterCategories: DDOTagCategory[]
+  filterCategories: TEntityDDOTagModel[]
   filterCategoriesSummary: string
   filterUserEntities: boolean
   filterFeaturedEntities: boolean
@@ -199,7 +200,7 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
         words.push('Popular')
       }
 
-      const tags = filterCategories.find((cat) => cat.name === entityCategoryTypeName)!.tags
+      const tags = filterCategories.find((cat) => cat.category === entityCategoryTypeName)?.tags
 
       if (tags && tags.length > 1) {
         words.push('Selected')

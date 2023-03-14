@@ -14,7 +14,6 @@ import {
   ResetFiltersAction,
   EntitiesExplorerActions,
   FilterDDOCategoriesAction,
-  DDOTagCategory,
   FilterCategoryTagAction,
   FilterSectorAction,
   FilterQueryAction,
@@ -32,6 +31,7 @@ import { toTitleCase } from 'utils/formatters'
 import { extractLinkedResource } from 'utils/entities'
 import { IidDocument } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/iid'
 import { fromTimestamp } from 'utils/conversions'
+import { TEntityDDOTagModel } from 'types/protocol'
 
 export const getEntities =
   () =>
@@ -240,7 +240,7 @@ export const filterCategoryTag =
     const state = getState()
 
     const isCurrentlySelected = state.entities.filter.ddoTags.find(
-      (filterCategory) => filterCategory.name === category && filterCategory.tags.includes(tag),
+      (filterCategory) => filterCategory.category === category && filterCategory.tags.includes(tag),
     )
 
     return dispatch({
@@ -257,9 +257,8 @@ export const filterAddCategoryTag =
   (dispatch: Dispatch, getState: () => RootState): FilterAddCategoryTagAction => {
     const state = getState()
 
-    const currentCategoryTags = state.entities.filter.ddoTags.find(
-      (filterCategory) => filterCategory.name === category,
-    )!.tags
+    const currentCategoryTags =
+      state.entities.filter.ddoTags.find((filterCategory) => filterCategory.category === category)?.tags ?? []
 
     const newCategoryTags = currentCategoryTags.includes(tag)
       ? [...currentCategoryTags.filter((val) => val !== tag)]
@@ -279,7 +278,7 @@ export const filterEntitiesQuery = (query: string): FilterQueryAction => ({
   payload: { query },
 })
 
-export const filterCategories = (categories: DDOTagCategory[]): FilterDDOCategoriesAction => ({
+export const filterCategories = (categories: TEntityDDOTagModel[]): FilterDDOCategoriesAction => ({
   type: EntitiesExplorerActions.FilterDDOCategories,
   payload: { ddoTags: categories },
 })

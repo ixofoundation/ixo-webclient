@@ -558,8 +558,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
 
   const SavePage = async (): Promise<CellnodePublicResource | undefined> => {
     try {
-      const res = await customQueries.cellnode.uploadPublicDoc(
-        'application/json',
+      const buff = Buffer.from(
         JSON.stringify({
           '@context': {
             ixo: 'https://w3id.org/ixo/ns/protocol/',
@@ -569,7 +568,11 @@ export function useCreateEntity(): TCreateEntityHookRes {
           },
           type: 'ixo:entity#page',
           page: Object.values(page),
-        }),
+        })
+      )
+      const res = await customQueries.cellnode.uploadPublicDoc(
+        'application/json',
+        buff.toString('base64'),
         undefined,
         chainNetwork,
       )

@@ -1,14 +1,10 @@
 import { Timestamp } from '@ixo/impactxclient-sdk/types/utils/proto'
 import { Moment } from 'moment'
 import { EntityConfig, LiquiditySource, FundSource, TermsOfUseType } from 'types/entities'
-
-export interface DDOTagCategory {
-  name: string
-  tags: string[]
-}
+import { TEntityDDOTagModel } from 'types/protocol'
 
 export interface Filter {
-  ddoTags: DDOTagCategory[]
+  ddoTags: TEntityDDOTagModel[]
   sector: string
   dateFrom: Moment
   dateTo: Moment
@@ -39,7 +35,7 @@ export interface ExplorerEntity {
   agentDids?: string[]
   image?: string
   logo?: string
-  ddoTags?: DDOTagCategory[]
+  ddoTags?: TEntityDDOTagModel[]
   termsType?: TermsOfUseType
   badges?: string[]
   version?: string
@@ -182,7 +178,7 @@ export interface FilterAddCategoryTagAction {
 export interface FilterDDOCategoriesAction {
   type: typeof EntitiesExplorerActions.FilterDDOCategories
   payload: {
-    ddoTags: DDOTagCategory[]
+    ddoTags: TEntityDDOTagModel[]
   }
 }
 
