@@ -9,6 +9,7 @@ import { ReactComponent as TimesIcon } from 'assets/images/icon-times.svg'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 import { validateJSON } from 'utils/validation'
+import { useParams } from 'react-router-dom'
 
 const inputHeight = '48px'
 
@@ -38,9 +39,9 @@ interface Props {
 }
 
 const SetupInstantiateSmartContractModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
-  const daoAddress = 'ixo1xz54y0ktew0dcm00f9vjw0p7x29pa4j5p9rwq6zerkytugzg27qs4shxnt'
+  const { coreAddress } = useParams<{ coreAddress: string }>()
   const initialState: InstantiateData = {
-    admin: daoAddress,
+    admin: coreAddress,
     codeId: 0,
     label: '',
     message: '{}',

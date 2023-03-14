@@ -1,5 +1,5 @@
 import { createQueryClient, ixo, SigningStargateClient } from '@ixo/impactxclient-sdk'
-import { DeliverTxResponse } from '@cosmjs/stargate'
+import { DeliverTxResponse } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/stargate'
 import { fee, RPC_ENDPOINT } from './common'
 
 export const GetProjectAccounts = async (projectDid: string) => {
