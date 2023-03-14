@@ -46,7 +46,7 @@ const Dropdown: React.FC<Props> = ({
 }): JSX.Element => {
   return (
     <Wrapper size='xl' style={wrapperStyle}>
-      <Select {...rest} hasArrow={hasArrow} color={rest.value ? theme.ixoBlack : theme.ixoGrey700}>
+      <Select {...rest} hasArrow={hasArrow} color={theme.ixoBlack}>
         {placeholder && <Option value={''}>{placeholder}</Option>}
         {options.map(({ value, text }) => (
           <Option key={value} value={value}>

@@ -129,7 +129,6 @@ export const getEntities1 =
           GetEntityIidDocument({ id })
             .then((iidDocument: IidDocument) => {
               const { linkedResource } = iidDocument
-              console.log({ linkedResource })
               extractLinkedResource(linkedResource).then((extractedResources) => {
                 console.log({ id, linkedResource, extractedResources })
                 extractedResources.forEach((extractedResources) => {

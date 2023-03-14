@@ -7,7 +7,7 @@ import { ReactComponent as ChevRightIcon } from 'assets/images/icon-chev-right.s
 import { Box, FlexBox, SvgBox, theme } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 // import { deviceWidth } from 'constants/device'
-import useCurrentDao from 'hooks/useCurrentDao'
+import useCurrentDao from 'hooks/currentDao'
 import { DaoGroup } from 'redux/currentEntity/dao/currentDao.types'
 import { NavLink, useHistory } from 'react-router-dom'
 

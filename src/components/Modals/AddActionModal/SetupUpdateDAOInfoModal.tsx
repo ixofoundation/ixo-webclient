@@ -1,7 +1,9 @@
 import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
+import { useCurrentDaoGroup } from 'hooks/currentDao'
 import { Input, Switch } from 'pages/CreateEntity/Components'
 import React, { useEffect, useMemo, useState } from 'react'
+import { useParams } from 'react-router-dom'
 import { TDeedActionModel } from 'types/protocol'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 
@@ -18,7 +20,7 @@ export interface UpdateInfoData {
 const initialState: UpdateInfoData = {
   name: '',
   description: '',
-  automatically_add_cw20s: true,
+  automatically_add_cw20s: false,
   automatically_add_cw721s: false,
 }
 
@@ -30,13 +32,20 @@ interface Props {
 }
 
 const SetupUpdateDAOInfoModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
+  const { coreAddress } = useParams<{ coreAddress: string }>()
+  const daoGroup = useCurrentDaoGroup(coreAddress)
+
   const [formData, setFormData] = useState<UpdateInfoData>(initialState)
 
   const validate = useMemo(() => !!formData.name && !!formData.description, [formData])
 
   useEffect(() => {
-    setFormData(action?.data ?? initialState)
-  }, [action])
+    if (action.data) {
+      setFormData({ ...action.data })
+    } else if (daoGroup?.config) {
+      setFormData({ ...daoGroup.config })
+    }
+  }, [daoGroup?.config, action.data])
 
   const handleUpdateFormData = (key: string, value: any) => {
     setFormData((data: any) => ({ ...data, [key]: value }))
@@ -79,7 +88,7 @@ const SetupUpdateDAOInfoModal: React.FC<Props> = ({ open, action, onClose, onSub
         />
       </FlexBox>
 
-      <FlexBox width='100%' gap={4}>
+      <FlexBox width='100%' gap={4} alignItems='center'>
         <Typography color='black' weight='medium' size='xl'>
           Automatically add tokens
         </Typography>
@@ -90,7 +99,7 @@ const SetupUpdateDAOInfoModal: React.FC<Props> = ({ open, action, onClose, onSub
         />
       </FlexBox>
 
-      <FlexBox width='100%' gap={4}>
+      <FlexBox width='100%' gap={4} alignItems='center'>
         <Typography color='black' weight='medium' size='xl'>
           Automatically add NFTs
         </Typography>

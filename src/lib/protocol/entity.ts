@@ -162,6 +162,7 @@ export const GetEntityIidDocument = async (request: QueryEntityIidDocumentReques
   try {
     const client = await createQueryClient(RPC_ENDPOINT!)
     const { iidDocument } = await client.ixo.entity.v1beta1.entityIidDocument(request)
+    client.cosmos.base.tendermint.v1beta1.getLatestValidatorSet()
     return iidDocument!
   } catch (e) {
     throw new Error(JSON.stringify(e))

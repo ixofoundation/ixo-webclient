@@ -4,7 +4,7 @@ import { useHistory, useParams } from 'react-router-dom'
 import { MembersView } from './MembersView'
 import { Toolbar } from './Toolbar'
 // import { useGetMembers } from 'hooks/dao'
-import useCurrentDao from 'hooks/useCurrentDao'
+import useCurrentDao from 'hooks/currentDao'
 
 const OverviewMembers: React.FC = (): JSX.Element | null => {
   const history = useHistory()

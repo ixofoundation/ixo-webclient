@@ -1,9 +1,11 @@
 import { GetBondDetail, GetProjectAccounts } from 'lib/protocol'
 import { useSelectedEntity } from 'hooks/entity'
 import { useEffect } from 'react'
+import { useValidators } from 'hooks/validator'
 
 const EntityUpdateService = (): null => {
   const { did, bondDid, updateEntityAddress, updateEntityBondDetail } = useSelectedEntity()
+  const { getValidators } = useValidators()
 
   useEffect(() => {
     const init = async (did: string): Promise<void> => {
@@ -31,6 +33,10 @@ const EntityUpdateService = (): null => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bondDid])
+
+  useEffect(() => {
+    getValidators()
+  }, [getValidators])
 
   return null
 }

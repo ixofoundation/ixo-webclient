@@ -67,6 +67,17 @@ export const GetBalances = async (address: string): Promise<Coin[]> => {
   }
 }
 
+export const GetValidators = async (): Promise<Validator[]> => {
+  try {
+    const client = await createQueryClient(RPC_ENDPOINT!)
+    const { validators = [] } = await client.cosmos.staking.v1beta1.validators({ status: 'BOND_STATUS_BONDED' })
+    return validators
+  } catch (e) {
+    console.error('GetValidators', e)
+    return []
+  }
+}
+
 export const GetValidatorByAddr = async (validatorAddr: string): Promise<Validator | undefined> => {
   try {
     if (!validatorAddr) {

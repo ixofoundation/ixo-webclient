@@ -4,7 +4,7 @@ import { Card } from '../../Components'
 import { Typography } from 'components/Typography'
 import { ReactComponent as ProfileIcon } from 'assets/images/icon-profile.svg'
 import { ReactComponent as CaretUpIcon } from 'assets/images/icon-caret-up.svg'
-import useCurrentDao from 'hooks/useCurrentDao'
+import useCurrentDao from 'hooks/currentDao'
 
 interface Props {
   groupAddresses?: string[]

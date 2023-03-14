@@ -2,7 +2,7 @@ import { contracts } from '@ixo/impactxclient-sdk'
 import Dashboard from 'components/Dashboard/Dashboard'
 import { HeaderTab } from 'components/Dashboard/types'
 import EconomyGovernance from 'components/Entities/SelectedEntity/EntityEconomy/EconomyGovernance/EconomyGovernance'
-import useCurrentEntity from 'hooks/useCurrentEntity'
+import useCurrentEntity from 'hooks/currentEntity'
 import { useEffect } from 'react'
 import { Redirect, Route, useParams, useRouteMatch } from 'react-router-dom'
 import { requireCheckDefault } from 'utils/images'
@@ -10,7 +10,7 @@ import { Overview } from './Overview'
 import { OverviewIndividualMember } from './OverviewIndividualMember'
 import { OverviewMembers } from './OverviewMembers'
 import { useAccount } from 'hooks/account'
-import useCurrentDao from 'hooks/useCurrentDao'
+import useCurrentDao from 'hooks/currentDao'
 
 const DAODashboard: React.FC = (): JSX.Element => {
   const { entityId } = useParams<{ entityId: string }>()
@@ -18,7 +18,7 @@ const DAODashboard: React.FC = (): JSX.Element => {
   const isIndividualMemberRoute = useRouteMatch('/entity/:entityId/dashboard/overview/:groupId/:address')
   const { entityType, linkedEntity, profile } = useCurrentEntity()
   const { updateGroup } = useCurrentDao()
-  const name = profile?.name //  TODO: from redux
+  const name = profile?.name
 
   const routes = [
     {
@@ -98,6 +98,7 @@ const DAODashboard: React.FC = (): JSX.Element => {
               address,
               proposalModuleAddress,
             )
+            proposalModule.proposalConfig = await daoProposalSingleClient.config()
             const { proposals } = await daoProposalSingleClient.listProposals({})
             // const votes = await daoProposalSingleClient.listVotes({})
             proposalModule.proposals = proposals
@@ -105,6 +106,12 @@ const DAODashboard: React.FC = (): JSX.Element => {
               module: { addr: preProposalContractAddress },
             } = (await daoProposalSingleClient.proposalCreationPolicy()) as { module: { addr: string } }
             proposalModule.preProposalContractAddress = preProposalContractAddress
+            const daoPreProposeSingleClient = new contracts.DaoPreProposeSingle.DaoPreProposeSingleClient(
+              cosmWasmClient,
+              address,
+              preProposalContractAddress,
+            )
+            proposalModule.preProposeConfig = await daoPreProposeSingleClient.config()
 
             // votingModule
             const votingModule: any = {}
@@ -144,7 +151,7 @@ const DAODashboard: React.FC = (): JSX.Element => {
             updateGroup({
               coreAddress,
               admin,
-              type: 'membership',
+              type: 'membership', // TODO:
               config,
               proposalModule,
               votingModule,

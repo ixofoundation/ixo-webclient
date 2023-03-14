@@ -1,7 +1,7 @@
 import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { Spinner } from 'components/Spinner/Spinner'
 import { cellNodeChainMapping, chainNetwork } from 'hooks/configs'
-import useCurrentEntity from 'hooks/useCurrentEntity'
+import useCurrentEntity from 'hooks/currentEntity'
 import NotFound from 'pages/Error/NotFound'
 import React, { useEffect, useState } from 'react'
 import { Redirect, Route, Switch, useParams } from 'react-router-dom'

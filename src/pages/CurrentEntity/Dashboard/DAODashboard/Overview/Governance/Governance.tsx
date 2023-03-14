@@ -6,7 +6,7 @@ import { Typography } from 'components/Typography'
 import { ReactComponent as GovernanceIcon } from 'assets/images/icon-governance.svg'
 import { ReactComponent as SandClockIcon } from 'assets/images/icon-sandclock-fill.svg'
 import { ProgressBar } from 'components/ProgressBar/ProgressBar'
-import useCurrentDao from 'hooks/useCurrentDao'
+import useCurrentDao from 'hooks/currentDao'
 import { Timestamp } from '@ixo/impactxclient-sdk/types/codegen/DaoCore.types'
 
 interface Props {

@@ -1,9 +1,11 @@
 import React, { useEffect } from 'react'
 import { Route, RouteComponentProps, useParams, useRouteMatch } from 'react-router-dom'
 import { useCreateEntityState, useCreateEntityStrategy } from 'hooks/createEntity'
+import { useCurrentDaoGroup } from 'hooks/currentDao'
 
 const CreateDeed: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): JSX.Element => {
-  const { entityId } = useParams<{ entityId: string }>()
+  const { entityId, coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
+  const daoGroup = useCurrentDaoGroup(coreAddress)
   const { getStrategyByEntityType } = useCreateEntityStrategy()
   const { updateBreadCrumbs, updateEntityType, updateTitle, updateSubtitle } = useCreateEntityState()
   const isSetupInfoRoute = useRouteMatch('/create/entity/:entityId/deed/:coreAddress/info')
@@ -14,10 +16,13 @@ const CreateDeed: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): JS
 
   useEffect(() => {
     updateEntityType('Deed')
-    updateBreadCrumbs([{ text: entityId, link: `/entity/${entityId}/dashboard` }, { text: 'Governance' }])
+    updateBreadCrumbs([
+      { text: entityId, link: `/entity/${entityId}/dashboard` },
+      { text: daoGroup?.config.name || 'Governance', link: `/entity/${entityId}/dashboard/overview/${coreAddress}` },
+    ])
     updateTitle('Create a governance proposal')
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [daoGroup?.config.name])
 
   useEffect(() => {
     if (isSetupInfoRoute?.isExact) {

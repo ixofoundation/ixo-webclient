@@ -30,6 +30,7 @@ import { reducer as editEntityClaimsReducer } from 'redux/editEntityClaims/editE
 import { reducer as editEntityPageContentReducer } from 'redux/editEntityPageContent/editEntityPageContent.reducer'
 import { reducer as editEntitySettingsReducer } from 'redux/editEntitySettings/editEntitySettings.reducer'
 import { reducer as editEntityTemplateReducer } from 'redux/editEntityTemplate/editTemplate.reducer'
+import { reducer as validatorReducer } from 'redux/validator/validator.reducer'
 
 export const rootReducer = (history: any) =>
   combineReducers({
@@ -63,5 +64,6 @@ export const rootReducer = (history: any) =>
     newEntity: newEntityReducer,
     currentEntity: currentEntityReducer,
     currentDao: currentDaoReducer,
+    validator: validatorReducer,
     router: connectRouter(history),
   })

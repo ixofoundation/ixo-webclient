@@ -48,7 +48,7 @@ import { PerformTokenSwapData } from 'components/Modals/AddActionModal/SetupToke
 import { coins } from '@cosmjs/amino'
 import { DaoAdminExecData } from 'components/Modals/AddActionModal/SetupDAOAdminExecuteModal'
 import { useIxoConfigs } from 'hooks/configs'
-import { useCurrentDaoGroup } from './useCurrentDao'
+import { useCurrentDaoGroup } from './currentDao'
 
 export function useMakeProposalAction(coreAddress: string) {
   const { convertToMinimalDenom } = useIxoConfigs()
@@ -78,12 +78,12 @@ export function useMakeProposalAction(coreAddress: string) {
     })
   }
 
-  const makeAuthzExecAction = (grantee: string, data: AuthzExecData): any => {
+  const makeAuthzExecAction = (data: AuthzExecData): any => {
     return makeStargateMessage({
       stargate: {
         typeUrl: '/cosmos.authz.v1beta1.MsgExec',
         value: {
-          grantee,
+          grantee: coreAddress,
           msgs:
             data.authzExecActionType === AuthzExecActionTypes.Custom
               ? JSON.parse(data.custom)
@@ -107,7 +107,7 @@ export function useMakeProposalAction(coreAddress: string) {
     })
   }
 
-  const makeAuthzAuthorizationAction = (grantee: string, data: AuthzData): any => {
+  const makeAuthzAuthorizationAction = (data: AuthzData): any => {
     return makeStargateMessage({
       stargate: {
         typeUrl: data.typeUrl,
@@ -126,8 +126,8 @@ export function useMakeProposalAction(coreAddress: string) {
             : {
                 msgTypeUrl: data.value.msgTypeUrl,
               }),
-          grantee,
-          granter: data.value.grantee,
+          grantee: data.value.grantee,
+          granter: coreAddress,
         },
       },
     })
@@ -196,11 +196,11 @@ export function useMakeProposalAction(coreAddress: string) {
     })
   }
 
-  const makeManageSubDaosAction = (address: string, data: ManageSubDaosData): any => {
+  const makeManageSubDaosAction = (data: ManageSubDaosData): any => {
     return makeWasmMessage({
       wasm: {
         execute: {
-          contract_addr: address,
+          contract_addr: coreAddress,
           funds: [],
           msg: {
             update_sub_daos: {
@@ -314,7 +314,8 @@ export function useMakeProposalAction(coreAddress: string) {
     })
   }
 
-  const makeUpdatePreProposeConfigAction = (preProposeAddress: string, data: UpdatePreProposeConfigData): any => {
+  const makeUpdatePreProposeConfigAction = (data: UpdatePreProposeConfigData): any => {
+    const preProposalContractAddress = daoGroup?.proposalModule.preProposalContractAddress
     const updateConfigMessage: ExecuteMsg = {
       update_config: {
         deposit_info: data.depositRequired
@@ -348,7 +349,7 @@ export function useMakeProposalAction(coreAddress: string) {
     return makeWasmMessage({
       wasm: {
         execute: {
-          contract_addr: preProposeAddress,
+          contract_addr: preProposalContractAddress,
           funds: [],
           msg: updateConfigMessage,
         },
@@ -356,11 +357,10 @@ export function useMakeProposalAction(coreAddress: string) {
     })
   }
 
-  const makeUpdateVotingConfigAction = (
-    daoAddress: string,
-    proposalModuleAddress: string,
-    data: UpdateProposalConfigData,
-  ): any => {
+  const makeUpdateVotingConfigAction = (data: UpdateProposalConfigData): any => {
+    const proposalModuleAddress = daoGroup?.proposalModule.proposalModuleAddress
+    const proposalModuleConfig = daoGroup?.proposalModule.proposalConfig
+
     const typePercentageToPercentageThreshold = (t: 'majority' | '%', p: number | undefined) => {
       if (t === 'majority') {
         return { majority: {} }
@@ -404,9 +404,9 @@ export function useMakeProposalAction(coreAddress: string) {
         only_members_execute: data.onlyMembersExecute,
         allow_revoting: data.allowRevoting,
         // Pass through because we don't support changing them yet.
-        dao: daoAddress,
-        close_proposal_on_execution_failure: true, // 'proposalModuleConfig.close_proposal_on_execution_failure',
-        min_voting_period: null, //'proposalModuleConfig.min_voting_period',
+        dao: proposalModuleConfig.dao,
+        close_proposal_on_execution_failure: proposalModuleConfig.close_proposal_on_execution_failure,
+        min_voting_period: proposalModuleConfig.min_voting_period,
       },
     }
 
@@ -452,11 +452,11 @@ export function useMakeProposalAction(coreAddress: string) {
     })
   }
 
-  const makeUpdateInfoAction = (daoAddress: string, data: UpdateInfoData): any => {
+  const makeUpdateInfoAction = (data: UpdateInfoData): any => {
     return makeWasmMessage({
       wasm: {
         execute: {
-          contract_addr: daoAddress,
+          contract_addr: coreAddress,
           funds: [],
           msg: {
             update_config: {
@@ -503,17 +503,23 @@ export function useMakeProposalAction(coreAddress: string) {
     })
   }
 
-  const makeManageStorageItemsAction = (daoAddress: string, data: ManageStorageItemsData): any => {
+  const makeManageStorageItemsAction = (data: ManageStorageItemsData): any => {
+    // TODO:
+    // V1 DAOs and V2-alpha DAOs use a value key of `addr`, V2-beta uses `value`.
+    // const valueKey =
+    //   context.info.coreVersion === ContractVersion.V1 || context.info.coreVersion === ContractVersion.V2Alpha
+    //     ? 'addr'
+    //     : 'value'
     return makeWasmMessage({
       wasm: {
         execute: {
-          contract_addr: daoAddress,
+          contract_addr: coreAddress,
           funds: [],
           msg: data.setting
             ? {
                 set_item: {
                   key: data.key,
-                  addr: data.value,
+                  ['value']: data.value,
                 },
               }
             : {

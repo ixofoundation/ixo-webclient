@@ -11,7 +11,7 @@ import { SetupActionsForm } from './SetupActionsForm'
 import { useMakeProposalAction } from 'hooks/proposal'
 import { useAccount } from 'hooks/account'
 import { contracts } from '@ixo/impactxclient-sdk'
-import { useCurrentDaoGroup } from 'hooks/useCurrentDao'
+import { useCurrentDaoGroup } from 'hooks/currentDao'
 import { CosmosMsgForEmpty } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
 import { fee } from 'lib/protocol/common'
 import * as Toast from 'utils/toast'
@@ -64,12 +64,25 @@ const SetupActions: React.FC = () => {
         try {
           const { type, data } = validAction
           switch (type) {
+            case 'AuthZ Exec':
+              return makeAuthzExecAction(data)
+            case 'AuthZ Grant / Revoke':
+              return makeAuthzAuthorizationAction(data)
+            case 'Change Group Membership':
+              return makeManageMembersAction(data)
+            case 'Manage Subgroups':
+              return makeManageSubDaosAction(data)
+            case 'Manage Storage Items':
+              return makeManageStorageItemsAction(data)
+            case 'Update Info':
+              return makeUpdateInfoAction(data)
+            case 'Update Proposal Submission Config':
+              return makeUpdatePreProposeConfigAction(data)
+            case 'Update Voting Config':
+              return makeUpdateVotingConfigAction(data)
+
             case 'Spend':
               return makeSpendAction(data)
-            case 'AuthZ Exec':
-              return makeAuthzExecAction(entityId, data)
-            case 'AuthZ Grant / Revoke':
-              return makeAuthzAuthorizationAction(entityId, data)
             case 'Burn NFT':
               return makeBurnNftAction(data)
             case 'Mint':
@@ -79,8 +92,6 @@ const SetupActions: React.FC = () => {
               return makeExecuteAction(data)
             case 'Initiate Smart Contract':
               return makeInstantiateAction(data)
-            case 'Manage Subgroups':
-              return makeManageSubDaosAction(entityId, data)
             case 'Manage Treasury NFTs':
               return makeManageCw721Action(entityId, data)
             case 'Manage Treasury Tokens':
@@ -93,25 +104,13 @@ const SetupActions: React.FC = () => {
               return makeTransferNFTAction(data)
             case 'Update Contract Admin':
               return makeUpdateAdminAction(data)
-            case 'Update Proposal Submission Config':
-              // TODO:
-              return makeUpdatePreProposeConfigAction('preProposeAddress', data)
-            case 'Update Voting Config':
-              // TODO:
-              return makeUpdateVotingConfigAction(entityId, 'proposalModuleAddress', data)
             case 'Vote on a Governance Proposal':
               // TODO:
               return makeGovernanceVoteAction('ixo12wgrrvmx5jx2mxhu6dvnfu3greamemnqfvx84a', data)
             case 'Withdraw Token Swap':
               return makeWithdrawTokenSwapAction(data)
-            case 'Update Info':
-              return makeUpdateInfoAction(entityId, data)
             case 'Custom':
               return makeCustomAction(data)
-            case 'Change Group Membership':
-              return makeManageMembersAction(data)
-            case 'Manage Storage Items':
-              return makeManageStorageItemsAction('ixo12wgrrvmx5jx2mxhu6dvnfu3greamemnqfvx84a', data)
             case 'Validator Actions':
               return makeValidatorActions('ixovaloper1xz54y0ktew0dcm00f9vjw0p7x29pa4j5p9rwq6zerkytugzg27qsjdevsm', data)
             case 'Token Swap':

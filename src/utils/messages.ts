@@ -1,4 +1,4 @@
-// import { wasmTypes } from '@cosmjs/cosmwasm-stargate/build/modules'
+import { wasmTypes } from '@cosmjs/cosmwasm-stargate/build/modules'
 import { fromBase64, fromUtf8, toBase64, toUtf8 } from '@cosmjs/encoding'
 import { GeneratedType, Registry } from '@cosmjs/proto-signing'
 import { defaultRegistryTypes } from '@cosmjs/stargate'
@@ -138,7 +138,7 @@ export const makeWasmMessage = (message: {
 
 export const typesRegistry = new Registry([
   ...defaultRegistryTypes,
-  // ...wasmTypes,
+  ...wasmTypes,
 
   // Custom types not in @cosmjs/stargate default registry.
   ...([
@@ -152,6 +152,7 @@ export const typesRegistry = new Registry([
 // array.
 export const encodeProtobufValue = (typeUrl: string, value: any): Uint8Array => {
   const type = typesRegistry.lookupType(typeUrl)
+  console.log({ typeUrl, typesRegistry })
   if (!type) {
     throw new Error(`Type ${typeUrl} not found in registry.`)
   }

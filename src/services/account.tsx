@@ -5,7 +5,7 @@ import { ChooseWalletModal } from 'components/Modals'
 import { useAccount } from 'hooks/account'
 import { WalletType } from 'redux/account/account.types'
 import { useEffect } from 'react'
-import { SigningCosmWasmClient } from '@cosmjs/cosmwasm-stargate'
+import { SigningCosmWasmClient } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/cosmwasm-stargate'
 
 let updateKeysafeLoginStatusTimer: NodeJS.Timer
 const updateKeysafeLoginStatusInterval = 1000 * 10

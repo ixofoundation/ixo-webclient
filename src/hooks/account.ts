@@ -35,7 +35,7 @@ import { useKeplr } from 'lib/keplr/keplr'
 import { OfflineSigner } from '@cosmjs/proto-signing'
 import { useIxoConfigs } from './configs'
 import { useMemo } from 'react'
-import { SigningCosmWasmClient } from '@cosmjs/cosmwasm-stargate'
+import { SigningCosmWasmClient } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/cosmwasm-stargate'
 
 export function useAccount(): {
   selectedWallet: WalletType

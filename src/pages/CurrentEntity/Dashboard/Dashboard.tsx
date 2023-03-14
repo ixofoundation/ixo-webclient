@@ -1,5 +1,5 @@
 import { useAccount } from 'hooks/account'
-import useCurrentEntity from 'hooks/useCurrentEntity'
+import useCurrentEntity from 'hooks/currentEntity'
 import React, { useEffect, useMemo } from 'react'
 import { DAODashboard } from './DAODashboard'
 

@@ -3,7 +3,6 @@ import { FlexBox } from 'components/App/App.styles'
 import { AccountValidStatus, Input } from 'pages/CreateEntity/Components'
 import { TDeedActionModel } from 'types/protocol'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
-import { isAccountAddress } from 'utils/validation'
 import { CosmosMsgFor_Empty } from 'types/dao'
 import { Typography } from 'components/Typography'
 import { SetupActionsForm } from 'pages/CreateEntity/CreateDeed/Pages/SetupActions/SetupActionsForm'
@@ -66,10 +65,7 @@ const SetupDAOAdminExecuteModal: React.FC<Props> = ({ open, action, onClose, onS
   const validActions = (formData._actions ?? []).filter((item) => item.data)
   const daoAddress = 'ixo1xc798xnhp7yy9mpp80v3tsxppw8qk0y9atm965'
 
-  const validate = useMemo(
-    () => isAccountAddress(formData.coreAddress) && (formData._actions ?? []).length > 0,
-    [formData],
-  )
+  const validate = useMemo(() => !!formData.coreAddress && (formData._actions ?? []).length > 0, [formData])
 
   useEffect(() => {
     setFormData(action?.data ?? initialState)
@@ -88,9 +84,9 @@ const SetupDAOAdminExecuteModal: React.FC<Props> = ({ open, action, onClose, onS
             case 'Spend':
               return makeSpendAction(data)
             case 'AuthZ Exec':
-              return makeAuthzExecAction(daoAddress, data)
+              return makeAuthzExecAction(data)
             case 'AuthZ Grant / Revoke':
-              return makeAuthzAuthorizationAction(daoAddress, data)
+              return makeAuthzAuthorizationAction(data)
             case 'Burn NFT':
               return makeBurnNftAction(data)
             case 'Mint':
@@ -101,7 +97,7 @@ const SetupDAOAdminExecuteModal: React.FC<Props> = ({ open, action, onClose, onS
             case 'Initiate Smart Contract':
               return makeInstantiateAction(data)
             case 'Manage Subgroups':
-              return makeManageSubDaosAction(daoAddress, data)
+              return makeManageSubDaosAction(data)
             case 'Manage Treasury NFTs':
               return makeManageCw721Action(daoAddress, data)
             case 'Manage Treasury Tokens':
@@ -116,24 +112,24 @@ const SetupDAOAdminExecuteModal: React.FC<Props> = ({ open, action, onClose, onS
               return makeUpdateAdminAction(data)
             case 'Update Proposal Submission Config':
               // TODO:
-              return makeUpdatePreProposeConfigAction('preProposeAddress', data)
+              return makeUpdatePreProposeConfigAction(data)
             case 'Update Voting Config':
               // TODO:
-              return makeUpdateVotingConfigAction(daoAddress, 'proposalModuleAddress', data)
+              return makeUpdateVotingConfigAction(data)
             case 'Vote on a Governance Proposal':
               // TODO:
               return makeGovernanceVoteAction('ixo12wgrrvmx5jx2mxhu6dvnfu3greamemnqfvx84a', data)
             case 'Withdraw Token Swap':
               return makeWithdrawTokenSwapAction(data)
             case 'Update Info':
-              return makeUpdateInfoAction(daoAddress, data)
+              return makeUpdateInfoAction(data)
             case 'Custom':
               return makeCustomAction(data)
             case 'Change Group Membership':
               // TODO:
               return makeManageMembersAction(data)
             case 'Manage Storage Items':
-              return makeManageStorageItemsAction('ixo12wgrrvmx5jx2mxhu6dvnfu3greamemnqfvx84a', data)
+              return makeManageStorageItemsAction(data)
             case 'Validator Actions':
               return makeValidatorActions('ixovaloper1xz54y0ktew0dcm00f9vjw0p7x29pa4j5p9rwq6zerkytugzg27qsjdevsm', data)
             case 'Token Swap':
@@ -177,7 +173,7 @@ const SetupDAOAdminExecuteModal: React.FC<Props> = ({ open, action, onClose, onS
         </FlexBox>
       </FlexBox>
 
-      {isAccountAddress(formData.coreAddress) && (
+      {formData.coreAddress && (
         <>
           <FlexBox width='100%'>
             <Typography size='xl'>The following actions will be executed when the proposal passes:</Typography>

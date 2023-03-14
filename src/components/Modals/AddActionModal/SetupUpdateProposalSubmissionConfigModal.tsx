@@ -1,8 +1,10 @@
 import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { NATIVE_MICRODENOM } from 'constants/chains'
+import { useCurrentDaoGroup } from 'hooks/currentDao'
 import { Button, Dropdown2, Input, Switch } from 'pages/CreateEntity/Components'
 import React, { useEffect, useMemo, useState } from 'react'
+import { useParams } from 'react-router-dom'
 import { DepositRefundPolicy } from 'types/dao'
 import { TDeedActionModel } from 'types/protocol'
 import { GenericToken } from 'types/tokens'
@@ -43,16 +45,34 @@ interface Props {
 }
 
 const SetupUpdateContractAdminModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
+  const { coreAddress } = useParams<{ coreAddress: string }>()
+  const daoGroup = useCurrentDaoGroup(coreAddress)
+  const preProposeConfig = daoGroup?.proposalModule.preProposeConfig
   const [formData, setFormData] = useState<UpdatePreProposeConfigData>(initialPreProposeConfigState)
 
   const validate = useMemo(
-    () => formData.depositRequired && !!formData.depositInfo.amount && !!formData.depositInfo.denomOrAddress,
+    () => !formData.depositRequired || (!!formData.depositInfo.amount && !!formData.depositInfo.denomOrAddress),
     [formData],
   )
 
   useEffect(() => {
-    setFormData(action?.data ?? initialPreProposeConfigState)
-  }, [action])
+    if (action.data) {
+      setFormData({ ...action.data })
+    } else if (preProposeConfig) {
+      setFormData({
+        depositRequired: !!preProposeConfig.deposit_info,
+        depositInfo: preProposeConfig.deposit_info
+          ? {
+              amount: preProposeConfig.deposit_info.amount,
+              type: Object.keys(preProposeConfig.deposit_info.denom)[0] as 'native' | 'cw20' | 'voting_module_token',
+              denomOrAddress: Object.values(preProposeConfig.deposit_info.denom)[0],
+              refundPolicy: preProposeConfig.deposit_info.refund_policy as DepositRefundPolicy,
+            }
+          : initialPreProposeConfigState.depositInfo,
+        anyoneCanPropose: preProposeConfig.open_proposal_submission,
+      })
+    }
+  }, [preProposeConfig, action.data])
 
   const handleUpdateFormData = (key: string, value: any) => {
     setFormData((data: any) => ({ ...data, [key]: value }))
@@ -164,15 +184,15 @@ const SetupUpdateContractAdminModal: React.FC<Props> = ({ open, action, onClose,
         <Typography size='xl'>Who can submit proposals?</Typography>
         <FlexBox width='100%' gap={4}>
           <Button
-            variant={formData.anyoneCanPropose ? 'primary' : 'secondary'}
-            onClick={() => handleUpdateFormData('anyoneCanPropose', true)}
+            variant={!formData.anyoneCanPropose ? 'primary' : 'secondary'}
+            onClick={() => handleUpdateFormData('anyoneCanPropose', false)}
             style={{ textTransform: 'unset', width: '100%' }}
           >
             Only Members
           </Button>
           <Button
-            variant={!formData.anyoneCanPropose ? 'primary' : 'secondary'}
-            onClick={() => handleUpdateFormData('anyoneCanPropose', false)}
+            variant={formData.anyoneCanPropose ? 'primary' : 'secondary'}
+            onClick={() => handleUpdateFormData('anyoneCanPropose', true)}
             style={{ textTransform: 'unset', width: '100%' }}
           >
             Everyone

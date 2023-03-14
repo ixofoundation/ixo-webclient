@@ -1,7 +1,10 @@
+import { Threshold } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
 import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
+import { useCurrentDaoGroup } from 'hooks/currentDao'
 import { Dropdown2, NumberCounter, Switch } from 'pages/CreateEntity/Components'
 import React, { useEffect, useMemo, useState } from 'react'
+import { useParams } from 'react-router-dom'
 import { TDeedActionModel } from 'types/protocol'
 import { TitleAndDescription } from './Component'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
@@ -20,6 +23,46 @@ export interface UpdateProposalConfigData {
   proposalDurationUnits: 'weeks' | 'days' | 'hours' | 'minutes' | 'seconds'
 
   allowRevoting: boolean
+}
+
+const thresholdToTQData = (
+  source: Threshold,
+): Pick<
+  UpdateProposalConfigData,
+  'thresholdType' | 'thresholdPercentage' | 'quorumEnabled' | 'quorumType' | 'quorumPercentage'
+> => {
+  let thresholdType: UpdateProposalConfigData['thresholdType'] = 'majority'
+  let thresholdPercentage: UpdateProposalConfigData['thresholdPercentage'] = undefined
+  let quorumEnabled = true
+  let quorumType: UpdateProposalConfigData['quorumType'] = '%'
+  let quorumPercentage: UpdateProposalConfigData['quorumPercentage'] = 20
+
+  if ('threshold_quorum' in source) {
+    const { threshold, quorum } = source.threshold_quorum
+
+    thresholdType = 'majority' in threshold ? 'majority' : '%'
+    thresholdPercentage = 'majority' in threshold ? undefined : Number(threshold.percent) * 100
+
+    quorumType = 'majority' in quorum ? 'majority' : '%'
+    quorumPercentage = 'majority' in quorum ? undefined : Number(quorum.percent) * 100
+
+    quorumEnabled = true
+  } else if ('absolute_percentage' in source) {
+    const { percentage } = source.absolute_percentage
+
+    thresholdType = 'majority' in percentage ? 'majority' : '%'
+    thresholdPercentage = 'majority' in percentage ? undefined : Number(percentage.percent) * 100
+
+    quorumEnabled = false
+  }
+
+  return {
+    thresholdType,
+    thresholdPercentage,
+    quorumEnabled,
+    quorumType,
+    quorumPercentage,
+  }
 }
 
 export const initialProposalConfigState: UpdateProposalConfigData = {
@@ -44,6 +87,9 @@ interface Props {
 }
 
 const SetupUpdateVotingConfigModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
+  const { coreAddress } = useParams<{ coreAddress: string }>()
+  const daoGroup = useCurrentDaoGroup(coreAddress)
+  const proposalConfig = daoGroup?.proposalModule.proposalConfig
   const [formData, setFormData] = useState<UpdateProposalConfigData>(initialProposalConfigState)
 
   const validate = useMemo(() => {
@@ -57,8 +103,18 @@ const SetupUpdateVotingConfigModal: React.FC<Props> = ({ open, action, onClose, 
   }, [formData])
 
   useEffect(() => {
-    setFormData(action?.data ?? initialProposalConfigState)
-  }, [action])
+    if (action.data) {
+      setFormData(action.data)
+    } else if (proposalConfig) {
+      setFormData({
+        onlyMembersExecute: proposalConfig.only_members_execute,
+        proposalDuration: (proposalConfig.max_voting_period as { time: number }).time,
+        proposalDurationUnits: 'seconds',
+        allowRevoting: proposalConfig.allow_revoting,
+        ...thresholdToTQData(proposalConfig.threshold),
+      })
+    }
+  }, [action.data, proposalConfig])
 
   const handleUpdateFormData = (key: string, value: any) => {
     setFormData((data: any) => ({ ...data, [key]: value }))
@@ -138,8 +194,8 @@ const SetupUpdateVotingConfigModal: React.FC<Props> = ({ open, action, onClose, 
           {formData.thresholdType === '%' && (
             <NumberCounter
               direction='row-reverse'
-              value={formData.thresholdPercentage! * 100}
-              onChange={(value: number): void => handleUpdateFormData('thresholdPercentage', value / 100)}
+              value={formData.thresholdPercentage!}
+              onChange={(value: number): void => handleUpdateFormData('thresholdPercentage', value)}
             />
           )}
           <Dropdown2
@@ -150,7 +206,7 @@ const SetupUpdateVotingConfigModal: React.FC<Props> = ({ open, action, onClose, 
             ]}
             onChange={(e) => {
               handleUpdateFormData('thresholdType', e.target.value)
-              handleUpdateFormData('thresholdPercentage', e.target.value === '%' && 0.2)
+              handleUpdateFormData('thresholdPercentage', e.target.value === '%' && 20)
             }}
             style={{ textAlign: 'center' }}
           />
@@ -167,8 +223,8 @@ const SetupUpdateVotingConfigModal: React.FC<Props> = ({ open, action, onClose, 
           {formData.quorumType === '%' && (
             <NumberCounter
               direction='row-reverse'
-              value={formData.quorumPercentage! * 100}
-              onChange={(value: number): void => handleUpdateFormData('quorumPercentage', value / 100)}
+              value={formData.quorumPercentage!}
+              onChange={(value: number): void => handleUpdateFormData('quorumPercentage', value)}
             />
           )}
           <Dropdown2
@@ -179,7 +235,7 @@ const SetupUpdateVotingConfigModal: React.FC<Props> = ({ open, action, onClose, 
             ]}
             onChange={(e) => {
               handleUpdateFormData('quorumType', e.target.value)
-              handleUpdateFormData('quorumPercentage', e.target.value === '%' && 0.2)
+              handleUpdateFormData('quorumPercentage', e.target.value === '%' && 20)
             }}
             style={{ textAlign: 'center' }}
           />

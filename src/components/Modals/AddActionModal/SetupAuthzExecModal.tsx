@@ -5,10 +5,11 @@ import { Typography } from 'components/Typography'
 import { TDeedActionModel } from 'types/protocol'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 import { isAccountAddress, isNonZeroBalance, validateJSON } from 'utils/validation'
-import { NATIVE_MICRODENOM } from 'constants/chains'
+import { NATIVE_DENOM } from 'constants/chains'
 import type { MsgWithdrawDelegatorReward } from 'cosmjs-types/cosmos/distribution/v1beta1/tx'
 import type { MsgBeginRedelegate, MsgDelegate, MsgUndelegate } from 'cosmjs-types/cosmos/staking/v1beta1/tx'
 import { TitleAndDescription } from './Component'
+import { useValidators } from 'hooks/validator'
 
 export enum AuthzExecActionTypes {
   Delegate = '/cosmos.staking.v1beta1.MsgDelegate',
@@ -37,12 +38,12 @@ export interface AuthzExecData {
 const initialState: AuthzExecData = {
   authzExecActionType: AuthzExecActionTypes.Delegate,
   delegate: {
-    amount: { denom: NATIVE_MICRODENOM, amount: '0' },
+    amount: { denom: NATIVE_DENOM, amount: '0' },
     delegatorAddress: '',
     validatorAddress: '',
   },
   undelegate: {
-    amount: { denom: NATIVE_MICRODENOM, amount: '0' },
+    amount: { denom: NATIVE_DENOM, amount: '0' },
     delegatorAddress: '',
     validatorAddress: '',
   },
@@ -50,7 +51,7 @@ const initialState: AuthzExecData = {
     delegatorAddress: '',
     validatorSrcAddress: '',
     validatorDstAddress: '',
-    amount: { denom: NATIVE_MICRODENOM, amount: '0' },
+    amount: { denom: NATIVE_DENOM, amount: '0' },
   },
   claimRewards: {
     delegatorAddress: '',
@@ -67,6 +68,7 @@ interface Props {
 }
 
 const SetupAuthzExecModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
+  const { validators } = useValidators()
   const [formData, setFormData] = useState<AuthzExecData>(initialState)
 
   const validate: boolean = useMemo(() => {
@@ -77,7 +79,7 @@ const SetupAuthzExecModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
           isNonZeroBalance(delegate.amount?.amount) &&
           !!delegate.amount?.denom &&
           isAccountAddress(delegate.delegatorAddress) &&
-          isAccountAddress(delegate.validatorAddress)
+          isAccountAddress(delegate.validatorAddress, 'ixovaloper')
         )
       }
       case AuthzExecActionTypes.Undelegate: {
@@ -86,7 +88,7 @@ const SetupAuthzExecModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
           isNonZeroBalance(undelegate.amount?.amount) &&
           !!undelegate.amount?.denom &&
           isAccountAddress(undelegate.delegatorAddress) &&
-          isAccountAddress(undelegate.validatorAddress)
+          isAccountAddress(undelegate.validatorAddress, 'ixovaloper')
         )
       }
       case AuthzExecActionTypes.Redelegate: {
@@ -95,13 +97,16 @@ const SetupAuthzExecModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
           isNonZeroBalance(redelegate.amount?.amount) &&
           !!redelegate.amount?.denom &&
           isAccountAddress(redelegate.delegatorAddress) &&
-          isAccountAddress(redelegate.validatorSrcAddress) &&
-          isAccountAddress(redelegate.validatorDstAddress)
+          isAccountAddress(redelegate.validatorSrcAddress, 'ixovaloper') &&
+          isAccountAddress(redelegate.validatorDstAddress, 'ixovaloper')
         )
       }
       case AuthzExecActionTypes.ClaimRewards: {
         const { claimRewards } = formData
-        return isAccountAddress(claimRewards.delegatorAddress) && isAccountAddress(claimRewards.validatorAddress)
+        return (
+          isAccountAddress(claimRewards.delegatorAddress) &&
+          isAccountAddress(claimRewards.validatorAddress, 'ixovaloper')
+        )
       }
       case AuthzExecActionTypes.Custom:
         return validateJSON(formData.custom)
@@ -151,12 +156,16 @@ const SetupAuthzExecModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
           <Typography color='black' weight='medium' size='xl'>
             Validator
           </Typography>
-          <Input
-            name='validator'
-            height={inputHeight}
+          <Dropdown2
+            name={'validator'}
+            value={delegate.validatorAddress}
+            options={validators.map((validator) => ({
+              value: validator.address,
+              text: validator.moniker || validator.address,
+            }))}
             placeholder='Select Validator'
-            inputValue={delegate.validatorAddress}
-            handleChange={(value) => handleUpdateDelegateFormData('validatorAddress', value)}
+            onChange={(e) => handleUpdateDelegateFormData('validatorAddress', e.target.value)}
+            style={{ height: inputHeight }}
           />
         </FlexBox>
 
@@ -178,7 +187,6 @@ const SetupAuthzExecModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
               name={'token'}
               value={delegate.amount?.denom}
               options={[{ value: delegate.amount?.denom ?? '', text: '$IXO' }]}
-              hasArrow={false}
               onChange={(e) =>
                 handleUpdateDelegateFormData('amount', { ...(delegate.amount ?? {}), denom: e.target.value })
               }
@@ -217,12 +225,16 @@ const SetupAuthzExecModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
           <Typography color='black' weight='medium' size='xl'>
             Validator
           </Typography>
-          <Input
-            name='validator'
-            height={inputHeight}
+          <Dropdown2
+            name={'validator'}
+            value={undelegate.validatorAddress}
+            options={validators.map((validator) => ({
+              value: validator.address,
+              text: validator.moniker || validator.address,
+            }))}
             placeholder='Select Validator'
-            inputValue={undelegate.validatorAddress}
-            handleChange={(value) => handleUpdateUndelegateFormData('validatorAddress', value)}
+            onChange={(e) => handleUpdateUndelegateFormData('validatorAddress', e.target.value)}
+            style={{ height: inputHeight }}
           />
         </FlexBox>
 
@@ -283,12 +295,16 @@ const SetupAuthzExecModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
           <Typography color='black' weight='medium' size='xl'>
             Source Validator
           </Typography>
-          <Input
-            name='src_validator'
-            height={inputHeight}
+          <Dropdown2
+            name={'src_validator'}
+            value={redelegate.validatorSrcAddress}
+            options={validators.map((validator) => ({
+              value: validator.address,
+              text: validator.moniker || validator.address,
+            }))}
             placeholder='Source Validator'
-            inputValue={redelegate.validatorSrcAddress}
-            handleChange={(value) => handleUpdateRedelegateFormData('validatorSrcAddress', value)}
+            onChange={(e) => handleUpdateRedelegateFormData('validatorSrcAddress', e.target.value)}
+            style={{ height: inputHeight }}
           />
         </FlexBox>
 
@@ -296,12 +312,16 @@ const SetupAuthzExecModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
           <Typography color='black' weight='medium' size='xl'>
             Destination Validator
           </Typography>
-          <Input
-            name='dst_validator'
-            height={inputHeight}
+          <Dropdown2
+            name={'dst_validator'}
+            value={redelegate.validatorDstAddress}
+            options={validators.map((validator) => ({
+              value: validator.address,
+              text: validator.moniker || validator.address,
+            }))}
             placeholder='Destination Validator'
-            inputValue={redelegate.validatorDstAddress}
-            handleChange={(value) => handleUpdateRedelegateFormData('validatorDstAddress', value)}
+            onChange={(e) => handleUpdateRedelegateFormData('validatorDstAddress', e.target.value)}
+            style={{ height: inputHeight }}
           />
         </FlexBox>
 
@@ -362,12 +382,16 @@ const SetupAuthzExecModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
           <Typography color='black' weight='medium' size='xl'>
             Validator
           </Typography>
-          <Input
-            name='validator'
-            height={inputHeight}
+          <Dropdown2
+            name={'validator'}
+            value={claimRewards.validatorAddress}
+            options={validators.map((validator) => ({
+              value: validator.address,
+              text: validator.moniker || validator.address,
+            }))}
             placeholder='Select Validator'
-            inputValue={claimRewards.validatorAddress}
-            handleChange={(value) => handleUpdateClaimRewardsFormData('validatorAddress', value)}
+            onChange={(e) => handleUpdateClaimRewardsFormData('validatorAddress', e.target.value)}
+            style={{ height: inputHeight }}
           />
         </FlexBox>
       </>
