@@ -1,19 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { useAppDispatch, useAppSelector } from 'redux/hooks'
+import { useAppSelector } from 'redux/hooks'
 import DataCard from 'components/Entities/EntitiesExplorer/Components/EntityCard/AirdropCard/AirdropCard'
 import { EntityType, TermsOfUseType } from 'types/entities'
 import { ExplorerEntity } from 'redux/entitiesExplorer/entitiesExplorer.types'
-import { getEntities } from 'redux/entitiesExplorer/entitiesExplorer.actions'
 
 const Airdrop: React.FunctionComponent = () => {
-  const dispatch = useAppDispatch()
   const { entities } = useAppSelector((state) => state.entities)
   const [airdropList, setAirdropList] = useState<ExplorerEntity[]>([])
-
-  useEffect(() => {
-    dispatch(getEntities() as any)
-    // eslint-disable-next-line
-  }, [])
 
   useEffect(() => {
     //  temporary placeholder

@@ -46,7 +46,6 @@ import {
   AddSectionButton,
   AssistanceButton,
 } from 'components/Wrappers/FormCardWrapper/FormCardWrapper.styles'
-import { getEntities } from 'redux/entitiesExplorer/entitiesExplorer.actions'
 import { ExplorerEntity } from 'redux/entitiesExplorer/entitiesExplorer.types'
 import { Spinner } from 'components/Spinner/Spinner'
 import Tooltip, { TooltipPosition } from 'components/Tooltip/Tooltip'
@@ -74,18 +73,11 @@ interface Props extends CreateEntityBaseProps {
   handleAddEntityClaimEnrichment: (entityClaimId: string) => void
   handleRemoveEntityClaimEnrichment: (entityClaimId: string, id: string) => void
   handleUpdateEntityClaimEnrichment: (entityClaimId: string, id: string, formData: FormData) => void
-  handleGetEntities: () => void
   handleReorderEntityClaims: (srcId: string, dstId: string) => void
   handleToggleAssistant: (params: ToogleAssistantPayload) => void
 }
 
 class CreateEntityClaims extends CreateEntityBase<Props> {
-  componentDidMount(): void {
-    const { handleGetEntities } = this.props
-
-    handleGetEntities()
-  }
-
   onDragEnd = (result: any): void => {
     const { handleReorderEntityClaims, entityClaims } = this.props
     const { source, destination } = result
@@ -494,7 +486,6 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleValidated: (identifier: string): void => dispatch(validated(identifier)),
   handleValidationError: (identifier: string, errors: string[]): void => dispatch(validationError(identifier, errors)),
   handleGoToStep: (step: number): void => dispatch(goToStep(step)),
-  handleGetEntities: (): void => dispatch(getEntities()),
   handleReorderEntityClaims: (srcId: string, dstId: string): void => dispatch(reorderEntityClaims(srcId, dstId)),
   handleToggleAssistant: (params: ToogleAssistantPayload): void => dispatch(toggleAssistant(params)),
 })

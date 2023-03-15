@@ -53,11 +53,11 @@ describe('EntitiesExplorer Selectors', () => {
             logo: 'someLogoUrl',
             ddoTags: [
               {
-                name: 'someCategory1',
+                category: 'someCategory1',
                 tags: ['someCategory1_tag1', 'someCategory1_tag2', 'someCategory1_tag3'],
               },
               {
-                name: 'someCategory5',
+                category: 'someCategory5',
                 tags: ['someCategory5_tag1', 'someCategory5_tag2', 'someCategory5_tag3'],
               },
             ],
@@ -89,11 +89,11 @@ describe('EntitiesExplorer Selectors', () => {
             logo: 'someLogoUrl',
             ddoTags: [
               {
-                name: 'someCategory1',
+                category: 'someCategory1',
                 tags: ['someCategory1_tag1', 'someCategory1_tag2', 'someCategory1_tag3'],
               },
               {
-                name: 'someCategory6',
+                category: 'someCategory6',
                 tags: ['someCategory6_tag1', 'someCategory6_tag2', 'someCategory6_tag3'],
               },
             ],
@@ -125,11 +125,11 @@ describe('EntitiesExplorer Selectors', () => {
             logo: 'someLogoUrl',
             ddoTags: [
               {
-                name: 'someCategory3',
+                category: 'someCategory3',
                 tags: ['someCategory3_tag1', 'someCategory3_tag2', 'someCategory3_tag3'],
               },
               {
-                name: 'someCategory3',
+                category: 'someCategory3',
                 tags: ['someCategory3_tag1', 'someCategory3_tag2', 'someCategory3_tag3'],
               },
             ],
@@ -161,11 +161,11 @@ describe('EntitiesExplorer Selectors', () => {
             logo: 'someLogoUrl',
             ddoTags: [
               {
-                name: 'someCategory4',
+                category: 'someCategory4',
                 tags: ['someCategory4_tag1', 'someCategory4_tag2', 'someCategory4_tag4'],
               },
               {
-                name: 'someCategory4',
+                category: 'someCategory4',
                 tags: ['someCategory4_tag1', 'someCategory4_tag2', 'someCategory4_tag3'],
               },
             ],
@@ -197,11 +197,11 @@ describe('EntitiesExplorer Selectors', () => {
             logo: 'someLogoUrl',
             ddoTags: [
               {
-                name: 'someCategory4',
+                category: 'someCategory4',
                 tags: ['someCategory1_tag4', 'someCategory1_tag2', 'someCategory1_tag3'],
               },
               {
-                name: 'someCategory5',
+                category: 'someCategory5',
                 tags: ['someCategory5_tag4', 'someCategory5_tag2', 'someCategory5_tag3'],
               },
             ],
@@ -215,7 +215,7 @@ describe('EntitiesExplorer Selectors', () => {
           dateTo: moment('2100-12-31'),
           ddoTags: [
             {
-              name: 'foo',
+              category: 'foo',
               tags: ['bar'],
             },
           ],
@@ -332,11 +332,11 @@ describe('EntitiesExplorer Selectors', () => {
         dateTo: null,
         ddoTags: [
           {
-            name: 'someCategory1',
+            category: 'someCategory1',
             tags: ['someCategory1_tag1'],
           },
           {
-            name: 'someCategory5',
+            category: 'someCategory5',
             tags: ['someCategory5_tag1'],
           },
         ],
@@ -506,7 +506,7 @@ describe('EntitiesExplorer Selectors', () => {
       // then... should return result as expected
       expect(result).toEqual([
         {
-          name: 'foo',
+          category: 'foo',
           tags: ['bar'],
         },
       ])
@@ -527,11 +527,11 @@ describe('EntitiesExplorer Selectors', () => {
     it('should return the correct ddoTags summary from the filter when there are ddoTags selected', () => {
       state.entities.filter.ddoTags = [
         {
-          name: 'foo1',
+          category: 'foo1',
           tags: ['foo1_bar1', 'foo1_bar2'],
         },
         {
-          name: 'foo_2',
+          category: 'foo_2',
           tags: ['foo_2_bar1', 'foo_2_bar2', 'foo_2_bar3'],
         },
       ]

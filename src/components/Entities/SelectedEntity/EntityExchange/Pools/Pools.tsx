@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import cx from 'classnames'
-import { useAppDispatch, useAppSelector } from 'redux/hooks'
+import { useAppSelector } from 'redux/hooks'
 import DataCard from 'components/Entities/EntitiesExplorer/Components/EntityCard/AirdropCard/AirdropCard'
 import { EntityType, TermsOfUseType } from 'types/entities'
 import { ExplorerEntity } from 'redux/entitiesExplorer/entitiesExplorer.types'
-import { getEntities } from 'redux/entitiesExplorer/entitiesExplorer.actions'
 import { FilterWrapper, InputWrapper } from './Pools.styles'
 import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 import ResetIcon from 'assets/images/exchange/reset.svg'
@@ -19,7 +18,6 @@ enum PoolFilterTypes {
 }
 
 const Pools: React.FunctionComponent = () => {
-  const dispatch = useAppDispatch()
   const { entities } = useAppSelector((state) => state.entities)
 
   const [poolList, setPoolList] = useState<ExplorerEntity[]>([])
@@ -33,11 +31,6 @@ const Pools: React.FunctionComponent = () => {
 
   const [walletType] = useState<string | null>(null)
   const [selectedAddress] = useState<string | null>(null)
-
-  useEffect(() => {
-    dispatch(getEntities() as any)
-    // eslint-disable-next-line
-  }, [])
 
   useEffect(() => {
     //  temporary placeholder
