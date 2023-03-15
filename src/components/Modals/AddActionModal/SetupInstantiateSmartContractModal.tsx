@@ -50,12 +50,7 @@ const SetupInstantiateSmartContractModal: React.FC<Props> = ({ open, action, onC
   const [formData, setFormData] = useState<InstantiateData>(initialState)
 
   const validate = useMemo(
-    () =>
-      !!formData.codeId &&
-      !!formData.label &&
-      validateJSON(formData.message) === true &&
-      formData.funds.length > 0 &&
-      !formData.funds.some(({ amount, denom }) => !amount || !denom),
+    () => !!formData.codeId && !!formData.label && validateJSON(formData.message) === true,
     [formData],
   )
 

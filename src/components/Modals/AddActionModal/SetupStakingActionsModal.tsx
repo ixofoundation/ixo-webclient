@@ -1,6 +1,7 @@
 import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { NATIVE_MICRODENOM } from 'constants/chains'
+import { useValidators } from 'hooks/validator'
 import { Dropdown2, Input } from 'pages/CreateEntity/Components'
 import React, { useEffect, useMemo, useState } from 'react'
 import { TDeedActionModel } from 'types/protocol'
@@ -32,13 +33,19 @@ interface Props {
 }
 
 const SetupStakingActionsModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
+  const { validators } = useValidators()
   const [formData, setFormData] = useState<StakeData>(initialState)
 
   const validate = useMemo(() => {
-    if (formData.stakeType === StakeType.Redelegate && !isAccountAddress(formData.toValidator)) {
+    if (formData.stakeType === StakeType.Redelegate && !isAccountAddress(formData.toValidator, 'ixovaloper')) {
       return false
     }
-    return !!formData.stakeType && isAccountAddress(formData.validator) && !!formData.amount && !!formData.denom
+    return (
+      !!formData.stakeType &&
+      isAccountAddress(formData.validator, 'ixovaloper') &&
+      !!formData.amount &&
+      !!formData.denom
+    )
   }, [formData])
 
   useEffect(() => {
@@ -101,21 +108,24 @@ const SetupStakingActionsModal: React.FC<Props> = ({ open, action, onClose, onSu
           Stake with
         </Typography>
         <Dropdown2
-          name='validator'
+          name={'validator'}
           value={formData.validator}
-          options={[{ value: 'ixo12wgrrvmx5jx2mxhu6dvnfu3greamemnqfvx84a', text: 'Validator1' }]}
+          options={validators.map((validator) => ({
+            value: validator.address,
+            text: validator.moniker || validator.address,
+          }))}
           placeholder='Select Validator'
           onChange={(e) => handleUpdateFormData('validator', e.target.value)}
         />
         {formData.validator && formData.stakeType === StakeType.Delegate && (
           <Typography size='md' weight='medium' color='grey700'>
-            Balance: xxx
+            Balance: `Should Deposit Treasury`
           </Typography>
         )}
         {formData.validator &&
           (formData.stakeType === StakeType.Undelegate || formData.stakeType === StakeType.Redelegate) && (
             <Typography size='md' weight='medium' color='grey700'>
-              Staked: xxx
+              Staked: `IDK`
             </Typography>
           )}
       </FlexBox>
@@ -126,9 +136,12 @@ const SetupStakingActionsModal: React.FC<Props> = ({ open, action, onClose, onSu
             To Validator
           </Typography>
           <Dropdown2
-            name='to_validator'
+            name={'to_validator'}
             value={formData.toValidator}
-            options={[{ value: 'ixo12wgrrvmx5jx2mxhu6dvnfu3greamemnqfvx84a', text: 'Validator1' }]}
+            options={validators.map((validator) => ({
+              value: validator.address,
+              text: validator.moniker || validator.address,
+            }))}
             placeholder='Select Validator'
             onChange={(e) => handleUpdateFormData('toValidator', e.target.value)}
           />

@@ -20,6 +20,11 @@ export const Spinner: React.SFC<Props> = ({ info, transparentBg, scale }) => {
     align-items: center;
     flex-direction: column;
     transform: scale(${scale});
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 8;
+    width: 100%;
     height: 100%;
     background-color: ${(props): string => (transparentBg ? '' : theme?.backgroundColor ?? props.theme.ixoDarkestBlue)};
     flex: 1 1 auto;

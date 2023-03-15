@@ -21,6 +21,7 @@ const SetupActions: React.FC = () => {
   const { entityId, coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
   const { deed, updateDeed } = useCreateEntityState()
   const currentDaoGroup = useCurrentDaoGroup(coreAddress)
+  const memberAddresses = currentDaoGroup?.votingModule.members?.map(({ addr }) => addr)
   const {
     makeAuthzAuthorizationAction,
     makeAuthzExecAction,
@@ -48,22 +49,37 @@ const SetupActions: React.FC = () => {
     makeValidatorActions,
     makeWithdrawTokenSwapAction,
   } = useMakeProposalAction(coreAddress)
-  const { address, cosmWasmClient } = useAccount()
+  const { address, cosmWasmClient, updateChooseWalletOpen } = useAccount()
 
   const name = deed?.name || ''
   const description = deed?.description || ''
   const actions = deed?.actions ?? []
   const validActions = actions.filter((item) => item.data)
 
+  const handleValidate = () => {
+    if (!address) {
+      updateChooseWalletOpen(true)
+      return false
+    }
+    if (!memberAddresses.includes(address)) {
+      Toast.errorToast('You must be a member of the group')
+      return false
+    }
+    return true
+  }
   const handleBack = () => {
     history.push(`/create/entity/${entityId}/deed/${coreAddress}/setup-properties`)
   }
   const handleSubmit = async () => {
+    if (!handleValidate()) {
+      return
+    }
     const wasmMessage: CosmosMsgForEmpty[] = validActions
       .map((validAction: TDeedActionModel) => {
         try {
           const { type, data } = validAction
           switch (type) {
+            // Group Category
             case 'AuthZ Exec':
               return makeAuthzExecAction(data)
             case 'AuthZ Grant / Revoke':
@@ -80,7 +96,35 @@ const SetupActions: React.FC = () => {
               return makeUpdatePreProposeConfigAction(data)
             case 'Update Voting Config':
               return makeUpdateVotingConfigAction(data)
+            case 'DAO Admin Execute':
+              // TODO: TBD ?
+              return makeDaoAdminExecAction(data)
+            case 'Vote on a Network Proposal':
+              // TODO: TBD
+              return makeGovernanceVoteAction('ixo12wgrrvmx5jx2mxhu6dvnfu3greamemnqfvx84a', data)
 
+            // Smart Contracts Category
+            case 'Execute Smart Contract':
+              return makeExecuteAction(data)
+            case 'Initiate Smart Contract':
+              return makeInstantiateAction(data)
+            case 'Migrate Smart Contract':
+              return makeMigrateAction(data)
+            case 'Update Contract Admin':
+              return makeUpdateAdminAction(data)
+
+            // Staking
+            case 'Validator Actions':
+              // TODO: validatorAddress ?
+              return makeValidatorActions('ixovaloper1xz54y0ktew0dcm00f9vjw0p7x29pa4j5p9rwq6zerkytugzg27qsjdevsm', data)
+            case 'Staking Actions':
+              return makeStakeAction(data)
+
+            // Custom
+            case 'Custom':
+              return makeCustomAction(data)
+
+            // Token
             case 'Spend':
               return makeSpendAction(data)
             case 'Burn NFT':
@@ -88,35 +132,16 @@ const SetupActions: React.FC = () => {
             case 'Mint':
               // TODO:
               return makeMintAction('ixo1g647t78y2ulqlm3lss8rs3d0spzd0teuwhdvnqn92tr79yltk9dq2h24za', data)
-            case 'Execute Smart Contract':
-              return makeExecuteAction(data)
-            case 'Initiate Smart Contract':
-              return makeInstantiateAction(data)
             case 'Manage Treasury NFTs':
               return makeManageCw721Action(entityId, data)
             case 'Manage Treasury Tokens':
               return makeManageCw20Action(entityId, data)
-            case 'Migrate Smart Contract':
-              return makeMigrateAction(data)
-            case 'Staking Actions':
-              return makeStakeAction(data)
             case 'Transfer NFT':
               return makeTransferNFTAction(data)
-            case 'Update Contract Admin':
-              return makeUpdateAdminAction(data)
-            case 'Vote on a Network Proposal':
-              // TODO:
-              return makeGovernanceVoteAction('ixo12wgrrvmx5jx2mxhu6dvnfu3greamemnqfvx84a', data)
             case 'Withdraw Token Swap':
               return makeWithdrawTokenSwapAction(data)
-            case 'Custom':
-              return makeCustomAction(data)
-            case 'Validator Actions':
-              return makeValidatorActions('ixovaloper1xz54y0ktew0dcm00f9vjw0p7x29pa4j5p9rwq6zerkytugzg27qsjdevsm', data)
             case 'Token Swap':
               return makePerformTokenSwapAction(data)
-            case 'DAO Admin Execute':
-              return makeDaoAdminExecAction(data)
             default:
               return undefined
           }
@@ -141,6 +166,7 @@ const SetupActions: React.FC = () => {
         Toast.successToast(`Successfully published proposals`)
       })
       .catch((e) => {
+        console.error(e)
         Toast.errorToast(e)
       })
   }

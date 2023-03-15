@@ -130,11 +130,9 @@ export const getEntities1 =
             .then((iidDocument: IidDocument) => {
               const { linkedResource } = iidDocument
               extractLinkedResource(linkedResource).then((extractedResources) => {
-                console.log({ id, linkedResource, extractedResources })
                 extractedResources.forEach((extractedResources) => {
                   const key = Object.keys(extractedResources)[0]
                   const payload: any = { did: id }
-                  console.log({ key })
                   switch (key) {
                     case 'profile': {
                       const { name, description, location, image, logo } = extractedResources[key]

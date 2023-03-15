@@ -9,6 +9,7 @@ import { ReactComponent as TimesIcon } from 'assets/images/icon-times.svg'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 import { isAccountAddress, validateJSON } from 'utils/validation'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
+import { NATIVE_MICRODENOM } from 'constants/chains'
 
 const inputHeight = '48px'
 
@@ -45,11 +46,7 @@ const SetupExecuteSmartContractModal: React.FC<Props> = ({ open, action, onClose
   const [formData, setFormData] = useState<ExecuteData>(initialState)
 
   const validate = useMemo(
-    () =>
-      isAccountAddress(formData.address) &&
-      validateJSON(formData.message) === true &&
-      formData.funds.length > 0 &&
-      !formData.funds.some(({ amount, denom }: any) => !amount || !denom),
+    () => isAccountAddress(formData.address) && validateJSON(formData.message) === true,
     [formData],
   )
 
@@ -129,7 +126,7 @@ const SetupExecuteSmartContractModal: React.FC<Props> = ({ open, action, onClose
             <Dropdown2
               name={'token'}
               value={fund.denom}
-              options={[{ value: 'uixo', text: '$IXO' }]}
+              options={[{ value: NATIVE_MICRODENOM, text: '$IXO' }]}
               hasArrow={false}
               onChange={(e) => handleUpdateFund(index, { ...fund, denom: e.target.value })}
               style={{ textAlign: 'center', height: inputHeight }}

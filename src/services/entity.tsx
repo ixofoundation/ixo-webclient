@@ -1,16 +1,16 @@
 import { GetBondDetail, GetProjectAccounts } from 'lib/protocol'
 import { useSelectedEntity } from 'hooks/entity'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useValidators } from 'hooks/validator'
 import { matchPath, useHistory } from 'react-router-dom'
 import useCurrentEntity from 'hooks/currentEntity'
-import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
-import { cellNodeChainMapping, chainNetwork } from 'hooks/configs'
 import { useAccount } from 'hooks/account'
 import useCurrentDao from 'hooks/currentDao'
 import { contracts } from '@ixo/impactxclient-sdk'
+import { Spinner } from 'components/Spinner/Spinner'
+import { extractLinkedResource } from 'utils/entities'
 
-const EntityUpdateService = (): null => {
+const EntityUpdateService = (): JSX.Element | null => {
   const history = useHistory()
   const match =
     matchPath(history.location.pathname, {
@@ -34,6 +34,8 @@ const EntityUpdateService = (): null => {
     updateEntityTags,
   } = useCurrentEntity()
   const { updateGroup } = useCurrentDao()
+  const [entityLoading, setEntityLoading] = useState(false)
+  const [daoGroupLoading, setDaoGroupLoading] = useState(false)
 
   useEffect(() => {
     const init = async (did: string): Promise<void> => {
@@ -69,65 +71,44 @@ const EntityUpdateService = (): null => {
   useEffect(() => {
     if (entityId) {
       console.log('getEntityByDid is being called')
+      setEntityLoading(true)
       getEntityByDid(entityId)
+        .then(() => setEntityLoading(false))
+        .catch(() => setEntityLoading(false))
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [entityId])
 
   useEffect(() => {
     if (linkedResource.length > 0) {
-      linkedResource.forEach((item: LinkedResource) => {
-        const { id, serviceEndpoint } = item
-        switch (id) {
-          case '{id}#profile':
-            fetch(serviceEndpoint)
-              .then((response) => response.json())
-              .then((response) => {
-                updateEntityProfile(response)
-              })
-            break
-          case '{id}#creator': {
-            const [, ...paths] = serviceEndpoint.split('/')
-            fetch([cellNodeChainMapping[chainNetwork], ...paths].join('/'))
-              .then((response) => response.json())
-              .then((response) => response.credentialSubject)
-              .then((credentialSubject) => {
-                updateEntityCreator(credentialSubject)
-              })
-            break
+      extractLinkedResource(linkedResource).then((extractedResources) => {
+        extractedResources.forEach((extractedResources) => {
+          const key = Object.keys(extractedResources)[0]
+          switch (key) {
+            case 'profile': {
+              updateEntityProfile(extractedResources[key])
+              break
+            }
+            case 'creator': {
+              updateEntityCreator(extractedResources[key])
+              break
+            }
+            case 'administrator': {
+              updateEntityAdministrator(extractedResources[key])
+              break
+            }
+            case 'page': {
+              updateEntityPage(extractedResources[key])
+              break
+            }
+            case 'ddoTags': {
+              updateEntityTags(extractedResources[key])
+              break
+            }
+            default:
+              break
           }
-          case '{id}#administrator': {
-            const [, ...paths] = serviceEndpoint.split('/')
-            fetch([cellNodeChainMapping[chainNetwork], ...paths].join('/'))
-              .then((response) => response.json())
-              .then((response) => response.credentialSubject)
-              .then((credentialSubject) => {
-                updateEntityAdministrator(credentialSubject)
-              })
-            break
-          }
-          case '{id}#page': {
-            const [, ...paths] = serviceEndpoint.split('/')
-            fetch([cellNodeChainMapping[chainNetwork], ...paths].join('/'))
-              .then((response) => response.json())
-              .then((response) => response.page)
-              .then((page) => {
-                updateEntityPage(page)
-              })
-            break
-          }
-          case '{id}#tags': {
-            const [, ...paths] = serviceEndpoint.split('/')
-            fetch([cellNodeChainMapping[chainNetwork], ...paths].join('/'))
-              .then((response) => response.json())
-              .then((ddoTags) => {
-                updateEntityTags(ddoTags)
-              })
-            break
-          }
-          default:
-            break
-        }
+        })
       })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -141,6 +122,7 @@ const EntityUpdateService = (): null => {
           const [, coreAddress] = id.split('#')
 
           ;(async () => {
+            setDaoGroupLoading(true)
             const daoCoreClient = new contracts.DaoCore.DaoCoreClient(cosmWasmClient, address, coreAddress)
             const admin = await daoCoreClient.admin()
             const config = await daoCoreClient.config()
@@ -222,11 +204,20 @@ const EntityUpdateService = (): null => {
               treasury,
               storageItems,
             })
+            setDaoGroupLoading(false)
           })()
         })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [linkedEntity, cosmWasmClient])
+
+  if (entityLoading) {
+    return <Spinner info='Loading Entity...' />
+  }
+
+  if (daoGroupLoading) {
+    return <Spinner info='Loading DAO Group...' />
+  }
 
   return null
 }

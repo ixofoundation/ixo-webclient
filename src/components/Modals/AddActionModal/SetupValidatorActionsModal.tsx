@@ -2,6 +2,7 @@ import { FlexBox } from 'components/App/App.styles'
 import { NATIVE_MICRODENOM } from 'constants/chains'
 import { CodeMirror, Dropdown2 } from 'pages/CreateEntity/Components'
 import React, { useEffect, useMemo, useState } from 'react'
+import { useParams } from 'react-router-dom'
 import { TDeedActionModel } from 'types/protocol'
 import { validateJSON } from 'utils/validation'
 import { TitleAndDescription } from './Component'
@@ -27,9 +28,9 @@ interface Props {
 }
 
 const SetupValidatorActionsModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
+  const { coreAddress } = useParams<{ coreAddress: string }>()
   // TODO:
   const validatorAddress = 'ixovaloper1xz54y0ktew0dcm00f9vjw0p7x29pa4j5p9rwq6zerkytugzg27qsjdevsm'
-  const daoAddress = 'ixo1xz54y0ktew0dcm00f9vjw0p7x29pa4j5p9rwq6zerkytugzg27qs4shxnt'
 
   const initialState: ValidatorActionsData = {
     validatorActionType: ValidatorActionType.WithdrawValidatorCommission,
@@ -48,7 +49,7 @@ const SetupValidatorActionsModal: React.FC<Props> = ({ open, action, onClose, on
           maxChangeRate: '100000000000000000',
         },
         minSelfDelegation: '1',
-        delegatorAddress: daoAddress,
+        delegatorAddress: coreAddress,
         validatorAddress,
         pubkey: {
           typeUrl: '/cosmos.crypto.ed25519.PubKey',
