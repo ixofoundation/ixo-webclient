@@ -15,8 +15,10 @@ import {
   Context,
   LinkedClaim,
 } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
+import { DeliverTxResponse } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/stargate'
 import BigNumber from 'bignumber.js'
 import { fee, RPC_ENDPOINT, TSigner } from './common'
+import { Verification } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/tx'
 
 export const CreateEntity = async (
   client: SigningStargateClient,
@@ -30,36 +32,49 @@ export const CreateEntity = async (
     accordedRight?: AccordedRight[]
     linkedEntity?: LinkedEntity[]
     linkedClaim?: LinkedClaim[]
+    verification?: Verification[]
   }[],
-) => {
+): Promise<DeliverTxResponse | undefined> => {
   try {
     const { address, did, pubKey, keyType } = signer
     const messages = payload.map((item) => {
-      const { entityType, entityStatus, context, service, linkedResource, accordedRight, linkedEntity, linkedClaim } =
-        item
+      const {
+        entityType,
+        entityStatus,
+        context = [],
+        service = [],
+        linkedResource = [],
+        accordedRight = [],
+        linkedEntity = [],
+        linkedClaim = [],
+        verification = [],
+      } = item
       return {
         typeUrl: '/ixo.entity.v1beta1.MsgCreateEntity',
         value: ixo.entity.v1beta1.MsgCreateEntity.fromPartial({
           entityType: entityType.toLowerCase(),
           context: customMessages.iid.createAgentIidContext(context as [{ key: string; val: string }]),
-          verification: customMessages.iid.createIidVerificationMethods({
-            did,
-            pubkey: pubKey,
-            address: address,
-            controller: did,
-            type: keyType,
-          }),
+          verification:
+            verification.length > 0
+              ? verification
+              : customMessages.iid.createIidVerificationMethods({
+                  did,
+                  pubkey: pubKey,
+                  address: address,
+                  controller: did,
+                  type: keyType,
+                }),
           controller: [did],
           ownerDid: did,
           ownerAddress: address,
           relayerNode: did,
-          service: service?.map((item: Service) => ixo.iid.v1beta1.Service.fromPartial(item)),
-          linkedResource: linkedResource?.map((item: LinkedResource) =>
+          service: service.map((item: Service) => ixo.iid.v1beta1.Service.fromPartial(item)),
+          linkedResource: linkedResource.map((item: LinkedResource) =>
             ixo.iid.v1beta1.LinkedResource.fromPartial(item),
           ),
-          accordedRight: accordedRight?.map((item: AccordedRight) => ixo.iid.v1beta1.AccordedRight.fromPartial(item)),
-          linkedEntity: linkedEntity?.map((item: LinkedEntity) => ixo.iid.v1beta1.LinkedEntity.fromPartial(item)),
-          linkedClaim: linkedClaim?.map((item: LinkedClaim) => ixo.iid.v1beta1.LinkedClaim.fromPartial(item)),
+          accordedRight: accordedRight.map((item: AccordedRight) => ixo.iid.v1beta1.AccordedRight.fromPartial(item)),
+          linkedEntity: linkedEntity.map((item: LinkedEntity) => ixo.iid.v1beta1.LinkedEntity.fromPartial(item)),
+          linkedClaim: linkedClaim.map((item: LinkedClaim) => ixo.iid.v1beta1.LinkedClaim.fromPartial(item)),
           entityStatus,
         }),
       }

@@ -72,6 +72,7 @@ const SetupActions: React.FC = () => {
   }
   const handleSubmit = async () => {
     if (!handleValidate()) {
+      console.error(1)
       return
     }
     const wasmMessage: CosmosMsgForEmpty[] = validActions

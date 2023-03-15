@@ -1,3 +1,5 @@
+import { ixo } from '@ixo/impactxclient-sdk'
+import { Verification } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/tx'
 import { AccordedRight, LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
@@ -12,7 +14,7 @@ import DAOCard from './DAOCard'
 const ReviewDAO: React.FC = (): JSX.Element => {
   const createEntityState = useCreateEntityState()
   const metadata: TDAOMetadataModel = createEntityState.metadata as TDAOMetadataModel
-  const { service, linkedEntity, gotoStep } = createEntityState
+  const { service, linkedEntity, daoGroups, daoController, gotoStep } = createEntityState
   const {
     // CreateDAO,
     // CreateDAOCredsIssuer,
@@ -56,6 +58,7 @@ const ReviewDAO: React.FC = (): JSX.Element => {
 
     const linkedResource: LinkedResource[] = []
     const accordedRight: AccordedRight[] = [] // TODO:
+    const verification: Verification[] = []
 
     if (saveProfileRes) {
       linkedResource.push({
@@ -130,6 +133,20 @@ const ReviewDAO: React.FC = (): JSX.Element => {
     //   })
     // }
 
+    const daoControllerAddress = daoGroups[daoController]?.contractAddress
+    if (daoControllerAddress) {
+      verification.push(
+        ixo.iid.v1beta1.Verification.fromPartial({
+          relationships: ['authentication'],
+          method: ixo.iid.v1beta1.VerificationMethod.fromPartial({
+            id: `{id}#${daoControllerAddress}`,
+            type: 'blockchainAccount',
+            controller: '{id}',
+          }),
+        }),
+      )
+    }
+
     const protocolDid = await CreateProtocol()
     if (!protocolDid) {
       Toast.errorToast(`Create Entity Protocol Failed`)
@@ -141,6 +158,7 @@ const ReviewDAO: React.FC = (): JSX.Element => {
       linkedResource,
       accordedRight,
       linkedEntity: Object.values(linkedEntity),
+      // verification,
     })
     if (entityDid) {
       Toast.successToast(`Create Entity Succeed`)

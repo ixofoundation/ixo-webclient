@@ -1,5 +1,4 @@
-import React from 'react'
-import moment from 'moment'
+import React, { useMemo } from 'react'
 import { Card } from '../../Components'
 import { Box, FlexBox, SvgBox, theme } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
@@ -7,7 +6,7 @@ import { ReactComponent as GovernanceIcon } from 'assets/images/icon-governance.
 import { ReactComponent as SandClockIcon } from 'assets/images/icon-sandclock-fill.svg'
 import { ProgressBar } from 'components/ProgressBar/ProgressBar'
 import useCurrentDao from 'hooks/currentDao'
-import { Timestamp } from '@ixo/impactxclient-sdk/types/codegen/DaoCore.types'
+import { expirationAtTimeToSecondsFromNow, secondsToWdhms } from 'utils/conversions'
 
 interface Props {
   daoId: string
@@ -23,12 +22,33 @@ const Governance: React.FC<Props> = ({ daoId, groupAddresses }): JSX.Element => 
   const id = latestProposal?.id ?? 0
   const title = latestProposal?.proposal.title
   const description = latestProposal?.proposal.description
-  // const startDate = latestProposal?.
-  const endDate: string = (
-    latestProposal?.proposal.expiration as {
-      at_time: Timestamp
+  const votingPeriod = (latestProposal?.proposal as any).max_voting_period ?? 0
+
+  const [proposalEndString, secondsFromNow] = useMemo(() => {
+    if (!latestProposal?.proposal.expiration) {
+      return ['', 0]
     }
-  )?.at_time
+    if (latestProposal?.proposal.status !== 'open') {
+      return ['Completed', 0]
+    }
+
+    if ('at_time' in latestProposal.proposal.expiration) {
+      const secondsFromNow = expirationAtTimeToSecondsFromNow(latestProposal.proposal.expiration)
+      // Type check, but should never happen.
+      if (secondsFromNow === undefined) {
+        return ['', 0]
+      }
+
+      if (secondsFromNow <= 0) {
+        return ['Completed', 0]
+      } else {
+        return [secondsToWdhms(secondsFromNow), secondsFromNow]
+      }
+    }
+    return ['', 0]
+    // Not much we can say about proposals that expire at a block
+    // height / never.
+  }, [latestProposal?.proposal.expiration, latestProposal?.proposal.status])
 
   return (
     <Card icon={<GovernanceIcon />} label='Governance'>
@@ -73,8 +93,8 @@ const Governance: React.FC<Props> = ({ daoId, groupAddresses }): JSX.Element => 
             </SvgBox>
             <ProgressBar
               height={8}
-              total={moment(endDate).diff(moment(), 'minutes')}
-              approved={moment().diff(moment(), 'minutes')}
+              total={votingPeriod}
+              approved={votingPeriod - secondsFromNow}
               rejected={0}
               activeBarColor={theme.ixoNewBlue}
               barColor={theme.ixoDarkBlue}
@@ -84,7 +104,7 @@ const Governance: React.FC<Props> = ({ daoId, groupAddresses }): JSX.Element => 
         <FlexBox>
           <Typography size='sm' color='dark-blue'>
             <Typography size='sm' weight='bold' color='blue'>
-              {moment(moment(endDate).diff(moment(), 'minutes')).format('DD[d] H[h] m[m]')}
+              {proposalEndString}
             </Typography>{' '}
             before voting closes
           </Typography>

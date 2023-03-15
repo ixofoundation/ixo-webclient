@@ -6,7 +6,6 @@ import { matchPath, useHistory } from 'react-router-dom'
 import useCurrentEntity from 'hooks/currentEntity'
 import { useAccount } from 'hooks/account'
 import useCurrentDao from 'hooks/currentDao'
-import { contracts } from '@ixo/impactxclient-sdk'
 import { Spinner } from 'components/Spinner/Spinner'
 import { extractLinkedResource } from 'utils/entities'
 
@@ -22,7 +21,7 @@ const EntityUpdateService = (): JSX.Element | null => {
   const entityId = match?.params['entityId']
   const { did, bondDid, updateEntityAddress, updateEntityBondDetail } = useSelectedEntity()
   const { getValidators } = useValidators()
-  const { address, cosmWasmClient } = useAccount()
+  const { cosmWasmClient } = useAccount()
   const {
     linkedEntity,
     linkedResource,
@@ -33,7 +32,7 @@ const EntityUpdateService = (): JSX.Element | null => {
     updateEntityPage,
     updateEntityTags,
   } = useCurrentEntity()
-  const { updateGroup } = useCurrentDao()
+  const { setDaoGroup } = useCurrentDao()
   const [entityLoading, setEntityLoading] = useState(false)
   const [daoGroupLoading, setDaoGroupLoading] = useState(false)
 
@@ -123,87 +122,7 @@ const EntityUpdateService = (): JSX.Element | null => {
 
           ;(async () => {
             setDaoGroupLoading(true)
-            const daoCoreClient = new contracts.DaoCore.DaoCoreClient(cosmWasmClient, address, coreAddress)
-            const admin = await daoCoreClient.admin()
-            const config = await daoCoreClient.config()
-            const cw20Balances = await daoCoreClient.cw20Balances({})
-            const cw20TokenList = await daoCoreClient.cw20TokenList({})
-            const cw721TokenList = await daoCoreClient.cw721TokenList({})
-            const storageItems = await daoCoreClient.listItems({})
-            const [{ address: proposalModuleAddress }] = await daoCoreClient.proposalModules({})
-            const [{ address: activeProposalModuleAddress }] = await daoCoreClient.activeProposalModules({})
-            const proposalModuleCount = await daoCoreClient.proposalModuleCount()
-            const votingModuleAddress = await daoCoreClient.votingModule()
-
-            // proposalModule
-            const proposalModule: any = {}
-            proposalModule.proposalModuleAddress = proposalModuleAddress
-            proposalModule.proposalModuleCount = proposalModuleCount
-            const daoProposalSingleClient = new contracts.DaoProposalSingle.DaoProposalSingleClient(
-              cosmWasmClient,
-              address,
-              proposalModuleAddress,
-            )
-            proposalModule.proposalConfig = await daoProposalSingleClient.config()
-            const { proposals } = await daoProposalSingleClient.listProposals({})
-            // const votes = await daoProposalSingleClient.listVotes({})
-            proposalModule.proposals = proposals
-            const {
-              module: { addr: preProposalContractAddress },
-            } = (await daoProposalSingleClient.proposalCreationPolicy()) as { module: { addr: string } }
-            proposalModule.preProposalContractAddress = preProposalContractAddress
-            const daoPreProposeSingleClient = new contracts.DaoPreProposeSingle.DaoPreProposeSingleClient(
-              cosmWasmClient,
-              address,
-              preProposalContractAddress,
-            )
-            proposalModule.preProposeConfig = await daoPreProposeSingleClient.config()
-
-            // votingModule
-            const votingModule: any = {}
-            votingModule.votingModuleAddress = votingModuleAddress
-            const daoVotingCw4Client = new contracts.DaoVotingCw4.DaoVotingCw4Client(
-              cosmWasmClient,
-              address,
-              votingModule.votingModuleAddress,
-            )
-            votingModule.groupContractAddress = await daoVotingCw4Client.groupContract()
-            const cw4GroupClient = new contracts.Cw4Group.Cw4GroupClient(
-              cosmWasmClient,
-              address,
-              votingModule.groupContractAddress,
-            )
-            votingModule.members = (await cw4GroupClient.listMembers({})).members as never[]
-            votingModule.totalWeight = (await cw4GroupClient.totalWeight({})).weight as number
-
-            // treasury
-            const treasury: any = {}
-            treasury.cw20Balances = cw20Balances
-            treasury.cw20TokenList = cw20TokenList
-            treasury.cw721TokenList = cw721TokenList
-
-            console.log({
-              admin,
-              config,
-              cw20Balances,
-              cw20TokenList,
-              storageItems,
-              activeProposalModuleAddress,
-              proposalModule,
-              votingModule,
-              treasury,
-            })
-
-            updateGroup({
-              coreAddress,
-              admin,
-              type: 'membership', // TODO:
-              config,
-              proposalModule,
-              votingModule,
-              treasury,
-              storageItems,
-            })
+            await setDaoGroup(coreAddress)
             setDaoGroupLoading(false)
           })()
         })

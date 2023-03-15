@@ -81,6 +81,7 @@ import { WasmInstantiateTrx } from 'lib/protocol/cosmwasm'
 import { durationToSeconds } from 'utils/conversions'
 import { Member } from 'types/dao'
 import { chainNetwork } from './configs'
+import { Verification } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/tx'
 
 export function useCreateEntityStrategy(): {
   getStrategyByEntityType: (entityType: string) => TCreateEntityStrategyType
@@ -342,6 +343,7 @@ interface TCreateEntityHookRes {
       linkedResource: LinkedResource[]
       accordedRight: AccordedRight[]
       linkedEntity: LinkedEntity[]
+      verification?: Verification[]
     },
   ) => Promise<string>
   CreateDAOCoreByGroupId: (daoGroup: TDAOGroupModel) => Promise<string>
@@ -568,7 +570,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
           },
           type: 'ixo:entity#page',
           page: Object.values(page),
-        })
+        }),
       )
       const res = await customQueries.cellnode.uploadPublicDoc(
         'application/json',
@@ -837,10 +839,11 @@ export function useCreateEntity(): TCreateEntityHookRes {
       linkedResource: LinkedResource[]
       accordedRight: AccordedRight[]
       linkedEntity: LinkedEntity[]
+      verification?: Verification[]
     },
   ): Promise<string> => {
     try {
-      const { service, linkedResource, accordedRight, linkedEntity } = payload
+      const { service, linkedResource, accordedRight, linkedEntity, verification } = payload
       const res = await CreateEntity(signingClient, signer, [
         {
           entityType,
@@ -850,6 +853,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
           linkedResource,
           accordedRight,
           linkedEntity,
+          verification,
         },
       ])
       const did = utils.common.getValueFromEvents(res!, 'wasm', 'token_id')
@@ -1034,7 +1038,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
         default:
           break
       }
-      console.log({
+      console.log('Instantiate Dao Group', {
         codeId: daoCoreContractCode!,
         msg: msg,
       })

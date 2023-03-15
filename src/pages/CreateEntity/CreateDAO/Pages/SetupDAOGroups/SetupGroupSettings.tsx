@@ -860,7 +860,7 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onSubmit }): JSX.Elem
           Back
         </Button>
         <Button disabled={!canContinue} style={{ width: '100%' }} loading={submitting} onClick={handleSubmit}>
-          Continue
+          Create Group
         </Button>
       </FlexBox>
     )

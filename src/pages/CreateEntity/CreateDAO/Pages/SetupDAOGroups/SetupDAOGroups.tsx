@@ -67,7 +67,7 @@ const SetupDAOGroups: React.FC = (): JSX.Element => {
   }
 
   const handleContinue = (): void => {
-    let tempLinkedEntity = { ...linkedEntity }
+    let tempLinkedEntity = {}
     Object.values(daoGroups).forEach(({ contractAddress }) => {
       tempLinkedEntity = {
         ...tempLinkedEntity,

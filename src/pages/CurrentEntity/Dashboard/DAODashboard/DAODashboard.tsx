@@ -1,7 +1,9 @@
 import Dashboard from 'components/Dashboard/Dashboard'
 import { HeaderTab } from 'components/Dashboard/types'
 import EconomyGovernance from 'components/Entities/SelectedEntity/EntityEconomy/EconomyGovernance/EconomyGovernance'
+import useCurrentDao from 'hooks/currentDao'
 import useCurrentEntity from 'hooks/currentEntity'
+import { useEffect } from 'react'
 import { Redirect, Route, useParams, useRouteMatch } from 'react-router-dom'
 import { requireCheckDefault } from 'utils/images'
 import { Overview } from './Overview'
@@ -12,6 +14,7 @@ const DAODashboard: React.FC = (): JSX.Element => {
   const { entityId } = useParams<{ entityId: string }>()
   const isIndividualMemberRoute = useRouteMatch('/entity/:entityId/dashboard/overview/:groupId/:address')
   const { entityType, profile } = useCurrentEntity()
+  const { daoGroupAddresses, setDaoGroup } = useCurrentDao()
   const name = profile?.name
 
   const routes = [
@@ -62,6 +65,16 @@ const DAODashboard: React.FC = (): JSX.Element => {
   ]
 
   const theme = isIndividualMemberRoute ? 'light' : 'dark'
+
+  useEffect(() => {
+    console.log({ daoGroupAddresses })
+    if (daoGroupAddresses.length > 0) {
+      daoGroupAddresses.forEach((address) => {
+        setDaoGroup(address)
+      })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [JSON.stringify(daoGroupAddresses)])
 
   return (
     <Dashboard
