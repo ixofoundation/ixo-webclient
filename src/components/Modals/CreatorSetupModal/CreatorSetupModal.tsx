@@ -22,9 +22,10 @@ interface Props {
   open: boolean
   onClose: () => void
   onChange?: (creator: TEntityCreatorModel) => void
+  onClone?: () => void
 }
 
-const CreatorSetupModal: React.FC<Props> = ({ creator, title, open, onClose, onChange }): JSX.Element => {
+const CreatorSetupModal: React.FC<Props> = ({ creator, title, open, onClose, onChange, onClone }): JSX.Element => {
   const [formData, setFormData] = useState<FormData | undefined>(undefined)
   const [cropModalOpen, setCropModalOpen] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -288,7 +289,12 @@ const CreatorSetupModal: React.FC<Props> = ({ creator, title, open, onClose, onC
             </FlexBox>
           </FlexBox>
 
-          <FlexBox width='100%' justifyContent='flex-end' alignItems='center' gap={15}>
+          <FlexBox width='100%' justifyContent='flex-end' alignItems='center' gap={4}>
+            {onClone && (
+              <Button variant='grey500' onClick={onClone}>
+                Clone
+              </Button>
+            )}
             <Button onClick={handleContinue} disabled={disabled}>
               Continue
             </Button>

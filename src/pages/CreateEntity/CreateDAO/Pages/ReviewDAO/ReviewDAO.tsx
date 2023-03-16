@@ -27,6 +27,7 @@ const ReviewDAO: React.FC = (): JSX.Element => {
     CreateEntityBase,
   } = useCreateEntity()
   const [submitting, setSubmitting] = useState(false)
+  const numOfMembers = daoGroups[daoController].memberships.reduce((acc, cur) => acc + cur.members.length, 0)
 
   const handleSignToCreate = async (): Promise<void> => {
     setSubmitting(true)
@@ -170,7 +171,7 @@ const ReviewDAO: React.FC = (): JSX.Element => {
 
   return (
     <FlexBox width={`${deviceWidth.tablet}px`} gap={10} alignItems='stretch'>
-      <DAOCard image={metadata?.image ?? ''} name={metadata?.name ?? ''} numberOfMembers={12} />
+      <DAOCard image={metadata?.image ?? ''} name={metadata?.name ?? ''} numberOfMembers={numOfMembers} />
       <FlexBox direction='column' justifyContent='space-between' width='100%' style={{ flex: 1 }}>
         <FlexBox direction='column' width='100%' gap={4}>
           <Typography variant='secondary'>

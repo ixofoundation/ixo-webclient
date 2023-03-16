@@ -202,6 +202,7 @@ const SetupSettings: React.FC = (): JSX.Element => {
         onChange={(administrator: TEntityAdministratorModel): void =>
           handleUpdateEntitySetting('administrator', administrator)
         }
+        onClone={(): void => handleUpdateEntitySetting('administrator', creator)}
       />
       <ServiceSetupModal
         service={entitySettings.service.data}
