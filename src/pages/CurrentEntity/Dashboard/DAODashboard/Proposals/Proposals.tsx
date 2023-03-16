@@ -37,8 +37,8 @@ const Proposals: React.FC = () => {
               key={daoGroupIdx + ':' + i}
               coreAddress={coreAddress}
               proposalId={id}
-              announce={title}
-              proposedBy={proposer}
+              title={title}
+              proposer={proposer}
               submissionDate={submissionDate.toISOString()}
               closeDate={closeDate.toISOString()}
               totalDeposit={depositInfo}

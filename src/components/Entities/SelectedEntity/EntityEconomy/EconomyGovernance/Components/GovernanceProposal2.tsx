@@ -21,7 +21,7 @@ import { getDisplayAmount } from 'utils/currency'
 import CopyToClipboard from 'react-copy-to-clipboard'
 import { VoteModal } from 'components/Modals'
 import { DashboardThemeContext } from 'components/Dashboard/Dashboard'
-import { Box, theme } from 'components/App/App.styles'
+import { Box, FlexBox, theme } from 'components/App/App.styles'
 import { Status, Vote, VoteInfo } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 import { useCurrentDaoGroup } from 'hooks/currentDao'
@@ -96,8 +96,8 @@ const DecisionIMG = styled.img`
 interface GovernanceProposalProps {
   coreAddress: string
   proposalId: number
-  announce: string
-  proposedBy: string
+  title: string
+  proposer: string
   submissionDate: string
   closeDate: string
   totalDeposit: Coin | undefined | null
@@ -107,8 +107,8 @@ interface GovernanceProposalProps {
 const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
   coreAddress,
   proposalId,
-  announce,
-  proposedBy,
+  title,
+  proposer,
   submissionDate,
   closeDate,
   status,
@@ -123,6 +123,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
   const [votingRemain, setVotingRemain] = useState<number>(0)
   const [voteModalOpen, setVoteModalOpen] = useState<boolean>(false)
 
+  const groupName = useMemo(() => daoGroup.config.name, [daoGroup.config.name])
   const numOfAvailableVotes = useMemo(() => daoGroup.votingModule.members.length, [daoGroup])
   const numOfYesVotes = useMemo(() => votes.filter(({ vote }) => vote === 'yes').length, [votes])
   const numOfNoVotes = useMemo(() => votes.filter(({ vote, rationale }) => vote === 'no' && !rationale).length, [votes])
@@ -200,18 +201,17 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
       <div className='row pb-3'>
         <div className='col-6'>
           <div className='d-flex align-items-center justify-content-between'>
-            <div>
+            <FlexBox gap={2}>
               <NumberBadget isDark={isDark}>#{proposalId}</NumberBadget>
-            </div>
-            <div>
-              <img src={IMG_expand} alt='message' height='30px' />
-            </div>
+              <NumberBadget isDark={isDark}>{groupName}</NumberBadget>
+            </FlexBox>
+            <img src={IMG_expand} alt='message' height='30px' />
           </div>
         </div>
       </div>
       <div className='row'>
         <Box className='col-12 col-lg-6' borderRight={`1px solid ${theme.ixoGrey300}`}>
-          <Title className='pb-3'>{announce}</Title>
+          <Title className='pb-3'>{title}</Title>
 
           <div className='d-flex align-items-center'>
             <img src={IMG_wait} alt='remain' height='20px' />
@@ -238,10 +238,10 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
               <LabelSM>Proposed by</LabelSM>
               <br />
               <LabelLG style={{ cursor: 'pointer' }} title='Click to copy'>
-                <CopyToClipboard text={proposedBy} onCopy={() => Toast.successToast('Coiped to clipboard')}>
+                <CopyToClipboard text={proposer} onCopy={() => Toast.successToast('Coiped to clipboard')}>
                   <span>
-                    {proposedBy.substring(0, 10)}
-                    {proposedBy && '...'}
+                    {proposer.substring(0, 10)}
+                    {proposer && '...'}
                   </span>
                 </CopyToClipboard>
               </LabelLG>
