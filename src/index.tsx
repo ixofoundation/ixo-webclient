@@ -20,7 +20,7 @@ process.env.NODE_ENV === 'production' &&
   })
 
 const client = new ApolloClient({
-  uri: process.env.REACT_APP_BLOCK_SYNC_GRAPHQL,
+  uri: process.env.REACT_APP_BLOCK_SYNC_GRAPHQL || 'https://ixo-blocksync-mock.netlify.app',
   cache: new InMemoryCache({ addTypename: false }),
 })
 
