@@ -324,7 +324,7 @@ export const DAOGroupConfig: { [key: string]: any } = {
   },
 }
 
-export const DeedActionConfig = {
+export const ProposalActionConfig = {
   Tokens: {
     id: 'tokens',
     text: 'Tokens',
@@ -997,7 +997,7 @@ export interface TDAOGroupModel extends UpdatePreProposeConfigData, UpdatePropos
    */
 }
 
-export interface TDeedActionModel {
+export interface TProposalActionModel {
   id: string
   type: string
   group: string
@@ -1007,8 +1007,8 @@ export interface TDeedActionModel {
 /**
  * @description proposal
  */
-export interface TDeedModel {
+export interface TProposalModel {
   name?: string
   description?: string
-  actions?: TDeedActionModel[]
+  actions?: TProposalActionModel[]
 }

@@ -86,7 +86,7 @@ const EconomyGovernance: React.FunctionComponent = () => {
 
   const handleNewProposal = (): void => {
     // const coreAddress = 'asdfasdf'
-    // history.push(`/create/entity/${entityId}/deed/${coreAddress}/info`)
+    // history.push(`/create/entity/${entityId}/proposal/${coreAddress}/info`)
   }
 
   /**

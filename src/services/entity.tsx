@@ -13,7 +13,7 @@ const EntityUpdateService = (): JSX.Element | null => {
   const history = useHistory()
   const match =
     matchPath(history.location.pathname, {
-      path: '/create/entity/:entityId/deed/:coreAddress',
+      path: '/create/entity/:entityId/proposal/:coreAddress',
     }) ??
     matchPath(history.location.pathname, {
       path: '/entity/:entityId/dashboard',

@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { FlexBox } from 'components/App/App.styles'
 import { Button, Dropdown2, Input } from 'pages/CreateEntity/Components'
 import { Typography } from 'components/Typography'
-import { TDeedActionModel } from 'types/protocol'
+import { TProposalActionModel } from 'types/protocol'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 
 export interface ManageStorageItemsData {
@@ -18,7 +18,7 @@ const initialState: ManageStorageItemsData = {
 
 interface Props {
   open: boolean
-  action: TDeedActionModel
+  action: TProposalActionModel
   onClose: () => void
   onSubmit: (data: any) => void
 }

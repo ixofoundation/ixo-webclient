@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { Input } from 'pages/CreateEntity/Components'
 import { Typography } from 'components/Typography'
-import { TDeedActionModel } from 'types/protocol'
+import { TProposalActionModel } from 'types/protocol'
 import styled from 'styled-components'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
 import { ReactComponent as TimesIcon } from 'assets/images/icon-times.svg'
@@ -38,7 +38,7 @@ const initialState: ManageSubDaosData = {
 
 interface Props {
   open: boolean
-  action: TDeedActionModel
+  action: TProposalActionModel
   onClose: () => void
   onSubmit: (data: any) => void
 }

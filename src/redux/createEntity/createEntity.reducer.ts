@@ -18,8 +18,8 @@ export const initialState: TCreateEntityState = {
   daoGroups: {},
   daoController: '',
 
-  // for Deed
-  deed: undefined,
+  // for Proposal
+  proposal: undefined,
 
   // for Asset
   assetClassDid: undefined,
@@ -116,9 +116,9 @@ export const reducer = (state = initialState, action: TCreateEntityActionTypes):
       updatedState = { ...state, daoController: action.payload }
       break
 
-    // for Deed
-    case ECreateEntityActions.UpdateDeed:
-      updatedState = { ...state, deed: action.payload }
+    // for Proposal
+    case ECreateEntityActions.UpdateProposal:
+      updatedState = { ...state, proposal: action.payload }
       break
 
     default:

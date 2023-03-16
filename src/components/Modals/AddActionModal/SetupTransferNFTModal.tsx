@@ -2,7 +2,7 @@ import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { CodeMirror, Dropdown2, Input, Switch } from 'pages/CreateEntity/Components'
 import React, { useEffect, useMemo, useState } from 'react'
-import { TDeedActionModel } from 'types/protocol'
+import { TProposalActionModel } from 'types/protocol'
 import { isAccountAddress, validateJSON } from 'utils/validation'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 
@@ -27,7 +27,7 @@ const initialState: TransferNftData = {
 
 interface Props {
   open: boolean
-  action: TDeedActionModel
+  action: TProposalActionModel
   onClose: () => void
   onSubmit: (data: any) => void
 }

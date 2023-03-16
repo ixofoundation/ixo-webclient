@@ -3,7 +3,7 @@ import { NATIVE_MICRODENOM } from 'constants/chains'
 import { CodeMirror, Dropdown2 } from 'pages/CreateEntity/Components'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { TDeedActionModel } from 'types/protocol'
+import { TProposalActionModel } from 'types/protocol'
 import { validateJSON } from 'utils/validation'
 import { TitleAndDescription } from './Component'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
@@ -22,7 +22,7 @@ export interface ValidatorActionsData {
 
 interface Props {
   open: boolean
-  action: TDeedActionModel
+  action: TProposalActionModel
   onClose: () => void
   onSubmit: (data: any) => void
 }

@@ -11,7 +11,7 @@ import { useHistory, useParams } from 'react-router-dom'
 const SetupInfo: React.FC = (): JSX.Element => {
   const { entityId, coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
   const history = useHistory()
-  const { deed, updateDeed } = useCreateEntityState()
+  const { proposal, updateProposal } = useCreateEntityState()
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
   const canContinue = name && description
@@ -21,15 +21,15 @@ const SetupInfo: React.FC = (): JSX.Element => {
   }
   const onContinue = () => {
     if (name && description) {
-      updateDeed({ name, description })
-      history.push(`/create/entity/${entityId}/deed/${coreAddress}/setup-page`)
+      updateProposal({ name, description })
+      history.push(`/create/entity/${entityId}/proposal/${coreAddress}/setup-page`)
     }
   }
 
   useEffect(() => {
-    setName(deed?.name ?? '')
-    setDescription(deed?.description ?? '')
-  }, [deed])
+    setName(proposal?.name ?? '')
+    setDescription(proposal?.description ?? '')
+  }, [proposal])
 
   return (
     <FlexBox width={'100%'} justifyContent='center'>

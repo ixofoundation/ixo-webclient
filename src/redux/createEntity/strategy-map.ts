@@ -33,11 +33,11 @@ import {
   SetupMetadata as SetupOracleMetadata,
 } from 'pages/CreateEntity/CreateOracle/Pages'
 import {
-  SetupInfo as SetupDeedInfo,
+  SetupInfo as SetupProposalInfo,
   SetupPageContent,
   SetupActions,
-  SetupProperties as SetupDeedProperties,
-} from 'pages/CreateEntity/CreateDeed/Pages'
+  SetupProperties as SetupProposalProperties,
+} from 'pages/CreateEntity/CreateProposal/Pages'
 
 export interface TCreateEntityStepType {
   id: number
@@ -303,31 +303,31 @@ export const CreateEntityStrategyMap: TCreateEntityStrategyMap = {
       },
     },
   },
-  Deed: {
-    entityType: 'Deed',
+  Proposal: {
+    entityType: 'Proposal',
     title: 'Create a governance proposal',
     steps: {
       [`1`]: {
         id: 1,
         name: 'Proposal Info',
-        component: SetupDeedInfo,
-        url: '/create/entity/:entityId/deed/:coreAddress/info',
+        component: SetupProposalInfo,
+        url: '/create/entity/:entityId/proposal/:coreAddress/info',
         prevStep: undefined,
         nextStep: 2,
       },
       [`2`]: {
         id: 2,
-        name: 'Configure the deed page',
+        name: 'Configure the proposal page',
         component: SetupPageContent,
-        url: '/create/entity/:entityId/deed/:coreAddress/setup-page',
+        url: '/create/entity/:entityId/proposal/:coreAddress/setup-page',
         prevStep: 1,
         nextStep: 3,
       },
       [`3`]: {
         id: 3,
-        name: 'Configure the deed settings',
-        component: SetupDeedProperties,
-        url: '/create/entity/:entityId/deed/:coreAddress/setup-properties',
+        name: 'Configure the proposal settings',
+        component: SetupProposalProperties,
+        url: '/create/entity/:entityId/proposal/:coreAddress/setup-properties',
         prevStep: 2,
         nextStep: 4,
       },
@@ -335,7 +335,7 @@ export const CreateEntityStrategyMap: TCreateEntityStrategyMap = {
         id: 4,
         name: 'Add actions',
         component: SetupActions,
-        url: '/create/entity/:entityId/deed/:coreAddress/setup-actions',
+        url: '/create/entity/:entityId/proposal/:coreAddress/setup-actions',
         prevStep: 3,
         nextStep: undefined,
       },

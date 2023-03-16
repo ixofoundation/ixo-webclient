@@ -1,11 +1,11 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { FlexBox } from 'components/App/App.styles'
 import { AccountValidStatus, Input } from 'pages/CreateEntity/Components'
-import { TDeedActionModel } from 'types/protocol'
+import { TProposalActionModel } from 'types/protocol'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 import { CosmosMsgFor_Empty } from 'types/dao'
 import { Typography } from 'components/Typography'
-import { SetupActionsForm } from 'pages/CreateEntity/CreateDeed/Pages/SetupActions/SetupActionsForm'
+import { SetupActionsForm } from 'pages/CreateEntity/CreateProposal/Pages/SetupActions/SetupActionsForm'
 import { useMakeProposalAction } from 'hooks/proposal'
 
 export const TYPE_URL_MSG_GRANT = '/cosmos.authz.v1beta1.MsgGrant'
@@ -17,7 +17,7 @@ export type DaoAdminExecData = {
   msgs: CosmosMsgFor_Empty[]
 
   // Interal action data so that errors are added to main form.
-  _actions?: TDeedActionModel[]
+  _actions?: TProposalActionModel[]
 }
 
 const initialState: DaoAdminExecData = {
@@ -28,7 +28,7 @@ const initialState: DaoAdminExecData = {
 
 interface Props {
   open: boolean
-  action: TDeedActionModel
+  action: TProposalActionModel
   onClose: () => void
   onSubmit: (data: any) => void
 }
@@ -77,7 +77,7 @@ const SetupDAOAdminExecuteModal: React.FC<Props> = ({ open, action, onClose, onS
 
   const handleConfirm = () => {
     const wasmMessage: CosmosMsgFor_Empty[] = validActions
-      .map((validAction: TDeedActionModel) => {
+      .map((validAction: TProposalActionModel) => {
         try {
           const { type, data } = validAction
           switch (type) {

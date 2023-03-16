@@ -13,11 +13,11 @@ const SetupProperties: React.FC = (): JSX.Element => {
   const canSubmit = true
 
   const handleBack = () => {
-    history.push(`/create/entity/${entityId}/deed/${coreAddress}/setup-page`)
+    history.push(`/create/entity/${entityId}/proposal/${coreAddress}/setup-page`)
   }
 
   const handleNext = () => {
-    history.push(`/create/entity/${entityId}/deed/${coreAddress}/setup-actions`)
+    history.push(`/create/entity/${entityId}/proposal/${coreAddress}/setup-actions`)
   }
 
   return (

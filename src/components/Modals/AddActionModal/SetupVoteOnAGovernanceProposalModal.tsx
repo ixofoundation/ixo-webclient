@@ -2,7 +2,7 @@ import { FlexBox, GridContainer } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { Button, Dropdown2 } from 'pages/CreateEntity/Components'
 import React, { useEffect, useMemo, useState } from 'react'
-import { TDeedActionModel } from 'types/protocol'
+import { TProposalActionModel } from 'types/protocol'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 import { VoteOption } from 'cosmjs-types/cosmos/gov/v1beta1/gov'
 
@@ -17,7 +17,7 @@ const initialState: GovernanceVoteData = {
 
 interface Props {
   open: boolean
-  action: TDeedActionModel
+  action: TProposalActionModel
   onClose: () => void
   onSubmit: (data: any) => void
 }

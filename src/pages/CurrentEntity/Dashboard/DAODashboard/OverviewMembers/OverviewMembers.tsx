@@ -54,7 +54,7 @@ const OverviewMembers: React.FC = (): JSX.Element | null => {
   }, [filter, sort, members])
 
   const handleNewProposal = () => {
-    history.push(`/create/entity/${entityId}/deed/${coreAddress}/info`)
+    history.push(`/create/entity/${entityId}/proposal/${coreAddress}/info`)
   }
 
   return (

@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { FlexBox } from 'components/App/App.styles'
 import { AccountValidStatus, CodeMirror, Dropdown2, Input, NumberCounter } from 'pages/CreateEntity/Components'
 import { Typography } from 'components/Typography'
-import { TDeedActionModel } from 'types/protocol'
+import { TProposalActionModel } from 'types/protocol'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 import { isAccountAddress, isNonZeroBalance, validateJSON } from 'utils/validation'
 import { NATIVE_DENOM } from 'constants/chains'
@@ -62,7 +62,7 @@ const initialState: AuthzExecData = {
 
 interface Props {
   open: boolean
-  action: TDeedActionModel
+  action: TProposalActionModel
   onClose: () => void
   onSubmit: (data: any) => void
 }

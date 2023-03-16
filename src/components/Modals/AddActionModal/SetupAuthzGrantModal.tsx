@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { FlexBox } from 'components/App/App.styles'
 import { AccountValidStatus, Dropdown2, Input, Switch } from 'pages/CreateEntity/Components'
 import { Typography } from 'components/Typography'
-import { TDeedActionModel } from 'types/protocol'
+import { TProposalActionModel } from 'types/protocol'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 import { isAccountAddress } from 'utils/validation'
 import { TitleAndDescription } from './Component'
@@ -39,7 +39,7 @@ const initialState: AuthzData = {
 
 interface Props {
   open: boolean
-  action: TDeedActionModel
+  action: TProposalActionModel
   onClose: () => void
   onSubmit: (data: any) => void
 }

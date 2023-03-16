@@ -3,7 +3,7 @@ import { Typography } from 'components/Typography'
 import { NATIVE_MICRODENOM } from 'constants/chains'
 import { AccountValidStatus, Button, Dropdown2, Input } from 'pages/CreateEntity/Components'
 import React, { useEffect, useMemo, useState } from 'react'
-import { TDeedActionModel } from 'types/protocol'
+import { TProposalActionModel } from 'types/protocol'
 import { isAccountAddress } from 'utils/validation'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 import { ReactComponent as CopyIcon } from 'assets/images/icon-copy.svg'
@@ -38,7 +38,7 @@ const initialState: PerformTokenSwapData = {
 
 interface Props {
   open: boolean
-  action: TDeedActionModel
+  action: TProposalActionModel
   onClose: () => void
   onSubmit: (data: any) => void
 }

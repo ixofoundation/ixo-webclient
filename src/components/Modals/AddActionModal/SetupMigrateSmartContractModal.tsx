@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { FlexBox } from 'components/App/App.styles'
 import { CodeMirror, Input } from 'pages/CreateEntity/Components'
-import { TDeedActionModel } from 'types/protocol'
+import { TProposalActionModel } from 'types/protocol'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 import { isAccountAddress, validateJSON } from 'utils/validation'
 import { Typography } from 'components/Typography'
@@ -20,7 +20,7 @@ const initialState: MigrateData = {
 
 interface Props {
   open: boolean
-  action: TDeedActionModel
+  action: TProposalActionModel
   onClose: () => void
   onSubmit: (data: any) => void
 }

@@ -4,7 +4,7 @@ import { useCurrentDaoGroup } from 'hooks/currentDao'
 import { Input, Switch } from 'pages/CreateEntity/Components'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { TDeedActionModel } from 'types/protocol'
+import { TProposalActionModel } from 'types/protocol'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 
 export interface UpdateInfoData {
@@ -26,7 +26,7 @@ const initialState: UpdateInfoData = {
 
 interface Props {
   open: boolean
-  action: TDeedActionModel
+  action: TProposalActionModel
   onClose: () => void
   onSubmit: (data: any) => void
 }

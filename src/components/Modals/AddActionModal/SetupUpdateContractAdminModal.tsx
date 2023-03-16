@@ -2,7 +2,7 @@ import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { AccountValidStatus, Input } from 'pages/CreateEntity/Components'
 import React, { useEffect, useMemo, useState } from 'react'
-import { TDeedActionModel } from 'types/protocol'
+import { TProposalActionModel } from 'types/protocol'
 import { isAccountAddress } from 'utils/validation'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 
@@ -17,7 +17,7 @@ const initialState: UpdateAdminData = {
 
 interface Props {
   open: boolean
-  action: TDeedActionModel
+  action: TProposalActionModel
   onClose: () => void
   onSubmit: (data: any) => void
 }

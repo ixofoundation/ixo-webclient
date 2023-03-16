@@ -8,7 +8,7 @@ import CreateClaim from './CreateClaim/CreateClaim'
 import CreateDAO from './CreateDAO/CreateDAO'
 import CreateProject from './CreateProject/CreateProject'
 import CreateOracle from './CreateOracle/CreateOracle'
-import CreateDeed from './CreateDeed/CreateDeed'
+import CreateProposal from './CreateProposal/CreateProposal'
 import { useAccount } from 'hooks/account'
 
 const CreateEntity: React.FC = (): JSX.Element => {
@@ -30,7 +30,7 @@ const CreateEntity: React.FC = (): JSX.Element => {
       <Route strict path={`/create/entity/dao`} component={CreateDAO} />
       <Route strict path={`/create/entity/project`} component={CreateProject} />
       <Route strict path={`/create/entity/oracle`} component={CreateOracle} />
-      <Route strict path={`/create/entity/:entityId/deed/:coreAddress`} component={CreateDeed} />
+      <Route strict path={`/create/entity/:entityId/proposal/:coreAddress`} component={CreateProposal} />
       <Route exact path='/create/entity'>
         <Redirect to={`/create/entity/type`} />
       </Route>

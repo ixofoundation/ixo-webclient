@@ -5,7 +5,7 @@ import { ModalStyles, CloseButton } from 'components/Modals/styles'
 import { FlexBox, SvgBox, theme } from 'components/App/App.styles'
 import { Button } from 'pages/CreateEntity/Components'
 import { Typography } from 'components/Typography'
-import { DeedActionConfig, TDeedActionModel } from 'types/protocol'
+import { ProposalActionConfig, TProposalActionModel } from 'types/protocol'
 import styled from 'styled-components'
 
 const inputHeight = '48px'
@@ -27,7 +27,7 @@ const BodyWrapper = styled(FlexBox)`
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   width?: string
   open: boolean
-  action: TDeedActionModel
+  action: TProposalActionModel
   validate?: boolean
   onClose: () => void
   onSubmit: () => void
@@ -42,7 +42,7 @@ const SetupActionModalTemplate: React.FC<Props> = ({
   onSubmit,
   children,
 }): JSX.Element => {
-  const Icon = DeedActionConfig[action.group].items[action.type].icon
+  const Icon = ProposalActionConfig[action.group].items[action.type].icon
 
   return (
     // @ts-ignore

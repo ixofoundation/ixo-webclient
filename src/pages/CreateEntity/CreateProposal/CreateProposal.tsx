@@ -3,19 +3,19 @@ import { Route, RouteComponentProps, useParams, useRouteMatch } from 'react-rout
 import { useCreateEntityState, useCreateEntityStrategy } from 'hooks/createEntity'
 import { useCurrentDaoGroup } from 'hooks/currentDao'
 
-const CreateDeed: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): JSX.Element => {
+const CreateProposal: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): JSX.Element => {
   const { entityId, coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
   const { daoGroup } = useCurrentDaoGroup(coreAddress)
   const { getStrategyByEntityType } = useCreateEntityStrategy()
   const { updateBreadCrumbs, updateEntityType, updateTitle, updateSubtitle } = useCreateEntityState()
-  const isSetupInfoRoute = useRouteMatch('/create/entity/:entityId/deed/:coreAddress/info')
-  const isSetupPageRoute = useRouteMatch('/create/entity/:entityId/deed/:coreAddress/setup-page')
-  const isSetupPropertiesRoute = useRouteMatch('/create/entity/:entityId/deed/:coreAddress/setup-properties')
-  const isSetupActionsRoute = useRouteMatch('/create/entity/:entityId/deed/:coreAddress/setup-actions')
-  const { steps } = getStrategyByEntityType('Deed')
+  const isSetupInfoRoute = useRouteMatch('/create/entity/:entityId/proposal/:coreAddress/info')
+  const isSetupPageRoute = useRouteMatch('/create/entity/:entityId/proposal/:coreAddress/setup-page')
+  const isSetupPropertiesRoute = useRouteMatch('/create/entity/:entityId/proposal/:coreAddress/setup-properties')
+  const isSetupActionsRoute = useRouteMatch('/create/entity/:entityId/proposal/:coreAddress/setup-actions')
+  const { steps } = getStrategyByEntityType('Proposal')
 
   useEffect(() => {
-    updateEntityType('Deed')
+    updateEntityType('Proposal')
     updateBreadCrumbs([
       { text: entityId, link: `/entity/${entityId}/dashboard` },
       { text: daoGroup?.config.name || 'Governance', link: `/entity/${entityId}/dashboard/overview/${coreAddress}` },
@@ -58,4 +58,4 @@ const CreateDeed: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): JS
   )
 }
 
-export default CreateDeed
+export default CreateProposal

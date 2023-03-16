@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { FlexBox } from 'components/App/App.styles'
 import { AccountValidStatus, Button, CodeMirror, Input } from 'pages/CreateEntity/Components'
-import { TDeedActionModel } from 'types/protocol'
+import { TProposalActionModel } from 'types/protocol'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 import { isAccountAddress } from 'utils/validation'
 import { TitleAndDescription } from './Component'
@@ -18,9 +18,9 @@ const initialState: ManageCw721Data = {
 
 interface Props {
   open: boolean
-  action: TDeedActionModel
+  action: TProposalActionModel
   onClose: () => void
-  onSubmit: (action: TDeedActionModel) => void
+  onSubmit: (action: TProposalActionModel) => void
 }
 
 const SetupManageTreasuryNFTsModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {

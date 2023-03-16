@@ -13,7 +13,7 @@ import {
   TEntityClaimModel1,
   TEntityDDOTagModel,
   TDAOGroupModel,
-  TDeedModel,
+  TProposalModel,
 } from 'types/protocol'
 import {
   addAssetInstancesAction,
@@ -28,7 +28,7 @@ import {
   updateDAOControllerAction,
   updateDAOGroupsAction,
   updateDDOTagsAction,
-  updateDeedAction,
+  updateProposalAction,
   updateEntityTypeAction,
   updateLinkedEntityAction,
   updateLinkedResourceAction,
@@ -49,7 +49,7 @@ import {
   selectCreateEntityDAOController,
   selectCreateEntityDAOGroups,
   selectCreateEntityDDOTags,
-  selectCreateEntityDeed,
+  selectCreateEntityProposal,
   selectCreateEntityLinkedEntity,
   selectCreateEntityLinkedResource,
   selectCreateEntityLocalisation,
@@ -125,7 +125,7 @@ interface TCreateEntityStateHookRes {
   localisation: ELocalisation
   daoGroups: { [id: string]: TDAOGroupModel }
   daoController: string
-  deed: TDeedModel
+  proposal: TProposalModel
   validateRequiredProperties: boolean
   updateEntityType: (entityType: string) => void
   gotoStep: (type: 1 | -1) => void
@@ -149,7 +149,7 @@ interface TCreateEntityStateHookRes {
   updateLocalisation: (localisation: ELocalisation) => void
   updateDAOGroups: (daoGroups: { [id: string]: TDAOGroupModel }) => void
   updateDAOController: (controller: string) => void
-  updateDeed: (deed: TDeedModel) => void
+  updateProposal: (proposal: TProposalModel) => void
 }
 
 export function useCreateEntityState(): TCreateEntityStateHookRes {
@@ -178,8 +178,8 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
   // for DAO
   const daoGroups: { [id: string]: TDAOGroupModel } = useAppSelector(selectCreateEntityDAOGroups)
   const daoController: string = useAppSelector(selectCreateEntityDAOController)
-  // for Deed
-  const deed: TDeedModel = useAppSelector(selectCreateEntityDeed)
+  // for Proposal
+  const proposal: TProposalModel = useAppSelector(selectCreateEntityProposal)
   const validateRequiredProperties = useMemo(() => {
     return !!creator && !!administrator && Object.keys(page ?? {}).length > 0 && service?.length > 0
   }, [creator, administrator, page, service])
@@ -272,8 +272,8 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
   const updateDAOController = (controller: string): void => {
     dispatch(updateDAOControllerAction(controller))
   }
-  const updateDeed = (deed: TDeedModel): void => {
-    dispatch(updateDeedAction(deed))
+  const updateProposal = (proposal: TProposalModel): void => {
+    dispatch(updateProposalAction(proposal))
   }
 
   return {
@@ -296,7 +296,7 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
     localisation,
     daoGroups,
     daoController,
-    deed,
+    proposal,
     validateRequiredProperties,
     updateEntityType,
     gotoStep,
@@ -320,7 +320,7 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
     updateLocalisation,
     updateDAOGroups,
     updateDAOController,
-    updateDeed,
+    updateProposal,
   }
 }
 

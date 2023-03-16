@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { Box, FlexBox, SvgBox } from 'components/App/App.styles'
 import { AccountValidStatus, CodeMirror, Dropdown2, Input, NumberCounter } from 'pages/CreateEntity/Components'
 import { Typography } from 'components/Typography'
-import { TDeedActionModel } from 'types/protocol'
+import { TProposalActionModel } from 'types/protocol'
 import styled from 'styled-components'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
 import { ReactComponent as TimesIcon } from 'assets/images/icon-times.svg'
@@ -37,7 +37,7 @@ const initialState: ExecuteData = {
 
 interface Props {
   open: boolean
-  action: TDeedActionModel
+  action: TProposalActionModel
   onClose: () => void
   onSubmit: (data: any) => void
 }

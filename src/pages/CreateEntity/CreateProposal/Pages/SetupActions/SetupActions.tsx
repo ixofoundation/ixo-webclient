@@ -4,7 +4,7 @@ import { deviceWidth } from 'constants/device'
 import { useCreateEntityState } from 'hooks/createEntity'
 import { Button } from 'pages/CreateEntity/Components'
 import React from 'react'
-import { TDeedActionModel } from 'types/protocol'
+import { TProposalActionModel } from 'types/protocol'
 import { useHistory, useParams } from 'react-router-dom'
 import { decodedMessagesString } from 'utils/messages'
 import { SetupActionsForm } from './SetupActionsForm'
@@ -19,7 +19,7 @@ import * as Toast from 'utils/toast'
 const SetupActions: React.FC = () => {
   const history = useHistory()
   const { entityId, coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
-  const { deed, updateDeed } = useCreateEntityState()
+  const { proposal, updateProposal } = useCreateEntityState()
   const { daoGroup } = useCurrentDaoGroup(coreAddress)
   const memberAddresses = daoGroup?.votingModule.members?.map(({ addr }) => addr)
   const {
@@ -51,9 +51,9 @@ const SetupActions: React.FC = () => {
   } = useMakeProposalAction(coreAddress)
   const { address, cosmWasmClient, updateChooseWalletOpen } = useAccount()
 
-  const name = deed?.name || ''
-  const description = deed?.description || ''
-  const actions = deed?.actions ?? []
+  const name = proposal?.name || ''
+  const description = proposal?.description || ''
+  const actions = proposal?.actions ?? []
   const validActions = actions.filter((item) => item.data)
 
   const handleValidate = () => {
@@ -68,7 +68,7 @@ const SetupActions: React.FC = () => {
     return true
   }
   const handleBack = () => {
-    history.push(`/create/entity/${entityId}/deed/${coreAddress}/setup-properties`)
+    history.push(`/create/entity/${entityId}/proposal/${coreAddress}/setup-properties`)
   }
   const handleSubmit = async () => {
     if (!handleValidate()) {
@@ -76,7 +76,7 @@ const SetupActions: React.FC = () => {
       return
     }
     const wasmMessage: CosmosMsgForEmpty[] = validActions
-      .map((validAction: TDeedActionModel) => {
+      .map((validAction: TProposalActionModel) => {
         try {
           const { type, data } = validAction
           switch (type) {
@@ -181,7 +181,7 @@ const SetupActions: React.FC = () => {
           </Typography>
         </FlexBox>
 
-        <SetupActionsForm actions={actions} setActions={(actions) => updateDeed({ ...deed, actions })} />
+        <SetupActionsForm actions={actions} setActions={(actions) => updateProposal({ ...proposal, actions })} />
 
         <FlexBox width='100%' justifyContent='flex-end' gap={4}>
           <Button variant='secondary' onClick={handleBack}>

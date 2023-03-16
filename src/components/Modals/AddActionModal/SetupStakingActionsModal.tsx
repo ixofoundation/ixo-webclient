@@ -4,7 +4,7 @@ import { NATIVE_MICRODENOM } from 'constants/chains'
 import { useValidators } from 'hooks/validator'
 import { Dropdown2, Input } from 'pages/CreateEntity/Components'
 import React, { useEffect, useMemo, useState } from 'react'
-import { TDeedActionModel } from 'types/protocol'
+import { TProposalActionModel } from 'types/protocol'
 import { StakeType } from 'utils/messages'
 import { isAccountAddress } from 'utils/validation'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
@@ -27,7 +27,7 @@ const initialState: StakeData = {
 
 interface Props {
   open: boolean
-  action: TDeedActionModel
+  action: TProposalActionModel
   onClose: () => void
   onSubmit: (data: any) => void
 }

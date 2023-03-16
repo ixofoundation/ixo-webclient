@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import * as Modal from 'react-modal'
 import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
 import { ModalStyles, CloseButton } from 'components/Modals/styles'
-import { DeedActionConfig, TDeedActionModel } from 'types/protocol'
+import { ProposalActionConfig, TProposalActionModel } from 'types/protocol'
 import { FlexBox, GridContainer, GridItem } from 'components/App/App.styles'
 import { Button, Dropdown, PropertyBox } from 'pages/CreateEntity/Components'
 import { Typography } from 'components/Typography'
@@ -11,16 +11,16 @@ import { v4 as uuidv4 } from 'uuid'
 interface Props {
   open: boolean
   onClose: () => void
-  onAdd: (action: TDeedActionModel) => void
+  onAdd: (action: TProposalActionModel) => void
 }
 
 const AddActionModal: React.FC<Props> = ({ open, onClose, onAdd }): JSX.Element => {
-  const options = Object.values(DeedActionConfig).map((item) => item.text)
+  const options = Object.values(ProposalActionConfig).map((item) => item.text)
   const [selectedGroup, setSelectedGroup] = useState(options[0])
   const [selectedAction, setSelectedAction] = useState<any>()
 
   const groupItems: any[] = useMemo(() => {
-    return Object.values(DeedActionConfig[selectedGroup].items)
+    return Object.values(ProposalActionConfig[selectedGroup].items)
   }, [selectedGroup])
 
   const handleContinue = () => {

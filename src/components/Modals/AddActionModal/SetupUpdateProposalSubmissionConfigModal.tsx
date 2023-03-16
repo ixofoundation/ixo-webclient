@@ -6,7 +6,7 @@ import { Button, Dropdown2, Input, Switch } from 'pages/CreateEntity/Components'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { DepositRefundPolicy } from 'types/dao'
-import { TDeedActionModel } from 'types/protocol'
+import { TProposalActionModel } from 'types/protocol'
 import { GenericToken } from 'types/tokens'
 import { TitleAndDescription } from './Component'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
@@ -39,7 +39,7 @@ export const initialPreProposeConfigState: UpdatePreProposeConfigData = {
 
 interface Props {
   open: boolean
-  action: TDeedActionModel
+  action: TProposalActionModel
   onClose: () => void
   onSubmit: (data: any) => void
 }

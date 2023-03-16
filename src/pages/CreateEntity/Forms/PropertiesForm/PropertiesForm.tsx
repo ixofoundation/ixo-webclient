@@ -28,7 +28,7 @@ const PropertiesForm: React.FC<Props> = ({ entityType }): JSX.Element => {
     switch (entityType) {
       case 'Claim':
         return Properties.filter((property) => property !== 'Claims')
-      case 'Deed':
+      case 'Proposal':
         return Properties.filter((property) => property !== 'Settings')
       default:
         return Properties

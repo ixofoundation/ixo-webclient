@@ -1,7 +1,7 @@
 import { FlexBox } from 'components/App/App.styles'
 import { PropertyBox } from 'pages/CreateEntity/Components'
 import React, { useState } from 'react'
-import { DeedActionConfig, TDeedActionModel } from 'types/protocol'
+import { ProposalActionConfig, TProposalActionModel } from 'types/protocol'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
 
 import { AddActionModal } from 'components/Modals'
@@ -34,22 +34,22 @@ import {
 } from 'components/Modals/AddActionModal'
 
 interface Props {
-  actions: TDeedActionModel[]
-  setActions: (actions: TDeedActionModel[]) => void
+  actions: TProposalActionModel[]
+  setActions: (actions: TProposalActionModel[]) => void
 }
 
 const SetupActionsForm: React.FC<Props> = ({ actions, setActions }): JSX.Element => {
   const [openAddActionModal, setOpenAddActionModal] = useState(false)
-  const [selectedAction, setSelectedAction] = useState<TDeedActionModel | undefined>()
+  const [selectedAction, setSelectedAction] = useState<TProposalActionModel | undefined>()
 
-  const handleAddAction = (action: TDeedActionModel): void => {
+  const handleAddAction = (action: TProposalActionModel): void => {
     setActions([...actions, action])
     setSelectedAction(action)
   }
   const handleRemoveAction = (id: string): void => {
     setActions([...actions].filter((item) => item.id !== id))
   }
-  const handleUpdateAction = (action: TDeedActionModel): void => {
+  const handleUpdateAction = (action: TProposalActionModel): void => {
     setActions(actions.map((item, i) => (item.id === action.id ? action : item)))
   }
 
@@ -57,7 +57,7 @@ const SetupActionsForm: React.FC<Props> = ({ actions, setActions }): JSX.Element
     <>
       <FlexBox gap={5} flexWrap='wrap'>
         {actions.map((item) => {
-          const Icon = DeedActionConfig[item.group].items[item.type].icon
+          const Icon = ProposalActionConfig[item.group].items[item.type].icon
           return (
             <PropertyBox
               key={item.id}
