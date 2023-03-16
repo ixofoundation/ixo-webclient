@@ -17,6 +17,7 @@ import { useCreateEntity, useCreateEntityState } from 'hooks/createEntity'
 import { ReactComponent as InfoIcon } from 'assets/images/icon-info.svg'
 import { ReactComponent as ProfileIcon } from 'assets/images/icon-profile.svg'
 import { ReactComponent as BinIcon } from 'assets/images/icon-bin-lg.svg'
+import { ReactComponent as FileUploadIcon } from 'assets/images/icon-file-upload-solid.svg'
 import { ReactComponent as SandClockIcon } from 'assets/images/icon-sandclock.svg'
 import { ReactComponent as VoteSwitchingIcon } from 'assets/images/icon-vote-switching.svg'
 import { ReactComponent as CoinsSolidIcon } from 'assets/images/icon-coins-solid.svg'
@@ -25,6 +26,7 @@ import { ReactComponent as TokenContractIcon } from 'assets/images/icon-token-co
 import { deviceWidth } from 'constants/device'
 import { DepositRefundPolicy } from 'types/dao'
 import * as Toast from 'utils/toast'
+import * as _ from 'lodash'
 
 export const initialMembership = { category: '', weight: 1, members: [''] }
 const initialStakingDistribution = { category: '', totalSupplyPercent: 0, members: [''] }
@@ -118,6 +120,10 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onSubmit }): JSX.Elem
       const members = (data.memberships ?? [])[membershipIdx]?.members ?? ['']
       handleUpdateMembership(membershipIdx, 'members', [...members, ''])
     }
+    const attachMembers = (membershipIdx: number, addresses: string[]): void => {
+      const members = (data.memberships ?? [])[membershipIdx]?.members ?? ['']
+      handleUpdateMembership(membershipIdx, 'members', _.union(members.concat(addresses)))
+    }
     const handleUpdateMember = (membershipIdx: number, memberIdx: number, value: string): void => {
       const members = (data.memberships ?? [])[membershipIdx]?.members ?? ['']
       handleUpdateMembership(
@@ -143,6 +149,27 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onSubmit }): JSX.Elem
         )
       }
     }
+    const handleImportCsv = (membershipIdx: number) => () => {
+      const fileUploadEl = document.getElementById(`csv-file-input-${membershipIdx}`)
+      if (fileUploadEl) {
+        fileUploadEl.click()
+      }
+    }
+    const handleFileChange = (membershipIdx: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
+      try {
+        const file = e.target.files![0]
+        const fileReader = new FileReader()
+        fileReader.onload = function (event: any) {
+          const csvOutput = event.target.result
+          const addresses = csvOutput.split('\n').filter(Boolean)
+          attachMembers(membershipIdx, addresses)
+        }
+        fileReader.readAsText(file)
+      } catch (e) {
+        //
+        console.error('handleFileChange', e)
+      }
+    }
     return (
       <FlexBox direction='column' width='100%' gap={7} marginBottom={7}>
         {data.memberships.map((membership, membershipIdx) => (
@@ -154,15 +181,29 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onSubmit }): JSX.Elem
                   Group Membership
                 </Typography>
               </FlexBox>
-              <Button
-                variant='grey900'
-                size='custom'
-                width={52}
-                height={48}
-                onClick={(): void => handleRemoveMembership(membershipIdx)}
-              >
-                <BinIcon />
-              </Button>
+              <FlexBox gap={4}>
+                <input
+                  style={{ display: 'none' }}
+                  type={'file'}
+                  id={`csv-file-input-${membershipIdx}`}
+                  accept={'.csv'}
+                  onChange={handleFileChange(membershipIdx)}
+                />
+                <Button variant='grey500' size='custom' width={52} height={48} onClick={handleImportCsv(membershipIdx)}>
+                  <SvgBox color='white'>
+                    <FileUploadIcon />
+                  </SvgBox>
+                </Button>
+                <Button
+                  variant='grey900'
+                  size='custom'
+                  width={52}
+                  height={48}
+                  onClick={(): void => handleRemoveMembership(membershipIdx)}
+                >
+                  <BinIcon />
+                </Button>
+              </FlexBox>
             </FlexBox>
             <FlexBox direction='column' gap={5}>
               <Typography size='xl' weight='medium'>

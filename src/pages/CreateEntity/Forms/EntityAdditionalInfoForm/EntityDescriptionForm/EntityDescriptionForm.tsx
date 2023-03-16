@@ -2,6 +2,7 @@ import React from 'react'
 import { CheckBox, DateRangePicker, TextArea } from '../../../Components'
 import { FormWrapper, BrandNameInput } from './EntityDescriptionForm.styles'
 import 'react-dates/initialize'
+import { useCreateEntityState } from 'hooks/createEntity'
 
 interface Props {
   description: string | undefined
@@ -30,6 +31,7 @@ const EntityDescriptionForm: React.FC<Props> = ({
   endDate,
   setStartEndDate,
 }): JSX.Element => {
+  const { entityType } = useCreateEntityState()
   return (
     <FormWrapper>
       <TextArea
@@ -37,7 +39,7 @@ const EntityDescriptionForm: React.FC<Props> = ({
         handleChange={setDescription}
         width={'400px'}
         height={'240px'}
-        label={'Describe the Protocol'}
+        label={`Describe the ${entityType}`}
       />
       {setBrand && (
         <BrandNameInput

@@ -4,7 +4,7 @@ import { useCreateEntityState, useCreateEntityStrategy } from 'hooks/createEntit
 
 const CreateDAO: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): JSX.Element => {
   const { getStrategyByEntityType } = useCreateEntityStrategy()
-  const { updateTitle, updateSubtitle } = useCreateEntityState()
+  const { updateTitle, updateSubtitle, updateBreadCrumbs } = useCreateEntityState()
   const isSelectProcessRoute = useRouteMatch('/create/entity/dao/select-process')
   const isSetupMetadataRoute = useRouteMatch('/create/entity/dao/setup-metadata')
   const isSetupGroupsRoute = useRouteMatch('/create/entity/dao/setup-groups')
@@ -14,6 +14,7 @@ const CreateDAO: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): JSX
 
   useEffect(() => {
     updateTitle('Create a DAO')
+    updateBreadCrumbs([{ text: 'DAO' }])
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
