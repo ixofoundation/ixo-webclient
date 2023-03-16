@@ -21,7 +21,7 @@ const Governance: React.FC<Props> = ({ daoId, groupAddresses }): JSX.Element => 
   const id = latestProposal?.id ?? 0
   const title = latestProposal?.proposal.title
   const description = latestProposal?.proposal.description
-  const votingPeriod = (latestProposal?.proposal as any).max_voting_period ?? 0
+  const votingPeriod = (latestProposal?.proposal as any)?.max_voting_period ?? 0
 
   const [proposalEndString, secondsFromNow] = useMemo(() => {
     if (!latestProposal?.proposal.expiration) {

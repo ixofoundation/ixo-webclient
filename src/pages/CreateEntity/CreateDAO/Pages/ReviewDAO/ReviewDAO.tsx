@@ -158,7 +158,7 @@ const ReviewDAO: React.FC = (): JSX.Element => {
       linkedResource,
       accordedRight,
       linkedEntity: Object.values(linkedEntity),
-      // verification,
+      verification,
     })
     if (entityDid) {
       Toast.successToast(`Create Entity Succeed`)
