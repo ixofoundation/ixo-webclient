@@ -225,5 +225,14 @@ export default function useCurrentDao(): {
 
 export function useCurrentDaoGroup(groupAddress: string) {
   const daoGroup: DaoGroup = useAppSelector(selectDaoGroupByAddress(groupAddress))
-  return daoGroup
+  const { cosmWasmClient, address } = useAccount()
+
+  const { proposalModuleAddress } = useMemo(() => daoGroup.proposalModule, [daoGroup])
+
+  const daoProposalSingleClient = useMemo(
+    () => new contracts.DaoProposalSingle.DaoProposalSingleClient(cosmWasmClient, address, proposalModuleAddress),
+    [proposalModuleAddress, cosmWasmClient, address],
+  )
+
+  return { daoGroup, daoProposalSingleClient }
 }

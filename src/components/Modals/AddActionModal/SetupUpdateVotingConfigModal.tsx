@@ -88,7 +88,7 @@ interface Props {
 
 const SetupUpdateVotingConfigModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
   const { coreAddress } = useParams<{ coreAddress: string }>()
-  const daoGroup = useCurrentDaoGroup(coreAddress)
+  const { daoGroup } = useCurrentDaoGroup(coreAddress)
   const proposalConfig = daoGroup?.proposalModule.proposalConfig
   const [formData, setFormData] = useState<UpdateProposalConfigData>(initialProposalConfigState)
 

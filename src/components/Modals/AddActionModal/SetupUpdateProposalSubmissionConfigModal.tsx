@@ -46,7 +46,7 @@ interface Props {
 
 const SetupUpdateContractAdminModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
   const { coreAddress } = useParams<{ coreAddress: string }>()
-  const daoGroup = useCurrentDaoGroup(coreAddress)
+  const { daoGroup } = useCurrentDaoGroup(coreAddress)
   const preProposeConfig = daoGroup?.proposalModule.preProposeConfig
   const [formData, setFormData] = useState<UpdatePreProposeConfigData>(initialPreProposeConfigState)
 

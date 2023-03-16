@@ -20,8 +20,8 @@ const SetupActions: React.FC = () => {
   const history = useHistory()
   const { entityId, coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
   const { deed, updateDeed } = useCreateEntityState()
-  const currentDaoGroup = useCurrentDaoGroup(coreAddress)
-  const memberAddresses = currentDaoGroup?.votingModule.members?.map(({ addr }) => addr)
+  const { daoGroup } = useCurrentDaoGroup(coreAddress)
+  const memberAddresses = daoGroup?.votingModule.members?.map(({ addr }) => addr)
   const {
     makeAuthzAuthorizationAction,
     makeAuthzExecAction,
@@ -155,7 +155,7 @@ const SetupActions: React.FC = () => {
 
     console.log('wasmMessage', decodedMessagesString(wasmMessage))
 
-    const preProposalModuleAddress = currentDaoGroup.proposalModule.preProposalContractAddress
+    const preProposalModuleAddress = daoGroup.proposalModule.preProposalContractAddress
     const daoProposalSingleClient = new contracts.DaoPreProposeSingle.DaoPreProposeSingleClient(
       cosmWasmClient,
       address,

@@ -52,7 +52,7 @@ import { useCurrentDaoGroup } from './currentDao'
 
 export function useMakeProposalAction(coreAddress: string) {
   const { convertToMinimalDenom } = useIxoConfigs()
-  const daoGroup = useCurrentDaoGroup(coreAddress)
+  const { daoGroup } = useCurrentDaoGroup(coreAddress)
 
   const makeSpendAction = (data: SpendData): any => {
     const { denom, amount } = convertToMinimalDenom({ denom: data.denom, amount: data.amount })!

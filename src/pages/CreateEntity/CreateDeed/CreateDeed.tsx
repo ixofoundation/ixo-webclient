@@ -5,7 +5,7 @@ import { useCurrentDaoGroup } from 'hooks/currentDao'
 
 const CreateDeed: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): JSX.Element => {
   const { entityId, coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
-  const daoGroup = useCurrentDaoGroup(coreAddress)
+  const { daoGroup } = useCurrentDaoGroup(coreAddress)
   const { getStrategyByEntityType } = useCreateEntityStrategy()
   const { updateBreadCrumbs, updateEntityType, updateTitle, updateSubtitle } = useCreateEntityState()
   const isSetupInfoRoute = useRouteMatch('/create/entity/:entityId/deed/:coreAddress/info')
