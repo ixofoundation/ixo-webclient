@@ -11,7 +11,7 @@ import {
   theme,
 } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
-import React from 'react'
+import React, { Dispatch, SetStateAction } from 'react'
 import { MemberCard } from './MemberCard'
 import { MemberListItem } from './MemberListItem'
 import { ReactComponent as SortAtoZIcon } from 'assets/images/icon-sort-atoz.svg'
@@ -25,8 +25,17 @@ interface Props {
   members: any[]
   sort: { [key: string]: 'asc' | 'desc' | undefined }
   setSort: (sort: any) => void
+  selectedMembers: { [key: string]: boolean }
+  setSelectedMembers: Dispatch<SetStateAction<{ [key: string]: boolean }>>
 }
-const MembersView: React.FC<Props> = ({ view, members, sort, setSort }): JSX.Element => {
+const MembersView: React.FC<Props> = ({
+  view,
+  members,
+  sort,
+  setSort,
+  selectedMembers,
+  setSelectedMembers,
+}): JSX.Element => {
   const handleSortClick = (key: string) => {
     setSort((sort: any) => {
       let newSortForKey: 'asc' | 'desc' | undefined
@@ -76,7 +85,14 @@ const MembersView: React.FC<Props> = ({ view, members, sort, setSort }): JSX.Ele
 
           <GridContainer columns={5} width='100%' columnGap={4} rowGap={4}>
             {members.map((member, index) => (
-              <MemberCard key={index} member={member} />
+              <MemberCard
+                key={index}
+                member={member}
+                selected={selectedMembers[member.addr]}
+                onSelectMember={(addr) =>
+                  setSelectedMembers((selectedMembers) => ({ ...selectedMembers, [addr]: !selectedMembers[addr] }))
+                }
+              />
             ))}
           </GridContainer>
         </>
@@ -104,7 +120,14 @@ const MembersView: React.FC<Props> = ({ view, members, sort, setSort }): JSX.Ele
           </TableHead>
           <TableBody>
             {members.map((member, index) => (
-              <MemberListItem key={index} member={member} />
+              <MemberListItem
+                key={index}
+                member={member}
+                selected={selectedMembers[member.addr]}
+                onSelectMember={(addr) =>
+                  setSelectedMembers((selectedMembers) => ({ ...selectedMembers, [addr]: !selectedMembers[addr] }))
+                }
+              />
             ))}
           </TableBody>
         </TableContainer>

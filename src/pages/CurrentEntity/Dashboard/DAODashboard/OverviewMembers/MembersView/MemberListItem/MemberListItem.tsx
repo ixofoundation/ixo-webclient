@@ -2,16 +2,21 @@ import ThreeDot from 'assets/icons/ThreeDot'
 import { Box, FlexBox, TableBodyItem, TableRow } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import React, { useState } from 'react'
-import styled from 'styled-components'
-import CopyToClipboard from 'react-copy-to-clipboard'
-import * as Toast from 'utils/toast'
+import styled, { css } from 'styled-components'
 import { truncateString } from 'utils/formatters'
 import { MemberDetailCard } from '../MemberDetailCard'
 import { useHistory } from 'react-router-dom'
 import { STATUSES } from '../../Toolbar/Toolbar'
 import { Avatar } from '../../../Components'
 
-const Wrapper = styled(TableRow)`
+const Wrapper = styled(TableRow)<{ focused: boolean }>`
+  ${({ theme, focused }) =>
+    focused &&
+    css`
+      outline-color: ${theme.ixoNewBlue};
+      background: linear-gradient(180deg, #01273a 0%, #002d42 100%);
+      box-shadow: ${theme.ixoShadow1};
+    `}
   &:hover {
     outline-color: ${(props) => props.theme.ixoNewBlue};
     background: linear-gradient(180deg, #01273a 0%, #002d42 100%);
@@ -49,14 +54,16 @@ interface Props {
     weight: number
     votingPower?: number
   }
+  selected: boolean
+  onSelectMember: (addr: string) => void
 }
 
-const MemberListItem: React.FC<Props> = ({ member }): JSX.Element => {
+const MemberListItem: React.FC<Props> = ({ member, selected, onSelectMember }): JSX.Element => {
   const history = useHistory()
   const { avatar, name, status, addr, staking, votes, proposals, votingPower } = member
   const [detailView, setDetailView] = useState(false)
 
-  const handleMemberClick = () => {
+  const handleMemberView = () => {
     history.push(`${history.location.pathname}/${addr}`)
   }
 
@@ -73,7 +80,8 @@ const MemberListItem: React.FC<Props> = ({ member }): JSX.Element => {
       position='relative'
       px={8}
       py={1}
-      onClick={handleMemberClick}
+      focused={selected}
+      onClick={() => onSelectMember(addr)}
     >
       <TableBodyItem>
         <Box
@@ -87,18 +95,9 @@ const MemberListItem: React.FC<Props> = ({ member }): JSX.Element => {
         />
         <FlexBox alignItems='center' gap={5} marginLeft={8}>
           <Avatar size={50} url={avatar} />
-          <CopyToClipboard text={addr} onCopy={() => Toast.successToast(`Copied to clipboard`)}>
-            <Typography
-              color='white'
-              size='lg'
-              weight='medium'
-              hover={{ underline: true }}
-              title='Click to Copy'
-              onClick={(event) => event.stopPropagation()}
-            >
-              {truncateString(name ?? addr, 20)}
-            </Typography>
-          </CopyToClipboard>
+          <Typography color='white' size='lg' weight='medium' hover={{ underline: true }} onClick={handleMemberView}>
+            {truncateString(name ?? addr, 20)}
+          </Typography>
         </FlexBox>
       </TableBodyItem>
       <TableBodyItem>

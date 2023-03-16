@@ -2,20 +2,19 @@ import { Box, FlexBox, GridContainer, SvgBox, theme } from 'components/App/App.s
 import { Typography } from 'components/Typography'
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import CopyToClipboard from 'react-copy-to-clipboard'
 import { ReactComponent as PieIcon } from 'assets/images/icon-pie.svg'
 import { ReactComponent as ClaimIcon } from 'assets/images/icon-claim.svg'
 import { ReactComponent as MultisigIcon } from 'assets/images/icon-multisig.svg'
 import { ReactComponent as PaperIcon } from 'assets/images/icon-paper.svg'
 import ThreeDot from 'assets/icons/ThreeDot'
-import * as Toast from 'utils/toast'
 import { truncateString } from 'utils/formatters'
 import { STATUSES } from '../../Toolbar/Toolbar'
 import { MemberDetailCard } from '../MemberDetailCard'
 import { useHistory } from 'react-router-dom'
 import { Avatar } from '../../../Components'
 
-const Wrapper = styled(FlexBox)`
+const Wrapper = styled(FlexBox)<{ focused: boolean }>`
+  ${({ theme, focused }) => focused && `border-color: ${theme.ixoLightBlue};`}
   &:hover {
     border-color: ${(props) => props.theme.ixoLightBlue};
 
@@ -42,14 +41,16 @@ interface Props {
     weight: number
     votingPower?: number
   }
+  selected: boolean
+  onSelectMember: (addr: string) => void
 }
 
-const MemberCard: React.FC<Props> = ({ member }): JSX.Element => {
+const MemberCard: React.FC<Props> = ({ member, selected, onSelectMember }): JSX.Element => {
   const history = useHistory()
   const { avatar, name, addr, role, status, staking, votes, proposals, votingPower } = member
   const [detailView, setDetailView] = useState(false)
 
-  const handleMemberClick = () => {
+  const handleMemberView = () => {
     history.push(`${history.location.pathname}/${addr}`)
   }
 
@@ -70,7 +71,8 @@ const MemberCard: React.FC<Props> = ({ member }): JSX.Element => {
       borderColor={theme.ixoDarkBlue}
       transition='all .2s'
       position='relative'
-      onClick={handleMemberClick}
+      focused={selected}
+      onClick={() => onSelectMember(addr)}
     >
       <Box
         position='absolute'
@@ -99,18 +101,9 @@ const MemberCard: React.FC<Props> = ({ member }): JSX.Element => {
       <Avatar url={avatar} size={100} />
 
       <FlexBox direction='column' gap={2} width='100%' alignItems='center'>
-        <CopyToClipboard text={addr} onCopy={() => Toast.successToast(`Copied to clipboard`)}>
-          <Typography
-            size='lg'
-            color='white'
-            weight='medium'
-            hover={{ underline: true }}
-            title='Click to Copy'
-            onClick={(event) => event.stopPropagation()}
-          >
-            {truncateString(name ?? addr, 20)}
-          </Typography>
-        </CopyToClipboard>
+        <Typography size='lg' color='white' weight='medium' hover={{ underline: true }} onClick={handleMemberView}>
+          {truncateString(name ?? addr, 20)}
+        </Typography>
         <Typography size='sm' color='light-blue' weight='medium'>
           {role}
         </Typography>

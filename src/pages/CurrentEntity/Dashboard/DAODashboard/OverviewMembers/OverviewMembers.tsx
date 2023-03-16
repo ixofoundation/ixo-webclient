@@ -3,16 +3,15 @@ import React, { useMemo, useState } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 import { MembersView } from './MembersView'
 import { Toolbar } from './Toolbar'
-// import { useGetMembers } from 'hooks/dao'
 import useCurrentDao from 'hooks/currentDao'
 
 const OverviewMembers: React.FC = (): JSX.Element | null => {
   const history = useHistory()
   const { entityId, coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
   const { getMembersByAddress } = useCurrentDao()
-  const members = getMembersByAddress(coreAddress)
-  const numOfMembers = members.length
+  const members = useMemo(() => getMembersByAddress(coreAddress), [coreAddress, getMembersByAddress])
 
+  const [selectedMembers, setSelectedMembers] = useState<{ [key: string]: boolean }>({})
   const [filter, setFilter] = useState<{
     status: 'approved' | 'pending' | 'rejected' | undefined
     view: 'panel' | 'list'
@@ -25,7 +24,6 @@ const OverviewMembers: React.FC = (): JSX.Element | null => {
     votes: undefined,
     proposals: undefined,
   })
-  // const [filteredMembers, setFilteredMembers] = useState(members)
   const filteredMembers = useMemo(() => {
     const [sortBy, order] = Object.entries(sort).find(([, value]) => value) ?? ['name', 'asc']
     return members
@@ -66,12 +64,19 @@ const OverviewMembers: React.FC = (): JSX.Element | null => {
         status={filter.status}
         view={filter.view}
         keyword={filter.keyword}
-        numOfMembers={numOfMembers}
+        numOfMembers={members.length}
         onStatusChange={(status) => setFilter((pre) => ({ ...pre, status }))}
         onViewChange={(view) => setFilter((pre) => ({ ...pre, view }))}
         onKeywordChange={(keyword) => setFilter((pre) => ({ ...pre, keyword }))}
       />
-      <MembersView view={filter.view} members={filteredMembers} sort={sort} setSort={setSort} />
+      <MembersView
+        view={filter.view}
+        members={filteredMembers}
+        sort={sort}
+        setSort={setSort}
+        selectedMembers={selectedMembers}
+        setSelectedMembers={setSelectedMembers}
+      />
     </FlexBox>
   )
 }

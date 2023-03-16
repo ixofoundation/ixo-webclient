@@ -7,6 +7,7 @@ import { ReactComponent as SandClockIcon } from 'assets/images/icon-sandclock-fi
 import { ProgressBar } from 'components/ProgressBar/ProgressBar'
 import useCurrentDao from 'hooks/currentDao'
 import { expirationAtTimeToSecondsFromNow, secondsToWdhms } from 'utils/conversions'
+import { useHistory, useParams } from 'react-router-dom'
 
 interface Props {
   daoId: string
@@ -14,6 +15,8 @@ interface Props {
 }
 
 const Governance: React.FC<Props> = ({ daoId, groupAddresses }): JSX.Element => {
+  const history = useHistory()
+  const { entityId } = useParams<{ entityId: string }>()
   const { getProposalsByAddresses } = useCurrentDao()
   const proposals = getProposalsByAddresses(groupAddresses)
   const latestProposal = [...proposals].pop()
@@ -50,7 +53,11 @@ const Governance: React.FC<Props> = ({ daoId, groupAddresses }): JSX.Element => 
   }, [latestProposal?.proposal.expiration, latestProposal?.proposal.status])
 
   return (
-    <Card icon={<GovernanceIcon />} label='Governance'>
+    <Card
+      icon={<GovernanceIcon />}
+      label='Governance'
+      onNavigate={() => history.push(`/entity/${entityId}/dashboard/proposals`)}
+    >
       <FlexBox width='100%' direction='column' alignItems='center' gap={1}>
         <Typography color='blue' size='5xl'>
           {proposals.length.toLocaleString()}
@@ -58,57 +65,59 @@ const Governance: React.FC<Props> = ({ daoId, groupAddresses }): JSX.Element => 
         <Typography color='white'>Open Proposals</Typography>
       </FlexBox>
 
-      <FlexBox direction='column' alignItems='center' width='100%' gap={2}>
-        <FlexBox borderRadius='4px' background='#012131' gap={2} p={4} direction='column' width='100%'>
-          <FlexBox alignItems='center' gap={2.5}>
-            <Box>
-              <FlexBox
-                borderRadius='4px'
-                background='#033C50'
-                justifyContent='center'
-                alignItems='center'
-                minWidth='32px'
-                height='32px'
-              >
-                <Typography color='blue' size='md'>
-                  #{id}
-                </Typography>
-              </FlexBox>
+      {proposals.length > 0 && (
+        <FlexBox direction='column' alignItems='center' width='100%' gap={2}>
+          <FlexBox borderRadius='4px' background='#012131' gap={2} p={4} direction='column' width='100%'>
+            <FlexBox alignItems='center' gap={2.5}>
+              <Box>
+                <FlexBox
+                  borderRadius='4px'
+                  background='#033C50'
+                  justifyContent='center'
+                  alignItems='center'
+                  minWidth='32px'
+                  height='32px'
+                >
+                  <Typography color='blue' size='md'>
+                    #{id}
+                  </Typography>
+                </FlexBox>
+              </Box>
+              <Typography color='blue' weight='bold' size='md'>
+                {title}
+              </Typography>
+            </FlexBox>
+
+            <Box mb={3}>
+              <Typography size='sm' color='white'>
+                {description}
+              </Typography>
             </Box>
-            <Typography color='blue' weight='bold' size='md'>
-              {title}
+
+            <FlexBox width='100%' gap={3} alignItems='center'>
+              <SvgBox color={theme.ixoNewBlue}>
+                <SandClockIcon />
+              </SvgBox>
+              <ProgressBar
+                height={8}
+                total={votingPeriod}
+                approved={votingPeriod - secondsFromNow}
+                rejected={0}
+                activeBarColor={theme.ixoNewBlue}
+                barColor={theme.ixoDarkBlue}
+              />
+            </FlexBox>
+          </FlexBox>
+          <FlexBox>
+            <Typography size='sm' color='dark-blue'>
+              <Typography size='sm' weight='bold' color='blue'>
+                {proposalEndString}
+              </Typography>{' '}
+              before voting closes
             </Typography>
           </FlexBox>
-
-          <Box mb={3}>
-            <Typography size='sm' color='white'>
-              {description}
-            </Typography>
-          </Box>
-
-          <FlexBox width='100%' gap={3} alignItems='center'>
-            <SvgBox color={theme.ixoNewBlue}>
-              <SandClockIcon />
-            </SvgBox>
-            <ProgressBar
-              height={8}
-              total={votingPeriod}
-              approved={votingPeriod - secondsFromNow}
-              rejected={0}
-              activeBarColor={theme.ixoNewBlue}
-              barColor={theme.ixoDarkBlue}
-            />
-          </FlexBox>
         </FlexBox>
-        <FlexBox>
-          <Typography size='sm' color='dark-blue'>
-            <Typography size='sm' weight='bold' color='blue'>
-              {proposalEndString}
-            </Typography>{' '}
-            before voting closes
-          </Typography>
-        </FlexBox>
-      </FlexBox>
+      )}
     </Card>
   )
 }

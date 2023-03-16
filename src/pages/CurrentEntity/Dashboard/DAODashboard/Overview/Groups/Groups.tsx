@@ -12,6 +12,12 @@ import { DaoGroup } from 'redux/currentEntity/dao/currentDao.types'
 import { NavLink, useHistory } from 'react-router-dom'
 import { deviceWidth } from 'constants/device'
 
+const StyledSlider = styled(Slider)`
+  .slick-track {
+    margin-left: 0;
+  }
+`
+
 const Arrow = styled(Box)`
   &:before {
     content: '';
@@ -158,11 +164,11 @@ const Groups: React.FC<Props> = ({ selectedGroups, setSelectedGroups }): JSX.Ele
   return (
     <Card icon={<PieIcon />} label='Groups'>
       <Box width='100%' color='white'>
-        <Slider {...settings}>
+        <StyledSlider {...settings}>
           {Object.values(daoGroups).map((daoGroup: DaoGroup, index: number) => (
             <div key={daoGroup.coreAddress}>{renderGroupCard(daoGroup)}</div>
           ))}
-        </Slider>
+        </StyledSlider>
       </Box>
     </Card>
   )
