@@ -16,7 +16,7 @@ import {
 } from 'components/Entities/SelectedEntity/EntityImpact/Overview/Components/Dashboard/Dashboard.styles'
 import { CircleProgressbar } from 'components/Widgets/CircleProgressbar/CircleProgressbar'
 import moment from 'moment'
-import { Coin, TallyType, VoteStatus, ProposalStatus } from 'redux/entityEconomy/entityEconomy.types'
+import { TallyType, VoteStatus } from 'redux/entityEconomy/entityEconomy.types'
 import { useAppSelector } from 'redux/hooks'
 import { getDisplayAmount } from 'utils/currency'
 import CopyToClipboard from 'react-copy-to-clipboard'
@@ -24,6 +24,8 @@ import { thousandSeparator } from 'utils/formatters'
 import { VoteModal } from 'components/Modals'
 import { DashboardThemeContext } from 'components/Dashboard/Dashboard'
 import { Box, theme } from 'components/App/App.styles'
+import { Status } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
+import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 
 const Container = styled.div<{ isDark: boolean }>`
   background: ${(props) =>
@@ -109,7 +111,7 @@ interface GovernanceProposalProps {
   closeDate: string
   tally: TallyType
   totalDeposit: Coin
-  status: ProposalStatus
+  status: Status
   handleVote: (proposalId: string, answer: number) => void
 }
 
@@ -131,6 +133,8 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
   const [votingPeriod, setVotingPeriod] = useState<number>(0)
   const [votingRemain, setVotingRemain] = useState<number>(0)
   const [voteModalOpen, setVoteModalOpen] = useState<boolean>(false)
+
+  console.log({ votingPeriod, votingRemain })
 
   const getMyVoteStatus = (): any => {
     return Axios.get(`${process.env.REACT_APP_GAIA_URL}/gov/proposals/${proposalId}/votes/${address}`)
@@ -212,12 +216,12 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
             <div className='d-inline-block w-100 pl-3'>
               <ProgressBar
                 total={votingPeriod}
-                approved={votingRemain}
+                approved={votingPeriod - votingRemain}
                 rejected={0}
                 height={22}
                 activeBarColor='#39c3e6'
                 barColor={isDark ? '#143F54' : undefined}
-                closedText='Closed'
+                closedText={votingRemain > votingPeriod ? 'Closed' : ''}
               />
             </div>
           </div>
@@ -260,18 +264,10 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
           <div className='d-flex justify-content-between align-items-center pt-2'>
             <Action
               isDark={isDark}
-              className={
-                status === ProposalStatus.PROPOSAL_STATUS_VOTING_PERIOD &&
-                myVoteStatus === VoteStatus.VOTE_OPTION_UNSPECIFIED
-                  ? ''
-                  : 'disable'
-              }
+              className={status === 'open' && myVoteStatus === VoteStatus.VOTE_OPTION_UNSPECIFIED ? '' : 'disable'}
               onClick={(): void => setVoteModalOpen(true)}
             >
-              {status === ProposalStatus.PROPOSAL_STATUS_VOTING_PERIOD &&
-              myVoteStatus === VoteStatus.VOTE_OPTION_UNSPECIFIED
-                ? 'New Vote'
-                : 'My Vote'}
+              {status === 'open' && myVoteStatus === VoteStatus.VOTE_OPTION_UNSPECIFIED ? 'New Vote' : 'My Vote'}
             </Action>
             <div>
               <DecisionIMG className='pr-2' src={IMG_decision_textfile} alt='decision1' />

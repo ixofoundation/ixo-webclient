@@ -1,6 +1,5 @@
 import Dashboard from 'components/Dashboard/Dashboard'
 import { HeaderTab } from 'components/Dashboard/types'
-import EconomyGovernance from 'components/Entities/SelectedEntity/EntityEconomy/EconomyGovernance/EconomyGovernance'
 import useCurrentDao from 'hooks/currentDao'
 import useCurrentEntity from 'hooks/currentEntity'
 import { useEffect } from 'react'
@@ -9,6 +8,7 @@ import { requireCheckDefault } from 'utils/images'
 import { Overview } from './Overview'
 import { OverviewIndividualMember } from './OverviewIndividualMember'
 import { OverviewMembers } from './OverviewMembers'
+import { Proposals } from './Proposals'
 
 const DAODashboard: React.FC = (): JSX.Element => {
   const { entityId } = useParams<{ entityId: string }>()
@@ -88,7 +88,7 @@ const DAODashboard: React.FC = (): JSX.Element => {
       <Route exact path='/entity/:entityId/dashboard/overview' component={Overview} />
       <Route exact path='/entity/:entityId/dashboard/overview/:coreAddress' component={OverviewMembers} />
       <Route exact path='/entity/:entityId/dashboard/overview/:groupId/:address' component={OverviewIndividualMember} />
-      <Route exact path='/entity/:entityId/dashboard/proposals' component={EconomyGovernance} />
+      <Route exact path='/entity/:entityId/dashboard/proposals' component={Proposals} />
       <Route exact path='/entity/:entityId/dashboard'>
         <Redirect to={`/entity/${entityId}/dashboard/overview`} />
       </Route>

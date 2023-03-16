@@ -16,7 +16,6 @@ interface Props {
 const Governance: React.FC<Props> = ({ daoId, groupAddresses }): JSX.Element => {
   const { getProposalsByAddresses } = useCurrentDao()
   const proposals = getProposalsByAddresses(groupAddresses)
-  console.log({ proposals })
   const latestProposal = [...proposals].pop()
 
   const id = latestProposal?.id ?? 0

@@ -78,7 +78,7 @@ import {
   Service,
 } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { WasmInstantiateTrx } from 'lib/protocol/cosmwasm'
-import { durationToSeconds } from 'utils/conversions'
+import { durationToSeconds1 } from 'utils/conversions'
 import { Member } from 'types/dao'
 import { chainNetwork } from './configs'
 import { Verification } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/tx'
@@ -892,7 +892,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
         memberships,
         // staking,
       } = daoGroup
-      const maxVotingPeriod = durationToSeconds(proposalDurationUnits ?? '', proposalDuration)
+      const maxVotingPeriod = durationToSeconds1(proposalDurationUnits ?? '', proposalDuration)
 
       const msg: any = {
         admin: null,

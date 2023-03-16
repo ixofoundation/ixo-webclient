@@ -20,6 +20,7 @@ export default function useCurrentDao(): {
     active_proposal_module_count: number
     total_proposal_module_count: number
   }
+  getAllProposals: () => ProposalResponse[]
   getProposalsByAddresses: (addresses: string[]) => ProposalResponse[]
   getTotalCw20Balances: (addresses: string[]) => number
 } {
@@ -72,6 +73,20 @@ export default function useCurrentDao(): {
     },
     [getDaoGroupsByAddresses],
   )
+
+  const getAllProposals = useCallback((): ProposalResponse[] => {
+    return Object.values(daoGroups)
+      .map((daoGroup) =>
+        daoGroup.proposalModule.proposals.map((proposal) => ({
+          ...proposal,
+          proposal: {
+            ...proposal.proposal,
+            max_voting_period: (daoGroup.proposalModule.proposalConfig.max_voting_period as { time: number }).time,
+          },
+        })),
+      )
+      .reduce((acc, cur) => [...acc, ...cur], [])
+  }, [daoGroups])
 
   const getProposalsByAddresses = useCallback(
     (addresses: string[]): ProposalResponse[] => {
@@ -202,6 +217,7 @@ export default function useCurrentDao(): {
     getNumOfMembersByAddresses,
     getMembersByAddress,
     getProposalModuleCountByAddresses,
+    getAllProposals,
     getProposalsByAddresses,
     getTotalCw20Balances,
   }

@@ -1,8 +1,9 @@
 import { Expiration } from '@ixo/impactxclient-sdk/types/codegen/DaoCore.types'
 import { Timestamp } from '@ixo/impactxclient-sdk/types/codegen/google/protobuf/timestamp'
 import Long from 'long'
+import { Duration } from 'types/dao'
 
-export const durationToSeconds = (
+export const durationToSeconds1 = (
   unit: 'weeks' | 'days' | 'hours' | 'minutes' | 'seconds' | '',
   amount: number,
 ): number => {
@@ -21,6 +22,28 @@ export const durationToSeconds = (
       return 0
   }
 }
+
+export const convertExpirationToDate = (
+  blocksPerYear: number,
+  expiration: Expiration,
+  // For converting height to rough date.
+  currentBlockHeight: number,
+): Date | undefined =>
+  'at_height' in expiration && currentBlockHeight > 0
+    ? new Date(Date.now() + convertBlocksToSeconds(blocksPerYear, expiration.at_height - currentBlockHeight) * 1000)
+    : 'at_time' in expiration
+    ? // Timestamp is in nanoseconds, convert to microseconds.
+      new Date(Number(expiration.at_time) / 1e6)
+    : undefined
+
+export const convertBlocksToSeconds = (blocksPerYear: number, blocks: number) =>
+  Math.round((blocks / blocksPerYear) * 365 * 24 * 60 * 60)
+
+export const convertSecondsToBlocks = (blocksPerYear: number, seconds: number) =>
+  Math.round((seconds * blocksPerYear) / (365 * 24 * 60 * 60))
+
+export const durationToSeconds = (blocksPerYear: number, duration: Duration) =>
+  'height' in duration ? convertBlocksToSeconds(blocksPerYear, duration.height) : duration.time
 
 function numberToLong(number: number) {
   return Long.fromNumber(number)
@@ -49,7 +72,7 @@ export const secondsToWdhms = (
 ): string => {
   const secondsInt = Math.ceil(Number(seconds))
   if (secondsInt === 0) {
-    return '0 seconds'
+    return '0s'
   }
 
   const w = Math.floor(secondsInt / (secPerDay * 7))

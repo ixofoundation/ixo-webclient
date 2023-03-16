@@ -278,7 +278,8 @@ const EconomyGovernance: React.FunctionComponent = () => {
             closeDate={proposal.DepositEndTime}
             tally={proposal.tally}
             totalDeposit={proposal.totalDeposit[0]}
-            status={proposal.status}
+            status={'open'}
+            // status={proposal.status}
             handleVote={handleVote}
           />
         ))}

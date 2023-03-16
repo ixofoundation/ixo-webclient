@@ -1,3 +1,5 @@
+import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
+
 export interface EconomyState {
   governance: GovernanceState
 }
@@ -51,11 +53,6 @@ export interface TallyType {
   noWithVeto: number
   abstain: number
   available: number
-}
-
-export interface Coin {
-  denom: string
-  amount: string
 }
 
 export enum ProposalContentType {
