@@ -3,24 +3,25 @@ import { Typography } from 'components/Typography'
 import { deviceWidth } from 'constants/device'
 import { useCreateEntityState } from 'hooks/createEntity'
 import { Button } from 'pages/CreateEntity/Components'
-import React from 'react'
+import React, { useMemo } from 'react'
 import { TProposalActionModel } from 'types/protocol'
 import { useHistory, useParams } from 'react-router-dom'
 import { decodedMessagesString } from 'utils/messages'
 import { SetupActionsForm } from './SetupActionsForm'
 import { useMakeProposalAction } from 'hooks/proposal'
 import { useAccount } from 'hooks/account'
-import { contracts } from '@ixo/impactxclient-sdk'
 import { useCurrentDaoGroup } from 'hooks/currentDao'
 import { CosmosMsgForEmpty } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
 import { fee } from 'lib/protocol/common'
 import * as Toast from 'utils/toast'
+import { depositInfoToCoin } from 'utils/conversions'
+import { Coin } from '@ixo/impactxclient-sdk/types/codegen/DaoPreProposeSingle.types'
 
 const SetupActions: React.FC = () => {
   const history = useHistory()
   const { entityId, coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
   const { proposal, updateProposal } = useCreateEntityState()
-  const { daoGroup } = useCurrentDaoGroup(coreAddress)
+  const { daoGroup, daoPreProposeSingleClient } = useCurrentDaoGroup(coreAddress)
   const memberAddresses = daoGroup?.votingModule.members?.map(({ addr }) => addr)
   const {
     makeAuthzAuthorizationAction,
@@ -49,7 +50,11 @@ const SetupActions: React.FC = () => {
     makeValidatorActions,
     makeWithdrawTokenSwapAction,
   } = useMakeProposalAction(coreAddress)
-  const { address, cosmWasmClient, updateChooseWalletOpen } = useAccount()
+  const { address, updateChooseWalletOpen } = useAccount()
+  const depositInfo: Coin | undefined = useMemo(
+    () => daoGroup && depositInfoToCoin(daoGroup.proposalModule.preProposeConfig.deposit_info!),
+    [daoGroup],
+  )
 
   const name = proposal?.name || ''
   const description = proposal?.description || ''
@@ -155,14 +160,13 @@ const SetupActions: React.FC = () => {
 
     console.log('wasmMessage', decodedMessagesString(wasmMessage))
 
-    const preProposalModuleAddress = daoGroup.proposalModule.preProposalContractAddress
-    const daoProposalSingleClient = new contracts.DaoPreProposeSingle.DaoPreProposeSingleClient(
-      cosmWasmClient,
-      address,
-      preProposalModuleAddress,
-    )
-    daoProposalSingleClient
-      .propose({ msg: { propose: { description: description, msgs: wasmMessage, title: name } } }, fee)
+    daoPreProposeSingleClient
+      .propose(
+        { msg: { propose: { description: description, msgs: wasmMessage, title: name } } },
+        fee,
+        undefined,
+        depositInfo ? [depositInfo] : undefined,
+      )
       .then(({ transactionHash }) => {
         Toast.successToast(`Successfully published proposals`)
       })

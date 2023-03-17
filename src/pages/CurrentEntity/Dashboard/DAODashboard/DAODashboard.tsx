@@ -67,7 +67,6 @@ const DAODashboard: React.FC = (): JSX.Element => {
   const theme = isIndividualMemberRoute ? 'light' : 'dark'
 
   useEffect(() => {
-    console.log({ daoGroupAddresses })
     if (daoGroupAddresses.length > 0) {
       daoGroupAddresses.forEach((address) => {
         setDaoGroup(address)
@@ -87,7 +86,11 @@ const DAODashboard: React.FC = (): JSX.Element => {
     >
       <Route exact path='/entity/:entityId/dashboard/overview' component={Overview} />
       <Route exact path='/entity/:entityId/dashboard/overview/:coreAddress' component={OverviewMembers} />
-      <Route exact path='/entity/:entityId/dashboard/overview/:groupId/:address' component={OverviewIndividualMember} />
+      <Route
+        exact
+        path='/entity/:entityId/dashboard/overview/:coreAddress/:address'
+        component={OverviewIndividualMember}
+      />
       <Route exact path='/entity/:entityId/dashboard/proposals' component={Proposals} />
       <Route exact path='/entity/:entityId/dashboard'>
         <Redirect to={`/entity/${entityId}/dashboard/overview`} />

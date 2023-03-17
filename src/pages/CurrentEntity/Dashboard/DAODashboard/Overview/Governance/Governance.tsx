@@ -101,7 +101,7 @@ const Governance: React.FC<Props> = ({ daoId, groupAddresses }): JSX.Element => 
               <ProgressBar
                 height={8}
                 total={votingPeriod}
-                approved={votingPeriod - secondsFromNow}
+                approved={secondsFromNow}
                 rejected={0}
                 activeBarColor={theme.ixoNewBlue}
                 barColor={theme.ixoDarkBlue}

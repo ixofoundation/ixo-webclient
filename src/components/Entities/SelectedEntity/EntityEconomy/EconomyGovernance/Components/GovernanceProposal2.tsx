@@ -2,7 +2,6 @@ import React, { useCallback, useContext, useEffect, useMemo, useState } from 're
 import clsx from 'classnames'
 import styled from 'styled-components'
 import { ProgressBar } from 'components/ProgressBar/ProgressBar'
-import BigNumber from 'bignumber.js'
 import IMG_expand from 'assets/images/icon-expand.svg'
 import IMG_wait from 'assets/images/eco/wait.svg'
 import IMG_decision_textfile from 'assets/images/eco/decision/textfile.svg'
@@ -17,7 +16,6 @@ import {
 import { CircleProgressbar } from 'components/Widgets/CircleProgressbar/CircleProgressbar'
 import moment from 'moment'
 import { useAppSelector } from 'redux/hooks'
-import { getDisplayAmount } from 'utils/currency'
 import CopyToClipboard from 'react-copy-to-clipboard'
 import { VoteModal } from 'components/Modals'
 import { DashboardThemeContext } from 'components/Dashboard/Dashboard'
@@ -27,6 +25,8 @@ import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/c
 import { useCurrentDaoGroup } from 'hooks/currentDao'
 import { fee } from 'lib/protocol'
 import * as Toast from 'utils/toast'
+import { useIxoConfigs } from 'hooks/configs'
+import { serializeCoin } from 'utils/conversions'
 
 const Container = styled.div<{ isDark: boolean }>`
   background: ${(props) =>
@@ -42,7 +42,7 @@ const Container = styled.div<{ isDark: boolean }>`
 const NumberBadget = styled.span<{ isDark: boolean }>`
   background: ${(props) => (props.isDark ? '#033C50' : '#e9edf5')};
   border-radius: 9px;
-  padding: 5px;
+  padding: 5px 10px;
   color: ${(props): string => props.theme.highlight.light};
   font-size: 14px;
   line-height: 16px;
@@ -115,6 +115,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
   totalDeposit,
 }) => {
   const { isDark } = useContext(DashboardThemeContext)
+  const { convertToDenom } = useIxoConfigs()
   const { daoGroup, daoProposalSingleClient } = useCurrentDaoGroup(coreAddress)
   const { address } = useAppSelector((state) => state.account)
   const [myVoteStatus, setMyVoteStatus] = useState<VoteInfo | undefined>(undefined)
@@ -173,13 +174,6 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
     return `${('0' + dayNum).slice(-2)}d ${x.format('H[h] mm[m]')} `
   }
 
-  const formatDeposit = (coin: Coin): string => {
-    if (coin.denom === 'uixo') {
-      return `${getDisplayAmount(new BigNumber(coin.amount))} IXO`
-    }
-    return `${coin.amount} ${coin.denom}`
-  }
-
   const calcPercentage = (limit: number, value: number): number => {
     if (!limit) return 0
     return Number(((value / limit) * 100).toFixed(0))
@@ -202,7 +196,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
         <div className='col-6'>
           <div className='d-flex align-items-center justify-content-between'>
             <FlexBox gap={2}>
-              <NumberBadget isDark={isDark}>#{proposalId}</NumberBadget>
+              <NumberBadget isDark={!isDark}>#{proposalId}</NumberBadget>
               <NumberBadget isDark={isDark}>{groupName}</NumberBadget>
             </FlexBox>
             <img src={IMG_expand} alt='message' height='30px' />
@@ -218,7 +212,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
             <div className='d-inline-block w-100 pl-3'>
               <ProgressBar
                 total={votingPeriod}
-                approved={votingPeriod - votingRemain}
+                approved={votingRemain}
                 rejected={0}
                 height={22}
                 activeBarColor='#39c3e6'
@@ -250,7 +244,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
               <div className='col-6 pb-3'>
                 <LabelSM>Deposit</LabelSM>
                 <br />
-                <LabelLG>{formatDeposit(totalDeposit)}</LabelLG>
+                <LabelLG style={{ textTransform: 'uppercase' }}>{serializeCoin(convertToDenom(totalDeposit))}</LabelLG>
               </div>
             )}
           </div>
@@ -282,7 +276,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
           </div>
 
           <LabelSM className='bold'>{numOfYesVotes.toLocaleString()} YES</LabelSM>
-          <LabelSM>{`(of ${numOfAvailableVotes.toLocaleString()} available)`}</LabelSM>
+          <LabelSM>{` (of ${numOfAvailableVotes.toLocaleString()} available)`}</LabelSM>
         </Box>
         <div className='col-12 col-lg-6'>
           <WidgetWrapper title='' gridHeight={gridSizes.standard} light={true} padding={false}>

@@ -239,6 +239,7 @@ export const extractLinkedResource = async (linkedResource: LinkedResource[]): P
               const [, ...paths] = serviceEndpoint.split('/')
               return fetch([cellNodeChainMapping[chainNetwork], ...paths].join('/'))
                 .then((response) => response.json())
+                .then((response) => response.page)
                 .then((page) => ({ page }))
                 .catch(() => undefined)
             }

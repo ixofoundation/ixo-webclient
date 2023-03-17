@@ -3,8 +3,8 @@ import { Redirect, Route, Switch, useParams } from 'react-router-dom'
 import DashboardPage from './Dashboard/Dashboard'
 import { Overview } from './Overview'
 
-const CurrentEntityPage: React.FC = (): JSX.Element | null => {
-  const { entityId } = useParams<{ entityId: string; groupId: string }>()
+const CurrentEntityPage: React.FC = (): JSX.Element => {
+  const { entityId } = useParams<{ entityId: string }>()
 
   return (
     <Switch>

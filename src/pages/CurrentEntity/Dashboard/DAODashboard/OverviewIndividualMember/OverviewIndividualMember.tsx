@@ -8,7 +8,7 @@ import { MemberProfile } from './MemberProfile'
 import { Memberships } from './Memberships'
 
 const OverviewIndividualMember: React.FC = (): JSX.Element | null => {
-  const { entityId, groupId, address } = useParams<{ entityId: string; groupId: string; address: string }>()
+  const { entityId, coreAddress, address } = useParams<{ entityId: string; coreAddress: string; address: string }>()
   const history = useHistory()
   const { data } = useGetMember(address)
   const [selectedDao, setSelectedDao] = useState('')
@@ -17,7 +17,7 @@ const OverviewIndividualMember: React.FC = (): JSX.Element | null => {
 
   useEffect(() => {
     if (!isAccountAddress(address)) {
-      history.push(`/entity/${entityId}/dashboard/overview/${groupId}`)
+      history.push(`/entity/${entityId}/dashboard/overview/${coreAddress}`)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address])

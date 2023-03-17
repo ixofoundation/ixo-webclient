@@ -1,4 +1,6 @@
+import { Coin as BaseCoin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 import { Expiration } from '@ixo/impactxclient-sdk/types/codegen/DaoCore.types'
+import { CheckedDepositInfo, Coin } from '@ixo/impactxclient-sdk/types/codegen/DaoPreProposeSingle.types'
 import { Timestamp } from '@ixo/impactxclient-sdk/types/codegen/google/protobuf/timestamp'
 import Long from 'long'
 import { Duration } from 'types/dao'
@@ -114,4 +116,23 @@ export const expirationAtTimeToSecondsFromNow = (exp: Expiration) => {
   const endSeconds = end / 1000000000
 
   return endSeconds - nowSeconds
+}
+
+export const depositInfoToCoin = (depositInfo: CheckedDepositInfo | null): Coin | undefined => {
+  try {
+    if (!depositInfo) {
+      throw new Error('No Deposit Info')
+    }
+    const denom = 'cw20' in depositInfo.denom ? depositInfo.denom.cw20 : depositInfo.denom.native
+    return {
+      denom,
+      amount: depositInfo.amount,
+    }
+  } catch (e) {
+    return undefined
+  }
+}
+
+export const serializeCoin = (coin: BaseCoin | undefined | null, separator = ' '): string => {
+  return coin ? `${coin.amount}${separator}${coin.denom}` : ''
 }

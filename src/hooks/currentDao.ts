@@ -227,12 +227,19 @@ export function useCurrentDaoGroup(groupAddress: string) {
   const daoGroup: DaoGroup = useAppSelector(selectDaoGroupByAddress(groupAddress))
   const { cosmWasmClient, address } = useAccount()
 
-  const { proposalModuleAddress } = useMemo(() => daoGroup.proposalModule, [daoGroup])
+  const proposalModuleAddress = useMemo(() => daoGroup?.proposalModule.proposalModuleAddress, [daoGroup])
+  const preProposalContractAddress = useMemo(() => daoGroup?.proposalModule.preProposalContractAddress, [daoGroup])
 
   const daoProposalSingleClient = useMemo(
     () => new contracts.DaoProposalSingle.DaoProposalSingleClient(cosmWasmClient, address, proposalModuleAddress),
     [proposalModuleAddress, cosmWasmClient, address],
   )
 
-  return { daoGroup, daoProposalSingleClient }
+  const daoPreProposeSingleClient = useMemo(
+    () =>
+      new contracts.DaoPreProposeSingle.DaoPreProposeSingleClient(cosmWasmClient, address, preProposalContractAddress),
+    [cosmWasmClient, address, preProposalContractAddress],
+  )
+
+  return { daoGroup, daoProposalSingleClient, daoPreProposeSingleClient }
 }

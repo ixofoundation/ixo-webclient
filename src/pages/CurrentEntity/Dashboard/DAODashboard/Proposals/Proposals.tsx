@@ -2,7 +2,7 @@ import React from 'react'
 import { FlexBox } from 'components/App/App.styles'
 import GovernanceProposal from 'components/Entities/SelectedEntity/EntityEconomy/EconomyGovernance/Components/GovernanceProposal2'
 import useCurrentDao from 'hooks/currentDao'
-import { durationToSeconds, expirationAtTimeToSecondsFromNow } from 'utils/conversions'
+import { depositInfoToCoin, durationToSeconds, expirationAtTimeToSecondsFromNow } from 'utils/conversions'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 
 const Proposals: React.FC = () => {
@@ -16,10 +16,7 @@ const Proposals: React.FC = () => {
         const { max_voting_period } = proposalConfig
         const { deposit_info } = preProposeConfig
 
-        const depositInfo: Coin | null | undefined = deposit_info && {
-          amount: deposit_info.amount,
-          denom: 'cw20' in deposit_info.denom ? deposit_info.denom.cw20 : deposit_info.denom.native,
-        }
+        const depositInfo: Coin | null | undefined = depositInfoToCoin(deposit_info!)
 
         // TODO: blocksPerYear ?
         const votingPeriod = durationToSeconds(100, max_voting_period)
