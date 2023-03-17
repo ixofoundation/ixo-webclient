@@ -75,6 +75,10 @@ const StyledButton = styled.button<{
   &:focus {
     outline: none;
   }
+
+  &:disabled {
+    cursor: not-allowed;
+  }
 `
 
 interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {

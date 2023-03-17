@@ -843,7 +843,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
     },
   ): Promise<string> => {
     try {
-      const { service, linkedResource, accordedRight, linkedEntity } = payload
+      const { service, linkedResource, accordedRight, linkedEntity, verification } = payload
       const res = await CreateEntity(signingClient, signer, [
         {
           entityType,
@@ -853,7 +853,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
           linkedResource,
           accordedRight,
           linkedEntity,
-          // verification,
+          verification,
         },
       ])
       const did = utils.common.getValueFromEvents(res!, 'wasm', 'token_id')

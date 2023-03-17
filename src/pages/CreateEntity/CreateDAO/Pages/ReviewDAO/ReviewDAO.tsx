@@ -27,7 +27,7 @@ const ReviewDAO: React.FC = (): JSX.Element => {
     CreateEntityBase,
   } = useCreateEntity()
   const [submitting, setSubmitting] = useState(false)
-  const numOfMembers = daoGroups[daoController].memberships.reduce((acc, cur) => acc + cur.members.length, 0)
+  const numOfMembers = daoGroups[daoController]?.memberships.reduce((acc, cur) => acc + cur.members.length, 0)
 
   const handleSignToCreate = async (): Promise<void> => {
     setSubmitting(true)

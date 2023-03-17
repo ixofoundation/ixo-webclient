@@ -27,6 +27,7 @@ import { deviceWidth } from 'constants/device'
 import { DepositRefundPolicy } from 'types/dao'
 import * as Toast from 'utils/toast'
 import * as _ from 'lodash'
+import Tooltip from 'components/Tooltip/Tooltip'
 
 export const initialMembership = { category: '', weight: 1, members: [''] }
 const initialStakingDistribution = { category: '', totalSupplyPercent: 0, members: [''] }
@@ -206,9 +207,19 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onSubmit }): JSX.Elem
               </FlexBox>
             </FlexBox>
             <FlexBox direction='column' gap={5}>
-              <Typography size='xl' weight='medium'>
-                Categories
-              </Typography>
+              <FlexBox gap={2} alignItems='center'>
+                <Typography size='xl' weight='medium'>
+                  Categories
+                </Typography>
+                <Tooltip
+                  text={`The "class" of member. For example: "Core developers" or "friends and family." These names are only for your reference.`}
+                  width='20rem'
+                >
+                  <SvgBox color='black' svgWidth={5} svgHeight={5} cursor='pointer'>
+                    <InfoIcon />
+                  </SvgBox>
+                </Tooltip>
+              </FlexBox>
               <FlexBox width='100%' alignItems='center' gap={4}>
                 <InputWithLabel
                   height={inputHeight + 'px'}

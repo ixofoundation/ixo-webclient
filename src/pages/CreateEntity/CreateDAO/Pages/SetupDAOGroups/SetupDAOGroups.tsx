@@ -19,7 +19,8 @@ const SetupDAOGroups: React.FC = (): JSX.Element => {
   const [openAddGroupModal, setOpenAddGroupModal] = useState(false)
   const [selectedGroup, setSelectedGroup] = useState('')
   const canSubmit = useMemo(
-    () => !Object.values(daoGroups).some(({ contractAddress }) => !contractAddress),
+    () =>
+      Object.values(daoGroups).length > 0 && !Object.values(daoGroups).some(({ contractAddress }) => !contractAddress),
     [daoGroups],
   )
 

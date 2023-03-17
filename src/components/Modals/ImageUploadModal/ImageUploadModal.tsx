@@ -13,6 +13,7 @@ import PulseLoader from 'components/PulseLoader/PulseLoader'
 import { default as ImageCropModal } from '../ImageCropModal/ImageCropModal'
 import { Button } from 'pages/CreateEntity/Components'
 import { Typography } from 'components/Typography'
+import * as Toast from 'utils/toast'
 
 const cellNodeEndpoint = PDS_URL
 
@@ -49,6 +50,7 @@ const ImageUploadModal: React.FC<Props> = ({
     blocksyncApi.project
       .createPublic(base64EncodedImage, cellNodeEndpoint!)
       .then((response: any) => {
+        console.log('ImageUploadModal', response)
         if (response?.result?.key) {
           const url = new URL(`/public/${response.result.key}`, cellNodeEndpoint)
           setTempValue(url.href)
@@ -57,6 +59,7 @@ const ImageUploadModal: React.FC<Props> = ({
         }
       })
       .catch(() => {
+        Toast.errorToast(`Server went down or Image is too large.`)
         setLoading(false)
       })
   }
