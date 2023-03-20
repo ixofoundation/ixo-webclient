@@ -1,12 +1,4 @@
-import {
-  AccordedRight,
-  Context,
-  LinkedClaim,
-  LinkedEntity,
-  LinkedResource,
-  Service,
-  VerificationMethod,
-} from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
+import { TEntityModel } from 'api/blocksync/types/entities'
 import {
   TEntityAdministratorModel,
   TEntityCreatorModel,
@@ -14,37 +6,6 @@ import {
   TEntityPageModel,
   TEntityProfileModel,
 } from 'types/protocol'
-
-export type CurrentEntity = {
-  did: string
-  type: string
-  status: number
-  relayerNode: string
-  credentials: unknown[] // TODO:
-  entityVerified: boolean
-  metadata?: unknown // TODO:
-
-  context: Context[]
-  controller: string[]
-  service: Service[]
-  verificationMethod: VerificationMethod[]
-  authentication: string[]
-  assertionMethod: unknown[]
-  keyAgreement: unknown[]
-  capabilityInvocation: unknown[]
-  capabilityDelegation: unknown[]
-  linkedResource: LinkedResource[]
-  linkedClaim: LinkedClaim[]
-  accordedRight: AccordedRight[]
-  linkedEntity: LinkedEntity[]
-  alsoKnownAs: string
-
-  profile?: TEntityProfileModel
-  creator?: TEntityCreatorModel
-  administrator?: TEntityAdministratorModel
-  page?: TEntityPageModel
-  tags?: TEntityDDOTagModel[]
-}
 
 export enum CurrentEntityActions {
   UpdateEntity = 'ixo/CurrentEntity/UPDATE_ENTITY',
@@ -57,7 +18,7 @@ export enum CurrentEntityActions {
 
 export interface UpdateEntityAction {
   type: typeof CurrentEntityActions.UpdateEntity
-  payload: CurrentEntity
+  payload: TEntityModel
 }
 export interface UpdateEntityProfileAction {
   type: typeof CurrentEntityActions.UpdateEntityProfile

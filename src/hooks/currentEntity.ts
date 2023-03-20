@@ -1,6 +1,7 @@
-import { QueryEntityResponse } from '@ixo/impactxclient-sdk/types/codegen/ixo/entity/v1beta1/query'
+// import { QueryEntityResponse } from '@ixo/impactxclient-sdk/types/codegen/ixo/entity/v1beta1/query'
 import { LinkedEntity, LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
-import { GetEntity } from 'lib/protocol'
+import { TEntityModel } from 'api/blocksync/types/entities'
+// import { GetEntity } from 'lib/protocol'
 import {
   updateEntityAction,
   updateEntityAdministratorAction,
@@ -19,8 +20,8 @@ import {
   selectEntityTags,
   selectEntityLinkedEntity,
 } from 'redux/currentEntity/currentEntity.selectors'
-import { CurrentEntity } from 'redux/currentEntity/currentEntity.types'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
+import { BlockSyncService } from 'services/blocksync'
 import {
   TEntityAdministratorModel,
   TEntityCreatorModel,
@@ -28,6 +29,9 @@ import {
   TEntityPageModel,
   TEntityProfileModel,
 } from 'types/protocol'
+import { cellNodeChainMapping, chainNetwork } from './configs'
+
+const bsService = new BlockSyncService()
 
 export default function useCurrentEntity(): {
   entityType: string
@@ -38,7 +42,7 @@ export default function useCurrentEntity(): {
   administrator: TEntityAdministratorModel
   page: TEntityPageModel
   tags: TEntityDDOTagModel[]
-  updateEntity: (data: CurrentEntity) => void
+  updateEntity: (data: TEntityModel) => void
   updateEntityProfile: (profile: TEntityProfileModel) => void
   updateEntityCreator: (creator: TEntityCreatorModel) => void
   updateEntityAdministrator: (administrator: TEntityAdministratorModel) => void
@@ -47,6 +51,7 @@ export default function useCurrentEntity(): {
   getEntityByDid: (did: string) => Promise<boolean>
 } {
   const dispatch = useAppDispatch()
+  const entitites: { [id: string]: TEntityModel } = useAppSelector((state) => state.entities.entities2)
   const entityType: string = useAppSelector(selectEntityType)!
   const linkedResource: LinkedResource[] = useAppSelector(selectEntityLinkedResource)!
   const linkedEntity: LinkedEntity[] = useAppSelector(selectEntityLinkedEntity)!
@@ -56,7 +61,7 @@ export default function useCurrentEntity(): {
   const page: TEntityPageModel = useAppSelector(selectEntityPage)!
   const tags: TEntityDDOTagModel[] = useAppSelector(selectEntityTags)!
 
-  const updateEntity = (data: CurrentEntity) => {
+  const updateEntity = (data: TEntityModel) => {
     dispatch(updateEntityAction(data))
   }
 
@@ -77,61 +82,76 @@ export default function useCurrentEntity(): {
   }
 
   const getEntityByDid = async (did: string): Promise<boolean> => {
-    return await GetEntity({ id: did }).then((response: QueryEntityResponse) => {
-      try {
-        console.log('getEntityByDid', response)
-        const { entity, iidDocument } = response
-        if (!entity || !iidDocument) {
-          throw new Error('Incorrect response type')
+    /**
+     * find entity in entities state and avoid refetch from api
+     */
+    if (entitites && entitites[did]) {
+      updateEntity(entitites[did])
+      return true
+    }
+    return await bsService.entity.getEntityById(did).then((entity: any) => {
+      const { settings, linkedResource } = entity
+      linkedResource.concat(Object.values(settings)).forEach((item: LinkedResource) => {
+        switch (item.id) {
+          case '{id}#profile': {
+            fetch(item.serviceEndpoint)
+              .then((response) => response.json())
+              .then((profile) => {
+                updateEntityProfile(profile)
+              })
+              .catch(() => undefined)
+            break
+          }
+          case '{id}#creator': {
+            const [, ...paths] = item.serviceEndpoint.split('/')
+            fetch([cellNodeChainMapping[chainNetwork], ...paths].join('/'))
+              .then((response) => response.json())
+              .then((response) => response.credentialSubject)
+              .then((creator) => {
+                updateEntityCreator(creator)
+              })
+              .catch(() => undefined)
+            break
+          }
+          case '{id}#administrator': {
+            const [, ...paths] = item.serviceEndpoint.split('/')
+            fetch([cellNodeChainMapping[chainNetwork], ...paths].join('/'))
+              .then((response) => response.json())
+              .then((response) => response.credentialSubject)
+              .then((administrator) => {
+                updateEntityAdministrator(administrator)
+              })
+              .catch(() => undefined)
+            break
+          }
+          case '{id}#page': {
+            const [, ...paths] = item.serviceEndpoint.split('/')
+            fetch([cellNodeChainMapping[chainNetwork], ...paths].join('/'))
+              .then((response) => response.json())
+              .then((response) => response.page)
+              .then((page) => {
+                updateEntityPage(page)
+              })
+              .catch(() => undefined)
+            break
+          }
+          case '{id}#tags': {
+            const [, ...paths] = item.serviceEndpoint.split('/')
+            fetch([cellNodeChainMapping[chainNetwork], ...paths].join('/'))
+              .then((response) => response.json())
+              .then((tags) => {
+                updateEntityTags(tags)
+              })
+              .catch(() => undefined)
+            break
+          }
+          default:
+            break
         }
-        const { type, id: did, status, relayerNode, credentials, entityVerified, metadata } = entity
+      })
 
-        const {
-          context,
-          controller,
-          service,
-          verificationMethod,
-          authentication,
-          assertionMethod,
-          keyAgreement,
-          capabilityInvocation,
-          capabilityDelegation,
-          linkedResource,
-          linkedClaim,
-          accordedRight,
-          linkedEntity,
-          alsoKnownAs,
-        } = iidDocument
-
-        const data: CurrentEntity = {
-          did,
-          type,
-          status,
-          relayerNode,
-          credentials,
-          entityVerified,
-          metadata,
-          context,
-          controller,
-          service,
-          verificationMethod,
-          authentication,
-          assertionMethod,
-          keyAgreement,
-          capabilityInvocation,
-          capabilityDelegation,
-          linkedResource,
-          linkedClaim,
-          accordedRight,
-          linkedEntity,
-          alsoKnownAs,
-        }
-        updateEntity(data)
-        return true
-      } catch (e) {
-        console.error('getEntityByDid', e)
-        throw new Error(JSON.stringify(e))
-      }
+      updateEntity(entity)
+      return true
     })
   }
 

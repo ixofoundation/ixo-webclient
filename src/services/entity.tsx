@@ -1,4 +1,7 @@
-import { GetBondDetail, GetProjectAccounts } from 'lib/protocol'
+import {
+  GetBondDetail,
+  // GetProjectAccounts
+} from 'lib/protocol'
 import { useSelectedEntity } from 'hooks/entity'
 import { useEffect, useState } from 'react'
 import { useValidators } from 'hooks/validator'
@@ -7,7 +10,6 @@ import useCurrentEntity from 'hooks/currentEntity'
 import { useAccount } from 'hooks/account'
 import useCurrentDao from 'hooks/currentDao'
 import { Spinner } from 'components/Spinner/Spinner'
-import { extractLinkedResource } from 'utils/entities'
 
 const EntityUpdateService = (): JSX.Element | null => {
   const history = useHistory()
@@ -19,29 +21,25 @@ const EntityUpdateService = (): JSX.Element | null => {
       path: '/entity/:entityId/dashboard',
     })
   const entityId = match?.params['entityId']
-  const { did, bondDid, updateEntityAddress, updateEntityBondDetail } = useSelectedEntity()
+  const {
+    did,
+    bondDid,
+    // updateEntityAddress,
+    updateEntityBondDetail,
+  } = useSelectedEntity()
   const { getValidators } = useValidators()
   const { cosmWasmClient } = useAccount()
-  const {
-    linkedEntity,
-    linkedResource,
-    getEntityByDid,
-    updateEntityProfile,
-    updateEntityCreator,
-    updateEntityAdministrator,
-    updateEntityPage,
-    updateEntityTags,
-  } = useCurrentEntity()
+  const { linkedEntity, getEntityByDid } = useCurrentEntity()
   const { setDaoGroup } = useCurrentDao()
   const [entityLoading, setEntityLoading] = useState(false)
   const [daoGroupLoading, setDaoGroupLoading] = useState(false)
 
   useEffect(() => {
     const init = async (did: string): Promise<void> => {
-      const res = await GetProjectAccounts(did)
-      if (res![did]) {
-        updateEntityAddress(res![did])
-      }
+      // const res = await GetProjectAccounts(did)
+      // if (res![did]) {
+      //   updateEntityAddress(res![did])
+      // }
     }
     if (did) {
       init(did)
@@ -77,41 +75,6 @@ const EntityUpdateService = (): JSX.Element | null => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [entityId])
-
-  useEffect(() => {
-    if (linkedResource.length > 0) {
-      extractLinkedResource(linkedResource).then((extractedResources) => {
-        extractedResources.forEach((extractedResources) => {
-          const key = Object.keys(extractedResources)[0]
-          switch (key) {
-            case 'profile': {
-              updateEntityProfile(extractedResources[key])
-              break
-            }
-            case 'creator': {
-              updateEntityCreator(extractedResources[key])
-              break
-            }
-            case 'administrator': {
-              updateEntityAdministrator(extractedResources[key])
-              break
-            }
-            case 'page': {
-              updateEntityPage(extractedResources[key])
-              break
-            }
-            case 'ddoTags': {
-              updateEntityTags(extractedResources[key])
-              break
-            }
-            default:
-              break
-          }
-        })
-      })
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [linkedResource])
 
   useEffect(() => {
     if (linkedEntity.length > 0 && !!cosmWasmClient) {

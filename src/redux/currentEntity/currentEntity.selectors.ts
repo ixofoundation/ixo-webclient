@@ -1,37 +1,37 @@
 import { createSelector } from '@reduxjs/toolkit'
+import { TEntityModel } from 'api/blocksync/types/entities'
 import { RootState } from 'redux/store'
-import { CurrentEntity } from './currentEntity.types'
 
-export const selectCurrentEntity = (state: RootState): CurrentEntity => state.currentEntity
+export const selectCurrentEntity = (state: RootState): TEntityModel => state.currentEntity
 
-export const selectEntityType = createSelector(selectCurrentEntity, (entity: CurrentEntity) => {
+export const selectEntityType = createSelector(selectCurrentEntity, (entity: TEntityModel) => {
   return entity.type
 })
 
-export const selectEntityLinkedResource = createSelector(selectCurrentEntity, (entity: CurrentEntity) => {
-  return entity.linkedResource
+export const selectEntityLinkedResource = createSelector(selectCurrentEntity, (entity: TEntityModel) => {
+  return entity.linkedResource.concat(Object.values(entity))
 })
 
-export const selectEntityLinkedEntity = createSelector(selectCurrentEntity, (entity: CurrentEntity) => {
+export const selectEntityLinkedEntity = createSelector(selectCurrentEntity, (entity: TEntityModel) => {
   return entity.linkedEntity
 })
 
-export const selectEntityProfile = createSelector(selectCurrentEntity, (entity: CurrentEntity) => {
+export const selectEntityProfile = createSelector(selectCurrentEntity, (entity: TEntityModel) => {
   return entity.profile
 })
 
-export const selectEntityCreator = createSelector(selectCurrentEntity, (entity: CurrentEntity) => {
+export const selectEntityCreator = createSelector(selectCurrentEntity, (entity: TEntityModel) => {
   return entity.creator
 })
 
-export const selectEntityAdministrator = createSelector(selectCurrentEntity, (entity: CurrentEntity) => {
+export const selectEntityAdministrator = createSelector(selectCurrentEntity, (entity: TEntityModel) => {
   return entity.administrator
 })
 
-export const selectEntityPage = createSelector(selectCurrentEntity, (entity: CurrentEntity) => {
+export const selectEntityPage = createSelector(selectCurrentEntity, (entity: TEntityModel) => {
   return entity.page
 })
 
-export const selectEntityTags = createSelector(selectCurrentEntity, (entity: CurrentEntity) => {
+export const selectEntityTags = createSelector(selectCurrentEntity, (entity: TEntityModel) => {
   return entity.tags
 })

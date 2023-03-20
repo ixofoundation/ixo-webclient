@@ -66,7 +66,7 @@ import {
   TCreateEntityStepType,
   TCreateEntityStrategyType,
 } from 'redux/createEntity/strategy-map'
-import { TEntityModel } from 'redux/createEntity/createEntity.types'
+import { TCreateEntityModel } from 'redux/createEntity/createEntity.types'
 import { useAccount } from './account'
 import { CreateEntity } from 'lib/protocol'
 import { customQueries, utils } from '@ixo/impactxclient-sdk'
@@ -121,7 +121,7 @@ interface TCreateEntityStateHookRes {
   linkedResource: { [id: string]: TEntityLinkedResourceModel }
   accordedRight: { [key: string]: TEntityAccordedRightModel }
   linkedEntity: { [key: string]: TEntityLinkedEntityModel }
-  assetInstances: TEntityModel[]
+  assetInstances: TCreateEntityModel[]
   localisation: ELocalisation
   daoGroups: { [id: string]: TDAOGroupModel }
   daoController: string
@@ -143,8 +143,8 @@ interface TCreateEntityStateHookRes {
   updateLinkedResource: (linkedResource: { [id: string]: TEntityLinkedResourceModel }) => void
   updateAccordedRight: (accordedRight: { [id: string]: TEntityAccordedRightModel }) => void
   updateLinkedEntity: (linkedEntity: { [id: string]: TEntityLinkedEntityModel }) => void
-  addAssetInstances: (instances: TEntityModel[]) => void
-  updateAssetInstance: (id: number, instance: TEntityModel) => void
+  addAssetInstances: (instances: TCreateEntityModel[]) => void
+  updateAssetInstance: (id: number, instance: TCreateEntityModel) => void
   removeAssetInstances: () => void
   updateLocalisation: (localisation: ELocalisation) => void
   updateDAOGroups: (daoGroups: { [id: string]: TDAOGroupModel }) => void
@@ -173,7 +173,7 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
   } = useAppSelector(selectCreateEntityLinkedResource)
   const accordedRight: { [key: string]: TEntityAccordedRightModel } = useAppSelector(selectCreateEntityAccordedRight)
   const linkedEntity: { [key: string]: TEntityLinkedEntityModel } = useAppSelector(selectCreateEntityLinkedEntity)
-  const assetInstances: TEntityModel[] = useAppSelector(selectCreateEntityAssetInstances)
+  const assetInstances: TCreateEntityModel[] = useAppSelector(selectCreateEntityAssetInstances)
   const localisation: ELocalisation = useAppSelector(selectCreateEntityLocalisation)
   // for DAO
   const daoGroups: { [id: string]: TDAOGroupModel } = useAppSelector(selectCreateEntityDAOGroups)
@@ -254,10 +254,10 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
   const updateLinkedEntity = (linkedEntity: { [id: string]: TEntityLinkedEntityModel }): void => {
     dispatch(updateLinkedEntityAction(linkedEntity))
   }
-  const addAssetInstances = (instances: TEntityModel[]): void => {
+  const addAssetInstances = (instances: TCreateEntityModel[]): void => {
     dispatch(addAssetInstancesAction(instances))
   }
-  const updateAssetInstance = (id: number, instance: TEntityModel): void => {
+  const updateAssetInstance = (id: number, instance: TCreateEntityModel): void => {
     dispatch(updateAssetInstanceAction(id, instance))
   }
   const removeAssetInstances = (): void => {

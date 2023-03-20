@@ -1,4 +1,5 @@
 import { Timestamp } from '@ixo/impactxclient-sdk/types/utils/proto'
+import { TEntityModel } from 'api/blocksync/types/entities'
 import { Moment } from 'moment'
 import { EntityConfig, LiquiditySource, FundSource, TermsOfUseType } from 'types/entities'
 import { TEntityDDOTagModel } from 'types/protocol'
@@ -62,6 +63,7 @@ export interface ExplorerEntity {
 
 export interface EntitiesExplorerState {
   entities: ExplorerEntity[]
+  entities2: { [id: string]: TEntityModel }
   entityConfig: EntityConfig
   selectedEntitiesType: string
   filter: Filter
@@ -72,7 +74,12 @@ export enum EntitiesExplorerActions {
   GetEntitiesSuccess = 'ixo/EntitiesExplorer/GET_ENTITIES_FULFILLED',
   GetEntitiesPending = 'ixo/EntitiesExplorer/GET_ENTITIES_PENDING',
   GetEntitiesFailure = 'ixo/EntitiesExplorer/GET_ENTITIES_REJECTED',
+  GetEntities2 = 'ixo/EntitiesExplorer/GET_ENTITIES2',
+  GetEntities2Success = 'ixo/EntitiesExplorer/GET_ENTITIES2_FULFILLED',
+  GetEntities2Pending = 'ixo/EntitiesExplorer/GET_ENTITIES2_PENDING',
+  GetEntities2Failure = 'ixo/EntitiesExplorer/GET_ENTITIES2_REJECTED',
   GetIndividualEntity = 'ixo/EntitiesExplorer/GET_INDIVIDUAL_ENTITY',
+  GetIndividualEntity2 = 'ixo/EntitiesExplorer/GET_INDIVIDUAL_ENTITY2',
   GetEntityConfig = 'ixo/EntitiesExplorer/GET_ENTITYCONFIG',
   GetEntityConfigSuccess = 'ixo/EntitiesExplorer/GET_ENTITYCONFIG_FULFILLED',
   GetEntityConfigPending = 'ixo/EntitiesExplorer/GET_ENTITYCONFIG_PENDING',
@@ -104,9 +111,23 @@ export interface GetEntitiesSuccessAction {
   payload: ExplorerEntity[]
 }
 
+export interface GetEntities2Action {
+  type: typeof EntitiesExplorerActions.GetEntities2
+  payload: Promise<TEntityModel[]>
+}
+
+export interface GetEntities2SuccessAction {
+  type: typeof EntitiesExplorerActions.GetEntities2Success
+  payload: TEntityModel[]
+}
+
 export interface GetIndividualEntityAction {
   type: typeof EntitiesExplorerActions.GetIndividualEntity
   payload: Omit<ExplorerEntity, 'type' | 'status' | 'startDate' | 'endDate' | 'relayerNode'>
+}
+export interface GetIndividualEntityAction2 {
+  type: typeof EntitiesExplorerActions.GetIndividualEntity2
+  payload: { id: string; key: string; data: any }
 }
 
 export interface GetEntityConfigAction {
@@ -217,7 +238,10 @@ export interface FilterQueryAction {
 export type EntitiesActionTypes =
   | GetEntitiesAction
   | GetEntitiesSuccessAction
+  | GetEntities2Action
+  | GetEntities2SuccessAction
   | GetIndividualEntityAction
+  | GetIndividualEntityAction2
   | GetEntityConfigAction
   | GetEntityConfigSuccessAction
   | ChangeEntitiesTypeAction

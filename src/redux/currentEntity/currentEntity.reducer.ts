@@ -1,14 +1,15 @@
-import { CurrentEntityActions, CurrentEntityActionTypes, CurrentEntity } from './currentEntity.types'
+import { TEntityModel } from 'api/blocksync/types/entities'
+import { CurrentEntityActions, CurrentEntityActionTypes } from './currentEntity.types'
 
-const initialState: CurrentEntity = {
+const initialState: TEntityModel = {
   // from entity
-  did: '',
+  id: '',
   type: '',
   status: 0,
   relayerNode: '',
   credentials: [],
   entityVerified: false,
-  metadata: {},
+  metadata: undefined,
 
   // from iidDocument
   context: [],
@@ -25,6 +26,7 @@ const initialState: CurrentEntity = {
   accordedRight: [],
   linkedEntity: [],
   alsoKnownAs: '',
+  accounts: [],
 
   // extracted payloads
   profile: undefined,
@@ -34,7 +36,7 @@ const initialState: CurrentEntity = {
   tags: [],
 }
 
-export const reducer = (state = initialState, action: CurrentEntityActionTypes): CurrentEntity => {
+export const reducer = (state = initialState, action: CurrentEntityActionTypes): TEntityModel => {
   switch (action.type) {
     case CurrentEntityActions.UpdateEntity:
       return action.payload

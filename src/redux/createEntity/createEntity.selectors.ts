@@ -15,7 +15,7 @@ import {
   TDAOGroupModel,
   TProposalModel,
 } from 'types/protocol'
-import { TCreateEntityState, TEntityModel } from './createEntity.types'
+import { TCreateEntityState, TCreateEntityModel } from './createEntity.types'
 
 export const selectCreateEntity = (state: RootState): TCreateEntityState => state.newEntity
 
@@ -96,7 +96,7 @@ export const selectCreateEntityLinkedEntity = createSelector(
 
 export const selectCreateEntityAssetInstances = createSelector(
   selectCreateEntity,
-  (createEntity: TCreateEntityState): TEntityModel[] => createEntity.assetInstances ?? [],
+  (createEntity: TCreateEntityState): TCreateEntityModel[] => createEntity.assetInstances ?? [],
 )
 
 export const selectCreateEntityLocalisation = createSelector(

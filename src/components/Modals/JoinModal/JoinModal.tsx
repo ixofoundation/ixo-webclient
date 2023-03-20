@@ -11,10 +11,10 @@ import styled from 'styled-components'
 import * as validationUtils from 'utils/validation'
 import { Container, NextStep, PrevStep, CheckWrapper } from 'components/Modals/styles'
 import { ModalInput, SignStep, TXStatus } from '../common'
-import { CreateAgent } from 'lib/protocol'
+// import { CreateAgent } from 'lib/protocol'
 import { useAccount } from 'hooks/account'
-import { useSelectedEntity } from 'hooks/entity'
-import { AgentRole } from 'redux/account/account.types'
+// import { useSelectedEntity } from 'hooks/entity'
+// import { AgentRole } from 'redux/account/account.types'
 
 const AgentRoleWrapper = styled.div`
   display: flex;
@@ -69,16 +69,16 @@ enum JoinRole {
   EA = 'Evaluator',
 }
 
-const join2agentRole = (role: JoinRole): AgentRole => {
-  switch (role) {
-    case JoinRole.IP:
-      return AgentRole.ServiceProvider
-    case JoinRole.IA:
-      return AgentRole.Investor
-    case JoinRole.EA:
-      return AgentRole.Evaluator
-  }
-}
+// const join2agentRole = (role: JoinRole): AgentRole => {
+//   switch (role) {
+//     case JoinRole.IP:
+//       return AgentRole.ServiceProvider
+//     case JoinRole.IA:
+//       return AgentRole.Investor
+//     case JoinRole.EA:
+//       return AgentRole.Evaluator
+//   }
+// }
 
 interface Props {
   open: boolean
@@ -86,8 +86,12 @@ interface Props {
 }
 
 const JoinModal: React.FunctionComponent<Props> = ({ open, setOpen }) => {
-  const { signingClient, did, updateChooseWalletOpen } = useAccount()
-  const { did: projectDid, address: projectAddress } = useSelectedEntity()
+  const {
+    signingClient,
+    //  did,
+    updateChooseWalletOpen,
+  } = useAccount()
+  // const { did: projectDid, address: projectAddress } = useSelectedEntity()
 
   const steps = ['Role', 'Agent Details', 'Offer', 'Order', 'Sign']
 
@@ -129,18 +133,18 @@ const JoinModal: React.FunctionComponent<Props> = ({ open, setOpen }) => {
       updateChooseWalletOpen(true)
       return
     }
-    const res = await CreateAgent(signingClient, {
-      did,
-      projectDid,
-      projectAddress,
-      role: join2agentRole(currentRole!),
-    })
-    console.log('JoinModal', res)
-    if (res) {
-      setSignTXStatus(TXStatus.SUCCESS)
-    } else {
-      setSignTXStatus(TXStatus.ERROR)
-    }
+    // const res = await CreateAgent(signingClient, {
+    //   did,
+    //   projectDid,
+    //   projectAddress,
+    //   role: join2agentRole(currentRole!),
+    // })
+    // console.log('JoinModal', res)
+    // if (res) {
+    //   setSignTXStatus(TXStatus.SUCCESS)
+    // } else {
+    //   setSignTXStatus(TXStatus.ERROR)
+    // }
   }
 
   const handlePrevStep = (): void => {

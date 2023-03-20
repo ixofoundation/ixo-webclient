@@ -1,3 +1,4 @@
+import { TEntityModel } from 'api/blocksync/types/entities'
 import {
   TEntityAdministratorModel,
   TEntityCreatorModel,
@@ -7,7 +8,6 @@ import {
 } from 'types/protocol'
 import {
   CurrentEntityActions,
-  CurrentEntity,
   UpdateEntityAction,
   UpdateEntityProfileAction,
   UpdateEntityCreatorAction,
@@ -16,7 +16,7 @@ import {
   UpdateEntityTagsAction,
 } from './currentEntity.types'
 
-export const updateEntityAction = (data: CurrentEntity): UpdateEntityAction => ({
+export const updateEntityAction = (data: TEntityModel): UpdateEntityAction => ({
   type: CurrentEntityActions.UpdateEntity,
   payload: data,
 })

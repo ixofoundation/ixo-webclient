@@ -14,7 +14,7 @@ import {
   TProposalModel,
 } from 'types/protocol'
 
-export interface TEntityModel {
+export interface TCreateEntityModel {
   localisation: ELocalisation
   metadata: TEntityMetadataModel
   creator: TEntityCreatorModel
@@ -28,11 +28,11 @@ export interface TEntityModel {
   linkedEntity: { [id: string]: TEntityLinkedEntityModel }
 }
 
-export interface TCreateEntityState extends TEntityModel {
+export interface TCreateEntityState extends TCreateEntityModel {
   entityType: string
 
   // for Asset
-  assetInstances?: TEntityModel[] // TODO: for nfts?
+  assetInstances?: TCreateEntityModel[] // TODO: for nfts?
 
   // for DAO
   daoGroups?: { [id: string]: TDAOGroupModel }
@@ -138,13 +138,13 @@ export interface TUpdateLinkedEntityAction {
 }
 export interface TAddAssetInstancesAction {
   type: typeof ECreateEntityActions.AddAssetInstances
-  payload: TEntityModel[]
+  payload: TCreateEntityModel[]
 }
 export interface TUpdateAssetInstanceAction {
   type: typeof ECreateEntityActions.UpdateAssetInstance
   payload: {
     id: number
-    data: TEntityModel
+    data: TCreateEntityModel
   }
 }
 export interface TRemoveAssetInstancesAction {

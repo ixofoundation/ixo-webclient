@@ -5,8 +5,6 @@ import { Agent, FundSource, LiquiditySource } from 'types/entities'
 import { AgentRole } from 'redux/account/account.types'
 import { PageContent } from 'redux/selectedEntity/selectedEntity.types'
 import { ApiListedEntityData } from 'api/blocksync/types/entities'
-import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
-import { cellNodeChainMapping, chainNetwork } from 'hooks/configs'
 import { TEntityDDOTagModel } from 'types/protocol'
 
 export const getCountryCoordinates = (countryCodes: string[]): any[] => {
@@ -204,60 +202,4 @@ export const getBondDidFromApiListedEntityData = async (data: ApiListedEntityDat
 
     return bondToShow?.bond_did ?? undefined
   })
-}
-
-export const extractLinkedResource = async (linkedResource: LinkedResource[]): Promise<any[]> => {
-  return (
-    await Promise.all(
-      linkedResource.map(async (item: LinkedResource) => {
-        try {
-          const { id, serviceEndpoint } = item
-          switch (id) {
-            case '{id}#profile': {
-              return fetch(serviceEndpoint)
-                .then((response) => response.json())
-                .then((profile) => ({ profile }))
-                .catch(() => undefined)
-            }
-            case '{id}#creator': {
-              const [, ...paths] = serviceEndpoint.split('/')
-              return fetch([cellNodeChainMapping[chainNetwork], ...paths].join('/'))
-                .then((response) => response.json())
-                .then((response) => response.credentialSubject)
-                .then((credentialSubject) => ({ creator: credentialSubject }))
-                .catch(() => undefined)
-            }
-            case '{id}#administrator': {
-              const [, ...paths] = serviceEndpoint.split('/')
-              return fetch([cellNodeChainMapping[chainNetwork], ...paths].join('/'))
-                .then((response) => response.json())
-                .then((response) => response.credentialSubject)
-                .then((credentialSubject) => ({ administrator: credentialSubject }))
-                .catch(() => undefined)
-            }
-            case '{id}#page': {
-              const [, ...paths] = serviceEndpoint.split('/')
-              return fetch([cellNodeChainMapping[chainNetwork], ...paths].join('/'))
-                .then((response) => response.json())
-                .then((response) => response.page)
-                .then((page) => ({ page }))
-                .catch(() => undefined)
-            }
-            case '{id}#tags': {
-              const [, ...paths] = serviceEndpoint.split('/')
-              return fetch([cellNodeChainMapping[chainNetwork], ...paths].join('/'))
-                .then((response) => response.json())
-                .then((ddoTags) => ({ ddoTags }))
-                .catch(() => undefined)
-            }
-            default:
-              return undefined
-          }
-        } catch (e) {
-          console.error('extractLinkedResource', e)
-          return undefined
-        }
-      }),
-    )
-  ).filter(Boolean)
 }

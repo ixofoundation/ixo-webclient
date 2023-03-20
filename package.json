@@ -47,7 +47,7 @@
     "@editorjs/simple-image": "1.4.1",
     "@editorjs/table": "2.1.0",
     "@editorjs/warning": "1.2.0",
-    "@ixo/impactxclient-sdk": "^0.0.16",
+    "@ixo/impactxclient-sdk": "^0.0.21",
     "@ixo/ixo-apimodule": "1.0.9",
     "@reduxjs/toolkit": "1.9.1",
     "@rjsf/core": "4.2.3",

@@ -16,7 +16,7 @@ import {
 import {
   ECreateEntityActions,
   TAddAssetInstancesAction,
-  TEntityModel,
+  TCreateEntityModel,
   TGotoStepAction,
   TRemoveAssetInstancesAction,
   TUpdateAccordedRightAction,
@@ -121,12 +121,12 @@ export const updateLinkedEntityAction = (linkedEntity: {
   payload: linkedEntity,
 })
 
-export const addAssetInstancesAction = (instances: TEntityModel[]): TAddAssetInstancesAction => ({
+export const addAssetInstancesAction = (instances: TCreateEntityModel[]): TAddAssetInstancesAction => ({
   type: ECreateEntityActions.AddAssetInstances,
   payload: instances,
 })
 
-export const updateAssetInstanceAction = (id: number, instance: TEntityModel): TUpdateAssetInstanceAction => ({
+export const updateAssetInstanceAction = (id: number, instance: TCreateEntityModel): TUpdateAssetInstanceAction => ({
   type: ECreateEntityActions.UpdateAssetInstance,
   payload: { id, data: instance },
 })

@@ -19,10 +19,13 @@ import React, { useEffect, useMemo, useState } from 'react'
 import Lottie from 'react-lottie'
 import styled from 'styled-components'
 import { CheckWrapper, Container, NextStep, PrevStep, TXStatusBoard } from '../styles'
-import { CreatePaymentContract, GetPaymentTemplate } from 'lib/protocol'
-import { useIxoConfigs } from 'hooks/configs'
-import { Discount, DistributionShare } from '@ixo/impactxclient-sdk/types/codegen/ixo/payments/v1/payments'
-import { useAccount } from 'hooks/account'
+// import { CreatePaymentContract, GetPaymentTemplate } from 'lib/protocol'
+// import { useIxoConfigs } from 'hooks/configs'
+import {
+  // Discount,
+  DistributionShare,
+} from '@ixo/impactxclient-sdk/types/codegen/ixo/payments/v1/payments'
+// import { useAccount } from 'hooks/account'
 
 const PaymentTemplateBoundaryWrapper = styled.div`
   display: flex;
@@ -44,16 +47,28 @@ interface Props {
 }
 
 const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({ open, setOpen }) => {
-  const { paymentCoins } = useIxoConfigs()
-  const { signingClient, did, address } = useAccount()
+  // const { paymentCoins } = useIxoConfigs()
+  // const { signingClient, did, address } = useAccount()
   const steps = ['Contract', 'Amounts', 'Confirm', 'Sign']
   const [currentStep, setCurrentStep] = useState<number>(0)
-  const [paymentCurrency, setPaymentCurrency] = useState<string>('IXO')
+  const [
+    paymentCurrency,
+    // setPaymentCurrency
+  ] = useState<string>('IXO')
 
-  const [signTXStatus, setSignTXStatus] = useState<TXStatus>(TXStatus.PENDING)
+  const [
+    signTXStatus,
+    // setSignTXStatus
+  ] = useState<TXStatus>(TXStatus.PENDING)
 
-  const [minAmount, setMinAmount] = useState<string>()
-  const [maxAmount, setMaxAmount] = useState<string>()
+  const [
+    minAmount,
+    // setMinAmount
+  ] = useState<string>()
+  const [
+    maxAmount,
+    // setMaxAmount
+  ] = useState<string>()
   const [discounts, setDiscounts] = useState<string[]>([])
 
   const [paymentTemplate, setPaymentTemplate] = useState<string>()
@@ -96,30 +111,30 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({ open, setO
     }
   }, [currentStep])
 
-  const handleInvalidTemplate = (): void => {
-    setInvalidTemplate(true)
-  }
+  // const handleInvalidTemplate = (): void => {
+  //   setInvalidTemplate(true)
+  // }
 
   const handleInitialize = async (): Promise<void> => {
     if (!paymentTemplate) {
       return
     }
-    const res = await GetPaymentTemplate({ paymentTemplateId: paymentTemplate })
-    if (res?.paymentTemplate) {
-      const { paymentAmount, paymentMinimum, paymentMaximum, discounts } = res.paymentTemplate
-      const denom = paymentAmount[0].denom
-      setPaymentCurrency(paymentCoins!.find((obj) => obj.coinMinimalDenom === denom)!.coinDenom)
-      setMinAmount(paymentMinimum[0].amount)
-      setMaxAmount(paymentMaximum[0].amount)
-      setAvailableDiscounts(discounts.map((obj: Discount) => obj.percent))
-    } else {
-      handleInvalidTemplate()
-    }
+    // const res = await GetPaymentTemplate({ paymentTemplateId: paymentTemplate })
+    // if (res?.paymentTemplate) {
+    //   const { paymentAmount, paymentMinimum, paymentMaximum, discounts } = res.paymentTemplate
+    //   const denom = paymentAmount[0].denom
+    //   setPaymentCurrency(paymentCoins!.find((obj) => obj.coinMinimalDenom === denom)!.coinDenom)
+    //   setMinAmount(paymentMinimum[0].amount)
+    //   setMaxAmount(paymentMaximum[0].amount)
+    //   setAvailableDiscounts(discounts.map((obj: Discount) => obj.percent))
+    // } else {
+    //   handleInvalidTemplate()
+    // }
   }
 
   const handleSubmit = async (): Promise<void> => {
-    const res = await CreatePaymentContract(signingClient, { did, address, recipients })
-    setSignTXStatus(res ? TXStatus.SUCCESS : TXStatus.ERROR)
+    // const res = await CreatePaymentContract(signingClient, { did, address, recipients })
+    // setSignTXStatus(res ? TXStatus.SUCCESS : TXStatus.ERROR)
   }
 
   const handlePrevStep = (): void => {

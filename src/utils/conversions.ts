@@ -1,8 +1,6 @@
 import { Coin as BaseCoin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 import { Expiration } from '@ixo/impactxclient-sdk/types/codegen/DaoCore.types'
 import { CheckedDepositInfo, Coin } from '@ixo/impactxclient-sdk/types/codegen/DaoPreProposeSingle.types'
-import { Timestamp } from '@ixo/impactxclient-sdk/types/codegen/google/protobuf/timestamp'
-import Long from 'long'
 import { Duration } from 'types/dao'
 
 export const durationToSeconds1 = (
@@ -46,25 +44,6 @@ export const convertSecondsToBlocks = (blocksPerYear: number, seconds: number) =
 
 export const durationToSeconds = (blocksPerYear: number, duration: Duration) =>
   'height' in duration ? convertBlocksToSeconds(blocksPerYear, duration.height) : duration.time
-
-function numberToLong(number: number) {
-  return Long.fromNumber(number)
-}
-
-export function toTimestamp(date: Date): Timestamp {
-  const seconds = numberToLong(date.getTime() / 1_000)
-  const nanos = (date.getTime() % 1000) * 1000000
-  return {
-    seconds,
-    nanos,
-  }
-}
-
-export function fromTimestamp(t: Timestamp): Date {
-  let millis = t.seconds.toNumber() * 1000
-  millis += t.nanos / 1000000
-  return new Date(millis)
-}
 
 const secPerDay = 24 * 60 * 60
 export const secondsToWdhms = (

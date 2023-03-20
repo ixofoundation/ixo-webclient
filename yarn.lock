@@ -1798,10 +1798,10 @@
   resolved "https://registry.yarnpkg.com/@istanbuljs/schema/-/schema-0.1.3.tgz#e45e384e4b8ec16bce2fd903af78450f6bf7ec98"
   integrity sha512-ZXRY4jNvVgSVQ8DL3LTcakaAtXwTVUxE81hslsyD2AtoXW/wVob10HkOJ1X/pAlcI7D+2YoZKg5do8G/w6RYgA==
 
-"@ixo/impactxclient-sdk@^0.0.16":
-  version "0.0.16"
-  resolved "https://registry.yarnpkg.com/@ixo/impactxclient-sdk/-/impactxclient-sdk-0.0.16.tgz#00b5ca2853724d935ece915c14bc00d46315dd1d"
-  integrity sha512-RKQY1rOiOc94r9YQrI45eK5fxaT8ghIPArFjj6cYYgOwlmpiY6e7LUw4fTvP8tfRuHIRdJd9m++fV8Hf5nfcxA==
+"@ixo/impactxclient-sdk@^0.0.21":
+  version "0.0.21"
+  resolved "https://registry.yarnpkg.com/@ixo/impactxclient-sdk/-/impactxclient-sdk-0.0.21.tgz#d31c04bd600834d18e3f04bb326f92cd4621bbae"
+  integrity sha512-an6WhsUge/vTBapnCXwzuevVRd1bf/yw+IbiT+m2cTknwgNYdnFt/kdQ3wHooYdbrLfBIL9WMQrqnClNIEHQlQ==
   dependencies:
     "@babel/runtime" "7.19.4"
     "@cosmjs/amino" "0.27.1"

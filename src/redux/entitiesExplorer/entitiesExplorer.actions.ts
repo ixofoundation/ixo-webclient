@@ -19,6 +19,7 @@ import {
   FilterQueryAction,
   GetEntityConfigAction,
   FilterItemOffsetAction,
+  GetEntities2Action,
 } from './entitiesExplorer.types'
 import { RootState } from 'redux/store'
 import blocksyncApi from 'api/blocksync/blocksync'
@@ -26,12 +27,12 @@ import { SchemaGitUrl } from 'constants/chains'
 import { ApiListedEntity } from 'api/blocksync/types/entities'
 import Axios from 'axios'
 import { getHeadlineClaimInfo } from 'utils/claims'
-import { EntityList, GetEntityIidDocument } from 'lib/protocol'
-import { toTitleCase } from 'utils/formatters'
-import { extractLinkedResource } from 'utils/entities'
-import { IidDocument } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/iid'
-import { fromTimestamp } from 'utils/conversions'
 import { TEntityDDOTagModel } from 'types/protocol'
+import { BlockSyncService } from 'services/blocksync'
+import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
+import { cellNodeChainMapping, chainNetwork } from 'hooks/configs'
+
+const bsService = new BlockSyncService()
 
 export const getEntities =
   () =>
@@ -117,67 +118,89 @@ export const getEntities =
     }) as any
   }
 
-export const getEntities1 =
-  () =>
-  (dispatch: Dispatch): GetEntitiesAction => {
+export const getEntitiesByType =
+  (entityType: string) =>
+  (dispatch: Dispatch): GetEntities2Action => {
     return dispatch({
-      type: EntitiesExplorerActions.GetEntities,
-      payload: EntityList({}).then(({ entities }) => {
-        return entities.map((entity) => {
-          const { id, type, status, startDate, endDate, relayerNode, metadata } = entity
-
-          GetEntityIidDocument({ id })
-            .then((iidDocument: IidDocument) => {
-              const { linkedResource } = iidDocument
-              extractLinkedResource(linkedResource).then((extractedResources) => {
-                extractedResources.forEach((extractedResources) => {
-                  const key = Object.keys(extractedResources)[0]
-                  const payload: any = { did: id }
-                  switch (key) {
-                    case 'profile': {
-                      const { name, description, location, image, logo } = extractedResources[key]
-                      payload.name = name
-                      payload.description = description
-                      payload.image = image
-                      payload.logo = logo
-                      payload.location = location
-                      break
-                    }
-                    case 'creator': {
-                      const { displayName, id, logo } = extractedResources[key]
-                      payload.creatorDid = id
-                      payload.creatorName = displayName
-                      payload.creatorLogo = logo
-                      break
-                    }
-                    case 'ddoTags': {
-                      const ddoTags = extractedResources[key]
-                      payload.ddoTags = ddoTags
-                      break
-                    }
-                    default:
-                      break
-                  }
-                  dispatch({
-                    type: EntitiesExplorerActions.GetIndividualEntity,
-                    payload,
+      type: EntitiesExplorerActions.GetEntities2,
+      payload: bsService.entity.getEntitiesByType(entityType).then((entities: any[]) => {
+        return entities?.map((entity) => {
+          const { id, settings, linkedResource } = entity
+          linkedResource.concat(Object.values(settings)).forEach((item: LinkedResource) => {
+            switch (item.id) {
+              case '{id}#profile': {
+                fetch(item.serviceEndpoint)
+                  .then((response) => response.json())
+                  .then((profile) => {
+                    dispatch({
+                      type: EntitiesExplorerActions.GetIndividualEntity2,
+                      payload: { id, key: 'profile', data: profile },
+                    })
                   })
-                })
-              })
-            })
-            .catch(console.error)
+                  .catch(() => undefined)
+                break
+              }
+              case '{id}#creator': {
+                const [, ...paths] = item.serviceEndpoint.split('/')
+                fetch([cellNodeChainMapping[chainNetwork], ...paths].join('/'))
+                  .then((response) => response.json())
+                  .then((response) => response.credentialSubject)
+                  .then((creator) => {
+                    dispatch({
+                      type: EntitiesExplorerActions.GetIndividualEntity2,
+                      payload: { id, key: 'creator', data: creator },
+                    })
+                  })
+                  .catch(() => undefined)
+                break
+              }
+              case '{id}#administrator': {
+                const [, ...paths] = item.serviceEndpoint.split('/')
+                fetch([cellNodeChainMapping[chainNetwork], ...paths].join('/'))
+                  .then((response) => response.json())
+                  .then((response) => response.credentialSubject)
+                  .then((administrator) => {
+                    dispatch({
+                      type: EntitiesExplorerActions.GetIndividualEntity2,
+                      payload: { id, key: 'administrator', data: administrator },
+                    })
+                  })
+                  .catch(() => undefined)
+                break
+              }
+              case '{id}#page': {
+                const [, ...paths] = item.serviceEndpoint.split('/')
+                fetch([cellNodeChainMapping[chainNetwork], ...paths].join('/'))
+                  .then((response) => response.json())
+                  .then((response) => response.page)
+                  .then((page) => {
+                    dispatch({
+                      type: EntitiesExplorerActions.GetIndividualEntity2,
+                      payload: { id, key: 'page', data: page },
+                    })
+                  })
+                  .catch(() => undefined)
+                break
+              }
+              case '{id}#tags': {
+                const [, ...paths] = item.serviceEndpoint.split('/')
+                fetch([cellNodeChainMapping[chainNetwork], ...paths].join('/'))
+                  .then((response) => response.json())
+                  .then((tags) => {
+                    dispatch({
+                      type: EntitiesExplorerActions.GetIndividualEntity2,
+                      payload: { id, key: 'tags', data: tags },
+                    })
+                  })
+                  .catch(() => undefined)
+                break
+              }
+              default:
+                break
+            }
+          })
 
-          return {
-            did: id,
-            type: toTitleCase(type),
-            status,
-            startDate,
-            endDate,
-            relayerNode,
-            ddoTags: [],
-            version: metadata?.versionId,
-            dateCreated: metadata?.created ? moment(fromTimestamp(metadata?.created)) : undefined,
-          }
+          return { ...entity }
         })
       }),
     })

@@ -141,8 +141,9 @@ const ReviewDAO: React.FC = (): JSX.Element => {
           relationships: ['authentication'],
           method: ixo.iid.v1beta1.VerificationMethod.fromPartial({
             id: `{id}#${daoControllerAddress}`,
-            type: 'blockchainAccount',
+            type: 'CosmosAccountAddress',
             controller: '{id}',
+            blockchainAccountID: daoControllerAddress,
           }),
         }),
       )

@@ -13,7 +13,10 @@ import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 import { useSelectedEntity } from 'hooks/entity'
 import { isLessThan } from 'utils/currency'
 import { useIxoConfigs } from 'hooks/configs'
-import { BankSendTrx, WithdrawFunds } from 'lib/protocol'
+import {
+  BankSendTrx,
+  // WithdrawFunds
+} from 'lib/protocol'
 
 const NetworkFee = styled.div`
   font-family: ${(props): string => props.theme.primaryFontFamily};
@@ -90,8 +93,16 @@ interface Props {
 }
 
 const FuelEntityModal: React.FunctionComponent<Props> = ({ open, setOpen }) => {
-  const { balances, signingClient, address, did } = useAccount()
-  const { address: entityAddress, did: entityDid } = useSelectedEntity()
+  const {
+    balances,
+    signingClient,
+    address,
+    // did
+  } = useAccount()
+  const {
+    address: entityAddress,
+    // did: entityDid
+  } = useSelectedEntity()
   const { convertToMinimalDenom } = useIxoConfigs()
 
   const [steps, setSteps] = useState<string[]>(['Credit', 'Amount', 'Order', 'Sign'])
@@ -259,14 +270,14 @@ const FuelEntityModal: React.FunctionComponent<Props> = ({ open, setOpen }) => {
       }
     } else if (currentMethod === CreditMethod.WITHDRAW) {
       try {
-        const minimalCoin: Coin = convertToMinimalDenom({ denom: selectedCoin!.denom, amount: amount })!
-        const res = await WithdrawFunds(signingClient, {
-          did,
-          address,
-          projectDid: entityDid,
-          amount: minimalCoin.amount,
-        })
-        console.info('handleWithdrawFunds', res)
+        // const minimalCoin: Coin = convertToMinimalDenom({ denom: selectedCoin!.denom, amount: amount })!
+        // const res = await WithdrawFunds(signingClient, {
+        //   did,
+        //   address,
+        //   projectDid: entityDid,
+        //   amount: minimalCoin.amount,
+        // })
+        // console.info('handleWithdrawFunds', res)
       } catch (e) {
         console.error('handleWithdrawFunds', e)
         setSignTXStatus(TXStatus.ERROR)

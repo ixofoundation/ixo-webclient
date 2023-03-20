@@ -15,7 +15,7 @@ import { Box, theme } from 'components/App/App.styles'
 import { Button } from 'pages/CreateEntity/Components'
 import React, { useEffect, useState } from 'react'
 import { useCreateEntityState } from 'hooks/createEntity'
-import { TEntityModel } from 'redux/createEntity/createEntity.types'
+import { TCreateEntityModel } from 'redux/createEntity/createEntity.types'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
 import {
   EntityLinkedResourceConfig,
@@ -39,7 +39,7 @@ import { Typography } from 'components/Typography'
 
 interface Props {
   SN: number
-  token: TEntityModel
+  token: TCreateEntityModel
   goBack: () => void
 }
 

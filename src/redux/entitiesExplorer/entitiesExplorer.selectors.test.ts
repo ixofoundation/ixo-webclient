@@ -404,22 +404,6 @@ describe('EntitiesExplorer Selectors', () => {
     })
   })
 
-  describe('selectUserEntitiesCount', () => {
-    it('should return the count of all entities for a user regardless of filters set', () => {
-      state.entities.filter = {
-        dateFrom: moment('1900-01-01'),
-        dateTo: moment('1900-01-01'),
-        ddoTags: [],
-        userEntities: false,
-      }
-      // when ... we call the selector
-      const result = SUT.selectUserEntitiesCount(state)
-
-      // then ... should return result as expected
-      expect(result).toEqual(1)
-    })
-  })
-
   describe('selectFilterDateFrom', () => {
     it('should return the dateFrom property from the filter', () => {
       // when .. we call the selector

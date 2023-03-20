@@ -5,8 +5,10 @@ import { ShieldsWrapper } from './Dashboard.styles'
 import DashboardIcon from 'assets/icons/Dashboard'
 import Shield, { Image } from './Shield'
 import { thousandSeparator } from 'utils/formatters'
-import { GetBalances, GetProjectAccounts } from 'lib/protocol'
-import { useIxoConfigs } from 'hooks/configs'
+// import { GetBalances,
+// GetProjectAccounts
+//  } from 'lib/protocol'
+// import { useIxoConfigs } from 'hooks/configs'
 import { Coin } from '@cosmjs/proto-signing'
 import BigNumber from 'bignumber.js'
 
@@ -16,15 +18,18 @@ interface Props {
 }
 
 const Dashboard: React.FunctionComponent<Props> = ({ entityDid, widget: { title, controls } }) => {
-  const { convertToDenom } = useIxoConfigs()
-  const [ixoCoin, setIxoCoin] = useState<Coin | undefined>(undefined)
+  // const { convertToDenom } = useIxoConfigs()
+  const [
+    ixoCoin,
+    // setIxoCoin
+  ] = useState<Coin | undefined>(undefined)
 
   useEffect((): void => {
     const init = async (projectDid: string) => {
-      const accounts = await GetProjectAccounts(projectDid)
-      const balances = await GetBalances(accounts![projectDid])
-      const ixoCoin = balances.find(({ denom }) => denom === 'uixo')
-      setIxoCoin(convertToDenom(ixoCoin!))
+      // const accounts = await GetProjectAccounts(projectDid)
+      // const balances = await GetBalances(accounts![projectDid])
+      // const ixoCoin = balances.find(({ denom }) => denom === 'uixo')
+      // setIxoCoin(convertToDenom(ixoCoin!))
     }
     if (entityDid) {
       init(entityDid)
