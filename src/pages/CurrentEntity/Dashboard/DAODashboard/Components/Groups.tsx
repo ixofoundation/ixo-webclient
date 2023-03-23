@@ -153,10 +153,10 @@ const Groups: React.FC = (): JSX.Element | null => {
         <StyledSlider {...settings}>
           {Object.values(daoGroups)
             .sort((a, b) => {
-              if (!a.selected > !b.selected) {
-                return 1
-              } else if (!a.selected < !b.selected) {
+              if (a.selected! > b.selected!) {
                 return -1
+              } else if (a.selected! < b.selected!) {
+                return 1
               }
               return 0
             })
