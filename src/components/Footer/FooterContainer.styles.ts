@@ -5,7 +5,7 @@ export const BottomBar = styled.footer`
   && {
     padding: 20px 90px 20px 50px;
     overflow: hidden;
-    z-index: 3;
+    z-index: 9;
     background: black;
 
     @media (max-width: ${deviceWidth.mobile}px) {

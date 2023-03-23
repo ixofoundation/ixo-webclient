@@ -940,7 +940,8 @@ export interface TEntityDDOTagModel {
   tags: string[]
 }
 
-export type TEntityPageModel = { [id: string]: OutputBlockData }
+export type TEntityPageSectionModel = OutputBlockData
+export type TEntityPageModel = { [id: string]: TEntityPageSectionModel }
 export type TEntityAdministratorModel = TEntityCreatorModel
 
 /**

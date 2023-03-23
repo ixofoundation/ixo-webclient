@@ -25,7 +25,7 @@ import {
   TEntityAdministratorModel,
   TEntityCreatorModel,
   TEntityDDOTagModel,
-  TEntityPageModel,
+  TEntityPageSectionModel,
   TEntityProfileModel,
 } from 'types/protocol'
 
@@ -264,6 +264,6 @@ export interface TEntityModel extends Omit<Entity, 'metadata'>, IidDocument {
   profile?: TEntityProfileModel
   creator?: TEntityCreatorModel
   administrator?: TEntityAdministratorModel
-  page?: TEntityPageModel
+  page?: TEntityPageSectionModel[]
   tags?: TEntityDDOTagModel[]
 }

@@ -32,7 +32,7 @@ const initialState: TEntityModel = {
   profile: undefined,
   creator: undefined,
   administrator: undefined,
-  page: undefined,
+  page: [],
   tags: [],
 }
 

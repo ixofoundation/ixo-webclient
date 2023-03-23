@@ -1,14 +1,15 @@
 import Axios from 'axios'
-import { AssetListConfigUrl, ExchangeConfigUrl, RelayersConfigUrl } from 'constants/chains'
+import { AssetListConfigUrl, ExchangeConfigUrl, RelayersConfigUrl, SchemaGitUrl } from 'constants/chains'
 import { Dispatch } from 'redux'
 import {
   ConfigsStateActions,
   GetAssetListConfigAction,
+  GetEntityConfigAction,
   GetExchangeConfigAction,
   GetRelayersConfigAction,
 } from './configs.types'
 
-export const getAssetListConfig =
+export const getAssetListConfigAction =
   () =>
   (dispatch: Dispatch): GetAssetListConfigAction => {
     return dispatch({
@@ -17,7 +18,7 @@ export const getAssetListConfig =
     })
   }
 
-export const getRelayersConfig =
+export const getRelayersConfigAction =
   () =>
   (dispatch: Dispatch): GetRelayersConfigAction => {
     return dispatch({
@@ -26,11 +27,20 @@ export const getRelayersConfig =
     })
   }
 
-export const getExchangeConfig =
+export const getExchangeConfigAction =
   () =>
   (dispatch: Dispatch): GetExchangeConfigAction => {
     return dispatch({
       type: ConfigsStateActions.GetExchangeConfig,
       payload: Axios.get(ExchangeConfigUrl!).then((response) => response.data),
+    })
+  }
+
+export const getEntityConfigAction =
+  () =>
+  (dispatch: Dispatch): GetEntityConfigAction => {
+    return dispatch({
+      type: ConfigsStateActions.GetEntityConfig,
+      payload: Axios.get(SchemaGitUrl!).then((response) => response.data),
     })
   }

@@ -354,8 +354,6 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.type])
 
-  console.log({ entities: props.entities, entitiesCount: props.entitiesCount })
-
   return (
     <Container>
       <div className='d-flex w-100 h-100'>

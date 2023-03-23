@@ -9,7 +9,6 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import Services from 'services'
-import { getAssetListConfig, getExchangeConfig, getRelayersConfig } from 'redux/configs/configs.actions'
 import { ThemeProvider } from 'styled-components'
 import Footer from '../Footer/FooterContainer'
 import { HeaderConnected } from '../Header/HeaderContainer'
@@ -55,10 +54,7 @@ export interface Props {
   loginStatusCheckCompleted: boolean
   assistantToggled: boolean
   toggleAssistant: () => void
-  handleGetRelayersConfig: () => void
   handleGetEntityConfig: () => void
-  handleGetAssetListConfig: () => void
-  handleGetExchangeConfig: () => void
   handleChangeEntitiesType: (type: EntityType) => void
 }
 
@@ -74,10 +70,7 @@ class App extends React.Component<Props, State> {
   private keySafeInterval: any = null
 
   componentDidMount(): void {
-    this.props.handleGetRelayersConfig()
     this.props.handleGetEntityConfig()
-    this.props.handleGetAssetListConfig()
-    this.props.handleGetExchangeConfig()
   }
   UNSAFE_componentWillReceiveProps(props: any): void {
     if (props.entityTypeMap !== this.props.entityTypeMap) {
@@ -227,9 +220,6 @@ const mapDispatchToProps = (dispatch: any): any => ({
   toggleAssistant: (): void => {
     dispatch(toggleAssistant())
   },
-  handleGetRelayersConfig: (): void => dispatch(getRelayersConfig()),
-  handleGetAssetListConfig: (): void => dispatch(getAssetListConfig()),
-  handleGetExchangeConfig: (): void => dispatch(getExchangeConfig()),
   handleGetEntityConfig: (): void => dispatch(getEntityConfig()),
   handleChangeEntitiesType: (type: EntityType): void => dispatch(changeEntitiesType(type)),
 })

@@ -3,7 +3,7 @@ import {
   TEntityAdministratorModel,
   TEntityCreatorModel,
   TEntityDDOTagModel,
-  TEntityPageModel,
+  TEntityPageSectionModel,
   TEntityProfileModel,
 } from 'types/protocol'
 import {
@@ -38,7 +38,7 @@ export const updateEntityAdministratorAction = (
   payload: administrator,
 })
 
-export const updateEntityPageAction = (page: TEntityPageModel): UpdateEntityPageAction => ({
+export const updateEntityPageAction = (page: TEntityPageSectionModel[]): UpdateEntityPageAction => ({
   type: CurrentEntityActions.UpdateEntityPage,
   payload: page,
 })

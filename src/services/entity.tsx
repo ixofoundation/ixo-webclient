@@ -5,22 +5,12 @@ import {
 import { useSelectedEntity } from 'hooks/entity'
 import { useEffect, useState } from 'react'
 import { useValidators } from 'hooks/validator'
-import { matchPath, useHistory } from 'react-router-dom'
 import useCurrentEntity from 'hooks/currentEntity'
 import { useAccount } from 'hooks/account'
 import useCurrentDao from 'hooks/currentDao'
 import { Spinner } from 'components/Spinner/Spinner'
 
 const EntityUpdateService = (): JSX.Element | null => {
-  const history = useHistory()
-  const match =
-    matchPath(history.location.pathname, {
-      path: '/create/entity/:entityId/proposal/:coreAddress',
-    }) ??
-    matchPath(history.location.pathname, {
-      path: '/entity/:entityId/dashboard',
-    })
-  const entityId = match?.params['entityId']
   const {
     did,
     bondDid,
@@ -29,9 +19,8 @@ const EntityUpdateService = (): JSX.Element | null => {
   } = useSelectedEntity()
   const { getValidators } = useValidators()
   const { cosmWasmClient } = useAccount()
-  const { linkedEntity, getEntityByDid } = useCurrentEntity()
+  const { linkedEntity } = useCurrentEntity()
   const { setDaoGroup } = useCurrentDao()
-  const [entityLoading, setEntityLoading] = useState(false)
   const [daoGroupLoading, setDaoGroupLoading] = useState(false)
 
   useEffect(() => {
@@ -66,17 +55,6 @@ const EntityUpdateService = (): JSX.Element | null => {
   }, [getValidators])
 
   useEffect(() => {
-    if (entityId) {
-      console.log('getEntityByDid is being called')
-      setEntityLoading(true)
-      getEntityByDid(entityId)
-        .then(() => setEntityLoading(false))
-        .catch(() => setEntityLoading(false))
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [entityId])
-
-  useEffect(() => {
     if (linkedEntity.length > 0 && !!cosmWasmClient) {
       linkedEntity
         .filter(({ type }) => type === 'Group')
@@ -92,10 +70,6 @@ const EntityUpdateService = (): JSX.Element | null => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [linkedEntity, cosmWasmClient])
-
-  if (entityLoading) {
-    return <Spinner info='Loading Entity...' />
-  }
 
   if (daoGroupLoading) {
     return <Spinner info='Loading DAO Group...' />

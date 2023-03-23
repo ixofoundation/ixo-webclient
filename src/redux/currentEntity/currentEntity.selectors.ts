@@ -8,6 +8,10 @@ export const selectEntityType = createSelector(selectCurrentEntity, (entity: TEn
   return entity.type
 })
 
+export const selectEntityMetadata = createSelector(selectCurrentEntity, (entity: TEntityModel) => {
+  return entity.metadata
+})
+
 export const selectEntityLinkedResource = createSelector(selectCurrentEntity, (entity: TEntityModel) => {
   return entity.linkedResource.concat(Object.values(entity))
 })

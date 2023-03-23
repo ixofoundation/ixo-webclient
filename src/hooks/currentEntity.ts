@@ -1,7 +1,5 @@
-// import { QueryEntityResponse } from '@ixo/impactxclient-sdk/types/codegen/ixo/entity/v1beta1/query'
-import { LinkedEntity, LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
+import { IidMetadata, LinkedEntity, LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { TEntityModel } from 'api/blocksync/types/entities'
-// import { GetEntity } from 'lib/protocol'
 import {
   updateEntityAction,
   updateEntityAdministratorAction,
@@ -19,6 +17,7 @@ import {
   selectEntityPage,
   selectEntityTags,
   selectEntityLinkedEntity,
+  selectEntityMetadata,
 } from 'redux/currentEntity/currentEntity.selectors'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { BlockSyncService } from 'services/blocksync'
@@ -26,7 +25,7 @@ import {
   TEntityAdministratorModel,
   TEntityCreatorModel,
   TEntityDDOTagModel,
-  TEntityPageModel,
+  TEntityPageSectionModel,
   TEntityProfileModel,
 } from 'types/protocol'
 import { cellNodeChainMapping, chainNetwork } from './configs'
@@ -40,13 +39,14 @@ export default function useCurrentEntity(): {
   profile: TEntityProfileModel
   creator: TEntityCreatorModel
   administrator: TEntityAdministratorModel
-  page: TEntityPageModel
+  page: TEntityPageSectionModel[]
   tags: TEntityDDOTagModel[]
+  metadata: IidMetadata | undefined
   updateEntity: (data: TEntityModel) => void
   updateEntityProfile: (profile: TEntityProfileModel) => void
   updateEntityCreator: (creator: TEntityCreatorModel) => void
   updateEntityAdministrator: (administrator: TEntityAdministratorModel) => void
-  updateEntityPage: (page: TEntityPageModel) => void
+  updateEntityPage: (page: TEntityPageSectionModel[]) => void
   updateEntityTags: (tags: TEntityDDOTagModel[]) => void
   getEntityByDid: (did: string) => Promise<boolean>
 } {
@@ -58,8 +58,9 @@ export default function useCurrentEntity(): {
   const profile: TEntityProfileModel = useAppSelector(selectEntityProfile)!
   const creator: TEntityCreatorModel = useAppSelector(selectEntityCreator)!
   const administrator: TEntityAdministratorModel = useAppSelector(selectEntityAdministrator)!
-  const page: TEntityPageModel = useAppSelector(selectEntityPage)!
+  const page: TEntityPageSectionModel[] = useAppSelector(selectEntityPage)!
   const tags: TEntityDDOTagModel[] = useAppSelector(selectEntityTags)!
+  const metadata: IidMetadata | undefined = useAppSelector(selectEntityMetadata)
 
   const updateEntity = (data: TEntityModel) => {
     dispatch(updateEntityAction(data))
@@ -74,7 +75,7 @@ export default function useCurrentEntity(): {
   const updateEntityAdministrator = (administrator: TEntityAdministratorModel) => {
     dispatch(updateEntityAdministratorAction(administrator))
   }
-  const updateEntityPage = (page: TEntityPageModel) => {
+  const updateEntityPage = (page: TEntityPageSectionModel[]) => {
     dispatch(updateEntityPageAction(page))
   }
   const updateEntityTags = (tags: TEntityDDOTagModel[]) => {
@@ -164,6 +165,7 @@ export default function useCurrentEntity(): {
     administrator,
     page,
     tags,
+    metadata,
     getEntityByDid,
     updateEntity,
     updateEntityProfile,
@@ -172,4 +174,57 @@ export default function useCurrentEntity(): {
     updateEntityPage,
     updateEntityTags,
   }
+}
+
+export function useCurrentEntityMetadata(): {
+  createdAt: Date | undefined
+} {
+  const { metadata } = useCurrentEntity()
+  const createdAt = metadata?.created && new Date(metadata.created as never as string)
+
+  return { createdAt }
+}
+
+export function useCurrentEntityProfile(): Omit<TEntityProfileModel, '@context' | 'id'> {
+  const { profile } = useCurrentEntity()
+  const name = profile?.name ?? ''
+  const image = profile?.image ?? ''
+  const logo = profile?.logo ?? ''
+  const brand = profile?.brand ?? ''
+  const location = profile?.location ?? ''
+  const description = profile?.description ?? ''
+  const attributes = profile?.attributes ?? []
+  const metrics = profile?.metrics ?? []
+
+  return { name, image, logo, brand, location, description, attributes, metrics }
+}
+
+export function useCurrentEntityCreator(): Omit<TEntityCreatorModel, '@type'> {
+  const { creator } = useCurrentEntity()
+  const id = creator?.id ?? ''
+  const logo = creator?.logo ?? ''
+  const displayName = creator?.displayName ?? ''
+  const email = creator?.email ?? ''
+  const location = creator?.location ?? ''
+  const website = creator?.website ?? ''
+  const mission = creator?.mission ?? ''
+
+  return { id, logo, displayName, email, location, website, mission }
+}
+
+export function useCurrentEntityTags(): {
+  sdgs: string[]
+} {
+  const { tags } = useCurrentEntity()
+  const sdgs = tags?.find(({ category }) => category === 'SDG')?.tags ?? []
+
+  return { sdgs }
+}
+
+export function useCurrentEntityLinkedEntity(): {
+  bondDid: string
+} {
+  const bondDid = ''
+
+  return { bondDid }
 }
