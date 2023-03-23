@@ -5,8 +5,15 @@ import { AssetType, PaymentCoins } from 'redux/configs/configs.types'
 import _ from 'lodash'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 import BigNumber from 'bignumber.js'
+import { ChainNetwork } from '@ixo/impactxclient-sdk/types/custom_queries/chain.types'
 
 const CHAIN_ID = process.env.REACT_APP_CHAIN_ID
+export const chainNetwork: ChainNetwork = CHAIN_ID?.startsWith('devnet') ? 'devnet' : 'testnet'
+export const cellNodeChainMapping: { [network in ChainNetwork]: string } = {
+  mainnet: 'https://cellnode.ixo.earth',
+  testnet: 'https://cellnode-pandora.ixo.earth',
+  devnet: 'https://devnet-cellnode.ixo.earth',
+}
 
 interface IxoConfigsHookExports {
   paymentCoins: PaymentCoins[]
@@ -39,17 +46,21 @@ export function useIxoConfigs(): IxoConfigsHookExports {
   )
   const getAssetPairs = useCallback(
     (chainId: string = CHAIN_ID!) => {
-      const assets = getAssetsByChainId(chainId)
-      return assets
-        .map((asset) => {
-          const { base, denomUnits, display } = asset
-          const denomUnit = denomUnits.find((unit) => unit.denom === display)
-          if (!denomUnit) {
-            return undefined
-          }
-          return { base, display, exponent: denomUnit.exponent }
-        })
-        .filter((item) => !!item)
+      try {
+        const assets = getAssetsByChainId(chainId)
+        return assets
+          .map((asset) => {
+            const { base, denomUnits, display } = asset
+            const denomUnit = denomUnits.find((unit) => unit.denom === display)
+            if (!denomUnit) {
+              return undefined
+            }
+            return { base, display, exponent: denomUnit.exponent }
+          })
+          .filter((item) => !!item)
+      } catch {
+        return []
+      }
     },
     // eslint-disable-next-line
     [assetListConfig],

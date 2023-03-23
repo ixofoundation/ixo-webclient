@@ -15,7 +15,7 @@ import { Box, theme } from 'components/App/App.styles'
 import { Button } from 'pages/CreateEntity/Components'
 import React, { useEffect, useState } from 'react'
 import { useCreateEntityState } from 'hooks/createEntity'
-import { TEntityModel } from 'redux/createEntity/createEntity.types'
+import { TCreateEntityModel } from 'redux/createEntity/createEntity.types'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
 import {
   EntityLinkedResourceConfig,
@@ -32,14 +32,14 @@ import {
   EntityDescriptionForm,
   EntityMetricsForm,
 } from '../../../Forms'
-import { Badge, PropertyBox, PropertyBoxWrapper } from '../SetupProperties/SetupProperties.styles'
+import { Badge, PropertyBox, PropertyBoxWrapper } from '../../../Forms/PropertiesForm/PropertiesForm.styles'
 import { Wrapper, Row } from './IndividualToken.styles'
-import { SetupPageContent } from '../SetupProperties/SetupPageContent'
+import { SetupPageContent } from '../../../Forms/PropertiesForm/SetupPageContent'
 import { Typography } from 'components/Typography'
 
 interface Props {
   SN: number
-  token: TEntityModel
+  token: TCreateEntityModel
   goBack: () => void
 }
 
@@ -67,10 +67,10 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
         creator: { ...settings.creator, data: token.creator },
       }))
     }
-    if (token.controller) {
+    if (token.administrator) {
       setEntitySettings((settings) => ({
         ...settings,
-        controller: { ...settings.controller, data: token.controller },
+        administrator: { ...settings.administrator, data: token.administrator },
       }))
     }
     if (token.page) {
@@ -179,7 +179,7 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
       ...token,
       metadata,
       creator: entitySettings.creator?.data,
-      controller: entitySettings.controller?.data,
+      administrator: entitySettings.administrator?.data,
       tags: entitySettings.tags?.data,
       page: entitySettings.page?.data,
       service: entitySettings.service?.data,

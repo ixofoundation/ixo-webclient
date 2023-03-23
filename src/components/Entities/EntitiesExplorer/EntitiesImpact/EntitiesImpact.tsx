@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import { EntityType } from '../../../../types/entities'
 import { Container } from '../EntitiesExplorer.container.styles'
 import { EntitiesHero } from '../Components/EntitiesHero/EntitiesHero'
-import { getEntities } from 'redux/entitiesExplorer/entitiesExplorer.actions'
 import * as entitiesSelectors from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { RootState } from 'redux/store'
 import { Spinner } from 'components/Spinner/Spinner'
@@ -22,14 +21,9 @@ interface Props {
   isLoadingEntities: boolean
   filterSector: string
   filterQuery: string
-  handleGetEntities: () => void
 }
 
 class EntitiesImpact extends React.Component<Props> {
-  componentDidMount(): void {
-    this.props.handleGetEntities()
-  }
-
   render(): JSX.Element {
     return (
       <Container>
@@ -73,8 +67,6 @@ const mapStateToProps = (state: RootState): Record<string, any> => ({
   filterQuery: entitiesSelectors.selectFilterQuery(state),
 })
 
-const mapDispatchToProps = (dispatch: any): any => ({
-  handleGetEntities: (): void => dispatch(getEntities()),
-})
+const mapDispatchToProps = (dispatch: any): any => ({})
 
 export default connect(mapStateToProps, mapDispatchToProps)(EntitiesImpact as any)

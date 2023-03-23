@@ -19,8 +19,8 @@ import { termsOfUseTypeStrategyMap } from 'types/entities.map'
 import Tooltip, { TooltipPosition } from 'components/Tooltip/Tooltip'
 import Shield, { ShieldColor } from '../Shield/Shield'
 import Badges from '../Badges/Badges'
-import { DDOTagCategory } from 'redux/entitiesExplorer/entitiesExplorer.types'
 import { requireCheckDefault } from 'utils/images'
+import { TEntityDDOTagModel } from 'types/protocol'
 
 interface Props {
   did: string
@@ -29,7 +29,7 @@ interface Props {
   termsType: TermsOfUseType
   badges: string[]
   version: string
-  ddoTags: DDOTagCategory[]
+  ddoTags: TEntityDDOTagModel[]
 }
 
 const TemplateCard: React.FunctionComponent<Props> = ({
@@ -45,7 +45,7 @@ const TemplateCard: React.FunctionComponent<Props> = ({
 
   const templateType = React.useMemo(() => {
     if (ddoTags.length) {
-      const ddoTag = ddoTags.find((category) => category.name === 'Entity')
+      const ddoTag = ddoTags.find((category) => category.category === 'Entity')
       if (ddoTag) {
         return ddoTag.tags[0]
       }

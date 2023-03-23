@@ -1,11 +1,14 @@
 import { Moment } from 'moment'
 import { createSelector } from '@reduxjs/toolkit'
-import { ExplorerEntity, EntitiesExplorerState, Filter, DDOTagCategory } from './entitiesExplorer.types'
+import { ExplorerEntity, EntitiesExplorerState, Filter } from './entitiesExplorer.types'
 import { EntityType, EntityConfig } from 'types/entities'
 import * as accountSelectors from 'redux/account/account.selectors'
 import { RootState } from 'redux/store'
 import { Schema as FilterSchema } from 'components/Entities/EntitiesExplorer/Components/EntitiesFilter/schema/types'
 import { theme } from 'components/App/App.styles'
+import { TEntityDDOTagModel } from 'types/protocol'
+import { TEntityModel } from 'api/blocksync/types/entities'
+import { utils } from '@ixo/impactxclient-sdk'
 
 const formatDate = (date: Moment): string => date.format("D MMM \\'YY")
 
@@ -20,6 +23,15 @@ export const selectAllEntitiesByType = createSelector(
   },
 )
 
+export const selectAllEntitiesByType2 = createSelector(
+  selectEntitiesState,
+  (entitiesState: EntitiesExplorerState): TEntityModel[] => {
+    return Object.values(entitiesState.entities2 ?? {}).filter(
+      (entity) => entity.type.toLowerCase() === entitiesState.selectedEntitiesType.toLowerCase(),
+    )
+  },
+)
+
 export const selectAllTemplateEntities = createSelector(
   selectEntitiesState,
   (entitiesState: EntitiesExplorerState): ExplorerEntity[] => {
@@ -27,7 +39,10 @@ export const selectAllTemplateEntities = createSelector(
       ? entitiesState.entities
           .filter((entity) => entity.type === EntityType.Template)
           .sort((a, b) => {
-            return b.dateCreated.unix() - a.dateCreated.unix()
+            if (b?.dateCreated && a?.dateCreated) {
+              return b.dateCreated.unix() - a.dateCreated.unix()
+            }
+            return 0
           })
       : null!
   },
@@ -39,8 +54,8 @@ export const selectTokenClassTemplateEntities = createSelector(
     return entities
       ? entities.filter((entity) =>
           entity.ddoTags
-            .filter((ddoTag) => ddoTag.name === 'Entity')
-            .some((ddoTag) => ddoTag.tags.some((tag) => tag === 'Token Class')),
+            ?.filter((ddoTag: any) => ddoTag.name === 'Entity')
+            .some((ddoTag: any) => ddoTag.tags.some((tag: any) => tag === 'Token Class')),
         )
       : []
   },
@@ -55,7 +70,7 @@ export const selectEntitiesFilter = createSelector(
 
 export const selectSelectedEntitiesType = createSelector(
   selectEntitiesState,
-  (entitiesState: EntitiesExplorerState): EntityType => {
+  (entitiesState: EntitiesExplorerState): string => {
     return entitiesState.selectedEntitiesType
   },
 )
@@ -63,17 +78,18 @@ export const selectSelectedEntitiesType = createSelector(
 export const selectedFilteredEntities = createSelector(
   selectAllEntitiesByType,
   selectEntitiesFilter,
-  accountSelectors.selectUserDid,
+  accountSelectors.selectAccountDid,
   (entities: ExplorerEntity[], filter: Filter, userDid: string): ExplorerEntity[] => {
     // all entities
     let entitiesToFilter = entities && entities.length ? entities : []
 
-    entitiesToFilter = entitiesToFilter.filter((entity) => entity.status === 'STARTED' || entity.creatorDid === userDid)
+    // entitiesToFilter = entitiesToFilter.filter((entity) => entity.status === 'STARTED' || entity.creatorDid === userDid)
+    entitiesToFilter = entitiesToFilter.filter((entity) => entity.status === 0 || entity.creatorDid === userDid)
 
     // filter by current user's entities
     if (filter.userEntities) {
       entitiesToFilter = entitiesToFilter.filter(
-        (entity) => entity.creatorDid === userDid || entity.agentDids.some((agentDid) => agentDid === userDid),
+        (entity) => entity.creatorDid === userDid || entity.agentDids?.some((agentDid) => agentDid === userDid),
       )
     }
 
@@ -83,18 +99,19 @@ export const selectedFilteredEntities = createSelector(
     if (filter.dateFrom && filter.dateTo) {
       entitiesToFilter = entitiesToFilter.filter(
         (entity) =>
-          entity.dateCreated.startOf('day') >= filter.dateFrom && entity.dateCreated.startOf('day') <= filter.dateTo,
+          !entity.dateCreated ||
+          (entity.dateCreated.startOf('day') >= filter.dateFrom && entity.dateCreated.startOf('day') <= filter.dateTo),
       )
     }
 
     // filter by categories
-    if (filter.ddoTags.length > 0) {
+    if (filter.ddoTags?.length > 0) {
       filter.ddoTags.forEach((category) => {
         if (category.tags.length > 0) {
           category.tags.forEach((tag) => {
             entitiesToFilter = entitiesToFilter.filter((entity) =>
-              entity.ddoTags.some(
-                (entityCategory) => entityCategory.name === category.name && entityCategory.tags.includes(tag),
+              entity.ddoTags?.some(
+                (entityCategory) => entityCategory.category === category.category && entityCategory.tags.includes(tag),
               ),
             )
           })
@@ -124,36 +141,130 @@ export const selectedFilteredEntities = createSelector(
     // filter by sector
     if (filter.sector) {
       entitiesToFilter = entitiesToFilter.filter((entity) =>
-        entity.ddoTags.some(
-          (entityCategory) => entityCategory.name === 'Sector' && entityCategory.tags.includes(filter.sector),
+        entity.ddoTags?.some(
+          (entityCategory) => entityCategory.category === 'Sector' && entityCategory.tags.includes(filter.sector),
         ),
       )
     }
 
     // sort the result
     entitiesToFilter = entitiesToFilter.sort((a, b) => {
-      return b.dateCreated.unix() - a.dateCreated.unix()
+      if (b.dateCreated && a.dateCreated) {
+        return b.dateCreated!.unix() - a.dateCreated!.unix()
+      }
+      return 0
     })
 
     return entitiesToFilter
   },
 )
 
+export const selectedFilteredEntities2 = createSelector(
+  selectAllEntitiesByType2,
+  selectEntitiesFilter,
+  accountSelectors.selectAccountDid,
+  (entities: TEntityModel[], filter: Filter, userDid: string): TEntityModel[] => {
+    // all entities
+    let filteredEntities = entities
+
+    /**
+     * @description filter by entityStatus
+     */
+    filteredEntities = filteredEntities.filter((entity) => entity.status === 0 || entity.controller.includes(userDid))
+
+    /**
+     * @description filter by user entities or entity Status 0
+     */
+    if (filter.userEntities) {
+      filteredEntities = filteredEntities.filter((entity) => entity.controller.includes(userDid))
+    }
+
+    /**
+     * @description filter by featured entities
+     * TODO:
+     */
+
+    /**
+     * @description filter by popular entities
+     * TODO:
+     */
+
+    /**
+     * @description filter by date rage
+     */
+    if (filter.dateFrom && filter.dateTo) {
+      filteredEntities = filteredEntities.filter(
+        (entity) =>
+          !entity.metadata?.created ||
+          (utils.proto.fromTimestamp(entity.metadata.created).getTime() >= filter.dateFrom.valueOf() &&
+            utils.proto.fromTimestamp(entity.metadata.created).getTime() <= filter.dateTo.valueOf()),
+      )
+    }
+
+    /**
+     * @description filter by tags
+     */
+    if (filter.ddoTags?.length > 0) {
+      filter.ddoTags.forEach((category) => {
+        if (category.tags.length > 0) {
+          category.tags.forEach((tag) => {
+            filteredEntities = filteredEntities.filter((entity) =>
+              entity.tags?.some(
+                (entityCategory) => entityCategory.category === category.category && entityCategory.tags.includes(tag),
+              ),
+            )
+          })
+        }
+      })
+    }
+
+    /**
+     * @description filter by query keyword
+     */
+    if (filter.query) {
+      const lowerCaseQuery = filter.query.toLowerCase()
+      filteredEntities = filteredEntities.filter((entity) => {
+        return (
+          entity.profile?.name.toLowerCase().includes(lowerCaseQuery) ||
+          entity.profile?.description.toLowerCase().includes(lowerCaseQuery)
+        )
+      })
+    }
+
+    /**
+     * @description filter by sector
+     */
+    if (filter.sector) {
+      filteredEntities = filteredEntities.filter((entity) =>
+        entity.tags?.some(
+          (entityCategory) => entityCategory.category === 'Sector' && entityCategory.tags.includes(filter.sector),
+        ),
+      )
+    }
+
+    /**
+     * @description sort by createdAt
+     */
+    filteredEntities = filteredEntities.sort((a, b) => {
+      if (b.metadata?.created && a.metadata?.created) {
+        return (
+          new Date(b.metadata?.created as unknown as string).getTime() -
+          new Date(a.metadata?.created as unknown as string).getTime()
+        )
+      }
+      return 0
+    })
+
+    return filteredEntities
+  },
+)
+
 export const selectAllEntitiesCount = createSelector(selectAllEntitiesByType, (entities: ExplorerEntity[]): number => {
   return !entities ? 0 : entities.length
 })
-
-export const selectUserEntitiesCount = createSelector(
-  selectAllEntitiesByType,
-  accountSelectors.selectUserDid,
-  (entities: ExplorerEntity[], userDid: string): number => {
-    return !entities
-      ? 0
-      : entities.filter(
-          (entity) => entity.creatorDid === userDid || entity.agentDids.some((agentDid) => agentDid === userDid),
-        ).length
-  },
-)
+export const selectAllEntitiesCount2 = createSelector(selectAllEntitiesByType2, (entities: TEntityModel[]): number => {
+  return !entities ? 0 : entities.length
+})
 
 export const selectFilteredEntitiesCount = createSelector(
   selectedFilteredEntities,
@@ -162,9 +273,22 @@ export const selectFilteredEntitiesCount = createSelector(
   },
 )
 
+export const selectFilteredEntitiesCount2 = createSelector(
+  selectedFilteredEntities2,
+  (entities: TEntityModel[]): number => {
+    return !entities ? 0 : entities.length
+  },
+)
+
 export const selectIsLoadingEntities = createSelector(
   selectAllEntitiesByType,
   (entities: ExplorerEntity[]): boolean => {
+    return entities === null
+  },
+)
+export const selectIsLoadingEntities2 = createSelector(
+  selectAllEntitiesByType2,
+  (entities: TEntityModel[]): boolean => {
     return entities === null
   },
 )
@@ -196,7 +320,7 @@ export const selectFilterDateSummary = createSelector(
   },
 )
 
-export const selectFilterCategories = createSelector(selectEntitiesFilter, (filter: Filter): DDOTagCategory[] => {
+export const selectFilterCategories = createSelector(selectEntitiesFilter, (filter: Filter): TEntityDDOTagModel[] => {
   return filter.ddoTags
 })
 
@@ -210,8 +334,8 @@ export const selectFilterItemOffset = createSelector(selectEntitiesFilter, (filt
 
 export const selectFilterCategoriesSummary = createSelector(
   selectFilterCategories,
-  (categories: DDOTagCategory[]): string => {
-    const totalFilters = categories.reduce((total, category) => {
+  (categories: TEntityDDOTagModel[]): string => {
+    const totalFilters = categories?.reduce((total, category) => {
       return total + category.tags.length
     }, 0)
 
@@ -238,12 +362,20 @@ export const selectFilterQuery = createSelector(selectEntitiesFilter, (filter: F
 export const selectFilterSchema = createSelector(
   selectEntitiesState,
   (entitiesState: EntitiesExplorerState): FilterSchema => {
-    return entitiesState.entityConfig[entitiesState.selectedEntitiesType].filterSchema
+    return entitiesState.entityConfig[entitiesState.selectedEntitiesType]?.filterSchema
   },
 )
 
 export const selectFilterSchemaSdgDdoTags = createSelector(selectFilterSchema, (filterSchema: FilterSchema) => {
-  return filterSchema.ddoTags.find(({ name }) => name === 'SDG')?.tags ?? []
+  return filterSchema?.ddoTags.find(({ name }) => name === 'SDG')?.tags ?? []
+})
+
+export const selectFilterCategoryTypeName = createSelector(selectFilterSchema, (filterSchema: FilterSchema): string => {
+  try {
+    return filterSchema.ddoTags[0].name
+  } catch (e) {
+    return undefined!
+  }
 })
 
 export const selectEntityConfig = createSelector(
@@ -252,14 +384,6 @@ export const selectEntityConfig = createSelector(
     return entitiesState.entityConfig
   },
 )
-
-export const selectEntityCategoryTypeName = createSelector(selectFilterSchema, (filterSchema: FilterSchema): string => {
-  try {
-    return filterSchema.ddoTags[0].name
-  } catch (e) {
-    return undefined!
-  }
-})
 
 export const selectEntityUIConfig = createSelector(selectEntityConfig, (entityConfig: EntityConfig): any => {
   return entityConfig?.UI
@@ -310,11 +434,7 @@ export const selectEntityThemeHighlightLight = createSelector(selectEntityThemeC
 export const selectEntitiesCountries = createSelector(
   selectAllEntitiesByType,
   (entities: ExplorerEntity[]): string[] => {
-    return entities && entities.length
-      ? entities.map((entity) => {
-          return entity.location
-        })
-      : []
+    return entities?.map((entity) => entity.location ?? '')
   },
 )
 

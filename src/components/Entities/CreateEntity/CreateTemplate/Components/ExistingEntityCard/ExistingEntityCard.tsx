@@ -33,7 +33,7 @@ const ImportButton = styled.button`
 
   &:disabled {
     opacity: 0.5;
-    color: ${(props: any): string => props.theme.fontLightGreyBlue};
+    color: ${(props: any): string => props.theme.ixoLightGreyBlue};
   }
 `
 

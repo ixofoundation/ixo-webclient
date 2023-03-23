@@ -36,7 +36,7 @@ const SetupInstrument: React.FC = (): JSX.Element => {
             handleClick={(): void => handleOpenAddInstrumentModal(key, true)}
           />
         ))}
-        <PropertyBox icon={<PlusIcon />} handleClick={(): void => setOpenAddInstrumentModal(true)} />
+        <PropertyBox icon={<PlusIcon />} noData handleClick={(): void => setOpenAddInstrumentModal(true)} />
       </Box>
 
       <Box className='d-flex' style={{ gap: 20 }}>

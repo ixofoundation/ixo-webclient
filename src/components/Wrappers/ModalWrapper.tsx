@@ -32,7 +32,7 @@ const defModalStyles = {
 }
 
 const ModalInner = styled.div<{ color?: string }>`
-  background: ${(props): string => (props.color ? props.color : props.theme.bg.modal)};
+  background: ${(props): string => (props.color ? props.color : props.theme.ixoDarkestBlue)};
   color: white;
   padding: 30px 50px 0;
   font-family: ${(props): string => props.theme.fontRoboto};
@@ -97,7 +97,7 @@ const FlexContainer = styled.div`
     font-weight: 300;
     margin: 0;
     font-size: 18px;
-    color: ${/* eslint-disable-line */ (props) => props.theme.fontLightBlue};
+    color: ${/* eslint-disable-line */ (props) => props.theme.ixoLightBlue};
     font-family: ${/* eslint-disable-line */ (props) => props.theme.primaryFontFamily};
   }
 `

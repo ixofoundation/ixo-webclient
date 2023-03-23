@@ -50,7 +50,7 @@ const StyledViewLogContainer = styled.div`
 const ModalBody = styled.div`
   margin: 50px auto;
   font-size: 20px;
-  color: ${(props): string => props.theme.red};
+  color: ${(props): string => props.theme.ixoRed};
   font-family: ${(props): string => props.theme.primaryFontFamily};
   font-weight: 700;
   text-align: center;

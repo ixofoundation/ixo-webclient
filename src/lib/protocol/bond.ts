@@ -6,7 +6,7 @@ import {
   QueryCustomPriceResponse,
   QueryLastBatchResponse,
 } from '@ixo/impactxclient-sdk/types/codegen/ixo/bonds/v1beta1/query'
-import { DeliverTxResponse } from '@cosmjs/stargate'
+import { DeliverTxResponse } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/stargate'
 import { fee, RPC_ENDPOINT } from './common'
 import { Coin } from '@cosmjs/proto-signing'
 

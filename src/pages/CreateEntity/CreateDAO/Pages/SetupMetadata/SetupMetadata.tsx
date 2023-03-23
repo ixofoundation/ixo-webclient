@@ -47,28 +47,30 @@ const SetupMetadata: React.FC = (): JSX.Element => {
           setName={(name): void => handleUpdateMetadata('name', name)}
         />
       </Box>
-      <Box className='d-flex flex-column' style={{ width: 400 }}>
-        <EntityAdditionalInfoForm
-          description={metadata?.description ?? ''}
-          setDescription={(description): void => handleUpdateMetadata('description', description)}
-          brand={metadata?.brand ?? ''}
-          setBrand={(brand): void => handleUpdateMetadata('brand', brand)}
-          location={metadata?.location ?? ''}
-          setLocation={(location): void => handleUpdateMetadata('location', location)}
-          metrics={metadata?.metrics ?? []}
-          setMetrics={(metrics): void => handleUpdateMetadata('metrics', metrics)}
-          attributes={metadata?.attributes ?? []}
-          setAttributes={(attributes): void => handleUpdateMetadata('attributes', attributes)}
-          startDate={metadata?.startDate ?? ''}
-          endDate={metadata?.endDate ?? ''}
-          setStartEndDate={(startDate, endDate) => {
-            updateMetadata({
-              ...metadata,
-              startDate,
-              endDate,
-            })
-          }}
-        />
+      <Box className='d-flex flex-column justify-content-between' style={{ width: 400 }}>
+        <Box>
+          <EntityAdditionalInfoForm
+            description={metadata?.description ?? ''}
+            setDescription={(description): void => handleUpdateMetadata('description', description)}
+            brand={metadata?.brand ?? ''}
+            setBrand={(brand): void => handleUpdateMetadata('brand', brand)}
+            location={metadata?.location ?? ''}
+            setLocation={(location): void => handleUpdateMetadata('location', location)}
+            metrics={metadata?.metrics ?? []}
+            setMetrics={(metrics): void => handleUpdateMetadata('metrics', metrics)}
+            attributes={metadata?.attributes ?? []}
+            setAttributes={(attributes): void => handleUpdateMetadata('attributes', attributes)}
+            startDate={metadata?.startDate ?? ''}
+            endDate={metadata?.endDate ?? ''}
+            setStartEndDate={(startDate, endDate) => {
+              updateMetadata({
+                ...metadata,
+                startDate,
+                endDate,
+              })
+            }}
+          />
+        </Box>
 
         <Box className='d-flex justify-content-end w-100 mt-4' style={{ gap: 20 }}>
           <Button variant='secondary' onClick={handlePrev}>

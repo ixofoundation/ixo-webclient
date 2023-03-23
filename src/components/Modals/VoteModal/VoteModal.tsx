@@ -38,7 +38,7 @@ const SelectWrapper = styled.div`
       color: ${(props): string => props.theme.ixoBlue}};
     }
     &:after {
-      border-color: ${(props): string => props.theme.bg.blue}};
+      border-color: ${(props): string => props.theme.ixoDarkestBlue}};
     }
   }
 `
@@ -47,9 +47,10 @@ interface Props {
   open: boolean
   setOpen: (open: boolean) => void
   givenProposalId?: string
+  onSubmit?: (event: React.FormEvent<HTMLFormElement>) => Promise<void>
 }
 
-const VoteModal: React.FC<Props> = ({ open, setOpen, givenProposalId }): JSX.Element => {
+const VoteModal: React.FC<Props> = ({ open, setOpen, givenProposalId, onSubmit }): JSX.Element => {
   const { signingClient, address } = useAccount()
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
@@ -78,7 +79,7 @@ const VoteModal: React.FC<Props> = ({ open, setOpen, givenProposalId }): JSX.Ele
       handleToggleModal={(): void => setOpen(false)}
     >
       <Container>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={onSubmit ?? handleSubmit}>
           {!givenProposalId && (
             <InputText type='text' id='proposalId' formStyle={FormStyles.modal} text='Proposal Id' />
           )}

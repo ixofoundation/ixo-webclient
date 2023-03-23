@@ -2,41 +2,37 @@ import { ReactNode } from 'react'
 import styled, { css } from 'styled-components'
 
 export const theme = {
-  ixoBlue: '#49BFE0', // button borders, small hero numbers, SDG numbers
   ixoOrange: '#F89D28',
+  ixoDarkOrange: '#ED9526',
   ixoGreen: '#5AB946',
   ixoRed: '#E2223B',
   ixoDarkRed: '#A11C43',
 
-  ixoWhite: '#FFFFFF',
-  ixoLightBlue: '#83D9F2',
   ixoLightGreyBlue: '#688EA0',
+  ixoLightBlue: '#83D9F2',
+  ixoBlue: '#49BFE0', // button borders, small hero numbers, SDG numbers
   ixoNewBlue: '#00D2FF',
   ixoDarkBlue: '#436779',
   ixoNavyBlue: '#143F54',
   ixoMediumBlue: '#107591',
-  ixoLightGrey: '#F3F3F3',
-  ixoBlack: '#000000',
-  ixoColor2: '#828E94',
-  ixoNewOrange: '#ED9526',
+  ixoDarkestBlue: '#022739',
 
+  ixoWhite: '#FFFFFF',
   ixoGrey100: '#F7F8F9',
   ixoGrey300: '#E8E8E9',
   ixoGrey500: '#D3D6D7',
   ixoGrey700: '#A8ADAE',
   ixoGrey900: '#4A4E50',
+  ixoBlack: '#000000',
+
+  ixoGrey1: '#333333',
+  ixoColor2: '#828E94',
 
   ixoShadow1: '10px 10px 20px rgba(0, 0, 0, 0.25)',
+  ixoGradientLight: 'linear-gradient(180deg, #FFFFFF 0%, #F3F6FC 100%)',
   ixoGradientDark2: 'linear-gradient(180deg, #01273A 0%, #002D42 100%)',
 
   bg: {
-    blue: '#002233', // dashboard background,
-    modal: '#002233',
-    green: '#5AB946',
-    darkBlue: '#01151F', // Tooltips background
-    lightBlue: '#017492', // active button background for tabs on hero section
-    lightGrey: '#F6F6F6', // light background for projects list
-    gradientBlue: 'linear-gradient(to bottom, #012639 0%,#002d42 100%)', // background for widgets (charts, graphs, tabs, etc.)
     gradientDarkBlue: 'linear-gradient(180deg, #038FB8 0%, #036C93 100%)', // claims
     gradientButton: 'linear-gradient(to bottom, #03D0FB 0%, #016480 100%)',
     gradientButtonGreen: 'linear-gradient(180deg, #5AB946 0%, #339F1C 100%)',
@@ -45,32 +41,14 @@ export const theme = {
     gradientWhite: 'linear-gradient(180deg, #FFFFFF 0%, #FFFFFF 100%)',
     heavyDarkBlue: '#012131',
   },
-  fontBlueDisabled: '#436779',
-  fontBlueButtonNormal: 'white',
-  fontBlueButtonHover: '#83D9F2',
-  fontDarkBlueButtonNormal: 'white',
-  fontDarkBlueButtonHover: '#00D2FF',
-  fontBlue: '#49BFE0', // Same as ixoBlue
   fontDarkBlue: '#013C4F',
   fontDarkGrey: '#282828',
-  fontLightBlue: '#83D9F2', // big hero section numbers, widgets big numbers
   fontGrey: '#282828', // generally text on white background
   primaryFontFamily: 'Roboto, sans-serif',
   secondaryFontFamily: 'Roboto Condensed, sans-serif',
   fontSkyBlue: '#39C3E6',
-  fontLightGreyBlue: '#688EA0',
-  fontGreen: '#6FCF97',
-  fontYellow: '#E4D33D',
-  grey: '#E9E8E8', // borders for project list cards, progress bar background on projects list
-  darkGrey: '#656969', // "load more projects" button on project list
-  lightGrey: '#B6B6B6',
-  neutralLighterGrey: '#F0F3F9',
-  neutralLightGrey: '#D7DEE8',
-  neutralMediumGrey: '#878F9F',
-  neutralDarkGrey: '#333333',
   widgetBorder: '#0C3550', // border color for graphs/ charts, etc.
   graphGradient: 'linear-gradient(to right, #016480 0%, #03d0FE 100%)', // gradient fill for graphs/bars/charts
-  red: '#E2223B',
   rejected: '#E2223B',
   approved: '#5ab946',
   disputed: '#ed9526',
@@ -175,6 +153,10 @@ export interface HTMLElementProps {
   borderColor?: string
   borderStyle?: string
   borderRadius?: string
+  borderRight?: string
+  borderRightStyle?: string
+  borderRightWidth?: string
+  borderRightColor?: string
   position?: string
   left?: string
   right?: string
@@ -199,6 +181,9 @@ export interface HTMLElementProps {
   outlineWidth?: string
   visibility?: string
   color?: string
+  fontSize?: number
+  fontWeight?: number | string
+
   children?: ReactNode
 }
 
@@ -252,6 +237,13 @@ const htmlElementCss = css<HTMLDivProps>`
   ${({ borderStyle }): string | undefined => (borderStyle ? `border-style: ${borderStyle}` : undefined)};
   ${({ borderColor }): string | undefined => (borderColor ? `border-color: ${borderColor}` : undefined)};
   ${({ borderRadius }): string | undefined => (borderRadius ? `border-radius: ${borderRadius}` : undefined)};
+  ${({ borderRight }): string | undefined => (borderRight ? `border-right: ${borderRight}` : undefined)};
+  ${({ borderRightWidth }): string | undefined =>
+    borderRightWidth ? `border-right-width: ${borderRightWidth}` : undefined};
+  ${({ borderRightStyle }): string | undefined =>
+    borderRightStyle ? `border-right-style: ${borderRightStyle}` : undefined};
+  ${({ borderRightColor }): string | undefined =>
+    borderRightColor ? `border-right-color: ${borderRightColor}` : undefined};
   ${({ position }): string | undefined => (position ? `position: ${position}` : undefined)};
   ${({ left }): string | undefined => (left ? `left: ${left}` : undefined)};
   ${({ right }): string | undefined => (right ? `right: ${right}` : undefined)};
@@ -276,11 +268,14 @@ const htmlElementCss = css<HTMLDivProps>`
   ${({ outlineColor }): string | undefined => (outlineColor ? `outline-color: ${outlineColor}` : undefined)};
   ${({ visibility }): string | undefined => (visibility ? `visibility: ${visibility}` : undefined)};
   ${({ color }) => color && `color: ${color}`};
+  ${({ fontSize }) => fontSize && `font-size: ${fontSize * 0.25}rem`};
+  ${({ fontWeight }) => fontWeight && `font-weight: ${fontWeight}`};
 
   &:hover {
-    ${({ hover }) => hover?.background && `background: ${hover?.background}`};
-    ${({ hover }) => hover?.borderWidth && `border-width: ${hover?.borderWidth}`};
-    ${({ hover }) => hover?.borderColor && `border-color: ${hover?.borderColor}`};
+    ${({ hover }) => hover?.background && `background: ${hover.background};`}
+    ${({ hover }) => hover?.borderWidth && `border-width: ${hover.borderWidth};`}
+    ${({ hover }) => hover?.borderColor && `border-color: ${hover.borderColor};`}
+    ${({ hover }) => hover?.color && `color: ${hover.color};`}
   }
 `
 

@@ -38,7 +38,7 @@ const AssetCard: React.FC<Props> = ({
         <AssetCardBodyRow style={{ justifyContent: 'space-between', alignItems: 'center' }}>
           <CardTags style={{ gap: 5 }}>
             <CardTag tagColor={theme.ixoDarkRed}>{denom}</CardTag>
-            <CardTag tagColor={theme.ixoNewOrange}>{type}</CardTag>
+            <CardTag tagColor={theme.ixoDarkOrange}>{type}</CardTag>
           </CardTags>
           <AssetLogo src={icon} alt='' />
         </AssetCardBodyRow>

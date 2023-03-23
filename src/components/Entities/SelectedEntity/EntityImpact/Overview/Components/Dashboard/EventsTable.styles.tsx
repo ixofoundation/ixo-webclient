@@ -19,7 +19,7 @@ export const TableContainer = styled.div`
   }
   .ReactVirtualized__Table__headerRow {
     width: 100% !important;
-    color: ${(props: any): string => props.theme.fontLightGreyBlue};
+    color: ${(props: any): string => props.theme.ixoLightGreyBlue};
   }
   .ReactVirtualized__Table__Grid {
     width: 100% !important;

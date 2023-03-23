@@ -23,9 +23,9 @@ const ClaimSetupModal1: React.FC<Props> = ({ claim, open, onClose, onChange }): 
   const canSubmit = useMemo(() => {
     return (
       formData?.template &&
-      formData?.maxSubmissions &&
-      formData?.submissionStartDate &&
-      formData?.submissionEndDate &&
+      formData?.submissions?.maximum &&
+      formData?.submissions?.startDate &&
+      formData?.submissions?.endDate &&
       formData?.approvalTarget
     )
   }, [formData])
@@ -71,9 +71,11 @@ const ClaimSetupModal1: React.FC<Props> = ({ claim, open, onClose, onChange }): 
                 </FlexBox>
                 <FlexBox gap={4} className='w-100'>
                   <InputWithLabel
-                    inputValue={formData?.maxSubmissions}
+                    inputValue={formData?.submissions?.maximum}
                     label={'Max Submissions #'}
-                    handleChange={(maxSubmissions: string): void => handleFormChange('maxSubmissions', maxSubmissions)}
+                    handleChange={(maxSubmissions: string): void =>
+                      handleFormChange('submissions', { ...formData?.submissions, maximum: maxSubmissions })
+                    }
                   />
                   <InputWithLabel
                     inputValue={formData?.approvalTarget}
@@ -84,12 +86,15 @@ const ClaimSetupModal1: React.FC<Props> = ({ claim, open, onClose, onChange }): 
                 <FlexBox className='w-100'>
                   <DateRangePicker
                     id='protocol'
-                    startDate={formData?.submissionStartDate || ''}
-                    endDate={formData?.submissionEndDate || ''}
+                    startDate={formData?.submissions?.startDate || ''}
+                    endDate={formData?.submissions?.endDate || ''}
                     withPortal
                     onChange={(submissionStartDate, submissionEndDate) => {
-                      handleFormChange('submissionStartDate', submissionStartDate)
-                      handleFormChange('submissionEndDate', submissionEndDate)
+                      handleFormChange('submissions', {
+                        ...formData?.submissions,
+                        startDate: submissionStartDate,
+                        endDate: submissionEndDate,
+                      })
                     }}
                   />
                 </FlexBox>

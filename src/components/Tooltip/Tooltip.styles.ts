@@ -1,8 +1,8 @@
 import styled from 'styled-components'
 
-export const TooltipWrapper = styled.div`
+export const TooltipWrapper = styled.div<{ width: string }>`
   position: absolute;
-  width: 9.5rem;
+  width: ${(props) => props.width};
   z-index: 1;
   pointer-events: none;
 
@@ -41,13 +41,6 @@ export const TooltipInner = styled.div`
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
   text-align: center;
   pointer-events: none;
-
-  p {
-    color: black;
-    margin: 0;
-    font-size: 0.75rem;
-  }
-
   transition: all 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
 
   &.top {

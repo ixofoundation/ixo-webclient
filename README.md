@@ -65,7 +65,7 @@ git clone https://github.com/ixofoundation/ixo-webclient && cd ixo-webclient && 
 - Now build the docker image with
 
 ```shell
-docker build -t ixo-webclient:latest .
+docker build -t ixo-webclient:latest.
 ```
 
 Now run the image with either of these two options.
@@ -94,7 +94,7 @@ docker-compose up -d
 
 ### Styling
 
-IXO-Web is styled using styled components. all styling information is kept within a component. The main file - App.tsx contains theme information, where you can add variables for use through the Web App.
+IXO-Web is styled using styled components. All styling information is kept within a component. The main file - App.tsx contains theme information, where you can add variables for use through the Web App.
 
 ### Container Components
 

@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const StyledAssistantButton = styled.button`
-  background: ${(props): string => props.theme.fontDarkBlueButtonHover};
+  background: ${(props): string => props.theme.ixoNewBlue};
   border-radius: 8px;
   width: 30px;
   height: 30px;

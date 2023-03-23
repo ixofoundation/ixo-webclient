@@ -19,7 +19,7 @@ export const Title = styled.h3`
 `
 
 export const Amount = styled.p`
-  color: ${(props: any): string => props.theme.fontLightBlue};
+  color: ${(props: any): string => props.theme.ixoLightBlue};
   font-size: 29px;
   line-height: 38px;
   margin-bottom: 4px;
@@ -34,7 +34,7 @@ export const Amount = styled.p`
 `
 
 export const Error = styled.p`
-  color: ${(props: any): string => props.theme.red};
+  color: ${(props: any): string => props.theme.ixoRed};
   font-size: 16px;
 `
 
@@ -58,9 +58,9 @@ export const Description = styled.p`
   }
 
   .number {
-    color: ${(props: any): string => props.theme.fontBlue};
+    color: ${(props: any): string => props.theme.ixoBlue};
     display: inline-block;
-    background: ${(props: any): string => props.theme.bg.gradientBlue};
+    background: ${(props: any): string => props.theme.ixoGradientDark2};
     padding: 2px 8px;
     margin: 0 5px;
     border-radius: 3px;

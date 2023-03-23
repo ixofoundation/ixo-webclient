@@ -2,13 +2,12 @@ import * as React from 'react'
 import { RouteProps } from 'react-router'
 import { Moment } from 'moment'
 import ReactPaginate from 'react-paginate'
-import ProjectCard from './Components/EntityCard/ProjectCard/ProjectCard'
-// import LaunchpadCard from './components/EntityCard/LaunchpadCard/LaunchpadCard'
-import CellCard from './Components/EntityCard/CellCard/CellCard'
-import TemplateCard from './Components/EntityCard/TemplateCard/TemplateCard'
-import InvestmentCard from './Components/EntityCard/InvestmentCard/InvestmentCard'
-import OracleCard from './Components/EntityCard/OracleCard/OracleCard'
-import AssetCard from './Components/EntityCard/AssetCard/AssetCard'
+import CellCard from './Components/EntityCard/CellCard/CellCard2'
+// import ProjectCard from './Components/EntityCard/ProjectCard/ProjectCard'
+// import TemplateCard from './Components/EntityCard/TemplateCard/TemplateCard'
+// import InvestmentCard from './Components/EntityCard/InvestmentCard/InvestmentCard'
+// import OracleCard from './Components/EntityCard/OracleCard/OracleCard'
+// import AssetCard from './Components/EntityCard/AssetCard/AssetCard'
 import { EntitiesHero } from './Components/EntitiesHero/EntitiesHero'
 import { Spinner } from 'components/Spinner/Spinner'
 import { connect } from 'react-redux'
@@ -21,7 +20,6 @@ import {
   Pagination,
 } from './EntitiesExplorer.container.styles'
 import {
-  getEntities,
   filterToggleUserEntities,
   filterToggleFeaturedEntities,
   filterTogglePopularEntities,
@@ -36,19 +34,19 @@ import {
   filterSector,
   filterEntitiesQuery,
   filterItemOffset,
+  getEntitiesByType,
 } from 'redux/entitiesExplorer/entitiesExplorer.actions'
 import EntitiesFilter from './Components/EntitiesFilter/EntitiesFilter'
 import { EntityType, EntityTypeStrategyMap } from 'types/entities'
-import { DDOTagCategory, ExplorerEntity } from 'redux/entitiesExplorer/entitiesExplorer.types'
 import { Schema as FilterSchema } from './Components/EntitiesFilter/schema/types'
 import * as entitiesSelectors from 'redux/entitiesExplorer/entitiesExplorer.selectors'
-import * as accountSelectors from 'redux/account/account.selectors'
 // @ts-ignore
 import detectGrid from 'detect-grid'
 import { useEffect, useState } from 'react'
 import AssetCollections from './Components/AssetCollections/AssetCollections'
 import { useQuery } from 'hooks/window'
-import { EntityList } from 'lib/protocol'
+import { TEntityDDOTagModel } from 'types/protocol'
+import { TEntityModel } from 'api/blocksync/types/entities'
 // import { checkIsLaunchpadFromApiListedEntityData } from '../Entities.utils'
 
 const entityFilters = {
@@ -71,7 +69,7 @@ const entityFilters = {
 export interface Props extends RouteProps {
   match: any
   type: EntityType
-  entities: ExplorerEntity[]
+  entities: TEntityModel[]
   entitiesCount: number
   entityTypeMap: EntityTypeStrategyMap
   filteredEntitiesCount: number
@@ -80,19 +78,18 @@ export interface Props extends RouteProps {
   filterDateTo: Moment
   filterDateToFormatted: string
   filterDateSummary: string
-  filterCategories: DDOTagCategory[]
+  filterCategories: TEntityDDOTagModel[]
   filterCategoriesSummary: string
   filterUserEntities: boolean
   filterFeaturedEntities: boolean
   filterPopularEntities: boolean
   filterItemOffset: number
   isLoadingEntities: boolean
-  isLoggedIn: boolean
   filterSchema: FilterSchema
   filterSector: string
   filterQuery: string
-  entityCategoryTypeName: string
-  handleGetEntities: () => void
+  filterCategoryTypeName: string
+  handleGetEntitiesByType: (entityType: string) => void
   handleChangeEntitiesQuery: (query: string) => void
   handleChangeEntitiesType: (type: EntityType) => void
   handleFilterToggleUserEntities: (userEntities: boolean) => void
@@ -110,12 +107,12 @@ export interface Props extends RouteProps {
 }
 
 const EntityCard: any = {
-  [EntityType.Project]: ProjectCard,
+  // [EntityType.Project]: ProjectCard,
   [EntityType.Dao]: CellCard,
-  [EntityType.Template]: TemplateCard,
-  [EntityType.Oracle]: OracleCard,
-  [EntityType.Investment]: InvestmentCard,
-  [EntityType.Asset]: AssetCard,
+  // [EntityType.Template]: TemplateCard,
+  // [EntityType.Oracle]: OracleCard,
+  // [EntityType.Investment]: InvestmentCard,
+  // [EntityType.Asset]: AssetCard,
 }
 
 const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
@@ -167,12 +164,17 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
   const renderCards = (data: any): JSX.Element[] => {
     return (
       data &&
-      data.map((entity: ExplorerEntity, index: any) => {
-        return React.createElement(EntityCard[props.type], {
-          ...entity,
-          key: index,
+      data
+        .map((entity: TEntityModel, index: any) => {
+          return (
+            EntityCard[props.type] &&
+            React.createElement(EntityCard[props.type], {
+              ...entity,
+              key: index,
+            })
+          )
         })
-      })
+        .filter(Boolean)
     )
   }
 
@@ -184,7 +186,7 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
       filterFeaturedEntities,
       filterPopularEntities,
       filterCategories,
-      entityCategoryTypeName,
+      filterCategoryTypeName,
     } = props
 
     const populateTitle = (): string => {
@@ -199,7 +201,7 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
         words.push('Popular')
       }
 
-      const tags = filterCategories.find((cat) => cat.name === entityCategoryTypeName)!.tags
+      const tags = filterCategories.find((cat) => cat.category === filterCategoryTypeName)?.tags
 
       if (tags && tags.length > 1) {
         words.push('Selected')
@@ -207,14 +209,14 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
         words.push(tags[0])
       }
 
-      words.push(entityTypeMap[type].plural)
+      words.push(entityTypeMap[type]?.plural)
 
       return words.join(' ')
     }
 
     const renderNoSearchFound = (): JSX.Element => (
       <NoEntitiesContainer>
-        <p>There are no {entityTypeMap[props.type].plural.toLowerCase()} that match your search criteria</p>
+        <p>There are no {entityTypeMap[props.type]?.plural.toLowerCase()} that match your search criteria</p>
       </NoEntitiesContainer>
     )
 
@@ -288,7 +290,7 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
     } else {
       return (
         <ErrorContainer>
-          <p>No {entityTypeMap[props.type].plural.toLowerCase()} were found</p>
+          <p>No {entityTypeMap[props.type]?.plural.toLowerCase()} were found</p>
         </ErrorContainer>
       )
     }
@@ -306,14 +308,6 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
   }
 
   useEffect(() => {
-    const init = async () => {
-      const res = await EntityList({ entityType: 'asset', entityStatus: '0' })
-      console.info('EntityList:', res)
-    }
-    init()
-
-    props.handleGetEntities()
-
     let filter: string | undefined = getQuery('filter', true)
     filter = filter && filter.length > 0 ? filter.toLowerCase() : filter
 
@@ -355,6 +349,13 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
     setSelected(Math.floor(props.filterItemOffset / itemsPerPage))
   }, [props.filterItemOffset, itemsPerPage])
 
+  useEffect(() => {
+    props.handleGetEntitiesByType(props.type)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.type])
+
+  console.log({ entities: props.entities, entitiesCount: props.entitiesCount })
+
   return (
     <Container>
       <div className='d-flex w-100 h-100'>
@@ -370,7 +371,7 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
           />
           {props.entityTypeMap && props.isLoadingEntities && (
             <div style={{ height: '100%' }}>
-              <Spinner info={`Loading ${props.entityTypeMap[props.type].plural}`} />
+              <Spinner info={`Loading ${props.entityTypeMap[props.type]?.plural}`} />
             </div>
           )}
           {!props.isLoadingEntities && renderEntities()}
@@ -382,11 +383,11 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
 
 function mapStateToProps(state: RootState): Record<string, any> {
   return {
-    entities: entitiesSelectors.selectedFilteredEntities(state),
+    entities: entitiesSelectors.selectedFilteredEntities2(state),
     entityTypeMap: entitiesSelectors.selectEntityConfig(state),
-    entitiesCount: entitiesSelectors.selectAllEntitiesCount(state),
+    entitiesCount: entitiesSelectors.selectAllEntitiesCount2(state),
     type: entitiesSelectors.selectSelectedEntitiesType(state),
-    filteredEntitiesCount: entitiesSelectors.selectFilteredEntitiesCount(state),
+    filteredEntitiesCount: entitiesSelectors.selectFilteredEntitiesCount2(state),
     filterDateFrom: entitiesSelectors.selectFilterDateFrom(state),
     filterDateTo: entitiesSelectors.selectFilterDateTo(state),
     filterDateFromFormatted: entitiesSelectors.selectFilterDateFromFormatted(state),
@@ -399,16 +400,15 @@ function mapStateToProps(state: RootState): Record<string, any> {
     filterFeaturedEntities: entitiesSelectors.selectFilterFeaturedEntities(state),
     filterPopularEntities: entitiesSelectors.selectFilterPopularEntities(state),
     filterItemOffset: entitiesSelectors.selectFilterItemOffset(state),
-    isLoadingEntities: entitiesSelectors.selectIsLoadingEntities(state),
     filterSchema: entitiesSelectors.selectFilterSchema(state),
     filterQuery: entitiesSelectors.selectFilterQuery(state),
-    isLoggedIn: accountSelectors.selectUserIsLoggedIn(state),
-    entityCategoryTypeName: entitiesSelectors.selectEntityCategoryTypeName(state),
+    filterCategoryTypeName: entitiesSelectors.selectFilterCategoryTypeName(state),
+    isLoadingEntities: entitiesSelectors.selectIsLoadingEntities2(state),
   }
 }
 
 const mapDispatchToProps = (dispatch: any): any => ({
-  handleGetEntities: (): void => dispatch(getEntities()),
+  handleGetEntitiesByType: (entityType: string): void => dispatch(getEntitiesByType(entityType)),
   handleChangeEntitiesQuery: (query: string): void => dispatch(filterEntitiesQuery(query)),
   handleChangeEntitiesType: (type: EntityType): void => dispatch(changeEntitiesType(type)),
   handleFilterToggleUserEntities: (userEntities: boolean): void => dispatch(filterToggleUserEntities(userEntities)),

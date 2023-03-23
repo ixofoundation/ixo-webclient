@@ -3,7 +3,8 @@ import { deviceWidth } from 'constants/device'
 import { requireCheckDefault } from 'utils/images'
 
 export const Banner = styled.div`
-  background: #002233 url(${requireCheckDefault(require('assets/images/404/404-bg.jpg'))}) no-repeat;
+  background: ${(props) => props.theme.ixoDarkestBlue}
+    url(${requireCheckDefault(require('assets/images/404/404-bg.jpg'))}) no-repeat;
   background-size: cover;
   width: 100%;
   display: flex;

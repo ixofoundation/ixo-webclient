@@ -40,8 +40,17 @@ interface Props {
 
 // class Header extends React.Component<Props, State> {
 const Header: React.FC<Props> = (props: Props): JSX.Element => {
-  const { address, pubKey, signingClient, keyType, did, selectedWallet, updateBalances, updateRegistered } =
-    useAccount()
+  const {
+    address,
+    pubKey,
+    pubKeyUint8,
+    signingClient,
+    keyType,
+    did,
+    selectedWallet,
+    updateBalances,
+    updateRegistered,
+  } = useAccount()
 
   const [responseTime] = useState(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -65,7 +74,7 @@ const Header: React.FC<Props> = (props: Props): JSX.Element => {
   }
   const handleLedgerDid = async (): Promise<void> => {
     if (signingClient && address && did && pubKey && keyType) {
-      const res = await CreateIidDoc(signingClient, { address, did, pubKey }, keyType)
+      const res = await CreateIidDoc(signingClient, { address, did, pubKey: pubKeyUint8!, keyType })
       updateRegistered(!!res)
     }
   }

@@ -24,7 +24,6 @@ import { importEntityPageContent } from 'redux/createEntityPageContent/createEnt
 import { selectHeaderContent } from 'redux/createEntityPageContent/createEntityPageContent.selectors'
 import { clearEntity, goToStep, newEntity } from 'redux/createEntityOld/createEntity.actions'
 import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
-import { getEntities } from 'redux/entitiesExplorer/entitiesExplorer.actions'
 import { EntityType, LiquiditySource } from 'types/entities'
 import { AlphaBondInfo, AssociatedTemplateType } from 'redux/createTemplate/createTemplate.types'
 import { updateTemplateType } from 'redux/createSelectTemplate/createSelectTemplate.action'
@@ -49,12 +48,6 @@ const NewTokenTemplateLink = styled.span`
 `
 
 class CreateTemplate extends CreateEntityBase<any> {
-  componentDidMount(): void {
-    const { handleGetEntities } = this.props
-
-    handleGetEntities()
-  }
-
   onSubmitted = (): void => {
     const { entityType, step, handleGoToStep, createdBondDid, handleCreatedLiquidity } = this.props
 
@@ -264,7 +257,6 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleGoToStep: (step: number): void => dispatch(goToStep(step)),
   handleValidated: (identifier: string): void => dispatch(validated(identifier)),
   handleResetExistingEntity: (): void => dispatch(clearEntity()),
-  handleGetEntities: (): void => dispatch(getEntities()),
   handleUpdateAssociatedTemplate: (template: AssociatedTemplateType): void =>
     dispatch(updateAssociatedTemplates(template)),
   handleAddAssociatedTemplateSection: (): void => dispatch(addAssociatedTemplate()),

@@ -1,13 +1,11 @@
+import { Timestamp } from '@ixo/impactxclient-sdk/types/utils/proto'
+import { TEntityModel } from 'api/blocksync/types/entities'
 import { Moment } from 'moment'
-import { EntityType, EntityConfig, LiquiditySource, FundSource, TermsOfUseType } from 'types/entities'
-
-export interface DDOTagCategory {
-  name: string
-  tags: string[]
-}
+import { EntityConfig, LiquiditySource, FundSource, TermsOfUseType } from 'types/entities'
+import { TEntityDDOTagModel } from 'types/protocol'
 
 export interface Filter {
-  ddoTags: DDOTagCategory[]
+  ddoTags: TEntityDDOTagModel[]
   sector: string
   dateFrom: Moment
   dateTo: Moment
@@ -19,49 +17,55 @@ export interface Filter {
 }
 
 export interface ExplorerEntity {
-  name: string
-  description: string
-  type: EntityType
-  did: string
-  creatorDid: string
-  dateCreated: Moment
-  creatorName: string
-  creatorLogo: string
-  status: string
-  location: string
-  goal: string
-  serviceProvidersCount: number
-  evaluatorsCount: number
-  requiredClaimsCount: number
-  successfulClaimsCount: number
-  pendingClaimsCount: number
-  rejectedClaimsCount: number
-  disputedClaimsCount: number
-  sdgs: string[]
-  agentDids: string[]
-  image: string
-  logo: string
-  ddoTags: DDOTagCategory[]
+  name?: string
+  description?: string
+  creatorDid?: string
+  dateCreated?: Moment
+  creatorName?: string
+  creatorLogo?: string
+  location?: string
+  goal?: string
+  serviceProvidersCount?: number
+  evaluatorsCount?: number
+  requiredClaimsCount?: number
+  successfulClaimsCount?: number
+  pendingClaimsCount?: number
+  rejectedClaimsCount?: number
+  disputedClaimsCount?: number
+  sdgs?: string[]
+  agentDids?: string[]
+  image?: string
+  logo?: string
+  ddoTags?: TEntityDDOTagModel[]
   termsType?: TermsOfUseType
-  badges: string[]
-  version: string
-  entityClaims: any
-  linkedEntities: any[]
-  liquidity: {
+  badges?: string[]
+  version?: string
+  entityClaims?: any
+  linkedEntities?: any[]
+  liquidity?: {
     ['@context']: string
     items: { ['@type']: LiquiditySource; id: string }[]
   }
-  funding: {
+  funding?: {
     //  TODO: this should be removed
     ['@context']: string
     items: { ['@type']: FundSource; id: string }[]
   }
+
+  // new
+  did: string
+  type: string
+  status: string | number
+  startDate?: Timestamp
+  endDate?: Timestamp
+  relayerNode?: string
 }
 
 export interface EntitiesExplorerState {
   entities: ExplorerEntity[]
+  entities2: { [id: string]: TEntityModel }
   entityConfig: EntityConfig
-  selectedEntitiesType: EntityType
+  selectedEntitiesType: string
   filter: Filter
 }
 
@@ -70,6 +74,12 @@ export enum EntitiesExplorerActions {
   GetEntitiesSuccess = 'ixo/EntitiesExplorer/GET_ENTITIES_FULFILLED',
   GetEntitiesPending = 'ixo/EntitiesExplorer/GET_ENTITIES_PENDING',
   GetEntitiesFailure = 'ixo/EntitiesExplorer/GET_ENTITIES_REJECTED',
+  GetEntities2 = 'ixo/EntitiesExplorer/GET_ENTITIES2',
+  GetEntities2Success = 'ixo/EntitiesExplorer/GET_ENTITIES2_FULFILLED',
+  GetEntities2Pending = 'ixo/EntitiesExplorer/GET_ENTITIES2_PENDING',
+  GetEntities2Failure = 'ixo/EntitiesExplorer/GET_ENTITIES2_REJECTED',
+  GetIndividualEntity = 'ixo/EntitiesExplorer/GET_INDIVIDUAL_ENTITY',
+  GetIndividualEntity2 = 'ixo/EntitiesExplorer/GET_INDIVIDUAL_ENTITY2',
   GetEntityConfig = 'ixo/EntitiesExplorer/GET_ENTITYCONFIG',
   GetEntityConfigSuccess = 'ixo/EntitiesExplorer/GET_ENTITYCONFIG_FULFILLED',
   GetEntityConfigPending = 'ixo/EntitiesExplorer/GET_ENTITYCONFIG_PENDING',
@@ -101,6 +111,25 @@ export interface GetEntitiesSuccessAction {
   payload: ExplorerEntity[]
 }
 
+export interface GetEntities2Action {
+  type: typeof EntitiesExplorerActions.GetEntities2
+  payload: Promise<TEntityModel[]>
+}
+
+export interface GetEntities2SuccessAction {
+  type: typeof EntitiesExplorerActions.GetEntities2Success
+  payload: TEntityModel[]
+}
+
+export interface GetIndividualEntityAction {
+  type: typeof EntitiesExplorerActions.GetIndividualEntity
+  payload: Omit<ExplorerEntity, 'type' | 'status' | 'startDate' | 'endDate' | 'relayerNode'>
+}
+export interface GetIndividualEntityAction2 {
+  type: typeof EntitiesExplorerActions.GetIndividualEntity2
+  payload: { id: string; key: string; data: any }
+}
+
 export interface GetEntityConfigAction {
   type: typeof EntitiesExplorerActions.GetEntityConfig
   payload: Promise<EntityConfig>
@@ -121,7 +150,7 @@ export interface FilterToggleUserEntitiesAction {
 export interface ChangeEntitiesTypeAction {
   type: typeof EntitiesExplorerActions.ChangeEntitiesType
   payload: {
-    type: EntityType
+    type: string
   }
 }
 
@@ -170,7 +199,7 @@ export interface FilterAddCategoryTagAction {
 export interface FilterDDOCategoriesAction {
   type: typeof EntitiesExplorerActions.FilterDDOCategories
   payload: {
-    ddoTags: DDOTagCategory[]
+    ddoTags: TEntityDDOTagModel[]
   }
 }
 
@@ -209,6 +238,10 @@ export interface FilterQueryAction {
 export type EntitiesActionTypes =
   | GetEntitiesAction
   | GetEntitiesSuccessAction
+  | GetEntities2Action
+  | GetEntities2SuccessAction
+  | GetIndividualEntityAction
+  | GetIndividualEntityAction2
   | GetEntityConfigAction
   | GetEntityConfigSuccessAction
   | ChangeEntitiesTypeAction

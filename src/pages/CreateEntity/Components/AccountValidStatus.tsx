@@ -18,7 +18,7 @@ const AccountValidStatus: React.FC<Props> = ({ address, ...rest }): JSX.Element 
       width='48px'
       height='48px'
       borderRadius='8px'
-      background={address ? (isValidAddress ? theme.ixoGreen : theme.ixoRed) : theme.ixoGrey500}
+      background={address ? (isValidAddress ? theme.ixoGreen : theme.ixoRed) : 'transparent'}
       {...rest}
     >
       {address && isValidAddress && <CheckIcon />}

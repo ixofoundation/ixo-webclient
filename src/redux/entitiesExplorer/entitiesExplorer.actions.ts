@@ -1,6 +1,5 @@
 import moment, { Moment } from 'moment'
 import { Dispatch } from 'redux'
-import { EntityType } from 'types/entities'
 import {
   GetEntitiesAction,
   ChangeEntitiesTypeAction,
@@ -15,12 +14,12 @@ import {
   ResetFiltersAction,
   EntitiesExplorerActions,
   FilterDDOCategoriesAction,
-  DDOTagCategory,
   FilterCategoryTagAction,
   FilterSectorAction,
   FilterQueryAction,
   GetEntityConfigAction,
   FilterItemOffsetAction,
+  GetEntities2Action,
 } from './entitiesExplorer.types'
 import { RootState } from 'redux/store'
 import blocksyncApi from 'api/blocksync/blocksync'
@@ -28,6 +27,12 @@ import { SchemaGitUrl } from 'constants/chains'
 import { ApiListedEntity } from 'api/blocksync/types/entities'
 import Axios from 'axios'
 import { getHeadlineClaimInfo } from 'utils/claims'
+import { TEntityDDOTagModel } from 'types/protocol'
+import { BlockSyncService } from 'services/blocksync'
+import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
+import { cellNodeChainMapping, chainNetwork } from 'hooks/configs'
+
+const bsService = new BlockSyncService()
 
 export const getEntities =
   () =>
@@ -61,19 +66,7 @@ export const getEntities =
               const { claimToUse, successful, pending, rejected, disputed } = getHeadlineClaimInfo(apiEntity)
 
               return {
-                did: apiEntity.projectDid,
-                type: apiEntity.data['@type'],
-                creatorDid: apiEntity.data.createdBy,
-                status: apiEntity.status,
-                name: apiEntity.data.name,
-                description: apiEntity.data.description,
-                dateCreated: moment(parseInt(apiEntity.data.createdOn.$date.$numberLong)),
-                creatorName: apiEntity.data.creator.displayName,
-                creatorLogo: apiEntity.data.creator.logo,
-                location: apiEntity.data.location,
                 goal: claimToUse ? claimToUse.goal : undefined,
-                image: apiEntity.data.image,
-                logo: apiEntity.data.logo,
                 serviceProvidersCount: apiEntity.data.agentStats?.serviceProviders,
                 evaluatorsCount: apiEntity.data.agentStats?.evaluators,
                 requiredClaimsCount: claimToUse ? claimToUse.targetMax : 0,
@@ -91,12 +84,30 @@ export const getEntities =
                   : [],
                 termsType: apiEntity.data.terms ? apiEntity.data.terms['@type'] : undefined,
                 badges: apiEntity.data.displayCredentials.items.map((dc) => dc.badge),
-                version: apiEntity.data.version.versionNumber,
                 claims: apiEntity.data.claims,
                 entityClaims: apiEntity.data.entityClaims,
                 linkedEntities: apiEntity.data.linkedEntities,
                 funding: apiEntity.data.funding,
                 liquidity: apiEntity.data.liquidity,
+
+                // in common
+                did: apiEntity.projectDid,
+                type: apiEntity.data['@type'],
+                status: apiEntity.status,
+                dateCreated: moment(parseInt(apiEntity.data.createdOn.$date.$numberLong)),
+                version: apiEntity.data.version.versionNumber,
+
+                // profile
+                name: apiEntity.data.name,
+                description: apiEntity.data.description,
+                image: apiEntity.data.image,
+                logo: apiEntity.data.logo,
+                location: apiEntity.data.location,
+
+                // creator
+                creatorDid: apiEntity.data.createdBy,
+                creatorName: apiEntity.data.creator.displayName,
+                creatorLogo: apiEntity.data.creator.logo,
               }
             })
         })
@@ -105,6 +116,94 @@ export const getEntities =
           return []
         }),
     }) as any
+  }
+
+export const getEntitiesByType =
+  (entityType: string) =>
+  (dispatch: Dispatch): GetEntities2Action => {
+    return dispatch({
+      type: EntitiesExplorerActions.GetEntities2,
+      payload: bsService.entity.getEntitiesByType(entityType).then((entities: any[]) => {
+        return entities?.map((entity) => {
+          const { id, settings, linkedResource } = entity
+          linkedResource.concat(Object.values(settings)).forEach((item: LinkedResource) => {
+            switch (item.id) {
+              case '{id}#profile': {
+                fetch(item.serviceEndpoint)
+                  .then((response) => response.json())
+                  .then((profile) => {
+                    dispatch({
+                      type: EntitiesExplorerActions.GetIndividualEntity2,
+                      payload: { id, key: 'profile', data: profile },
+                    })
+                  })
+                  .catch(() => undefined)
+                break
+              }
+              case '{id}#creator': {
+                const [, ...paths] = item.serviceEndpoint.split('/')
+                fetch([cellNodeChainMapping[chainNetwork], ...paths].join('/'))
+                  .then((response) => response.json())
+                  .then((response) => response.credentialSubject)
+                  .then((creator) => {
+                    dispatch({
+                      type: EntitiesExplorerActions.GetIndividualEntity2,
+                      payload: { id, key: 'creator', data: creator },
+                    })
+                  })
+                  .catch(() => undefined)
+                break
+              }
+              case '{id}#administrator': {
+                const [, ...paths] = item.serviceEndpoint.split('/')
+                fetch([cellNodeChainMapping[chainNetwork], ...paths].join('/'))
+                  .then((response) => response.json())
+                  .then((response) => response.credentialSubject)
+                  .then((administrator) => {
+                    dispatch({
+                      type: EntitiesExplorerActions.GetIndividualEntity2,
+                      payload: { id, key: 'administrator', data: administrator },
+                    })
+                  })
+                  .catch(() => undefined)
+                break
+              }
+              case '{id}#page': {
+                const [, ...paths] = item.serviceEndpoint.split('/')
+                fetch([cellNodeChainMapping[chainNetwork], ...paths].join('/'))
+                  .then((response) => response.json())
+                  .then((response) => response.page)
+                  .then((page) => {
+                    dispatch({
+                      type: EntitiesExplorerActions.GetIndividualEntity2,
+                      payload: { id, key: 'page', data: page },
+                    })
+                  })
+                  .catch(() => undefined)
+                break
+              }
+              case '{id}#tags': {
+                const [, ...paths] = item.serviceEndpoint.split('/')
+                fetch([cellNodeChainMapping[chainNetwork], ...paths].join('/'))
+                  .then((response) => response.json())
+                  .then((tags) => {
+                    dispatch({
+                      type: EntitiesExplorerActions.GetIndividualEntity2,
+                      payload: { id, key: 'tags', data: tags },
+                    })
+                  })
+                  .catch(() => undefined)
+                break
+              }
+              default:
+                break
+            }
+          })
+
+          return { ...entity }
+        })
+      }),
+    })
   }
 
 export const getEntityConfig =
@@ -116,7 +215,7 @@ export const getEntityConfig =
     })
   }
 
-export const changeEntitiesType = (type: EntityType): ChangeEntitiesTypeAction => ({
+export const changeEntitiesType = (type: string): ChangeEntitiesTypeAction => ({
   type: EntitiesExplorerActions.ChangeEntitiesType,
   payload: {
     type,
@@ -162,7 +261,7 @@ export const filterCategoryTag =
     const state = getState()
 
     const isCurrentlySelected = state.entities.filter.ddoTags.find(
-      (filterCategory) => filterCategory.name === category && filterCategory.tags.includes(tag),
+      (filterCategory) => filterCategory.category === category && filterCategory.tags.includes(tag),
     )
 
     return dispatch({
@@ -179,9 +278,8 @@ export const filterAddCategoryTag =
   (dispatch: Dispatch, getState: () => RootState): FilterAddCategoryTagAction => {
     const state = getState()
 
-    const currentCategoryTags = state.entities.filter.ddoTags.find(
-      (filterCategory) => filterCategory.name === category,
-    )!.tags
+    const currentCategoryTags =
+      state.entities.filter.ddoTags.find((filterCategory) => filterCategory.category === category)?.tags ?? []
 
     const newCategoryTags = currentCategoryTags.includes(tag)
       ? [...currentCategoryTags.filter((val) => val !== tag)]
@@ -201,7 +299,7 @@ export const filterEntitiesQuery = (query: string): FilterQueryAction => ({
   payload: { query },
 })
 
-export const filterCategories = (categories: DDOTagCategory[]): FilterDDOCategoriesAction => ({
+export const filterCategories = (categories: TEntityDDOTagModel[]): FilterDDOCategoriesAction => ({
   type: EntitiesExplorerActions.FilterDDOCategories,
   payload: { ddoTags: categories },
 })

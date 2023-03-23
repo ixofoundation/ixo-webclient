@@ -1,4 +1,4 @@
-import { Box } from 'components/App/App.styles'
+import { Box, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import React, { SVGProps } from 'react'
 import styled from 'styled-components'
@@ -54,7 +54,9 @@ interface Props {
 const CateSelector: React.FC<Props> = ({ icon, label, active, onClick, onMouseEnter, onMouseLeave }): JSX.Element => {
   return (
     <Wrapper onClick={onClick} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} className={cx({ active })}>
-      {icon}
+      <SvgBox svgWidth={12} svgHeight={12} color={'white'}>
+        {icon}
+      </SvgBox>
       <Box className='text-center label'>
         <Typography variant='secondary'>{label}</Typography>
       </Box>

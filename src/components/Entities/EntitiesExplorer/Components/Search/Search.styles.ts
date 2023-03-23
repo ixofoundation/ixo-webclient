@@ -51,6 +51,8 @@ export const ModalButton = styled.div`
   width: 190px;
   height: 50px;
   line-height: 50px;
+  border-radius: inherit;
+
   > * {
     display: block;
   }

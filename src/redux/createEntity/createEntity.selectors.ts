@@ -8,13 +8,14 @@ import {
   ELocalisation,
   TEntityAccordedRightModel,
   TEntityLinkedEntityModel,
-  TEntityControllerModel,
+  TEntityAdministratorModel,
   TEntityPageModel,
   TEntityClaimModel1,
   TEntityDDOTagModel,
   TDAOGroupModel,
+  TProposalModel,
 } from 'types/protocol'
-import { TCreateEntityState, TEntityModel } from './createEntity.types'
+import { TCreateEntityState, TCreateEntityModel } from './createEntity.types'
 
 export const selectCreateEntity = (state: RootState): TCreateEntityState => state.newEntity
 
@@ -28,6 +29,21 @@ export const selectCreateEntityStepNo = createSelector(
   (createEntity: TCreateEntityState): number => createEntity.stepNo,
 )
 
+export const selectCreateEntityBreadCrumbs = createSelector(
+  selectCreateEntity,
+  (createEntity: TCreateEntityState): { text: string; link?: string }[] => createEntity.breadCrumbs ?? [],
+)
+
+export const selectCreateEntityTitle = createSelector(
+  selectCreateEntity,
+  (createEntity: TCreateEntityState): string => createEntity.title ?? '',
+)
+
+export const selectCreateEntitySubtitle = createSelector(
+  selectCreateEntity,
+  (createEntity: TCreateEntityState): string => createEntity.subtitle ?? '',
+)
+
 export const selectCreateEntityMetadata = createSelector(
   selectCreateEntity,
   (createEntity: TCreateEntityState): TEntityMetadataModel => createEntity.metadata,
@@ -38,9 +54,9 @@ export const selectCreateEntityCreator = createSelector(
   (createEntity: TCreateEntityState): TEntityCreatorModel => createEntity.creator,
 )
 
-export const selectCreateEntityController = createSelector(
+export const selectCreateEntityAdministrator = createSelector(
   selectCreateEntity,
-  (createEntity: TCreateEntityState): TEntityControllerModel => createEntity.controller,
+  (createEntity: TCreateEntityState): TEntityAdministratorModel => createEntity.administrator,
 )
 
 export const selectCreateEntityDDOTags = createSelector(
@@ -78,19 +94,9 @@ export const selectCreateEntityLinkedEntity = createSelector(
   (createEntity: TCreateEntityState): { [id: string]: TEntityLinkedEntityModel } => createEntity.linkedEntity ?? {},
 )
 
-export const selectCreateEntityEntityClassDid = createSelector(
-  selectCreateEntity,
-  (createEntity: TCreateEntityState): string => createEntity.entityClassDid,
-)
-
-export const selectCreateEntityAssetClassDid = createSelector(
-  selectCreateEntity,
-  (createEntity: TCreateEntityState): string => createEntity.assetClassDid!,
-)
-
 export const selectCreateEntityAssetInstances = createSelector(
   selectCreateEntity,
-  (createEntity: TCreateEntityState): TEntityModel[] => createEntity.assetInstances ?? [],
+  (createEntity: TCreateEntityState): TCreateEntityModel[] => createEntity.assetInstances ?? [],
 )
 
 export const selectCreateEntityLocalisation = createSelector(
@@ -107,4 +113,10 @@ export const selectCreateEntityDAOGroups = createSelector(
 export const selectCreateEntityDAOController = createSelector(
   selectCreateEntity,
   (createEntity: TCreateEntityState): string => createEntity.daoController ?? '',
+)
+
+// for Proposal
+export const selectCreateEntityProposal = createSelector(
+  selectCreateEntity,
+  (createEntity: TCreateEntityState): TProposalModel => createEntity.proposal ?? {},
 )

@@ -16,7 +16,7 @@ export const Label = styled.div`
 
 export const SlippageOptionWrapper = styled.div`
   & > div {
-    background: #002233;
+    background: ${(props) => props.theme.ixoDarkestBlue};
     border-radius: 13px;
     font-family: ${(props): string => props.theme.primaryFontFamily};
     font-style: normal;

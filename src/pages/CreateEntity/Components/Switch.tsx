@@ -35,6 +35,8 @@ const Switch: React.FC<Props> = ({ size = 'base', onLabel, offLabel, value, onCh
     switch (size) {
       case 'sm':
         return 3
+      case 'md':
+        return 4
       case 'base':
       default:
         return 5
