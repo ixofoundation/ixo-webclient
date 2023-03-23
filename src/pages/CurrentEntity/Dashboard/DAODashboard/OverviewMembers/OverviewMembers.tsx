@@ -22,6 +22,7 @@ const OverviewMembers: React.FC = (): JSX.Element | null => {
     view: 'panel' | 'list'
     keyword: string
   }>({ status: undefined, view: 'panel', keyword: '' })
+
   const [sort, setSort] = useState<{ [key: string]: 'asc' | 'desc' | undefined }>({
     name: 'asc',
     votingPower: undefined,
