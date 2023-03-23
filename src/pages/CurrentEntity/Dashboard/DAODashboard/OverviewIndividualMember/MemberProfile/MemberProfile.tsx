@@ -19,13 +19,13 @@ import { useHistory, useParams } from 'react-router-dom'
 
 const MemberProfile: React.FC = (): JSX.Element => {
   const history = useHistory()
-  const { entityId, groupId, address } = useParams<{ entityId: string; groupId: string; address: string }>()
+  const { entityId, address } = useParams<{ entityId: string; groupId: string; address: string }>()
   const { data, error } = useGetMemberProfile(address)
   const [displayInfo, setDisplayInfo] = useState('')
 
   useEffect(() => {
     if (error) {
-      history.push(`/entity/${entityId}/dashboard/overview/${groupId}`)
+      history.push(`/entity/${entityId}/dashboard/members`)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [error])

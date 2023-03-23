@@ -18,7 +18,7 @@ const CreateProposal: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match })
     updateEntityType('Proposal')
     updateBreadCrumbs([
       { text: entityId, link: `/entity/${entityId}/dashboard` },
-      { text: daoGroup?.config.name || 'Governance', link: `/entity/${entityId}/dashboard/overview/${coreAddress}` },
+      { text: daoGroup?.config.name || 'Governance', link: `/entity/${entityId}/dashboard/members` },
     ])
     updateTitle('Create a governance proposal')
     // eslint-disable-next-line react-hooks/exhaustive-deps

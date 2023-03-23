@@ -23,6 +23,12 @@ const DAODashboard: React.FC = (): JSX.Element => {
       strict: true,
     },
     {
+      url: `/entity/${entityId}/dashboard/members`,
+      icon: requireCheckDefault(require('assets/img/sidebar/agents.svg')),
+      sdg: 'Members',
+      tooltip: 'Members',
+    },
+    {
       url: `/entity/${entityId}/dashboard/proposals`,
       icon: requireCheckDefault(require('assets/img/sidebar/governance.svg')),
       sdg: 'Proposals',
@@ -73,7 +79,7 @@ const DAODashboard: React.FC = (): JSX.Element => {
       entityType={entityType}
     >
       <Route exact path='/entity/:entityId/dashboard/overview' component={Overview} />
-      <Route exact path='/entity/:entityId/dashboard/overview/:coreAddress' component={OverviewMembers} />
+      <Route exact path='/entity/:entityId/dashboard/members' component={OverviewMembers} />
       <Route
         exact
         path='/entity/:entityId/dashboard/overview/:coreAddress/:address'

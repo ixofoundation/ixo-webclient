@@ -1,14 +1,20 @@
 import { FlexBox } from 'components/App/App.styles'
 import React, { useMemo, useState } from 'react'
-import { useParams } from 'react-router-dom'
 import { MembersView } from './MembersView'
 import { Toolbar } from './Toolbar'
 import useCurrentDao from 'hooks/currentDao'
+import { Groups } from '../Components'
+import { Typography } from 'components/Typography'
+import { Member } from 'types/dao'
 
 const OverviewMembers: React.FC = (): JSX.Element | null => {
-  const { coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
-  const { getMembersByAddress } = useCurrentDao()
-  const members = useMemo(() => getMembersByAddress(coreAddress), [coreAddress, getMembersByAddress])
+  const { selectedGroups } = useCurrentDao()
+  const selectedGroupAddresses: string[] = Object.keys(selectedGroups)
+  const numOfSelectedGroups = selectedGroupAddresses.length
+  const members: Member[] = useMemo(
+    () => Object.values(selectedGroups).reduce((acc: Member[], cur) => acc.concat(cur.votingModule.members), []),
+    [selectedGroups],
+  )
 
   const [selectedMembers, setSelectedMembers] = useState<{ [key: string]: boolean }>({})
   const [filter, setFilter] = useState<{
@@ -53,24 +59,36 @@ const OverviewMembers: React.FC = (): JSX.Element | null => {
   }, [filter, sort, members])
 
   return (
-    <FlexBox direction='column' gap={7.5}>
-      <Toolbar
-        status={filter.status}
-        view={filter.view}
-        keyword={filter.keyword}
-        numOfMembers={members.length}
-        onStatusChange={(status) => setFilter((pre) => ({ ...pre, status }))}
-        onViewChange={(view) => setFilter((pre) => ({ ...pre, view }))}
-        onKeywordChange={(keyword) => setFilter((pre) => ({ ...pre, keyword }))}
-      />
-      <MembersView
-        view={filter.view}
-        members={filteredMembers}
-        sort={sort}
-        setSort={setSort}
-        selectedMembers={selectedMembers}
-        setSelectedMembers={setSelectedMembers}
-      />
+    <FlexBox direction='column' gap={6} width='100%' color='white'>
+      <Groups />
+
+      {numOfSelectedGroups >= 1 && (
+        <FlexBox direction='column' gap={7.5} width='100%'>
+          <FlexBox gap={6} alignItems='center'>
+            <Typography variant='secondary' color='white' size='5xl' transform='capitalize'>
+              {numOfSelectedGroups === 1 && `${Object.values(selectedGroups)[0]?.type} group`}
+              {numOfSelectedGroups > 1 && `${numOfSelectedGroups} selected groups`}
+            </Typography>
+            <Toolbar
+              status={filter.status}
+              view={filter.view}
+              keyword={filter.keyword}
+              numOfMembers={members.length}
+              onStatusChange={(status) => setFilter((pre) => ({ ...pre, status }))}
+              onViewChange={(view) => setFilter((pre) => ({ ...pre, view }))}
+              onKeywordChange={(keyword) => setFilter((pre) => ({ ...pre, keyword }))}
+            />
+          </FlexBox>
+          <MembersView
+            view={filter.view}
+            members={filteredMembers}
+            sort={sort}
+            setSort={setSort}
+            selectedMembers={selectedMembers}
+            setSelectedMembers={setSelectedMembers}
+          />
+        </FlexBox>
+      )}
     </FlexBox>
   )
 }

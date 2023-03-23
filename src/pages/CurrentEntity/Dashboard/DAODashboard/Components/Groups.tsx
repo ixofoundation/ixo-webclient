@@ -8,7 +8,6 @@ import { Box, FlexBox, SvgBox, theme } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import useCurrentDao from 'hooks/currentDao'
 import { DaoGroup } from 'redux/currentEntity/dao/currentDao.types'
-import { NavLink, useParams } from 'react-router-dom'
 import { deviceWidth } from 'constants/device'
 
 const StyledSlider = styled(Slider)`
@@ -58,7 +57,6 @@ const PrevArrow = (props: any) => (
 )
 
 const Groups: React.FC = (): JSX.Element | null => {
-  const { entityId } = useParams<{ entityId: string }>()
   const { daoGroups, selectedGroups, selectDaoGroup } = useCurrentDao()
   const [dragging, setDragging] = useState(false)
   const settings = {
@@ -109,14 +107,9 @@ const Groups: React.FC = (): JSX.Element | null => {
       onClick={() => !dragging && selectDaoGroup(daoGroup.coreAddress)}
     >
       <Box mb={0.1}>
-        <NavLink
-          to={`/entity/${entityId}/dashboard/overview/${daoGroup.coreAddress}`}
-          onClick={(e) => e.stopPropagation()}
-        >
-          <Typography color='white' size='lg' weight='medium' hover={{ underline: true }}>
-            {daoGroup.config.name}
-          </Typography>
-        </NavLink>
+        <Typography color='white' size='lg' weight='medium'>
+          {daoGroup.config.name}
+        </Typography>
       </Box>
       <Box mb={8}>
         <Typography color='light-blue' weight='medium' size='sm'>
