@@ -89,6 +89,7 @@ import { OutputBlockData } from '@editorjs/editorjs'
 import { ControlType, Type } from 'components/JsonForm/types'
 import { UpdatePreProposeConfigData } from 'components/Modals/AddActionModal/SetupUpdateProposalSubmissionConfigModal'
 import { UpdateProposalConfigData } from 'components/Modals/AddActionModal/SetupUpdateVotingConfigModal'
+import { DurationWithUnits } from './dao'
 
 export const EntitySettingsConfig: { [key: string]: any } = {
   // required
@@ -960,17 +961,19 @@ export interface TDAOGroupModel extends UpdatePreProposeConfigData, UpdatePropos
   }[]
   staking?: {
     // use existing token
-    tokenContractAddress?: string
+    tokenContractAddress: string
     // create new token
-    tokenSymbol?: string
-    tokenName?: string
-    tokenSupply?: number
-    treasuryPercent?: number
-    distributions?: {
+    tokenSymbol: string
+    tokenName: string
+    tokenSupply: number
+    treasuryPercent: number
+    distributions: {
       category: string
       totalSupplyPercent: number
       members: string[]
     }[]
+    // config
+    unstakingDuration: DurationWithUnits
   }
 
   /** <extends from UpdatePreProposeConfigData>

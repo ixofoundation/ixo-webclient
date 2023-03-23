@@ -1,9 +1,9 @@
 import { Coin as BaseCoin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 import { Expiration } from '@ixo/impactxclient-sdk/types/codegen/DaoCore.types'
 import { CheckedDepositInfo, Coin } from '@ixo/impactxclient-sdk/types/codegen/DaoPreProposeSingle.types'
-import { Duration } from 'types/dao'
+import { Duration, DurationUnits, DurationWithUnits } from 'types/dao'
 
-export const durationToSeconds1 = (
+export const durationWithUnitsToSeconds = (
   unit: 'weeks' | 'days' | 'hours' | 'minutes' | 'seconds' | '',
   amount: number,
 ): number => {
@@ -21,6 +21,30 @@ export const durationToSeconds1 = (
     default:
       return 0
   }
+}
+
+export const convertDurationWithUnitsToDuration = ({ units, value }: DurationWithUnits): { time: number } => {
+  let time
+  switch (units) {
+    case DurationUnits.Seconds:
+      time = value
+      break
+    case DurationUnits.Minutes:
+      time = value * 60
+      break
+    case DurationUnits.Hours:
+      time = value * 60 * 60
+      break
+    case DurationUnits.Days:
+      time = value * 60 * 60 * 24
+      break
+    case DurationUnits.Weeks:
+      time = value * 60 * 60 * 24 * 7
+      break
+    default:
+      throw new Error(`Unsupported duration unit: ${units}`)
+  }
+  return { time }
 }
 
 export const convertExpirationToDate = (

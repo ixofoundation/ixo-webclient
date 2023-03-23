@@ -2,7 +2,8 @@ import React, { useCallback, useContext, useEffect, useMemo, useState } from 're
 import clsx from 'classnames'
 import styled from 'styled-components'
 import { ProgressBar } from 'components/ProgressBar/ProgressBar'
-import IMG_expand from 'assets/images/icon-expand.svg'
+import { ReactComponent as ExpandIcon } from 'assets/images/icon-expand-alt.svg'
+
 import IMG_wait from 'assets/images/eco/wait.svg'
 import IMG_decision_textfile from 'assets/images/eco/decision/textfile.svg'
 import IMG_decision_pdf from 'assets/images/eco/decision/pdf.svg'
@@ -17,9 +18,9 @@ import { CircleProgressbar } from 'components/Widgets/CircleProgressbar/CirclePr
 import moment from 'moment'
 import { useAppSelector } from 'redux/hooks'
 import CopyToClipboard from 'react-copy-to-clipboard'
-import { VoteModal } from 'components/Modals'
+import { VoteModal2 } from 'components/Modals'
 import { DashboardThemeContext } from 'components/Dashboard/Dashboard'
-import { Box, FlexBox, theme } from 'components/App/App.styles'
+import { Box, FlexBox, SvgBox, theme } from 'components/App/App.styles'
 import { Status, Vote, VoteInfo } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 import { useCurrentDaoGroup } from 'hooks/currentDao'
@@ -146,22 +147,17 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
     })
   }, [proposalId, address, daoProposalSingleClient])
 
-  const handleVote = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
-    event.preventDefault()
-    const vote: Vote = { 1: 'yes', 2: 'abstain', 3: 'no', 4: 'no' }[(event.target as any).elements.option.value]
-
-    if (proposalId && vote) {
-      daoProposalSingleClient
-        .vote({ proposalId, vote }, fee)
-        .then(({ transactionHash }) => {
-          Toast.successToast(`Successfully voted with '${vote}'`)
-          getVoteStatus()
-        })
-        .catch((e) => {
-          console.error('handleVote', e)
-          Toast.errorToast(`Failed vote`)
-        })
-    }
+  const handleVote = async (vote: Vote): Promise<string> => {
+    return daoProposalSingleClient
+      .vote({ proposalId, vote }, fee)
+      .then(({ transactionHash }) => {
+        getVoteStatus()
+        return transactionHash
+      })
+      .catch((e) => {
+        console.error('handleVote', e)
+        return ''
+      })
   }
 
   useEffect(() => {
@@ -193,13 +189,15 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
   return (
     <Container className='container-fluid' isDark={isDark}>
       <div className='row pb-3'>
-        <div className='col-6'>
+        <div className='col-12'>
           <div className='d-flex align-items-center justify-content-between'>
             <FlexBox gap={2}>
               <NumberBadget isDark={!isDark}>#{proposalId}</NumberBadget>
               <NumberBadget isDark={isDark}>{groupName}</NumberBadget>
             </FlexBox>
-            <img src={IMG_expand} alt='message' height='30px' />
+            <SvgBox cursor='pointer' svgWidth={6}>
+              <ExpandIcon />
+            </SvgBox>
           </div>
         </div>
       </div>
@@ -208,7 +206,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
           <Title className='pb-3'>{title}</Title>
 
           <div className='d-flex align-items-center'>
-            <img src={IMG_wait} alt='remain' height='20px' />
+            <img src={IMG_wait} alt='remain' width='10px' height='20px' />
             <div className='d-inline-block w-100 pl-3'>
               <ProgressBar
                 total={votingPeriod}
@@ -349,12 +347,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
           </WidgetWrapper>
         </div>
       </div>
-      <VoteModal
-        open={voteModalOpen}
-        setOpen={setVoteModalOpen}
-        givenProposalId={String(proposalId)}
-        onSubmit={handleVote}
-      />
+      {voteModalOpen && <VoteModal2 open={voteModalOpen} setOpen={setVoteModalOpen} onVote={handleVote} />}
     </Container>
   )
 }

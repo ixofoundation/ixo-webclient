@@ -245,6 +245,15 @@ export const selectedFilteredEntities2 = createSelector(
     /**
      * @description sort by createdAt
      */
+    filteredEntities = filteredEntities.sort((a, b) => {
+      if (b.metadata?.created && a.metadata?.created) {
+        return (
+          new Date(b.metadata?.created as unknown as string).getTime() -
+          new Date(a.metadata?.created as unknown as string).getTime()
+        )
+      }
+      return 0
+    })
 
     return filteredEntities
   },

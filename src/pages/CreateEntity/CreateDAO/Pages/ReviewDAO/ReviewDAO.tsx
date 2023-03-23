@@ -6,7 +6,7 @@ import { Typography } from 'components/Typography'
 import { deviceWidth } from 'constants/device'
 import { useCreateEntity, useCreateEntityState } from 'hooks/createEntity'
 import { Button } from 'pages/CreateEntity/Components'
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { TDAOMetadataModel } from 'types/protocol'
 import * as Toast from 'utils/toast'
 import DAOCard from './DAOCard'
@@ -27,7 +27,17 @@ const ReviewDAO: React.FC = (): JSX.Element => {
     CreateEntityBase,
   } = useCreateEntity()
   const [submitting, setSubmitting] = useState(false)
-  const numOfMembers = daoGroups[daoController]?.memberships.reduce((acc, cur) => acc + cur.members.length, 0)
+
+  const numOfMembers = useMemo(() => {
+    const daoGroup = daoGroups[daoController]
+    if (!daoGroup) {
+      return 0
+    }
+    if (daoGroup.type !== 'staking') {
+      return daoGroup.memberships.reduce((acc, cur) => acc + cur.members.length, 0)
+    }
+    return daoGroup.staking?.distributions.reduce((acc, cur) => acc + cur.members.length, 0) ?? 0
+  }, [daoGroups, daoController])
 
   const handleSignToCreate = async (): Promise<void> => {
     setSubmitting(true)

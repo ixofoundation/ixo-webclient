@@ -16,6 +16,7 @@ import { fee } from 'lib/protocol/common'
 import * as Toast from 'utils/toast'
 import { depositInfoToCoin } from 'utils/conversions'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/DaoPreProposeSingle.types'
+import { contracts } from '@ixo/impactxclient-sdk'
 
 const SetupActions: React.FC = () => {
   const history = useHistory()
@@ -50,11 +51,12 @@ const SetupActions: React.FC = () => {
     makeValidatorActions,
     makeWithdrawTokenSwapAction,
   } = useMakeProposalAction(coreAddress)
-  const { address, updateChooseWalletOpen } = useAccount()
+  const { cosmWasmClient, address, updateChooseWalletOpen } = useAccount()
   const depositInfo: Coin | undefined = useMemo(
     () => daoGroup && depositInfoToCoin(daoGroup.proposalModule.preProposeConfig.deposit_info!),
     [daoGroup],
   )
+  const votingModuleAddress = useMemo(() => daoGroup?.votingModule.votingModuleAddress, [daoGroup])
 
   const name = proposal?.name || ''
   const description = proposal?.description || ''
@@ -77,9 +79,14 @@ const SetupActions: React.FC = () => {
   }
   const handleSubmit = async () => {
     if (!handleValidate()) {
-      console.error(1)
       return
     }
+    const daoVotingCw4Client = await new contracts.DaoVotingCw4.DaoVotingCw4Client(
+      cosmWasmClient,
+      address,
+      votingModuleAddress,
+    )
+    const cw4GroupAddress = await daoVotingCw4Client.groupContract()
     const wasmMessage: CosmosMsgForEmpty[] = validActions
       .map((validAction: TProposalActionModel) => {
         try {
@@ -91,7 +98,7 @@ const SetupActions: React.FC = () => {
             case 'AuthZ Grant / Revoke':
               return makeAuthzAuthorizationAction(data)
             case 'Change Group Membership':
-              return makeManageMembersAction(data)
+              return makeManageMembersAction(data, cw4GroupAddress)
             case 'Manage Subgroups':
               return makeManageSubDaosAction(data)
             case 'Manage Storage Items':

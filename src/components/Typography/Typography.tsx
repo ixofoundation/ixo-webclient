@@ -26,6 +26,7 @@ export type TTypographyColor =
   | 'color-2'
   | 'grey700'
   | 'green'
+  | 'red'
   | 'inherit'
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
@@ -159,6 +160,9 @@ const grey700ColorCss = css`
 const greenCss = css`
   color: ${(props) => props.theme.ixoGreen};
 `
+const redCss = css`
+  color: ${(props) => props.theme.ixoRed};
+`
 const inheritColorCss = css`
   color: inherit;
 `
@@ -276,7 +280,7 @@ const Typography = styled.div<Props>`
         return undefined
     }
   }}
-  ${({ color }) => {
+  ${({ color = 'current' }) => {
     switch (color) {
       case 'black':
         return blackColorCss
@@ -302,6 +306,8 @@ const Typography = styled.div<Props>`
         return grey700ColorCss
       case 'green':
         return greenCss
+      case 'red':
+        return redCss
       case 'inherit':
         return inheritColorCss
       default:

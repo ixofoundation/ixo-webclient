@@ -4,7 +4,7 @@ import { Box, FlexBox, SvgBox, theme } from 'components/App/App.styles'
 import { CircleProgressbar } from 'components/Widgets/CircleProgressbar/CircleProgressbar'
 import { Typography } from 'components/Typography'
 import { ReactComponent as CheckIcon } from 'assets/images/icon-check-in-circle.svg'
-import { ReactComponent as ExpandIcon } from 'assets/images/icon-expand.svg'
+import { ReactComponent as ExpandIcon } from 'assets/images/icon-expand-alt.svg'
 import { useGetClaimStatus, useGetOutcomeContractStatus } from 'hooks/dao'
 
 interface Props {

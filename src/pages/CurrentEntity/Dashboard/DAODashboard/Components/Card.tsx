@@ -1,7 +1,7 @@
 import { FlexBox, HTMLFlexBoxProps, SvgBox, theme } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import React, { ReactNode } from 'react'
-import { ReactComponent as ExpandIcon } from 'assets/images/icon-expand.svg'
+import { ReactComponent as ExpandIcon } from 'assets/images/icon-expand-alt.svg'
 
 interface Props extends HTMLFlexBoxProps {
   icon: JSX.Element
@@ -31,7 +31,7 @@ const Card: React.FC<Props> = ({ icon, label, onNavigate, children }): JSX.Eleme
           {label}
         </Typography>
       </FlexBox>
-      <SvgBox color={theme.ixoDarkBlue} svgWidth={4.5} cursor='pointer' onClick={onNavigate}>
+      <SvgBox color={theme.ixoDarkBlue} svgWidth={6} cursor='pointer' onClick={onNavigate}>
         <ExpandIcon />
       </SvgBox>
     </FlexBox>

@@ -1,26 +1,26 @@
 import { Box, FlexBox, GridContainer, GridItem } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
-import React, { useState } from 'react'
+import React from 'react'
 import { useParams } from 'react-router-dom'
-import { DaoGroup } from 'redux/currentEntity/dao/currentDao.types'
 import { Activity } from './Activity'
 import { Announcements } from './Announcements'
 import { FundingClaims } from './FundingClaims'
 import { Governance } from './Governance'
 import { GovernanceActivity } from './GovernanceActivity'
-import { Groups } from './Groups'
+import { Groups } from '../Components'
 import { Membership } from './Membership'
 import { TreasuryPool } from './TreasuryPool'
+import useCurrentDao from 'hooks/currentDao'
 
 const Overview: React.FC = (): JSX.Element => {
   const { entityId: daoId } = useParams<{ entityId: string }>()
-  const [selectedGroups, setSelectedGroups] = useState<{ [coreAddress: string]: DaoGroup }>({})
+  const { selectedGroups } = useCurrentDao()
   const selectedGroupAddresses: string[] = Object.keys(selectedGroups)
   const numOfSelectedGroups = selectedGroupAddresses.length
 
   return (
     <FlexBox direction='column' gap={6}>
-      <Groups selectedGroups={selectedGroups} setSelectedGroups={setSelectedGroups} />
+      <Groups />
 
       {numOfSelectedGroups > 0 && (
         <>

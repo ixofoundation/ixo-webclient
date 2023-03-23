@@ -1,5 +1,5 @@
 import { FlexBox, SvgBox, theme } from 'components/App/App.styles'
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { TDAOGroupModel } from 'types/protocol'
 import { CardWrapper, PlusIcon } from './SetupGroupSettings.styles'
 import { Typography } from 'components/Typography'
@@ -23,14 +23,25 @@ import { ReactComponent as VoteSwitchingIcon } from 'assets/images/icon-vote-swi
 import { ReactComponent as CoinsSolidIcon } from 'assets/images/icon-coins-solid.svg'
 import { ReactComponent as ThresholdIcon } from 'assets/images/icon-threshold.svg'
 import { ReactComponent as TokenContractIcon } from 'assets/images/icon-token-contract.svg'
+import { ReactComponent as CalendarIcon } from 'assets/images/icon-calendar.svg'
 import { deviceWidth } from 'constants/device'
-import { DepositRefundPolicy } from 'types/dao'
+import { DepositRefundPolicy, DurationUnits } from 'types/dao'
 import * as Toast from 'utils/toast'
 import * as _ from 'lodash'
 import Tooltip from 'components/Tooltip/Tooltip'
+import { isAccountAddress } from 'utils/validation'
 
 export const initialMembership = { category: '', weight: 1, members: [''] }
-const initialStakingDistribution = { category: '', totalSupplyPercent: 0, members: [''] }
+const initialStakingDistribution = { category: '', totalSupplyPercent: 10, members: [''] }
+export const initialStaking = {
+  tokenContractAddress: '',
+  tokenSymbol: '',
+  tokenName: '',
+  tokenSupply: 10000000,
+  treasuryPercent: 90,
+  distributions: [initialStakingDistribution],
+  unstakingDuration: { value: 2, units: DurationUnits.Weeks },
+}
 const inputHeight = 48
 
 interface Props {
@@ -46,6 +57,49 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onSubmit }): JSX.Elem
   const [useExistingToken, setUseExistingToken] = useState(false)
   const [showAdvanced, setShowAdvanced] = useState(false)
   const [submitting, setSubmitting] = useState(false)
+
+  const valid: boolean = useMemo(() => {
+    switch (data.type) {
+      case 'membership':
+      case 'multisig': {
+        return !!data.name && !!data.description
+      }
+      case 'staking': {
+        if (!data.staking) {
+          return false
+        }
+        if (useExistingToken && !data.staking.tokenContractAddress) {
+          return false
+        }
+        if (!data.name || !data.description) {
+          return false
+        }
+        if (!data.staking.tokenSymbol || !data.staking.tokenName) {
+          return false
+        }
+        const totalTokenDistributionPercentage = data.staking.distributions.reduce(
+          (acc, cur) => acc + cur.totalSupplyPercent,
+          0,
+        )
+        if (totalTokenDistributionPercentage + data.staking.treasuryPercent !== 100) {
+          return false
+        }
+        if (
+          data.staking.distributions.some(
+            (dist) => dist.members.filter((member) => !isAccountAddress(member)).length > 0,
+          )
+        ) {
+          return false
+        }
+        if (data.staking.unstakingDuration.value === 0) {
+          return false
+        }
+        return true
+      }
+      default:
+        return false
+    }
+  }, [data, useExistingToken])
 
   const handleSubmit = async (): Promise<void> => {
     setSubmitting(true)
@@ -173,7 +227,7 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onSubmit }): JSX.Elem
     }
     return (
       <FlexBox direction='column' width='100%' gap={7} marginBottom={7}>
-        {data.memberships.map((membership, membershipIdx) => (
+        {data.memberships?.map((membership, membershipIdx) => (
           <CardWrapper direction='column' gap={5} key={membershipIdx}>
             <FlexBox justifyContent='space-between' alignItems='center'>
               <FlexBox gap={2} alignItems='center'>
@@ -287,10 +341,10 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onSubmit }): JSX.Elem
    */
   const renderStaking = (): JSX.Element => {
     const handleUpdateStaking = (key: string, value: any): void => {
-      setData((pre) => ({ ...pre, staking: { ...pre.staking, [key]: value } }))
+      setData((pre) => ({ ...pre, staking: { ...(pre.staking ?? initialStaking), [key]: value } }))
     }
     const handleAddDistributionCategory = (): void => {
-      handleUpdateStaking('distributions', [...(data.staking?.distributions ?? []), initialMembership])
+      handleUpdateStaking('distributions', [...(data.staking?.distributions ?? []), initialStakingDistribution])
     }
     const handleUpdateDistribution = (distributionIdx: number, key: string, value: any): void => {
       handleUpdateStaking(
@@ -342,6 +396,28 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onSubmit }): JSX.Elem
         )
       }
     }
+    const makeValidationMessage = (): { status: boolean; message: string } => {
+      const treasuryPercent = data.staking?.treasuryPercent ?? 0
+      const distributions = data.staking?.distributions ?? []
+      const totalTokenDistributionPercentage = distributions.reduce((acc, cur) => acc + cur.totalSupplyPercent, 0)
+
+      if (treasuryPercent + totalTokenDistributionPercentage !== 100) {
+        return {
+          status: false,
+          message: `Total token distribution percentage must equal 100%, but it currently sums to ${
+            treasuryPercent + totalTokenDistributionPercentage
+          }%.`,
+        }
+      }
+      return {
+        status: true,
+        message: `${Number(data.staking?.tokenSupply).toLocaleString()} tokens will be minted. ${
+          100 - (data.staking?.treasuryPercent ?? 0)
+        }% will be sent to members according to the distribution below. The remaining ${
+          data.staking?.treasuryPercent
+        }% will go to the DAO's treasury, where they can be distributed later via governance proposals.`,
+      }
+    }
     return (
       <FlexBox direction='column' width='100%' gap={7} marginBottom={7}>
         {/* render buttons `Create a Token` & `Use an existing Token` */}
@@ -352,7 +428,6 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onSubmit }): JSX.Elem
             onClick={(): void => {
               if (useExistingToken) {
                 setUseExistingToken(false)
-                setData((pre) => ({ ...pre, staking: { distributions: [initialStakingDistribution] } }))
               }
             }}
           >
@@ -364,7 +439,7 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onSubmit }): JSX.Elem
             onClick={(): void => {
               if (!useExistingToken) {
                 setUseExistingToken(true)
-                setData((pre) => ({ ...pre, staking: {} }))
+                handleUpdateStaking('tokenContractAddress', '')
               }
             }}
           >
@@ -414,6 +489,11 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onSubmit }): JSX.Elem
                     %
                   </Typography>
                 </FlexBox>
+              </FlexBox>
+              <FlexBox>
+                <Typography size='md' color={makeValidationMessage().status ? 'black' : 'red'}>
+                  {makeValidationMessage().message}
+                </Typography>
               </FlexBox>
             </CardWrapper>
 
@@ -651,6 +731,62 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onSubmit }): JSX.Elem
           </FlexBox>
         </CardWrapper>
       </FlexBox>
+    )
+  }
+  const renderUnstakingPeriod = (): JSX.Element => {
+    return (
+      <CardWrapper direction='column' gap={5} marginBottom={7}>
+        <FlexBox alignItems='center' gap={2}>
+          <CalendarIcon />
+          <Typography size='xl' weight='medium'>
+            Unstaking Period
+          </Typography>
+        </FlexBox>
+        <FlexBox>
+          <Typography size='md'>
+            In order to vote, members must stake their tokens with the DAO. Members who would like to leave the DAO or
+            trade their governance tokens must first unstake them. This setting configures how long members have to wait
+            after unstaking their tokens for those tokens to become available. The longer you set this duration, the
+            more sure you can be sure that people who register their tokens are keen to participate in your DAO&apos;s
+            governance.
+          </Typography>
+        </FlexBox>
+        <FlexBox alignItems='center' justifyContent='flex-end' gap={4}>
+          <NumberCounter
+            direction='row-reverse'
+            width='200px'
+            height={inputHeight + 'px'}
+            value={data.staking?.unstakingDuration?.value ?? 0}
+            onChange={(value: number): void =>
+              setData((pre) => ({
+                ...pre,
+                staking: {
+                  ...(pre.staking ?? initialStaking),
+                  unstakingDuration: { ...(pre.staking ?? initialStaking).unstakingDuration, value },
+                },
+              }))
+            }
+          />
+          <Typography weight='medium' size='xl'>
+            <SimpleSelect
+              value={data.staking?.unstakingDuration?.units ?? 'weeks'}
+              options={['seconds', 'minutes', 'hours', 'days', 'weeks']}
+              onChange={(value) =>
+                setData((pre) => ({
+                  ...pre,
+                  staking: {
+                    ...(pre.staking ?? initialStaking),
+                    unstakingDuration: {
+                      ...(pre.staking ?? initialStaking).unstakingDuration,
+                      units: value as DurationUnits,
+                    },
+                  },
+                }))
+              }
+            />
+          </Typography>
+        </FlexBox>
+      </CardWrapper>
     )
   }
   const renderVotingDuration = (): JSX.Element => {
@@ -904,14 +1040,12 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onSubmit }): JSX.Elem
     )
   }
   const renderActions = (): JSX.Element => {
-    // TODO: add more validation
-    const canContinue = data.name && data.description
     return (
       <FlexBox alignItems='center' width='100%' gap={7} marginTop={7}>
         <Button variant='grey700' style={{ width: '100%' }} onClick={onBack}>
           Back
         </Button>
-        <Button disabled={!canContinue} style={{ width: '100%' }} loading={submitting} onClick={handleSubmit}>
+        <Button disabled={!valid} style={{ width: '100%' }} loading={submitting} onClick={handleSubmit}>
           Create Group
         </Button>
       </FlexBox>
@@ -923,6 +1057,7 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onSubmit }): JSX.Elem
         {renderGroupIdentity()}
         {data.type === 'membership' && renderGroupMemberships()}
         {data.type === 'staking' && renderStaking()}
+        {data.type === 'staking' && renderUnstakingPeriod()}
         {data.type === 'multisig' && renderMultisigGroupMembership()}
         {renderVotingDuration()}
         {renderAdvancedSwitch()}

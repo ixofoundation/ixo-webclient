@@ -1,15 +1,14 @@
 import React, { useState } from 'react'
 import Slider from 'react-slick'
 import styled from 'styled-components'
-import { Avatar, Card } from '../../Components'
-import { ReactComponent as PieIcon } from 'assets/images/icon-pie.svg'
+import { Avatar, Card } from '.'
+import { ReactComponent as GroupsIcon } from 'assets/images/icon-groups.svg'
 import { ReactComponent as ChevRightIcon } from 'assets/images/icon-chev-right.svg'
 import { Box, FlexBox, SvgBox, theme } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
-// import { deviceWidth } from 'constants/device'
 import useCurrentDao from 'hooks/currentDao'
 import { DaoGroup } from 'redux/currentEntity/dao/currentDao.types'
-import { NavLink, useHistory } from 'react-router-dom'
+import { NavLink, useParams } from 'react-router-dom'
 import { deviceWidth } from 'constants/device'
 
 const StyledSlider = styled(Slider)`
@@ -58,14 +57,9 @@ const PrevArrow = (props: any) => (
   </Arrow>
 )
 
-interface Props {
-  selectedGroups: { [coreAddress: string]: DaoGroup }
-  setSelectedGroups: any
-}
-
-const Groups: React.FC<Props> = ({ selectedGroups, setSelectedGroups }): JSX.Element | null => {
-  const history = useHistory()
-  const { daoGroups } = useCurrentDao()
+const Groups: React.FC = (): JSX.Element | null => {
+  const { entityId } = useParams<{ entityId: string }>()
+  const { daoGroups, selectedGroups, selectDaoGroup } = useCurrentDao()
   const [dragging, setDragging] = useState(false)
   const settings = {
     infinite: false,
@@ -112,21 +106,13 @@ const Groups: React.FC<Props> = ({ selectedGroups, setSelectedGroups }): JSX.Ele
       transition='all .2s'
       background={selectedGroups[daoGroup.coreAddress] && theme.ixoDarkBlue}
       hover={{ borderWidth: '2px', borderColor: theme.ixoNewBlue }}
-      onClick={() =>
-        !dragging &&
-        setSelectedGroups((groups: { [coreAddress: string]: DaoGroup }) => {
-          const newGroups = { ...groups }
-          if (newGroups[daoGroup.coreAddress]) {
-            delete newGroups[daoGroup.coreAddress]
-          } else {
-            newGroups[daoGroup.coreAddress] = daoGroup
-          }
-          return newGroups
-        })
-      }
+      onClick={() => !dragging && selectDaoGroup(daoGroup.coreAddress)}
     >
       <Box mb={0.1}>
-        <NavLink to={`${history.location.pathname}/${daoGroup.coreAddress}`}>
+        <NavLink
+          to={`/entity/${entityId}/dashboard/overview/${daoGroup.coreAddress}`}
+          onClick={(e) => e.stopPropagation()}
+        >
           <Typography color='white' size='lg' weight='medium' hover={{ underline: true }}>
             {daoGroup.config.name}
           </Typography>
@@ -162,12 +148,21 @@ const Groups: React.FC<Props> = ({ selectedGroups, setSelectedGroups }): JSX.Ele
   }
 
   return (
-    <Card icon={<PieIcon />} label='Groups'>
+    <Card icon={<GroupsIcon />} label='Groups'>
       <Box width='100%' color='white'>
         <StyledSlider {...settings}>
-          {Object.values(daoGroups).map((daoGroup: DaoGroup, index: number) => (
-            <div key={daoGroup.coreAddress}>{renderGroupCard(daoGroup)}</div>
-          ))}
+          {Object.values(daoGroups)
+            .sort((a, b) => {
+              if (!a.selected > !b.selected) {
+                return 1
+              } else if (!a.selected < !b.selected) {
+                return -1
+              }
+              return 0
+            })
+            .map((daoGroup: DaoGroup) => (
+              <div key={daoGroup.coreAddress}>{renderGroupCard(daoGroup)}</div>
+            ))}
         </StyledSlider>
       </Box>
     </Card>

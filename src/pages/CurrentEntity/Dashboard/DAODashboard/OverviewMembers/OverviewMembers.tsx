@@ -1,13 +1,12 @@
 import { FlexBox } from 'components/App/App.styles'
 import React, { useMemo, useState } from 'react'
-import { useHistory, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { MembersView } from './MembersView'
 import { Toolbar } from './Toolbar'
 import useCurrentDao from 'hooks/currentDao'
 
 const OverviewMembers: React.FC = (): JSX.Element | null => {
-  const history = useHistory()
-  const { entityId, coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
+  const { coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
   const { getMembersByAddress } = useCurrentDao()
   const members = useMemo(() => getMembersByAddress(coreAddress), [coreAddress, getMembersByAddress])
 
@@ -53,13 +52,8 @@ const OverviewMembers: React.FC = (): JSX.Element | null => {
       })
   }, [filter, sort, members])
 
-  const handleNewProposal = () => {
-    history.push(`/create/entity/${entityId}/proposal/${coreAddress}/info`)
-  }
-
   return (
     <FlexBox direction='column' gap={7.5}>
-      <button onClick={handleNewProposal}>New Proposal</button>
       <Toolbar
         status={filter.status}
         view={filter.view}

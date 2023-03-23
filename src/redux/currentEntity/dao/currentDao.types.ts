@@ -24,7 +24,9 @@ export type DaoGroup = {
   }
   votingModule: {
     votingModuleAddress: string
-    groupContractAddress: string
+    contractCodeId: number
+    contractName: string //  'dao_voting_cw20_staked' || 'dao_voting_cw4'
+
     members: Member[]
     totalWeight: number
   }
@@ -34,6 +36,7 @@ export type DaoGroup = {
     cw721TokenList: ArrayOfAddr
   }
   storageItems: string[]
+  selected?: boolean
 }
 
 export type CurrentDao = {

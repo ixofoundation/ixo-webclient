@@ -127,7 +127,7 @@ const SetupDAOAdminExecuteModal: React.FC<Props> = ({ open, action, onClose, onS
               return makeCustomAction(data)
             case 'Change Group Membership':
               // TODO:
-              return makeManageMembersAction(data)
+              return makeManageMembersAction(data, '')
             case 'Manage Storage Items':
               return makeManageStorageItemsAction(data)
             case 'Validator Actions':

@@ -78,7 +78,7 @@ import {
   Service,
 } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { WasmInstantiateTrx } from 'lib/protocol/cosmwasm'
-import { durationToSeconds1 } from 'utils/conversions'
+import { convertDurationWithUnitsToDuration, durationWithUnitsToSeconds } from 'utils/conversions'
 import { Member } from 'types/dao'
 import { chainNetwork } from './configs'
 import { Verification } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/tx'
@@ -360,8 +360,9 @@ export function useCreateEntity(): TCreateEntityHookRes {
   const daoPreProposalContractCode = customQueries.contract.getContractCode('devnet', 'dao_pre_propose_single')
   const daoVotingCw4ContractCode = customQueries.contract.getContractCode('devnet', 'dao_voting_cw4')
   const cw4ContractCode = customQueries.contract.getContractCode('devnet', 'cw4_group')
-  // const daoVotingCw20StakedContractCode = customQueries.contract.getContractCode('devnet', 'dao_voting_cw20_staked')
-  // const cw20BaseContractCode = customQueries.contract.getContractCode('devnet', 'cw20_base')
+  const daoVotingCw20StakedContractCode = customQueries.contract.getContractCode('devnet', 'dao_voting_cw20_staked')
+  const cw20BaseContractCode = customQueries.contract.getContractCode('devnet', 'cw20_base')
+  const cw20StakeContractCode = customQueries.contract.getContractCode('devnet', 'cw20_stake')
 
   const CreateDAO = async (): Promise<string> => {
     try {
@@ -890,9 +891,9 @@ export function useCreateEntity(): TCreateEntityHookRes {
         proposalDurationUnits,
         allowRevoting,
         memberships,
-        // staking,
+        staking,
       } = daoGroup
-      const maxVotingPeriod = durationToSeconds1(proposalDurationUnits ?? '', proposalDuration)
+      const maxVotingPeriod = durationWithUnitsToSeconds(proposalDurationUnits ?? '', proposalDuration)
 
       const msg: any = {
         admin: null,
@@ -989,52 +990,72 @@ export function useCreateEntity(): TCreateEntityHookRes {
           }
           break
         }
-        case 'staking':
-          // msg.voting_module_instantiate_info = {
-          //   admin: { core_module: {} },
-          //   code_id: daoVotingCw20StakedContractCode,
-          //   label: `DAO_${name}_DaoVotingCw20Staked`,
-          //   msg: utils.conversions.jsonToBase64({
-          //     token_info: {
-          //       new: {
-          //         code_id: cw20BaseContractCode,
-          //         decimals: 6,
-          //         initial_balances: [
-          //           {
-          //             address: 'juno1z7wa83uur7jv6mx9wd4cdwx0c853gp9tt0mt50',
-          //             amount: '200000000000',
-          //           },
-          //           {
-          //             address: 'juno1z7wa83uur7jv6mx9wd4cdwx0c853gp9tt0mt54',
-          //             amount: '200000000000',
-          //           },
-          //           {
-          //             address: 'juno1z7wa83uur7jv6mx9wd4cdwx0c853gp9tt0mt10',
-          //             amount: '166666666667',
-          //           },
-          //           {
-          //             address: 'juno1z7wa83uur7jv6mx9wd4cdwx0c853gp9tt0mt11',
-          //             amount: '166666666667',
-          //           },
-          //           {
-          //             address: 'juno1z7wa83uur7jv6mx9wd4cdwx0c853gp9tt0mt14',
-          //             amount: '166666666667',
-          //           },
-          //         ],
-          //         initial_dao_balance: '9099999999999',
-          //         label: 'safdweve',
-          //         marketing: null,
-          //         name: 'safdweve',
-          //         staking_code_id: 1683,
-          //         symbol: 'asdf',
-          //         unstaking_duration: {
-          //           time: 1209600,
-          //         },
-          //       },
-          //     },
-          //   }),
-          // }
+        case 'staking': {
+          if (!staking) {
+            break
+          }
+          const { tokenContractAddress, unstakingDuration } = staking
+
+          if (!tokenContractAddress) {
+            const { tokenSymbol, tokenName, tokenSupply, distributions } = staking
+            const initialBalances: { address: string; amount: string }[] = []
+
+            distributions.forEach((dist) => {
+              const { totalSupplyPercent, members } = dist
+              const numOfMembers = members.length
+              const distSupply = (tokenSupply / 100) * totalSupplyPercent
+              const amount = (distSupply / numOfMembers).toFixed(0)
+
+              members.forEach((member) => {
+                initialBalances.push({ address: member, amount })
+              })
+            })
+            const totalInitialBalances = initialBalances.reduce((acc, cur) => acc + Number(cur.amount), 0)
+            const initialDaoBalance = String(tokenSupply - totalInitialBalances)
+
+            msg.voting_module_instantiate_info = {
+              admin: { core_module: {} },
+              code_id: daoVotingCw20StakedContractCode,
+              label: `DAO_${name}_DaoVotingCw20Staked`,
+              msg: utils.conversions.jsonToBase64({
+                token_info: {
+                  new: {
+                    code_id: cw20BaseContractCode,
+                    decimals: 6, //  TODO: default to 6 ???
+                    marketing: null, // TODO: token logo upload component's needed
+                    initial_balances: initialBalances,
+                    initial_dao_balance: initialDaoBalance,
+                    label: tokenName,
+                    name: tokenName,
+                    staking_code_id: cw20StakeContractCode,
+                    symbol: tokenSymbol,
+                    unstaking_duration: convertDurationWithUnitsToDuration(unstakingDuration),
+                  },
+                },
+              }),
+            }
+          } else {
+            msg.voting_module_instantiate_info = {
+              admin: { core_module: {} },
+              code_id: daoVotingCw20StakedContractCode,
+              label: `DAO_${name}_DaoVotingCw20Staked`,
+              msg: utils.conversions.jsonToBase64({
+                token_info: {
+                  existing: {
+                    address: tokenContractAddress,
+                    staking_contract: {
+                      new: {
+                        staking_code_id: cw20StakeContractCode,
+                        unstaking_duration: convertDurationWithUnitsToDuration(unstakingDuration),
+                      },
+                    },
+                  },
+                },
+              }),
+            }
+          }
           break
+        }
         default:
           break
       }

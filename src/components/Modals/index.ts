@@ -19,6 +19,7 @@ export { default as ServiceSetupModal } from './ServiceSetupModal/ServiceSetupMo
 export { default as DDOTagsSetupModal } from './DDOTagsSetupModal/DDOTagsSetupModal'
 export { default as ChooseWalletModal } from './ChooseWalletModal/ChooseWalletModal'
 export { default as VoteModal } from './VoteModal/VoteModal'
+export { default as VoteModal2 } from './VoteModal/VoteModal2'
 export { default as SendModal } from './SendModal/SendModal'
 export { default as MultiSendModal } from './MultiSendModal/MultiSendModal'
 export { default as JoinModal } from './JoinModal/JoinModal'

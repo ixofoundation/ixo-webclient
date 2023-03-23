@@ -485,8 +485,7 @@ export function useMakeProposalAction(coreAddress: string) {
     return msg
   }
 
-  const makeManageMembersAction = (data: ManageMembersData): any => {
-    const cw4GroupAddress = daoGroup.votingModule.groupContractAddress
+  const makeManageMembersAction = (data: ManageMembersData, cw4GroupAddress: string): any => {
     return makeWasmMessage({
       wasm: {
         execute: {

@@ -272,9 +272,10 @@ const htmlElementCss = css<HTMLDivProps>`
   ${({ fontWeight }) => fontWeight && `font-weight: ${fontWeight}`};
 
   &:hover {
-    ${({ hover }) => hover?.background && `background: ${hover?.background}`};
-    ${({ hover }) => hover?.borderWidth && `border-width: ${hover?.borderWidth}`};
-    ${({ hover }) => hover?.borderColor && `border-color: ${hover?.borderColor}`};
+    ${({ hover }) => hover?.background && `background: ${hover.background};`}
+    ${({ hover }) => hover?.borderWidth && `border-width: ${hover.borderWidth};`}
+    ${({ hover }) => hover?.borderColor && `border-color: ${hover.borderColor};`}
+    ${({ hover }) => hover?.color && `color: ${hover.color};`}
   }
 `
 

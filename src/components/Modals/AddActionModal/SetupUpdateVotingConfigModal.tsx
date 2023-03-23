@@ -67,8 +67,8 @@ const thresholdToTQData = (
 
 export const initialProposalConfigState: UpdateProposalConfigData = {
   onlyMembersExecute: false,
-  proposalDuration: 604800,
-  proposalDurationUnits: 'seconds',
+  proposalDuration: 1,
+  proposalDurationUnits: 'weeks',
   allowRevoting: true,
 
   thresholdType: 'majority',
