@@ -21,7 +21,7 @@ const OverviewMembers: React.FC = (): JSX.Element | null => {
     status: 'approved' | 'pending' | 'rejected' | undefined
     view: 'panel' | 'list'
     keyword: string
-  }>({ status: 'approved', view: 'panel', keyword: '' })
+  }>({ status: undefined, view: 'panel', keyword: '' })
   const [sort, setSort] = useState<{ [key: string]: 'asc' | 'desc' | undefined }>({
     name: 'asc',
     votingPower: undefined,
