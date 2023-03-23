@@ -268,22 +268,23 @@ const FuelEntityModal: React.FunctionComponent<Props> = ({ open, setOpen }) => {
         setSignTXStatus(TXStatus.ERROR)
         setSignTXhash('')
       }
-    } else if (currentMethod === CreditMethod.WITHDRAW) {
-      try {
-        // const minimalCoin: Coin = convertToMinimalDenom({ denom: selectedCoin!.denom, amount: amount })!
-        // const res = await WithdrawFunds(signingClient, {
-        //   did,
-        //   address,
-        //   projectDid: entityDid,
-        //   amount: minimalCoin.amount,
-        // })
-        // console.info('handleWithdrawFunds', res)
-      } catch (e) {
-        console.error('handleWithdrawFunds', e)
-        setSignTXStatus(TXStatus.ERROR)
-        setSignTXhash('')
-      }
     }
+    //   else if (currentMethod === CreditMethod.WITHDRAW) {
+    //     try {
+    //       const minimalCoin: Coin = convertToMinimalDenom({ denom: selectedCoin!.denom, amount: amount })!
+    //       const res = await WithdrawFunds(signingClient, {
+    //         did,
+    //         address,
+    //         projectDid: entityDid,
+    //         amount: minimalCoin.amount,
+    //       })
+    //       console.info('handleWithdrawFunds', res)
+    //     } catch (e) {
+    //       console.error('handleWithdrawFunds', e)
+    //       setSignTXStatus(TXStatus.ERROR)
+    //       setSignTXhash('')
+    //     }
+    //   }
   }
 
   useEffect(() => {
