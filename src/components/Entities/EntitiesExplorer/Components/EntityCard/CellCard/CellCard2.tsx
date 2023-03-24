@@ -40,7 +40,7 @@ const DAOCard: React.FunctionComponent<Props> = ({ id, profile, tags }) => {
     <CardContainer className='col-xl-4 col-md-6 col-sm-12 col-12'>
       <CardLink
         to={{
-          pathname: `/entity/${id}/dashboard`,
+          pathname: `/entity/${id}/overview`,
         }}
       >
         <CardTop>

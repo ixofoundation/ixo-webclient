@@ -2,7 +2,7 @@ import { createSelector } from '@reduxjs/toolkit'
 import { RootState } from 'redux/store'
 import { Entity } from './selectedEntity.types'
 import { Agent, EntityType, NodeType } from 'types/entities'
-import { selectUserDid } from 'redux/account/account.selectors'
+import { selectAccountDid } from 'redux/account/account.selectors'
 import { AgentRole } from 'redux/account/account.types'
 import { AgentStatus } from '../selectedEntityAgents/entityAgents.types'
 import { isoCountriesLatLng } from 'lib/countries'
@@ -169,9 +169,9 @@ export const selectEntityGoal = createSelector(selectSelectedEntity, (entity: En
 
 export const selectIsApprovedSA = createSelector(
   selectEntityAgents,
-  selectUserDid,
+  selectAccountDid,
   (agents: Agent[], userDid: string) => {
-    return agents.some(
+    return agents?.some(
       (agent) =>
         agent.did === userDid && agent.role === AgentRole.ServiceProvider && agent.status === AgentStatus.Approved,
     )
@@ -180,9 +180,9 @@ export const selectIsApprovedSA = createSelector(
 
 export const selectIsApprovedIA = createSelector(
   selectEntityAgents,
-  selectUserDid,
+  selectAccountDid,
   (agents: Agent[], userDid: string) => {
-    return agents.some(
+    return agents?.some(
       (agent) => agent.did === userDid && agent.role === AgentRole.Investor && agent.status === AgentStatus.Approved,
     )
   },
@@ -190,13 +190,13 @@ export const selectIsApprovedIA = createSelector(
 
 export const selectUserRole = createSelector(
   selectEntityAgents,
-  selectUserDid,
+  selectAccountDid,
   selectEntityCreator,
   (agents: Agent[], userDid: string, creatorDid: string | null) => {
     if (creatorDid && userDid && creatorDid === userDid) {
       return AgentRole.Owner
     }
-    return agents.find((agent) => agent.did === userDid)?.role ?? undefined
+    return agents?.find((agent) => agent.did === userDid)?.role ?? undefined
   },
 )
 

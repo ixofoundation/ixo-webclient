@@ -3,7 +3,7 @@ import {
   TEntityAdministratorModel,
   TEntityCreatorModel,
   TEntityDDOTagModel,
-  TEntityPageModel,
+  TEntityPageSectionModel,
   TEntityProfileModel,
 } from 'types/protocol'
 
@@ -34,7 +34,7 @@ export interface UpdateEntityAdministratorAction {
 }
 export interface UpdateEntityPageAction {
   type: typeof CurrentEntityActions.UpdateEntityPage
-  payload: TEntityPageModel
+  payload: TEntityPageSectionModel[]
 }
 export interface UpdateEntityTagsAction {
   type: typeof CurrentEntityActions.UpdateEntityTags
