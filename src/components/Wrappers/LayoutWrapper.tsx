@@ -3,7 +3,7 @@ import { deviceWidth } from 'constants/device'
 
 const Container = styled.div`
   padding: 20px 0px;
-  background: ${/* eslint-disable-line */ (props) => props.theme.bg.blue};
+  background: ${/* eslint-disable-line */ (props) => props.theme.ixoDarkestBlue};
   color: white;
 
   @media (max-width: ${deviceWidth.mobile}px) {

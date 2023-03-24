@@ -1,10 +1,38 @@
-import React from 'react'
-import { Redirect, Route, RouteComponentProps } from 'react-router-dom'
-import { useCreateEntityStrategy } from 'hooks/createEntity'
+import React, { useEffect } from 'react'
+import { Redirect, Route, RouteComponentProps, useRouteMatch } from 'react-router-dom'
+import { useCreateEntityState, useCreateEntityStrategy } from 'hooks/createEntity'
 
 const CreateOracle: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): JSX.Element => {
   const { getStrategyByEntityType } = useCreateEntityStrategy()
+  const { updateTitle, updateSubtitle } = useCreateEntityState()
+  const isSelectProcessRoute = useRouteMatch('/create/entity/oracle/select-process')
+  const isSetupMetadataRoute = useRouteMatch('/create/entity/oracle/setup-metadata')
+  const isSetupPropertiesRoute = useRouteMatch('/create/entity/oracle/setup-properties')
   const { steps } = getStrategyByEntityType('Oracle')
+
+  useEffect(() => {
+    updateTitle('Create an Oracle Method')
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  useEffect(() => {
+    if (isSelectProcessRoute?.isExact) {
+      updateSubtitle('New or Clone')
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSelectProcessRoute?.isExact])
+  useEffect(() => {
+    if (isSetupMetadataRoute?.isExact) {
+      updateSubtitle('Method Metadata')
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSetupMetadataRoute?.isExact])
+  useEffect(() => {
+    if (isSetupPropertiesRoute?.isExact) {
+      updateSubtitle('Setup an additional information')
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSetupPropertiesRoute?.isExact])
 
   return (
     <>

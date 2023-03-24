@@ -10,12 +10,12 @@ import Shield from '../Shield/Shield'
 import { EntityType, LiquiditySource, FundSource } from 'types/entities'
 import { getDisplayAmount } from 'utils/currency'
 import { BigNumber } from 'bignumber.js'
-import { DDOTagCategory } from 'redux/entitiesExplorer/entitiesExplorer.types'
 import { ApiListedEntity } from 'api/blocksync/types/entities'
 import { get } from 'lodash'
 import { BondStateType } from 'redux/bond/bond.types'
 import { requireCheckDefault } from 'utils/images'
 import { BlockSyncService } from 'services/blocksync'
+import { TEntityDDOTagModel } from 'types/protocol'
 
 const bsService = new BlockSyncService()
 
@@ -28,7 +28,7 @@ interface Props {
   goal: string
   image: string
   logo: string
-  ddoTags: DDOTagCategory[]
+  ddoTags: TEntityDDOTagModel[]
   entityClaims: any
   linkedEntities: any[]
 }

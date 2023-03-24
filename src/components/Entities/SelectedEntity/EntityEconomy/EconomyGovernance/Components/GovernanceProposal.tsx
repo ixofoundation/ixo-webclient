@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Axios from 'axios'
 import styled from 'styled-components'
 import { ProgressBar } from 'components/ProgressBar/ProgressBar'
 import BigNumber from 'bignumber.js'
-import IMG_expand from 'assets/images/icon-expand.svg'
+import IMG_expand from 'assets/images/icon-expand-alt.svg'
 import IMG_wait from 'assets/images/eco/wait.svg'
 import IMG_decision_textfile from 'assets/images/eco/decision/textfile.svg'
 import IMG_decision_pdf from 'assets/images/eco/decision/pdf.svg'
@@ -16,23 +16,30 @@ import {
 } from 'components/Entities/SelectedEntity/EntityImpact/Overview/Components/Dashboard/Dashboard.styles'
 import { CircleProgressbar } from 'components/Widgets/CircleProgressbar/CircleProgressbar'
 import moment from 'moment'
-import { Coin, TallyType, VoteStatus, ProposalStatus } from 'redux/entityEconomy/entityEconomy.types'
+import { TallyType, VoteStatus } from 'redux/entityEconomy/entityEconomy.types'
 import { useAppSelector } from 'redux/hooks'
 import { getDisplayAmount } from 'utils/currency'
 import CopyToClipboard from 'react-copy-to-clipboard'
 import { thousandSeparator } from 'utils/formatters'
 import { VoteModal } from 'components/Modals'
+import { DashboardThemeContext } from 'components/Dashboard/Dashboard'
+import { Box, theme } from 'components/App/App.styles'
+import { Status } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
+import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 
-const Container = styled.div`
-  background: linear-gradient(180deg, #ffffff 0%, #f2f5fb 100%);
-  box-shadow: 0px 4px 25px #e1e5ec;
+const Container = styled.div<{ isDark: boolean }>`
+  background: ${(props) =>
+    props.isDark ? props.theme.ixoGradientDark2 : 'linear-gradient(180deg, #ffffff 0%, #f2f5fb 100%)'};
+  box-shadow: ${(props) =>
+    props.isDark ? 'linear-gradient(180deg, #012639 0%, #002D42 97.29%);' : '0px 4px 25px #e1e5ec'};
+  border: ${(props) => (props.isDark ? '1px solid #0C3549' : 'unset')};
   border-radius: 4px;
   padding: 20px;
   margin: 0px 0px 30px 0px;
 `
 
-const NumberBadget = styled.span`
-  background: #e9edf5;
+const NumberBadget = styled.span<{ isDark: boolean }>`
+  background: ${(props) => (props.isDark ? '#033C50' : '#e9edf5')};
   border-radius: 9px;
   padding: 5px;
   color: ${(props): string => props.theme.highlight.light};
@@ -52,14 +59,14 @@ const TypeBadget = styled.span`
 const Title = styled.div`
   font-size: 22px;
   line-height: 28px;
-  color: #333333;
+  color: currentColor;
 `
 
 const LabelSM = styled.span`
   font-size: 12px;
   line-height: 14px;
   letter-spacing: 0.3px;
-  color: #333333;
+  color: currentColor;
 
   &.bold {
     font-weight: bold;
@@ -70,22 +77,24 @@ const LabelLG = styled.span`
   font-size: 16px;
   line-height: 24px;
   letter-spacing: 0.3px;
-  color: #333333;
+  color: currentColor;
 `
-const Action = styled.button`
+const Action = styled.button<{ isDark: boolean }>`
   border-radius: 4px;
   padding: 10px 30px;
   border: ${(props): string => props.theme.highlight.light} 1px solid;
-  color: #333333;
+  color: currentColor;
   background-color: transparent;
   font-weight: 500;
   font-size: 16px;
   line-height: 19px;
+  cursor: pointer;
 
   &.disable {
+    pointer-events: none;
     border: transparent 1px solid;
-    background-color: #e9edf5;
-    color: #bdbdbd;
+    background-color: ${(props) => (props.isDark ? props.theme.ixoDarkBlue : props.theme.ixoGrey300)};
+    color: ${(props) => (props.isDark ? props.theme.ixoWhite : props.theme.ixoGrey700)};
   }
 `
 
@@ -102,7 +111,7 @@ interface GovernanceProposalProps {
   closeDate: string
   tally: TallyType
   totalDeposit: Coin
-  status: ProposalStatus
+  status: Status
   handleVote: (proposalId: string, answer: number) => void
 }
 
@@ -118,11 +127,14 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
   totalDeposit,
   handleVote,
 }) => {
+  const { isDark } = useContext(DashboardThemeContext)
   const { address } = useAppSelector((state) => state.account)
   const [myVoteStatus, setMyVoteStatus] = useState<VoteStatus>(VoteStatus.VOTE_OPTION_UNSPECIFIED)
   const [votingPeriod, setVotingPeriod] = useState<number>(0)
   const [votingRemain, setVotingRemain] = useState<number>(0)
   const [voteModalOpen, setVoteModalOpen] = useState<boolean>(false)
+
+  console.log({ votingPeriod, votingRemain })
 
   const getMyVoteStatus = (): any => {
     return Axios.get(`${process.env.REACT_APP_GAIA_URL}/gov/proposals/${proposalId}/votes/${address}`)
@@ -146,7 +158,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
     return Number(((value / limit) * 100).toFixed(0))
   }
 
-  const formatDiffTresholds = (value: number): string => {
+  const formatDiffThresholds = (value: number): string => {
     if (value >= 0) return `+ ${value}`
     return `- ${Math.abs(value)}`
   }
@@ -163,32 +175,40 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
   }
 
   useEffect(() => {
-    getMyVoteStatus()
-      .then((response: any) => response.data)
-      .then((data: any) => data.result)
-      .then((result: any) => result.option)
-      .then((option: any) => setMyVoteStatus(option))
-      .catch((e: any) => console.log(e))
-
     setVotingPeriod(moment.utc(closeDate).diff(moment.utc(submissionDate), 'minutes'))
     setVotingRemain(moment.utc(closeDate).diff(moment().utc(), 'minutes'))
     // eslint-disable-next-line
   }, [])
 
+  useEffect(() => {
+    if (address) {
+      getMyVoteStatus()
+        .then((response: any) => response.data)
+        .then((data: any) => data.result)
+        .then((result: any) => result.option)
+        .then((option: any) => setMyVoteStatus(option))
+        .catch((e: any) => console.log(e))
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [address])
+
   return (
-    <Container className='container-fluid'>
-      <div className='row'>
-        <div className='col-12 col-sm-6'>
-          <div className='d-flex align-items-center justify-content-between pb-3'>
+    <Container className='container-fluid' isDark={isDark}>
+      <div className='row pb-3'>
+        <div className='col-6'>
+          <div className='d-flex align-items-center justify-content-between'>
             <div>
-              <NumberBadget>#{proposalId}</NumberBadget>
+              <NumberBadget isDark={isDark}>#{proposalId}</NumberBadget>
               <TypeBadget>{displayProposalType(type)}</TypeBadget>
             </div>
             <div>
               <img src={IMG_expand} alt='message' height='30px' />
             </div>
           </div>
-
+        </div>
+      </div>
+      <div className='row'>
+        <Box className='col-12 col-lg-6' borderRight={`1px solid ${theme.ixoGrey300}`}>
           <Title className='pb-3'>{announce}</Title>
 
           <div className='d-flex align-items-center'>
@@ -196,11 +216,12 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
             <div className='d-inline-block w-100 pl-3'>
               <ProgressBar
                 total={votingPeriod}
-                approved={votingRemain}
+                approved={votingPeriod - votingRemain}
                 rejected={0}
                 height={22}
                 activeBarColor='#39c3e6'
-                closedText='Closed'
+                barColor={isDark ? '#143F54' : undefined}
+                closedText={votingRemain > votingPeriod ? 'Closed' : ''}
               />
             </div>
           </div>
@@ -242,18 +263,11 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
 
           <div className='d-flex justify-content-between align-items-center pt-2'>
             <Action
-              className={
-                status === ProposalStatus.PROPOSAL_STATUS_VOTING_PERIOD &&
-                myVoteStatus === VoteStatus.VOTE_OPTION_UNSPECIFIED
-                  ? ''
-                  : 'disable'
-              }
+              isDark={isDark}
+              className={status === 'open' && myVoteStatus === VoteStatus.VOTE_OPTION_UNSPECIFIED ? '' : 'disable'}
               onClick={(): void => setVoteModalOpen(true)}
             >
-              {status === ProposalStatus.PROPOSAL_STATUS_VOTING_PERIOD &&
-              myVoteStatus === VoteStatus.VOTE_OPTION_UNSPECIFIED
-                ? 'New Vote'
-                : 'My Vote'}
+              {status === 'open' && myVoteStatus === VoteStatus.VOTE_OPTION_UNSPECIFIED ? 'New Vote' : 'My Vote'}
             </Action>
             <div>
               <DecisionIMG className='pr-2' src={IMG_decision_textfile} alt='decision1' />
@@ -263,8 +277,8 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
 
           <LabelSM className='bold'>{thousandSeparator(tally.yes)} YES</LabelSM>
           <LabelSM>{`(of ${thousandSeparator(tally.available)} available)`}</LabelSM>
-        </div>
-        <div className='col-12 col-sm-6'>
+        </Box>
+        <div className='col-12 col-lg-6'>
           <WidgetWrapper title='' gridHeight={gridSizes.standard} light={true} padding={false}>
             <ClaimsWidget className='p-0 m-0'>
               <ClaimsLabels>
@@ -296,7 +310,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
                   <div className='pl-5'>
                     <div>
                       <strong>
-                        {formatDiffTresholds(
+                        {formatDiffThresholds(
                           calcPercentage(tally.available, tally.yes + tally.no + tally.noWithVeto) - 40,
                         )}
                       </strong>
@@ -304,13 +318,13 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
                     </div>
                     <div>
                       <strong>
-                        {formatDiffTresholds(calcPercentage(tally.available - tally.abstain, tally.yes) - 50)}
+                        {formatDiffThresholds(calcPercentage(tally.available - tally.abstain, tally.yes) - 50)}
                       </strong>
                       % in favour over the 50% required
                     </div>
                     <div>
                       <strong>
-                        {formatDiffTresholds(calcPercentage(tally.available - tally.abstain, tally.noWithVeto) - 33)}
+                        {formatDiffThresholds(calcPercentage(tally.available - tally.abstain, tally.noWithVeto) - 33)}
                       </strong>
                       % under the 33% required to veto
                     </div>

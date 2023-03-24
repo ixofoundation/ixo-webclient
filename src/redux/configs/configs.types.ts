@@ -141,6 +141,7 @@ export interface ConfigsState {
   assetListConfig: AssetListConfig[]
   relayersConfig: RelayerInfo[]
   exchangeConfig: ExchangeConfig
+  entityConfig: any
 }
 
 export enum ConfigsStateActions {
@@ -150,6 +151,8 @@ export enum ConfigsStateActions {
   GetRelayersConfigSuccess = 'ixo/configs/GET_RELAYER_CONFIG_FULFILLED',
   GetExchangeConfig = 'ixo/configs/GET_EXCHANGE_CONFIG',
   GetExchangeConfigSuccess = 'ixo/configs/GET_EXCHANGE_CONFIG_FULFILLED',
+  GetEntityConfig = 'ixo/configs/GET_ENTITY_CONFIG',
+  GetEntityConfigSuccess = 'ixo/configs/GET_ENTITY_CONFIG_FULFILLED',
 }
 
 export interface GetAssetListConfigAction {
@@ -178,6 +181,14 @@ export interface GetExchangeSuccessAction {
   type: typeof ConfigsStateActions.GetExchangeConfigSuccess
   payload: ExchangeConfig
 }
+export interface GetEntityConfigAction {
+  type: typeof ConfigsStateActions.GetEntityConfig
+  payload: Promise<ExchangeConfig>
+}
+export interface GetEntitySuccessAction {
+  type: typeof ConfigsStateActions.GetEntityConfigSuccess
+  payload: ExchangeConfig
+}
 
 export type ConfigsStateActionTypes =
   | GetAssetListConfigAction
@@ -186,3 +197,5 @@ export type ConfigsStateActionTypes =
   | GetRelayersSuccessAction
   | GetExchangeConfigAction
   | GetExchangeSuccessAction
+  | GetEntityConfigAction
+  | GetEntitySuccessAction

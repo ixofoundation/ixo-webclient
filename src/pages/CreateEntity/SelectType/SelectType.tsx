@@ -1,5 +1,5 @@
 import { Typography } from 'components/Typography'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Wrapper } from './SelectType.styles'
 import { Box } from 'components/App/App.styles'
 import { CateSelector } from '../Components'
@@ -45,23 +45,28 @@ const SelectType: React.FC = (): JSX.Element => {
       description: `A <b>Oracle Method</b> defines a data schema, data collection format, and evaluation methodology for any type of verifiable claim.`,
     },
     {
-      type: 'DAO',
+      type: 'Dao',
       label: 'DAO Template',
       icon: <DAOIcon />,
       description: `A <b>DAO Template</b> defines a data schema, data collection format, and evaluation methodology for any type of verifiable claim.`,
     },
   ]
 
-  const { initialize, entityType } = useCreateEntityState()
+  const { updateTitle, updateSubtitle, updateEntityType } = useCreateEntityState()
   const history = useHistory()
   const [hoveredItem, setHoveredItem] = useState<any>(undefined)
 
   const handleClick = (item: any): void => {
     history.push(`/create/entity/${item.type.toLowerCase()}`)
-    if (entityType !== item.type) {
-      initialize()
-    }
   }
+
+  useEffect(() => {
+    updateEntityType('')
+    updateTitle('Create a Protocol')
+    updateSubtitle('Select a Type of Protocol')
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return (
     <Wrapper>
       <Typography

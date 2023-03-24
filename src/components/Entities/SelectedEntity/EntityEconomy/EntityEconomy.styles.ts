@@ -1,11 +1,12 @@
 import styled from 'styled-components'
 
-export const Container = styled.div`
-  padding: 20px 40px;
-  background: #f0f3f9;
+export const Container = styled.div<{ isDark?: boolean }>`
+  // padding: 20px 40px;
+  // background: #f0f3f9;
   font-family: ${(props): string => props.theme.secondaryFontFamily};
   font-weight: normal;
   padding-bottom: 100px;
+  color: ${(props): string => (props.isDark ? props.theme.ixoWhite : props.theme.ixoGrey1)};
 `
 
 export const SectionTitleContainer = styled.div`
@@ -47,7 +48,7 @@ export const SectionTitle = styled.div`
 `
 
 export const ActionButton = styled.button`
-  color: #01293c;
+  color: currentColor;
   min-width: 170px;
   height: 42px;
   font-weight: bold;
@@ -56,6 +57,7 @@ export const ActionButton = styled.button`
   border: 1.5px solid #49bfe0;
   border-radius: 5px;
   background: transparent;
+  cursor: pointer;
 `
 export const Card = styled.div`
   background: linear-gradient(180deg, #ffffff 0%, #f2f5fb 100%);

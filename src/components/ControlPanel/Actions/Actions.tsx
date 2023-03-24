@@ -38,7 +38,10 @@ import {
   CreatePaymentContractModal,
   BondBuyModal,
 } from 'components/Modals'
-import { UpdateProjectStatus, WithdrawShare } from 'lib/protocol'
+import {
+  // UpdateProjectStatus,
+  WithdrawShare,
+} from 'lib/protocol'
 import { useSelectedEntity } from 'hooks/entity'
 import { useAccount } from 'hooks/account'
 import { useAppDispatch } from 'redux/hooks'
@@ -72,7 +75,11 @@ const Actions: React.FunctionComponent<Props> = ({
 }) => {
   const dispatch = useAppDispatch()
   const { signingClient, did, address } = useAccount()
-  const { bondDid, did: projectDid, address: projectAddress, status } = useSelectedEntity()
+  const {
+    bondDid,
+    did: projectDid,
+    // address: projectAddress, status
+  } = useSelectedEntity()
 
   const [submitProposalModalOpen, setSubmitProposalModalOpen] = useState(false)
   const [depositModalOpen, setDepositModalOpen] = useState(false)
@@ -116,45 +123,45 @@ const Actions: React.FunctionComponent<Props> = ({
     console.log('handleWithdrawShare', res)
   }
 
-  const handleUpdateStatus = async (): Promise<void> => {
-    let projectStatus = status
-    if (!projectStatus) {
-      projectStatus = 'CREATED'
-      await UpdateProjectStatus(signingClient, {
-        did,
-        projectDid,
-        projectAddress,
-        status: projectStatus as 'CREATED' | 'PENDING' | 'FUNDED' | 'STARTED',
-      })
-    }
-    if (projectStatus === 'CREATED') {
-      projectStatus = 'PENDING'
-      await UpdateProjectStatus(signingClient, {
-        did,
-        projectDid,
-        projectAddress,
-        status: projectStatus as 'CREATED' | 'PENDING' | 'FUNDED' | 'STARTED',
-      })
-    }
-    if (projectStatus === 'PENDING') {
-      projectStatus = 'FUNDED'
-      await UpdateProjectStatus(signingClient, {
-        did,
-        projectDid,
-        projectAddress,
-        status: projectStatus as 'CREATED' | 'PENDING' | 'FUNDED' | 'STARTED',
-      })
-    }
-    if (projectStatus === 'FUNDED') {
-      projectStatus = 'STARTED'
-      await UpdateProjectStatus(signingClient, {
-        did,
-        projectDid,
-        projectAddress,
-        status: projectStatus as 'CREATED' | 'PENDING' | 'FUNDED' | 'STARTED',
-      })
-    }
-  }
+  // const handleUpdateStatus = async (): Promise<void> => {
+  //   let projectStatus = status
+  //   if (!projectStatus) {
+  //     projectStatus = 'CREATED'
+  //     await UpdateProjectStatus(signingClient, {
+  //       did,
+  //       projectDid,
+  //       projectAddress,
+  //       status: projectStatus as 'CREATED' | 'PENDING' | 'FUNDED' | 'STARTED',
+  //     })
+  //   }
+  //   if (projectStatus === 'CREATED') {
+  //     projectStatus = 'PENDING'
+  //     await UpdateProjectStatus(signingClient, {
+  //       did,
+  //       projectDid,
+  //       projectAddress,
+  //       status: projectStatus as 'CREATED' | 'PENDING' | 'FUNDED' | 'STARTED',
+  //     })
+  //   }
+  //   if (projectStatus === 'PENDING') {
+  //     projectStatus = 'FUNDED'
+  //     await UpdateProjectStatus(signingClient, {
+  //       did,
+  //       projectDid,
+  //       projectAddress,
+  //       status: projectStatus as 'CREATED' | 'PENDING' | 'FUNDED' | 'STARTED',
+  //     })
+  //   }
+  //   if (projectStatus === 'FUNDED') {
+  //     projectStatus = 'STARTED'
+  //     await UpdateProjectStatus(signingClient, {
+  //       did,
+  //       projectDid,
+  //       projectAddress,
+  //       status: projectStatus as 'CREATED' | 'PENDING' | 'FUNDED' | 'STARTED',
+  //     })
+  //   }
+  // }
 
   const handleRenderControl = (control: any): JSX.Element => {
     const intent = control.parameters.find((param: any) => param?.name === 'intent')?.value
@@ -164,7 +171,7 @@ const Actions: React.FunctionComponent<Props> = ({
     const interceptNavClick = async (e: any): Promise<void> => {
       switch (intent) {
         case 'update_status':
-          handleUpdateStatus()
+          // handleUpdateStatus()
           break
         case 'stake':
           setStakeModalOpen(true)

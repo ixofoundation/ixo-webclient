@@ -1,5 +1,5 @@
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
-import { DeliverTxResponse } from '@cosmjs/stargate'
+import { DeliverTxResponse } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/stargate'
 import { cosmos, createQueryClient, SigningStargateClient } from '@ixo/impactxclient-sdk'
 import { fee, RPC_ENDPOINT } from './common'
 import { VoteOption } from '@ixo/impactxclient-sdk/types/codegen/cosmos/gov/v1/gov'
@@ -63,6 +63,17 @@ export const GetBalances = async (address: string): Promise<Coin[]> => {
     return res.balances
   } catch (e) {
     console.error('GetBalances', e)
+    return []
+  }
+}
+
+export const GetValidators = async (): Promise<Validator[]> => {
+  try {
+    const client = await createQueryClient(RPC_ENDPOINT!)
+    const { validators = [] } = await client.cosmos.staking.v1beta1.validators({ status: 'BOND_STATUS_BONDED' })
+    return validators
+  } catch (e) {
+    console.error('GetValidators', e)
     return []
   }
 }

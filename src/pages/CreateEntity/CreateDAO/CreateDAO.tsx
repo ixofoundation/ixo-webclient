@@ -1,10 +1,53 @@
-import React from 'react'
-import { Redirect, Route, RouteComponentProps } from 'react-router-dom'
-import { useCreateEntityStrategy } from 'hooks/createEntity'
+import React, { useEffect } from 'react'
+import { Redirect, Route, RouteComponentProps, useRouteMatch } from 'react-router-dom'
+import { useCreateEntityState, useCreateEntityStrategy } from 'hooks/createEntity'
 
 const CreateDAO: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): JSX.Element => {
   const { getStrategyByEntityType } = useCreateEntityStrategy()
-  const { steps } = getStrategyByEntityType('DAO')
+  const { updateTitle, updateSubtitle, updateBreadCrumbs } = useCreateEntityState()
+  const isSelectProcessRoute = useRouteMatch('/create/entity/dao/select-process')
+  const isSetupMetadataRoute = useRouteMatch('/create/entity/dao/setup-metadata')
+  const isSetupGroupsRoute = useRouteMatch('/create/entity/dao/setup-groups')
+  const isSetupPropertiesRoute = useRouteMatch('/create/entity/dao/setup-properties')
+  const isReviewRoute = useRouteMatch('/create/entity/dao/review')
+  const { steps } = getStrategyByEntityType('Dao')
+
+  useEffect(() => {
+    updateTitle('Create a DAO')
+    updateBreadCrumbs([{ text: 'DAO' }])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  useEffect(() => {
+    if (isSelectProcessRoute?.isExact) {
+      updateSubtitle('New or Clone')
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSelectProcessRoute?.isExact])
+  useEffect(() => {
+    if (isSetupMetadataRoute?.isExact) {
+      updateSubtitle('Metadata')
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSetupMetadataRoute?.isExact])
+  useEffect(() => {
+    if (isSetupGroupsRoute?.isExact) {
+      updateSubtitle('Add Groups')
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSetupGroupsRoute?.isExact])
+  useEffect(() => {
+    if (isSetupPropertiesRoute?.isExact) {
+      updateSubtitle('Configure the DAO Settings')
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSetupPropertiesRoute?.isExact])
+  useEffect(() => {
+    if (isReviewRoute?.isExact) {
+      updateSubtitle('Review and Sign to Commit')
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isReviewRoute?.isExact])
 
   return (
     <>

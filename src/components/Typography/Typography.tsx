@@ -12,6 +12,7 @@ export type TTypographyWeight =
   | 'bold' // 700
   | 'extra-bold' // 800
   | 'black' // 900
+  | 'inherit' // inherit
 export type TTypographyColor =
   | 'black'
   | 'white'
@@ -25,6 +26,7 @@ export type TTypographyColor =
   | 'color-2'
   | 'grey700'
   | 'green'
+  | 'red'
   | 'inherit'
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
@@ -34,6 +36,8 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
   color?: TTypographyColor
   overflowLines?: number
   transform?: string
+  noWrap?: boolean
+  underline?: boolean
   hover?: {
     underline?: boolean
   }
@@ -88,6 +92,9 @@ const xxxxxlSizeCss = css`
 `
 
 /* weight */
+const inheritWeightCss = css`
+  font-weight: inherit;
+`
 const thinWeightCss = css`
   font-weight: 100;
 `
@@ -153,8 +160,14 @@ const grey700ColorCss = css`
 const greenCss = css`
   color: ${(props) => props.theme.ixoGreen};
 `
+const redCss = css`
+  color: ${(props) => props.theme.ixoRed};
+`
 const inheritColorCss = css`
   color: inherit;
+`
+const currentColorCss = css`
+  color: currentColor;
 `
 
 /* overflow */
@@ -171,11 +184,21 @@ const overflowOneLineCss = css<Props>`
   text-overflow: ellipsis;
 `
 
+/* decoration */
+const underlineCss = css`
+  text-decoration: underline;
+`
+
 /* hoverCss */
 const hoverCss = css<Props>`
   &:hover {
-    ${({ hover }) => hover?.underline && `text-decoration: underline;`}
+    ${({ hover }) => hover?.underline && underlineCss}
   }
+`
+
+/* white-space */
+const noWrapCss = css`
+  white-space: nowrap;
 `
 
 const Typography = styled.div<Props>`
@@ -190,6 +213,12 @@ const Typography = styled.div<Props>`
   }}
   ${({ hover }) => {
     return hover && hoverCss
+  }}
+  ${({ underline }) => {
+    return underline && underlineCss
+  }}
+  ${({ noWrap }) => {
+    return noWrap && noWrapCss
   }}
   ${({ variant = 'primary' }) => {
     switch (variant) {
@@ -227,6 +256,8 @@ const Typography = styled.div<Props>`
   }}
   ${({ weight = 'normal' }) => {
     switch (weight) {
+      case 'inherit':
+        return inheritWeightCss
       case 'thin':
         return thinWeightCss
       case 'extra-light':
@@ -249,7 +280,7 @@ const Typography = styled.div<Props>`
         return undefined
     }
   }}
-  ${({ color }) => {
+  ${({ color = 'current' }) => {
     switch (color) {
       case 'black':
         return blackColorCss
@@ -275,10 +306,12 @@ const Typography = styled.div<Props>`
         return grey700ColorCss
       case 'green':
         return greenCss
+      case 'red':
+        return redCss
       case 'inherit':
         return inheritColorCss
       default:
-        return undefined
+        return currentColorCss
     }
   }}
 `

@@ -78,7 +78,7 @@ const CreateEntityDropDown: React.FunctionComponent<Props> = ({ entityType }) =>
           <ButtonsWrapper>
             <LaunchEntityButton
               exact={true}
-              to={`/${entityTypeMap[EntityType.Project].title.toLowerCase()}/new/start`}
+              to={`/create/entity/${EntityType.Project.toLowerCase()}`}
               className={`
                   ${EntityType.Project.toLowerCase()} ${entityType === EntityType.Project ? 'active' : ''}
                   `}
@@ -91,7 +91,7 @@ const CreateEntityDropDown: React.FunctionComponent<Props> = ({ entityType }) =>
             </LaunchEntityButton>
             <LaunchEntityButton
               exact={true}
-              to={`/${entityTypeMap[EntityType.Oracle].title.toLowerCase()}/new/start`}
+              to={`/create/entity/${EntityType.Oracle.toLowerCase()}`}
               className={`
                   ${EntityType.Oracle.toLowerCase()} ${entityType === EntityType.Oracle ? 'active' : ''}
                   `}
@@ -104,7 +104,7 @@ const CreateEntityDropDown: React.FunctionComponent<Props> = ({ entityType }) =>
             </LaunchEntityButton>
             <LaunchEntityButton
               exact={true}
-              to={`/${entityTypeMap[EntityType.Investment].title.toLowerCase()}/new/start`}
+              to={`/create/entity/${EntityType.Investment.toLowerCase()}`}
               className={`
                   ${EntityType.Investment.toLowerCase()} ${entityType === EntityType.Investment ? 'active' : ''}
                   `}
@@ -117,7 +117,7 @@ const CreateEntityDropDown: React.FunctionComponent<Props> = ({ entityType }) =>
             </LaunchEntityButton>
             <LaunchEntityButton
               exact={true}
-              to={`/${entityTypeMap[EntityType.Dao].title.toLowerCase()}/new/start`}
+              to={`/create/entity/${EntityType.Dao.toLowerCase()}`}
               className={`
                   ${EntityType.Dao.toLowerCase()} ${entityType === EntityType.Dao ? 'active' : ''}
                   `}
@@ -130,20 +130,18 @@ const CreateEntityDropDown: React.FunctionComponent<Props> = ({ entityType }) =>
             </LaunchEntityButton>
             <LaunchEntityButton
               exact={true}
-              to={`/${EntityType.Template.toLowerCase()}/new/start`}
-              className={`
-                  ${EntityType.Template.toLowerCase()} ${entityType === EntityType.Template ? 'active' : ''}
-                  `}
+              to={`/create/entity/claim`}
+              className={`protocol`}
               onClick={handleToggleModal}
             >
               <ButtonContent>
                 <Template fill='#000' width='18' />
-                {entityTypeMap[EntityType.Template].title}
+                Claim
               </ButtonContent>
             </LaunchEntityButton>
             <LaunchEntityButton
               exact={true}
-              to={'/asset/new/start'}
+              to={`/create/entity/${EntityType.Asset.toLowerCase()}`}
               className={`
                   ${EntityType.Asset.toLowerCase()} ${entityType === EntityType.Asset ? 'active' : ''}
                   `}

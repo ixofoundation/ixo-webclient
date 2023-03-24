@@ -67,7 +67,7 @@ const ClaimSetupModal: React.FC<Props> = ({ claim, open, onClose, handleChange }
             templates.map((template) => ({
               title: template.name,
               did: template.did,
-              dateCreated: template.dateCreated.format('DD-MMM-YYYY'),
+              dateCreated: template.dateCreated?.format('DD-MMM-YYYY'),
               imageUrl: null,
               previewUrl: '',
               ddoTags: template.ddoTags,

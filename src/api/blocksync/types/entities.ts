@@ -1,3 +1,5 @@
+import { Entity } from '@ixo/impactxclient-sdk/types/codegen/ixo/entity/v1beta1/entity'
+import { IidDocument } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/iid'
 import { AgentRole } from 'redux/account/account.types'
 import {
   EntityType,
@@ -19,6 +21,13 @@ import {
   LiquiditySource,
   FundSource,
 } from 'types/entities'
+import {
+  TEntityAdministratorModel,
+  TEntityCreatorModel,
+  TEntityDDOTagModel,
+  TEntityPageSectionModel,
+  TEntityProfileModel,
+} from 'types/protocol'
 
 // ideally these definitions should be in the ixo api module itself
 
@@ -247,4 +256,14 @@ export interface ApiListedEntity {
   pubKey: string
   status: string //  https://github.com/ixofoundation/ixo-blockchain/blob/main/x/project/spec/01_state.md
   data: ApiListedEntityData
+}
+
+export interface TEntityModel extends Omit<Entity, 'metadata'>, IidDocument {
+  publicKey?: string
+
+  profile?: TEntityProfileModel
+  creator?: TEntityCreatorModel
+  administrator?: TEntityAdministratorModel
+  page?: TEntityPageSectionModel[]
+  tags?: TEntityDDOTagModel[]
 }

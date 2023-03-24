@@ -3,9 +3,9 @@ import { get } from 'lodash'
 import countryData from 'data/maps/countryLatLng.json'
 import { Agent, FundSource, LiquiditySource } from 'types/entities'
 import { AgentRole } from 'redux/account/account.types'
-import { DDOTagCategory } from 'redux/entitiesExplorer/entitiesExplorer.types'
 import { PageContent } from 'redux/selectedEntity/selectedEntity.types'
 import { ApiListedEntityData } from 'api/blocksync/types/entities'
+import { TEntityDDOTagModel } from 'types/protocol'
 
 export const getCountryCoordinates = (countryCodes: string[]): any[] => {
   const coordinates: any[] = []
@@ -63,9 +63,9 @@ export const getDefaultSelectedViewCategory = (entityConfig: any): any => {
   }
 }
 
-export const getInitialSelectedCategories = (entityConfig: any): DDOTagCategory[] => {
-  return entityConfig.filterSchema.ddoTags.map((ddoCategory: any) => ({
-    name: ddoCategory.name,
+export const getInitialSelectedCategories = (entityConfig: any): TEntityDDOTagModel[] => {
+  return entityConfig?.filterSchema.ddoTags.map((ddoCategory: any) => ({
+    category: ddoCategory.name,
     tags: ddoCategory.selectedTags && ddoCategory.selectedTags.length ? [...ddoCategory.selectedTags] : [],
   }))
 }

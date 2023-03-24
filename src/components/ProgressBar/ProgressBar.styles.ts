@@ -1,13 +1,14 @@
 import styled from 'styled-components'
 
 export const Bar = styled.div<{ height: number; barColor?: string }>`
-  background: ${(props): string => props.barColor ?? props.theme.grey};
+  background: ${(props): string => props.barColor ?? props.theme.ixoGrey300};
   display: flex;
   justify-content: flex-start;
   width: 100%;
   height: ${({ height }): number => height}px;
   border-radius: 10px;
   position: relative;
+  overflow: hidden;
 `
 
 export const Rejected = styled.div`

@@ -45,7 +45,7 @@ const AssetCard: React.FC<Props> = ({
         <AssetCardBodyRow style={{ justifyContent: 'space-between', alignItems: 'center' }}>
           <CardTags style={{ gap: 5 }}>
             <CardTag tagColor={theme.ixoDarkRed}>Inventory</CardTag>
-            <CardTag tagColor={theme.ixoNewOrange}>Clean CookStove</CardTag>
+            <CardTag tagColor={theme.ixoDarkOrange}>Clean CookStove</CardTag>
           </CardTags>
           <AssetLogo src={logo} alt='' />
         </AssetCardBodyRow>

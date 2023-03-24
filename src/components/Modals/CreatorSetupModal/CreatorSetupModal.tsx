@@ -22,9 +22,10 @@ interface Props {
   open: boolean
   onClose: () => void
   onChange?: (creator: TEntityCreatorModel) => void
+  onClone?: () => void
 }
 
-const CreatorSetupModal: React.FC<Props> = ({ creator, title, open, onClose, onChange }): JSX.Element => {
+const CreatorSetupModal: React.FC<Props> = ({ creator, title, open, onClose, onChange, onClone }): JSX.Element => {
   const [formData, setFormData] = useState<FormData | undefined>(undefined)
   const [cropModalOpen, setCropModalOpen] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -99,8 +100,8 @@ const CreatorSetupModal: React.FC<Props> = ({ creator, title, open, onClose, onC
     blocksyncApi.project
       .createPublic(base64EncodedImage, cellNodeEndpoint!)
       .then((response: any) => {
-        if (response.result) {
-          const url = new URL(`/public/${response.result}`, cellNodeEndpoint)
+        if (response?.result?.key) {
+          const url = new URL(`/public/${response.result.key}`, cellNodeEndpoint)
           handleFormDataChange('logo', url.href)
         } else {
           throw new Error('Error uploading')
@@ -288,7 +289,12 @@ const CreatorSetupModal: React.FC<Props> = ({ creator, title, open, onClose, onC
             </FlexBox>
           </FlexBox>
 
-          <FlexBox width='100%' justifyContent='flex-end' alignItems='center' gap={15}>
+          <FlexBox width='100%' justifyContent='flex-end' alignItems='center' gap={4}>
+            {onClone && (
+              <Button variant='grey500' onClick={onClone}>
+                Clone
+              </Button>
+            )}
             <Button onClick={handleContinue} disabled={disabled}>
               Continue
             </Button>

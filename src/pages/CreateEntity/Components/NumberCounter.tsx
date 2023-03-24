@@ -10,6 +10,9 @@ const StyledInput = styled.input<{ textAlign: string }>`
   width: 100%;
   height: 100%;
   text-align: ${(props): string => props.textAlign};
+  font-weight: inherit;
+  font-size: inherit;
+  line-height: inherit;
 
   &:focus-visible {
     outline: none;
@@ -52,6 +55,7 @@ const NumberCounter: React.FC<Props> = ({
 
   return (
     <Box
+      id='number-counter'
       position='relative'
       width={width}
       height={height}

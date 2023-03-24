@@ -20,6 +20,7 @@ import {
   SelectCreationProcess as SelectDAOCreationProcess,
   SetupMetadata as SetupDAOMetadata,
   SetupDAOGroups,
+  SetupProperties as SetupDAOProperties,
   ReviewDAO,
 } from 'pages/CreateEntity/CreateDAO/Pages'
 import {
@@ -31,6 +32,12 @@ import {
   SelectCreationProcess as SelectOracleCreationProcess,
   SetupMetadata as SetupOracleMetadata,
 } from 'pages/CreateEntity/CreateOracle/Pages'
+import {
+  SetupInfo as SetupProposalInfo,
+  SetupPageContent,
+  SetupActions,
+  SetupProperties as SetupProposalProperties,
+} from 'pages/CreateEntity/CreateProposal/Pages'
 
 export interface TCreateEntityStepType {
   id: number
@@ -82,7 +89,7 @@ export const CreateEntityStrategyMap: TCreateEntityStrategyMap = {
       },
       [`4`]: {
         id: 4,
-        name: 'Assect Collection',
+        name: 'Asset Collection',
         component: ReviewAssetClass,
         url: '/create/entity/asset/review',
         prevStep: 3,
@@ -182,8 +189,8 @@ export const CreateEntityStrategyMap: TCreateEntityStrategyMap = {
       },
     },
   },
-  DAO: {
-    entityType: 'DAO',
+  Dao: {
+    entityType: 'Dao',
     title: 'Create a DAO',
     steps: {
       [`1`]: {
@@ -213,7 +220,7 @@ export const CreateEntityStrategyMap: TCreateEntityStrategyMap = {
       [`4`]: {
         id: 4,
         name: 'Configure the DAO Settings',
-        component: SetupProperties,
+        component: SetupDAOProperties,
         url: '/create/entity/dao/setup-properties',
         prevStep: 3,
         nextStep: 5,
@@ -292,6 +299,44 @@ export const CreateEntityStrategyMap: TCreateEntityStrategyMap = {
         component: SetupProperties,
         url: '/create/entity/oracle/setup-properties',
         prevStep: 2,
+        nextStep: undefined,
+      },
+    },
+  },
+  Proposal: {
+    entityType: 'Proposal',
+    title: 'Create a governance proposal',
+    steps: {
+      [`1`]: {
+        id: 1,
+        name: 'Proposal Info',
+        component: SetupProposalInfo,
+        url: '/create/entity/:entityId/proposal/:coreAddress/info',
+        prevStep: undefined,
+        nextStep: 2,
+      },
+      [`2`]: {
+        id: 2,
+        name: 'Configure the proposal page',
+        component: SetupPageContent,
+        url: '/create/entity/:entityId/proposal/:coreAddress/setup-page',
+        prevStep: 1,
+        nextStep: 3,
+      },
+      [`3`]: {
+        id: 3,
+        name: 'Configure the proposal settings',
+        component: SetupProposalProperties,
+        url: '/create/entity/:entityId/proposal/:coreAddress/setup-properties',
+        prevStep: 2,
+        nextStep: 4,
+      },
+      [`4`]: {
+        id: 4,
+        name: 'Add actions',
+        component: SetupActions,
+        url: '/create/entity/:entityId/proposal/:coreAddress/setup-actions',
+        prevStep: 3,
         nextStep: undefined,
       },
     },

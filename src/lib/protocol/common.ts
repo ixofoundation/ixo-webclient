@@ -1,11 +1,17 @@
-import { ixo } from '@ixo/impactxclient-sdk'
-import { toHex } from '@cosmjs/encoding'
+import { StdFee } from '@cosmjs/amino'
 
 export const RPC_ENDPOINT = process.env.REACT_APP_RPC_URL
 
 export type KeyTypes = 'ed' | 'secp'
 
-export const fee: any = {
+export interface TSigner {
+  address: string
+  did: string
+  pubKey: Uint8Array
+  keyType: KeyTypes
+}
+
+export const fee: StdFee = {
   amount: [
     {
       denom: 'uixo',
@@ -13,38 +19,4 @@ export const fee: any = {
     },
   ],
   gas: '3000000',
-}
-
-export const getVerificationMethod = (did: string, pubkey: Uint8Array, controller: string, type: KeyTypes): any => {
-  return ixo.iid.v1beta1.VerificationMethod.fromPartial({
-    id: did,
-    type: type === 'ed' ? 'Ed25519VerificationKey2018' : 'EcdsaSecp256k1VerificationKey2019',
-    publicKeyMultibase: 'F' + toHex(pubkey),
-    controller: controller,
-  })
-}
-
-export const getDidFromEvents = (res: any): string => {
-  try {
-    if (!res) {
-      return ''
-    }
-    return JSON.parse(res.rawLog!)[0]
-      ['events'].find((e: any) => e.type === 'ixo.iid.v1beta1.IidDocumentCreatedEvent')
-      ['attributes'].find((e: any) => e.key === 'did')
-      ['value'].replaceAll('"', '')
-  } catch (e) {
-    console.error('getDidFromEvents', e)
-    return ''
-  }
-}
-
-export const generateId = (length = 12) => {
-  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
-  const charactersLength = characters.length
-  let result = ''
-  for (let i = 0; i < length; i++) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength))
-  }
-  return result
 }

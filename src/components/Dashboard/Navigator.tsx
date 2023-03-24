@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { withRouter, RouteComponentProps } from 'react-router'
 import Home from 'assets/icons/Home'
 import Select, { components, ControlProps, OptionProps } from 'react-select'
+import { theme } from 'components/App/App.styles'
 
 const Control: React.FunctionComponent<ControlProps<any>> = ({ children, ...rest }) => {
   return (
@@ -43,10 +44,10 @@ const styles = {
     padding: '0 0.625rem',
     height: '2.5rem',
     minHeight: '2.5rem',
-    borderColor: state.isFocused ? '#002233' : '#fff',
-    boxShadow: state.isFocused ? '0 0 0 1px #002233' : provided.borderColor,
+    borderColor: state.isFocused ? theme.ixoDarkestBlue : '#fff',
+    boxShadow: state.isFocused ? `0 0 0 1px ${theme.ixoDarkestBlue}` : provided.borderColor,
     '&:hover': {
-      borderColor: '#002233',
+      borderColor: theme.ixoDarkestBlue,
     },
   }),
   indicatorsContainer: (provided: any) => ({

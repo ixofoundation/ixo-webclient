@@ -1,7 +1,6 @@
 import React, { FC, useState } from 'react'
 import MediaQuery from 'react-responsive'
 import { deviceWidth } from 'constants/device'
-import { DDOTagCategory } from '../../../../../redux/entitiesExplorer/entitiesExplorer.types'
 import { FilterItem as IconListFilterItem, SelectType } from 'components/Filters/IconListFilter/types'
 import { Schema, SchemaCategoryTag } from './schema/types'
 import {
@@ -26,6 +25,7 @@ import Back from 'assets/icons/Back'
 import Filter from 'assets/icons/Filter'
 import * as iconListFilterUtils from 'utils/filters'
 import IconButtonImage from 'components/Filters/IconListFilter/IconButtonImage'
+import { TEntityDDOTagModel } from 'types/protocol'
 
 // TODO - make this 2 separate components - Desktop and Mobile
 
@@ -37,7 +37,7 @@ interface Props {
   endDate: any
   endDateFormatted: string
   dateSummary: string
-  categories: DDOTagCategory[]
+  categories: TEntityDDOTagModel[]
   categoriesSummary: string
   userEntities: boolean
   featuredEntities: boolean
@@ -109,7 +109,7 @@ const EntitiesFilter: FC<Props> = ({
     return ddoTags.map((ddoTag) => ({
       name: ddoTag.name,
       icon: ddoTag.icon,
-      isSelected: categories.find((category) => category.name === filterName)!.tags.includes(ddoTag.name),
+      isSelected: !!categories.find((category) => category.category === filterName)?.tags.includes(ddoTag.name),
     }))
   }
 

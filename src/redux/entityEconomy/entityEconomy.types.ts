@@ -1,3 +1,5 @@
+import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
+
 export interface EconomyState {
   governance: GovernanceState
 }
@@ -8,12 +10,41 @@ export interface GovernanceState {
 }
 
 export enum ProposalStatus {
-  PROPOSAL_STATUS_REJECTED = 'PROPOSAL_STATUS_REJECTED',
-  PROPOSAL_STATUS_DEPOSIT_PERIOD = 'PROPOSAL_STATUS_DEPOSIT_PERIOD',
-  PROPOSAL_STATUS_UNSPECIFIED = 'PROPOSAL_STATUS_UNSPECIFIED',
-  PROPOSAL_STATUS_VOTING_PERIOD = 'PROPOSAL_STATUS_VOTING_PERIOD',
-  PROPOSAL_STATUS_PASSED = 'PROPOSAL_STATUS_PASSED',
-  PROPOSAL_STATUS_FAILED = 'PROPOSAL_STATUS_FAILED',
+  // PROPOSAL_STATUS_REJECTED = 'PROPOSAL_STATUS_REJECTED',
+  // PROPOSAL_STATUS_DEPOSIT_PERIOD = 'PROPOSAL_STATUS_DEPOSIT_PERIOD',
+  // PROPOSAL_STATUS_UNSPECIFIED = 'PROPOSAL_STATUS_UNSPECIFIED',
+  // PROPOSAL_STATUS_VOTING_PERIOD = 'PROPOSAL_STATUS_VOTING_PERIOD',
+  // PROPOSAL_STATUS_PASSED = 'PROPOSAL_STATUS_PASSED',
+  // PROPOSAL_STATUS_FAILED = 'PROPOSAL_STATUS_FAILED',
+
+  /** PROPOSAL_STATUS_UNSPECIFIED - PROPOSAL_STATUS_UNSPECIFIED defines the default propopsal status. */
+  PROPOSAL_STATUS_UNSPECIFIED = 0,
+  /**
+   * PROPOSAL_STATUS_DEPOSIT_PERIOD - PROPOSAL_STATUS_DEPOSIT_PERIOD defines a proposal status during the deposit
+   * period.
+   */
+  PROPOSAL_STATUS_DEPOSIT_PERIOD = 1,
+  /**
+   * PROPOSAL_STATUS_VOTING_PERIOD - PROPOSAL_STATUS_VOTING_PERIOD defines a proposal status during the voting
+   * period.
+   */
+  PROPOSAL_STATUS_VOTING_PERIOD = 2,
+  /**
+   * PROPOSAL_STATUS_PASSED - PROPOSAL_STATUS_PASSED defines a proposal status of a proposal that has
+   * passed.
+   */
+  PROPOSAL_STATUS_PASSED = 3,
+  /**
+   * PROPOSAL_STATUS_REJECTED - PROPOSAL_STATUS_REJECTED defines a proposal status of a proposal that has
+   * been rejected.
+   */
+  PROPOSAL_STATUS_REJECTED = 4,
+  /**
+   * PROPOSAL_STATUS_FAILED - PROPOSAL_STATUS_FAILED defines a proposal status of a proposal that has
+   * failed.
+   */
+  PROPOSAL_STATUS_FAILED = 5,
+  UNRECOGNIZED = -1,
 }
 
 export interface TallyType {
@@ -22,11 +53,6 @@ export interface TallyType {
   noWithVeto: number
   abstain: number
   available: number
-}
-
-export interface Coin {
-  denom: string
-  amount: string
 }
 
 export enum ProposalContentType {

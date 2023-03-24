@@ -18,6 +18,8 @@ import { reducer as createEntityTemplateReducer } from 'redux/createTemplate/cre
 import { reducer as fuelEntityReducer } from 'redux/fuelEntity/fuelEntity.reducer'
 import { reducer as evaluateClaimReducer } from 'redux/evaluateClaim/evaluateClaim.reducer'
 import { reducer as selectedEntityReducer } from 'redux/selectedEntity/selectedEntity.reducer'
+import { reducer as currentEntityReducer } from 'redux/currentEntity/currentEntity.reducer'
+import { reducer as currentDaoReducer } from 'redux/currentEntity/dao/currentDao.reducer'
 import { reducer as submitEntityClaimReducer } from 'redux/submitEntityClaim/submitEntityClaim.reducer'
 import { reducer as selectedEntityExchangeReducer } from 'redux/selectedEntityExchange/entityExchange.reducer'
 import { reducer as selectedEntityAgentsReducer } from 'redux/selectedEntityAgents/entityAgents.reducer'
@@ -28,6 +30,7 @@ import { reducer as editEntityClaimsReducer } from 'redux/editEntityClaims/editE
 import { reducer as editEntityPageContentReducer } from 'redux/editEntityPageContent/editEntityPageContent.reducer'
 import { reducer as editEntitySettingsReducer } from 'redux/editEntitySettings/editEntitySettings.reducer'
 import { reducer as editEntityTemplateReducer } from 'redux/editEntityTemplate/editTemplate.reducer'
+import { reducer as validatorReducer } from 'redux/validator/validator.reducer'
 
 export const rootReducer = (history: any) =>
   combineReducers({
@@ -59,5 +62,8 @@ export const rootReducer = (history: any) =>
     economy: economyReducer,
     configs: configsReducer,
     newEntity: newEntityReducer,
+    currentEntity: currentEntityReducer,
+    currentDao: currentDaoReducer,
+    validator: validatorReducer,
     router: connectRouter(history),
   })

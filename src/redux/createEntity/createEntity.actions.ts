@@ -1,9 +1,10 @@
 import {
   ELocalisation,
   TDAOGroupModel,
+  TProposalModel,
   TEntityAccordedRightModel,
   TEntityClaimModel1,
-  TEntityControllerModel,
+  TEntityAdministratorModel,
   TEntityCreatorModel,
   TEntityDDOTagModel,
   TEntityLinkedEntityModel,
@@ -15,20 +16,19 @@ import {
 import {
   ECreateEntityActions,
   TAddAssetInstancesAction,
-  TEntityModel,
+  TCreateEntityModel,
   TGotoStepAction,
-  TInitializeAction,
   TRemoveAssetInstancesAction,
   TUpdateAccordedRightAction,
-  TUpdateAssetClassDidAction,
   TUpdateAssetInstanceAction,
+  TUpdateBreadCrumbsAction,
   TUpdateClaimAction,
-  TUpdateControllerAction,
+  TUpdateAdministratorAction,
   TUpdateCreatorAction,
   TUpdateDAOControllerAction,
   TUpdateDAOGroupsAction,
   TUpdateDDOTagsAction,
-  TUpdateEntityClassDidAction,
+  TUpdateProposalAction,
   TUpdateEntityTypeAction,
   TUpdateLinkedEntityAction,
   TUpdateLinkedResourceAction,
@@ -36,6 +36,8 @@ import {
   TUpdateMetaDataAction,
   TUpdatePageAction,
   TUpdateServiceAction,
+  TUpdateSubtitleAction,
+  TUpdateTitleAction,
 } from './createEntity.types'
 
 export const updateEntityTypeAction = (entityType: string): TUpdateEntityTypeAction => ({
@@ -48,6 +50,21 @@ export const gotoStepAction = (no: number): TGotoStepAction => ({
   payload: no,
 })
 
+export const updateBreadCrumbsAction = (breadCrumbs: { text: string; link?: string }[]): TUpdateBreadCrumbsAction => ({
+  type: ECreateEntityActions.UpdateBreadCrumbs,
+  payload: breadCrumbs,
+})
+
+export const updateTitleAction = (title: string): TUpdateTitleAction => ({
+  type: ECreateEntityActions.UpdateTitle,
+  payload: title,
+})
+
+export const updateSubtitleAction = (subtitle: string): TUpdateSubtitleAction => ({
+  type: ECreateEntityActions.UpdateSubtitle,
+  payload: subtitle,
+})
+
 export const updateMetadataAction = (metadata: TEntityMetadataModel): TUpdateMetaDataAction => ({
   type: ECreateEntityActions.UpdateMetadata,
   payload: metadata,
@@ -58,9 +75,9 @@ export const updateCreatorAction = (creator: TEntityCreatorModel): TUpdateCreato
   payload: creator,
 })
 
-export const updateControllerAction = (controller: TEntityControllerModel): TUpdateControllerAction => ({
-  type: ECreateEntityActions.UpdateController,
-  payload: controller,
+export const updateAdministratorAction = (administrator: TEntityAdministratorModel): TUpdateAdministratorAction => ({
+  type: ECreateEntityActions.UpdateAdministrator,
+  payload: administrator,
 })
 
 export const updateDDOTagsAction = (ddoTags: TEntityDDOTagModel[]): TUpdateDDOTagsAction => ({
@@ -104,22 +121,12 @@ export const updateLinkedEntityAction = (linkedEntity: {
   payload: linkedEntity,
 })
 
-export const updateEntityClassDidAction = (did: string): TUpdateEntityClassDidAction => ({
-  type: ECreateEntityActions.UpdateEntityClassDid,
-  payload: did,
-})
-
-export const updateAssetClassDidAction = (did: string): TUpdateAssetClassDidAction => ({
-  type: ECreateEntityActions.UpdateAssetClassDid,
-  payload: did,
-})
-
-export const addAssetInstancesAction = (instances: TEntityModel[]): TAddAssetInstancesAction => ({
+export const addAssetInstancesAction = (instances: TCreateEntityModel[]): TAddAssetInstancesAction => ({
   type: ECreateEntityActions.AddAssetInstances,
   payload: instances,
 })
 
-export const updateAssetInstanceAction = (id: number, instance: TEntityModel): TUpdateAssetInstanceAction => ({
+export const updateAssetInstanceAction = (id: number, instance: TCreateEntityModel): TUpdateAssetInstanceAction => ({
   type: ECreateEntityActions.UpdateAssetInstance,
   payload: { id, data: instance },
 })
@@ -133,10 +140,6 @@ export const updateLocalisationAction = (localisation: ELocalisation): TUpdateLo
   payload: localisation,
 })
 
-export const initializeAction = (): TInitializeAction => ({
-  type: ECreateEntityActions.Initialize,
-})
-
 // for DAO
 export const updateDAOGroupsAction = (daoGroups: { [id: string]: TDAOGroupModel }): TUpdateDAOGroupsAction => ({
   type: ECreateEntityActions.UpdateDAOGroups,
@@ -146,4 +149,10 @@ export const updateDAOGroupsAction = (daoGroups: { [id: string]: TDAOGroupModel 
 export const updateDAOControllerAction = (controller: string): TUpdateDAOControllerAction => ({
   type: ECreateEntityActions.UpdateDAOController,
   payload: controller,
+})
+
+// for Proposal
+export const updateProposalAction = (proposal: TProposalModel): TUpdateProposalAction => ({
+  type: ECreateEntityActions.UpdateProposal,
+  payload: proposal,
 })

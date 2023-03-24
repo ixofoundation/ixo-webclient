@@ -137,14 +137,12 @@ const Table: React.FunctionComponent<TableProps> = ({ columns, data }: any) => {
     usePagination,
   )
   const size = useWindowSize()
-  const updatedRows = rows.map(function (val, key) {
-    // @ts-ignore
-    val.key = `table-row-${key}`
-    return val
+  const updatedRows = (rows ?? []).map(function (val, key) {
+    return { ...val, key: `table-row-${key}` }
   })
   // const initialState = [...rows]
   // const [collapsibleRow, setCollapsibleRow] = useState([])
-  const transitions = useTransition(updatedRows, (item: any) => item.key, {
+  const transitions = useTransition(updatedRows, (item: any) => item?.key, {
     from: { transform: 'translate3d(-400px,0,0)' },
     enter: { transform: 'translate3d(0,0,0)' },
     // leave: { transform: 'translate3d(0,0,0)' },

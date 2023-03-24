@@ -81,7 +81,7 @@ export const articleFormat = (objStr: string): string => {
 export const simplifyId = (id: string, prefix: string): string => id.match(new RegExp(`${prefix}:(.*)`))![1]
 
 export const truncateString = (str: string, length: number, separator = '...'): string => {
-  if (str.length <= length) return str
+  if (!str || str.length <= length) return str
 
   const sepLen = separator.length,
     charsToShow = length - sepLen,

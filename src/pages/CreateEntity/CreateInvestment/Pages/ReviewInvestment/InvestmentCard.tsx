@@ -31,7 +31,7 @@ const InvestmentCard: React.FC<Props> = ({ image, name, endDate, icon }): JSX.El
         <FlexBox width='100%' justifyContent='space-between' alignItems='center'>
           <CardTags style={{ gap: 5 }}>
             <CardTag tagColor={'#5197B6'}>Investment</CardTag>
-            <CardTag tagColor={theme.ixoNewOrange}>AlphaBond</CardTag>
+            <CardTag tagColor={theme.ixoDarkOrange}>AlphaBond</CardTag>
           </CardTags>
           <Box borderRadius='50%'>
             <img width={40} height={40} src={icon} alt='' />

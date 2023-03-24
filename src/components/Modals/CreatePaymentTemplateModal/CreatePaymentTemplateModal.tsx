@@ -22,9 +22,9 @@ import { Container, NextStep, PrevStep, CheckWrapper, TXStatusBoard, ButtonWrapp
 import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 import * as Toast from 'utils/toast'
 import { TXStatus } from '../common'
-import { CreatePaymentTemplate } from 'lib/protocol'
-import { useAccount } from 'hooks/account'
-import { Coin } from '@cosmjs/proto-signing'
+// import { CreatePaymentTemplate } from 'lib/protocol'
+// import { useAccount } from 'hooks/account'
+// import { Coin } from '@cosmjs/proto-signing'
 import { useIxoConfigs } from 'hooks/configs'
 import { PaymentCoins } from 'redux/configs/configs.types'
 
@@ -45,14 +45,17 @@ interface Props {
 }
 
 const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({ open, setOpen }) => {
-  const { did, address, signingClient } = useAccount()
+  // const { did, address, signingClient } = useAccount()
   const { paymentCoins } = useIxoConfigs()
   const steps = ['Template', 'Amounts', 'Confirm', 'Sign']
   const [currentStep, setCurrentStep] = useState<number>(0)
   const availableCurrencies = paymentCoins!.map((coin: PaymentCoins) => coin.coinDenom)
   const [paymentCurrency, setPaymentCurrency] = useState<string>('IXO')
 
-  const [signTXStatus, setSignTXStatus] = useState<TXStatus>(TXStatus.PENDING)
+  const [
+    signTXStatus,
+    // setSignTXStatus
+  ] = useState<TXStatus>(TXStatus.PENDING)
 
   const [templateName, setTemplateName] = useState<string>()
   const [selectedPaymentTemplateMethod, setSelectedPaymentTemplateMethod] = useState<PaymentTemplateMethod>()
@@ -145,21 +148,20 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({ open, setO
   // }
 
   const handleSubmit = async (): Promise<void> => {
-    const minimalDenom = paymentCoins!.find(
-      (currency: PaymentCoins) => currency.coinDenom === paymentCurrency,
-    )!.coinMinimalDenom
-    const paymentAmount: Coin = { denom: minimalDenom, amount: amount ?? '0' }
-    const paymentMinimum: Coin = { denom: minimalDenom, amount: minAmount ?? '0' }
-    const paymentMaximum: Coin = { denom: minimalDenom, amount: maxAmount ?? '0' }
-
-    const res = await CreatePaymentTemplate(signingClient, {
-      did,
-      address,
-      paymentAmount,
-      paymentMinimum,
-      paymentMaximum,
-    })
-    setSignTXStatus(res ? TXStatus.SUCCESS : TXStatus.ERROR)
+    // const minimalDenom = paymentCoins!.find(
+    //   (currency: PaymentCoins) => currency.coinDenom === paymentCurrency,
+    // )!.coinMinimalDenom
+    // const paymentAmount: Coin = { denom: minimalDenom, amount: amount ?? '0' }
+    // const paymentMinimum: Coin = { denom: minimalDenom, amount: minAmount ?? '0' }
+    // const paymentMaximum: Coin = { denom: minimalDenom, amount: maxAmount ?? '0' }
+    // const res = await CreatePaymentTemplate(signingClient, {
+    //   did,
+    //   address,
+    //   paymentAmount,
+    //   paymentMinimum,
+    //   paymentMaximum,
+    // })
+    // setSignTXStatus(res ? TXStatus.SUCCESS : TXStatus.ERROR)
   }
 
   const handlePrevStep = (): void => {

@@ -1,4 +1,5 @@
 export enum TXStatus {
+  UNDEFINED = 'undefined',
   PENDING = 'pending',
   SUCCESS = 'success',
   ERROR = 'error',

@@ -6,7 +6,7 @@ export const LayoutWrapper = styled.div`
 `
 
 export const LayoutHeader = styled.div`
-  background: ${(props): string => props.theme.ixoLightGrey};
+  background: ${(props): string => props.theme.ixoGrey100};
   padding: 40px 0;
 `
 

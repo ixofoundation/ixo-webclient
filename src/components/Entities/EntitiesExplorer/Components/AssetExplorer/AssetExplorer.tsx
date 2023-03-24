@@ -11,7 +11,7 @@ import {
 } from './AssetExplorer.styles'
 import { ReactComponent as GlobeIcon } from 'assets/images/icon-globe.svg'
 import { ReactComponent as DiamondIcon } from 'assets/images/icon-diamond.svg'
-import { ReactComponent as WalletIcon } from 'assets/images/icon-wallet.svg'
+import { ReactComponent as WalletIcon } from 'assets/images/icon-wallet-solid.svg'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
 import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
 import AssetCard from './AssetCard'
