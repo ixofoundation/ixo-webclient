@@ -600,6 +600,11 @@
               "@type": "Tag",
               "name": "SDG17 – Partnerships for Goals",
               "icon": "sdg17.svg"
+            },
+            {
+              "@type": "Tag",
+              "name": "Global",
+              "icon": "globalgoals.svg"
             }
           ]
         },
