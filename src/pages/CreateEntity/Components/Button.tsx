@@ -77,12 +77,15 @@ const StyledButton = styled.button<{
 
   padding: 0.5rem 1rem;
 
+  user-select: none;
+
   &:focus {
     outline: none;
   }
 
-  &:disabled {
-    cursor: not-allowed;
+  &[disabled] {
+    pointer-events: none;
+    opacity: 0.5;
   }
 `
 

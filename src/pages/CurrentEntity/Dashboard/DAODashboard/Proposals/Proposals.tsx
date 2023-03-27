@@ -8,11 +8,13 @@ import { Groups } from '../Components'
 import { Typography } from 'components/Typography'
 import { Button } from 'pages/CreateEntity/Components'
 import { useHistory, useParams } from 'react-router-dom'
+import { useAccount } from 'hooks/account'
 
 const Proposals: React.FC = () => {
   const { entityId } = useParams<{ entityId: string }>()
   const history = useHistory()
   const { selectedGroups } = useCurrentDao()
+  const { address } = useAccount()
   const selectedGroupAddresses: string[] = Object.keys(selectedGroups)
   const numOfSelectedGroups = selectedGroupAddresses.length
 
@@ -50,6 +52,9 @@ const Proposals: React.FC = () => {
             textTransform='capitalize'
             textWeight='medium'
             onClick={handleNewProposal}
+            disabled={
+              !selectedGroups[selectedGroupAddresses[0]].votingModule.members.some(({ addr }) => addr === address)
+            }
           >
             New Proposal
           </Button>

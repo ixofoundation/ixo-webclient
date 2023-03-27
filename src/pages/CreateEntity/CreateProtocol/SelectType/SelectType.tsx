@@ -2,7 +2,7 @@ import { Typography } from 'components/Typography'
 import React, { useEffect, useState } from 'react'
 import { Wrapper } from './SelectType.styles'
 import { Box } from 'components/App/App.styles'
-import { CateSelector } from '../Components'
+import { CateSelector } from '../../Components'
 import { ReactComponent as ClaimIcon } from 'assets/images/icon-claim.svg'
 import { ReactComponent as ImpactTokenIcon } from 'assets/images/icon-impact-token.svg'
 import { ReactComponent as InvestmentIcon } from 'assets/images/icon-investment.svg'
@@ -40,15 +40,15 @@ const SelectType: React.FC = (): JSX.Element => {
     },
     {
       type: 'Oracle',
-      label: 'Oracle Method',
+      label: 'Oracle Class',
       icon: <OracleIcon />,
-      description: `A <b>Oracle Method</b> defines a data schema, data collection format, and evaluation methodology for any type of verifiable claim.`,
+      description: `A <b>Oracle Class</b> defines a data schema, data collection format, and evaluation methodology for any type of verifiable claim.`,
     },
     {
       type: 'Dao',
-      label: 'DAO Template',
+      label: 'DAO Class',
       icon: <DAOIcon />,
-      description: `A <b>DAO Template</b> defines a data schema, data collection format, and evaluation methodology for any type of verifiable claim.`,
+      description: `A <b>DAO Class</b> defines a data schema, data collection format, and evaluation methodology for any type of verifiable claim.`,
     },
   ]
 
@@ -62,8 +62,8 @@ const SelectType: React.FC = (): JSX.Element => {
 
   useEffect(() => {
     updateEntityType('')
-    updateTitle('Create a Protocol')
-    updateSubtitle('Select a Type of Protocol')
+    updateTitle('Create Protocol')
+    updateSubtitle('Select Type of Protocol')
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 

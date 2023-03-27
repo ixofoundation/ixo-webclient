@@ -4,7 +4,7 @@ import { useCreateEntityState, useCreateEntityStrategy } from 'hooks/createEntit
 
 const CreateInvestment: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): JSX.Element => {
   const { getStrategyByEntityType } = useCreateEntityStrategy()
-  const { updateTitle, updateSubtitle } = useCreateEntityState()
+  const { updateEntityType, updateTitle, updateSubtitle, updateBreadCrumbs } = useCreateEntityState()
   const isSelectProcessRoute = useRouteMatch('/create/entity/investment/select-process')
   const isSetupMetadataRoute = useRouteMatch('/create/entity/investment/setup-metadata')
   const isSetupInstrumentRoute = useRouteMatch('/create/entity/investment/setup-instrument')
@@ -13,7 +13,9 @@ const CreateInvestment: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match 
   const { steps } = getStrategyByEntityType('Investment')
 
   useEffect(() => {
-    updateTitle('Create an Investment')
+    updateEntityType('Investment')
+    updateTitle('Create Investment')
+    updateBreadCrumbs([{ text: 'INVESTMENT' }])
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 

@@ -15,6 +15,8 @@ import {
   SelectCreationProcess as SelectClaimCreationProcess,
   SetupMetadata as SetupClaimMetadata,
   SetupDataCollection as SetupClaimDataCollection,
+  SetupProperties as SetupClaimProperties,
+  ReviewClaim,
 } from 'pages/CreateEntity/CreateClaim/Pages'
 import {
   SelectCreationProcess as SelectDAOCreationProcess,
@@ -31,6 +33,8 @@ import {
 import {
   SelectCreationProcess as SelectOracleCreationProcess,
   SetupMetadata as SetupOracleMetadata,
+  SetupProperties as SetupOracleProperties,
+  ReviewOracle,
 } from 'pages/CreateEntity/CreateOracle/Pages'
 import {
   SetupInfo as SetupProposalInfo,
@@ -61,7 +65,7 @@ export interface TCreateEntityStrategyMap {
 export const CreateEntityStrategyMap: TCreateEntityStrategyMap = {
   Asset: {
     entityType: 'Asset',
-    title: 'Create an Asset Class',
+    title: 'Create Asset Class',
     steps: {
       [`1`]: {
         id: 1,
@@ -107,7 +111,7 @@ export const CreateEntityStrategyMap: TCreateEntityStrategyMap = {
   },
   Investment: {
     entityType: 'Investment',
-    title: 'Create an Investment',
+    title: 'Create Investment',
     steps: {
       [`1`]: {
         id: 1,
@@ -151,9 +155,9 @@ export const CreateEntityStrategyMap: TCreateEntityStrategyMap = {
       },
     },
   },
-  Claim: {
-    entityType: 'Claim',
-    title: 'Create a Verifiable Claim',
+  Protocol: {
+    entityType: 'Protocol',
+    title: 'Create Verifiable Claim',
     steps: {
       [`1`]: {
         id: 1,
@@ -182,16 +186,24 @@ export const CreateEntityStrategyMap: TCreateEntityStrategyMap = {
       [`4`]: {
         id: 4,
         name: 'Configuration',
-        component: SetupProperties,
+        component: SetupClaimProperties,
         url: '/create/entity/claim/setup-properties',
         prevStep: 3,
         nextStep: 5,
+      },
+      [`5`]: {
+        id: 5,
+        name: 'Review and Sign to Commit',
+        component: ReviewClaim,
+        url: '/create/entity/claim/review',
+        prevStep: 4,
+        nextStep: undefined,
       },
     },
   },
   Dao: {
     entityType: 'Dao',
-    title: 'Create a DAO',
+    title: 'Create DAO',
     steps: {
       [`1`]: {
         id: 1,
@@ -237,7 +249,7 @@ export const CreateEntityStrategyMap: TCreateEntityStrategyMap = {
   },
   Project: {
     entityType: 'Project',
-    title: 'Create a Project Template',
+    title: 'Create Project Template',
     steps: {
       [`1`]: {
         id: 1,
@@ -275,7 +287,7 @@ export const CreateEntityStrategyMap: TCreateEntityStrategyMap = {
   },
   Oracle: {
     entityType: 'Oracle',
-    title: 'Create an Oracle Method',
+    title: 'Create Oracle Method',
     steps: {
       [`1`]: {
         id: 1,
@@ -296,16 +308,24 @@ export const CreateEntityStrategyMap: TCreateEntityStrategyMap = {
       [`3`]: {
         id: 3,
         name: 'Setup an additional information',
-        component: SetupProperties,
+        component: SetupOracleProperties,
         url: '/create/entity/oracle/setup-properties',
         prevStep: 2,
+        nextStep: 4,
+      },
+      [`4`]: {
+        id: 4,
+        name: 'Review and Sign to Commit',
+        component: ReviewOracle,
+        url: '/create/entity/oracle/review',
+        prevStep: 3,
         nextStep: undefined,
       },
     },
   },
   Proposal: {
     entityType: 'Proposal',
-    title: 'Create a governance proposal',
+    title: 'Create governance proposal',
     steps: {
       [`1`]: {
         id: 1,

@@ -6,7 +6,7 @@ import CellCard from './Components/EntityCard/CellCard/CellCard2'
 // import ProjectCard from './Components/EntityCard/ProjectCard/ProjectCard'
 // import TemplateCard from './Components/EntityCard/TemplateCard/TemplateCard'
 // import InvestmentCard from './Components/EntityCard/InvestmentCard/InvestmentCard'
-// import OracleCard from './Components/EntityCard/OracleCard/OracleCard'
+import OracleCard from './Components/EntityCard/OracleCard/OracleCard2'
 // import AssetCard from './Components/EntityCard/AssetCard/AssetCard'
 import { EntitiesHero } from './Components/EntitiesHero/EntitiesHero'
 import { Spinner } from 'components/Spinner/Spinner'
@@ -110,7 +110,7 @@ const EntityCard: any = {
   // [EntityType.Project]: ProjectCard,
   [EntityType.Dao]: CellCard,
   // [EntityType.Template]: TemplateCard,
-  // [EntityType.Oracle]: OracleCard,
+  [EntityType.Oracle]: OracleCard,
   // [EntityType.Investment]: InvestmentCard,
   // [EntityType.Asset]: AssetCard,
 }

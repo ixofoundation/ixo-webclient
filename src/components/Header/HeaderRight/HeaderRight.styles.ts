@@ -78,10 +78,11 @@ export const MenuBottom = styled.div`
   background-color: #01151f;
   padding: 15px;
   display: flex;
+  font-size: 12px;
 
   p {
-    width: 180px;
-    font-size: 12px;
+    margin: 0;
+    flex: 0 1 100%;
   }
 
   span {
@@ -96,25 +97,25 @@ export const MenuBottom = styled.div`
 `
 
 export const NoPadLeft = styled.div`
-	padding-right:0;
-	position:relative;
-	z-index:2;
+  padding-right: 0;
+  position: relative;
+  z-index: 2;
 
-	${UserMenu}.visible {
-		top:74px;
-	}
+  ${UserMenu}.visible {
+    top: 74px;
+  }
 
-	h3 {
-		font-size:14px;
-		margin-bottom:0;
-		display: flex;
-		justify-content: space-between;
-		z-index:2;
-		position:relative;
-		letter-spacing:0.3px
-		font-weight: 600;
-		font-family: ${/* eslint-disable-line */ (props) => props.theme.primaryFontFamily};
-	}
+  h3 {
+    font-size: 14px;
+    margin-bottom: 0;
+    display: flex;
+    justify-content: space-between;
+    z-index: 2;
+    position: relative;
+    letter-spacing: 0.3px;
+    font-weight: 600;
+    font-family: ${(props) => props.theme.primaryFontFamily};
+  }
 `
 
 export const AccDID = styled.div`
