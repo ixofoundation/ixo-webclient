@@ -1,3 +1,9 @@
+import 'slick-carousel/slick/slick.css'
+import 'slick-carousel/slick/slick-theme.css'
+import 'react-dates/lib/css/_datepicker.css'
+import 'assets/icons.css'
+import 'assets/toasts.scss'
+
 import blocksyncApi from 'api/blocksync/blocksync'
 import AssistantContext from 'contexts/assistant'
 import { AnyObject } from 'immer/dist/internal'
@@ -19,12 +25,6 @@ import { Routes } from 'routes'
 import { toggleAssistant } from 'redux/account/account.actions'
 import { UserInfo } from 'redux/account/account.types'
 import { Container, ContentWrapper, theme } from './App.styles'
-import 'slick-carousel/slick/slick.css'
-import 'slick-carousel/slick/slick-theme.css'
-import 'react-dates/lib/css/_datepicker.css'
-import 'react-toastify/dist/ReactToastify.css'
-import 'assets/icons.css'
-import 'assets/toasts.css'
 // For Sentry performance profiling
 // import { withProfiler } from '@sentry/react'
 

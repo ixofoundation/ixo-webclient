@@ -4,17 +4,19 @@ import { useCreateEntityState, useCreateEntityStrategy } from 'hooks/createEntit
 
 const CreateAsset: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): JSX.Element => {
   const { getStrategyByEntityType } = useCreateEntityStrategy()
-  const { updateTitle, updateSubtitle } = useCreateEntityState()
+  const { updateEntityType, updateTitle, updateSubtitle, updateBreadCrumbs } = useCreateEntityState()
   const isSelectProcessRoute = useRouteMatch('/create/entity/asset/select-process')
   const isSetupMetadataRoute = useRouteMatch('/create/entity/asset/setup-metadata')
   const isSetupPropertiesRoute = useRouteMatch('/create/entity/asset/setup-properties')
   const isReviewRoute = useRouteMatch('/create/entity/asset/review')
   const isCreateTokenRoute = useRouteMatch('/create/entity/asset/create-token')
 
-  const { steps } = getStrategyByEntityType('Asset')
+  const { steps } = getStrategyByEntityType('asset')
 
   useEffect(() => {
-    updateTitle('Create an Asset Class')
+    updateEntityType('asset')
+    updateTitle('Create Asset Class')
+    updateBreadCrumbs([{ text: 'ASSET' }])
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -44,7 +46,7 @@ const CreateAsset: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): J
   }, [isReviewRoute?.isExact])
   useEffect(() => {
     if (isCreateTokenRoute?.isExact) {
-      updateSubtitle('Create an Asset')
+      updateSubtitle('Create Asset')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isCreateTokenRoute?.isExact])

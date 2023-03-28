@@ -133,16 +133,6 @@ export default function useCurrentDao(): {
     [getDaoGroupsByAddresses],
   )
 
-  // const getCw20PairsByAddresses = useCallback(
-  //   async (addresses: string[]) => {
-  //     const pairs: { [address: string]: { address: string; balance?: string } } = {}
-  //     getDaoGroupsByAddresses(addresses).forEach((daoGroup) => {
-  //       daoGroup.treasury.cw20TokenList.
-  //     })
-  //   },
-  //   [getDaoGroupsByAddresses],
-  // )
-
   const getCodeId = async (address: string): Promise<number> => {
     const { codeId } = await cosmWasmClient.getContract(address)
     return codeId
@@ -239,10 +229,12 @@ export default function useCurrentDao(): {
         votingModule.votingModuleAddress,
       )
 
+      console.log('Cw4GroupClient-------start')
       const cw4GroupAddress = await daoVotingCw4Client.groupContract()
       const cw4GroupClient = new contracts.Cw4Group.Cw4GroupClient(cosmWasmClient, address, cw4GroupAddress)
       votingModule.members = (await cw4GroupClient.listMembers({})).members as never[]
       votingModule.totalWeight = (await cw4GroupClient.totalWeight({})).weight as number
+      console.log('Cw4GroupClient-------end')
     }
 
     // treasury

@@ -33,7 +33,6 @@ import { GetBalances, KeyTypes, TSigner } from 'lib/protocol'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 import { useKeplr } from 'lib/keplr/keplr'
 import { OfflineSigner } from '@cosmjs/proto-signing'
-import { useIxoConfigs } from './configs'
 import { useMemo } from 'react'
 import { SigningCosmWasmClient } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/cosmwasm-stargate'
 
@@ -66,7 +65,6 @@ export function useAccount(): {
   updateChooseWalletOpen: (open: boolean) => void
 } {
   const dispatch = useAppDispatch()
-  const { convertToDenom } = useIxoConfigs()
   const keplr = useKeplr()
   const selectedWallet: WalletType = useAppSelector(selectAccountSelectedWallet)
   const address: string = useAppSelector(selectAccountAddress)
@@ -97,7 +95,7 @@ export function useAccount(): {
         return
       }
       const balances = await GetBalances(address)
-      dispatch(updateBalancesAction(balances.map((item) => convertToDenom(item)!)))
+      dispatch(updateBalancesAction(balances))
     } catch (e) {
       console.error('updateBalances:', e)
     }

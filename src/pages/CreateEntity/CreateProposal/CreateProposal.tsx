@@ -8,19 +8,19 @@ const CreateProposal: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match })
   const { daoGroup } = useCurrentDaoGroup(coreAddress)
   const { getStrategyByEntityType } = useCreateEntityStrategy()
   const { updateBreadCrumbs, updateEntityType, updateTitle, updateSubtitle } = useCreateEntityState()
-  const isSetupInfoRoute = useRouteMatch('/create/entity/:entityId/proposal/:coreAddress/info')
-  const isSetupPageRoute = useRouteMatch('/create/entity/:entityId/proposal/:coreAddress/setup-page')
-  const isSetupPropertiesRoute = useRouteMatch('/create/entity/:entityId/proposal/:coreAddress/setup-properties')
-  const isSetupActionsRoute = useRouteMatch('/create/entity/:entityId/proposal/:coreAddress/setup-actions')
-  const { steps } = getStrategyByEntityType('Proposal')
+  const isSetupInfoRoute = useRouteMatch('/create/entity/deed/:entityId/:coreAddress/info')
+  const isSetupPageRoute = useRouteMatch('/create/entity/deed/:entityId/:coreAddress/setup-page')
+  const isSetupPropertiesRoute = useRouteMatch('/create/entity/deed/:entityId/:coreAddress/setup-properties')
+  const isSetupActionsRoute = useRouteMatch('/create/entity/deed/:entityId/:coreAddress/setup-actions')
+  const { steps } = getStrategyByEntityType('deed')
 
   useEffect(() => {
-    updateEntityType('Proposal')
+    updateEntityType('deed')
     updateBreadCrumbs([
       { text: entityId, link: `/entity/${entityId}/dashboard` },
       { text: daoGroup?.config.name || 'Governance', link: `/entity/${entityId}/dashboard/members` },
     ])
-    updateTitle('Create a governance proposal')
+    updateTitle('Create governance proposal')
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [daoGroup?.config.name])
 

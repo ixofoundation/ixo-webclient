@@ -13,7 +13,7 @@ const buttonColor = (variant: TButtonVariant, isDark: boolean): string => {
   switch (variant) {
     case 'primary':
     default:
-      return isDark ? theme.ixoBlack : theme.ixoWhite
+      return theme.ixoWhite
     case 'secondary':
       return isDark ? theme.ixoWhite : theme.ixoBlack
   }
@@ -77,12 +77,15 @@ const StyledButton = styled.button<{
 
   padding: 0.5rem 1rem;
 
+  user-select: none;
+
   &:focus {
     outline: none;
   }
 
-  &:disabled {
-    cursor: not-allowed;
+  &[disabled] {
+    pointer-events: none;
+    opacity: 0.5;
   }
 `
 

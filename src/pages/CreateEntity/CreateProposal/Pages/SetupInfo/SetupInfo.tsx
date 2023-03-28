@@ -22,7 +22,7 @@ const SetupInfo: React.FC = (): JSX.Element => {
   const onContinue = () => {
     if (name && description) {
       updateProposal({ name, description })
-      history.push(`/create/entity/${entityId}/proposal/${coreAddress}/setup-page`)
+      history.push(`/create/entity/deed/${entityId}/${coreAddress}/setup-page`)
     }
   }
 

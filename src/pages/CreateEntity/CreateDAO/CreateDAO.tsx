@@ -4,16 +4,17 @@ import { useCreateEntityState, useCreateEntityStrategy } from 'hooks/createEntit
 
 const CreateDAO: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): JSX.Element => {
   const { getStrategyByEntityType } = useCreateEntityStrategy()
-  const { updateTitle, updateSubtitle, updateBreadCrumbs } = useCreateEntityState()
+  const { updateEntityType, updateTitle, updateSubtitle, updateBreadCrumbs } = useCreateEntityState()
   const isSelectProcessRoute = useRouteMatch('/create/entity/dao/select-process')
   const isSetupMetadataRoute = useRouteMatch('/create/entity/dao/setup-metadata')
   const isSetupGroupsRoute = useRouteMatch('/create/entity/dao/setup-groups')
   const isSetupPropertiesRoute = useRouteMatch('/create/entity/dao/setup-properties')
   const isReviewRoute = useRouteMatch('/create/entity/dao/review')
-  const { steps } = getStrategyByEntityType('Dao')
+  const { steps } = getStrategyByEntityType('dao')
 
   useEffect(() => {
-    updateTitle('Create a DAO')
+    updateEntityType('dao')
+    updateTitle('Create DAO')
     updateBreadCrumbs([{ text: 'DAO' }])
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -55,7 +56,7 @@ const CreateDAO: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): JSX
         <Route key={step.url} exact path={step.url} component={step.component} />
       ))}
       <Route exact path={`${match.path}`}>
-        {steps[1] && steps[1].url && <Redirect to={steps[1].url} />}
+        {steps[1]?.url && <Redirect to={steps[1].url} />}
       </Route>
     </>
   )

@@ -4,15 +4,17 @@ import { useCreateEntityState, useCreateEntityStrategy } from 'hooks/createEntit
 
 const CreateClaim: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): JSX.Element => {
   const { getStrategyByEntityType } = useCreateEntityStrategy()
-  const { updateTitle, updateSubtitle } = useCreateEntityState()
+  const { updateEntityType, updateTitle, updateSubtitle, updateBreadCrumbs } = useCreateEntityState()
   const isSelectProcessRoute = useRouteMatch('/create/entity/claim/select-process')
   const isSetupMetadataRoute = useRouteMatch('/create/entity/claim/setup-metadata')
   const isSetupDataCollectionRoute = useRouteMatch('/create/entity/claim/setup-data-collection')
   const isSetupPropertiesRoute = useRouteMatch('/create/entity/claim/setup-properties')
-  const { steps } = getStrategyByEntityType('Claim')
+  const { steps } = getStrategyByEntityType('protocol')
 
   useEffect(() => {
-    updateTitle('Create a Verifiable Claim')
+    updateEntityType('protocol')
+    updateTitle('Create Verifiable Claim')
+    updateBreadCrumbs([{ text: 'Protocol' }])
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 

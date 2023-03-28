@@ -80,13 +80,20 @@ export const articleFormat = (objStr: string): string => {
 
 export const simplifyId = (id: string, prefix: string): string => id.match(new RegExp(`${prefix}:(.*)`))![1]
 
-export const truncateString = (str: string, length: number, separator = '...'): string => {
+export const truncateString = (str: string, length: number, at = 'middle'): string => {
+  const separator = '...'
+
   if (!str || str.length <= length) return str
 
-  const sepLen = separator.length,
-    charsToShow = length - sepLen,
-    frontChars = Math.ceil(charsToShow / 2),
-    backChars = Math.floor(charsToShow / 2)
+  if (at === 'middle') {
+    const sepLen = separator.length,
+      charsToShow = length - sepLen,
+      frontChars = Math.ceil(charsToShow / 2),
+      backChars = Math.floor(charsToShow / 2)
 
-  return str.substr(0, frontChars) + separator + str.substr(str.length - backChars)
+    return str.substr(0, frontChars) + separator + str.substr(str.length - backChars)
+  } else if (at === 'end') {
+    return str.slice(0, length) + separator
+  }
+  return str
 }

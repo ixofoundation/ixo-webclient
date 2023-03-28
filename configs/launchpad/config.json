@@ -838,7 +838,7 @@
             "@type": "Mobile",
             "@id": "connectionMobileApp",
             "title": "Mobile",
-            "tooltip": "Import to you mobile Impact Wallet",
+            "tooltip": "import to your mobile Impact Wallet",
             "icon": "Mobile",
             "iconColor": null,
             "endpoint": null,
