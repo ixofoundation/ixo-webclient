@@ -63,8 +63,8 @@ export interface TCreateEntityStrategyMap {
 }
 
 export const CreateEntityStrategyMap: TCreateEntityStrategyMap = {
-  Asset: {
-    entityType: 'Asset',
+  asset: {
+    entityType: 'asset',
     title: 'Create Asset Class',
     steps: {
       [`1`]: {
@@ -109,8 +109,8 @@ export const CreateEntityStrategyMap: TCreateEntityStrategyMap = {
       },
     },
   },
-  Investment: {
-    entityType: 'Investment',
+  investment: {
+    entityType: 'investment',
     title: 'Create Investment',
     steps: {
       [`1`]: {
@@ -155,8 +155,8 @@ export const CreateEntityStrategyMap: TCreateEntityStrategyMap = {
       },
     },
   },
-  Protocol: {
-    entityType: 'Protocol',
+  protocol: {
+    entityType: 'protocol',
     title: 'Create Verifiable Claim',
     steps: {
       [`1`]: {
@@ -201,8 +201,8 @@ export const CreateEntityStrategyMap: TCreateEntityStrategyMap = {
       },
     },
   },
-  Dao: {
-    entityType: 'Dao',
+  dao: {
+    entityType: 'dao',
     title: 'Create DAO',
     steps: {
       [`1`]: {
@@ -247,8 +247,8 @@ export const CreateEntityStrategyMap: TCreateEntityStrategyMap = {
       },
     },
   },
-  Project: {
-    entityType: 'Project',
+  project: {
+    entityType: 'project',
     title: 'Create Project Template',
     steps: {
       [`1`]: {
@@ -285,8 +285,8 @@ export const CreateEntityStrategyMap: TCreateEntityStrategyMap = {
       },
     },
   },
-  Oracle: {
-    entityType: 'Oracle',
+  oracle: {
+    entityType: 'oracle',
     title: 'Create Oracle Method',
     steps: {
       [`1`]: {
@@ -323,15 +323,15 @@ export const CreateEntityStrategyMap: TCreateEntityStrategyMap = {
       },
     },
   },
-  Proposal: {
-    entityType: 'Proposal',
+  deed: {
+    entityType: 'deed',
     title: 'Create governance proposal',
     steps: {
       [`1`]: {
         id: 1,
         name: 'Proposal Info',
         component: SetupProposalInfo,
-        url: '/create/entity/:entityId/proposal/:coreAddress/info',
+        url: '/create/entity/deed/:entityId/:coreAddress/info',
         prevStep: undefined,
         nextStep: 2,
       },
@@ -339,7 +339,7 @@ export const CreateEntityStrategyMap: TCreateEntityStrategyMap = {
         id: 2,
         name: 'Configure the proposal page',
         component: SetupPageContent,
-        url: '/create/entity/:entityId/proposal/:coreAddress/setup-page',
+        url: '/create/entity/deed/:entityId/:coreAddress/setup-page',
         prevStep: 1,
         nextStep: 3,
       },
@@ -347,7 +347,7 @@ export const CreateEntityStrategyMap: TCreateEntityStrategyMap = {
         id: 3,
         name: 'Configure the proposal settings',
         component: SetupProposalProperties,
-        url: '/create/entity/:entityId/proposal/:coreAddress/setup-properties',
+        url: '/create/entity/deed/:entityId/:coreAddress/setup-properties',
         prevStep: 2,
         nextStep: 4,
       },
@@ -355,7 +355,7 @@ export const CreateEntityStrategyMap: TCreateEntityStrategyMap = {
         id: 4,
         name: 'Add actions',
         component: SetupActions,
-        url: '/create/entity/:entityId/proposal/:coreAddress/setup-actions',
+        url: '/create/entity/deed/:entityId/:coreAddress/setup-actions',
         prevStep: 3,
         nextStep: undefined,
       },

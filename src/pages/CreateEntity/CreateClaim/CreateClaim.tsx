@@ -9,10 +9,10 @@ const CreateClaim: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): J
   const isSetupMetadataRoute = useRouteMatch('/create/entity/claim/setup-metadata')
   const isSetupDataCollectionRoute = useRouteMatch('/create/entity/claim/setup-data-collection')
   const isSetupPropertiesRoute = useRouteMatch('/create/entity/claim/setup-properties')
-  const { steps } = getStrategyByEntityType('Protocol')
+  const { steps } = getStrategyByEntityType('protocol')
 
   useEffect(() => {
-    updateEntityType('Protocol')
+    updateEntityType('protocol')
     updateTitle('Create Verifiable Claim')
     updateBreadCrumbs([{ text: 'Protocol' }])
     // eslint-disable-next-line react-hooks/exhaustive-deps

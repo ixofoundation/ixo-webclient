@@ -4,7 +4,7 @@ import React, { ReactNode } from 'react'
 import { ReactComponent as ExpandIcon } from 'assets/images/icon-expand-alt.svg'
 
 interface Props extends HTMLFlexBoxProps {
-  icon: JSX.Element
+  icon?: JSX.Element
   label: string
   onNavigate?: () => void
   children?: ReactNode
@@ -24,9 +24,11 @@ const Card: React.FC<Props> = ({ icon, label, onNavigate, children }): JSX.Eleme
     {/* Card Header */}
     <FlexBox width='100%' alignItems='center' justifyContent='space-between'>
       <FlexBox alignItems='center' gap={2}>
-        <SvgBox color='white' svgWidth={4.5} svgHeight={4.5}>
-          {icon}
-        </SvgBox>
+        {icon && (
+          <SvgBox color='white' svgWidth={4.5} svgHeight={4.5}>
+            {icon}
+          </SvgBox>
+        )}
         <Typography variant='secondary' color='white' size='lg'>
           {label}
         </Typography>

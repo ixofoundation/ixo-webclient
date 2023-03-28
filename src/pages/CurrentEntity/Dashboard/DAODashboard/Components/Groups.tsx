@@ -106,7 +106,7 @@ const Groups: React.FC<Props> = ({ isFollowing }): JSX.Element | null => {
       borderColor={selectedGroups[daoGroup.coreAddress] ? theme.ixoNewBlue : theme.ixoDarkBlue}
       borderRadius='12px'
       cursor='pointer'
-      margin='auto'
+      // margin='auto'
       transition='all .2s'
       background={selectedGroups[daoGroup.coreAddress] && theme.ixoDarkBlue}
       hover={{ borderWidth: '2px', borderColor: theme.ixoNewBlue }}

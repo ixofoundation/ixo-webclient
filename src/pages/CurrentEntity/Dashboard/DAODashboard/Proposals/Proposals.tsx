@@ -23,7 +23,7 @@ const Proposals: React.FC = () => {
       return
     }
     const coreAddress = Object.keys(selectedGroups)[0]
-    history.push(`/create/entity/${entityId}/proposal/${coreAddress}/info`)
+    history.push(`/create/entity/deed/${entityId}/${coreAddress}/info`)
   }
 
   return (

@@ -13,7 +13,7 @@ const buttonColor = (variant: TButtonVariant, isDark: boolean): string => {
   switch (variant) {
     case 'primary':
     default:
-      return isDark ? theme.ixoBlack : theme.ixoWhite
+      return theme.ixoWhite
     case 'secondary':
       return isDark ? theme.ixoWhite : theme.ixoBlack
   }

@@ -8,10 +8,10 @@ const CreateOracle: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): 
   const isSelectProcessRoute = useRouteMatch('/create/entity/oracle/select-process')
   const isSetupMetadataRoute = useRouteMatch('/create/entity/oracle/setup-metadata')
   const isSetupPropertiesRoute = useRouteMatch('/create/entity/oracle/setup-properties')
-  const { steps } = getStrategyByEntityType('Oracle')
+  const { steps } = getStrategyByEntityType('oracle')
 
   useEffect(() => {
-    updateEntityType('Oracle')
+    updateEntityType('oracle')
     updateTitle('Create Oracle Method')
     updateBreadCrumbs([{ text: 'Oracle' }])
     // eslint-disable-next-line react-hooks/exhaustive-deps

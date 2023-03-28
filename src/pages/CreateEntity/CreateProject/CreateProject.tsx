@@ -9,10 +9,10 @@ const CreateProject: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }):
   const isSetupMetadataRoute = useRouteMatch('/create/entity/project/setup-metadata')
   const isSetupPropertiesRoute = useRouteMatch('/create/entity/project/setup-properties')
   const isReviewRoute = useRouteMatch('/create/entity/project/review')
-  const { steps } = getStrategyByEntityType('Project')
+  const { steps } = getStrategyByEntityType('project')
 
   useEffect(() => {
-    updateEntityType('Project')
+    updateEntityType('project')
     updateTitle('Create Project Template')
     updateBreadCrumbs([{ text: 'PROJECT' }])
     // eslint-disable-next-line react-hooks/exhaustive-deps

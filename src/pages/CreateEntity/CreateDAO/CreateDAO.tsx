@@ -10,10 +10,10 @@ const CreateDAO: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): JSX
   const isSetupGroupsRoute = useRouteMatch('/create/entity/dao/setup-groups')
   const isSetupPropertiesRoute = useRouteMatch('/create/entity/dao/setup-properties')
   const isReviewRoute = useRouteMatch('/create/entity/dao/review')
-  const { steps } = getStrategyByEntityType('Dao')
+  const { steps } = getStrategyByEntityType('dao')
 
   useEffect(() => {
-    updateEntityType('Dao')
+    updateEntityType('dao')
     updateTitle('Create DAO')
     updateBreadCrumbs([{ text: 'DAO' }])
     // eslint-disable-next-line react-hooks/exhaustive-deps

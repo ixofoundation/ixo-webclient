@@ -10,10 +10,10 @@ const CreateInvestment: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match 
   const isSetupInstrumentRoute = useRouteMatch('/create/entity/investment/setup-instrument')
   const isSetupPropertiesRoute = useRouteMatch('/create/entity/investment/setup-properties')
   const isReviewRoute = useRouteMatch('/create/entity/investment/review')
-  const { steps } = getStrategyByEntityType('Investment')
+  const { steps } = getStrategyByEntityType('investment')
 
   useEffect(() => {
-    updateEntityType('Investment')
+    updateEntityType('investment')
     updateTitle('Create Investment')
     updateBreadCrumbs([{ text: 'INVESTMENT' }])
     // eslint-disable-next-line react-hooks/exhaustive-deps

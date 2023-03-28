@@ -11,10 +11,10 @@ const CreateAsset: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): J
   const isReviewRoute = useRouteMatch('/create/entity/asset/review')
   const isCreateTokenRoute = useRouteMatch('/create/entity/asset/create-token')
 
-  const { steps } = getStrategyByEntityType('Asset')
+  const { steps } = getStrategyByEntityType('asset')
 
   useEffect(() => {
-    updateEntityType('Asset')
+    updateEntityType('asset')
     updateTitle('Create Asset Class')
     updateBreadCrumbs([{ text: 'ASSET' }])
     // eslint-disable-next-line react-hooks/exhaustive-deps

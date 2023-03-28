@@ -75,7 +75,7 @@ const SetupActions: React.FC = () => {
     return true
   }
   const handleBack = () => {
-    history.push(`/create/entity/${entityId}/proposal/${coreAddress}/setup-properties`)
+    history.push(`/create/entity/deed/${entityId}/${coreAddress}/setup-properties`)
   }
   const handleSubmit = async () => {
     if (!handleValidate()) {
