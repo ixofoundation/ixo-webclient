@@ -21,7 +21,7 @@ export const initialState: AccountState = {
   usdRate: 0,
   marketChart: null,
   keplrWallet: null,
-
+  operaWallet: null,
   selectedWallet: undefined,
   name: undefined,
   registered: undefined,
@@ -72,6 +72,11 @@ export const reducer = (state = initialState, action: AccountActionTypes): Accou
       return {
         ...state,
         keplrWallet: action.payload,
+      }
+    case AccountActions.SetOperaWallet:
+      return {
+        ...state,
+        operaWallet: action.payload,
       }
     case AccountActions.GetUSDRateSuccess:
       return {

@@ -1,6 +1,6 @@
+import { SigningCosmWasmClient } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/cosmwasm-stargate'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 import { SigningStargateClient } from '@ixo/impactxclient-sdk'
-import { SigningCosmWasmClient } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/cosmwasm-stargate'
 
 export interface DidDoc {
   did: string
@@ -54,6 +54,7 @@ export interface CurrencyType {
 export enum WalletType {
   Keplr = 'keplr',
   Keysafe = 'keysafe',
+  Opera = 'opera',
 }
 
 export interface AccountState {
@@ -87,6 +88,7 @@ export interface AccountState {
     }[]
   }
   keplrWallet: KeplrWalletInfo
+  operaWallet: KeplrWalletInfo
   // refinement
   selectedWallet: WalletType | undefined
   name: string
@@ -137,6 +139,7 @@ export enum AccountActions {
   GetMarketChartFailure = 'ixo/Account/GET_MARKETCHART_REJECTED',
   ToggleAssistant = 'ixo/Account/TOGGLE_ASSISTANT',
   SetKeplrWallet = 'ixo/Account/SET_KEPLR_WALLET',
+  SetOperaWallet = 'ixo/Account/SET_OPERA_WALLET',
   ChooseWallet = 'ixo/Account/CHOOSE_WALLET',
   UpdateName = 'ixo/Account/UPDATE_NAME',
   UpdateAddress = 'ixo/Account/UPDATE_ADDRESS',
@@ -230,6 +233,11 @@ export interface SetKeplrWalletAction {
   payload: KeplrWalletInfo
 }
 
+export interface SetOperaWalletAction {
+  type: typeof AccountActions.SetOperaWallet
+  payload: KeplrWalletInfo
+}
+
 export interface ChooseWalletAction {
   type: typeof AccountActions.ChooseWallet
   payload: WalletType | undefined
@@ -286,6 +294,7 @@ export type AccountActionTypes =
   | GetMarketChartSuccessAction
   | ToggleAssistantAction
   | SetKeplrWalletAction
+  | SetOperaWalletAction
   | ChooseWalletAction
   | UpdateNameAction
   | UpdateAddressAction

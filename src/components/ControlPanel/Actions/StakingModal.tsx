@@ -3,6 +3,7 @@ import cx from 'classnames'
 import Axios from 'axios'
 import Lottie from 'react-lottie'
 import * as keplr from 'lib/keplr/keplr'
+import * as opera from 'lib/opera/opera'
 import TokenSelector from 'components/TokenSelector/TokenSelector'
 import { StepsTransactions } from 'components/StepsTransactions/StepsTransactions'
 import AmountInput from 'components/AmountInput/AmountInput'
@@ -38,6 +39,7 @@ import {
 } from './Modal.styles'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 import { requireCheckDefault } from 'utils/images'
+import { WalletType } from 'redux/account/account.types'
 
 enum StakingMethod {
   UNSET = 'UNSET',
@@ -280,7 +282,7 @@ const StakingModal: React.FunctionComponent<Props> = ({
       const msgs = generateTXRequestMSG()
       const fee = generateTXRequestFee()
 
-      if (walletType === 'keysafe') {
+      if (walletType === WalletType.Keysafe) {
         broadCastMessage(userInfo, userSequence as any, userAccountNumber as any, msgs, memo, fee, (hash: any) => {
           if (hash) {
             setSignTXStatus(TXStatus.SUCCESS)
@@ -289,7 +291,7 @@ const StakingModal: React.FunctionComponent<Props> = ({
             setSignTXStatus(TXStatus.ERROR)
           }
         })
-      } else if (walletType === 'keplr') {
+      } else if (walletType === WalletType.Keplr) {
         const [accounts, offlineSigner] = await keplr.connectAccount()
         const address = accounts[0].address
         const client = await keplr.initStargateClient(offlineSigner)
@@ -303,6 +305,30 @@ const StakingModal: React.FunctionComponent<Props> = ({
 
         try {
           const result = await keplr.sendTransaction(client, address, payload)
+          if (result) {
+            setSignTXStatus(TXStatus.SUCCESS)
+            setSignTXhash(result.transactionHash)
+          } else {
+            // eslint-disable-next-line
+            throw 'transaction failed'
+          }
+        } catch (e) {
+          setSignTXStatus(TXStatus.ERROR)
+        }
+      } else if (walletType === WalletType.Opera) {
+        const [accounts, offlineSigner] = await opera.connectAccount()
+        const address = accounts[0].address
+        const client = await opera.initStargateClient(offlineSigner)
+
+        const payload = {
+          msgs,
+          chain_id: process.env.REACT_APP_CHAIN_ID,
+          fee,
+          memo,
+        }
+
+        try {
+          const result = await opera.sendTransaction(client, address, payload)
           if (result) {
             setSignTXStatus(TXStatus.SUCCESS)
             setSignTXhash(result.transactionHash)

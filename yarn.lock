@@ -1135,6 +1135,16 @@
     "@cosmjs/math" "0.27.1"
     "@cosmjs/utils" "0.27.1"
 
+"@cosmjs/amino@0.30.1", "@cosmjs/amino@^0.30.1":
+  version "0.30.1"
+  resolved "https://registry.yarnpkg.com/@cosmjs/amino/-/amino-0.30.1.tgz#7c18c14627361ba6c88e3495700ceea1f76baace"
+  integrity sha512-yNHnzmvAlkETDYIpeCTdVqgvrdt1qgkOXwuRVi8s27UKI5hfqyE9fJ/fuunXE6ZZPnKkjIecDznmuUOMrMvw4w==
+  dependencies:
+    "@cosmjs/crypto" "^0.30.1"
+    "@cosmjs/encoding" "^0.30.1"
+    "@cosmjs/math" "^0.30.1"
+    "@cosmjs/utils" "^0.30.1"
+
 "@cosmjs/amino@^0.30.0":
   version "0.30.0"
   resolved "https://registry.yarnpkg.com/@cosmjs/amino/-/amino-0.30.0.tgz#159b6b2f131e02292802f4c082efb726ca23890d"
@@ -1196,6 +1206,19 @@
     ripemd160 "^2.0.2"
     sha.js "^2.4.11"
 
+"@cosmjs/crypto@0.30.1", "@cosmjs/crypto@^0.30.1":
+  version "0.30.1"
+  resolved "https://registry.yarnpkg.com/@cosmjs/crypto/-/crypto-0.30.1.tgz#21e94d5ca8f8ded16eee1389d2639cb5c43c3eb5"
+  integrity sha512-rAljUlake3MSXs9xAm87mu34GfBLN0h/1uPPV6jEwClWjNkAMotzjC0ab9MARy5FFAvYHL3lWb57bhkbt2GtzQ==
+  dependencies:
+    "@cosmjs/encoding" "^0.30.1"
+    "@cosmjs/math" "^0.30.1"
+    "@cosmjs/utils" "^0.30.1"
+    "@noble/hashes" "^1"
+    bn.js "^5.2.0"
+    elliptic "^6.5.4"
+    libsodium-wrappers "^0.7.6"
+
 "@cosmjs/crypto@^0.30.0":
   version "0.30.0"
   resolved "https://registry.yarnpkg.com/@cosmjs/crypto/-/crypto-0.30.0.tgz#eadcc98792ce2b3417e8dbc4e84bd250b842459f"
@@ -1222,6 +1245,15 @@
   version "0.30.0"
   resolved "https://registry.yarnpkg.com/@cosmjs/encoding/-/encoding-0.30.0.tgz#a3ab019538f3550d2ee12964148cddfc11e1eeb2"
   integrity sha512-b/ZAyAEaUstk6ctcF44ufEWKVMv6S732jUxTz3eGmGCKbZhlVPmk5P2Pc4IHl+IJPtCBoeCLG8KcskVtkNoPvQ==
+  dependencies:
+    base64-js "^1.3.0"
+    bech32 "^1.1.4"
+    readonly-date "^1.0.0"
+
+"@cosmjs/encoding@^0.30.1":
+  version "0.30.1"
+  resolved "https://registry.yarnpkg.com/@cosmjs/encoding/-/encoding-0.30.1.tgz#b5c4e0ef7ceb1f2753688eb96400ed70f35c6058"
+  integrity sha512-rXmrTbgqwihORwJ3xYhIgQFfMSrwLu1s43RIK9I8EBudPx3KmnmyAKzMOVsRDo9edLFNuZ9GIvysUCwQfq3WlQ==
   dependencies:
     base64-js "^1.3.0"
     bech32 "^1.1.4"
@@ -1257,6 +1289,13 @@
   dependencies:
     bn.js "^5.2.0"
 
+"@cosmjs/math@^0.30.1":
+  version "0.30.1"
+  resolved "https://registry.yarnpkg.com/@cosmjs/math/-/math-0.30.1.tgz#8b816ef4de5d3afa66cb9fdfb5df2357a7845b8a"
+  integrity sha512-yaoeI23pin9ZiPHIisa6qqLngfnBR/25tSaWpkTm8Cy10MX70UF5oN4+/t1heLaM6SSmRrhk3psRkV4+7mH51Q==
+  dependencies:
+    bn.js "^5.2.0"
+
 "@cosmjs/proto-signing@0.27.1":
   version "0.27.1"
   resolved "https://registry.yarnpkg.com/@cosmjs/proto-signing/-/proto-signing-0.27.1.tgz#1f8f662550aab012d957d02f43c77d914c2ae0db"
@@ -1268,6 +1307,19 @@
     cosmjs-types "^0.4.0"
     long "^4.0.0"
     protobufjs "~6.10.2"
+
+"@cosmjs/proto-signing@0.30.1":
+  version "0.30.1"
+  resolved "https://registry.yarnpkg.com/@cosmjs/proto-signing/-/proto-signing-0.30.1.tgz#f0dda372488df9cd2677150b89b3e9c72b3cb713"
+  integrity sha512-tXh8pPYXV4aiJVhTKHGyeZekjj+K9s2KKojMB93Gcob2DxUjfKapFYBMJSgfKPuWUPEmyr8Q9km2hplI38ILgQ==
+  dependencies:
+    "@cosmjs/amino" "^0.30.1"
+    "@cosmjs/crypto" "^0.30.1"
+    "@cosmjs/encoding" "^0.30.1"
+    "@cosmjs/math" "^0.30.1"
+    "@cosmjs/utils" "^0.30.1"
+    cosmjs-types "^0.7.1"
+    long "^4.0.0"
 
 "@cosmjs/proto-signing@^0.30.0":
   version "0.30.0"
@@ -1392,6 +1444,11 @@
   version "0.30.0"
   resolved "https://registry.yarnpkg.com/@cosmjs/utils/-/utils-0.30.0.tgz#d493abd906ee72702d61a6bb8a45cef5203bec12"
   integrity sha512-A0YaBUlAojyuygqXOjDZa6YT/NOeScq08CqMD5VfU0COlzJS2DKN0z0jfYDt3t3VEXT5ZV8OaLbN3jHah1cSlA==
+
+"@cosmjs/utils@^0.30.1":
+  version "0.30.1"
+  resolved "https://registry.yarnpkg.com/@cosmjs/utils/-/utils-0.30.1.tgz#6d92582341be3c2ec8d82090253cfa4b7f959edb"
+  integrity sha512-KvvX58MGMWh7xA+N+deCfunkA/ZNDvFLw4YbOmX3f/XBIkqrVY7qlotfy2aNb1kgp6h4B6Yc8YawJPDTfvWX7g==
 
 "@craco/craco@7.0.0":
   version "7.0.0"
@@ -1836,6 +1893,27 @@
     sovrin-did "1.2.0"
     stream "0.0.2"
     tls "0.0.1"
+
+"@ixo/jambo-chain-sdk@0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@ixo/jambo-chain-sdk/-/jambo-chain-sdk-0.0.1.tgz#b705232be2766a11962755ce5315e195e6011db9"
+  integrity sha512-8RwLyLxPxYM8azwwa/qJHkCGM3POvqvuqQnSa56/fHU9H0cRgkYhv+8BQzHXoDTKFBhp5btSj7FU+2NpUO7HCQ==
+  dependencies:
+    "@babel/runtime" "7.19.4"
+    axios "^1.3.4"
+
+"@ixo/jambo-wallet-sdk@^0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@ixo/jambo-wallet-sdk/-/jambo-wallet-sdk-0.0.1.tgz#40e788fa145b92ca9bbef481a6a679f55d2c3c76"
+  integrity sha512-zeU1dU6ZzZDL1K+ahYyjiSllIK0Cy/vwdxoeknq820gBK7xrOLhmUY3FlVvz8THNtQ22HpsqXuJoGg1IBP2DcQ==
+  dependencies:
+    "@babel/runtime" "7.19.4"
+    "@cosmjs/amino" "0.30.1"
+    "@cosmjs/crypto" "0.30.1"
+    "@cosmjs/proto-signing" "0.30.1"
+    "@ixo/jambo-chain-sdk" "0.0.1"
+    bech32 "2.0.0"
+    bs58 "5.0.0"
 
 "@jest/console@^27.5.1":
   version "27.5.1"
@@ -4225,6 +4303,15 @@ axios@^0.21.1, axios@^0.21.2:
   dependencies:
     follow-redirects "^1.14.0"
 
+axios@^1.3.4:
+  version "1.3.4"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-1.3.4.tgz#f5760cefd9cfb51fd2481acf88c05f67c4523024"
+  integrity sha512-toYm+Bsyl6VC5wSkfkbbNB6ROv7KY93PEBBL6xyDczaIHasAiv4wPqQ/c4RjoQzipxRD2W5g21cOqQulZ7rHwQ==
+  dependencies:
+    follow-redirects "^1.15.0"
+    form-data "^4.0.0"
+    proxy-from-env "^1.1.0"
+
 axobject-query@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/axobject-query/-/axobject-query-2.2.0.tgz#943d47e10c0b704aa42275e20edf3722648989be"
@@ -4481,6 +4568,11 @@ batch@0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/batch/-/batch-0.6.1.tgz#dc34314f4e679318093fc760272525f94bf25c16"
   integrity sha512-x+VAiMRL6UPkx+kudNvxTl6hB2XNNCG2r+7wixVfIYwu/2HKRXimwQyaumLjMveWvT2Hkd/cAJw+QBMfJ/EKVw==
+
+bech32@2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/bech32/-/bech32-2.0.0.tgz#078d3686535075c8c79709f054b1b226a133b355"
+  integrity sha512-LcknSilhIGatDAsY1ak2I8VtGaHNhgMSYVxFrGLXv+xLHytaKZKcaUJJUE7qmBr7h33o5YQwP55pMI0xmkpJwg==
 
 bech32@^1.1.4:
   version "1.1.4"

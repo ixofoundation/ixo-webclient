@@ -26,6 +26,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import Lottie from 'react-lottie'
 import { useAppSelector } from 'redux/hooks'
 import styled from 'styled-components'
+import { WalletType } from 'redux/account/account.types'
 import {
   ButtonWrapper,
   CheckWrapper,
@@ -138,7 +139,7 @@ const MakePaymentModal: React.FunctionComponent<Props> = ({
       //   }
       // }
 
-      if (walletType === 'keysafe') {
+      if (walletType === WalletType.Keysafe) {
         const msgs = [
           {
             type: 'payments/MsgEffectPayment',
@@ -160,7 +161,7 @@ const MakePaymentModal: React.FunctionComponent<Props> = ({
             setSignTXStatus(TXStatus.ERROR)
           }
         })
-      } else if (walletType === 'keplr') {
+      } else if (walletType === WalletType.Keplr) {
         // const [accounts, offlineSigner] = await keplr.connectAccount()
         // const address = accounts[0].address
         // const client = await keplr.initStargateClient(offlineSigner)
@@ -182,6 +183,37 @@ const MakePaymentModal: React.FunctionComponent<Props> = ({
         // }
         // try {
         //   const result = await keplr.sendTransaction(client, address, payload)
+        //   if (result) {
+        //     setSignTXStatus(TXStatus.SUCCESS)
+        //     setSignTXhash(result.transactionHash)
+        //   } else {
+        //     throw 'transaction failed'
+        //   }
+        // } catch (e) {
+        //   setSignTXStatus(TXStatus.ERROR)
+        // }
+      } else if (walletType === WalletType.Opera) {
+        // const [accounts, offlineSigner] = await opera.connectAccount()
+        // const address = accounts[0].address
+        // const client = await opera.initStargateClient(offlineSigner)
+        // const payload = {
+        //   msgAny: {
+        //     typeUrl: '/cosmos.bank.v1beta1.MsgSend',
+        //     value: MsgSend.fromPartial({
+        //       fromAddress: address,
+        //       toAddress: receiverAddress,
+        //       amount: [formattedAmount],
+        //     }),
+        //   },
+        //   chain_id: process.env.REACT_APP_CHAIN_ID,
+        //   fee: {
+        //     amount: [{ amount: String(5000), denom: 'uixo' }],
+        //     gas: String(200000),
+        //   },
+        //   memo,
+        // }
+        // try {
+        //   const result = await opera.sendTransaction(client, address, payload)
         //   if (result) {
         //     setSignTXStatus(TXStatus.SUCCESS)
         //     setSignTXhash(result.transactionHash)

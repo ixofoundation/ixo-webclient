@@ -32,6 +32,7 @@ import { WalletType } from 'redux/account/account.types'
 import { GetBalances, KeyTypes, TSigner } from 'lib/protocol'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 import { useKeplr } from 'lib/keplr/keplr'
+import { useOpera } from 'lib/opera/opera'
 import { OfflineSigner } from '@cosmjs/proto-signing'
 import { useIxoConfigs } from './configs'
 import { useMemo } from 'react'
@@ -54,6 +55,7 @@ export function useAccount(): {
   offlineSigner: OfflineSigner
   updateKeysafeLoginStatus: () => Promise<void>
   updateKeplrLoginStatus: () => Promise<void>
+  updateOperaLoginStatus: () => Promise<void>
   updateBalances: () => Promise<void>
   chooseWallet: (wallet: WalletType | undefined) => void
   updateSigningClient: (signingClient: SigningStargateClient) => void
@@ -68,6 +70,7 @@ export function useAccount(): {
   const dispatch = useAppDispatch()
   const { convertToDenom } = useIxoConfigs()
   const keplr = useKeplr()
+  const opera = useOpera()
   const selectedWallet: WalletType = useAppSelector(selectAccountSelectedWallet)
   const address: string = useAppSelector(selectAccountAddress)
   const signingClient: SigningStargateClient = useAppSelector(selectAccountSigningClient)
@@ -86,6 +89,8 @@ export function useAccount(): {
       alert('get offlineSigner for keysafe')
     } else if (selectedWallet === WalletType.Keplr) {
       return keplr.getOfflineSigner()
+    } else if (selectedWallet === WalletType.Opera) {
+      return opera.getOfflineSigner()
     }
     return undefined
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -176,6 +181,27 @@ export function useAccount(): {
       console.error('updateKeplrLoginStatus:', e)
     }
   }
+  const updateOperaLoginStatus = async (): Promise<void> => {
+    try {
+      const key = await opera.getKey()
+      if (key?.name) {
+        updateName(key.name)
+      }
+      if (key?.bech32Address) {
+        updateAddress(key.bech32Address)
+      }
+      if (key?.pubKey) {
+        const pubKey = base58.encode(key.pubKey)
+        updatePubKey(pubKey)
+        const did = utils.did.generateSecpDid(pubKey)
+        if (did) {
+          updateDid(did)
+        }
+      }
+    } catch (e) {
+      console.error('updateOperaLoginStatus:', e)
+    }
+  }
 
   return {
     selectedWallet,
@@ -194,6 +220,7 @@ export function useAccount(): {
     offlineSigner,
     updateKeysafeLoginStatus,
     updateKeplrLoginStatus,
+    updateOperaLoginStatus,
     updateBalances,
     chooseWallet,
     updateSigningClient,

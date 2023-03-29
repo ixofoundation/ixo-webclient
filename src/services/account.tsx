@@ -1,6 +1,7 @@
 import { createSigningClient } from '@ixo/impactxclient-sdk'
 import { CheckIidDoc, RPC_ENDPOINT } from 'lib/protocol'
 import { useKeplr } from 'lib/keplr/keplr'
+import { useOpera } from 'lib/opera/opera'
 import { ChooseWalletModal } from 'components/Modals'
 import { useAccount } from 'hooks/account'
 import { WalletType } from 'redux/account/account.types'
@@ -18,6 +19,7 @@ const AccountUpdateService = (): JSX.Element => {
     chooseWalletOpen,
     updateKeysafeLoginStatus,
     updateKeplrLoginStatus,
+    updateOperaLoginStatus,
     updateBalances,
     chooseWallet,
     updateSigningClient,
@@ -26,6 +28,7 @@ const AccountUpdateService = (): JSX.Element => {
     updateChooseWalletOpen,
   } = useAccount()
   const keplr = useKeplr()
+  const opera = useOpera()
   // const keysafe = useIxoKeysafe()
 
   useEffect(() => {
@@ -59,6 +62,13 @@ const AccountUpdateService = (): JSX.Element => {
     } else if (selectedWallet === WalletType.Keplr) {
       updateKeplrLoginStatus()
       const offlineSigner = keplr.getOfflineSigner()
+      createSigningClient(RPC_ENDPOINT!, offlineSigner).then((client) => {
+        updateSigningClient(client)
+      })
+      SigningCosmWasmClient.connectWithSigner(RPC_ENDPOINT!, offlineSigner).then(updateCosmWasmClient)
+    } else if (selectedWallet === WalletType.Opera) {
+      updateOperaLoginStatus()
+      const offlineSigner = opera.getOfflineSigner()
       createSigningClient(RPC_ENDPOINT!, offlineSigner).then((client) => {
         updateSigningClient(client)
       })

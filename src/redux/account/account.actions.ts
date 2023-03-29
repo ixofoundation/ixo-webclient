@@ -22,6 +22,7 @@ import {
   UpdateDidAction,
   UpdateChooseWalletOpenAction,
   UpdateCosmWasmClientAction,
+  SetOperaWalletAction,
 } from './account.types'
 import { RootState } from 'redux/store'
 import { Dispatch } from 'redux'
@@ -316,6 +317,16 @@ export const toggleAssistant = (
 export const setKeplrWallet = (address: string, offlineSigner: any): SetKeplrWalletAction => {
   return {
     type: AccountActions.SetKeplrWallet,
+    payload: {
+      address,
+      offlineSigner,
+    },
+  }
+}
+
+export const setOperaWallet = (address: string, offlineSigner: any): SetOperaWalletAction => {
+  return {
+    type: AccountActions.SetOperaWallet,
     payload: {
       address,
       offlineSigner,

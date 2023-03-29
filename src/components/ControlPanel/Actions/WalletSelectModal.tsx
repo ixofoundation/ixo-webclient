@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import * as keplr from 'lib/keplr/keplr'
+import * as opera from 'lib/opera/opera'
 import styled from 'styled-components'
 // import IMG_wallet1 from 'assets/images/icon-walletconnect.svg'
 import IMG_wallet2 from 'assets/images/icon-keplr.svg'
 import IMG_wallet3 from 'assets/images/icon-keysafe.svg'
+import IMG_wallet4 from 'assets/images/icon-opera.svg'
 import { WalletBox } from 'components/Entities/SelectedEntity/EntityExchange/Trade/Swap.styles'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import keysafe from 'lib/keysafe/keysafe'
 import { deviceWidth } from 'constants/device'
 import { selectAccountSelectedWallet } from 'redux/account/account.selectors'
 import { WalletType } from 'redux/account/account.types'
-import { chooseWalletAction, setKeplrWallet } from 'redux/account/account.actions'
+import { chooseWalletAction, setKeplrWallet, setOperaWallet } from 'redux/account/account.actions'
 
 const Container = styled.div`
   position: relative;
@@ -54,6 +56,15 @@ const WalletSelectModal: React.FunctionComponent<Props> = ({ handleSelect, avail
           dispatch(setKeplrWallet(accounts[0].address, offlineSigner))
         }
         break
+      case WalletType.Opera:
+        {
+          setWalletType(WalletType.Opera)
+          const [accounts, offlineSigner] = await opera.connectAccount()
+          handleSelect(type, accounts[0].address)
+          dispatch(chooseWalletAction(WalletType.Opera))
+          dispatch(setOperaWallet(accounts[0].address, offlineSigner))
+        }
+        break
       default:
         break
     }
@@ -90,6 +101,12 @@ const WalletSelectModal: React.FunctionComponent<Props> = ({ handleSelect, avail
           <WalletBox onClick={(): Promise<void> => handleWalletSelect(WalletType.Keysafe)}>
             <img src={IMG_wallet3} alt='wallet3' />
             <span>ixo Keysafe</span>
+          </WalletBox>
+        )}
+        {availableWallets.includes(WalletType.Opera) && opera.checkExtensionAndBrowser() && (
+          <WalletBox onClick={(): Promise<void> => handleWalletSelect(WalletType.Opera)}>
+            <img src={IMG_wallet4} alt='wallet4' />
+            <span>Opera</span>
           </WalletBox>
         )}
       </div>

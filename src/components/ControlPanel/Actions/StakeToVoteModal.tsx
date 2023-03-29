@@ -38,6 +38,7 @@ import {
   OverlayWrapper,
 } from './Modal.styles'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
+import { WalletType } from 'redux/account/account.types'
 
 const StakingMethodWrapper = styled.div`
   display: flex;
@@ -224,7 +225,7 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({ walletType, accountA
           setSignTXStatus(TXStatus.ERROR)
         }
       })
-    } else if (walletType === 'keplr') {
+    } else if (walletType === WalletType.Keplr) {
       // const [accounts, offlineSigner] = await keplr.connectAccount()
       // const address = accounts[0].address
       // const client = await keplr.initStargateClient(offlineSigner)
@@ -236,6 +237,27 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({ walletType, accountA
       // }
       // try {
       //   const result = await keplr.sendTransaction(client, address, payload)
+      //   if (result) {
+      //     setSignTXStatus(TXStatus.SUCCESS)
+      //     setSignTXhash(result.transactionHash)
+      //   } else {
+      //     throw 'transaction failed'
+      //   }
+      // } catch (e) {
+      //   setSignTXStatus(TXStatus.ERROR)
+      // }
+    } else if (walletType === WalletType.Opera) {
+      // const [accounts, offlineSigner] = await opera.connectAccount()
+      // const address = accounts[0].address
+      // const client = await opera.initStargateClient(offlineSigner)
+      // const payload = {
+      //   msgs,
+      //   chain_id: process.env.REACT_APP_CHAIN_ID,
+      //   fee,
+      //   memo,
+      // }
+      // try {
+      //   const result = await opera.sendTransaction(client, address, payload)
       //   if (result) {
       //     setSignTXStatus(TXStatus.SUCCESS)
       //     setSignTXhash(result.transactionHash)

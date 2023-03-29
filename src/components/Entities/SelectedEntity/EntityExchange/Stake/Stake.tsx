@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { thousandSeparator } from 'utils/formatters'
 import * as keplr from 'lib/keplr/keplr'
+import * as opera from 'lib/opera/opera'
 import * as Toast from 'utils/toast'
 import { MsgWithdrawDelegatorReward } from 'cosmjs-types/cosmos/distribution/v1beta1/tx'
 import Button from 'components/Dashboard/Button'
@@ -21,6 +22,7 @@ import { selectAPR } from 'redux/selectedEntityExchange/entityExchange.selectors
 import BigNumber from 'bignumber.js'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { EntityExchangeState } from 'redux/selectedEntityExchange/entityExchange.types'
+import { WalletType } from 'redux/account/account.types'
 // interface ValidatorDataType {
 //   userDid: string
 //   validatorAddress: string
@@ -91,7 +93,7 @@ const Stake: React.FunctionComponent = () => {
     }
     const memo = ''
 
-    if (walletType === 'keysafe') {
+    if (walletType === WalletType.Keysafe) {
       validators
         .filter((validator) => validator.reward)
         .forEach((validator) => {
@@ -107,7 +109,7 @@ const Stake: React.FunctionComponent = () => {
       broadCastMessage(userInfo, userSequence as any, userAccountNumber as any, msgs, memo, fee, () => {
         dispatch(getValidators(selectedAddress!) as any)
       })
-    } else if (walletType === 'keplr') {
+    } else if (walletType === WalletType.Keplr) {
       const [accounts, offlineSigner] = await keplr.connectAccount()
       const address = accounts[0].address
       const client = await keplr.initStargateClient(offlineSigner)
@@ -133,6 +135,42 @@ const Stake: React.FunctionComponent = () => {
 
       try {
         const result = await keplr.sendTransaction(client, address, payload)
+        if (result) {
+          Toast.successToast(`Transaction Successful`)
+        } else {
+          // eslint-disable-next-line
+          throw 'transaction failed'
+        }
+      } catch (e) {
+        Toast.errorToast(`Transaction Failed`)
+      }
+      dispatch(getValidators(selectedAddress!) as any)
+    } else if (walletType === WalletType.Opera) {
+      const [accounts, offlineSigner] = await opera.connectAccount()
+      const address = accounts[0].address
+      const client = await opera.initStargateClient(offlineSigner)
+
+      validators
+        .filter((validator) => validator.reward)
+        .forEach((validator) => {
+          msgs.push({
+            typeUrl: '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward',
+            value: MsgWithdrawDelegatorReward.fromPartial({
+              delegatorAddress: selectedAddress!,
+              validatorAddress: validator.address,
+            }),
+          })
+        })
+
+      const payload = {
+        msgs,
+        chain_id: process.env.REACT_APP_CHAIN_ID,
+        fee,
+        memo,
+      }
+
+      try {
+        const result = await opera.sendTransaction(client, address, payload)
         if (result) {
           Toast.successToast(`Transaction Successful`)
         } else {

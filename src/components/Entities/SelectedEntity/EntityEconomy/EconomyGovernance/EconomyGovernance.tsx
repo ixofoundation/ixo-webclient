@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react'
 import Long from 'long'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import * as keplr from 'lib/keplr/keplr'
+import * as opera from 'lib/opera/opera'
 import * as Toast from 'utils/toast'
 import GovernanceTable, { GovernanceTableRow } from './Components/GovernanceTable'
 import { Container, SectionTitleContainer, SectionTitle, ActionButton } from '../EntityEconomy.styles'
@@ -15,10 +16,13 @@ import { getMinimalAmount } from 'utils/currency'
 import { broadCastMessage } from 'lib/keysafe/keysafe'
 import { selectGovernanceProposals, selectVotingPeriodProposals } from 'redux/entityEconomy/entityEconomy.selectors'
 import { DashboardThemeContext } from 'components/Dashboard/Dashboard'
+import { selectAccountSelectedWallet } from 'redux/account/account.selectors'
+import { WalletType } from 'redux/account/account.types'
 
 const EconomyGovernance: React.FunctionComponent = () => {
   const { isDark } = useContext(DashboardThemeContext)
   const dispatch = useAppDispatch()
+  const selectedWallet = useAppSelector(selectAccountSelectedWallet)
   const governanceProposals = useAppSelector(selectGovernanceProposals)
   const votingPeriodProposals = useAppSelector(selectVotingPeriodProposals)
   const {
@@ -117,9 +121,11 @@ const EconomyGovernance: React.FunctionComponent = () => {
       },
     ]
     try {
-      const [accounts, offlineSigner] = await keplr.connectAccount()
+      if (selectedWallet !== WalletType.Opera && selectedWallet !== WalletType.Keplr)
+        throw new Error('No wallet signed in yet')
+      const [accounts, offlineSigner] = await (selectedWallet === WalletType.Opera ? opera : keplr).connectAccount()
       const address = accounts[0].address
-      const client = await keplr.initStargateClient(offlineSigner)
+      const client = await (selectedWallet === WalletType.Opera ? opera : keplr).initStargateClient(offlineSigner)
 
       const payload = {
         msgAny: {
@@ -152,7 +158,11 @@ const EconomyGovernance: React.FunctionComponent = () => {
       }
 
       try {
-        const result = await keplr.sendTransaction(client, address, payload)
+        const result = await (selectedWallet === WalletType.Opera ? opera : keplr).sendTransaction(
+          client,
+          address,
+          payload,
+        )
         if (result) {
           Toast.successToast(`Transaction Successful`)
         } else {
@@ -202,9 +212,9 @@ const EconomyGovernance: React.FunctionComponent = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleVoteOld = async (proposalId: string, answer: number): Promise<void> => {
     try {
-      const [accounts, offlineSigner] = await keplr.connectAccount()
+      const [accounts, offlineSigner] = await (selectedWallet === WalletType.Opera ? opera : keplr).connectAccount()
       const address = accounts[0].address
-      const client = await keplr.initStargateClient(offlineSigner)
+      const client = await (selectedWallet === WalletType.Opera ? opera : keplr).initStargateClient(offlineSigner)
 
       const payload = {
         msgAny: {
@@ -224,7 +234,11 @@ const EconomyGovernance: React.FunctionComponent = () => {
       }
 
       try {
-        const result = await keplr.sendTransaction(client, address, payload)
+        const result = await (selectedWallet === WalletType.Opera ? opera : keplr).sendTransaction(
+          client,
+          address,
+          payload,
+        )
         if (result) {
           Toast.successToast(`Transaction Successful`)
         } else {

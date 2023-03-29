@@ -8,11 +8,14 @@ import { TradeWrapper, CardHeader, CardBody, WalletBox, TradePanel, AssetCardWra
 import IMG_wallet1 from 'assets/images/icon-walletconnect.svg'
 import IMG_wallet2 from 'assets/images/icon-keplr.svg'
 import IMG_wallet3 from 'assets/images/icon-keysafe.svg'
+import IMG_wallet4 from 'assets/images/icon-opera.svg'
 import * as keplr from 'lib/keplr/keplr'
-import { setKeplrWallet } from 'redux/account/account.actions'
+import * as opera from 'lib/opera/opera'
+import { setKeplrWallet, setOperaWallet } from 'redux/account/account.actions'
 import { useHistory } from 'react-router-dom'
 import { changeSelectedAccountAddress } from 'redux/selectedEntityExchange/entityExchange.actions'
 import { selectSelectedTradeMethod } from 'redux/selectedEntityExchange/entityExchange.selectors'
+import { WalletType } from 'redux/account/account.types'
 
 const Trade: React.FunctionComponent = () => {
   const dispatch = useAppDispatch()
@@ -30,7 +33,7 @@ const Trade: React.FunctionComponent = () => {
 
   const handleWalletClick = async (walletType: string): Promise<void> => {
     switch (walletType) {
-      case 'keysafe': {
+      case WalletType.Keysafe: {
         if (address) {
           dispatch(changeSelectedAccountAddress(address))
           handleWalletSelected(walletType)
@@ -39,10 +42,19 @@ const Trade: React.FunctionComponent = () => {
         }
         break
       }
-      case 'keplr': {
+      case WalletType.Keplr: {
         const [accounts, offlineSigner] = await keplr.connectAccount()
         if (accounts) {
           dispatch(setKeplrWallet(accounts[0].address, offlineSigner))
+          dispatch(changeSelectedAccountAddress(accounts[0].address))
+          handleWalletSelected(walletType)
+        }
+        break
+      }
+      case WalletType.Opera: {
+        const [accounts, offlineSigner] = await opera.connectAccount()
+        if (accounts) {
+          dispatch(setOperaWallet(accounts[0].address, offlineSigner))
           dispatch(changeSelectedAccountAddress(accounts[0].address))
           handleWalletSelected(walletType)
         }
@@ -90,6 +102,12 @@ const Trade: React.FunctionComponent = () => {
           <img src={IMG_wallet3} alt='wallet3' />
           <span>ixo Keysafe</span>
         </WalletBox>
+        {opera.checkExtensionAndBrowser() && (
+          <WalletBox onClick={(): Promise<void> => handleWalletClick('opera')}>
+            <img src={IMG_wallet4} alt='wallet4' />
+            <span>Opera</span>
+          </WalletBox>
+        )}
       </CardBody>
     </TradePanel>
   )

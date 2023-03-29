@@ -49,6 +49,7 @@
     "@editorjs/warning": "1.2.0",
     "@ixo/impactxclient-sdk": "^0.0.21",
     "@ixo/ixo-apimodule": "1.0.9",
+    "@ixo/jambo-wallet-sdk": "^0.0.1",
     "@reduxjs/toolkit": "1.9.1",
     "@rjsf/core": "4.2.3",
     "@sentry/react": "7.24.0",
