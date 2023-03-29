@@ -28,6 +28,7 @@ import {
 } from 'redux/account/account.selectors'
 import { useAccount } from 'hooks/account'
 import { CreateIidDoc } from 'lib/protocol'
+import { truncateString } from 'utils/formatters'
 
 interface Props {
   entityType?: EntityType
@@ -126,7 +127,7 @@ const Header: React.FC<Props> = (props: Props): JSX.Element => {
   } => {
     if (props.name) {
       return {
-        title: 'Hi, ' + props.name,
+        title: 'Hi, ' + truncateString(props.name, 20, 'end'),
         titleNoCaps: true,
       }
     } else {

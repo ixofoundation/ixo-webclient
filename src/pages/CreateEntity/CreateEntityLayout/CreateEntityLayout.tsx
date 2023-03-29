@@ -23,17 +23,10 @@ const CreateEntityLayout: React.FC<Props> = ({ children }): JSX.Element => {
     location: { pathname },
   } = history
 
-  const { stepNo, breadCrumbs, title, subtitle, updateEntityType } = useCreateEntityState()
+  const { stepNo, breadCrumbs, title, subtitle } = useCreateEntityState()
   const { getStrategyAndStepByPath } = useCreateEntityStrategy()
   const { strategy } = getStrategyAndStepByPath(pathname)
   const entityType = strategy?.entityType
-
-  useEffect(() => {
-    if (entityType) {
-      updateEntityType(entityType)
-    }
-    // eslint-disable-next-line
-  }, [entityType])
 
   useEffect(() => {
     if (entityType && stepNo) {

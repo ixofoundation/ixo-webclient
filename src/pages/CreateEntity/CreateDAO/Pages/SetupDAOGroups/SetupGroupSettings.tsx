@@ -62,7 +62,18 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onSubmit }): JSX.Elem
     switch (data.type) {
       case 'membership':
       case 'multisig': {
-        return !!data.name && !!data.description
+        if (data.staking) {
+          return false
+        }
+        if (!data.name || !data.description) {
+          return false
+        }
+        if (
+          data.memberships.some(({ members }) => members.filter((member) => !isAccountAddress(member)).length !== 0)
+        ) {
+          return false
+        }
+        return true
       }
       case 'staking': {
         if (!data.staking) {

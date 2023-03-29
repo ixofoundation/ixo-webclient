@@ -75,7 +75,7 @@ const SetupActions: React.FC = () => {
     return true
   }
   const handleBack = () => {
-    history.push(`/create/entity/${entityId}/proposal/${coreAddress}/setup-properties`)
+    history.push(`/create/entity/deed/${entityId}/${coreAddress}/setup-properties`)
   }
   const handleSubmit = async () => {
     if (!handleValidate()) {
@@ -167,7 +167,7 @@ const SetupActions: React.FC = () => {
 
     console.log('wasmMessage', decodedMessagesString(wasmMessage))
 
-    daoPreProposeSingleClient
+    const transactionHash = await daoPreProposeSingleClient
       .propose(
         { msg: { propose: { description: description, msgs: wasmMessage, title: name } } },
         fee,
@@ -176,11 +176,16 @@ const SetupActions: React.FC = () => {
       )
       .then(({ transactionHash }) => {
         Toast.successToast(`Successfully published proposals`)
+        return transactionHash
       })
       .catch((e) => {
         console.error(e)
         Toast.errorToast(e)
+        return undefined
       })
+    if (transactionHash) {
+      //
+    }
   }
 
   return (

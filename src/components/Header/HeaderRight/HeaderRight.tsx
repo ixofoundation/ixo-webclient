@@ -12,7 +12,6 @@ import {
   UserBox,
   UserMenu,
 } from './HeaderRight.styles'
-import Down from '../../../assets/icons/Down'
 import { useState } from 'react'
 import { useAccount } from 'hooks/account'
 import { useAppSelector } from 'redux/hooks'
@@ -20,6 +19,7 @@ import {
   selectEntityHeaderButtonColorUIConfig,
   selectEntityHeadTitleUIConfig,
 } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { truncateString } from 'utils/formatters'
 
 interface HeaderRightProps {
   renderStatusIndicator: () => JSX.Element
@@ -42,25 +42,6 @@ const HeaderRight: React.FC<HeaderRightProps> = ({ renderStatusIndicator, toggle
 
   const handleLogInButton = (): JSX.Element => {
     return <div onClick={toggleWalletChooseModal}>Login</div>
-    // if (!keysafe) {
-    //   return (
-    //     <LoginLink href={getIxoWorldRoute('/getixowallet/deliver/#Steps')}>
-    //       <h3>
-    //         <span>Log in</span>
-    //       </h3>
-    //     </LoginLink>
-    //   )
-    // }
-    // if (!this.props.address) {
-    //   return (
-    //     <LoginLink onClick={this.openKeysafe}>
-    //       <h3>
-    //         <span>Log in</span>
-    //       </h3>
-    //     </LoginLink>
-    //   )
-    // }
-    // return <></>
   }
 
   return (
@@ -82,7 +63,7 @@ const HeaderRight: React.FC<HeaderRightProps> = ({ renderStatusIndicator, toggle
                 <StatusText>{title || 'IXO'} EXPLORER STATUS</StatusText>
               </StatusBox>
               <h3>
-                {!registered && <RedIcon />} <span>{name}</span> <Down width='14' />
+                {!registered && <RedIcon />} <span>{truncateString(name, 10, 'end')}</span>
               </h3>
             </UserBox>
           )}
@@ -101,7 +82,7 @@ const HeaderRight: React.FC<HeaderRightProps> = ({ renderStatusIndicator, toggle
               <RedIcon />
               <p>
                 Ledger your credentials on the ixo blockchain{' '}
-                <span onClick={(): void => toggleModal(true)}>Sign now with the ixo Keysafe</span>
+                <span onClick={(): void => toggleModal(true)}>Sign now</span>
               </p>
             </MenuBottom>
           )}

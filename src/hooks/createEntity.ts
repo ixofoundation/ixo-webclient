@@ -195,11 +195,11 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
       const prevStep = steps[stepNo]?.prevStep
 
       if (type === 1) {
-        if (nextStep) {
+        if (nextStep && steps[nextStep]) {
           dispatch(gotoStepAction(nextStep))
         }
       } else if (type === -1) {
-        if (prevStep) {
+        if (prevStep && steps[prevStep]) {
           dispatch(gotoStepAction(prevStep))
         }
       }

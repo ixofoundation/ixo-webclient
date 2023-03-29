@@ -7,8 +7,8 @@ export const NATIVE_MICRODENOM = 'uixo'
 export const NATIVE_DENOM = 'ixo'
 
 export const CHAINS = {
-  'pandora-7': {
-    chainId: 'pandora-7',
+  'pandora-8': {
+    chainId: 'pandora-8',
     chainName: 'ixo Testnet',
     rpc: 'https://testnet.ixo.earth/rpc/',
     rest: 'https://testnet.ixo.earth/rest/',

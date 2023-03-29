@@ -5,7 +5,7 @@
         "blocksync": "https://blocksync-pandora.ixo.earth",
         "rpc": "https://testnet.ixo.earth/rpc/",
         "rest": "https://testnet.ixo.earth/rest/",
-        "chainId": "pandora-7",
+        "chainId": "pandora-8",
         "chainName": "ixo",
         "stakeCurrency": {
             "coinDenom": "IXO",
@@ -54,7 +54,7 @@
                 "coinDecimals": 6,
                 "coinGeckoId": "pool:uixo",
                 "coinImageUrl": "window.location.origin + '/public/assets/tokens/ixo.png'",
-                "counterpartyChainId": "pandora-7",
+                "counterpartyChainId": "pandora-8",
                 "sourceChannelId": "channel-0",
                 "destChannelId": "channel-0"
             }

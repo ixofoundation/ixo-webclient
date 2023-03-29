@@ -11,7 +11,6 @@ import Investments from 'assets/icons/Investments'
 import Cells from 'assets/icons/Cells'
 import Oracle from 'assets/icons/Oracle'
 import Template from 'assets/icons/Template'
-import Down from 'assets/icons/Down'
 import Projects from 'assets/icons/Projects'
 import DataAssets from 'assets/icons/DataAssets'
 import { EntityType } from '../../../../../types/entities'
@@ -62,15 +61,6 @@ const CreateEntityDropDown: React.FunctionComponent<Props> = ({ entityType }) =>
     <DropdownWrapper>
       <ModalButton onClick={handleToggleModal} className={isModalOpen ? 'modal-open' : ''} color={buttonColor}>
         <span className='modal-text'>CREATE</span>
-        <span
-          className='down-icon d-flex'
-          style={{
-            transform: isModalOpen ? 'rotateX(180deg)' : '',
-            marginLeft: 5,
-          }}
-        >
-          <Down fill='#fff' />
-        </span>
       </ModalButton>
 
       {entityTypeMap && (
@@ -130,13 +120,13 @@ const CreateEntityDropDown: React.FunctionComponent<Props> = ({ entityType }) =>
             </LaunchEntityButton>
             <LaunchEntityButton
               exact={true}
-              to={`/create/entity/claim`}
+              to={`/create/entity/protocol`}
               className={`protocol`}
               onClick={handleToggleModal}
             >
               <ButtonContent>
                 <Template fill='#000' width='18' />
-                Claim
+                Protocol
               </ButtonContent>
             </LaunchEntityButton>
             <LaunchEntityButton

@@ -3,12 +3,11 @@ import {
   // GetProjectAccounts
 } from 'lib/protocol'
 import { useSelectedEntity } from 'hooks/entity'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useValidators } from 'hooks/validator'
 import useCurrentEntity from 'hooks/currentEntity'
 import { useAccount } from 'hooks/account'
 import useCurrentDao from 'hooks/currentDao'
-import { Spinner } from 'components/Spinner/Spinner'
 
 const EntityUpdateService = (): JSX.Element | null => {
   const {
@@ -21,7 +20,6 @@ const EntityUpdateService = (): JSX.Element | null => {
   const { cosmWasmClient } = useAccount()
   const { linkedEntity } = useCurrentEntity()
   const { setDaoGroup } = useCurrentDao()
-  const [daoGroupLoading, setDaoGroupLoading] = useState(false)
 
   useEffect(() => {
     const init = async (did: string): Promise<void> => {
@@ -60,20 +58,11 @@ const EntityUpdateService = (): JSX.Element | null => {
         .filter(({ type }) => type === 'Group')
         .forEach(({ id }) => {
           const [, coreAddress] = id.split('#')
-
-          ;(async () => {
-            setDaoGroupLoading(true)
-            await setDaoGroup(coreAddress)
-            setDaoGroupLoading(false)
-          })()
+          setDaoGroup(coreAddress)
         })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [linkedEntity, cosmWasmClient])
-
-  if (daoGroupLoading) {
-    return <Spinner info='Loading DAO Group...' />
-  }
 
   return null
 }
