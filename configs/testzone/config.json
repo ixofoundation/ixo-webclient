@@ -1,7 +1,7 @@
 {
   "UI": {
     "explorer": {
-      "defaultView": "Project"
+      "defaultView": "project"
     },
     "topMenu": [
       {
