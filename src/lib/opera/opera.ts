@@ -95,7 +95,7 @@ export function useOpera(chainId = CHAIN_ID): any {
     try {
       const opera = getOpera()
       if (!opera) return undefined
-      const key = await opera?.getKey(chainId!)
+      const key = await opera.getKey(chainId!)
       return key
     } catch (e) {
       return undefined
@@ -104,7 +104,8 @@ export function useOpera(chainId = CHAIN_ID): any {
   const addChain = async (): Promise<boolean> => {
     try {
       const opera = getOpera()
-      await opera?.experimentalSuggestChain(CHAINS[chainId!])
+      if (!opera) throw new Error('Opera not found')
+      await opera.experimentalSuggestChain(CHAINS[chainId!])
       return true
     } catch (e) {
       console.error('useOpera', 'addChain', e)
