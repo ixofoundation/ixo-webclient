@@ -13,7 +13,7 @@ import { TreasuryPool } from './TreasuryPool'
 import useCurrentDao from 'hooks/currentDao'
 import { Button } from 'pages/CreateEntity/Components'
 
-const Overview: React.FC = (): JSX.Element => {
+const Navigator: React.FC = (): JSX.Element => {
   const { entityId: daoId } = useParams<{ entityId: string }>()
   const { selectedGroups } = useCurrentDao()
   const selectedGroupAddresses: string[] = Object.keys(selectedGroups)
@@ -100,4 +100,4 @@ const Overview: React.FC = (): JSX.Element => {
   )
 }
 
-export default Overview
+export default Navigator

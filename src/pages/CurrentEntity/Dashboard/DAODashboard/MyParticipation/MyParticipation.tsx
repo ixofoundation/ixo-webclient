@@ -13,7 +13,7 @@ import { ReactComponent as ArrowLeftIcon } from 'assets/images/icon-arrow-left.s
 import { ReactComponent as StakesIcon } from 'assets/images/icon-stakes.svg'
 import { ReactComponent as ProposalsIcon } from 'assets/images/icon-proposals.svg'
 
-const MyGroups: React.FC = () => {
+const MyParticipation: React.FC = () => {
   const history = useHistory()
   const { registered, balances } = useAccount()
   const { entityId } = useParams<{ entityId: string }>()
@@ -87,4 +87,4 @@ const MyGroups: React.FC = () => {
   )
 }
 
-export default MyGroups
+export default MyParticipation

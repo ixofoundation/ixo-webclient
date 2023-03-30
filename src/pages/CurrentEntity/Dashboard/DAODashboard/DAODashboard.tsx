@@ -9,11 +9,11 @@ import {
   // useRouteMatch
 } from 'react-router-dom'
 import { requireCheckDefault } from 'utils/images'
-import { MyGroups } from './MyGroups'
-import { Overview } from './Overview'
+import { MyParticipation } from './MyParticipation'
+import { Navigator } from './Navigator'
 // import { OverviewIndividualMember } from './OverviewIndividualMember'
-import { OverviewMembers } from './OverviewMembers'
-import { Proposals } from './Proposals'
+import { Membership } from './Membership'
+import { Governance } from './Governance'
 
 const DAODashboard: React.FC = (): JSX.Element => {
   const { entityId } = useParams<{ entityId: string }>()
@@ -106,15 +106,15 @@ const DAODashboard: React.FC = (): JSX.Element => {
       tabs={tabs}
       entityType={entityType}
     >
-      <Route exact path='/entity/:entityId/dashboard/navigator' component={Overview} />
-      <Route exact path='/entity/:entityId/dashboard/membership' component={OverviewMembers} />
+      <Route exact path='/entity/:entityId/dashboard/navigator' component={Navigator} />
+      <Route exact path='/entity/:entityId/dashboard/membership' component={Membership} />
       {/* <Route
         exact
         path='/entity/:entityId/dashboard/overview/:coreAddress/:address'
         component={OverviewIndividualMember}
       /> */}
-      <Route exact path='/entity/:entityId/dashboard/governance' component={Proposals} />
-      <Route exact path='/entity/:entityId/dashboard/my-participation' component={MyGroups} />
+      <Route exact path='/entity/:entityId/dashboard/governance' component={Governance} />
+      <Route exact path='/entity/:entityId/dashboard/my-participation' component={MyParticipation} />
       <Route exact path='/entity/:entityId/dashboard'>
         <Redirect to={`/entity/${entityId}/dashboard/navigator`} />
       </Route>
