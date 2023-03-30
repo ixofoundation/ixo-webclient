@@ -10,7 +10,6 @@ import { Button } from 'pages/CreateEntity/Components'
 import React, { useMemo, useState } from 'react'
 import { NavLink, useHistory } from 'react-router-dom'
 import { TDAOMetadataModel } from 'types/protocol'
-import * as Toast from 'utils/toast'
 import DAOCard from './DAOCard'
 import { ReactComponent as CheckCircleIcon } from 'assets/images/icon-check-circle.svg'
 import { ReactComponent as ExclamationIcon } from 'assets/images/icon-exclamation-circle.svg'
@@ -62,7 +61,6 @@ const ReviewDAO: React.FC = (): JSX.Element => {
 
     const protocolDid = await CreateProtocol()
     if (!protocolDid) {
-      Toast.errorToast(`Create Entity Protocol Failed`)
       setSubmitting(false)
       history.push({ pathname: history.location.pathname, search: `?success=false` })
       return
@@ -75,12 +73,10 @@ const ReviewDAO: React.FC = (): JSX.Element => {
       verification,
     })
     if (!entityDid) {
-      Toast.errorToast(`Create Entity Failed`)
       setSubmitting(false)
       history.push({ pathname: history.location.pathname, search: `?success=false` })
       return
     }
-    Toast.successToast(`Create Entity Succeed`)
 
     setSubmitting(false)
     history.push({ pathname: history.location.pathname, search: `?success=true` })

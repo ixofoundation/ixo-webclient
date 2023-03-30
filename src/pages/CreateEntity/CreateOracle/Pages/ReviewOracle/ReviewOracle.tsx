@@ -9,7 +9,6 @@ import { Button } from 'pages/CreateEntity/Components'
 import React, { useState } from 'react'
 import { NavLink, useHistory } from 'react-router-dom'
 import { TOracleMetadataModel } from 'types/protocol'
-import * as Toast from 'utils/toast'
 import OracleCard from './OracleCard'
 import { ReactComponent as CheckCircleIcon } from 'assets/images/icon-check-circle.svg'
 import { ReactComponent as ExclamationIcon } from 'assets/images/icon-exclamation-circle.svg'
@@ -35,7 +34,6 @@ const ReviewOracle: React.FC = (): JSX.Element => {
 
     const protocolDid = await CreateProtocol()
     if (!protocolDid) {
-      Toast.errorToast(`Create Entity Protocol Failed`)
       setSubmitting(false)
       history.push({ pathname: history.location.pathname, search: `?success=false` })
       return
@@ -49,9 +47,7 @@ const ReviewOracle: React.FC = (): JSX.Element => {
     })
     if (entityDid) {
       history.push({ pathname: history.location.pathname, search: `?success=true` })
-      Toast.successToast(`Create Entity Succeed`)
     } else {
-      Toast.errorToast(`Create Entity Failed`)
       history.push({ pathname: history.location.pathname, search: `?success=false` })
     }
     setSubmitting(false)

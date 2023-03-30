@@ -119,7 +119,10 @@ export const getEntities =
 
 export const getEntitiesByType =
   (entityType: string) =>
-  (dispatch: Dispatch): GetEntities2Action => {
+  (dispatch: Dispatch, getState: () => RootState): GetEntities2Action => {
+    const {
+      entities: { entities2 },
+    } = getState()
     return dispatch({
       type: EntitiesExplorerActions.GetEntities2,
       payload: bsService.entity.getEntitiesByType(entityType).then((entities: any[]) => {
@@ -211,7 +214,7 @@ export const getEntitiesByType =
             }
           })
 
-          return { ...entity }
+          return { ...entities2[id], ...entity }
         })
       }),
     })

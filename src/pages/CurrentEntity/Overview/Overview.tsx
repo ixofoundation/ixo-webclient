@@ -11,8 +11,8 @@ const Overview: React.FC = () => {
   const { controlPanelSchema } = useEntityConfig()
 
   return (
-    <div className='container-fluid'>
-      <div className='row'>
+    <div className='container-fluid h-100'>
+      <div className='row h-100'>
         <Box className='col-lg-9 pl-3 pl-md-5'>
           <EntityHero onlyTitle={false} assistantFixed={true} light />
           <PageContent />

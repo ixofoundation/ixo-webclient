@@ -32,7 +32,6 @@ class EntitiesImpact extends React.Component<Props> {
           filterSector={this.props.filterSector}
           filterQuery={this.props.filterQuery}
           showSearch={false}
-          handleChangeEntitiesType={() => null}
         />
         {this.props.isLoadingEntities && <Spinner info='Loading Impact Data' />}
         {!this.props.isLoadingEntities && (
