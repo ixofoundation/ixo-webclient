@@ -8,7 +8,7 @@ import { useCreateEntity, useCreateEntityState } from 'hooks/createEntity'
 import { useQuery } from 'hooks/window'
 import { Button } from 'pages/CreateEntity/Components'
 import React, { useMemo, useState } from 'react'
-import { useHistory } from 'react-router-dom'
+import { NavLink, useHistory } from 'react-router-dom'
 import { TDAOMetadataModel } from 'types/protocol'
 import * as Toast from 'utils/toast'
 import DAOCard from './DAOCard'
@@ -19,18 +19,8 @@ const ReviewDAO: React.FC = (): JSX.Element => {
   const history = useHistory()
   const createEntityState = useCreateEntityState()
   const metadata: TDAOMetadataModel = createEntityState.metadata as TDAOMetadataModel
-  const { service, linkedEntity, daoGroups, daoController, gotoStep } = createEntityState
-  const {
-    // CreateDAO,
-    // CreateDAOCredsIssuer,
-    SaveProfile,
-    SaveCreator,
-    SaveAdministrator,
-    SavePage,
-    SaveTags,
-    CreateProtocol,
-    CreateEntityBase,
-  } = useCreateEntity()
+  const { entityType, service, linkedEntity, daoGroups, daoController, gotoStep, gotoStepByNo } = createEntityState
+  const { UploadLinkedResource, CreateProtocol, CreateEntityBase } = useCreateEntity()
   const [submitting, setSubmitting] = useState(false)
   const { getQuery } = useQuery()
   const success = getQuery('success')
@@ -48,108 +38,12 @@ const ReviewDAO: React.FC = (): JSX.Element => {
 
   const handleSignToCreate = async (): Promise<void> => {
     setSubmitting(true)
-    // const daoDid = 'did:ixo:entity:cf16fe551153ec5a1b96be3f59b2ec98'
-    // const daoDid = await CreateDAO()
-    // if (!daoDid) {
-    //   Toast.errorToast(`Create DAO Failed`)
-    //   return
-    // } else {
-    //   Toast.successToast(`Create DAO Succeed`)
-    // }
 
-    const daoCredsIssuerDid = 'did:ixo:entity:c4a5588bdd7f651f5f5e742887709d57'
-    // const daoCredsIssuerDid = await CreateDAOCredsIssuer(daoDid)
-    // if (!daoCredsIssuerDid) {
-    //   Toast.errorToast(`Create DAO Creds Issuer Failed`)
-    //   return
-    // } else {
-    //   Toast.successToast(`Create DAO Creds Issuer Succeed`)
-    // }
-
-    const [saveProfileRes, saveCreatorRes, saveAdministratorRes, savePageRes, saveTagsRes] = await Promise.allSettled([
-      await SaveProfile(),
-      await SaveCreator(daoCredsIssuerDid),
-      await SaveAdministrator(daoCredsIssuerDid),
-      await SavePage(),
-      await SaveTags(),
-    ]).then((responses) => responses.map((response: any) => response.value))
-
-    const linkedResource: LinkedResource[] = []
     const accordedRight: AccordedRight[] = [] // TODO:
     const verification: Verification[] = []
+    let linkedResource: LinkedResource[] = []
 
-    if (saveProfileRes) {
-      linkedResource.push({
-        id: '{id}#profile',
-        type: 'Settings',
-        description: 'Profile',
-        mediaType: 'application/ld+json',
-        serviceEndpoint: saveProfileRes.url,
-        proof: saveProfileRes.cid,
-        encrypted: 'false',
-        right: '',
-      })
-    }
-    if (saveCreatorRes) {
-      linkedResource.push({
-        id: '{id}#creator',
-        type: 'VerifiableCredential',
-        description: 'Creator',
-        mediaType: 'application/ld+json',
-        serviceEndpoint: `#cellnode-pandora/public/${saveCreatorRes.key}`,
-        proof: saveCreatorRes.key,
-        encrypted: 'false',
-        right: '',
-      })
-    }
-    if (saveAdministratorRes) {
-      linkedResource.push({
-        id: '{id}#administrator',
-        type: 'VerifiableCredential',
-        description: 'Administrator',
-        mediaType: 'application/ld+json',
-        serviceEndpoint: `#cellnode-pandora/public/${saveAdministratorRes.key}`,
-        proof: saveAdministratorRes.key,
-        encrypted: 'false',
-        right: '',
-      })
-    }
-    if (savePageRes) {
-      linkedResource.push({
-        id: '{id}#page',
-        type: 'Settings',
-        description: 'Page',
-        mediaType: 'application/ld+json',
-        serviceEndpoint: `#cellnode-pandora/public/${savePageRes.key}`,
-        proof: savePageRes.key,
-        encrypted: 'false',
-        right: '',
-      })
-    }
-    if (saveTagsRes) {
-      linkedResource.push({
-        id: '{id}#tags',
-        type: 'Settings',
-        description: 'Tags',
-        mediaType: 'application/ld+json',
-        serviceEndpoint: `#cellnode-pandora/public/${saveTagsRes.key}`,
-        proof: saveTagsRes.key,
-        encrypted: 'false',
-        right: '',
-      })
-    }
-    // if (saveClaimsRes) {
-    //   linkedResource.push({
-    //     id: '{id}#claims',
-    //     type: 'Settings',
-    //     description: 'Claims',
-    //     mediaType: 'application/ld+json',
-    //     serviceEndpoint: `#cellnode-pandora/public/${saveClaimsRes.key}`,
-    //     proof: saveClaimsRes.key,
-    //     encrypted: 'false',
-    //     right: '',
-    //   })
-    // }
+    linkedResource = linkedResource.concat(await UploadLinkedResource())
 
     const daoControllerAddress = daoGroups[daoController]?.contractAddress
     if (daoControllerAddress) {
@@ -173,7 +67,7 @@ const ReviewDAO: React.FC = (): JSX.Element => {
       history.push({ pathname: history.location.pathname, search: `?success=false` })
       return
     }
-    const entityDid = await CreateEntityBase('dao', protocolDid, {
+    const entityDid = await CreateEntityBase(entityType, protocolDid, {
       service,
       linkedResource,
       accordedRight,
@@ -203,22 +97,16 @@ const ReviewDAO: React.FC = (): JSX.Element => {
                 This is the last step before creating this DAO on the ixo Blockchain.
               </Typography>
               <Typography variant='secondary'>
-                <Typography variant='secondary' color='blue'>
+                <NavLink to={'/create/entity/dao/setup-metadata'} onClick={() => gotoStepByNo(2)}>
                   Review the DAO details
-                </Typography>{' '}
+                </NavLink>{' '}
                 you have configured.
               </Typography>
               <Typography variant='secondary'>
-                <Typography variant='secondary' color='blue'>
+                <NavLink to={'/create/entity/dao/setup-groups'} onClick={() => gotoStepByNo(3)}>
                   View the DAO Groups
-                </Typography>{' '}
+                </NavLink>{' '}
                 you have added.
-              </Typography>
-              <Typography variant='secondary'>
-                <Typography variant='secondary' color='blue'>
-                  Confirm the Headline Metric
-                </Typography>{' '}
-                that will be displayed on the DAO card.
               </Typography>
               <Typography variant='secondary'>
                 When you are ready to commit, sign with your DID Account keys, or{' '}
@@ -249,7 +137,11 @@ const ReviewDAO: React.FC = (): JSX.Element => {
               </Typography>
             </FlexBox>
             <FlexBox width='100%' gap={4}>
-              <Button variant='primary' onClick={() => history.push('/explore?type=dao')} style={{ width: '100%' }}>
+              <Button
+                variant='primary'
+                onClick={() => history.push(`/explore?type=${entityType}`)}
+                style={{ width: '100%' }}
+              >
                 View in the Explorer
               </Button>
             </FlexBox>

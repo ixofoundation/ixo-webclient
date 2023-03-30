@@ -15,8 +15,6 @@ const SelectCreationProcess: React.FC = (): JSX.Element => {
   const canClone = useMemo(() => existingDid.length > 0, [existingDid])
 
   const handleCreate = (): void => {
-    // store token type in Redux
-    console.log('TODO:')
     gotoStep(1)
   }
 

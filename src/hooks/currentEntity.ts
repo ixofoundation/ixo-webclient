@@ -1,4 +1,3 @@
-import { customQueries } from '@ixo/impactxclient-sdk'
 import { IidMetadata, LinkedEntity, LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { TEntityModel } from 'api/blocksync/types/entities'
 import {
@@ -19,6 +18,7 @@ import {
   selectEntityTags,
   selectEntityLinkedEntity,
   selectEntityMetadata,
+  selectEntityId,
 } from 'redux/currentEntity/currentEntity.selectors'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { BlockSyncService } from 'services/blocksync'
@@ -29,9 +29,7 @@ import {
   TEntityPageSectionModel,
   TEntityProfileModel,
 } from 'types/protocol'
-import { chainNetwork } from './configs'
-
-const cellNodeChainMapping = customQueries.cellnode.cellNodeChainMapping
+import useCurrentDao from './currentDao'
 
 const bsService = new BlockSyncService()
 
@@ -54,7 +52,9 @@ export default function useCurrentEntity(): {
   getEntityByDid: (did: string) => Promise<boolean>
 } {
   const dispatch = useAppDispatch()
+  const { clearDaoGroup } = useCurrentDao()
   const entitites: { [id: string]: TEntityModel } = useAppSelector((state) => state.entities.entities2)
+  const id: string = useAppSelector(selectEntityId)!
   const entityType: string = useAppSelector(selectEntityType)!
   const linkedResource: LinkedResource[] = useAppSelector(selectEntityLinkedResource)!
   const linkedEntity: LinkedEntity[] = useAppSelector(selectEntityLinkedEntity)!
@@ -66,6 +66,9 @@ export default function useCurrentEntity(): {
   const metadata: IidMetadata | undefined = useAppSelector(selectEntityMetadata)
 
   const updateEntity = (data: TEntityModel) => {
+    if (id !== data.id) {
+      clearDaoGroup()
+    }
     dispatch(updateEntityAction(data))
   }
 
@@ -94,12 +97,25 @@ export default function useCurrentEntity(): {
       return true
     }
     return await bsService.entity.getEntityById(did).then((entity: any) => {
-      const { settings, linkedResource } = entity
+      const { service, settings, linkedResource } = entity
       linkedResource.concat(Object.values(settings)).forEach((item: LinkedResource) => {
-        if (item.proof) {
+        let url = ''
+        const [domain, ...subPaths] = item.serviceEndpoint.split('/')
+
+        if (domain.startsWith('#')) {
+          const id = domain.replace('#', '')
+          url = service.find((item: any) => item.id === id)?.serviceEndpoint
+          if (url) {
+            url = [url, ...subPaths].join('/')
+          }
+        } else if (domain.startsWith('http')) {
+          url = item.serviceEndpoint
+        }
+
+        if (item.proof && url) {
           switch (item.id) {
             case '{id}#profile': {
-              fetch(item.serviceEndpoint)
+              fetch(url)
                 .then((response) => response.json())
                 .then((profile) => {
                   updateEntityProfile(profile)
@@ -108,8 +124,7 @@ export default function useCurrentEntity(): {
               break
             }
             case '{id}#creator': {
-              const [, ...paths] = item.serviceEndpoint.split('/')
-              fetch([cellNodeChainMapping[chainNetwork], ...paths].join('/'))
+              fetch(url)
                 .then((response) => response.json())
                 .then((response) => response.credentialSubject)
                 .then((creator) => {
@@ -119,8 +134,7 @@ export default function useCurrentEntity(): {
               break
             }
             case '{id}#administrator': {
-              const [, ...paths] = item.serviceEndpoint.split('/')
-              fetch([cellNodeChainMapping[chainNetwork], ...paths].join('/'))
+              fetch(url)
                 .then((response) => response.json())
                 .then((response) => response.credentialSubject)
                 .then((administrator) => {
@@ -130,8 +144,7 @@ export default function useCurrentEntity(): {
               break
             }
             case '{id}#page': {
-              const [, ...paths] = item.serviceEndpoint.split('/')
-              fetch([cellNodeChainMapping[chainNetwork], ...paths].join('/'))
+              fetch(url)
                 .then((response) => response.json())
                 .then((response) => response.page)
                 .then((page) => {
@@ -141,8 +154,7 @@ export default function useCurrentEntity(): {
               break
             }
             case '{id}#tags': {
-              const [, ...paths] = item.serviceEndpoint.split('/')
-              fetch([cellNodeChainMapping[chainNetwork], ...paths].join('/'))
+              fetch(url)
                 .then((response) => response.json())
                 .then((tags) => {
                   updateEntityTags(tags)

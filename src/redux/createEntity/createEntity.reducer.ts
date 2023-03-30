@@ -41,7 +41,11 @@ export const reducer = (state = initialState, action: TCreateEntityActionTypes):
       const ls = localStorage.getItem(`ixo.create.entity.${entityType}`)
       const savedState = JSON.parse(ls!)
 
-      return { ...state, entityType: action.payload, ...savedState }
+      return {
+        stepNo: initialState.stepNo,
+        entityType: action.payload,
+        ...savedState,
+      }
     }
     case ECreateEntityActions.GotoStep:
       updatedState = { ...state, stepNo: action.payload }

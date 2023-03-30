@@ -38,8 +38,12 @@ const initialState: TEntityModel = {
 
 export const reducer = (state = initialState, action: CurrentEntityActionTypes): TEntityModel => {
   switch (action.type) {
-    case CurrentEntityActions.UpdateEntity:
+    case CurrentEntityActions.UpdateEntity: {
+      if (state.id === action.payload.id) {
+        return { ...state }
+      }
       return action.payload
+    }
     case CurrentEntityActions.UpdateEntityProfile:
       return { ...state, profile: action.payload }
     case CurrentEntityActions.UpdateEntityCreator:

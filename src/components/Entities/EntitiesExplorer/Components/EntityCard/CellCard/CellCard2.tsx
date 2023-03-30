@@ -30,7 +30,7 @@ interface Props {
 }
 
 const DAOCard: React.FunctionComponent<Props> = ({ id, profile, tags }) => {
-  const sdgs = tags?.find(({ category }) => category === 'SDG')?.tags ?? []
+  const sdgs = tags ? tags.find(({ category, tags }) => category === 'SDG' && Array.isArray(tags))?.tags ?? [] : []
 
   if (!profile) {
     return null

@@ -6,6 +6,8 @@ export const reducer = (state = initialState, action: CurrentDaoActionTypes): Cu
   switch (action.type) {
     case CurrentDaoActions.UpdateGroup:
       return { ...state, [action.payload.coreAddress]: action.payload }
+    case CurrentDaoActions.ClearGroup:
+      return { ...initialState }
     default:
       return { ...state }
   }

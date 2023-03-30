@@ -1,7 +1,7 @@
 import { ArrayOfAddr } from '@ixo/impactxclient-sdk/types/codegen/DaoCore.types'
 import { ProposalResponse } from '@ixo/impactxclient-sdk/types/codegen/DaoMigrator.types'
 import { useCallback, useMemo } from 'react'
-import { updateGroupAction } from 'redux/currentEntity/dao/currentDao.actions'
+import { clearGroupAction, updateGroupAction } from 'redux/currentEntity/dao/currentDao.actions'
 import { selectDaoGroupByAddress, selectDaoGroups } from 'redux/currentEntity/dao/currentDao.selectors'
 import { CurrentDao, DaoGroup } from 'redux/currentEntity/dao/currentDao.types'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
@@ -17,6 +17,7 @@ export default function useCurrentDao(): {
   selectedGroups: CurrentDao
   selectDaoGroup: (coreAddress: string) => void
   setDaoGroup: (coreAddress: string) => void
+  clearDaoGroup: () => void
   getNumOfMembersByAddresses: (addresses: string[]) => number
   getMembersByAddress: (address: string) => Member[]
   getProposalModuleCountByAddresses: (addresses: string[]) => {
@@ -269,12 +270,17 @@ export default function useCurrentDao(): {
     )
   }
 
+  const clearDaoGroup = () => {
+    dispatch(clearGroupAction())
+  }
+
   return {
     daoGroups,
     daoGroupAddresses,
     selectedGroups,
     selectDaoGroup,
     setDaoGroup,
+    clearDaoGroup,
     getNumOfMembersByAddresses,
     getMembersByAddress,
     getProposalModuleCountByAddresses,

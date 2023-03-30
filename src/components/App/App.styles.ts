@@ -71,15 +71,6 @@ export const Container = styled.div`
   flex-flow: column;
   min-height: 100vh;
   font-family: ${(props): string => props.theme.primaryFontFamily};
-
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  p,
-  a {
-  }
   font-weight: 300;
 `
 export const HeaderDropdownBackground = styled.div`

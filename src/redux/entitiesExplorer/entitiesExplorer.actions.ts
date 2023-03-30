@@ -30,9 +30,6 @@ import { getHeadlineClaimInfo } from 'utils/claims'
 import { TEntityDDOTagModel } from 'types/protocol'
 import { BlockSyncService } from 'services/blocksync'
 import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
-import { chainNetwork } from 'hooks/configs'
-import { customQueries } from '@ixo/impactxclient-sdk'
-const cellNodeChainMapping = customQueries.cellnode.cellNodeChainMapping
 
 const bsService = new BlockSyncService()
 
@@ -127,12 +124,25 @@ export const getEntitiesByType =
       type: EntitiesExplorerActions.GetEntities2,
       payload: bsService.entity.getEntitiesByType(entityType).then((entities: any[]) => {
         return entities?.map((entity) => {
-          const { id, settings, linkedResource } = entity
+          const { id, settings, linkedResource, service } = entity
           linkedResource.concat(Object.values(settings)).forEach((item: LinkedResource) => {
-            if (item.proof) {
+            let url = ''
+            const [domain, ...subPaths] = item.serviceEndpoint.split('/')
+
+            if (domain.startsWith('#')) {
+              const id = domain.replace('#', '')
+              url = service.find((item: any) => item.id === id)?.serviceEndpoint
+              if (url) {
+                url = [url, ...subPaths].join('/')
+              }
+            } else if (domain.startsWith('http')) {
+              url = item.serviceEndpoint
+            }
+
+            if (item.proof && url) {
               switch (item.id) {
                 case '{id}#profile': {
-                  fetch(item.serviceEndpoint)
+                  fetch(url)
                     .then((response) => response.json())
                     .then((profile) => {
                       dispatch({
@@ -144,8 +154,7 @@ export const getEntitiesByType =
                   break
                 }
                 case '{id}#creator': {
-                  const [, ...paths] = item.serviceEndpoint.split('/')
-                  fetch([cellNodeChainMapping[chainNetwork], ...paths].join('/'))
+                  fetch(url)
                     .then((response) => response.json())
                     .then((response) => response.credentialSubject)
                     .then((creator) => {
@@ -158,8 +167,7 @@ export const getEntitiesByType =
                   break
                 }
                 case '{id}#administrator': {
-                  const [, ...paths] = item.serviceEndpoint.split('/')
-                  fetch([cellNodeChainMapping[chainNetwork], ...paths].join('/'))
+                  fetch(url)
                     .then((response) => response.json())
                     .then((response) => response.credentialSubject)
                     .then((administrator) => {
@@ -172,8 +180,7 @@ export const getEntitiesByType =
                   break
                 }
                 case '{id}#page': {
-                  const [, ...paths] = item.serviceEndpoint.split('/')
-                  fetch([cellNodeChainMapping[chainNetwork], ...paths].join('/'))
+                  fetch(url)
                     .then((response) => response.json())
                     .then((response) => response.page)
                     .then((page) => {
@@ -186,9 +193,9 @@ export const getEntitiesByType =
                   break
                 }
                 case '{id}#tags': {
-                  const [, ...paths] = item.serviceEndpoint.split('/')
-                  fetch([cellNodeChainMapping[chainNetwork], ...paths].join('/'))
+                  fetch(url)
                     .then((response) => response.json())
+                    .then((response) => response.ddoTags)
                     .then((tags) => {
                       dispatch({
                         type: EntitiesExplorerActions.GetIndividualEntity2,

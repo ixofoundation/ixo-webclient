@@ -4,6 +4,10 @@ import { RootState } from 'redux/store'
 
 export const selectCurrentEntity = (state: RootState): TEntityModel => state.currentEntity
 
+export const selectEntityId = createSelector(selectCurrentEntity, (entity: TEntityModel) => {
+  return entity.id
+})
+
 export const selectEntityType = createSelector(selectCurrentEntity, (entity: TEntityModel) => {
   return entity.type
 })
