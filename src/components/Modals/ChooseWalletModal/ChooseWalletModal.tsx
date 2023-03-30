@@ -21,11 +21,12 @@ const ChooseWalletModal: React.FC<Props> = ({ open, setOpen }): JSX.Element => {
   const keplr = useKeplr()
   const keysafe = useIxoKeysafe()
   const opera = useOpera()
-  console.log({ opera })
+  console.log('opera', opera)
 
   const isKeplrInstalled: boolean = keplr.getKeplr()
   const isKeysafeInstalled: boolean = keysafe.getKeysafe()
-  const isOperaInstalled: boolean = opera.getOpera()
+  const isOperaInstalled: boolean = opera?.getOpera()
+  console.log('isOperaInstalled', isOperaInstalled)
 
   const handleChooseWallet = async (type: WalletType): Promise<void> => {
     switch (type) {
@@ -83,7 +84,7 @@ const ChooseWalletModal: React.FC<Props> = ({ open, setOpen }): JSX.Element => {
           </WalletBox>
         )}
         {!isKeplrInstalled && !isKeysafeInstalled && !isOperaInstalled && (
-          <Typography color='white'>{`No wallets installed`}</Typography>
+          <Typography color='white'>{`No wallets available`}</Typography>
         )}
       </Container>
     </ModalWrapper>
