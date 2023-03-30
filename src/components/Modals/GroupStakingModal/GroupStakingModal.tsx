@@ -52,8 +52,8 @@ const GroupStakingModal: React.FunctionComponent<Props> = ({ daoGroup, open, set
   )
 
   const [amount, setAmount] = useState<string>('')
-  const [txStatus, setTxStatus] = useState<TXStatus>(TXStatus.UNDEFINED)
-  const [txHash, setTxHash] = useState<string>('')
+  const [txStatus] = useState<TXStatus>(TXStatus.UNDEFINED)
+  const [txHash] = useState<string>('')
 
   /**
    * @get
