@@ -210,7 +210,7 @@
     },
     "filterSchema": {
       "@context": "https://schema.ixo.foundation/project",
-      "@type": "Project",
+      "@type": "project",
       "dateCreated": {
         "@type": "Date",
         "name": "Dates"

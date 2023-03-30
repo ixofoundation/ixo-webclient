@@ -167,10 +167,10 @@ export const fakeListedProjectsData = [
       },
       linkedEntities: [
         {
-          '@type': 'Investment',
+          '@type': 'investment',
           id: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdqq',
         },
-        { '@type': 'Oracle', id: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdtt' },
+        { '@type': 'oracle', id: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdtt' },
       ],
       fees: {
         '@context': 'https://schema.ixo.world/fees/ipfs3r08webu2eou',
@@ -251,7 +251,7 @@ export const fakeListedProjectsData = [
           properties: 'otherparams',
         },
       ],
-      '@type': 'Project',
+      '@type': 'project',
       name: 'Some Title',
       description: 'Some Short Description',
       image: 'https://pds_pandora.ixo.world/public/sbujb0xg0dgkeljwtnc',
@@ -425,10 +425,10 @@ export const fakeListedProjectsData = [
       page: { cid: 'somepageid', version: '1.0.0' },
       linkedEntities: [
         {
-          '@type': 'Investment',
+          '@type': 'investment',
           id: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdqq',
         },
-        { '@type': 'Oracle', id: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdtt' },
+        { '@type': 'oracle', id: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdtt' },
       ],
       fees: {
         '@context': 'https://schema.ixo.world/fees/ipfs3r08webu2eou',
@@ -509,7 +509,7 @@ export const fakeListedProjectsData = [
           properties: 'otherparams',
         },
       ],
-      '@type': 'Template',
+      '@type': 'protocol',
       name: 'Some Claim Title',
       description: 'Some Claim Description',
       createdOn: { $date: { $numberLong: '1597261785000' } },
