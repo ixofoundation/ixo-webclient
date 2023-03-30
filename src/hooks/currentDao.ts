@@ -15,6 +15,7 @@ export default function useCurrentDao(): {
   daoGroups: CurrentDao
   daoGroupAddresses: string[]
   selectedGroups: CurrentDao
+  myGroups: CurrentDao
   selectDaoGroup: (coreAddress: string) => void
   setDaoGroup: (coreAddress: string) => void
   clearDaoGroup: () => void
@@ -40,6 +41,15 @@ export default function useCurrentDao(): {
           .map(([key, value]) => [key, value]),
       ),
     [daoGroups],
+  )
+  const myGroups = useMemo(
+    () =>
+      Object.fromEntries(
+        Object.entries(daoGroups)
+          .filter(([, value]) => value.votingModule.members.some(({ addr }) => addr === address))
+          .map(([key, value]) => [key, value]),
+      ),
+    [daoGroups, address],
   )
 
   const selectDaoGroup = (coreAddress: string) => {
@@ -217,7 +227,9 @@ export default function useCurrentDao(): {
       console.log('Cw20BaseClient-------start')
       const cw20BaseClient = new contracts.Cw20Base.Cw20BaseClient(cosmWasmClient, address, tokenContract)
       const balance = await cw20BaseClient.balance({ address })
-      console.log({ balance })
+      const tokenInfo = await cw20BaseClient.tokenInfo()
+      const marketingInfo = await cw20BaseClient.marketingInfo()
+      console.log({ balance, tokenInfo, marketingInfo })
       console.log('Cw20BaseClient-------end')
 
       votingModule.members = stakers.map(({ address, balance }) => ({ addr: address, weight: balance }))
@@ -278,6 +290,7 @@ export default function useCurrentDao(): {
     daoGroups,
     daoGroupAddresses,
     selectedGroups,
+    myGroups,
     selectDaoGroup,
     setDaoGroup,
     clearDaoGroup,
@@ -296,6 +309,7 @@ export function useCurrentDaoGroup(groupAddress: string) {
 
   const proposalModuleAddress = useMemo(() => daoGroup?.proposalModule.proposalModuleAddress, [daoGroup])
   const preProposalContractAddress = useMemo(() => daoGroup?.proposalModule.preProposalContractAddress, [daoGroup])
+  const votingModuleAddress = useMemo(() => daoGroup?.votingModule.votingModuleAddress, [daoGroup])
 
   const daoProposalSingleClient = useMemo(
     () => new contracts.DaoProposalSingle.DaoProposalSingleClient(cosmWasmClient, address, proposalModuleAddress),
@@ -308,5 +322,10 @@ export function useCurrentDaoGroup(groupAddress: string) {
     [cosmWasmClient, address, preProposalContractAddress],
   )
 
-  return { daoGroup, daoProposalSingleClient, daoPreProposeSingleClient }
+  const daoVotingCw20StakedClient = useMemo(
+    () => new contracts.DaoVotingCw20Staked.DaoVotingCw20StakedClient(cosmWasmClient, address, votingModuleAddress),
+    [cosmWasmClient, address, votingModuleAddress],
+  )
+
+  return { daoGroup, daoProposalSingleClient, daoPreProposeSingleClient, daoVotingCw20StakedClient }
 }

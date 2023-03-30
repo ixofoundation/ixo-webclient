@@ -9,7 +9,6 @@ import { Typography } from 'components/Typography'
 import useCurrentDao from 'hooks/currentDao'
 import { DaoGroup } from 'redux/currentEntity/dao/currentDao.types'
 import { deviceWidth } from 'constants/device'
-import { useAccount } from 'hooks/account'
 
 const StyledSlider = styled(Slider)`
   .slick-track {
@@ -62,8 +61,7 @@ interface Props {
 }
 
 const Groups: React.FC<Props> = ({ isFollowing }): JSX.Element | null => {
-  const { daoGroups, selectedGroups, selectDaoGroup } = useCurrentDao()
-  const { address } = useAccount()
+  const { daoGroups, selectedGroups, myGroups, selectDaoGroup } = useCurrentDao()
   const [dragging, setDragging] = useState(false)
   const settings = {
     className: 'slider variable-width',
@@ -143,7 +141,7 @@ const Groups: React.FC<Props> = ({ isFollowing }): JSX.Element | null => {
     </FlexBox>
   )
 
-  if (Object.values(daoGroups).length === 0) {
+  if (Object.values(isFollowing ? myGroups : daoGroups).length === 0) {
     return null
   }
 
@@ -152,8 +150,7 @@ const Groups: React.FC<Props> = ({ isFollowing }): JSX.Element | null => {
       <Card icon={<GroupsIcon />} label='Groups'>
         <Box width='100%' color='white'>
           <StyledSlider {...settings}>
-            {Object.values(daoGroups)
-              .filter((daoGroup) => !isFollowing || daoGroup.votingModule.members.some(({ addr }) => addr === address))
+            {Object.values(isFollowing ? myGroups : daoGroups)
               .sort((a, b) => {
                 if (a.selected! > b.selected!) {
                   return -1

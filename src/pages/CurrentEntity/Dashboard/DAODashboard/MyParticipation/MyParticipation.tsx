@@ -39,7 +39,7 @@ const MyParticipation: React.FC = () => {
           <Typography variant='secondary' size='5xl' weight='normal' color='dark-blue'>
             My participation in the{' '}
             <Typography variant='secondary' size='5xl' weight='normal' color='white'>
-              {selectedGroups[0]?.config.name}
+              {Object.values(selectedGroups)[0]?.config.name}
             </Typography>{' '}
             group
           </Typography>
