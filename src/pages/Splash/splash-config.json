@@ -363,6 +363,12 @@
       "color": "#FFFFFF",
       "image": "equanimity.png",
       "url": "https://equanimity.li/"
+    },
+    {
+      "title": "LOA LABS",
+      "color": "#3F233B",
+      "image": "loalabs.png",
+      "url": "https://loalabs.io/"
     }
   ]
 }
