@@ -17,7 +17,7 @@ const OverviewIndividualMember: React.FC = (): JSX.Element | null => {
 
   useEffect(() => {
     if (!isAccountAddress(address)) {
-      history.push(`/entity/${entityId}/dashboard/members`)
+      history.push(`/entity/${entityId}/dashboard/membership`)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address])

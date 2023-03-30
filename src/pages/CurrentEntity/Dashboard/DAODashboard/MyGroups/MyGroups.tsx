@@ -8,8 +8,10 @@ import { AssetDetailCard, Card } from '../../Components'
 import { Groups } from '../Components'
 import { MyActivity } from './MyActivity'
 import { MyStakes } from './MyStakes'
-import { ReactComponent as ArrowLeftIcon } from 'assets/images/icon-arrow-left.svg'
 import { MyProposals } from './MyProposals'
+import { ReactComponent as ArrowLeftIcon } from 'assets/images/icon-arrow-left.svg'
+import { ReactComponent as StakesIcon } from 'assets/images/icon-stakes.svg'
+import { ReactComponent as ProposalsIcon } from 'assets/images/icon-proposals.svg'
 
 const MyGroups: React.FC = () => {
   const history = useHistory()
@@ -22,7 +24,7 @@ const MyGroups: React.FC = () => {
 
   useEffect(() => {
     if (!registered) {
-      history.push(`/entity/${entityId}/dashboard/overview`)
+      history.push(`/entity/${entityId}/dashboard`)
     }
   }, [registered, history, entityId])
 
@@ -35,12 +37,17 @@ const MyGroups: React.FC = () => {
       </Typography>
 
       {expand === 'token' && (
-        <Card label='My Stakes' actionIcon={<ArrowLeftIcon />} onAction={() => history.goBack()}>
+        <Card icon={<StakesIcon />} label='My Stakes' actionIcon={<ArrowLeftIcon />} onAction={() => history.goBack()}>
           <MyStakes balances={balances} />
         </Card>
       )}
       {expand === 'proposal' && (
-        <Card label='My Proposals' actionIcon={<ArrowLeftIcon />} onAction={() => history.goBack()}>
+        <Card
+          icon={<ProposalsIcon />}
+          label='My Proposals'
+          actionIcon={<ArrowLeftIcon />}
+          onAction={() => history.goBack()}
+        >
           <MyProposals />
         </Card>
       )}
@@ -55,6 +62,7 @@ const MyGroups: React.FC = () => {
         >
           <GridItem gridArea='a'>
             <Card
+              icon={<StakesIcon />}
               label='My Stakes'
               onAction={() => history.push({ pathname: history.location.pathname, search: `?expand=token` })}
             >
@@ -63,6 +71,7 @@ const MyGroups: React.FC = () => {
           </GridItem>
           <GridItem gridArea='b'>
             <Card
+              icon={<ProposalsIcon />}
               label='My Proposals'
               onAction={() => history.push({ pathname: history.location.pathname, search: `?expand=proposal` })}
             >
