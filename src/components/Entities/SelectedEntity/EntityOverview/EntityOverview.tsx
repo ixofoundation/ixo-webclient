@@ -54,7 +54,7 @@ class EntityOverview extends React.Component<Props> {
     const { did, type, pageContent, creatorLogo, creatorName, creatorMission, creatorWebsite } = this.props
 
     switch (type) {
-      case EntityType.Template:
+      case EntityType.Protocol:
         return <TemplateContentComponent templateId={did} />
       default:
         return (

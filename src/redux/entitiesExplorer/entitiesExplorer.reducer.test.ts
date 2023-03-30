@@ -169,49 +169,42 @@ describe('Entities Reducer', () => {
           itemOffset: 0,
         },
         entityConfig: {
-          Project: {
+          project: {
             filterSchema: {
               name: 'Project Type',
               ddoTags: [],
               selectedTags: [],
             },
           },
-          Oracle: {
+          oracle: {
             filterSchema: {
               name: 'Project Type',
               ddoTags: [],
               selectedTags: [],
             },
           },
-          Template: {
+          protocol: {
             filterSchema: {
               name: 'Project Type',
               ddoTags: [],
               selectedTags: [],
             },
           },
-          Asset: {
+          asset: {
             filterSchema: {
               name: 'Project Type',
               ddoTags: [],
               selectedTags: [],
             },
           },
-          Cell: {
+          dao: {
             filterSchema: {
               name: 'Project Type',
               ddoTags: [],
               selectedTags: [],
             },
           },
-          Dao: {
-            filterSchema: {
-              name: 'Project Type',
-              ddoTags: [],
-              selectedTags: [],
-            },
-          },
-          Investment: {
+          investment: {
             filterSchema: {
               name: 'Project Type',
               ddoTags: [],
@@ -1218,49 +1211,42 @@ describe('Entities Reducer', () => {
           query: '',
         },
         entityConfig: {
-          Project: {
+          project: {
             filterSchema: {
               name: 'Project Type',
               ddoTags: [],
               selectedTags: [],
             },
           },
-          Oracle: {
+          oracle: {
             filterSchema: {
               name: 'Project Type',
               ddoTags: [],
               selectedTags: [],
             },
           },
-          Template: {
+          protocol: {
             filterSchema: {
               name: 'Project Type',
               ddoTags: [],
               selectedTags: [],
             },
           },
-          Asset: {
+          asset: {
             filterSchema: {
               name: 'Project Type',
               ddoTags: [],
               selectedTags: [],
             },
           },
-          Cell: {
+          dao: {
             filterSchema: {
               name: 'Project Type',
               ddoTags: [],
               selectedTags: [],
             },
           },
-          Dao: {
-            filterSchema: {
-              name: 'Project Type',
-              ddoTags: [],
-              selectedTags: [],
-            },
-          },
-          Investment: {
+          investment: {
             filterSchema: {
               name: 'Project Type',
               ddoTags: [],

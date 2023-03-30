@@ -175,7 +175,7 @@ describe('EntitiesExplorer Selectors', () => {
           },
           {
             did: 'someDid5',
-            type: EntityType.Template,
+            type: EntityType.Protocol,
             creatorDid: 'someCreatorDid4',
             title: 'someTitle4',
             description: 'somedescription4',

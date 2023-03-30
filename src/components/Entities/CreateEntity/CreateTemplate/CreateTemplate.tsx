@@ -129,7 +129,7 @@ class CreateTemplate extends CreateEntityBase<any> {
     const handleCreateNewTokenClassTemplate = (): void => {
       // window.open('/template/new/template', '_self')
       history.push('/template/new/template')
-      handleNewEntity(EntityType.Template, true)
+      handleNewEntity(EntityType.Protocol, true)
       handleGoToStep(2)
       handleUpdateTemplateType({
         templateType: 'Token Class',

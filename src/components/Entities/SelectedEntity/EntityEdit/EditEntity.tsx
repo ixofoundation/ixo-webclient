@@ -5,7 +5,6 @@ import { RootState } from '../../../../redux/store'
 import { Hero } from './Components/Hero/Hero'
 import { EditEntityWrapper } from './EditEntity.styles'
 import { Steps } from '../../../Steps/Steps'
-import { toTitleCase } from '../../../../utils/formatters'
 import { EntityType, EntityTypeStrategyMap } from '../../../../types/entities'
 import * as editEntitySelectors from '../../../../redux/editEntity/editEntity.selectors'
 import * as selectEntitySelectors from '../../../../redux/selectedEntity/selectedEntity.selectors'
@@ -56,7 +55,7 @@ class EditEntity extends React.Component<Props> {
       handleNewEntity,
     } = this.props
     handleFetchExistingEntity(projectDID)
-    handleNewEntity(toTitleCase(entityTypeUrlParam) as EntityType, false)
+    handleNewEntity(entityTypeUrlParam as EntityType, false)
   }
 
   handleReset = (): any => {
@@ -81,7 +80,7 @@ class EditEntity extends React.Component<Props> {
       },
     } = this.props
 
-    const entityType = toTitleCase(entityTypeUrlParam) as EntityType
+    const entityType = entityTypeUrlParam as EntityType
 
     const stepMap = editEntityMap[entityType]
     return (
@@ -166,7 +165,7 @@ class EditEntity extends React.Component<Props> {
     }
 
     // const entityMap = entityConfig
-    // ? entityConfig[toTitleCase(entityType)]
+    // ? entityConfig[entityType]
     // : null
 
     return (

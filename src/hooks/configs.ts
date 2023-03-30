@@ -20,11 +20,6 @@ import {
 
 const CHAIN_ID = process.env.REACT_APP_CHAIN_ID
 export const chainNetwork: ChainNetwork = CHAIN_ID?.startsWith('devnet') ? 'devnet' : 'testnet'
-export const cellNodeChainMapping: { [network in ChainNetwork]: string } = {
-  mainnet: 'https://cellnode.ixo.earth',
-  testnet: 'https://cellnode-pandora.ixo.earth',
-  devnet: 'https://devnet-cellnode.ixo.earth',
-}
 
 interface IxoConfigsHookExports {
   paymentCoins: PaymentCoins[]

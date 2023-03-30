@@ -15,37 +15,37 @@ import { useCreateEntityState } from 'hooks/createEntity'
 const SelectType: React.FC = (): JSX.Element => {
   const options = [
     {
-      type: 'Claim',
+      type: 'protocol/claim',
       label: 'Verifiable Claim',
       icon: <ClaimIcon />,
-      description: `A <b>Claim Template</b> defines a data schema, data collection format, and evaluation methodology for any type of verifiable claim.`,
+      description: `A <b>Verifiable Claim</b> defines a data schema, data collection format, and evaluation methodology for any type of verifiable claim.`,
     },
     {
-      type: 'Asset',
+      type: 'asset',
       label: 'Asset Class',
       icon: <ImpactTokenIcon />,
       description: `A <b>Asset Class</b> defines a data schema, data collection format, and evaluation methodology for any type of verifiable claim.`,
     },
     {
-      type: 'Investment',
+      type: 'investment',
       label: 'Investment Class',
       icon: <InvestmentIcon />,
       description: `A <b>Investment Class</b> defines a data schema, data collection format, and evaluation methodology for any type of verifiable claim.`,
     },
     {
-      type: 'Project',
+      type: 'project',
       label: 'Project Class',
       icon: <ProjectIcon />,
       description: `A <b>Project Class</b> defines a data schema, data collection format, and evaluation methodology for any type of verifiable claim.`,
     },
     {
-      type: 'Oracle',
+      type: 'oracle',
       label: 'Oracle Class',
       icon: <OracleIcon />,
       description: `A <b>Oracle Class</b> defines a data schema, data collection format, and evaluation methodology for any type of verifiable claim.`,
     },
     {
-      type: 'Dao',
+      type: 'dao',
       label: 'DAO Class',
       icon: <DAOIcon />,
       description: `A <b>DAO Class</b> defines a data schema, data collection format, and evaluation methodology for any type of verifiable claim.`,

@@ -5,6 +5,7 @@ import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/c
 import { KeyTypes } from 'lib/protocol'
 import { SigningStargateClient } from '@ixo/impactxclient-sdk'
 import { SigningCosmWasmClient } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/cosmwasm-stargate'
+import { NATIVE_MICRODENOM } from 'constants/chains'
 
 export const selectAccountState = (state: RootState): AccountState => state.account
 
@@ -63,7 +64,7 @@ export const selectAccountRegistered = createSelector(
 )
 
 export const selectAccountFunded = createSelector(selectAccountBalances, (balances: Coin[]): boolean =>
-  balances.some(({ denom }) => denom === 'ixo'),
+  balances.some(({ denom }) => denom === NATIVE_MICRODENOM),
 )
 
 export const selectAccountPubKey = createSelector(

@@ -30,7 +30,9 @@ import { getHeadlineClaimInfo } from 'utils/claims'
 import { TEntityDDOTagModel } from 'types/protocol'
 import { BlockSyncService } from 'services/blocksync'
 import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
-import { cellNodeChainMapping, chainNetwork } from 'hooks/configs'
+import { chainNetwork } from 'hooks/configs'
+import { customQueries } from '@ixo/impactxclient-sdk'
+const cellNodeChainMapping = customQueries.cellnode.cellNodeChainMapping
 
 const bsService = new BlockSyncService()
 
@@ -127,76 +129,78 @@ export const getEntitiesByType =
         return entities?.map((entity) => {
           const { id, settings, linkedResource } = entity
           linkedResource.concat(Object.values(settings)).forEach((item: LinkedResource) => {
-            switch (item.id) {
-              case '{id}#profile': {
-                fetch(item.serviceEndpoint)
-                  .then((response) => response.json())
-                  .then((profile) => {
-                    dispatch({
-                      type: EntitiesExplorerActions.GetIndividualEntity2,
-                      payload: { id, key: 'profile', data: profile },
+            if (item.proof) {
+              switch (item.id) {
+                case '{id}#profile': {
+                  fetch(item.serviceEndpoint)
+                    .then((response) => response.json())
+                    .then((profile) => {
+                      dispatch({
+                        type: EntitiesExplorerActions.GetIndividualEntity2,
+                        payload: { id, key: 'profile', data: profile },
+                      })
                     })
-                  })
-                  .catch(() => undefined)
-                break
-              }
-              case '{id}#creator': {
-                const [, ...paths] = item.serviceEndpoint.split('/')
-                fetch([cellNodeChainMapping[chainNetwork], ...paths].join('/'))
-                  .then((response) => response.json())
-                  .then((response) => response.credentialSubject)
-                  .then((creator) => {
-                    dispatch({
-                      type: EntitiesExplorerActions.GetIndividualEntity2,
-                      payload: { id, key: 'creator', data: creator },
+                    .catch(() => undefined)
+                  break
+                }
+                case '{id}#creator': {
+                  const [, ...paths] = item.serviceEndpoint.split('/')
+                  fetch([cellNodeChainMapping[chainNetwork], ...paths].join('/'))
+                    .then((response) => response.json())
+                    .then((response) => response.credentialSubject)
+                    .then((creator) => {
+                      dispatch({
+                        type: EntitiesExplorerActions.GetIndividualEntity2,
+                        payload: { id, key: 'creator', data: creator },
+                      })
                     })
-                  })
-                  .catch(() => undefined)
-                break
-              }
-              case '{id}#administrator': {
-                const [, ...paths] = item.serviceEndpoint.split('/')
-                fetch([cellNodeChainMapping[chainNetwork], ...paths].join('/'))
-                  .then((response) => response.json())
-                  .then((response) => response.credentialSubject)
-                  .then((administrator) => {
-                    dispatch({
-                      type: EntitiesExplorerActions.GetIndividualEntity2,
-                      payload: { id, key: 'administrator', data: administrator },
+                    .catch(() => undefined)
+                  break
+                }
+                case '{id}#administrator': {
+                  const [, ...paths] = item.serviceEndpoint.split('/')
+                  fetch([cellNodeChainMapping[chainNetwork], ...paths].join('/'))
+                    .then((response) => response.json())
+                    .then((response) => response.credentialSubject)
+                    .then((administrator) => {
+                      dispatch({
+                        type: EntitiesExplorerActions.GetIndividualEntity2,
+                        payload: { id, key: 'administrator', data: administrator },
+                      })
                     })
-                  })
-                  .catch(() => undefined)
-                break
-              }
-              case '{id}#page': {
-                const [, ...paths] = item.serviceEndpoint.split('/')
-                fetch([cellNodeChainMapping[chainNetwork], ...paths].join('/'))
-                  .then((response) => response.json())
-                  .then((response) => response.page)
-                  .then((page) => {
-                    dispatch({
-                      type: EntitiesExplorerActions.GetIndividualEntity2,
-                      payload: { id, key: 'page', data: page },
+                    .catch(() => undefined)
+                  break
+                }
+                case '{id}#page': {
+                  const [, ...paths] = item.serviceEndpoint.split('/')
+                  fetch([cellNodeChainMapping[chainNetwork], ...paths].join('/'))
+                    .then((response) => response.json())
+                    .then((response) => response.page)
+                    .then((page) => {
+                      dispatch({
+                        type: EntitiesExplorerActions.GetIndividualEntity2,
+                        payload: { id, key: 'page', data: page },
+                      })
                     })
-                  })
-                  .catch(() => undefined)
-                break
-              }
-              case '{id}#tags': {
-                const [, ...paths] = item.serviceEndpoint.split('/')
-                fetch([cellNodeChainMapping[chainNetwork], ...paths].join('/'))
-                  .then((response) => response.json())
-                  .then((tags) => {
-                    dispatch({
-                      type: EntitiesExplorerActions.GetIndividualEntity2,
-                      payload: { id, key: 'tags', data: tags },
+                    .catch(() => undefined)
+                  break
+                }
+                case '{id}#tags': {
+                  const [, ...paths] = item.serviceEndpoint.split('/')
+                  fetch([cellNodeChainMapping[chainNetwork], ...paths].join('/'))
+                    .then((response) => response.json())
+                    .then((tags) => {
+                      dispatch({
+                        type: EntitiesExplorerActions.GetIndividualEntity2,
+                        payload: { id, key: 'tags', data: tags },
+                      })
                     })
-                  })
-                  .catch(() => undefined)
-                break
+                    .catch(() => undefined)
+                  break
+                }
+                default:
+                  break
               }
-              default:
-                break
             }
           })
 

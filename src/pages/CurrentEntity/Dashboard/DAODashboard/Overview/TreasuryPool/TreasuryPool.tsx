@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card } from '../../Components'
+import { Card } from '../../../Components'
 import { Box, FlexBox, GridContainer, SvgBox, theme } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { ReactComponent as FundingIcon } from 'assets/images/icon-funding.svg'

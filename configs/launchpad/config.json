@@ -1,7 +1,7 @@
 {
   "UI": {
     "explorer": {
-      "defaultView": "Dao"
+      "defaultView": "dao"
     },
     "topMenu": [
       {
@@ -46,7 +46,7 @@
   "route": {
     "splashIsRootRoute": true
   },
-  "Project": {
+  "project": {
     "title": "Project",
     "plural": "Projects",
     "themeColor": "#49BFE0",
@@ -196,7 +196,7 @@
     },
     "filterSchema": {
       "@context": "https://schema.ixo.foundation/project",
-      "@type": "Project",
+      "@type": "project",
       "dateCreated": {
         "@type": "Date",
         "name": "Dates"
@@ -894,7 +894,7 @@
     "createNewTitle": "Create a Project",
     "urlPart": "project"
   },
-  "Oracle": {
+  "oracle": {
     "title": "Oracle",
     "plural": "Oracles",
     "themeColor": "#AD245C",
@@ -1374,7 +1374,7 @@
     "createNewTitle": "Create an Oracle",
     "urlPart": "oracle"
   },
-  "Investment": {
+  "investment": {
     "title": "Investment",
     "plural": "Investments",
     "themeColor": "#E4BC3D",
@@ -1995,7 +1995,7 @@
     "createNewTitle": "Create an Investment",
     "urlPart": "investment"
   },
-  "Dao": {
+  "dao": {
     "title": "DAO",
     "plural": "DAOs",
     "themeColor": "#85AD5C",
@@ -2713,7 +2713,7 @@
     "createNewTitle": "Create a DAO",
     "urlPart": "cell"
   },
-  "Template": {
+  "protocol": {
     "title": "Protocol",
     "plural": "Protocols",
     "themeColor": "#7c2740",
@@ -3329,7 +3329,7 @@
     "createNewTitle": "Create a Claim Protocol",
     "urlPart": "protocol"
   },
-  "Asset": {
+  "asset": {
     "title": "Asset",
     "plural": "Assets",
     "themeColor": "#ED9526",

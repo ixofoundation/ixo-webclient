@@ -50,7 +50,7 @@ const TemplateCard: React.FunctionComponent<Props> = ({
         return ddoTag.tags[0]
       }
     }
-    return EntityType.Template as string
+    return EntityType.Protocol as string
   }, [ddoTags])
 
   return (

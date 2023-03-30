@@ -84,7 +84,7 @@ export const fetchExistingEntity =
         return fetchContent(apiEntity.data.page.cid, cellNodeEndpoint).then((resourceData: ApiResource) => {
           const content: any = JSON.parse(fromBase64(resourceData.data))
           let identifiers: string[] = []
-          if (apiEntity.data['@type'] === EntityType.Template) {
+          if (apiEntity.data['@type'] === EntityType.Protocol) {
             const attestation = {
               claimInfo: content.claimInfo,
               questions: content.forms.reduce((obj: any, item: any) => {

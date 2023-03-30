@@ -1,3 +1,4 @@
+import { customQueries } from '@ixo/impactxclient-sdk'
 import { IidMetadata, LinkedEntity, LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { TEntityModel } from 'api/blocksync/types/entities'
 import {
@@ -28,7 +29,9 @@ import {
   TEntityPageSectionModel,
   TEntityProfileModel,
 } from 'types/protocol'
-import { cellNodeChainMapping, chainNetwork } from './configs'
+import { chainNetwork } from './configs'
+
+const cellNodeChainMapping = customQueries.cellnode.cellNodeChainMapping
 
 const bsService = new BlockSyncService()
 
@@ -93,61 +96,63 @@ export default function useCurrentEntity(): {
     return await bsService.entity.getEntityById(did).then((entity: any) => {
       const { settings, linkedResource } = entity
       linkedResource.concat(Object.values(settings)).forEach((item: LinkedResource) => {
-        switch (item.id) {
-          case '{id}#profile': {
-            fetch(item.serviceEndpoint)
-              .then((response) => response.json())
-              .then((profile) => {
-                updateEntityProfile(profile)
-              })
-              .catch(() => undefined)
-            break
+        if (item.proof) {
+          switch (item.id) {
+            case '{id}#profile': {
+              fetch(item.serviceEndpoint)
+                .then((response) => response.json())
+                .then((profile) => {
+                  updateEntityProfile(profile)
+                })
+                .catch(() => undefined)
+              break
+            }
+            case '{id}#creator': {
+              const [, ...paths] = item.serviceEndpoint.split('/')
+              fetch([cellNodeChainMapping[chainNetwork], ...paths].join('/'))
+                .then((response) => response.json())
+                .then((response) => response.credentialSubject)
+                .then((creator) => {
+                  updateEntityCreator(creator)
+                })
+                .catch(() => undefined)
+              break
+            }
+            case '{id}#administrator': {
+              const [, ...paths] = item.serviceEndpoint.split('/')
+              fetch([cellNodeChainMapping[chainNetwork], ...paths].join('/'))
+                .then((response) => response.json())
+                .then((response) => response.credentialSubject)
+                .then((administrator) => {
+                  updateEntityAdministrator(administrator)
+                })
+                .catch(() => undefined)
+              break
+            }
+            case '{id}#page': {
+              const [, ...paths] = item.serviceEndpoint.split('/')
+              fetch([cellNodeChainMapping[chainNetwork], ...paths].join('/'))
+                .then((response) => response.json())
+                .then((response) => response.page)
+                .then((page) => {
+                  updateEntityPage(page)
+                })
+                .catch(() => undefined)
+              break
+            }
+            case '{id}#tags': {
+              const [, ...paths] = item.serviceEndpoint.split('/')
+              fetch([cellNodeChainMapping[chainNetwork], ...paths].join('/'))
+                .then((response) => response.json())
+                .then((tags) => {
+                  updateEntityTags(tags)
+                })
+                .catch(() => undefined)
+              break
+            }
+            default:
+              break
           }
-          case '{id}#creator': {
-            const [, ...paths] = item.serviceEndpoint.split('/')
-            fetch([cellNodeChainMapping[chainNetwork], ...paths].join('/'))
-              .then((response) => response.json())
-              .then((response) => response.credentialSubject)
-              .then((creator) => {
-                updateEntityCreator(creator)
-              })
-              .catch(() => undefined)
-            break
-          }
-          case '{id}#administrator': {
-            const [, ...paths] = item.serviceEndpoint.split('/')
-            fetch([cellNodeChainMapping[chainNetwork], ...paths].join('/'))
-              .then((response) => response.json())
-              .then((response) => response.credentialSubject)
-              .then((administrator) => {
-                updateEntityAdministrator(administrator)
-              })
-              .catch(() => undefined)
-            break
-          }
-          case '{id}#page': {
-            const [, ...paths] = item.serviceEndpoint.split('/')
-            fetch([cellNodeChainMapping[chainNetwork], ...paths].join('/'))
-              .then((response) => response.json())
-              .then((response) => response.page)
-              .then((page) => {
-                updateEntityPage(page)
-              })
-              .catch(() => undefined)
-            break
-          }
-          case '{id}#tags': {
-            const [, ...paths] = item.serviceEndpoint.split('/')
-            fetch([cellNodeChainMapping[chainNetwork], ...paths].join('/'))
-              .then((response) => response.json())
-              .then((tags) => {
-                updateEntityTags(tags)
-              })
-              .catch(() => undefined)
-            break
-          }
-          default:
-            break
         }
       })
 

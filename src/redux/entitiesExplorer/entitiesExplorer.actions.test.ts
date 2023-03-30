@@ -260,7 +260,7 @@ describe('Entities Actions', () => {
   //       {
   //         name: 'Some Claim Title',
   //         description: 'Some Claim Description',
-  //         type: EntityType.Template,
+  //         type: EntityType.Protocol,
   //         did: 'did:ixo:BuXZQaXJ9o2UKm4tGYKLW',
   //         disputedClaimsCount: 0,
   //         creatorDid: 'did:sov:AB1fV7PTbWG3aveDJZpgSb',

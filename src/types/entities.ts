@@ -16,12 +16,12 @@ export interface Agent {
 }
 
 export enum EntityType {
-  Project = 'Project',
-  Dao = 'Dao',
-  Investment = 'Investment',
-  Oracle = 'Oracle',
-  Template = 'Template',
-  Asset = 'Asset',
+  Project = 'project',
+  Dao = 'dao',
+  Investment = 'investment',
+  Oracle = 'oracle',
+  Protocol = 'protocol',
+  Asset = 'asset',
 }
 
 export enum EntityStatus {

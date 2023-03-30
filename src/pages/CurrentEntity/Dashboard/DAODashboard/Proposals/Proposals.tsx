@@ -31,7 +31,7 @@ const Proposals: React.FC = () => {
       <Groups />
 
       {numOfSelectedGroups >= 1 && (
-        <Box mt={4}>
+        <Box>
           <Typography variant='secondary' color='white' size='5xl' transform='capitalize'>
             {numOfSelectedGroups === 1 && `${Object.values(selectedGroups)[0]?.type} group`}
             {numOfSelectedGroups > 1 && `${numOfSelectedGroups} selected groups`}

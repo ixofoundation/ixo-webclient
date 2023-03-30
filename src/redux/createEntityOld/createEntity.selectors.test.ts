@@ -342,12 +342,12 @@ beforeEach(() => {
       linkedEntities: {
         '92d772b8-d1d8-4d07-9fba-11041dc22aa8': {
           id: '92d772b8-d1d8-4d07-9fba-11041dc22aa8',
-          type: 'Investment',
+          type: 'investment',
           entityId: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdqq',
         },
         'abc11083-39e1-4f40-a028-bea242d5d837': {
           id: 'abc11083-39e1-4f40-a028-bea242d5d837',
-          type: 'Oracle',
+          type: 'oracle',
           entityId: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdtt',
         },
       },
@@ -1231,11 +1231,11 @@ describe('CreateEntity Selectors', () => {
         },
         linkedEntities: [
           {
-            ['@type']: 'Investment',
+            ['@type']: 'investment',
             id: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdqq',
           },
           {
-            ['@type']: 'Oracle',
+            ['@type']: 'oracle',
             id: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdtt',
           },
         ],
@@ -1305,7 +1305,7 @@ describe('CreateEntity Selectors', () => {
 
       const projectPayload = {
         ...genericPayload,
-        ['@type']: 'Project',
+        ['@type']: 'project',
         name: 'Some Title',
         description: 'Some Short Description',
         image: 'https://pds_pandora.ixo.world/public/sbujb0xg0dgkeljwtnc',
@@ -1320,12 +1320,12 @@ describe('CreateEntity Selectors', () => {
       expect(projectResult).toEqual(projectPayload)
 
       // when ... we call the selector with template entity type
-      const templateResult = SUT.selectEntityApiPayload(EntityType.Template, 'somepageid')(state)
+      const templateResult = SUT.selectEntityApiPayload(EntityType.Protocol, 'somepageid')(state)
 
       const templatePayload = {
         ...genericPayload,
         entityClaims: undefined,
-        ['@type']: 'Template',
+        ['@type']: 'protocol',
         name: 'someClaimTitle',
         description: 'someClaimShortDescription',
         sdgs: undefined,
