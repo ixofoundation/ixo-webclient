@@ -6,11 +6,12 @@ import { ReactComponent as ExpandIcon } from 'assets/images/icon-expand-alt.svg'
 interface Props extends HTMLFlexBoxProps {
   icon?: JSX.Element
   label: string
-  onNavigate?: () => void
+  actionIcon?: JSX.Element
+  onAction?: () => void
   children?: ReactNode
 }
 
-const Card: React.FC<Props> = ({ icon, label, onNavigate, children }): JSX.Element => (
+const Card: React.FC<Props> = ({ icon, label, actionIcon = <ExpandIcon />, onAction, children }): JSX.Element => (
   <FlexBox
     direction='column'
     width={'100%'}
@@ -33,8 +34,8 @@ const Card: React.FC<Props> = ({ icon, label, onNavigate, children }): JSX.Eleme
           {label}
         </Typography>
       </FlexBox>
-      <SvgBox color={theme.ixoDarkBlue} svgWidth={6} cursor='pointer' onClick={onNavigate}>
-        <ExpandIcon />
+      <SvgBox color={theme.ixoDarkBlue} svgWidth={6} cursor='pointer' onClick={onAction}>
+        {actionIcon}
       </SvgBox>
     </FlexBox>
     {children}

@@ -232,7 +232,7 @@ export const createEntityMap: EntityStepStrategyMap = {
     selectPageContentApiPayload: (state: RootState): any => selectPageContentApiPayload(state),
     selectClaimsApiPayload: (state: RootState): any => selectClaimsForEntityApiPayload(state),
   },
-  [EntityType.Template]: {
+  [EntityType.Protocol]: {
     stepCount: 5,
     steps: {
       '1': {

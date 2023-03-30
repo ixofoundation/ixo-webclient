@@ -12,7 +12,7 @@
   "UI": {
     "logo": "yoma-logo",
     "explorer": {
-      "defaultView": "Project"
+      "defaultView": "project"
     },
     "head": {
       "title": "Yoma",
@@ -61,7 +61,7 @@
   "route": {
     "splashIsRootRoute": false
   },
-  "Project": {
+  "project": {
     "title": "Project",
     "plural": "Projects",
     "themeColor": "#41204B",
@@ -1151,7 +1151,7 @@
     "createNewTitle": "Create a Project",
     "urlPart": "project"
   },
-  "Oracle": {
+  "oracle": {
     "title": "Oracle",
     "plural": "Oracles",
     "themeColor": "#A33232",
@@ -1781,7 +1781,7 @@
     "createNewTitle": "Create an Oracle",
     "urlPart": "oracle"
   },
-  "Investment": {
+  "investment": {
     "title": "Investment",
     "plural": "Investments",
     "themeColor": "#4CADE9",
@@ -2547,7 +2547,7 @@
     "createNewTitle": "Create an Investment",
     "urlPart": "investment"
   },
-  "Dao": {
+  "dao": {
     "title": "DAO",
     "plural": "DAOs",
     "themeColor": "#5F65B9",
@@ -3162,7 +3162,7 @@
     "createNewTitle": "Create a DAO",
     "urlPart": "cell"
   },
-  "Template": {
+  "protocol": {
     "title": "Protocol",
     "plural": "Protocols",
     "themeColor": "#162A42",
@@ -4074,7 +4074,7 @@
     "createNewTitle": "Create a Claim Protocol",
     "urlPart": "protocol"
   },
-  "Asset": {
+  "asset": {
     "title": "Asset",
     "plural": "Assets",
     "themeColor": "#AE9C3E",

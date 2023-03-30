@@ -5,6 +5,7 @@ export const theme = {
   ixoOrange: '#F89D28',
   ixoDarkOrange: '#ED9526',
   ixoGreen: '#5AB946',
+  ixoLightGreen: '#73B556',
   ixoRed: '#E2223B',
   ixoDarkRed: '#A11C43',
 
@@ -339,8 +340,9 @@ export const GridContainer = styled(Box)<{
   ${({ rowGap }): string | undefined => (rowGap ? `row-gap: ${rowGap * 0.25}rem` : undefined)};
   ${({ gridGap }): string | undefined => (gridGap ? `grid-gap: ${gridGap * 0.25}rem` : undefined)};
 `
-export const GridItem = styled(Box)<{ gridArea?: string }>`
+export const GridItem = styled(Box)<{ gridArea?: string; alignSelf?: string }>`
   ${({ gridArea }) => gridArea && `grid-area: ${gridArea}`};
+  ${({ alignSelf }) => alignSelf && `align-self: ${alignSelf}`};
 `
 
 export const TableContainer = styled.table<{ width?: string; borderCollapse?: string; borderSpacing: string }>`

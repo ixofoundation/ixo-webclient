@@ -436,7 +436,7 @@ class EditEntitySettings extends EditEntityBase<Props> {
     // identifiers.push('privacy')
     identifiers.push('filter')
 
-    if (entityType !== EntityType.Template) {
+    if (entityType !== EntityType.Protocol) {
       identifiers.push('headline')
     }
 
@@ -451,7 +451,7 @@ class EditEntitySettings extends EditEntityBase<Props> {
       <>
         {this.renderCreator()}
         {this.renderOwner()}
-        {entityType !== EntityType.Template && this.renderHeadlineMetric()}
+        {entityType !== EntityType.Protocol && this.renderHeadlineMetric()}
         {this.renderVersion()}
         {/* {this.renderTermsOfUse()}
         {this.renderPrivacy()} */}

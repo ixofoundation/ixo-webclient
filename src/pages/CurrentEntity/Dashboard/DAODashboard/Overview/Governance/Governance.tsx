@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import { Card } from '../../Components'
+import { Card } from '../../../Components'
 import { Box, FlexBox, SvgBox, theme } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { ReactComponent as GovernanceIcon } from 'assets/images/icon-governance.svg'
@@ -56,7 +56,7 @@ const Governance: React.FC<Props> = ({ daoId, groupAddresses }): JSX.Element => 
     <Card
       icon={<GovernanceIcon />}
       label='Governance'
-      onNavigate={() => history.push(`/entity/${entityId}/dashboard/proposals`)}
+      onAction={() => history.push(`/entity/${entityId}/dashboard/proposals`)}
     >
       <FlexBox width='100%' direction='column' alignItems='center' gap={1}>
         <Typography color='blue' size='5xl'>

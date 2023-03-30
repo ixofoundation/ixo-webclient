@@ -13,7 +13,7 @@ import { ReactComponent as GithubIcon } from 'assets/images/icon-github.svg'
 import { ReactComponent as ShieldIcon } from 'assets/images/icon-shield.svg'
 import { ReactComponent as CheckIcon } from 'assets/images/icon-check.svg'
 import { ReactComponent as QRCodeIcon } from 'assets/images/icon-qrcode.svg'
-import { Avatar } from '../../Components'
+import { Avatar } from '../../../Components'
 import { useGetMemberProfile } from 'hooks/dao'
 import { useHistory, useParams } from 'react-router-dom'
 

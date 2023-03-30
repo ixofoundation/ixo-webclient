@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { Card, TabButton } from '../../Components'
+import { Card, TabButton } from '../../../Components'
 import { Table } from 'components/Table'
 import { Box, FlexBox, SvgBox, theme } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'

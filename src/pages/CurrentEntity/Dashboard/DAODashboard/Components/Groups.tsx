@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Slider from 'react-slick'
 import styled from 'styled-components'
-import { Avatar, Card } from '.'
+import { Avatar, Card } from '../../Components'
 import { ReactComponent as GroupsIcon } from 'assets/images/icon-groups.svg'
 import { ReactComponent as ChevRightIcon } from 'assets/images/icon-chev-right.svg'
 import { Box, FlexBox, SvgBox, theme } from 'components/App/App.styles'
@@ -66,10 +66,12 @@ const Groups: React.FC<Props> = ({ isFollowing }): JSX.Element | null => {
   const { address } = useAccount()
   const [dragging, setDragging] = useState(false)
   const settings = {
+    className: 'slider variable-width',
     infinite: false,
     speed: 500,
     slidesToShow: 5,
     slidesToScroll: 1,
+    variableWidth: true,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
     beforeChange: () => setDragging(true),
@@ -96,7 +98,7 @@ const Groups: React.FC<Props> = ({ isFollowing }): JSX.Element | null => {
 
   const renderGroupCard = (daoGroup: DaoGroup): JSX.Element => (
     <FlexBox
-      maxWidth='240px'
+      mx={2}
       aspectRatio={1}
       direction='column'
       alignItems='center'
@@ -106,7 +108,6 @@ const Groups: React.FC<Props> = ({ isFollowing }): JSX.Element | null => {
       borderColor={selectedGroups[daoGroup.coreAddress] ? theme.ixoNewBlue : theme.ixoDarkBlue}
       borderRadius='12px'
       cursor='pointer'
-      // margin='auto'
       transition='all .2s'
       background={selectedGroups[daoGroup.coreAddress] && theme.ixoDarkBlue}
       hover={{ borderWidth: '2px', borderColor: theme.ixoNewBlue }}
@@ -147,25 +148,29 @@ const Groups: React.FC<Props> = ({ isFollowing }): JSX.Element | null => {
   }
 
   return (
-    <Card icon={<GroupsIcon />} label='Groups'>
-      <Box width='100%' color='white'>
-        <StyledSlider {...settings}>
-          {Object.values(daoGroups)
-            .filter((daoGroup) => !isFollowing || daoGroup.votingModule.members.some(({ addr }) => addr === address))
-            .sort((a, b) => {
-              if (a.selected! > b.selected!) {
-                return -1
-              } else if (a.selected! < b.selected!) {
-                return 1
-              }
-              return 0
-            })
-            .map((daoGroup: DaoGroup) => (
-              <div key={daoGroup.coreAddress}>{renderGroupCard(daoGroup)}</div>
-            ))}
-        </StyledSlider>
-      </Box>
-    </Card>
+    <Box mb={4} width='100%'>
+      <Card icon={<GroupsIcon />} label='Groups'>
+        <Box width='100%' color='white'>
+          <StyledSlider {...settings}>
+            {Object.values(daoGroups)
+              .filter((daoGroup) => !isFollowing || daoGroup.votingModule.members.some(({ addr }) => addr === address))
+              .sort((a, b) => {
+                if (a.selected! > b.selected!) {
+                  return -1
+                } else if (a.selected! < b.selected!) {
+                  return 1
+                }
+                return 0
+              })
+              .map((daoGroup: DaoGroup) => (
+                <div key={daoGroup.coreAddress} style={{ width: 240 }}>
+                  {renderGroupCard(daoGroup)}
+                </div>
+              ))}
+          </StyledSlider>
+        </Box>
+      </Card>
+    </Box>
   )
 }
 

@@ -49,22 +49,22 @@ import { TEntityDDOTagModel } from 'types/protocol'
 import { TEntityModel } from 'api/blocksync/types/entities'
 // import { checkIsLaunchpadFromApiListedEntityData } from '../Entities.utils'
 
-const entityFilters = {
-  project: 'Project',
-  projects: 'Project',
-  oracle: 'Oracle',
-  oracles: 'Oracle',
-  investment: 'Investment',
-  investments: 'Investment',
-  dao: 'Dao',
-  daos: 'Dao',
-  protocol: 'Template',
-  protocols: 'Template',
-  template: 'Template',
-  templates: 'Template',
-  asset: 'Asset',
-  assets: 'Asset',
-}
+// const entityFilters = {
+//   project: 'Project',
+//   projects: 'Project',
+//   oracle: 'Oracle',
+//   oracles: 'Oracle',
+//   investment: 'Investment',
+//   investments: 'Investment',
+//   dao: 'Dao',
+//   daos: 'Dao',
+//   protocol: 'Template',
+//   protocols: 'Template',
+//   template: 'Template',
+//   templates: 'Template',
+//   asset: 'Asset',
+//   assets: 'Asset',
+// }
 
 export interface Props extends RouteProps {
   match: any
@@ -91,7 +91,7 @@ export interface Props extends RouteProps {
   filterCategoryTypeName: string
   handleGetEntitiesByType: (entityType: string) => void
   handleChangeEntitiesQuery: (query: string) => void
-  handleChangeEntitiesType: (type: EntityType) => void
+  handleChangeEntitiesType: (type: string) => void
   handleFilterToggleUserEntities: (userEntities: boolean) => void
   handleFilterToggleFeaturedEntities: (featuredEntities: boolean) => void
   handleFilterTogglePopularEntities: (popularEntities: boolean) => void
@@ -109,7 +109,7 @@ export interface Props extends RouteProps {
 const EntityCard: any = {
   // [EntityType.Project]: ProjectCard,
   [EntityType.Dao]: CellCard,
-  // [EntityType.Template]: TemplateCard,
+  // [EntityType.Protocol]: TemplateCard,
   [EntityType.Oracle]: OracleCard,
   // [EntityType.Investment]: InvestmentCard,
   // [EntityType.Asset]: AssetCard,
@@ -308,11 +308,9 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
   }
 
   useEffect(() => {
-    let filter: string | undefined = getQuery('filter', true)
-    filter = filter && filter.length > 0 ? filter.toLowerCase() : filter
-
-    if (filter && Object.keys(entityFilters).includes(filter)) {
-      props.handleChangeEntitiesType(EntityType[entityFilters[filter]])
+    const type: string | undefined = getQuery('type')
+    if (type) {
+      props.handleChangeEntitiesType(type)
     }
     // eslint-disable-next-line
   }, [])

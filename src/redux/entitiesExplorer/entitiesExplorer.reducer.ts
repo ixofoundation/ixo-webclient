@@ -4,7 +4,7 @@ import { getDefaultSelectedViewCategory, getInitialSelectedCategories, getInitia
 import { AccountActions, AccountActionTypes } from 'redux/account/account.types'
 
 export const initialState: EntitiesExplorerState = {
-  selectedEntitiesType: 'Project',
+  selectedEntitiesType: 'project',
   entities: [],
   entities2: null,
   entityConfig: null,

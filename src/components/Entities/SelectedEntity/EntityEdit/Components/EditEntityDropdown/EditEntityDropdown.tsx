@@ -102,15 +102,15 @@ const CreateEntityDropDown: React.FunctionComponent<Props> = ({ entityType }) =>
             </LaunchEntityButton>
             <LaunchEntityButton
               exact={true}
-              to={`/${entityTypeMap[EntityType.Template].title.toLowerCase()}/new/start`}
+              to={`/${entityTypeMap[EntityType.Protocol].title.toLowerCase()}/new/start`}
               className={`
-                  ${EntityType.Template.toLowerCase()} ${entityType === EntityType.Template ? 'active' : ''}
+                  ${EntityType.Protocol.toLowerCase()} ${entityType === EntityType.Protocol ? 'active' : ''}
                   `}
               onClick={handleToggleModal}
             >
               <ButtonContent>
                 <Template fill='#000' width='18' />
-                {entityTypeMap[EntityType.Template].title}
+                {entityTypeMap[EntityType.Protocol].title}
               </ButtonContent>
             </LaunchEntityButton>
             <LaunchEntityButton

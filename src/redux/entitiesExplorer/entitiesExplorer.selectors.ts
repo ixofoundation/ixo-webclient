@@ -37,7 +37,7 @@ export const selectAllTemplateEntities = createSelector(
   (entitiesState: EntitiesExplorerState): ExplorerEntity[] => {
     return entitiesState.entities
       ? entitiesState.entities
-          .filter((entity) => entity.type === EntityType.Template)
+          .filter((entity) => entity.type === EntityType.Protocol)
           .sort((a, b) => {
             if (b?.dateCreated && a?.dateCreated) {
               return b.dateCreated.unix() - a.dateCreated.unix()

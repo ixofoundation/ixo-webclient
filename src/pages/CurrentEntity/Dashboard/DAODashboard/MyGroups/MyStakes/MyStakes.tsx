@@ -7,8 +7,8 @@ import React, { useEffect, useState } from 'react'
 import CurrencyFormat from 'react-currency-format'
 import styled from 'styled-components'
 import { customQueries } from '@ixo/impactxclient-sdk'
-import { Card } from '../../Components'
-import { useAccount } from 'hooks/account'
+import { useHistory } from 'react-router-dom'
+import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 
 const TableWrapper = styled.div`
   color: white;
@@ -16,7 +16,7 @@ const TableWrapper = styled.div`
 
   table {
     width: 100%;
-    border-spacing: 0 4px;
+    border-spacing: 0 8px;
     border-collapse: separate;
 
     th,
@@ -24,13 +24,25 @@ const TableWrapper = styled.div`
       height: inherit;
     }
 
-    tr > td:first-child {
-      border-top-left-radius: 8px;
-      border-bottom-left-radius: 8px;
-    }
-    tr > td:last-child {
-      border-top-right-radius: 8px;
-      border-bottom-right-radius: 8px;
+    tbody > tr {
+      border-radius: 8px;
+      outline-style: solid;
+      outline-width: 1px;
+      outline-color: transparent;
+      transition: all 0.2s;
+
+      & > td:first-child {
+        border-top-left-radius: 8px;
+        border-bottom-left-radius: 8px;
+      }
+      & > td:last-child {
+        border-top-right-radius: 8px;
+        border-bottom-right-radius: 8px;
+      }
+
+      &:hover {
+        outline-color: ${(props) => props.theme.ixoNewBlue};
+      }
     }
   }
 `
@@ -57,7 +69,7 @@ const renderTableHeader = (name: string, justifyContent = 'flex-start') => (
 
 const columns = [
   {
-    Header: renderTableHeader('Name'),
+    Header: renderTableHeader('Token'),
     accessor: 'name',
     renderCell: (cell: any) => {
       const coinDenom = cell.row.original?.coinDenom
@@ -76,7 +88,7 @@ const columns = [
     },
   },
   {
-    Header: renderTableHeader('Value', 'flex-end'),
+    Header: renderTableHeader('Amount', 'flex-end'),
     accessor: 'balance',
     renderCell: (cell: any) => {
       const lastPriceUsd = cell.row.original?.lastPriceUsd
@@ -100,8 +112,13 @@ const columns = [
   },
 ]
 
-const MyStakes: React.FC = () => {
-  const { balances } = useAccount()
+interface Props {
+  balances: Coin[]
+  full?: boolean
+}
+
+const MyStakes: React.FC<Props> = ({ balances, full = true }) => {
+  const history = useHistory()
   const [data, setData] = useState<any[]>([])
 
   useEffect(() => {
@@ -129,11 +146,15 @@ const MyStakes: React.FC = () => {
   const handleRowClick = (state: any) => () => {
     const { original } = state
     // original = { coinDenom, coinMinimalDenom, coinImageUrl, lastPriceUsd, balance, priceChangePercent }
-    console.log(original)
+    history.push({
+      pathname: history.location.pathname,
+      search: `?token=${original.coinMinimalDenom}`,
+      state: original,
+    })
   }
 
   return (
-    <Card label='My Stakes'>
+    <>
       <FlexBox width='100%' direction='column' gap={3}>
         <TableWrapper>
           <Table
@@ -147,10 +168,18 @@ const MyStakes: React.FC = () => {
           />
         </TableWrapper>
       </FlexBox>
-      <Button onClick={handleAddStake} size='custom' height={40}>
+      <Button
+        variant='secondary'
+        onClick={handleAddStake}
+        size='flex'
+        height={40}
+        textSize='base'
+        textTransform='capitalize'
+        textWeight='medium'
+      >
         Add Stake
       </Button>
-    </Card>
+    </>
   )
 }
 

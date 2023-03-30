@@ -1320,7 +1320,7 @@ describe('CreateEntity Selectors', () => {
       expect(projectResult).toEqual(projectPayload)
 
       // when ... we call the selector with template entity type
-      const templateResult = SUT.selectEntityApiPayload(EntityType.Template, 'somepageid')(state)
+      const templateResult = SUT.selectEntityApiPayload(EntityType.Protocol, 'somepageid')(state)
 
       const templatePayload = {
         ...genericPayload,

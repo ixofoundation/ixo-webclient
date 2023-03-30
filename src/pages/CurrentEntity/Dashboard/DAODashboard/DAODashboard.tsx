@@ -1,10 +1,10 @@
 import Dashboard from 'components/Dashboard/Dashboard'
-import { HeaderTab } from 'components/Dashboard/types'
+import { HeaderTab, Path } from 'components/Dashboard/types'
 import { useAccount } from 'hooks/account'
 import useCurrentEntity, { useCurrentEntityProfile } from 'hooks/currentEntity'
 import { Redirect, Route, useParams, useRouteMatch } from 'react-router-dom'
 import { requireCheckDefault } from 'utils/images'
-import { MyStats } from './MyStats'
+import { MyGroups } from './MyGroups'
 import { Overview } from './Overview'
 import { OverviewIndividualMember } from './OverviewIndividualMember'
 import { OverviewMembers } from './OverviewMembers'
@@ -17,7 +17,7 @@ const DAODashboard: React.FC = (): JSX.Element => {
   const { name } = useCurrentEntityProfile()
   const { registered } = useAccount()
 
-  const routes = [
+  const routes: Path[] = [
     {
       url: `/entity/${entityId}/dashboard/overview`,
       icon: requireCheckDefault(require('assets/img/sidebar/global.svg')),
@@ -37,16 +37,13 @@ const DAODashboard: React.FC = (): JSX.Element => {
       sdg: 'Proposals',
       tooltip: 'Proposals',
     },
-    ...(registered
-      ? [
-          {
-            url: `/entity/${entityId}/dashboard/my-stats`,
-            icon: requireCheckDefault(require('assets/img/sidebar/profile.svg')),
-            sdg: 'My Stats',
-            tooltip: 'My Stats',
-          },
-        ]
-      : []),
+    {
+      url: `/entity/${entityId}/dashboard/my-groups`,
+      icon: requireCheckDefault(require('assets/img/sidebar/profile.svg')),
+      sdg: 'My Groups',
+      tooltip: 'My Groups',
+      disabled: !registered,
+    },
   ]
 
   const breadcrumbs = [
@@ -105,7 +102,7 @@ const DAODashboard: React.FC = (): JSX.Element => {
         component={OverviewIndividualMember}
       />
       <Route exact path='/entity/:entityId/dashboard/proposals' component={Proposals} />
-      <Route exact path='/entity/:entityId/dashboard/my-stats' component={MyStats} />
+      <Route exact path='/entity/:entityId/dashboard/my-groups' component={MyGroups} />
       <Route exact path='/entity/:entityId/dashboard'>
         <Redirect to={`/entity/${entityId}/dashboard/overview`} />
       </Route>
