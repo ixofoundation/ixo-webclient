@@ -21,6 +21,7 @@ const ChooseWalletModal: React.FC<Props> = ({ open, setOpen }): JSX.Element => {
   const keplr = useKeplr()
   const keysafe = useIxoKeysafe()
   const opera = useOpera()
+  console.log({ opera })
 
   const isKeplrInstalled: boolean = keplr.getKeplr()
   const isKeysafeInstalled: boolean = keysafe.getKeysafe()
