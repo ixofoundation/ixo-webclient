@@ -118,13 +118,13 @@ const Groups: React.FC<Props> = ({ isFollowing }): JSX.Element | null => {
           {daoGroup.config.name}
         </Typography>
       </Box>
-      <Box mb={8}>
+      <Box mb={4}>
         <Typography color='light-blue' weight='medium' size='sm'>
           {daoGroup.type} group
         </Typography>
       </Box>
-      <FlexBox alignItems='center' gap={4} mb={1}>
-        <FlexBox>
+      <FlexBox alignItems='center' gap={4} height='36px'>
+        <FlexBox ml={-2}>
           {daoGroup.votingModule.members.slice(0, 4).map((member, index) => (
             <Box key={index} width='24px'>
               <Avatar size={32} url={undefined} />

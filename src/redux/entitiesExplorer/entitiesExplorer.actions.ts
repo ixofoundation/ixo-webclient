@@ -214,7 +214,7 @@ export const getEntitiesByType =
             }
           })
 
-          return { ...entities2[id], ...entity }
+          return { ...(entities2[id] ? { ...entities2[id] } : {}), ...entity }
         })
       }),
     })
