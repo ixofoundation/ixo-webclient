@@ -892,8 +892,37 @@ export function useCreateEntity(): TCreateEntityHookRes {
         allowRevoting,
         memberships,
         staking,
+        absoluteThresholdCount,
       } = daoGroup
       const maxVotingPeriod = durationWithUnitsToSeconds(proposalDurationUnits ?? '', proposalDuration)
+      const threshold =
+        type === 'multisig' && absoluteThresholdCount
+          ? {
+              absolute_count: {
+                threshold: absoluteThresholdCount,
+              },
+            }
+          : quorumEnabled
+          ? {
+              threshold_quorum: {
+                quorum: {
+                  percent: quorumType === '%' ? String(quorumPercentage) : undefined,
+                  majority: quorumType === 'majority' ? {} : undefined,
+                },
+                threshold: {
+                  percent: thresholdType === '%' ? String(thresholdPercentage) : undefined,
+                  majority: thresholdType === 'majority' ? {} : undefined,
+                },
+              },
+            }
+          : {
+              absolute_percentage: {
+                percentage: {
+                  percent: thresholdType === '%' ? String(thresholdPercentage) : undefined,
+                  majority: thresholdType === 'majority' ? {} : undefined,
+                },
+              },
+            }
 
       const msg: any = {
         admin: null,
@@ -945,27 +974,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
                   },
                 },
               },
-              threshold: quorumEnabled
-                ? {
-                    threshold_quorum: {
-                      quorum: {
-                        percent: quorumType === '%' ? String(quorumPercentage) : undefined,
-                        majority: quorumType === 'majority' ? {} : undefined,
-                      },
-                      threshold: {
-                        percent: thresholdType === '%' ? String(thresholdPercentage) : undefined,
-                        majority: thresholdType === 'majority' ? {} : undefined,
-                      },
-                    },
-                  }
-                : {
-                    absolute_percentage: {
-                      percentage: {
-                        percent: thresholdType === '%' ? String(thresholdPercentage) : undefined,
-                        majority: thresholdType === 'majority' ? {} : undefined,
-                      },
-                    },
-                  },
+              threshold,
             }),
           },
         ],

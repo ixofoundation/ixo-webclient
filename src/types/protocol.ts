@@ -999,6 +999,11 @@ export interface TDAOGroupModel extends UpdatePreProposeConfigData, UpdatePropos
       proposalDurationUnits: 'weeks' | 'days' | 'hours' | 'minutes' | 'seconds'
       allowRevoting: boolean
    */
+
+  /**
+   * @description absoluteThresholdCount is only for multisig group
+   */
+  absoluteThresholdCount?: string
 }
 
 export interface TProposalActionModel {
