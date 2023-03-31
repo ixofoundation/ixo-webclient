@@ -1,6 +1,6 @@
 import { FlexBox, GridContainer, GridItem } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
-import React from 'react'
+import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { Activity } from './Activity'
 import { Announcements } from './Announcements'
@@ -12,12 +12,14 @@ import { Membership } from './Membership'
 import { TreasuryPool } from './TreasuryPool'
 import useCurrentDao from 'hooks/currentDao'
 import { Button } from 'pages/CreateEntity/Components'
+import { GroupStakingModal } from 'components/Modals'
 
-const Overview: React.FC = (): JSX.Element => {
+const Navigator: React.FC = (): JSX.Element => {
   const { entityId: daoId } = useParams<{ entityId: string }>()
   const { selectedGroups } = useCurrentDao()
   const selectedGroupAddresses: string[] = Object.keys(selectedGroups)
   const numOfSelectedGroups = selectedGroupAddresses.length
+  const [groupStakingModalOpen, setGroupStakingModalOpen] = useState(false)
 
   const renderAction = () => {
     if (selectedGroups[selectedGroupAddresses[0]].type === 'membership') {
@@ -43,7 +45,7 @@ const Overview: React.FC = (): JSX.Element => {
           textSize='base'
           textTransform='capitalize'
           textWeight='medium'
-          disabled
+          onClick={() => setGroupStakingModalOpen(true)}
         >
           Add Stake
         </Button>
@@ -96,8 +98,15 @@ const Overview: React.FC = (): JSX.Element => {
           </GridContainer>
         </>
       )}
+      {groupStakingModalOpen && selectedGroups[selectedGroupAddresses[0]] && (
+        <GroupStakingModal
+          open={groupStakingModalOpen}
+          setOpen={setGroupStakingModalOpen}
+          daoGroup={selectedGroups[selectedGroupAddresses[0]]}
+        />
+      )}
     </FlexBox>
   )
 }
 
-export default Overview
+export default Navigator

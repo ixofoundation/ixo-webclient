@@ -45,6 +45,7 @@ export type CurrentDao = {
 
 export enum CurrentDaoActions {
   UpdateGroup = 'ixo/CurrentDao/UPDATE_DAO_GROUP',
+  ClearGroup = 'ixo/CurrentDao/CLEAR_DAO_GROUP',
 }
 
 export interface UpdateDaoGroupAction {
@@ -52,4 +53,8 @@ export interface UpdateDaoGroupAction {
   payload: DaoGroup
 }
 
-export type CurrentDaoActionTypes = UpdateDaoGroupAction
+export interface ClearDaoGroupAction {
+  type: typeof CurrentDaoActions.ClearGroup
+}
+
+export type CurrentDaoActionTypes = UpdateDaoGroupAction | ClearDaoGroupAction

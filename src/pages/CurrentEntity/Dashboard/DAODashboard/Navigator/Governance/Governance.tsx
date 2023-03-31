@@ -56,7 +56,7 @@ const Governance: React.FC<Props> = ({ daoId, groupAddresses }): JSX.Element => 
     <Card
       icon={<GovernanceIcon />}
       label='Governance'
-      onAction={() => history.push(`/entity/${entityId}/dashboard/proposals`)}
+      onAction={() => history.push(`/entity/${entityId}/dashboard/governance`)}
     >
       <FlexBox width='100%' direction='column' alignItems='center' gap={1}>
         <Typography color='blue' size='5xl'>

@@ -74,6 +74,7 @@ export const secondsToWdhms = (
   seconds: string | number,
   // Set to 5 or more to display all units.
   numUnits = 2,
+  fullUnits = false,
 ): string => {
   const secondsInt = Math.ceil(Number(seconds))
   if (secondsInt === 0) {
@@ -86,11 +87,11 @@ export const secondsToWdhms = (
   const m = Math.floor((secondsInt % 3600) / 60)
   const s = Math.floor(secondsInt % 60)
 
-  const wDisplay = w ? w + 'w' : null
-  const dDisplay = d ? d + 'd' : null
-  const hDisplay = h ? h + 'h' : null
-  const mDisplay = m ? m + 'm' : null
-  const sDisplay = s ? s + 's' : null
+  const wDisplay = w ? w + (fullUnits ? 'week' : 'w') : null
+  const dDisplay = d ? d + (fullUnits ? 'day' : 'd') : null
+  const hDisplay = h ? h + (fullUnits ? 'hour' : 'h') : null
+  const mDisplay = m ? m + (fullUnits ? 'minute' : 'm') : null
+  const sDisplay = s ? s + (fullUnits ? 'second' : 's') : null
 
   return (
     [wDisplay, dDisplay, hDisplay, mDisplay, sDisplay]

@@ -361,7 +361,6 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
             filterSector={props.filterSector}
             showSearch={true}
             filterQuery={props.filterQuery}
-            handleChangeEntitiesType={props.handleChangeEntitiesType}
             handleChangeQuery={props.handleChangeEntitiesQuery}
             assistantPanelToggle={assistantPanelToggle}
           />

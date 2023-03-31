@@ -25,7 +25,7 @@ const MemberProfile: React.FC = (): JSX.Element => {
 
   useEffect(() => {
     if (error) {
-      history.push(`/entity/${entityId}/dashboard/members`)
+      history.push(`/entity/${entityId}/dashboard/membership`)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [error])

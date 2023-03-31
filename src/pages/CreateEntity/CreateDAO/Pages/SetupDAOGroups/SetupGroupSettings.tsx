@@ -675,6 +675,9 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onSubmit }): JSX.Elem
         )
       }
     }
+    const handleUpdateAbsoluteThresholdCount = (value: string): void => {
+      setData((pre) => ({ ...pre, absoluteThresholdCount: value }))
+    }
     return (
       <FlexBox direction='column' gap={7} marginBottom={7} width={'100%'}>
         {/* Multisig Group Membership */}
@@ -732,10 +735,11 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onSubmit }): JSX.Elem
             <InputWithLabel
               label='Minimum Number of Signatories'
               height={inputHeight + 'px'}
-              inputValue={''}
-              handleChange={(value): void => {
-                // TODO:
-              }}
+              inputValue={data.absoluteThresholdCount ?? 0}
+              handleChange={(value) =>
+                value <= (data.memberships[0].members.filter(Boolean).length ?? 0) &&
+                handleUpdateAbsoluteThresholdCount(value)
+              }
               width='50%'
             />
             <Typography size='xl'>of {data.memberships[0].members.filter(Boolean).length ?? 0} accounts</Typography>
@@ -985,43 +989,45 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onSubmit }): JSX.Elem
         )}
 
         {/* Quorum */}
-        <CardWrapper direction='column' gap={5}>
-          <FlexBox alignItems='center' gap={2}>
-            <SandClockIcon />
-            <Typography size='xl' weight='medium'>
-              Quorum
-            </Typography>
-          </FlexBox>
-          <FlexBox>
-            <Typography size='md'>
-              The minimum percentage of voting power that must vote on a proposal for it to be considered a valid vote.
-              If the group has many inactive members, setting this value too high may make it difficult to pass
-              proposals.
-            </Typography>
-          </FlexBox>
-          <FlexBox alignItems='center' justifyContent='flex-end' gap={4}>
-            <FlexBox gap={4}>
-              {data.quorumType === '%' && (
-                <NumberCounter
-                  direction='row-reverse'
-                  width='200px'
-                  height={inputHeight + 'px'}
-                  value={data.quorumPercentage! * 100}
-                  onChange={(value) => setData((pre) => ({ ...pre, quorumPercentage: value / 100 }))}
-                />
-              )}
-              <Typography weight='medium' size='xl'>
-                <SimpleSelect
-                  value={data.quorumType}
-                  options={['%', 'majority']}
-                  onChange={(value) =>
-                    setData((pre) => ({ ...pre, quorumType: value as '%' | 'majority', quorumPercentage: 0.2 }))
-                  }
-                />
+        {data.type !== 'multisig' && (
+          <CardWrapper direction='column' gap={5}>
+            <FlexBox alignItems='center' gap={2}>
+              <SandClockIcon />
+              <Typography size='xl' weight='medium'>
+                Quorum
               </Typography>
             </FlexBox>
-          </FlexBox>
-        </CardWrapper>
+            <FlexBox>
+              <Typography size='md'>
+                The minimum percentage of voting power that must vote on a proposal for it to be considered a valid
+                vote. If the group has many inactive members, setting this value too high may make it difficult to pass
+                proposals.
+              </Typography>
+            </FlexBox>
+            <FlexBox alignItems='center' justifyContent='flex-end' gap={4}>
+              <FlexBox gap={4}>
+                {data.quorumType === '%' && (
+                  <NumberCounter
+                    direction='row-reverse'
+                    width='200px'
+                    height={inputHeight + 'px'}
+                    value={data.quorumPercentage! * 100}
+                    onChange={(value) => setData((pre) => ({ ...pre, quorumPercentage: value / 100 }))}
+                  />
+                )}
+                <Typography weight='medium' size='xl'>
+                  <SimpleSelect
+                    value={data.quorumType}
+                    options={['%', 'majority']}
+                    onChange={(value) =>
+                      setData((pre) => ({ ...pre, quorumType: value as '%' | 'majority', quorumPercentage: 0.2 }))
+                    }
+                  />
+                </Typography>
+              </FlexBox>
+            </FlexBox>
+          </CardWrapper>
+        )}
 
         {/* Proposal Submission Policy */}
         <CardWrapper direction='column' gap={5}>

@@ -82,6 +82,7 @@ import { convertDurationWithUnitsToDuration, durationWithUnitsToSeconds } from '
 import { Member } from 'types/dao'
 import { chainNetwork } from './configs'
 import { Verification } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/tx'
+import { NodeType } from 'types/entities'
 
 export function useCreateEntityStrategy(): {
   getStrategyByEntityType: (entityType: string) => TCreateEntityStrategyType
@@ -191,8 +192,8 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
     (type: 1 | -1): void => {
       if (!entityType) return
       const { steps } = CreateEntityStrategyMap[entityType]
-      const nextStep = steps[stepNo]?.nextStep
-      const prevStep = steps[stepNo]?.prevStep
+      const nextStep = stepNo + 1
+      const prevStep = stepNo - 1
 
       if (type === 1) {
         if (nextStep && steps[nextStep]) {
@@ -327,13 +328,14 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
 interface TCreateEntityHookRes {
   CreateDAO: () => Promise<string>
   CreateDAOCredsIssuer: (daoDid: string) => Promise<string>
-  SaveProfile: () => Promise<CellnodeWeb3Resource | undefined>
-  SaveCreator: (daoCredsIssuerDid: string) => Promise<CellnodePublicResource | undefined>
-  SaveAdministrator: (daoCredsIssuerDid: string) => Promise<CellnodePublicResource | undefined>
-  SavePage: () => Promise<CellnodePublicResource | undefined>
-  SaveTags: () => Promise<CellnodePublicResource | undefined>
+  SaveProfile: () => Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined>
+  SaveCreator: (daoCredsIssuerDid: string) => Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined>
+  SaveAdministrator: (daoCredsIssuerDid: string) => Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined>
+  SavePage: () => Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined>
+  SaveTags: () => Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined>
   SaveTokenMetadata: () => Promise<CellnodeWeb3Resource | undefined>
   SaveClaims: () => Promise<CellnodePublicResource | undefined>
+  UploadLinkedResource: () => Promise<LinkedResource[]>
   CreateProtocol: () => Promise<string>
   CreateEntityBase: (
     entityType: string,
@@ -353,7 +355,8 @@ export function useCreateEntity(): TCreateEntityHookRes {
   const { signingClient, signer } = useAccount()
   const createEntityState = useCreateEntityState()
   const metadata = createEntityState.metadata as any
-  const { creator, administrator, page, ddoTags, claim } = createEntityState
+  const { creator, administrator, page, ddoTags, claim, service } = createEntityState
+  const cellnodeService = service.find((item) => item.type === NodeType.CellNode)
 
   const daoCoreContractCode = customQueries.contract.getContractCode('devnet', 'dao_core')
   const daoProposalContractCode = customQueries.contract.getContractCode('devnet', 'dao_proposal_single')
@@ -390,7 +393,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
     }
   }
 
-  const SaveProfile = async (): Promise<CellnodeWeb3Resource | undefined> => {
+  const SaveProfile = async (): Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined> => {
     try {
       const buff = Buffer.from(
         JSON.stringify({
@@ -412,13 +415,23 @@ export function useCreateEntity(): TCreateEntityHookRes {
           metrics: metadata.metrics,
         }),
       )
-      const res = await customQueries.cellnode.uploadWeb3Doc(
-        utils.common.generateId(12),
-        'application/ld+json',
-        buff.toString('base64'),
-        undefined,
-        chainNetwork,
-      )
+      let res: CellnodePublicResource | CellnodeWeb3Resource
+      if (cellnodeService?.serviceEndpoint) {
+        res = await customQueries.cellnode.uploadPublicDoc(
+          'application/ld+json',
+          buff.toString('base64'),
+          cellnodeService.serviceEndpoint,
+          chainNetwork,
+        )
+      } else {
+        res = await customQueries.cellnode.uploadWeb3Doc(
+          utils.common.generateId(12),
+          'application/ld+json',
+          buff.toString('base64'),
+          undefined,
+          chainNetwork,
+        )
+      }
       console.log('SaveProfile', res)
       /**
        *  {
@@ -435,7 +448,9 @@ export function useCreateEntity(): TCreateEntityHookRes {
     }
   }
 
-  const SaveCreator = async (daoCredsIssuerDid: string): Promise<CellnodePublicResource | undefined> => {
+  const SaveCreator = async (
+    daoCredsIssuerDid: string,
+  ): Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined> => {
     try {
       const buff = Buffer.from(
         JSON.stringify({
@@ -475,12 +490,23 @@ export function useCreateEntity(): TCreateEntityHookRes {
           },
         }),
       )
-      const res: CellnodePublicResource = await customQueries.cellnode.uploadPublicDoc(
-        'application/ld+json',
-        buff.toString('base64'),
-        undefined,
-        chainNetwork,
-      )
+      let res: CellnodePublicResource | CellnodeWeb3Resource
+      if (cellnodeService?.serviceEndpoint) {
+        res = await customQueries.cellnode.uploadPublicDoc(
+          'application/ld+json',
+          buff.toString('base64'),
+          cellnodeService.serviceEndpoint,
+          chainNetwork,
+        )
+      } else {
+        res = await customQueries.cellnode.uploadWeb3Doc(
+          utils.common.generateId(12),
+          'application/ld+json',
+          buff.toString('base64'),
+          undefined,
+          chainNetwork,
+        )
+      }
       console.log('SaveCreator', res)
       /**
        *  {
@@ -497,7 +523,9 @@ export function useCreateEntity(): TCreateEntityHookRes {
     }
   }
 
-  const SaveAdministrator = async (daoCredsIssuerDid: string): Promise<CellnodePublicResource | undefined> => {
+  const SaveAdministrator = async (
+    daoCredsIssuerDid: string,
+  ): Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined> => {
     try {
       const buff = Buffer.from(
         JSON.stringify({
@@ -537,12 +565,24 @@ export function useCreateEntity(): TCreateEntityHookRes {
           },
         }),
       )
-      const res: CellnodePublicResource = await customQueries.cellnode.uploadPublicDoc(
-        'application/ld+json',
-        buff.toString('base64'),
-        undefined,
-        chainNetwork,
-      )
+
+      let res: CellnodePublicResource | CellnodeWeb3Resource
+      if (cellnodeService?.serviceEndpoint) {
+        res = await customQueries.cellnode.uploadPublicDoc(
+          'application/ld+json',
+          buff.toString('base64'),
+          cellnodeService.serviceEndpoint,
+          chainNetwork,
+        )
+      } else {
+        res = await customQueries.cellnode.uploadWeb3Doc(
+          utils.common.generateId(12),
+          'application/ld+json',
+          buff.toString('base64'),
+          undefined,
+          chainNetwork,
+        )
+      }
       console.log('SaveAdministrator', res)
       /**
        *  {
@@ -559,7 +599,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
     }
   }
 
-  const SavePage = async (): Promise<CellnodePublicResource | undefined> => {
+  const SavePage = async (): Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined> => {
     try {
       const buff = Buffer.from(
         JSON.stringify({
@@ -573,12 +613,24 @@ export function useCreateEntity(): TCreateEntityHookRes {
           page: Object.values(page),
         }),
       )
-      const res = await customQueries.cellnode.uploadPublicDoc(
-        'application/json',
-        buff.toString('base64'),
-        undefined,
-        chainNetwork,
-      )
+
+      let res: CellnodePublicResource | CellnodeWeb3Resource
+      if (cellnodeService?.serviceEndpoint) {
+        res = await customQueries.cellnode.uploadPublicDoc(
+          'application/ld+json',
+          buff.toString('base64'),
+          cellnodeService.serviceEndpoint,
+          chainNetwork,
+        )
+      } else {
+        res = await customQueries.cellnode.uploadWeb3Doc(
+          utils.common.generateId(12),
+          'application/ld+json',
+          buff.toString('base64'),
+          undefined,
+          chainNetwork,
+        )
+      }
       console.log('SavePage', res)
       return res
     } catch (e) {
@@ -738,15 +790,37 @@ export function useCreateEntity(): TCreateEntityHookRes {
   //   }
   // }
 
-  const SaveTags = async (): Promise<CellnodePublicResource | undefined> => {
+  const SaveTags = async (): Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined> => {
     try {
-      const buff = Buffer.from(JSON.stringify(ddoTags))
-      const res = await customQueries.cellnode.uploadPublicDoc(
-        'application/ld+json',
-        buff.toString('base64'),
-        undefined,
-        chainNetwork,
+      const buff = Buffer.from(
+        JSON.stringify({
+          '@context': {
+            ixo: 'https://w3id.org/ixo/ns/protocol/',
+            '@id': '@type',
+            type: '@type',
+            '@protected': true,
+          },
+          type: 'ixo:entity#tags',
+          ddoTags,
+        }),
       )
+      let res: CellnodePublicResource | CellnodeWeb3Resource
+      if (cellnodeService?.serviceEndpoint) {
+        res = await customQueries.cellnode.uploadPublicDoc(
+          'application/ld+json',
+          buff.toString('base64'),
+          cellnodeService.serviceEndpoint,
+          chainNetwork,
+        )
+      } else {
+        res = await customQueries.cellnode.uploadWeb3Doc(
+          utils.common.generateId(12),
+          'application/ld+json',
+          buff.toString('base64'),
+          undefined,
+          chainNetwork,
+        )
+      }
       console.log('SaveTags', res)
       return res
     } catch (e) {
@@ -818,6 +892,84 @@ export function useCreateEntity(): TCreateEntityHookRes {
       console.error('SaveClaims', e)
       return undefined
     }
+  }
+
+  const UploadLinkedResource = async (): Promise<LinkedResource[]> => {
+    // TODO: daoCredsIssuerDid
+    const daoCredsIssuerDid = 'did:ixo:entity:c4a5588bdd7f651f5f5e742887709d57'
+    const linkedResource: LinkedResource[] = []
+
+    const [saveProfileRes, saveCreatorRes, saveAdministratorRes, savePageRes, saveTagsRes] = await Promise.allSettled([
+      await SaveProfile(),
+      await SaveCreator(daoCredsIssuerDid),
+      await SaveAdministrator(daoCredsIssuerDid),
+      await SavePage(),
+      await SaveTags(),
+    ]).then((responses) => responses.map((response: any) => response.value))
+
+    if (saveProfileRes) {
+      linkedResource.push({
+        id: '{id}#profile',
+        type: 'Settings',
+        description: 'Profile',
+        mediaType: 'application/ld+json',
+        serviceEndpoint: cellnodeService ? `#${cellnodeService.id}/public/${saveProfileRes.key}` : saveProfileRes.url,
+        proof: cellnodeService ? saveProfileRes.key : saveProfileRes.cid,
+        encrypted: 'false',
+        right: '',
+      })
+    }
+    if (saveCreatorRes) {
+      linkedResource.push({
+        id: '{id}#creator',
+        type: 'VerifiableCredential',
+        description: 'Creator',
+        mediaType: 'application/ld+json',
+        serviceEndpoint: cellnodeService ? `#${cellnodeService.id}/public/${saveCreatorRes.key}` : saveCreatorRes.url,
+        proof: cellnodeService ? saveCreatorRes.key : saveCreatorRes.cid,
+        encrypted: 'false',
+        right: '',
+      })
+    }
+    if (saveAdministratorRes) {
+      linkedResource.push({
+        id: '{id}#administrator',
+        type: 'VerifiableCredential',
+        description: 'Administrator',
+        mediaType: 'application/ld+json',
+        serviceEndpoint: cellnodeService
+          ? `#${cellnodeService.id}/public/${saveAdministratorRes.key}`
+          : saveAdministratorRes.url,
+        proof: cellnodeService ? saveAdministratorRes.key : saveAdministratorRes.cid,
+        encrypted: 'false',
+        right: '',
+      })
+    }
+    if (savePageRes) {
+      linkedResource.push({
+        id: '{id}#page',
+        type: 'Settings',
+        description: 'Page',
+        mediaType: 'application/ld+json',
+        serviceEndpoint: cellnodeService ? `#${cellnodeService.id}/public/${savePageRes.key}` : savePageRes.url,
+        proof: cellnodeService ? savePageRes.key : savePageRes.cid,
+        encrypted: 'false',
+        right: '',
+      })
+    }
+    if (saveTagsRes) {
+      linkedResource.push({
+        id: '{id}#tags',
+        type: 'Settings',
+        description: 'Tags',
+        mediaType: 'application/ld+json',
+        serviceEndpoint: cellnodeService ? `#${cellnodeService.id}/public/${saveTagsRes.key}` : saveTagsRes.url,
+        proof: cellnodeService ? saveTagsRes.key : saveTagsRes.cid,
+        encrypted: 'false',
+        right: '',
+      })
+    }
+    return linkedResource
   }
 
   const CreateProtocol = async (): Promise<string> => {
@@ -892,8 +1044,37 @@ export function useCreateEntity(): TCreateEntityHookRes {
         allowRevoting,
         memberships,
         staking,
+        absoluteThresholdCount,
       } = daoGroup
       const maxVotingPeriod = durationWithUnitsToSeconds(proposalDurationUnits ?? '', proposalDuration)
+      const threshold =
+        type === 'multisig' && absoluteThresholdCount
+          ? {
+              absolute_count: {
+                threshold: absoluteThresholdCount,
+              },
+            }
+          : quorumEnabled
+          ? {
+              threshold_quorum: {
+                quorum: {
+                  percent: quorumType === '%' ? String(quorumPercentage) : undefined,
+                  majority: quorumType === 'majority' ? {} : undefined,
+                },
+                threshold: {
+                  percent: thresholdType === '%' ? String(thresholdPercentage) : undefined,
+                  majority: thresholdType === 'majority' ? {} : undefined,
+                },
+              },
+            }
+          : {
+              absolute_percentage: {
+                percentage: {
+                  percent: thresholdType === '%' ? String(thresholdPercentage) : undefined,
+                  majority: thresholdType === 'majority' ? {} : undefined,
+                },
+              },
+            }
 
       const msg: any = {
         admin: null,
@@ -945,27 +1126,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
                   },
                 },
               },
-              threshold: quorumEnabled
-                ? {
-                    threshold_quorum: {
-                      quorum: {
-                        percent: quorumType === '%' ? String(quorumPercentage) : undefined,
-                        majority: quorumType === 'majority' ? {} : undefined,
-                      },
-                      threshold: {
-                        percent: thresholdType === '%' ? String(thresholdPercentage) : undefined,
-                        majority: thresholdType === 'majority' ? {} : undefined,
-                      },
-                    },
-                  }
-                : {
-                    absolute_percentage: {
-                      percentage: {
-                        percent: thresholdType === '%' ? String(thresholdPercentage) : undefined,
-                        majority: thresholdType === 'majority' ? {} : undefined,
-                      },
-                    },
-                  },
+              threshold,
             }),
           },
         ],
@@ -1089,6 +1250,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
     SaveTags,
     SaveTokenMetadata,
     SaveClaims,
+    UploadLinkedResource,
     CreateProtocol,
     CreateEntityBase,
     CreateDAOCoreByGroupId,

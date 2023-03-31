@@ -14,6 +14,7 @@ import { EntityType } from 'types/entities'
 import HeaderTabs from 'components/HeaderTabs/HeaderTabs'
 import { useAppSelector } from 'redux/hooks'
 import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { useHistory } from 'react-router-dom'
 // TODO - when we know what the other entity types headers will look like then possibly refactor this as it's messy with all the conditions
 // or whatever else is needed. For now, just doing it based on entityType
 
@@ -22,7 +23,6 @@ export interface Props {
   showSearch: boolean
   filterSector: string
   filterQuery: string
-  handleChangeEntitiesType: (type: EntityType) => void
   handleChangeQuery?: (query: string) => void
   assistantPanelToggle?: () => void
 }
@@ -32,10 +32,10 @@ export const EntitiesHero: React.FunctionComponent<Props> = ({
   showSearch,
   filterSector,
   filterQuery,
-  handleChangeEntitiesType,
   assistantPanelToggle,
   handleChangeQuery,
 }) => {
+  const history = useHistory()
   const entityTypeMap = useAppSelector(selectEntityConfig)
   const entityStrategyMap = entityTypeMap[type]
   const header = getHeaderSchema(filterSector, entityStrategyMap.headerSchema)
@@ -108,7 +108,7 @@ export const EntitiesHero: React.FunctionComponent<Props> = ({
           entityColor={entityStrategyMap.themeColor}
           type={type}
           filterQuery={filterQuery}
-          filterChanged={handleChangeEntitiesType}
+          filterChanged={(type) => history.push({ pathname: history.location.pathname, search: `?type=${type}` })}
           queryChanged={handleChangeQuery!}
         />
       )}

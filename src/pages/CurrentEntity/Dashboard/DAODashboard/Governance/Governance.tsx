@@ -10,7 +10,7 @@ import { Button } from 'pages/CreateEntity/Components'
 import { useHistory, useParams } from 'react-router-dom'
 import { useAccount } from 'hooks/account'
 
-const Proposals: React.FC = () => {
+const Governance: React.FC = () => {
   const { entityId } = useParams<{ entityId: string }>()
   const history = useHistory()
   const { selectedGroups } = useCurrentDao()
@@ -101,4 +101,4 @@ const Proposals: React.FC = () => {
   )
 }
 
-export default Proposals
+export default Governance

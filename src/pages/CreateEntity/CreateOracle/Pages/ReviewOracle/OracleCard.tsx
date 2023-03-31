@@ -4,10 +4,11 @@ import React from 'react'
 
 interface Props {
   image: string
+  icon: string
   name: string
 }
 
-const OracleCard: React.FC<Props> = ({ image, name }): JSX.Element => {
+const OracleCard: React.FC<Props> = ({ image, icon, name }): JSX.Element => {
   return (
     <FlexBox
       direction='column'
@@ -19,19 +20,23 @@ const OracleCard: React.FC<Props> = ({ image, name }): JSX.Element => {
     >
       <Box width='100%' height='170px' background={`url(${image})`} backgroundSize='cover' />
       <FlexBox padding={4} direction='column' gap={4} width='100%'>
-        <FlexBox
-          justifyContent='space-between'
-          borderRadius='8px'
-          background={'#5197B6'}
-          paddingTop={1}
-          paddingBottom={1}
-          paddingLeft={2}
-          paddingRight={2}
-        >
-          <Typography size='md' weight='semi-bold' color='white'>
-            Oracle
-          </Typography>
+        <FlexBox justifyContent='space-between' alignItems='center' width='100%'>
+          <FlexBox
+            justifyContent='space-between'
+            borderRadius='8px'
+            background={'#5197B6'}
+            paddingTop={1}
+            paddingBottom={1}
+            paddingLeft={2}
+            paddingRight={2}
+          >
+            <Typography size='md' weight='semi-bold' color='white'>
+              Oracle
+            </Typography>
+          </FlexBox>
+          <FlexBox width='40px' height='40px' background={`url(${icon})`} backgroundSize='100%' />
         </FlexBox>
+
         <FlexBox width='100%'>
           <Typography weight='bold' size='2xl' overflowLines={2} style={{ wordBreak: 'break-all', height: 54 }}>
             {name}

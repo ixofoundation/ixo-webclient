@@ -157,11 +157,11 @@ class App extends React.Component<Props, State> {
     return (
       <ThemeProvider theme={this.state.customizedTheme}>
         <AssistantContext.Provider value={{ active: assistantToggled }}>
+          <ToastContainer hideProgressBar={true} position='top-right' />
           {this.props.entityTypeMap && (
             <ScrollToTop>
               <Container>
                 <HeaderConnected />
-                <ToastContainer hideProgressBar={true} position='top-right' />
                 <div className='d-flex' style={{ flex: 1 }}>
                   <ContentWrapper>
                     {this.props.loginStatusCheckCompleted || !window['ixoKs'] ? (

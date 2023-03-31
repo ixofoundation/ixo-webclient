@@ -30,6 +30,7 @@ export const theme = {
   ixoColor2: '#828E94',
 
   ixoShadow1: '10px 10px 20px rgba(0, 0, 0, 0.25)',
+  ixoShadow2: '0px 4px 9px rgba(0, 0, 0, 0.18)',
   ixoGradientLight: 'linear-gradient(180deg, #FFFFFF 0%, #F3F6FC 100%)',
   ixoGradientDark2: 'linear-gradient(180deg, #01273A 0%, #002D42 100%)',
 
@@ -71,15 +72,6 @@ export const Container = styled.div`
   flex-flow: column;
   min-height: 100vh;
   font-family: ${(props): string => props.theme.primaryFontFamily};
-
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  p,
-  a {
-  }
   font-weight: 300;
 `
 export const HeaderDropdownBackground = styled.div`
@@ -139,7 +131,7 @@ export interface HTMLElementProps {
   pr?: number
   pb?: number
   m?: number
-  mx?: number
+  mx?: number | 'auto'
   my?: number
   mt?: number
   ml?: number
@@ -184,6 +176,7 @@ export interface HTMLElementProps {
   color?: string
   fontSize?: number
   fontWeight?: number | string
+  boxShadow?: string
 
   children?: ReactNode
 }
@@ -223,7 +216,10 @@ const htmlElementCss = css<HTMLDivProps>`
   ${({ pt }) => pt && `padding-top: ${pt * 0.25}rem`};
   ${({ pb }) => pb && `padding-bottom: ${pb * 0.25}rem`};
   ${({ m }) => m && `margin: ${m * 0.25}rem`};
-  ${({ mx }) => mx && `margin-left: ${mx * 0.25}rem; margin-right: ${mx * 0.25}rem`};
+  ${({ mx }) =>
+    mx === 'auto'
+      ? `margin-left: ${mx}; margin-right: ${mx};`
+      : mx && `margin-left: ${mx * 0.25}rem; margin-right: ${mx * 0.25}rem;`}
   ${({ my }) => my && `margin-top: ${my * 0.25}rem; margin-bottom: ${my * 0.25}rem`};
   ${({ ml }) => ml && `margin-left: ${ml * 0.25}rem`};
   ${({ mr }) => mr && `margin-right: ${mr * 0.25}rem`};
@@ -271,6 +267,7 @@ const htmlElementCss = css<HTMLDivProps>`
   ${({ color }) => color && `color: ${color}`};
   ${({ fontSize }) => fontSize && `font-size: ${fontSize * 0.25}rem`};
   ${({ fontWeight }) => fontWeight && `font-weight: ${fontWeight}`};
+  ${({ boxShadow }) => boxShadow && `box-shadow: ${boxShadow}`};
 
   &:hover {
     ${({ hover }) => hover?.background && `background: ${hover.background};`}

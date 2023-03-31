@@ -52,6 +52,9 @@ const MultiControlForm: React.FunctionComponent<Props> = React.forwardRef(
     useImperativeHandle(
       ref,
       () => ({
+        validate: (): void => {
+          jsonFormRef.current?.submit()
+        },
         validateAndSubmit: (): void => {
           if (validationComplete) {
             jsonFormRef.current?.submit()
@@ -80,6 +83,15 @@ const MultiControlForm: React.FunctionComponent<Props> = React.forwardRef(
         }),
       )
     }
+
+    useEffect(() => {
+      if (Object.values(extraErrors).some(({ __errors }: any) => __errors.length !== 0)) {
+        onError!(Object.values(extraErrors))
+      } else {
+        onError!([])
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [extraErrors])
 
     return (
       <FormContainer>

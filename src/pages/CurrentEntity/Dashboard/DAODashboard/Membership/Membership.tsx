@@ -7,7 +7,7 @@ import { Groups } from '../Components'
 import { Typography } from 'components/Typography'
 import { Member } from 'types/dao'
 
-const OverviewMembers: React.FC = (): JSX.Element | null => {
+const Membership: React.FC = (): JSX.Element | null => {
   const { selectedGroups } = useCurrentDao()
   const selectedGroupAddresses: string[] = Object.keys(selectedGroups)
   const numOfSelectedGroups = selectedGroupAddresses.length
@@ -93,4 +93,4 @@ const OverviewMembers: React.FC = (): JSX.Element | null => {
     </FlexBox>
   )
 }
-export default OverviewMembers
+export default Membership

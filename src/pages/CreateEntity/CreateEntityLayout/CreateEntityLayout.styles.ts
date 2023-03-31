@@ -3,6 +3,9 @@ import styled from 'styled-components'
 export const LayoutWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  a {
+    color: ${(props): string => props.theme.ixoNewBlue};
+  }
 `
 
 export const LayoutHeader = styled.div`

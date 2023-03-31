@@ -13,112 +13,18 @@ import ClaimCard from './ClaimCard'
 const ReviewClaim: React.FC = (): JSX.Element => {
   const createEntityState = useCreateEntityState()
   const metadata: TClaimMetadataModel = createEntityState.metadata as TClaimMetadataModel
-  const { service, linkedEntity, gotoStep } = createEntityState
-  const {
-    // CreateDAO,
-    // CreateDAOCredsIssuer,
-    SaveProfile,
-    SaveCreator,
-    SaveAdministrator,
-    SavePage,
-    SaveTags,
-    CreateProtocol,
-    CreateEntityBase,
-  } = useCreateEntity()
+  const { entityType, service, linkedEntity, gotoStep } = createEntityState
+  const { UploadLinkedResource, CreateProtocol, CreateEntityBase } = useCreateEntity()
   const [submitting, setSubmitting] = useState(false)
 
   const handleSignToCreate = async (): Promise<void> => {
     setSubmitting(true)
-    // const daoDid = 'did:ixo:entity:cf16fe551153ec5a1b96be3f59b2ec98'
-    // const daoDid = await CreateDAO()
-    // if (!daoDid) {
-    //   Toast.errorToast(`Create DAO Failed`)
-    //   return
-    // } else {
-    //   Toast.successToast(`Create DAO Succeed`)
-    // }
 
-    const daoCredsIssuerDid = 'did:ixo:entity:c4a5588bdd7f651f5f5e742887709d57'
-    // const daoCredsIssuerDid = await CreateDAOCredsIssuer(daoDid)
-    // if (!daoCredsIssuerDid) {
-    //   Toast.errorToast(`Create DAO Creds Issuer Failed`)
-    //   return
-    // } else {
-    //   Toast.successToast(`Create DAO Creds Issuer Succeed`)
-    // }
-
-    const [saveProfileRes, saveCreatorRes, saveAdministratorRes, savePageRes, saveTagsRes] = await Promise.allSettled([
-      await SaveProfile(),
-      await SaveCreator(daoCredsIssuerDid),
-      await SaveAdministrator(daoCredsIssuerDid),
-      await SavePage(),
-      await SaveTags(),
-    ]).then((responses) => responses.map((response: any) => response.value))
-
-    const linkedResource: LinkedResource[] = []
     const accordedRight: AccordedRight[] = [] // TODO:
     const verification: Verification[] = []
+    let linkedResource: LinkedResource[] = []
 
-    if (saveProfileRes) {
-      linkedResource.push({
-        id: '{id}#profile',
-        type: 'Settings',
-        description: 'Profile',
-        mediaType: 'application/ld+json',
-        serviceEndpoint: saveProfileRes.url,
-        proof: saveProfileRes.cid,
-        encrypted: 'false',
-        right: '',
-      })
-    }
-    if (saveCreatorRes) {
-      linkedResource.push({
-        id: '{id}#creator',
-        type: 'VerifiableCredential',
-        description: 'Creator',
-        mediaType: 'application/ld+json',
-        serviceEndpoint: `#cellnode-pandora/public/${saveCreatorRes.key}`,
-        proof: saveCreatorRes.key,
-        encrypted: 'false',
-        right: '',
-      })
-    }
-    if (saveAdministratorRes) {
-      linkedResource.push({
-        id: '{id}#administrator',
-        type: 'VerifiableCredential',
-        description: 'Administrator',
-        mediaType: 'application/ld+json',
-        serviceEndpoint: `#cellnode-pandora/public/${saveAdministratorRes.key}`,
-        proof: saveAdministratorRes.key,
-        encrypted: 'false',
-        right: '',
-      })
-    }
-    if (savePageRes) {
-      linkedResource.push({
-        id: '{id}#page',
-        type: 'Settings',
-        description: 'Page',
-        mediaType: 'application/ld+json',
-        serviceEndpoint: `#cellnode-pandora/public/${savePageRes.key}`,
-        proof: savePageRes.key,
-        encrypted: 'false',
-        right: '',
-      })
-    }
-    if (saveTagsRes) {
-      linkedResource.push({
-        id: '{id}#tags',
-        type: 'Settings',
-        description: 'Tags',
-        mediaType: 'application/ld+json',
-        serviceEndpoint: `#cellnode-pandora/public/${saveTagsRes.key}`,
-        proof: saveTagsRes.key,
-        encrypted: 'false',
-        right: '',
-      })
-    }
+    linkedResource = linkedResource.concat(await UploadLinkedResource())
 
     const protocolDid = await CreateProtocol()
     if (!protocolDid) {
@@ -126,7 +32,7 @@ const ReviewClaim: React.FC = (): JSX.Element => {
       setSubmitting(false)
       return
     }
-    const entityDid = await CreateEntityBase('dao', protocolDid, {
+    const entityDid = await CreateEntityBase(entityType, protocolDid, {
       service,
       linkedResource,
       accordedRight,

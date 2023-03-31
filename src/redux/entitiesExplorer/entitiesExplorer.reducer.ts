@@ -43,7 +43,7 @@ export const reducer = (
     case EntitiesExplorerActions.GetEntities2Success:
       return {
         ...state,
-        entities2: Object.fromEntries(action.payload.map((entity) => [entity.id, entity])),
+        entities2: { ...state.entities2, ...Object.fromEntries(action.payload.map((entity) => [entity.id, entity])) },
       }
     case EntitiesExplorerActions.GetIndividualEntity: {
       const { did } = action.payload
