@@ -457,36 +457,27 @@ export function useCreateEntity(): TCreateEntityHookRes {
 
   const SaveProfile = async (): Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined> => {
     try {
-      const buff = Buffer.from(
-        JSON.stringify({
-          '@context': {
-            ixo: 'https://w3id.org/ixo/ns/protocol/',
-            '@id': '@type',
-            type: '@type',
-            '@protected': true,
-          },
-          id: 'ixo:entity#profile',
-          type: 'profile',
-          name: metadata.name,
-          image: metadata.image,
-          logo: metadata.icon,
-          brand: metadata.brand,
-          location: metadata.location,
-          description: metadata.description,
-          attributes: metadata.attributes,
-          metrics: metadata.metrics,
-        }),
-      )
+      const payload = {
+        '@context': {
+          ixo: 'https://w3id.org/ixo/ns/protocol/',
+          '@id': '@type',
+          type: '@type',
+          '@protected': true,
+        },
+        id: 'ixo:entity#profile',
+        type: 'profile',
+        name: metadata.name,
+        image: metadata.image,
+        logo: metadata.icon,
+        brand: metadata.brand,
+        location: metadata.location,
+        description: metadata.description,
+        attributes: metadata.attributes,
+        metrics: metadata.metrics,
+      }
+      const buff = Buffer.from(JSON.stringify(payload))
       const res = await UploadDataToService(buff.toString('base64'))
-      console.log('SaveProfile', res)
-      /**
-       *  {
-            "cid": "bafkreia3am66tjebxnpa7khxxbj7rvnpihgyqyu3udsmo3fn24ezkiw7ie",
-            "name": "NsEXszeIqTLK",
-            "ipfs": "bafkreia3am66tjebxnpa7khxxbj7rvnpihgyqyu3udsmo3fn24ezkiw7ie.ipfs.w3s.link",
-            "url": "https://bafkreia3am66tjebxnpa7khxxbj7rvnpihgyqyu3udsmo3fn24ezkiw7ie.ipfs.w3s.link"
-          }
-       */
+      console.log('SaveProfile', payload)
       return res
     } catch (e) {
       console.error('SaveProfile', e)
@@ -498,54 +489,45 @@ export function useCreateEntity(): TCreateEntityHookRes {
     daoCredsIssuerDid: string,
   ): Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined> => {
     try {
-      const buff = Buffer.from(
-        JSON.stringify({
-          '@context': [
-            'https://www.w3.org/2018/credentials/v1',
-            'https://w3id.org/ixo/ns/context/v1',
-            'https://w3id.org/ixo/ns/protocol/entity#creator',
-            {
-              '@version': 1,
-              '@protected': true,
-              id: '@id',
-              type: '@type',
-            },
-          ],
-          id: 'https://w3id.org/ixo/ns/credential-schemas/organization/v1',
-          type: ['VerifiableCredential', 'CreatorCredential'],
-          issuer: signer.did, // TODO: issuerDid ? maybe creatorDid inputted in form
-          issuanceDate: new Date().toISOString(), // TODO: new Date(now) ?
-          validFrom: new Date().toISOString(), // TODO: new Date(now) ?
-          expirationDate: '', //  TODO: always empty ?
-          credentialSubject: {
-            id: daoCredsIssuerDid,
-            type: 'creator',
-            displayName: creator.displayName,
-            location: creator.location,
-            email: creator.email,
-            mission: creator.mission,
-            website: creator.website,
-            logo: creator.logo,
+      const payload = {
+        '@context': [
+          'https://www.w3.org/2018/credentials/v1',
+          'https://w3id.org/ixo/ns/context/v1',
+          'https://w3id.org/ixo/ns/protocol/entity#creator',
+          {
+            '@version': 1,
+            '@protected': true,
+            id: '@id',
+            type: '@type',
           },
-          proof: {
-            type: 'EcdsaSecp256k1Signature2019',
-            created: new Date().toISOString(), //   TODO:
-            proofPurpose: 'assertionMethod',
-            verificationMethod: 'did:ixo:entity:abc123#key-1', //   TODO:
-            jws: '',
-          },
-        }),
-      )
+        ],
+        id: 'https://w3id.org/ixo/ns/credential-schemas/organization/v1',
+        type: ['VerifiableCredential', 'CreatorCredential'],
+        issuer: signer.did, // TODO: issuerDid ? maybe creatorDid inputted in form
+        issuanceDate: new Date().toISOString(), // TODO: new Date(now) ?
+        validFrom: new Date().toISOString(), // TODO: new Date(now) ?
+        expirationDate: '', //  TODO: always empty ?
+        credentialSubject: {
+          id: daoCredsIssuerDid,
+          type: 'creator',
+          displayName: creator.displayName,
+          location: creator.location,
+          email: creator.email,
+          mission: creator.mission,
+          website: creator.website,
+          logo: creator.logo,
+        },
+        proof: {
+          type: 'EcdsaSecp256k1Signature2019',
+          created: new Date().toISOString(), //   TODO:
+          proofPurpose: 'assertionMethod',
+          verificationMethod: 'did:ixo:entity:abc123#key-1', //   TODO:
+          jws: '',
+        },
+      }
+      const buff = Buffer.from(JSON.stringify(payload))
       const res = await UploadDataToService(buff.toString('base64'))
-      console.log('SaveCreator', res)
-      /**
-       *  {
-            "key": "63mimq0kl4plerl80du",
-            "contentType": "application/ld+json",
-            "data": "eyJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvMjAxOC9jcmVkZW50aWFscy92MSIsImh0dHBzOi8vdzNpZC5vcmcvaXhvL25zL2NvbnRleHQvdjEiLCJodHRwczovL3czaWQub3JnL2l4by9ucy9wcm90b2NvbC9lbnRpdHkjY3JlYXRvciIseyJAdmVyc2lvbiI6MSwiQHByb3RlY3RlZCI6dHJ1ZSwiaWQiOiJAaWQiLCJ0eXBlIjoiQHR5cGUifV0sImlkIjoiaHR0cHM6Ly93M2lkLm9yZy9peG8vbnMvY3JlZGVudGlhbC1zY2hlbWFzL29yZ2FuaXphdGlvbi92MSIsInR5cGUiOlsiVmVyaWZpYWJsZUNyZWRlbnRpYWwiLCJDcmVhdG9yQ3JlZGVudGlhbCJdLCJpc3N1ZXIiOiJkaWQ6eDp6UTNzaHRkZnFLekRQVlNGWjkycUVyUmFDeHRXOUNvbW1ZcUg4WWg1UDM1a1JzeUxpIiwiaXNzdWFuY2VEYXRlIjoiMjAyMy0wMy0wMlQyMDo1NzowNy42ODFaIiwidmFsaWRGcm9tIjoiMjAyMy0wMy0wMlQyMDo1NzowNy42ODFaIiwiZXhwaXJhdGlvbkRhdGUiOiIiLCJjcmVkZW50aWFsU3ViamVjdCI6eyJpZCI6ImRpZDppeG86ZW50aXR5OmM0YTU1ODhiZGQ3ZjY1MWY1ZjVlNzQyODg3NzA5ZDU3IiwidHlwZSI6ImNyZWF0b3IiLCJkaXNwbGF5TmFtZSI6IlNtb2tlIE1vbmtleSIsImxvY2F0aW9uIjoiSnVuZ2xlIiwiZW1haWwiOiJzbW9rZUBtb25rZXkuY29tIiwibWlzc2lvbiI6ImFzZGZhc2RmYXNkZmFzZGZhc2RmYXNkZiIsIndlYnNpdGUiOiJodHRwczovL21vbmtleS5jb20iLCJsb2dvIjoiaHR0cHM6Ly9kZXZuZXQtY2VsbG5vZGUuaXhvLmVhcnRoL3B1YmxpYy84MW54ZWFuOGp2Nmxlcmt5cDN5In0sInByb29mIjp7InR5cGUiOiJFY2RzYVNlY3AyNTZrMVNpZ25hdHVyZTIwMTkiLCJjcmVhdGVkIjoiMjAyMy0wMy0wMlQyMDo1NzowNy42ODFaIiwicHJvb2ZQdXJwb3NlIjoiYXNzZXJ0aW9uTWV0aG9kIiwidmVyaWZpY2F0aW9uTWV0aG9kIjoiZGlkOml4bzplbnRpdHk6YWJjMTIzI2tleS0xIiwiandzIjoiIn19",
-            "url": "https://devnet-cellnode.ixo.earth/public/63mimq0kl4plerl80du"
-          }
-       */
+      console.log('SaveCreator', payload)
       return res
     } catch (e) {
       console.error('SaveCreator', e)
@@ -557,54 +539,45 @@ export function useCreateEntity(): TCreateEntityHookRes {
     daoCredsIssuerDid: string,
   ): Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined> => {
     try {
-      const buff = Buffer.from(
-        JSON.stringify({
-          '@context': [
-            'https://www.w3.org/2018/credentials/v1',
-            'https://w3id.org/ixo/ns/context/v1',
-            'https://w3id.org/ixo/ns/protocol/entity#administrator',
-            {
-              '@version': 1,
-              '@protected': true,
-              id: '@id',
-              type: '@type',
-            },
-          ],
-          id: 'https://w3id.org/ixo/ns/credential-schemas/organization/v1',
-          type: ['VerifiableCredential', 'AdministratorCredential'],
-          issuer: signer.did, // TODO: issuerDid ? maybe creatorDid inputted in form
-          issuanceDate: new Date().toISOString(), // TODO: new Date(now)?
-          validFrom: new Date().toISOString(), // TODO: new Date(now)?
-          expirationDate: '', //  TODO:
-          credentialSubject: {
-            id: daoCredsIssuerDid, // TODO:
-            type: 'administrator',
-            displayName: administrator.displayName,
-            location: administrator.location,
-            email: administrator.email,
-            mission: administrator.mission,
-            website: administrator.website,
-            logo: administrator.logo,
+      const payload = {
+        '@context': [
+          'https://www.w3.org/2018/credentials/v1',
+          'https://w3id.org/ixo/ns/context/v1',
+          'https://w3id.org/ixo/ns/protocol/entity#administrator',
+          {
+            '@version': 1,
+            '@protected': true,
+            id: '@id',
+            type: '@type',
           },
-          proof: {
-            type: 'EcdsaSecp256k1Signature2019',
-            created: new Date().toISOString(), //   TODO:
-            proofPurpose: 'assertionMethod',
-            verificationMethod: 'did:ixo:entity:abc123#key-1', //   TODO:
-            jws: '',
-          },
-        }),
-      )
+        ],
+        id: 'https://w3id.org/ixo/ns/credential-schemas/organization/v1',
+        type: ['VerifiableCredential', 'AdministratorCredential'],
+        issuer: signer.did, // TODO: issuerDid ? maybe creatorDid inputted in form
+        issuanceDate: new Date().toISOString(), // TODO: new Date(now)?
+        validFrom: new Date().toISOString(), // TODO: new Date(now)?
+        expirationDate: '', //  TODO:
+        credentialSubject: {
+          id: daoCredsIssuerDid, // TODO:
+          type: 'administrator',
+          displayName: administrator.displayName,
+          location: administrator.location,
+          email: administrator.email,
+          mission: administrator.mission,
+          website: administrator.website,
+          logo: administrator.logo,
+        },
+        proof: {
+          type: 'EcdsaSecp256k1Signature2019',
+          created: new Date().toISOString(), //   TODO:
+          proofPurpose: 'assertionMethod',
+          verificationMethod: 'did:ixo:entity:abc123#key-1', //   TODO:
+          jws: '',
+        },
+      }
+      const buff = Buffer.from(JSON.stringify(payload))
       const res = await UploadDataToService(buff.toString('base64'))
-      console.log('SaveAdministrator', res)
-      /**
-       *  {
-            "key": "63mimq0kl4plerl80du",
-            "contentType": "application/ld+json",
-            "data": "eyJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvMjAxOC9jcmVkZW50aWFscy92MSIsImh0dHBzOi8vdzNpZC5vcmcvaXhvL25zL2NvbnRleHQvdjEiLCJodHRwczovL3czaWQub3JnL2l4by9ucy9wcm90b2NvbC9lbnRpdHkjY3JlYXRvciIseyJAdmVyc2lvbiI6MSwiQHByb3RlY3RlZCI6dHJ1ZSwiaWQiOiJAaWQiLCJ0eXBlIjoiQHR5cGUifV0sImlkIjoiaHR0cHM6Ly93M2lkLm9yZy9peG8vbnMvY3JlZGVudGlhbC1zY2hlbWFzL29yZ2FuaXphdGlvbi92MSIsInR5cGUiOlsiVmVyaWZpYWJsZUNyZWRlbnRpYWwiLCJDcmVhdG9yQ3JlZGVudGlhbCJdLCJpc3N1ZXIiOiJkaWQ6eDp6UTNzaHRkZnFLekRQVlNGWjkycUVyUmFDeHRXOUNvbW1ZcUg4WWg1UDM1a1JzeUxpIiwiaXNzdWFuY2VEYXRlIjoiMjAyMy0wMy0wMlQyMDo1NzowNy42ODFaIiwidmFsaWRGcm9tIjoiMjAyMy0wMy0wMlQyMDo1NzowNy42ODFaIiwiZXhwaXJhdGlvbkRhdGUiOiIiLCJjcmVkZW50aWFsU3ViamVjdCI6eyJpZCI6ImRpZDppeG86ZW50aXR5OmM0YTU1ODhiZGQ3ZjY1MWY1ZjVlNzQyODg3NzA5ZDU3IiwidHlwZSI6ImNyZWF0b3IiLCJkaXNwbGF5TmFtZSI6IlNtb2tlIE1vbmtleSIsImxvY2F0aW9uIjoiSnVuZ2xlIiwiZW1haWwiOiJzbW9rZUBtb25rZXkuY29tIiwibWlzc2lvbiI6ImFzZGZhc2RmYXNkZmFzZGZhc2RmYXNkZiIsIndlYnNpdGUiOiJodHRwczovL21vbmtleS5jb20iLCJsb2dvIjoiaHR0cHM6Ly9kZXZuZXQtY2VsbG5vZGUuaXhvLmVhcnRoL3B1YmxpYy84MW54ZWFuOGp2Nmxlcmt5cDN5In0sInByb29mIjp7InR5cGUiOiJFY2RzYVNlY3AyNTZrMVNpZ25hdHVyZTIwMTkiLCJjcmVhdGVkIjoiMjAyMy0wMy0wMlQyMDo1NzowNy42ODFaIiwicHJvb2ZQdXJwb3NlIjoiYXNzZXJ0aW9uTWV0aG9kIiwidmVyaWZpY2F0aW9uTWV0aG9kIjoiZGlkOml4bzplbnRpdHk6YWJjMTIzI2tleS0xIiwiandzIjoiIn19",
-            "url": "https://devnet-cellnode.ixo.earth/public/63mimq0kl4plerl80du"
-          }
-       */
+      console.log('SaveAdministrator', payload)
       return res
     } catch (e) {
       console.error('SaveAdministrator', e)
@@ -614,20 +587,19 @@ export function useCreateEntity(): TCreateEntityHookRes {
 
   const SavePage = async (): Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined> => {
     try {
-      const buff = Buffer.from(
-        JSON.stringify({
-          '@context': {
-            ixo: 'https://w3id.org/ixo/ns/protocol/',
-            '@id': '@type',
-            type: '@type',
-            '@protected': true,
-          },
-          type: 'ixo:entity#page',
-          page: Object.values(page),
-        }),
-      )
+      const payload = {
+        '@context': {
+          ixo: 'https://w3id.org/ixo/ns/protocol/',
+          '@id': '@type',
+          type: '@type',
+          '@protected': true,
+        },
+        type: 'ixo:entity#page',
+        page: Object.values(page),
+      }
+      const buff = Buffer.from(JSON.stringify(payload))
       const res = await UploadDataToService(buff.toString('base64'))
-      console.log('SavePage', res)
+      console.log('SavePage', payload)
       return res
     } catch (e) {
       console.error('SavePage', e)
@@ -788,20 +760,19 @@ export function useCreateEntity(): TCreateEntityHookRes {
 
   const SaveTags = async (): Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined> => {
     try {
-      const buff = Buffer.from(
-        JSON.stringify({
-          '@context': {
-            ixo: 'https://w3id.org/ixo/ns/protocol/',
-            '@id': '@type',
-            type: '@type',
-            '@protected': true,
-          },
-          type: 'ixo:entity#tags',
-          ddoTags,
-        }),
-      )
+      const payload = {
+        '@context': {
+          ixo: 'https://w3id.org/ixo/ns/protocol/',
+          '@id': '@type',
+          type: '@type',
+          '@protected': true,
+        },
+        type: 'ixo:entity#tags',
+        ddoTags,
+      }
+      const buff = Buffer.from(JSON.stringify(payload))
       const res = await UploadDataToService(buff.toString('base64'))
-      console.log('SaveTags', res)
+      console.log('SaveTags', payload)
       return res
     } catch (e) {
       console.error('SaveTags', e)
