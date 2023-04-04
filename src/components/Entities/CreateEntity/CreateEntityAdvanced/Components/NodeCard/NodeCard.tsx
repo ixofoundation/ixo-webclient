@@ -70,14 +70,14 @@ const NodeCard: React.FunctionComponent<Props> = React.forwardRef(
       properties: {
         type: {
           type: 'string',
-          title: 'Node Type',
+          title: 'Service Type',
           enum: Object.keys(NodeType).map((key) => NodeType[key]),
           enumNames: Object.keys(NodeType).map((key) => nodeTypeMap[NodeType[key]].title),
         },
-        nodeId: { type: 'string', title: 'Node ID' },
+        nodeId: { type: 'string', title: 'Service ID' },
         serviceEndpoint: {
           type: 'string',
-          title: 'URL or IP Address',
+          title: 'Service Endpoint',
           format: 'uri',
         },
       },
@@ -85,11 +85,11 @@ const NodeCard: React.FunctionComponent<Props> = React.forwardRef(
 
     const uiSchema = {
       type: {
-        'ui:placeholder': 'Select Node Type',
+        'ui:placeholder': 'Select a Service',
       },
-      nodeId: { 'ui:placeholder': 'Enter !Name or DID' },
+      nodeId: { 'ui:placeholder': 'Identifier' },
       serviceEndpoint: {
-        'ui:placeholder': 'Enter a valid URL in the format https://',
+        'ui:placeholder': 'Valid URL or IP',
       },
     }
 

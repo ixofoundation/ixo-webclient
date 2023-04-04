@@ -95,7 +95,7 @@ const SignStep: React.FC<Props> = ({ status, hash, customDesc, message }) => {
         target='_blank'
       >
         <Typography variant='secondary' color='blue' size='sm'>
-          View the transaction on BlockScan
+          View the transaction on block explorer
         </Typography>
       </a>
     </TXStatusBoard>

@@ -20,7 +20,7 @@ const CreateProposal: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match })
       { text: entityId, link: `/entity/${entityId}/dashboard` },
       { text: daoGroup?.config.name || 'Governance', link: `/entity/${entityId}/dashboard/governance` },
     ])
-    updateTitle('Create governance proposal')
+    updateTitle('Governance Proposal creation')
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [daoGroup?.config.name])
 

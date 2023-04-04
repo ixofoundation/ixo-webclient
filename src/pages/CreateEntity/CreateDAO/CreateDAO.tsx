@@ -14,7 +14,7 @@ const CreateDAO: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): JSX
 
   useEffect(() => {
     updateEntityType('dao')
-    updateTitle('Create DAO')
+    updateTitle('DAO creation')
     updateBreadCrumbs([{ text: 'DAO' }])
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])

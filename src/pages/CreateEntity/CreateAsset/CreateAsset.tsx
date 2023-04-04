@@ -15,7 +15,7 @@ const CreateAsset: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): J
 
   useEffect(() => {
     updateEntityType('asset')
-    updateTitle('Create Asset Class')
+    updateTitle('Asset Class creation')
     updateBreadCrumbs([{ text: 'ASSET' }])
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])

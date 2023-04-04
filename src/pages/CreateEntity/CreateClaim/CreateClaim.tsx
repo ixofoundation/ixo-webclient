@@ -13,7 +13,7 @@ const CreateClaim: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): J
 
   useEffect(() => {
     updateEntityType('protocol')
-    updateTitle('Create Verifiable Claim')
+    updateTitle('Verifiable Claim creation')
     updateBreadCrumbs([{ text: 'Protocol' }])
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])

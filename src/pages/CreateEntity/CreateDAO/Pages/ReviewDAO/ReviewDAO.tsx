@@ -29,6 +29,7 @@ const ReviewDAO: React.FC = (): JSX.Element => {
     linkedEntity: linkedEntityData,
     daoGroups,
     daoController,
+    clearEntity,
     gotoStep,
     gotoStepByNo,
   } = createEntityState
@@ -163,7 +164,10 @@ const ReviewDAO: React.FC = (): JSX.Element => {
             <FlexBox width='100%' gap={4}>
               <Button
                 variant='primary'
-                onClick={() => history.push(`/explore?type=${entityType}`)}
+                onClick={() => {
+                  history.push(`/explore?type=${entityType}`)
+                  clearEntity()
+                }}
                 style={{ width: '100%' }}
               >
                 View in the Explorer

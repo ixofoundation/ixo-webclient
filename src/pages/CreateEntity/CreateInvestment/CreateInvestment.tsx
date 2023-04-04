@@ -14,7 +14,7 @@ const CreateInvestment: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match 
 
   useEffect(() => {
     updateEntityType('investment')
-    updateTitle('Create Investment')
+    updateTitle('Investment creation')
     updateBreadCrumbs([{ text: 'INVESTMENT' }])
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])

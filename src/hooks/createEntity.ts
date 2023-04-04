@@ -38,6 +38,7 @@ import {
   updateServiceAction,
   updateSubtitleAction,
   updateTitleAction,
+  clearEntityAction,
 } from 'redux/createEntity/createEntity.actions'
 import {
   selectCreateEntityAccordedRight,
@@ -134,6 +135,7 @@ interface TCreateEntityStateHookRes {
   proposal: TProposalModel
   validateRequiredProperties: boolean
   updateEntityType: (entityType: string) => void
+  clearEntity: () => void
   gotoStep: (type: 1 | -1) => void
   gotoStepByNo: (no: number) => void
   updateBreadCrumbs: (breadCrumbs: { text: string; link?: string }[]) => void
@@ -192,6 +194,9 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
 
   const updateEntityType = (entityType: string): void => {
     dispatch(updateEntityTypeAction(entityType))
+  }
+  const clearEntity = (): void => {
+    dispatch(clearEntityAction())
   }
   const gotoStep = useCallback(
     (type: 1 | -1): void => {
@@ -305,6 +310,7 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
     proposal,
     validateRequiredProperties,
     updateEntityType,
+    clearEntity,
     gotoStep,
     gotoStepByNo,
     updateBreadCrumbs,

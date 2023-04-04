@@ -11,7 +11,14 @@ interface Props extends HTMLFlexBoxProps {
   children?: ReactNode
 }
 
-const Card: React.FC<Props> = ({ icon, label, actionIcon = <ExpandIcon />, onAction, children }): JSX.Element => (
+const Card: React.FC<Props> = ({
+  icon,
+  label,
+  actionIcon = <ExpandIcon />,
+  onAction,
+  children,
+  ...rest
+}): JSX.Element => (
   <FlexBox
     direction='column'
     width={'100%'}
@@ -21,6 +28,7 @@ const Card: React.FC<Props> = ({ icon, label, actionIcon = <ExpandIcon />, onAct
     p={5}
     border={'1px solid #083347'}
     gap={6}
+    {...rest}
   >
     {/* Card Header */}
     <FlexBox width='100%' alignItems='center' justifyContent='space-between'>

@@ -11,7 +11,7 @@ import { Member } from 'types/dao'
 
 export type DaoGroup = {
   coreAddress: string
-  type: string
+  type: string //  'membership' || 'staking'
   admin: string
   config: Config
   proposalModule: {

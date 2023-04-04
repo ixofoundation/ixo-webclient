@@ -2830,13 +2830,9 @@
           "@type": "Category",
           "hidden": false,
           "name": "DAO Type",
-          "multiSelect": true,
+          "multiSelect": false,
+          "selectedTags": ["Marketplace"],
           "tags": [
-            {
-              "@type": "Tag",
-              "name": "Index",
-              "icon": "index.svg"
-            },
             {
               "@type": "Tag",
               "name": "Candidate",
@@ -2844,37 +2840,12 @@
             },
             {
               "@type": "Tag",
-              "name": "Market Relayer",
+              "name": "Cooperative",
               "icon": "tag.svg"
             },
             {
               "@type": "Tag",
-              "name": "Investment",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Citizen",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Business",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Friendship",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Community",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Development Agency",
+              "name": "Marketplace",
               "icon": "tag.svg"
             },
             {
@@ -2886,49 +2857,8 @@
               "@type": "Tag",
               "name": "Hackathon",
               "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Innovation",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Funding",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Research",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Sensor Network",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Startup",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Taskforce",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Chain",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Validator",
-              "icon": "tag.svg"
             }
-          ],
-          "selectedTags": ["Index"]
+          ]
         },
         {
           "@type": "Category",

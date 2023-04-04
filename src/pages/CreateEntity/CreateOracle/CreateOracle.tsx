@@ -12,7 +12,7 @@ const CreateOracle: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): 
 
   useEffect(() => {
     updateEntityType('oracle')
-    updateTitle('Create Oracle Method')
+    updateTitle('Oracle creation')
     updateBreadCrumbs([{ text: 'Oracle' }])
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])

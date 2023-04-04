@@ -1,3 +1,4 @@
+import clxs from 'classnames'
 import { FlexBox, GridContainer, GridItem } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { useAccount } from 'hooks/account'
@@ -12,8 +13,10 @@ import { MyProposals } from './MyProposals'
 import { ReactComponent as ArrowLeftIcon } from 'assets/images/icon-arrow-left.svg'
 import { ReactComponent as StakesIcon } from 'assets/images/icon-stakes.svg'
 import { ReactComponent as ProposalsIcon } from 'assets/images/icon-proposals.svg'
+import { ReactComponent as PieIcon } from 'assets/images/icon-pie.svg'
 import useCurrentDao from 'hooks/currentDao'
 import { DaoGroup } from 'redux/currentEntity/dao/currentDao.types'
+import { MyVotingPower } from './MyVotingPower'
 
 const MyParticipation: React.FC = () => {
   const history = useHistory()
@@ -48,8 +51,10 @@ const MyParticipation: React.FC = () => {
             group
           </Typography>
 
-          {expand === 'token' && (
+          {/* expand === 'token' */}
+          {selectedGroup.type === 'staking' && (
             <Card
+              className={clxs({ 'd-none': expand !== 'token' })}
               icon={<StakesIcon />}
               label='My Stakes'
               actionIcon={<ArrowLeftIcon />}
@@ -58,26 +63,43 @@ const MyParticipation: React.FC = () => {
               <MyStakes coreAddress={selectedGroup.coreAddress} />
             </Card>
           )}
-          {expand === 'proposal' && (
+          {/* expand === 'votingPower' */}
+          {selectedGroup.type === 'membership' && (
             <Card
-              icon={<ProposalsIcon />}
-              label='My Proposals'
+              className={clxs({ 'd-none': expand !== 'votingPower' })}
+              icon={<PieIcon />}
+              label='My Voting Power'
               actionIcon={<ArrowLeftIcon />}
               onAction={() => history.goBack()}
             >
-              <MyProposals />
+              <MyVotingPower coreAddress={selectedGroup.coreAddress} />
             </Card>
           )}
-          {token && tokenDetail && <AssetDetailCard {...tokenDetail} />}
-          {!expand && !token && (
-            <GridContainer
-              gridTemplateAreas={`"a a b b" "c c c c"`}
-              gridTemplateColumns={'1fr 1fr 1fr 1fr'}
-              gridTemplateRows={'repeat(2, minmax(330px, auto))'}
-              gridGap={6}
-              width='100%'
-            >
-              <GridItem gridArea='a'>
+          {/* expand === 'proposal' */}
+          <Card
+            className={clxs({ 'd-none': expand !== 'proposal' })}
+            icon={<ProposalsIcon />}
+            label='My Proposals'
+            actionIcon={<ArrowLeftIcon />}
+            onAction={() => history.goBack()}
+          >
+            <MyProposals />
+          </Card>
+          {/* token && tokenDetail */}
+          {selectedGroup.type === 'staking' && (
+            <AssetDetailCard className={clxs({ 'd-none': !token || !tokenDetail })} {...tokenDetail} />
+          )}
+          {/* !expand && !token */}
+          <GridContainer
+            className={clxs({ 'd-none': expand || token })}
+            gridTemplateAreas={`"a a b b" "c c c c"`}
+            gridTemplateColumns={'1fr 1fr 1fr 1fr'}
+            gridTemplateRows={'repeat(2, minmax(330px, auto))'}
+            gridGap={6}
+            width='100%'
+          >
+            <GridItem gridArea='a'>
+              {selectedGroup.type === 'staking' && (
                 <Card
                   icon={<StakesIcon />}
                   label='My Stakes'
@@ -85,21 +107,31 @@ const MyParticipation: React.FC = () => {
                 >
                   <MyStakes coreAddress={selectedGroup.coreAddress} />
                 </Card>
-              </GridItem>
-              <GridItem gridArea='b'>
+              )}
+
+              {selectedGroup.type === 'membership' && (
                 <Card
-                  icon={<ProposalsIcon />}
-                  label='My Proposals'
-                  onAction={() => history.push({ pathname: history.location.pathname, search: `?expand=proposal` })}
+                  icon={<PieIcon />}
+                  label='My Voting Power'
+                  onAction={() => history.push({ pathname: history.location.pathname, search: `?expand=votingPower` })}
                 >
-                  <MyProposals full={false} />
+                  <MyVotingPower coreAddress={selectedGroup.coreAddress} />
                 </Card>
-              </GridItem>
-              <GridItem gridArea='c'>
-                <MyActivity />
-              </GridItem>
-            </GridContainer>
-          )}
+              )}
+            </GridItem>
+            <GridItem gridArea='b'>
+              <Card
+                icon={<ProposalsIcon />}
+                label='My Proposals'
+                onAction={() => history.push({ pathname: history.location.pathname, search: `?expand=proposal` })}
+              >
+                <MyProposals full={false} />
+              </Card>
+            </GridItem>
+            <GridItem gridArea='c'>
+              <MyActivity />
+            </GridItem>
+          </GridContainer>
         </>
       )}
     </FlexBox>

@@ -5,7 +5,7 @@ import Close from 'assets/icons/Close'
 import { Schema, ConnectionType, ActionType } from './types'
 import Dashboard from './Dashboard/Dashboard'
 import Actions from './Actions/Actions' //, { triggerAction }
-import Apps from './Apps/Apps'
+// import Apps from './Apps/Apps'
 import Connections from './Connections/Connections'
 import Claims from './Claims/Claims'
 
@@ -110,7 +110,7 @@ class ControlPanel extends React.Component<Props, State> {
           >
             <Dashboard widget={dashboard} entityDid={entityDid} />
             <Actions widget={actions} toggleShowMore={this.toggleShowActions} showMore={this.state.showMoreActions} />
-            <Apps widget={apps} showMore={this.state.showMoreApps} toggleShowMore={this.toggleShowApps} />
+            {/* <Apps widget={apps} showMore={this.state.showMoreApps} toggleShowMore={this.toggleShowApps} /> */}
             <Claims
               widget={apps}
               showMore={this.state.showMoreApps}

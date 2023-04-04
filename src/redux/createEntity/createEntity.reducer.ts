@@ -47,6 +47,10 @@ export const reducer = (state = initialState, action: TCreateEntityActionTypes):
         ...savedState,
       }
     }
+    case ECreateEntityActions.ClearEntity: {
+      updatedState = initialState
+      break
+    }
     case ECreateEntityActions.GotoStep:
       updatedState = { ...state, stepNo: action.payload }
       break
