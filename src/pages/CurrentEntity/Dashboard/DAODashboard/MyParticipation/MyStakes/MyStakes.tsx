@@ -3,12 +3,17 @@ import { FlexBox } from 'components/App/App.styles'
 import { Table } from 'components/Table'
 import { Typography } from 'components/Typography'
 import { Button } from 'pages/CreateEntity/Components'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import CurrencyFormat from 'react-currency-format'
 import styled from 'styled-components'
-import { customQueries } from '@ixo/impactxclient-sdk'
+import { contracts } from '@ixo/impactxclient-sdk'
 import { useHistory } from 'react-router-dom'
-import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
+import { useCurrentDaoGroup } from 'hooks/currentDao'
+import { convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
+import { useAccount } from 'hooks/account'
+import { Avatar } from 'pages/CurrentEntity/Dashboard/Components'
+import { isGreaterThan } from 'utils/currency'
+import { GroupStakingModal } from 'components/Modals'
 
 const TableWrapper = styled.div`
   color: white;
@@ -73,15 +78,15 @@ const columns = [
     accessor: 'name',
     renderCell: (cell: any) => {
       const coinDenom = cell.row.original?.coinDenom
-      const coinMinimalDenom = cell.row.original?.coinMinimalDenom
+      const network = cell.row.original?.network
       const coinImageUrl = cell.row.original?.coinImageUrl
 
       return (
         <FlexBox alignItems='center' gap={2} p={4}>
-          <img src={coinImageUrl} alt='' width='38px' height='38px' />
+          <Avatar size={38} url={coinImageUrl} />
           <FlexBox direction='column'>
             <Typography size='lg'>{coinDenom}</Typography>
-            <Typography size='md'>{coinMinimalDenom}</Typography>
+            <Typography size='md'>{network}</Typography>
           </FlexBox>
         </FlexBox>
       )
@@ -91,14 +96,15 @@ const columns = [
     Header: renderTableHeader('Amount', 'flex-end'),
     accessor: 'balance',
     renderCell: (cell: any) => {
-      const lastPriceUsd = cell.row.original?.lastPriceUsd
-      const balanceUsd = new BigNumber(cell.value).times(lastPriceUsd).toString()
+      const balance = cell.value
+      const lastPriceUsd = cell.row.original?.lastPriceUsd ?? 0
+      const balanceUsd = new BigNumber(balance).times(lastPriceUsd).toString()
       return (
         <FlexBox direction='column' alignItems='end' p={4}>
           <Typography size='lg'>
             <CurrencyFormat
               displayType={'text'}
-              value={new BigNumber(cell.value).toString()}
+              value={new BigNumber(balance).toString()}
               thousandSeparator
               decimalScale={2}
             />
@@ -113,64 +119,89 @@ const columns = [
 ]
 
 interface Props {
-  balances: Coin[]
-  full?: boolean
+  coreAddress: string
 }
 
-const MyStakes: React.FC<Props> = ({ balances, full = true }) => {
+const MyStakes: React.FC<Props> = ({ coreAddress }) => {
   const history = useHistory()
+  const { cosmWasmClient, address } = useAccount()
+  const { daoGroup, daoVotingCw20StakedClient } = useCurrentDaoGroup(coreAddress)
   const [data, setData] = useState<any[]>([])
+  const [stakedBalance, setStakedBalance] = useState('0')
+  const [groupStakingModalOpen, setGroupStakingModalOpen] = useState(false)
+
+  /**
+   * @get
+   *  Token Balance
+   *  Token Info
+   * @set
+   *  Table data
+   */
+  const update = useCallback(async (): Promise<void> => {
+    if (!daoVotingCw20StakedClient) {
+      return
+    }
+
+    const stakingContract = await daoVotingCw20StakedClient.stakingContract()
+    const cw20StakeClient = new contracts.Cw20Stake.Cw20StakeClient(cosmWasmClient, address, stakingContract)
+    const { value: microStakedValue } = await cw20StakeClient.stakedValue({ address })
+
+    const tokenContract = await daoVotingCw20StakedClient.tokenContract()
+    const cw20BaseClient = new contracts.Cw20Base.Cw20BaseClient(cosmWasmClient, address, tokenContract)
+    const tokenInfo = await cw20BaseClient.tokenInfo()
+    const stakedValue = convertMicroDenomToDenomWithDecimals(microStakedValue, tokenInfo.decimals).toString()
+    setStakedBalance(stakedValue)
+
+    setData([
+      {
+        coinDenom: tokenInfo.symbol,
+        network: 'IXO',
+        balance: stakedValue,
+        coinImageUrl: undefined,
+        lastPriceUsd: undefined,
+        priceChangePercent: undefined,
+      },
+    ])
+  }, [address, cosmWasmClient, daoVotingCw20StakedClient])
 
   useEffect(() => {
-    if (balances.length > 0) {
-      const denoms = balances.map(({ denom }) => denom)
-      customQueries.currency.findTokensInfoFromDenoms(denoms).then((tokensInfo) => {
-        setData(
-          tokensInfo.map((tokenInfo) => {
-            const { lastPriceUsd, symbol, priceChangePercent } = tokenInfo
-            const { coinDenom, coinMinimalDenom, coinImageUrl, coinDecimals } =
-              customQueries.currency.findTokenFromDenom(symbol)
-            const microBalance = balances.find(({ denom }) => denom === coinMinimalDenom)?.amount ?? '0'
-            const balance = new BigNumber(microBalance).dividedBy(Math.pow(10, coinDecimals)).toString()
-            return { coinDenom, coinMinimalDenom, coinImageUrl, lastPriceUsd, balance, priceChangePercent }
-          }),
-        )
-      })
-    }
-  }, [balances])
-
-  const handleAddStake = () => {
-    console.log('Stake Modal popups')
-  }
+    update()
+  }, [update])
 
   const handleRowClick = (state: any) => () => {
     const { original } = state
-    // original = { coinDenom, coinMinimalDenom, coinImageUrl, lastPriceUsd, balance, priceChangePercent }
+    // original = { coinDenom, network, coinImageUrl, lastPriceUsd, balance, priceChangePercent }
     history.push({
       pathname: history.location.pathname,
-      search: `?token=${original.coinMinimalDenom}`,
+      search: `?token=${original.coinDenom}`,
       state: original,
     })
   }
 
   return (
     <>
-      <FlexBox width='100%' direction='column' gap={3}>
-        <TableWrapper>
-          <Table
-            columns={columns}
-            data={data}
-            getRowProps={(state) => ({
-              style: { height: 70, cursor: 'pointer' },
-              onClick: handleRowClick(state),
-            })}
-            getCellProps={() => ({ style: { background: '#023044' } })}
-          />
-        </TableWrapper>
-      </FlexBox>
+      {isGreaterThan(stakedBalance, '0') ? (
+        <FlexBox width='100%' direction='column' gap={3}>
+          <TableWrapper>
+            <Table
+              columns={columns}
+              data={data}
+              getRowProps={(state) => ({
+                style: { height: 70, cursor: 'pointer' },
+                onClick: handleRowClick(state),
+              })}
+              getCellProps={() => ({ style: { background: '#023044' } })}
+            />
+          </TableWrapper>
+        </FlexBox>
+      ) : (
+        <Typography variant='secondary' size='2xl' color='dark-blue'>
+          You’re not staking any tokens yet.
+        </Typography>
+      )}
       <Button
         variant='secondary'
-        onClick={handleAddStake}
+        onClick={() => setGroupStakingModalOpen(true)}
         size='flex'
         height={40}
         textSize='base'
@@ -179,6 +210,14 @@ const MyStakes: React.FC<Props> = ({ balances, full = true }) => {
       >
         Add Stake
       </Button>
+      {groupStakingModalOpen && (
+        <GroupStakingModal
+          open={groupStakingModalOpen}
+          setOpen={setGroupStakingModalOpen}
+          daoGroup={daoGroup}
+          onSuccess={update}
+        />
+      )}
     </>
   )
 }

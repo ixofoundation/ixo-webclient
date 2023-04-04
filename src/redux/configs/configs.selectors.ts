@@ -51,3 +51,6 @@ export const selectEntityConfigByType = createSelector(
   selectConfigs,
   (entityType: string, configs: ConfigsState): any => configs.entityConfig && configs.entityConfig[entityType],
 )
+
+export const selectEntityConfigByGivenType = (type: string) =>
+  createSelector(selectConfigs, (configs: ConfigsState): any => configs.entityConfig && configs.entityConfig[type])

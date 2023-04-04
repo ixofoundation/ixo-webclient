@@ -1,4 +1,9 @@
-import { IidMetadata, LinkedEntity, LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
+import {
+  IidMetadata,
+  LinkedEntity,
+  LinkedResource,
+  Service,
+} from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { TEntityModel } from 'api/blocksync/types/entities'
 import {
   updateEntityAction,
@@ -22,6 +27,7 @@ import {
 } from 'redux/currentEntity/currentEntity.selectors'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { BlockSyncService } from 'services/blocksync'
+import { NodeType } from 'types/entities'
 import {
   TEntityAdministratorModel,
   TEntityCreatorModel,
@@ -100,16 +106,13 @@ export default function useCurrentEntity(): {
       const { service, settings, linkedResource } = entity
       linkedResource.concat(Object.values(settings)).forEach((item: LinkedResource) => {
         let url = ''
-        const [domain, ...subPaths] = item.serviceEndpoint.split('/')
+        const [identifier, key] = item.serviceEndpoint.split(':')
+        const usedService: Service | undefined = service.find((item: any) => item.id === `{id}#${identifier}`)
 
-        if (domain.startsWith('#')) {
-          const id = domain.replace('#', '')
-          url = service.find((item: any) => item.id === id)?.serviceEndpoint
-          if (url) {
-            url = [url, ...subPaths].join('/')
-          }
-        } else if (domain.startsWith('http')) {
-          url = item.serviceEndpoint
+        if (usedService && usedService.type === NodeType.Ipfs) {
+          url = `https://${key}.ipfs.w3s.link`
+        } else if (usedService && usedService.type === NodeType.CellNode) {
+          url = `${usedService.serviceEndpoint}${key}`
         }
 
         if (item.proof && url) {

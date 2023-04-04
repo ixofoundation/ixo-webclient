@@ -78,11 +78,16 @@ import {
   Service,
 } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { WasmInstantiateTrx } from 'lib/protocol/cosmwasm'
-import { convertDurationWithUnitsToDuration, durationWithUnitsToSeconds } from 'utils/conversions'
+import {
+  convertDenomToMicroDenomWithDecimals,
+  convertDurationWithUnitsToDuration,
+  durationWithUnitsToSeconds,
+} from 'utils/conversions'
 import { Member } from 'types/dao'
 import { chainNetwork } from './configs'
 import { Verification } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/tx'
 import { NodeType } from 'types/entities'
+import { Cw20Coin } from '@ixo/impactxclient-sdk/types/codegen/Cw20Base.types'
 
 export function useCreateEntityStrategy(): {
   getStrategyByEntityType: (entityType: string) => TCreateEntityStrategyType
@@ -351,12 +356,15 @@ interface TCreateEntityHookRes {
   CreateDAOCoreByGroupId: (daoGroup: TDAOGroupModel) => Promise<string>
 }
 
+const NEW_DAO_CW20_DECIMALS = 6
+
 export function useCreateEntity(): TCreateEntityHookRes {
   const { signingClient, signer } = useAccount()
   const createEntityState = useCreateEntityState()
   const metadata = createEntityState.metadata as any
   const { creator, administrator, page, ddoTags, claim, service } = createEntityState
-  const cellnodeService = service.find((item) => item.type === NodeType.CellNode)
+  // TODO: service choose-able
+  const cellnodeService = service[0]
 
   const daoCoreContractCode = customQueries.contract.getContractCode('devnet', 'dao_core')
   const daoProposalContractCode = customQueries.contract.getContractCode('devnet', 'dao_proposal_single')
@@ -366,6 +374,60 @@ export function useCreateEntity(): TCreateEntityHookRes {
   const daoVotingCw20StakedContractCode = customQueries.contract.getContractCode('devnet', 'dao_voting_cw20_staked')
   const cw20BaseContractCode = customQueries.contract.getContractCode('devnet', 'cw20_base')
   const cw20StakeContractCode = customQueries.contract.getContractCode('devnet', 'cw20_stake')
+
+  /**
+   * @description auto choose service for uploading data
+   * @usage in when saving Profile, Creator, Administrator, Page, Tag, etc
+   *      default upload to the cellnode
+   * @param data
+   * @returns
+   */
+  const UploadDataToService = async (data: string): Promise<CellnodePublicResource | CellnodeWeb3Resource> => {
+    let res: CellnodePublicResource | CellnodeWeb3Resource
+    if (cellnodeService?.type === NodeType.CellNode && cellnodeService?.serviceEndpoint) {
+      res = await customQueries.cellnode.uploadPublicDoc(
+        'application/ld+json',
+        data,
+        cellnodeService.serviceEndpoint,
+        chainNetwork,
+      )
+    } else if (cellnodeService?.type === NodeType.Ipfs && cellnodeService?.serviceEndpoint) {
+      res = await customQueries.cellnode.uploadWeb3Doc(
+        utils.common.generateId(12),
+        'application/ld+json',
+        data,
+        cellnodeService.serviceEndpoint,
+        chainNetwork,
+      )
+    } else {
+      res = await customQueries.cellnode.uploadPublicDoc('application/ld+json', data, undefined, chainNetwork)
+    }
+    return res
+  }
+
+  const LinkedResourceServiceEndpointGenerator = (
+    uploadResult: CellnodePublicResource | CellnodeWeb3Resource,
+    cellnodeService?: Service,
+  ): string => {
+    if (cellnodeService?.type === NodeType.Ipfs) {
+      return `${cellnodeService.id}:${(uploadResult as CellnodeWeb3Resource).cid}`
+    } else if (cellnodeService?.type === NodeType.CellNode) {
+      return `${cellnodeService.id}:/public/${(uploadResult as CellnodePublicResource).key}`
+    }
+    return `cellnode:/public/${(uploadResult as CellnodePublicResource).key}`
+  }
+
+  const LinkedResourceProofGenerator = (
+    uploadResult: CellnodePublicResource | CellnodeWeb3Resource,
+    cellnodeService?: Service,
+  ): string => {
+    if (cellnodeService?.type === NodeType.Ipfs) {
+      return (uploadResult as CellnodeWeb3Resource).cid
+    } else if (cellnodeService?.type === NodeType.CellNode) {
+      return (uploadResult as CellnodePublicResource).key
+    }
+    return (uploadResult as CellnodePublicResource).key
+  }
 
   const CreateDAO = async (): Promise<string> => {
     try {
@@ -415,23 +477,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
           metrics: metadata.metrics,
         }),
       )
-      let res: CellnodePublicResource | CellnodeWeb3Resource
-      if (cellnodeService?.serviceEndpoint) {
-        res = await customQueries.cellnode.uploadPublicDoc(
-          'application/ld+json',
-          buff.toString('base64'),
-          cellnodeService.serviceEndpoint,
-          chainNetwork,
-        )
-      } else {
-        res = await customQueries.cellnode.uploadWeb3Doc(
-          utils.common.generateId(12),
-          'application/ld+json',
-          buff.toString('base64'),
-          undefined,
-          chainNetwork,
-        )
-      }
+      const res = await UploadDataToService(buff.toString('base64'))
       console.log('SaveProfile', res)
       /**
        *  {
@@ -490,23 +536,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
           },
         }),
       )
-      let res: CellnodePublicResource | CellnodeWeb3Resource
-      if (cellnodeService?.serviceEndpoint) {
-        res = await customQueries.cellnode.uploadPublicDoc(
-          'application/ld+json',
-          buff.toString('base64'),
-          cellnodeService.serviceEndpoint,
-          chainNetwork,
-        )
-      } else {
-        res = await customQueries.cellnode.uploadWeb3Doc(
-          utils.common.generateId(12),
-          'application/ld+json',
-          buff.toString('base64'),
-          undefined,
-          chainNetwork,
-        )
-      }
+      const res = await UploadDataToService(buff.toString('base64'))
       console.log('SaveCreator', res)
       /**
        *  {
@@ -565,24 +595,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
           },
         }),
       )
-
-      let res: CellnodePublicResource | CellnodeWeb3Resource
-      if (cellnodeService?.serviceEndpoint) {
-        res = await customQueries.cellnode.uploadPublicDoc(
-          'application/ld+json',
-          buff.toString('base64'),
-          cellnodeService.serviceEndpoint,
-          chainNetwork,
-        )
-      } else {
-        res = await customQueries.cellnode.uploadWeb3Doc(
-          utils.common.generateId(12),
-          'application/ld+json',
-          buff.toString('base64'),
-          undefined,
-          chainNetwork,
-        )
-      }
+      const res = await UploadDataToService(buff.toString('base64'))
       console.log('SaveAdministrator', res)
       /**
        *  {
@@ -613,24 +626,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
           page: Object.values(page),
         }),
       )
-
-      let res: CellnodePublicResource | CellnodeWeb3Resource
-      if (cellnodeService?.serviceEndpoint) {
-        res = await customQueries.cellnode.uploadPublicDoc(
-          'application/ld+json',
-          buff.toString('base64'),
-          cellnodeService.serviceEndpoint,
-          chainNetwork,
-        )
-      } else {
-        res = await customQueries.cellnode.uploadWeb3Doc(
-          utils.common.generateId(12),
-          'application/ld+json',
-          buff.toString('base64'),
-          undefined,
-          chainNetwork,
-        )
-      }
+      const res = await UploadDataToService(buff.toString('base64'))
       console.log('SavePage', res)
       return res
     } catch (e) {
@@ -804,23 +800,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
           ddoTags,
         }),
       )
-      let res: CellnodePublicResource | CellnodeWeb3Resource
-      if (cellnodeService?.serviceEndpoint) {
-        res = await customQueries.cellnode.uploadPublicDoc(
-          'application/ld+json',
-          buff.toString('base64'),
-          cellnodeService.serviceEndpoint,
-          chainNetwork,
-        )
-      } else {
-        res = await customQueries.cellnode.uploadWeb3Doc(
-          utils.common.generateId(12),
-          'application/ld+json',
-          buff.toString('base64'),
-          undefined,
-          chainNetwork,
-        )
-      }
+      const res = await UploadDataToService(buff.toString('base64'))
       console.log('SaveTags', res)
       return res
     } catch (e) {
@@ -913,8 +893,10 @@ export function useCreateEntity(): TCreateEntityHookRes {
         type: 'Settings',
         description: 'Profile',
         mediaType: 'application/ld+json',
-        serviceEndpoint: cellnodeService ? `#${cellnodeService.id}/public/${saveProfileRes.key}` : saveProfileRes.url,
-        proof: cellnodeService ? saveProfileRes.key : saveProfileRes.cid,
+        // serviceEndpoint: cellnodeService ? `${cellnodeService.id}:/public/${saveProfileRes.key}` : saveProfileRes.url,
+        serviceEndpoint: LinkedResourceServiceEndpointGenerator(saveProfileRes, cellnodeService),
+        // proof: cellnodeService ? saveProfileRes.key : saveProfileRes.cid,
+        proof: LinkedResourceProofGenerator(saveProfileRes, cellnodeService),
         encrypted: 'false',
         right: '',
       })
@@ -925,8 +907,10 @@ export function useCreateEntity(): TCreateEntityHookRes {
         type: 'VerifiableCredential',
         description: 'Creator',
         mediaType: 'application/ld+json',
-        serviceEndpoint: cellnodeService ? `#${cellnodeService.id}/public/${saveCreatorRes.key}` : saveCreatorRes.url,
-        proof: cellnodeService ? saveCreatorRes.key : saveCreatorRes.cid,
+        // serviceEndpoint: cellnodeService ? `${cellnodeService.id}:/public/${saveCreatorRes.key}` : saveCreatorRes.url,
+        serviceEndpoint: LinkedResourceServiceEndpointGenerator(saveCreatorRes, cellnodeService),
+        // proof: cellnodeService ? saveCreatorRes.key : saveCreatorRes.cid,
+        proof: LinkedResourceProofGenerator(saveCreatorRes, cellnodeService),
         encrypted: 'false',
         right: '',
       })
@@ -937,10 +921,10 @@ export function useCreateEntity(): TCreateEntityHookRes {
         type: 'VerifiableCredential',
         description: 'Administrator',
         mediaType: 'application/ld+json',
-        serviceEndpoint: cellnodeService
-          ? `#${cellnodeService.id}/public/${saveAdministratorRes.key}`
-          : saveAdministratorRes.url,
-        proof: cellnodeService ? saveAdministratorRes.key : saveAdministratorRes.cid,
+        // serviceEndpoint: cellnodeService ? `${cellnodeService.id}:/public/${saveAdministratorRes.key}` : saveAdministratorRes.url,
+        serviceEndpoint: LinkedResourceServiceEndpointGenerator(saveAdministratorRes, cellnodeService),
+        // proof: cellnodeService ? saveAdministratorRes.key : saveAdministratorRes.cid,
+        proof: LinkedResourceProofGenerator(saveAdministratorRes, cellnodeService),
         encrypted: 'false',
         right: '',
       })
@@ -951,8 +935,10 @@ export function useCreateEntity(): TCreateEntityHookRes {
         type: 'Settings',
         description: 'Page',
         mediaType: 'application/ld+json',
-        serviceEndpoint: cellnodeService ? `#${cellnodeService.id}/public/${savePageRes.key}` : savePageRes.url,
-        proof: cellnodeService ? savePageRes.key : savePageRes.cid,
+        // serviceEndpoint: cellnodeService ? `${cellnodeService.id}:/public/${savePageRes.key}` : savePageRes.url,
+        serviceEndpoint: LinkedResourceServiceEndpointGenerator(savePageRes, cellnodeService),
+        // proof: cellnodeService ? savePageRes.key : savePageRes.cid,
+        proof: LinkedResourceProofGenerator(savePageRes, cellnodeService),
         encrypted: 'false',
         right: '',
       })
@@ -963,8 +949,10 @@ export function useCreateEntity(): TCreateEntityHookRes {
         type: 'Settings',
         description: 'Tags',
         mediaType: 'application/ld+json',
-        serviceEndpoint: cellnodeService ? `#${cellnodeService.id}/public/${saveTagsRes.key}` : saveTagsRes.url,
-        proof: cellnodeService ? saveTagsRes.key : saveTagsRes.cid,
+        // serviceEndpoint: cellnodeService ? `${cellnodeService.id}:/public/${saveTagsRes.key}` : saveTagsRes.url,
+        serviceEndpoint: LinkedResourceServiceEndpointGenerator(saveTagsRes, cellnodeService),
+        // proof: cellnodeService ? saveTagsRes.key : saveTagsRes.cid,
+        proof: LinkedResourceProofGenerator(saveTagsRes, cellnodeService),
         encrypted: 'false',
         right: '',
       })
@@ -1017,11 +1005,6 @@ export function useCreateEntity(): TCreateEntityHookRes {
       return ''
     }
   }
-
-  // const createAssetInstance = async (): Promise<string> => {
-  //   //
-  //   return ''
-  // }
 
   const CreateDAOCoreByGroupId = async (daoGroup: TDAOGroupModel): Promise<string> => {
     try {
@@ -1157,22 +1140,30 @@ export function useCreateEntity(): TCreateEntityHookRes {
           }
           const { tokenContractAddress, unstakingDuration } = staking
 
+          /**
+           * if create new token
+           * else use existing one
+           */
           if (!tokenContractAddress) {
             const { tokenSymbol, tokenName, tokenSupply, distributions } = staking
-            const initialBalances: { address: string; amount: string }[] = []
 
-            distributions.forEach((dist) => {
-              const { totalSupplyPercent, members } = dist
-              const numOfMembers = members.length
-              const distSupply = (tokenSupply / 100) * totalSupplyPercent
-              const amount = (distSupply / numOfMembers).toFixed(0)
-
-              members.forEach((member) => {
-                initialBalances.push({ address: member, amount })
-              })
-            })
-            const totalInitialBalances = initialBalances.reduce((acc, cur) => acc + Number(cur.amount), 0)
-            const initialDaoBalance = String(tokenSupply - totalInitialBalances)
+            const microInitialBalances: Cw20Coin[] = distributions.flatMap(({ totalSupplyPercent, members }) =>
+              members.map((address) => ({
+                address,
+                amount: convertDenomToMicroDenomWithDecimals(
+                  // Governance Token-based DAOs distribute tier weights
+                  // evenly amongst members.
+                  (totalSupplyPercent / members.length / 100) * tokenSupply,
+                  NEW_DAO_CW20_DECIMALS,
+                ).toString(),
+              })),
+            )
+            // To prevent rounding issues, treasury balance becomes the
+            // remaining tokens after the member weights are distributed.
+            const microInitialTreasuryBalance = (
+              convertDenomToMicroDenomWithDecimals(tokenSupply, NEW_DAO_CW20_DECIMALS) -
+              microInitialBalances.reduce((acc, { amount }) => acc + Number(amount), 0)
+            ).toString()
 
             msg.voting_module_instantiate_info = {
               admin: { core_module: {} },
@@ -1182,10 +1173,10 @@ export function useCreateEntity(): TCreateEntityHookRes {
                 token_info: {
                   new: {
                     code_id: cw20BaseContractCode,
-                    decimals: 6, //  TODO: default to 6 ???
+                    decimals: NEW_DAO_CW20_DECIMALS,
                     marketing: null, // TODO: token logo upload component's needed
-                    initial_balances: initialBalances,
-                    initial_dao_balance: initialDaoBalance,
+                    initial_balances: microInitialBalances,
+                    initial_dao_balance: microInitialTreasuryBalance,
                     label: tokenName,
                     name: tokenName,
                     staking_code_id: cw20StakeContractCode,

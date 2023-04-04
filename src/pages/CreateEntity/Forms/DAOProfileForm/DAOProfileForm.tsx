@@ -41,7 +41,7 @@ const DAOProfileForm: React.FC<Props> = ({
         </FormRow>
         <FormRow>
           {setName ? (
-            <InputWithLabel label='Dao Name' inputValue={name} handleChange={setName} />
+            <InputWithLabel label='DAO Name' inputValue={name} handleChange={setName} />
           ) : (
             <Typography color='gray-medium' size='xl' weight='bold'>
               {name}

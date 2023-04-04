@@ -87,6 +87,7 @@ export const nodeTypeMap: NodeTypeStrategyMap = {
   [NodeType.RelayerNode]: { title: 'Relayer Node' },
   [NodeType.CellNode]: { title: 'Cell Node' },
   [NodeType.IBCNode]: { title: 'IBC Node' },
+  [NodeType.Ipfs]: { title: 'IPFS' },
 }
 
 export const liquiditySourceMap: LiquiditySourceStrategyMap = {

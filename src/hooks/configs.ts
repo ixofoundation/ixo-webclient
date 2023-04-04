@@ -2,6 +2,7 @@ import { useCallback } from 'react'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import {
   selectAssetListConfig,
+  selectEntityConfigByGivenType,
   selectEntityConfigByType,
   selectPaymentCoins,
   selectRelayersConfig,
@@ -184,8 +185,8 @@ export function useIxoConfigs(): IxoConfigsHookExports {
   }
 }
 
-export function useEntityConfig(): any {
-  const entityConfigByType = useAppSelector(selectEntityConfigByType)
+export function useEntityConfig(type?: string): any {
+  const entityConfigByType = useAppSelector(type ? selectEntityConfigByGivenType(type) : selectEntityConfigByType)
 
   return { ...entityConfigByType }
 }

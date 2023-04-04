@@ -56,13 +56,13 @@ interface Props {
   onSuccess?: (txHash: string) => void
 }
 
-const GroupStakingModal: React.FunctionComponent<Props> = ({ daoGroup, open, setOpen, onSuccess }) => {
+const GroupUnstakingModal: React.FunctionComponent<Props> = ({ daoGroup, open, setOpen, onSuccess }) => {
   const { cosmWasmClient, address } = useAccount()
   const { name: daoName } = useCurrentEntityProfile()
   const { daoVotingCw20StakedClient } = useCurrentDaoGroup(daoGroup?.coreAddress)
   const [unstakingDuration, setUnstakingDuration] = useState<number>(0)
   const [tokenInfo, setTokenInfo] = useState<TokenInfoResponse | undefined>(undefined)
-  const [balance, setBalance] = useState('')
+  const [stakedBalance, setStakedBalance] = useState('')
   const daoGroupName = daoGroup?.config.name
   const depositInfo: Coin | undefined = useMemo(
     () => daoGroup && depositInfoToCoin(daoGroup.proposalModule.preProposeConfig.deposit_info!),
@@ -85,6 +85,7 @@ const GroupStakingModal: React.FunctionComponent<Props> = ({ daoGroup, open, set
       ;(async () => {
         const stakingContract = await daoVotingCw20StakedClient.stakingContract()
         const cw20StakeClient = new contracts.Cw20Stake.Cw20StakeClient(cosmWasmClient, address, stakingContract)
+        const { value: microStakedBalance } = await cw20StakeClient.stakedValue({ address })
         const { unstaking_duration } = await cw20StakeClient.getConfig()
 
         if (unstaking_duration) {
@@ -94,8 +95,8 @@ const GroupStakingModal: React.FunctionComponent<Props> = ({ daoGroup, open, set
         const tokenContract = await daoVotingCw20StakedClient.tokenContract()
         const cw20BaseClient = new contracts.Cw20Base.Cw20BaseClient(cosmWasmClient, address, tokenContract)
         const tokenInfo = await cw20BaseClient.tokenInfo()
-        const { balance: microBalance } = await cw20BaseClient.balance({ address })
-        setBalance(convertMicroDenomToDenomWithDecimals(microBalance, tokenInfo.decimals).toString())
+        const stakedBalance = convertMicroDenomToDenomWithDecimals(microStakedBalance, tokenInfo.decimals).toString()
+        setStakedBalance(stakedBalance)
         setTokenInfo(tokenInfo)
       })()
     }
@@ -119,18 +120,15 @@ const GroupStakingModal: React.FunctionComponent<Props> = ({ daoGroup, open, set
     setTXStatus(TXStatus.PENDING)
     try {
       const stakingContract = await daoVotingCw20StakedClient.stakingContract()
-      const tokenContract = await daoVotingCw20StakedClient.tokenContract()
-      const cw20BaseClient = new contracts.Cw20Base.Cw20BaseClient(cosmWasmClient, address, tokenContract)
-      const { transactionHash } = await cw20BaseClient.send(
-        {
-          amount: convertDenomToMicroDenomWithDecimals(amount, tokenInfo.decimals).toString(),
-          contract: stakingContract,
-          msg: btoa('{"stake": {}}'),
-        },
+      const cw20StakeClient = new contracts.Cw20Stake.Cw20StakeClient(cosmWasmClient, address, stakingContract)
+
+      const { transactionHash } = await cw20StakeClient.unstake(
+        { amount: convertDenomToMicroDenomWithDecimals(amount, tokenInfo.decimals).toString() },
         fee,
         undefined,
         depositInfo ? [depositInfo] : undefined,
       )
+
       if (transactionHash) {
         setTXStatus(TXStatus.SUCCESS)
         setTXHash(transactionHash)
@@ -146,7 +144,7 @@ const GroupStakingModal: React.FunctionComponent<Props> = ({ daoGroup, open, set
     <ModalWrapper
       isModalOpen={open}
       header={{
-        title: 'Stake',
+        title: 'Unstake',
         titleNoCaps: true,
         noDivider: true,
       }}
@@ -158,37 +156,15 @@ const GroupStakingModal: React.FunctionComponent<Props> = ({ daoGroup, open, set
             <FlexBox direction='column' width='100%' gap={8}>
               {/* body */}
               <FlexBox direction='column' width='100%' alignItems='center' gap={4}>
-                {/* Amount & Denom */}
-                <FlexBox width='100%' gap={2} alignItems='center'>
-                  <Box position='relative' style={{ flex: 1 }}>
-                    <StyledInput
-                      inputValue={amount}
-                      handleChange={setAmount}
-                      height='48px'
-                      placeholder='Enter Amount'
-                    />
-                    {/* my balance */}
-                    <FlexBox position='absolute' top='-16px' right='16px' gap={2}>
-                      <Typography size='sm' color='dark-blue'>
-                        <CurrencyFormat displayType={'text'} value={balance} thousandSeparator decimalScale={2} />
-                      </Typography>
-                      <Typography
-                        className='cursor-pointer'
-                        size='sm'
-                        color='blue'
-                        transform='uppercase'
-                        onClick={() => setAmount(balance)}
-                      >
-                        Max
-                      </Typography>
-                    </FlexBox>
-                  </Box>
-                  <Card justifyContent='flex-start' flexBasis='33%'>
-                    <Typography color='white' transform='uppercase'>
-                      {tokenInfo?.symbol}
-                    </Typography>
-                  </Card>
-                </FlexBox>
+                {/* DAO name & Group Name */}
+                <Card gap={2}>
+                  <Typography color={'dark-blue'} weight='medium'>
+                    {daoName}
+                  </Typography>
+                  <Typography color={'white'} weight='medium'>
+                    {daoGroupName}
+                  </Typography>
+                </Card>
                 {/* Arrow Down icon */}
                 <FlexBox
                   alignItems='center'
@@ -203,20 +179,43 @@ const GroupStakingModal: React.FunctionComponent<Props> = ({ daoGroup, open, set
                     <ArrowDownIcon />
                   </SvgBox>
                 </FlexBox>
-                {/* DAO name & Group Name */}
-                <Card gap={2}>
-                  <Typography color={'dark-blue'} weight='medium'>
-                    {daoName}
-                  </Typography>
-                  <Typography color={'white'} weight='medium'>
-                    {daoGroupName}
-                  </Typography>
-                </Card>
+                {/* Amount & Denom */}
+                <FlexBox width='100%' gap={2} alignItems='center'>
+                  <Box position='relative' style={{ flex: 1 }}>
+                    <StyledInput
+                      inputValue={amount}
+                      handleChange={setAmount}
+                      height='48px'
+                      placeholder='Enter Amount'
+                    />
+                    {/* my staked balance */}
+                    <FlexBox position='absolute' top='-16px' right='16px' gap={2}>
+                      <Typography size='sm' color='dark-blue'>
+                        <CurrencyFormat displayType={'text'} value={stakedBalance} thousandSeparator decimalScale={2} />
+                      </Typography>
+                      <Typography
+                        className='cursor-pointer'
+                        size='sm'
+                        color='blue'
+                        transform='uppercase'
+                        onClick={() => setAmount(stakedBalance)}
+                      >
+                        Max
+                      </Typography>
+                    </FlexBox>
+                  </Box>
+                  <Card justifyContent='flex-start' flexBasis='33%'>
+                    <Typography color='white' transform='uppercase'>
+                      {tokenInfo?.symbol}
+                    </Typography>
+                  </Card>
+                </FlexBox>
               </FlexBox>
               {/* Unstaking Period & next button */}
               <FlexBox width='100%' justifyContent='space-between' alignItems='center'>
                 <Typography size='sm' color='dark-blue'>
-                  The unstaking period is {secondsToWdhms(unstakingDuration, undefined, true, true)}
+                  The unbonding period is {secondsToWdhms(unstakingDuration, undefined, true, true)}. Your tokens will
+                  be available after that.
                 </Typography>
                 <Box cursor='pointer' width='30px' height='30px' onClick={handleSigning}>
                   <img src={NextStepImage} alt='' />
@@ -229,9 +228,16 @@ const GroupStakingModal: React.FunctionComponent<Props> = ({ daoGroup, open, set
               status={txStatus}
               hash={txHash}
               message={{
-                [TXStatus.SUCCESS]: `You have successfully staked ${new Intl.NumberFormat('en-US', {
+                [TXStatus.SUCCESS]: `${new Intl.NumberFormat('en-US', {
                   minimumFractionDigits: 2,
-                }).format(Number(amount))} ${tokenInfo?.symbol.toUpperCase()}`,
+                }).format(
+                  Number(amount),
+                )} ${tokenInfo?.symbol.toUpperCase()} are now in the process of unstaking. They will be available in ${secondsToWdhms(
+                  unstakingDuration,
+                  undefined,
+                  true,
+                  true,
+                )}.`,
               }}
             />
           )}
@@ -241,4 +247,4 @@ const GroupStakingModal: React.FunctionComponent<Props> = ({ daoGroup, open, set
   )
 }
 
-export default GroupStakingModal
+export default GroupUnstakingModal

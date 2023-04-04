@@ -75,6 +75,7 @@ export const secondsToWdhms = (
   // Set to 5 or more to display all units.
   numUnits = 2,
   fullUnits = false,
+  gap = false,
 ): string => {
   const secondsInt = Math.ceil(Number(seconds))
   if (secondsInt === 0) {
@@ -87,11 +88,11 @@ export const secondsToWdhms = (
   const m = Math.floor((secondsInt % 3600) / 60)
   const s = Math.floor(secondsInt % 60)
 
-  const wDisplay = w ? w + (fullUnits ? 'week' : 'w') : null
-  const dDisplay = d ? d + (fullUnits ? 'day' : 'd') : null
-  const hDisplay = h ? h + (fullUnits ? 'hour' : 'h') : null
-  const mDisplay = m ? m + (fullUnits ? 'minute' : 'm') : null
-  const sDisplay = s ? s + (fullUnits ? 'second' : 's') : null
+  const wDisplay = w ? w + (gap ? ' ' : '') + (fullUnits ? 'weeks' : 'w') : null
+  const dDisplay = d ? d + (gap ? ' ' : '') + (fullUnits ? 'days' : 'd') : null
+  const hDisplay = h ? h + (gap ? ' ' : '') + (fullUnits ? 'hours' : 'h') : null
+  const mDisplay = m ? m + (gap ? ' ' : '') + (fullUnits ? 'minutes' : 'm') : null
+  const sDisplay = s ? s + (gap ? ' ' : '') + (fullUnits ? 'seconds' : 's') : null
 
   return (
     [wDisplay, dDisplay, hDisplay, mDisplay, sDisplay]
@@ -139,4 +140,21 @@ export const depositInfoToCoin = (depositInfo: CheckedDepositInfo | null): Coin 
 
 export const serializeCoin = (coin: BaseCoin | undefined | null, separator = ' '): string => {
   return coin ? `${coin.amount}${separator}${coin.denom}` : ''
+}
+
+export function convertMicroDenomToDenomWithDecimals(amount: number | string, decimals: number) {
+  if (typeof amount === 'string') {
+    amount = Number(amount)
+  }
+  amount = amount / Math.pow(10, decimals)
+  return isNaN(amount) ? 0 : amount
+}
+
+export function convertDenomToMicroDenomWithDecimals(amount: number | string, decimals: number) {
+  if (typeof amount === 'string') {
+    amount = Number(amount)
+  }
+  // Need to round. Example: `8.029409 * Math.pow(10, 6)`.
+  amount = Math.round(amount * Math.pow(10, decimals))
+  return isNaN(amount) ? 0 : amount
 }
