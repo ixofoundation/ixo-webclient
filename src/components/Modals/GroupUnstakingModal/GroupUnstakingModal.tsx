@@ -123,7 +123,7 @@ const GroupUnstakingModal: React.FunctionComponent<Props> = ({ daoGroup, open, s
       const cw20StakeClient = new contracts.Cw20Stake.Cw20StakeClient(cosmWasmClient, address, stakingContract)
 
       const { transactionHash } = await cw20StakeClient.unstake(
-        { amount: convertDenomToMicroDenomWithDecimals(amount, tokenInfo?.decimals).toString() },
+        { amount: convertDenomToMicroDenomWithDecimals(amount, tokenInfo.decimals).toString() },
         fee,
         undefined,
         depositInfo ? [depositInfo] : undefined,

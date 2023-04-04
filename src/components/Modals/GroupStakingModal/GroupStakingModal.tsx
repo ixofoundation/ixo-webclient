@@ -123,7 +123,7 @@ const GroupStakingModal: React.FunctionComponent<Props> = ({ daoGroup, open, set
       const cw20BaseClient = new contracts.Cw20Base.Cw20BaseClient(cosmWasmClient, address, tokenContract)
       const { transactionHash } = await cw20BaseClient.send(
         {
-          amount: convertDenomToMicroDenomWithDecimals(amount, tokenInfo?.decimals).toString(),
+          amount: convertDenomToMicroDenomWithDecimals(amount, tokenInfo.decimals).toString(),
           contract: stakingContract,
           msg: btoa('{"stake": {}}'),
         },
