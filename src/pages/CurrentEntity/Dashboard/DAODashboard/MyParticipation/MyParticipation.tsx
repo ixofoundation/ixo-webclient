@@ -2,7 +2,7 @@ import { FlexBox, GridContainer, GridItem } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { useAccount } from 'hooks/account'
 import { useQuery } from 'hooks/window'
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 import { AssetDetailCard, Card } from '../../Components'
 import { Groups } from '../Components'
@@ -13,11 +13,15 @@ import { ReactComponent as ArrowLeftIcon } from 'assets/images/icon-arrow-left.s
 import { ReactComponent as StakesIcon } from 'assets/images/icon-stakes.svg'
 import { ReactComponent as ProposalsIcon } from 'assets/images/icon-proposals.svg'
 import useCurrentDao from 'hooks/currentDao'
+import { DaoGroup } from 'redux/currentEntity/dao/currentDao.types'
 
 const MyParticipation: React.FC = () => {
   const history = useHistory()
   const { selectedGroups } = useCurrentDao()
-  const { registered, balances } = useAccount()
+  const selectedGroup: DaoGroup | undefined = useMemo(() => {
+    return Object.keys(selectedGroups).length === 1 ? Object.values(selectedGroups)[0] : undefined
+  }, [selectedGroups])
+  const { registered } = useAccount()
   const { entityId } = useParams<{ entityId: string }>()
   const { getQuery } = useQuery()
   const token: string | undefined = getQuery('token')
@@ -32,14 +36,14 @@ const MyParticipation: React.FC = () => {
 
   return (
     <FlexBox direction='column' gap={6} width='100%' color='white'>
-      <Groups isFollowing />
+      <Groups />
 
-      {Object.keys(selectedGroups).length >= 1 && (
+      {selectedGroup && (
         <>
           <Typography variant='secondary' size='5xl' weight='normal' color='dark-blue'>
             My participation in the{' '}
             <Typography variant='secondary' size='5xl' weight='normal' color='white'>
-              {Object.values(selectedGroups)[0]?.config.name}
+              {selectedGroup.config.name}
             </Typography>{' '}
             group
           </Typography>
@@ -51,7 +55,7 @@ const MyParticipation: React.FC = () => {
               actionIcon={<ArrowLeftIcon />}
               onAction={() => history.goBack()}
             >
-              <MyStakes balances={balances} />
+              <MyStakes coreAddress={selectedGroup.coreAddress} />
             </Card>
           )}
           {expand === 'proposal' && (
@@ -79,7 +83,7 @@ const MyParticipation: React.FC = () => {
                   label='My Stakes'
                   onAction={() => history.push({ pathname: history.location.pathname, search: `?expand=token` })}
                 >
-                  <MyStakes balances={balances} full={false} />
+                  <MyStakes coreAddress={selectedGroup.coreAddress} />
                 </Card>
               </GridItem>
               <GridItem gridArea='b'>

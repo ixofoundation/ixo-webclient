@@ -29,7 +29,8 @@ import Axios from 'axios'
 import { getHeadlineClaimInfo } from 'utils/claims'
 import { TEntityDDOTagModel } from 'types/protocol'
 import { BlockSyncService } from 'services/blocksync'
-import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
+import { LinkedResource, Service } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
+import { NodeType } from 'types/entities'
 
 const bsService = new BlockSyncService()
 
@@ -130,16 +131,13 @@ export const getEntitiesByType =
           const { id, settings, linkedResource, service } = entity
           linkedResource.concat(Object.values(settings)).forEach((item: LinkedResource) => {
             let url = ''
-            const [domain, ...subPaths] = item.serviceEndpoint.split('/')
+            const [identifier, key] = item.serviceEndpoint.split(':')
+            const usedService: Service | undefined = service.find((item: any) => item.id === `{id}#${identifier}`)
 
-            if (domain.startsWith('#')) {
-              const id = domain.replace('#', '')
-              url = service.find((item: any) => item.id === id)?.serviceEndpoint
-              if (url) {
-                url = [url, ...subPaths].join('/')
-              }
-            } else if (domain.startsWith('http')) {
-              url = item.serviceEndpoint
+            if (usedService && usedService.type === NodeType.Ipfs) {
+              url = `https://${key}.ipfs.w3s.link`
+            } else if (usedService && usedService.type === NodeType.CellNode) {
+              url = `${usedService.serviceEndpoint}${key}`
             }
 
             if (item.proof && url) {
@@ -214,7 +212,7 @@ export const getEntitiesByType =
             }
           })
 
-          return { ...(entities2[id] ? { ...entities2[id] } : {}), ...entity }
+          return { ...(entities2 && entities2[id] ? { ...entities2[id] } : {}), ...entity }
         })
       }),
     })

@@ -140,6 +140,7 @@ export enum NodeType {
   RelayerNode = 'RelayerNode',
   CellNode = 'CellNode',
   IBCNode = 'IBCNode',
+  Ipfs = 'Ipfs',
 }
 
 export enum FundSource { //  TODO: should be removed

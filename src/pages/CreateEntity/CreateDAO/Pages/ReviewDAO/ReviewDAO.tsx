@@ -1,6 +1,11 @@
 import { ixo } from '@ixo/impactxclient-sdk'
 import { Verification } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/tx'
-import { AccordedRight, LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
+import {
+  AccordedRight,
+  LinkedEntity,
+  LinkedResource,
+  Service,
+} from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { FlexBox, SvgBox, theme } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { deviceWidth } from 'constants/device'
@@ -18,7 +23,15 @@ const ReviewDAO: React.FC = (): JSX.Element => {
   const history = useHistory()
   const createEntityState = useCreateEntityState()
   const metadata: TDAOMetadataModel = createEntityState.metadata as TDAOMetadataModel
-  const { entityType, service, linkedEntity, daoGroups, daoController, gotoStep, gotoStepByNo } = createEntityState
+  const {
+    entityType,
+    service: serviceData,
+    linkedEntity: linkedEntityData,
+    daoGroups,
+    daoController,
+    gotoStep,
+    gotoStepByNo,
+  } = createEntityState
   const { UploadLinkedResource, CreateProtocol, CreateEntityBase } = useCreateEntity()
   const [submitting, setSubmitting] = useState(false)
   const { getQuery } = useQuery()
@@ -38,12 +51,24 @@ const ReviewDAO: React.FC = (): JSX.Element => {
   const handleSignToCreate = async (): Promise<void> => {
     setSubmitting(true)
 
-    const accordedRight: AccordedRight[] = [] // TODO:
+    const accordedRight: AccordedRight[] = []
     const verification: Verification[] = []
+    let service: Service[] = []
+    let linkedEntity: LinkedEntity[] = []
     let linkedResource: LinkedResource[] = []
 
+    // AccordedRight TODO:
+
+    // Service
+    service = serviceData.map((item: Service) => ({ ...item, id: `{id}#${item.id}` }))
+
+    // LinkedEntity
+    linkedEntity = Object.values(linkedEntityData)
+
+    // LinkedResource
     linkedResource = linkedResource.concat(await UploadLinkedResource())
 
+    // Verification
     const daoControllerAddress = daoGroups[daoController]?.contractAddress
     if (daoControllerAddress) {
       verification.push(
@@ -59,17 +84,20 @@ const ReviewDAO: React.FC = (): JSX.Element => {
       )
     }
 
+    // Create Protocol for dao
     const protocolDid = await CreateProtocol()
     if (!protocolDid) {
       setSubmitting(false)
       history.push({ pathname: history.location.pathname, search: `?success=false` })
       return
     }
+
+    // Create DAO entity
     const entityDid = await CreateEntityBase(entityType, protocolDid, {
       service,
       linkedResource,
       accordedRight,
-      linkedEntity: Object.values(linkedEntity),
+      linkedEntity,
       verification,
     })
     if (!entityDid) {

@@ -1,12 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
 import Lottie from 'react-lottie'
+import clsx from 'classnames'
 
-import EyeIcon from 'assets/images/icon-eye.svg'
 import pendingAnimation from 'assets/animations/transaction/pending.json'
 import successAnimation from 'assets/animations/transaction/success.json'
 import errorAnimation from 'assets/animations/transaction/fail.json'
 import { TXStatus } from './types'
+import { Typography } from 'components/Typography'
 
 const TXStatusBoard = styled.div`
   & > .lottie {
@@ -44,9 +45,10 @@ interface Props {
   status: TXStatus
   customDesc?: string
   hash?: string
+  message?: { [key: string]: string }
 }
 
-const SignStep: React.FC<Props> = ({ status, hash, customDesc }) => {
+const SignStep: React.FC<Props> = ({ status, hash, customDesc, message }) => {
   function chooseAnimation(status: any): any {
     switch (status) {
       case TXStatus.PENDING:
@@ -62,19 +64,13 @@ const SignStep: React.FC<Props> = ({ status, hash, customDesc }) => {
   function generateTXMessage(txStatus: TXStatus): string {
     switch (txStatus) {
       case TXStatus.PENDING:
-        return 'Sign the Transaction'
+        return message![TXStatus.PENDING] || 'Sign'
       case TXStatus.SUCCESS:
-        return 'Your transaction was successful!'
+        return message![TXStatus.SUCCESS] || 'Your transaction was successful!'
       case TXStatus.ERROR:
-        return `Something went wrong!\nPlease try again`
+        return message![TXStatus.ERROR] || `Something went wrong!\nPlease try again`
       default:
         return ''
-    }
-  }
-  function handleViewTransaction(): void {
-    if (hash) {
-      const url = new URL(`/transactions/${hash}`, process.env.REACT_APP_BLOCK_SCAN_URL)
-      window.open(url.href, '_blank')!.focus()
     }
   }
   return (
@@ -91,11 +87,17 @@ const SignStep: React.FC<Props> = ({ status, hash, customDesc }) => {
       <span className='status'>{status}</span>
       <span className='message'>{generateTXMessage(status)}</span>
       {customDesc && <span className='custom-message'>{customDesc}</span>}
-      {status === TXStatus.SUCCESS && hash && (
-        <div className='transaction mt-3' onClick={handleViewTransaction}>
-          <img src={EyeIcon} alt='view transactions' />
-        </div>
-      )}
+
+      <a
+        className={clsx({ invisible: status !== TXStatus.SUCCESS || !hash })}
+        rel='noreferrer'
+        href={new URL(`/transactions/${hash}`, process.env.REACT_APP_BLOCK_SCAN_URL).href}
+        target='_blank'
+      >
+        <Typography variant='secondary' color='blue' size='sm'>
+          View the transaction on BlockScan
+        </Typography>
+      </a>
     </TXStatusBoard>
   )
 }

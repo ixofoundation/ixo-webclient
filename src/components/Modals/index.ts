@@ -21,6 +21,7 @@ export { default as ChooseWalletModal } from './ChooseWalletModal/ChooseWalletMo
 export { default as VoteModal } from './VoteModal/VoteModal'
 export { default as VoteModal2 } from './VoteModal/VoteModal2'
 export { default as GroupStakingModal } from './GroupStakingModal/GroupStakingModal'
+export { default as GroupUnstakingModal } from './GroupUnstakingModal/GroupUnstakingModal'
 export { default as SendModal } from './SendModal/SendModal'
 export { default as MultiSendModal } from './MultiSendModal/MultiSendModal'
 export { default as JoinModal } from './JoinModal/JoinModal'

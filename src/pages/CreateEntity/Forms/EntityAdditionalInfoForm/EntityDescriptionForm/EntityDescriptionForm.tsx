@@ -1,8 +1,9 @@
 import React from 'react'
 import { CheckBox, DateRangePicker, TextArea } from '../../../Components'
-import { FormWrapper, BrandNameInput } from './EntityDescriptionForm.styles'
+import { FormWrapper, BrandNameInput, CountryDropDown } from './EntityDescriptionForm.styles'
 import 'react-dates/initialize'
 import { useCreateEntityState } from 'hooks/createEntity'
+import { useEntityConfig } from 'hooks/configs'
 
 interface Props {
   description: string | undefined
@@ -32,6 +33,8 @@ const EntityDescriptionForm: React.FC<Props> = ({
   setStartEndDate,
 }): JSX.Element => {
   const { entityType } = useCreateEntityState()
+  const { title } = useEntityConfig(entityType)
+
   return (
     <FormWrapper>
       <TextArea
@@ -39,7 +42,7 @@ const EntityDescriptionForm: React.FC<Props> = ({
         handleChange={setDescription}
         width={'400px'}
         height={'240px'}
-        label={`Describe the ${entityType}`}
+        label={`Describe the ${title}`}
       />
       {setBrand && (
         <BrandNameInput
@@ -50,11 +53,13 @@ const EntityDescriptionForm: React.FC<Props> = ({
         />
       )}
       {setLocation && (
-        <BrandNameInput
-          name='location'
-          inputValue={location}
-          placeholder={'Country'}
-          handleChange={(location: string): void => setLocation(location)}
+        <CountryDropDown
+          value={location || ''}
+          onChange={setLocation}
+          onBlur={setLocation}
+          onFocus={() => {
+            //
+          }}
         />
       )}
       {setStartEndDate && (

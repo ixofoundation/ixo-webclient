@@ -20,6 +20,8 @@ export function parseEncodedMessage(base64String?: string) {
   return undefined
 }
 
+export const encodeMessageAsBase64 = (message: any) => toBase64(toUtf8(JSON.stringify(message)))
+
 export type WasmMsgType = 'execute' | 'instantiate' | 'migrate' | 'update_admin' | 'clear_admin'
 
 const WASM_TYPES: WasmMsgType[] = ['execute', 'instantiate', 'migrate', 'update_admin', 'clear_admin']

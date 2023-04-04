@@ -29,7 +29,7 @@ import { DepositRefundPolicy, DurationUnits } from 'types/dao'
 import * as Toast from 'utils/toast'
 import * as _ from 'lodash'
 import Tooltip from 'components/Tooltip/Tooltip'
-import { isAccountAddress } from 'utils/validation'
+import { isAccountAddress, validateTokenSymbol } from 'utils/validation'
 
 export const initialMembership = { category: '', weight: 1, members: [''] }
 const initialStakingDistribution = { category: '', totalSupplyPercent: 10, members: [''] }
@@ -408,6 +408,16 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onSubmit }): JSX.Elem
       }
     }
     const makeValidationMessage = (): { status: boolean; message: string } => {
+      /**
+       * If typed token symbol is not valid type
+       */
+      if (typeof validateTokenSymbol(data.staking?.tokenSymbol || '') === 'string') {
+        return {
+          status: false,
+          message: validateTokenSymbol(data.staking?.tokenSymbol || '') as string,
+        }
+      }
+
       const treasuryPercent = data.staking?.treasuryPercent ?? 0
       const distributions = data.staking?.distributions ?? []
       const totalTokenDistributionPercentage = distributions.reduce((acc, cur) => acc + cur.totalSupplyPercent, 0)

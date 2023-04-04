@@ -32,10 +32,6 @@ interface Props {
 const DAOCard: React.FunctionComponent<Props> = ({ id, profile, tags }) => {
   const sdgs = tags ? tags.find(({ category, tags }) => category === 'SDG' && Array.isArray(tags))?.tags ?? [] : []
 
-  if (!profile) {
-    return null
-  }
-
   return (
     <CardContainer className='col-xl-4 col-md-6 col-sm-12 col-12'>
       <CardLink
@@ -46,14 +42,14 @@ const DAOCard: React.FunctionComponent<Props> = ({ id, profile, tags }) => {
         <CardTop>
           <CardTopContainer
             style={{
-              backgroundImage: `url(${profile.image}),url(${requireCheckDefault(
+              backgroundImage: `url(${profile?.image}),url(${requireCheckDefault(
                 require('assets/images/ixo-placeholder-large.jpg'),
               )})`,
             }}
           >
             <SDGIcons sdgs={sdgs} />
             <Description>
-              <p>{excerptText(profile.description, 20)}</p>
+              <p>{excerptText(profile?.description, 20)}</p>
             </Description>
           </CardTopContainer>
         </CardTop>
@@ -62,7 +58,7 @@ const DAOCard: React.FunctionComponent<Props> = ({ id, profile, tags }) => {
             <CardTag tagColor={theme.ixoGreen}>Candidate</CardTag>
           </CardTags>
           <MainContent>
-            <MultiLineTitle fontWeight={700}>{profile.name}</MultiLineTitle>
+            <MultiLineTitle fontWeight={700}>{profile?.name}</MultiLineTitle>
           </MainContent>
           <ProgressBar total={0} pending={0} approved={0} rejected={0} disputed={0} />
           <div className='d-flex justify-content-between align-items-center'>
@@ -71,9 +67,7 @@ const DAOCard: React.FunctionComponent<Props> = ({ id, profile, tags }) => {
                 <ProgressSuccessful>{0}</ProgressSuccessful>
                 <ProgressRequired>/{0}</ProgressRequired>
               </Progress>
-              {/* <StatisticLabel>{impactAction}</StatisticLabel> */}
             </div>
-            {/* <Logo src={logo} /> */}
           </div>
         </CardBottom>
       </CardLink>

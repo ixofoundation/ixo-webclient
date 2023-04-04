@@ -1,6 +1,6 @@
 import { TokenAssetInfo } from '@ixo/impactxclient-sdk/types/custom_queries/currency.types'
 import { FlexBox, GridContainer, GridItem, SvgBox, theme } from 'components/App/App.styles'
-import React, { useMemo } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { ReactComponent as ArrowLeftIcon } from 'assets/images/icon-arrow-left.svg'
 import { Typography } from 'components/Typography'
 import CurrencyFormat from 'react-currency-format'
@@ -8,6 +8,14 @@ import BigNumber from 'bignumber.js'
 import { useHistory } from 'react-router-dom'
 import { Area, AreaChart, YAxis, ResponsiveContainer } from 'recharts'
 import { Button } from 'pages/CreateEntity/Components'
+import Avatar from './Avatar'
+import { GroupStakingModal, GroupUnstakingModal } from 'components/Modals'
+import useCurrentDao, { useCurrentDaoGroup } from 'hooks/currentDao'
+import { DaoGroup } from 'redux/currentEntity/dao/currentDao.types'
+import { useAccount } from 'hooks/account'
+import { contracts } from '@ixo/impactxclient-sdk'
+import { convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
+import { plus } from 'utils/currency'
 
 const data = [
   {
@@ -56,31 +64,73 @@ const data = [
 
 interface Props {
   coinDenom: string
-  coinMinimalDenom: string
-  coinImageUrl: string
-  lastPriceUsd: number
-  balance: string
-  priceChangePercent: TokenAssetInfo['priceChangePercent']
+  network: string
+  coinImageUrl?: string
+  lastPriceUsd?: number
+  priceChangePercent?: TokenAssetInfo['priceChangePercent']
 }
 
-const AssetDetailCard: React.FC<Props> = ({
-  coinDenom,
-  coinMinimalDenom,
-  coinImageUrl,
-  lastPriceUsd,
-  balance,
-  priceChangePercent,
-}) => {
+const AssetDetailCard: React.FC<Props> = ({ coinDenom, network, coinImageUrl, lastPriceUsd, priceChangePercent }) => {
   const history = useHistory()
+  const { cosmWasmClient, address } = useAccount()
+  const { selectedGroups } = useCurrentDao()
+  const selectedGroup: DaoGroup | undefined = useMemo(() => {
+    return Object.keys(selectedGroups).length === 1 ? Object.values(selectedGroups)[0] : undefined
+  }, [selectedGroups])
+  const { daoVotingCw20StakedClient } = useCurrentDaoGroup(selectedGroup!.coreAddress)
+  const [groupStakingModalOpen, setGroupStakingModalOpen] = useState(false)
+  const [groupUnstakingModalOpen, setGroupUnstakingModalOpen] = useState(false)
+  const [balance, setBalance] = useState('0')
+  const [stakedBalance, setStakedBalance] = useState('0')
+  const [unstakingBalance, setUnstakingBalance] = useState('0')
+  const [claimableBalance] = useState('0')
   const balanceUsd: string = useMemo(
-    () => new BigNumber(balance).times(lastPriceUsd).toString(),
+    () => new BigNumber(balance).times(lastPriceUsd ?? 0).toString(),
     [balance, lastPriceUsd],
   )
-  const priceChangePercentInOneDay: string = useMemo(() => priceChangePercent['1D'], [priceChangePercent])
+  const priceChangePercentInOneDay: string = useMemo(
+    () => (priceChangePercent && priceChangePercent['1D']) ?? '0',
+    [priceChangePercent],
+  )
   const balanceUsdChangeInOneDay: string = useMemo(
     () => new BigNumber(balanceUsd).dividedBy(100).times(new BigNumber(priceChangePercentInOneDay)).toString(),
     [balanceUsd, priceChangePercentInOneDay],
   )
+
+  /**
+   * @get
+   *  Token Balance
+   *  Token Info
+   * @set
+   *  Table data
+   */
+  const update = useCallback(async (): Promise<void> => {
+    if (!daoVotingCw20StakedClient) {
+      return
+    }
+
+    const stakingContract = await daoVotingCw20StakedClient.stakingContract()
+    const cw20StakeClient = new contracts.Cw20Stake.Cw20StakeClient(cosmWasmClient, address, stakingContract)
+    const { value: microStakedValue } = await cw20StakeClient.stakedValue({ address })
+    const { claims } = await cw20StakeClient.claims({ address })
+    const microUnstakingValue = claims.reduce((acc, cur) => plus(acc, cur.amount), '0')
+
+    const tokenContract = await daoVotingCw20StakedClient.tokenContract()
+    const cw20BaseClient = new contracts.Cw20Base.Cw20BaseClient(cosmWasmClient, address, tokenContract)
+    const tokenInfo = await cw20BaseClient.tokenInfo()
+    const { balance: microBalance } = await cw20BaseClient.balance({ address })
+
+    const stakedValue = convertMicroDenomToDenomWithDecimals(microStakedValue, tokenInfo.decimals).toString()
+    const unstakingValue = convertMicroDenomToDenomWithDecimals(microUnstakingValue, tokenInfo.decimals).toString()
+    const balance = convertMicroDenomToDenomWithDecimals(microBalance, tokenInfo.decimals).toString()
+    setStakedBalance(stakedValue)
+    setUnstakingBalance(unstakingValue)
+    setBalance(balance)
+  }, [address, cosmWasmClient, daoVotingCw20StakedClient])
+
+  useEffect(() => {
+    update()
+  }, [update])
 
   return (
     <FlexBox
@@ -98,10 +148,10 @@ const AssetDetailCard: React.FC<Props> = ({
         <FlexBox width='50%' justifyContent='space-between' alignItems='center'>
           {/* coinImageUrl */}
           <FlexBox alignItems='center' gap={2}>
-            <img src={coinImageUrl} alt='' width='38px' height='38px' />
+            <Avatar size={38} url={coinImageUrl} />
             <FlexBox direction='column'>
               <Typography size='lg'>{coinDenom}</Typography>
-              <Typography size='md'>{coinMinimalDenom}</Typography>
+              <Typography size='md'>{network}</Typography>
             </FlexBox>
           </FlexBox>
           {/* coinBalance */}
@@ -189,7 +239,7 @@ const AssetDetailCard: React.FC<Props> = ({
                   <CurrencyFormat
                     suffix={` ${coinDenom}`}
                     displayType={'text'}
-                    value={'1030.214'}
+                    value={balance}
                     thousandSeparator
                     decimalScale={2}
                   />
@@ -202,20 +252,20 @@ const AssetDetailCard: React.FC<Props> = ({
                   <CurrencyFormat
                     suffix={` ${coinDenom}`}
                     displayType={'text'}
-                    value={'240.312'}
+                    value={stakedBalance}
                     thousandSeparator
                     decimalScale={2}
                   />
                 </Typography>
               </FlexBox>
-              {/* undelegating */}
+              {/* unstaking */}
               <FlexBox width='100%' alignItems='center' justifyContent='space-between'>
-                <Typography size='lg'>undelegating</Typography>
+                <Typography size='lg'>unstaking</Typography>
                 <Typography size='lg'>
                   <CurrencyFormat
                     suffix={` ${coinDenom}`}
                     displayType={'text'}
-                    value={'45.123'}
+                    value={unstakingBalance}
                     thousandSeparator
                     decimalScale={2}
                   />
@@ -228,7 +278,7 @@ const AssetDetailCard: React.FC<Props> = ({
                   <CurrencyFormat
                     suffix={` ${coinDenom}`}
                     displayType={'text'}
-                    value={'45.123'}
+                    value={claimableBalance}
                     thousandSeparator
                     decimalScale={2}
                   />
@@ -236,19 +286,50 @@ const AssetDetailCard: React.FC<Props> = ({
               </FlexBox>
             </FlexBox>
             {/* Manage action */}
-            <Button
-              variant='secondary'
-              size='flex'
-              height={40}
-              textSize='base'
-              textTransform='capitalize'
-              textWeight='medium'
-            >
-              Manage
-            </Button>
+            <FlexBox gap={3} width='100%' justifyContent='flex-end'>
+              <Button
+                variant='secondary'
+                size='flex'
+                height={40}
+                textSize='base'
+                textTransform='capitalize'
+                textWeight='medium'
+                onClick={() => setGroupStakingModalOpen(true)}
+              >
+                Stake
+              </Button>
+              <Button
+                variant='secondary'
+                size='flex'
+                height={40}
+                textSize='base'
+                textTransform='capitalize'
+                textWeight='medium'
+                onClick={() => setGroupUnstakingModalOpen(true)}
+              >
+                Unstake
+              </Button>
+            </FlexBox>
           </FlexBox>
         </GridItem>
       </GridContainer>
+
+      {groupStakingModalOpen && selectedGroup && (
+        <GroupStakingModal
+          open={groupStakingModalOpen}
+          setOpen={setGroupStakingModalOpen}
+          daoGroup={selectedGroup}
+          onSuccess={update}
+        />
+      )}
+      {groupUnstakingModalOpen && selectedGroup && (
+        <GroupUnstakingModal
+          open={groupUnstakingModalOpen}
+          setOpen={setGroupUnstakingModalOpen}
+          daoGroup={selectedGroup}
+          onSuccess={update}
+        />
+      )}
     </FlexBox>
   )
 }
