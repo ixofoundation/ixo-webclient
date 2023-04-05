@@ -50,6 +50,7 @@ export interface TCreateEntityState extends TCreateEntityModel {
 
 export enum ECreateEntityActions {
   UpdateEntityType = 'ixo/create/entity/UPDATE_ENTITY_TYPE',
+  ClearEntity = 'ixo/create/entity/CLEAR_ENTITY',
   GotoStep = 'ixo/create/entity/GOTO_STEP',
   UpdateBreadCrumbs = 'ixo/create/entity/UPDATE_BREAD_CRUMBS',
   UpdateTitle = 'ixo/create/entity/UPDATE_TITLE',
@@ -79,6 +80,9 @@ export enum ECreateEntityActions {
 export interface TUpdateEntityTypeAction {
   type: typeof ECreateEntityActions.UpdateEntityType
   payload: string
+}
+export interface TClearEntityAction {
+  type: typeof ECreateEntityActions.ClearEntity
 }
 export interface TGotoStepAction {
   type: typeof ECreateEntityActions.GotoStep
@@ -169,6 +173,7 @@ export interface TUpdateProposalAction {
 
 export type TCreateEntityActionTypes =
   | TUpdateEntityTypeAction
+  | TClearEntityAction
   | TGotoStepAction
   | TUpdateBreadCrumbsAction
   | TUpdateTitleAction

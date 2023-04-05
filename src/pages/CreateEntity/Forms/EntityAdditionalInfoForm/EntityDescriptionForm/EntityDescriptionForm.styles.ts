@@ -15,5 +15,8 @@ export const CountryDropDown = styled(DefCountryDropDown)`
     background: white;
     border: 1px solid ${(props) => props.theme.ixoNewBlue};
     border-radius: 8px !important;
+    font-size: 20px;
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
   }
 `

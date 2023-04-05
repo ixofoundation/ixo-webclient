@@ -3,7 +3,7 @@ import { FlexBox } from 'components/App/App.styles'
 import { Table } from 'components/Table'
 import { Typography } from 'components/Typography'
 import { Button } from 'pages/CreateEntity/Components'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import CurrencyFormat from 'react-currency-format'
 import styled from 'styled-components'
 import { contracts } from '@ixo/impactxclient-sdk'
@@ -85,7 +85,9 @@ const columns = [
         <FlexBox alignItems='center' gap={2} p={4}>
           <Avatar size={38} url={coinImageUrl} />
           <FlexBox direction='column'>
-            <Typography size='lg'>{coinDenom}</Typography>
+            <Typography size='lg' transform='uppercase'>
+              {coinDenom}
+            </Typography>
             <Typography size='md'>{network}</Typography>
           </FlexBox>
         </FlexBox>
@@ -129,6 +131,8 @@ const MyStakes: React.FC<Props> = ({ coreAddress }) => {
   const [data, setData] = useState<any[]>([])
   const [stakedBalance, setStakedBalance] = useState('0')
   const [groupStakingModalOpen, setGroupStakingModalOpen] = useState(false)
+
+  const isParticipating = useMemo(() => isGreaterThan(stakedBalance, '0'), [stakedBalance])
 
   /**
    * @get
@@ -180,7 +184,7 @@ const MyStakes: React.FC<Props> = ({ coreAddress }) => {
 
   return (
     <>
-      {isGreaterThan(stakedBalance, '0') ? (
+      {isParticipating ? (
         <FlexBox width='100%' direction='column' gap={3}>
           <TableWrapper>
             <Table

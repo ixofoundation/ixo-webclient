@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { ProgressBar } from 'components/ProgressBar/ProgressBar'
 import { excerptText } from 'utils/formatters'
 import {
   CardContainer,
@@ -10,18 +9,14 @@ import {
   CardBottom,
   MainContent,
   MultiLineTitle,
-  Progress,
-  ProgressSuccessful,
-  ProgressRequired,
-  // Logo,
-  // StatisticLabel,
   CardTag,
   CardTags,
 } from '../EntityCard.styles'
 import SDGIcons from '../SDGIcons/SDGIcons'
-import { theme } from 'components/App/App.styles'
+import { FlexBox } from 'components/App/App.styles'
 import { requireCheckDefault } from 'utils/images'
 import { TEntityDDOTagModel, TEntityProfileModel } from 'types/protocol'
+import { Typography } from 'components/Typography'
 
 interface Props {
   id: string
@@ -31,6 +26,7 @@ interface Props {
 
 const DAOCard: React.FunctionComponent<Props> = ({ id, profile, tags }) => {
   const sdgs = tags ? tags.find(({ category, tags }) => category === 'SDG' && Array.isArray(tags))?.tags ?? [] : []
+  const numOfMembers = 0
 
   return (
     <CardContainer className='col-xl-4 col-md-6 col-sm-12 col-12'>
@@ -55,20 +51,18 @@ const DAOCard: React.FunctionComponent<Props> = ({ id, profile, tags }) => {
         </CardTop>
         <CardBottom>
           <CardTags>
-            <CardTag tagColor={theme.ixoGreen}>Candidate</CardTag>
+            <CardTag tagColor={'#5197B6'}>DAO</CardTag>
           </CardTags>
           <MainContent>
             <MultiLineTitle fontWeight={700}>{profile?.name}</MultiLineTitle>
           </MainContent>
-          <ProgressBar total={0} pending={0} approved={0} rejected={0} disputed={0} />
-          <div className='d-flex justify-content-between align-items-center'>
-            <div>
-              <Progress>
-                <ProgressSuccessful>{0}</ProgressSuccessful>
-                <ProgressRequired>/{0}</ProgressRequired>
-              </Progress>
-            </div>
-          </div>
+
+          <FlexBox width='100%' alignItems='baseline' gap={1}>
+            <Typography color='black' size='4xl'>
+              {numOfMembers}
+            </Typography>
+            <Typography color='grey700'>Members</Typography>
+          </FlexBox>
         </CardBottom>
       </CardLink>
     </CardContainer>

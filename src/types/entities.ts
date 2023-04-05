@@ -137,10 +137,15 @@ export enum LinkedResourceType {
 }
 
 export enum NodeType {
-  RelayerNode = 'RelayerNode',
-  CellNode = 'CellNode',
-  IBCNode = 'IBCNode',
-  Ipfs = 'Ipfs',
+  CellNode = 'CellNode', //  cellnode
+  CellNodeEncrypted = 'CellNodeEncrypted', //  cellnode-encrypted
+  BlockchainRPC = 'Blockchain', //  blockchain
+  WebService = 'WebService', //  webservice
+  BotService = 'BotService', //  bot-service
+  AuthenticationService = 'AuthenticationService', //  authentication
+  CloudWorker = 'CloudWorker', //  cloudworker
+  Ipfs = 'Ipfs', //  ipfs
+  CredentialRegistry = 'CredentialRegistry', //  credential-registry
 }
 
 export enum FundSource { //  TODO: should be removed

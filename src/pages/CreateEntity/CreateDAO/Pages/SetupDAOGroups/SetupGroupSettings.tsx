@@ -117,11 +117,11 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onSubmit }): JSX.Elem
 
     const daoContractAddress = await CreateDAOCoreByGroupId(data)
     if (!daoContractAddress) {
-      Toast.errorToast(`Create DAO Core Failed`)
+      Toast.errorToast(`Create Group Failed`)
       setSubmitting(false)
       return
     } else {
-      Toast.successToast(`Create DAO Core Succeed`)
+      Toast.successToast(`Create Group Succeed`)
       setSubmitting(false)
       console.log({ daoContractAddress })
     }
@@ -436,7 +436,7 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onSubmit }): JSX.Elem
           100 - (data.staking?.treasuryPercent ?? 0)
         }% will be sent to members according to the distribution below. The remaining ${
           data.staking?.treasuryPercent
-        }% will go to the DAO's treasury, where they can be distributed later via governance proposals.`,
+        }% will go to the Group's treasury, where they can be distributed later via governance proposals.`,
       }
     }
     return (
@@ -769,11 +769,11 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onSubmit }): JSX.Elem
         </FlexBox>
         <FlexBox>
           <Typography size='md'>
-            In order to vote, members must stake their tokens with the DAO. Members who would like to leave the DAO or
-            trade their governance tokens must first unstake them. This setting configures how long members have to wait
-            after unstaking their tokens for those tokens to become available. The longer you set this duration, the
-            more sure you can be sure that people who register their tokens are keen to participate in your DAO&apos;s
-            governance.
+            In order to vote, members must stake their tokens with the Group. Members who would like to leave the Group
+            or trade their governance tokens must first unstake them. This setting configures how long members have to
+            wait after unstaking their tokens for those tokens to become available. The longer you set this duration,
+            the more sure you can be sure that people who register their tokens are keen to participate in your
+            Group&apos;s governance.
           </Typography>
         </FlexBox>
         <FlexBox alignItems='center' justifyContent='flex-end' gap={4}>
@@ -826,8 +826,9 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onSubmit }): JSX.Elem
         <FlexBox>
           <Typography size='md'>
             The duration for which proposals are open for voting. A low proposal duration may increase the speed at
-            which your DAO can pass proposals. Setting the duration too low may make it difficult for proposals to pass
-            as voters will have limited time to vote. After this time elapses, the proposal will either pass or fail.
+            which your Group can pass proposals. Setting the duration too low may make it difficult for proposals to
+            pass as voters will have limited time to vote. After this time elapses, the proposal will either pass or
+            fail.
           </Typography>
         </FlexBox>
         <FlexBox alignItems='center' justifyContent='flex-end' gap={4}>
@@ -980,7 +981,7 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onSubmit }): JSX.Elem
                     direction='row-reverse'
                     width='200px'
                     height={inputHeight + 'px'}
-                    value={data.thresholdPercentage! * 100}
+                    value={Math.round((data.thresholdPercentage ?? 0) * 100)}
                     onChange={(value) => setData((pre) => ({ ...pre, thresholdPercentage: value / 100 }))}
                   />
                 )}
@@ -1021,7 +1022,7 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onSubmit }): JSX.Elem
                     direction='row-reverse'
                     width='200px'
                     height={inputHeight + 'px'}
-                    value={data.quorumPercentage! * 100}
+                    value={Math.round((data.quorumPercentage ?? 0) * 100)}
                     onChange={(value) => setData((pre) => ({ ...pre, quorumPercentage: value / 100 }))}
                   />
                 )}
@@ -1048,7 +1049,7 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onSubmit }): JSX.Elem
             </Typography>
           </FlexBox>
           <FlexBox>
-            <Typography size='md'>Who is allowed to submit proposals to the DAO?</Typography>
+            <Typography size='md'>Who is allowed to submit proposals to the Group?</Typography>
           </FlexBox>
           <FlexBox justifyContent='flex-end'>
             <Dropdown2

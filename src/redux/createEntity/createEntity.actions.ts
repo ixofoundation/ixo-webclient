@@ -38,11 +38,16 @@ import {
   TUpdateServiceAction,
   TUpdateSubtitleAction,
   TUpdateTitleAction,
+  TClearEntityAction,
 } from './createEntity.types'
 
 export const updateEntityTypeAction = (entityType: string): TUpdateEntityTypeAction => ({
   type: ECreateEntityActions.UpdateEntityType,
   payload: entityType,
+})
+
+export const clearEntityAction = (): TClearEntityAction => ({
+  type: ECreateEntityActions.ClearEntity,
 })
 
 export const gotoStepAction = (no: number): TGotoStepAction => ({

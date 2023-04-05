@@ -13,7 +13,7 @@ const CreateProject: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }):
 
   useEffect(() => {
     updateEntityType('project')
-    updateTitle('Create Project Template')
+    updateTitle('Project creation')
     updateBreadCrumbs([{ text: 'PROJECT' }])
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])

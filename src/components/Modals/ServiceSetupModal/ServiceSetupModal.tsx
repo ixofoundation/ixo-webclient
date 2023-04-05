@@ -85,18 +85,20 @@ const ServiceSetupModal: React.FC<Props> = ({ service, open, onClose, onChange }
                     console.log('111111111111submitted')
                   }}
                   handleError={(fields: string[]): void => {
-                    console.log(`111errors`, fields)
+                    console.log(`111errors`, index, fields)
                     setError(fields.length > 0)
                   }}
                 />
               </ModalRow>
             )
           })}
-          <ModalRow style={{ justifyContent: 'center' }}>
-            <Typography className='cursor-pointer' color={'blue'} onClick={handleAddNode}>
-              + Add Node
-            </Typography>
-          </ModalRow>
+          {formData.length === 0 && (
+            <ModalRow style={{ justifyContent: 'center' }}>
+              <Typography className='cursor-pointer' color={'blue'} onClick={handleAddNode}>
+                + Add Service
+              </Typography>
+            </ModalRow>
+          )}
           <ModalRow style={{ justifyContent: 'flex-end' }}>
             <Button disabled={!canSubmit} onClick={handleUpdateServices}>
               Continue

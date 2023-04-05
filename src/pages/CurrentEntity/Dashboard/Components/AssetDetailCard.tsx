@@ -63,6 +63,7 @@ const data = [
 ]
 
 interface Props {
+  className?: string
   coinDenom: string
   network: string
   coinImageUrl?: string
@@ -70,7 +71,14 @@ interface Props {
   priceChangePercent?: TokenAssetInfo['priceChangePercent']
 }
 
-const AssetDetailCard: React.FC<Props> = ({ coinDenom, network, coinImageUrl, lastPriceUsd, priceChangePercent }) => {
+const AssetDetailCard: React.FC<Props> = ({
+  coinDenom,
+  network,
+  coinImageUrl,
+  lastPriceUsd,
+  priceChangePercent,
+  ...rest
+}) => {
   const history = useHistory()
   const { cosmWasmClient, address } = useAccount()
   const { selectedGroups } = useCurrentDao()
@@ -142,6 +150,7 @@ const AssetDetailCard: React.FC<Props> = ({ coinDenom, network, coinImageUrl, la
       p={5}
       border={'1px solid #083347'}
       gap={6}
+      {...rest}
     >
       {/* Card Header */}
       <FlexBox width='100%' justifyContent='space-between' alignItems='center'>
@@ -150,7 +159,9 @@ const AssetDetailCard: React.FC<Props> = ({ coinDenom, network, coinImageUrl, la
           <FlexBox alignItems='center' gap={2}>
             <Avatar size={38} url={coinImageUrl} />
             <FlexBox direction='column'>
-              <Typography size='lg'>{coinDenom}</Typography>
+              <Typography size='lg' transform='uppercase'>
+                {coinDenom}
+              </Typography>
               <Typography size='md'>{network}</Typography>
             </FlexBox>
           </FlexBox>
@@ -237,7 +248,7 @@ const AssetDetailCard: React.FC<Props> = ({ coinDenom, network, coinImageUrl, la
                 <Typography size='lg'>available</Typography>
                 <Typography size='lg'>
                   <CurrencyFormat
-                    suffix={` ${coinDenom}`}
+                    suffix={` ${coinDenom?.toUpperCase()}`}
                     displayType={'text'}
                     value={balance}
                     thousandSeparator
@@ -250,7 +261,7 @@ const AssetDetailCard: React.FC<Props> = ({ coinDenom, network, coinImageUrl, la
                 <Typography size='lg'>staked</Typography>
                 <Typography size='lg'>
                   <CurrencyFormat
-                    suffix={` ${coinDenom}`}
+                    suffix={` ${coinDenom?.toUpperCase()}`}
                     displayType={'text'}
                     value={stakedBalance}
                     thousandSeparator
@@ -263,7 +274,7 @@ const AssetDetailCard: React.FC<Props> = ({ coinDenom, network, coinImageUrl, la
                 <Typography size='lg'>unstaking</Typography>
                 <Typography size='lg'>
                   <CurrencyFormat
-                    suffix={` ${coinDenom}`}
+                    suffix={` ${coinDenom?.toUpperCase()}`}
                     displayType={'text'}
                     value={unstakingBalance}
                     thousandSeparator
@@ -276,7 +287,7 @@ const AssetDetailCard: React.FC<Props> = ({ coinDenom, network, coinImageUrl, la
                 <Typography size='lg'>claimable</Typography>
                 <Typography size='lg'>
                   <CurrencyFormat
-                    suffix={` ${coinDenom}`}
+                    suffix={` ${coinDenom?.toUpperCase()}`}
                     displayType={'text'}
                     value={claimableBalance}
                     thousandSeparator
