@@ -3073,6 +3073,26 @@
               "@type": "Tag",
               "name": "Hackathon",
               "icon": "tag.svg"
+            },
+            {
+              "@type": "Tag",
+              "name": "Investment",
+              "icon": "tag.svg"
+            },
+            {
+              "@type": "Tag",
+              "name": "Funding",
+              "icon": "tag.svg"
+            },
+            {
+              "@type": "Tag",
+              "name": "Validator",
+              "icon": "tag.svg"
+            },
+            {
+              "@type": "Tag",
+              "name": "Enterprise",
+              "icon": "tag.svg"
             }
           ]
         },
