@@ -32,12 +32,14 @@ const icons: { [key: string]: any } = {
 }
 
 const Connections: React.FunctionComponent<Props> = ({
-  widget: { controls, title },
+  widget,
   selectedConnection,
   handleConnectionClick,
   toggleShowConnections,
   showMore,
 }) => {
+  const title = widget?.title
+  const controls = widget?.controls ?? []
   const findControl = (type: ConnectionType): Control | undefined => controls?.find((conn) => conn['@type'] === type)
   const windowSize = useWindowSize()
 

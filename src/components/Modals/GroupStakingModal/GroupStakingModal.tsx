@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 import { Box, FlexBox, HTMLFlexBoxProps, SvgBox, theme } from 'components/App/App.styles'
 import { SignStep, TXStatus } from '../common'
@@ -11,7 +11,6 @@ import { useAccount } from 'hooks/account'
 import {
   convertDenomToMicroDenomWithDecimals,
   convertMicroDenomToDenomWithDecimals,
-  depositInfoToCoin,
   durationToSeconds,
   secondsToWdhms,
 } from 'utils/conversions'
@@ -20,7 +19,6 @@ import { useCurrentEntityProfile } from 'hooks/currentEntity'
 import { Input } from 'pages/CreateEntity/Components'
 import { TokenInfoResponse } from '@ixo/impactxclient-sdk/types/codegen/Cw20Base.types'
 import CurrencyFormat from 'react-currency-format'
-import { Coin } from '@ixo/impactxclient-sdk/types/codegen/DaoPreProposeSingle.types'
 import { fee } from 'lib/protocol'
 import styled from 'styled-components'
 
@@ -59,15 +57,11 @@ interface Props {
 const GroupStakingModal: React.FunctionComponent<Props> = ({ daoGroup, open, setOpen, onSuccess }) => {
   const { cosmWasmClient, address } = useAccount()
   const { name: daoName } = useCurrentEntityProfile()
-  const { daoVotingCw20StakedClient } = useCurrentDaoGroup(daoGroup?.coreAddress)
+  const { daoVotingCw20StakedClient, depositInfo } = useCurrentDaoGroup(daoGroup?.coreAddress)
   const [unstakingDuration, setUnstakingDuration] = useState<number>(0)
   const [tokenInfo, setTokenInfo] = useState<TokenInfoResponse | undefined>(undefined)
   const [balance, setBalance] = useState('')
   const daoGroupName = daoGroup?.config.name
-  const depositInfo: Coin | undefined = useMemo(
-    () => daoGroup && depositInfoToCoin(daoGroup.proposalModule.preProposeConfig.deposit_info!),
-    [daoGroup],
-  )
 
   const [amount, setAmount] = useState<string>('')
   const [txStatus, setTXStatus] = useState<TXStatus>(TXStatus.UNDEFINED)

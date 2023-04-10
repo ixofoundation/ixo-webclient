@@ -243,8 +243,11 @@ export function useCurrentEntityTags(): {
 
 export function useCurrentEntityLinkedEntity(): {
   bondDid: string
+  linkedProposal?: LinkedEntity
 } {
+  const { linkedEntity } = useCurrentEntity()
   const bondDid = ''
+  const linkedProposal = linkedEntity.find(({ type }) => type === 'deed')
 
-  return { bondDid }
+  return { bondDid, linkedProposal }
 }

@@ -19,7 +19,7 @@ interface Props {
   open: boolean
   action: TProposalActionModel
   onClose: () => void
-  onSubmit: (data: any) => void
+  onSubmit?: (data: any) => void
 }
 
 const SetupManageTreasuryTokensModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
@@ -38,11 +38,11 @@ const SetupManageTreasuryTokensModal: React.FC<Props> = ({ open, action, onClose
   }, [action])
 
   const handleUpdateFormData = (key: string, value: any) => {
-    setFormData((data) => ({ ...data, [key]: value }))
+    onSubmit && setFormData((data) => ({ ...data, [key]: value }))
   }
 
   const handleConfirm = () => {
-    onSubmit({ ...action, data: formData })
+    onSubmit && onSubmit({ ...action, data: formData })
     onClose()
   }
 
@@ -51,7 +51,7 @@ const SetupManageTreasuryTokensModal: React.FC<Props> = ({ open, action, onClose
       open={open}
       action={action}
       onClose={onClose}
-      onSubmit={handleConfirm}
+      onSubmit={onSubmit && handleConfirm}
       validate={validate}
     >
       <FlexBox width='100%' gap={4}>

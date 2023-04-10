@@ -1,9 +1,13 @@
-import { FlexBox } from 'components/App/App.styles'
+import { FlexBox, theme } from 'components/App/App.styles'
 import { Table } from 'components/Table'
 import { Typography } from 'components/Typography'
+import ProgressBar from 'components/Widgets/ProgressBar/ProgressBar'
+import { useCurrentDaoGroup } from 'hooks/currentDao'
 import { Button } from 'pages/CreateEntity/Components'
-import React from 'react'
+import React, { useMemo } from 'react'
+import { useHistory, useParams } from 'react-router-dom'
 import styled from 'styled-components'
+import { votingRemainingDateFormat } from 'utils/formatters'
 
 const TableWrapper = styled.div`
   color: white;
@@ -62,55 +66,87 @@ const renderTableHeader = (name: string, justifyContent = 'flex-start') => (
   </FlexBox>
 )
 
-const columns = [
-  {
-    Header: renderTableHeader('Name'),
-    accessor: 'name',
-    renderCell: (cell: any) => {
-      const id = cell.row.original?.id
-      const title = cell.row.original?.title
-
-      return (
-        <FlexBox p={4}>
-          <Typography size='lg'>
-            #{id} {title}
-          </Typography>
-        </FlexBox>
-      )
-    },
-  },
-  {
-    Header: renderTableHeader('Value', 'flex-end'),
-    accessor: 'value',
-    renderCell: (cell: any) => {
-      return null
-    },
-  },
-]
-
 interface Props {
+  coreAddress: string
   full?: boolean
 }
 
-const MyProposals: React.FC<Props> = ({ full = true }) => {
-  const data = [
-    { id: 13, title: 'Extend project funding' },
-    { id: 14, title: 'Extend project funding' },
-  ]
+const MyProposals: React.FC<Props> = ({ coreAddress, full = true }) => {
+  const history = useHistory()
+  const { entityId } = useParams<{ entityId: string }>()
+  const { myProposals, numOfMembers } = useCurrentDaoGroup(coreAddress)
+
+  const columns = useMemo(
+    () => [
+      {
+        Header: renderTableHeader('Name'),
+        accessor: 'name',
+        renderCell: (cell: any) => {
+          const id = cell.row.original?.id
+          const title = cell.row.original?.proposal.title
+
+          return (
+            <FlexBox p={4}>
+              <Typography size='lg'>
+                #{id} {title}
+              </Typography>
+            </FlexBox>
+          )
+        },
+      },
+      {
+        Header: renderTableHeader('Value', 'flex-end'),
+        accessor: 'value',
+        renderCell: (cell: any) => {
+          const votes = cell.row.original?.proposal.votes
+          const status = cell.row.original?.proposal.status
+          const closeDate = cell.row.original?.proposal.closeDate
+          const remainingTime = closeDate - new Date().getTime()
+          const data = [
+            { key: 'yes', value: Number(votes.yes), color: theme.ixoGreen },
+            { key: 'no', value: Number(votes.no), color: theme.ixoRed },
+            { key: 'abstain', value: Number(votes.abstain), color: theme.ixoOrange },
+          ]
+
+          const statusColorMap = {
+            open: 'white',
+            rejected: 'red',
+            passed: 'green',
+          }
+          return (
+            <FlexBox p={4} minWidth='200px'>
+              <FlexBox position='relative' width='100%'>
+                <ProgressBar data={data} totalValue={numOfMembers} />
+                <FlexBox position='absolute' bottom='-16px' width='100%' justifyContent='space-between'>
+                  <Typography size='sm' color={statusColorMap[status]}>
+                    {status}
+                  </Typography>
+                  <Typography size='sm' color='dark-blue'>
+                    {remainingTime > 0 ? `${votingRemainingDateFormat(remainingTime)} remaining` : `closed`}
+                  </Typography>
+                </FlexBox>
+              </FlexBox>
+            </FlexBox>
+          )
+        },
+      },
+    ],
+    [numOfMembers],
+  )
 
   const handleNewProposal = () => {
-    console.log('new proposal')
+    history.push(`/create/entity/deed/${entityId}/${coreAddress}/info`)
   }
 
   const handleRowClick = (state: any) => () => {
     const { original } = state
-    console.log({ original })
-    // original = { coinDenom, coinMinimalDenom, coinImageUrl, lastPriceUsd, balance, priceChangePercent }
-    // history.push({
-    //   pathname: history.location.pathname,
-    //   search: `?token=${original.coinMinimalDenom}`,
-    //   state: original,
-    // })
+    const { proposal } = original
+    const { description } = proposal
+    const [, deedDid] = description.split('#deed:')
+
+    if (deedDid) {
+      history.push(`/entity/${deedDid}/overview`)
+    }
   }
 
   return (
@@ -119,7 +155,7 @@ const MyProposals: React.FC<Props> = ({ full = true }) => {
         <TableWrapper>
           <Table
             columns={columns}
-            data={data}
+            data={myProposals}
             getRowProps={(state) => ({
               style: { height: 70, cursor: 'pointer' },
               onClick: handleRowClick(state),

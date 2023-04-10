@@ -12,6 +12,7 @@ import SetupGroupSettings, { initialMembership, initialStaking } from './SetupGr
 import { deviceWidth } from 'constants/device'
 import { initialPreProposeConfigState } from 'components/Modals/AddActionModal/SetupUpdateProposalSubmissionConfigModal'
 import { initialProposalConfigState } from 'components/Modals/AddActionModal/SetupUpdateVotingConfigModal'
+import { ixo } from '@ixo/impactxclient-sdk'
 
 const SetupDAOGroups: React.FC = (): JSX.Element => {
   const { daoGroups, daoController, linkedEntity, updateDAOGroups, updateDAOController, updateLinkedEntity, gotoStep } =
@@ -88,12 +89,12 @@ const SetupDAOGroups: React.FC = (): JSX.Element => {
     Object.values(daoGroups).forEach(({ contractAddress }) => {
       tempLinkedEntity = {
         ...tempLinkedEntity,
-        [contractAddress!]: {
+        [contractAddress!]: ixo.iid.v1beta1.LinkedEntity.fromPartial({
           id: `{id}#${contractAddress!}`,
           type: 'Group',
           relationship: 'subsidiary',
           service: '',
-        },
+        }),
       }
     })
 

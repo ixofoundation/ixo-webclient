@@ -10,7 +10,7 @@ interface HeroContainerProps {
 export const HeroContainer = styled.div<HeroContainerProps>`
   margin: 0;
   position: relative;
-  background: ${(props: any): string => (props.light ? 'white' : props.theme.ixoDarkestBlue)};
+  background: ${(props: any): string => (props.light ? 'transparent' : props.theme.ixoDarkestBlue)};
   color: ${(props: any): string => (props.onlyTitle ? 'white' : 'black')};
 `
 

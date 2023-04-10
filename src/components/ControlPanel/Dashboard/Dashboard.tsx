@@ -17,7 +17,9 @@ interface Props {
   widget: Widget
 }
 
-const Dashboard: React.FunctionComponent<Props> = ({ entityDid, widget: { title, controls } }) => {
+const Dashboard: React.FunctionComponent<Props> = ({ entityDid, widget }) => {
+  const title = widget?.title
+  const controls = widget?.controls ?? []
   // const { convertToDenom } = useIxoConfigs()
   const [
     ixoCoin,

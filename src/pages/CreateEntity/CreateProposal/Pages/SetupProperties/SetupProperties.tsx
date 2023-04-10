@@ -9,8 +9,7 @@ import { useHistory, useParams } from 'react-router-dom'
 const SetupProperties: React.FC = (): JSX.Element => {
   const { entityId, coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
   const history = useHistory()
-  const { entityType } = useCreateEntityState()
-  const canSubmit = true
+  const { entityType, validateRequiredProperties } = useCreateEntityState()
 
   const handleBack = () => {
     history.push(`/create/entity/deed/${entityId}/${coreAddress}/setup-page`)
@@ -28,7 +27,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
         <Button variant='secondary' onClick={handleBack}>
           Back
         </Button>
-        <Button variant='primary' disabled={!canSubmit} onClick={handleNext}>
+        <Button variant='primary' disabled={!validateRequiredProperties} onClick={handleNext}>
           Continue
         </Button>
       </FlexBox>

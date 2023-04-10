@@ -11,8 +11,6 @@ import { TEntityPageModel } from 'types/protocol'
 import { Wrapper, Row } from './SetupPageContent.styles'
 import { EDITOR_JS_TOOLS } from './SetupPageContent.constants'
 import { OutputData } from '@editorjs/editorjs'
-import { Typography } from 'components/Typography'
-import { useEntityConfig } from 'hooks/configs'
 
 const ReactEditorJS = createReactEditorJS()
 
@@ -25,7 +23,6 @@ interface Props {
 
 const SetupPageContent: React.FC<Props> = ({ page, entityType, onChange, onClose }): JSX.Element => {
   const editorCore = useRef(null)
-  const { title } = useEntityConfig(entityType)
 
   const [value, setValue] = useState<OutputData>({
     time: new Date().getTime(),
@@ -52,11 +49,7 @@ const SetupPageContent: React.FC<Props> = ({ page, entityType, onChange, onClose
 
   return (
     <Wrapper>
-      <Row className='align-items-center justify-content-between'>
-        <Typography variant='secondary' size='2xl'>
-          Page describing the {title}
-        </Typography>
-
+      <Row className='align-items-center justify-content-end'>
         <Box className='d-flex' style={{ gap: 20 }}>
           <Button variant='secondary' onClick={onClose}>
             Back

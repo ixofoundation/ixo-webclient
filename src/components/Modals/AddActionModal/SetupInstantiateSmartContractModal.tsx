@@ -35,7 +35,7 @@ interface Props {
   open: boolean
   action: TProposalActionModel
   onClose: () => void
-  onSubmit: (data: any) => void
+  onSubmit?: (data: any) => void
 }
 
 const SetupInstantiateSmartContractModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
@@ -60,7 +60,7 @@ const SetupInstantiateSmartContractModal: React.FC<Props> = ({ open, action, onC
   }, [action])
 
   const handleUpdateFormData = (key: string, value: any) => {
-    setFormData((data) => ({ ...data, [key]: value }))
+    onSubmit && setFormData((data) => ({ ...data, [key]: value }))
   }
 
   const handleAddFund = () => {
@@ -80,7 +80,7 @@ const SetupInstantiateSmartContractModal: React.FC<Props> = ({ open, action, onC
   }
 
   const handleConfirm = () => {
-    onSubmit({ ...action, data: formData })
+    onSubmit && onSubmit({ ...action, data: formData })
     onClose()
   }
 
@@ -89,7 +89,7 @@ const SetupInstantiateSmartContractModal: React.FC<Props> = ({ open, action, onC
       open={open}
       action={action}
       onClose={onClose}
-      onSubmit={handleConfirm}
+      onSubmit={onSubmit && handleConfirm}
       validate={validate}
     >
       <FlexBox direction='column' width='100%' gap={2}>

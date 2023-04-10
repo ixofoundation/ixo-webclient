@@ -1,4 +1,5 @@
 import * as _ from 'lodash'
+import { logs } from '@cosmjs/stargate'
 
 export const omitKey = (oldObject: any, keyToEmit: string) => {
   return Object.keys(oldObject).reduce((object, key) => {
@@ -25,4 +26,17 @@ export const reorderObjectElement = (srcKey: string, dstKey: string, obj: any): 
   }
 
   return _.mapValues(_.keyBy(arr, 'prop'), 'value')
+}
+
+export const getValueFromEvents = (logs: readonly logs.Log[], type: string, attributeKey: string): string => {
+  try {
+    const value = logs[0].events
+      .find((event) => event.type === type)
+      ?.attributes.find((attribute) => attribute.key === attributeKey)?.value
+
+    return value || ''
+  } catch (e) {
+    console.error('getValueFromEvents', e)
+    return ''
+  }
 }

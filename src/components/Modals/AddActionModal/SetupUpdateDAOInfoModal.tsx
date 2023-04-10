@@ -28,7 +28,7 @@ interface Props {
   open: boolean
   action: TProposalActionModel
   onClose: () => void
-  onSubmit: (data: any) => void
+  onSubmit?: (data: any) => void
 }
 
 const SetupUpdateDAOInfoModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
@@ -48,11 +48,11 @@ const SetupUpdateDAOInfoModal: React.FC<Props> = ({ open, action, onClose, onSub
   }, [daoGroup?.config, action.data])
 
   const handleUpdateFormData = (key: string, value: any) => {
-    setFormData((data: any) => ({ ...data, [key]: value }))
+    onSubmit && setFormData((data: any) => ({ ...data, [key]: value }))
   }
 
   const handleConfirm = () => {
-    onSubmit({ ...action, data: formData })
+    onSubmit && onSubmit({ ...action, data: formData })
     onClose()
   }
 
@@ -61,7 +61,7 @@ const SetupUpdateDAOInfoModal: React.FC<Props> = ({ open, action, onClose, onSub
       open={open}
       action={action}
       onClose={onClose}
-      onSubmit={handleConfirm}
+      onSubmit={onSubmit && handleConfirm}
       validate={validate}
     >
       <FlexBox direction='column' width='100%' gap={2}>

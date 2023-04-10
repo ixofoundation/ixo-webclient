@@ -490,6 +490,16 @@ export const ProposalActionConfig = {
   },
 }
 
+export const ProposalActionConfigMap = {
+  'wasm.execute.update_members': {
+    type: 'wasm.execute.update_members',
+    group: 'Groups',
+    text: 'Change Group Membership',
+    description: 'Add, update or remove members from the DAO.',
+    icon: MemberGroupIcon,
+  },
+}
+
 export enum ELocalisation {
   EN = 'EN',
   FR = 'FR',
@@ -756,6 +766,9 @@ export interface TOracleMetadataModel extends TBasicMetadataModel {
   orgName?: string
   name?: string
 }
+export interface TProposalMetadataModel extends TBasicMetadataModel {
+  name?: string
+}
 export enum EClaimType {
   Service = 'Service',
   Outcome = 'Outcome',
@@ -916,6 +929,8 @@ export type TEntityMetadataModel =
   | TInvestmentMetadataModel
   | TClaimMetadataModel
   | TDAOMetadataModel
+  | TOracleMetadataModel
+  | TProposalMetadataModel
 
 // based on ixo-protocol/artefacts/profile_schema.json
 export interface TEntityProfileModel {
@@ -967,6 +982,7 @@ export interface TDAOGroupModel extends UpdatePreProposeConfigData, UpdatePropos
     tokenSymbol: string
     tokenName: string
     tokenSupply: number
+    tokenLogo?: string
     treasuryPercent: number
     distributions: {
       category: string
@@ -1008,8 +1024,9 @@ export interface TDAOGroupModel extends UpdatePreProposeConfigData, UpdatePropos
 
 export interface TProposalActionModel {
   id: string
-  type: string
+  type?: string
   group: string
+  text?: string
   data?: any
 }
 

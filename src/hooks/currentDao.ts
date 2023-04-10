@@ -10,6 +10,9 @@ import * as _ from 'lodash'
 import { contracts, customQueries } from '@ixo/impactxclient-sdk'
 import { useAccount } from './account'
 import { chainNetwork } from './configs'
+import { Config as ProposalConfig } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
+import { Coin } from '@ixo/impactxclient-sdk/types/codegen/DaoPreProposeSingle.types'
+import { depositInfoToCoin, durationToSeconds, expirationAtTimeToSecondsFromNow } from 'utils/conversions'
 
 export default function useCurrentDao(): {
   daoGroups: CurrentDao
@@ -18,6 +21,7 @@ export default function useCurrentDao(): {
   myGroups: CurrentDao
   selectDaoGroup: (coreAddress: string) => void
   setDaoGroup: (coreAddress: string) => void
+  updateDaoGroup: (group: DaoGroup) => void
   clearDaoGroup: () => void
   getNumOfMembersByAddresses: (addresses: string[]) => number
   getMembersByAddress: (address: string) => Member[]
@@ -153,6 +157,10 @@ export default function useCurrentDao(): {
     return customQueries.contract.getContractCodes(chainNetwork).find(({ code }) => code === codeId)?.name ?? ''
   }
 
+  const updateDaoGroup = async (group: DaoGroup) => {
+    dispatch(updateGroupAction(group))
+  }
+
   const setDaoGroup = async (coreAddress: string) => {
     let type = ''
     const daoCoreClient = new contracts.DaoCore.DaoCoreClient(cosmWasmClient, address, coreAddress)
@@ -268,18 +276,16 @@ export default function useCurrentDao(): {
       treasury,
     })
 
-    dispatch(
-      updateGroupAction({
-        coreAddress,
-        admin,
-        type,
-        config,
-        proposalModule,
-        votingModule,
-        treasury,
-        storageItems,
-      }),
-    )
+    updateDaoGroup({
+      coreAddress,
+      admin,
+      type,
+      config,
+      proposalModule,
+      votingModule,
+      treasury,
+      storageItems,
+    })
   }
 
   const clearDaoGroup = () => {
@@ -293,6 +299,7 @@ export default function useCurrentDao(): {
     myGroups,
     selectDaoGroup,
     setDaoGroup,
+    updateDaoGroup,
     clearDaoGroup,
     getNumOfMembersByAddresses,
     getMembersByAddress,
@@ -327,5 +334,73 @@ export function useCurrentDaoGroup(groupAddress: string) {
     [cosmWasmClient, address, votingModuleAddress],
   )
 
-  return { daoGroup, daoProposalSingleClient, daoPreProposeSingleClient, daoVotingCw20StakedClient }
+  const isParticipating = useMemo(() => {
+    return daoGroup?.votingModule.members.some(({ addr }) => addr === address)
+  }, [daoGroup?.votingModule.members, address])
+
+  const proposalConfig: ProposalConfig = useMemo(() => daoGroup?.proposalModule.proposalConfig, [daoGroup])
+
+  const depositInfo: Coin | undefined = useMemo(
+    () => daoGroup && depositInfoToCoin(daoGroup.proposalModule.preProposeConfig.deposit_info!),
+    [daoGroup],
+  )
+
+  const myVotingPower = useMemo(() => {
+    const myWeight = daoGroup?.votingModule.members.find(({ addr }) => addr === address)?.weight ?? 0
+    const totalWeight = daoGroup?.votingModule.totalWeight
+    return myWeight / totalWeight
+  }, [daoGroup, address])
+
+  const proposals = useMemo(() => {
+    const proposals = daoGroup?.proposalModule.proposals
+    const max_voting_period = daoGroup?.proposalModule.proposalConfig.max_voting_period
+    if (!proposals || !max_voting_period) {
+      return []
+    }
+
+    const votingPeriod = durationToSeconds(100, max_voting_period)
+
+    return proposals.map(({ id, proposal }) => {
+      const { expiration } = proposal
+      const secondsRemaining = expirationAtTimeToSecondsFromNow(expiration) ?? 0
+      const secondsPassed = votingPeriod - secondsRemaining
+      const submissionDate = new Date().getTime() - secondsPassed * 1000
+      const closeDate = new Date().getTime() + secondsRemaining * 1000
+
+      return {
+        id,
+        proposal: {
+          ...proposal,
+          submissionDate,
+          closeDate,
+        },
+      }
+    })
+  }, [daoGroup])
+
+  const myProposals = useMemo(() => {
+    return proposals.filter(({ proposal }) => proposal.proposer === address)
+  }, [proposals, address])
+
+  const members = useMemo(() => {
+    return daoGroup?.votingModule.members ?? []
+  }, [daoGroup])
+
+  const numOfMembers = useMemo(() => {
+    return members.length
+  }, [members])
+
+  return {
+    daoGroup,
+    daoProposalSingleClient,
+    daoPreProposeSingleClient,
+    daoVotingCw20StakedClient,
+    isParticipating,
+    proposalConfig,
+    depositInfo,
+    myVotingPower,
+    myProposals,
+    members,
+    numOfMembers,
+  }
 }

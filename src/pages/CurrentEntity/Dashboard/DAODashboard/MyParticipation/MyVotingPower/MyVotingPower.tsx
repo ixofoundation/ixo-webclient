@@ -1,27 +1,40 @@
-import { FlexBox } from 'components/App/App.styles'
+import { FlexBox, theme } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
-import { useAccount } from 'hooks/account'
 import { useCurrentDaoGroup } from 'hooks/currentDao'
 import { Button } from 'pages/CreateEntity/Components'
-import React, { useMemo } from 'react'
+import React from 'react'
+import PieChart from 'components/Widgets/PieChart/PieChart'
 
 interface Props {
   coreAddress: string
 }
 
 const MyVotingPower: React.FC<Props> = ({ coreAddress }) => {
-  const { address } = useAccount()
-  const { daoGroup } = useCurrentDaoGroup(coreAddress)
-
-  const isParticipating = useMemo(
-    () => daoGroup.votingModule.members.some(({ addr }) => addr === address),
-    [daoGroup.votingModule.members, address],
-  )
+  const { isParticipating, myVotingPower } = useCurrentDaoGroup(coreAddress)
 
   return (
     <>
       {isParticipating ? (
-        <FlexBox>asd</FlexBox>
+        <FlexBox width='100%'>
+          <PieChart
+            data={[
+              { name: 'Rest Voting Power', value: 1 - myVotingPower, color: theme.ixoDarkBlue },
+              { name: 'My Voting Power', value: myVotingPower, color: theme.ixoNewBlue },
+            ]}
+            descriptor={
+              <FlexBox direction='column' alignItems='center'>
+                <Typography variant='secondary' size='3xl' weight='bold'>
+                  {new Intl.NumberFormat('en-us', {
+                    style: 'percent',
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 2,
+                  }).format(myVotingPower ?? 0)}
+                </Typography>
+                <Typography size='sm'>voting power</Typography>
+              </FlexBox>
+            }
+          />
+        </FlexBox>
       ) : (
         <Typography variant='secondary' size='2xl' color='dark-blue'>
           You’re not part of this membership group.

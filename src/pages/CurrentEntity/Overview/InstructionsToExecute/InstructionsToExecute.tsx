@@ -1,10 +1,13 @@
 import { FlexBox } from 'components/App/App.styles'
+import { Typography } from 'components/Typography'
 import { PropertyBox } from 'pages/CreateEntity/Components'
-import React, { useState } from 'react'
-import { ProposalActionConfig, TProposalActionModel } from 'types/protocol'
-import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
-
-import { AddActionModal } from 'components/Modals'
+import React, { useEffect, useMemo, useState } from 'react'
+import { ProposalActionConfig, ProposalActionConfigMap, TProposalActionModel } from 'types/protocol'
+import { parseEncodedMessage } from 'utils/messages'
+import { useAccount } from 'hooks/account'
+import { useCurrentEntityLinkedEntity } from 'hooks/currentEntity'
+import { contracts } from '@ixo/impactxclient-sdk'
+import { CosmosMsgForEmpty } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
 import {
   SetupAuthzExecModal,
   SetupAuthzGrantModal,
@@ -33,50 +36,83 @@ import {
   SetupDAOAdminExecuteModal,
 } from 'components/Modals/AddActionModal'
 
-interface Props {
-  actions: TProposalActionModel[]
-  setActions: (actions: TProposalActionModel[]) => void
-}
-
-const SetupActionsForm: React.FC<Props> = ({ actions, setActions }): JSX.Element => {
-  const [openAddActionModal, setOpenAddActionModal] = useState(false)
+const InstructionsToExecute: React.FC = () => {
+  const { cosmWasmClient, address } = useAccount()
+  const { linkedProposal } = useCurrentEntityLinkedEntity()
+  const [actions, setActions] = useState<TProposalActionModel[]>([])
   const [selectedAction, setSelectedAction] = useState<TProposalActionModel | undefined>()
 
-  const handleAddAction = (action: TProposalActionModel): void => {
-    setActions([...actions, action])
-    setSelectedAction(action)
-  }
-  const handleRemoveAction = (id: string): void => {
-    setActions([...actions].filter((item) => item.id !== id))
-  }
-  const handleUpdateAction = (action: TProposalActionModel): void => {
-    setActions(actions.map((item, i) => (item.id === action.id ? action : item)))
-  }
+  const [, contractAddress, proposalId] = useMemo(() => {
+    if (!linkedProposal) {
+      return []
+    }
+    const { id } = linkedProposal
+    return id.split('#')
+  }, [linkedProposal])
+
+  useEffect(() => {
+    if (contractAddress && proposalId && cosmWasmClient && address) {
+      ;(async () => {
+        const daoCoreClient = new contracts.DaoCore.DaoCoreClient(cosmWasmClient, address, contractAddress)
+        const [{ address: proposalModuleAddress }] = await daoCoreClient.proposalModules({})
+        const daoProposalSingleClient = new contracts.DaoProposalSingle.DaoProposalSingleClient(
+          cosmWasmClient,
+          address,
+          proposalModuleAddress,
+        )
+        const proposal = await daoProposalSingleClient.proposal({ proposalId: Number(proposalId) })
+        if (proposal) {
+          const { msgs } = proposal.proposal
+          const actions = msgs
+            .map((msg: CosmosMsgForEmpty, index) => {
+              if ('wasm' in msg && 'execute' in msg.wasm && 'msg' in msg.wasm.execute) {
+                const encodedMessage = parseEncodedMessage(msg.wasm.execute.msg)
+                const key = Object.keys(encodedMessage)[0]
+                const value = Object.values(encodedMessage)[0]
+
+                const proposalActionDetail = ProposalActionConfigMap[`wasm.execute.${key}`]
+                return {
+                  ...proposalActionDetail,
+                  data: value,
+                  type: `wasm.execute.${key}`,
+                  id: index,
+                }
+              }
+              // TODO: else if ()
+              return undefined
+            })
+            .filter(Boolean)
+
+          console.log({ actions })
+          setActions(actions)
+        }
+      })()
+    }
+  }, [contractAddress, proposalId, cosmWasmClient, address])
 
   return (
-    <>
-      <FlexBox gap={5} flexWrap='wrap'>
-        {actions.map((item) => {
-          const Icon = ProposalActionConfig[item.group].items[item.text].icon
+    <FlexBox width='100%' direction='column' gap={5} px={5} pt={5} pb={9} background='white' borderRadius='4px'>
+      <Typography variant='secondary' size='2xl'>
+        Instructions to execute
+      </Typography>
+      <FlexBox gap={4}>
+        {actions.map((action, index) => {
+          const Icon = ProposalActionConfig[action.group].items[action.text].icon
           return (
             <PropertyBox
-              key={item.id}
+              key={index}
               icon={<Icon />}
-              label={item.text}
-              set={item.data}
-              handleClick={() => setSelectedAction(item)}
-              handleRemove={() => handleRemoveAction(item.id)}
+              label={action.text}
+              set={action.data}
+              handleClick={() => setSelectedAction(action)}
             />
           )
         })}
-        <PropertyBox icon={<PlusIcon />} noData handleClick={(): void => setOpenAddActionModal(true)} />
       </FlexBox>
-      <AddActionModal open={openAddActionModal} onClose={() => setOpenAddActionModal(false)} onAdd={handleAddAction} />
       {selectedAction?.text === 'AuthZ Exec' && (
         <SetupAuthzExecModal
           open={selectedAction?.text === 'AuthZ Exec'}
           action={selectedAction}
-          onSubmit={handleUpdateAction}
           onClose={() => setSelectedAction(undefined)}
         />
       )}
@@ -84,7 +120,6 @@ const SetupActionsForm: React.FC<Props> = ({ actions, setActions }): JSX.Element
         <SetupAuthzGrantModal
           open={selectedAction?.text === 'AuthZ Grant / Revoke'}
           action={selectedAction}
-          onSubmit={handleUpdateAction}
           onClose={() => setSelectedAction(undefined)}
         />
       )}
@@ -92,7 +127,6 @@ const SetupActionsForm: React.FC<Props> = ({ actions, setActions }): JSX.Element
         <SetupMintModal
           open={selectedAction?.text === 'Mint'}
           action={selectedAction}
-          onSubmit={handleUpdateAction}
           onClose={() => setSelectedAction(undefined)}
         />
       )}
@@ -100,7 +134,6 @@ const SetupActionsForm: React.FC<Props> = ({ actions, setActions }): JSX.Element
         <SetupBurnNFTModal
           open={selectedAction?.text === 'Burn NFT'}
           action={selectedAction}
-          onSubmit={handleUpdateAction}
           onClose={() => setSelectedAction(undefined)}
         />
       )}
@@ -108,7 +141,6 @@ const SetupActionsForm: React.FC<Props> = ({ actions, setActions }): JSX.Element
         <SetupExecuteSmartContractModal
           open={selectedAction?.text === 'Execute Smart Contract'}
           action={selectedAction}
-          onSubmit={handleUpdateAction}
           onClose={() => setSelectedAction(undefined)}
         />
       )}
@@ -116,7 +148,6 @@ const SetupActionsForm: React.FC<Props> = ({ actions, setActions }): JSX.Element
         <SetupInstantiateSmartContractModal
           open={selectedAction?.text === 'Initiate Smart Contract'}
           action={selectedAction}
-          onSubmit={handleUpdateAction}
           onClose={() => setSelectedAction(undefined)}
         />
       )}
@@ -124,7 +155,6 @@ const SetupActionsForm: React.FC<Props> = ({ actions, setActions }): JSX.Element
         <SetupMigrateSmartContractModal
           open={selectedAction?.text === 'Migrate Smart Contract'}
           action={selectedAction}
-          onSubmit={handleUpdateAction}
           onClose={() => setSelectedAction(undefined)}
         />
       )}
@@ -132,7 +162,6 @@ const SetupActionsForm: React.FC<Props> = ({ actions, setActions }): JSX.Element
         <SetupManageMembersModal
           open={selectedAction?.text === 'Change Group Membership'}
           action={selectedAction}
-          onSubmit={handleUpdateAction}
           onClose={() => setSelectedAction(undefined)}
         />
       )}
@@ -140,7 +169,6 @@ const SetupActionsForm: React.FC<Props> = ({ actions, setActions }): JSX.Element
         <SetupManageSubDAOsModal
           open={selectedAction?.text === 'Manage Subgroups'}
           action={selectedAction}
-          onSubmit={handleUpdateAction}
           onClose={() => setSelectedAction(undefined)}
         />
       )}
@@ -148,7 +176,6 @@ const SetupActionsForm: React.FC<Props> = ({ actions, setActions }): JSX.Element
         <SetupManageTreasuryNFTsModal
           open={selectedAction?.text === 'Manage Treasury NFTs'}
           action={selectedAction}
-          onSubmit={handleUpdateAction}
           onClose={() => setSelectedAction(undefined)}
         />
       )}
@@ -156,7 +183,6 @@ const SetupActionsForm: React.FC<Props> = ({ actions, setActions }): JSX.Element
         <SetupManageTreasuryTokensModal
           open={selectedAction?.text === 'Manage Treasury Tokens'}
           action={selectedAction}
-          onSubmit={handleUpdateAction}
           onClose={() => setSelectedAction(undefined)}
         />
       )}
@@ -164,7 +190,6 @@ const SetupActionsForm: React.FC<Props> = ({ actions, setActions }): JSX.Element
         <SetupSpendModal
           open={selectedAction?.text === 'Spend'}
           action={selectedAction}
-          onSubmit={handleUpdateAction}
           onClose={() => setSelectedAction(undefined)}
         />
       )}
@@ -172,7 +197,6 @@ const SetupActionsForm: React.FC<Props> = ({ actions, setActions }): JSX.Element
         <SetupStakingActionsModal
           open={selectedAction?.text === 'Staking Actions'}
           action={selectedAction}
-          onSubmit={handleUpdateAction}
           onClose={() => setSelectedAction(undefined)}
         />
       )}
@@ -180,7 +204,6 @@ const SetupActionsForm: React.FC<Props> = ({ actions, setActions }): JSX.Element
         <SetupTokenSwapModal
           open={selectedAction?.text === 'Token Swap'}
           action={selectedAction}
-          onSubmit={handleUpdateAction}
           onClose={() => setSelectedAction(undefined)}
         />
       )}
@@ -188,7 +211,6 @@ const SetupActionsForm: React.FC<Props> = ({ actions, setActions }): JSX.Element
         <SetupTransferNFTModal
           open={selectedAction?.text === 'Transfer NFT'}
           action={selectedAction}
-          onSubmit={handleUpdateAction}
           onClose={() => setSelectedAction(undefined)}
         />
       )}
@@ -196,7 +218,6 @@ const SetupActionsForm: React.FC<Props> = ({ actions, setActions }): JSX.Element
         <SetupUpdateContractAdminModal
           open={selectedAction?.text === 'Update Contract Admin'}
           action={selectedAction}
-          onSubmit={handleUpdateAction}
           onClose={() => setSelectedAction(undefined)}
         />
       )}
@@ -204,7 +225,6 @@ const SetupActionsForm: React.FC<Props> = ({ actions, setActions }): JSX.Element
         <SetupUpdateDAOInfoModal
           open={selectedAction?.text === 'Update Info'}
           action={selectedAction}
-          onSubmit={handleUpdateAction}
           onClose={() => setSelectedAction(undefined)}
         />
       )}
@@ -212,7 +232,6 @@ const SetupActionsForm: React.FC<Props> = ({ actions, setActions }): JSX.Element
         <SetupUpdateProposalSubmissionConfigModal
           open={selectedAction?.text === 'Update Proposal Submission Config'}
           action={selectedAction}
-          onSubmit={handleUpdateAction}
           onClose={() => setSelectedAction(undefined)}
         />
       )}
@@ -220,7 +239,6 @@ const SetupActionsForm: React.FC<Props> = ({ actions, setActions }): JSX.Element
         <SetupUpdateVotingConfigModal
           open={selectedAction?.text === 'Update Voting Config'}
           action={selectedAction}
-          onSubmit={handleUpdateAction}
           onClose={() => setSelectedAction(undefined)}
         />
       )}
@@ -228,7 +246,6 @@ const SetupActionsForm: React.FC<Props> = ({ actions, setActions }): JSX.Element
         <SetupValidatorActionsModal
           open={selectedAction?.text === 'Validator Actions'}
           action={selectedAction}
-          onSubmit={handleUpdateAction}
           onClose={() => setSelectedAction(undefined)}
         />
       )}
@@ -236,7 +253,6 @@ const SetupActionsForm: React.FC<Props> = ({ actions, setActions }): JSX.Element
         <SetupVoteOnAGovernanceProposalModal
           open={selectedAction?.text === 'Vote on a Network Proposal'}
           action={selectedAction}
-          onSubmit={handleUpdateAction}
           onClose={() => setSelectedAction(undefined)}
         />
       )}
@@ -244,7 +260,6 @@ const SetupActionsForm: React.FC<Props> = ({ actions, setActions }): JSX.Element
         <SetupWithdrawTokenSwapModal
           open={selectedAction?.text === 'Withdraw Token Swap'}
           action={selectedAction}
-          onSubmit={handleUpdateAction}
           onClose={() => setSelectedAction(undefined)}
         />
       )}
@@ -252,7 +267,6 @@ const SetupActionsForm: React.FC<Props> = ({ actions, setActions }): JSX.Element
         <SetupCustomModal
           open={selectedAction?.text === 'Custom'}
           action={selectedAction}
-          onSubmit={handleUpdateAction}
           onClose={() => setSelectedAction(undefined)}
         />
       )}
@@ -260,7 +274,6 @@ const SetupActionsForm: React.FC<Props> = ({ actions, setActions }): JSX.Element
         <SetupManageStorageItemsModal
           open={selectedAction?.text === 'Manage Storage Items'}
           action={selectedAction}
-          onSubmit={handleUpdateAction}
           onClose={() => setSelectedAction(undefined)}
         />
       )}
@@ -268,12 +281,11 @@ const SetupActionsForm: React.FC<Props> = ({ actions, setActions }): JSX.Element
         <SetupDAOAdminExecuteModal
           open={selectedAction?.text === 'DAO Admin Execute'}
           action={selectedAction}
-          onSubmit={handleUpdateAction}
           onClose={() => setSelectedAction(undefined)}
         />
       )}
-    </>
+    </FlexBox>
   )
 }
 
-export default SetupActionsForm
+export default InstructionsToExecute

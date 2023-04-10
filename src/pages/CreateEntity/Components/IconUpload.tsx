@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { ImageUploadModal } from 'components/Modals'
 import { Typography } from 'components/Typography'
 
-const Wrapper = styled.div<{ background?: string }>`
+const Wrapper = styled.div<{ size: number; background?: string }>`
   ${(props): string =>
     props.background
       ? `background: url(${props.background}) center center no-repeat;`
@@ -19,8 +19,8 @@ const Wrapper = styled.div<{ background?: string }>`
   transition: all 0.2s;
   text-align: center;
 
-  width: 60px;
-  height: 60px;
+  width: ${(props) => props.size + 'px'};
+  height: ${(props) => props.size + 'px'};
 
   &:hover {
     opacity: 0.8;
@@ -39,15 +39,16 @@ const Overlay = styled.div`
 
 interface Props {
   icon: string | undefined
+  sizeInPX?: number
   placeholder?: string
   handleChange: (value: string) => void
 }
 
-const IconUpload: React.FC<Props> = ({ icon, placeholder = 'Icon', handleChange }): JSX.Element => {
+const IconUpload: React.FC<Props> = ({ icon, sizeInPX = 60, placeholder = 'Icon', handleChange }): JSX.Element => {
   const [openModal, setOpenModal] = useState(false)
   return (
     <>
-      <Wrapper background={icon} onClick={(): void => setOpenModal(true)}>
+      <Wrapper size={sizeInPX} background={icon} onClick={(): void => setOpenModal(true)}>
         {!icon ? (
           <Typography weight='semi-bold' size='md' color='white'>
             {placeholder}

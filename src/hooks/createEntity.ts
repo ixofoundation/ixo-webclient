@@ -69,8 +69,8 @@ import {
 } from 'redux/createEntity/strategy-map'
 import { TCreateEntityModel } from 'redux/createEntity/createEntity.types'
 import { useAccount } from './account'
-import { CreateEntity } from 'lib/protocol'
-import { customQueries, utils } from '@ixo/impactxclient-sdk'
+import { CreateEntity, fee } from 'lib/protocol'
+import { customQueries, ixo, utils } from '@ixo/impactxclient-sdk'
 import { CellnodePublicResource, CellnodeWeb3Resource } from '@ixo/impactxclient-sdk/types/custom_queries/cellnode'
 import {
   AccordedRight,
@@ -89,6 +89,7 @@ import { chainNetwork } from './configs'
 import { Verification } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/tx'
 import { NodeType } from 'types/entities'
 import { Cw20Coin } from '@ixo/impactxclient-sdk/types/codegen/Cw20Base.types'
+import { DeliverTxResponse } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/stargate'
 
 export function useCreateEntityStrategy(): {
   getStrategyByEntityType: (entityType: string) => TCreateEntityStrategyType
@@ -360,6 +361,7 @@ interface TCreateEntityHookRes {
     },
   ) => Promise<string>
   CreateDAOCoreByGroupId: (daoGroup: TDAOGroupModel) => Promise<string>
+  AddLinkedEntity: (did: string, linkedEntity: LinkedEntity) => Promise<DeliverTxResponse | undefined>
 }
 
 const NEW_DAO_CW20_DECIMALS = 6
@@ -975,7 +977,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
         },
       ])
       const did = utils.common.getValueFromEvents(res!, 'wasm', 'token_id')
-      console.log('CreateEntityBase', { did })
+      console.log('CreateEntityBase', { did }, res)
       return did
     } catch (e) {
       console.error('CreateEntityBase', e)
@@ -1122,7 +1124,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
            * else use existing one
            */
           if (!tokenContractAddress) {
-            const { tokenSymbol, tokenName, tokenSupply, distributions } = staking
+            const { tokenSymbol, tokenName, tokenSupply, tokenLogo, distributions } = staking
 
             const microInitialBalances: Cw20Coin[] = distributions.flatMap(({ totalSupplyPercent, members }) =>
               members.map((address) => ({
@@ -1151,7 +1153,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
                   new: {
                     code_id: cw20BaseContractCode,
                     decimals: NEW_DAO_CW20_DECIMALS,
-                    marketing: null, // TODO: token logo upload component's needed
+                    marketing: tokenLogo ? { logo: { url: tokenLogo } } : null,
                     initial_balances: microInitialBalances,
                     initial_dao_balance: microInitialTreasuryBalance,
                     label: tokenName,
@@ -1208,6 +1210,25 @@ export function useCreateEntity(): TCreateEntityHookRes {
     }
   }
 
+  const AddLinkedEntity = async (did: string, linkedEntity: LinkedEntity): Promise<DeliverTxResponse | undefined> => {
+    try {
+      const message = {
+        typeUrl: '/ixo.iid.v1beta1.MsgAddLinkedEntity',
+        value: ixo.iid.v1beta1.MsgAddLinkedEntity.fromPartial({
+          id: did,
+          linkedEntity: ixo.iid.v1beta1.LinkedEntity.fromPartial(linkedEntity),
+          signer: signer.address,
+        }),
+      }
+      const response: DeliverTxResponse = await signingClient.signAndBroadcast(signer.address, [message], fee)
+      console.info('AddLinkedEntity', response)
+      return response
+    } catch (e) {
+      console.error('AddLinkedEntity', e)
+      return undefined
+    }
+  }
+
   return {
     CreateDAO,
     CreateDAOCredsIssuer,
@@ -1222,5 +1243,6 @@ export function useCreateEntity(): TCreateEntityHookRes {
     CreateProtocol,
     CreateEntityBase,
     CreateDAOCoreByGroupId,
+    AddLinkedEntity,
   }
 }

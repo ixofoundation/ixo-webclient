@@ -41,6 +41,7 @@ import {
   SetupPageContent,
   SetupActions,
   SetupProperties as SetupProposalProperties,
+  ReviewProposal,
 } from 'pages/CreateEntity/CreateProposal/Pages'
 
 export interface TCreateEntityStepType {
@@ -357,6 +358,14 @@ export const CreateEntityStrategyMap: TCreateEntityStrategyMap = {
         component: SetupActions,
         url: '/create/entity/deed/:entityId/:coreAddress/setup-actions',
         prevStep: 3,
+        nextStep: 5,
+      },
+      [`5`]: {
+        id: 5,
+        name: 'Review and Submit',
+        component: ReviewProposal,
+        url: '/create/entity/deed/:entityId/:coreAddress/review',
+        prevStep: 4,
         nextStep: undefined,
       },
     },

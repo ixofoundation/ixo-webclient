@@ -23,13 +23,8 @@ interface Props {
   entityDid: string
 }
 
-const Claims: React.FunctionComponent<Props> = ({
-  widget: { title, controls },
-  showMore,
-  claims,
-  entityDid,
-  toggleShowMore,
-}) => {
+const Claims: React.FunctionComponent<Props> = ({ widget, showMore, claims, entityDid, toggleShowMore }) => {
+  const controls = widget?.controls ?? []
   const isApprovedSA = useAppSelector(selectIsApprovedSA)
   const isApprovedIA = useAppSelector(selectIsApprovedIA)
   const entityStatus = useAppSelector(selectEntityStatus)

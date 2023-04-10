@@ -7,11 +7,14 @@ import { ReactComponent as InfoIcon } from 'assets/images/icon-info.svg'
 import { Button, InputWithLabel, TextArea } from 'pages/CreateEntity/Components'
 import { useCreateEntityState } from 'hooks/createEntity'
 import { useHistory, useParams } from 'react-router-dom'
+import { TProposalMetadataModel } from 'types/protocol'
 
 const SetupInfo: React.FC = (): JSX.Element => {
   const { entityId, coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
   const history = useHistory()
-  const { proposal, updateProposal } = useCreateEntityState()
+  const createEntityState = useCreateEntityState()
+  const metadata = createEntityState.metadata as TProposalMetadataModel
+  const { updateMetadata } = createEntityState
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
   const canContinue = name && description
@@ -21,15 +24,15 @@ const SetupInfo: React.FC = (): JSX.Element => {
   }
   const onContinue = () => {
     if (name && description) {
-      updateProposal({ name, description })
+      updateMetadata({ name, description })
       history.push(`/create/entity/deed/${entityId}/${coreAddress}/setup-page`)
     }
   }
 
   useEffect(() => {
-    setName(proposal?.name ?? '')
-    setDescription(proposal?.description ?? '')
-  }, [proposal])
+    setName(metadata?.name ?? '')
+    setDescription(metadata?.description ?? '')
+  }, [metadata])
 
   return (
     <FlexBox width={'100%'} justifyContent='center'>

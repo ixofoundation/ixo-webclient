@@ -25,7 +25,7 @@ interface Props {
 }
 
 const DAOCard: React.FunctionComponent<Props> = ({ id, profile, tags }) => {
-  const sdgs = tags ? tags.find(({ category, tags }) => category === 'SDG' && Array.isArray(tags))?.tags ?? [] : []
+  const sdgs = tags ? tags.find((item) => item && item.category === 'SDG' && Array.isArray(item.tags))?.tags ?? [] : []
   const numOfMembers = 0
 
   return (

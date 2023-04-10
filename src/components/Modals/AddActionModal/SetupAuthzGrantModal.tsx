@@ -41,7 +41,7 @@ interface Props {
   open: boolean
   action: TProposalActionModel
   onClose: () => void
-  onSubmit: (data: any) => void
+  onSubmit?: (data: any) => void
 }
 
 const SetupAuthzGrantModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
@@ -57,11 +57,11 @@ const SetupAuthzGrantModal: React.FC<Props> = ({ open, action, onClose, onSubmit
   }, [action])
 
   const handleUpdateFormData = (key: string, value: any) => {
-    setFormData((data: any) => ({ ...data, [key]: value }))
+    onSubmit && setFormData((data: any) => ({ ...data, [key]: value }))
   }
 
   const handleConfirm = () => {
-    onSubmit({ ...action, data: formData })
+    onSubmit && onSubmit({ ...action, data: formData })
     onClose()
   }
 
@@ -70,7 +70,7 @@ const SetupAuthzGrantModal: React.FC<Props> = ({ open, action, onClose, onSubmit
       open={open}
       action={action}
       onClose={onClose}
-      onSubmit={handleConfirm}
+      onSubmit={onSubmit && handleConfirm}
       validate={validate}
     >
       <FlexBox direction='column' width='100%' gap={2}>
