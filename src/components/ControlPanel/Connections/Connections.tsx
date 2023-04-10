@@ -40,7 +40,7 @@ const Connections: React.FunctionComponent<Props> = ({
 }) => {
   const title = widget?.title
   const controls = widget?.controls ?? []
-  const findControl = (type: ConnectionType): Control | undefined => controls?.find((conn) => conn['@type'] === type)
+  const findControl = (type: ConnectionType): Control | undefined => controls.find((conn) => conn['@type'] === type)
   const windowSize = useWindowSize()
 
   const handleClick = (connectionType: any, endpoint: any): void => {

@@ -103,9 +103,9 @@ const MyProposals: React.FC<Props> = ({ coreAddress, full = true }) => {
           const closeDate = cell.row.original?.proposal.closeDate
           const remainingTime = closeDate - new Date().getTime()
           const data = [
-            { key: 'yes', value: Number(votes.yes), color: theme.ixoGreen },
-            { key: 'no', value: Number(votes.no), color: theme.ixoRed },
-            { key: 'abstain', value: Number(votes.abstain), color: theme.ixoOrange },
+            { key: 'yes', value: Number(votes?.yes || '0'), color: theme.ixoGreen },
+            { key: 'no', value: Number(votes?.no || '0'), color: theme.ixoRed },
+            { key: 'abstain', value: Number(votes?.abstain || '0'), color: theme.ixoOrange },
           ]
 
           const statusColorMap = {
