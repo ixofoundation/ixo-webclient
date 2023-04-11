@@ -109,6 +109,7 @@ interface GovernanceProposalProps {
   closeDate: string
   status: Status
   deedDid: string | undefined
+  onUpdate: () => void
 }
 
 const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
@@ -120,6 +121,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
   closeDate,
   status,
   deedDid,
+  onUpdate,
 }) => {
   const history = useHistory()
   const { isDark } = useContext(DashboardThemeContext)
@@ -174,6 +176,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
       .then(({ transactionHash, logs }) => {
         console.log('handleExecuteProposal', transactionHash, logs)
         if (transactionHash) {
+          onUpdate()
           Toast.successToast('Successfully executed proposal')
         }
       })
@@ -186,9 +189,10 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
   const handleCloseProposal = () => {
     daoProposalSingleClient
       .close({ proposalId }, fee, undefined, depositInfo ? [depositInfo] : undefined)
-      .then(({ transactionHash }) => {
-        console.log('handleCloseProposal', transactionHash)
+      .then(({ transactionHash, logs }) => {
+        console.log('handleCloseProposal', transactionHash, logs)
         if (transactionHash) {
+          onUpdate()
           Toast.successToast('Successfully closed proposal')
         }
       })

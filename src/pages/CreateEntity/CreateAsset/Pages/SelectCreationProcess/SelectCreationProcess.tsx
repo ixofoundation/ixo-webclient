@@ -1,4 +1,4 @@
-import { Box, theme, Typography } from 'components/App/App.styles'
+import { Box } from 'components/App/App.styles'
 import cx from 'classnames'
 import React, { useMemo, useState } from 'react'
 import { ReactComponent as EntityIcon } from 'assets/images/icon-entity.svg'
@@ -18,6 +18,7 @@ import {
 import { ETokenType } from 'types/tokens'
 import { Button, ChainSelector, Input } from 'pages/CreateEntity/Components'
 import { useCreateEntityState } from 'hooks/createEntity'
+import { Typography } from 'components/Typography'
 
 const SelectCreationProcess: React.FC = (): JSX.Element => {
   const { gotoStep } = useCreateEntityState()
@@ -41,24 +42,12 @@ const SelectCreationProcess: React.FC = (): JSX.Element => {
   return (
     <PageWrapper>
       <PageRow>
-        <Typography
-          fontFamily={theme.secondaryFontFamily}
-          fontWeight={400}
-          fontSize='24px'
-          lineHeight='28px'
-          color={theme.ixoBlack}
-        >
+        <Typography variant='secondary' size='2xl' color='black'>
           An Asset Class defines a collection of tokens that share the same properties.
         </Typography>
       </PageRow>
       <PageRow>
-        <Typography
-          fontFamily={theme.secondaryFontFamily}
-          fontWeight={700}
-          fontSize='24px'
-          lineHeight='28px'
-          color={theme.ixoBlack}
-        >
+        <Typography variant='secondary' weight='bold' size='2xl' color='black'>
           Start by cloning an existing Asset Class or choose a Token Type (or Template)
         </Typography>
       </PageRow>
@@ -69,7 +58,7 @@ const SelectCreationProcess: React.FC = (): JSX.Element => {
         </OptionBox>
         {isClone && (
           <Box className='d-flex flex-column justify-content-between'>
-            <Typography fontFamily={theme.secondaryFontFamily} fontWeight={400} fontSize='24px' lineHeight='28px'>
+            <Typography variant='secondary' size='2xl'>
               Clone
             </Typography>
             <Box className='d-flex align-items-center' style={{ gap: 16 }}>
@@ -95,7 +84,7 @@ const SelectCreationProcess: React.FC = (): JSX.Element => {
         <OptionBox className={cx({ active: isClone })} onClick={(): void => setIsClone((pre) => !pre)}>
           <EntityIcon />
           <Box className='text-center label'>
-            <Typography fontFamily={theme.secondaryFontFamily} fontWeight={400} fontSize='24px' lineHeight='28px'>
+            <Typography variant='secondary' size='2xl'>
               Token
               <br />
               Template
@@ -106,64 +95,44 @@ const SelectCreationProcess: React.FC = (): JSX.Element => {
         <OptionBox filled onClick={(): void => handleCreate(ETokenType.IXO1155)}>
           <ImpactTokenIcon />
           <Box className='text-center label'>
-            <Typography fontFamily={theme.secondaryFontFamily} fontWeight={400} fontSize='24px' lineHeight='28px'>
+            <Typography variant='secondary' size='2xl'>
               ImpactToken
             </Typography>
             <br />
-            <Typography fontFamily={theme.secondaryFontFamily} fontWeight={400} fontSize='16px' lineHeight='19px'>
-              (IXO1155)
-            </Typography>
+            <Typography variant='secondary'>(IXO1155)</Typography>
           </Box>
         </OptionBox>
 
         <OptionBox filled onClick={(): void => handleCreate(ETokenType.IXO721)}>
           <InterNFTIcon />
           <Box className='text-center label'>
-            <Typography fontFamily={theme.secondaryFontFamily} fontWeight={400} fontSize='24px' lineHeight='28px'>
+            <Typography variant='secondary' size='2xl'>
               InterNFT
             </Typography>
             <br />
-            <Typography fontFamily={theme.secondaryFontFamily} fontWeight={400} fontSize='16px' lineHeight='19px'>
-              (IXO721)
-            </Typography>
+            <Typography variant='secondary'>(IXO721)</Typography>
           </Box>
         </OptionBox>
 
         <OptionBox filled onClick={(): void => handleCreate(ETokenType.CW721)}>
           <NFTIcon />
           <Box className='text-center label'>
-            <Typography
-              fontFamily={theme.secondaryFontFamily}
-              fontWeight={400}
-              fontSize='24px'
-              lineHeight='28px'
-              style={{ whiteSpace: 'nowrap' }}
-            >
+            <Typography variant='secondary' size='2xl' noWrap>
               Non-Fungible Token
             </Typography>
             <br />
-            <Typography fontFamily={theme.secondaryFontFamily} fontWeight={400} fontSize='16px' lineHeight='19px'>
-              (CW721)
-            </Typography>
+            <Typography variant='secondary'>(CW721)</Typography>
           </Box>
         </OptionBox>
 
         <OptionBox filled onClick={(): void => handleCreate(ETokenType.CW20)}>
           <FTIcon />
           <Box className='text-center label'>
-            <Typography
-              fontFamily={theme.secondaryFontFamily}
-              fontWeight={400}
-              fontSize='24px'
-              lineHeight='28px'
-              style={{ whiteSpace: 'nowrap' }}
-            >
+            <Typography variant='secondary' size='2xl' noWrap>
               Fungible Token
             </Typography>
             <br />
-            <Typography fontFamily={theme.secondaryFontFamily} fontWeight={400} fontSize='16px' lineHeight='19px'>
-              (CW20)
-            </Typography>
+            <Typography variant='secondary'>(CW20)</Typography>
           </Box>
         </OptionBox>
       </Selections>

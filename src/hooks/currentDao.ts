@@ -390,6 +390,10 @@ export function useCurrentDaoGroup(groupAddress: string) {
     return members.length
   }, [members])
 
+  const contractName = useMemo(() => {
+    return daoGroup?.votingModule.contractName
+  }, [daoGroup])
+
   return {
     daoGroup,
     daoProposalSingleClient,
@@ -402,5 +406,6 @@ export function useCurrentDaoGroup(groupAddress: string) {
     myProposals,
     members,
     numOfMembers,
+    contractName,
   }
 }

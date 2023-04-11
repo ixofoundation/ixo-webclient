@@ -67,14 +67,24 @@ const renderTableHeader = (name: string, justifyContent = 'flex-start') => (
 )
 
 interface Props {
+  show?: boolean
   coreAddress: string
   full?: boolean
 }
 
-const MyProposals: React.FC<Props> = ({ coreAddress, full = true }) => {
+const MyProposals: React.FC<Props> = ({ show, coreAddress, full = true }) => {
   const history = useHistory()
   const { entityId } = useParams<{ entityId: string }>()
   const { myProposals, numOfMembers } = useCurrentDaoGroup(coreAddress)
+
+  const sortedMyProposals = myProposals.sort((a, b) => {
+    if (a.id < b.id) {
+      return 1
+    } else if (a.id > b.id) {
+      return -1
+    }
+    return 0
+  })
 
   const columns = useMemo(
     () => [
@@ -149,21 +159,23 @@ const MyProposals: React.FC<Props> = ({ coreAddress, full = true }) => {
     }
   }
 
-  return (
+  return show ? (
     <>
-      <FlexBox width='100%' direction='column' gap={3}>
-        <TableWrapper>
-          <Table
-            columns={columns}
-            data={myProposals}
-            getRowProps={(state) => ({
-              style: { height: 70, cursor: 'pointer' },
-              onClick: handleRowClick(state),
-            })}
-            getCellProps={() => ({ style: { background: '#023044' } })}
-          />
-        </TableWrapper>
-      </FlexBox>
+      {sortedMyProposals.length > 0 && (
+        <FlexBox width='100%' direction='column' gap={3}>
+          <TableWrapper>
+            <Table
+              columns={columns}
+              data={full ? sortedMyProposals : sortedMyProposals.slice(0, 2)}
+              getRowProps={(state) => ({
+                style: { height: 70, cursor: 'pointer' },
+                onClick: handleRowClick(state),
+              })}
+              getCellProps={() => ({ style: { background: '#023044' } })}
+            />
+          </TableWrapper>
+        </FlexBox>
+      )}
       <Button
         variant='secondary'
         onClick={handleNewProposal}
@@ -176,7 +188,7 @@ const MyProposals: React.FC<Props> = ({ coreAddress, full = true }) => {
         New Proposal
       </Button>
     </>
-  )
+  ) : null
 }
 
 export default MyProposals

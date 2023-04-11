@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useCallback, useEffect, useMemo } from 'react'
 import { Box, FlexBox } from 'components/App/App.styles'
 import GovernanceProposal from 'components/Entities/SelectedEntity/EntityEconomy/EconomyGovernance/Components/GovernanceProposal2'
 import useCurrentDao, { useCurrentDaoGroup } from 'hooks/currentDao'
@@ -31,15 +31,18 @@ const Governance: React.FC = () => {
     history.push(`/create/entity/deed/${entityId}/${coreAddress}/info`)
   }
 
-  useEffect(() => {
+  const reListProposals = useCallback(() => {
     if (daoProposalSingleClient && !!selectedGroup) {
       daoProposalSingleClient.listProposals({}).then(({ proposals }) => {
         updateDaoGroup({ ...selectedGroup, proposalModule: { ...selectedGroup.proposalModule, proposals } })
       })
     }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [daoProposalSingleClient, !!selectedGroup])
+
+  useEffect(() => {
+    reListProposals()
+  }, [reListProposals])
 
   return (
     <FlexBox direction='column' gap={6} width='100%' color='white'>
@@ -114,6 +117,7 @@ const Governance: React.FC = () => {
                   closeDate={closeDate.toISOString()}
                   status={status}
                   deedDid={deedDid}
+                  onUpdate={reListProposals}
                 />
               )
             })

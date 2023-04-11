@@ -17,10 +17,11 @@ import {
 import { ReactComponent as ArrowDownIcon } from 'assets/images/icon-arrow-down.svg'
 import { useCurrentEntityProfile } from 'hooks/currentEntity'
 import { Input } from 'pages/CreateEntity/Components'
-import { TokenInfoResponse } from '@ixo/impactxclient-sdk/types/codegen/Cw20Base.types'
+import { MarketingInfoResponse, TokenInfoResponse } from '@ixo/impactxclient-sdk/types/codegen/Cw20Base.types'
 import CurrencyFormat from 'react-currency-format'
 import { fee } from 'lib/protocol'
 import styled from 'styled-components'
+import { Avatar } from 'pages/CurrentEntity/Dashboard/Components'
 
 const StyledInput = styled(Input)`
   color: white;
@@ -60,6 +61,7 @@ const GroupUnstakingModal: React.FunctionComponent<Props> = ({ daoGroup, open, s
   const { daoVotingCw20StakedClient, depositInfo } = useCurrentDaoGroup(daoGroup?.coreAddress)
   const [unstakingDuration, setUnstakingDuration] = useState<number>(0)
   const [tokenInfo, setTokenInfo] = useState<TokenInfoResponse | undefined>(undefined)
+  const [marketingInfo, setMarketingInfo] = useState<MarketingInfoResponse | undefined>(undefined)
   const [stakedBalance, setStakedBalance] = useState('')
   const daoGroupName = daoGroup?.config.name
 
@@ -89,9 +91,12 @@ const GroupUnstakingModal: React.FunctionComponent<Props> = ({ daoGroup, open, s
         const tokenContract = await daoVotingCw20StakedClient.tokenContract()
         const cw20BaseClient = new contracts.Cw20Base.Cw20BaseClient(cosmWasmClient, address, tokenContract)
         const tokenInfo = await cw20BaseClient.tokenInfo()
+        const marketingInfo = await cw20BaseClient.marketingInfo()
         const stakedBalance = convertMicroDenomToDenomWithDecimals(microStakedBalance, tokenInfo.decimals).toString()
+
         setStakedBalance(stakedBalance)
         setTokenInfo(tokenInfo)
+        setMarketingInfo(marketingInfo)
       })()
     }
   }, [daoVotingCw20StakedClient, address, cosmWasmClient])
@@ -198,7 +203,8 @@ const GroupUnstakingModal: React.FunctionComponent<Props> = ({ daoGroup, open, s
                       </Typography>
                     </FlexBox>
                   </Box>
-                  <Card justifyContent='flex-start' flexBasis='33%'>
+                  <Card justifyContent='flex-start' alignItems='center' flexBasis='33%' gap={2}>
+                    <Avatar size={28} url={marketingInfo?.logo !== 'embedded' ? marketingInfo?.logo?.url : undefined} />
                     <Typography color='white' transform='uppercase'>
                       {tokenInfo?.symbol}
                     </Typography>
