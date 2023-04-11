@@ -16,7 +16,7 @@ interface Props {
   open: boolean
   action: TProposalActionModel
   onClose: () => void
-  onSubmit: (data: any) => void
+  onSubmit?: (data: any) => void
 }
 
 const SetupCustomModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
@@ -29,11 +29,11 @@ const SetupCustomModal: React.FC<Props> = ({ open, action, onClose, onSubmit }):
   }, [action])
 
   const handleUpdateFormData = (key: string, value: string | number) => {
-    setFormData((data: any) => ({ ...data, [key]: value }))
+    onSubmit && setFormData((data: any) => ({ ...data, [key]: value }))
   }
 
   const handleConfirm = () => {
-    onSubmit({ ...action, data: formData })
+    onSubmit && onSubmit({ ...action, data: formData })
     onClose()
   }
 
@@ -43,7 +43,7 @@ const SetupCustomModal: React.FC<Props> = ({ open, action, onClose, onSubmit }):
       open={open}
       action={action}
       onClose={onClose}
-      onSubmit={handleConfirm}
+      onSubmit={onSubmit && handleConfirm}
       validate={validate}
     >
       <FlexBox width='100%' direction='column' gap={2}>

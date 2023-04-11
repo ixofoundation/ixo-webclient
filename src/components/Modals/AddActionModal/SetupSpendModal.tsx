@@ -22,7 +22,7 @@ interface Props {
   open: boolean
   action: TProposalActionModel
   onClose: () => void
-  onSubmit: (data: any) => void
+  onSubmit?: (data: any) => void
 }
 
 const SetupSpendModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
@@ -35,11 +35,11 @@ const SetupSpendModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): 
   }, [action])
 
   const handleUpdateFormData = (key: string, value: string | number) => {
-    setFormData((data: SpendData) => ({ ...data, [key]: value }))
+    onSubmit && setFormData((data: SpendData) => ({ ...data, [key]: value }))
   }
 
   const handleConfirm = () => {
-    onSubmit({ ...action, data: formData })
+    onSubmit && onSubmit({ ...action, data: formData })
     onClose()
   }
 
@@ -48,7 +48,7 @@ const SetupSpendModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): 
       open={open}
       action={action}
       onClose={onClose}
-      onSubmit={handleConfirm}
+      onSubmit={onSubmit && handleConfirm}
       validate={validate}
     >
       <FlexBox width='100%' gap={4}>

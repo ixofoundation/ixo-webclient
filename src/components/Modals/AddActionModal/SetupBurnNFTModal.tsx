@@ -25,7 +25,7 @@ interface Props {
   open: boolean
   action: TProposalActionModel
   onClose: () => void
-  onSubmit: (data: any) => void
+  onSubmit?: (data: any) => void
 }
 
 const SetupBurnNFTModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
@@ -37,11 +37,11 @@ const SetupBurnNFTModal: React.FC<Props> = ({ open, action, onClose, onSubmit })
   }, [action])
 
   const handleUpdateFormData = (key: string, value: string | number) => {
-    setFormData((data) => ({ ...data, [key]: value }))
+    onSubmit && setFormData((data) => ({ ...data, [key]: value }))
   }
 
   const handleConfirm = () => {
-    onSubmit({ ...action, data: formData })
+    onSubmit && onSubmit({ ...action, data: formData })
     onClose()
   }
 
@@ -50,7 +50,7 @@ const SetupBurnNFTModal: React.FC<Props> = ({ open, action, onClose, onSubmit })
       open={open}
       action={action}
       onClose={onClose}
-      onSubmit={handleConfirm}
+      onSubmit={onSubmit && handleConfirm}
       validate={validate}
     >
       <FlexBox direction='column' width='100%' gap={2}>

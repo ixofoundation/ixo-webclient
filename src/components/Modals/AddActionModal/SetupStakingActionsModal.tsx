@@ -29,7 +29,7 @@ interface Props {
   open: boolean
   action: TProposalActionModel
   onClose: () => void
-  onSubmit: (data: any) => void
+  onSubmit?: (data: any) => void
 }
 
 const SetupStakingActionsModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
@@ -53,11 +53,11 @@ const SetupStakingActionsModal: React.FC<Props> = ({ open, action, onClose, onSu
   }, [action])
 
   const handleUpdateFormData = (key: string, value: string | number) => {
-    setFormData((data: any) => ({ ...data, [key]: value }))
+    onSubmit && setFormData((data: any) => ({ ...data, [key]: value }))
   }
 
   const handleConfirm = () => {
-    onSubmit({ ...action, data: formData })
+    onSubmit && onSubmit({ ...action, data: formData })
     onClose()
   }
 
@@ -66,7 +66,7 @@ const SetupStakingActionsModal: React.FC<Props> = ({ open, action, onClose, onSu
       open={open}
       action={action}
       onClose={onClose}
-      onSubmit={handleConfirm}
+      onSubmit={onSubmit && handleConfirm}
       validate={validate}
     >
       <FlexBox width='100%' gap={2} direction='column'>

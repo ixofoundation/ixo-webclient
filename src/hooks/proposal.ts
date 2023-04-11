@@ -493,8 +493,8 @@ export function useMakeProposalAction(coreAddress: string) {
           funds: [],
           msg: {
             update_members: {
-              add: data.toAdd,
-              remove: data.toRemove.map(({ addr }) => addr),
+              add: data.add,
+              remove: data.remove.map(({ addr }) => addr),
             },
           },
         },

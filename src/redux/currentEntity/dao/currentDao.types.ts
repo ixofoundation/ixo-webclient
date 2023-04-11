@@ -4,9 +4,11 @@ import {
   Cw20BalanceResponse,
   ProposalModuleCountResponse,
 } from '@ixo/impactxclient-sdk/types/codegen/DaoCore.types'
-import { ProposalResponse } from '@ixo/impactxclient-sdk/types/codegen/DaoMigrator.types'
 import { Config as PreProposeConfig } from '@ixo/impactxclient-sdk/types/codegen/DaoPreProposeSingle.types'
-import { Config as ProposalConfig } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
+import {
+  Config as ProposalConfig,
+  ProposalResponse,
+} from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
 import { Member } from 'types/dao'
 
 export type DaoGroup = {

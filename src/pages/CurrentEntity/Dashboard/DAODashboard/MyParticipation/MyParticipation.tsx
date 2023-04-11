@@ -83,7 +83,7 @@ const MyParticipation: React.FC = () => {
             actionIcon={<ArrowLeftIcon />}
             onAction={() => history.goBack()}
           >
-            <MyProposals />
+            <MyProposals coreAddress={selectedGroup.coreAddress} />
           </Card>
           {/* token && tokenDetail */}
           {selectedGroup.type === 'staking' && (
@@ -125,7 +125,7 @@ const MyParticipation: React.FC = () => {
                 label='My Proposals'
                 onAction={() => history.push({ pathname: history.location.pathname, search: `?expand=proposal` })}
               >
-                <MyProposals full={false} />
+                <MyProposals coreAddress={selectedGroup.coreAddress} full={false} />
               </Card>
             </GridItem>
             <GridItem gridArea='c'>

@@ -21,13 +21,19 @@ import CopyToClipboard from 'react-copy-to-clipboard'
 import { VoteModal2 } from 'components/Modals'
 import { DashboardThemeContext } from 'components/Dashboard/Dashboard'
 import { Box, FlexBox, SvgBox, theme } from 'components/App/App.styles'
-import { Status, Vote, VoteInfo } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
-import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
+import {
+  Status,
+  Vote,
+  VoteInfo,
+  Config as ProposalConfig,
+} from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
 import { useCurrentDaoGroup } from 'hooks/currentDao'
 import { fee } from 'lib/protocol'
 import * as Toast from 'utils/toast'
 import { useIxoConfigs } from 'hooks/configs'
 import { serializeCoin } from 'utils/conversions'
+import { useHistory } from 'react-router-dom'
+import { votingRemainingDateFormat } from 'utils/formatters'
 
 const Container = styled.div<{ isDark: boolean }>`
   background: ${(props) =>
@@ -101,8 +107,8 @@ interface GovernanceProposalProps {
   proposer: string
   submissionDate: string
   closeDate: string
-  totalDeposit: Coin | undefined | null
   status: Status
+  deedDid: string | undefined
 }
 
 const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
@@ -113,11 +119,12 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
   submissionDate,
   closeDate,
   status,
-  totalDeposit,
+  deedDid,
 }) => {
+  const history = useHistory()
   const { isDark } = useContext(DashboardThemeContext)
   const { convertToDenom } = useIxoConfigs()
-  const { daoGroup, daoProposalSingleClient } = useCurrentDaoGroup(coreAddress)
+  const { daoGroup, daoProposalSingleClient, isParticipating, depositInfo } = useCurrentDaoGroup(coreAddress)
   const { address } = useAppSelector((state) => state.account)
   const [myVoteStatus, setMyVoteStatus] = useState<VoteInfo | undefined>(undefined)
   const [votes, setVotes] = useState<VoteInfo[]>([])
@@ -137,6 +144,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
     () => numOfAvailableVotes - numOfYesVotes - numOfNoVotes - numOfNoWithVetoVotes,
     [numOfAvailableVotes, numOfYesVotes, numOfNoVotes, numOfNoWithVetoVotes],
   )
+  const proposalConfig: ProposalConfig | undefined = useMemo(() => daoGroup?.proposalModule.proposalConfig, [daoGroup])
 
   const getVoteStatus = useCallback(() => {
     daoProposalSingleClient.getVote({ proposalId, voter: address }).then(({ vote }) => {
@@ -149,7 +157,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
 
   const handleVote = async (vote: Vote): Promise<string> => {
     return daoProposalSingleClient
-      .vote({ proposalId, vote }, fee)
+      .vote({ proposalId, vote }, fee, undefined, depositInfo ? [depositInfo] : undefined)
       .then(({ transactionHash }) => {
         getVoteStatus()
         return transactionHash
@@ -160,15 +168,39 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
       })
   }
 
+  const handleExecuteProposal = () => {
+    daoProposalSingleClient
+      .execute({ proposalId }, fee, undefined, depositInfo ? [depositInfo] : undefined)
+      .then(({ transactionHash, logs }) => {
+        console.log('handleExecuteProposal', transactionHash, logs)
+        if (transactionHash) {
+          Toast.successToast('Successfully executed proposal')
+        }
+      })
+      .catch((e) => {
+        console.error('handleExecuteProposal', e)
+        Toast.errorToast('Transaction failed')
+      })
+  }
+
+  const handleCloseProposal = () => {
+    daoProposalSingleClient
+      .close({ proposalId }, fee, undefined, depositInfo ? [depositInfo] : undefined)
+      .then(({ transactionHash }) => {
+        console.log('handleCloseProposal', transactionHash)
+        if (transactionHash) {
+          Toast.successToast('Successfully closed proposal')
+        }
+      })
+      .catch((e) => {
+        console.error('handleCloseProposal', e)
+        Toast.errorToast('Transaction failed')
+      })
+  }
+
   useEffect(() => {
     getVoteStatus()
   }, [getVoteStatus])
-
-  const remainDateFormat = (min: any): string => {
-    const x = moment.utc(min * 60 * 1000)
-    const dayNum: number = Number(x.format('D')) - 1
-    return `${('0' + dayNum).slice(-2)}d ${x.format('H[h] mm[m]')} `
-  }
 
   const calcPercentage = (limit: number, value: number): number => {
     if (!limit) return 0
@@ -195,9 +227,11 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
               <NumberBadget isDark={!isDark}>#{proposalId}</NumberBadget>
               <NumberBadget isDark={isDark}>{groupName}</NumberBadget>
             </FlexBox>
-            <SvgBox cursor='pointer' svgWidth={6}>
-              <ExpandIcon />
-            </SvgBox>
+            {deedDid && (
+              <SvgBox cursor='pointer' svgWidth={6} onClick={() => history.push(`/entity/${deedDid}/overview`)}>
+                <ExpandIcon />
+              </SvgBox>
+            )}
           </div>
         </div>
       </div>
@@ -221,7 +255,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
           </div>
 
           <div className='text-right'>
-            <LabelSM className='bold'>{votingRemain > 0 && remainDateFormat(votingRemain)}</LabelSM>
+            <LabelSM className='bold'>{votingRemain > 0 && votingRemainingDateFormat(votingRemain)}</LabelSM>
             <LabelSM>{votingRemain > 0 ? 'remaining' : 'Voting period is now closed'}</LabelSM>
           </div>
 
@@ -238,11 +272,11 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
                 </CopyToClipboard>
               </LabelLG>
             </div>
-            {totalDeposit && (
+            {depositInfo && (
               <div className='col-6 pb-3'>
                 <LabelSM>Deposit</LabelSM>
                 <br />
-                <LabelLG style={{ textTransform: 'uppercase' }}>{serializeCoin(convertToDenom(totalDeposit))}</LabelLG>
+                <LabelLG style={{ textTransform: 'uppercase' }}>{serializeCoin(convertToDenom(depositInfo))}</LabelLG>
               </div>
             )}
           </div>
@@ -260,13 +294,25 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
           </div>
 
           <div className='d-flex justify-content-between align-items-center pt-2'>
-            <Action
-              isDark={isDark}
-              className={clsx({ disable: status === 'open' && !!myVoteStatus })}
-              onClick={(): void => setVoteModalOpen(true)}
-            >
-              {status === 'open' && !myVoteStatus ? 'New Vote' : 'My Vote'}
-            </Action>
+            <FlexBox gap={4}>
+              <Action
+                isDark={isDark}
+                className={clsx({ disable: status !== 'open' || !!myVoteStatus })}
+                onClick={(): void => setVoteModalOpen(true)}
+              >
+                {status === 'open' && !myVoteStatus ? 'New Vote' : 'My Vote'}
+              </Action>
+              {status === 'passed' && (!proposalConfig.only_members_execute || isParticipating) && (
+                <Action isDark={isDark} onClick={handleExecuteProposal}>
+                  Execute
+                </Action>
+              )}
+              {status === 'rejected' && (
+                <Action isDark={isDark} onClick={handleCloseProposal}>
+                  Close
+                </Action>
+              )}
+            </FlexBox>
             <div>
               <DecisionIMG className='pr-2' src={IMG_decision_textfile} alt='decision1' />
               <DecisionIMG src={IMG_decision_pdf} alt='decision2' />

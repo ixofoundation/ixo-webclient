@@ -15,7 +15,7 @@ interface Props {
   open: boolean
   action: TProposalActionModel
   onClose: () => void
-  onSubmit: (data: any) => void
+  onSubmit?: (data: any) => void
 }
 
 const SetupMintModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
@@ -35,11 +35,11 @@ const SetupMintModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): J
   }, [action])
 
   const handleUpdateFormData = (key: string, value: any) => {
-    setFormData((data) => ({ ...data, [key]: value }))
+    onSubmit && setFormData((data) => ({ ...data, [key]: value }))
   }
 
   const handleConfirm = () => {
-    onSubmit({ ...action, data: formData })
+    onSubmit && onSubmit({ ...action, data: formData })
     onClose()
   }
 

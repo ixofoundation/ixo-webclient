@@ -11,6 +11,7 @@ const edjsParser = edjsHTML()
 const Wrapper = styled(FlexBox)`
   & > * {
     width: 100%;
+    word-wrap: break-word;
   }
 `
 

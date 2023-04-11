@@ -85,11 +85,11 @@ class ControlPanel extends React.Component<Props, State> {
   }
 
   render(): JSX.Element {
-    const {
-      schema: { dashboard, actions, apps, connections },
-      entityDid,
-      claims,
-    } = this.props
+    const { schema, entityDid, claims } = this.props
+    const dashboard = schema?.dashboard
+    const actions = schema?.actions
+    const apps = schema?.apps
+    const connections = schema?.connections
 
     const isViewedFromApp = !!window.MobileContext
     if (isViewedFromApp) return <div />

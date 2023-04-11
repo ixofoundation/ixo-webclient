@@ -93,7 +93,7 @@ interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
 
 const InputWithLabel: React.FC<Props> = ({
   inputValue,
-  label = '',
+  label,
   disabled = false,
   error,
   width = '100%',
@@ -113,15 +113,17 @@ const InputWithLabel: React.FC<Props> = ({
 
   return (
     <InputWrapper width={width} height={height} error={!!error} disabled={disabled} style={wrapperStyle}>
-      <InputLabel filled={filled}>
-        <Typography
-          weight={filled ? 'bold' : 'medium'}
-          size={filled ? 'sm' : 'xl'}
-          color={filled ? 'blue' : 'gray-medium'}
-        >
-          {label}
-        </Typography>
-      </InputLabel>
+      {label && (
+        <InputLabel filled={filled}>
+          <Typography
+            weight={filled ? 'bold' : 'medium'}
+            size={filled ? 'sm' : 'xl'}
+            color={filled ? 'blue' : 'gray-medium'}
+          >
+            {label}
+          </Typography>
+        </InputLabel>
+      )}
       <StyledInput
         ref={inputRef as any}
         value={inputValue ?? ''}

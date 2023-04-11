@@ -3,7 +3,7 @@ import { FlexBox } from 'components/App/App.styles'
 import { Table } from 'components/Table'
 import { Typography } from 'components/Typography'
 import { Button } from 'pages/CreateEntity/Components'
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import CurrencyFormat from 'react-currency-format'
 import styled from 'styled-components'
 import { contracts } from '@ixo/impactxclient-sdk'
@@ -12,7 +12,6 @@ import { useCurrentDaoGroup } from 'hooks/currentDao'
 import { convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
 import { useAccount } from 'hooks/account'
 import { Avatar } from 'pages/CurrentEntity/Dashboard/Components'
-import { isGreaterThan } from 'utils/currency'
 import { GroupStakingModal } from 'components/Modals'
 
 const TableWrapper = styled.div`
@@ -127,12 +126,9 @@ interface Props {
 const MyStakes: React.FC<Props> = ({ coreAddress }) => {
   const history = useHistory()
   const { cosmWasmClient, address } = useAccount()
-  const { daoGroup, daoVotingCw20StakedClient } = useCurrentDaoGroup(coreAddress)
+  const { daoGroup, daoVotingCw20StakedClient, isParticipating } = useCurrentDaoGroup(coreAddress)
   const [data, setData] = useState<any[]>([])
-  const [stakedBalance, setStakedBalance] = useState('0')
   const [groupStakingModalOpen, setGroupStakingModalOpen] = useState(false)
-
-  const isParticipating = useMemo(() => isGreaterThan(stakedBalance, '0'), [stakedBalance])
 
   /**
    * @get
@@ -154,7 +150,6 @@ const MyStakes: React.FC<Props> = ({ coreAddress }) => {
     const cw20BaseClient = new contracts.Cw20Base.Cw20BaseClient(cosmWasmClient, address, tokenContract)
     const tokenInfo = await cw20BaseClient.tokenInfo()
     const stakedValue = convertMicroDenomToDenomWithDecimals(microStakedValue, tokenInfo.decimals).toString()
-    setStakedBalance(stakedValue)
 
     setData([
       {

@@ -66,13 +66,15 @@ interface Props {
 }
 
 const Actions: React.FunctionComponent<Props> = ({
-  widget: { title, controls },
+  widget,
   showMore,
   creatorDid,
   agents,
   toggleShowMore,
   toggleAssistant,
 }) => {
+  const title = widget?.title
+  const controls = widget?.controls ?? []
   const dispatch = useAppDispatch()
   const { signingClient, did, address } = useAccount()
   const {

@@ -97,3 +97,9 @@ export const truncateString = (str: string, length: number, at = 'middle'): stri
   }
   return str
 }
+
+export const votingRemainingDateFormat = (min: number): string => {
+  const x = moment.utc(min * 60 * 1000)
+  const dayNum: number = Number(x.format('D')) - 1
+  return `${('0' + dayNum).slice(-2)}d ${x.format('H[h] mm[m]')} `
+}

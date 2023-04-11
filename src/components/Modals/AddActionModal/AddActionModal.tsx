@@ -24,7 +24,7 @@ const AddActionModal: React.FC<Props> = ({ open, onClose, onAdd }): JSX.Element 
   }, [selectedGroup])
 
   const handleContinue = () => {
-    onAdd({ id: uuidv4(), type: selectedAction?.text, group: selectedGroup })
+    onAdd({ id: uuidv4(), text: selectedAction?.text, group: selectedGroup })
     onClose()
   }
 

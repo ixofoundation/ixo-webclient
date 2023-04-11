@@ -40,7 +40,7 @@ interface Props {
   open: boolean
   action: TProposalActionModel
   onClose: () => void
-  onSubmit: (data: any) => void
+  onSubmit?: (data: any) => void
 }
 
 const SetupManageSubDAOsModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
@@ -61,7 +61,7 @@ const SetupManageSubDAOsModal: React.FC<Props> = ({ open, action, onClose, onSub
   }, [action])
 
   const handleUpdateFormData = (key: string, value: any) => {
-    setFormData((data) => ({ ...data, [key]: value }))
+    onSubmit && setFormData((data) => ({ ...data, [key]: value }))
   }
 
   // handle toAdd
@@ -99,7 +99,7 @@ const SetupManageSubDAOsModal: React.FC<Props> = ({ open, action, onClose, onSub
   }
 
   const handleConfirm = () => {
-    onSubmit({ ...action, data: formData })
+    onSubmit && onSubmit({ ...action, data: formData })
     onClose()
   }
 
@@ -108,7 +108,7 @@ const SetupManageSubDAOsModal: React.FC<Props> = ({ open, action, onClose, onSub
       open={open}
       action={action}
       onClose={onClose}
-      onSubmit={handleConfirm}
+      onSubmit={onSubmit && handleConfirm}
       validate={validate}
     >
       <FlexBox direction='column' width='100%' gap={2}>

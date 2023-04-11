@@ -64,11 +64,11 @@ const SignStep: React.FC<Props> = ({ status, hash, customDesc, message }) => {
   function generateTXMessage(txStatus: TXStatus): string {
     switch (txStatus) {
       case TXStatus.PENDING:
-        return message![TXStatus.PENDING] || 'Sign'
+        return (message && message[TXStatus.PENDING]) || 'Sign'
       case TXStatus.SUCCESS:
-        return message![TXStatus.SUCCESS] || 'Your transaction was successful!'
+        return (message && message[TXStatus.SUCCESS]) || 'Your transaction was successful!'
       case TXStatus.ERROR:
-        return message![TXStatus.ERROR] || `Something went wrong!\nPlease try again`
+        return (message && message[TXStatus.ERROR]) || `Something went wrong!\nPlease try again`
       default:
         return ''
     }

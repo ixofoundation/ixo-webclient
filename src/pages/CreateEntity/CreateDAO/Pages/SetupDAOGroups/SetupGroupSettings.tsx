@@ -7,6 +7,7 @@ import {
   AccountValidStatus,
   Button,
   Dropdown2,
+  IconUpload,
   InputWithLabel,
   NumberCounter,
   SimpleSelect,
@@ -477,6 +478,25 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onSubmit }): JSX.Elem
                 <Typography size='xl' weight='medium'>
                   Token Creation
                 </Typography>
+              </FlexBox>
+              <FlexBox width='100%' gap={5} alignItems='center'>
+                <FlexBox alignItems='center' gap={5}>
+                  <IconUpload
+                    icon={data.staking?.tokenLogo}
+                    sizeInPX={120}
+                    placeholder='Token Icon'
+                    handleChange={(value): void => handleUpdateStaking('tokenLogo', value)}
+                  />
+                  <Typography size='xl'>Upload or enter source:</Typography>
+                </FlexBox>
+                <FlexBox width='50%'>
+                  <InputWithLabel
+                    height={inputHeight + 'px'}
+                    placeholder='https://'
+                    inputValue={data.staking?.tokenLogo}
+                    handleChange={(value): void => handleUpdateStaking('tokenLogo', value)}
+                  />
+                </FlexBox>
               </FlexBox>
               <FlexBox gap={5}>
                 <InputWithLabel

@@ -24,32 +24,32 @@ const AddButton = styled(FlexBox)`
 `
 
 export interface ManageMembersData {
-  toAdd: Member[]
-  toRemove: { addr: string }[]
+  add: Member[]
+  remove: { addr: string }[]
 }
 
 const initialState: ManageMembersData = {
-  toAdd: [],
-  toRemove: [],
+  add: [],
+  remove: [],
 }
 
 interface Props {
   open: boolean
   action: TProposalActionModel
   onClose: () => void
-  onSubmit: (data: any) => void
+  onSubmit?: (data: any) => void
 }
 
 const SetupManageMembersModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
   const [formData, setFormData] = useState<ManageMembersData>(initialState)
 
   const validate = useMemo(() => {
-    if (formData.toAdd.length === 0 && formData.toRemove.length === 0) {
+    if (formData.add.length === 0 && formData.remove.length === 0) {
       return false
     }
     return !(
-      formData.toAdd.some(({ weight, addr }) => !weight || !isAccountAddress(addr)) ||
-      formData.toRemove.some(({ addr }) => !isAccountAddress(addr))
+      formData.add.some(({ weight, addr }) => !weight || !isAccountAddress(addr)) ||
+      formData.remove.some(({ addr }) => !isAccountAddress(addr))
     )
   }, [formData])
 
@@ -58,43 +58,43 @@ const SetupManageMembersModal: React.FC<Props> = ({ open, action, onClose, onSub
   }, [action])
 
   const handleUpdateFormData = (key: string, value: any) => {
-    setFormData((data: any) => ({ ...data, [key]: value }))
+    onSubmit && setFormData((data: any) => ({ ...data, [key]: value }))
   }
 
   const handleAddMemberToAdd = () => {
-    handleUpdateFormData('toAdd', [...formData.toAdd, []])
+    handleUpdateFormData('add', [...formData.add, []])
   }
   const handleUpdateMemberToAdd = (index: number, data: any) => {
     handleUpdateFormData(
-      'toAdd',
-      formData.toAdd.map((member, i: number) => (i === index ? data : member)),
+      'add',
+      formData.add.map((member, i: number) => (i === index ? data : member)),
     )
   }
   const handleRemoveMemberToAdd = (index: number) => {
     handleUpdateFormData(
-      'toAdd',
-      formData.toAdd.filter((member, i: number) => i !== index),
+      'add',
+      formData.add.filter((member, i: number) => i !== index),
     )
   }
 
   const handleAddMemberToRemove = () => {
-    handleUpdateFormData('toRemove', [...formData.toRemove, []])
+    handleUpdateFormData('remove', [...formData.remove, []])
   }
   const handleUpdateMemberToRemove = (index: number, data: any) => {
     handleUpdateFormData(
-      'toRemove',
-      formData.toRemove.map((member, i: number) => (i === index ? data : member)),
+      'remove',
+      formData.remove.map((member, i: number) => (i === index ? data : member)),
     )
   }
   const handleRemoveMemberToRemove = (index: number) => {
     handleUpdateFormData(
-      'toRemove',
-      formData.toRemove.filter((member, i: number) => i !== index),
+      'remove',
+      formData.remove.filter((member, i: number) => i !== index),
     )
   }
 
   const handleConfirm = () => {
-    onSubmit({ ...action, data: formData })
+    onSubmit && onSubmit({ ...action, data: formData })
     onClose()
   }
 
@@ -104,7 +104,7 @@ const SetupManageMembersModal: React.FC<Props> = ({ open, action, onClose, onSub
       open={open}
       action={action}
       onClose={onClose}
-      onSubmit={handleConfirm}
+      onSubmit={onSubmit && handleConfirm}
       validate={validate}
     >
       <FlexBox direction='column' width='100%' gap={2}>
@@ -113,7 +113,7 @@ const SetupManageMembersModal: React.FC<Props> = ({ open, action, onClose, onSub
           description='Set the voting power of each address individually. DAO DAO will calculate the voting weight percentage for you.'
         />
         <FlexBox direction='column' width='100%' gap={4}>
-          {formData.toAdd.map((member: any, index: number) => (
+          {formData.add.map((member: any, index: number) => (
             <FlexBox key={index} width='100%' gap={4} alignItems='center'>
               <Input
                 name='voting_weight'
@@ -151,7 +151,7 @@ const SetupManageMembersModal: React.FC<Props> = ({ open, action, onClose, onSub
       <FlexBox direction='column' width='100%' gap={2}>
         <TitleAndDescription title='Members to remove' description='These addresses will be removed from the DAO.' />
         <FlexBox direction='column' width='100%' gap={4}>
-          {formData.toRemove.map((member: any, index: number) => (
+          {formData.remove.map((member: any, index: number) => (
             <FlexBox key={index} width='100%' gap={4} alignItems='center'>
               <Input
                 name='member_address'

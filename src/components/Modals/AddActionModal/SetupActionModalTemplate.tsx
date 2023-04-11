@@ -30,7 +30,7 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
   action: TProposalActionModel
   validate?: boolean
   onClose: () => void
-  onSubmit: () => void
+  onSubmit?: () => void
 }
 
 const SetupActionModalTemplate: React.FC<Props> = ({
@@ -42,7 +42,7 @@ const SetupActionModalTemplate: React.FC<Props> = ({
   onSubmit,
   children,
 }): JSX.Element => {
-  const Icon = ProposalActionConfig[action.group].items[action.type].icon
+  const Icon = ProposalActionConfig[action.group].items[action.text].icon
 
   return (
     // @ts-ignore
@@ -57,7 +57,7 @@ const SetupActionModalTemplate: React.FC<Props> = ({
             <Icon />
           </SvgBox>
           <Typography weight='medium' size='xl'>
-            {action.type}
+            {action.text}
           </Typography>
         </FlexBox>
 
@@ -65,11 +65,13 @@ const SetupActionModalTemplate: React.FC<Props> = ({
           {children}
         </BodyWrapper>
 
-        <FlexBox width='100%'>
-          <Button variant='primary' onClick={onSubmit} disabled={!validate} style={{ width: '100%' }}>
-            Confirm
-          </Button>
-        </FlexBox>
+        {onSubmit && (
+          <FlexBox width='100%'>
+            <Button variant='primary' onClick={onSubmit} disabled={!validate} style={{ width: '100%' }}>
+              Confirm
+            </Button>
+          </FlexBox>
+        )}
       </FlexBox>
     </Modal>
   )
