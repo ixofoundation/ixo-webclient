@@ -7,12 +7,12 @@ import { CurrentDao, DaoGroup } from 'redux/currentEntity/dao/currentDao.types'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { Member } from 'types/dao'
 import * as _ from 'lodash'
-import { contracts, customQueries } from '@ixo/impactxclient-sdk'
+import { contracts } from '@ixo/impactxclient-sdk'
 import { useAccount } from './account'
-import { chainNetwork } from './configs'
 import { Config as ProposalConfig } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/DaoPreProposeSingle.types'
 import { depositInfoToCoin, durationToSeconds, expirationAtTimeToSecondsFromNow } from 'utils/conversions'
+import { getDaoContractInfo } from 'utils/dao'
 
 export default function useCurrentDao(): {
   daoGroups: CurrentDao
@@ -148,132 +148,15 @@ export default function useCurrentDao(): {
     [getDaoGroupsByAddresses],
   )
 
-  const getCodeId = async (address: string): Promise<number> => {
-    const { codeId } = await cosmWasmClient.getContract(address)
-    return codeId
-  }
-
-  const getContractNameByCodeId = (codeId: number): string => {
-    return customQueries.contract.getContractCodes(chainNetwork).find(({ code }) => code === codeId)?.name ?? ''
-  }
-
   const updateDaoGroup = async (group: DaoGroup) => {
     dispatch(updateGroupAction(group))
   }
 
   const setDaoGroup = async (coreAddress: string) => {
-    let type = ''
-    const daoCoreClient = new contracts.DaoCore.DaoCoreClient(cosmWasmClient, address, coreAddress)
-    const admin = await daoCoreClient.admin()
-    const config = await daoCoreClient.config()
-    const cw20Balances = await daoCoreClient.cw20Balances({})
-    const cw20TokenList = await daoCoreClient.cw20TokenList({})
-    const cw721TokenList = await daoCoreClient.cw721TokenList({})
-    const storageItems = await daoCoreClient.listItems({})
-    const [{ address: proposalModuleAddress }] = await daoCoreClient.proposalModules({})
-    const [{ address: activeProposalModuleAddress }] = await daoCoreClient.activeProposalModules({})
-    const proposalModuleCount = await daoCoreClient.proposalModuleCount()
-    const votingModuleAddress = await daoCoreClient.votingModule()
-
-    // proposalModule
-    const proposalModule: any = {}
-    proposalModule.proposalModuleAddress = proposalModuleAddress
-    proposalModule.proposalModuleCount = proposalModuleCount
-    const daoProposalSingleClient = new contracts.DaoProposalSingle.DaoProposalSingleClient(
+    const { type, admin, config, proposalModule, votingModule, treasury, storageItems } = await getDaoContractInfo({
+      coreAddress,
       cosmWasmClient,
       address,
-      proposalModuleAddress,
-    )
-    proposalModule.proposalConfig = await daoProposalSingleClient.config()
-    const { proposals } = await daoProposalSingleClient.listProposals({})
-    // const votes = await daoProposalSingleClient.listVotes({})
-    proposalModule.proposals = proposals
-    const {
-      module: { addr: preProposalContractAddress },
-    } = (await daoProposalSingleClient.proposalCreationPolicy()) as { module: { addr: string } }
-    proposalModule.preProposalContractAddress = preProposalContractAddress
-    const daoPreProposeSingleClient = new contracts.DaoPreProposeSingle.DaoPreProposeSingleClient(
-      cosmWasmClient,
-      address,
-      preProposalContractAddress,
-    )
-    proposalModule.preProposeConfig = await daoPreProposeSingleClient.config()
-
-    // votingModule
-    const votingModule: any = {}
-    votingModule.votingModuleAddress = votingModuleAddress
-    votingModule.contractCodeId = await getCodeId(votingModule.votingModuleAddress)
-    votingModule.contractName = getContractNameByCodeId(votingModule.contractCodeId)
-
-    console.log('votingModule.contractName', votingModule.contractName)
-
-    if (votingModule.contractName === 'dao_voting_cw20_staked') {
-      type = 'staking'
-      const daoVotingCw20StakedClient = new contracts.DaoVotingCw20Staked.DaoVotingCw20StakedClient(
-        cosmWasmClient,
-        address,
-        votingModule.votingModuleAddress,
-      )
-      console.log('DaoVotingCw20StakedClient-------start')
-      const stakingContract = await daoVotingCw20StakedClient.stakingContract()
-      const tokenContract = await daoVotingCw20StakedClient.tokenContract()
-      const totalPowerAtHeight = await daoVotingCw20StakedClient.totalPowerAtHeight({})
-      console.log({ stakingContract, totalPowerAtHeight, tokenContract })
-      console.log('DaoVotingCw20StakedClient-------end')
-
-      console.log('Cw20StakeClient-------start')
-      const cw20StakeClient = new contracts.Cw20Stake.Cw20StakeClient(cosmWasmClient, address, stakingContract)
-      const { total } = await cw20StakeClient.totalValue()
-      const { stakers } = await cw20StakeClient.listStakers({})
-      const totalStakedAtHeight = await cw20StakeClient.totalStakedAtHeight({})
-      const stakedBalanceAtHeight = await cw20StakeClient.stakedBalanceAtHeight({ address })
-      const stakedValue = await cw20StakeClient.stakedValue({ address })
-      const config = await cw20StakeClient.getConfig()
-      console.log({ total, stakers, totalStakedAtHeight, stakedBalanceAtHeight, stakedValue, config })
-      console.log('Cw20StakeClient-------end')
-
-      console.log('Cw20BaseClient-------start')
-      const cw20BaseClient = new contracts.Cw20Base.Cw20BaseClient(cosmWasmClient, address, tokenContract)
-      const balance = await cw20BaseClient.balance({ address })
-      const tokenInfo = await cw20BaseClient.tokenInfo()
-      const marketingInfo = await cw20BaseClient.marketingInfo()
-      console.log({ balance, tokenInfo, marketingInfo })
-      console.log('Cw20BaseClient-------end')
-
-      votingModule.members = stakers.map(({ address, balance }) => ({ addr: address, weight: balance }))
-      votingModule.totalWeight = parseInt(total)
-    } else if (votingModule.contractName === 'dao_voting_cw4') {
-      type = 'membership'
-      const daoVotingCw4Client = new contracts.DaoVotingCw4.DaoVotingCw4Client(
-        cosmWasmClient,
-        address,
-        votingModule.votingModuleAddress,
-      )
-
-      console.log('Cw4GroupClient-------start')
-      const cw4GroupAddress = await daoVotingCw4Client.groupContract()
-      const cw4GroupClient = new contracts.Cw4Group.Cw4GroupClient(cosmWasmClient, address, cw4GroupAddress)
-      votingModule.members = (await cw4GroupClient.listMembers({})).members as never[]
-      votingModule.totalWeight = (await cw4GroupClient.totalWeight({})).weight as number
-      console.log('Cw4GroupClient-------end')
-    }
-
-    // treasury
-    const treasury: any = {}
-    treasury.cw20Balances = cw20Balances
-    treasury.cw20TokenList = cw20TokenList
-    treasury.cw721TokenList = cw721TokenList
-
-    console.log({
-      admin,
-      config,
-      cw20Balances,
-      cw20TokenList,
-      storageItems,
-      activeProposalModuleAddress,
-      proposalModule,
-      votingModule,
-      treasury,
     })
 
     updateDaoGroup({

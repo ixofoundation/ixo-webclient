@@ -9,7 +9,7 @@ import { TDAOMetadataModel } from 'types/protocol'
 
 const SetupMetadata: React.FC = (): JSX.Element => {
   const createEntityState = useCreateEntityState()
-  const { localisation, gotoStep, updateMetadata, updateLocalisation } = createEntityState
+  const { entityType, localisation, gotoStep, updateMetadata, updateLocalisation } = createEntityState
   const metadata: TDAOMetadataModel = createEntityState.metadata as TDAOMetadataModel
 
   const canSubmit = true
@@ -50,6 +50,7 @@ const SetupMetadata: React.FC = (): JSX.Element => {
       <Box className='d-flex flex-column justify-content-between' style={{ width: 400 }}>
         <Box>
           <EntityAdditionalInfoForm
+            entityType={entityType}
             description={metadata?.description ?? ''}
             setDescription={(description): void => handleUpdateMetadata('description', description)}
             brand={metadata?.brand ?? ''}

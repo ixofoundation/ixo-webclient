@@ -1,7 +1,5 @@
-import React, { useEffect } from 'react'
-import { NavLink, useHistory } from 'react-router-dom'
-import { useCreateEntityState, useCreateEntityStrategy } from 'hooks/createEntity'
-import { CreateEntityStrategyMap } from 'redux/createEntity/strategy-map'
+import React from 'react'
+import { NavLink } from 'react-router-dom'
 import {
   LayoutBody,
   LayoutContainer,
@@ -14,28 +12,13 @@ import { Typography } from 'components/Typography'
 import { Box } from 'components/App/App.styles'
 
 interface Props {
+  title: string
+  subtitle: string
+  breadCrumbs: { text: string; link?: string }[]
   children?: React.ReactNode
 }
 
-const CreateEntityLayout: React.FC<Props> = ({ children }): JSX.Element => {
-  const history = useHistory()
-  const {
-    location: { pathname },
-  } = history
-
-  const { stepNo, breadCrumbs, title, subtitle } = useCreateEntityState()
-  const { getStrategyAndStepByPath } = useCreateEntityStrategy()
-  const { strategy } = getStrategyAndStepByPath(pathname)
-  const entityType = strategy?.entityType
-
-  useEffect(() => {
-    if (entityType && stepNo) {
-      const { steps } = CreateEntityStrategyMap[entityType]
-      steps[stepNo]?.url && history.push(steps[stepNo].url)
-    }
-    // eslint-disable-next-line
-  }, [stepNo, entityType])
-
+const CreateEntityLayout: React.FC<Props> = ({ title, subtitle, breadCrumbs, children }): JSX.Element => {
   const renderBreadCrumbs = (): JSX.Element => {
     return (
       <BreadCrumbs>

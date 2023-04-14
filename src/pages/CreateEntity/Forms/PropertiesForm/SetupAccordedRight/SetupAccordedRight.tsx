@@ -1,15 +1,18 @@
 import { Box } from 'components/App/App.styles'
 import { AddAccordedRightModal, PaymentsSetupModal } from 'components/Modals'
 import { Typography } from 'components/Typography'
-import { useCreateEntityState } from 'hooks/createEntity'
 import { PropertyBox } from 'pages/CreateEntity/Components'
 import React, { useEffect, useState } from 'react'
-import { EntityAccordedRightConfig, TEntityPaymentModel } from 'types/protocol'
+import { EntityAccordedRightConfig, TEntityAccordedRightModel, TEntityPaymentModel } from 'types/protocol'
 import { omitKey } from 'utils/objects'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
 
-const SetupAccordedRight: React.FC = (): JSX.Element => {
-  const { accordedRight, updateAccordedRight } = useCreateEntityState()
+interface Props {
+  accordedRight: { [key: string]: TEntityAccordedRightModel }
+  updateAccordedRight: (accordedRight: { [id: string]: TEntityAccordedRightModel }) => void
+}
+
+const SetupAccordedRight: React.FC<Props> = ({ accordedRight, updateAccordedRight }): JSX.Element => {
   const [entityAccordedRight, setEntityAccordedRight] = useState<{ [key: string]: any }>({})
   const [openAddAccordedRightModal, setOpenAddAccordedRightModal] = useState(false)
 

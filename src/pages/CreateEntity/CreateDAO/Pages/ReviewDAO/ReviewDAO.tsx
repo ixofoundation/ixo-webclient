@@ -15,7 +15,7 @@ import { Button } from 'pages/CreateEntity/Components'
 import React, { useMemo, useState } from 'react'
 import { NavLink, useHistory } from 'react-router-dom'
 import { TDAOMetadataModel } from 'types/protocol'
-import DAOCard from './DAOCard'
+import DAOCard from '../../../Forms/ReviewCard/DAOCard'
 import { ReactComponent as CheckCircleIcon } from 'assets/images/icon-check-circle.svg'
 import { ReactComponent as ExclamationIcon } from 'assets/images/icon-exclamation-circle.svg'
 
@@ -43,10 +43,7 @@ const ReviewDAO: React.FC = (): JSX.Element => {
     if (!daoGroup) {
       return 0
     }
-    if (daoGroup.type !== 'staking') {
-      return daoGroup.memberships.reduce((acc, cur) => acc + cur.members.length, 0)
-    }
-    return daoGroup.staking?.distributions.reduce((acc, cur) => acc + cur.members.length, 0) ?? 0
+    return daoGroup.memberships.reduce((acc, cur) => acc + cur.members.length, 0)
   }, [daoGroups, daoController])
 
   const handleSignToCreate = async (): Promise<void> => {

@@ -1,32 +1,47 @@
 import { Box } from 'components/App/App.styles'
-import React from 'react'
-import { useCreateEntityState } from 'hooks/createEntity'
-import { Button } from '../../../Components'
-import { LocalisationForm, OracleProfileForm, EntityAdditionalInfoForm } from '../../../Forms'
-import { PageWrapper } from './SetupMetadata.styles'
+import React, { useContext, useEffect } from 'react'
 import { Typography } from 'components/Typography'
-import { TOracleMetadataModel } from 'types/protocol'
+import { ELocalisation, TDAOMetadataModel } from 'types/protocol'
+import styled from 'styled-components'
+import { DAOProfileForm, EntityAdditionalInfoForm, LocalisationForm } from 'pages/CreateEntity/Forms'
+import { Button } from 'pages/CreateEntity/Components'
+import { EditEntityContext } from 'pages/EditEntity/EditEntity'
+import { useHistory, useParams } from 'react-router-dom'
 
-const SetupMetadata: React.FC = (): JSX.Element => {
-  const createEntityState = useCreateEntityState()
-  const { entityType, localisation, gotoStep, updateMetadata, updateLocalisation } = createEntityState
-  const metadata: TOracleMetadataModel = createEntityState.metadata as TOracleMetadataModel
+const PageWrapper = styled.div`
+  display: flex;
+  justify-content: stretch;
+  gap: 50px;
+`
+
+const EditMetadata: React.FC = (): JSX.Element => {
+  const history = useHistory()
+  const { entityId } = useParams<{ entityId: string }>()
+  const entity = useContext(EditEntityContext)
+
+  const metadata: TDAOMetadataModel = entity.metadata as TDAOMetadataModel
 
   const canSubmit = true
 
   const handlePrev = (): void => {
-    gotoStep(-1)
+    history.goBack()
   }
   const handleNext = (): void => {
-    gotoStep(1)
+    history.push(`/edit/entity/${entityId}/groups`)
   }
 
   const handleUpdateMetadata = (key: string, value: any): void => {
-    updateMetadata({
-      ...metadata,
-      [key]: value,
-    })
+    entity.updatePartial('metadata', { [key]: value }, true)
   }
+
+  const handleUpdateLocalisation = (localisation: ELocalisation): void => {
+    entity.updatePartial('localisation', localisation)
+  }
+
+  useEffect(() => {
+    entity.updatePartial('subtitle', 'Profile')
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <PageWrapper>
@@ -35,14 +50,12 @@ const SetupMetadata: React.FC = (): JSX.Element => {
           <Typography weight='medium' size='xl'>
             Localisation:
           </Typography>
-          <LocalisationForm localisation={localisation} setLocalisation={updateLocalisation} />
+          <LocalisationForm localisation={entity.localisation} setLocalisation={handleUpdateLocalisation} />
         </Box>
         <Box className='mb-2' />
-        <OracleProfileForm
+        <DAOProfileForm
           image={metadata?.image}
           setImage={(image): void => handleUpdateMetadata('image', image)}
-          logo={metadata?.icon ?? ''}
-          setLogo={(icon): void => handleUpdateMetadata('icon', icon)}
           orgName={metadata?.orgName ?? ''}
           setOrgName={(orgName): void => handleUpdateMetadata('orgName', orgName)}
           name={metadata?.name ?? ''}
@@ -52,7 +65,7 @@ const SetupMetadata: React.FC = (): JSX.Element => {
       <Box className='d-flex flex-column justify-content-between' style={{ width: 400 }}>
         <Box>
           <EntityAdditionalInfoForm
-            entityType={entityType}
+            entityType={entity.entityType}
             description={metadata?.description ?? ''}
             setDescription={(description): void => handleUpdateMetadata('description', description)}
             brand={metadata?.brand ?? ''}
@@ -66,11 +79,7 @@ const SetupMetadata: React.FC = (): JSX.Element => {
             startDate={metadata?.startDate ?? ''}
             endDate={metadata?.endDate ?? ''}
             setStartEndDate={(startDate, endDate) => {
-              updateMetadata({
-                ...metadata,
-                startDate,
-                endDate,
-              })
+              entity.updatePartial('metadata', { startDate, endDate }, true)
             }}
           />
         </Box>
@@ -88,4 +97,4 @@ const SetupMetadata: React.FC = (): JSX.Element => {
   )
 }
 
-export default SetupMetadata
+export default EditMetadata

@@ -387,6 +387,8 @@ export enum DurationUnits {
   Hours = 'hours',
   Days = 'days',
   Weeks = 'weeks',
+  Months = 'months',
+  Years = 'years',
 }
 export const DurationUnitsValues = Object.values(DurationUnits)
 

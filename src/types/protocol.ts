@@ -1003,7 +1003,7 @@ export interface TDAOGroupModel extends UpdatePreProposeConfigData, UpdatePropos
   name: string
   description: string
   memberships: {
-    category: string
+    category?: string
     weight: number
     members: string[]
   }[]
@@ -1016,11 +1016,6 @@ export interface TDAOGroupModel extends UpdatePreProposeConfigData, UpdatePropos
     tokenSupply: number
     tokenLogo?: string
     treasuryPercent: number
-    distributions: {
-      category: string
-      totalSupplyPercent: number
-      members: string[]
-    }[]
     // config
     unstakingDuration: DurationWithUnits
   }
