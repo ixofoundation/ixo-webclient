@@ -7,6 +7,8 @@ import { FlexBox, GridContainer, GridItem } from 'components/App/App.styles'
 import { Button, Dropdown, PropertyBox } from 'pages/CreateEntity/Components'
 import { Typography } from 'components/Typography'
 import { v4 as uuidv4 } from 'uuid'
+import { useCurrentDaoGroup } from 'hooks/currentDao'
+import { useParams } from 'react-router-dom'
 
 interface Props {
   open: boolean
@@ -15,6 +17,9 @@ interface Props {
 }
 
 const AddActionModal: React.FC<Props> = ({ open, onClose, onAdd }): JSX.Element => {
+  const { coreAddress } = useParams<{ coreAddress: string }>()
+  const { contractName } = useCurrentDaoGroup(coreAddress)
+
   const options = Object.values(ProposalActionConfig).map((item) => item.text)
   const [selectedGroup, setSelectedGroup] = useState(options[0])
   const [selectedAction, setSelectedAction] = useState<any>()
@@ -57,17 +62,19 @@ const AddActionModal: React.FC<Props> = ({ open, onClose, onAdd }): JSX.Element 
           )}
         </FlexBox>
         <GridContainer columns={4} width='100%' gridGap={4}>
-          {groupItems.map((item) => (
-            <GridItem key={item.text}>
-              <PropertyBox
-                icon={<item.icon />}
-                label={item.text}
-                required
-                hovered={item.text === selectedAction?.text}
-                handleClick={(): void => setSelectedAction(item)}
-              />
-            </GridItem>
-          ))}
+          {groupItems
+            .filter((item) => item.in.includes(contractName))
+            .map((item) => (
+              <GridItem key={item.text}>
+                <PropertyBox
+                  icon={<item.icon />}
+                  label={item.text}
+                  required
+                  hovered={item.text === selectedAction?.text}
+                  handleClick={(): void => setSelectedAction(item)}
+                />
+              </GridItem>
+            ))}
         </GridContainer>
         <FlexBox width='100%'>
           <Button variant='primary' disabled={!selectedAction} onClick={handleContinue} style={{ width: '100%' }}>

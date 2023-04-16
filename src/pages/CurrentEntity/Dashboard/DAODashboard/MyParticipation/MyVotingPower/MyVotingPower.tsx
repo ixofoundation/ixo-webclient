@@ -6,13 +6,14 @@ import React from 'react'
 import PieChart from 'components/Widgets/PieChart/PieChart'
 
 interface Props {
+  show?: boolean
   coreAddress: string
 }
 
-const MyVotingPower: React.FC<Props> = ({ coreAddress }) => {
+const MyVotingPower: React.FC<Props> = ({ show, coreAddress }) => {
   const { isParticipating, myVotingPower } = useCurrentDaoGroup(coreAddress)
 
-  return (
+  return show ? (
     <>
       {isParticipating ? (
         <FlexBox width='100%'>
@@ -51,7 +52,7 @@ const MyVotingPower: React.FC<Props> = ({ coreAddress }) => {
         Apply
       </Button>
     </>
-  )
+  ) : null
 }
 
 export default MyVotingPower

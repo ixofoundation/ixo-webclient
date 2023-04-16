@@ -474,6 +474,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
         },
         id: 'ixo:entity#profile',
         type: 'profile',
+        orgName: metadata.orgName,
         name: metadata.name,
         image: metadata.image,
         logo: metadata.icon,
@@ -1124,15 +1125,15 @@ export function useCreateEntity(): TCreateEntityHookRes {
            * else use existing one
            */
           if (!tokenContractAddress) {
-            const { tokenSymbol, tokenName, tokenSupply, tokenLogo, distributions } = staking
+            const { tokenSymbol, tokenName, tokenSupply, tokenLogo } = staking
 
-            const microInitialBalances: Cw20Coin[] = distributions.flatMap(({ totalSupplyPercent, members }) =>
+            const microInitialBalances: Cw20Coin[] = memberships.flatMap(({ weight, members }) =>
               members.map((address) => ({
                 address,
                 amount: convertDenomToMicroDenomWithDecimals(
                   // Governance Token-based DAOs distribute tier weights
                   // evenly amongst members.
-                  (totalSupplyPercent / members.length / 100) * tokenSupply,
+                  (weight / members.length / 100) * tokenSupply,
                   NEW_DAO_CW20_DECIMALS,
                 ).toString(),
               })),

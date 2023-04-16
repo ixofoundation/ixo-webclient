@@ -109,8 +109,8 @@ const ReviewProposal: React.FC = () => {
     const wasmMessage: CosmosMsgForEmpty[] = validActions
       .map((validAction: TProposalActionModel) => {
         try {
-          const { type, data } = validAction
-          switch (type) {
+          const { text, data } = validAction
+          switch (text) {
             // Group Category
             case 'AuthZ Exec':
               return makeAuthzExecAction(data)
@@ -295,22 +295,13 @@ const ReviewProposal: React.FC = () => {
         borderRadius='8px'
       >
         {/* Header */}
-        <FlexBox width='100%' justifyContent='space-between' alignItems='center'>
-          <FlexBox gap={1}>
-            <FlexBox border={`1px solid ${theme.ixoDarkBlue}`} borderRadius='100px' p={1.5}>
-              <Typography color='blue' size='md'>
-                #999
-              </Typography>
-            </FlexBox>
-            {daoGroup?.type && (
-              <FlexBox border={`1px solid ${theme.ixoDarkBlue}`} borderRadius='100px' p={1.5}>
-                <Typography color='blue' size='md' transform='capitalize'>
-                  {daoGroup.type}
-                </Typography>
-              </FlexBox>
-            )}
+        {daoGroup?.type && (
+          <FlexBox border={`1px solid ${theme.ixoDarkBlue}`} borderRadius='100px' p={1.5}>
+            <Typography color='blue' size='md' transform='capitalize'>
+              {daoGroup.type}
+            </Typography>
           </FlexBox>
-        </FlexBox>
+        )}
 
         <FlexBox>
           <Typography variant='secondary' size='2xl'>
@@ -352,7 +343,7 @@ const ReviewProposal: React.FC = () => {
             <Typography size='sm'>Actions</Typography>
             <FlexBox gap={3}>
               {proposal.actions?.map((action) => {
-                const Icon = ProposalActionConfig[action.group].items[action.type].icon
+                const Icon = ProposalActionConfig[action.group].items[action.text]?.icon
                 return (
                   <SvgBox
                     key={action.id}

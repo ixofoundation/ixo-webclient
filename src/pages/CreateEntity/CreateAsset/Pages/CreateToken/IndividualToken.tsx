@@ -337,6 +337,7 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
           <Box style={{ flex: '1 auto', marginBottom: 30 }}>
             {metaView === 'description' && (
               <EntityDescriptionForm
+                entityType={entityType}
                 description={metadata?.description}
                 setDescription={(description): void => handleUpdateMetadata('description', description)}
                 brand={metadata?.brand}

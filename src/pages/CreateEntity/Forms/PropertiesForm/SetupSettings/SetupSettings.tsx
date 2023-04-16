@@ -11,7 +11,6 @@ import {
   ClaimEvaluationMethodSetupModal,
   DDOTagsSetupModal,
 } from 'components/Modals'
-import { useCreateEntityState } from 'hooks/createEntity'
 import { SetupPageContent } from '../SetupPageContent'
 import {
   EntitySettingsConfig,
@@ -23,20 +22,33 @@ import {
   TEntityServiceModel,
 } from 'types/protocol'
 
-const SetupSettings: React.FC = (): JSX.Element => {
-  const {
-    entityType,
-    creator,
-    administrator,
-    ddoTags,
-    page,
-    service,
-    updateCreator,
-    updateAdministrator,
-    updateDDOTags,
-    updatePage,
-    updateService,
-  } = useCreateEntityState()
+interface Props {
+  entityType: string
+  creator: TEntityCreatorModel
+  administrator: TEntityCreatorModel
+  ddoTags: TEntityDDOTagModel[]
+  page: TEntityPageModel
+  service: TEntityServiceModel[]
+  updateCreator: (creator: TEntityCreatorModel) => void
+  updateAdministrator: (administrator: TEntityAdministratorModel) => void
+  updateDDOTags: (ddoTags: TEntityDDOTagModel[]) => void
+  updatePage: (page: TEntityPageModel) => void
+  updateService: (service: TEntityServiceModel[]) => void
+}
+
+const SetupSettings: React.FC<Props> = ({
+  entityType,
+  creator,
+  administrator,
+  ddoTags,
+  page,
+  service,
+  updateCreator,
+  updateAdministrator,
+  updateDDOTags,
+  updatePage,
+  updateService,
+}): JSX.Element => {
   const [entitySettings, setEntitySettings] = useState<{ [key: string]: any }>(EntitySettingsConfig)
   const [openAddSettingsModal, setOpenAddSettingsModal] = useState(false)
 

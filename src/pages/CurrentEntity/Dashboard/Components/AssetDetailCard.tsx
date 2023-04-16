@@ -9,13 +9,14 @@ import { useHistory } from 'react-router-dom'
 import { Area, AreaChart, YAxis, ResponsiveContainer } from 'recharts'
 import { Button } from 'pages/CreateEntity/Components'
 import Avatar from './Avatar'
-import { GroupStakingModal, GroupUnstakingModal } from 'components/Modals'
+import { GroupStakingModal, GroupUnstakingModal, GroupClaimModal } from 'components/Modals'
 import useCurrentDao, { useCurrentDaoGroup } from 'hooks/currentDao'
 import { DaoGroup } from 'redux/currentEntity/dao/currentDao.types'
 import { useAccount } from 'hooks/account'
 import { contracts } from '@ixo/impactxclient-sdk'
 import { convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
 import { plus } from 'utils/currency'
+import { claimAvailable } from 'utils/claims'
 
 const data = [
   {
@@ -63,6 +64,7 @@ const data = [
 ]
 
 interface Props {
+  show?: boolean
   className?: string
   coinDenom: string
   network: string
@@ -72,6 +74,7 @@ interface Props {
 }
 
 const AssetDetailCard: React.FC<Props> = ({
+  show,
   coinDenom,
   network,
   coinImageUrl,
@@ -88,10 +91,11 @@ const AssetDetailCard: React.FC<Props> = ({
   const { daoVotingCw20StakedClient } = useCurrentDaoGroup(selectedGroup!.coreAddress)
   const [groupStakingModalOpen, setGroupStakingModalOpen] = useState(false)
   const [groupUnstakingModalOpen, setGroupUnstakingModalOpen] = useState(false)
+  const [groupClaimModalOpen, setGroupClaimModalOpen] = useState(false)
   const [balance, setBalance] = useState('0')
   const [stakedBalance, setStakedBalance] = useState('0')
   const [unstakingBalance, setUnstakingBalance] = useState('0')
-  const [claimableBalance] = useState('0')
+  const [claimableBalance, setClaimableBalance] = useState('0')
   const balanceUsd: string = useMemo(
     () => new BigNumber(balance).times(lastPriceUsd ?? 0).toString(),
     [balance, lastPriceUsd],
@@ -121,7 +125,12 @@ const AssetDetailCard: React.FC<Props> = ({
     const cw20StakeClient = new contracts.Cw20Stake.Cw20StakeClient(cosmWasmClient, address, stakingContract)
     const { value: microStakedValue } = await cw20StakeClient.stakedValue({ address })
     const { claims } = await cw20StakeClient.claims({ address })
-    const microUnstakingValue = claims.reduce((acc, cur) => plus(acc, cur.amount), '0')
+    const microUnstakingValue = claims
+      .filter((claim) => !claimAvailable(claim, 0)) //  TODO: TBD blockHeight
+      .reduce((acc, cur) => plus(acc, cur.amount), '0')
+    const microClaimableValue = claims
+      .filter((claim) => claimAvailable(claim, 0)) //  TODO: TBD blockHeight
+      .reduce((acc, cur) => plus(acc, cur.amount), '0')
 
     const tokenContract = await daoVotingCw20StakedClient.tokenContract()
     const cw20BaseClient = new contracts.Cw20Base.Cw20BaseClient(cosmWasmClient, address, tokenContract)
@@ -130,17 +139,20 @@ const AssetDetailCard: React.FC<Props> = ({
 
     const stakedValue = convertMicroDenomToDenomWithDecimals(microStakedValue, tokenInfo.decimals).toString()
     const unstakingValue = convertMicroDenomToDenomWithDecimals(microUnstakingValue, tokenInfo.decimals).toString()
+    const claimableValue = convertMicroDenomToDenomWithDecimals(microClaimableValue, tokenInfo.decimals).toString()
     const balance = convertMicroDenomToDenomWithDecimals(microBalance, tokenInfo.decimals).toString()
+
     setStakedBalance(stakedValue)
     setUnstakingBalance(unstakingValue)
+    setClaimableBalance(claimableValue)
     setBalance(balance)
   }, [address, cosmWasmClient, daoVotingCw20StakedClient])
 
   useEffect(() => {
     update()
-  }, [update])
+  }, [update, show])
 
-  return (
+  return show ? (
     <FlexBox
       direction='column'
       width={'100%'}
@@ -305,6 +317,17 @@ const AssetDetailCard: React.FC<Props> = ({
                 textSize='base'
                 textTransform='capitalize'
                 textWeight='medium'
+                onClick={() => setGroupClaimModalOpen(true)}
+              >
+                Claim Rewards
+              </Button>
+              <Button
+                variant='secondary'
+                size='flex'
+                height={40}
+                textSize='base'
+                textTransform='capitalize'
+                textWeight='medium'
                 onClick={() => setGroupStakingModalOpen(true)}
               >
                 Stake
@@ -341,8 +364,16 @@ const AssetDetailCard: React.FC<Props> = ({
           onSuccess={update}
         />
       )}
+      {groupClaimModalOpen && selectedGroup && (
+        <GroupClaimModal
+          open={groupClaimModalOpen}
+          setOpen={setGroupClaimModalOpen}
+          daoGroup={selectedGroup}
+          onSuccess={update}
+        />
+      )}
     </FlexBox>
-  )
+  ) : null
 }
 
 export default AssetDetailCard

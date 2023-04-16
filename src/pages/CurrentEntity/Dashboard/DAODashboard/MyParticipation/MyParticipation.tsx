@@ -60,7 +60,7 @@ const MyParticipation: React.FC = () => {
               actionIcon={<ArrowLeftIcon />}
               onAction={() => history.goBack()}
             >
-              <MyStakes coreAddress={selectedGroup.coreAddress} />
+              <MyStakes show={expand === 'token'} coreAddress={selectedGroup.coreAddress} />
             </Card>
           )}
           {/* expand === 'votingPower' */}
@@ -72,7 +72,7 @@ const MyParticipation: React.FC = () => {
               actionIcon={<ArrowLeftIcon />}
               onAction={() => history.goBack()}
             >
-              <MyVotingPower coreAddress={selectedGroup.coreAddress} />
+              <MyVotingPower show={expand === 'votingPower'} coreAddress={selectedGroup.coreAddress} />
             </Card>
           )}
           {/* expand === 'proposal' */}
@@ -83,12 +83,10 @@ const MyParticipation: React.FC = () => {
             actionIcon={<ArrowLeftIcon />}
             onAction={() => history.goBack()}
           >
-            <MyProposals coreAddress={selectedGroup.coreAddress} />
+            <MyProposals show={expand === 'proposal'} coreAddress={selectedGroup.coreAddress} />
           </Card>
           {/* token && tokenDetail */}
-          {selectedGroup.type === 'staking' && (
-            <AssetDetailCard className={clxs({ 'd-none': !token || !tokenDetail })} {...tokenDetail} />
-          )}
+          {selectedGroup.type === 'staking' && <AssetDetailCard show={token && tokenDetail} {...tokenDetail} />}
           {/* !expand && !token */}
           <GridContainer
             className={clxs({ 'd-none': expand || token })}
@@ -105,7 +103,7 @@ const MyParticipation: React.FC = () => {
                   label='My Stakes'
                   onAction={() => history.push({ pathname: history.location.pathname, search: `?expand=token` })}
                 >
-                  <MyStakes coreAddress={selectedGroup.coreAddress} />
+                  <MyStakes show={!expand && !token} coreAddress={selectedGroup.coreAddress} />
                 </Card>
               )}
 
@@ -115,7 +113,7 @@ const MyParticipation: React.FC = () => {
                   label='My Voting Power'
                   onAction={() => history.push({ pathname: history.location.pathname, search: `?expand=votingPower` })}
                 >
-                  <MyVotingPower coreAddress={selectedGroup.coreAddress} />
+                  <MyVotingPower show={!expand && !token} coreAddress={selectedGroup.coreAddress} />
                 </Card>
               )}
             </GridItem>
@@ -125,7 +123,7 @@ const MyParticipation: React.FC = () => {
                 label='My Proposals'
                 onAction={() => history.push({ pathname: history.location.pathname, search: `?expand=proposal` })}
               >
-                <MyProposals coreAddress={selectedGroup.coreAddress} full={false} />
+                <MyProposals show={!expand && !token} coreAddress={selectedGroup.coreAddress} full={false} />
               </Card>
             </GridItem>
             <GridItem gridArea='c'>

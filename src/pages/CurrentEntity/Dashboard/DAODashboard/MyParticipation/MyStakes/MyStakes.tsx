@@ -120,10 +120,11 @@ const columns = [
 ]
 
 interface Props {
+  show?: boolean
   coreAddress: string
 }
 
-const MyStakes: React.FC<Props> = ({ coreAddress }) => {
+const MyStakes: React.FC<Props> = ({ show, coreAddress }) => {
   const history = useHistory()
   const { cosmWasmClient, address } = useAccount()
   const { daoGroup, daoVotingCw20StakedClient, isParticipating } = useCurrentDaoGroup(coreAddress)
@@ -149,6 +150,7 @@ const MyStakes: React.FC<Props> = ({ coreAddress }) => {
     const tokenContract = await daoVotingCw20StakedClient.tokenContract()
     const cw20BaseClient = new contracts.Cw20Base.Cw20BaseClient(cosmWasmClient, address, tokenContract)
     const tokenInfo = await cw20BaseClient.tokenInfo()
+    const marketingInfo = await cw20BaseClient.marketingInfo()
     const stakedValue = convertMicroDenomToDenomWithDecimals(microStakedValue, tokenInfo.decimals).toString()
 
     setData([
@@ -156,7 +158,7 @@ const MyStakes: React.FC<Props> = ({ coreAddress }) => {
         coinDenom: tokenInfo.symbol,
         network: 'IXO',
         balance: stakedValue,
-        coinImageUrl: undefined,
+        coinImageUrl: marketingInfo?.logo !== 'embedded' && marketingInfo.logo?.url,
         lastPriceUsd: undefined,
         priceChangePercent: undefined,
       },
@@ -165,7 +167,7 @@ const MyStakes: React.FC<Props> = ({ coreAddress }) => {
 
   useEffect(() => {
     update()
-  }, [update])
+  }, [update, show])
 
   const handleRowClick = (state: any) => () => {
     const { original } = state
@@ -177,9 +179,9 @@ const MyStakes: React.FC<Props> = ({ coreAddress }) => {
     })
   }
 
-  return (
+  return show ? (
     <>
-      {isParticipating ? (
+      {isParticipating && data.length > 0 ? (
         <FlexBox width='100%' direction='column' gap={3}>
           <TableWrapper>
             <Table
@@ -218,7 +220,7 @@ const MyStakes: React.FC<Props> = ({ coreAddress }) => {
         />
       )}
     </>
-  )
+  ) : null
 }
 
 export default MyStakes

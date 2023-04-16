@@ -1,7 +1,6 @@
 import { Box } from 'components/App/App.styles'
 import { ClaimSetupModal1 } from 'components/Modals'
 import { Typography } from 'components/Typography'
-import { useCreateEntityState } from 'hooks/createEntity'
 import { PropertyBox } from 'pages/CreateEntity/Components'
 import React, { useEffect, useState } from 'react'
 import { TEntityClaimModel1 } from 'types/protocol'
@@ -9,8 +8,12 @@ import { omitKey } from 'utils/objects'
 import { v4 as uuidv4 } from 'uuid'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
 
-const SetupClaim: React.FC = (): JSX.Element => {
-  const { claim, updateClaim } = useCreateEntityState()
+interface Props {
+  claim: { [id: string]: TEntityClaimModel1 }
+  updateClaim: (claim: { [id: string]: TEntityClaimModel1 }) => void
+}
+
+const SetupClaim: React.FC<Props> = ({ claim, updateClaim }): JSX.Element => {
   const [entityClaim, setEntityClaim] = useState<{ [id: string]: any }>({})
   const [selectedClaim, setSelectedClaim] = useState<any>()
   const [editModalOpen, setEditModalOpen] = useState(false)

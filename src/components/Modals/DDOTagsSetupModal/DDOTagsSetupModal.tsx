@@ -59,6 +59,7 @@ const DDOTagsSetupModal: React.FC<Props> = ({ ddoTags, entityType, open, onClose
                 height='48px'
                 edit={!!onChange}
                 handleChange={(values: string[]): void => {
+                  console.log({ formData })
                   if (onChange) {
                     const newFormData = [...formData]
                     newFormData[index] = {

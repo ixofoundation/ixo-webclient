@@ -1,7 +1,6 @@
 import { Box } from 'components/App/App.styles'
 import { AddLinkedResourceModal, LinkedResourceSetupModal } from 'components/Modals'
 import { Typography } from 'components/Typography'
-import { useCreateEntityState } from 'hooks/createEntity'
 import { PropertyBox } from 'pages/CreateEntity/Components'
 import React, { useEffect, useState } from 'react'
 import { EntityLinkedResourceConfig, TEntityLinkedResourceModel } from 'types/protocol'
@@ -9,8 +8,12 @@ import { omitKey } from 'utils/objects'
 import { v4 as uuidv4 } from 'uuid'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
 
-const SetupLinkedResource: React.FC = (): JSX.Element => {
-  const { linkedResource, updateLinkedResource } = useCreateEntityState()
+interface Props {
+  linkedResource: { [id: string]: TEntityLinkedResourceModel }
+  updateLinkedResource: (linkedResource: { [id: string]: TEntityLinkedResourceModel }) => void
+}
+
+const SetupLinkedResource: React.FC<Props> = ({ linkedResource, updateLinkedResource }): JSX.Element => {
   const [entityLinkedResource, setEntityLinkedResource] = useState<{
     [key: string]: any
   }>({})

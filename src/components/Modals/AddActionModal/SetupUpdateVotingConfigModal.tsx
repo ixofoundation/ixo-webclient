@@ -1,4 +1,3 @@
-import { Threshold } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
 import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { useCurrentDaoGroup } from 'hooks/currentDao'
@@ -6,6 +5,7 @@ import { Dropdown2, NumberCounter, Switch } from 'pages/CreateEntity/Components'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { TProposalActionModel } from 'types/protocol'
+import { thresholdToTQData } from 'utils/dao'
 import { TitleAndDescription } from './Component'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 
@@ -23,46 +23,6 @@ export interface UpdateProposalConfigData {
   proposalDurationUnits: 'weeks' | 'days' | 'hours' | 'minutes' | 'seconds'
 
   allowRevoting: boolean
-}
-
-const thresholdToTQData = (
-  source: Threshold,
-): Pick<
-  UpdateProposalConfigData,
-  'thresholdType' | 'thresholdPercentage' | 'quorumEnabled' | 'quorumType' | 'quorumPercentage'
-> => {
-  let thresholdType: UpdateProposalConfigData['thresholdType'] = 'majority'
-  let thresholdPercentage: UpdateProposalConfigData['thresholdPercentage'] = undefined
-  let quorumEnabled = true
-  let quorumType: UpdateProposalConfigData['quorumType'] = '%'
-  let quorumPercentage: UpdateProposalConfigData['quorumPercentage'] = 20
-
-  if ('threshold_quorum' in source) {
-    const { threshold, quorum } = source.threshold_quorum
-
-    thresholdType = 'majority' in threshold ? 'majority' : '%'
-    thresholdPercentage = 'majority' in threshold ? undefined : Number(threshold.percent) * 100
-
-    quorumType = 'majority' in quorum ? 'majority' : '%'
-    quorumPercentage = 'majority' in quorum ? undefined : Number(quorum.percent) * 100
-
-    quorumEnabled = true
-  } else if ('absolute_percentage' in source) {
-    const { percentage } = source.absolute_percentage
-
-    thresholdType = 'majority' in percentage ? 'majority' : '%'
-    thresholdPercentage = 'majority' in percentage ? undefined : Number(percentage.percent) * 100
-
-    quorumEnabled = false
-  }
-
-  return {
-    thresholdType,
-    thresholdPercentage,
-    quorumEnabled,
-    quorumType,
-    quorumPercentage,
-  }
 }
 
 export const initialProposalConfigState: UpdateProposalConfigData = {

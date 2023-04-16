@@ -1,15 +1,18 @@
 import { Box } from 'components/App/App.styles'
 import { AddLinkedEntityModal, LiquiditySetupModal } from 'components/Modals'
 import { Typography } from 'components/Typography'
-import { useCreateEntityState } from 'hooks/createEntity'
 import { PropertyBox } from 'pages/CreateEntity/Components'
 import React, { useEffect, useState } from 'react'
-import { EntityLinkedEntityConfig, TEntityLiquidityModel } from 'types/protocol'
+import { EntityLinkedEntityConfig, TEntityLinkedEntityModel, TEntityLiquidityModel } from 'types/protocol'
 import { omitKey } from 'utils/objects'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
 
-const SetupLinkedEntity: React.FC = (): JSX.Element => {
-  const { linkedEntity, updateLinkedEntity } = useCreateEntityState()
+interface Props {
+  linkedEntity: { [key: string]: TEntityLinkedEntityModel }
+  updateLinkedEntity: (linkedEntity: { [id: string]: TEntityLinkedEntityModel }) => void
+}
+
+const SetupLinkedEntity: React.FC<Props> = ({ linkedEntity, updateLinkedEntity }): JSX.Element => {
   const [entityLinkedEntity, setEntityLinkedEntity] = useState<{ [key: string]: any }>({})
   const [openAddLinkedEntityModal, setOpenAddLinkedEntityModal] = useState(false)
 

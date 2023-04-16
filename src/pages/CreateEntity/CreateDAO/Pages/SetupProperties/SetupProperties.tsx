@@ -6,11 +6,55 @@ import { deviceWidth } from 'constants/device'
 import { PropertiesForm } from 'pages/CreateEntity/Forms'
 
 const SetupProperties: React.FC = (): JSX.Element => {
-  const { entityType, validateRequiredProperties, gotoStep } = useCreateEntityState()
+  const {
+    entityType,
+    creator,
+    administrator,
+    ddoTags,
+    page,
+    service,
+    linkedResource,
+    claim,
+    accordedRight,
+    linkedEntity,
+    updateCreator,
+    updateAdministrator,
+    updateDDOTags,
+    updatePage,
+    updateService,
+    updateLinkedResource,
+    updateClaim,
+    updateAccordedRight,
+    updateLinkedEntity,
+    validateRequiredProperties,
+    gotoStep,
+  } = useCreateEntityState()
+
+  const PropertiesFormProps = {
+    entityType,
+    creator,
+    administrator,
+    ddoTags,
+    page,
+    service,
+    linkedResource,
+    claim,
+    accordedRight,
+    linkedEntity,
+    updateCreator,
+    updateAdministrator,
+    updateDDOTags,
+    updatePage,
+    updateService,
+    updateLinkedResource,
+    updateClaim,
+    updateAccordedRight,
+    updateLinkedEntity,
+  }
 
   return (
     <FlexBox direction='column' gap={7.5} width={deviceWidth.tablet + 'px'}>
-      <PropertiesForm entityType={entityType} />
+      <PropertiesForm {...PropertiesFormProps} />
 
       <FlexBox id='setup-property-actions' gap={5}>
         <Button variant='secondary' onClick={(): void => gotoStep(-1)}>

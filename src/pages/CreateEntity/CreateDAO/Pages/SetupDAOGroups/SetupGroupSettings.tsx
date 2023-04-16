@@ -14,7 +14,7 @@ import {
   Switch,
   TextArea,
 } from 'pages/CreateEntity/Components'
-import { useCreateEntity, useCreateEntityState } from 'hooks/createEntity'
+import { useCreateEntity } from 'hooks/createEntity'
 import { ReactComponent as InfoIcon } from 'assets/images/icon-info.svg'
 import { ReactComponent as ProfileIcon } from 'assets/images/icon-profile.svg'
 import { ReactComponent as BinIcon } from 'assets/images/icon-bin-lg.svg'
@@ -33,28 +33,25 @@ import Tooltip from 'components/Tooltip/Tooltip'
 import { isAccountAddress, validateTokenSymbol } from 'utils/validation'
 
 export const initialMembership = { category: '', weight: 1, members: [''] }
-const initialStakingDistribution = { category: '', totalSupplyPercent: 10, members: [''] }
 export const initialStaking = {
   tokenContractAddress: '',
   tokenSymbol: '',
   tokenName: '',
   tokenSupply: 10000000,
   treasuryPercent: 90,
-  distributions: [initialStakingDistribution],
   unstakingDuration: { value: 2, units: DurationUnits.Weeks },
 }
 const inputHeight = 48
 
 interface Props {
-  id: string
+  daoGroup: TDAOGroupModel
   onBack: () => void
   onSubmit: (data: TDAOGroupModel) => void
 }
 
-const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onSubmit }): JSX.Element => {
+const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JSX.Element => {
   const { CreateDAOCoreByGroupId } = useCreateEntity()
-  const { daoGroups } = useCreateEntityState()
-  const [data, setData] = useState<TDAOGroupModel>(daoGroups[id])
+  const [data, setData] = useState<TDAOGroupModel>(daoGroup)
   const [useExistingToken, setUseExistingToken] = useState(false)
   const [showAdvanced, setShowAdvanced] = useState(false)
   const [submitting, setSubmitting] = useState(false)
@@ -89,18 +86,11 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onSubmit }): JSX.Elem
         if (!data.staking.tokenSymbol || !data.staking.tokenName) {
           return false
         }
-        const totalTokenDistributionPercentage = data.staking.distributions.reduce(
-          (acc, cur) => acc + cur.totalSupplyPercent,
-          0,
-        )
+        const totalTokenDistributionPercentage = data.memberships.reduce((acc, cur) => acc + cur.weight, 0)
         if (totalTokenDistributionPercentage + data.staking.treasuryPercent !== 100) {
           return false
         }
-        if (
-          data.staking.distributions.some(
-            (dist) => dist.members.filter((member) => !isAccountAddress(member)).length > 0,
-          )
-        ) {
+        if (data.memberships.some((dist) => dist.members.filter((member) => !isAccountAddress(member)).length > 0)) {
           return false
         }
         if (data.staking.unstakingDuration.value === 0) {
@@ -355,38 +345,39 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onSubmit }): JSX.Elem
     const handleUpdateStaking = (key: string, value: any): void => {
       setData((pre) => ({ ...pre, staking: { ...(pre.staking ?? initialStaking), [key]: value } }))
     }
-    const handleAddDistributionCategory = (): void => {
-      handleUpdateStaking('distributions', [...(data.staking?.distributions ?? []), initialStakingDistribution])
+    const handleAddMembership = (): void => {
+      setData((pre) => ({ ...pre, memberships: [...(pre.memberships ?? []), initialMembership] }))
     }
-    const handleUpdateDistribution = (distributionIdx: number, key: string, value: any): void => {
-      handleUpdateStaking(
-        'distributions',
-        data.staking?.distributions?.map((distribution, i) => {
-          if (distributionIdx === i) {
-            return { ...distribution, [key]: value }
+    const handleUpdateMembership = (membershipIdx: number, key: string, value: any): void => {
+      setData((pre) => ({
+        ...pre,
+        memberships: pre.memberships?.map((membership, i) => {
+          if (membershipIdx === i) {
+            return { ...membership, [key]: value }
           }
-          return distribution
+          return membership
         }),
-      )
+      }))
     }
-    const handleRemoveDistribution = (distributionIdx: number): void => {
-      if (data.staking?.distributions?.length !== 1) {
-        handleUpdateStaking(
-          'distributions',
-          data.staking?.distributions?.filter((item, i) => distributionIdx !== i),
-        )
+    const handleRemoveMembership = (distributionIdx: number): void => {
+      if (data.memberships.length !== 1) {
+        setData((pre) => ({ ...pre, memberships: pre.memberships?.filter((item, i) => distributionIdx !== i) }))
       } else {
-        handleUpdateStaking('distributions', [initialStakingDistribution])
+        setData((pre) => ({ ...pre, memberships: [initialMembership] }))
       }
     }
-    const handleAddMember = (distributionIdx: number): void => {
-      const members = (data.staking?.distributions ?? [])[distributionIdx]?.members ?? ['']
-      handleUpdateDistribution(distributionIdx, 'members', [...members, ''])
+    const handleAddMember = (membershipIdx: number): void => {
+      const members = (data.memberships ?? [])[membershipIdx]?.members ?? ['']
+      handleUpdateMembership(membershipIdx, 'members', [...members, ''])
     }
-    const handleUpdateMember = (distributionIdx: number, memberIdx: number, value: string): void => {
-      const members = (data.staking?.distributions ?? [])[distributionIdx]?.members ?? ['']
-      handleUpdateDistribution(
-        distributionIdx,
+    // const attachMembers = (membershipIdx: number, addresses: string[]): void => {
+    //   const members = (data.memberships ?? [])[membershipIdx]?.members ?? ['']
+    //   handleUpdateMembership(membershipIdx, 'members', _.union(members.concat(addresses)))
+    // }
+    const handleUpdateMember = (membershipIdx: number, memberIdx: number, value: string): void => {
+      const members = (data.memberships ?? [])[membershipIdx]?.members ?? ['']
+      handleUpdateMembership(
+        membershipIdx,
         'members',
         members.map((item, index) => {
           if (index === memberIdx) {
@@ -396,13 +387,13 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onSubmit }): JSX.Elem
         }),
       )
     }
-    const handleRemoveMember = (distributionIdx: number, memberIdx: number): void => {
-      const members = (data.staking?.distributions ?? [])[distributionIdx]?.members ?? ['']
+    const handleRemoveMember = (membershipIdx: number, memberIdx: number): void => {
+      const members = (data.memberships ?? [])[membershipIdx]?.members ?? ['']
       if (members.length === 1) {
-        handleUpdateDistribution(distributionIdx, 'members', [''])
+        handleUpdateMembership(membershipIdx, 'members', [''])
       } else {
-        handleUpdateDistribution(
-          distributionIdx,
+        handleUpdateMembership(
+          membershipIdx,
           'members',
           members.filter((item, index) => memberIdx !== index),
         )
@@ -420,8 +411,7 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onSubmit }): JSX.Elem
       }
 
       const treasuryPercent = data.staking?.treasuryPercent ?? 0
-      const distributions = data.staking?.distributions ?? []
-      const totalTokenDistributionPercentage = distributions.reduce((acc, cur) => acc + cur.totalSupplyPercent, 0)
+      const totalTokenDistributionPercentage = data.memberships.reduce((acc, cur) => acc + cur.weight, 0)
 
       if (treasuryPercent + totalTokenDistributionPercentage !== 100) {
         return {
@@ -539,7 +529,7 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onSubmit }): JSX.Elem
             </CardWrapper>
 
             {/* Distribution Category */}
-            {(data.staking?.distributions ?? []).map((distribution, distributionIdx) => (
+            {data.memberships.map((distribution, distributionIdx) => (
               <CardWrapper direction='column' gap={5} key={distributionIdx}>
                 <FlexBox justifyContent='space-between' alignItems='center'>
                   <FlexBox gap={2} alignItems='center'>
@@ -553,7 +543,7 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onSubmit }): JSX.Elem
                     size='custom'
                     width={52}
                     height={48}
-                    onClick={(): void => handleRemoveDistribution(distributionIdx)}
+                    onClick={(): void => handleRemoveMembership(distributionIdx)}
                   >
                     <BinIcon />
                   </Button>
@@ -564,16 +554,14 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onSubmit }): JSX.Elem
                       height={inputHeight + 'px'}
                       label='Category Name'
                       inputValue={distribution.category}
-                      handleChange={(value): void => handleUpdateDistribution(distributionIdx, 'category', value)}
+                      handleChange={(value): void => handleUpdateMembership(distributionIdx, 'category', value)}
                     />
                     <FlexBox alignItems='center' gap={4} width='100%'>
                       <NumberCounter
                         height={inputHeight + 'px'}
                         label='Percent of total supply'
-                        value={distribution.totalSupplyPercent}
-                        onChange={(value): void =>
-                          handleUpdateDistribution(distributionIdx, 'totalSupplyPercent', value)
-                        }
+                        value={distribution.weight}
+                        onChange={(value): void => handleUpdateMembership(distributionIdx, 'weight', value)}
                       />
                       <Typography size='xl' weight='medium'>
                         %
@@ -630,7 +618,7 @@ const SetupGroupSettings: React.FC<Props> = ({ id, onBack, onSubmit }): JSX.Elem
               alignItems='center'
               gap={2}
               marginBottom={7}
-              onClick={handleAddDistributionCategory}
+              onClick={handleAddMembership}
             >
               <PlusIcon />
               <Typography color='blue' size='xl' weight='medium'>

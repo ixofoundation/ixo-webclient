@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Redirect, Route } from 'react-router-dom'
+import { Redirect, Route, useHistory } from 'react-router-dom'
 import CreateAsset from './CreateAsset/CreateAsset'
 import CreateInvestment from './CreateInvestment/CreateInvestment'
 import CreateEntityLayout from './CreateEntityLayout/CreateEntityLayout'
@@ -10,9 +10,29 @@ import CreateOracle from './CreateOracle/CreateOracle'
 import CreateProposal from './CreateProposal/CreateProposal'
 import { useAccount } from 'hooks/account'
 import CreateProtocol from './CreateProtocol/CreateProtocol'
+import { useCreateEntityState, useCreateEntityStrategy } from 'hooks/createEntity'
+import { CreateEntityStrategyMap } from 'redux/createEntity/strategy-map'
 
 const CreateEntity: React.FC = (): JSX.Element => {
   const { address, updateChooseWalletOpen } = useAccount()
+
+  const history = useHistory()
+  const {
+    location: { pathname },
+  } = history
+
+  const { stepNo, breadCrumbs, title, subtitle } = useCreateEntityState()
+  const { getStrategyAndStepByPath } = useCreateEntityStrategy()
+  const { strategy } = getStrategyAndStepByPath(pathname)
+  const entityType = strategy?.entityType
+
+  useEffect(() => {
+    if (entityType && stepNo) {
+      const { steps } = CreateEntityStrategyMap[entityType]
+      steps[stepNo]?.url && history.push(steps[stepNo].url)
+    }
+    // eslint-disable-next-line
+  }, [stepNo, entityType])
 
   useEffect(() => {
     if (!address) {
@@ -22,7 +42,7 @@ const CreateEntity: React.FC = (): JSX.Element => {
   }, [address])
 
   return (
-    <CreateEntityLayout>
+    <CreateEntityLayout title={title} subtitle={subtitle} breadCrumbs={breadCrumbs}>
       <Route strict path={`/create/entity/protocol`} component={CreateProtocol} />
       <Route strict path={`/create/entity/asset`} component={CreateAsset} />
       <Route strict path={`/create/entity/investment`} component={CreateInvestment} />

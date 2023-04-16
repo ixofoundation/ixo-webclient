@@ -83,7 +83,7 @@ const InstructionsToExecute: React.FC = () => {
             })
             .filter(Boolean)
 
-          console.log({ actions })
+          console.log({ proposal, msgs, actions })
           setActions(actions)
         }
       })()

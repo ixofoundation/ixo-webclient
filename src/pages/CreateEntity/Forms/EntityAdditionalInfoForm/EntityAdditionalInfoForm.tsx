@@ -7,6 +7,7 @@ import { EntityDescriptionForm } from './EntityDescriptionForm'
 import { EntityMetricsForm } from './EntityMetricsForm'
 
 interface Props {
+  entityType: string
   description: string
   setDescription: (description: string) => void
   brand: string
@@ -25,6 +26,7 @@ interface Props {
 }
 
 const EntityAdditionalInfoForm: React.FC<Props> = ({
+  entityType,
   description,
   setDescription,
   brand,
@@ -77,6 +79,7 @@ const EntityAdditionalInfoForm: React.FC<Props> = ({
       <FlexBox>
         {tab === 'description' && (
           <EntityDescriptionForm
+            entityType={entityType}
             description={description}
             setDescription={setDescription}
             brand={brand}

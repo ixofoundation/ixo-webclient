@@ -31,6 +31,7 @@ import {
   SetupCustomModal,
   SetupManageStorageItemsModal,
   SetupDAOAdminExecuteModal,
+  SetupEditEntityModal,
 } from 'components/Modals/AddActionModal'
 
 interface Props {
@@ -267,6 +268,14 @@ const SetupActionsForm: React.FC<Props> = ({ actions, setActions }): JSX.Element
       {selectedAction?.text === 'DAO Admin Execute' && (
         <SetupDAOAdminExecuteModal
           open={selectedAction?.text === 'DAO Admin Execute'}
+          action={selectedAction}
+          onSubmit={handleUpdateAction}
+          onClose={() => setSelectedAction(undefined)}
+        />
+      )}
+      {selectedAction?.text === 'Edit Entity' && (
+        <SetupEditEntityModal
+          open={selectedAction?.text === 'Edit Entity'}
           action={selectedAction}
           onSubmit={handleUpdateAction}
           onClose={() => setSelectedAction(undefined)}

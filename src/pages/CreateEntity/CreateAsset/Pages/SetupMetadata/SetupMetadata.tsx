@@ -9,7 +9,7 @@ import { TAssetMetadataModel } from 'types/protocol'
 
 const SetupMetadata: React.FC = (): JSX.Element => {
   const createEntityState = useCreateEntityState()
-  const { localisation, gotoStep, updateMetadata, updateLocalisation } = createEntityState
+  const { entityType, localisation, gotoStep, updateMetadata, updateLocalisation } = createEntityState
   const metadata: TAssetMetadataModel = createEntityState.metadata as TAssetMetadataModel
 
   const canSubmit = true
@@ -59,6 +59,7 @@ const SetupMetadata: React.FC = (): JSX.Element => {
       </Box>
       <Box className='d-flex flex-column' style={{ width: 400 }}>
         <EntityAdditionalInfoForm
+          entityType={entityType}
           description={metadata?.description ?? ''}
           setDescription={(description): void => handleUpdateMetadata('description', description)}
           brand={metadata?.brand ?? ''}

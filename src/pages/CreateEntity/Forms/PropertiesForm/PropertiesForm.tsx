@@ -8,6 +8,17 @@ import { SetupAccordedRight } from './SetupAccordedRight'
 import { SetupLinkedEntity } from './SetupLinkedEntity'
 import { SetupService } from './SetupService'
 import { FlexBox } from 'components/App/App.styles'
+import {
+  TEntityAccordedRightModel,
+  TEntityAdministratorModel,
+  TEntityClaimModel1,
+  TEntityCreatorModel,
+  TEntityDDOTagModel,
+  TEntityLinkedEntityModel,
+  TEntityLinkedResourceModel,
+  TEntityPageModel,
+  TEntityServiceModel,
+} from 'types/protocol'
 
 const Properties = [
   // 'Services',
@@ -20,9 +31,47 @@ const Properties = [
 
 interface Props {
   entityType: string
+  creator: TEntityCreatorModel
+  administrator: TEntityCreatorModel
+  ddoTags: TEntityDDOTagModel[]
+  page: TEntityPageModel
+  service: TEntityServiceModel[]
+  linkedResource: { [id: string]: TEntityLinkedResourceModel }
+  claim: { [id: string]: TEntityClaimModel1 }
+  accordedRight: { [key: string]: TEntityAccordedRightModel }
+  linkedEntity: { [key: string]: TEntityLinkedEntityModel }
+  updateCreator: (creator: TEntityCreatorModel) => void
+  updateAdministrator: (administrator: TEntityAdministratorModel) => void
+  updateDDOTags: (ddoTags: TEntityDDOTagModel[]) => void
+  updatePage: (page: TEntityPageModel) => void
+  updateService: (service: TEntityServiceModel[]) => void
+  updateLinkedResource: (linkedResource: { [id: string]: TEntityLinkedResourceModel }) => void
+  updateClaim: (claim: { [id: string]: TEntityClaimModel1 }) => void
+  updateAccordedRight: (accordedRight: { [id: string]: TEntityAccordedRightModel }) => void
+  updateLinkedEntity: (linkedEntity: { [id: string]: TEntityLinkedEntityModel }) => void
 }
 
-const PropertiesForm: React.FC<Props> = ({ entityType }): JSX.Element => {
+const PropertiesForm: React.FC<Props> = ({
+  entityType,
+  creator,
+  administrator,
+  ddoTags,
+  page,
+  service,
+  linkedResource,
+  claim,
+  accordedRight,
+  linkedEntity,
+  updateCreator,
+  updateAdministrator,
+  updateDDOTags,
+  updatePage,
+  updateService,
+  updateLinkedResource,
+  updateClaim,
+  updateAccordedRight,
+  updateLinkedEntity,
+}): JSX.Element => {
   const [propertyView, setPropertyView] = useState<string>('')
   const activeProperties = useMemo(() => {
     switch (entityType) {
@@ -34,6 +83,40 @@ const PropertiesForm: React.FC<Props> = ({ entityType }): JSX.Element => {
         return Properties
     }
   }, [entityType])
+
+  const SettingsProps = {
+    entityType,
+    creator,
+    administrator,
+    ddoTags,
+    page,
+    service,
+    updateCreator,
+    updateAdministrator,
+    updateDDOTags,
+    updatePage,
+    updateService,
+  }
+
+  const LinkedResourceProps = {
+    linkedResource,
+    updateLinkedResource,
+  }
+
+  const ClaimProps = {
+    claim,
+    updateClaim,
+  }
+
+  const AccordedRightProps = {
+    accordedRight,
+    updateAccordedRight,
+  }
+
+  const LinkedEntityProps = {
+    linkedEntity,
+    updateLinkedEntity,
+  }
 
   useEffect(() => {
     setPropertyView(activeProperties[0])
@@ -58,11 +141,11 @@ const PropertiesForm: React.FC<Props> = ({ entityType }): JSX.Element => {
 
       <FlexBox direction='column' gap={7.5} width={'100%'}>
         {propertyView === 'Services' && <SetupService />}
-        {propertyView === 'Settings' && <SetupSettings />}
-        {propertyView === 'Linked Resources' && <SetupLinkedResource />}
-        {propertyView === 'Claims' && <SetupClaim />}
-        {propertyView === 'Accorded Rights' && <SetupAccordedRight />}
-        {propertyView === 'Linked Entities' && <SetupLinkedEntity />}
+        {propertyView === 'Settings' && <SetupSettings {...SettingsProps} />}
+        {propertyView === 'Linked Resources' && <SetupLinkedResource {...LinkedResourceProps} />}
+        {propertyView === 'Claims' && <SetupClaim {...ClaimProps} />}
+        {propertyView === 'Accorded Rights' && <SetupAccordedRight {...AccordedRightProps} />}
+        {propertyView === 'Linked Entities' && <SetupLinkedEntity {...LinkedEntityProps} />}
       </FlexBox>
     </>
   )
