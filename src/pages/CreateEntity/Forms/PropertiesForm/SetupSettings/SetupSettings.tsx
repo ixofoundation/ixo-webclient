@@ -52,6 +52,8 @@ const SetupSettings: React.FC<Props> = ({
   const [entitySettings, setEntitySettings] = useState<{ [key: string]: any }>(EntitySettingsConfig)
   const [openAddSettingsModal, setOpenAddSettingsModal] = useState(false)
 
+  console.log({ entitySettings })
+
   const handleOpenEntitySettingModal = (key: string, open: boolean): void => {
     setEntitySettings((pre: any) => ({
       ...pre,
@@ -198,6 +200,9 @@ const SetupSettings: React.FC<Props> = ({
         open={openAddSettingsModal}
         onClose={(): void => setOpenAddSettingsModal(false)}
         onChange={handleAddEntitySetting}
+        addedKeys={Object.entries(entitySettings)
+          .filter(([, value]) => !!value.required || !!value.set)
+          .map(([key]) => key)}
       />
       <CreatorSetupModal
         title='Creator'

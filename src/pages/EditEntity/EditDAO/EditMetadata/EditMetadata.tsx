@@ -85,10 +85,10 @@ const EditMetadata: React.FC = (): JSX.Element => {
         </Box>
 
         <Box className='d-flex justify-content-end w-100 mt-4' style={{ gap: 20 }}>
-          <Button variant='secondary' onClick={handlePrev}>
+          <Button size='full' height={48} variant='secondary' onClick={handlePrev}>
             Back
           </Button>
-          <Button variant={'primary'} disabled={!canSubmit} onClick={handleNext}>
+          <Button size='full' height={48} variant={'primary'} disabled={!canSubmit} onClick={handleNext}>
             Continue
           </Button>
         </Box>

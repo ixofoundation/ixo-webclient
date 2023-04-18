@@ -7,12 +7,20 @@ import { FormCardProps } from '../../../../../../redux/createEntityOld/createEnt
 import MultiControlForm from 'components/JsonForm/MultiControlForm/MultiControlForm'
 import Axios from 'axios'
 import { ObjectFieldTemplate2Column } from 'components/JsonForm/CustomTemplates/ObjectFieldTemplate'
+import { isHttpsUrl } from 'utils/validation'
 
 const endpointHealthCheck = async (url: string): Promise<any> => {
-  if (!url) {
+  if (!url || !isHttpsUrl(url)) {
     return {
       serviceEndpoint: {
         __errors: ['Check that you have the correct end-point.'],
+      },
+    }
+  }
+  if (url.endsWith('/')) {
+    return {
+      serviceEndpoint: {
+        __errors: [`Ensure url doesn't end with slash.`],
       },
     }
   }

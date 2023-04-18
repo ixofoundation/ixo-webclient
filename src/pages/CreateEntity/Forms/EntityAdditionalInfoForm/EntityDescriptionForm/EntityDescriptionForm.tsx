@@ -1,6 +1,6 @@
 import React from 'react'
-import { CheckBox, DateRangePicker, TextArea } from '../../../Components'
-import { FormWrapper, BrandNameInput, CountryDropDown } from './EntityDescriptionForm.styles'
+import { CheckBox, DateRangePicker, InputWithLabel, TextArea } from '../../../Components'
+import { FormWrapper, CountryDropDown } from './EntityDescriptionForm.styles'
 import 'react-dates/initialize'
 import { useEntityConfig } from 'hooks/configs'
 
@@ -41,14 +41,15 @@ const EntityDescriptionForm: React.FC<Props> = ({
         inputValue={description || ''}
         handleChange={setDescription}
         width={'400px'}
-        height={'240px'}
+        height={'210px'}
         label={`Describe the ${title}`}
       />
       {setBrand && (
-        <BrandNameInput
+        <InputWithLabel
           name='brand'
+          height={'48px'}
           inputValue={brand}
-          placeholder={'Brand Name'}
+          label={'Brand Name'}
           handleChange={(name: string): void => setBrand(name)}
         />
       )}
@@ -67,9 +68,11 @@ const EntityDescriptionForm: React.FC<Props> = ({
           id='protocol'
           startDate={startDate || ''}
           endDate={endDate || ''}
+          openDirection='up'
           onChange={(startDate, endDate) => {
             setStartEndDate(startDate, endDate)
           }}
+          input
         />
       )}
       {setAutoGenerateZLottie && (

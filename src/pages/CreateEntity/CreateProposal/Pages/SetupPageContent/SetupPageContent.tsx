@@ -12,7 +12,7 @@ const SetupPageContent: React.FC = () => {
     history.push(`/create/entity/deed/${entityId}/${coreAddress}/info`)
   }
   const handleNext = (): void => {
-    history.push(`/create/entity/deed/${entityId}/${coreAddress}/setup-properties`)
+    history.push(`/create/entity/deed/${entityId}/${coreAddress}/property`)
   }
 
   return (

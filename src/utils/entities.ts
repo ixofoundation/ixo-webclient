@@ -162,9 +162,6 @@ export const checkIsLaunchpadFromApiListedEntityData = (ddoTags: any[]): boolean
       .find((ddoTag) => ddoTag.category === 'Project Type' || ddoTag.name === 'Project Type')
       ?.tags.some((tag: any) => tag === 'Candidate') ||
       ddoTags
-        .find((ddoTag) => ddoTag.category === 'DAO Type' || ddoTag.name === 'DAO Type')
-        ?.tags.some((tag: any) => tag === 'Candidate') ||
-      ddoTags
         .find((ddoTag) => ddoTag.category === 'Oracle Type' || ddoTag.name === 'Oracle Type')
         ?.tags.some((tag: any) => tag === 'Candidate')) &&
     ddoTags

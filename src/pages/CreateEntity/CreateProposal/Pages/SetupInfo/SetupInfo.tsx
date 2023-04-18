@@ -25,7 +25,7 @@ const SetupInfo: React.FC = (): JSX.Element => {
   const onContinue = () => {
     if (name && description) {
       updateMetadata({ name, description })
-      history.push(`/create/entity/deed/${entityId}/${coreAddress}/setup-page`)
+      history.push(`/create/entity/deed/${entityId}/${coreAddress}/page`)
     }
   }
 

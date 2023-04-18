@@ -5,9 +5,9 @@ import { useCreateEntityState, useCreateEntityStrategy } from 'hooks/createEntit
 const CreateProject: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): JSX.Element => {
   const { getStrategyByEntityType } = useCreateEntityStrategy()
   const { updateEntityType, updateTitle, updateSubtitle, updateBreadCrumbs } = useCreateEntityState()
-  const isSelectProcessRoute = useRouteMatch('/create/entity/project/select-process')
-  const isSetupMetadataRoute = useRouteMatch('/create/entity/project/setup-metadata')
-  const isSetupPropertiesRoute = useRouteMatch('/create/entity/project/setup-properties')
+  const isSelectProcessRoute = useRouteMatch('/create/entity/project/process')
+  const isProfileRoute = useRouteMatch('/create/entity/project/profile')
+  const isSetupPropertiesRoute = useRouteMatch('/create/entity/project/property')
   const isReviewRoute = useRouteMatch('/create/entity/project/review')
   const { steps } = getStrategyByEntityType('project')
 
@@ -25,11 +25,11 @@ const CreateProject: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }):
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSelectProcessRoute?.isExact])
   useEffect(() => {
-    if (isSetupMetadataRoute?.isExact) {
-      updateSubtitle('Template Metadata')
+    if (isProfileRoute?.isExact) {
+      updateSubtitle('Profile')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSetupMetadataRoute?.isExact])
+  }, [isProfileRoute?.isExact])
   useEffect(() => {
     if (isSetupPropertiesRoute?.isExact) {
       updateSubtitle('Setup additional information')

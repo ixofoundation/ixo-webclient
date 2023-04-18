@@ -85,7 +85,7 @@ const MultiControlForm: React.FunctionComponent<Props> = React.forwardRef(
     }
 
     useEffect(() => {
-      if (Object.values(extraErrors).some(({ __errors }: any) => __errors.length !== 0)) {
+      if (extraErrors && Object.values(extraErrors).some(({ __errors }: any) => __errors.length !== 0)) {
         onError!(Object.values(extraErrors))
       } else {
         onError!([])

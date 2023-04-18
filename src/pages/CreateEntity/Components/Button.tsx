@@ -7,7 +7,7 @@ import { DashboardThemeContext } from 'components/Dashboard/Dashboard'
 import { TTypographySize, TTypographyWeight } from 'components/Typography/Typography'
 
 type TButtonVariant = 'primary' | 'secondary' | 'grey500' | 'grey700' | 'grey900'
-type TButtonSize = 'lg' | 'md' | 'sm' | 'custom' | 'flex'
+type TButtonSize = 'lg' | 'md' | 'sm' | 'custom' | 'flex' | 'full'
 
 const buttonColor = (variant: TButtonVariant, isDark: boolean): string => {
   switch (variant) {
@@ -42,6 +42,8 @@ const buttonWidthHeight = (size: TButtonSize, width: number | undefined, height:
       return ['56px', '32px']
     case 'flex':
       return [width ? width + 'px' : 'auto', height ? height + 'px' : 'auto']
+    case 'full':
+      return [width ? width + 'px' : '100%', height ? height + 'px' : '100%']
     case 'custom':
     default:
       return [width + 'px', height + 'px']
@@ -112,7 +114,7 @@ const Button: React.FC<Props> = ({
   loading = false,
   textSize = 'xl',
   textTransform = 'uppercase',
-  textWeight = 'bold',
+  textWeight = 'medium',
   children,
   onClick,
   ...rest

@@ -1,4 +1,4 @@
-import { Moment } from 'moment'
+import moment from 'moment'
 import { createSelector } from '@reduxjs/toolkit'
 import { ExplorerEntity, EntitiesExplorerState, Filter } from './entitiesExplorer.types'
 import { EntityType, EntityConfig } from 'types/entities'
@@ -10,7 +10,7 @@ import { TEntityDDOTagModel } from 'types/protocol'
 import { TEntityModel } from 'api/blocksync/types/entities'
 import { utils } from '@ixo/impactxclient-sdk'
 
-const formatDate = (date: Moment): string => date.format("D MMM \\'YY")
+const formatDate = (date: string): string => moment(date).format("D MMM \\'YY")
 
 export const selectEntitiesState = (state: RootState): EntitiesExplorerState => state.entities
 
@@ -100,7 +100,8 @@ export const selectedFilteredEntities = createSelector(
       entitiesToFilter = entitiesToFilter.filter(
         (entity) =>
           !entity.dateCreated ||
-          (entity.dateCreated.startOf('day') >= filter.dateFrom && entity.dateCreated.startOf('day') <= filter.dateTo),
+          (entity.dateCreated.startOf('day') >= moment(filter.dateFrom) &&
+            entity.dateCreated.startOf('day') <= moment(filter.dateTo)),
       )
     }
 
@@ -196,8 +197,8 @@ export const selectedFilteredEntities2 = createSelector(
       filteredEntities = filteredEntities.filter(
         (entity) =>
           !entity.metadata?.created ||
-          (utils.proto.fromTimestamp(entity.metadata.created).getTime() >= filter.dateFrom.valueOf() &&
-            utils.proto.fromTimestamp(entity.metadata.created).getTime() <= filter.dateTo.valueOf()),
+          (utils.proto.fromTimestamp(entity.metadata.created).getTime() >= new Date(filter.dateFrom).getTime() &&
+            utils.proto.fromTimestamp(entity.metadata.created).getTime() <= new Date(filter.dateTo).getTime()),
       )
     }
 
@@ -210,7 +211,8 @@ export const selectedFilteredEntities2 = createSelector(
           category.tags.forEach((tag) => {
             filteredEntities = filteredEntities.filter((entity) =>
               entity.tags?.some(
-                (entityCategory) => entityCategory.category === category.category && entityCategory.tags.includes(tag),
+                (entityCategory) =>
+                  entityCategory?.category === category.category && entityCategory?.tags.includes(tag),
               ),
             )
           })
@@ -293,20 +295,20 @@ export const selectIsLoadingEntities2 = createSelector(
   },
 )
 
-export const selectFilterDateFrom = createSelector(selectEntitiesFilter, (filter: Filter): Moment => {
+export const selectFilterDateFrom = createSelector(selectEntitiesFilter, (filter: Filter): string => {
   return filter.dateFrom
 })
 
-export const selectFilterDateTo = createSelector(selectEntitiesFilter, (filter: Filter): Moment => {
+export const selectFilterDateTo = createSelector(selectEntitiesFilter, (filter: Filter): string => {
   return filter.dateTo
 })
 
-export const selectFilterDateFromFormatted = createSelector(selectFilterDateFrom, (dateFrom: Moment): string => {
-  return dateFrom ? formatDate(dateFrom) : null!
+export const selectFilterDateFromFormatted = createSelector(selectFilterDateFrom, (dateFrom: string): string => {
+  return dateFrom ? formatDate(dateFrom) : ''
 })
 
-export const selectFilterDateToFormatted = createSelector(selectFilterDateTo, (dateTo: Moment): string => {
-  return dateTo ? formatDate(dateTo) : null!
+export const selectFilterDateToFormatted = createSelector(selectFilterDateTo, (dateTo: string): string => {
+  return dateTo ? formatDate(dateTo) : ''
 })
 
 export const selectFilterDateSummary = createSelector(

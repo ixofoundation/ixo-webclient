@@ -5,10 +5,10 @@ import { useCreateEntityState, useCreateEntityStrategy } from 'hooks/createEntit
 const CreateClaim: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): JSX.Element => {
   const { getStrategyByEntityType } = useCreateEntityStrategy()
   const { updateEntityType, updateTitle, updateSubtitle, updateBreadCrumbs } = useCreateEntityState()
-  const isSelectProcessRoute = useRouteMatch('/create/entity/claim/select-process')
-  const isSetupMetadataRoute = useRouteMatch('/create/entity/claim/setup-metadata')
-  const isSetupDataCollectionRoute = useRouteMatch('/create/entity/claim/setup-data-collection')
-  const isSetupPropertiesRoute = useRouteMatch('/create/entity/claim/setup-properties')
+  const isSelectProcessRoute = useRouteMatch('/create/entity/claim/process')
+  const isSetupMetadataRoute = useRouteMatch('/create/entity/claim/profile')
+  const isSetupDataCollectionRoute = useRouteMatch('/create/entity/claim/collection')
+  const isSetupPropertiesRoute = useRouteMatch('/create/entity/claim/property')
   const { steps } = getStrategyByEntityType('protocol')
 
   useEffect(() => {
@@ -26,7 +26,7 @@ const CreateClaim: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): J
   }, [isSelectProcessRoute?.isExact])
   useEffect(() => {
     if (isSetupMetadataRoute?.isExact) {
-      updateSubtitle('Create Claim Metadata')
+      updateSubtitle('Profile')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSetupMetadataRoute?.isExact])

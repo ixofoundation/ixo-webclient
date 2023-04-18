@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { RouteProps } from 'react-router'
-import { Moment } from 'moment'
 import ReactPaginate from 'react-paginate'
 import CellCard from './Components/EntityCard/CellCard/CellCard2'
 // import ProjectCard from './Components/EntityCard/ProjectCard/ProjectCard'
@@ -73,9 +72,9 @@ export interface Props extends RouteProps {
   entitiesCount: number
   entityTypeMap: EntityTypeStrategyMap
   filteredEntitiesCount: number
-  filterDateFrom: Moment
+  filterDateFrom: string
   filterDateFromFormatted: string
-  filterDateTo: Moment
+  filterDateTo: string
   filterDateToFormatted: string
   filterDateSummary: string
   filterCategories: TEntityDDOTagModel[]
@@ -95,7 +94,7 @@ export interface Props extends RouteProps {
   handleFilterToggleUserEntities: (userEntities: boolean) => void
   handleFilterToggleFeaturedEntities: (featuredEntities: boolean) => void
   handleFilterTogglePopularEntities: (popularEntities: boolean) => void
-  handleFilterDates: (dateFrom: any, dateTo: any) => void
+  handleFilterDates: (dateFrom: string, dateTo: string) => void
   handleResetDatesFilter: () => void
   handleFilterCategoryTag: (category: string, tag: string) => void
   handleFilterAddCategoryTag: (category: string, tag: string) => void
@@ -250,6 +249,8 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
     )
 
     const renderAssets = (): JSX.Element => <AssetCollections />
+
+    console.log('EntitiesExplorer.container ==========>', props.filterDateFrom, props.filterDateTo)
 
     if (props.entitiesCount > 0) {
       return (
@@ -411,7 +412,7 @@ const mapDispatchToProps = (dispatch: any): any => ({
     dispatch(filterTogglePopularEntities(popularEntities)),
   handleFilterToggleFeaturedEntities: (featuredEntities: boolean): void =>
     dispatch(filterToggleFeaturedEntities(featuredEntities)),
-  handleFilterDates: (dateFrom: any, dateTo: any): void => dispatch(filterDates(dateFrom, dateTo)),
+  handleFilterDates: (dateFrom: string, dateTo: string): void => dispatch(filterDates(dateFrom, dateTo)),
   handleResetDatesFilter: (): void => dispatch(resetDatesFilter()),
   handleFilterCategoryTag: (category: string, tag: string): void => dispatch(filterCategoryTag(category, tag)),
   handleFilterSector: (tag: string): void => dispatch(filterSector(tag)),

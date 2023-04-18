@@ -32,4 +32,8 @@ export const AttributeInput = styled(Input)`
   font-size: 20px;
   line-height: 28px;
   height: 44px;
+
+  &::placeholder {
+    color: ${(props) => props.theme.ixoGrey500};
+  }
 `

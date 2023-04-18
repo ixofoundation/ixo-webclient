@@ -1,4 +1,4 @@
-import moment, { Moment } from 'moment'
+import moment from 'moment'
 import { Dispatch } from 'redux'
 import {
   GetEntitiesAction,
@@ -255,7 +255,7 @@ export const filterTogglePopularEntities = (popularEntities: boolean): FilterTog
   },
 })
 
-export const filterDates = (dateFrom: Moment, dateTo: Moment): FilterDatesAction => ({
+export const filterDates = (dateFrom: string, dateTo: string): FilterDatesAction => ({
   type: EntitiesExplorerActions.FilterDates,
   payload: {
     dateFrom,

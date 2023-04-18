@@ -1,4 +1,4 @@
-import DatePicker from '../../DatePicker/DatePicker'
+// import DatePicker from '../../DatePicker/DatePicker'
 import { Props } from './types'
 import {
   DatePickerModal,
@@ -9,6 +9,7 @@ import {
   ButtonInner,
   ButtonIcon,
 } from '../Filters.styles'
+import { DateRangePicker } from 'pages/CreateEntity/Components'
 
 const DateFilterDesktop: React.FunctionComponent<Props> = ({
   startDate,
@@ -33,7 +34,7 @@ const DateFilterDesktop: React.FunctionComponent<Props> = ({
       </ButtonOuter>
       {isActive && (
         <DatePickerModal>
-          <DatePicker
+          {/* <DatePicker
             initialStartDate={startDate}
             initialEndDate={endDate}
             numberOfMonths={2}
@@ -41,6 +42,15 @@ const DateFilterDesktop: React.FunctionComponent<Props> = ({
             onApply={handleFilterToggleShow}
             onChange={handleFilterDateChange}
             onReset={handleResetFilter}
+          /> */}
+          <DateRangePicker
+            id='date-filter'
+            startDate={startDate || ''}
+            endDate={endDate || ''}
+            onChange={(startDate: string, endDate: string) => {
+              handleFilterDateChange(startDate, endDate)
+            }}
+            input={false}
           />
           <ResetButtonDatePicker onClick={handleResetFilter}>Reset</ResetButtonDatePicker>
           <ApplyButtonDatePicker onClick={handleFilterToggleShow}>Done</ApplyButtonDatePicker>

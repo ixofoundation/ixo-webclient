@@ -9,8 +9,8 @@ export const initialState: EntitiesExplorerState = {
   entities2: null,
   entityConfig: null,
   filter: {
-    dateFrom: null,
-    dateTo: null,
+    dateFrom: '',
+    dateTo: '',
     // ddoTags: getInitialSelectedCategories(),
     ddoTags: [],
     userEntities: false,
@@ -84,8 +84,8 @@ export const reducer = (
         filter: {
           ...state.filter,
           ...filterView,
-          dateFrom: null,
-          dateTo: null,
+          dateFrom: '',
+          dateTo: '',
           ddoTags: getInitialSelectedCategories(state.entityConfig[action.payload.type]),
           sector: getInitialSelectedSectors(state.entityConfig[action.payload.type]),
           itemOffset: 0,
@@ -126,6 +126,7 @@ export const reducer = (
         },
       }
     case EntitiesExplorerActions.FilterDates:
+      console.log('EntitiesExplorerActions.FilterDates', action.payload)
       return {
         ...state,
         filter: {
@@ -140,8 +141,8 @@ export const reducer = (
         ...state,
         filter: {
           ...state.filter,
-          dateFrom: null,
-          dateTo: null,
+          dateFrom: '',
+          dateTo: '',
           itemOffset: 0,
         } as any,
       }
@@ -211,8 +212,8 @@ export const reducer = (
           ...state.filter,
           ...filterView,
           ddoTags: getInitialSelectedCategories(state.entityConfig[state.selectedEntitiesType]),
-          dateFrom: null,
-          dateTo: null,
+          dateFrom: '',
+          dateTo: '',
           itemOffset: 0,
         },
       }

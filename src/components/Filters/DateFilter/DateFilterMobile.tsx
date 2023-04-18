@@ -1,6 +1,6 @@
+import { DateRangePicker } from 'pages/CreateEntity/Components'
 import Back from '../../../assets/icons/Back'
 import CalendarSort from '../../../assets/icons/CalendarSort'
-import DatePicker from '../../DatePicker/DatePicker'
 import {
   Button,
   MobileDateHeader,
@@ -59,7 +59,7 @@ const DateFilterMobile: React.FunctionComponent<MobileProps> = ({
               </DateDisplay>
             </MobileDateHeader>
             <MobileDatePicker>
-              <DatePicker
+              {/* <DatePicker
                 initialStartDate={startDate}
                 initialEndDate={endDate}
                 numberOfMonths={4}
@@ -67,6 +67,16 @@ const DateFilterMobile: React.FunctionComponent<MobileProps> = ({
                 onApply={handleFilterToggleShow}
                 onChange={handleFilterDateChange}
                 onReset={handleResetFilter}
+              /> */}
+              <DateRangePicker
+                id='date-filter-mobile'
+                startDate={startDate || ''}
+                endDate={endDate || ''}
+                numberOfMonths={4}
+                orientation='vertical'
+                onChange={(startDate: string, endDate: string) => {
+                  handleFilterDateChange(startDate, endDate)
+                }}
               />
               <DoneButtonWrapper>
                 <DoneButton onClick={handleFilterToggleShow}>Done</DoneButton>

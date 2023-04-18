@@ -5,10 +5,10 @@ import { useCreateEntityState, useCreateEntityStrategy } from 'hooks/createEntit
 const CreateInvestment: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): JSX.Element => {
   const { getStrategyByEntityType } = useCreateEntityStrategy()
   const { updateEntityType, updateTitle, updateSubtitle, updateBreadCrumbs } = useCreateEntityState()
-  const isSelectProcessRoute = useRouteMatch('/create/entity/investment/select-process')
-  const isSetupMetadataRoute = useRouteMatch('/create/entity/investment/setup-metadata')
-  const isSetupInstrumentRoute = useRouteMatch('/create/entity/investment/setup-instrument')
-  const isSetupPropertiesRoute = useRouteMatch('/create/entity/investment/setup-properties')
+  const isSelectProcessRoute = useRouteMatch('/create/entity/investment/process')
+  const isSetupMetadataRoute = useRouteMatch('/create/entity/investment/profile')
+  const isSetupInstrumentRoute = useRouteMatch('/create/entity/investment/instrument')
+  const isSetupPropertiesRoute = useRouteMatch('/create/entity/investment/property')
   const isReviewRoute = useRouteMatch('/create/entity/investment/review')
   const { steps } = getStrategyByEntityType('investment')
 
@@ -27,7 +27,7 @@ const CreateInvestment: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match 
   }, [isSelectProcessRoute?.isExact])
   useEffect(() => {
     if (isSetupMetadataRoute?.isExact) {
-      updateSubtitle('Create Investment Metadata')
+      updateSubtitle('Profile')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSetupMetadataRoute?.isExact])

@@ -29,7 +29,7 @@ const IconListFilterDesktop: FC<Props> = ({
 }) => {
   const handleToggleClick = (): void => handleToggleFilterShow(name)
 
-  const handleResetClick = (): void => handleFilterReset(name)
+  const handleResetClick = (): void => handleFilterReset && handleFilterReset(name)
 
   const handleFilterClick = (itemName: string) => (): void => handleFilterItemClick(name, itemName)
 
@@ -74,7 +74,7 @@ const IconListFilterDesktop: FC<Props> = ({
           })}
         </ModalItems>
         <ModalButtons>
-          <ResetButton onClick={handleResetClick}>Reset</ResetButton>
+          {handleFilterReset && <ResetButton onClick={handleResetClick}>Reset</ResetButton>}
           <ApplyButton onClick={handleToggleClick}>Done</ApplyButton>
         </ModalButtons>
       </FilterModal>

@@ -23,9 +23,9 @@ const TypeSelectionModal: React.FC<Props> = ({ open, onClose, title, options, ha
 
       <ModalWrapper>
         <ModalTitle>{title}</ModalTitle>
-        <ModalBody>
+        <ModalBody style={{ gap: 8 }}>
           {_.chunk(options, 3).map((row, rowIdx) => (
-            <ModalRow key={rowIdx}>
+            <ModalRow key={rowIdx} style={{ gap: 16 }}>
               {row.map((option) => (
                 <TypeButton
                   key={option}

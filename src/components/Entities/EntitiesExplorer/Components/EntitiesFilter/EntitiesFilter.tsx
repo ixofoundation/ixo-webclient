@@ -32,9 +32,9 @@ import { TEntityDDOTagModel } from 'types/protocol'
 interface Props {
   title: string
   filterSchema: Schema
-  startDate: any
+  startDate: string
   startDateFormatted: string
-  endDate: any
+  endDate: string
   endDateFormatted: string
   dateSummary: string
   categories: TEntityDDOTagModel[]
@@ -43,7 +43,7 @@ interface Props {
   featuredEntities: boolean
   popularEntities: boolean
   sector: string
-  handleFilterDates: (dateFrom: any, dateTo: any) => void
+  handleFilterDates: (dateFrom: string, dateTo: string) => void
   handleResetDatesFilter: () => void
   handleFilterCategoryTag: (category: string, tag: string) => void
   handleFilterSector: (tag: string) => void
@@ -186,6 +186,8 @@ const EntitiesFilter: FC<Props> = ({
     handleFilterToggleUserEntities(true)
   }
 
+  console.log('EntitiesFilter =======>', { startDate, endDate })
+
   return (
     <div data-testid='EntitiesFilter'>
       <FiltersWrap>
@@ -198,7 +200,6 @@ const EntitiesFilter: FC<Props> = ({
               key='View'
               name='View'
               isActive={filterIsActive('View')}
-              handleFilterReset={resetViewFilter}
               handleToggleFilterShow={toggleFilterShow(filterIsActive('View'), 'View')}
               handleFilterItemClick={filterViewTag}
               items={getViewFilterItems(filterSchema.view.tags)}

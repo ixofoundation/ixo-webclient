@@ -158,10 +158,10 @@ export const StatusBox = styled.div`
   z-index: 1;
 `
 export const StatusText = styled.p`
-  color: currentColor;
+  color: ${(props) => props.theme.ixoWhite};
   text-transform: uppercase;
   font-size: 11px;
-  margin: 5px auto 10px;
+  margin: 4px auto;
   font-weight: normal;
 `
 
@@ -181,4 +181,22 @@ export const LoginLink = styled.a`
     text-decoration: none;
     color: white;
   }
+`
+
+export const ConnectButton = styled.div`
+  border: 1px solid ${(props) => props.theme.ixoDarkBlue};
+  border-radius: 8px;
+
+  width: 100px;
+  height: 36px;
+
+  background: none;
+  color: ${(props) => props.theme.ixoWhite};
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  padding: 10px;
 `
