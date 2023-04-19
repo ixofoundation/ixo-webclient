@@ -374,7 +374,7 @@ const ReviewProposal: React.FC = () => {
                 This is the last step before submitting this governance proposal for {entityName}.
               </Typography>
               <Typography variant='secondary'>
-                <NavLink to={`/create/entity/deed/${entityId}/${coreAddress}/setup-actions`}>
+                <NavLink to={`/create/entity/deed/${entityId}/${coreAddress}/action`}>
                   Review the proposal details
                 </NavLink>
               </Typography>
@@ -386,7 +386,7 @@ const ReviewProposal: React.FC = () => {
             <FlexBox width='100%' gap={4}>
               <Button
                 variant='secondary'
-                onClick={(): void => history.push(`/create/entity/deed/${entityId}/${coreAddress}/setup-actions`)}
+                onClick={(): void => history.push(`/create/entity/deed/${entityId}/${coreAddress}/action`)}
                 style={{ width: '100%' }}
               >
                 Back

@@ -32,7 +32,7 @@ const DAOProfileForm: React.FC<Props> = ({
       <FormBody>
         <FormRow>
           {setOrgName ? (
-            <InputWithLabel label='Organisation' inputValue={orgName} handleChange={setOrgName} />
+            <InputWithLabel label='Organisation' height='48px' inputValue={orgName} handleChange={setOrgName} />
           ) : (
             <Typography color='gray-medium' size='xl' weight='bold'>
               {orgName}
@@ -41,7 +41,7 @@ const DAOProfileForm: React.FC<Props> = ({
         </FormRow>
         <FormRow>
           {setName ? (
-            <InputWithLabel label='DAO Name' inputValue={name} handleChange={setName} />
+            <InputWithLabel label='DAO Name' height='48px' inputValue={name} handleChange={setName} />
           ) : (
             <Typography color='gray-medium' size='xl' weight='bold'>
               {name}

@@ -5,9 +5,9 @@ import { useCreateEntityState, useCreateEntityStrategy } from 'hooks/createEntit
 const CreateOracle: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): JSX.Element => {
   const { getStrategyByEntityType } = useCreateEntityStrategy()
   const { updateEntityType, updateTitle, updateSubtitle, updateBreadCrumbs } = useCreateEntityState()
-  const isSelectProcessRoute = useRouteMatch('/create/entity/oracle/select-process')
-  const isSetupMetadataRoute = useRouteMatch('/create/entity/oracle/setup-metadata')
-  const isSetupPropertiesRoute = useRouteMatch('/create/entity/oracle/setup-properties')
+  const isSelectProcessRoute = useRouteMatch('/create/entity/oracle/process')
+  const isSetupMetadataRoute = useRouteMatch('/create/entity/oracle/profile')
+  const isSetupPropertiesRoute = useRouteMatch('/create/entity/oracle/property')
   const { steps } = getStrategyByEntityType('oracle')
 
   useEffect(() => {
@@ -25,7 +25,7 @@ const CreateOracle: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): 
   }, [isSelectProcessRoute?.isExact])
   useEffect(() => {
     if (isSetupMetadataRoute?.isExact) {
-      updateSubtitle('Method Metadata')
+      updateSubtitle('Profile')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSetupMetadataRoute?.isExact])

@@ -18,25 +18,16 @@ const SetupLinkedResource: React.FC<Props> = ({ linkedResource, updateLinkedReso
     [key: string]: any
   }>({})
   const [openAddLinkedResourceModal, setOpenAddLinkedResourceModal] = useState(false)
-
-  // popups - linked resources modal
-  const handleOpenEntityLinkedResourceModal = (key: string, open: boolean): void => {
-    setEntityLinkedResource((pre) => ({
-      ...pre,
-      [key]: {
-        ...pre[key],
-        openModal: open,
-      },
-    }))
-  }
+  const [selected, setSelected] = useState('')
 
   // entity linked resources
   const handleAddEntityLinkedResource = (type: string): void => {
     const id = uuidv4()
     setEntityLinkedResource((pre) => ({
       ...pre,
-      [id]: { id, type, ...EntityLinkedResourceConfig[type], openModal: true },
+      [id]: { id, type, path: '', name: '', description: '' },
     }))
+    setSelected(id)
   }
   const handleUpdateEntityLinkedResource = (id: string, data: TEntityLinkedResourceModel): void => {
     setEntityLinkedResource((pre) => ({ ...pre, [id]: data }))
@@ -72,7 +63,7 @@ const SetupLinkedResource: React.FC<Props> = ({ linkedResource, updateLinkedReso
                 label={value.name ?? value.text}
                 set={value.name}
                 handleRemove={(): void => handleRemoveEntityLinkedResource(key)}
-                handleClick={(): void => handleOpenEntityLinkedResourceModal(key, true)}
+                handleClick={(): void => setSelected(key)}
               />
             )
           })}
@@ -84,17 +75,26 @@ const SetupLinkedResource: React.FC<Props> = ({ linkedResource, updateLinkedReso
         onClose={(): void => setOpenAddLinkedResourceModal(false)}
         onChange={handleAddEntityLinkedResource}
       />
-      {Object.entries(entityLinkedResource)
+      {/* {Object.entries(entityLinkedResource)
         .filter(([, value]) => !value.required)
         .map(([key, value]) => (
           <LinkedResourceSetupModal
             key={key}
             linkedResource={value}
             open={!!value?.openModal}
-            onClose={(): void => handleOpenEntityLinkedResourceModal(key, false)}
+            onClose={(): void => setSelected('')}
             onChange={(linkedResource: any): void => handleUpdateEntityLinkedResource(key, linkedResource)}
           />
-        ))}
+        ))} */}
+
+      {!!entityLinkedResource[selected] && (
+        <LinkedResourceSetupModal
+          linkedResource={entityLinkedResource[selected]}
+          open={!!entityLinkedResource[selected]}
+          onClose={(): void => setSelected('')}
+          onChange={(linkedResource: any): void => handleUpdateEntityLinkedResource(selected, linkedResource)}
+        />
+      )}
     </>
   )
 }

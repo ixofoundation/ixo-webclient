@@ -5,9 +5,9 @@ import { useCreateEntityState, useCreateEntityStrategy } from 'hooks/createEntit
 const CreateAsset: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): JSX.Element => {
   const { getStrategyByEntityType } = useCreateEntityStrategy()
   const { updateEntityType, updateTitle, updateSubtitle, updateBreadCrumbs } = useCreateEntityState()
-  const isSelectProcessRoute = useRouteMatch('/create/entity/asset/select-process')
-  const isSetupMetadataRoute = useRouteMatch('/create/entity/asset/setup-metadata')
-  const isSetupPropertiesRoute = useRouteMatch('/create/entity/asset/setup-properties')
+  const isSelectProcessRoute = useRouteMatch('/create/entity/asset/process')
+  const isSetupMetadataRoute = useRouteMatch('/create/entity/asset/profile')
+  const isSetupPropertiesRoute = useRouteMatch('/create/entity/asset/property')
   const isReviewRoute = useRouteMatch('/create/entity/asset/review')
   const isCreateTokenRoute = useRouteMatch('/create/entity/asset/create-token')
 
@@ -28,7 +28,7 @@ const CreateAsset: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): J
   }, [isSelectProcessRoute?.isExact])
   useEffect(() => {
     if (isSetupMetadataRoute?.isExact) {
-      updateSubtitle('Token Metadata')
+      updateSubtitle('Profile')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSetupMetadataRoute?.isExact])

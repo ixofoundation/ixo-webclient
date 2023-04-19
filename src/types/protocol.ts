@@ -608,17 +608,10 @@ export interface TEntityPaymentModel {
 // TODO:
 export interface TEntityLinkedResourceModel {
   id?: string
-  path: string //  url
   type: string
+  path: string //  url
   name: string
   description: string
-
-  // extra
-  icon: React.FC<React.SVGProps<SVGElement>>
-  text: string
-  openModal?: boolean
-  data?: any
-  required?: boolean
 }
 
 // TODO: add more fields

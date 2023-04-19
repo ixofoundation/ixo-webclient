@@ -33,11 +33,11 @@ const LinkedResourceSetupModal: React.FC<Props> = ({ linkedResource, open, onClo
         <ModalBody>
           <ModalRow>
             <LinkedResourcesContentCard
-              id={formData?.id}
-              path={formData?.path}
-              type={formData?.type}
-              name={formData?.name}
-              description={formData?.description}
+              id={formData.id || ''}
+              path={formData.path}
+              type={formData.type}
+              name={formData.name}
+              description={formData.description}
               uploadingResource={false}
               handleUpdateContent={setFormData}
               handleSubmitted={(): void => {

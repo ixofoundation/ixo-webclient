@@ -15,7 +15,7 @@ const SetupActions: React.FC = () => {
   const validActions = actions.filter((item) => item.data)
 
   const handleBack = () => {
-    history.push(`/create/entity/deed/${entityId}/${coreAddress}/setup-properties`)
+    history.push(`/create/entity/deed/${entityId}/${coreAddress}/property`)
   }
   const handleContinue = () => {
     history.push(`/create/entity/deed/${entityId}/${coreAddress}/review`)

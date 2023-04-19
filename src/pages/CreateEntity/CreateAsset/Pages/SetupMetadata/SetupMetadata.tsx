@@ -2,14 +2,13 @@ import { Box } from 'components/App/App.styles'
 import React from 'react'
 import { useCreateEntityState } from 'hooks/createEntity'
 import { Button } from '../../../Components'
-import { LocalisationForm, TokenProfileForm, EntityAdditionalInfoForm } from '../../../Forms'
+import { TokenProfileForm, EntityAdditionalInfoForm } from '../../../Forms'
 import { PageWrapper } from './SetupMetadata.styles'
-import { Typography } from 'components/Typography'
 import { TAssetMetadataModel } from 'types/protocol'
 
 const SetupMetadata: React.FC = (): JSX.Element => {
   const createEntityState = useCreateEntityState()
-  const { entityType, localisation, gotoStep, updateMetadata, updateLocalisation } = createEntityState
+  const { entityType, gotoStep, updateMetadata } = createEntityState
   const metadata: TAssetMetadataModel = createEntityState.metadata as TAssetMetadataModel
 
   const canSubmit = true
@@ -31,12 +30,12 @@ const SetupMetadata: React.FC = (): JSX.Element => {
   return (
     <PageWrapper>
       <Box className='d-flex flex-column'>
-        <Box className='d-flex align-items-center justify-content-between'>
+        {/* <Box className='d-flex align-items-center justify-content-between'>
           <Typography weight='medium' size='xl'>
             Localisation:
           </Typography>
           <LocalisationForm localisation={localisation} setLocalisation={updateLocalisation} />
-        </Box>
+        </Box> */}
         <Box className='mb-2' />
         <TokenProfileForm
           image={metadata?.image}
@@ -86,10 +85,10 @@ const SetupMetadata: React.FC = (): JSX.Element => {
         />
 
         <Box className='d-flex justify-content-end w-100 mt-4' style={{ gap: 20 }}>
-          <Button variant='secondary' onClick={handlePrev}>
+          <Button size='full' height={48} variant='secondary' onClick={handlePrev}>
             Back
           </Button>
-          <Button variant={'primary'} disabled={!canSubmit} onClick={handleNext}>
+          <Button size='full' height={48} variant='primary' disabled={!canSubmit} onClick={handleNext}>
             Continue
           </Button>
         </Box>

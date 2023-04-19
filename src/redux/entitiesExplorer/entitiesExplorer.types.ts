@@ -7,8 +7,8 @@ import { TEntityDDOTagModel } from 'types/protocol'
 export interface Filter {
   ddoTags: TEntityDDOTagModel[]
   sector: string
-  dateFrom: Moment
-  dateTo: Moment
+  dateFrom: string
+  dateTo: string
   userEntities: boolean
   featuredEntities: boolean
   popularEntities: boolean
@@ -171,8 +171,8 @@ export interface FilterTogglePopularEntitiesAction {
 export interface FilterDatesAction {
   type: typeof EntitiesExplorerActions.FilterDates
   payload: {
-    dateFrom: Moment
-    dateTo: Moment
+    dateFrom: string
+    dateTo: string
   }
 }
 

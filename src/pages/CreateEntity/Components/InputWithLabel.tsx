@@ -36,7 +36,7 @@ const StyledInput = styled.input`
   height: 100%;
   padding: 6px 10px;
   font-family: ${(props): string => props.theme.primaryFontFamily};
-  font-weight: 700;
+  font-weight: 500;
   line-height: 28px;
   font-size: 20px;
   color: ${(props): string => props.theme.ixoBlack};
@@ -118,7 +118,7 @@ const InputWithLabel: React.FC<Props> = ({
           <Typography
             weight={filled ? 'bold' : 'medium'}
             size={filled ? 'sm' : 'xl'}
-            color={filled ? 'blue' : 'gray-medium'}
+            color={filled ? 'blue' : 'grey500'}
           >
             {label}
           </Typography>

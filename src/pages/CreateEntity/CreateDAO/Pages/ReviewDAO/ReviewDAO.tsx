@@ -119,13 +119,13 @@ const ReviewDAO: React.FC = (): JSX.Element => {
                 This is the last step before creating this DAO on the ixo Blockchain.
               </Typography>
               <Typography variant='secondary'>
-                <NavLink to={'/create/entity/dao/setup-metadata'} onClick={() => gotoStepByNo(2)}>
+                <NavLink to={'/create/entity/dao/profile'} onClick={() => gotoStepByNo(2)}>
                   Review the DAO details
                 </NavLink>{' '}
                 you have configured.
               </Typography>
               <Typography variant='secondary'>
-                <NavLink to={'/create/entity/dao/setup-groups'} onClick={() => gotoStepByNo(3)}>
+                <NavLink to={'/create/entity/dao/group'} onClick={() => gotoStepByNo(3)}>
                   View the DAO Groups
                 </NavLink>{' '}
                 you have added.

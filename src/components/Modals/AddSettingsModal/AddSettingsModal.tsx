@@ -8,11 +8,12 @@ import { EntitySettingsConfig } from 'types/protocol'
 
 interface Props {
   open: boolean
+  addedKeys: string[]
   onClose: () => void
   onChange: (key: string) => void
 }
 
-const AddSettingsModal: React.FC<Props> = ({ open, onClose, onChange }): JSX.Element => {
+const AddSettingsModal: React.FC<Props> = ({ open, addedKeys, onClose, onChange }): JSX.Element => {
   return (
     // @ts-ignore
     <Modal style={ModalStyles} isOpen={open} onRequestClose={onClose} contentLabel='Modal' ariaHideApp={false}>
@@ -35,6 +36,7 @@ const AddSettingsModal: React.FC<Props> = ({ open, onClose, onChange }): JSX.Ele
                     onChange(key)
                     onClose()
                   }}
+                  disabled={addedKeys.includes(key)}
                 />
               ))}
             </ModalRow>

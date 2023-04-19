@@ -280,8 +280,8 @@ describe('EntitiesExplorer Selectors', () => {
   describe('selectedFilteredEntities', () => {
     it('should return a list of entities sorted when no filters are set', () => {
       state.entities.filter = {
-        dateFrom: null,
-        dateTo: null,
+        dateFrom: '',
+        dateTo: '',
         ddoTags: [],
         userEntities: false,
       }
@@ -296,8 +296,8 @@ describe('EntitiesExplorer Selectors', () => {
 
     it('should return a list of entities filtered by user entities when the userEntities flag is true', () => {
       state.entities.filter = {
-        dateFrom: null,
-        dateTo: null,
+        dateFrom: '',
+        dateTo: '',
         ddoTags: [],
         userEntities: true,
       }
@@ -328,8 +328,8 @@ describe('EntitiesExplorer Selectors', () => {
 
     it('should return a list of entities filtered by ddoTags and sorted when ddoTags are set', () => {
       state.entities.filter = {
-        dateFrom: null,
-        dateTo: null,
+        dateFrom: '',
+        dateTo: '',
         ddoTags: [
           {
             category: 'someCategory1',

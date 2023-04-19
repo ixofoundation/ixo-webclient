@@ -25,6 +25,7 @@ export type TTypographyColor =
   | 'color-1'
   | 'color-2'
   | 'grey700'
+  | 'grey500'
   | 'green'
   | 'red'
   | 'inherit'
@@ -54,6 +55,10 @@ const secondaryCss = css`
 `
 
 /* size */
+const xsSizeCss = css`
+  font-size: 9px;
+  line-height: 11px;
+`
 const smallSizeCss = css`
   font-size: 12px;
   line-height: 14px;
@@ -145,6 +150,9 @@ const darkBlueColorCss = css`
 const grayMediumColorCss = css`
   color: ${(props) => props.theme.ixoGrey700};
 `
+const grey500ColorCss = css`
+  color: ${(props) => props.theme.ixoGrey500};
+`
 const gray2ColorCss = css`
   color: ${(props) => props.theme.ixoGrey300};
 `
@@ -232,6 +240,8 @@ const Typography = styled.div<Props>`
   }}
   ${({ size = 'base' }) => {
     switch (size) {
+      case 'xs':
+        return xsSizeCss
       case 'sm':
         return smallSizeCss
       case 'md':
@@ -304,6 +314,8 @@ const Typography = styled.div<Props>`
         return color2ColorCss
       case 'grey700':
         return grey700ColorCss
+      case 'grey500':
+        return grey500ColorCss
       case 'green':
         return greenCss
       case 'red':

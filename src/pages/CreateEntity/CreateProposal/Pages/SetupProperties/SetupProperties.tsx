@@ -33,11 +33,11 @@ const SetupProperties: React.FC = (): JSX.Element => {
   } = useCreateEntityState()
 
   const handleBack = () => {
-    history.push(`/create/entity/deed/${entityId}/${coreAddress}/setup-page`)
+    history.push(`/create/entity/deed/${entityId}/${coreAddress}/page`)
   }
 
   const handleNext = () => {
-    history.push(`/create/entity/deed/${entityId}/${coreAddress}/setup-actions`)
+    history.push(`/create/entity/deed/${entityId}/${coreAddress}/action`)
   }
 
   const PropertiesFormProps = {

@@ -1,6 +1,7 @@
 import CopyToClipboard from 'react-copy-to-clipboard'
 import {
   AccDID,
+  ConnectButton,
   Inner,
   // LoginLink,
   MenuBottom,
@@ -15,20 +16,17 @@ import {
 import { useState } from 'react'
 import { useAccount } from 'hooks/account'
 import { useAppSelector } from 'redux/hooks'
-import {
-  selectEntityHeaderButtonColorUIConfig,
-  selectEntityHeadTitleUIConfig,
-} from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { selectEntityHeaderButtonColorUIConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { truncateString } from 'utils/formatters'
+import { Typography } from 'components/Typography'
+import { Light, LightLoading, LightReady, Ping } from '../HeaderContainer.styles'
 
 interface HeaderRightProps {
-  renderStatusIndicator: () => JSX.Element
   toggleModal: (IsOpen: boolean) => void
 }
 
-const HeaderRight: React.FC<HeaderRightProps> = ({ renderStatusIndicator, toggleModal }): JSX.Element => {
+const HeaderRight: React.FC<HeaderRightProps> = ({ toggleModal }): JSX.Element => {
   const buttonColor: string = useAppSelector(selectEntityHeaderButtonColorUIConfig)
-  const title = useAppSelector(selectEntityHeadTitleUIConfig)
   const { address, name, registered, updateChooseWalletOpen } = useAccount()
   const [showMenu, setShowMenu] = useState(false)
 
@@ -40,33 +38,57 @@ const HeaderRight: React.FC<HeaderRightProps> = ({ renderStatusIndicator, toggle
     updateChooseWalletOpen(true)
   }
 
-  const handleLogInButton = (): JSX.Element => {
-    return <div onClick={toggleWalletChooseModal}>Login</div>
+  // const renderLightIndicator = (): JSX.Element => {
+  //   if (responseTime === null) {
+  //     return <LightLoading />
+  //   } else if (responseTime !== 0) {
+  //     return <LightReady />
+  //   } else {
+  //     return <Light />
+  //   }
+  // }
+  const renderLightIndicator = (): JSX.Element => {
+    if (address) {
+      if (registered) {
+        return <LightReady />
+      } else {
+        return <LightLoading />
+      }
+    } else {
+      return <Light />
+    }
+  }
+
+  const renderStatusIndicator = (): JSX.Element => {
+    return <Ping>{renderLightIndicator()}</Ping>
   }
 
   return (
     <>
       <NoPadLeft className='col-md-2 col-lg-4'>
         <Inner className='d-flex justify-content-end'>
-          {!address ? (
-            <UserBox color={buttonColor}>
-              <StatusBox>
-                {renderStatusIndicator()}
-                <StatusText>{title || 'IXO'} EXPLORER STATUS</StatusText>
-              </StatusBox>
-              {handleLogInButton()}
-            </UserBox>
-          ) : (
-            <UserBox color={buttonColor} onClick={toggleMenu}>
-              <StatusBox>
-                {renderStatusIndicator()}
-                <StatusText>{title || 'IXO'} EXPLORER STATUS</StatusText>
-              </StatusBox>
-              <h3>
-                {!registered && <RedIcon />} <span>{truncateString(name, 10, 'end')}</span>
-              </h3>
-            </UserBox>
-          )}
+          <UserBox color={buttonColor}>
+            <StatusBox>
+              {renderStatusIndicator()}
+              <StatusText>{!address ? 'Not Connected' : 'Connected'}</StatusText>
+            </StatusBox>
+            {!address ? (
+              <ConnectButton onClick={toggleWalletChooseModal}>
+                <Typography variant='secondary' size='md'>
+                  Connect
+                </Typography>
+              </ConnectButton>
+            ) : (
+              <ConnectButton onClick={toggleWalletChooseModal}>
+                <Typography variant='secondary' size='md'>
+                  {truncateString(name, 8, 'end')}
+                </Typography>
+                <Typography variant='secondary' size='xs' color='dark-blue'>
+                  {truncateString(address, 20)}
+                </Typography>
+              </ConnectButton>
+            )}
+          </UserBox>
         </Inner>
         <UserMenu className={showMenu ? 'visible' : ''} onMouseLeave={toggleMenu}>
           <MenuTop>

@@ -82,10 +82,10 @@ const ServiceSetupModal: React.FC<Props> = ({ service, open, onClose, onChange }
                   handleUpdateContent={(formData): void => handleUpdateNode(index, formData)}
                   handleRemoveSection={(): void => handleRemoveNode(index)}
                   handleSubmitted={(): void => {
-                    console.log('111111111111submitted')
+                    console.log('service submitted')
                   }}
                   handleError={(fields: string[]): void => {
-                    console.log(`111errors`, index, fields)
+                    console.log(`service errors`, index, fields)
                     setError(fields.length > 0)
                   }}
                 />

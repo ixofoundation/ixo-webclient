@@ -60,6 +60,11 @@ const SetupDAOGroups: React.FC = (): JSX.Element => {
     if (Object.values(daoGroups).length === 0) {
       updateDAOController(id)
     }
+
+    /**
+     * @description navigate setup specific group screen
+     */
+    setSelectedGroup(id)
   }
   const handleUpdateGroup = (data: TDAOGroupModel): void => {
     updateDAOGroups({

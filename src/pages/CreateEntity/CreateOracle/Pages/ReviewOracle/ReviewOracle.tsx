@@ -64,7 +64,7 @@ const ReviewOracle: React.FC = (): JSX.Element => {
                 This is the last step before creating this Oracle on the ixo Blockchain.
               </Typography>
               <Typography variant='secondary'>
-                <NavLink to={'/create/entity/oracle/setup-metadata'} onClick={() => gotoStepByNo(2)}>
+                <NavLink to={'/create/entity/oracle/profile'} onClick={() => gotoStepByNo(2)}>
                   Review the Oracle details
                 </NavLink>{' '}
                 you have configured.

@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import { AttributeInput } from '../EntityAttributesForm/EntityAttributesForm.styles'
 import DefCountryDropDown from 'components/Controls/IconDropDown/CountryDropDown/CountryDropDown'
 
 export const FormWrapper = styled.div`
@@ -7,8 +6,6 @@ export const FormWrapper = styled.div`
   flex-direction: column;
   gap: 20px;
 `
-
-export const BrandNameInput = styled(AttributeInput)``
 
 export const CountryDropDown = styled(DefCountryDropDown)`
   select {
@@ -18,5 +15,15 @@ export const CountryDropDown = styled(DefCountryDropDown)`
     font-size: 20px;
     padding-top: 8px !important;
     padding-bottom: 8px !important;
+    height: 48px;
+
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    text-indent: 1px;
+    text-overflow: '';
+
+    &::-ms-expand {
+      display: none;
+    }
   }
 `

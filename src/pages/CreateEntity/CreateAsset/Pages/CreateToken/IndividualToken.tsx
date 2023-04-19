@@ -156,7 +156,7 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
     const id = uuidv4()
     setEntityLinkedResource((pre) => ({
       ...pre,
-      [id]: { id, type, ...EntityLinkedResourceConfig[type], openModal: true },
+      [id]: { id, type, path: '', name: '', description: '' },
     }))
   }
   const handleUpdateEntityLinkedResource = (id: string, data: TEntityLinkedResourceModel): void => {
@@ -279,7 +279,7 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
               >
                 {Icon && <Icon />}
                 <Typography weight='bold' size='md' color={'white'}>
-                  {value.name ?? value.text}
+                  {value.name}
                 </Typography>
               </PropertyBox>
             </PropertyBoxWrapper>
@@ -415,7 +415,7 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
         <LinkedResourceSetupModal
           key={key}
           linkedResource={value}
-          open={!!value?.openModal}
+          open={false}
           onClose={(): void => handleOpenEntityLinkedResourceModal(key, false)}
           onChange={(linkedResource: TEntityLinkedResourceModel): void =>
             handleUpdateEntityLinkedResource(key, linkedResource)
@@ -427,6 +427,7 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
         open={openAddSettingsModal}
         onClose={(): void => setOpenAddSettingsModal(false)}
         onChange={handleAddEntitySetting}
+        addedKeys={Object.keys(entitySettings)}
       />
       <AddLinkedResourceModal
         open={openAddLinkedResourceModal}

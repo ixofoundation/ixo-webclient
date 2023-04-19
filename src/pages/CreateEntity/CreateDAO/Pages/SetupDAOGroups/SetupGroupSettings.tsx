@@ -246,7 +246,7 @@ const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JS
                   accept={'.csv'}
                   onChange={handleFileChange(membershipIdx)}
                 />
-                <Button variant='grey500' size='custom' width={52} height={48} onClick={handleImportCsv(membershipIdx)}>
+                <Button variant='primary' size='custom' width={52} height={48} onClick={handleImportCsv(membershipIdx)}>
                   <SvgBox color='white'>
                     <FileUploadIcon />
                   </SvgBox>
@@ -318,10 +318,15 @@ const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JS
                     </Button>
                   </FlexBox>
                 ))}
-                <Button size='custom' width={230} height={48} onClick={(): void => handleAddMember(membershipIdx)}>
+                <Button
+                  size='flex'
+                  textTransform='none'
+                  height={48}
+                  onClick={(): void => handleAddMember(membershipIdx)}
+                >
                   <FlexBox alignItems='center' gap={2}>
                     <PlusIcon color={theme.ixoWhite} />
-                    Add Account
+                    Add a Member
                   </FlexBox>
                 </Button>
               </FlexBox>
@@ -388,7 +393,7 @@ const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JS
       )
     }
     const handleRemoveMember = (membershipIdx: number, memberIdx: number): void => {
-      const members = (data.memberships ?? [])[membershipIdx]?.members ?? ['']
+      const members = data.memberships[membershipIdx]?.members ?? ['']
       if (members.length === 1) {
         handleUpdateMembership(membershipIdx, 'members', [''])
       } else {
@@ -470,23 +475,12 @@ const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JS
                 </Typography>
               </FlexBox>
               <FlexBox width='100%' gap={5} alignItems='center'>
-                <FlexBox alignItems='center' gap={5}>
-                  <IconUpload
-                    icon={data.staking?.tokenLogo}
-                    sizeInPX={120}
-                    placeholder='Token Icon'
-                    handleChange={(value): void => handleUpdateStaking('tokenLogo', value)}
-                  />
-                  <Typography size='xl'>Upload or enter source:</Typography>
-                </FlexBox>
-                <FlexBox width='50%'>
-                  <InputWithLabel
-                    height={inputHeight + 'px'}
-                    placeholder='https://'
-                    inputValue={data.staking?.tokenLogo}
-                    handleChange={(value): void => handleUpdateStaking('tokenLogo', value)}
-                  />
-                </FlexBox>
+                <IconUpload
+                  icon={data.staking?.tokenLogo}
+                  sizeInPX={120}
+                  placeholder='Token Icon'
+                  handleChange={(value): void => handleUpdateStaking('tokenLogo', value)}
+                />
               </FlexBox>
               <FlexBox gap={5}>
                 <InputWithLabel
@@ -596,14 +590,14 @@ const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JS
                       </FlexBox>
                     ))}
                     <Button
-                      size='custom'
-                      width={230}
+                      size='flex'
+                      textTransform='none'
                       height={48}
                       onClick={(): void => handleAddMember(distributionIdx)}
                     >
                       <FlexBox alignItems='center' gap={2}>
                         <PlusIcon color={theme.ixoWhite} />
-                        Add Account
+                        Add a Member
                       </FlexBox>
                     </Button>
                   </FlexBox>
@@ -732,10 +726,10 @@ const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JS
                   </Button>
                 </FlexBox>
               ))}
-              <Button size='custom' width={230} height={48} onClick={(): void => handleAddMember(0)}>
+              <Button size='flex' textTransform='none' height={48} onClick={(): void => handleAddMember(0)}>
                 <FlexBox alignItems='center' gap={2}>
                   <PlusIcon color={theme.ixoWhite} />
-                  Add Account
+                  Add a Member
                 </FlexBox>
               </Button>
             </FlexBox>
@@ -1078,10 +1072,10 @@ const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JS
   const renderActions = (): JSX.Element => {
     return (
       <FlexBox alignItems='center' width='100%' gap={7} marginTop={7}>
-        <Button variant='grey700' style={{ width: '100%' }} onClick={onBack}>
+        <Button variant='secondary' size='full' height={48} onClick={onBack}>
           Back
         </Button>
-        <Button disabled={!valid} style={{ width: '100%' }} loading={submitting} onClick={handleSubmit}>
+        <Button disabled={!valid} size='full' height={48} loading={submitting} onClick={handleSubmit}>
           Create Group
         </Button>
       </FlexBox>

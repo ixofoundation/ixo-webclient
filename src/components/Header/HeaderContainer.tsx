@@ -9,16 +9,7 @@ import MediaQuery from 'react-responsive'
 import { deviceWidth } from 'constants/device'
 import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 import { ButtonTypes, Button } from '../Form/Buttons'
-import {
-  InfoLink,
-  Light,
-  LightLoading,
-  LightReady,
-  ModalData,
-  Ping,
-  StatusMessage,
-  TopBar,
-} from './HeaderContainer.styles'
+import { InfoLink, ModalData, TopBar } from './HeaderContainer.styles'
 import Success from 'assets/icons/Success'
 import {
   selectAccountRegistered,
@@ -53,7 +44,6 @@ const Header: React.FC<Props> = (props: Props): JSX.Element => {
     updateRegistered,
   } = useAccount()
 
-  const [responseTime] = useState(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [modalResponse] = useState('')
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -82,43 +72,6 @@ const Header: React.FC<Props> = (props: Props): JSX.Element => {
 
   const handledFunded = (): void => {
     updateBalances()
-  }
-
-  const renderStatusMessage = (): JSX.Element => {
-    if (responseTime ? responseTime : -1 > 0) {
-      return (
-        <StatusMessage>
-          <p>Response time: {responseTime} ms</p>
-        </StatusMessage>
-      )
-    } else {
-      return (
-        <StatusMessage>
-          <p>
-            IXO Explorer <br />
-            not responding
-          </p>
-        </StatusMessage>
-      )
-    }
-  }
-
-  const renderLightIndicator = (): JSX.Element => {
-    if (responseTime === null) {
-      return <LightLoading />
-    } else if (responseTime !== 0) {
-      return <LightReady />
-    } else {
-      return <Light />
-    }
-  }
-  const renderStatusIndicator = (): JSX.Element => {
-    return (
-      <Ping>
-        {renderLightIndicator()}
-        <div className='d-none d-sm-block'>{renderStatusMessage()}</div>
-      </Ping>
-    )
   }
 
   const renderModalHeader = (): {
@@ -269,7 +222,7 @@ const Header: React.FC<Props> = (props: Props): JSX.Element => {
           handleBurgerClick={handleBurgerClick}
         />
         <MediaQuery minWidth={`${deviceWidth.desktop}px`}>
-          <HeaderRight renderStatusIndicator={renderStatusIndicator} toggleModal={handleToggleModal} />
+          <HeaderRight toggleModal={handleToggleModal} />
         </MediaQuery>
       </div>
     </TopBar>
