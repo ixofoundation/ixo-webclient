@@ -228,8 +228,8 @@ describe('Entities Reducer', () => {
       // then the state should be set as expected
       expect(result.selectedEntitiesType).toEqual(EntityType.Dao)
       expect(result.entities).toEqual(currentState.entities)
-      expect(result.filter.dateFrom).toEqual(null)
-      expect(result.filter.dateTo).toEqual(null)
+      expect(result.filter.dateFrom).toEqual('')
+      expect(result.filter.dateTo).toEqual('')
       expect(result.filter.userEntities).toEqual(currentState.filter.userEntities)
       expect(result.filter.featuredEntities).toEqual(currentState.filter.featuredEntities)
       expect(result.filter.popularEntities).toEqual(currentState.filter.popularEntities)
@@ -630,8 +630,8 @@ describe('Entities Reducer', () => {
         ...currentState,
         filter: {
           ...currentState.filter,
-          dateFrom: null,
-          dateTo: null,
+          dateFrom: '',
+          dateTo: '',
         },
       })
     })
