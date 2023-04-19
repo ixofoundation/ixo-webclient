@@ -13,6 +13,14 @@ const Wrapper = styled(FlexBox)`
     width: 100%;
     word-wrap: break-word;
   }
+
+  & h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    margin-top: 3rem;
+  }
 `
 
 const PageContent: React.FC = (): JSX.Element => {

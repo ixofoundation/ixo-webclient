@@ -165,7 +165,7 @@ export const ButtonWrapper = styled.div`
 
 export const FilterModal = styled.div`
   position: absolute;
-  padding: 2.625rem;
+  padding: 2rem;
   background: #ffffff;
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.15);
   border-radius: 4px;
@@ -194,187 +194,32 @@ export const ModalItems = styled.div`
   display: flex;
   overflow-y: auto;
   flex-flow: row wrap;
-  margin-bottom: 3.5rem;
+  margin-bottom: 2rem;
   @media (min-width: ${deviceWidth.tablet}px) {
-    max-height: 380px;
+    max-height: 390px;
   }
 `
 
 export const FilterSelectButton = styled.div`
   width: calc(100% / 3);
+  min-height: 130px;
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
-  color: white;
+  gap: 20px;
+  color: ${(props) => props.theme.ixoGrey500};
   text-align: center;
-  padding: 1rem;
-  background: #db6169;
+  padding: 0.25rem;
+  background: none;
   border: 4px solid transparent;
-  cursor: default;
-  h3 {
-    font-family: ${(props): string => props.theme.primaryFontFamily};
-    font-size: 0.875rem;
-    line-height: 1;
-  }
-  img {
-    max-width: 100%;
-    width: 4rem;
-    height: 4rem;
-    object-fit: contain;
-    display: block;
-  }
-  &:nth-child(2) {
-    background: #e0bb72;
-  }
-  &:nth-child(3) {
-    background: #81b276;
-  }
-  &:nth-child(4) {
-    background: #c75d61;
-  }
-  &:nth-child(5) {
-    background: #e17161;
-  }
-  &:nth-child(6) {
-    background: #7dcae9;
-  }
-  &:nth-child(7) {
-    background: #f6d16c;
-  }
-  &:nth-child(8) {
-    background: #aa566b;
-  }
-  &:nth-child(9) {
-    background: #e78f66;
-  }
-  &:nth-child(10) {
-    background: #d75d87;
-  }
-  &:nth-child(11) {
-    background: #eeb36d;
-  }
-  &:nth-child(12) {
-    background: #c7a768;
-  }
-  &:nth-child(13) {
-    background: #739771;
-  }
-  &:nth-child(14) {
-    background: #6eabd7;
-  }
-  &:nth-child(15) {
-    background: #5d88b0;
-  }
-  &:nth-child(16) {
-    background: #5d88b0;
-  }
-  &:nth-child(17) {
-    background: #e0bb72;
-  }
-  &:nth-child(18) {
-    background: #81b276;
-  }
-  &:nth-child(19) {
-    background: #c75d61;
-  }
-  &:nth-child(20) {
-    background: #e17161;
-  }
-  &:nth-child(21) {
-    background: #7dcae9;
-  }
-  &:nth-child(22) {
-    background: #f6d16c;
-  }
-  &:nth-child(23) {
-    background: #aa566b;
-  }
-  &:nth-child(24) {
-    background: #e78f66;
-  }
-  &:nth-child(25) {
-    background: #d75d87;
-  }
-  &:nth-child(26) {
-    background: #eeb36d;
-  }
-  &:nth-child(27) {
-    background: #c7a768;
-  }
-  &:nth-child(28) {
-    background: #739771;
-  }
-  &:nth-child(29) {
-    background: #6eabd7;
-  }
-  &:nth-child(30) {
-    background: #5d88b0;
-  }
-  &:nth-child(31) {
-    background: #5d88b0;
-  }
-  &:nth-child(32) {
-    background: #e0bb72;
-  }
-  &:nth-child(33) {
-    background: #81b276;
-  }
-  &:nth-child(34) {
-    background: #c75d61;
-  }
-  &:nth-child(35) {
-    background: #e17161;
-  }
-  &:nth-child(36) {
-    background: #7dcae9;
-  }
-  &:nth-child(37) {
-    background: #f6d16c;
-  }
-  &:nth-child(38) {
-    background: #aa566b;
-  }
-  &:nth-child(39) {
-    background: #e78f66;
-  }
-  &:nth-child(40) {
-    background: #d75d87;
-  }
-  &:nth-child(41) {
-    background: #eeb36d;
-  }
-  &:nth-child(42) {
-    background: #c7a768;
-  }
-  &:nth-child(43) {
-    background: #739771;
-  }
-  &:nth-child(44) {
-    background: #6eabd7;
-  }
-  &:nth-child(45) {
-    background: #5d88b0;
-  }
-  &:nth-child(46) {
-    background: #5d88b0;
-  }
-  &:nth-child(47) {
-    background: #e0bb72;
-  }
-  &:nth-child(48) {
-    background: #81b276;
-  }
-  &:nth-child(49) {
-    background: #c75d61;
-  }
-  &:nth-child(50) {
-    background: #e17161;
-  }
+  cursor: pointer;
   &.buttonPressed {
-    // border: 2px solid #fff;
-    background: #143f54;
+    color: ${(props) => props.theme.ixoDarkBlue};
+  }
+  &:hover {
+    color: ${(props) => props.theme.ixoNewBlue};
   }
 `
 

@@ -1,8 +1,8 @@
 export const deviceWidth = {
-  mobileSmall: 320,
-  mobile: 576,
-  tablet: 768,
-  desktop: 992,
-  desktopLarge: 1200,
-  desktopExtra: 1366,
+  mobileSmall: 320, //  xs
+  mobile: 576, //  sm
+  tablet: 768, //  md
+  desktop: 992, //  base
+  desktopLarge: 1200, //  lg
+  desktopExtra: 1366, //  xl
 }

@@ -1,3 +1,4 @@
+import { deviceWidth } from 'constants/device'
 import { ReactNode } from 'react'
 import styled, { css } from 'styled-components'
 
@@ -184,6 +185,9 @@ export interface HTMLElementProps {
 
 export interface HTMLDivProps extends HTMLElementProps {
   hover?: HTMLElementProps
+  xs?: HTMLElementProps
+  sm?: HTMLElementProps
+  md?: HTMLElementProps
   onClick?: (e: any) => void
 }
 
@@ -276,6 +280,10 @@ const htmlElementCss = css<HTMLDivProps>`
     ${({ hover }) => hover?.borderColor && `border-color: ${hover.borderColor};`}
     ${({ hover }) => hover?.color && `color: ${hover.color};`}
   }
+
+  @media (max-width: ${deviceWidth.mobileSmall}px) {
+    ${({ xs }) => xs?.px && `padding-left: ${xs.px * 0.25}rem; padding-right: ${xs.px * 0.25}rem`};
+  }
 `
 
 const tableRowRoundCss = css<HTMLDivProps>`
@@ -310,11 +318,11 @@ export const SvgBox = styled(FlexBox)<{ svgWidth?: number; svgHeight?: number; c
     ${({ svgHeight }): string | undefined => (svgHeight ? `height: ${svgHeight * 0.25}rem` : undefined)};
 
     path {
-      ${({ color }): string | undefined => (color ? `fill: ${color}` : undefined)};
+      ${({ color }): string | undefined => (color ? `fill: ${color} !important;` : undefined)}
       transition: all 0.2s;
     }
     circle {
-      ${({ color }): string | undefined => (color ? `stroke: ${color}` : undefined)};
+      ${({ color }): string | undefined => (color ? `stroke: ${color} !important;` : undefined)}
       transition: all 0.2s;
     }
   }

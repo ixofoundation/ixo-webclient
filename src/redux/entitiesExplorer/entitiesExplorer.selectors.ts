@@ -303,6 +303,14 @@ export const selectFilterDateTo = createSelector(selectEntitiesFilter, (filter: 
   return filter.dateTo
 })
 
+export const selectFilterDateRange = createSelector(
+  selectEntitiesFilter,
+  (filter: Filter): { dateFrom: string; dateTo: string } => {
+    const { dateFrom, dateTo } = filter
+    return { dateFrom, dateTo }
+  },
+)
+
 export const selectFilterDateFromFormatted = createSelector(selectFilterDateFrom, (dateFrom: string): string => {
   return dateFrom ? formatDate(dateFrom) : ''
 })
