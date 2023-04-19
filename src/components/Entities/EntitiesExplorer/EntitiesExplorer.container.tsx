@@ -76,6 +76,7 @@ export interface Props extends RouteProps {
   filterDateFromFormatted: string
   filterDateTo: string
   filterDateToFormatted: string
+  filterDateRange: { dateFrom: string; dateTo: string }
   filterDateSummary: string
   filterCategories: TEntityDDOTagModel[]
   filterCategoriesSummary: string
@@ -250,8 +251,6 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
 
     const renderAssets = (): JSX.Element => <AssetCollections />
 
-    console.log('EntitiesExplorer.container ==========>', props.filterDateFrom, props.filterDateTo)
-
     if (props.entitiesCount > 0) {
       return (
         <EntitiesContainer className='container-fluid'>
@@ -386,6 +385,7 @@ function mapStateToProps(state: RootState): Record<string, any> {
     filteredEntitiesCount: entitiesSelectors.selectFilteredEntitiesCount2(state),
     filterDateFrom: entitiesSelectors.selectFilterDateFrom(state),
     filterDateTo: entitiesSelectors.selectFilterDateTo(state),
+    filterDateRange: entitiesSelectors.selectFilterDateRange(state),
     filterDateFromFormatted: entitiesSelectors.selectFilterDateFromFormatted(state),
     filterDateToFormatted: entitiesSelectors.selectFilterDateToFormatted(state),
     filterDateSummary: entitiesSelectors.selectFilterDateSummary(state),

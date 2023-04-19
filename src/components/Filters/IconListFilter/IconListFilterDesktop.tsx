@@ -9,12 +9,13 @@ import {
   FilterModal,
   ModalItems,
   FilterSelectButton,
-  ModalButtons,
-  ResetButton,
-  ApplyButton,
   ButtonImage,
 } from '../Filters.styles'
 import { requireCheckDefault } from 'utils/images'
+import { ReactSVG } from 'react-svg'
+import { FlexBox, SvgBox } from 'components/App/App.styles'
+import { Typography } from 'components/Typography'
+import { Button } from 'pages/CreateEntity/Components'
 
 const IconListFilterDesktop: FC<Props> = ({
   selectType,
@@ -67,16 +68,24 @@ const IconListFilterDesktop: FC<Props> = ({
                 onClick={handleFilterClick(itemName)}
                 className={utils.getItemClassName(items, itemName)}
               >
-                <h3>{itemName}</h3>
-                <img alt={itemName} src={requireCheckDefault(require(`./assets/icons/${itemIcon}`))} />
+                <Typography weight='medium'>{itemName}</Typography>
+                <SvgBox color='currentColor' svgWidth={12.5} svgHeight={12.5}>
+                  <ReactSVG src={requireCheckDefault(require(`./assets/icons/${itemIcon}`))} />
+                </SvgBox>
               </FilterSelectButton>
             )
           })}
         </ModalItems>
-        <ModalButtons>
-          {handleFilterReset && <ResetButton onClick={handleResetClick}>Reset</ResetButton>}
-          <ApplyButton onClick={handleToggleClick}>Done</ApplyButton>
-        </ModalButtons>
+        <FlexBox width='100%' alignItems='center' justifyContent='space-between'>
+          {handleFilterReset && (
+            <Button variant='secondary' onClick={handleResetClick}>
+              Reset
+            </Button>
+          )}
+          <Button variant='primary' onClick={handleToggleClick}>
+            Done
+          </Button>
+        </FlexBox>
       </FilterModal>
     </ButtonWrapper>
   )

@@ -1,4 +1,4 @@
-import { Box } from 'components/App/App.styles'
+import { Box, FlexBox } from 'components/App/App.styles'
 import ControlPanel from 'components/ControlPanel/ControlPanel'
 import EntityHero from 'components/Entities/SelectedEntity/EntityHero/EntityHero2'
 import { useEntityConfig } from 'hooks/configs'
@@ -15,11 +15,11 @@ const Overview: React.FC = () => {
   return (
     <div className='container-fluid h-100' style={{ background: '#F8F9FD' }}>
       <div className='row h-100'>
-        <Box className='col-lg-9 pl-3 pl-md-5'>
+        <FlexBox className='col-lg-9' direction='column' px={20} xs={{ px: 6 }}>
           <EntityHero onlyTitle={false} assistantFixed={true} light />
           <PageContent />
           {entityType === 'deed' && <InstructionsToExecute />}
-        </Box>
+        </FlexBox>
         <Box className='col-lg-3' background='#F0F3F9'>
           <ControlPanel schema={controlPanelSchema} entityDid={entityId} claims={[]} />
         </Box>

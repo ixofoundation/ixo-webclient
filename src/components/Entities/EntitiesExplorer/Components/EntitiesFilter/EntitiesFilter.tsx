@@ -186,8 +186,6 @@ const EntitiesFilter: FC<Props> = ({
     handleFilterToggleUserEntities(true)
   }
 
-  console.log('EntitiesFilter =======>', { startDate, endDate })
-
   return (
     <div data-testid='EntitiesFilter'>
       <FiltersWrap>
