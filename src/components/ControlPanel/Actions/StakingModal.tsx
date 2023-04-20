@@ -11,13 +11,11 @@ import OverlayButtonUpIcon from 'assets/images/modal/overlaybutton-up.svg'
 import NextStepIcon from 'assets/images/modal/nextstep.svg'
 import EyeIcon from 'assets/images/icon-eye.svg'
 import CheckIcon from 'assets/images/icon-check.svg'
-import { useAppSelector } from 'redux/hooks'
 import { getDisplayAmount, getMinimalAmount } from 'utils/currency'
 import { BigNumber } from 'bignumber.js'
 import { apiCurrencyToCurrency } from 'redux/account/account.utils'
 import { MsgDelegate, MsgUndelegate, MsgBeginRedelegate } from 'cosmjs-types/cosmos/staking/v1beta1/tx'
 import { MsgWithdrawDelegatorReward } from 'cosmjs-types/cosmos/distribution/v1beta1/tx'
-import { broadCastMessage } from 'lib/keysafe/keysafe'
 import pendingAnimation from 'assets/animations/transaction/pending.json'
 import successAnimation from 'assets/animations/transaction/success.json'
 import errorAnimation from 'assets/animations/transaction/fail.json'
@@ -83,12 +81,6 @@ const StakingModal: React.FunctionComponent<Props> = ({
   const [signTXStatus, setSignTXStatus] = useState<TXStatus>(TXStatus.PENDING)
   const [signTXhash, setSignTXhash] = useState<string | null>(null)
   const [sumOfRewards, setSumOfRewards] = useState<number>(0)
-
-  const {
-    userInfo,
-    sequence: userSequence,
-    accountNumber: userAccountNumber,
-  } = useAppSelector((state) => state.account)
 
   const handleTokenChange = (token: Coin): void => {
     setAsset(token)
@@ -280,16 +272,7 @@ const StakingModal: React.FunctionComponent<Props> = ({
       const msgs = generateTXRequestMSG()
       const fee = generateTXRequestFee()
 
-      if (walletType === 'keysafe') {
-        broadCastMessage(userInfo, userSequence as any, userAccountNumber as any, msgs, memo, fee, (hash: any) => {
-          if (hash) {
-            setSignTXStatus(TXStatus.SUCCESS)
-            setSignTXhash(hash)
-          } else {
-            setSignTXStatus(TXStatus.ERROR)
-          }
-        })
-      } else if (walletType === 'keplr') {
+      if (walletType === 'keplr') {
         const [accounts, offlineSigner] = await keplr.connectAccount()
         const address = accounts[0].address
         const client = await keplr.initStargateClient(offlineSigner)

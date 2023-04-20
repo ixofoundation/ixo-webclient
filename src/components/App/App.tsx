@@ -25,8 +25,12 @@ import { Routes } from 'routes'
 import { toggleAssistant } from 'redux/account/account.actions'
 import { UserInfo } from 'redux/account/account.types'
 import { Container, ContentWrapper, theme } from './App.styles'
+import { WalletManagerProvider, WalletType } from '@gssuper/cosmodal'
 // For Sentry performance profiling
 // import { withProfiler } from '@sentry/react'
+
+const CHAIN_ID = process.env.REACT_APP_CHAIN_ID!
+const LOCAL_STORAGE_KEY = 'ixo-webclient/connectedWalletId'
 
 const FundingChat = lazy(() => import(/* webpackChunkName: "FundingChat" */ 'components/FundingChat/FundingChat'))
 
@@ -156,26 +160,54 @@ class App extends React.Component<Props, State> {
 
     return (
       <ThemeProvider theme={this.state.customizedTheme}>
-        <AssistantContext.Provider value={{ active: assistantToggled }}>
-          <ToastContainer hideProgressBar={true} position='top-right' />
-          {this.props.entityTypeMap && (
-            <ScrollToTop>
-              <Container>
-                <HeaderConnected />
-                <div className='d-flex' style={{ flex: 1 }}>
-                  <ContentWrapper>
-                    {this.props.loginStatusCheckCompleted || !window['ixoKs'] ? (
-                      <Routes />
-                    ) : (
-                      <Spinner info={'Loading ixo.world...'} />
+        <WalletManagerProvider
+          defaultChainId={CHAIN_ID}
+          enabledWalletTypes={[WalletType.Keplr, WalletType.KeplrMobile]}
+          localStorageKey={LOCAL_STORAGE_KEY}
+          walletConnectClientMeta={{
+            // TODO:
+            name: 'CosmodalExampleDAPP',
+            description: 'A dapp using the cosmodal library.',
+            url: 'https://cosmodal.example.app',
+            icons: ['https://cosmodal.example.app/walletconnect.png'],
+          }}
+          defaultUiConfig={{
+            classNames: {
+              modalContent: 'cosmodal-content',
+              modalOverlay: 'cosmodal-overlay',
+              modalHeader: 'cosmodal-header',
+              modalSubheader: 'cosmodal-subheader',
+              modalCloseButton: 'cosmodal-close-button',
+              walletList: 'cosmodal-wallet-list',
+              wallet: 'cosmodal-wallet',
+              walletImage: 'cosmodal-wallet-image',
+              walletInfo: 'cosmodal-wallet-info',
+              walletName: 'cosmodal-wallet-name',
+              walletDescription: 'cosmodal-wallet-description',
+              textContent: 'cosmodal-text-content',
+            },
+          }}
+        >
+          <AssistantContext.Provider value={{ active: assistantToggled }}>
+            <ToastContainer hideProgressBar={true} position='top-right' />
+            {this.props.entityTypeMap && (
+              <ScrollToTop>
+                <Container>
+                  <HeaderConnected />
+                  <div className='d-flex' style={{ flex: 1 }}>
+                    <ContentWrapper>
+                      {this.props.loginStatusCheckCompleted || !window['ixoKs'] ? (
+                        <Routes />
+                      ) : (
+                        <Spinner info={'Loading ixo.world...'} />
+                      )}
+                    </ContentWrapper>
+                    {assistantToggled && (
+                      <Suspense fallback={<div />}>
+                        <FundingChat assistantPanelToggle={toggleAssistant} />
+                      </Suspense>
                     )}
-                  </ContentWrapper>
-                  {assistantToggled && (
-                    <Suspense fallback={<div />}>
-                      <FundingChat assistantPanelToggle={toggleAssistant} />
-                    </Suspense>
-                  )}
-                  {/* <Transition
+                    {/* <Transition
                     items={assistantToggled}
                     from={{ width: '0%' }}
                     enter={{ width: isMobile ? '100%' : '25%' }}
@@ -197,13 +229,14 @@ class App extends React.Component<Props, State> {
                       ))
                     }
                   </Transition> */}
-                </div>
-                <Footer />
-              </Container>
-              <Services />
-            </ScrollToTop>
-          )}
-        </AssistantContext.Provider>
+                  </div>
+                  <Footer />
+                </Container>
+                <Services />
+              </ScrollToTop>
+            )}
+          </AssistantContext.Provider>
+        </WalletManagerProvider>
       </ThemeProvider>
     )
   }

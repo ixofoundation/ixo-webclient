@@ -11,8 +11,7 @@ import NextStepIcon from 'assets/images/modal/nextstep.svg'
 import EyeIcon from 'assets/images/icon-eye.svg'
 import CheckIcon from 'assets/images/icon-check.svg'
 import { useAppSelector } from 'redux/hooks'
-import { denomToMinimalDenom, findMinimalDenomByDenom, formatCurrency } from 'redux/account/account.utils'
-import { useKeysafe } from 'lib/keysafe/keysafe'
+import { formatCurrency } from 'redux/account/account.utils'
 import pendingAnimation from 'assets/animations/transaction/pending.json'
 import successAnimation from 'assets/animations/transaction/success.json'
 import errorAnimation from 'assets/animations/transaction/fail.json'
@@ -47,11 +46,9 @@ const WithdrawReserveModal: React.FunctionComponent = () => {
   const [signTXStatus, setSignTXStatus] = useState<TXStatus>(TXStatus.PENDING)
   const [signTXhash, setSignTXhash] = useState<string | null>(null)
 
-  const { sendTransaction } = useKeysafe()
+  const { address: accountAddress } = useAppSelector((state) => state.account)
 
-  const { userInfo, address: accountAddress } = useAppSelector((state) => state.account)
-
-  const { bondDid, availableReserve } = useAppSelector((state) => state.activeBond)
+  const { availableReserve } = useAppSelector((state) => state.activeBond)
 
   // TODO:
   const validAmount: boolean = useMemo(() => {
@@ -81,31 +78,22 @@ const WithdrawReserveModal: React.FunctionComponent = () => {
   const handleNextStep = async (): Promise<void> => {
     setCurrentStep(currentStep + 1)
     if (currentStep === 2) {
-      const withdrawerDid = userInfo.didDoc.did.replace('did:sov', 'did:ixo')
-      const msgs = [
-        {
-          type: 'bonds/MsgWithdrawReserve',
-          value: {
-            bond_did: bondDid,
-            withdrawer_did: withdrawerDid,
-            amount: [
-              {
-                denom: findMinimalDenomByDenom(asset!.denom!),
-                amount: denomToMinimalDenom(asset!.denom!, amount!),
-              },
-            ],
-          },
-        },
-      ]
-
-      sendTransaction(msgs).then((hash: any): void => {
-        if (hash) {
-          setSignTXStatus(TXStatus.SUCCESS)
-          setSignTXhash(hash)
-        } else {
-          setSignTXStatus(TXStatus.ERROR)
-        }
-      })
+      // const withdrawerDid = userInfo.didDoc.did.replace('did:sov', 'did:ixo')
+      // const msgs = [
+      //   {
+      //     type: 'bonds/MsgWithdrawReserve',
+      //     value: {
+      //       bond_did: bondDid,
+      //       withdrawer_did: withdrawerDid,
+      //       amount: [
+      //         {
+      //           denom: findMinimalDenomByDenom(asset!.denom!),
+      //           amount: denomToMinimalDenom(asset!.denom!, amount!),
+      //         },
+      //       ],
+      //     },
+      //   },
+      // ]
     }
   }
 

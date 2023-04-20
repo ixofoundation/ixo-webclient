@@ -12,9 +12,7 @@ import {
 } from './submitEntityClaim.types'
 import { Dispatch } from 'redux'
 import { RootState } from 'redux/store'
-import keysafe from 'lib/keysafe/keysafe'
 import blocksyncApi from 'api/blocksync/blocksync'
-import * as submitEntityClaimSelectors from './submitEntityClaim.selectors'
 import { ApiListedEntity } from 'api/blocksync/types/entities'
 import { ApiResource } from 'api/blocksync/types/resource'
 /* import { Attestation } from '../types' */
@@ -173,53 +171,53 @@ export const createEntityClaim =
       type: SubmitEntityClaimActions.CreateClaimStart,
     })
 
-    const state = getState()
-    const cellNodeEndpoint = selectCellNodeEndpoint(state)
+    // const state = getState()
+    // const cellNodeEndpoint = selectCellNodeEndpoint(state)
 
-    const claimApiPayload = submitEntityClaimSelectors.selectClaimApiPayload(state)
+    // const claimApiPayload = submitEntityClaimSelectors.selectClaimApiPayload(state)
 
-    keysafe.requestSigning(
-      JSON.stringify(claimApiPayload),
-      (signError: any, signature: any): any => {
-        if (signError) {
-          return dispatch({
-            type: SubmitEntityClaimActions.CreateClaimFailure,
-            payload: {
-              error: signError,
-            },
-          })
-        }
+    // keysafe.requestSigning(
+    //   JSON.stringify(claimApiPayload),
+    //   (signError: any, signature: any): any => {
+    //     if (signError) {
+    //       return dispatch({
+    //         type: SubmitEntityClaimActions.CreateClaimFailure,
+    //         payload: {
+    //           error: signError,
+    //         },
+    //       })
+    //     }
 
-        blocksyncApi.claim
-          .createClaim(claimApiPayload, signature, cellNodeEndpoint!)
-          .then((res) => {
-            if (res.error) {
-              return dispatch({
-                type: SubmitEntityClaimActions.CreateClaimFailure,
-                payload: {
-                  error: res.error.message,
-                },
-              })
-            } else {
-              // TODO: should catch the real point when success on creating/submitting claim
-              return setTimeout(() => {
-                dispatch({
-                  type: SubmitEntityClaimActions.CreateClaimSuccess,
-                })
-              }, 1000 * 10)
-            }
-          })
-          .catch((error) => {
-            return dispatch({
-              type: SubmitEntityClaimActions.CreateClaimFailure,
-              payload: {
-                error: error.message,
-              },
-            })
-          })
-      },
-      'base64',
-    )
+    //     blocksyncApi.claim
+    //       .createClaim(claimApiPayload, signature, cellNodeEndpoint!)
+    //       .then((res) => {
+    //         if (res.error) {
+    //           return dispatch({
+    //             type: SubmitEntityClaimActions.CreateClaimFailure,
+    //             payload: {
+    //               error: res.error.message,
+    //             },
+    //           })
+    //         } else {
+    //           // TODO: should catch the real point when success on creating/submitting claim
+    //           return setTimeout(() => {
+    //             dispatch({
+    //               type: SubmitEntityClaimActions.CreateClaimSuccess,
+    //             })
+    //           }, 1000 * 10)
+    //         }
+    //       })
+    //       .catch((error) => {
+    //         return dispatch({
+    //           type: SubmitEntityClaimActions.CreateClaimFailure,
+    //           payload: {
+    //             error: error.message,
+    //           },
+    //         })
+    //       })
+    //   },
+    //   'base64',
+    // )
 
     return null!
   }

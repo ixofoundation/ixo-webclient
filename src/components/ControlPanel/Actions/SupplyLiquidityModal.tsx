@@ -18,7 +18,6 @@ import {
   findMinimalDenomByDenom,
   minimalDenomToDenom,
 } from 'redux/account/account.utils'
-import { useKeysafe } from 'lib/keysafe/keysafe'
 import SignStep, { TXStatus } from './components/SignStep'
 import { CheckWrapper, Container } from './Modal.styles'
 
@@ -34,7 +33,6 @@ const SupplyLiquidityModal: React.FunctionComponent<Props> = ({
   bondDid,
 }) => {
   const steps = ['Pool', 'Amount', 'Confirm', 'Sign']
-  const { sendTransaction } = useKeysafe()
   const [currentStep, setCurrentStep] = useState<number>(0)
 
   // TODO: placeholder now
@@ -209,14 +207,6 @@ const SupplyLiquidityModal: React.FunctionComponent<Props> = ({
           },
         ],
       },
-    })
-    sendTransaction(msgs, memo, fee).then((hash: any) => {
-      if (hash) {
-        setSignTXStatus(TXStatus.SUCCESS)
-        setSignTXhash(hash)
-      } else {
-        setSignTXStatus(TXStatus.ERROR)
-      }
     })
   }
 

@@ -10,7 +10,6 @@ import {
   UpdateSelectedTemplateTypeAction,
 } from './createEntity.types'
 import blocksyncApi from 'api/blocksync/blocksync'
-import keysafe from 'lib/keysafe/keysafe'
 import { EntityType } from '../../types/entities'
 import { RootState } from 'redux/store'
 import * as createEntitySelectors from './createEntity.selectors'
@@ -63,53 +62,50 @@ export const createEntity =
     uploadPageContent
       .then((response: any) => {
         // the entity data with the page content resource id
-        const pageContentId = response.result
-
-        const entityData = JSON.stringify(
-          createEntitySelectors.selectEntityApiPayload(entityType, pageContentId)(state),
-        )
-
-        keysafe.requestSigning(
-          entityData,
-          (signError: any, signature: any): any => {
-            if (signError) {
-              return dispatch({
-                type: CreateEntityActions.CreateEntityFailure,
-                payload: {
-                  error: signError,
-                },
-              })
-            }
-
-            blocksyncApi.project
-              .createProject(JSON.parse(entityData), signature, cellNodeEndpoint)
-              .then((res: any) => {
-                if (res.error) {
-                  return dispatch({
-                    type: CreateEntityActions.CreateEntityFailure,
-                    payload: {
-                      error: res.error.message,
-                    },
-                  })
-                } else {
-                  return setTimeout(() => {
-                    dispatch({
-                      type: CreateEntityActions.CreateEntitySuccess,
-                    })
-                  }, 10000)
-                }
-              })
-              .catch((error) => {
-                return dispatch({
-                  type: CreateEntityActions.CreateEntityFailure,
-                  payload: {
-                    error: error.message,
-                  },
-                })
-              })
-          },
-          'base64',
-        )
+        // const pageContentId = response.result
+        // const entityData = JSON.stringify(
+        //   createEntitySelectors.selectEntityApiPayload(entityType, pageContentId)(state),
+        // )
+        // keysafe.requestSigning(
+        //   entityData,
+        //   (signError: any, signature: any): any => {
+        //     if (signError) {
+        //       return dispatch({
+        //         type: CreateEntityActions.CreateEntityFailure,
+        //         payload: {
+        //           error: signError,
+        //         },
+        //       })
+        //     }
+        //     blocksyncApi.project
+        //       .createProject(JSON.parse(entityData), signature, cellNodeEndpoint)
+        //       .then((res: any) => {
+        //         if (res.error) {
+        //           return dispatch({
+        //             type: CreateEntityActions.CreateEntityFailure,
+        //             payload: {
+        //               error: res.error.message,
+        //             },
+        //           })
+        //         } else {
+        //           return setTimeout(() => {
+        //             dispatch({
+        //               type: CreateEntityActions.CreateEntitySuccess,
+        //             })
+        //           }, 10000)
+        //         }
+        //       })
+        //       .catch((error) => {
+        //         return dispatch({
+        //           type: CreateEntityActions.CreateEntityFailure,
+        //           payload: {
+        //             error: error.message,
+        //           },
+        //         })
+        //       })
+        //   },
+        //   'base64',
+        // )
       })
       .catch((error) => {
         return dispatch({

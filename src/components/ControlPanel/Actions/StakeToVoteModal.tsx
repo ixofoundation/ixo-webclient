@@ -18,7 +18,6 @@ import {
 } from 'utils/currency'
 import { BigNumber } from 'bignumber.js'
 import { apiCurrencyToCurrency, findMinimalDenomByDenom, formatCurrency } from 'redux/account/account.utils'
-import { broadCastMessage } from 'lib/keysafe/keysafe'
 import pendingAnimation from 'assets/animations/transaction/pending.json'
 import successAnimation from 'assets/animations/transaction/success.json'
 import errorAnimation from 'assets/animations/transaction/fail.json'
@@ -112,11 +111,7 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({ walletType, accountA
   const [estBondAmount, setESTBondAmount] = useState<number>(0)
   const [txFees, setTxFees] = useState<Coin | null>(null)
   const [buyPrice, setBuyPrice] = useState<number>(0)
-  const {
-    userInfo,
-    sequence: userSequence,
-    accountNumber: userAccountNumber,
-  } = useAppSelector((state) => state.account)
+  const { userInfo } = useAppSelector((state) => state.account)
 
   const { bondDid } = useAppSelector((state) => state.selectedEntity)
   const {
@@ -199,32 +194,13 @@ const StakeToVoteModal: React.FunctionComponent<Props> = ({ walletType, accountA
     return msgs
   }
 
-  const generateTXRequestFee = (): any => {
-    const fee = {
-      amount: [{ amount: String(5000), denom: 'uixo' }],
-      gas: String(200000),
-    }
-    return fee
-  }
-
   const signingTX = async (): Promise<void> => {
     const msgs = generateTXRequestMSG()
-    const fee = generateTXRequestFee()
 
     if (msgs.length === 0) {
       return
     }
-
-    if (walletType === 'keysafe') {
-      broadCastMessage(userInfo, userSequence as any, userAccountNumber as any, msgs, memo, fee, (hash: any) => {
-        if (hash) {
-          setSignTXStatus(TXStatus.SUCCESS)
-          setSignTXhash(hash)
-        } else {
-          setSignTXStatus(TXStatus.ERROR)
-        }
-      })
-    } else if (walletType === 'keplr') {
+    if (walletType === 'keplr') {
       // const [accounts, offlineSigner] = await keplr.connectAccount()
       // const address = accounts[0].address
       // const client = await keplr.initStargateClient(offlineSigner)

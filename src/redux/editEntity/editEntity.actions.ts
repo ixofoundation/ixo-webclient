@@ -8,7 +8,6 @@ import {
 } from './editEntity.types'
 import { encode as base64Encode } from 'js-base64'
 import blocksyncApi from 'api/blocksync/blocksync'
-import keysafe from 'lib/keysafe/keysafe'
 import { EntityType } from '../../types/entities'
 import { RootState } from 'redux/store'
 import * as editEntitySelectors from './editEntity.selectors'
@@ -50,11 +49,11 @@ export const editEntity =
 
     const state = getState()
     const entityType = state.editEntity.entityType
-    const projectDid = state.selectedEntity.did
-    const createdOn = new Date()
+    // const projectDid = state.selectedEntity.did
+    // const createdOn = new Date()
     // const createdBy = state.selectedEntity.creatorDid
-    const createdBy = state.account.userInfo.didDoc.did
-    const nodeDid = state.selectedEntity.nodeDid
+    // const createdBy = state.account.userInfo.didDoc.did
+    // const nodeDid = state.selectedEntity.nodeDid
 
     const cellNodeEndpoint = editEntitySelectors.selectCellNodeEndpoint(state)
 
@@ -69,58 +68,56 @@ export const editEntity =
     Promise.all([uploadPageContent])
       .then((responses: any[]) => {
         // the entity data with the page content resource id
-        const pageContentId = responses[0].result
-
-        const entityData = {
-          projectDid,
-          data: {
-            createdOn,
-            createdBy,
-            nodeDid,
-            ...editEntitySelectors.selectEntityApiPayload(entityType, pageContentId)(state),
-          },
-        }
-
-        keysafe.requestSigning(
-          JSON.stringify(entityData),
-          (signError: any, signature: any): any => {
-            if (signError) {
-              return dispatch({
-                type: EditEntityActions.EditEntityFailure,
-                payload: {
-                  error: signError,
-                },
-              })
-            }
-            blocksyncApi.project
-              .updateProjectDoc(entityData, signature, cellNodeEndpoint)
-              .then((res: any) => {
-                if (res.error) {
-                  return dispatch({
-                    type: EditEntityActions.EditEntityFailure,
-                    payload: {
-                      error: res.error.message,
-                    },
-                  })
-                } else {
-                  return setTimeout(() => {
-                    dispatch({
-                      type: EditEntityActions.EditEntitySuccess,
-                    })
-                  }, 10000)
-                }
-              })
-              .catch((error) => {
-                return dispatch({
-                  type: EditEntityActions.EditEntityFailure,
-                  payload: {
-                    error: error.message,
-                  },
-                })
-              })
-          },
-          'base64',
-        )
+        // const pageContentId = responses[0].result
+        // const entityData = {
+        //   projectDid,
+        //   data: {
+        //     createdOn,
+        //     createdBy,
+        //     nodeDid,
+        //     ...editEntitySelectors.selectEntityApiPayload(entityType, pageContentId)(state),
+        //   },
+        // }
+        // keysafe.requestSigning(
+        //   JSON.stringify(entityData),
+        //   (signError: any, signature: any): any => {
+        //     if (signError) {
+        //       return dispatch({
+        //         type: EditEntityActions.EditEntityFailure,
+        //         payload: {
+        //           error: signError,
+        //         },
+        //       })
+        //     }
+        //     blocksyncApi.project
+        //       .updateProjectDoc(entityData, signature, cellNodeEndpoint)
+        //       .then((res: any) => {
+        //         if (res.error) {
+        //           return dispatch({
+        //             type: EditEntityActions.EditEntityFailure,
+        //             payload: {
+        //               error: res.error.message,
+        //             },
+        //           })
+        //         } else {
+        //           return setTimeout(() => {
+        //             dispatch({
+        //               type: EditEntityActions.EditEntitySuccess,
+        //             })
+        //           }, 10000)
+        //         }
+        //       })
+        //       .catch((error) => {
+        //         return dispatch({
+        //           type: EditEntityActions.EditEntityFailure,
+        //           payload: {
+        //             error: error.message,
+        //           },
+        //         })
+        //       })
+        //   },
+        //   'base64',
+        // )
       })
       .catch((error) => {
         return dispatch({

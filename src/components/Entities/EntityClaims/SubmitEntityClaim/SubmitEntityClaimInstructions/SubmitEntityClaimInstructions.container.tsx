@@ -26,8 +26,8 @@ class InstructionsContainer extends React.Component<Props> {
   }
 
   componentDidMount(): void {
-    if (!document.querySelector('body')?.classList.contains('noScroll')) {
-      document.querySelector('body')!.classList.add('noScroll')
+    if (!document.querySelector('body')?.classList.contains('overflow-hidden')) {
+      document.querySelector('body')!.classList.add('overflow-hidden')
     }
     document.querySelector('#ControlPanelWrapper')?.classList.add('fixed')
 
@@ -37,7 +37,7 @@ class InstructionsContainer extends React.Component<Props> {
   }
 
   componentWillUnmount(): void {
-    document.querySelector('body')?.classList.remove('noScroll')
+    document.querySelector('body')?.classList.remove('overflow-hidden')
     document.querySelector('#ControlPanelWrapper')?.classList.remove('fixed')
   }
 

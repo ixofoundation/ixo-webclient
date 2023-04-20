@@ -9,7 +9,6 @@ import { RootState } from 'redux/store'
 import * as accountSelectors from 'redux/account/account.selectors'
 import TextareaAutosize from 'react-textarea-autosize'
 import Axios from 'axios'
-import keysafe from 'lib/keysafe/keysafe'
 import * as base58 from 'bs58'
 import * as Toast from 'utils/toast'
 
@@ -73,42 +72,44 @@ const Assistant: React.FunctionComponent<AssistantProps> = ({
       sequence: userSequence,
     }
 
-    keysafe.requestSigning(
-      JSON.stringify(payload),
-      (error: any, signature: any) => {
-        if (error) {
-          return
-        }
+    console.log({ payload })
 
-        Axios.post(`${process.env.REACT_APP_GAIA_URL}/txs`, {
-          tx: {
-            msg: payload.msgs,
-            fee: payload.fee,
-            signatures: [
-              {
-                account_number: payload.account_number,
-                sequence: payload.sequence,
-                signature: signature.signatureValue,
-                pub_key: {
-                  type: 'tendermint/PubKeyEd25519',
-                  value: pubKey,
-                },
-              },
-            ],
-            memo: '',
-          },
-          mode: 'sync',
-        }).then((response) => {
-          if (response.data.txhash) {
-            Toast.successToast(`Transaction Successful`)
-            return
-          }
+    // keysafe.requestSigning(
+    //   JSON.stringify(payload),
+    //   (error: any, signature: any) => {
+    //     if (error) {
+    //       return
+    //     }
 
-          Toast.errorToast(`Transaction Failed`)
-        })
-      },
-      'base64',
-    )
+    //     Axios.post(`${process.env.REACT_APP_GAIA_URL}/txs`, {
+    //       tx: {
+    //         msg: payload.msgs,
+    //         fee: payload.fee,
+    //         signatures: [
+    //           {
+    //             account_number: payload.account_number,
+    //             sequence: payload.sequence,
+    //             signature: signature.signatureValue,
+    //             pub_key: {
+    //               type: 'tendermint/PubKeyEd25519',
+    //               value: pubKey,
+    //             },
+    //           },
+    //         ],
+    //         memo: '',
+    //       },
+    //       mode: 'sync',
+    //     }).then((response) => {
+    //       if (response.data.txhash) {
+    //         Toast.successToast(`Transaction Successful`)
+    //         return
+    //       }
+
+    //       Toast.errorToast(`Transaction Failed`)
+    //     })
+    //   },
+    //   'base64',
+    // )
     // eslint-disable-next-line
   }, [])
 

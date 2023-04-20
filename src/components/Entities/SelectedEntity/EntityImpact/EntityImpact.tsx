@@ -81,14 +81,14 @@ class EntityImpact extends React.Component<Props> {
     this.setState({ assistantPanelActive: !assistantPanelActive })
     // Assistant panel shown
     if (!assistantPanelActive) {
-      document?.querySelector('body')?.classList?.add('noScroll')
+      document?.querySelector('body')?.classList?.add('overflow-hidden')
     } else {
-      document?.querySelector('body')?.classList.remove('noScroll')
+      document?.querySelector('body')?.classList.remove('overflow-hidden')
     }
   }
 
   componentWillUnmount(): void {
-    document?.querySelector('body')?.classList.remove('noScroll')
+    document?.querySelector('body')?.classList.remove('overflow-hidden')
   }
 
   render(): JSX.Element {

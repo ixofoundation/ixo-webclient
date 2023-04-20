@@ -20,7 +20,6 @@ import { StepsTransactions } from 'components/StepsTransactions/StepsTransaction
 import TokenSelector from 'components/TokenSelector/TokenSelector'
 import { getDisplayAmount } from 'utils/currency'
 import { simplifyId, thousandSeparator } from 'utils/formatters'
-import { broadCastMessage } from 'lib/keysafe/keysafe'
 import { apiCurrencyToCurrency } from 'redux/account/account.utils'
 import React, { useEffect, useMemo, useState } from 'react'
 import Lottie from 'react-lottie'
@@ -152,14 +151,15 @@ const MakePaymentModal: React.FunctionComponent<Props> = ({
           amount: [{ amount: String(5000), denom: 'uixo' }],
           gas: String(200000),
         }
-        broadCastMessage(userInfo, userSequence as any, userAccountNumber as any, msgs, memo, fee, (hash: any) => {
-          if (hash) {
-            setSignTXStatus(TXStatus.SUCCESS)
-            setSignTXhash(hash)
-          } else {
-            setSignTXStatus(TXStatus.ERROR)
-          }
-        })
+        console.log({ userInfo, userSequence, userAccountNumber, msgs, fee })
+        // broadCastMessage(userInfo, userSequence as any, userAccountNumber as any, msgs, memo, fee, (hash: any) => {
+        //   if (hash) {
+        //     setSignTXStatus(TXStatus.SUCCESS)
+        //     setSignTXhash(hash)
+        //   } else {
+        //     setSignTXStatus(TXStatus.ERROR)
+        //   }
+        // })
       } else if (walletType === 'keplr') {
         // const [accounts, offlineSigner] = await keplr.connectAccount()
         // const address = accounts[0].address
