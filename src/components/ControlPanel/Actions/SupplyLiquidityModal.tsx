@@ -5,19 +5,13 @@ import BigNumber from 'bignumber.js'
 import PoolSelector from 'components/Pool/PoolSelector'
 import PoolInfo from 'components/Pool/PoolInfo'
 import LiquidityAmount from 'components/LiquidityAmount/LiquidityAmount'
-import { RootState } from 'redux/store'
 import CheckIcon from 'assets/images/icon-check.svg'
 import AirdropIcon from 'assets/images/exchange/airdrop.svg'
 import ArrowUpDownIcon from 'assets/images/exchange/arrow-updown.svg'
 import { thousandSeparator } from 'utils/formatters'
 import { useAppSelector } from 'redux/hooks'
 import { selectLiquidityPools } from 'redux/selectedEntityExchange/entityExchange.selectors'
-import {
-  denomToMinimalDenom,
-  findDenomByMinimalDenom,
-  findMinimalDenomByDenom,
-  minimalDenomToDenom,
-} from 'redux/account/account.utils'
+import { findDenomByMinimalDenom, minimalDenomToDenom } from 'redux/account/account.utils'
 import SignStep, { TXStatus } from './components/SignStep'
 import { CheckWrapper, Container } from './Modal.styles'
 
@@ -43,8 +37,8 @@ const SupplyLiquidityModal: React.FunctionComponent<Props> = ({
   const [validations, setValidations] = useState([false, false])
   const [bondAmount, setBondAmount] = useState<BigNumber>(new BigNumber(0))
 
-  const [signTXStatus, setSignTXStatus] = useState<TXStatus>(TXStatus.PENDING)
-  const [signTXhash, setSignTXhash] = useState<string | null>(null)
+  const [signTXStatus] = useState<TXStatus>(TXStatus.PENDING)
+  const [signTXhash] = useState<string | null>(null)
 
   const liquidityPools = useAppSelector(selectLiquidityPools)
 
@@ -181,33 +175,33 @@ const SupplyLiquidityModal: React.FunctionComponent<Props> = ({
   // }
 
   const handleSubmit = (): void => {
-    const msgs = []
-    const memo = ''
-    const fee = {
-      amount: [{ amount: String(5000), denom: 'uixo' }],
-      gas: String(200000),
-    }
-    msgs.push({
-      type: 'bonds/MsgBuy',
-      value: {
-        buyer_did: userInfo.didDoc.did,
-        bond_did: bondDid,
-        amount: {
-          amount: bondAmount,
-          denom: bondDenom,
-        },
-        max_prices: [
-          {
-            amount: denomToMinimalDenom(denoms[0], amounts[0].toString()),
-            denom: findMinimalDenomByDenom(denoms[0]),
-          },
-          {
-            amount: denomToMinimalDenom(denoms[1], amounts[1].toString()),
-            denom: findMinimalDenomByDenom(denoms[1]),
-          },
-        ],
-      },
-    })
+    // const msgs = []
+    // const memo = ''
+    // const fee = {
+    //   amount: [{ amount: String(5000), denom: 'uixo' }],
+    //   gas: String(200000),
+    // }
+    // msgs.push({
+    //   type: 'bonds/MsgBuy',
+    //   value: {
+    //     buyer_did: userInfo.didDoc.did,
+    //     bond_did: bondDid,
+    //     amount: {
+    //       amount: bondAmount,
+    //       denom: bondDenom,
+    //     },
+    //     max_prices: [
+    //       {
+    //         amount: denomToMinimalDenom(denoms[0], amounts[0].toString()),
+    //         denom: findMinimalDenomByDenom(denoms[0]),
+    //       },
+    //       {
+    //         amount: denomToMinimalDenom(denoms[1], amounts[1].toString()),
+    //         denom: findMinimalDenomByDenom(denoms[1]),
+    //       },
+    //     ],
+    //   },
+    // })
   }
 
   useEffect(() => {
