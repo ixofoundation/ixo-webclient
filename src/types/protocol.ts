@@ -22,8 +22,6 @@ import { ReactComponent as ProjectIcon } from 'assets/images/icon-project.svg'
 import { ReactComponent as OracleIcon } from 'assets/images/icon-oracle.svg'
 import { ReactComponent as EntityIcon } from 'assets/images/icon-entity.svg'
 import { ReactComponent as AssetIcon } from 'assets/images/icon-asset.svg'
-import { ReactComponent as CircleIcon } from 'assets/images/icon-circle.svg'
-import { ReactComponent as HTMLTagIcon } from 'assets/images/icon-html-tag.svg'
 import { ReactComponent as AlphaBondIcon } from 'assets/images/icon-alphabond.svg'
 import { ReactComponent as LBPIcon } from 'assets/images/icon-lbp.svg'
 import { ReactComponent as QuadraticIcon } from 'assets/images/icon-quadratic.svg'
@@ -191,38 +189,42 @@ export const EntityAccordedRightConfig = {
 }
 
 export const EntityLinkedEntityConfig = {
-  investment: {
-    text: 'Investment',
-    icon: InvestmentIcon,
+  dao: {
+    text: 'DAO',
+    icon: DAOIcon,
   },
   project: {
     text: 'Project',
     icon: ProjectIcon,
   },
-  oracle: {
-    text: 'Oracle',
-    icon: OracleIcon,
+  asset: {
+    text: 'Asset',
+    icon: AssetIcon,
   },
   protocol: {
     text: 'Protocol',
     icon: EntityIcon,
   },
-  asset: {
-    text: 'Asset',
-    icon: AssetIcon,
-  },
-  paymentTemplate: {
-    text: 'Payment Template',
-    icon: CircleIcon,
-  },
-  smartContract: {
-    text: 'Smart Contract',
-    icon: HTMLTagIcon,
-  },
-  liquidity: {
-    text: 'Liquidity',
+  investment: {
+    text: 'Investment',
     icon: InvestmentIcon,
   },
+  oracle: {
+    text: 'Oracle',
+    icon: OracleIcon,
+  },
+  // paymentTemplate: {
+  //   text: 'Payment Template',
+  //   icon: CircleIcon,
+  // },
+  // smartContract: {
+  //   text: 'Smart Contract',
+  //   icon: HTMLTagIcon,
+  // },
+  // liquidity: {
+  //   text: 'Liquidity',
+  //   icon: InvestmentIcon,
+  // },
 }
 
 export const InvestmentInstrumentsConfig: { [key: string]: any } = {
@@ -621,17 +623,7 @@ export interface TEntityAccordedRightModel {
   data: any
 }
 
-// TODO: add more fields
 export type TEntityLinkedEntityModel = LinkedEntity
-
-// TODO: propertyModel
-export interface TEntityPropertyModel {
-  text?: string
-  icon?: React.FC<React.SVGProps<SVGElement>>
-  openModal?: boolean
-  data?: any
-  disabled?: boolean
-}
 
 // TODO:
 export interface TClaimTemplate {

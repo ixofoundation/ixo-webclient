@@ -48,6 +48,10 @@ const StyledInput = styled.input`
   &:focus {
     outline: none;
   }
+
+  &::placeholder {
+    color: ${(props) => props.theme.ixoGrey500};
+  }
 `
 
 const InputWrapper = styled.div<{

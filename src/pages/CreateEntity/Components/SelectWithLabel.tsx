@@ -73,7 +73,7 @@ const SelectWithLabel: React.FC<Props> = ({
           <Typography
             weight={filled ? 'bold' : 'medium'}
             size={filled ? 'sm' : 'xl'}
-            color={filled ? 'blue' : 'gray-medium'}
+            color={filled ? 'blue' : 'grey700'}
           >
             {label}
           </Typography>

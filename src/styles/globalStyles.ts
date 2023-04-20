@@ -8,6 +8,14 @@ export const GlobalStyle = createGlobalStyle`
     overflow-x: hidden;
   }
 
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover, 
+  input:-webkit-autofill:focus, 
+  input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px transparent inset !important;
+    border-radius: inherit;
+  }
+
   .shadow-box,
   .chat-container .shadow-box {
     box-shadow: none !important;

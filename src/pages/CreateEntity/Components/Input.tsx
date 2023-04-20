@@ -28,6 +28,10 @@ const StyledInput = styled.input`
   &[type='number'] {
     -moz-appearance: textfield;
   }
+
+  &::placeholder {
+    color: ${(props) => props.theme.ixoGrey500};
+  }
 `
 
 const InputWrapper = styled.div<{ width: string; height: string }>`

@@ -20,7 +20,7 @@ const HeadlineMetric: React.FC = (): JSX.Element => {
   return (
     <HeadlineMetricWrapper>
       <HeadlineMetricBar />
-      <Typography color='gray-2' weight='bold' size='md'>
+      <Typography color='grey300' weight='bold' size='md'>
         Headline Metric
       </Typography>
     </HeadlineMetricWrapper>

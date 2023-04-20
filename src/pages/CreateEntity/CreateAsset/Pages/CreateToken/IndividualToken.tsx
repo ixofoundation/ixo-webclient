@@ -201,7 +201,7 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
       <Typography
         weight='medium'
         size='xl'
-        color={metaView === 'description' ? 'blue' : 'color-1'}
+        color={metaView === 'description' ? 'blue' : 'dark-blue'}
         onClick={(): void => setMetaView('description')}
       >
         Description
@@ -209,7 +209,7 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
       <Typography
         weight='medium'
         size='xl'
-        color={metaView === 'metrics' ? 'blue' : 'color-1'}
+        color={metaView === 'metrics' ? 'blue' : 'dark-blue'}
         onClick={(): void => setMetaView('metrics')}
       >
         Metrics
@@ -217,7 +217,7 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
       <Typography
         weight='medium'
         size='xl'
-        color={metaView === 'attributes' ? 'blue' : 'color-1'}
+        color={metaView === 'attributes' ? 'blue' : 'dark-blue'}
         onClick={(): void => setMetaView('attributes')}
       >
         Attributes

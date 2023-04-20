@@ -6,7 +6,7 @@ import { ModalStyles, CloseButton } from 'components/Modals/styles'
 import { TEntityCreatorModel } from 'types/protocol'
 import { Box, FlexBox, theme } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
-import { Button, Input, TextArea } from 'pages/CreateEntity/Components'
+import { Button, InputWithLabel, TextArea } from 'pages/CreateEntity/Components'
 import { FormData } from 'components/JsonForm/types'
 import { useDropzone } from 'react-dropzone'
 import ImageCropModal from '../ImageCropModal/ImageCropModal'
@@ -116,7 +116,7 @@ const CreatorSetupModal: React.FC<Props> = ({ creator, title, open, onClose, onC
     <>
       {/* @ts-ignore */}
       <Modal
-        style={{ ...ModalStyles, content: { ...ModalStyles.content, width: deviceWidth.desktopLarge } }}
+        style={{ ...ModalStyles, content: { ...ModalStyles.content, width: deviceWidth.desktop } }}
         isOpen={open}
         onRequestClose={onClose}
         contentLabel='Modal'
@@ -182,7 +182,7 @@ const CreatorSetupModal: React.FC<Props> = ({ creator, title, open, onClose, onC
               </FlexBox>
               <FlexBox gap={4} alignItems='center' width='100%'>
                 <Typography size='xl'>Web:</Typography>
-                <Input
+                <InputWithLabel
                   name='creator_logo'
                   height='48px'
                   placeholder='https://'
@@ -195,103 +195,70 @@ const CreatorSetupModal: React.FC<Props> = ({ creator, title, open, onClose, onC
             </FlexBox>
 
             <FlexBox direction='column' gap={4} width='100%' height='100%'>
-              <FlexBox alignItems='center' width='100%'>
-                <Box>
-                  <Typography size='xl' style={{ width: 160 }}>
-                    Display Name
-                  </Typography>
-                </Box>
-                <Input
-                  name='creator_name'
-                  height='48px'
-                  placeholder='Type a Name'
-                  inputValue={formData?.displayName}
-                  handleChange={(value) => handleFormDataChange('displayName', value)}
-                  style={{ fontWeight: 500 }}
-                />
-              </FlexBox>
-              <FlexBox alignItems='center' width='100%'>
-                <Box>
-                  <Typography size='xl' style={{ width: 160 }}>
-                    Public Email
-                  </Typography>
-                </Box>
-                <Input
-                  name='creator_display_email'
-                  height='48px'
-                  placeholder='@'
-                  inputValue={formData?.email}
-                  handleChange={(value) => handleFormDataChange('email', value)}
-                  style={{ fontWeight: 500 }}
-                />
-              </FlexBox>
-              <FlexBox alignItems='center' width='100%'>
-                <Box>
-                  <Typography size='xl' style={{ width: 160 }}>
-                    Country
-                  </Typography>
-                </Box>
-                {/* TODO: dropdown */}
-                <Input
-                  name='creator_location'
-                  height='48px'
-                  placeholder='Select a Country'
-                  inputValue={formData?.location}
-                  handleChange={(value) => handleFormDataChange('location', value)}
-                  style={{ fontWeight: 500 }}
-                />
-              </FlexBox>
-              <FlexBox alignItems='center' width='100%'>
-                <Box>
-                  <Typography size='xl' style={{ width: 160 }}>
-                    Identifier
-                  </Typography>
-                </Box>
-                <Input
-                  name='creator_id'
-                  height='48px'
-                  placeholder='Paste a DID'
-                  inputValue={formData?.id}
-                  handleChange={(value) => handleFormDataChange('id', value)}
-                  style={{ fontWeight: 500 }}
-                />
-              </FlexBox>
-              <FlexBox alignItems='center' width='100%'>
-                <Box>
-                  <Typography size='xl' style={{ width: 160 }}>
-                    Website
-                  </Typography>
-                </Box>
-                <Input
-                  name='creator_website'
-                  height='48px'
-                  placeholder='https://'
-                  inputValue={formData?.website}
-                  handleChange={(value) => handleFormDataChange('website', value)}
-                  style={{ fontWeight: 500 }}
-                />
-              </FlexBox>
-              <FlexBox alignItems='center' width='100%'>
-                <Box>
-                  <Typography size='xl' style={{ width: 160 }}>
-                    Mission
-                  </Typography>
-                </Box>
-                <TextArea
-                  name='creator_mission'
-                  height='150px'
-                  placeholder='Type or Paste Text'
-                  inputValue={formData?.mission}
-                  handleChange={(value) => handleFormDataChange('mission', value)}
-                  style={{ fontWeight: 500 }}
-                />
-              </FlexBox>
+              {/* Display Name */}
+              <InputWithLabel
+                name='creator_name'
+                height='48px'
+                label='Display Name'
+                inputValue={formData?.displayName}
+                handleChange={(value) => handleFormDataChange('displayName', value)}
+                style={{ fontWeight: 500 }}
+              />
+
+              {/* Public Email */}
+              <InputWithLabel
+                name='creator_display_email'
+                height='48px'
+                label='Public Email'
+                inputValue={formData?.email}
+                handleChange={(value) => handleFormDataChange('email', value)}
+                style={{ fontWeight: 500 }}
+              />
+
+              {/* Country */}
+              <InputWithLabel
+                name='creator_location'
+                height='48px'
+                label='Country'
+                inputValue={formData?.location}
+                handleChange={(value) => handleFormDataChange('location', value)}
+                style={{ fontWeight: 500 }}
+              />
+
+              {/* Identifier */}
+              <InputWithLabel
+                name='creator_id'
+                height='48px'
+                label='Identifier'
+                inputValue={formData?.id}
+                handleChange={(value) => handleFormDataChange('id', value)}
+                style={{ fontWeight: 500 }}
+              />
+
+              {/* Website */}
+              <InputWithLabel
+                name='creator_website'
+                height='48px'
+                label='Website'
+                inputValue={formData?.website}
+                handleChange={(value) => handleFormDataChange('website', value)}
+                style={{ fontWeight: 500 }}
+              />
+
+              <TextArea
+                name='creator_mission'
+                height='150px'
+                label='Mission'
+                inputValue={formData?.mission}
+                handleChange={(value) => handleFormDataChange('mission', value)}
+                style={{ fontWeight: 500 }}
+              />
             </FlexBox>
           </FlexBox>
 
           <FlexBox width='100%' justifyContent='flex-end' alignItems='center' gap={4}>
             {onClone && (
-              <Button variant='grey500' onClick={onClone}>
+              <Button variant='secondary' onClick={onClone}>
                 Clone
               </Button>
             )}

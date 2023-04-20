@@ -16,16 +16,14 @@ export type TTypographyWeight =
 export type TTypographyColor =
   | 'black'
   | 'white'
-  | 'gray-medium'
   | 'light-blue'
   | 'light-grey-blue'
   | 'blue'
   | 'dark-blue'
-  | 'gray-2'
-  | 'color-1'
   | 'color-2'
   | 'grey700'
   | 'grey500'
+  | 'grey300'
   | 'green'
   | 'red'
   | 'inherit'
@@ -147,23 +145,17 @@ const blueColorCss = css`
 const darkBlueColorCss = css`
   color: ${(props) => props.theme.ixoDarkBlue};
 `
-const grayMediumColorCss = css`
-  color: ${(props) => props.theme.ixoGrey700};
-`
-const grey500ColorCss = css`
-  color: ${(props) => props.theme.ixoGrey500};
-`
-const gray2ColorCss = css`
-  color: ${(props) => props.theme.ixoGrey300};
-`
-const color1ColorCss = css`
-  color: ${(props) => props.theme.ixoDarkBlue};
-`
 const color2ColorCss = css`
   color: ${(props) => props.theme.ixoColor2};
 `
 const grey700ColorCss = css`
   color: ${(props) => props.theme.ixoGrey700};
+`
+const grey500ColorCss = css`
+  color: ${(props) => props.theme.ixoGrey500};
+`
+const grey300ColorCss = css`
+  color: ${(props) => props.theme.ixoGrey300};
 `
 const greenCss = css`
   color: ${(props) => props.theme.ixoGreen};
@@ -304,18 +296,14 @@ const Typography = styled.div<Props>`
         return blueColorCss
       case 'dark-blue':
         return darkBlueColorCss
-      case 'gray-medium':
-        return grayMediumColorCss
-      case 'gray-2':
-        return gray2ColorCss
-      case 'color-1':
-        return color1ColorCss
       case 'color-2':
         return color2ColorCss
       case 'grey700':
         return grey700ColorCss
       case 'grey500':
         return grey500ColorCss
+      case 'grey300':
+        return grey300ColorCss
       case 'green':
         return greenCss
       case 'red':

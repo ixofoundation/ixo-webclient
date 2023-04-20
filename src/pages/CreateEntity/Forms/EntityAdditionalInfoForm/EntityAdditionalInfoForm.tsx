@@ -50,7 +50,7 @@ const EntityAdditionalInfoForm: React.FC<Props> = ({
       <Typography
         weight='medium'
         size='xl'
-        color={tab === 'description' ? 'blue' : 'color-1'}
+        color={tab === 'description' ? 'blue' : 'dark-blue'}
         onClick={(): void => setTab('description')}
       >
         Description
@@ -58,7 +58,7 @@ const EntityAdditionalInfoForm: React.FC<Props> = ({
       <Typography
         weight='medium'
         size='xl'
-        color={tab === 'metrics' ? 'blue' : 'color-1'}
+        color={tab === 'metrics' ? 'blue' : 'dark-blue'}
         onClick={(): void => setTab('metrics')}
       >
         Metrics
@@ -66,7 +66,7 @@ const EntityAdditionalInfoForm: React.FC<Props> = ({
       <Typography
         weight='medium'
         size='xl'
-        color={tab === 'attributes' ? 'blue' : 'color-1'}
+        color={tab === 'attributes' ? 'blue' : 'dark-blue'}
         onClick={(): void => setTab('attributes')}
       >
         Attributes
