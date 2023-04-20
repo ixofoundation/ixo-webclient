@@ -72,7 +72,7 @@ const SetupLinkedEntity: React.FC<Props> = ({ linkedEntity, updateLinkedEntity }
                 key={key}
                 icon={Icon && <Icon />}
                 label={label}
-                set={!!value?.id}
+                set={!!value.id}
                 handleRemove={(): void => handleRemoveEntityLinkedEntity(key)}
                 handleClick={(): void => handleOpenEntityLinkedEntityModal(key, true)}
               />
