@@ -1,32 +1,32 @@
-import { createSigningClient } from '@ixo/impactxclient-sdk'
+import { createSigningClient, utils } from '@ixo/impactxclient-sdk'
 import { CheckIidDoc, RPC_ENDPOINT } from 'lib/protocol'
 import { useKeplr } from 'lib/keplr/keplr'
-import { ChooseWalletModal } from 'components/Modals'
+// import { ChooseWalletModal } from 'components/Modals'
 import { useAccount } from 'hooks/account'
 import { WalletType } from 'redux/account/account.types'
 import { useEffect } from 'react'
 import { SigningCosmWasmClient } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/cosmwasm-stargate'
+import { useWalletManager } from '@gssuper/cosmodal'
+import base58 from 'bs58'
 
-let updateKeysafeLoginStatusTimer: NodeJS.Timer
-const updateKeysafeLoginStatusInterval = 1000 * 10
-
-const AccountUpdateService = (): JSX.Element => {
+const AccountUpdateService = (): JSX.Element | null => {
   const {
     did,
     address,
     selectedWallet,
-    chooseWalletOpen,
-    updateKeysafeLoginStatus,
     updateKeplrLoginStatus,
     updateBalances,
+    updateName,
+    updateAddress,
+    updatePubKey,
     chooseWallet,
     updateSigningClient,
     updateCosmWasmClient,
     updateRegistered,
-    updateChooseWalletOpen,
+    updateDid,
   } = useAccount()
   const keplr = useKeplr()
-  // const keysafe = useIxoKeysafe()
+  const { connectedWallet } = useWalletManager()
 
   useEffect(() => {
     const getIidDoc = async (): Promise<void> => {
@@ -52,11 +52,7 @@ const AccountUpdateService = (): JSX.Element => {
   }, [address])
 
   useEffect(() => {
-    if (selectedWallet === WalletType.Keysafe) {
-      updateKeysafeLoginStatus()
-
-      // const offlineSigner = keysafe.getOfflineSigner()
-    } else if (selectedWallet === WalletType.Keplr) {
+    if (selectedWallet === WalletType.Keplr) {
       updateKeplrLoginStatus()
       const offlineSigner = keplr.getOfflineSigner()
       createSigningClient(RPC_ENDPOINT!, offlineSigner).then((client) => {
@@ -68,18 +64,20 @@ const AccountUpdateService = (): JSX.Element => {
   }, [selectedWallet])
 
   useEffect(() => {
-    if (address && selectedWallet === WalletType.Keysafe) {
-      updateKeysafeLoginStatusTimer = setInterval(updateKeysafeLoginStatus, updateKeysafeLoginStatusInterval)
-    } else {
-      clearInterval(updateKeysafeLoginStatusTimer)
-    }
-    return (): void => {
-      clearInterval(updateKeysafeLoginStatusTimer)
+    if (connectedWallet) {
+      const { name, address, publicKey } = connectedWallet
+      const pubKey = base58.encode(publicKey.data)
+      const did = utils.did.generateSecpDid(pubKey)
+
+      updateName(name)
+      updateAddress(address)
+      updatePubKey(pubKey)
+      updateDid(did)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [address, selectedWallet])
+  }, [connectedWallet])
 
-  return <ChooseWalletModal open={chooseWalletOpen} setOpen={updateChooseWalletOpen} />
+  return null
 }
 
 export default AccountUpdateService

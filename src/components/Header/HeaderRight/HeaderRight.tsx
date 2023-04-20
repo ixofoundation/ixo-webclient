@@ -20,6 +20,7 @@ import { selectEntityHeaderButtonColorUIConfig } from 'redux/entitiesExplorer/en
 import { truncateString } from 'utils/formatters'
 import { Typography } from 'components/Typography'
 import { Light, LightLoading, LightReady, Ping } from '../HeaderContainer.styles'
+import { useWalletManager } from '@gssuper/cosmodal'
 
 interface HeaderRightProps {
   toggleModal: (IsOpen: boolean) => void
@@ -27,7 +28,8 @@ interface HeaderRightProps {
 
 const HeaderRight: React.FC<HeaderRightProps> = ({ toggleModal }): JSX.Element => {
   const buttonColor: string = useAppSelector(selectEntityHeaderButtonColorUIConfig)
-  const { address, name, registered, updateChooseWalletOpen } = useAccount()
+  const { address, name, registered } = useAccount()
+  const { connect } = useWalletManager()
   const [showMenu, setShowMenu] = useState(false)
 
   const toggleMenu = (): void => {
@@ -35,18 +37,9 @@ const HeaderRight: React.FC<HeaderRightProps> = ({ toggleModal }): JSX.Element =
   }
 
   const toggleWalletChooseModal = (): void => {
-    updateChooseWalletOpen(true)
+    connect()
   }
 
-  // const renderLightIndicator = (): JSX.Element => {
-  //   if (responseTime === null) {
-  //     return <LightLoading />
-  //   } else if (responseTime !== 0) {
-  //     return <LightReady />
-  //   } else {
-  //     return <Light />
-  //   }
-  // }
   const renderLightIndicator = (): JSX.Element => {
     if (address) {
       if (registered) {
@@ -83,7 +76,7 @@ const HeaderRight: React.FC<HeaderRightProps> = ({ toggleModal }): JSX.Element =
                 <Typography variant='secondary' size='md'>
                   {truncateString(name, 8, 'end')}
                 </Typography>
-                <Typography variant='secondary' size='xs' color='dark-blue'>
+                <Typography variant='secondary' size='xs' color='blue'>
                   {truncateString(address, 20)}
                 </Typography>
               </ConnectButton>

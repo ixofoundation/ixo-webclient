@@ -184,7 +184,7 @@ export const LoginLink = styled.a`
 `
 
 export const ConnectButton = styled.div`
-  border: 1px solid ${(props) => props.theme.ixoDarkBlue};
+  border: 1px solid ${(props) => props.theme.ixoNewBlue};
   border-radius: 8px;
 
   width: 100px;

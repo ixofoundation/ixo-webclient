@@ -14,12 +14,10 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { nFormatter } from 'utils/currency'
 import {
   apiCurrencyToCurrency,
-  denomToMinimalDenom,
   findDenomByMinimalDenom,
   formatCurrency,
   minimalDenomToDenom,
 } from 'redux/account/account.utils'
-import { broadCastMessage } from 'lib/keysafe/keysafe'
 import pendingAnimation from 'assets/animations/transaction/pending.json'
 import successAnimation from 'assets/animations/transaction/success.json'
 import errorAnimation from 'assets/animations/transaction/fail.json'
@@ -61,12 +59,7 @@ const VotingModal: React.FunctionComponent = () => {
   const [estReserveAmount, setESTReserveAmount] = useState<number>(0)
   const [txFees, setTxFees] = useState<Coin | null>(null)
 
-  const {
-    userInfo,
-    address: accountAddress,
-    sequence: userSequence,
-    accountNumber: userAccountNumber,
-  } = useAppSelector((state) => state.account)
+  const { address: accountAddress } = useAppSelector((state) => state.account)
 
   const { bondDid } = useAppSelector((state) => state.selectedEntity)
   const {
@@ -111,52 +104,30 @@ const VotingModal: React.FunctionComponent = () => {
     }
   }
 
-  const generateTXRequestMSG = (): any => {
-    const msgs = []
-    msgs.push({
-      type: 'bonds/MsgBuy',
-      value: {
-        buyer_did: userInfo.didDoc.did,
-        amount: {
-          amount: bondAmount,
-          denom: bondToken!.denom,
-        },
-        max_prices: [
-          {
-            amount: denomToMinimalDenom(findDenomByMinimalDenom(reserveDenom), estReserveAmount, true),
-            denom: reserveDenom,
-          },
-        ],
-        bond_did: bondDid,
-      },
-    })
-    return msgs
-  }
-
-  const generateTXRequestFee = (): any => {
-    const fee = {
-      amount: [{ amount: String(5000), denom: 'uixo' }],
-      gas: String(200000),
-    }
-    return fee
-  }
+  // const generateTXRequestMSG = (): any => {
+  //   const msgs = []
+  //   msgs.push({
+  //     type: 'bonds/MsgBuy',
+  //     value: {
+  //       buyer_did: userInfo.didDoc.did,
+  //       amount: {
+  //         amount: bondAmount,
+  //         denom: bondToken!.denom,
+  //       },
+  //       max_prices: [
+  //         {
+  //           amount: denomToMinimalDenom(findDenomByMinimalDenom(reserveDenom), estReserveAmount, true),
+  //           denom: reserveDenom,
+  //         },
+  //       ],
+  //       bond_did: bondDid,
+  //     },
+  //   })
+  //   return msgs
+  // }
 
   const signingTX = async (): Promise<void> => {
-    const msgs = generateTXRequestMSG()
-    const fee = generateTXRequestFee()
-
-    if (msgs.length === 0) {
-      return
-    }
-
-    broadCastMessage(userInfo, userSequence as any, userAccountNumber as any, msgs, memo, fee, (hash: any) => {
-      if (hash) {
-        setSignTXStatus(TXStatus.SUCCESS)
-        setSignTXhash(hash)
-      } else {
-        setSignTXStatus(TXStatus.ERROR)
-      }
-    })
+    //
   }
 
   const handlePrevStep = (): void => {

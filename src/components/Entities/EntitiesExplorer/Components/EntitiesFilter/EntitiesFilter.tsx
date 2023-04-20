@@ -97,9 +97,9 @@ const EntitiesFilter: FC<Props> = ({
 
   const toggleMobileFilterMenuShow = (menu: string) => (): void => {
     if (mobileFilterActiveMenu !== '') {
-      document.querySelector('body')!.classList.remove('noScroll')
+      document.querySelector('body')!.classList.remove('overflow-hidden')
     } else {
-      document.querySelector('body')!.classList.add('noScroll')
+      document.querySelector('body')!.classList.add('overflow-hidden')
     }
 
     setMobileFilterActiveMenu(mobileFilterActiveMenu === menu ? '' : menu)

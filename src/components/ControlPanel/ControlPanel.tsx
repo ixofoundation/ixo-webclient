@@ -39,9 +39,9 @@ class ControlPanel extends React.Component<Props, State> {
 
   toggleShowControlPanel = (): void => {
     if (this.state.showControlPanelMobile) {
-      document?.querySelector('body')?.classList?.remove('noScroll')
+      document?.querySelector('body')?.classList?.remove('overflow-hidden')
     } else {
-      document?.querySelector('body')?.classList.add('noScroll')
+      document?.querySelector('body')?.classList.add('overflow-hidden')
     }
     this.setState({
       showControlPanelMobile: !this.state.showControlPanelMobile,

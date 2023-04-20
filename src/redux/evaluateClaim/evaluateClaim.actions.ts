@@ -8,12 +8,9 @@ import {
   MoveToNextStepAction,
   MoveToStepAction,
 } from './evaluateClaim.types'
-import blocksyncApi from 'api/blocksync/blocksync'
-import keysafe from 'lib/keysafe/keysafe'
 import { ApiListedEntity } from 'api/blocksync/types/entities'
 import { ApiResource } from 'api/blocksync/types/resource'
 import { fromBase64 } from 'js-base64'
-import * as Toast from 'utils/toast'
 import { RootState } from 'redux/store'
 import { selectCellNodeEndpoint } from '../selectedEntity/selectedEntity.selectors'
 import { BlockSyncService } from 'services/blocksync'
@@ -32,8 +29,8 @@ export const getClaim =
     // Clear claim info before loading
     dispatch(clearClaim())
 
-    const claimString = localStorage.getItem(claimId)
-    const savedClaim = JSON.parse(claimString!)
+    // const claimString = localStorage.getItem(claimId)
+    // const savedClaim = JSON.parse(claimString!)
 
     // if (savedClaim) {
     //   if (!savedClaim.stage) {
@@ -44,62 +41,62 @@ export const getClaim =
     //     payload: savedClaim,
     //   })
     // } else {
-    const ProjectDIDPayload: Record<string, any> = {
-      projectDid: projectDid,
-    }
+    // const ProjectDIDPayload: Record<string, any> = {
+    //   projectDid: projectDid,
+    // }
 
-    keysafe.requestSigning(
-      JSON.stringify(ProjectDIDPayload),
-      async (error: any, signature: any) => {
-        if (error) {
-          const { message } = error
-          Toast.errorToast(message)
-          return null
-        }
+    // keysafe.requestSigning(
+    //   JSON.stringify(ProjectDIDPayload),
+    //   async (error: any, signature: any) => {
+    //     if (error) {
+    //       const { message } = error
+    //       Toast.errorToast(message)
+    //       return null
+    //     }
 
-        await blocksyncApi.claim
-          .listClaimsForProject(ProjectDIDPayload, signature, cellNodeEndpoint!)
-          .then((response: any) => {
-            if (response.error) {
-              const { message } = response.error
-              Toast.errorToast(message)
-              return null
-            }
+    //     await blocksyncApi.claim
+    //       .listClaimsForProject(ProjectDIDPayload, signature, cellNodeEndpoint!)
+    //       .then((response: any) => {
+    //         if (response.error) {
+    //           const { message } = response.error
+    //           Toast.errorToast(message)
+    //           return null
+    //         }
 
-            let claimFound = response.result.filter((claim: any) => claim.txHash === claimId)
+    //         let claimFound = response.result.filter((claim: any) => claim.txHash === claimId)
 
-            claimFound = claimFound[claimFound.length - 1]
+    //         claimFound = claimFound[claimFound.length - 1]
 
-            let fetchedClaim
+    //         let fetchedClaim
 
-            if (savedClaim) {
-              fetchedClaim = {
-                ...claimFound,
-                stage: 'Analyse',
-                items: savedClaim.items,
-              }
-            } else {
-              fetchedClaim = {
-                ...claimFound,
-                stage: 'Analyse',
-                items: claimFound?.items.map((item: any) => ({
-                  ...item,
-                  evaluation: {
-                    status: null, //  TODO: should be replaced with something
-                    comments: '', //  TODO: should be replaced with something
-                  },
-                })),
-              }
-            }
+    //         if (savedClaim) {
+    //           fetchedClaim = {
+    //             ...claimFound,
+    //             stage: 'Analyse',
+    //             items: savedClaim.items,
+    //           }
+    //         } else {
+    //           fetchedClaim = {
+    //             ...claimFound,
+    //             stage: 'Analyse',
+    //             items: claimFound?.items.map((item: any) => ({
+    //               ...item,
+    //               evaluation: {
+    //                 status: null, //  TODO: should be replaced with something
+    //                 comments: '', //  TODO: should be replaced with something
+    //               },
+    //             })),
+    //           }
+    //         }
 
-            dispatch({
-              type: EvaluateClaimActions.GetClaim,
-              payload: fetchedClaim,
-            })
-          })
-      },
-      'base64',
-    )
+    //         dispatch({
+    //           type: EvaluateClaimActions.GetClaim,
+    //           payload: fetchedClaim,
+    //         })
+    //       })
+    //   },
+    //   'base64',
+    // )
     // }
 
     const fetchTemplateEntity: Promise<ApiListedEntity> = bsService.project.getProjectByProjectDid(claimTemplateDid)

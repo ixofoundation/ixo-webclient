@@ -1,4 +1,3 @@
-import blocksyncApi from 'api/blocksync/blocksync'
 import { ApiListedEntity } from 'api/blocksync/types/entities'
 import { isPageContent, PageContent } from 'api/blocksync/types/pageContent'
 import { ApiResource } from 'api/blocksync/types/resource'
@@ -17,7 +16,6 @@ import {
   replaceLegacyPDSInPageContent,
 } from '../../utils/entities'
 import { EntityType, ProjectStatus, PDS_URL, NodeType } from '../../types/entities'
-import { selectCellNodeEndpoint } from './selectedEntity.selectors'
 import {
   ClearEntityAction,
   GetEntityAction,
@@ -28,7 +26,6 @@ import {
   UpdateEntityTypeAction,
   UpdateProjectStatusAction,
 } from './selectedEntity.types'
-import keysafe from 'lib/keysafe/keysafe'
 import { Bond } from '@ixo/impactxclient-sdk/types/codegen/ixo/bonds/v1beta1/bonds'
 import { BlockSyncService } from 'services/blocksync'
 
@@ -263,27 +260,27 @@ export const getEntityClaims =
 export const updateProjectStatus =
   (projectDid: string, status: ProjectStatus) =>
   (dispatch: Dispatch, getState: () => RootState): UpdateProjectStatusAction => {
-    const statusData = {
-      projectDid: projectDid,
-      status: status,
-    }
+    // const statusData = {
+    //   projectDid: projectDid,
+    //   status: status,
+    // }
 
-    const state = getState()
-    const cellNodeEndpoint = selectCellNodeEndpoint(state)
+    // const state = getState()
+    // const cellNodeEndpoint = selectCellNodeEndpoint(state)
 
-    keysafe.requestSigning(
-      JSON.stringify(statusData),
-      (error: any, signature: any) => {
-        if (!error) {
-          blocksyncApi.project.updateProjectStatus(statusData, signature, cellNodeEndpoint!).then(() => {
-            return dispatch({
-              type: SelectedEntityActions.UpdateProjectStatus,
-            })
-          })
-        }
-      },
-      'base64',
-    )
+    // keysafe.requestSigning(
+    //   JSON.stringify(statusData),
+    //   (error: any, signature: any) => {
+    //     if (!error) {
+    //       blocksyncApi.project.updateProjectStatus(statusData, signature, cellNodeEndpoint!).then(() => {
+    //         return dispatch({
+    //           type: SelectedEntityActions.UpdateProjectStatus,
+    //         })
+    //       })
+    //     }
+    //   },
+    //   'base64',
+    // )
 
     return null!
   }

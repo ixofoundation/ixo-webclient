@@ -15,7 +15,6 @@ import {
   selectAccountCosmWasmClient,
 } from 'redux/account/account.selectors'
 import { decode } from 'bs58'
-import { getAddressFromPubKey, keysafeGetInfo } from 'lib/keysafe/keysafe'
 import {
   chooseWalletAction,
   updateAddressAction,
@@ -51,7 +50,6 @@ export function useAccount(): {
   chooseWalletOpen: boolean
   signer: TSigner
   offlineSigner: OfflineSigner
-  updateKeysafeLoginStatus: () => Promise<void>
   updateKeplrLoginStatus: () => Promise<void>
   updateBalances: () => Promise<void>
   chooseWallet: (wallet: WalletType | undefined) => void
@@ -128,31 +126,6 @@ export function useAccount(): {
     dispatch(updateChooseWalletOpenAction(open))
   }
 
-  const updateKeysafeLoginStatus = async (): Promise<void> => {
-    try {
-      const keysafeInfo = await keysafeGetInfo()
-      if (!keysafeInfo) {
-        throw new Error('Unlock keysafe')
-      }
-
-      const { name, didDoc } = keysafeInfo!
-      if (name) {
-        updateName(name)
-      }
-      if (didDoc?.pubKey) {
-        updatePubKey(didDoc.pubKey)
-        const addressFromPK = getAddressFromPubKey(didDoc.pubKey)
-        if (addressFromPK) {
-          updateAddress(addressFromPK)
-        }
-      }
-      if (didDoc?.did) {
-        updateDid(didDoc.did)
-      }
-    } catch (e) {
-      console.error('updateKeysafeLoginStatus', e)
-    }
-  }
   const updateKeplrLoginStatus = async (): Promise<void> => {
     try {
       const key = await keplr.getKey()
@@ -190,7 +163,6 @@ export function useAccount(): {
     chooseWalletOpen,
     signer,
     offlineSigner,
-    updateKeysafeLoginStatus,
     updateKeplrLoginStatus,
     updateBalances,
     chooseWallet,
