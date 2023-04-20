@@ -30,7 +30,7 @@ const StyledTextArea = styled.textarea<{ width: string; height: string }>`
   }
 
   &::placeholder {
-    color: ${(props): string => props.theme.ixoGrey700};
+    color: ${(props): string => props.theme.ixoGrey500};
   }
 
   &[type='number'] {
@@ -77,7 +77,7 @@ const TextArea: React.FC<Props> = ({
           <Typography
             size={active ? 'sm' : 'xl'}
             weight={active ? 'bold' : 'medium'}
-            color={active ? 'blue' : 'grey700'}
+            color={active ? 'blue' : 'grey500'}
           >
             {label}
           </Typography>

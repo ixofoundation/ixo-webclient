@@ -56,6 +56,8 @@ const EditMetadata: React.FC = (): JSX.Element => {
         <DAOProfileForm
           image={metadata?.image}
           setImage={(image): void => handleUpdateMetadata('image', image)}
+          logo={metadata?.icon}
+          setLogo={(logo): void => handleUpdateMetadata('icon', logo)}
           orgName={metadata?.orgName ?? ''}
           setOrgName={(orgName): void => handleUpdateMetadata('orgName', orgName)}
           name={metadata?.name ?? ''}

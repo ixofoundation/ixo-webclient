@@ -26,7 +26,7 @@ export const EditEntityContext = createContext<
 
 const EditEntity: React.FC = (): JSX.Element => {
   const { entityId } = useParams<{ entityId: string }>()
-  const { address, cosmWasmClient, updateChooseWalletOpen } = useAccount()
+  const { address, cosmWasmClient } = useAccount()
   const [value, setValue] = useState<TCreateEntityState>(initialState)
 
   console.log(1111, { value })
@@ -140,7 +140,7 @@ const EditEntity: React.FC = (): JSX.Element => {
 
   useEffect(() => {
     if (!address) {
-      updateChooseWalletOpen(true)
+      console.error('EditEntity', { address })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address])

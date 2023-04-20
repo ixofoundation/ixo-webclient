@@ -14,7 +14,7 @@ import { useCreateEntityState, useCreateEntityStrategy } from 'hooks/createEntit
 import { CreateEntityStrategyMap } from 'redux/createEntity/strategy-map'
 
 const CreateEntity: React.FC = (): JSX.Element => {
-  const { address, updateChooseWalletOpen } = useAccount()
+  const { address } = useAccount()
 
   const history = useHistory()
   const {
@@ -36,7 +36,7 @@ const CreateEntity: React.FC = (): JSX.Element => {
 
   useEffect(() => {
     if (!address) {
-      updateChooseWalletOpen(true)
+      console.error('CreateEntity', { address })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address])

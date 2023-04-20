@@ -15,7 +15,7 @@ export const FormWrapper = styled.div`
 export const FormHeader = styled.div``
 
 export const FormBody = styled.div`
-  padding: 20px;
+  padding: 8px 24px 24px;
   display: flex;
   flex-direction: column;
   gap: 12px;

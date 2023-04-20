@@ -33,7 +33,7 @@ import { getValueFromEvents } from 'utils/objects'
 const ReviewProposal: React.FC = () => {
   const history = useHistory()
   const { entityId, coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
-  const { address, cosmWasmClient, updateChooseWalletOpen } = useAccount()
+  const { address, cosmWasmClient } = useAccount()
   const { name: entityName } = useCurrentEntityProfile()
   const { daoGroup, daoPreProposeSingleClient, depositInfo } = useCurrentDaoGroup(coreAddress)
   const createEntityState = useCreateEntityState()
@@ -83,7 +83,7 @@ const ReviewProposal: React.FC = () => {
 
   const validateSubmit = () => {
     if (!address) {
-      updateChooseWalletOpen(true)
+      console.error('validateSubmit', { address })
       return false
     }
     if (!memberAddresses.includes(address)) {

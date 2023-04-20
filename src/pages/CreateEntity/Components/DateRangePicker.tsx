@@ -28,6 +28,10 @@ const Wrapper = styled.div`
         padding: 6px 10px;
         border: 1px solid ${(props): string => props.theme.ixoNewBlue};
         border-radius: 8px;
+
+        &::placeholder {
+          color: ${(props) => props.theme.ixoGrey500};
+        }
       }
     }
     &_arrow {

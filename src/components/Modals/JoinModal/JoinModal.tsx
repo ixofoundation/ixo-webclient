@@ -86,11 +86,7 @@ interface Props {
 }
 
 const JoinModal: React.FunctionComponent<Props> = ({ open, setOpen }) => {
-  const {
-    signingClient,
-    //  did,
-    updateChooseWalletOpen,
-  } = useAccount()
+  const { signingClient } = useAccount()
   // const { did: projectDid, address: projectAddress } = useSelectedEntity()
 
   const steps = ['Role', 'Agent Details', 'Offer', 'Order', 'Sign']
@@ -130,7 +126,6 @@ const JoinModal: React.FunctionComponent<Props> = ({ open, setOpen }) => {
   const handleCreateAgent = async (): Promise<void> => {
     if (!signingClient) {
       handlePrevStep()
-      updateChooseWalletOpen(true)
       return
     }
     // const res = await CreateAgent(signingClient, {

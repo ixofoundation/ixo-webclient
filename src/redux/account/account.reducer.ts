@@ -29,7 +29,6 @@ export const initialState: AccountState = {
   signingClient: undefined,
   cosmWasmClient: undefined,
   did: undefined,
-  chooseWalletOpen: false,
 } as any
 
 export const reducer = (state = initialState, action: AccountActionTypes): AccountState => {
@@ -104,8 +103,6 @@ export const reducer = (state = initialState, action: AccountActionTypes): Accou
       return { ...state, cosmWasmClient: action.payload }
     case AccountActions.UpdateDid:
       return { ...state, did: action.payload }
-    case AccountActions.UpdateChooseWalletOpen:
-      return { ...state, chooseWalletOpen: action.payload }
     default:
       return { ...state }
   }

@@ -67,6 +67,8 @@ const Header: React.FC<Props> = (props: Props): JSX.Element => {
     if (signingClient && address && did && pubKey && keyType) {
       const res = await CreateIidDoc(signingClient, { address, did, pubKey: pubKeyUint8!, keyType })
       updateRegistered(!!res)
+    } else {
+      console.error('handleLedgerDid', { signingClient, address, did, pubKey, keyType })
     }
   }
 
