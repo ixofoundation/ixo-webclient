@@ -82,7 +82,7 @@ import UploadAudio from 'assets/icons/UploadAudio'
 import UploadVideo from 'assets/icons/UploadVideo'
 import SelectPicture from 'assets/icons/SelectPicture'
 import Currency from 'assets/icons/Currency'
-import { LinkedEntity, Service } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
+import { LinkedEntity, LinkedResource, Service } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { OutputBlockData } from '@editorjs/editorjs'
 import { ControlType, Type } from 'components/JsonForm/types'
 import { UpdatePreProposeConfigData } from 'components/Modals/AddActionModal/SetupUpdateProposalSubmissionConfigModal'
@@ -126,46 +126,57 @@ export const EntityLinkedResourceConfig: { [key: string]: any } = {
   image: {
     text: 'Media',
     icon: ImageIcon,
+    accept: { 'image/*': [] },
   },
   text: {
     text: 'Text',
     icon: TextIcon,
+    accept: { 'text/*': [] },
   },
   database: {
     text: 'Database',
     icon: DatabaseIcon,
+    accept: { 'image/*': [] },
   },
   verifiableCredential: {
     text: 'Verifiable Credential',
     icon: CredentialIcon,
+    accept: { 'image/*': [] },
   },
   authorisation: {
     text: 'Authorisation',
     icon: AuthorisationIcon,
+    accept: { 'image/*': [] },
   },
   website: {
     text: 'Website',
     icon: GlobeIcon,
+    accept: { 'image/*': [] },
   },
   algorithm: {
     text: 'Algorithm',
     icon: AlgorithmIcon,
+    accept: { 'image/*': [] },
   },
   smartContract: {
     text: 'Smart Contract',
     icon: SmartContractIcon,
+    accept: { 'image/*': [] },
   },
   claims: {
     text: 'Claims',
     icon: ClaimIcon,
+    accept: { 'image/*': [] },
   },
   dashboard: {
     text: 'Dashboard',
     icon: DashboardIcon,
+    accept: { 'image/*': [] },
   },
   document: {
     text: 'Document',
     icon: DocumentIcon,
+    accept: { 'image/*': [] },
   },
 }
 
@@ -608,13 +619,7 @@ export interface TEntityPaymentModel {
 }
 
 // TODO:
-export interface TEntityLinkedResourceModel {
-  id?: string
-  type: string
-  path: string //  url
-  name: string
-  description: string
-}
+export type TEntityLinkedResourceModel = LinkedResource
 
 // TODO: add more fields
 export interface TEntityAccordedRightModel {

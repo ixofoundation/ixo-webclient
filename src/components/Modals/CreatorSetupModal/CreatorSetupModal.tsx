@@ -245,6 +245,7 @@ const CreatorSetupModal: React.FC<Props> = ({ creator, title, open, onClose, onC
                 style={{ fontWeight: 500 }}
               />
 
+              {/* Mission */}
               <TextArea
                 name='creator_mission'
                 height='150px'

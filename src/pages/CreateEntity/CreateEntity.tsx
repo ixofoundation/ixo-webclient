@@ -8,14 +8,11 @@ import CreateDAO from './CreateDAO/CreateDAO'
 import CreateProject from './CreateProject/CreateProject'
 import CreateOracle from './CreateOracle/CreateOracle'
 import CreateProposal from './CreateProposal/CreateProposal'
-import { useAccount } from 'hooks/account'
 import CreateProtocol from './CreateProtocol/CreateProtocol'
 import { useCreateEntityState, useCreateEntityStrategy } from 'hooks/createEntity'
 import { CreateEntityStrategyMap } from 'redux/createEntity/strategy-map'
 
 const CreateEntity: React.FC = (): JSX.Element => {
-  const { address } = useAccount()
-
   const history = useHistory()
   const {
     location: { pathname },
@@ -33,13 +30,6 @@ const CreateEntity: React.FC = (): JSX.Element => {
     }
     // eslint-disable-next-line
   }, [stepNo, entityType])
-
-  useEffect(() => {
-    if (!address) {
-      console.error('CreateEntity', { address })
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [address])
 
   return (
     <CreateEntityLayout title={title} subtitle={subtitle} breadCrumbs={breadCrumbs}>

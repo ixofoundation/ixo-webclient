@@ -29,8 +29,6 @@ const EditEntity: React.FC = (): JSX.Element => {
   const { address, cosmWasmClient } = useAccount()
   const [value, setValue] = useState<TCreateEntityState>(initialState)
 
-  console.log(1111, { value })
-
   const handleUpdate = useCallback((entity: TCreateEntityState) => {
     setValue(entity)
   }, [])
@@ -137,13 +135,6 @@ const EditEntity: React.FC = (): JSX.Element => {
       })
     }
   }, [entityId, handleUpdatePartial])
-
-  useEffect(() => {
-    if (!address) {
-      console.error('EditEntity', { address })
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [address])
 
   return (
     <EditEntityContext.Provider value={{ ...value, update: handleUpdate, updatePartial: handleUpdatePartial }}>
