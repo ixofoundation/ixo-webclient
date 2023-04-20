@@ -13,7 +13,6 @@ export const DropdownWrapper = styled.div`
   font-weight: 400;
   // z-index: 10;
   letter-spacing: 1px;
-  color: #000;
   > * {
     flex: 1;
     border-radius: 4px;
@@ -115,14 +114,17 @@ export const LaunchEntityButton = styled(NavLink)`
   font-weight: 500;
 
   &.disabled {
-    border-color: #a5adb0;
-    color: #a5adb0;
+    border-color: ${(props) => props.theme.ixoGrey500};
+    color: ${(props) => props.theme.ixoGrey500};
     cursor: not-allowed;
+    pointer-events: none;
+
     i {
-      color: #a5adb0;
+      color: ${(props) => props.theme.ixoGrey500};
     }
-    svg path {
-      fill: #a5adb0;
+    svg path,
+    svg circle {
+      fill: ${(props) => props.theme.ixoGrey500};
     }
   }
 
