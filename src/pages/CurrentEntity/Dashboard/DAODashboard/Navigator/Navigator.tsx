@@ -62,7 +62,7 @@ const Navigator: React.FC = (): JSX.Element => {
         <>
           <FlexBox width='100%' alignItems='center' justifyContent='space-between'>
             <Typography variant='secondary' color='white' size='5xl' transform='capitalize'>
-              {numOfSelectedGroups === 1 && `${Object.values(selectedGroups)[0]?.type} group`}
+              {numOfSelectedGroups === 1 && `${Object.values(selectedGroups)[0]?.config.name} group`}
               {numOfSelectedGroups > 1 && `${numOfSelectedGroups} selected groups`}
             </Typography>
             {numOfSelectedGroups === 1 && renderAction()}

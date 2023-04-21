@@ -136,7 +136,7 @@ const Groups: React.FC<Props> = ({ isFollowing }): JSX.Element | null => {
         )}
       </FlexBox>
       <Typography color='white' weight='medium' size='lg'>
-        {daoGroup.votingModule.members.length} members
+        {daoGroup.votingModule.members.length} member{daoGroup.votingModule.members.length > 1 && 's'}
       </Typography>
     </FlexBox>
   )

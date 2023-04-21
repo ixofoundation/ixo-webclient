@@ -37,20 +37,22 @@ const MyVotingPower: React.FC<Props> = ({ show, coreAddress }) => {
           />
         </FlexBox>
       ) : (
-        <Typography variant='secondary' size='2xl' color='dark-blue'>
-          You’re not part of this membership group.
-        </Typography>
+        <>
+          <Typography variant='secondary' size='2xl' color='dark-blue'>
+            You’re not part of this membership group.
+          </Typography>
+          <Button
+            variant='secondary'
+            size='flex'
+            height={40}
+            textSize='base'
+            textTransform='capitalize'
+            textWeight='medium'
+          >
+            Apply
+          </Button>
+        </>
       )}
-      <Button
-        variant='secondary'
-        size='flex'
-        height={40}
-        textSize='base'
-        textTransform='capitalize'
-        textWeight='medium'
-      >
-        Apply
-      </Button>
     </>
   ) : null
 }
