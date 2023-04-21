@@ -15,7 +15,7 @@ import queryString from 'query-string'
 import { findDenomByMinimalDenom, minimalAmountToAmount } from 'redux/account/account.utils'
 
 import SwapIcon from 'assets/images/exchange/swap.svg'
-import SliderSettingsIcon from 'assets/images/icon-slider-settings.svg'
+import SliderSettingsIcon from 'assets/images/icon-sliders-h-solid.svg'
 import {
   selectLiquidityPools,
   // selectAvailablePairs,

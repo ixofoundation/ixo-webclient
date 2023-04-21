@@ -29,13 +29,15 @@ const ServiceSetupModal: React.FC<Props> = ({ service, open, onClose, onChange }
   )
 
   useEffect(() => {
-    setFormData(
-      (service ?? []).map((data) => ({
-        nodeId: data.id,
-        type: data.type,
-        serviceEndpoint: data.serviceEndpoint,
-      })),
-    )
+    if (service?.length > 0) {
+      setFormData(
+        service.map((data) => ({
+          nodeId: data.id,
+          type: data.type,
+          serviceEndpoint: data.serviceEndpoint,
+        })),
+      )
+    }
   }, [service])
 
   const handleAddNode = (): void => {

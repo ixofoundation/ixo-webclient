@@ -25,13 +25,7 @@ import {
   TEntityLiquidityModel,
   TEntityPaymentModel,
 } from 'types/protocol'
-import {
-  LocalisationForm,
-  EntityAttributesForm,
-  TokenProfileForm,
-  EntityDescriptionForm,
-  EntityMetricsForm,
-} from '../../../Forms'
+import { EntityAttributesForm, TokenProfileForm, EntityDescriptionForm, EntityMetricsForm } from '../../../Forms'
 import { Badge, PropertyBox, PropertyBoxWrapper } from '../../../Forms/PropertiesForm/PropertiesForm.styles'
 import { Wrapper, Row } from './IndividualToken.styles'
 import { SetupPageContent } from '../../../Forms/PropertiesForm/SetupPageContent'
@@ -45,7 +39,6 @@ interface Props {
 
 const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element => {
   const { entityType, updateAssetInstance } = useCreateEntityState()
-  const [localisation, setLocalisation] = useState(token.localisation)
   const [metadata, setMetadata] = useState<TAssetMetadataModel>(token.metadata as TAssetMetadataModel)
   const [entitySettings, setEntitySettings] = useState<{
     [key: string]: any
@@ -311,12 +304,12 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
 
       <Row style={{ gap: 50 }}>
         <Box className='d-flex flex-column'>
-          <Box className='d-flex align-items-center justify-content-between'>
+          {/* <Box className='d-flex align-items-center justify-content-between'>
             <Typography weight='medium' size='xl'>
               Localisation:
             </Typography>
             <LocalisationForm localisation={localisation} setLocalisation={setLocalisation} />
-          </Box>
+          </Box> */}
           <Box className='mb-2' />
           <TokenProfileForm
             image={metadata?.image}

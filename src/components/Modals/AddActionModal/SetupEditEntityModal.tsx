@@ -7,8 +7,15 @@ import { ReactComponent as SearchIcon } from 'assets/images/icon-search.svg'
 import { BlockSyncService } from 'services/blocksync'
 import { validateEntityDid } from 'utils/validation'
 import { useHistory } from 'react-router-dom'
+import styled from 'styled-components'
 
 const bsService = new BlockSyncService()
+
+const Body = styled(FlexBox)`
+  input {
+    height: 100%;
+  }
+`
 
 const SearchInputStyles = {
   fontFamily: theme.secondaryFontFamily,
@@ -50,7 +57,10 @@ const SetupEditEntityModal: React.FC<Props> = ({ open, action, onClose, onSubmit
 
   useEffect(() => {
     if (validateEntityDid(entityDid)) {
-      bsService.entity.getEntityById(entityDid).then(() => setValidate(true))
+      bsService.entity
+        .getEntityById(entityDid)
+        .then(() => setValidate(true))
+        .catch(() => setValidate(false))
     } else {
       setValidate(false)
     }
@@ -74,7 +84,7 @@ const SetupEditEntityModal: React.FC<Props> = ({ open, action, onClose, onSubmit
       onSubmit={onSubmit && handleConfirm}
       validate={validate}
     >
-      <FlexBox width='100%' height='100%' gap={4}>
+      <Body width='100%' height='100%' gap={4}>
         <ChainSelector chainId={chainId!} onChange={setChainId as any} />
         <Input
           name='entitydid'
@@ -90,7 +100,7 @@ const SetupEditEntityModal: React.FC<Props> = ({ open, action, onClose, onSubmit
           height='48px'
           style={SearchInputStyles}
         />
-      </FlexBox>
+      </Body>
     </SetupActionModalTemplate>
   )
 }
