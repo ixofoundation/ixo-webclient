@@ -164,21 +164,21 @@ const LinkedResourceSetupModal: React.FC<Props> = ({ linkedResource, open, onClo
           </FlexBox>
 
           <FlexBox direction='column' gap={4} width='100%' height='100%'>
-            {/* Display Name */}
-            <InputWithLabel
-              name='linked_resource_name'
-              height='48px'
-              label='Display Name'
-              inputValue={''}
-              style={{ fontWeight: 500 }}
-            />
-
             {/* Type of Resource */}
             <InputWithLabel
               name='linked_resource_type'
               height='48px'
               label='Type of Resource'
               inputValue={toTitleCase(formData.type)}
+              style={{ fontWeight: 500 }}
+            />
+
+            {/* Media Type */}
+            <InputWithLabel
+              name='linked_resource_media_type'
+              height='48px'
+              label='Media Type'
+              inputValue={formData.mediaType}
               style={{ fontWeight: 500 }}
             />
 

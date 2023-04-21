@@ -1,6 +1,6 @@
 import React from 'react'
-import { CheckBox, DateRangePicker, InputWithLabel, TextArea } from '../../../Components'
-import { FormWrapper, CountryDropDown } from './EntityDescriptionForm.styles'
+import { CheckBox, CountryDropDown, DateRangePicker, InputWithLabel, TextArea } from '../../../Components'
+import { FormWrapper } from './EntityDescriptionForm.styles'
 import 'react-dates/initialize'
 import { useEntityConfig } from 'hooks/configs'
 

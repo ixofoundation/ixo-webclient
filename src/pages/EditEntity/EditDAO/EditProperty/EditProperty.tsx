@@ -61,6 +61,7 @@ const EditProperty: React.FC = (): JSX.Element => {
     claim: entity.claim,
     accordedRight: entity.accordedRight,
     linkedEntity: entity.linkedEntity,
+    daoGroups: entity.daoGroups,
     updateCreator,
     updateAdministrator,
     updateDDOTags,

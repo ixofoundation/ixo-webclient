@@ -9,6 +9,7 @@ import { SetupLinkedEntity } from './SetupLinkedEntity'
 import { SetupService } from './SetupService'
 import { FlexBox } from 'components/App/App.styles'
 import {
+  TDAOGroupModel,
   TEntityAccordedRightModel,
   TEntityAdministratorModel,
   TEntityClaimModel1,
@@ -40,6 +41,7 @@ interface Props {
   claim: { [id: string]: TEntityClaimModel1 }
   accordedRight: { [key: string]: TEntityAccordedRightModel }
   linkedEntity: { [key: string]: TEntityLinkedEntityModel }
+  daoGroups?: { [id: string]: TDAOGroupModel }
   updateCreator: (creator: TEntityCreatorModel) => void
   updateAdministrator: (administrator: TEntityAdministratorModel) => void
   updateDDOTags: (ddoTags: TEntityDDOTagModel[]) => void
@@ -62,6 +64,7 @@ const PropertiesForm: React.FC<Props> = ({
   claim,
   accordedRight,
   linkedEntity,
+  daoGroups = {},
   updateCreator,
   updateAdministrator,
   updateDDOTags,
@@ -115,6 +118,7 @@ const PropertiesForm: React.FC<Props> = ({
 
   const LinkedEntityProps = {
     linkedEntity,
+    daoGroups,
     updateLinkedEntity,
   }
 

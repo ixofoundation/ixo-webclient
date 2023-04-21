@@ -1,59 +1,77 @@
-import { Box } from 'components/App/App.styles'
-import { AddLinkedEntityModal, LiquiditySetupModal } from 'components/Modals'
+import { Box, FlexBox } from 'components/App/App.styles'
+import { AddLinkedEntityModal } from 'components/Modals'
 import { Typography } from 'components/Typography'
 import { PropertyBox } from 'pages/CreateEntity/Components'
+import { Props as PropertyBoxProps } from 'pages/CreateEntity/Components/PropertyBox'
 import React, { useEffect, useState } from 'react'
-import { EntityLinkedEntityConfig, TEntityLinkedEntityModel, TEntityLiquidityModel } from 'types/protocol'
+import { EntityLinkedEntityConfig, DAOGroupConfig, TDAOGroupModel, TEntityLinkedEntityModel } from 'types/protocol'
 import { omitKey } from 'utils/objects'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
+import { toTitleCase } from 'utils/formatters'
+import { BlockSyncService } from 'services/blocksync'
+import { Service } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
+import { NodeType } from 'types/entities'
+
+const bsService = new BlockSyncService()
+
+const LinkedEntityPropertyBox = (props: PropertyBoxProps & { id: string }) => {
+  const [entityName, setEntityName] = useState('')
+
+  useEffect(() => {
+    if (props.id) {
+      bsService.entity
+        .getEntityById(props.id)
+        .then((response: any) => {
+          const { service, settings } = response
+          let url = ''
+          const [identifier, key] = settings.Profile.serviceEndpoint.split(':')
+          const usedService: Service | undefined = service.find((item: any) => item.id === `{id}#${identifier}`)
+
+          if (usedService && usedService.type === NodeType.Ipfs) {
+            url = `https://${key}.ipfs.w3s.link`
+          } else if (usedService && usedService.type === NodeType.CellNode) {
+            url = `${usedService.serviceEndpoint}${key}`
+          }
+
+          if (url) {
+            fetch(url)
+              .then((response) => response.json())
+              .then((profile) => {
+                console.log({ profile })
+                setEntityName(profile.name)
+              })
+          }
+        })
+        .catch(console.error)
+    }
+  }, [props.id])
+
+  return (
+    <FlexBox direction='column' alignItems='center' gap={4}>
+      <PropertyBox icon={props.icon} label={props.label} set={true} handleRemove={props.handleRemove} />
+      <Typography variant='secondary' overflowLines={1} style={{ width: 100, textAlign: 'center' }}>
+        &nbsp;{entityName}&nbsp;
+      </Typography>
+    </FlexBox>
+  )
+}
 
 interface Props {
   linkedEntity: { [key: string]: TEntityLinkedEntityModel }
+  daoGroups: { [id: string]: TDAOGroupModel }
   updateLinkedEntity: (linkedEntity: { [id: string]: TEntityLinkedEntityModel }) => void
 }
 
-const SetupLinkedEntity: React.FC<Props> = ({ linkedEntity, updateLinkedEntity }): JSX.Element => {
-  const [entityLinkedEntity, setEntityLinkedEntity] = useState<{ [key: string]: any }>({})
+const SetupLinkedEntity: React.FC<Props> = ({ linkedEntity, daoGroups, updateLinkedEntity }): JSX.Element => {
   const [openAddLinkedEntityModal, setOpenAddLinkedEntityModal] = useState(false)
 
-  // popups - linked entities modal
-  const handleOpenEntityLinkedEntityModal = (key: string, open: boolean): void => {
-    setEntityLinkedEntity((pre) => ({
-      ...pre,
-      [key]: {
-        ...pre[key],
-        openModal: open,
-      },
-    }))
-  }
-
   // entity linked entities
-  const handleAddLinkedEntity = (linkedEntity: TEntityLinkedEntityModel): void => {
-    setEntityLinkedEntity((pre) => ({
-      ...pre,
-      [linkedEntity.id]: linkedEntity,
-    }))
+  const handleAddLinkedEntity = (newData: TEntityLinkedEntityModel): void => {
+    updateLinkedEntity({ ...linkedEntity, [newData.id]: newData })
   }
-  const handleUpdateEntityLinkedEntity = (key: string, data: any): void => {
-    setEntityLinkedEntity((pre) => ({
-      ...pre,
-      [key]: { ...pre[key], data },
-    }))
+  const handleRemoveLinkedEntity = (id: string): void => {
+    updateLinkedEntity(omitKey({ ...linkedEntity }, id))
   }
-  const handleRemoveEntityLinkedEntity = (id: string): void => {
-    setEntityLinkedEntity((pre) => omitKey(pre, id))
-  }
-
-  // hooks - linkedEntity
-  useEffect(() => {
-    if (Object.values(linkedEntity).length > 0) {
-      setEntityLinkedEntity(linkedEntity)
-    }
-  }, [linkedEntity])
-  useEffect(() => {
-    updateLinkedEntity(entityLinkedEntity ?? {})
-    // eslint-disable-next-line
-  }, [entityLinkedEntity])
 
   return (
     <>
@@ -64,19 +82,36 @@ const SetupLinkedEntity: React.FC<Props> = ({ linkedEntity, updateLinkedEntity }
         <Box className='d-flex flex-wrap' style={{ gap: 20 }}>
           {Object.entries(linkedEntity).map(([key, value]) => {
             const { type } = value
-            const Icon = EntityLinkedEntityConfig[type]?.icon
-            const label = EntityLinkedEntityConfig[type]?.text || type
 
-            return (
-              <PropertyBox
-                key={key}
-                icon={Icon && <Icon />}
-                label={label}
-                set={!!value.id}
-                handleRemove={(): void => handleRemoveEntityLinkedEntity(key)}
-                handleClick={(): void => handleOpenEntityLinkedEntityModal(key, true)}
-              />
-            )
+            if (type === 'Group') {
+              /**
+               * @description case of dao group (smartContract)
+               */
+              const label = Object.values(daoGroups).find(({ contractAddress }) => contractAddress === key)?.type || ''
+              const name = Object.values(daoGroups).find(({ contractAddress }) => contractAddress === key)?.name || ''
+              const Icon = DAOGroupConfig[label]?.icon
+              return (
+                <FlexBox key={key} direction='column' alignItems='center' gap={4}>
+                  <PropertyBox icon={Icon && <Icon />} label={toTitleCase(label)} set={true} />
+                  <Typography variant='secondary' overflowLines={1} style={{ width: 100, textAlign: 'center' }}>
+                    &nbsp;{name}&nbsp;
+                  </Typography>
+                </FlexBox>
+              )
+            } else {
+              const Icon = EntityLinkedEntityConfig[type]?.icon
+              const label = EntityLinkedEntityConfig[type]?.text || type
+
+              return (
+                <LinkedEntityPropertyBox
+                  key={key}
+                  id={key}
+                  icon={Icon && <Icon />}
+                  label={label}
+                  handleRemove={() => handleRemoveLinkedEntity(key)}
+                />
+              )
+            }
           })}
           <PropertyBox icon={<PlusIcon />} noData handleClick={(): void => setOpenAddLinkedEntityModal(true)} />
         </Box>
@@ -86,14 +121,14 @@ const SetupLinkedEntity: React.FC<Props> = ({ linkedEntity, updateLinkedEntity }
         onClose={(): void => setOpenAddLinkedEntityModal(false)}
         onAdd={handleAddLinkedEntity}
       />
-      <LiquiditySetupModal
+      {/* <LiquiditySetupModal
         liquidity={entityLinkedEntity?.liquidity?.data}
         open={entityLinkedEntity?.liquidity?.openModal}
         onClose={(): void => handleOpenEntityLinkedEntityModal('liquidity', false)}
         handleChange={(liquidity: TEntityLiquidityModel[]): void =>
-          handleUpdateEntityLinkedEntity('liquidity', liquidity)
+          handleUpdateLinkedEntity('liquidity', liquidity)
         }
-      />
+      /> */}
     </>
   )
 }

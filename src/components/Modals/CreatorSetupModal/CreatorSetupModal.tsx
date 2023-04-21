@@ -6,7 +6,7 @@ import { ModalStyles, CloseButton } from 'components/Modals/styles'
 import { TEntityCreatorModel } from 'types/protocol'
 import { Box, FlexBox, theme } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
-import { Button, InputWithLabel, TextArea } from 'pages/CreateEntity/Components'
+import { Button, CountryDropDown, InputWithLabel, TextArea } from 'pages/CreateEntity/Components'
 import { FormData } from 'components/JsonForm/types'
 import { useDropzone } from 'react-dropzone'
 import ImageCropModal from '../ImageCropModal/ImageCropModal'
@@ -216,13 +216,13 @@ const CreatorSetupModal: React.FC<Props> = ({ creator, title, open, onClose, onC
               />
 
               {/* Country */}
-              <InputWithLabel
-                name='creator_location'
-                height='48px'
-                label='Country'
-                inputValue={formData?.location}
-                handleChange={(value) => handleFormDataChange('location', value)}
-                style={{ fontWeight: 500 }}
+              <CountryDropDown
+                value={formData?.location || ''}
+                onChange={(value) => handleFormDataChange('location', value)}
+                onBlur={(value) => handleFormDataChange('location', value)}
+                onFocus={() => {
+                  //
+                }}
               />
 
               {/* Identifier */}

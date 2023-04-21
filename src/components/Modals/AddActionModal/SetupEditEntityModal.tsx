@@ -51,6 +51,8 @@ const SetupEditEntityModal: React.FC<Props> = ({ open, action, onClose, onSubmit
   useEffect(() => {
     if (validateEntityDid(entityDid)) {
       bsService.entity.getEntityById(entityDid).then(() => setValidate(true))
+    } else {
+      setValidate(false)
     }
   }, [entityDid])
 

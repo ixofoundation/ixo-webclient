@@ -75,9 +75,14 @@ const Input: React.FC<Props> = ({
     handleChange && handleChange(newValue)
   }
   return (
-    <InputWrapper width={width} height={height} style={preIcon ? { ...wrapperStyle, paddingLeft: 32 } : wrapperStyle}>
+    <InputWrapper width={width} height={height} style={wrapperStyle}>
       {preIcon && <InputPreIcon>{preIcon}</InputPreIcon>}
-      <StyledInput value={inputValue ?? ''} onChange={onChange} {...rest} />
+      <StyledInput
+        value={inputValue ?? ''}
+        onChange={onChange}
+        {...rest}
+        style={preIcon ? { ...rest.style, paddingLeft: 40 } : { ...rest.style }}
+      />
     </InputWrapper>
   )
 }
