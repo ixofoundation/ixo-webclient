@@ -33,7 +33,7 @@ const ClaimTemplateCard: React.FC<ClaimTemplateProps> = ({ template, selected = 
     <Wrapper selected={selected} className='cursor-pointer' onClick={onClick}>
       {!template && (
         <Box className='d-flex align-items-center justify-content-center h-100'>
-          <Typography size='xl' color='gray-medium' weight='bold'>
+          <Typography size='xl' color='grey700' weight='bold'>
             Select a Protocol
           </Typography>
         </Box>
@@ -41,7 +41,7 @@ const ClaimTemplateCard: React.FC<ClaimTemplateProps> = ({ template, selected = 
       {template && (
         <Box className='d-flex flex-column h-100'>
           <Box>
-            <Typography color='gray-medium'>Service</Typography>
+            <Typography color='grey700'>Service</Typography>
           </Box>
           <Divider />
           <Box>
@@ -56,10 +56,10 @@ const ClaimTemplateCard: React.FC<ClaimTemplateProps> = ({ template, selected = 
           </Box>
           <Divider />
           <Box className='d-flex justify-content-between'>
-            <Typography color='gray-medium' size='sm'>
+            <Typography color='grey700' size='sm'>
               {template.creator}
             </Typography>
-            <Typography color='gray-medium' size='sm'>
+            <Typography color='grey700' size='sm'>
               Created {template.createdAt}
             </Typography>
           </Box>

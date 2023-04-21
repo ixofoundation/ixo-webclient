@@ -38,7 +38,7 @@ const ClaimProfileForm: React.FC<Props> = ({
           {setTitle ? (
             <InputWithLabel label='Claim Title' inputValue={title} handleChange={setTitle} />
           ) : (
-            <Typography color='gray-medium' size='xl' weight='bold'>
+            <Typography color='grey700' size='xl' weight='bold'>
               {title}
             </Typography>
           )}
@@ -53,7 +53,7 @@ const ClaimProfileForm: React.FC<Props> = ({
               height={'350px'}
             />
           ) : (
-            <Typography color='gray-medium' size='xl' weight='bold'>
+            <Typography color='grey700' size='xl' weight='bold'>
               {description}
             </Typography>
           )}

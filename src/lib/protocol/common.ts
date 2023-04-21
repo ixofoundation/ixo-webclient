@@ -1,4 +1,4 @@
-import { StdFee } from '@cosmjs/amino'
+import { StdFee } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/amino'
 
 export const RPC_ENDPOINT = process.env.REACT_APP_RPC_URL
 

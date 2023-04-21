@@ -23,7 +23,7 @@ const CreateEntityLayout: React.FC<Props> = ({ title, subtitle, breadCrumbs, chi
     return (
       <BreadCrumbs>
         {breadCrumbs.map((item, index) => (
-          <Typography key={index} variant='secondary' size='sm' color='gray-medium'>
+          <Typography key={index} variant='secondary' size='sm' color='grey700'>
             {item.link ? <NavLink to={item.link}> {item.text}</NavLink> : item.text}
             &nbsp;&gt;&nbsp;
           </Typography>

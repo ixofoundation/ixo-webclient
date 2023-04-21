@@ -1,6 +1,5 @@
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
-import * as base58 from 'bs58'
-import { SigningStargateClient, utils } from '@ixo/impactxclient-sdk'
+import { SigningStargateClient } from '@ixo/impactxclient-sdk'
 import {
   selectAccountSelectedWallet,
   selectAccountAddress,
@@ -9,7 +8,6 @@ import {
   selectAccountKeyType,
   selectAccountDid,
   selectAccountBalances,
-  selectAccountChooseWalletOpen,
   selectAccountName,
   selectAccountRegistered,
   selectAccountCosmWasmClient,
@@ -19,7 +17,6 @@ import {
   chooseWalletAction,
   updateAddressAction,
   updateBalancesAction,
-  updateChooseWalletOpenAction,
   updateCosmWasmAction,
   updateDidAction,
   updateNameAction,
@@ -47,10 +44,9 @@ export function useAccount(): {
   balances: Coin[]
   name: string
   registered: boolean | undefined
-  chooseWalletOpen: boolean
   signer: TSigner
   offlineSigner: OfflineSigner
-  updateKeplrLoginStatus: () => Promise<void>
+  // updateKeplrLoginStatus: () => Promise<void>
   updateBalances: () => Promise<void>
   chooseWallet: (wallet: WalletType | undefined) => void
   updateSigningClient: (signingClient: SigningStargateClient) => void
@@ -60,7 +56,6 @@ export function useAccount(): {
   updatePubKey: (pubKey: string) => void
   updateAddress: (address: string) => void
   updateName: (name: string) => void
-  updateChooseWalletOpen: (open: boolean) => void
 } {
   const dispatch = useAppDispatch()
   const keplr = useKeplr()
@@ -75,7 +70,6 @@ export function useAccount(): {
   const name: string = useAppSelector(selectAccountName)
   const balances: Coin[] = useAppSelector(selectAccountBalances)
   const registered: boolean | undefined = useAppSelector(selectAccountRegistered)
-  const chooseWalletOpen: boolean = useAppSelector(selectAccountChooseWalletOpen)
   const signer: TSigner = { address, did, pubKey: pubKeyUint8!, keyType }
   const offlineSigner: OfflineSigner = useMemo(() => {
     if (selectedWallet === WalletType.Keysafe) {
@@ -122,31 +116,28 @@ export function useAccount(): {
   const updateName = (name: string): void => {
     dispatch(updateNameAction(name))
   }
-  const updateChooseWalletOpen = (open: boolean): void => {
-    dispatch(updateChooseWalletOpenAction(open))
-  }
 
-  const updateKeplrLoginStatus = async (): Promise<void> => {
-    try {
-      const key = await keplr.getKey()
-      if (key?.name) {
-        updateName(key.name)
-      }
-      if (key?.bech32Address) {
-        updateAddress(key.bech32Address)
-      }
-      if (key?.pubKey) {
-        const pubKey = base58.encode(key.pubKey)
-        updatePubKey(pubKey)
-        const did = utils.did.generateSecpDid(pubKey)
-        if (did) {
-          updateDid(did)
-        }
-      }
-    } catch (e) {
-      console.error('updateKeplrLoginStatus:', e)
-    }
-  }
+  // const updateKeplrLoginStatus = async (): Promise<void> => {
+  //   try {
+  //     const key = await keplr.getKey()
+  //     if (key?.name) {
+  //       updateName(key.name)
+  //     }
+  //     if (key?.bech32Address) {
+  //       updateAddress(key.bech32Address)
+  //     }
+  //     if (key?.pubKey) {
+  //       const pubKey = base58.encode(key.pubKey)
+  //       updatePubKey(pubKey)
+  //       const did = utils.did.generateSecpDid(pubKey)
+  //       if (did) {
+  //         updateDid(did)
+  //       }
+  //     }
+  //   } catch (e) {
+  //     console.error('updateKeplrLoginStatus:', e)
+  //   }
+  // }
 
   return {
     selectedWallet,
@@ -160,10 +151,9 @@ export function useAccount(): {
     balances,
     name,
     registered,
-    chooseWalletOpen,
     signer,
     offlineSigner,
-    updateKeplrLoginStatus,
+    // updateKeplrLoginStatus,
     updateBalances,
     chooseWallet,
     updateSigningClient,
@@ -173,6 +163,5 @@ export function useAccount(): {
     updatePubKey,
     updateAddress,
     updateName,
-    updateChooseWalletOpen,
   }
 }

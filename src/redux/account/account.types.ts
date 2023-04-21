@@ -95,7 +95,6 @@ export interface AccountState {
   signingClient: SigningStargateClient // signingClient
   cosmWasmClient: SigningCosmWasmClient // signingClient
   did: string
-  chooseWalletOpen: boolean
 }
 
 export enum AgentRole {
@@ -146,7 +145,6 @@ export enum AccountActions {
   UpdateSigningClient = 'ixo/Account/UPDATE_SIGNING_CLIENT',
   UpdateCosmWasmClient = 'ixo/Account/UPDATE_COSMWASM_CLIENT',
   UpdateDid = 'ixo/Account/UPDATE_DID',
-  UpdateChooseWalletOpen = 'ixo/Account/UPDATE_CHOOSE_WALLET_OPEN',
 }
 
 export interface LoginAction {
@@ -266,10 +264,6 @@ export interface UpdateDidAction {
   type: typeof AccountActions.UpdateDid
   payload: string
 }
-export interface UpdateChooseWalletOpenAction {
-  type: typeof AccountActions.UpdateChooseWalletOpen
-  payload: boolean
-}
 
 export type AccountActionTypes =
   | LoginAction
@@ -295,4 +289,3 @@ export type AccountActionTypes =
   | UpdateSigningClientAction
   | UpdateCosmWasmClientAction
   | UpdateDidAction
-  | UpdateChooseWalletOpenAction

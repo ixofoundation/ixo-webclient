@@ -5,7 +5,7 @@ import { DAODashboard } from './DAODashboard'
 
 const DashboardPage: React.FC = (): JSX.Element | null => {
   const { entityType } = useCurrentEntity()
-  const { address, updateChooseWalletOpen } = useAccount()
+  const { address } = useAccount()
 
   const Component = useMemo(() => {
     switch (entityType) {
@@ -18,7 +18,7 @@ const DashboardPage: React.FC = (): JSX.Element | null => {
 
   useEffect(() => {
     if (!address) {
-      updateChooseWalletOpen(true)
+      console.error('Dashboard', { address })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address])

@@ -95,7 +95,7 @@ const NodeCard: React.FunctionComponent<Props> = React.forwardRef(
       type: {
         'ui:placeholder': 'Select a Service',
       },
-      nodeId: { 'ui:placeholder': 'Identifier' },
+      nodeId: { 'ui:placeholder': 'cellnode' },
       serviceEndpoint: {
         'ui:placeholder': 'Valid URL or IP',
       },

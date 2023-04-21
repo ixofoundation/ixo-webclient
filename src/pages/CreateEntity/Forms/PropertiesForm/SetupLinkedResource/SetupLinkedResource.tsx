@@ -2,11 +2,22 @@ import { Box } from 'components/App/App.styles'
 import { AddLinkedResourceModal, LinkedResourceSetupModal } from 'components/Modals'
 import { Typography } from 'components/Typography'
 import { PropertyBox } from 'pages/CreateEntity/Components'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { EntityLinkedResourceConfig, TEntityLinkedResourceModel } from 'types/protocol'
 import { omitKey } from 'utils/objects'
 import { v4 as uuidv4 } from 'uuid'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
+
+const initialLinkedResource = {
+  id: '',
+  type: '',
+  description: '',
+  mediaType: '',
+  serviceEndpoint: '',
+  proof: '',
+  encrypted: '',
+  right: '',
+}
 
 interface Props {
   linkedResource: { [id: string]: TEntityLinkedResourceModel }
@@ -14,38 +25,20 @@ interface Props {
 }
 
 const SetupLinkedResource: React.FC<Props> = ({ linkedResource, updateLinkedResource }): JSX.Element => {
-  const [entityLinkedResource, setEntityLinkedResource] = useState<{
-    [key: string]: any
-  }>({})
   const [openAddLinkedResourceModal, setOpenAddLinkedResourceModal] = useState(false)
-  const [selected, setSelected] = useState('')
+  const [selectedId, setSelectedId] = useState('')
 
-  // entity linked resources
-  const handleAddEntityLinkedResource = (type: string): void => {
+  const handleAddLinkedResource = (type: string): void => {
     const id = uuidv4()
-    setEntityLinkedResource((pre) => ({
-      ...pre,
-      [id]: { id, type, path: '', name: '', description: '' },
-    }))
-    setSelected(id)
+    updateLinkedResource({ ...linkedResource, [id]: { ...initialLinkedResource, id, type } })
+    setSelectedId(id)
   }
-  const handleUpdateEntityLinkedResource = (id: string, data: TEntityLinkedResourceModel): void => {
-    setEntityLinkedResource((pre) => ({ ...pre, [id]: data }))
+  const handleUpdateLinkedResource = (id: string, data: TEntityLinkedResourceModel): void => {
+    updateLinkedResource({ ...linkedResource, [id]: data })
   }
-  const handleRemoveEntityLinkedResource = (id: string): void => {
-    setEntityLinkedResource((pre) => omitKey(pre, id))
+  const handleRemoveLinkedResource = (id: string): void => {
+    updateLinkedResource(omitKey({ ...linkedResource }, id))
   }
-
-  // hooks - linkedResource
-  useEffect(() => {
-    if (Object.values(linkedResource).length > 0) {
-      setEntityLinkedResource(linkedResource)
-    }
-  }, [linkedResource])
-  useEffect(() => {
-    updateLinkedResource(entityLinkedResource ?? {})
-    // eslint-disable-next-line
-  }, [entityLinkedResource])
 
   return (
     <>
@@ -54,16 +47,18 @@ const SetupLinkedResource: React.FC<Props> = ({ linkedResource, updateLinkedReso
           Linked Resources
         </Typography>
         <Box className='d-flex flex-wrap' style={{ gap: 20 }}>
-          {Object.entries(entityLinkedResource).map(([key, value]) => {
+          {Object.entries(linkedResource).map(([key, value]) => {
             const Icon = EntityLinkedResourceConfig[value.type]?.icon
+            const label = EntityLinkedResourceConfig[value.type]?.text || value.type
+
             return (
               <PropertyBox
                 key={key}
                 icon={Icon && <Icon />}
-                label={value.name ?? value.text}
-                set={value.name}
-                handleRemove={(): void => handleRemoveEntityLinkedResource(key)}
-                handleClick={(): void => setSelected(key)}
+                label={label}
+                set={!!value.serviceEndpoint}
+                handleRemove={(): void => handleRemoveLinkedResource(key)}
+                handleClick={(): void => setSelectedId(key)}
               />
             )
           })}
@@ -73,26 +68,15 @@ const SetupLinkedResource: React.FC<Props> = ({ linkedResource, updateLinkedReso
       <AddLinkedResourceModal
         open={openAddLinkedResourceModal}
         onClose={(): void => setOpenAddLinkedResourceModal(false)}
-        onChange={handleAddEntityLinkedResource}
+        onAdd={handleAddLinkedResource}
       />
-      {/* {Object.entries(entityLinkedResource)
-        .filter(([, value]) => !value.required)
-        .map(([key, value]) => (
-          <LinkedResourceSetupModal
-            key={key}
-            linkedResource={value}
-            open={!!value?.openModal}
-            onClose={(): void => setSelected('')}
-            onChange={(linkedResource: any): void => handleUpdateEntityLinkedResource(key, linkedResource)}
-          />
-        ))} */}
 
-      {!!entityLinkedResource[selected] && (
+      {selectedId && (
         <LinkedResourceSetupModal
-          linkedResource={entityLinkedResource[selected]}
-          open={!!entityLinkedResource[selected]}
-          onClose={(): void => setSelected('')}
-          onChange={(linkedResource: any): void => handleUpdateEntityLinkedResource(selected, linkedResource)}
+          linkedResource={linkedResource[selectedId]}
+          open={!!selectedId}
+          onClose={(): void => setSelectedId('')}
+          onChange={(linkedResource: any): void => handleUpdateLinkedResource(selectedId, linkedResource)}
         />
       )}
     </>

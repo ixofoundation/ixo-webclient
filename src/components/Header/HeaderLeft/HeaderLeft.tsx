@@ -23,7 +23,6 @@ import {
 import { useAppSelector } from 'redux/hooks'
 import {
   selectEntityConfig,
-  selectEntityHeaderButtonColorUIConfig,
   selectEntityHeaderUIConfig,
   selectEntityLogoConfig,
 } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
@@ -38,7 +37,6 @@ export const HeaderLeft: React.FC<ParentProps> = (props) => {
   const entityTypeMap: any = useAppSelector(selectEntityConfig)
   const headerUIConfig: any = useAppSelector(selectEntityHeaderUIConfig)
   const logoConfig = useAppSelector(selectEntityLogoConfig)
-  const buttonColor: string = useAppSelector(selectEntityHeaderButtonColorUIConfig)
 
   const logoLink = React.useMemo(() => {
     if (!headerUIConfig || !headerUIConfig.link) {
@@ -53,12 +51,7 @@ export const HeaderLeft: React.FC<ParentProps> = (props) => {
     if (inHeader) {
       return (
         <Fragment>
-          <HeaderLink
-            exact={true}
-            // to={`/entities/select?type=${props.currentEntity}&sector=all`}
-            to={splashIsRootRoute ? '/explore' : '/'}
-            color={buttonColor}
-          >
+          <HeaderLink exact={true} to={splashIsRootRoute ? '/explore' : '/'}>
             Explore
           </HeaderLink>
           <MediaQuery minWidth={`${deviceWidth.desktop}px`}>
@@ -78,7 +71,6 @@ export const HeaderLeft: React.FC<ParentProps> = (props) => {
               exact={true}
               to={splashIsRootRoute ? '/explore' : '/'}
               onClick={props.handleBurgerClick}
-              color={buttonColor}
             >
               Explore
             </MenuHeaderLink>

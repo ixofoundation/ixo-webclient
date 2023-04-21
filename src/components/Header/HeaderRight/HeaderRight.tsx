@@ -1,19 +1,4 @@
-import CopyToClipboard from 'react-copy-to-clipboard'
-import {
-  AccDID,
-  ConnectButton,
-  Inner,
-  // LoginLink,
-  MenuBottom,
-  MenuTop,
-  NoPadLeft,
-  RedIcon,
-  StatusBox,
-  StatusText,
-  UserBox,
-  UserMenu,
-} from './HeaderRight.styles'
-import { useState } from 'react'
+import { ConnectButton, Inner, NoPadLeft, StatusBox, StatusText, UserBox } from './HeaderRight.styles'
 import { useAccount } from 'hooks/account'
 import { useAppSelector } from 'redux/hooks'
 import { selectEntityHeaderButtonColorUIConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
@@ -30,14 +15,11 @@ const HeaderRight: React.FC<HeaderRightProps> = ({ toggleModal }): JSX.Element =
   const buttonColor: string = useAppSelector(selectEntityHeaderButtonColorUIConfig)
   const { address, name, registered } = useAccount()
   const { connect } = useWalletManager()
-  const [showMenu, setShowMenu] = useState(false)
 
-  const toggleMenu = (): void => {
-    setShowMenu(!showMenu)
-  }
-
-  const toggleWalletChooseModal = (): void => {
-    connect()
+  const onClickConnectInfo = (): void => {
+    if (!registered) {
+      toggleModal(true)
+    }
   }
 
   const renderLightIndicator = (): JSX.Element => {
@@ -66,13 +48,13 @@ const HeaderRight: React.FC<HeaderRightProps> = ({ toggleModal }): JSX.Element =
               <StatusText>{!address ? 'Not Connected' : 'Connected'}</StatusText>
             </StatusBox>
             {!address ? (
-              <ConnectButton onClick={toggleWalletChooseModal}>
+              <ConnectButton onClick={connect}>
                 <Typography variant='secondary' size='md'>
                   Connect
                 </Typography>
               </ConnectButton>
             ) : (
-              <ConnectButton onClick={toggleWalletChooseModal}>
+              <ConnectButton onClick={onClickConnectInfo}>
                 <Typography variant='secondary' size='md'>
                   {truncateString(name, 8, 'end')}
                 </Typography>
@@ -83,25 +65,6 @@ const HeaderRight: React.FC<HeaderRightProps> = ({ toggleModal }): JSX.Element =
             )}
           </UserBox>
         </Inner>
-        <UserMenu className={showMenu ? 'visible' : ''} onMouseLeave={toggleMenu}>
-          <MenuTop>
-            <AccDID>
-              <p>{address}</p>
-              <CopyToClipboard text={address!}>
-                <span>Copy</span>
-              </CopyToClipboard>
-            </AccDID>
-          </MenuTop>
-          {registered === false && (
-            <MenuBottom>
-              <RedIcon />
-              <p>
-                Ledger your credentials on the ixo blockchain{' '}
-                <span onClick={(): void => toggleModal(true)}>Sign now</span>
-              </p>
-            </MenuBottom>
-          )}
-        </UserMenu>
       </NoPadLeft>
     </>
   )

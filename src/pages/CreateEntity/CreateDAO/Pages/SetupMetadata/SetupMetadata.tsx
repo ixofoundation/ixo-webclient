@@ -12,7 +12,7 @@ const SetupMetadata: React.FC = (): JSX.Element => {
   const metadata: TDAOMetadataModel = createEntityState.metadata as TDAOMetadataModel
 
   const canSubmit: boolean = useMemo(
-    () => !!metadata && !!metadata.image && !!metadata.orgName && !!metadata.name,
+    () => !!metadata && !!metadata.image && !!metadata.icon && !!metadata.orgName && !!metadata.name,
     [metadata],
   )
 
@@ -43,6 +43,8 @@ const SetupMetadata: React.FC = (): JSX.Element => {
         <DAOProfileForm
           image={metadata?.image}
           setImage={(image): void => handleUpdateMetadata('image', image)}
+          logo={metadata?.icon}
+          setLogo={(logo): void => handleUpdateMetadata('icon', logo)}
           orgName={metadata?.orgName ?? ''}
           setOrgName={(orgName): void => handleUpdateMetadata('orgName', orgName)}
           name={metadata?.name ?? ''}

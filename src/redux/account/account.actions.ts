@@ -20,7 +20,6 @@ import {
   UpdatePubKeyAction,
   UpdateSigningClientAction,
   UpdateDidAction,
-  UpdateChooseWalletOpenAction,
   UpdateCosmWasmClientAction,
 } from './account.types'
 import { RootState } from 'redux/store'
@@ -371,12 +370,5 @@ export const updateDidAction = (did: string): UpdateDidAction => {
   return {
     type: AccountActions.UpdateDid,
     payload: did,
-  }
-}
-
-export const updateChooseWalletOpenAction = (open: boolean): UpdateChooseWalletOpenAction => {
-  return {
-    type: AccountActions.UpdateChooseWalletOpen,
-    payload: open,
   }
 }

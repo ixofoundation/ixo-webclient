@@ -45,7 +45,7 @@ import { ValidatorActionsData, ValidatorActionType } from 'components/Modals/Add
 import { MsgWithdrawValidatorCommission } from '@ixo/impactxclient-sdk/types/codegen/cosmos/distribution/v1beta1/tx'
 import { MsgUnjail } from '@ixo/impactxclient-sdk/types/codegen/cosmos/slashing/v1beta1/tx'
 import { PerformTokenSwapData } from 'components/Modals/AddActionModal/SetupTokenSwapModal'
-import { coins } from '@cosmjs/amino'
+import { coins } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/amino'
 import { DaoAdminExecData } from 'components/Modals/AddActionModal/SetupDAOAdminExecuteModal'
 import { useIxoConfigs } from 'hooks/configs'
 import { useCurrentDaoGroup } from './currentDao'

@@ -52,8 +52,6 @@ const SetupSettings: React.FC<Props> = ({
   const [entitySettings, setEntitySettings] = useState<{ [key: string]: any }>(EntitySettingsConfig)
   const [openAddSettingsModal, setOpenAddSettingsModal] = useState(false)
 
-  console.log({ entitySettings })
-
   const handleOpenEntitySettingModal = (key: string, open: boolean): void => {
     setEntitySettings((pre: any) => ({
       ...pre,

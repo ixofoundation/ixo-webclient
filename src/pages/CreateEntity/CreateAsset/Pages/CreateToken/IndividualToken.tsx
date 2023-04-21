@@ -10,7 +10,7 @@ import {
   ServiceSetupModal,
 } from 'components/Modals'
 import { omitKey } from 'utils/objects'
-import { v4 as uuidv4 } from 'uuid'
+// import { v4 as uuidv4 } from 'uuid'
 import { Box, theme } from 'components/App/App.styles'
 import { Button } from 'pages/CreateEntity/Components'
 import React, { useEffect, useState } from 'react'
@@ -153,11 +153,11 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
   }
   // entity linked resources
   const handleAddEntityLinkedResource = (type: string): void => {
-    const id = uuidv4()
-    setEntityLinkedResource((pre) => ({
-      ...pre,
-      [id]: { id, type, path: '', name: '', description: '' },
-    }))
+    // const id = uuidv4()
+    // setEntityLinkedResource((pre) => ({
+    //   ...pre,
+    //   [id]: { id, type, path: '', name: '', description: '' },
+    // }))
   }
   const handleUpdateEntityLinkedResource = (id: string, data: TEntityLinkedResourceModel): void => {
     setEntityLinkedResource((pre) => ({ ...pre, [id]: data }))
@@ -201,7 +201,7 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
       <Typography
         weight='medium'
         size='xl'
-        color={metaView === 'description' ? 'blue' : 'color-1'}
+        color={metaView === 'description' ? 'blue' : 'dark-blue'}
         onClick={(): void => setMetaView('description')}
       >
         Description
@@ -209,7 +209,7 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
       <Typography
         weight='medium'
         size='xl'
-        color={metaView === 'metrics' ? 'blue' : 'color-1'}
+        color={metaView === 'metrics' ? 'blue' : 'dark-blue'}
         onClick={(): void => setMetaView('metrics')}
       >
         Metrics
@@ -217,7 +217,7 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
       <Typography
         weight='medium'
         size='xl'
-        color={metaView === 'attributes' ? 'blue' : 'color-1'}
+        color={metaView === 'attributes' ? 'blue' : 'dark-blue'}
         onClick={(): void => setMetaView('attributes')}
       >
         Attributes
@@ -274,12 +274,12 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
               </Box>
               <PropertyBox
                 size={90}
-                bgColor={(!!value.name && theme.ixoNewBlue) || undefined}
+                bgColor={(!!value.type && theme.ixoNewBlue) || undefined}
                 onClick={(): void => handleOpenEntityLinkedResourceModal(key, true)}
               >
                 {Icon && <Icon />}
                 <Typography weight='bold' size='md' color={'white'}>
-                  {value.name}
+                  {value.type}
                 </Typography>
               </PropertyBox>
             </PropertyBoxWrapper>
@@ -432,7 +432,7 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
       <AddLinkedResourceModal
         open={openAddLinkedResourceModal}
         onClose={(): void => setOpenAddLinkedResourceModal(false)}
-        onChange={handleAddEntityLinkedResource}
+        onAdd={handleAddEntityLinkedResource}
       />
     </Wrapper>
   )

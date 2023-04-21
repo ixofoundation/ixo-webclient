@@ -44,7 +44,7 @@ const ReviewDAO: React.FC = (): JSX.Element => {
           </Typography>
           <Typography variant='secondary'>
             When you are ready to commit, sign with your DID Account keys, or{' '}
-            <Typography variant='secondary' color='blue'>
+            <Typography variant='secondary' color='black'>
               connect a different account
             </Typography>{' '}
             as the DAO Creator.

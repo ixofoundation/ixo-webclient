@@ -29,7 +29,7 @@ export const TokenMetadata = ({ description, brand, metrics, attributes }: any):
           <Typography
             key={item}
             className='cursor-pointer'
-            color={item === tab ? 'blue' : 'color-1'}
+            color={item === tab ? 'blue' : 'dark-blue'}
             weight='medium'
             onClick={(): void => setTab(item)}
           >
@@ -39,13 +39,13 @@ export const TokenMetadata = ({ description, brand, metrics, attributes }: any):
       </TokenMetadataTabs>
       {tab === 'Context' && (
         <>
-          <Typography color='gray-medium' size='xs' style={{ marginBottom: 8 }}>
+          <Typography color='grey700' size='xs' style={{ marginBottom: 8 }}>
             {description}
           </Typography>
-          <Typography color='gray-medium' size='xs'>
+          <Typography color='grey700' size='xs'>
             Creator: {brand}
           </Typography>
-          <Typography color='gray-medium' size='xs'>
+          <Typography color='grey700' size='xs'>
             Minted: {new Date().toLocaleDateString()}
           </Typography>
         </>
@@ -54,10 +54,10 @@ export const TokenMetadata = ({ description, brand, metrics, attributes }: any):
         <ul>
           {metrics?.map((metric: any, index: any) => (
             <li key={index}>
-              <Typography size='xs' color='gray-medium' weight='semi-bold'>
+              <Typography size='xs' color='grey700' weight='semi-bold'>
                 {metric.source}
               </Typography>{' '}
-              <Typography size='xs' color='gray-medium'>
+              <Typography size='xs' color='grey700'>
                 {metric.name}
               </Typography>
             </li>
@@ -68,11 +68,11 @@ export const TokenMetadata = ({ description, brand, metrics, attributes }: any):
         <ul>
           {attributes?.map(({ key, value }: any, index: any) => (
             <li key={index}>
-              <Typography size='xs' color='gray-medium'>
+              <Typography size='xs' color='grey700'>
                 {key}
               </Typography>
               {': '}
-              <Typography size='xs' color='gray-medium' weight='semi-bold'>
+              <Typography size='xs' color='grey700' weight='semi-bold'>
                 {value}
               </Typography>
             </li>

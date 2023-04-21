@@ -28,10 +28,10 @@ const SetupLinkedEntity: React.FC<Props> = ({ linkedEntity, updateLinkedEntity }
   }
 
   // entity linked entities
-  const handleAddEntityLinkedEntity = (key: string): void => {
+  const handleAddLinkedEntity = (linkedEntity: TEntityLinkedEntityModel): void => {
     setEntityLinkedEntity((pre) => ({
       ...pre,
-      [key]: { ...EntityLinkedEntityConfig[key] },
+      [linkedEntity.id]: linkedEntity,
     }))
   }
   const handleUpdateEntityLinkedEntity = (key: string, data: any): void => {
@@ -63,14 +63,16 @@ const SetupLinkedEntity: React.FC<Props> = ({ linkedEntity, updateLinkedEntity }
         </Typography>
         <Box className='d-flex flex-wrap' style={{ gap: 20 }}>
           {Object.entries(linkedEntity).map(([key, value]) => {
-            const Icon = EntityLinkedEntityConfig[key]?.icon
-            const label = EntityLinkedEntityConfig[key]?.text || value?.type
+            const { type } = value
+            const Icon = EntityLinkedEntityConfig[type]?.icon
+            const label = EntityLinkedEntityConfig[type]?.text || type
+
             return (
               <PropertyBox
                 key={key}
                 icon={Icon && <Icon />}
                 label={label}
-                set={!!value?.id}
+                set={!!value.id}
                 handleRemove={(): void => handleRemoveEntityLinkedEntity(key)}
                 handleClick={(): void => handleOpenEntityLinkedEntityModal(key, true)}
               />
@@ -82,7 +84,7 @@ const SetupLinkedEntity: React.FC<Props> = ({ linkedEntity, updateLinkedEntity }
       <AddLinkedEntityModal
         open={openAddLinkedEntityModal}
         onClose={(): void => setOpenAddLinkedEntityModal(false)}
-        handleChange={handleAddEntityLinkedEntity}
+        onAdd={handleAddLinkedEntity}
       />
       <LiquiditySetupModal
         liquidity={entityLinkedEntity?.liquidity?.data}

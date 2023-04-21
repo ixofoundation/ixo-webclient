@@ -84,12 +84,8 @@ export const selectAccountCosmWasmClient = createSelector(
 
 export const selectAccountKeyType = createSelector(
   selectAccountState,
-  (account: AccountState): KeyTypes => (account?.selectedWallet === WalletType.Keplr ? 'secp' : 'ed'),
+  // (account: AccountState): KeyTypes => (account?.selectedWallet === WalletType.Keplr ? 'secp' : 'ed'),
+  (): KeyTypes => 'secp',
 )
 
 export const selectAccountDid = createSelector(selectAccountState, (account: AccountState): string => account?.did)
-
-export const selectAccountChooseWalletOpen = createSelector(
-  selectAccountState,
-  (account: AccountState): boolean => account?.chooseWalletOpen,
-)

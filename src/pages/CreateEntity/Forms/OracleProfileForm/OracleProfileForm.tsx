@@ -39,7 +39,7 @@ const OracleProfileForm: React.FC<Props> = ({
           {setOrgName ? (
             <InputWithLabel label='Organisation Name' inputValue={orgName} handleChange={setOrgName} />
           ) : (
-            <Typography color='gray-medium' size='xl' weight='bold'>
+            <Typography color='grey700' size='xl' weight='bold'>
               {orgName}
             </Typography>
           )}
@@ -48,7 +48,7 @@ const OracleProfileForm: React.FC<Props> = ({
           {setName ? (
             <InputWithLabel label='Oracle Name' inputValue={name} handleChange={setName} />
           ) : (
-            <Typography color='gray-medium' size='xl' weight='bold'>
+            <Typography color='grey700' size='xl' weight='bold'>
               {name}
             </Typography>
           )}

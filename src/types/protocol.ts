@@ -22,8 +22,6 @@ import { ReactComponent as ProjectIcon } from 'assets/images/icon-project.svg'
 import { ReactComponent as OracleIcon } from 'assets/images/icon-oracle.svg'
 import { ReactComponent as EntityIcon } from 'assets/images/icon-entity.svg'
 import { ReactComponent as AssetIcon } from 'assets/images/icon-asset.svg'
-import { ReactComponent as CircleIcon } from 'assets/images/icon-circle.svg'
-import { ReactComponent as HTMLTagIcon } from 'assets/images/icon-html-tag.svg'
 import { ReactComponent as AlphaBondIcon } from 'assets/images/icon-alphabond.svg'
 import { ReactComponent as LBPIcon } from 'assets/images/icon-lbp.svg'
 import { ReactComponent as QuadraticIcon } from 'assets/images/icon-quadratic.svg'
@@ -84,7 +82,7 @@ import UploadAudio from 'assets/icons/UploadAudio'
 import UploadVideo from 'assets/icons/UploadVideo'
 import SelectPicture from 'assets/icons/SelectPicture'
 import Currency from 'assets/icons/Currency'
-import { LinkedEntity, Service } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
+import { LinkedEntity, LinkedResource, Service } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { OutputBlockData } from '@editorjs/editorjs'
 import { ControlType, Type } from 'components/JsonForm/types'
 import { UpdatePreProposeConfigData } from 'components/Modals/AddActionModal/SetupUpdateProposalSubmissionConfigModal'
@@ -128,46 +126,57 @@ export const EntityLinkedResourceConfig: { [key: string]: any } = {
   image: {
     text: 'Media',
     icon: ImageIcon,
+    accept: { 'image/*': [] },
   },
   text: {
     text: 'Text',
     icon: TextIcon,
+    accept: { 'text/*': [] },
   },
   database: {
     text: 'Database',
     icon: DatabaseIcon,
+    accept: { 'image/*': [] },
   },
   verifiableCredential: {
     text: 'Verifiable Credential',
     icon: CredentialIcon,
+    accept: { 'image/*': [] },
   },
   authorisation: {
     text: 'Authorisation',
     icon: AuthorisationIcon,
+    accept: { 'image/*': [] },
   },
   website: {
     text: 'Website',
     icon: GlobeIcon,
+    accept: { 'image/*': [] },
   },
   algorithm: {
     text: 'Algorithm',
     icon: AlgorithmIcon,
+    accept: { 'image/*': [] },
   },
   smartContract: {
     text: 'Smart Contract',
     icon: SmartContractIcon,
+    accept: { 'image/*': [] },
   },
   claims: {
     text: 'Claims',
     icon: ClaimIcon,
+    accept: { 'image/*': [] },
   },
   dashboard: {
     text: 'Dashboard',
     icon: DashboardIcon,
+    accept: { 'image/*': [] },
   },
   document: {
     text: 'Document',
     icon: DocumentIcon,
+    accept: { 'image/*': [] },
   },
 }
 
@@ -191,38 +200,42 @@ export const EntityAccordedRightConfig = {
 }
 
 export const EntityLinkedEntityConfig = {
-  investment: {
-    text: 'Investment',
-    icon: InvestmentIcon,
+  dao: {
+    text: 'DAO',
+    icon: DAOIcon,
   },
   project: {
     text: 'Project',
     icon: ProjectIcon,
   },
-  oracle: {
-    text: 'Oracle',
-    icon: OracleIcon,
+  asset: {
+    text: 'Asset',
+    icon: AssetIcon,
   },
   protocol: {
     text: 'Protocol',
     icon: EntityIcon,
   },
-  asset: {
-    text: 'Asset',
-    icon: AssetIcon,
-  },
-  paymentTemplate: {
-    text: 'Payment Template',
-    icon: CircleIcon,
-  },
-  smartContract: {
-    text: 'Smart Contract',
-    icon: HTMLTagIcon,
-  },
-  liquidity: {
-    text: 'Liquidity',
+  investment: {
+    text: 'Investment',
     icon: InvestmentIcon,
   },
+  oracle: {
+    text: 'Oracle',
+    icon: OracleIcon,
+  },
+  // paymentTemplate: {
+  //   text: 'Payment Template',
+  //   icon: CircleIcon,
+  // },
+  // smartContract: {
+  //   text: 'Smart Contract',
+  //   icon: HTMLTagIcon,
+  // },
+  // liquidity: {
+  //   text: 'Liquidity',
+  //   icon: InvestmentIcon,
+  // },
 }
 
 export const InvestmentInstrumentsConfig: { [key: string]: any } = {
@@ -606,13 +619,7 @@ export interface TEntityPaymentModel {
 }
 
 // TODO:
-export interface TEntityLinkedResourceModel {
-  id?: string
-  type: string
-  path: string //  url
-  name: string
-  description: string
-}
+export type TEntityLinkedResourceModel = LinkedResource
 
 // TODO: add more fields
 export interface TEntityAccordedRightModel {
@@ -621,17 +628,7 @@ export interface TEntityAccordedRightModel {
   data: any
 }
 
-// TODO: add more fields
 export type TEntityLinkedEntityModel = LinkedEntity
-
-// TODO: propertyModel
-export interface TEntityPropertyModel {
-  text?: string
-  icon?: React.FC<React.SVGProps<SVGElement>>
-  openModal?: boolean
-  data?: any
-  disabled?: boolean
-}
 
 // TODO:
 export interface TClaimTemplate {

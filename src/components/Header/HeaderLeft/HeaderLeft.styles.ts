@@ -2,8 +2,8 @@ import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
 import { deviceWidth } from 'constants/device'
 
-export const HeaderLink = styled(NavLink)<{ color: string }>`
-  color: ${(props): string => props.color};
+export const HeaderLink = styled(NavLink)`
+  color: ${(props): string => props.theme.ixoNewBlue};
   font-family: ${(props: any): string => props.theme.secondaryFontFamily};
   font-weight: 400;
   letter-spacing: 1px;
@@ -14,21 +14,22 @@ export const HeaderLink = styled(NavLink)<{ color: string }>`
 
   &.active {
     padding: 5px 10px 5px;
-    border: 1px solid ${(props): string => props.color};
+    border: 1px solid ${(props): string => props.theme.ixoNewBlue};
     border-radius: 3px;
     font-weight: 400;
     margin-left: 0px;
-    color: ${(props): string => props.color};
+    color: ${(props): string => props.theme.ixoNewBlue};
     @media (max-width: ${deviceWidth.desktop}px) {
       border: none;
       &.first-mobile {
-        border: 1px solid ${(props): string => props.color};
+        border: 1px solid ${(props): string => props.theme.ixoNewBlue};
       }
     }
   }
 
   &:hover {
     text-decoration: none;
+    color: currentColor;
   }
 
   @media (min-width: ${deviceWidth.desktop}px) {
@@ -86,6 +87,7 @@ export const MenuHeaderAnchor = styled(HeaderAnchor)`
 export const Main = styled.div`
   padding: 15px 20px;
   justify-content: flex-end;
+  color: ${(props) => props.theme.ixoNewBlue};
 
   @media (max-width: ${deviceWidth.tablet}px) {
     padding: 15px 20px 30px;
