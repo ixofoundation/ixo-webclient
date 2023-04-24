@@ -66,6 +66,7 @@ import { ReactComponent as GearMultiIcon } from 'assets/images/icon-gear-multi.s
 import { ReactComponent as Plus2Icon } from 'assets/images/icon-plus2.svg'
 import { ReactComponent as CodeIcon } from 'assets/images/icon-code-solid.svg'
 import { ReactComponent as BoxOpenSolidIcon } from 'assets/images/icon-box-open-solid.svg'
+import { ReactComponent as SlidersHSolidIcon } from 'assets/images/icon-sliders-h-solid.svg'
 import ShortText from 'assets/icons/ShortText'
 import DatePicker from 'assets/icons/DatePicker'
 import SingleDatePicker from 'assets/icons/SingleDatePicker'
@@ -525,10 +526,22 @@ export const ProposalActionConfig = {
         icon: CodeIcon,
         in: ['dao_voting_cw20_staked', 'dao_voting_cw4'],
       },
+    },
+  },
+  Entities: {
+    id: 'entities',
+    text: 'Entities',
+    items: {
+      'Create Entity': {
+        text: 'Create Entity',
+        description: 'Create Entity',
+        icon: CreatorIcon,
+        in: ['dao_voting_cw20_staked', 'dao_voting_cw4'],
+      },
       'Edit Entity': {
         text: 'Edit Entity',
         description: 'Edit Entity',
-        icon: CodeIcon,
+        icon: SlidersHSolidIcon,
         in: ['dao_voting_cw20_staked', 'dao_voting_cw4'],
       },
     },

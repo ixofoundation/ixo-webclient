@@ -1,9 +1,8 @@
 import { Box } from 'components/App/App.styles'
 import React, { useContext, useEffect } from 'react'
-import { Typography } from 'components/Typography'
-import { ELocalisation, TDAOMetadataModel } from 'types/protocol'
+import { TDAOMetadataModel } from 'types/protocol'
 import styled from 'styled-components'
-import { DAOProfileForm, EntityAdditionalInfoForm, LocalisationForm } from 'pages/CreateEntity/Forms'
+import { DAOProfileForm, EntityAdditionalInfoForm } from 'pages/CreateEntity/Forms'
 import { Button } from 'pages/CreateEntity/Components'
 import { EditEntityContext } from 'pages/EditEntity/EditEntity'
 import { useHistory, useParams } from 'react-router-dom'
@@ -34,10 +33,6 @@ const EditMetadata: React.FC = (): JSX.Element => {
     entity.updatePartial('metadata', { [key]: value }, true)
   }
 
-  const handleUpdateLocalisation = (localisation: ELocalisation): void => {
-    entity.updatePartial('localisation', localisation)
-  }
-
   useEffect(() => {
     entity.updatePartial('subtitle', 'Profile')
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -46,12 +41,12 @@ const EditMetadata: React.FC = (): JSX.Element => {
   return (
     <PageWrapper>
       <Box className='d-flex flex-column'>
-        <Box className='d-flex align-items-center justify-content-between'>
+        {/* <Box className='d-flex align-items-center justify-content-between'>
           <Typography weight='medium' size='xl'>
             Localisation:
           </Typography>
           <LocalisationForm localisation={entity.localisation} setLocalisation={handleUpdateLocalisation} />
-        </Box>
+        </Box> */}
         <Box className='mb-2' />
         <DAOProfileForm
           image={metadata?.image}

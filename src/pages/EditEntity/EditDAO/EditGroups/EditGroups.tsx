@@ -35,7 +35,7 @@ const EditGroups: React.FC = (): JSX.Element => {
 
   const handleAddGroup = (type: string): void => {
     const id = uuidv4()
-    if (type !== 'staking') {
+    if (type === 'membership' || type === 'multisig') {
       entity.updatePartial(
         'daoGroups',
         {
@@ -51,7 +51,7 @@ const EditGroups: React.FC = (): JSX.Element => {
         },
         true,
       )
-    } else {
+    } else if (type === 'staking') {
       entity.updatePartial(
         'daoGroups',
         {
@@ -87,7 +87,6 @@ const EditGroups: React.FC = (): JSX.Element => {
   }
   const handleRemoveGroup = (id: string): void => {
     const newDaoGroups = omitKey(entity.daoGroups ?? {}, id)
-    // updateDAOGroups(newDaoGroups)
     entity.updatePartial('daoGroups', newDaoGroups)
 
     const newLinkedEntity = omitKey(entity.linkedEntity, id)

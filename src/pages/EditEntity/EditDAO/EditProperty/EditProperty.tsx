@@ -29,7 +29,7 @@ const EditProperty: React.FC = (): JSX.Element => {
     entity.updatePartial('administrator', administrator)
   }
   const updateDDOTags = (ddoTags: TEntityDDOTagModel[]) => {
-    entity.updatePartial('ddpTags', ddoTags)
+    entity.updatePartial('ddoTags', ddoTags)
   }
   const updatePage = (page: TEntityPageModel) => {
     entity.updatePartial('page', page)
@@ -58,9 +58,10 @@ const EditProperty: React.FC = (): JSX.Element => {
     page: entity.page,
     service: entity.service,
     linkedResource: entity.linkedResource,
-    claim: entity.claim,
+    claim: entity.claim ?? {},
     accordedRight: entity.accordedRight,
     linkedEntity: entity.linkedEntity,
+    daoGroups: entity.daoGroups,
     updateCreator,
     updateAdministrator,
     updateDDOTags,

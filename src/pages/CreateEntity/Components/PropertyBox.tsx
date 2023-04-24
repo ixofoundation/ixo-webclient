@@ -90,7 +90,7 @@ const Body = styled.div<{ disabled: boolean; size: number; status: 'hover' | 'fu
   }
 `
 
-interface Props {
+export interface Props {
   icon?: JSX.Element
   required?: boolean
   inherited?: boolean
@@ -100,7 +100,7 @@ interface Props {
   disabled?: boolean
   hovered?: boolean
   noData?: boolean
-  handleClick: () => void
+  handleClick?: () => void
   handleRemove?: () => void
 }
 
@@ -153,7 +153,7 @@ const PropertyBox: React.FC<Props> = ({
           <LockIcon />
         </Box>
       )}
-      <Body disabled={disabled} size={size} status={status} onClick={handleClick}>
+      <Body disabled={disabled} size={size} status={status} onClick={handleClick && handleClick}>
         {icon && icon}
         {label && (
           <Typography size='md' weight='bold' color='white'>

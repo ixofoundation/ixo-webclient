@@ -103,10 +103,10 @@ const EditDAO: React.FC = (): JSX.Element => {
 
             onlyMembersExecute,
             thresholdType,
-            thresholdPercentage,
+            thresholdPercentage: (thresholdPercentage ?? 0) / 100,
             quorumEnabled,
             quorumType,
-            quorumPercentage,
+            quorumPercentage: (quorumPercentage ?? 0) / 100,
             proposalDuration,
             proposalDurationUnits,
             allowRevoting,
