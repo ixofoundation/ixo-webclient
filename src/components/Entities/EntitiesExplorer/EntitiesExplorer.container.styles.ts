@@ -26,6 +26,17 @@ export const EntitiesContainer = styled.div`
   }
 `
 
+export const EntitiesBody = styled.div`
+  min-height: 500px;
+
+  .infinite-scroll-component {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 20px;
+  }
+`
+
 export const ErrorContainer = styled.div`
   display: flex;
   flex: 1;

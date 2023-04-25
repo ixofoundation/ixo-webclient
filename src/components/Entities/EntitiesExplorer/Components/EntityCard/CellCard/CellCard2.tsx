@@ -29,7 +29,7 @@ const DAOCard: React.FunctionComponent<Props> = ({ id, profile, tags }) => {
   const numOfMembers = 0
 
   return (
-    <CardContainer className='col-xl-4 col-md-6 col-sm-12 col-12'>
+    <CardContainer>
       <CardLink
         to={{
           pathname: `/entity/${id}/overview`,

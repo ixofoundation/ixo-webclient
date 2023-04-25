@@ -109,9 +109,9 @@ export default function useCurrentEntity(): {
         const [identifier, key] = item.serviceEndpoint.split(':')
         const usedService: Service | undefined = service.find((item: any) => item.id === `{id}#${identifier}`)
 
-        if (usedService && usedService.type === NodeType.Ipfs) {
+        if (usedService && usedService.type.toLowerCase() === NodeType.Ipfs.toLowerCase()) {
           url = `https://${key}.ipfs.w3s.link`
-        } else if (usedService && usedService.type === NodeType.CellNode) {
+        } else if (usedService && usedService.type.toLowerCase() === NodeType.CellNode.toLowerCase()) {
           url = `${usedService.serviceEndpoint}${key}`
         }
 
@@ -120,6 +120,33 @@ export default function useCurrentEntity(): {
             case '{id}#profile': {
               fetch(url)
                 .then((response) => response.json())
+                .then((response) => {
+                  const context = response['@context']
+                  let image: string = response.image
+                  let logo: string = response.logo
+
+                  if (!image.startsWith('http')) {
+                    const [identifier] = image.split(':')
+                    let endpoint = ''
+                    context.forEach((item: any) => {
+                      if (typeof item === 'object' && identifier in item) {
+                        endpoint = item[identifier]
+                      }
+                    })
+                    image = image.replace(identifier + ':', endpoint)
+                  }
+                  if (!logo.startsWith('http')) {
+                    const [identifier] = logo.split(':')
+                    let endpoint = ''
+                    context.forEach((item: any) => {
+                      if (typeof item === 'object' && identifier in item) {
+                        endpoint = item[identifier]
+                      }
+                    })
+                    logo = logo.replace(identifier + ':', endpoint)
+                  }
+                  return { ...response, image, logo }
+                })
                 .then((profile) => {
                   updateEntityProfile(profile)
                 })
@@ -159,6 +186,7 @@ export default function useCurrentEntity(): {
             case '{id}#tags': {
               fetch(url)
                 .then((response) => response.json())
+                .then((response) => response.entityTags)
                 .then((tags) => {
                   updateEntityTags(tags)
                 })

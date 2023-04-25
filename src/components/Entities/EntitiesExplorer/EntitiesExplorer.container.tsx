@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { RouteProps } from 'react-router'
-import ReactPaginate from 'react-paginate'
+import InfiniteScroll from 'react-infinite-scroll-component'
 import CellCard from './Components/EntityCard/CellCard/CellCard2'
 // import ProjectCard from './Components/EntityCard/ProjectCard/ProjectCard'
 // import TemplateCard from './Components/EntityCard/TemplateCard/TemplateCard'
@@ -13,10 +13,10 @@ import { connect } from 'react-redux'
 import { RootState } from 'redux/store'
 import {
   Container,
+  EntitiesBody,
   EntitiesContainer,
   ErrorContainer,
   NoEntitiesContainer,
-  Pagination,
 } from './EntitiesExplorer.container.styles'
 import {
   filterToggleUserEntities,
@@ -39,8 +39,6 @@ import EntitiesFilter from './Components/EntitiesFilter/EntitiesFilter'
 import { EntityType, EntityTypeStrategyMap } from 'types/entities'
 import { Schema as FilterSchema } from './Components/EntitiesFilter/schema/types'
 import * as entitiesSelectors from 'redux/entitiesExplorer/entitiesExplorer.selectors'
-// @ts-ignore
-import detectGrid from 'detect-grid'
 import { useEffect, useState } from 'react'
 import AssetCollections from './Components/AssetCollections/AssetCollections'
 import { useQuery } from 'hooks/window'
@@ -116,49 +114,14 @@ const EntityCard: any = {
 }
 
 const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
-  const [assistantPanelActive, setAssistantPanelActive] = useState(false)
-  const [currentItems, setCurrentItems] = useState<any[] | null>(null)
-  const [pageCount, setPageCount] = useState(0)
-  const [itemOffset, setItemOffset] = useState(0)
-  const [itemsPerPage, setItemsPerPage] = useState(9)
-  const [selected, setSelected] = useState(0)
   const { getQuery } = useQuery()
+  const [assistantPanelActive, setAssistantPanelActive] = useState(false)
+  const itmesCount = 3
+  const [offset, setOffest] = useState(1)
+  const entities = React.useMemo(() => props.entities.slice(0, offset * itmesCount), [offset, props.entities])
 
   const resetWithDefaultViewFilters = (): void => {
     props.handleResetFilters()
-  }
-
-  const handlePageClick = (event: any): void => {
-    setSelected(event.selected)
-    const newOffset = (event.selected * itemsPerPage) % props.entities.length
-    console.log(`User requested page number ${event.selected}, which is offset ${newOffset}`)
-    setItemOffset(newOffset)
-    props.handleFilterItemOffset(newOffset)
-  }
-
-  const updateItemsPerPage = (): void => {
-    const grid = document.querySelector('.cards-container')
-    if (grid) {
-      const rows = detectGrid(grid)
-      if (rows.length > 1) {
-        const itemsPerRow = rows[0].length
-
-        switch (itemsPerRow) {
-          case 4:
-            setItemsPerPage(12)
-            break
-          case 3:
-            setItemsPerPage(9)
-            break
-          case 2:
-          case 1:
-            setItemsPerPage(6)
-            break
-          default:
-            break
-        }
-      }
-    }
   }
 
   const renderCards = (data: any): JSX.Element[] => {
@@ -221,32 +184,24 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
     )
 
     const renderNonAssets = (): JSX.Element => (
-      <>
-        <div className='row row-eq-height'>{renderCards(currentItems)}</div>
-        <Pagination className='d-flex justify-content-center'>
-          <ReactPaginate
-            breakLabel='...'
-            nextLabel='Next'
-            forcePage={selected}
-            onPageChange={handlePageClick}
-            pageRangeDisplayed={1}
-            marginPagesDisplayed={1}
-            pageCount={pageCount}
-            previousLabel='Previous'
-            renderOnZeroPageCount={null!}
-            pageClassName='page-item'
-            pageLinkClassName='page-link'
-            previousClassName='page-item'
-            previousLinkClassName='page-link'
-            nextClassName='page-item'
-            nextLinkClassName='page-link'
-            breakClassName='page-item'
-            breakLinkClassName='page-link'
-            containerClassName='pagination'
-            activeClassName='active'
-          />
-        </Pagination>
-      </>
+      <InfiniteScroll
+        dataLength={entities.length} //This is important field to render the next data
+        next={() => {
+          setTimeout(() => {
+            setOffest((offset) => offset + 1)
+          }, 1000 * 3)
+        }}
+        hasMore={entities.length < props.entities.length}
+        loader={<h4 style={{ width: '100%' }}>Loading...</h4>}
+        endMessage={
+          <p style={{ width: '100%', textAlign: 'center', gridColumn: 'span 3' }}>
+            <b>Yay! You have seen it all</b>
+          </p>
+        }
+        scrollableTarget='root'
+      >
+        {renderCards(entities)}
+      </InfiniteScroll>
     )
 
     const renderAssets = (): JSX.Element => <AssetCollections />
@@ -281,9 +236,11 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
               handleFilterTogglePopularEntities={props.handleFilterTogglePopularEntities}
               handleResetFilters={resetWithDefaultViewFilters}
             />
-            {props.filteredEntitiesCount === 0 && renderNoSearchFound()}
-            {props.filteredEntitiesCount > 0 && type === EntityType.Asset && renderAssets()}
-            {props.filteredEntitiesCount > 0 && type !== EntityType.Asset && renderNonAssets()}
+            <EntitiesBody>
+              {props.filteredEntitiesCount === 0 && renderNoSearchFound()}
+              {props.filteredEntitiesCount > 0 && type === EntityType.Asset && renderAssets()}
+              {props.filteredEntitiesCount > 0 && type !== EntityType.Asset && renderNonAssets()}
+            </EntitiesBody>
           </div>
         </EntitiesContainer>
       )
@@ -314,38 +271,6 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
     }
     // eslint-disable-next-line
   }, [])
-
-  useEffect(() => {
-    window.addEventListener('resize', updateItemsPerPage)
-    return (): void => window.removeEventListener('resize', updateItemsPerPage)
-  }, [])
-
-  useEffect(() => {
-    // Fetch items from another resources.
-    if (props.entities.length > 0) {
-      const endOffset = itemOffset + itemsPerPage
-      setCurrentItems(props.entities.slice(itemOffset, endOffset))
-      setPageCount(Math.ceil(props.entities.length / itemsPerPage))
-    }
-  }, [itemOffset, itemsPerPage, props.entities])
-
-  useEffect(() => {
-    if (props.entities.length > 0) {
-      // setItemOffset(0)
-      // setSelected(0)
-    }
-  }, [props.entities])
-
-  useEffect(() => {
-    if (currentItems && currentItems.length > 0) {
-      updateItemsPerPage()
-    }
-  }, [currentItems])
-
-  useEffect(() => {
-    setItemOffset(props.filterItemOffset)
-    setSelected(Math.floor(props.filterItemOffset / itemsPerPage))
-  }, [props.filterItemOffset, itemsPerPage])
 
   useEffect(() => {
     props.handleGetEntitiesByType(props.type)

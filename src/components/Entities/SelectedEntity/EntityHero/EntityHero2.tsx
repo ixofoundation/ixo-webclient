@@ -103,8 +103,10 @@ const EntityHero: React.FunctionComponent<Props> = ({
                       </HeroInfoItem>
                     )}
                     <HeroInfoItem>
-                      <img alt='' src={creatorLogo} width='20px' height='20px' style={{ borderRadius: 100 }} />
-                      <span>{creatorName}</span>
+                      {creatorLogo && (
+                        <img alt='' src={creatorLogo} width='20px' height='20px' style={{ borderRadius: 100 }} />
+                      )}
+                      {creatorName && <span>{creatorName}</span>}
                     </HeroInfoItem>
                     {location && (
                       <HeroInfoItem>
