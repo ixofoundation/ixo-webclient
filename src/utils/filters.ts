@@ -10,7 +10,7 @@ export const getTitle = (name: string, items: FilterItem[], selectType: SelectTy
         : name
       : selectedItems.length === 0
       ? name
-      : `${selectedItems[0].name} ${name}`
+      : `${selectedItems[0].name}`
 
   return title
 }
