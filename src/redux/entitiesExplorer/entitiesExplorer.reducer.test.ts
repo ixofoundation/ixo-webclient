@@ -1,5 +1,4 @@
 // @ts-nocheck
-import moment from 'moment'
 import * as SUT from './entitiesExplorer.reducer'
 import {
   EntitiesExplorerActions,
@@ -276,8 +275,8 @@ describe('Entities Reducer', () => {
           },
         ],
         filter: {
-          dateFrom: moment(),
-          dateTo: moment(),
+          dateFrom: '',
+          dateTo: '',
           ddoTags: [
             {
               category: 'foo',

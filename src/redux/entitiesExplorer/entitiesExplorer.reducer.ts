@@ -9,8 +9,6 @@ export const initialState: EntitiesExplorerState = {
   entities2: null,
   entityConfig: null,
   filter: {
-    dateFrom: '',
-    dateTo: '',
     // ddoTags: getInitialSelectedCategories(),
     ddoTags: [],
     userEntities: false,
@@ -19,6 +17,8 @@ export const initialState: EntitiesExplorerState = {
     sector: null,
     query: '',
     itemOffset: 0, //  for pagination
+    dateFrom: '',
+    dateTo: '',
   },
 } as any
 
@@ -126,7 +126,6 @@ export const reducer = (
         },
       }
     case EntitiesExplorerActions.FilterDates:
-      console.log('EntitiesExplorerActions.FilterDates', action.payload)
       return {
         ...state,
         filter: {
@@ -144,7 +143,7 @@ export const reducer = (
           dateFrom: '',
           dateTo: '',
           itemOffset: 0,
-        } as any,
+        },
       }
     case EntitiesExplorerActions.FilterCategoryTag:
     case EntitiesExplorerActions.FilterAddCategoryTag:
