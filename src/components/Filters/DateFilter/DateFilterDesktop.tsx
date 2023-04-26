@@ -1,15 +1,8 @@
 // import DatePicker from '../../DatePicker/DatePicker'
 import { Props } from './types'
-import {
-  DatePickerModal,
-  ResetButtonDatePicker,
-  ApplyButtonDatePicker,
-  ButtonWrapper,
-  ButtonOuter,
-  ButtonInner,
-  ButtonIcon,
-} from '../Filters.styles'
-import { DateRangePicker } from 'pages/CreateEntity/Components'
+import { DatePickerModal, ButtonWrapper, ButtonOuter, ButtonInner, ButtonIcon } from '../Filters.styles'
+import { Button, DateRangePicker } from 'pages/CreateEntity/Components'
+import { FlexBox } from 'components/App/App.styles'
 
 const DateFilterDesktop: React.FunctionComponent<Props> = ({
   startDate,
@@ -52,8 +45,14 @@ const DateFilterDesktop: React.FunctionComponent<Props> = ({
             }}
             input={false}
           />
-          <ResetButtonDatePicker onClick={handleResetFilter}>Reset</ResetButtonDatePicker>
-          <ApplyButtonDatePicker onClick={handleFilterToggleShow}>Done</ApplyButtonDatePicker>
+          <FlexBox width='100%' alignItems='center' justifyContent='space-between'>
+            <Button variant='secondary' onClick={handleResetFilter}>
+              Reset
+            </Button>
+            <Button variant='primary' onClick={handleFilterToggleShow}>
+              Done
+            </Button>
+          </FlexBox>
         </DatePickerModal>
       )}
     </ButtonWrapper>

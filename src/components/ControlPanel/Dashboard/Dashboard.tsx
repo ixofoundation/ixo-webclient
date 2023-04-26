@@ -53,7 +53,7 @@ const Dashboard: React.FunctionComponent<Props> = ({ entityDid, widget }) => {
         })}
         {ixoCoin && (
           <Image
-            src={`https://img.shields.io/static/v1?label=${`IXO Credit`}&labelColor=${`FFF`}&message=${`${thousandSeparator(
+            src={`https://img.shields.io/static/v1?label=${`Credit`}&labelColor=${`FFF`}&message=${`${thousandSeparator(
               new BigNumber(ixoCoin.amount).toFixed(0),
               ',',
             )} IXO`}&color=${`blue`}&style=flat-square`}

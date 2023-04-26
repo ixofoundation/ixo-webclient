@@ -259,11 +259,12 @@ export const DatePickerModal = styled.div`
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.15);
   border-radius: 4px;
   height: 442px;
-  width: 619px;
+  width: 680;
   top: 100%;
   left: 50%;
   transform: translate(-50%);
   z-index: 3;
+  padding: 2rem;
   :after {
     content: '';
     position: absolute;

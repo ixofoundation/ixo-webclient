@@ -106,6 +106,7 @@
     "react-helmet": "6.1.0",
     "react-hook-form": "6.3.0",
     "react-image-crop": "8.6.5",
+    "react-infinite-scroll-component": "^6.1.0",
     "react-lottie": "1.2.3",
     "react-modal": "3.11.2",
     "react-otp-input": "2.4.0",
