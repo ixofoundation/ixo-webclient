@@ -79,7 +79,7 @@ const EntitiesFilter: FC<Props> = () => {
   const categoryTypeName = useAppSelector(selectFilterCategoryTypeName)
   const entityTypeMap = useAppSelector(selectEntityConfig)
   const type = useAppSelector(selectSelectedEntitiesType)
-  const filterSchema: FilterSchema = useAppSelector(selectEntityConfigByGivenType(type))?.filterSchema
+  const filterSchema: FilterSchema | undefined = useAppSelector(selectEntityConfigByGivenType(type))?.filterSchema
 
   const [activeFilter, setActiveFilter] = useState<string>('')
   const [mobileFilterActiveMenu, setMobileFilterActiveMenu] = useState<string>('')
@@ -145,8 +145,8 @@ const EntitiesFilter: FC<Props> = () => {
     }))
   }
 
-  const getViewFilterItems = (tags: SchemaCategoryTag[]): IconListFilterItem[] => {
-    const filterItems = tags.map((tag) => ({
+  const getViewFilterItems = (tags: undefined | SchemaCategoryTag[]): IconListFilterItem[] => {
+    const filterItems = (tags ?? []).map((tag) => ({
       name: tag.name,
       icon: tag.icon,
       isSelected: false,
@@ -216,6 +216,10 @@ const EntitiesFilter: FC<Props> = () => {
 
   const handleResetFilters = () => {
     dispatch(resetFilters())
+  }
+
+  if (!filterSchema) {
+    return null
   }
 
   return (

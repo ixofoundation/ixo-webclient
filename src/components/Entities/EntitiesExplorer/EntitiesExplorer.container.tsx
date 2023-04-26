@@ -85,9 +85,9 @@ const EntityCard: any = {
 const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
   const { getQuery } = useQuery()
   const [assistantPanelActive, setAssistantPanelActive] = useState(false)
-  const itmesCount = 3
+  const itemsCount = 6
   const [offset, setOffest] = useState(1)
-  const entities = React.useMemo(() => props.entities.slice(0, offset * itmesCount), [offset, props.entities])
+  const entities = React.useMemo(() => props.entities.slice(0, offset * itemsCount), [offset, props.entities])
 
   const renderCards = (data: any): JSX.Element[] => {
     return (
