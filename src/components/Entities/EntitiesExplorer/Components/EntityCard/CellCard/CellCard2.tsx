@@ -1,4 +1,3 @@
-import * as React from 'react'
 import { excerptText } from 'utils/formatters'
 import {
   CardContainer,
@@ -15,18 +14,39 @@ import {
 import SDGIcons from '../SDGIcons/SDGIcons'
 import { FlexBox } from 'components/App/App.styles'
 import { requireCheckDefault } from 'utils/images'
-import { TEntityDDOTagModel, TEntityProfileModel } from 'types/protocol'
+import { TEntityDDOTagModel, TEntityLinkedEntityModel, TEntityProfileModel } from 'types/protocol'
 import { Typography } from 'components/Typography'
+import { getDaoContractMembersInfo } from 'utils/dao'
+import { useAccount } from 'hooks/account'
+import { useEffect, useState } from 'react'
 
 interface Props {
   id: string
   profile: TEntityProfileModel
   tags: TEntityDDOTagModel[]
+  linkedEntity: TEntityLinkedEntityModel[]
 }
 
-const DAOCard: React.FunctionComponent<Props> = ({ id, profile, tags }) => {
+const DAOCard: React.FunctionComponent<Props> = ({ id, profile, tags, linkedEntity }) => {
   const sdgs = tags ? tags.find((item) => item && item.category === 'SDG' && Array.isArray(item.tags))?.tags ?? [] : []
-  const numOfMembers = 0
+
+  const { cosmWasmClient, address } = useAccount()
+  const [numOfMembers, setNumOfMembers] = useState(0)
+
+  useEffect(() => {
+    if (linkedEntity.length > 0 && !!cosmWasmClient) {
+      linkedEntity
+        .filter((item: TEntityLinkedEntityModel) => item.type === 'Group')
+        .forEach((item: TEntityLinkedEntityModel) => {
+          const { id } = item
+          const [, coreAddress] = id.split('#')
+          getDaoContractMembersInfo({ coreAddress, cosmWasmClient, address }).then((members) => {
+            setNumOfMembers((numOfMembers) => numOfMembers + members.length)
+          })
+        })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [linkedEntity, !!cosmWasmClient])
 
   return (
     <CardContainer>

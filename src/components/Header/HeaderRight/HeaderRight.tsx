@@ -19,6 +19,7 @@ const HeaderRight: React.FC<HeaderRightProps> = ({ toggleModal }): JSX.Element =
   const { connect } = useWalletManager()
 
   const onClickConnectInfo = (): void => {
+    console.log('1111')
     if (!registered) {
       toggleModal(true)
     }
@@ -62,7 +63,13 @@ const HeaderRight: React.FC<HeaderRightProps> = ({ toggleModal }): JSX.Element =
                 </Typography>
 
                 <CopyToClipboard text={address} onCopy={() => Toast.successToast(`Copied to clipboard`)}>
-                  <Typography variant='secondary' size='xs' color='blue' hover={{ underline: true }}>
+                  <Typography
+                    variant='secondary'
+                    size='xs'
+                    color='blue'
+                    hover={{ underline: true }}
+                    onClick={(e) => e.stopPropagation()}
+                  >
                     {truncateString(address, 20)}
                   </Typography>
                 </CopyToClipboard>
