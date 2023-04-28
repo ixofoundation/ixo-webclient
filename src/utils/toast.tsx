@@ -1,6 +1,9 @@
-import { FlexBox, SvgBox } from 'components/App/App.styles'
+import Lottie from 'react-lottie'
+import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { toast, ToastContent, ToastOptions } from 'react-toastify'
+import SuccessAnimation from 'assets/lottie/sign_success.json'
+import FailAnimation from 'assets/lottie/sign_fail.json'
 
 const successToast = (title?: ToastContent, content?: ToastContent, options?: ToastOptions): void => {
   toast.success(
@@ -9,7 +12,17 @@ const successToast = (title?: ToastContent, content?: ToastContent, options?: To
       {content && <Typography>{content}</Typography>}
     </FlexBox>,
     {
-      icon: <SvgBox width='48px' height='48px' borderRadius='100%' border='1px solid #ffffff' />,
+      icon: (
+        <Lottie
+          height={48}
+          width={48}
+          options={{
+            loop: false,
+            autoplay: true,
+            animationData: SuccessAnimation,
+          }}
+        />
+      ),
       ...options,
     },
   )
@@ -22,7 +35,17 @@ const errorToast = (title?: ToastContent, content?: ToastContent, options?: Toas
       {content && <Typography>{content}</Typography>}
     </FlexBox>,
     {
-      icon: <SvgBox width='48px' height='48px' borderRadius='100%' border='1px solid #ffffff' />,
+      icon: (
+        <Lottie
+          height={48}
+          width={48}
+          options={{
+            loop: false,
+            autoplay: true,
+            animationData: FailAnimation,
+          }}
+        />
+      ),
       ...options,
     },
   )
