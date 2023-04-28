@@ -211,8 +211,8 @@ describe('EntitiesExplorer Selectors', () => {
           },
         ],
         filter: {
-          dateFrom: moment('1970-01-01'),
-          dateTo: moment('2100-12-31'),
+          dateFrom: '1970-01-01',
+          dateTo: '2100-12-31',
           ddoTags: [
             {
               category: 'foo',
@@ -312,8 +312,8 @@ describe('EntitiesExplorer Selectors', () => {
 
     it('should return a list of entities filtered by date and sorted when dates are set', () => {
       state.entities.filter = {
-        dateFrom: moment('2020-04-09'),
-        dateTo: moment('2020-04-10'),
+        dateFrom: '2020-04-09',
+        dateTo: '2020-04-10',
         ddoTags: [],
         userEntities: false,
       }
@@ -355,8 +355,8 @@ describe('EntitiesExplorer Selectors', () => {
   describe('selectAllTemplateEntities', () => {
     it('should return a list of template entities sorted by date regardless of filters', () => {
       state.entities.filter = {
-        dateFrom: moment('2020-04-09'),
-        dateTo: moment('2020-04-10'),
+        dateFrom: '2020-04-09',
+        dateTo: '2020-04-10',
         ddoTags: [],
         userEntities: false,
       }
@@ -373,8 +373,8 @@ describe('EntitiesExplorer Selectors', () => {
   describe('selectFilteredEntitiesCount', () => {
     it('should return the count of filtered Entities', () => {
       state.entities.filter = {
-        dateFrom: moment('2020-04-09'),
-        dateTo: moment('2020-04-10'),
+        dateFrom: '2020-04-09',
+        dateTo: '2020-04-10',
         ddoTags: [],
         userEntities: false,
       }
@@ -390,8 +390,8 @@ describe('EntitiesExplorer Selectors', () => {
   describe('selectAllEntitiesCount', () => {
     it('should return the count of all entities regardless of filters set', () => {
       state.entities.filter = {
-        dateFrom: moment('1900-01-01'),
-        dateTo: moment('1900-01-01'),
+        dateFrom: '1900-01-01',
+        dateTo: '1900-01-01',
         ddoTags: [],
         userEntities: false,
       }
@@ -410,7 +410,7 @@ describe('EntitiesExplorer Selectors', () => {
       const result = SUT.selectFilterDateFrom(state)
 
       // then... should return result as expected
-      expect(result).toEqual(moment('1970-01-01'))
+      expect(result).toEqual('1970-01-01')
     })
   })
 
@@ -420,7 +420,7 @@ describe('EntitiesExplorer Selectors', () => {
       const result = SUT.selectFilterDateTo(state)
 
       // then... should return result as expected
-      expect(result).toEqual(moment('2100-12-31'))
+      expect(result).toEqual('2100-12-31')
     })
   })
 

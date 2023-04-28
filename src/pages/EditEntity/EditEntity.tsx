@@ -1,17 +1,12 @@
-import { v4 as uuidv4 } from 'uuid'
-import { LinkedEntity, LinkedResource, Service } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import EditEntityLayout from 'pages/CreateEntity/CreateEntityLayout/CreateEntityLayout'
 import React, { createContext, useCallback, useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { initialState } from 'redux/createEntity/createEntity.reducer'
 import { TCreateEntityState } from 'redux/createEntity/createEntity.types'
-import { BlockSyncService } from 'services/blocksync'
-import { NodeType } from 'types/entities'
 import EditDAO from './EditDAO/EditDAO'
 import { useAccount } from 'hooks/account'
-import { TEntityServiceModel } from 'types/protocol'
-
-const bsService = new BlockSyncService()
+import { apiEntityToEntity } from 'utils/entities'
+import { useWalletManager } from '@gssuper/cosmodal'
 
 export const EditEntityContext = createContext<
   {
@@ -26,6 +21,7 @@ export const EditEntityContext = createContext<
 
 const EditEntity: React.FC = (): JSX.Element => {
   const { entityId } = useParams<{ entityId: string }>()
+  const { connect } = useWalletManager()
   const { address, cosmWasmClient } = useAccount()
   const [value, setValue] = useState<TCreateEntityState>(initialState)
 
@@ -46,122 +42,14 @@ const EditEntity: React.FC = (): JSX.Element => {
 
   useEffect(() => {
     if (entityId) {
-      bsService.entity.getEntityById(entityId).then((entity: any) => {
-        console.log('getEntityById', { entity })
-
-        const { type, settings, linkedResource, service, linkedEntity } = entity
-        linkedResource.concat(Object.values(settings)).forEach((item: LinkedResource) => {
-          let url = ''
-          const [identifier, key] = item.serviceEndpoint.split(':')
-          const usedService: Service | undefined = service.find((item: any) => item.id === `{id}#${identifier}`)
-
-          if (usedService && usedService.type.toLowerCase() === NodeType.Ipfs.toLowerCase()) {
-            url = `https://${key}.ipfs.w3s.link`
-          } else if (usedService && usedService.type.toLowerCase() === NodeType.CellNode.toLowerCase()) {
-            url = `${usedService.serviceEndpoint}${key}`
-          }
-
-          if (item.proof && url) {
-            switch (item.id) {
-              case '{id}#profile': {
-                fetch(url)
-                  .then((response) => response.json())
-                  .then((response) => {
-                    const context = response['@context']
-                    let image: string = response.image
-                    let logo: string = response.logo
-
-                    if (!image.startsWith('http')) {
-                      const [identifier] = image.split(':')
-                      let endpoint = ''
-                      context.forEach((item: any) => {
-                        if (typeof item === 'object' && identifier in item) {
-                          endpoint = item[identifier]
-                        }
-                      })
-                      image = image.replace(identifier + ':', endpoint)
-                    }
-                    if (!logo.startsWith('http')) {
-                      const [identifier] = logo.split(':')
-                      let endpoint = ''
-                      context.forEach((item: any) => {
-                        if (typeof item === 'object' && identifier in item) {
-                          endpoint = item[identifier]
-                        }
-                      })
-                      logo = logo.replace(identifier + ':', endpoint)
-                    }
-                    return { ...response, image, logo }
-                  })
-                  .then((profile) => {
-                    console.log({ profile })
-                    handleUpdatePartial('metadata', profile)
-                  })
-                  .catch(() => undefined)
-                break
-              }
-              case '{id}#creator': {
-                fetch(url)
-                  .then((response) => response.json())
-                  .then((response) => response.credentialSubject)
-                  .then((creator) => {
-                    console.log({ creator })
-                    handleUpdatePartial('creator', creator)
-                  })
-                  .catch(() => undefined)
-                break
-              }
-              case '{id}#administrator': {
-                fetch(url)
-                  .then((response) => response.json())
-                  .then((response) => response.credentialSubject)
-                  .then((administrator) => {
-                    console.log({ administrator })
-                    handleUpdatePartial('administrator', administrator)
-                  })
-                  .catch(() => undefined)
-                break
-              }
-              case '{id}#page': {
-                fetch(url)
-                  .then((response) => response.json())
-                  .then((response) => response.page)
-                  .then((page) => {
-                    console.log({ page })
-                    handleUpdatePartial('page', page)
-                  })
-                  .catch(() => undefined)
-                break
-              }
-              case '{id}#tags': {
-                fetch(url)
-                  .then((response) => response.json())
-                  .then((response) => response.entityTags)
-                  .then((tags) => {
-                    console.log({ tags })
-                    handleUpdatePartial('ddoTags', tags)
-                  })
-                  .catch(() => undefined)
-                break
-              }
-              default:
-                break
-            }
-          }
-        })
-
-        handleUpdatePartial('entityType', type)
-        handleUpdatePartial(
-          'linkedEntity',
-          Object.fromEntries(linkedEntity.map((item: LinkedEntity) => [uuidv4(), item])),
-        )
-        handleUpdatePartial(
-          'service',
-          service.map((item: TEntityServiceModel) => ({ ...item, id: item.id.split('#').pop() })),
-        )
-      })
+      if (!address) {
+        connect()
+      } else {
+        apiEntityToEntity({ entityId, cosmWasmClient, address }, handleUpdatePartial)
+      }
     }
-  }, [entityId, handleUpdatePartial])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [entityId])
 
   return (
     <EditEntityContext.Provider value={{ ...value, update: handleUpdate, updatePartial: handleUpdatePartial }}>

@@ -14,6 +14,17 @@ export const Wrapper = styled.div`
       margin: 0;
     }
   }
+
+  .cdx-button,
+  .ce-header[contentEditable='true'][data-placeholder]::before {
+    color: ${(props) => props.theme.ixoGrey700};
+  }
+
+  .cdx-button {
+    border: none;
+    box-shadow: none;
+    padding: 0;
+  }
 `
 
 export const Row = styled.div`

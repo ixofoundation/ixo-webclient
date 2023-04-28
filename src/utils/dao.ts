@@ -199,3 +199,44 @@ export const getDaoContractInfo = async ({
     token,
   }
 }
+
+export const getDaoContractMembersInfo = async ({
+  coreAddress,
+  cosmWasmClient,
+  address,
+}: {
+  coreAddress: string
+  cosmWasmClient: SigningCosmWasmClient
+  address: string
+}) => {
+  let members: Member[] = []
+  const daoCoreClient = new contracts.DaoCore.DaoCoreClient(cosmWasmClient, address, coreAddress)
+  const votingModuleAddress = await daoCoreClient.votingModule()
+  const { codeId } = await cosmWasmClient.getContract(votingModuleAddress)
+  const contractName = getContractNameByCodeId(codeId)
+
+  if (contractName === 'dao_voting_cw20_staked') {
+    const daoVotingCw20StakedClient = new contracts.DaoVotingCw20Staked.DaoVotingCw20StakedClient(
+      cosmWasmClient,
+      address,
+      votingModuleAddress,
+    )
+    const stakingContract = await daoVotingCw20StakedClient.stakingContract()
+    const cw20StakeClient = new contracts.Cw20Stake.Cw20StakeClient(cosmWasmClient, address, stakingContract)
+    const { stakers } = await cw20StakeClient.listStakers({})
+
+    members = stakers.map(({ address, balance }) => ({ addr: address, weight: Number(balance) } as Member))
+  } else if (contractName === 'dao_voting_cw4') {
+    const daoVotingCw4Client = new contracts.DaoVotingCw4.DaoVotingCw4Client(
+      cosmWasmClient,
+      address,
+      votingModuleAddress,
+    )
+
+    const cw4GroupAddress = await daoVotingCw4Client.groupContract()
+    const cw4GroupClient = new contracts.Cw4Group.Cw4GroupClient(cosmWasmClient, address, cw4GroupAddress)
+    members = (await cw4GroupClient.listMembers({})).members as never[]
+  }
+
+  return members
+}

@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react'
+import React, { FC, useMemo, useState } from 'react'
 import MediaQuery from 'react-responsive'
 import { deviceWidth } from 'constants/device'
 import { FilterItem as IconListFilterItem, SelectType } from 'components/Filters/IconListFilter/types'
@@ -25,68 +25,92 @@ import Back from 'assets/icons/Back'
 import Filter from 'assets/icons/Filter'
 import * as iconListFilterUtils from 'utils/filters'
 import IconButtonImage from 'components/Filters/IconListFilter/IconButtonImage'
-import { TEntityDDOTagModel } from 'types/protocol'
+import { useAppDispatch, useAppSelector } from 'redux/hooks'
+import {
+  selectFilterCategories,
+  selectFilterCategoriesSummary,
+  selectFilterCategoryTypeName,
+  selectFilterDateFrom,
+  selectFilterDateFromFormatted,
+  selectFilterDateSummary,
+  selectFilterDateTo,
+  selectFilterDateToFormatted,
+  selectFilterFeaturedEntities,
+  selectFilterPopularEntities,
+  selectFilterSector,
+  selectFilterUserEntities,
+  selectSelectedEntitiesType,
+} from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import {
+  filterAddCategoryTag,
+  filterCategoryTag,
+  filterDates,
+  filterSector,
+  filterToggleFeaturedEntities,
+  filterTogglePopularEntities,
+  filterToggleUserEntities,
+  resetCategoryFilter,
+  resetDatesFilter,
+  resetFilters,
+  resetSectorFilter,
+} from 'redux/entitiesExplorer/entitiesExplorer.actions'
+import { selectEntityConfig, selectEntityConfigByGivenType } from 'redux/configs/configs.selectors'
+import { Schema as FilterSchema } from 'components/Entities/EntitiesExplorer/Components/EntitiesFilter/schema/types'
 
 // TODO - make this 2 separate components - Desktop and Mobile
 
 interface Props {
-  title: string
   filterSchema: Schema
-  startDate: string
-  startDateFormatted: string
-  endDate: string
-  endDateFormatted: string
-  dateSummary: string
-  categories: TEntityDDOTagModel[]
-  categoriesSummary: string
-  userEntities: boolean
-  featuredEntities: boolean
-  popularEntities: boolean
-  sector: string
-  handleFilterDates: (dateFrom: string, dateTo: string) => void
-  handleResetDatesFilter: () => void
-  handleFilterCategoryTag: (category: string, tag: string) => void
-  handleFilterSector: (tag: string) => void
-  handleFilterAddCategoryTag: (category: string, tag: string) => void
-  handleFilterToggleUserEntities: (userEntities: boolean) => void
-  handleFilterToggleFeaturedEntities: (featuredEntities: boolean) => void
-  handleFilterTogglePopularEntities: (popularEntities: boolean) => void
-  handleResetCategoryFilter: (category: string) => void
-  handleResetSectorFilter: () => void
-  handleResetFilters: () => void
 }
 
-const EntitiesFilter: FC<Props> = ({
-  categories,
-  sector,
-  userEntities,
-  featuredEntities,
-  popularEntities,
-  title,
-  filterSchema,
-  startDate,
-  endDate,
-  dateSummary,
-  startDateFormatted,
-  endDateFormatted,
-  handleFilterDates,
-  handleResetFilters,
-  categoriesSummary,
-  handleFilterToggleUserEntities,
-  handleFilterToggleFeaturedEntities,
-  handleFilterTogglePopularEntities,
-  handleFilterAddCategoryTag,
-  handleFilterCategoryTag,
-  handleFilterSector,
-  handleResetSectorFilter,
-  handleResetDatesFilter,
-  handleResetCategoryFilter,
-}) => {
+const EntitiesFilter: FC<Props> = () => {
+  const dispatch = useAppDispatch()
+  const startDate = useAppSelector(selectFilterDateFrom)
+  const endDate = useAppSelector(selectFilterDateTo)
+  const startDateFormatted = useAppSelector(selectFilterDateFromFormatted)
+  const endDateFormatted = useAppSelector(selectFilterDateToFormatted)
+  const dateSummary = useAppSelector(selectFilterDateSummary)
+  const categories = useAppSelector(selectFilterCategories)
+  const userEntities = useAppSelector(selectFilterUserEntities)
+  const featuredEntities = useAppSelector(selectFilterFeaturedEntities)
+  const popularEntities = useAppSelector(selectFilterPopularEntities)
+  const sector = useAppSelector(selectFilterSector)
+  const categoriesSummary = useAppSelector(selectFilterCategoriesSummary)
+  const categoryTypeName = useAppSelector(selectFilterCategoryTypeName)
+  const entityTypeMap = useAppSelector(selectEntityConfig)
+  const type = useAppSelector(selectSelectedEntitiesType)
+  const filterSchema: FilterSchema | undefined = useAppSelector(selectEntityConfigByGivenType(type))?.filterSchema
+
   const [activeFilter, setActiveFilter] = useState<string>('')
   const [mobileFilterActiveMenu, setMobileFilterActiveMenu] = useState<string>('')
 
+  const title = useMemo(() => {
+    const words = []
+    if (!userEntities && !featuredEntities && !popularEntities) {
+      words.push('All')
+    } else if (userEntities) {
+      words.push('My')
+    } else if (featuredEntities) {
+      words.push('Featured')
+    } else if (popularEntities) {
+      words.push('Popular')
+    }
+
+    const tags = categories.find((cat) => cat.category === categoryTypeName)?.tags
+
+    if (tags && tags.length > 1) {
+      words.push('Selected')
+    } else if (tags && tags.length === 1) {
+      words.push(tags[0])
+    }
+
+    words.push(entityTypeMap[type]?.plural)
+
+    return words.join(' ')
+  }, [categories, categoryTypeName, entityTypeMap, featuredEntities, popularEntities, type, userEntities])
+
   const resetIsActive = (): boolean => {
-    return categories.filter((category) => category.tags.length).length > 0
+    return categories.filter((category) => category.tags.length).length > 0 || !!startDate || !endDate
   }
 
   const filterIsActive = (filterName: string): boolean => activeFilter === filterName
@@ -121,8 +145,8 @@ const EntitiesFilter: FC<Props> = ({
     }))
   }
 
-  const getViewFilterItems = (tags: SchemaCategoryTag[]): IconListFilterItem[] => {
-    const filterItems = tags.map((tag) => ({
+  const getViewFilterItems = (tags: undefined | SchemaCategoryTag[]): IconListFilterItem[] => {
+    const filterItems = (tags ?? []).map((tag) => ({
       name: tag.name,
       icon: tag.icon,
       isSelected: false,
@@ -140,50 +164,62 @@ const EntitiesFilter: FC<Props> = ({
   const filterViewTag = (name: string, tag: string): void => {
     switch (tag) {
       case 'My Portfolio':
-        handleFilterToggleUserEntities(true)
+        dispatch(filterToggleUserEntities(true))
         break
       case 'Global':
-        handleFilterToggleUserEntities(false)
+        dispatch(filterToggleUserEntities(false))
         break
       case 'Featured':
-        handleFilterToggleFeaturedEntities(true)
+        dispatch(filterToggleFeaturedEntities(true))
         break
       case 'Popular':
-        handleFilterTogglePopularEntities(true)
+        dispatch(filterTogglePopularEntities(true))
         break
     }
   }
 
-  const filterCategoryTag = (category: string, tag: string, multiSelect: boolean): void => {
+  const handleFilterCategoryTag = (category: string, tag: string, multiSelect: boolean): void => {
     if (multiSelect) {
-      handleFilterAddCategoryTag(category, tag)
+      dispatch(filterAddCategoryTag(category, tag))
     } else {
-      handleFilterCategoryTag(category, tag)
+      dispatch(filterCategoryTag(category, tag))
     }
   }
 
-  const filterSector = (tag: string): void => {
-    handleFilterSector(tag)
+  const handleFilterSector = (tag: string): void => {
+    dispatch(filterSector(tag))
   }
 
-  const resetSectorFilter = (): void => {
+  const handleResetSectorFilter = (): void => {
     setActiveFilter('')
-    handleResetSectorFilter()
+    dispatch(resetSectorFilter())
   }
 
-  const resetDateFilter = (): void => {
+  const handleResetDateFilter = (): void => {
     setActiveFilter('')
-    handleResetDatesFilter()
+    dispatch(resetDatesFilter())
   }
 
-  const resetCategoryFilter = (category: string): void => {
+  const handleResetCategoryFilter = (category: string): void => {
     setActiveFilter('')
-    handleResetCategoryFilter(category)
+    dispatch(resetCategoryFilter(category))
   }
 
   const resetViewFilter = (): void => {
     setActiveFilter('')
-    handleFilterToggleUserEntities(true)
+    dispatch(filterToggleUserEntities(userEntities))
+  }
+
+  const handleFilterDates = (startDate: string, endDate: string) => {
+    dispatch(filterDates(startDate, endDate))
+  }
+
+  const handleResetFilters = () => {
+    dispatch(resetFilters())
+  }
+
+  if (!filterSchema) {
+    return null
   }
 
   return (
@@ -216,9 +252,9 @@ const EntitiesFilter: FC<Props> = ({
                     key={filterName}
                     name={filterName}
                     isActive={isActive}
-                    handleFilterReset={resetCategoryFilter}
+                    handleFilterReset={handleResetCategoryFilter}
                     handleToggleFilterShow={toggleFilterShow(isActive, filterName)}
-                    handleFilterItemClick={(category, tag): void => filterCategoryTag(category, tag, multiSelect)}
+                    handleFilterItemClick={(category, tag): void => handleFilterCategoryTag(category, tag, multiSelect)}
                     items={items}
                   />
                 )
@@ -234,7 +270,7 @@ const EntitiesFilter: FC<Props> = ({
                 filterSchema.dateCreated.name,
               )}
               handleFilterDateChange={handleFilterDates}
-              handleResetFilter={resetDateFilter}
+              handleResetFilter={handleResetDateFilter}
             />
 
             {!filterSchema.sector.hidden && (
@@ -243,13 +279,13 @@ const EntitiesFilter: FC<Props> = ({
                 key={filterSchema.sector.name}
                 name={filterSchema.sector.name}
                 isActive={filterIsActive(filterSchema.sector.name)}
-                handleFilterReset={resetSectorFilter}
+                handleFilterReset={handleResetSectorFilter}
                 handleToggleFilterShow={toggleFilterShow(
                   filterIsActive(filterSchema.sector.name),
                   filterSchema.sector.name,
                 )}
                 handleFilterItemClick={(category, tag): void => {
-                  filterSector(tag)
+                  handleFilterSector(tag)
                 }}
                 items={getSectorFilterItems(filterSchema.sector.tags)}
               />
@@ -312,9 +348,11 @@ const EntitiesFilter: FC<Props> = ({
                         selectType={multiSelect ? SelectType.MultiSelect : SelectType.SingleSelect}
                         showFilterSubMenu={true}
                         isActive={isActive}
-                        handleFilterReset={resetCategoryFilter}
+                        handleFilterReset={handleResetCategoryFilter}
                         handleToggleFilterShow={toggleFilterShow(isActive, filterName)}
-                        handleFilterItemClick={(category, tag): void => filterCategoryTag(category, tag, multiSelect)}
+                        handleFilterItemClick={(category, tag): void =>
+                          handleFilterCategoryTag(category, tag, multiSelect)
+                        }
                         items={items}
                       />
                     )
@@ -331,9 +369,9 @@ const EntitiesFilter: FC<Props> = ({
                         filterIsActive(filterSchema.sector.name),
                         filterSchema.sector.name,
                       )}
-                      handleFilterReset={resetSectorFilter}
+                      handleFilterReset={handleResetSectorFilter}
                       handleFilterItemClick={(category, tag): void => {
-                        filterSector(tag)
+                        handleFilterSector(tag)
                       }}
                       items={getSectorFilterItems(filterSchema.sector.tags)}
                     />
@@ -355,7 +393,7 @@ const EntitiesFilter: FC<Props> = ({
                 filterSchema.dateCreated.name,
               )}
               handleFilterDateChange={handleFilterDates}
-              handleResetFilter={resetDateFilter}
+              handleResetFilter={handleResetDateFilter}
             />
           </MediaQuery>
 

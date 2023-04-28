@@ -50,8 +50,6 @@ interface Props {
 }
 
 const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JSX.Element => {
-  console.log({ daoGroup })
-
   const { CreateDAOCoreByGroupId } = useCreateEntity()
   const [data, setData] = useState<TDAOGroupModel>(daoGroup)
   const [useExistingToken, setUseExistingToken] = useState(false)

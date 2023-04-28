@@ -1,8 +1,8 @@
-// import DatePicker from '../../DatePicker/DatePicker'
 import { Props } from './types'
 import { DatePickerModal, ButtonWrapper, ButtonOuter, ButtonInner, ButtonIcon } from '../Filters.styles'
 import { Button, DateRangePicker } from 'pages/CreateEntity/Components'
 import { FlexBox } from 'components/App/App.styles'
+import { useEffect, useState } from 'react'
 
 const DateFilterDesktop: React.FunctionComponent<Props> = ({
   startDate,
@@ -13,6 +13,22 @@ const DateFilterDesktop: React.FunctionComponent<Props> = ({
   handleFilterToggleShow,
   handleResetFilter,
 }) => {
+  const [_startDate, setStartDate] = useState('')
+  const [_endDate, setEndDate] = useState('')
+
+  useEffect(() => {
+    setStartDate(startDate)
+  }, [startDate])
+
+  useEffect(() => {
+    setEndDate(endDate)
+  }, [endDate])
+
+  function handleApply() {
+    handleFilterDateChange(_startDate, _endDate)
+    handleFilterToggleShow()
+  }
+
   return (
     <ButtonWrapper className={isActive ? 'active' : ''}>
       <ButtonOuter
@@ -27,21 +43,13 @@ const DateFilterDesktop: React.FunctionComponent<Props> = ({
       </ButtonOuter>
       {isActive && (
         <DatePickerModal>
-          {/* <DatePicker
-            initialStartDate={startDate}
-            initialEndDate={endDate}
-            numberOfMonths={2}
-            initialOrientation='horizontal'
-            onApply={handleFilterToggleShow}
-            onChange={handleFilterDateChange}
-            onReset={handleResetFilter}
-          /> */}
           <DateRangePicker
             id='date-filter'
-            startDate={startDate || ''}
-            endDate={endDate || ''}
+            startDate={_startDate}
+            endDate={_endDate}
             onChange={(startDate: string, endDate: string) => {
-              handleFilterDateChange(startDate, endDate)
+              setStartDate(startDate)
+              setEndDate(endDate)
             }}
             input={false}
           />
@@ -49,7 +57,7 @@ const DateFilterDesktop: React.FunctionComponent<Props> = ({
             <Button variant='secondary' onClick={handleResetFilter}>
               Reset
             </Button>
-            <Button variant='primary' onClick={handleFilterToggleShow}>
+            <Button variant='primary' onClick={handleApply} disabled={!_startDate || !_endDate}>
               Done
             </Button>
           </FlexBox>

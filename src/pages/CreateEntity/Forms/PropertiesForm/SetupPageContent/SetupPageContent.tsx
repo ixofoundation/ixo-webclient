@@ -10,7 +10,7 @@ import Undo from 'editorjs-undo'
 import { TEntityPageModel } from 'types/protocol'
 import { Wrapper, Row } from './SetupPageContent.styles'
 import { EDITOR_JS_TOOLS } from './SetupPageContent.constants'
-import { OutputData } from '@editorjs/editorjs'
+import { OutputBlockData, OutputData } from '@editorjs/editorjs'
 
 const ReactEditorJS = createReactEditorJS()
 
@@ -24,9 +24,29 @@ interface Props {
 const SetupPageContent: React.FC<Props> = ({ page, entityType, onChange, onClose }): JSX.Element => {
   const editorCore = useRef(null)
 
+  const DefHeroImageData: OutputBlockData = {
+    id: 'page-hero-image',
+    type: 'heroImage',
+    data: undefined,
+  }
+
+  const DefPageTitleData: OutputBlockData = {
+    id: 'page-title',
+    type: 'pageTitle',
+    data: undefined,
+  }
+
+  const DefPageContentData: OutputBlockData = {
+    id: 'page-content',
+    type: 'pageContent',
+    data: undefined,
+  }
+
   const [value, setValue] = useState<OutputData>({
     time: new Date().getTime(),
-    blocks: page ? _.values(page) : [],
+    blocks: [
+      ...(Object.keys(page).length > 0 ? _.values(page) : [DefHeroImageData, DefPageTitleData, DefPageContentData]),
+    ],
   })
 
   const handleChange = (): void => {

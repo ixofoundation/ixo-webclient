@@ -164,6 +164,7 @@ const ImageUploadModal: React.FC<Props> = ({
                 name='image_upload_source'
                 inputValue={tempValue}
                 placeholder={'https://'}
+                height='48px'
                 handleChange={(val): void => setTempValue(val)}
                 disabled={loading}
               />
