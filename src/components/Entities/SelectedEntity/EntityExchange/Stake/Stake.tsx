@@ -128,13 +128,13 @@ const Stake: React.FunctionComponent = () => {
       try {
         const result = await keplr.sendTransaction(client, address, payload)
         if (result) {
-          Toast.successToast(`Transaction Successful`)
+          Toast.successToast(null, `Transaction Successful`)
         } else {
           // eslint-disable-next-line
           throw 'transaction failed'
         }
       } catch (e) {
-        Toast.errorToast(`Transaction Failed`)
+        Toast.errorToast(null, `Transaction Failed`)
       }
       dispatch(getValidators(selectedAddress!) as any)
     }

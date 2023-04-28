@@ -177,12 +177,12 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
         console.log('handleExecuteProposal', transactionHash, logs)
         if (transactionHash) {
           onUpdate()
-          Toast.successToast('Successfully executed proposal')
+          Toast.successToast(null, 'Successfully executed proposal')
         }
       })
       .catch((e) => {
         console.error('handleExecuteProposal', e)
-        Toast.errorToast('Transaction failed')
+        Toast.errorToast(null, 'Transaction failed')
       })
   }
 
@@ -193,12 +193,12 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
         console.log('handleCloseProposal', transactionHash, logs)
         if (transactionHash) {
           onUpdate()
-          Toast.successToast('Successfully closed proposal')
+          Toast.successToast(null, 'Successfully closed proposal')
         }
       })
       .catch((e) => {
         console.error('handleCloseProposal', e)
-        Toast.errorToast('Transaction failed')
+        Toast.errorToast(null, 'Transaction failed')
       })
   }
 
@@ -268,7 +268,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
               <LabelSM>Proposed by</LabelSM>
               <br />
               <LabelLG style={{ cursor: 'pointer' }} title='Click to copy'>
-                <CopyToClipboard text={proposer} onCopy={() => Toast.successToast('Coiped to clipboard')}>
+                <CopyToClipboard text={proposer} onCopy={() => Toast.successToast(null, 'Coiped to clipboard')}>
                   <span>
                     {proposer.substring(0, 10)}
                     {proposer && '...'}

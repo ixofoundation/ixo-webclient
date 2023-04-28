@@ -79,7 +79,7 @@ export const confirmOrder =
           }
         })
         .catch(() => {
-          Toast.errorToast('Sale failed. Please try again.')
+          Toast.errorToast(null, 'Sale failed. Please try again.')
         })
     })
 

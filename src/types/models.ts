@@ -46,11 +46,6 @@ export interface Statistic {
   onClick?: any
 }
 
-export enum ErrorTypes {
-  goBack = 'GOBACK',
-  message = 'MESSAGE',
-}
-
 export enum FormStyles {
   modal = 'MODAL',
   standard = 'STANDARD',

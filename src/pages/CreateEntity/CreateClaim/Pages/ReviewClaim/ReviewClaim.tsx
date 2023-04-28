@@ -28,7 +28,7 @@ const ReviewClaim: React.FC = (): JSX.Element => {
 
     const protocolDid = await CreateProtocol()
     if (!protocolDid) {
-      Toast.errorToast(`Create Entity Protocol Failed`)
+      Toast.errorToast(null, `Create Entity Protocol Failed`)
       setSubmitting(false)
       return
     }
@@ -40,9 +40,9 @@ const ReviewClaim: React.FC = (): JSX.Element => {
       verification,
     })
     if (entityDid) {
-      Toast.successToast(`Create Entity Succeed`)
+      Toast.successToast(null, `Create Entity Succeed`)
     } else {
-      Toast.errorToast(`Create Entity Failed`)
+      Toast.errorToast(null, `Create Entity Failed`)
     }
     setSubmitting(false)
   }

@@ -34,7 +34,7 @@ class EditEntity extends React.Component<Props> {
     /*
     example...
     if (this.props.keysafe === null) {
-      errorToast('Please install IXO Credential Manager first.')
+      errorToast(null, 'Please install IXO Credential Manager first.')
     } else {
       // ok
     }
@@ -63,13 +63,13 @@ class EditEntity extends React.Component<Props> {
     if (window.confirm('Are you sure you want to reset this form? All progress on the setup will be lost')) {
       handleFetchExistingEntity(projectDID, true)
       handleGoToStep(1)
-      Toast.successToast('Form has been reset')
+      Toast.successToast(null, 'Form has been reset')
     }
   }
 
   handleSave = (): void => {
     // does nothing except display a message
-    Toast.successToast('Progress has been saved')
+    Toast.successToast(null, 'Progress has been saved')
   }
 
   renderStartRoute = (): JSX.Element => {

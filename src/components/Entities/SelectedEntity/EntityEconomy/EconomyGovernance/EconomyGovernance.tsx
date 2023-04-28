@@ -146,12 +146,12 @@ const EconomyGovernance: React.FunctionComponent = () => {
       try {
         const result = await keplr.sendTransaction(client, address, payload)
         if (result) {
-          Toast.successToast(`Transaction Successful`)
+          Toast.successToast(null, `Transaction Successful`)
         } else {
-          Toast.errorToast(`Transaction Failed`)
+          Toast.errorToast(null, `Transaction Failed`)
         }
       } catch (e) {
-        Toast.errorToast(`Transaction Failed`)
+        Toast.errorToast(null, `Transaction Failed`)
         throw e
       }
     } catch (e) {
@@ -217,12 +217,12 @@ const EconomyGovernance: React.FunctionComponent = () => {
       try {
         const result = await keplr.sendTransaction(client, address, payload)
         if (result) {
-          Toast.successToast(`Transaction Successful`)
+          Toast.successToast(null, `Transaction Successful`)
         } else {
-          Toast.errorToast(`Transaction Failed`)
+          Toast.errorToast(null, `Transaction Failed`)
         }
       } catch (e) {
-        Toast.errorToast(`Transaction Failed`)
+        Toast.errorToast(null, `Transaction Failed`)
         throw e
       }
     } catch (e) {

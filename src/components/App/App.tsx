@@ -189,7 +189,7 @@ class App extends React.Component<Props, State> {
           }}
         >
           <AssistantContext.Provider value={{ active: assistantToggled }}>
-            <ToastContainer hideProgressBar={true} position='top-right' />
+            <ToastContainer theme='dark' hideProgressBar={true} position='top-right' />
             {this.props.entityTypeMap && (
               <ScrollToTop>
                 <Container>

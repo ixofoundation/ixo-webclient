@@ -110,11 +110,11 @@ const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JS
 
     const daoContractAddress = await CreateDAOCoreByGroupId(data)
     if (!daoContractAddress) {
-      Toast.errorToast(`Create Group Failed`)
+      Toast.errorToast(null, `Create Group Failed`)
       setSubmitting(false)
       return
     } else {
-      Toast.successToast(`Create Group Succeed`)
+      Toast.successToast(null, `Create Group Succeed`)
       setSubmitting(false)
       console.log({ daoContractAddress })
     }

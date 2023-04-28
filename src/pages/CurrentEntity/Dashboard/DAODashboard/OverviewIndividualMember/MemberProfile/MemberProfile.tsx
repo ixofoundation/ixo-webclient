@@ -91,7 +91,7 @@ const MemberProfile: React.FC = (): JSX.Element => {
               <Typography color='blue' size='lg'>
                 {truncateString(address, 20)}
               </Typography>
-              <CopyToClipboard text={address} onCopy={() => Toast.successToast(`Copied to clipboard`)}>
+              <CopyToClipboard text={address} onCopy={() => Toast.successToast(null, `Copied to clipboard`)}>
                 <SvgBox color={theme.ixoNewBlue} cursor='pointer'>
                   <CopyIcon />
                 </SvgBox>
@@ -185,7 +185,10 @@ const MemberProfile: React.FC = (): JSX.Element => {
                   <Typography size='lg' color='blue'>
                     {truncateString(value as string, 20)}
                   </Typography>
-                  <CopyToClipboard text={value as string} onCopy={() => Toast.successToast(`Copied to clipboard`)}>
+                  <CopyToClipboard
+                    text={value as string}
+                    onCopy={() => Toast.successToast(null, `Copied to clipboard`)}
+                  >
                     <SvgBox color={theme.ixoNewBlue} svgWidth={5} svgHeight={5} cursor='pointer'>
                       <CopyIcon />
                     </SvgBox>
