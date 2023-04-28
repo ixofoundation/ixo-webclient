@@ -11,8 +11,8 @@ beforeEach(() => {
   store = mockStore({
     entities: {
       filter: {
-        dateFrom: moment('2020-04-09T13:14:13.000Z'),
-        dateTo: moment('2020-04-08T13:14:13.000Z'),
+        dateFrom: '2020-04-09T13:14:13.000Z',
+        dateTo: '2020-04-08T13:14:13.000Z',
         ddoTags: [
           {
             category: 'foo1',
