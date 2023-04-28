@@ -1,8 +1,10 @@
 import { ConnectButton, Inner, NoPadLeft, StatusBox, StatusText, UserBox } from './HeaderRight.styles'
 import { useAccount } from 'hooks/account'
+import CopyToClipboard from 'react-copy-to-clipboard'
 import { useAppSelector } from 'redux/hooks'
 import { selectEntityHeaderButtonColorUIConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { truncateString } from 'utils/formatters'
+import * as Toast from 'utils/toast'
 import { Typography } from 'components/Typography'
 import { Light, LightLoading, LightReady, Ping } from '../HeaderContainer.styles'
 import { useWalletManager } from '@gssuper/cosmodal'
@@ -58,9 +60,12 @@ const HeaderRight: React.FC<HeaderRightProps> = ({ toggleModal }): JSX.Element =
                 <Typography variant='secondary' size='md'>
                   {truncateString(name, 8, 'end')}
                 </Typography>
-                <Typography variant='secondary' size='xs' color='blue'>
-                  {truncateString(address, 20)}
-                </Typography>
+
+                <CopyToClipboard text={address} onCopy={() => Toast.successToast(`Copied to clipboard`)}>
+                  <Typography variant='secondary' size='xs' color='blue' hover={{ underline: true }}>
+                    {truncateString(address, 20)}
+                  </Typography>
+                </CopyToClipboard>
               </ConnectButton>
             )}
           </UserBox>

@@ -777,7 +777,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
           '@protected': true,
         },
         type: 'ixo:entity#tags',
-        ddoTags,
+        entityTags: ddoTags,
       }
       const buff = Buffer.from(JSON.stringify(payload))
       const res = await UploadDataToService(buff.toString('base64'))
