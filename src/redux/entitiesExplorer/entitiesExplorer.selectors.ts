@@ -8,7 +8,6 @@ import { Schema as FilterSchema } from 'components/Entities/EntitiesExplorer/Com
 import { theme } from 'components/App/App.styles'
 import { TEntityDDOTagModel } from 'types/protocol'
 import { TEntityModel } from 'api/blocksync/types/entities'
-import { utils } from '@ixo/impactxclient-sdk'
 
 const formatDate = (date: string): string => moment(date).format("D MMM \\'YY")
 
@@ -197,8 +196,8 @@ export const selectedFilteredEntities2 = createSelector(
       filteredEntities = filteredEntities.filter(
         (entity) =>
           !entity.metadata?.created ||
-          (utils.proto.fromTimestamp(entity.metadata.created).getTime() >= new Date(filter.dateFrom).getTime() &&
-            utils.proto.fromTimestamp(entity.metadata.created).getTime() <= new Date(filter.dateTo).getTime()),
+          (new Date(entity.metadata.created as never as string).getTime() >= new Date(filter.dateFrom).getTime() &&
+            new Date(entity.metadata.created as never as string).getTime() <= new Date(filter.dateTo).getTime()),
       )
     }
 
@@ -302,14 +301,6 @@ export const selectFilterDateFrom = createSelector(selectEntitiesFilter, (filter
 export const selectFilterDateTo = createSelector(selectEntitiesFilter, (filter: Filter): string => {
   return filter.dateTo
 })
-
-export const selectFilterDateRange = createSelector(
-  selectEntitiesFilter,
-  (filter: Filter): { dateFrom: string; dateTo: string } => {
-    const { dateFrom, dateTo } = filter
-    return { dateFrom, dateTo }
-  },
-)
 
 export const selectFilterDateFromFormatted = createSelector(selectFilterDateFrom, (dateFrom: string): string => {
   return dateFrom ? formatDate(dateFrom) : ''
