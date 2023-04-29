@@ -142,7 +142,7 @@ const Assistant: React.FunctionComponent<AssistantProps> = ({
                     return
                   }
 
-                  Toast.errorToast(`Invalid account id or wallet address`)
+                  Toast.errorToast(null, `Invalid account id or wallet address`)
                 })
               })
             } else {

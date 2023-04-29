@@ -59,7 +59,7 @@ const ImageUploadModal: React.FC<Props> = ({
         }
       })
       .catch(() => {
-        Toast.errorToast(`Server went down or Image is too large.`)
+        Toast.errorToast(null, `Server went down or Image is too large.`)
         setLoading(false)
       })
   }

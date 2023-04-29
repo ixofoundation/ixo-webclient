@@ -54,13 +54,13 @@ class CreateEntity extends React.Component<Props> {
       handleClearAssociatedTemplates()
       handleNewEntity(entityType, true)
 
-      Toast.successToast('Form has been reset')
+      Toast.successToast(null, 'Form has been reset')
     }
   }
 
   handleSave = (): void => {
     // does nothing except display a message
-    Toast.successToast('Progress has been saved')
+    Toast.successToast(null, 'Progress has been saved')
   }
 
   renderStartRoute = (): JSX.Element => {

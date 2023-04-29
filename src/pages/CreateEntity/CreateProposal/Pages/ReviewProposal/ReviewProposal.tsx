@@ -87,7 +87,7 @@ const ReviewProposal: React.FC = () => {
       return false
     }
     if (!memberAddresses.includes(address)) {
-      Toast.errorToast('You must be a member of the group')
+      Toast.errorToast(null, 'You must be a member of the group')
       return false
     }
     return true
@@ -205,12 +205,12 @@ const ReviewProposal: React.FC = () => {
         const { logs, transactionHash } = res
         const proposalId = Number(getValueFromEvents(logs, 'wasm', 'proposal_id') || '0')
 
-        Toast.successToast(`Successfully published proposals`)
+        Toast.successToast(null, `Successfully published proposals`)
         return { transactionHash, proposalId }
       })
       .catch((e) => {
         console.error(e)
-        Toast.errorToast(e)
+        Toast.errorToast(null, e)
         return undefined
       })
   }

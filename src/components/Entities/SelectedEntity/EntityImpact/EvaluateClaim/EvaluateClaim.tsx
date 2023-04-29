@@ -93,9 +93,9 @@ class EvaluateClaim extends React.Component<Props, States> {
     const { claim } = this.props
     try {
       localStorage.setItem(claim.txHash, JSON.stringify(claim))
-      Toast.successToast(`Current evaluation progress saved!`)
+      Toast.successToast(null, `Current evaluation progress saved!`)
     } catch (e) {
-      Toast.errorToast(`There was an error while saving your progress.`)
+      Toast.errorToast(null, `There was an error while saving your progress.`)
     }
   }
 

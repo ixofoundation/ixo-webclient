@@ -413,7 +413,7 @@ const CreatePaymentTemplateModal: React.FunctionComponent<Props> = ({ open, setO
                     // `payment:template:${entityDid}:${templateName}`,
                     templateName!,
                   )
-                  Toast.successToast('Template Id Copied')
+                  Toast.successToast(null, 'Template Id Copied')
                 }}
               >
                 <img src={CopyIcon} alt='view transactions' />

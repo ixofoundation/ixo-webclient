@@ -160,7 +160,7 @@ const CreateBondModal: React.FunctionComponent<Props> = ({ alphaBondInfo }) => {
 
   const signInTransaction = (): void => {
     if (!userInfo) {
-      Toast.errorToast('Please sign in Keysafe first!')
+      Toast.errorToast(null, 'Please sign in Keysafe first!')
       return
     }
     if (!alphaBondInfo) {
