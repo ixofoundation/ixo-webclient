@@ -16,7 +16,7 @@ import {
 
 export interface TCreateEntityModel {
   localisation: ELocalisation
-  metadata: TEntityMetadataModel
+  profile: TEntityMetadataModel
   creator: TEntityCreatorModel
   administrator: TEntityAdministratorModel
   ddoTags: TEntityDDOTagModel[]
@@ -56,7 +56,7 @@ export enum ECreateEntityActions {
   UpdateTitle = 'ixo/create/entity/UPDATE_TITLE',
   UpdateSubtitle = 'ixo/create/entity/UPDATE_SUBTITLE',
 
-  UpdateMetadata = 'ixo/create/entity/UPDATE_METADATA',
+  UpdateProfile = 'ixo/create/entity/UPDATE_PROFILE',
   UpdateCreator = 'ixo/create/entity/UPDATE_CREATOR',
   UpdateAdministrator = 'ixo/create/entity/UPDATE_ADMINISTRATOR',
   UpdateDDOTags = 'ixo/create/entity/UPDATE_DDOTAGS',
@@ -100,8 +100,8 @@ export interface TUpdateSubtitleAction {
   type: typeof ECreateEntityActions.UpdateSubtitle
   payload: string
 }
-export interface TUpdateMetaDataAction {
-  type: typeof ECreateEntityActions.UpdateMetadata
+export interface TUpdateProfileAction {
+  type: typeof ECreateEntityActions.UpdateProfile
   payload: TEntityMetadataModel
 }
 export interface TUpdateCreatorAction {
@@ -178,7 +178,7 @@ export type TCreateEntityActionTypes =
   | TUpdateBreadCrumbsAction
   | TUpdateTitleAction
   | TUpdateSubtitleAction
-  | TUpdateMetaDataAction
+  | TUpdateProfileAction
   | TUpdateCreatorAction
   | TUpdateAdministratorAction
   | TUpdateDDOTagsAction

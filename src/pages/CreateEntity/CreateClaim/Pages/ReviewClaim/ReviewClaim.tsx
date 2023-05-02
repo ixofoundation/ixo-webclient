@@ -12,7 +12,7 @@ import ClaimCard from './ClaimCard'
 
 const ReviewClaim: React.FC = (): JSX.Element => {
   const createEntityState = useCreateEntityState()
-  const metadata: TClaimMetadataModel = createEntityState.metadata as TClaimMetadataModel
+  const profile: TClaimMetadataModel = createEntityState.profile as TClaimMetadataModel
   const { entityType, service, linkedEntity, gotoStep } = createEntityState
   const { UploadLinkedResource, CreateProtocol, CreateEntityBase } = useCreateEntity()
   const [submitting, setSubmitting] = useState(false)
@@ -50,10 +50,10 @@ const ReviewClaim: React.FC = (): JSX.Element => {
   return (
     <FlexBox width={`${deviceWidth.tablet}px`} gap={10} alignItems='stretch'>
       <ClaimCard
-        type={metadata.type}
-        title={metadata.title}
-        description={metadata.description}
-        numOfQuestions={Object.keys(metadata.questions).length}
+        type={profile.type}
+        title={profile.title}
+        description={profile.description}
+        numOfQuestions={Object.keys(profile.questions).length}
       />
       <FlexBox direction='column' justifyContent='space-between' width='100%' style={{ flex: 1 }}>
         <FlexBox direction='column' width='100%' gap={4}>

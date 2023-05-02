@@ -11,8 +11,8 @@ const EditDAO: React.FC = (): JSX.Element => {
   const { entityId } = useParams<{ entityId: string }>()
 
   const entity = useContext(EditEntityContext)
-  const metadata: TDAOMetadataModel = entity.metadata as TDAOMetadataModel
-  const entityName = metadata?.name || ''
+  const profile: TDAOMetadataModel = entity.profile as TDAOMetadataModel
+  const entityName = profile?.name || ''
 
   useEffect(() => {
     entity.updatePartial('breadCrumbs', [{ text: 'DAO' }, { text: entityName }])

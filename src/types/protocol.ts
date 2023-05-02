@@ -769,7 +769,7 @@ export interface TBasicMetadataModel {
 export interface TAssetMetadataModel extends TBasicMetadataModel {
   image?: string
   denom?: string
-  icon?: string
+  logo?: string
   type?: EAssetType
   tokenName?: string
   name?: string
@@ -779,25 +779,25 @@ export interface TAssetMetadataModel extends TBasicMetadataModel {
 }
 export interface TInvestmentMetadataModel extends TBasicMetadataModel {
   image?: string
-  icon?: string
+  logo?: string
   orgName?: string
   name?: string
 }
 export interface TDAOMetadataModel extends TBasicMetadataModel {
   image?: string
-  icon?: string
+  logo?: string
   orgName?: string
   name?: string
 }
 export interface TProjectMetadataModel extends TBasicMetadataModel {
   image?: string
-  icon?: string
+  logo?: string
   orgName?: string
   name?: string
 }
 export interface TOracleMetadataModel extends TBasicMetadataModel {
   image?: string
-  icon?: string
+  logo?: string
   orgName?: string
   name?: string
 }
@@ -1067,4 +1067,22 @@ export interface TProposalModel {
   name?: string
   description?: string
   actions?: TProposalActionModel[]
+}
+
+/**
+ * @description token metadata
+ */
+export interface TTokenMetadataModel {
+  id: string
+  type: string
+  name: string
+  tokenName: string
+  decimals: number
+  description: string
+  image: string
+  properties: {
+    denom: string
+    icon: string
+    maxSupply: string
+  }
 }

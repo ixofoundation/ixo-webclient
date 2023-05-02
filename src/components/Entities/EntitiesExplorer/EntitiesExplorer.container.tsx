@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { RouteProps } from 'react-router'
-import InfiniteScroll from 'react-infinite-scroll-component'
 import CellCard from './Components/EntityCard/CellCard/CellCard2'
 // import ProjectCard from './Components/EntityCard/ProjectCard/ProjectCard'
 // import TemplateCard from './Components/EntityCard/TemplateCard/TemplateCard'
@@ -28,10 +27,11 @@ import { EntityType, EntityTypeStrategyMap } from 'types/entities'
 import { Schema as FilterSchema } from './Components/EntitiesFilter/schema/types'
 import * as entitiesSelectors from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { useEffect, useState } from 'react'
-import AssetCollections from './Components/AssetCollections/AssetCollections'
+import AssetCollections from './Components/Assets/Collections'
 import { useQuery } from 'hooks/window'
 import { TEntityDDOTagModel } from 'types/protocol'
 import { TEntityModel } from 'api/blocksync/types/entities'
+import { InfiniteScroll } from 'components/InfiniteScroll'
 // import { checkIsLaunchpadFromApiListedEntityData } from '../Entities.utils'
 
 // const entityFilters = {
@@ -86,8 +86,11 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
   const { getQuery } = useQuery()
   const [assistantPanelActive, setAssistantPanelActive] = useState(false)
   const itemsCount = 6
-  const [offset, setOffest] = useState(1)
-  const entities = React.useMemo(() => props.entities.slice(0, offset * itemsCount), [offset, props.entities])
+  const [scrollOffset, setScrollOffest] = useState(1)
+  const entities = React.useMemo(
+    () => props.entities.slice(0, scrollOffset * itemsCount),
+    [scrollOffset, props.entities],
+  )
 
   const renderCards = (data: any): JSX.Element[] => {
     return (
@@ -120,23 +123,28 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
         dataLength={entities.length} //This is important field to render the next data
         next={() => {
           setTimeout(() => {
-            setOffest((offset) => offset + 1)
+            setScrollOffest((scrollOffset) => scrollOffset + 1)
           }, 1000 * 3)
         }}
         hasMore={entities.length < props.entities.length}
-        loader={<h4 style={{ width: '100%' }}>Loading...</h4>}
-        endMessage={
-          <p style={{ width: '100%', textAlign: 'center', gridColumn: 'span 3' }}>
-            <b>Yay! You have seen it all</b>
-          </p>
-        }
-        scrollableTarget='root'
+        columns={3}
       >
         {renderCards(entities)}
       </InfiniteScroll>
     )
 
     const renderAssets = (): JSX.Element => <AssetCollections />
+
+    if (type === EntityType.Asset) {
+      return (
+        <EntitiesContainer className='container-fluid'>
+          <div className='container'>
+            <EntitiesFilter filterSchema={props.filterSchema} />
+            <EntitiesBody>{renderAssets()}</EntitiesBody>
+          </div>
+        </EntitiesContainer>
+      )
+    }
 
     if (props.entitiesCount > 0) {
       return (
@@ -145,8 +153,7 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
             <EntitiesFilter filterSchema={props.filterSchema} />
             <EntitiesBody>
               {props.filteredEntitiesCount === 0 && renderNoSearchFound()}
-              {props.filteredEntitiesCount > 0 && type === EntityType.Asset && renderAssets()}
-              {props.filteredEntitiesCount > 0 && type !== EntityType.Asset && renderNonAssets()}
+              {props.filteredEntitiesCount > 0 && renderNonAssets()}
             </EntitiesBody>
           </div>
         </EntitiesContainer>

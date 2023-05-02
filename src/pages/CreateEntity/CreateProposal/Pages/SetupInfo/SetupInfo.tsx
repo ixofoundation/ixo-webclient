@@ -13,8 +13,8 @@ const SetupInfo: React.FC = (): JSX.Element => {
   const { entityId, coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
   const history = useHistory()
   const createEntityState = useCreateEntityState()
-  const metadata = createEntityState.metadata as TProposalMetadataModel
-  const { updateMetadata } = createEntityState
+  const profile = createEntityState.profile as TProposalMetadataModel
+  const { updateProfile } = createEntityState
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
   const canContinue = name && description
@@ -24,15 +24,15 @@ const SetupInfo: React.FC = (): JSX.Element => {
   }
   const onContinue = () => {
     if (name && description) {
-      updateMetadata({ name, description })
+      updateProfile({ name, description })
       history.push(`/create/entity/deed/${entityId}/${coreAddress}/page`)
     }
   }
 
   useEffect(() => {
-    setName(metadata?.name ?? '')
-    setDescription(metadata?.description ?? '')
-  }, [metadata])
+    setName(profile?.name ?? '')
+    setDescription(profile?.description ?? '')
+  }, [profile])
 
   return (
     <FlexBox width={'100%'} justifyContent='center'>

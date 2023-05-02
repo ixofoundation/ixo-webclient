@@ -8,10 +8,10 @@ import { TProjectMetadataModel } from 'types/protocol'
 
 const SetupMetadata: React.FC = (): JSX.Element => {
   const createEntityState = useCreateEntityState()
-  const { entityType, gotoStep, updateMetadata } = createEntityState
-  const metadata: TProjectMetadataModel = createEntityState.metadata as TProjectMetadataModel
+  const { entityType, gotoStep, updateProfile } = createEntityState
+  const profile: TProjectMetadataModel = createEntityState.profile as TProjectMetadataModel
 
-  const canSubmit = useMemo(() => metadata?.image && metadata?.icon && metadata?.orgName && metadata?.name, [metadata])
+  const canSubmit = useMemo(() => profile?.image && profile?.logo && profile?.orgName && profile?.name, [profile])
 
   const handlePrev = (): void => {
     gotoStep(-1)
@@ -20,9 +20,9 @@ const SetupMetadata: React.FC = (): JSX.Element => {
     gotoStep(1)
   }
 
-  const handleUpdateMetadata = (key: string, value: any): void => {
-    updateMetadata({
-      ...metadata,
+  const handleUpdateProfile = (key: string, value: any): void => {
+    updateProfile({
+      ...profile,
       [key]: value,
     })
   }
@@ -38,34 +38,34 @@ const SetupMetadata: React.FC = (): JSX.Element => {
         </Box> */}
         <Box className='mb-2' />
         <ProjectProfileForm
-          image={metadata?.image}
-          setImage={(image): void => handleUpdateMetadata('image', image)}
-          logo={metadata?.icon ?? ''}
-          setLogo={(icon): void => handleUpdateMetadata('icon', icon)}
-          orgName={metadata?.orgName ?? ''}
-          setOrgName={(orgName): void => handleUpdateMetadata('orgName', orgName)}
-          name={metadata?.name ?? ''}
-          setName={(name): void => handleUpdateMetadata('name', name)}
+          image={profile?.image}
+          setImage={(image): void => handleUpdateProfile('image', image)}
+          logo={profile?.logo ?? ''}
+          setLogo={(logo): void => handleUpdateProfile('logo', logo)}
+          orgName={profile?.orgName ?? ''}
+          setOrgName={(orgName): void => handleUpdateProfile('orgName', orgName)}
+          name={profile?.name ?? ''}
+          setName={(name): void => handleUpdateProfile('name', name)}
         />
       </Box>
       <Box className='d-flex flex-column' style={{ width: 400 }}>
         <EntityAdditionalInfoForm
           entityType={entityType}
-          description={metadata?.description ?? ''}
-          setDescription={(description): void => handleUpdateMetadata('description', description)}
-          brand={metadata?.brand ?? ''}
-          setBrand={(brand): void => handleUpdateMetadata('brand', brand)}
-          location={metadata?.location ?? ''}
-          setLocation={(location): void => handleUpdateMetadata('location', location)}
-          metrics={metadata?.metrics ?? []}
-          setMetrics={(metrics): void => handleUpdateMetadata('metrics', metrics)}
-          attributes={metadata?.attributes ?? []}
-          setAttributes={(attributes): void => handleUpdateMetadata('attributes', attributes)}
-          startDate={metadata?.startDate ?? ''}
-          endDate={metadata?.endDate ?? ''}
+          description={profile?.description ?? ''}
+          setDescription={(description): void => handleUpdateProfile('description', description)}
+          brand={profile?.brand ?? ''}
+          setBrand={(brand): void => handleUpdateProfile('brand', brand)}
+          location={profile?.location ?? ''}
+          setLocation={(location): void => handleUpdateProfile('location', location)}
+          metrics={profile?.metrics ?? []}
+          setMetrics={(metrics): void => handleUpdateProfile('metrics', metrics)}
+          attributes={profile?.attributes ?? []}
+          setAttributes={(attributes): void => handleUpdateProfile('attributes', attributes)}
+          startDate={profile?.startDate ?? ''}
+          endDate={profile?.endDate ?? ''}
           setStartEndDate={(startDate, endDate) => {
-            updateMetadata({
-              ...metadata,
+            updateProfile({
+              ...profile,
               startDate,
               endDate,
             })

@@ -3,7 +3,7 @@ import { ECreateEntityActions, TCreateEntityActionTypes, TCreateEntityState } fr
 
 export const initialState: TCreateEntityState = {
   entityType: undefined,
-  metadata: undefined,
+  profile: undefined,
   creator: undefined,
   administrator: undefined,
   ddoTags: [],
@@ -66,8 +66,8 @@ export const reducer = (state = initialState, action: TCreateEntityActionTypes):
     case ECreateEntityActions.UpdateSubtitle:
       updatedState = { ...state, subtitle: action.payload }
       break
-    case ECreateEntityActions.UpdateMetadata:
-      updatedState = { ...state, metadata: action.payload }
+    case ECreateEntityActions.UpdateProfile:
+      updatedState = { ...state, profile: action.payload }
       break
     case ECreateEntityActions.UpdateCreator:
       updatedState = { ...state, creator: action.payload }

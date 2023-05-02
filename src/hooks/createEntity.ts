@@ -33,7 +33,7 @@ import {
   updateLinkedEntityAction,
   updateLinkedResourceAction,
   updateLocalisationAction,
-  updateMetadataAction,
+  updateProfileAction,
   updatePageAction,
   updateServiceAction,
   updateSubtitleAction,
@@ -54,7 +54,7 @@ import {
   selectCreateEntityLinkedEntity,
   selectCreateEntityLinkedResource,
   selectCreateEntityLocalisation,
-  selectCreateEntityMetadata,
+  selectCreateEntityProfile,
   selectCreateEntityPage,
   selectCreateEntityService,
   selectCreateEntityStepNo,
@@ -119,7 +119,7 @@ interface TCreateEntityStateHookRes {
   breadCrumbs: { text: string; link?: string }[]
   title: string
   subtitle: string
-  metadata: TEntityMetadataModel
+  profile: TEntityMetadataModel
   creator: TEntityCreatorModel
   administrator: TEntityAdministratorModel
   ddoTags: TEntityDDOTagModel[]
@@ -142,7 +142,7 @@ interface TCreateEntityStateHookRes {
   updateBreadCrumbs: (breadCrumbs: { text: string; link?: string }[]) => void
   updateTitle: (title: string) => void
   updateSubtitle: (subtitle: string) => void
-  updateMetadata: (metadata: TEntityMetadataModel) => void
+  updateProfile: (profile: TEntityMetadataModel) => void
   updateCreator: (creator: TEntityCreatorModel) => void
   updateAdministrator: (administrator: TEntityAdministratorModel) => void
   updateDDOTags: (ddoTags: TEntityDDOTagModel[]) => void
@@ -170,7 +170,7 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
   const title: string = useAppSelector(selectCreateEntityTitle)
   const subtitle: string = useAppSelector(selectCreateEntitySubtitle)
 
-  const metadata: TEntityMetadataModel = useAppSelector(selectCreateEntityMetadata)
+  const profile: TEntityMetadataModel = useAppSelector(selectCreateEntityProfile)
   const creator: TEntityCreatorModel = useAppSelector(selectCreateEntityCreator)
   const administrator: TEntityAdministratorModel = useAppSelector(selectCreateEntityAdministrator)
   const ddoTags: TEntityDDOTagModel[] = useAppSelector(selectCreateEntityDDOTags)
@@ -236,8 +236,8 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
     dispatch(updateSubtitleAction(subtitle))
   }
 
-  const updateMetadata = (metadata: TEntityMetadataModel): void => {
-    dispatch(updateMetadataAction(metadata))
+  const updateProfile = (profile: TEntityMetadataModel): void => {
+    dispatch(updateProfileAction(profile))
   }
   const updateCreator = (creator: TEntityCreatorModel): void => {
     dispatch(updateCreatorAction(creator))
@@ -294,7 +294,7 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
     breadCrumbs,
     title,
     subtitle,
-    metadata,
+    profile,
     creator,
     administrator,
     ddoTags,
@@ -317,7 +317,7 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
     updateBreadCrumbs,
     updateTitle,
     updateSubtitle,
-    updateMetadata,
+    updateProfile,
     updateCreator,
     updateAdministrator,
     updateDDOTags,
@@ -369,7 +369,7 @@ const NEW_DAO_CW20_DECIMALS = 6
 export function useCreateEntity(): TCreateEntityHookRes {
   const { signingClient, signer } = useAccount()
   const createEntityState = useCreateEntityState()
-  const metadata = createEntityState.metadata as any
+  const profile = createEntityState.profile as any
   const { creator, administrator, page, ddoTags, claim, service } = createEntityState
   // TODO: service choose-able
   const cellnodeService = service[0]
@@ -474,15 +474,15 @@ export function useCreateEntity(): TCreateEntityHookRes {
         },
         id: 'ixo:entity#profile',
         type: 'profile',
-        orgName: metadata.orgName,
-        name: metadata.name,
-        image: metadata.image,
-        logo: metadata.icon,
-        brand: metadata.brand,
-        location: metadata.location,
-        description: metadata.description,
-        attributes: metadata.attributes,
-        metrics: metadata.metrics,
+        orgName: profile.orgName,
+        name: profile.name,
+        image: profile.image,
+        logo: profile.logo,
+        brand: profile.brand,
+        location: profile.location,
+        description: profile.description,
+        attributes: profile.attributes,
+        metrics: profile.metrics,
       }
       const buff = Buffer.from(JSON.stringify(payload))
       const res = await UploadDataToService(buff.toString('base64'))
@@ -795,15 +795,15 @@ export function useCreateEntity(): TCreateEntityHookRes {
         JSON.stringify({
           id: '{id}#1',
           type: 'ImpactToken',
-          name: metadata.name,
-          tokenName: metadata.tokenname,
-          decimals: metadata.decimals,
-          description: metadata.description,
-          image: metadata.image,
+          name: profile.name,
+          tokenName: profile.tokenname,
+          decimals: profile.decimals,
+          description: profile.description,
+          image: profile.image,
           properties: {
-            denom: metadata.denom,
-            icon: metadata.icon,
-            maxSupply: metadata.maxSupply,
+            denom: profile.denom,
+            icon: profile.logo,
+            maxSupply: profile.maxSupply,
           },
         }),
       )
@@ -988,7 +988,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
 
   const CreateDAOCoreByGroupId = async (daoGroup: TDAOGroupModel): Promise<string> => {
     try {
-      const imageUrl = metadata.image
+      const imageUrl = profile.image
       const {
         type,
         name,

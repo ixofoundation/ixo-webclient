@@ -16,7 +16,7 @@ const bsService = new BlockSyncService()
 const SelectCreationProcess: React.FC = (): JSX.Element => {
   const {
     gotoStep,
-    updateMetadata,
+    updateProfile,
     updateCreator,
     updateAdministrator,
     updateDDOTags,
@@ -44,38 +44,40 @@ const SelectCreationProcess: React.FC = (): JSX.Element => {
     if (!address) {
       connect()
     } else {
-      apiEntityToEntity({ entityId: existingDid, cosmWasmClient, address }, (key: string, value: any, merge) => {
-        console.log('apiEntityToEntity', { key, value, merge })
-        switch (key) {
-          case 'metadata':
-            updateMetadata(value)
-            break
-          case 'creator':
-            updateCreator(value)
-            break
-          case 'administrator':
-            updateAdministrator(value)
-            break
-          case 'page':
-            updatePage(value)
-            break
-          case 'ddoTags':
-            updateDDOTags(value)
-            break
-          case 'service':
-            updateService(value)
-            break
-          case 'linkedEntity':
-            updateLinkedEntity(value)
-            break
-          case 'daoGroups':
-            updateDAOGroups(value)
-            break
-          case 'linkedResource':
-            break
-          default:
-            break
-        }
+      bsService.entity.getEntityById(existingDid).then((entity: any) => {
+        apiEntityToEntity({ entity, cosmWasmClient, address }, (key: string, value: any, merge) => {
+          console.log('apiEntityToEntity', { key, value, merge })
+          switch (key) {
+            case 'profile':
+              updateProfile(value)
+              break
+            case 'creator':
+              updateCreator(value)
+              break
+            case 'administrator':
+              updateAdministrator(value)
+              break
+            case 'page':
+              updatePage(value)
+              break
+            case 'ddoTags':
+              updateDDOTags(value)
+              break
+            case 'service':
+              updateService(value)
+              break
+            case 'linkedEntity':
+              updateLinkedEntity(value)
+              break
+            case 'daoGroups':
+              updateDAOGroups(value)
+              break
+            case 'linkedResource':
+              break
+            default:
+              break
+          }
+        })
       })
     }
     gotoStep(1)

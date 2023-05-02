@@ -29,7 +29,7 @@ const CreateToken: React.FC = (): JSX.Element => {
     gotoStep,
     addAssetInstances,
   } = createEntityState
-  const metadata: TAssetMetadataModel = createEntityState.metadata as TAssetMetadataModel
+  const profile: TAssetMetadataModel = createEntityState.profile as TAssetMetadataModel
 
   const [selectedToken, setSelectedToken] = useState<any>(undefined)
 
@@ -38,7 +38,7 @@ const CreateToken: React.FC = (): JSX.Element => {
     // fork collection
     addAssetInstances(
       new Array(Number(numberOfTokens)).fill(0).map(() => ({
-        metadata,
+        profile,
         ddoTags,
         claim,
         creator,
@@ -108,22 +108,22 @@ const CreateToken: React.FC = (): JSX.Element => {
         <PageRow>
           <CardWidthBox className='d-flex align-items-center justify-content-between'>
             <Typography weight='bold' size='xl'>
-              {metadata?.name}
+              {profile?.name}
             </Typography>
-            <CollectionIcon background={metadata?.icon} />
+            <CollectionIcon background={profile?.logo} />
           </CardWidthBox>
         </PageRow>
         <PageRow className='align-items-end justify-content-between'>
           <Box className='d-flex' style={{ gap: 30 }}>
             <AssetCollectionImage
-              image={metadata?.image}
+              image={profile?.image}
               sdgs={ddoTags.find((tag) => tag.category === 'SDG')?.tags ?? []}
             />
             <TokenMetadata
-              brand={metadata?.brand}
-              description={metadata?.description}
-              metrics={metadata?.metrics}
-              attributes={metadata?.attributes}
+              brand={profile?.brand}
+              description={profile?.description}
+              metrics={profile?.metrics}
+              attributes={profile?.attributes}
             />
           </Box>
           Search
@@ -136,19 +136,19 @@ const CreateToken: React.FC = (): JSX.Element => {
             <AssetCard
               key={index}
               noIdx={index + 1}
-              image={item.metadata?.image}
-              icon={item.metadata?.icon}
-              tokenName={item.metadata?.tokenName}
-              name={item.metadata?.name}
-              type={item.metadata?.type}
-              denom={item.metadata?.denom}
-              maxSupply={item.metadata?.maxSupply}
+              image={item.profile?.image}
+              logo={item.profile?.logo}
+              tokenName={item.profile?.tokenName}
+              name={item.profile?.name}
+              type={item.profile?.type}
+              denom={item.profile?.denom}
+              maxSupply={item.profile?.maxSupply}
               price={230} //   TODO:
               onClick={(): void => setSelectedToken({ item, index: index + 1 })}
             />
           ))}
           <NewTokenTemplate
-            maxSupply={metadata?.maxSupply ? metadata?.maxSupply - assetInstances?.length : undefined}
+            maxSupply={profile?.maxSupply ? profile?.maxSupply - assetInstances?.length : undefined}
             handleSubmit={handleAddNewTokens}
           />
         </PageRow>

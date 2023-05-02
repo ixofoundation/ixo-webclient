@@ -72,9 +72,12 @@ export const getDaoContractInfo = async ({
   address,
 }: {
   coreAddress: string
-  cosmWasmClient: SigningCosmWasmClient
-  address: string
+  cosmWasmClient: SigningCosmWasmClient | undefined
+  address: string | undefined
 }) => {
+  if (!cosmWasmClient || !address) {
+    throw new Error('')
+  }
   let type = ''
   let token: any = undefined
   const daoCoreClient = new contracts.DaoCore.DaoCoreClient(cosmWasmClient, address, coreAddress)
