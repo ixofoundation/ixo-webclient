@@ -25,8 +25,8 @@ export const selectAllEntitiesByType = createSelector(
 export const selectAllEntitiesByType2 = createSelector(
   selectEntitiesState,
   (entitiesState: EntitiesExplorerState): TEntityModel[] => {
-    return Object.values(entitiesState.entities2 ?? {}).filter(
-      (entity) => entity.type.toLowerCase() === entitiesState.selectedEntitiesType.toLowerCase(),
+    return Object.values(entitiesState.entities2 ?? {}).filter((entity) =>
+      entity.type.toLowerCase().includes(entitiesState.selectedEntitiesType.toLowerCase()),
     )
   },
 )

@@ -39,7 +39,7 @@ interface Props {
 
 const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element => {
   const { entityType, updateAssetInstance } = useCreateEntityState()
-  const [metadata, setMetadata] = useState<TAssetMetadataModel>(token.metadata as TAssetMetadataModel)
+  const [profile, setProfile] = useState<TAssetMetadataModel>(token.profile as TAssetMetadataModel)
   const [entitySettings, setEntitySettings] = useState<{
     [key: string]: any
   }>(EntitySettingsConfig)
@@ -159,9 +159,9 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
     setEntityLinkedResource((pre) => omitKey(pre, id))
   }
 
-  const handleUpdateMetadata = (key: string, value: any): void => {
-    setMetadata({
-      ...metadata,
+  const handleUpdateProfile = (key: string, value: any): void => {
+    setProfile({
+      ...profile,
       [key]: value,
     })
   }
@@ -170,7 +170,7 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
     // TODO:
     const data = {
       ...token,
-      metadata,
+      profile,
       creator: entitySettings.creator?.data,
       administrator: entitySettings.administrator?.data,
       tags: entitySettings.tags?.data,
@@ -312,16 +312,16 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
           </Box> */}
           <Box className='mb-2' />
           <TokenProfileForm
-            image={metadata?.image}
-            setImage={(image): void => handleUpdateMetadata('image', image)}
-            denom={metadata?.denom}
-            type={metadata?.type}
-            logo={metadata?.icon}
-            setLogo={(icon): void => handleUpdateMetadata('icon', icon)}
-            tokenName={metadata?.tokenName}
-            setTokenName={(tokenName): void => handleUpdateMetadata('tokenName', tokenName)}
-            name={metadata?.name}
-            maxSupply={metadata?.maxSupply}
+            image={profile?.image}
+            setImage={(image): void => handleUpdateProfile('image', image)}
+            denom={profile?.denom}
+            type={profile?.type}
+            logo={profile?.logo}
+            setLogo={(logo): void => handleUpdateProfile('logo', logo)}
+            tokenName={profile?.tokenName}
+            setTokenName={(tokenName): void => handleUpdateProfile('tokenName', tokenName)}
+            name={profile?.name}
+            maxSupply={profile?.maxSupply}
             SN={SN}
           />
         </Box>
@@ -331,24 +331,24 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
             {metaView === 'description' && (
               <EntityDescriptionForm
                 entityType={entityType}
-                description={metadata?.description}
-                setDescription={(description): void => handleUpdateMetadata('description', description)}
-                brand={metadata?.brand}
-                location={metadata?.location}
-                startDate={(metadata as any)?.startDate}
-                endDate={(metadata as any)?.endDate}
+                description={profile?.description}
+                setDescription={(description): void => handleUpdateProfile('description', description)}
+                brand={profile?.brand}
+                location={profile?.location}
+                startDate={(profile as any)?.startDate}
+                endDate={(profile as any)?.endDate}
               />
             )}
             {metaView === 'metrics' && (
               <EntityMetricsForm
-                metrics={metadata?.metrics}
-                setMetrics={(metrics): void => handleUpdateMetadata('metrics', metrics)}
+                metrics={profile?.metrics}
+                setMetrics={(metrics): void => handleUpdateProfile('metrics', metrics)}
               />
             )}
             {metaView === 'attributes' && (
               <EntityAttributesForm
-                attributes={metadata?.attributes}
-                setAttributes={(attributes): void => handleUpdateMetadata('attributes', attributes)}
+                attributes={profile?.attributes}
+                setAttributes={(attributes): void => handleUpdateProfile('attributes', attributes)}
                 edit
               />
             )}

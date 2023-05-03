@@ -13,7 +13,7 @@ const ReviewDAO: React.FC = (): JSX.Element => {
   const { entityId } = useParams<{ entityId: string }>()
   const entity = useContext(EditEntityContext)
 
-  const metadata: TDAOMetadataModel = entity.metadata as TDAOMetadataModel
+  const profile: TDAOMetadataModel = entity.profile as TDAOMetadataModel
   const { daoGroups, daoController } = entity
 
   const numOfMembers = useMemo(() => {
@@ -30,7 +30,7 @@ const ReviewDAO: React.FC = (): JSX.Element => {
 
   return (
     <FlexBox width={`${deviceWidth.tablet}px`} gap={10} alignItems='stretch'>
-      <DAOCard image={metadata?.image ?? ''} name={metadata?.name ?? ''} numberOfMembers={numOfMembers} />
+      <DAOCard image={profile?.image ?? ''} name={profile?.name ?? ''} numberOfMembers={numOfMembers} />
       <FlexBox direction='column' justifyContent='space-between' gap={4} width='100%' style={{ flex: 1 }}>
         <FlexBox direction='column' width='100%' gap={4}>
           <Typography variant='secondary'>

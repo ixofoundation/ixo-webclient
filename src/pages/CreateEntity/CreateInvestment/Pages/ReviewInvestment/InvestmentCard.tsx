@@ -13,10 +13,10 @@ interface Props {
   image: string
   name: string
   endDate: string
-  icon: string
+  logo: string
 }
 
-const InvestmentCard: React.FC<Props> = ({ image, name, endDate, icon }): JSX.Element => {
+const InvestmentCard: React.FC<Props> = ({ image, name, endDate, logo }): JSX.Element => {
   return (
     <FlexBox
       direction='column'
@@ -34,7 +34,7 @@ const InvestmentCard: React.FC<Props> = ({ image, name, endDate, icon }): JSX.El
             <CardTag tagColor={theme.ixoDarkOrange}>AlphaBond</CardTag>
           </CardTags>
           <Box borderRadius='50%'>
-            <img width={40} height={40} src={icon} alt='' />
+            <img width={40} height={40} src={logo} alt='' />
           </Box>
         </FlexBox>
         <FlexBox width='100%'>

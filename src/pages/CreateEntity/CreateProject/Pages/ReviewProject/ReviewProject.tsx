@@ -9,7 +9,7 @@ import ProjectCard from './ProjectCard'
 
 const ReviewProject: React.FC = (): JSX.Element => {
   const createEntityState = useCreateEntityState()
-  const metadata: TProjectMetadataModel = createEntityState.metadata as TProjectMetadataModel
+  const profile: TProjectMetadataModel = createEntityState.profile as TProjectMetadataModel
   const { gotoStep } = createEntityState
 
   const handleSignToCreate = async (): Promise<void> => {
@@ -19,10 +19,10 @@ const ReviewProject: React.FC = (): JSX.Element => {
   return (
     <FlexBox width={`${deviceWidth.tablet}px`} gap={10} alignItems='stretch'>
       <ProjectCard
-        image={metadata?.image ?? ''}
-        icon={metadata?.icon ?? ''}
-        name={metadata?.name ?? ''}
-        endDate={metadata?.endDate ?? ''}
+        image={profile?.image ?? ''}
+        logo={profile?.logo ?? ''}
+        name={profile?.name ?? ''}
+        endDate={profile?.endDate ?? ''}
       />
       <FlexBox direction='column' justifyContent='space-between' width='100%' style={{ flex: 1 }}>
         <FlexBox direction='column' width='100%' gap={4}>

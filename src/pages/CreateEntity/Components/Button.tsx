@@ -1,12 +1,12 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
-import { SvgBox, theme } from 'components/App/App.styles'
+import { FlexBox, SvgBox, theme } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { ReactComponent as AssistantIcon } from 'assets/images/icon-assistant.svg'
 import { DashboardThemeContext } from 'components/Dashboard/Dashboard'
 import { TTypographySize, TTypographyWeight } from 'components/Typography/Typography'
 
-type TButtonVariant = 'primary' | 'secondary' | 'grey500' | 'grey700' | 'grey900'
+type TButtonVariant = 'primary' | 'secondary' | 'tertiary' | 'white' | 'grey500' | 'grey700' | 'grey900'
 type TButtonSize = 'lg' | 'md' | 'sm' | 'custom' | 'flex' | 'full'
 
 const buttonColor = (variant: TButtonVariant, isDark: boolean): string => {
@@ -16,6 +16,8 @@ const buttonColor = (variant: TButtonVariant, isDark: boolean): string => {
       return theme.ixoWhite
     case 'secondary':
       return isDark ? theme.ixoWhite : theme.ixoBlack
+    case 'white':
+      return theme.ixoBlack
   }
 }
 const buttonBgColor = (variant: TButtonVariant, disabled: boolean): string => {
@@ -25,12 +27,16 @@ const buttonBgColor = (variant: TButtonVariant, disabled: boolean): string => {
       return !disabled ? theme.ixoNewBlue : theme.ixoGrey300
     case 'secondary':
       return 'transparent'
+    case 'tertiary':
+      return theme.ixoDarkBlue
     case 'grey500':
       return theme.ixoGrey500
     case 'grey700':
       return theme.ixoGrey700
     case 'grey900':
       return theme.ixoGrey900
+    case 'white':
+      return theme.ixoWhite
   }
 }
 const buttonWidthHeight = (size: TButtonSize, width: number | undefined, height: number | undefined): string[] => {
@@ -91,7 +97,7 @@ const StyledButton = styled.button<{
   }
 `
 
-interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface TButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: TButtonVariant
   size?: TButtonSize
   width?: number
@@ -101,11 +107,12 @@ interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   textSize?: TTypographySize
   textTransform?: string
   textWeight?: TTypographyWeight
+  icon?: JSX.Element
   onClick?: () => void
   children?: React.ReactNode
 }
 
-const Button: React.FC<Props> = ({
+const Button: React.FC<TButtonProps> = ({
   variant = 'primary',
   size = 'md',
   width,
@@ -116,6 +123,7 @@ const Button: React.FC<Props> = ({
   textTransform = 'uppercase',
   textWeight = 'medium',
   children,
+  icon,
   onClick,
   ...rest
 }): JSX.Element => {
@@ -137,15 +145,18 @@ const Button: React.FC<Props> = ({
           <AssistantIcon />
         </SvgBox>
       ) : (
-        <Typography
-          weight={textWeight}
-          size={textSize}
-          color='inherit'
-          transform={textTransform}
-          style={{ letterSpacing: 0.3 }}
-        >
-          {children}
-        </Typography>
+        <FlexBox gap={2} alignItems='center'>
+          {icon && icon}
+          <Typography
+            weight={textWeight}
+            size={textSize}
+            color='inherit'
+            transform={textTransform}
+            style={{ letterSpacing: 0.3 }}
+          >
+            {children}
+          </Typography>
+        </FlexBox>
       )}
     </StyledButton>
   )

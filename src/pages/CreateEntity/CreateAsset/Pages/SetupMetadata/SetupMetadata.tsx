@@ -8,8 +8,8 @@ import { TAssetMetadataModel } from 'types/protocol'
 
 const SetupMetadata: React.FC = (): JSX.Element => {
   const createEntityState = useCreateEntityState()
-  const { entityType, gotoStep, updateMetadata } = createEntityState
-  const metadata: TAssetMetadataModel = createEntityState.metadata as TAssetMetadataModel
+  const { entityType, gotoStep, updateProfile } = createEntityState
+  const profile: TAssetMetadataModel = createEntityState.profile as TAssetMetadataModel
 
   const canSubmit = true
 
@@ -20,9 +20,9 @@ const SetupMetadata: React.FC = (): JSX.Element => {
     gotoStep(1)
   }
 
-  const handleUpdateMetadata = (key: string, value: any): void => {
-    updateMetadata({
-      ...metadata,
+  const handleUpdateProfile = (key: string, value: any): void => {
+    updateProfile({
+      ...profile,
       [key]: value,
     })
   }
@@ -38,46 +38,46 @@ const SetupMetadata: React.FC = (): JSX.Element => {
         </Box> */}
         <Box className='mb-2' />
         <TokenProfileForm
-          image={metadata?.image}
-          setImage={(image): void => handleUpdateMetadata('image', image)}
-          type={metadata?.type}
-          setType={(type): void => handleUpdateMetadata('type', type)}
-          logo={metadata?.icon}
-          setLogo={(logo): void => handleUpdateMetadata('icon', logo)}
-          name={metadata?.name}
-          setName={(name): void => handleUpdateMetadata('name', name)}
-          maxSupply={metadata?.maxSupply}
-          setMaxSupply={(maxSupply): void => handleUpdateMetadata('maxSupply', maxSupply)}
-          decimals={metadata?.decimals}
-          setDecimals={(decimals): void => handleUpdateMetadata('decimals', decimals)}
-          denom={metadata?.denom}
-          setDenom={(denom): void => handleUpdateMetadata('denom', denom)}
-          tokenName={metadata?.tokenName}
-          setTokenName={(tokenName): void => handleUpdateMetadata('tokenName', tokenName)}
+          image={profile?.image}
+          setImage={(image): void => handleUpdateProfile('image', image)}
+          type={profile?.type}
+          setType={(type): void => handleUpdateProfile('type', type)}
+          logo={profile?.logo}
+          setLogo={(logo): void => handleUpdateProfile('logo', logo)}
+          name={profile?.name}
+          setName={(name): void => handleUpdateProfile('name', name)}
+          maxSupply={profile?.maxSupply}
+          setMaxSupply={(maxSupply): void => handleUpdateProfile('maxSupply', maxSupply)}
+          decimals={profile?.decimals}
+          setDecimals={(decimals): void => handleUpdateProfile('decimals', decimals)}
+          denom={profile?.denom}
+          setDenom={(denom): void => handleUpdateProfile('denom', denom)}
+          tokenName={profile?.tokenName}
+          setTokenName={(tokenName): void => handleUpdateProfile('tokenName', tokenName)}
         />
       </Box>
       <Box className='d-flex flex-column' style={{ width: 400 }}>
         <EntityAdditionalInfoForm
           entityType={entityType}
-          description={metadata?.description ?? ''}
-          setDescription={(description): void => handleUpdateMetadata('description', description)}
-          brand={metadata?.brand ?? ''}
-          setBrand={(brand): void => handleUpdateMetadata('brand', brand)}
-          location={metadata?.location ?? ''}
-          setLocation={(location): void => handleUpdateMetadata('location', location)}
-          metrics={metadata?.metrics ?? []}
-          setMetrics={(metrics): void => handleUpdateMetadata('metrics', metrics)}
-          attributes={metadata?.attributes ?? []}
-          setAttributes={(attributes): void => handleUpdateMetadata('attributes', attributes)}
-          autoGenerateZLottie={metadata?.autoGenerateZLottie}
+          description={profile?.description ?? ''}
+          setDescription={(description): void => handleUpdateProfile('description', description)}
+          brand={profile?.brand ?? ''}
+          setBrand={(brand): void => handleUpdateProfile('brand', brand)}
+          location={profile?.location ?? ''}
+          setLocation={(location): void => handleUpdateProfile('location', location)}
+          metrics={profile?.metrics ?? []}
+          setMetrics={(metrics): void => handleUpdateProfile('metrics', metrics)}
+          attributes={profile?.attributes ?? []}
+          setAttributes={(attributes): void => handleUpdateProfile('attributes', attributes)}
+          autoGenerateZLottie={profile?.autoGenerateZLottie}
           setAutoGenerateZLottie={(autoGenerateZLottie): void =>
-            handleUpdateMetadata('autoGenerateZLottie', autoGenerateZLottie)
+            handleUpdateProfile('autoGenerateZLottie', autoGenerateZLottie)
           }
-          startDate={metadata?.startDate ?? ''}
-          endDate={metadata?.endDate ?? ''}
+          startDate={profile?.startDate ?? ''}
+          endDate={profile?.endDate ?? ''}
           setStartEndDate={(startDate, endDate) => {
-            updateMetadata({
-              ...metadata,
+            updateProfile({
+              ...profile,
               startDate,
               endDate,
             })

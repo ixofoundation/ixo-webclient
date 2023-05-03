@@ -38,7 +38,7 @@ const ReviewProposal: React.FC = () => {
   const { daoGroup, daoPreProposeSingleClient, depositInfo } = useCurrentDaoGroup(coreAddress)
   const createEntityState = useCreateEntityState()
   const { entityType, proposal, service: serviceData, linkedEntity: linkedEntityData, clearEntity } = createEntityState
-  const metadata = createEntityState.metadata as TProposalMetadataModel
+  const profile = createEntityState.profile as TProposalMetadataModel
   const { UploadLinkedResource, CreateProtocol, CreateEntityBase, AddLinkedEntity } = useCreateEntity()
   const {
     makeAuthzAuthorizationAction,
@@ -191,9 +191,9 @@ const ReviewProposal: React.FC = () => {
         {
           msg: {
             propose: {
-              description: (metadata?.description || '') + `#deed:${deedDid}`,
+              description: (profile?.description || '') + `#deed:${deedDid}`,
               msgs: wasmMessage,
-              title: metadata?.name || '',
+              title: profile?.name || '',
             },
           },
         },
@@ -305,7 +305,7 @@ const ReviewProposal: React.FC = () => {
 
         <FlexBox>
           <Typography variant='secondary' size='2xl'>
-            {metadata?.name}
+            {profile?.name}
           </Typography>
         </FlexBox>
 
@@ -404,7 +404,7 @@ const ReviewProposal: React.FC = () => {
                 <CheckCircleIcon />
               </SvgBox>
               <Typography variant='secondary' size='2xl'>
-                {metadata?.name} Successfully created!
+                {profile?.name} Successfully created!
               </Typography>
             </FlexBox>
             <FlexBox width='100%' gap={4}>
