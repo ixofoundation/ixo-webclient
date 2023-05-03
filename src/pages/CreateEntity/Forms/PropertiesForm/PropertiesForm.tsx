@@ -12,7 +12,7 @@ import {
   TDAOGroupModel,
   TEntityAccordedRightModel,
   TEntityAdministratorModel,
-  TEntityClaimModel1,
+  TEntityClaimModel,
   TEntityCreatorModel,
   TEntityDDOTagModel,
   TEntityLinkedEntityModel,
@@ -38,7 +38,7 @@ interface Props {
   page: TEntityPageModel
   service: TEntityServiceModel[]
   linkedResource: { [id: string]: TEntityLinkedResourceModel }
-  claim: { [id: string]: TEntityClaimModel1 }
+  claim: { [id: string]: TEntityClaimModel }
   accordedRight: { [key: string]: TEntityAccordedRightModel }
   linkedEntity: { [key: string]: TEntityLinkedEntityModel }
   daoGroups?: { [id: string]: TDAOGroupModel }
@@ -48,7 +48,7 @@ interface Props {
   updatePage: (page: TEntityPageModel) => void
   updateService: (service: TEntityServiceModel[]) => void
   updateLinkedResource: (linkedResource: { [id: string]: TEntityLinkedResourceModel }) => void
-  updateClaim: (claim: { [id: string]: TEntityClaimModel1 }) => void
+  updateClaim: (claim: { [id: string]: TEntityClaimModel }) => void
   updateAccordedRight: (accordedRight: { [id: string]: TEntityAccordedRightModel }) => void
   updateLinkedEntity: (linkedEntity: { [id: string]: TEntityLinkedEntityModel }) => void
 }

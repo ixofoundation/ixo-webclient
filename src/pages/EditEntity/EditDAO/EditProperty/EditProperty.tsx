@@ -8,7 +8,7 @@ import { EditEntityContext } from 'pages/EditEntity/EditEntity'
 import {
   TEntityAccordedRightModel,
   TEntityAdministratorModel,
-  TEntityClaimModel1,
+  TEntityClaimModel,
   TEntityCreatorModel,
   TEntityDDOTagModel,
   TEntityLinkedEntityModel,
@@ -40,7 +40,7 @@ const EditProperty: React.FC = (): JSX.Element => {
   const updateLinkedResource = (linkedResource: { [id: string]: TEntityLinkedResourceModel }) => {
     entity.updatePartial('linkedResource', linkedResource)
   }
-  const updateClaim = (claim: { [id: string]: TEntityClaimModel1 }) => {
+  const updateClaim = (claim: { [id: string]: TEntityClaimModel }) => {
     entity.updatePartial('claim', claim)
   }
   const updateAccordedRight = (accordedRight: { [id: string]: TEntityAccordedRightModel }) => {

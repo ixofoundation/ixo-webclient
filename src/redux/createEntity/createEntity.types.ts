@@ -8,7 +8,7 @@ import {
   TEntityLinkedEntityModel,
   TEntityAdministratorModel,
   TEntityPageModel,
-  TEntityClaimModel1,
+  TEntityClaimModel,
   TEntityDDOTagModel,
   TDAOGroupModel,
   TProposalModel,
@@ -22,7 +22,7 @@ export interface TCreateEntityModel {
   ddoTags: TEntityDDOTagModel[]
   page: TEntityPageModel
   service: TEntityServiceModel[]
-  claim: { [id: string]: TEntityClaimModel1 }
+  claim: { [id: string]: TEntityClaimModel }
   linkedResource: { [id: string]: TEntityLinkedResourceModel }
   accordedRight: { [id: string]: TEntityAccordedRightModel }
   linkedEntity: { [id: string]: TEntityLinkedEntityModel }
@@ -126,7 +126,7 @@ export interface TUpdateServiceAction {
 }
 export interface TUpdateClaimAction {
   type: typeof ECreateEntityActions.UpdateClaim
-  payload: { [id: string]: TEntityClaimModel1 }
+  payload: { [id: string]: TEntityClaimModel }
 }
 export interface TUpdateLinkedResourceAction {
   type: typeof ECreateEntityActions.UpdateLinkedResource
