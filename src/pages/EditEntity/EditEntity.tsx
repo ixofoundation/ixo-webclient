@@ -7,6 +7,9 @@ import EditDAO from './EditDAO/EditDAO'
 import { useAccount } from 'hooks/account'
 import { apiEntityToEntity } from 'utils/entities'
 import { useWalletManager } from '@gssuper/cosmodal'
+import { BlockSyncService } from 'services/blocksync'
+
+const bsService = new BlockSyncService()
 
 export const EditEntityContext = createContext<
   {
@@ -42,10 +45,12 @@ const EditEntity: React.FC = (): JSX.Element => {
 
   useEffect(() => {
     if (entityId) {
-      if (!address) {
+      if (!cosmWasmClient) {
         connect()
       } else {
-        apiEntityToEntity({ entityId, cosmWasmClient, address }, handleUpdatePartial)
+        bsService.entity.getEntityById(entityId).then((entity: any) => {
+          apiEntityToEntity({ entity, cosmWasmClient, address }, handleUpdatePartial)
+        })
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

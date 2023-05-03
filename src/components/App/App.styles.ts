@@ -161,6 +161,7 @@ export interface HTMLElementProps {
   transition?: string
   background?: string
   backgroundSize?: string
+  backgroundPosition?: string
   zIndex?: number
   pointerEvents?: string
   cursor?: string
@@ -256,6 +257,8 @@ const htmlElementCss = css<HTMLDivProps>`
   ${({ transition }): string | undefined => (transition ? `transition: ${transition}` : undefined)};
   ${({ background }): string | undefined => (background ? `background: ${background}` : undefined)};
   ${({ backgroundSize }): string | undefined => (backgroundSize ? `background-size: ${backgroundSize}` : undefined)};
+  ${({ backgroundPosition }): string | undefined =>
+    backgroundPosition ? `background-position: ${backgroundPosition}` : undefined};
   ${({ zIndex }): string | undefined => (zIndex ? `z-index: ${zIndex}` : undefined)};
   ${({ pointerEvents }): string | undefined => (pointerEvents ? `pointer-events: ${pointerEvents}` : undefined)};
   ${({ cursor }): string | undefined => (cursor ? `cursor: ${cursor}` : undefined)};

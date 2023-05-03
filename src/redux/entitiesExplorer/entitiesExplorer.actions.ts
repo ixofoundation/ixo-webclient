@@ -29,8 +29,7 @@ import Axios from 'axios'
 import { getHeadlineClaimInfo } from 'utils/claims'
 import { TEntityDDOTagModel } from 'types/protocol'
 import { BlockSyncService } from 'services/blocksync'
-import { LinkedResource, Service } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
-import { NodeType } from 'types/entities'
+import { apiEntityToEntity } from 'utils/entities'
 
 const bsService = new BlockSyncService()
 
@@ -128,117 +127,13 @@ export const getEntitiesByType =
       type: EntitiesExplorerActions.GetEntities2,
       payload: bsService.entity.getEntitiesByType(entityType).then((entities: any[]) => {
         return entities?.map((entity) => {
-          const { id, settings, linkedResource, service } = entity
-          linkedResource.concat(Object.values(settings)).forEach((item: LinkedResource) => {
-            let url = ''
-            const [identifier, key] = item.serviceEndpoint.split(':')
-            const usedService: Service | undefined = service.find((item: any) => item.id === `{id}#${identifier}`)
-
-            if (usedService?.type.toLowerCase() === NodeType.Ipfs.toLowerCase()) {
-              url = `https://${key}.ipfs.w3s.link`
-            } else if (usedService?.type.toLowerCase() === NodeType.CellNode.toLowerCase()) {
-              url = `${usedService.serviceEndpoint}${key}`
-            }
-
-            if (item.proof && url) {
-              switch (item.id) {
-                case '{id}#profile': {
-                  fetch(url)
-                    .then((response) => response.json())
-                    .then((response) => {
-                      const context = response['@context']
-                      let image: string = response.image
-                      let logo: string = response.logo
-
-                      if (!image.startsWith('http')) {
-                        const [identifier] = image.split(':')
-                        let endpoint = ''
-                        context.forEach((item: any) => {
-                          if (typeof item === 'object' && identifier in item) {
-                            endpoint = item[identifier]
-                          }
-                        })
-                        image = image.replace(identifier + ':', endpoint)
-                      }
-                      if (!logo.startsWith('http')) {
-                        const [identifier] = logo.split(':')
-                        let endpoint = ''
-                        context.forEach((item: any) => {
-                          if (typeof item === 'object' && identifier in item) {
-                            endpoint = item[identifier]
-                          }
-                        })
-                        logo = logo.replace(identifier + ':', endpoint)
-                      }
-                      return { ...response, image, logo }
-                    })
-                    .then((profile) => {
-                      dispatch({
-                        type: EntitiesExplorerActions.GetIndividualEntity2,
-                        payload: { id, key: 'profile', data: profile },
-                      })
-                    })
-                    .catch(console.error)
-                  break
-                }
-                case '{id}#creator': {
-                  fetch(url)
-                    .then((response) => response.json())
-                    .then((response) => response.credentialSubject)
-                    .then((creator) => {
-                      dispatch({
-                        type: EntitiesExplorerActions.GetIndividualEntity2,
-                        payload: { id, key: 'creator', data: creator },
-                      })
-                    })
-                    .catch(() => undefined)
-                  break
-                }
-                case '{id}#administrator': {
-                  fetch(url)
-                    .then((response) => response.json())
-                    .then((response) => response.credentialSubject)
-                    .then((administrator) => {
-                      dispatch({
-                        type: EntitiesExplorerActions.GetIndividualEntity2,
-                        payload: { id, key: 'administrator', data: administrator },
-                      })
-                    })
-                    .catch(() => undefined)
-                  break
-                }
-                case '{id}#page': {
-                  fetch(url)
-                    .then((response) => response.json())
-                    .then((response) => response.page)
-                    .then((page) => {
-                      dispatch({
-                        type: EntitiesExplorerActions.GetIndividualEntity2,
-                        payload: { id, key: 'page', data: page },
-                      })
-                    })
-                    .catch(() => undefined)
-                  break
-                }
-                case '{id}#tags': {
-                  fetch(url)
-                    .then((response) => response.json())
-                    .then((response) => response.entityTags)
-                    .then((tags) => {
-                      dispatch({
-                        type: EntitiesExplorerActions.GetIndividualEntity2,
-                        payload: { id, key: 'tags', data: tags },
-                      })
-                    })
-                    .catch(() => undefined)
-                  break
-                }
-                default:
-                  break
-              }
-            }
+          const { id } = entity
+          apiEntityToEntity({ entity }, (key, value, merge) => {
+            dispatch({
+              type: EntitiesExplorerActions.GetIndividualEntity2,
+              payload: { id, key, data: value },
+            })
           })
-
           return { ...(entities2 && entities2[id] ? { ...entities2[id] } : {}), ...entity }
         })
       }),

@@ -27,6 +27,7 @@ import {
   TEntityDDOTagModel,
   TEntityPageSectionModel,
   TEntityProfileModel,
+  TTokenMetadataModel,
 } from 'types/protocol'
 
 // ideally these definitions should be in the ixo api module itself
@@ -266,4 +267,5 @@ export interface TEntityModel extends Omit<Entity, 'metadata'>, IidDocument {
   administrator?: TEntityAdministratorModel
   page?: TEntityPageSectionModel[]
   tags?: TEntityDDOTagModel[]
+  token?: TTokenMetadataModel
 }

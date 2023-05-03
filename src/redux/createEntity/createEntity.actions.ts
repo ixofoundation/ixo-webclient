@@ -33,7 +33,7 @@ import {
   TUpdateLinkedEntityAction,
   TUpdateLinkedResourceAction,
   TUpdateLocalisationAction,
-  TUpdateMetaDataAction,
+  TUpdateProfileAction,
   TUpdatePageAction,
   TUpdateServiceAction,
   TUpdateSubtitleAction,
@@ -70,9 +70,9 @@ export const updateSubtitleAction = (subtitle: string): TUpdateSubtitleAction =>
   payload: subtitle,
 })
 
-export const updateMetadataAction = (metadata: TEntityMetadataModel): TUpdateMetaDataAction => ({
-  type: ECreateEntityActions.UpdateMetadata,
-  payload: metadata,
+export const updateProfileAction = (profile: TEntityMetadataModel): TUpdateProfileAction => ({
+  type: ECreateEntityActions.UpdateProfile,
+  payload: profile,
 })
 
 export const updateCreatorAction = (creator: TEntityCreatorModel): TUpdateCreatorAction => ({

@@ -16,7 +16,7 @@ import { ReactComponent as ExclamationIcon } from 'assets/images/icon-exclamatio
 const ReviewOracle: React.FC = (): JSX.Element => {
   const history = useHistory()
   const createEntityState = useCreateEntityState()
-  const metadata: TOracleMetadataModel = createEntityState.metadata as TOracleMetadataModel
+  const profile: TOracleMetadataModel = createEntityState.profile as TOracleMetadataModel
   const { entityType, service, linkedEntity, gotoStep, gotoStepByNo } = createEntityState
   const { UploadLinkedResource, CreateProtocol, CreateEntityBase } = useCreateEntity()
   const [submitting, setSubmitting] = useState(false)
@@ -55,7 +55,7 @@ const ReviewOracle: React.FC = (): JSX.Element => {
 
   return (
     <FlexBox width={`${deviceWidth.tablet}px`} gap={10} alignItems='stretch'>
-      <OracleCard image={metadata?.image ?? ''} icon={metadata?.icon ?? ''} name={metadata?.name ?? ''} />
+      <OracleCard image={profile?.image ?? ''} logo={profile?.logo ?? ''} name={profile?.name ?? ''} />
       <FlexBox direction='column' justifyContent='space-between' width='100%' style={{ flex: 1 }}>
         {!success && (
           <>
@@ -100,7 +100,7 @@ const ReviewOracle: React.FC = (): JSX.Element => {
                 <CheckCircleIcon />
               </SvgBox>
               <Typography variant='secondary' size='2xl'>
-                {metadata?.name} Successfully created!
+                {profile?.name} Successfully created!
               </Typography>
             </FlexBox>
             <FlexBox width='100%' gap={4}>

@@ -7,14 +7,11 @@ import { AgentRole } from 'redux/account/account.types'
 import { PageContent } from 'redux/selectedEntity/selectedEntity.types'
 import { ApiListedEntityData } from 'api/blocksync/types/entities'
 import { TEntityDDOTagModel, TEntityServiceModel } from 'types/protocol'
-import { BlockSyncService } from 'services/blocksync'
 import { LinkedEntity, LinkedResource, Service } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { SigningCosmWasmClient } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/cosmwasm-stargate'
 import { getDaoContractInfo, membersToMemberships, thresholdToTQData } from './dao'
 import { convertSecondsToDurationWithUnits, durationToSeconds } from './conversions'
 import { DurationWithUnits } from 'types/dao'
-
-const bsService = new BlockSyncService()
 
 export const getCountryCoordinates = (countryCodes: string[]): any[] => {
   const coordinates: any[] = []
@@ -210,206 +207,217 @@ export const getBondDidFromApiListedEntityData = async (data: ApiListedEntityDat
 }
 
 export function apiEntityToEntity(
-  { entityId, cosmWasmClient, address }: { entityId: string; cosmWasmClient: SigningCosmWasmClient; address: string },
+  {
+    entity,
+    cosmWasmClient,
+    address,
+  }: { entity: any; cosmWasmClient?: SigningCosmWasmClient | undefined; address?: string | undefined },
   updateCallback: (key: string, value: any, merge?: boolean) => void,
 ): void {
-  bsService.entity.getEntityById(entityId).then((entity: any) => {
-    const { type, settings, linkedResource, service, linkedEntity } = entity
-    linkedResource.concat(Object.values(settings)).forEach((item: LinkedResource) => {
-      let url = ''
-      const [identifier, key] = item.serviceEndpoint.split(':')
-      const usedService: Service | undefined = service.find((item: any) => item.id === `{id}#${identifier}`)
+  const { type, settings, linkedResource, service, linkedEntity } = entity
+  linkedResource.concat(Object.values(settings)).forEach((item: LinkedResource) => {
+    let url = ''
+    const [identifier, key] = item.serviceEndpoint.split(':')
+    const usedService: Service | undefined = service.find((item: any) => item.id === `{id}#${identifier}`)
 
-      if (usedService && usedService.type.toLowerCase() === NodeType.Ipfs.toLowerCase()) {
-        url = `https://${key}.ipfs.w3s.link`
-      } else if (usedService && usedService.type.toLowerCase() === NodeType.CellNode.toLowerCase()) {
-        url = `${usedService.serviceEndpoint}${key}`
-      }
+    if (usedService && usedService.type.toLowerCase() === NodeType.Ipfs.toLowerCase()) {
+      url = `https://${key}.ipfs.w3s.link`
+    } else if (usedService && usedService.type.toLowerCase() === NodeType.CellNode.toLowerCase()) {
+      url = `${usedService.serviceEndpoint}${key}`
+    }
 
-      if (item.proof && url) {
-        switch (item.id) {
-          case '{id}#profile': {
-            fetch(url)
-              .then((response) => response.json())
-              .then((response) => {
-                const context = response['@context']
-                let image: string = response.image
-                let logo: string = response.logo
+    if (item.proof && url) {
+      switch (item.id) {
+        case '{id}#profile': {
+          fetch(url)
+            .then((response) => response.json())
+            .then((response) => {
+              const context = response['@context']
+              let image: string = response.image
+              let logo: string = response.logo
 
-                if (!image.startsWith('http')) {
-                  const [identifier] = image.split(':')
-                  let endpoint = ''
-                  context.forEach((item: any) => {
-                    if (typeof item === 'object' && identifier in item) {
-                      endpoint = item[identifier]
-                    }
-                  })
-                  image = image.replace(identifier + ':', endpoint)
-                }
-                if (!logo.startsWith('http')) {
-                  const [identifier] = logo.split(':')
-                  let endpoint = ''
-                  context.forEach((item: any) => {
-                    if (typeof item === 'object' && identifier in item) {
-                      endpoint = item[identifier]
-                    }
-                  })
-                  logo = logo.replace(identifier + ':', endpoint)
-                }
-                return { ...response, image, logo }
-              })
-              .then((profile) => {
-                updateCallback('metadata', profile)
-              })
-              .catch(() => undefined)
-            break
-          }
-          case '{id}#creator': {
-            fetch(url)
-              .then((response) => response.json())
-              .then((response) => response.credentialSubject)
-              .then((creator) => {
-                updateCallback('creator', creator)
-              })
-              .catch(() => undefined)
-            break
-          }
-          case '{id}#administrator': {
-            fetch(url)
-              .then((response) => response.json())
-              .then((response) => response.credentialSubject)
-              .then((administrator) => {
-                updateCallback('administrator', administrator)
-              })
-              .catch(() => undefined)
-            break
-          }
-          case '{id}#page': {
-            fetch(url)
-              .then((response) => response.json())
-              .then((response) => response.page)
-              .then((page) => {
-                updateCallback('page', page)
-              })
-              .catch(() => undefined)
-            break
-          }
-          case '{id}#tags': {
-            fetch(url)
-              .then((response) => response.json())
-              .then((response) => response.entityTags)
-              .then((tags) => {
-                updateCallback('ddoTags', tags)
-              })
-              .catch(() => undefined)
-            break
-          }
-          default:
-            break
-        }
-      }
-    })
-
-    updateCallback('entityType', type)
-    updateCallback('linkedEntity', Object.fromEntries(linkedEntity.map((item: LinkedEntity) => [uuidv4(), item])))
-    updateCallback(
-      'service',
-      service.map((item: TEntityServiceModel) => ({ ...item, id: item.id.split('#').pop() })),
-    )
-
-    /**
-     * @description entityType === dao
-     */
-    if (type === 'dao') {
-      linkedEntity
-        .filter((item: LinkedEntity) => item.type === 'Group')
-        .forEach((item: LinkedEntity) => {
-          const { id } = item
-          const [, coreAddress] = id.split('#')
-          getDaoContractInfo({ coreAddress, cosmWasmClient, address }).then((response) => {
-            console.log('getDaoContractInfo', { response })
-            const { type, config, proposalModule, votingModule, token } = response
-            const { preProposeConfig, proposalConfig } = proposalModule
-
-            const id = uuidv4()
-            const name = config.name
-            const description = config.description
-            const depositRequired = !!preProposeConfig.deposit_info
-            const depositInfo = preProposeConfig.deposit_info
-            const anyoneCanPropose = preProposeConfig.open_proposal_submission
-            const onlyMembersExecute = proposalConfig.only_members_execute
-            const { value: proposalDuration, units: proposalDurationUnits } = convertSecondsToDurationWithUnits(
-              proposalConfig.max_voting_period.time,
-            )
-            const allowRevoting = proposalConfig.allow_revoting
-            const contractAddress = coreAddress
-            const {
-              thresholdType,
-              thresholdPercentage,
-              quorumEnabled,
-              quorumType,
-              quorumPercentage,
-              absoluteThresholdCount,
-            } = thresholdToTQData(proposalConfig.threshold)
-
-            const { members } = votingModule
-
-            let staking: any = undefined
-            if (type === 'staking' && token) {
-              const { tokenInfo, marketingInfo, config } = token
-
-              // const decimals = tokenInfo.decimals
-              const tokenSymbol = tokenInfo.symbol
-              const tokenName = tokenInfo.name
-              const tokenSupply = tokenInfo.total_supply
-              const tokenLogo = marketingInfo?.logo !== 'embedded' && marketingInfo.logo?.url
-
-              const unstakingDuration: DurationWithUnits = convertSecondsToDurationWithUnits(
-                durationToSeconds(0, config.unstaking_duration),
-              )
-
-              staking = {
-                tokenSymbol,
-                tokenName,
-                tokenSupply,
-                tokenLogo,
-                // treasuryPercent,
-                unstakingDuration,
+              if (!image.startsWith('http')) {
+                const [identifier] = image.split(':')
+                let endpoint = ''
+                context.forEach((item: any) => {
+                  if (typeof item === 'object' && identifier in item) {
+                    endpoint = item[identifier]
+                  }
+                })
+                image = image.replace(identifier + ':', endpoint)
               }
-            }
-
-            const memberships = membersToMemberships(members)
-
-            const daoGroup = {
-              type,
-              id,
-              contractAddress,
-
-              name,
-              description,
-              memberships,
-              staking,
-
-              depositRequired,
-              depositInfo,
-              anyoneCanPropose,
-
-              onlyMembersExecute,
-              thresholdType,
-              thresholdPercentage: (thresholdPercentage ?? 0) / 100,
-              quorumEnabled,
-              quorumType,
-              quorumPercentage: (quorumPercentage ?? 0) / 100,
-              proposalDuration,
-              proposalDurationUnits,
-              allowRevoting,
-
-              absoluteThresholdCount,
-            }
-
-            updateCallback('daoGroups', { [id]: daoGroup }, true)
-          })
-        })
+              if (!logo.startsWith('http')) {
+                const [identifier] = logo.split(':')
+                let endpoint = ''
+                context.forEach((item: any) => {
+                  if (typeof item === 'object' && identifier in item) {
+                    endpoint = item[identifier]
+                  }
+                })
+                logo = logo.replace(identifier + ':', endpoint)
+              }
+              return { ...response, image, logo }
+            })
+            .then((profile) => {
+              updateCallback('profile', profile)
+            })
+            .catch(() => undefined)
+          break
+        }
+        case '{id}#creator': {
+          fetch(url)
+            .then((response) => response.json())
+            .then((response) => response.credentialSubject)
+            .then((creator) => {
+              updateCallback('creator', creator)
+            })
+            .catch(() => undefined)
+          break
+        }
+        case '{id}#administrator': {
+          fetch(url)
+            .then((response) => response.json())
+            .then((response) => response.credentialSubject)
+            .then((administrator) => {
+              updateCallback('administrator', administrator)
+            })
+            .catch(() => undefined)
+          break
+        }
+        case '{id}#page': {
+          fetch(url)
+            .then((response) => response.json())
+            .then((response) => response.page)
+            .then((page) => {
+              updateCallback('page', page)
+            })
+            .catch(() => undefined)
+          break
+        }
+        case '{id}#tags': {
+          fetch(url)
+            .then((response) => response.json())
+            .then((response) => response.entityTags ?? response.ddoTags)
+            .then((tags) => {
+              updateCallback('ddoTags', tags)
+            })
+            .catch(() => undefined)
+          break
+        }
+        case '{id}#token': {
+          fetch(url)
+            .then((response) => response.json())
+            .then((token) => {
+              updateCallback('token', token)
+            })
+            .catch(() => undefined)
+          break
+        }
+        default:
+          break
+      }
     }
   })
+
+  updateCallback('entityType', type)
+  updateCallback('linkedEntity', Object.fromEntries(linkedEntity.map((item: LinkedEntity) => [uuidv4(), item])))
+  updateCallback(
+    'service',
+    service.map((item: TEntityServiceModel) => ({ ...item, id: item.id.split('#').pop() })),
+  )
+
+  /**
+   * @description entityType === dao
+   */
+  if (type === 'dao') {
+    linkedEntity
+      .filter((item: LinkedEntity) => item.type === 'Group')
+      .forEach((item: LinkedEntity) => {
+        const { id } = item
+        const [, coreAddress] = id.split('#')
+        getDaoContractInfo({ coreAddress, cosmWasmClient, address }).then((response) => {
+          console.log('getDaoContractInfo', { response })
+          const { type, config, proposalModule, votingModule, token } = response
+          const { preProposeConfig, proposalConfig } = proposalModule
+
+          const id = uuidv4()
+          const name = config.name
+          const description = config.description
+          const depositRequired = !!preProposeConfig.deposit_info
+          const depositInfo = preProposeConfig.deposit_info
+          const anyoneCanPropose = preProposeConfig.open_proposal_submission
+          const onlyMembersExecute = proposalConfig.only_members_execute
+          const { value: proposalDuration, units: proposalDurationUnits } = convertSecondsToDurationWithUnits(
+            proposalConfig.max_voting_period.time,
+          )
+          const allowRevoting = proposalConfig.allow_revoting
+          const contractAddress = coreAddress
+          const {
+            thresholdType,
+            thresholdPercentage,
+            quorumEnabled,
+            quorumType,
+            quorumPercentage,
+            absoluteThresholdCount,
+          } = thresholdToTQData(proposalConfig.threshold)
+
+          const { members } = votingModule
+
+          let staking: any = undefined
+          if (type === 'staking' && token) {
+            const { tokenInfo, marketingInfo, config } = token
+
+            // const decimals = tokenInfo.decimals
+            const tokenSymbol = tokenInfo.symbol
+            const tokenName = tokenInfo.name
+            const tokenSupply = tokenInfo.total_supply
+            const tokenLogo = marketingInfo?.logo !== 'embedded' && marketingInfo.logo?.url
+
+            const unstakingDuration: DurationWithUnits = convertSecondsToDurationWithUnits(
+              durationToSeconds(0, config.unstaking_duration),
+            )
+
+            staking = {
+              tokenSymbol,
+              tokenName,
+              tokenSupply,
+              tokenLogo,
+              // treasuryPercent,
+              unstakingDuration,
+            }
+          }
+
+          const memberships = membersToMemberships(members)
+
+          const daoGroup = {
+            type,
+            id,
+            contractAddress,
+
+            name,
+            description,
+            memberships,
+            staking,
+
+            depositRequired,
+            depositInfo,
+            anyoneCanPropose,
+
+            onlyMembersExecute,
+            thresholdType,
+            thresholdPercentage: (thresholdPercentage ?? 0) / 100,
+            quorumEnabled,
+            quorumType,
+            quorumPercentage: (quorumPercentage ?? 0) / 100,
+            proposalDuration,
+            proposalDurationUnits,
+            allowRevoting,
+
+            absoluteThresholdCount,
+          }
+
+          updateCallback('daoGroups', { [id]: daoGroup }, true)
+        })
+      })
+  }
 }

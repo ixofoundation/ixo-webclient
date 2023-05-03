@@ -107,7 +107,7 @@ const ReviewAssetClass: React.FC = (): JSX.Element => {
     // createEntity,
     // removeAssetInstances,
   } = createEntityState
-  const metadata: TAssetMetadataModel = createEntityState.metadata as TAssetMetadataModel
+  const profile: TAssetMetadataModel = createEntityState.profile as TAssetMetadataModel
 
   // const handleCreateEntityClass = async (): Promise<string> => {
   //   const data = { entityType: 'asset' }
@@ -348,36 +348,33 @@ const ReviewAssetClass: React.FC = (): JSX.Element => {
       <PageRow className='align-items-center justify-content-between'>
         <CardWidthBox className='d-flex align-items-center justify-content-between'>
           <Typography weight='bold' size='xl'>
-            {metadata?.name}
+            {profile?.name}
           </Typography>
-          <CollectionIcon background={metadata?.icon} />
+          <CollectionIcon background={profile?.logo} />
         </CardWidthBox>
         <LocalisationForm localisation={localisation} />
       </PageRow>
 
       <PageRow style={{ gap: 30 }}>
-        <AssetCollectionImage
-          image={metadata?.image}
-          sdgs={ddoTags.find((tag) => tag.category === 'SDG')?.tags ?? []}
-        />
+        <AssetCollectionImage image={profile?.image} sdgs={ddoTags.find((tag) => tag.category === 'SDG')?.tags ?? []} />
         <TokenMetadata
-          brandName={metadata?.brand}
-          description={metadata?.description}
-          metrics={metadata?.metrics}
-          attributes={metadata?.attributes}
+          brandName={profile?.brand}
+          description={profile?.description}
+          metrics={profile?.metrics}
+          attributes={profile?.attributes}
         />
       </PageRow>
 
       <PageRow className='align-items-end'>
         <AssetCard
           noIdx={1}
-          image={metadata?.image || ''}
-          icon={metadata?.icon || ''}
-          name={metadata?.name || ''}
-          type={metadata?.type as EAssetType}
-          tokenName={(metadata as TAssetMetadataModel)?.tokenName || ''}
-          denom={(metadata as TAssetMetadataModel)?.denom || ''}
-          maxSupply={(metadata as TAssetMetadataModel)?.maxSupply || 0}
+          image={profile?.image || ''}
+          logo={profile?.logo || ''}
+          name={profile?.name || ''}
+          type={profile?.type as EAssetType}
+          tokenName={(profile as TAssetMetadataModel)?.tokenName || ''}
+          denom={(profile as TAssetMetadataModel)?.denom || ''}
+          maxSupply={(profile as TAssetMetadataModel)?.maxSupply || 0}
           price={230} // TODO:
           style={{ opacity: 0.5 }}
         />

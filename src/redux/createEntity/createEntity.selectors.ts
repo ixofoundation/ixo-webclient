@@ -44,9 +44,9 @@ export const selectCreateEntitySubtitle = createSelector(
   (createEntity: TCreateEntityState): string => createEntity.subtitle ?? '',
 )
 
-export const selectCreateEntityMetadata = createSelector(
+export const selectCreateEntityProfile = createSelector(
   selectCreateEntity,
-  (createEntity: TCreateEntityState): TEntityMetadataModel => createEntity.metadata,
+  (createEntity: TCreateEntityState): TEntityMetadataModel => createEntity.profile,
 )
 
 export const selectCreateEntityCreator = createSelector(

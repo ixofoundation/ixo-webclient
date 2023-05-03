@@ -9,7 +9,7 @@ import { deviceWidth } from 'constants/device'
 
 const ReviewInvestment: React.FC = (): JSX.Element => {
   const createEntityState = useCreateEntityState()
-  const metadata: TInvestmentMetadataModel = createEntityState.metadata as TInvestmentMetadataModel
+  const profile: TInvestmentMetadataModel = createEntityState.profile as TInvestmentMetadataModel
   const { gotoStep } = createEntityState
 
   const handleSignToCreate = async (): Promise<void> => {
@@ -19,10 +19,10 @@ const ReviewInvestment: React.FC = (): JSX.Element => {
   return (
     <FlexBox width={`${deviceWidth.tablet}px`} gap={10} alignItems='stretch'>
       <InvestmentCard
-        image={metadata?.image ?? ''}
-        icon={metadata?.icon ?? ''}
-        name={metadata?.name ?? ''}
-        endDate={metadata?.endDate ?? ''}
+        image={profile?.image ?? ''}
+        logo={profile?.logo ?? ''}
+        name={profile?.name ?? ''}
+        endDate={profile?.endDate ?? ''}
       />
       <FlexBox direction='column' justifyContent='space-between' width='100%' style={{ flex: 1 }}>
         <FlexBox direction='column' width='100%' gap={4}>

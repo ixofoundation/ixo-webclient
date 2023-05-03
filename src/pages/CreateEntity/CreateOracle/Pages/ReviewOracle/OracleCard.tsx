@@ -4,11 +4,11 @@ import React from 'react'
 
 interface Props {
   image: string
-  icon: string
+  logo: string
   name: string
 }
 
-const OracleCard: React.FC<Props> = ({ image, icon, name }): JSX.Element => {
+const OracleCard: React.FC<Props> = ({ image, logo, name }): JSX.Element => {
   return (
     <FlexBox
       direction='column'
@@ -34,7 +34,7 @@ const OracleCard: React.FC<Props> = ({ image, icon, name }): JSX.Element => {
               Oracle
             </Typography>
           </FlexBox>
-          <FlexBox width='40px' height='40px' background={`url(${icon})`} backgroundSize='100%' />
+          <FlexBox width='40px' height='40px' background={`url(${logo})`} backgroundSize='100%' />
         </FlexBox>
 
         <FlexBox width='100%'>

@@ -25,6 +25,10 @@ export class BlockSyncService {
         const url = new URL(`/api/entity/byId/${id.toLowerCase()}`, bsUrl!)
         return fetch(url.href).then((response) => response.json())
       },
+      getCollections: async (): Promise<any> => {
+        const url = new URL(`/api/entity/collections`, bsUrl!)
+        return fetch(url.href).then((response) => response.json())
+      },
     }
   }
 }

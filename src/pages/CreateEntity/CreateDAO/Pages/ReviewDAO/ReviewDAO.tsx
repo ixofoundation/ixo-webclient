@@ -22,7 +22,7 @@ import { ReactComponent as ExclamationIcon } from 'assets/images/icon-exclamatio
 const ReviewDAO: React.FC = (): JSX.Element => {
   const history = useHistory()
   const createEntityState = useCreateEntityState()
-  const metadata: TDAOMetadataModel = createEntityState.metadata as TDAOMetadataModel
+  const profile: TDAOMetadataModel = createEntityState.profile as TDAOMetadataModel
   const {
     entityType,
     service: serviceData,
@@ -110,7 +110,7 @@ const ReviewDAO: React.FC = (): JSX.Element => {
 
   return (
     <FlexBox width={`${deviceWidth.tablet}px`} gap={10} alignItems='stretch'>
-      <DAOCard image={metadata?.image ?? ''} name={metadata?.name ?? ''} numberOfMembers={numOfMembers} />
+      <DAOCard image={profile?.image ?? ''} name={profile?.name ?? ''} numberOfMembers={numOfMembers} />
       <FlexBox direction='column' justifyContent='space-between' gap={4} width='100%' style={{ flex: 1 }}>
         {!success && (
           <>
@@ -155,7 +155,7 @@ const ReviewDAO: React.FC = (): JSX.Element => {
                 <CheckCircleIcon />
               </SvgBox>
               <Typography variant='secondary' size='2xl'>
-                {metadata?.name} Successfully created!
+                {profile?.name} Successfully created!
               </Typography>
             </FlexBox>
             <FlexBox width='100%' gap={4}>
