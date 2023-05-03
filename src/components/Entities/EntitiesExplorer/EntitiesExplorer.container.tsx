@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { RouteProps } from 'react-router'
 import CellCard from './Components/EntityCard/CellCard/CellCard2'
-// import ProjectCard from './Components/EntityCard/ProjectCard/ProjectCard'
+import ProjectCard from './Components/EntityCard/ProjectCard/ProjectCard2'
 // import TemplateCard from './Components/EntityCard/TemplateCard/TemplateCard'
 // import InvestmentCard from './Components/EntityCard/InvestmentCard/InvestmentCard'
 import OracleCard from './Components/EntityCard/OracleCard/OracleCard2'
@@ -74,7 +74,7 @@ export interface Props extends RouteProps {
 }
 
 const EntityCard: any = {
-  // [EntityType.Project]: ProjectCard,
+  [EntityType.Project]: ProjectCard,
   [EntityType.Dao]: CellCard,
   // [EntityType.Protocol]: TemplateCard,
   [EntityType.Oracle]: OracleCard,

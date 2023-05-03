@@ -21,7 +21,7 @@ interface Props {
   onClose: () => void
 }
 
-const SetupPageContent: React.FC<Props> = ({ page, entityType, onChange, onClose }): JSX.Element => {
+const SetupPageContent: React.FC<Props> = ({ page = {}, entityType, onChange, onClose }): JSX.Element => {
   const editorCore = useRef(null)
 
   const DefHeroImageData: OutputBlockData = {

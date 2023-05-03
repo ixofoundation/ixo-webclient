@@ -2,6 +2,7 @@ import React from 'react'
 import { FormWrapper, FormHeader, FormBody, FormRow } from './OracleProfileForm.styles'
 import { HeadlineMetric, IconUpload, ImageUpload, InputWithLabel } from '../../Components'
 import { Typography } from 'components/Typography'
+import { FlexBox } from 'components/App/App.styles'
 
 interface Props {
   image: string | undefined
@@ -33,11 +34,11 @@ const OracleProfileForm: React.FC<Props> = ({
 
       <FormBody>
         <FormRow style={{ justifyContent: 'flex-end' }}>
-          <IconUpload icon={logo} placeholder='Brand Logo' handleChange={setLogo} />
+          <IconUpload icon={logo} placeholder='Oracle Logo' handleChange={setLogo} />
         </FormRow>
         <FormRow>
           {setOrgName ? (
-            <InputWithLabel label='Organisation Name' inputValue={orgName} handleChange={setOrgName} />
+            <InputWithLabel label='Organisation Name' height='48px' inputValue={orgName} handleChange={setOrgName} />
           ) : (
             <Typography color='grey700' size='xl' weight='bold'>
               {orgName}
@@ -46,7 +47,7 @@ const OracleProfileForm: React.FC<Props> = ({
         </FormRow>
         <FormRow>
           {setName ? (
-            <InputWithLabel label='Oracle Name' inputValue={name} handleChange={setName} />
+            <InputWithLabel label='Oracle Name' height='48px' inputValue={name} handleChange={setName} />
           ) : (
             <Typography color='grey700' size='xl' weight='bold'>
               {name}
@@ -54,9 +55,9 @@ const OracleProfileForm: React.FC<Props> = ({
           )}
         </FormRow>
 
-        <FormRow>
+        <FlexBox my={10}>
           <HeadlineMetric />
-        </FormRow>
+        </FlexBox>
       </FormBody>
     </FormWrapper>
   )

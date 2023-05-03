@@ -11,7 +11,10 @@ const SetupMetadata: React.FC = (): JSX.Element => {
   const { entityType, gotoStep, updateProfile } = createEntityState
   const profile: TProjectMetadataModel = createEntityState.profile as TProjectMetadataModel
 
-  const canSubmit = useMemo(() => profile?.image && profile?.logo && profile?.orgName && profile?.name, [profile])
+  const canSubmit: boolean = useMemo(
+    () => !!profile?.image && !!profile?.logo && !!profile?.orgName && !!profile?.name,
+    [profile],
+  )
 
   const handlePrev = (): void => {
     gotoStep(-1)
@@ -48,29 +51,31 @@ const SetupMetadata: React.FC = (): JSX.Element => {
           setName={(name): void => handleUpdateProfile('name', name)}
         />
       </Box>
-      <Box className='d-flex flex-column' style={{ width: 400 }}>
-        <EntityAdditionalInfoForm
-          entityType={entityType}
-          description={profile?.description ?? ''}
-          setDescription={(description): void => handleUpdateProfile('description', description)}
-          brand={profile?.brand ?? ''}
-          setBrand={(brand): void => handleUpdateProfile('brand', brand)}
-          location={profile?.location ?? ''}
-          setLocation={(location): void => handleUpdateProfile('location', location)}
-          metrics={profile?.metrics ?? []}
-          setMetrics={(metrics): void => handleUpdateProfile('metrics', metrics)}
-          attributes={profile?.attributes ?? []}
-          setAttributes={(attributes): void => handleUpdateProfile('attributes', attributes)}
-          startDate={profile?.startDate ?? ''}
-          endDate={profile?.endDate ?? ''}
-          setStartEndDate={(startDate, endDate) => {
-            updateProfile({
-              ...profile,
-              startDate,
-              endDate,
-            })
-          }}
-        />
+      <Box className='d-flex flex-column justify-content-between' style={{ width: 400 }}>
+        <Box>
+          <EntityAdditionalInfoForm
+            entityType={entityType}
+            description={profile?.description ?? ''}
+            setDescription={(description): void => handleUpdateProfile('description', description)}
+            brand={profile?.brand ?? ''}
+            setBrand={(brand): void => handleUpdateProfile('brand', brand)}
+            location={profile?.location ?? ''}
+            setLocation={(location): void => handleUpdateProfile('location', location)}
+            metrics={profile?.metrics ?? []}
+            setMetrics={(metrics): void => handleUpdateProfile('metrics', metrics)}
+            attributes={profile?.attributes ?? []}
+            setAttributes={(attributes): void => handleUpdateProfile('attributes', attributes)}
+            startDate={profile?.startDate ?? ''}
+            endDate={profile?.endDate ?? ''}
+            setStartEndDate={(startDate, endDate) => {
+              updateProfile({
+                ...profile,
+                startDate,
+                endDate,
+              })
+            }}
+          />
+        </Box>
 
         <Box className='d-flex justify-content-end w-100 mt-4' style={{ gap: 20 }}>
           <Button size='full' height={48} variant='secondary' onClick={handlePrev}>

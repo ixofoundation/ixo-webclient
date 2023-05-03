@@ -1,4 +1,4 @@
-import { Box, FlexBox } from 'components/App/App.styles'
+import { Box, FlexBox, theme } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import React from 'react'
 
@@ -24,7 +24,7 @@ const OracleCard: React.FC<Props> = ({ image, logo, name }): JSX.Element => {
           <FlexBox
             justifyContent='space-between'
             borderRadius='8px'
-            background={'#5197B6'}
+            background={theme.ixoDarkRed}
             paddingTop={1}
             paddingBottom={1}
             paddingLeft={2}

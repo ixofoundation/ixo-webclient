@@ -70,7 +70,7 @@ const CreateEntityDropDown: React.FunctionComponent<Props> = ({ entityType }) =>
               exact={true}
               to={`/create/entity/${EntityType.Project.toLowerCase()}`}
               className={`
-                  ${EntityType.Project.toLowerCase()} ${entityType === EntityType.Project ? 'active' : ''} disabled
+                  ${EntityType.Project.toLowerCase()} ${entityType === EntityType.Project ? 'active' : ''}
                   `}
               onClick={handleToggleModal}
             >
@@ -83,7 +83,7 @@ const CreateEntityDropDown: React.FunctionComponent<Props> = ({ entityType }) =>
               exact={true}
               to={`/create/entity/${EntityType.Oracle.toLowerCase()}`}
               className={`
-                  ${EntityType.Oracle.toLowerCase()} ${entityType === EntityType.Oracle ? 'active' : ''} disabled
+                  ${EntityType.Oracle.toLowerCase()} ${entityType === EntityType.Oracle ? 'active' : ''}
                   `}
               onClick={handleToggleModal}
             >
