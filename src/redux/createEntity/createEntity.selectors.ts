@@ -10,7 +10,7 @@ import {
   TEntityLinkedEntityModel,
   TEntityAdministratorModel,
   TEntityPageModel,
-  TEntityClaimModel1,
+  TEntityClaimModel,
   TEntityDDOTagModel,
   TDAOGroupModel,
   TProposalModel,
@@ -76,7 +76,7 @@ export const selectCreateEntityService = createSelector(
 
 export const selectCreateEntityClaim = createSelector(
   selectCreateEntity,
-  (createEntity: TCreateEntityState): { [id: string]: TEntityClaimModel1 } => createEntity.claim ?? {},
+  (createEntity: TCreateEntityState): { [id: string]: TEntityClaimModel } => createEntity.claim ?? {},
 )
 
 export const selectCreateEntityLinkedResource = createSelector(

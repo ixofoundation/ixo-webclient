@@ -697,25 +697,6 @@ export interface TClaimEnrichment {
   contextLink: string
   resources: TClaimEnrichmentResource[]
 }
-/**
- * @deprecated
- */
-export interface TEntityClaimModel {
-  id: string
-  template: TClaimTemplate
-  agentRoles: {
-    [id: string]: TClaimAgentRole
-  }
-  evaluations: {
-    [id: string]: TClaimEvaluation
-  }
-  approvalCriteria: {
-    [id: string]: TClaimApprovalCriterion
-  }
-  enrichments: {
-    [id: string]: TClaimEnrichment
-  }
-}
 export interface TEntityClaimTemplateModel {
   id: string
   title: string
@@ -728,11 +709,11 @@ export interface TEntityClaimSubmissionModel {
   startDate: string
   endDate: string
 }
-export interface TEntityClaimModel1 {
+export interface TEntityClaimModel {
   id: string
-  template: TEntityClaimTemplateModel
-  submissions: TEntityClaimSubmissionModel
-  approvalTarget: number
+  template?: TEntityClaimTemplateModel
+  submissions?: TEntityClaimSubmissionModel
+  approvalTarget?: number
   isEncrypted?: boolean
   isHeadlineMetric?: boolean
 }

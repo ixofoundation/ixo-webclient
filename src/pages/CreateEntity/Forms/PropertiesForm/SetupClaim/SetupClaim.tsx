@@ -1,24 +1,24 @@
 import { Box } from 'components/App/App.styles'
-import { ClaimSetupModal1 } from 'components/Modals'
+import { ClaimSetupModal } from 'components/Modals'
 import { Typography } from 'components/Typography'
 import { PropertyBox } from 'pages/CreateEntity/Components'
 import React, { useEffect, useState } from 'react'
-import { TEntityClaimModel1 } from 'types/protocol'
+import { TEntityClaimModel } from 'types/protocol'
 import { omitKey } from 'utils/objects'
 import { v4 as uuidv4 } from 'uuid'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
 
 interface Props {
-  claim: { [id: string]: TEntityClaimModel1 }
-  updateClaim: (claim: { [id: string]: TEntityClaimModel1 }) => void
+  claim: { [id: string]: TEntityClaimModel }
+  updateClaim: (claim: { [id: string]: TEntityClaimModel }) => void
 }
 
 const SetupClaim: React.FC<Props> = ({ claim, updateClaim }): JSX.Element => {
-  const [entityClaim, setEntityClaim] = useState<{ [id: string]: any }>({})
-  const [selectedClaim, setSelectedClaim] = useState<any>()
+  const [entityClaim, setEntityClaim] = useState<{ [id: string]: TEntityClaimModel }>({})
+  const [selectedClaim, setSelectedClaim] = useState<TEntityClaimModel | undefined>()
   const [editModalOpen, setEditModalOpen] = useState(false)
 
-  const handleUpdateEntityClaim = (id: string, newClaim: TEntityClaimModel1): void => {
+  const handleUpdateEntityClaim = (id: string, newClaim: TEntityClaimModel): void => {
     setEntityClaim((pre) => {
       let claim = pre
       if (newClaim.isHeadlineMetric) {
@@ -63,7 +63,7 @@ const SetupClaim: React.FC<Props> = ({ claim, updateClaim }): JSX.Element => {
           {Object.entries(entityClaim).map(([key, value]) => (
             <PropertyBox
               key={key}
-              set={value?.template?.id}
+              set={!!value?.template?.id}
               label={value?.template?.title}
               handleRemove={(): void => handleRemoveEntityClaim(key)}
               handleClick={(): void => {
@@ -77,17 +77,26 @@ const SetupClaim: React.FC<Props> = ({ claim, updateClaim }): JSX.Element => {
             noData
             handleClick={(): void => {
               setEditModalOpen(true)
-              setSelectedClaim({ id: uuidv4(), isHeadlineMetric: Object.keys(claim).length === 0 })
+              setSelectedClaim({
+                id: uuidv4(),
+                template: undefined,
+                submissions: undefined,
+                approvalTarget: undefined,
+                isEncrypted: false,
+                isHeadlineMetric: Object.keys(claim).length === 0,
+              })
             }}
           />
         </Box>
       </Box>
-      <ClaimSetupModal1
-        claim={selectedClaim}
-        open={editModalOpen}
-        onClose={(): void => setEditModalOpen(false)}
-        onChange={(claim: TEntityClaimModel1): void => handleUpdateEntityClaim(selectedClaim.id, claim)}
-      />
+      {selectedClaim && (
+        <ClaimSetupModal
+          claim={selectedClaim}
+          open={editModalOpen}
+          onClose={(): void => setEditModalOpen(false)}
+          onChange={(claim: TEntityClaimModel): void => handleUpdateEntityClaim(selectedClaim.id, claim)}
+        />
+      )}
     </>
   )
 }

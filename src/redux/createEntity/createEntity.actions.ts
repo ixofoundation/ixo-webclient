@@ -3,7 +3,7 @@ import {
   TDAOGroupModel,
   TProposalModel,
   TEntityAccordedRightModel,
-  TEntityClaimModel1,
+  TEntityClaimModel,
   TEntityAdministratorModel,
   TEntityCreatorModel,
   TEntityDDOTagModel,
@@ -100,7 +100,7 @@ export const updateServiceAction = (services: TEntityServiceModel[]): TUpdateSer
   payload: services,
 })
 
-export const updateClaimAction = (claim: { [id: string]: TEntityClaimModel1 }): TUpdateClaimAction => ({
+export const updateClaimAction = (claim: { [id: string]: TEntityClaimModel }): TUpdateClaimAction => ({
   type: ECreateEntityActions.UpdateClaim,
   payload: claim,
 })

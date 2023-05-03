@@ -27,7 +27,7 @@ interface Props {
   onLabel?: string
   offLabel?: string
   size?: 'base' | 'md' | 'sm'
-  onChange: (value: boolean) => void
+  onChange?: (value: boolean) => void
 }
 
 const Switch: React.FC<Props> = ({ size = 'base', onLabel, offLabel, value, onChange }): JSX.Element => {
@@ -43,7 +43,7 @@ const Switch: React.FC<Props> = ({ size = 'base', onLabel, offLabel, value, onCh
     }
   }, [size])
   return (
-    <FlexBox alignItems='center' gap={4} className='cursor-pointer' onClick={() => onChange(!value)}>
+    <FlexBox alignItems='center' gap={4} className='cursor-pointer' onClick={() => onChange && onChange(!value)}>
       {offLabel && (
         <Typography size='xl' color={!value ? 'blue' : 'grey700'}>
           {offLabel}

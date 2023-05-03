@@ -6,7 +6,7 @@ import { TEntityClaimTemplateModel } from 'types/protocol'
 
 const Wrapper = styled.div<{ selected?: boolean }>`
   width: 340px;
-  height: 240px;
+  height: 270px;
   padding: 20px;
   border: 1px solid ${(props): string => props.theme.ixoNewBlue};
   ${(props): string =>
@@ -24,7 +24,7 @@ const Divider = styled.div`
 `
 
 interface ClaimTemplateProps {
-  template: TEntityClaimTemplateModel
+  template: TEntityClaimTemplateModel | undefined
   selected?: boolean
   onClick: () => void
 }
@@ -33,8 +33,8 @@ const ClaimTemplateCard: React.FC<ClaimTemplateProps> = ({ template, selected = 
     <Wrapper selected={selected} className='cursor-pointer' onClick={onClick}>
       {!template && (
         <Box className='d-flex align-items-center justify-content-center h-100'>
-          <Typography size='xl' color='grey700' weight='bold'>
-            Select a Protocol
+          <Typography size='xl' color='blue' weight='medium'>
+            Select a Claim Protocol
           </Typography>
         </Box>
       )}

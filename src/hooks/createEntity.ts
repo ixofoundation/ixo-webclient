@@ -10,7 +10,7 @@ import {
   TEntityAccordedRightModel,
   TEntityLinkedEntityModel,
   TEntityAdministratorModel,
-  TEntityClaimModel1,
+  TEntityClaimModel,
   TEntityDDOTagModel,
   TDAOGroupModel,
   TProposalModel,
@@ -125,7 +125,7 @@ interface TCreateEntityStateHookRes {
   ddoTags: TEntityDDOTagModel[]
   page: TEntityPageModel
   service: TEntityServiceModel[]
-  claim: { [id: string]: TEntityClaimModel1 }
+  claim: { [id: string]: TEntityClaimModel }
   linkedResource: { [id: string]: TEntityLinkedResourceModel }
   accordedRight: { [key: string]: TEntityAccordedRightModel }
   linkedEntity: { [key: string]: TEntityLinkedEntityModel }
@@ -148,7 +148,7 @@ interface TCreateEntityStateHookRes {
   updateDDOTags: (ddoTags: TEntityDDOTagModel[]) => void
   updatePage: (page: TEntityPageModel) => void
   updateService: (service: TEntityServiceModel[]) => void
-  updateClaim: (claim: { [id: string]: TEntityClaimModel1 }) => void
+  updateClaim: (claim: { [id: string]: TEntityClaimModel }) => void
   updateLinkedResource: (linkedResource: { [id: string]: TEntityLinkedResourceModel }) => void
   updateAccordedRight: (accordedRight: { [id: string]: TEntityAccordedRightModel }) => void
   updateLinkedEntity: (linkedEntity: { [id: string]: TEntityLinkedEntityModel }) => void
@@ -176,7 +176,7 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
   const ddoTags: TEntityDDOTagModel[] = useAppSelector(selectCreateEntityDDOTags)
   const page: TEntityPageModel = useAppSelector(selectCreateEntityPage)
   const service: TEntityServiceModel[] = useAppSelector(selectCreateEntityService)
-  const claim: { [id: string]: TEntityClaimModel1 } = useAppSelector(selectCreateEntityClaim)
+  const claim: { [id: string]: TEntityClaimModel } = useAppSelector(selectCreateEntityClaim)
   const linkedResource: {
     [id: string]: TEntityLinkedResourceModel
   } = useAppSelector(selectCreateEntityLinkedResource)
@@ -254,7 +254,7 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
   const updateService = (service: TEntityServiceModel[]): void => {
     dispatch(updateServiceAction(service))
   }
-  const updateClaim = (claim: { [id: string]: TEntityClaimModel1 }): void => {
+  const updateClaim = (claim: { [id: string]: TEntityClaimModel }): void => {
     dispatch(updateClaimAction(claim))
   }
   const updateLinkedResource = (linkedResource: { [id: string]: TEntityLinkedResourceModel }): void => {

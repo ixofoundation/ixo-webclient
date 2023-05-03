@@ -36,6 +36,10 @@ const StyledTextArea = styled.textarea<{ width: string; height: string }>`
   &[type='number'] {
     -moz-appearance: textfield;
   }
+
+  &:disabled {
+    border: 1px solid ${(props): string => props.theme.ixoGrey500};
+  }
 `
 
 interface Props extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
@@ -43,7 +47,7 @@ interface Props extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   width?: string
   height?: string
   label?: string
-  handleChange: (value: string) => void
+  handleChange?: (value: string) => void
 }
 
 const TextArea: React.FC<Props> = ({
@@ -59,7 +63,7 @@ const TextArea: React.FC<Props> = ({
 
   const onChange = (event: ChangeEvent<HTMLTextAreaElement>): void => {
     const newValue = event.target.value
-    handleChange(newValue)
+    handleChange && handleChange(newValue)
   }
   return (
     <Box position='relative' width='100%'>
