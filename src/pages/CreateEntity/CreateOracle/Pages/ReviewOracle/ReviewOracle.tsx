@@ -1,5 +1,9 @@
-import { Verification } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/tx'
-import { AccordedRight, LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
+import {
+  AccordedRight,
+  LinkedEntity,
+  LinkedResource,
+  Service,
+} from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { FlexBox, SvgBox, theme } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { deviceWidth } from 'constants/device'
@@ -17,7 +21,7 @@ const ReviewOracle: React.FC = (): JSX.Element => {
   const history = useHistory()
   const createEntityState = useCreateEntityState()
   const profile: TOracleMetadataModel = createEntityState.profile as TOracleMetadataModel
-  const { entityType, service, linkedEntity, gotoStep, gotoStepByNo } = createEntityState
+  const { entityType, service: serviceData, linkedEntity: linkedEntityData, gotoStep, gotoStepByNo } = createEntityState
   const { UploadLinkedResource, CreateProtocol, CreateEntityBase } = useCreateEntity()
   const [submitting, setSubmitting] = useState(false)
   const { getQuery } = useQuery()
@@ -26,31 +30,45 @@ const ReviewOracle: React.FC = (): JSX.Element => {
   const handleSignToCreate = async (): Promise<void> => {
     setSubmitting(true)
 
-    const accordedRight: AccordedRight[] = [] // TODO:
-    const verification: Verification[] = []
+    const accordedRight: AccordedRight[] = []
+    let service: Service[] = []
+    let linkedEntity: LinkedEntity[] = []
     let linkedResource: LinkedResource[] = []
 
+    // AccordedRight TODO:
+
+    // Service
+    service = serviceData.map((item: Service) => ({ ...item, id: `{id}#${item.id}` }))
+
+    // LinkedEntity
+    linkedEntity = Object.values(linkedEntityData)
+
+    // LinkedResource
     linkedResource = linkedResource.concat(await UploadLinkedResource())
 
+    // Create Protocol for dao
     const protocolDid = await CreateProtocol()
     if (!protocolDid) {
       setSubmitting(false)
       history.push({ pathname: history.location.pathname, search: `?success=false` })
       return
     }
+
+    // Create DAO entity
     const entityDid = await CreateEntityBase(entityType, protocolDid, {
       service,
       linkedResource,
       accordedRight,
-      linkedEntity: Object.values(linkedEntity),
-      verification,
+      linkedEntity,
     })
-    if (entityDid) {
-      history.push({ pathname: history.location.pathname, search: `?success=true` })
-    } else {
+    if (!entityDid) {
+      setSubmitting(false)
       history.push({ pathname: history.location.pathname, search: `?success=false` })
+      return
     }
+
     setSubmitting(false)
+    history.push({ pathname: history.location.pathname, search: `?success=true` })
   }
 
   return (
@@ -68,12 +86,6 @@ const ReviewOracle: React.FC = (): JSX.Element => {
                   Review the Oracle details
                 </NavLink>{' '}
                 you have configured.
-              </Typography>
-              <Typography variant='secondary'>
-                <Typography variant='secondary' color='blue'>
-                  Confirm the Headline Metric
-                </Typography>{' '}
-                that will be displayed on the Oracle card.
               </Typography>
               <Typography variant='secondary'>
                 When you are ready to commit, sign with your DID Account keys, or{' '}

@@ -4,8 +4,6 @@ import {
   CardContainer,
   CardLink,
   CardBottom,
-  MainContent,
-  Title,
   StatisticsContainer,
   Logo,
   StatisticLabel,
@@ -16,6 +14,8 @@ import {
   CardTopContainer,
   CardTags,
   CardTag,
+  MultiLineTitle,
+  MainContent,
 } from '../EntityCard.styles'
 import SDGIcons from '../SDGIcons/SDGIcons'
 import Star from 'assets/icons/Star'
@@ -32,12 +32,8 @@ interface Props {
 const OracleCard: React.FunctionComponent<Props> = ({ id, profile, tags }) => {
   const sdgs = tags?.find(({ category }) => category === 'SDG')?.tags ?? []
 
-  if (!profile) {
-    return null
-  }
-
   return (
-    <CardContainer className='col-xl-4 col-md-6 col-sm-12 col-12'>
+    <CardContainer>
       <CardLink
         to={{
           pathname: `/entity/${id}/overview`,
@@ -46,14 +42,14 @@ const OracleCard: React.FunctionComponent<Props> = ({ id, profile, tags }) => {
         <CardTop>
           <CardTopContainer
             style={{
-              backgroundImage: `url(${profile.image}),url(${requireCheckDefault(
+              backgroundImage: `url(${profile?.image}),url(${requireCheckDefault(
                 require('assets/images/ixo-placeholder-large.jpg'),
               )})`,
             }}
           >
             <SDGIcons sdgs={sdgs} />
             <Description>
-              <p>{excerptText(profile.description, 20)}</p>
+              <p>{excerptText(profile?.description, 20)}</p>
             </Description>
           </CardTopContainer>
         </CardTop>
@@ -62,7 +58,7 @@ const OracleCard: React.FunctionComponent<Props> = ({ id, profile, tags }) => {
             <CardTag tagColor={theme.ixoDarkRed}>Oracle</CardTag>
           </CardTags>
           <MainContent>
-            <Title>{excerptText(profile.name, 10)}</Title>
+            <MultiLineTitle>{excerptText(profile?.name, 10)}</MultiLineTitle>
           </MainContent>
           <StatisticsContainer className='row'>
             <div className='col-4'>
@@ -93,7 +89,7 @@ const OracleCard: React.FunctionComponent<Props> = ({ id, profile, tags }) => {
               Terms Of Use
             </div>
             <div className='col-6 text-right'>
-              <Logo src={profile.logo} />
+              <Logo src={profile?.logo} />
             </div>
           </CardBottomLogoContainer>
         </CardBottom>

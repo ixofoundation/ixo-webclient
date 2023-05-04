@@ -134,7 +134,7 @@ export const getEntitiesByType =
               payload: { id, key, data: value },
             })
           })
-          return { ...(entities2 && entities2[id] ? { ...entities2[id] } : {}), ...entity }
+          return { ...(entities2 && entities2[id] ? entities2[id] : {}), ...entity }
         })
       }),
     })

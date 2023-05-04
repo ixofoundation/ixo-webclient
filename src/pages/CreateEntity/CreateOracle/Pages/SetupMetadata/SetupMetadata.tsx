@@ -1,5 +1,5 @@
 import { Box } from 'components/App/App.styles'
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useCreateEntityState } from 'hooks/createEntity'
 import { Button } from '../../../Components'
 import { OracleProfileForm, EntityAdditionalInfoForm } from '../../../Forms'
@@ -11,7 +11,10 @@ const SetupMetadata: React.FC = (): JSX.Element => {
   const { entityType, gotoStep, updateProfile } = createEntityState
   const profile: TOracleMetadataModel = createEntityState.profile as TOracleMetadataModel
 
-  const canSubmit = true
+  const canSubmit: boolean = useMemo(
+    () => !!profile?.image && !!profile?.logo && !!profile?.orgName && !!profile?.name,
+    [profile],
+  )
 
   const handlePrev = (): void => {
     gotoStep(-1)

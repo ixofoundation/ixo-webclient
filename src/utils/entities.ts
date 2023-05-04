@@ -319,7 +319,6 @@ export function apiEntityToEntity(
     }
   })
 
-  updateCallback('entityType', type)
   updateCallback('linkedEntity', Object.fromEntries(linkedEntity.map((item: LinkedEntity) => [uuidv4(), item])))
   updateCallback(
     'service',

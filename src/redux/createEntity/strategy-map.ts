@@ -28,6 +28,7 @@ import {
 import {
   SelectCreationProcess as SelectProjectCreationProcess,
   SetupMetadata as SetupProjectMetadata,
+  SetupProperties as SetupProjectProperties,
   ReviewProject,
 } from 'pages/CreateEntity/CreateProject/Pages'
 import {
@@ -271,7 +272,7 @@ export const CreateEntityStrategyMap: TCreateEntityStrategyMap = {
       [`3`]: {
         id: 3,
         name: 'Setup an additional information',
-        component: SetupProperties,
+        component: SetupProjectProperties,
         url: '/create/entity/project/property',
         prevStep: 2,
         nextStep: 4,

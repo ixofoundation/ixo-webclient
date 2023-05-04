@@ -27,8 +27,8 @@ const SetupProperties: React.FC = (): JSX.Element => {
     updateClaim,
     updateAccordedRight,
     updateLinkedEntity,
-    gotoStep,
     validateRequiredProperties,
+    gotoStep,
   } = useCreateEntityState()
 
   const PropertiesFormProps = {
