@@ -13,6 +13,7 @@ import { Typography } from 'components/Typography'
 import PulseLoader from 'components/PulseLoader/PulseLoader'
 import { PDS_URL } from 'types/entities'
 import { toTitleCase } from 'utils/formatters'
+import { errorToast } from 'utils/toast'
 
 const cellNodeEndpoint = PDS_URL
 
@@ -58,11 +59,12 @@ const LinkedResourceSetupModal: React.FC<Props> = ({ linkedResource, open, onClo
               handleFormDataChange('mediaType', mediaType)
               setUploading(false)
             } else {
-              throw new Error(`Error uploading: ${response?.result}`)
+              throw response?.result
             }
           })
           .catch((e) => {
             console.error(e)
+            errorToast('Error uploading', e)
             setUploading(false)
           })
       }

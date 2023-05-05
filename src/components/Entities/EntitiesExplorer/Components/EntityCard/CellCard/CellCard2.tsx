@@ -46,6 +46,9 @@ const DAOCard: React.FunctionComponent<Props> = ({ id, profile, tags, linkedEnti
             })
             .catch(() => undefined)
         })
+      return () => {
+        setNumOfMembers(0)
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [!!cosmWasmClient])
