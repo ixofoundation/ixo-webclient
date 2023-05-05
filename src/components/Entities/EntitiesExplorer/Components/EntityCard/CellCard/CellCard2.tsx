@@ -34,19 +34,21 @@ const DAOCard: React.FunctionComponent<Props> = ({ id, profile, tags, linkedEnti
   const [numOfMembers, setNumOfMembers] = useState(0)
 
   useEffect(() => {
-    if (linkedEntity.length > 0 && !!cosmWasmClient) {
+    if (linkedEntity.length > 0) {
       linkedEntity
         .filter((item: TEntityLinkedEntityModel) => item.type === 'Group')
         .forEach((item: TEntityLinkedEntityModel) => {
           const { id } = item
           const [, coreAddress] = id.split('#')
-          getDaoContractMembersInfo({ coreAddress, cosmWasmClient, address }).then((members) => {
-            setNumOfMembers((numOfMembers) => numOfMembers + members.length)
-          })
+          getDaoContractMembersInfo({ coreAddress, cosmWasmClient, address })
+            .then((members) => {
+              setNumOfMembers((numOfMembers) => numOfMembers + members.length)
+            })
+            .catch(() => undefined)
         })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [linkedEntity, !!cosmWasmClient])
+  }, [!!cosmWasmClient])
 
   return (
     <CardContainer>

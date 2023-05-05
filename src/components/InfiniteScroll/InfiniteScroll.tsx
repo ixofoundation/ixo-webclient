@@ -4,11 +4,12 @@ interface Props {
   dataLength: number
   hasMore: boolean
   columns: number
+  gridGap?: number
   next: () => void
   children: React.ReactNode
 }
 
-const InfiniteScroll: React.FC<Props> = ({ dataLength, hasMore, next, columns, children }) => {
+const InfiniteScroll: React.FC<Props> = ({ dataLength, hasMore, next, columns, gridGap = 7.5, children }) => {
   return (
     <ReactInfiniteScroll
       dataLength={dataLength} //This is important field to render the next data
@@ -21,7 +22,12 @@ const InfiniteScroll: React.FC<Props> = ({ dataLength, hasMore, next, columns, c
         </p>
       }
       scrollableTarget='root'
-      style={{ width: '100%', display: 'grid', gridTemplateColumns: `repeat(${columns}, 1fr)`, gridGap: '30px' }}
+      style={{
+        width: '100%',
+        display: 'grid',
+        gridTemplateColumns: `repeat(${columns}, 1fr)`,
+        gridGap: gridGap * 0.25 + 'rem',
+      }}
     >
       {children}
     </ReactInfiniteScroll>

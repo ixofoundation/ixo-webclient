@@ -299,7 +299,7 @@ export function apiEntityToEntity(
             .then((response) => response.json())
             .then((response) => response.entityTags ?? response.ddoTags)
             .then((tags) => {
-              updateCallback('ddoTags', tags)
+              updateCallback('tags', tags)
             })
             .catch(() => undefined)
           break
@@ -334,89 +334,91 @@ export function apiEntityToEntity(
       .forEach((item: LinkedEntity) => {
         const { id } = item
         const [, coreAddress] = id.split('#')
-        getDaoContractInfo({ coreAddress, cosmWasmClient, address }).then((response) => {
-          console.log('getDaoContractInfo', { response })
-          const { type, config, proposalModule, votingModule, token } = response
-          const { preProposeConfig, proposalConfig } = proposalModule
+        getDaoContractInfo({ coreAddress, cosmWasmClient, address })
+          .then((response) => {
+            console.log('getDaoContractInfo', { response })
+            const { type, config, proposalModule, votingModule, token } = response
+            const { preProposeConfig, proposalConfig } = proposalModule
 
-          const id = uuidv4()
-          const name = config.name
-          const description = config.description
-          const depositRequired = !!preProposeConfig.deposit_info
-          const depositInfo = preProposeConfig.deposit_info
-          const anyoneCanPropose = preProposeConfig.open_proposal_submission
-          const onlyMembersExecute = proposalConfig.only_members_execute
-          const { value: proposalDuration, units: proposalDurationUnits } = convertSecondsToDurationWithUnits(
-            proposalConfig.max_voting_period.time,
-          )
-          const allowRevoting = proposalConfig.allow_revoting
-          const contractAddress = coreAddress
-          const {
-            thresholdType,
-            thresholdPercentage,
-            quorumEnabled,
-            quorumType,
-            quorumPercentage,
-            absoluteThresholdCount,
-          } = thresholdToTQData(proposalConfig.threshold)
-
-          const { members } = votingModule
-
-          let staking: any = undefined
-          if (type === 'staking' && token) {
-            const { tokenInfo, marketingInfo, config } = token
-
-            // const decimals = tokenInfo.decimals
-            const tokenSymbol = tokenInfo.symbol
-            const tokenName = tokenInfo.name
-            const tokenSupply = tokenInfo.total_supply
-            const tokenLogo = marketingInfo?.logo !== 'embedded' && marketingInfo.logo?.url
-
-            const unstakingDuration: DurationWithUnits = convertSecondsToDurationWithUnits(
-              durationToSeconds(0, config.unstaking_duration),
+            const id = uuidv4()
+            const name = config.name
+            const description = config.description
+            const depositRequired = !!preProposeConfig.deposit_info
+            const depositInfo = preProposeConfig.deposit_info
+            const anyoneCanPropose = preProposeConfig.open_proposal_submission
+            const onlyMembersExecute = proposalConfig.only_members_execute
+            const { value: proposalDuration, units: proposalDurationUnits } = convertSecondsToDurationWithUnits(
+              proposalConfig.max_voting_period.time,
             )
+            const allowRevoting = proposalConfig.allow_revoting
+            const contractAddress = coreAddress
+            const {
+              thresholdType,
+              thresholdPercentage,
+              quorumEnabled,
+              quorumType,
+              quorumPercentage,
+              absoluteThresholdCount,
+            } = thresholdToTQData(proposalConfig.threshold)
 
-            staking = {
-              tokenSymbol,
-              tokenName,
-              tokenSupply,
-              tokenLogo,
-              // treasuryPercent,
-              unstakingDuration,
+            const { members } = votingModule
+
+            let staking: any = undefined
+            if (type === 'staking' && token) {
+              const { tokenInfo, marketingInfo, config } = token
+
+              // const decimals = tokenInfo.decimals
+              const tokenSymbol = tokenInfo.symbol
+              const tokenName = tokenInfo.name
+              const tokenSupply = tokenInfo.total_supply
+              const tokenLogo = marketingInfo?.logo !== 'embedded' && marketingInfo.logo?.url
+
+              const unstakingDuration: DurationWithUnits = convertSecondsToDurationWithUnits(
+                durationToSeconds(0, config.unstaking_duration),
+              )
+
+              staking = {
+                tokenSymbol,
+                tokenName,
+                tokenSupply,
+                tokenLogo,
+                // treasuryPercent,
+                unstakingDuration,
+              }
             }
-          }
 
-          const memberships = membersToMemberships(members)
+            const memberships = membersToMemberships(members)
 
-          const daoGroup = {
-            type,
-            id,
-            contractAddress,
+            const daoGroup = {
+              type,
+              id,
+              contractAddress,
 
-            name,
-            description,
-            memberships,
-            staking,
+              name,
+              description,
+              memberships,
+              staking,
 
-            depositRequired,
-            depositInfo,
-            anyoneCanPropose,
+              depositRequired,
+              depositInfo,
+              anyoneCanPropose,
 
-            onlyMembersExecute,
-            thresholdType,
-            thresholdPercentage: (thresholdPercentage ?? 0) / 100,
-            quorumEnabled,
-            quorumType,
-            quorumPercentage: (quorumPercentage ?? 0) / 100,
-            proposalDuration,
-            proposalDurationUnits,
-            allowRevoting,
+              onlyMembersExecute,
+              thresholdType,
+              thresholdPercentage: (thresholdPercentage ?? 0) / 100,
+              quorumEnabled,
+              quorumType,
+              quorumPercentage: (quorumPercentage ?? 0) / 100,
+              proposalDuration,
+              proposalDurationUnits,
+              allowRevoting,
 
-            absoluteThresholdCount,
-          }
+              absoluteThresholdCount,
+            }
 
-          updateCallback('daoGroups', { [id]: daoGroup }, true)
-        })
+            updateCallback('daoGroups', { [id]: daoGroup }, true)
+          })
+          .catch(() => undefined)
       })
   }
 }

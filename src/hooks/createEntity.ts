@@ -1204,6 +1204,9 @@ export function useCreateEntity(): TCreateEntityHookRes {
       const res = await WasmInstantiateTrx(signingClient, signer, [message])
       console.log('CreateDAOCoreByGroupId', res)
       const contractAddress = utils.common.getValueFromEvents(res!, 'instantiate', '_contract_address')
+      if (!contractAddress) {
+        throw new Error(res?.rawLog)
+      }
       return contractAddress
     } catch (e) {
       console.error('CreateDAOCoreByGroupId', e)

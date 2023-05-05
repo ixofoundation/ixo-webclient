@@ -17,6 +17,9 @@ const AssetCollections: React.FC = () => {
 
   useEffect(() => {
     bsService.entity.getCollections().then(setAssets)
+    return () => {
+      setAssets([])
+    }
   }, [])
 
   if (selectedAsset) {

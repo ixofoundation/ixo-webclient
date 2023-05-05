@@ -1,5 +1,5 @@
 import { TEntityModel } from 'api/blocksync/types/entities'
-import { FlexBox, GridContainer, GridItem } from 'components/App/App.styles'
+import { FlexBox, GridContainer, GridItem, theme } from 'components/App/App.styles'
 import { Button } from 'pages/CreateEntity/Components'
 import React, { useEffect, useState } from 'react'
 import { apiEntityToEntity } from 'utils/entities'
@@ -7,6 +7,7 @@ import { ReactComponent as ArrowLeftIcon } from 'assets/images/icon-arrow-left.s
 import { Typography } from 'components/Typography'
 import CollectionMetadata from './CollectionMetadata'
 import Assets from './Assets'
+import { getSDGIcon } from 'components/Modals/SelectionModal/SelectionModal'
 
 interface Props {
   collection: any
@@ -22,11 +23,18 @@ const CollectionExplorer: React.FC<Props> = (props) => {
   const name = collection?.token?.name
   const tokenName = collection?.token?.tokenName
 
+  const sdgs = collection?.tags
+    ? collection.tags.find((item) => item && item.category === 'SDG' && Array.isArray(item.tags))?.tags ?? []
+    : []
+
   useEffect(() => {
     setCollection(props.collection)
     apiEntityToEntity({ entity: props.collection }, (key, value) => {
       setCollection((collection: any) => ({ ...collection, [key]: value }))
     })
+    return () => {
+      setCollection(undefined)
+    }
   }, [props.collection])
 
   return (
@@ -70,12 +78,19 @@ const CollectionExplorer: React.FC<Props> = (props) => {
           <FlexBox
             width='100%'
             height='190px'
+            justifyContent='flex-end'
             borderRadius='8px'
             background={`url(${image}), linear-gradient(180deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.5) 100%)`}
             backgroundSize='100%'
             backgroundPosition='center center'
+            p={5}
+            gap={2}
+            color={theme.ixoWhite}
           >
-            {/* TODO: SDG */}
+            {sdgs.map((value, index) => {
+              const sdgIcon = getSDGIcon(value)
+              return <i key={index} className={sdgIcon.class} />
+            })}
           </FlexBox>
         </GridItem>
         <GridItem gridArea='d'>{collection && <CollectionMetadata {...collection} />}</GridItem>

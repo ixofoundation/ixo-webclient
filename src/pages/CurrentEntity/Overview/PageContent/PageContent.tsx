@@ -24,7 +24,7 @@ const Wrapper = styled(FlexBox)`
 `
 
 const PageContent: React.FC = (): JSX.Element => {
-  const { page } = useCurrentEntity()
+  const { page = [] } = useCurrentEntity()
 
   const html = edjsParser.parse({
     blocks:

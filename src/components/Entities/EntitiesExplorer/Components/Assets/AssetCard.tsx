@@ -6,6 +6,7 @@ import { ProgressBar } from 'components/ProgressBar/ProgressBar'
 import { TEntityModel } from 'api/blocksync/types/entities'
 import { apiEntityToEntity } from 'utils/entities'
 import { Typography } from 'components/Typography'
+import { NavLink } from 'react-router-dom'
 
 interface Props {
   entity: any
@@ -16,6 +17,7 @@ interface Props {
 const AssetCard: React.FC<Props> = ({ entity: _entity, selected = false, isSelecting = false }): JSX.Element => {
   const [entity, setEntity] = useState<TEntityModel>()
 
+  const id = entity?.id
   const image = entity?.profile?.image
   const logo = entity?.profile?.logo
   const type = entity?.token?.type
@@ -31,79 +33,75 @@ const AssetCard: React.FC<Props> = ({ entity: _entity, selected = false, isSelec
         setEntity((entity: any) => ({ ...entity, [key]: value }))
       })
     }
+    return () => {
+      setEntity(undefined)
+    }
   }, [_entity])
 
   return (
-    <FlexBox direction='column' width='100%'>
-      <AssetCardHeader background={image!}>
-        <AssetCardHeaderDotBG />
-      </AssetCardHeader>
+    <NavLink to={`/entity/${id}`} style={{ textDecoration: 'none' }}>
+      <FlexBox direction='column' width='100%' overflow='hidden'>
+        <AssetCardHeader background={image!}>
+          <AssetCardHeaderDotBG />
+        </AssetCardHeader>
 
-      <AssetCardBody>
-        <AssetCardBodyRow style={{ justifyContent: 'space-between', alignItems: 'center' }}>
-          <CardTags style={{ gap: 5 }}>
-            <CardTag tagColor={theme.ixoDarkRed}>{type}</CardTag>
-          </CardTags>
-          <AssetLogo src={logo} alt='' />
-        </AssetCardBodyRow>
+        <AssetCardBody>
+          <AssetCardBodyRow style={{ justifyContent: 'space-between', alignItems: 'center' }}>
+            <CardTags style={{ gap: 5 }}>
+              <CardTag tagColor={theme.ixoDarkRed}>{type}</CardTag>
+            </CardTags>
+            <AssetLogo src={logo} alt='' />
+          </AssetCardBodyRow>
 
-        <AssetCardBodyRow style={{ flexDirection: 'column', height: 70 }}>
-          <Typography color='dark-blue' weight='bold' size='2xl' style={{ marginBottom: 4 }}>
-            {tokenName}
-          </Typography>
-          <Typography color='color-2' weight='normal' size='md'>
-            {name}
-          </Typography>
-        </AssetCardBodyRow>
+          <AssetCardBodyRow style={{ flexDirection: 'column', height: 70 }}>
+            <Typography color='black' weight='bold' size='2xl' style={{ marginBottom: 4 }}>
+              {tokenName}
+            </Typography>
+            <Typography color='color-2' weight='normal' size='md'>
+              {name}
+            </Typography>
+          </AssetCardBodyRow>
 
-        <AssetCardBodyRow style={{ flexDirection: 'column', gap: 4 }}>
-          <ProgressBar
-            total={100}
-            approved={33}
-            rejected={0}
-            activeBarColor={'linear-gradient(270deg, #6FCF97 50%, #036784 100%)'}
-            height={9}
-          />
-          <Box className='d-flex'>
-            <Typography weight='bold' color={'blue'}>
-              124.12&nbsp;
-            </Typography>
-            <Typography weight='bold' color='black'>
-              CARBON&nbsp;
-            </Typography>
-            <Typography weight='normal' color='black'>
-              claimed ~&nbsp;
-            </Typography>
-            <Typography weight='bold' color='black'>
-              1,23k&nbsp;
-            </Typography>
-            <Typography weight='normal' color='black'>
-              produced
-            </Typography>
-          </Box>
-        </AssetCardBodyRow>
+          <AssetCardBodyRow style={{ flexDirection: 'column', gap: 4 }}>
+            <ProgressBar total={100} approved={33} rejected={0} activeBarColor={theme.ixoLightGreen} height={9} />
+            <Box className='d-flex'>
+              <Typography size='sm' weight='bold' color='blue' transform='uppercase'>
+                124.12&nbsp;Carbon&nbsp;
+              </Typography>
+              <Typography size='sm' weight='normal' color='black'>
+                claimable&nbsp;/&nbsp;
+              </Typography>
+              <Typography size='sm' weight='bold' color='black'>
+                2145&nbsp;
+              </Typography>
+              <Typography size='sm' weight='normal' color='black'>
+                produced
+              </Typography>
+            </Box>
+          </AssetCardBodyRow>
 
-        <AssetCardBodyRow style={{ alignItems: 'baseline' }}>
-          <Typography color='dark-blue' weight='semi-bold' size='2xl'>
-            #1
-          </Typography>
-          {maxSupply && (
-            <Typography color='color-2' weight='medium' size='md'>
-              of {Number(maxSupply).toLocaleString()}
+          <AssetCardBodyRow style={{ alignItems: 'baseline' }}>
+            <Typography color='black' weight='semi-bold' size='2xl'>
+              1
             </Typography>
-          )}
-        </AssetCardBodyRow>
+            {maxSupply && (
+              <Typography color='color-2' weight='medium' size='md'>
+                of {Number(maxSupply).toLocaleString()}
+              </Typography>
+            )}
+          </AssetCardBodyRow>
 
-        <AssetCardBodyRow style={{ justifyContent: 'space-between' }}>
-          <Typography color='color-2' weight='normal' size='md'>
-            {new Date(createdAt).toLocaleDateString()}
-          </Typography>
-          <Typography color='dark-blue' weight='normal' size='md'>
-            $ 230.00
-          </Typography>
-        </AssetCardBodyRow>
-      </AssetCardBody>
-    </FlexBox>
+          <AssetCardBodyRow style={{ justifyContent: 'space-between' }}>
+            <Typography color='color-2' weight='normal' size='md'>
+              {new Date(createdAt).toLocaleDateString()}
+            </Typography>
+            <Typography color='dark-blue' weight='normal' size='md'>
+              $230.00
+            </Typography>
+          </AssetCardBodyRow>
+        </AssetCardBody>
+      </FlexBox>
+    </NavLink>
   )
 }
 
