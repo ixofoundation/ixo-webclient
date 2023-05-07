@@ -12,7 +12,7 @@ import { ProposalResponse } from '@ixo/impactxclient-sdk/types/codegen/DaoPropos
 const Governance: React.FC = () => {
   const { entityId } = useParams<{ entityId: string }>()
   const history = useHistory()
-  const { selectedGroups, updateDaoGroup } = useCurrentDao()
+  const { selectedGroups, updateDaoGroup, selectDaoGroup } = useCurrentDao()
   const selectedGroupAddresses: string[] = Object.keys(selectedGroups)
   const numOfSelectedGroups = selectedGroupAddresses.length
   const { daoProposalSingleClient, isParticipating } = useCurrentDaoGroup(selectedGroupAddresses[0])
@@ -44,7 +44,7 @@ const Governance: React.FC = () => {
 
   return (
     <FlexBox direction='column' gap={6} width='100%' color='white'>
-      <Groups />
+      <Groups selectedGroups={selectedGroups} selectDaoGroup={(address: string) => selectDaoGroup(address)} />
 
       {numOfSelectedGroups >= 1 && (
         <Box>

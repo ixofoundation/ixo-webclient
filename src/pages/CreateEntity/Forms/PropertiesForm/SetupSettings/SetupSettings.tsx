@@ -26,12 +26,12 @@ interface Props {
   entityType: string
   creator: TEntityCreatorModel
   administrator: TEntityCreatorModel
-  ddoTags: TEntityDDOTagModel[]
+  ddoTags?: TEntityDDOTagModel[]
   page: TEntityPageModel
   service: TEntityServiceModel[]
   updateCreator: (creator: TEntityCreatorModel) => void
   updateAdministrator: (administrator: TEntityAdministratorModel) => void
-  updateDDOTags: (ddoTags: TEntityDDOTagModel[]) => void
+  updateDDOTags?: (ddoTags: TEntityDDOTagModel[]) => void
   updatePage: (page: TEntityPageModel) => void
   updateService: (service: TEntityServiceModel[]) => void
 }
@@ -123,7 +123,7 @@ const SetupSettings: React.FC<Props> = ({
   }, [ddoTags])
   useEffect(() => {
     if (entitySettings.ddoTags?.data) {
-      updateDDOTags(entitySettings.ddoTags.data)
+      updateDDOTags && updateDDOTags(entitySettings.ddoTags.data)
     } // eslint-disable-next-line
   }, [entitySettings.ddoTags?.data])
 
@@ -179,6 +179,7 @@ const SetupSettings: React.FC<Props> = ({
         <Box className='d-flex flex-wrap' style={{ gap: 20 }}>
           {Object.entries(entitySettings)
             .filter(([, value]) => !!value.required || !!value.set)
+            .filter(([key]) => key !== 'ddoTags' || ddoTags)
             .map(([key, value]) => (
               <PropertyBox
                 key={key}

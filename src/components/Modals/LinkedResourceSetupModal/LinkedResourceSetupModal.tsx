@@ -21,7 +21,7 @@ interface Props {
   linkedResource: TEntityLinkedResourceModel
   open: boolean
   onClose: () => void
-  onChange: (linkedResource: TEntityLinkedResourceModel) => void
+  onChange?: (linkedResource: TEntityLinkedResourceModel) => void
 }
 
 const LinkedResourceSetupModal: React.FC<Props> = ({ linkedResource, open, onClose, onChange }): JSX.Element => {
@@ -77,7 +77,7 @@ const LinkedResourceSetupModal: React.FC<Props> = ({ linkedResource, open, onClo
   }
 
   const handleContinue = (): void => {
-    onChange({ ...linkedResource, ...formData })
+    onChange && onChange({ ...linkedResource, ...formData })
     onClose()
   }
 
@@ -133,7 +133,7 @@ const LinkedResourceSetupModal: React.FC<Props> = ({ linkedResource, open, onClo
                   </Typography>
                   <Button onClick={openDropZone}>Upload</Button>
                   <Typography size='sm' weight='medium' color='grey700'>
-                    Image file, max size 5MB
+                    Media file, max size 5MB
                   </Typography>
                 </>
               ) : (
@@ -146,6 +146,14 @@ const LinkedResourceSetupModal: React.FC<Props> = ({ linkedResource, open, onClo
                   onClick={openDropZone}
                   title='Click to replace'
                 >
+                  {/* <iframe
+                    src={formData.serviceEndpoint}
+                    title='media'
+                    width={'100%'}
+                    height={'100%'}
+                    frameBorder='0'
+                    style={{ pointerEvents: 'none' }}
+                  /> */}
                   <Typography color='blue' weight='bold' size='2xl'>
                     {EntityLinkedResourceConfig[linkedResource.type].text || linkedResource.type}
                   </Typography>

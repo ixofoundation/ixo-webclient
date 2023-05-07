@@ -18,7 +18,7 @@ import { ReactComponent as SortAtoZIcon } from 'assets/images/icon-sort-atoz.svg
 import { ReactComponent as SortZtoAIcon } from 'assets/images/icon-sort-ztoa.svg'
 import { ReactComponent as SortLtoGIcon } from 'assets/images/icon-sort-ltog.svg'
 import { ReactComponent as SortGtoLIcon } from 'assets/images/icon-sort-gtol.svg'
-import { ReactComponent as ChevDownIcon } from 'assets/images/icon-chev-down.svg'
+// import { ReactComponent as ChevDownIcon } from 'assets/images/icon-chev-down.svg'
 
 interface Props {
   view: 'panel' | 'list'
@@ -132,7 +132,7 @@ const MembersView: React.FC<Props> = ({
           </TableBody>
         </TableContainer>
       )}
-      <FlexBox
+      {/* <FlexBox
         width='100%'
         alignItems='center'
         justifyContent='center'
@@ -144,7 +144,7 @@ const MembersView: React.FC<Props> = ({
         <SvgBox color={theme.ixoWhite}>
           <ChevDownIcon />
         </SvgBox>
-      </FlexBox>
+      </FlexBox> */}
     </FlexBox>
   )
 }

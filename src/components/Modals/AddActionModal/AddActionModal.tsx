@@ -12,11 +12,12 @@ import { useParams } from 'react-router-dom'
 
 interface Props {
   open: boolean
+  actionsToExclude?: TProposalActionModel[]
   onClose: () => void
   onAdd: (action: TProposalActionModel) => void
 }
 
-const AddActionModal: React.FC<Props> = ({ open, onClose, onAdd }): JSX.Element => {
+const AddActionModal: React.FC<Props> = ({ open, actionsToExclude = [], onClose, onAdd }): JSX.Element => {
   const { coreAddress } = useParams<{ coreAddress: string }>()
   const { contractName } = useCurrentDaoGroup(coreAddress)
 
@@ -64,17 +65,23 @@ const AddActionModal: React.FC<Props> = ({ open, onClose, onAdd }): JSX.Element 
         <GridContainer columns={4} width='100%' gridGap={4}>
           {groupItems
             .filter((item) => item.in.includes(contractName))
-            .map((item) => (
-              <GridItem key={item.text}>
-                <PropertyBox
-                  icon={<item.icon />}
-                  label={item.text}
-                  required
-                  hovered={item.text === selectedAction?.text}
-                  handleClick={(): void => setSelectedAction(item)}
-                />
-              </GridItem>
-            ))}
+            .map((item) => {
+              const Icon = item.icon
+              const disabled = item.disabled || actionsToExclude.some(({ text }) => text === item.text)
+
+              return (
+                <GridItem key={item.text}>
+                  <PropertyBox
+                    icon={<Icon />}
+                    label={item.text}
+                    disabled={disabled}
+                    required
+                    hovered={item.text === selectedAction?.text}
+                    handleClick={(): void => setSelectedAction(item)}
+                  />
+                </GridItem>
+              )
+            })}
         </GridContainer>
         <FlexBox width='100%'>
           <Button variant='primary' disabled={!selectedAction} onClick={handleContinue} style={{ width: '100%' }}>

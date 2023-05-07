@@ -8,7 +8,7 @@ import { Typography } from 'components/Typography'
 import { Member } from 'types/dao'
 
 const Membership: React.FC = (): JSX.Element | null => {
-  const { selectedGroups } = useCurrentDao()
+  const { selectedGroups, selectDaoGroup } = useCurrentDao()
   const selectedGroupAddresses: string[] = Object.keys(selectedGroups)
   const numOfSelectedGroups = selectedGroupAddresses.length
   const members: Member[] = useMemo(
@@ -61,7 +61,7 @@ const Membership: React.FC = (): JSX.Element | null => {
 
   return (
     <FlexBox direction='column' gap={6} width='100%' color='white'>
-      <Groups />
+      <Groups selectedGroups={selectedGroups} selectDaoGroup={(address: string) => selectDaoGroup(address)} />
 
       {numOfSelectedGroups >= 1 && (
         <FlexBox direction='column' gap={7.5} width='100%'>

@@ -34,7 +34,7 @@ interface Props {
   entityType: string
   creator: TEntityCreatorModel
   administrator: TEntityCreatorModel
-  ddoTags: TEntityDDOTagModel[]
+  ddoTags?: TEntityDDOTagModel[]
   page: TEntityPageModel
   service: TEntityServiceModel[]
   linkedResource: { [id: string]: TEntityLinkedResourceModel }
@@ -44,7 +44,7 @@ interface Props {
   daoGroups?: { [id: string]: TDAOGroupModel }
   updateCreator: (creator: TEntityCreatorModel) => void
   updateAdministrator: (administrator: TEntityAdministratorModel) => void
-  updateDDOTags: (ddoTags: TEntityDDOTagModel[]) => void
+  updateDDOTags?: (ddoTags: TEntityDDOTagModel[]) => void
   updatePage: (page: TEntityPageModel) => void
   updateService: (service: TEntityServiceModel[]) => void
   updateLinkedResource: (linkedResource: { [id: string]: TEntityLinkedResourceModel }) => void

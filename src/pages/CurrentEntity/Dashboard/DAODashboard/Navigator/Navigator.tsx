@@ -16,7 +16,7 @@ import { GroupStakingModal } from 'components/Modals'
 
 const Navigator: React.FC = (): JSX.Element => {
   const { entityId: daoId } = useParams<{ entityId: string }>()
-  const { selectedGroups } = useCurrentDao()
+  const { selectedGroups, selectDaoGroup } = useCurrentDao()
   const selectedGroupAddresses: string[] = Object.keys(selectedGroups)
   const numOfSelectedGroups = selectedGroupAddresses.length
   const [groupStakingModalOpen, setGroupStakingModalOpen] = useState(false)
@@ -56,7 +56,7 @@ const Navigator: React.FC = (): JSX.Element => {
 
   return (
     <FlexBox direction='column' gap={6}>
-      <Groups />
+      <Groups selectedGroups={selectedGroups} selectDaoGroup={(address: string) => selectDaoGroup(address, true)} />
 
       {numOfSelectedGroups > 0 && (
         <>

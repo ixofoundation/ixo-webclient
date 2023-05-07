@@ -10,7 +10,12 @@ import { useCreateEntity, useCreateEntityState } from 'hooks/createEntity'
 import { useCurrentDaoGroup } from 'hooks/currentDao'
 import moment from 'moment'
 import { durationToSeconds } from 'utils/conversions'
-import { ProposalActionConfig, TProposalActionModel, TProposalMetadataModel } from 'types/protocol'
+import {
+  EntityLinkedResourceConfig,
+  ProposalActionConfig,
+  TProposalActionModel,
+  TProposalMetadataModel,
+} from 'types/protocol'
 import { useAccount } from 'hooks/account'
 import { truncateString } from 'utils/formatters'
 import * as Toast from 'utils/toast'
@@ -29,6 +34,7 @@ import { useQuery } from 'hooks/window'
 import { ReactComponent as CheckCircleIcon } from 'assets/images/icon-check-circle.svg'
 import { ReactComponent as ExclamationIcon } from 'assets/images/icon-exclamation-circle.svg'
 import { getValueFromEvents } from 'utils/objects'
+import { LinkedResourceSetupModal } from 'components/Modals'
 
 const ReviewProposal: React.FC = () => {
   const history = useHistory()
@@ -37,7 +43,14 @@ const ReviewProposal: React.FC = () => {
   const { name: entityName } = useCurrentEntityProfile()
   const { daoGroup, daoPreProposeSingleClient, depositInfo } = useCurrentDaoGroup(coreAddress)
   const createEntityState = useCreateEntityState()
-  const { entityType, proposal, service: serviceData, linkedEntity: linkedEntityData, clearEntity } = createEntityState
+  const {
+    entityType,
+    proposal,
+    service: serviceData,
+    linkedEntity: linkedEntityData,
+    linkedResource,
+    clearEntity,
+  } = createEntityState
   const profile = createEntityState.profile as TProposalMetadataModel
   const { UploadLinkedResource, CreateProtocol, CreateEntityBase, AddLinkedEntity } = useCreateEntity()
   const {
@@ -67,6 +80,14 @@ const ReviewProposal: React.FC = () => {
     makeValidatorActions,
     makeWithdrawTokenSwapAction,
   } = useMakeProposalAction(coreAddress)
+  const [selectedAction, setSelectedAction] = useState<TProposalActionModel | undefined>()
+  const SetupActionModal = useMemo(() => {
+    if (!selectedAction) {
+      return undefined
+    }
+    return ProposalActionConfig[selectedAction.group].items[selectedAction.text].setupModal
+  }, [selectedAction])
+  const [selectedLinkedResource, setSelectedLinkedResource] = useState<LinkedResource | undefined>()
   const [submitting, setSubmitting] = useState(false)
   const memberAddresses = useMemo(() => daoGroup?.votingModule.members?.map(({ addr }) => addr), [daoGroup])
   const votingPeriod = useMemo(
@@ -100,12 +121,16 @@ const ReviewProposal: React.FC = () => {
       return undefined
     }
 
-    const daoVotingCw4Client = await new contracts.DaoVotingCw4.DaoVotingCw4Client(
-      cosmWasmClient,
-      address,
-      votingModuleAddress,
-    )
-    const cw4GroupAddress = await daoVotingCw4Client.groupContract()
+    let cw4GroupAddress = ''
+
+    if (daoGroup.type === 'membership') {
+      const daoVotingCw4Client = await new contracts.DaoVotingCw4.DaoVotingCw4Client(
+        cosmWasmClient,
+        address,
+        votingModuleAddress,
+      )
+      cw4GroupAddress = await daoVotingCw4Client.groupContract()
+    }
     const wasmMessage: CosmosMsgForEmpty[] = validActions
       .map((validAction: TProposalActionModel) => {
         try {
@@ -337,12 +362,35 @@ const ReviewProposal: React.FC = () => {
         <FlexBox width='100%' gap={4}>
           <FlexBox direction='column' flexBasis='50%' gap={1}>
             <Typography size='sm'>Linked Resources</Typography>
-            <FlexBox gap={3}></FlexBox>
+            <FlexBox gap={3}>
+              {Object.values(linkedResource).map((item: LinkedResource) => {
+                const { id, type } = item
+                const Icon = EntityLinkedResourceConfig[type].icon
+                return (
+                  <SvgBox
+                    key={id}
+                    width='35px'
+                    height='35px'
+                    alignItems='center'
+                    justifyContent='center'
+                    border={`1px solid ${theme.ixoNewBlue}`}
+                    borderRadius='4px'
+                    svgWidth={5}
+                    svgHeight={5}
+                    color={theme.ixoNewBlue}
+                    cursor='pointer'
+                    onClick={() => setSelectedLinkedResource(item)}
+                  >
+                    <Icon />
+                  </SvgBox>
+                )
+              })}
+            </FlexBox>
           </FlexBox>
           <FlexBox direction='column' flexBasis='50%' gap={1}>
             <Typography size='sm'>Actions</Typography>
             <FlexBox gap={3}>
-              {proposal.actions?.map((action) => {
+              {validActions.map((action) => {
                 const Icon = ProposalActionConfig[action.group].items[action.text]?.icon
                 return (
                   <SvgBox
@@ -356,6 +404,8 @@ const ReviewProposal: React.FC = () => {
                     svgWidth={5}
                     svgHeight={5}
                     color={theme.ixoNewBlue}
+                    cursor='pointer'
+                    onClick={() => setSelectedAction(action)}
                   >
                     <Icon />
                   </SvgBox>
@@ -442,6 +492,22 @@ const ReviewProposal: React.FC = () => {
           </>
         )}
       </FlexBox>
+
+      {SetupActionModal && (
+        <SetupActionModal
+          open={!!SetupActionModal}
+          action={selectedAction}
+          onClose={() => setSelectedAction(undefined)}
+        />
+      )}
+
+      {selectedLinkedResource && (
+        <LinkedResourceSetupModal
+          linkedResource={selectedLinkedResource}
+          open={!!selectedLinkedResource}
+          onClose={(): void => setSelectedLinkedResource(undefined)}
+        />
+      )}
     </FlexBox>
   )
 }
