@@ -130,7 +130,7 @@ const Header: React.FC<Props> = (props: Props): JSX.Element => {
             <br />
             (This requires a small amount of IXO for gas).
             <br />
-            Your Account address is <span>{address ?? '-'}</span>
+            Your Account address is <span>{truncateString(address!, 20, 'middle') ?? '-'}</span>
           </p>
           <Button type={ButtonTypes.dark} onClick={handledFunded}>
             I HAVE FUNDED MY ACCOUNT
@@ -222,6 +222,7 @@ const Header: React.FC<Props> = (props: Props): JSX.Element => {
           currentEntity={props.entityType!}
           openMenu={isMobileMenuOpen}
           handleBurgerClick={handleBurgerClick}
+          toggleModal={handleToggleModal}
         />
         <MediaQuery minWidth={`${deviceWidth.desktop}px`}>
           <HeaderRight toggleModal={handleToggleModal} />

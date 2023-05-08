@@ -1,7 +1,7 @@
 import React from 'react'
 import Axios from 'axios'
 import { Document, Page, pdfjs } from 'react-pdf'
-import { ModalWrapper, Button } from 'components/Wrappers/ModalWrapper'
+import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 import Share from 'assets/icons/Share'
 import { Available, Verified } from 'assets/icons/LinkedResources'
 import { LinkedResourceType } from 'types/entities'
@@ -21,6 +21,7 @@ import {
   Badge,
   Badges,
 } from './ResourceDetialModal.styles'
+import { Button } from 'pages/CreateEntity/Components'
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`
 
