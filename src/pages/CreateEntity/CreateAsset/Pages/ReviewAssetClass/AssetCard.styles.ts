@@ -36,16 +36,6 @@ export const AssetCardHeader = styled.div<{ background: string }>`
   background-image: url(${(props): string => props.background});
 `
 
-export const AssetCardHeaderLogo = styled.img`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  z-index: 2;
-  transform: translate(-50%, -50%);
-  width: 115px;
-  height: 115px;
-`
-
 export const AssetCardBody = styled.div`
   padding: 16px;
   display: flex;
