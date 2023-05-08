@@ -626,6 +626,15 @@ export const ProposalActionConfigMap = {
     text: 'Change Group Membership',
     description: 'Add, update or remove members from the DAO.',
     icon: MemberGroupIcon,
+    setupModal: SetupManageMembersModal,
+  },
+  'wasm.execute.update_config': {
+    type: 'wasm.execute.update_config',
+    group: 'Groups',
+    text: 'Update Info',
+    description: 'Update your DAO’s name, image and description.',
+    icon: InfoIcon,
+    setupModal: SetupUpdateDAOInfoModal,
   },
 }
 

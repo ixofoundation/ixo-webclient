@@ -28,14 +28,16 @@ const PageContent: React.FC = (): JSX.Element => {
 
   const html = edjsParser.parse({
     blocks:
-      page.map((item) => {
-        if (item.type === 'heroImage') {
-          return { ...item, type: 'image' }
-        } else if (item.type === 'pageTitle') {
-          return { ...item, type: 'header' }
-        }
-        return item
-      }) ?? [],
+      page
+        .filter((item) => !!item.data)
+        .map((item) => {
+          if (item.type === 'heroImage') {
+            return { ...item, type: 'image' }
+          } else if (item.type === 'pageTitle') {
+            return { ...item, type: 'header' }
+          }
+          return item
+        }) ?? [],
   })
 
   return (
