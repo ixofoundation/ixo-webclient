@@ -40,19 +40,19 @@ const SetupUpdateDAOInfoModal: React.FC<Props> = ({ open, action, onClose, onSub
   const validate = useMemo(() => !!formData.name && !!formData.description, [formData])
 
   useEffect(() => {
-    if (action.data) {
-      setFormData({ ...action.data })
+    if (action.data?.config) {
+      setFormData({ ...action.data.config })
     } else if (daoGroup?.config) {
       setFormData({ ...daoGroup.config })
     }
-  }, [daoGroup?.config, action.data])
+  }, [daoGroup?.config, action.data?.config])
 
   const handleUpdateFormData = (key: string, value: any) => {
     onSubmit && setFormData((data: any) => ({ ...data, [key]: value }))
   }
 
   const handleConfirm = () => {
-    onSubmit && onSubmit({ ...action, data: formData })
+    onSubmit && onSubmit({ ...action, data: { config: formData } })
     onClose()
   }
 

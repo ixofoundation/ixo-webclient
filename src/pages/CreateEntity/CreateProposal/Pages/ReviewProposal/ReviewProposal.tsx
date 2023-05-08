@@ -148,7 +148,7 @@ const ReviewProposal: React.FC = () => {
             case 'Manage Storage Items':
               return makeManageStorageItemsAction(data)
             case 'Update Info':
-              return makeUpdateInfoAction(data)
+              return makeUpdateInfoAction(data.config)
             case 'Update Proposal Submission Config':
               return makeUpdatePreProposeConfigAction(data)
             case 'Update Voting Config':

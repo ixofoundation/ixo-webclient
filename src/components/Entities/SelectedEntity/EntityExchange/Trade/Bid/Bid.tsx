@@ -124,6 +124,9 @@ const Bid: React.FunctionComponent = () => {
           setBalances({})
         })
     }
+    return () => {
+      setBalances({})
+    }
   }, [selectedAccountAddress])
 
   useEffect(() => {
@@ -142,11 +145,17 @@ const Bid: React.FunctionComponent = () => {
         setNftEntity(apiEntity)
       })
     }
+    return () => {
+      setNftEntity(undefined)
+    }
   }, [nftAsset])
 
   useEffect(() => {
     if (token?.coingeckoId) {
       getUSDRateByCoingeckoId(token?.coingeckoId).then((rate): void => setTokenUSDRate(rate))
+    }
+    return () => {
+      setTokenUSDRate(0)
     }
   }, [token])
 
