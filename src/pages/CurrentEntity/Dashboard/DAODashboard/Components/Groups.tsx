@@ -7,7 +7,7 @@ import { ReactComponent as ChevRightIcon } from 'assets/images/icon-chev-right.s
 import { Box, FlexBox, SvgBox, theme } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import useCurrentDao from 'hooks/currentDao'
-import { DaoGroup } from 'redux/currentEntity/dao/currentDao.types'
+import { CurrentDao, DaoGroup } from 'redux/currentEntity/dao/currentDao.types'
 import { deviceWidth } from 'constants/device'
 
 const StyledSlider = styled(Slider)`
@@ -58,10 +58,12 @@ const PrevArrow = (props: any) => (
 
 interface Props {
   isFollowing?: boolean
+  selectedGroups: CurrentDao
+  selectDaoGroup: (address: string) => void
 }
 
-const Groups: React.FC<Props> = ({ isFollowing }): JSX.Element | null => {
-  const { daoGroups, selectedGroups, myGroups, selectDaoGroup } = useCurrentDao()
+const Groups: React.FC<Props> = ({ isFollowing, selectedGroups, selectDaoGroup }): JSX.Element | null => {
+  const { daoGroups, myGroups } = useCurrentDao()
   const [dragging, setDragging] = useState(false)
   const settings = {
     className: 'slider variable-width',
@@ -151,14 +153,14 @@ const Groups: React.FC<Props> = ({ isFollowing }): JSX.Element | null => {
         <Box width='100%' color='white'>
           <StyledSlider {...settings}>
             {Object.values(isFollowing ? myGroups : daoGroups)
-              .sort((a, b) => {
-                if (a.selected! > b.selected!) {
-                  return -1
-                } else if (a.selected! < b.selected!) {
-                  return 1
-                }
-                return 0
-              })
+              // .sort((a, b) => {
+              //   if (a.selected! > b.selected!) {
+              //     return -1
+              //   } else if (a.selected! < b.selected!) {
+              //     return 1
+              //   }
+              //   return 0
+              // })
               .map((daoGroup: DaoGroup) => (
                 <div key={daoGroup.coreAddress} style={{ width: 240 }}>
                   {renderGroupCard(daoGroup)}

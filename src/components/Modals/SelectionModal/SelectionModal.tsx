@@ -14,7 +14,7 @@ import {
 } from 'components/Modals/styles'
 import { Button } from 'pages/CreateEntity/Components'
 import sdgIcons from 'pages/Splash/splash-config.json'
-import { theme, Typography } from 'components/App/App.styles'
+import { Typography } from 'components/Typography'
 const SDG_ICONS = sdgIcons.sdgIcons
 
 export const getSDGIcon = (sdg: string): any => {
@@ -109,7 +109,7 @@ const SelectionModal: React.FC<Props> = ({
                       }}
                     >
                       <i className={sdgIcon.class} />
-                      <Typography color={theme.ixoWhite} fontWeight={700} fontSize='16px' lineHeight='19px'>
+                      <Typography color='white' weight='bold'>
                         {sdgIcon.title}
                       </Typography>
                     </SDGSelectionButton>

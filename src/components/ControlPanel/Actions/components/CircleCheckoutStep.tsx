@@ -101,7 +101,7 @@ const EmailVerificationStep = ({ handleSubmit }: any): JSX.Element => {
 
   return (
     <>
-      <HeaderTitle color={verified ? theme.ixoGreen : theme.ixoGrey1}>
+      <HeaderTitle color={verified ? theme.ixoGreen : theme.ixoBlack}>
         {verified ? 'Email verification successful!' : 'Check your provided email for a secure login link.'}
       </HeaderTitle>
       <form onSubmit={handleSubmit}>

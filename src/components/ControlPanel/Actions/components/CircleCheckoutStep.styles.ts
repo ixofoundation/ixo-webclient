@@ -34,7 +34,7 @@ export const CirclePayBackButtonEl = styled.img`
   height: 20px;
 `
 export const HeaderTitle = styled.h1<{ color?: string }>`
-  color: ${(props): string => props.color || props.theme.ixoGrey1};
+  color: ${(props): string => props.color || props.theme.ixoBlack};
   font-family: ${(props): string => props.theme.primaryFontFamily};
   font-weight: 400;
   font-size: 16px;
@@ -59,7 +59,7 @@ export const LabelWrapper = styled.div`
   width: 100%;
 
   & > label {
-    color: ${(props): string => props.theme.ixoGrey1};
+    color: ${(props): string => props.theme.ixoBlack};
     margin-bottom: 8px;
   }
 `
@@ -153,7 +153,7 @@ export const CircleUserAgreeText = styled.span`
   font-weight: 400;
   font-size: 14px;
   line-height: 18px;
-  color: ${(props): string => props.theme.ixoGrey1};
+  color: ${(props): string => props.theme.ixoBlack};
 `
 export const NftSummary = styled.div`
   display: flex;

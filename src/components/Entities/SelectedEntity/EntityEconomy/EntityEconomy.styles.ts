@@ -6,7 +6,7 @@ export const Container = styled.div<{ isDark?: boolean }>`
   font-family: ${(props): string => props.theme.secondaryFontFamily};
   font-weight: normal;
   padding-bottom: 100px;
-  color: ${(props): string => (props.isDark ? props.theme.ixoWhite : props.theme.ixoGrey1)};
+  color: ${(props): string => (props.isDark ? props.theme.ixoWhite : props.theme.ixoBlack)};
 `
 
 export const SectionTitleContainer = styled.div`

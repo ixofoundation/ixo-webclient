@@ -209,9 +209,12 @@ export const getDaoContractMembersInfo = async ({
   address,
 }: {
   coreAddress: string
-  cosmWasmClient: SigningCosmWasmClient
-  address: string
+  cosmWasmClient: SigningCosmWasmClient | undefined
+  address: string | undefined
 }) => {
+  if (!cosmWasmClient || !address) {
+    throw new Error('')
+  }
   let members: Member[] = []
   const daoCoreClient = new contracts.DaoCore.DaoCoreClient(cosmWasmClient, address, coreAddress)
   const votingModuleAddress = await daoCoreClient.votingModule()

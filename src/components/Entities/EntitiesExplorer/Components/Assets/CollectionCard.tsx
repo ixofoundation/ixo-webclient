@@ -4,6 +4,7 @@ import { apiEntityToEntity } from 'utils/entities'
 import styled from 'styled-components'
 import { Typography } from 'components/Typography'
 import { thousandSeparator } from 'utils/formatters'
+import { getSDGIcon } from 'components/Modals/SelectionModal/SelectionModal'
 
 export const CollectionCardBackground = styled.div<{ background: string }>`
   position: absolute;
@@ -121,12 +122,20 @@ const CollectionCard: React.FC<any> = (apiEntity) => {
   const description = collection?.token?.description
   const maxSupply = collection?.token?.properties.maxSupply
 
+  const sdgs = collection?.tags
+    ? collection.tags.find((item) => item && item.category === 'SDG' && Array.isArray(item.tags))?.tags ?? []
+    : []
+
   useEffect(() => {
     setCollection(apiEntity)
     apiEntityToEntity({ entity: apiEntity }, (key, value) => {
       setCollection((collection: any) => ({ ...collection, [key]: value }))
     })
-  }, [apiEntity])
+    return () => {
+      setCollection(undefined)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <CollectionCardWrapper>
@@ -134,10 +143,10 @@ const CollectionCard: React.FC<any> = (apiEntity) => {
 
       <CollectionCardContainer>
         <CollectionCardSdgs id='sdg'>
-          {/* {collection.sdgs.map((sdg, index) => (
-            <SdgIcon key={index} className={sdg} />
-          ))} */}
-          SDG
+          {sdgs.map((value, index) => {
+            const sdgIcon = getSDGIcon(value)
+            return <i key={index} className={sdgIcon.class} />
+          })}
         </CollectionCardSdgs>
 
         <CollectionCardHeader>

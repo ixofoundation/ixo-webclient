@@ -20,7 +20,7 @@ import { MyVotingPower } from './MyVotingPower'
 
 const MyParticipation: React.FC = () => {
   const history = useHistory()
-  const { selectedGroups } = useCurrentDao()
+  const { selectedGroups, selectDaoGroup } = useCurrentDao()
   const selectedGroup: DaoGroup | undefined = useMemo(() => {
     return Object.keys(selectedGroups).length === 1 ? Object.values(selectedGroups)[0] : undefined
   }, [selectedGroups])
@@ -39,7 +39,7 @@ const MyParticipation: React.FC = () => {
 
   return (
     <FlexBox direction='column' gap={6} width='100%' color='white'>
-      <Groups />
+      <Groups selectedGroups={selectedGroups} selectDaoGroup={(address: string) => selectDaoGroup(address)} />
 
       {selectedGroup && (
         <>

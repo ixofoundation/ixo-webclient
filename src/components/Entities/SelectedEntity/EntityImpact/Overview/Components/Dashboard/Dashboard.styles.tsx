@@ -16,8 +16,8 @@ export const ClaimsWidget = styled.div`
 export const ClaimsLabels = styled.div`
   flex: 1;
   flex-direction: column;
-  justify-content: space-between;
   display: flex;
+  gap: 20px;
   > div:first-child {
     padding-left: 2rem;
   }

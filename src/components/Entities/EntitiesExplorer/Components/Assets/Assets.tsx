@@ -13,6 +13,8 @@ import { ReactComponent as IconCheck } from 'assets/images/icon-check-big.svg'
 import { ReactComponent as DiamondIcon } from 'assets/images/icon-diamond.svg'
 import { InfiniteScroll } from 'components/InfiniteScroll'
 
+let timer: any = null
+
 const FilterButton: React.FC<TButtonProps> = ({ children, ...rest }) => {
   return (
     <Button
@@ -34,7 +36,7 @@ interface Props {
   entities: any[]
 }
 
-const Devices: React.FC<Props> = (props) => {
+const Assets: React.FC<Props> = (props) => {
   const itemsPerScreen = 4
   const [scrollOffset, setScrollOffest] = useState(1)
   const entities = useMemo(() => props.entities.slice(0, scrollOffset * itemsPerScreen), [scrollOffset, props.entities])
@@ -94,7 +96,8 @@ const Devices: React.FC<Props> = (props) => {
             My Tokens
           </FilterButton>
         </FlexBox>
-        <FlexBox gap={2.5}>
+        {/* TODO: remove actions for now */}
+        <FlexBox gap={2.5} style={{ display: 'none' }}>
           {!selecting ? (
             <FilterButton
               variant='primary'
@@ -138,12 +141,14 @@ const Devices: React.FC<Props> = (props) => {
       <InfiniteScroll
         dataLength={entities.length} //This is important field to render the next data
         next={() => {
-          setTimeout(() => {
+          timer = setTimeout(() => {
             setScrollOffest((scrollOffset) => scrollOffset + 1)
+            clearTimeout(timer)
           }, 1000 * 3)
         }}
         hasMore={entities.length < props.entities.length}
         columns={4}
+        gridGap={4}
       >
         {entities.map((asset, index) => (
           <AssetCardWrapper key={index} onClick={handleAssetCardClick(index)}>
@@ -158,4 +163,4 @@ const Devices: React.FC<Props> = (props) => {
   )
 }
 
-export default Devices
+export default Assets

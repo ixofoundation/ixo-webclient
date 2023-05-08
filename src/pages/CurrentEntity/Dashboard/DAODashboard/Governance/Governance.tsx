@@ -7,17 +7,15 @@ import { Groups } from '../Components'
 import { Typography } from 'components/Typography'
 import { Button } from 'pages/CreateEntity/Components'
 import { useHistory, useParams } from 'react-router-dom'
-import { useAccount } from 'hooks/account'
 import { ProposalResponse } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
 
 const Governance: React.FC = () => {
   const { entityId } = useParams<{ entityId: string }>()
   const history = useHistory()
-  const { selectedGroups, updateDaoGroup } = useCurrentDao()
-  const { address } = useAccount()
+  const { selectedGroups, updateDaoGroup, selectDaoGroup } = useCurrentDao()
   const selectedGroupAddresses: string[] = Object.keys(selectedGroups)
   const numOfSelectedGroups = selectedGroupAddresses.length
-  const { daoProposalSingleClient } = useCurrentDaoGroup(selectedGroupAddresses[0])
+  const { daoProposalSingleClient, isParticipating } = useCurrentDaoGroup(selectedGroupAddresses[0])
   const selectedGroup = useMemo(
     () => Object.keys(selectedGroups).length === 1 && Object.values(selectedGroups)[0],
     [selectedGroups],
@@ -46,7 +44,7 @@ const Governance: React.FC = () => {
 
   return (
     <FlexBox direction='column' gap={6} width='100%' color='white'>
-      <Groups />
+      <Groups selectedGroups={selectedGroups} selectDaoGroup={(address: string) => selectDaoGroup(address)} />
 
       {numOfSelectedGroups >= 1 && (
         <Box>
@@ -70,9 +68,7 @@ const Governance: React.FC = () => {
             textTransform='capitalize'
             textWeight='medium'
             onClick={handleNewProposal}
-            disabled={
-              !selectedGroups[selectedGroupAddresses[0]].votingModule.members.some(({ addr }) => addr === address)
-            }
+            disabled={!isParticipating}
           >
             New Proposal
           </Button>

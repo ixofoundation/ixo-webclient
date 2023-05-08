@@ -23,13 +23,13 @@ const DAODashboard: React.FC = (): JSX.Element => {
   const { registered } = useAccount()
 
   const routes: Path[] = [
-    {
-      url: `/entity/${entityId}/dashboard/navigator`,
-      icon: requireCheckDefault(require('assets/img/sidebar/global.svg')),
-      sdg: 'Navigator',
-      tooltip: 'Navigator',
-      strict: true,
-    },
+    // {
+    //   url: `/entity/${entityId}/dashboard/navigator`,
+    //   icon: requireCheckDefault(require('assets/img/sidebar/global.svg')),
+    //   sdg: 'Navigator',
+    //   tooltip: 'Navigator',
+    //   strict: true,
+    // },
     {
       url: `/entity/${entityId}/dashboard/membership`,
       icon: requireCheckDefault(require('assets/img/sidebar/agents.svg')),
@@ -116,7 +116,7 @@ const DAODashboard: React.FC = (): JSX.Element => {
       <Route exact path='/entity/:entityId/dashboard/governance' component={Governance} />
       <Route exact path='/entity/:entityId/dashboard/my-participation' component={MyParticipation} />
       <Route exact path='/entity/:entityId/dashboard'>
-        <Redirect to={`/entity/${entityId}/dashboard/navigator`} />
+        <Redirect to={`/entity/${entityId}/dashboard/membership`} />
       </Route>
     </Dashboard>
   )

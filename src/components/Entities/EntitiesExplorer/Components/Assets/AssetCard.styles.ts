@@ -10,7 +10,6 @@ export const AssetCardWrapper = styled.div<{ active?: boolean }>`
 
   border-radius: 8px;
   overflow: hidden;
-  height: 420px;
   cursor: pointer;
 
   position: relative;

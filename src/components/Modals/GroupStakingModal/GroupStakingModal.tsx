@@ -22,6 +22,7 @@ import CurrencyFormat from 'react-currency-format'
 import { fee } from 'lib/protocol'
 import styled from 'styled-components'
 import { Avatar } from 'pages/CurrentEntity/Dashboard/Components'
+import { errorToast } from 'utils/toast'
 
 const StyledInput = styled(Input)`
   color: white;
@@ -128,9 +129,10 @@ const GroupStakingModal: React.FunctionComponent<Props> = ({ daoGroup, open, set
         setTXHash(transactionHash)
         onSuccess && onSuccess(transactionHash)
       } else {
-        throw new Error('Error at signing')
+        throw new Error()
       }
     } catch (e) {
+      errorToast(null, 'Error at signing')
       setTXStatus(TXStatus.ERROR)
     }
   }

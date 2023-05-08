@@ -1,4 +1,10 @@
-import { ClearDaoGroupAction, CurrentDaoActions, DaoGroup, UpdateDaoGroupAction } from './currentDao.types'
+import {
+  ClearDaoGroupAction,
+  CurrentDaoActions,
+  DaoGroup,
+  SelectDaoGroupAction,
+  UpdateDaoGroupAction,
+} from './currentDao.types'
 
 export const updateGroupAction = (group: DaoGroup): UpdateDaoGroupAction => ({
   type: CurrentDaoActions.UpdateGroup,
@@ -7,4 +13,9 @@ export const updateGroupAction = (group: DaoGroup): UpdateDaoGroupAction => ({
 
 export const clearGroupAction = (): ClearDaoGroupAction => ({
   type: CurrentDaoActions.ClearGroup,
+})
+
+export const selectGroupAction = (address: string, multi = false): SelectDaoGroupAction => ({
+  type: CurrentDaoActions.SelectGroup,
+  payload: { address, multi },
 })

@@ -75,7 +75,7 @@ interface Props {
 const MyProposals: React.FC<Props> = ({ show, coreAddress, full = true }) => {
   const history = useHistory()
   const { entityId } = useParams<{ entityId: string }>()
-  const { myProposals, numOfMembers } = useCurrentDaoGroup(coreAddress)
+  const { myProposals, numOfMembers, isParticipating } = useCurrentDaoGroup(coreAddress)
 
   const sortedMyProposals = myProposals.sort((a, b) => {
     if (a.id < b.id) {
@@ -184,6 +184,7 @@ const MyProposals: React.FC<Props> = ({ show, coreAddress, full = true }) => {
         textSize='base'
         textTransform='capitalize'
         textWeight='medium'
+        disabled={!isParticipating}
       >
         New Proposal
       </Button>

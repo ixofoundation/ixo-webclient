@@ -46,6 +46,7 @@ const errorToast = (title?: ToastContent, content?: ToastContent, options?: Toas
           }}
         />
       ),
+      autoClose: false,
       ...options,
     },
   )

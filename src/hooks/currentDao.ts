@@ -1,7 +1,7 @@
 import { ArrayOfAddr } from '@ixo/impactxclient-sdk/types/codegen/DaoCore.types'
 import { ProposalResponse } from '@ixo/impactxclient-sdk/types/codegen/DaoMigrator.types'
 import { useCallback, useMemo } from 'react'
-import { clearGroupAction, updateGroupAction } from 'redux/currentEntity/dao/currentDao.actions'
+import { clearGroupAction, selectGroupAction, updateGroupAction } from 'redux/currentEntity/dao/currentDao.actions'
 import { selectDaoGroupByAddress, selectDaoGroups } from 'redux/currentEntity/dao/currentDao.selectors'
 import { CurrentDao, DaoGroup } from 'redux/currentEntity/dao/currentDao.types'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
@@ -19,7 +19,7 @@ export default function useCurrentDao(): {
   daoGroupAddresses: string[]
   selectedGroups: CurrentDao
   myGroups: CurrentDao
-  selectDaoGroup: (coreAddress: string) => void
+  selectDaoGroup: (coreAddress: string, multi?: boolean) => void
   setDaoGroup: (coreAddress: string) => void
   updateDaoGroup: (group: DaoGroup) => void
   clearDaoGroup: () => void
@@ -56,11 +56,8 @@ export default function useCurrentDao(): {
     [daoGroups, address],
   )
 
-  const selectDaoGroup = (coreAddress: string) => {
-    const daoGroup = daoGroups[coreAddress]
-    if (daoGroup) {
-      dispatch(updateGroupAction({ ...daoGroup, selected: !daoGroup.selected }))
-    }
+  const selectDaoGroup = (coreAddress: string, multi = false) => {
+    dispatch(selectGroupAction(coreAddress, multi))
   }
 
   const getDaoGroupsByAddresses = useCallback(

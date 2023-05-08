@@ -33,7 +33,7 @@ import * as Toast from 'utils/toast'
 import { useIxoConfigs } from 'hooks/configs'
 import { serializeCoin } from 'utils/conversions'
 import { useHistory } from 'react-router-dom'
-import { votingRemainingDateFormat } from 'utils/formatters'
+import { truncateString, votingRemainingDateFormat } from 'utils/formatters'
 
 const Container = styled.div<{ isDark: boolean }>`
   background: ${(props) =>
@@ -142,9 +142,10 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
     () => votes.filter(({ vote, rationale }) => vote === 'no' && rationale).length,
     [votes],
   )
-  const numOfAbstainVotes = useMemo(
-    () => numOfAvailableVotes - numOfYesVotes - numOfNoVotes - numOfNoWithVetoVotes,
-    [numOfAvailableVotes, numOfYesVotes, numOfNoVotes, numOfNoWithVetoVotes],
+  const numOfAbstainVotes = useMemo(() => votes.filter(({ vote }) => vote === 'abstain').length, [votes])
+  const numOfEmptyVotes = useMemo(
+    () => numOfAvailableVotes - numOfYesVotes - numOfNoVotes - numOfNoWithVetoVotes - numOfAbstainVotes,
+    [numOfAvailableVotes, numOfYesVotes, numOfNoVotes, numOfNoWithVetoVotes, numOfAbstainVotes],
   )
   const proposalConfig: ProposalConfig | undefined = useMemo(() => daoGroup?.proposalModule.proposalConfig, [daoGroup])
 
@@ -211,10 +212,10 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
     return Number(((value / limit) * 100).toFixed(0))
   }
 
-  const formatDiffThresholds = (value: number): string => {
-    if (value >= 0) return `+ ${value}`
-    return `- ${Math.abs(value)}`
-  }
+  // const formatDiffThresholds = (value: number): string => {
+  //   if (value >= 0) return `+ ${value}`
+  //   return `- ${Math.abs(value)}`
+  // }
 
   useEffect(() => {
     setVotingPeriod(moment.utc(closeDate).diff(moment.utc(submissionDate), 'minutes'))
@@ -269,10 +270,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
               <br />
               <LabelLG style={{ cursor: 'pointer' }} title='Click to copy'>
                 <CopyToClipboard text={proposer} onCopy={() => Toast.successToast(null, 'Coiped to clipboard')}>
-                  <span>
-                    {proposer.substring(0, 10)}
-                    {proposer && '...'}
-                  </span>
+                  <span>{truncateString(proposer, 20, 'middle')}</span>
                 </CopyToClipboard>
               </LabelLG>
             </div>
@@ -334,7 +332,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
                   <SectionHeader>
                     <strong>Current status: Proposal Passes</strong>
                   </SectionHeader>
-                  <div className='pl-4'>
+                  <div>
                     <p>
                       <strong>{numOfYesVotes}</strong> Yes ({calcPercentage(numOfAvailableVotes, numOfYesVotes)}%)
                     </p>
@@ -346,8 +344,12 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
                       {calcPercentage(numOfAvailableVotes, numOfNoWithVetoVotes)}%)
                     </p>
                     <p>
-                      <strong>{numOfAbstainVotes}</strong> have not yet voted (
+                      <strong>{numOfAbstainVotes}</strong> Abstain (
                       {calcPercentage(numOfAvailableVotes, numOfAbstainVotes)}%)
+                    </p>
+                    <p>
+                      <strong>{numOfEmptyVotes}</strong> have not yet voted (
+                      {calcPercentage(numOfAvailableVotes, numOfEmptyVotes)}%)
                     </p>
                   </div>
                 </div>
@@ -355,7 +357,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
                   <SectionHeader>
                     <strong>Consensus thresholds</strong>
                   </SectionHeader>
-                  <div className='pl-5'>
+                  {/* <div>
                     <div>
                       <strong>
                         {formatDiffThresholds(
@@ -380,6 +382,17 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
                       </strong>
                       % under the 33% required to veto
                     </div>
+                  </div> */}
+                  <div>
+                    <div>
+                      <strong>+ 10</strong>% more than the quorum of 40%
+                    </div>
+                    <div>
+                      <strong>+ 14</strong>% in favour over the 50% required
+                    </div>
+                    <div>
+                      <strong>- 7</strong>% under the 33% required to veto
+                    </div>
                   </div>
                 </div>
               </ClaimsLabels>
@@ -387,7 +400,8 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
                 <CircleProgressbar
                   approved={numOfYesVotes}
                   rejected={numOfNoVotes + numOfNoWithVetoVotes}
-                  pending={numOfAbstainVotes}
+                  pending={numOfEmptyVotes}
+                  disputed={numOfAbstainVotes}
                   totalNeeded={numOfAvailableVotes}
                   descriptor={<>In favour of the Proposal</>}
                   percentageFormat={true}

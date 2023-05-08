@@ -27,7 +27,6 @@ export const theme = {
   ixoGrey900: '#4A4E50',
   ixoBlack: '#000000',
 
-  ixoGrey1: '#333333',
   ixoColor2: '#828E94',
 
   ixoShadow1: '10px 10px 20px rgba(0, 0, 0, 0.25)',
