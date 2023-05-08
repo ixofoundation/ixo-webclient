@@ -27,6 +27,7 @@ const InfiniteScroll: React.FC<Props> = ({ dataLength, hasMore, next, columns, g
         display: 'grid',
         gridTemplateColumns: `repeat(${columns}, 1fr)`,
         gridGap: gridGap * 0.25 + 'rem',
+        overflow: 'visible',
       }}
     >
       {children}
