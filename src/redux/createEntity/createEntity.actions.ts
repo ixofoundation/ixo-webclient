@@ -39,6 +39,7 @@ import {
   TUpdateSubtitleAction,
   TUpdateTitleAction,
   TClearEntityAction,
+  TSetRedirectToAction,
 } from './createEntity.types'
 
 export const updateEntityTypeAction = (entityType: string): TUpdateEntityTypeAction => ({
@@ -160,4 +161,9 @@ export const updateDAOControllerAction = (controller: string): TUpdateDAOControl
 export const updateProposalAction = (proposal: TProposalModel): TUpdateProposalAction => ({
   type: ECreateEntityActions.UpdateProposal,
   payload: proposal,
+})
+
+export const setRedirectToAction = (redirectTo: string): TSetRedirectToAction => ({
+  type: ECreateEntityActions.SetRedirectTo,
+  payload: redirectTo,
 })

@@ -18,10 +18,16 @@ const CreateEntity: React.FC = (): JSX.Element => {
     location: { pathname },
   } = history
 
-  const { stepNo, breadCrumbs, title, subtitle } = useCreateEntityState()
+  console.log(11111, history)
+
+  const { stepNo, breadCrumbs, title, subtitle, setRedirectTo } = useCreateEntityState()
   const { getStrategyAndStepByPath } = useCreateEntityStrategy()
   const { strategy } = getStrategyAndStepByPath(pathname)
   const entityType = strategy?.entityType
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   useEffect(() => {
     if (entityType && stepNo) {

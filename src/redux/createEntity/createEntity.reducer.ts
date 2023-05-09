@@ -31,6 +31,8 @@ export const initialState: TCreateEntityState = {
   breadCrumbs: [{ text: 'Protocol', link: '/create/entity' }],
   title: '',
   subtitle: '',
+
+  redirectTo: '',
 } as any
 
 export const reducer = (state = initialState, action: TCreateEntityActionTypes): TCreateEntityState => {
@@ -128,6 +130,9 @@ export const reducer = (state = initialState, action: TCreateEntityActionTypes):
     case ECreateEntityActions.UpdateProposal:
       updatedState = { ...state, proposal: action.payload }
       break
+
+    case ECreateEntityActions.SetRedirectTo:
+      return { ...state, redirectTo: action.payload }
 
     default:
       return state

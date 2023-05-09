@@ -12,12 +12,10 @@ export const reducer = (state = initialState, action: CurrentDaoActionTypes): Cu
       const { address, multi } = action.payload
 
       if (!multi) {
-        const updatedState = Object.fromEntries(
-          Object.entries({ ...state }).map(([key, value]) => [
-            key,
-            { ...value, selected: value.coreAddress === address ? true : false },
-          ]),
+        let updatedState = Object.fromEntries(
+          Object.entries({ ...state }).map(([key, value]) => [key, { ...value, selected: false }]),
         )
+        updatedState = { ...updatedState, [address]: { ...updatedState[address], selected: true } }
         return { ...updatedState }
       } else {
         const updatedState = { ...state, [address]: { ...state[address], selected: !state[address].selected } }

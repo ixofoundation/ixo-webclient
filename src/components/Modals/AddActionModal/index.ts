@@ -24,3 +24,4 @@ export { default as SetupWithdrawTokenSwapModal } from './SetupWithdrawTokenSwap
 export { default as SetupManageStorageItemsModal } from './SetupManageStorageItemsModal'
 export { default as SetupDAOAdminExecuteModal } from './SetupDAOAdminExecuteModal'
 export { default as SetupEditEntityModal } from './SetupEditEntityModal'
+export { default as SetupCreateEntityModal } from './SetupCreateEntityModal'

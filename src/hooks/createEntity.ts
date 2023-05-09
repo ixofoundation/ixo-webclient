@@ -39,6 +39,7 @@ import {
   updateSubtitleAction,
   updateTitleAction,
   clearEntityAction,
+  setRedirectToAction,
 } from 'redux/createEntity/createEntity.actions'
 import {
   selectCreateEntityAccordedRight,
@@ -61,6 +62,7 @@ import {
   selectCreateEntitySubtitle,
   selectCreateEntityTitle,
   selectCreateEntityType,
+  selectCreateEntityRedirectTo,
 } from 'redux/createEntity/createEntity.selectors'
 import {
   CreateEntityStrategyMap,
@@ -135,6 +137,7 @@ interface TCreateEntityStateHookRes {
   daoController: string
   proposal: TProposalModel
   validateRequiredProperties: boolean
+  redirectTo: string
   updateEntityType: (entityType: string) => void
   clearEntity: () => void
   gotoStep: (type: 1 | -1) => void
@@ -159,6 +162,7 @@ interface TCreateEntityStateHookRes {
   updateDAOGroups: (daoGroups: { [id: string]: TDAOGroupModel }) => void
   updateDAOController: (controller: string) => void
   updateProposal: (proposal: TProposalModel) => void
+  setRedirectTo: (redirectTo: string) => void
 }
 
 export function useCreateEntityState(): TCreateEntityStateHookRes {
@@ -189,6 +193,7 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
   const daoController: string = useAppSelector(selectCreateEntityDAOController)
   // for Proposal
   const proposal: TProposalModel = useAppSelector(selectCreateEntityProposal)
+  const redirectTo: string = useAppSelector(selectCreateEntityRedirectTo)
   const validateRequiredProperties = useMemo(() => {
     return !!creator && !!administrator && Object.keys(page ?? {}).length > 0 && service?.length > 0
   }, [creator, administrator, page, service])
@@ -287,6 +292,9 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
   const updateProposal = (proposal: TProposalModel): void => {
     dispatch(updateProposalAction(proposal))
   }
+  const setRedirectTo = (redirectTo: string): void => {
+    dispatch(setRedirectToAction(redirectTo))
+  }
 
   return {
     entityType,
@@ -310,6 +318,7 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
     daoController,
     proposal,
     validateRequiredProperties,
+    redirectTo,
     updateEntityType,
     clearEntity,
     gotoStep,
@@ -334,6 +343,7 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
     updateDAOGroups,
     updateDAOController,
     updateProposal,
+    setRedirectTo,
   }
 }
 

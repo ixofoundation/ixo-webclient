@@ -95,6 +95,7 @@ import {
   SetupAuthzExecModal,
   SetupAuthzGrantModal,
   SetupBurnNFTModal,
+  SetupCreateEntityModal,
   SetupCustomModal,
   SetupDAOAdminExecuteModal,
   SetupEditEntityModal,
@@ -605,7 +606,7 @@ export const ProposalActionConfig = {
         description: 'Create Entity',
         icon: CreatorIcon,
         in: ['dao_voting_cw20_staked', 'dao_voting_cw4'],
-        disabled: true,
+        setupModal: SetupCreateEntityModal,
       },
       'Edit Entity': {
         text: 'Edit Entity',

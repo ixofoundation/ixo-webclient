@@ -120,3 +120,8 @@ export const selectCreateEntityProposal = createSelector(
   selectCreateEntity,
   (createEntity: TCreateEntityState): TProposalModel => createEntity.proposal ?? {},
 )
+
+export const selectCreateEntityRedirectTo = createSelector(
+  selectCreateEntity,
+  (createEntity: TCreateEntityState): string => createEntity.redirectTo,
+)

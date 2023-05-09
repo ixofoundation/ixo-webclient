@@ -46,6 +46,9 @@ export interface TCreateEntityState extends TCreateEntityModel {
   breadCrumbs: { text: string; link?: string }[]
   title: string
   subtitle: string
+
+  // for proposals
+  redirectTo: string
 }
 
 export enum ECreateEntityActions {
@@ -75,6 +78,7 @@ export enum ECreateEntityActions {
   UpdateDAOController = 'ixo/create/entity/UPDATE_DAO_CONTROLLER',
   // for Proposal
   UpdateProposal = 'ixo/create/entity/UPDATE_PROPOSAL',
+  SetRedirectTo = 'ixo/create/entity/SET_REDIRECTTO',
 }
 
 export interface TUpdateEntityTypeAction {
@@ -171,6 +175,11 @@ export interface TUpdateProposalAction {
   payload: TProposalModel
 }
 
+export interface TSetRedirectToAction {
+  type: typeof ECreateEntityActions.SetRedirectTo
+  payload: string
+}
+
 export type TCreateEntityActionTypes =
   | TUpdateEntityTypeAction
   | TClearEntityAction
@@ -195,3 +204,4 @@ export type TCreateEntityActionTypes =
   | TUpdateDAOGroupsAction
   | TUpdateDAOControllerAction
   | TUpdateProposalAction
+  | TSetRedirectToAction
