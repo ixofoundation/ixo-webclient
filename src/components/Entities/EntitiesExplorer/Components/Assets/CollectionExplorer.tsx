@@ -8,6 +8,8 @@ import { Typography } from 'components/Typography'
 import CollectionMetadata from './CollectionMetadata'
 import Assets from './Assets'
 import { getSDGIcon } from 'components/Modals/SelectionModal/SelectionModal'
+import { useMediaQuery } from 'react-responsive'
+import { deviceWidth } from 'constants/device'
 
 interface Props {
   collection: any
@@ -16,6 +18,8 @@ interface Props {
 }
 
 const CollectionExplorer: React.FC<Props> = (props) => {
+  const isMobile = useMediaQuery({ maxWidth: deviceWidth.tablet })
+  const isTablet = useMediaQuery({ minWidth: deviceWidth.tablet, maxWidth: deviceWidth.desktop })
   const [collection, setCollection] = useState<TEntityModel>()
 
   const logo = collection?.profile?.logo
@@ -40,7 +44,12 @@ const CollectionExplorer: React.FC<Props> = (props) => {
   return (
     <FlexBox width='100%' direction='column' gap={8}>
       {/* Collection overview */}
-      <GridContainer width='100%' columns={4} gridGap={7.5} gridTemplateAreas={`"a b b b""c d d d"`}>
+      <GridContainer
+        width='100%'
+        columns={!isMobile ? (!isTablet ? 4 : 2) : 1}
+        gridGap={7.5}
+        gridTemplateAreas={!isMobile ? (!isTablet ? `"a b b b""c d d d"` : `"a b""c d"`) : `"b""a""c""d"`}
+      >
         <GridItem gridArea='a'>
           <FlexBox alignItems='center' justifyContent='space-between'>
             <FlexBox direction='column'>

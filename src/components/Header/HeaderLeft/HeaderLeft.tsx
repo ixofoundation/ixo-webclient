@@ -26,17 +26,22 @@ import {
   selectEntityHeaderUIConfig,
   selectEntityLogoConfig,
 } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { FlexBox } from 'components/App/App.styles'
+import WalletConnectButton from 'components/Button/WalletConnectButton'
+import { useAccount } from 'hooks/account'
 
 export interface ParentProps {
   currentEntity: EntityType
   openMenu: boolean
   handleBurgerClick: any
+  toggleModal: (IsOpen: boolean) => void
 }
 
 export const HeaderLeft: React.FC<ParentProps> = (props) => {
   const entityTypeMap: any = useAppSelector(selectEntityConfig)
   const headerUIConfig: any = useAppSelector(selectEntityHeaderUIConfig)
   const logoConfig = useAppSelector(selectEntityLogoConfig)
+  const { registered } = useAccount()
 
   const logoLink = React.useMemo(() => {
     if (!headerUIConfig || !headerUIConfig.link) {
@@ -46,6 +51,12 @@ export const HeaderLeft: React.FC<ParentProps> = (props) => {
   }, [headerUIConfig])
 
   const splashIsRootRoute = React.useMemo(() => !!entityTypeMap?.route?.splashIsRootRoute, [entityTypeMap])
+
+  const onClickConnectInfo = (): void => {
+    if (!registered) {
+      props.toggleModal(true)
+    }
+  }
 
   const getMenuItems = (inHeader: boolean): JSX.Element => {
     if (inHeader) {
@@ -115,8 +126,17 @@ export const HeaderLeft: React.FC<ParentProps> = (props) => {
           </MediaQuery>
         </NavItems>
       </Main>
-      <MediaQuery maxWidth={'991px'}>
-        <MobileMenu className={props.openMenu === true ? 'openMenu' : ''}>{getMenuItems(false)}</MobileMenu>
+      <MediaQuery maxWidth={`${deviceWidth.desktop - 1}px`}>
+        <MobileMenu className={props.openMenu === true ? 'openMenu' : ''}>
+          <FlexBox direction='column' width='100%' gap={5}>
+            <FlexBox width='100%' alignItems='center' justifyContent='space-around'>
+              {getMenuItems(false)}
+            </FlexBox>
+            <FlexBox width='100%' justifyContent='center'>
+              <WalletConnectButton onClick={onClickConnectInfo} />
+            </FlexBox>
+          </FlexBox>
+        </MobileMenu>
       </MediaQuery>
     </Fragment>
   )

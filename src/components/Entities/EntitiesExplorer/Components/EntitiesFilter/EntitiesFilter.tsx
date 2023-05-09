@@ -227,6 +227,7 @@ const EntitiesFilter: FC<Props> = () => {
       <FiltersWrap>
         <FilterInfo>{title}</FilterInfo>
         <div className='filters'>
+          {/* Desktop */}
           <MediaQuery minWidth={`${deviceWidth.desktop}px`}>
             {/* <Menu> */}
             <IconListFilterDesktop
@@ -293,6 +294,7 @@ const EntitiesFilter: FC<Props> = () => {
             {/* </Menu> */}
           </MediaQuery>
 
+          {/* Mobile */}
           <MediaQuery maxWidth={`${deviceWidth.desktop - 1}px`}>
             <BurgerMenuButton onClick={toggleMobileFilterMenuShow('View')} className='contained'>
               <ButtonInner>

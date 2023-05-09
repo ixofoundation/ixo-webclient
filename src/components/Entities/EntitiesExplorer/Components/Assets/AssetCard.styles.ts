@@ -51,16 +51,6 @@ export const AssetCardHeaderDotBG = styled.div`
   background-size: cover;
 `
 
-export const AssetCardHeaderLogo = styled.img`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  z-index: 2;
-  transform: translate(-50%, -50%);
-  width: 115px;
-  height: 115px;
-`
-
 export const AssetCardBody = styled.div`
   width: 100%;
   padding: 16px;

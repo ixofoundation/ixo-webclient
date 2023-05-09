@@ -215,11 +215,18 @@ export const FilterSelectButton = styled.div`
   background: none;
   border: 4px solid transparent;
   cursor: pointer;
-  &.buttonPressed {
-    color: ${(props) => props.theme.ixoDarkBlue};
-  }
+
   &:hover {
     color: ${(props) => props.theme.ixoNewBlue};
+  }
+  @media (hover: none) and (max-width: ${deviceWidth.desktop}px) {
+    &:hover {
+      color: ${(props) => props.theme.ixoGrey500};
+    }
+  }
+
+  &.buttonPressed {
+    color: ${(props) => props.theme.ixoDarkBlue};
   }
 `
 

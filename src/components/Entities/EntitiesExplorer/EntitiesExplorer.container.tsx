@@ -32,6 +32,8 @@ import { useQuery } from 'hooks/window'
 import { TEntityDDOTagModel } from 'types/protocol'
 import { TEntityModel } from 'api/blocksync/types/entities'
 import { InfiniteScroll } from 'components/InfiniteScroll'
+import { useMediaQuery } from 'react-responsive'
+import { deviceWidth } from 'constants/device'
 // import { checkIsLaunchpadFromApiListedEntityData } from '../Entities.utils'
 
 // const entityFilters = {
@@ -83,6 +85,8 @@ const EntityCard: any = {
 }
 
 const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
+  const isMobile = useMediaQuery({ maxWidth: deviceWidth.tablet })
+  const isTablet = useMediaQuery({ minWidth: deviceWidth.tablet, maxWidth: deviceWidth.desktop })
   const { getQuery } = useQuery()
   const [assistantPanelActive, setAssistantPanelActive] = useState(false)
   const itemsCount = 6
@@ -127,7 +131,7 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
           }, 1000 * 3)
         }}
         hasMore={entities.length < props.entities.length}
-        columns={3}
+        columns={!isMobile ? (!isTablet ? 3 : 2) : 1}
       >
         {renderCards(entities)}
       </InfiniteScroll>

@@ -1,17 +1,18 @@
-import { DateRangePicker } from 'pages/CreateEntity/Components'
+import { FlexBox } from 'components/App/App.styles'
+import { Button, DateRangePicker } from 'pages/CreateEntity/Components'
+import { useEffect, useState } from 'react'
 import Back from '../../../assets/icons/Back'
-import CalendarSort from '../../../assets/icons/CalendarSort'
 import {
-  Button,
   MobileDateHeader,
   HeadingItem,
   MobileFilterModal,
-  DoneButtonWrapper,
   DateDisplay,
   DateInput,
-  DoneButton,
   MobileDatePicker,
   MobileDatesMenu,
+  ButtonOuter,
+  ButtonInner,
+  ButtonIcon,
 } from '../Filters.styles'
 import { Props } from './types'
 
@@ -31,12 +32,33 @@ const DateFilterMobile: React.FunctionComponent<MobileProps> = ({
   handleFilterToggleShow,
   handleResetFilter,
 }) => {
+  const [_startDate, setStartDate] = useState('')
+  const [_endDate, setEndDate] = useState('')
+
+  useEffect(() => {
+    setStartDate(startDate)
+  }, [startDate])
+
+  useEffect(() => {
+    setEndDate(endDate)
+  }, [endDate])
+
+  function handleApply() {
+    handleFilterDateChange(_startDate, _endDate)
+    handleFilterToggleShow()
+  }
   return (
     <>
-      <Button onClick={handleFilterToggleShow}>
-        <CalendarSort width='16' fill='#000' />
-        {dateSummary}
-      </Button>
+      <ButtonOuter
+        className={startDate && endDate ? 'itemsSelected' : ''}
+        data-testid='DesktopDateButton'
+        onClick={handleFilterToggleShow}
+      >
+        <ButtonInner>
+          <ButtonIcon iconSize={16} className='icon-calendar-sort' />
+          {dateSummary}
+        </ButtonInner>
+      </ButtonOuter>
       {isActive && (
         <MobileDatesMenu className='openDatesMenu'>
           <MobileFilterModal>
@@ -59,16 +81,7 @@ const DateFilterMobile: React.FunctionComponent<MobileProps> = ({
               </DateDisplay>
             </MobileDateHeader>
             <MobileDatePicker>
-              {/* <DatePicker
-                initialStartDate={startDate}
-                initialEndDate={endDate}
-                numberOfMonths={4}
-                initialOrientation='verticalScrollable'
-                onApply={handleFilterToggleShow}
-                onChange={handleFilterDateChange}
-                onReset={handleResetFilter}
-              /> */}
-              <DateRangePicker
+              {/* <DateRangePicker
                 id='date-filter-mobile'
                 startDate={startDate || ''}
                 endDate={endDate || ''}
@@ -77,10 +90,26 @@ const DateFilterMobile: React.FunctionComponent<MobileProps> = ({
                 onChange={(startDate: string, endDate: string) => {
                   handleFilterDateChange(startDate, endDate)
                 }}
+              /> */}
+              <DateRangePicker
+                id='date-filter-mobile'
+                startDate={_startDate}
+                endDate={_endDate}
+                onChange={(startDate: string, endDate: string) => {
+                  setStartDate(startDate)
+                  setEndDate(endDate)
+                }}
+                orientation='vertical'
+                input={false}
               />
-              <DoneButtonWrapper>
-                <DoneButton onClick={handleFilterToggleShow}>Done</DoneButton>
-              </DoneButtonWrapper>
+              <FlexBox width='100%' alignItems='center' justifyContent='space-between'>
+                <Button variant='secondary' onClick={handleResetFilter}>
+                  Reset
+                </Button>
+                <Button variant='primary' onClick={handleApply} disabled={!_startDate || !_endDate}>
+                  Done
+                </Button>
+              </FlexBox>
             </MobileDatePicker>
           </MobileFilterModal>
         </MobileDatesMenu>

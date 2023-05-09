@@ -12,6 +12,8 @@ import { ReactComponent as GlobeIcon } from 'assets/images/icon-globe.svg'
 import { ReactComponent as IconCheck } from 'assets/images/icon-check-big.svg'
 import { ReactComponent as DiamondIcon } from 'assets/images/icon-diamond.svg'
 import { InfiniteScroll } from 'components/InfiniteScroll'
+import { deviceWidth } from 'constants/device'
+import { useMediaQuery } from 'react-responsive'
 
 let timer: any = null
 
@@ -37,9 +39,11 @@ interface Props {
 }
 
 const Assets: React.FC<Props> = (props) => {
-  const itemsPerScreen = 4
+  const isMobile = useMediaQuery({ maxWidth: deviceWidth.tablet })
+  const isTablet = useMediaQuery({ minWidth: deviceWidth.tablet, maxWidth: deviceWidth.desktop })
+  const itemsPerScreen = useMemo(() => (!isMobile ? (!isTablet ? 4 : 2) : 1), [isTablet, isMobile])
   const [scrollOffset, setScrollOffest] = useState(1)
-  const entities = useMemo(() => props.entities.slice(0, scrollOffset * itemsPerScreen), [scrollOffset, props.entities])
+  const entities = useMemo(() => props.entities.slice(0, scrollOffset * 4), [scrollOffset, props.entities])
   const [selections, setSelections] = useState(new Array(props.entities.length).fill(false))
   const [selecting, setSelecting] = useState(false)
   const [filterBy, setFilterBy] = useState<'all' | 'on-sale' | 'owned'>('all')
@@ -61,7 +65,7 @@ const Assets: React.FC<Props> = (props) => {
     <FlexBox direction='column' width='100%' gap={7.5}>
       {/* Filter */}
       <FlexBox width='100%' alignItems='center' justifyContent='space-between'>
-        <FlexBox gap={2.5}>
+        <FlexBox gap={2.5} flexWrap='wrap'>
           <FilterButton
             variant={filterBy === 'all' ? 'primary' : 'tertiary'}
             icon={
@@ -147,8 +151,8 @@ const Assets: React.FC<Props> = (props) => {
           }, 1000 * 3)
         }}
         hasMore={entities.length < props.entities.length}
-        columns={4}
-        gridGap={4}
+        columns={itemsPerScreen}
+        gridGap={7.5}
       >
         {entities.map((asset, index) => (
           <AssetCardWrapper key={index} onClick={handleAssetCardClick(index)}>
