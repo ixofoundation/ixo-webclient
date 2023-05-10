@@ -222,7 +222,6 @@ const Header: React.FC<Props> = (props: Props): JSX.Element => {
           currentEntity={props.entityType!}
           openMenu={isMobileMenuOpen}
           handleBurgerClick={handleBurgerClick}
-          toggleModal={handleToggleModal}
         />
         <MediaQuery minWidth={`${deviceWidth.desktop}px`}>
           <HeaderRight toggleModal={handleToggleModal} />

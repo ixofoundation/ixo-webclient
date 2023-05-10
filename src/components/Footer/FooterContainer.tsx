@@ -20,7 +20,9 @@ const Footer: React.FC = () => {
             <a href={`mailto:${mailTo?.email}`}>
               <FooterTextBlue>{mailTo?.text}</FooterTextBlue>
             </a>
+            &nbsp;
             <span className='mx-md-5 mx-0'>{address}</span>
+            &nbsp;
             <ByLine>
               <a href={privacyPolicy?.href} target='_blank' rel='noopener noreferrer'>
                 {privacyPolicy?.text}
