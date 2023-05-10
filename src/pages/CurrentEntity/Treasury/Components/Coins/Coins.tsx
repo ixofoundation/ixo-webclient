@@ -2,10 +2,14 @@ import BigNumber from 'bignumber.js'
 import { FlexBox } from 'components/App/App.styles'
 import { Table } from 'components/Table'
 import { Typography } from 'components/Typography'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import CurrencyFormat from 'react-currency-format'
 import styled from 'styled-components'
 import { Avatar } from 'pages/CurrentEntity/Components'
+import { customQueries } from '@ixo/impactxclient-sdk'
+import { GetBalances } from 'lib/protocol'
+import { getDisplayAmount } from 'utils/currency'
+import { errorToast } from 'utils/toast'
 
 const TableWrapper = styled.div`
   color: white;
@@ -117,27 +121,72 @@ interface Props {
 }
 
 const Coins: React.FC<Props> = ({ address }) => {
-  const [data] = useState<any[]>([
-    {
-      coinDenom: 'uixo',
-      network: 'IXO',
-      balance: 13000,
-      coinImageUrl: 'https://raw.githubusercontent.com/chainapsis/keplr-chain-registry/main/images/ixo/chain.png',
-      lastPriceUsd: undefined,
-      priceChangePercent: undefined,
+  const [data, setData] = useState<{
+    [denom: string]: {
+      balance: string
+      network: string
+      coinDenom: string
+      coinImageUrl: string
+      lastPriceUsd: number
+    }
+  }>({})
+
+  function addData(
+    coinDenom: string,
+    payload: {
+      balance: string
+      network: string
+      coinDenom: string
+      coinImageUrl: string
+      lastPriceUsd: number
     },
-  ])
+  ) {
+    setData((pre) => ({ ...pre, [coinDenom]: payload }))
+  }
+
+  /**
+   * @description get the balances by address
+   */
+  useEffect(() => {
+    if (address) {
+      setData({})
+      GetBalances(address)
+        .then((balances) => {
+          balances.forEach(({ amount, denom }) => {
+            /**
+             * @description find token info from currency list via sdk
+             */
+            const token = customQueries.currency.findTokenFromDenom(denom)
+
+            customQueries.currency.findTokenInfoFromDenom(denom).then((response) => {
+              const { coinName, lastPriceUsd } = response
+              const payload = {
+                balance: getDisplayAmount(amount, token.coinDecimals),
+                network: `${coinName.toUpperCase()} Network`,
+                coinDenom: token.coinDenom,
+                coinImageUrl: token.coinImageUrl!,
+                lastPriceUsd,
+              }
+              addData(payload.coinDenom, payload)
+            })
+          })
+        })
+        .catch((e) => {
+          errorToast('Error', e.toString())
+        })
+    }
+  }, [address])
 
   const handleRowClick = (state: any) => () => {
     console.log('handleRowClick', { state })
   }
 
-  return data.length > 0 ? (
+  return Object.keys(data).length > 0 ? (
     <FlexBox width='100%' direction='column' gap={3}>
       <TableWrapper>
         <Table
           columns={columns}
-          data={data}
+          data={Object.values(data)}
           getRowProps={(state) => ({
             style: { height: 70, cursor: 'pointer' },
             onClick: handleRowClick(state),
@@ -148,7 +197,7 @@ const Coins: React.FC<Props> = ({ address }) => {
     </FlexBox>
   ) : (
     <Typography variant='secondary' size='2xl' color='dark-blue'>
-      You’re not staking any tokens yet.
+      No Coins
     </Typography>
   )
 }

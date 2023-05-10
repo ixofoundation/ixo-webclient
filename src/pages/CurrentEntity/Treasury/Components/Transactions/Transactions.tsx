@@ -186,7 +186,7 @@ const Transactions: React.FC<Props> = ({ address }) => {
     </FlexBox>
   ) : (
     <Typography variant='secondary' size='2xl' color='dark-blue'>
-      You’re not staking any tokens yet.
+      No Transactions
     </Typography>
   )
 }

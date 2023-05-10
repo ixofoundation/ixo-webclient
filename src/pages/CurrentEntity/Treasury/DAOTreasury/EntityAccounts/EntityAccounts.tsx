@@ -6,10 +6,10 @@ import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import AccountCard from './AccountCard/AccountCard'
 import AccountCardTag from './AccountCard/AccountCardTag'
-import { Coins } from './Coins'
-import { Collections } from './Collections'
-import { ImpactTokens } from './ImpactTokens'
-import { Transactions } from './Transactions'
+import { Coins } from '../../Components/Coins'
+import { Collections } from '../../Components/Collections'
+import { ImpactTokens } from '../../Components/ImpactTokens'
+import { Transactions } from '../../Components/Transactions'
 import { ReactComponent as ArrowLeftIcon } from 'assets/images/icon-arrow-left.svg'
 
 const EntityAccounts: React.FC = () => {
@@ -20,11 +20,11 @@ const EntityAccounts: React.FC = () => {
     },
     {
       name: 'reserve',
-      address: 'ixo1xc798xnhp7yy9mpp80v3tsxppw8qk0y9atm962',
+      address: 'ixo1m0wheltckf3t9xtvq6rhfwrpr9frgckgmvjngx',
     },
     {
       name: 'backup',
-      address: 'ixo1xc798xnhp7yy9mpp80v3tsxppw8qk0y9atm96d',
+      address: 'ixo1g0d744v2jw7gvjykw22dew9cpr55w7mwxk9wmf',
     },
   ]
   const history = useHistory()

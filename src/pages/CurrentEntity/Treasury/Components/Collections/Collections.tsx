@@ -91,8 +91,6 @@ const columns = [
     accessor: 'balance',
     renderCell: (cell: any) => {
       const balance = cell.value
-      const lastPriceUsd = cell.row.original?.lastPriceUsd ?? 0
-      const balanceUsd = new BigNumber(balance).times(lastPriceUsd).toString()
       return (
         <FlexBox direction='column' alignItems='end' p={4}>
           <Typography size='lg'>
@@ -102,9 +100,6 @@ const columns = [
               thousandSeparator
               decimalScale={2}
             />
-          </Typography>
-          <Typography size='md' color='dark-blue'>
-            <CurrencyFormat prefix='$' displayType={'text'} value={balanceUsd} thousandSeparator decimalScale={2} />
           </Typography>
         </FlexBox>
       )
@@ -124,7 +119,6 @@ const Collections: React.FC<Props> = ({ address }) => {
       balance: 8,
       coinImageUrl: undefined,
       lastPriceUsd: undefined,
-      priceChangePercent: undefined,
     },
   ])
 
@@ -148,7 +142,7 @@ const Collections: React.FC<Props> = ({ address }) => {
     </FlexBox>
   ) : (
     <Typography variant='secondary' size='2xl' color='dark-blue'>
-      You’re not staking any tokens yet.
+      No Collections
     </Typography>
   )
 }

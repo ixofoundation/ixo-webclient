@@ -4,6 +4,7 @@ import useCurrentEntity, { useCurrentEntityProfile } from 'hooks/currentEntity'
 import { Redirect, Route, useParams } from 'react-router-dom'
 import { requireCheckDefault } from 'utils/images'
 import EntityAccounts from './EntityAccounts/EntityAccounts'
+import LinkedAccounts from './LinkedAccounts/LinkedAccounts'
 
 const DAOTreasury: React.FC = (): JSX.Element => {
   const { entityId } = useParams<{ entityId: string }>()
@@ -16,6 +17,12 @@ const DAOTreasury: React.FC = (): JSX.Element => {
       icon: requireCheckDefault(require('assets/img/sidebar/account.svg')),
       sdg: 'Entity Accounts',
       tooltip: 'Entity Accounts',
+    },
+    {
+      url: `/entity/${entityId}/treasury/linked-accounts`,
+      icon: requireCheckDefault(require('assets/img/sidebar/account2.svg')),
+      sdg: 'Linked Accounts',
+      tooltip: 'Linked Accounts',
     },
   ]
 
@@ -75,6 +82,7 @@ const DAOTreasury: React.FC = (): JSX.Element => {
       entityType={entityType}
     >
       <Route exact path='/entity/:entityId/treasury/entity-accounts' component={EntityAccounts} />
+      <Route exact path='/entity/:entityId/treasury/linked-accounts' component={LinkedAccounts} />
       <Route exact path='/entity/:entityId/treasury'>
         <Redirect to={`/entity/${entityId}/treasury/entity-accounts`} />
       </Route>
