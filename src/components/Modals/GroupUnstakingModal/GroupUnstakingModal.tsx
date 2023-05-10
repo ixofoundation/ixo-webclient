@@ -21,7 +21,7 @@ import { MarketingInfoResponse, TokenInfoResponse } from '@ixo/impactxclient-sdk
 import CurrencyFormat from 'react-currency-format'
 import { fee } from 'lib/protocol'
 import styled from 'styled-components'
-import { Avatar } from 'pages/CurrentEntity/Dashboard/Components'
+import { Avatar } from 'pages/CurrentEntity/Components'
 
 const StyledInput = styled(Input)`
   color: white;

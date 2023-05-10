@@ -7,7 +7,7 @@ import { truncateString } from 'utils/formatters'
 import { MemberDetailCard } from '../MemberDetailCard'
 import { useHistory } from 'react-router-dom'
 import { STATUSES } from '../../Toolbar/Toolbar'
-import { Avatar } from '../../../../Components'
+import { Avatar } from '../../../../../Components'
 
 const Wrapper = styled(TableRow)<{ focused: boolean }>`
   ${({ theme, focused }) =>

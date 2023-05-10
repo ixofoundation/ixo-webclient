@@ -11,7 +11,7 @@ import { truncateString } from 'utils/formatters'
 import { STATUSES } from '../../Toolbar/Toolbar'
 import { MemberDetailCard } from '../MemberDetailCard'
 import { useHistory } from 'react-router-dom'
-import { Avatar } from '../../../../Components'
+import { Avatar } from '../../../../../Components'
 
 const Wrapper = styled(FlexBox)<{ focused: boolean }>`
   ${({ theme, focused }) => focused && `border-color: ${theme.ixoLightBlue};`}

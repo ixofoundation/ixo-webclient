@@ -1,6 +1,6 @@
 import { Box, FlexBox, SvgBox, theme } from 'components/App/App.styles'
 import React from 'react'
-import { Card } from '../../../Components'
+import { Card } from '../../../../Components'
 import { Typography } from 'components/Typography'
 import { ReactComponent as ProfileIcon } from 'assets/images/icon-profile.svg'
 import { ReactComponent as CaretUpIcon } from 'assets/images/icon-caret-up.svg'
