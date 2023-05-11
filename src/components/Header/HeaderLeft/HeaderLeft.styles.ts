@@ -155,6 +155,7 @@ export const MobileMenu = styled(Menu)`
 
 export const Burger = styled.div`
   position: relative;
+  display: none; // TODO: for now remove menu
 
   @media (min-width: ${deviceWidth.desktop}px) {
     display: none;
