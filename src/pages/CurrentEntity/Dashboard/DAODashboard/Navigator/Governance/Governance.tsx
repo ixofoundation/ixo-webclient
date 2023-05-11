@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import { Card } from '../../../Components'
+import { Card } from '../../../../Components'
 import { Box, FlexBox, SvgBox, theme } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { ReactComponent as GovernanceIcon } from 'assets/images/icon-governance.svg'

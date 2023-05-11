@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Slider from 'react-slick'
 import styled from 'styled-components'
-import { Avatar, Card } from '../../Components'
+import { Avatar, Card } from '../../../Components'
 import { ReactComponent as GroupsIcon } from 'assets/images/icon-groups.svg'
 import { ReactComponent as ChevRightIcon } from 'assets/images/icon-chev-right.svg'
 import { Box, FlexBox, SvgBox, theme } from 'components/App/App.styles'

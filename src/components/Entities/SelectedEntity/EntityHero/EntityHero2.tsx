@@ -70,6 +70,16 @@ const EntityHero: React.FunctionComponent<Props> = ({
       tooltip: `${title} Management`,
     })
 
+    /**
+     * @description treasury page
+     */
+    buttons.push({
+      iconClass: `icon-funding`,
+      path: `/entity/${entityId}/treasury`,
+      title: 'TREASURY',
+      tooltip: `${title} Management`,
+    })
+
     return buttons
   }, [title, entityId, entityType])
 

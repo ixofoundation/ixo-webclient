@@ -20,6 +20,7 @@ export type TTypographyColor =
   | 'light-grey-blue'
   | 'blue'
   | 'dark-blue'
+  | 'darkest-blue'
   | 'color-2'
   | 'grey700'
   | 'grey500'
@@ -144,6 +145,9 @@ const blueColorCss = css`
 `
 const darkBlueColorCss = css`
   color: ${(props) => props.theme.ixoDarkBlue};
+`
+const darkestBlueColorCss = css`
+  color: ${(props) => props.theme.ixoDarkestBlue};
 `
 const color2ColorCss = css`
   color: ${(props) => props.theme.ixoColor2};
@@ -296,6 +300,8 @@ const Typography = styled.div<Props>`
         return blueColorCss
       case 'dark-blue':
         return darkBlueColorCss
+      case 'darkest-blue':
+        return darkestBlueColorCss
       case 'color-2':
         return color2ColorCss
       case 'grey700':

@@ -1,7 +1,7 @@
 import { Box, FlexBox, theme } from 'components/App/App.styles'
 import React, { useEffect, useState } from 'react'
 import moment from 'moment'
-import { Card, TabButton } from '../../../Components'
+import { Card, TabButton } from '../../../../Components'
 import { ReactComponent as BellIcon } from 'assets/images/icon-bell-in-circle.svg'
 import { Typography } from 'components/Typography'
 import { useGetAnnouncements } from 'hooks/dao'

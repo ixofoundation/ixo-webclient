@@ -11,7 +11,7 @@ import { useHistory } from 'react-router-dom'
 import { useCurrentDaoGroup } from 'hooks/currentDao'
 import { convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
 import { useAccount } from 'hooks/account'
-import { Avatar } from 'pages/CurrentEntity/Dashboard/Components'
+import { Avatar } from 'pages/CurrentEntity/Components'
 import { GroupStakingModal } from 'components/Modals'
 
 const TableWrapper = styled.div`

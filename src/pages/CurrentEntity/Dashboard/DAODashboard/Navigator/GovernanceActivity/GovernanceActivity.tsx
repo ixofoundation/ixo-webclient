@@ -1,7 +1,7 @@
 import React from 'react'
 import { BarChart, Bar, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
 import moment from 'moment'
-import { Card } from '../../../Components'
+import { Card } from '../../../../Components'
 import { ReactComponent as PieIcon } from 'assets/images/icon-pie.svg'
 import { FlexBox, theme } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
