@@ -116,7 +116,7 @@ const Collections: React.FC<Props> = ({ address }) => {
     {
       coinDenom: 'supa',
       network: 'SupaMoto Malawi Collection',
-      balance: 8,
+      balance: 0,
       coinImageUrl: undefined,
       lastPriceUsd: undefined,
     },

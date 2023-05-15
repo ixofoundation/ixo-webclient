@@ -3,8 +3,9 @@ import { Box, theme } from 'components/App/App.styles'
 interface AvatarProps {
   url?: string
   size?: number
+  borderWidth?: number
 }
-const Avatar: React.FC<AvatarProps> = ({ url, size = 100 }): JSX.Element => (
+const Avatar: React.FC<AvatarProps> = ({ url, size = 100, borderWidth = 2 }): JSX.Element => (
   <Box
     background={`url(${url}), ${theme.ixoGrey500}`}
     width={size + 'px'}
@@ -12,7 +13,7 @@ const Avatar: React.FC<AvatarProps> = ({ url, size = 100 }): JSX.Element => (
     backgroundSize='contain'
     borderRadius='100%'
     borderColor='white'
-    borderWidth='2px'
+    borderWidth={`${borderWidth}px`}
     borderStyle='solid'
   />
 )

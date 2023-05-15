@@ -17,7 +17,7 @@ import { isIxoAccount } from 'utils/account'
 const LinkedAccounts: React.FC = () => {
   const accounts = [
     'ixo1xc798xnhp7yy9mpp80v3tsxppw8qk0y9atm965',
-    'osmo1xc798xnhp7yy9mpp80v3tsxppw8qk0y929k8g4',
+    'osmo1xy5ej0fyap2sef3l3kux8kslcjqlc89cjn37ud',
     'regen1xc798xnhp7yy9mpp80v3tsxppw8qk0y9auwtgr',
   ]
   const history = useHistory()

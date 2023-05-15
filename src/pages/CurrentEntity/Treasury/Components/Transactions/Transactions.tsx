@@ -124,13 +124,13 @@ const columns = [
     Header: renderTableHeader('Date', 'flex-end'),
     accessor: 'timestamp',
     renderCell: (cell: any) => {
-      const timestamp = cell.value
+      const timestamp = moment(cell.value).utc()
 
       return (
         <FlexBox direction='column' alignItems='end' p={4}>
-          <Typography size='lg'>{moment(timestamp).format('DD MMM YY')}</Typography>
+          <Typography size='lg'>{timestamp.format('DD MMM YY')}</Typography>
           <Typography size='md' color='dark-blue'>
-            {moment(timestamp).format('hh:mm [UTC]')}
+            {timestamp.format('hh:mm [UTC]')}
           </Typography>
         </FlexBox>
       )

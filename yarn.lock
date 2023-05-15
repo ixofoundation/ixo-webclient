@@ -2237,10 +2237,10 @@
   resolved "https://registry.yarnpkg.com/@graphql-typed-document-node/core/-/core-3.1.1.tgz#076d78ce99822258cf813ecc1e7fa460fa74d052"
   integrity sha512-NQ17ii0rK1b34VZonlmT2QMJFI70m0TRwbknO/ihlbatXyaktDhN/98vBiUU6kNBPljqGqyIrl2T4nY2RpFANg==
 
-"@gssuper/cosmodal@^0.0.7":
-  version "0.0.7"
-  resolved "https://registry.yarnpkg.com/@gssuper/cosmodal/-/cosmodal-0.0.7.tgz#3b60d6a403b0964462cb2286973331f8b9b8e562"
-  integrity sha512-4t6enUAeA4FlXudwfp9GwNhT3JykYSyKY1BCFoKnFctgJ1TK7GDthDrsYuMUhG05M9szXFg+NvMricjJZf387Q==
+"@gssuper/cosmodal@^0.0.10":
+  version "0.0.10"
+  resolved "https://registry.yarnpkg.com/@gssuper/cosmodal/-/cosmodal-0.0.10.tgz#6b7987488ca868419e6433d09613e5b267e2236a"
+  integrity sha512-ErjhpnROwA2zK07dfKNKBo/bICeKmbVIAwZN3HYKN+rGv9ZbQlC/p0MATIS5Pw2VdluAar/+gUXaRzwQVWitSg==
   dependencies:
     "@toruslabs/eccrypto" "^2.1.1"
     "@walletconnect/client" "^1.7.8"
@@ -2341,6 +2341,14 @@
   version "0.1.3"
   resolved "https://registry.yarnpkg.com/@istanbuljs/schema/-/schema-0.1.3.tgz#e45e384e4b8ec16bce2fd903af78450f6bf7ec98"
   integrity sha512-ZXRY4jNvVgSVQ8DL3LTcakaAtXwTVUxE81hslsyD2AtoXW/wVob10HkOJ1X/pAlcI7D+2YoZKg5do8G/w6RYgA==
+
+"@ixo/cosmos-chain-resolver@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@ixo/cosmos-chain-resolver/-/cosmos-chain-resolver-0.0.3.tgz#7173b7a343c87dca5b9ed87cdf406a0776b57eca"
+  integrity sha512-lU5CJrmHphoyOMJpXbwpJf/KpxxxORje6qxIbOvUJ7HwyCjJwUws9H6/UD477SDANskDhVwCGCfyoaBZ+Wls4w==
+  dependencies:
+    "@babel/runtime" "7.19.4"
+    axios "^1.3.4"
 
 "@ixo/impactxclient-sdk@^1.1.3":
   version "1.1.3"

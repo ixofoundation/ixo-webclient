@@ -50,11 +50,11 @@ export const BankMultiSendTrx = async (
   }
 }
 
-export const GetBalances = async (address: string): Promise<Coin[]> => {
+export const GetBalances = async (address: string, rpc = RPC_ENDPOINT): Promise<Coin[]> => {
   if (!address) {
     throw new Error('address is undefined')
   }
-  const client = await createQueryClient(RPC_ENDPOINT!)
+  const client = await createQueryClient(rpc!)
   const res = await client.cosmos.bank.v1beta1.allBalances({
     address,
   })
