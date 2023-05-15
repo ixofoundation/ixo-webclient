@@ -10,6 +10,7 @@ import { customQueries } from '@ixo/impactxclient-sdk'
 import { GetBalances } from 'lib/protocol'
 import { getDisplayAmount } from 'utils/currency'
 import { errorToast } from 'utils/toast'
+import { determineChainFromAddress } from 'utils/account'
 
 const TableWrapper = styled.div`
   color: white;
@@ -150,30 +151,37 @@ const Coins: React.FC<Props> = ({ address }) => {
   useEffect(() => {
     if (address) {
       setData({})
-      GetBalances(address)
-        .then((balances) => {
-          balances.forEach(({ amount, denom }) => {
-            /**
-             * @description find token info from currency list via sdk
-             */
-            const token = customQueries.currency.findTokenFromDenom(denom)
 
-            customQueries.currency.findTokenInfoFromDenom(denom).then((response) => {
-              const { coinName, lastPriceUsd } = response
-              const payload = {
-                balance: getDisplayAmount(amount, token.coinDecimals),
-                network: `${coinName.toUpperCase()} Network`,
-                coinDenom: token.coinDenom,
-                coinImageUrl: token.coinImageUrl!,
-                lastPriceUsd,
+      determineChainFromAddress(address).then((chainInfo) => {
+        const { rpc } = chainInfo
+
+        GetBalances(address, rpc)
+          .then((balances) => {
+            balances.forEach(({ amount, denom }) => {
+              /**
+               * @description find token info from currency list via sdk
+               */
+              const token = customQueries.currency.findTokenFromDenom(denom)
+
+              if (token) {
+                customQueries.currency.findTokenInfoFromDenom(token.coinDenom).then((response) => {
+                  const { coinName, lastPriceUsd } = response
+                  const payload = {
+                    balance: getDisplayAmount(amount, token.coinDecimals),
+                    network: `${coinName.toUpperCase()} Network`,
+                    coinDenom: token.coinDenom,
+                    coinImageUrl: token.coinImageUrl!,
+                    lastPriceUsd,
+                  }
+                  addData(payload.coinDenom, payload)
+                })
               }
-              addData(payload.coinDenom, payload)
             })
           })
-        })
-        .catch((e) => {
-          errorToast('Error', e.toString())
-        })
+          .catch((e) => {
+            errorToast('Error', e.toString())
+          })
+      })
     }
   }, [address])
 

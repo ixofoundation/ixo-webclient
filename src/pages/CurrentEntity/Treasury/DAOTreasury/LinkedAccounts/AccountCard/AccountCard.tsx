@@ -2,9 +2,11 @@ import { ResponsiveContainer, Line, LineChart } from 'recharts'
 import { FlexBox, theme } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { Button } from 'pages/CreateEntity/Components'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { truncateString } from 'utils/formatters'
 import { Avatar } from 'pages/CurrentEntity/Components'
+import { determineChainFromAddress } from 'utils/account'
+import { KeplrChainInfo } from '@ixo/cosmos-chain-resolver/types/types/chain'
 
 const data = [
   {
@@ -56,10 +58,17 @@ interface Props {
 }
 
 const AccountCard: React.FC<Props> = ({ address }) => {
+  const [chainInfo, setChainInfo] = useState<KeplrChainInfo | undefined>()
   const totalBalance = 1200.45
   const totalChangesIn24H = -100.34
   const availableBalance = 1100.45
   const lockedBalance = 100.45
+
+  useEffect(() => {
+    if (address) {
+      determineChainFromAddress(address).then(setChainInfo)
+    }
+  }, [address])
 
   return (
     <FlexBox
@@ -76,9 +85,13 @@ const AccountCard: React.FC<Props> = ({ address }) => {
           {truncateString(address, 20, 'middle')}
         </Typography>
         <FlexBox borderRadius='100px' height='32px' p={2} background={theme.ixoDarkBlue} alignItems='center' gap={2}>
-          <Avatar size={20} url={undefined} />
+          <Avatar
+            size={20}
+            borderWidth={0}
+            url={chainInfo?.currencies ? chainInfo.currencies[0].coinImageUrl : undefined}
+          />
           <Typography variant='secondary' size='md' color='darkest-blue'>
-            network
+            {chainInfo?.chainName} network
           </Typography>
         </FlexBox>
       </FlexBox>
