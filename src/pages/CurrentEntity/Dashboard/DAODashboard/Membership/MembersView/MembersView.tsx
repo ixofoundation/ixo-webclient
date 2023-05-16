@@ -18,6 +18,7 @@ import { ReactComponent as SortAtoZIcon } from 'assets/images/icon-sort-atoz.svg
 import { ReactComponent as SortZtoAIcon } from 'assets/images/icon-sort-ztoa.svg'
 import { ReactComponent as SortLtoGIcon } from 'assets/images/icon-sort-ltog.svg'
 import { ReactComponent as SortGtoLIcon } from 'assets/images/icon-sort-gtol.svg'
+import useCurrentDao, { useCurrentDaoGroup } from 'hooks/currentDao'
 // import { ReactComponent as ChevDownIcon } from 'assets/images/icon-chev-down.svg'
 
 interface Props {
@@ -36,6 +37,9 @@ const MembersView: React.FC<Props> = ({
   selectedMembers,
   setSelectedMembers,
 }): JSX.Element => {
+  const { selectedGroupsArr } = useCurrentDao()
+  const { type } = useCurrentDaoGroup(selectedGroupsArr[0].coreAddress)
+
   const handleSortClick = (key: string) => {
     setSort((sort: any) => {
       let newSortForKey: 'asc' | 'desc' | undefined
@@ -78,7 +82,7 @@ const MembersView: React.FC<Props> = ({
           <FlexBox alignItems='center' gap={8}>
             {renderSortItem('Name', sort.name, 'string', () => handleSortClick('name'))}
             {renderSortItem('Voting Power', sort.votingPower, 'number', () => handleSortClick('votingPower'))}
-            {renderSortItem('Staking', sort.staking, 'number', () => handleSortClick('staking'))}
+            {type === 'staking' && renderSortItem('Staking', sort.staking, 'number', () => handleSortClick('staking'))}
             {renderSortItem('Votes', sort.votes, 'number', () => handleSortClick('votes'))}
             {renderSortItem('Proposals', sort.proposals, 'number', () => handleSortClick('proposals'))}
           </FlexBox>
@@ -107,9 +111,11 @@ const MembersView: React.FC<Props> = ({
               <TableHeadItem>
                 {renderSortItem('Voting Power', sort.votingPower, 'number', () => handleSortClick('votingPower'))}
               </TableHeadItem>
-              <TableHeadItem>
-                {renderSortItem('Staking', sort.staking, 'number', () => handleSortClick('staking'))}
-              </TableHeadItem>
+              {type === 'staking' && (
+                <TableHeadItem>
+                  {renderSortItem('Staking', sort.staking, 'number', () => handleSortClick('staking'))}
+                </TableHeadItem>
+              )}
               <TableHeadItem>
                 {renderSortItem('Votes', sort.votes, 'number', () => handleSortClick('votes'))}
               </TableHeadItem>

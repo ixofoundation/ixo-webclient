@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Slider from 'react-slick'
 import styled from 'styled-components'
 import { Avatar, Card } from '../../../Components'
@@ -142,6 +142,17 @@ const Groups: React.FC<Props> = ({ isFollowing, selectedGroups, selectDaoGroup }
       </Typography>
     </FlexBox>
   )
+
+  useEffect(() => {
+    const daoGroupsArr = Object.values(daoGroups)
+    if (daoGroupsArr.length > 0) {
+      const selected = daoGroupsArr.some(({ selected }) => selected)
+      if (!selected) {
+        selectDaoGroup(daoGroupsArr[0].coreAddress)
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [daoGroups])
 
   if (Object.values(isFollowing ? myGroups : daoGroups).length === 0) {
     return null

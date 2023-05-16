@@ -1,13 +1,18 @@
 import ThreeDot from 'assets/icons/ThreeDot'
 import { Box, FlexBox, TableBodyItem, TableRow } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
-import React, { useState } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 import styled, { css } from 'styled-components'
 import { truncateString } from 'utils/formatters'
 import { MemberDetailCard } from '../MemberDetailCard'
 import { useHistory } from 'react-router-dom'
 import { STATUSES } from '../../Toolbar/Toolbar'
 import { Avatar } from '../../../../../Components'
+import { useAccount } from 'hooks/account'
+import useCurrentDao, { useCurrentDaoGroup } from 'hooks/currentDao'
+import { contracts } from '@ixo/impactxclient-sdk'
+import CurrencyFormat from 'react-currency-format'
+import { convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
 
 const Wrapper = styled(TableRow)<{ focused: boolean }>`
   ${({ theme, focused }) =>
@@ -60,8 +65,47 @@ interface Props {
 
 const MemberListItem: React.FC<Props> = ({ member, selected, onSelectMember }): JSX.Element => {
   const history = useHistory()
-  const { avatar, name, status, addr, staking, votes, proposals, votingPower } = member
+  const { cosmWasmClient, address } = useAccount()
+  const { selectedGroupsArr } = useCurrentDao()
+  const { type, daoGroup, proposals, votes, daoVotingCw20StakedClient } = useCurrentDaoGroup(
+    selectedGroupsArr[0].coreAddress,
+  )
+  const { avatar, name, status, addr } = member
   const [detailView, setDetailView] = useState(false)
+  const [userStakings, setUserStakings] = useState('0')
+
+  const { userVotingPower, userProposals, userVotes } = useMemo(() => {
+    const totalWeight = daoGroup.votingModule.totalWeight
+    const userWeight = daoGroup.votingModule.members.find((member) => addr === member.addr)?.weight ?? 0
+
+    const userVotingPower = userWeight / totalWeight
+    const userProposals = proposals.filter(({ proposal }: any) => proposal.proposer === addr).length
+    const userVotes = votes.filter((vote) => vote.voter === addr).length
+
+    return { userVotingPower, userProposals, userVotes }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [daoGroup, addr, proposals, votes])
+
+  useEffect(() => {
+    if (daoVotingCw20StakedClient && type === 'staking') {
+      ;(async () => {
+        const stakingContract = await daoVotingCw20StakedClient.stakingContract()
+        const cw20StakeClient = new contracts.Cw20Stake.Cw20StakeClient(cosmWasmClient, address, stakingContract)
+        const { value: microStakedValue } = await cw20StakeClient.stakedValue({ address: addr })
+
+        const tokenContract = await daoVotingCw20StakedClient.tokenContract()
+        const cw20BaseClient = new contracts.Cw20Base.Cw20BaseClient(cosmWasmClient, address, tokenContract)
+        const tokenInfo = await cw20BaseClient.tokenInfo()
+        const stakedValue = convertMicroDenomToDenomWithDecimals(microStakedValue, tokenInfo.decimals).toString()
+        setUserStakings(stakedValue)
+      })()
+    }
+
+    return () => {
+      setUserStakings('0')
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [daoVotingCw20StakedClient, cosmWasmClient, address, type])
 
   const handleMemberView = () => {
     history.push(`${history.location.pathname}/${addr}`)
@@ -106,28 +150,24 @@ const MemberListItem: React.FC<Props> = ({ member, selected, onSelectMember }): 
             style: 'percent',
             minimumFractionDigits: 0,
             maximumFractionDigits: 2,
-          }).format(votingPower ?? 0)}
+          }).format(userVotingPower ?? 0)}
+        </Typography>
+      </TableBodyItem>
+      {type === 'staking' && (
+        <TableBodyItem>
+          <Typography color='white' size='lg' weight='medium'>
+            <CurrencyFormat displayType={'text'} value={userStakings} thousandSeparator />
+          </Typography>
+        </TableBodyItem>
+      )}
+      <TableBodyItem>
+        <Typography color='white' size='lg' weight='medium'>
+          {userVotes ?? 0}
         </Typography>
       </TableBodyItem>
       <TableBodyItem>
         <Typography color='white' size='lg' weight='medium'>
-          {new Intl.NumberFormat(undefined, {
-            notation: 'compact',
-            compactDisplay: 'short',
-            minimumFractionDigits: 2,
-          })
-            .format(staking ?? 0)
-            .replace(/\D00$/, '')}
-        </Typography>
-      </TableBodyItem>
-      <TableBodyItem>
-        <Typography color='white' size='lg' weight='medium'>
-          {votes ?? 0}
-        </Typography>
-      </TableBodyItem>
-      <TableBodyItem>
-        <Typography color='white' size='lg' weight='medium'>
-          {proposals ?? 0}
+          {userProposals ?? 0}
         </Typography>
       </TableBodyItem>
 
@@ -138,6 +178,7 @@ const MemberListItem: React.FC<Props> = ({ member, selected, onSelectMember }): 
             setDetailView(true)
             event.stopPropagation()
           }}
+          style={{ display: 'none' }}
         >
           <ThreeDot />
         </DetailButton>

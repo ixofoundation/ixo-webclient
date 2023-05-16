@@ -2831,7 +2831,7 @@
           "hidden": false,
           "name": "DAO Type",
           "multiSelect": false,
-          "selectedTags": ["Marketplace"],
+          "selectedTags": [],
           "tags": [
             {
               "@type": "Tag",

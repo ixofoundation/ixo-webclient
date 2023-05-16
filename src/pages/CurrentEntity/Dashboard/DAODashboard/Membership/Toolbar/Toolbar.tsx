@@ -109,7 +109,11 @@ const Toolbar: React.FC<Props> = ({
         </>
       ) : (
         <>
-          <Button background={STATUSES[status ?? 'all'].color} onClick={() => setChooseStatus(true)}>
+          <Button
+            background={STATUSES[status ?? 'all'].color}
+            onClick={() => setChooseStatus(true)}
+            style={{ pointerEvents: 'none' }} // TODO:
+          >
             {STATUSES[status ?? 'all'].text}
           </Button>
 

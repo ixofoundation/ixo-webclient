@@ -111,13 +111,15 @@ class ControlPanel extends React.Component<Props, State> {
             <Dashboard widget={dashboard} entityDid={entityDid} />
             <Actions widget={actions} toggleShowMore={this.toggleShowActions} showMore={this.state.showMoreActions} />
             {/* <Apps widget={apps} showMore={this.state.showMoreApps} toggleShowMore={this.toggleShowApps} /> */}
-            <Claims
-              widget={apps}
-              showMore={this.state.showMoreApps}
-              toggleShowMore={this.toggleShowApps}
-              claims={claims!}
-              entityDid={entityDid}
-            />
+            {claims && claims.length > 0 && (
+              <Claims
+                widget={apps}
+                showMore={this.state.showMoreApps}
+                toggleShowMore={this.toggleShowApps}
+                claims={claims!}
+                entityDid={entityDid}
+              />
+            )}
             <Connections
               widget={connections}
               selectedConnection={this.state.currentConnection}

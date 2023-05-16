@@ -1,7 +1,7 @@
 import { contracts, customQueries } from '@ixo/impactxclient-sdk'
 import { SigningCosmWasmClient } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/cosmwasm-stargate'
 import { MarketingInfoResponse, TokenInfoResponse } from '@ixo/impactxclient-sdk/types/codegen/Cw20Base.types'
-import { Threshold } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
+import { ProposalResponse, Threshold, VoteInfo } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
 import { UpdateProposalConfigData } from 'components/Modals/AddActionModal/SetupUpdateVotingConfigModal'
 import { chainNetwork } from 'hooks/configs'
 import { Member } from 'types/dao'
@@ -103,7 +103,17 @@ export const getDaoContractInfo = async ({
   )
   proposalModule.proposalConfig = await daoProposalSingleClient.config()
   const { proposals } = await daoProposalSingleClient.listProposals({})
-  // const votes = await daoProposalSingleClient.listVotes({})
+  const votes: VoteInfo[] = await proposals.reduce(
+    async (previousPromise: Promise<VoteInfo[]>, current: ProposalResponse) => {
+      const { id } = current
+      const { votes } = await daoProposalSingleClient.listVotes({ proposalId: id })
+      const previous = await previousPromise
+      return previous.concat(votes)
+    },
+    Promise.resolve([]),
+  )
+  proposalModule.votes = votes
+
   proposalModule.proposals = proposals
   const {
     module: { addr: preProposalContractAddress },
