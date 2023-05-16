@@ -189,7 +189,7 @@ const Coins: React.FC<Props> = ({ address }) => {
     console.log('handleRowClick', { state })
   }
 
-  return Object.keys(data).length > 0 ? (
+  return (
     <FlexBox width='100%' direction='column' gap={3}>
       <TableWrapper>
         <Table
@@ -201,12 +201,22 @@ const Coins: React.FC<Props> = ({ address }) => {
           })}
           getCellProps={() => ({ style: { background: '#023044' } })}
         />
+        {Object.keys(data).length === 0 && (
+          <FlexBox
+            width='100%'
+            height='80px'
+            alignItems='center'
+            justifyContent='center'
+            borderRadius='8px'
+            background='#053549'
+          >
+            <Typography variant='primary' size='lg' color='dark-blue'>
+              This account holds no Coins
+            </Typography>
+          </FlexBox>
+        )}
       </TableWrapper>
     </FlexBox>
-  ) : (
-    <Typography variant='secondary' size='2xl' color='dark-blue'>
-      No Coins
-    </Typography>
   )
 }
 

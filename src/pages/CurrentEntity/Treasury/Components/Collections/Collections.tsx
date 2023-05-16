@@ -113,20 +113,20 @@ interface Props {
 
 const Collections: React.FC<Props> = ({ address }) => {
   const [data] = useState<any[]>([
-    {
-      coinDenom: 'supa',
-      network: 'SupaMoto Malawi Collection',
-      balance: 0,
-      coinImageUrl: undefined,
-      lastPriceUsd: undefined,
-    },
+    // {
+    //   coinDenom: 'supa',
+    //   network: 'SupaMoto Malawi Collection',
+    //   balance: 0,
+    //   coinImageUrl: undefined,
+    //   lastPriceUsd: undefined,
+    // },
   ])
 
   const handleRowClick = (state: any) => () => {
     console.log('handleRowClick', { state })
   }
 
-  return data.length > 0 ? (
+  return (
     <FlexBox width='100%' direction='column' gap={3}>
       <TableWrapper>
         <Table
@@ -138,12 +138,22 @@ const Collections: React.FC<Props> = ({ address }) => {
           })}
           getCellProps={() => ({ style: { background: '#023044' } })}
         />
+        {data.length === 0 && (
+          <FlexBox
+            width='100%'
+            height='80px'
+            alignItems='center'
+            justifyContent='center'
+            borderRadius='8px'
+            background='#053549'
+          >
+            <Typography variant='primary' size='lg' color='dark-blue'>
+              This account holds no Impact Assets
+            </Typography>
+          </FlexBox>
+        )}
       </TableWrapper>
     </FlexBox>
-  ) : (
-    <Typography variant='secondary' size='2xl' color='dark-blue'>
-      No Collections
-    </Typography>
   )
 }
 

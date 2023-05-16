@@ -122,12 +122,12 @@ export const ControlPanelSection = styled.div`
       background: #ffffff;
 
       & > path {
-        fill: ${(props): string => props.theme.ixoBlue};
-        stroke: ${(props): string => props.theme.ixoBlue};
+        fill: ${(props): string => props.theme.ixoNewBlue};
+        stroke: ${(props): string => props.theme.ixoNewBlue};
       }
       & > line,
       & > circle {
-        stroke: ${(props): string => props.theme.ixoBlue};
+        stroke: ${(props): string => props.theme.ixoNewBlue};
       }
     }
     .arrow-icon {
