@@ -167,7 +167,7 @@
           "hidden": false,
           "name": "Project Type",
           "multiSelect": true,
-          "selectedTags": ["Candidate"],
+          "selectedTags": [],
           "tags": [
             {
               "@type": "Tag",
@@ -2652,7 +2652,7 @@
           "hidden": false,
           "name": "DAO Type",
           "multiSelect": false,
-          "selectedTags": ["Marketplace"],
+          "selectedTags": [],
           "tags": [
             {
               "@type": "Tag",

@@ -8,6 +8,7 @@ import { Config as PreProposeConfig } from '@ixo/impactxclient-sdk/types/codegen
 import {
   Config as ProposalConfig,
   ProposalResponse,
+  VoteInfo,
 } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
 import { Member } from 'types/dao'
 
@@ -23,6 +24,7 @@ export type DaoGroup = {
     proposals: ProposalResponse[]
     preProposeConfig: PreProposeConfig
     proposalConfig: ProposalConfig
+    votes: VoteInfo[]
   }
   votingModule: {
     votingModuleAddress: string

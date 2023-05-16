@@ -18,6 +18,7 @@ export default function useCurrentDao(): {
   daoGroups: CurrentDao
   daoGroupAddresses: string[]
   selectedGroups: CurrentDao
+  selectedGroupsArr: DaoGroup[]
   myGroups: CurrentDao
   selectDaoGroup: (coreAddress: string, multi?: boolean) => void
   setDaoGroup: (coreAddress: string) => void
@@ -46,6 +47,8 @@ export default function useCurrentDao(): {
       ),
     [daoGroups],
   )
+  const selectedGroupsArr = useMemo(() => Object.values(selectedGroups), [selectedGroups])
+
   const myGroups = useMemo(
     () =>
       Object.fromEntries(
@@ -176,6 +179,7 @@ export default function useCurrentDao(): {
     daoGroups,
     daoGroupAddresses,
     selectedGroups,
+    selectedGroupsArr,
     myGroups,
     selectDaoGroup,
     setDaoGroup,
@@ -193,6 +197,8 @@ export default function useCurrentDao(): {
 export function useCurrentDaoGroup(groupAddress: string) {
   const daoGroup: DaoGroup = useAppSelector(selectDaoGroupByAddress(groupAddress))
   const { cosmWasmClient, address } = useAccount()
+
+  const type = daoGroup?.type
 
   const proposalModuleAddress = useMemo(() => daoGroup?.proposalModule.proposalModuleAddress, [daoGroup])
   const preProposalContractAddress = useMemo(() => daoGroup?.proposalModule.preProposalContractAddress, [daoGroup])
@@ -274,7 +280,10 @@ export function useCurrentDaoGroup(groupAddress: string) {
     return daoGroup?.votingModule.contractName
   }, [daoGroup])
 
+  const votes = useMemo(() => daoGroup?.proposalModule.votes, [daoGroup])
+
   return {
+    type,
     daoGroup,
     daoProposalSingleClient,
     daoPreProposeSingleClient,
@@ -282,6 +291,8 @@ export function useCurrentDaoGroup(groupAddress: string) {
     isParticipating,
     proposalConfig,
     depositInfo,
+    proposals,
+    votes,
     myVotingPower,
     myProposals,
     members,

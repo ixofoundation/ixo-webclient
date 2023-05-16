@@ -1,6 +1,6 @@
 import { Box, FlexBox, GridContainer, SvgBox, theme } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
-import React, { useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import styled from 'styled-components'
 import { ReactComponent as PieIcon } from 'assets/images/icon-pie.svg'
 import { ReactComponent as ClaimIcon } from 'assets/images/icon-claim.svg'
@@ -12,6 +12,11 @@ import { STATUSES } from '../../Toolbar/Toolbar'
 import { MemberDetailCard } from '../MemberDetailCard'
 import { useHistory } from 'react-router-dom'
 import { Avatar } from '../../../../../Components'
+import useCurrentDao, { useCurrentDaoGroup } from 'hooks/currentDao'
+import { contracts } from '@ixo/impactxclient-sdk'
+import { convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
+import { useAccount } from 'hooks/account'
+import CurrencyFormat from 'react-currency-format'
 
 const Wrapper = styled(FlexBox)<{ focused: boolean }>`
   ${({ theme, focused }) => focused && `border-color: ${theme.ixoLightBlue};`}
@@ -47,8 +52,46 @@ interface Props {
 
 const MemberCard: React.FC<Props> = ({ member, selected, onSelectMember }): JSX.Element => {
   const history = useHistory()
-  const { avatar, name, addr, role, status, staking, votes, proposals, votingPower } = member
+  const { cosmWasmClient, address } = useAccount()
+  const { selectedGroupsArr } = useCurrentDao()
+  const { type, daoGroup, proposals, votes, daoVotingCw20StakedClient } = useCurrentDaoGroup(
+    selectedGroupsArr[0].coreAddress,
+  )
+  const { avatar, name, addr, role, status } = member
   const [detailView, setDetailView] = useState(false)
+  const [userStakings, setUserStakings] = useState('0')
+
+  const { userVotingPower, userProposals, userVotes } = useMemo(() => {
+    const totalWeight = daoGroup.votingModule.totalWeight
+    const userWeight = daoGroup.votingModule.members.find((member) => addr === member.addr)?.weight ?? 0
+
+    const userVotingPower = userWeight / totalWeight
+    const userProposals = proposals.filter(({ proposal }: any) => proposal.proposer === addr).length
+    const userVotes = votes.filter((vote) => vote.voter === addr).length
+
+    return { userVotingPower, userProposals, userVotes }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [daoGroup, addr, proposals, votes])
+
+  useEffect(() => {
+    if (daoVotingCw20StakedClient && type === 'staking') {
+      ;(async () => {
+        const stakingContract = await daoVotingCw20StakedClient.stakingContract()
+        const cw20StakeClient = new contracts.Cw20Stake.Cw20StakeClient(cosmWasmClient, address, stakingContract)
+        const { value: microStakedValue } = await cw20StakeClient.stakedValue({ address: addr })
+
+        const tokenContract = await daoVotingCw20StakedClient.tokenContract()
+        const cw20BaseClient = new contracts.Cw20Base.Cw20BaseClient(cosmWasmClient, address, tokenContract)
+        const tokenInfo = await cw20BaseClient.tokenInfo()
+        const stakedValue = convertMicroDenomToDenomWithDecimals(microStakedValue, tokenInfo.decimals).toString()
+        setUserStakings(stakedValue)
+      })()
+    }
+    return () => {
+      setUserStakings('0')
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [daoVotingCw20StakedClient, cosmWasmClient, address, type])
 
   const handleMemberView = () => {
     history.push(`${history.location.pathname}/${addr}`)
@@ -94,6 +137,7 @@ const MemberCard: React.FC<Props> = ({ member, selected, onSelectMember }): JSX.
           setDetailView(true)
           event.stopPropagation()
         }}
+        display='none'
       >
         <ThreeDot />
       </Box>
@@ -119,23 +163,31 @@ const MemberCard: React.FC<Props> = ({ member, selected, onSelectMember }): JSX.
               style: 'percent',
               minimumFractionDigits: 0,
               maximumFractionDigits: 2,
-            }).format(votingPower ?? 0)}
+            }).format(userVotingPower ?? 0)}
           </Typography>
         </FlexBox>
 
         <FlexBox alignItems='center' gap={2} lineHeight='0px'>
-          <SvgBox svgWidth={6} svgHeight={6} color={theme.ixoLightBlue}>
-            <PieIcon />
-          </SvgBox>
-          <Typography size='sm' color='white' weight='medium'>
-            {new Intl.NumberFormat(undefined, {
-              notation: 'compact',
-              compactDisplay: 'short',
-              minimumFractionDigits: 2,
-            })
-              .format(staking ?? 0)
-              .replace(/\D00$/, '')}
-          </Typography>
+          {type === 'staking' && (
+            <>
+              <SvgBox svgWidth={6} svgHeight={6} color={theme.ixoLightBlue}>
+                <PieIcon />
+              </SvgBox>
+              <Typography size='sm' color='white' weight='medium'>
+                <CurrencyFormat displayType={'text'} value={userStakings} thousandSeparator />
+              </Typography>
+            </>
+          )}
+          {type !== 'staking' && (
+            <>
+              <SvgBox svgWidth={6} svgHeight={6} color={theme.ixoDarkBlue}>
+                <PieIcon />
+              </SvgBox>
+              <Typography size='sm' color='white' weight='medium'>
+                n/a
+              </Typography>
+            </>
+          )}
         </FlexBox>
 
         <FlexBox alignItems='center' gap={2} lineHeight='0px'>
@@ -143,7 +195,7 @@ const MemberCard: React.FC<Props> = ({ member, selected, onSelectMember }): JSX.
             <MultisigIcon />
           </SvgBox>
           <Typography size='sm' color='white' weight='medium'>
-            {votes ?? 0}
+            {userVotes ?? 0}
           </Typography>
         </FlexBox>
 
@@ -152,7 +204,7 @@ const MemberCard: React.FC<Props> = ({ member, selected, onSelectMember }): JSX.
             <PaperIcon />
           </SvgBox>
           <Typography size='sm' color='white' weight='medium'>
-            {proposals ?? 0}
+            {userProposals ?? 0}
           </Typography>
         </FlexBox>
       </GridContainer>
