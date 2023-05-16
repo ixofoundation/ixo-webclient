@@ -14,6 +14,7 @@ import { Navigator } from './Navigator'
 // import { OverviewIndividualMember } from './OverviewIndividualMember'
 import { Membership } from './Membership'
 import { Governance } from './Governance'
+import { IndividualMember } from './IndividualMember'
 
 const DAODashboard: React.FC = (): JSX.Element => {
   const { entityId } = useParams<{ entityId: string }>()
@@ -35,6 +36,7 @@ const DAODashboard: React.FC = (): JSX.Element => {
       icon: requireCheckDefault(require('assets/img/sidebar/agents.svg')),
       sdg: 'Membership',
       tooltip: 'Membership',
+      strict: true,
     },
     {
       url: `/entity/${entityId}/dashboard/governance`,
@@ -108,6 +110,7 @@ const DAODashboard: React.FC = (): JSX.Element => {
     >
       <Route exact path='/entity/:entityId/dashboard/navigator' component={Navigator} />
       <Route exact path='/entity/:entityId/dashboard/membership' component={Membership} />
+      <Route exact path='/entity/:entityId/dashboard/membership/:address' component={IndividualMember} />
       {/* <Route
         exact
         path='/entity/:entityId/dashboard/overview/:coreAddress/:address'

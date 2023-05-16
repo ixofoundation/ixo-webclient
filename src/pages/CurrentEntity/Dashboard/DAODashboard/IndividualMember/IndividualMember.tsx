@@ -3,17 +3,19 @@ import { FlexBox, GridContainer, GridItem } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { useQuery } from 'hooks/window'
 import React, { useMemo } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 import { AssetDetailCard, Card } from '../../../Components'
-import { Groups, UserStakes, UserVotingPower, UserActivity, UserProposals } from '../Components'
+import { Groups, UserStakes, UserVotingPower, UserProposals, UserActivity } from '../Components'
 import { ReactComponent as ArrowLeftIcon } from 'assets/images/icon-arrow-left.svg'
 import { ReactComponent as StakesIcon } from 'assets/images/icon-stakes.svg'
 import { ReactComponent as ProposalsIcon } from 'assets/images/icon-proposals.svg'
 import { ReactComponent as PieIcon } from 'assets/images/icon-pie.svg'
 import useCurrentDao from 'hooks/currentDao'
 import { DaoGroup } from 'redux/currentEntity/dao/currentDao.types'
+import { truncateString } from 'utils/formatters'
 
-const MyParticipation: React.FC = () => {
+const IndividualMember: React.FC = () => {
+  const { address } = useParams<{ address: string }>()
   const history = useHistory()
   const { selectedGroups, selectDaoGroup } = useCurrentDao()
   const selectedGroup: DaoGroup | undefined = useMemo(() => {
@@ -31,7 +33,7 @@ const MyParticipation: React.FC = () => {
       {selectedGroup && (
         <>
           <Typography variant='secondary' size='5xl' weight='normal' color='dark-blue'>
-            My participation in the{' '}
+            {truncateString(address, 10, 'middle')} participation in the{' '}
             <Typography variant='secondary' size='5xl' weight='normal' color='white'>
               {selectedGroup.config.name}
             </Typography>{' '}
@@ -43,11 +45,11 @@ const MyParticipation: React.FC = () => {
             <Card
               className={clxs({ 'd-none': expand !== 'token' })}
               icon={<StakesIcon />}
-              label='My Stakes'
+              label='Stakes'
               actionIcon={<ArrowLeftIcon />}
               onAction={() => history.goBack()}
             >
-              <UserStakes show={expand === 'token'} coreAddress={selectedGroup.coreAddress} />
+              <UserStakes show={expand === 'token'} coreAddress={selectedGroup.coreAddress} userAddress={address} />
             </Card>
           )}
           {/* expand === 'votingPower' */}
@@ -55,22 +57,26 @@ const MyParticipation: React.FC = () => {
             <Card
               className={clxs({ 'd-none': expand !== 'votingPower' })}
               icon={<PieIcon />}
-              label='My Voting Power'
+              label='Voting Power'
               actionIcon={<ArrowLeftIcon />}
               onAction={() => history.goBack()}
             >
-              <UserVotingPower show={expand === 'votingPower'} coreAddress={selectedGroup.coreAddress} />
+              <UserVotingPower
+                show={expand === 'votingPower'}
+                coreAddress={selectedGroup.coreAddress}
+                userAddress={address}
+              />
             </Card>
           )}
           {/* expand === 'proposal' */}
           <Card
             className={clxs({ 'd-none': expand !== 'proposal' })}
             icon={<ProposalsIcon />}
-            label='My Proposals'
+            label='Proposals'
             actionIcon={<ArrowLeftIcon />}
             onAction={() => history.goBack()}
           >
-            <UserProposals show={expand === 'proposal'} coreAddress={selectedGroup.coreAddress} />
+            <UserProposals show={expand === 'proposal'} coreAddress={selectedGroup.coreAddress} userAddress={address} />
           </Card>
           {/* token && tokenDetail */}
           {selectedGroup.type === 'staking' && <AssetDetailCard show={token && tokenDetail} {...tokenDetail} />}
@@ -87,30 +93,39 @@ const MyParticipation: React.FC = () => {
               {selectedGroup.type === 'staking' && (
                 <Card
                   icon={<StakesIcon />}
-                  label='My Stakes'
+                  label='Stakes'
                   onAction={() => history.push({ pathname: history.location.pathname, search: `?expand=token` })}
                 >
-                  <UserStakes show={!expand && !token} coreAddress={selectedGroup.coreAddress} />
+                  <UserStakes show={!expand && !token} coreAddress={selectedGroup.coreAddress} userAddress={address} />
                 </Card>
               )}
 
               {selectedGroup.type === 'membership' && (
                 <Card
                   icon={<PieIcon />}
-                  label='My Voting Power'
+                  label='Voting Power'
                   onAction={() => history.push({ pathname: history.location.pathname, search: `?expand=votingPower` })}
                 >
-                  <UserVotingPower show={!expand && !token} coreAddress={selectedGroup.coreAddress} />
+                  <UserVotingPower
+                    show={!expand && !token}
+                    coreAddress={selectedGroup.coreAddress}
+                    userAddress={address}
+                  />
                 </Card>
               )}
             </GridItem>
             <GridItem gridArea='b'>
               <Card
                 icon={<ProposalsIcon />}
-                label='My Proposals'
+                label='Proposals'
                 onAction={() => history.push({ pathname: history.location.pathname, search: `?expand=proposal` })}
               >
-                <UserProposals show={!expand && !token} coreAddress={selectedGroup.coreAddress} full={false} />
+                <UserProposals
+                  show={!expand && !token}
+                  coreAddress={selectedGroup.coreAddress}
+                  userAddress={address}
+                  full={false}
+                />
               </Card>
             </GridItem>
             <GridItem gridArea='c'>
@@ -123,4 +138,4 @@ const MyParticipation: React.FC = () => {
   )
 }
 
-export default MyParticipation
+export default IndividualMember

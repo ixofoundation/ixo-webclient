@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { Card, TabButton } from '../../../../Components'
+import { Card, TabButton } from '../../../Components'
 import { Table } from 'components/Table'
 import { Box, FlexBox, SvgBox, theme } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
@@ -113,9 +113,8 @@ const columns = [
   },
 ]
 
-const MyActivity: React.FC = (): JSX.Element => {
+const UserActivity: React.FC = (): JSX.Element => {
   const { data } = useGetTransactions('', [])
-  console.log('useGetTransactions', data)
 
   const [tab, setTab] = useState('Transactions')
   return (
@@ -150,4 +149,4 @@ const MyActivity: React.FC = (): JSX.Element => {
   )
 }
 
-export default MyActivity
+export default UserActivity

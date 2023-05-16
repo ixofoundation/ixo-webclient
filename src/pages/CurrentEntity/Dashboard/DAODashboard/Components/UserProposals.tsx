@@ -2,6 +2,7 @@ import { FlexBox, theme } from 'components/App/App.styles'
 import { Table } from 'components/Table'
 import { Typography } from 'components/Typography'
 import ProgressBar from 'components/Widgets/ProgressBar/ProgressBar'
+import { useAccount } from 'hooks/account'
 import { useCurrentDaoGroup } from 'hooks/currentDao'
 import { Button } from 'pages/CreateEntity/Components'
 import React, { useMemo } from 'react'
@@ -69,15 +70,26 @@ const renderTableHeader = (name: string, justifyContent = 'flex-start') => (
 interface Props {
   show?: boolean
   coreAddress: string
+  userAddress?: string
   full?: boolean
 }
 
-const MyProposals: React.FC<Props> = ({ show, coreAddress, full = true }) => {
+const UserProposals: React.FC<Props> = ({ show, coreAddress, userAddress, full = true }) => {
   const history = useHistory()
   const { entityId } = useParams<{ entityId: string }>()
-  const { myProposals, numOfMembers, isParticipating } = useCurrentDaoGroup(coreAddress)
+  const { address } = useAccount()
+  const { daoGroup, proposals, numOfMembers } = useCurrentDaoGroup(coreAddress)
 
-  const sortedMyProposals = myProposals.sort((a, b) => {
+  const isParticipating = useMemo(() => {
+    return daoGroup.votingModule.members.some(({ addr }) => addr === (userAddress || address))
+  }, [daoGroup, address, userAddress])
+
+  const userProposals = useMemo(() => {
+    const userProposals = proposals.filter(({ proposal }: any) => proposal.proposer === (userAddress || address))
+    return userProposals
+  }, [proposals, address, userAddress])
+
+  const sortedUserProposals = userProposals.sort((a, b) => {
     if (a.id < b.id) {
       return 1
     } else if (a.id > b.id) {
@@ -161,12 +173,12 @@ const MyProposals: React.FC<Props> = ({ show, coreAddress, full = true }) => {
 
   return show ? (
     <>
-      {sortedMyProposals.length > 0 && (
+      {sortedUserProposals.length > 0 ? (
         <FlexBox width='100%' direction='column' gap={3}>
           <TableWrapper>
             <Table
               columns={columns}
-              data={full ? sortedMyProposals : sortedMyProposals.slice(0, 2)}
+              data={full ? sortedUserProposals : sortedUserProposals.slice(0, 2)}
               getRowProps={(state) => ({
                 style: { height: 70, cursor: 'pointer' },
                 onClick: handleRowClick(state),
@@ -175,21 +187,27 @@ const MyProposals: React.FC<Props> = ({ show, coreAddress, full = true }) => {
             />
           </TableWrapper>
         </FlexBox>
+      ) : (
+        <Typography variant='secondary' size='2xl' color='dark-blue'>
+          No proposals.
+        </Typography>
       )}
-      <Button
-        variant='secondary'
-        onClick={handleNewProposal}
-        size='flex'
-        height={40}
-        textSize='base'
-        textTransform='capitalize'
-        textWeight='medium'
-        disabled={!isParticipating}
-      >
-        New Proposal
-      </Button>
+      {!userAddress && (
+        <Button
+          variant='secondary'
+          onClick={handleNewProposal}
+          size='flex'
+          height={40}
+          textSize='base'
+          textTransform='capitalize'
+          textWeight='medium'
+          disabled={!isParticipating}
+        >
+          New Proposal
+        </Button>
+      )}
     </>
   ) : null
 }
 
-export default MyProposals
+export default UserProposals
