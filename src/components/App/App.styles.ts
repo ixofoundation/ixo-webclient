@@ -280,6 +280,7 @@ const htmlElementCss = css<HTMLDivProps>`
     ${({ hover }) => hover?.background && `background: ${hover.background};`}
     ${({ hover }) => hover?.borderWidth && `border-width: ${hover.borderWidth};`}
     ${({ hover }) => hover?.borderColor && `border-color: ${hover.borderColor};`}
+    ${({ hover }) => hover?.borderStyle && `border-style: ${hover.borderStyle};`}
     ${({ hover }) => hover?.color && `color: ${hover.color};`}
   }
 

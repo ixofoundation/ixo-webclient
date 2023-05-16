@@ -32,6 +32,10 @@ export const ControlPanelWrapper = styled.div`
   overflow-x: hidden;
   overflow-y: auto;
 
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
   // ::-webkit-scrollbar {
   //   width: 8px;
   // }
@@ -39,7 +43,6 @@ export const ControlPanelWrapper = styled.div`
   //   background: #c1cbd0;
   //   border-radius: 8px;
   // }
-
   @media (min-width: ${deviceWidth.mobile}px) {
     background: transparent;
   }
