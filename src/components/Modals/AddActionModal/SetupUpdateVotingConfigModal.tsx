@@ -1,10 +1,12 @@
 import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
+import { NATIVE_DECIMAL } from 'constants/chains'
 import { useCurrentDaoGroup } from 'hooks/currentDao'
 import { Dropdown2, NumberCounter, Switch } from 'pages/CreateEntity/Components'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { TProposalActionModel } from 'types/protocol'
+import { convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
 import { thresholdToTQData } from 'utils/dao'
 import { TitleAndDescription } from './Component'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
@@ -62,9 +64,52 @@ const SetupUpdateVotingConfigModal: React.FC<Props> = ({ open, action, onClose, 
     return true
   }, [formData])
 
+  const decodeCosmosMsg = (msg: Record<string, any>) => {
+    if (
+      'threshold' in msg &&
+      ('threshold_quorum' in msg.threshold || 'absolute_percentage' in msg.threshold) &&
+      'max_voting_period' in msg &&
+      'only_members_execute' in msg &&
+      'allow_revoting' in msg &&
+      'dao' in msg
+    ) {
+      const config = msg
+      const onlyMembersExecute = config.only_members_execute
+      const depositRequired = !!config.deposit_info
+      const depositInfo = config.deposit_info
+        ? {
+            deposit: convertMicroDenomToDenomWithDecimals(Number(config.deposit_info.deposit), NATIVE_DECIMAL),
+            refundFailedProposals: config.deposit_info.refund_failed_proposals,
+          }
+        : undefined
+
+      if (!('time' in config.max_voting_period)) {
+        return { match: false }
+      }
+
+      const proposalDuration = config.max_voting_period.time
+      const proposalDurationUnits = 'seconds'
+
+      const allowRevoting = !!config.allow_revoting
+
+      return {
+        onlyMembersExecute,
+        depositRequired,
+        depositInfo,
+        proposalDuration,
+        proposalDurationUnits,
+        allowRevoting,
+        ...thresholdToTQData(config.threshold),
+      }
+    } else {
+      return msg
+    }
+  }
+
   useEffect(() => {
     if (action.data) {
-      setFormData(action.data)
+      const data: any = decodeCosmosMsg(action.data)
+      setFormData(data)
     } else if (proposalConfig) {
       setFormData({
         onlyMembersExecute: proposalConfig.only_members_execute,

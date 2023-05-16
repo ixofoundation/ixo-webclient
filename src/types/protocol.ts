@@ -628,13 +628,29 @@ export const ProposalActionConfigMap = {
     icon: MemberGroupIcon,
     setupModal: SetupManageMembersModal,
   },
-  'wasm.execute.update_config': {
-    type: 'wasm.execute.update_config',
+  'wasm.execute.update_config.config': {
+    type: 'wasm.execute.update_config.config',
     group: 'Groups',
     text: 'Update Info',
     description: 'Update your DAO’s name, image and description.',
     icon: InfoIcon,
     setupModal: SetupUpdateDAOInfoModal,
+  },
+  'wasm.execute.update_config.proposal': {
+    type: 'wasm.execute.update_config.proposal',
+    group: 'Groups',
+    text: 'Update Proposal Submission Config',
+    description: 'Update the proposal submission parameters for your DAO.',
+    icon: AnnouncementIcon,
+    setupModal: SetupUpdateProposalSubmissionConfigModal,
+  },
+  'wasm.execute.update_config.voting': {
+    type: 'wasm.execute.update_config.voting',
+    group: 'Groups',
+    text: 'Update Voting Config',
+    description: 'Update the voting parameters for your DAO.',
+    icon: PaperIcon,
+    setupModal: SetupUpdateVotingConfigModal,
   },
 }
 
