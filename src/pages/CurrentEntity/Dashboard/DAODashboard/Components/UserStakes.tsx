@@ -3,7 +3,7 @@ import { FlexBox } from 'components/App/App.styles'
 import { Table } from 'components/Table'
 import { Typography } from 'components/Typography'
 import { Button } from 'pages/CreateEntity/Components'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import CurrencyFormat from 'react-currency-format'
 import styled from 'styled-components'
 import { contracts } from '@ixo/impactxclient-sdk'
@@ -122,14 +122,19 @@ const columns = [
 interface Props {
   show?: boolean
   coreAddress: string
+  userAddress?: string
 }
 
-const MyStakes: React.FC<Props> = ({ show, coreAddress }) => {
+const UserStakes: React.FC<Props> = ({ show, coreAddress, userAddress }) => {
   const history = useHistory()
   const { cosmWasmClient, address } = useAccount()
-  const { daoGroup, daoVotingCw20StakedClient, isParticipating } = useCurrentDaoGroup(coreAddress)
+  const { daoGroup, daoVotingCw20StakedClient } = useCurrentDaoGroup(coreAddress)
   const [data, setData] = useState<any[]>([])
   const [groupStakingModalOpen, setGroupStakingModalOpen] = useState(false)
+
+  const isParticipating = useMemo(() => {
+    return daoGroup?.votingModule.members.some(({ addr }) => addr === (userAddress || address))
+  }, [daoGroup?.votingModule.members, address, userAddress])
 
   /**
    * @get
@@ -145,7 +150,7 @@ const MyStakes: React.FC<Props> = ({ show, coreAddress }) => {
 
     const stakingContract = await daoVotingCw20StakedClient.stakingContract()
     const cw20StakeClient = new contracts.Cw20Stake.Cw20StakeClient(cosmWasmClient, address, stakingContract)
-    const { value: microStakedValue } = await cw20StakeClient.stakedValue({ address })
+    const { value: microStakedValue } = await cw20StakeClient.stakedValue({ address: userAddress || address })
 
     const tokenContract = await daoVotingCw20StakedClient.tokenContract()
     const cw20BaseClient = new contracts.Cw20Base.Cw20BaseClient(cosmWasmClient, address, tokenContract)
@@ -163,7 +168,7 @@ const MyStakes: React.FC<Props> = ({ show, coreAddress }) => {
         priceChangePercent: undefined,
       },
     ])
-  }, [address, cosmWasmClient, daoVotingCw20StakedClient])
+  }, [address, userAddress, cosmWasmClient, daoVotingCw20StakedClient])
 
   useEffect(() => {
     update()
@@ -197,20 +202,22 @@ const MyStakes: React.FC<Props> = ({ show, coreAddress }) => {
         </FlexBox>
       ) : (
         <Typography variant='secondary' size='2xl' color='dark-blue'>
-          You’re not staking any tokens yet.
+          No staking tokens.
         </Typography>
       )}
-      <Button
-        variant='secondary'
-        onClick={() => setGroupStakingModalOpen(true)}
-        size='flex'
-        height={40}
-        textSize='base'
-        textTransform='capitalize'
-        textWeight='medium'
-      >
-        Add Stake
-      </Button>
+      {!userAddress && (
+        <Button
+          variant='secondary'
+          onClick={() => setGroupStakingModalOpen(true)}
+          size='flex'
+          height={40}
+          textSize='base'
+          textTransform='capitalize'
+          textWeight='medium'
+        >
+          Add Stake
+        </Button>
+      )}
       {groupStakingModalOpen && (
         <GroupStakingModal
           open={groupStakingModalOpen}
@@ -223,4 +230,4 @@ const MyStakes: React.FC<Props> = ({ show, coreAddress }) => {
   ) : null
 }
 
-export default MyStakes
+export default UserStakes

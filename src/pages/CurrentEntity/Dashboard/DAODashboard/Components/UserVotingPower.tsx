@@ -2,16 +2,32 @@ import { FlexBox, theme } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { useCurrentDaoGroup } from 'hooks/currentDao'
 import { Button } from 'pages/CreateEntity/Components'
-import React from 'react'
+import React, { useMemo } from 'react'
 import PieChart from 'components/Widgets/PieChart/PieChart'
+import { useAccount } from 'hooks/account'
 
 interface Props {
   show?: boolean
   coreAddress: string
+  userAddress?: string
 }
 
-const MyVotingPower: React.FC<Props> = ({ show, coreAddress }) => {
-  const { isParticipating, myVotingPower } = useCurrentDaoGroup(coreAddress)
+const UserVotingPower: React.FC<Props> = ({ show, coreAddress, userAddress }) => {
+  const { address } = useAccount()
+  const { daoGroup } = useCurrentDaoGroup(coreAddress)
+
+  const isParticipating = useMemo(() => {
+    return daoGroup.votingModule.members.some(({ addr }) => addr === (userAddress || address))
+  }, [daoGroup.votingModule.members, address, userAddress])
+
+  const userVotingPower = useMemo(() => {
+    const totalWeight = daoGroup.votingModule.totalWeight
+    const userWeight =
+      daoGroup.votingModule.members.find((member) => member.addr === (userAddress || address))?.weight ?? 0
+
+    const userVotingPower = userWeight / totalWeight
+    return userVotingPower
+  }, [userAddress, address, daoGroup])
 
   return show ? (
     <>
@@ -19,8 +35,8 @@ const MyVotingPower: React.FC<Props> = ({ show, coreAddress }) => {
         <FlexBox width='100%'>
           <PieChart
             data={[
-              { name: 'Rest Voting Power', value: 1 - myVotingPower, color: theme.ixoDarkBlue },
-              { name: 'My Voting Power', value: myVotingPower, color: theme.ixoNewBlue },
+              { name: 'Rest Voting Power', value: 1 - userVotingPower, color: theme.ixoDarkBlue },
+              { name: 'My Voting Power', value: userVotingPower, color: theme.ixoNewBlue },
             ]}
             descriptor={
               <FlexBox direction='column' alignItems='center'>
@@ -29,7 +45,7 @@ const MyVotingPower: React.FC<Props> = ({ show, coreAddress }) => {
                     style: 'percent',
                     minimumFractionDigits: 0,
                     maximumFractionDigits: 2,
-                  }).format(myVotingPower ?? 0)}
+                  }).format(userVotingPower)}
                 </Typography>
                 <Typography size='sm'>voting power</Typography>
               </FlexBox>
@@ -57,4 +73,4 @@ const MyVotingPower: React.FC<Props> = ({ show, coreAddress }) => {
   ) : null
 }
 
-export default MyVotingPower
+export default UserVotingPower
