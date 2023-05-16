@@ -1,13 +1,15 @@
 import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
-import { NATIVE_MICRODENOM } from 'constants/chains'
+import { NATIVE_DECIMAL, NATIVE_DENOM, NATIVE_MICRODENOM } from 'constants/chains'
 import { useCurrentDaoGroup } from 'hooks/currentDao'
 import { Button, Dropdown2, Input, Switch } from 'pages/CreateEntity/Components'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { DepositRefundPolicy } from 'types/dao'
+import { DepositRefundPolicy, UncheckedDepositInfo } from 'types/dao'
 import { TProposalActionModel } from 'types/protocol'
-import { GenericToken } from 'types/tokens'
+import { GenericToken, TokenType } from 'types/tokens'
+import { convertMicroDenomToDenomWithDecimals, convertDenomToMicroDenomWithDecimals } from 'utils/conversions'
+import { objectMatchesStructure } from 'utils/validation'
 import { TitleAndDescription } from './Component'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 
@@ -28,7 +30,7 @@ export interface UpdatePreProposeConfigData {
 export const initialPreProposeConfigState: UpdatePreProposeConfigData = {
   depositRequired: false, //  from previous
   depositInfo: {
-    amount: '1',
+    amount: '1000000',
     type: 'native',
     denomOrAddress: NATIVE_MICRODENOM,
     token: undefined,
@@ -44,7 +46,12 @@ interface Props {
   onSubmit?: (data: any) => void
 }
 
-const SetupUpdateContractAdminModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
+const SetupUpdateProposalSubmissionConfigModal: React.FC<Props> = ({
+  open,
+  action,
+  onClose,
+  onSubmit,
+}): JSX.Element => {
   const { coreAddress } = useParams<{ coreAddress: string }>()
   const { daoGroup } = useCurrentDaoGroup(coreAddress)
   const preProposeConfig = daoGroup?.proposalModule.preProposeConfig
@@ -55,9 +62,61 @@ const SetupUpdateContractAdminModal: React.FC<Props> = ({ open, action, onClose,
     [formData],
   )
 
+  const decodeCosmosMsg = (msg: Record<string, any>) => {
+    const isUpdatePreProposeConfig = objectMatchesStructure(msg, {
+      deposit_info: {},
+      open_proposal_submission: {},
+    })
+
+    if (!isUpdatePreProposeConfig) {
+      return msg
+    }
+
+    const configDepositInfo = msg?.deposit_info as UncheckedDepositInfo | null | undefined
+
+    const anyoneCanPropose = !!msg?.open_proposal_submission
+
+    const token = {
+      type: TokenType.Native,
+      denomOrAddress: NATIVE_MICRODENOM,
+      symbol: NATIVE_DENOM,
+      decimals: NATIVE_DECIMAL,
+      imageUrl: undefined,
+    }
+
+    if (!configDepositInfo) {
+      return {
+        ...initialPreProposeConfigState,
+        anyoneCanPropose,
+      }
+    }
+
+    const type: UpdatePreProposeConfigData['depositInfo']['type'] =
+      'voting_module_token' in configDepositInfo.denom
+        ? 'voting_module_token'
+        : 'native' in configDepositInfo.denom.token.denom
+        ? 'native'
+        : 'cw20'
+
+    const depositInfo: UpdatePreProposeConfigData['depositInfo'] = {
+      amount: configDepositInfo.amount,
+      type,
+      denomOrAddress: token.denomOrAddress,
+      token,
+      refundPolicy: configDepositInfo.refund_policy,
+    }
+
+    return {
+      depositRequired: true,
+      depositInfo,
+      anyoneCanPropose,
+    }
+  }
+
   useEffect(() => {
     if (action.data) {
-      setFormData({ ...action.data })
+      const data: any = decodeCosmosMsg(action.data)
+      setFormData(data)
     } else if (preProposeConfig) {
       setFormData({
         depositRequired: !!preProposeConfig.deposit_info,
@@ -118,8 +177,13 @@ const SetupUpdateContractAdminModal: React.FC<Props> = ({ open, action, onClose,
         {formData.depositRequired && (
           <FlexBox width='100%' gap={4}>
             <Input
-              inputValue={formData.depositInfo.amount}
-              handleChange={(value) => handleUpdateFormData('depositInfo', { ...formData.depositInfo, amount: value })}
+              inputValue={convertMicroDenomToDenomWithDecimals(formData.depositInfo.amount, NATIVE_DECIMAL)}
+              handleChange={(value) =>
+                handleUpdateFormData('depositInfo', {
+                  ...formData.depositInfo,
+                  amount: convertDenomToMicroDenomWithDecimals(value, NATIVE_DECIMAL),
+                })
+              }
               style={{ textAlign: 'right' }}
             />
             {/* TODO: missing options */}
@@ -203,4 +267,4 @@ const SetupUpdateContractAdminModal: React.FC<Props> = ({ open, action, onClose,
   )
 }
 
-export default SetupUpdateContractAdminModal
+export default SetupUpdateProposalSubmissionConfigModal
