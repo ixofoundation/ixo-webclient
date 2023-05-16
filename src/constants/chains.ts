@@ -5,6 +5,7 @@ export const ExchangeConfigUrl = process.env.REACT_APP_CONFIG_EXCHANGE_URL
 
 export const NATIVE_MICRODENOM = 'uixo'
 export const NATIVE_DENOM = 'ixo'
+export const NATIVE_DECIMAL = 6
 
 export const CHAINS = {
   'pandora-8': {

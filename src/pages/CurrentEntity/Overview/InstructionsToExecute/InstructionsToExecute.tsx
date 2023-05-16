@@ -49,9 +49,18 @@ const InstructionsToExecute: React.FC = () => {
               if ('wasm' in msg && 'execute' in msg.wasm && 'msg' in msg.wasm.execute) {
                 const encodedMessage = parseEncodedMessage(msg.wasm.execute.msg)
 
-                console.log(111111, encodedMessage)
-                const key = Object.keys(encodedMessage)[0]
-                const value = Object.values(encodedMessage)[0]
+                let key: string = Object.keys(encodedMessage)[0]
+                const value: any = Object.values(encodedMessage)[0]
+
+                if (key === 'update_config') {
+                  if ('config' in value) {
+                    key += '.config'
+                  } else if ('deposit_info' in value) {
+                    key += '.proposal'
+                  } else if ('threshold' in value) {
+                    key += '.voting'
+                  }
+                }
 
                 const proposalActionDetail = ProposalActionConfigMap[`wasm.execute.${key}`]
                 return {
