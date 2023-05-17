@@ -236,6 +236,10 @@ export function useCurrentDaoGroup(groupAddress: string) {
 
   const votes = useMemo(() => daoGroup?.proposalModule.votes, [daoGroup])
 
+  const anyoneCanPropose = useMemo(() => {
+    return daoGroup?.proposalModule.preProposeConfig.open_proposal_submission
+  }, [daoGroup])
+
   return {
     type,
     daoGroup,
@@ -252,5 +256,6 @@ export function useCurrentDaoGroup(groupAddress: string) {
     members,
     numOfMembers,
     contractName,
+    anyoneCanPropose,
   }
 }

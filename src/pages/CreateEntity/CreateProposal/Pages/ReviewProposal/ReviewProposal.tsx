@@ -41,7 +41,8 @@ const ReviewProposal: React.FC = () => {
   const { entityId, coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
   const { address, cosmWasmClient } = useAccount()
   const { name: entityName } = useCurrentEntityProfile()
-  const { daoGroup, daoPreProposeSingleClient, depositInfo } = useCurrentDaoGroup(coreAddress)
+  const { daoGroup, daoPreProposeSingleClient, depositInfo, isParticipating, anyoneCanPropose } =
+    useCurrentDaoGroup(coreAddress)
   const createEntityState = useCreateEntityState()
   const {
     entityType,
@@ -89,7 +90,6 @@ const ReviewProposal: React.FC = () => {
   }, [selectedAction])
   const [selectedLinkedResource, setSelectedLinkedResource] = useState<LinkedResource | undefined>()
   const [submitting, setSubmitting] = useState(false)
-  const memberAddresses = useMemo(() => daoGroup?.votingModule.members?.map(({ addr }) => addr), [daoGroup])
   const votingPeriod = useMemo(
     () =>
       daoGroup?.proposalModule?.proposalConfig.max_voting_period
@@ -107,7 +107,7 @@ const ReviewProposal: React.FC = () => {
       console.error('validateSubmit', { address })
       return false
     }
-    if (!memberAddresses.includes(address)) {
+    if (!isParticipating && !anyoneCanPropose) {
       Toast.errorToast(null, 'You must be a member of the group')
       return false
     }

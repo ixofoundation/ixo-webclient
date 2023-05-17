@@ -31,6 +31,8 @@ import * as Toast from 'utils/toast'
 import * as _ from 'lodash'
 import Tooltip from 'components/Tooltip/Tooltip'
 import { isAccountAddress, validateTokenSymbol } from 'utils/validation'
+import { convertDenomToMicroDenomWithDecimals, convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
+import { NATIVE_DECIMAL } from 'constants/chains'
 
 export const initialMembership = { category: '', weight: 1, members: [''] }
 export const initialStaking = {
@@ -922,9 +924,15 @@ const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JS
                   direction='row-reverse'
                   width='200px'
                   height={inputHeight + 'px'}
-                  value={Number(data.depositInfo.amount)}
+                  value={convertMicroDenomToDenomWithDecimals(data.depositInfo.amount, NATIVE_DECIMAL)}
                   onChange={(value) =>
-                    setData((pre) => ({ ...pre, depositInfo: { ...pre.depositInfo, amount: String(value) } }))
+                    setData((pre) => ({
+                      ...pre,
+                      depositInfo: {
+                        ...pre.depositInfo,
+                        amount: convertDenomToMicroDenomWithDecimals(value, NATIVE_DECIMAL).toString(),
+                      },
+                    }))
                   }
                 />
                 <Typography weight='medium' size='xl'>

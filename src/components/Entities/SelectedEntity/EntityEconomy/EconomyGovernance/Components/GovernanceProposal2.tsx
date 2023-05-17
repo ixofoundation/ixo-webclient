@@ -299,7 +299,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
             <FlexBox gap={4}>
               <Action
                 isDark={isDark}
-                className={clsx({ disable: status !== 'open' || !!myVoteStatus })}
+                className={clsx({ disable: status !== 'open' || !!myVoteStatus || !isParticipating })}
                 onClick={(): void => setVoteModalOpen(true)}
               >
                 {status === 'open' && !myVoteStatus ? 'New Vote' : 'My Vote'}
