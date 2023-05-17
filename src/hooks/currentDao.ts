@@ -16,6 +16,7 @@ import { getDaoContractInfo } from 'utils/dao'
 
 export default function useCurrentDao(): {
   daoGroups: CurrentDao
+  daoGroupsArr: DaoGroup[]
   daoGroupAddresses: string[]
   selectedGroups: CurrentDao
   selectedGroupsArr: DaoGroup[]
@@ -25,17 +26,12 @@ export default function useCurrentDao(): {
   updateDaoGroup: (group: DaoGroup) => void
   clearDaoGroup: () => void
   getNumOfMembersByAddresses: (addresses: string[]) => number
-  getMembersByAddress: (address: string) => Member[]
-  getProposalModuleCountByAddresses: (addresses: string[]) => {
-    active_proposal_module_count: number
-    total_proposal_module_count: number
-  }
-  getAllProposals: () => ProposalResponse[]
   getProposalsByAddresses: (addresses: string[]) => ProposalResponse[]
   getTotalCw20Balances: (addresses: string[]) => number
 } {
   const dispatch = useAppDispatch()
   const daoGroups = useAppSelector(selectDaoGroups)
+  const daoGroupsArr = useMemo(() => Object.values(daoGroups), [daoGroups])
   const daoGroupAddresses = useMemo(() => Object.keys(daoGroups), [daoGroups])
   const { cosmWasmClient, address } = useAccount()
   const selectedGroups = useMemo(
@@ -81,46 +77,6 @@ export default function useCurrentDao(): {
     },
     [getDaoGroupsByAddresses],
   )
-
-  const getMembersByAddress = useCallback(
-    (address: string): Member[] => {
-      const members = daoGroups[address]?.votingModule.members ?? []
-      const totalWeight = daoGroups[address]?.votingModule.totalWeight ?? 1
-      return members.map((member) => ({ ...member, votingPower: member.weight / totalWeight }))
-    },
-    [daoGroups],
-  )
-
-  const getProposalModuleCountByAddresses = useCallback(
-    (addresses: string[]) => {
-      return getDaoGroupsByAddresses(addresses)
-        .map((daoGroup) => daoGroup.proposalModule.proposalModuleCount)
-        .reduce(
-          (accumulator, currentValue) => ({
-            active_proposal_module_count:
-              accumulator.active_proposal_module_count + currentValue.active_proposal_module_count,
-            total_proposal_module_count:
-              accumulator.total_proposal_module_count + currentValue.total_proposal_module_count,
-          }),
-          { active_proposal_module_count: 0, total_proposal_module_count: 0 },
-        )
-    },
-    [getDaoGroupsByAddresses],
-  )
-
-  const getAllProposals = useCallback((): ProposalResponse[] => {
-    return Object.values(daoGroups)
-      .map((daoGroup) =>
-        daoGroup.proposalModule.proposals.map((proposal) => ({
-          ...proposal,
-          proposal: {
-            ...proposal.proposal,
-            max_voting_period: (daoGroup.proposalModule.proposalConfig.max_voting_period as { time: number }).time,
-          },
-        })),
-      )
-      .reduce((acc, cur) => [...acc, ...cur], [])
-  }, [daoGroups])
 
   const getProposalsByAddresses = useCallback(
     (addresses: string[]): ProposalResponse[] => {
@@ -177,6 +133,7 @@ export default function useCurrentDao(): {
 
   return {
     daoGroups,
+    daoGroupsArr,
     daoGroupAddresses,
     selectedGroups,
     selectedGroupsArr,
@@ -186,9 +143,6 @@ export default function useCurrentDao(): {
     updateDaoGroup,
     clearDaoGroup,
     getNumOfMembersByAddresses,
-    getMembersByAddress,
-    getProposalModuleCountByAddresses,
-    getAllProposals,
     getProposalsByAddresses,
     getTotalCw20Balances,
   }

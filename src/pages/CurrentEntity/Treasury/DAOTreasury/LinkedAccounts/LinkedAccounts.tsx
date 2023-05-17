@@ -15,16 +15,24 @@ import { truncateString } from 'utils/formatters'
 import { isIxoAccount } from 'utils/account'
 
 const LinkedAccounts: React.FC = () => {
-  const accounts = [
-    'ixo1xc798xnhp7yy9mpp80v3tsxppw8qk0y9atm965',
-    'osmo1xy5ej0fyap2sef3l3kux8kslcjqlc89cjn37ud',
-    'regen1xc798xnhp7yy9mpp80v3tsxppw8qk0y9auwtgr',
+  const accounts: string[] = [
+    // 'ixo1xc798xnhp7yy9mpp80v3tsxppw8qk0y9atm965',
+    // 'osmo1xy5ej0fyap2sef3l3kux8kslcjqlc89cjn37ud',
+    // 'regen1xc798xnhp7yy9mpp80v3tsxppw8qk0y9auwtgr',
   ]
   const history = useHistory()
   const { getQuery } = useQuery()
   const expand: string | undefined = getQuery('expand')
 
   const [selectedAcccount, setSelectedAccount] = useState(accounts[0])
+
+  if (!selectedAcccount) {
+    return (
+      <Typography variant='secondary' size='2xl' color='dark-blue'>
+        No Linked Accounts
+      </Typography>
+    )
+  }
 
   return (
     <FlexBox direction='column' gap={6} width='100%' color='white'>

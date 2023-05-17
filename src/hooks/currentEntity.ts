@@ -1,3 +1,4 @@
+import { EntityAccount } from '@ixo/impactxclient-sdk/types/codegen/ixo/entity/v1beta1/entity'
 import {
   IidMetadata,
   LinkedEntity,
@@ -24,6 +25,7 @@ import {
   selectEntityLinkedEntity,
   selectEntityMetadata,
   selectEntityId,
+  selectEntityAccounts,
 } from 'redux/currentEntity/currentEntity.selectors'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { BlockSyncService } from 'services/blocksync'
@@ -49,6 +51,7 @@ export default function useCurrentEntity(): {
   page: TEntityPageSectionModel[]
   tags: TEntityDDOTagModel[]
   metadata: IidMetadata | undefined
+  accounts: EntityAccount[]
   updateEntity: (data: TEntityModel) => void
   updateEntityProfile: (profile: TEntityProfileModel) => void
   updateEntityCreator: (creator: TEntityCreatorModel) => void
@@ -70,6 +73,7 @@ export default function useCurrentEntity(): {
   const page: TEntityPageSectionModel[] = useAppSelector(selectEntityPage)!
   const tags: TEntityDDOTagModel[] = useAppSelector(selectEntityTags)!
   const metadata: IidMetadata | undefined = useAppSelector(selectEntityMetadata)
+  const accounts: EntityAccount[] = useAppSelector(selectEntityAccounts)
 
   const updateEntity = (data: TEntityModel) => {
     if (id !== data.id) {
@@ -214,6 +218,7 @@ export default function useCurrentEntity(): {
     page,
     tags,
     metadata,
+    accounts,
     getEntityByDid,
     updateEntity,
     updateEntityProfile,

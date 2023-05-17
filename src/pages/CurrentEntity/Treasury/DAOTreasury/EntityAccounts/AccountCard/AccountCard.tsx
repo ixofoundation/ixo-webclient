@@ -56,10 +56,10 @@ interface Props {
 }
 
 const AccountCard: React.FC<Props> = ({ name, address }) => {
-  const totalBalance = 1200.45
-  const totalChangesIn24H = -100.34
-  const availableBalance = 1100.45
-  const lockedBalance = 100.45
+  const totalBalance = 0
+  const totalChangesIn24H = 0
+  const availableBalance = 0
+  const lockedBalance = 0
 
   return (
     <FlexBox
@@ -92,7 +92,7 @@ const AccountCard: React.FC<Props> = ({ name, address }) => {
             }).format(totalBalance)}
           </Typography>
           <FlexBox gap={1}>
-            <Typography color={totalChangesIn24H > 0 ? 'green' : 'red'} size='sm'>
+            <Typography color={totalChangesIn24H >= 0 ? 'green' : 'red'} size='sm'>
               {totalChangesIn24H > 0 && '+'}
               {new Intl.NumberFormat(undefined, {
                 style: 'currency',
@@ -144,7 +144,18 @@ const AccountCard: React.FC<Props> = ({ name, address }) => {
 
       {/* Actions */}
       <FlexBox gap={4}>
-        <Button variant='secondary' size='custom' width={100} height={40} textTransform='capitalize' textSize='lg'>
+        <Button
+          variant='secondary'
+          size='custom'
+          width={100}
+          height={40}
+          textTransform='capitalize'
+          textSize='lg'
+          disabled
+        >
+          Deposit
+        </Button>
+        {/* <Button variant='secondary' size='custom' width={100} height={40} textTransform='capitalize' textSize='lg'>
           Send
         </Button>
         <Button variant='secondary' size='custom' width={100} height={40} textTransform='capitalize' textSize='lg'>
@@ -152,7 +163,7 @@ const AccountCard: React.FC<Props> = ({ name, address }) => {
         </Button>
         <Button variant='secondary' size='custom' width={100} height={40} textTransform='capitalize' textSize='lg'>
           Transfer
-        </Button>
+        </Button> */}
       </FlexBox>
     </FlexBox>
   )

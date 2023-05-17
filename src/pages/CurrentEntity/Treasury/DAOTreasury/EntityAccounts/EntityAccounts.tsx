@@ -11,26 +11,14 @@ import { Collections } from '../../Components/Collections'
 import { ImpactTokens } from '../../Components/ImpactTokens'
 import { Transactions } from '../../Components/Transactions'
 import { ReactComponent as ArrowLeftIcon } from 'assets/images/icon-arrow-left.svg'
+import useCurrentEntity from 'hooks/currentEntity'
 
 const EntityAccounts: React.FC = () => {
-  const accounts = [
-    {
-      name: 'admin',
-      address: 'ixo1xc798xnhp7yy9mpp80v3tsxppw8qk0y9atm965',
-    },
-    {
-      name: 'reserve',
-      address: 'ixo1m0wheltckf3t9xtvq6rhfwrpr9frgckgmvjngx',
-    },
-    {
-      name: 'backup',
-      address: 'ixo1g0d744v2jw7gvjykw22dew9cpr55w7mwxk9wmf',
-    },
-  ]
   const history = useHistory()
   const { getQuery } = useQuery()
   const expand: string | undefined = getQuery('expand')
 
+  const { accounts } = useCurrentEntity()
   const [selectedAcccount, setSelectedAccount] = useState(accounts[0])
 
   return (

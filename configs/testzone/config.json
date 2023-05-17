@@ -3271,7 +3271,7 @@
             "title": "Status",
             "tooltip": null,
             "icon": null,
-            "iconColor": "F89D28",
+            "iconColor": "#F89D28",
             "endpoint": null,
             "accessToken": null,
             "permissions": [

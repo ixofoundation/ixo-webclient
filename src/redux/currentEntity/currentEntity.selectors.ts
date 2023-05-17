@@ -1,3 +1,4 @@
+import { EntityAccount } from '@ixo/impactxclient-sdk/types/codegen/ixo/entity/v1beta1/entity'
 import { createSelector } from '@reduxjs/toolkit'
 import { TEntityModel } from 'api/blocksync/types/entities'
 import { RootState } from 'redux/store'
@@ -42,4 +43,8 @@ export const selectEntityPage = createSelector(selectCurrentEntity, (entity: TEn
 
 export const selectEntityTags = createSelector(selectCurrentEntity, (entity: TEntityModel) => {
   return entity.tags
+})
+
+export const selectEntityAccounts = createSelector(selectCurrentEntity, (entity: TEntityModel): EntityAccount[] => {
+  return entity.accounts
 })
