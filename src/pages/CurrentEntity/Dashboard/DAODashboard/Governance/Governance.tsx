@@ -15,7 +15,7 @@ const Governance: React.FC = () => {
   const { selectedGroups, updateDaoGroup, selectDaoGroup } = useCurrentDao()
   const selectedGroupAddresses: string[] = Object.keys(selectedGroups)
   const numOfSelectedGroups = selectedGroupAddresses.length
-  const { daoProposalSingleClient, isParticipating } = useCurrentDaoGroup(selectedGroupAddresses[0])
+  const { daoProposalSingleClient, isParticipating, anyoneCanPropose } = useCurrentDaoGroup(selectedGroupAddresses[0])
   const selectedGroup = useMemo(
     () => Object.keys(selectedGroups).length === 1 && Object.values(selectedGroups)[0],
     [selectedGroups],
@@ -68,7 +68,7 @@ const Governance: React.FC = () => {
             textTransform='capitalize'
             textWeight='medium'
             onClick={handleNewProposal}
-            disabled={!isParticipating}
+            disabled={!isParticipating && !anyoneCanPropose}
           >
             New Proposal
           </Button>
