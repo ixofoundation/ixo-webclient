@@ -32,7 +32,7 @@ const Governance: React.FC = () => {
   const reListProposals = useCallback(() => {
     if (daoProposalSingleClient && !!selectedGroup) {
       daoProposalSingleClient.listProposals({}).then(({ proposals }) => {
-        updateDaoGroup({ ...selectedGroup, proposalModule: { ...selectedGroup.proposalModule, proposals } })
+        updateDaoGroup({ ...selectedGroup, proposalModule: { ...selectedGroup.proposalModule } })
       })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

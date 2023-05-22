@@ -268,4 +268,5 @@ export interface TEntityModel extends Omit<Entity, 'metadata'>, IidDocument {
   page?: TEntityPageSectionModel[]
   tags?: TEntityDDOTagModel[]
   token?: TTokenMetadataModel
+  daoGroups?: { [address: string]: any }
 }

@@ -6,6 +6,7 @@ import { UpdateProposalConfigData } from 'components/Modals/AddActionModal/Setup
 import { chainNetwork } from 'hooks/configs'
 import { Member } from 'types/dao'
 import { TDAOGroupModel } from 'types/protocol'
+import { durationToSeconds, expirationAtTimeToSecondsFromNow } from './conversions'
 
 export const thresholdToTQData = (
   source: Threshold,
@@ -114,7 +115,25 @@ export const getDaoContractInfo = async ({
   )
   proposalModule.votes = votes
 
-  proposalModule.proposals = proposals
+  const max_voting_period = proposalModule.proposalConfig.max_voting_period
+  const votingPeriod = durationToSeconds(100, max_voting_period)
+
+  proposalModule.proposals = proposals.map(({ id, proposal }) => {
+    const { expiration } = proposal
+    const secondsRemaining = expirationAtTimeToSecondsFromNow(expiration) ?? 0
+    const secondsPassed = votingPeriod - secondsRemaining
+    const submissionDate = new Date().getTime() - secondsPassed * 1000
+    const closeDate = new Date().getTime() + secondsRemaining * 1000
+    return {
+      id,
+      proposal: {
+        ...proposal,
+        submissionDate,
+        closeDate,
+      },
+    }
+  })
+
   const {
     module: { addr: preProposalContractAddress },
   } = (await daoProposalSingleClient.proposalCreationPolicy()) as { module: { addr: string } }

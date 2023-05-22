@@ -338,7 +338,7 @@ export function apiEntityToEntity(
           .then((response) => {
             console.log('getDaoContractInfo', { response })
             const { type, config, proposalModule, votingModule, token } = response
-            const { preProposeConfig, proposalConfig } = proposalModule
+            const { preProposeConfig, proposalConfig, proposals } = proposalModule
 
             const id = uuidv4()
             const name = config.name
@@ -412,11 +412,12 @@ export function apiEntityToEntity(
               proposalDuration,
               proposalDurationUnits,
               allowRevoting,
-
               absoluteThresholdCount,
+
+              proposals,
             }
 
-            updateCallback('daoGroups', { [id]: daoGroup }, true)
+            updateCallback('daoGroups', { [contractAddress]: daoGroup }, true)
           })
           .catch(() => undefined)
       })
