@@ -5,8 +5,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { TProposalActionModel } from 'types/protocol'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 import { VoteOption } from 'cosmjs-types/cosmos/gov/v1beta1/gov'
-import { useAppDispatch, useAppSelector } from 'redux/hooks'
-import { getEntitiesByType } from 'redux/entitiesExplorer/entitiesExplorer.actions'
+import { useAppSelector } from 'redux/hooks'
 import { selectDAOEntities } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { Proposal } from 'types/dao'
 
@@ -31,7 +30,6 @@ interface Props {
 }
 
 const SetupVoteOnADAOModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
-  const dispatch = useAppDispatch()
   const [formData, setFormData] = useState<DAOVoteData>(initialState)
   const daos = useAppSelector(selectDAOEntities)
   const groups = useMemo(() => daos.find(({ id }) => id === formData.dao)?.daoGroups ?? {}, [daos, formData.dao])
@@ -58,11 +56,6 @@ const SetupVoteOnADAOModal: React.FC<Props> = ({ open, action, onClose, onSubmit
   useEffect(() => {
     setFormData(action?.data ?? initialState)
   }, [action])
-
-  useEffect(() => {
-    dispatch(getEntitiesByType('dao'))
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
 
   const handleUpdateFormData = (key: string, value: any) => {
     onSubmit && setFormData((data: any) => ({ ...data, [key]: value }))

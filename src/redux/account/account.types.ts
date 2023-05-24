@@ -1,6 +1,6 @@
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 import { SigningStargateClient } from '@ixo/impactxclient-sdk'
-import { SigningCosmWasmClient } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/cosmwasm-stargate'
+import { SigningCosmWasmClient, CosmWasmClient } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/cosmwasm-stargate'
 
 export interface DidDoc {
   did: string
@@ -94,6 +94,7 @@ export interface AccountState {
   pubKey: string //  base64
   signingClient: SigningStargateClient // signingClient
   cosmWasmClient: SigningCosmWasmClient // signingClient
+  cwClient: CosmWasmClient
   did: string
 }
 
@@ -144,6 +145,7 @@ export enum AccountActions {
   UpdatePubKey = 'ixo/Account/UPDATE_PUBKEY',
   UpdateSigningClient = 'ixo/Account/UPDATE_SIGNING_CLIENT',
   UpdateCosmWasmClient = 'ixo/Account/UPDATE_COSMWASM_CLIENT',
+  UpdateCWClient = 'ixo/Account/UPDATE_CW_CLIENT',
   UpdateDid = 'ixo/Account/UPDATE_DID',
 }
 
@@ -260,6 +262,10 @@ export interface UpdateCosmWasmClientAction {
   type: typeof AccountActions.UpdateCosmWasmClient
   payload: SigningCosmWasmClient
 }
+export interface UpdateCWClientAction {
+  type: typeof AccountActions.UpdateCWClient
+  payload: CosmWasmClient
+}
 export interface UpdateDidAction {
   type: typeof AccountActions.UpdateDid
   payload: string
@@ -288,4 +294,5 @@ export type AccountActionTypes =
   | UpdatePubKeyAction
   | UpdateSigningClientAction
   | UpdateCosmWasmClientAction
+  | UpdateCWClientAction
   | UpdateDidAction

@@ -56,9 +56,9 @@ interface Props {
 }
 
 const GroupUnstakingModal: React.FunctionComponent<Props> = ({ daoGroup, open, setOpen, onSuccess }) => {
-  const { cosmWasmClient, address } = useAccount()
+  const { cwClient, cosmWasmClient, address } = useAccount()
   const { name: daoName } = useCurrentEntityProfile()
-  const { daoVotingCw20StakedClient, depositInfo } = useCurrentDaoGroup(daoGroup?.coreAddress)
+  const { votingModuleAddress, depositInfo } = useCurrentDaoGroup(daoGroup?.coreAddress)
   const [unstakingDuration, setUnstakingDuration] = useState<number>(0)
   const [tokenInfo, setTokenInfo] = useState<TokenInfoResponse | undefined>(undefined)
   const [marketingInfo, setMarketingInfo] = useState<MarketingInfoResponse | undefined>(undefined)
@@ -77,29 +77,31 @@ const GroupUnstakingModal: React.FunctionComponent<Props> = ({ daoGroup, open, s
    *  Unstaking Duration
    */
   useEffect(() => {
-    if (daoVotingCw20StakedClient) {
-      ;(async () => {
-        const stakingContract = await daoVotingCw20StakedClient.stakingContract()
-        const cw20StakeClient = new contracts.Cw20Stake.Cw20StakeClient(cosmWasmClient, address, stakingContract)
-        const { value: microStakedBalance } = await cw20StakeClient.stakedValue({ address })
-        const { unstaking_duration } = await cw20StakeClient.getConfig()
+    ;(async () => {
+      const daoVotingCw20StakedClient = new contracts.DaoVotingCw20Staked.DaoVotingCw20StakedQueryClient(
+        cwClient,
+        votingModuleAddress,
+      )
+      const stakingContract = await daoVotingCw20StakedClient.stakingContract()
+      const cw20StakeClient = new contracts.Cw20Stake.Cw20StakeQueryClient(cwClient, stakingContract)
+      const { value: microStakedBalance } = await cw20StakeClient.stakedValue({ address })
+      const { unstaking_duration } = await cw20StakeClient.getConfig()
 
-        if (unstaking_duration) {
-          setUnstakingDuration(durationToSeconds(0, unstaking_duration))
-        }
+      if (unstaking_duration) {
+        setUnstakingDuration(durationToSeconds(0, unstaking_duration))
+      }
 
-        const tokenContract = await daoVotingCw20StakedClient.tokenContract()
-        const cw20BaseClient = new contracts.Cw20Base.Cw20BaseClient(cosmWasmClient, address, tokenContract)
-        const tokenInfo = await cw20BaseClient.tokenInfo()
-        const marketingInfo = await cw20BaseClient.marketingInfo()
-        const stakedBalance = convertMicroDenomToDenomWithDecimals(microStakedBalance, tokenInfo.decimals).toString()
+      const tokenContract = await daoVotingCw20StakedClient.tokenContract()
+      const cw20BaseClient = new contracts.Cw20Base.Cw20BaseQueryClient(cwClient, tokenContract)
+      const tokenInfo = await cw20BaseClient.tokenInfo()
+      const marketingInfo = await cw20BaseClient.marketingInfo()
+      const stakedBalance = convertMicroDenomToDenomWithDecimals(microStakedBalance, tokenInfo.decimals).toString()
 
-        setStakedBalance(stakedBalance)
-        setTokenInfo(tokenInfo)
-        setMarketingInfo(marketingInfo)
-      })()
-    }
-  }, [daoVotingCw20StakedClient, address, cosmWasmClient])
+      setStakedBalance(stakedBalance)
+      setTokenInfo(tokenInfo)
+      setMarketingInfo(marketingInfo)
+    })()
+  }, [address, votingModuleAddress, cwClient])
 
   useEffect(() => {
     if (txStatus === TXStatus.SUCCESS && txHash) {
@@ -118,6 +120,10 @@ const GroupUnstakingModal: React.FunctionComponent<Props> = ({ daoGroup, open, s
 
     setTXStatus(TXStatus.PENDING)
     try {
+      const daoVotingCw20StakedClient = new contracts.DaoVotingCw20Staked.DaoVotingCw20StakedQueryClient(
+        cwClient,
+        votingModuleAddress,
+      )
       const stakingContract = await daoVotingCw20StakedClient.stakingContract()
       const cw20StakeClient = new contracts.Cw20Stake.Cw20StakeClient(cosmWasmClient, address, stakingContract)
 

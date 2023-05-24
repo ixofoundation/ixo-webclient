@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import { Typography } from 'components/Typography'
 import { thousandSeparator } from 'utils/formatters'
 import { getSDGIcon } from 'components/Modals/SelectionModal/SelectionModal'
+import { useAccount } from 'hooks/account'
 
 export const CollectionCardBackground = styled.div<{ background: string }>`
   position: absolute;
@@ -112,6 +113,7 @@ export const SdgIcon = styled.i`
 `
 
 const CollectionCard: React.FC<any> = (apiEntity) => {
+  const { cwClient } = useAccount()
   const [collection, setCollection] = useState<TEntityModel>()
 
   const logo = collection?.profile?.logo
@@ -128,7 +130,7 @@ const CollectionCard: React.FC<any> = (apiEntity) => {
 
   useEffect(() => {
     setCollection(apiEntity)
-    apiEntityToEntity({ entity: apiEntity }, (key, value) => {
+    apiEntityToEntity({ entity: apiEntity, cwClient }, (key, value) => {
       setCollection((collection: any) => ({ ...collection, [key]: value }))
     })
     return () => {

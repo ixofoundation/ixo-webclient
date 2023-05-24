@@ -26,6 +26,7 @@ import { toggleAssistant } from 'redux/account/account.actions'
 import { UserInfo } from 'redux/account/account.types'
 import { Container, ContentWrapper, theme } from './App.styles'
 import { WalletManagerProvider, WalletType } from '@gssuper/cosmodal'
+import { CosmWasmClient } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/cosmwasm-stargate'
 // For Sentry performance profiling
 // import { withProfiler } from '@sentry/react'
 
@@ -52,6 +53,7 @@ export interface Props {
   history: any
   match: any
   entityTypeMap: EntityConfig
+  cwClient: CosmWasmClient
   onIxoInit: () => void
   onKeysafeInit: () => void
   onWeb3Connect: () => void
@@ -190,7 +192,8 @@ class App extends React.Component<Props, State> {
         >
           <AssistantContext.Provider value={{ active: assistantToggled }}>
             <ToastContainer theme='dark' hideProgressBar={true} position='top-right' />
-            {this.props.entityTypeMap && (
+            <Services />
+            {this.props.entityTypeMap && this.props.cwClient && (
               <ScrollToTop>
                 <Container>
                   <HeaderConnected />
@@ -232,7 +235,6 @@ class App extends React.Component<Props, State> {
                   </div>
                   <Footer />
                 </Container>
-                <Services />
               </ScrollToTop>
             )}
           </AssistantContext.Provider>
@@ -244,6 +246,7 @@ class App extends React.Component<Props, State> {
 
 const mapStateToProps = (state: RootState): Record<string, any> => ({
   userInfo: state.account.userInfo,
+  cwClient: state.account.cwClient,
   assistantToggled: state.account.assistantToggled,
   loginStatusCheckCompleted: state.account.loginStatusCheckCompleted,
   entityTypeMap: state.entities.entityConfig,

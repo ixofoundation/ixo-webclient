@@ -1,11 +1,10 @@
 import { contracts, customQueries } from '@ixo/impactxclient-sdk'
-import { SigningCosmWasmClient } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/cosmwasm-stargate'
+import { CosmWasmClient } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/cosmwasm-stargate'
 import { MarketingInfoResponse, TokenInfoResponse } from '@ixo/impactxclient-sdk/types/codegen/Cw20Base.types'
 import { ProposalResponse, Threshold, VoteInfo } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
 import { UpdateProposalConfigData } from 'components/Modals/AddActionModal/SetupUpdateVotingConfigModal'
 import { chainNetwork } from 'hooks/configs'
 import { Member } from 'types/dao'
-import { TDAOGroupModel } from 'types/protocol'
 import { durationToSeconds, expirationAtTimeToSecondsFromNow } from './conversions'
 
 export const thresholdToTQData = (
@@ -53,35 +52,23 @@ export const thresholdToTQData = (
   }
 }
 
-export const membersToMemberships = (members: Member[]): TDAOGroupModel['memberships'] => {
-  const memberships: { [weight: number]: string[] } = {}
-
-  members.forEach(({ addr, weight }) => {
-    memberships[weight] = [...(memberships[weight] ?? []), addr]
-  })
-
-  return Object.entries(memberships).map(([weight, members]) => ({ weight: Number(weight), members, category: '' }))
-}
-
 export const getContractNameByCodeId = (codeId: number): string => {
   return customQueries.contract.getContractCodes(chainNetwork).find(({ code }) => code === codeId)?.name ?? ''
 }
 
 export const getDaoContractInfo = async ({
   coreAddress,
-  cosmWasmClient,
-  address,
+  cwClient,
 }: {
   coreAddress: string
-  cosmWasmClient: SigningCosmWasmClient | undefined
-  address: string | undefined
+  cwClient: CosmWasmClient
 }) => {
-  if (!cosmWasmClient || !address) {
+  if (!cwClient) {
     throw new Error('')
   }
   let type = ''
   let token: any = undefined
-  const daoCoreClient = new contracts.DaoCore.DaoCoreClient(cosmWasmClient, address, coreAddress)
+  const daoCoreClient = new contracts.DaoCore.DaoCoreQueryClient(cwClient, coreAddress)
   const admin = await daoCoreClient.admin()
   const config = await daoCoreClient.config()
   const cw20Balances = await daoCoreClient.cw20Balances({})
@@ -97,9 +84,8 @@ export const getDaoContractInfo = async ({
   const proposalModule: any = {}
   proposalModule.proposalModuleAddress = proposalModuleAddress
   proposalModule.proposalModuleCount = proposalModuleCount
-  const daoProposalSingleClient = new contracts.DaoProposalSingle.DaoProposalSingleClient(
-    cosmWasmClient,
-    address,
+  const daoProposalSingleClient = new contracts.DaoProposalSingle.DaoProposalSingleQueryClient(
+    cwClient,
     proposalModuleAddress,
   )
   proposalModule.proposalConfig = await daoProposalSingleClient.config()
@@ -138,9 +124,8 @@ export const getDaoContractInfo = async ({
     module: { addr: preProposalContractAddress },
   } = (await daoProposalSingleClient.proposalCreationPolicy()) as { module: { addr: string } }
   proposalModule.preProposalContractAddress = preProposalContractAddress
-  const daoPreProposeSingleClient = new contracts.DaoPreProposeSingle.DaoPreProposeSingleClient(
-    cosmWasmClient,
-    address,
+  const daoPreProposeSingleClient = new contracts.DaoPreProposeSingle.DaoPreProposeSingleQueryClient(
+    cwClient,
     preProposalContractAddress,
   )
   proposalModule.preProposeConfig = await daoPreProposeSingleClient.config()
@@ -148,44 +133,27 @@ export const getDaoContractInfo = async ({
   // votingModule
   const votingModule: any = {}
   votingModule.votingModuleAddress = votingModuleAddress
-  const { codeId } = await cosmWasmClient.getContract(votingModule.votingModuleAddress)
+  const { codeId } = await cwClient.getContract(votingModule.votingModuleAddress)
   votingModule.contractCodeId = codeId
   votingModule.contractName = getContractNameByCodeId(votingModule.contractCodeId)
 
-  console.log('votingModule.contractName', votingModule.contractName)
-
   if (votingModule.contractName === 'dao_voting_cw20_staked') {
     type = 'staking'
-    const daoVotingCw20StakedClient = new contracts.DaoVotingCw20Staked.DaoVotingCw20StakedClient(
-      cosmWasmClient,
-      address,
+    const daoVotingCw20StakedClient = new contracts.DaoVotingCw20Staked.DaoVotingCw20StakedQueryClient(
+      cwClient,
       votingModule.votingModuleAddress,
     )
-    console.log('DaoVotingCw20StakedClient-------start')
     const stakingContract = await daoVotingCw20StakedClient.stakingContract()
     const tokenContract = await daoVotingCw20StakedClient.tokenContract()
-    const totalPowerAtHeight = await daoVotingCw20StakedClient.totalPowerAtHeight({})
-    console.log({ stakingContract, totalPowerAtHeight, tokenContract })
-    console.log('DaoVotingCw20StakedClient-------end')
 
-    console.log('Cw20StakeClient-------start')
-    const cw20StakeClient = new contracts.Cw20Stake.Cw20StakeClient(cosmWasmClient, address, stakingContract)
+    const cw20StakeClient = new contracts.Cw20Stake.Cw20StakeQueryClient(cwClient, stakingContract)
     const { total } = await cw20StakeClient.totalValue()
     const { stakers } = await cw20StakeClient.listStakers({})
-    const totalStakedAtHeight = await cw20StakeClient.totalStakedAtHeight({})
-    const stakedBalanceAtHeight = await cw20StakeClient.stakedBalanceAtHeight({ address })
-    const stakedValue = await cw20StakeClient.stakedValue({ address })
     const config = await cw20StakeClient.getConfig()
-    console.log({ total, stakers, totalStakedAtHeight, stakedBalanceAtHeight, stakedValue, config })
-    console.log('Cw20StakeClient-------end')
 
-    console.log('Cw20BaseClient-------start')
-    const cw20BaseClient = new contracts.Cw20Base.Cw20BaseClient(cosmWasmClient, address, tokenContract)
-    const balance = await cw20BaseClient.balance({ address })
+    const cw20BaseClient = new contracts.Cw20Base.Cw20BaseQueryClient(cwClient, tokenContract)
     const tokenInfo: TokenInfoResponse = await cw20BaseClient.tokenInfo()
     const marketingInfo: MarketingInfoResponse = await cw20BaseClient.marketingInfo()
-    console.log({ balance, tokenInfo, marketingInfo })
-    console.log('Cw20BaseClient-------end')
 
     token = {
       tokenInfo,
@@ -197,18 +165,15 @@ export const getDaoContractInfo = async ({
     votingModule.totalWeight = parseInt(total)
   } else if (votingModule.contractName === 'dao_voting_cw4') {
     type = 'membership'
-    const daoVotingCw4Client = new contracts.DaoVotingCw4.DaoVotingCw4Client(
-      cosmWasmClient,
-      address,
+    const daoVotingCw4Client = new contracts.DaoVotingCw4.DaoVotingCw4QueryClient(
+      cwClient,
       votingModule.votingModuleAddress,
     )
 
-    console.log('Cw4GroupClient-------start')
     const cw4GroupAddress = await daoVotingCw4Client.groupContract()
-    const cw4GroupClient = new contracts.Cw4Group.Cw4GroupClient(cosmWasmClient, address, cw4GroupAddress)
+    const cw4GroupClient = new contracts.Cw4Group.Cw4GroupQueryClient(cwClient, cw4GroupAddress)
     votingModule.members = (await cw4GroupClient.listMembers({})).members as never[]
     votingModule.totalWeight = (await cw4GroupClient.totalWeight({})).weight as number
-    console.log('Cw4GroupClient-------end')
   }
 
   // treasury
@@ -234,42 +199,35 @@ export const getDaoContractInfo = async ({
 
 export const getDaoContractMembersInfo = async ({
   coreAddress,
-  cosmWasmClient,
-  address,
+  cwClient,
 }: {
   coreAddress: string
-  cosmWasmClient: SigningCosmWasmClient | undefined
-  address: string | undefined
+  cwClient: CosmWasmClient
 }) => {
-  if (!cosmWasmClient || !address) {
+  if (!cwClient) {
     throw new Error('')
   }
   let members: Member[] = []
-  const daoCoreClient = new contracts.DaoCore.DaoCoreClient(cosmWasmClient, address, coreAddress)
+  const daoCoreClient = new contracts.DaoCore.DaoCoreQueryClient(cwClient, coreAddress)
   const votingModuleAddress = await daoCoreClient.votingModule()
-  const { codeId } = await cosmWasmClient.getContract(votingModuleAddress)
+  const { codeId } = await cwClient.getContract(votingModuleAddress)
   const contractName = getContractNameByCodeId(codeId)
 
   if (contractName === 'dao_voting_cw20_staked') {
-    const daoVotingCw20StakedClient = new contracts.DaoVotingCw20Staked.DaoVotingCw20StakedClient(
-      cosmWasmClient,
-      address,
+    const daoVotingCw20StakedClient = new contracts.DaoVotingCw20Staked.DaoVotingCw20StakedQueryClient(
+      cwClient,
       votingModuleAddress,
     )
     const stakingContract = await daoVotingCw20StakedClient.stakingContract()
-    const cw20StakeClient = new contracts.Cw20Stake.Cw20StakeClient(cosmWasmClient, address, stakingContract)
+    const cw20StakeClient = new contracts.Cw20Stake.Cw20StakeQueryClient(cwClient, stakingContract)
     const { stakers } = await cw20StakeClient.listStakers({})
 
     members = stakers.map(({ address, balance }) => ({ addr: address, weight: Number(balance) } as Member))
   } else if (contractName === 'dao_voting_cw4') {
-    const daoVotingCw4Client = new contracts.DaoVotingCw4.DaoVotingCw4Client(
-      cosmWasmClient,
-      address,
-      votingModuleAddress,
-    )
+    const daoVotingCw4Client = new contracts.DaoVotingCw4.DaoVotingCw4QueryClient(cwClient, votingModuleAddress)
 
     const cw4GroupAddress = await daoVotingCw4Client.groupContract()
-    const cw4GroupClient = new contracts.Cw4Group.Cw4GroupClient(cosmWasmClient, address, cw4GroupAddress)
+    const cw4GroupClient = new contracts.Cw4Group.Cw4GroupQueryClient(cwClient, cw4GroupAddress)
     members = (await cw4GroupClient.listMembers({})).members as never[]
   }
 

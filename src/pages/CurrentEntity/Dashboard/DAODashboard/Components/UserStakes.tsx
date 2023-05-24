@@ -127,8 +127,8 @@ interface Props {
 
 const UserStakes: React.FC<Props> = ({ show, coreAddress, userAddress }) => {
   const history = useHistory()
-  const { cosmWasmClient, address } = useAccount()
-  const { daoGroup, daoVotingCw20StakedClient } = useCurrentDaoGroup(coreAddress)
+  const { cwClient, address } = useAccount()
+  const { daoGroup, votingModuleAddress } = useCurrentDaoGroup(coreAddress)
   const [data, setData] = useState<any[]>([])
   const [groupStakingModalOpen, setGroupStakingModalOpen] = useState(false)
 
@@ -144,16 +144,17 @@ const UserStakes: React.FC<Props> = ({ show, coreAddress, userAddress }) => {
    *  Table data
    */
   const update = useCallback(async (): Promise<void> => {
-    if (!daoVotingCw20StakedClient) {
-      return
-    }
+    const daoVotingCw20StakedClient = new contracts.DaoVotingCw20Staked.DaoVotingCw20StakedQueryClient(
+      cwClient,
+      votingModuleAddress,
+    )
 
     const stakingContract = await daoVotingCw20StakedClient.stakingContract()
-    const cw20StakeClient = new contracts.Cw20Stake.Cw20StakeClient(cosmWasmClient, address, stakingContract)
+    const cw20StakeClient = new contracts.Cw20Stake.Cw20StakeQueryClient(cwClient, stakingContract)
     const { value: microStakedValue } = await cw20StakeClient.stakedValue({ address: userAddress || address })
 
     const tokenContract = await daoVotingCw20StakedClient.tokenContract()
-    const cw20BaseClient = new contracts.Cw20Base.Cw20BaseClient(cosmWasmClient, address, tokenContract)
+    const cw20BaseClient = new contracts.Cw20Base.Cw20BaseQueryClient(cwClient, tokenContract)
     const tokenInfo = await cw20BaseClient.tokenInfo()
     const marketingInfo = await cw20BaseClient.marketingInfo()
     const stakedValue = convertMicroDenomToDenomWithDecimals(microStakedValue, tokenInfo.decimals).toString()
@@ -168,7 +169,7 @@ const UserStakes: React.FC<Props> = ({ show, coreAddress, userAddress }) => {
         priceChangePercent: undefined,
       },
     ])
-  }, [address, userAddress, cosmWasmClient, daoVotingCw20StakedClient])
+  }, [address, userAddress, cwClient, votingModuleAddress])
 
   useEffect(() => {
     update()

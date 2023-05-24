@@ -10,6 +10,7 @@ import Assets from './Assets'
 import { getSDGIcon } from 'components/Modals/SelectionModal/SelectionModal'
 import { useMediaQuery } from 'react-responsive'
 import { deviceWidth } from 'constants/device'
+import { useAccount } from 'hooks/account'
 
 interface Props {
   collection: any
@@ -20,6 +21,7 @@ interface Props {
 const CollectionExplorer: React.FC<Props> = (props) => {
   const isMobile = useMediaQuery({ maxWidth: deviceWidth.tablet })
   const isTablet = useMediaQuery({ minWidth: deviceWidth.tablet, maxWidth: deviceWidth.desktop })
+  const { cwClient } = useAccount()
   const [collection, setCollection] = useState<TEntityModel>()
 
   const logo = collection?.profile?.logo
@@ -33,13 +35,13 @@ const CollectionExplorer: React.FC<Props> = (props) => {
 
   useEffect(() => {
     setCollection(props.collection)
-    apiEntityToEntity({ entity: props.collection }, (key, value) => {
+    apiEntityToEntity({ entity: props.collection, cwClient }, (key, value) => {
       setCollection((collection: any) => ({ ...collection, [key]: value }))
     })
     return () => {
       setCollection(undefined)
     }
-  }, [props.collection])
+  }, [props.collection, cwClient])
 
   return (
     <FlexBox width='100%' direction='column' gap={8}>

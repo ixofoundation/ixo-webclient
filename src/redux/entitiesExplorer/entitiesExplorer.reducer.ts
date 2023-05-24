@@ -53,9 +53,13 @@ export const reducer = (
       }
     }
     case EntitiesExplorerActions.GetIndividualEntity2: {
-      const { id, key, data } = action.payload
+      const { id, key, data, merge } = action.payload
       const entities2 = state.entities2 ? { ...state.entities2 } : {}
-      entities2[id] = { ...(entities2[id] || {}), [key]: data }
+      if (merge) {
+        entities2[id] = { ...(entities2[id] || {}), [key]: { ...entities2[id][key], ...data } }
+      } else {
+        entities2[id] = { ...(entities2[id] || {}), [key]: data }
+      }
       return { ...state, entities2 }
     }
     case EntitiesExplorerActions.GetEntityConfigSuccess: {

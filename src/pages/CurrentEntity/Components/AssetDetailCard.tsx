@@ -17,6 +17,7 @@ import { contracts } from '@ixo/impactxclient-sdk'
 import { convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
 import { plus } from 'utils/currency'
 import { claimAvailable } from 'utils/claims'
+import { CHAIN_ID } from 'hooks/configs'
 
 const data = [
   {
@@ -83,12 +84,12 @@ const AssetDetailCard: React.FC<Props> = ({
   ...rest
 }) => {
   const history = useHistory()
-  const { cosmWasmClient, address } = useAccount()
+  const { cwClient, address } = useAccount()
   const { selectedGroups } = useCurrentDao()
   const selectedGroup: DaoGroup | undefined = useMemo(() => {
     return Object.keys(selectedGroups).length === 1 ? Object.values(selectedGroups)[0] : undefined
   }, [selectedGroups])
-  const { daoVotingCw20StakedClient } = useCurrentDaoGroup(selectedGroup!.coreAddress)
+  const { votingModuleAddress } = useCurrentDaoGroup(selectedGroup!.coreAddress)
   const [groupStakingModalOpen, setGroupStakingModalOpen] = useState(false)
   const [groupUnstakingModalOpen, setGroupUnstakingModalOpen] = useState(false)
   const [groupClaimModalOpen, setGroupClaimModalOpen] = useState(false)
@@ -96,6 +97,7 @@ const AssetDetailCard: React.FC<Props> = ({
   const [stakedBalance, setStakedBalance] = useState('0')
   const [unstakingBalance, setUnstakingBalance] = useState('0')
   const [claimableBalance, setClaimableBalance] = useState('0')
+  const [tokenAddress, setTokenAddress] = useState('')
   const balanceUsd: string = useMemo(
     () => new BigNumber(balance).times(lastPriceUsd ?? 0).toString(),
     [balance, lastPriceUsd],
@@ -117,12 +119,13 @@ const AssetDetailCard: React.FC<Props> = ({
    *  Table data
    */
   const update = useCallback(async (): Promise<void> => {
-    if (!daoVotingCw20StakedClient) {
-      return
-    }
+    const daoVotingCw20StakedClient = new contracts.DaoVotingCw20Staked.DaoVotingCw20StakedQueryClient(
+      cwClient,
+      votingModuleAddress,
+    )
 
     const stakingContract = await daoVotingCw20StakedClient.stakingContract()
-    const cw20StakeClient = new contracts.Cw20Stake.Cw20StakeClient(cosmWasmClient, address, stakingContract)
+    const cw20StakeClient = new contracts.Cw20Stake.Cw20StakeQueryClient(cwClient, stakingContract)
     const { value: microStakedValue } = await cw20StakeClient.stakedValue({ address })
     const { claims } = await cw20StakeClient.claims({ address })
     const microUnstakingValue = claims
@@ -133,7 +136,7 @@ const AssetDetailCard: React.FC<Props> = ({
       .reduce((acc, cur) => plus(acc, cur.amount), '0')
 
     const tokenContract = await daoVotingCw20StakedClient.tokenContract()
-    const cw20BaseClient = new contracts.Cw20Base.Cw20BaseClient(cosmWasmClient, address, tokenContract)
+    const cw20BaseClient = new contracts.Cw20Base.Cw20BaseQueryClient(cwClient, tokenContract)
     const tokenInfo = await cw20BaseClient.tokenInfo()
     const { balance: microBalance } = await cw20BaseClient.balance({ address })
 
@@ -146,11 +149,19 @@ const AssetDetailCard: React.FC<Props> = ({
     setUnstakingBalance(unstakingValue)
     setClaimableBalance(claimableValue)
     setBalance(balance)
-  }, [address, cosmWasmClient, daoVotingCw20StakedClient])
+    setTokenAddress(tokenContract)
+  }, [address, cwClient, votingModuleAddress])
 
   useEffect(() => {
     update()
   }, [update, show])
+
+  const handleAddTokenToKeplr = async () => {
+    const keplr = await (await import('@keplr-wallet/stores')).getKeplrFromWindow()
+    if (keplr && tokenAddress) {
+      await keplr.suggestToken(CHAIN_ID!, tokenAddress)
+    }
+  }
 
   return show ? (
     <FlexBox
@@ -310,6 +321,17 @@ const AssetDetailCard: React.FC<Props> = ({
             </FlexBox>
             {/* Manage action */}
             <FlexBox gap={3} width='100%' justifyContent='flex-end'>
+              <Button
+                variant='secondary'
+                size='flex'
+                height={40}
+                textSize='base'
+                textTransform='capitalize'
+                textWeight='medium'
+                onClick={handleAddTokenToKeplr}
+              >
+                Add token to Keplr
+              </Button>
               <Button
                 variant='secondary'
                 size='flex'

@@ -122,17 +122,17 @@ export const getEntitiesByType =
   (dispatch: Dispatch, getState: () => RootState): GetEntities2Action => {
     const {
       entities: { entities2 },
-      account: { address, cosmWasmClient },
+      account: { cwClient },
     } = getState()
     return dispatch({
       type: EntitiesExplorerActions.GetEntities2,
       payload: bsService.entity.getEntitiesByType(entityType).then((entities: any[]) => {
         return entities?.map((entity) => {
           const { id } = entity
-          apiEntityToEntity({ entity, address, cosmWasmClient }, (key, value, merge) => {
+          apiEntityToEntity({ entity, cwClient }, (key, value, merge = false) => {
             dispatch({
               type: EntitiesExplorerActions.GetIndividualEntity2,
-              payload: { id, key, data: value },
+              payload: { id, key, data: value, merge },
             })
           })
           return { ...(entities2 && entities2[id] ? entities2[id] : {}), ...entity }

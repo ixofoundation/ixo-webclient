@@ -52,11 +52,9 @@ interface Props {
 
 const MemberCard: React.FC<Props> = ({ member, selected, onSelectMember }): JSX.Element => {
   const history = useHistory()
-  const { cosmWasmClient, address } = useAccount()
+  const { cwClient } = useAccount()
   const { selectedGroupsArr } = useCurrentDao()
-  const { type, daoGroup, proposals, votes, daoVotingCw20StakedClient } = useCurrentDaoGroup(
-    selectedGroupsArr[0].coreAddress,
-  )
+  const { type, daoGroup, proposals, votes, votingModuleAddress } = useCurrentDaoGroup(selectedGroupsArr[0].coreAddress)
   const { avatar, name, addr, role, status } = member
   const [detailView, setDetailView] = useState(false)
   const [userStakings, setUserStakings] = useState('0')
@@ -74,14 +72,18 @@ const MemberCard: React.FC<Props> = ({ member, selected, onSelectMember }): JSX.
   }, [daoGroup, addr, proposals, votes])
 
   useEffect(() => {
-    if (daoVotingCw20StakedClient && type === 'staking') {
+    if (type === 'staking') {
       ;(async () => {
+        const daoVotingCw20StakedClient = new contracts.DaoVotingCw20Staked.DaoVotingCw20StakedQueryClient(
+          cwClient,
+          votingModuleAddress,
+        )
         const stakingContract = await daoVotingCw20StakedClient.stakingContract()
-        const cw20StakeClient = new contracts.Cw20Stake.Cw20StakeClient(cosmWasmClient, address, stakingContract)
+        const cw20StakeClient = new contracts.Cw20Stake.Cw20StakeQueryClient(cwClient, stakingContract)
         const { value: microStakedValue } = await cw20StakeClient.stakedValue({ address: addr })
 
         const tokenContract = await daoVotingCw20StakedClient.tokenContract()
-        const cw20BaseClient = new contracts.Cw20Base.Cw20BaseClient(cosmWasmClient, address, tokenContract)
+        const cw20BaseClient = new contracts.Cw20Base.Cw20BaseQueryClient(cwClient, tokenContract)
         const tokenInfo = await cw20BaseClient.tokenInfo()
         const stakedValue = convertMicroDenomToDenomWithDecimals(microStakedValue, tokenInfo.decimals).toString()
         setUserStakings(stakedValue)
@@ -91,7 +93,7 @@ const MemberCard: React.FC<Props> = ({ member, selected, onSelectMember }): JSX.
       setUserStakings('0')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [daoVotingCw20StakedClient, cosmWasmClient, address, type])
+  }, [votingModuleAddress, cwClient, type])
 
   const handleMemberView = () => {
     history.push(`${history.location.pathname}/${addr}`)

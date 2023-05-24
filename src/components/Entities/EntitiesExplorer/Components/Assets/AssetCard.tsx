@@ -7,6 +7,7 @@ import { TEntityModel } from 'api/blocksync/types/entities'
 import { apiEntityToEntity } from 'utils/entities'
 import { Typography } from 'components/Typography'
 import { NavLink } from 'react-router-dom'
+import { useAccount } from 'hooks/account'
 
 interface Props {
   entity: any
@@ -15,6 +16,7 @@ interface Props {
 }
 
 const AssetCard: React.FC<Props> = ({ entity: _entity, selected = false, isSelecting = false }): JSX.Element => {
+  const { cwClient } = useAccount()
   const [entity, setEntity] = useState<TEntityModel>()
 
   const id = entity?.id
@@ -29,14 +31,14 @@ const AssetCard: React.FC<Props> = ({ entity: _entity, selected = false, isSelec
   useEffect(() => {
     if (_entity) {
       setEntity(_entity)
-      apiEntityToEntity({ entity: _entity }, (key, value) => {
+      apiEntityToEntity({ entity: _entity, cwClient }, (key, value) => {
         setEntity((entity: any) => ({ ...entity, [key]: value }))
       })
     }
     return () => {
       setEntity(undefined)
     }
-  }, [_entity])
+  }, [_entity, cwClient])
 
   return (
     <NavLink to={`/entity/${id}`} style={{ textDecoration: 'none' }}>
