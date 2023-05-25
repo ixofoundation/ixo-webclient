@@ -11,6 +11,7 @@ import {
   selectAccountName,
   selectAccountRegistered,
   selectAccountCosmWasmClient,
+  selectAccountCWClient,
 } from 'redux/account/account.selectors'
 import { decode } from 'bs58'
 import {
@@ -18,6 +19,7 @@ import {
   updateAddressAction,
   updateBalancesAction,
   updateCosmWasmAction,
+  updateCWClientAction,
   updateDidAction,
   updateNameAction,
   updatePubKeyAction,
@@ -30,13 +32,14 @@ import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/c
 import { useKeplr } from 'lib/keplr/keplr'
 import { OfflineSigner } from '@cosmjs/proto-signing'
 import { useMemo } from 'react'
-import { SigningCosmWasmClient } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/cosmwasm-stargate'
+import { SigningCosmWasmClient, CosmWasmClient } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/cosmwasm-stargate'
 
 export function useAccount(): {
   selectedWallet: WalletType
   address: string
   signingClient: SigningStargateClient
   cosmWasmClient: SigningCosmWasmClient
+  cwClient: CosmWasmClient
   pubKey: string
   pubKeyUint8: Uint8Array | undefined
   keyType: KeyTypes
@@ -51,6 +54,7 @@ export function useAccount(): {
   chooseWallet: (wallet: WalletType | undefined) => void
   updateSigningClient: (signingClient: SigningStargateClient) => void
   updateCosmWasmClient: (cosmWasmClient: SigningCosmWasmClient) => void
+  updateCWClient: (cosmWasmClient: CosmWasmClient) => void
   updateRegistered: (registered: boolean) => void
   updateDid: (did: string) => void
   updatePubKey: (pubKey: string) => void
@@ -63,6 +67,7 @@ export function useAccount(): {
   const address: string = useAppSelector(selectAccountAddress)
   const signingClient: SigningStargateClient = useAppSelector(selectAccountSigningClient)
   const cosmWasmClient: SigningCosmWasmClient = useAppSelector(selectAccountCosmWasmClient)
+  const cwClient: CosmWasmClient = useAppSelector(selectAccountCWClient)
   const pubKey: string = useAppSelector(selectAccountPubKey)
   const pubKeyUint8: Uint8Array | undefined = pubKey ? Uint8Array.from(decode(pubKey)) : undefined
   const keyType: KeyTypes = useAppSelector(selectAccountKeyType)
@@ -100,6 +105,9 @@ export function useAccount(): {
   }
   const updateCosmWasmClient = (cosmWasmClient: SigningCosmWasmClient): void => {
     dispatch(updateCosmWasmAction(cosmWasmClient))
+  }
+  const updateCWClient = (cosmWasmClient: CosmWasmClient): void => {
+    dispatch(updateCWClientAction(cosmWasmClient))
   }
   const updateRegistered = (registered: boolean): void => {
     dispatch(updateRegisteredAction(registered))
@@ -144,6 +152,7 @@ export function useAccount(): {
     address,
     signingClient,
     cosmWasmClient,
+    cwClient,
     pubKey,
     pubKeyUint8,
     keyType,
@@ -158,6 +167,7 @@ export function useAccount(): {
     chooseWallet,
     updateSigningClient,
     updateCosmWasmClient,
+    updateCWClient,
     updateRegistered,
     updateDid,
     updatePubKey,

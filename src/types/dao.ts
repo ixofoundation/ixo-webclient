@@ -1,6 +1,7 @@
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 import { Decimal } from '@ixo/impactxclient-sdk/types/codegen/CwFundDistributor.types'
 import { Binary, Empty, Timestamp, Uint128 } from '@ixo/impactxclient-sdk/types/codegen/DaoCore.types'
+import { SingleChoiceProposal } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
 // import { Binary, Decimal, Empty, Uint128 } from './common'
 
 /**
@@ -395,4 +396,12 @@ export const DurationUnitsValues = Object.values(DurationUnits)
 export interface DurationWithUnits {
   value: number
   units: DurationUnits
+}
+
+export interface Proposal {
+  id: number
+  proposal: SingleChoiceProposal & {
+    submissionDate: number
+    closeDate: number
+  }
 }

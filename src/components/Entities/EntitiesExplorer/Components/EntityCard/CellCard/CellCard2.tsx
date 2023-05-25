@@ -14,44 +14,34 @@ import {
 import SDGIcons from '../SDGIcons/SDGIcons'
 import { FlexBox } from 'components/App/App.styles'
 import { requireCheckDefault } from 'utils/images'
-import { TEntityDDOTagModel, TEntityLinkedEntityModel, TEntityProfileModel } from 'types/protocol'
+import { TEntityDDOTagModel, TEntityProfileModel } from 'types/protocol'
 import { Typography } from 'components/Typography'
-import { getDaoContractMembersInfo } from 'utils/dao'
-import { useAccount } from 'hooks/account'
 import { useEffect, useState } from 'react'
 
 interface Props {
   id: string
   profile: TEntityProfileModel
   tags: TEntityDDOTagModel[]
-  linkedEntity: TEntityLinkedEntityModel[]
+  daoGroups?: { [address: string]: any }
 }
 
-const DAOCard: React.FunctionComponent<Props> = ({ id, profile, tags, linkedEntity }) => {
+const DAOCard: React.FunctionComponent<Props> = ({ id, profile, tags, daoGroups = {} }) => {
   const sdgs = tags ? tags.find((item) => item && item.category === 'SDG' && Array.isArray(item.tags))?.tags ?? [] : []
 
-  const { cosmWasmClient, address } = useAccount()
   const [numOfMembers, setNumOfMembers] = useState(0)
 
   useEffect(() => {
-    if (linkedEntity.length > 0) {
-      linkedEntity
-        .filter((item: TEntityLinkedEntityModel) => item.type === 'Group')
-        .forEach((item: TEntityLinkedEntityModel) => {
-          const { id } = item
-          const [, coreAddress] = id.split('#')
-          getDaoContractMembersInfo({ coreAddress, cosmWasmClient, address })
-            .then((members) => {
-              setNumOfMembers((numOfMembers) => numOfMembers + members.length)
-            })
-            .catch(() => undefined)
+    if (Object.keys(daoGroups).length > 0) {
+      Object.values(daoGroups).forEach((daoGroup: any) => {
+        daoGroup.memberships.forEach((membership: any) => {
+          setNumOfMembers((numOfMembers) => numOfMembers + membership.members?.length)
         })
-      return () => {
-        setNumOfMembers(0)
-      }
+      })
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [!!cosmWasmClient])
+    return () => {
+      setNumOfMembers(0)
+    }
+  }, [daoGroups])
 
   return (
     <CardContainer>

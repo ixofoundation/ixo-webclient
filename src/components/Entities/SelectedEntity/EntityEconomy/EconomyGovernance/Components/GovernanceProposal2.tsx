@@ -16,7 +16,6 @@ import {
 } from 'components/Entities/SelectedEntity/EntityImpact/Overview/Components/Dashboard/Dashboard.styles'
 import { CircleProgressbar } from 'components/Widgets/CircleProgressbar/CircleProgressbar'
 import moment from 'moment'
-import { useAppSelector } from 'redux/hooks'
 import CopyToClipboard from 'react-copy-to-clipboard'
 import { VoteModal2 } from 'components/Modals'
 import { DashboardThemeContext } from 'components/Dashboard/Dashboard'
@@ -34,6 +33,8 @@ import { useIxoConfigs } from 'hooks/configs'
 import { serializeCoin } from 'utils/conversions'
 import { useHistory } from 'react-router-dom'
 import { truncateString, votingRemainingDateFormat } from 'utils/formatters'
+import { contracts } from '@ixo/impactxclient-sdk'
+import { useAccount } from 'hooks/account'
 
 const Container = styled.div<{ isDark: boolean }>`
   background: ${(props) =>
@@ -126,8 +127,8 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
   const history = useHistory()
   const { isDark } = useContext(DashboardThemeContext)
   const { convertToDenom } = useIxoConfigs()
-  const { daoGroup, daoProposalSingleClient, isParticipating, depositInfo } = useCurrentDaoGroup(coreAddress)
-  const { address } = useAppSelector((state) => state.account)
+  const { daoGroup, proposalModuleAddress, isParticipating, depositInfo } = useCurrentDaoGroup(coreAddress)
+  const { cosmWasmClient, address } = useAccount()
   const [myVoteStatus, setMyVoteStatus] = useState<VoteInfo | undefined>(undefined)
   const [votes, setVotes] = useState<VoteInfo[]>([])
   const [votingPeriod, setVotingPeriod] = useState<number>(0)
@@ -148,6 +149,11 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
     [numOfAvailableVotes, numOfYesVotes, numOfNoVotes, numOfNoWithVetoVotes, numOfAbstainVotes],
   )
   const proposalConfig: ProposalConfig | undefined = useMemo(() => daoGroup?.proposalModule.proposalConfig, [daoGroup])
+
+  const daoProposalSingleClient = useMemo(
+    () => new contracts.DaoProposalSingle.DaoProposalSingleClient(cosmWasmClient, address, proposalModuleAddress),
+    [proposalModuleAddress, cosmWasmClient, address],
+  )
 
   const getVoteStatus = useCallback(() => {
     daoProposalSingleClient.getVote({ proposalId, voter: address }).then(({ vote }) => {

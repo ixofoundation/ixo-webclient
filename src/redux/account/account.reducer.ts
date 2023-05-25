@@ -28,6 +28,7 @@ export const initialState: AccountState = {
   pubKey: undefined,
   signingClient: undefined,
   cosmWasmClient: undefined,
+  cwClient: undefined,
   did: undefined,
 } as any
 
@@ -101,6 +102,8 @@ export const reducer = (state = initialState, action: AccountActionTypes): Accou
       return { ...state, signingClient: action.payload }
     case AccountActions.UpdateCosmWasmClient:
       return { ...state, cosmWasmClient: action.payload }
+    case AccountActions.UpdateCWClient:
+      return { ...state, cwClient: action.payload }
     case AccountActions.UpdateDid:
       return { ...state, did: action.payload }
     default:

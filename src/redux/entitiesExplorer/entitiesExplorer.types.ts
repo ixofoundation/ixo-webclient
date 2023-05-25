@@ -127,7 +127,7 @@ export interface GetIndividualEntityAction {
 }
 export interface GetIndividualEntityAction2 {
   type: typeof EntitiesExplorerActions.GetIndividualEntity2
-  payload: { id: string; key: string; data: any }
+  payload: { id: string; key: string; data: any; merge: boolean }
 }
 
 export interface GetEntityConfigAction {

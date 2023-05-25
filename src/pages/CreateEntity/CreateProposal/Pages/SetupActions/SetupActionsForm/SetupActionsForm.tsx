@@ -36,13 +36,13 @@ const SetupActionsForm: React.FC<Props> = ({ actions, setActions }): JSX.Element
     <>
       <FlexBox gap={5} flexWrap='wrap'>
         {actions.map((item) => {
-          const Icon = ProposalActionConfig[item.group].items[item.text].icon
-          const disabled = ProposalActionConfig[item.group].items[item.text].disabled
+          const Icon = ProposalActionConfig[item.group].items[item.text]?.icon
+          const disabled = ProposalActionConfig[item.group].items[item.text]?.disabled
 
           return (
             <PropertyBox
               key={item.id}
-              icon={<Icon />}
+              icon={Icon && <Icon />}
               label={item.text}
               set={item.data}
               disabled={disabled}

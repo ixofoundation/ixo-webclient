@@ -6,12 +6,12 @@ import { Agent, FundSource, LiquiditySource, NodeType } from 'types/entities'
 import { AgentRole } from 'redux/account/account.types'
 import { PageContent } from 'redux/selectedEntity/selectedEntity.types'
 import { ApiListedEntityData } from 'api/blocksync/types/entities'
-import { TEntityDDOTagModel, TEntityServiceModel } from 'types/protocol'
+import { TDAOGroupModel, TEntityDDOTagModel, TEntityServiceModel } from 'types/protocol'
 import { LinkedEntity, LinkedResource, Service } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
-import { SigningCosmWasmClient } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/cosmwasm-stargate'
-import { getDaoContractInfo, membersToMemberships, thresholdToTQData } from './dao'
+import { CosmWasmClient } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/cosmwasm-stargate'
+import { getDaoContractInfo, thresholdToTQData } from './dao'
 import { convertSecondsToDurationWithUnits, durationToSeconds } from './conversions'
-import { DurationWithUnits } from 'types/dao'
+import { DurationWithUnits, Member } from 'types/dao'
 
 export const getCountryCoordinates = (countryCodes: string[]): any[] => {
   const coordinates: any[] = []
@@ -206,12 +206,18 @@ export const getBondDidFromApiListedEntityData = async (data: ApiListedEntityDat
   })
 }
 
+export const membersToMemberships = (members: Member[]): TDAOGroupModel['memberships'] => {
+  const memberships: { [weight: number]: string[] } = {}
+
+  members.forEach(({ addr, weight }) => {
+    memberships[weight] = [...(memberships[weight] ?? []), addr]
+  })
+
+  return Object.entries(memberships).map(([weight, members]) => ({ weight: Number(weight), members, category: '' }))
+}
+
 export function apiEntityToEntity(
-  {
-    entity,
-    cosmWasmClient,
-    address,
-  }: { entity: any; cosmWasmClient?: SigningCosmWasmClient | undefined; address?: string | undefined },
+  { entity, cwClient }: { entity: any; cwClient: CosmWasmClient },
   updateCallback: (key: string, value: any, merge?: boolean) => void,
 ): void {
   const { type, settings, linkedResource, service, linkedEntity } = entity
@@ -334,11 +340,10 @@ export function apiEntityToEntity(
       .forEach((item: LinkedEntity) => {
         const { id } = item
         const [, coreAddress] = id.split('#')
-        getDaoContractInfo({ coreAddress, cosmWasmClient, address })
+        getDaoContractInfo({ coreAddress, cwClient })
           .then((response) => {
-            console.log('getDaoContractInfo', { response })
             const { type, config, proposalModule, votingModule, token } = response
-            const { preProposeConfig, proposalConfig } = proposalModule
+            const { preProposeConfig, proposalConfig, proposals } = proposalModule
 
             const id = uuidv4()
             const name = config.name
@@ -412,11 +417,12 @@ export function apiEntityToEntity(
               proposalDuration,
               proposalDurationUnits,
               allowRevoting,
-
               absoluteThresholdCount,
+
+              proposals,
             }
 
-            updateCallback('daoGroups', { [id]: daoGroup }, true)
+            updateCallback('daoGroups', { [contractAddress]: daoGroup }, true)
           })
           .catch(() => undefined)
       })

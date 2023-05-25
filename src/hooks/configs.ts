@@ -19,7 +19,7 @@ import {
   getRelayersConfigAction,
 } from 'redux/configs/configs.actions'
 
-const CHAIN_ID = process.env.REACT_APP_CHAIN_ID
+export const CHAIN_ID = process.env.REACT_APP_CHAIN_ID
 export const chainNetwork: ChainNetwork = CHAIN_ID?.startsWith('ixo')
   ? 'mainnet'
   : CHAIN_ID?.startsWith('pandora')

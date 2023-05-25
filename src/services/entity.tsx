@@ -6,7 +6,6 @@ import { useSelectedEntity } from 'hooks/entity'
 import { useEffect } from 'react'
 import { useValidators } from 'hooks/validator'
 import useCurrentEntity from 'hooks/currentEntity'
-import { useAccount } from 'hooks/account'
 import useCurrentDao from 'hooks/currentDao'
 
 const EntityUpdateService = (): JSX.Element | null => {
@@ -17,7 +16,6 @@ const EntityUpdateService = (): JSX.Element | null => {
     updateEntityBondDetail,
   } = useSelectedEntity()
   const { getValidators } = useValidators()
-  const { cosmWasmClient } = useAccount()
   const { linkedEntity } = useCurrentEntity()
   const { setDaoGroup } = useCurrentDao()
 
@@ -53,7 +51,7 @@ const EntityUpdateService = (): JSX.Element | null => {
   }, [getValidators])
 
   useEffect(() => {
-    if (linkedEntity.length > 0 && !!cosmWasmClient) {
+    if (linkedEntity.length > 0) {
       linkedEntity
         .filter(({ type }) => type === 'Group')
         .forEach(({ id }) => {
@@ -62,7 +60,7 @@ const EntityUpdateService = (): JSX.Element | null => {
         })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [linkedEntity, cosmWasmClient])
+  }, [linkedEntity])
 
   return null
 }

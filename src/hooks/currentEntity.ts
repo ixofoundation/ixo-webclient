@@ -284,3 +284,8 @@ export function useCurrentEntityLinkedEntity(): {
 
   return { bondDid, linkedProposal }
 }
+
+export function useCurrentEntityAdminAccount(): string {
+  const { accounts } = useCurrentEntity()
+  return accounts.find((account) => account.name === 'admin')?.address || ''
+}

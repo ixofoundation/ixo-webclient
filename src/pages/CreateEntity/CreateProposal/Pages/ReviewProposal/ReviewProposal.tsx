@@ -41,7 +41,7 @@ const ReviewProposal: React.FC = () => {
   const { entityId, coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
   const { address, cosmWasmClient } = useAccount()
   const { name: entityName } = useCurrentEntityProfile()
-  const { daoGroup, daoPreProposeSingleClient, depositInfo, isParticipating, anyoneCanPropose } =
+  const { daoGroup, preProposalContractAddress, depositInfo, isParticipating, anyoneCanPropose } =
     useCurrentDaoGroup(coreAddress)
   const createEntityState = useCreateEntityState()
   const {
@@ -80,6 +80,8 @@ const ReviewProposal: React.FC = () => {
     makeUpdateVotingConfigAction,
     makeValidatorActions,
     makeWithdrawTokenSwapAction,
+    makeStakeToGroupAction,
+    makeSendGroupTokenAction,
   } = useMakeProposalAction(coreAddress)
   const [selectedAction, setSelectedAction] = useState<TProposalActionModel | undefined>()
   const SetupActionModal = useMemo(() => {
@@ -176,6 +178,10 @@ const ReviewProposal: React.FC = () => {
               return makeValidatorActions('ixovaloper1xz54y0ktew0dcm00f9vjw0p7x29pa4j5p9rwq6zerkytugzg27qsjdevsm', data)
             case 'Staking Actions':
               return makeStakeAction(data)
+            case 'Stake To Group':
+              return makeStakeToGroupAction(data)
+            case 'Send Group Tokens':
+              return makeSendGroupTokenAction(data)
 
             // Custom
             case 'Custom':
@@ -211,6 +217,11 @@ const ReviewProposal: React.FC = () => {
 
     console.log('wasmMessage', decodedMessagesString(wasmMessage))
 
+    const daoPreProposeSingleClient = new contracts.DaoPreProposeSingle.DaoPreProposeSingleClient(
+      cosmWasmClient,
+      address,
+      preProposalContractAddress,
+    )
     return await daoPreProposeSingleClient
       .propose(
         {

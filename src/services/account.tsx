@@ -2,18 +2,14 @@ import { createSigningClient, utils } from '@ixo/impactxclient-sdk'
 import { CheckIidDoc, RPC_ENDPOINT } from 'lib/protocol'
 import { useAccount } from 'hooks/account'
 import { useEffect } from 'react'
-import { SigningCosmWasmClient } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/cosmwasm-stargate'
+import { SigningCosmWasmClient, CosmWasmClient } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/cosmwasm-stargate'
 import { useWalletManager } from '@gssuper/cosmodal'
 import base58 from 'bs58'
-// import { useKeplr } from 'lib/keplr/keplr'
-// import { WalletType } from 'redux/account/account.types'
 
 const AccountUpdateService = (): JSX.Element | null => {
   const {
     did,
     address,
-    // selectedWallet,
-    // updateKeplrLoginStatus,
     updateBalances,
     updateName,
     updateAddress,
@@ -21,10 +17,10 @@ const AccountUpdateService = (): JSX.Element | null => {
     chooseWallet,
     updateSigningClient,
     updateCosmWasmClient,
+    updateCWClient,
     updateRegistered,
     updateDid,
   } = useAccount()
-  // const keplr = useKeplr()
   const { connectedWallet } = useWalletManager()
 
   useEffect(() => {
@@ -50,18 +46,6 @@ const AccountUpdateService = (): JSX.Element | null => {
     // eslint-disable-next-line
   }, [address])
 
-  // useEffect(() => {
-  //   if (selectedWallet === WalletType.Keplr) {
-  //     updateKeplrLoginStatus()
-  //     const offlineSigner = keplr.getOfflineSigner()
-  //     createSigningClient(RPC_ENDPOINT!, offlineSigner).then((client) => {
-  //       updateSigningClient(client)
-  //     })
-  //     SigningCosmWasmClient.connectWithSigner(RPC_ENDPOINT!, offlineSigner).then(updateCosmWasmClient)
-  //   }
-  //   // eslint-disable-next-line
-  // }, [selectedWallet])
-
   useEffect(() => {
     if (connectedWallet) {
       const { name, address, publicKey, offlineSigner } = connectedWallet
@@ -73,13 +57,16 @@ const AccountUpdateService = (): JSX.Element | null => {
       updatePubKey(pubKey)
       updateDid(did)
 
-      createSigningClient(RPC_ENDPOINT!, offlineSigner).then((client) => {
-        updateSigningClient(client)
-      })
+      createSigningClient(RPC_ENDPOINT!, offlineSigner).then(updateSigningClient)
       SigningCosmWasmClient.connectWithSigner(RPC_ENDPOINT!, offlineSigner).then(updateCosmWasmClient)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [connectedWallet])
+
+  useEffect(() => {
+    CosmWasmClient.connect(RPC_ENDPOINT!).then(updateCWClient)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return null
 }

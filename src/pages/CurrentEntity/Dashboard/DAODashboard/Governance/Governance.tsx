@@ -8,14 +8,17 @@ import { Typography } from 'components/Typography'
 import { Button } from 'pages/CreateEntity/Components'
 import { useHistory, useParams } from 'react-router-dom'
 import { ProposalResponse } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
+import { contracts } from '@ixo/impactxclient-sdk'
+import { useAccount } from 'hooks/account'
 
 const Governance: React.FC = () => {
   const { entityId } = useParams<{ entityId: string }>()
   const history = useHistory()
+  const { cwClient } = useAccount()
   const { selectedGroups, updateDaoGroup, selectDaoGroup } = useCurrentDao()
   const selectedGroupAddresses: string[] = Object.keys(selectedGroups)
   const numOfSelectedGroups = selectedGroupAddresses.length
-  const { daoProposalSingleClient, isParticipating, anyoneCanPropose } = useCurrentDaoGroup(selectedGroupAddresses[0])
+  const { proposalModuleAddress, isParticipating, anyoneCanPropose } = useCurrentDaoGroup(selectedGroupAddresses[0])
   const selectedGroup = useMemo(
     () => Object.keys(selectedGroups).length === 1 && Object.values(selectedGroups)[0],
     [selectedGroups],
@@ -26,17 +29,22 @@ const Governance: React.FC = () => {
       return
     }
     const coreAddress = Object.keys(selectedGroups)[0]
-    history.push(`/create/entity/deed/${entityId}/${coreAddress}/info`)
+    history.push(`/create/entity/deed/${entityId}/${coreAddress}`)
   }
 
   const reListProposals = useCallback(() => {
-    if (daoProposalSingleClient && !!selectedGroup) {
+    if (selectedGroup) {
+      const daoProposalSingleClient = new contracts.DaoProposalSingle.DaoProposalSingleQueryClient(
+        cwClient,
+        proposalModuleAddress,
+      )
       daoProposalSingleClient.listProposals({}).then(({ proposals }) => {
-        updateDaoGroup({ ...selectedGroup, proposalModule: { ...selectedGroup.proposalModule, proposals } })
+        // TODO: update proposals
+        updateDaoGroup({ ...selectedGroup, proposalModule: { ...selectedGroup.proposalModule } })
       })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [daoProposalSingleClient, !!selectedGroup])
+  }, [!!selectedGroup])
 
   useEffect(() => {
     reListProposals()

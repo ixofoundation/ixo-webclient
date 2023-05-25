@@ -24,3 +24,7 @@ export { default as SetupWithdrawTokenSwapModal } from './SetupWithdrawTokenSwap
 export { default as SetupManageStorageItemsModal } from './SetupManageStorageItemsModal'
 export { default as SetupDAOAdminExecuteModal } from './SetupDAOAdminExecuteModal'
 export { default as SetupEditEntityModal } from './SetupEditEntityModal'
+export { default as SetupVoteOnADAOModal } from './SetupVoteOnADAOModal'
+export { default as SetupSubmitProposalOnADAOModal } from './SetupSubmitProposalOnADAOModal'
+export { default as SetupStakeToGroupModal } from './SetupStakeToGroupModal'
+export { default as SetupSendGroupTokenModal } from './SetupSendGroupTokenModal'

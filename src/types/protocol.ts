@@ -67,6 +67,8 @@ import { ReactComponent as Plus2Icon } from 'assets/images/icon-plus2.svg'
 import { ReactComponent as CodeIcon } from 'assets/images/icon-code-solid.svg'
 import { ReactComponent as BoxOpenSolidIcon } from 'assets/images/icon-box-open-solid.svg'
 import { ReactComponent as SlidersHSolidIcon } from 'assets/images/icon-sliders-h-solid.svg'
+import { ReactComponent as VoteYeaIcon } from 'assets/images/icon-vote-yea-solid.svg'
+import { ReactComponent as VolumeUpIcon } from 'assets/images/icon-volume-up-solid.svg'
 import ShortText from 'assets/icons/ShortText'
 import DatePicker from 'assets/icons/DatePicker'
 import SingleDatePicker from 'assets/icons/SingleDatePicker'
@@ -97,6 +99,7 @@ import {
   SetupBurnNFTModal,
   SetupCustomModal,
   SetupDAOAdminExecuteModal,
+  SetupVoteOnADAOModal,
   SetupEditEntityModal,
   SetupExecuteSmartContractModal,
   SetupInstantiateSmartContractModal,
@@ -117,6 +120,9 @@ import {
   SetupValidatorActionsModal,
   SetupVoteOnAGovernanceProposalModal,
   SetupWithdrawTokenSwapModal,
+  SetupSubmitProposalOnADAOModal,
+  SetupStakeToGroupModal,
+  SetupSendGroupTokenModal,
 } from 'components/Modals/AddActionModal'
 
 export const EntitySettingsConfig: { [key: string]: any } = {
@@ -572,6 +578,7 @@ export const ProposalActionConfig = {
         description: 'Make transactions related to DAO run validators.',
         icon: GearMultiIcon,
         in: ['dao_voting_cw20_staked', 'dao_voting_cw4'],
+        disabled: true,
         setupModal: SetupValidatorActionsModal,
       },
       'Staking Actions': {
@@ -579,20 +586,22 @@ export const ProposalActionConfig = {
         description: 'Manage native token staking: claim rewards, delegate, redelegate and undelegate.',
         icon: Plus2Icon,
         in: ['dao_voting_cw20_staked', 'dao_voting_cw4'],
+        disabled: true,
         setupModal: SetupStakingActionsModal,
       },
-    },
-  },
-  Other: {
-    id: 'other',
-    text: 'Other',
-    items: {
-      Custom: {
-        text: 'Custom',
-        description: 'Perform any custom action a wallet can.',
-        icon: CodeIcon,
+      'Stake To Group': {
+        text: 'Stake To Group',
+        description: 'Manage cw20 token staking.',
+        icon: Plus2Icon,
         in: ['dao_voting_cw20_staked', 'dao_voting_cw4'],
-        setupModal: SetupCustomModal,
+        setupModal: SetupStakeToGroupModal,
+      },
+      'Send Group Tokens': {
+        text: 'Send Group Tokens',
+        description: 'Send Group Tokens.',
+        icon: ArrowUpIcon,
+        in: ['dao_voting_cw20_staked', 'dao_voting_cw4'],
+        setupModal: SetupSendGroupTokenModal,
       },
     },
   },
@@ -614,6 +623,39 @@ export const ProposalActionConfig = {
         in: ['dao_voting_cw20_staked', 'dao_voting_cw4'],
         disabled: true,
         setupModal: SetupEditEntityModal,
+      },
+    },
+  },
+  DAOs: {
+    id: 'daos',
+    text: 'DAOs',
+    items: {
+      Vote: {
+        text: 'Vote',
+        description: '',
+        icon: VoteYeaIcon,
+        in: ['dao_voting_cw20_staked', 'dao_voting_cw4'],
+        setupModal: SetupVoteOnADAOModal,
+      },
+      'Submit Proposal': {
+        text: 'Submit Proposal',
+        description: '',
+        icon: VolumeUpIcon,
+        in: ['dao_voting_cw20_staked', 'dao_voting_cw4'],
+        setupModal: SetupSubmitProposalOnADAOModal,
+      },
+    },
+  },
+  Other: {
+    id: 'other',
+    text: 'Other',
+    items: {
+      Custom: {
+        text: 'Custom',
+        description: 'Perform any custom action a wallet can.',
+        icon: CodeIcon,
+        in: ['dao_voting_cw20_staked', 'dao_voting_cw4'],
+        setupModal: SetupCustomModal,
       },
     },
   },

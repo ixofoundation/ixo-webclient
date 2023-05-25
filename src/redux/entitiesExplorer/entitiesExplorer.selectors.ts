@@ -31,6 +31,17 @@ export const selectAllEntitiesByType2 = createSelector(
   },
 )
 
+export const selectEntitiesByType = (type: string) =>
+  createSelector(selectEntitiesState, (entitiesState: EntitiesExplorerState): TEntityModel[] => {
+    return type
+      ? Object.values(entitiesState.entities2 ?? {}).filter((entity) => entity.type?.toLowerCase().includes(type))
+      : []
+  })
+
+export const selectDAOEntities = createSelector(selectEntitiesByType('dao'), (daos: TEntityModel[]): TEntityModel[] => {
+  return daos.filter((dao) => Object.keys(dao.daoGroups ?? {}).length > 0)
+})
+
 export const selectAllTemplateEntities = createSelector(
   selectEntitiesState,
   (entitiesState: EntitiesExplorerState): ExplorerEntity[] => {

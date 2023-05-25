@@ -6,7 +6,6 @@ import { TCreateEntityState } from 'redux/createEntity/createEntity.types'
 import EditDAO from './EditDAO/EditDAO'
 import { useAccount } from 'hooks/account'
 import { apiEntityToEntity } from 'utils/entities'
-import { useWalletManager } from '@gssuper/cosmodal'
 import { BlockSyncService } from 'services/blocksync'
 
 const bsService = new BlockSyncService()
@@ -24,8 +23,7 @@ export const EditEntityContext = createContext<
 
 const EditEntity: React.FC = (): JSX.Element => {
   const { entityId } = useParams<{ entityId: string }>()
-  const { connect } = useWalletManager()
-  const { address, cosmWasmClient } = useAccount()
+  const { cwClient } = useAccount()
   const [value, setValue] = useState<TCreateEntityState>(initialState)
 
   const handleUpdate = useCallback((entity: TCreateEntityState) => {
@@ -45,13 +43,9 @@ const EditEntity: React.FC = (): JSX.Element => {
 
   useEffect(() => {
     if (entityId) {
-      if (!cosmWasmClient) {
-        connect()
-      } else {
-        bsService.entity.getEntityById(entityId).then((entity: any) => {
-          apiEntityToEntity({ entity, cosmWasmClient, address }, handleUpdatePartial)
-        })
-      }
+      bsService.entity.getEntityById(entityId).then((entity: any) => {
+        apiEntityToEntity({ entity, cwClient }, handleUpdatePartial)
+      })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [entityId])
@@ -59,7 +53,7 @@ const EditEntity: React.FC = (): JSX.Element => {
   return (
     <EditEntityContext.Provider value={{ ...value, update: handleUpdate, updatePartial: handleUpdatePartial }}>
       <EditEntityLayout title={value.title} subtitle={value.subtitle} breadCrumbs={value.breadCrumbs}>
-        {Component && address && cosmWasmClient && <Component />}
+        {Component && cwClient && <Component />}
       </EditEntityLayout>
     </EditEntityContext.Provider>
   )

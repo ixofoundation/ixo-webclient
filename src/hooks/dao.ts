@@ -1,4 +1,7 @@
 import { gql, useQuery } from '@apollo/client'
+import { TEntityModel } from 'api/blocksync/types/entities'
+import { selectDAOEntities } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { useAppSelector } from 'redux/hooks'
 
 // GET_ALLDAOGROUPS
 const GET_ALLDAOGROUPS = gql`
@@ -283,4 +286,32 @@ export function useGetMemberProfile(address: string) {
     variables: { address },
   })
   return { loading, error, data: data?.getMemberProfile ?? {} }
+}
+
+//
+export function useDAO() {
+  const daos: TEntityModel[] = useAppSelector(selectDAOEntities)
+
+  const getParentDAOs = (daoId: string): TEntityModel[] => {
+    const dao = daos.find(({ id }) => id === daoId)
+    if (dao) {
+      const { accounts } = dao
+      const adminAccountAddress = accounts.find(({ name }) => name === 'admin')?.address
+      if (adminAccountAddress) {
+        return (
+          daos.filter(({ daoGroups = {} }) =>
+            Object.values(daoGroups).some((daoGroup: any) =>
+              daoGroup.memberships.some((membership: any) => membership.members.includes(adminAccountAddress)),
+            ),
+          ) ?? []
+        )
+      }
+    }
+    return []
+  }
+
+  return {
+    daos,
+    getParentDAOs,
+  }
 }

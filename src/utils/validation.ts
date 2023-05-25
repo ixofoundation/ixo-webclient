@@ -47,6 +47,20 @@ export const isAccountAddress = (address: string | undefined, prefix = 'ixo'): b
   return true
 }
 
+export const isContractAddress = (address: string | undefined, prefix = 'ixo'): boolean => {
+  if (!address) {
+    return false
+  }
+  if (!address.startsWith(prefix)) {
+    return false
+  }
+  const [, hash] = address.split(prefix)
+  if (hash.length !== 59) {
+    return false
+  }
+  return true
+}
+
 export const isNonZeroBalance = (amount: string | undefined): boolean => {
   return !new BigNumber(amount ?? '0').isZero()
 }

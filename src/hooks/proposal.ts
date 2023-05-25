@@ -42,6 +42,7 @@ import { CustomData } from 'components/Modals/AddActionModal/SetupCustomModal'
 import { ManageMembersData } from 'components/Modals/AddActionModal/SetupManageMembersModal'
 import { ManageStorageItemsData } from 'components/Modals/AddActionModal/SetupManageStorageItemsModal'
 import { ValidatorActionsData, ValidatorActionType } from 'components/Modals/AddActionModal/SetupValidatorActionsModal'
+import { StakeToGroupData } from 'components/Modals/AddActionModal/SetupStakeToGroupModal'
 import { MsgWithdrawValidatorCommission } from '@ixo/impactxclient-sdk/types/codegen/cosmos/distribution/v1beta1/tx'
 import { MsgUnjail } from '@ixo/impactxclient-sdk/types/codegen/cosmos/slashing/v1beta1/tx'
 import { PerformTokenSwapData } from 'components/Modals/AddActionModal/SetupTokenSwapModal'
@@ -49,6 +50,7 @@ import { coins } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/amino'
 import { DaoAdminExecData } from 'components/Modals/AddActionModal/SetupDAOAdminExecuteModal'
 import { useIxoConfigs } from 'hooks/configs'
 import { useCurrentDaoGroup } from './currentDao'
+import { SendGroupTokenData } from 'components/Modals/AddActionModal/SetupSendGroupTokenModal'
 
 export function useMakeProposalAction(coreAddress: string) {
   const { convertToMinimalDenom } = useIxoConfigs()
@@ -641,6 +643,44 @@ export function useMakeProposalAction(coreAddress: string) {
     })
   }
 
+  // TODO: TBD
+  const makeStakeToGroupAction = (data: StakeToGroupData): any => {
+    return makeWasmMessage({
+      wasm: {
+        execute: {
+          contract_addr: '',
+          funds: [],
+
+          msg: {
+            send: {
+              amount: data.amount,
+              contract: data.contract,
+              msg: btoa('{"stake": {}}'),
+            },
+          },
+        },
+      },
+    })
+  }
+
+  // TODO: TBD
+  const makeSendGroupTokenAction = (data: SendGroupTokenData): any => {
+    return makeWasmMessage({
+      wasm: {
+        execute: {
+          contract_addr: data.contract,
+          funds: [],
+          msg: {
+            transfer: {
+              recipient: data.toAddress,
+              amount: data.amount,
+            },
+          },
+        },
+      },
+    })
+  }
+
   return {
     makeSpendAction,
     makeAuthzExecAction,
@@ -667,5 +707,7 @@ export function useMakeProposalAction(coreAddress: string) {
     makeValidatorActions,
     makePerformTokenSwapAction,
     makeDaoAdminExecAction,
+    makeStakeToGroupAction,
+    makeSendGroupTokenAction,
   }
 }

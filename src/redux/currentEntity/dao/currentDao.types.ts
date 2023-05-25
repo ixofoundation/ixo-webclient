@@ -5,12 +5,8 @@ import {
   ProposalModuleCountResponse,
 } from '@ixo/impactxclient-sdk/types/codegen/DaoCore.types'
 import { Config as PreProposeConfig } from '@ixo/impactxclient-sdk/types/codegen/DaoPreProposeSingle.types'
-import {
-  Config as ProposalConfig,
-  ProposalResponse,
-  VoteInfo,
-} from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
-import { Member } from 'types/dao'
+import { Config as ProposalConfig, VoteInfo } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
+import { Member, Proposal } from 'types/dao'
 
 export type DaoGroup = {
   coreAddress: string
@@ -21,7 +17,7 @@ export type DaoGroup = {
     proposalModuleAddress: string
     preProposalContractAddress: string
     proposalModuleCount: ProposalModuleCountResponse
-    proposals: ProposalResponse[]
+    proposals: Proposal[]
     preProposeConfig: PreProposeConfig
     proposalConfig: ProposalConfig
     votes: VoteInfo[]
