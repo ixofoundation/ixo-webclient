@@ -48,36 +48,36 @@ import { MsgUnjail } from '@ixo/impactxclient-sdk/types/codegen/cosmos/slashing/
 import { PerformTokenSwapData } from 'components/Modals/AddActionModal/SetupTokenSwapModal'
 import { coins } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/amino'
 import { DaoAdminExecData } from 'components/Modals/AddActionModal/SetupDAOAdminExecuteModal'
-import { useIxoConfigs } from 'hooks/configs'
 import { useCurrentDaoGroup } from './currentDao'
 import { SendGroupTokenData } from 'components/Modals/AddActionModal/SetupSendGroupTokenModal'
 
 export function useMakeProposalAction(coreAddress: string) {
-  const { convertToMinimalDenom } = useIxoConfigs()
   const { daoGroup } = useCurrentDaoGroup(coreAddress)
 
   const makeSpendAction = (data: SpendData): any => {
-    const { denom, amount } = convertToMinimalDenom({ denom: data.denom, amount: data.amount })!
-    if (denom === NATIVE_MICRODENOM || denom.startsWith('ibc/')) {
-      const bank = makeBankMessage(amount, data.to, denom)
+    const { denom, amount, to } = data
+    if (
+      denom === NATIVE_MICRODENOM
+      //  || denom.startsWith('ibc/')
+    ) {
+      const bank = makeBankMessage(amount, to, denom)
       return { bank }
-    }
-
-    // Get cw20 token decimals from cw20 treasury list.
-    return makeWasmMessage({
-      wasm: {
-        execute: {
-          contract_addr: denom,
-          funds: [],
-          msg: {
-            transfer: {
-              recipient: data.to,
-              amount: amount,
+    } else {
+      return makeWasmMessage({
+        wasm: {
+          execute: {
+            contract_addr: denom,
+            funds: [],
+            msg: {
+              transfer: {
+                recipient: to,
+                amount: amount,
+              },
             },
           },
         },
-      },
-    })
+      })
+    }
   }
 
   const makeAuthzExecAction = (data: AuthzExecData): any => {
@@ -643,18 +643,16 @@ export function useMakeProposalAction(coreAddress: string) {
     })
   }
 
-  // TODO: TBD
   const makeStakeToGroupAction = (data: StakeToGroupData): any => {
     return makeWasmMessage({
       wasm: {
         execute: {
-          contract_addr: '',
+          contract_addr: data.tokenContract,
           funds: [],
-
           msg: {
             send: {
               amount: data.amount,
-              contract: data.contract,
+              contract: data.stakingContract,
               msg: btoa('{"stake": {}}'),
             },
           },
@@ -663,7 +661,6 @@ export function useMakeProposalAction(coreAddress: string) {
     })
   }
 
-  // TODO: TBD
   const makeSendGroupTokenAction = (data: SendGroupTokenData): any => {
     return makeWasmMessage({
       wasm: {

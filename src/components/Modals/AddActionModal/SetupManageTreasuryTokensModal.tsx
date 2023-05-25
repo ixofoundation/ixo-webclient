@@ -3,7 +3,7 @@ import { FlexBox } from 'components/App/App.styles'
 import { AccountValidStatus, Button, CodeMirror, Input } from 'pages/CreateEntity/Components'
 import { TProposalActionModel } from 'types/protocol'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
-import { isAccountAddress } from 'utils/validation'
+import { isContractAddress } from 'utils/validation'
 import { TitleAndDescription } from './Component'
 
 export interface ManageCw20Data {
@@ -31,7 +31,7 @@ const SetupManageTreasuryTokensModal: React.FC<Props> = ({ open, action, onClose
     total_supply: '42000000000000',
   }
 
-  const validate = useMemo(() => isAccountAddress(formData.address), [formData])
+  const validate = useMemo(() => isContractAddress(formData.address), [formData])
 
   useEffect(() => {
     setFormData(action?.data ?? initialState)
@@ -98,7 +98,7 @@ const SetupManageTreasuryTokensModal: React.FC<Props> = ({ open, action, onClose
         </FlexBox>
       </FlexBox>
 
-      {isAccountAddress(formData.address) && (
+      {isContractAddress(formData.address) && (
         <FlexBox direction='column' width='100%' gap={2}>
           <TitleAndDescription title={`Token info`} />
           <CodeMirror value={JSON.stringify(tokenInfo, null, 2)} readOnly />

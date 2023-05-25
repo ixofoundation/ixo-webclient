@@ -18,7 +18,11 @@ const InstructionsToExecute: React.FC = () => {
     if (!selectedAction) {
       return undefined
     }
-    return ProposalActionConfig[selectedAction.group].items[selectedAction.text].setupModal
+    try {
+      return ProposalActionConfig[selectedAction.group].items[selectedAction.text].setupModal
+    } catch (e) {
+      return undefined
+    }
   }, [selectedAction])
 
   console.log({ selectedAction })

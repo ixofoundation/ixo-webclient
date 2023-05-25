@@ -7,7 +7,7 @@ import styled from 'styled-components'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
 import { ReactComponent as TimesIcon } from 'assets/images/icon-times.svg'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
-import { isAccountAddress, validateJSON } from 'utils/validation'
+import { isContractAddress, validateJSON } from 'utils/validation'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 import { NATIVE_MICRODENOM } from 'constants/chains'
 
@@ -46,7 +46,7 @@ const SetupExecuteSmartContractModal: React.FC<Props> = ({ open, action, onClose
   const [formData, setFormData] = useState<ExecuteData>(initialState)
 
   const validate = useMemo(
-    () => isAccountAddress(formData.address) && validateJSON(formData.message) === true,
+    () => isContractAddress(formData.address) && validateJSON(formData.message) === true,
     [formData],
   )
 
