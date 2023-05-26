@@ -1,7 +1,7 @@
 {
   "theme": {
-    "fontFamily": "Montserrat",
-    "primaryColor": "#41204B",
+    "fontFamily": "Inter",
+    "primaryColor": "#4571E1",
     "secondaryColor": "#162A42",
     "backgroundColor": "#F6F6F6",
     "highlight": {
@@ -15,8 +15,8 @@
       "defaultView": "project"
     },
     "head": {
-      "title": "Yoma",
-      "icon": "yoma.png"
+      "title": "ReFi DAO",
+      "icon": "refi.png"
     },
     "topMenu": [
       {
@@ -27,33 +27,24 @@
     "header": {
       "background": "#172027",
       "buttonColor": "#71E3BA",
-      "link": "https://yoma.africa/"
+      "link": "https://www.refidao.com/"
     },
     "footer": {
       "mailTo": {
         "text": "Email",
-        "email": "help@yoma.africa"
+        "email": "je@refidao.com"
       },
-      "address": " Yoma 54 Kiewiet Road, Bridgetown, Athlone, Cape Town, 7764",
-      "privacyPolicy": {
-        "text": "Privacy policy",
-        "href": "https://www.ixo.world/privacy-policy"
-      },
+      "address": "Lisbon, Portugal",
       "socials": {
         "twitter": {
           "title": "Twitter",
-          "href": "https://twitter.com/YomaAfrica",
+          "href": "https://twitter.com/refidaoist",
           "iconClassName": "icon-twitter"
         },
-        "facebook": {
-          "title": "Facebook",
-          "href": "https://www.facebook.com/YomaAfrica",
-          "iconClassName": "icon-facebook"
-        },
-        "instagram": {
-          "title": "Instagram",
-          "href": "https://www.instagram.com/yomaafrica/",
-          "iconClassName": "icon-instagram"
+        "linkedin": {
+          "title": "Linkedin",
+          "href": "https://www.linkedin.com/company/refi-dao/",
+          "iconClassName": "icon-linkedin"
         }
       }
     }
@@ -64,13 +55,13 @@
   "project": {
     "title": "Project",
     "plural": "Projects",
-    "themeColor": "#41204B",
+    "themeColor": "#4571E1",
     "headerSchema": {
       "@context": "https://schema.ixo.foundation/project",
       "@type": "Header",
       "color": "transparent",
-      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/refi/src/assets/images/header-overrides/refi_hero.jpg",
-      "title": "Yoma",
+      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/refi_hero.jpg",
+      "title": "ReFi DAO",
       "subTitle": "Projects Explorer",
       "indicators": [
         {
@@ -100,11 +91,11 @@
           "id": "https://schema.ixo.foundation/cell/impactRelayer",
           "@type": "HeaderOverride",
           "ddoSector": "Sector",
-          "ddoTag": "Yoma",
-          "color": "#FFFFFF",
-          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/refi/src/assets/images/header-overrides/refi_hero.jpg",
-          "title": "Yoma",
-          "subTitle": "Youth Marketplace",
+          "ddoTag": "Cape Town",
+          "color": "transparent",
+          "image": "https://bafybeiehjsjd46owzp4cnrewmf7ecglkwn3obljj2qeu4efcstuhcvhusm.ipfs.w3s.link/reficapetown%20colourful.jpeg",
+          "title": "Cape Town",
+          "subTitle": "Local Node",
           "indicators": [
             {
               "@type": "Indicator",
@@ -586,13 +577,12 @@
       "sector": {
         "@type": "Category",
         "name": "Sector",
-        "hidden": true,
+        "hidden": false,
         "multiSelect": false,
-        "selectedTag": "Yoma",
         "tags": [
           {
             "@type": "sector",
-            "name": "Yoma",
+            "name": "Cape Town",
             "icon": "portfolio.svg"
           }
         ]
@@ -1154,13 +1144,13 @@
   "oracle": {
     "title": "Oracle",
     "plural": "Oracles",
-    "themeColor": "#A33232",
+    "themeColor": "#5AAA9F",
     "headerSchema": {
       "@context": "https://schema.ixo.foundation/oracle",
       "@type": "Header",
       "color": "transparent",
-      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/refi/src/assets/images/header-overrides/refi_hero.jpg",
-      "title": "Yoma",
+      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/refi_hero.jpg",
+      "title": "ReFi DAO",
       "subTitle": "Oracles Explorer",
       "indicators": [
         {
@@ -1190,11 +1180,11 @@
           "id": "https://schema.ixo.foundation/cell/impactRelayer",
           "@type": "HeaderOverride",
           "ddoSector": "Sector",
-          "ddoTag": "Yoma",
-          "color": "#FFFFFF",
-          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/refi/src/assets/images/header-overrides/refi_hero.jpg",
-          "title": "Yoma",
-          "subTitle": "Youth Marketplace",
+          "ddoTag": "Cape Town",
+          "color": "transparent",
+          "image": "https://bafybeiehjsjd46owzp4cnrewmf7ecglkwn3obljj2qeu4efcstuhcvhusm.ipfs.w3s.link/reficapetown%20colourful.jpeg",
+          "title": "Cape Town",
+          "subTitle": "Local Node",
           "indicators": [
             {
               "@type": "Indicator",
@@ -1308,13 +1298,12 @@
       "sector": {
         "@type": "Category",
         "name": "Sector",
-        "hidden": true,
+        "hidden": false,
         "multiSelect": false,
-        "selectedTag": "Yoma",
         "tags": [
           {
             "@type": "sector",
-            "name": "Yoma",
+            "name": "Cape Town",
             "icon": "portfolio.svg"
           }
         ]
@@ -1784,14 +1773,14 @@
   "investment": {
     "title": "Investment",
     "plural": "Investments",
-    "themeColor": "#4CADE9",
+    "themeColor": "#5257D7",
     "headerSchema": {
       "@context": "https://schema.ixo.foundation/investment",
       "@type": "Header",
       "color": "transparent",
-      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/refi/src/assets/images/header-overrides/refi_hero.jpg",
-      "title": "Yoma",
-      "subTitle": "Youth Marketplace",
+      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/refi_hero.jpg",
+      "title": "ReFi DAO",
+      "subTitle": "A network state to regenerate the Earth",
       "indicators": [
         {
           "@type": "Indicator",
@@ -1820,11 +1809,11 @@
           "id": "https://schema.ixo.foundation/cell/impactRelayer",
           "@type": "HeaderOverride",
           "ddoSector": "Sector",
-          "ddoTag": "Yoma",
-          "color": "#FFFFFF",
-          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/refi/src/assets/images/header-overrides/refi_hero.jpg",
-          "title": "Yoma",
-          "subTitle": "Youth Marketplace",
+          "ddoTag": "Cape Town",
+          "color": "transparent",
+          "image": "https://bafybeiehjsjd46owzp4cnrewmf7ecglkwn3obljj2qeu4efcstuhcvhusm.ipfs.w3s.link/reficapetown%20colourful.jpeg",
+          "title": "Cape Town",
+          "subTitle": "Local Node",
           "indicators": [
             {
               "@type": "Indicator",
@@ -1883,13 +1872,12 @@
       "sector": {
         "@type": "Category",
         "name": "Sector",
-        "hidden": true,
+        "hidden": false,
         "multiSelect": false,
-        "selectedTag": "Yoma",
         "tags": [
           {
             "@type": "sector",
-            "name": "Yoma",
+            "name": "Cape Town",
             "icon": "portfolio.svg"
           }
         ]
@@ -2550,14 +2538,14 @@
   "dao": {
     "title": "DAO",
     "plural": "DAOs",
-    "themeColor": "#5F65B9",
+    "themeColor": "#DE9AE9",
     "headerSchema": {
       "@context": "https://schema.ixo.foundation/cell",
       "@type": "Header",
       "color": "transparent",
-      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/refi/src/assets/images/header-overrides/refi_hero.jpg",
-      "title": "Yoma",
-      "subTitle": "Youth Marketplace",
+      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/refi_hero.jpg",
+      "title": "ReFi DAO",
+      "subTitle": "A network state to regenerate the Earth",
       "indicators": [
         {
           "@type": "Indicator",
@@ -2586,11 +2574,11 @@
           "id": "https://schema.ixo.foundation/cell/impactRelayer",
           "@type": "HeaderOverride",
           "ddoSector": "Sector",
-          "ddoTag": "Yoma",
-          "color": "#FFFFFF",
-          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/refi/src/assets/images/header-overrides/refi_hero.jpg",
-          "title": "Yoma",
-          "subTitle": "Youth Marketplace",
+          "ddoTag": "Cape Town",
+          "color": "transparent",
+          "image": "https://bafybeiehjsjd46owzp4cnrewmf7ecglkwn3obljj2qeu4efcstuhcvhusm.ipfs.w3s.link/reficapetown%20colourful.jpeg",
+          "title": "Cape Town",
+          "subTitle": "Local Node",
           "indicators": [
             {
               "@type": "Indicator",
@@ -2612,8 +2600,8 @@
       ]
     },
     "filterSchema": {
-      "@context": "https://schema.ixo.foundation/cell",
-      "@type": "Cell",
+      "@context": "https://schema.ixo.foundation/dao",
+      "@type": "DAO",
       "dateCreated": {
         "@type": "Date",
         "name": "Dates"
@@ -2846,13 +2834,12 @@
       "sector": {
         "@type": "Category",
         "name": "Sector",
-        "hidden": true,
+        "hidden": false,
         "multiSelect": false,
-        "selectedTag": "Yoma",
         "tags": [
           {
             "@type": "sector",
-            "name": "Yoma",
+            "name": "Cape Town",
             "icon": "portfolio.svg"
           }
         ]
@@ -3115,14 +3102,14 @@
   "protocol": {
     "title": "Protocol",
     "plural": "Protocols",
-    "themeColor": "#162A42",
+    "themeColor": "#DB9272",
     "headerSchema": {
       "@context": "https://schema.ixo.foundation/protocol",
       "@type": "Header",
       "color": "transparent",
-      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/refi/src/assets/images/header-overrides/refi_hero.jpg",
-      "title": "Yoma",
-      "subTitle": "Youth Marketplace",
+      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/refi_hero.jpg",
+      "title": "ReFi DAO",
+      "subTitle": "A network state to regenerate the Earth",
       "indicators": [
         {
           "@type": "Indicator",
@@ -3151,11 +3138,11 @@
           "id": "https://schema.ixo.foundation/cell/impactRelayer",
           "@type": "HeaderOverride",
           "ddoSector": "Sector",
-          "ddoTag": "Yoma",
-          "color": "#FFFFFF",
-          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/refi/src/assets/images/header-overrides/refi_hero.jpg",
-          "title": "Yoma",
-          "subTitle": "Youth Marketplace",
+          "ddoTag": "Cape Town",
+          "color": "transparent",
+          "image": "https://bafybeiehjsjd46owzp4cnrewmf7ecglkwn3obljj2qeu4efcstuhcvhusm.ipfs.w3s.link/reficapetown%20colourful.jpeg",
+          "title": "Cape Town",
+          "subTitle": "Local Node",
           "indicators": [
             {
               "@type": "Indicator",
@@ -3551,13 +3538,12 @@
       "sector": {
         "@type": "Category",
         "name": "Sector",
-        "hidden": true,
+        "hidden": false,
         "multiSelect": false,
-        "selectedTag": "Yoma",
         "tags": [
           {
             "@type": "sector",
-            "name": "Yoma",
+            "name": "Cape Town",
             "icon": "portfolio.svg"
           }
         ]
@@ -4027,14 +4013,14 @@
   "asset": {
     "title": "Asset",
     "plural": "Assets",
-    "themeColor": "#AE9C3E",
+    "themeColor": "#45A9E1",
     "headerSchema": {
       "@context": "https://schema.ixo.foundation/data-asset",
       "@type": "Header",
       "color": "transparent",
-      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/refi/src/assets/images/header-overrides/refi_hero.jpg",
-      "title": "Yoma",
-      "subTitle": "Youth Marketplace",
+      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/refi_hero.jpg",
+      "title": "ReFi DAO",
+      "subTitle": "A network state to regenerate the Earth",
       "indicators": [
         {
           "@type": "Indicator",
@@ -4063,11 +4049,11 @@
           "id": "https://schema.ixo.foundation/cell/impactRelayer",
           "@type": "HeaderOverride",
           "ddoSector": "Sector",
-          "ddoTag": "Yoma",
-          "color": "#FFFFFF",
-          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/refi/src/assets/images/header-overrides/refi_hero.jpg",
-          "title": "Yoma",
-          "subTitle": "Youth Marketplace",
+          "ddoTag": "Cape Town",
+          "color": "transparent",
+          "image": "https://bafybeiehjsjd46owzp4cnrewmf7ecglkwn3obljj2qeu4efcstuhcvhusm.ipfs.w3s.link/reficapetown%20colourful.jpeg",
+          "title": "Cape Town",
+          "subTitle": "Local Node",
           "indicators": [
             {
               "@type": "Indicator",
@@ -4126,13 +4112,12 @@
       "sector": {
         "@type": "Category",
         "name": "Sector",
-        "hidden": true,
+        "hidden": false,
         "multiSelect": false,
-        "selectedTag": "Yoma",
         "tags": [
           {
             "@type": "sector",
-            "name": "Yoma",
+            "name": "Cape Town",
             "icon": "portfolio.svg"
           }
         ]
