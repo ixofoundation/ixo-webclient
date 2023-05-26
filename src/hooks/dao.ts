@@ -310,8 +310,21 @@ export function useDAO() {
     return []
   }
 
+  const getTokenInfo = (daoId: string, groupAddress: string): any => {
+    const dao = daos.find(({ id }) => id === daoId)
+    if (dao) {
+      const { daoGroups } = dao
+      const daoGroup = daoGroups![groupAddress]
+      if (daoGroup) {
+        return daoGroup.staking
+      }
+    }
+    return undefined
+  }
+
   return {
     daos,
     getParentDAOs,
+    getTokenInfo,
   }
 }

@@ -129,10 +129,12 @@ const SetupSendGroupTokenModal: React.FC<Props> = ({ open, action, onClose, onSu
           <FlexBox position='relative' width='100%'>
             <Input
               inputValue={
-                tokenBalance.denom ? convertMicroDenomToDenomWithDecimals(formData.amount, tokenDecimals) : ''
+                tokenBalance.denom
+                  ? convertMicroDenomToDenomWithDecimals(formData.amount, tokenDecimals).toString()
+                  : ''
               }
               handleChange={(value) =>
-                handleUpdateFormData('amount', convertDenomToMicroDenomWithDecimals(value, tokenDecimals))
+                handleUpdateFormData('amount', convertDenomToMicroDenomWithDecimals(value, tokenDecimals).toString())
               }
               style={{ textAlign: 'right' }}
               disabled={!tokenBalance.denom}

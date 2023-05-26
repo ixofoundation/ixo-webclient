@@ -211,6 +211,10 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
 
   useEffect(() => {
     getVoteStatus()
+    return () => {
+      setMyVoteStatus(undefined)
+      setVotes([])
+    }
   }, [getVoteStatus])
 
   const calcPercentage = (limit: number, value: number): number => {

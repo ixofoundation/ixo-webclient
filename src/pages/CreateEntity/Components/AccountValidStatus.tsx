@@ -1,6 +1,6 @@
 import { FlexBox, theme } from 'components/App/App.styles'
 import React from 'react'
-import { isAccountAddress } from 'utils/validation'
+import { isAccountAddress, isContractAddress } from 'utils/validation'
 import { ReactComponent as CheckIcon } from 'assets/images/icon-check-big.svg'
 import { ReactComponent as TimesIcon } from 'assets/images/icon-times.svg'
 
@@ -9,7 +9,7 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const AccountValidStatus: React.FC<Props> = ({ address, ...rest }): JSX.Element => {
-  const isValidAddress: boolean = isAccountAddress(address)
+  const isValidAddress: boolean = isAccountAddress(address) || isContractAddress(address)
 
   return (
     <FlexBox

@@ -84,17 +84,34 @@ const GroupStakingModal: React.FunctionComponent<Props> = ({ daoGroup, open, set
         votingModuleAddress,
       )
       const stakingContract = await daoVotingCw20StakedClient.stakingContract()
+      console.log({ stakingContract })
       const cw20StakeClient = new contracts.Cw20Stake.Cw20StakeQueryClient(cwClient, stakingContract)
       const { unstaking_duration } = await cw20StakeClient.getConfig()
+
+      const totalStakedAtHeight = await cw20StakeClient.totalStakedAtHeight({})
+      console.log({ totalStakedAtHeight })
+
+      const listStakers = await cw20StakeClient.listStakers({})
+      console.log({ listStakers })
 
       if (unstaking_duration) {
         setUnstakingDuration(durationToSeconds(0, unstaking_duration))
       }
 
       const tokenContract = await daoVotingCw20StakedClient.tokenContract()
+      console.log({ tokenContract })
       const cw20BaseClient = new contracts.Cw20Base.Cw20BaseQueryClient(cwClient, tokenContract)
       const tokenInfo = await cw20BaseClient.tokenInfo()
       const marketingInfo = await cw20BaseClient.marketingInfo()
+
+      const allAccounts = await cw20BaseClient.allAccounts({})
+      console.log({ allAccounts })
+
+      allAccounts.accounts.map((account) => {
+        cw20BaseClient.balance({ address: account }).then((balance) => console.log({ account, balance }))
+        return ''
+      })
+
       const { balance: microBalance } = await cw20BaseClient.balance({ address })
 
       setBalance(convertMicroDenomToDenomWithDecimals(microBalance, tokenInfo.decimals).toString())
@@ -120,7 +137,6 @@ const GroupStakingModal: React.FunctionComponent<Props> = ({ daoGroup, open, set
       const stakingContract = await daoVotingCw20StakedClient.stakingContract()
       const tokenContract = await daoVotingCw20StakedClient.tokenContract()
       const cw20BaseClient = new contracts.Cw20Base.Cw20BaseClient(cosmWasmClient, address, tokenContract)
-      console.log({ tokenContract })
       const { transactionHash } = await cw20BaseClient.send(
         {
           amount: convertDenomToMicroDenomWithDecimals(amount, tokenInfo.decimals).toString(),

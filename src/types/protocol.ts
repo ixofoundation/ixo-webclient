@@ -415,7 +415,6 @@ export const ProposalActionConfig = {
         description: 'Manage Tokens displayed on your DAO’s treasury page.',
         icon: DatabaseMultiIcon,
         in: ['dao_voting_cw20_staked', 'dao_voting_cw4'],
-        disabled: true,
         setupModal: SetupManageTreasuryTokensModal,
       },
       'Withdraw Token Swap': {
@@ -430,8 +429,7 @@ export const ProposalActionConfig = {
         text: 'Spend',
         description: 'Spend native or CW20 tokens from the treasury.',
         icon: SpendIcon,
-        in: ['dao_voting_cw20_staked', 'dao_voting_cw4'],
-        disabled: true,
+        in: ['dao_voting_cw20_staked'],
         setupModal: SetupSpendModal,
       },
       'Token Swap': {

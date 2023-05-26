@@ -376,17 +376,21 @@ export function apiEntityToEntity(
               const tokenSymbol = tokenInfo.symbol
               const tokenName = tokenInfo.name
               const tokenSupply = tokenInfo.total_supply
+              const tokenDecimals = tokenInfo.decimals
               const tokenLogo = marketingInfo?.logo !== 'embedded' && marketingInfo.logo?.url
 
               const unstakingDuration: DurationWithUnits = convertSecondsToDurationWithUnits(
                 durationToSeconds(0, config.unstaking_duration),
               )
+              const tokenAddress = config.token_address
 
               staking = {
                 tokenSymbol,
                 tokenName,
                 tokenSupply,
                 tokenLogo,
+                tokenDecimals,
+                tokenAddress,
                 // treasuryPercent,
                 unstakingDuration,
               }

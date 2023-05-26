@@ -1,19 +1,21 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { FlexBox } from 'components/App/App.styles'
-import { AccountValidStatus, Input } from 'pages/CreateEntity/Components'
+import { Dropdown2, Input } from 'pages/CreateEntity/Components'
 import { Typography } from 'components/Typography'
 import { TProposalActionModel } from 'types/protocol'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
-import { isAccountAddress } from 'utils/validation'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
-import { TokenSelector } from './Component'
+import { NATIVE_DECIMAL, NATIVE_DENOM, NATIVE_MICRODENOM } from 'constants/chains'
+import { useDAO } from 'hooks/dao'
+import { useParams } from 'react-router-dom'
+import { convertDenomToMicroDenomWithDecimals, convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
 
 export interface SpendData extends Coin {
   to: string
 }
 
 const initialState = {
-  denom: 'uixo',
+  denom: NATIVE_MICRODENOM,
   amount: '1',
   to: '',
 }
@@ -26,20 +28,58 @@ interface Props {
 }
 
 const SetupSpendModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
+  const { entityId, coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
+  const { getTokenInfo } = useDAO()
   const [formData, setFormData] = useState<SpendData>(initialState)
 
-  const validate = useMemo(() => isAccountAddress(formData.to) && !!formData.amount && !!formData.denom, [formData])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const cw20Token = useMemo(() => getTokenInfo(entityId, coreAddress), [])
+
+  const validate = useMemo(() => !!formData.to && !!formData.amount && !!formData.denom, [formData])
 
   useEffect(() => {
-    setFormData(action?.data ?? initialState)
-  }, [action])
+    if (action?.data && cw20Token) {
+      let decimals = 0
+      if (action.data.denom === NATIVE_MICRODENOM) {
+        decimals = NATIVE_DECIMAL
+      } else {
+        decimals = cw20Token.tokenDecimals
+      }
+
+      const amount = convertMicroDenomToDenomWithDecimals(action.data.amount, decimals).toString()
+      setFormData({
+        denom: action.data.denom,
+        amount: amount,
+        to: action.data.to,
+      })
+    } else {
+      setFormData(initialState)
+    }
+  }, [action, cw20Token])
 
   const handleUpdateFormData = (key: string, value: string | number) => {
     onSubmit && setFormData((data: SpendData) => ({ ...data, [key]: value }))
   }
 
   const handleConfirm = () => {
-    onSubmit && onSubmit({ ...action, data: formData })
+    if (onSubmit) {
+      let decimals = 0
+      if (formData.denom === NATIVE_MICRODENOM) {
+        decimals = NATIVE_DECIMAL
+      } else {
+        decimals = cw20Token.tokenDecimals
+      }
+
+      const amount = convertDenomToMicroDenomWithDecimals(formData.amount, decimals).toString()
+      onSubmit({
+        ...action,
+        data: {
+          denom: formData.denom,
+          amount: amount,
+          to: formData.to,
+        },
+      })
+    }
     onClose()
   }
 
@@ -57,7 +97,17 @@ const SetupSpendModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): 
           handleChange={(value) => handleUpdateFormData('amount', value)}
           style={{ textAlign: 'right' }}
         />
-        <TokenSelector denom={formData.denom} onChange={(value) => handleUpdateFormData('denom', value)} />
+        <Dropdown2
+          name={'token'}
+          value={formData.denom}
+          options={[
+            { value: NATIVE_MICRODENOM, text: `$${NATIVE_DENOM.toUpperCase()}` },
+            ...(cw20Token ? [{ value: cw20Token.tokenAddress, text: `$${cw20Token.tokenSymbol.toUpperCase()}` }] : []),
+          ]}
+          hasArrow={false}
+          onChange={(e) => handleUpdateFormData('denom', e.target.value)}
+          style={{ textAlign: 'center' }}
+        />
       </FlexBox>
 
       <FlexBox width='100%'>
@@ -73,7 +123,6 @@ const SetupSpendModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): 
           inputValue={formData.to}
           handleChange={(value) => handleUpdateFormData('to', value)}
         />
-        <AccountValidStatus address={formData.to} />
       </FlexBox>
     </SetupActionModalTemplate>
   )

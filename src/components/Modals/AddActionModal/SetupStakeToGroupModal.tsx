@@ -4,9 +4,9 @@ import BigNumber from 'bignumber.js'
 import { FlexBox, theme } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { useAccount } from 'hooks/account'
-import { useCurrentEntityAdminAccount } from 'hooks/currentEntity'
 import { Input } from 'pages/CreateEntity/Components'
 import React, { useEffect, useMemo, useState } from 'react'
+import { useParams } from 'react-router-dom'
 import { TProposalActionModel } from 'types/protocol'
 import { convertDenomToMicroDenomWithDecimals, convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
 import { getContractNameByCodeId } from 'utils/dao'
@@ -15,11 +15,13 @@ import SetupActionModalTemplate from './SetupActionModalTemplate'
 
 export interface StakeToGroupData {
   amount: string
-  contract: string
+  tokenContract: string
+  stakingContract: string
 }
 const initialState: StakeToGroupData = {
   amount: '',
-  contract: '',
+  tokenContract: '',
+  stakingContract: '',
 }
 
 interface Props {
@@ -30,25 +32,40 @@ interface Props {
 }
 
 const SetupStakeToGroupModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
+  const { coreAddress } = useParams<{ coreAddress: string }>()
   const { cwClient } = useAccount()
-  const adminAccountAddress = useCurrentEntityAdminAccount()
   const [formData, setFormData] = useState<StakeToGroupData>(initialState)
   const [tokenBalance, setTokenBalance] = useState<Coin>({ amount: '0', denom: '' })
   const [tokenDecimals, setTokenDecimals] = useState(0)
   const [isValidContract, setIsValidContract] = useState(false)
+  const [groupContract, setGroupContract] = useState('')
 
   const validate = useMemo(() => {
-    return new BigNumber(formData.amount).isGreaterThan(new BigNumber(0)) && !!formData.contract
-  }, [formData])
+    return (
+      new BigNumber(formData.amount).isGreaterThan(new BigNumber(0)) &&
+      isContractAddress(groupContract) &&
+      isContractAddress(formData.tokenContract) &&
+      isContractAddress(formData.stakingContract)
+    )
+  }, [formData, groupContract])
+
+  const handleUpdateFormData = (key: string, value: any) => {
+    onSubmit && setFormData((data: any) => ({ ...data, [key]: value }))
+  }
+
+  const handleConfirm = () => {
+    onSubmit && onSubmit({ ...action, data: formData })
+    onClose()
+  }
 
   useEffect(() => {
     setFormData(action?.data ?? initialState)
   }, [action])
 
   useEffect(() => {
-    if (isContractAddress(formData.contract)) {
+    if (isContractAddress(groupContract)) {
       ;(async () => {
-        const daoCoreClient = new contracts.DaoCore.DaoCoreQueryClient(cwClient, formData.contract)
+        const daoCoreClient = new contracts.DaoCore.DaoCoreQueryClient(cwClient, groupContract)
         const votingModuleAddress = await daoCoreClient.votingModule()
         const { codeId } = await cwClient.getContract(votingModuleAddress)
         const contractName = getContractNameByCodeId(codeId)
@@ -62,12 +79,12 @@ const SetupStakeToGroupModal: React.FC<Props> = ({ open, action, onClose, onSubm
       setTokenBalance({ amount: '0', denom: '' })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [formData.contract])
+  }, [groupContract])
 
   useEffect(() => {
     if (isValidContract) {
       ;(async () => {
-        const daoCoreClient = new contracts.DaoCore.DaoCoreQueryClient(cwClient, formData.contract)
+        const daoCoreClient = new contracts.DaoCore.DaoCoreQueryClient(cwClient, groupContract)
 
         const votingModuleAddress = await daoCoreClient.votingModule()
 
@@ -76,29 +93,26 @@ const SetupStakeToGroupModal: React.FC<Props> = ({ open, action, onClose, onSubm
           votingModuleAddress,
         )
 
+        const stakingContract = await daoVotingCw20StakedClient.stakingContract()
         const tokenContract = await daoVotingCw20StakedClient.tokenContract()
         const cw20BaseClient = new contracts.Cw20Base.Cw20BaseQueryClient(cwClient, tokenContract)
         const tokenInfo = await cw20BaseClient.tokenInfo()
-        const { balance: microBalance } = await cw20BaseClient.balance({ address: adminAccountAddress })
+        const { balance: microBalance } = await cw20BaseClient.balance({ address: coreAddress })
         const balance = convertMicroDenomToDenomWithDecimals(microBalance, tokenInfo.decimals).toString()
 
         setTokenBalance({ amount: balance, denom: tokenInfo.symbol })
         setTokenDecimals(tokenInfo.decimals)
+        handleUpdateFormData('tokenContract', tokenContract)
+        handleUpdateFormData('stakingContract', stakingContract)
       })()
     } else {
       setTokenBalance({ amount: '0', denom: '' })
+      setTokenDecimals(0)
+      handleUpdateFormData('tokenContract', '')
+      handleUpdateFormData('stakingContract', '')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isValidContract])
-
-  const handleUpdateFormData = (key: string, value: any) => {
-    onSubmit && setFormData((data: any) => ({ ...data, [key]: value }))
-  }
-
-  const handleConfirm = () => {
-    onSubmit && onSubmit({ ...action, data: formData })
-    onClose()
-  }
 
   return (
     <SetupActionModalTemplate
@@ -112,7 +126,7 @@ const SetupStakeToGroupModal: React.FC<Props> = ({ open, action, onClose, onSubm
         <Typography size='xl' weight='medium'>
           Stake to
         </Typography>
-        <Input inputValue={formData.contract} handleChange={(value) => handleUpdateFormData('contract', value)} />
+        <Input inputValue={groupContract} handleChange={(value) => setGroupContract(value)} />
       </FlexBox>
 
       <FlexBox width='100%' gap={2} direction='column'>
@@ -123,10 +137,12 @@ const SetupStakeToGroupModal: React.FC<Props> = ({ open, action, onClose, onSubm
           <FlexBox position='relative' width='100%'>
             <Input
               inputValue={
-                tokenBalance.denom ? convertMicroDenomToDenomWithDecimals(formData.amount, tokenDecimals) : ''
+                tokenBalance.denom
+                  ? convertMicroDenomToDenomWithDecimals(formData.amount, tokenDecimals).toString()
+                  : ''
               }
               handleChange={(value) =>
-                handleUpdateFormData('amount', convertDenomToMicroDenomWithDecimals(value, tokenDecimals))
+                handleUpdateFormData('amount', convertDenomToMicroDenomWithDecimals(value, tokenDecimals).toString())
               }
               style={{ textAlign: 'right' }}
               disabled={!tokenBalance.denom}
