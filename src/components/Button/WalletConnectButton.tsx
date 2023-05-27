@@ -28,18 +28,12 @@ const WalletConnectButton: React.FC<Props> = ({ onClick }) => {
         onClick()
       }}
     >
-      <Typography variant='secondary' size='md'>
+      <Typography variant='secondary' size='md' color='white'>
         {truncateString(name, 8, 'end')}
       </Typography>
 
       <CopyToClipboard text={address} onCopy={() => successToast(`Copied to clipboard`)}>
-        <Typography
-          variant='secondary'
-          size='xs'
-          color='blue'
-          hover={{ underline: true }}
-          onClick={(e) => e.stopPropagation()}
-        >
+        <Typography variant='secondary' size='xs' hover={{ underline: true }} onClick={(e) => e.stopPropagation()}>
           {truncateString(address, 20)}
         </Typography>
       </CopyToClipboard>

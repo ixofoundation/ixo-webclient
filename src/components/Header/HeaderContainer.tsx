@@ -20,6 +20,8 @@ import {
 import { useAccount } from 'hooks/account'
 import { CreateIidDoc } from 'lib/protocol'
 import { truncateString } from 'utils/formatters'
+import { useAppSelector } from 'redux/hooks'
+import { selectEntityHeaderButtonColorUIConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 interface Props {
   entityType?: EntityType
@@ -47,6 +49,7 @@ const Header: React.FC<Props> = (props: Props): JSX.Element => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [modalResponse] = useState('')
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const buttonColor: string = useAppSelector(selectEntityHeaderButtonColorUIConfig)
 
   useEffect(() => {
     const { registered, address } = props
@@ -211,7 +214,8 @@ const Header: React.FC<Props> = (props: Props): JSX.Element => {
 
   return (
     <TopBar
-      className={`container-fluid text-white ${isMobileMenuOpen === true ? 'openMenu' : ''}`}
+      className={`container-fluid ${isMobileMenuOpen === true ? 'openMenu' : ''}`}
+      color={buttonColor}
       background={customBackground}
     >
       <ModalWrapper isModalOpen={isModalOpen} handleToggleModal={handleToggleModal} header={renderModalHeader()}>
