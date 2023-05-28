@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { deviceWidth } from 'constants/device'
 
 export const HeaderLink = styled(NavLink)`
-  color: ${(props): string => props.theme.ixoNewBlue};
+  color: currentColor;
   font-family: ${(props: any): string => props.theme.secondaryFontFamily};
   font-weight: 400;
   letter-spacing: 1px;
@@ -14,15 +14,15 @@ export const HeaderLink = styled(NavLink)`
 
   &.active {
     padding: 5px 10px 5px;
-    border: 1px solid ${(props): string => props.theme.ixoNewBlue};
+    border: 1px solid currentColor;
     border-radius: 3px;
     font-weight: 400;
     margin-left: 0px;
-    color: ${(props): string => props.theme.ixoNewBlue};
+    color: currentColor;
     @media (max-width: ${deviceWidth.desktop}px) {
       border: none;
       &.first-mobile {
-        border: 1px solid ${(props): string => props.theme.ixoNewBlue};
+        border: 1px solid currentColor;
       }
     }
   }
@@ -87,7 +87,7 @@ export const MenuHeaderAnchor = styled(HeaderAnchor)`
 export const Main = styled.div`
   padding: 15px 20px;
   justify-content: flex-end;
-  color: ${(props) => props.theme.ixoNewBlue};
+  color: currentColor;
 
   @media (max-width: ${deviceWidth.tablet}px) {
     padding: 15px 20px 30px;
@@ -115,6 +115,7 @@ export const NavItems = styled.div`
   display: flex;
   justify-content: flex-end;
   flex: 1;
+  color: currentColor;
 
   @media (min-width: ${deviceWidth.desktop}px) {
     display: block;
@@ -127,7 +128,7 @@ export const Menu = styled.div`
   align-items: center;
   justify-content: space-around;
   gap: 10px;
-
+  color: currentColor;
   @media (min-width: ${deviceWidth.desktop}px) {
     justify-content: unset;
     gap: 40px;
