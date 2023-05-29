@@ -17,6 +17,7 @@ import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.sele
 import { useHistory } from 'react-router-dom'
 import MediaQuery from 'react-responsive'
 import { deviceWidth } from 'constants/device'
+import { useQuery } from 'hooks/window'
 // TODO - when we know what the other entity types headers will look like then possibly refactor this as it's messy with all the conditions
 // or whatever else is needed. For now, just doing it based on entityType
 
@@ -42,6 +43,7 @@ export const EntitiesHero: React.FunctionComponent<Props> = ({
   const entityStrategyMap = entityTypeMap[type]
   const header = getHeaderSchema(filterSector, entityStrategyMap.headerSchema)
   const headerTabButtons = getHeaderTabButtons(type, entityStrategyMap.plural)
+  const { query } = useQuery()
 
   const getHeaderBackgroundUrl = (imagePath: string): string => {
     if (imagePath !== null) {
@@ -111,7 +113,11 @@ export const EntitiesHero: React.FunctionComponent<Props> = ({
             entityColor={entityStrategyMap.themeColor}
             type={type}
             filterQuery={filterQuery}
-            filterChanged={(type) => history.push({ pathname: history.location.pathname, search: `?type=${type}` })}
+            filterChanged={(type) => {
+              query.set('type', type)
+              history.replace({ search: query.toString() })
+            }}
+            // filterChanged={(type) => history.push({ pathname: history.location.pathname, search: `?type=${type}` })}
             queryChanged={handleChangeQuery!}
           />
         )}

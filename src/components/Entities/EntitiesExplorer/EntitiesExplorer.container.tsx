@@ -20,6 +20,7 @@ import {
 import {
   changeEntitiesType,
   filterEntitiesQuery,
+  filterSector,
   getEntitiesByType,
 } from 'redux/entitiesExplorer/entitiesExplorer.actions'
 import EntitiesFilter from './Components/EntitiesFilter/EntitiesFilter'
@@ -73,6 +74,7 @@ export interface Props extends RouteProps {
   handleGetEntitiesByType: (entityType: string) => void
   handleChangeEntitiesQuery: (query: string) => void
   handleChangeEntitiesType: (type: string) => void
+  handleChangeSector: (sector: string) => void
 }
 
 const EntityCard: any = {
@@ -88,6 +90,8 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
   const isMobile = useMediaQuery({ maxWidth: deviceWidth.tablet })
   const isTablet = useMediaQuery({ minWidth: deviceWidth.tablet, maxWidth: deviceWidth.desktop })
   const { getQuery } = useQuery()
+  const type: string | undefined = getQuery('type')
+  const sector: string | undefined = getQuery('sector')
   const [assistantPanelActive, setAssistantPanelActive] = useState(false)
   const itemsCount = 6
   const [scrollOffset, setScrollOffest] = useState(1)
@@ -183,12 +187,16 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
   }
 
   useEffect(() => {
-    const type: string | undefined = getQuery('type')
     if (type) {
       props.handleChangeEntitiesType(type)
     }
     // eslint-disable-next-line
-  }, [])
+  }, [type])
+
+  useEffect(() => {
+    props.handleChangeSector(sector || '')
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sector])
 
   useEffect(() => {
     props.handleGetEntitiesByType(props.type)
@@ -243,6 +251,7 @@ const mapDispatchToProps = (dispatch: any): any => ({
   handleGetEntitiesByType: (entityType: string): void => dispatch(getEntitiesByType(entityType)),
   handleChangeEntitiesQuery: (query: string): void => dispatch(filterEntitiesQuery(query)),
   handleChangeEntitiesType: (type: EntityType): void => dispatch(changeEntitiesType(type)),
+  handleChangeSector: (sector: string): void => dispatch(filterSector(sector)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(EntitiesExplorer as any)
