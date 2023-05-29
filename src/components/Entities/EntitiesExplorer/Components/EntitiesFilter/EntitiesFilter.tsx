@@ -45,17 +45,17 @@ import {
   filterAddCategoryTag,
   filterCategoryTag,
   filterDates,
-  filterSector,
   filterToggleFeaturedEntities,
   filterTogglePopularEntities,
   filterToggleUserEntities,
   resetCategoryFilter,
   resetDatesFilter,
   resetFilters,
-  resetSectorFilter,
 } from 'redux/entitiesExplorer/entitiesExplorer.actions'
 import { selectEntityConfig, selectEntityConfigByGivenType } from 'redux/configs/configs.selectors'
 import { Schema as FilterSchema } from 'components/Entities/EntitiesExplorer/Components/EntitiesFilter/schema/types'
+import { useHistory } from 'react-router-dom'
+import { useQuery } from 'hooks/window'
 
 // TODO - make this 2 separate components - Desktop and Mobile
 
@@ -64,6 +64,8 @@ interface Props {
 }
 
 const EntitiesFilter: FC<Props> = () => {
+  const history = useHistory()
+  const { query } = useQuery()
   const dispatch = useAppDispatch()
   const startDate = useAppSelector(selectFilterDateFrom)
   const endDate = useAppSelector(selectFilterDateTo)
@@ -186,13 +188,15 @@ const EntitiesFilter: FC<Props> = () => {
     }
   }
 
-  const handleFilterSector = (tag: string): void => {
-    dispatch(filterSector(tag))
+  const handleFilterSector = (sector: string): void => {
+    query.set('sector', sector)
+    history.replace({ search: query.toString() })
   }
 
   const handleResetSectorFilter = (): void => {
     setActiveFilter('')
-    dispatch(resetSectorFilter())
+    query.delete('sector')
+    history.replace({ search: query.toString() })
   }
 
   const handleResetDateFilter = (): void => {

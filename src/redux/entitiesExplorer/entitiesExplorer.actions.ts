@@ -127,16 +127,18 @@ export const getEntitiesByType =
     return dispatch({
       type: EntitiesExplorerActions.GetEntities2,
       payload: bsService.entity.getEntitiesByType(entityType).then((entities: any[]) => {
-        return entities?.map((entity) => {
-          const { id } = entity
-          apiEntityToEntity({ entity, cwClient }, (key, value, merge = false) => {
-            dispatch({
-              type: EntitiesExplorerActions.GetIndividualEntity2,
-              payload: { id, key, data: value, merge },
+        return entities
+          ?.filter((entity) => entity.relayerNode === process.env.REACT_APP_RELAYER_NODE)
+          .map((entity) => {
+            const { id } = entity
+            apiEntityToEntity({ entity, cwClient }, (key, value, merge = false) => {
+              dispatch({
+                type: EntitiesExplorerActions.GetIndividualEntity2,
+                payload: { id, key, data: value, merge },
+              })
             })
+            return { ...(entities2 && entities2[id] ? entities2[id] : {}), ...entity }
           })
-          return { ...(entities2 && entities2[id] ? entities2[id] : {}), ...entity }
-        })
       }),
     })
   }
