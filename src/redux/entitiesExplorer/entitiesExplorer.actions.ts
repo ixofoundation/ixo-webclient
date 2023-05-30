@@ -128,7 +128,11 @@ export const getEntitiesByType =
       type: EntitiesExplorerActions.GetEntities2,
       payload: bsService.entity.getEntitiesByType(entityType).then((entities: any[]) => {
         return entities
-          ?.filter((entity) => entity.relayerNode === process.env.REACT_APP_RELAYER_NODE)
+          ?.filter(
+            (entity) =>
+              entity.relayerNode === process.env.REACT_APP_RELAYER_NODE ||
+              entity.id === process.env.REACT_APP_RELAYER_NODE,
+          )
           .map((entity) => {
             const { id } = entity
             apiEntityToEntity({ entity, cwClient }, (key, value, merge = false) => {
