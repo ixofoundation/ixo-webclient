@@ -358,6 +358,7 @@ interface TCreateEntityHookRes {
       accordedRight: AccordedRight[]
       linkedEntity: LinkedEntity[]
       verification?: Verification[]
+      relayerNode?: string
     },
   ) => Promise<string>
   CreateDAOCoreByGroupId: (daoGroup: TDAOGroupModel) => Promise<string>
@@ -961,10 +962,11 @@ export function useCreateEntity(): TCreateEntityHookRes {
       accordedRight: AccordedRight[]
       linkedEntity: LinkedEntity[]
       verification?: Verification[]
+      relayerNode?: string
     },
   ): Promise<string> => {
     try {
-      const { service, linkedResource, accordedRight, linkedEntity, verification } = payload
+      const { service, linkedResource, accordedRight, linkedEntity, verification, relayerNode } = payload
       const res = await CreateEntity(signingClient, signer, [
         {
           entityType,
@@ -975,6 +977,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
           accordedRight,
           linkedEntity,
           verification,
+          relayerNode,
         },
       ])
       const did = utils.common.getValueFromEvents(res!, 'wasm', 'token_id')

@@ -33,6 +33,7 @@ export const CreateEntity = async (
     linkedEntity?: LinkedEntity[]
     linkedClaim?: LinkedClaim[]
     verification?: Verification[]
+    relayerNode?: string
   }[],
 ): Promise<DeliverTxResponse | undefined> => {
   try {
@@ -48,6 +49,7 @@ export const CreateEntity = async (
         linkedEntity = [],
         linkedClaim = [],
         verification = [],
+        relayerNode = did,
       } = item
       return {
         typeUrl: '/ixo.entity.v1beta1.MsgCreateEntity',
@@ -67,7 +69,7 @@ export const CreateEntity = async (
           controller: [did],
           ownerDid: did,
           ownerAddress: address,
-          relayerNode: did,
+          relayerNode: relayerNode,
           service: service.map((item: Service) => ixo.iid.v1beta1.Service.fromPartial(item)),
           linkedResource: linkedResource.map((item: LinkedResource) =>
             ixo.iid.v1beta1.LinkedResource.fromPartial(item),
