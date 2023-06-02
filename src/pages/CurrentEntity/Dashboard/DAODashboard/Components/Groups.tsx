@@ -9,6 +9,10 @@ import { Typography } from 'components/Typography'
 import useCurrentDao from 'hooks/currentDao'
 import { CurrentDao, DaoGroup } from 'redux/currentEntity/dao/currentDao.types'
 import { deviceWidth } from 'constants/device'
+import { truncateString } from 'utils/formatters'
+import { ReactComponent as CopyIcon } from 'assets/images/icon-copy.svg'
+import CopyToClipboard from 'react-copy-to-clipboard'
+import { successToast } from 'utils/toast'
 
 const StyledSlider = styled(Slider)`
   .slick-track {
@@ -118,11 +122,21 @@ const Groups: React.FC<Props> = ({ isFollowing, selectedGroups, selectDaoGroup }
           {daoGroup.config.name}
         </Typography>
       </Box>
-      <Box mb={4}>
+      <Box>
         <Typography color='light-blue' weight='medium' size='sm'>
           {daoGroup.type} group
         </Typography>
       </Box>
+      <CopyToClipboard text={daoGroup.coreAddress} onCopy={() => successToast(null, `Copied to clipboard`)}>
+        <FlexBox mb={4} alignItems='center' gap={1} onClick={(e) => e.stopPropagation()}>
+          <Typography color='blue' weight='medium' size='sm' hover={{ underline: true }}>
+            {truncateString(daoGroup.coreAddress, 20, 'middle')}
+          </Typography>
+          <SvgBox color={theme.ixoNewBlue} svgWidth={5} svgHeight={5}>
+            <CopyIcon />
+          </SvgBox>
+        </FlexBox>
+      </CopyToClipboard>
       <FlexBox alignItems='center' gap={4} height='36px'>
         <FlexBox ml={-2}>
           {daoGroup.votingModule.members.slice(0, 4).map((member, index) => (
