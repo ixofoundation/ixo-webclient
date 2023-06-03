@@ -2,42 +2,27 @@ import React from 'react'
 import { Card } from '../Card'
 import { Widget } from '../types'
 import { ReactComponent as CommentIcon } from 'assets/images/icon-comment-alt.svg'
-import { ReactComponent as TelegramIcon } from 'assets/images/icon-telegram.svg'
-import { ReactComponent as DiscordIcon } from 'assets/images/icon-discord.svg'
-import { ReactComponent as SlackIcon } from 'assets/images/icon-slack.svg'
+import { ReactSVG } from 'react-svg'
+import { requireCheckDefault } from 'utils/images'
 
 interface Props {
   widget: Widget
 }
 
-const Connect: React.FC<Props> = () => {
+const Connect: React.FC<Props> = ({ widget }) => {
+  const { controls } = widget
+
   return (
     <Card
       icon={<CommentIcon />}
       title='Connect'
-      items={[
-        {
-          icon: <TelegramIcon />,
-          content: 'Telegram',
-          onClick: () => {
-            window.open('https://t.me/ixonetwork')
-          },
+      items={controls.map((control) => ({
+        icon: <ReactSVG src={requireCheckDefault(require(`../../../${control.icon}`))} />,
+        content: control.title,
+        onClick: () => {
+          window.open(control.endpoint)
         },
-        {
-          icon: <DiscordIcon />,
-          content: 'Discord',
-          onClick: () => {
-            window.open('https://discord.gg/ixo')
-          },
-        },
-        {
-          icon: <SlackIcon />,
-          content: 'Slack',
-          onClick: () => {
-            window.open('https://ixofoundation.slack.com/signup#/domain-signup')
-          },
-        },
-      ]}
+      }))}
     />
   )
 }

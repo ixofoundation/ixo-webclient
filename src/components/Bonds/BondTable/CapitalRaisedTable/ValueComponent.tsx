@@ -1,7 +1,7 @@
 import { FunctionComponent } from 'react'
 import styled from 'styled-components'
-import XIcon from './node_modules/assets/images/x-icon.svg'
-import EyeIcon from './node_modules/assets/images/icon-eye.svg'
+import XIcon from 'assets/images/x-icon.svg'
+import EyeIcon from 'assets/images/icon-eye.svg'
 
 interface ValueComponentProps {
   value: number

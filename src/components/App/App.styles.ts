@@ -178,6 +178,7 @@ export interface HTMLElementProps {
   fontSize?: number
   fontWeight?: number | string
   boxShadow?: string
+  textAlign?: string
 
   className?: string
   children?: ReactNode
@@ -275,6 +276,7 @@ const htmlElementCss = css<HTMLDivProps>`
   ${({ fontSize }) => fontSize && `font-size: ${fontSize * 0.25}rem`};
   ${({ fontWeight }) => fontWeight && `font-weight: ${fontWeight}`};
   ${({ boxShadow }) => boxShadow && `box-shadow: ${boxShadow}`};
+  ${({ textAlign }) => textAlign && `text-align: ${textAlign}`};
 
   &:hover {
     ${({ hover }) => hover?.background && `background: ${hover.background};`}

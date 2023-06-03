@@ -3110,6 +3110,24 @@
             ],
             "data": null,
             "parameters": null
+          },
+          {
+            "@type": "External",
+            "@id": "linkedin",
+            "title": "Linkedin",
+            "tooltip": "Join the Community",
+            "icon": "assets/images/icon-linkedin.svg",
+            "iconColor": "#000000",
+            "endpoint": "https://www.linkedin.com/company/ixoworld",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": null
+              }
+            ],
+            "data": null,
+            "parameters": null
           }
         ]
       }
