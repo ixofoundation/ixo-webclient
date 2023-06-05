@@ -173,6 +173,9 @@ const UserStakes: React.FC<Props> = ({ show, coreAddress, userAddress }) => {
 
   useEffect(() => {
     update()
+    return () => {
+      setData([])
+    }
   }, [update, show])
 
   const handleRowClick = (state: any) => () => {

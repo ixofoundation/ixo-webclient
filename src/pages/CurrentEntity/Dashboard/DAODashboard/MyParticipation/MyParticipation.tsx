@@ -5,7 +5,7 @@ import { useQuery } from 'hooks/window'
 import React, { useMemo } from 'react'
 import { useHistory } from 'react-router-dom'
 import { AssetDetailCard, Card } from '../../../Components'
-import { Groups, UserStakes, UserVotingPower, UserActivity, UserProposals } from '../Components'
+import { Groups, UserStakes, UserVotingPower, UserProposals } from '../Components'
 import { ReactComponent as ArrowLeftIcon } from 'assets/images/icon-arrow-left.svg'
 import { ReactComponent as StakesIcon } from 'assets/images/icon-stakes.svg'
 import { ReactComponent as ProposalsIcon } from 'assets/images/icon-proposals.svg'
@@ -77,9 +77,9 @@ const MyParticipation: React.FC = () => {
           {/* !expand && !token */}
           <GridContainer
             className={clxs({ 'd-none': expand || token })}
-            gridTemplateAreas={`"a a b b" "c c c c"`}
+            gridTemplateAreas={`"a a b b"`}
             gridTemplateColumns={'1fr 1fr 1fr 1fr'}
-            gridTemplateRows={'repeat(2, minmax(330px, auto))'}
+            gridTemplateRows={'repeat(1, minmax(330px, auto))'}
             gridGap={6}
             width='100%'
           >
@@ -113,9 +113,9 @@ const MyParticipation: React.FC = () => {
                 <UserProposals show={!expand && !token} coreAddress={selectedGroup.coreAddress} full={false} />
               </Card>
             </GridItem>
-            <GridItem gridArea='c'>
+            {/* <GridItem gridArea='c'>
               <UserActivity />
-            </GridItem>
+            </GridItem> */}
           </GridContainer>
         </>
       )}

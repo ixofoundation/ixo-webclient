@@ -30,6 +30,9 @@ const Membership: React.FC = (): JSX.Element | null => {
     votes: undefined,
     proposals: undefined,
   })
+
+  console.log({ members })
+
   const filteredMembers = useMemo(() => {
     const [sortBy, order] = Object.entries(sort).find(([, value]) => value) ?? ['name', 'asc']
     return members
@@ -41,11 +44,11 @@ const Membership: React.FC = (): JSX.Element | null => {
         switch (sortBy) {
           case 'name':
           default:
-            if (order === 'desc') return String(b?.name || '').localeCompare(String(a?.name || ''))
-            return String(a?.name || '').localeCompare(String(b?.name || ''))
+            if (order === 'desc') return String(b?.name || b.addr).localeCompare(String(a?.name || a.addr))
+            return String(a?.name || a.addr).localeCompare(String(b?.name || b.addr))
           case 'votingPower':
-            if (order === 'desc') return b?.weight - a?.weight
-            return a?.weight - b?.weight
+            if (order === 'desc') return b.weight - a.weight
+            return a.weight - b.weight
           case 'staking':
             if (order === 'desc') return (b?.staking as number) - (a?.staking as number)
             return (a?.staking as number) - (b?.staking as number)

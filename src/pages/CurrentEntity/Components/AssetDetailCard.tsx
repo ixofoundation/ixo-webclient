@@ -154,6 +154,13 @@ const AssetDetailCard: React.FC<Props> = ({
 
   useEffect(() => {
     update()
+    return () => {
+      setStakedBalance('0')
+      setUnstakingBalance('0')
+      setClaimableBalance('0')
+      setBalance('0')
+      setTokenAddress('')
+    }
   }, [update, show])
 
   const handleAddTokenToKeplr = async () => {
