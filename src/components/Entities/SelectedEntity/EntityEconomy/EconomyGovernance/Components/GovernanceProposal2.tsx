@@ -279,7 +279,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
               <LabelSM>Proposed by</LabelSM>
               <br />
               <LabelLG style={{ cursor: 'pointer' }} title='Click to copy'>
-                <CopyToClipboard text={proposer} onCopy={() => Toast.successToast(null, 'Coiped to clipboard')}>
+                <CopyToClipboard text={proposer} onCopy={() => Toast.successToast(null, 'Copied to clipboard')}>
                   <span>{truncateString(proposer, 20, 'middle')}</span>
                 </CopyToClipboard>
               </LabelLG>
