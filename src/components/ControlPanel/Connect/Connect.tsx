@@ -16,13 +16,23 @@ const Connect: React.FC<Props> = ({ widget }) => {
     <Card
       icon={<CommentIcon />}
       title='Connect'
-      items={controls.map((control) => ({
-        icon: <ReactSVG src={requireCheckDefault(require(`../../../${control.icon}`))} />,
-        content: control.title,
-        onClick: () => {
-          window.open(control.endpoint)
-        },
-      }))}
+      items={controls
+        .filter((control) => control[`@type`] === 'External')
+        .filter((control) => {
+          try {
+            require(`../../../${control.icon}`)
+            return true
+          } catch {
+            return false
+          }
+        })
+        .map((control) => ({
+          icon: <ReactSVG src={requireCheckDefault(require(`../../../${control.icon}`))} />,
+          content: control.title,
+          onClick: () => {
+            window.open(control.endpoint)
+          },
+        }))}
     />
   )
 }
