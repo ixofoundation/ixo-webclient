@@ -31,8 +31,6 @@ const Membership: React.FC = (): JSX.Element | null => {
     proposals: undefined,
   })
 
-  console.log({ members })
-
   const filteredMembers = useMemo(() => {
     const [sortBy, order] = Object.entries(sort).find(([, value]) => value) ?? ['name', 'asc']
     return members
