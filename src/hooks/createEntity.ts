@@ -14,6 +14,7 @@ import {
   TEntityDDOTagModel,
   TDAOGroupModel,
   TProposalModel,
+  TQuestion,
 } from 'types/protocol'
 import {
   addAssetInstancesAction,
@@ -39,6 +40,7 @@ import {
   updateSubtitleAction,
   updateTitleAction,
   clearEntityAction,
+  updateClaimQuestionsAction,
 } from 'redux/createEntity/createEntity.actions'
 import {
   selectCreateEntityAccordedRight,
@@ -61,6 +63,7 @@ import {
   selectCreateEntitySubtitle,
   selectCreateEntityTitle,
   selectCreateEntityType,
+  selectCreateEntityClaimQuestions,
 } from 'redux/createEntity/createEntity.selectors'
 import {
   CreateEntityStrategyMap,
@@ -134,6 +137,7 @@ interface TCreateEntityStateHookRes {
   daoGroups: { [id: string]: TDAOGroupModel }
   daoController: string
   proposal: TProposalModel
+  claimQuestions: { [id: string]: TQuestion }
   validateRequiredProperties: boolean
   updateEntityType: (entityType: string) => void
   clearEntity: () => void
@@ -159,6 +163,7 @@ interface TCreateEntityStateHookRes {
   updateDAOGroups: (daoGroups: { [id: string]: TDAOGroupModel }) => void
   updateDAOController: (controller: string) => void
   updateProposal: (proposal: TProposalModel) => void
+  updateClaimQuestions: (claimQuestions: { [id: string]: TQuestion }) => void
 }
 
 export function useCreateEntityState(): TCreateEntityStateHookRes {
@@ -189,6 +194,8 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
   const daoController: string = useAppSelector(selectCreateEntityDAOController)
   // for Proposal
   const proposal: TProposalModel = useAppSelector(selectCreateEntityProposal)
+  // for Claim
+  const claimQuestions: { [id: string]: TQuestion } = useAppSelector(selectCreateEntityClaimQuestions)
   const validateRequiredProperties = useMemo(() => {
     return !!creator && !!administrator && Object.keys(page ?? {}).length > 0 && service?.length > 0
   }, [creator, administrator, page, service])
@@ -287,6 +294,9 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
   const updateProposal = (proposal: TProposalModel): void => {
     dispatch(updateProposalAction(proposal))
   }
+  const updateClaimQuestions = (claimQuestions: { [id: string]: TQuestion }): void => {
+    dispatch(updateClaimQuestionsAction(claimQuestions))
+  }
 
   return {
     entityType,
@@ -309,6 +319,7 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
     daoGroups,
     daoController,
     proposal,
+    claimQuestions,
     validateRequiredProperties,
     updateEntityType,
     clearEntity,
@@ -334,6 +345,7 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
     updateDAOGroups,
     updateDAOController,
     updateProposal,
+    updateClaimQuestions,
   }
 }
 
