@@ -43,7 +43,7 @@ const SetupSpendModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): 
       if (action.data.denom === NATIVE_MICRODENOM) {
         decimals = NATIVE_DECIMAL
       } else {
-        decimals = cw20Token.tokenDecimals
+        decimals = cw20Token.tokenInfo.decimals
       }
 
       const amount = convertMicroDenomToDenomWithDecimals(action.data.amount, decimals).toString()
@@ -62,12 +62,12 @@ const SetupSpendModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): 
   }
 
   const handleConfirm = () => {
-    if (onSubmit) {
+    if (onSubmit && cw20Token) {
       let decimals = 0
       if (formData.denom === NATIVE_MICRODENOM) {
         decimals = NATIVE_DECIMAL
       } else {
-        decimals = cw20Token.tokenDecimals
+        decimals = cw20Token.tokenInfo.decimals
       }
 
       const amount = convertDenomToMicroDenomWithDecimals(formData.amount, decimals).toString()
@@ -102,7 +102,9 @@ const SetupSpendModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): 
           value={formData.denom}
           options={[
             { value: NATIVE_MICRODENOM, text: `$${NATIVE_DENOM.toUpperCase()}` },
-            ...(cw20Token ? [{ value: cw20Token.tokenAddress, text: `$${cw20Token.tokenSymbol.toUpperCase()}` }] : []),
+            ...(cw20Token
+              ? [{ value: cw20Token.config.token_address, text: `$${cw20Token.tokenInfo.symbol.toUpperCase()}` }]
+              : []),
           ]}
           hasArrow={false}
           onChange={(e) => handleUpdateFormData('denom', e.target.value)}

@@ -34,7 +34,7 @@ const SetupVoteOnADAOModal: React.FC<Props> = ({ open, action, onClose, onSubmit
   const daos = useAppSelector(selectDAOEntities)
   const groups = useMemo(() => daos.find(({ id }) => id === formData.dao)?.daoGroups ?? {}, [daos, formData.dao])
   const proposals: Proposal[] = useMemo(
-    () => groups[formData.groupAddress]?.proposals ?? [],
+    () => groups[formData.groupAddress]?.proposalModule.proposals ?? [],
     [groups, formData.groupAddress],
   )
   const selectedProposal = useMemo(() => {
@@ -95,7 +95,10 @@ const SetupVoteOnADAOModal: React.FC<Props> = ({ open, action, onClose, onSubmit
           <Dropdown2
             name='groupAddress'
             value={formData.groupAddress}
-            options={Object.values(groups).map((group) => ({ value: group.contractAddress, text: group.name ?? '' }))}
+            options={Object.values(groups).map((group) => ({
+              value: group.coreAddress,
+              text: group.config.name || '',
+            }))}
             placeholder='Select a group'
             onChange={(e) => handleUpdateFormData('groupAddress', e.target.value)}
           />

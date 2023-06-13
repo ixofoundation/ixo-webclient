@@ -1,15 +1,16 @@
 import React, { useCallback, useEffect, useMemo } from 'react'
-import { Box, FlexBox } from 'components/App/App.styles'
+import { Box, FlexBox, theme } from 'components/App/App.styles'
 import GovernanceProposal from 'components/Entities/SelectedEntity/EntityEconomy/EconomyGovernance/Components/GovernanceProposal2'
 import useCurrentDao, { useCurrentDaoGroup } from 'hooks/currentDao'
 import { durationToSeconds, expirationAtTimeToSecondsFromNow } from 'utils/conversions'
 import { Groups } from '../Components'
 import { Typography } from 'components/Typography'
 import { Button } from 'pages/CreateEntity/Components'
-import { useHistory, useParams } from 'react-router-dom'
+import { Link, useHistory, useParams } from 'react-router-dom'
 import { ProposalResponse } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
 import { contracts } from '@ixo/impactxclient-sdk'
 import { useAccount } from 'hooks/account'
+import { ReactComponent as EmptyIcon } from 'assets/images/icon-empty.svg'
 
 const Governance: React.FC = () => {
   const { entityId } = useParams<{ entityId: string }>()
@@ -20,16 +21,12 @@ const Governance: React.FC = () => {
   const numOfSelectedGroups = selectedGroupAddresses.length
   const { proposalModuleAddress, isParticipating, anyoneCanPropose } = useCurrentDaoGroup(selectedGroupAddresses[0])
   const selectedGroup = useMemo(
-    () => Object.keys(selectedGroups).length === 1 && Object.values(selectedGroups)[0],
+    () => (Object.keys(selectedGroups).length === 1 ? Object.values(selectedGroups)[0] : undefined),
     [selectedGroups],
   )
 
   const handleNewProposal = () => {
-    if (Object.keys(selectedGroups).length !== 1) {
-      return
-    }
-    const coreAddress = Object.keys(selectedGroups)[0]
-    history.push(`/create/entity/deed/${entityId}/${coreAddress}`)
+    history.push(`/create/entity/deed/${entityId}/${selectedGroup?.coreAddress}`)
   }
 
   const reListProposals = useCallback(() => {
@@ -63,7 +60,7 @@ const Governance: React.FC = () => {
         </Box>
       )}
 
-      {numOfSelectedGroups === 1 && (
+      {selectedGroup && (
         <FlexBox width='100%' alignItems='center' justifyContent='space-between'>
           <Typography variant='secondary' size='2xl'>
             Current Governance Proposals
@@ -84,6 +81,83 @@ const Governance: React.FC = () => {
       )}
 
       <FlexBox direction='column' gap={4} color='white' width='100%'>
+        {selectedGroup && selectedGroup.proposalModule.proposals.length === 0 && (isParticipating || anyoneCanPropose) && (
+          <FlexBox
+            direction='column'
+            width='100%'
+            height='380px'
+            justifyContent='center'
+            alignItems='center'
+            gap={6}
+            background={theme.ixoGradientDark2}
+            borderRadius={'4px'}
+          >
+            <EmptyIcon />
+            <Typography variant='secondary' color='dark-blue' size='2xl'>
+              There are no active proposals.
+            </Typography>
+            <Link to={`/create/entity/deed/${entityId}/${selectedGroup.coreAddress}`}>
+              <Typography variant='secondary' color='blue' size='2xl'>
+                Submit a Proposal
+              </Typography>
+            </Link>
+          </FlexBox>
+        )}
+        {selectedGroup &&
+          selectedGroup.proposalModule.proposals.length === 0 &&
+          !isParticipating &&
+          !anyoneCanPropose &&
+          selectedGroup.type === 'membership' && (
+            <FlexBox
+              direction='column'
+              width='100%'
+              height='380px'
+              justifyContent='center'
+              alignItems='center'
+              gap={6}
+              background={theme.ixoGradientDark2}
+              borderRadius={'4px'}
+            >
+              <EmptyIcon />
+              <Typography variant='secondary' color='dark-blue' size='2xl'>
+                There are no active proposals.
+              </Typography>
+              <Typography variant='secondary' color='dark-blue' size='2xl'>
+                Only members can submit proposals.
+              </Typography>
+            </FlexBox>
+          )}
+        {selectedGroup &&
+          selectedGroup.proposalModule.proposals.length === 0 &&
+          !isParticipating &&
+          !anyoneCanPropose &&
+          selectedGroup.type === 'staking' && (
+            <FlexBox
+              direction='column'
+              width='100%'
+              height='380px'
+              justifyContent='center'
+              alignItems='center'
+              gap={6}
+              background={theme.ixoGradientDark2}
+              borderRadius={'4px'}
+            >
+              <EmptyIcon />
+              <Typography variant='secondary' color='dark-blue' size='2xl'>
+                There are no active proposals.
+              </Typography>
+              <FlexBox direction='column' alignItems='center'>
+                <Typography variant='secondary' color='dark-blue' size='2xl'>
+                  Only members can submit proposals.
+                </Typography>
+                <Link to={`/entity/${entityId}/dashboard/my-participation`}>
+                  <Typography variant='secondary' color='blue' size='2xl'>
+                    Join by staking
+                  </Typography>
+                </Link>
+              </FlexBox>
+            </FlexBox>
+          )}
         {Object.values(selectedGroups).map((daoGroup, daoGroupIdx) => {
           const { proposalModule, coreAddress } = daoGroup
           const { proposals, proposalConfig } = proposalModule

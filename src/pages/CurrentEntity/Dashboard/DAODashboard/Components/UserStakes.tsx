@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import { FlexBox } from 'components/App/App.styles'
+import { FlexBox, theme } from 'components/App/App.styles'
 import { Table } from 'components/Table'
 import { Typography } from 'components/Typography'
 import { Button } from 'pages/CreateEntity/Components'
@@ -13,6 +13,7 @@ import { convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
 import { useAccount } from 'hooks/account'
 import { Avatar } from 'pages/CurrentEntity/Components'
 import { GroupStakingModal } from 'components/Modals'
+import PieChart from 'components/Widgets/PieChart/PieChart'
 
 const TableWrapper = styled.div`
   color: white;
@@ -136,6 +137,15 @@ const UserStakes: React.FC<Props> = ({ show, coreAddress, userAddress }) => {
     return daoGroup?.votingModule.members.some(({ addr }) => addr === (userAddress || address))
   }, [daoGroup?.votingModule.members, address, userAddress])
 
+  const userVotingPower = useMemo(() => {
+    const totalWeight = daoGroup.votingModule.totalWeight
+    const userWeight =
+      daoGroup.votingModule.members.find((member) => member.addr === (userAddress || address))?.weight ?? 0
+
+    const userVotingPower = userWeight / totalWeight
+    return userVotingPower
+  }, [userAddress, address, daoGroup])
+
   /**
    * @get
    *  Token Balance
@@ -192,6 +202,24 @@ const UserStakes: React.FC<Props> = ({ show, coreAddress, userAddress }) => {
     <>
       {isParticipating && data.length > 0 ? (
         <FlexBox width='100%' direction='column' gap={3}>
+          <PieChart
+            data={[
+              { name: 'Rest Voting Power', value: 1 - userVotingPower, color: theme.ixoDarkBlue },
+              { name: 'My Voting Power', value: userVotingPower, color: theme.ixoNewBlue },
+            ]}
+            descriptor={
+              <FlexBox direction='column' alignItems='center'>
+                <Typography variant='secondary' size='3xl' weight='bold'>
+                  {new Intl.NumberFormat('en-us', {
+                    style: 'percent',
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 2,
+                  }).format(userVotingPower)}
+                </Typography>
+                <Typography size='sm'>voting power</Typography>
+              </FlexBox>
+            }
+          />
           <TableWrapper>
             <Table
               columns={columns}

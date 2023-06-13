@@ -3,6 +3,7 @@ import { HeaderTab, Path } from 'components/Dashboard/types'
 import useCurrentEntity, { useCurrentEntityProfile } from 'hooks/currentEntity'
 import { Redirect, Route, useParams } from 'react-router-dom'
 import { requireCheckDefault } from 'utils/images'
+import Accounts from './Accounts/Accounts'
 import EntityAccounts from './EntityAccounts/EntityAccounts'
 import LinkedAccounts from './LinkedAccounts/LinkedAccounts'
 
@@ -12,6 +13,12 @@ const DAOTreasury: React.FC = (): JSX.Element => {
   const { name } = useCurrentEntityProfile()
 
   const routes: Path[] = [
+    {
+      url: `/entity/${entityId}/treasury/accounts`,
+      icon: requireCheckDefault(require('assets/img/sidebar/account.svg')),
+      sdg: 'Accounts',
+      tooltip: 'Accounts',
+    },
     {
       url: `/entity/${entityId}/treasury/entity-accounts`,
       icon: requireCheckDefault(require('assets/img/sidebar/account.svg')),
@@ -81,10 +88,11 @@ const DAOTreasury: React.FC = (): JSX.Element => {
       tabs={tabs}
       entityType={entityType}
     >
+      <Route exact path='/entity/:entityId/treasury/accounts' component={Accounts} />
       <Route exact path='/entity/:entityId/treasury/entity-accounts' component={EntityAccounts} />
       <Route exact path='/entity/:entityId/treasury/linked-accounts' component={LinkedAccounts} />
       <Route exact path='/entity/:entityId/treasury'>
-        <Redirect to={`/entity/${entityId}/treasury/entity-accounts`} />
+        <Redirect to={`/entity/${entityId}/treasury/accounts`} />
       </Route>
     </Dashboard>
   )

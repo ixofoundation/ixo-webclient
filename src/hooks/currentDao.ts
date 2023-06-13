@@ -107,10 +107,11 @@ export default function useCurrentDao(): {
   }
 
   const setDaoGroup = async (coreAddress: string) => {
-    const { type, admin, config, proposalModule, votingModule, treasury, storageItems } = await getDaoContractInfo({
-      coreAddress,
-      cwClient,
-    })
+    const { type, admin, config, proposalModule, votingModule, treasury, storageItems, token } =
+      await getDaoContractInfo({
+        coreAddress,
+        cwClient,
+      })
 
     updateDaoGroup({
       coreAddress,
@@ -121,6 +122,7 @@ export default function useCurrentDao(): {
       votingModule,
       treasury,
       storageItems,
+      token,
     })
   }
 

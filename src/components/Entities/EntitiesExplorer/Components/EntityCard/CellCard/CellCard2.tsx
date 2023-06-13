@@ -17,12 +17,13 @@ import { requireCheckDefault } from 'utils/images'
 import { TEntityDDOTagModel, TEntityProfileModel } from 'types/protocol'
 import { Typography } from 'components/Typography'
 import { useEffect, useState } from 'react'
+import { DaoGroup } from 'redux/currentEntity/dao/currentDao.types'
 
 interface Props {
   id: string
   profile: TEntityProfileModel
   tags: TEntityDDOTagModel[]
-  daoGroups?: { [address: string]: any }
+  daoGroups?: { [address: string]: DaoGroup }
 }
 
 const DAOCard: React.FunctionComponent<Props> = ({ id, profile, tags, daoGroups = {} }) => {
@@ -32,10 +33,8 @@ const DAOCard: React.FunctionComponent<Props> = ({ id, profile, tags, daoGroups 
 
   useEffect(() => {
     if (Object.keys(daoGroups).length > 0) {
-      Object.values(daoGroups).forEach((daoGroup: any) => {
-        daoGroup.memberships.forEach((membership: any) => {
-          setNumOfMembers((numOfMembers) => numOfMembers + membership.members?.length)
-        })
+      Object.values(daoGroups).forEach((daoGroup: DaoGroup) => {
+        setNumOfMembers((numOfMembers) => numOfMembers + daoGroup.votingModule.members.length)
       })
     }
     return () => {

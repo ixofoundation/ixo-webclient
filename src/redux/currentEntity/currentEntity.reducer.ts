@@ -44,16 +44,14 @@ export const reducer = (state = initialState, action: CurrentEntityActionTypes):
       }
       return action.payload
     }
-    case CurrentEntityActions.UpdateEntityProfile:
-      return { ...state, profile: action.payload }
-    case CurrentEntityActions.UpdateEntityCreator:
-      return { ...state, creator: action.payload }
-    case CurrentEntityActions.UpdateEntityAdministrator:
-      return { ...state, administrator: action.payload }
-    case CurrentEntityActions.UpdateEntityPage:
-      return { ...state, page: action.payload }
-    case CurrentEntityActions.UpdateEntityTags:
-      return { ...state, tags: action.payload }
+    case CurrentEntityActions.UpdateEntityResource: {
+      const { key, data, merge } = action.payload
+      if (merge) {
+        return { ...state, [key]: { ...state[key], ...data } }
+      } else {
+        return { ...state, [key]: data }
+      }
+    }
     default:
       return { ...state }
   }
