@@ -1,4 +1,6 @@
 import { gql, useQuery } from '@apollo/client'
+import { MarketingInfoResponse, TokenInfoResponse } from '@ixo/impactxclient-sdk/types/codegen/Cw20Base.types'
+import { Config as Cw20StakeConfig } from '@ixo/impactxclient-sdk/types/codegen/Cw20Stake.types'
 import { TEntityModel } from 'api/blocksync/types/entities'
 import { selectDAOEntities } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { useAppSelector } from 'redux/hooks'
@@ -310,13 +312,22 @@ export function useDAO() {
     return []
   }
 
-  const getTokenInfo = (daoId: string, groupAddress: string): any => {
+  const getTokenInfo = (
+    daoId: string,
+    groupAddress: string,
+  ):
+    | {
+        config: Cw20StakeConfig
+        tokenInfo: TokenInfoResponse
+        marketingInfo: MarketingInfoResponse
+      }
+    | undefined => {
     const dao = daos.find(({ id }) => id === daoId)
     if (dao) {
       const { daoGroups } = dao
       const daoGroup = daoGroups![groupAddress]
       if (daoGroup) {
-        return daoGroup.staking
+        return daoGroup.token
       }
     }
     return undefined

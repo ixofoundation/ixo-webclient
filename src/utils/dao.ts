@@ -183,6 +183,7 @@ export const getDaoContractInfo = async ({
   treasury.cw721TokenList = cw721TokenList
 
   return {
+    coreAddress,
     type,
     admin,
     config,

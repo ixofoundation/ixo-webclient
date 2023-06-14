@@ -72,7 +72,10 @@ const SetupSubmitProposalOnADAOModal: React.FC<Props> = ({ open, action, onClose
           <Dropdown2
             name='groupAddress'
             value={formData.groupAddress}
-            options={Object.values(groups).map((group) => ({ value: group.contractAddress, text: group.name ?? '' }))}
+            options={Object.values(groups).map((group) => ({
+              value: group.coreAddress,
+              text: group.config.name || '',
+            }))}
             placeholder='Select a group'
             onChange={(e) => handleUpdateFormData('groupAddress', e.target.value)}
           />

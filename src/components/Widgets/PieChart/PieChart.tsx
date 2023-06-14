@@ -16,8 +16,8 @@ const Component: React.FC<Props> = ({
   data,
   backgroundColor = theme.ixoDarkBlue,
   width = '100%',
-  height = '300px',
-  radius = 100,
+  height = '180px',
+  radius = 85,
   thickness = 10,
   descriptor,
 }) => {

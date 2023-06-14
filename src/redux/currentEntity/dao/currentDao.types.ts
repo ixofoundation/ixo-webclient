@@ -1,3 +1,4 @@
+import { MarketingInfoResponse, TokenInfoResponse } from '@ixo/impactxclient-sdk/types/codegen/Cw20Base.types'
 import {
   ArrayOfAddr,
   Config,
@@ -6,6 +7,7 @@ import {
 } from '@ixo/impactxclient-sdk/types/codegen/DaoCore.types'
 import { Config as PreProposeConfig } from '@ixo/impactxclient-sdk/types/codegen/DaoPreProposeSingle.types'
 import { Config as ProposalConfig, VoteInfo } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
+import { Config as Cw20StakeConfig } from '@ixo/impactxclient-sdk/types/codegen/Cw20Stake.types'
 import { Member, Proposal } from 'types/dao'
 
 export type DaoGroup = {
@@ -36,6 +38,13 @@ export type DaoGroup = {
     cw721TokenList: ArrayOfAddr
   }
   storageItems: string[]
+  token:
+    | {
+        config: Cw20StakeConfig
+        tokenInfo: TokenInfoResponse
+        marketingInfo: MarketingInfoResponse
+      }
+    | undefined
   selected?: boolean
 }
 

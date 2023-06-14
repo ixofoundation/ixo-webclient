@@ -1,19 +1,7 @@
 import { EntityAccount } from '@ixo/impactxclient-sdk/types/codegen/ixo/entity/v1beta1/entity'
-import {
-  IidMetadata,
-  LinkedEntity,
-  LinkedResource,
-  Service,
-} from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
+import { IidMetadata, LinkedEntity, LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { TEntityModel } from 'api/blocksync/types/entities'
-import {
-  updateEntityAction,
-  updateEntityAdministratorAction,
-  updateEntityCreatorAction,
-  updateEntityPageAction,
-  updateEntityProfileAction,
-  updateEntityTagsAction,
-} from 'redux/currentEntity/currentEntity.actions'
+import { updateEntityAction, updateEntityResourceAction } from 'redux/currentEntity/currentEntity.actions'
 import {
   selectEntityLinkedResource,
   selectEntityProfile,
@@ -29,7 +17,6 @@ import {
 } from 'redux/currentEntity/currentEntity.selectors'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { BlockSyncService } from 'services/blocksync'
-import { NodeType } from 'types/entities'
 import {
   TEntityAdministratorModel,
   TEntityCreatorModel,
@@ -37,6 +24,8 @@ import {
   TEntityPageSectionModel,
   TEntityProfileModel,
 } from 'types/protocol'
+import { apiEntityToEntity } from 'utils/entities'
+import { useAccount } from './account'
 import useCurrentDao from './currentDao'
 
 const bsService = new BlockSyncService()
@@ -52,15 +41,10 @@ export default function useCurrentEntity(): {
   tags: TEntityDDOTagModel[]
   metadata: IidMetadata | undefined
   accounts: EntityAccount[]
-  updateEntity: (data: TEntityModel) => void
-  updateEntityProfile: (profile: TEntityProfileModel) => void
-  updateEntityCreator: (creator: TEntityCreatorModel) => void
-  updateEntityAdministrator: (administrator: TEntityAdministratorModel) => void
-  updateEntityPage: (page: TEntityPageSectionModel[]) => void
-  updateEntityTags: (tags: TEntityDDOTagModel[]) => void
-  getEntityByDid: (did: string) => Promise<boolean>
+  getEntityByDid: (did: string) => Promise<void>
 } {
   const dispatch = useAppDispatch()
+  const { cwClient } = useAccount()
   const { clearDaoGroup } = useCurrentDao()
   const entitites: { [id: string]: TEntityModel } = useAppSelector((state) => state.entities.entities2)
   const id: string = useAppSelector(selectEntityId)!
@@ -82,129 +66,23 @@ export default function useCurrentEntity(): {
     dispatch(updateEntityAction(data))
   }
 
-  const updateEntityProfile = (profile: TEntityProfileModel) => {
-    dispatch(updateEntityProfileAction(profile))
-  }
-  const updateEntityCreator = (creator: TEntityCreatorModel) => {
-    dispatch(updateEntityCreatorAction(creator))
-  }
-  const updateEntityAdministrator = (administrator: TEntityAdministratorModel) => {
-    dispatch(updateEntityAdministratorAction(administrator))
-  }
-  const updateEntityPage = (page: TEntityPageSectionModel[]) => {
-    dispatch(updateEntityPageAction(page))
-  }
-  const updateEntityTags = (tags: TEntityDDOTagModel[]) => {
-    dispatch(updateEntityTagsAction(tags))
+  const updateEntityResource = ({ key, data, merge }: { key: string; data: any; merge: boolean }) => {
+    dispatch(updateEntityResourceAction({ key, data, merge }))
   }
 
-  const getEntityByDid = async (did: string): Promise<boolean> => {
+  const getEntityByDid = async (did: string): Promise<void> => {
     /**
      * find entity in entities state and avoid refetch from api
      */
     if (entitites && entitites[did]) {
       updateEntity(entitites[did])
-      return true
     }
     return await bsService.entity.getEntityById(did).then((entity: any) => {
-      const { service, settings, linkedResource } = entity
-      linkedResource.concat(Object.values(settings)).forEach((item: LinkedResource) => {
-        let url = ''
-        const [identifier, key] = item.serviceEndpoint.split(':')
-        const usedService: Service | undefined = service.find((item: any) => item.id === `{id}#${identifier}`)
-
-        if (usedService && usedService.type.toLowerCase() === NodeType.Ipfs.toLowerCase()) {
-          url = `https://${key}.ipfs.w3s.link`
-        } else if (usedService && usedService.type.toLowerCase() === NodeType.CellNode.toLowerCase()) {
-          url = `${usedService.serviceEndpoint}${key}`
-        }
-
-        if (item.proof && url) {
-          switch (item.id) {
-            case '{id}#profile': {
-              fetch(url)
-                .then((response) => response.json())
-                .then((response) => {
-                  const context = response['@context']
-                  let image: string = response.image
-                  let logo: string = response.logo
-
-                  if (!image.startsWith('http')) {
-                    const [identifier] = image.split(':')
-                    let endpoint = ''
-                    context.forEach((item: any) => {
-                      if (typeof item === 'object' && identifier in item) {
-                        endpoint = item[identifier]
-                      }
-                    })
-                    image = image.replace(identifier + ':', endpoint)
-                  }
-                  if (!logo.startsWith('http')) {
-                    const [identifier] = logo.split(':')
-                    let endpoint = ''
-                    context.forEach((item: any) => {
-                      if (typeof item === 'object' && identifier in item) {
-                        endpoint = item[identifier]
-                      }
-                    })
-                    logo = logo.replace(identifier + ':', endpoint)
-                  }
-                  return { ...response, image, logo }
-                })
-                .then((profile) => {
-                  updateEntityProfile(profile)
-                })
-                .catch(() => undefined)
-              break
-            }
-            case '{id}#creator': {
-              fetch(url)
-                .then((response) => response.json())
-                .then((response) => response.credentialSubject)
-                .then((creator) => {
-                  updateEntityCreator(creator)
-                })
-                .catch(() => undefined)
-              break
-            }
-            case '{id}#administrator': {
-              fetch(url)
-                .then((response) => response.json())
-                .then((response) => response.credentialSubject)
-                .then((administrator) => {
-                  updateEntityAdministrator(administrator)
-                })
-                .catch(() => undefined)
-              break
-            }
-            case '{id}#page': {
-              fetch(url)
-                .then((response) => response.json())
-                .then((response) => response.page)
-                .then((page) => {
-                  updateEntityPage(page)
-                })
-                .catch(() => undefined)
-              break
-            }
-            case '{id}#tags': {
-              fetch(url)
-                .then((response) => response.json())
-                .then((response) => response.entityTags)
-                .then((tags) => {
-                  updateEntityTags(tags)
-                })
-                .catch(() => undefined)
-              break
-            }
-            default:
-              break
-          }
-        }
+      apiEntityToEntity({ entity, cwClient }, (key, data, merge = false) => {
+        updateEntityResource({ key, data, merge })
       })
 
       updateEntity(entity)
-      return true
     })
   }
 
@@ -220,12 +98,6 @@ export default function useCurrentEntity(): {
     metadata,
     accounts,
     getEntityByDid,
-    updateEntity,
-    updateEntityProfile,
-    updateEntityCreator,
-    updateEntityAdministrator,
-    updateEntityPage,
-    updateEntityTags,
   }
 }
 
@@ -278,11 +150,9 @@ export function useCurrentEntityLinkedEntity(): {
   bondDid: string
   linkedProposal?: LinkedEntity
 } {
-  const { linkedEntity } = useCurrentEntity()
   const bondDid = ''
-  const linkedProposal = linkedEntity.find(({ type }) => type === 'deed')
 
-  return { bondDid, linkedProposal }
+  return { bondDid }
 }
 
 export function useCurrentEntityAdminAccount(): string {
