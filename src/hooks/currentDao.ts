@@ -158,7 +158,7 @@ export function useCurrentDaoGroup(groupAddress: string) {
   const votingModuleAddress = useMemo(() => daoGroup?.votingModule.votingModuleAddress, [daoGroup])
 
   const isParticipating = useMemo(() => {
-    return daoGroup?.votingModule.members.some(({ addr }) => addr === address)
+    return daoGroup?.votingModule.members.some(({ addr, weight }) => addr === address && weight > 0)
   }, [daoGroup?.votingModule.members, address])
 
   const proposalConfig: ProposalConfig = useMemo(() => daoGroup?.proposalModule.proposalConfig, [daoGroup])

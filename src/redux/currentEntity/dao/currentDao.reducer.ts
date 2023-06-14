@@ -5,7 +5,10 @@ const initialState: CurrentDao = {}
 export const reducer = (state = initialState, action: CurrentDaoActionTypes): CurrentDao => {
   switch (action.type) {
     case CurrentDaoActions.UpdateGroup:
-      return { ...state, [action.payload.coreAddress]: action.payload }
+      return {
+        ...state,
+        [action.payload.coreAddress]: { ...(state[action.payload.coreAddress] ?? {}), ...action.payload },
+      }
     case CurrentDaoActions.ClearGroup:
       return { ...initialState }
     case CurrentDaoActions.SelectGroup: {

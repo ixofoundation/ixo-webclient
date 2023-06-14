@@ -1,36 +1,17 @@
-import {
-  GetBondDetail,
-  // GetProjectAccounts
-} from 'lib/protocol'
+import { GetBondDetail } from 'lib/protocol'
 import { useSelectedEntity } from 'hooks/entity'
 import { useEffect } from 'react'
 import { useValidators } from 'hooks/validator'
 import useCurrentEntity from 'hooks/currentEntity'
 import useCurrentDao from 'hooks/currentDao'
 
+const timer: { [key: string]: NodeJS.Timer } = {}
+
 const EntityUpdateService = (): JSX.Element | null => {
-  const {
-    did,
-    bondDid,
-    // updateEntityAddress,
-    updateEntityBondDetail,
-  } = useSelectedEntity()
+  const { bondDid, updateEntityBondDetail } = useSelectedEntity()
   const { getValidators } = useValidators()
   const { linkedEntity } = useCurrentEntity()
   const { setDaoGroup } = useCurrentDao()
-
-  useEffect(() => {
-    const init = async (did: string): Promise<void> => {
-      // const res = await GetProjectAccounts(did)
-      // if (res![did]) {
-      //   updateEntityAddress(res![did])
-      // }
-    }
-    if (did) {
-      init(did)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [did])
 
   useEffect(() => {
     const fetch = async (bondDid: string) => {
@@ -57,7 +38,15 @@ const EntityUpdateService = (): JSX.Element | null => {
         .forEach(({ id }) => {
           const [, coreAddress] = id.split('#')
           setDaoGroup(coreAddress)
+          timer[id] = setInterval(() => {
+            setDaoGroup(coreAddress)
+          }, 1000 * 60) //  1 min
         })
+    }
+    return () => {
+      Object.values(timer).forEach((timerId) => {
+        clearInterval(timerId)
+      })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [linkedEntity])
