@@ -204,16 +204,6 @@ export const getBondDidFromApiListedEntityData = async (data: ApiListedEntityDat
   })
 }
 
-// const membersToMemberships = (members: Member[]): TDAOGroupModel['memberships'] => {
-//   const memberships: { [weight: number]: string[] } = {}
-
-//   members.forEach(({ addr, weight }) => {
-//     memberships[weight] = [...(memberships[weight] ?? []), addr]
-//   })
-
-//   return Object.entries(memberships).map(([weight, members]) => ({ weight: Number(weight), members, category: '' }))
-// }
-
 export function apiEntityToEntity(
   { entity, cwClient }: { entity: any; cwClient: CosmWasmClient },
   updateCallback: (key: string, value: any, merge?: boolean) => void,
@@ -340,90 +330,6 @@ export function apiEntityToEntity(
         const [, coreAddress] = id.split('#')
         getDaoContractInfo({ coreAddress, cwClient })
           .then((response) => {
-            // const { type, config, proposalModule, votingModule, token } = response
-            // const { preProposeConfig, proposalConfig, proposals } = proposalModule
-
-            // const id = uuidv4()
-            // const name = config.name
-            // const description = config.description
-            // const depositRequired = !!preProposeConfig.deposit_info
-            // const depositInfo = preProposeConfig.deposit_info
-            // const anyoneCanPropose = preProposeConfig.open_proposal_submission
-            // const onlyMembersExecute = proposalConfig.only_members_execute
-            // const { value: proposalDuration, units: proposalDurationUnits } = convertSecondsToDurationWithUnits(
-            //   proposalConfig.max_voting_period.time,
-            // )
-            // const allowRevoting = proposalConfig.allow_revoting
-            // const contractAddress = coreAddress
-            // const {
-            //   thresholdType,
-            //   thresholdPercentage,
-            //   quorumEnabled,
-            //   quorumType,
-            //   quorumPercentage,
-            //   absoluteThresholdCount,
-            // } = thresholdToTQData(proposalConfig.threshold)
-
-            // const { members } = votingModule
-
-            // let staking: any = undefined
-            // if (type === 'staking' && token) {
-            //   const { tokenInfo, marketingInfo, config } = token
-
-            //   // const decimals = tokenInfo.decimals
-            //   const tokenSymbol = tokenInfo.symbol
-            //   const tokenName = tokenInfo.name
-            //   const tokenSupply = tokenInfo.total_supply
-            //   const tokenDecimals = tokenInfo.decimals
-            //   const tokenLogo = marketingInfo?.logo !== 'embedded' && marketingInfo.logo?.url
-
-            //   const unstakingDuration: DurationWithUnits = convertSecondsToDurationWithUnits(
-            //     durationToSeconds(0, config.unstaking_duration),
-            //   )
-            //   const tokenAddress = config.token_address
-
-            //   staking = {
-            //     tokenSymbol,
-            //     tokenName,
-            //     tokenSupply,
-            //     tokenLogo,
-            //     tokenDecimals,
-            //     tokenAddress,
-            //     // treasuryPercent,
-            //     unstakingDuration,
-            //   }
-            // }
-
-            // const memberships = membersToMemberships(members)
-
-            // const daoGroup = {
-            //   type,
-            //   id,
-            //   contractAddress,
-
-            //   name,
-            //   description,
-            //   memberships,
-            //   staking,
-
-            //   depositRequired,
-            //   depositInfo,
-            //   anyoneCanPropose,
-
-            //   onlyMembersExecute,
-            //   thresholdType,
-            //   thresholdPercentage: (thresholdPercentage ?? 0) / 100,
-            //   quorumEnabled,
-            //   quorumType,
-            //   quorumPercentage: (quorumPercentage ?? 0) / 100,
-            //   proposalDuration,
-            //   proposalDurationUnits,
-            //   allowRevoting,
-            //   absoluteThresholdCount,
-
-            //   proposals,
-            // }
-
             updateCallback('daoGroups', { [response.coreAddress]: response }, true)
           })
           .catch(() => undefined)

@@ -92,7 +92,6 @@ const Accounts: React.FC = () => {
         <AccountsCard
           accounts={accounts}
           onSelect={(address: string) => {
-            console.log(11111, address)
             setSelectedAccount(accounts[address])
           }}
         />
