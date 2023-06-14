@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { ReactComponent as IconChevDown } from 'assets/images/icon-chev-down.svg'
 import { TypeSelectionModal } from 'components/Modals'
 import { Typography } from 'components/Typography'
+import { SvgBox, theme } from 'components/App/App.styles'
 
 const Label = styled.label<{ filled?: boolean }>`
   position: absolute;
@@ -30,8 +31,9 @@ const Label = styled.label<{ filled?: boolean }>`
 const StyledValue = styled(Typography)`
   width: 100%;
   height: 100%;
-  text-align: center;
-  padding: 6px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `
 
 const SelectWrapper = styled.div<{ width: string; height: string }>`
@@ -58,7 +60,7 @@ const SelectWithLabel: React.FC<Props> = ({
   value,
   label = '',
   width = '100%',
-  height = '36px',
+  height = '48px',
   handleChange,
   options,
   ...rest
@@ -73,11 +75,15 @@ const SelectWithLabel: React.FC<Props> = ({
           <Typography
             weight={filled ? 'bold' : 'medium'}
             size={filled ? 'sm' : 'xl'}
-            color={filled ? 'blue' : 'grey700'}
+            color={filled ? 'blue' : 'grey500'}
           >
             {label}
           </Typography>
-          {!value && <IconChevDown />}
+          {!value && (
+            <SvgBox color={theme.ixoGrey500}>
+              <IconChevDown />
+            </SvgBox>
+          )}
         </Label>
         <StyledValue size='xl' weight='bold'>
           {value}

@@ -101,7 +101,7 @@ const InputWithLabel: React.FC<Props> = ({
   disabled = false,
   error,
   width = '100%',
-  height = 'auto',
+  height = '48px',
   handleChange,
   wrapperStyle,
   ...rest

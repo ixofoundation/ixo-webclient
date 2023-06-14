@@ -12,6 +12,7 @@ import {
   TEntityDDOTagModel,
   TDAOGroupModel,
   TProposalModel,
+  TQuestion,
 } from 'types/protocol'
 
 export interface TCreateEntityModel {
@@ -40,6 +41,11 @@ export interface TCreateEntityState extends TCreateEntityModel {
 
   // for Proposal
   proposal?: TProposalModel
+
+  // for Claim
+  claimQuestions?: {
+    [id: string]: TQuestion
+  }
 
   // extra
   stepNo: number
@@ -75,6 +81,8 @@ export enum ECreateEntityActions {
   UpdateDAOController = 'ixo/create/entity/UPDATE_DAO_CONTROLLER',
   // for Proposal
   UpdateProposal = 'ixo/create/entity/UPDATE_PROPOSAL',
+  // for Claim
+  UpdateClaimQuestions = 'ixo/create/entity/UPDATE_CLAIM_QUESTIONS',
 }
 
 export interface TUpdateEntityTypeAction {
@@ -171,6 +179,13 @@ export interface TUpdateProposalAction {
   payload: TProposalModel
 }
 
+export interface TUpdateClaimQuestionsAction {
+  type: typeof ECreateEntityActions.UpdateClaimQuestions
+  payload: {
+    [id: string]: TQuestion
+  }
+}
+
 export type TCreateEntityActionTypes =
   | TUpdateEntityTypeAction
   | TClearEntityAction
@@ -195,3 +210,4 @@ export type TCreateEntityActionTypes =
   | TUpdateDAOGroupsAction
   | TUpdateDAOControllerAction
   | TUpdateProposalAction
+  | TUpdateClaimQuestionsAction

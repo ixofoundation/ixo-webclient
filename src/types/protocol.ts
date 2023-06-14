@@ -1063,17 +1063,6 @@ export interface TQuestion {
 export interface TClaimMetadataModel extends TBasicMetadataModel {
   type: EClaimType
   title: string
-  description: string
-  autoGenerateZLottie?: boolean
-
-  feature?: EClaimFeature
-  reliability?: string
-  userGuide?: string
-  keywords?: { key: string; value: string }[]
-
-  questions: {
-    [id: string]: TQuestion
-  }
 }
 
 export type TEntityMetadataModel =

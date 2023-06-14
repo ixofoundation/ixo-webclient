@@ -26,11 +26,11 @@ const Divider = styled.div`
 interface ClaimTemplateProps {
   template: TEntityClaimTemplateModel | undefined
   selected?: boolean
-  onClick: () => void
+  onClick?: () => void
 }
 const ClaimTemplateCard: React.FC<ClaimTemplateProps> = ({ template, selected = false, onClick }): JSX.Element => {
   return (
-    <Wrapper selected={selected} className='cursor-pointer' onClick={onClick}>
+    <Wrapper selected={selected} className='cursor-pointer' onClick={onClick && onClick}>
       {!template && (
         <Box className='d-flex align-items-center justify-content-center h-100'>
           <Typography size='xl' color='blue' weight='medium'>
