@@ -12,6 +12,7 @@ import {
   TEntityMetadataModel,
   TEntityPageModel,
   TEntityServiceModel,
+  TQuestion,
 } from 'types/protocol'
 import {
   ECreateEntityActions,
@@ -39,6 +40,7 @@ import {
   TUpdateSubtitleAction,
   TUpdateTitleAction,
   TClearEntityAction,
+  TUpdateClaimQuestionsAction,
 } from './createEntity.types'
 
 export const updateEntityTypeAction = (entityType: string): TUpdateEntityTypeAction => ({
@@ -160,4 +162,12 @@ export const updateDAOControllerAction = (controller: string): TUpdateDAOControl
 export const updateProposalAction = (proposal: TProposalModel): TUpdateProposalAction => ({
   type: ECreateEntityActions.UpdateProposal,
   payload: proposal,
+})
+
+// for Claim
+export const updateClaimQuestionsAction = (claimQuestions: {
+  [id: string]: TQuestion
+}): TUpdateClaimQuestionsAction => ({
+  type: ECreateEntityActions.UpdateClaimQuestions,
+  payload: claimQuestions,
 })

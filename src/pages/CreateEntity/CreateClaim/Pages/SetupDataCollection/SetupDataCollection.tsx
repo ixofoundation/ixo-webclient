@@ -3,7 +3,7 @@ import { useCreateEntityState } from 'hooks/createEntity'
 import React, { useMemo } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import { DragDropContext, Droppable } from 'react-beautiful-dnd'
-import { questionTypeMap, TClaimMetadataModel, TQuestion } from 'types/protocol'
+import { questionTypeMap, TQuestion } from 'types/protocol'
 import { AddQuestionBar } from './AddQuestionBar'
 import { QuestionCard } from './QuestionCard'
 import { Wrapper, Row, QuestionsListWrapper } from './SetupDataCollection.styles'
@@ -25,11 +25,8 @@ import { omitKey, reorderObjectElement } from 'utils/objects'
 import { Button } from 'pages/CreateEntity/Components'
 
 const SetupDataCollection: React.FC = (): JSX.Element => {
-  const { profile, updateProfile, gotoStep } = useCreateEntityState()
-  const questions: TQuestion[] = useMemo(
-    () => Object.values((profile as TClaimMetadataModel)?.questions ?? {}),
-    [profile],
-  )
+  const { claimQuestions, updateClaimQuestions, gotoStep } = useCreateEntityState()
+  const questions: TQuestion[] = useMemo(() => Object.values(claimQuestions), [claimQuestions])
 
   const handlePrev = (): void => {
     gotoStep(-1)
@@ -40,26 +37,17 @@ const SetupDataCollection: React.FC = (): JSX.Element => {
 
   const handleRemoveQuestion = (id: string): void => {
     const newQuestions = omitKey(questions, id)
-    updateProfile({
-      ...profile,
-      questions: newQuestions,
-    } as TClaimMetadataModel)
+    updateClaimQuestions(newQuestions)
   }
   const handleMoveQuestion = (srcId: string, dstId: string): void => {
-    const newQuestions = reorderObjectElement(srcId, dstId, { ...((profile as TClaimMetadataModel)?.questions ?? {}) })
-    updateProfile({
-      ...profile,
-      questions: newQuestions,
-    } as TClaimMetadataModel)
+    const newQuestions = reorderObjectElement(srcId, dstId, { ...claimQuestions })
+    updateClaimQuestions(newQuestions)
   }
   const handleUpdateProfile = (payload: any): void => {
-    updateProfile({
-      ...profile,
-      questions: {
-        ...(profile as TClaimMetadataModel).questions,
-        [payload.id]: payload,
-      },
-    } as TClaimMetadataModel)
+    updateClaimQuestions({
+      ...claimQuestions,
+      [payload.id]: payload,
+    })
   }
   const handleValidated = (id: string): void => {
     console.log('handleValidated', id)

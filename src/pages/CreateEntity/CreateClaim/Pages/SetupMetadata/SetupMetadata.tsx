@@ -42,7 +42,7 @@ const SetupMetadata: React.FC = (): JSX.Element => {
           setType={(type: EClaimType): void => handleUpdateProfile('type', type)}
           title={profile?.title}
           setTitle={(title: string): void => handleUpdateProfile('title', title)}
-          description={profile?.description}
+          description={profile?.description ?? ''}
           setDescription={(description: string): void => handleUpdateProfile('description', description)}
         />
       </Box>
@@ -50,7 +50,7 @@ const SetupMetadata: React.FC = (): JSX.Element => {
         <Box>
           <EntityAdditionalInfoForm
             entityType={entityType}
-            description={profile?.description}
+            description={profile?.description ?? ''}
             setDescription={(description): void => handleUpdateProfile('description', description)}
             brand={profile?.brand ?? ''}
             setBrand={(brand): void => handleUpdateProfile('brand', brand)}
@@ -60,10 +60,6 @@ const SetupMetadata: React.FC = (): JSX.Element => {
             setMetrics={(metrics): void => handleUpdateProfile('metrics', metrics)}
             attributes={profile?.attributes ?? []}
             setAttributes={(attributes): void => handleUpdateProfile('attributes', attributes)}
-            autoGenerateZLottie={profile?.autoGenerateZLottie}
-            setAutoGenerateZLottie={(autoGenerateZLottie): void =>
-              handleUpdateProfile('autoGenerateZLottie', autoGenerateZLottie)
-            }
             startDate={profile?.startDate ?? ''}
             endDate={profile?.endDate ?? ''}
             setStartEndDate={(startDate, endDate) => {

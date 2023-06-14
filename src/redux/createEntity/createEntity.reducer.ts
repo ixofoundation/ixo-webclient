@@ -25,6 +25,9 @@ export const initialState: TCreateEntityState = {
   assetClassDid: undefined,
   assetInstances: [],
 
+  // for Claim
+  claimQuestions: {},
+
   // extra
   localisation: ELocalisation.EN,
   stepNo: 1,
@@ -127,6 +130,11 @@ export const reducer = (state = initialState, action: TCreateEntityActionTypes):
     // for Proposal
     case ECreateEntityActions.UpdateProposal:
       updatedState = { ...state, proposal: action.payload }
+      break
+
+    // for Claim
+    case ECreateEntityActions.UpdateClaimQuestions:
+      updatedState = { ...state, claimQuestions: action.payload }
       break
 
     default:

@@ -15,13 +15,11 @@ const SelectCreationProcess: React.FC = (): JSX.Element => {
   const canClone = useMemo(() => existingDid.length > 0, [existingDid])
 
   const handleCreate = (): void => {
-    // store token type in Redux
-    console.log('TODO:')
     gotoStep(1)
   }
 
   const handleClone = (): void => {
-    console.log('TODO:', existingDid)
+    console.log('TODO:', existingDid, canClone)
     gotoStep(1)
   }
 
@@ -49,7 +47,7 @@ const SelectCreationProcess: React.FC = (): JSX.Element => {
             height='48px'
             style={SearchInputStyles}
           />
-          <Button onClick={handleClone} disabled={!canClone}>
+          <Button onClick={handleClone} disabled={true}>
             Continue
           </Button>
         </Box>

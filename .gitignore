@@ -26,3 +26,5 @@ yarn-error.log*
 .env
 docker-compose.dev.yml
 package-lock.json
+
+/Windows Network
