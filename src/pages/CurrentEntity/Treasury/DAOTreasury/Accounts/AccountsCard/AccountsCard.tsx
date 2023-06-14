@@ -1,6 +1,6 @@
 import { FlexBox, SvgBox, theme } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { Table } from 'components/Table'
 import CurrencyFormat from 'react-currency-format'
@@ -12,7 +12,7 @@ import { ReactComponent as EntityAccountIcon } from 'assets/images/icon-entity-a
 import { ReactComponent as LinkedAccountIcon } from 'assets/images/icon-linked-account.svg'
 import { successToast } from 'utils/toast'
 
-const AccountTypeToIconMap = {
+export const AccountTypeToIconMap = {
   group: GroupAccountIcon,
   entity: EntityAccountIcon,
   linked: LinkedAccountIcon,
@@ -133,7 +133,7 @@ const columns = [
                 </SvgBox>
               )}
               <Typography variant='secondary' size='2xl'>
-                {name}
+                {name || truncateString(address, 10, 'middle')}
               </Typography>
             </FlexBox>
 
@@ -176,8 +176,26 @@ interface Props {
 }
 
 const AccountsCard: React.FC<Props> = ({ accounts, onSelect }) => {
+  const [filter, setFilter] = useState({
+    group: true,
+    entity: true,
+    linked: true,
+  })
+
+  const handleRowClick = (state: any) => () => {
+    onSelect(state.original.address)
+  }
+
   return (
-    <FlexBox direction='column' gap={4} p={8} background='#012D41' borderRadius='12px' color={theme.ixoWhite}>
+    <FlexBox
+      position='relative'
+      direction='column'
+      gap={4}
+      p={8}
+      background='#012D41'
+      borderRadius='12px'
+      color={theme.ixoWhite}
+    >
       {/* Header */}
       <FlexBox>
         <Typography variant='secondary' size='2xl'>
@@ -185,14 +203,34 @@ const AccountsCard: React.FC<Props> = ({ accounts, onSelect }) => {
         </Typography>
       </FlexBox>
 
+      <FlexBox position='absolute' top={'95px'} left={'0px'} width='100%' justifyContent='center' gap={2}>
+        {Object.entries(AccountTypeToIconMap).map(([key, Icon]) => (
+          <SvgBox
+            key={key}
+            width='32px'
+            height='32px'
+            alignItems='center'
+            justifyContent='center'
+            svgWidth={6}
+            svgHeight={6}
+            borderRadius='100%'
+            background={filter[key] ? theme.ixoNewBlue : theme.ixoDarkBlue}
+            cursor='pointer'
+            onClick={() => setFilter((filter) => ({ ...filter, [key]: !filter[key] }))}
+          >
+            <Icon />
+          </SvgBox>
+        ))}
+      </FlexBox>
+
       <TableWrapper>
         <Table
           columns={columns}
-          data={Object.values(accounts)}
+          data={Object.values(accounts).filter(({ type }) => filter[type])}
           getRowProps={(state) => {
             return {
               style: { height: 100, cursor: 'pointer' },
-              onClick: onSelect(state.original.address),
+              onClick: handleRowClick(state),
             }
           }}
           getCellProps={() => ({ style: { background: '#023044' } })}

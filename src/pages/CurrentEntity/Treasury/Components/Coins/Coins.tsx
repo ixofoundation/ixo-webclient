@@ -97,7 +97,8 @@ const columns = [
     renderCell: (cell: any) => {
       const balance = cell.value
       const lastPriceUsd = cell.row.original?.lastPriceUsd ?? 0
-      const balanceUsd = new BigNumber(balance).times(lastPriceUsd).toString()
+      const balanceUsd = new BigNumber(balance).multipliedBy(new BigNumber(lastPriceUsd)).toFormat(2)
+
       return (
         <FlexBox direction='column' alignItems='end' p={4}>
           <Typography size='lg'>

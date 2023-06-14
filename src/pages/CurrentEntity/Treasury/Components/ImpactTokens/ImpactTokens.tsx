@@ -2,10 +2,14 @@ import BigNumber from 'bignumber.js'
 import { FlexBox } from 'components/App/App.styles'
 import { Table } from 'components/Table'
 import { Typography } from 'components/Typography'
-import React, { useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import CurrencyFormat from 'react-currency-format'
 import styled from 'styled-components'
 import { Avatar } from 'pages/CurrentEntity/Components'
+import { contracts } from '@ixo/impactxclient-sdk'
+import { useAccount } from 'hooks/account'
+import { useCurrentDaoGroup } from 'hooks/currentDao'
+import { convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
 
 const TableWrapper = styled.div`
   color: white;
@@ -116,15 +120,54 @@ interface Props {
 }
 
 const ImpactTokens: React.FC<Props> = ({ address }) => {
-  const [data] = useState<any[]>([
-    // {
-    //   coinDenom: 'carbon',
-    //   network: 'IXO Network',
-    //   balance: 0,
-    //   coinImageUrl: undefined,
-    //   lastPriceUsd: undefined,
-    // },
-  ])
+  const { cwClient } = useAccount()
+  const { type, votingModuleAddress } = useCurrentDaoGroup(address)
+  const [data, setData] = useState<any[]>([])
+
+  /**
+   * @get
+   *  Token Balance
+   *  Token Info
+   * @set
+   *  Table data
+   */
+  const update = useCallback(async (): Promise<void> => {
+    if (type === 'membership') {
+      return
+    }
+    const daoVotingCw20StakedClient = new contracts.DaoVotingCw20Staked.DaoVotingCw20StakedQueryClient(
+      cwClient,
+      votingModuleAddress,
+    )
+
+    const stakingContract = await daoVotingCw20StakedClient.stakingContract()
+    const cw20StakeClient = new contracts.Cw20Stake.Cw20StakeQueryClient(cwClient, stakingContract)
+    const { total: microTotalValue } = await cw20StakeClient.totalValue()
+
+    const tokenContract = await daoVotingCw20StakedClient.tokenContract()
+    const cw20BaseClient = new contracts.Cw20Base.Cw20BaseQueryClient(cwClient, tokenContract)
+    const tokenInfo = await cw20BaseClient.tokenInfo()
+    const marketingInfo = await cw20BaseClient.marketingInfo()
+    const totalValue = convertMicroDenomToDenomWithDecimals(microTotalValue, tokenInfo.decimals).toString()
+
+    setData([
+      {
+        coinDenom: tokenInfo.symbol,
+        network: 'IXO',
+        balance: totalValue,
+        coinImageUrl: marketingInfo?.logo !== 'embedded' && marketingInfo.logo?.url,
+        lastPriceUsd: undefined,
+        priceChangePercent: undefined,
+      },
+    ])
+  }, [type, cwClient, votingModuleAddress])
+
+  useEffect(() => {
+    update()
+    return () => {
+      setData([])
+    }
+  }, [update])
 
   const handleRowClick = (state: any) => () => {
     console.log('handleRowClick', { state })
