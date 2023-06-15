@@ -164,7 +164,7 @@ class App extends React.Component<Props, State> {
       <ThemeProvider theme={this.state.customizedTheme}>
         <WalletManagerProvider
           defaultChainId={CHAIN_ID}
-          enabledWalletTypes={[WalletType.Keplr, WalletType.WalletConnect]}
+          enabledWalletTypes={[WalletType.Keplr, WalletType.KeplrMobile]}
           localStorageKey={LOCAL_STORAGE_KEY}
           walletConnectClientMeta={{
             // TODO:

@@ -45,7 +45,7 @@ jobs:
   test:
     executor:
       name: node/default
-      tag: '16.18.1'
+      tag: '16.13.1'
     parallelism: 5
     steps:
       - checkout
