@@ -110,7 +110,7 @@ interface GovernanceProposalProps {
   closeDate: string
   status: Status
   deedDid: string | undefined
-  onUpdate: () => void
+  onUpdate?: () => void
 }
 
 const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
@@ -183,7 +183,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
       .then(({ transactionHash, logs }) => {
         console.log('handleExecuteProposal', transactionHash, logs)
         if (transactionHash) {
-          onUpdate()
+          onUpdate && onUpdate()
           Toast.successToast(null, 'Successfully executed proposal')
         }
       })
@@ -199,7 +199,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
       .then(({ transactionHash, logs }) => {
         console.log('handleCloseProposal', transactionHash, logs)
         if (transactionHash) {
-          onUpdate()
+          onUpdate && onUpdate()
           Toast.successToast(null, 'Successfully closed proposal')
         }
       })

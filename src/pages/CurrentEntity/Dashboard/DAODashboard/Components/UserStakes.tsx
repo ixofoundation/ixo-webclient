@@ -8,7 +8,7 @@ import CurrencyFormat from 'react-currency-format'
 import styled from 'styled-components'
 import { contracts } from '@ixo/impactxclient-sdk'
 import { useHistory } from 'react-router-dom'
-import { useCurrentDaoGroup } from 'hooks/currentDao'
+import useCurrentDao, { useCurrentDaoGroup } from 'hooks/currentDao'
 import { convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
 import { useAccount } from 'hooks/account'
 import { Avatar } from 'pages/CurrentEntity/Components'
@@ -129,6 +129,7 @@ interface Props {
 const UserStakes: React.FC<Props> = ({ show, coreAddress, userAddress }) => {
   const history = useHistory()
   const { cwClient, address } = useAccount()
+  const { setDaoGroup } = useCurrentDao()
   const { daoGroup, votingModuleAddress } = useCurrentDaoGroup(coreAddress)
   const [data, setData] = useState<any[]>([])
   const [groupStakingModalOpen, setGroupStakingModalOpen] = useState(false)
@@ -153,7 +154,7 @@ const UserStakes: React.FC<Props> = ({ show, coreAddress, userAddress }) => {
    * @set
    *  Table data
    */
-  const update = useCallback(async (): Promise<void> => {
+  const getInfo = useCallback(async (): Promise<void> => {
     const daoVotingCw20StakedClient = new contracts.DaoVotingCw20Staked.DaoVotingCw20StakedQueryClient(
       cwClient,
       votingModuleAddress,
@@ -182,11 +183,11 @@ const UserStakes: React.FC<Props> = ({ show, coreAddress, userAddress }) => {
   }, [address, userAddress, cwClient, votingModuleAddress])
 
   useEffect(() => {
-    update()
+    getInfo()
     return () => {
       setData([])
     }
-  }, [update, show])
+  }, [getInfo, show])
 
   const handleRowClick = (state: any) => () => {
     const { original } = state
@@ -196,6 +197,11 @@ const UserStakes: React.FC<Props> = ({ show, coreAddress, userAddress }) => {
       search: `?token=${original.coinDenom}`,
       state: original,
     })
+  }
+
+  const handleUpdate = () => {
+    setDaoGroup(coreAddress)
+    getInfo()
   }
 
   return show ? (
@@ -255,7 +261,7 @@ const UserStakes: React.FC<Props> = ({ show, coreAddress, userAddress }) => {
           open={groupStakingModalOpen}
           setOpen={setGroupStakingModalOpen}
           daoGroup={daoGroup}
-          onSuccess={update}
+          onSuccess={handleUpdate}
         />
       )}
     </>
