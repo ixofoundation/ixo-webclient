@@ -7,7 +7,7 @@ import { NavLink, useHistory, useParams } from 'react-router-dom'
 import { ReactComponent as WaitIcon } from 'assets/images/eco/wait.svg'
 import { ProgressBar } from 'components/ProgressBar/ProgressBar'
 import { useCreateEntity, useCreateEntityState } from 'hooks/createEntity'
-import { useCurrentDaoGroup } from 'hooks/currentDao'
+import useCurrentDao, { useCurrentDaoGroup } from 'hooks/currentDao'
 import moment from 'moment'
 import { durationToSeconds } from 'utils/conversions'
 import {
@@ -41,6 +41,7 @@ const ReviewProposal: React.FC = () => {
   const { entityId, coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
   const { address, cosmWasmClient } = useAccount()
   const { name: entityName } = useCurrentEntityProfile()
+  const { setDaoGroup } = useCurrentDao()
   const { daoGroup, preProposalContractAddress, depositInfo, isParticipating, anyoneCanPropose } =
     useCurrentDaoGroup(coreAddress)
   const createEntityState = useCreateEntityState()
@@ -104,22 +105,11 @@ const ReviewProposal: React.FC = () => {
   const { getQuery } = useQuery()
   const success = getQuery('success')
 
-  const validateSubmit = () => {
-    if (!address) {
-      console.error('validateSubmit', { address })
-      return false
-    }
-    if (!isParticipating && !anyoneCanPropose) {
-      Toast.errorToast(null, 'You must be a member of the group')
-      return false
-    }
-    return true
-  }
-
   const handlePropose = async (
     deedDid: string,
   ): Promise<{ proposalId: number; transactionHash: string } | undefined> => {
-    if (!validateSubmit()) {
+    if (!address) {
+      console.error('validateSubmit', { address })
       return undefined
     }
 
@@ -301,6 +291,10 @@ const ReviewProposal: React.FC = () => {
   }
 
   const handleSubmit = async () => {
+    if (!isParticipating && !anyoneCanPropose) {
+      Toast.errorToast(null, 'You must be a member of the group')
+      return
+    }
     setSubmitting(true)
     const deedDid = await handleCreateDeed()
     if (deedDid) {
@@ -310,6 +304,7 @@ const ReviewProposal: React.FC = () => {
 
         if (await handleAddProposalInfoAsLinkedEntity(deedDid, proposalId)) {
           history.push({ pathname: history.location.pathname, search: `?success=true` })
+          setDaoGroup(coreAddress)
           setSubmitting(false)
           return
         }
@@ -460,7 +455,15 @@ const ReviewProposal: React.FC = () => {
         )}
         {success === 'true' && (
           <>
-            <FlexBox direction='column' justifyContent='center' alignItems='center' width='100%' height='100%' gap={4} textAlign='center'>
+            <FlexBox
+              direction='column'
+              justifyContent='center'
+              alignItems='center'
+              width='100%'
+              height='100%'
+              gap={4}
+              textAlign='center'
+            >
               <SvgBox color={theme.ixoLightGreen} svgWidth={30} svgHeight={30}>
                 <CheckCircleIcon />
               </SvgBox>

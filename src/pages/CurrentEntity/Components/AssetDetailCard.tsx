@@ -85,7 +85,7 @@ const AssetDetailCard: React.FC<Props> = ({
 }) => {
   const history = useHistory()
   const { cwClient, address } = useAccount()
-  const { selectedGroups } = useCurrentDao()
+  const { setDaoGroup, selectedGroups } = useCurrentDao()
   const selectedGroup: DaoGroup | undefined = useMemo(() => {
     return Object.keys(selectedGroups).length === 1 ? Object.values(selectedGroups)[0] : undefined
   }, [selectedGroups])
@@ -118,7 +118,7 @@ const AssetDetailCard: React.FC<Props> = ({
    * @set
    *  Table data
    */
-  const update = useCallback(async (): Promise<void> => {
+  const getInfo = useCallback(async (): Promise<void> => {
     const daoVotingCw20StakedClient = new contracts.DaoVotingCw20Staked.DaoVotingCw20StakedQueryClient(
       cwClient,
       votingModuleAddress,
@@ -153,7 +153,7 @@ const AssetDetailCard: React.FC<Props> = ({
   }, [address, cwClient, votingModuleAddress])
 
   useEffect(() => {
-    update()
+    getInfo()
     return () => {
       setStakedBalance('0')
       setUnstakingBalance('0')
@@ -161,13 +161,18 @@ const AssetDetailCard: React.FC<Props> = ({
       setBalance('0')
       setTokenAddress('')
     }
-  }, [update, show])
+  }, [getInfo, show])
 
   const handleAddTokenToKeplr = async () => {
     const keplr = await (await import('@keplr-wallet/stores')).getKeplrFromWindow()
     if (keplr && tokenAddress) {
       await keplr.suggestToken(CHAIN_ID!, tokenAddress)
     }
+  }
+
+  const handleUpdate = () => {
+    setDaoGroup(selectedGroup!.coreAddress)
+    getInfo()
   }
 
   return show ? (
@@ -382,7 +387,7 @@ const AssetDetailCard: React.FC<Props> = ({
           open={groupStakingModalOpen}
           setOpen={setGroupStakingModalOpen}
           daoGroup={selectedGroup}
-          onSuccess={update}
+          onSuccess={handleUpdate}
         />
       )}
       {groupUnstakingModalOpen && selectedGroup && (
@@ -390,7 +395,7 @@ const AssetDetailCard: React.FC<Props> = ({
           open={groupUnstakingModalOpen}
           setOpen={setGroupUnstakingModalOpen}
           daoGroup={selectedGroup}
-          onSuccess={update}
+          onSuccess={handleUpdate}
         />
       )}
       {groupClaimModalOpen && selectedGroup && (
@@ -398,7 +403,7 @@ const AssetDetailCard: React.FC<Props> = ({
           open={groupClaimModalOpen}
           setOpen={setGroupClaimModalOpen}
           daoGroup={selectedGroup}
-          onSuccess={update}
+          onSuccess={handleUpdate}
         />
       )}
     </FlexBox>

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { Box, FlexBox, theme } from 'components/App/App.styles'
 import GovernanceProposal from 'components/Entities/SelectedEntity/EntityEconomy/EconomyGovernance/Components/GovernanceProposal2'
 import useCurrentDao, { useCurrentDaoGroup } from 'hooks/currentDao'
@@ -8,18 +8,15 @@ import { Typography } from 'components/Typography'
 import { Button } from 'pages/CreateEntity/Components'
 import { Link, useHistory, useParams } from 'react-router-dom'
 import { ProposalResponse } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
-import { contracts } from '@ixo/impactxclient-sdk'
-import { useAccount } from 'hooks/account'
 import { ReactComponent as EmptyIcon } from 'assets/images/icon-empty.svg'
 
 const Governance: React.FC = () => {
   const { entityId } = useParams<{ entityId: string }>()
   const history = useHistory()
-  const { cwClient } = useAccount()
-  const { selectedGroups, updateDaoGroup, selectDaoGroup } = useCurrentDao()
+  const { selectedGroups, selectDaoGroup } = useCurrentDao()
   const selectedGroupAddresses: string[] = Object.keys(selectedGroups)
   const numOfSelectedGroups = selectedGroupAddresses.length
-  const { proposalModuleAddress, isParticipating, anyoneCanPropose } = useCurrentDaoGroup(selectedGroupAddresses[0])
+  const { isParticipating, anyoneCanPropose } = useCurrentDaoGroup(selectedGroupAddresses[0])
   const selectedGroup = useMemo(
     () => (Object.keys(selectedGroups).length === 1 ? Object.values(selectedGroups)[0] : undefined),
     [selectedGroups],
@@ -28,24 +25,6 @@ const Governance: React.FC = () => {
   const handleNewProposal = () => {
     history.push(`/create/entity/deed/${entityId}/${selectedGroup?.coreAddress}`)
   }
-
-  const reListProposals = useCallback(() => {
-    if (selectedGroup) {
-      const daoProposalSingleClient = new contracts.DaoProposalSingle.DaoProposalSingleQueryClient(
-        cwClient,
-        proposalModuleAddress,
-      )
-      daoProposalSingleClient.listProposals({}).then(({ proposals }) => {
-        // TODO: update proposals
-        updateDaoGroup({ ...selectedGroup, proposalModule: { ...selectedGroup.proposalModule } })
-      })
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [!!selectedGroup])
-
-  useEffect(() => {
-    reListProposals()
-  }, [reListProposals])
 
   return (
     <FlexBox direction='column' gap={6} width='100%' color='white'>
@@ -195,7 +174,6 @@ const Governance: React.FC = () => {
                   closeDate={closeDate.toISOString()}
                   status={status}
                   deedDid={deedDid}
-                  onUpdate={reListProposals}
                 />
               )
             })
