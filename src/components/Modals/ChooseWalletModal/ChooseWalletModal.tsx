@@ -1,11 +1,11 @@
 import React from 'react'
 import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 import { useAccount } from 'hooks/account'
-import { WalletType } from 'redux/account/account.types'
 import { useKeplr } from 'lib/keplr/keplr'
 import KeplrIcon from 'assets/images/icon-keplr.svg'
 import { Container, WalletBox } from './styles'
 import { Typography } from 'components/Typography'
+import { WalletType } from '@gssuper/cosmodal'
 
 interface Props {
   open: boolean

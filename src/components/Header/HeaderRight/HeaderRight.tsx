@@ -14,9 +14,7 @@ const HeaderRight: React.FC<HeaderRightProps> = ({ toggleModal }): JSX.Element =
   const { address, registered } = useAccount()
 
   const onClickConnectInfo = (): void => {
-    if (!registered) {
-      toggleModal(true)
-    }
+    toggleModal(true)
   }
 
   const renderLightIndicator = (): JSX.Element => {

@@ -29,7 +29,7 @@ export type TTypographyColor =
   | 'red'
   | 'inherit'
 
-interface Props extends React.HTMLAttributes<HTMLDivElement> {
+export interface ITypographyProps extends React.HTMLAttributes<HTMLDivElement> {
   variant?: TTypographyVariant
   size?: TTypographySize
   weight?: TTypographyWeight
@@ -175,14 +175,14 @@ const currentColorCss = css`
 `
 
 /* overflow */
-const overflowCss = css<Props>`
+const overflowCss = css<ITypographyProps>`
   display: -webkit-box;
   -webkit-line-clamp: ${({ overflowLines }) => overflowLines};
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
 `
-const overflowOneLineCss = css<Props>`
+const overflowOneLineCss = css<ITypographyProps>`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -194,7 +194,7 @@ const underlineCss = css`
 `
 
 /* hoverCss */
-const hoverCss = css<Props>`
+const hoverCss = css<ITypographyProps>`
   &:hover {
     ${({ hover }) => hover?.underline && underlineCss}
   }
@@ -205,7 +205,7 @@ const noWrapCss = css`
   white-space: nowrap;
 `
 
-const Typography = styled.div<Props>`
+const Typography = styled.div<ITypographyProps>`
   display: inline-block;
   transition: all 0.2s;
 

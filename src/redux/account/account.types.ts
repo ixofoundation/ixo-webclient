@@ -1,6 +1,7 @@
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 import { SigningStargateClient } from '@ixo/impactxclient-sdk'
 import { SigningCosmWasmClient, CosmWasmClient } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/cosmwasm-stargate'
+import { WalletType } from '@gssuper/cosmodal'
 
 export interface DidDoc {
   did: string
@@ -49,11 +50,6 @@ export interface CurrencyType {
   minimalDenom: string
   decimals: number
   imageUrl: string
-}
-
-export enum WalletType {
-  Keplr = 'keplr',
-  Keysafe = 'keysafe',
 }
 
 export interface AccountState {

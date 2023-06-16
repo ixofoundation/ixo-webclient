@@ -1,11 +1,13 @@
 import { createSelector } from '@reduxjs/toolkit'
 import { RootState } from 'redux/store'
-import { AccountState, UserInfo, WalletType } from './account.types'
+import { AccountState, UserInfo } from './account.types'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 import { KeyTypes } from 'lib/protocol'
 import { SigningStargateClient } from '@ixo/impactxclient-sdk'
 import { SigningCosmWasmClient, CosmWasmClient } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/cosmwasm-stargate'
 import { NATIVE_MICRODENOM } from 'constants/chains'
+import { WalletType } from '@gssuper/cosmodal'
+import BigNumber from 'bignumber.js'
 
 export const selectAccountState = (state: RootState): AccountState => state.account
 
@@ -49,12 +51,15 @@ export const selectAccountAddress = createSelector(selectAccountState, (account:
 })
 
 export const selectAccountBalances = createSelector(selectAccountState, (account: AccountState): Coin[] => {
-  return account?.balances ?? []
+  return account.balances ?? []
 })
 
-export const selectAccountSelectedWallet = createSelector(selectAccountState, (account: AccountState): WalletType => {
-  return account?.selectedWallet || null!
-})
+export const selectAccountSelectedWallet = createSelector(
+  selectAccountState,
+  (account: AccountState): WalletType | undefined => {
+    return account.selectedWallet
+  },
+)
 
 export const selectAccountName = createSelector(selectAccountState, (account: AccountState): string => account?.name)
 
@@ -64,7 +69,9 @@ export const selectAccountRegistered = createSelector(
 )
 
 export const selectAccountFunded = createSelector(selectAccountBalances, (balances: Coin[]): boolean =>
-  balances.some(({ denom }) => denom === NATIVE_MICRODENOM),
+  balances.some(
+    ({ denom, amount }) => denom === NATIVE_MICRODENOM && new BigNumber(amount).isGreaterThan(new BigNumber(0)),
+  ),
 )
 
 export const selectAccountPubKey = createSelector(

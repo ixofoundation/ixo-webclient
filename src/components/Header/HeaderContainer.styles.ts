@@ -100,7 +100,7 @@ export const LightReady = styled(Light)`
 `
 
 export const ModalData = styled.div`
-  max-width: 380px;
+  width: 470px;
   text-align: center;
   padding: 20px 20px 30px;
 
