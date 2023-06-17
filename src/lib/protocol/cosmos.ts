@@ -3,8 +3,13 @@ import { DeliverTxResponse } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/s
 import { cosmos, createQueryClient, SigningStargateClient } from '@ixo/impactxclient-sdk'
 import { fee, RPC_ENDPOINT } from './common'
 import { VoteOption } from '@ixo/impactxclient-sdk/types/codegen/cosmos/gov/v1/gov'
-import { Validator } from '@ixo/impactxclient-sdk/types/codegen/cosmos/staking/v1beta1/staking'
+import {
+  DelegationResponse,
+  UnbondingDelegation,
+  Validator,
+} from '@ixo/impactxclient-sdk/types/codegen/cosmos/staking/v1beta1/staking'
 import { Input, Output } from '@ixo/impactxclient-sdk/types/codegen/cosmos/bank/v1beta1/bank'
+import { QueryDelegationTotalRewardsResponse } from '@ixo/impactxclient-sdk/types/codegen/cosmos/distribution/v1beta1/query'
 
 export const BankSendTrx = async (
   client: SigningStargateClient,
@@ -85,6 +90,52 @@ export const GetValidatorByAddr = async (validatorAddr: string): Promise<Validat
     return validator
   } catch (e) {
     console.error('GetValidatorByAddr', e)
+    return undefined
+  }
+}
+
+export const GetDelegatorValidators = async (delegatorAddr: string): Promise<Validator[]> => {
+  try {
+    const client = await createQueryClient(RPC_ENDPOINT!)
+    const { validators } = await client.cosmos.staking.v1beta1.delegatorValidators({ delegatorAddr })
+    return validators
+  } catch (e) {
+    console.error('GetDelegatorValidators', e)
+    return []
+  }
+}
+
+export const GetDelegatorDelegations = async (delegatorAddr: string): Promise<DelegationResponse[]> => {
+  try {
+    const client = await createQueryClient(RPC_ENDPOINT!)
+    const { delegationResponses } = await client.cosmos.staking.v1beta1.delegatorDelegations({ delegatorAddr })
+    return delegationResponses
+  } catch (e) {
+    console.error('GetDelegatorValidators', e)
+    return []
+  }
+}
+
+export const GetDelegatorUnbondingDelegations = async (delegatorAddr: string): Promise<UnbondingDelegation[]> => {
+  try {
+    const client = await createQueryClient(RPC_ENDPOINT!)
+    const { unbondingResponses } = await client.cosmos.staking.v1beta1.delegatorUnbondingDelegations({ delegatorAddr })
+    return unbondingResponses
+  } catch (e) {
+    console.error('GetDelegatorUnbondingDelegations', e)
+    return []
+  }
+}
+
+export const GetDelegationTotalRewards = async (
+  delegatorAddress: string,
+): Promise<QueryDelegationTotalRewardsResponse | undefined> => {
+  try {
+    const client = await createQueryClient(RPC_ENDPOINT!)
+    const totalRewardsResponse = await client.cosmos.distribution.v1beta1.delegationTotalRewards({ delegatorAddress })
+    return totalRewardsResponse
+  } catch (e) {
+    console.error('GetDelegationTotalRewards', e)
     return undefined
   }
 }

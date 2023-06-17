@@ -12,6 +12,7 @@ import {
   selectAccountRegistered,
   selectAccountCosmWasmClient,
   selectAccountCWClient,
+  selectAccountFunded,
 } from 'redux/account/account.selectors'
 import { decode } from 'bs58'
 import {
@@ -26,16 +27,14 @@ import {
   updateRegisteredAction,
   updateSigningClientAction,
 } from 'redux/account/account.actions'
-import { WalletType } from 'redux/account/account.types'
+import {} from 'redux/account/account.types'
 import { GetBalances, KeyTypes, TSigner } from 'lib/protocol'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
-import { useKeplr } from 'lib/keplr/keplr'
-import { OfflineSigner } from '@cosmjs/proto-signing'
-import { useMemo } from 'react'
 import { SigningCosmWasmClient, CosmWasmClient } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/cosmwasm-stargate'
+import { WalletType } from '@gssuper/cosmodal'
 
 export function useAccount(): {
-  selectedWallet: WalletType
+  selectedWallet: WalletType | undefined
   address: string
   signingClient: SigningStargateClient
   cosmWasmClient: SigningCosmWasmClient
@@ -47,13 +46,12 @@ export function useAccount(): {
   balances: Coin[]
   name: string
   registered: boolean | undefined
+  funded: boolean
   signer: TSigner
-  offlineSigner: OfflineSigner
-  // updateKeplrLoginStatus: () => Promise<void>
   updateBalances: () => Promise<void>
   chooseWallet: (wallet: WalletType | undefined) => void
-  updateSigningClient: (signingClient: SigningStargateClient) => void
-  updateCosmWasmClient: (cosmWasmClient: SigningCosmWasmClient) => void
+  updateSigningClient: (signingClient?: SigningStargateClient) => void
+  updateCosmWasmClient: (cosmWasmClient?: SigningCosmWasmClient) => void
   updateCWClient: (cosmWasmClient: CosmWasmClient) => void
   updateRegistered: (registered: boolean) => void
   updateDid: (did: string) => void
@@ -62,8 +60,7 @@ export function useAccount(): {
   updateName: (name: string) => void
 } {
   const dispatch = useAppDispatch()
-  const keplr = useKeplr()
-  const selectedWallet: WalletType = useAppSelector(selectAccountSelectedWallet)
+  const selectedWallet: WalletType | undefined = useAppSelector(selectAccountSelectedWallet)
   const address: string = useAppSelector(selectAccountAddress)
   const signingClient: SigningStargateClient = useAppSelector(selectAccountSigningClient)
   const cosmWasmClient: SigningCosmWasmClient = useAppSelector(selectAccountCosmWasmClient)
@@ -75,16 +72,8 @@ export function useAccount(): {
   const name: string = useAppSelector(selectAccountName)
   const balances: Coin[] = useAppSelector(selectAccountBalances)
   const registered: boolean | undefined = useAppSelector(selectAccountRegistered)
+  const funded: boolean = useAppSelector(selectAccountFunded)
   const signer: TSigner = { address, did, pubKey: pubKeyUint8!, keyType }
-  const offlineSigner: OfflineSigner = useMemo(() => {
-    if (selectedWallet === WalletType.Keysafe) {
-      alert('get offlineSigner for keysafe')
-    } else if (selectedWallet === WalletType.Keplr) {
-      return keplr.getOfflineSigner()
-    }
-    return undefined
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedWallet])
 
   const updateBalances = async (): Promise<void> => {
     try {
@@ -100,11 +89,11 @@ export function useAccount(): {
   const chooseWallet = (wallet: WalletType | undefined): void => {
     dispatch(chooseWalletAction(wallet))
   }
-  const updateSigningClient = (signingClient: SigningStargateClient): void => {
-    dispatch(updateSigningClientAction(signingClient))
+  const updateSigningClient = (signingClient?: SigningStargateClient): void => {
+    dispatch(updateSigningClientAction(signingClient!))
   }
-  const updateCosmWasmClient = (cosmWasmClient: SigningCosmWasmClient): void => {
-    dispatch(updateCosmWasmAction(cosmWasmClient))
+  const updateCosmWasmClient = (cosmWasmClient?: SigningCosmWasmClient): void => {
+    dispatch(updateCosmWasmAction(cosmWasmClient!))
   }
   const updateCWClient = (cosmWasmClient: CosmWasmClient): void => {
     dispatch(updateCWClientAction(cosmWasmClient))
@@ -125,28 +114,6 @@ export function useAccount(): {
     dispatch(updateNameAction(name))
   }
 
-  // const updateKeplrLoginStatus = async (): Promise<void> => {
-  //   try {
-  //     const key = await keplr.getKey()
-  //     if (key?.name) {
-  //       updateName(key.name)
-  //     }
-  //     if (key?.bech32Address) {
-  //       updateAddress(key.bech32Address)
-  //     }
-  //     if (key?.pubKey) {
-  //       const pubKey = base58.encode(key.pubKey)
-  //       updatePubKey(pubKey)
-  //       const did = utils.did.generateSecpDid(pubKey)
-  //       if (did) {
-  //         updateDid(did)
-  //       }
-  //     }
-  //   } catch (e) {
-  //     console.error('updateKeplrLoginStatus:', e)
-  //   }
-  // }
-
   return {
     selectedWallet,
     address,
@@ -160,9 +127,8 @@ export function useAccount(): {
     balances,
     name,
     registered,
+    funded,
     signer,
-    offlineSigner,
-    // updateKeplrLoginStatus,
     updateBalances,
     chooseWallet,
     updateSigningClient,

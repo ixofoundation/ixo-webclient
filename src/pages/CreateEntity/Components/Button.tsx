@@ -4,7 +4,7 @@ import { FlexBox, SvgBox, theme } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { ReactComponent as AssistantIcon } from 'assets/images/icon-assistant.svg'
 import { DashboardThemeContext } from 'components/Dashboard/Dashboard'
-import { TTypographySize, TTypographyWeight } from 'components/Typography/Typography'
+import { TTypographySize, TTypographyVariant, TTypographyWeight } from 'components/Typography/Typography'
 
 type TButtonVariant = 'primary' | 'secondary' | 'tertiary' | 'white' | 'grey500' | 'grey700' | 'grey900'
 type TButtonSize = 'lg' | 'md' | 'sm' | 'custom' | 'flex' | 'full'
@@ -106,6 +106,7 @@ export interface TButtonProps extends React.ButtonHTMLAttributes<HTMLButtonEleme
   loading?: boolean
   textSize?: TTypographySize
   textTransform?: string
+  textVariant?: TTypographyVariant
   textWeight?: TTypographyWeight
   icon?: JSX.Element
   onClick?: () => void
@@ -120,6 +121,7 @@ const Button: React.FC<TButtonProps> = ({
   disabled = false,
   loading = false,
   textSize = 'xl',
+  textVariant = 'primary',
   textTransform = 'uppercase',
   textWeight = 'medium',
   children,

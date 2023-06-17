@@ -166,6 +166,8 @@ export interface HTMLElementProps {
   cursor?: string
   filter?: string
   overflow?: string
+  overflowX?: string
+  overflowY?: string
   opacity?: number
   whiteSpace?: string
   lineHeight?: string
@@ -199,6 +201,8 @@ export interface HTMLFlexBoxProps extends HTMLDivProps {
   gap?: number
   flexWrap?: string
   flexBasis?: string
+  flexGrow?: number
+  flexShrink?: number
 }
 
 const htmlElementCss = css<HTMLDivProps>`
@@ -263,7 +267,9 @@ const htmlElementCss = css<HTMLDivProps>`
   ${({ pointerEvents }): string | undefined => (pointerEvents ? `pointer-events: ${pointerEvents}` : undefined)};
   ${({ cursor }): string | undefined => (cursor ? `cursor: ${cursor}` : undefined)};
   ${({ filter }): string | undefined => (filter ? `filter: ${filter}` : undefined)};
-  ${({ overflow }): string | undefined => (overflow ? `overflow: ${overflow}` : undefined)};
+  ${({ overflow }) => overflow && `overflow: ${overflow};`}
+  ${({ overflowX }) => overflowX && `overflow-x: ${overflowX};`}
+  ${({ overflowY }) => overflowY && `overflow-y: ${overflowY};`}
   ${({ opacity }): string | undefined => (opacity ? `opacity: ${opacity}` : undefined)};
   ${({ whiteSpace }): string | undefined => (whiteSpace ? `white-space: ${whiteSpace}` : undefined)};
   ${({ lineHeight }): string | undefined => (lineHeight ? `line-height: ${lineHeight}` : undefined)};
@@ -314,20 +320,23 @@ export const FlexBox = styled(Box)<HTMLFlexBoxProps>`
   gap: ${({ gap = 0 }): string => gap * 0.25 + 'rem'};
   ${({ flexWrap }): string | undefined => (flexWrap ? `flex-wrap: ${flexWrap}` : undefined)};
   ${({ flexBasis }): string | undefined => (flexBasis ? `flex-basis: ${flexBasis}` : undefined)};
+  ${({ flexGrow }) => flexGrow && `flex-grow: ${flexGrow};`}
+  ${({ flexShrink }) => flexShrink && `flex-shrink: ${flexShrink};`}
 `
 
-export const SvgBox = styled(FlexBox)<{ svgWidth?: number; svgHeight?: number; color?: string }>`
+export const SvgBox = styled(FlexBox)<{ svgWidth?: number; svgHeight?: number }>`
   line-height: 0;
+
   svg {
-    ${({ svgWidth }): string | undefined => (svgWidth ? `width: ${svgWidth * 0.25}rem` : undefined)};
-    ${({ svgHeight }): string | undefined => (svgHeight ? `height: ${svgHeight * 0.25}rem` : undefined)};
+    ${({ svgWidth }) => svgWidth && `width: ${svgWidth * 0.25}rem;`}
+    ${({ svgHeight }) => svgHeight && `height: ${svgHeight * 0.25}rem;`}
 
     path {
-      ${({ color }): string | undefined => (color ? `fill: ${color} !important;` : undefined)}
+      fill: currentColor !important;
       transition: all 0.2s;
     }
     circle {
-      ${({ color }): string | undefined => (color ? `stroke: ${color} !important;` : undefined)}
+      stroke: currentColor !important;
       transition: all 0.2s;
     }
   }

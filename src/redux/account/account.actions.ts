@@ -11,7 +11,6 @@ import {
   GetTransactionsAction,
   GetUSDRateAction,
   GetMarketChartAction,
-  WalletType,
   ChooseWalletAction,
   UpdateNameAction,
   UpdateAddressAction,
@@ -34,6 +33,7 @@ import { thousandSeparator } from 'utils/formatters'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 import { SigningStargateClient } from '@ixo/impactxclient-sdk'
 import { SigningCosmWasmClient, CosmWasmClient } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/cosmwasm-stargate'
+import { WalletType } from '@gssuper/cosmodal'
 
 export const login = (userInfo: UserInfo, address: string, accountNumber: string, sequence: string): LoginAction => ({
   type: AccountActions.Login,

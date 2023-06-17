@@ -48,7 +48,7 @@ const AccountUpdateService = (): JSX.Element | null => {
 
   useEffect(() => {
     if (connectedWallet) {
-      const { name, address, publicKey, offlineSigner } = connectedWallet
+      const { wallet, name, address, publicKey, offlineSigner } = connectedWallet
       const pubKey = base58.encode(publicKey.data)
       const did = utils.did.generateSecpDid(pubKey)
 
@@ -56,9 +56,18 @@ const AccountUpdateService = (): JSX.Element | null => {
       updateAddress(address)
       updatePubKey(pubKey)
       updateDid(did)
+      chooseWallet(wallet.type)
 
       createSigningClient(RPC_ENDPOINT!, offlineSigner).then(updateSigningClient)
       SigningCosmWasmClient.connectWithSigner(RPC_ENDPOINT!, offlineSigner).then(updateCosmWasmClient)
+    } else {
+      updateName('')
+      updateAddress('')
+      updatePubKey('')
+      updateDid('')
+      chooseWallet(undefined)
+      updateSigningClient(undefined)
+      updateCosmWasmClient(undefined)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [connectedWallet])

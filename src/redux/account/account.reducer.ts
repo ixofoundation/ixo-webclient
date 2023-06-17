@@ -1,9 +1,4 @@
-import {
-  AccountActionTypes,
-  AccountActions,
-  AccountState,
-  // WalletType,
-} from './account.types'
+import { AccountActionTypes, AccountActions, AccountState } from './account.types'
 
 export const initialState: AccountState = {
   userInfo: null,

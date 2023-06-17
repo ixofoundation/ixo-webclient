@@ -34,7 +34,7 @@ const defModalStyles = {
 const ModalInner = styled.div<{ color?: string }>`
   background: ${(props): string => (props.color ? props.color : props.theme.ixoDarkestBlue)};
   color: white;
-  padding: 30px 50px 0;
+  padding: 30px 50px;
   font-family: ${(props): string => props.theme.fontRoboto};
 
   @media (max-width: ${deviceWidth.mobile}px) {
