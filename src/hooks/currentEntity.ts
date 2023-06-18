@@ -70,14 +70,14 @@ export default function useCurrentEntity(): {
     dispatch(updateEntityResourceAction({ key, data, merge }))
   }
 
-  const getEntityByDid = async (did: string): Promise<void> => {
+  const getEntityByDid = (did: string): Promise<void> => {
     /**
      * find entity in entities state and avoid refetch from api
      */
     if (entitites && entitites[did]) {
       updateEntity(entitites[did])
     }
-    return await bsService.entity.getEntityById(did).then((entity: any) => {
+    return bsService.entity.getEntityById(did).then((entity: any) => {
       apiEntityToEntity({ entity, cwClient }, (key, data, merge = false) => {
         updateEntityResource({ key, data, merge })
       })

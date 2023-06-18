@@ -132,7 +132,7 @@ const ImpactTokens: React.FC<Props> = ({ address }) => {
    *  Table data
    */
   const update = useCallback(async (): Promise<void> => {
-    if (type === 'membership') {
+    if (type === 'membership' || !votingModuleAddress) {
       return
     }
     const daoVotingCw20StakedClient = new contracts.DaoVotingCw20Staked.DaoVotingCw20StakedQueryClient(

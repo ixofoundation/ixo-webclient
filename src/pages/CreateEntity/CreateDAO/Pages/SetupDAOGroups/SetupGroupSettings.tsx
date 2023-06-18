@@ -57,6 +57,7 @@ const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JS
   const [useExistingToken, setUseExistingToken] = useState(false)
   const [showAdvanced, setShowAdvanced] = useState(false)
   const [submitting, setSubmitting] = useState(false)
+  const [errMsg, setErrMsg] = useState('')
 
   const valid: boolean = useMemo(() => {
     switch (data.type) {
@@ -66,13 +67,16 @@ const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JS
           return false
         }
         if (!data.name || !data.description) {
+          setErrMsg('Group Name & Description Required')
           return false
         }
         if (
           data.memberships.some(({ members }) => members.filter((member) => !isAccountAddress(member)).length !== 0)
         ) {
+          setErrMsg('Invalid Address Detected')
           return false
         }
+        setErrMsg('')
         return true
       }
       case 'staking': {
@@ -80,24 +84,42 @@ const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JS
           return false
         }
         if (useExistingToken && !data.staking.tokenContractAddress) {
+          setErrMsg('Token Contract Address Required')
           return false
         }
         if (!data.name || !data.description) {
+          setErrMsg('Group Name & Description Required')
           return false
         }
         if (!data.staking.tokenSymbol || !data.staking.tokenName) {
+          setErrMsg('Token Symbol & Name Required')
           return false
         }
+        // check distribution percentage 100%
         const totalTokenDistributionPercentage = data.memberships.reduce((acc, cur) => acc + cur.weight, 0)
         if (totalTokenDistributionPercentage + data.staking.treasuryPercent !== 100) {
+          setErrMsg(
+            `Total token distribution percentage must equal 100%, but it currently sums to ${
+              data.staking.treasuryPercent + totalTokenDistributionPercentage
+            }%.`,
+          )
           return false
         }
+        // check invalid account address
         if (data.memberships.some((dist) => dist.members.filter((member) => !isAccountAddress(member)).length > 0)) {
+          setErrMsg('Invalid Address Detected')
+          return false
+        }
+        // check duplication
+        if (data.memberships.some((dist) => new Set(dist.members).size !== dist.members.length)) {
+          setErrMsg('Duplicate Address Detected')
           return false
         }
         if (data.staking.unstakingDuration.value === 0) {
+          setErrMsg('Invalid Unstaking Period')
           return false
         }
+        setErrMsg('')
         return true
       }
       default:
@@ -1079,13 +1101,16 @@ const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JS
   }
   const renderActions = (): JSX.Element => {
     return (
-      <FlexBox alignItems='center' width='100%' gap={7} marginTop={7}>
-        <Button variant='secondary' size='full' height={48} onClick={onBack}>
-          Back
-        </Button>
-        <Button disabled={!valid} size='full' height={48} loading={submitting} onClick={handleSubmit}>
-          Create Group
-        </Button>
+      <FlexBox direction='column' width='100%' marginTop={7} gap={2}>
+        {errMsg && <Typography color='red'>{errMsg}</Typography>}
+        <FlexBox alignItems='center' width='100%' gap={7}>
+          <Button variant='secondary' size='full' height={48} onClick={onBack}>
+            Back
+          </Button>
+          <Button disabled={!valid} size='full' height={48} loading={submitting} onClick={handleSubmit}>
+            Create Group
+          </Button>
+        </FlexBox>
       </FlexBox>
     )
   }

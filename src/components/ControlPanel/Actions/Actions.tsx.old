@@ -365,7 +365,6 @@ const Actions: React.FunctionComponent<Props> = ({
       {submitProposalModalOpen && (
         <SubmitProposalModal open={submitProposalModalOpen} setOpen={setSubmitProposalModalOpen} />
       )}
-      {depositModalOpen && <DepositModal open={depositModalOpen} setOpen={setDepositModalOpen} />}
       {updateValidatorModalOpen && (
         <UpdateValidatorModal open={updateValidatorModalOpen} setOpen={setUpdateValidatorModalOpen} />
       )}

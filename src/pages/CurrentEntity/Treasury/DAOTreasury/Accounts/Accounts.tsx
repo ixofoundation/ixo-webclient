@@ -1,10 +1,12 @@
 import { ReactComponent as ArrowLeftIcon } from 'assets/images/icon-arrow-left.svg'
 import { ReactComponent as CopyIcon } from 'assets/images/icon-copy.svg'
 import { FlexBox, GridContainer, SvgBox, theme } from 'components/App/App.styles'
+import { DepositModal } from 'components/Modals'
 import { Typography } from 'components/Typography'
 import useCurrentDao from 'hooks/currentDao'
 import useCurrentEntity from 'hooks/currentEntity'
 import { useQuery } from 'hooks/window'
+import { Button } from 'pages/CreateEntity/Components'
 import { Card } from 'pages/CurrentEntity/Components'
 import React, { useEffect, useMemo, useState } from 'react'
 import CopyToClipboard from 'react-copy-to-clipboard'
@@ -39,6 +41,8 @@ const Accounts: React.FC = () => {
   const [selectedAccount, setSelectedAccount] = useState<
     { address: string; name: string; network: string; type: string; balance: string } | undefined
   >(undefined)
+
+  const [depositModalOpen, setDepositModalOpen] = useState(false)
 
   const Icon = useMemo(() => AccountTypeToIconMap[selectedAccount?.type || ''], [selectedAccount])
 
@@ -105,20 +109,34 @@ const Accounts: React.FC = () => {
 
       {selectedAccount ? (
         <>
-          <FlexBox alignItems='center' gap={2}>
-            <Typography variant='secondary' size='2xl' transform='capitalize'>
-              {selectedAccount.name} Account
-            </Typography>
-            <FlexBox alignItems='center' gap={2} px={2} py={1} borderRadius='100px' background={theme.ixoDarkBlue}>
-              {Icon && (
-                <SvgBox svgWidth={6} svgHeight={6} color={theme.ixoWhite}>
-                  <Icon />
-                </SvgBox>
-              )}
-              <Typography>{selectedAccount.type} account</Typography>
+          <FlexBox width='100%' alignItems='center' justifyContent='space-between' gap={2}>
+            <FlexBox alignItems='center' gap={2}>
+              <Typography variant='secondary' size='2xl' transform='capitalize'>
+                {selectedAccount.name} Account
+              </Typography>
+              <FlexBox alignItems='center' gap={2} px={2} py={1} borderRadius='100px' background={theme.ixoDarkBlue}>
+                {Icon && (
+                  <SvgBox svgWidth={6} svgHeight={6} color={theme.ixoWhite}>
+                    <Icon />
+                  </SvgBox>
+                )}
+                <Typography>{selectedAccount.type} account</Typography>
+              </FlexBox>
             </FlexBox>
+            {daoGroups[selectedAccount.address] && (
+              <Button
+                variant='secondary'
+                onClick={() => setDepositModalOpen(true)}
+                size='flex'
+                height={40}
+                textSize='base'
+                textTransform='capitalize'
+                textWeight='medium'
+              >
+                Deposit
+              </Button>
+            )}
           </FlexBox>
-
           <CopyToClipboard text={selectedAccount.address} onCopy={() => successToast(`Copied to clipboard`)}>
             <FlexBox alignItems='center' gap={2} onClick={(e) => e.stopPropagation()} cursor='pointer'>
               <Typography variant='secondary' color='blue' hover={{ underline: true }}>
@@ -193,6 +211,13 @@ const Accounts: React.FC = () => {
               <Transactions address={selectedAccount.address} />
             </Card>
           </FlexBox>
+          {daoGroups[selectedAccount.address] && (
+            <DepositModal
+              daoGroup={daoGroups[selectedAccount.address]}
+              open={depositModalOpen}
+              setOpen={setDepositModalOpen}
+            />
+          )}
         </>
       ) : (
         <FlexBox width='100%' justifyContent='center' color={theme.ixoDarkBlue}>

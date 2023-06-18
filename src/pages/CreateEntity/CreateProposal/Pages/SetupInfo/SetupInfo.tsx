@@ -20,7 +20,7 @@ const SetupInfo: React.FC = (): JSX.Element => {
   const canContinue = name && description
 
   const onBack = () => {
-    history.push(`/create/entity/deed/${entityId}/${coreAddress}/target`)
+    history.push(`/create/entity/deed/${entityId}/${coreAddress}/select`)
   }
   const onContinue = () => {
     if (name && description) {
