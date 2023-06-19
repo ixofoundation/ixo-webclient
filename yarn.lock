@@ -8522,6 +8522,11 @@ editorjs-html@^3.4.2:
   resolved "https://registry.yarnpkg.com/editorjs-html/-/editorjs-html-3.4.2.tgz#1ebe6b6631e3011ef974bb52727f645464c84428"
   integrity sha512-Gy8FV4oHMvnPDXLsdpZYW0Dgjaagff9bPd28/WW9aFdy87FvktJxQz8H+NKpxiGcGoNY27MmjFffurK2yhXjEg==
 
+editorjs-parser@^1.5.3:
+  version "1.5.3"
+  resolved "https://registry.yarnpkg.com/editorjs-parser/-/editorjs-parser-1.5.3.tgz#b977f970ba85375252546a8e34e1d3c72ebd03a6"
+  integrity sha512-ypc6mku0A55ycxdTHjijy/rRtQ060bwQKyEGMDPbnEglRAR/DE/4GJNdKtMGvUWNTGT6Fe25L/AoEQ5bhasQAg==
+
 editorjs-undo@2.0.14:
   version "2.0.14"
   resolved "https://registry.yarnpkg.com/editorjs-undo/-/editorjs-undo-2.0.14.tgz#6e0de537302c5895a0650a37bee84500dd5e3652"
