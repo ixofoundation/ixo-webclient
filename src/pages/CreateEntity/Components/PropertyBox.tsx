@@ -25,11 +25,6 @@ const Wrapper = styled.div`
     cursor: pointer;
     transition: all 0.2s;
 
-    svg > path,
-    svg > line {
-      stroke: ${(props): string => props.theme.ixoWhite};
-    }
-
     &:hover {
       background: ${(props): string => props.theme.ixoNewBlue};
     }
@@ -143,7 +138,7 @@ const PropertyBox: React.FC<Props> = ({
     <Wrapper>
       {!inherited && !required && handleRemove && (
         <Box className='action' onClick={handleRemove}>
-          <SvgBox svgWidth={6} svgHeight={6}>
+          <SvgBox svgWidth={6} svgHeight={6} color='transparent'>
             <BinIcon />
           </SvgBox>
         </Box>

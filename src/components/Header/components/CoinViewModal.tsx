@@ -51,6 +51,7 @@ const CoinViewModal: React.FC<Props> = ({ open, token, onClose }) => {
   }, [stakedBalances])
   const totalBalance = useMemo(() => plus(availableBalance, totalStakedBalance), [availableBalance, totalStakedBalance])
   const [isClaimingRewards, setIsClaimingRewards] = useState(false)
+  const isClaimable = useMemo(() => Object.keys(stakedBalances).length > 0, [stakedBalances])
 
   const update = useCallback(() => {
     GetDelegatorValidators(address).then((validators) => {
@@ -278,6 +279,7 @@ const CoinViewModal: React.FC<Props> = ({ open, token, onClose }) => {
             textTransform='capitalize'
             style={{ color: 'white' }}
             onClick={handleClaimRewards}
+            disabled={!isClaimable}
             loading={isClaimingRewards}
           >
             Claim Rewards
