@@ -332,7 +332,7 @@ export function apiEntityToEntity(
           .then((response) => {
             updateCallback('daoGroups', { [response.coreAddress]: response }, true)
           })
-          .catch(() => undefined)
+          .catch(console.error)
       })
   }
 }

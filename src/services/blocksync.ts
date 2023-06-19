@@ -17,6 +17,10 @@ export class BlockSyncService {
       fetchPublic: this.blocksyncApi.project.fetchPublic,
     }
     this.entity = {
+      getAllEntities: async (): Promise<any> => {
+        const url = new URL(`/api/entity/all`, bsUrl!)
+        return fetch(url.href).then((response) => response.json())
+      },
       getEntitiesByType: async (entityType: string): Promise<any> => {
         const url = new URL(`/api/entity/byType/${entityType.toLowerCase()}`, bsUrl!)
         return fetch(url.href).then((response) => response.json())
