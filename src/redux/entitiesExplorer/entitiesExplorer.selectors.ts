@@ -8,6 +8,7 @@ import { Schema as FilterSchema } from 'components/Entities/EntitiesExplorer/Com
 import { theme } from 'components/App/App.styles'
 import { TEntityDDOTagModel } from 'types/protocol'
 import { TEntityModel } from 'api/blocksync/types/entities'
+import { DaoGroup } from 'redux/currentEntity/dao/currentDao.types'
 
 const formatDate = (date: string): string => moment(date).format("D MMM \\'YY")
 
@@ -521,3 +522,18 @@ export const selectTotalRemainingClaimsCount = createSelector(
   selectTotalSuccessfulClaimsCount,
   (totalClaimsRequired: number, totalClaimsSuccessful: number): number => totalClaimsRequired - totalClaimsSuccessful,
 )
+
+export const selectStakingGroups = createSelector(selectDAOEntities, (entities: TEntityModel[]): DaoGroup[] => {
+  const stakingGroups: DaoGroup[] = []
+  entities.forEach((entity: TEntityModel) => {
+    const { daoGroups } = entity
+    if (daoGroups) {
+      Object.values(daoGroups).forEach((daoGroup: DaoGroup) => {
+        if (daoGroup.type === 'staking') {
+          stakingGroups.push(daoGroup)
+        }
+      })
+    }
+  })
+  return stakingGroups
+})

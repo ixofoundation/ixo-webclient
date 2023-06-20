@@ -199,7 +199,7 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
   }, [sector])
 
   useEffect(() => {
-    props.handleGetEntitiesByType(props.type)
+    // props.handleGetEntitiesByType(props.type)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.type])
 

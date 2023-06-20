@@ -7,7 +7,7 @@ import 'assets/toasts.scss'
 import blocksyncApi from 'api/blocksync/blocksync'
 import AssistantContext from 'contexts/assistant'
 import { AnyObject } from 'immer/dist/internal'
-import { changeEntitiesType, getEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.actions'
+import { changeEntitiesType, getAllEntities, getEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.actions'
 import { EntityType, EntityConfig } from 'types/entities'
 import React, { lazy, Suspense } from 'react'
 import * as ReactGA from 'react-ga'
@@ -62,6 +62,7 @@ export interface Props {
   toggleAssistant: () => void
   handleGetEntityConfig: () => void
   handleChangeEntitiesType: (type: EntityType) => void
+  handleGetAllEntities: () => void
 }
 
 class App extends React.Component<Props, State> {
@@ -119,6 +120,9 @@ class App extends React.Component<Props, State> {
         }
         this.setState({ customizedTheme })
       }
+    }
+    if (props.cwClient !== this.props.cwClient && props.cwClient) {
+      this.props.handleGetAllEntities()
     }
   }
 
@@ -258,6 +262,7 @@ const mapDispatchToProps = (dispatch: any): any => ({
   },
   handleGetEntityConfig: (): void => dispatch(getEntityConfig()),
   handleChangeEntitiesType: (type: EntityType): void => dispatch(changeEntitiesType(type)),
+  handleGetAllEntities: (): void => dispatch(getAllEntities()),
 })
 
 export const AppConnected = withRouter(connect(mapStateToProps, mapDispatchToProps)(App as any) as any)
