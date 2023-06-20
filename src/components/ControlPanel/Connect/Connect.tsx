@@ -10,13 +10,11 @@ interface Props {
 }
 
 const Connect: React.FC<Props> = ({ widget }) => {
-  const { controls } = widget
-
   return (
     <Card
       icon={<CommentIcon />}
       title='Connect'
-      items={controls
+      items={(widget?.controls ?? [])
         .filter((control) => control[`@type`] === 'External')
         .filter((control) => {
           try {

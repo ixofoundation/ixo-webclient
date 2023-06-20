@@ -1,4 +1,4 @@
-import { createQueryClient, ixo, SigningStargateClient, customMessages } from '@ixo/impactxclient-sdk'
+import { createQueryClient, ixo, SigningStargateClient, customMessages, utils } from '@ixo/impactxclient-sdk'
 import {
   QueryEntityIidDocumentRequest,
   QueryEntityListRequest,
@@ -34,6 +34,8 @@ export const CreateEntity = async (
     linkedClaim?: LinkedClaim[]
     verification?: Verification[]
     relayerNode?: string
+    startDate?: string
+    endDate?: string
   }[],
 ): Promise<DeliverTxResponse | undefined> => {
   try {
@@ -50,6 +52,8 @@ export const CreateEntity = async (
         linkedClaim = [],
         verification = [],
         relayerNode = did,
+        startDate = '',
+        endDate = '',
       } = item
       return {
         typeUrl: '/ixo.entity.v1beta1.MsgCreateEntity',
@@ -78,6 +82,8 @@ export const CreateEntity = async (
           linkedEntity: linkedEntity.map((item: LinkedEntity) => ixo.iid.v1beta1.LinkedEntity.fromPartial(item)),
           linkedClaim: linkedClaim.map((item: LinkedClaim) => ixo.iid.v1beta1.LinkedClaim.fromPartial(item)),
           entityStatus,
+          startDate: startDate ? utils.proto.toTimestamp(new Date(startDate)) : undefined,
+          endDate: endDate ? utils.proto.toTimestamp(new Date(endDate)) : undefined,
         }),
       }
     })
