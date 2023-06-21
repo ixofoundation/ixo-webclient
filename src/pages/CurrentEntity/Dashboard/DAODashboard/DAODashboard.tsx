@@ -15,13 +15,14 @@ import { Navigator } from './Navigator'
 import { Membership } from './Membership'
 import { Governance } from './Governance'
 import { IndividualMember } from './IndividualMember'
+import { AddGroup } from './AddGroup'
 
 const DAODashboard: React.FC = (): JSX.Element => {
   const { entityId } = useParams<{ entityId: string }>()
   // const isIndividualMemberRoute = useRouteMatch('/entity/:entityId/dashboard/overview/:groupId/:address')
-  const { entityType } = useCurrentEntity()
+  const { entityType, owner } = useCurrentEntity()
   const { name } = useCurrentEntityProfile()
-  const { registered } = useAccount()
+  const { registered, address } = useAccount()
 
   const routes: Path[] = [
     // {
@@ -50,6 +51,13 @@ const DAODashboard: React.FC = (): JSX.Element => {
       sdg: 'My Participation',
       tooltip: 'My Participation',
       disabled: !registered,
+    },
+    {
+      url: `/entity/${entityId}/dashboard/add-group`,
+      icon: requireCheckDefault(require('assets/img/sidebar/toc.svg')),
+      sdg: 'Add Group',
+      tooltip: 'Add Group',
+      disabled: !registered || owner !== address,
     },
   ]
 
@@ -117,10 +125,15 @@ const DAODashboard: React.FC = (): JSX.Element => {
         component={OverviewIndividualMember}
       /> */}
       <Route exact path='/entity/:entityId/dashboard/governance' component={Governance} />
-      <Route exact path='/entity/:entityId/dashboard/my-participation' component={MyParticipation} />
+      {registered && <Route exact path='/entity/:entityId/dashboard/my-participation' component={MyParticipation} />}
+      {registered && owner === address && (
+        <Route exact path='/entity/:entityId/dashboard/add-group' component={AddGroup} />
+      )}
       <Route exact path='/entity/:entityId/dashboard'>
         <Redirect to={`/entity/${entityId}/dashboard/membership`} />
       </Route>
+
+      <Redirect to={`/entity/${entityId}/dashboard`} />
     </Dashboard>
   )
 }

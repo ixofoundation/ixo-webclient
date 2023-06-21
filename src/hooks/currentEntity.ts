@@ -14,6 +14,7 @@ import {
   selectEntityMetadata,
   selectEntityId,
   selectEntityAccounts,
+  selectEntityOwner,
 } from 'redux/currentEntity/currentEntity.selectors'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { BlockSyncService } from 'services/blocksync'
@@ -41,6 +42,7 @@ export default function useCurrentEntity(): {
   tags: TEntityDDOTagModel[]
   metadata: IidMetadata | undefined
   accounts: EntityAccount[]
+  owner: string
   getEntityByDid: (did: string) => Promise<void>
 } {
   const dispatch = useAppDispatch()
@@ -58,6 +60,7 @@ export default function useCurrentEntity(): {
   const tags: TEntityDDOTagModel[] = useAppSelector(selectEntityTags)!
   const metadata: IidMetadata | undefined = useAppSelector(selectEntityMetadata)
   const accounts: EntityAccount[] = useAppSelector(selectEntityAccounts)
+  const owner: string = useAppSelector(selectEntityOwner)
 
   const updateEntity = (data: TEntityModel) => {
     if (id !== data.id) {
@@ -97,6 +100,7 @@ export default function useCurrentEntity(): {
     tags,
     metadata,
     accounts,
+    owner,
     getEntityByDid,
   }
 }

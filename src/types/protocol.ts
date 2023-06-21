@@ -619,7 +619,6 @@ export const ProposalActionConfig = {
         description: 'Edit Entity',
         icon: SlidersHSolidIcon,
         in: ['dao_voting_cw20_staked', 'dao_voting_cw4'],
-        disabled: true,
         setupModal: SetupEditEntityModal,
       },
     },

@@ -26,6 +26,16 @@ const ReviewDAO: React.FC = (): JSX.Element => {
 
   const handleSignToCreate = async (): Promise<void> => {
     console.log('modified => ', { entity })
+    if (history.location.search) {
+      const searchParams = new URLSearchParams(history.location.search)
+      const redirectTo = searchParams.get('redirectTo')
+      if (redirectTo) {
+        history.push({
+          pathname: redirectTo,
+          state: { type: 'Edit Entity', data: { linkedEntity: entity.linkedEntity } },
+        })
+      }
+    }
   }
 
   return (
@@ -37,10 +47,16 @@ const ReviewDAO: React.FC = (): JSX.Element => {
             This is the last step before creating this DAO on the ixo Blockchain.
           </Typography>
           <Typography variant='secondary'>
-            <NavLink to={`/edit/entity/${entityId}/metadata`}>Review the DAO details</NavLink> you have configured.
+            <NavLink to={{ pathname: `/edit/entity/${entityId}/metadata`, search: history.location.search }}>
+              Review the DAO details
+            </NavLink>{' '}
+            you have configured.
           </Typography>
           <Typography variant='secondary'>
-            <NavLink to={`/edit/entity/${entityId}/groups`}>View the DAO Groups</NavLink> you have added.
+            <NavLink to={{ pathname: `/edit/entity/${entityId}/groups`, search: history.location.search }}>
+              View the DAO Groups
+            </NavLink>{' '}
+            you have added.
           </Typography>
           <Typography variant='secondary'>
             When you are ready to commit, sign with your DID Account keys, or{' '}

@@ -19,7 +19,7 @@ import {
 import { useAccount } from 'hooks/account'
 import { truncateString } from 'utils/formatters'
 import * as Toast from 'utils/toast'
-import { contracts } from '@ixo/impactxclient-sdk'
+import { contracts, ixo } from '@ixo/impactxclient-sdk'
 import { CosmosMsgForEmpty } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
 import { useMakeProposalAction } from 'hooks/proposal'
 import { decodedMessagesString } from 'utils/messages'
@@ -281,12 +281,12 @@ const ReviewProposal: React.FC = () => {
   }
 
   const handleAddProposalInfoAsLinkedEntity = async (deedDid: string, proposalId: number): Promise<boolean> => {
-    const linkedEntity: LinkedEntity = {
+    const linkedEntity: LinkedEntity = ixo.iid.v1beta1.LinkedEntity.fromPartial({
       type: 'deed',
       id: `{id}#${coreAddress}#${proposalId}`,
       relationship: 'proposal',
       service: 'ixo',
-    }
+    })
     return !!(await AddLinkedEntity(deedDid, linkedEntity))
   }
 

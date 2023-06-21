@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react'
-import { Redirect, Route, useParams } from 'react-router-dom'
+import { Redirect, Route, useHistory, useParams } from 'react-router-dom'
 import { TDAOMetadataModel } from 'types/protocol'
 import { EditEntityContext } from '../EditEntity'
 import EditGroups from './EditGroups/EditGroups'
@@ -8,6 +8,7 @@ import EditProperty from './EditProperty/EditProperty'
 import ReviewDAO from './ReviewDAO/ReviewDAO'
 
 const EditDAO: React.FC = (): JSX.Element => {
+  const history = useHistory()
   const { entityId } = useParams<{ entityId: string }>()
 
   const entity = useContext(EditEntityContext)
@@ -27,7 +28,7 @@ const EditDAO: React.FC = (): JSX.Element => {
       <Route exact path='/edit/entity/:entityId/property' component={EditProperty} />
       <Route exact path='/edit/entity/:entityId/review' component={ReviewDAO} />
       <Route exact path={`/edit/entity/:entityId`}>
-        <Redirect to={`/edit/entity/${entityId}/metadata`} />
+        <Redirect to={{ pathname: `/edit/entity/${entityId}/metadata`, search: history.location.search }} />
       </Route>
     </>
   )

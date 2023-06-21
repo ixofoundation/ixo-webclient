@@ -48,3 +48,7 @@ export const selectEntityTags = createSelector(selectCurrentEntity, (entity: TEn
 export const selectEntityAccounts = createSelector(selectCurrentEntity, (entity: TEntityModel): EntityAccount[] => {
   return entity.accounts
 })
+
+export const selectEntityOwner = createSelector(selectCurrentEntity, (entity: TEntityModel): string => {
+  return (entity as any).owner
+})
