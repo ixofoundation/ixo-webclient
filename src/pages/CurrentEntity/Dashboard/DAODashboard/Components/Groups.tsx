@@ -117,8 +117,8 @@ const Groups: React.FC<Props> = ({ isFollowing, selectedGroups, selectDaoGroup }
       hover={{ borderWidth: '2px', borderColor: theme.ixoNewBlue }}
       onClick={() => !dragging && selectDaoGroup(daoGroup.coreAddress)}
     >
-      <Box mb={0.1}>
-        <Typography color='white' size='lg' weight='medium'>
+      <Box width='90%' textAlign='center' mb={0.1}>
+        <Typography color='white' size='lg' weight='medium' overflowLines={1} style={{ width: '100%' }}>
           {daoGroup.config.name}
         </Typography>
       </Box>
