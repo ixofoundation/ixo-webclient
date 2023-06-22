@@ -8,7 +8,7 @@ import { ReactComponent as DisconnectIcon } from 'assets/images/icon-disconnect.
 import { ReactComponent as ImpactTokenIcon } from 'assets/images/icon-impact-token2.svg'
 import { ReactComponent as WalletIcon } from 'assets/images/icon-wallet-solid.svg'
 import BigNumber from 'bignumber.js'
-import { FlexBox, SvgBox, theme } from 'components/App/App.styles'
+import { FlexBox, ScrollBox, SvgBox, theme } from 'components/App/App.styles'
 import BalanceCard from 'components/Card/BalanceCard'
 import { Typography } from 'components/Typography'
 import { useAccount } from 'hooks/account'
@@ -21,7 +21,8 @@ import { useAppSelector } from 'redux/hooks'
 import { convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
 import { truncateString } from 'utils/formatters'
 import { successToast } from 'utils/toast'
-import CoinViewModal from './CoinViewModal'
+import NativeCoinViewModal from './NativeCoinViewModal'
+import Cw20CoinViewModal from './Cw20CoinViewModal'
 
 const ProfileModal: React.FC = () => {
   const { connectedWallet, disconnect } = useWalletManager()
@@ -46,8 +47,6 @@ const ProfileModal: React.FC = () => {
     [selectedDenom, coinBalanceData],
   )
 
-  console.log({ stakingGroups })
-
   useEffect(() => {
     if (balances.length > 0) {
       balances.forEach(({ amount, denom }) => {
@@ -62,7 +61,7 @@ const ProfileModal: React.FC = () => {
             const displayAmount: number = convertMicroDenomToDenomWithDecimals(amount, token.coinDecimals)
             const payload = {
               type: 'native',
-              balance: new BigNumber(displayAmount).toFormat(2),
+              balance: displayAmount.toFixed(2),
               network: `${coinName.toUpperCase()} Network`,
               coinDenom: token.coinDenom,
               coinMinimalDenom: token.coinMinimalDenom,
@@ -70,27 +69,31 @@ const ProfileModal: React.FC = () => {
               coinDecimals: token.coinDecimals,
               lastPriceUsd,
             }
-            setCoinBalanceData((pre) => ({ ...pre, [payload.coinDenom]: payload }))
+            setCoinBalanceData((pre) => ({ ...pre, [payload.coinMinimalDenom]: payload }))
           })
         }
       })
+    }
+    return () => {
+      setCoinBalanceData((coinBalanceData) =>
+        Object.fromEntries(Object.entries(coinBalanceData).filter(([key, value]) => value.type !== 'native')),
+      )
     }
   }, [balances])
 
   useEffect(() => {
     if (stakingGroups.length > 0) {
-      //
       stakingGroups.forEach((stakingGroup: DaoGroup) => {
-        //
         const {
           token,
           votingModule: { votingModuleAddress },
         } = stakingGroup
+
         if (token) {
           const payload = {
             type: 'cw20',
             balance: '',
-            network: ``,
+            network: stakingGroup.config.name,
             coinDenom: token.tokenInfo.symbol,
             coinMinimalDenom: token.config.token_address,
             coinImageUrl: (token.marketingInfo?.logo !== 'embedded' && token.marketingInfo.logo?.url) || '',
@@ -111,23 +114,23 @@ const ProfileModal: React.FC = () => {
 
             setCoinBalanceData((pre) => ({
               ...pre,
-              [payload.coinDenom]: {
-                ...(pre[payload.coinDenom] ?? {}),
-                ...{ balance: new BigNumber(balance).toFormat(2) },
+              [payload.coinMinimalDenom]: {
+                ...(pre[payload.coinMinimalDenom] ?? {}),
+                ...{ balance: balance.toFixed(2) },
               },
             }))
           })()
 
           setCoinBalanceData((pre) => ({
             ...pre,
-            [payload.coinDenom]: { ...(pre[payload.coinDenom] ?? {}), ...payload },
+            [payload.coinMinimalDenom]: { ...(pre[payload.coinMinimalDenom] ?? {}), ...payload },
           }))
         }
         return ''
       })
       return () => {
         setCoinBalanceData((coinBalanceData) =>
-          Object.fromEntries(Object.entries(coinBalanceData).filter(([key, value]) => value.type === 'native')),
+          Object.fromEntries(Object.entries(coinBalanceData).filter(([key, value]) => value.type !== 'cw20')),
         )
       }
     }
@@ -215,14 +218,19 @@ const ProfileModal: React.FC = () => {
         </FlexBox>
 
         {showAssetType === 'Coins' && (
-          <FlexBox direction='column' gap={2} width='100%' height='250px' overflowY='auto'>
-            {Object.values(coinBalanceData).map((item) => (
-              <BalanceCard key={item.coinDenom} {...item} onClick={() => setSelectedDenom(item.coinDenom)} />
-            ))}
-            {selectedAsset && (
-              <CoinViewModal open={!!selectedAsset} token={selectedAsset} onClose={() => setSelectedDenom('')} />
+          <ScrollBox direction='column' gap={2} width='100%' height='250px' overflowY='auto'>
+            {Object.values(coinBalanceData)
+              .filter((item) => new BigNumber(item.balance).isGreaterThan(new BigNumber(0)))
+              .map((item, index) => (
+                <BalanceCard key={index} {...item} onClick={() => setSelectedDenom(item.coinMinimalDenom)} />
+              ))}
+            {selectedAsset?.type === 'native' && (
+              <NativeCoinViewModal open={!!selectedAsset} token={selectedAsset} onClose={() => setSelectedDenom('')} />
             )}
-          </FlexBox>
+            {selectedAsset?.type === 'cw20' && (
+              <Cw20CoinViewModal open={!!selectedAsset} token={selectedAsset} onClose={() => setSelectedDenom('')} />
+            )}
+          </ScrollBox>
         )}
       </FlexBox>
     </FlexBox>

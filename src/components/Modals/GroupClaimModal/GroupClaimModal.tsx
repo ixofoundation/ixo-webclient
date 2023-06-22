@@ -13,7 +13,7 @@ import { ReactComponent as ArrowDownIcon } from 'assets/images/icon-arrow-down.s
 import { useCurrentEntityProfile } from 'hooks/currentEntity'
 import { TokenInfoResponse } from '@ixo/impactxclient-sdk/types/codegen/Cw20Base.types'
 import { fee } from 'lib/protocol'
-import { claimAvailable } from 'utils/claims'
+import { claimAvailable } from 'utils/tokenClaim'
 import { plus } from 'utils/currency'
 
 const Card = ({ children, ...rest }: HTMLFlexBoxProps) => (

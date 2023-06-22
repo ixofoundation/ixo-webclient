@@ -187,8 +187,6 @@ export const getDaoContractInfo = async ({
     type,
     admin,
     config,
-    cw20Balances,
-    cw20TokenList,
     storageItems,
     activeProposalModuleAddress,
     proposalModule,
