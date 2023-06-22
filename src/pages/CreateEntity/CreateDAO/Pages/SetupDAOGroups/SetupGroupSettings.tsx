@@ -1,5 +1,5 @@
 import { FlexBox, SvgBox, theme } from 'components/App/App.styles'
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { TDAOGroupModel } from 'types/protocol'
 import { CardWrapper, PlusIcon } from './SetupGroupSettings.styles'
 import { Typography } from 'components/Typography'
@@ -47,7 +47,7 @@ const inputHeight = 48
 
 interface Props {
   daoGroup: TDAOGroupModel
-  onBack: () => void
+  onBack?: () => void
   onSubmit: (data: TDAOGroupModel) => void
 }
 
@@ -58,6 +58,10 @@ const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JS
   const [showAdvanced, setShowAdvanced] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [errMsg, setErrMsg] = useState('')
+
+  useEffect(() => {
+    setData(daoGroup)
+  }, [daoGroup])
 
   const valid: boolean = useMemo(() => {
     switch (data.type) {
@@ -1104,9 +1108,11 @@ const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JS
       <FlexBox direction='column' width='100%' marginTop={7} gap={2}>
         {errMsg && <Typography color='red'>{errMsg}</Typography>}
         <FlexBox alignItems='center' width='100%' gap={7}>
-          <Button variant='secondary' size='full' height={48} onClick={onBack}>
-            Back
-          </Button>
+          {onBack && (
+            <Button variant='secondary' size='full' height={48} onClick={onBack}>
+              Back
+            </Button>
+          )}
           <Button disabled={!valid} size='full' height={48} loading={submitting} onClick={handleSubmit}>
             Create Group
           </Button>

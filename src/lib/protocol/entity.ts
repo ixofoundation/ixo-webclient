@@ -60,16 +60,16 @@ export const CreateEntity = async (
         value: ixo.entity.v1beta1.MsgCreateEntity.fromPartial({
           entityType: entityType.toLowerCase(),
           context: customMessages.iid.createAgentIidContext(context as [{ key: string; val: string }]),
-          verification:
-            verification.length > 0
-              ? verification
-              : customMessages.iid.createIidVerificationMethods({
-                  did,
-                  pubkey: pubKey,
-                  address: address,
-                  controller: did,
-                  type: keyType,
-                }),
+          verification: [
+            ...customMessages.iid.createIidVerificationMethods({
+              did,
+              pubkey: pubKey,
+              address: address,
+              controller: did,
+              type: keyType,
+            }),
+            ...verification,
+          ],
           controller: [did],
           ownerDid: did,
           ownerAddress: address,

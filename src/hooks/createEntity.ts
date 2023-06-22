@@ -1006,7 +1006,6 @@ export function useCreateEntity(): TCreateEntityHookRes {
 
   const CreateDAOCoreByGroupId = async (daoGroup: TDAOGroupModel): Promise<string> => {
     try {
-      const imageUrl = profile.image
       const {
         type,
         name,
@@ -1062,7 +1061,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
         automatically_add_cw20s: true,
         automatically_add_cw721s: true,
         description,
-        image_url: imageUrl,
+        image_url: null, // TODO: TBD
         name,
         proposal_modules_instantiate_info: [
           {

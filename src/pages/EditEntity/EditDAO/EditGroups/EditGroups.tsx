@@ -18,6 +18,7 @@ import SetupGroupSettings, {
 } from 'pages/CreateEntity/CreateDAO/Pages/SetupDAOGroups/SetupGroupSettings'
 import { EditEntityContext } from 'pages/EditEntity/EditEntity'
 import { useHistory, useParams } from 'react-router-dom'
+import { LinkedEntity } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 
 const EditGroups: React.FC = (): JSX.Element => {
   const history = useHistory()
@@ -26,12 +27,7 @@ const EditGroups: React.FC = (): JSX.Element => {
 
   const [openAddGroupModal, setOpenAddGroupModal] = useState(false)
   const [selectedGroup, setSelectedGroup] = useState('')
-  const canSubmit = useMemo(
-    () =>
-      Object.values(entity.daoGroups ?? {}).length > 0 &&
-      !Object.values(entity.daoGroups ?? {}).some(({ contractAddress }) => !contractAddress),
-    [entity.daoGroups],
-  )
+  const canSubmit = useMemo(() => Object.values(entity.daoGroups ?? {}).length > 0, [entity.daoGroups])
 
   const handleAddGroup = (type: string): void => {
     const id = uuidv4()
@@ -103,20 +99,33 @@ const EditGroups: React.FC = (): JSX.Element => {
 
   const handleContinue = (): void => {
     let tempLinkedEntity = {}
-    Object.values(entity.daoGroups ?? {}).forEach(({ contractAddress }) => {
-      tempLinkedEntity = {
-        ...tempLinkedEntity,
-        [contractAddress!]: ixo.iid.v1beta1.LinkedEntity.fromPartial({
-          id: `{id}#${contractAddress!}`,
-          type: 'Group',
-          relationship: 'subsidiary',
-          service: '',
-        }),
+    Object.values(entity.daoGroups ?? {}).forEach((daoGroup: any) => {
+      if ('contractAddress' in daoGroup && daoGroup.contractAddress) {
+        tempLinkedEntity = {
+          ...tempLinkedEntity,
+          [daoGroup.contractAddress]: ixo.iid.v1beta1.LinkedEntity.fromPartial({
+            id: `{id}#${daoGroup.contractAddress}`,
+            type: 'Group',
+            relationship: 'subsidiary',
+            service: '',
+          }),
+        }
+      } else if ('coreAddress' in daoGroup && daoGroup.coreAddress) {
+        const coreAddress = daoGroup.coreAddress as string
+        tempLinkedEntity = {
+          ...tempLinkedEntity,
+          [coreAddress]: ixo.iid.v1beta1.LinkedEntity.fromPartial({
+            id: `{id}#${coreAddress}`,
+            type: 'Group',
+            relationship: 'subsidiary',
+            service: '',
+          }),
+        }
       }
     })
 
     entity.updatePartial('linkedEntity', tempLinkedEntity)
-    history.push(`/edit/entity/${entityId}/property`)
+    history.push({ pathname: `/edit/entity/${entityId}/property`, search: history.location.search })
   }
 
   if (selectedGroup) {
@@ -142,6 +151,13 @@ const EditGroups: React.FC = (): JSX.Element => {
 
         <FlexBox gap={5}>
           {Object.entries(entity.daoGroups ?? {}).map(([key, value]) => {
+            const inherited = Object.values(entity.linkedEntity)
+              .filter((item: LinkedEntity) => item.type === 'Group')
+              .some((item: LinkedEntity) => {
+                const { id } = item
+                const [, coreAddress] = id.split('#')
+                return coreAddress === key
+              })
             const Icon = DAOGroupConfig[value.type]?.icon
             const text = DAOGroupConfig[value.type]?.text
             return (
@@ -150,11 +166,12 @@ const EditGroups: React.FC = (): JSX.Element => {
                   icon={Icon && <Icon />}
                   label={text}
                   set={!!value.contractAddress}
-                  handleRemove={(): void => handleRemoveGroup(key)}
-                  handleClick={(): void => setSelectedGroup(key)}
+                  handleRemove={() => handleRemoveGroup(key)}
+                  handleClick={() => !inherited && setSelectedGroup(key)}
+                  inherited={inherited}
                 />
                 <Typography variant='secondary' overflowLines={1} style={{ width: 100, textAlign: 'center' }}>
-                  &nbsp;{value.name}&nbsp;
+                  &nbsp;{(value as any).config?.name || value.name}&nbsp;
                 </Typography>
                 <CheckBox
                   label='DAO Controller'

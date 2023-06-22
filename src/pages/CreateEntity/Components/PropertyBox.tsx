@@ -145,7 +145,9 @@ const PropertyBox: React.FC<Props> = ({
       )}
       {inherited && (
         <Box className='action'>
-          <LockIcon />
+          <SvgBox svgWidth={4} svgHeight={4} color='white'>
+            <LockIcon />
+          </SvgBox>
         </Box>
       )}
       <Body disabled={disabled} size={size} status={status} onClick={handleClick && handleClick}>

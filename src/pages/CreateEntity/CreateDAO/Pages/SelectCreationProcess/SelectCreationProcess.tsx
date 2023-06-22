@@ -23,8 +23,8 @@ const SelectCreationProcess: React.FC = (): JSX.Element => {
     updateService,
     // updateLinkedResource,
     // updateAccordedRight,
+    // updateDAOGroups,
     updateLinkedEntity,
-    updateDAOGroups,
   } = useCreateEntityState()
   const { cwClient } = useAccount()
   const [isClone, setIsClone] = useState(false)
@@ -64,9 +64,9 @@ const SelectCreationProcess: React.FC = (): JSX.Element => {
           case 'linkedEntity':
             updateLinkedEntity(value)
             break
-          case 'daoGroups':
-            updateDAOGroups(value)
-            break
+          // case 'daoGroups':
+          //   updateDAOGroups(value)
+          //   break
           case 'linkedResource':
             break
           default:

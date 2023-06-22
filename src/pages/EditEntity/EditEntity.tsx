@@ -12,12 +12,10 @@ const bsService = new BlockSyncService()
 
 export const EditEntityContext = createContext<
   {
-    update: (entity: TCreateEntityState) => void
     updatePartial: (key: string, value: any, merge?: boolean) => void
   } & TCreateEntityState
 >({
   ...initialState,
-  update: () => '',
   updatePartial: () => '',
 })
 
@@ -26,12 +24,12 @@ const EditEntity: React.FC = (): JSX.Element => {
   const { cwClient } = useAccount()
   const [value, setValue] = useState<TCreateEntityState>(initialState)
 
-  const handleUpdate = useCallback((entity: TCreateEntityState) => {
-    setValue(entity)
+  const handleUpdate = useCallback((value: any) => {
+    setValue((pre) => ({ ...pre, ...value }))
   }, [])
 
   const handleUpdatePartial = useCallback((key: string, value: any, merge = false) => {
-    setValue((pre) => ({ ...pre, [key]: merge ? { ...pre[key], ...value } : value }))
+    setValue((pre) => ({ ...pre, [key]: merge ? { ...(pre[key] ?? {}), ...value } : value }))
   }, [])
 
   const Component = useMemo(() => {
@@ -42,16 +40,17 @@ const EditEntity: React.FC = (): JSX.Element => {
   }, [value.entityType])
 
   useEffect(() => {
-    if (entityId) {
+    if (entityId && cwClient) {
       bsService.entity.getEntityById(entityId).then((entity: any) => {
+        handleUpdate({ ...entity, entityType: entity.type })
         apiEntityToEntity({ entity, cwClient }, handleUpdatePartial)
       })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [entityId])
+  }, [entityId, cwClient])
 
   return (
-    <EditEntityContext.Provider value={{ ...value, update: handleUpdate, updatePartial: handleUpdatePartial }}>
+    <EditEntityContext.Provider value={{ ...value, updatePartial: handleUpdatePartial }}>
       <EditEntityLayout title={value.title} subtitle={value.subtitle} breadCrumbs={value.breadCrumbs}>
         {Component && cwClient && <Component />}
       </EditEntityLayout>

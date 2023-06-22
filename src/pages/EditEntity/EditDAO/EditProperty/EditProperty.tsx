@@ -81,7 +81,12 @@ const EditProperty: React.FC = (): JSX.Element => {
         <Button variant='secondary' onClick={(): void => history.goBack()}>
           Back
         </Button>
-        <Button variant='primary' onClick={(): void => history.push(`/edit/entity/${entityId}/review`)}>
+        <Button
+          variant='primary'
+          onClick={(): void =>
+            history.push({ pathname: `/edit/entity/${entityId}/review`, search: history.location.search })
+          }
+        >
           Continue
         </Button>
       </FlexBox>

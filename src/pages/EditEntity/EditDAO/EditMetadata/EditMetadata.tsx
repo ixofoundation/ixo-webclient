@@ -26,7 +26,7 @@ const EditMetadata: React.FC = (): JSX.Element => {
     history.goBack()
   }
   const handleNext = (): void => {
-    history.push(`/edit/entity/${entityId}/groups`)
+    history.push({ pathname: `/edit/entity/${entityId}/groups`, search: history.location.search })
   }
 
   const handleUpdateProfile = (key: string, value: any): void => {
