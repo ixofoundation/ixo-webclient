@@ -21,7 +21,7 @@ import { convertDecCoinToCoin, plus } from 'utils/currency'
 interface Props {
   open: boolean
   token: {
-    type: string // 'cw20' | 'native'
+    type: string
     balance: string
     network: string
     coinDenom: string

@@ -21,9 +21,6 @@ const SelectCreationProcess: React.FC = (): JSX.Element => {
     updateDDOTags,
     updatePage,
     updateService,
-    // updateLinkedResource,
-    // updateAccordedRight,
-    // updateDAOGroups,
     updateLinkedEntity,
   } = useCreateEntityState()
   const { cwClient } = useAccount()
@@ -64,9 +61,6 @@ const SelectCreationProcess: React.FC = (): JSX.Element => {
           case 'linkedEntity':
             updateLinkedEntity(value)
             break
-          // case 'daoGroups':
-          //   updateDAOGroups(value)
-          //   break
           case 'linkedResource':
             break
           default:
