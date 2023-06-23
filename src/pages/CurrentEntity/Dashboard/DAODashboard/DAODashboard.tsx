@@ -133,7 +133,7 @@ const DAODashboard: React.FC = (): JSX.Element => {
         <Redirect to={`/entity/${entityId}/dashboard/membership`} />
       </Route>
 
-      <Redirect to={`/entity/${entityId}/dashboard`} />
+      <Redirect to={`/entity/${entityId}/dashboard/membership`} />
     </Dashboard>
   )
 }
