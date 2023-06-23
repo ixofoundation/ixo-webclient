@@ -47,7 +47,7 @@ const BalanceCard: React.FC<BalanceCardProps> = ({
             {coinDenom}
           </Typography>
           <Typography size='lg' weight='medium'>
-            <CurrencyFormat displayType='text' value={balance} thousandSeparator decimalScale={2} />
+            <CurrencyFormat displayType='text' value={balance} thousandSeparator decimalScale={2} fixedDecimalScale />
           </Typography>
         </FlexBox>
         <FlexBox width='100%' justifyContent='space-between' alignItems='center'>
@@ -55,7 +55,14 @@ const BalanceCard: React.FC<BalanceCardProps> = ({
             {network}
           </Typography>
           <Typography size='md' weight='medium' color={'dark-blue'}>
-            <CurrencyFormat prefix='$' displayType='text' value={balanceUsd} thousandSeparator decimalScale={2} />
+            <CurrencyFormat
+              prefix='$'
+              displayType='text'
+              value={balanceUsd}
+              thousandSeparator
+              decimalScale={2}
+              fixedDecimalScale
+            />
           </Typography>
         </FlexBox>
       </FlexBox>

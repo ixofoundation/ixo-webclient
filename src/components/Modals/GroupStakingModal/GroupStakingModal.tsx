@@ -5,12 +5,12 @@ import { SignStep, TXStatus } from '../common'
 import { DaoGroup } from 'redux/currentEntity/dao/currentDao.types'
 import { Typography } from 'components/Typography'
 import NextStepImage from 'assets/images/modal/nextstep.svg'
-import { useCurrentDaoGroup } from 'hooks/currentDao'
 import { contracts } from '@ixo/impactxclient-sdk'
 import { useAccount } from 'hooks/account'
 import {
   convertDenomToMicroDenomWithDecimals,
   convertMicroDenomToDenomWithDecimals,
+  depositInfoToCoin,
   durationToSeconds,
   secondsToWdhms,
 } from 'utils/conversions'
@@ -23,6 +23,8 @@ import { fee } from 'lib/protocol'
 import styled from 'styled-components'
 import { Avatar } from 'pages/CurrentEntity/Components'
 import { errorToast } from 'utils/toast'
+import { useAppSelector } from 'redux/hooks'
+import { selectStakingGroupByCoreAddress } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 const StyledInput = styled(Input)`
   color: white;
@@ -59,7 +61,12 @@ interface Props {
 const GroupStakingModal: React.FunctionComponent<Props> = ({ daoGroup, open, setOpen, onSuccess }) => {
   const { cwClient, cosmWasmClient, address } = useAccount()
   const { name: daoName } = useCurrentEntityProfile()
-  const { votingModuleAddress, depositInfo } = useCurrentDaoGroup(daoGroup?.coreAddress)
+  const {
+    votingModule: { votingModuleAddress },
+    proposalModule: {
+      preProposeConfig: { deposit_info: depositInfo },
+    },
+  } = useAppSelector(selectStakingGroupByCoreAddress(daoGroup?.coreAddress))!
   const [unstakingDuration, setUnstakingDuration] = useState<number>(0)
   const [tokenInfo, setTokenInfo] = useState<TokenInfoResponse | undefined>(undefined)
   const [marketingInfo, setMarketingInfo] = useState<MarketingInfoResponse | undefined>(undefined)
@@ -129,7 +136,7 @@ const GroupStakingModal: React.FunctionComponent<Props> = ({ daoGroup, open, set
         },
         fee,
         undefined,
-        depositInfo ? [depositInfo] : undefined,
+        depositInfo ? [depositInfoToCoin(depositInfo)!] : undefined,
       )
       if (transactionHash) {
         setTXStatus(TXStatus.SUCCESS)

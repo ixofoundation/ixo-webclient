@@ -537,3 +537,13 @@ export const selectStakingGroups = createSelector(selectDAOEntities, (entities: 
   })
   return stakingGroups
 })
+
+export const selectStakingGroupsByTokenAddress = (tokenAddress: string) =>
+  createSelector(selectStakingGroups, (stakingGroups: DaoGroup[]): DaoGroup[] => {
+    return stakingGroups.filter((daoGroup: DaoGroup) => daoGroup.token?.config.token_address === tokenAddress)
+  })
+
+export const selectStakingGroupByCoreAddress = (coreAddress: string) =>
+  createSelector(selectStakingGroups, (stakingGroups: DaoGroup[]): DaoGroup | undefined => {
+    return stakingGroups.find((daoGroup: DaoGroup) => daoGroup.coreAddress === coreAddress)
+  })

@@ -16,7 +16,7 @@ import { useAccount } from 'hooks/account'
 import { contracts } from '@ixo/impactxclient-sdk'
 import { convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
 import { plus } from 'utils/currency'
-import { claimAvailable } from 'utils/claims'
+import { claimAvailable } from 'utils/tokenClaim'
 import { CHAIN_ID } from 'hooks/configs'
 
 const data = [

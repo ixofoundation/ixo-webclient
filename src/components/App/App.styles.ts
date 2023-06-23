@@ -382,3 +382,18 @@ export const TableHeadItem = styled.th<HTMLDivProps>`
 export const TableBodyItem = styled.td<HTMLDivProps>`
   ${htmlElementCss}
 `
+
+export const ScrollBox = styled(FlexBox)`
+  &::-webkit-scrollbar {
+    width: 16px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: #08222f;
+    border-radius: 10px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: ${(props): string => props.theme.ixoNewBlue};
+    border-radius: 10px;
+  }
+`

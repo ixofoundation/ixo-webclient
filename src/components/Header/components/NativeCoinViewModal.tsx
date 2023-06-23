@@ -21,6 +21,7 @@ import { convertDecCoinToCoin, plus } from 'utils/currency'
 interface Props {
   open: boolean
   token: {
+    type: string // 'cw20' | 'native'
     balance: string
     network: string
     coinDenom: string
@@ -32,7 +33,7 @@ interface Props {
   onClose: () => void
 }
 
-const CoinViewModal: React.FC<Props> = ({ open, token, onClose }) => {
+const NativeCoinViewModal: React.FC<Props> = ({ open, token, onClose }) => {
   const { address, signingClient, updateBalances } = useAccount()
   const availableBalance = token.balance
   const [stakedBalances, setStakedBalances] = useState<{
@@ -290,4 +291,4 @@ const CoinViewModal: React.FC<Props> = ({ open, token, onClose }) => {
   )
 }
 
-export default CoinViewModal
+export default NativeCoinViewModal
