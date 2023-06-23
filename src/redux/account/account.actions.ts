@@ -21,6 +21,8 @@ import {
   UpdateDidAction,
   UpdateCosmWasmClientAction,
   UpdateCWClientAction,
+  UpdateCw20TokensAction,
+  UpdateNativeTokensAction,
 } from './account.types'
 import { RootState } from 'redux/store'
 import { Dispatch } from 'redux'
@@ -34,6 +36,7 @@ import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/c
 import { SigningStargateClient } from '@ixo/impactxclient-sdk'
 import { SigningCosmWasmClient, CosmWasmClient } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/cosmwasm-stargate'
 import { WalletType } from '@gssuper/cosmodal'
+import { Cw20Token, NativeToken } from 'types/tokens'
 
 export const login = (userInfo: UserInfo, address: string, accountNumber: string, sequence: string): LoginAction => ({
   type: AccountActions.Login,
@@ -335,6 +338,20 @@ export const updateAddressAction = (address: string): UpdateAddressAction => {
 export const updateBalancesAction = (balances: Coin[]): UpdateBalancesAction => {
   return {
     type: AccountActions.UpdateBalances,
+    payload: balances,
+  }
+}
+
+export const updateNativeTokensAction = (balances: { [addr: string]: NativeToken }): UpdateNativeTokensAction => {
+  return {
+    type: AccountActions.UpdateNativeTokens,
+    payload: balances,
+  }
+}
+
+export const updateCw20TokensAction = (balances: { [addr: string]: Cw20Token }): UpdateCw20TokensAction => {
+  return {
+    type: AccountActions.UpdateCw20Tokens,
     payload: balances,
   }
 }

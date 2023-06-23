@@ -83,11 +83,15 @@ export const subtract = (a: string, b: string): string => {
 }
 
 export const isLessThan = (a: string, b: string): boolean => {
-  return new BigNumber(a).isLessThan(b)
+  return new BigNumber(a).isLessThan(new BigNumber(b))
 }
 
 export const isGreaterThan = (a: string, b: string | number): boolean => {
-  return new BigNumber(a).isGreaterThan(b)
+  return new BigNumber(a).isGreaterThan(new BigNumber(b))
+}
+
+export const isGreaterThanOrEqualTo = (a: string, b: string | number): boolean => {
+  return new BigNumber(a).isGreaterThanOrEqualTo(new BigNumber(b))
 }
 
 export const percentFormat = (a: string | number, b: string | number, decimals: number): string => {

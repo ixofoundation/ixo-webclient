@@ -18,3 +18,15 @@ export type GenericToken = {
   decimals: number
   imageUrl: string | undefined
 }
+
+export type Cw20Token = GenericToken & {
+  groupContract: string
+  balance: string
+  staked: string
+  unbonding: string
+  claimable: string
+}
+
+export type NativeToken = GenericToken & {
+  balance: string
+}

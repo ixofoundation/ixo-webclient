@@ -101,6 +101,13 @@ const GroupUnstakingModal: React.FunctionComponent<Props> = ({ daoGroup, open, s
       setTokenInfo(tokenInfo)
       setMarketingInfo(marketingInfo)
     })()
+
+    return () => {
+      setStakedBalance('')
+      setUnstakingDuration(0)
+      setTokenInfo(undefined)
+      setMarketingInfo(undefined)
+    }
   }, [address, votingModuleAddress, cwClient])
 
   useEffect(() => {

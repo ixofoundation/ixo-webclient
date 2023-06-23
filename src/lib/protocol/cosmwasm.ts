@@ -52,7 +52,7 @@ export const WasmExecuteTrx = async (
       typeUrl: '/cosmwasm.wasm.v1.MsgExecuteContract',
       value: cosmwasm.wasm.v1.MsgExecuteContract.fromPartial({
         contract: contractAddress,
-        funds: [cosmos.base.v1beta1.Coin.fromPartial(funds)],
+        funds: funds ? [cosmos.base.v1beta1.Coin.fromPartial(funds)] : [],
         msg: utils.conversions.JsonToArray(msg),
         sender: address,
       }),

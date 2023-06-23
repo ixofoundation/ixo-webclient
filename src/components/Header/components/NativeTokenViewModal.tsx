@@ -1,24 +1,29 @@
-import { contracts } from '@ixo/impactxclient-sdk'
+import { cosmos } from '@ixo/impactxclient-sdk'
+import BigNumber from 'bignumber.js'
 import { FlexBox, theme } from 'components/App/App.styles'
+import { SendModal2 } from 'components/Modals'
 import { Typography } from 'components/Typography'
 import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 import { useAccount } from 'hooks/account'
+import {
+  fee,
+  GetDelegationTotalRewards,
+  GetDelegatorDelegations,
+  GetDelegatorUnbondingDelegations,
+  GetDelegatorValidators,
+} from 'lib/protocol'
 import { Button } from 'pages/CreateEntity/Components'
 import { Avatar } from 'pages/CurrentEntity/Components'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import CurrencyFormat from 'react-currency-format'
-import { selectStakingGroupsByTokenAddress } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
-import { useAppSelector } from 'redux/hooks'
-import { claimAvailable } from 'utils/tokenClaim'
+import { TokenType } from 'types/tokens'
 import { convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
-import { plus } from 'utils/currency'
-import { DaoGroup } from 'redux/currentEntity/dao/currentDao.types'
-import { GroupStakingModal } from 'components/Modals'
+import { convertDecCoinToCoin, plus } from 'utils/currency'
 
 interface Props {
   open: boolean
   token: {
-    type: string
+    type: TokenType
     balance: string
     network: string
     coinDenom: string
@@ -30,9 +35,8 @@ interface Props {
   onClose: () => void
 }
 
-const Cw20CoinViewModal: React.FC<Props> = ({ open, token, onClose }) => {
-  const stakingGroups: DaoGroup[] = useAppSelector(selectStakingGroupsByTokenAddress(token.coinMinimalDenom))
-  const { cwClient, address } = useAccount()
+const NativeTokenViewModal: React.FC<Props> = ({ open, token, onClose }) => {
+  const { address, signingClient, updateBalances } = useAccount()
   const availableBalance = token.balance
   const [stakedBalances, setStakedBalances] = useState<{
     [validatorAddr: string]: {
@@ -40,6 +44,7 @@ const Cw20CoinViewModal: React.FC<Props> = ({ open, token, onClose }) => {
       address?: string
       delegation?: string
       unbonding?: string
+      rewards?: string
     }
   }>({})
   const totalStakedBalance = useMemo(() => {
@@ -48,52 +53,107 @@ const Cw20CoinViewModal: React.FC<Props> = ({ open, token, onClose }) => {
       .reduce((pre, cur) => plus(pre, cur), '0')
   }, [stakedBalances])
   const totalBalance = useMemo(() => plus(availableBalance, totalStakedBalance), [availableBalance, totalStakedBalance])
-  const [isStaking, setIsStaking] = useState(false)
+  const [isSending, setIsSending] = useState(false)
+  const [isClaimingRewards, setIsClaimingRewards] = useState(false)
+  const isClaimable = useMemo(() => Object.keys(stakedBalances).length > 0, [stakedBalances])
 
   const update = useCallback(() => {
-    ;(async () => {
-      await Promise.all(
-        stakingGroups.map(async (stakingGroup) => {
-          const votingModuleAddress = stakingGroup?.votingModule.votingModuleAddress
-          const daoVotingCw20StakedClient = new contracts.DaoVotingCw20Staked.DaoVotingCw20StakedQueryClient(
-            cwClient,
-            votingModuleAddress,
-          )
-          const stakingContract = await daoVotingCw20StakedClient.stakingContract()
-          const cw20StakeClient = new contracts.Cw20Stake.Cw20StakeQueryClient(cwClient, stakingContract)
-          const { value: microStakedValue } = await cw20StakeClient.stakedValue({ address })
-          const { claims } = await cw20StakeClient.claims({ address })
-          const microUnstakingValue = claims
-            .filter((claim) => !claimAvailable(claim, 0)) //  TODO: TBD blockHeight
-            .reduce((acc, cur) => plus(acc, cur.amount), '0')
-
-          const stakedValue = convertMicroDenomToDenomWithDecimals(microStakedValue, token.coinDecimals).toString()
-          const unstakingValue = convertMicroDenomToDenomWithDecimals(
-            microUnstakingValue,
-            token.coinDecimals,
-          ).toString()
-
+    GetDelegatorValidators(address).then((validators) => {
+      validators.forEach((validator) => {
+        const { description, operatorAddress } = validator
+        if (operatorAddress) {
           setStakedBalances((pre) => ({
             ...pre,
-            [stakingGroup.coreAddress]: {
-              ...(pre[stakingGroup.coreAddress] ?? {}),
-              name: stakingGroup.config.name || '',
-              address: stakingGroup.coreAddress,
-              delegation: stakedValue,
-              unbonding: unstakingValue,
+            [operatorAddress]: {
+              ...(pre[operatorAddress] ?? {}),
+              name: description?.moniker || '',
+              address: operatorAddress,
             },
           }))
-        }),
-      )
-    })()
-  }, [stakingGroups, address, token, cwClient])
+        }
+      })
+    })
+    GetDelegatorDelegations(address).then((delegationResponses) => {
+      delegationResponses.forEach((response) => {
+        const { balance, delegation } = response
+        if (delegation && balance) {
+          const { validatorAddress } = delegation
+          if (validatorAddress) {
+            setStakedBalances((pre) => ({
+              ...pre,
+              [validatorAddress]: {
+                ...(pre[validatorAddress] ?? {}),
+                delegation: convertMicroDenomToDenomWithDecimals(balance.amount, token.coinDecimals).toString(),
+              },
+            }))
+          }
+        }
+      })
+    })
+    GetDelegatorUnbondingDelegations(address).then((unbondingResponses) => {
+      unbondingResponses.forEach((response) => {
+        const { validatorAddress, entries } = response
+        const balance = entries.map((entry) => entry.balance).reduce((pre, cur) => plus(pre, cur), '0')
+        if (validatorAddress) {
+          setStakedBalances((pre) => ({
+            ...pre,
+            [validatorAddress]: {
+              ...(pre[validatorAddress] ?? {}),
+              unbonding: convertMicroDenomToDenomWithDecimals(balance, token.coinDecimals).toString(),
+            },
+          }))
+        }
+      })
+    })
+    GetDelegationTotalRewards(address).then((response) => {
+      if (response) {
+        const { rewards } = response
+        rewards.forEach((item) => {
+          const { validatorAddress, reward } = item
+          const rewardDecCoin = reward.find(({ denom }) => denom === token.coinMinimalDenom)
+          if (rewardDecCoin && validatorAddress) {
+            const rewardCoin = convertDecCoinToCoin(rewardDecCoin)
+            setStakedBalances((pre) => ({
+              ...pre,
+              [validatorAddress]: {
+                ...(pre[validatorAddress] ?? {}),
+                rewards: convertMicroDenomToDenomWithDecimals(rewardCoin.amount, token.coinDecimals).toString(),
+              },
+            }))
+          }
+        })
+      }
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [address])
 
   useEffect(() => {
     update()
   }, [update])
 
-  const handleStake = async () => {
-    setIsStaking(true)
+  const handleSend = async () => {
+    setIsSending(true)
+  }
+
+  const handleClaimRewards = async () => {
+    setIsClaimingRewards(true)
+    const msgs = Object.keys(stakedBalances).map((validatorAddress) => ({
+      typeUrl: '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward',
+      value: cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward.fromPartial({
+        delegatorAddress: address,
+        validatorAddress,
+      }),
+    }))
+    const calculatedFee = {
+      ...fee,
+      gas: new BigNumber(fee.gas).times(msgs.length).toString(),
+    }
+    await signingClient.signAndBroadcast(address, msgs, calculatedFee)
+
+    update()
+    updateBalances()
+
+    setIsClaimingRewards(false)
   }
 
   return (
@@ -159,7 +219,7 @@ const Cw20CoinViewModal: React.FC<Props> = ({ open, token, onClose }) => {
                       gap={2.5}
                     >
                       <FlexBox>
-                        <Typography color='blue' weight='medium'>
+                        <Typography color='dark-blue' weight='medium'>
                           {stakedBalance.name || ''}
                         </Typography>
                       </FlexBox>
@@ -187,6 +247,18 @@ const Cw20CoinViewModal: React.FC<Props> = ({ open, token, onClose }) => {
                           />
                         </Typography>
                       </FlexBox>
+                      <FlexBox width='100%' justifyContent='space-between' alignItems='center'>
+                        <Typography weight='medium'>Pending Rewards</Typography>
+                        <Typography weight='medium'>
+                          <CurrencyFormat
+                            displayType='text'
+                            value={stakedBalance.rewards ?? 0}
+                            thousandSeparator
+                            decimalScale={2}
+                            fixedDecimalScale
+                          />
+                        </Typography>
+                      </FlexBox>
                     </FlexBox>
                   ))}
                 </FlexBox>
@@ -204,6 +276,8 @@ const Cw20CoinViewModal: React.FC<Props> = ({ open, token, onClose }) => {
               textSize='lg'
               textTransform='capitalize'
               style={{ color: 'white' }}
+              onClick={handleSend}
+              loading={isSending}
             >
               Send
             </Button>
@@ -215,17 +289,18 @@ const Cw20CoinViewModal: React.FC<Props> = ({ open, token, onClose }) => {
               textSize='lg'
               textTransform='capitalize'
               style={{ color: 'white' }}
-              onClick={handleStake}
-              loading={isStaking}
+              onClick={handleClaimRewards}
+              disabled={!isClaimable}
+              loading={isClaimingRewards}
             >
-              Stake
+              Claim Rewards
             </Button>
           </FlexBox>
         </FlexBox>
       </ModalWrapper>
-      <GroupStakingModal open={isStaking} setOpen={setIsStaking} daoGroup={stakingGroups[0]} onSuccess={update} />
+      <SendModal2 open={isSending} setOpen={setIsSending} selectedDenomOrAddr={token.coinMinimalDenom} />
     </>
   )
 }
 
-export default Cw20CoinViewModal
+export default NativeTokenViewModal

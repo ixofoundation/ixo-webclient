@@ -77,6 +77,10 @@ const GroupClaimModal: React.FunctionComponent<Props> = ({ daoGroup, open, setOp
       setTokenInfo(tokenInfo)
       setClaimableBalance(claimableValue)
     })()
+    return () => {
+      setTokenInfo(undefined)
+      setClaimableBalance('0')
+    }
   }, [votingModuleAddress, address, cwClient])
 
   useEffect(() => {
