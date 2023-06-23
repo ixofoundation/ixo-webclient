@@ -1,48 +1,30 @@
 import useCurrentEntity from 'hooks/currentEntity'
 import React from 'react'
-// @ts-ignore
-import edjsHTML from 'editorjs-html'
-import parse from 'html-react-parser'
-import { FlexBox } from 'components/App/App.styles'
+import { EDITOR_JS_TOOLS } from 'pages/CreateEntity/Forms/PropertiesForm/SetupPageContent/SetupPageContent.constants'
+import { createReactEditorJS } from 'react-editor-js'
 import styled from 'styled-components'
+import { Box } from 'components/App/App.styles'
 
-const edjsParser = edjsHTML()
+const ReactEditorJS = createReactEditorJS()
 
-const Wrapper = styled(FlexBox)`
-  & > * {
-    width: 100%;
-    word-wrap: break-word;
-  }
+const Wrapper = styled(Box)`
+  width: 100%;
 
-  & h1,
-  h2,
-  h3,
-  h4,
-  h5 {
-    margin-top: 3rem;
+  .ce-block {
+    &__content {
+      max-width: unset;
+    }
   }
 `
 
 const PageContent: React.FC = (): JSX.Element => {
   const { page = [] } = useCurrentEntity()
 
-  const html = edjsParser.parse({
-    blocks:
-      page
-        .filter((item) => !!item.data)
-        .map((item) => {
-          if (item.type === 'heroImage') {
-            return { ...item, type: 'image' }
-          } else if (item.type === 'pageTitle') {
-            return { ...item, type: 'header' }
-          }
-          return item
-        }) ?? [],
-  })
-
   return (
-    <Wrapper direction='column' width='100%' my={4}>
-      {parse(html.join(''))}
+    <Wrapper>
+      {page.length > 0 && (
+        <ReactEditorJS tools={EDITOR_JS_TOOLS} defaultValue={{ time: new Date().getTime(), blocks: page }} readOnly />
+      )}
     </Wrapper>
   )
 }
