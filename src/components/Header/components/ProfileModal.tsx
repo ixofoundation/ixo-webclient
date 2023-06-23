@@ -31,7 +31,7 @@ const ProfileModal: React.FC = () => {
   const [showAssetType, setShowAssetType] = useState('Coins')
   const [coinBalanceData, setCoinBalanceData] = useState<{
     [denom: string]: {
-      type: string // cw20 | native
+      type: string
       balance: string
       network: string
       coinDenom: string
