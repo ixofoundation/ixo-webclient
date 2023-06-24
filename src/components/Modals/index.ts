@@ -22,6 +22,7 @@ export { default as GroupStakingModal } from './GroupStakingModal/GroupStakingMo
 export { default as GroupUnstakingModal } from './GroupUnstakingModal/GroupUnstakingModal'
 export { default as GroupClaimModal } from './GroupClaimModal/GroupClaimModal'
 export { default as SendModal } from './SendModal/SendModal'
+export { default as SendModal2 } from './SendModal/SendModal2'
 export { default as MultiSendModal } from './MultiSendModal/MultiSendModal'
 export { default as JoinModal } from './JoinModal/JoinModal'
 export { default as FuelEntityModal } from './FuelEntityModal/FuelEntityModal'

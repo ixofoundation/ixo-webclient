@@ -1,5 +1,5 @@
 import { useWalletManager } from '@gssuper/cosmodal'
-import { contracts, customQueries } from '@ixo/impactxclient-sdk'
+import { customQueries } from '@ixo/impactxclient-sdk'
 import { ReactComponent as AssetIcon } from 'assets/images/icon-asset.svg'
 import { ReactComponent as BondIcon } from 'assets/images/icon-bond.svg'
 import { ReactComponent as CoinsIcon } from 'assets/images/icon-coins-solid.svg'
@@ -15,23 +15,19 @@ import { useAccount } from 'hooks/account'
 import { Avatar, TabButton } from 'pages/CurrentEntity/Components'
 import React, { useEffect, useMemo, useState } from 'react'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
-import { DaoGroup } from 'redux/currentEntity/dao/currentDao.types'
-import { selectStakingGroups } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
-import { useAppSelector } from 'redux/hooks'
-import { convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
 import { truncateString } from 'utils/formatters'
 import { successToast } from 'utils/toast'
-import NativeCoinViewModal from './NativeCoinViewModal'
-import Cw20CoinViewModal from './Cw20CoinViewModal'
+import NativTokenViewModal from './NativeTokenViewModal'
+import Cw20TokenViewModal from './Cw20TokenViewModal'
+import { TokenType } from 'types/tokens'
 
 const ProfileModal: React.FC = () => {
   const { connectedWallet, disconnect } = useWalletManager()
-  const { address, name, balances, cwClient } = useAccount()
-  const stakingGroups = useAppSelector(selectStakingGroups)
+  const { address, name, cw20Tokens, nativeTokens } = useAccount()
   const [showAssetType, setShowAssetType] = useState('Coins')
   const [coinBalanceData, setCoinBalanceData] = useState<{
     [denom: string]: {
-      type: string
+      type: TokenType
       balance: string
       network: string
       coinDenom: string
@@ -48,94 +44,56 @@ const ProfileModal: React.FC = () => {
   )
 
   useEffect(() => {
-    if (balances.length > 0) {
-      balances.forEach(({ amount, denom }) => {
-        /**
-         * @description find token info from currency list via sdk
-         */
-        const token = customQueries.currency.findTokenFromDenom(denom)
-
-        if (token) {
-          customQueries.currency.findTokenInfoFromDenom(token.coinDenom).then((response) => {
-            const { coinName, lastPriceUsd } = response
-            const displayAmount: number = convertMicroDenomToDenomWithDecimals(amount, token.coinDecimals)
-            const payload = {
-              type: 'native',
-              balance: displayAmount.toFixed(2),
-              network: `${coinName.toUpperCase()} Network`,
-              coinDenom: token.coinDenom,
-              coinMinimalDenom: token.coinMinimalDenom,
-              coinImageUrl: token.coinImageUrl!,
-              coinDecimals: token.coinDecimals,
-              lastPriceUsd,
-            }
-            setCoinBalanceData((pre) => ({ ...pre, [payload.coinMinimalDenom]: payload }))
-          })
-        }
+    if (nativeTokens.length > 0) {
+      nativeTokens.forEach((token) => {
+        setCoinBalanceData((pre) => ({
+          ...pre,
+          [token.denomOrAddress]: {
+            type: TokenType.Native,
+            balance: token.balance,
+            network: 'IXO Network',
+            coinDenom: token.symbol,
+            coinMinimalDenom: token.denomOrAddress,
+            coinImageUrl: token.imageUrl!,
+            coinDecimals: token.decimals,
+            lastPriceUsd: 0,
+          },
+        }))
+        customQueries.currency.findTokenInfoFromDenom(token.denomOrAddress).then((response) => {
+          const { lastPriceUsd } = response
+          setCoinBalanceData((pre) => ({
+            ...pre,
+            [token.denomOrAddress]: { ...pre[token.denomOrAddress], lastPriceUsd },
+          }))
+        })
       })
     }
     return () => {
       setCoinBalanceData((coinBalanceData) =>
-        Object.fromEntries(Object.entries(coinBalanceData).filter(([key, value]) => value.type !== 'native')),
+        Object.fromEntries(Object.entries(coinBalanceData).filter(([key, value]) => value.type !== TokenType.Native)),
       )
     }
-  }, [balances])
+  }, [nativeTokens])
 
   useEffect(() => {
-    if (stakingGroups.length > 0) {
-      stakingGroups.forEach((stakingGroup: DaoGroup) => {
-        const {
-          token,
-          votingModule: { votingModuleAddress },
-        } = stakingGroup
-
-        if (token) {
-          const payload = {
-            type: 'cw20',
-            balance: '',
-            network: stakingGroup.config.name,
-            coinDenom: token.tokenInfo.symbol,
-            coinMinimalDenom: token.config.token_address,
-            coinImageUrl: (token.marketingInfo?.logo !== 'embedded' && token.marketingInfo.logo?.url) || '',
-            coinDecimals: token.tokenInfo.decimals,
+    if (cw20Tokens.length > 0) {
+      cw20Tokens.forEach((item) => {
+        setCoinBalanceData((pre) => ({
+          ...pre,
+          [item.denomOrAddress]: {
+            type: TokenType.Cw20,
+            balance: item.balance,
+            network: 'IXO Network',
+            coinDenom: item.symbol,
+            coinMinimalDenom: item.denomOrAddress,
+            coinImageUrl: item.imageUrl!,
+            coinDecimals: item.decimals,
             lastPriceUsd: 0,
-          }
-
-          const daoVotingCw20StakedClient = new contracts.DaoVotingCw20Staked.DaoVotingCw20StakedQueryClient(
-            cwClient,
-            votingModuleAddress,
-          )
-
-          ;(async () => {
-            const tokenContract = await daoVotingCw20StakedClient.tokenContract()
-            const cw20BaseClient = new contracts.Cw20Base.Cw20BaseQueryClient(cwClient, tokenContract)
-            const { balance: microBalance } = await cw20BaseClient.balance({ address })
-            const balance = convertMicroDenomToDenomWithDecimals(microBalance, token.tokenInfo.decimals)
-
-            setCoinBalanceData((pre) => ({
-              ...pre,
-              [payload.coinMinimalDenom]: {
-                ...(pre[payload.coinMinimalDenom] ?? {}),
-                ...{ balance: balance.toFixed(2) },
-              },
-            }))
-          })()
-
-          setCoinBalanceData((pre) => ({
-            ...pre,
-            [payload.coinMinimalDenom]: { ...(pre[payload.coinMinimalDenom] ?? {}), ...payload },
-          }))
-        }
-        return ''
+          },
+        }))
       })
-      return () => {
-        setCoinBalanceData((coinBalanceData) =>
-          Object.fromEntries(Object.entries(coinBalanceData).filter(([key, value]) => value.type !== 'cw20')),
-        )
-      }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [stakingGroups])
+  }, [cw20Tokens])
 
   return (
     <FlexBox direction='column' gap={8} width='100%' color={theme.ixoWhite}>
@@ -225,10 +183,10 @@ const ProfileModal: React.FC = () => {
                 <BalanceCard key={index} {...item} onClick={() => setSelectedDenom(item.coinMinimalDenom)} />
               ))}
             {selectedAsset?.type === 'native' && (
-              <NativeCoinViewModal open={!!selectedAsset} token={selectedAsset} onClose={() => setSelectedDenom('')} />
+              <NativTokenViewModal open={!!selectedAsset} token={selectedAsset} onClose={() => setSelectedDenom('')} />
             )}
             {selectedAsset?.type === 'cw20' && (
-              <Cw20CoinViewModal open={!!selectedAsset} token={selectedAsset} onClose={() => setSelectedDenom('')} />
+              <Cw20TokenViewModal open={!!selectedAsset} token={selectedAsset} onClose={() => setSelectedDenom('')} />
             )}
           </ScrollBox>
         )}

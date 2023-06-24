@@ -13,6 +13,8 @@ import {
   selectAccountCosmWasmClient,
   selectAccountCWClient,
   selectAccountFunded,
+  selectAccountCw20Tokens,
+  selectAccountNativeTokens,
 } from 'redux/account/account.selectors'
 import { decode } from 'bs58'
 import {
@@ -20,9 +22,11 @@ import {
   updateAddressAction,
   updateBalancesAction,
   updateCosmWasmAction,
+  updateCw20TokensAction,
   updateCWClientAction,
   updateDidAction,
   updateNameAction,
+  updateNativeTokensAction,
   updatePubKeyAction,
   updateRegisteredAction,
   updateSigningClientAction,
@@ -32,6 +36,7 @@ import { GetBalances, KeyTypes, TSigner } from 'lib/protocol'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 import { SigningCosmWasmClient, CosmWasmClient } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/cosmwasm-stargate'
 import { WalletType } from '@gssuper/cosmodal'
+import { Cw20Token, NativeToken } from 'types/tokens'
 
 export function useAccount(): {
   selectedWallet: WalletType | undefined
@@ -44,11 +49,15 @@ export function useAccount(): {
   keyType: KeyTypes
   did: string
   balances: Coin[]
+  nativeTokens: NativeToken[]
+  cw20Tokens: Cw20Token[]
   name: string
   registered: boolean | undefined
   funded: boolean
   signer: TSigner
   updateBalances: () => Promise<void>
+  updateNativeTokens: (balances: { [denom: string]: NativeToken }) => void
+  updateCw20Tokens: (balances: { [addr: string]: Cw20Token }) => void
   chooseWallet: (wallet: WalletType | undefined) => void
   updateSigningClient: (signingClient?: SigningStargateClient) => void
   updateCosmWasmClient: (cosmWasmClient?: SigningCosmWasmClient) => void
@@ -71,6 +80,8 @@ export function useAccount(): {
   const did: string = useAppSelector(selectAccountDid)
   const name: string = useAppSelector(selectAccountName)
   const balances: Coin[] = useAppSelector(selectAccountBalances)
+  const nativeTokens: NativeToken[] = useAppSelector(selectAccountNativeTokens)
+  const cw20Tokens: Cw20Token[] = useAppSelector(selectAccountCw20Tokens)
   const registered: boolean | undefined = useAppSelector(selectAccountRegistered)
   const funded: boolean = useAppSelector(selectAccountFunded)
   const signer: TSigner = { address, did, pubKey: pubKeyUint8!, keyType }
@@ -85,6 +96,12 @@ export function useAccount(): {
     } catch (e) {
       console.error('updateBalances:', e)
     }
+  }
+  const updateCw20Tokens = (balances: { [addr: string]: Cw20Token }) => {
+    dispatch(updateCw20TokensAction(balances))
+  }
+  const updateNativeTokens = (balances: { [denom: string]: NativeToken }) => {
+    dispatch(updateNativeTokensAction(balances))
   }
   const chooseWallet = (wallet: WalletType | undefined): void => {
     dispatch(chooseWalletAction(wallet))
@@ -125,11 +142,15 @@ export function useAccount(): {
     keyType,
     did,
     balances,
+    nativeTokens,
+    cw20Tokens,
     name,
     registered,
     funded,
     signer,
     updateBalances,
+    updateNativeTokens,
+    updateCw20Tokens,
     chooseWallet,
     updateSigningClient,
     updateCosmWasmClient,

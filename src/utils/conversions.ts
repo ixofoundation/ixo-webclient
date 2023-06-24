@@ -183,7 +183,7 @@ export const serializeCoin = (coin: BaseCoin | undefined | null, separator = ' '
   return coin ? `${coin.amount}${separator}${coin.denom}` : ''
 }
 
-export function convertMicroDenomToDenomWithDecimals(amount: number | string, decimals: number) {
+export function convertMicroDenomToDenomWithDecimals(amount: number | string, decimals = 0) {
   if (typeof amount === 'string') {
     amount = Number(amount)
   }
@@ -191,7 +191,7 @@ export function convertMicroDenomToDenomWithDecimals(amount: number | string, de
   return isNaN(amount) ? 0 : amount
 }
 
-export function convertDenomToMicroDenomWithDecimals(amount: number | string, decimals: number) {
+export function convertDenomToMicroDenomWithDecimals(amount: number | string, decimals = 0) {
   if (typeof amount === 'string') {
     amount = Number(amount)
   }

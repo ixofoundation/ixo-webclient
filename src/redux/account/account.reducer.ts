@@ -2,8 +2,6 @@ import { AccountActionTypes, AccountActions, AccountState } from './account.type
 
 export const initialState: AccountState = {
   userInfo: null,
-  address: null,
-  balances: [],
   loginStatusCheckCompleted: true,
   assistantToggled: false,
   assistantFixed: false,
@@ -25,6 +23,10 @@ export const initialState: AccountState = {
   cosmWasmClient: undefined,
   cwClient: undefined,
   did: undefined,
+  address: null,
+  balances: [],
+  nativeTokens: {},
+  cw20Tokens: {},
 } as any
 
 export const reducer = (state = initialState, action: AccountActionTypes): AccountState => {
@@ -89,6 +91,10 @@ export const reducer = (state = initialState, action: AccountActionTypes): Accou
       return { ...state, address: action.payload }
     case AccountActions.UpdateBalances:
       return { ...state, balances: action.payload }
+    case AccountActions.UpdateNativeTokens:
+      return { ...state, nativeTokens: { ...state.nativeTokens, ...action.payload } }
+    case AccountActions.UpdateCw20Tokens:
+      return { ...state, cw20Tokens: { ...state.cw20Tokens, ...action.payload } }
     case AccountActions.UpdateRegistered:
       return { ...state, registered: action.payload }
     case AccountActions.UpdatePubKey:

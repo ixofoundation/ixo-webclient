@@ -8,6 +8,7 @@ import { SigningCosmWasmClient, CosmWasmClient } from '@ixo/impactxclient-sdk/no
 import { NATIVE_MICRODENOM } from 'constants/chains'
 import { WalletType } from '@gssuper/cosmodal'
 import BigNumber from 'bignumber.js'
+import { Cw20Token, NativeToken } from 'types/tokens'
 
 export const selectAccountState = (state: RootState): AccountState => state.account
 
@@ -52,6 +53,14 @@ export const selectAccountAddress = createSelector(selectAccountState, (account:
 
 export const selectAccountBalances = createSelector(selectAccountState, (account: AccountState): Coin[] => {
   return account.balances ?? []
+})
+
+export const selectAccountNativeTokens = createSelector(selectAccountState, (account: AccountState): NativeToken[] => {
+  return Object.values(account.nativeTokens)
+})
+
+export const selectAccountCw20Tokens = createSelector(selectAccountState, (account: AccountState): Cw20Token[] => {
+  return Object.values(account.cw20Tokens)
 })
 
 export const selectAccountSelectedWallet = createSelector(
