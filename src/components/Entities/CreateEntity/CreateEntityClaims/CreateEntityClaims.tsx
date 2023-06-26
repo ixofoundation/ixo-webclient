@@ -449,7 +449,7 @@ class CreateEntityClaims extends CreateEntityBase<Props> {
 
 const mapStateToProps = (state: RootState): any => ({
   templates: entitiesSelectors.selectAllTemplateEntities(state),
-  isLoadingEntities: entitiesSelectors.selectIsLoadingEntities(state),
+  isLoadingEntities: entitiesSelectors.selectIsLoadingEntities2(state),
   step: createEntitySelectors.selectStep(state),
   entityType: createEntitySelectors.selectEntityType(state),
   validationComplete: entityClaimsSelectors.selectValidationComplete(state),

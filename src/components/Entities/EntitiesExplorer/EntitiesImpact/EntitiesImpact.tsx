@@ -62,7 +62,7 @@ const mapStateToProps = (state: RootState): Record<string, any> => ({
   remainingClaimsCount: entitiesSelectors.selectTotalRemainingClaimsCount(state),
   serviceProvidersCount: entitiesSelectors.selectTotalServiceProvidersCount(state),
   evaluatorsCount: entitiesSelectors.selectTotalEvaluatorsCount(state),
-  isLoadingEntities: entitiesSelectors.selectIsLoadingEntities(state),
+  isLoadingEntities: entitiesSelectors.selectIsLoadingEntities2(state),
   filterQuery: entitiesSelectors.selectFilterQuery(state),
 })
 

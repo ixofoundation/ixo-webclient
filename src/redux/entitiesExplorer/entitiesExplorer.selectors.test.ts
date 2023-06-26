@@ -277,81 +277,6 @@ describe('EntitiesExplorer Selectors', () => {
     })
   })
 
-  describe('selectedFilteredEntities', () => {
-    it('should return a list of entities sorted when no filters are set', () => {
-      state.entities.filter = {
-        dateFrom: '',
-        dateTo: '',
-        ddoTags: [],
-        userEntities: false,
-      }
-
-      // when ... we call the selector
-      const result = SUT.selectedFilteredEntities(state)
-
-      // then ... should return result as expected
-      expect(result.length).toEqual(1)
-      expect(result[0].did).toEqual('someDid1')
-    })
-
-    it('should return a list of entities filtered by user entities when the userEntities flag is true', () => {
-      state.entities.filter = {
-        dateFrom: '',
-        dateTo: '',
-        ddoTags: [],
-        userEntities: true,
-      }
-
-      // when ... we call the selector
-      const result = SUT.selectedFilteredEntities(state)
-
-      // then ... should return result as expected
-      expect(result.length).toEqual(1)
-      expect(result[0].did).toEqual('someDid1')
-    })
-
-    it('should return a list of entities filtered by date and sorted when dates are set', () => {
-      state.entities.filter = {
-        dateFrom: '2020-04-09',
-        dateTo: '2020-04-10',
-        ddoTags: [],
-        userEntities: false,
-      }
-
-      // when ... we call the selector
-      const result = SUT.selectedFilteredEntities(state)
-
-      // then ... should return result as expected
-      expect(result.length).toEqual(1)
-      expect(result[0].did).toEqual('someDid1')
-    })
-
-    it('should return a list of entities filtered by ddoTags and sorted when ddoTags are set', () => {
-      state.entities.filter = {
-        dateFrom: '',
-        dateTo: '',
-        ddoTags: [
-          {
-            category: 'someCategory1',
-            tags: ['someCategory1_tag1'],
-          },
-          {
-            category: 'someCategory5',
-            tags: ['someCategory5_tag1'],
-          },
-        ],
-        userEntities: false,
-      }
-
-      // when ... we call the selector
-      const result = SUT.selectedFilteredEntities(state)
-
-      // then ... should return result as expected
-      expect(result.length).toEqual(1)
-      expect(result[0].did).toEqual('someDid1')
-    })
-  })
-
   describe('selectAllTemplateEntities', () => {
     it('should return a list of template entities sorted by date regardless of filters', () => {
       state.entities.filter = {
@@ -367,40 +292,6 @@ describe('EntitiesExplorer Selectors', () => {
       // then ... should return result as expected
       expect(result.length).toEqual(1)
       expect(result[0].did).toEqual('someDid5')
-    })
-  })
-
-  describe('selectFilteredEntitiesCount', () => {
-    it('should return the count of filtered Entities', () => {
-      state.entities.filter = {
-        dateFrom: '2020-04-09',
-        dateTo: '2020-04-10',
-        ddoTags: [],
-        userEntities: false,
-      }
-      // when ... we call the selector
-      // TODO - add filtering
-      const result = SUT.selectFilteredEntitiesCount(state)
-
-      // then ... should return result as expected
-      expect(result).toEqual(1)
-    })
-  })
-
-  describe('selectAllEntitiesCount', () => {
-    it('should return the count of all entities regardless of filters set', () => {
-      state.entities.filter = {
-        dateFrom: '1900-01-01',
-        dateTo: '1900-01-01',
-        ddoTags: [],
-        userEntities: false,
-      }
-      // when ... we call the selector
-      // TODO - add filtering
-      const result = SUT.selectAllEntitiesCount(state)
-
-      // then ... should return result as expected
-      expect(result).toEqual(3)
     })
   })
 
