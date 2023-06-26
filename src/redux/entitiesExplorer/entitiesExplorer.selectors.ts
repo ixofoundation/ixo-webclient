@@ -14,6 +14,13 @@ const formatDate = (date: string): string => moment(date).format("D MMM \\'YY")
 
 export const selectEntitiesState = (state: RootState): EntitiesExplorerState => state.entities
 
+export const selectAllEntities = createSelector(
+  selectEntitiesState,
+  (entitiesState: EntitiesExplorerState): TEntityModel[] => {
+    return Object.values(entitiesState.entities2 ?? {})
+  },
+)
+
 export const selectAllEntitiesByType = createSelector(
   selectEntitiesState,
   (entitiesState: EntitiesExplorerState): ExplorerEntity[] => {
@@ -83,91 +90,6 @@ export const selectSelectedEntitiesType = createSelector(
   selectEntitiesState,
   (entitiesState: EntitiesExplorerState): string => {
     return entitiesState.selectedEntitiesType
-  },
-)
-
-export const selectedFilteredEntities = createSelector(
-  selectAllEntitiesByType,
-  selectEntitiesFilter,
-  accountSelectors.selectAccountDid,
-  (entities: ExplorerEntity[], filter: Filter, userDid: string): ExplorerEntity[] => {
-    // all entities
-    let entitiesToFilter = entities && entities.length ? entities : []
-
-    // entitiesToFilter = entitiesToFilter.filter((entity) => entity.status === 'STARTED' || entity.creatorDid === userDid)
-    entitiesToFilter = entitiesToFilter.filter((entity) => entity.status === 0 || entity.creatorDid === userDid)
-
-    // filter by current user's entities
-    if (filter.userEntities) {
-      entitiesToFilter = entitiesToFilter.filter(
-        (entity) => entity.creatorDid === userDid || entity.agentDids?.some((agentDid) => agentDid === userDid),
-      )
-    }
-
-    // TODO - featured and popular
-
-    // filter by date created and be sure to remove any times from the dates
-    if (filter.dateFrom && filter.dateTo) {
-      entitiesToFilter = entitiesToFilter.filter(
-        (entity) =>
-          !entity.dateCreated ||
-          (entity.dateCreated.startOf('day') >= moment(filter.dateFrom) &&
-            entity.dateCreated.startOf('day') <= moment(filter.dateTo)),
-      )
-    }
-
-    // filter by categories
-    if (filter.ddoTags?.length > 0) {
-      filter.ddoTags.forEach((category) => {
-        if (category.tags.length > 0) {
-          category.tags.forEach((tag) => {
-            entitiesToFilter = entitiesToFilter.filter((entity) =>
-              entity.ddoTags?.some(
-                (entityCategory) => entityCategory.category === category.category && entityCategory.tags.includes(tag),
-              ),
-            )
-          })
-        }
-      })
-    }
-
-    // filter by query
-    if (filter.query) {
-      const lowerCaseQuery = filter.query.toLowerCase()
-      entitiesToFilter = entitiesToFilter.filter((entity) => {
-        let filtered = false
-        if (entity.name) {
-          filtered = filtered || entity.name.toLowerCase().includes(lowerCaseQuery)
-        }
-        if (entity.description) {
-          filtered = filtered || entity.description.toLowerCase().includes(lowerCaseQuery)
-        }
-        if (entity.goal) {
-          filtered = filtered || entity.goal.toLowerCase().includes(lowerCaseQuery)
-        }
-
-        return filtered
-      })
-    }
-
-    // filter by sector
-    if (filter.sector) {
-      entitiesToFilter = entitiesToFilter.filter((entity) =>
-        entity.ddoTags?.some(
-          (entityCategory) => entityCategory.category === 'Sector' && entityCategory.tags.includes(filter.sector),
-        ),
-      )
-    }
-
-    // sort the result
-    entitiesToFilter = entitiesToFilter.sort((a, b) => {
-      if (b.dateCreated && a.dateCreated) {
-        return b.dateCreated!.unix() - a.dateCreated!.unix()
-      }
-      return 0
-    })
-
-    return entitiesToFilter
   },
 )
 
@@ -272,19 +194,9 @@ export const selectedFilteredEntities2 = createSelector(
   },
 )
 
-export const selectAllEntitiesCount = createSelector(selectAllEntitiesByType, (entities: ExplorerEntity[]): number => {
-  return !entities ? 0 : entities.length
-})
 export const selectAllEntitiesCount2 = createSelector(selectAllEntitiesByType2, (entities: TEntityModel[]): number => {
   return !entities ? 0 : entities.length
 })
-
-export const selectFilteredEntitiesCount = createSelector(
-  selectedFilteredEntities,
-  (entities: ExplorerEntity[]): number => {
-    return !entities ? 0 : entities.length
-  },
-)
 
 export const selectFilteredEntitiesCount2 = createSelector(
   selectedFilteredEntities2,
@@ -293,12 +205,6 @@ export const selectFilteredEntitiesCount2 = createSelector(
   },
 )
 
-export const selectIsLoadingEntities = createSelector(
-  selectAllEntitiesByType,
-  (entities: ExplorerEntity[]): boolean => {
-    return entities === null
-  },
-)
 export const selectIsLoadingEntities2 = createSelector(
   selectAllEntitiesByType2,
   (entities: TEntityModel[]): boolean => {
@@ -523,6 +429,22 @@ export const selectTotalRemainingClaimsCount = createSelector(
   (totalClaimsRequired: number, totalClaimsSuccessful: number): number => totalClaimsRequired - totalClaimsSuccessful,
 )
 
+export const selectEntityById = (entityId: string) =>
+  createSelector(selectDAOEntities, (entities: TEntityModel[]): DaoGroup[] => {
+    const stakingGroups: DaoGroup[] = []
+    entities.forEach((entity: TEntityModel) => {
+      const { daoGroups } = entity
+      if (daoGroups) {
+        Object.values(daoGroups).forEach((daoGroup: DaoGroup) => {
+          if (daoGroup.type === 'staking') {
+            stakingGroups.push(daoGroup)
+          }
+        })
+      }
+    })
+    return stakingGroups
+  })
+
 export const selectStakingGroups = createSelector(selectDAOEntities, (entities: TEntityModel[]): DaoGroup[] => {
   const stakingGroups: DaoGroup[] = []
   entities.forEach((entity: TEntityModel) => {
@@ -546,4 +468,15 @@ export const selectStakingGroupsByTokenAddress = (tokenAddress: string) =>
 export const selectStakingGroupByCoreAddress = (coreAddress: string) =>
   createSelector(selectStakingGroups, (stakingGroups: DaoGroup[]): DaoGroup | undefined => {
     return stakingGroups.find((daoGroup: DaoGroup) => daoGroup.coreAddress === coreAddress)
+  })
+
+export const selectIsMemberOfDAO = (daoId: string, address: string) =>
+  createSelector(selectDAOEntities, (entities: TEntityModel[]): boolean => {
+    const dao = entities.find((entity) => entity.id === daoId)
+    if (!dao) {
+      return false
+    }
+    return Object.values(dao.daoGroups ?? {}).some((daoGroup) =>
+      daoGroup.votingModule.members.some((member) => member.addr === address),
+    )
   })

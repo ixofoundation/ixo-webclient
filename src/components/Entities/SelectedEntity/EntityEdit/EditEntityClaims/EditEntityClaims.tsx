@@ -387,7 +387,7 @@ class EditEntityClaims extends EditEntityBase<Props> {
 
 const mapStateToProps = (state: RootState): any => ({
   templates: entitiesSelectors.selectAllTemplateEntities(state),
-  isLoadingEntities: entitiesSelectors.selectIsLoadingEntities(state),
+  isLoadingEntities: entitiesSelectors.selectIsLoadingEntities2(state),
   step: editEntitySelectors.selectStep(state),
   entityType: editEntitySelectors.selectEntityType(state),
   validationComplete: entityClaimsSelectors.selectValidationComplete(state),

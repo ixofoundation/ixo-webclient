@@ -11,6 +11,8 @@ import { ReactComponent as GroupAccountIcon } from 'assets/images/icon-group-acc
 import { ReactComponent as EntityAccountIcon } from 'assets/images/icon-entity-account.svg'
 import { ReactComponent as LinkedAccountIcon } from 'assets/images/icon-linked-account.svg'
 import { successToast } from 'utils/toast'
+import Tooltip from 'components/Tooltip/Tooltip'
+import { capitalize } from 'lodash'
 
 export const AccountTypeToIconMap = {
   group: GroupAccountIcon,
@@ -205,21 +207,22 @@ const AccountsCard: React.FC<Props> = ({ accounts, onSelect }) => {
 
       <FlexBox position='absolute' top={'95px'} left={'0px'} width='100%' justifyContent='center' gap={2}>
         {Object.entries(AccountTypeToIconMap).map(([key, Icon]) => (
-          <SvgBox
-            key={key}
-            width='32px'
-            height='32px'
-            alignItems='center'
-            justifyContent='center'
-            svgWidth={6}
-            svgHeight={6}
-            borderRadius='100%'
-            background={filter[key] ? theme.ixoNewBlue : theme.ixoDarkBlue}
-            cursor='pointer'
-            onClick={() => setFilter((filter) => ({ ...filter, [key]: !filter[key] }))}
-          >
-            <Icon />
-          </SvgBox>
+          <Tooltip key={key} text={capitalize(key) + ' accounts'}>
+            <SvgBox
+              width='32px'
+              height='32px'
+              alignItems='center'
+              justifyContent='center'
+              svgWidth={6}
+              svgHeight={6}
+              borderRadius='100%'
+              background={filter[key] ? theme.ixoNewBlue : theme.ixoDarkBlue}
+              cursor='pointer'
+              onClick={() => setFilter((filter) => ({ ...filter, [key]: !filter[key] }))}
+            >
+              <Icon />
+            </SvgBox>
+          </Tooltip>
         ))}
       </FlexBox>
 

@@ -16,13 +16,18 @@ import { Membership } from './Membership'
 import { Governance } from './Governance'
 import { IndividualMember } from './IndividualMember'
 import { AddGroup } from './AddGroup'
+import useCurrentDao from 'hooks/currentDao'
 
 const DAODashboard: React.FC = (): JSX.Element => {
   const { entityId } = useParams<{ entityId: string }>()
   // const isIndividualMemberRoute = useRouteMatch('/entity/:entityId/dashboard/overview/:groupId/:address')
   const { entityType, owner } = useCurrentEntity()
   const { name } = useCurrentEntityProfile()
+  const { daoGroups } = useCurrentDao()
   const { registered, address } = useAccount()
+  const isMemberOfDAO = Object.values(daoGroups ?? {}).some((daoGroup) =>
+    daoGroup.votingModule.members.some((member) => member.addr === address),
+  )
 
   const routes: Path[] = [
     // {
@@ -101,6 +106,7 @@ const DAODashboard: React.FC = (): JSX.Element => {
       path: `/entity/${entityId}/treasury`,
       title: 'Treasury',
       tooltip: `DAO Treasury`,
+      linkClass: isMemberOfDAO ? '' : 'restricted',
     },
   ]
 
