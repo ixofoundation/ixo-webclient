@@ -24,6 +24,8 @@ import useCurrentEntity, {
   useCurrentEntityProfile,
 } from 'hooks/currentEntity'
 import { useParams } from 'react-router-dom'
+import { useAccount } from 'hooks/account'
+import useCurrentDao from 'hooks/currentDao'
 
 interface Props {
   onlyTitle: boolean
@@ -46,7 +48,12 @@ const EntityHero: React.FunctionComponent<Props> = ({
   const { name, description, location } = useCurrentEntityProfile()
   const { displayName: creatorName, logo: creatorLogo } = useCurrentEntityCreator()
   const { createdAt } = useCurrentEntityMetadata()
+  const { address } = useAccount()
+  const { daoGroups } = useCurrentDao()
 
+  const isMemberOfDAO = Object.values(daoGroups ?? {}).some((daoGroup) =>
+    daoGroup.votingModule.members.some((member) => member.addr === address),
+  )
   const headerTabs = useMemo(() => {
     const buttons: HeaderTab[] = []
 
@@ -77,11 +84,12 @@ const EntityHero: React.FunctionComponent<Props> = ({
       iconClass: `icon-funding`,
       path: `/entity/${entityId}/treasury`,
       title: 'TREASURY',
-      tooltip: `${title} Management`,
+      tooltip: `${title} Treasury`,
+      linkClass: isMemberOfDAO ? '' : 'restricted',
     })
 
     return buttons
-  }, [title, entityId, entityType])
+  }, [title, entityId, entityType, isMemberOfDAO])
 
   const getFlagURL = (projectLocation: string): string => {
     if (availableFlags.availableFlags.includes(location)) {
