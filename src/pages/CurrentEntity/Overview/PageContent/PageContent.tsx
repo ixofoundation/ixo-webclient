@@ -15,6 +15,11 @@ const Wrapper = styled(Box)`
       max-width: unset;
     }
   }
+  .image-tool {
+    &__image-picture {
+      width: 100%;
+    }
+  }
 `
 
 const PageContent: React.FC = (): JSX.Element => {

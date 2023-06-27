@@ -7,9 +7,9 @@ import { Schema, ConnectionType, ActionType } from './types'
 // import Apps from './Apps/Apps'
 // import Connections from './Connections/Connections'
 // import Claims from './Claims/Claims'
-import Actions from './Actions2/Actions'
 import Performance from './Performance/Performance'
-import Connect from './Connect/Connect'
+// import Actions from './Actions2/Actions'
+// import Connect from './Connect/Connect'
 import Share from './Share/Share'
 
 interface Props {
@@ -92,7 +92,7 @@ class ControlPanel extends React.Component<Props, State> {
     const dashboard = schema?.dashboard
     const actions = schema?.actions
     // const apps = schema?.apps
-    const connections = schema?.connections
+    // const connections = schema?.connections
 
     const isViewedFromApp = !!window.MobileContext
     if (isViewedFromApp) return <div />
@@ -133,8 +133,8 @@ class ControlPanel extends React.Component<Props, State> {
             /> */}
 
             <Performance widget={dashboard} />
-            <Actions widget={actions} />
-            <Connect widget={connections} />
+            {/* <Actions widget={actions} /> */}
+            {/* <Connect widget={connections} /> */}
             <Share widget={actions} />
           </ControlPanelWrapper>
         </ControlPanelScrollWrapper>

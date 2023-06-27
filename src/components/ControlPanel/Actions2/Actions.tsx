@@ -12,7 +12,7 @@ const Actions: React.FC<Props> = () => {
   return (
     <Card
       icon={<AssistantIcon />}
-      title='Performance'
+      title='Actions'
       items={[
         {
           icon: <PlusIcon />,
