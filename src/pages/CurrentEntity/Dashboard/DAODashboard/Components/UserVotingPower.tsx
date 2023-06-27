@@ -1,7 +1,6 @@
 import { FlexBox, theme } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { useCurrentDaoGroup } from 'hooks/currentDao'
-import { Button } from 'pages/CreateEntity/Components'
 import React, { useMemo } from 'react'
 import PieChart from 'components/Widgets/PieChart/PieChart'
 import { useAccount } from 'hooks/account'
@@ -57,7 +56,7 @@ const UserVotingPower: React.FC<Props> = ({ show, coreAddress, userAddress }) =>
           <Typography variant='secondary' size='2xl' color='dark-blue'>
             You’re not part of this membership group.
           </Typography>
-          <Button
+          {/* <Button
             variant='secondary'
             size='flex'
             height={40}
@@ -66,7 +65,7 @@ const UserVotingPower: React.FC<Props> = ({ show, coreAddress, userAddress }) =>
             textWeight='medium'
           >
             Apply
-          </Button>
+          </Button> */}
         </>
       )}
     </>

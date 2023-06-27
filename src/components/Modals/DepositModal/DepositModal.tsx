@@ -73,6 +73,12 @@ const DepositModal: React.FunctionComponent<Props> = ({ daoGroup, open, setOpen,
   const [txStatus, setTXStatus] = useState<TXStatus>(TXStatus.UNDEFINED)
   const [txHash, setTXHash] = useState<string>('')
 
+  useEffect(() => {
+    setAmount('')
+    setTXStatus(TXStatus.UNDEFINED)
+    setTXHash('')
+  }, [open, daoGroup])
+
   /**
    * @get
    *  Token Address
@@ -110,7 +116,7 @@ const DepositModal: React.FunctionComponent<Props> = ({ daoGroup, open, setOpen,
   /**
    * signing transaction
    */
-  const handleDepositCw20 = async () => {
+  const handleDepositCw20Token = async () => {
     if (!tokenInfo) {
       return
     }
@@ -147,14 +153,14 @@ const DepositModal: React.FunctionComponent<Props> = ({ daoGroup, open, setOpen,
       setTXStatus(TXStatus.ERROR)
     }
   }
-  const handleDepositNativeAsset = async () => {
+  const handleDepositNativeToken = async () => {
     //
   }
   const handleSigning = () => {
     if (selectedAsset === 'cw20') {
-      handleDepositCw20()
+      handleDepositCw20Token()
     } else if (selectedAsset === NATIVE_MICRODENOM) {
-      handleDepositNativeAsset()
+      handleDepositNativeToken()
     }
   }
 

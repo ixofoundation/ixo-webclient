@@ -98,7 +98,7 @@ const AccountUpdateService = (): JSX.Element | null => {
   }, [balances, address])
 
   useEffect(() => {
-    if (stakingGroups.length > 0) {
+    if (stakingGroups.length > 0 && address) {
       const update = () => {
         stakingGroups.forEach((stakingGroup: DaoGroup) => {
           const {

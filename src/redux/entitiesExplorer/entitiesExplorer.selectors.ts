@@ -430,19 +430,8 @@ export const selectTotalRemainingClaimsCount = createSelector(
 )
 
 export const selectEntityById = (entityId: string) =>
-  createSelector(selectDAOEntities, (entities: TEntityModel[]): DaoGroup[] => {
-    const stakingGroups: DaoGroup[] = []
-    entities.forEach((entity: TEntityModel) => {
-      const { daoGroups } = entity
-      if (daoGroups) {
-        Object.values(daoGroups).forEach((daoGroup: DaoGroup) => {
-          if (daoGroup.type === 'staking') {
-            stakingGroups.push(daoGroup)
-          }
-        })
-      }
-    })
-    return stakingGroups
+  createSelector(selectAllEntities, (entities: TEntityModel[]): TEntityModel | undefined => {
+    return entities.find((entity) => entity.id === entityId)
   })
 
 export const selectStakingGroups = createSelector(selectDAOEntities, (entities: TEntityModel[]): DaoGroup[] => {

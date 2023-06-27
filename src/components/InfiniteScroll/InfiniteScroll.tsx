@@ -31,7 +31,7 @@ const InfiniteScroll: React.FC<Props> = ({ dataLength, hasMore, next, columns, g
         loader={<p style={{ width: '100%', gridColumn: `span ${columns}` }}>Loading...</p>}
         endMessage={
           <p style={{ width: '100%', textAlign: 'center', gridColumn: `span ${columns}` }}>
-            <b>Yay! You have seen it all</b>
+            <b>Done</b>
           </p>
         }
         scrollableTarget='root'

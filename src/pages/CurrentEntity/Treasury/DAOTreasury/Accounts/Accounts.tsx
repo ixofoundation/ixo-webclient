@@ -123,7 +123,7 @@ const Accounts: React.FC = () => {
                 <Typography>{selectedAccount.type} account</Typography>
               </FlexBox>
             </FlexBox>
-            {daoGroups[selectedAccount.address] && (
+            {daoGroups[selectedAccount.address] && daoGroups[selectedAccount.address].type === 'staking' && (
               <Button
                 variant='secondary'
                 onClick={() => setDepositModalOpen(true)}
