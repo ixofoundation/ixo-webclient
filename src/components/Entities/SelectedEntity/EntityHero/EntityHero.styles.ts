@@ -21,12 +21,6 @@ export const HeroInner = styled.div`
   font-size: 0.875rem;
   line-height: 1rem;
   position: relative;
-  padding-top: 4rem;
-  padding-bottom: 2rem;
-  @media (min-width: ${deviceWidth.tablet}px) {
-    padding-top: 3rem;
-    padding-bottom: 1rem;
-  }
 `
 
 interface TitleProps {
@@ -38,7 +32,6 @@ export const Title = styled.h1<TitleProps>`
   font-weight: normal;
   font-size: 1.75rem;
   line-height: 1.25;
-  margin: 0.5rem 0;
   color: ${(props: any): string => (props.light ? 'black' : 'inherit')};
   @media (min-width: ${deviceWidth.tablet}px) {
     font-size: 2.8125rem;

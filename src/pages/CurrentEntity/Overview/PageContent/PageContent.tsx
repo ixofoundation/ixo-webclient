@@ -10,6 +10,12 @@ const ReactEditorJS = createReactEditorJS()
 const Wrapper = styled(Box)`
   width: 100%;
 
+  .codex-editor {
+    &__redactor {
+      padding-bottom: 50px !important;
+    }
+  }
+
   .ce-block {
     &__content {
       max-width: unset;

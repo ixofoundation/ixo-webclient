@@ -1,5 +1,10 @@
 import { EntityAccount } from '@ixo/impactxclient-sdk/types/codegen/ixo/entity/v1beta1/entity'
-import { IidMetadata, LinkedEntity, LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
+import {
+  IidMetadata,
+  LinkedEntity,
+  LinkedResource,
+  Service,
+} from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { TEntityModel } from 'api/blocksync/types/entities'
 import { updateEntityAction, updateEntityResourceAction } from 'redux/currentEntity/currentEntity.actions'
 import {
@@ -15,6 +20,7 @@ import {
   selectEntityId,
   selectEntityAccounts,
   selectEntityOwner,
+  selectEntityService,
 } from 'redux/currentEntity/currentEntity.selectors'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { BlockSyncService } from 'services/blocksync'
@@ -43,6 +49,7 @@ export default function useCurrentEntity(): {
   metadata: IidMetadata | undefined
   accounts: EntityAccount[]
   owner: string
+  service: Service[]
   getEntityByDid: (did: string) => Promise<void>
 } {
   const dispatch = useAppDispatch()
@@ -51,7 +58,7 @@ export default function useCurrentEntity(): {
   const entitites: { [id: string]: TEntityModel } = useAppSelector((state) => state.entities.entities2)
   const id: string = useAppSelector(selectEntityId)!
   const entityType: string = useAppSelector(selectEntityType)!
-  const linkedResource: LinkedResource[] = useAppSelector(selectEntityLinkedResource)!
+  const linkedResource: LinkedResource[] = useAppSelector(selectEntityLinkedResource)
   const linkedEntity: LinkedEntity[] = useAppSelector(selectEntityLinkedEntity)!
   const profile: TEntityProfileModel = useAppSelector(selectEntityProfile)!
   const creator: TEntityCreatorModel = useAppSelector(selectEntityCreator)!
@@ -61,6 +68,7 @@ export default function useCurrentEntity(): {
   const metadata: IidMetadata | undefined = useAppSelector(selectEntityMetadata)
   const accounts: EntityAccount[] = useAppSelector(selectEntityAccounts)
   const owner: string = useAppSelector(selectEntityOwner)
+  const service: Service[] = useAppSelector(selectEntityService)
 
   const updateEntity = (data: TEntityModel) => {
     if (id !== data.id) {
@@ -101,6 +109,7 @@ export default function useCurrentEntity(): {
     metadata,
     accounts,
     owner,
+    service,
     getEntityByDid,
   }
 }
@@ -162,4 +171,10 @@ export function useCurrentEntityLinkedEntity(): {
 export function useCurrentEntityAdminAccount(): string {
   const { accounts } = useCurrentEntity()
   return accounts.find((account) => account.name === 'admin')?.address || ''
+}
+
+export function useCurrentEntityLinkedFiles(): LinkedResource[] {
+  const { linkedResource } = useCurrentEntity()
+
+  return linkedResource.filter((item: LinkedResource) => item.type === 'document')
 }
