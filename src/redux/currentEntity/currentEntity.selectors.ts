@@ -1,4 +1,5 @@
 import { EntityAccount } from '@ixo/impactxclient-sdk/types/codegen/ixo/entity/v1beta1/entity'
+import { Service } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { createSelector } from '@reduxjs/toolkit'
 import { TEntityModel } from 'api/blocksync/types/entities'
 import { RootState } from 'redux/store'
@@ -18,7 +19,7 @@ export const selectEntityMetadata = createSelector(selectCurrentEntity, (entity:
 })
 
 export const selectEntityLinkedResource = createSelector(selectCurrentEntity, (entity: TEntityModel) => {
-  return entity.linkedResource.concat(Object.values(entity))
+  return entity.linkedResource ?? []
 })
 
 export const selectEntityLinkedEntity = createSelector(selectCurrentEntity, (entity: TEntityModel) => {
@@ -51,4 +52,8 @@ export const selectEntityAccounts = createSelector(selectCurrentEntity, (entity:
 
 export const selectEntityOwner = createSelector(selectCurrentEntity, (entity: TEntityModel): string => {
   return (entity as any).owner
+})
+
+export const selectEntityService = createSelector(selectCurrentEntity, (entity: TEntityModel): Service[] => {
+  return entity.service
 })

@@ -192,11 +192,14 @@ const overflowOneLineCss = css<ITypographyProps>`
 const underlineCss = css`
   text-decoration: underline;
 `
+const nounderlineCss = css`
+  text-decoration: unset;
+`
 
 /* hoverCss */
 const hoverCss = css<ITypographyProps>`
   &:hover {
-    ${({ hover }) => hover?.underline && underlineCss}
+    ${({ hover }) => (hover?.underline ? underlineCss : nounderlineCss)}
   }
 `
 
@@ -219,7 +222,7 @@ const Typography = styled.div<ITypographyProps>`
     return hover && hoverCss
   }}
   ${({ underline }) => {
-    return underline && underlineCss
+    return underline ? underlineCss : nounderlineCss
   }}
   ${({ noWrap }) => {
     return noWrap && noWrapCss
