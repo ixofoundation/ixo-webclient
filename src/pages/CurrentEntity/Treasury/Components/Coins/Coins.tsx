@@ -2,15 +2,20 @@ import BigNumber from 'bignumber.js'
 import { FlexBox } from 'components/App/App.styles'
 import { Table } from 'components/Table'
 import { Typography } from 'components/Typography'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import CurrencyFormat from 'react-currency-format'
 import styled from 'styled-components'
 import { Avatar } from 'pages/CurrentEntity/Components'
-import { customQueries } from '@ixo/impactxclient-sdk'
+import { contracts, customQueries } from '@ixo/impactxclient-sdk'
 import { GetBalances } from 'lib/protocol'
 import { getDisplayAmount } from 'utils/currency'
 import { errorToast } from 'utils/toast'
 import { determineChainFromAddress } from 'utils/account'
+import { useCurrentDaoGroup } from 'hooks/currentDao'
+import { convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
+import { useAccount } from 'hooks/account'
+
+let updateTokenBalanceTimer: NodeJS.Timer | undefined = undefined
 
 const TableWrapper = styled.div`
   color: white;
@@ -123,6 +128,8 @@ interface Props {
 }
 
 const Coins: React.FC<Props> = ({ address }) => {
+  const { cwClient } = useAccount()
+  const { type, votingModuleAddress } = useCurrentDaoGroup(address)
   const [data, setData] = useState<{
     [denom: string]: {
       balance: string
@@ -146,44 +153,101 @@ const Coins: React.FC<Props> = ({ address }) => {
     setData((pre) => ({ ...pre, [coinDenom]: payload }))
   }
 
+  const updateNativeTokenBalance = useCallback(() => {
+    if (!address) {
+      return
+    }
+    determineChainFromAddress(address).then((chainInfo) => {
+      const { rpc } = chainInfo
+
+      GetBalances(address, rpc)
+        .then((balances) => {
+          balances.forEach(({ amount, denom }) => {
+            /**
+             * @description find token info from currency list via sdk
+             */
+            const token = customQueries.currency.findTokenFromDenom(denom)
+
+            if (token) {
+              customQueries.currency.findTokenInfoFromDenom(token.coinDenom).then((response) => {
+                const { coinName, lastPriceUsd } = response
+                const payload = {
+                  balance: getDisplayAmount(amount, token.coinDecimals),
+                  network: `${coinName.toUpperCase()} Network`,
+                  coinDenom: token.coinDenom,
+                  coinImageUrl: token.coinImageUrl!,
+                  lastPriceUsd,
+                }
+                addData(payload.coinDenom, payload)
+              })
+            }
+          })
+        })
+        .catch((e) => {
+          errorToast('Error', e.toString())
+        })
+    })
+  }, [address])
+
+  /**
+   * @get
+   *  Token Balance
+   *  Token Info
+   * @set
+   *  Table data
+   */
+  const updateCw20TokenBalance = useCallback(async (): Promise<void> => {
+    if (type === 'membership' || !votingModuleAddress) {
+      return
+    }
+    const daoVotingCw20StakedClient = new contracts.DaoVotingCw20Staked.DaoVotingCw20StakedQueryClient(
+      cwClient,
+      votingModuleAddress,
+    )
+
+    const stakingContract = await daoVotingCw20StakedClient.stakingContract()
+    const cw20StakeClient = new contracts.Cw20Stake.Cw20StakeQueryClient(cwClient, stakingContract)
+    const { total: microTotalValue } = await cw20StakeClient.totalValue()
+
+    const tokenContract = await daoVotingCw20StakedClient.tokenContract()
+    const cw20BaseClient = new contracts.Cw20Base.Cw20BaseQueryClient(cwClient, tokenContract)
+    const tokenInfo = await cw20BaseClient.tokenInfo()
+    const marketingInfo = await cw20BaseClient.marketingInfo()
+    const totalValue = convertMicroDenomToDenomWithDecimals(microTotalValue, tokenInfo.decimals).toString()
+
+    const payload = {
+      coinDenom: tokenInfo.symbol,
+      network: 'IXO',
+      balance: totalValue,
+      coinImageUrl: marketingInfo?.logo !== 'embedded' ? marketingInfo.logo?.url ?? '' : '',
+      lastPriceUsd: 0,
+    }
+    addData(payload.coinDenom, payload)
+  }, [type, cwClient, votingModuleAddress])
+
   /**
    * @description get the balances by address
    */
   useEffect(() => {
-    if (address) {
-      setData({})
+    setData({})
 
-      determineChainFromAddress(address).then((chainInfo) => {
-        const { rpc } = chainInfo
-
-        GetBalances(address, rpc)
-          .then((balances) => {
-            balances.forEach(({ amount, denom }) => {
-              /**
-               * @description find token info from currency list via sdk
-               */
-              const token = customQueries.currency.findTokenFromDenom(denom)
-
-              if (token) {
-                customQueries.currency.findTokenInfoFromDenom(token.coinDenom).then((response) => {
-                  const { coinName, lastPriceUsd } = response
-                  const payload = {
-                    balance: getDisplayAmount(amount, token.coinDecimals),
-                    network: `${coinName.toUpperCase()} Network`,
-                    coinDenom: token.coinDenom,
-                    coinImageUrl: token.coinImageUrl!,
-                    lastPriceUsd,
-                  }
-                  addData(payload.coinDenom, payload)
-                })
-              }
-            })
-          })
-          .catch((e) => {
-            errorToast('Error', e.toString())
-          })
-      })
+    updateNativeTokenBalance()
+    updateCw20TokenBalance()
+    if (updateTokenBalanceTimer) {
+      clearInterval(updateTokenBalanceTimer)
     }
+    updateTokenBalanceTimer = setInterval(() => {
+      console.log('intervals here!!!!!')
+      updateNativeTokenBalance()
+      updateCw20TokenBalance()
+    }, 1000 * 30)
+
+    return () => {
+      setData({})
+      clearInterval(updateTokenBalanceTimer)
+      updateTokenBalanceTimer = undefined
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address])
 
   const handleRowClick = (state: any) => () => {

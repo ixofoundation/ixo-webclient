@@ -2,15 +2,31 @@ import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { deviceWidth } from 'constants/device'
 import React, { useMemo } from 'react'
-import { Button } from 'pages/CreateEntity/Components'
+import { Button, Dropdown2 } from 'pages/CreateEntity/Components'
 import { useHistory, useParams } from 'react-router-dom'
 import { useDAO } from 'hooks/dao'
+import { useAppSelector } from 'redux/hooks'
+import { selectEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 const SetupTargetGroup: React.FC = (): JSX.Element => {
   const { entityId, coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
   const history = useHistory()
   const { getParentDAOs } = useDAO()
+  const currentEntity = useAppSelector(selectEntityById(entityId))
   const parentDAOs = useMemo(() => getParentDAOs(entityId), [entityId, getParentDAOs])
+  const targetOptions = useMemo(() => {
+    return [
+      {
+        value: coreAddress,
+        text:
+          (currentEntity?.profile?.name || '') +
+          ' ' +
+          (currentEntity?.daoGroups ?? {})[coreAddress].config.name +
+          ' ' +
+          'Management',
+      },
+    ]
+  }, [coreAddress, currentEntity])
 
   console.log({ parentDAOs })
 
@@ -31,10 +47,12 @@ const SetupTargetGroup: React.FC = (): JSX.Element => {
           </Typography>
         </FlexBox>
 
-        <FlexBox width='100%' justifyContent='space-between' alignItems='center'>
-          <Typography variant='secondary' size='xl'>
+        <FlexBox width='100%' justifyContent='space-between' alignItems='center' gap={4}>
+          <Typography variant='secondary' size='xl' noWrap>
             Target group
           </Typography>
+
+          <Dropdown2 options={targetOptions} style={{ height: 48 }} />
         </FlexBox>
 
         <FlexBox width='100%' justifyContent='flex-end' gap={4}>
