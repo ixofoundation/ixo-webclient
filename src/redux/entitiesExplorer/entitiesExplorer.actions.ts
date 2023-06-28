@@ -41,12 +41,8 @@ export const getEntities =
       // Temp
       payload: blocksyncApi.project
         .listProjects()
-        .then((apiEntities: any[]) => {
+        .then((apiEntities: ApiListedEntity[]) => {
           return apiEntities
-            .map((apiEntity: any) => ({
-              ...apiEntity,
-              data: JSON.parse(apiEntity.data),
-            }))
             .filter((entity) => !!entity.data['@type'])
             .map((apiEntity: ApiListedEntity) => ({
               ...apiEntity,
