@@ -17,7 +17,7 @@ const LinkedFileBox = (linkedFile: LinkedResource) => {
   const { service } = useCurrentEntity()
   const Icon = MediaTypeToIconMap[linkedFile.mediaType]
   const [identifier, key] = linkedFile.serviceEndpoint.split(':')
-  const usedService: Service | undefined = service.find((item: Service) => item.id === `{id}#${identifier}`)
+  const usedService: Service | undefined = service.find((item: Service) => item.id.includes(identifier))
   const to = usedService ? usedService.serviceEndpoint + key : ''
 
   return (
