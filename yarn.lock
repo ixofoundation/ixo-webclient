@@ -2211,10 +2211,10 @@
   resolved "https://registry.yarnpkg.com/@graphql-typed-document-node/core/-/core-3.1.1.tgz#076d78ce99822258cf813ecc1e7fa460fa74d052"
   integrity sha512-NQ17ii0rK1b34VZonlmT2QMJFI70m0TRwbknO/ihlbatXyaktDhN/98vBiUU6kNBPljqGqyIrl2T4nY2RpFANg==
 
-"@gssuper/cosmodal@^0.0.13":
-  version "0.0.13"
-  resolved "https://registry.yarnpkg.com/@gssuper/cosmodal/-/cosmodal-0.0.13.tgz#a14fde009d41881d85d32a16a810c19c7cf22a14"
-  integrity sha512-LVTEBikagYS1j6JQriN3FPAducKuKe6vNHWiJdmoxz9WB+ST22Y2S8xo9jtOfJ+upaOp25TWYPRgQh1LCSrcdw==
+"@gssuper/cosmodal@^0.0.14":
+  version "0.0.14"
+  resolved "https://registry.yarnpkg.com/@gssuper/cosmodal/-/cosmodal-0.0.14.tgz#0db7e8f98d1de06d03ae0bc96c114fd582c7ed54"
+  integrity sha512-vsLa/ms7TxlXBh9YeTQ1NRqhlf72om5PnL03Gph3l7j1KVho73mXnupqdYo/lSqHdCrKWzlPQmt0CDGWli1Kpw==
   dependencies:
     "@toruslabs/eccrypto" "^2.1.1"
     "@walletconnect/client" "^1.7.8"
