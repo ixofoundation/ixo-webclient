@@ -1,5 +1,8 @@
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 import { SigningStargateClient } from '@ixo/impactxclient-sdk'
+import { SigningCosmWasmClient, CosmWasmClient } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/cosmwasm-stargate'
+import { WalletType } from '@gssuper/cosmodal'
+import { Cw20Token, NativeToken } from 'types/tokens'
 
 export interface DidDoc {
   did: string
@@ -50,15 +53,8 @@ export interface CurrencyType {
   imageUrl: string
 }
 
-export enum WalletType {
-  Keplr = 'keplr',
-  Keysafe = 'keysafe',
-}
-
 export interface AccountState {
   userInfo: UserInfo
-  address: string
-  balances: Coin[]
   loginStatusCheckCompleted: boolean
   assistantToggled: boolean
   assistantFixed: boolean
@@ -92,8 +88,13 @@ export interface AccountState {
   registered: boolean
   pubKey: string //  base64
   signingClient: SigningStargateClient // signingClient
+  cosmWasmClient: SigningCosmWasmClient // signingClient
+  cwClient: CosmWasmClient
   did: string
-  chooseWalletOpen: boolean
+  address: string
+  balances: Coin[]
+  nativeTokens: { [denom: string]: NativeToken }
+  cw20Tokens: { [addr: string]: Cw20Token }
 }
 
 export enum AgentRole {
@@ -139,11 +140,14 @@ export enum AccountActions {
   UpdateName = 'ixo/Account/UPDATE_NAME',
   UpdateAddress = 'ixo/Account/UPDATE_ADDRESS',
   UpdateBalances = 'ixo/Account/UPDATE_BALANCES',
+  UpdateNativeTokens = 'ixo/Account/UPDATE_NATIVE_BALANCES',
+  UpdateCw20Tokens = 'ixo/Account/UPDATE_CW20_BALANCES',
   UpdateRegistered = 'ixo/Account/UPDATE_REGISTERED',
   UpdatePubKey = 'ixo/Account/UPDATE_PUBKEY',
   UpdateSigningClient = 'ixo/Account/UPDATE_SIGNING_CLIENT',
+  UpdateCosmWasmClient = 'ixo/Account/UPDATE_COSMWASM_CLIENT',
+  UpdateCWClient = 'ixo/Account/UPDATE_CW_CLIENT',
   UpdateDid = 'ixo/Account/UPDATE_DID',
-  UpdateChooseWalletOpen = 'ixo/Account/UPDATE_CHOOSE_WALLET_OPEN',
 }
 
 export interface LoginAction {
@@ -243,6 +247,14 @@ export interface UpdateBalancesAction {
   type: typeof AccountActions.UpdateBalances
   payload: Coin[]
 }
+export interface UpdateNativeTokensAction {
+  type: typeof AccountActions.UpdateNativeTokens
+  payload: { [addr: string]: NativeToken }
+}
+export interface UpdateCw20TokensAction {
+  type: typeof AccountActions.UpdateCw20Tokens
+  payload: { [addr: string]: Cw20Token }
+}
 export interface UpdateRegisteredAction {
   type: typeof AccountActions.UpdateRegistered
   payload: boolean
@@ -255,13 +267,17 @@ export interface UpdateSigningClientAction {
   type: typeof AccountActions.UpdateSigningClient
   payload: SigningStargateClient
 }
+export interface UpdateCosmWasmClientAction {
+  type: typeof AccountActions.UpdateCosmWasmClient
+  payload: SigningCosmWasmClient
+}
+export interface UpdateCWClientAction {
+  type: typeof AccountActions.UpdateCWClient
+  payload: CosmWasmClient
+}
 export interface UpdateDidAction {
   type: typeof AccountActions.UpdateDid
   payload: string
-}
-export interface UpdateChooseWalletOpenAction {
-  type: typeof AccountActions.UpdateChooseWalletOpen
-  payload: boolean
 }
 
 export type AccountActionTypes =
@@ -283,8 +299,11 @@ export type AccountActionTypes =
   | UpdateNameAction
   | UpdateAddressAction
   | UpdateBalancesAction
+  | UpdateNativeTokensAction
+  | UpdateCw20TokensAction
   | UpdateRegisteredAction
   | UpdatePubKeyAction
   | UpdateSigningClientAction
+  | UpdateCosmWasmClientAction
+  | UpdateCWClientAction
   | UpdateDidAction
-  | UpdateChooseWalletOpenAction

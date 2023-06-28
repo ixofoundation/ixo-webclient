@@ -14,7 +14,6 @@ import {
   getValidators,
   setSelectedValidator,
 } from 'redux/selectedEntityExchange/entityExchange.actions'
-import { broadCastMessage } from 'lib/keysafe/keysafe'
 import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 import StakingModal from 'components/ControlPanel/Actions/StakingModal'
 import { selectAPR } from 'redux/selectedEntityExchange/entityExchange.selectors'
@@ -66,11 +65,6 @@ const columns = [
 
 const Stake: React.FunctionComponent = () => {
   const dispatch = useAppDispatch()
-  const {
-    userInfo,
-    sequence: userSequence,
-    accountNumber: userAccountNumber,
-  } = useAppSelector((state) => state.account)
   const { validators, Inflation, selectedValidator } = useAppSelector(
     (state) => state.selectedEntityExchange as EntityExchangeState,
   )
@@ -104,9 +98,9 @@ const Stake: React.FunctionComponent = () => {
           })
         })
 
-      broadCastMessage(userInfo, userSequence as any, userAccountNumber as any, msgs, memo, fee, () => {
-        dispatch(getValidators(selectedAddress!) as any)
-      })
+      // broadCastMessage(userInfo, userSequence as any, userAccountNumber as any, msgs, memo, fee, () => {
+      //   dispatch(getValidators(selectedAddress!) as any)
+      // })
     } else if (walletType === 'keplr') {
       const [accounts, offlineSigner] = await keplr.connectAccount()
       const address = accounts[0].address
@@ -134,13 +128,13 @@ const Stake: React.FunctionComponent = () => {
       try {
         const result = await keplr.sendTransaction(client, address, payload)
         if (result) {
-          Toast.successToast(`Transaction Successful`)
+          Toast.successToast(null, `Transaction Successful`)
         } else {
           // eslint-disable-next-line
           throw 'transaction failed'
         }
       } catch (e) {
-        Toast.errorToast(`Transaction Failed`)
+        Toast.errorToast(null, `Transaction Failed`)
       }
       dispatch(getValidators(selectedAddress!) as any)
     }

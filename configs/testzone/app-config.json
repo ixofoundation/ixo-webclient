@@ -77,11 +77,11 @@
   },
   {
     "name": "testnet.ixo.world",
-    "displayName": "IXO Testnet",
+    "displayName": "Test Network",
     "blocksync": "https://blocksync-pandora.ixo.earth",
     "rpc": "https://rpc-impacthub.keplr.app",
     "rest": "https://lcd-impacthub.keplr.app",
-    "chainId": "pandora-7",
+    "chainId": "pandora-8",
     "chainName": "IXO",
     "stakeCurrency": {
       "coinDenom": "IXO",
@@ -156,6 +156,92 @@
         "usdPrice": "1",
         "coinImageUrl": "window.location.origin + '/public/assets/tokens/xusd.png'",
         "counterpartyChainId": "ixo-4",
+        "sourceChannelId": "channel-37",
+        "destChannelId": "channel-0"
+      }
+    ]
+  },
+  {
+    "name": "dev.ixo.earth",
+    "displayName": "Dev Network",
+    "blocksync": "https://devnet-blocksync.ixo.earth",
+    "rpc": "https://devnet.ixo.earth/rpc",
+    "rest": "https://devnet.ixo.earth/rest",
+    "chainId": "devnet-1",
+    "chainName": "IXO",
+    "stakeCurrency": {
+      "coinDenom": "IXO",
+      "coinMinimalDenom": "uixo",
+      "coinDecimals": 6,
+      "coinGeckoId": "pool:uixo",
+      "coinImageUrl": "window.location.origin + '/public/assets/tokens/ixo.svg'"
+    },
+    "bip44": {
+      "coinType": 118
+    },
+    "bech32Config": {
+      "bech32PrefixAccAddr": "ixo",
+      "bech32PrefixAccPub": "ixopub",
+      "bech32PrefixValAddr": "ixovaloper",
+      "bech32PrefixValPub": "ixovaloperpub",
+      "bech32PrefixConsAddr": "ixovalcons",
+      "bech32PrefixConsPub": "ixovalconspub"
+    },
+    "currencies": [
+      {
+        "coinDenom": "IXO",
+        "coinMinimalDenom": "uixo",
+        "coinDecimals": 6,
+        "coinGeckoId": "pool:uixo",
+        "coinImageUrl": "window.location.origin + '/public/assets/tokens/ixo.png'"
+      },
+      {
+        "coinDenom": "XUSD",
+        "coinMinimalDenom": "xusd",
+        "coinDecimals": 6,
+        "coinGeckoId": "pool:xusd",
+        "coinImageUrl": "window.location.origin + '/public/assets/tokens/xusd.png'"
+      }
+    ],
+    "feeCurrencies": [
+      {
+        "coinDenom": "IXO",
+        "coinMinimalDenom": "uixo",
+        "coinDecimals": 6,
+        "coinGeckoId": "pool:uixo",
+        "coinImageUrl": "window.location.origin + '/public/assets/tokens/ixo.png'"
+      }
+    ],
+    "features": ["stargate", "ibc-transfer"],
+    "explorerUrlToTx": "https://devnet-blockscan.ixo.earth/transactions/${txHash}",
+    "paymentCoins": [
+      {
+        "coinDenom": "IXO",
+        "coinMinimalDenom": "uixo",
+        "coinDecimals": 6,
+        "coinGeckoId": "pool:uixo",
+        "coinImageUrl": "window.location.origin + '/public/assets/tokens/ixo.png'",
+        "counterpartyChainId": "devnet-1",
+        "sourceChannelId": "channel-37",
+        "destChannelId": "channel-0"
+      },
+      {
+        "coinDenom": "EEUR",
+        "coinMinimalDenom": "eeur",
+        "coinDecimals": 6,
+        "coinGeckoId": "e-money-eur",
+        "coinImageUrl": "window.location.origin + '/public/assets/tokens/ngm.png",
+        "counterpartyChainId": "emoney-3",
+        "sourceChannelId": "channel-37",
+        "destChannelId": "channel-0"
+      },
+      {
+        "coinDenom": "XUSD",
+        "coinMinimalDenom": "xusd",
+        "coinDecimals": 2,
+        "usdPrice": "1",
+        "coinImageUrl": "window.location.origin + '/public/assets/tokens/xusd.png'",
+        "counterpartyChainId": "devnet-1",
         "sourceChannelId": "channel-37",
         "destChannelId": "channel-0"
       }

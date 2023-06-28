@@ -30,11 +30,15 @@ const StyledTextArea = styled.textarea<{ width: string; height: string }>`
   }
 
   &::placeholder {
-    color: ${(props): string => props.theme.ixoGrey700};
+    color: ${(props): string => props.theme.ixoGrey500};
   }
 
   &[type='number'] {
     -moz-appearance: textfield;
+  }
+
+  &:disabled {
+    border: 1px solid ${(props): string => props.theme.ixoGrey500};
   }
 `
 
@@ -43,7 +47,7 @@ interface Props extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   width?: string
   height?: string
   label?: string
-  handleChange: (value: string) => void
+  handleChange?: (value: string) => void
 }
 
 const TextArea: React.FC<Props> = ({
@@ -59,7 +63,7 @@ const TextArea: React.FC<Props> = ({
 
   const onChange = (event: ChangeEvent<HTMLTextAreaElement>): void => {
     const newValue = event.target.value
-    handleChange(newValue)
+    handleChange && handleChange(newValue)
   }
   return (
     <Box position='relative' width='100%'>
@@ -77,7 +81,7 @@ const TextArea: React.FC<Props> = ({
           <Typography
             size={active ? 'sm' : 'xl'}
             weight={active ? 'bold' : 'medium'}
-            color={active ? 'blue' : 'grey700'}
+            color={active ? 'blue' : 'grey500'}
           >
             {label}
           </Typography>

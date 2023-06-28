@@ -12,15 +12,16 @@ import {
 } from './submitEntityClaim.types'
 import { Dispatch } from 'redux'
 import { RootState } from 'redux/store'
-import keysafe from 'lib/keysafe/keysafe'
 import blocksyncApi from 'api/blocksync/blocksync'
-import * as submitEntityClaimSelectors from './submitEntityClaim.selectors'
 import { ApiListedEntity } from 'api/blocksync/types/entities'
 import { ApiResource } from 'api/blocksync/types/resource'
 /* import { Attestation } from '../types' */
 import { fromBase64 } from 'js-base64'
 import { FormData } from 'components/JsonForm/types'
 import { selectCellNodeEndpoint } from 'redux/selectedEntity/selectedEntity.selectors'
+import { BlockSyncService } from 'services/blocksync'
+
+const bsService = new BlockSyncService()
 
 export const clearClaimTemplate = (): ClearClaimTemplateAction => ({
   type: SubmitEntityClaimActions.ClearClaimTemplate,
@@ -42,10 +43,10 @@ export const getClaimTemplate =
 
     dispatch(clearClaimTemplate())
 
-    const fetchTemplateEntity: Promise<ApiListedEntity> = blocksyncApi.project.getProjectByProjectDid(templateDid)
+    const fetchTemplateEntity: Promise<ApiListedEntity> = bsService.project.getProjectByProjectDid(templateDid)
 
     const fetchContent = (key: string): Promise<ApiResource> =>
-      blocksyncApi.project.fetchPublic(key, cellNodeEndpoint!) as Promise<ApiResource>
+      bsService.project.fetchPublic(key, cellNodeEndpoint!) as Promise<ApiResource>
 
     return dispatch({
       type: SubmitEntityClaimActions.GetClaimTemplate,
@@ -170,53 +171,53 @@ export const createEntityClaim =
       type: SubmitEntityClaimActions.CreateClaimStart,
     })
 
-    const state = getState()
-    const cellNodeEndpoint = selectCellNodeEndpoint(state)
+    // const state = getState()
+    // const cellNodeEndpoint = selectCellNodeEndpoint(state)
 
-    const claimApiPayload = submitEntityClaimSelectors.selectClaimApiPayload(state)
+    // const claimApiPayload = submitEntityClaimSelectors.selectClaimApiPayload(state)
 
-    keysafe.requestSigning(
-      JSON.stringify(claimApiPayload),
-      (signError: any, signature: any): any => {
-        if (signError) {
-          return dispatch({
-            type: SubmitEntityClaimActions.CreateClaimFailure,
-            payload: {
-              error: signError,
-            },
-          })
-        }
+    // keysafe.requestSigning(
+    //   JSON.stringify(claimApiPayload),
+    //   (signError: any, signature: any): any => {
+    //     if (signError) {
+    //       return dispatch({
+    //         type: SubmitEntityClaimActions.CreateClaimFailure,
+    //         payload: {
+    //           error: signError,
+    //         },
+    //       })
+    //     }
 
-        blocksyncApi.claim
-          .createClaim(claimApiPayload, signature, cellNodeEndpoint!)
-          .then((res) => {
-            if (res.error) {
-              return dispatch({
-                type: SubmitEntityClaimActions.CreateClaimFailure,
-                payload: {
-                  error: res.error.message,
-                },
-              })
-            } else {
-              // TODO: should catch the real point when success on creating/submitting claim
-              return setTimeout(() => {
-                dispatch({
-                  type: SubmitEntityClaimActions.CreateClaimSuccess,
-                })
-              }, 1000 * 10)
-            }
-          })
-          .catch((error) => {
-            return dispatch({
-              type: SubmitEntityClaimActions.CreateClaimFailure,
-              payload: {
-                error: error.message,
-              },
-            })
-          })
-      },
-      'base64',
-    )
+    //     blocksyncApi.claim
+    //       .createClaim(claimApiPayload, signature, cellNodeEndpoint!)
+    //       .then((res) => {
+    //         if (res.error) {
+    //           return dispatch({
+    //             type: SubmitEntityClaimActions.CreateClaimFailure,
+    //             payload: {
+    //               error: res.error.message,
+    //             },
+    //           })
+    //         } else {
+    //           // TODO: should catch the real point when success on creating/submitting claim
+    //           return setTimeout(() => {
+    //             dispatch({
+    //               type: SubmitEntityClaimActions.CreateClaimSuccess,
+    //             })
+    //           }, 1000 * 10)
+    //         }
+    //       })
+    //       .catch((error) => {
+    //         return dispatch({
+    //           type: SubmitEntityClaimActions.CreateClaimFailure,
+    //           payload: {
+    //             error: error.message,
+    //           },
+    //         })
+    //       })
+    //   },
+    //   'base64',
+    // )
 
     return null!
   }

@@ -8,12 +8,12 @@ import styled from 'styled-components'
 import Rating from 'react-rating'
 import CommentViewModal from '../CommentViewModal'
 import { Switch } from 'components/Switch/Switch'
-import blocksyncApi from 'api/blocksync/blocksync'
-import keysafe from 'lib/keysafe/keysafe'
-import * as Toast from 'utils/toast'
 import { withRouter, RouteComponentProps } from 'react-router-dom'
 import { useAppSelector } from 'redux/hooks'
-import { selectCellNodeEndpoint, selectUserRole } from 'redux/selectedEntity/selectedEntity.selectors'
+import {
+  // selectCellNodeEndpoint,
+  selectUserRole,
+} from 'redux/selectedEntity/selectedEntity.selectors'
 import { EntityClaimStatus } from '../../../EntityClaims/types'
 import { AgentRole } from 'redux/account/account.types'
 import { selectEvaluator } from '../../../../../../../redux/evaluateClaim/evaluateClaim.selectors'
@@ -182,7 +182,7 @@ const ApproveClaim: React.FunctionComponent<Props> = ({
     title: '',
     comments: '',
   })
-  const cellNodeEndpoint = useAppSelector(selectCellNodeEndpoint)
+  // const cellNodeEndpoint = useAppSelector(selectCellNodeEndpoint)
   const userRole = useAppSelector(selectUserRole)
   const evaluator = useAppSelector(selectEvaluator)
 
@@ -262,36 +262,35 @@ const ApproveClaim: React.FunctionComponent<Props> = ({
     )
   }
 
-  const handleEvaluated = (status: EntityClaimStatus): void => {
-    setTimeout(() => {
-      history.push({
-        pathname: `/projects/${projectDid}/detail/claims`,
-        search: `?status=${status}`,
-      })
-    }, 5000) // TODO: should know exactly
-  }
+  // const handleEvaluated = (status: EntityClaimStatus): void => {
+  //   setTimeout(() => {
+  //     history.push({
+  //       pathname: `/projects/${projectDid}/detail/claims`,
+  //       search: `?status=${status}`,
+  //     })
+  //   }, 5000) // TODO: should know exactly
+  // }
 
   const handleEvaluate = (status: EntityClaimStatus): void => {
-    const payload = {
-      claimId: claim?.txHash,
-      status,
-      projectDid,
-    }
-
-    keysafe.requestSigning(
-      JSON.stringify(payload),
-      (error: any, signature: any) => {
-        if (!error && signature) {
-          blocksyncApi.claim.evaluateClaim(payload, signature, cellNodeEndpoint!).then(() => {
-            Toast.successToast(`Successfully evaluated`)
-            handleEvaluated(status)
-          })
-        } else {
-          Toast.errorToast(`Evaluation failed`)
-        }
-      },
-      'base64',
-    )
+    // const payload = {
+    //   claimId: claim?.txHash,
+    //   status,
+    //   projectDid,
+    // }
+    // keysafe.requestSigning(
+    //   JSON.stringify(payload),
+    //   (error: any, signature: any) => {
+    //     if (!error && signature) {
+    //       blocksyncApi.claim.evaluateClaim(payload, signature, cellNodeEndpoint!).then(() => {
+    //         Toast.successToast(`Successfully evaluated`)
+    //         handleEvaluated(status)
+    //       })
+    //     } else {
+    //       Toast.errorToast(`Evaluation failed`)
+    //     }
+    //   },
+    //   'base64',
+    // )
   }
 
   const handleRatingChange = (value: number): void => {

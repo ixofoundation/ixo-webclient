@@ -1,12 +1,13 @@
 import styled from 'styled-components'
 import { deviceWidth } from 'constants/device'
 
-export const TopBar = styled.header<{ background: string }>`
+export const TopBar = styled.header<{ background: string; color: string }>`
   position: sticky;
   top: 0;
   padding: 0 15px;
   z-index: 9;
   background: ${(props): string => props.background};
+  color: ${(props) => props.color};
   && {
     width: 100%;
   }
@@ -19,7 +20,7 @@ export const TopBar = styled.header<{ background: string }>`
 
 export const StatusMessage = styled.div`
   opacity: 0;
-  background: ${(props: any): string => props.theme.bg.lightBlue};
+  background: ${(props: any): string => props.theme.ixoMediumBlue};
   position: absolute;
   color: white;
   top: 15px;
@@ -43,7 +44,7 @@ export const StatusMessage = styled.div`
     height: 0;
     border-left: 10px solid transparent;
     border-right: 10px solid transparent;
-    border-bottom: 10px solid ${(props: any): string => props.theme.bg.lightBlue};
+    border-bottom: 10px solid ${(props: any): string => props.theme.ixoMediumBlue};
     position: absolute;
     top: -10px;
     right: 20px;
@@ -99,7 +100,7 @@ export const LightReady = styled(Light)`
 `
 
 export const ModalData = styled.div`
-  max-width: 380px;
+  width: 470px;
   text-align: center;
   padding: 20px 20px 30px;
 

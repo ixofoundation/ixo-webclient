@@ -19,7 +19,7 @@ interface Props {
 const DDOTagsSetupModal: React.FC<Props> = ({ ddoTags, entityType, open, onClose, onChange }): JSX.Element => {
   const [formData, setFormData] = useState<TEntityDDOTagModel[]>([])
   const entityConfig = useAppSelector(selectEntityConfig)
-  const ddoTagsConfig = entityConfig[entityType === 'Claim' ? 'Template' : entityType]?.filterSchema?.ddoTags ?? []
+  const ddoTagsConfig = entityConfig[entityType]?.filterSchema?.ddoTags ?? []
 
   useEffect(() => {
     setFormData(ddoTags ?? [])
@@ -59,6 +59,7 @@ const DDOTagsSetupModal: React.FC<Props> = ({ ddoTags, entityType, open, onClose
                 height='48px'
                 edit={!!onChange}
                 handleChange={(values: string[]): void => {
+                  console.log({ formData })
                   if (onChange) {
                     const newFormData = [...formData]
                     newFormData[index] = {

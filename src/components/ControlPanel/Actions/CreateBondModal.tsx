@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useState } from 'react'
 import Lottie from 'react-lottie'
 import styled from 'styled-components'
 import { StepsTransactions } from 'components/StepsTransactions/StepsTransactions'
-// import { broadCastMessage } from 'lib/keysafe/keysafe'
 import { useAppSelector } from 'redux/hooks'
 import EyeIcon from 'assets/images/icon-eye.svg'
 import NextStepIcon from 'assets/images/modal/nextstep.svg'
@@ -161,7 +160,7 @@ const CreateBondModal: React.FunctionComponent<Props> = ({ alphaBondInfo }) => {
 
   const signInTransaction = (): void => {
     if (!userInfo) {
-      Toast.errorToast('Please sign in Keysafe first!')
+      Toast.errorToast(null, 'Please sign in Keysafe first!')
       return
     }
     if (!alphaBondInfo) {

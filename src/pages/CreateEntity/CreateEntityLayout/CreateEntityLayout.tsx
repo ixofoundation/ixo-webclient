@@ -1,7 +1,5 @@
-import React, { useEffect } from 'react'
-import { NavLink, useHistory } from 'react-router-dom'
-import { useCreateEntityState, useCreateEntityStrategy } from 'hooks/createEntity'
-import { CreateEntityStrategyMap } from 'redux/createEntity/strategy-map'
+import React from 'react'
+import { NavLink } from 'react-router-dom'
 import {
   LayoutBody,
   LayoutContainer,
@@ -14,56 +12,26 @@ import { Typography } from 'components/Typography'
 import { Box } from 'components/App/App.styles'
 
 interface Props {
+  title: string
+  subtitle: string
+  breadCrumbs: { text: string; link?: string }[]
   children?: React.ReactNode
 }
 
-const CreateEntityLayout: React.FC<Props> = ({ children }): JSX.Element => {
-  const history = useHistory()
-  const {
-    location: { pathname },
-  } = history
-
-  const { stepNo, updateEntityType } = useCreateEntityState()
-  const { getStrategyAndStepByPath } = useCreateEntityStrategy()
-  const { strategy, step } = getStrategyAndStepByPath(pathname)
-  const title = strategy?.title ?? 'Create a Protocol'
-  const entityType = strategy?.entityType
-  const subtitle = step?.name ?? 'Select a Type of Protocol'
-
-  useEffect(() => {
-    if (entityType) {
-      updateEntityType(entityType)
-    }
-    // eslint-disable-next-line
-  }, [entityType])
-
-  useEffect(() => {
-    if (entityType && stepNo) {
-      const { steps } = CreateEntityStrategyMap[entityType]
-      steps[stepNo]?.url && history.push(steps[stepNo].url)
-    }
-    // eslint-disable-next-line
-  }, [stepNo, entityType])
-
+const CreateEntityLayout: React.FC<Props> = ({ title, subtitle, breadCrumbs, children }): JSX.Element => {
   const renderBreadCrumbs = (): JSX.Element => {
-    const breadCrumbs = [{ text: 'Protocol', link: '/create/entity' }, { text: title }]
     return (
       <BreadCrumbs>
-        {breadCrumbs.map((item, index) => {
-          if (index !== breadCrumbs.length - 1) {
-            return (
-              <Typography key={index} variant='secondary' size='sm' color='gray-medium'>
-                {item.link ? <NavLink to={item.link}> {item.text}</NavLink> : item.text}
-                &nbsp;&gt;&nbsp;
-              </Typography>
-            )
-          }
-          return (
-            <Typography key={index} variant='secondary' color='black' size='sm'>
-              {item.text}
-            </Typography>
-          )
-        })}
+        {breadCrumbs.map((item, index) => (
+          <Typography key={index} variant='secondary' size='sm' color='grey700'>
+            {item.link ? <NavLink to={item.link}> {item.text}</NavLink> : item.text}
+            &nbsp;&gt;&nbsp;
+          </Typography>
+        ))}
+
+        <Typography variant='secondary' color='black' size='sm'>
+          {title}
+        </Typography>
       </BreadCrumbs>
     )
   }

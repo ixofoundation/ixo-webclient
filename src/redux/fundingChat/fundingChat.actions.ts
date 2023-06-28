@@ -1,5 +1,4 @@
 import Axios from 'axios'
-import keysafe from '../../lib/keysafe/keysafe'
 import {
   GetOrderAction,
   FuelEntityActions,
@@ -9,7 +8,6 @@ import {
 } from './fundingChat.types'
 import { Dispatch } from 'redux'
 import { RootState } from 'redux/store'
-import * as transactionUtils from '../../utils/transaction'
 import * as Toast from '../../utils/toast'
 import blocksyncApi from 'api/blocksync/blocksync'
 
@@ -62,27 +60,26 @@ export const confirmOrder =
         .getSignData(tx, msgType, pubKey)
         .then((response: any) => {
           if (response.sign_bytes && response.fee) {
-            keysafe.requestSigning(
-              response.sign_bytes,
-              (error: any, signature: any) => {
-                if (error) {
-                  return null
-                }
-
-                return dispatch({
-                  type: FuelEntityActions.ConfirmOrder,
-                  payload: Axios.post(
-                    `${process.env.REACT_APP_GAIA_URL}/txs`,
-                    JSON.stringify(transactionUtils.generateTx(msgType, tx, signature, response.fee)),
-                  ),
-                })
-              },
-              'base64',
-            )
+            // keysafe.requestSigning(
+            //   response.sign_bytes,
+            //   (error: any, signature: any) => {
+            //     if (error) {
+            //       return null
+            //     }
+            //     return dispatch({
+            //       type: FuelEntityActions.ConfirmOrder,
+            //       payload: Axios.post(
+            //         `${process.env.REACT_APP_GAIA_URL}/txs`,
+            //         JSON.stringify(transactionUtils.generateTx(msgType, tx, signature, response.fee)),
+            //       ),
+            //     })
+            //   },
+            //   'base64',
+            // )
           }
         })
         .catch(() => {
-          Toast.errorToast('Sale failed. Please try again.')
+          Toast.errorToast(null, 'Sale failed. Please try again.')
         })
     })
 

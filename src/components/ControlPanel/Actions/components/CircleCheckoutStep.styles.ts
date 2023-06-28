@@ -34,7 +34,7 @@ export const CirclePayBackButtonEl = styled.img`
   height: 20px;
 `
 export const HeaderTitle = styled.h1<{ color?: string }>`
-  color: ${(props): string => props.color || props.theme.neutralDarkGrey};
+  color: ${(props): string => props.color || props.theme.ixoBlack};
   font-family: ${(props): string => props.theme.primaryFontFamily};
   font-weight: 400;
   font-size: 16px;
@@ -50,7 +50,7 @@ export const EnvelopeIconEl = styled(EnvelopeIcon)<{ isactive: string }>`
   width: 87px;
   margin: 20px;
   path {
-    fill: ${(props): string => (props.isactive === 'true' ? props.theme.ixoGreen : props.theme.neutralLightGrey)};
+    fill: ${(props): string => (props.isactive === 'true' ? props.theme.ixoGreen : props.theme.ixoGrey500)};
   }
 `
 export const LabelWrapper = styled.div`
@@ -59,12 +59,12 @@ export const LabelWrapper = styled.div`
   width: 100%;
 
   & > label {
-    color: ${(props): string => props.theme.neutralDarkGrey};
+    color: ${(props): string => props.theme.ixoBlack};
     margin-bottom: 8px;
   }
 `
 export const CirclePayInput = styled.input`
-  background: ${(props): string => props.theme.neutralLighterGrey};
+  background: ${(props): string => props.theme.ixoGrey100};
   border-radius: 4px;
   font-weight: 500;
   font-size: 18px;
@@ -75,7 +75,7 @@ export const CirclePayInput = styled.input`
   width: 100%;
 
   &::placeholder {
-    color: ${(props): string => props.theme.neutralLightGrey};
+    color: ${(props): string => props.theme.ixoGrey500};
   }
 
   &:focus-within {
@@ -108,7 +108,7 @@ export const CirclePayLink = styled.span`
 `
 export const CirclePaySubmitButton = styled.button<{ disabled?: boolean }>`
   margin-top: 30px;
-  background: ${(props): string => (props.disabled ? props.theme.neutralLightGrey : props.theme.ixoNewBlue)};
+  background: ${(props): string => (props.disabled ? props.theme.ixoGrey500 : props.theme.ixoNewBlue)};
   pointer-events: ${(props): string => (props.disabled ? 'none' : 'auto')};
   text-transform: uppercase;
   border-radius: 4px;
@@ -134,7 +134,7 @@ export const CircleUserAgreeWrapper = styled.div`
   cursor: pointer;
 `
 export const CircleUserAgreeRadio = styled.span<{ checked: boolean }>`
-  background: ${(props): string => (props.checked ? props.theme.ixoNewBlue : props.theme.neutralLightGrey)};
+  background: ${(props): string => (props.checked ? props.theme.ixoNewBlue : props.theme.ixoGrey500)};
   border-radius: 50%;
   min-width: 20px;
   min-height: 20px;
@@ -153,14 +153,14 @@ export const CircleUserAgreeText = styled.span`
   font-weight: 400;
   font-size: 14px;
   line-height: 18px;
-  color: ${(props): string => props.theme.neutralDarkGrey};
+  color: ${(props): string => props.theme.ixoBlack};
 `
 export const NftSummary = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
   color: #000;
-  background: ${(props): string => props.theme.neutralLighterGrey};
+  background: ${(props): string => props.theme.ixoGrey100};
   border-radius: 4px;
   padding: 10px;
 `
@@ -194,7 +194,7 @@ export const QuoteRefreshWrapper = styled.div`
   gap: 5px;
   font-weight: 400;
   font-size: 12px;
-  color: ${(props): string => props.theme.neutralMediumGrey};
+  color: ${(props): string => props.theme.ixoGrey700};
 `
 
 export const cardSelectorStyles = {
@@ -213,7 +213,7 @@ export const cardSelectorStyles = {
   }),
   control: (provided: any): any => ({
     ...provided,
-    background: theme.neutralLighterGrey,
+    background: theme.ixoGrey100,
     border: 'none !important',
     boxShadow: 'none !important',
     cursor: 'pointer',
@@ -237,7 +237,7 @@ export const cardSelectorStyles = {
     ...provided,
     width: '100%',
     margin: 0,
-    background: theme.neutralLighterGrey,
+    background: theme.ixoGrey100,
     borderTopLeftRadius: 0,
     borderTopRightRadius: 0,
     zIndex: 200,

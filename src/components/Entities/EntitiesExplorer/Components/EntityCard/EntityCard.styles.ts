@@ -65,6 +65,7 @@ export const Description = styled.div`
 `
 
 export const CardBottom = styled.div`
+  position: relative;
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
   flex: 1;
@@ -72,14 +73,9 @@ export const CardBottom = styled.div`
   background: white;
   display: flex;
   flex-direction: column;
-  // justify-content: space-between;
-  p {
-    color: ${(props: any): string => props.theme.fontDarkGrey};
-  }
 `
 
 export const CardContainer = styled.div`
-  margin-bottom: 34px;
   font-family: ${(props: any): string => props.theme.primaryFontFamily};
 `
 
@@ -128,6 +124,7 @@ export const MultiLineTitle = styled.p<{
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+  color: ${(props) => props.theme.ixoBlack};
 `
 
 export const Title = styled.h3`

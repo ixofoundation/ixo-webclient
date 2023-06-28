@@ -1,7 +1,7 @@
 {
   "UI": {
     "explorer": {
-      "defaultView": "Project"
+      "defaultView": "project"
     },
     "topMenu": [
       {
@@ -49,7 +49,7 @@
   "route": {
     "splashIsRootRoute": false
   },
-  "Project": {
+  "project": {
     "title": "Project",
     "plural": "Projects",
     "themeColor": "#49BFE0",
@@ -199,7 +199,7 @@
     },
     "filterSchema": {
       "@context": "https://schema.ixo.foundation/project",
-      "@type": "Project",
+      "@type": "project",
       "dateCreated": {
         "@type": "Date",
         "name": "Dates"
@@ -239,7 +239,7 @@
           "hidden": false,
           "name": "Project Type",
           "multiSelect": true,
-          "selectedTags": ["Candidate"],
+          "selectedTags": [],
           "tags": [
             {
               "@type": "Tag",
@@ -1183,30 +1183,12 @@
         "title": "Connections",
         "controls": [
           {
-            "@type": "Mobile",
-            "@id": "connectionMobileApp",
-            "title": "Mobile",
-            "tooltip": "Import to you mobile Impact Wallet",
-            "icon": "Mobile",
-            "iconColor": null,
-            "endpoint": null,
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": null
-              }
-            ],
-            "data": null,
-            "parameters": null
-          },
-          {
             "@type": "External",
-            "@id": "connectionTwitterShare",
+            "@id": "twitter",
             "title": "Twitter",
             "tooltip": "Share on Twitter",
-            "icon": "Twitter",
-            "iconColor": "#49BFE0",
+            "icon": "assets/images/icon-twitter.svg",
+            "iconColor": "#000000",
             "endpoint": "https://twitter.com/ixoworld",
             "accessToken": null,
             "permissions": [
@@ -1220,12 +1202,66 @@
           },
           {
             "@type": "External",
-            "@id": "joinOnDiscord",
+            "@id": "discord",
             "title": "Discord",
             "tooltip": "Join the Community",
-            "icon": "Discord",
-            "iconColor": "#49BFE0",
-            "endpoint": "https://discord.gg/nCyXenGfCH",
+            "icon": "assets/images/icon-discord.svg",
+            "iconColor": "#000000",
+            "endpoint": "https://discord.gg/ixo",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": null
+              }
+            ],
+            "data": null,
+            "parameters": null
+          },
+          {
+            "@type": "External",
+            "@id": "telegram",
+            "title": "Telegram",
+            "tooltip": "Join the Community",
+            "icon": "assets/images/icon-telegram.svg",
+            "iconColor": "#000000",
+            "endpoint": "https://t.me/ixonetwork",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": null
+              }
+            ],
+            "data": null,
+            "parameters": null
+          },
+          {
+            "@type": "External",
+            "@id": "slack",
+            "title": "Slack",
+            "tooltip": "Join the Community",
+            "icon": "assets/images/icon-slack.svg",
+            "iconColor": "#000000",
+            "endpoint": "https://ixofoundation.slack.com/signup#/domain-signup",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": null
+              }
+            ],
+            "data": null,
+            "parameters": null
+          },
+          {
+            "@type": "External",
+            "@id": "linkedin",
+            "title": "Linkedin",
+            "tooltip": "Join the Community",
+            "icon": "assets/images/icon-linkedin.svg",
+            "iconColor": "#000000",
+            "endpoint": "https://www.linkedin.com/company/ixoworld",
             "accessToken": null,
             "permissions": [
               {
@@ -1242,7 +1278,7 @@
     "createNewTitle": "Create a Project",
     "urlPart": "project"
   },
-  "Oracle": {
+  "oracle": {
     "title": "Oracle",
     "plural": "Oracles",
     "themeColor": "#AD245C",
@@ -1916,30 +1952,12 @@
         "title": "Connections",
         "controls": [
           {
-            "@type": "Mobile",
-            "@id": "connectionMobileApp",
-            "title": "Mobile",
-            "tooltip": "Scan the QR with your mobile",
-            "icon": "Mobile",
-            "iconColor": null,
-            "endpoint": null,
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": null
-              }
-            ],
-            "data": null,
-            "parameters": null
-          },
-          {
             "@type": "External",
-            "@id": "connectionTwitterShare",
+            "@id": "twitter",
             "title": "Twitter",
             "tooltip": "Share on Twitter",
-            "icon": "Twitter",
-            "iconColor": "#49BFE0",
+            "icon": "assets/images/icon-twitter.svg",
+            "iconColor": "#000000",
             "endpoint": "https://twitter.com/ixoworld",
             "accessToken": null,
             "permissions": [
@@ -1953,12 +1971,66 @@
           },
           {
             "@type": "External",
-            "@id": "joinOnDiscord",
+            "@id": "discord",
             "title": "Discord",
             "tooltip": "Join the Community",
-            "icon": "Discord",
-            "iconColor": "#49BFE0",
-            "endpoint": "https://discord.gg/nCyXenGfCH",
+            "icon": "assets/images/icon-discord.svg",
+            "iconColor": "#000000",
+            "endpoint": "https://discord.gg/ixo",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": null
+              }
+            ],
+            "data": null,
+            "parameters": null
+          },
+          {
+            "@type": "External",
+            "@id": "telegram",
+            "title": "Telegram",
+            "tooltip": "Join the Community",
+            "icon": "assets/images/icon-telegram.svg",
+            "iconColor": "#000000",
+            "endpoint": "https://t.me/ixonetwork",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": null
+              }
+            ],
+            "data": null,
+            "parameters": null
+          },
+          {
+            "@type": "External",
+            "@id": "slack",
+            "title": "Slack",
+            "tooltip": "Join the Community",
+            "icon": "assets/images/icon-slack.svg",
+            "iconColor": "#000000",
+            "endpoint": "https://ixofoundation.slack.com/signup#/domain-signup",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": null
+              }
+            ],
+            "data": null,
+            "parameters": null
+          },
+          {
+            "@type": "External",
+            "@id": "linkedin",
+            "title": "Linkedin",
+            "tooltip": "Join the Community",
+            "icon": "assets/images/icon-linkedin.svg",
+            "iconColor": "#000000",
+            "endpoint": "https://www.linkedin.com/company/ixoworld",
             "accessToken": null,
             "permissions": [
               {
@@ -1975,7 +2047,7 @@
     "createNewTitle": "Create an Oracle",
     "urlPart": "oracle"
   },
-  "Investment": {
+  "investment": {
     "title": "Investment",
     "plural": "Investments",
     "themeColor": "#E4BC3D",
@@ -2785,30 +2857,12 @@
         "title": "Connections",
         "controls": [
           {
-            "@type": "Mobile",
-            "@id": "connectionMobileApp",
-            "title": "Mobile",
-            "tooltip": "Scan the QR with your mobile",
-            "icon": "Mobile",
-            "iconColor": null,
-            "endpoint": null,
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": null
-              }
-            ],
-            "data": null,
-            "parameters": null
-          },
-          {
             "@type": "External",
-            "@id": "connectionTwitterShare",
+            "@id": "twitter",
             "title": "Twitter",
             "tooltip": "Share on Twitter",
-            "icon": "Twitter",
-            "iconColor": "#49BFE0",
+            "icon": "assets/images/icon-twitter.svg",
+            "iconColor": "#000000",
             "endpoint": "https://twitter.com/ixoworld",
             "accessToken": null,
             "permissions": [
@@ -2822,12 +2876,66 @@
           },
           {
             "@type": "External",
-            "@id": "joinOnDiscord",
+            "@id": "discord",
             "title": "Discord",
             "tooltip": "Join the Community",
-            "icon": "Discord",
-            "iconColor": "#49BFE0",
-            "endpoint": "https://discord.gg/nCyXenGfCH",
+            "icon": "assets/images/icon-discord.svg",
+            "iconColor": "#000000",
+            "endpoint": "https://discord.gg/ixo",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": null
+              }
+            ],
+            "data": null,
+            "parameters": null
+          },
+          {
+            "@type": "External",
+            "@id": "telegram",
+            "title": "Telegram",
+            "tooltip": "Join the Community",
+            "icon": "assets/images/icon-telegram.svg",
+            "iconColor": "#000000",
+            "endpoint": "https://t.me/ixonetwork",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": null
+              }
+            ],
+            "data": null,
+            "parameters": null
+          },
+          {
+            "@type": "External",
+            "@id": "slack",
+            "title": "Slack",
+            "tooltip": "Join the Community",
+            "icon": "assets/images/icon-slack.svg",
+            "iconColor": "#000000",
+            "endpoint": "https://ixofoundation.slack.com/signup#/domain-signup",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": null
+              }
+            ],
+            "data": null,
+            "parameters": null
+          },
+          {
+            "@type": "External",
+            "@id": "linkedin",
+            "title": "Linkedin",
+            "tooltip": "Join the Community",
+            "icon": "assets/images/icon-linkedin.svg",
+            "iconColor": "#000000",
+            "endpoint": "https://www.linkedin.com/company/ixoworld",
             "accessToken": null,
             "permissions": [
               {
@@ -2844,7 +2952,7 @@
     "createNewTitle": "Create an Investment",
     "urlPart": "investment"
   },
-  "Dao": {
+  "dao": {
     "title": "DAO",
     "plural": "DAOs",
     "themeColor": "#85AD5C",
@@ -3032,14 +3140,9 @@
           "@type": "Category",
           "hidden": false,
           "name": "DAO Type",
-          "multiSelect": true,
-          "selectedTags": ["Market Relayer"],
+          "multiSelect": false,
+          "selectedTags": [],
           "tags": [
-            {
-              "@type": "Tag",
-              "name": "Index",
-              "icon": "index.svg"
-            },
             {
               "@type": "Tag",
               "name": "Candidate",
@@ -3047,37 +3150,12 @@
             },
             {
               "@type": "Tag",
-              "name": "Market Relayer",
+              "name": "Cooperative",
               "icon": "tag.svg"
             },
             {
               "@type": "Tag",
-              "name": "Investment",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Citizen",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Business",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Friendship",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Community",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Development Agency",
+              "name": "Marketplace",
               "icon": "tag.svg"
             },
             {
@@ -3092,7 +3170,7 @@
             },
             {
               "@type": "Tag",
-              "name": "Innovation",
+              "name": "Investment",
               "icon": "tag.svg"
             },
             {
@@ -3102,32 +3180,12 @@
             },
             {
               "@type": "Tag",
-              "name": "Research",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Sensor Network",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Startup",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Taskforce",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Chain",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
               "name": "Validator",
+              "icon": "tag.svg"
+            },
+            {
+              "@type": "Tag",
+              "name": "Enterprise",
               "icon": "tag.svg"
             }
           ]
@@ -3321,7 +3379,7 @@
             "title": "Status",
             "tooltip": null,
             "icon": null,
-            "iconColor": "F89D28",
+            "iconColor": "#F89D28",
             "endpoint": null,
             "accessToken": null,
             "permissions": [
@@ -3503,30 +3561,12 @@
         "title": "Connections",
         "controls": [
           {
-            "@type": "Mobile",
-            "@id": "connectionMobileApp",
-            "title": "Mobile",
-            "tooltip": "Scan the QR with your mobile",
-            "icon": "Mobile",
-            "iconColor": null,
-            "endpoint": null,
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": null
-              }
-            ],
-            "data": null,
-            "parameters": null
-          },
-          {
             "@type": "External",
-            "@id": "connectionTwitterShare",
+            "@id": "twitter",
             "title": "Twitter",
             "tooltip": "Share on Twitter",
-            "icon": "Twitter",
-            "iconColor": "#49BFE0",
+            "icon": "assets/images/icon-twitter.svg",
+            "iconColor": "#000000",
             "endpoint": "https://twitter.com/ixoworld",
             "accessToken": null,
             "permissions": [
@@ -3540,12 +3580,66 @@
           },
           {
             "@type": "External",
-            "@id": "joinOnDiscord",
+            "@id": "discord",
             "title": "Discord",
             "tooltip": "Join the Community",
-            "icon": "Discord",
-            "iconColor": "#49BFE0",
-            "endpoint": "https://discord.gg/nCyXenGfCH",
+            "icon": "assets/images/icon-discord.svg",
+            "iconColor": "#000000",
+            "endpoint": "https://discord.gg/ixo",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": null
+              }
+            ],
+            "data": null,
+            "parameters": null
+          },
+          {
+            "@type": "External",
+            "@id": "telegram",
+            "title": "Telegram",
+            "tooltip": "Join the Community",
+            "icon": "assets/images/icon-telegram.svg",
+            "iconColor": "#000000",
+            "endpoint": "https://t.me/ixonetwork",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": null
+              }
+            ],
+            "data": null,
+            "parameters": null
+          },
+          {
+            "@type": "External",
+            "@id": "slack",
+            "title": "Slack",
+            "tooltip": "Join the Community",
+            "icon": "assets/images/icon-slack.svg",
+            "iconColor": "#000000",
+            "endpoint": "https://ixofoundation.slack.com/signup#/domain-signup",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": null
+              }
+            ],
+            "data": null,
+            "parameters": null
+          },
+          {
+            "@type": "External",
+            "@id": "linkedin",
+            "title": "Linkedin",
+            "tooltip": "Join the Community",
+            "icon": "assets/images/icon-linkedin.svg",
+            "iconColor": "#000000",
+            "endpoint": "https://www.linkedin.com/company/ixoworld",
             "accessToken": null,
             "permissions": [
               {
@@ -3562,7 +3656,7 @@
     "createNewTitle": "Create a DAO",
     "urlPart": "cell"
   },
-  "Template": {
+  "protocol": {
     "title": "Protocol",
     "plural": "Protocols",
     "themeColor": "#7c2740",
@@ -4518,30 +4612,12 @@
         "title": "Connections",
         "controls": [
           {
-            "@type": "Mobile",
-            "@id": "connectionMobileApp",
-            "title": "Mobile",
-            "tooltip": "Scan the QR with your mobile",
-            "icon": "Mobile",
-            "iconColor": null,
-            "endpoint": null,
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": null
-              }
-            ],
-            "data": null,
-            "parameters": null
-          },
-          {
             "@type": "External",
-            "@id": "connectionTwitterShare",
+            "@id": "twitter",
             "title": "Twitter",
             "tooltip": "Share on Twitter",
-            "icon": "Twitter",
-            "iconColor": "#49BFE0",
+            "icon": "assets/images/icon-twitter.svg",
+            "iconColor": "#000000",
             "endpoint": "https://twitter.com/ixoworld",
             "accessToken": null,
             "permissions": [
@@ -4555,12 +4631,66 @@
           },
           {
             "@type": "External",
-            "@id": "joinOnDiscord",
+            "@id": "discord",
             "title": "Discord",
             "tooltip": "Join the Community",
-            "icon": "Discord",
-            "iconColor": "#49BFE0",
-            "endpoint": "https://discord.gg/nCyXenGfCH",
+            "icon": "assets/images/icon-discord.svg",
+            "iconColor": "#000000",
+            "endpoint": "https://discord.gg/ixo",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": null
+              }
+            ],
+            "data": null,
+            "parameters": null
+          },
+          {
+            "@type": "External",
+            "@id": "telegram",
+            "title": "Telegram",
+            "tooltip": "Join the Community",
+            "icon": "assets/images/icon-telegram.svg",
+            "iconColor": "#000000",
+            "endpoint": "https://t.me/ixonetwork",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": null
+              }
+            ],
+            "data": null,
+            "parameters": null
+          },
+          {
+            "@type": "External",
+            "@id": "slack",
+            "title": "Slack",
+            "tooltip": "Join the Community",
+            "icon": "assets/images/icon-slack.svg",
+            "iconColor": "#000000",
+            "endpoint": "https://ixofoundation.slack.com/signup#/domain-signup",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": null
+              }
+            ],
+            "data": null,
+            "parameters": null
+          },
+          {
+            "@type": "External",
+            "@id": "linkedin",
+            "title": "Linkedin",
+            "tooltip": "Join the Community",
+            "icon": "assets/images/icon-linkedin.svg",
+            "iconColor": "#000000",
+            "endpoint": "https://www.linkedin.com/company/ixoworld",
             "accessToken": null,
             "permissions": [
               {
@@ -4577,7 +4707,7 @@
     "createNewTitle": "Create a Claim Protocol",
     "urlPart": "protocol"
   },
-  "Asset": {
+  "asset": {
     "title": "Asset",
     "plural": "Assets",
     "themeColor": "#ED9526",
@@ -5533,30 +5663,12 @@
         "title": "Connections",
         "controls": [
           {
-            "@type": "Mobile",
-            "@id": "connectionMobileApp",
-            "title": "Mobile",
-            "tooltip": "Scan the QR with your mobile",
-            "icon": "Mobile",
-            "iconColor": null,
-            "endpoint": null,
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": null
-              }
-            ],
-            "data": null,
-            "parameters": null
-          },
-          {
             "@type": "External",
-            "@id": "connectionTwitterShare",
+            "@id": "twitter",
             "title": "Twitter",
             "tooltip": "Share on Twitter",
-            "icon": "Twitter",
-            "iconColor": "#49BFE0",
+            "icon": "assets/images/icon-twitter.svg",
+            "iconColor": "#000000",
             "endpoint": "https://twitter.com/ixoworld",
             "accessToken": null,
             "permissions": [
@@ -5570,12 +5682,66 @@
           },
           {
             "@type": "External",
-            "@id": "joinOnDiscord",
+            "@id": "discord",
             "title": "Discord",
             "tooltip": "Join the Community",
-            "icon": "Discord",
-            "iconColor": "#49BFE0",
-            "endpoint": "https://discord.gg/nCyXenGfCH",
+            "icon": "assets/images/icon-discord.svg",
+            "iconColor": "#000000",
+            "endpoint": "https://discord.gg/ixo",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": null
+              }
+            ],
+            "data": null,
+            "parameters": null
+          },
+          {
+            "@type": "External",
+            "@id": "telegram",
+            "title": "Telegram",
+            "tooltip": "Join the Community",
+            "icon": "assets/images/icon-telegram.svg",
+            "iconColor": "#000000",
+            "endpoint": "https://t.me/ixonetwork",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": null
+              }
+            ],
+            "data": null,
+            "parameters": null
+          },
+          {
+            "@type": "External",
+            "@id": "slack",
+            "title": "Slack",
+            "tooltip": "Join the Community",
+            "icon": "assets/images/icon-slack.svg",
+            "iconColor": "#000000",
+            "endpoint": "https://ixofoundation.slack.com/signup#/domain-signup",
+            "accessToken": null,
+            "permissions": [
+              {
+                "credential": null,
+                "role": null
+              }
+            ],
+            "data": null,
+            "parameters": null
+          },
+          {
+            "@type": "External",
+            "@id": "linkedin",
+            "title": "Linkedin",
+            "tooltip": "Join the Community",
+            "icon": "assets/images/icon-linkedin.svg",
+            "iconColor": "#000000",
+            "endpoint": "https://www.linkedin.com/company/ixoworld",
             "accessToken": null,
             "permissions": [
               {

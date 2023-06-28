@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Input } from '../../../Components'
+import { InputWithLabel } from '../../../Components'
 
 export const FormWrapper = styled.div`
   display: flex;
@@ -14,7 +14,7 @@ export const FormMetricRow = styled.div`
   gap: 10px;
   padding: 16px;
   border-radius: 8px;
-  border: 1px solid ${(props): string => props.theme.ixoLightGrey};
+  border: 1px solid ${(props): string => props.theme.ixoGrey100};
 
   & > .remove {
     position: absolute;
@@ -51,7 +51,7 @@ export const FormRow = styled.div`
   }
 `
 
-export const FormInput = styled(Input)`
+export const FormInput = styled(InputWithLabel)`
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;

@@ -54,6 +54,8 @@ export const HeroContainer = styled.div`
   position: relative;
   color: #143f54;
   padding: 0 1rem;
+  height: 0px;
+
   @media (min-width: ${deviceWidth.tablet}px) {
     height: 200px;
   }

@@ -40,7 +40,6 @@ import EvaluationCard from './Components/EvaluationCard/EvaluationCard'
 import ApprovalCriterionCard from './Components/ApprovalCriterionCard/ApprovalCriterionCard'
 import EnrichmentCard from './Components/EnrichmentCard/EnrichmentCard'
 import { Container, AddSectionButton } from 'components/Wrappers/FormCardWrapper/FormCardWrapper.styles'
-import { getEntities } from 'redux/entitiesExplorer/entitiesExplorer.actions'
 import { ExplorerEntity } from 'redux/entitiesExplorer/entitiesExplorer.types'
 import { Spinner } from 'components/Spinner/Spinner'
 
@@ -67,12 +66,6 @@ interface Props extends EditEntityBaseProps {
 }
 
 class EditEntityClaims extends EditEntityBase<Props> {
-  componentDidMount(): void {
-    const { handleGetEntities } = this.props
-
-    handleGetEntities()
-  }
-
   renderEntityClaimTemplate = (template: Template): JSX.Element => {
     const { templates } = this.props
 
@@ -105,7 +98,7 @@ class EditEntityClaims extends EditEntityBase<Props> {
               return {
                 title,
                 did,
-                dateCreated: dateCreated.format('DD-MMM-YYYY'),
+                dateCreated: dateCreated!.format('DD-MMM-YYYY'),
                 imageUrl: null,
                 previewUrl: '',
                 ddoTags,
@@ -394,7 +387,7 @@ class EditEntityClaims extends EditEntityBase<Props> {
 
 const mapStateToProps = (state: RootState): any => ({
   templates: entitiesSelectors.selectAllTemplateEntities(state),
-  isLoadingEntities: entitiesSelectors.selectIsLoadingEntities(state),
+  isLoadingEntities: entitiesSelectors.selectIsLoadingEntities2(state),
   step: editEntitySelectors.selectStep(state),
   entityType: editEntitySelectors.selectEntityType(state),
   validationComplete: entityClaimsSelectors.selectValidationComplete(state),
@@ -431,7 +424,6 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   handleValidated: (identifier: string): void => dispatch(validated(identifier)),
   handleValidationError: (identifier: string, errors: string[]): void => dispatch(validationError(identifier, errors)),
   handleGoToStep: (step: number): void => dispatch(goToStep(step)),
-  handleGetEntities: (): void => dispatch(getEntities()),
 })
 
 export const EditEntityClaimsConnected = connect(mapStateToProps, mapDispatchToProps)(EditEntityClaims)

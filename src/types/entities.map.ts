@@ -84,9 +84,15 @@ export const slashingConditionMap: SlashingConditionStrategyMap = {
 }
 
 export const nodeTypeMap: NodeTypeStrategyMap = {
-  [NodeType.RelayerNode]: { title: 'Relayer Node' },
-  [NodeType.CellNode]: { title: 'Cell Node' },
-  [NodeType.IBCNode]: { title: 'IBC Node' },
+  [NodeType.CellNode]: { title: 'CellNode' },
+  [NodeType.CellNodeEncrypted]: { title: 'CellNode Encrypted' },
+  [NodeType.BlockchainRPC]: { title: 'Blockchain RPC' },
+  [NodeType.WebService]: { title: 'Web Service' },
+  [NodeType.BotService]: { title: 'Bot Service' },
+  [NodeType.AuthenticationService]: { title: 'Authentication Sevice' },
+  [NodeType.CloudWorker]: { title: 'Cloud Worker' },
+  [NodeType.Ipfs]: { title: 'Web3 Storage' },
+  [NodeType.CredentialRegistry]: { title: 'Credential Registry' },
 }
 
 export const liquiditySourceMap: LiquiditySourceStrategyMap = {

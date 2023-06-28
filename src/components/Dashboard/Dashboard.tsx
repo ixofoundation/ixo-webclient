@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { deviceWidth } from 'constants/device'
 import HeaderTabs from 'components/HeaderTabs/HeaderTabs'
 import { MatchType } from 'types/models'
-import Sidebar from './Sidbar'
+import Sidebar from './Sidebar'
 import Breadcrumb from './Breadcrumb'
 import Header from './Header'
 import { HeaderTab, Path } from './types'
@@ -11,18 +11,19 @@ import { useAppSelector } from 'redux/hooks'
 import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 // import { entityTypeMap } from 'modules/Entities/strategy-map'
 
-const Container = styled.div`
+const Container = styled.div<{ color: string }>`
   display: block;
   flex: 1 1 auto;
   font-family: ${(props): string => props.theme.secondaryFontFamily};
+  color: ${(props): string => props.color};
 
   @media (min-width: ${deviceWidth.mobile}px) {
     display: flex;
   }
 `
 
-const Board = styled.div<{ theme: string }>`
-  background: ${({ theme }): string => (theme === 'light' ? '#f0f3f9' : '#002233')};
+const Board = styled.div<{ themeMode: string }>`
+  background: ${(props): string => (props.themeMode === 'light' ? '#f0f3f9' : props.theme.ixoDarkestBlue)};
 
   padding: 2.5rem 0.75rem;
   display: flex;
@@ -85,7 +86,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
   const entityTypeMap = useAppSelector(selectEntityConfig)
   return (
     <DashboardThemeContext.Provider value={{ theme, isDark: theme === 'dark' }}>
-      <Container>
+      <Container color={theme === 'dark' ? 'white' : 'black'}>
         <HeaderTabs
           buttons={tabs}
           matchType={matchType}
@@ -93,7 +94,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
           activeTabColor={entityTypeMap![entityType!]?.themeColor}
         />
         <Sidebar routes={subRoutes} />
-        <Board theme={theme}>
+        <Board themeMode={theme}>
           <Breadcrumb subRoutes={subRoutes} baseRoutes={baseRoutes} />
           <Header title={title} />
           <Break />

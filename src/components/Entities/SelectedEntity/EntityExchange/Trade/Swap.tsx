@@ -1,6 +1,5 @@
 import React from 'react'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
-import keysafe from 'lib/keysafe/keysafe'
 import AssetStakingCard from 'components/Entities/EntitiesExplorer/Components/EntityCard/AssetCard/AssetStakingCard'
 import { TermsOfUseType } from 'types/entities'
 import Tooltip, { TooltipPosition } from 'components/Tooltip/Tooltip'
@@ -18,7 +17,6 @@ const Trade: React.FunctionComponent = () => {
   const dispatch = useAppDispatch()
   const history = useHistory()
   const selectedEntity = useAppSelector((state) => state.selectedEntity)
-  const { address } = useAppSelector((state) => state.account)
   const methodType = useAppSelector(selectSelectedTradeMethod)
 
   const handleWalletSelected = (walletType: string): void => {
@@ -30,15 +28,15 @@ const Trade: React.FunctionComponent = () => {
 
   const handleWalletClick = async (walletType: string): Promise<void> => {
     switch (walletType) {
-      case 'keysafe': {
-        if (address) {
-          dispatch(changeSelectedAccountAddress(address))
-          handleWalletSelected(walletType)
-        } else {
-          keysafe.popupKeysafe()
-        }
-        break
-      }
+      // case 'keysafe': {
+      //   if (address) {
+      //     dispatch(changeSelectedAccountAddress(address))
+      //     handleWalletSelected(walletType)
+      //   } else {
+      //     keysafe.popupKeysafe()
+      //   }
+      //   break
+      // }
       case 'keplr': {
         const [accounts, offlineSigner] = await keplr.connectAccount()
         if (accounts) {

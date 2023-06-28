@@ -1,50 +1,89 @@
-import { createQueryClient, ixo, SigningStargateClient } from '@ixo/impactxclient-sdk'
+import { createQueryClient, ixo, SigningStargateClient, customMessages, utils } from '@ixo/impactxclient-sdk'
 import {
+  QueryEntityIidDocumentRequest,
   QueryEntityListRequest,
   QueryEntityListResponse,
+  QueryEntityRequest,
+  QueryEntityResponse,
 } from '@ixo/impactxclient-sdk/types/codegen/ixo/entity/v1beta1/query'
+import { IidDocument } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/iid'
 import {
   AccordedRight,
-  Context,
   LinkedEntity,
   LinkedResource,
   Service,
-} from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/iid'
+  Context,
+  LinkedClaim,
+} from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
+import { DeliverTxResponse } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/stargate'
 import BigNumber from 'bignumber.js'
-import { fee, RPC_ENDPOINT } from './common'
+import { fee, RPC_ENDPOINT, TSigner } from './common'
+import { Verification } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/tx'
 
 export const CreateEntity = async (
   client: SigningStargateClient,
-  address: string,
-  did: string,
+  signer: TSigner,
   payload: {
     entityType: string
     entityStatus?: number
-    context: Context[]
-    service: Service[]
-    linkedResource: LinkedResource[]
-    accordedRight: AccordedRight[]
-    linkedEntity: LinkedEntity[]
+    context?: Context[]
+    service?: Service[]
+    linkedResource?: LinkedResource[]
+    accordedRight?: AccordedRight[]
+    linkedEntity?: LinkedEntity[]
+    linkedClaim?: LinkedClaim[]
+    verification?: Verification[]
+    relayerNode?: string
+    startDate?: string
+    endDate?: string
   }[],
-) => {
+): Promise<DeliverTxResponse | undefined> => {
   try {
-    console.log('CreateEntity', 'payload', payload)
+    const { address, did, pubKey, keyType } = signer
     const messages = payload.map((item) => {
-      const { entityType, entityStatus, context, service, linkedResource, accordedRight, linkedEntity } = item
+      const {
+        entityType,
+        entityStatus,
+        context = [],
+        service = [],
+        linkedResource = [],
+        accordedRight = [],
+        linkedEntity = [],
+        linkedClaim = [],
+        verification = [],
+        relayerNode = did,
+        startDate = '',
+        endDate = '',
+      } = item
       return {
         typeUrl: '/ixo.entity.v1beta1.MsgCreateEntity',
         value: ixo.entity.v1beta1.MsgCreateEntity.fromPartial({
           entityType: entityType.toLowerCase(),
-          entityStatus: entityStatus ?? 0,
-          context: context.map((item: Context) => ixo.iid.v1beta1.Context.fromPartial(item)),
+          context: customMessages.iid.createAgentIidContext(context as [{ key: string; val: string }]),
+          verification: [
+            ...customMessages.iid.createIidVerificationMethods({
+              did,
+              pubkey: pubKey,
+              address: address,
+              controller: did,
+              type: keyType,
+            }),
+            ...verification,
+          ],
+          controller: [did],
           ownerDid: did,
           ownerAddress: address,
+          relayerNode: relayerNode,
           service: service.map((item: Service) => ixo.iid.v1beta1.Service.fromPartial(item)),
           linkedResource: linkedResource.map((item: LinkedResource) =>
             ixo.iid.v1beta1.LinkedResource.fromPartial(item),
           ),
           accordedRight: accordedRight.map((item: AccordedRight) => ixo.iid.v1beta1.AccordedRight.fromPartial(item)),
           linkedEntity: linkedEntity.map((item: LinkedEntity) => ixo.iid.v1beta1.LinkedEntity.fromPartial(item)),
+          linkedClaim: linkedClaim.map((item: LinkedClaim) => ixo.iid.v1beta1.LinkedClaim.fromPartial(item)),
+          entityStatus,
+          startDate: startDate ? utils.proto.toTimestamp(new Date(startDate)) : undefined,
+          endDate: endDate ? utils.proto.toTimestamp(new Date(endDate)) : undefined,
         }),
       }
     })
@@ -54,7 +93,6 @@ export const CreateEntity = async (
     }
     console.log('CreateEntity', 'messages', messages)
     const response = await client.signAndBroadcast(address, messages, updatedFee)
-    console.log('CreateEntity', 'response', response)
     return response
   } catch (e) {
     console.error('CreateEntity', e)
@@ -107,12 +145,49 @@ export const CreateEntity = async (
 //   return response
 // }
 
-export const EntityList = async (request: QueryEntityListRequest): Promise<QueryEntityListResponse | undefined> => {
+export const EntityList = async (request: QueryEntityListRequest): Promise<QueryEntityListResponse> => {
   try {
     const client = await createQueryClient(RPC_ENDPOINT!)
     const res: QueryEntityListResponse = await client.ixo.entity.v1beta1.entityList(request)
     return res
   } catch (e) {
-    return undefined
+    throw new Error(JSON.stringify(e))
+  }
+}
+
+/**
+ * 
+ * @param request 
+ *  export interface QueryEntityRequest {
+      id: string;
+    }
+ * @returns 
+ */
+export const GetEntity = async (request: QueryEntityRequest): Promise<QueryEntityResponse> => {
+  try {
+    const client = await createQueryClient(RPC_ENDPOINT!)
+    const res: QueryEntityResponse = await client.ixo.entity.v1beta1.entity(request)
+    return res
+  } catch (e) {
+    throw new Error(JSON.stringify(e))
+  }
+}
+
+/**
+ * 
+ * @param request 
+ *  export interface QueryEntityRequest {
+      id: string;
+    }
+ * @returns 
+ */
+export const GetEntityIidDocument = async (request: QueryEntityIidDocumentRequest): Promise<IidDocument> => {
+  try {
+    const client = await createQueryClient(RPC_ENDPOINT!)
+    const { iidDocument } = await client.ixo.entity.v1beta1.entityIidDocument(request)
+    client.cosmos.base.tendermint.v1beta1.getLatestValidatorSet()
+    return iidDocument!
+  } catch (e) {
+    throw new Error(JSON.stringify(e))
   }
 }

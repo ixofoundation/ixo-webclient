@@ -18,6 +18,9 @@ import {
   DoneButton,
 } from '../Filters.styles'
 import { requireCheckDefault } from 'utils/images'
+import { Typography } from 'components/Typography'
+import { SvgBox } from 'components/App/App.styles'
+import { ReactSVG } from 'react-svg'
 
 interface MobileProps extends Props {
   showFilterSubMenu: boolean
@@ -38,7 +41,7 @@ const IconListFilterMobile: FC<MobileProps> = ({
 
   const handleToggleFilterClick = (): void => handleToggleFilterShow(name)
 
-  const handleResetClick = (): void => handleFilterReset(name)
+  const handleResetClick = (): void => handleFilterReset && handleFilterReset(name)
 
   const handleFilterClick = (itemName: string) => (): void => handleFilterItemClick(name, itemName)
 
@@ -60,7 +63,7 @@ const IconListFilterMobile: FC<MobileProps> = ({
           <HeadingItem onClick={handleToggleFilterClick}>
             <Back />
           </HeadingItem>
-          <HeadingItem onClick={handleResetClick}>clear</HeadingItem>
+          {handleFilterReset && <HeadingItem onClick={handleResetClick}>clear</HeadingItem>}
         </MobileFilterHeader>
         <MobileFilterWrapper>
           <ModalItems>
@@ -75,8 +78,10 @@ const IconListFilterMobile: FC<MobileProps> = ({
                   onClick={handleFilterClick(itemName)}
                   className={utils.getItemClassName(items, itemName)}
                 >
-                  <h3>{itemName}</h3>
-                  <img alt={itemName} src={requireCheckDefault(require('./assets/icons/' + itemIcon))} />
+                  <Typography weight='medium'>{itemName}</Typography>
+                  <SvgBox color='currentColor' svgWidth={12.5} svgHeight={12.5}>
+                    <ReactSVG src={requireCheckDefault(require(`./assets/icons/${itemIcon}`))} />
+                  </SvgBox>
                 </FilterSelectButton>
               )
             })}

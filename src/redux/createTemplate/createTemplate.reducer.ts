@@ -59,7 +59,7 @@ export const reducer = (
         } as any,
       }
     case CreateEntityTemplateActions.FetchExistingEntityFailure:
-      Toast.errorToast('Failed to Import!')
+      Toast.errorToast(null, 'Failed to Import!')
       return {
         ...state,
         existingEntity: {
@@ -69,7 +69,7 @@ export const reducer = (
         },
       }
     case CreateEntityTemplateActions.FetchExistingEntitySuccess:
-      Toast.successToast('Successfully Imported!')
+      Toast.successToast(null, 'Successfully Imported!')
       return {
         ...state,
         existingEntity: {

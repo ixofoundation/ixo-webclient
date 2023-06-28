@@ -28,6 +28,10 @@ const StyledInput = styled.input`
   &[type='number'] {
     -moz-appearance: textfield;
   }
+
+  &::placeholder {
+    color: ${(props) => props.theme.ixoGrey500};
+  }
 `
 
 const InputWrapper = styled.div<{ width: string; height: string }>`
@@ -54,6 +58,7 @@ interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   height?: string
   preIcon?: React.ReactElement
   handleChange?: (value: any) => void
+  wrapperStyle?: React.CSSProperties
 }
 
 const Input: React.FC<Props> = ({
@@ -62,6 +67,7 @@ const Input: React.FC<Props> = ({
   height = 'auto',
   preIcon,
   handleChange,
+  wrapperStyle = {},
   ...rest
 }): JSX.Element => {
   const onChange = (event: ChangeEvent<HTMLInputElement>): void => {
@@ -69,9 +75,14 @@ const Input: React.FC<Props> = ({
     handleChange && handleChange(newValue)
   }
   return (
-    <InputWrapper width={width} height={height} style={preIcon && { paddingLeft: 32 }}>
+    <InputWrapper width={width} height={height} style={wrapperStyle}>
       {preIcon && <InputPreIcon>{preIcon}</InputPreIcon>}
-      <StyledInput value={inputValue ?? ''} onChange={onChange} {...rest} />
+      <StyledInput
+        value={inputValue ?? ''}
+        onChange={onChange}
+        {...rest}
+        style={preIcon ? { ...rest.style, paddingLeft: 40 } : { ...rest.style }}
+      />
     </InputWrapper>
   )
 }

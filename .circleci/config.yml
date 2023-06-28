@@ -12,9 +12,9 @@ orbs:
 # --------------------------------
 
 uat_in_app_environment: &uat_in_app_environment
-  name: "UAT in app env variables"
+  name: 'UAT in app env variables'
   command: |
-    echo 'REACT_APP_CHAIN_ID=pandora-7' >> .env
+    echo 'REACT_APP_CHAIN_ID=pandora-8' >> .env
     echo 'REACT_APP_BLOCK_SYNC_URL=https://blocksync-pandora.ixo.earth' >> .env
     echo 'REACT_APP_BLOCK_SYNC_GRAPHQL=https://blocksync-pandora.ixo.earth/graphiql' >> .env
     echo 'REACT_APP_BLOCK_SCAN_URL=https://blockscan-pandora.ixo.earth/' >> .env
@@ -45,7 +45,7 @@ jobs:
   test:
     executor:
       name: node/default
-      tag: "16.13.1"
+      tag: '16.18.1'
     parallelism: 5
     steps:
       - checkout

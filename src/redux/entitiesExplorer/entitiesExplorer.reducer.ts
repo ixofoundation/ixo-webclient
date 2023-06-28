@@ -1,15 +1,14 @@
 import { EntitiesExplorerState, EntitiesExplorerActions, EntitiesActionTypes } from './entitiesExplorer.types'
-import { EntityType } from 'types/entities'
+// import { EntityType } from 'types/entities'
 import { getDefaultSelectedViewCategory, getInitialSelectedCategories, getInitialSelectedSectors } from 'utils/entities'
 import { AccountActions, AccountActionTypes } from 'redux/account/account.types'
 
 export const initialState: EntitiesExplorerState = {
-  selectedEntitiesType: EntityType.Project,
-  entities: null,
+  selectedEntitiesType: 'project',
+  entities: [],
+  entities2: null,
   entityConfig: null,
   filter: {
-    dateFrom: null,
-    dateTo: null,
     // ddoTags: getInitialSelectedCategories(),
     ddoTags: [],
     userEntities: false,
@@ -18,6 +17,8 @@ export const initialState: EntitiesExplorerState = {
     sector: null,
     query: '',
     itemOffset: 0, //  for pagination
+    dateFrom: '',
+    dateTo: '',
   },
 } as any
 
@@ -39,6 +40,28 @@ export const reducer = (
         ...state,
         entities: action.payload,
       }
+    case EntitiesExplorerActions.GetEntities2Success:
+      return {
+        ...state,
+        entities2: { ...state.entities2, ...Object.fromEntries(action.payload.map((entity) => [entity.id, entity])) },
+      }
+    case EntitiesExplorerActions.GetIndividualEntity: {
+      const { did } = action.payload
+      return {
+        ...state,
+        entities: state.entities?.map((entity) => (entity.did !== did ? entity : { ...entity, ...action.payload })),
+      }
+    }
+    case EntitiesExplorerActions.GetIndividualEntity2: {
+      const { id, key, data, merge } = action.payload
+      const entities2 = state.entities2 ? { ...state.entities2 } : {}
+      if (merge) {
+        entities2[id] = { ...(entities2[id] || {}), [key]: { ...entities2[id][key], ...data } }
+      } else {
+        entities2[id] = { ...(entities2[id] || {}), [key]: data }
+      }
+      return { ...state, entities2 }
+    }
     case EntitiesExplorerActions.GetEntityConfigSuccess: {
       const entityConfig = action.payload
       const filterView = getDefaultSelectedViewCategory(entityConfig[state.selectedEntitiesType])
@@ -61,8 +84,8 @@ export const reducer = (
         filter: {
           ...state.filter,
           ...filterView,
-          dateFrom: null,
-          dateTo: null,
+          dateFrom: '',
+          dateTo: '',
           ddoTags: getInitialSelectedCategories(state.entityConfig[action.payload.type]),
           sector: getInitialSelectedSectors(state.entityConfig[action.payload.type]),
           itemOffset: 0,
@@ -117,10 +140,10 @@ export const reducer = (
         ...state,
         filter: {
           ...state.filter,
-          dateFrom: null,
-          dateTo: null,
+          dateFrom: '',
+          dateTo: '',
           itemOffset: 0,
-        } as any,
+        },
       }
     case EntitiesExplorerActions.FilterCategoryTag:
     case EntitiesExplorerActions.FilterAddCategoryTag:
@@ -129,9 +152,9 @@ export const reducer = (
         filter: {
           ...state.filter,
           ddoTags: [
-            ...state.filter.ddoTags.filter((category) => category.name !== action.payload.category),
+            ...state.filter.ddoTags.filter((category) => category.category !== action.payload.category),
             {
-              name: action.payload.category,
+              category: action.payload.category,
               tags: [...action.payload.tags],
             },
           ],
@@ -153,9 +176,9 @@ export const reducer = (
         filter: {
           ...state.filter,
           ddoTags: [
-            ...state.filter.ddoTags.filter((category) => category.name !== action.payload.category),
+            ...state.filter.ddoTags.filter((category) => category.category !== action.payload.category),
             {
-              name: action.payload.category,
+              category: action.payload.category,
               tags: [],
             },
           ],
@@ -188,8 +211,8 @@ export const reducer = (
           ...state.filter,
           ...filterView,
           ddoTags: getInitialSelectedCategories(state.entityConfig[state.selectedEntitiesType]),
-          dateFrom: null,
-          dateTo: null,
+          dateFrom: '',
+          dateTo: '',
           itemOffset: 0,
         },
       }

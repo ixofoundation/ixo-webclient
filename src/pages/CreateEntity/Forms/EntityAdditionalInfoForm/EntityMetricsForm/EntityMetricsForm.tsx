@@ -46,12 +46,12 @@ const EntityMetricsForm: React.FC<Props> = ({ metrics = [initialMetric], setMetr
               Example:
             </Typography>
             <Typography color='black' style={{ margin: 'auto 10px' }}>
-              $USD | 200 | Historical Price | (max)
+              $USD | 200 | Historical Price (max)
             </Typography>
           </FormRow>
           <FormRow>
             <FormInput
-              placeholder={'Prefix'}
+              label={'Prefix'}
               inputValue={metric?.prefix}
               handleChange={(value): void => handleUpdateMetric(index, { prefix: value })}
             />
@@ -59,12 +59,12 @@ const EntityMetricsForm: React.FC<Props> = ({ metrics = [initialMetric], setMetr
               #
             </Typography>
             <FormInput
-              placeholder={'Metric'}
+              label={'Metric'}
               inputValue={metric?.metric}
               handleChange={(value): void => handleUpdateMetric(index, { metric: value })}
             />
             <FormInput
-              placeholder={'Suffix'}
+              label={'Suffix'}
               inputValue={metric?.suffix}
               handleChange={(value): void => handleUpdateMetric(index, { suffix: value })}
             />
@@ -74,7 +74,7 @@ const EntityMetricsForm: React.FC<Props> = ({ metrics = [initialMetric], setMetr
               # Source
             </Typography>
             <FormInput
-              placeholder={'https:// '}
+              label={'https:// '}
               inputValue={metric?.source}
               handleChange={(value): void => handleUpdateMetric(index, { source: value })}
             />

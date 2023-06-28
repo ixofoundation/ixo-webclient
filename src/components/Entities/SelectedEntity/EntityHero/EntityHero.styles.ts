@@ -10,7 +10,7 @@ interface HeroContainerProps {
 export const HeroContainer = styled.div<HeroContainerProps>`
   margin: 0;
   position: relative;
-  background: ${(props: any): string => (props.light ? 'white' : props.theme.bg.blue)};
+  background: ${(props: any): string => (props.light ? 'transparent' : props.theme.ixoDarkestBlue)};
   color: ${(props: any): string => (props.onlyTitle ? 'white' : 'black')};
 `
 
@@ -21,12 +21,6 @@ export const HeroInner = styled.div`
   font-size: 0.875rem;
   line-height: 1rem;
   position: relative;
-  padding-top: 4rem;
-  padding-bottom: 2rem;
-  @media (min-width: ${deviceWidth.tablet}px) {
-    padding-top: 3rem;
-    padding-bottom: 1rem;
-  }
 `
 
 interface TitleProps {
@@ -38,7 +32,6 @@ export const Title = styled.h1<TitleProps>`
   font-weight: normal;
   font-size: 1.75rem;
   line-height: 1.25;
-  margin: 0.5rem 0;
   color: ${(props: any): string => (props.light ? 'black' : 'inherit')};
   @media (min-width: ${deviceWidth.tablet}px) {
     font-size: 2.8125rem;
@@ -66,7 +59,7 @@ interface SingleNavProp {
 
 export const SingleNav = styled(NavLink)<SingleNavProp>`
   font-family: ${(props: any): string => props.theme.secondaryFontFamily};
-  color: ${(props: any): string => (props.light ? '#A5ADB0' : props.theme.fontBlueDisabled)};
+  color: ${(props: any): string => (props.light ? '#A5ADB0' : props.theme.ixoDarkBlue)};
   font-size: 0.75rem;
   margin: 0 0.625rem 0 0;
   display: inline-flex;
@@ -77,7 +70,7 @@ export const SingleNav = styled(NavLink)<SingleNavProp>`
 
   &:hover,
   &:hover i:before {
-    color: ${(props: any): string => props.theme.fontLightBlue};
+    color: ${(props: any): string => props.theme.ixoLightBlue};
   }
 
   &:last-of-type {
@@ -97,7 +90,7 @@ export const SingleNav = styled(NavLink)<SingleNavProp>`
 
 export const SingleSDG = styled.a`
   font-family: ${(props: any): string => props.theme.secondaryFontFamily};
-  color: ${(props: any): string => props.theme.fontBlueDisabled};
+  color: ${(props: any): string => props.theme.ixoDarkBlue};
   font-weight: '#436779';
   font-size: 0.625rem;
   margin: 0 0.625rem 0 0;
@@ -117,7 +110,7 @@ export const SingleSDG = styled.a`
 
   &:hover,
   &:hover i:before {
-    color: ${(props: any): string => props.theme.fontLightBlue};
+    color: ${(props: any): string => props.theme.ixoLightBlue};
   }
 
   &:last-of-type {
@@ -174,14 +167,14 @@ export const AddClaim = styled(Link)`
   :hover {
     text-decoration: none;
     color: white;
-    background: ${(props: any): string => props.theme.bg.lightBlue};
+    background: ${(props: any): string => props.theme.ixoMediumBlue};
   }
 `
 
 export const SubNavItem = styled(NavLink).attrs({
   activeClassName: 'active',
 })`
-  color: ${(props: any): string => props.theme.fontBlue};
+  color: ${(props: any): string => props.theme.ixoBlue};
   font-family: ${(props: any): string => props.theme.secondaryFontFamily};
   font-weight: 300;
   font-size: 14px;
@@ -189,12 +182,12 @@ export const SubNavItem = styled(NavLink).attrs({
 
   &.active,
   :hover {
-    color: ${(props: any): string => props.theme.fontBlue};
+    color: ${(props: any): string => props.theme.ixoBlue};
     text-decoration: underline;
   }
 
   + span {
-    color: ${(props: any): string => props.theme.fontBlue};
+    color: ${(props: any): string => props.theme.ixoBlue};
     margin: 0 10px;
   }
 `

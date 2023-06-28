@@ -1,342 +1,138 @@
-import React, { useState } from 'react'
-import { v4 as uuidv4 } from 'uuid'
+import React, { useState, useMemo, useEffect } from 'react'
 import * as Modal from 'react-modal'
 import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
-import { ModalStyles, CloseButton, ModalBody, ModalWrapper, ModalRow, ModalTitle } from 'components/Modals/styles'
-import { Button } from 'pages/CreateEntity/Components'
-import { FormData } from 'components/JsonForm/types'
-import {
-  TClaimAgentRole,
-  TClaimApprovalCriterion,
-  TClaimEnrichment,
-  TClaimEvaluation,
-  TEntityClaimModel,
-} from 'types/protocol'
-import { Box, theme, Typography } from 'components/App/App.styles'
-import TemplateCard from 'components/Entities/CreateEntity/CreateEntityClaims/Components/TemplateCard/TemplateCard'
-import { useAppSelector } from 'redux/hooks'
-import { selectAllTemplateEntities } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
-import AgentRoleCard from 'components/Entities/CreateEntity/CreateEntityClaims/Components/AgentRoleCard/AgentRoleCard'
-import { omitKey } from 'utils/objects'
-import EvaluationCard from 'components/Entities/CreateEntity/CreateEntityClaims/Components/EvaluationCard/EvaluationCard'
-import ApprovalCriterionCard from 'components/Entities/CreateEntity/CreateEntityClaims/Components/ApprovalCriterionCard/ApprovalCriterionCard'
-import EnrichmentCard from 'components/Entities/CreateEntity/CreateEntityClaims/Components/EnrichmentCard/EnrichmentCard'
+import { ModalStyles, CloseButton, ModalWrapper } from 'components/Modals/styles'
+import { Button, DateRangePicker, InputWithLabel, Switch, TextArea } from 'pages/CreateEntity/Components'
+import { TEntityClaimModel, TEntityClaimTemplateModel } from 'types/protocol'
+import { FlexBox } from 'components/App/App.styles'
+import ClaimTemplateCard from './ClaimTemplateCard'
+import ClaimSelectModal from '../ClaimSelectModal/ClaimSelectModal'
+import { Typography } from 'components/Typography'
+import styled from 'styled-components'
+
+const StyledModalWrapper = styled(ModalWrapper)`
+  width: 870px;
+
+  input {
+    height: 48px;
+  }
+`
 
 interface Props {
   claim: TEntityClaimModel
   open: boolean
   onClose: () => void
-  handleChange: (claim: TEntityClaimModel) => void
+  onChange: (claim: TEntityClaimModel) => void
 }
 
-const ClaimSetupModal: React.FC<Props> = ({ claim, open, onClose, handleChange }): JSX.Element => {
-  const templates = useAppSelector(selectAllTemplateEntities) ?? []
-  const [formData, setFormData] = useState<FormData>(claim)
+const ClaimSetupModal: React.FC<Props> = ({ claim, open, onClose, onChange }): JSX.Element => {
+  const [formData, setFormData] = useState<TEntityClaimModel>(claim)
+  const [claimSelectModalOpen, setClaimSelectModalOpen] = useState<boolean>(false)
+  const canSubmit = useMemo(() => {
+    return (
+      formData.template &&
+      formData.submissions?.maximum &&
+      formData.submissions?.startDate &&
+      formData.submissions?.endDate &&
+      formData.approvalTarget
+    )
+  }, [formData])
 
+  useEffect(() => {
+    setFormData(claim)
+  }, [claim])
+
+  const handleFormChange = (key: string, value: any): void => {
+    setFormData((pre) => ({
+      ...pre,
+      [key]: value,
+    }))
+  }
   const handleSubmit = (): void => {
-    handleChange(formData as TEntityClaimModel)
-  }
-
-  const renderClaimTemplate = (): JSX.Element => {
-    const templateId = formData?.template?.templateId
-    const title = formData?.template?.title
-    const description = formData?.template?.description
-    const isPrivate = formData?.template?.isPrivate
-    const minTargetClaims = formData?.template?.minTargetClaims
-    const maxTargetClaims = formData?.template?.maxTargetClaims
-    const goal = formData?.template?.goal
-    const submissionStartDate = formData?.template?.submissionStartDate
-    const submissionEndDate = formData?.template?.submissionEndDate
-    const handleUpdateClaimTemplate = (data: FormData): void => {
-      setFormData((pre) => ({
-        ...pre,
-        template: {
-          ...pre.template,
-          ...data,
-          submissionStartDate: data.submissionDates ? data.submissionDates.split('|')[0] : undefined,
-          submissionEndDate: data.submissionDates ? data.submissionDates.split('|')[1] : undefined,
-        },
-      }))
-    }
-    return (
-      <Box className='d-flex flex-column w-100'>
-        <h2>Template</h2>
-        <TemplateCard
-          templateId={templateId}
-          templates={
-            templates.map((template) => ({
-              title: template.name,
-              did: template.did,
-              dateCreated: template.dateCreated.format('DD-MMM-YYYY'),
-              imageUrl: null,
-              previewUrl: '',
-              ddoTags: template.ddoTags,
-            })) as any
-          }
-          title={title}
-          description={description}
-          isPrivate={isPrivate}
-          minTargetClaims={minTargetClaims}
-          maxTargetClaims={maxTargetClaims}
-          goal={goal}
-          submissionStartDate={submissionStartDate}
-          submissionEndDate={submissionEndDate}
-          handleUpdateContent={handleUpdateClaimTemplate}
-          handleSubmitted={(): void => {
-            // this.props.handleValidated(id)
-          }}
-          handleError={(): void => {
-            // this.props.handleValidationError(id, errors)
-          }}
-        />
-      </Box>
-    )
-  }
-
-  const renderClaimAgentRoles = (): JSX.Element => {
-    const agentRoles: TClaimAgentRole[] = Object.values(formData?.agentRoles ?? {})
-    const handleAddEntityClaimAgentRole = (): void => {
-      const id = uuidv4()
-      setFormData((pre) => ({
-        ...pre,
-        agentRoles: { ...pre.agentRoles, [id]: { id } },
-      }))
-    }
-    const handleUpdateEntityClaimAgentRole = (id: string, data: FormData): void => {
-      setFormData((pre) => ({
-        ...pre,
-        agentRoles: { ...pre.agentRoles, [id]: { id, ...data } },
-      }))
-    }
-    const handleRemoveEntityClaimAgentRole = (id: string): void => {
-      setFormData((pre) => ({
-        ...pre,
-        agentRoles: omitKey(pre.agentRoles, id),
-      }))
-    }
-    return (
-      <Box className='d-flex flex-column w-100'>
-        {agentRoles.length > 0 && <h2>Agent Roles</h2>}
-        {agentRoles.map((agentRole) => {
-          const { id, autoApprove, credential, role } = agentRole
-
-          return (
-            <AgentRoleCard
-              key={id}
-              autoApprove={autoApprove}
-              credential={credential}
-              role={role}
-              handleUpdateContent={(formData): void => handleUpdateEntityClaimAgentRole(id, formData)}
-              handleRemoveSection={(): void => handleRemoveEntityClaimAgentRole(id)}
-              handleSubmitted={(): void => {
-                // this.props.handleValidated(id)
-              }}
-              handleError={(): void => {
-                // this.props.handleValidationError(id, errors)
-              }}
-            />
-          )
-        })}
-        <Box className='text-right'>
-          {agentRoles.length > 0 && <hr />}
-          <Typography color={theme.ixoNewBlue} style={{ cursor: 'pointer' }} onClick={handleAddEntityClaimAgentRole}>
-            + Add Agent Role
-          </Typography>
-        </Box>
-      </Box>
-    )
-  }
-
-  const renderClaimEvaluations = (): JSX.Element => {
-    const evaluations: TClaimEvaluation[] = Object.values(formData?.evaluations ?? {})
-    const handleAddEntityClaimEvaluation = (): void => {
-      const id = uuidv4()
-      setFormData((pre) => ({
-        ...pre,
-        evaluations: { ...pre.evaluations, [id]: { id } },
-      }))
-    }
-    const handleUpdateEntityClaimEvaluation = (id: string, data: FormData): void => {
-      setFormData((pre) => ({
-        ...pre,
-        evaluations: { ...pre.evaluations, [id]: { id, ...data } },
-      }))
-    }
-    const handleRemoveEntityClaimEvaluation = (id: string): void => {
-      setFormData((pre) => ({
-        ...pre,
-        evaluations: omitKey(pre.evaluations, id),
-      }))
-    }
-    return (
-      <Box className='d-flex flex-column w-100'>
-        {evaluations.length > 0 && <h2>Claim Evaluation</h2>}
-        {evaluations.map((evaluation) => {
-          const { id, context, contextLink, evaluationAttributes, evaluationMethodology } = evaluation
-
-          return (
-            <EvaluationCard
-              key={id}
-              context={context}
-              contextLink={contextLink}
-              evaluationMethodology={evaluationMethodology}
-              evaluationAttributes={evaluationAttributes}
-              handleUpdateContent={(formData): void => handleUpdateEntityClaimEvaluation(id, formData)}
-              handleRemoveSection={(): void => handleRemoveEntityClaimEvaluation(id)}
-              handleSubmitted={(): void => {
-                // this.props.handleValidated(id)
-              }}
-              handleError={(): void => {
-                // this.props.handleValidationError(id, errors)
-              }}
-            />
-          )
-        })}
-        <Box className='text-right'>
-          {evaluations.length > 0 && <hr />}
-          <Typography color={theme.ixoNewBlue} style={{ cursor: 'pointer' }} onClick={handleAddEntityClaimEvaluation}>
-            + Add Context to Evaluate
-          </Typography>
-        </Box>
-      </Box>
-    )
-  }
-
-  const renderClaimApprovalCriteria = (): JSX.Element => {
-    const approvalCriteria: TClaimApprovalCriterion[] = Object.values(formData?.approvalCriteria ?? {})
-    const handleAddEntityClaimApprovalCriterion = (): void => {
-      const id = uuidv4()
-      setFormData((pre) => ({
-        ...pre,
-        approvalCriteria: { ...pre.approvalCriteria, [id]: { id } },
-      }))
-    }
-    const handleUpdateEntityClaimApprovalCriterion = (id: string, data: FormData): void => {
-      setFormData((pre) => ({
-        ...pre,
-        approvalCriteria: { ...pre.approvalCriteria, [id]: { id, ...data } },
-      }))
-    }
-    const handleRemoveEntityClaimApprovalCriterion = (id: string): void => {
-      setFormData((pre) => ({
-        ...pre,
-        approvalCriteria: omitKey(pre.approvalCriteria, id),
-      }))
-    }
-    return (
-      <Box className='d-flex flex-column w-100'>
-        {approvalCriteria.length > 0 && <h2>Approval Criteria</h2>}
-        {approvalCriteria.map((approvalCriterion) => {
-          const { id, context, contextLink, approvalAttributes } = approvalCriterion
-
-          return (
-            <ApprovalCriterionCard
-              key={id}
-              context={context}
-              contextLink={contextLink}
-              approvalAttributes={approvalAttributes}
-              handleUpdateContent={(formData): void => handleUpdateEntityClaimApprovalCriterion(id, formData)}
-              handleRemoveSection={(): void => handleRemoveEntityClaimApprovalCriterion(id)}
-              handleSubmitted={(): void => {
-                // this.props.handleValidated(id)
-              }}
-              handleError={(): void => {
-                // this.props.handleValidationError(id, errors)
-              }}
-            />
-          )
-        })}
-        <Box className='text-right'>
-          {approvalCriteria.length > 0 && <hr />}
-          <Typography
-            color={theme.ixoNewBlue}
-            style={{ cursor: 'pointer' }}
-            onClick={handleAddEntityClaimApprovalCriterion}
-          >
-            + Add Criteria
-          </Typography>
-        </Box>
-      </Box>
-    )
-  }
-
-  const renderClaimEnrichments = (): JSX.Element => {
-    const enrichments: TClaimEnrichment[] = Object.values(formData.enrichments ?? {})
-    const handleAddEntityClaimEnrichment = (): void => {
-      const id = uuidv4()
-      setFormData((pre) => ({
-        ...pre,
-        enrichments: { ...pre.enrichments, [id]: { id } },
-      }))
-    }
-    const handleUpdateEntityClaimEnrichment = (id: string, data: FormData): void => {
-      setFormData((pre) => ({
-        ...pre,
-        enrichments: { ...pre.enrichments, [id]: { id, ...data } },
-      }))
-    }
-    const handleRemoveEntityClaimEnrichment = (id: string): void => {
-      setFormData((pre) => ({
-        ...pre,
-        enrichments: omitKey(pre.enrichments, id),
-      }))
-    }
-    return (
-      <Box className='d-flex flex-column w-100'>
-        {enrichments.length > 0 && <h2>Claim Enrichment</h2>}
-        {enrichments.map((enrichment) => {
-          const { id, context, contextLink, resources } = enrichment
-
-          return (
-            <EnrichmentCard
-              key={id}
-              context={context}
-              contextLink={contextLink}
-              resources={resources}
-              handleUpdateContent={(formData): void => handleUpdateEntityClaimEnrichment(id, formData)}
-              handleRemoveSection={(): void => handleRemoveEntityClaimEnrichment(id)}
-              handleSubmitted={(): void => {
-                // this.props.handleValidated(id)
-              }}
-              handleError={(): void => {
-                // this.props.handleValidationError(id, errors)
-              }}
-            />
-          )
-        })}
-        <Box className='text-right'>
-          {enrichments.length > 0 && <hr />}
-          <Typography color={theme.ixoNewBlue} style={{ cursor: 'pointer' }} onClick={handleAddEntityClaimEnrichment}>
-            + Add Enrichment
-          </Typography>
-        </Box>
-      </Box>
-    )
+    onChange(formData as TEntityClaimModel)
+    onClose()
   }
 
   return (
-    // @ts-ignore
-    <Modal style={ModalStyles} isOpen={open} onRequestClose={onClose} contentLabel='Modal' ariaHideApp={false}>
-      <CloseButton onClick={onClose}>
-        <CloseIcon />
-      </CloseButton>
+    <>
+      {/* @ts-ignore */}
+      <Modal style={ModalStyles} isOpen={open} onRequestClose={onClose} contentLabel='Modal' ariaHideApp={false}>
+        <CloseButton onClick={onClose}>
+          <CloseIcon />
+        </CloseButton>
 
-      <ModalWrapper style={{ width: '70vw' }}>
-        <ModalTitle>Claim Setup</ModalTitle>
-        <ModalBody>
-          <ModalRow>{renderClaimTemplate()}</ModalRow>
-          <ModalRow>{renderClaimAgentRoles()}</ModalRow>
-          <ModalRow>{renderClaimEvaluations()}</ModalRow>
-          <ModalRow>{renderClaimApprovalCriteria()}</ModalRow>
-          <ModalRow>{renderClaimEnrichments()}</ModalRow>
-          <ModalRow style={{ justifyContent: 'flex-end' }}>
-            <Button disabled={!formData} onClick={handleSubmit}>
+        <StyledModalWrapper style={{ width: 870 }}>
+          <FlexBox marginBottom={4}>
+            <Typography size='2xl'>Claim</Typography>
+          </FlexBox>
+          <FlexBox direction='column' marginBottom={10}>
+            <FlexBox gap={12.5} className='w-100'>
+              <FlexBox>
+                <ClaimTemplateCard template={formData.template} onClick={(): void => setClaimSelectModalOpen(true)} />
+              </FlexBox>
+              <FlexBox direction='column' gap={4} className='w-100'>
+                <FlexBox className='w-100'>
+                  <InputWithLabel inputValue={formData.template?.title} label={'Claim Title'} disabled />
+                </FlexBox>
+                <FlexBox className='w-100'>
+                  <TextArea
+                    height='150px'
+                    label='Goal Description'
+                    inputValue={formData.template?.description || ''}
+                    disabled
+                  />
+                </FlexBox>
+                <FlexBox gap={4} className='w-100'>
+                  <InputWithLabel
+                    inputValue={formData.submissions?.maximum}
+                    label={'Max Submissions #'}
+                    handleChange={(maxSubmissions: string): void =>
+                      handleFormChange('submissions', { ...formData.submissions, maximum: maxSubmissions })
+                    }
+                  />
+                  <InputWithLabel
+                    inputValue={formData.approvalTarget}
+                    label={'Approval Target %'}
+                    handleChange={(approvalTarget: string): void => handleFormChange('approvalTarget', approvalTarget)}
+                  />
+                </FlexBox>
+                <FlexBox className='w-100'>
+                  <DateRangePicker
+                    id='protocol'
+                    startDate={formData.submissions?.startDate || ''}
+                    endDate={formData.submissions?.endDate || ''}
+                    withPortal
+                    onChange={(submissionStartDate, submissionEndDate) => {
+                      handleFormChange('submissions', {
+                        ...formData.submissions,
+                        startDate: submissionStartDate,
+                        endDate: submissionEndDate,
+                      })
+                    }}
+                  />
+                </FlexBox>
+              </FlexBox>
+            </FlexBox>
+          </FlexBox>
+          <FlexBox className='w-100' justifyContent='flex-end' alignItems='center' gap={8}>
+            <Switch onLabel='Encrypted' value={!!formData.isEncrypted} />
+            <Switch
+              onLabel='Headline Metric'
+              value={!!formData.isHeadlineMetric}
+              onChange={(value: boolean) => !formData.isHeadlineMetric && handleFormChange('isHeadlineMetric', value)}
+            />
+            <Button disabled={!canSubmit} onClick={handleSubmit}>
               Continue
             </Button>
-          </ModalRow>
-        </ModalBody>
-      </ModalWrapper>
-    </Modal>
+          </FlexBox>
+        </StyledModalWrapper>
+      </Modal>
+      <ClaimSelectModal
+        open={claimSelectModalOpen}
+        onSelect={(template: TEntityClaimTemplateModel): void => handleFormChange('template', template)}
+        onClose={(): void => setClaimSelectModalOpen(false)}
+      />
+    </>
   )
 }
 

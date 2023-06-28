@@ -25,24 +25,26 @@ export const MobileControlPanelToggle = styled.button`
 `
 
 export const ControlPanelWrapper = styled.div`
-  background: rgb(240, 243, 249);
+  background: ${(props): string => props.theme.ixoGrey100};
   box-sizing: border-box;
-  padding: 0rem;
-  padding-left: 1.25rem;
-  padding-right: 0.7rem;
-  color: #47568c;
-  overflow: visible scroll;
-  overflow-x: hidden;
+  padding-top: 3.5rem;
   padding-bottom: 3.5rem;
-  ::-webkit-scrollbar {
-    width: 8px;
-  }
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  // ::-webkit-scrollbar {
+  //   width: 8px;
+  // }
+  // ::-webkit-scrollbar-thumb {
+  //   background: #c1cbd0;
+  //   border-radius: 8px;
+  // }
   @media (min-width: ${deviceWidth.mobile}px) {
     background: transparent;
-  }
-  ::-webkit-scrollbar-thumb {
-    background: #c1cbd0;
-    border-radius: 8px;
   }
   @media (max-width: ${deviceWidth.desktop}px) {
     position: fixed;
@@ -79,13 +81,14 @@ export const ControlPanelWrapper = styled.div`
 export const ControlPanelScrollWrapper = styled.div`
   position: relative;
   transition: 0.3s all;
+
   @media (min-width: ${deviceWidth.desktop}px) {
     position: sticky;
     top: 142px;
     border-radius: 5px;
-    ${ControlPanelWrapper} {
-      height: calc(100vh - 142px);
-    }
+    // ${ControlPanelWrapper} {
+    // height: calc(100vh - 142px);
+    // }
     &.fixed {
       position: absolute;
       top: 30px;
@@ -122,12 +125,12 @@ export const ControlPanelSection = styled.div`
       background: #ffffff;
 
       & > path {
-        fill: ${(props): string => props.theme.ixoBlue};
-        stroke: ${(props): string => props.theme.ixoBlue};
+        fill: ${(props): string => props.theme.ixoNewBlue};
+        stroke: ${(props): string => props.theme.ixoNewBlue};
       }
       & > line,
       & > circle {
-        stroke: ${(props): string => props.theme.ixoBlue};
+        stroke: ${(props): string => props.theme.ixoNewBlue};
       }
     }
     .arrow-icon {

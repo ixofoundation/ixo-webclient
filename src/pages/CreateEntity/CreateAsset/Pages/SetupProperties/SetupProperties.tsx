@@ -1,59 +1,68 @@
-import React, { useMemo, useState } from 'react'
-import { Badge } from './SetupProperties.styles'
+import React from 'react'
 import { Button } from 'pages/CreateEntity/Components'
 import { useCreateEntityState } from 'hooks/createEntity'
-import { SetupSettings } from './SetupSettings'
-import { Typography } from 'components/Typography'
-import { SetupClaim } from './SetupClaim'
-import { SetupLinkedResource } from './SetupLinkedResource'
-import { SetupAccordedRight } from './SetupAccordedRight'
-import { SetupLinkedEntity } from './SetupLinkedEntity'
-import { SetupService } from './SetupService'
 import { FlexBox } from 'components/App/App.styles'
 import { deviceWidth } from 'constants/device'
-
-const Properties = ['Services', 'Settings', 'Linked Resources', 'Claims', 'Accorded Rights', 'Linked Entities']
+import { PropertiesForm } from 'pages/CreateEntity/Forms'
 
 const SetupProperties: React.FC = (): JSX.Element => {
-  const { entityType, creator, controller, ddoTags, page, service, gotoStep } = useCreateEntityState()
-  const [propertyView, setPropertyView] = useState<string>('Settings')
-  const activeProperties = entityType === 'Claim' ? Properties.filter((property) => property !== 'Claims') : Properties
-  const canSubmit = useMemo(
-    () => creator && controller && ddoTags.length > 0 && page && service.length > 0,
-    [creator, controller, ddoTags, page, service],
-  )
+  const {
+    entityType,
+    creator,
+    administrator,
+    ddoTags,
+    page,
+    service,
+    linkedResource,
+    claim,
+    accordedRight,
+    linkedEntity,
+    daoGroups,
+    updateCreator,
+    updateAdministrator,
+    updateDDOTags,
+    updatePage,
+    updateService,
+    updateLinkedResource,
+    updateClaim,
+    updateAccordedRight,
+    updateLinkedEntity,
+    gotoStep,
+    validateRequiredProperties,
+  } = useCreateEntityState()
+
+  const PropertiesFormProps = {
+    entityType,
+    creator,
+    administrator,
+    ddoTags,
+    page,
+    service,
+    linkedResource,
+    claim,
+    accordedRight,
+    linkedEntity,
+    daoGroups,
+    updateCreator,
+    updateAdministrator,
+    updateDDOTags,
+    updatePage,
+    updateService,
+    updateLinkedResource,
+    updateClaim,
+    updateAccordedRight,
+    updateLinkedEntity,
+  }
 
   return (
     <FlexBox direction='column' gap={7.5} width={deviceWidth.tablet + 'px'}>
-      <FlexBox direction='column' id='setup-property-tabs' gap={12}>
-        <Typography variant='secondary' size='xl'>
-          Configure the properties
-        </Typography>
-        <FlexBox gap={2}>
-          {activeProperties.map((key) => (
-            <Badge key={key} active={key === propertyView} onClick={(): void => setPropertyView(key)}>
-              <Typography size='lg' weight='medium' color='white'>
-                {key}
-              </Typography>
-            </Badge>
-          ))}
-        </FlexBox>
-      </FlexBox>
-
-      <FlexBox direction='column' gap={7.5} width={'100%'}>
-        {propertyView === 'Services' && <SetupService />}
-        {propertyView === 'Settings' && <SetupSettings />}
-        {propertyView === 'Linked Resources' && <SetupLinkedResource />}
-        {propertyView === 'Claims' && <SetupClaim />}
-        {propertyView === 'Accorded Rights' && <SetupAccordedRight />}
-        {propertyView === 'Linked Entities' && <SetupLinkedEntity />}
-      </FlexBox>
+      <PropertiesForm {...PropertiesFormProps} />
 
       <FlexBox id='setup-property-actions' gap={5}>
         <Button variant='secondary' onClick={(): void => gotoStep(-1)}>
           Back
         </Button>
-        <Button variant='primary' disabled={!canSubmit} onClick={(): void => gotoStep(1)}>
+        <Button variant='primary' disabled={!validateRequiredProperties} onClick={(): void => gotoStep(1)}>
           Continue
         </Button>
       </FlexBox>

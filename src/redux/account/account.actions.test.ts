@@ -3,7 +3,6 @@ import mockStore from 'redux/mockStore'
 import * as SUT from './account.actions'
 import { AccountActions } from './account.types'
 
-jest.mock('../../lib/keysafe/keysafe')
 jest.mock('axios')
 let store: any
 let windowSpy: any

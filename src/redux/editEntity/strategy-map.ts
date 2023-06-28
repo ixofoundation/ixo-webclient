@@ -196,7 +196,7 @@ export const editEntityMap: EntityStepStrategyMap = {
     selectPageContentApiPayload: (state: RootState): any => selectPageContentApiPayload(state),
     selectClaimsApiPayload: (state: RootState): any => selectClaimsForEntityApiPayload(state),
   },
-  [EntityType.Template]: {
+  [EntityType.Protocol]: {
     stepCount: 3,
     steps: {
       // '1': {

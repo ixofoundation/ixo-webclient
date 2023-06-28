@@ -1,5 +1,5 @@
 import { ReactComponent as CreatorIcon } from 'assets/images/icon-creator.svg'
-import { ReactComponent as ControllerIcon } from 'assets/images/icon-controller.svg'
+import { ReactComponent as UserCircleIcon } from 'assets/images/icon-user-circle.svg'
 import { ReactComponent as TagsIcon } from 'assets/images/icon-tag.svg'
 import { ReactComponent as PageIcon } from 'assets/images/icon-laptop.svg'
 import { ReactComponent as PaymentIcon } from 'assets/images/icon-payment.svg'
@@ -22,8 +22,6 @@ import { ReactComponent as ProjectIcon } from 'assets/images/icon-project.svg'
 import { ReactComponent as OracleIcon } from 'assets/images/icon-oracle.svg'
 import { ReactComponent as EntityIcon } from 'assets/images/icon-entity.svg'
 import { ReactComponent as AssetIcon } from 'assets/images/icon-asset.svg'
-import { ReactComponent as CircleIcon } from 'assets/images/icon-circle.svg'
-import { ReactComponent as HTMLTagIcon } from 'assets/images/icon-html-tag.svg'
 import { ReactComponent as AlphaBondIcon } from 'assets/images/icon-alphabond.svg'
 import { ReactComponent as LBPIcon } from 'assets/images/icon-lbp.svg'
 import { ReactComponent as QuadraticIcon } from 'assets/images/icon-quadratic.svg'
@@ -45,6 +43,32 @@ import { ReactComponent as MemberShipIcon } from 'assets/images/icon-membership.
 import { ReactComponent as StakingIcon } from 'assets/images/icon-staking.svg'
 import { ReactComponent as MultisigIcon } from 'assets/images/icon-multisig.svg'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
+import { ReactComponent as LockOnIcon } from 'assets/images/icon-lock-on.svg'
+import { ReactComponent as StarIcon } from 'assets/images/icon-star.svg'
+import { ReactComponent as FireIcon } from 'assets/images/icon-fire.svg'
+import { ReactComponent as TreasuryIcon } from 'assets/images/icon-treasury.svg'
+import { ReactComponent as DatabaseMultiIcon } from 'assets/images/icon-coins-solid.svg'
+import { ReactComponent as ArrowDownIcon } from 'assets/images/icon-arrow-down.svg'
+import { ReactComponent as SpendIcon } from 'assets/images/icon-spend.svg'
+import { ReactComponent as CycleIcon } from 'assets/images/icon-cycle.svg'
+import { ReactComponent as ArrowUpIcon } from 'assets/images/icon-arrow-up.svg'
+import { ReactComponent as AuthGrantIcon } from 'assets/images/icon-auth-grant.svg'
+import { ReactComponent as MemberGroupIcon } from 'assets/images/icon-member-group.svg'
+import { ReactComponent as DAOIcon } from 'assets/images/icon-dao.svg'
+import { ReactComponent as InfoIcon } from 'assets/images/icon-info.svg'
+import { ReactComponent as AnnouncementIcon } from 'assets/images/icon-announcement.svg'
+import { ReactComponent as PaperIcon } from 'assets/images/icon-paper2.svg'
+import { ReactComponent as ProposalIcon } from 'assets/images/icon-proposal.svg'
+import { ReactComponent as SmartContract3Icon } from 'assets/images/icon-smart-contract3.svg'
+import { ReactComponent as SmartContract4Icon } from 'assets/images/icon-smart-contract4.svg'
+import { ReactComponent as ProfileIcon } from 'assets/images/icon-profile.svg'
+import { ReactComponent as GearMultiIcon } from 'assets/images/icon-gear-multi.svg'
+import { ReactComponent as Plus2Icon } from 'assets/images/icon-plus2.svg'
+import { ReactComponent as CodeIcon } from 'assets/images/icon-code-solid.svg'
+import { ReactComponent as BoxOpenSolidIcon } from 'assets/images/icon-box-open-solid.svg'
+import { ReactComponent as SlidersHSolidIcon } from 'assets/images/icon-sliders-h-solid.svg'
+import { ReactComponent as VoteYeaIcon } from 'assets/images/icon-vote-yea-solid.svg'
+import { ReactComponent as VolumeUpIcon } from 'assets/images/icon-volume-up-solid.svg'
 import ShortText from 'assets/icons/ShortText'
 import DatePicker from 'assets/icons/DatePicker'
 import SingleDatePicker from 'assets/icons/SingleDatePicker'
@@ -61,9 +85,45 @@ import UploadAudio from 'assets/icons/UploadAudio'
 import UploadVideo from 'assets/icons/UploadVideo'
 import SelectPicture from 'assets/icons/SelectPicture'
 import Currency from 'assets/icons/Currency'
-import { Service } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/iid'
+import { LinkedEntity, LinkedResource, Service } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { OutputBlockData } from '@editorjs/editorjs'
 import { ControlType, Type } from 'components/JsonForm/types'
+import { UpdatePreProposeConfigData } from 'components/Modals/AddActionModal/SetupUpdateProposalSubmissionConfigModal'
+import SetupUpdateVotingConfigModal, {
+  UpdateProposalConfigData,
+} from 'components/Modals/AddActionModal/SetupUpdateVotingConfigModal'
+import { DurationWithUnits } from './dao'
+import {
+  SetupAuthzExecModal,
+  SetupAuthzGrantModal,
+  SetupBurnNFTModal,
+  SetupCustomModal,
+  SetupDAOAdminExecuteModal,
+  SetupVoteOnADAOModal,
+  SetupEditEntityModal,
+  SetupExecuteSmartContractModal,
+  SetupInstantiateSmartContractModal,
+  SetupManageMembersModal,
+  SetupManageStorageItemsModal,
+  SetupManageSubDAOsModal,
+  SetupManageTreasuryNFTsModal,
+  SetupManageTreasuryTokensModal,
+  SetupMigrateSmartContractModal,
+  SetupMintModal,
+  SetupSpendModal,
+  SetupStakingActionsModal,
+  SetupTokenSwapModal,
+  SetupTransferNFTModal,
+  SetupUpdateContractAdminModal,
+  SetupUpdateDAOInfoModal,
+  SetupUpdateProposalSubmissionConfigModal,
+  SetupValidatorActionsModal,
+  SetupVoteOnAGovernanceProposalModal,
+  SetupWithdrawTokenSwapModal,
+  SetupSubmitProposalOnADAOModal,
+  SetupStakeToGroupModal,
+  SetupSendGroupTokenModal,
+} from 'components/Modals/AddActionModal'
 
 export const EntitySettingsConfig: { [key: string]: any } = {
   // required
@@ -72,9 +132,9 @@ export const EntitySettingsConfig: { [key: string]: any } = {
     icon: CreatorIcon,
     required: true,
   },
-  controller: {
-    text: 'Controller',
-    icon: ControllerIcon,
+  administrator: {
+    text: 'Administrator',
+    icon: UserCircleIcon,
     required: true,
   },
   ddoTags: {
@@ -102,46 +162,57 @@ export const EntityLinkedResourceConfig: { [key: string]: any } = {
   image: {
     text: 'Media',
     icon: ImageIcon,
+    accept: { 'image/*': [] },
   },
   text: {
     text: 'Text',
     icon: TextIcon,
+    accept: { 'text/*': [] },
   },
   database: {
     text: 'Database',
     icon: DatabaseIcon,
+    accept: { 'image/*': [] },
   },
   verifiableCredential: {
     text: 'Verifiable Credential',
     icon: CredentialIcon,
+    accept: { 'image/*': [] },
   },
   authorisation: {
     text: 'Authorisation',
     icon: AuthorisationIcon,
+    accept: { 'image/*': [] },
   },
   website: {
     text: 'Website',
     icon: GlobeIcon,
+    accept: { 'image/*': [] },
   },
   algorithm: {
     text: 'Algorithm',
     icon: AlgorithmIcon,
+    accept: { 'image/*': [] },
   },
   smartContract: {
     text: 'Smart Contract',
     icon: SmartContractIcon,
+    accept: { 'image/*': [] },
   },
   claims: {
     text: 'Claims',
     icon: ClaimIcon,
+    accept: { 'image/*': [] },
   },
   dashboard: {
     text: 'Dashboard',
     icon: DashboardIcon,
+    accept: { 'image/*': [] },
   },
   document: {
     text: 'Document',
     icon: DocumentIcon,
+    accept: { 'image/*': [] },
   },
 }
 
@@ -165,38 +236,42 @@ export const EntityAccordedRightConfig = {
 }
 
 export const EntityLinkedEntityConfig = {
-  investment: {
-    text: 'Investment',
-    icon: InvestmentIcon,
+  dao: {
+    text: 'DAO',
+    icon: DAOIcon,
   },
   project: {
     text: 'Project',
     icon: ProjectIcon,
   },
-  oracle: {
-    text: 'Oracle',
-    icon: OracleIcon,
+  asset: {
+    text: 'Asset',
+    icon: AssetIcon,
   },
   protocol: {
     text: 'Protocol',
     icon: EntityIcon,
   },
-  asset: {
-    text: 'Asset',
-    icon: AssetIcon,
-  },
-  paymentTemplate: {
-    text: 'Payment Template',
-    icon: CircleIcon,
-  },
-  smartContract: {
-    text: 'Smart Contract',
-    icon: HTMLTagIcon,
-  },
-  liquidity: {
-    text: 'Liquidity',
+  investment: {
+    text: 'Investment',
     icon: InvestmentIcon,
   },
+  oracle: {
+    text: 'Oracle',
+    icon: OracleIcon,
+  },
+  // paymentTemplate: {
+  //   text: 'Payment Template',
+  //   icon: CircleIcon,
+  // },
+  // smartContract: {
+  //   text: 'Smart Contract',
+  //   icon: HTMLTagIcon,
+  // },
+  // liquidity: {
+  //   text: 'Liquidity',
+  //   icon: InvestmentIcon,
+  // },
 }
 
 export const InvestmentInstrumentsConfig: { [key: string]: any } = {
@@ -299,6 +374,325 @@ export const DAOGroupConfig: { [key: string]: any } = {
   },
 }
 
+export const ProposalActionConfig = {
+  Tokens: {
+    id: 'tokens',
+    text: 'Tokens',
+    items: {
+      Mint: {
+        text: 'Mint',
+        description: 'Mint new governance tokens.',
+        icon: StarIcon,
+        in: ['dao_voting_cw20_staked'],
+        disabled: true,
+        setupModal: SetupMintModal,
+      },
+      'Mint NFT': {
+        text: 'Mint NFT',
+        description: 'Create a new NFT.',
+        icon: StarIcon,
+        in: ['dao_voting_cw20_staked', 'dao_voting_cw4'],
+        disabled: true,
+      },
+      'Burn NFT': {
+        text: 'Burn NFT',
+        description: 'Burn an NFT.',
+        icon: FireIcon,
+        in: ['dao_voting_cw20_staked', 'dao_voting_cw4'],
+        disabled: true,
+        setupModal: SetupBurnNFTModal,
+      },
+      'Manage Treasury NFTs': {
+        text: 'Manage Treasury NFTs',
+        description: 'Manage NFT Collections displayed on your DAO’s treasury page.',
+        icon: TreasuryIcon,
+        in: ['dao_voting_cw20_staked', 'dao_voting_cw4'],
+        disabled: true,
+        setupModal: SetupManageTreasuryNFTsModal,
+      },
+      'Manage Treasury Tokens': {
+        text: 'Manage Treasury Tokens',
+        description: 'Manage Tokens displayed on your DAO’s treasury page.',
+        icon: DatabaseMultiIcon,
+        in: ['dao_voting_cw20_staked', 'dao_voting_cw4'],
+        setupModal: SetupManageTreasuryTokensModal,
+      },
+      'Withdraw Token Swap': {
+        text: 'Withdraw Token Swap',
+        description: 'Withdraw funds from a token swap that has not yet completed.',
+        icon: ArrowDownIcon,
+        in: ['dao_voting_cw20_staked', 'dao_voting_cw4'],
+        disabled: true,
+        setupModal: SetupWithdrawTokenSwapModal,
+      },
+      Spend: {
+        text: 'Spend',
+        description: 'Spend native or CW20 tokens from the treasury.',
+        icon: SpendIcon,
+        in: ['dao_voting_cw20_staked'],
+        setupModal: SetupSpendModal,
+      },
+      'Token Swap': {
+        text: 'Token Swap',
+        description:
+          'Create a new token swap that completes when both parties have paid their tokens or fund an existing one.',
+        icon: CycleIcon,
+        in: ['dao_voting_cw20_staked', 'dao_voting_cw4'],
+        disabled: true,
+        setupModal: SetupTokenSwapModal,
+      },
+      'Transfer NFT': {
+        text: 'Transfer NFT',
+        description: 'Transfer an NFT out of the DAO’s treasury.',
+        icon: ArrowUpIcon,
+        in: ['dao_voting_cw20_staked', 'dao_voting_cw4'],
+        disabled: true,
+        setupModal: SetupTransferNFTModal,
+      },
+    },
+  },
+  Groups: {
+    id: 'groups',
+    text: 'Groups',
+    items: {
+      'AuthZ Exec': {
+        text: 'AuthZ Exec',
+        description: 'Perform an action on behalf of another account.',
+        icon: LockOnIcon,
+        in: ['dao_voting_cw20_staked', 'dao_voting_cw4'],
+        disabled: true,
+        setupModal: SetupAuthzExecModal,
+      },
+      'AuthZ Grant / Revoke': {
+        text: 'AuthZ Grant / Revoke',
+        description: 'Grant / revoke authorisations that allow other accounts to perform actions on behalf of the DAO.',
+        icon: AuthGrantIcon,
+        in: ['dao_voting_cw20_staked', 'dao_voting_cw4'],
+        disabled: true,
+        setupModal: SetupAuthzGrantModal,
+      },
+      'Change Group Membership': {
+        text: 'Change Group Membership',
+        description: 'Add, update or remove members from the DAO.',
+        icon: MemberGroupIcon,
+        in: ['dao_voting_cw4'],
+        setupModal: SetupManageMembersModal,
+      },
+      'Manage Subgroups': {
+        text: 'Manage Subgroups',
+        description: 'Recognize or remove SubDAOs from the DAO.',
+        icon: DAOIcon,
+        in: ['dao_voting_cw20_staked', 'dao_voting_cw4'],
+        disabled: true,
+        setupModal: SetupManageSubDAOsModal,
+      },
+      'Manage Storage Items': {
+        text: 'Manage Storage Items',
+        description: 'Manage Storage Items associated with your DAO. Set or remove key / value pairs.',
+        icon: BoxOpenSolidIcon,
+        in: ['dao_voting_cw20_staked', 'dao_voting_cw4'],
+        setupModal: SetupManageStorageItemsModal,
+      },
+      'Update Info': {
+        text: 'Update Info',
+        description: 'Update your DAO’s name, image and description.',
+        icon: InfoIcon,
+        in: ['dao_voting_cw20_staked', 'dao_voting_cw4'],
+        setupModal: SetupUpdateDAOInfoModal,
+      },
+      'Update Proposal Submission Config': {
+        text: 'Update Proposal Submission Config',
+        description: 'Update the proposal submission parameters for your DAO.',
+        icon: AnnouncementIcon,
+        in: ['dao_voting_cw20_staked', 'dao_voting_cw4'],
+        setupModal: SetupUpdateProposalSubmissionConfigModal,
+      },
+      'Update Voting Config': {
+        text: 'Update Voting Config',
+        description: 'Update the voting parameters for your DAO.',
+        icon: PaperIcon,
+        in: ['dao_voting_cw20_staked', 'dao_voting_cw4'],
+        setupModal: SetupUpdateVotingConfigModal,
+      },
+      'Vote on a Network Proposal': {
+        text: 'Vote on a Network Proposal',
+        description: 'Vote on an open chain governance proposal, as an individual or as a validator.',
+        icon: ProposalIcon,
+        in: ['dao_voting_cw20_staked', 'dao_voting_cw4'],
+        disabled: true,
+        setupModal: SetupVoteOnAGovernanceProposalModal,
+      },
+      'DAO Admin Execute': {
+        text: 'DAO Admin Execute',
+        description:
+          'Execute actions on behalf of a DAO with you as the admin. A parent DAO could use this to execute actions on behalf of a SubDAO.',
+        icon: AgentAuthorisationIcon,
+        in: ['dao_voting_cw20_staked', 'dao_voting_cw4'],
+        disabled: true,
+        setupModal: SetupDAOAdminExecuteModal,
+      },
+    },
+  },
+  'Smart Contracts': {
+    id: 'smartContracts',
+    text: 'Smart Contracts',
+    items: {
+      'Initiate Smart Contract': {
+        text: 'Initiate Smart Contract',
+        description: 'Instantiate a smart contract.',
+        icon: SmartContract3Icon,
+        in: ['dao_voting_cw20_staked', 'dao_voting_cw4'],
+        setupModal: SetupInstantiateSmartContractModal,
+      },
+      'Execute Smart Contract': {
+        text: 'Execute Smart Contract',
+        description: 'Execute a message on a smart contract',
+        icon: SmartContract4Icon,
+        in: ['dao_voting_cw20_staked', 'dao_voting_cw4'],
+        setupModal: SetupExecuteSmartContractModal,
+      },
+      'Migrate Smart Contract': {
+        text: 'Migrate Smart Contract',
+        description: 'Migrate a CosmWasm contract to a new code ID.',
+        icon: MemberGroupIcon,
+        in: ['dao_voting_cw20_staked', 'dao_voting_cw4'],
+        setupModal: SetupMigrateSmartContractModal,
+      },
+      'Update Contract Admin': {
+        text: 'Update Contract Admin',
+        description: 'Update the CosmWasm level admin of a smart contract.',
+        icon: ProfileIcon,
+        in: ['dao_voting_cw20_staked', 'dao_voting_cw4'],
+        setupModal: SetupUpdateContractAdminModal,
+      },
+    },
+  },
+  Staking: {
+    id: 'staking',
+    text: 'Staking',
+    items: {
+      'Validator Actions': {
+        text: 'Validator Actions',
+        description: 'Make transactions related to DAO run validators.',
+        icon: GearMultiIcon,
+        in: ['dao_voting_cw20_staked', 'dao_voting_cw4'],
+        disabled: true,
+        setupModal: SetupValidatorActionsModal,
+      },
+      'Staking Actions': {
+        text: 'Staking Actions',
+        description: 'Manage native token staking: claim rewards, delegate, redelegate and undelegate.',
+        icon: Plus2Icon,
+        in: ['dao_voting_cw20_staked', 'dao_voting_cw4'],
+        disabled: true,
+        setupModal: SetupStakingActionsModal,
+      },
+      'Stake To Group': {
+        text: 'Stake To Group',
+        description: 'Manage cw20 token staking.',
+        icon: Plus2Icon,
+        in: ['dao_voting_cw20_staked', 'dao_voting_cw4'],
+        setupModal: SetupStakeToGroupModal,
+      },
+      'Send Group Tokens': {
+        text: 'Send Group Tokens',
+        description: 'Send Group Tokens.',
+        icon: ArrowUpIcon,
+        in: ['dao_voting_cw20_staked', 'dao_voting_cw4'],
+        setupModal: SetupSendGroupTokenModal,
+      },
+    },
+  },
+  Entities: {
+    id: 'entities',
+    text: 'Entities',
+    items: {
+      'Create Entity': {
+        text: 'Create Entity',
+        description: 'Create Entity',
+        icon: CreatorIcon,
+        in: ['dao_voting_cw20_staked', 'dao_voting_cw4'],
+        disabled: true,
+      },
+      'Edit Entity': {
+        text: 'Edit Entity',
+        description: 'Edit Entity',
+        icon: SlidersHSolidIcon,
+        in: ['dao_voting_cw20_staked', 'dao_voting_cw4'],
+        setupModal: SetupEditEntityModal,
+      },
+    },
+  },
+  DAOs: {
+    id: 'daos',
+    text: 'DAOs',
+    items: {
+      Vote: {
+        text: 'Vote',
+        description: '',
+        icon: VoteYeaIcon,
+        in: ['dao_voting_cw20_staked', 'dao_voting_cw4'],
+        setupModal: SetupVoteOnADAOModal,
+      },
+      'Submit Proposal': {
+        text: 'Submit Proposal',
+        description: '',
+        icon: VolumeUpIcon,
+        in: ['dao_voting_cw20_staked', 'dao_voting_cw4'],
+        setupModal: SetupSubmitProposalOnADAOModal,
+      },
+    },
+  },
+  Other: {
+    id: 'other',
+    text: 'Other',
+    items: {
+      Custom: {
+        text: 'Custom',
+        description: 'Perform any custom action a wallet can.',
+        icon: CodeIcon,
+        in: ['dao_voting_cw20_staked', 'dao_voting_cw4'],
+        setupModal: SetupCustomModal,
+      },
+    },
+  },
+}
+
+export const ProposalActionConfigMap = {
+  'wasm.execute.update_members': {
+    type: 'wasm.execute.update_members',
+    group: 'Groups',
+    text: 'Change Group Membership',
+    description: 'Add, update or remove members from the DAO.',
+    icon: MemberGroupIcon,
+    setupModal: SetupManageMembersModal,
+  },
+  'wasm.execute.update_config.config': {
+    type: 'wasm.execute.update_config.config',
+    group: 'Groups',
+    text: 'Update Info',
+    description: 'Update your DAO’s name, image and description.',
+    icon: InfoIcon,
+    setupModal: SetupUpdateDAOInfoModal,
+  },
+  'wasm.execute.update_config.proposal': {
+    type: 'wasm.execute.update_config.proposal',
+    group: 'Groups',
+    text: 'Update Proposal Submission Config',
+    description: 'Update the proposal submission parameters for your DAO.',
+    icon: AnnouncementIcon,
+    setupModal: SetupUpdateProposalSubmissionConfigModal,
+  },
+  'wasm.execute.update_config.voting': {
+    type: 'wasm.execute.update_config.voting',
+    group: 'Groups',
+    text: 'Update Voting Config',
+    description: 'Update the voting parameters for your DAO.',
+    icon: PaperIcon,
+    setupModal: SetupUpdateVotingConfigModal,
+  },
+}
+
 export enum ELocalisation {
   EN = 'EN',
   FR = 'FR',
@@ -373,20 +767,7 @@ export interface TEntityPaymentModel {
 }
 
 // TODO:
-export interface TEntityLinkedResourceModel {
-  id?: string
-  path: string //  url
-  type: string
-  name: string
-  description: string
-
-  // extra
-  icon: React.FC<React.SVGProps<SVGElement>>
-  text: string
-  openModal?: boolean
-  data?: any
-  required?: boolean
-}
+export type TEntityLinkedResourceModel = LinkedResource
 
 // TODO: add more fields
 export interface TEntityAccordedRightModel {
@@ -395,21 +776,7 @@ export interface TEntityAccordedRightModel {
   data: any
 }
 
-// TODO: add more fields
-export interface TEntityLinkedEntityModel {
-  text: string
-  icon: React.FC<React.SVGProps<SVGElement>>
-  data: any
-}
-
-// TODO: propertyModel
-export interface TEntityPropertyModel {
-  text?: string
-  icon?: React.FC<React.SVGProps<SVGElement>>
-  openModal?: boolean
-  data?: any
-  disabled?: boolean
-}
+export type TEntityLinkedEntityModel = LinkedEntity
 
 // TODO:
 export interface TClaimTemplate {
@@ -465,25 +832,6 @@ export interface TClaimEnrichment {
   contextLink: string
   resources: TClaimEnrichmentResource[]
 }
-/**
- * @deprecated
- */
-export interface TEntityClaimModel {
-  id: string
-  template: TClaimTemplate
-  agentRoles: {
-    [id: string]: TClaimAgentRole
-  }
-  evaluations: {
-    [id: string]: TClaimEvaluation
-  }
-  approvalCriteria: {
-    [id: string]: TClaimApprovalCriterion
-  }
-  enrichments: {
-    [id: string]: TClaimEnrichment
-  }
-}
 export interface TEntityClaimTemplateModel {
   id: string
   title: string
@@ -491,14 +839,16 @@ export interface TEntityClaimTemplateModel {
   creator: string
   createdAt: string
 }
-export interface TEntityClaimModel1 {
+export interface TEntityClaimSubmissionModel {
+  maximum: number
+  startDate: string
+  endDate: string
+}
+export interface TEntityClaimModel {
   id: string
-  template: TEntityClaimTemplateModel
-
-  maxSubmissions: number
-  submissionStartDate: string
-  submissionEndDate: string
-  approvalTarget: number
+  template?: TEntityClaimTemplateModel
+  submissions?: TEntityClaimSubmissionModel
+  approvalTarget?: number
   isEncrypted?: boolean
   isHeadlineMetric?: boolean
 }
@@ -535,7 +885,7 @@ export interface TBasicMetadataModel {
 export interface TAssetMetadataModel extends TBasicMetadataModel {
   image?: string
   denom?: string
-  icon?: string
+  logo?: string
   type?: EAssetType
   tokenName?: string
   name?: string
@@ -545,26 +895,29 @@ export interface TAssetMetadataModel extends TBasicMetadataModel {
 }
 export interface TInvestmentMetadataModel extends TBasicMetadataModel {
   image?: string
-  icon?: string
+  logo?: string
   orgName?: string
   name?: string
 }
 export interface TDAOMetadataModel extends TBasicMetadataModel {
   image?: string
-  icon?: string
+  logo?: string
   orgName?: string
   name?: string
 }
 export interface TProjectMetadataModel extends TBasicMetadataModel {
   image?: string
-  icon?: string
+  logo?: string
   orgName?: string
   name?: string
 }
 export interface TOracleMetadataModel extends TBasicMetadataModel {
   image?: string
-  icon?: string
+  logo?: string
   orgName?: string
+  name?: string
+}
+export interface TProposalMetadataModel extends TBasicMetadataModel {
   name?: string
 }
 export enum EClaimType {
@@ -709,17 +1062,6 @@ export interface TQuestion {
 export interface TClaimMetadataModel extends TBasicMetadataModel {
   type: EClaimType
   title: string
-  description: string
-  autoGenerateZLottie?: boolean
-
-  feature?: EClaimFeature
-  reliability?: string
-  userGuide?: string
-  keywords?: { key: string; value: string }[]
-
-  questions: {
-    [id: string]: TQuestion
-  }
 }
 
 export type TEntityMetadataModel =
@@ -727,57 +1069,125 @@ export type TEntityMetadataModel =
   | TInvestmentMetadataModel
   | TClaimMetadataModel
   | TDAOMetadataModel
+  | TOracleMetadataModel
+  | TProposalMetadataModel
 
 // based on ixo-protocol/artefacts/profile_schema.json
+export interface TEntityProfileModel {
+  '@context': {
+    ixo: string
+    '@id': string
+    type: string
+    '@protected': boolean
+  }
+  id: string
+  name: string
+  image: string
+  logo: string
+  brand: string
+  location: string
+  description: string
+  attributes: TEntityAttributeModel[]
+  metrics: TEntityMetricModel[]
+}
 export interface TEntityDDOTagModel {
   category: string
   tags: string[]
 }
 
-export type TEntityPageModel = { [id: string]: OutputBlockData }
-export type TEntityControllerModel = TEntityCreatorModel
+export type TEntityPageSectionModel = OutputBlockData
+export type TEntityPageModel = { [id: string]: TEntityPageSectionModel }
+export type TEntityAdministratorModel = TEntityCreatorModel
 
 /**
  * @todo TODO: type from SDK
- * @description memberships, staking, multisigMembers
+ * @description memberships, staking
  */
-export interface TDAOGroupModel {
+export interface TDAOGroupModel extends UpdatePreProposeConfigData, UpdateProposalConfigData {
   id: string
   type: string // 'membership' | 'staking' | 'multisig'
+  contractAddress?: string
 
-  name?: string
-  description?: string
-  memberships?: {
-    category: string
-    weightPerMember: number
+  name: string
+  description: string
+  memberships: {
+    category?: string
+    weight: number
     members: string[]
   }[]
   staking?: {
     // use existing token
-    tokenContractAddress?: string
+    tokenContractAddress: string
     // create new token
-    tokenSymbol?: string
-    tokenName?: string
-    tokenSupply?: number
-    treasuryPercent?: number
-    distributions?: {
-      category: string
-      totalSupplyPercent: number
-      members: string[]
-    }[]
+    tokenSymbol: string
+    tokenName: string
+    tokenSupply: number
+    tokenLogo?: string
+    treasuryPercent: number
+    // config
+    unstakingDuration: DurationWithUnits
   }
-  multisigMembers?: string[]
-  votingDuration?: {
-    unit?: string // 'day' | 'month' | 'week'
-    amount?: number
-  }
-  voteSwitching?: boolean
-  passingTreshold?: {
-    percent?: number
-    majority?: object
-  }
-  quorum?: {
-    percent?: number
-    majority?: object
+
+  /** <extends from UpdatePreProposeConfigData>
+   *  depositRequired: boolean
+      depositInfo: {
+        amount: string
+        type: 'native' | 'cw20' | 'voting_module_token'
+        denomOrAddress: string
+        token?: GenericToken
+        refundPolicy: DepositRefundPolicy
+      }
+      anyoneCanPropose: boolean // only_members | everyone
+   */
+  /** <extends from UpdateProposalConfigData>
+   *  onlyMembersExecute: boolean
+      thresholdType: '%' | 'majority'
+      thresholdPercentage?: number
+      quorumEnabled: boolean
+      quorumType: '%' | 'majority'
+      quorumPercentage?: number
+      proposalDuration: number
+      proposalDurationUnits: 'weeks' | 'days' | 'hours' | 'minutes' | 'seconds'
+      allowRevoting: boolean
+   */
+
+  /**
+   * @description absoluteThresholdCount is only for multisig group
+   */
+  absoluteThresholdCount?: string
+}
+
+export interface TProposalActionModel {
+  id: string
+  type?: string
+  group: string
+  text?: string
+  data?: any
+}
+
+/**
+ * @description proposal
+ */
+export interface TProposalModel {
+  name?: string
+  description?: string
+  actions?: TProposalActionModel[]
+}
+
+/**
+ * @description token metadata
+ */
+export interface TTokenMetadataModel {
+  id: string
+  type: string
+  name: string
+  tokenName: string
+  decimals: number
+  description: string
+  image: string
+  properties: {
+    denom: string
+    icon: string
+    maxSupply: string
   }
 }

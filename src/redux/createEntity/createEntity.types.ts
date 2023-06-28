@@ -6,47 +6,65 @@ import {
   ELocalisation,
   TEntityAccordedRightModel,
   TEntityLinkedEntityModel,
-  TEntityControllerModel,
+  TEntityAdministratorModel,
   TEntityPageModel,
-  TEntityClaimModel1,
+  TEntityClaimModel,
   TEntityDDOTagModel,
   TDAOGroupModel,
+  TProposalModel,
+  TQuestion,
 } from 'types/protocol'
 
-export interface TEntityModel {
+export interface TCreateEntityModel {
   localisation: ELocalisation
-  metadata: TEntityMetadataModel
+  profile: TEntityMetadataModel
   creator: TEntityCreatorModel
-  controller: TEntityControllerModel
+  administrator: TEntityAdministratorModel
   ddoTags: TEntityDDOTagModel[]
   page: TEntityPageModel
   service: TEntityServiceModel[]
-  claim: { [id: string]: TEntityClaimModel1 }
+  claim: { [id: string]: TEntityClaimModel }
   linkedResource: { [id: string]: TEntityLinkedResourceModel }
   accordedRight: { [id: string]: TEntityAccordedRightModel }
   linkedEntity: { [id: string]: TEntityLinkedEntityModel }
+}
+
+export interface TCreateEntityState extends TCreateEntityModel {
+  entityType: string
+
+  // for Asset
+  assetInstances?: TCreateEntityModel[] // TODO: for nfts?
 
   // for DAO
   daoGroups?: { [id: string]: TDAOGroupModel }
   daoController?: string
-}
 
-export interface TCreateEntityState extends TEntityModel {
-  entityType: string
-  entityClassDid: string
+  // for Proposal
+  proposal?: TProposalModel
 
-  assetClassDid?: string // TODO: for asset?
-  assetInstances?: TEntityModel[] // TODO: for nfts?
+  // for Claim
+  claimQuestions?: {
+    [id: string]: TQuestion
+  }
 
+  // extra
   stepNo: number
+  breadCrumbs: { text: string; link?: string }[]
+  title: string
+  subtitle: string
 }
 
 export enum ECreateEntityActions {
   UpdateEntityType = 'ixo/create/entity/UPDATE_ENTITY_TYPE',
+  ClearEntity = 'ixo/create/entity/CLEAR_ENTITY',
   GotoStep = 'ixo/create/entity/GOTO_STEP',
-  UpdateMetadata = 'ixo/create/entity/UPDATE_METADATA',
+  UpdateBreadCrumbs = 'ixo/create/entity/UPDATE_BREAD_CRUMBS',
+  UpdateTitle = 'ixo/create/entity/UPDATE_TITLE',
+  UpdateSubtitle = 'ixo/create/entity/UPDATE_SUBTITLE',
+
+  UpdateProfile = 'ixo/create/entity/UPDATE_PROFILE',
   UpdateCreator = 'ixo/create/entity/UPDATE_CREATOR',
-  UpdateController = 'ixo/create/entity/UPDATE_CONTROLLER',
+  UpdateAdministrator = 'ixo/create/entity/UPDATE_ADMINISTRATOR',
   UpdateDDOTags = 'ixo/create/entity/UPDATE_DDOTAGS',
   UpdatePage = 'ixo/create/entity/UPDATE_PAGE',
   UpdateService = 'ixo/create/entity/UPDATE_SERVICE',
@@ -54,37 +72,53 @@ export enum ECreateEntityActions {
   UpdateLinkedResource = 'ixo/create/entity/UPDATE_LINKED_RESOURCE',
   UpdateAccordedRight = 'ixo/create/entity/UPDATE_ACCORDED_RIGHT',
   UpdateLinkedEntity = 'ixo/create/entity/UPDATE_LINKED_ENTITY',
-  UpdateEntityClassDid = 'ixo/create/entity/UPDATE_ENTITY_CLASS_DID',
-  UpdateAssetClassDid = 'ixo/create/entity/UPDATE_ASSET_CLASS_DID',
   AddAssetInstances = 'ixo/create/entity/ADD_ASSET_INSTANCES',
   UpdateAssetInstance = 'ixo/create/entity/UPDATE_ASSET_INSTANCE',
   RemoveAssetInstances = 'ixo/create/entity/REMOVE_ASSET_INSTANCES',
   UpdateLocalisation = 'ixo/create/entity/UPDATE_LOCALISATION',
-  Initialize = 'ixo/create/entity/INITIALIZE',
   // for DAO
   UpdateDAOGroups = 'ixo/create/entity/UPDATE_DAO_GROUPS',
   UpdateDAOController = 'ixo/create/entity/UPDATE_DAO_CONTROLLER',
+  // for Proposal
+  UpdateProposal = 'ixo/create/entity/UPDATE_PROPOSAL',
+  // for Claim
+  UpdateClaimQuestions = 'ixo/create/entity/UPDATE_CLAIM_QUESTIONS',
 }
 
 export interface TUpdateEntityTypeAction {
   type: typeof ECreateEntityActions.UpdateEntityType
   payload: string
 }
+export interface TClearEntityAction {
+  type: typeof ECreateEntityActions.ClearEntity
+}
 export interface TGotoStepAction {
   type: typeof ECreateEntityActions.GotoStep
   payload: number
 }
-export interface TUpdateMetaDataAction {
-  type: typeof ECreateEntityActions.UpdateMetadata
+export interface TUpdateBreadCrumbsAction {
+  type: typeof ECreateEntityActions.UpdateBreadCrumbs
+  payload: { text: string; link?: string }[]
+}
+export interface TUpdateTitleAction {
+  type: typeof ECreateEntityActions.UpdateTitle
+  payload: string
+}
+export interface TUpdateSubtitleAction {
+  type: typeof ECreateEntityActions.UpdateSubtitle
+  payload: string
+}
+export interface TUpdateProfileAction {
+  type: typeof ECreateEntityActions.UpdateProfile
   payload: TEntityMetadataModel
 }
 export interface TUpdateCreatorAction {
   type: typeof ECreateEntityActions.UpdateCreator
   payload: TEntityCreatorModel
 }
-export interface TUpdateControllerAction {
-  type: typeof ECreateEntityActions.UpdateController
-  payload: TEntityControllerModel
+export interface TUpdateAdministratorAction {
+  type: typeof ECreateEntityActions.UpdateAdministrator
+  payload: TEntityAdministratorModel
 }
 export interface TUpdateDDOTagsAction {
   type: typeof ECreateEntityActions.UpdateDDOTags
@@ -100,7 +134,7 @@ export interface TUpdateServiceAction {
 }
 export interface TUpdateClaimAction {
   type: typeof ECreateEntityActions.UpdateClaim
-  payload: { [id: string]: TEntityClaimModel1 }
+  payload: { [id: string]: TEntityClaimModel }
 }
 export interface TUpdateLinkedResourceAction {
   type: typeof ECreateEntityActions.UpdateLinkedResource
@@ -114,23 +148,15 @@ export interface TUpdateLinkedEntityAction {
   type: typeof ECreateEntityActions.UpdateLinkedEntity
   payload: { [id: string]: TEntityLinkedEntityModel }
 }
-export interface TUpdateEntityClassDidAction {
-  type: typeof ECreateEntityActions.UpdateEntityClassDid
-  payload: string
-}
-export interface TUpdateAssetClassDidAction {
-  type: typeof ECreateEntityActions.UpdateAssetClassDid
-  payload: string
-}
 export interface TAddAssetInstancesAction {
   type: typeof ECreateEntityActions.AddAssetInstances
-  payload: TEntityModel[]
+  payload: TCreateEntityModel[]
 }
 export interface TUpdateAssetInstanceAction {
   type: typeof ECreateEntityActions.UpdateAssetInstance
   payload: {
     id: number
-    data: TEntityModel
+    data: TCreateEntityModel
   }
 }
 export interface TRemoveAssetInstancesAction {
@@ -140,9 +166,6 @@ export interface TUpdateLocalisationAction {
   type: typeof ECreateEntityActions.UpdateLocalisation
   payload: ELocalisation
 }
-export interface TInitializeAction {
-  type: typeof ECreateEntityActions.Initialize
-}
 export interface TUpdateDAOGroupsAction {
   type: typeof ECreateEntityActions.UpdateDAOGroups
   payload: { [id: string]: TDAOGroupModel }
@@ -151,13 +174,28 @@ export interface TUpdateDAOControllerAction {
   type: typeof ECreateEntityActions.UpdateDAOController
   payload: string
 }
+export interface TUpdateProposalAction {
+  type: typeof ECreateEntityActions.UpdateProposal
+  payload: TProposalModel
+}
+
+export interface TUpdateClaimQuestionsAction {
+  type: typeof ECreateEntityActions.UpdateClaimQuestions
+  payload: {
+    [id: string]: TQuestion
+  }
+}
 
 export type TCreateEntityActionTypes =
   | TUpdateEntityTypeAction
+  | TClearEntityAction
   | TGotoStepAction
-  | TUpdateMetaDataAction
+  | TUpdateBreadCrumbsAction
+  | TUpdateTitleAction
+  | TUpdateSubtitleAction
+  | TUpdateProfileAction
   | TUpdateCreatorAction
-  | TUpdateControllerAction
+  | TUpdateAdministratorAction
   | TUpdateDDOTagsAction
   | TUpdatePageAction
   | TUpdateServiceAction
@@ -165,12 +203,11 @@ export type TCreateEntityActionTypes =
   | TUpdateLinkedResourceAction
   | TUpdateAccordedRightAction
   | TUpdateLinkedEntityAction
-  | TUpdateEntityClassDidAction
-  | TUpdateAssetClassDidAction
   | TAddAssetInstancesAction
   | TUpdateAssetInstanceAction
   | TRemoveAssetInstancesAction
   | TUpdateLocalisationAction
-  | TInitializeAction
   | TUpdateDAOGroupsAction
   | TUpdateDAOControllerAction
+  | TUpdateProposalAction
+  | TUpdateClaimQuestionsAction

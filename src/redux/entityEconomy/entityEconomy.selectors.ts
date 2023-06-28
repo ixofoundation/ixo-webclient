@@ -1,6 +1,6 @@
 import { createSelector } from '@reduxjs/toolkit'
 import { RootState } from 'redux/store'
-import { EconomyState, GovernanceState, ProposalsType, ProposalStatus } from './entityEconomy.types'
+import { EconomyState, GovernanceState, ProposalsType } from './entityEconomy.types'
 
 export const selectEconomy = (state: RootState): EconomyState => state.economy
 
@@ -25,11 +25,11 @@ export const selectVotingPeriodProposals = createSelector(
   (proposals: ProposalsType[]): ProposalsType[] => {
     try {
       return proposals.filter(
-        (proposal) => proposal.status === ProposalStatus.PROPOSAL_STATUS_VOTING_PERIOD,
-        // true,
+        // (proposal) => proposal.status === ProposalStatus.PROPOSAL_STATUS_VOTING_PERIOD,
+        (proposal) => true,
       )
     } catch (e) {
-      console.log('selectVotingPeriodProposals', e)
+      console.error('selectVotingPeriodProposals', e)
       return []
     }
   },

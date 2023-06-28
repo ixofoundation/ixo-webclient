@@ -9,7 +9,6 @@ import EyeIcon from 'assets/images/icon-eye.svg'
 import CheckIcon from 'assets/images/icon-check.svg'
 import Vote from 'assets/icons/Vote'
 import { useAppSelector } from 'redux/hooks'
-import { broadCastMessage } from 'lib/keysafe/keysafe'
 import pendingAnimation from 'assets/animations/transaction/pending.json'
 import successAnimation from 'assets/animations/transaction/success.json'
 import errorAnimation from 'assets/animations/transaction/fail.json'
@@ -105,14 +104,15 @@ const SellModal: React.FunctionComponent = () => {
     if (msgs.length === 0) {
       return
     }
-    broadCastMessage(userInfo, userSequence as any, userAccountNumber as any, msgs, '', fee, (hash: any) => {
-      if (hash) {
-        setSignTXStatus(TXStatus.SUCCESS)
-        setSignTXhash(hash)
-      } else {
-        setSignTXStatus(TXStatus.ERROR)
-      }
-    })
+    console.log({ userInfo, userSequence, userAccountNumber, msgs, fee })
+    // broadCastMessage(userInfo, userSequence as any, userAccountNumber as any, msgs, '', fee, (hash: any) => {
+    //   if (hash) {
+    //     setSignTXStatus(TXStatus.SUCCESS)
+    //     setSignTXhash(hash)
+    //   } else {
+    //     setSignTXStatus(TXStatus.ERROR)
+    //   }
+    // })
   }
 
   const handlePrevStep = (): void => {

@@ -12,28 +12,32 @@ export type TTypographyWeight =
   | 'bold' // 700
   | 'extra-bold' // 800
   | 'black' // 900
+  | 'inherit' // inherit
 export type TTypographyColor =
   | 'black'
   | 'white'
-  | 'gray-medium'
   | 'light-blue'
   | 'light-grey-blue'
   | 'blue'
   | 'dark-blue'
-  | 'gray-2'
-  | 'color-1'
+  | 'darkest-blue'
   | 'color-2'
   | 'grey700'
+  | 'grey500'
+  | 'grey300'
   | 'green'
+  | 'red'
   | 'inherit'
 
-interface Props extends React.HTMLAttributes<HTMLDivElement> {
+export interface ITypographyProps extends React.HTMLAttributes<HTMLDivElement> {
   variant?: TTypographyVariant
   size?: TTypographySize
   weight?: TTypographyWeight
   color?: TTypographyColor
   overflowLines?: number
   transform?: string
+  noWrap?: boolean
+  underline?: boolean
   hover?: {
     underline?: boolean
   }
@@ -50,6 +54,10 @@ const secondaryCss = css`
 `
 
 /* size */
+const xsSizeCss = css`
+  font-size: 9px;
+  line-height: 11px;
+`
 const smallSizeCss = css`
   font-size: 12px;
   line-height: 14px;
@@ -88,6 +96,9 @@ const xxxxxlSizeCss = css`
 `
 
 /* weight */
+const inheritWeightCss = css`
+  font-weight: inherit;
+`
 const thinWeightCss = css`
   font-weight: 100;
 `
@@ -135,14 +146,8 @@ const blueColorCss = css`
 const darkBlueColorCss = css`
   color: ${(props) => props.theme.ixoDarkBlue};
 `
-const grayMediumColorCss = css`
-  color: ${(props) => props.theme.ixoGrey700};
-`
-const gray2ColorCss = css`
-  color: ${(props) => props.theme.ixoGrey300};
-`
-const color1ColorCss = css`
-  color: ${(props) => props.theme.ixoDarkBlue};
+const darkestBlueColorCss = css`
+  color: ${(props) => props.theme.ixoDarkestBlue};
 `
 const color2ColorCss = css`
   color: ${(props) => props.theme.ixoColor2};
@@ -150,35 +155,60 @@ const color2ColorCss = css`
 const grey700ColorCss = css`
   color: ${(props) => props.theme.ixoGrey700};
 `
+const grey500ColorCss = css`
+  color: ${(props) => props.theme.ixoGrey500};
+`
+const grey300ColorCss = css`
+  color: ${(props) => props.theme.ixoGrey300};
+`
 const greenCss = css`
   color: ${(props) => props.theme.ixoGreen};
+`
+const redCss = css`
+  color: ${(props) => props.theme.ixoRed};
 `
 const inheritColorCss = css`
   color: inherit;
 `
+const currentColorCss = css`
+  color: currentColor;
+`
 
 /* overflow */
-const overflowCss = css<Props>`
+const overflowCss = css<ITypographyProps>`
   display: -webkit-box;
   -webkit-line-clamp: ${({ overflowLines }) => overflowLines};
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
 `
-const overflowOneLineCss = css<Props>`
+const overflowOneLineCss = css<ITypographyProps>`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 `
 
+/* decoration */
+const underlineCss = css`
+  text-decoration: underline;
+`
+const nounderlineCss = css`
+  text-decoration: unset;
+`
+
 /* hoverCss */
-const hoverCss = css<Props>`
+const hoverCss = css<ITypographyProps>`
   &:hover {
-    ${({ hover }) => hover?.underline && `text-decoration: underline;`}
+    ${({ hover }) => (hover?.underline ? underlineCss : nounderlineCss)}
   }
 `
 
-const Typography = styled.div<Props>`
+/* white-space */
+const noWrapCss = css`
+  white-space: nowrap;
+`
+
+const Typography = styled.div<ITypographyProps>`
   display: inline-block;
   transition: all 0.2s;
 
@@ -190,6 +220,12 @@ const Typography = styled.div<Props>`
   }}
   ${({ hover }) => {
     return hover && hoverCss
+  }}
+  ${({ underline }) => {
+    return underline ? underlineCss : nounderlineCss
+  }}
+  ${({ noWrap }) => {
+    return noWrap && noWrapCss
   }}
   ${({ variant = 'primary' }) => {
     switch (variant) {
@@ -203,6 +239,8 @@ const Typography = styled.div<Props>`
   }}
   ${({ size = 'base' }) => {
     switch (size) {
+      case 'xs':
+        return xsSizeCss
       case 'sm':
         return smallSizeCss
       case 'md':
@@ -227,6 +265,8 @@ const Typography = styled.div<Props>`
   }}
   ${({ weight = 'normal' }) => {
     switch (weight) {
+      case 'inherit':
+        return inheritWeightCss
       case 'thin':
         return thinWeightCss
       case 'extra-light':
@@ -249,7 +289,7 @@ const Typography = styled.div<Props>`
         return undefined
     }
   }}
-  ${({ color }) => {
+  ${({ color = 'current' }) => {
     switch (color) {
       case 'black':
         return blackColorCss
@@ -263,22 +303,24 @@ const Typography = styled.div<Props>`
         return blueColorCss
       case 'dark-blue':
         return darkBlueColorCss
-      case 'gray-medium':
-        return grayMediumColorCss
-      case 'gray-2':
-        return gray2ColorCss
-      case 'color-1':
-        return color1ColorCss
+      case 'darkest-blue':
+        return darkestBlueColorCss
       case 'color-2':
         return color2ColorCss
       case 'grey700':
         return grey700ColorCss
+      case 'grey500':
+        return grey500ColorCss
+      case 'grey300':
+        return grey300ColorCss
       case 'green':
         return greenCss
+      case 'red':
+        return redCss
       case 'inherit':
         return inheritColorCss
       default:
-        return undefined
+        return currentColorCss
     }
   }}
 `

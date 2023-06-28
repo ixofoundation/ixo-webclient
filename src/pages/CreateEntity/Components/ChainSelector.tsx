@@ -36,6 +36,10 @@ const ChainSelectStyles: StylesConfig = {
     fontSize: 20,
     lineHeight: '28px',
   }),
+  menuPortal: (provided) => ({
+    ...provided,
+    zIndex: 9999,
+  }),
 }
 
 interface Props {
@@ -70,6 +74,7 @@ const ChainSelector: React.FC<Props> = ({ chainId, onChange }): JSX.Element => {
       }))}
       onChange={(newValue: any): void => onChange(newValue?.value)}
       components={{ ValueContainer }}
+      menuPortalTarget={document.body}
     />
   )
 }

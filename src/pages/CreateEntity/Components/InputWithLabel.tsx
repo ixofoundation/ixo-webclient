@@ -36,7 +36,7 @@ const StyledInput = styled.input`
   height: 100%;
   padding: 6px 10px;
   font-family: ${(props): string => props.theme.primaryFontFamily};
-  font-weight: 700;
+  font-weight: 500;
   line-height: 28px;
   font-size: 20px;
   color: ${(props): string => props.theme.ixoBlack};
@@ -47,6 +47,10 @@ const StyledInput = styled.input`
 
   &:focus {
     outline: none;
+  }
+
+  &::placeholder {
+    color: ${(props) => props.theme.ixoGrey500};
   }
 `
 
@@ -71,10 +75,10 @@ const InputWrapper = styled.div<{
   ${(props): string =>
     (props.disabled &&
       `
-      border-color: ${props.theme.ixoGrey300};
+      border-color: ${props.theme.ixoGrey500};
       pointer-events: none;
       ${InputLabel} {
-        color: ${props.theme.ixoGrey300};
+        color: ${props.theme.ixoGrey500};
       }
     `) ||
     ''}
@@ -93,11 +97,11 @@ interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
 
 const InputWithLabel: React.FC<Props> = ({
   inputValue,
-  label = '',
+  label,
   disabled = false,
   error,
   width = '100%',
-  height = 'auto',
+  height = '48px',
   handleChange,
   wrapperStyle,
   ...rest
@@ -113,15 +117,17 @@ const InputWithLabel: React.FC<Props> = ({
 
   return (
     <InputWrapper width={width} height={height} error={!!error} disabled={disabled} style={wrapperStyle}>
-      <InputLabel filled={filled}>
-        <Typography
-          weight={filled ? 'bold' : 'medium'}
-          size={filled ? 'sm' : 'xl'}
-          color={filled ? 'blue' : 'gray-medium'}
-        >
-          {label}
-        </Typography>
-      </InputLabel>
+      {label && (
+        <InputLabel filled={filled}>
+          <Typography
+            weight={filled ? 'bold' : 'medium'}
+            size={filled ? 'sm' : 'xl'}
+            color={filled ? 'blue' : 'grey500'}
+          >
+            {label}
+          </Typography>
+        </InputLabel>
+      )}
       <StyledInput
         ref={inputRef as any}
         value={inputValue ?? ''}

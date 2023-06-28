@@ -49,17 +49,17 @@ const ImageUpload: React.FC<Props> = ({ image, handleChange }): JSX.Element => {
         {!image ? (
           <>
             <IconImage className='mb-3' />
-            <Typography weight='semi-bold' color='white'>
+            <Typography color='white' size='xl'>
               Upload an Image
             </Typography>
-            <Typography weight='semi-bold' color='white'>
+            <Typography color='white' size='xl'>
               or provide a valid image link
             </Typography>
           </>
         ) : (
           <Overlay>
             <IconImage className='mb-3' />
-            <Typography weight='semi-bold' color='white'>
+            <Typography color='white' size='xl'>
               Click to replace
             </Typography>
           </Overlay>

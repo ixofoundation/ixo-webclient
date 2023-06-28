@@ -4,7 +4,7 @@ import { ButtonTypes, Button } from 'components/Form/Buttons'
 import { Banner, BannerLeft, BannerRight, ButtonContainer } from './ErrorPages.styles'
 import { requireCheckDefault } from 'utils/images'
 
-const NotFound: React.SFC = () => {
+const NotFound: React.FC = () => {
   const history = useHistory()
 
   return (

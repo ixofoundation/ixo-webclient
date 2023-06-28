@@ -1,11 +1,15 @@
 import Axios from 'axios'
+import { v4 as uuidv4 } from 'uuid'
 import { get } from 'lodash'
 import countryData from 'data/maps/countryLatLng.json'
-import { Agent, FundSource, LiquiditySource } from 'types/entities'
+import { Agent, FundSource, LiquiditySource, NodeType } from 'types/entities'
 import { AgentRole } from 'redux/account/account.types'
-import { DDOTagCategory } from 'redux/entitiesExplorer/entitiesExplorer.types'
 import { PageContent } from 'redux/selectedEntity/selectedEntity.types'
 import { ApiListedEntityData } from 'api/blocksync/types/entities'
+import { TEntityDDOTagModel, TEntityServiceModel } from 'types/protocol'
+import { LinkedEntity, LinkedResource, Service } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
+import { CosmWasmClient } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/cosmwasm-stargate'
+import { getDaoContractInfo } from './dao'
 
 export const getCountryCoordinates = (countryCodes: string[]): any[] => {
   const coordinates: any[] = []
@@ -63,9 +67,9 @@ export const getDefaultSelectedViewCategory = (entityConfig: any): any => {
   }
 }
 
-export const getInitialSelectedCategories = (entityConfig: any): DDOTagCategory[] => {
-  return entityConfig.filterSchema.ddoTags.map((ddoCategory: any) => ({
-    name: ddoCategory.name,
+export const getInitialSelectedCategories = (entityConfig: any): TEntityDDOTagModel[] => {
+  return entityConfig?.filterSchema.ddoTags.map((ddoCategory: any) => ({
+    category: ddoCategory.name,
     tags: ddoCategory.selectedTags && ddoCategory.selectedTags.length ? [...ddoCategory.selectedTags] : [],
   }))
 }
@@ -74,7 +78,6 @@ export const getInitialSelectedSectors = (entityConfig: any): string => {
   try {
     return entityConfig.filterSchema.sector.selectedTag
   } catch (e) {
-    console.log('getInitialSelectedSectors', e)
     return ''
   }
 }
@@ -162,9 +165,6 @@ export const checkIsLaunchpadFromApiListedEntityData = (ddoTags: any[]): boolean
       .find((ddoTag) => ddoTag.category === 'Project Type' || ddoTag.name === 'Project Type')
       ?.tags.some((tag: any) => tag === 'Candidate') ||
       ddoTags
-        .find((ddoTag) => ddoTag.category === 'DAO Type' || ddoTag.name === 'DAO Type')
-        ?.tags.some((tag: any) => tag === 'Candidate') ||
-      ddoTags
         .find((ddoTag) => ddoTag.category === 'Oracle Type' || ddoTag.name === 'Oracle Type')
         ?.tags.some((tag: any) => tag === 'Candidate')) &&
     ddoTags
@@ -202,4 +202,137 @@ export const getBondDidFromApiListedEntityData = async (data: ApiListedEntityDat
 
     return bondToShow?.bond_did ?? undefined
   })
+}
+
+export function apiEntityToEntity(
+  { entity, cwClient }: { entity: any; cwClient: CosmWasmClient },
+  updateCallback: (key: string, value: any, merge?: boolean) => void,
+): void {
+  const { type, settings, linkedResource, service, linkedEntity } = entity
+  linkedResource.concat(Object.values(settings)).forEach((item: LinkedResource) => {
+    let url = ''
+    const [identifier, key] = item.serviceEndpoint.split(':')
+    const usedService: Service | undefined = service.find((item: any) => item.id === `{id}#${identifier}`)
+
+    if (usedService && usedService.type.toLowerCase() === NodeType.Ipfs.toLowerCase()) {
+      url = `https://${key}.ipfs.w3s.link`
+    } else if (usedService && usedService.type.toLowerCase() === NodeType.CellNode.toLowerCase()) {
+      url = `${usedService.serviceEndpoint}${key}`
+    }
+
+    if (item.proof && url) {
+      switch (item.id) {
+        case '{id}#profile': {
+          fetch(url)
+            .then((response) => response.json())
+            .then((response) => {
+              const context = response['@context']
+              let image: string = response.image
+              let logo: string = response.logo
+
+              if (!image.startsWith('http')) {
+                const [identifier] = image.split(':')
+                let endpoint = ''
+                context.forEach((item: any) => {
+                  if (typeof item === 'object' && identifier in item) {
+                    endpoint = item[identifier]
+                  }
+                })
+                image = image.replace(identifier + ':', endpoint)
+              }
+              if (!logo.startsWith('http')) {
+                const [identifier] = logo.split(':')
+                let endpoint = ''
+                context.forEach((item: any) => {
+                  if (typeof item === 'object' && identifier in item) {
+                    endpoint = item[identifier]
+                  }
+                })
+                logo = logo.replace(identifier + ':', endpoint)
+              }
+              return { ...response, image, logo }
+            })
+            .then((profile) => {
+              updateCallback('profile', profile)
+            })
+            .catch(() => undefined)
+          break
+        }
+        case '{id}#creator': {
+          fetch(url)
+            .then((response) => response.json())
+            .then((response) => response.credentialSubject)
+            .then((creator) => {
+              updateCallback('creator', creator)
+            })
+            .catch(() => undefined)
+          break
+        }
+        case '{id}#administrator': {
+          fetch(url)
+            .then((response) => response.json())
+            .then((response) => response.credentialSubject)
+            .then((administrator) => {
+              updateCallback('administrator', administrator)
+            })
+            .catch(() => undefined)
+          break
+        }
+        case '{id}#page': {
+          fetch(url)
+            .then((response) => response.json())
+            .then((response) => response.page)
+            .then((page) => {
+              updateCallback('page', page)
+            })
+            .catch(() => undefined)
+          break
+        }
+        case '{id}#tags': {
+          fetch(url)
+            .then((response) => response.json())
+            .then((response) => response.entityTags ?? response.ddoTags)
+            .then((tags) => {
+              updateCallback('tags', tags)
+            })
+            .catch(() => undefined)
+          break
+        }
+        case '{id}#token': {
+          fetch(url)
+            .then((response) => response.json())
+            .then((token) => {
+              updateCallback('token', token)
+            })
+            .catch(() => undefined)
+          break
+        }
+        default:
+          break
+      }
+    }
+  })
+
+  updateCallback('linkedEntity', Object.fromEntries(linkedEntity.map((item: LinkedEntity) => [uuidv4(), item])))
+  updateCallback(
+    'service',
+    service.map((item: TEntityServiceModel) => ({ ...item, id: item.id.split('#').pop() })),
+  )
+
+  /**
+   * @description entityType === dao
+   */
+  if (type === 'dao') {
+    linkedEntity
+      .filter((item: LinkedEntity) => item.type === 'Group')
+      .forEach((item: LinkedEntity) => {
+        const { id } = item
+        const [, coreAddress] = id.split('#')
+        getDaoContractInfo({ coreAddress, cwClient })
+          .then((response) => {
+            updateCallback('daoGroups', { [response.coreAddress]: response }, true)
+          })
+          .catch(console.error)
+      })
+  }
 }

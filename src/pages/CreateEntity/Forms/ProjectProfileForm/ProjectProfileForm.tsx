@@ -2,6 +2,7 @@ import React from 'react'
 import { FormWrapper, FormHeader, FormBody, FormRow } from './ProjectProfileForm.styles'
 import { HeadlineMetric, IconUpload, ImageUpload, InputWithLabel } from '../../Components'
 import { Typography } from 'components/Typography'
+import { FlexBox } from 'components/App/App.styles'
 
 interface Props {
   image: string | undefined
@@ -33,35 +34,42 @@ const ProjectProfileForm: React.FC<Props> = ({
 
       <FormBody>
         <FormRow style={{ justifyContent: 'flex-end' }}>
-          <IconUpload icon={logo} placeholder='Brand Logo' handleChange={setLogo} />
+          <IconUpload icon={logo} placeholder='Project Logo' handleChange={setLogo} />
         </FormRow>
         <FormRow>
           {setOrgName ? (
             <InputWithLabel
               name='project_org_name'
               label='Organisation Name'
+              height='48px'
               inputValue={orgName}
               handleChange={setOrgName}
             />
           ) : (
-            <Typography color='gray-medium' size='xl' weight='bold'>
+            <Typography color='grey700' size='xl' weight='bold'>
               {orgName}
             </Typography>
           )}
         </FormRow>
         <FormRow>
           {setName ? (
-            <InputWithLabel name='project_name' label='Project Name' inputValue={name} handleChange={setName} />
+            <InputWithLabel
+              name='project_name'
+              height='48px'
+              label='Project Name'
+              inputValue={name}
+              handleChange={setName}
+            />
           ) : (
-            <Typography color='gray-medium' size='xl' weight='bold'>
+            <Typography color='grey700' size='xl' weight='bold'>
               {name}
             </Typography>
           )}
         </FormRow>
 
-        <FormRow>
+        <FlexBox my={10}>
           <HeadlineMetric />
-        </FormRow>
+        </FlexBox>
       </FormBody>
     </FormWrapper>
   )

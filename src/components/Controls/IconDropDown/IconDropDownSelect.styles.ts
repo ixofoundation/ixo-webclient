@@ -16,7 +16,7 @@ export const SelectContainer = styled.select`
   border-radius: 4px !important;
   width: 100%;
   border: none;
-  color: gray;
+  color: ${(props) => props.theme.ixoGrey500};
   &.active {
     padding: 0rem 3rem;
     color: #000;

@@ -1,68 +1,166 @@
-import { FlexBox } from 'components/App/App.styles'
+import {
+  AccordedRight,
+  LinkedEntity,
+  LinkedResource,
+  Service,
+} from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
+import { FlexBox, SvgBox, theme } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { deviceWidth } from 'constants/device'
-import { useCreateEntityState } from 'hooks/createEntity'
+import { useCreateEntity, useCreateEntityState } from 'hooks/createEntity'
+import { useQuery } from 'hooks/window'
 import { Button } from 'pages/CreateEntity/Components'
-import React from 'react'
+import React, { useState } from 'react'
+import { NavLink, useHistory } from 'react-router-dom'
 import { TProjectMetadataModel } from 'types/protocol'
 import ProjectCard from './ProjectCard'
+import { ReactComponent as CheckCircleIcon } from 'assets/images/icon-check-circle.svg'
+import { ReactComponent as ExclamationIcon } from 'assets/images/icon-exclamation-circle.svg'
 
 const ReviewProject: React.FC = (): JSX.Element => {
+  const history = useHistory()
   const createEntityState = useCreateEntityState()
-  const metadata: TProjectMetadataModel = createEntityState.metadata as TProjectMetadataModel
-  const { gotoStep } = createEntityState
+  const profile: TProjectMetadataModel = createEntityState.profile as TProjectMetadataModel
+  const {
+    entityType,
+    service: serviceData,
+    linkedEntity: linkedEntityData,
+    clearEntity,
+    gotoStep,
+    gotoStepByNo,
+  } = createEntityState
+  const { UploadLinkedResource, CreateProtocol, CreateEntityBase } = useCreateEntity()
+  const [submitting, setSubmitting] = useState(false)
+  const { getQuery } = useQuery()
+  const success = getQuery('success')
 
   const handleSignToCreate = async (): Promise<void> => {
-    //
+    setSubmitting(true)
+
+    const accordedRight: AccordedRight[] = []
+    let service: Service[] = []
+    let linkedEntity: LinkedEntity[] = []
+    let linkedResource: LinkedResource[] = []
+
+    // AccordedRight TODO:
+
+    // Service
+    service = serviceData.map((item: Service) => ({ ...item, id: `{id}#${item.id}` }))
+
+    // LinkedEntity
+    linkedEntity = Object.values(linkedEntityData)
+
+    // LinkedResource
+    linkedResource = linkedResource.concat(await UploadLinkedResource())
+
+    // Create Protocol for dao
+    const protocolDid = await CreateProtocol()
+    if (!protocolDid) {
+      setSubmitting(false)
+      history.push({ pathname: history.location.pathname, search: `?success=false` })
+      return
+    }
+
+    // Create DAO entity
+    const entityDid = await CreateEntityBase(entityType, protocolDid, {
+      service,
+      linkedResource,
+      accordedRight,
+      linkedEntity,
+    })
+    if (!entityDid) {
+      setSubmitting(false)
+      history.push({ pathname: history.location.pathname, search: `?success=false` })
+      return
+    }
+
+    setSubmitting(false)
+    history.push({ pathname: history.location.pathname, search: `?success=true` })
   }
 
   return (
     <FlexBox width={`${deviceWidth.tablet}px`} gap={10} alignItems='stretch'>
       <ProjectCard
-        image={metadata?.image ?? ''}
-        icon={metadata?.icon ?? ''}
-        name={metadata?.name ?? ''}
-        endDate={metadata?.endDate ?? ''}
+        image={profile?.image ?? ''}
+        logo={profile?.logo ?? ''}
+        name={profile?.name ?? ''}
+        endDate={profile?.endDate ?? ''}
       />
       <FlexBox direction='column' justifyContent='space-between' width='100%' style={{ flex: 1 }}>
-        <FlexBox direction='column' width='100%' gap={4}>
-          <Typography variant='secondary'>
-            This is the last step before creating this Project on the ixo Blockchain.
-          </Typography>
-          <Typography variant='secondary'>
-            <Typography variant='secondary' color='blue'>
-              Review the Project details
-            </Typography>{' '}
-            you have configured.
-          </Typography>
-          <Typography variant='secondary'>
-            <Typography variant='secondary' color='blue'>
-              View the Project Groups
-            </Typography>{' '}
-            you have added.
-          </Typography>
-          <Typography variant='secondary'>
-            <Typography variant='secondary' color='blue'>
-              Confirm the Headline Metric
-            </Typography>{' '}
-            that will be displayed on the Project card.
-          </Typography>
-          <Typography variant='secondary'>
-            When you are ready to commit, sign with your DID Account keys, or{' '}
-            <Typography variant='secondary' color='blue'>
-              connect a different account
-            </Typography>{' '}
-            as the Project Creator.
-          </Typography>
-        </FlexBox>
-        <FlexBox width='100%' gap={4}>
-          <Button variant='secondary' onClick={(): void => gotoStep(-1)} style={{ width: '100%' }}>
-            Back
-          </Button>
-          <Button variant='primary' onClick={handleSignToCreate} style={{ width: '100%' }}>
-            Sign To Create
-          </Button>
-        </FlexBox>
+        {!success && (
+          <>
+            <FlexBox direction='column' width='100%' gap={4}>
+              <Typography variant='secondary'>
+                This is the last step before creating this Project on the ixo Blockchain.
+              </Typography>
+              <Typography variant='secondary'>
+                <NavLink to={'/create/entity/project/profile'} onClick={() => gotoStepByNo(2)}>
+                  Review the Project details
+                </NavLink>{' '}
+                you have configured.
+              </Typography>
+              <Typography variant='secondary'>
+                When you are ready to commit, sign with your DID Account keys, or{' '}
+                <Typography variant='secondary' color='black'>
+                  connect a different account
+                </Typography>{' '}
+                as the Project Creator.
+              </Typography>
+            </FlexBox>
+            <FlexBox width='100%' gap={4}>
+              <Button variant='secondary' onClick={(): void => gotoStep(-1)} style={{ width: '100%' }}>
+                Back
+              </Button>
+              <Button variant='primary' onClick={handleSignToCreate} style={{ width: '100%' }} loading={submitting}>
+                Sign To Create
+              </Button>
+            </FlexBox>
+          </>
+        )}
+        {success === 'true' && (
+          <>
+            <FlexBox direction='column' justifyContent='center' alignItems='center' width='100%' height='100%' gap={4}>
+              <SvgBox color={theme.ixoLightGreen} svgWidth={30} svgHeight={30}>
+                <CheckCircleIcon />
+              </SvgBox>
+              <Typography variant='secondary' size='2xl'>
+                {profile?.name} Successfully created!
+              </Typography>
+            </FlexBox>
+            <FlexBox width='100%' gap={4}>
+              <Button
+                variant='primary'
+                onClick={() => {
+                  history.push(`/explore?type=${entityType}`)
+                  clearEntity()
+                }}
+                style={{ width: '100%' }}
+              >
+                View in the Explorer
+              </Button>
+            </FlexBox>
+          </>
+        )}
+        {success === 'false' && (
+          <>
+            <FlexBox direction='column' justifyContent='center' alignItems='center' width='100%' height='100%' gap={4}>
+              <SvgBox color={theme.ixoDarkOrange} svgWidth={30} svgHeight={30}>
+                <ExclamationIcon />
+              </SvgBox>
+              <Typography variant='secondary' size='2xl'>
+                Something went wrong. Please try again.
+              </Typography>
+            </FlexBox>
+            <FlexBox width='100%' gap={4}>
+              <Button variant='secondary' onClick={() => history.goBack()} style={{ width: '100%' }}>
+                Back
+              </Button>
+              <Button variant='primary' onClick={handleSignToCreate} style={{ width: '100%' }} loading={submitting}>
+                Sign To Create
+              </Button>
+            </FlexBox>
+          </>
+        )}
       </FlexBox>
     </FlexBox>
   )

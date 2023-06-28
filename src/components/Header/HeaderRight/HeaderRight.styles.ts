@@ -48,7 +48,7 @@ export const UserBox = styled.div<{ color: string }>`
 `
 
 export const MenuTop = styled.div`
-  background-color: #002233;
+  background-color: ${(props) => props.theme.ixoDarkestBlue};
   padding: 13px 26px;
   font-size: 18px;
 
@@ -69,7 +69,7 @@ export const RedIcon = styled.div`
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: ${/* eslint-disable-line */ (props) => props.theme.red};
+  background: ${/* eslint-disable-line */ (props) => props.theme.ixoRed};
   margin-right: 8px;
   margin-top: 3px;
 `
@@ -78,10 +78,11 @@ export const MenuBottom = styled.div`
   background-color: #01151f;
   padding: 15px;
   display: flex;
+  font-size: 12px;
 
   p {
-    width: 180px;
-    font-size: 12px;
+    margin: 0;
+    flex: 0 1 100%;
   }
 
   span {
@@ -96,25 +97,25 @@ export const MenuBottom = styled.div`
 `
 
 export const NoPadLeft = styled.div`
-	padding-right:0;
-	position:relative;
-	z-index:2;
+  padding-right: 0;
+  position: relative;
+  z-index: 2;
 
-	${UserMenu}.visible {
-		top:74px;
-	}
+  ${UserMenu}.visible {
+    top: 74px;
+  }
 
-	h3 {
-		font-size:14px;
-		margin-bottom:0;
-		display: flex;
-		justify-content: space-between;
-		z-index:2;
-		position:relative;
-		letter-spacing:0.3px
-		font-weight: 600;
-		font-family: ${/* eslint-disable-line */ (props) => props.theme.primaryFontFamily};
-	}
+  h3 {
+    font-size: 14px;
+    margin-bottom: 0;
+    display: flex;
+    justify-content: space-between;
+    z-index: 2;
+    position: relative;
+    letter-spacing: 0.3px;
+    font-weight: 600;
+    font-family: ${(props) => props.theme.primaryFontFamily};
+  }
 `
 
 export const AccDID = styled.div`
@@ -157,10 +158,10 @@ export const StatusBox = styled.div`
   z-index: 1;
 `
 export const StatusText = styled.p`
-  color: currentColor;
+  color: ${(props) => props.theme.ixoWhite};
   text-transform: uppercase;
   font-size: 11px;
-  margin: 5px auto 10px;
+  margin: 4px auto;
   font-weight: normal;
 `
 

@@ -23,10 +23,10 @@ import {
 import { useAppSelector } from 'redux/hooks'
 import {
   selectEntityConfig,
-  selectEntityHeaderButtonColorUIConfig,
   selectEntityHeaderUIConfig,
   selectEntityLogoConfig,
 } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { FlexBox } from 'components/App/App.styles'
 
 export interface ParentProps {
   currentEntity: EntityType
@@ -38,7 +38,6 @@ export const HeaderLeft: React.FC<ParentProps> = (props) => {
   const entityTypeMap: any = useAppSelector(selectEntityConfig)
   const headerUIConfig: any = useAppSelector(selectEntityHeaderUIConfig)
   const logoConfig = useAppSelector(selectEntityLogoConfig)
-  const buttonColor: string = useAppSelector(selectEntityHeaderButtonColorUIConfig)
 
   const logoLink = React.useMemo(() => {
     if (!headerUIConfig || !headerUIConfig.link) {
@@ -53,12 +52,7 @@ export const HeaderLeft: React.FC<ParentProps> = (props) => {
     if (inHeader) {
       return (
         <Fragment>
-          <HeaderLink
-            exact={true}
-            // to={`/entities/select?type=${props.currentEntity}&sector=all`}
-            to={splashIsRootRoute ? '/explore' : '/'}
-            color={buttonColor}
-          >
+          <HeaderLink exact={true} to={splashIsRootRoute ? '/explore' : '/'}>
             Explore
           </HeaderLink>
           <MediaQuery minWidth={`${deviceWidth.desktop}px`}>
@@ -78,7 +72,6 @@ export const HeaderLeft: React.FC<ParentProps> = (props) => {
               exact={true}
               to={splashIsRootRoute ? '/explore' : '/'}
               onClick={props.handleBurgerClick}
-              color={buttonColor}
             >
               Explore
             </MenuHeaderLink>
@@ -123,8 +116,12 @@ export const HeaderLeft: React.FC<ParentProps> = (props) => {
           </MediaQuery>
         </NavItems>
       </Main>
-      <MediaQuery maxWidth={'991px'}>
-        <MobileMenu className={props.openMenu === true ? 'openMenu' : ''}>{getMenuItems(false)}</MobileMenu>
+      <MediaQuery maxWidth={`${deviceWidth.desktop - 1}px`}>
+        <MobileMenu className={props.openMenu === true ? 'openMenu' : ''}>
+          <FlexBox width='100%' alignItems='center' justifyContent='space-around'>
+            {getMenuItems(false)}
+          </FlexBox>
+        </MobileMenu>
       </MediaQuery>
     </Fragment>
   )

@@ -78,7 +78,7 @@ const TokenProfileForm: React.FC<Props> = ({
                 options={Object.entries(EAssetType).map(([, value]) => value)}
               />
             ) : (
-              <Badge tagColor={theme.ixoNewOrange}>{type}</Badge>
+              <Badge tagColor={theme.ixoDarkOrange}>{type}</Badge>
             )}
           </Box>
           <IconUpload icon={logo} placeholder='Logo' handleChange={setLogo} />
@@ -92,7 +92,7 @@ const TokenProfileForm: React.FC<Props> = ({
           {setName ? (
             <InputWithLabel label='Class Name' inputValue={name} handleChange={setName} />
           ) : (
-            <Typography color='gray-medium' size='xl' weight='bold'>
+            <Typography color='grey700' size='xl' weight='bold'>
               {name}
             </Typography>
           )}
@@ -120,7 +120,7 @@ const TokenProfileForm: React.FC<Props> = ({
                 # {SN}
               </Typography>
               {maxSupply && (
-                <Typography color='gray-medium' weight='medium' size='md'>
+                <Typography color='grey700' weight='medium' size='md'>
                   of {parseFloat(String(maxSupply)).toLocaleString()}
                 </Typography>
               )}
@@ -144,7 +144,7 @@ const TokenProfileForm: React.FC<Props> = ({
                   }
                 }}
               />
-              <Typography weight='bold' size='lg' color='gray-medium'>
+              <Typography weight='bold' size='lg' color='grey700'>
                 decimals
               </Typography>
             </Box>

@@ -3,11 +3,14 @@ import { ControlPanelScrollWrapper, ControlPanelWrapper, MobileControlPanelToggl
 import Down from 'assets/icons/Down'
 import Close from 'assets/icons/Close'
 import { Schema, ConnectionType, ActionType } from './types'
-import Dashboard from './Dashboard/Dashboard'
-import Actions from './Actions/Actions' //, { triggerAction }
-import Apps from './Apps/Apps'
-import Connections from './Connections/Connections'
-import Claims from './Claims/Claims'
+// import Dashboard from './Dashboard/Dashboard'
+// import Apps from './Apps/Apps'
+// import Connections from './Connections/Connections'
+// import Claims from './Claims/Claims'
+import Performance from './Performance/Performance'
+// import Actions from './Actions2/Actions'
+// import Connect from './Connect/Connect'
+import Share from './Share/Share'
 
 interface Props {
   entityDid: string
@@ -39,9 +42,9 @@ class ControlPanel extends React.Component<Props, State> {
 
   toggleShowControlPanel = (): void => {
     if (this.state.showControlPanelMobile) {
-      document?.querySelector('body')?.classList?.remove('noScroll')
+      document?.querySelector('body')?.classList?.remove('overflow-hidden')
     } else {
-      document?.querySelector('body')?.classList.add('noScroll')
+      document?.querySelector('body')?.classList.add('overflow-hidden')
     }
     this.setState({
       showControlPanelMobile: !this.state.showControlPanelMobile,
@@ -85,11 +88,11 @@ class ControlPanel extends React.Component<Props, State> {
   }
 
   render(): JSX.Element {
-    const {
-      schema: { dashboard, actions, apps, connections },
-      entityDid,
-      claims,
-    } = this.props
+    const { schema } = this.props
+    const dashboard = schema?.dashboard
+    const actions = schema?.actions
+    // const apps = schema?.apps
+    // const connections = schema?.connections
 
     const isViewedFromApp = !!window.MobileContext
     if (isViewedFromApp) return <div />
@@ -108,23 +111,31 @@ class ControlPanel extends React.Component<Props, State> {
             className={this.state.showControlPanelMobile ? 'open' : ''}
             ref={(ref): HTMLDivElement => (this.panelRef = ref!)}
           >
-            <Dashboard widget={dashboard} entityDid={entityDid} />
-            <Actions widget={actions} toggleShowMore={this.toggleShowActions} showMore={this.state.showMoreActions} />
-            <Apps widget={apps} showMore={this.state.showMoreApps} toggleShowMore={this.toggleShowApps} />
-            <Claims
-              widget={apps}
-              showMore={this.state.showMoreApps}
-              toggleShowMore={this.toggleShowApps}
-              claims={claims!}
-              entityDid={entityDid}
-            />
-            <Connections
+            {/* <Dashboard widget={dashboard} entityDid={entityDid} /> */}
+
+            {/* <Actions widget={actions} toggleShowMore={this.toggleShowActions} showMore={this.state.showMoreActions} /> */}
+            {/* <Apps widget={apps} showMore={this.state.showMoreApps} toggleShowMore={this.toggleShowApps} /> */}
+            {/* {claims && claims.length > 0 && (
+              <Claims
+                widget={apps}
+                showMore={this.state.showMoreApps}
+                toggleShowMore={this.toggleShowApps}
+                claims={claims!}
+                entityDid={entityDid}
+              />
+            )} */}
+            {/* <Connections
               widget={connections}
               selectedConnection={this.state.currentConnection}
               handleConnectionClick={this.handleConnectionClick}
               toggleShowConnections={this.toggleShowConnections}
               showMore={this.state.showMoreConnections}
-            />
+            /> */}
+
+            <Performance widget={dashboard} />
+            {/* <Actions widget={actions} /> */}
+            {/* <Connect widget={connections} /> */}
+            <Share widget={actions} />
           </ControlPanelWrapper>
         </ControlPanelScrollWrapper>
       </>

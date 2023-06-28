@@ -1,4 +1,7 @@
 {
+  "workbench.colorCustomizations": {
+    "activityBar.background": "#436779"
+  },
   "files.associations": {
     "*.jsx": "javascriptreact"
   },
@@ -8,5 +11,5 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   },
-  "deepscan.ignoreConfirmWarning": true
+  "deepscan.enable": true
 }

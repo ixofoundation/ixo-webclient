@@ -5,7 +5,7 @@ export const UploadBox = styled.div`
   justify-content: center;
   align-items: center;
 
-  background: ${(props): string => props.theme.ixoLightGrey};
+  background: ${(props): string => props.theme.ixoGrey100};
   border-radius: 8px;
   width: 600px;
   height: 400px;

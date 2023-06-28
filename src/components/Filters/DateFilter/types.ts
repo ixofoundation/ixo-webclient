@@ -1,11 +1,9 @@
-import { Moment } from 'moment'
-
 export interface Props {
-  startDate: Moment
-  endDate: Moment
+  startDate: string
+  endDate: string
   dateSummary: string
   isActive: boolean
   handleFilterToggleShow: () => void
-  handleFilterDateChange: (startDate: Moment | null, endDate: Moment | null) => void
+  handleFilterDateChange: (startDate: string, endDate: string) => void
   handleResetFilter: () => void
 }

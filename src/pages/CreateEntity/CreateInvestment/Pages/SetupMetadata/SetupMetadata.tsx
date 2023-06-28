@@ -2,15 +2,14 @@ import { Box } from 'components/App/App.styles'
 import React from 'react'
 import { useCreateEntityState } from 'hooks/createEntity'
 import { Button } from '../../../Components'
-import { LocalisationForm, InvestmentProfileForm, EntityAdditionalInfoForm } from '../../../Forms'
+import { InvestmentProfileForm, EntityAdditionalInfoForm } from '../../../Forms'
 import { PageWrapper } from './SetupMetadata.styles'
-import { Typography } from 'components/Typography'
 import { TInvestmentMetadataModel } from 'types/protocol'
 
 const SetupMetadata: React.FC = (): JSX.Element => {
   const createEntityState = useCreateEntityState()
-  const { localisation, gotoStep, updateMetadata, updateLocalisation } = createEntityState
-  const metadata: TInvestmentMetadataModel = createEntityState.metadata as TInvestmentMetadataModel
+  const { entityType, gotoStep, updateProfile } = createEntityState
+  const profile: TInvestmentMetadataModel = createEntityState.profile as TInvestmentMetadataModel
 
   const canSubmit = true
 
@@ -21,9 +20,9 @@ const SetupMetadata: React.FC = (): JSX.Element => {
     gotoStep(1)
   }
 
-  const handleUpdateMetadata = (key: string, value: any): void => {
-    updateMetadata({
-      ...metadata,
+  const handleUpdateProfile = (key: string, value: any): void => {
+    updateProfile({
+      ...profile,
       [key]: value,
     })
   }
@@ -31,41 +30,42 @@ const SetupMetadata: React.FC = (): JSX.Element => {
   return (
     <PageWrapper>
       <Box className='d-flex flex-column'>
-        <Box className='d-flex align-items-center justify-content-between'>
+        {/* <Box className='d-flex align-items-center justify-content-between'>
           <Typography weight='medium' size='xl'>
             Localisation:
           </Typography>
           <LocalisationForm localisation={localisation} setLocalisation={updateLocalisation} />
-        </Box>
+        </Box> */}
         <Box className='mb-2' />
         <InvestmentProfileForm
-          image={metadata?.image}
-          setImage={(image: string): void => handleUpdateMetadata('image', image)}
-          logo={metadata?.icon}
-          setLogo={(icon: string): void => handleUpdateMetadata('icon', icon)}
-          name={metadata?.name}
-          setName={(name: string): void => handleUpdateMetadata('name', name)}
-          orgName={metadata?.orgName}
-          setOrgName={(orgName: string): void => handleUpdateMetadata('orgName', orgName)}
+          image={profile?.image}
+          setImage={(image: string): void => handleUpdateProfile('image', image)}
+          logo={profile?.logo}
+          setLogo={(logo: string): void => handleUpdateProfile('logo', logo)}
+          name={profile?.name}
+          setName={(name: string): void => handleUpdateProfile('name', name)}
+          orgName={profile?.orgName}
+          setOrgName={(orgName: string): void => handleUpdateProfile('orgName', orgName)}
         />
       </Box>
       <Box className='d-flex flex-column' style={{ width: 400 }}>
         <EntityAdditionalInfoForm
-          description={metadata?.description ?? ''}
-          setDescription={(description): void => handleUpdateMetadata('description', description)}
-          brand={metadata?.brand ?? ''}
-          setBrand={(brand): void => handleUpdateMetadata('brand', brand)}
-          location={metadata?.location ?? ''}
-          setLocation={(location): void => handleUpdateMetadata('location', location)}
-          metrics={metadata?.metrics ?? []}
-          setMetrics={(metrics): void => handleUpdateMetadata('metrics', metrics)}
-          attributes={metadata?.attributes ?? []}
-          setAttributes={(attributes): void => handleUpdateMetadata('attributes', attributes)}
-          startDate={metadata?.startDate ?? ''}
-          endDate={metadata?.endDate ?? ''}
+          entityType={entityType}
+          description={profile?.description ?? ''}
+          setDescription={(description): void => handleUpdateProfile('description', description)}
+          brand={profile?.brand ?? ''}
+          setBrand={(brand): void => handleUpdateProfile('brand', brand)}
+          location={profile?.location ?? ''}
+          setLocation={(location): void => handleUpdateProfile('location', location)}
+          metrics={profile?.metrics ?? []}
+          setMetrics={(metrics): void => handleUpdateProfile('metrics', metrics)}
+          attributes={profile?.attributes ?? []}
+          setAttributes={(attributes): void => handleUpdateProfile('attributes', attributes)}
+          startDate={profile?.startDate ?? ''}
+          endDate={profile?.endDate ?? ''}
           setStartEndDate={(startDate, endDate) => {
-            updateMetadata({
-              ...metadata,
+            updateProfile({
+              ...profile,
               startDate,
               endDate,
             })
@@ -73,10 +73,10 @@ const SetupMetadata: React.FC = (): JSX.Element => {
         />
 
         <Box className='d-flex justify-content-end w-100 mt-4' style={{ gap: 20 }}>
-          <Button className='w-100' variant='secondary' onClick={handlePrev}>
+          <Button size='full' height={48} variant='secondary' onClick={handlePrev}>
             Back
           </Button>
-          <Button className='w-100' variant={'primary'} disabled={!canSubmit} onClick={handleNext}>
+          <Button size='full' height={48} variant={'primary'} disabled={!canSubmit} onClick={handleNext}>
             Continue
           </Button>
         </Box>

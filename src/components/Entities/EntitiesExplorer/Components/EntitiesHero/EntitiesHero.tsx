@@ -14,6 +14,10 @@ import { EntityType } from 'types/entities'
 import HeaderTabs from 'components/HeaderTabs/HeaderTabs'
 import { useAppSelector } from 'redux/hooks'
 import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { useHistory } from 'react-router-dom'
+import MediaQuery from 'react-responsive'
+import { deviceWidth } from 'constants/device'
+import { useQuery } from 'hooks/window'
 // TODO - when we know what the other entity types headers will look like then possibly refactor this as it's messy with all the conditions
 // or whatever else is needed. For now, just doing it based on entityType
 
@@ -22,7 +26,6 @@ export interface Props {
   showSearch: boolean
   filterSector: string
   filterQuery: string
-  handleChangeEntitiesType: (type: EntityType) => void
   handleChangeQuery?: (query: string) => void
   assistantPanelToggle?: () => void
 }
@@ -32,14 +35,15 @@ export const EntitiesHero: React.FunctionComponent<Props> = ({
   showSearch,
   filterSector,
   filterQuery,
-  handleChangeEntitiesType,
   assistantPanelToggle,
   handleChangeQuery,
 }) => {
+  const history = useHistory()
   const entityTypeMap = useAppSelector(selectEntityConfig)
   const entityStrategyMap = entityTypeMap[type]
   const header = getHeaderSchema(filterSector, entityStrategyMap.headerSchema)
   const headerTabButtons = getHeaderTabButtons(type, entityStrategyMap.plural)
+  const { query } = useQuery()
 
   const getHeaderBackgroundUrl = (imagePath: string): string => {
     if (imagePath !== null) {
@@ -56,24 +60,25 @@ export const EntitiesHero: React.FunctionComponent<Props> = ({
         backgroundImage: getHeaderBackgroundUrl(header.image),
       }}
     >
-      <ColorOverlay
-        style={{
-          backgroundColor: header.color || entityStrategyMap.themeColor,
-        }}
-      ></ColorOverlay>
-      <HeroInner className='container'>
-        <div className='row'>
-          <HeroTextWrapper
-            className='col-md-5 col-sm-12 col-12'
-            style={{
-              color: header.color === 'transparent' ? '#FFF' : header.color,
-            }}
-          >
-            <h1>{header.title}</h1>
-            <h3>{header.subTitle}</h3>
-          </HeroTextWrapper>
-          <HeroIndicatorsWrapper className='col-md-7 col-sm-12 col-12'>
-            {/* <div className="row">
+      <MediaQuery minWidth={deviceWidth.tablet}>
+        <ColorOverlay
+          style={{
+            backgroundColor: header.color || entityStrategyMap.themeColor,
+          }}
+        ></ColorOverlay>
+        <HeroInner className='container'>
+          <div className='row'>
+            <HeroTextWrapper
+              className='col-md-5 col-sm-12 col-12'
+              style={{
+                color: header.color === 'transparent' ? '#FFF' : header.color,
+              }}
+            >
+              <h1>{header.title}</h1>
+              <h3>{header.subTitle}</h3>
+            </HeroTextWrapper>
+            <HeroIndicatorsWrapper className='col-md-7 col-sm-12 col-12'>
+              {/* <div className="row">
               {header.indicators.map((indicator, index) => {
                 return indicator.indicatorLabel ? (
                   <StatisticContainer
@@ -94,24 +99,29 @@ export const EntitiesHero: React.FunctionComponent<Props> = ({
                 ) : null
               })}
             </div> */}
-          </HeroIndicatorsWrapper>
-        </div>
-      </HeroInner>
-      <HeaderTabs
-        buttons={headerTabButtons}
-        activeTabColor={entityStrategyMap.themeColor}
-        enableAssistantButton={true}
-        assistantPanelToggle={assistantPanelToggle}
-      />
-      {showSearch && (
-        <Search
-          entityColor={entityStrategyMap.themeColor}
-          type={type}
-          filterQuery={filterQuery}
-          filterChanged={handleChangeEntitiesType}
-          queryChanged={handleChangeQuery!}
+            </HeroIndicatorsWrapper>
+          </div>
+        </HeroInner>
+        <HeaderTabs
+          buttons={headerTabButtons}
+          activeTabColor={entityStrategyMap.themeColor}
+          enableAssistantButton={true}
+          assistantPanelToggle={assistantPanelToggle}
         />
-      )}
+        {showSearch && (
+          <Search
+            entityColor={entityStrategyMap.themeColor}
+            type={type}
+            filterQuery={filterQuery}
+            filterChanged={(type) => {
+              query.set('type', type)
+              history.replace({ search: query.toString() })
+            }}
+            // filterChanged={(type) => history.push({ pathname: history.location.pathname, search: `?type=${type}` })}
+            queryChanged={handleChangeQuery!}
+          />
+        )}
+      </MediaQuery>
     </HeroContainer>
   )
 }

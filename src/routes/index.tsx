@@ -30,6 +30,7 @@ const CreateEntity = lazy(
 const CreateEntityPage = lazy(
   () => import(/* webpackChunkName: "CreateEntityPage" */ 'pages/CreateEntity/CreateEntity'),
 )
+const EditEntityPage = lazy(() => import(/* webpackChunkName: "EditEntityPage" */ 'pages/EditEntity/EditEntity'))
 const EntityLayout = lazy(
   () => import(/* webpackChunkName: "EntityLayout" */ 'components/Entities/SelectedEntity/EntityLayout'),
 )
@@ -61,7 +62,10 @@ const EntityExchangeTradeBid = lazy(
       /* webpackChunkName: "EntityExchangeTradeBid" */ 'components/Entities/SelectedEntity/EntityExchange/Trade/Bid/Bid'
     ),
 )
-const DashboardPage = lazy(() => import(/* webpackChunkName: "EntityExchangeTradeBid" */ 'pages/Dashboard/Dashboard'))
+const CurrentEntityPage = lazy(
+  () => import(/* webpackChunkName: "EntityExchangeTradeBid" */ 'pages/CurrentEntity/CurrentEntity'),
+)
+// const DashboardPage = lazy(() => import(/* webpackChunkName: "EntityExchangeTradeBid" */ 'pages/Dashboard/Dashboard'))
 
 interface Props {
   toggleAssistant?: (param: ToogleAssistantPayload) => void
@@ -112,7 +116,9 @@ const App: React.FunctionComponent<Props> = ({ toggleAssistant }) => {
         <Route path='/projects/:projectDID' component={EntityLayout} />
         <Route path='/investment/:projectDID' component={InvestmentRoutes} />
         <Route path='/create/entity' component={CreateEntityPage} />
-        <Route path='/entity/:entityId/dashboard' component={DashboardPage} />
+        <Route path='/edit/entity/:entityId' component={EditEntityPage} />
+        <Route path='/entity/:entityId' component={CurrentEntityPage} />
+        {/* <Route path='/entity/:entityId/dashboard' component={DashboardPage} /> */}
         {/* Old claims related screens - remove when new claims is ready */}
         {/*
                 <Route

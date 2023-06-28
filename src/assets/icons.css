@@ -1,10 +1,13 @@
 @font-face {
   font-family: 'icomoon';
-  src: url("fonts/icomoon.eot?1dgwk0");
-  src: url("fonts/icomoon.eot?1dgwk0#iefix") format("embedded-opentype"), url("fonts/icomoon.ttf?1dgwk0") format("truetype"), url("fonts/icomoon.woff?1dgwk0") format("woff"), url("fonts/icomoon.svg?1dgwk0#icomoon") format("svg");
+  src: url('fonts/icomoon.eot?1dgwk0');
+  src: url('fonts/icomoon.eot?1dgwk0#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?1dgwk0') format('truetype'), url('fonts/icomoon.woff?1dgwk0') format('woff'),
+    url('fonts/icomoon.svg?1dgwk0#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
-  font-display: block; }
+  font-display: block;
+}
 
 [class^='icon-'],
 [class*=' icon-'] {
@@ -18,262 +21,348 @@
   line-height: 1;
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale; }
+  -moz-osx-font-smoothing: grayscale;
+}
 
 .icon-linkedin:before {
-  content: '\e900'; }
+  content: '\e900';
+}
 
 .icon-uniE901:before {
-  content: '\e901'; }
+  content: '\e901';
+}
 
 .icon-approved:before {
-  content: '\e902'; }
+  content: '\e902';
+}
 
 .icon-approvetick:before {
-  content: '\e903'; }
+  content: '\e903';
+}
 
 .icon-calendar:before {
-  content: '\e904'; }
+  content: '\e904';
+}
 
 .icon-claims-active:before {
-  content: '\e905'; }
+  content: '\e905';
+}
 
 .icon-claims:before {
-  content: '\e906'; }
+  content: '\e906';
+}
 
 .icon-close:before {
-  content: '\e907'; }
+  content: '\e907';
+}
 
 .icon-denycross:before {
-  content: '\e908'; }
+  content: '\e908';
+}
 
 .icon-down:before {
-  content: '\e909'; }
+  content: '\e909';
+}
 
 .icon-economy:before {
-  content: '\e95a'; }
+  content: '\e95a';
+}
 
 .icon-evaluators-active:before {
-  content: '\e90a'; }
+  content: '\e90a';
+}
 
 .icon-evaluators:before {
-  content: '\e90b'; }
+  content: '\e90b';
+}
 
 .icon-expand:before {
-  content: '\e90c'; }
+  content: '\e90c';
+}
 
 .icon-export:before {
-  content: '\e90d'; }
+  content: '\e90d';
+}
 
 .icon-favourite-active:before {
-  content: '\e90e'; }
+  content: '\e90e';
+}
 
 .icon-github:before {
-  content: '\e90f'; }
+  content: '\e90f';
+}
 
 .icon-heart:before {
-  content: '\e910'; }
+  content: '\e910';
+}
 
 .icon-home-active:before {
-  content: '\e911'; }
+  content: '\e911';
+}
 
 .icon-home:before {
-  content: '\e912'; }
+  content: '\e912';
+}
 
 .icon-facebook:before {
-  content: '\e913'; }
+  content: '\e913';
+}
 
 .icon-twitter:before {
-  content: '\e914'; }
+  content: '\e914';
+}
 
 .icon-impacts:before {
-  content: '\e915'; }
+  content: '\e915';
+}
 
 .icon-indicator-down:before {
-  content: '\e916'; }
+  content: '\e916';
+}
 
 .icon-indicator-up:before {
-  content: '\e917'; }
+  content: '\e917';
+}
 
 .icon-info:before {
-  content: '\e918'; }
+  content: '\e918';
+}
 
 .icon-instagram:before {
-  content: '\e919'; }
+  content: '\e919';
+}
 
 .icon-claims2:before {
-  content: '\e91a'; }
+  content: '\e91a';
+}
 
 .icon-location:before {
-  content: '\e91b'; }
+  content: '\e91b';
+}
 
 .icon-logo-ixo:before {
-  content: '\e91c'; }
+  content: '\e91c';
+}
 
 .icon-medium:before {
-  content: '\e91d'; }
+  content: '\e91d';
+}
 
 .icon-modal:before {
-  content: '\e91e'; }
+  content: '\e91e';
+}
 
 .icon-pending:before {
-  content: '\e91f'; }
+  content: '\e91f';
+}
 
 .icon-plus:before {
-  content: '\e920'; }
+  content: '\e920';
+}
 
 .icon-projects:before {
-  content: '\e921'; }
+  content: '\e921';
+}
 
 .icon-rejected:before {
-  content: '\e922'; }
+  content: '\e922';
+}
 
 .icon-rejectedcross:before {
-  content: '\e923'; }
+  content: '\e923';
+}
 
 .icon-sdg-affordableenergy:before {
-  content: '\e924'; }
+  content: '\e924';
+}
 
 .icon-sdg-cleanwater:before {
-  content: '\e925'; }
+  content: '\e925';
+}
 
 .icon-sdg-climateaction:before {
-  content: '\e926'; }
+  content: '\e926';
+}
 
 .icon-sdg-consumption:before {
-  content: '\e927'; }
+  content: '\e927';
+}
 
 .icon-sdg-decentwork:before {
-  content: '\e928'; }
+  content: '\e928';
+}
 
 .icon-sdg-genderequality:before {
-  content: '\e929'; }
+  content: '\e929';
+}
 
 .icon-sdg-goodhealth:before {
-  content: '\e92a'; }
+  content: '\e92a';
+}
 
 .icon-sdg-industry:before {
-  content: '\e92b'; }
+  content: '\e92b';
+}
 
 .icon-sdg-lifebelowwater:before {
-  content: '\e92c'; }
+  content: '\e92c';
+}
 
 .icon-sdg-lifeonland:before {
-  content: '\e92d'; }
+  content: '\e92d';
+}
 
 .icon-sdg-nopoverty:before {
-  content: '\e92e'; }
+  content: '\e92e';
+}
 
 .icon-sdg-partnership:before {
-  content: '\e92f'; }
+  content: '\e92f';
+}
 
 .icon-sdg-peace:before {
-  content: '\e930'; }
+  content: '\e930';
+}
 
 .icon-sdg-qualityeducation:before {
-  content: '\e931'; }
+  content: '\e931';
+}
 
 .icon-sdg-reduced:before {
-  content: '\e932'; }
+  content: '\e932';
+}
 
 .icon-sdg-sustainablecities:before {
-  content: '\e933'; }
+  content: '\e933';
+}
 
 .icon-sdg-zerohunger:before {
-  content: '\e934'; }
+  content: '\e934';
+}
 
 .icon-search:before {
-  content: '\e935'; }
+  content: '\e935';
+}
 
 .icon-serviceproviders-active:before {
-  content: '\e936'; }
+  content: '\e936';
+}
 
 .icon-serviceproviders:before {
-  content: '\e937'; }
+  content: '\e937';
+}
 
 .icon-settings-active:before {
-  content: '\e938'; }
+  content: '\e938';
+}
 
 .icon-settings1:before {
-  content: '\e939'; }
+  content: '\e939';
+}
 
 .icon-share:before {
-  content: '\e93a'; }
+  content: '\e93a';
+}
 
 .icon-success:before {
-  content: '\e93b'; }
+  content: '\e93b';
+}
 
 .icon-telegram:before {
-  content: '\e93c'; }
+  content: '\e93c';
+}
 
 .icon-trash:before {
-  content: '\e93d'; }
+  content: '\e93d';
+}
 
 .icon-upload:before {
-  content: '\e93e'; }
+  content: '\e93e';
+}
 
 .icon-world:before {
-  content: '\e93f'; }
+  content: '\e93f';
+}
 
 .icon-kyc:before {
-  content: '\e940'; }
+  content: '\e940';
+}
 
 .icon-register-no:before {
-  content: '\e941'; }
+  content: '\e941';
+}
 
 .icon-registration-yes:before {
-  content: '\e942'; }
+  content: '\e942';
+}
 
 .icon-ixo-x:before {
-  content: '\e943'; }
+  content: '\e943';
+}
 
 .icon-uniE944:before {
-  content: '\e944'; }
+  content: '\e944';
+}
 
 .icon-uniE945:before {
-  content: '\e945'; }
+  content: '\e945';
+}
 
 .icon-flash:before {
-  content: '\e946'; }
+  content: '\e946';
+}
 
 .icon-eye:before {
-  content: '\e947'; }
+  content: '\e947';
+}
 
 .icon-eyeoff:before {
-  content: '\e948'; }
+  content: '\e948';
+}
 
 .icon-lock:before {
-  content: '\e949'; }
+  content: '\e949';
+}
 
 .icon-settings:before {
-  content: '\e94a'; }
+  content: '\e94a';
+}
 
 .icon-internet:before {
-  content: '\e94b'; }
+  content: '\e94b';
+}
 
 .icon-help:before {
-  content: '\e94c'; }
+  content: '\e94c';
+}
 
 .icon-sync-icon:before {
-  content: '\e94d'; }
+  content: '\e94d';
+}
 
 .icon-back:before {
-  content: '\e94e'; }
+  content: '\e94e';
+}
 
 .icon-menu:before {
-  content: '\e94f'; }
+  content: '\e94f';
+}
 
 .icon-funding:before {
-  content: '\e950'; }
+  content: '\e950';
+}
 
 .icon-reset:before {
-  content: '\e951'; }
+  content: '\e951';
+}
 
 .icon-calendar-sort:before {
-  content: '\e952'; }
+  content: '\e952';
+}
 
 .icon-explorer:before {
-  content: '\e953'; }
+  content: '\e953';
+}
 
 .icon-project {
   height: 22px;

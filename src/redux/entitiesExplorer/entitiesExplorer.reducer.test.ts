@@ -1,5 +1,4 @@
 // @ts-nocheck
-import moment from 'moment'
 import * as SUT from './entitiesExplorer.reducer'
 import {
   EntitiesExplorerActions,
@@ -39,11 +38,11 @@ describe('Entities Reducer', () => {
       const currentState = {
         ...initialState,
         filter: {
-          dateFrom: moment(),
-          dateTo: moment(),
+          dateFrom: '',
+          dateTo: '',
           ddoTags: [
             {
-              name: 'foo',
+              category: 'foo',
               tags: ['bar'],
             },
           ],
@@ -63,7 +62,7 @@ describe('Entities Reducer', () => {
           creatorDid: 'someUserDid1',
           name: 'someTitle1',
           description: 'someShortDescription1',
-          dateCreated: moment('2020-04-09T13:14:13.000Z'),
+          dateCreated: '2020-04-09T13:14:13.000Z',
           creatorName: 'someCreatorName1',
           creatorLogo: 'someCreatorLogo1',
           status: 'someStatus1',
@@ -85,11 +84,11 @@ describe('Entities Reducer', () => {
           badges: ['badge1'],
           ddoTags: [
             {
-              name: 'someCategory1',
+              category: 'someCategory1',
               tags: ['someCategory1_tag1', 'someCategory1_tag2', 'someCategory1_tag3'],
             },
             {
-              name: 'someCategory1',
+              category: 'someCategory1',
               tags: ['someCategory1_tag1', 'someCategory1_tag2', 'someCategory1_tag3'],
             },
           ],
@@ -124,7 +123,7 @@ describe('Entities Reducer', () => {
             creatorDid: 'someUserDid1',
             name: 'someTitle1',
             description: 'someShortDescription1',
-            dateCreated: moment('2020-04-09T13:14:13.000Z'),
+            dateCreated: '2020-04-09T13:14:13.000Z',
             creatorName: 'someCreatorName1',
             creatorLogo: 'someCreatorLogo1',
             status: 'someStatus1',
@@ -146,18 +145,18 @@ describe('Entities Reducer', () => {
             badges: ['badge1'],
             ddoTags: [
               {
-                name: 'someCategory1',
+                category: 'someCategory1',
                 tags: ['someCategory1_tag1', 'someCategory1_tag2', 'someCategory1_tag3'],
               },
             ],
           },
         ],
         filter: {
-          dateFrom: moment(),
-          dateTo: moment(),
+          dateFrom: '',
+          dateTo: '',
           ddoTags: [
             {
-              name: 'foo',
+              category: 'foo',
               tags: ['bar'],
             },
           ],
@@ -169,49 +168,42 @@ describe('Entities Reducer', () => {
           itemOffset: 0,
         },
         entityConfig: {
-          Project: {
+          project: {
             filterSchema: {
               name: 'Project Type',
               ddoTags: [],
               selectedTags: [],
             },
           },
-          Oracle: {
+          oracle: {
             filterSchema: {
               name: 'Project Type',
               ddoTags: [],
               selectedTags: [],
             },
           },
-          Template: {
+          protocol: {
             filterSchema: {
               name: 'Project Type',
               ddoTags: [],
               selectedTags: [],
             },
           },
-          Asset: {
+          asset: {
             filterSchema: {
               name: 'Project Type',
               ddoTags: [],
               selectedTags: [],
             },
           },
-          Cell: {
+          dao: {
             filterSchema: {
               name: 'Project Type',
               ddoTags: [],
               selectedTags: [],
             },
           },
-          Dao: {
-            filterSchema: {
-              name: 'Project Type',
-              ddoTags: [],
-              selectedTags: [],
-            },
-          },
-          Investment: {
+          investment: {
             filterSchema: {
               name: 'Project Type',
               ddoTags: [],
@@ -235,8 +227,8 @@ describe('Entities Reducer', () => {
       // then the state should be set as expected
       expect(result.selectedEntitiesType).toEqual(EntityType.Dao)
       expect(result.entities).toEqual(currentState.entities)
-      expect(result.filter.dateFrom).toEqual(null)
-      expect(result.filter.dateTo).toEqual(null)
+      expect(result.filter.dateFrom).toEqual('')
+      expect(result.filter.dateTo).toEqual('')
       expect(result.filter.userEntities).toEqual(currentState.filter.userEntities)
       expect(result.filter.featuredEntities).toEqual(currentState.filter.featuredEntities)
       expect(result.filter.popularEntities).toEqual(currentState.filter.popularEntities)
@@ -254,7 +246,7 @@ describe('Entities Reducer', () => {
             creatorDid: 'someUserDid1',
             name: 'someTitle1',
             description: 'someShortDescription1',
-            dateCreated: moment('2020-04-09T13:14:13.000Z'),
+            dateCreated: '2020-04-09T13:14:13.000Z',
             creatorName: 'someCreatorName1',
             creatorLogo: 'someCreatorLogo1',
             status: 'someStatus1',
@@ -276,18 +268,18 @@ describe('Entities Reducer', () => {
             badges: ['badge1'],
             ddoTags: [
               {
-                name: 'someCategory1',
+                category: 'someCategory1',
                 tags: ['someCategory1_tag1', 'someCategory1_tag2', 'someCategory1_tag3'],
               },
             ],
           },
         ],
         filter: {
-          dateFrom: moment(),
-          dateTo: moment(),
+          dateFrom: '',
+          dateTo: '',
           ddoTags: [
             {
-              name: 'foo',
+              category: 'foo',
               tags: ['bar'],
             },
           ],
@@ -335,7 +327,7 @@ describe('Entities Reducer', () => {
             creatorDid: 'someUserDid1',
             name: 'someTitle1',
             description: 'someShortDescription1',
-            dateCreated: moment('2020-04-09T13:14:13.000Z'),
+            dateCreated: '2020-04-09T13:14:13.000Z',
             creatorName: 'someCreatorName1',
             creatorLogo: 'someCreatorLogo1',
             status: 'someStatus1',
@@ -357,18 +349,18 @@ describe('Entities Reducer', () => {
             badges: ['badge1'],
             ddoTags: [
               {
-                name: 'someCategory1',
+                category: 'someCategory1',
                 tags: ['someCategory1_tag1', 'someCategory1_tag2', 'someCategory1_tag3'],
               },
             ],
           },
         ],
         filter: {
-          dateFrom: moment(),
-          dateTo: moment(),
+          dateFrom: '',
+          dateTo: '',
           ddoTags: [
             {
-              name: 'foo',
+              category: 'foo',
               tags: ['bar'],
             },
           ],
@@ -416,7 +408,7 @@ describe('Entities Reducer', () => {
             creatorDid: 'someUserDid1',
             name: 'someTitle1',
             description: 'someShortDescription1',
-            dateCreated: moment('2020-04-09T13:14:13.000Z'),
+            dateCreated: '2020-04-09T13:14:13.000Z',
             creatorName: 'someCreatorName1',
             creatorLogo: 'someCreatorLogo1',
             status: 'someStatus1',
@@ -438,18 +430,18 @@ describe('Entities Reducer', () => {
             badges: ['badge1'],
             ddoTags: [
               {
-                name: 'someCategory1',
+                category: 'someCategory1',
                 tags: ['someCategory1_tag1', 'someCategory1_tag2', 'someCategory1_tag3'],
               },
             ],
           },
         ],
         filter: {
-          dateFrom: moment(),
-          dateTo: moment(),
+          dateFrom: '',
+          dateTo: '',
           ddoTags: [
             {
-              name: 'foo',
+              category: 'foo',
               tags: ['bar'],
             },
           ],
@@ -497,7 +489,7 @@ describe('Entities Reducer', () => {
             creatorDid: 'someUserDid1',
             name: 'someTitle1',
             description: 'someShortDescription1',
-            dateCreated: moment('2020-04-09T13:14:13.000Z'),
+            dateCreated: '2020-04-09T13:14:13.000Z',
             creatorName: 'someCreatorName1',
             creatorLogo: 'someCreatorLogo1',
             status: 'someStatus1',
@@ -519,18 +511,18 @@ describe('Entities Reducer', () => {
             badges: ['badge1'],
             ddoTags: [
               {
-                name: 'someCategory1',
+                category: 'someCategory1',
                 tags: ['someCategory1_tag1', 'someCategory1_tag2', 'someCategory1_tag3'],
               },
             ],
           },
         ],
         filter: {
-          dateFrom: null,
-          dateTo: null,
+          dateFrom: '',
+          dateTo: '',
           ddoTags: [
             {
-              name: 'foo',
+              category: 'foo',
               tags: ['bar'],
             },
           ],
@@ -547,8 +539,8 @@ describe('Entities Reducer', () => {
       const action: FilterDatesAction = {
         type: EntitiesExplorerActions.FilterDates,
         payload: {
-          dateFrom: moment('2020-04-09T13:14:13.000Z'),
-          dateTo: moment('2020-04-08T13:14:13.000Z'),
+          dateFrom: '2020-04-09T13:14:13.000Z',
+          dateTo: '2020-04-08T13:14:13.000Z',
         },
       }
 
@@ -560,8 +552,8 @@ describe('Entities Reducer', () => {
         ...currentState,
         filter: {
           ...currentState.filter,
-          dateFrom: moment('2020-04-09T13:14:13.000Z'),
-          dateTo: moment('2020-04-08T13:14:13.000Z'),
+          dateFrom: '2020-04-09T13:14:13.000Z',
+          dateTo: '2020-04-08T13:14:13.000Z',
         },
       })
     })
@@ -578,7 +570,7 @@ describe('Entities Reducer', () => {
             creatorDid: 'someUserDid1',
             name: 'someTitle1',
             description: 'someShortDescription1',
-            dateCreated: moment('2020-04-09T13:14:13.000Z'),
+            dateCreated: '2020-04-09T13:14:13.000Z',
             creatorName: 'someCreatorName1',
             creatorLogo: 'someCreatorLogo1',
             status: 'someStatus1',
@@ -600,18 +592,18 @@ describe('Entities Reducer', () => {
             badges: ['badge1'],
             ddoTags: [
               {
-                name: 'someCategory1',
+                category: 'someCategory1',
                 tags: ['someCategory1_tag1', 'someCategory1_tag2', 'someCategory1_tag3'],
               },
             ],
           },
         ],
         filter: {
-          dateFrom: moment('2020-04-09T13:14:13.000Z'),
-          dateTo: moment('2020-04-08T13:14:13.000Z'),
+          dateFrom: '2020-04-09T13:14:13.000Z',
+          dateTo: '2020-04-08T13:14:13.000Z',
           ddoTags: [
             {
-              name: 'foo',
+              category: 'foo',
               tags: ['bar'],
             },
           ],
@@ -637,8 +629,8 @@ describe('Entities Reducer', () => {
         ...currentState,
         filter: {
           ...currentState.filter,
-          dateFrom: null,
-          dateTo: null,
+          dateFrom: '',
+          dateTo: '',
         },
       })
     })
@@ -655,7 +647,7 @@ describe('Entities Reducer', () => {
             creatorDid: 'someUserDid1',
             name: 'someTitle1',
             description: 'someShortDescription1',
-            dateCreated: moment('2020-04-09T13:14:13.000Z'),
+            dateCreated: '2020-04-09T13:14:13.000Z',
             creatorName: 'someCreatorName1',
             creatorLogo: 'someCreatorLogo1',
             status: 'someStatus1',
@@ -677,18 +669,18 @@ describe('Entities Reducer', () => {
             badges: ['badge1'],
             ddoTags: [
               {
-                name: 'someCategory1',
+                category: 'someCategory1',
                 tags: ['someCategory1_tag1', 'someCategory1_tag2', 'someCategory1_tag3'],
               },
             ],
           },
         ],
         filter: {
-          dateFrom: moment('2020-04-09T13:14:13.000Z'),
-          dateTo: moment('2020-04-08T13:14:13.000Z'),
+          dateFrom: '2020-04-09T13:14:13.000Z',
+          dateTo: '2020-04-08T13:14:13.000Z',
           ddoTags: [
             {
-              name: 'foo1',
+              category: 'foo1',
               tags: ['bar1_1', 'bar1_2', 'bar1_3'],
             },
           ],
@@ -720,11 +712,11 @@ describe('Entities Reducer', () => {
           ...currentState.filter,
           ddoTags: [
             {
-              name: 'foo1',
+              category: 'foo1',
               tags: ['bar1_1', 'bar1_2', 'bar1_3'],
             },
             {
-              name: 'foo2',
+              category: 'foo2',
               tags: ['bar2_1'],
             },
           ],
@@ -744,7 +736,7 @@ describe('Entities Reducer', () => {
             creatorDid: 'someUserDid1',
             name: 'someTitle1',
             description: 'someShortDescription1',
-            dateCreated: moment('2020-04-09T13:14:13.000Z'),
+            dateCreated: '2020-04-09T13:14:13.000Z',
             creatorName: 'someCreatorName1',
             creatorLogo: 'someCreatorLogo1',
             status: 'someStatus1',
@@ -766,18 +758,18 @@ describe('Entities Reducer', () => {
             badges: ['badge1'],
             ddoTags: [
               {
-                name: 'someCategory1',
+                category: 'someCategory1',
                 tags: ['someCategory1_tag1', 'someCategory1_tag2', 'someCategory1_tag3'],
               },
             ],
           },
         ],
         filter: {
-          dateFrom: moment('2020-04-09T13:14:13.000Z'),
-          dateTo: moment('2020-04-08T13:14:13.000Z'),
+          dateFrom: '2020-04-09T13:14:13.000Z',
+          dateTo: '2020-04-08T13:14:13.000Z',
           ddoTags: [
             {
-              name: 'foo1',
+              category: 'foo1',
               tags: ['bar1_1', 'bar1_2', 'bar1_3'],
             },
           ],
@@ -809,11 +801,11 @@ describe('Entities Reducer', () => {
           ...currentState.filter,
           ddoTags: [
             {
-              name: 'foo1',
+              category: 'foo1',
               tags: ['bar1_1', 'bar1_2', 'bar1_3'],
             },
             {
-              name: 'foo2',
+              category: 'foo2',
               tags: ['bar2_1', 'bar2_2', 'bar2_3'],
             },
           ],
@@ -831,7 +823,7 @@ describe('Entities Reducer', () => {
             creatorDid: 'someUserDid1',
             name: 'someTitle1',
             description: 'someShortDescription1',
-            dateCreated: moment('2020-04-09T13:14:13.000Z'),
+            dateCreated: '2020-04-09T13:14:13.000Z',
             creatorName: 'someCreatorName1',
             creatorLogo: 'someCreatorLogo1',
             status: 'someStatus1',
@@ -853,18 +845,18 @@ describe('Entities Reducer', () => {
             badges: ['badge1'],
             ddoTags: [
               {
-                name: 'someCategory1',
+                category: 'someCategory1',
                 tags: ['someCategory1_tag1', 'someCategory1_tag2', 'someCategory1_tag3'],
               },
             ],
           },
         ],
         filter: {
-          dateFrom: moment('2020-04-09T13:14:13.000Z'),
-          dateTo: moment('2020-04-08T13:14:13.000Z'),
+          dateFrom: '2020-04-09T13:14:13.000Z',
+          dateTo: '2020-04-08T13:14:13.000Z',
           ddoTags: [
             {
-              name: 'foo1',
+              category: 'foo1',
               tags: ['bar1_1', 'bar1_2', 'bar1_3'],
             },
           ],
@@ -896,7 +888,7 @@ describe('Entities Reducer', () => {
           ...currentState.filter,
           ddoTags: [
             {
-              name: 'foo1',
+              category: 'foo1',
               tags: ['bar1_1', 'bar1_2', 'bar1_3', 'bar1_4', 'bar1_5', 'bar1_6'],
             },
           ],
@@ -916,7 +908,7 @@ describe('Entities Reducer', () => {
             creatorDid: 'someUserDid1',
             name: 'someTitle1',
             description: 'someShortDescription1',
-            dateCreated: moment('2020-04-09T13:14:13.000Z'),
+            dateCreated: '2020-04-09T13:14:13.000Z',
             creatorName: 'someCreatorName1',
             creatorLogo: 'someCreatorLogo1',
             status: 'someStatus1',
@@ -938,18 +930,18 @@ describe('Entities Reducer', () => {
             badges: ['badge1'],
             ddoTags: [
               {
-                name: 'someCategory1',
+                category: 'someCategory1',
                 tags: ['someCategory1_tag1', 'someCategory1_tag2', 'someCategory1_tag3'],
               },
             ],
           },
         ],
         filter: {
-          dateFrom: moment('2020-04-09T13:14:13.000Z'),
-          dateTo: moment('2020-04-08T13:14:13.000Z'),
+          dateFrom: '2020-04-09T13:14:13.000Z',
+          dateTo: '2020-04-08T13:14:13.000Z',
           ddoTags: [
             {
-              name: 'foo1',
+              category: 'foo1',
               tags: ['bar1'],
             },
             {
@@ -970,7 +962,7 @@ describe('Entities Reducer', () => {
       const action: FilterDDOCategoriesAction = {
         type: EntitiesExplorerActions.FilterDDOCategories,
         payload: {
-          ddoTags: [{ name: 'Cell Type', tags: ['Index', 'Relayer', 'Portal'] }],
+          ddoTags: [{ category: 'Cell Type', tags: ['Index', 'Relayer', 'Portal'] }],
         },
       }
 
@@ -982,7 +974,7 @@ describe('Entities Reducer', () => {
         ...currentState,
         filter: {
           ...currentState.filter,
-          ddoTags: [{ name: 'Cell Type', tags: ['Index', 'Relayer', 'Portal'] }],
+          ddoTags: [{ category: 'Cell Type', tags: ['Index', 'Relayer', 'Portal'] }],
         },
       })
     })
@@ -999,7 +991,7 @@ describe('Entities Reducer', () => {
             creatorDid: 'someUserDid1',
             name: 'someTitle1',
             description: 'someShortDescription1',
-            dateCreated: moment('2020-04-09T13:14:13.000Z'),
+            dateCreated: '2020-04-09T13:14:13.000Z',
             creatorName: 'someCreatorName1',
             creatorLogo: 'someCreatorLogo1',
             status: 'someStatus1',
@@ -1021,18 +1013,18 @@ describe('Entities Reducer', () => {
             badges: ['badge1'],
             ddoTags: [
               {
-                name: 'someCategory1',
+                category: 'someCategory1',
                 tags: ['someCategory1_tag1', 'someCategory1_tag2', 'someCategory1_tag3'],
               },
             ],
           },
         ],
         filter: {
-          dateFrom: moment('2020-04-09T13:14:13.000Z'),
-          dateTo: moment('2020-04-08T13:14:13.000Z'),
+          dateFrom: '2020-04-09T13:14:13.000Z',
+          dateTo: '2020-04-08T13:14:13.000Z',
           ddoTags: [
             {
-              name: 'foo1',
+              category: 'foo1',
               tags: ['bar1'],
             },
             {
@@ -1082,7 +1074,7 @@ describe('Entities Reducer', () => {
             creatorDid: 'someUserDid1',
             name: 'someTitle1',
             description: 'someShortDescription1',
-            dateCreated: moment('2020-04-09T13:14:13.000Z'),
+            dateCreated: '2020-04-09T13:14:13.000Z',
             creatorName: 'someCreatorName1',
             creatorLogo: 'someCreatorLogo1',
             status: 'someStatus1',
@@ -1104,22 +1096,22 @@ describe('Entities Reducer', () => {
             badges: ['badge1'],
             ddoTags: [
               {
-                name: 'someCategory1',
+                category: 'someCategory1',
                 tags: ['someCategory1_tag1', 'someCategory1_tag2', 'someCategory1_tag3'],
               },
             ],
           },
         ],
         filter: {
-          dateFrom: moment('2020-04-09T13:14:13.000Z'),
-          dateTo: moment('2020-04-08T13:14:13.000Z'),
+          dateFrom: '2020-04-09T13:14:13.000Z',
+          dateTo: '2020-04-08T13:14:13.000Z',
           ddoTags: [
             {
-              name: 'foo1',
+              category: 'foo1',
               tags: ['bar1'],
             },
             {
-              name: 'foo2',
+              category: 'foo2',
               tags: ['bar2'],
             },
           ],
@@ -1150,11 +1142,11 @@ describe('Entities Reducer', () => {
           ...currentState.filter,
           ddoTags: [
             {
-              name: 'foo2',
+              category: 'foo2',
               tags: ['bar2'],
             },
             {
-              name: 'foo1',
+              category: 'foo1',
               tags: [],
             },
           ],
@@ -1174,7 +1166,7 @@ describe('Entities Reducer', () => {
             creatorDid: 'someUserDid1',
             name: 'someTitle1',
             description: 'someShortDescription1',
-            dateCreated: moment('2020-04-09T13:14:13.000Z'),
+            dateCreated: '2020-04-09T13:14:13.000Z',
             creatorName: 'someCreatorName1',
             creatorLogo: 'someCreatorLogo1',
             status: 'someStatus1',
@@ -1196,18 +1188,18 @@ describe('Entities Reducer', () => {
             badges: ['badge1'],
             ddoTags: [
               {
-                name: 'someCategory1',
+                category: 'someCategory1',
                 tags: ['someCategory1_tag1', 'someCategory1_tag2', 'someCategory1_tag3'],
               },
             ],
           },
         ],
         filter: {
-          dateFrom: moment('2020-04-09T13:14:13.000Z'),
-          dateTo: moment('2020-04-08T13:14:13.000Z'),
+          dateFrom: '2020-04-09T13:14:13.000Z',
+          dateTo: '2020-04-08T13:14:13.000Z',
           ddoTags: [
             {
-              name: 'foo',
+              category: 'foo',
               tags: ['bar'],
             },
           ],
@@ -1218,49 +1210,42 @@ describe('Entities Reducer', () => {
           query: '',
         },
         entityConfig: {
-          Project: {
+          project: {
             filterSchema: {
               name: 'Project Type',
               ddoTags: [],
               selectedTags: [],
             },
           },
-          Oracle: {
+          oracle: {
             filterSchema: {
               name: 'Project Type',
               ddoTags: [],
               selectedTags: [],
             },
           },
-          Template: {
+          protocol: {
             filterSchema: {
               name: 'Project Type',
               ddoTags: [],
               selectedTags: [],
             },
           },
-          Asset: {
+          asset: {
             filterSchema: {
               name: 'Project Type',
               ddoTags: [],
               selectedTags: [],
             },
           },
-          Cell: {
+          dao: {
             filterSchema: {
               name: 'Project Type',
               ddoTags: [],
               selectedTags: [],
             },
           },
-          Dao: {
-            filterSchema: {
-              name: 'Project Type',
-              ddoTags: [],
-              selectedTags: [],
-            },
-          },
-          Investment: {
+          investment: {
             filterSchema: {
               name: 'Project Type',
               ddoTags: [],

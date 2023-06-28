@@ -1,9 +1,11 @@
 import React from 'react'
-import { CheckBox, DateRangePicker, TextArea } from '../../../Components'
-import { FormWrapper, BrandNameInput } from './EntityDescriptionForm.styles'
+import { CheckBox, CountryDropDown, DateRangePicker, InputWithLabel, TextArea } from '../../../Components'
+import { FormWrapper } from './EntityDescriptionForm.styles'
 import 'react-dates/initialize'
+import { useEntityConfig } from 'hooks/configs'
 
 interface Props {
+  entityType: string
   description: string | undefined
   setDescription: (val: string) => void
   brand: string | undefined
@@ -18,6 +20,7 @@ interface Props {
 }
 
 const EntityDescriptionForm: React.FC<Props> = ({
+  entityType,
   description,
   setDescription,
   brand,
@@ -30,29 +33,34 @@ const EntityDescriptionForm: React.FC<Props> = ({
   endDate,
   setStartEndDate,
 }): JSX.Element => {
+  const { title } = useEntityConfig(entityType)
+
   return (
     <FormWrapper>
       <TextArea
         inputValue={description || ''}
         handleChange={setDescription}
         width={'400px'}
-        height={'240px'}
-        label={'Describe the Protocol'}
+        height={'210px'}
+        label={`Describe the ${title}`}
       />
       {setBrand && (
-        <BrandNameInput
+        <InputWithLabel
           name='brand'
+          height={'48px'}
           inputValue={brand}
-          placeholder={'Brand Name'}
+          label={'Brand Name'}
           handleChange={(name: string): void => setBrand(name)}
         />
       )}
       {setLocation && (
-        <BrandNameInput
-          name='location'
-          inputValue={location}
-          placeholder={'Country'}
-          handleChange={(location: string): void => setLocation(location)}
+        <CountryDropDown
+          value={location || ''}
+          onChange={setLocation}
+          onBlur={setLocation}
+          onFocus={() => {
+            //
+          }}
         />
       )}
       {setStartEndDate && (
@@ -60,9 +68,11 @@ const EntityDescriptionForm: React.FC<Props> = ({
           id='protocol'
           startDate={startDate || ''}
           endDate={endDate || ''}
+          openDirection='up'
           onChange={(startDate, endDate) => {
             setStartEndDate(startDate, endDate)
           }}
+          input
         />
       )}
       {setAutoGenerateZLottie && (

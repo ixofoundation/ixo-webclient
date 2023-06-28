@@ -16,12 +16,12 @@ export interface Agent {
 }
 
 export enum EntityType {
-  Project = 'Project',
-  Dao = 'Dao',
-  Investment = 'Investment',
-  Oracle = 'Oracle',
-  Template = 'Template',
-  Asset = 'Asset',
+  Project = 'project',
+  Dao = 'dao',
+  Investment = 'investment',
+  Oracle = 'oracle',
+  Protocol = 'protocol',
+  Asset = 'asset',
 }
 
 export enum EntityStatus {
@@ -137,9 +137,15 @@ export enum LinkedResourceType {
 }
 
 export enum NodeType {
-  RelayerNode = 'RelayerNode',
-  CellNode = 'CellNode',
-  IBCNode = 'IBCNode',
+  CellNode = 'CellNode', //  cellnode
+  CellNodeEncrypted = 'CellNodeEncrypted', //  cellnode-encrypted
+  BlockchainRPC = 'Blockchain', //  blockchain
+  WebService = 'WebService', //  webservice
+  BotService = 'BotService', //  bot-service
+  AuthenticationService = 'AuthenticationService', //  authentication
+  CloudWorker = 'CloudWorker', //  cloudworker
+  Ipfs = 'Ipfs', //  ipfs
+  CredentialRegistry = 'CredentialRegistry', //  credential-registry
 }
 
 export enum FundSource { //  TODO: should be removed

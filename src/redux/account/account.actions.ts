@@ -11,7 +11,6 @@ import {
   GetTransactionsAction,
   GetUSDRateAction,
   GetMarketChartAction,
-  WalletType,
   ChooseWalletAction,
   UpdateNameAction,
   UpdateAddressAction,
@@ -20,14 +19,14 @@ import {
   UpdatePubKeyAction,
   UpdateSigningClientAction,
   UpdateDidAction,
-  UpdateChooseWalletOpenAction,
+  UpdateCosmWasmClientAction,
+  UpdateCWClientAction,
+  UpdateCw20TokensAction,
+  UpdateNativeTokensAction,
 } from './account.types'
 import { RootState } from 'redux/store'
 import { Dispatch } from 'redux'
 import Axios from 'axios'
-import blocksyncApi from 'api/blocksync/blocksync'
-import keysafe from 'lib/keysafe/keysafe'
-import * as _ from 'lodash'
 import { displayTokenAmount, getDisplayAmount } from 'utils/currency'
 import BigNumber from 'bignumber.js'
 import { apiCurrencyToCurrency } from './account.utils'
@@ -35,6 +34,9 @@ import { upperCase } from 'lodash'
 import { thousandSeparator } from 'utils/formatters'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 import { SigningStargateClient } from '@ixo/impactxclient-sdk'
+import { SigningCosmWasmClient, CosmWasmClient } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/cosmwasm-stargate'
+import { WalletType } from '@gssuper/cosmodal'
+import { Cw20Token, NativeToken } from 'types/tokens'
 
 export const login = (userInfo: UserInfo, address: string, accountNumber: string, sequence: string): LoginAction => ({
   type: AccountActions.Login,
@@ -234,68 +236,59 @@ export const getTransactionsByAsset =
 export const updateLoginStatus =
   () =>
   (dispatch: Dispatch, getState: () => RootState): any => {
-    const {
-      account: { userInfo, address },
-    } = getState()
-
-    if (!keysafe) {
-      if (userInfo !== null) {
-        return dispatch(logout())
-      }
-      return
-    }
-
-    keysafe.getInfo((error: any, response: any) => {
-      if (response) {
-        const newUserInfo = { ...response, loggedInKeysafe: true }
-
-        if (address) {
-          getAccount(address)(dispatch)
-          getUSDRate()(dispatch)
-        }
-
-        blocksyncApi.user
-          .getDidDoc(newUserInfo.didDoc.did)
-          .then((didResponse: any) => {
-            if (didResponse.error) {
-              newUserInfo.ledgered = false
-              newUserInfo.hasKYC = false
-            } else {
-              newUserInfo.ledgered = true
-              newUserInfo.hasKYC = didResponse.credentials.length > 0
-            }
-
-            if (JSON.stringify(userInfo) !== JSON.stringify(newUserInfo)) {
-              Axios.get(`${process.env.REACT_APP_GAIA_URL}/pubKeyToAddr/${newUserInfo.didDoc.pubKey}`).then(
-                (addressResponse) => {
-                  const address = addressResponse.data.result
-
-                  Axios.get(`${process.env.REACT_APP_GAIA_URL}/auth/accounts/${address}`).then((response) => {
-                    const account = _.get(response.data.result, 'value.base_vesting_account.base_account', null)
-
-                    if (account) {
-                      const { account_number: accountNumber, sequence } = account
-                      dispatch(login(newUserInfo, address, accountNumber, sequence))
-
-                      return
-                    }
-
-                    const { account_number: accountNumber, sequence } = response.data.result.value
-                    dispatch(login(newUserInfo, address, accountNumber, sequence))
-                  })
-                },
-              )
-            }
-          })
-          .catch((e) => {
-            console.log('blocksyncApi.user.getDidDoc', e)
-          })
-      } else {
-        if (userInfo !== null) {
-          dispatch(logout())
-        }
-      }
-    })
+    // const {
+    //   account: { userInfo, address },
+    // } = getState()
+    // if (!keysafe) {
+    //   if (userInfo !== null) {
+    //     return dispatch(logout())
+    //   }
+    //   return
+    // }
+    // keysafe.getInfo((error: any, response: any) => {
+    //   if (response) {
+    //     const newUserInfo = { ...response, loggedInKeysafe: true }
+    //     if (address) {
+    //       getAccount(address)(dispatch)
+    //       getUSDRate()(dispatch)
+    //     }
+    //     blocksyncApi.user
+    //       .getDidDoc(newUserInfo.didDoc.did)
+    //       .then((didResponse: any) => {
+    //         if (didResponse.error) {
+    //           newUserInfo.ledgered = false
+    //           newUserInfo.hasKYC = false
+    //         } else {
+    //           newUserInfo.ledgered = true
+    //           newUserInfo.hasKYC = didResponse.credentials.length > 0
+    //         }
+    //         if (JSON.stringify(userInfo) !== JSON.stringify(newUserInfo)) {
+    //           Axios.get(`${process.env.REACT_APP_GAIA_URL}/pubKeyToAddr/${newUserInfo.didDoc.pubKey}`).then(
+    //             (addressResponse) => {
+    //               const address = addressResponse.data.result
+    //               Axios.get(`${process.env.REACT_APP_GAIA_URL}/auth/accounts/${address}`).then((response) => {
+    //                 const account = _.get(response.data.result, 'value.base_vesting_account.base_account', null)
+    //                 if (account) {
+    //                   const { account_number: accountNumber, sequence } = account
+    //                   dispatch(login(newUserInfo, address, accountNumber, sequence))
+    //                   return
+    //                 }
+    //                 const { account_number: accountNumber, sequence } = response.data.result.value
+    //                 dispatch(login(newUserInfo, address, accountNumber, sequence))
+    //               })
+    //             },
+    //           )
+    //         }
+    //       })
+    //       .catch((e) => {
+    //         console.log('blocksyncApi.user.getDidDoc', e)
+    //       })
+    //   } else {
+    //     if (userInfo !== null) {
+    //       dispatch(logout())
+    //     }
+    //   }
+    // })
   }
 
 export const toggleAssistant = (
@@ -349,6 +342,20 @@ export const updateBalancesAction = (balances: Coin[]): UpdateBalancesAction => 
   }
 }
 
+export const updateNativeTokensAction = (balances: { [addr: string]: NativeToken }): UpdateNativeTokensAction => {
+  return {
+    type: AccountActions.UpdateNativeTokens,
+    payload: balances,
+  }
+}
+
+export const updateCw20TokensAction = (balances: { [addr: string]: Cw20Token }): UpdateCw20TokensAction => {
+  return {
+    type: AccountActions.UpdateCw20Tokens,
+    payload: balances,
+  }
+}
+
 export const updateRegisteredAction = (registered: boolean): UpdateRegisteredAction => {
   return {
     type: AccountActions.UpdateRegistered,
@@ -370,16 +377,23 @@ export const updateSigningClientAction = (signingClient: SigningStargateClient):
   }
 }
 
+export const updateCosmWasmAction = (cosmWasmClient: SigningCosmWasmClient): UpdateCosmWasmClientAction => {
+  return {
+    type: AccountActions.UpdateCosmWasmClient,
+    payload: cosmWasmClient,
+  }
+}
+
+export const updateCWClientAction = (cosmWasmClient: CosmWasmClient): UpdateCWClientAction => {
+  return {
+    type: AccountActions.UpdateCWClient,
+    payload: cosmWasmClient,
+  }
+}
+
 export const updateDidAction = (did: string): UpdateDidAction => {
   return {
     type: AccountActions.UpdateDid,
     payload: did,
-  }
-}
-
-export const updateChooseWalletOpenAction = (open: boolean): UpdateChooseWalletOpenAction => {
-  return {
-    type: AccountActions.UpdateChooseWalletOpen,
-    payload: open,
   }
 }

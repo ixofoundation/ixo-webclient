@@ -1,4 +1,3 @@
-import blocksyncApi from 'api/blocksync/blocksync'
 import { ApiListedEntity } from 'api/blocksync/types/entities'
 import { isPageContent, PageContent } from 'api/blocksync/types/pageContent'
 import { ApiResource } from 'api/blocksync/types/resource'
@@ -17,7 +16,6 @@ import {
   replaceLegacyPDSInPageContent,
 } from '../../utils/entities'
 import { EntityType, ProjectStatus, PDS_URL, NodeType } from '../../types/entities'
-import { selectCellNodeEndpoint } from './selectedEntity.selectors'
 import {
   ClearEntityAction,
   GetEntityAction,
@@ -28,8 +26,10 @@ import {
   UpdateEntityTypeAction,
   UpdateProjectStatusAction,
 } from './selectedEntity.types'
-import keysafe from 'lib/keysafe/keysafe'
 import { Bond } from '@ixo/impactxclient-sdk/types/codegen/ixo/bonds/v1beta1/bonds'
+import { BlockSyncService } from 'services/blocksync'
+
+const bsService = new BlockSyncService()
 
 export const clearEntity = (): ClearEntityAction => ({
   type: SelectedEntityActions.ClearEntity,
@@ -51,10 +51,10 @@ export const getEntity =
 
     dispatch(clearEntity())
 
-    const fetchEntity: Promise<ApiListedEntity> = blocksyncApi.project.getProjectByProjectDid(did)
+    const fetchEntity: Promise<ApiListedEntity> = bsService.project.getProjectByProjectDid(did)
 
     const fetchContent = (key: string, endpoint: string): Promise<ApiResource> => {
-      return blocksyncApi.project.fetchPublic(key, endpoint) as Promise<ApiResource>
+      return bsService.project.fetchPublic(key, endpoint) as Promise<ApiResource>
     }
 
     return dispatch({
@@ -100,7 +100,7 @@ export const getEntity =
 
               if (linkedInvestmentDid) {
                 const fetchInvestment: Promise<ApiListedEntity> =
-                  blocksyncApi.project.getProjectByProjectDid(linkedInvestmentDid)
+                  bsService.project.getProjectByProjectDid(linkedInvestmentDid)
                 fetchInvestment.then((apiEntity: ApiListedEntity) => {
                   getBondDidFromApiListedEntityData(apiEntity.data).then((bondDid) => {
                     if (bondDid) {
@@ -155,7 +155,7 @@ export const getEntity =
 
               return Promise.all(
                 entityClaims.items.map((claim) =>
-                  blocksyncApi.project.getProjectByProjectDid(claim['@id']).catch(() => undefined),
+                  bsService.project.getProjectByProjectDid(claim['@id']).catch(() => undefined),
                 ),
               )
                 .then((entityClaimsData: ApiListedEntity[]) => {
@@ -165,7 +165,7 @@ export const getEntity =
                       claimTypes:
                         entityClaimsData
                           .filter((v) => !!v)
-                          .find((dataItem) => dataItem.projectDid === item['@id'])
+                          .find((dataItem) => dataItem?.projectDid === item['@id'])
                           ?.data.ddoTags.reduce((filtered, ddoTag) => {
                             // @ts-ignore
                             if (ddoTag.category === 'Claim Type') filtered = [...filtered, ...ddoTag.tags]
@@ -242,7 +242,7 @@ export const getEntityClaims =
     const { selectedEntity } = getState()
     const { did } = selectedEntity
 
-    const fetchEntity: Promise<ApiListedEntity> = blocksyncApi.project.getProjectByProjectDid(did)
+    const fetchEntity: Promise<ApiListedEntity> = bsService.project.getProjectByProjectDid(did)
     return dispatch({
       type: SelectedEntityActions.GetEntityClaims,
       payload: fetchEntity.then((apiEntity: ApiListedEntity) => {
@@ -260,27 +260,27 @@ export const getEntityClaims =
 export const updateProjectStatus =
   (projectDid: string, status: ProjectStatus) =>
   (dispatch: Dispatch, getState: () => RootState): UpdateProjectStatusAction => {
-    const statusData = {
-      projectDid: projectDid,
-      status: status,
-    }
+    // const statusData = {
+    //   projectDid: projectDid,
+    //   status: status,
+    // }
 
-    const state = getState()
-    const cellNodeEndpoint = selectCellNodeEndpoint(state)
+    // const state = getState()
+    // const cellNodeEndpoint = selectCellNodeEndpoint(state)
 
-    keysafe.requestSigning(
-      JSON.stringify(statusData),
-      (error: any, signature: any) => {
-        if (!error) {
-          blocksyncApi.project.updateProjectStatus(statusData, signature, cellNodeEndpoint!).then(() => {
-            return dispatch({
-              type: SelectedEntityActions.UpdateProjectStatus,
-            })
-          })
-        }
-      },
-      'base64',
-    )
+    // keysafe.requestSigning(
+    //   JSON.stringify(statusData),
+    //   (error: any, signature: any) => {
+    //     if (!error) {
+    //       blocksyncApi.project.updateProjectStatus(statusData, signature, cellNodeEndpoint!).then(() => {
+    //         return dispatch({
+    //           type: SelectedEntityActions.UpdateProjectStatus,
+    //         })
+    //       })
+    //     }
+    //   },
+    //   'base64',
+    // )
 
     return null!
   }

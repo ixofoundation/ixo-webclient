@@ -1,6 +1,7 @@
 import AccountUpdateService from './account'
 import EntityUpdateService from './entity'
 import SiteService from './site'
+import ConfigService from './config'
 
 const Services = (): JSX.Element => {
   return (
@@ -8,6 +9,7 @@ const Services = (): JSX.Element => {
       <AccountUpdateService />
       <EntityUpdateService />
       <SiteService />
+      <ConfigService />
     </>
   )
 }

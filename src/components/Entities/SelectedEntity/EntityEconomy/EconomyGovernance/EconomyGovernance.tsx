@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import Long from 'long'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import * as keplr from 'lib/keplr/keplr'
@@ -11,20 +11,14 @@ import { ProposalStatus, ProposalsType } from '../../../../../redux/entityEconom
 import { MsgSubmitProposal, MsgVote } from 'cosmjs-types/cosmos/gov/v1beta1/tx'
 import { TextProposal } from 'cosmjs-types/cosmos/gov/v1beta1/gov'
 import { Any } from 'cosmjs-types/google/protobuf/any'
-import { getMinimalAmount } from 'utils/currency'
-import { broadCastMessage } from 'lib/keysafe/keysafe'
 import { selectGovernanceProposals, selectVotingPeriodProposals } from 'redux/entityEconomy/entityEconomy.selectors'
+import { DashboardThemeContext } from 'components/Dashboard/Dashboard'
 
 const EconomyGovernance: React.FunctionComponent = () => {
+  const { isDark } = useContext(DashboardThemeContext)
   const dispatch = useAppDispatch()
   const governanceProposals = useAppSelector(selectGovernanceProposals)
   const votingPeriodProposals = useAppSelector(selectVotingPeriodProposals)
-  const {
-    address: userAddress,
-    accountNumber: userAccountNumber,
-    sequence: userSequence,
-    userInfo,
-  } = useAppSelector((state) => state.account)
 
   useEffect(() => {
     dispatch(getProposals() as any)
@@ -82,28 +76,38 @@ const EconomyGovernance: React.FunctionComponent = () => {
     })
   }
 
-  const handleNewProposal = async (): Promise<void> => {
+  const handleNewProposal = (): void => {
+    // const coreAddress = 'asdfasdf'
+    // history.push(`/create/entity/${entityId}/proposal/${coreAddress}/info`)
+  }
+
+  /**
+   * @deprecated
+   * @returns
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const handleNewProposalOld = async (): Promise<void> => {
     // const type = 'TextProposal' // 'ParameterChangeProposal'
     const title = 'Set base network inflation at 20%'
     const description =
       'The Impact Hub is a bonded Proof of Stake (bPoS) network with bonding denominated in IXO tokens. A higher bonded ratio of IXO tokens, relative to total supply, increases the network security. Inflation in the token supply provides the incentive for del'
-    const changes = [
-      {
-        subspace: 'mint',
-        key: 'InflationMax',
-        value: '"0.200000000000000000"',
-      },
-      {
-        subspace: 'mint',
-        key: 'InflationMin',
-        value: '"0.070000000000000000"',
-      },
-      {
-        subspace: 'mint',
-        key: 'InflationRateChange',
-        value: '"0.130000000000000000"',
-      },
-    ]
+    // const changes = [
+    //   {
+    //     subspace: 'mint',
+    //     key: 'InflationMax',
+    //     value: '"0.200000000000000000"',
+    //   },
+    //   {
+    //     subspace: 'mint',
+    //     key: 'InflationMin',
+    //     value: '"0.070000000000000000"',
+    //   },
+    //   {
+    //     subspace: 'mint',
+    //     key: 'InflationRateChange',
+    //     value: '"0.130000000000000000"',
+    //   },
+    // ]
     try {
       const [accounts, offlineSigner] = await keplr.connectAccount()
       const address = accounts[0].address
@@ -142,48 +146,52 @@ const EconomyGovernance: React.FunctionComponent = () => {
       try {
         const result = await keplr.sendTransaction(client, address, payload)
         if (result) {
-          Toast.successToast(`Transaction Successful`)
+          Toast.successToast(null, `Transaction Successful`)
         } else {
-          Toast.errorToast(`Transaction Failed`)
+          Toast.errorToast(null, `Transaction Failed`)
         }
       } catch (e) {
-        Toast.errorToast(`Transaction Failed`)
+        Toast.errorToast(null, `Transaction Failed`)
         throw e
       }
     } catch (e) {
-      if (!userAddress) return
-      const msg = {
-        type: 'cosmos-sdk/MsgSubmitProposal',
-        value: {
-          content: {
-            type: 'cosmos-sdk/ParameterChangeProposal',
-            value: {
-              title,
-              description,
-              changes,
-            },
-          },
-          initial_deposit: [
-            {
-              amount: getMinimalAmount(String(1)),
-              denom: 'uixo',
-            },
-          ],
-          proposer: userAddress,
-        },
-      }
-      const fee = {
-        amount: [{ amount: String(5000), denom: 'uixo' }],
-        gas: String(200000),
-      }
-
-      broadCastMessage(userInfo, userSequence as any, userAccountNumber as any, [msg], '', fee, () => {
-        // Added as required prop
-      })
+      // if (!userAddress) return
+      // const msg = {
+      //   type: 'cosmos-sdk/MsgSubmitProposal',
+      //   value: {
+      //     content: {
+      //       type: 'cosmos-sdk/ParameterChangeProposal',
+      //       value: {
+      //         title,
+      //         description,
+      //         changes,
+      //       },
+      //     },
+      //     initial_deposit: [
+      //       {
+      //         amount: getMinimalAmount(String(1)),
+      //         denom: 'uixo',
+      //       },
+      //     ],
+      //     proposer: userAddress,
+      //   },
+      // }
+      // const fee = {
+      //   amount: [{ amount: String(5000), denom: 'uixo' }],
+      //   gas: String(200000),
+      // }
+      // broadCastMessage(userInfo, userSequence as any, userAccountNumber as any, [msg], '', fee, () => {
+      //   // Added as required prop
+      // })
     }
   }
 
-  const handleVote = async (proposalId: string, answer: number): Promise<void> => {
+  /**
+   * @deprecated
+   * @returns
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const handleVoteOld = async (proposalId: string, answer: number): Promise<void> => {
     try {
       const [accounts, offlineSigner] = await keplr.connectAccount()
       const address = accounts[0].address
@@ -209,37 +217,40 @@ const EconomyGovernance: React.FunctionComponent = () => {
       try {
         const result = await keplr.sendTransaction(client, address, payload)
         if (result) {
-          Toast.successToast(`Transaction Successful`)
+          Toast.successToast(null, `Transaction Successful`)
         } else {
-          Toast.errorToast(`Transaction Failed`)
+          Toast.errorToast(null, `Transaction Failed`)
         }
       } catch (e) {
-        Toast.errorToast(`Transaction Failed`)
+        Toast.errorToast(null, `Transaction Failed`)
         throw e
       }
     } catch (e) {
-      if (!userAddress) return
-      const msg = {
-        type: 'cosmos-sdk/MsgVote',
-        value: {
-          option: Number(answer),
-          proposal_id: proposalId,
-          voter: userAddress,
-        },
-      }
-      const fee = {
-        amount: [{ amount: String(5000), denom: 'uixo' }],
-        gas: String(200000),
-      }
-
-      broadCastMessage(userInfo, userSequence as any, userAccountNumber as any, [msg], '', fee, () => {
-        // Added as required prop
-      })
+      // if (!userAddress) return
+      // const msg = {
+      //   type: 'cosmos-sdk/MsgVote',
+      //   value: {
+      //     option: Number(answer),
+      //     proposal_id: proposalId,
+      //     voter: userAddress,
+      //   },
+      // }
+      // const fee = {
+      //   amount: [{ amount: String(5000), denom: 'uixo' }],
+      //   gas: String(200000),
+      // }
+      // broadCastMessage(userInfo, userSequence as any, userAccountNumber as any, [msg], '', fee, () => {
+      //   // Added as required prop
+      // })
     }
   }
 
+  const handleVote = async (proposalId: string, answer: number): Promise<void> => {
+    return
+  }
+
   return (
-    <Container>
+    <Container isDark={isDark}>
       <SectionTitleContainer>
         <SectionTitle>Current Governance Proposals</SectionTitle>
         <ActionButton onClick={handleNewProposal}>New Proposal</ActionButton>
@@ -257,15 +268,20 @@ const EconomyGovernance: React.FunctionComponent = () => {
             closeDate={proposal.DepositEndTime}
             tally={proposal.tally}
             totalDeposit={proposal.totalDeposit[0]}
-            status={proposal.status}
+            status={'open'}
+            // status={proposal.status}
             handleVote={handleVote}
           />
         ))}
 
-      <SectionTitleContainer>
-        <SectionTitle>Past Governance Proposals</SectionTitle>
-      </SectionTitleContainer>
-      {votingPeriodProposals.length > 0 && <GovernanceTable data={mapToGovernanceTable(votingPeriodProposals)} />}
+      {votingPeriodProposals.length > 0 && (
+        <>
+          <SectionTitleContainer>
+            <SectionTitle>Past Governance Proposals</SectionTitle>
+          </SectionTitleContainer>
+          <GovernanceTable data={mapToGovernanceTable(votingPeriodProposals)} />
+        </>
+      )}
     </Container>
   )
 }

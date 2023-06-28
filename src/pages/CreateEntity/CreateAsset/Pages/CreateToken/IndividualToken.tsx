@@ -10,12 +10,12 @@ import {
   ServiceSetupModal,
 } from 'components/Modals'
 import { omitKey } from 'utils/objects'
-import { v4 as uuidv4 } from 'uuid'
+// import { v4 as uuidv4 } from 'uuid'
 import { Box, theme } from 'components/App/App.styles'
 import { Button } from 'pages/CreateEntity/Components'
 import React, { useEffect, useState } from 'react'
 import { useCreateEntityState } from 'hooks/createEntity'
-import { TEntityModel } from 'redux/createEntity/createEntity.types'
+import { TCreateEntityModel } from 'redux/createEntity/createEntity.types'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
 import {
   EntityLinkedResourceConfig,
@@ -25,28 +25,21 @@ import {
   TEntityLiquidityModel,
   TEntityPaymentModel,
 } from 'types/protocol'
-import {
-  LocalisationForm,
-  EntityAttributesForm,
-  TokenProfileForm,
-  EntityDescriptionForm,
-  EntityMetricsForm,
-} from '../../../Forms'
-import { Badge, PropertyBox, PropertyBoxWrapper } from '../SetupProperties/SetupProperties.styles'
+import { EntityAttributesForm, TokenProfileForm, EntityDescriptionForm, EntityMetricsForm } from '../../../Forms'
+import { Badge, PropertyBox, PropertyBoxWrapper } from '../../../Forms/PropertiesForm/PropertiesForm.styles'
 import { Wrapper, Row } from './IndividualToken.styles'
-import { SetupPageContent } from '../SetupProperties/SetupPageContent'
+import { SetupPageContent } from '../../../Forms/PropertiesForm/SetupPageContent'
 import { Typography } from 'components/Typography'
 
 interface Props {
   SN: number
-  token: TEntityModel
+  token: TCreateEntityModel
   goBack: () => void
 }
 
 const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element => {
   const { entityType, updateAssetInstance } = useCreateEntityState()
-  const [localisation, setLocalisation] = useState(token.localisation)
-  const [metadata, setMetadata] = useState<TAssetMetadataModel>(token.metadata as TAssetMetadataModel)
+  const [profile, setProfile] = useState<TAssetMetadataModel>(token.profile as TAssetMetadataModel)
   const [entitySettings, setEntitySettings] = useState<{
     [key: string]: any
   }>(EntitySettingsConfig)
@@ -67,10 +60,10 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
         creator: { ...settings.creator, data: token.creator },
       }))
     }
-    if (token.controller) {
+    if (token.administrator) {
       setEntitySettings((settings) => ({
         ...settings,
-        controller: { ...settings.controller, data: token.controller },
+        administrator: { ...settings.administrator, data: token.administrator },
       }))
     }
     if (token.page) {
@@ -153,11 +146,11 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
   }
   // entity linked resources
   const handleAddEntityLinkedResource = (type: string): void => {
-    const id = uuidv4()
-    setEntityLinkedResource((pre) => ({
-      ...pre,
-      [id]: { id, type, ...EntityLinkedResourceConfig[type], openModal: true },
-    }))
+    // const id = uuidv4()
+    // setEntityLinkedResource((pre) => ({
+    //   ...pre,
+    //   [id]: { id, type, path: '', name: '', description: '' },
+    // }))
   }
   const handleUpdateEntityLinkedResource = (id: string, data: TEntityLinkedResourceModel): void => {
     setEntityLinkedResource((pre) => ({ ...pre, [id]: data }))
@@ -166,9 +159,9 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
     setEntityLinkedResource((pre) => omitKey(pre, id))
   }
 
-  const handleUpdateMetadata = (key: string, value: any): void => {
-    setMetadata({
-      ...metadata,
+  const handleUpdateProfile = (key: string, value: any): void => {
+    setProfile({
+      ...profile,
       [key]: value,
     })
   }
@@ -177,9 +170,9 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
     // TODO:
     const data = {
       ...token,
-      metadata,
+      profile,
       creator: entitySettings.creator?.data,
-      controller: entitySettings.controller?.data,
+      administrator: entitySettings.administrator?.data,
       tags: entitySettings.tags?.data,
       page: entitySettings.page?.data,
       service: entitySettings.service?.data,
@@ -201,7 +194,7 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
       <Typography
         weight='medium'
         size='xl'
-        color={metaView === 'description' ? 'blue' : 'color-1'}
+        color={metaView === 'description' ? 'blue' : 'dark-blue'}
         onClick={(): void => setMetaView('description')}
       >
         Description
@@ -209,7 +202,7 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
       <Typography
         weight='medium'
         size='xl'
-        color={metaView === 'metrics' ? 'blue' : 'color-1'}
+        color={metaView === 'metrics' ? 'blue' : 'dark-blue'}
         onClick={(): void => setMetaView('metrics')}
       >
         Metrics
@@ -217,7 +210,7 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
       <Typography
         weight='medium'
         size='xl'
-        color={metaView === 'attributes' ? 'blue' : 'color-1'}
+        color={metaView === 'attributes' ? 'blue' : 'dark-blue'}
         onClick={(): void => setMetaView('attributes')}
       >
         Attributes
@@ -274,12 +267,12 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
               </Box>
               <PropertyBox
                 size={90}
-                bgColor={(!!value.name && theme.ixoNewBlue) || undefined}
+                bgColor={(!!value.type && theme.ixoNewBlue) || undefined}
                 onClick={(): void => handleOpenEntityLinkedResourceModal(key, true)}
               >
                 {Icon && <Icon />}
                 <Typography weight='bold' size='md' color={'white'}>
-                  {value.name ?? value.text}
+                  {value.type}
                 </Typography>
               </PropertyBox>
             </PropertyBoxWrapper>
@@ -311,24 +304,24 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
 
       <Row style={{ gap: 50 }}>
         <Box className='d-flex flex-column'>
-          <Box className='d-flex align-items-center justify-content-between'>
+          {/* <Box className='d-flex align-items-center justify-content-between'>
             <Typography weight='medium' size='xl'>
               Localisation:
             </Typography>
             <LocalisationForm localisation={localisation} setLocalisation={setLocalisation} />
-          </Box>
+          </Box> */}
           <Box className='mb-2' />
           <TokenProfileForm
-            image={metadata?.image}
-            setImage={(image): void => handleUpdateMetadata('image', image)}
-            denom={metadata?.denom}
-            type={metadata?.type}
-            logo={metadata?.icon}
-            setLogo={(icon): void => handleUpdateMetadata('icon', icon)}
-            tokenName={metadata?.tokenName}
-            setTokenName={(tokenName): void => handleUpdateMetadata('tokenName', tokenName)}
-            name={metadata?.name}
-            maxSupply={metadata?.maxSupply}
+            image={profile?.image}
+            setImage={(image): void => handleUpdateProfile('image', image)}
+            denom={profile?.denom}
+            type={profile?.type}
+            logo={profile?.logo}
+            setLogo={(logo): void => handleUpdateProfile('logo', logo)}
+            tokenName={profile?.tokenName}
+            setTokenName={(tokenName): void => handleUpdateProfile('tokenName', tokenName)}
+            name={profile?.name}
+            maxSupply={profile?.maxSupply}
             SN={SN}
           />
         </Box>
@@ -337,24 +330,25 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
           <Box style={{ flex: '1 auto', marginBottom: 30 }}>
             {metaView === 'description' && (
               <EntityDescriptionForm
-                description={metadata?.description}
-                setDescription={(description): void => handleUpdateMetadata('description', description)}
-                brand={metadata?.brand}
-                location={metadata?.location}
-                startDate={(metadata as any)?.startDate}
-                endDate={(metadata as any)?.endDate}
+                entityType={entityType}
+                description={profile?.description}
+                setDescription={(description): void => handleUpdateProfile('description', description)}
+                brand={profile?.brand}
+                location={profile?.location}
+                startDate={(profile as any)?.startDate}
+                endDate={(profile as any)?.endDate}
               />
             )}
             {metaView === 'metrics' && (
               <EntityMetricsForm
-                metrics={metadata?.metrics}
-                setMetrics={(metrics): void => handleUpdateMetadata('metrics', metrics)}
+                metrics={profile?.metrics}
+                setMetrics={(metrics): void => handleUpdateProfile('metrics', metrics)}
               />
             )}
             {metaView === 'attributes' && (
               <EntityAttributesForm
-                attributes={metadata?.attributes}
-                setAttributes={(attributes): void => handleUpdateMetadata('attributes', attributes)}
+                attributes={profile?.attributes}
+                setAttributes={(attributes): void => handleUpdateProfile('attributes', attributes)}
                 edit
               />
             )}
@@ -414,7 +408,7 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
         <LinkedResourceSetupModal
           key={key}
           linkedResource={value}
-          open={!!value?.openModal}
+          open={false}
           onClose={(): void => handleOpenEntityLinkedResourceModal(key, false)}
           onChange={(linkedResource: TEntityLinkedResourceModel): void =>
             handleUpdateEntityLinkedResource(key, linkedResource)
@@ -426,11 +420,12 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
         open={openAddSettingsModal}
         onClose={(): void => setOpenAddSettingsModal(false)}
         onChange={handleAddEntitySetting}
+        addedKeys={Object.keys(entitySettings)}
       />
       <AddLinkedResourceModal
         open={openAddLinkedResourceModal}
         onClose={(): void => setOpenAddLinkedResourceModal(false)}
-        onChange={handleAddEntityLinkedResource}
+        onAdd={handleAddEntityLinkedResource}
       />
     </Wrapper>
   )

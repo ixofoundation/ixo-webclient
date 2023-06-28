@@ -109,12 +109,12 @@ export const Selector = styled.div`
   width: 20px;
   height: 20px;
   border: 1px solid white;
-  background: ${/* eslint-disable-line */ (props) => props.theme.bg.blue};
+  background: ${/* eslint-disable-line */ (props) => props.theme.ixoDarkestBlue};
   padding: 2px;
   border-radius: 50%;
 
   > div {
-    background: ${/* eslint-disable-line */ (props) => props.theme.fontDarkBlueButtonHover};
+    background: ${/* eslint-disable-line */ (props) => props.theme.ixoNewBlue};
     width: 100%;
     border-radius: 50%;
     height: 100%;

@@ -53,7 +53,7 @@ const Breadcrumb: React.FunctionComponent<Props> = ({ subRoutes, baseRoutes }) =
         </span>
       ))}
       {subRoutes.map((subRoute, key) => (
-        <Route exact strict={subRoute.strict} path={subRoute.url} key={`sdg-${key}`}>
+        <Route exact={!subRoute.strict} strict={subRoute.strict} path={subRoute.url} key={`sdg-${key}`}>
           <NavItem to={subRoute.url}>{subRoute.sdg}</NavItem>
         </Route>
       ))}

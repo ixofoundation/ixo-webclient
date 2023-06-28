@@ -1,294 +1,175 @@
 import * as React from 'react'
 import { RouteProps } from 'react-router'
-import { Moment } from 'moment'
-import ReactPaginate from 'react-paginate'
-import ProjectCard from './Components/EntityCard/ProjectCard/ProjectCard'
-// import LaunchpadCard from './components/EntityCard/LaunchpadCard/LaunchpadCard'
-import CellCard from './Components/EntityCard/CellCard/CellCard'
-import TemplateCard from './Components/EntityCard/TemplateCard/TemplateCard'
-import InvestmentCard from './Components/EntityCard/InvestmentCard/InvestmentCard'
-import OracleCard from './Components/EntityCard/OracleCard/OracleCard'
-import AssetCard from './Components/EntityCard/AssetCard/AssetCard'
+import CellCard from './Components/EntityCard/CellCard/CellCard2'
+import ProjectCard from './Components/EntityCard/ProjectCard/ProjectCard2'
+// import TemplateCard from './Components/EntityCard/TemplateCard/TemplateCard'
+// import InvestmentCard from './Components/EntityCard/InvestmentCard/InvestmentCard'
+import OracleCard from './Components/EntityCard/OracleCard/OracleCard2'
+// import AssetCard from './Components/EntityCard/AssetCard/AssetCard'
 import { EntitiesHero } from './Components/EntitiesHero/EntitiesHero'
 import { Spinner } from 'components/Spinner/Spinner'
 import { connect } from 'react-redux'
 import { RootState } from 'redux/store'
 import {
   Container,
+  EntitiesBody,
   EntitiesContainer,
   ErrorContainer,
   NoEntitiesContainer,
-  Pagination,
 } from './EntitiesExplorer.container.styles'
 import {
-  getEntities,
-  filterToggleUserEntities,
-  filterToggleFeaturedEntities,
-  filterTogglePopularEntities,
-  filterDates,
-  resetDatesFilter,
-  filterAddCategoryTag,
-  resetCategoryFilter,
-  resetSectorFilter,
-  resetFilters,
   changeEntitiesType,
-  filterCategoryTag,
-  filterSector,
   filterEntitiesQuery,
-  filterItemOffset,
+  filterSector,
+  getEntitiesByType,
 } from 'redux/entitiesExplorer/entitiesExplorer.actions'
 import EntitiesFilter from './Components/EntitiesFilter/EntitiesFilter'
 import { EntityType, EntityTypeStrategyMap } from 'types/entities'
-import { DDOTagCategory, ExplorerEntity } from 'redux/entitiesExplorer/entitiesExplorer.types'
 import { Schema as FilterSchema } from './Components/EntitiesFilter/schema/types'
 import * as entitiesSelectors from 'redux/entitiesExplorer/entitiesExplorer.selectors'
-import * as accountSelectors from 'redux/account/account.selectors'
-// @ts-ignore
-import detectGrid from 'detect-grid'
 import { useEffect, useState } from 'react'
-import AssetCollections from './Components/AssetCollections/AssetCollections'
+import AssetCollections from './Components/Assets/Collections'
 import { useQuery } from 'hooks/window'
-import { EntityList } from 'lib/protocol'
+import { TEntityDDOTagModel } from 'types/protocol'
+import { TEntityModel } from 'api/blocksync/types/entities'
+import { InfiniteScroll } from 'components/InfiniteScroll'
+import { useMediaQuery } from 'react-responsive'
+import { deviceWidth } from 'constants/device'
 // import { checkIsLaunchpadFromApiListedEntityData } from '../Entities.utils'
 
-const entityFilters = {
-  project: 'Project',
-  projects: 'Project',
-  oracle: 'Oracle',
-  oracles: 'Oracle',
-  investment: 'Investment',
-  investments: 'Investment',
-  dao: 'Dao',
-  daos: 'Dao',
-  protocol: 'Template',
-  protocols: 'Template',
-  template: 'Template',
-  templates: 'Template',
-  asset: 'Asset',
-  assets: 'Asset',
-}
+// const entityFilters = {
+//   project: 'Project',
+//   projects: 'Project',
+//   oracle: 'Oracle',
+//   oracles: 'Oracle',
+//   investment: 'Investment',
+//   investments: 'Investment',
+//   dao: 'Dao',
+//   daos: 'Dao',
+//   protocol: 'Template',
+//   protocols: 'Template',
+//   template: 'Template',
+//   templates: 'Template',
+//   asset: 'Asset',
+//   assets: 'Asset',
+// }
 
 export interface Props extends RouteProps {
   match: any
   type: EntityType
-  entities: ExplorerEntity[]
+  entities: TEntityModel[]
   entitiesCount: number
   entityTypeMap: EntityTypeStrategyMap
   filteredEntitiesCount: number
-  filterDateFrom: Moment
-  filterDateFromFormatted: string
-  filterDateTo: Moment
-  filterDateToFormatted: string
-  filterDateSummary: string
-  filterCategories: DDOTagCategory[]
-  filterCategoriesSummary: string
+  filterCategories: TEntityDDOTagModel[]
   filterUserEntities: boolean
   filterFeaturedEntities: boolean
   filterPopularEntities: boolean
   filterItemOffset: number
   isLoadingEntities: boolean
-  isLoggedIn: boolean
   filterSchema: FilterSchema
   filterSector: string
   filterQuery: string
-  entityCategoryTypeName: string
-  handleGetEntities: () => void
+  filterCategoryTypeName: string
+  handleGetEntitiesByType: (entityType: string) => void
   handleChangeEntitiesQuery: (query: string) => void
-  handleChangeEntitiesType: (type: EntityType) => void
-  handleFilterToggleUserEntities: (userEntities: boolean) => void
-  handleFilterToggleFeaturedEntities: (featuredEntities: boolean) => void
-  handleFilterTogglePopularEntities: (popularEntities: boolean) => void
-  handleFilterDates: (dateFrom: any, dateTo: any) => void
-  handleResetDatesFilter: () => void
-  handleFilterCategoryTag: (category: string, tag: string) => void
-  handleFilterAddCategoryTag: (category: string, tag: string) => void
-  handleFilterSector: (category: string) => void
-  handleFilterItemOffset: (itemOffset: number) => void
-  handleResetCategoryFilter: (category: string) => void
-  handleResetSectorFilter: () => void
-  handleResetFilters: () => void
+  handleChangeEntitiesType: (type: string) => void
+  handleChangeSector: (sector: string) => void
 }
 
 const EntityCard: any = {
   [EntityType.Project]: ProjectCard,
   [EntityType.Dao]: CellCard,
-  [EntityType.Template]: TemplateCard,
+  // [EntityType.Protocol]: TemplateCard,
   [EntityType.Oracle]: OracleCard,
-  [EntityType.Investment]: InvestmentCard,
-  [EntityType.Asset]: AssetCard,
+  // [EntityType.Investment]: InvestmentCard,
+  // [EntityType.Asset]: AssetCard,
 }
 
 const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
-  const [assistantPanelActive, setAssistantPanelActive] = useState(false)
-  const [currentItems, setCurrentItems] = useState<any[] | null>(null)
-  const [pageCount, setPageCount] = useState(0)
-  const [itemOffset, setItemOffset] = useState(0)
-  const [itemsPerPage, setItemsPerPage] = useState(9)
-  const [selected, setSelected] = useState(0)
+  const isMobile = useMediaQuery({ maxWidth: deviceWidth.tablet })
+  const isTablet = useMediaQuery({ minWidth: deviceWidth.tablet, maxWidth: deviceWidth.desktop })
   const { getQuery } = useQuery()
-
-  const resetWithDefaultViewFilters = (): void => {
-    props.handleResetFilters()
-  }
-
-  const handlePageClick = (event: any): void => {
-    setSelected(event.selected)
-    const newOffset = (event.selected * itemsPerPage) % props.entities.length
-    console.log(`User requested page number ${event.selected}, which is offset ${newOffset}`)
-    setItemOffset(newOffset)
-    props.handleFilterItemOffset(newOffset)
-  }
-
-  const updateItemsPerPage = (): void => {
-    const grid = document.querySelector('.cards-container')
-    if (grid) {
-      const rows = detectGrid(grid)
-      if (rows.length > 1) {
-        const itemsPerRow = rows[0].length
-
-        switch (itemsPerRow) {
-          case 4:
-            setItemsPerPage(12)
-            break
-          case 3:
-            setItemsPerPage(9)
-            break
-          case 2:
-          case 1:
-            setItemsPerPage(6)
-            break
-          default:
-            break
-        }
-      }
-    }
-  }
+  const type: string | undefined = getQuery('type')
+  const sector: string | undefined = getQuery('sector')
+  const [assistantPanelActive, setAssistantPanelActive] = useState(false)
+  const itemsCount = 6
+  const [scrollOffset, setScrollOffest] = useState(1)
+  const entities = React.useMemo(
+    () => props.entities.slice(0, scrollOffset * itemsCount),
+    [scrollOffset, props.entities],
+  )
 
   const renderCards = (data: any): JSX.Element[] => {
     return (
       data &&
-      data.map((entity: ExplorerEntity, index: any) => {
-        return React.createElement(EntityCard[props.type], {
-          ...entity,
-          key: index,
+      data
+        .map((entity: TEntityModel, index: any) => {
+          return (
+            EntityCard[props.type] &&
+            React.createElement(EntityCard[props.type], {
+              ...entity,
+              key: index,
+            })
+          )
         })
-      })
+        .filter(Boolean)
     )
   }
 
   const renderEntities = (): JSX.Element => {
-    const {
-      entityTypeMap,
-      type,
-      filterUserEntities,
-      filterFeaturedEntities,
-      filterPopularEntities,
-      filterCategories,
-      entityCategoryTypeName,
-    } = props
-
-    const populateTitle = (): string => {
-      const words = []
-      if (!filterUserEntities && !filterFeaturedEntities && !filterPopularEntities) {
-        words.push('All')
-      } else if (filterUserEntities) {
-        words.push('My')
-      } else if (filterFeaturedEntities) {
-        words.push('Featured')
-      } else if (filterPopularEntities) {
-        words.push('Popular')
-      }
-
-      const tags = filterCategories.find((cat) => cat.name === entityCategoryTypeName)!.tags
-
-      if (tags && tags.length > 1) {
-        words.push('Selected')
-      } else if (tags && tags.length === 1) {
-        words.push(tags[0])
-      }
-
-      words.push(entityTypeMap[type].plural)
-
-      return words.join(' ')
-    }
+    const { entityTypeMap, type } = props
 
     const renderNoSearchFound = (): JSX.Element => (
       <NoEntitiesContainer>
-        <p>There are no {entityTypeMap[props.type].plural.toLowerCase()} that match your search criteria</p>
+        <p>There are no {entityTypeMap[props.type]?.plural.toLowerCase()} that match your search criteria</p>
       </NoEntitiesContainer>
     )
 
     const renderNonAssets = (): JSX.Element => (
-      <>
-        <div className='row row-eq-height'>{renderCards(currentItems)}</div>
-        <Pagination className='d-flex justify-content-center'>
-          <ReactPaginate
-            breakLabel='...'
-            nextLabel='Next'
-            forcePage={selected}
-            onPageChange={handlePageClick}
-            pageRangeDisplayed={1}
-            marginPagesDisplayed={1}
-            pageCount={pageCount}
-            previousLabel='Previous'
-            renderOnZeroPageCount={null!}
-            pageClassName='page-item'
-            pageLinkClassName='page-link'
-            previousClassName='page-item'
-            previousLinkClassName='page-link'
-            nextClassName='page-item'
-            nextLinkClassName='page-link'
-            breakClassName='page-item'
-            breakLinkClassName='page-link'
-            containerClassName='pagination'
-            activeClassName='active'
-          />
-        </Pagination>
-      </>
+      <InfiniteScroll
+        dataLength={entities.length} //This is important field to render the next data
+        next={() => {
+          setTimeout(() => {
+            setScrollOffest((scrollOffset) => scrollOffset + 1)
+          }, 1000 * 3)
+        }}
+        hasMore={entities.length < props.entities.length}
+        columns={!isMobile ? (!isTablet ? 3 : 2) : 1}
+      >
+        {renderCards(entities)}
+      </InfiniteScroll>
     )
 
     const renderAssets = (): JSX.Element => <AssetCollections />
+
+    if (type === EntityType.Asset) {
+      return (
+        <EntitiesContainer className='container-fluid'>
+          <div className='container'>
+            <EntitiesFilter filterSchema={props.filterSchema} />
+            <EntitiesBody>{renderAssets()}</EntitiesBody>
+          </div>
+        </EntitiesContainer>
+      )
+    }
 
     if (props.entitiesCount > 0) {
       return (
         <EntitiesContainer className='container-fluid'>
           <div className='container'>
-            <EntitiesFilter
-              title={populateTitle()}
-              filterSchema={props.filterSchema}
-              startDate={props.filterDateFrom}
-              startDateFormatted={props.filterDateFromFormatted}
-              endDate={props.filterDateTo}
-              endDateFormatted={props.filterDateToFormatted}
-              dateSummary={props.filterDateSummary}
-              categories={props.filterCategories}
-              categoriesSummary={props.filterCategoriesSummary}
-              userEntities={props.filterUserEntities}
-              featuredEntities={props.filterFeaturedEntities}
-              popularEntities={props.filterPopularEntities}
-              sector={props.filterSector}
-              handleFilterDates={props.handleFilterDates}
-              handleResetDatesFilter={props.handleResetDatesFilter}
-              handleFilterCategoryTag={props.handleFilterCategoryTag}
-              handleFilterSector={props.handleFilterSector}
-              handleFilterAddCategoryTag={props.handleFilterAddCategoryTag}
-              handleResetCategoryFilter={props.handleResetCategoryFilter}
-              handleResetSectorFilter={props.handleResetSectorFilter}
-              handleFilterToggleUserEntities={props.handleFilterToggleUserEntities}
-              handleFilterToggleFeaturedEntities={props.handleFilterToggleFeaturedEntities}
-              handleFilterTogglePopularEntities={props.handleFilterTogglePopularEntities}
-              handleResetFilters={resetWithDefaultViewFilters}
-            />
-            {props.filteredEntitiesCount === 0 && renderNoSearchFound()}
-            {props.filteredEntitiesCount > 0 && type === EntityType.Asset && renderAssets()}
-            {props.filteredEntitiesCount > 0 && type !== EntityType.Asset && renderNonAssets()}
+            <EntitiesFilter filterSchema={props.filterSchema} />
+            <EntitiesBody>
+              {props.filteredEntitiesCount === 0 && renderNoSearchFound()}
+              {props.filteredEntitiesCount > 0 && renderNonAssets()}
+            </EntitiesBody>
           </div>
         </EntitiesContainer>
       )
     } else {
       return (
         <ErrorContainer>
-          <p>No {entityTypeMap[props.type].plural.toLowerCase()} were found</p>
+          <p>No {entityTypeMap[props.type]?.plural.toLowerCase()} were found</p>
         </ErrorContainer>
       )
     }
@@ -297,63 +178,30 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
   const assistantPanelToggle = (): void => {
     // Assistant panel shown
     if (!assistantPanelActive) {
-      document?.querySelector('body')?.classList?.add('noScroll')
+      document?.querySelector('body')?.classList?.add('overflow-hidden')
     } else {
-      document?.querySelector('body')?.classList.remove('noScroll')
+      document?.querySelector('body')?.classList.remove('overflow-hidden')
     }
 
     setAssistantPanelActive(!assistantPanelActive)
   }
 
   useEffect(() => {
-    const init = async () => {
-      const res = await EntityList({ entityType: 'asset', entityStatus: '0' })
-      console.info('EntityList:', res)
-    }
-    init()
-
-    props.handleGetEntities()
-
-    let filter: string | undefined = getQuery('filter', true)
-    filter = filter && filter.length > 0 ? filter.toLowerCase() : filter
-
-    if (filter && Object.keys(entityFilters).includes(filter)) {
-      props.handleChangeEntitiesType(EntityType[entityFilters[filter]])
+    if (type) {
+      props.handleChangeEntitiesType(type)
     }
     // eslint-disable-next-line
-  }, [])
+  }, [type])
 
   useEffect(() => {
-    window.addEventListener('resize', updateItemsPerPage)
-    return (): void => window.removeEventListener('resize', updateItemsPerPage)
-  }, [])
+    props.handleChangeSector(sector || '')
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sector])
 
   useEffect(() => {
-    // Fetch items from another resources.
-    if (props.entities.length > 0) {
-      const endOffset = itemOffset + itemsPerPage
-      setCurrentItems(props.entities.slice(itemOffset, endOffset))
-      setPageCount(Math.ceil(props.entities.length / itemsPerPage))
-    }
-  }, [itemOffset, itemsPerPage, props.entities])
-
-  useEffect(() => {
-    if (props.entities.length > 0) {
-      // setItemOffset(0)
-      // setSelected(0)
-    }
-  }, [props.entities])
-
-  useEffect(() => {
-    if (currentItems && currentItems.length > 0) {
-      updateItemsPerPage()
-    }
-  }, [currentItems])
-
-  useEffect(() => {
-    setItemOffset(props.filterItemOffset)
-    setSelected(Math.floor(props.filterItemOffset / itemsPerPage))
-  }, [props.filterItemOffset, itemsPerPage])
+    // props.handleGetEntitiesByType(props.type)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.type])
 
   return (
     <Container>
@@ -364,13 +212,12 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
             filterSector={props.filterSector}
             showSearch={true}
             filterQuery={props.filterQuery}
-            handleChangeEntitiesType={props.handleChangeEntitiesType}
             handleChangeQuery={props.handleChangeEntitiesQuery}
             assistantPanelToggle={assistantPanelToggle}
           />
           {props.entityTypeMap && props.isLoadingEntities && (
             <div style={{ height: '100%' }}>
-              <Spinner info={`Loading ${props.entityTypeMap[props.type].plural}`} />
+              <Spinner info={`Loading ${props.entityTypeMap[props.type]?.plural}`} />
             </div>
           )}
           {!props.isLoadingEntities && renderEntities()}
@@ -382,49 +229,29 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
 
 function mapStateToProps(state: RootState): Record<string, any> {
   return {
-    entities: entitiesSelectors.selectedFilteredEntities(state),
+    entities: entitiesSelectors.selectedFilteredEntities2(state),
     entityTypeMap: entitiesSelectors.selectEntityConfig(state),
-    entitiesCount: entitiesSelectors.selectAllEntitiesCount(state),
+    entitiesCount: entitiesSelectors.selectAllEntitiesCount2(state),
     type: entitiesSelectors.selectSelectedEntitiesType(state),
-    filteredEntitiesCount: entitiesSelectors.selectFilteredEntitiesCount(state),
-    filterDateFrom: entitiesSelectors.selectFilterDateFrom(state),
-    filterDateTo: entitiesSelectors.selectFilterDateTo(state),
-    filterDateFromFormatted: entitiesSelectors.selectFilterDateFromFormatted(state),
-    filterDateToFormatted: entitiesSelectors.selectFilterDateToFormatted(state),
-    filterDateSummary: entitiesSelectors.selectFilterDateSummary(state),
+    filteredEntitiesCount: entitiesSelectors.selectFilteredEntitiesCount2(state),
     filterCategories: entitiesSelectors.selectFilterCategories(state),
-    filterCategoriesSummary: entitiesSelectors.selectFilterCategoriesSummary(state),
     filterSector: entitiesSelectors.selectFilterSector(state),
     filterUserEntities: entitiesSelectors.selectFilterUserEntities(state),
     filterFeaturedEntities: entitiesSelectors.selectFilterFeaturedEntities(state),
     filterPopularEntities: entitiesSelectors.selectFilterPopularEntities(state),
     filterItemOffset: entitiesSelectors.selectFilterItemOffset(state),
-    isLoadingEntities: entitiesSelectors.selectIsLoadingEntities(state),
     filterSchema: entitiesSelectors.selectFilterSchema(state),
     filterQuery: entitiesSelectors.selectFilterQuery(state),
-    isLoggedIn: accountSelectors.selectUserIsLoggedIn(state),
-    entityCategoryTypeName: entitiesSelectors.selectEntityCategoryTypeName(state),
+    filterCategoryTypeName: entitiesSelectors.selectFilterCategoryTypeName(state),
+    isLoadingEntities: entitiesSelectors.selectIsLoadingEntities2(state),
   }
 }
 
 const mapDispatchToProps = (dispatch: any): any => ({
-  handleGetEntities: (): void => dispatch(getEntities()),
+  handleGetEntitiesByType: (entityType: string): void => dispatch(getEntitiesByType(entityType)),
   handleChangeEntitiesQuery: (query: string): void => dispatch(filterEntitiesQuery(query)),
   handleChangeEntitiesType: (type: EntityType): void => dispatch(changeEntitiesType(type)),
-  handleFilterToggleUserEntities: (userEntities: boolean): void => dispatch(filterToggleUserEntities(userEntities)),
-  handleFilterTogglePopularEntities: (popularEntities: boolean): void =>
-    dispatch(filterTogglePopularEntities(popularEntities)),
-  handleFilterToggleFeaturedEntities: (featuredEntities: boolean): void =>
-    dispatch(filterToggleFeaturedEntities(featuredEntities)),
-  handleFilterDates: (dateFrom: any, dateTo: any): void => dispatch(filterDates(dateFrom, dateTo)),
-  handleResetDatesFilter: (): void => dispatch(resetDatesFilter()),
-  handleFilterCategoryTag: (category: string, tag: string): void => dispatch(filterCategoryTag(category, tag)),
-  handleFilterSector: (tag: string): void => dispatch(filterSector(tag)),
-  handleFilterAddCategoryTag: (category: string, tag: string): void => dispatch(filterAddCategoryTag(category, tag)),
-  handleFilterItemOffset: (itemOffset: number): void => dispatch(filterItemOffset(itemOffset)),
-  handleResetCategoryFilter: (category: string): void => dispatch(resetCategoryFilter(category)),
-  handleResetSectorFilter: (): void => dispatch(resetSectorFilter()),
-  handleResetFilters: (): void => dispatch(resetFilters()),
+  handleChangeSector: (sector: string): void => dispatch(filterSector(sector)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(EntitiesExplorer as any)

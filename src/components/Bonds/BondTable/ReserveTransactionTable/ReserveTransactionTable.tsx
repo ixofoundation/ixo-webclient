@@ -14,7 +14,6 @@ import WithdrawReserveModal from 'components/ControlPanel/Actions/WithdrawReserv
 import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 import { BondStateType } from 'redux/bond/bond.types'
 import { TableStyledHeader } from '../BondTable'
-import { useKeysafe } from 'lib/keysafe/keysafe'
 import { selectAccountBalances } from 'redux/account/account.selectors'
 import { tokenBalance } from 'redux/account/account.utils'
 
@@ -23,7 +22,6 @@ interface Props {
 }
 
 const ReserveTransactionTable: React.FC<Props> = ({ isDark }) => {
-  const { sendTransactionUpdate } = useKeysafe()
   const { allowReserveWithdrawals, controllerDid, state, withdrawHistory, bondDid, symbol } = useAppSelector(
     (state) => state.activeBond,
   )
@@ -148,7 +146,8 @@ const ReserveTransactionTable: React.FC<Props> = ({ isDark }) => {
         },
       },
     ]
-    return await sendTransactionUpdate(msgs)
+    console.log({ msgs })
+    return ''
   }
 
   const handleUpdateBondStatusToSettle = async (): Promise<string> => {
@@ -166,7 +165,8 @@ const ReserveTransactionTable: React.FC<Props> = ({ isDark }) => {
       amount: [{ amount: String(5000), denom: 'uixo' }],
       gas: String(3000000),
     }
-    return await sendTransactionUpdate(msgs, fee)
+    console.log({ msgs, fee })
+    return ''
   }
 
   const handleMakeOutcomePayment = async (): Promise<string> => {
@@ -180,7 +180,8 @@ const ReserveTransactionTable: React.FC<Props> = ({ isDark }) => {
         },
       },
     ]
-    return await sendTransactionUpdate(msgs)
+    console.log({ msgs })
+    return ''
   }
 
   // pagination

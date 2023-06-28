@@ -5,7 +5,6 @@ import { RootState } from 'redux/store'
 import { Hero } from './Components/Hero/Hero'
 import { CreateEntityWrapper } from './CreateEntity.styles'
 import { Steps } from 'components/Steps/Steps'
-import { toTitleCase } from 'utils/formatters'
 import { EntityType, EntityTypeStrategyMap } from '../../../types/entities'
 import * as createEntitySelectors from 'redux/createEntityOld/createEntity.selectors'
 import { newEntity } from 'redux/createEntityOld/createEntity.actions'
@@ -46,7 +45,7 @@ class CreateEntity extends React.Component<Props> {
       handleNewEntity,
     } = this.props
 
-    handleNewEntity(toTitleCase(entityTypeUrlParam) as EntityType, false)
+    handleNewEntity(entityTypeUrlParam as EntityType, false)
   }
 
   handleReset = (): any => {
@@ -55,13 +54,13 @@ class CreateEntity extends React.Component<Props> {
       handleClearAssociatedTemplates()
       handleNewEntity(entityType, true)
 
-      Toast.successToast('Form has been reset')
+      Toast.successToast(null, 'Form has been reset')
     }
   }
 
   handleSave = (): void => {
     // does nothing except display a message
-    Toast.successToast('Progress has been saved')
+    Toast.successToast(null, 'Progress has been saved')
   }
 
   renderStartRoute = (): JSX.Element => {
@@ -72,7 +71,7 @@ class CreateEntity extends React.Component<Props> {
       handleNewEntity,
     } = this.props
 
-    const entityType = toTitleCase(entityTypeUrlParam) as EntityType
+    const entityType = entityTypeUrlParam as EntityType
 
     const stepMap = createEntityMap[entityType]
 
@@ -157,9 +156,7 @@ class CreateEntity extends React.Component<Props> {
 
     // TODO: Token Class Template should be in a new URL
     const entityMap =
-      templateType === 'Token Class'
-        ? 'Create a Token Class Protocol'
-        : entityConfig[toTitleCase(entityType)]?.createNewTitle
+      templateType === 'Token Class' ? 'Create a Token Class Protocol' : entityConfig[entityType]?.createNewTitle
 
     return (
       <>

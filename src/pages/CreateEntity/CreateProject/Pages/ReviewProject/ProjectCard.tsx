@@ -7,10 +7,10 @@ interface Props {
   image: string
   name: string
   endDate: string
-  icon: string
+  logo: string
 }
 
-const ProjectCard: React.FC<Props> = ({ image, name, endDate, icon }): JSX.Element => {
+const ProjectCard: React.FC<Props> = ({ image, name, endDate, logo }): JSX.Element => {
   return (
     <FlexBox
       direction='column'
@@ -27,7 +27,7 @@ const ProjectCard: React.FC<Props> = ({ image, name, endDate, icon }): JSX.Eleme
             <CardTag tagColor={'#5197B6'}>Project</CardTag>
           </CardTags>
           <Box borderRadius='50%'>
-            <img width={40} height={40} src={icon} alt='' />
+            <img width={40} height={40} src={logo} alt='' />
           </Box>
         </FlexBox>
         <FlexBox width='100%'>

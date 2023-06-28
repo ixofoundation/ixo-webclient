@@ -21,7 +21,7 @@ const defModalStyles = {
     borderWidth: 0,
     overflow: 'auto',
     maxHeight: '90vh',
-    maxWidth: '90vw',
+    maxWidth: '100vw',
     padding: '0',
     background: 'linear-gradient(180deg, #01273A 0%, #002D42 100%)',
     border: '1px solid #083347',
@@ -32,9 +32,9 @@ const defModalStyles = {
 }
 
 const ModalInner = styled.div<{ color?: string }>`
-  background: ${(props): string => (props.color ? props.color : props.theme.bg.modal)};
+  background: ${(props): string => (props.color ? props.color : props.theme.ixoDarkestBlue)};
   color: white;
-  padding: 30px 50px 0;
+  padding: 30px 50px;
   font-family: ${(props): string => props.theme.fontRoboto};
 
   @media (max-width: ${deviceWidth.mobile}px) {
@@ -97,7 +97,7 @@ const FlexContainer = styled.div`
     font-weight: 300;
     margin: 0;
     font-size: 18px;
-    color: ${/* eslint-disable-line */ (props) => props.theme.fontLightBlue};
+    color: ${/* eslint-disable-line */ (props) => props.theme.ixoLightBlue};
     font-family: ${/* eslint-disable-line */ (props) => props.theme.primaryFontFamily};
   }
 `
@@ -184,16 +184,3 @@ export const ModalWrapper: React.SFC<Props> = (props) => {
     </Modal>
   )
 }
-
-export const Button = styled.button`
-  border-radius: 7px;
-  border: 1px solid #00d2ff;
-  color: #fff;
-  font-weight: 500;
-  font-size: 15px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: transparent;
-  height: 2.25rem;
-`

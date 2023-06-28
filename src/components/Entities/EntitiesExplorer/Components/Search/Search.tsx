@@ -78,7 +78,7 @@ const Search: React.FunctionComponent<Props> = ({ type, entityColor, filterQuery
                 {type === EntityType.Oracle && <Oracle fill='#000' width='26' />}
                 {type === EntityType.Investment && <Investments fill='#000' width='26' />}
                 {type === EntityType.Dao && <Cells fill='#000' width='26' />}
-                {type === EntityType.Template && <Template fill='#000' width='26' />}
+                {type === EntityType.Protocol && <Template fill='#000' width='26' />}
                 {type === EntityType.Asset && <DataAssets fill='#000' width='26' />}
                 <span className='modal-text'>{entityTypeMap[type].plural}</span>
                 <MediaQuery minWidth={`${deviceWidth.mobile + 1}px`}>
@@ -154,15 +154,15 @@ const Search: React.FunctionComponent<Props> = ({ type, entityColor, filterQuery
                   </ButtonContent>
                 </SearchFilterButton>
                 <SearchFilterButton
-                  onClick={(): void => handleSearchFilter(EntityType.Template)}
+                  onClick={(): void => handleSearchFilter(EntityType.Protocol)}
                   className={`
-                    ${EntityType.Template.toLowerCase()} ${type === EntityType.Template ? 'active' : ''}
+                    ${EntityType.Protocol.toLowerCase()} ${type === EntityType.Protocol ? 'active' : ''}
                     `}
-                  color={entityTypeMap[EntityType.Template].themeColor}
+                  color={entityTypeMap[EntityType.Protocol].themeColor}
                 >
                   <ButtonContent>
                     <Template fill='#000' width='26' />
-                    {entityTypeMap[EntityType.Template].plural}
+                    {entityTypeMap[EntityType.Protocol].plural}
                   </ButtonContent>
                 </SearchFilterButton>
                 <SearchFilterButton

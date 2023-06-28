@@ -1,42 +1,40 @@
+import { deviceWidth } from 'constants/device'
 import { ReactNode } from 'react'
 import styled, { css } from 'styled-components'
 
 export const theme = {
-  ixoBlue: '#49BFE0', // button borders, small hero numbers, SDG numbers
   ixoOrange: '#F89D28',
+  ixoDarkOrange: '#ED9526',
   ixoGreen: '#5AB946',
+  ixoLightGreen: '#73B556',
   ixoRed: '#E2223B',
   ixoDarkRed: '#A11C43',
 
-  ixoWhite: '#FFFFFF',
-  ixoLightBlue: '#83D9F2',
   ixoLightGreyBlue: '#688EA0',
+  ixoLightBlue: '#83D9F2',
+  ixoBlue: '#49BFE0', // button borders, small hero numbers, SDG numbers
   ixoNewBlue: '#00D2FF',
   ixoDarkBlue: '#436779',
   ixoNavyBlue: '#143F54',
   ixoMediumBlue: '#107591',
-  ixoLightGrey: '#F3F3F3',
-  ixoBlack: '#000000',
-  ixoColor2: '#828E94',
-  ixoNewOrange: '#ED9526',
+  ixoDarkestBlue: '#022739',
 
+  ixoWhite: '#FFFFFF',
   ixoGrey100: '#F7F8F9',
   ixoGrey300: '#E8E8E9',
   ixoGrey500: '#D3D6D7',
   ixoGrey700: '#A8ADAE',
   ixoGrey900: '#4A4E50',
+  ixoBlack: '#000000',
+
+  ixoColor2: '#828E94',
 
   ixoShadow1: '10px 10px 20px rgba(0, 0, 0, 0.25)',
+  ixoShadow2: '0px 4px 9px rgba(0, 0, 0, 0.18)',
+  ixoGradientLight: 'linear-gradient(180deg, #FFFFFF 0%, #F3F6FC 100%)',
   ixoGradientDark2: 'linear-gradient(180deg, #01273A 0%, #002D42 100%)',
 
   bg: {
-    blue: '#002233', // dashboard background,
-    modal: '#002233',
-    green: '#5AB946',
-    darkBlue: '#01151F', // Tooltips background
-    lightBlue: '#017492', // active button background for tabs on hero section
-    lightGrey: '#F6F6F6', // light background for projects list
-    gradientBlue: 'linear-gradient(to bottom, #012639 0%,#002d42 100%)', // background for widgets (charts, graphs, tabs, etc.)
     gradientDarkBlue: 'linear-gradient(180deg, #038FB8 0%, #036C93 100%)', // claims
     gradientButton: 'linear-gradient(to bottom, #03D0FB 0%, #016480 100%)',
     gradientButtonGreen: 'linear-gradient(180deg, #5AB946 0%, #339F1C 100%)',
@@ -45,32 +43,14 @@ export const theme = {
     gradientWhite: 'linear-gradient(180deg, #FFFFFF 0%, #FFFFFF 100%)',
     heavyDarkBlue: '#012131',
   },
-  fontBlueDisabled: '#436779',
-  fontBlueButtonNormal: 'white',
-  fontBlueButtonHover: '#83D9F2',
-  fontDarkBlueButtonNormal: 'white',
-  fontDarkBlueButtonHover: '#00D2FF',
-  fontBlue: '#49BFE0', // Same as ixoBlue
   fontDarkBlue: '#013C4F',
   fontDarkGrey: '#282828',
-  fontLightBlue: '#83D9F2', // big hero section numbers, widgets big numbers
   fontGrey: '#282828', // generally text on white background
   primaryFontFamily: 'Roboto, sans-serif',
   secondaryFontFamily: 'Roboto Condensed, sans-serif',
   fontSkyBlue: '#39C3E6',
-  fontLightGreyBlue: '#688EA0',
-  fontGreen: '#6FCF97',
-  fontYellow: '#E4D33D',
-  grey: '#E9E8E8', // borders for project list cards, progress bar background on projects list
-  darkGrey: '#656969', // "load more projects" button on project list
-  lightGrey: '#B6B6B6',
-  neutralLighterGrey: '#F0F3F9',
-  neutralLightGrey: '#D7DEE8',
-  neutralMediumGrey: '#878F9F',
-  neutralDarkGrey: '#333333',
   widgetBorder: '#0C3550', // border color for graphs/ charts, etc.
   graphGradient: 'linear-gradient(to right, #016480 0%, #03d0FE 100%)', // gradient fill for graphs/bars/charts
-  red: '#E2223B',
   rejected: '#E2223B',
   approved: '#5ab946',
   disputed: '#ed9526',
@@ -92,15 +72,6 @@ export const Container = styled.div`
   flex-flow: column;
   min-height: 100vh;
   font-family: ${(props): string => props.theme.primaryFontFamily};
-
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  p,
-  a {
-  }
   font-weight: 300;
 `
 export const HeaderDropdownBackground = styled.div`
@@ -160,7 +131,7 @@ export interface HTMLElementProps {
   pr?: number
   pb?: number
   m?: number
-  mx?: number
+  mx?: number | 'auto'
   my?: number
   mt?: number
   ml?: number
@@ -175,6 +146,10 @@ export interface HTMLElementProps {
   borderColor?: string
   borderStyle?: string
   borderRadius?: string
+  borderRight?: string
+  borderRightStyle?: string
+  borderRightWidth?: string
+  borderRightColor?: string
   position?: string
   left?: string
   right?: string
@@ -185,11 +160,14 @@ export interface HTMLElementProps {
   transition?: string
   background?: string
   backgroundSize?: string
+  backgroundPosition?: string
   zIndex?: number
   pointerEvents?: string
   cursor?: string
   filter?: string
   overflow?: string
+  overflowX?: string
+  overflowY?: string
   opacity?: number
   whiteSpace?: string
   lineHeight?: string
@@ -199,21 +177,32 @@ export interface HTMLElementProps {
   outlineWidth?: string
   visibility?: string
   color?: string
+  fontSize?: number
+  fontWeight?: number | string
+  boxShadow?: string
+  textAlign?: string
+
+  className?: string
   children?: ReactNode
 }
 
 export interface HTMLDivProps extends HTMLElementProps {
   hover?: HTMLElementProps
+  xs?: HTMLElementProps
+  sm?: HTMLElementProps
+  md?: HTMLElementProps
   onClick?: (e: any) => void
 }
 
 export interface HTMLFlexBoxProps extends HTMLDivProps {
   direction?: 'row' | 'column' | 'row-reverse'
   justifyContent?: 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around' | 'space-evenly' | 'stretch'
-  alignItems?: 'stretch' | 'center' | 'start' | 'end'
+  alignItems?: 'stretch' | 'center' | 'start' | 'end' | 'baseline'
   gap?: number
   flexWrap?: string
   flexBasis?: string
+  flexGrow?: number
+  flexShrink?: number
 }
 
 const htmlElementCss = css<HTMLDivProps>`
@@ -237,7 +226,10 @@ const htmlElementCss = css<HTMLDivProps>`
   ${({ pt }) => pt && `padding-top: ${pt * 0.25}rem`};
   ${({ pb }) => pb && `padding-bottom: ${pb * 0.25}rem`};
   ${({ m }) => m && `margin: ${m * 0.25}rem`};
-  ${({ mx }) => mx && `margin-left: ${mx * 0.25}rem; margin-right: ${mx * 0.25}rem`};
+  ${({ mx }) =>
+    mx === 'auto'
+      ? `margin-left: ${mx}; margin-right: ${mx};`
+      : mx && `margin-left: ${mx * 0.25}rem; margin-right: ${mx * 0.25}rem;`}
   ${({ my }) => my && `margin-top: ${my * 0.25}rem; margin-bottom: ${my * 0.25}rem`};
   ${({ ml }) => ml && `margin-left: ${ml * 0.25}rem`};
   ${({ mr }) => mr && `margin-right: ${mr * 0.25}rem`};
@@ -252,6 +244,13 @@ const htmlElementCss = css<HTMLDivProps>`
   ${({ borderStyle }): string | undefined => (borderStyle ? `border-style: ${borderStyle}` : undefined)};
   ${({ borderColor }): string | undefined => (borderColor ? `border-color: ${borderColor}` : undefined)};
   ${({ borderRadius }): string | undefined => (borderRadius ? `border-radius: ${borderRadius}` : undefined)};
+  ${({ borderRight }): string | undefined => (borderRight ? `border-right: ${borderRight}` : undefined)};
+  ${({ borderRightWidth }): string | undefined =>
+    borderRightWidth ? `border-right-width: ${borderRightWidth}` : undefined};
+  ${({ borderRightStyle }): string | undefined =>
+    borderRightStyle ? `border-right-style: ${borderRightStyle}` : undefined};
+  ${({ borderRightColor }): string | undefined =>
+    borderRightColor ? `border-right-color: ${borderRightColor}` : undefined};
   ${({ position }): string | undefined => (position ? `position: ${position}` : undefined)};
   ${({ left }): string | undefined => (left ? `left: ${left}` : undefined)};
   ${({ right }): string | undefined => (right ? `right: ${right}` : undefined)};
@@ -262,11 +261,15 @@ const htmlElementCss = css<HTMLDivProps>`
   ${({ transition }): string | undefined => (transition ? `transition: ${transition}` : undefined)};
   ${({ background }): string | undefined => (background ? `background: ${background}` : undefined)};
   ${({ backgroundSize }): string | undefined => (backgroundSize ? `background-size: ${backgroundSize}` : undefined)};
+  ${({ backgroundPosition }): string | undefined =>
+    backgroundPosition ? `background-position: ${backgroundPosition}` : undefined};
   ${({ zIndex }): string | undefined => (zIndex ? `z-index: ${zIndex}` : undefined)};
   ${({ pointerEvents }): string | undefined => (pointerEvents ? `pointer-events: ${pointerEvents}` : undefined)};
   ${({ cursor }): string | undefined => (cursor ? `cursor: ${cursor}` : undefined)};
   ${({ filter }): string | undefined => (filter ? `filter: ${filter}` : undefined)};
-  ${({ overflow }): string | undefined => (overflow ? `overflow: ${overflow}` : undefined)};
+  ${({ overflow }) => overflow && `overflow: ${overflow};`}
+  ${({ overflowX }) => overflowX && `overflow-x: ${overflowX};`}
+  ${({ overflowY }) => overflowY && `overflow-y: ${overflowY};`}
   ${({ opacity }): string | undefined => (opacity ? `opacity: ${opacity}` : undefined)};
   ${({ whiteSpace }): string | undefined => (whiteSpace ? `white-space: ${whiteSpace}` : undefined)};
   ${({ lineHeight }): string | undefined => (lineHeight ? `line-height: ${lineHeight}` : undefined)};
@@ -276,11 +279,21 @@ const htmlElementCss = css<HTMLDivProps>`
   ${({ outlineColor }): string | undefined => (outlineColor ? `outline-color: ${outlineColor}` : undefined)};
   ${({ visibility }): string | undefined => (visibility ? `visibility: ${visibility}` : undefined)};
   ${({ color }) => color && `color: ${color}`};
+  ${({ fontSize }) => fontSize && `font-size: ${fontSize * 0.25}rem`};
+  ${({ fontWeight }) => fontWeight && `font-weight: ${fontWeight}`};
+  ${({ boxShadow }) => boxShadow && `box-shadow: ${boxShadow}`};
+  ${({ textAlign }) => textAlign && `text-align: ${textAlign}`};
 
   &:hover {
-    ${({ hover }) => hover?.background && `background: ${hover?.background}`};
-    ${({ hover }) => hover?.borderWidth && `border-width: ${hover?.borderWidth}`};
-    ${({ hover }) => hover?.borderColor && `border-color: ${hover?.borderColor}`};
+    ${({ hover }) => hover?.background && `background: ${hover.background};`}
+    ${({ hover }) => hover?.borderWidth && `border-width: ${hover.borderWidth};`}
+    ${({ hover }) => hover?.borderColor && `border-color: ${hover.borderColor};`}
+    ${({ hover }) => hover?.borderStyle && `border-style: ${hover.borderStyle};`}
+    ${({ hover }) => hover?.color && `color: ${hover.color};`}
+  }
+
+  @media (max-width: ${deviceWidth.mobileSmall}px) {
+    ${({ xs }) => xs?.px && `padding-left: ${xs.px * 0.25}rem; padding-right: ${xs.px * 0.25}rem`};
   }
 `
 
@@ -307,20 +320,23 @@ export const FlexBox = styled(Box)<HTMLFlexBoxProps>`
   gap: ${({ gap = 0 }): string => gap * 0.25 + 'rem'};
   ${({ flexWrap }): string | undefined => (flexWrap ? `flex-wrap: ${flexWrap}` : undefined)};
   ${({ flexBasis }): string | undefined => (flexBasis ? `flex-basis: ${flexBasis}` : undefined)};
+  ${({ flexGrow }) => flexGrow && `flex-grow: ${flexGrow};`}
+  ${({ flexShrink }) => flexShrink && `flex-shrink: ${flexShrink};`}
 `
 
-export const SvgBox = styled(FlexBox)<{ svgWidth?: number; svgHeight?: number; color?: string }>`
+export const SvgBox = styled(FlexBox)<{ svgWidth?: number; svgHeight?: number }>`
   line-height: 0;
+
   svg {
-    ${({ svgWidth }): string | undefined => (svgWidth ? `width: ${svgWidth * 0.25}rem` : undefined)};
-    ${({ svgHeight }): string | undefined => (svgHeight ? `height: ${svgHeight * 0.25}rem` : undefined)};
+    ${({ svgWidth }) => svgWidth && `width: ${svgWidth * 0.25}rem;`}
+    ${({ svgHeight }) => svgHeight && `height: ${svgHeight * 0.25}rem;`}
 
     path {
-      ${({ color }): string | undefined => (color ? `fill: ${color}` : undefined)};
+      fill: currentColor !important;
       transition: all 0.2s;
     }
     circle {
-      ${({ color }): string | undefined => (color ? `stroke: ${color}` : undefined)};
+      stroke: currentColor !important;
       transition: all 0.2s;
     }
   }
@@ -344,8 +360,9 @@ export const GridContainer = styled(Box)<{
   ${({ rowGap }): string | undefined => (rowGap ? `row-gap: ${rowGap * 0.25}rem` : undefined)};
   ${({ gridGap }): string | undefined => (gridGap ? `grid-gap: ${gridGap * 0.25}rem` : undefined)};
 `
-export const GridItem = styled(Box)<{ gridArea?: string }>`
+export const GridItem = styled(Box)<{ gridArea?: string; alignSelf?: string }>`
   ${({ gridArea }) => gridArea && `grid-area: ${gridArea}`};
+  ${({ alignSelf }) => alignSelf && `align-self: ${alignSelf}`};
 `
 
 export const TableContainer = styled.table<{ width?: string; borderCollapse?: string; borderSpacing: string }>`
@@ -364,4 +381,19 @@ export const TableHeadItem = styled.th<HTMLDivProps>`
 `
 export const TableBodyItem = styled.td<HTMLDivProps>`
   ${htmlElementCss}
+`
+
+export const ScrollBox = styled(FlexBox)`
+  &::-webkit-scrollbar {
+    width: 16px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: #08222f;
+    border-radius: 10px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: ${(props): string => props.theme.ixoNewBlue};
+    border-radius: 10px;
+  }
 `

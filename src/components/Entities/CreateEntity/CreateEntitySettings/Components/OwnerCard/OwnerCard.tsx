@@ -55,7 +55,7 @@ const ButtonContainer = styled.div`
 
     &:disabled {
       opacity: 0.8;
-      color: ${(props: any): string => props.theme.fontLightGreyBlue};
+      color: ${(props: any): string => props.theme.ixoLightGreyBlue};
     }
   }
 `

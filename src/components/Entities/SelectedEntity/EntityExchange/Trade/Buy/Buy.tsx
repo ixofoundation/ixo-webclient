@@ -1,5 +1,4 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import blocksyncApi from 'api/blocksync/blocksync'
 import Axios from 'axios'
 import moment from 'moment'
 import { useAppSelector } from 'redux/hooks'
@@ -11,7 +10,7 @@ import { TradeWrapper, AssetCardWrapper, TradePanel } from '../Swap.styles'
 import { useHistory, useLocation } from 'react-router-dom'
 import queryString from 'query-string'
 import { findDenomByMinimalDenom, minimalAmountToAmount } from 'redux/account/account.utils'
-import SliderSettings from 'assets/images/icon-slider-settings.svg'
+import SliderSettings from 'assets/images/icon-sliders-h-solid.svg'
 import { selectSelectedAccountAddress } from 'redux/selectedEntityExchange/entityExchange.selectors'
 import * as _ from 'lodash'
 import {
@@ -28,6 +27,9 @@ import { useIxoConfigs } from 'hooks/configs'
 import { AssetType } from 'redux/configs/configs.types'
 import NftBuyModal from 'components/ControlPanel/Actions/NftBuyModal'
 import { requireCheckDefault } from 'utils/images'
+import { BlockSyncService } from 'services/blocksync'
+
+const bsService = new BlockSyncService()
 
 const NftAssetList = [
   {
@@ -125,7 +127,7 @@ const Buy: React.FunctionComponent = () => {
 
   useEffect(() => {
     if (nftAsset?.entityId) {
-      blocksyncApi.project.getProjectByProjectDid(nftAsset?.entityId).then((apiEntity) => {
+      bsService.project.getProjectByProjectDid(nftAsset?.entityId).then((apiEntity: ApiListedEntity) => {
         setNftEntity(apiEntity)
       })
     }

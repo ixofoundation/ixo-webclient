@@ -74,12 +74,24 @@ export const toFixed = (amount: string | undefined, decimals = 3): string => {
   return amount ? new BigNumber(amount).toFixed(decimals) : '0'
 }
 
+export const plus = (a: string, b: string): string => {
+  return new BigNumber(a).plus(new BigNumber(b)).toString()
+}
+
 export const subtract = (a: string, b: string): string => {
   return new BigNumber(a).minus(new BigNumber(b)).toString()
 }
 
 export const isLessThan = (a: string, b: string): boolean => {
-  return new BigNumber(a).isLessThan(b)
+  return new BigNumber(a).isLessThan(new BigNumber(b))
+}
+
+export const isGreaterThan = (a: string, b: string | number): boolean => {
+  return new BigNumber(a).isGreaterThan(new BigNumber(b))
+}
+
+export const isGreaterThanOrEqualTo = (a: string, b: string | number): boolean => {
+  return new BigNumber(a).isGreaterThanOrEqualTo(new BigNumber(b))
 }
 
 export const percentFormat = (a: string | number, b: string | number, decimals: number): string => {

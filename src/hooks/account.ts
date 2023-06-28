@@ -1,6 +1,5 @@
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
-import * as base58 from 'bs58'
-import { SigningStargateClient, utils } from '@ixo/impactxclient-sdk'
+import { SigningStargateClient } from '@ixo/impactxclient-sdk'
 import {
   selectAccountSelectedWallet,
   selectAccountAddress,
@@ -9,64 +8,83 @@ import {
   selectAccountKeyType,
   selectAccountDid,
   selectAccountBalances,
-  selectAccountChooseWalletOpen,
   selectAccountName,
   selectAccountRegistered,
+  selectAccountCosmWasmClient,
+  selectAccountCWClient,
+  selectAccountFunded,
+  selectAccountCw20Tokens,
+  selectAccountNativeTokens,
 } from 'redux/account/account.selectors'
-import { getAddressFromPubKey, keysafeGetInfo } from 'lib/keysafe/keysafe'
+import { decode } from 'bs58'
 import {
   chooseWalletAction,
   updateAddressAction,
   updateBalancesAction,
-  updateChooseWalletOpenAction,
+  updateCosmWasmAction,
+  updateCw20TokensAction,
+  updateCWClientAction,
   updateDidAction,
   updateNameAction,
+  updateNativeTokensAction,
   updatePubKeyAction,
   updateRegisteredAction,
   updateSigningClientAction,
 } from 'redux/account/account.actions'
-import { WalletType } from 'redux/account/account.types'
-import { GetBalances, KeyTypes } from 'lib/protocol'
+import {} from 'redux/account/account.types'
+import { GetBalances, KeyTypes, TSigner } from 'lib/protocol'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
-import { useKeplr } from 'lib/keplr/keplr'
-import { useIxoConfigs } from './configs'
+import { SigningCosmWasmClient, CosmWasmClient } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/cosmwasm-stargate'
+import { WalletType } from '@gssuper/cosmodal'
+import { Cw20Token, NativeToken } from 'types/tokens'
 
 export function useAccount(): {
-  selectedWallet: WalletType
+  selectedWallet: WalletType | undefined
   address: string
   signingClient: SigningStargateClient
+  cosmWasmClient: SigningCosmWasmClient
+  cwClient: CosmWasmClient
   pubKey: string
+  pubKeyUint8: Uint8Array | undefined
   keyType: KeyTypes
   did: string
   balances: Coin[]
+  nativeTokens: NativeToken[]
+  cw20Tokens: Cw20Token[]
   name: string
   registered: boolean | undefined
-  chooseWalletOpen: boolean
-  updateKeysafeLoginStatus: () => Promise<void>
-  updateKeplrLoginStatus: () => Promise<void>
+  funded: boolean
+  signer: TSigner
   updateBalances: () => Promise<void>
+  updateNativeTokens: (balances: { [denom: string]: NativeToken }) => void
+  updateCw20Tokens: (balances: { [addr: string]: Cw20Token }) => void
   chooseWallet: (wallet: WalletType | undefined) => void
-  updateSigningClient: (signingClient: SigningStargateClient) => void
+  updateSigningClient: (signingClient?: SigningStargateClient) => void
+  updateCosmWasmClient: (cosmWasmClient?: SigningCosmWasmClient) => void
+  updateCWClient: (cosmWasmClient: CosmWasmClient) => void
   updateRegistered: (registered: boolean) => void
   updateDid: (did: string) => void
   updatePubKey: (pubKey: string) => void
   updateAddress: (address: string) => void
   updateName: (name: string) => void
-  updateChooseWalletOpen: (open: boolean) => void
 } {
   const dispatch = useAppDispatch()
-  const { convertToDenom } = useIxoConfigs()
-  const keplr = useKeplr()
-  const selectedWallet: WalletType = useAppSelector(selectAccountSelectedWallet)
+  const selectedWallet: WalletType | undefined = useAppSelector(selectAccountSelectedWallet)
   const address: string = useAppSelector(selectAccountAddress)
   const signingClient: SigningStargateClient = useAppSelector(selectAccountSigningClient)
+  const cosmWasmClient: SigningCosmWasmClient = useAppSelector(selectAccountCosmWasmClient)
+  const cwClient: CosmWasmClient = useAppSelector(selectAccountCWClient)
   const pubKey: string = useAppSelector(selectAccountPubKey)
+  const pubKeyUint8: Uint8Array | undefined = pubKey ? Uint8Array.from(decode(pubKey)) : undefined
   const keyType: KeyTypes = useAppSelector(selectAccountKeyType)
   const did: string = useAppSelector(selectAccountDid)
   const name: string = useAppSelector(selectAccountName)
   const balances: Coin[] = useAppSelector(selectAccountBalances)
+  const nativeTokens: NativeToken[] = useAppSelector(selectAccountNativeTokens)
+  const cw20Tokens: Cw20Token[] = useAppSelector(selectAccountCw20Tokens)
   const registered: boolean | undefined = useAppSelector(selectAccountRegistered)
-  const chooseWalletOpen: boolean = useAppSelector(selectAccountChooseWalletOpen)
+  const funded: boolean = useAppSelector(selectAccountFunded)
+  const signer: TSigner = { address, did, pubKey: pubKeyUint8!, keyType }
 
   const updateBalances = async (): Promise<void> => {
     try {
@@ -74,16 +92,28 @@ export function useAccount(): {
         return
       }
       const balances = await GetBalances(address)
-      dispatch(updateBalancesAction(balances.map((item) => convertToDenom(item)!)))
+      dispatch(updateBalancesAction(balances))
     } catch (e) {
       console.error('updateBalances:', e)
     }
   }
+  const updateCw20Tokens = (balances: { [addr: string]: Cw20Token }) => {
+    dispatch(updateCw20TokensAction(balances))
+  }
+  const updateNativeTokens = (balances: { [denom: string]: NativeToken }) => {
+    dispatch(updateNativeTokensAction(balances))
+  }
   const chooseWallet = (wallet: WalletType | undefined): void => {
     dispatch(chooseWalletAction(wallet))
   }
-  const updateSigningClient = (signingClient: SigningStargateClient): void => {
-    dispatch(updateSigningClientAction(signingClient))
+  const updateSigningClient = (signingClient?: SigningStargateClient): void => {
+    dispatch(updateSigningClientAction(signingClient!))
+  }
+  const updateCosmWasmClient = (cosmWasmClient?: SigningCosmWasmClient): void => {
+    dispatch(updateCosmWasmAction(cosmWasmClient!))
+  }
+  const updateCWClient = (cosmWasmClient: CosmWasmClient): void => {
+    dispatch(updateCWClientAction(cosmWasmClient))
   }
   const updateRegistered = (registered: boolean): void => {
     dispatch(updateRegisteredAction(registered))
@@ -100,74 +130,35 @@ export function useAccount(): {
   const updateName = (name: string): void => {
     dispatch(updateNameAction(name))
   }
-  const updateChooseWalletOpen = (open: boolean): void => {
-    dispatch(updateChooseWalletOpenAction(open))
-  }
-
-  const updateKeysafeLoginStatus = async (): Promise<void> => {
-    try {
-      const keysafeInfo = await keysafeGetInfo()
-      const { name, didDoc } = keysafeInfo!
-      if (name) {
-        updateName(name)
-      }
-      if (didDoc?.pubKey) {
-        updatePubKey(didDoc.pubKey)
-        const addressFromPK = getAddressFromPubKey(didDoc.pubKey)
-        if (addressFromPK) {
-          updateAddress(addressFromPK)
-        }
-      }
-      if (didDoc?.did) {
-        updateDid(didDoc.did)
-      }
-    } catch (e) {
-      console.error('updateKeysafeLoginStatus:', e)
-    }
-  }
-  const updateKeplrLoginStatus = async (): Promise<void> => {
-    try {
-      const key = await keplr.getKey()
-      if (key?.name) {
-        updateName(key.name)
-      }
-      if (key?.bech32Address) {
-        updateAddress(key.bech32Address)
-      }
-      if (key?.pubKey) {
-        const pubKey = base58.encode(key.pubKey)
-        updatePubKey(pubKey)
-        const did = utils.did.generateSecpDid(pubKey)
-        if (did) {
-          updateDid(did)
-        }
-      }
-    } catch (e) {
-      console.error('updateKeplrLoginStatus:', e)
-    }
-  }
 
   return {
     selectedWallet,
     address,
     signingClient,
+    cosmWasmClient,
+    cwClient,
     pubKey,
+    pubKeyUint8,
     keyType,
     did,
     balances,
+    nativeTokens,
+    cw20Tokens,
     name,
     registered,
-    chooseWalletOpen,
-    updateKeysafeLoginStatus,
-    updateKeplrLoginStatus,
+    funded,
+    signer,
     updateBalances,
+    updateNativeTokens,
+    updateCw20Tokens,
     chooseWallet,
     updateSigningClient,
+    updateCosmWasmClient,
+    updateCWClient,
     updateRegistered,
     updateDid,
     updatePubKey,
     updateAddress,
     updateName,
-    updateChooseWalletOpen,
   }
 }

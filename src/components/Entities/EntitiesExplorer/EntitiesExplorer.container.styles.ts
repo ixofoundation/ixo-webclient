@@ -9,7 +9,7 @@ export const Container = styled.div`
 `
 
 export const EntitiesContainer = styled.div`
-  background: ${/* eslint-disable-line */ (props) => props.theme.bg.lightGrey};
+  background: ${/* eslint-disable-line */ (props) => props.theme.ixoGrey100};
   flex: 1 1 auto;
   min-height: 480px;
 
@@ -26,13 +26,24 @@ export const EntitiesContainer = styled.div`
   }
 `
 
+export const EntitiesBody = styled.div`
+  min-height: 500px;
+
+  .infinite-scroll-component {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 20px;
+  }
+`
+
 export const ErrorContainer = styled.div`
   display: flex;
   flex: 1;
   justify-content: center;
   color: white;
   align-items: center;
-  background-color: ${/* eslint-disable-line */ (props) => props.theme.bg.blue};
+  background-color: ${/* eslint-disable-line */ (props) => props.theme.ixoDarkestBlue};
   height: 100%;
   min-height: 480px;
 `

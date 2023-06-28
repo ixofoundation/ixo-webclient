@@ -25,6 +25,7 @@ const StyledValue = styled.div`
   font-size: 20px;
   color: ${(props): string => props.theme.ixoBlack};
   background: transparent;
+  overflow: hidden;
 `
 
 const SelectWrapper = styled.div<{ width: string; height: string }>`

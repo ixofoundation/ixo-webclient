@@ -27,7 +27,7 @@ interface Props {
   onLabel?: string
   offLabel?: string
   size?: 'base' | 'md' | 'sm'
-  onChange: (value: boolean) => void
+  onChange?: (value: boolean) => void
 }
 
 const Switch: React.FC<Props> = ({ size = 'base', onLabel, offLabel, value, onChange }): JSX.Element => {
@@ -35,15 +35,17 @@ const Switch: React.FC<Props> = ({ size = 'base', onLabel, offLabel, value, onCh
     switch (size) {
       case 'sm':
         return 3
+      case 'md':
+        return 4
       case 'base':
       default:
         return 5
     }
   }, [size])
   return (
-    <FlexBox alignItems='center' gap={4} className='cursor-pointer' onClick={() => onChange(!value)}>
+    <FlexBox alignItems='center' gap={4} className='cursor-pointer' onClick={() => onChange && onChange(!value)}>
       {offLabel && (
-        <Typography size='xl' color={!value ? 'blue' : 'gray-medium'}>
+        <Typography size='xl' color={!value ? 'blue' : 'grey700'}>
           {offLabel}
         </Typography>
       )}
@@ -51,7 +53,7 @@ const Switch: React.FC<Props> = ({ size = 'base', onLabel, offLabel, value, onCh
         <Ellipse value={value} size={px + 1} />
       </EllipseWrapper>
       {onLabel && (
-        <Typography size='xl' color={value ? 'blue' : 'gray-medium'}>
+        <Typography size='xl' color={value ? 'blue' : 'grey700'}>
           {onLabel}
         </Typography>
       )}

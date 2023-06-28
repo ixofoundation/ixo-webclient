@@ -26,7 +26,6 @@ const persistConfig = {
     'editEntitySettings',
     'editEntityAdvanced',
     'editEntityClaims',
-    'newEntity',
   ],
 }
 

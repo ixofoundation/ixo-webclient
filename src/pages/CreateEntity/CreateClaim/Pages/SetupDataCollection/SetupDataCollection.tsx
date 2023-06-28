@@ -3,7 +3,7 @@ import { useCreateEntityState } from 'hooks/createEntity'
 import React, { useMemo } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import { DragDropContext, Droppable } from 'react-beautiful-dnd'
-import { questionTypeMap, TClaimMetadataModel, TQuestion } from 'types/protocol'
+import { questionTypeMap, TQuestion } from 'types/protocol'
 import { AddQuestionBar } from './AddQuestionBar'
 import { QuestionCard } from './QuestionCard'
 import { Wrapper, Row, QuestionsListWrapper } from './SetupDataCollection.styles'
@@ -25,11 +25,8 @@ import { omitKey, reorderObjectElement } from 'utils/objects'
 import { Button } from 'pages/CreateEntity/Components'
 
 const SetupDataCollection: React.FC = (): JSX.Element => {
-  const { metadata, updateMetadata, gotoStep } = useCreateEntityState()
-  const questions: TQuestion[] = useMemo(
-    () => Object.values((metadata as TClaimMetadataModel)?.questions ?? {}),
-    [metadata],
-  )
+  const { claimQuestions, updateClaimQuestions, gotoStep } = useCreateEntityState()
+  const questions: TQuestion[] = useMemo(() => Object.values(claimQuestions), [claimQuestions])
 
   const handlePrev = (): void => {
     gotoStep(-1)
@@ -40,26 +37,17 @@ const SetupDataCollection: React.FC = (): JSX.Element => {
 
   const handleRemoveQuestion = (id: string): void => {
     const newQuestions = omitKey(questions, id)
-    updateMetadata({
-      ...metadata,
-      questions: newQuestions,
-    } as TClaimMetadataModel)
+    updateClaimQuestions(newQuestions)
   }
   const handleMoveQuestion = (srcId: string, dstId: string): void => {
-    const newQuestions = reorderObjectElement(srcId, dstId, { ...((metadata as TClaimMetadataModel)?.questions ?? {}) })
-    updateMetadata({
-      ...metadata,
-      questions: newQuestions,
-    } as TClaimMetadataModel)
+    const newQuestions = reorderObjectElement(srcId, dstId, { ...claimQuestions })
+    updateClaimQuestions(newQuestions)
   }
-  const handleUpdateMetadata = (payload: any): void => {
-    updateMetadata({
-      ...metadata,
-      questions: {
-        ...(metadata as TClaimMetadataModel).questions,
-        [payload.id]: payload,
-      },
-    } as TClaimMetadataModel)
+  const handleUpdateProfile = (payload: any): void => {
+    updateClaimQuestions({
+      ...claimQuestions,
+      [payload.id]: payload,
+    })
   }
   const handleValidated = (id: string): void => {
     console.log('handleValidated', id)
@@ -68,16 +56,16 @@ const SetupDataCollection: React.FC = (): JSX.Element => {
     console.log('handleValidationError', id, errors)
   }
   const handleUpdateAnswerRequired = (id: string, required: boolean): void => {
-    handleUpdateMetadata({ ...questions[id], required })
+    handleUpdateProfile({ ...questions[id], required })
   }
   const handleCopyQuestion = (id: string): void => {
     const newId = uuidv4()
-    handleUpdateMetadata({ ...questions[id], id: newId })
+    handleUpdateProfile({ ...questions[id], id: newId })
   }
   const handleAddQuestion = (controlType: ControlType): void => {
     const handleAddShortTextQuestion = (): void => {
       const id = uuidv4()
-      handleUpdateMetadata({
+      handleUpdateProfile({
         id,
         title: undefined,
         description: undefined,
@@ -91,7 +79,7 @@ const SetupDataCollection: React.FC = (): JSX.Element => {
     }
     const handleAddLongTextQuestion = (): void => {
       const id = uuidv4()
-      handleUpdateMetadata({
+      handleUpdateProfile({
         id,
         title: undefined,
         description: undefined,
@@ -105,7 +93,7 @@ const SetupDataCollection: React.FC = (): JSX.Element => {
     }
     const handleAddSingleDateSelectorQuestion = (): void => {
       const id = uuidv4()
-      handleUpdateMetadata({
+      handleUpdateProfile({
         id,
         title: undefined,
         description: undefined,
@@ -118,7 +106,7 @@ const SetupDataCollection: React.FC = (): JSX.Element => {
     }
     const handleAddDateRangeSelectorQuestion = (): void => {
       const id = uuidv4()
-      handleUpdateMetadata({
+      handleUpdateProfile({
         id,
         title: undefined,
         description: undefined,
@@ -131,7 +119,7 @@ const SetupDataCollection: React.FC = (): JSX.Element => {
     }
     const handleAddAvatarUploadQuestion = (): void => {
       const id = uuidv4()
-      handleUpdateMetadata({
+      handleUpdateProfile({
         id,
         title: undefined,
         description: undefined,
@@ -144,7 +132,7 @@ const SetupDataCollection: React.FC = (): JSX.Element => {
     }
     const handleAddImageUploadQuestion = (): void => {
       const id = uuidv4()
-      handleUpdateMetadata({
+      handleUpdateProfile({
         id,
         title: undefined,
         description: undefined,
@@ -157,7 +145,7 @@ const SetupDataCollection: React.FC = (): JSX.Element => {
     }
     const handleAddVideoUploadQuestion = (): void => {
       const id = uuidv4()
-      handleUpdateMetadata({
+      handleUpdateProfile({
         id,
         title: undefined,
         description: undefined,
@@ -170,7 +158,7 @@ const SetupDataCollection: React.FC = (): JSX.Element => {
     }
     const handleAddAudioUploadQuestion = (): void => {
       const id = uuidv4()
-      handleUpdateMetadata({
+      handleUpdateProfile({
         id,
         title: undefined,
         description: undefined,
@@ -183,7 +171,7 @@ const SetupDataCollection: React.FC = (): JSX.Element => {
     }
     const handleAddDocumentUploadQuestion = (): void => {
       const id = uuidv4()
-      handleUpdateMetadata({
+      handleUpdateProfile({
         id,
         title: undefined,
         description: undefined,
@@ -196,7 +184,7 @@ const SetupDataCollection: React.FC = (): JSX.Element => {
     }
     const handleAddLocationSelectorQuestion = (): void => {
       const id = uuidv4()
-      handleUpdateMetadata({
+      handleUpdateProfile({
         id,
         title: undefined,
         description: undefined,
@@ -209,7 +197,7 @@ const SetupDataCollection: React.FC = (): JSX.Element => {
     }
     const handleAddQRCodeQuestion = (): void => {
       const id = uuidv4()
-      handleUpdateMetadata({
+      handleUpdateProfile({
         id,
         title: undefined,
         description: undefined,
@@ -223,7 +211,7 @@ const SetupDataCollection: React.FC = (): JSX.Element => {
     }
     const handleAddQRCodeScanQuestion = (): void => {
       const id = uuidv4()
-      handleUpdateMetadata({
+      handleUpdateProfile({
         id,
         title: undefined,
         description: undefined,
@@ -237,7 +225,7 @@ const SetupDataCollection: React.FC = (): JSX.Element => {
     }
     const handleAddRatingQuestion = (): void => {
       const id = uuidv4()
-      handleUpdateMetadata({
+      handleUpdateProfile({
         id,
         title: undefined,
         description: undefined,
@@ -252,7 +240,7 @@ const SetupDataCollection: React.FC = (): JSX.Element => {
     }
     const handleAddCheckBoxesQuestion = (): void => {
       const id = uuidv4()
-      handleUpdateMetadata({
+      handleUpdateProfile({
         id,
         title: undefined,
         description: undefined,
@@ -267,7 +255,7 @@ const SetupDataCollection: React.FC = (): JSX.Element => {
     }
     const handleAddCurrencyQuestion = (): void => {
       const id = uuidv4()
-      handleUpdateMetadata({
+      handleUpdateProfile({
         id,
         title: undefined,
         description: undefined,
@@ -336,7 +324,7 @@ const SetupDataCollection: React.FC = (): JSX.Element => {
     const { id, title, description, label, attributeType } = question
     return (
       <ShortTextQuestion
-        handleUpdateContent={(formData): void => handleUpdateMetadata({ ...question, ...formData })}
+        handleUpdateContent={(formData): void => handleUpdateProfile({ ...question, ...formData })}
         handleSubmitted={(): void => handleValidated(id)}
         handleError={(errors): void => handleValidationError(id, errors)}
         title={title}
@@ -350,7 +338,7 @@ const SetupDataCollection: React.FC = (): JSX.Element => {
     const { id, title, description, label, attributeType } = question
     return (
       <ShortTextQuestion
-        handleUpdateContent={(formData): void => handleUpdateMetadata({ ...question, ...formData })}
+        handleUpdateContent={(formData): void => handleUpdateProfile({ ...question, ...formData })}
         handleSubmitted={(): void => handleValidated(id)}
         handleError={(errors): void => handleValidationError(id, errors)}
         title={title}
@@ -364,7 +352,7 @@ const SetupDataCollection: React.FC = (): JSX.Element => {
     const { id, title, description, label, attributeType } = question
     return (
       <SingleDateSelectorQuestion
-        handleUpdateContent={(formData): void => handleUpdateMetadata({ ...question, ...formData })}
+        handleUpdateContent={(formData): void => handleUpdateProfile({ ...question, ...formData })}
         handleSubmitted={(): void => handleValidated(id)}
         handleError={(errors): void => handleValidationError(id, errors)}
         title={title}
@@ -378,7 +366,7 @@ const SetupDataCollection: React.FC = (): JSX.Element => {
     const { id, title, description, label, attributeType } = question
     return (
       <DateRangeSelectorQuestion
-        handleUpdateContent={(formData): void => handleUpdateMetadata({ ...question, ...formData })}
+        handleUpdateContent={(formData): void => handleUpdateProfile({ ...question, ...formData })}
         handleSubmitted={(): void => handleValidated(id)}
         handleError={(errors): void => handleValidationError(id, errors)}
         title={title}
@@ -392,7 +380,7 @@ const SetupDataCollection: React.FC = (): JSX.Element => {
     const { id, title, description, label, attributeType } = question
     return (
       <AvatarUploadQuestion
-        handleUpdateContent={(formData): void => handleUpdateMetadata({ ...question, ...formData })}
+        handleUpdateContent={(formData): void => handleUpdateProfile({ ...question, ...formData })}
         handleSubmitted={(): void => handleValidated(id)}
         handleError={(errors): void => handleValidationError(id, errors)}
         title={title}
@@ -406,7 +394,7 @@ const SetupDataCollection: React.FC = (): JSX.Element => {
     const { id, title, description, label, attributeType } = question
     return (
       <ImageUploadQuestion
-        handleUpdateContent={(formData): void => handleUpdateMetadata({ ...question, ...formData })}
+        handleUpdateContent={(formData): void => handleUpdateProfile({ ...question, ...formData })}
         handleSubmitted={(): void => handleValidated(id)}
         handleError={(errors): void => handleValidationError(id, errors)}
         title={title}
@@ -420,7 +408,7 @@ const SetupDataCollection: React.FC = (): JSX.Element => {
     const { id, title, description, label, attributeType } = question
     return (
       <VideoUploadQuestion
-        handleUpdateContent={(formData): void => handleUpdateMetadata({ ...question, ...formData })}
+        handleUpdateContent={(formData): void => handleUpdateProfile({ ...question, ...formData })}
         handleSubmitted={(): void => handleValidated(id)}
         handleError={(errors): void => handleValidationError(id, errors)}
         title={title}
@@ -434,7 +422,7 @@ const SetupDataCollection: React.FC = (): JSX.Element => {
     const { id, title, description, label, attributeType } = question
     return (
       <AudioUploadQuestion
-        handleUpdateContent={(formData): void => handleUpdateMetadata({ ...question, ...formData })}
+        handleUpdateContent={(formData): void => handleUpdateProfile({ ...question, ...formData })}
         handleSubmitted={(): void => handleValidated(id)}
         handleError={(errors): void => handleValidationError(id, errors)}
         title={title}
@@ -448,7 +436,7 @@ const SetupDataCollection: React.FC = (): JSX.Element => {
     const { id, title, description, label, attributeType } = question
     return (
       <DocumentUploadQuestion
-        handleUpdateContent={(formData): void => handleUpdateMetadata({ ...question, ...formData })}
+        handleUpdateContent={(formData): void => handleUpdateProfile({ ...question, ...formData })}
         handleSubmitted={(): void => handleValidated(id)}
         handleError={(errors): void => handleValidationError(id, errors)}
         title={title}
@@ -462,7 +450,7 @@ const SetupDataCollection: React.FC = (): JSX.Element => {
     const { id, title, description, label, attributeType } = question
     return (
       <LocationSelectorQuestion
-        handleUpdateContent={(formData): void => handleUpdateMetadata({ ...question, ...formData })}
+        handleUpdateContent={(formData): void => handleUpdateProfile({ ...question, ...formData })}
         handleSubmitted={(): void => handleValidated(id)}
         handleError={(errors): void => handleValidationError(id, errors)}
         title={title}
@@ -476,7 +464,7 @@ const SetupDataCollection: React.FC = (): JSX.Element => {
     const { id, title, description, label, attributeType, initialValue } = question
     return (
       <QRCodeQuestion
-        handleUpdateContent={(formData): void => handleUpdateMetadata({ ...question, ...formData })}
+        handleUpdateContent={(formData): void => handleUpdateProfile({ ...question, ...formData })}
         handleSubmitted={(): void => handleValidated(id)}
         handleError={(errors): void => handleValidationError(id, errors)}
         title={title}
@@ -491,7 +479,7 @@ const SetupDataCollection: React.FC = (): JSX.Element => {
     const { id, title, description, label, attributeType } = question
     return (
       <QRCodeScanQuestion
-        handleUpdateContent={(formData): void => handleUpdateMetadata({ ...question, ...formData })}
+        handleUpdateContent={(formData): void => handleUpdateProfile({ ...question, ...formData })}
         handleSubmitted={(): void => handleValidated(id)}
         handleError={(errors): void => handleValidationError(id, errors)}
         title={title}
@@ -505,7 +493,7 @@ const SetupDataCollection: React.FC = (): JSX.Element => {
     const { id, title, description, label, attributeType, values } = question
     return (
       <RatingQuestion
-        handleUpdateContent={(formData): void => handleUpdateMetadata({ ...question, ...formData })}
+        handleUpdateContent={(formData): void => handleUpdateProfile({ ...question, ...formData })}
         handleSubmitted={(): void => handleValidated(id)}
         handleError={(errors): void => handleValidationError(id, errors)}
         title={title}
@@ -520,7 +508,7 @@ const SetupDataCollection: React.FC = (): JSX.Element => {
     const { id, title, description, label, attributeType, itemValues, minItems, maxItems } = question
     return (
       <CheckBoxesQuestion
-        handleUpdateContent={(formData): void => handleUpdateMetadata({ ...question, ...formData })}
+        handleUpdateContent={(formData): void => handleUpdateProfile({ ...question, ...formData })}
         handleSubmitted={(): void => handleValidated(id)}
         handleError={(errors): void => handleValidationError(id, errors)}
         title={title}
@@ -537,7 +525,7 @@ const SetupDataCollection: React.FC = (): JSX.Element => {
     const { id, title, description, label, attributeType, currency } = question
     return (
       <CurrencyQuestion
-        handleUpdateContent={(formData): void => handleUpdateMetadata({ ...question, ...formData })}
+        handleUpdateContent={(formData): void => handleUpdateProfile({ ...question, ...formData })}
         handleSubmitted={(): void => handleValidated(id)}
         handleError={(errors): void => handleValidationError(id, errors)}
         title={title}

@@ -1,5 +1,4 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import blocksyncApi from 'api/blocksync/blocksync'
 import Axios from 'axios'
 import moment from 'moment'
 import { useAppSelector } from 'redux/hooks'
@@ -16,12 +15,12 @@ import queryString from 'query-string'
 import { findDenomByMinimalDenom, minimalAmountToAmount } from 'redux/account/account.utils'
 
 import SwapIcon from 'assets/images/exchange/swap.svg'
-import SliderSettingsIcon from 'assets/images/icon-slider-settings.svg'
+import SliderSettingsIcon from 'assets/images/icon-sliders-h-solid.svg'
 import {
   selectLiquidityPools,
   // selectAvailablePairs,
   selectSelectedAccountAddress,
-} from '../../../../../../redux/selectedEntityExchange/entityExchange.selectors'
+} from 'redux/selectedEntityExchange/entityExchange.selectors'
 
 import * as _ from 'lodash'
 import { SettingsCard, PairListCard, AmountInputBox, SelectTradeMethod } from '../Components'
@@ -31,7 +30,10 @@ import { useIxoConfigs } from 'hooks/configs'
 import { AssetType } from 'redux/configs/configs.types'
 import Tooltip from 'components/Tooltip/Tooltip'
 import SwapModal from 'components/ControlPanel/Actions/SwapModal'
-import { calcToAmount } from '../../../../../../redux/selectedEntityExchange/entityExchange.utils'
+import { calcToAmount } from 'redux/selectedEntityExchange/entityExchange.utils'
+import { BlockSyncService } from 'services/blocksync'
+
+const bsService = new BlockSyncService()
 
 // const Currencies = [
 //   {
@@ -249,7 +251,7 @@ const Swap: React.FunctionComponent = () => {
       setToAmount(new BigNumber(0))
     }
     if (fromToken?.entityId) {
-      blocksyncApi.project.getProjectByProjectDid(fromToken?.entityId).then((apiEntity) => {
+      bsService.project.getProjectByProjectDid(fromToken?.entityId).then((apiEntity: ApiListedEntity) => {
         setFromEntity(apiEntity)
       })
     }
@@ -262,7 +264,7 @@ const Swap: React.FunctionComponent = () => {
       setToAmount(new BigNumber(0))
     }
     if (toToken?.entityId) {
-      blocksyncApi.project.getProjectByProjectDid(toToken?.entityId).then((apiEntity) => {
+      bsService.project.getProjectByProjectDid(toToken?.entityId).then((apiEntity: ApiListedEntity) => {
         setToEntity(apiEntity)
       })
     }

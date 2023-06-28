@@ -168,10 +168,10 @@ export const fakeListedProjectsData = [
       },
       linkedEntities: [
         {
-          '@type': 'Investment',
+          '@type': 'investment',
           id: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdqq',
         },
-        { '@type': 'Oracle', id: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdtt' },
+        { '@type': 'oracle', id: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdtt' },
       ],
       fees: {
         '@context': 'https://schema.ixo.world/fees/ipfs3r08webu2eou',
@@ -252,7 +252,7 @@ export const fakeListedProjectsData = [
           properties: 'otherparams',
         },
       ],
-      '@type': 'Project',
+      '@type': 'project',
       name: 'Some Title',
       description: 'Some Short Description',
       image: 'https://pds_pandora.ixo.world/public/sbujb0xg0dgkeljwtnc',
@@ -261,7 +261,7 @@ export const fakeListedProjectsData = [
       imageDescription: 'Some Image Description',
       location: 'AR',
       sdgs: ['5', '7'],
-      createdOn: '2020-09-12T19:49:45Z',
+      createdOn: { $date: { $numberLong: '1599940185000' } },
       createdBy: 'did:sov:EA1fV7PTbWG3aveDJZpgSn',
       nodeDid: 'did:ixo:RpXidAyvNUsSEktkT3a5LY',
       agents: [
@@ -426,10 +426,10 @@ export const fakeListedProjectsData = [
       page: { cid: 'somepageid', version: '1.0.0' },
       linkedEntities: [
         {
-          '@type': 'Investment',
+          '@type': 'investment',
           id: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdqq',
         },
-        { '@type': 'Oracle', id: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdtt' },
+        { '@type': 'oracle', id: 'did:sov:CYCc2xaJKrp8Yt947Nc6jdtt' },
       ],
       fees: {
         '@context': 'https://schema.ixo.world/fees/ipfs3r08webu2eou',
@@ -510,10 +510,10 @@ export const fakeListedProjectsData = [
           properties: 'otherparams',
         },
       ],
-      '@type': 'Template',
+      '@type': 'protocol',
       name: 'Some Claim Title',
       description: 'Some Claim Description',
-      createdOn: '2020-08-12T19:49:45Z',
+      createdOn: { $date: { $numberLong: '1597261785000' } },
       createdBy: 'did:sov:AB1fV7PTbWG3aveDJZpgSb',
       nodeDid: 'did:ixo:RpXidAyvNUsSEktkT3a5LY',
       agents: [

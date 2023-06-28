@@ -1,7 +1,13 @@
 import React, { useState } from 'react'
 import styled, { createGlobalStyle } from 'styled-components'
-import { DateRangePicker, FocusedInputShape } from 'react-dates'
-import moment from 'moment'
+import {
+  DateRangePicker,
+  DayPickerRangeController,
+  FocusedInputShape,
+  OpenDirectionShape,
+  OrientationShape,
+} from 'react-dates'
+import moment, { Moment } from 'moment'
 
 const DISPLAY_FORMAT = 'DD-MMM-YYYY'
 
@@ -18,15 +24,41 @@ const Wrapper = styled.div`
         font-weight: 400;
         font-size: 20px;
         line-height: 28px;
-        height: 44px;
+        height: 48px;
         padding: 6px 10px;
         border: 1px solid ${(props): string => props.theme.ixoNewBlue};
         border-radius: 8px;
+
+        &::placeholder {
+          color: ${(props) => props.theme.ixoGrey500};
+        }
       }
     }
     &_arrow {
       display: none;
     }
+  }
+  // NOTE: the order of these styles DO matter
+
+  // Will edit everything selected including everything between a range of dates
+  .CalendarDay__selected_span {
+    background: #a4ebff; //background
+    color: white; //text
+    border: 1px solid #a4ebff;
+  }
+
+  // Will edit selected date or the endpoints of a range of dates
+  .CalendarDay__selected {
+    background: ${(props) => props.theme.ixoNewBlue};
+    color: white;
+    border: 1px solid ${(props) => props.theme.ixoNewBlue};
+  }
+
+  // Will edit when the second date (end date) in a range of dates
+  // is not yet selected. Edits the dates between your mouse and said date
+  .CalendarDay__hovered_span:hover,
+  .CalendarDay__hovered_span {
+    background: #a4ebff;
   }
 `
 
@@ -37,20 +69,71 @@ const DateRangePickerGlobalStyle = createGlobalStyle`
 `
 
 interface Props {
+  input?: boolean
   id: string
   startDate: string
   endDate: string
   withPortal?: boolean
+  openDirection?: OpenDirectionShape
+  numberOfMonths?: number
+  orientation?: OrientationShape
   onChange: (startDate: string, endDate: string) => void
 }
 
-const DateRangePickerComponent: React.FC<Props> = ({ id, startDate, endDate, withPortal, onChange }): JSX.Element => {
-  const [focusedInput, setFocusedInput] = useState<FocusedInputShape | null>(null)
+const DateRangePickerComponent: React.FC<Props> = ({
+  input = true,
+  id,
+  startDate,
+  endDate,
+  withPortal,
+  openDirection = 'down',
+  numberOfMonths = 2,
+  orientation,
+  onChange,
+}): JSX.Element => {
+  const [focusedInput, setFocusedInput] = useState<FocusedInputShape | null>(input ? null : 'startDate')
 
   return (
     <Wrapper>
       <DateRangePickerGlobalStyle />
-      <DateRangePicker
+      {input ? (
+        <DateRangePicker
+          startDate={startDate ? moment(startDate) : null}
+          startDateId={`start_${id}`}
+          endDate={endDate ? moment(endDate) : null}
+          endDateId={`end_${id}`}
+          displayFormat={DISPLAY_FORMAT}
+          onDatesChange={({ startDate, endDate }): void => {
+            onChange(startDate?.format(DISPLAY_FORMAT) ?? '', endDate?.format(DISPLAY_FORMAT) ?? '')
+          }}
+          focusedInput={focusedInput}
+          onFocusChange={setFocusedInput}
+          numberOfMonths={numberOfMonths}
+          isOutsideRange={(): boolean => false}
+          withPortal={withPortal}
+          openDirection={openDirection}
+          orientation={orientation}
+          hideKeyboardShortcutsPanel
+          noBorder
+        />
+      ) : (
+        <DayPickerRangeController
+          startDate={startDate ? moment(startDate) : null}
+          endDate={endDate ? moment(endDate) : null}
+          onDatesChange={({ startDate, endDate }): void => {
+            onChange(startDate?.format(DISPLAY_FORMAT) ?? '', endDate?.format(DISPLAY_FORMAT) ?? '')
+          }}
+          focusedInput={focusedInput}
+          onFocusChange={setFocusedInput}
+          numberOfMonths={numberOfMonths}
+          withPortal={withPortal}
+          orientation={orientation}
+          initialVisibleMonth={(): Moment => moment()}
+          hideKeyboardShortcutsPanel
+          noBorder
+        />
+      )}
+      {/* <DateRangePicker
         startDate={startDate ? moment(startDate) : null}
         startDateId={`start_${id}`}
         endDate={endDate ? moment(endDate) : null}
@@ -61,12 +144,14 @@ const DateRangePickerComponent: React.FC<Props> = ({ id, startDate, endDate, wit
         }}
         focusedInput={focusedInput}
         onFocusChange={setFocusedInput}
-        numberOfMonths={2}
-        hideKeyboardShortcutsPanel={true}
+        numberOfMonths={numberOfMonths}
         isOutsideRange={(): boolean => false}
         withPortal={withPortal}
+        openDirection={openDirection}
+        orientation={orientation}
+        hideKeyboardShortcutsPanel
         noBorder
-      />
+      /> */}
     </Wrapper>
   )
 }

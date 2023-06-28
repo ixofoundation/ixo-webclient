@@ -3,9 +3,13 @@ export const RelayersConfigUrl = process.env.REACT_APP_CONFIG_RELAYER_URL
 export const AssetListConfigUrl = process.env.REACT_APP_CONFIG_ASSETLIST_URL
 export const ExchangeConfigUrl = process.env.REACT_APP_CONFIG_EXCHANGE_URL
 
+export const NATIVE_MICRODENOM = 'uixo'
+export const NATIVE_DENOM = 'ixo'
+export const NATIVE_DECIMAL = 6
+
 export const CHAINS = {
-  'pandora-7': {
-    chainId: 'pandora-7',
+  'pandora-8': {
+    chainId: 'pandora-8',
     chainName: 'ixo Testnet',
     rpc: 'https://testnet.ixo.earth/rpc/',
     rest: 'https://testnet.ixo.earth/rest/',

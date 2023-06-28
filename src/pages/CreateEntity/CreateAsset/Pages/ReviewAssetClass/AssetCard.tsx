@@ -9,7 +9,7 @@ import { Typography } from 'components/Typography'
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   noIdx: number
   image: string
-  icon: string
+  logo: string
   tokenName: string
   name: string
   type: EAssetType | undefined
@@ -21,7 +21,7 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
 const AssetCard: React.FC<Props> = ({
   noIdx,
   image,
-  icon,
+  logo,
   tokenName,
   name,
   type,
@@ -38,9 +38,9 @@ const AssetCard: React.FC<Props> = ({
         <AssetCardBodyRow style={{ justifyContent: 'space-between', alignItems: 'center' }}>
           <CardTags style={{ gap: 5 }}>
             <CardTag tagColor={theme.ixoDarkRed}>{denom}</CardTag>
-            <CardTag tagColor={theme.ixoNewOrange}>{type}</CardTag>
+            <CardTag tagColor={theme.ixoDarkOrange}>{type}</CardTag>
           </CardTags>
-          <AssetLogo src={icon} alt='' />
+          <AssetLogo src={logo} alt='' />
         </AssetCardBodyRow>
 
         <AssetCardBodyRow style={{ flexDirection: 'column', height: 70 }}>

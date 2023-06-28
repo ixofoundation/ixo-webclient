@@ -80,13 +80,26 @@ export const articleFormat = (objStr: string): string => {
 
 export const simplifyId = (id: string, prefix: string): string => id.match(new RegExp(`${prefix}:(.*)`))![1]
 
-export const truncateString = (str: string, length: number, separator = '...'): string => {
-  if (str.length <= length) return str
+export const truncateString = (str: string, length: number, at = 'middle'): string => {
+  const separator = '...'
 
-  const sepLen = separator.length,
-    charsToShow = length - sepLen,
-    frontChars = Math.ceil(charsToShow / 2),
-    backChars = Math.floor(charsToShow / 2)
+  if (!str || str.length <= length) return str
 
-  return str.substr(0, frontChars) + separator + str.substr(str.length - backChars)
+  if (at === 'middle') {
+    const sepLen = separator.length,
+      charsToShow = length - sepLen,
+      frontChars = Math.ceil(charsToShow / 2),
+      backChars = Math.floor(charsToShow / 2)
+
+    return str.substr(0, frontChars) + separator + str.substr(str.length - backChars)
+  } else if (at === 'end') {
+    return str.slice(0, length) + separator
+  }
+  return str
+}
+
+export const votingRemainingDateFormat = (min: number): string => {
+  const x = moment.utc(min * 60 * 1000)
+  const dayNum: number = Number(x.format('D')) - 1
+  return `${('0' + dayNum).slice(-2)}d ${x.format('H[h] mm[m]')} `
 }

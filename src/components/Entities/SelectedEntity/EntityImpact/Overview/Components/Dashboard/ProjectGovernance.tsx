@@ -44,7 +44,7 @@ const ExtendHeader = styled.div`
 
 const TimeContainer = styled.div`
   font-size: 0.75rem;
-  color: ${(props): string => props.theme.fontBlueDisabled};
+  color: ${(props): string => props.theme.ixoDarkBlue};
   font-weight: bold;
   margin-top: 1rem;
 `

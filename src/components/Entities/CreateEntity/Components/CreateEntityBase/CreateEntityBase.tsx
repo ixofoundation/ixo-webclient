@@ -55,7 +55,7 @@ class CreateEntityBase<T extends CreateEntityBaseProps> extends React.Component<
     if (submitting && validationComplete && !validated) {
       scroll.scrollToTop()
 
-      Toast.errorToast('Please check details and correct the errors below', null!, true)
+      Toast.errorToast(null, 'Please check details and correct the errors below')
 
       this.setState({ submitting: false })
     } else if (submitting && validationComplete && validated) {
