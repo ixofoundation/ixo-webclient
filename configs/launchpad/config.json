@@ -1,5 +1,10 @@
 {
+  "theme": {
+    "primaryColor": "#0089D7",
+    "secondaryColor": "#162A42"
+  },
   "UI": {
+    "logo": "ImpactHub_DAO_Logo",
     "explorer": {
       "defaultView": "dao"
     },
@@ -9,6 +14,11 @@
         "visible": false
       }
     ],
+    "header": {
+      "background": "#000000",
+      "buttonColor": "#436779",
+      "link": "https://ixo.world/"
+    },
     "footer": {
       "mailTo": {
         "text": "Email",
