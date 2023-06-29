@@ -1,5 +1,4 @@
 import Axios from 'axios'
-import { v4 as uuidv4 } from 'uuid'
 import { get } from 'lodash'
 import countryData from 'data/maps/countryLatLng.json'
 import { Agent, FundSource, LiquiditySource, NodeType } from 'types/entities'
@@ -317,7 +316,6 @@ export function apiEntityToEntity(
     'linkedResource',
     linkedResource.filter((item: any) => item.type === 'document'),
   )
-  updateCallback('linkedEntity', Object.fromEntries(linkedEntity.map((item: LinkedEntity) => [uuidv4(), item])))
   updateCallback(
     'service',
     service.map((item: TEntityServiceModel) => ({ ...item, id: item.id.split('#').pop() })),
