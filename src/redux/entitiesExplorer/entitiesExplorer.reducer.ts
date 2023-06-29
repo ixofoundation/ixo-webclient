@@ -62,6 +62,10 @@ export const reducer = (
       }
       return { ...state, entities2 }
     }
+    case EntitiesExplorerActions.GetEntityById: {
+      const { id } = action.payload
+      return { ...state, entities2: { ...state.entities2, [id]: { ...state.entities2[id], ...action.payload } } }
+    }
     case EntitiesExplorerActions.GetEntityConfigSuccess: {
       const entityConfig = action.payload
       const filterView = getDefaultSelectedViewCategory(entityConfig[state.selectedEntitiesType])

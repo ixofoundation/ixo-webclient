@@ -1,9 +1,9 @@
-import useCurrentEntity from 'hooks/currentEntity'
 import React from 'react'
 import { EDITOR_JS_TOOLS } from 'pages/CreateEntity/Forms/PropertiesForm/SetupPageContent/SetupPageContent.constants'
 import { createReactEditorJS } from 'react-editor-js'
 import styled from 'styled-components'
 import { Box } from 'components/App/App.styles'
+import { OutputBlockData } from '@editorjs/editorjs'
 
 const ReactEditorJS = createReactEditorJS()
 
@@ -28,13 +28,21 @@ const Wrapper = styled(Box)`
   }
 `
 
-const PageContent: React.FC = (): JSX.Element => {
-  const { page = [] } = useCurrentEntity()
+interface Props {
+  page: OutputBlockData[]
+}
+
+const PageContent: React.FC<Props> = ({ page }): JSX.Element => {
+  const nonEmptyPage = page.filter((content) => !!content.data)
 
   return (
     <Wrapper>
-      {page.length > 0 && (
-        <ReactEditorJS tools={EDITOR_JS_TOOLS} defaultValue={{ time: new Date().getTime(), blocks: page }} readOnly />
+      {nonEmptyPage.length > 0 && (
+        <ReactEditorJS
+          tools={EDITOR_JS_TOOLS}
+          defaultValue={{ time: new Date().getTime(), blocks: nonEmptyPage }}
+          readOnly
+        />
       )}
     </Wrapper>
   )

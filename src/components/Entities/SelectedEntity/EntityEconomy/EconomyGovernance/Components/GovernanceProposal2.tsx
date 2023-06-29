@@ -31,7 +31,7 @@ import { fee } from 'lib/protocol'
 import * as Toast from 'utils/toast'
 import { useIxoConfigs } from 'hooks/configs'
 import { serializeCoin } from 'utils/conversions'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 import { truncateString, votingRemainingDateFormat } from 'utils/formatters'
 import { contracts } from '@ixo/impactxclient-sdk'
 import { useAccount } from 'hooks/account'
@@ -125,6 +125,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
   onUpdate,
 }) => {
   const history = useHistory()
+  const { entityId } = useParams<{ entityId: string }>()
   const { isDark } = useContext(DashboardThemeContext)
   const { convertToDenom } = useIxoConfigs()
   const { daoGroup, proposalModuleAddress, isParticipating, depositInfo } = useCurrentDaoGroup(coreAddress)
@@ -243,7 +244,11 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
               <NumberBadget isDark={isDark}>{groupName}</NumberBadget>
             </FlexBox>
             {deedDid && (
-              <SvgBox cursor='pointer' svgWidth={6} onClick={() => history.push(`/entity/${deedDid}/overview`)}>
+              <SvgBox
+                cursor='pointer'
+                svgWidth={6}
+                onClick={() => history.push(`/entity/${entityId}/overview/proposal/${deedDid}`)}
+              >
                 <ExpandIcon />
               </SvgBox>
             )}

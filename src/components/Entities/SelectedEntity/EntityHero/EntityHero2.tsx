@@ -18,14 +18,10 @@ import { requireCheckDefault } from 'utils/images'
 import { useEntityConfig } from 'hooks/configs'
 import { useMemo } from 'react'
 import { HeaderTab } from 'components/Dashboard/types'
-import useCurrentEntity, {
-  useCurrentEntityCreator,
-  useCurrentEntityMetadata,
-  useCurrentEntityProfile,
-} from 'hooks/currentEntity'
 import { useParams } from 'react-router-dom'
 import { useAccount } from 'hooks/account'
 import useCurrentDao from 'hooks/currentDao'
+import useCurrentEntity from 'hooks/currentEntity'
 
 interface Props {
   onlyTitle: boolean
@@ -33,6 +29,13 @@ interface Props {
   enableAssistantButton?: boolean
   light?: boolean
   assistantFixed?: boolean
+
+  startDate: string
+  name?: string
+  description?: string
+  location?: string
+  creatorName: string
+  creatorLogo: string
 }
 
 const EntityHero: React.FunctionComponent<Props> = ({
@@ -41,13 +44,17 @@ const EntityHero: React.FunctionComponent<Props> = ({
   light = false,
   assistantFixed = false,
   assistantPanelToggle,
+
+  startDate,
+  name,
+  description,
+  location,
+  creatorLogo,
+  creatorName,
 }) => {
   const { entityId } = useParams<{ entityId: string }>()
   const { title, themeColor } = useEntityConfig()
   const { entityType } = useCurrentEntity()
-  const { name, description, location } = useCurrentEntityProfile()
-  const { displayName: creatorName, logo: creatorLogo } = useCurrentEntityCreator()
-  const { createdAt } = useCurrentEntityMetadata()
   const { address } = useAccount()
   const { daoGroups } = useCurrentDao()
 
@@ -92,7 +99,7 @@ const EntityHero: React.FunctionComponent<Props> = ({
   }, [title, entityId, entityType, isMemberOfDAO])
 
   const getFlagURL = (projectLocation: string): string => {
-    if (availableFlags.availableFlags.includes(location)) {
+    if (location && availableFlags.availableFlags.includes(location)) {
       return `url(${requireCheckDefault(
         require(`../../../../assets/images/country-flags/${projectLocation.toLowerCase()}.svg`),
       )})`
@@ -109,15 +116,15 @@ const EntityHero: React.FunctionComponent<Props> = ({
         <HeroInner className='detailed'>
           <div className='row'>
             <div className='col-sm-12'>
-              <Title light={light ? 1 : 0}>{name}</Title>
+              {name && <Title light={light ? 1 : 0}>{name}</Title>}
               {!onlyTitle && (
                 <>
-                  <Description>{description}</Description>
+                  {description && <Description>{description}</Description>}
                   <HeroInfoItemsWrapper>
-                    {createdAt && (
+                    {startDate && (
                       <HeroInfoItem>
                         <CalendarSort fill='#A5ADB0' />
-                        <span>{moment(createdAt).format('d MMM ‘YY')}</span>
+                        <span>{moment(startDate).format('DD MMM ‘YY')}</span>
                       </HeroInfoItem>
                     )}
                     <HeroInfoItem>
