@@ -22,6 +22,8 @@ const SelectCreationProcess: React.FC = (): JSX.Element => {
     updatePage,
     updateService,
     updateLinkedEntity,
+    updateLinkedResource,
+    updateStartEndDate,
   } = useCreateEntityState()
   const { cwClient } = useAccount()
   const [isClone, setIsClone] = useState(false)
@@ -38,7 +40,6 @@ const SelectCreationProcess: React.FC = (): JSX.Element => {
   const handleClone = (): void => {
     bsService.entity.getEntityById(existingDid).then((entity: any) => {
       apiEntityToEntity({ entity, cwClient }, (key: string, value: any, merge) => {
-        console.log('apiEntityToEntity', { key, value, merge })
         switch (key) {
           case 'profile':
             updateProfile(value)
@@ -62,11 +63,14 @@ const SelectCreationProcess: React.FC = (): JSX.Element => {
             updateLinkedEntity(value)
             break
           case 'linkedResource':
+            updateLinkedResource(value)
             break
           default:
             break
         }
       })
+      // additional
+      updateStartEndDate({ startDate: entity.startDate, endDate: entity.endDate })
     })
     gotoStep(1)
   }
