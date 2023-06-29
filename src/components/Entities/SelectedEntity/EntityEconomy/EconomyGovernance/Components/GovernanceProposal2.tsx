@@ -31,8 +31,8 @@ import { fee } from 'lib/protocol'
 import * as Toast from 'utils/toast'
 import { useIxoConfigs } from 'hooks/configs'
 import { serializeCoin } from 'utils/conversions'
-import { useHistory } from 'react-router-dom'
-import { truncateString, votingRemainingDateFormat } from 'utils/formatters'
+import { useHistory, useParams } from 'react-router-dom'
+import { getDifference, truncateString, votingRemainingDateFormat } from 'utils/formatters'
 import { contracts } from '@ixo/impactxclient-sdk'
 import { useAccount } from 'hooks/account'
 
@@ -125,9 +125,10 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
   onUpdate,
 }) => {
   const history = useHistory()
+  const { entityId } = useParams<{ entityId: string }>()
   const { isDark } = useContext(DashboardThemeContext)
   const { convertToDenom } = useIxoConfigs()
-  const { daoGroup, proposalModuleAddress, isParticipating, depositInfo } = useCurrentDaoGroup(coreAddress)
+  const { daoGroup, proposalModuleAddress, isParticipating, depositInfo, tqData } = useCurrentDaoGroup(coreAddress)
   const { cosmWasmClient, address } = useAccount()
   const [myVoteStatus, setMyVoteStatus] = useState<VoteInfo | undefined>(undefined)
   const [votes, setVotes] = useState<VoteInfo[]>([])
@@ -148,6 +149,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
     () => numOfAvailableVotes - numOfYesVotes - numOfNoVotes - numOfNoWithVetoVotes - numOfAbstainVotes,
     [numOfAvailableVotes, numOfYesVotes, numOfNoVotes, numOfNoWithVetoVotes, numOfAbstainVotes],
   )
+  const perOfYesVotes = useMemo(() => (numOfYesVotes / numOfAvailableVotes) * 100, [numOfAvailableVotes, numOfYesVotes])
   const proposalConfig: ProposalConfig | undefined = useMemo(() => daoGroup?.proposalModule.proposalConfig, [daoGroup])
 
   const daoProposalSingleClient = useMemo(
@@ -243,7 +245,11 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
               <NumberBadget isDark={isDark}>{groupName}</NumberBadget>
             </FlexBox>
             {deedDid && (
-              <SvgBox cursor='pointer' svgWidth={6} onClick={() => history.push(`/entity/${deedDid}/overview`)}>
+              <SvgBox
+                cursor='pointer'
+                svgWidth={6}
+                onClick={() => history.push(`/entity/${entityId}/overview/proposal/${deedDid}`)}
+              >
                 <ExpandIcon />
               </SvgBox>
             )}
@@ -394,9 +400,12 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
                     </div>
                   </div> */}
                   <div>
-                    <div>
-                      <strong>+ 10</strong>% more than the quorum of 40%
-                    </div>
+                    {tqData?.quorumPercentage && (
+                      <div>
+                        <strong>{getDifference(perOfYesVotes, tqData.quorumPercentage)}</strong>% more than the quorum
+                        of {tqData.quorumPercentage}%
+                      </div>
+                    )}
                     <div>
                       <strong>+ 14</strong>% in favour over the 50% required
                     </div>

@@ -1,5 +1,5 @@
 import clxs from 'classnames'
-import { FlexBox, GridContainer, GridItem } from 'components/App/App.styles'
+import { FlexBox, GridContainer, GridItem, SvgBox, theme } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { useQuery } from 'hooks/window'
 import React, { useMemo } from 'react'
@@ -13,6 +13,9 @@ import { ReactComponent as PieIcon } from 'assets/images/icon-pie.svg'
 import useCurrentDao from 'hooks/currentDao'
 import { DaoGroup } from 'redux/currentEntity/dao/currentDao.types'
 import { truncateString } from 'utils/formatters'
+import CopyToClipboard from 'react-copy-to-clipboard'
+import { ReactComponent as CopyIcon } from 'assets/images/icon-copy.svg'
+import * as Toast from 'utils/toast'
 
 const IndividualMember: React.FC = () => {
   const { address } = useParams<{ address: string }>()
@@ -32,13 +35,19 @@ const IndividualMember: React.FC = () => {
 
       {selectedGroup && (
         <>
-          <Typography variant='secondary' size='5xl' weight='normal' color='dark-blue'>
-            {truncateString(address, 10, 'middle')} participation in the{' '}
-            <Typography variant='secondary' size='5xl' weight='normal' color='white'>
-              {selectedGroup.config.name}
-            </Typography>{' '}
-            group
+          <Typography variant='secondary' size='4xl' weight='normal' color='white'>
+            {selectedGroup.config.name}
           </Typography>
+          <FlexBox alignItems='center' gap={2}>
+            <Typography variant='secondary' size='2xl' weight='normal' color='dark-blue'>
+              {truncateString(address, 20, 'middle')}
+            </Typography>
+            <CopyToClipboard text={address} onCopy={() => Toast.successToast(null, `Copied to clipboard`)}>
+              <SvgBox color={theme.ixoDarkBlue} cursor='pointer' hover={{ color: theme.ixoNewBlue }}>
+                <CopyIcon />
+              </SvgBox>
+            </CopyToClipboard>
+          </FlexBox>
 
           {/* expand === 'token' */}
           {selectedGroup.type === 'staking' && (

@@ -66,7 +66,9 @@ const Accounts: React.FC = () => {
       })()
     }
     return () => {
-      //
+      setAccounts((accounts) =>
+        Object.fromEntries(Object.entries(accounts).filter(([key, value]) => value.type !== 'entity')),
+      )
     }
   }, [entityAccounts])
 
@@ -90,7 +92,9 @@ const Accounts: React.FC = () => {
       })()
     }
     return () => {
-      //
+      setAccounts((accounts) =>
+        Object.fromEntries(Object.entries(accounts).filter(([key, value]) => value.type !== 'group')),
+      )
     }
   }, [daoGroups])
 

@@ -270,6 +270,7 @@ const ReviewProposal: React.FC = () => {
       linkedResource,
       accordedRight,
       linkedEntity,
+      relayerNode: process.env.REACT_APP_RELAYER_NODE,
     })
     if (!entityDid) {
       return ''

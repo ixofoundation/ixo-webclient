@@ -1,24 +1,19 @@
+import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { Box, FlexBox } from 'components/App/App.styles'
 import ControlPanel from 'components/ControlPanel/ControlPanel'
 import EntityHero from 'components/Entities/SelectedEntity/EntityHero/EntityHero2'
 import { useEntityConfig } from 'hooks/configs'
-import useCurrentEntity, {
-  useCurrentEntityCreator,
-  useCurrentEntityLinkedFiles,
-  useCurrentEntityProfile,
-} from 'hooks/currentEntity'
 import { useParams } from 'react-router-dom'
+import { selectEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { useAppSelector } from 'redux/hooks'
+import { LinkedFiles } from '../Overview/LinkedFiles'
+import { PageContent } from '../Overview/PageContent'
 import { InstructionsToExecute } from './InstructionsToExecute'
-import { LinkedFiles } from './LinkedFiles'
-import { PageContent } from './PageContent'
 
 const Overview: React.FC = () => {
-  const { entityId } = useParams<{ entityId: string }>()
-  const { entityType, page = [], startDate } = useCurrentEntity()
+  const { entityId, deedId } = useParams<{ entityId: string; deedId: string }>()
   const { controlPanelSchema } = useEntityConfig()
-  const { name, description, location } = useCurrentEntityProfile()
-  const { displayName: creatorName, logo: creatorLogo } = useCurrentEntityCreator()
-  const linkedFiles = useCurrentEntityLinkedFiles()
+  const entity = useAppSelector(selectEntityById(deedId))
 
   return (
     <div className='container-fluid h-100' style={{ background: '#F8F9FD' }}>
@@ -28,16 +23,15 @@ const Overview: React.FC = () => {
             onlyTitle={false}
             assistantFixed={true}
             light
-            startDate={startDate}
-            name={name}
-            description={description}
-            location={location}
-            creatorName={creatorName}
-            creatorLogo={creatorLogo}
+            startDate={(entity?.startDate as never as string) || ''}
+            creatorName={entity?.creator?.displayName || ''}
+            creatorLogo={entity?.creator?.logo || ''}
           />
-          <PageContent page={page} />
-          {entityType === 'deed' && <InstructionsToExecute />}
-          <LinkedFiles linkedFiles={linkedFiles} />
+          <PageContent page={entity?.page ?? []} />
+          <InstructionsToExecute />
+          <LinkedFiles
+            linkedFiles={entity?.linkedResource.filter((item: LinkedResource) => item.type === 'document') ?? []}
+          />
         </FlexBox>
         <Box className='col-lg-3' background='#F0F3F9'>
           <ControlPanel schema={controlPanelSchema} entityDid={entityId} claims={[]} />
