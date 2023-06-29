@@ -103,3 +103,12 @@ export const votingRemainingDateFormat = (min: number): string => {
   const dayNum: number = Number(x.format('D')) - 1
   return `${('0' + dayNum).slice(-2)}d ${x.format('H[h] mm[m]')} `
 }
+
+export function getDifference(a: number, b: number) {
+  const difference = a - b
+  if (difference >= 0) {
+    return '+ ' + difference
+  } else {
+    return '- ' + Math.abs(difference)
+  }
+}
