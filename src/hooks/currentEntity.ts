@@ -171,7 +171,7 @@ export function useCurrentEntityLinkedEntity(): {
   bondDid: string
   linkedProposal?: LinkedEntity
 } {
-  const { linkedEntity } = useCurrentEntity()
+  const { linkedEntity = [] } = useCurrentEntity()
   const bondDid = ''
   const linkedProposal = linkedEntity.find(({ type }) => type === 'deed')
 
