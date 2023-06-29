@@ -8,7 +8,7 @@ import { TAssetMetadataModel } from 'types/protocol'
 
 const SetupMetadata: React.FC = (): JSX.Element => {
   const createEntityState = useCreateEntityState()
-  const { entityType, gotoStep, updateProfile } = createEntityState
+  const { entityType, startDate, endDate, gotoStep, updateProfile, updateStartEndDate } = createEntityState
   const profile: TAssetMetadataModel = createEntityState.profile as TAssetMetadataModel
 
   const canSubmit = true
@@ -73,11 +73,10 @@ const SetupMetadata: React.FC = (): JSX.Element => {
           setAutoGenerateZLottie={(autoGenerateZLottie): void =>
             handleUpdateProfile('autoGenerateZLottie', autoGenerateZLottie)
           }
-          startDate={profile?.startDate ?? ''}
-          endDate={profile?.endDate ?? ''}
+          startDate={startDate}
+          endDate={endDate}
           setStartEndDate={(startDate, endDate) => {
-            updateProfile({
-              ...profile,
+            updateStartEndDate({
               startDate,
               endDate,
             })

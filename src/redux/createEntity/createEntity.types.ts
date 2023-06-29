@@ -27,6 +27,9 @@ export interface TCreateEntityModel {
   linkedResource: { [id: string]: TEntityLinkedResourceModel }
   accordedRight: { [id: string]: TEntityAccordedRightModel }
   linkedEntity: { [id: string]: TEntityLinkedEntityModel }
+
+  startDate?: string
+  endDate?: string
 }
 
 export interface TCreateEntityState extends TCreateEntityModel {
@@ -76,6 +79,7 @@ export enum ECreateEntityActions {
   UpdateAssetInstance = 'ixo/create/entity/UPDATE_ASSET_INSTANCE',
   RemoveAssetInstances = 'ixo/create/entity/REMOVE_ASSET_INSTANCES',
   UpdateLocalisation = 'ixo/create/entity/UPDATE_LOCALISATION',
+  UpdateStartEndDate = 'ixo/create/entity/UPDATE_START_END_DATE',
   // for DAO
   UpdateDAOGroups = 'ixo/create/entity/UPDATE_DAO_GROUPS',
   UpdateDAOController = 'ixo/create/entity/UPDATE_DAO_CONTROLLER',
@@ -148,6 +152,10 @@ export interface TUpdateLinkedEntityAction {
   type: typeof ECreateEntityActions.UpdateLinkedEntity
   payload: { [id: string]: TEntityLinkedEntityModel }
 }
+export interface TUpdateStartEndDateAction {
+  type: typeof ECreateEntityActions.UpdateStartEndDate
+  payload: { startDate: string; endDate: string }
+}
 export interface TAddAssetInstancesAction {
   type: typeof ECreateEntityActions.AddAssetInstances
   payload: TCreateEntityModel[]
@@ -203,6 +211,7 @@ export type TCreateEntityActionTypes =
   | TUpdateLinkedResourceAction
   | TUpdateAccordedRightAction
   | TUpdateLinkedEntityAction
+  | TUpdateStartEndDateAction
   | TAddAssetInstancesAction
   | TUpdateAssetInstanceAction
   | TRemoveAssetInstancesAction

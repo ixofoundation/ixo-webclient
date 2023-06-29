@@ -313,6 +313,10 @@ export function apiEntityToEntity(
     }
   })
 
+  updateCallback(
+    'linkedResource',
+    linkedResource.filter((item: any) => item.type === 'document'),
+  )
   updateCallback('linkedEntity', Object.fromEntries(linkedEntity.map((item: LinkedEntity) => [uuidv4(), item])))
   updateCallback(
     'service',

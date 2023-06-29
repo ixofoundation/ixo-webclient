@@ -41,6 +41,7 @@ import {
   TUpdateTitleAction,
   TClearEntityAction,
   TUpdateClaimQuestionsAction,
+  TUpdateStartEndDateAction,
 } from './createEntity.types'
 
 export const updateEntityTypeAction = (entityType: string): TUpdateEntityTypeAction => ({
@@ -126,6 +127,11 @@ export const updateLinkedEntityAction = (linkedEntity: {
 }): TUpdateLinkedEntityAction => ({
   type: ECreateEntityActions.UpdateLinkedEntity,
   payload: linkedEntity,
+})
+
+export const updateStartEndDateAction = (startDate: string, endDate: string): TUpdateStartEndDateAction => ({
+  type: ECreateEntityActions.UpdateStartEndDate,
+  payload: { startDate, endDate },
 })
 
 export const addAssetInstancesAction = (instances: TCreateEntityModel[]): TAddAssetInstancesAction => ({

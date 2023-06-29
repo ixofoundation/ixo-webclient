@@ -8,7 +8,7 @@ import { TDAOMetadataModel } from 'types/protocol'
 
 const SetupMetadata: React.FC = (): JSX.Element => {
   const createEntityState = useCreateEntityState()
-  const { entityType, gotoStep, updateProfile } = createEntityState
+  const { entityType, startDate, endDate, gotoStep, updateProfile, updateStartEndDate } = createEntityState
   const profile: TDAOMetadataModel = createEntityState.profile as TDAOMetadataModel
 
   const canSubmit: boolean = useMemo(
@@ -65,11 +65,10 @@ const SetupMetadata: React.FC = (): JSX.Element => {
             setMetrics={(metrics): void => handleUpdateProfile('metrics', metrics)}
             attributes={profile?.attributes ?? []}
             setAttributes={(attributes): void => handleUpdateProfile('attributes', attributes)}
-            startDate={profile?.startDate ?? ''}
-            endDate={profile?.endDate ?? ''}
+            startDate={startDate}
+            endDate={endDate}
             setStartEndDate={(startDate, endDate) => {
-              updateProfile({
-                ...profile,
+              updateStartEndDate({
                 startDate,
                 endDate,
               })

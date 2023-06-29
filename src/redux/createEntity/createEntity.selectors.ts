@@ -105,6 +105,16 @@ export const selectCreateEntityLocalisation = createSelector(
   (createEntity: TCreateEntityState): ELocalisation => createEntity.localisation,
 )
 
+export const selectCreateEntityStartDate = createSelector(
+  selectCreateEntity,
+  (createEntity: TCreateEntityState): string => createEntity.startDate || '',
+)
+
+export const selectCreateEntityEndDate = createSelector(
+  selectCreateEntity,
+  (createEntity: TCreateEntityState): string => createEntity.endDate || '',
+)
+
 // for DAO
 export const selectCreateEntityDAOGroups = createSelector(
   selectCreateEntity,
