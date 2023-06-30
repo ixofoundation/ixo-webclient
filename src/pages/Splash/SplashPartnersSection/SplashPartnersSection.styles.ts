@@ -24,7 +24,7 @@ export const CollectionContainer = styled.div`
 
 export const CardsContainer = styled.div`
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
   flex-wrap: wrap;
   padding: 20px 0;
   margin: 0 auto;
