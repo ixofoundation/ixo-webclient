@@ -84,7 +84,7 @@ const SplashLandingSection: FC = () => {
                 href="https://apps.apple.com/us/app/impacts-x/id6444948058?mt=8"
                 target="_blank"
                 rel="noopener noreferrer"
-                title='DowDownload on the App Store'
+                title='Download on the App Store'
               >
                 <AppImg src={appleStore} alt='Download on the App Store' />
               </GradientAppButton>
