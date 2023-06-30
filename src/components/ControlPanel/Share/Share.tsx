@@ -1,9 +1,7 @@
 import React from 'react'
 import { Widget } from '../types'
 import { ReactComponent as ShareIcon } from 'assets/images/icon-share-alt-square-solid.svg'
-import { ReactComponent as TwitterIcon } from 'assets/images/icon-twitter.svg'
-import { ReactComponent as LinkedinIcon } from 'assets/images/icon-linkedin.svg'
-import { ReactComponent as FacebookIcon } from 'assets/images/icon-facebook.svg'
+import { ReactComponent as TelegramIcon } from 'assets/images/icon-telegram.svg'
 import { FlexBox, SvgBox, theme } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 
@@ -14,21 +12,9 @@ interface Props {
 const Share: React.FC<Props> = () => {
   const items = [
     {
-      icon: <TwitterIcon />,
+      icon: <TelegramIcon />,
       onClick: () => {
-        window.open('https://twitter.com/ixoworld')
-      },
-    },
-    {
-      icon: <LinkedinIcon />,
-      onClick: () => {
-        window.open('https://li.linkedin.com/company/ixoworld')
-      },
-    },
-    {
-      icon: <FacebookIcon />,
-      onClick: () => {
-        window.open('https://www.facebook.com/ixoworld/')
+        window.open('https://t.me/+eYI9xR6qQb9kZmU0')
       },
     },
   ]
