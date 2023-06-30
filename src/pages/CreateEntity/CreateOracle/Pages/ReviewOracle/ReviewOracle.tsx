@@ -60,6 +60,7 @@ const ReviewOracle: React.FC = (): JSX.Element => {
       linkedResource,
       accordedRight,
       linkedEntity,
+      relayerNode: process.env.REACT_APP_RELAYER_NODE,
     })
     if (!entityDid) {
       setSubmitting(false)

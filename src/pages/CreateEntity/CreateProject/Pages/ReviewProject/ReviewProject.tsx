@@ -25,6 +25,7 @@ const ReviewProject: React.FC = (): JSX.Element => {
     entityType,
     service: serviceData,
     linkedEntity: linkedEntityData,
+    endDate,
     clearEntity,
     gotoStep,
     gotoStepByNo,
@@ -67,6 +68,7 @@ const ReviewProject: React.FC = (): JSX.Element => {
       linkedResource,
       accordedRight,
       linkedEntity,
+      relayerNode: process.env.REACT_APP_RELAYER_NODE,
     })
     if (!entityDid) {
       setSubmitting(false)
@@ -84,7 +86,7 @@ const ReviewProject: React.FC = (): JSX.Element => {
         image={profile?.image ?? ''}
         logo={profile?.logo ?? ''}
         name={profile?.name ?? ''}
-        endDate={profile?.endDate ?? ''}
+        endDate={endDate}
       />
       <FlexBox direction='column' justifyContent='space-between' width='100%' style={{ flex: 1 }}>
         {!success && (

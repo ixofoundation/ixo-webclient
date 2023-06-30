@@ -40,7 +40,7 @@ const Card: React.FC<Props> = ({ icon, title, items }) => {
             borderStyle={'solid'}
             hover={item.onClick ? { borderColor: theme.ixoNewBlue } : {}}
             onClick={item.onClick && item.onClick}
-            cursor='pointer'
+            cursor={item.onClick && 'pointer'}
           >
             <SvgBox svgWidth={5} svgHeight={5} color={theme.ixoBlack}>
               {item.icon}

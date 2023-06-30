@@ -99,6 +99,9 @@ export const reducer = (state = initialState, action: TCreateEntityActionTypes):
     case ECreateEntityActions.UpdateLinkedEntity:
       updatedState = { ...state, linkedEntity: action.payload }
       break
+    case ECreateEntityActions.UpdateStartEndDate:
+      updatedState = { ...state, ...action.payload }
+      break
 
     // for Asset
     case ECreateEntityActions.AddAssetInstances:

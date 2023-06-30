@@ -10,7 +10,7 @@ import { useAccount } from './account'
 import { Config as ProposalConfig } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/DaoPreProposeSingle.types'
 import { depositInfoToCoin } from 'utils/conversions'
-import { getDaoContractInfo } from 'utils/dao'
+import { getDaoContractInfo, thresholdToTQData } from 'utils/dao'
 
 export default function useCurrentDao(): {
   daoGroups: CurrentDao
@@ -198,6 +198,13 @@ export function useCurrentDaoGroup(groupAddress: string) {
     return daoGroup?.proposalModule.preProposeConfig.open_proposal_submission
   }, [daoGroup])
 
+  const tqData = useMemo(() => {
+    if (proposalConfig?.threshold) {
+      return thresholdToTQData(proposalConfig?.threshold)
+    }
+    return undefined
+  }, [proposalConfig])
+
   return {
     type,
     daoGroup,
@@ -212,6 +219,7 @@ export function useCurrentDaoGroup(groupAddress: string) {
     numOfMembers,
     contractName,
     anyoneCanPropose,
+    tqData,
 
     proposalModuleAddress,
     preProposalContractAddress,

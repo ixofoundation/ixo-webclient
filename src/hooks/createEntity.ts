@@ -41,6 +41,7 @@ import {
   updateTitleAction,
   clearEntityAction,
   updateClaimQuestionsAction,
+  updateStartEndDateAction,
 } from 'redux/createEntity/createEntity.actions'
 import {
   selectCreateEntityAccordedRight,
@@ -64,6 +65,8 @@ import {
   selectCreateEntityTitle,
   selectCreateEntityType,
   selectCreateEntityClaimQuestions,
+  selectCreateEntityStartDate,
+  selectCreateEntityEndDate,
 } from 'redux/createEntity/createEntity.selectors'
 import {
   CreateEntityStrategyMap,
@@ -134,6 +137,8 @@ interface TCreateEntityStateHookRes {
   linkedEntity: { [key: string]: TEntityLinkedEntityModel }
   assetInstances: TCreateEntityModel[]
   localisation: ELocalisation
+  startDate: string
+  endDate: string
   daoGroups: { [id: string]: TDAOGroupModel }
   daoController: string
   proposal: TProposalModel
@@ -156,6 +161,7 @@ interface TCreateEntityStateHookRes {
   updateLinkedResource: (linkedResource: { [id: string]: TEntityLinkedResourceModel }) => void
   updateAccordedRight: (accordedRight: { [id: string]: TEntityAccordedRightModel }) => void
   updateLinkedEntity: (linkedEntity: { [id: string]: TEntityLinkedEntityModel }) => void
+  updateStartEndDate: ({ startDate, endDate }: { startDate: string; endDate: string }) => void
   addAssetInstances: (instances: TCreateEntityModel[]) => void
   updateAssetInstance: (id: number, instance: TCreateEntityModel) => void
   removeAssetInstances: () => void
@@ -189,6 +195,8 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
   const linkedEntity: { [key: string]: TEntityLinkedEntityModel } = useAppSelector(selectCreateEntityLinkedEntity)
   const assetInstances: TCreateEntityModel[] = useAppSelector(selectCreateEntityAssetInstances)
   const localisation: ELocalisation = useAppSelector(selectCreateEntityLocalisation)
+  const startDate: string = useAppSelector(selectCreateEntityStartDate)
+  const endDate: string = useAppSelector(selectCreateEntityEndDate)
   // for DAO
   const daoGroups: { [id: string]: TDAOGroupModel } = useAppSelector(selectCreateEntityDAOGroups)
   const daoController: string = useAppSelector(selectCreateEntityDAOController)
@@ -273,6 +281,9 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
   const updateLinkedEntity = (linkedEntity: { [id: string]: TEntityLinkedEntityModel }): void => {
     dispatch(updateLinkedEntityAction(linkedEntity))
   }
+  const updateStartEndDate = ({ startDate, endDate }: { startDate: string; endDate: string }): void => {
+    dispatch(updateStartEndDateAction(startDate, endDate))
+  }
   const addAssetInstances = (instances: TCreateEntityModel[]): void => {
     dispatch(addAssetInstancesAction(instances))
   }
@@ -316,6 +327,8 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
     linkedEntity,
     assetInstances,
     localisation,
+    startDate,
+    endDate,
     daoGroups,
     daoController,
     proposal,
@@ -338,6 +351,7 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
     updateLinkedResource,
     updateAccordedRight,
     updateLinkedEntity,
+    updateStartEndDate,
     addAssetInstances,
     updateAssetInstance,
     removeAssetInstances,

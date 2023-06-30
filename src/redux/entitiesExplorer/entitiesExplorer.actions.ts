@@ -20,6 +20,7 @@ import {
   GetEntityConfigAction,
   FilterItemOffsetAction,
   GetEntities2Action,
+  GetEntityByIdAction,
 } from './entitiesExplorer.types'
 import { RootState } from 'redux/store'
 import blocksyncApi from 'api/blocksync/blocksync'
@@ -139,6 +140,32 @@ export const getAllEntities =
             })
             return { ...(entities2 && entities2[id] ? entities2[id] : {}), ...entity }
           })
+      }),
+    })
+  }
+
+export const getEntityById =
+  () =>
+  (dispatch: Dispatch, getState: () => RootState): GetEntityByIdAction => {
+    const {
+      account: { cwClient },
+    } = getState()
+    return dispatch({
+      type: EntitiesExplorerActions.GetEntityById,
+      payload: bsService.entity.getEntityById().then((entity: any) => {
+        if (
+          entity.relayerNode === process.env.REACT_APP_RELAYER_NODE ||
+          entity.id === process.env.REACT_APP_RELAYER_NODE
+        ) {
+          const { id } = entity
+          apiEntityToEntity({ entity, cwClient }, (key, value, merge = false) => {
+            dispatch({
+              type: EntitiesExplorerActions.GetIndividualEntity2,
+              payload: { id, key, data: value, merge },
+            })
+          })
+          return entity
+        }
       }),
     })
   }

@@ -23,7 +23,7 @@ export const selectEntityLinkedResource = createSelector(selectCurrentEntity, (e
 })
 
 export const selectEntityLinkedEntity = createSelector(selectCurrentEntity, (entity: TEntityModel) => {
-  return entity.linkedEntity
+  return entity.linkedEntity ?? []
 })
 
 export const selectEntityProfile = createSelector(selectCurrentEntity, (entity: TEntityModel) => {
@@ -56,4 +56,12 @@ export const selectEntityOwner = createSelector(selectCurrentEntity, (entity: TE
 
 export const selectEntityService = createSelector(selectCurrentEntity, (entity: TEntityModel): Service[] => {
   return entity.service
+})
+
+export const selectEntityStartDate = createSelector(selectCurrentEntity, (entity: TEntityModel): string => {
+  return entity.startDate as never as string
+})
+
+export const selectEntityEndDate = createSelector(selectCurrentEntity, (entity: TEntityModel): string => {
+  return entity.endDate as never as string
 })

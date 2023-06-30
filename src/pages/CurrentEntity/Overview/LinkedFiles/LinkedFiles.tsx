@@ -1,7 +1,7 @@
 import { LinkedResource, Service } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { FlexBox, theme } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
-import useCurrentEntity, { useCurrentEntityLinkedFiles } from 'hooks/currentEntity'
+import useCurrentEntity from 'hooks/currentEntity'
 import React from 'react'
 import { ReactComponent as PdfIcon } from 'assets/images/linked-files/pdf.svg'
 import { ReactComponent as ImageIcon } from 'assets/images/linked-files/image.svg'
@@ -42,9 +42,12 @@ const LinkedFileBox = (linkedFile: LinkedResource) => {
     </a>
   )
 }
-const LinkedFiles: React.FC = () => {
-  const linkedFiles = useCurrentEntityLinkedFiles()
 
+interface Props {
+  linkedFiles: LinkedResource[]
+}
+
+const LinkedFiles: React.FC<Props> = ({ linkedFiles }) => {
   if (linkedFiles.length === 0) {
     return null
   }

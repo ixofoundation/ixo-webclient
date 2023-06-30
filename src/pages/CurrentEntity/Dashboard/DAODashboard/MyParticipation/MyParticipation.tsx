@@ -30,12 +30,11 @@ const MyParticipation: React.FC = () => {
 
       {selectedGroup && (
         <>
-          <Typography variant='secondary' size='5xl' weight='normal' color='dark-blue'>
-            My participation in the{' '}
-            <Typography variant='secondary' size='5xl' weight='normal' color='white'>
-              {selectedGroup.config.name}
-            </Typography>{' '}
-            group
+          <Typography variant='secondary' size='4xl' weight='normal' color='white'>
+            {selectedGroup.config.name}
+          </Typography>
+          <Typography variant='secondary' size='2xl' weight='normal' color='dark-blue'>
+            My participation
           </Typography>
 
           {/* expand === 'token' */}

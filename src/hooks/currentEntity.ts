@@ -21,6 +21,8 @@ import {
   selectEntityAccounts,
   selectEntityOwner,
   selectEntityService,
+  selectEntityStartDate,
+  selectEntityEndDate,
 } from 'redux/currentEntity/currentEntity.selectors'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { BlockSyncService } from 'services/blocksync'
@@ -50,6 +52,8 @@ export default function useCurrentEntity(): {
   accounts: EntityAccount[]
   owner: string
   service: Service[]
+  startDate: string
+  endDate: string
   getEntityByDid: (did: string) => Promise<void>
 } {
   const dispatch = useAppDispatch()
@@ -69,6 +73,8 @@ export default function useCurrentEntity(): {
   const accounts: EntityAccount[] = useAppSelector(selectEntityAccounts)
   const owner: string = useAppSelector(selectEntityOwner)
   const service: Service[] = useAppSelector(selectEntityService)
+  const startDate: string = useAppSelector(selectEntityStartDate)
+  const endDate: string = useAppSelector(selectEntityEndDate)
 
   const updateEntity = (data: TEntityModel) => {
     if (id !== data.id) {
@@ -110,6 +116,8 @@ export default function useCurrentEntity(): {
     accounts,
     owner,
     service,
+    startDate,
+    endDate,
     getEntityByDid,
   }
 }
@@ -163,9 +171,11 @@ export function useCurrentEntityLinkedEntity(): {
   bondDid: string
   linkedProposal?: LinkedEntity
 } {
+  const { linkedEntity = [] } = useCurrentEntity()
   const bondDid = ''
+  const linkedProposal = linkedEntity.find(({ type }) => type === 'deed')
 
-  return { bondDid }
+  return { bondDid, linkedProposal }
 }
 
 export function useCurrentEntityAdminAccount(): string {

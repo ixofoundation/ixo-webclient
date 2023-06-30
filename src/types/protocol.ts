@@ -879,8 +879,6 @@ export interface TBasicMetadataModel {
   location?: string
   attributes?: TEntityAttributeModel[]
   metrics?: TEntityMetricModel[]
-  startDate?: string
-  endDate?: string
 }
 export interface TAssetMetadataModel extends TBasicMetadataModel {
   image?: string

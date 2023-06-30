@@ -73,10 +73,11 @@ const EditMetadata: React.FC = (): JSX.Element => {
             setMetrics={(metrics): void => handleUpdateProfile('metrics', metrics)}
             attributes={profile?.attributes ?? []}
             setAttributes={(attributes): void => handleUpdateProfile('attributes', attributes)}
-            startDate={profile?.startDate ?? ''}
-            endDate={profile?.endDate ?? ''}
+            startDate={entity.startDate}
+            endDate={entity.endDate}
             setStartEndDate={(startDate, endDate) => {
-              entity.updatePartial('profile', { startDate, endDate }, true)
+              entity.updatePartial('startDate', startDate)
+              entity.updatePartial('endDate', endDate)
             }}
           />
         </Box>
