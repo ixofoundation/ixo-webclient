@@ -1,29 +1,25 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 import { Box, FlexBox, HTMLFlexBoxProps, SvgBox, theme } from 'components/App/App.styles'
 import { SignStep, TXStatus } from '../common'
-import { DaoGroup } from 'redux/currentEntity/dao/currentDao.types'
 import { Typography } from 'components/Typography'
-import NextStepImage from 'assets/images/modal/nextstep.svg'
-import { useCurrentDaoGroup } from 'hooks/currentDao'
-import { contracts } from '@ixo/impactxclient-sdk'
 import { useAccount } from 'hooks/account'
-import {
-  convertDenomToMicroDenomWithDecimals,
-  convertMicroDenomToDenomWithDecimals,
-  durationToSeconds,
-  secondsToWdhms,
-} from 'utils/conversions'
+import { convertDenomToMicroDenomWithDecimals } from 'utils/conversions'
 import { ReactComponent as ArrowDownIcon } from 'assets/images/icon-arrow-down.svg'
 import { useCurrentEntityProfile } from 'hooks/currentEntity'
-import { Input } from 'pages/CreateEntity/Components'
-import { MarketingInfoResponse, TokenInfoResponse } from '@ixo/impactxclient-sdk/types/codegen/Cw20Base.types'
+import { Dropdown2, Input } from 'pages/CreateEntity/Components'
 import CurrencyFormat from 'react-currency-format'
-import { fee } from 'lib/protocol'
+import { BankSendTrx } from 'lib/protocol'
 import styled from 'styled-components'
 import { Avatar } from 'pages/CurrentEntity/Components'
-import { errorToast } from 'utils/toast'
-import { NATIVE_MICRODENOM } from 'constants/chains'
+import { errorToast, successToast } from 'utils/toast'
+import { NATIVE_DENOM, NATIVE_MICRODENOM } from 'constants/chains'
+import { isContractAddress } from 'utils/validation'
+import { useAppSelector } from 'redux/hooks'
+import { isGreaterThanOrEqualTo } from 'utils/currency'
+import { selectStakingGroupByCoreAddress } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { WasmExecuteTrx } from 'lib/protocol/cosmwasm'
+import { ReactComponent as NextStepImage } from 'assets/images/modal/nextstep.svg'
 
 const StyledInput = styled(Input)`
   color: white;
@@ -51,116 +47,95 @@ const Card = ({ children, ...rest }: HTMLFlexBoxProps) => (
 )
 
 interface Props {
-  daoGroup: DaoGroup
   open: boolean
+  recipient: string
+  selectedDenomOrAddr?: string
   setOpen: (open: boolean) => void
   onSuccess?: (txHash: string) => void
 }
 
-const DepositModal: React.FunctionComponent<Props> = ({ daoGroup, open, setOpen, onSuccess }) => {
-  const { cwClient, cosmWasmClient, address } = useAccount()
+const DepositModal: React.FunctionComponent<Props> = ({
+  open,
+  selectedDenomOrAddr = NATIVE_MICRODENOM,
+  recipient,
+  setOpen,
+  onSuccess,
+}) => {
+  const { signingClient, signer, nativeTokens, cw20Tokens } = useAccount()
+  const [tokenOptions, setTokenOptions] = useState<{ text: string; value: string }[]>([
+    { value: NATIVE_MICRODENOM, text: NATIVE_DENOM },
+  ])
+  const [selectedTokenDenom, setSelectedTokenDenom] = useState(selectedDenomOrAddr)
+  const selectedToken = useMemo(
+    () =>
+      (isContractAddress(selectedTokenDenom) ? cw20Tokens : nativeTokens).find(
+        (token) => token.denomOrAddress === selectedTokenDenom,
+      ),
+    [nativeTokens, cw20Tokens, selectedTokenDenom],
+  )
+  const balance = useMemo(() => (selectedToken ? selectedToken.balance : '0'), [selectedToken])
+  const daoGroup = useAppSelector(selectStakingGroupByCoreAddress(recipient))
   const { name: daoName } = useCurrentEntityProfile()
   const daoGroupName = daoGroup?.config.name
-  const { votingModuleAddress, depositInfo } = useCurrentDaoGroup(daoGroup?.coreAddress)
-  const [unstakingDuration, setUnstakingDuration] = useState<number>(0)
-  const [tokenInfo, setTokenInfo] = useState<TokenInfoResponse | undefined>(undefined)
-  const [marketingInfo, setMarketingInfo] = useState<MarketingInfoResponse | undefined>(undefined)
-  const [balance, setBalance] = useState('')
-
-  const [selectedAsset] = useState<'cw20' | typeof NATIVE_MICRODENOM>('cw20')
 
   const [amount, setAmount] = useState<string>('')
   const [txStatus, setTXStatus] = useState<TXStatus>(TXStatus.UNDEFINED)
   const [txHash, setTXHash] = useState<string>('')
 
+  const validAmount = isGreaterThanOrEqualTo(balance, amount)
+
   useEffect(() => {
     setAmount('')
     setTXStatus(TXStatus.UNDEFINED)
     setTXHash('')
-  }, [open, daoGroup])
+  }, [open])
 
-  /**
-   * @get
-   *  Token Address
-   *  Token Balance
-   *  Token Info
-   *  Unstaking Duration
-   */
   useEffect(() => {
-    ;(async () => {
-      const daoVotingCw20StakedClient = new contracts.DaoVotingCw20Staked.DaoVotingCw20StakedQueryClient(
-        cwClient,
-        votingModuleAddress,
-      )
-      const stakingContract = await daoVotingCw20StakedClient.stakingContract()
-      const cw20StakeClient = new contracts.Cw20Stake.Cw20StakeQueryClient(cwClient, stakingContract)
-      const { unstaking_duration } = await cw20StakeClient.getConfig()
-
-      if (unstaking_duration) {
-        setUnstakingDuration(durationToSeconds(0, unstaking_duration))
+    if (daoGroup) {
+      const { token } = daoGroup
+      if (token) {
+        setTokenOptions((v) => [...v, { value: token.config.token_address, text: token.tokenInfo.symbol }])
       }
+    }
+    return () => {
+      setTokenOptions([{ value: NATIVE_MICRODENOM, text: NATIVE_DENOM }])
+    }
+  }, [daoGroup])
 
-      const tokenContract = await daoVotingCw20StakedClient.tokenContract()
-      const cw20BaseClient = new contracts.Cw20Base.Cw20BaseQueryClient(cwClient, tokenContract)
-      const tokenInfo = await cw20BaseClient.tokenInfo()
-      const marketingInfo = await cw20BaseClient.marketingInfo()
+  const handleSigning = async () => {
+    setTXStatus(TXStatus.PENDING)
 
-      const { balance: microBalance } = await cw20BaseClient.balance({ address })
-
-      setBalance(convertMicroDenomToDenomWithDecimals(microBalance, tokenInfo.decimals).toString())
-      setTokenInfo(tokenInfo)
-      setMarketingInfo(marketingInfo)
-    })()
-  }, [votingModuleAddress, address, cwClient])
-
-  /**
-   * signing transaction
-   */
-  const handleDepositCw20Token = async () => {
-    if (!tokenInfo) {
+    if (!selectedTokenDenom || !selectedToken) {
+      setTXStatus(TXStatus.ERROR)
       return
     }
 
-    setTXStatus(TXStatus.PENDING)
-    try {
-      const daoVotingCw20StakedClient = new contracts.DaoVotingCw20Staked.DaoVotingCw20StakedQueryClient(
-        cwClient,
-        votingModuleAddress,
-      )
-      const stakingContract = await daoVotingCw20StakedClient.stakingContract()
-      const tokenContract = await daoVotingCw20StakedClient.tokenContract()
-      const cw20BaseClient = new contracts.Cw20Base.Cw20BaseClient(cosmWasmClient, address, tokenContract)
-      const { transactionHash } = await cw20BaseClient.send(
-        {
-          amount: convertDenomToMicroDenomWithDecimals(amount, tokenInfo.decimals).toString(),
-          contract: stakingContract,
-          msg: btoa('{"stake": {}}'),
+    let response
+    if (isContractAddress(selectedTokenDenom)) {
+      const msg = {
+        transfer: {
+          recipient: recipient,
+          amount: convertDenomToMicroDenomWithDecimals(amount, selectedToken.decimals).toString(),
         },
-        fee,
-        undefined,
-        depositInfo ? [depositInfo] : undefined,
-      )
-      if (transactionHash) {
-        setTXStatus(TXStatus.SUCCESS)
-        setTXHash(transactionHash)
-        onSuccess && onSuccess(transactionHash)
-      } else {
-        throw new Error()
       }
-    } catch (e) {
-      console.error(e)
-      errorToast(null, 'Error at signing')
-      setTXStatus(TXStatus.ERROR)
+
+      response = await WasmExecuteTrx(signingClient, signer, {
+        contractAddress: selectedTokenDenom,
+        msg: JSON.stringify(msg),
+      })
+    } else {
+      response = await BankSendTrx(signingClient, signer.address, recipient, {
+        denom: selectedTokenDenom,
+        amount: convertDenomToMicroDenomWithDecimals(amount, selectedToken.decimals).toString(),
+      })
     }
-  }
-  const handleDepositNativeToken = async () => {
-    //
-  }
-  const handleSigning = () => {
-    if (selectedAsset === 'cw20') {
-      handleDepositCw20Token()
-    } else if (selectedAsset === NATIVE_MICRODENOM) {
-      handleDepositNativeToken()
+
+    if (response) {
+      setTXStatus(TXStatus.SUCCESS)
+      successToast('Sending', `Success! ${amount} ${selectedToken.symbol} have been successfully sent.`)
+    } else {
+      setTXStatus(TXStatus.ERROR)
+      errorToast('Sending', `Failed to send ${amount} ${selectedToken.symbol}. Please try again.`)
     }
   }
 
@@ -205,10 +180,16 @@ const DepositModal: React.FunctionComponent<Props> = ({ daoGroup, open, setOpen,
                       </Typography>
                     </FlexBox>
                   </Box>
-                  <Card justifyContent='flex-start' alignItems='center' flexBasis='33%' gap={2}>
-                    <Avatar size={28} url={marketingInfo?.logo !== 'embedded' ? marketingInfo?.logo?.url : undefined} />
+                  <Card justifyContent='flex-start' alignItems='center' flexBasis='33%' gap={2} cursor='pointer'>
+                    <Avatar size={28} url={selectedToken?.imageUrl} />
                     <Typography color='white' transform='uppercase'>
-                      {tokenInfo?.symbol}
+                      {/* {selectedToken?.symbol} */}
+                      <Dropdown2
+                        options={tokenOptions}
+                        value={selectedTokenDenom}
+                        onChange={(e) => setSelectedTokenDenom(e.target.value)}
+                        style={{ background: 'none', border: 'none', color: 'white' }}
+                      />
                     </Typography>
                   </Card>
                 </FlexBox>
@@ -236,14 +217,15 @@ const DepositModal: React.FunctionComponent<Props> = ({ daoGroup, open, setOpen,
                   </Typography>
                 </Card>
               </FlexBox>
-              {/* Unstaking Period & next button */}
-              <FlexBox width='100%' justifyContent='space-between' alignItems='center'>
-                <Typography size='sm' color='dark-blue'>
-                  The unstaking period is {secondsToWdhms(unstakingDuration, undefined, true, true)}
-                </Typography>
-                <Box cursor='pointer' width='30px' height='30px' onClick={handleSigning}>
-                  <img src={NextStepImage} alt='' />
-                </Box>
+              {/* Action */}
+              <FlexBox width='100%' justifyContent='flex-end' alignItems='center'>
+                <SvgBox
+                  cursor='pointer'
+                  onClick={() => validAmount && handleSigning()}
+                  color={validAmount ? theme.ixoNewBlue : theme.ixoDarkBlue}
+                >
+                  <NextStepImage />
+                </SvgBox>
               </FlexBox>
             </FlexBox>
           )}
@@ -254,7 +236,7 @@ const DepositModal: React.FunctionComponent<Props> = ({ daoGroup, open, setOpen,
               message={{
                 [TXStatus.SUCCESS]: `You have successfully staked ${new Intl.NumberFormat('en-US', {
                   minimumFractionDigits: 2,
-                }).format(Number(amount))} ${tokenInfo?.symbol.toUpperCase()}`,
+                }).format(Number(amount))} ${selectedToken?.symbol.toUpperCase()}`,
               }}
             />
           )}

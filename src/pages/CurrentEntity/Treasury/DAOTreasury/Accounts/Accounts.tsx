@@ -1,4 +1,4 @@
-import { ReactComponent as ArrowLeftIcon } from 'assets/images/icon-arrow-left.svg'
+// import { ReactComponent as ArrowLeftIcon } from 'assets/images/icon-arrow-left.svg'
 import { ReactComponent as CopyIcon } from 'assets/images/icon-copy.svg'
 import { FlexBox, GridContainer, SvgBox, theme } from 'components/App/App.styles'
 import { DepositModal } from 'components/Modals'
@@ -127,19 +127,17 @@ const Accounts: React.FC = () => {
                 <Typography>{selectedAccount.type} account</Typography>
               </FlexBox>
             </FlexBox>
-            {daoGroups[selectedAccount.address] && daoGroups[selectedAccount.address].type === 'staking' && (
-              <Button
-                variant='secondary'
-                onClick={() => setDepositModalOpen(true)}
-                size='flex'
-                height={40}
-                textSize='base'
-                textTransform='capitalize'
-                textWeight='medium'
-              >
-                Deposit
-              </Button>
-            )}
+            <Button
+              variant='secondary'
+              onClick={() => setDepositModalOpen(true)}
+              size='flex'
+              height={40}
+              textSize='base'
+              textTransform='capitalize'
+              textWeight='medium'
+            >
+              Deposit
+            </Button>
           </FlexBox>
           <CopyToClipboard text={selectedAccount.address} onCopy={() => successToast(`Copied to clipboard`)}>
             <FlexBox alignItems='center' gap={2} onClick={(e) => e.stopPropagation()} cursor='pointer'>
@@ -189,38 +187,34 @@ const Accounts: React.FC = () => {
           </GridContainer>
 
           {/* Coins expanded view */}
-          <FlexBox width='100%' style={expand !== 'coins' ? { display: 'none' } : {}}>
+          {/* <FlexBox width='100%' style={expand !== 'coins' ? { display: 'none' } : {}}>
             <Card label='Coins' actionIcon={<ArrowLeftIcon />} onAction={() => history.goBack()}>
               <Coins address={selectedAccount.address} />
             </Card>
-          </FlexBox>
+          </FlexBox> */}
 
           {/* Impact Tokens expanded view */}
-          <FlexBox width='100%' style={expand !== 'impact_tokens' ? { display: 'none' } : {}}>
+          {/* <FlexBox width='100%' style={expand !== 'impact_tokens' ? { display: 'none' } : {}}>
             <Card label='Impact Tokens' actionIcon={<ArrowLeftIcon />} onAction={() => history.goBack()}>
               <ImpactTokens address={selectedAccount.address} />
             </Card>
-          </FlexBox>
+          </FlexBox> */}
 
           {/* Collections expanded view */}
-          <FlexBox width='100%' style={expand !== 'collections' ? { display: 'none' } : {}}>
+          {/* <FlexBox width='100%' style={expand !== 'collections' ? { display: 'none' } : {}}>
             <Card label='Collections' actionIcon={<ArrowLeftIcon />} onAction={() => history.goBack()}>
               <Collections address={selectedAccount.address} />
             </Card>
-          </FlexBox>
+          </FlexBox> */}
 
           {/* Transactions expanded view */}
-          <FlexBox width='100%' style={expand !== 'transactions' ? { display: 'none' } : {}}>
+          {/* <FlexBox width='100%' style={expand !== 'transactions' ? { display: 'none' } : {}}>
             <Card label='Transactions' actionIcon={<ArrowLeftIcon />} onAction={() => history.goBack()}>
               <Transactions address={selectedAccount.address} />
             </Card>
-          </FlexBox>
-          {daoGroups[selectedAccount.address] && (
-            <DepositModal
-              daoGroup={daoGroups[selectedAccount.address]}
-              open={depositModalOpen}
-              setOpen={setDepositModalOpen}
-            />
+          </FlexBox> */}
+          {selectedAccount.address && depositModalOpen && (
+            <DepositModal recipient={selectedAccount.address} open={depositModalOpen} setOpen={setDepositModalOpen} />
           )}
         </>
       ) : (
