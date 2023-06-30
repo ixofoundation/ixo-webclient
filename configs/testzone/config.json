@@ -47,7 +47,7 @@
     }
   },
   "route": {
-    "splashIsRootRoute": false
+    "splashIsRootRoute": true
   },
   "project": {
     "title": "Project",

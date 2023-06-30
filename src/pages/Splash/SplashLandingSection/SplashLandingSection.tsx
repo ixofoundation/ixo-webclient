@@ -45,7 +45,7 @@ const SplashLandingSection: FC = () => {
       <InnerContainer>
         <TopContainer>
           <Heading>
-            Impact{' '}
+            Impacts{' '}
             <TypeWriter
               text={['Exchange', 'Project', 'Token', 'DAO', 'Investment', 'Oracle']}
               typingSpeed={110}
@@ -57,7 +57,7 @@ const SplashLandingSection: FC = () => {
             <div className='sentence'>LAUNCHPAD</div>
           </Heading>
           <SubHeading>
-            Bring the Internet of Impact to <strong>Life</strong>
+            Bring the Internet of Impacts to <strong>Life</strong>
           </SubHeading>
         </TopContainer>
         <BottomContainer>
@@ -66,7 +66,7 @@ const SplashLandingSection: FC = () => {
           </GradientButton>
           <div>
             <AppLabel>
-              Get your <strong>Impact X</strong> Wallet
+              Get your <strong>Impacts X</strong> Wallet
               {'   '}
               <small>(coming soon)</small>
             </AppLabel>
@@ -81,10 +81,10 @@ const SplashLandingSection: FC = () => {
                 <AppImg src={googlePlay} alt='Get it on Google Play' />
               </GradientAppButton>
               <GradientAppButton
-                // href="https://itunes.apple.com/za/app/ixo/id1441394401?mt=8"
-                // target="_blank"
-                // rel="noopener noreferrer"
-                title='Coming Soon'
+                href="https://apps.apple.com/us/app/impacts-x/id6444948058?mt=8"
+                target="_blank"
+                rel="noopener noreferrer"
+                title='Download on the App Store'
               >
                 <AppImg src={appleStore} alt='Download on the App Store' />
               </GradientAppButton>
