@@ -1,9 +1,10 @@
 import { ResponsiveContainer, Line, LineChart } from 'recharts'
-import { FlexBox, SvgBox, theme } from 'components/App/App.styles'
+import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import React from 'react'
 import CurrencyFormat from 'react-currency-format'
 import { ReactComponent as CoinsIcon } from 'assets/images/icon-coins-solid.svg'
+import { useTheme } from 'styled-components'
 
 const data = [
   {
@@ -41,6 +42,7 @@ interface Props {
 }
 
 const BalanceCard: React.FC<Props> = ({ account }) => {
+  const theme: any = useTheme()
   const totalValue = 0
   const availableValue = 0
   const stakedValue = 0

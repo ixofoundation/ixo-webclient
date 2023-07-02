@@ -1,5 +1,5 @@
 import { TEntityModel } from 'api/blocksync/types/entities'
-import { FlexBox, GridContainer, GridItem, theme } from 'components/App/App.styles'
+import { FlexBox, GridContainer, GridItem } from 'components/App/App.styles'
 import { Button } from 'pages/CreateEntity/Components'
 import React, { useEffect, useState } from 'react'
 import { apiEntityToEntity } from 'utils/entities'
@@ -11,6 +11,7 @@ import { getSDGIcon } from 'components/Modals/SelectionModal/SelectionModal'
 import { useMediaQuery } from 'react-responsive'
 import { deviceWidth } from 'constants/device'
 import { useAccount } from 'hooks/account'
+import { useTheme } from 'styled-components'
 
 interface Props {
   collection: any
@@ -19,6 +20,7 @@ interface Props {
 }
 
 const CollectionExplorer: React.FC<Props> = (props) => {
+  const theme: any = useTheme()
   const isMobile = useMediaQuery({ maxWidth: deviceWidth.tablet })
   const isTablet = useMediaQuery({ minWidth: deviceWidth.tablet, maxWidth: deviceWidth.desktop })
   const { cwClient } = useAccount()

@@ -21,7 +21,7 @@ import SDGIcons from '../SDGIcons/SDGIcons'
 import Star from 'assets/icons/Star'
 import { requireCheckDefault } from 'utils/images'
 import { TEntityDDOTagModel, TEntityProfileModel } from 'types/protocol'
-import { theme } from 'components/App/App.styles'
+import { useTheme } from 'styled-components'
 
 interface Props {
   id: string
@@ -30,6 +30,7 @@ interface Props {
 }
 
 const OracleCard: React.FunctionComponent<Props> = ({ id, profile, tags }) => {
+  const theme: any = useTheme()
   const sdgs = tags?.find(({ category }) => category === 'SDG')?.tags ?? []
 
   return (

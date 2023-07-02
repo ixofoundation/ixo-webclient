@@ -41,6 +41,6 @@ export const ExplainerText = styled.div`
     outline: none;
     background: transparent;
     font-weight: bold;
-    color: ${(props: any): string => props.theme.ixoBlue};
+    color: ${(props: any): string => props.theme.ixoNewBlue};
   }
 `

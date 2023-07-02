@@ -1,9 +1,9 @@
 import React, { useMemo, useState } from 'react'
-import styled from 'styled-components'
+import styled, { useTheme } from 'styled-components'
 import { ReactComponent as IconChevDown } from 'assets/images/icon-chev-down.svg'
 import { TypeSelectionModal } from 'components/Modals'
 import { Typography } from 'components/Typography'
-import { SvgBox, theme } from 'components/App/App.styles'
+import { SvgBox } from 'components/App/App.styles'
 
 const Label = styled.label<{ filled?: boolean }>`
   position: absolute;
@@ -65,6 +65,7 @@ const SelectWithLabel: React.FC<Props> = ({
   options,
   ...rest
 }): JSX.Element => {
+  const theme: any = useTheme()
   const [openModal, setOpenModal] = useState(false)
   const filled = useMemo(() => !!value, [value])
 

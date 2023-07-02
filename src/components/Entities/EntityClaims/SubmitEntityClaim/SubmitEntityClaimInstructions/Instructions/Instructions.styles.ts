@@ -71,7 +71,7 @@ export const ButtonWrapper = styled.div`
     font-weight: bold;
     font-size: 16px;
     line-height: 19px;
-    background: ${(props): string => props.theme.ixoBlue};
+    background: ${(props): string => props.theme.ixoNewBlue};
     border-radius: 4px;
     border: none;
     color: #fff;

@@ -1,11 +1,12 @@
 import React from 'react'
 import { Card } from '../../../../Components'
-import { Box, FlexBox, GridContainer, SvgBox, theme } from 'components/App/App.styles'
+import { Box, FlexBox, GridContainer, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { ReactComponent as FundingIcon } from 'assets/images/icon-funding.svg'
 import { ReactComponent as CaretUpIcon } from 'assets/images/icon-caret-up.svg'
 import { useGetTreasuryPools } from 'hooks/dao'
 import useCurrentDao from 'hooks/currentDao'
+import { useTheme } from 'styled-components'
 
 interface Props {
   daoId: string
@@ -13,12 +14,12 @@ interface Props {
 }
 
 const TreasuryPool: React.FC<Props> = ({ daoId, groupAddresses }): JSX.Element => {
+  const theme: any = useTheme()
   const { getTotalCw20Balances } = useCurrentDao()
   const totalCw20Balances = getTotalCw20Balances(groupAddresses)
-  console.log({ totalCw20Balances })
 
   const { data } = useGetTreasuryPools(daoId)
-  console.log('useGetTreasuryPools', data)
+
   return (
     <Card icon={<FundingIcon />} label='Treasury Pool'>
       <FlexBox width='100%' alignItems='center' direction='column' gap={1}>

@@ -108,7 +108,7 @@ export const ModalData = styled.div`
     font-size: 64px;
 
     :before {
-      color: ${(props: any): string => props.theme.ixoBlue};
+      color: ${(props: any): string => props.theme.ixoNewBlue};
     }
   }
 
@@ -123,7 +123,7 @@ export const ModalData = styled.div`
     font-weight: 300;
 
     span {
-      color: ${(props: any): string => props.theme.ixoBlue};
+      color: ${(props: any): string => props.theme.ixoNewBlue};
     }
   }
 `
@@ -134,6 +134,6 @@ export const InfoLink = styled.a`
   text-decoration: underline;
 
   :hover {
-    color: ${(props: any): string => props.theme.ixoBlue};
+    color: ${(props: any): string => props.theme.ixoNewBlue};
   }
 `

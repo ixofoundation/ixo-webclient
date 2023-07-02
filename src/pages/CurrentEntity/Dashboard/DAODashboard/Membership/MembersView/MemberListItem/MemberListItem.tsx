@@ -2,11 +2,10 @@ import ThreeDot from 'assets/icons/ThreeDot'
 import { Box, FlexBox, TableBodyItem, TableRow } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import React, { useEffect, useState, useMemo } from 'react'
-import styled, { css } from 'styled-components'
+import styled, { css, useTheme } from 'styled-components'
 import { truncateString } from 'utils/formatters'
 import { MemberDetailCard } from '../MemberDetailCard'
 import { useHistory } from 'react-router-dom'
-import { STATUSES } from '../../Toolbar/Toolbar'
 import { Avatar } from '../../../../../Components'
 import { useAccount } from 'hooks/account'
 import useCurrentDao, { useCurrentDaoGroup } from 'hooks/currentDao'
@@ -64,6 +63,29 @@ interface Props {
 }
 
 const MemberListItem: React.FC<Props> = ({ member, selected, onSelectMember }): JSX.Element => {
+  const theme: any = useTheme()
+  const STATUSES = {
+    approved: {
+      status: 'approved',
+      text: 'Members',
+      color: theme.ixoGreen,
+    },
+    pending: {
+      status: 'pending',
+      text: 'Awaiting approval',
+      color: theme.ixoDarkOrange,
+    },
+    rejected: {
+      status: 'rejected',
+      text: 'Restricted',
+      color: theme.ixoRed,
+    },
+    all: {
+      status: undefined,
+      text: 'All',
+      color: theme.ixoNewBlue,
+    },
+  }
   const history = useHistory()
   const { cwClient } = useAccount()
   const { selectedGroupsArr } = useCurrentDao()

@@ -5,7 +5,7 @@ import {
   LinkedResource,
   Service,
 } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
-import { FlexBox, SvgBox, theme } from 'components/App/App.styles'
+import { FlexBox, SvgBox } from 'components/App/App.styles'
 import ClaimTemplateCard from 'components/Modals/ClaimSetupModal/ClaimTemplateCard'
 import { Typography } from 'components/Typography'
 import { deviceWidth } from 'constants/device'
@@ -18,8 +18,10 @@ import { TClaimMetadataModel } from 'types/protocol'
 import { ReactComponent as CheckCircleIcon } from 'assets/images/icon-check-circle.svg'
 import { ReactComponent as ExclamationIcon } from 'assets/images/icon-exclamation-circle.svg'
 import { useHistory } from 'react-router-dom'
+import { useTheme } from 'styled-components'
 
 const ReviewClaim: React.FC = (): JSX.Element => {
+  const theme: any = useTheme()
   const history = useHistory()
   const createEntityState = useCreateEntityState()
   const profile: TClaimMetadataModel = createEntityState.profile as TClaimMetadataModel

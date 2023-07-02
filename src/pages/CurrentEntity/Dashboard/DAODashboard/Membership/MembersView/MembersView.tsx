@@ -8,7 +8,6 @@ import {
   TableHead,
   TableHeadItem,
   TableRow,
-  theme,
 } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import React, { Dispatch, SetStateAction } from 'react'
@@ -19,6 +18,7 @@ import { ReactComponent as SortZtoAIcon } from 'assets/images/icon-sort-ztoa.svg
 import { ReactComponent as SortLtoGIcon } from 'assets/images/icon-sort-ltog.svg'
 import { ReactComponent as SortGtoLIcon } from 'assets/images/icon-sort-gtol.svg'
 import useCurrentDao, { useCurrentDaoGroup } from 'hooks/currentDao'
+import { useTheme } from 'styled-components'
 // import { ReactComponent as ChevDownIcon } from 'assets/images/icon-chev-down.svg'
 
 interface Props {
@@ -37,6 +37,7 @@ const MembersView: React.FC<Props> = ({
   selectedMembers,
   setSelectedMembers,
 }): JSX.Element => {
+  const theme: any = useTheme()
   const { selectedGroupsArr } = useCurrentDao()
   const { type } = useCurrentDaoGroup(selectedGroupsArr[0].coreAddress)
 

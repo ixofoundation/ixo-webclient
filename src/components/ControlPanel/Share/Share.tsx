@@ -2,14 +2,16 @@ import React from 'react'
 import { Widget } from '../types'
 import { ReactComponent as ShareIcon } from 'assets/images/icon-share-alt-square-solid.svg'
 import { ReactComponent as TelegramIcon } from 'assets/images/icon-telegram.svg'
-import { FlexBox, SvgBox, theme } from 'components/App/App.styles'
+import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
+import { useTheme } from 'styled-components'
 
 interface Props {
   widget: Widget
 }
 
 const Share: React.FC<Props> = () => {
+  const theme: any = useTheme()
   const items = [
     {
       icon: <TelegramIcon />,

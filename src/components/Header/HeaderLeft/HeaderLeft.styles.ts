@@ -67,7 +67,7 @@ export const HeaderAnchor = styled.a`
   &:hover {
     text-decoration: none;
     && {
-      color: ${(props: any): string => props.theme.ixoBlue};
+      color: ${(props: any): string => props.theme.ixoNewBlue};
     }
   }
 `

@@ -1,7 +1,6 @@
-import { theme } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import React from 'react'
-import styled, { css } from 'styled-components'
+import styled, { css, useTheme } from 'styled-components'
 
 const HideArrowCss = css`
   -webkit-appearance: none;
@@ -37,6 +36,7 @@ interface Props extends React.SelectHTMLAttributes<HTMLSelectElement> {
 }
 
 const Dropdown: React.FC<Props> = ({ options, placeholder, hasArrow = true, ...rest }): JSX.Element => {
+  const theme: any = useTheme()
   return (
     <Wrapper size='xl'>
       <Select {...rest} hasArrow={hasArrow} color={rest.value ? theme.ixoBlack : theme.ixoGrey700}>

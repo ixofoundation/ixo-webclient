@@ -179,7 +179,7 @@ export const SquareButtonSection = styled.div`
         margin: 0 auto;
       }
       &.selected {
-        border: 1px solid ${(props: any): string => props.theme.ixoBlue};
+        border: 1px solid ${(props: any): string => props.theme.ixoNewBlue};
       }
       &.grey-border {
         border: 1px solid #d8d8d8;
@@ -187,7 +187,7 @@ export const SquareButtonSection = styled.div`
     }
     &:hover {
       .icon-wrapper {
-        border: 1px solid ${(props: any): string => props.theme.ixoBlue};
+        border: 1px solid ${(props: any): string => props.theme.ixoNewBlue};
       }
     }
   }

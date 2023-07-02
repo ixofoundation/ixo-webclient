@@ -1,6 +1,5 @@
 import React from 'react'
-import styled from 'styled-components'
-import { theme } from 'components/App/App.styles'
+import styled, { useTheme } from 'styled-components'
 import ReactSelect, { StylesConfig, components } from 'react-select'
 import { requireCheckDefault } from 'utils/images'
 import { useIxoConfigs } from 'hooks/configs'
@@ -11,43 +10,13 @@ const ValueWrapper = styled.div`
   gap: 8px;
 `
 
-const ChainSelectStyles: StylesConfig = {
-  control: (provided) => ({
-    ...provided,
-    width: 200,
-    height: 48,
-    borderColor: theme.ixoNewBlue,
-    borderRadius: 8,
-    boxShadow: 'none',
-
-    [`&:hover`]: {
-      borderColor: theme.ixoNewBlue,
-      borderWidth: 1,
-    },
-  }),
-  indicatorSeparator: () => ({
-    display: 'none',
-  }),
-  singleValue: (provided) => ({
-    ...provided,
-    fontFamily: theme.secondaryFontFamily,
-    color: theme.ixoBlack,
-    fontWeight: 500,
-    fontSize: 20,
-    lineHeight: '28px',
-  }),
-  menuPortal: (provided) => ({
-    ...provided,
-    zIndex: 9999,
-  }),
-}
-
 interface Props {
   chainId: string
   onChange: (chainId: string) => void
 }
 
 const ChainSelector: React.FC<Props> = ({ chainId, onChange }): JSX.Element => {
+  const theme: any = useTheme()
   const { getRelayerNameByChainId, getRelayerNameAndChainIdList } = useIxoConfigs()
   const Chains = getRelayerNameAndChainIdList()
 
@@ -61,6 +30,37 @@ const ChainSelector: React.FC<Props> = ({ chainId, onChange }): JSX.Element => {
         </ValueWrapper>
       </components.ValueContainer>
     )
+  }
+
+  const ChainSelectStyles: StylesConfig = {
+    control: (provided) => ({
+      ...provided,
+      width: 200,
+      height: 48,
+      borderColor: theme.ixoNewBlue,
+      borderRadius: 8,
+      boxShadow: 'none',
+
+      [`&:hover`]: {
+        borderColor: theme.ixoNewBlue,
+        borderWidth: 1,
+      },
+    }),
+    indicatorSeparator: () => ({
+      display: 'none',
+    }),
+    singleValue: (provided) => ({
+      ...provided,
+      fontFamily: theme.secondaryFontFamily,
+      color: theme.ixoBlack,
+      fontWeight: 500,
+      fontSize: 20,
+      lineHeight: '28px',
+    }),
+    menuPortal: (provided) => ({
+      ...provided,
+      zIndex: 9999,
+    }),
   }
 
   return (

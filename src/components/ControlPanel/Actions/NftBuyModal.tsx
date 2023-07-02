@@ -23,7 +23,7 @@ const NftBuyPanel = styled.div`
   margin: auto 3rem;
 `
 const NftBuyInput = styled.div`
-  border: 0.5px solid ${(props): string => props.theme.ixoBlue}88;
+  border: 0.5px solid ${(props): string => props.theme.ixoNewBlue}88;
   border-radius: 4px;
   display: flex;
   align-items: center;

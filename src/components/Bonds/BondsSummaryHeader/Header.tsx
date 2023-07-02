@@ -1,6 +1,6 @@
 import HeaderItem from './SummaryCard/SummaryCard'
 import { deviceWidth } from 'constants/device'
-import styled from 'styled-components'
+import styled, { useTheme } from 'styled-components'
 import { BondStateType } from 'redux/bond/bond.types'
 import { convertDecCoinToCoin, percentFormat, toFixed } from 'utils/currency'
 import { useEffect, useMemo, useState } from 'react'
@@ -8,7 +8,6 @@ import { Coin } from '@cosmjs/proto-signing'
 import { GetCurrentPrice } from 'lib/protocol'
 import { useIxoConfigs } from 'hooks/configs'
 import { useSelectedEntity } from 'hooks/entity'
-import { theme } from 'components/App/App.styles'
 import { useAccount } from 'hooks/account'
 import { FunctionParam } from '@ixo/impactxclient-sdk/types/codegen/ixo/bonds/v1beta1/bonds'
 
@@ -29,6 +28,7 @@ interface Props {
 }
 
 const Header: React.FC<Props> = ({ isDark, selectedHeader, setSelectedHeader }) => {
+  const theme: any = useTheme()
   const { bondDid, bondDetail, goal } = useSelectedEntity()
   const { balances } = useAccount()
   const { convertToDenom } = useIxoConfigs()

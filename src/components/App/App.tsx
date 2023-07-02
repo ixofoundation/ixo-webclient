@@ -109,6 +109,7 @@ class App extends React.Component<Props, State> {
           customizedTheme = {
             ...customizedTheme,
             ixoBlue: primaryColor,
+            ixoNewBlue: primaryColor,
           }
         }
         if (highlight) {
@@ -206,39 +207,13 @@ class App extends React.Component<Props, State> {
                   <HeaderConnected />
                   <div className='d-flex' style={{ flex: 1 }}>
                     <ContentWrapper>
-                      {this.props.loginStatusCheckCompleted || !window['ixoKs'] ? (
-                        <Routes />
-                      ) : (
-                        <Spinner info={'Loading ixo.world...'} />
-                      )}
+                      {this.props.loginStatusCheckCompleted ? <Routes /> : <Spinner info={'Loading ixo.world...'} />}
                     </ContentWrapper>
                     {assistantToggled && (
                       <Suspense fallback={<div />}>
                         <FundingChat assistantPanelToggle={toggleAssistant} />
                       </Suspense>
                     )}
-                    {/* <Transition
-                    items={assistantToggled}
-                    from={{ width: '0%' }}
-                    enter={{ width: isMobile ? '100%' : '25%' }}
-                    leave={{ width: '0%' }}
-                  >
-                    {(assistantToggled): any =>
-                      assistantToggled &&
-                      ((props): JSX.Element => (
-                        <animated.div
-                          style={{
-                            ...assistantBaseStyles,
-                            ...props,
-                          }}
-                        >
-                          {assistantToggled && (
-                            <FundingChat assistantPanelToggle={toggleAssistant} />
-                          )}
-                        </animated.div>
-                      ))
-                    }
-                  </Transition> */}
                   </div>
                   <Footer />
                 </Container>

@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import clsx from 'classnames'
-import styled from 'styled-components'
+import styled, { useTheme } from 'styled-components'
 import { ProgressBar } from 'components/ProgressBar/ProgressBar'
 import { ReactComponent as ExpandIcon } from 'assets/images/icon-expand-alt.svg'
 
@@ -19,7 +19,7 @@ import moment from 'moment'
 import CopyToClipboard from 'react-copy-to-clipboard'
 import { VoteModal2 } from 'components/Modals'
 import { DashboardThemeContext } from 'components/Dashboard/Dashboard'
-import { Box, FlexBox, SvgBox, theme } from 'components/App/App.styles'
+import { Box, FlexBox, SvgBox } from 'components/App/App.styles'
 import {
   Status,
   Vote,
@@ -125,6 +125,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
   onUpdate,
 }) => {
   const history = useHistory()
+  const theme: any = useTheme()
   const { entityId } = useParams<{ entityId: string }>()
   const { isDark } = useContext(DashboardThemeContext)
   const { convertToDenom } = useIxoConfigs()

@@ -4,7 +4,7 @@ import blocksyncApi from 'api/blocksync/blocksync'
 import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
 import { ModalStyles, CloseButton } from 'components/Modals/styles'
 import { TEntityCreatorModel } from 'types/protocol'
-import { Box, FlexBox, theme } from 'components/App/App.styles'
+import { Box, FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { Button, CountryDropDown, InputWithLabel, TextArea } from 'pages/CreateEntity/Components'
 import { FormData } from 'components/JsonForm/types'
@@ -13,6 +13,7 @@ import ImageCropModal from '../ImageCropModal/ImageCropModal'
 import { PDS_URL } from 'types/entities'
 import PulseLoader from 'components/PulseLoader/PulseLoader'
 import { deviceWidth } from 'constants/device'
+import { useTheme } from 'styled-components'
 
 const cellNodeEndpoint = PDS_URL
 
@@ -26,6 +27,7 @@ interface Props {
 }
 
 const CreatorSetupModal: React.FC<Props> = ({ creator, title, open, onClose, onChange, onClone }): JSX.Element => {
+  const theme: any = useTheme()
   const [formData, setFormData] = useState<FormData | undefined>(undefined)
   const [cropModalOpen, setCropModalOpen] = useState(false)
   const [loading, setLoading] = useState(false)

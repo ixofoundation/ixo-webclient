@@ -1,4 +1,4 @@
-import { Box, FlexBox, SvgBox, theme } from 'components/App/App.styles'
+import { Box, FlexBox, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { NATIVE_MICRODENOM } from 'constants/chains'
 import { AccountValidStatus, Button, Dropdown2, Input } from 'pages/CreateEntity/Components'
@@ -9,6 +9,7 @@ import SetupActionModalTemplate from './SetupActionModalTemplate'
 import { ReactComponent as CopyIcon } from 'assets/images/icon-copy.svg'
 import { ReactComponent as SyncIcon } from 'assets/images/icon-sync-alt-solid.svg'
 import { ReactComponent as TimesIcon } from 'assets/images/icon-times.svg'
+import { useTheme } from 'styled-components'
 
 export interface Counterparty {
   address: string
@@ -44,6 +45,7 @@ interface Props {
 }
 
 const SetupTokenSwapModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
+  const theme: any = useTheme()
   const [formData, setFormData] = useState<PerformTokenSwapData>(initialState)
   const [reviewing, setReviewing] = useState(false)
 

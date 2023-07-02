@@ -3,9 +3,10 @@ import React from 'react'
 import { FormWrapper, FormHeader, FormBody, FormRow, Badge } from './TokenProfileForm.styles'
 import { HeadlineMetric, IconUpload, ImageUpload, Input, InputWithLabel, SelectWithLabel } from '../../Components'
 import { thousandSeparator } from 'utils/formatters'
-import { Box, theme } from 'components/App/App.styles'
+import { Box } from 'components/App/App.styles'
 import { EAssetType } from 'types/protocol'
 import { Typography } from 'components/Typography'
+import { useTheme } from 'styled-components'
 
 interface Props {
   image: string | undefined
@@ -47,6 +48,7 @@ const TokenProfileForm: React.FC<Props> = ({
   SN,
   ...rest
 }): JSX.Element => {
+  const theme: any = useTheme()
   return (
     <FormWrapper {...rest}>
       <FormHeader>

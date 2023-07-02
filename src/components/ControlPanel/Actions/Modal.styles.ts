@@ -165,7 +165,7 @@ export const OverlayDiv = styled.div`
   top: 50%;
   transform: translate(-50%, -50%);
   background: linear-gradient(180deg, #01283b 0%, #012d41 100%);
-  color: ${(props): string => props.theme.ixoBlue};
+  color: ${(props): string => props.theme.ixoNewBlue};
   border: 1px solid #436779;
   box-sizing: border-box;
   box-shadow: 0px 4px 9px rgba(0, 0, 0, 0.18);

@@ -11,7 +11,7 @@ export const CardHeader = styled.div`
   color: #ffffff;
 
   & span.highlight {
-    color: ${(props): string => props.theme.ixoBlue};
+    color: ${(props): string => props.theme.ixoNewBlue};
   }
 `
 

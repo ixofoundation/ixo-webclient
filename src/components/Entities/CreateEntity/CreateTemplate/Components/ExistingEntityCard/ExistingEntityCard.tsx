@@ -23,7 +23,7 @@ const ImportButton = styled.button`
   width: 115px;
   height: 50px;
   &.active {
-    background: ${(props): string => props.theme.ixoBlue};
+    background: ${(props): string => props.theme.ixoNewBlue};
     color: #fff;
   }
 

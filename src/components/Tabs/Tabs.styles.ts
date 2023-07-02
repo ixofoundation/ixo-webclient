@@ -59,7 +59,7 @@ export const createTabsContainer = (
 
     &:hover {
       text-decoration: none;
-      color: ${(props: any): string => props.theme.ixoBlue};
+      color: ${(props: any): string => props.theme.ixoNewBlue};
     }
 
     &.active {

@@ -19,8 +19,8 @@ import {
   CardTags,
 } from '../EntityCard.styles'
 import SDGIcons from '../SDGIcons/SDGIcons'
-import { theme } from 'components/App/App.styles'
 import { requireCheckDefault } from 'utils/images'
+import { useTheme } from 'styled-components'
 
 interface Props {
   did: string
@@ -45,6 +45,7 @@ interface Props {
 }
 
 const DAOCard: React.FunctionComponent<Props> = ({ did, name, description, image, logo, sdgs, goal: impactAction }) => {
+  const theme: any = useTheme()
   return (
     <CardContainer className='col-xl-4 col-md-6 col-sm-12 col-12'>
       <CardLink

@@ -1,4 +1,4 @@
-import { FlexBox, GridContainer, SvgBox, theme } from 'components/App/App.styles'
+import { FlexBox, GridContainer, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import React, { HTMLAttributes, useEffect, useState } from 'react'
 import CopyToClipboard from 'react-copy-to-clipboard'
@@ -16,8 +16,10 @@ import { ReactComponent as QRCodeIcon } from 'assets/images/icon-qrcode.svg'
 import { Avatar } from '../../../../Components'
 import { useGetMemberProfile } from 'hooks/dao'
 import { useHistory, useParams } from 'react-router-dom'
+import { useTheme } from 'styled-components'
 
 const MemberProfile: React.FC = (): JSX.Element => {
+  const theme: any = useTheme()
   const history = useHistory()
   const { entityId, address } = useParams<{ entityId: string; groupId: string; address: string }>()
   const { data, error } = useGetMemberProfile(address)
@@ -42,7 +44,7 @@ const MemberProfile: React.FC = (): JSX.Element => {
       svgWidth={4.5}
       svgHeight={4.5}
       color={'white'}
-      hover={{ background: theme.ixoBlue }}
+      hover={{ background: theme.ixoNewBlue }}
       onMouseEnter={() => setDisplayInfo(content)}
       onMouseLeave={() => setDisplayInfo('')}
     >

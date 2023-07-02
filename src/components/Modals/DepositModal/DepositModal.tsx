@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
-import { Box, FlexBox, HTMLFlexBoxProps, SvgBox, theme } from 'components/App/App.styles'
+import { Box, FlexBox, HTMLFlexBoxProps, SvgBox } from 'components/App/App.styles'
 import { SignStep, TXStatus } from '../common'
 import { Typography } from 'components/Typography'
 import { useAccount } from 'hooks/account'
@@ -10,7 +10,7 @@ import { useCurrentEntityProfile } from 'hooks/currentEntity'
 import { Dropdown2, Input } from 'pages/CreateEntity/Components'
 import CurrencyFormat from 'react-currency-format'
 import { BankSendTrx } from 'lib/protocol'
-import styled from 'styled-components'
+import styled, { useTheme } from 'styled-components'
 import { Avatar } from 'pages/CurrentEntity/Components'
 import { errorToast, successToast } from 'utils/toast'
 import { NATIVE_DENOM, NATIVE_MICRODENOM } from 'constants/chains'
@@ -31,20 +31,23 @@ const StyledInput = styled(Input)`
   }
 `
 
-const Card = ({ children, ...rest }: HTMLFlexBoxProps) => (
-  <FlexBox
-    p={2}
-    width='100%'
-    height='48px'
-    alignItems='center'
-    justifyContent='center'
-    border={`1px solid ${theme.ixoNewBlue}`}
-    borderRadius={'8px'}
-    {...rest}
-  >
-    {children}
-  </FlexBox>
-)
+const Card = ({ children, ...rest }: HTMLFlexBoxProps) => {
+  const theme: any = useTheme()
+  return (
+    <FlexBox
+      p={2}
+      width='100%'
+      height='48px'
+      alignItems='center'
+      justifyContent='center'
+      border={`1px solid ${theme.ixoNewBlue}`}
+      borderRadius={'8px'}
+      {...rest}
+    >
+      {children}
+    </FlexBox>
+  )
+}
 
 interface Props {
   open: boolean
@@ -61,6 +64,7 @@ const DepositModal: React.FunctionComponent<Props> = ({
   setOpen,
   onSuccess,
 }) => {
+  const theme: any = useTheme()
   const { signingClient, signer, nativeTokens, cw20Tokens } = useAccount()
   const [tokenOptions, setTokenOptions] = useState<{ text: string; value: string }[]>([
     { value: NATIVE_MICRODENOM, text: NATIVE_DENOM },

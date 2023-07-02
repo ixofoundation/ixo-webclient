@@ -47,7 +47,7 @@ export const Buttons = styled.div`
 `
 
 export const DoneButton = styled.button`
-  background: ${(props): string => props.theme.ixoBlue};
+  background: ${(props): string => props.theme.ixoNewBlue};
   border: none;
   border-radius: 4px;
   width: 138px;

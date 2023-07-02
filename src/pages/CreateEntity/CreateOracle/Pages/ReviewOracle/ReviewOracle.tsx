@@ -4,7 +4,7 @@ import {
   LinkedResource,
   Service,
 } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
-import { FlexBox, SvgBox, theme } from 'components/App/App.styles'
+import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { deviceWidth } from 'constants/device'
 import { useCreateEntity, useCreateEntityState } from 'hooks/createEntity'
@@ -16,8 +16,10 @@ import { TOracleMetadataModel } from 'types/protocol'
 import OracleCard from './OracleCard'
 import { ReactComponent as CheckCircleIcon } from 'assets/images/icon-check-circle.svg'
 import { ReactComponent as ExclamationIcon } from 'assets/images/icon-exclamation-circle.svg'
+import { useTheme } from 'styled-components'
 
 const ReviewOracle: React.FC = (): JSX.Element => {
+  const theme: any = useTheme()
   const history = useHistory()
   const createEntityState = useCreateEntityState()
   const profile: TOracleMetadataModel = createEntityState.profile as TOracleMetadataModel

@@ -1,12 +1,13 @@
 import { Coin } from '@cosmjs/proto-signing'
 import { contracts } from '@ixo/impactxclient-sdk'
 import BigNumber from 'bignumber.js'
-import { FlexBox, theme } from 'components/App/App.styles'
+import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { useAccount } from 'hooks/account'
 import { Input } from 'pages/CreateEntity/Components'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
+import { useTheme } from 'styled-components'
 import { TProposalActionModel } from 'types/protocol'
 import { convertDenomToMicroDenomWithDecimals, convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
 import { getContractNameByCodeId } from 'utils/dao'
@@ -32,6 +33,7 @@ interface Props {
 }
 
 const SetupStakeToGroupModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
+  const theme: any = useTheme()
   const { coreAddress } = useParams<{ coreAddress: string }>()
   const { cwClient } = useAccount()
   const [formData, setFormData] = useState<StakeToGroupData>(initialState)

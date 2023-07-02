@@ -1,7 +1,8 @@
-import { Box, FlexBox, theme } from 'components/App/App.styles'
+import { Box, FlexBox } from 'components/App/App.styles'
 import { CardTag, CardTags } from 'components/Entities/EntitiesExplorer/Components/EntityCard/EntityCard.styles'
 import { Typography } from 'components/Typography'
 import React from 'react'
+import { useTheme } from 'styled-components'
 
 interface Props {
   image: string
@@ -11,6 +12,8 @@ interface Props {
 }
 
 const ProjectCard: React.FC<Props> = ({ image, name, endDate, logo }): JSX.Element => {
+  const theme: any = useTheme()
+
   return (
     <FlexBox
       direction='column'
