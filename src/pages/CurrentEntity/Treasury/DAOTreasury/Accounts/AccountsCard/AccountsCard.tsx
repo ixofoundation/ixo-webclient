@@ -1,7 +1,7 @@
-import { FlexBox, SvgBox, theme } from 'components/App/App.styles'
+import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import React, { useState } from 'react'
-import styled from 'styled-components'
+import styled, { useTheme } from 'styled-components'
 import { Table } from 'components/Table'
 import CurrencyFormat from 'react-currency-format'
 import { truncateString } from 'utils/formatters'
@@ -106,78 +106,78 @@ const renderTableHeader = (name: string, justifyContent = 'flex-start') => (
   </FlexBox>
 )
 
-const columns = [
-  {
-    Header: renderTableHeader('Name'),
-    accessor: 'name',
-    renderCell: (cell: any) => {
-      const name = cell.value
-      const address = cell.row.original?.address
-      const type = cell.row.original?.type
-      const Icon = AccountTypeToIconMap[type]
-
-      return (
-        <FlexBox alignItems='center' gap={2} p={4}>
-          <FlexBox direction='column' gap={4}>
-            <FlexBox alignItems='center' gap={2}>
-              {Icon && (
-                <SvgBox
-                  width='32px'
-                  height='32px'
-                  alignItems='center'
-                  justifyContent='center'
-                  svgWidth={6}
-                  svgHeight={6}
-                  borderRadius='100%'
-                  background={theme.ixoDarkBlue}
-                >
-                  <Icon />
-                </SvgBox>
-              )}
-              <Typography variant='secondary' size='2xl'>
-                {name || truncateString(address, 10, 'middle')}
-              </Typography>
-            </FlexBox>
-
-            <CopyToClipboard text={address} onCopy={() => successToast(`Copied to clipboard`)}>
-              <FlexBox alignItems='center' gap={2} onClick={(e) => e.stopPropagation()}>
-                <Typography variant='secondary' color='blue' hover={{ underline: true }}>
-                  {truncateString(address, 20, 'middle')}
-                </Typography>
-                <SvgBox color={theme.ixoNewBlue} svgWidth={6} svgHeight={6}>
-                  <CopyIcon />
-                </SvgBox>
-              </FlexBox>
-            </CopyToClipboard>
-          </FlexBox>
-        </FlexBox>
-      )
-    },
-  },
-  {
-    Header: renderTableHeader('Value', 'flex-end'),
-    accessor: 'balance',
-    renderCell: (cell: any) => {
-      const balance = cell.value
-      const network = cell.row.original?.network
-      return (
-        <FlexBox height='100%' direction='column' justifyContent='space-between' alignItems='end' p={4}>
-          <Typography size='2xl'>
-            <CurrencyFormat prefix='$' displayType={'text'} value={balance} thousandSeparator decimalScale={2} />
-          </Typography>
-          <Typography color='dark-blue'>{network} network</Typography>
-        </FlexBox>
-      )
-    },
-  },
-]
-
 interface Props {
   accounts: { [address: string]: { address: string; name: string; network: string; type: string; balance: string } }
   onSelect: (address: string) => void
 }
 
 const AccountsCard: React.FC<Props> = ({ accounts, onSelect }) => {
+  const theme: any = useTheme()
+  const columns = [
+    {
+      Header: renderTableHeader('Name'),
+      accessor: 'name',
+      renderCell: (cell: any) => {
+        const name = cell.value
+        const address = cell.row.original?.address
+        const type = cell.row.original?.type
+        const Icon = AccountTypeToIconMap[type]
+
+        return (
+          <FlexBox alignItems='center' gap={2} p={4}>
+            <FlexBox direction='column' gap={4}>
+              <FlexBox alignItems='center' gap={2}>
+                {Icon && (
+                  <SvgBox
+                    width='32px'
+                    height='32px'
+                    alignItems='center'
+                    justifyContent='center'
+                    svgWidth={6}
+                    svgHeight={6}
+                    borderRadius='100%'
+                    background={theme.ixoDarkBlue}
+                  >
+                    <Icon />
+                  </SvgBox>
+                )}
+                <Typography variant='secondary' size='2xl'>
+                  {name || truncateString(address, 10, 'middle')}
+                </Typography>
+              </FlexBox>
+
+              <CopyToClipboard text={address} onCopy={() => successToast(`Copied to clipboard`)}>
+                <FlexBox alignItems='center' gap={2} onClick={(e) => e.stopPropagation()}>
+                  <Typography variant='secondary' color='blue' hover={{ underline: true }}>
+                    {truncateString(address, 20, 'middle')}
+                  </Typography>
+                  <SvgBox color={theme.ixoNewBlue} svgWidth={6} svgHeight={6}>
+                    <CopyIcon />
+                  </SvgBox>
+                </FlexBox>
+              </CopyToClipboard>
+            </FlexBox>
+          </FlexBox>
+        )
+      },
+    },
+    {
+      Header: renderTableHeader('Value', 'flex-end'),
+      accessor: 'balance',
+      renderCell: (cell: any) => {
+        const balance = cell.value
+        const network = cell.row.original?.network
+        return (
+          <FlexBox height='100%' direction='column' justifyContent='space-between' alignItems='end' p={4}>
+            <Typography size='2xl'>
+              <CurrencyFormat prefix='$' displayType={'text'} value={balance} thousandSeparator decimalScale={2} />
+            </Typography>
+            <Typography color='dark-blue'>{network} network</Typography>
+          </FlexBox>
+        )
+      },
+    },
+  ]
   const [filter, setFilter] = useState({
     group: true,
     entity: true,

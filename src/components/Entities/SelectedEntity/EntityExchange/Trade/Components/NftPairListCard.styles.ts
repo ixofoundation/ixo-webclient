@@ -4,7 +4,7 @@ import { ReactComponent as SearchIcon } from 'assets/images/icon-search.svg'
 export const PairListWrapper = styled.div`
   position: relative;
   background: linear-gradient(180deg, #01273a 0%, #002d42 100%);
-  border: 1px solid ${(props): string => props.theme.ixoBlue};
+  border: 1px solid ${(props): string => props.theme.ixoNewBlue};
   border-radius: 10px;
   padding: 5px 20px;
   display: flex;
@@ -15,7 +15,7 @@ export const PairListWrapper = styled.div`
     height: 0;
     border-top: 11px solid transparent;
     border-bottom: 11px solid transparent;
-    border-right: 15px solid ${(props): string => props.theme.ixoBlue};
+    border-right: 15px solid ${(props): string => props.theme.ixoNewBlue};
     position: absolute;
     left: 0;
     top: 60px;
@@ -39,7 +39,7 @@ export const PairListWrapper = styled.div`
     height: 0;
     border-top: 11px solid transparent;
     border-bottom: 11px solid transparent;
-    border-left: 15px solid ${(props): string => props.theme.ixoBlue};
+    border-left: 15px solid ${(props): string => props.theme.ixoNewBlue};
     position: absolute;
     right: 0;
     top: 60px;

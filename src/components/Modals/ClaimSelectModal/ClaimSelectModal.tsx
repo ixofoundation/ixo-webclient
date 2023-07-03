@@ -3,12 +3,12 @@ import _ from 'lodash'
 import * as Modal from 'react-modal'
 import { ModalStyles, CloseButton } from 'components/Modals/styles'
 import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
-import { FlexBox, SvgBox, theme } from 'components/App/App.styles'
+import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { Button, Input } from 'pages/CreateEntity/Components'
 import { Typography } from 'components/Typography'
 import ClaimTemplateCard from '../ClaimSetupModal/ClaimTemplateCard'
 import { TEntityClaimTemplateModel } from 'types/protocol'
-import styled from 'styled-components'
+import styled, { useTheme } from 'styled-components'
 import { ReactComponent as SearchIcon } from 'assets/images/icon-search.svg'
 import { ReactComponent as SlidersIcon } from 'assets/images/icon-sliders-h-solid.svg'
 
@@ -40,6 +40,7 @@ interface Props {
 }
 
 const ClaimSelectModal: React.FC<Props> = ({ open, onClose, onSelect }): JSX.Element => {
+  const theme: any = useTheme()
   const [keyword, setKeyword] = useState('')
   const [filter, setFilter] = useState(false)
   const [template, setTemplate] = useState<TEntityClaimTemplateModel>()

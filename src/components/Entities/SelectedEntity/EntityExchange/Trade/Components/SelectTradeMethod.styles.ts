@@ -16,7 +16,7 @@ export const SelectTradeMethodText = styled.div`
     font-weight: normal;
     font-size: 24px;
     line-height: 41px;
-    color: ${(props): string => props.theme.ixoBlue};
+    color: ${(props): string => props.theme.ixoNewBlue};
   }
 `
 
@@ -44,6 +44,6 @@ export const PopoverItem = styled.div`
   color: #ffffff;
 
   &:hover {
-    color: ${(props): string => props.theme.ixoBlue};
+    color: ${(props): string => props.theme.ixoNewBlue};
   }
 `

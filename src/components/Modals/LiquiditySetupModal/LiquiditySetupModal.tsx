@@ -6,7 +6,8 @@ import { Button } from 'pages/CreateEntity/Components'
 import { FormData } from 'components/JsonForm/types'
 import { TEntityLiquidityModel } from 'types/protocol'
 import LiquidityCard from 'components/Entities/CreateEntity/CreateEntityAdvanced/Components/LiquidityCard/LiquidityCard'
-import { theme, Typography } from 'components/App/App.styles'
+import { Typography } from 'components/App/App.styles'
+import { useTheme } from 'styled-components'
 
 interface Props {
   liquidity: TEntityLiquidityModel[]
@@ -16,6 +17,7 @@ interface Props {
 }
 
 const LiquiditySetupModal: React.FC<Props> = ({ liquidity, open, onClose, handleChange }): JSX.Element => {
+  const theme: any = useTheme()
   const [formData, setFormData] = useState<FormData[]>([])
 
   useEffect(() => {

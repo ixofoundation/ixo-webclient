@@ -1,5 +1,5 @@
 import clxs from 'classnames'
-import { FlexBox, GridContainer, GridItem, SvgBox, theme } from 'components/App/App.styles'
+import { FlexBox, GridContainer, GridItem, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { useQuery } from 'hooks/window'
 import React, { useMemo } from 'react'
@@ -16,8 +16,10 @@ import { truncateString } from 'utils/formatters'
 import CopyToClipboard from 'react-copy-to-clipboard'
 import { ReactComponent as CopyIcon } from 'assets/images/icon-copy.svg'
 import * as Toast from 'utils/toast'
+import { useTheme } from 'styled-components'
 
 const IndividualMember: React.FC = () => {
+  const theme: any = useTheme()
   const { address } = useParams<{ address: string }>()
   const history = useHistory()
   const { selectedGroups, selectDaoGroup } = useCurrentDao()

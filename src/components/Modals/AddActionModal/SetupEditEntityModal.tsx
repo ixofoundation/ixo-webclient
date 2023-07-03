@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { FlexBox, SvgBox, theme } from 'components/App/App.styles'
+import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { ChainSelector, Input } from 'pages/CreateEntity/Components'
 import { TProposalActionModel } from 'types/protocol'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
@@ -7,7 +7,7 @@ import { ReactComponent as SearchIcon } from 'assets/images/icon-search.svg'
 import { BlockSyncService } from 'services/blocksync'
 import { validateEntityDid } from 'utils/validation'
 import { useHistory } from 'react-router-dom'
-import styled from 'styled-components'
+import styled, { useTheme } from 'styled-components'
 
 const bsService = new BlockSyncService()
 
@@ -16,13 +16,6 @@ const Body = styled(FlexBox)`
     height: 100%;
   }
 `
-
-const SearchInputStyles = {
-  fontFamily: theme.secondaryFontFamily,
-  fontWeight: 500,
-  fontSize: 20,
-  lineHeight: 28,
-}
 
 export interface ManageStorageItemsData {
   setting: boolean
@@ -43,6 +36,13 @@ interface Props {
 }
 
 const SetupEditEntityModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
+  const theme: any = useTheme()
+  const SearchInputStyles = {
+    fontFamily: theme.secondaryFontFamily,
+    fontWeight: 500,
+    fontSize: 20,
+    lineHeight: 28,
+  }
   const history = useHistory()
   const [, setFormData] = useState<ManageStorageItemsData>(initialState)
   const [chainId, setChainId] = useState(undefined)

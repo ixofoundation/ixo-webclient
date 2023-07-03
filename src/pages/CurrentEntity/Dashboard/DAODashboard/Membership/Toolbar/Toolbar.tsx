@@ -1,6 +1,6 @@
-import { FlexBox, SvgBox, theme } from 'components/App/App.styles'
+import { FlexBox, SvgBox } from 'components/App/App.styles'
 import React, { ChangeEvent, useState } from 'react'
-import styled from 'styled-components'
+import styled, { useTheme } from 'styled-components'
 import PanelsIcon from 'assets/images/icon-panels.svg'
 import ListIcon from 'assets/images/icon-list.svg'
 import { ReactComponent as ProfileIcon } from 'assets/images/icon-profile.svg'
@@ -40,29 +40,6 @@ const StyledInput = styled.input`
   }
 `
 
-export const STATUSES = {
-  approved: {
-    status: 'approved',
-    text: 'Members',
-    color: theme.ixoGreen,
-  },
-  pending: {
-    status: 'pending',
-    text: 'Awaiting approval',
-    color: theme.ixoDarkOrange,
-  },
-  rejected: {
-    status: 'rejected',
-    text: 'Restricted',
-    color: theme.ixoRed,
-  },
-  all: {
-    status: undefined,
-    text: 'All',
-    color: theme.ixoNewBlue,
-  },
-}
-
 interface Props {
   status: 'approved' | 'pending' | 'rejected' | undefined
   view: 'panel' | 'list'
@@ -82,6 +59,29 @@ const Toolbar: React.FC<Props> = ({
   onViewChange,
   onKeywordChange,
 }): JSX.Element => {
+  const theme: any = useTheme()
+  const STATUSES = {
+    approved: {
+      status: 'approved',
+      text: 'Members',
+      color: theme.ixoGreen,
+    },
+    pending: {
+      status: 'pending',
+      text: 'Awaiting approval',
+      color: theme.ixoDarkOrange,
+    },
+    rejected: {
+      status: 'rejected',
+      text: 'Restricted',
+      color: theme.ixoRed,
+    },
+    all: {
+      status: undefined,
+      text: 'All',
+      color: theme.ixoNewBlue,
+    },
+  }
   const [chooseStatus, setChooseStatus] = useState(false)
   const [isSearching, setIsSearching] = useState(false)
 

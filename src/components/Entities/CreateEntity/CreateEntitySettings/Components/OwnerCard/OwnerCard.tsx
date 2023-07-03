@@ -43,7 +43,7 @@ const ButtonContainer = styled.div`
     line-height: 19px;
     border-radius: 4px;
     border: none;
-    background: ${(props): string => props.theme.ixoBlue};
+    background: ${(props): string => props.theme.ixoNewBlue};
     color: #fff;
     margin-left: 1.25rem;
 

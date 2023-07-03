@@ -7,20 +7,15 @@ import { ReactComponent as InterNFTIcon } from 'assets/images/icon-ixo721.svg'
 import { ReactComponent as NFTIcon } from 'assets/images/icon-cw721.svg'
 import { ReactComponent as FTIcon } from 'assets/images/icon-cw20.svg'
 import { ReactComponent as CloneIcon } from 'assets/images/icon-asset-clone.svg'
-import {
-  OptionBox,
-  PageWrapper,
-  PageRow,
-  Selections,
-  SearchIcon,
-  SearchInputStyles,
-} from './SelectCreationProcess.styles'
+import { OptionBox, PageWrapper, PageRow, Selections, SearchIcon } from './SelectCreationProcess.styles'
 import { ETokenType } from 'types/tokens'
 import { Button, ChainSelector, Input } from 'pages/CreateEntity/Components'
 import { useCreateEntityState } from 'hooks/createEntity'
 import { Typography } from 'components/Typography'
+import { useTheme } from 'styled-components'
 
 const SelectCreationProcess: React.FC = (): JSX.Element => {
+  const theme: any = useTheme()
   const { gotoStep } = useCreateEntityState()
   const [isClone, setIsClone] = useState(false)
   const [existingDid, setExistingDid] = useState('')
@@ -37,6 +32,13 @@ const SelectCreationProcess: React.FC = (): JSX.Element => {
   const handleClone = (): void => {
     console.log('TODO:', existingDid)
     gotoStep(1)
+  }
+
+  const SearchInputStyles = {
+    fontFamily: theme.secondaryFontFamily,
+    fontWeight: 500,
+    fontSize: 20,
+    lineHeight: 28,
   }
 
   return (

@@ -58,7 +58,7 @@ export const SlippageSettingSlider = styled.input`
   -webkit-appearance: none;
   appearance: none;
   width: 100%;
-  background: ${(props): string => props.theme.ixoBlue};
+  background: ${(props): string => props.theme.ixoNewBlue};
   height: 3px;
 
   &::-webkit-slider-thumb {
@@ -67,7 +67,7 @@ export const SlippageSettingSlider = styled.input`
     width: 14px;
     height: 14px;
     border-radius: 50%;
-    background: ${(props): string => props.theme.ixoBlue};
+    background: ${(props): string => props.theme.ixoNewBlue};
     cursor: pointer;
   }
 
@@ -75,7 +75,7 @@ export const SlippageSettingSlider = styled.input`
     width: 14px;
     height: 14px;
     border-radius: 50%;
-    background: ${(props): string => props.theme.ixoBlue};
+    background: ${(props): string => props.theme.ixoNewBlue};
     cursor: pointer;
   }
 `

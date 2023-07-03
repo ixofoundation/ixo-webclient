@@ -1,4 +1,4 @@
-import { FlexBox, theme } from 'components/App/App.styles'
+import { FlexBox } from 'components/App/App.styles'
 import { Table } from 'components/Table'
 import { Typography } from 'components/Typography'
 import ProgressBar from 'components/Widgets/ProgressBar/ProgressBar'
@@ -7,7 +7,7 @@ import { useCurrentDaoGroup } from 'hooks/currentDao'
 import { Button } from 'pages/CreateEntity/Components'
 import React, { useMemo } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
-import styled from 'styled-components'
+import styled, { useTheme } from 'styled-components'
 import { votingRemainingDateFormat } from 'utils/formatters'
 
 const TableWrapper = styled.div`
@@ -75,6 +75,7 @@ interface Props {
 }
 
 const UserProposals: React.FC<Props> = ({ show, coreAddress, userAddress, full = true }) => {
+  const theme: any = useTheme()
   const history = useHistory()
   const { entityId } = useParams<{ entityId: string }>()
   const { address } = useAccount()
@@ -153,7 +154,7 @@ const UserProposals: React.FC<Props> = ({ show, coreAddress, userAddress, full =
         },
       },
     ],
-    [numOfMembers],
+    [numOfMembers, theme],
   )
 
   const handleNewProposal = () => {

@@ -1,6 +1,6 @@
 // import { ReactComponent as ArrowLeftIcon } from 'assets/images/icon-arrow-left.svg'
 import { ReactComponent as CopyIcon } from 'assets/images/icon-copy.svg'
-import { FlexBox, GridContainer, SvgBox, theme } from 'components/App/App.styles'
+import { FlexBox, GridContainer, SvgBox } from 'components/App/App.styles'
 import { DepositModal } from 'components/Modals'
 import { Typography } from 'components/Typography'
 import useCurrentDao from 'hooks/currentDao'
@@ -12,6 +12,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import CopyToClipboard from 'react-copy-to-clipboard'
 import { useHistory } from 'react-router-dom'
 import { DaoGroup } from 'redux/currentEntity/dao/currentDao.types'
+import { useTheme } from 'styled-components'
 import { truncateString } from 'utils/formatters'
 import { successToast } from 'utils/toast'
 import { Coins } from '../../Components/Coins'
@@ -22,6 +23,7 @@ import AccountsCard, { AccountTypeToIconMap } from './AccountsCard/AccountsCard'
 import BalanceCard from './BalanceCard/BalanceCard'
 
 const Accounts: React.FC = () => {
+  const theme: any = useTheme()
   const history = useHistory()
   const { getQuery } = useQuery()
   const expand: string | undefined = getQuery('expand')

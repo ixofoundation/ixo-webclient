@@ -7,13 +7,14 @@ import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
 import { ReactComponent as ImageIcon } from 'assets/images/icon-image-fill.svg'
 import { UploadBox, SelectImage, DisplayImage } from './ImageUploadModal.styles'
 import { ModalStyles, CloseButton, ModalBody, ModalRow, ModalWrapper, ModalInput } from 'components/Modals/styles'
-import { Box, theme } from 'components/App/App.styles'
+import { Box } from 'components/App/App.styles'
 import { PDS_URL } from 'types/entities'
 import PulseLoader from 'components/PulseLoader/PulseLoader'
 import { default as ImageCropModal } from '../ImageCropModal/ImageCropModal'
 import { Button } from 'pages/CreateEntity/Components'
 import { Typography } from 'components/Typography'
 import * as Toast from 'utils/toast'
+import { useTheme } from 'styled-components'
 
 const cellNodeEndpoint = PDS_URL
 
@@ -34,6 +35,7 @@ const ImageUploadModal: React.FC<Props> = ({
   circularCrop,
   handleChange,
 }): JSX.Element => {
+  const theme: any = useTheme()
   const [imgSrc, setImgSrc] = useState(undefined)
   const [tempValue, setTempValue] = useState(value)
   const [canSubmit, setCanSubmit] = useState(false)

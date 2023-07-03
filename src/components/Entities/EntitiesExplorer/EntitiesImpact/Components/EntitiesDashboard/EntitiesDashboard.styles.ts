@@ -28,7 +28,7 @@ export const ClaimsLabels = styled.div`
     margin-right: 25px;
   }
   p:nth-child(1):before {
-    background: ${/* eslint-disable-line */ (props) => props.theme.ixoBlue};
+    background: ${/* eslint-disable-line */ (props) => props.theme.ixoNewBlue};
   }
   p:nth-child(2):before {
     background: ${/* eslint-disable-line */ (props) => props.theme.ixoOrange};

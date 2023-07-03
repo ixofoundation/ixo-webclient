@@ -1,11 +1,12 @@
 import { LinkedResource, Service } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
-import { FlexBox, theme } from 'components/App/App.styles'
+import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import useCurrentEntity from 'hooks/currentEntity'
 import React from 'react'
 import { ReactComponent as PdfIcon } from 'assets/images/linked-files/pdf.svg'
 import { ReactComponent as ImageIcon } from 'assets/images/linked-files/image.svg'
 import { ReactComponent as TextIcon } from 'assets/images/linked-files/text.svg'
+import { useTheme } from 'styled-components'
 
 const MediaTypeToIconMap = {
   'application/pdf': PdfIcon,
@@ -14,6 +15,7 @@ const MediaTypeToIconMap = {
 }
 
 const LinkedFileBox = (linkedFile: LinkedResource) => {
+  const theme: any = useTheme()
   const { service } = useCurrentEntity()
   const Icon = MediaTypeToIconMap[linkedFile.mediaType]
   const [identifier, key] = linkedFile.serviceEndpoint.split(':')

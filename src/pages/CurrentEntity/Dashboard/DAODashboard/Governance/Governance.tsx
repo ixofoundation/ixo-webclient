@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import { Box, FlexBox, theme } from 'components/App/App.styles'
+import { Box, FlexBox } from 'components/App/App.styles'
 import GovernanceProposal from 'components/Entities/SelectedEntity/EntityEconomy/EconomyGovernance/Components/GovernanceProposal2'
 import useCurrentDao, { useCurrentDaoGroup } from 'hooks/currentDao'
 import { durationToSeconds, expirationAtTimeToSecondsFromNow } from 'utils/conversions'
@@ -9,8 +9,10 @@ import { Button } from 'pages/CreateEntity/Components'
 import { Link, useHistory, useParams } from 'react-router-dom'
 import { ProposalResponse } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
 import { ReactComponent as EmptyIcon } from 'assets/images/icon-empty.svg'
+import { useTheme } from 'styled-components'
 
 const Governance: React.FC = () => {
+  const theme: any = useTheme()
   const { entityId } = useParams<{ entityId: string }>()
   const history = useHistory()
   const { selectedGroups, selectDaoGroup } = useCurrentDao()

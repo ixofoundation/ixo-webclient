@@ -6,7 +6,7 @@ import {
   LinkedResource,
   Service,
 } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
-import { FlexBox, SvgBox, theme } from 'components/App/App.styles'
+import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { deviceWidth } from 'constants/device'
 import { useCreateEntity, useCreateEntityState } from 'hooks/createEntity'
@@ -18,8 +18,10 @@ import { TDAOMetadataModel } from 'types/protocol'
 import DAOCard from '../../../Forms/ReviewCard/DAOCard'
 import { ReactComponent as CheckCircleIcon } from 'assets/images/icon-check-circle.svg'
 import { ReactComponent as ExclamationIcon } from 'assets/images/icon-exclamation-circle.svg'
+import { useTheme } from 'styled-components'
 
 const ReviewDAO: React.FC = (): JSX.Element => {
+  const theme: any = useTheme()
   const history = useHistory()
   const createEntityState = useCreateEntityState()
   const profile: TDAOMetadataModel = createEntityState.profile as TDAOMetadataModel

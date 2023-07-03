@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import Axios from 'axios'
-import styled from 'styled-components'
+import styled, { useTheme } from 'styled-components'
 import { ProgressBar } from 'components/ProgressBar/ProgressBar'
 import BigNumber from 'bignumber.js'
 import IMG_expand from 'assets/images/icon-expand-alt.svg'
@@ -23,7 +23,7 @@ import CopyToClipboard from 'react-copy-to-clipboard'
 import { thousandSeparator } from 'utils/formatters'
 import { VoteModal } from 'components/Modals'
 import { DashboardThemeContext } from 'components/Dashboard/Dashboard'
-import { Box, theme } from 'components/App/App.styles'
+import { Box } from 'components/App/App.styles'
 import { Status } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 
@@ -127,6 +127,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
   totalDeposit,
   handleVote,
 }) => {
+  const theme: any = useTheme()
   const { isDark } = useContext(DashboardThemeContext)
   const { address } = useAppSelector((state) => state.account)
   const [myVoteStatus, setMyVoteStatus] = useState<VoteStatus>(VoteStatus.VOTE_OPTION_UNSPECIFIED)

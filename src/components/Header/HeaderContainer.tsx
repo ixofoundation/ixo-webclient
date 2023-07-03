@@ -1,5 +1,4 @@
 import Success from 'assets/icons/Success'
-import { theme } from 'components/App/App.styles'
 import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 import { deviceWidth } from 'constants/device'
 import { useAccount } from 'hooks/account'
@@ -11,6 +10,7 @@ import * as entitiesSelectors from 'redux/entitiesExplorer/entitiesExplorer.sele
 import { selectEntityHeaderButtonColorUIConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { useAppSelector } from 'redux/hooks'
 import { RootState } from 'redux/store'
+import { useTheme } from 'styled-components'
 import { EntityType } from 'types/entities'
 import { truncateString } from 'utils/formatters'
 import { Button, ButtonTypes } from '../Form/Buttons'
@@ -25,6 +25,7 @@ interface Props {
 }
 
 const Header: React.FC<Props> = (props: Props): JSX.Element => {
+  const theme: any = useTheme()
   const {
     address,
     name,

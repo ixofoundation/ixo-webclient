@@ -1,4 +1,4 @@
-import { Box, theme } from 'components/App/App.styles'
+import { Box } from 'components/App/App.styles'
 import { Button } from 'pages/CreateEntity/Components'
 import React, { useState } from 'react'
 import { useCreateEntityState } from 'hooks/createEntity'
@@ -10,8 +10,10 @@ import IndividualToken from './IndividualToken'
 import NewTokenTemplate from './NewTokenTemplate'
 import { TAssetMetadataModel } from 'types/protocol'
 import { Typography } from 'components/Typography'
+import { useTheme } from 'styled-components'
 
 const CreateToken: React.FC = (): JSX.Element => {
+  const theme: any = useTheme()
   const createEntityState = useCreateEntityState()
   const {
     ddoTags,
@@ -34,7 +36,6 @@ const CreateToken: React.FC = (): JSX.Element => {
   const [selectedToken, setSelectedToken] = useState<any>(undefined)
 
   const handleAddNewTokens = (numberOfTokens: number): void => {
-    console.log(111)
     // fork collection
     addAssetInstances(
       new Array(Number(numberOfTokens)).fill(0).map(() => ({

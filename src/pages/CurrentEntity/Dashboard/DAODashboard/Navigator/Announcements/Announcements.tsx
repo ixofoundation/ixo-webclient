@@ -1,10 +1,11 @@
-import { Box, FlexBox, theme } from 'components/App/App.styles'
+import { Box, FlexBox } from 'components/App/App.styles'
 import React, { useEffect, useState } from 'react'
 import moment from 'moment'
 import { Card, TabButton } from '../../../../Components'
 import { ReactComponent as BellIcon } from 'assets/images/icon-bell-in-circle.svg'
 import { Typography } from 'components/Typography'
 import { useGetAnnouncements } from 'hooks/dao'
+import { useTheme } from 'styled-components'
 
 const DEFAULT_FILTER_BY = 'newest'
 const DEFAULT_LIMIT = 3
@@ -14,10 +15,9 @@ interface Props {
   groupAddresses: string[]
 }
 const Announcements: React.FC<Props> = ({ daoId, groupAddresses = [] }): JSX.Element => {
+  const theme: any = useTheme()
   const { data, refetch } = useGetAnnouncements(daoId, groupAddresses, DEFAULT_FILTER_BY, DEFAULT_LIMIT)
   const [filterBy, setFilterBy] = useState(DEFAULT_FILTER_BY)
-
-  console.log('useGetAnnouncements', data)
 
   useEffect(() => {
     refetch({ groupIds: groupAddresses, filterBy, limit: DEFAULT_LIMIT })

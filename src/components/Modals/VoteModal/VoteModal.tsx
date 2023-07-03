@@ -33,9 +33,9 @@ const SelectWrapper = styled.div`
   select {
     background: transparent;
     color: white;
-    border-color: ${(props): string => props.theme.ixoBlue};
+    border-color: ${(props): string => props.theme.ixoNewBlue};
     option {
-      color: ${(props): string => props.theme.ixoBlue}};
+      color: ${(props): string => props.theme.ixoNewBlue}};
     }
     &:after {
       border-color: ${(props): string => props.theme.ixoDarkestBlue}};

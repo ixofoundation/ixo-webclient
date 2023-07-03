@@ -7,11 +7,11 @@ import {
   TableHead,
   TableHeadItem,
   TableRow,
-  theme,
 } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import React from 'react'
 import { ReactComponent as EyeIcon } from 'assets/images/icon-eye.svg'
+import { useTheme } from 'styled-components'
 
 const ACTIVITIES = [
   {
@@ -75,6 +75,7 @@ interface Props {
 }
 
 const ParticipationActivity: React.FC<Props> = (): JSX.Element => {
+  const theme: any = useTheme()
   return (
     <FlexBox
       width='100%'

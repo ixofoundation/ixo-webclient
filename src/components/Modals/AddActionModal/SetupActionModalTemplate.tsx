@@ -2,11 +2,11 @@ import React from 'react'
 import * as Modal from 'react-modal'
 import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
 import { ModalStyles, CloseButton } from 'components/Modals/styles'
-import { FlexBox, SvgBox, theme } from 'components/App/App.styles'
+import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { Button } from 'pages/CreateEntity/Components'
 import { Typography } from 'components/Typography'
 import { ProposalActionConfig, TProposalActionModel } from 'types/protocol'
-import styled from 'styled-components'
+import styled, { useTheme } from 'styled-components'
 
 const inputHeight = '48px'
 const BodyWrapper = styled(FlexBox)`
@@ -42,6 +42,7 @@ const SetupActionModalTemplate: React.FC<Props> = ({
   onSubmit,
   children,
 }): JSX.Element => {
+  const theme: any = useTheme()
   const Icon = ProposalActionConfig[action.group].items[action.text].icon
 
   return (

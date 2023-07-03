@@ -1,9 +1,9 @@
-import { Box, FlexBox, SvgBox, theme } from 'components/App/App.styles'
+import { Box, FlexBox, SvgBox } from 'components/App/App.styles'
 import { Table } from 'components/Table'
 import { Typography } from 'components/Typography'
 import moment from 'moment'
 import React, { FunctionComponent, useContext } from 'react'
-import styled from 'styled-components'
+import styled, { useTheme } from 'styled-components'
 import { truncateString } from 'utils/formatters'
 import { ReactComponent as EyeIcon } from 'assets/images/icon-eye.svg'
 import { DashboardThemeContext } from 'components/Dashboard/Dashboard'
@@ -80,6 +80,7 @@ interface GovernanceTableProps {
 }
 
 const GovernanceTable: FunctionComponent<GovernanceTableProps> = ({ data }) => {
+  const theme: any = useTheme()
   const { isDark } = useContext(DashboardThemeContext)
   const columns = [
     {
@@ -146,7 +147,7 @@ const GovernanceTable: FunctionComponent<GovernanceTableProps> = ({ data }) => {
             <Typography weight='bold'>{cell.value}</Typography>
           </FlexBox>
           <FlexBox height='100%' alignItems='center' background={isDark ? theme.ixoMediumBlue : theme.ixoGrey300}>
-            <SvgBox width='60px' alignItems='center' justifyContent='center' color={theme.ixoBlue} svgWidth={5.5}>
+            <SvgBox width='60px' alignItems='center' justifyContent='center' color={theme.ixoNewBlue} svgWidth={5.5}>
               <EyeIcon />
             </SvgBox>
           </FlexBox>

@@ -1,4 +1,4 @@
-import { FlexBox, SvgBox, theme } from 'components/App/App.styles'
+import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { useCurrentEntityProfile } from 'hooks/currentEntity'
 import { Button } from 'pages/CreateEntity/Components'
@@ -35,8 +35,10 @@ import { ReactComponent as CheckCircleIcon } from 'assets/images/icon-check-circ
 import { ReactComponent as ExclamationIcon } from 'assets/images/icon-exclamation-circle.svg'
 import { getValueFromEvents } from 'utils/objects'
 import { LinkedResourceSetupModal } from 'components/Modals'
+import { useTheme } from 'styled-components'
 
 const ReviewProposal: React.FC = () => {
+  const theme: any = useTheme()
   const history = useHistory()
   const { entityId, coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
   const { address, cosmWasmClient } = useAccount()

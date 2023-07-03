@@ -1,4 +1,4 @@
-import { FlexBox, theme } from 'components/App/App.styles'
+import { FlexBox } from 'components/App/App.styles'
 import React, { useMemo, useState } from 'react'
 import SetupGroupSettings, {
   initialMembership,
@@ -14,8 +14,10 @@ import { useParams } from 'react-router-dom'
 import { LinkedEntity } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { ixo } from '@ixo/impactxclient-sdk'
 import { errorToast, successToast } from 'utils/toast'
+import { useTheme } from 'styled-components'
 
 const AddGroup: React.FC = () => {
+  const theme: any = useTheme()
   const { entityId } = useParams<{ entityId: string }>()
   const { AddLinkedEntity } = useCreateEntity()
   const [type, setType] = useState<'staking' | 'membership'>('membership')

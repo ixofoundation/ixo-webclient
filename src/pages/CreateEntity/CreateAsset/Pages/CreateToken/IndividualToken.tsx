@@ -11,7 +11,7 @@ import {
 } from 'components/Modals'
 import { omitKey } from 'utils/objects'
 // import { v4 as uuidv4 } from 'uuid'
-import { Box, theme } from 'components/App/App.styles'
+import { Box } from 'components/App/App.styles'
 import { Button } from 'pages/CreateEntity/Components'
 import React, { useEffect, useState } from 'react'
 import { useCreateEntityState } from 'hooks/createEntity'
@@ -30,6 +30,7 @@ import { Badge, PropertyBox, PropertyBoxWrapper } from '../../../Forms/Propertie
 import { Wrapper, Row } from './IndividualToken.styles'
 import { SetupPageContent } from '../../../Forms/PropertiesForm/SetupPageContent'
 import { Typography } from 'components/Typography'
+import { useTheme } from 'styled-components'
 
 interface Props {
   SN: number
@@ -38,6 +39,7 @@ interface Props {
 }
 
 const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element => {
+  const theme: any = useTheme()
   const { entityType, updateAssetInstance } = useCreateEntityState()
   const [profile, setProfile] = useState<TAssetMetadataModel>(token.profile as TAssetMetadataModel)
   const [entitySettings, setEntitySettings] = useState<{

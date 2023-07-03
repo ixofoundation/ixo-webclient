@@ -107,11 +107,11 @@ export const HeaderButton = styled.button`
   cursor: pointer;
 
   &:hover {
-    border: 1px solid ${(props): string => props.theme.ixoBlue};
+    border: 1px solid ${(props): string => props.theme.ixoNewBlue};
   }
   &.active {
-    border: 1px solid ${(props): string => props.theme.ixoBlue};
-    color: ${(props): string => props.theme.ixoBlue};
+    border: 1px solid ${(props): string => props.theme.ixoNewBlue};
+    color: ${(props): string => props.theme.ixoNewBlue};
   }
 `
 

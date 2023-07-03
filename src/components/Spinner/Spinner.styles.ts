@@ -12,7 +12,7 @@ export const Pulse = styled.div`
   border-radius: 50%;
   width: 40px;
   height: 40px;
-  background: ${/* eslint-disable-line */ (props) => props.theme.ixoBlue};
+  background: ${(props) => props.theme.ixoNewBlue};
   position: absolute;
   margin: 0;
   padding: 1px;
@@ -21,7 +21,7 @@ export const Pulse = styled.div`
     0% {
       width: 40px;
       height: 40px;
-      background: ${(props): string => props.theme.highlight.light};
+      background: ${(props): string => props.theme.ixoNewBlue};
     }
     100% {
       width: 80px;

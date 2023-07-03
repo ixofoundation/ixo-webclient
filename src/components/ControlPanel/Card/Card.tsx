@@ -1,6 +1,7 @@
-import { FlexBox, GridContainer, SvgBox, theme } from 'components/App/App.styles'
+import { FlexBox, GridContainer, SvgBox } from 'components/App/App.styles'
 import React from 'react'
 import { Typography } from 'components/Typography'
+import { useTheme } from 'styled-components'
 
 export interface ICardItems {
   icon: JSX.Element
@@ -15,6 +16,8 @@ interface Props {
 }
 
 const Card: React.FC<Props> = ({ icon, title, items }) => {
+  const theme: any = useTheme()
+
   return (
     <FlexBox direction='column' gap={5} background='#ffffff' borderRadius='12px' p={5}>
       <FlexBox gap={2} alignItems='center'>

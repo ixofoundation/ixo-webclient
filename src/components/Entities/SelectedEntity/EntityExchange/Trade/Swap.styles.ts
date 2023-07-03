@@ -40,7 +40,7 @@ export const CardHeader = styled.span`
   color: #ffffff;
 
   & > span {
-    color: ${(props): string => props.theme.ixoBlue};
+    color: ${(props): string => props.theme.ixoNewBlue};
   }
 `
 

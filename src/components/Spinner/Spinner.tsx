@@ -29,14 +29,14 @@ export const Spinner: React.SFC<Props> = ({ info, transparentBg, scale }) => {
     background-color: ${(props): string => (transparentBg ? '' : theme?.backgroundColor ?? props.theme.ixoDarkestBlue)};
     flex: 1 1 auto;
     p {
-      color: ${/* eslint-disable-line */ (props) => props.theme.highlight.light};
+      color: ${(props) => props.theme.ixoNewBlue};
       margin-top: 10px;
     }
   `
   return (
     <Container>
       <LoaderContainer>
-        <Pulse />
+        <Pulse />1
         {/* <LoaderWrapper>
           <IxoIcon className="icon-ixo-x" />
         </LoaderWrapper> */}
@@ -62,13 +62,13 @@ export const ProjectLoadingError: React.FC<ProjectLoadingErrorProps> = ({ error 
     background-color: ${(props): string => theme?.backgroundColor ?? props.theme.ixoDarkestBlue};
     flex: 1 1 auto;
     p {
-      color: ${(props): string => props.theme.highlight.light};
+      color: ${(props): string => props.theme.ixoNewBlue};
       margin-top: 10px;
       font-size: 32px;
       font-weight: 900;
     }
     a {
-      color: ${(props): string => props.theme.highlight.light};
+      color: ${(props): string => props.theme.ixoNewBlue};
     }
   `
   return (

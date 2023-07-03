@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
-import { FlexBox, SvgBox, theme } from 'components/App/App.styles'
+import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { ReactComponent as AssistantIcon } from 'assets/images/icon-assistant.svg'
 import { DashboardThemeContext } from 'components/Dashboard/Dashboard'
@@ -9,7 +9,7 @@ import { TTypographySize, TTypographyVariant, TTypographyWeight } from 'componen
 type TButtonVariant = 'primary' | 'secondary' | 'tertiary' | 'white' | 'grey500' | 'grey700' | 'grey900'
 type TButtonSize = 'lg' | 'md' | 'sm' | 'custom' | 'flex' | 'full'
 
-const buttonColor = (variant: TButtonVariant, isDark: boolean): string => {
+const buttonColor = (variant: TButtonVariant, isDark: boolean, theme: any): string => {
   switch (variant) {
     case 'primary':
     default:
@@ -20,7 +20,7 @@ const buttonColor = (variant: TButtonVariant, isDark: boolean): string => {
       return theme.ixoBlack
   }
 }
-const buttonBgColor = (variant: TButtonVariant, disabled: boolean): string => {
+const buttonBgColor = (variant: TButtonVariant, disabled: boolean, theme: any): string => {
   switch (variant) {
     case 'primary':
     default:
@@ -77,8 +77,8 @@ const StyledButton = styled.button<{
   justify-content: center;
   align-items: center;
 
-  color: ${(props): string => buttonColor(props.variant, props.isDark)};
-  background: ${(props): string => buttonBgColor(props.variant, props.disabled)};
+  color: ${(props): string => buttonColor(props.variant, props.isDark, props.theme)};
+  background: ${(props): string => buttonBgColor(props.variant, props.disabled, props.theme)};
 
   letter-spacing: 0.3px;
   line-height: 100%;

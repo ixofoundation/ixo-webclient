@@ -108,7 +108,7 @@ export const Date = styled.span`
 `
 
 export const Did = styled.p`
-  && {color: ${/* eslint-disable-line */ (props) => props.theme.ixoBlue};
+  && {color: ${/* eslint-disable-line */ (props) => props.theme.ixoNewBlue};
   @media (max-width: ${deviceWidth.mobile}px) {
     font-size: 0.625rem;
   }
@@ -148,7 +148,7 @@ export const ClaimLink = styled(Link)`
 
   :hover {
     text-decoration: none;
-    color: ${/* eslint-disable-line */ (props) => props.theme.ixoBlue};
+    color: ${/* eslint-disable-line */ (props) => props.theme.ixoNewBlue};
   }
 `
 

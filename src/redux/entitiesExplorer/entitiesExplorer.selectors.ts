@@ -334,7 +334,7 @@ export const selectEntityHeaderUIConfig = createSelector(selectEntityUIConfig, (
 export const selectEntityHeaderButtonColorUIConfig = createSelector(
   selectEntityUIConfig,
   (entityUIConfig: any): any => {
-    return entityUIConfig?.header?.buttonColor ?? theme.ixoBlue
+    return entityUIConfig?.header?.buttonColor ?? theme.ixoNewBlue
   },
 )
 
@@ -343,7 +343,7 @@ export const selectEntityFooterUIConfig = createSelector(selectEntityUIConfig, (
 })
 
 export const selectEntityPrimaryColor = createSelector(selectEntityThemeConfig, (themeConfig: any): string => {
-  return themeConfig?.primaryColor ?? theme.ixoBlue
+  return themeConfig?.primaryColor ?? theme.ixoNewBlue
 })
 
 export const selectEntityThemeHighlightLight = createSelector(selectEntityThemeConfig, (themeConfig: any): string => {

@@ -22,7 +22,7 @@ const SwapPanel = styled.div`
   gap: 10px;
 `
 const SwapInput = styled.div`
-  border: 0.5px solid ${(props): string => props.theme.ixoBlue}88;
+  border: 0.5px solid ${(props): string => props.theme.ixoNewBlue}88;
   border-radius: 4px;
   display: flex;
   align-items: center;
@@ -72,7 +72,7 @@ const PriceUpdateProgress = styled.div`
   &::after {
     content: ' ';
     height: 4px;
-    background-color: ${(props): string => props.theme.ixoBlue};
+    background-color: ${(props): string => props.theme.ixoNewBlue};
     float: right;
     border-radius: 10px;
     animation-name: percent;

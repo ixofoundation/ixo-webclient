@@ -1,9 +1,10 @@
-import { FlexBox, theme } from 'components/App/App.styles'
+import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { useCurrentDaoGroup } from 'hooks/currentDao'
 import React, { useMemo } from 'react'
 import PieChart from 'components/Widgets/PieChart/PieChart'
 import { useAccount } from 'hooks/account'
+import { useTheme } from 'styled-components'
 
 interface Props {
   show?: boolean
@@ -12,6 +13,7 @@ interface Props {
 }
 
 const UserVotingPower: React.FC<Props> = ({ show, coreAddress, userAddress }) => {
+  const theme: any = useTheme()
   const { address } = useAccount()
   const { daoGroup } = useCurrentDaoGroup(coreAddress)
 

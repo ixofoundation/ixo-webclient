@@ -1,6 +1,6 @@
 import { cosmos } from '@ixo/impactxclient-sdk'
 import BigNumber from 'bignumber.js'
-import { FlexBox, theme } from 'components/App/App.styles'
+import { FlexBox } from 'components/App/App.styles'
 import { SendModal2 } from 'components/Modals'
 import { Typography } from 'components/Typography'
 import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
@@ -16,6 +16,7 @@ import { Button } from 'pages/CreateEntity/Components'
 import { Avatar } from 'pages/CurrentEntity/Components'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import CurrencyFormat from 'react-currency-format'
+import { useTheme } from 'styled-components'
 import { TokenType } from 'types/tokens'
 import { convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
 import { convertDecCoinToCoin, plus } from 'utils/currency'
@@ -36,6 +37,7 @@ interface Props {
 }
 
 const NativeTokenViewModal: React.FC<Props> = ({ open, token, onClose }) => {
+  const theme: any = useTheme()
   const { address, signingClient, updateBalances } = useAccount()
   const availableBalance = token.balance
   const [stakedBalances, setStakedBalances] = useState<{

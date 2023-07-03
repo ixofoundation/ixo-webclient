@@ -2,11 +2,20 @@ import { Box } from 'components/App/App.styles'
 import React, { useMemo, useState } from 'react'
 import { ReactComponent as EntityIcon } from 'assets/images/icon-entity.svg'
 import { ReactComponent as CreatorIcon } from 'assets/images/icon-creator.svg'
-import { PageWrapper, Selections, SearchIcon, SearchInputStyles } from './SelectCreationProcess.styles'
+import { PageWrapper, Selections, SearchIcon } from './SelectCreationProcess.styles'
 import { Button, CateSelector, ChainSelector, Input } from 'pages/CreateEntity/Components'
 import { useCreateEntityState } from 'hooks/createEntity'
+import { useTheme } from 'styled-components'
 
 const SelectCreationProcess: React.FC = (): JSX.Element => {
+  const theme: any = useTheme()
+  const SearchInputStyles = {
+    fontFamily: theme.secondaryFontFamily,
+    fontWeight: 500,
+    fontSize: 20,
+    lineHeight: 28,
+  }
+
   const { gotoStep } = useCreateEntityState()
   const [isClone, setIsClone] = useState(false)
   const [existingDid, setExistingDid] = useState('')

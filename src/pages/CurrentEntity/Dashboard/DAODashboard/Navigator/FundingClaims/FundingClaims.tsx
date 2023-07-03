@@ -1,11 +1,12 @@
 import React from 'react'
 import { Card } from '../../../../Components'
-import { Box, FlexBox, SvgBox, theme } from 'components/App/App.styles'
+import { Box, FlexBox, SvgBox } from 'components/App/App.styles'
 import { CircleProgressbar } from 'components/Widgets/CircleProgressbar/CircleProgressbar'
 import { Typography } from 'components/Typography'
 import { ReactComponent as CheckIcon } from 'assets/images/icon-check-in-circle.svg'
 import { ReactComponent as ExpandIcon } from 'assets/images/icon-expand-alt.svg'
 import { useGetClaimStatus, useGetOutcomeContractStatus } from 'hooks/dao'
+import { useTheme } from 'styled-components'
 
 interface Props {
   daoId: string
@@ -13,11 +14,9 @@ interface Props {
 }
 
 const FundingClaims: React.FC<Props> = ({ daoId, groupIds }): JSX.Element => {
+  const theme: any = useTheme()
   const { data: claimStatus } = useGetClaimStatus(daoId, groupIds)
   const { data: outcomeContractStatus } = useGetOutcomeContractStatus(daoId, groupIds)
-
-  console.log('useGetClaimStatus', claimStatus)
-  console.log('useGetOutcomeContractStatus', outcomeContractStatus)
 
   const StatusBox = ({ color }: { color: string }): JSX.Element => (
     <Box width='12px' height='12px' background={color} borderRadius='100%' />

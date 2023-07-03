@@ -31,11 +31,10 @@ import {
   CircleUserAgreeRadio,
   CircleUserAgreeText,
   CirclePayLink,
-  cardSelectorStyles,
   QuoteRefreshWrapper,
 } from './CircleCheckoutStep.styles'
-import { theme } from 'components/App/App.styles'
 import { displayTokenAmount } from 'utils/currency'
+import { useTheme } from 'styled-components'
 
 let timer: NodeJS.Timeout | null = null
 
@@ -90,6 +89,7 @@ const EmailSetupStep = ({ email, setEmail, handleSubmit }: any): JSX.Element => 
   )
 }
 const EmailVerificationStep = ({ handleSubmit }: any): JSX.Element => {
+  const theme: any = useTheme()
   const [verified, setVerified] = useState(false)
 
   // TODO: temporary hack, know user verified
@@ -247,6 +247,75 @@ const CardSetupStep = ({
   )
 }
 const CardUseStep = ({ previousCards, handleNewCard, handleSubmit }: any): JSX.Element => {
+  const theme: any = useTheme()
+  const cardSelectorStyles = {
+    indicatorsContainer: (provided: any): any => ({
+      ...provided,
+      alignItems: 'center',
+    }),
+    dropdownIndicator: (): any => ({
+      padding: '0 10px',
+      [`svg > path`]: {
+        fill: '#000',
+      },
+    }),
+    indicatorSeparator: (): any => ({
+      display: 'none',
+    }),
+    control: (provided: any): any => ({
+      ...provided,
+      background: theme.ixoGrey100,
+      border: 'none !important',
+      boxShadow: 'none !important',
+      cursor: 'pointer',
+    }),
+    valueContainer: (provided: any): any => ({
+      ...provided,
+      borderRadius: '4px',
+      display: 'flex',
+      flexGrow: 1,
+      padding: 10,
+      gap: 10,
+    }),
+    input: (provided: any): any => ({
+      ...provided,
+      color: 'white',
+      caretColor: 'transparent',
+      margin: 0,
+      padding: 0,
+    }),
+    menu: (provided: any): any => ({
+      ...provided,
+      width: '100%',
+      margin: 0,
+      background: theme.ixoGrey100,
+      borderTopLeftRadius: 0,
+      borderTopRightRadius: 0,
+      zIndex: 200,
+    }),
+    menuPortal: (provided: any): any => ({
+      ...provided,
+      zIndex: 200,
+    }),
+    option: (provided: any): any => ({
+      ...provided,
+      color: '#000',
+      paddingLeft: 10,
+      paddingRight: 10,
+    }),
+    singleValue: (provided: any): any => ({
+      ...provided,
+      color: '#000',
+      margin: 0,
+      fontFamily: theme.primaryFontFamily,
+      fontWeight: 500,
+      fontSize: '18px',
+    }),
+    placeholder: (provided: any): any => ({
+      ...provided,
+    }),
+  }
+
   const [selectedCard, setSelectedCard] = useState<CardInfo>(previousCards[0])
   const options = useMemo(
     () =>

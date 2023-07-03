@@ -58,7 +58,7 @@ export const Description = styled.p`
   }
 
   .number {
-    color: ${(props: any): string => props.theme.ixoBlue};
+    color: ${(props: any): string => props.theme.ixoNewBlue};
     display: inline-block;
     background: ${(props: any): string => props.theme.ixoGradientDark2};
     padding: 2px 8px;

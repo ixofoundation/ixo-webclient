@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import BarChart, { BarColors } from 'components/Widgets/BarChart/BarChart'
 import IndicateArrow from 'assets/icons/IndicateArrow'
 
 import { Container, SectionTitleContainer, SectionTitle, ActionButton } from '../EntityEconomy.styles'
@@ -19,19 +18,6 @@ import {
   Bullet,
 } from './EconomyMarketplace.styles'
 import LineChart from './Components/LineChart'
-
-const data = [
-  {
-    data: [100, 150, 200, 150, 180, 190],
-    color: BarColors.blue,
-    label: 'Data',
-  },
-  {
-    data: [0, 100, 150, 200, 150, 180, 190],
-    color: BarColors.blue,
-    label: 'Data',
-  },
-]
 
 const labels = [
   'User Accounts',
@@ -73,7 +59,6 @@ class EconomyMarketplace extends Component {
               </Color>
             </div>
           </ChartHeader>
-          <BarChart barData={data} />
         </ChartContainer>
         <SectionTitleContainer>
           <SectionTitle>Market Growth in the Internet of Impact Hub</SectionTitle>

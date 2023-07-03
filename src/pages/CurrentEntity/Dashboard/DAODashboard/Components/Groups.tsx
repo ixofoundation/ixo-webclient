@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import Slider from 'react-slick'
-import styled from 'styled-components'
+import styled, { useTheme } from 'styled-components'
 import { Avatar, Card } from '../../../Components'
 import { ReactComponent as GroupsIcon } from 'assets/images/icon-groups.svg'
 import { ReactComponent as ChevRightIcon } from 'assets/images/icon-chev-right.svg'
-import { Box, FlexBox, SvgBox, theme } from 'components/App/App.styles'
+import { Box, FlexBox, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import useCurrentDao from 'hooks/currentDao'
 import { CurrentDao, DaoGroup } from 'redux/currentEntity/dao/currentDao.types'
@@ -29,36 +29,42 @@ const Arrow = styled(Box)`
   }
 `
 
-const NextArrow = (props: any) => (
-  <Arrow
-    className={props.className}
-    width='36px'
-    height='36px'
-    borderRadius='100%'
-    background={theme.ixoDarkBlue}
-    style={{ ...props.style }}
-    onClick={props.onClick}
-  >
-    <SvgBox position='absolute' top='50%' left='50%' transform='translate(-50%, -50%)'>
-      <ChevRightIcon />
-    </SvgBox>
-  </Arrow>
-)
-const PrevArrow = (props: any) => (
-  <Arrow
-    className={props.className}
-    width='36px'
-    height='36px'
-    borderRadius='100%'
-    background={theme.ixoDarkBlue}
-    style={{ ...props.style }}
-    onClick={props.onClick}
-  >
-    <SvgBox position='absolute' top='50%' left='50%' transform='translate(-50%, -50%) rotate(180deg)'>
-      <ChevRightIcon />
-    </SvgBox>
-  </Arrow>
-)
+const NextArrow = (props: any) => {
+  const theme: any = useTheme()
+  return (
+    <Arrow
+      className={props.className}
+      width='36px'
+      height='36px'
+      borderRadius='100%'
+      background={theme.ixoDarkBlue}
+      style={{ ...props.style }}
+      onClick={props.onClick}
+    >
+      <SvgBox position='absolute' top='50%' left='50%' transform='translate(-50%, -50%)'>
+        <ChevRightIcon />
+      </SvgBox>
+    </Arrow>
+  )
+}
+const PrevArrow = (props: any) => {
+  const theme: any = useTheme()
+  return (
+    <Arrow
+      className={props.className}
+      width='36px'
+      height='36px'
+      borderRadius='100%'
+      background={theme.ixoDarkBlue}
+      style={{ ...props.style }}
+      onClick={props.onClick}
+    >
+      <SvgBox position='absolute' top='50%' left='50%' transform='translate(-50%, -50%) rotate(180deg)'>
+        <ChevRightIcon />
+      </SvgBox>
+    </Arrow>
+  )
+}
 
 interface Props {
   isFollowing?: boolean
@@ -67,6 +73,7 @@ interface Props {
 }
 
 const Groups: React.FC<Props> = ({ isFollowing, selectedGroups, selectDaoGroup }): JSX.Element | null => {
+  const theme: any = useTheme()
   const { daoGroups, myGroups } = useCurrentDao()
   const [dragging, setDragging] = useState(false)
   const settings = {

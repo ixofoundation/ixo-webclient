@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Box, FlexBox, theme } from 'components/App/App.styles'
+import { Box, FlexBox } from 'components/App/App.styles'
 import { AssetCardBody, AssetCardBodyRow, AssetCardHeader, AssetCardHeaderDotBG, AssetLogo } from './AssetCard.styles'
 import { CardTag, CardTags } from '../EntityCard/EntityCard.styles'
 import { ProgressBar } from 'components/ProgressBar/ProgressBar'
@@ -8,6 +8,7 @@ import { apiEntityToEntity } from 'utils/entities'
 import { Typography } from 'components/Typography'
 import { NavLink } from 'react-router-dom'
 import { useAccount } from 'hooks/account'
+import { useTheme } from 'styled-components'
 
 interface Props {
   entity: any
@@ -16,6 +17,7 @@ interface Props {
 }
 
 const AssetCard: React.FC<Props> = ({ entity: _entity, selected = false, isSelecting = false }): JSX.Element => {
+  const theme: any = useTheme()
   const { cwClient } = useAccount()
   const [entity, setEntity] = useState<TEntityModel>()
 
