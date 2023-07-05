@@ -68,15 +68,14 @@ const SplashLandingSection: FC = () => {
             <AppLabel>
               Get your <strong>Impacts X</strong> Wallet
               {'   '}
-              <small>(coming soon)</small>
             </AppLabel>
             <FlexWrapper>
               <GradientAppButton
                 marginRight={12}
-                // href="https://play.google.com/store/apps/details?id=com.ixo&hl=en"
-                // target="_blank"
-                // rel="noopener noreferrer"
-                title='Coming Soon'
+                href="https://play.google.com/store/apps/details?id=com.ixo.mobile"
+                target="_blank"
+                rel="noopener noreferrer"
+                title='Download on Google Play'
               >
                 <AppImg src={googlePlay} alt='Get it on Google Play' />
               </GradientAppButton>

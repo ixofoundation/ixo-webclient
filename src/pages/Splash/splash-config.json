@@ -135,32 +135,50 @@
         {
           "icon": "daos-1.svg",
           "text": "Form dynamic groups",
-          "colors": ["#A931FA", "#973AF3"]
+          "colors": [
+            "#A931FA",
+            "#973AF3"
+          ]
         },
         {
           "icon": "daos-2.svg",
           "text": "Vote proposals",
-          "colors": ["#973AF3", "#8443EB"]
+          "colors": [
+            "#973AF3",
+            "#8443EB"
+          ]
         },
         {
           "icon": "daos-3.svg",
           "text": "Manage group treasuries",
-          "colors": ["#A931FA", "#973AF3"]
+          "colors": [
+            "#A931FA",
+            "#973AF3"
+          ]
         },
         {
           "icon": "daos-4.svg",
           "text": "Delegate rights",
-          "colors": ["#973AF3", "#8443EB"]
+          "colors": [
+            "#973AF3",
+            "#8443EB"
+          ]
         },
         {
           "icon": "daos-5.svg",
           "text": "Make deals with other DAOs",
-          "colors": ["#A931FA", "#973AF3"]
+          "colors": [
+            "#A931FA",
+            "#973AF3"
+          ]
         },
         {
           "icon": "daos-6.svg",
           "text": "Establish group policies",
-          "colors": ["#973AF3", "#8443EB"]
+          "colors": [
+            "#973AF3",
+            "#8443EB"
+          ]
         }
       ]
     },
@@ -171,32 +189,50 @@
         {
           "icon": "projects-1.svg",
           "text": "Manage Agents",
-          "colors": ["#8443EB", "#754BE5"]
+          "colors": [
+            "#8443EB",
+            "#754BE5"
+          ]
         },
         {
           "icon": "projects-2.svg",
           "text": "Generate claims",
-          "colors": ["#754BE5", "#6653DF"]
+          "colors": [
+            "#754BE5",
+            "#6653DF"
+          ]
         },
         {
           "icon": "projects-3.svg",
           "text": "Report on results",
-          "colors": ["#8443EB", "#754BE5"]
+          "colors": [
+            "#8443EB",
+            "#754BE5"
+          ]
         },
         {
           "icon": "projects-4.svg",
           "text": "Raise capital",
-          "colors": ["#754BE5", "#6653DF"]
+          "colors": [
+            "#754BE5",
+            "#6653DF"
+          ]
         },
         {
           "icon": "projects-5.svg",
           "text": "Make payments",
-          "colors": ["#8443EB", "#754BE5"]
+          "colors": [
+            "#8443EB",
+            "#754BE5"
+          ]
         },
         {
           "icon": "projects-6.svg",
           "text": "Produce Impact Assets",
-          "colors": ["#754BE5", "#6653DF"]
+          "colors": [
+            "#754BE5",
+            "#6653DF"
+          ]
         }
       ]
     },
@@ -207,32 +243,50 @@
         {
           "icon": "oracles-1.svg",
           "text": "Process claims",
-          "colors": ["#6B51E1", "#5E64E1"]
+          "colors": [
+            "#6B51E1",
+            "#5E64E1"
+          ]
         },
         {
           "icon": "oracles-2.svg",
           "text": "Prove outcomes",
-          "colors": ["#5E64E1", "#5075E1"]
+          "colors": [
+            "#5E64E1",
+            "#5075E1"
+          ]
         },
         {
           "icon": "oracles-3.svg",
           "text": "Predict risks",
-          "colors": ["#6B51E1", "#5E64E1"]
+          "colors": [
+            "#6B51E1",
+            "#5E64E1"
+          ]
         },
         {
           "icon": "oracles-4.svg",
           "text": "Personalise services",
-          "colors": ["#5E64E1", "#5075E1"]
+          "colors": [
+            "#5E64E1",
+            "#5075E1"
+          ]
         },
         {
           "icon": "oracles-5.svg",
           "text": "Prescribe responses",
-          "colors": ["#6B51E1", "#5E64E1"]
+          "colors": [
+            "#6B51E1",
+            "#5E64E1"
+          ]
         },
         {
           "icon": "oracles-6.svg",
           "text": "Provide trusted data",
-          "colors": ["#5E64E1", "#5075E1"]
+          "colors": [
+            "#5E64E1",
+            "#5075E1"
+          ]
         }
       ]
     },
@@ -243,32 +297,50 @@
         {
           "icon": "investments-1.svg",
           "text": "Issue AlphaBonds",
-          "colors": ["#5075E1", "#4885E3"]
+          "colors": [
+            "#5075E1",
+            "#4885E3"
+          ]
         },
         {
           "icon": "investments-2.svg",
           "text": "Pay for Outcomes",
-          "colors": ["#4885E3", "#4094E4"]
+          "colors": [
+            "#4885E3",
+            "#4094E4"
+          ]
         },
         {
           "icon": "investments-3.svg",
           "text": "Stake in Option Pools",
-          "colors": ["#5075E1", "#4885E3"]
+          "colors": [
+            "#5075E1",
+            "#4885E3"
+          ]
         },
         {
           "icon": "investments-4.svg",
           "text": "Comply with regulations",
-          "colors": ["#4885E3", "#4094E4"]
+          "colors": [
+            "#4885E3",
+            "#4094E4"
+          ]
         },
         {
           "icon": "investments-5.svg",
           "text": "Manage treasuries",
-          "colors": ["#5075E1", "#4885E3"]
+          "colors": [
+            "#5075E1",
+            "#4885E3"
+          ]
         },
         {
           "icon": "investments-6.svg",
           "text": "Track use of proceeds",
-          "colors": ["#4885E3", "#4094E4"]
+          "colors": [
+            "#4885E3",
+            "#4094E4"
+          ]
         }
       ]
     },
@@ -279,32 +351,50 @@
         {
           "icon": "assets-1.svg",
           "text": "Tokenise Outcomes",
-          "colors": ["#4094E4", "#4BA4E1"]
+          "colors": [
+            "#4094E4",
+            "#4BA4E1"
+          ]
         },
         {
           "icon": "assets-2.svg",
           "text": "Delegate digital rights",
-          "colors": ["#4BA4E1", "#54B2DD"]
+          "colors": [
+            "#4BA4E1",
+            "#54B2DD"
+          ]
         },
         {
           "icon": "assets-3.svg",
           "text": "Provide liquidity",
-          "colors": ["#4094E4", "#4BA4E1"]
+          "colors": [
+            "#4094E4",
+            "#4BA4E1"
+          ]
         },
         {
           "icon": "assets-4.svg",
           "text": "Trade cross-chain",
-          "colors": ["#4BA4E1", "#54B2DD"]
+          "colors": [
+            "#4BA4E1",
+            "#54B2DD"
+          ]
         },
         {
           "icon": "assets-5.svg",
           "text": "Offset carbon emissions",
-          "colors": ["#4094E4", "#4BA4E1"]
+          "colors": [
+            "#4094E4",
+            "#4BA4E1"
+          ]
         },
         {
           "icon": "assets-6.svg",
           "text": "Digitise physical assets",
-          "colors": ["#4BA4E1", "#54B2DD"]
+          "colors": [
+            "#4BA4E1",
+            "#54B2DD"
+          ]
         }
       ]
     },
@@ -315,32 +405,50 @@
         {
           "icon": "protocols-1.svg",
           "text": "Encode business logic",
-          "colors": ["#54B2DD", "#62BFD8"]
+          "colors": [
+            "#54B2DD",
+            "#62BFD8"
+          ]
         },
         {
           "icon": "protocols-2.svg",
           "text": "Replicate templates",
-          "colors": ["#62BFD8", "#6FCBD3"]
+          "colors": [
+            "#62BFD8",
+            "#6FCBD3"
+          ]
         },
         {
           "icon": "protocols-3.svg",
           "text": "Standardise data models",
-          "colors": ["#54B2DD", "#62BFD8"]
+          "colors": [
+            "#54B2DD",
+            "#62BFD8"
+          ]
         },
         {
           "icon": "protocols-4.svg",
           "text": "Automate data analysis",
-          "colors": ["#62BFD8", "#6FCBD3"]
+          "colors": [
+            "#62BFD8",
+            "#6FCBD3"
+          ]
         },
         {
           "icon": "protocols-5.svg",
           "text": "Define asset classes",
-          "colors": ["#54B2DD", "#62BFD8"]
+          "colors": [
+            "#54B2DD",
+            "#62BFD8"
+          ]
         },
         {
           "icon": "protocols-6.svg",
           "text": "Provide contextual AI assistance",
-          "colors": ["#62BFD8", "#6FCBD3"]
+          "colors": [
+            "#62BFD8",
+            "#6FCBD3"
+          ]
         }
       ]
     }
@@ -353,10 +461,10 @@
       "url": "https://www.coinbase.com/"
     },
     {
-      "title": "IMPACTS X DAO",
+      "title": "ImpactsDAO",
       "color": "#2F9AC9",
-      "image": "impacts_dao_logo.svg",
-      "url": null
+      "image": "impacts_dao_banner.png",
+      "url": "https://launchpad.ixo.world/entity/did:ixo:entity:2f22535f8b179a51d77a0e302e68d35d/overview"
     },
     {
       "title": "equanimity",
