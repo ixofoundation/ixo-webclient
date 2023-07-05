@@ -6,5 +6,5 @@ export const StatsLabel = styled.span`
   font-weight: bold;
   font-size: 16px;
 
-  color: #49bfe0;
+  color: ${(props) => props.theme.ixoNewBlue};
 `

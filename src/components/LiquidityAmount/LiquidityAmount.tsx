@@ -12,7 +12,7 @@ const AmountInput = styled.div<{ border?: boolean }>`
   position: relative;
 
   border: 1px solid
-    ${(props: any): string => (props.border ? '#49bfe0' : 'transparent')};
+    ${(props: any): string => (props.border ? props.theme.ixoNewBlue : 'transparent')};
   border-radius: 4px;
   background: #03324a;
   height: 50px;

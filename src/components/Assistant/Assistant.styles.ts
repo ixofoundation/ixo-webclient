@@ -31,7 +31,7 @@ export const SendButton = styled.button`
   border: none;
   background: transparent;
   transition: 1s;
-  background: #49bfe0;
+  background: ${(props) => props.theme.ixoNewBlue};
   border-radius: 50%;
   width: 1.5rem;
   height: 1.5rem;

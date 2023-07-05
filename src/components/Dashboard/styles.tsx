@@ -19,7 +19,7 @@ export const ButtonWrapper = styled.div`
     font-weight: bold;
     font-size: 16px;
     outline: none;
-    border: 1.5px solid #49bfe0;
+    border: 1.5px solid ${(props) => props.theme.ixoNewBlue};
     background: transparent;
 
     &:first-child {

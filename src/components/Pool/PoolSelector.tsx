@@ -5,7 +5,7 @@ import styled from 'styled-components'
 const PoolSelectorWrapper = styled.div<{ border?: boolean }>`
   position: relative;
   background: #03324a;
-  border: 1px solid ${(props: any): string => (props.border ? '#49bfe0' : 'transparent')};
+  border: 1px solid ${(props: any): string => (props.border ? props.theme.ixoNewBlue : 'transparent')};
   border-radius: 4px;
   padding: 15px;
   display: flex;

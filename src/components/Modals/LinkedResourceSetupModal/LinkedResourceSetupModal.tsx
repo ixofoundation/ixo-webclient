@@ -2,7 +2,6 @@ import React, { useMemo, useState } from 'react'
 import * as Modal from 'react-modal'
 import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
 import { useDropzone } from 'react-dropzone'
-import blocksyncApi from 'api/blocksync/blocksync'
 import { ModalStyles, CloseButton } from 'components/Modals/styles'
 import { Button, InputWithLabel, TextArea } from 'pages/CreateEntity/Components'
 import { FormData } from 'components/JsonForm/types'
@@ -11,12 +10,11 @@ import { deviceWidth } from 'constants/device'
 import { Box, FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import PulseLoader from 'components/PulseLoader/PulseLoader'
-import { PDS_URL } from 'types/entities'
 import { toTitleCase } from 'utils/formatters'
 import { errorToast } from 'utils/toast'
 import { useTheme } from 'styled-components'
-
-const cellNodeEndpoint = PDS_URL
+import { customQueries, utils } from '@ixo/impactxclient-sdk'
+import { chainNetwork } from 'hooks/configs'
 
 interface Props {
   linkedResource: TEntityLinkedResourceModel
@@ -47,21 +45,21 @@ const LinkedResourceSetupModal: React.FC<Props> = ({ linkedResource, open, onClo
       reader.onload = (e: any): void => {
         const fileSrc = e.target.result
         const mediaType = fileSrc.split(',')[0].split(';')[0].split(':').pop()
+        const base64 = fileSrc.split(',').pop()
 
-        console.log({ fileSrc, mediaType })
+        console.log({ fileSrc, mediaType, base64 })
 
         setUploading(true)
 
-        blocksyncApi.project
-          .createPublic(fileSrc, cellNodeEndpoint!)
-          .then((response: any) => {
-            if (response?.result?.key) {
-              const url = new URL(`/public/${response.result.key}`, cellNodeEndpoint)
-              handleFormDataChange('serviceEndpoint', url.href)
+        customQueries.cellnode
+          .uploadWeb3Doc(utils.common.generateId(12), `application/${mediaType}`, base64, undefined, chainNetwork)
+          .then((response) => {
+            if (response.url) {
+              handleFormDataChange('serviceEndpoint', response.url)
               handleFormDataChange('mediaType', mediaType)
               setUploading(false)
             } else {
-              throw response?.result
+              throw new Error('Something went wrong!')
             }
           })
           .catch((e) => {

@@ -43,7 +43,7 @@ const StyledLink = styled(NavLink)`
   position: relative;
 
   &.active {
-    border: 1px solid #49bfe0;
+    border: 1px solid ${(props) => props.theme.ixoNewBlue};
   }
 
   @media (max-width: ${deviceWidth.mobile}px) {

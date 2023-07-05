@@ -19,7 +19,7 @@ const ButtonContainer = styled.div`
   margin-bottom: 1rem;
 
   button {
-    border: 1px solid #49bfe0;
+    border: 1px solid ${(props) => props.theme.ixoNewBlue};
     border-radius: 0.25rem;
     background: transparent;
     color: white;
