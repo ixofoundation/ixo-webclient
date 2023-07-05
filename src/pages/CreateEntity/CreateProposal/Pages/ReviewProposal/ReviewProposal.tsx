@@ -41,7 +41,7 @@ const ReviewProposal: React.FC = () => {
   const theme: any = useTheme()
   const history = useHistory()
   const { entityId, coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
-  const { address, cosmWasmClient } = useAccount()
+  const { address, cosmWasmClient, cwClient } = useAccount()
   const { name: entityName } = useCurrentEntityProfile()
   const { setDaoGroup } = useCurrentDao()
   const { daoGroup, preProposalContractAddress, depositInfo, isParticipating, anyoneCanPropose } =
@@ -118,11 +118,7 @@ const ReviewProposal: React.FC = () => {
     let cw4GroupAddress = ''
 
     if (daoGroup.type === 'membership') {
-      const daoVotingCw4Client = await new contracts.DaoVotingCw4.DaoVotingCw4Client(
-        cosmWasmClient,
-        address,
-        votingModuleAddress,
-      )
+      const daoVotingCw4Client = new contracts.DaoVotingCw4.DaoVotingCw4QueryClient(cwClient, votingModuleAddress)
       cw4GroupAddress = await daoVotingCw4Client.groupContract()
     }
     const wasmMessage: CosmosMsgForEmpty[] = validActions

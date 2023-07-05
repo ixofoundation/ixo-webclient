@@ -57,12 +57,13 @@ const LinkedEntityPropertyBox = (props: PropertyBoxProps & { id: string }) => {
 }
 
 interface Props {
+  hidden: boolean
   linkedEntity: { [key: string]: TEntityLinkedEntityModel }
   daoGroups: { [id: string]: TDAOGroupModel }
   updateLinkedEntity: (linkedEntity: { [id: string]: TEntityLinkedEntityModel }) => void
 }
 
-const SetupLinkedEntity: React.FC<Props> = ({ linkedEntity, daoGroups, updateLinkedEntity }): JSX.Element => {
+const SetupLinkedEntity: React.FC<Props> = ({ hidden, linkedEntity, daoGroups, updateLinkedEntity }): JSX.Element => {
   const [openAddLinkedEntityModal, setOpenAddLinkedEntityModal] = useState(false)
 
   // entity linked entities
@@ -75,7 +76,7 @@ const SetupLinkedEntity: React.FC<Props> = ({ linkedEntity, daoGroups, updateLin
 
   return (
     <>
-      <Box className='d-flex flex-column'>
+      <FlexBox direction='column' style={hidden ? { display: 'none' } : {}}>
         <Typography className='mb-3' variant='secondary' size='2xl'>
           Linked Entities
         </Typography>
@@ -115,7 +116,7 @@ const SetupLinkedEntity: React.FC<Props> = ({ linkedEntity, daoGroups, updateLin
           })}
           <PropertyBox icon={<PlusIcon />} noData handleClick={(): void => setOpenAddLinkedEntityModal(true)} />
         </Box>
-      </Box>
+      </FlexBox>
       <AddLinkedEntityModal
         open={openAddLinkedEntityModal}
         onClose={(): void => setOpenAddLinkedEntityModal(false)}
