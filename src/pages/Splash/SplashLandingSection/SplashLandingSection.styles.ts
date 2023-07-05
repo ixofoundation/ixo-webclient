@@ -169,7 +169,7 @@ export const GradientButton = styled.a`
 `
 
 interface GradientAppButtonProps {
-    marginRight?: number
+  marginRight?: number
 }
 
 export const GradientAppButton = styled(GradientButton) <GradientAppButtonProps>`
