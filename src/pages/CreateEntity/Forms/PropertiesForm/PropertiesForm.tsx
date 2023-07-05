@@ -77,7 +77,7 @@ const PropertiesForm: React.FC<Props> = ({
 }): JSX.Element => {
   const [propertyView, setPropertyView] = useState<string>('')
   const activeProperties = useMemo(() => {
-    switch (entityType.toLowerCase()) {
+    switch (entityType?.toLowerCase()) {
       case 'protocol':
         return Properties.filter((property) => property !== 'Claims')
       case 'proposal':

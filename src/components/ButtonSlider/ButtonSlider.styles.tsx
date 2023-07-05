@@ -28,7 +28,7 @@ export const Container = styled.div`
   }
 
   a.disabled:hover {
-    border: 1px solid #49bfe0;
+    border: 1px solid ${(props) => props.theme.ixoNewBlue};
     opacity: 0.8;
   }
 

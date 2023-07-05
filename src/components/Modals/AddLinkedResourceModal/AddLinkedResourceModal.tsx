@@ -33,6 +33,7 @@ const AddLinkedResourceModal: React.FC<Props> = ({ open, onClose, onAdd }): JSX.
                   key={key}
                   icon={<value.icon />}
                   label={value.text}
+                  disabled={value.disabled}
                   handleClick={(): void => {
                     onAdd(key)
                     onClose()

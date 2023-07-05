@@ -19,7 +19,7 @@ export const StyledContainer = styled(Container)<{ dark: boolean }>`
     props.dark
       ? 'linear-gradient(356.78deg, #002d42 2.22%, #012639 96.94%);'
       : 'linear-gradient(rgb(255, 255, 255) 0%, rgb(240, 243, 250) 100%);'};
-  border: ${(props): string => (props.dark ? '1px solid #0c3549' : '1px solid #49bfe0')};
+  border: ${(props): string => (props.dark ? '1px solid #0c3549' : `1px solid ${props.theme.ixoNewBlue}`)};
 `
 
 const _options: ApexOptions = {

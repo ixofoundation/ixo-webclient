@@ -14,6 +14,7 @@ import {
   selectIsApprovedIA,
   selectIsApprovedSA,
 } from 'redux/selectedEntity/selectedEntity.selectors'
+import { useTheme } from 'styled-components'
 
 interface Props {
   widget: Widget
@@ -24,6 +25,7 @@ interface Props {
 }
 
 const Claims: React.FunctionComponent<Props> = ({ widget, showMore, claims, entityDid, toggleShowMore }) => {
+  const theme: any = useTheme()
   const controls = widget?.controls ?? []
   const isApprovedSA = useAppSelector(selectIsApprovedSA)
   const isApprovedIA = useAppSelector(selectIsApprovedIA)
@@ -62,7 +64,7 @@ const Claims: React.FunctionComponent<Props> = ({ widget, showMore, claims, enti
               return (
                 <Tooltip text={tooltipText} key={index}>
                   <NavLink className={cx({ 'pe-none': !canSubmitClaim })} to={to} activeClassName='active'>
-                    <AddPerson fill='#49BFE0' />
+                    <AddPerson fill={theme.ixoNewBlue} />
                     {claim['title']}
                   </NavLink>
                 </Tooltip>

@@ -75,14 +75,14 @@ const RatingCircle = styled.div<{ isActive: boolean }>`
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background: ${({ isActive }): string => (isActive ? '#00D2FF' : '#e8edee')};
+  background: ${({ isActive, theme }): string => (isActive ? theme.ixoNewBlue : '#e8edee')};
   margin-bottom: 4px;
 `
 
 const RatingItem = styled.div<{ isActive?: boolean }>`
   text-align: center;
   margin-right: 12px;
-  color: ${({ isActive }): string => (isActive ? '#00D2FF' : '#a5adb0')};
+  color: ${({ isActive, theme }): string => (isActive ? theme.ixoNewBlue : '#a5adb0')};
   font-size: 12px;
 `
 

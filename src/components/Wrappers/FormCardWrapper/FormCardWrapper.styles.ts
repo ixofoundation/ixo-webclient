@@ -54,7 +54,7 @@ export const DraggableContainer = styled.div`
 
     :hover {
       > div {
-        border-color: #00d2ff;
+        border-color: ${(props) => props.theme.ixoNewBlue};
         transform: rotateZ(1deg);
         // transform-origin: 1% 99%;
       }
