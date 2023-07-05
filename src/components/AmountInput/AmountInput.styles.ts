@@ -3,7 +3,7 @@ import styled from 'styled-components'
 export const AmountInputWrapper = styled.div`
   position: relative;
   background: #03324a;
-  border: 1px solid #49bfe0;
+  border: 1px solid ${(props) => props.theme.ixoNewBlue};
   border-radius: 4px;
   width: 100%;
 

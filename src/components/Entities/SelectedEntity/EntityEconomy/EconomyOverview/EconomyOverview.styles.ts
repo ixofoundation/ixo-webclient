@@ -15,7 +15,7 @@ export const FigureCardsContainer = styled.div`
 
 export const FigureCard = styled.div`
   background: linear-gradient(180deg, #ffffff 0%, #f0f3fa 100%);
-  border: 1px solid #49bfe0;
+  border: 1px solid ${(props) => props.theme.ixoNewBlue};
   box-sizing: border-box;
   box-shadow: 0px 4px 25px -1px #e1e5ec;
   border-radius: 4px;

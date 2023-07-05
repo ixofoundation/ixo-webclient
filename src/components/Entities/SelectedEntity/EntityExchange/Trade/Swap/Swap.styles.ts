@@ -23,7 +23,7 @@ export const CardHeaderText = styled.div`
 export const CardBody = styled.div<{ border?: boolean; height?: string }>`
   background: linear-gradient(180deg, #01273a 0%, #002d42 100%);
   border: 1px solid
-    ${(props): string => (props.border ? '#49BFE0' : '#083347')};
+    ${(props): string => (props.border ? props.theme.ixoNewBlue : '#083347')};
   box-sizing: border-box;
   box-shadow: -1px 10px 30px rgba(0, 0, 0, 0.25);
   border-radius: 10px;

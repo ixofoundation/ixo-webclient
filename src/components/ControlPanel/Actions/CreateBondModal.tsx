@@ -49,7 +49,7 @@ const InfoBox = styled.div`
 
 const DescriptionInput = styled.input`
   background: #03324a;
-  border: 1px solid #49bfe0;
+  border: 1px solid ${(props) => props.theme.ixoNewBlue};
   border-radius: 4px;
   color: white;
   padding: 15px;

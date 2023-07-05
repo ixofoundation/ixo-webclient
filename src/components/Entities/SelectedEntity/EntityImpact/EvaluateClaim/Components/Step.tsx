@@ -41,7 +41,8 @@ const Container = styled.div<{
   pointer-events: ${(props): string => (props.isDisabled ? 'none' : 'auto')};
 
   ${Number} {
-    background: ${(props: any): string => (props.isActive ? '#00D2FF' : props.isDisabled ? '' : '#368BD6')};
+    background: ${(props: any): string =>
+      props.isActive ? props.theme.ixoNewBlue : props.isDisabled ? '' : '#368BD6'};
     color: ${(props: any): string => (!props.isDisabled ? 'white' : '')};
   }
 
@@ -50,7 +51,7 @@ const Container = styled.div<{
   }
 
   ${Line} {
-    border-color: ${(props: any): string => (props.isCompleted ? '#00D2FF' : '')};
+    border-color: ${(props: any): string => (props.isCompleted ? props.theme.ixoNewBlue : '')};
   }
 
   &:last-of-type {

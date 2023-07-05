@@ -12,7 +12,7 @@ const FormContainer = styled.div`
 const ImportButton = styled.button`
   border: 1px solid #56ccf2;
   border-radius: 4px;
-  color: #49bfe0;
+  color: ${(props) => props.theme.ixoNewBlue};
   font-style: normal;
   font-weight: bold;
   font-size: 16px;

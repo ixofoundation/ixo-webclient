@@ -12,7 +12,7 @@ export const RecipientWrapper = styled.div`
   }
   & > button {
     background: #03324a;
-    border: 1px solid #49bfe0;
+    border: 1px solid ${(props) => props.theme.ixoNewBlue};
     box-sizing: border-box;
     box-shadow: -13px 20px 42px rgba(0, 0, 0, 0.25);
     border-radius: 15px;

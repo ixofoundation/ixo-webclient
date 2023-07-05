@@ -71,7 +71,7 @@ const StakingMethodWrapper = styled.div`
       color: #537b8e;
     }
     &.active {
-      border: 1px solid #49bfe0;
+      border: 1px solid ${(props) => props.theme.ixoNewBlue};
     }
   }
 `
