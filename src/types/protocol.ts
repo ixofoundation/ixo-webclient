@@ -172,7 +172,7 @@ export const EntityLinkedResourceConfig: { [key: string]: any } = {
   text: {
     text: 'Text',
     icon: TextIcon,
-    accept: { 'text/plan': ['.txt'] },
+    accept: { 'text/plain': ['.txt'] },
   },
   database: {
     text: 'Database',
