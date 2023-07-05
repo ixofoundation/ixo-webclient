@@ -123,18 +123,20 @@ export const SplashLaunchSection: FC = () => {
                 <SectionHeading>Launch a Collection</SectionHeading>
                 <SectionSubheading>Tokenise your Impact Assets</SectionSubheading>
                 <Paragraph>
-                  Impact Tokens are dynamic NFTs that digitise real-world Impact Assets.
+                  Impact Assets are dynamic NFTs that digitise real-world devices (such as a clean cookstove) or outcomes.
                   <br />
                   <br />
-                  Impact Assets include both the means of producing Outcomes (such as trees planted), as well as the
-                  certified Outcomes that are produced (such as Carbon sequestered).
+                  The usage of the device is digitally measured and reported. The data is verified using a causal-AI model,
+                  and based on the verified impacts, Impact Tokens are issued. They represent certain verified outcomes, for example
+                  1 CARBON = 1 kgCO<sub>2</sub> emissions avoided. The Tokens are backed up by Impact Certificates, which contain all the
+                  underlying data like usage time, evaluation methods, fuel usage, project details etc.
                   <br />
                   <br />
-                  Impact Tokens can be sold directly, or traded through interchain decentralised Impact Exchanges.
+                  Impact Assets and Tokens can be sold directly, or traded through interchain decentralised Impact Exchanges.
                   <br />
                   <br />
                   <em>
-                    The Launchpad offers a platform for minting and trading first-edition Impact Token collections.
+                    The Launchpad offers a platform for minting and trading first-edition Impact Asset collections.
                   </em>
                 </Paragraph>
               </div>
