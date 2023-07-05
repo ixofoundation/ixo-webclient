@@ -120,7 +120,7 @@ const SetupManageMembersModal: React.FC<Props> = ({ open, action, onClose, onSub
                 height={inputHeight}
                 placeholder='Voting weight'
                 inputValue={member.weight}
-                handleChange={(value) => handleUpdateMemberToAdd(index, { ...member, weight: value })}
+                handleChange={(value) => handleUpdateMemberToAdd(index, { ...member, weight: Number(value) })}
                 style={{ textAlign: 'right' }}
                 wrapperStyle={{ flex: '0 0 200px' }}
               />
