@@ -1,6 +1,5 @@
 import styled from 'styled-components'
 import { ReactComponent as EnvelopeIcon } from 'assets/images/exchange/envelope.svg'
-import { theme } from 'components/App/App.styles'
 
 export const Container = styled.div`
   position: relative;
@@ -196,71 +195,3 @@ export const QuoteRefreshWrapper = styled.div`
   font-size: 12px;
   color: ${(props): string => props.theme.ixoGrey700};
 `
-
-export const cardSelectorStyles = {
-  indicatorsContainer: (provided: any): any => ({
-    ...provided,
-    alignItems: 'center',
-  }),
-  dropdownIndicator: (): any => ({
-    padding: '0 10px',
-    [`svg > path`]: {
-      fill: '#000',
-    },
-  }),
-  indicatorSeparator: (): any => ({
-    display: 'none',
-  }),
-  control: (provided: any): any => ({
-    ...provided,
-    background: theme.ixoGrey100,
-    border: 'none !important',
-    boxShadow: 'none !important',
-    cursor: 'pointer',
-  }),
-  valueContainer: (provided: any): any => ({
-    ...provided,
-    borderRadius: '4px',
-    display: 'flex',
-    flexGrow: 1,
-    padding: 10,
-    gap: 10,
-  }),
-  input: (provided: any): any => ({
-    ...provided,
-    color: 'white',
-    caretColor: 'transparent',
-    margin: 0,
-    padding: 0,
-  }),
-  menu: (provided: any): any => ({
-    ...provided,
-    width: '100%',
-    margin: 0,
-    background: theme.ixoGrey100,
-    borderTopLeftRadius: 0,
-    borderTopRightRadius: 0,
-    zIndex: 200,
-  }),
-  menuPortal: (provided: any): any => ({
-    ...provided,
-    zIndex: 200,
-  }),
-  option: (provided: any): any => ({
-    ...provided,
-    color: '#000',
-    paddingLeft: 10,
-    paddingRight: 10,
-  }),
-  singleValue: (provided: any): any => ({
-    ...provided,
-    color: '#000',
-    margin: 0,
-    fontFamily: theme.primaryFontFamily,
-    fontWeight: 500,
-    fontSize: '18px',
-  }),
-  placeholder: (provided: any): any => ({
-    ...provided,
-  }),
-}

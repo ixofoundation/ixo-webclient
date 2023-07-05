@@ -38,7 +38,7 @@ export const ModalWrapper = styled.div`
       border: 1px solid ${(props): string => props.theme.highlight.light};
       margin-bottom: 0.75rem;
       &.submit {
-        background: ${(props): string => props.theme.ixoBlue};
+        background: ${(props): string => props.theme.ixoNewBlue};
         color: #fff;
         &:focus {
           border: 1px solid #fff;

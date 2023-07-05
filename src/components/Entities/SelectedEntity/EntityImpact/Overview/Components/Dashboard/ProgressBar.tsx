@@ -13,7 +13,7 @@ interface StyledProgressProps {
 
 const Progress = styled.div<StyledProgressProps>`
   width: ${/* eslint-disable-line */ (props) => props.percent + '%'};
-  background: ${(props): string => props.theme.ixoBlue};
+  background: ${(props): string => props.theme.ixoNewBlue};
   border-radius: 0.75rem;
   height: 100%;
 `

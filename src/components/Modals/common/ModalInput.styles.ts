@@ -32,11 +32,9 @@ export const IconWrapper = styled.div<{ error?: boolean }>`
   transform: translateY(-50%);
 
   svg {
-    fill: ${(props): string =>
-      props.error ? props.theme.ixoRed : props.theme.ixoBlue};
+    fill: ${(props): string => (props.error ? props.theme.ixoRed : props.theme.ixoNewBlue)};
     path {
-      fill: ${(props): string =>
-        props.error ? props.theme.ixoRed : props.theme.ixoBlue};
+      fill: ${(props): string => (props.error ? props.theme.ixoRed : props.theme.ixoNewBlue)};
     }
   }
 `

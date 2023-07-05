@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
-import { FlexBox, GridContainer, SvgBox, theme } from 'components/App/App.styles'
+import { FlexBox, GridContainer, SvgBox } from 'components/App/App.styles'
 import { ReactComponent as PieIcon } from 'assets/images/icon-pie.svg'
 import { ReactComponent as MultisigIcon } from 'assets/images/icon-multisig.svg'
 import { ReactComponent as ClaimIcon } from 'assets/images/icon-claim.svg'
 import { ReactComponent as PaperIcon } from 'assets/images/icon-paper.svg'
 import { Typography } from 'components/Typography'
+import { useTheme } from 'styled-components'
 
 const StatusItem = ({
   icon,
@@ -15,6 +16,7 @@ const StatusItem = ({
   label: string
   value: string | number
 }): JSX.Element => {
+  const theme: any = useTheme()
   const [hover, setHover] = useState(false)
   return (
     <FlexBox
@@ -52,6 +54,7 @@ const ParticipationStatus: React.FC<Props> = ({
   votingPower,
   proposals,
 }): JSX.Element => {
+  const theme: any = useTheme()
   return (
     <FlexBox
       width='100%'

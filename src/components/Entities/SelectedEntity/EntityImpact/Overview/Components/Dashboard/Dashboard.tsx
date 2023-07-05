@@ -2,7 +2,6 @@
 import CircledLocation from 'assets/icons/CircledLocation'
 import ButtonSlider from 'components/ButtonSlider/ButtonSlider'
 import { Button, ButtonTypes } from 'components/Form/Buttons'
-import BarChart, { BarColors } from 'components/Widgets/BarChart/BarChart'
 import { CircleProgressbar } from 'components/Widgets/CircleProgressbar/CircleProgressbar'
 import { LatLng, WorldMap } from 'components/Widgets/WorldMap/WorldMap'
 import { LayoutWrapper } from 'components/Wrappers/LayoutWrapper'
@@ -64,46 +63,17 @@ const Dashboard: React.FunctionComponent<Props> = ({
   disputedClaimsCount,
   remainingClaimsCount,
   latLng,
-  // showAgentLinks,
   entityClaims,
   agents,
 }) => {
   const isViewedFromApp = !!window.MobileContext
   const userRole = useAppSelector(selectUserRole)
   const [activeTabIndex, setActiveTabIndex] = useState(0)
-  // const [successfulClaims, setSuccessfulClaims] = useState(0)
-  // const [rejectedClaims, setRejectedClaims] = useState(0)
-  // const [pendingClaims, setPendingClaims] = useState(0)
-  // const [remainingClaims, setRemainingClaims] = useState(0)
 
   const canViewClaim = useMemo(
     () => userRole === AgentRole.Evaluator || userRole === AgentRole.ServiceProvider,
     [userRole],
   )
-
-  const claimsRejected = useMemo(() => {
-    return claims.filter(
-      (claim) => claim.claimTemplateId === entityClaims[activeTabIndex]['@id'] && claim.status === '2',
-    )
-  }, [claims, entityClaims, activeTabIndex])
-
-  const claimsApproved = useMemo(() => {
-    return claims.filter(
-      (claim) => claim.claimTemplateId === entityClaims[activeTabIndex]['@id'] && claim.status === '1',
-    )
-  }, [claims, entityClaims, activeTabIndex])
-
-  const claimsPending = useMemo(() => {
-    return claims.filter(
-      (claim) => claim.claimTemplateId === entityClaims[activeTabIndex]['@id'] && claim.status === '0',
-    )
-  }, [claims, entityClaims, activeTabIndex])
-
-  const claimsDisputed = useMemo(() => {
-    return claims.filter(
-      (claim) => claim.claimTemplateId === entityClaims[activeTabIndex]['@id'] && claim.status === '3',
-    )
-  }, [claims, entityClaims, activeTabIndex])
 
   const handleTabClick = (tabIndex: number): void => {
     setActiveTabIndex(tabIndex)
@@ -141,31 +111,6 @@ const Dashboard: React.FunctionComponent<Props> = ({
                 <p>Claims disputed</p>
               </ClaimsTopLabels>
             </div>
-
-            <BarChart
-              barData={[
-                {
-                  data: claimsRejected,
-                  color: BarColors.red,
-                  label: 'Claims Rejected',
-                },
-                {
-                  data: claimsApproved,
-                  color: BarColors.green,
-                  label: 'Claims Approved',
-                },
-                {
-                  data: claimsPending,
-                  color: BarColors.darkBlue,
-                  label: 'Claims Pending',
-                },
-                {
-                  data: claimsDisputed,
-                  color: BarColors.yellow,
-                  label: 'Claims Disputed',
-                },
-              ]}
-            />
           </WidgetWrapper>
         </div>
         {

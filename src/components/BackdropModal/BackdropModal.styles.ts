@@ -58,7 +58,7 @@ export const Button = styled.button`
   margin-bottom: 0.75rem;
 
   &.submit {
-    background: ${(props): string => props.theme.ixoBlue};
+    background: ${(props): string => props.theme.ixoNewBlue};
     color: #fff;
     &:focus {
       border: 1px solid #fff;

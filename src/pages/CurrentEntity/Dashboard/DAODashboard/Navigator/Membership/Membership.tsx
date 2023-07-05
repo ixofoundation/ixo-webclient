@@ -1,16 +1,18 @@
-import { Box, FlexBox, SvgBox, theme } from 'components/App/App.styles'
+import { Box, FlexBox, SvgBox } from 'components/App/App.styles'
 import React from 'react'
 import { Card } from '../../../../Components'
 import { Typography } from 'components/Typography'
 import { ReactComponent as ProfileIcon } from 'assets/images/icon-profile.svg'
 import { ReactComponent as CaretUpIcon } from 'assets/images/icon-caret-up.svg'
 import useCurrentDao from 'hooks/currentDao'
+import { useTheme } from 'styled-components'
 
 interface Props {
   groupAddresses?: string[]
 }
 
 const Membership: React.FC<Props> = ({ groupAddresses = [] }): JSX.Element => {
+  const theme: any = useTheme()
   const { getNumOfMembersByAddresses } = useCurrentDao()
   const numOfMembers = getNumOfMembersByAddresses(groupAddresses)
 

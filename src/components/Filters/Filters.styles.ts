@@ -50,7 +50,7 @@ export const Button = styled.button`
     border-color: #a5adb0;
   }
   &.itemsSelected {
-    border-color: ${(props): string => props.theme.ixoBlue};
+    border-color: ${(props): string => props.theme.ixoNewBlue};
     &:hover {
       border-color: #a5adb0;
     }
@@ -59,7 +59,7 @@ export const Button = styled.button`
     margin-right: 0.375rem;
   }
   &.contained {
-    background-color: ${(props): string => props.theme.ixoBlue};
+    background-color: ${(props): string => props.theme.ixoNewBlue};
     color: white;
   }
 `
@@ -82,7 +82,7 @@ export const ButtonOuter = styled.button`
     border-color: #a5adb0;
   }
   &.itemsSelected {
-    border-color: ${(props): string => props.theme.ixoBlue};
+    border-color: ${(props): string => props.theme.ixoNewBlue};
     &:hover {
       border-color: #a5adb0;
     }
@@ -91,7 +91,7 @@ export const ButtonOuter = styled.button`
     margin-right: 0.375rem;
   }
   &.contained {
-    background-color: ${(props): string => props.theme.ixoBlue};
+    background-color: ${(props): string => props.theme.ixoNewBlue};
     color: white;
   }
 `
@@ -256,7 +256,7 @@ export const ResetButton = styled.button`
 
 export const ApplyButton = styled.button`
   padding: 1rem 2rem;
-  background: ${(props): string => props.theme.ixoBlue};
+  background: ${(props): string => props.theme.ixoNewBlue};
   color: white;
 `
 
@@ -344,7 +344,7 @@ export const ApplyButtonDatePicker = styled.div`
   line-height: 19px;
   width: 120px;
   height: 50px;
-  background: ${(props): string => props.theme.ixoBlue};
+  background: ${(props): string => props.theme.ixoNewBlue};
   color: white;
   text-align: center;
   padding: 1rem;
@@ -358,14 +358,14 @@ const HeaderLink = styled(NavLink)`
   font-weight: 400;
   letter-spacing: 1px;
   text-transform: uppercase;
-  border: 1px solid ${(props): string => props.theme.ixoBlue};
+  border: 1px solid ${(props): string => props.theme.ixoNewBlue};
   border-radius: 3px;
   padding: 5px 10px 5px;
   margin: 0 10px 10px;
   font-size: 16px;
 
   :first-child {
-    border: 1px solid ${(props): string => props.theme.ixoBlue};
+    border: 1px solid ${(props): string => props.theme.ixoNewBlue};
     font-weight: 400;
   }
 
@@ -379,7 +379,7 @@ const HeaderLink = styled(NavLink)`
   :hover {
     text-decoration: none;
     && {
-      color: ${/* eslint-disable-line */ (props) => props.theme.ixoBlue};
+      color: ${/* eslint-disable-line */ (props) => props.theme.ixoNewBlue};
     }
   }
 
@@ -549,7 +549,7 @@ export const DateInput = styled.div`
 export const DoneButton = styled.button`
   position: relative;
   padding: 1rem 2rem;
-  background: ${(props): string => props.theme.ixoBlue};
+  background: ${(props): string => props.theme.ixoNewBlue};
   border-radius: 4px;
   color: white;
   width: 100%;

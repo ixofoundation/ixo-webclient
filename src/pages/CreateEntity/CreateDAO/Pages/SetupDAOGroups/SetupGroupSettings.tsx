@@ -1,4 +1,4 @@
-import { FlexBox, SvgBox, theme } from 'components/App/App.styles'
+import { FlexBox, SvgBox } from 'components/App/App.styles'
 import React, { useEffect, useMemo, useState } from 'react'
 import { TDAOGroupModel } from 'types/protocol'
 import { CardWrapper, PlusIcon } from './SetupGroupSettings.styles'
@@ -33,6 +33,7 @@ import Tooltip from 'components/Tooltip/Tooltip'
 import { isAccountAddress, validateTokenSymbol } from 'utils/validation'
 import { convertDenomToMicroDenomWithDecimals, convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
 import { NATIVE_DECIMAL } from 'constants/chains'
+import { useTheme } from 'styled-components'
 
 export const initialMembership = { category: '', weight: 1, members: [''] }
 export const initialStaking = {
@@ -52,6 +53,7 @@ interface Props {
 }
 
 const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JSX.Element => {
+  const theme: any = useTheme()
   const { CreateDAOCoreByGroupId } = useCreateEntity()
   const [data, setData] = useState<TDAOGroupModel>(daoGroup)
   const [useExistingToken, setUseExistingToken] = useState(false)

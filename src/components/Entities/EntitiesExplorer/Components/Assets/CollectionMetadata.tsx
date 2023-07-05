@@ -1,9 +1,11 @@
 import { TEntityModel } from 'api/blocksync/types/entities'
-import { FlexBox, theme } from 'components/App/App.styles'
+import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import React, { useState } from 'react'
+import { useTheme } from 'styled-components'
 
 const CollectionMetadata: React.FC<TEntityModel> = (collection) => {
+  const theme: any = useTheme()
   const [selected, setSelected] = useState<'context' | 'metrics' | 'attributes'>('context')
 
   return (

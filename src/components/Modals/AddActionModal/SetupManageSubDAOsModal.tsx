@@ -17,7 +17,7 @@ const AddButton = styled(FlexBox)`
   height: ${inputHeight};
   padding: 10px;
   color: black;
-  border: 1px solid ${(props) => props.theme.ixoBlue};
+  border: 1px solid ${(props) => props.theme.ixoNewBlue};
   border-radius: 8px;
   cursor: pointer;
 `

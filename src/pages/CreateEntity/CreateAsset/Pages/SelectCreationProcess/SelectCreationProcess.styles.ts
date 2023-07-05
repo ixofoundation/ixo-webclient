@@ -1,6 +1,5 @@
 import styled from 'styled-components'
 import { ReactComponent as SearchBlueIcon } from 'assets/images/icon-search.svg'
-import { theme } from 'components/App/App.styles'
 
 export const PageWrapper = styled.div`
   display: flex;
@@ -59,10 +58,3 @@ export const SearchIcon = styled(SearchBlueIcon)`
     fill: ${(props): string => props.theme.ixoGrey700};
   }
 `
-
-export const SearchInputStyles = {
-  fontFamily: theme.secondaryFontFamily,
-  fontWeight: 500,
-  fontSize: 20,
-  lineHeight: 28,
-}

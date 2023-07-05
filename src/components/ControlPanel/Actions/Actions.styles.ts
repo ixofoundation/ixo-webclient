@@ -39,14 +39,14 @@ export const ActionLinksWrapper = styled.div`
       text-overflow: ellipsis;
     }
     &:hover {
-      border-color: ${(props: any): string => props.theme.ixoBlue};
+      border-color: ${(props: any): string => props.theme.ixoNewBlue};
       text-decoration: none;
     }
     &:focus {
       outline: none;
     }
     &.active {
-      border: 1px solid ${(props: any): string => props.theme.ixoBlue};
+      border: 1px solid ${(props: any): string => props.theme.ixoNewBlue};
     }
   }
 `

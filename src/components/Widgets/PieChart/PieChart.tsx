@@ -1,6 +1,7 @@
-import { Box, theme } from 'components/App/App.styles'
+import { Box } from 'components/App/App.styles'
 import React from 'react'
 import { ResponsiveContainer, PieChart, Pie, Cell } from 'recharts'
+import { useTheme } from 'styled-components'
 
 interface Props {
   data: { name: string; value: number; color?: string }[]
@@ -14,13 +15,14 @@ interface Props {
 
 const Component: React.FC<Props> = ({
   data,
-  backgroundColor = theme.ixoDarkBlue,
+  backgroundColor,
   width = '100%',
   height = '180px',
   radius = 85,
   thickness = 10,
   descriptor,
 }) => {
+  const theme: any = useTheme()
   return (
     <Box position='relative' style={{ width, height }}>
       <ResponsiveContainer>
@@ -30,7 +32,7 @@ const Component: React.FC<Props> = ({
             innerRadius={radius - thickness}
             outerRadius={radius}
             cornerRadius={thickness}
-            fill={backgroundColor}
+            fill={backgroundColor ?? theme.ixoDarkBlue}
             paddingAngle={0}
             dataKey='value'
             stroke='none'

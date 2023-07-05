@@ -1,4 +1,4 @@
-import { FlexBox, SvgBox, theme } from 'components/App/App.styles'
+import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { Button } from 'pages/CreateEntity/Components'
 import React, { useMemo, useState } from 'react'
 import { TButtonProps } from 'pages/CreateEntity/Components/Button'
@@ -14,6 +14,7 @@ import { ReactComponent as DiamondIcon } from 'assets/images/icon-diamond.svg'
 import { InfiniteScroll } from 'components/InfiniteScroll'
 import { deviceWidth } from 'constants/device'
 import { useMediaQuery } from 'react-responsive'
+import { useTheme } from 'styled-components'
 
 let timer: any = null
 
@@ -39,6 +40,7 @@ interface Props {
 }
 
 const Assets: React.FC<Props> = (props) => {
+  const theme: any = useTheme()
   const isMobile = useMediaQuery({ maxWidth: deviceWidth.tablet })
   const isTablet = useMediaQuery({ minWidth: deviceWidth.tablet, maxWidth: deviceWidth.desktop })
   const itemsPerScreen = useMemo(() => (!isMobile ? (!isTablet ? 4 : 2) : 1), [isTablet, isMobile])

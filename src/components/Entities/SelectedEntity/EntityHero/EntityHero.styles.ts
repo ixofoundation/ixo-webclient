@@ -174,7 +174,7 @@ export const AddClaim = styled(Link)`
 export const SubNavItem = styled(NavLink).attrs({
   activeClassName: 'active',
 })`
-  color: ${(props: any): string => props.theme.ixoBlue};
+  color: ${(props: any): string => props.theme.ixoNewBlue};
   font-family: ${(props: any): string => props.theme.secondaryFontFamily};
   font-weight: 300;
   font-size: 14px;
@@ -182,12 +182,12 @@ export const SubNavItem = styled(NavLink).attrs({
 
   &.active,
   :hover {
-    color: ${(props: any): string => props.theme.ixoBlue};
+    color: ${(props: any): string => props.theme.ixoNewBlue};
     text-decoration: underline;
   }
 
   + span {
-    color: ${(props: any): string => props.theme.ixoBlue};
+    color: ${(props: any): string => props.theme.ixoNewBlue};
     margin: 0 10px;
   }
 `

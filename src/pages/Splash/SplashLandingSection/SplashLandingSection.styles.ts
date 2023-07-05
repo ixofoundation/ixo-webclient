@@ -172,7 +172,7 @@ interface GradientAppButtonProps {
   marginRight?: number
 }
 
-export const GradientAppButton = styled(GradientButton)<GradientAppButtonProps>`
+export const GradientAppButton = styled(GradientButton) <GradientAppButtonProps>`
   display: inline-block;
   width: 147px;
   height: 46px;
@@ -180,7 +180,7 @@ export const GradientAppButton = styled(GradientButton)<GradientAppButtonProps>`
   margin: 0;
   margin-right: ${/* eslint-disable-line */ (props) => props.marginRight || 0}px;
   // remove these once app links are ready ==========
-  cursor: not-allowed;
+  // cursor: not-allowed;
 
   &:hover {
     box-shadow: 2px 1000px 1px #000 inset;

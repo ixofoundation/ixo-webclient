@@ -1,6 +1,7 @@
-import { Box, FlexBox, theme } from 'components/App/App.styles'
+import { Box, FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import React from 'react'
+import { useTheme } from 'styled-components'
 
 interface Props {
   image: string
@@ -9,6 +10,7 @@ interface Props {
 }
 
 const OracleCard: React.FC<Props> = ({ image, logo, name }): JSX.Element => {
+  const theme: any = useTheme()
   return (
     <FlexBox
       direction='column'

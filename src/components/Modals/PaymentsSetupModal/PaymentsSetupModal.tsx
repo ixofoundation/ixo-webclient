@@ -5,8 +5,9 @@ import { ModalStyles, CloseButton, ModalBody, ModalWrapper, ModalRow, ModalTitle
 import { Button } from 'pages/CreateEntity/Components'
 import { FormData } from 'components/JsonForm/types'
 import { TEntityPaymentModel } from 'types/protocol'
-import { theme, Typography } from 'components/App/App.styles'
+import { Typography } from 'components/App/App.styles'
 import PaymentCard from 'components/Entities/CreateEntity/CreateEntityAdvanced/Components/PaymentCard/PaymentCard'
+import { useTheme } from 'styled-components'
 
 interface Props {
   payments: TEntityPaymentModel[]
@@ -16,6 +17,7 @@ interface Props {
 }
 
 const PaymentsSetupModal: React.FC<Props> = ({ payments, open, onClose, handleChange }): JSX.Element => {
+  const theme: any = useTheme()
   const [formData, setFormData] = useState<FormData[]>([])
 
   useEffect(() => {

@@ -4,19 +4,13 @@ import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
 import { ModalStyles, CloseButton, ModalWrapper, ModalTitle } from 'components/Modals/styles'
 import { Button, ChainSelector, Input } from 'pages/CreateEntity/Components'
 import { TEntityLinkedEntityModel } from 'types/protocol'
-import { FlexBox, SvgBox, theme } from 'components/App/App.styles'
+import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { BlockSyncService } from 'services/blocksync'
 import { validateEntityDid } from 'utils/validation'
 import { ReactComponent as SearchIcon } from 'assets/images/icon-search.svg'
+import { useTheme } from 'styled-components'
 
 const bsService = new BlockSyncService()
-
-const SearchInputStyles = {
-  fontFamily: theme.secondaryFontFamily,
-  fontWeight: 500,
-  fontSize: 20,
-  lineHeight: 28,
-}
 
 interface Props {
   open: boolean
@@ -25,6 +19,13 @@ interface Props {
 }
 
 const AddLinkedEntityModal: React.FC<Props> = ({ open, onClose, onAdd }): JSX.Element => {
+  const theme: any = useTheme()
+  const SearchInputStyles = {
+    fontFamily: theme.secondaryFontFamily,
+    fontWeight: 500,
+    fontSize: 20,
+    lineHeight: 28,
+  }
   const [chainId, setChainId] = useState(undefined)
   const [entityDid, setEntityDid] = useState('')
   const [selectedType, setSelectedType] = useState('')

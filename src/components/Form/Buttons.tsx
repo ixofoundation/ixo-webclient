@@ -10,7 +10,7 @@ const BaseButton = styled.a`
   text-transform: uppercase;
   padding: 10px 20px;
   margin-bottom: 10px;
-  font-family: ${/* eslint-disable-line */ (props) => props.theme.secondaryFontFamily};
+  font-family: ${(props) => props.theme.secondaryFontFamily};
   letter-spacing: 0.3px;
   line-height: 20px;
   text-align: center;
@@ -19,16 +19,16 @@ const BaseButton = styled.a`
 `
 
 const EnabledGradient = styled(BaseButton)`
-  background: ${/* eslint-disable-line */ (props) => props.theme.bg.gradientButton};
+  background: ${(props) => props.theme.bg.gradientButton};
   &&& {
     color: white;
   }
-  font-family: ${/* eslint-disable-line */ (props) => props.theme.secondaryFontFamily};
+  font-family: ${(props) => props.theme.secondaryFontFamily};
   cursor: pointer;
 
   :hover {
     &&& {
-      color: ${/* eslint-disable-line */ (props) => props.theme.ixoLightBlue};
+      color: ${(props) => props.theme.ixoNewBlue};
     }
     text-decoration: none;
   }
@@ -39,14 +39,14 @@ const EnabledDark = styled(BaseButton)`
   &&& {
     color: white;
   }
-  border: 1px solid ${(props): string => props.theme.highlight.light};
+  border: 1px solid ${(props): string => props.theme.ixoNewBlue};
   cursor: pointer;
 
   :hover {
     &&& {
-      color: ${/* eslint-disable-line */ (props) => props.theme.ixoLightBlue};
+      color: ${(props) => props.theme.ixoNewBlue};
     }
-    background: ${/* eslint-disable-line */ (props) => props.theme.bg.darkButton};
+    background: ${(props) => props.theme.bg.darkButton};
     text-decoration: none;
   }
 `
@@ -65,15 +65,15 @@ const EnabledLight = styled(BaseButton)`
 
 const Disabled = styled(BaseButton)`
   &&& {
-    color: ${/* eslint-disable-line */ (props) => props.theme.ixoBlue};
+    color: ${(props) => props.theme.ixoNewBlue};
   }
-  border: 1px solid ${/* eslint-disable-line */ (props) => props.theme.ixoBlue};
+  border: 1px solid ${(props) => props.theme.ixoNewBlue};
   opacity: 0.4;
   cursor: default;
 
   :hover {
     &&& {
-      color: ${/* eslint-disable-line */ (props) => props.theme.ixoBlue};
+      color: ${(props) => props.theme.ixoNewBlue};
     }
     text-decoration: none;
   }

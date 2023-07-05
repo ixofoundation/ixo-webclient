@@ -8,7 +8,7 @@ import { ReactComponent as DisconnectIcon } from 'assets/images/icon-disconnect.
 import { ReactComponent as ImpactTokenIcon } from 'assets/images/icon-impact-token2.svg'
 import { ReactComponent as WalletIcon } from 'assets/images/icon-wallet-solid.svg'
 import BigNumber from 'bignumber.js'
-import { FlexBox, ScrollBox, SvgBox, theme } from 'components/App/App.styles'
+import { FlexBox, ScrollBox, SvgBox } from 'components/App/App.styles'
 import BalanceCard from 'components/Card/BalanceCard'
 import { Typography } from 'components/Typography'
 import { useAccount } from 'hooks/account'
@@ -20,8 +20,10 @@ import { successToast } from 'utils/toast'
 import NativTokenViewModal from './NativeTokenViewModal'
 import Cw20TokenViewModal from './Cw20TokenViewModal'
 import { TokenType } from 'types/tokens'
+import { useTheme } from 'styled-components'
 
 const ProfileModal: React.FC = () => {
+  const theme: any = useTheme()
   const { connectedWallet, disconnect } = useWalletManager()
   const { address, name, cw20Tokens, nativeTokens } = useAccount()
   const [showAssetType, setShowAssetType] = useState('Coins')

@@ -19,7 +19,7 @@ export const ConnectionButtonsWrapper = styled(SquareButtonSection)`
       svg {
         margin: 0 auto;
         path {
-          fill: ${(props: any): string => props.theme.ixoBlue};
+          fill: ${(props: any): string => props.theme.ixoNewBlue};
         }
       }
     }

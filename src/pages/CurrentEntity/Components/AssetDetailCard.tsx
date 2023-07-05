@@ -1,5 +1,5 @@
 import { TokenAssetInfo } from '@ixo/impactxclient-sdk/types/custom_queries/currency.types'
-import { FlexBox, GridContainer, GridItem, SvgBox, theme } from 'components/App/App.styles'
+import { FlexBox, GridContainer, GridItem, SvgBox } from 'components/App/App.styles'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { ReactComponent as ArrowLeftIcon } from 'assets/images/icon-arrow-left.svg'
 import { Typography } from 'components/Typography'
@@ -18,6 +18,7 @@ import { convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
 import { plus } from 'utils/currency'
 import { claimAvailable } from 'utils/tokenClaim'
 import { CHAIN_ID } from 'hooks/configs'
+import { useTheme } from 'styled-components'
 
 const data = [
   {
@@ -83,6 +84,7 @@ const AssetDetailCard: React.FC<Props> = ({
   priceChangePercent,
   ...rest
 }) => {
+  const theme: any = useTheme()
   const history = useHistory()
   const { cwClient, address } = useAccount()
   const { setDaoGroup, selectedGroups } = useCurrentDao()

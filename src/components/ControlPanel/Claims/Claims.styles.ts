@@ -32,18 +32,18 @@ export const LinksWrapper = styled.div`
       margin-right: 0.5rem;
       min-width: 0.8rem;
       path {
-        fill: ${(props): string => props.theme.ixoBlue};
+        fill: ${(props): string => props.theme.ixoNewBlue};
       }
     }
     &:hover {
-      border-color: ${(props): string => props.theme.ixoBlue};
+      border-color: ${(props): string => props.theme.ixoNewBlue};
       text-decoration: none;
     }
     &:focus {
       outline: none;
     }
     &.active {
-      border-color: ${(props): string => props.theme.ixoBlue};
+      border-color: ${(props): string => props.theme.ixoNewBlue};
     }
   }
 `

@@ -1,7 +1,6 @@
 import * as React from 'react'
 import moment from 'moment'
 import { LayoutWrapper } from 'components/Wrappers/LayoutWrapper'
-import { theme } from 'components/App/App.styles'
 import {
   ClaimLink,
   ClaimsWidget,
@@ -21,6 +20,7 @@ import { useAppSelector } from 'redux/hooks'
 import { selectUserRole } from 'redux/selectedEntity/selectedEntity.selectors'
 import { AgentRole } from 'redux/account/account.types'
 import { selectUserDid } from 'redux/account/account.selectors'
+import { useTheme } from 'styled-components'
 
 export interface Props {
   claims?: any[]
@@ -30,6 +30,7 @@ export interface Props {
 }
 
 export const ProjectClaims: React.FunctionComponent<Props> = ({ claims, did, fullPage, hasLink }) => {
+  const theme: any = useTheme()
   const userRole = useAppSelector(selectUserRole)
   const userDid = useAppSelector(selectUserDid)
 

@@ -1,8 +1,7 @@
 import React, { useMemo } from 'react'
-import styled from 'styled-components'
+import styled, { useTheme } from 'styled-components'
 import Select, { components } from 'react-select'
 import Wallet from 'assets/icons/Wallet'
-import { theme } from 'components/App/App.styles'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 
 const SelectorWrapper = styled.div`
@@ -57,6 +56,8 @@ const TokenSelector: React.FunctionComponent<Props> = ({
   handleChange,
   className = '',
 }) => {
+  const theme: any = useTheme()
+
   const customStyles = {
     indicatorsContainer: (provided: any): any => ({
       ...provided,

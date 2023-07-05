@@ -1,9 +1,10 @@
 import BigNumber from 'bignumber.js'
-import { FlexBox, theme } from 'components/App/App.styles'
+import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { Avatar } from 'pages/CurrentEntity/Components'
 import React from 'react'
 import CurrencyFormat from 'react-currency-format'
+import { useTheme } from 'styled-components'
 
 export interface BalanceCardProps {
   balance: string
@@ -22,6 +23,7 @@ const BalanceCard: React.FC<BalanceCardProps> = ({
   lastPriceUsd,
   onClick,
 }) => {
+  const theme: any = useTheme()
   const balanceUsd = new BigNumber(balance).times(lastPriceUsd).toFormat(6)
   return (
     <FlexBox

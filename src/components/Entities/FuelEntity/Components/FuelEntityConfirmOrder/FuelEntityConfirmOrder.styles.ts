@@ -139,7 +139,7 @@ export const FuelEntityConfirmOrderWrapper = styled.div`
     padding: 1rem 2rem;
     color: white;
     background: #04d0fb;
-    background: ${(props): string => props.theme.ixoBlue};
+    background: ${(props): string => props.theme.ixoNewBlue};
     text-align: center;
   }
 `

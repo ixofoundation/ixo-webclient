@@ -8,12 +8,13 @@ import { Button, InputWithLabel, TextArea } from 'pages/CreateEntity/Components'
 import { FormData } from 'components/JsonForm/types'
 import { TEntityLinkedResourceModel, EntityLinkedResourceConfig } from 'types/protocol'
 import { deviceWidth } from 'constants/device'
-import { Box, FlexBox, theme } from 'components/App/App.styles'
+import { Box, FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import PulseLoader from 'components/PulseLoader/PulseLoader'
 import { PDS_URL } from 'types/entities'
 import { toTitleCase } from 'utils/formatters'
 import { errorToast } from 'utils/toast'
+import { useTheme } from 'styled-components'
 
 const cellNodeEndpoint = PDS_URL
 
@@ -25,6 +26,7 @@ interface Props {
 }
 
 const LinkedResourceSetupModal: React.FC<Props> = ({ linkedResource, open, onClose, onChange }): JSX.Element => {
+  const theme: any = useTheme()
   const [formData, setFormData] = useState<FormData>(linkedResource)
   const [uploading, setUploading] = useState(false)
 

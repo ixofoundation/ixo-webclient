@@ -1,14 +1,13 @@
-import { Box, FlexBox, GridContainer, SvgBox, theme } from 'components/App/App.styles'
+import { Box, FlexBox, GridContainer, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import React, { useEffect, useMemo, useState } from 'react'
-import styled from 'styled-components'
+import styled, { useTheme } from 'styled-components'
 import { ReactComponent as PieIcon } from 'assets/images/icon-pie.svg'
 import { ReactComponent as ClaimIcon } from 'assets/images/icon-claim.svg'
 import { ReactComponent as MultisigIcon } from 'assets/images/icon-multisig.svg'
 import { ReactComponent as PaperIcon } from 'assets/images/icon-paper.svg'
 import ThreeDot from 'assets/icons/ThreeDot'
 import { truncateString } from 'utils/formatters'
-import { STATUSES } from '../../Toolbar/Toolbar'
 import { MemberDetailCard } from '../MemberDetailCard'
 import { useHistory } from 'react-router-dom'
 import { Avatar } from '../../../../../Components'
@@ -51,7 +50,30 @@ interface Props {
 }
 
 const MemberCard: React.FC<Props> = ({ member, selected, onSelectMember }): JSX.Element => {
+  const theme: any = useTheme()
   const history = useHistory()
+  const STATUSES = {
+    approved: {
+      status: 'approved',
+      text: 'Members',
+      color: theme.ixoGreen,
+    },
+    pending: {
+      status: 'pending',
+      text: 'Awaiting approval',
+      color: theme.ixoDarkOrange,
+    },
+    rejected: {
+      status: 'rejected',
+      text: 'Restricted',
+      color: theme.ixoRed,
+    },
+    all: {
+      status: undefined,
+      text: 'All',
+      color: theme.ixoNewBlue,
+    },
+  }
   const { cwClient } = useAccount()
   const { selectedGroupsArr } = useCurrentDao()
   const { type, daoGroup, proposals, votes, votingModuleAddress } = useCurrentDaoGroup(selectedGroupsArr[0].coreAddress)

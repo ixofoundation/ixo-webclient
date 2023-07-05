@@ -4,7 +4,7 @@ import { Typography } from 'components/App/App.styles'
 
 export const AmountInputBoxWrapper = styled.div<{ isSelected?: boolean }>`
   background: linear-gradient(180deg, #01273a 0%, #002d42 100%);
-  border: 1px solid ${(props): string => (props.isSelected ? props.theme.ixoBlue : '#436779')};
+  border: 1px solid ${(props): string => (props.isSelected ? props.theme.ixoNewBlue : '#436779')};
   box-sizing: border-box;
   box-shadow: -1px 10px 30px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
@@ -20,7 +20,7 @@ export const AmountInputBoxWrapper = styled.div<{ isSelected?: boolean }>`
     height: 0;
     border-top: 11px solid transparent;
     border-bottom: 11px solid transparent;
-    border-right: 15px solid ${(props): string => (props.isSelected ? props.theme.ixoBlue : '#436779')};
+    border-right: 15px solid ${(props): string => (props.isSelected ? props.theme.ixoNewBlue : '#436779')};
     position: absolute;
     left: 0;
     top: 50%;
@@ -44,7 +44,7 @@ export const AmountInputBoxWrapper = styled.div<{ isSelected?: boolean }>`
     height: 0;
     border-top: 11px solid transparent;
     border-bottom: 11px solid transparent;
-    border-left: 15px solid ${(props): string => (props.isSelected ? props.theme.ixoBlue : '#436779')};
+    border-left: 15px solid ${(props): string => (props.isSelected ? props.theme.ixoNewBlue : '#436779')};
     position: absolute;
     right: 0;
     top: 50%;

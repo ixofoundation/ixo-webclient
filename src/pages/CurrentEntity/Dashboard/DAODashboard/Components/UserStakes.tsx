@@ -1,11 +1,11 @@
 import BigNumber from 'bignumber.js'
-import { FlexBox, theme } from 'components/App/App.styles'
+import { FlexBox } from 'components/App/App.styles'
 import { Table } from 'components/Table'
 import { Typography } from 'components/Typography'
 import { Button } from 'pages/CreateEntity/Components'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import CurrencyFormat from 'react-currency-format'
-import styled from 'styled-components'
+import styled, { useTheme } from 'styled-components'
 import { contracts } from '@ixo/impactxclient-sdk'
 import { useHistory } from 'react-router-dom'
 import useCurrentDao, { useCurrentDaoGroup } from 'hooks/currentDao'
@@ -127,6 +127,7 @@ interface Props {
 }
 
 const UserStakes: React.FC<Props> = ({ show, coreAddress, userAddress }) => {
+  const theme: any = useTheme()
   const history = useHistory()
   const { cwClient, address } = useAccount()
   const { setDaoGroup } = useCurrentDao()

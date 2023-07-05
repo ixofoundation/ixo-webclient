@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import styled from 'styled-components'
-import { Box, FlexBox, theme } from 'components/App/App.styles'
+import styled, { useTheme } from 'styled-components'
+import { Box, FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
 import { ReactComponent as MinusIcon } from 'assets/images/icon-minus.svg'
@@ -49,6 +49,7 @@ const NumberCounter: React.FC<Props> = ({
   value,
   onChange,
 }): JSX.Element => {
+  const theme: any = useTheme()
   const borderColor = theme.ixoNewBlue
   const [focused, setFocused] = useState(false)
   const active = value > 0 || focused

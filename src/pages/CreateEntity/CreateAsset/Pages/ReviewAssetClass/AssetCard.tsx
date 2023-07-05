@@ -1,10 +1,11 @@
 import React from 'react'
-import { Box, theme } from 'components/App/App.styles'
+import { Box } from 'components/App/App.styles'
 import { AssetCardBody, AssetCardBodyRow, AssetCardHeader, AssetCardWrapper, AssetLogo } from './AssetCard.styles'
 import { ProgressBar } from 'components/ProgressBar/ProgressBar'
 import { CardTag, CardTags } from 'components/Entities/EntitiesExplorer/Components/EntityCard/EntityCard.styles'
 import { EAssetType } from 'types/protocol'
 import { Typography } from 'components/Typography'
+import { useTheme } from 'styled-components'
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   noIdx: number
@@ -30,6 +31,7 @@ const AssetCard: React.FC<Props> = ({
   price,
   ...rest
 }): JSX.Element => {
+  const theme: any = useTheme()
   return (
     <AssetCardWrapper {...rest}>
       <AssetCardHeader background={image} />

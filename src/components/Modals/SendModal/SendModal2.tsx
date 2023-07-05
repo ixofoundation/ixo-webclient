@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react'
 import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
-import { Box, FlexBox, HTMLFlexBoxProps, SvgBox, theme } from 'components/App/App.styles'
+import { Box, FlexBox, HTMLFlexBoxProps, SvgBox } from 'components/App/App.styles'
 import { SignStep, TXStatus } from '../common'
 import { Typography } from 'components/Typography'
 import { ReactComponent as NextStepImage } from 'assets/images/modal/nextstep.svg'
@@ -8,7 +8,7 @@ import { useAccount } from 'hooks/account'
 import { ReactComponent as ArrowDownIcon } from 'assets/images/icon-arrow-down.svg'
 import { Input } from 'pages/CreateEntity/Components'
 import CurrencyFormat from 'react-currency-format'
-import styled from 'styled-components'
+import styled, { useTheme } from 'styled-components'
 import { Avatar } from 'pages/CurrentEntity/Components'
 import { isAccountAddress, isContractAddress } from 'utils/validation'
 import { isGreaterThanOrEqualTo } from 'utils/currency'
@@ -27,20 +27,23 @@ const StyledInput = styled(Input)`
   }
 `
 
-const Card = ({ children, ...rest }: HTMLFlexBoxProps) => (
-  <FlexBox
-    p={2}
-    width='100%'
-    height='48px'
-    alignItems='center'
-    justifyContent='center'
-    border={`1px solid ${theme.ixoNewBlue}`}
-    borderRadius={'8px'}
-    {...rest}
-  >
-    {children}
-  </FlexBox>
-)
+const Card = ({ children, ...rest }: HTMLFlexBoxProps) => {
+  const theme: any = useTheme()
+  return (
+    <FlexBox
+      p={2}
+      width='100%'
+      height='48px'
+      alignItems='center'
+      justifyContent='center'
+      border={`1px solid ${theme.ixoNewBlue}`}
+      borderRadius={'8px'}
+      {...rest}
+    >
+      {children}
+    </FlexBox>
+  )
+}
 
 interface Props {
   open: boolean
@@ -50,6 +53,7 @@ interface Props {
 }
 
 const SendModal: React.FunctionComponent<Props> = ({ open, selectedDenomOrAddr, setOpen, onSuccess }) => {
+  const theme: any = useTheme()
   const { nativeTokens, cw20Tokens, signingClient, signer } = useAccount()
   const selectedToken = useMemo(
     () =>

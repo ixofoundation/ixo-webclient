@@ -1,6 +1,7 @@
-import { Box, FlexBox, GridContainer, theme } from 'components/App/App.styles'
+import { Box, FlexBox, GridContainer } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import React, { useState } from 'react'
+import { useTheme } from 'styled-components'
 
 interface Props {
   assets: string[]
@@ -19,6 +20,7 @@ const Memberships: React.FC<Props> = ({
   selectedDao,
   setSelectedDao,
 }): JSX.Element => {
+  const theme: any = useTheme()
   const [seeMoreDAOs, setSeeMoreDAOs] = useState(false)
   const [seeMoreProjects, setSeeMoreProjects] = useState(false)
   const [seeMoreInvestments, setSeeMoreInvestments] = useState(false)

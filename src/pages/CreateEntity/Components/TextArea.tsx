@@ -1,7 +1,7 @@
-import { Box, theme } from 'components/App/App.styles'
+import { Box } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import React, { ChangeEvent, useState } from 'react'
-import styled from 'styled-components'
+import styled, { useTheme } from 'styled-components'
 
 const StyledTextArea = styled.textarea<{ width: string; height: string }>`
   border-radius: 8px;
@@ -58,6 +58,7 @@ const TextArea: React.FC<Props> = ({
   handleChange,
   ...rest
 }): JSX.Element => {
+  const theme: any = useTheme()
   const [focused, setFocused] = useState(false)
   const active = focused || inputValue?.length > 0
 

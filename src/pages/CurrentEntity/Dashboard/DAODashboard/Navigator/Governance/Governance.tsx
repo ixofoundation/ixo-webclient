@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import { Card } from '../../../../Components'
-import { Box, FlexBox, SvgBox, theme } from 'components/App/App.styles'
+import { Box, FlexBox, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { ReactComponent as GovernanceIcon } from 'assets/images/icon-governance.svg'
 import { ReactComponent as SandClockIcon } from 'assets/images/icon-sandclock-fill.svg'
@@ -8,6 +8,7 @@ import { ProgressBar } from 'components/ProgressBar/ProgressBar'
 import useCurrentDao from 'hooks/currentDao'
 import { expirationAtTimeToSecondsFromNow, secondsToWdhms } from 'utils/conversions'
 import { useHistory, useParams } from 'react-router-dom'
+import { useTheme } from 'styled-components'
 
 interface Props {
   daoId: string
@@ -15,6 +16,7 @@ interface Props {
 }
 
 const Governance: React.FC<Props> = ({ daoId, groupAddresses }): JSX.Element => {
+  const theme: any = useTheme()
   const history = useHistory()
   const { entityId } = useParams<{ entityId: string }>()
   const { getProposalsByAddresses } = useCurrentDao()

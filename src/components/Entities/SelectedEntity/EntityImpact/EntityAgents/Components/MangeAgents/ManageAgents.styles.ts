@@ -143,7 +143,7 @@ export const Buttons = styled.div`
   }
 
   a:not(.disabled):hover {
-    background: ${/* eslint-disable-line */ (props) => props.theme.ixoBlue};
+    background: ${/* eslint-disable-line */ (props) => props.theme.ixoNewBlue};
   }
 `
 
