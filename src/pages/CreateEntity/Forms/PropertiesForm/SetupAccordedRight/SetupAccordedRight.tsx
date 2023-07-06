@@ -1,4 +1,4 @@
-import { Box } from 'components/App/App.styles'
+import { Box, FlexBox } from 'components/App/App.styles'
 import { AddAccordedRightModal, PaymentsSetupModal } from 'components/Modals'
 import { Typography } from 'components/Typography'
 import { PropertyBox } from 'pages/CreateEntity/Components'
@@ -8,11 +8,12 @@ import { omitKey } from 'utils/objects'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
 
 interface Props {
+  hidden: boolean
   accordedRight: { [key: string]: TEntityAccordedRightModel }
   updateAccordedRight: (accordedRight: { [id: string]: TEntityAccordedRightModel }) => void
 }
 
-const SetupAccordedRight: React.FC<Props> = ({ accordedRight, updateAccordedRight }): JSX.Element => {
+const SetupAccordedRight: React.FC<Props> = ({ hidden, accordedRight, updateAccordedRight }): JSX.Element => {
   const [entityAccordedRight, setEntityAccordedRight] = useState<{ [key: string]: any }>({})
   const [openAddAccordedRightModal, setOpenAddAccordedRightModal] = useState(false)
 
@@ -57,7 +58,7 @@ const SetupAccordedRight: React.FC<Props> = ({ accordedRight, updateAccordedRigh
 
   return (
     <>
-      <Box className='d-flex flex-column'>
+      <FlexBox direction='column' style={hidden ? { display: 'none' } : {}}>
         <Typography className='mb-3' variant='secondary' size='2xl'>
           Accorded Rights
         </Typography>
@@ -78,7 +79,7 @@ const SetupAccordedRight: React.FC<Props> = ({ accordedRight, updateAccordedRigh
           })}
           <PropertyBox icon={<PlusIcon />} noData handleClick={(): void => setOpenAddAccordedRightModal(true)} />
         </Box>
-      </Box>
+      </FlexBox>
       <AddAccordedRightModal
         open={openAddAccordedRightModal}
         onClose={(): void => setOpenAddAccordedRightModal(false)}

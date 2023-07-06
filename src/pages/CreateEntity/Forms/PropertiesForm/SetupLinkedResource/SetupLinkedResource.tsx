@@ -1,4 +1,4 @@
-import { Box } from 'components/App/App.styles'
+import { Box, FlexBox } from 'components/App/App.styles'
 import { AddLinkedResourceModal, LinkedResourceSetupModal } from 'components/Modals'
 import { Typography } from 'components/Typography'
 import { PropertyBox } from 'pages/CreateEntity/Components'
@@ -20,11 +20,12 @@ const initialLinkedResource = {
 }
 
 interface Props {
+  hidden: boolean
   linkedResource: { [id: string]: TEntityLinkedResourceModel }
   updateLinkedResource: (linkedResource: { [id: string]: TEntityLinkedResourceModel }) => void
 }
 
-const SetupLinkedResource: React.FC<Props> = ({ linkedResource, updateLinkedResource }): JSX.Element => {
+const SetupLinkedResource: React.FC<Props> = ({ hidden, linkedResource, updateLinkedResource }): JSX.Element => {
   const [openAddLinkedResourceModal, setOpenAddLinkedResourceModal] = useState(false)
   const [selectedId, setSelectedId] = useState('')
 
@@ -42,7 +43,7 @@ const SetupLinkedResource: React.FC<Props> = ({ linkedResource, updateLinkedReso
 
   return (
     <>
-      <Box className='d-flex flex-column'>
+      <FlexBox direction='column' style={hidden ? { display: 'none' } : {}}>
         <Typography className='mb-3' variant='secondary' size='2xl'>
           Linked Resources
         </Typography>
@@ -64,7 +65,7 @@ const SetupLinkedResource: React.FC<Props> = ({ linkedResource, updateLinkedReso
           })}
           <PropertyBox icon={<PlusIcon />} noData handleClick={(): void => setOpenAddLinkedResourceModal(true)} />
         </Box>
-      </Box>
+      </FlexBox>
       <AddLinkedResourceModal
         open={openAddLinkedResourceModal}
         onClose={(): void => setOpenAddLinkedResourceModal(false)}

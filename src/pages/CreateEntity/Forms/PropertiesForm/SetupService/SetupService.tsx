@@ -1,11 +1,14 @@
-import { Box } from 'components/App/App.styles'
+import { Box, FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { PropertyBox } from 'pages/CreateEntity/Components'
 import React, { useState } from 'react'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
 import { AddServiceModal } from 'components/Modals'
 
-const SetupService: React.FC = (): JSX.Element => {
+interface Props {
+  hidden: boolean
+}
+const SetupService: React.FC<Props> = ({ hidden }): JSX.Element => {
   const [openAddServiceModal, setOpenAddServiceModal] = useState(false)
 
   const handleAddEntityService = (type: string): void => {
@@ -14,7 +17,7 @@ const SetupService: React.FC = (): JSX.Element => {
 
   return (
     <>
-      <Box className='d-flex flex-column'>
+      <FlexBox direction='column' style={hidden ? { display: 'none' } : {}}>
         <Typography className='mb-3' variant='secondary' size='2xl'>
           Add a Service
         </Typography>
@@ -34,7 +37,7 @@ const SetupService: React.FC = (): JSX.Element => {
           })} */}
           <PropertyBox icon={<PlusIcon />} noData handleClick={(): void => setOpenAddServiceModal(true)} />
         </Box>
-      </Box>
+      </FlexBox>
 
       <AddServiceModal
         open={openAddServiceModal}

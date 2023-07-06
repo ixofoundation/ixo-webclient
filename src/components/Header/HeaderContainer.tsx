@@ -94,7 +94,7 @@ const Header: React.FC<Props> = (props: Props): JSX.Element => {
       return (
         <ModalData>
           <Success width='64' fill={theme.ixoNewBlue} />
-          <h3 style={{ textTransform: 'uppercase' }}>YOU HAVE SUCCESSFULLY INSTALLED THE {selectedWallet}</h3>
+          <h3 style={{ textTransform: 'uppercase' }}>YOU HAVE SUCCESSFULLY INSTALLED {selectedWallet}</h3>
           <p>
             <span>NEXT STEP - </span>Fund your Account with IXO Tokens to Register your self-sovereign identity on the
             blockchain
