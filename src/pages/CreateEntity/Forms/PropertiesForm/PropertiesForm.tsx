@@ -144,12 +144,12 @@ const PropertiesForm: React.FC<Props> = ({
       </FlexBox>
 
       <FlexBox direction='column' gap={7.5} width={'100%'}>
-        {propertyView === 'Services' && <SetupService />}
-        {propertyView === 'Settings' && <SetupSettings {...SettingsProps} />}
-        {propertyView === 'Linked Resources' && <SetupLinkedResource {...LinkedResourceProps} />}
-        {propertyView === 'Claims' && <SetupClaim {...ClaimProps} />}
-        {propertyView === 'Accorded Rights' && <SetupAccordedRight {...AccordedRightProps} />}
-        {propertyView === 'Linked Entities' && <SetupLinkedEntity {...LinkedEntityProps} />}
+        <SetupService hidden={propertyView !== 'Services'} />
+        <SetupSettings hidden={propertyView !== 'Settings'} {...SettingsProps} />
+        <SetupLinkedResource hidden={propertyView !== 'Linked Resources'} {...LinkedResourceProps} />
+        <SetupClaim hidden={propertyView !== 'Claims'} {...ClaimProps} />
+        <SetupAccordedRight hidden={propertyView !== 'Accorded Rights'} {...AccordedRightProps} />
+        <SetupLinkedEntity hidden={propertyView !== 'Linked Entities'} {...LinkedEntityProps} />
       </FlexBox>
     </>
   )

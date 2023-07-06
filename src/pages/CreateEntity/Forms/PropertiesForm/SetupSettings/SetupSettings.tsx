@@ -1,4 +1,4 @@
-import { Box } from 'components/App/App.styles'
+import { Box, FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { PropertyBox } from 'pages/CreateEntity/Components'
 import React, { useEffect, useState } from 'react'
@@ -23,6 +23,7 @@ import {
 } from 'types/protocol'
 
 interface Props {
+  hidden: boolean
   entityType: string
   creator: TEntityCreatorModel
   administrator: TEntityCreatorModel
@@ -37,6 +38,7 @@ interface Props {
 }
 
 const SetupSettings: React.FC<Props> = ({
+  hidden,
   entityType,
   creator,
   administrator,
@@ -172,7 +174,7 @@ const SetupSettings: React.FC<Props> = ({
   }
   return (
     <>
-      <Box className='d-flex flex-column'>
+      <FlexBox direction='column' style={hidden ? { display: 'none' } : {}}>
         <Typography className='mb-3' variant='secondary' size='2xl'>
           Settings
         </Typography>
@@ -194,7 +196,7 @@ const SetupSettings: React.FC<Props> = ({
 
           <PropertyBox icon={<PlusIcon />} noData handleClick={(): void => setOpenAddSettingsModal(true)} />
         </Box>
-      </Box>
+      </FlexBox>
       <AddSettingsModal
         open={openAddSettingsModal}
         onClose={(): void => setOpenAddSettingsModal(false)}

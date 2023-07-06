@@ -1,4 +1,4 @@
-import { Box } from 'components/App/App.styles'
+import { Box, FlexBox } from 'components/App/App.styles'
 import { ClaimSetupModal } from 'components/Modals'
 import { Typography } from 'components/Typography'
 import { PropertyBox } from 'pages/CreateEntity/Components'
@@ -9,11 +9,12 @@ import { v4 as uuidv4 } from 'uuid'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
 
 interface Props {
+  hidden: boolean
   claim: { [id: string]: TEntityClaimModel }
   updateClaim: (claim: { [id: string]: TEntityClaimModel }) => void
 }
 
-const SetupClaim: React.FC<Props> = ({ claim, updateClaim }): JSX.Element => {
+const SetupClaim: React.FC<Props> = ({ hidden, claim, updateClaim }): JSX.Element => {
   const [entityClaim, setEntityClaim] = useState<{ [id: string]: TEntityClaimModel }>({})
   const [selectedClaim, setSelectedClaim] = useState<TEntityClaimModel | undefined>()
   const [editModalOpen, setEditModalOpen] = useState(false)
@@ -55,7 +56,7 @@ const SetupClaim: React.FC<Props> = ({ claim, updateClaim }): JSX.Element => {
 
   return (
     <>
-      <Box className='d-flex flex-column'>
+      <FlexBox direction='column' style={hidden ? { display: 'none' } : {}}>
         <Typography className='mb-3' variant='secondary' size='2xl'>
           Claims
         </Typography>
@@ -88,7 +89,7 @@ const SetupClaim: React.FC<Props> = ({ claim, updateClaim }): JSX.Element => {
             }}
           />
         </Box>
-      </Box>
+      </FlexBox>
       {selectedClaim && (
         <ClaimSetupModal
           claim={selectedClaim}
