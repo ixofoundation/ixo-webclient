@@ -46,13 +46,13 @@ export const ClaimsLabels = styled.div`
     background: ${(props) => props.theme.approved};
   }
   p:nth-child(2):before {
-    background: ${(props) => props.theme.pending};
+    background: ${(props) => props.theme.disputed};
   }
   p:nth-child(3):before {
     background: ${(props) => props.theme.rejected};
   }
   p:nth-child(4):before {
-    background: ${(props) => props.theme.disputed};
+    background: ${(props) => props.theme.saved};
   }
   p:nth-child(5):before {
     background: ${(props) => props.theme.remained};

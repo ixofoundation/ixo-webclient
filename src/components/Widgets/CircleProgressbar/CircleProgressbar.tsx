@@ -187,8 +187,8 @@ export class CircleProgressbar extends React.Component<ParentProps, State> {
                 <stop offset='100%' stopColor='#52A675' />
               </linearGradient>
               <linearGradient id='gradientPending' x1='0%' y1='0%' x2='0%' y2='100%'>
-                <stop offset='0%' stopColor='#49BFE0' />
-                <stop offset='100%' stopColor='#027b9b' />
+                <stop offset='0%' stopColor='#033c50' />
+                <stop offset='100%' stopColor='#033c50' />
               </linearGradient>
               <linearGradient id='gradientRejected' x1='0%' y1='0%' x2='0%' y2='100%'>
                 <stop offset='0%' stopColor='#e2233b' />

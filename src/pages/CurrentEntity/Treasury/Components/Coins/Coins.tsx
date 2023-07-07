@@ -234,6 +234,7 @@ const Coins: React.FC<Props> = ({ address }) => {
     updateNativeTokenBalance()
     updateCw20TokenBalance()
     updateTokenBalanceTimer = setInterval(() => {
+      console.log('update token balance timer')
       updateNativeTokenBalance()
       updateCw20TokenBalance()
     }, 1000 * 30)

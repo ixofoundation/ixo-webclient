@@ -114,7 +114,7 @@ const SendModal: React.FunctionComponent<Props> = ({ open, selectedDenomOrAddr, 
     <ModalWrapper
       isModalOpen={open}
       header={{
-        title: 'Stake',
+        title: 'Send',
         titleNoCaps: true,
         noDivider: true,
       }}
