@@ -6,6 +6,7 @@ import { Config as Cw20StakeConfig } from '@ixo/impactxclient-sdk/types/codegen/
 import { Member, Proposal } from 'types/dao'
 
 export type DaoGroup = {
+  id?: string
   coreAddress: string
   type: string //  'membership' || 'staking'
   admin: string
@@ -28,11 +29,17 @@ export type DaoGroup = {
   token:
     | {
         config: Cw20StakeConfig
-        tokenInfo: TokenInfoResponse & { initial_supply?: string }
+        tokenInfo: TokenInfoResponse
         marketingInfo: MarketingInfoResponse
+        treasuryPercent?: number
       }
     | undefined
   selected?: boolean
+  memberships?: {
+    category?: string
+    weight: number
+    members: string[]
+  }[]
 }
 
 export type CurrentDao = {

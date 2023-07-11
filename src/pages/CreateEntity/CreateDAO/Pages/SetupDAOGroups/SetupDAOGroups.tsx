@@ -67,8 +67,7 @@ export const initialTokenModule: DaoGroup['token'] = {
     decimals: 6,
     name: '',
     symbol: '',
-    total_supply: new BigNumber(10_000_000).pow(10, 6).toString(),
-    initial_supply: new BigNumber(9_000_000).pow(10, 6).toString(),
+    total_supply: new BigNumber(10_000_000).times(new BigNumber(10).pow(6)).toString(),
   },
   marketingInfo: {
     description: null,
@@ -76,6 +75,7 @@ export const initialTokenModule: DaoGroup['token'] = {
     marketing: null,
     project: null,
   },
+  treasuryPercent: 90,
 }
 
 export const initialStakingGroup: DaoGroup = {
@@ -99,7 +99,7 @@ export const initialMembershipGroup: DaoGroup = {
 }
 
 const SetupDAOGroups: React.FC = (): JSX.Element => {
-  const { daoGroups, daoController, linkedEntity, updateDAOGroups, updateLinkedEntity, gotoStep } =
+  const { daoGroups, daoController, linkedEntity, updateDAOGroups, updateLinkedEntity, updateDAOController, gotoStep } =
     useCreateEntityState()
   const [openAddGroupModal, setOpenAddGroupModal] = useState(false)
   const [selectedGroup, setSelectedGroup] = useState('')
@@ -113,12 +113,12 @@ const SetupDAOGroups: React.FC = (): JSX.Element => {
     if (type !== 'staking') {
       updateDAOGroups({
         ...daoGroups,
-        [id]: initialMembershipGroup,
+        [id]: { id, ...initialMembershipGroup },
       })
     } else {
       updateDAOGroups({
         ...daoGroups,
-        [id]: initialStakingGroup,
+        [id]: { id, ...initialStakingGroup },
       })
     }
 
@@ -128,11 +128,16 @@ const SetupDAOGroups: React.FC = (): JSX.Element => {
     setSelectedGroup(id)
   }
   const handleUpdateGroup = (data: TDAOGroupModel): void => {
-    updateDAOGroups({
-      ...daoGroups,
-      [data.coreAddress]: data,
-    })
-    setSelectedGroup('')
+    if (data.id) {
+      updateDAOGroups({
+        ...daoGroups,
+        [data.id]: data,
+      })
+      setSelectedGroup('')
+      if (!daoController) {
+        updateDAOController(data.id)
+      }
+    }
   }
   const handleRemoveGroup = (id: string): void => {
     const newDaoGroups = omitKey(daoGroups, id)
@@ -142,9 +147,9 @@ const SetupDAOGroups: React.FC = (): JSX.Element => {
     updateLinkedEntity(newLinkedEntity)
 
     // Change DAO controller if removed one was a controller
-    // if (daoController === id) {
-    //   updateDAOController(Object.keys(newDaoGroups).pop() ?? '')
-    // }
+    if (daoController === id) {
+      updateDAOController(Object.keys(newDaoGroups).pop() ?? '')
+    }
   }
   const handleCloneGroup = (address: string): void => {
     // TODO: fetch DAO group from somewhere with given address
@@ -207,11 +212,11 @@ const SetupDAOGroups: React.FC = (): JSX.Element => {
                 </Typography>
                 <CheckBox
                   label='DAO Controller'
-                  value={daoController === value.coreAddress}
+                  value={daoController === value.id}
                   textVariant='secondary'
                   textSize={'base'}
-                  textColor={daoController === value.coreAddress ? 'blue' : 'black'}
-                  // handleChange={() => daoController !== value.coreAddress && updateDAOController(value.coreAddress)}
+                  textColor={daoController === value.id ? 'blue' : 'black'}
+                  handleChange={() => daoController !== value.id && updateDAOController(value.id || '')}
                   style={{ flexDirection: 'column' }}
                 />
               </FlexBox>

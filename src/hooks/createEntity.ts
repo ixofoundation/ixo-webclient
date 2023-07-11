@@ -82,7 +82,6 @@ import {
   Service,
 } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { WasmInstantiateTrx } from 'lib/protocol/cosmwasm'
-import { convertDenomToMicroDenomWithDecimals } from 'utils/conversions'
 import { chainNetwork } from './configs'
 import { Verification } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/tx'
 import { NodeType } from 'types/entities'
@@ -891,7 +890,17 @@ export function useCreateEntity(): TCreateEntityHookRes {
                     code_id: daoPreProposalContractCode,
                     label: `DAO_${config.name}_pre-propose-DaoProposalSingle`,
                     msg: utils.conversions.jsonToBase64({
-                      deposit_info: proposalModule.preProposeConfig.deposit_info,
+                      // deposit_info: proposalModule.preProposeConfig.deposit_info,
+                      deposit_info: proposalModule.preProposeConfig.deposit_info
+                        ? {
+                            ...proposalModule.preProposeConfig.deposit_info,
+                            denom: {
+                              token: {
+                                denom: proposalModule.preProposeConfig.deposit_info.denom,
+                              },
+                            },
+                          }
+                        : null,
                       extension: {},
                       open_proposal_submission: proposalModule.preProposeConfig.open_proposal_submission,
                     }),
@@ -929,7 +938,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
             const initial_balances = votingModule.members.map(
               ({ addr, weight }): Cw20Coin => ({
                 address: addr,
-                amount: convertDenomToMicroDenomWithDecimals(weight, token.tokenInfo.decimals).toString(),
+                amount: weight.toString(),
               }),
             )
 

@@ -35,7 +35,6 @@ import {
   convertDenomToMicroDenomWithDecimals,
   convertDurationWithUnitsToDuration,
   convertMicroDenomToDenomWithDecimals,
-  durationWithUnitsToSeconds,
 } from 'utils/conversions'
 import { NATIVE_DECIMAL, NATIVE_MICRODENOM } from 'constants/chains'
 import { useTheme } from 'styled-components'
@@ -46,8 +45,6 @@ import type {
 } from '@ixo/impactxclient-sdk/types/codegen/DaoPreProposeSingle.types'
 import {} from '@ixo/impactxclient-sdk/types/codegen/DaoMigrator.types'
 import { PercentageThreshold } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalCondorcet.types'
-import { initialMembers } from './SetupDAOGroups'
-import { LogoInfo } from '@ixo/impactxclient-sdk/types/codegen/Cw20Base.types'
 
 const inputHeight = 48
 
@@ -65,54 +62,47 @@ const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JS
   const [showAdvanced, setShowAdvanced] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [errMsg, setErrMsg] = useState('')
-  const [memberships, setMemberships] = useState<
-    {
-      category?: string
-      weight: number
-      members: string[]
-    }[]
-  >([])
+
+  useEffect(() => {
+    console.log({ data })
+  }, [data])
 
   useEffect(() => {
     setData(daoGroup)
   }, [daoGroup])
 
-  // useEffect(() => {
-  //   const members: Member[] = []
-  //   memberships.forEach((membership) => {
-  //     membership.members.forEach((member) => {
-  //       members.push({ addr: member, weight: membership.weight })
-  //     })
-  //   })
-  //   setData((v) => ({
-  //     ...v,
-  //     votingModule: { ...v.votingModule, members: members.length === 0 ? initialMembers : members },
-  //   }))
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [JSON.stringify(memberships)])
+  useEffect(() => {
+    let members: Member[] = []
 
-  // useEffect(() => {
-  //   const _memberships: {
-  //     [weight: number]: {
-  //       category?: string
-  //       weight: number
-  //       members: string[]
-  //     }
-  //   } = {}
-  //   data.votingModule.members.forEach((member) => {
-  //     if (_memberships[member.weight]) {
-  //       _memberships[member.weight].members = [..._memberships[member.weight].members, member.addr]
-  //     } else {
-  //       _memberships[member.weight] = {
-  //         category: Object.values(memberships).find(({ weight }) => weight === member.weight)?.category || '',
-  //         weight: member.weight,
-  //         members: [member.addr],
-  //       }
-  //     }
-  //   })
-  //   setMemberships(Object.values(_memberships))
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [JSON.stringify(data.votingModule.members)])
+    if (data.type === 'staking') {
+      data.memberships?.forEach((membership) => {
+        const weight = new BigNumber(data.token?.tokenInfo.total_supply || '0')
+          .dividedBy(100)
+          .times(membership.weight)
+          .dividedBy(membership.members.length)
+          .toNumber()
+
+        members = [
+          ...members,
+          ...membership.members.map((member) => ({
+            addr: member,
+            weight: Math.floor(weight),
+          })),
+        ]
+      })
+    } else {
+      data.memberships?.forEach((membership) => {
+        members = [
+          ...members,
+          ...membership.members.map((member) => ({
+            addr: member,
+            weight: membership.weight,
+          })),
+        ]
+      })
+    }
+    setData((v) => ({ ...v, votingModule: { ...v.votingModule, members } }))
+  }, [data.memberships, data.token?.tokenInfo.total_supply, data.type])
 
   const valid: boolean = useMemo(() => {
     switch (data.type) {
@@ -122,13 +112,19 @@ const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JS
           setErrMsg('Group Name & Description Required')
           return false
         }
+        // check if no memebers
+        if (data.votingModule.members.length === 0) {
+          setErrMsg('Cannot instantiate a group contract with no initial members')
+          return false
+        }
         // check invalid account address
         if (data.votingModule.members.some(({ addr }) => !isAccountAddress(addr))) {
           setErrMsg('Invalid Address Detected')
           return false
         }
         // check duplication
-        if (data.votingModule.members.map(({ addr }) => addr).some((dist) => new Set(dist).size !== dist.length)) {
+        const memberAddrs = data.votingModule.members.map(({ addr }) => addr)
+        if (new Set(memberAddrs).size !== memberAddrs.length) {
           setErrMsg('Duplicate Address Detected')
           return false
         }
@@ -136,10 +132,10 @@ const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JS
         return true
       }
       case 'staking': {
-        // if (useExistingToken && !data.token.tokenContractAddress) {
-        //   setErrMsg('Token Contract Address Required')
-        //   return false
-        // }
+        if (useExistingToken && !data.token?.config.token_address) {
+          setErrMsg('Token Contract Address Required')
+          return false
+        }
         if (!data.config.name || !data.config.description) {
           setErrMsg('Group Name & Description Required')
           return false
@@ -148,23 +144,25 @@ const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JS
           setErrMsg('Token Symbol & Name Required')
           return false
         }
+        if (data.token.tokenInfo.name.length < 3) {
+          setErrMsg('Name is not in the expected format (3-50 UTF-8 bytes)')
+          return false
+        }
         // check distribution percentage 100%
-        const totalTokenDistributionPercentage = data.votingModule.members.reduce(
-          (acc, cur) => new BigNumber(acc).plus(new BigNumber(cur.weight)),
-          new BigNumber(0),
-        )
-        if (
-          new BigNumber(totalTokenDistributionPercentage).plus(
-            new BigNumber(data.token?.tokenInfo.initial_supply || 0),
-          ) !== new BigNumber(data.token?.tokenInfo.total_supply)
-        ) {
-          const currentSumPercent = new BigNumber(totalTokenDistributionPercentage)
-            .plus(new BigNumber(data.token?.tokenInfo.initial_supply || 0))
-            .dividedBy(new BigNumber(data.token?.tokenInfo.total_supply))
-            .multipliedBy(new BigNumber(100))
+        const treasuryPercent = data.token?.treasuryPercent ?? 0
+        const totalTokenDistributionPercentage = (data.memberships ?? [])?.reduce((acc, cur) => acc + cur.weight, 0)
+
+        if (treasuryPercent + totalTokenDistributionPercentage !== 100) {
           setErrMsg(
-            `Total token distribution percentage must equal 100%, but it currently sums to ${currentSumPercent}%.`,
+            `Total token distribution percentage must equal 100%, but it currently sums to ${
+              treasuryPercent + totalTokenDistributionPercentage
+            }%.`,
           )
+          return false
+        }
+        // check if no memebers
+        if (data.votingModule.members.length === 0) {
+          setErrMsg('Cannot instantiate a group contract with no initial members')
           return false
         }
         // check invalid account address
@@ -173,7 +171,8 @@ const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JS
           return false
         }
         // check duplication
-        if (data.votingModule.members.map(({ addr }) => addr).some((dist) => new Set(dist).size !== dist.length)) {
+        const memberAddrs = data.votingModule.members.map(({ addr }) => addr)
+        if (new Set(memberAddrs).size !== memberAddrs.length) {
           setErrMsg('Duplicate Address Detected')
           return false
         }
@@ -190,11 +189,8 @@ const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JS
       default:
         return false
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data])
-
-  const handlePreCheck = () => {
-    // precheck memberships
-  }
 
   const handleSubmit = async (): Promise<void> => {
     setSubmitting(true)
@@ -247,42 +243,38 @@ const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JS
   //  * @returns
   //  */
   const GroupMemberships = (): JSX.Element => {
+    const initialMembership = { category: '', weight: 1, members: [] }
     const handleAddMembership = (): void => {
-      const maxWeight = _.max(data.votingModule.members.map(({ weight }) => weight))
-      setMemberships((v) => [...v, { category: '', weight: Number(maxWeight) + 1, members: [] }])
+      setData((pre) => ({ ...pre, memberships: [...(pre.memberships ?? []), initialMembership] }))
     }
     const handleUpdateMembership = (membershipIdx: number, key: string, value: any): void => {
-      if (key === 'weight') {
-        if (data.votingModule.members.map(({ weight }) => weight).includes(value)) {
-          return
-        }
-      }
-      setMemberships((v) =>
-        v.map((membership, i) => {
+      setData((pre) => ({
+        ...pre,
+        memberships: pre.memberships?.map((membership, i) => {
           if (membershipIdx === i) {
             return { ...membership, [key]: value }
           }
           return membership
         }),
-      )
+      }))
     }
     const handleRemoveMembership = (membershipIdx: number): void => {
-      if (memberships.length !== 1) {
-        setMemberships((v) => v.filter((item, i) => membershipIdx !== i))
+      if (data.memberships?.length !== 1) {
+        setData((pre) => ({ ...pre, memberships: pre.memberships?.filter((item, i) => membershipIdx !== i) }))
       } else {
-        setMemberships([{ category: '', weight: 1, members: [] }])
+        setData((pre) => ({ ...pre, memberships: [initialMembership] }))
       }
     }
     const handleAddMember = (membershipIdx: number): void => {
-      const members = memberships[membershipIdx]?.members ?? ['']
+      const members = (data.memberships ?? [])[membershipIdx]?.members ?? ['']
       handleUpdateMembership(membershipIdx, 'members', [...members, ''])
     }
     const attachMembers = (membershipIdx: number, addresses: string[]): void => {
-      const members = memberships[membershipIdx]?.members ?? ['']
+      const members = (data.memberships ?? [])[membershipIdx]?.members ?? ['']
       handleUpdateMembership(membershipIdx, 'members', _.union(members.concat(addresses)))
     }
     const handleUpdateMember = (membershipIdx: number, memberIdx: number, value: string): void => {
-      const members = memberships[membershipIdx]?.members ?? ['']
+      const members = (data.memberships ?? [])[membershipIdx]?.members ?? ['']
       handleUpdateMembership(
         membershipIdx,
         'members',
@@ -295,7 +287,7 @@ const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JS
       )
     }
     const handleRemoveMember = (membershipIdx: number, memberIdx: number): void => {
-      const members = memberships[membershipIdx]?.members ?? ['']
+      const members = (data.memberships ?? [])[membershipIdx]?.members ?? ['']
       if (members.length === 1) {
         handleUpdateMembership(membershipIdx, 'members', [''])
       } else {
@@ -329,7 +321,7 @@ const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JS
     }
     return (
       <FlexBox direction='column' width='100%' gap={7} marginBottom={7}>
-        {memberships.map((membership, membershipIdx) => (
+        {data.memberships?.map((membership, membershipIdx) => (
           <CardWrapper direction='column' gap={5} key={membershipIdx}>
             <FlexBox justifyContent='space-between' alignItems='center'>
               <FlexBox gap={2} alignItems='center'>
@@ -447,100 +439,43 @@ const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JS
   //  * @returns
   //  */
   const Staking = (): JSX.Element => {
-    // const handleUpdateStaking = (key: string, value: any): void => {
-    //   setData((pre) => ({ ...pre, staking: { ...(pre.staking ?? initialStaking), [key]: value } }))
-    // }
-    // const handleAddMembership = (): void => {
-    //   setData((pre) => ({ ...pre, memberships: [...(pre.memberships ?? []), initialMembership] }))
-    // }
-    // const handleUpdateMembership = (membershipIdx: number, key: string, value: any): void => {
-    //   setData((pre) => ({
-    //     ...pre,
-    //     memberships: pre.memberships?.map((membership, i) => {
-    //       if (membershipIdx === i) {
-    //         return { ...membership, [key]: value }
-    //       }
-    //       return membership
-    //     }),
-    //   }))
-    // }
-    // const handleRemoveMembership = (distributionIdx: number): void => {
-    //   if (data.memberships.length !== 1) {
-    //     setData((pre) => ({ ...pre, memberships: pre.memberships?.filter((item, i) => distributionIdx !== i) }))
-    //   } else {
-    //     setData((pre) => ({ ...pre, memberships: [initialMembership] }))
-    //   }
-    // }
-    // const handleAddMember = (membershipIdx: number): void => {
-    //   const members = (data.memberships ?? [])[membershipIdx]?.members ?? ['']
-    //   handleUpdateMembership(membershipIdx, 'members', [...members, ''])
-    // }
-    // // const attachMembers = (membershipIdx: number, addresses: string[]): void => {
-    // //   const members = (data.memberships ?? [])[membershipIdx]?.members ?? ['']
-    // //   handleUpdateMembership(membershipIdx, 'members', _.union(members.concat(addresses)))
-    // // }
-    // const handleUpdateMember = (membershipIdx: number, memberIdx: number, value: string): void => {
-    //   const members = (data.memberships ?? [])[membershipIdx]?.members ?? ['']
-    //   handleUpdateMembership(
-    //     membershipIdx,
-    //     'members',
-    //     members.map((item, index) => {
-    //       if (index === memberIdx) {
-    //         return value
-    //       }
-    //       return item
-    //     }),
-    //   )
-    // }
-    // const handleRemoveMember = (membershipIdx: number, memberIdx: number): void => {
-    //   const members = data.memberships[membershipIdx]?.members ?? ['']
-    //   if (members.length === 1) {
-    //     handleUpdateMembership(membershipIdx, 'members', [''])
-    //   } else {
-    //     handleUpdateMembership(
-    //       membershipIdx,
-    //       'members',
-    //       members.filter((item, index) => memberIdx !== index),
-    //     )
-    //   }
-    // }
+    if (!data.token) {
+      return <></>
+    }
+
+    const initialMembership = { category: '', weight: 10, members: [] }
+
     const handleAddMembership = (): void => {
-      const newWeight = (Number(data.token?.tokenInfo.total_supply ?? 0) / 100) * 10
-      setMemberships((v) => [...v, { category: '', weight: newWeight, members: [] }])
+      setData((pre) => ({ ...pre, memberships: [...(pre.memberships ?? []), initialMembership] }))
     }
     const handleUpdateMembership = (membershipIdx: number, key: string, value: any): void => {
-      if (key === 'weight') {
-        if (data.votingModule.members.map(({ weight }) => weight).includes(value)) {
-          return
-        }
-      }
-      setMemberships((v) =>
-        v.map((membership, i) => {
+      setData((pre) => ({
+        ...pre,
+        memberships: pre.memberships?.map((membership, i) => {
           if (membershipIdx === i) {
             return { ...membership, [key]: value }
           }
           return membership
         }),
-      )
+      }))
     }
-    const handleRemoveMembership = (membershipIdx: number): void => {
-      if (memberships.length !== 1) {
-        setMemberships((v) => v.filter((item, i) => membershipIdx !== i))
+    const handleRemoveMembership = (distributionIdx: number): void => {
+      if (data.memberships?.length !== 1) {
+        setData((pre) => ({ ...pre, memberships: pre.memberships?.filter((item, i) => distributionIdx !== i) }))
       } else {
-        const newWeight = (Number(data.token?.tokenInfo.total_supply ?? 0) / 100) * 10
-        setMemberships([{ category: '', weight: newWeight, members: [] }])
+        setData((pre) => ({ ...pre, memberships: [initialMembership] }))
       }
     }
     const handleAddMember = (membershipIdx: number): void => {
-      const members = memberships[membershipIdx]?.members ?? ['']
+      const members = (data.memberships ?? [])[membershipIdx]?.members ?? ['']
       handleUpdateMembership(membershipIdx, 'members', [...members, ''])
     }
-    const attachMembers = (membershipIdx: number, addresses: string[]): void => {
-      const members = memberships[membershipIdx]?.members ?? ['']
-      handleUpdateMembership(membershipIdx, 'members', _.union(members.concat(addresses)))
-    }
+    // const attachMembers = (membershipIdx: number, addresses: string[]): void => {
+    //   const members = (data.memberships ?? [])[membershipIdx]?.members ?? ['']
+    //   handleUpdateMembership(membershipIdx, 'members', _.union(members.concat(addresses)))
+    // }
     const handleUpdateMember = (membershipIdx: number, memberIdx: number, value: string): void => {
-      const members = memberships[membershipIdx]?.members ?? ['']
+      const members = (data.memberships ?? [])[membershipIdx]?.members ?? ['']
       handleUpdateMembership(
         membershipIdx,
         'members',
@@ -553,7 +488,7 @@ const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JS
       )
     }
     const handleRemoveMember = (membershipIdx: number, memberIdx: number): void => {
-      const members = memberships[membershipIdx]?.members ?? ['']
+      const members = (data.memberships ?? [])[membershipIdx]?.members ?? ['']
       if (members.length === 1) {
         handleUpdateMembership(membershipIdx, 'members', [''])
       } else {
@@ -575,8 +510,8 @@ const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JS
         }
       }
 
-      const treasuryPercent = data.staking?.treasuryPercent ?? 0
-      const totalTokenDistributionPercentage = data.memberships.reduce((acc, cur) => acc + cur.weight, 0)
+      const treasuryPercent = data.token?.treasuryPercent ?? 0
+      const totalTokenDistributionPercentage = (data.memberships ?? [])?.reduce((acc, cur) => acc + cur.weight, 0)
 
       if (treasuryPercent + totalTokenDistributionPercentage !== 100) {
         return {
@@ -588,10 +523,13 @@ const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JS
       }
       return {
         status: true,
-        message: `${Number(data.staking?.tokenSupply).toLocaleString()} tokens will be minted. ${
-          100 - (data.staking?.treasuryPercent ?? 0)
+        message: `${convertMicroDenomToDenomWithDecimals(
+          data.token?.tokenInfo.total_supply || '0',
+          data.token?.tokenInfo.decimals,
+        ).toLocaleString()} tokens will be minted. ${
+          100 - (data.token?.treasuryPercent ?? 0)
         }% will be sent to members according to the distribution below. The remaining ${
-          data.staking?.treasuryPercent
+          data.token?.treasuryPercent
         }% will go to the Group's treasury, where they can be distributed later via governance proposals.`,
       }
     }
@@ -709,7 +647,10 @@ const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JS
                 <InputWithLabel
                   height={inputHeight + 'px'}
                   label='Token Supply'
-                  inputValue={data.token?.tokenInfo.total_supply}
+                  inputValue={convertMicroDenomToDenomWithDecimals(
+                    data.token?.tokenInfo.total_supply,
+                    data.token?.tokenInfo.decimals,
+                  )}
                   handleChange={(value): void =>
                     setData((v) =>
                       v.token
@@ -734,8 +675,10 @@ const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JS
                   <NumberCounter
                     height={inputHeight + 'px'}
                     label='Treasury Percent'
-                    value={treasuryPercent * 100}
-                    onChange={(value): void => setTreasuryPercent(Number(value) / 100)}
+                    value={data.token?.treasuryPercent ?? 0}
+                    onChange={(value): void =>
+                      setData((v) => (v.token ? { ...v, token: { ...v.token, treasuryPercent: value } } : v))
+                    }
                   />
                   <Typography size='xl' weight='medium'>
                     %
@@ -750,7 +693,7 @@ const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JS
             </CardWrapper>
 
             {/* Distribution Category */}
-            {data.memberships.map((distribution, distributionIdx) => (
+            {(data.memberships ?? []).map((distribution, distributionIdx) => (
               <CardWrapper direction='column' gap={5} key={distributionIdx}>
                 <FlexBox justifyContent='space-between' alignItems='center'>
                   <FlexBox gap={2} alignItems='center'>
@@ -882,176 +825,199 @@ const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JS
   //  * @type multisig
   //  * @returns
   //  */
-  // const renderMultisigGroupMembership = (): JSX.Element => {
-  //   const handleUpdateMembership = (membershipIdx: number, key: string, value: any): void => {
-  //     setData((pre) => ({
-  //       ...pre,
-  //       memberships: pre.memberships?.map((membership, i) => {
-  //         if (membershipIdx === i) {
-  //           return { ...membership, [key]: value }
-  //         }
-  //         return membership
-  //       }),
-  //     }))
-  //   }
-  //   const handleAddMember = (membershipIdx: number): void => {
-  //     const members = (data.memberships ?? [])[membershipIdx]?.members ?? ['']
-  //     handleUpdateMembership(membershipIdx, 'members', [...members, ''])
-  //   }
-  //   const handleUpdateMember = (membershipIdx: number, memberIdx: number, value: string): void => {
-  //     const members = (data.memberships ?? [])[membershipIdx]?.members ?? ['']
-  //     handleUpdateMembership(
-  //       membershipIdx,
-  //       'members',
-  //       members.map((item, index) => {
-  //         if (index === memberIdx) {
-  //           return value
-  //         }
-  //         return item
-  //       }),
-  //     )
-  //   }
-  //   const handleRemoveMember = (membershipIdx: number, memberIdx: number): void => {
-  //     const members = (data.memberships ?? [])[membershipIdx]?.members ?? ['']
-  //     if (members.length === 1) {
-  //       handleUpdateMembership(membershipIdx, 'members', [''])
-  //     } else {
-  //       handleUpdateMembership(
-  //         membershipIdx,
-  //         'members',
-  //         members.filter((item, index) => memberIdx !== index),
-  //       )
-  //     }
-  //   }
-  //   const handleUpdateAbsoluteThresholdCount = (value: string): void => {
-  //     setData((pre) => ({ ...pre, absoluteThresholdCount: value }))
-  //   }
-  //   return (
-  //     <FlexBox direction='column' gap={7} marginBottom={7} width={'100%'}>
-  //       {/* Multisig Group Membership */}
-  //       <CardWrapper direction='column' gap={5}>
-  //         <FlexBox gap={2} alignItems='center'>
-  //           <ProfileIcon />
-  //           <Typography size='xl' weight='medium'>
-  //             Multisig Group Membership
-  //           </Typography>
-  //         </FlexBox>
-  //         <FlexBox direction='column' gap={5}>
-  //           <Typography size='xl' weight='medium'>
-  //             Members
-  //           </Typography>
-  //           <FlexBox direction='column' gap={4} width='100%'>
-  //             {data.memberships[0].members.map((member, memberIdx) => (
-  //               <FlexBox key={memberIdx} alignItems='center' gap={4} width='100%'>
-  //                 <InputWithLabel
-  //                   height={inputHeight + 'px'}
-  //                   label='Member Account Address or Name'
-  //                   inputValue={member}
-  //                   handleChange={(value): void => handleUpdateMember(0, memberIdx, value)}
-  //                 />
-  //                 <AccountValidStatus address={member} style={{ flex: '0 0 52px' }} />
-  //                 <Button
-  //                   variant='grey900'
-  //                   size='custom'
-  //                   width={52}
-  //                   height={48}
-  //                   style={{ flex: '0 0 52px' }}
-  //                   onClick={(): void => handleRemoveMember(0, memberIdx)}
-  //                 >
-  //                   <BinIcon />
-  //                 </Button>
-  //               </FlexBox>
-  //             ))}
-  //             <Button size='flex' textTransform='none' height={48} onClick={(): void => handleAddMember(0)}>
-  //               <FlexBox alignItems='center' gap={2}>
-  //                 <PlusIcon color={theme.ixoWhite} />
-  //                 Add a Member
-  //               </FlexBox>
-  //             </Button>
-  //           </FlexBox>
-  //         </FlexBox>
-  //       </CardWrapper>
-  //       {/* Passing Threshold */}
-  //       <CardWrapper direction='column' gap={5} marginBottom={7}>
-  //         <FlexBox alignItems='center' gap={2}>
-  //           <ThresholdIcon />
-  //           <Typography size='xl' weight='medium'>
-  //             Passing Threshold
-  //           </Typography>
-  //         </FlexBox>
-  //         <FlexBox alignItems='center' gap={4}>
-  //           <InputWithLabel
-  //             label='Minimum Number of Signatories'
-  //             height={inputHeight + 'px'}
-  //             inputValue={data.absoluteThresholdCount ?? 0}
-  //             handleChange={(value) =>
-  //               value <= (data.memberships[0].members.filter(Boolean).length ?? 0) &&
-  //               handleUpdateAbsoluteThresholdCount(value)
-  //             }
-  //             width='50%'
-  //           />
-  //           <Typography size='xl'>of {data.memberships[0].members.filter(Boolean).length ?? 0} accounts</Typography>
-  //         </FlexBox>
-  //       </CardWrapper>
-  //     </FlexBox>
-  //   )
-  // }
-  // const renderUnstakingPeriod = (): JSX.Element => {
-  //   return (
-  //     <CardWrapper direction='column' gap={5} marginBottom={7}>
-  //       <FlexBox alignItems='center' gap={2}>
-  //         <CalendarIcon />
-  //         <Typography size='xl' weight='medium'>
-  //           Unstaking Period
-  //         </Typography>
-  //       </FlexBox>
-  //       <FlexBox>
-  //         <Typography size='md'>
-  //           In order to vote, members must stake their tokens with the Group. Members who would like to leave the Group
-  //           or trade their governance tokens must first unstake them. This setting configures how long members have to
-  //           wait after unstaking their tokens for those tokens to become available. The longer you set this duration,
-  //           the more sure you can be sure that people who register their tokens are keen to participate in your
-  //           Group&apos;s governance.
-  //         </Typography>
-  //       </FlexBox>
-  //       <FlexBox alignItems='center' justifyContent='flex-end' gap={4}>
-  //         <NumberCounter
-  //           direction='row-reverse'
-  //           width='200px'
-  //           height={inputHeight + 'px'}
-  //           value={data.staking?.unstakingDuration?.value ?? 0}
-  //           onChange={(value: number): void =>
-  //             setData((pre) => ({
-  //               ...pre,
-  //               staking: {
-  //                 ...(pre.staking ?? initialStaking),
-  //                 unstakingDuration: { ...(pre.staking ?? initialStaking).unstakingDuration, value },
-  //               },
-  //             }))
-  //           }
-  //         />
-  //         <Typography weight='medium' size='xl'>
-  //           <SimpleSelect
-  //             value={data.staking?.unstakingDuration?.units ?? 'weeks'}
-  //             options={['seconds', 'minutes', 'hours', 'days', 'weeks']}
-  //             onChange={(value) =>
-  //               setData((pre) => ({
-  //                 ...pre,
-  //                 staking: {
-  //                   ...(pre.staking ?? initialStaking),
-  //                   unstakingDuration: {
-  //                     ...(pre.staking ?? initialStaking).unstakingDuration,
-  //                     units: value as DurationUnits,
-  //                   },
-  //                 },
-  //               }))
-  //             }
-  //           />
-  //         </Typography>
-  //       </FlexBox>
-  //     </CardWrapper>
-  //   )
-  // }
+  const renderMultisigGroupMembership = (): JSX.Element => {
+    const handleUpdateMembership = (membershipIdx: number, key: string, value: any): void => {
+      setData((pre) => ({
+        ...pre,
+        memberships: pre.memberships?.map((membership, i) => {
+          if (membershipIdx === i) {
+            return { ...membership, [key]: value }
+          }
+          return membership
+        }),
+      }))
+    }
+    const handleAddMember = (membershipIdx: number): void => {
+      const members = (data.memberships ?? [])[membershipIdx]?.members ?? ['']
+      handleUpdateMembership(membershipIdx, 'members', [...members, ''])
+    }
+    const handleUpdateMember = (membershipIdx: number, memberIdx: number, value: string): void => {
+      const members = (data.memberships ?? [])[membershipIdx]?.members ?? ['']
+      handleUpdateMembership(
+        membershipIdx,
+        'members',
+        members.map((item, index) => {
+          if (index === memberIdx) {
+            return value
+          }
+          return item
+        }),
+      )
+    }
+    const handleRemoveMember = (membershipIdx: number, memberIdx: number): void => {
+      const members = (data.memberships ?? [])[membershipIdx]?.members ?? ['']
+      if (members.length === 1) {
+        handleUpdateMembership(membershipIdx, 'members', [''])
+      } else {
+        handleUpdateMembership(
+          membershipIdx,
+          'members',
+          members.filter((item, index) => memberIdx !== index),
+        )
+      }
+    }
+    return (
+      <FlexBox direction='column' gap={7} marginBottom={7} width={'100%'}>
+        {/* Multisig Group Membership */}
+        <CardWrapper direction='column' gap={5}>
+          <FlexBox gap={2} alignItems='center'>
+            <ProfileIcon />
+            <Typography size='xl' weight='medium'>
+              Multisig Group Membership
+            </Typography>
+          </FlexBox>
+          <FlexBox direction='column' gap={5}>
+            <Typography size='xl' weight='medium'>
+              Members
+            </Typography>
+            <FlexBox direction='column' gap={4} width='100%'>
+              {(data.memberships ?? [])[0].members.map((member, memberIdx) => (
+                <FlexBox key={memberIdx} alignItems='center' gap={4} width='100%'>
+                  <InputWithLabel
+                    height={inputHeight + 'px'}
+                    label='Member Account Address or Name'
+                    inputValue={member}
+                    handleChange={(value): void => handleUpdateMember(0, memberIdx, value)}
+                  />
+                  <AccountValidStatus address={member} style={{ flex: '0 0 52px' }} />
+                  <Button
+                    variant='grey900'
+                    size='custom'
+                    width={52}
+                    height={48}
+                    style={{ flex: '0 0 52px' }}
+                    onClick={(): void => handleRemoveMember(0, memberIdx)}
+                  >
+                    <BinIcon />
+                  </Button>
+                </FlexBox>
+              ))}
+              <Button size='flex' textTransform='none' height={48} onClick={(): void => handleAddMember(0)}>
+                <FlexBox alignItems='center' gap={2}>
+                  <PlusIcon color={theme.ixoWhite} />
+                  Add a Member
+                </FlexBox>
+              </Button>
+            </FlexBox>
+          </FlexBox>
+        </CardWrapper>
+        {/* Passing Threshold */}
+        <CardWrapper direction='column' gap={5} marginBottom={7}>
+          <FlexBox alignItems='center' gap={2}>
+            <ThresholdIcon />
+            <Typography size='xl' weight='medium'>
+              Passing Threshold
+            </Typography>
+          </FlexBox>
+          <FlexBox alignItems='center' gap={4}>
+            <InputWithLabel
+              label='Minimum Number of Signatories'
+              height={inputHeight + 'px'}
+              inputValue={
+                Number(
+                  (
+                    data.proposalModule.proposalConfig.threshold as {
+                      absolute_count: { threshold: string }
+                    }
+                  ).absolute_count.threshold,
+                ) * 100
+              }
+              handleChange={(value) =>
+                value <= ((data.memberships ?? [])[0].members.filter(Boolean).length ?? 0) &&
+                setData((v) => ({
+                  ...v,
+                  proposalModule: {
+                    ...v.proposalModule,
+                    proposalConfig: {
+                      ...v.proposalModule.proposalConfig,
+                      threshold: {
+                        ...v.proposalModule.proposalConfig.threshold,
+                        absolute_count: { threshold: (value / 100).toString() },
+                      },
+                    },
+                  },
+                }))
+              }
+              width='50%'
+            />
+            <Typography size='xl'>
+              of {(data.memberships ?? [])[0].members.filter(Boolean).length ?? 0} accounts
+            </Typography>
+          </FlexBox>
+        </CardWrapper>
+      </FlexBox>
+    )
+  }
+  const UnstakingPeriod = (): JSX.Element => {
+    const [unstakingDurationAmount, setUnstakingDurationAmount] = useState(2)
+    const [unstakingDurationUnits, setUnstakingDurationUnits] = useState<DurationUnits>(DurationUnits.Weeks)
+
+    useEffect(() => {
+      const duration = convertDurationWithUnitsToDuration({
+        value: unstakingDurationAmount,
+        units: unstakingDurationUnits,
+      })
+      setData((v) =>
+        v.token
+          ? {
+              ...v,
+              token: {
+                ...v.token,
+                config: {
+                  ...v.token.config,
+                  unstaking_duration: duration,
+                },
+              },
+            }
+          : v,
+      )
+    }, [unstakingDurationAmount, unstakingDurationUnits])
+    return (
+      <CardWrapper direction='column' gap={5} marginBottom={7}>
+        <FlexBox alignItems='center' gap={2}>
+          <CalendarIcon />
+          <Typography size='xl' weight='medium'>
+            Unstaking Period
+          </Typography>
+        </FlexBox>
+        <FlexBox>
+          <Typography size='md'>
+            In order to vote, members must stake their tokens with the Group. Members who would like to leave the Group
+            or trade their governance tokens must first unstake them. This setting configures how long members have to
+            wait after unstaking their tokens for those tokens to become available. The longer you set this duration,
+            the more sure you can be sure that people who register their tokens are keen to participate in your
+            Group&apos;s governance.
+          </Typography>
+        </FlexBox>
+        <FlexBox alignItems='center' justifyContent='flex-end' gap={4}>
+          <NumberCounter
+            direction='row-reverse'
+            width='200px'
+            height={inputHeight + 'px'}
+            value={unstakingDurationAmount}
+            onChange={(value: number) => setUnstakingDurationAmount(value)}
+          />
+          <Typography weight='medium' size='xl'>
+            <SimpleSelect
+              value={unstakingDurationUnits}
+              options={Object.values(DurationUnits)}
+              onChange={(value) => setUnstakingDurationUnits(value as DurationUnits)}
+            />
+          </Typography>
+        </FlexBox>
+      </CardWrapper>
+    )
+  }
   const VotingDuration = (): JSX.Element => {
     const [proposalDurationAmount, setProposalDurationAmount] = useState(1)
     const [proposalDurationUnits, setProposalDurationUnits] = useState<DurationUnits>(DurationUnits.Weeks)
@@ -1180,7 +1146,7 @@ const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JS
                       ...v.proposalModule.preProposeConfig,
                       deposit_info: value
                         ? {
-                            amount: new BigNumber('1').pow(10, NATIVE_DECIMAL).toString(),
+                            amount: new BigNumber('1').times(new BigNumber(10).pow(6)).toString(),
                             denom: { native: NATIVE_MICRODENOM },
                             refund_policy: 'only_passed' as DepositRefundPolicy,
                           }
@@ -1309,7 +1275,7 @@ const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JS
                                     }
                                   ).threshold_quorum,
                                   threshold: {
-                                    percent: (value / 100).toString(),
+                                    percent: ((value || 0) / 100).toString(),
                                   },
                                 },
                               },
@@ -1536,8 +1502,8 @@ const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JS
         {renderGroupIdentity()}
         {data.type === 'membership' && GroupMemberships()}
         {data.type === 'staking' && Staking()}
-        {/* {data.type === 'staking' && renderUnstakingPeriod()}
-        {data.type === 'multisig' && renderMultisigGroupMembership()} */}
+        {data.type === 'staking' && UnstakingPeriod()}
+        {data.type === 'multisig' && renderMultisigGroupMembership()}
         {VotingDuration()}
         {renderAdvancedSwitch()}
         {showAdvanced && renderAdvancedSettings()}
