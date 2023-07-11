@@ -9,16 +9,15 @@ import { DAOGroupConfig, TDAOGroupModel } from 'types/protocol'
 import { omitKey } from 'utils/objects'
 // import SetupGroupSettings, { initialMembership, initialStaking } from './SetupGroupSettings'
 import { deviceWidth } from 'constants/device'
-import { initialPreProposeConfigState } from 'components/Modals/AddActionModal/SetupUpdateProposalSubmissionConfigModal'
-import { initialProposalConfigState } from 'components/Modals/AddActionModal/SetupUpdateVotingConfigModal'
 import { ixo } from '@ixo/impactxclient-sdk'
-import SetupGroupSettings, {
-  initialMembership,
-  initialStaking,
-} from 'pages/CreateEntity/CreateDAO/Pages/SetupDAOGroups/SetupGroupSettings'
+import SetupGroupSettings from 'pages/CreateEntity/CreateDAO/Pages/SetupDAOGroups/SetupGroupSettings'
 import { EditEntityContext } from 'pages/EditEntity/EditEntity'
 import { useHistory, useParams } from 'react-router-dom'
 import { LinkedEntity } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
+import {
+  initialMembershipGroup,
+  initialStakingGroup,
+} from 'pages/CreateEntity/CreateDAO/Pages/SetupDAOGroups/SetupDAOGroups'
 
 const EditGroups: React.FC = (): JSX.Element => {
   const history = useHistory()
@@ -35,15 +34,7 @@ const EditGroups: React.FC = (): JSX.Element => {
       entity.updatePartial(
         'daoGroups',
         {
-          [id]: {
-            id,
-            type,
-            name: '',
-            description: '',
-            ...initialPreProposeConfigState,
-            ...initialProposalConfigState,
-            memberships: [initialMembership],
-          },
+          [id]: initialMembershipGroup,
         },
         true,
       )
@@ -51,16 +42,7 @@ const EditGroups: React.FC = (): JSX.Element => {
       entity.updatePartial(
         'daoGroups',
         {
-          [id]: {
-            id,
-            type,
-            name: '',
-            description: '',
-            ...initialPreProposeConfigState,
-            ...initialProposalConfigState,
-            memberships: [initialMembership],
-            staking: { ...initialStaking },
-          },
+          [id]: initialStakingGroup,
         },
         true,
       )
@@ -75,7 +57,7 @@ const EditGroups: React.FC = (): JSX.Element => {
     entity.updatePartial(
       'daoGroups',
       {
-        [data.id]: data,
+        [data.coreAddress]: data,
       },
       true,
     )
@@ -165,22 +147,23 @@ const EditGroups: React.FC = (): JSX.Element => {
                 <PropertyBox
                   icon={Icon && <Icon />}
                   label={text}
-                  set={!!value.contractAddress}
+                  set={!!value.coreAddress}
                   handleRemove={() => handleRemoveGroup(key)}
                   handleClick={() => !inherited && setSelectedGroup(key)}
                   inherited={inherited}
                 />
                 <Typography variant='secondary' overflowLines={1} style={{ width: 100, textAlign: 'center' }}>
-                  &nbsp;{(value as any).config?.name || value.name}&nbsp;
+                  &nbsp;{(value as any).config?.name || value.config.name}&nbsp;
                 </Typography>
                 <CheckBox
                   label='DAO Controller'
-                  value={entity.daoController === value.id}
+                  value={entity.daoController === value.coreAddress}
                   textVariant='secondary'
                   textSize={'base'}
-                  textColor={entity.daoController === value.id ? 'blue' : 'black'}
+                  textColor={entity.daoController === value.coreAddress ? 'blue' : 'black'}
                   handleChange={() =>
-                    entity.daoController !== value.id && entity.updatePartial('daoController', value.id)
+                    entity.daoController !== value.coreAddress &&
+                    entity.updatePartial('daoController', value.coreAddress)
                   }
                   style={{ flexDirection: 'column' }}
                 />

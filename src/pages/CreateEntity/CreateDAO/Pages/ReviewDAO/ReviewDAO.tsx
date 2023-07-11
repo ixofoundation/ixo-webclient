@@ -45,7 +45,7 @@ const ReviewDAO: React.FC = (): JSX.Element => {
     if (!daoGroup) {
       return 0
     }
-    return daoGroup.memberships.reduce((acc, cur) => acc + cur.members.length, 0)
+    return daoGroup.votingModule.members.length
   }, [daoGroups, daoController])
 
   const handleSignToCreate = async (): Promise<void> => {
@@ -69,7 +69,7 @@ const ReviewDAO: React.FC = (): JSX.Element => {
     linkedResource = linkedResource.concat(await UploadLinkedResource())
 
     // Verification
-    const daoControllerAddress = daoGroups[daoController]?.contractAddress
+    const daoControllerAddress = daoGroups[daoController]?.coreAddress
     if (daoControllerAddress) {
       verification.push(
         ixo.iid.v1beta1.Verification.fromPartial({

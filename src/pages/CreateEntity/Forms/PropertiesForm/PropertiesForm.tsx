@@ -10,16 +10,14 @@ import { SetupService } from './SetupService'
 import { FlexBox } from 'components/App/App.styles'
 import {
   TDAOGroupModel,
-  TEntityAccordedRightModel,
   TEntityAdministratorModel,
   TEntityClaimModel,
   TEntityCreatorModel,
   TEntityDDOTagModel,
-  TEntityLinkedEntityModel,
-  TEntityLinkedResourceModel,
   TEntityPageModel,
   TEntityServiceModel,
 } from 'types/protocol'
+import { AccordedRight, LinkedEntity, LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 
 const Properties = [
   // 'Services',
@@ -37,20 +35,20 @@ interface Props {
   ddoTags?: TEntityDDOTagModel[]
   page: TEntityPageModel
   service: TEntityServiceModel[]
-  linkedResource: { [id: string]: TEntityLinkedResourceModel }
+  linkedResource: { [id: string]: LinkedResource }
   claim: { [id: string]: TEntityClaimModel }
-  accordedRight: { [key: string]: TEntityAccordedRightModel }
-  linkedEntity: { [key: string]: TEntityLinkedEntityModel }
+  accordedRight: { [key: string]: AccordedRight }
+  linkedEntity: { [key: string]: LinkedEntity }
   daoGroups?: { [id: string]: TDAOGroupModel }
   updateCreator: (creator: TEntityCreatorModel) => void
   updateAdministrator: (administrator: TEntityAdministratorModel) => void
   updateDDOTags?: (ddoTags: TEntityDDOTagModel[]) => void
   updatePage: (page: TEntityPageModel) => void
   updateService: (service: TEntityServiceModel[]) => void
-  updateLinkedResource: (linkedResource: { [id: string]: TEntityLinkedResourceModel }) => void
+  updateLinkedResource: (linkedResource: { [id: string]: LinkedResource }) => void
   updateClaim: (claim: { [id: string]: TEntityClaimModel }) => void
-  updateAccordedRight: (accordedRight: { [id: string]: TEntityAccordedRightModel }) => void
-  updateLinkedEntity: (linkedEntity: { [id: string]: TEntityLinkedEntityModel }) => void
+  updateAccordedRight: (accordedRight: { [id: string]: AccordedRight }) => void
+  updateLinkedEntity: (linkedEntity: { [id: string]: LinkedEntity }) => void
 }
 
 const PropertiesForm: React.FC<Props> = ({

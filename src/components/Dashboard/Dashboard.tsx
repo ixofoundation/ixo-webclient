@@ -23,7 +23,7 @@ const Container = styled.div<{ color: string }>`
 `
 
 const Board = styled.div<{ themeMode: string }>`
-  background: ${(props): string => (props.themeMode === 'light' ? '#f0f3f9' : props.theme.ixoDarkestBlue)};
+  background: ${(props): string => (props.themeMode === 'light' ? '#ffffff' : props.theme.ixoDarkestBlue)};
 
   padding: 2.5rem 0.75rem;
   display: flex;

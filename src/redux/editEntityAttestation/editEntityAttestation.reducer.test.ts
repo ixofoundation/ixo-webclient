@@ -39,7 +39,7 @@ import {
   MoveQuestionAction,
 } from './editEntityAttestation.types'
 import { Type, ControlType } from 'components/JsonForm/types'
-import { NewEntityAction, EditEntityActions, EditEntitySuccessAction } from '../editEntity/editEntity.types'
+import { NewEntityAction, EditEntityActions, EditEntitySuccessAction } from '../editEntityOld/editEntity.types'
 import { EntityType } from '../../types/entities'
 // import { EntityClaimType } from 'modules/EntityClaims/types'
 

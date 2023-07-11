@@ -2,7 +2,7 @@ import React, { Dispatch } from 'react'
 import { connect } from 'react-redux'
 import EditEntityBase from '../Components/EditEntityBase/EditEntityBase'
 import { RootState } from 'redux/store'
-import * as editEntitySelectors from '../../../../../redux/editEntity/editEntity.selectors'
+import * as editEntitySelectors from '../../../../../redux/editEntityOld/editEntity.selectors'
 import FormCardWrapper from 'components/Wrappers/FormCardWrapper/FormCardWrapper'
 import ExistingEntityCard from './Components/ExistingEntityCard/ExistingEntityCard'
 import TokenTemplateCard from './Components/TokenTemplateCard/TokenTemplateCard'
@@ -14,7 +14,7 @@ import {
 import * as editEntityTemplateSelectors from '../../../../../redux/editEntityTemplate/editTemplate.selectors'
 import { importEntityPageContent } from '../../../../../redux/editEntityPageContent/editEntityPageContent.actions'
 import { selectHeaderContent } from '../EditEntityPageContent/EditEntityPageContent.selectors'
-import { goToStep, newEntity } from '../../../../../redux/editEntity/editEntity.actions'
+import { goToStep, newEntity } from '../../../../../redux/editEntityOld/editEntity.actions'
 import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 class EditTemplate extends EditEntityBase<any> {

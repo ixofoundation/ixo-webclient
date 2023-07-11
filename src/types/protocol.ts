@@ -85,14 +85,10 @@ import UploadAudio from 'assets/icons/UploadAudio'
 import UploadVideo from 'assets/icons/UploadVideo'
 import SelectPicture from 'assets/icons/SelectPicture'
 import Currency from 'assets/icons/Currency'
-import { LinkedEntity, LinkedResource, Service } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
+import { Service } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { OutputBlockData } from '@editorjs/editorjs'
 import { ControlType, Type } from 'components/JsonForm/types'
-import { UpdatePreProposeConfigData } from 'components/Modals/AddActionModal/SetupUpdateProposalSubmissionConfigModal'
-import SetupUpdateVotingConfigModal, {
-  UpdateProposalConfigData,
-} from 'components/Modals/AddActionModal/SetupUpdateVotingConfigModal'
-import { DurationWithUnits } from './dao'
+import SetupUpdateVotingConfigModal from 'components/Modals/AddActionModal/SetupUpdateVotingConfigModal'
 import {
   SetupAuthzExecModal,
   SetupAuthzGrantModal,
@@ -124,6 +120,7 @@ import {
   SetupStakeToGroupModal,
   SetupSendGroupTokenModal,
 } from 'components/Modals/AddActionModal'
+import { DaoGroup } from 'redux/currentEntity/dao/currentDao.types'
 
 export const EntitySettingsConfig: { [key: string]: any } = {
   // required
@@ -775,18 +772,6 @@ export interface TEntityPaymentModel {
 }
 
 // TODO:
-export type TEntityLinkedResourceModel = LinkedResource
-
-// TODO: add more fields
-export interface TEntityAccordedRightModel {
-  text: string
-  icon: React.FC<React.SVGProps<SVGElement>>
-  data: any
-}
-
-export type TEntityLinkedEntityModel = LinkedEntity
-
-// TODO:
 export interface TClaimTemplate {
   id: string
   entityClaimId: string
@@ -1087,6 +1072,7 @@ export interface TEntityProfileModel {
     '@protected': boolean
   }
   id: string
+  orgName: string
   name: string
   image: string
   logo: string
@@ -1106,62 +1092,63 @@ export type TEntityPageModel = { [id: string]: TEntityPageSectionModel }
 export type TEntityAdministratorModel = TEntityCreatorModel
 
 /**
- * @todo TODO: type from SDK
  * @description memberships, staking
  */
-export interface TDAOGroupModel extends UpdatePreProposeConfigData, UpdateProposalConfigData {
-  id: string
-  type: string // 'membership' | 'staking' | 'multisig'
-  contractAddress?: string
+// export interface TDAOGroupModel extends UpdatePreProposeConfigData, UpdateProposalConfigData {
+//   id: string
+//   type: string // 'membership' | 'staking' | 'multisig'
+//   contractAddress?: string
 
-  name: string
-  description: string
-  memberships: {
-    category?: string
-    weight: number
-    members: string[]
-  }[]
-  staking?: {
-    // use existing token
-    tokenContractAddress: string
-    // create new token
-    tokenSymbol: string
-    tokenName: string
-    tokenSupply: number
-    tokenLogo?: string
-    treasuryPercent: number
-    // config
-    unstakingDuration: DurationWithUnits
-  }
+//   name: string
+//   description: string
+//   memberships: {
+//     category?: string
+//     weight: number
+//     members: string[]
+//   }[]
+//   staking?: {
+//     // use existing token
+//     tokenContractAddress: string
+//     // create new token
+//     tokenSymbol: string
+//     tokenName: string
+//     tokenSupply: number
+//     tokenLogo?: string
+//     treasuryPercent: number
+//     // config
+//     unstakingDuration: DurationWithUnits
+//   }
 
-  /** <extends from UpdatePreProposeConfigData>
-   *  depositRequired: boolean
-      depositInfo: {
-        amount: string
-        type: 'native' | 'cw20' | 'voting_module_token'
-        denomOrAddress: string
-        token?: GenericToken
-        refundPolicy: DepositRefundPolicy
-      }
-      anyoneCanPropose: boolean // only_members | everyone
-   */
-  /** <extends from UpdateProposalConfigData>
-   *  onlyMembersExecute: boolean
-      thresholdType: '%' | 'majority'
-      thresholdPercentage?: number
-      quorumEnabled: boolean
-      quorumType: '%' | 'majority'
-      quorumPercentage?: number
-      proposalDuration: number
-      proposalDurationUnits: 'weeks' | 'days' | 'hours' | 'minutes' | 'seconds'
-      allowRevoting: boolean
-   */
+//   /** <extends from UpdatePreProposeConfigData>
+//    *  depositRequired: boolean
+//       depositInfo: {
+//         amount: string
+//         type: 'native' | 'cw20' | 'voting_module_token'
+//         denomOrAddress: string
+//         token?: GenericToken
+//         refundPolicy: DepositRefundPolicy
+//       }
+//       anyoneCanPropose: boolean // only_members | everyone
+//    */
+//   /** <extends from UpdateProposalConfigData>
+//    *  onlyMembersExecute: boolean
+//       thresholdType: '%' | 'majority'
+//       thresholdPercentage?: number
+//       quorumEnabled: boolean
+//       quorumType: '%' | 'majority'
+//       quorumPercentage?: number
+//       proposalDuration: number
+//       proposalDurationUnits: 'weeks' | 'days' | 'hours' | 'minutes' | 'seconds'
+//       allowRevoting: boolean
+//    */
 
-  /**
-   * @description absoluteThresholdCount is only for multisig group
-   */
-  absoluteThresholdCount?: string
-}
+//   /**
+//    * @description absoluteThresholdCount is only for multisig group
+//    */
+//   absoluteThresholdCount?: string
+// }
+
+export type TDAOGroupModel = DaoGroup
 
 export interface TProposalActionModel {
   id: string

@@ -21,7 +21,7 @@ import {
   ValidatedAction,
   ValidationErrorAction,
 } from './editEntityClaims.types'
-import { EditEntityActions, NewEntityAction, EditEntitySuccessAction } from '../editEntity/editEntity.types'
+import { EditEntityActions, NewEntityAction, EditEntitySuccessAction } from '../editEntityOld/editEntity.types'
 import { EntityType } from '../../types/entities'
 jest.mock('uuid')
 

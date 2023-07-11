@@ -1,51 +1,18 @@
-import { EditEntityState, EditEntityActionTypes, EditEntityActions } from './editEntity.types'
+import { EditEntityActions, EditEntityActionTypes, EditEntityState } from './editEntity.types'
 
-export const initialState: EditEntityState = {
-  step: 1,
-  entityType: null,
-  editing: false,
-  edited: false,
-  error: null,
-  entityDid: null,
-} as any
+const initialState: EditEntityState = {}
 
 export const reducer = (state = initialState, action: EditEntityActionTypes): EditEntityState => {
   switch (action.type) {
-    case EditEntityActions.GoToStep:
-      return {
-        ...state,
-        step: action.payload.step,
-        editing: false,
-        edited: false,
-        error: null,
-      } as any
-    case EditEntityActions.NewEntity:
-      return {
-        ...initialState,
-        entityType: action.payload.entityType,
-        entityDid: action.payload.entityDid,
+    case EditEntityActions.SetEditedField: {
+      const { key, data, merge } = action.payload
+      if (merge) {
+        return { ...state, [key]: { ...(state[key] ?? {}), ...data } }
+      } else {
+        return { ...state, [key]: data }
       }
-    case EditEntityActions.EditEntityStart:
-      return {
-        ...state,
-        editing: true,
-        error: null,
-      } as any
-    case EditEntityActions.EditEntitySuccess:
-      return {
-        ...state,
-        editing: false,
-        edited: true,
-        error: null,
-        entityDid: null,
-      } as any
-    case EditEntityActions.EditEntityFailure:
-      return {
-        ...state,
-        editing: false,
-        error: action.payload.error,
-      }
+    }
+    default:
+      return { ...state }
   }
-
-  return state
 }

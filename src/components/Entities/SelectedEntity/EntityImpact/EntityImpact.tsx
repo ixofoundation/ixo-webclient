@@ -25,7 +25,7 @@ import VotingBond from './VotingBond/VotingBond'
 // import Events from './Events/Events.container'
 import EditEntity from '../EntityEdit/EditEntity'
 import { fetchExistingEntity } from 'redux/editEntityTemplate/editTemplate.action'
-import { newEntity } from 'redux/editEntity/editEntity.actions'
+import { newEntity } from 'redux/editEntityOld/editEntity.actions'
 import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { requireCheckDefault } from 'utils/images'
 

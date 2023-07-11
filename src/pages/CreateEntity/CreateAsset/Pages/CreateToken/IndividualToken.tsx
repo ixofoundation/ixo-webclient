@@ -21,7 +21,6 @@ import {
   EntityLinkedResourceConfig,
   EntitySettingsConfig,
   TAssetMetadataModel,
-  TEntityLinkedResourceModel,
   TEntityLiquidityModel,
   TEntityPaymentModel,
 } from 'types/protocol'
@@ -31,6 +30,7 @@ import { Wrapper, Row } from './IndividualToken.styles'
 import { SetupPageContent } from '../../../Forms/PropertiesForm/SetupPageContent'
 import { Typography } from 'components/Typography'
 import { useTheme } from 'styled-components'
+import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 
 interface Props {
   SN: number
@@ -46,7 +46,7 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
     [key: string]: any
   }>(EntitySettingsConfig)
   const [entityLinkedResource, setEntityLinkedResource] = useState<{
-    [key: string]: TEntityLinkedResourceModel
+    [key: string]: LinkedResource
   }>({})
   const [openAddSettingsModal, setOpenAddSettingsModal] = useState(false)
   const [openAddLinkedResourceModal, setOpenAddLinkedResourceModal] = useState(false)
@@ -154,7 +154,7 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
     //   [id]: { id, type, path: '', name: '', description: '' },
     // }))
   }
-  const handleUpdateEntityLinkedResource = (id: string, data: TEntityLinkedResourceModel): void => {
+  const handleUpdateEntityLinkedResource = (id: string, data: LinkedResource): void => {
     setEntityLinkedResource((pre) => ({ ...pre, [id]: data }))
   }
   const handleRemoveEntityLinkedResource = (id: string): void => {
@@ -412,9 +412,7 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
           linkedResource={value}
           open={false}
           onClose={(): void => handleOpenEntityLinkedResourceModal(key, false)}
-          onChange={(linkedResource: TEntityLinkedResourceModel): void =>
-            handleUpdateEntityLinkedResource(key, linkedResource)
-          }
+          onChange={(linkedResource: LinkedResource): void => handleUpdateEntityLinkedResource(key, linkedResource)}
         />
       ))}
 

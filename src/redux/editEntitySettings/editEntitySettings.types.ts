@@ -1,5 +1,5 @@
 import { EntityStage, EntityStatus, PageView, EntityView, TermsOfUseType } from '../../types/entities'
-import { Validation } from '../editEntity/editEntity.types'
+import { Validation } from '../editEntityOld/editEntity.types'
 import { EmbeddedPageContent } from 'redux/editEntityPageContent/editEntityPageContent.types'
 
 export interface Creator {

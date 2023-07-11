@@ -4,7 +4,7 @@ import {
   EditEntityAdvancedActionTypes,
   EditEntityAdvancedActions,
 } from './editEntityAdvanced.types'
-import { EditEntityActionTypes, EditEntityActions } from '../editEntity/editEntity.types'
+import { EditEntityActionTypes, EditEntityActions } from '../editEntityOld/editEntity.types'
 import { omitKey } from 'utils/objects'
 import { LinkedResourceType } from 'types/entities'
 

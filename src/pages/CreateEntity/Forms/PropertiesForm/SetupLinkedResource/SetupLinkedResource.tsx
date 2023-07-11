@@ -3,10 +3,11 @@ import { AddLinkedResourceModal, LinkedResourceSetupModal } from 'components/Mod
 import { Typography } from 'components/Typography'
 import { PropertyBox } from 'pages/CreateEntity/Components'
 import React, { useState } from 'react'
-import { EntityLinkedResourceConfig, TEntityLinkedResourceModel } from 'types/protocol'
+import { EntityLinkedResourceConfig } from 'types/protocol'
 import { omitKey } from 'utils/objects'
 import { v4 as uuidv4 } from 'uuid'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
+import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 
 const initialLinkedResource = {
   id: '',
@@ -21,8 +22,8 @@ const initialLinkedResource = {
 
 interface Props {
   hidden: boolean
-  linkedResource: { [id: string]: TEntityLinkedResourceModel }
-  updateLinkedResource: (linkedResource: { [id: string]: TEntityLinkedResourceModel }) => void
+  linkedResource: { [id: string]: LinkedResource }
+  updateLinkedResource: (linkedResource: { [id: string]: LinkedResource }) => void
 }
 
 const SetupLinkedResource: React.FC<Props> = ({ hidden, linkedResource, updateLinkedResource }): JSX.Element => {
@@ -34,7 +35,7 @@ const SetupLinkedResource: React.FC<Props> = ({ hidden, linkedResource, updateLi
     updateLinkedResource({ ...linkedResource, [id]: { ...initialLinkedResource, id, type } })
     setSelectedId(id)
   }
-  const handleUpdateLinkedResource = (id: string, data: TEntityLinkedResourceModel): void => {
+  const handleUpdateLinkedResource = (id: string, data: LinkedResource): void => {
     updateLinkedResource({ ...linkedResource, [id]: data })
   }
   const handleRemoveLinkedResource = (id: string): void => {

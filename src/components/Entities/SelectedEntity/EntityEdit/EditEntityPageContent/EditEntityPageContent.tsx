@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import EditEntityBase, { EditEntityBaseProps } from '../Components/EditEntityBase/EditEntityBase'
 import * as pageContentSelectors from './EditEntityPageContent.selectors'
-import * as editEntitySelectors from '../../../../../redux/editEntity/editEntity.selectors'
+import * as editEntitySelectors from '../../../../../redux/editEntityOld/editEntity.selectors'
 import { RootState } from 'redux/store'
 import {
   HeaderPageContent,
@@ -39,7 +39,7 @@ import {
   validationError,
   orderEntityPageContent,
 } from '../../../../../redux/editEntityPageContent/editEntityPageContent.actions'
-import { goToStep } from '../../../../../redux/editEntity/editEntity.actions'
+import { goToStep } from '../../../../../redux/editEntityOld/editEntity.actions'
 import { FormData } from 'components/JsonForm/types'
 import FormCardWrapper from 'components/Wrappers/FormCardWrapper/FormCardWrapper'
 

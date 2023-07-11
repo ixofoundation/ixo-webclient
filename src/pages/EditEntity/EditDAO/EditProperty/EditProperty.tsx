@@ -6,16 +6,14 @@ import { PropertiesForm } from 'pages/CreateEntity/Forms'
 import { useHistory, useParams } from 'react-router-dom'
 import { EditEntityContext } from 'pages/EditEntity/EditEntity'
 import {
-  TEntityAccordedRightModel,
   TEntityAdministratorModel,
   TEntityClaimModel,
   TEntityCreatorModel,
   TEntityDDOTagModel,
-  TEntityLinkedEntityModel,
-  TEntityLinkedResourceModel,
   TEntityPageModel,
   TEntityServiceModel,
 } from 'types/protocol'
+import { AccordedRight, LinkedEntity, LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 
 const EditProperty: React.FC = (): JSX.Element => {
   const history = useHistory()
@@ -37,16 +35,16 @@ const EditProperty: React.FC = (): JSX.Element => {
   const updateService = (service: TEntityServiceModel[]) => {
     entity.updatePartial('service', service)
   }
-  const updateLinkedResource = (linkedResource: { [id: string]: TEntityLinkedResourceModel }) => {
+  const updateLinkedResource = (linkedResource: { [id: string]: LinkedResource }) => {
     entity.updatePartial('linkedResource', linkedResource)
   }
   const updateClaim = (claim: { [id: string]: TEntityClaimModel }) => {
     entity.updatePartial('claim', claim)
   }
-  const updateAccordedRight = (accordedRight: { [id: string]: TEntityAccordedRightModel }) => {
+  const updateAccordedRight = (accordedRight: { [id: string]: AccordedRight }) => {
     entity.updatePartial('accordedRight', accordedRight)
   }
-  const updateLinkedEntity = (linkedEntity: { [id: string]: TEntityLinkedEntityModel }) => {
+  const updateLinkedEntity = (linkedEntity: { [id: string]: LinkedEntity }) => {
     entity.updatePartial('linkedEntity', linkedEntity)
   }
 

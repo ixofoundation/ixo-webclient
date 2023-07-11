@@ -5,7 +5,7 @@ import { useDropzone } from 'react-dropzone'
 import { ModalStyles, CloseButton } from 'components/Modals/styles'
 import { Button, InputWithLabel, TextArea } from 'pages/CreateEntity/Components'
 import { FormData } from 'components/JsonForm/types'
-import { TEntityLinkedResourceModel, EntityLinkedResourceConfig } from 'types/protocol'
+import { EntityLinkedResourceConfig } from 'types/protocol'
 import { deviceWidth } from 'constants/device'
 import { Box, FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
@@ -15,12 +15,13 @@ import { errorToast } from 'utils/toast'
 import { useTheme } from 'styled-components'
 import { customQueries, utils } from '@ixo/impactxclient-sdk'
 import { chainNetwork } from 'hooks/configs'
+import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 
 interface Props {
-  linkedResource: TEntityLinkedResourceModel
+  linkedResource: LinkedResource
   open: boolean
   onClose: () => void
-  onChange?: (linkedResource: TEntityLinkedResourceModel) => void
+  onChange?: (linkedResource: LinkedResource) => void
 }
 
 const LinkedResourceSetupModal: React.FC<Props> = ({ linkedResource, open, onClose, onChange }): JSX.Element => {

@@ -32,7 +32,7 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
   textVariant?: TTypographyVariant
   textSize?: TTypographySize
   textColor?: TTypographyColor
-  handleChange: (value: boolean) => void
+  handleChange?: (value: boolean) => void
 }
 
 const CheckBox: React.FC<Props> = ({
@@ -45,7 +45,13 @@ const CheckBox: React.FC<Props> = ({
   ...rest
 }): JSX.Element => {
   return (
-    <FlexBox cursor='pointer' alignItems='center' gap={2.5} onClick={(): void => handleChange(!value)} {...rest}>
+    <FlexBox
+      cursor='pointer'
+      alignItems='center'
+      gap={2.5}
+      onClick={(): void => handleChange && handleChange(!value)}
+      {...rest}
+    >
       <Check checked={value} />
       <Typography variant={textVariant} size={textSize} color={textColor}>
         {label}

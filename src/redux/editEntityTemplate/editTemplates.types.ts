@@ -1,4 +1,4 @@
-import { Validation } from '../editEntity/editEntity.types'
+import { Validation } from '../editEntityOld/editEntity.types'
 
 export interface EditEntityTemplateState {
   existingEntity: {

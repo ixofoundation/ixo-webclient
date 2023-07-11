@@ -1,11 +1,9 @@
+import { AccordedRight, LinkedEntity, LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import {
   TEntityMetadataModel,
   TEntityCreatorModel,
   TEntityServiceModel,
-  TEntityLinkedResourceModel,
   ELocalisation,
-  TEntityAccordedRightModel,
-  TEntityLinkedEntityModel,
   TEntityAdministratorModel,
   TEntityPageModel,
   TEntityClaimModel,
@@ -24,9 +22,9 @@ export interface TCreateEntityModel {
   page: TEntityPageModel
   service: TEntityServiceModel[]
   claim: { [id: string]: TEntityClaimModel }
-  linkedResource: { [id: string]: TEntityLinkedResourceModel }
-  accordedRight: { [id: string]: TEntityAccordedRightModel }
-  linkedEntity: { [id: string]: TEntityLinkedEntityModel }
+  linkedResource: { [id: string]: LinkedResource }
+  accordedRight: { [id: string]: AccordedRight }
+  linkedEntity: { [id: string]: LinkedEntity }
 
   startDate?: string
   endDate?: string
@@ -142,15 +140,15 @@ export interface TUpdateClaimAction {
 }
 export interface TUpdateLinkedResourceAction {
   type: typeof ECreateEntityActions.UpdateLinkedResource
-  payload: { [id: string]: TEntityLinkedResourceModel }
+  payload: { [id: string]: LinkedResource }
 }
 export interface TUpdateAccordedRightAction {
   type: typeof ECreateEntityActions.UpdateAccordedRight
-  payload: { [id: string]: TEntityAccordedRightModel }
+  payload: { [id: string]: AccordedRight }
 }
 export interface TUpdateLinkedEntityAction {
   type: typeof ECreateEntityActions.UpdateLinkedEntity
-  payload: { [id: string]: TEntityLinkedEntityModel }
+  payload: { [id: string]: LinkedEntity }
 }
 export interface TUpdateStartEndDateAction {
   type: typeof ECreateEntityActions.UpdateStartEndDate

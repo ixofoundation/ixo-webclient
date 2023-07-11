@@ -23,6 +23,7 @@ import {
   selectEntityService,
   selectEntityStartDate,
   selectEntityEndDate,
+  selectCurrentEntity,
 } from 'redux/currentEntity/currentEntity.selectors'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { BlockSyncService } from 'services/blocksync'
@@ -41,6 +42,7 @@ const bsService = new BlockSyncService()
 
 export default function useCurrentEntity(): {
   entityType: string
+  currentEntity: TEntityModel
   linkedResource: LinkedResource[]
   linkedEntity: LinkedEntity[]
   profile: TEntityProfileModel
@@ -60,6 +62,7 @@ export default function useCurrentEntity(): {
   const { cwClient } = useAccount()
   const { clearDaoGroup } = useCurrentDao()
   const entitites: { [id: string]: TEntityModel } = useAppSelector((state) => state.entities.entities2)
+  const currentEntity: TEntityModel = useAppSelector(selectCurrentEntity)
   const id: string = useAppSelector(selectEntityId)!
   const entityType: string = useAppSelector(selectEntityType)!
   const linkedResource: LinkedResource[] = useAppSelector(selectEntityLinkedResource)
@@ -105,6 +108,7 @@ export default function useCurrentEntity(): {
 
   return {
     entityType,
+    currentEntity,
     linkedResource,
     linkedEntity,
     profile,
@@ -134,6 +138,7 @@ export function useCurrentEntityMetadata(): {
 export function useCurrentEntityProfile(): Omit<TEntityProfileModel, '@context' | 'id'> {
   const { profile } = useCurrentEntity()
   const name = profile?.name ?? ''
+  const orgName = profile?.orgName ?? ''
   const image = profile?.image ?? ''
   const logo = profile?.logo ?? ''
   const brand = profile?.brand ?? ''
@@ -142,7 +147,7 @@ export function useCurrentEntityProfile(): Omit<TEntityProfileModel, '@context' 
   const attributes = profile?.attributes ?? []
   const metrics = profile?.metrics ?? []
 
-  return { name, image, logo, brand, location, description, attributes, metrics }
+  return { name, orgName, image, logo, brand, location, description, attributes, metrics }
 }
 
 export function useCurrentEntityCreator(): Omit<TEntityCreatorModel, '@type'> {
