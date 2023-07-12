@@ -34,7 +34,9 @@ const EditGroups: React.FC = (): JSX.Element => {
   const updateDAOController = (id: string) => {
     setEditedField(
       'verificationMethod',
-      editEntity.verificationMethod.map((v) => (v.id.includes('{id}#') ? { ...v, id: `{id}#${id}` } : v)),
+      editEntity.verificationMethod.map((v) =>
+        v.id.includes('{id}#') ? { ...v, id: `{id}#${id}`, blockchainAccountID: id } : v,
+      ),
     )
   }
 

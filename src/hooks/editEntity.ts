@@ -1,13 +1,15 @@
 import { EncodeObject } from '@cosmjs/proto-signing'
-import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
+import { LinkedResource, VerificationMethod } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { TEntityModel } from 'api/blocksync/types/entities'
 import BigNumber from 'bignumber.js'
 import {
   fee,
   GetAddLinkedEntityMsgs,
   GetAddLinkedResourceMsgs,
+  GetAddVerifcationMethodMsgs,
   GetDeleteLinkedEntityMsgs,
   GetDeleteLinkedResourceMsgs,
+  GetDeleteVerifcationMethodMsgs,
   GetReplaceLinkedResourceMsgs,
   GetUpdateStartAndEndDateMsgs,
 } from 'lib/protocol'
@@ -260,6 +262,59 @@ export default function useEditEntity(): {
     return messages
   }
 
+  const getEditedVerificationMethodMsgs = async (): Promise<readonly EncodeObject[]> => {
+    if (JSON.stringify(editEntity.verificationMethod) === JSON.stringify(currentEntity.verificationMethod)) {
+      return []
+    }
+
+    const addedVerificationMethods = editEntity.verificationMethod.filter(
+      (item: VerificationMethod) =>
+        !currentEntity.verificationMethod
+          .map((item: VerificationMethod) => JSON.stringify(item))
+          .includes(JSON.stringify(item)),
+    )
+
+    const deletedVerificationMethods = currentEntity.verificationMethod.filter(
+      (item: VerificationMethod) =>
+        !editEntity.verificationMethod
+          .map((item: VerificationMethod) => JSON.stringify(item))
+          .includes(JSON.stringify(item)),
+    )
+
+    const messages: readonly EncodeObject[] = [
+      ...addedVerificationMethods.reduce(
+        (acc: EncodeObject[], cur: VerificationMethod) => [
+          ...acc,
+          ...GetAddVerifcationMethodMsgs(
+            editEntity.id,
+            signer,
+            ixo.iid.v1beta1.Verification.fromPartial({
+              relationships: ['authentication'],
+              method: ixo.iid.v1beta1.VerificationMethod.fromPartial(cur),
+            }),
+          ),
+        ],
+        [],
+      ),
+      ...deletedVerificationMethods.reduce(
+        (acc: EncodeObject[], cur: VerificationMethod) => [
+          ...acc,
+          ...GetDeleteVerifcationMethodMsgs(
+            editEntity.id,
+            signer,
+            ixo.iid.v1beta1.Verification.fromPartial({
+              relationships: ['authentication'],
+              method: ixo.iid.v1beta1.VerificationMethod.fromPartial(cur),
+            }),
+          ),
+        ],
+        [],
+      ),
+    ]
+
+    return messages
+  }
+
   const getEditedMsgs = async (): Promise<readonly EncodeObject[]> => {
     return [
       ...(await getEditedStartAndEndDateMsgs()),
@@ -269,6 +324,7 @@ export default function useEditEntity(): {
       ...(await getEditedTagsMsgs()),
       ...(await getEditedLinkedFilesMsgs()),
       ...(await getEditedGroupsMsgs()),
+      ...(await getEditedVerificationMethodMsgs()),
     ]
   }
 

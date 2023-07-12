@@ -355,3 +355,37 @@ export const GetReplaceLinkedEntityMsgs = (
     },
   ]
 }
+
+export const GetAddVerifcationMethodMsgs = (
+  entityId: string,
+  signer: TSigner,
+  payload: Verification,
+): readonly EncodeObject[] => {
+  return [
+    {
+      typeUrl: '/ixo.iid.v1beta1.MsgAddVerification',
+      value: ixo.iid.v1beta1.MsgAddVerification.fromPartial({
+        id: entityId,
+        verification: payload,
+        signer: signer.address,
+      }),
+    },
+  ]
+}
+
+export const GetDeleteVerifcationMethodMsgs = (
+  entityId: string,
+  signer: TSigner,
+  payload: Verification,
+): readonly EncodeObject[] => {
+  return [
+    {
+      typeUrl: '/ixo.iid.v1beta1.MsgRevokeVerification',
+      value: ixo.iid.v1beta1.MsgRevokeVerification.fromPartial({
+        id: entityId,
+        methodId: payload.method?.id,
+        signer: signer.address,
+      }),
+    },
+  ]
+}

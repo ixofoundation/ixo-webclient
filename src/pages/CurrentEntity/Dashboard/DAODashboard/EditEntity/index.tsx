@@ -22,8 +22,8 @@ const EditEntity: React.FC = () => {
   const handleEditEntity = async () => {
     setEditing(true)
     try {
-      const { transactionHash } = await ExecuteEditEntity()
-      if (transactionHash) {
+      const { transactionHash, code } = await ExecuteEditEntity()
+      if (transactionHash && code === 0) {
         successToast('Updating', 'Successfully Updated')
       }
     } catch (e: any) {
