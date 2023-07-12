@@ -1,3 +1,4 @@
+import { TEntityModel } from 'api/blocksync/types/entities'
 import { EditEntityActions, SetEditedFieldAction } from './editEntity.types'
 
 export const setEditedFieldAction = ({
@@ -11,4 +12,9 @@ export const setEditedFieldAction = ({
 }): SetEditedFieldAction => ({
   type: EditEntityActions.SetEditedField,
   payload: { key, data, merge },
+})
+
+export const setEditEntityAction = (editEntity: TEntityModel) => ({
+  type: EditEntityActions.SetEditEntity,
+  payload: editEntity,
 })

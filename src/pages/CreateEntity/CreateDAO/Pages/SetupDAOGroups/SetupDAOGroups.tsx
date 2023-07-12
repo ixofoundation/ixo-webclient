@@ -86,6 +86,7 @@ export const initialStakingGroup: DaoGroup = {
   proposalModule: initialProposalModule,
   votingModule: initialVotingModule,
   token: initialTokenModule,
+  memberships: [],
 }
 
 export const initialMembershipGroup: DaoGroup = {
@@ -96,6 +97,7 @@ export const initialMembershipGroup: DaoGroup = {
   proposalModule: initialProposalModule,
   votingModule: initialVotingModule,
   token: undefined,
+  memberships: [],
 }
 
 const SetupDAOGroups: React.FC = (): JSX.Element => {

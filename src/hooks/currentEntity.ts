@@ -191,5 +191,7 @@ export function useCurrentEntityAdminAccount(): string {
 export function useCurrentEntityLinkedFiles(): LinkedResource[] {
   const { linkedResource } = useCurrentEntity()
 
-  return linkedResource.filter((item: LinkedResource) => item.type === 'document')
+  return linkedResource.filter(
+    (item: LinkedResource) => item.type === 'document' || item.type === 'image' || item.type === 'text',
+  )
 }

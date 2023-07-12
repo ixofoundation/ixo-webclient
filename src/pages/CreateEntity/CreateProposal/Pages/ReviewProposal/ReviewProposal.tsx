@@ -368,28 +368,30 @@ const ReviewProposal: React.FC = () => {
           <FlexBox direction='column' flexBasis='50%' gap={1}>
             <Typography size='sm'>Linked Resources</Typography>
             <FlexBox gap={3}>
-              {Object.values(linkedResource).map((item: LinkedResource) => {
-                const { id, type } = item
-                const Icon = EntityLinkedResourceConfig[type].icon
-                return (
-                  <SvgBox
-                    key={id}
-                    width='35px'
-                    height='35px'
-                    alignItems='center'
-                    justifyContent='center'
-                    border={`1px solid ${theme.ixoNewBlue}`}
-                    borderRadius='4px'
-                    svgWidth={5}
-                    svgHeight={5}
-                    color={theme.ixoNewBlue}
-                    cursor='pointer'
-                    onClick={() => setSelectedLinkedResource(item)}
-                  >
-                    <Icon />
-                  </SvgBox>
-                )
-              })}
+              {Object.values(linkedResource)
+                .filter((item) => !!item)
+                .map((item: any) => {
+                  const { id, type } = item
+                  const Icon = EntityLinkedResourceConfig[type].icon
+                  return (
+                    <SvgBox
+                      key={id}
+                      width='35px'
+                      height='35px'
+                      alignItems='center'
+                      justifyContent='center'
+                      border={`1px solid ${theme.ixoNewBlue}`}
+                      borderRadius='4px'
+                      svgWidth={5}
+                      svgHeight={5}
+                      color={theme.ixoNewBlue}
+                      cursor='pointer'
+                      onClick={() => setSelectedLinkedResource(item)}
+                    >
+                      <Icon />
+                    </SvgBox>
+                  )
+                })}
             </FlexBox>
           </FlexBox>
           <FlexBox direction='column' flexBasis='50%' gap={1}>

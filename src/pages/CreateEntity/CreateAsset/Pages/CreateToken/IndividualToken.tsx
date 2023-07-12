@@ -93,7 +93,13 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
     //   }))
     // }
     if (Object.values(token.linkedResource).length > 0) {
-      setEntityLinkedResource(token.linkedResource)
+      setEntityLinkedResource(
+        Object.fromEntries(
+          Object.values(token.linkedResource)
+            .filter((v) => !!v)
+            .map((v) => [v?.id, v]),
+        ),
+      )
     }
   }, [token])
 
@@ -147,7 +153,7 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
     }))
   }
   // entity linked resources
-  const handleAddEntityLinkedResource = (type: string): void => {
+  const handleAddEntityLinkedResource = (): void => {
     // const id = uuidv4()
     // setEntityLinkedResource((pre) => ({
     //   ...pre,

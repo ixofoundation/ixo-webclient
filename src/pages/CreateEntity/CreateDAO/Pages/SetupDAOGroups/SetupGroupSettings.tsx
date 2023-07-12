@@ -64,10 +64,6 @@ const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JS
   const [errMsg, setErrMsg] = useState('')
 
   useEffect(() => {
-    console.log({ data })
-  }, [data])
-
-  useEffect(() => {
     setData(daoGroup)
   }, [daoGroup])
 
@@ -75,7 +71,7 @@ const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JS
     let members: Member[] = []
 
     if (data.type === 'staking') {
-      data.memberships?.forEach((membership) => {
+      ;(data.memberships ?? []).forEach((membership) => {
         const weight = new BigNumber(data.token?.tokenInfo.total_supply || '0')
           .dividedBy(100)
           .times(membership.weight)
@@ -91,7 +87,7 @@ const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JS
         ]
       })
     } else {
-      data.memberships?.forEach((membership) => {
+      ;(data.memberships ?? []).forEach((membership) => {
         members = [
           ...members,
           ...membership.members.map((member) => ({

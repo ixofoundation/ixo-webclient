@@ -314,7 +314,7 @@ export function apiEntityToEntity(
 
   updateCallback(
     'linkedResource',
-    linkedResource.filter((item: any) => item.type === 'document'),
+    linkedResource.filter((item: any) => item.type === 'document' || item.type === 'image' || item.type === 'text'),
   )
   updateCallback(
     'service',

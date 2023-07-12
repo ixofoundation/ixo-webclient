@@ -30,7 +30,11 @@ const Overview: React.FC = () => {
           <PageContent page={entity?.page ?? []} />
           <InstructionsToExecute />
           <LinkedFiles
-            linkedFiles={entity?.linkedResource.filter((item: LinkedResource) => item.type === 'document') ?? []}
+            linkedFiles={
+              entity?.linkedResource.filter(
+                (item: LinkedResource) => item.type === 'document' || item.type === 'text' || item.type === 'image',
+              ) ?? []
+            }
           />
         </FlexBox>
         <Box className='col-lg-3' background='#F0F3F9'>

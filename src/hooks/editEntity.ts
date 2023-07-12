@@ -1,22 +1,28 @@
-import { setEditedFieldAction } from 'redux/editEntity/editEntity.actions'
+import { TEntityModel } from 'api/blocksync/types/entities'
+import { setEditedFieldAction, setEditEntityAction } from 'redux/editEntity/editEntity.actions'
 import { selectEditEntity } from 'redux/editEntity/editEntity.selectors'
-import { EditEntityState } from 'redux/editEntity/editEntity.types'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
 
 export default function useEditEntity(): {
-  editEntity: EditEntityState
-  setEditedField: (key: string, value: any) => void
+  editEntity: TEntityModel
+  setEditedField: (key: string, value: any, merge?: boolean) => void
+  setEditEntity: (editEntity: TEntityModel) => void
 } {
   const dispatch = useAppDispatch()
 
-  const editEntity: EditEntityState = useAppSelector(selectEditEntity)
+  const editEntity: TEntityModel = useAppSelector(selectEditEntity)
 
-  const setEditedField = (key: string, value: any) => {
-    dispatch(setEditedFieldAction({ key, data: value, merge: typeof value === 'object' }))
+  const setEditedField = (key: string, value: any, merge = false) => {
+    dispatch(setEditedFieldAction({ key, data: value, merge }))
+  }
+
+  const setEditEntity = (editEntity: TEntityModel) => {
+    dispatch(setEditEntityAction(editEntity))
   }
 
   return {
     editEntity,
     setEditedField,
+    setEditEntity,
   }
 }

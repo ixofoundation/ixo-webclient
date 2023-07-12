@@ -1,9 +1,8 @@
 import { TEntityModel } from 'api/blocksync/types/entities'
 
-export type EditEntityState = Partial<TEntityModel>
-
 export enum EditEntityActions {
   SetEditedField = 'ixo/EditEntity/SET_EDITED_FIELD',
+  SetEditEntity = 'ixo/EditEntity/SET_EDIT_ENTITY',
 }
 
 export interface SetEditedFieldAction {
@@ -11,4 +10,9 @@ export interface SetEditedFieldAction {
   payload: { key: string; data: any; merge: boolean }
 }
 
-export type EditEntityActionTypes = SetEditedFieldAction
+export interface SetEditEntityAction {
+  type: typeof EditEntityActions.SetEditEntity
+  payload: TEntityModel
+}
+
+export type EditEntityActionTypes = SetEditedFieldAction | SetEditEntityAction

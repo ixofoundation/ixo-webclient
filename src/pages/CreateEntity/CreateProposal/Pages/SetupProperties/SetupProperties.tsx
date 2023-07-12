@@ -62,7 +62,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
 
   return (
     <FlexBox direction='column' gap={7.5} width={deviceWidth.tablet + 'px'}>
-      <PropertiesForm {...PropertiesFormProps} />
+      <PropertiesForm describeText {...PropertiesFormProps} />
 
       <FlexBox id='setup-property-actions' gap={5}>
         <Button variant='secondary' onClick={handleBack}>

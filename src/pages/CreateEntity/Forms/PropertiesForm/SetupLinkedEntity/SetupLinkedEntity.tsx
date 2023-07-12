@@ -77,9 +77,6 @@ const SetupLinkedEntity: React.FC<Props> = ({ hidden, linkedEntity, daoGroups, u
   return (
     <>
       <FlexBox direction='column' style={hidden ? { display: 'none' } : {}}>
-        <Typography className='mb-3' variant='secondary' size='2xl'>
-          Linked Entities
-        </Typography>
         <Box className='d-flex flex-wrap' style={{ gap: 20 }}>
           {Object.entries(linkedEntity).map(([key, value]) => {
             const { type } = value

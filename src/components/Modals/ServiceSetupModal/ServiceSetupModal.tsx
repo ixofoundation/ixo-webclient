@@ -32,7 +32,7 @@ const ServiceSetupModal: React.FC<Props> = ({ service, open, onClose, onChange }
     if (service?.length > 0) {
       setFormData(
         service.map((data) => ({
-          nodeId: data.id,
+          nodeId: data.id.replace('{id}#', ''),
           type: data.type,
           serviceEndpoint: data.serviceEndpoint,
         })),

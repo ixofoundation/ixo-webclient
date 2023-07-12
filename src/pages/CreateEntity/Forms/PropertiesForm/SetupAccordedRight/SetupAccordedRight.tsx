@@ -1,6 +1,5 @@
 import { Box, FlexBox } from 'components/App/App.styles'
 import { AddAccordedRightModal, PaymentsSetupModal } from 'components/Modals'
-import { Typography } from 'components/Typography'
 import { PropertyBox } from 'pages/CreateEntity/Components'
 import React, { useEffect, useState } from 'react'
 import { EntityAccordedRightConfig, TEntityPaymentModel } from 'types/protocol'
@@ -60,9 +59,6 @@ const SetupAccordedRight: React.FC<Props> = ({ hidden, accordedRight, updateAcco
   return (
     <>
       <FlexBox direction='column' style={hidden ? { display: 'none' } : {}}>
-        <Typography className='mb-3' variant='secondary' size='2xl'>
-          Accorded Rights
-        </Typography>
         <Box className='d-flex flex-wrap' style={{ gap: 20 }}>
           {Object.entries(accordedRight).map(([key, value]) => {
             const Icon = EntityAccordedRightConfig[key]?.icon
