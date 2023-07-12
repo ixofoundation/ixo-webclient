@@ -62,7 +62,7 @@ export default function useCurrentEntity(): {
   const dispatch = useAppDispatch()
   const { cwClient } = useAccount()
   const { clearDaoGroup } = useCurrentDao()
-  const entitites: { [id: string]: TEntityModel } = useAppSelector((state) => state.entities.entities2)
+  // const entitites: { [id: string]: TEntityModel } = useAppSelector((state) => state.entities.entities2)
   const currentEntity: TEntityModel = useAppSelector(selectCurrentEntity)
   const id: string = useAppSelector(selectEntityId)!
   const entityType: string = useAppSelector(selectEntityType)!
@@ -95,9 +95,9 @@ export default function useCurrentEntity(): {
     /**
      * find entity in entities state and avoid refetch from api
      */
-    if (entitites && entitites[did]) {
-      updateEntity(entitites[did])
-    }
+    // if (entitites && entitites[did]) {
+    //   updateEntity(entitites[did])
+    // }
     return bsService.entity.getEntityById(did).then((entity: any) => {
       apiEntityToEntity({ entity, cwClient }, (key, data, merge = false) => {
         updateEntityResource({ key, data, merge })

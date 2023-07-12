@@ -2,7 +2,15 @@ import { EncodeObject } from '@cosmjs/proto-signing'
 import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { TEntityModel } from 'api/blocksync/types/entities'
 import BigNumber from 'bignumber.js'
-import { fee, GetAddLinkedResourceMsgs, GetReplaceLinkedResourceMsgs, GetUpdateStartAndEndDateMsgs } from 'lib/protocol'
+import {
+  fee,
+  GetAddLinkedEntityMsgs,
+  GetAddLinkedResourceMsgs,
+  GetDeleteLinkedEntityMsgs,
+  GetDeleteLinkedResourceMsgs,
+  GetReplaceLinkedResourceMsgs,
+  GetUpdateStartAndEndDateMsgs,
+} from 'lib/protocol'
 import { setEditedFieldAction, setEditEntityAction } from 'redux/editEntity/editEntity.actions'
 import { selectEditEntity } from 'redux/editEntity/editEntity.selectors'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
@@ -11,8 +19,8 @@ import { useAccount } from './account'
 import { useCreateEntity } from './createEntity'
 import useCurrentEntity from './currentEntity'
 import { DeliverTxResponse } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/stargate'
-import { utils } from '@ixo/impactxclient-sdk'
-import { EntityLinkedResourceConfig } from 'types/protocol'
+import { ixo, utils } from '@ixo/impactxclient-sdk'
+import { EntityLinkedResourceConfig, TDAOGroupModel } from 'types/protocol'
 
 export default function useEditEntity(): {
   editEntity: TEntityModel
@@ -169,20 +177,85 @@ export default function useEditEntity(): {
       return []
     }
 
-    const diffLinkedFiles = editedLinkedFiles.filter(
-      (item: LinkedResource) =>
-        !currentLinkedFiles.map((item: LinkedResource) => JSON.stringify(item)).includes(JSON.stringify(item)),
-    )
+    const diffLinkedFiles = [
+      ...editedLinkedFiles.filter(
+        (item: LinkedResource) =>
+          !currentLinkedFiles.map((item: LinkedResource) => JSON.stringify(item)).includes(JSON.stringify(item)),
+      ),
+      ...currentLinkedFiles
+        .filter(
+          (item: LinkedResource) =>
+            !editedLinkedFiles.map((item: LinkedResource) => JSON.stringify(item)).includes(JSON.stringify(item)),
+        )
+        .filter((item: LinkedResource) => !editedLinkedFiles.some((v) => v.id === item.id)),
+    ]
 
     const messages: readonly EncodeObject[] = diffLinkedFiles.reduce(
       (acc: EncodeObject[], cur: LinkedResource) => [
         ...acc,
         ...(currentLinkedFiles.some((item: LinkedResource) => item.id === cur.id)
-          ? GetReplaceLinkedResourceMsgs(editEntity.id, signer, cur)
+          ? editedLinkedFiles.some((item: LinkedResource) => item.id === cur.id)
+            ? GetReplaceLinkedResourceMsgs(editEntity.id, signer, cur)
+            : GetDeleteLinkedResourceMsgs(editEntity.id, signer, cur)
           : GetAddLinkedResourceMsgs(editEntity.id, signer, cur)),
       ],
       [],
     )
+
+    return messages
+  }
+
+  const getEditedGroupsMsgs = async (): Promise<readonly EncodeObject[]> => {
+    const editedGroups = Object.values(editEntity.daoGroups ?? {})
+    const currentGroups = Object.values(currentEntity.daoGroups ?? {})
+    if (JSON.stringify(editedGroups) === JSON.stringify(currentGroups)) {
+      return []
+    }
+
+    const addedGroups = editedGroups.filter(
+      (item: TDAOGroupModel) =>
+        !currentGroups.map((item: TDAOGroupModel) => JSON.stringify(item)).includes(JSON.stringify(item)),
+    )
+
+    const deletedGroups = currentGroups.filter(
+      (item: TDAOGroupModel) =>
+        !editedGroups.map((item: TDAOGroupModel) => JSON.stringify(item)).includes(JSON.stringify(item)),
+    )
+
+    const messages: readonly EncodeObject[] = [
+      ...addedGroups.reduce(
+        (acc: EncodeObject[], cur: TDAOGroupModel) => [
+          ...acc,
+          ...GetAddLinkedEntityMsgs(
+            editEntity.id,
+            signer,
+            ixo.iid.v1beta1.LinkedEntity.fromPartial({
+              id: `{id}#${cur.coreAddress}`,
+              type: 'Group',
+              relationship: 'subsidiary',
+              service: '',
+            }),
+          ),
+        ],
+        [],
+      ),
+      ...deletedGroups.reduce(
+        (acc: EncodeObject[], cur: TDAOGroupModel) => [
+          ...acc,
+          ...GetDeleteLinkedEntityMsgs(
+            editEntity.id,
+            signer,
+            ixo.iid.v1beta1.LinkedEntity.fromPartial({
+              id: `{id}#${cur.coreAddress}`,
+              type: 'Group',
+              relationship: 'subsidiary',
+              service: '',
+            }),
+          ),
+        ],
+        [],
+      ),
+    ]
 
     return messages
   }
@@ -195,6 +268,7 @@ export default function useEditEntity(): {
       ...(await getEditedPageMsgs()),
       ...(await getEditedTagsMsgs()),
       ...(await getEditedLinkedFilesMsgs()),
+      ...(await getEditedGroupsMsgs()),
     ]
   }
 

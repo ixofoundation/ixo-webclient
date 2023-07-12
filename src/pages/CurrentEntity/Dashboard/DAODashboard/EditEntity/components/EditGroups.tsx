@@ -63,13 +63,14 @@ const EditGroups: React.FC = (): JSX.Element => {
   }
   const handleUpdateGroup = (data: DaoGroup): void => {
     if (data.id) {
+      const newDaoGroups = omitKey({ ...daoGroups }, data.id)
       updateDAOGroups({
-        ...daoGroups,
-        [data.id]: data,
+        ...newDaoGroups,
+        [data.coreAddress]: data,
       })
       setSelectedGroup('')
       if (!daoController) {
-        updateDAOController(data.id)
+        updateDAOController(data.coreAddress)
       }
     }
   }
@@ -121,11 +122,11 @@ const EditGroups: React.FC = (): JSX.Element => {
               </Typography>
               <CheckBox
                 label='DAO Controller'
-                value={daoController === key}
+                value={daoController === value.coreAddress}
                 textVariant='secondary'
                 textSize={'base'}
-                textColor={daoController === key ? 'blue' : 'black'}
-                handleChange={() => daoController !== key && updateDAOController(key || '')}
+                textColor={daoController === value.coreAddress ? 'blue' : 'black'}
+                handleChange={() => daoController !== value.coreAddress && updateDAOController(value.coreAddress || '')}
                 style={{ flexDirection: 'column' }}
               />
             </FlexBox>

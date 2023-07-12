@@ -246,6 +246,23 @@ export const GetAddLinkedResourceMsgs = (
   ]
 }
 
+export const GetDeleteLinkedResourceMsgs = (
+  entityId: string,
+  signer: TSigner,
+  payload: LinkedResource,
+): readonly EncodeObject[] => {
+  return [
+    {
+      typeUrl: '/ixo.iid.v1beta1.MsgDeleteLinkedResource',
+      value: ixo.iid.v1beta1.MsgDeleteLinkedResource.fromPartial({
+        id: entityId,
+        resourceId: payload.id,
+        signer: signer.address,
+      }),
+    },
+  ]
+}
+
 export const GetReplaceLinkedResourceMsgs = (
   entityId: string,
   signer: TSigner,
@@ -276,6 +293,65 @@ export const GetUpdateStartAndEndDateMsgs = (payload: Partial<MsgUpdateEntity>):
     {
       typeUrl: '/ixo.entity.v1beta1.MsgUpdateEntity',
       value: ixo.entity.v1beta1.MsgUpdateEntity.fromPartial(payload),
+    },
+  ]
+}
+
+export const GetAddLinkedEntityMsgs = (
+  entityId: string,
+  signer: TSigner,
+  payload: LinkedEntity,
+): readonly EncodeObject[] => {
+  return [
+    {
+      typeUrl: '/ixo.iid.v1beta1.MsgAddLinkedEntity',
+      value: ixo.iid.v1beta1.MsgAddLinkedEntity.fromPartial({
+        id: entityId,
+        linkedEntity: ixo.iid.v1beta1.LinkedEntity.fromPartial(payload),
+        signer: signer.address,
+      }),
+    },
+  ]
+}
+
+export const GetDeleteLinkedEntityMsgs = (
+  entityId: string,
+  signer: TSigner,
+  payload: LinkedEntity,
+): readonly EncodeObject[] => {
+  return [
+    {
+      typeUrl: '/ixo.iid.v1beta1.MsgDeleteLinkedEntity',
+      value: ixo.iid.v1beta1.MsgDeleteLinkedEntity.fromPartial({
+        id: entityId,
+        entityId: payload.id,
+        signer: signer.address,
+      }),
+    },
+  ]
+}
+
+export const GetReplaceLinkedEntityMsgs = (
+  entityId: string,
+  signer: TSigner,
+  payload: LinkedResource,
+): readonly EncodeObject[] => {
+  return [
+    {
+      typeUrl: '/ixo.iid.v1beta1.MsgDeleteLinkedEntity',
+      value: ixo.iid.v1beta1.MsgDeleteLinkedEntity.fromPartial({
+        id: entityId,
+        entityId: payload.id,
+        signer: signer.address,
+      }),
+    },
+    {
+      typeUrl: '/ixo.iid.v1beta1.MsgAddLinkedEntity',
+      value: ixo.iid.v1beta1.MsgAddLinkedEntity.fromPartial({
+        id: entityId,
+        linkedEntity: ixo.iid.v1beta1.LinkedEntity.fromPartial(payload),
+        signer: signer.address,
+      }),
     },
   ]
 }

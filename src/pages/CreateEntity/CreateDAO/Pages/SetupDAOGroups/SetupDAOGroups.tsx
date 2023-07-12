@@ -131,13 +131,14 @@ const SetupDAOGroups: React.FC = (): JSX.Element => {
   }
   const handleUpdateGroup = (data: TDAOGroupModel): void => {
     if (data.id) {
+      const newDaoGroups = omitKey({ ...daoGroups }, data.id)
       updateDAOGroups({
-        ...daoGroups,
-        [data.id]: data,
+        ...newDaoGroups,
+        [data.coreAddress]: data,
       })
       setSelectedGroup('')
       if (!daoController) {
-        updateDAOController(data.id)
+        updateDAOController(data.coreAddress)
       }
     }
   }
@@ -214,11 +215,13 @@ const SetupDAOGroups: React.FC = (): JSX.Element => {
                 </Typography>
                 <CheckBox
                   label='DAO Controller'
-                  value={daoController === value.id}
+                  value={daoController === value.coreAddress}
                   textVariant='secondary'
                   textSize={'base'}
-                  textColor={daoController === value.id ? 'blue' : 'black'}
-                  handleChange={() => daoController !== value.id && updateDAOController(value.id || '')}
+                  textColor={daoController === value.coreAddress ? 'blue' : 'black'}
+                  handleChange={() =>
+                    daoController !== value.coreAddress && updateDAOController(value.coreAddress || '')
+                  }
                   style={{ flexDirection: 'column' }}
                 />
               </FlexBox>
