@@ -15,7 +15,7 @@ const initialLinkedResource = {
   mediaType: '',
   serviceEndpoint: '',
   proof: '',
-  encrypted: '',
+  encrypted: 'false',
   right: '',
 }
 

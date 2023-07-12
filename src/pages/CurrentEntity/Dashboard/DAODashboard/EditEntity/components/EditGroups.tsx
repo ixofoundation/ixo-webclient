@@ -27,8 +27,6 @@ const EditGroups: React.FC = (): JSX.Element => {
       .map((v) => v.coreAddress)
       .find((addr) => editEntity.verificationMethod.some((v) => v.id.includes(addr))) || ''
 
-  console.log({ daoController })
-
   const updateDAOGroups = (daoGroups: { [address: string]: DaoGroup }): void => {
     setEditedField('daoGroups', daoGroups)
   }

@@ -6,6 +6,7 @@ import { useEntityConfig } from 'hooks/configs'
 import { useParams } from 'react-router-dom'
 import { selectEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { useAppSelector } from 'redux/hooks'
+import { EntityLinkedResourceConfig } from 'types/protocol'
 import { LinkedFiles } from '../Overview/LinkedFiles'
 import { PageContent } from '../Overview/PageContent'
 import { InstructionsToExecute } from './InstructionsToExecute'
@@ -31,8 +32,8 @@ const Overview: React.FC = () => {
           <InstructionsToExecute />
           <LinkedFiles
             linkedFiles={
-              entity?.linkedResource.filter(
-                (item: LinkedResource) => item.type === 'document' || item.type === 'text' || item.type === 'image',
+              entity?.linkedResource.filter((item: LinkedResource) =>
+                Object.keys(EntityLinkedResourceConfig).includes(item.type),
               ) ?? []
             }
           />

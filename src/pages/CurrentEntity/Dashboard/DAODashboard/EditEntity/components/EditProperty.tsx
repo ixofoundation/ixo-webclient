@@ -3,6 +3,7 @@ import { FlexBox } from 'components/App/App.styles'
 import { deviceWidth } from 'constants/device'
 import { PropertiesForm } from 'pages/CreateEntity/Forms'
 import {
+  EntityLinkedResourceConfig,
   TEntityAdministratorModel,
   TEntityClaimModel,
   TEntityCreatorModel,
@@ -25,7 +26,7 @@ const EditProperty: React.FC = (): JSX.Element => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   const updateDDOTags = useCallback((ddoTags: TEntityDDOTagModel[]) => {
-    setEditedField('ddoTags', ddoTags)
+    setEditedField('tags', ddoTags)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   const updatePage = useCallback((page: TEntityPageModel) => {
@@ -63,7 +64,7 @@ const EditProperty: React.FC = (): JSX.Element => {
       page: Object.fromEntries((editEntity.page ?? []).map((item) => [item.id, item])),
       linkedResource: Object.fromEntries(
         (editEntity.linkedResource ?? [])
-          .filter((v) => v && (v.type === 'document' || v.type === 'image' || v.type === 'text'))
+          .filter((v) => v && Object.keys(EntityLinkedResourceConfig).includes(v.type))
           .map((item) => [item.id, item]),
       ),
       claim: {},

@@ -5,10 +5,11 @@ import { Agent, FundSource, LiquiditySource, NodeType } from 'types/entities'
 import { AgentRole } from 'redux/account/account.types'
 import { PageContent } from 'redux/selectedEntity/selectedEntity.types'
 import { ApiListedEntityData } from 'api/blocksync/types/entities'
-import { TEntityDDOTagModel, TEntityServiceModel } from 'types/protocol'
+import { EntityLinkedResourceConfig, TEntityDDOTagModel, TEntityServiceModel } from 'types/protocol'
 import { LinkedEntity, LinkedResource, Service } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { CosmWasmClient } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/cosmwasm-stargate'
 import { getDaoContractInfo } from './dao'
+import { CellnodePublicResource, CellnodeWeb3Resource } from '@ixo/impactxclient-sdk/types/custom_queries/cellnode'
 
 export const getCountryCoordinates = (countryCodes: string[]): any[] => {
   const coordinates: any[] = []
@@ -314,7 +315,7 @@ export function apiEntityToEntity(
 
   updateCallback(
     'linkedResource',
-    linkedResource.filter((item: any) => item.type === 'document' || item.type === 'image' || item.type === 'text'),
+    linkedResource.filter((item: LinkedResource) => Object.keys(EntityLinkedResourceConfig).includes(item.type)),
   )
   updateCallback(
     'service',
@@ -337,4 +338,28 @@ export function apiEntityToEntity(
           .catch(console.error)
       })
   }
+}
+
+export const LinkedResourceServiceEndpointGenerator = (
+  uploadResult: CellnodePublicResource | CellnodeWeb3Resource,
+  cellnodeService?: Service,
+): string => {
+  if (cellnodeService?.type === NodeType.Ipfs) {
+    return `${cellnodeService.id}:${(uploadResult as CellnodeWeb3Resource).cid}`
+  } else if (cellnodeService?.type === NodeType.CellNode) {
+    return `${cellnodeService.id}:/public/${(uploadResult as CellnodePublicResource).key}`
+  }
+  return `cellnode:/public/${(uploadResult as CellnodePublicResource).key}`
+}
+
+export const LinkedResourceProofGenerator = (
+  uploadResult: CellnodePublicResource | CellnodeWeb3Resource,
+  cellnodeService?: Service,
+): string => {
+  if (cellnodeService?.type === NodeType.Ipfs) {
+    return (uploadResult as CellnodeWeb3Resource).cid
+  } else if (cellnodeService?.type === NodeType.CellNode) {
+    return (uploadResult as CellnodePublicResource).key
+  }
+  return (uploadResult as CellnodePublicResource).key
 }

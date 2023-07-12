@@ -3,22 +3,35 @@ import { Typography } from 'components/Typography'
 import useCurrentEntity from 'hooks/currentEntity'
 import useEditEntity from 'hooks/editEntity'
 import { Button } from 'pages/CreateEntity/Components'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
+import { errorToast, successToast } from 'utils/toast'
 import EditGroups from './components/EditGroups'
 import EditProfile from './components/EditProfile'
 import EditProperty from './components/EditProperty'
 
 const EditEntity: React.FC = () => {
   const { currentEntity } = useCurrentEntity()
-  const { setEditEntity } = useEditEntity()
+  const { setEditEntity, ExecuteEditEntity } = useEditEntity()
+  const [editing, setEditing] = useState(false)
 
   useEffect(() => {
     setEditEntity(currentEntity)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(currentEntity)])
 
-  const handleEditEntity = () => {
-    //
+  const handleEditEntity = async () => {
+    setEditing(true)
+    try {
+      const { transactionHash } = await ExecuteEditEntity()
+      if (transactionHash) {
+        successToast('Updating', 'Successfully Updated')
+      }
+    } catch (e: any) {
+      console.error('handleEditEntity', e)
+      errorToast('Updating', e.message ? JSON.stringify(e.message) : JSON.stringify(e))
+    } finally {
+      setEditing(false)
+    }
   }
 
   return (
@@ -52,7 +65,7 @@ const EditEntity: React.FC = () => {
       </FlexBox>
 
       <FlexBox>
-        <Button size='flex' onClick={handleEditEntity}>
+        <Button size='flex' width={180} onClick={handleEditEntity} loading={editing} textTransform='capitalize'>
           Update Entity
         </Button>
       </FlexBox>

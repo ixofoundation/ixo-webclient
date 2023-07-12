@@ -88,6 +88,7 @@ import { NodeType } from 'types/entities'
 import { Cw20Coin } from '@ixo/impactxclient-sdk/types/codegen/Cw20Base.types'
 import { DeliverTxResponse } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/stargate'
 import BigNumber from 'bignumber.js'
+import { LinkedResourceProofGenerator, LinkedResourceServiceEndpointGenerator } from 'utils/entities'
 
 export function useCreateEntityStrategy(): {
   getStrategyByEntityType: (entityType: string) => TCreateEntityStrategyType
@@ -358,13 +359,15 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
 interface TCreateEntityHookRes {
   CreateDAO: () => Promise<string>
   CreateDAOCredsIssuer: (daoDid: string) => Promise<string>
-  SaveProfile: () => Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined>
-  SaveCreator: (daoCredsIssuerDid: string) => Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined>
-  SaveAdministrator: (daoCredsIssuerDid: string) => Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined>
-  SavePage: () => Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined>
-  SaveTags: () => Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined>
+  SaveProfile: (profile: any) => Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined>
+  SaveCreator: (creator: TEntityCreatorModel) => Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined>
+  SaveAdministrator: (
+    administrator: TEntityCreatorModel,
+  ) => Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined>
+  SavePage: (page: TEntityPageModel) => Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined>
+  SaveTags: (ddoTags: TEntityDDOTagModel[]) => Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined>
   SaveTokenMetadata: () => Promise<CellnodeWeb3Resource | undefined>
-  SaveClaims: () => Promise<CellnodePublicResource | undefined>
+  SaveClaims: (claim: { [id: string]: TEntityClaimModel }) => Promise<CellnodePublicResource | undefined>
   UploadLinkedResource: () => Promise<LinkedResource[]>
   CreateProtocol: () => Promise<string>
   CreateEntityBase: (
@@ -387,7 +390,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
   const { signingClient, signer } = useAccount()
   const createEntityState = useCreateEntityState()
   const profile = createEntityState.profile as any
-  const { creator, administrator, page, ddoTags, claim, service } = createEntityState
+  const { creator, administrator, page, ddoTags, service } = createEntityState
   // TODO: service choose-able
   const cellnodeService = service[0]
 
@@ -430,30 +433,6 @@ export function useCreateEntity(): TCreateEntityHookRes {
     return res
   }
 
-  const LinkedResourceServiceEndpointGenerator = (
-    uploadResult: CellnodePublicResource | CellnodeWeb3Resource,
-    cellnodeService?: Service,
-  ): string => {
-    if (cellnodeService?.type === NodeType.Ipfs) {
-      return `${cellnodeService.id}:${(uploadResult as CellnodeWeb3Resource).cid}`
-    } else if (cellnodeService?.type === NodeType.CellNode) {
-      return `${cellnodeService.id}:/public/${(uploadResult as CellnodePublicResource).key}`
-    }
-    return `cellnode:/public/${(uploadResult as CellnodePublicResource).key}`
-  }
-
-  const LinkedResourceProofGenerator = (
-    uploadResult: CellnodePublicResource | CellnodeWeb3Resource,
-    cellnodeService?: Service,
-  ): string => {
-    if (cellnodeService?.type === NodeType.Ipfs) {
-      return (uploadResult as CellnodeWeb3Resource).cid
-    } else if (cellnodeService?.type === NodeType.CellNode) {
-      return (uploadResult as CellnodePublicResource).key
-    }
-    return (uploadResult as CellnodePublicResource).key
-  }
-
   const CreateDAO = async (): Promise<string> => {
     try {
       const res = await CreateEntity(signingClient, signer, [{ entityType: 'dao' }])
@@ -480,7 +459,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
     }
   }
 
-  const SaveProfile = async (): Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined> => {
+  const SaveProfile = async (profile: any): Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined> => {
     try {
       const payload = {
         '@context': {
@@ -512,7 +491,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
   }
 
   const SaveCreator = async (
-    daoCredsIssuerDid: string,
+    creator: TEntityCreatorModel,
   ): Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined> => {
     try {
       const payload = {
@@ -534,7 +513,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
         validFrom: new Date().toISOString(), // TODO: new Date(now) ?
         expirationDate: '', //  TODO: always empty ?
         credentialSubject: {
-          id: daoCredsIssuerDid,
+          id: process.env.REACT_APP_RELAYER_NODE,
           type: 'creator',
           displayName: creator.displayName,
           location: creator.location,
@@ -562,9 +541,12 @@ export function useCreateEntity(): TCreateEntityHookRes {
   }
 
   const SaveAdministrator = async (
-    daoCredsIssuerDid: string,
+    administrator: TEntityCreatorModel,
   ): Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined> => {
     try {
+      if (!administrator) {
+        throw new Error('Payload is null')
+      }
       const payload = {
         '@context': [
           'https://www.w3.org/2018/credentials/v1',
@@ -584,7 +566,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
         validFrom: new Date().toISOString(), // TODO: new Date(now)?
         expirationDate: '', //  TODO:
         credentialSubject: {
-          id: daoCredsIssuerDid, // TODO:
+          id: process.env.REACT_APP_RELAYER_NODE,
           type: 'administrator',
           displayName: administrator.displayName,
           location: administrator.location,
@@ -611,7 +593,9 @@ export function useCreateEntity(): TCreateEntityHookRes {
     }
   }
 
-  const SavePage = async (): Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined> => {
+  const SavePage = async (
+    page: TEntityPageModel,
+  ): Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined> => {
     try {
       const payload = {
         '@context': {
@@ -633,7 +617,9 @@ export function useCreateEntity(): TCreateEntityHookRes {
     }
   }
 
-  const SaveTags = async (): Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined> => {
+  const SaveTags = async (
+    ddoTags: TEntityDDOTagModel[],
+  ): Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined> => {
     try {
       const payload = {
         '@context': {
@@ -688,7 +674,9 @@ export function useCreateEntity(): TCreateEntityHookRes {
     }
   }
 
-  const SaveClaims = async (): Promise<CellnodePublicResource | undefined> => {
+  const SaveClaims = async (claim: {
+    [id: string]: TEntityClaimModel
+  }): Promise<CellnodePublicResource | undefined> => {
     try {
       const claims = Object.values(claim)
       const headLinMetricClaim = claims.find(({ isHeadlineMetric }) => isHeadlineMetric)
@@ -721,16 +709,14 @@ export function useCreateEntity(): TCreateEntityHookRes {
   }
 
   const UploadLinkedResource = async (): Promise<LinkedResource[]> => {
-    // TODO: daoCredsIssuerDid
-    const daoCredsIssuerDid = 'did:ixo:entity:c4a5588bdd7f651f5f5e742887709d57'
     const linkedResource: LinkedResource[] = []
 
     const [saveProfileRes, saveCreatorRes, saveAdministratorRes, savePageRes, saveTagsRes] = await Promise.allSettled([
-      await SaveProfile(),
-      await SaveCreator(daoCredsIssuerDid),
-      await SaveAdministrator(daoCredsIssuerDid),
-      await SavePage(),
-      await SaveTags(),
+      await SaveProfile(profile),
+      await SaveCreator(creator),
+      await SaveAdministrator(administrator),
+      await SavePage(page),
+      await SaveTags(ddoTags),
     ]).then((responses) => responses.map((response: any) => response.value))
 
     if (saveProfileRes) {
@@ -739,9 +725,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
         type: 'Settings',
         description: 'Profile',
         mediaType: 'application/ld+json',
-        // serviceEndpoint: cellnodeService ? `${cellnodeService.id}:/public/${saveProfileRes.key}` : saveProfileRes.url,
         serviceEndpoint: LinkedResourceServiceEndpointGenerator(saveProfileRes, cellnodeService),
-        // proof: cellnodeService ? saveProfileRes.key : saveProfileRes.cid,
         proof: LinkedResourceProofGenerator(saveProfileRes, cellnodeService),
         encrypted: 'false',
         right: '',
@@ -753,9 +737,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
         type: 'VerifiableCredential',
         description: 'Creator',
         mediaType: 'application/ld+json',
-        // serviceEndpoint: cellnodeService ? `${cellnodeService.id}:/public/${saveCreatorRes.key}` : saveCreatorRes.url,
         serviceEndpoint: LinkedResourceServiceEndpointGenerator(saveCreatorRes, cellnodeService),
-        // proof: cellnodeService ? saveCreatorRes.key : saveCreatorRes.cid,
         proof: LinkedResourceProofGenerator(saveCreatorRes, cellnodeService),
         encrypted: 'false',
         right: '',
@@ -767,9 +749,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
         type: 'VerifiableCredential',
         description: 'Administrator',
         mediaType: 'application/ld+json',
-        // serviceEndpoint: cellnodeService ? `${cellnodeService.id}:/public/${saveAdministratorRes.key}` : saveAdministratorRes.url,
         serviceEndpoint: LinkedResourceServiceEndpointGenerator(saveAdministratorRes, cellnodeService),
-        // proof: cellnodeService ? saveAdministratorRes.key : saveAdministratorRes.cid,
         proof: LinkedResourceProofGenerator(saveAdministratorRes, cellnodeService),
         encrypted: 'false',
         right: '',
@@ -781,9 +761,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
         type: 'Settings',
         description: 'Page',
         mediaType: 'application/ld+json',
-        // serviceEndpoint: cellnodeService ? `${cellnodeService.id}:/public/${savePageRes.key}` : savePageRes.url,
         serviceEndpoint: LinkedResourceServiceEndpointGenerator(savePageRes, cellnodeService),
-        // proof: cellnodeService ? savePageRes.key : savePageRes.cid,
         proof: LinkedResourceProofGenerator(savePageRes, cellnodeService),
         encrypted: 'false',
         right: '',
@@ -795,9 +773,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
         type: 'Settings',
         description: 'Tags',
         mediaType: 'application/ld+json',
-        // serviceEndpoint: cellnodeService ? `${cellnodeService.id}:/public/${saveTagsRes.key}` : saveTagsRes.url,
         serviceEndpoint: LinkedResourceServiceEndpointGenerator(saveTagsRes, cellnodeService),
-        // proof: cellnodeService ? saveTagsRes.key : saveTagsRes.cid,
         proof: LinkedResourceProofGenerator(saveTagsRes, cellnodeService),
         encrypted: 'false',
         right: '',
@@ -1046,8 +1022,8 @@ export function useCreateEntity(): TCreateEntityHookRes {
     SaveAdministrator,
     SavePage,
     SaveTags,
-    SaveTokenMetadata,
     SaveClaims,
+    SaveTokenMetadata,
     UploadLinkedResource,
     CreateProtocol,
     CreateEntityBase,

@@ -28,6 +28,7 @@ import {
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { BlockSyncService } from 'services/blocksync'
 import {
+  EntityLinkedResourceConfig,
   TEntityAdministratorModel,
   TEntityCreatorModel,
   TEntityDDOTagModel,
@@ -191,7 +192,5 @@ export function useCurrentEntityAdminAccount(): string {
 export function useCurrentEntityLinkedFiles(): LinkedResource[] {
   const { linkedResource } = useCurrentEntity()
 
-  return linkedResource.filter(
-    (item: LinkedResource) => item.type === 'document' || item.type === 'image' || item.type === 'text',
-  )
+  return linkedResource.filter((item: LinkedResource) => Object.keys(EntityLinkedResourceConfig).includes(item.type))
 }

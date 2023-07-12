@@ -3,7 +3,7 @@ import * as Modal from 'react-modal'
 import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
 import { useDropzone } from 'react-dropzone'
 import { ModalStyles, CloseButton } from 'components/Modals/styles'
-import { Button, InputWithLabel, TextArea } from 'pages/CreateEntity/Components'
+import { Button, InputWithLabel } from 'pages/CreateEntity/Components'
 import { FormData } from 'components/JsonForm/types'
 import { EntityLinkedResourceConfig } from 'types/protocol'
 import { deviceWidth } from 'constants/device'
@@ -58,9 +58,10 @@ const LinkedResourceSetupModal: React.FC<Props> = ({ linkedResource, open, onClo
         customQueries.cellnode
           .uploadWeb3Doc(utils.common.generateId(12), `application/${mediaType}`, base64, undefined, chainNetwork)
           .then((response) => {
-            if (response.url) {
+            if (response.url && response.cid) {
               handleFormDataChange('serviceEndpoint', response.url)
               handleFormDataChange('mediaType', mediaType)
+              handleFormDataChange('proof', response.cid)
               setUploading(false)
             } else {
               throw new Error('Something went wrong!')
@@ -197,10 +198,10 @@ const LinkedResourceSetupModal: React.FC<Props> = ({ linkedResource, open, onClo
             />
 
             {/* Description */}
-            <TextArea
+            <InputWithLabel
               name='linked_resource_description'
-              height='150px'
-              label='Description'
+              height='48px'
+              label='Name'
               inputValue={formData?.description}
               handleChange={(value) => handleFormDataChange('description', value)}
               style={{ fontWeight: 500 }}

@@ -27,7 +27,7 @@ const EditProperty: React.FC = (): JSX.Element => {
     entity.updatePartial('administrator', administrator)
   }
   const updateDDOTags = (ddoTags: TEntityDDOTagModel[]) => {
-    entity.updatePartial('ddoTags', ddoTags)
+    entity.updatePartial('tags', ddoTags)
   }
   const updatePage = (page: TEntityPageModel) => {
     entity.updatePartial('page', page)
