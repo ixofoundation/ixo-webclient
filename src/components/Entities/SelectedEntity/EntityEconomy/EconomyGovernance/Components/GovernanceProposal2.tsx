@@ -377,6 +377,8 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
                     svgHeight={5}
                     color={theme.ixoNewBlue}
                     cursor='pointer'
+                    hover={{ background: theme.ixoNewBlue, color: theme.ixoWhite }}
+                    transition='.2s all'
                     onClick={() => setSelectedAction(action)}
                   >
                     {Icon && <Icon />}
