@@ -344,10 +344,14 @@ export const LinkedResourceServiceEndpointGenerator = (
   uploadResult: CellnodePublicResource | CellnodeWeb3Resource,
   cellnodeService?: Service,
 ): string => {
-  if (cellnodeService?.type === NodeType.Ipfs) {
-    return `${cellnodeService.id}:${(uploadResult as CellnodeWeb3Resource).cid}`
-  } else if (cellnodeService?.type === NodeType.CellNode) {
-    return `${cellnodeService.id}:/public/${(uploadResult as CellnodePublicResource).key}`
+  if (cellnodeService) {
+    const serviceId = cellnodeService.id.replace('{id}#', '')
+    const serviceType = cellnodeService.type
+    if (serviceType === NodeType.Ipfs) {
+      return `${serviceId}:${(uploadResult as CellnodeWeb3Resource).cid}`
+    } else if (serviceType === NodeType.CellNode) {
+      return `${serviceId}:/public/${(uploadResult as CellnodePublicResource).key}`
+    }
   }
   return `cellnode:/public/${(uploadResult as CellnodePublicResource).key}`
 }
@@ -356,10 +360,13 @@ export const LinkedResourceProofGenerator = (
   uploadResult: CellnodePublicResource | CellnodeWeb3Resource,
   cellnodeService?: Service,
 ): string => {
-  if (cellnodeService?.type === NodeType.Ipfs) {
-    return (uploadResult as CellnodeWeb3Resource).cid
-  } else if (cellnodeService?.type === NodeType.CellNode) {
-    return (uploadResult as CellnodePublicResource).key
+  if (cellnodeService) {
+    const serviceType = cellnodeService.type
+    if (serviceType === NodeType.Ipfs) {
+      return (uploadResult as CellnodeWeb3Resource).cid
+    } else if (serviceType === NodeType.CellNode) {
+      return (uploadResult as CellnodePublicResource).key
+    }
   }
   return (uploadResult as CellnodePublicResource).key
 }
