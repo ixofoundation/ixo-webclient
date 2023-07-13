@@ -5,8 +5,6 @@ import { ProgressBar } from 'components/ProgressBar/ProgressBar'
 import { ReactComponent as ExpandIcon } from 'assets/images/icon-expand-alt.svg'
 
 import IMG_wait from 'assets/images/eco/wait.svg'
-import IMG_decision_textfile from 'assets/images/eco/decision/textfile.svg'
-import IMG_decision_pdf from 'assets/images/eco/decision/pdf.svg'
 import { gridSizes, WidgetWrapper } from 'components/Wrappers/WidgetWrapper'
 import {
   ClaimsLabels,
@@ -35,6 +33,9 @@ import { useHistory, useParams } from 'react-router-dom'
 import { getDifference, truncateString, votingRemainingDateFormat } from 'utils/formatters'
 import { contracts } from '@ixo/impactxclient-sdk'
 import { useAccount } from 'hooks/account'
+import { SingleChoiceProposal } from '@ixo/impactxclient-sdk/types/codegen/DaoMigrator.types'
+import { proposalMsgToActionConfig } from 'utils/dao'
+import { ProposalActionConfigMap, TProposalActionModel } from 'types/protocol'
 
 const Container = styled.div<{ isDark: boolean }>`
   background: ${(props) =>
@@ -97,10 +98,6 @@ const Action = styled.button<{ isDark: boolean }>`
   }
 `
 
-const DecisionIMG = styled.img`
-  height: 30px;
-`
-
 interface GovernanceProposalProps {
   coreAddress: string
   proposalId: number
@@ -110,11 +107,13 @@ interface GovernanceProposalProps {
   closeDate: string
   status: Status
   deedDid: string | undefined
+  proposal: SingleChoiceProposal
   onUpdate?: () => void
 }
 
 const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
   coreAddress,
+  proposal,
   proposalId,
   title,
   proposer,
@@ -130,12 +129,23 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
   const { isDark } = useContext(DashboardThemeContext)
   const { convertToDenom } = useIxoConfigs()
   const { daoGroup, proposalModuleAddress, isParticipating, depositInfo, tqData } = useCurrentDaoGroup(coreAddress)
-  const { cosmWasmClient, address } = useAccount()
+  const { cwClient, cosmWasmClient, address } = useAccount()
   const [myVoteStatus, setMyVoteStatus] = useState<VoteInfo | undefined>(undefined)
   const [votes, setVotes] = useState<VoteInfo[]>([])
   const [votingPeriod, setVotingPeriod] = useState<number>(0)
   const [votingRemain, setVotingRemain] = useState<number>(0)
   const [voteModalOpen, setVoteModalOpen] = useState<boolean>(false)
+  const [selectedAction, setSelectedAction] = useState<TProposalActionModel | undefined>()
+  const SetupModal = useMemo(() => {
+    if (!selectedAction) {
+      return undefined
+    }
+    try {
+      return ProposalActionConfigMap[selectedAction.type!].setupModal
+    } catch (e) {
+      return undefined
+    }
+  }, [selectedAction])
 
   const groupName = useMemo(() => daoGroup.config.name, [daoGroup.config.name])
   const numOfAvailableVotes = useMemo(() => daoGroup.votingModule.members.length, [daoGroup])
@@ -153,21 +163,30 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
   const perOfYesVotes = useMemo(() => (numOfYesVotes / numOfAvailableVotes) * 100, [numOfAvailableVotes, numOfYesVotes])
   const proposalConfig: ProposalConfig | undefined = useMemo(() => daoGroup?.proposalModule.proposalConfig, [daoGroup])
 
-  const daoProposalSingleClient = useMemo(
-    () => new contracts.DaoProposalSingle.DaoProposalSingleClient(cosmWasmClient, address, proposalModuleAddress),
-    [proposalModuleAddress, cosmWasmClient, address],
+  const proposalActions: TProposalActionModel[] = useMemo(
+    () => proposal.msgs.map(proposalMsgToActionConfig),
+    [proposal],
   )
 
   const getVoteStatus = useCallback(() => {
+    const daoProposalSingleClient = new contracts.DaoProposalSingle.DaoProposalSingleQueryClient(
+      cwClient,
+      proposalModuleAddress,
+    )
     daoProposalSingleClient.getVote({ proposalId, voter: address }).then(({ vote }) => {
       setMyVoteStatus(vote!)
     })
     daoProposalSingleClient.listVotes({ proposalId }).then(({ votes }) => {
       setVotes(votes)
     })
-  }, [proposalId, address, daoProposalSingleClient])
+  }, [address, cwClient, proposalId, proposalModuleAddress])
 
   const handleVote = async (vote: Vote): Promise<string> => {
+    const daoProposalSingleClient = new contracts.DaoProposalSingle.DaoProposalSingleClient(
+      cosmWasmClient,
+      address,
+      proposalModuleAddress,
+    )
     return daoProposalSingleClient
       .vote({ proposalId, vote }, fee, undefined, depositInfo ? [depositInfo] : undefined)
       .then(({ transactionHash }) => {
@@ -181,6 +200,11 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
   }
 
   const handleExecuteProposal = () => {
+    const daoProposalSingleClient = new contracts.DaoProposalSingle.DaoProposalSingleClient(
+      cosmWasmClient,
+      address,
+      proposalModuleAddress,
+    )
     daoProposalSingleClient
       .execute({ proposalId }, fee, undefined, depositInfo ? [depositInfo] : undefined)
       .then(({ transactionHash, logs }) => {
@@ -197,6 +221,11 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
   }
 
   const handleCloseProposal = () => {
+    const daoProposalSingleClient = new contracts.DaoProposalSingle.DaoProposalSingleClient(
+      cosmWasmClient,
+      address,
+      proposalModuleAddress,
+    )
     daoProposalSingleClient
       .close({ proposalId }, fee, undefined, depositInfo ? [depositInfo] : undefined)
       .then(({ transactionHash, logs }) => {
@@ -332,10 +361,29 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
                 </Action>
               )}
             </FlexBox>
-            <div>
-              <DecisionIMG className='pr-2' src={IMG_decision_textfile} alt='decision1' />
-              <DecisionIMG src={IMG_decision_pdf} alt='decision2' />
-            </div>
+            <FlexBox gap={3}>
+              {proposalActions.map((action, index) => {
+                const Icon = ProposalActionConfigMap[action.type!]?.icon
+                return (
+                  <SvgBox
+                    key={index}
+                    width='35px'
+                    height='35px'
+                    alignItems='center'
+                    justifyContent='center'
+                    border={`1px solid ${theme.ixoNewBlue}`}
+                    borderRadius='4px'
+                    svgWidth={5}
+                    svgHeight={5}
+                    color={theme.ixoNewBlue}
+                    cursor='pointer'
+                    onClick={() => setSelectedAction(action)}
+                  >
+                    {Icon && <Icon />}
+                  </SvgBox>
+                )
+              })}
+            </FlexBox>
           </div>
 
           <LabelSM className='bold'>{numOfYesVotes.toLocaleString()} YES</LabelSM>
@@ -432,6 +480,9 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
         </div>
       </div>
       {voteModalOpen && <VoteModal2 open={voteModalOpen} setOpen={setVoteModalOpen} onVote={handleVote} />}
+      {SetupModal && (
+        <SetupModal open={!!SetupModal} action={selectedAction} onClose={() => setSelectedAction(undefined)} />
+      )}
     </Container>
   )
 }

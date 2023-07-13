@@ -2,14 +2,13 @@ import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { PropertyBox } from 'pages/CreateEntity/Components'
 import React, { useEffect, useMemo, useState } from 'react'
-import { ProposalActionConfig, ProposalActionConfigMap, TProposalActionModel } from 'types/protocol'
-import { parseEncodedMessage } from 'utils/messages'
+import { ProposalActionConfigMap, TProposalActionModel } from 'types/protocol'
 import { useAccount } from 'hooks/account'
 import { contracts } from '@ixo/impactxclient-sdk'
-import { CosmosMsgForEmpty } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
 import { useParams } from 'react-router-dom'
 import { useAppSelector } from 'redux/hooks'
 import { selectEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { proposalMsgToActionConfig } from 'utils/dao'
 
 const InstructionsToExecute: React.FC = () => {
   const { deedId } = useParams<{ deedId: string }>()
@@ -23,7 +22,7 @@ const InstructionsToExecute: React.FC = () => {
       return undefined
     }
     try {
-      return ProposalActionConfig[selectedAction.group].items[selectedAction.text].setupModal
+      return ProposalActionConfigMap[selectedAction.type!].setupModal
     } catch (e) {
       return undefined
     }
@@ -51,36 +50,7 @@ const InstructionsToExecute: React.FC = () => {
         const proposal = await daoProposalSingleClient.proposal({ proposalId: Number(proposalId) })
         if (proposal) {
           const { msgs } = proposal.proposal
-          const actions = msgs
-            .map((msg: CosmosMsgForEmpty, index) => {
-              if ('wasm' in msg && 'execute' in msg.wasm && 'msg' in msg.wasm.execute) {
-                const encodedMessage = parseEncodedMessage(msg.wasm.execute.msg)
-
-                let key: string = Object.keys(encodedMessage)[0]
-                const value: any = Object.values(encodedMessage)[0]
-
-                if (key === 'update_config') {
-                  if ('config' in value) {
-                    key += '.config'
-                  } else if ('deposit_info' in value) {
-                    key += '.proposal'
-                  } else if ('threshold' in value) {
-                    key += '.voting'
-                  }
-                }
-
-                const proposalActionDetail = ProposalActionConfigMap[`wasm.execute.${key}`]
-                return {
-                  ...proposalActionDetail,
-                  data: value,
-                  type: `wasm.execute.${key}`,
-                  id: index,
-                }
-              }
-              // TODO: else if ()
-              return undefined
-            })
-            .filter(Boolean)
+          const actions = msgs.map(proposalMsgToActionConfig).filter(Boolean)
 
           console.log({ proposal, msgs, actions })
           setActions(actions)
