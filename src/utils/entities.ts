@@ -211,8 +211,10 @@ export function apiEntityToEntity(
   const { type, settings, linkedResource, service, linkedEntity } = entity
   linkedResource.concat(Object.values(settings)).forEach((item: LinkedResource) => {
     let url = ''
-    const [identifier, key] = item.serviceEndpoint.split(':')
-    const usedService: Service | undefined = service.find((item: any) => item.id === `{id}#${identifier}`)
+    const [identifier, key] = item.serviceEndpoint.replace('{id}#', '').split(':')
+    const usedService: Service | undefined = service.find(
+      (item: any) => item.id.replace('{id}#', '') === identifier.replace('{id}#', ''),
+    )
 
     if (usedService && usedService.type.toLowerCase() === NodeType.Ipfs.toLowerCase()) {
       url = `https://${key}.ipfs.w3s.link`
@@ -230,7 +232,7 @@ export function apiEntityToEntity(
               let image: string = response.image
               let logo: string = response.logo
 
-              if (!image.startsWith('http')) {
+              if (image && !image.startsWith('http')) {
                 const [identifier] = image.split(':')
                 let endpoint = ''
                 context.forEach((item: any) => {
@@ -240,7 +242,7 @@ export function apiEntityToEntity(
                 })
                 image = image.replace(identifier + ':', endpoint)
               }
-              if (!logo.startsWith('http')) {
+              if (logo && !logo.startsWith('http')) {
                 const [identifier] = logo.split(':')
                 let endpoint = ''
                 context.forEach((item: any) => {
@@ -255,7 +257,10 @@ export function apiEntityToEntity(
             .then((profile) => {
               updateCallback('profile', profile)
             })
-            .catch(() => undefined)
+            .catch((e) => {
+              console.error(`Error Fetching Profile ${entity.id}`, e)
+              return undefined
+            })
           break
         }
         case '{id}#creator': {
