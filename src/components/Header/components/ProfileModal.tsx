@@ -21,6 +21,7 @@ import NativTokenViewModal from './NativeTokenViewModal'
 import Cw20TokenViewModal from './Cw20TokenViewModal'
 import { TokenType } from 'types/tokens'
 import { useTheme } from 'styled-components'
+import { IxoCoinCodexRelayerApi } from 'hooks/configs'
 
 const ProfileModal: React.FC = () => {
   const theme: any = useTheme()
@@ -61,13 +62,15 @@ const ProfileModal: React.FC = () => {
             lastPriceUsd: 0,
           },
         }))
-        customQueries.currency.findTokenInfoFromDenom(token.denomOrAddress).then((response) => {
-          const { lastPriceUsd } = response
-          setCoinBalanceData((pre) => ({
-            ...pre,
-            [token.denomOrAddress]: { ...pre[token.denomOrAddress], lastPriceUsd },
-          }))
-        })
+        customQueries.currency
+          .findTokenInfoFromDenom(token.denomOrAddress, true, IxoCoinCodexRelayerApi)
+          .then((response) => {
+            const { lastPriceUsd } = response
+            setCoinBalanceData((pre) => ({
+              ...pre,
+              [token.denomOrAddress]: { ...pre[token.denomOrAddress], lastPriceUsd },
+            }))
+          })
       })
     }
     return () => {

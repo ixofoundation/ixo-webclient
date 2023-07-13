@@ -26,6 +26,8 @@ export const chainNetwork: ChainNetwork = CHAIN_ID?.startsWith('ixo')
   ? 'testnet'
   : 'devnet'
 
+export const IxoCoinCodexRelayerApi = 'https://ixo-coincodex-relayer.ixo-api.workers.dev'
+
 interface IxoConfigsHookExports {
   paymentCoins: PaymentCoins[]
   getAssetPairs: (chainId?: string) => any[]
