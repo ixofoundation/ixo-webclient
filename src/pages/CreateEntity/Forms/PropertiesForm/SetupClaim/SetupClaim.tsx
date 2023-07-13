@@ -1,6 +1,5 @@
 import { Box, FlexBox } from 'components/App/App.styles'
 import { ClaimSetupModal } from 'components/Modals'
-import { Typography } from 'components/Typography'
 import { PropertyBox } from 'pages/CreateEntity/Components'
 import React, { useEffect, useState } from 'react'
 import { TEntityClaimModel } from 'types/protocol'
@@ -57,9 +56,6 @@ const SetupClaim: React.FC<Props> = ({ hidden, claim, updateClaim }): JSX.Elemen
   return (
     <>
       <FlexBox direction='column' style={hidden ? { display: 'none' } : {}}>
-        <Typography className='mb-3' variant='secondary' size='2xl'>
-          Claims
-        </Typography>
         <Box className='d-flex flex-wrap' style={{ gap: 20 }}>
           {Object.entries(entityClaim).map(([key, value]) => (
             <PropertyBox

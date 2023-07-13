@@ -46,7 +46,7 @@ import {
   moveQuestion,
 } from '../../../../../redux/editEntityAttestation/editEntityAttestation.actions'
 import * as attestationSelectors from '../../../../../redux/editEntityAttestation/editEntityAttestation.selectors'
-import * as editEntitySelectors from '../../../../../redux/editEntity/editEntity.selectors'
+import * as editEntitySelectors from '../../../../../redux/editEntityOld/editEntity.selectors'
 import * as selectedEntitySelectors from '../../../../../redux/selectedEntity/selectedEntity.selectors'
 import AddQuestionBar from './Components/AddQuestionBar/AddQuestionBar'
 import QuestionCard from './Components/QuestionCard/QuestionCard'
@@ -63,7 +63,7 @@ import QRCodeQuestion from './Components/QRCodeQuestion/QRCodeQuestion'
 import QRCodeScanQuestion from './Components/QRCodeScanQuestion/QRCodeScanQuestion'
 import RatingQuestion from './Components/RatingQuestion/RatingQuestion'
 import CheckBoxesQuestion from './Components/CheckBoxesQuestion/CheckBoxesQuestion'
-import { goToStep } from '../../../../../redux/editEntity/editEntity.actions'
+import { goToStep } from '../../../../../redux/editEntityOld/editEntity.actions'
 import { QuestionsListWrapper } from './EditEntityAttestation.styles'
 
 interface Props extends EditEntityBaseProps {

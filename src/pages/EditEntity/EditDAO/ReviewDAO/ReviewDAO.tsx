@@ -21,7 +21,7 @@ const ReviewDAO: React.FC = (): JSX.Element => {
     if (!daoGroup) {
       return 0
     }
-    return daoGroup.memberships.reduce((acc, cur) => acc + cur.members.length, 0)
+    return daoGroup.votingModule.members.length
   }, [daoGroups, daoController])
 
   const handleSignToCreate = async (): Promise<void> => {

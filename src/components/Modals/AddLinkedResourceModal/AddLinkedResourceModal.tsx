@@ -9,7 +9,7 @@ import { EntityLinkedResourceConfig } from 'types/protocol'
 interface Props {
   open: boolean
   onClose: () => void
-  onAdd: (key: string) => void
+  onAdd: (type: string) => void
 }
 
 const AddLinkedResourceModal: React.FC<Props> = ({ open, onClose, onAdd }): JSX.Element => {

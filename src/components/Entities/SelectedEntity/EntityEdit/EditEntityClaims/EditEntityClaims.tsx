@@ -3,9 +3,9 @@ import { connect } from 'react-redux'
 import EditEntityBase, { EditEntityBaseProps } from '../Components/EditEntityBase/EditEntityBase'
 import { RootState } from 'redux/store'
 import * as entityClaimsSelectors from '../../../../../redux/editEntityClaims/editEntityClaims.selectors'
-import * as editEntitySelectors from '../../../../../redux/editEntity/editEntity.selectors'
+import * as editEntitySelectors from '../../../../../redux/editEntityOld/editEntity.selectors'
 import * as entitiesSelectors from 'redux/entitiesExplorer/entitiesExplorer.selectors'
-import { goToStep } from '../../../../../redux/editEntity/editEntity.actions'
+import { goToStep } from '../../../../../redux/editEntityOld/editEntity.actions'
 import {
   EntityClaimItem,
   Template,

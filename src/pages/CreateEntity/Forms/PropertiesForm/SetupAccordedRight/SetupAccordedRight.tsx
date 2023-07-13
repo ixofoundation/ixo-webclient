@@ -1,16 +1,16 @@
 import { Box, FlexBox } from 'components/App/App.styles'
 import { AddAccordedRightModal, PaymentsSetupModal } from 'components/Modals'
-import { Typography } from 'components/Typography'
 import { PropertyBox } from 'pages/CreateEntity/Components'
 import React, { useEffect, useState } from 'react'
-import { EntityAccordedRightConfig, TEntityAccordedRightModel, TEntityPaymentModel } from 'types/protocol'
+import { EntityAccordedRightConfig, TEntityPaymentModel } from 'types/protocol'
 import { omitKey } from 'utils/objects'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
+import { AccordedRight } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 
 interface Props {
   hidden: boolean
-  accordedRight: { [key: string]: TEntityAccordedRightModel }
-  updateAccordedRight: (accordedRight: { [id: string]: TEntityAccordedRightModel }) => void
+  accordedRight: { [key: string]: AccordedRight }
+  updateAccordedRight: (accordedRight: { [id: string]: AccordedRight }) => void
 }
 
 const SetupAccordedRight: React.FC<Props> = ({ hidden, accordedRight, updateAccordedRight }): JSX.Element => {
@@ -59,9 +59,6 @@ const SetupAccordedRight: React.FC<Props> = ({ hidden, accordedRight, updateAcco
   return (
     <>
       <FlexBox direction='column' style={hidden ? { display: 'none' } : {}}>
-        <Typography className='mb-3' variant='secondary' size='2xl'>
-          Accorded Rights
-        </Typography>
         <Box className='d-flex flex-wrap' style={{ gap: 20 }}>
           {Object.entries(accordedRight).map(([key, value]) => {
             const Icon = EntityAccordedRightConfig[key]?.icon

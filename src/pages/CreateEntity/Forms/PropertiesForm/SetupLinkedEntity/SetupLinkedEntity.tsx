@@ -4,12 +4,12 @@ import { Typography } from 'components/Typography'
 import { PropertyBox } from 'pages/CreateEntity/Components'
 import { Props as PropertyBoxProps } from 'pages/CreateEntity/Components/PropertyBox'
 import React, { useEffect, useState } from 'react'
-import { EntityLinkedEntityConfig, DAOGroupConfig, TDAOGroupModel, TEntityLinkedEntityModel } from 'types/protocol'
+import { EntityLinkedEntityConfig, DAOGroupConfig, TDAOGroupModel } from 'types/protocol'
 import { omitKey } from 'utils/objects'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
 import { toTitleCase } from 'utils/formatters'
 import { BlockSyncService } from 'services/blocksync'
-import { Service } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
+import { LinkedEntity, Service } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { NodeType } from 'types/entities'
 
 const bsService = new BlockSyncService()
@@ -58,16 +58,16 @@ const LinkedEntityPropertyBox = (props: PropertyBoxProps & { id: string }) => {
 
 interface Props {
   hidden: boolean
-  linkedEntity: { [key: string]: TEntityLinkedEntityModel }
+  linkedEntity: { [key: string]: LinkedEntity }
   daoGroups: { [id: string]: TDAOGroupModel }
-  updateLinkedEntity: (linkedEntity: { [id: string]: TEntityLinkedEntityModel }) => void
+  updateLinkedEntity: (linkedEntity: { [id: string]: LinkedEntity }) => void
 }
 
 const SetupLinkedEntity: React.FC<Props> = ({ hidden, linkedEntity, daoGroups, updateLinkedEntity }): JSX.Element => {
   const [openAddLinkedEntityModal, setOpenAddLinkedEntityModal] = useState(false)
 
   // entity linked entities
-  const handleAddLinkedEntity = (newData: TEntityLinkedEntityModel): void => {
+  const handleAddLinkedEntity = (newData: LinkedEntity): void => {
     updateLinkedEntity({ ...linkedEntity, [newData.id]: newData })
   }
   const handleRemoveLinkedEntity = (id: string): void => {
@@ -77,9 +77,6 @@ const SetupLinkedEntity: React.FC<Props> = ({ hidden, linkedEntity, daoGroups, u
   return (
     <>
       <FlexBox direction='column' style={hidden ? { display: 'none' } : {}}>
-        <Typography className='mb-3' variant='secondary' size='2xl'>
-          Linked Entities
-        </Typography>
         <Box className='d-flex flex-wrap' style={{ gap: 20 }}>
           {Object.entries(linkedEntity).map(([key, value]) => {
             const { type } = value
@@ -88,8 +85,8 @@ const SetupLinkedEntity: React.FC<Props> = ({ hidden, linkedEntity, daoGroups, u
               /**
                * @description case of dao group (smartContract)
                */
-              const label = Object.values(daoGroups).find(({ contractAddress }) => contractAddress === key)?.type || ''
-              const name = Object.values(daoGroups).find(({ contractAddress }) => contractAddress === key)?.name || ''
+              const label = Object.values(daoGroups).find(({ coreAddress }) => coreAddress === key)?.type || ''
+              const name = Object.values(daoGroups).find(({ coreAddress }) => coreAddress === key)?.config.name || ''
               const Icon = DAOGroupConfig[label]?.icon
               return (
                 <FlexBox key={key} direction='column' alignItems='center' gap={4}>

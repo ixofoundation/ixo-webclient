@@ -12,21 +12,7 @@ const persistConfig = {
   key: 'root',
   version: 1,
   storage,
-  whitelist: [
-    'createEntity',
-    // 'createEntityTemplate',
-    'createEntityPageContent',
-    'createEntityAttestation',
-    'createEntitySettings',
-    'createEntityAdvanced',
-    'createEntityClaims',
-    'editEntity',
-    'editEntityPageContent',
-    'editEntityAttestation',
-    'editEntitySettings',
-    'editEntityAdvanced',
-    'editEntityClaims',
-  ],
+  whitelist: ['createEntity'],
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer(history))

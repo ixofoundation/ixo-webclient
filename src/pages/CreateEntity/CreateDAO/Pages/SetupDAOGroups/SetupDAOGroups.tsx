@@ -8,20 +8,105 @@ import { useCreateEntityState } from 'hooks/createEntity'
 import { v4 as uuidv4 } from 'uuid'
 import { DAOGroupConfig, TDAOGroupModel } from 'types/protocol'
 import { omitKey } from 'utils/objects'
-import SetupGroupSettings, { initialMembership, initialStaking } from './SetupGroupSettings'
+import SetupGroupSettings from './SetupGroupSettings'
 import { deviceWidth } from 'constants/device'
-import { initialPreProposeConfigState } from 'components/Modals/AddActionModal/SetupUpdateProposalSubmissionConfigModal'
-import { initialProposalConfigState } from 'components/Modals/AddActionModal/SetupUpdateVotingConfigModal'
 import { ixo } from '@ixo/impactxclient-sdk'
+import { DaoGroup } from 'redux/currentEntity/dao/currentDao.types'
+import BigNumber from 'bignumber.js'
+
+export const initialGroupConfig: DaoGroup['config'] = {
+  automatically_add_cw20s: true,
+  automatically_add_cw721s: true,
+  description: '',
+  name: '',
+}
+
+export const initialProposalModule: DaoGroup['proposalModule'] = {
+  proposalModuleAddress: '',
+  preProposalContractAddress: '',
+  preProposeConfig: {
+    open_proposal_submission: false,
+    deposit_info: null,
+  },
+  proposalConfig: {
+    allow_revoting: true,
+    close_proposal_on_execution_failure: true,
+    dao: '',
+    max_voting_period: { time: 604800 },
+    only_members_execute: false,
+    threshold: {
+      threshold_quorum: {
+        threshold: {
+          majority: {},
+        },
+        quorum: {
+          percent: '0.2',
+        },
+      },
+    },
+  },
+  proposals: [],
+  votes: [],
+}
+
+export const initialMembers: DaoGroup['votingModule']['members'] = [{ addr: '', weight: 1 }]
+
+export const initialVotingModule: DaoGroup['votingModule'] = {
+  votingModuleAddress: '',
+  contractName: '',
+  members: initialMembers,
+  totalWeight: 0,
+}
+
+export const initialTokenModule: DaoGroup['token'] = {
+  config: {
+    token_address: '',
+    unstaking_duration: { time: 1209600 },
+  },
+  tokenInfo: {
+    decimals: 6,
+    name: '',
+    symbol: '',
+    total_supply: new BigNumber(10_000_000).times(new BigNumber(10).pow(6)).toString(),
+  },
+  marketingInfo: {
+    description: null,
+    logo: null,
+    marketing: null,
+    project: null,
+  },
+  treasuryPercent: 90,
+}
+
+export const initialStakingGroup: DaoGroup = {
+  coreAddress: '',
+  type: 'staking',
+  admin: '',
+  config: initialGroupConfig,
+  proposalModule: initialProposalModule,
+  votingModule: initialVotingModule,
+  token: initialTokenModule,
+  memberships: [],
+}
+
+export const initialMembershipGroup: DaoGroup = {
+  coreAddress: '',
+  type: 'membership',
+  admin: '',
+  config: initialGroupConfig,
+  proposalModule: initialProposalModule,
+  votingModule: initialVotingModule,
+  token: undefined,
+  memberships: [],
+}
 
 const SetupDAOGroups: React.FC = (): JSX.Element => {
-  const { daoGroups, daoController, linkedEntity, updateDAOGroups, updateDAOController, updateLinkedEntity, gotoStep } =
+  const { daoGroups, daoController, linkedEntity, updateDAOGroups, updateLinkedEntity, updateDAOController, gotoStep } =
     useCreateEntityState()
   const [openAddGroupModal, setOpenAddGroupModal] = useState(false)
   const [selectedGroup, setSelectedGroup] = useState('')
   const canSubmit = useMemo(
-    () =>
-      Object.values(daoGroups).length > 0 && !Object.values(daoGroups).some(({ contractAddress }) => !contractAddress),
+    () => Object.values(daoGroups).length > 0 && !Object.values(daoGroups).some(({ coreAddress }) => !coreAddress),
     [daoGroups],
   )
 
@@ -30,35 +115,13 @@ const SetupDAOGroups: React.FC = (): JSX.Element => {
     if (type !== 'staking') {
       updateDAOGroups({
         ...daoGroups,
-        [id]: {
-          id,
-          type,
-          name: '',
-          description: '',
-          ...initialPreProposeConfigState,
-          ...initialProposalConfigState,
-          memberships: [initialMembership],
-        },
+        [id]: { id, ...initialMembershipGroup },
       })
     } else {
       updateDAOGroups({
         ...daoGroups,
-        [id]: {
-          id,
-          type,
-          name: '',
-          description: '',
-          ...initialPreProposeConfigState,
-          ...initialProposalConfigState,
-          memberships: [initialMembership],
-          staking: { ...initialStaking },
-        },
+        [id]: { id, ...initialStakingGroup },
       })
-    }
-
-    // Set first group to DAO controller as default when it's added
-    if (Object.values(daoGroups).length === 0) {
-      updateDAOController(id)
     }
 
     /**
@@ -67,11 +130,17 @@ const SetupDAOGroups: React.FC = (): JSX.Element => {
     setSelectedGroup(id)
   }
   const handleUpdateGroup = (data: TDAOGroupModel): void => {
-    updateDAOGroups({
-      ...daoGroups,
-      [data.id]: data,
-    })
-    setSelectedGroup('')
+    if (data.id) {
+      const newDaoGroups = omitKey({ ...daoGroups }, data.id)
+      updateDAOGroups({
+        ...newDaoGroups,
+        [data.coreAddress]: data,
+      })
+      setSelectedGroup('')
+      if (!daoController) {
+        updateDAOController(data.coreAddress)
+      }
+    }
   }
   const handleRemoveGroup = (id: string): void => {
     const newDaoGroups = omitKey(daoGroups, id)
@@ -91,11 +160,11 @@ const SetupDAOGroups: React.FC = (): JSX.Element => {
 
   const handleContinue = (): void => {
     let tempLinkedEntity = {}
-    Object.values(daoGroups).forEach(({ contractAddress }) => {
+    Object.values(daoGroups).forEach(({ coreAddress }) => {
       tempLinkedEntity = {
         ...tempLinkedEntity,
-        [contractAddress!]: ixo.iid.v1beta1.LinkedEntity.fromPartial({
-          id: `{id}#${contractAddress!}`,
+        [coreAddress!]: ixo.iid.v1beta1.LinkedEntity.fromPartial({
+          id: `{id}#${coreAddress!}`,
           type: 'Group',
           relationship: 'subsidiary',
           service: '',
@@ -137,20 +206,22 @@ const SetupDAOGroups: React.FC = (): JSX.Element => {
                 <PropertyBox
                   icon={Icon && <Icon />}
                   label={text}
-                  set={!!value.contractAddress}
+                  set={!!value.coreAddress}
                   handleRemove={(): void => handleRemoveGroup(key)}
                   handleClick={(): void => setSelectedGroup(key)}
                 />
                 <Typography variant='secondary' overflowLines={1} style={{ width: 100, textAlign: 'center' }}>
-                  &nbsp;{value.name}&nbsp;
+                  &nbsp;{value.config.name}&nbsp;
                 </Typography>
                 <CheckBox
                   label='DAO Controller'
-                  value={daoController === value.id}
+                  value={daoController === value.coreAddress}
                   textVariant='secondary'
                   textSize={'base'}
-                  textColor={daoController === value.id ? 'blue' : 'black'}
-                  handleChange={() => daoController !== value.id && updateDAOController(value.id)}
+                  textColor={daoController === value.coreAddress ? 'blue' : 'black'}
+                  handleChange={() =>
+                    daoController !== value.coreAddress && updateDAOController(value.coreAddress || '')
+                  }
                   style={{ flexDirection: 'column' }}
                 />
               </FlexBox>

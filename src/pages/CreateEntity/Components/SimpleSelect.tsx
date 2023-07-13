@@ -20,12 +20,12 @@ interface Props {
   name?: string
   value: string
   options: string[]
-  onChange: (value: string) => void
+  onChange?: (value: string) => void
 }
 
 const SimpleSelect: React.FC<Props> = ({ name, value, options, onChange }): JSX.Element => {
   return (
-    <StyledSelect name={name} value={value} onChange={(event) => onChange(event.target.value)}>
+    <StyledSelect name={name} value={value} onChange={(event) => onChange && onChange(event.target.value)}>
       {options.map((option) => (
         <option key={option} value={option}>
           {option[0].toUpperCase() + option.slice(1)}

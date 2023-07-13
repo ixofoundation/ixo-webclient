@@ -23,10 +23,12 @@ import {
   selectEntityService,
   selectEntityStartDate,
   selectEntityEndDate,
+  selectCurrentEntity,
 } from 'redux/currentEntity/currentEntity.selectors'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { BlockSyncService } from 'services/blocksync'
 import {
+  EntityLinkedResourceConfig,
   TEntityAdministratorModel,
   TEntityCreatorModel,
   TEntityDDOTagModel,
@@ -41,6 +43,7 @@ const bsService = new BlockSyncService()
 
 export default function useCurrentEntity(): {
   entityType: string
+  currentEntity: TEntityModel
   linkedResource: LinkedResource[]
   linkedEntity: LinkedEntity[]
   profile: TEntityProfileModel
@@ -59,7 +62,8 @@ export default function useCurrentEntity(): {
   const dispatch = useAppDispatch()
   const { cwClient } = useAccount()
   const { clearDaoGroup } = useCurrentDao()
-  const entitites: { [id: string]: TEntityModel } = useAppSelector((state) => state.entities.entities2)
+  // const entitites: { [id: string]: TEntityModel } = useAppSelector((state) => state.entities.entities2)
+  const currentEntity: TEntityModel = useAppSelector(selectCurrentEntity)
   const id: string = useAppSelector(selectEntityId)!
   const entityType: string = useAppSelector(selectEntityType)!
   const linkedResource: LinkedResource[] = useAppSelector(selectEntityLinkedResource)
@@ -91,9 +95,9 @@ export default function useCurrentEntity(): {
     /**
      * find entity in entities state and avoid refetch from api
      */
-    if (entitites && entitites[did]) {
-      updateEntity(entitites[did])
-    }
+    // if (entitites && entitites[did]) {
+    //   updateEntity(entitites[did])
+    // }
     return bsService.entity.getEntityById(did).then((entity: any) => {
       apiEntityToEntity({ entity, cwClient }, (key, data, merge = false) => {
         updateEntityResource({ key, data, merge })
@@ -105,6 +109,7 @@ export default function useCurrentEntity(): {
 
   return {
     entityType,
+    currentEntity,
     linkedResource,
     linkedEntity,
     profile,
@@ -134,6 +139,7 @@ export function useCurrentEntityMetadata(): {
 export function useCurrentEntityProfile(): Omit<TEntityProfileModel, '@context' | 'id'> {
   const { profile } = useCurrentEntity()
   const name = profile?.name ?? ''
+  const orgName = profile?.orgName ?? ''
   const image = profile?.image ?? ''
   const logo = profile?.logo ?? ''
   const brand = profile?.brand ?? ''
@@ -142,7 +148,7 @@ export function useCurrentEntityProfile(): Omit<TEntityProfileModel, '@context' 
   const attributes = profile?.attributes ?? []
   const metrics = profile?.metrics ?? []
 
-  return { name, image, logo, brand, location, description, attributes, metrics }
+  return { name, orgName, image, logo, brand, location, description, attributes, metrics }
 }
 
 export function useCurrentEntityCreator(): Omit<TEntityCreatorModel, '@type'> {
@@ -186,5 +192,5 @@ export function useCurrentEntityAdminAccount(): string {
 export function useCurrentEntityLinkedFiles(): LinkedResource[] {
   const { linkedResource } = useCurrentEntity()
 
-  return linkedResource.filter((item: LinkedResource) => item.type === 'document')
+  return linkedResource.filter((item: LinkedResource) => Object.keys(EntityLinkedResourceConfig).includes(item.type))
 }

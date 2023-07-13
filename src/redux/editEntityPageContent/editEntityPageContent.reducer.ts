@@ -3,7 +3,7 @@ import {
   EditEntityPageContentActionTypes,
   EditEntityPageContentActions,
 } from './editEntityPageContent.types'
-import { EditEntityActionTypes, EditEntityActions } from '../editEntity/editEntity.types'
+import { EditEntityActionTypes, EditEntityActions } from '../editEntityOld/editEntity.types'
 import { omitKey } from 'utils/objects'
 
 export const initialState: EditEntityPageContentState = {

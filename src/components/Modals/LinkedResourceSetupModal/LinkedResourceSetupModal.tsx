@@ -3,9 +3,9 @@ import * as Modal from 'react-modal'
 import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
 import { useDropzone } from 'react-dropzone'
 import { ModalStyles, CloseButton } from 'components/Modals/styles'
-import { Button, InputWithLabel, TextArea } from 'pages/CreateEntity/Components'
+import { Button, InputWithLabel } from 'pages/CreateEntity/Components'
 import { FormData } from 'components/JsonForm/types'
-import { TEntityLinkedResourceModel, EntityLinkedResourceConfig } from 'types/protocol'
+import { EntityLinkedResourceConfig } from 'types/protocol'
 import { deviceWidth } from 'constants/device'
 import { Box, FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
@@ -15,20 +15,24 @@ import { errorToast } from 'utils/toast'
 import { useTheme } from 'styled-components'
 import { customQueries, utils } from '@ixo/impactxclient-sdk'
 import { chainNetwork } from 'hooks/configs'
+import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 
 interface Props {
-  linkedResource: TEntityLinkedResourceModel
+  linkedResource: LinkedResource
   open: boolean
   onClose: () => void
-  onChange?: (linkedResource: TEntityLinkedResourceModel) => void
+  onChange?: (linkedResource: LinkedResource) => void
 }
 
 const LinkedResourceSetupModal: React.FC<Props> = ({ linkedResource, open, onClose, onChange }): JSX.Element => {
   const theme: any = useTheme()
-  const [formData, setFormData] = useState<FormData>(linkedResource)
+  const [formData, setFormData] = useState<FormData>(linkedResource!)
   const [uploading, setUploading] = useState(false)
 
-  const disabled = useMemo(() => !formData.serviceEndpoint || !formData.mediaType || !formData.description, [formData])
+  const disabled = useMemo(
+    () => !formData?.serviceEndpoint || !formData?.mediaType || !formData?.description,
+    [formData],
+  )
 
   const {
     getRootProps,
@@ -36,7 +40,7 @@ const LinkedResourceSetupModal: React.FC<Props> = ({ linkedResource, open, onClo
     open: openDropZone,
   } = useDropzone({
     noClick: true,
-    accept: EntityLinkedResourceConfig[linkedResource.type].accept,
+    accept: EntityLinkedResourceConfig[linkedResource?.type || '']?.accept,
     maxFiles: 1,
     onDrop: (acceptedFiles) => {
       const [file] = acceptedFiles
@@ -54,9 +58,10 @@ const LinkedResourceSetupModal: React.FC<Props> = ({ linkedResource, open, onClo
         customQueries.cellnode
           .uploadWeb3Doc(utils.common.generateId(12), `application/${mediaType}`, base64, undefined, chainNetwork)
           .then((response) => {
-            if (response.url) {
+            if (response.url && response.cid) {
               handleFormDataChange('serviceEndpoint', response.url)
               handleFormDataChange('mediaType', mediaType)
+              handleFormDataChange('proof', response.cid)
               setUploading(false)
             } else {
               throw new Error('Something went wrong!')
@@ -77,7 +82,7 @@ const LinkedResourceSetupModal: React.FC<Props> = ({ linkedResource, open, onClo
   }
 
   const handleContinue = (): void => {
-    onChange && onChange({ ...linkedResource, ...formData })
+    onChange && onChange({ ...(linkedResource ?? {}), ...formData })
     onClose()
   }
 
@@ -125,7 +130,7 @@ const LinkedResourceSetupModal: React.FC<Props> = ({ linkedResource, open, onClo
                     </Typography>
                   </PulseLoader>
                 </Box>
-              ) : !formData.serviceEndpoint ? (
+              ) : !formData?.serviceEndpoint ? (
                 <>
                   <input {...getInputProps()} />
                   <Typography color='blue' weight='semi-bold' size={'2xl'}>
@@ -147,7 +152,7 @@ const LinkedResourceSetupModal: React.FC<Props> = ({ linkedResource, open, onClo
                   title='Click to replace'
                 >
                   {/* <iframe
-                    src={formData.serviceEndpoint}
+                    src={formData?.serviceEndpoint}
                     title='media'
                     width={'100%'}
                     height={'100%'}
@@ -155,7 +160,7 @@ const LinkedResourceSetupModal: React.FC<Props> = ({ linkedResource, open, onClo
                     style={{ pointerEvents: 'none' }}
                   /> */}
                   <Typography color='blue' weight='bold' size='2xl'>
-                    {EntityLinkedResourceConfig[linkedResource.type].text || linkedResource.type}
+                    {EntityLinkedResourceConfig[linkedResource?.type || '']?.text || linkedResource?.type}
                   </Typography>
                 </FlexBox>
               )}
@@ -165,7 +170,7 @@ const LinkedResourceSetupModal: React.FC<Props> = ({ linkedResource, open, onClo
               <InputWithLabel
                 height='48px'
                 placeholder='https://'
-                inputValue={formData.serviceEndpoint}
+                inputValue={formData?.serviceEndpoint}
                 handleChange={(val): void => handleFormDataChange('serviceEndpoint', val)}
                 disabled={uploading}
                 style={{ fontWeight: 500 }}
@@ -179,7 +184,7 @@ const LinkedResourceSetupModal: React.FC<Props> = ({ linkedResource, open, onClo
               name='linked_resource_type'
               height='48px'
               label='Type of Resource'
-              inputValue={toTitleCase(formData.type)}
+              inputValue={toTitleCase(formData?.type)}
               style={{ fontWeight: 500 }}
             />
 
@@ -188,16 +193,16 @@ const LinkedResourceSetupModal: React.FC<Props> = ({ linkedResource, open, onClo
               name='linked_resource_media_type'
               height='48px'
               label='Media Type'
-              inputValue={formData.mediaType}
+              inputValue={formData?.mediaType}
               style={{ fontWeight: 500 }}
             />
 
             {/* Description */}
-            <TextArea
+            <InputWithLabel
               name='linked_resource_description'
-              height='150px'
-              label='Description'
-              inputValue={formData.description}
+              height='48px'
+              label='Name'
+              inputValue={formData?.description}
               handleChange={(value) => handleFormDataChange('description', value)}
               style={{ fontWeight: 500 }}
             />

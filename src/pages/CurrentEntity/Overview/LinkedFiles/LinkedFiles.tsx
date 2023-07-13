@@ -10,8 +10,9 @@ import { useTheme } from 'styled-components'
 
 const MediaTypeToIconMap = {
   'application/pdf': PdfIcon,
-  'application/image': ImageIcon,
-  'application/text': TextIcon,
+  'image/jpeg': ImageIcon,
+  'image/png': ImageIcon,
+  'text/plain': TextIcon,
 }
 
 const LinkedFileBox = (linkedFile: LinkedResource) => {
@@ -38,7 +39,7 @@ const LinkedFileBox = (linkedFile: LinkedResource) => {
         cursor='pointer'
         color={theme.ixoBlack}
       >
-        <Icon />
+        {Icon && <Icon />}
         <Typography weight='medium'>{linkedFile.description}</Typography>
       </FlexBox>
     </a>

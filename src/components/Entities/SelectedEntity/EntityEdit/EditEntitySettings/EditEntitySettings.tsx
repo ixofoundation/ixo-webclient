@@ -22,8 +22,8 @@ import {
   updateAnalyticsContent,
   removeAnalyticsSection,
 } from '../../../../../redux/editEntitySettings/editEntitySettings.actions'
-import { goToStep } from '../../../../../redux/editEntity/editEntity.actions'
-import * as editEntitySelectors from '../../../../../redux/editEntity/editEntity.selectors'
+import { goToStep } from '../../../../../redux/editEntityOld/editEntity.actions'
+import * as editEntitySelectors from '../../../../../redux/editEntityOld/editEntity.selectors'
 import * as entitySettingsSelectors from '../../../../../redux/editEntitySettings/editEntitySettings.selectors'
 import { FormData } from 'components/JsonForm/types'
 import {

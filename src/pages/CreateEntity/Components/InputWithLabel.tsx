@@ -116,7 +116,13 @@ const InputWithLabel: React.FC<Props> = ({
   }
 
   return (
-    <InputWrapper width={width} height={height} error={!!error} disabled={disabled} style={wrapperStyle}>
+    <InputWrapper
+      width={width}
+      height={height}
+      error={!!error}
+      disabled={disabled || !handleChange}
+      style={wrapperStyle}
+    >
       {label && (
         <InputLabel filled={filled}>
           <Typography

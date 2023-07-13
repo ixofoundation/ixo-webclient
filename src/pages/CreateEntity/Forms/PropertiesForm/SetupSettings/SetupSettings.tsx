@@ -1,5 +1,4 @@
 import { Box, FlexBox } from 'components/App/App.styles'
-import { Typography } from 'components/Typography'
 import { PropertyBox } from 'pages/CreateEntity/Components'
 import React, { useEffect, useState } from 'react'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
@@ -98,60 +97,65 @@ const SetupSettings: React.FC<Props> = ({
     if (creator) {
       handleUpdateEntitySetting('creator', creator)
     }
-  }, [creator])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [JSON.stringify(creator)])
   useEffect(() => {
     if (entitySettings.creator?.data) {
       updateCreator(entitySettings.creator.data)
     } // eslint-disable-next-line
-  }, [entitySettings.creator?.data])
+  }, [JSON.stringify(entitySettings.creator?.data)])
 
   // hooks - administrator
   useEffect(() => {
     if (administrator) {
       handleUpdateEntitySetting('administrator', administrator)
     }
-  }, [administrator])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [JSON.stringify(administrator)])
   useEffect(() => {
     if (entitySettings.administrator?.data) {
       updateAdministrator(entitySettings.administrator.data)
     } // eslint-disable-next-line
-  }, [entitySettings.administrator?.data])
+  }, [JSON.stringify(entitySettings.administrator?.data)])
 
   // hooks - ddoTags
   useEffect(() => {
     if (ddoTags) {
       handleUpdateEntitySetting('ddoTags', ddoTags)
     }
-  }, [ddoTags])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [JSON.stringify(ddoTags)])
   useEffect(() => {
-    if (entitySettings.ddoTags?.data) {
+    if (entitySettings.ddoTags?.data?.length) {
       updateDDOTags && updateDDOTags(entitySettings.ddoTags.data)
     } // eslint-disable-next-line
-  }, [entitySettings.ddoTags?.data])
+  }, [JSON.stringify(entitySettings.ddoTags?.data)])
 
   // hooks - page
   useEffect(() => {
     if (page) {
       handleUpdateEntitySetting('page', page)
     }
-  }, [page])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [JSON.stringify(page)])
   useEffect(() => {
-    if (entitySettings.page?.data) {
+    if (Object.keys(entitySettings.page?.data ?? {}).length > 0) {
       updatePage(entitySettings.page.data)
     } // eslint-disable-next-line
-  }, [entitySettings.page?.data])
+  }, [JSON.stringify(entitySettings.page?.data)])
 
   // hooks - service
   useEffect(() => {
     if (service) {
       handleUpdateEntitySetting('service', service)
     }
-  }, [service])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [JSON.stringify(service)])
   useEffect(() => {
-    if (entitySettings.service?.data) {
+    if (entitySettings.service?.data?.length) {
       updateService(entitySettings.service.data)
     } // eslint-disable-next-line
-  }, [entitySettings.service?.data])
+  }, [JSON.stringify(entitySettings.service?.data)])
 
   if (entitySettings.page.openModal) {
     document.querySelector('#setup-property-tabs')?.setAttribute('style', 'display: none;')
@@ -175,9 +179,6 @@ const SetupSettings: React.FC<Props> = ({
   return (
     <>
       <FlexBox direction='column' style={hidden ? { display: 'none' } : {}}>
-        <Typography className='mb-3' variant='secondary' size='2xl'>
-          Settings
-        </Typography>
         <Box className='d-flex flex-wrap' style={{ gap: 20 }}>
           {Object.entries(entitySettings)
             .filter(([, value]) => !!value.required || !!value.set)

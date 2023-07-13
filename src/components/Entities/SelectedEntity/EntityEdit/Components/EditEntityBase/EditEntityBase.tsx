@@ -3,7 +3,7 @@ import { animateScroll as scroll } from 'react-scroll'
 import { ButtonGroup } from 'components/JsonForm/JsonForm.styles'
 import * as Toast from 'utils/toast'
 import { EntityType } from '../../../../../../types/entities'
-import { editEntityMap } from '../../../../../../redux/editEntity/strategy-map'
+import { editEntityMap } from '../../../../../../redux/editEntityOld/strategy-map'
 
 export interface EditEntityBaseProps {
   step: number

@@ -3,19 +3,19 @@ import * as Modal from 'react-modal'
 import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
 import { ModalStyles, CloseButton, ModalWrapper, ModalTitle } from 'components/Modals/styles'
 import { Button, ChainSelector, Input } from 'pages/CreateEntity/Components'
-import { TEntityLinkedEntityModel } from 'types/protocol'
 import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { BlockSyncService } from 'services/blocksync'
 import { validateEntityDid } from 'utils/validation'
 import { ReactComponent as SearchIcon } from 'assets/images/icon-search.svg'
 import { useTheme } from 'styled-components'
+import { LinkedEntity } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 
 const bsService = new BlockSyncService()
 
 interface Props {
   open: boolean
   onClose: () => void
-  onAdd: (linkedEntity: TEntityLinkedEntityModel) => void
+  onAdd: (linkedEntity: LinkedEntity) => void
 }
 
 const AddLinkedEntityModal: React.FC<Props> = ({ open, onClose, onAdd }): JSX.Element => {

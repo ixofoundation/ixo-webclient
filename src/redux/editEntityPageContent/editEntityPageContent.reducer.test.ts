@@ -33,7 +33,7 @@ import {
   ValidatedAction,
   ValidationErrorAction,
 } from './editEntityPageContent.types'
-import { NewEntityAction, EditEntityActions, EditEntitySuccessAction } from '../editEntity/editEntity.types'
+import { NewEntityAction, EditEntityActions, EditEntitySuccessAction } from '../editEntityOld/editEntity.types'
 import { EntityType } from '../../types/entities'
 
 const initialState = SUT.initialState

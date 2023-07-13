@@ -71,19 +71,13 @@ export const getDaoContractInfo = async ({
   const daoCoreClient = new contracts.DaoCore.DaoCoreQueryClient(cwClient, coreAddress)
   const admin = await daoCoreClient.admin()
   const config = await daoCoreClient.config()
-  const cw20Balances = await daoCoreClient.cw20Balances({})
-  const cw20TokenList = await daoCoreClient.cw20TokenList({})
-  const cw721TokenList = await daoCoreClient.cw721TokenList({})
-  const storageItems = await daoCoreClient.listItems({})
   const [{ address: proposalModuleAddress }] = await daoCoreClient.proposalModules({})
   const [{ address: activeProposalModuleAddress }] = await daoCoreClient.activeProposalModules({})
-  const proposalModuleCount = await daoCoreClient.proposalModuleCount()
   const votingModuleAddress = await daoCoreClient.votingModule()
 
   // proposalModule
   const proposalModule: any = {}
   proposalModule.proposalModuleAddress = proposalModuleAddress
-  proposalModule.proposalModuleCount = proposalModuleCount
   const daoProposalSingleClient = new contracts.DaoProposalSingle.DaoProposalSingleQueryClient(
     cwClient,
     proposalModuleAddress,
@@ -176,22 +170,14 @@ export const getDaoContractInfo = async ({
     votingModule.totalWeight = (await cw4GroupClient.totalWeight({})).weight as number
   }
 
-  // treasury
-  const treasury: any = {}
-  treasury.cw20Balances = cw20Balances
-  treasury.cw20TokenList = cw20TokenList
-  treasury.cw721TokenList = cw721TokenList
-
   return {
     coreAddress,
     type,
     admin,
     config,
-    storageItems,
     activeProposalModuleAddress,
     proposalModule,
     votingModule,
-    treasury,
     token,
   }
 }
