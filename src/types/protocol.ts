@@ -3,7 +3,6 @@ import { ReactComponent as UserCircleIcon } from 'assets/images/icon-user-circle
 import { ReactComponent as TagsIcon } from 'assets/images/icon-tag.svg'
 import { ReactComponent as PageIcon } from 'assets/images/icon-laptop.svg'
 import { ReactComponent as PaymentIcon } from 'assets/images/icon-payment.svg'
-import { ReactComponent as InvestmentIcon } from 'assets/images/icon-investment.svg'
 import { ReactComponent as ImageIcon } from 'assets/images/icon-image-outline.svg'
 import { ReactComponent as TextIcon } from 'assets/images/icon-text.svg'
 import { ReactComponent as DatabaseIcon } from 'assets/images/icon-database.svg'
@@ -19,9 +18,6 @@ import { ReactComponent as AgentAuthorisationIcon } from 'assets/images/icon-age
 import { ReactComponent as AgentCapabilityIcon } from 'assets/images/icon-agent-capability.svg'
 import { ReactComponent as AgentUsageLicenseIcon } from 'assets/images/icon-usage-license.svg'
 import { ReactComponent as ProjectIcon } from 'assets/images/icon-project.svg'
-import { ReactComponent as OracleIcon } from 'assets/images/icon-oracle.svg'
-import { ReactComponent as EntityIcon } from 'assets/images/icon-entity.svg'
-import { ReactComponent as AssetIcon } from 'assets/images/icon-asset.svg'
 import { ReactComponent as AlphaBondIcon } from 'assets/images/icon-alphabond.svg'
 import { ReactComponent as LBPIcon } from 'assets/images/icon-lbp.svg'
 import { ReactComponent as QuadraticIcon } from 'assets/images/icon-quadratic.svg'
@@ -69,6 +65,7 @@ import { ReactComponent as BoxOpenSolidIcon } from 'assets/images/icon-box-open-
 import { ReactComponent as SlidersHSolidIcon } from 'assets/images/icon-sliders-h-solid.svg'
 import { ReactComponent as VoteYeaIcon } from 'assets/images/icon-vote-yea-solid.svg'
 import { ReactComponent as VolumeUpIcon } from 'assets/images/icon-volume-up-solid.svg'
+import { ReactComponent as LinkedAccountIcon } from 'assets/images/icon-linked-account.svg'
 import ShortText from 'assets/icons/ShortText'
 import DatePicker from 'assets/icons/DatePicker'
 import SingleDatePicker from 'assets/icons/SingleDatePicker'
@@ -241,30 +238,38 @@ export const EntityAccordedRightConfig = {
 }
 
 export const EntityLinkedEntityConfig = {
-  dao: {
-    text: 'DAO',
-    icon: DAOIcon,
+  BlockchainAccount: {
+    text: 'Account',
+    icon: LinkedAccountIcon,
   },
-  project: {
-    text: 'Project',
+  impactEntity: {
+    text: 'Impact Entity',
     icon: ProjectIcon,
   },
-  asset: {
-    text: 'Asset',
-    icon: AssetIcon,
-  },
-  protocol: {
-    text: 'Protocol',
-    icon: EntityIcon,
-  },
-  investment: {
-    text: 'Investment',
-    icon: InvestmentIcon,
-  },
-  oracle: {
-    text: 'Oracle',
-    icon: OracleIcon,
-  },
+  // dao: {
+  //   text: 'DAO',
+  //   icon: DAOIcon,
+  // },
+  // project: {
+  //   text: 'Project',
+  //   icon: ProjectIcon,
+  // },
+  // asset: {
+  //   text: 'Asset',
+  //   icon: AssetIcon,
+  // },
+  // protocol: {
+  //   text: 'Protocol',
+  //   icon: EntityIcon,
+  // },
+  // investment: {
+  //   text: 'Investment',
+  //   icon: InvestmentIcon,
+  // },
+  // oracle: {
+  //   text: 'Oracle',
+  //   icon: OracleIcon,
+  // },
   // paymentTemplate: {
   //   text: 'Payment Template',
   //   icon: CircleIcon,

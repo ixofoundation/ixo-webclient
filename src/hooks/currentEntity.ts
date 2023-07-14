@@ -24,6 +24,7 @@ import {
   selectEntityStartDate,
   selectEntityEndDate,
   selectCurrentEntity,
+  selectEntityLinkedAccounts,
 } from 'redux/currentEntity/currentEntity.selectors'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { BlockSyncService } from 'services/blocksync'
@@ -53,6 +54,7 @@ export default function useCurrentEntity(): {
   tags: TEntityDDOTagModel[]
   metadata: IidMetadata | undefined
   accounts: EntityAccount[]
+  linkedAccounts: LinkedEntity[]
   owner: string
   service: Service[]
   startDate: string
@@ -75,6 +77,7 @@ export default function useCurrentEntity(): {
   const tags: TEntityDDOTagModel[] = useAppSelector(selectEntityTags)!
   const metadata: IidMetadata | undefined = useAppSelector(selectEntityMetadata)
   const accounts: EntityAccount[] = useAppSelector(selectEntityAccounts)
+  const linkedAccounts: LinkedEntity[] = useAppSelector(selectEntityLinkedAccounts)
   const owner: string = useAppSelector(selectEntityOwner)
   const service: Service[] = useAppSelector(selectEntityService)
   const startDate: string = useAppSelector(selectEntityStartDate)
@@ -119,6 +122,7 @@ export default function useCurrentEntity(): {
     tags,
     metadata,
     accounts,
+    linkedAccounts,
     owner,
     service,
     startDate,

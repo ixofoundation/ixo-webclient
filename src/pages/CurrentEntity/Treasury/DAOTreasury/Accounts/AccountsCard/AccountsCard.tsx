@@ -172,7 +172,7 @@ const AccountsCard: React.FC<Props> = ({ accounts, onSelect }) => {
             <Typography size='2xl'>
               <CurrencyFormat prefix='$' displayType={'text'} value={balance} thousandSeparator decimalScale={2} />
             </Typography>
-            <Typography color='dark-blue'>{network} network</Typography>
+            <Typography color='dark-blue'>{network}</Typography>
           </FlexBox>
         )
       },
