@@ -169,6 +169,7 @@ const Governance: React.FC = () => {
                 <GovernanceProposal
                   key={daoGroupIdx + ':' + i}
                   coreAddress={coreAddress}
+                  proposal={proposal}
                   proposalId={id}
                   title={title}
                   proposer={proposer}

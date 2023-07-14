@@ -52,6 +52,8 @@ export const reducer = (state = initialState, action: CurrentEntityActionTypes):
         return { ...state, [key]: data }
       }
     }
+    case CurrentEntityActions.ClearEntity:
+      return initialState
     default:
       return { ...state }
   }

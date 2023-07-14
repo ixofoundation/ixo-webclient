@@ -8,13 +8,12 @@ import useCurrentEntity, {
   useCurrentEntityProfile,
 } from 'hooks/currentEntity'
 import { useParams } from 'react-router-dom'
-import { InstructionsToExecute } from './InstructionsToExecute'
 import { LinkedFiles } from './LinkedFiles'
 import { PageContent } from './PageContent'
 
 const Overview: React.FC = () => {
   const { entityId } = useParams<{ entityId: string }>()
-  const { entityType, page = [], startDate } = useCurrentEntity()
+  const { page = [], startDate } = useCurrentEntity()
   const { controlPanelSchema } = useEntityConfig()
   const { name, description, location } = useCurrentEntityProfile()
   const { displayName: creatorName, logo: creatorLogo } = useCurrentEntityCreator()
@@ -36,7 +35,6 @@ const Overview: React.FC = () => {
             creatorLogo={creatorLogo}
           />
           <PageContent page={page} />
-          {entityType === 'deed' && <InstructionsToExecute />}
           <LinkedFiles linkedFiles={linkedFiles} />
         </FlexBox>
         <Box className='col-lg-3' background='#F0F3F9'>

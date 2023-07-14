@@ -6,7 +6,6 @@ import {
   EntityLinkedResourceConfig,
   TEntityAdministratorModel,
   TEntityClaimModel,
-  TEntityCreatorModel,
   TEntityDDOTagModel,
   TEntityPageModel,
   TEntityServiceModel,
@@ -17,10 +16,6 @@ import { AccordedRight, LinkedEntity, LinkedResource } from '@ixo/impactxclient-
 const EditProperty: React.FC = (): JSX.Element => {
   const { editEntity, setEditedField } = useEditEntity()
 
-  const updateCreator = useCallback((creator: TEntityCreatorModel) => {
-    setEditedField('creator', creator)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
   const updateAdministrator = useCallback((administrator: TEntityAdministratorModel) => {
     setEditedField('administrator', administrator)
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -71,7 +66,6 @@ const EditProperty: React.FC = (): JSX.Element => {
       accordedRight: Object.fromEntries((editEntity.accordedRight ?? []).map((item) => [item.id, item])),
       linkedEntity: Object.fromEntries((editEntity.linkedEntity ?? []).map((item) => [item.id, item])),
       daoGroups: editEntity.daoGroups ?? {},
-      updateCreator,
       updateAdministrator,
       updateDDOTags,
       updatePage,
