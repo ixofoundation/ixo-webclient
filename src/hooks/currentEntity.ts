@@ -6,7 +6,11 @@ import {
   Service,
 } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { TEntityModel } from 'api/blocksync/types/entities'
-import { updateEntityAction, updateEntityResourceAction } from 'redux/currentEntity/currentEntity.actions'
+import {
+  clearEntityAction,
+  updateEntityAction,
+  updateEntityResourceAction,
+} from 'redux/currentEntity/currentEntity.actions'
 import {
   selectEntityLinkedResource,
   selectEntityProfile,
@@ -58,6 +62,7 @@ export default function useCurrentEntity(): {
   startDate: string
   endDate: string
   getEntityByDid: (did: string) => Promise<void>
+  clearEntity: () => void
 } {
   const dispatch = useAppDispatch()
   const { cwClient } = useAccount()
@@ -107,6 +112,10 @@ export default function useCurrentEntity(): {
     })
   }
 
+  const clearEntity = (): void => {
+    dispatch(clearEntityAction())
+  }
+
   return {
     entityType,
     currentEntity,
@@ -124,6 +133,7 @@ export default function useCurrentEntity(): {
     startDate,
     endDate,
     getEntityByDid,
+    clearEntity,
   }
 }
 

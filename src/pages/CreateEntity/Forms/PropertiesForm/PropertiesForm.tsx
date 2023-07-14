@@ -41,7 +41,7 @@ interface Props {
   accordedRight: { [key: string]: AccordedRight }
   linkedEntity: { [key: string]: LinkedEntity }
   daoGroups?: { [id: string]: TDAOGroupModel }
-  updateCreator: (creator: TEntityCreatorModel) => void
+  updateCreator?: (creator: TEntityCreatorModel) => void
   updateAdministrator: (administrator: TEntityAdministratorModel) => void
   updateDDOTags?: (ddoTags: TEntityDDOTagModel[]) => void
   updatePage: (page: TEntityPageModel) => void
