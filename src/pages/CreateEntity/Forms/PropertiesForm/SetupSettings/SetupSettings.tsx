@@ -29,7 +29,7 @@ interface Props {
   ddoTags?: TEntityDDOTagModel[]
   page: TEntityPageModel
   service: TEntityServiceModel[]
-  updateCreator: (creator: TEntityCreatorModel) => void
+  updateCreator?: (creator: TEntityCreatorModel) => void
   updateAdministrator: (administrator: TEntityAdministratorModel) => void
   updateDDOTags?: (ddoTags: TEntityDDOTagModel[]) => void
   updatePage: (page: TEntityPageModel) => void
@@ -50,6 +50,8 @@ const SetupSettings: React.FC<Props> = ({
   updatePage,
   updateService,
 }): JSX.Element => {
+  console.log(111111, updateCreator)
+
   const [entitySettings, setEntitySettings] = useState<{ [key: string]: any }>(EntitySettingsConfig)
   const [openAddSettingsModal, setOpenAddSettingsModal] = useState(false)
 
@@ -101,7 +103,7 @@ const SetupSettings: React.FC<Props> = ({
   }, [JSON.stringify(creator)])
   useEffect(() => {
     if (entitySettings.creator?.data) {
-      updateCreator(entitySettings.creator.data)
+      updateCreator && updateCreator(entitySettings.creator.data)
     } // eslint-disable-next-line
   }, [JSON.stringify(entitySettings.creator?.data)])
 
@@ -211,7 +213,9 @@ const SetupSettings: React.FC<Props> = ({
         creator={entitySettings.creator.data}
         open={entitySettings.creator.openModal}
         onClose={(): void => handleOpenEntitySettingModal('creator', false)}
-        onChange={(creator: TEntityCreatorModel): void => handleUpdateEntitySetting('creator', creator)}
+        {...(updateCreator
+          ? { onChange: (creator: TEntityCreatorModel): void => handleUpdateEntitySetting('creator', creator) }
+          : [])}
       />
       <AdministratorSetupModal
         title='Administrator'

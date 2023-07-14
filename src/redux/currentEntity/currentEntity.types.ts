@@ -3,6 +3,7 @@ import { TEntityModel } from 'api/blocksync/types/entities'
 export enum CurrentEntityActions {
   UpdateEntity = 'ixo/CurrentEntity/UPDATE_ENTITY',
   UpdateEntityResource = 'ixo/CurrentEntity/UPDATE_ENTITY_RESOURCE',
+  ClearEntity = 'ixo/CurrentEntity/CLEAR_ENTITY',
 }
 
 export interface UpdateEntityAction {
@@ -14,4 +15,8 @@ export interface UpdateEntityResourceAction {
   payload: { key: string; data: any; merge: boolean }
 }
 
-export type CurrentEntityActionTypes = UpdateEntityAction | UpdateEntityResourceAction
+export interface ClearEntityAction {
+  type: typeof CurrentEntityActions.ClearEntity
+}
+
+export type CurrentEntityActionTypes = UpdateEntityAction | UpdateEntityResourceAction | ClearEntityAction

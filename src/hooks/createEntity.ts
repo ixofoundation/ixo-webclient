@@ -394,14 +394,14 @@ export function useCreateEntity(): TCreateEntityHookRes {
   // TODO: service choose-able
   const cellnodeService = service[0]
 
-  const daoCoreContractCode = customQueries.contract.getContractCode('devnet', 'dao_core')
-  const daoProposalContractCode = customQueries.contract.getContractCode('devnet', 'dao_proposal_single')
-  const daoPreProposalContractCode = customQueries.contract.getContractCode('devnet', 'dao_pre_propose_single')
-  const daoVotingCw4ContractCode = customQueries.contract.getContractCode('devnet', 'dao_voting_cw4')
-  const cw4ContractCode = customQueries.contract.getContractCode('devnet', 'cw4_group')
-  const daoVotingCw20StakedContractCode = customQueries.contract.getContractCode('devnet', 'dao_voting_cw20_staked')
-  const cw20BaseContractCode = customQueries.contract.getContractCode('devnet', 'cw20_base')
-  const cw20StakeContractCode = customQueries.contract.getContractCode('devnet', 'cw20_stake')
+  const daoCoreContractCode = customQueries.contract.getContractCode(chainNetwork, 'dao_core')
+  const daoProposalContractCode = customQueries.contract.getContractCode(chainNetwork, 'dao_proposal_single')
+  const daoPreProposalContractCode = customQueries.contract.getContractCode(chainNetwork, 'dao_pre_propose_single')
+  const daoVotingCw4ContractCode = customQueries.contract.getContractCode(chainNetwork, 'dao_voting_cw4')
+  const cw4ContractCode = customQueries.contract.getContractCode(chainNetwork, 'cw4_group')
+  const daoVotingCw20StakedContractCode = customQueries.contract.getContractCode(chainNetwork, 'dao_voting_cw20_staked')
+  const cw20BaseContractCode = customQueries.contract.getContractCode(chainNetwork, 'cw20_base')
+  const cw20StakeContractCode = customQueries.contract.getContractCode(chainNetwork, 'cw20_stake')
 
   /**
    * @description auto choose service for uploading data
