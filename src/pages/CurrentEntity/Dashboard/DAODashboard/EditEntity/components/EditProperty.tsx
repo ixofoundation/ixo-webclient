@@ -64,7 +64,9 @@ const EditProperty: React.FC = (): JSX.Element => {
       ),
       claim: {},
       accordedRight: Object.fromEntries((editEntity.accordedRight ?? []).map((item) => [item.id, item])),
-      linkedEntity: Object.fromEntries((editEntity.linkedEntity ?? []).map((item) => [item.id, item])),
+      linkedEntity: Object.fromEntries(
+        (editEntity.linkedEntity ?? []).map((item) => [item.id.replace('{id}#', ''), item]),
+      ),
       daoGroups: editEntity.daoGroups ?? {},
       updateAdministrator,
       updateDDOTags,
