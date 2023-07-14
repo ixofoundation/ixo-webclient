@@ -45,7 +45,7 @@ const EditProperty: React.FC = (): JSX.Element => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   const updateLinkedEntity = useCallback((linkedEntity: { [id: string]: LinkedEntity }) => {
-    setEditedField('linkedEntity', linkedEntity, true)
+    setEditedField('linkedEntity', Object.values(linkedEntity))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 

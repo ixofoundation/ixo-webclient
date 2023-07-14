@@ -27,7 +27,7 @@ const Accounts: React.FC = () => {
   const history = useHistory()
   const { getQuery } = useQuery()
   const expand: string | undefined = getQuery('expand')
-  const { accounts: entityAccounts } = useCurrentEntity()
+  const { accounts: entityAccounts, linkedAccounts } = useCurrentEntity()
   const { daoGroups } = useCurrentDao()
 
   const [accounts, setAccounts] = useState<{
@@ -59,7 +59,7 @@ const Accounts: React.FC = () => {
                 address: account.address,
                 name: account.name,
                 type: 'entity',
-                network: 'ixo',
+                network: 'ixo Network',
                 balance: '0',
               },
             }))
@@ -85,7 +85,7 @@ const Accounts: React.FC = () => {
                 address: daoGroup.coreAddress,
                 name: daoGroup.config.name,
                 type: 'group',
-                network: 'ixo',
+                network: 'ixo Network',
                 balance: '0',
               },
             }))
@@ -99,6 +99,33 @@ const Accounts: React.FC = () => {
       )
     }
   }, [daoGroups])
+
+  useEffect(() => {
+    if (linkedAccounts.length > 0) {
+      ;(async () => {
+        await Promise.all(
+          linkedAccounts.map((account) => {
+            setAccounts((accounts) => ({
+              ...accounts,
+              [account.id]: {
+                address: account.id,
+                name: truncateString(account.id, 15),
+                type: 'linked',
+                network: account.relationship,
+                balance: '0',
+              },
+            }))
+            return ''
+          }),
+        )
+      })()
+      return () => {
+        setAccounts((accounts) =>
+          Object.fromEntries(Object.entries(accounts).filter(([key, value]) => value.type !== 'linked')),
+        )
+      }
+    }
+  }, [linkedAccounts])
 
   return (
     <FlexBox direction='column' gap={6} width='100%' color='white'>

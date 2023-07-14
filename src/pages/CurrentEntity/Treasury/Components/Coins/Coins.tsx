@@ -169,17 +169,25 @@ const Coins: React.FC<Props> = ({ address }) => {
             const token = customQueries.currency.findTokenFromDenom(denom)
 
             if (token) {
-              customQueries.currency.findTokenInfoFromDenom(token.coinDenom).then((response) => {
-                const { coinName, lastPriceUsd } = response
-                const payload = {
-                  balance: getDisplayAmount(amount, token.coinDecimals),
-                  network: `${coinName.toUpperCase()} Network`,
-                  coinDenom: token.coinDenom,
-                  coinImageUrl: token.coinImageUrl!,
-                  lastPriceUsd,
-                }
-                addData(payload.coinDenom, payload)
-              })
+              customQueries.currency
+                .findTokenInfoFromDenom(token.coinMinimalDenom)
+                .then((response) => {
+                  if (!response) {
+                    throw new Error('Not found')
+                  }
+                  const { coinName, lastPriceUsd } = response
+                  const payload = {
+                    balance: getDisplayAmount(amount, token.coinDecimals),
+                    network: `${coinName.toUpperCase()} Network`,
+                    coinDenom: token.coinDenom,
+                    coinImageUrl: token.coinImageUrl!,
+                    lastPriceUsd,
+                  }
+                  addData(payload.coinDenom, payload)
+                })
+                .catch((e) => {
+                  console.error(e)
+                })
             }
           })
         })

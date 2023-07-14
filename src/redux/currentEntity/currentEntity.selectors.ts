@@ -1,5 +1,5 @@
 import { EntityAccount } from '@ixo/impactxclient-sdk/types/codegen/ixo/entity/v1beta1/entity'
-import { Service } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
+import { LinkedEntity, Service } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { createSelector } from '@reduxjs/toolkit'
 import { TEntityModel } from 'api/blocksync/types/entities'
 import { RootState } from 'redux/store'
@@ -24,6 +24,10 @@ export const selectEntityLinkedResource = createSelector(selectCurrentEntity, (e
 
 export const selectEntityLinkedEntity = createSelector(selectCurrentEntity, (entity: TEntityModel) => {
   return entity.linkedEntity ?? []
+})
+
+export const selectEntityLinkedAccounts = createSelector(selectEntityLinkedEntity, (linkedEntity: LinkedEntity[]) => {
+  return linkedEntity.filter((item) => item.type === 'BlockchainAccount')
 })
 
 export const selectEntityProfile = createSelector(selectCurrentEntity, (entity: TEntityModel) => {
