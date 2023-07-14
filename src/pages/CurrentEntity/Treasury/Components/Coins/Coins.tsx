@@ -178,7 +178,7 @@ const Coins: React.FC<Props> = ({ address }) => {
                   const { coinName, lastPriceUsd } = response
                   const payload = {
                     balance: getDisplayAmount(amount, token.coinDecimals),
-                    network: `${coinName.toUpperCase()} Network`,
+                    network: `${coinName.toUpperCase()}`,
                     coinDenom: token.coinDenom,
                     coinImageUrl: token.coinImageUrl!,
                     lastPriceUsd,
