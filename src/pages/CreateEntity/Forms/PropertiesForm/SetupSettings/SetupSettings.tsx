@@ -226,7 +226,7 @@ const SetupSettings: React.FC<Props> = ({
         onClone={(): void => handleUpdateEntitySetting('administrator', creator)}
       />
       <ServiceSetupModal
-        service={entitySettings.service.data}
+        service={entitySettings.service.data ?? []}
         open={entitySettings.service.openModal}
         onClose={(): void => handleOpenEntitySettingModal('service', false)}
         onChange={(service: TEntityServiceModel[]): void => handleUpdateEntitySetting('service', service)}

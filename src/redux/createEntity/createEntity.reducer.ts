@@ -1,5 +1,12 @@
-import { ELocalisation } from 'types/protocol'
+import { NodeType } from 'types/entities'
+import { ELocalisation, TEntityServiceModel } from 'types/protocol'
 import { ECreateEntityActions, TCreateEntityActionTypes, TCreateEntityState } from './createEntity.types'
+
+export const initialIpfsService: TEntityServiceModel = {
+  id: '{id}#ipfs',
+  type: NodeType.Ipfs,
+  serviceEndpoint: 'https://ipfs.io/ipfs',
+}
 
 export const initialState: TCreateEntityState = {
   entityType: undefined,
@@ -8,7 +15,7 @@ export const initialState: TCreateEntityState = {
   administrator: undefined,
   ddoTags: [],
   page: undefined,
-  service: [],
+  service: [initialIpfsService],
   claim: undefined,
   linkedResource: {},
   accordedRight: {},
