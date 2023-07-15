@@ -62,7 +62,7 @@ const DAODashboard: React.FC = (): JSX.Element => {
     },
     {
       url: `/entity/${entityId}/dashboard/edit`,
-      icon: requireCheckDefault(require('assets/img/sidebar/settings.svg')),
+      icon: requireCheckDefault(require('assets/img/sidebar/gear.svg')),
       sdg: 'Edit Entity',
       tooltip: 'Edit Entity',
       disabled: !registered || owner !== address,

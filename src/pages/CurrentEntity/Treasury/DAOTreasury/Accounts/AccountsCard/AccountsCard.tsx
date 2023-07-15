@@ -71,7 +71,7 @@ const TableWrapper = styled.div`
       border-radius: 10px;
     }
     &::-webkit-scrollbar-thumb {
-      background: ${(props): string => props.theme.ixoDarkBlue};
+      background: #0d3c52;
       border-radius: 10px;
       background-clip: padding-box;
     }

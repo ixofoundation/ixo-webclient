@@ -156,17 +156,19 @@ const Accounts: React.FC = () => {
                 <Typography>{selectedAccount.type} account</Typography>
               </FlexBox>
             </FlexBox>
-            <Button
-              variant='secondary'
-              onClick={() => setDepositModalOpen(true)}
-              size='flex'
-              height={40}
-              textSize='base'
-              textTransform='capitalize'
-              textWeight='medium'
-            >
-              Deposit
-            </Button>
+            {selectedAccount.type !== 'linked' && (
+              <Button
+                variant='secondary'
+                onClick={() => setDepositModalOpen(true)}
+                size='flex'
+                height={40}
+                textSize='base'
+                textTransform='capitalize'
+                textWeight='medium'
+              >
+                Deposit
+              </Button>
+            )}
           </FlexBox>
           <CopyToClipboard text={selectedAccount.address} onCopy={() => successToast(`Copied to clipboard`)}>
             <FlexBox alignItems='center' gap={2} onClick={(e) => e.stopPropagation()} cursor='pointer'>

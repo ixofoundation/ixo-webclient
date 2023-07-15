@@ -50,8 +50,6 @@ const SetupSettings: React.FC<Props> = ({
   updatePage,
   updateService,
 }): JSX.Element => {
-  console.log(111111, updateCreator)
-
   const [entitySettings, setEntitySettings] = useState<{ [key: string]: any }>(EntitySettingsConfig)
   const [openAddSettingsModal, setOpenAddSettingsModal] = useState(false)
 
