@@ -834,165 +834,163 @@ export function useCreateEntity(): TCreateEntityHookRes {
   }
 
   const CreateDAOCoreByGroupId = async (daoGroup: TDAOGroupModel): Promise<string> => {
-    try {
-      const { type, config, proposalModule, votingModule, token } = daoGroup
+    const { type, config, proposalModule, votingModule, token } = daoGroup
 
-      const msg: any = {
-        admin: null,
-        automatically_add_cw20s: config.automatically_add_cw20s,
-        automatically_add_cw721s: config.automatically_add_cw721s,
-        description: config.description,
-        image_url: config.image_url,
-        name: config.name,
-        proposal_modules_instantiate_info: [
-          {
-            admin: {
-              core_module: {},
-            },
-            code_id: daoProposalContractCode,
-            label: `DAO_${config.name}_DaoProposalSingle`,
-            msg: utils.conversions.jsonToBase64({
-              allow_revoting: proposalModule.proposalConfig.allow_revoting,
-              close_proposal_on_execution_failure: true,
-              max_voting_period: proposalModule.proposalConfig.max_voting_period,
-              min_voting_period: null,
-              only_members_execute: proposalModule.proposalConfig.only_members_execute,
-              pre_propose_info: {
-                module_may_propose: {
-                  info: {
-                    admin: {
-                      core_module: {},
-                    },
-                    code_id: daoPreProposalContractCode,
-                    label: `DAO_${config.name}_pre-propose-DaoProposalSingle`,
-                    msg: utils.conversions.jsonToBase64({
-                      // deposit_info: proposalModule.preProposeConfig.deposit_info,
-                      deposit_info: proposalModule.preProposeConfig.deposit_info
-                        ? {
-                            ...proposalModule.preProposeConfig.deposit_info,
-                            denom: {
-                              token: {
-                                denom: proposalModule.preProposeConfig.deposit_info.denom,
-                              },
+    const msg: any = {
+      admin: null,
+      automatically_add_cw20s: config.automatically_add_cw20s,
+      automatically_add_cw721s: config.automatically_add_cw721s,
+      description: config.description,
+      image_url: config.image_url,
+      name: config.name,
+      proposal_modules_instantiate_info: [
+        {
+          admin: {
+            core_module: {},
+          },
+          code_id: daoProposalContractCode,
+          label: `DAO_${config.name}_DaoProposalSingle`,
+          msg: utils.conversions.jsonToBase64({
+            allow_revoting: proposalModule.proposalConfig.allow_revoting,
+            close_proposal_on_execution_failure: true,
+            max_voting_period: proposalModule.proposalConfig.max_voting_period,
+            min_voting_period: null,
+            only_members_execute: proposalModule.proposalConfig.only_members_execute,
+            pre_propose_info: {
+              module_may_propose: {
+                info: {
+                  admin: {
+                    core_module: {},
+                  },
+                  code_id: daoPreProposalContractCode,
+                  label: `DAO_${config.name}_pre-propose-DaoProposalSingle`,
+                  msg: utils.conversions.jsonToBase64({
+                    // deposit_info: proposalModule.preProposeConfig.deposit_info,
+                    deposit_info: proposalModule.preProposeConfig.deposit_info
+                      ? {
+                          ...proposalModule.preProposeConfig.deposit_info,
+                          denom: {
+                            token: {
+                              denom: proposalModule.preProposeConfig.deposit_info.denom,
                             },
-                          }
-                        : null,
-                      extension: {},
-                      open_proposal_submission: proposalModule.preProposeConfig.open_proposal_submission,
-                    }),
+                          },
+                        }
+                      : null,
+                    extension: {},
+                    open_proposal_submission: proposalModule.preProposeConfig.open_proposal_submission,
+                  }),
+                },
+              },
+            },
+            threshold: proposalModule.proposalConfig.threshold,
+          }),
+        },
+      ],
+    }
+    switch (type) {
+      case 'membership':
+      case 'multisig': {
+        msg.voting_module_instantiate_info = {
+          admin: { core_module: {} },
+          code_id: daoVotingCw4ContractCode,
+          label: `DAO_${config.name}_DaoVotingCw4`,
+          msg: utils.conversions.jsonToBase64({
+            cw4_group_code_id: cw4ContractCode,
+            initial_members: votingModule.members,
+          }),
+        }
+        break
+      }
+      case 'staking': {
+        if (!token) {
+          break
+        }
+        /**
+         * if create new token
+         * else use existing one
+         */
+        if (!token.config.token_address) {
+          const initial_balances = votingModule.members.map(
+            ({ addr, weight }): Cw20Coin => ({
+              address: addr,
+              amount: weight.toString(),
+            }),
+          )
+
+          const initial_dao_balance = new BigNumber(token.tokenInfo.total_supply)
+            .minus(
+              new BigNumber(
+                initial_balances.reduce((acc, { amount }) => new BigNumber(acc).plus(amount), new BigNumber(0)),
+              ),
+            )
+            .toString()
+
+          msg.voting_module_instantiate_info = {
+            admin: { core_module: {} },
+            code_id: daoVotingCw20StakedContractCode,
+            label: `DAO_${config.name}_DaoVotingCw20Staked`,
+            msg: utils.conversions.jsonToBase64({
+              token_info: {
+                new: {
+                  code_id: cw20BaseContractCode,
+                  decimals: token.tokenInfo.decimals,
+                  marketing: token.marketingInfo,
+                  label: token.tokenInfo.name,
+                  name: token.tokenInfo.name,
+                  staking_code_id: cw20StakeContractCode,
+                  symbol: token.tokenInfo.symbol,
+                  initial_balances: initial_balances,
+                  initial_dao_balance: initial_dao_balance,
+                  unstaking_duration: token.config.unstaking_duration,
+                },
+              },
+            }),
+          }
+        } else {
+          msg.voting_module_instantiate_info = {
+            admin: { core_module: {} },
+            code_id: daoVotingCw20StakedContractCode,
+            label: `DAO_${config.name}_DaoVotingCw20Staked`,
+            msg: utils.conversions.jsonToBase64({
+              token_info: {
+                existing: {
+                  address: token.config.token_address,
+                  staking_contract: {
+                    new: {
+                      staking_code_id: cw20StakeContractCode,
+                      unstaking_duration: token.config.unstaking_duration,
+                    },
                   },
                 },
               },
-              threshold: proposalModule.proposalConfig.threshold,
-            }),
-          },
-        ],
-      }
-      switch (type) {
-        case 'membership':
-        case 'multisig': {
-          msg.voting_module_instantiate_info = {
-            admin: { core_module: {} },
-            code_id: daoVotingCw4ContractCode,
-            label: `DAO_${config.name}_DaoVotingCw4`,
-            msg: utils.conversions.jsonToBase64({
-              cw4_group_code_id: cw4ContractCode,
-              initial_members: votingModule.members,
             }),
           }
-          break
         }
-        case 'staking': {
-          if (!token) {
-            break
-          }
-          /**
-           * if create new token
-           * else use existing one
-           */
-          if (!token.config.token_address) {
-            const initial_balances = votingModule.members.map(
-              ({ addr, weight }): Cw20Coin => ({
-                address: addr,
-                amount: weight.toString(),
-              }),
-            )
-
-            const initial_dao_balance = new BigNumber(token.tokenInfo.total_supply)
-              .minus(
-                new BigNumber(
-                  initial_balances.reduce((acc, { amount }) => new BigNumber(acc).plus(amount), new BigNumber(0)),
-                ),
-              )
-              .toString()
-
-            msg.voting_module_instantiate_info = {
-              admin: { core_module: {} },
-              code_id: daoVotingCw20StakedContractCode,
-              label: `DAO_${config.name}_DaoVotingCw20Staked`,
-              msg: utils.conversions.jsonToBase64({
-                token_info: {
-                  new: {
-                    code_id: cw20BaseContractCode,
-                    decimals: token.tokenInfo.decimals,
-                    marketing: token.marketingInfo,
-                    label: token.tokenInfo.name,
-                    name: token.tokenInfo.name,
-                    staking_code_id: cw20StakeContractCode,
-                    symbol: token.tokenInfo.symbol,
-                    initial_balances: initial_balances,
-                    initial_dao_balance: initial_dao_balance,
-                    unstaking_duration: token.config.unstaking_duration,
-                  },
-                },
-              }),
-            }
-          } else {
-            msg.voting_module_instantiate_info = {
-              admin: { core_module: {} },
-              code_id: daoVotingCw20StakedContractCode,
-              label: `DAO_${config.name}_DaoVotingCw20Staked`,
-              msg: utils.conversions.jsonToBase64({
-                token_info: {
-                  existing: {
-                    address: token.config.token_address,
-                    staking_contract: {
-                      new: {
-                        staking_code_id: cw20StakeContractCode,
-                        unstaking_duration: token.config.unstaking_duration,
-                      },
-                    },
-                  },
-                },
-              }),
-            }
-          }
-          break
-        }
-        default:
-          break
+        break
       }
-      console.log('Instantiate Dao Group', {
-        codeId: daoCoreContractCode!,
-        msg: msg,
-      })
-
-      const message = {
-        codeId: daoCoreContractCode!,
-        msg: JSON.stringify(msg),
-      }
-
-      const res = await WasmInstantiateTrx(signingClient, signer, [message])
-      console.log('CreateDAOCoreByGroupId', res)
-      const contractAddress = utils.common.getValueFromEvents(res!, 'instantiate', '_contract_address')
-      if (!contractAddress) {
-        throw new Error(res?.rawLog)
-      }
-      return contractAddress
-    } catch (e) {
-      console.error('CreateDAOCoreByGroupId', e)
-      return ''
+      default:
+        break
     }
+    console.log('Instantiate Dao Group', {
+      codeId: daoCoreContractCode!,
+      msg: msg,
+    })
+
+    const message = {
+      codeId: daoCoreContractCode!,
+      msg: JSON.stringify(msg),
+    }
+
+    if (!signingClient) {
+      throw new Error('Connect Wallet First')
+    }
+    const res = await WasmInstantiateTrx(signingClient, signer, [message])
+    console.log('CreateDAOCoreByGroupId', res)
+    const contractAddress = utils.common.getValueFromEvents(res!, 'instantiate', '_contract_address')
+    if (!contractAddress) {
+      throw new Error(res?.rawLog)
+    }
+    return contractAddress
   }
 
   const AddLinkedEntity = async (did: string, linkedEntity: LinkedEntity): Promise<DeliverTxResponse | undefined> => {

@@ -182,7 +182,6 @@ const SetupSettings: React.FC<Props> = ({
         <Box className='d-flex flex-wrap' style={{ gap: 20 }}>
           {Object.entries(entitySettings)
             .filter(([, value]) => !!value.required || !!value.set)
-            .filter(([key]) => key !== 'ddoTags' || ddoTags)
             .map(([key, value]) => (
               <PropertyBox
                 key={key}

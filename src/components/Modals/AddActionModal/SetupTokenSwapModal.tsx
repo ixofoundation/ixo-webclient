@@ -1,7 +1,7 @@
 import { Box, FlexBox, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { NATIVE_MICRODENOM } from 'constants/chains'
-import { AccountValidStatus, Button, Dropdown2, Input } from 'pages/CreateEntity/Components'
+import { AccountValidStatus, Button, Dropdown, Input } from 'pages/CreateEntity/Components'
 import React, { useEffect, useMemo, useState } from 'react'
 import { TProposalActionModel } from 'types/protocol'
 import { isAccountAddress } from 'utils/validation'
@@ -141,7 +141,7 @@ const SetupTokenSwapModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
                     style={{ textAlign: 'right' }}
                   />
                   {/* TODO: missing options */}
-                  <Dropdown2
+                  <Dropdown
                     name={'token'}
                     value={formData.selfParty?.denomOrAddress}
                     options={[{ value: NATIVE_MICRODENOM, text: '$IXO' }]}
@@ -165,7 +165,7 @@ const SetupTokenSwapModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
                     style={{ textAlign: 'right' }}
                   />
                   {/* TODO: missing options */}
-                  <Dropdown2
+                  <Dropdown
                     name={'token'}
                     value={formData.selfParty?.denomOrAddress}
                     options={[{ value: NATIVE_MICRODENOM, text: '$IXO' }]}

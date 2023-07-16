@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormWrapper, FormBody, FormRow } from './ClaimProfileForm.styles'
-import { InputWithLabel, SelectWithLabel, TextArea } from '../../Components'
+import { InputWithLabel, SelectWithModal, TextArea } from '../../Components'
 import { Typography } from 'components/Typography'
 import { EClaimType } from 'types/protocol'
 
@@ -26,7 +26,7 @@ const ClaimProfileForm: React.FC<Props> = ({
     <FormWrapper {...rest}>
       <FormBody>
         <FormRow>
-          <SelectWithLabel
+          <SelectWithModal
             label='Claim Type'
             value={type}
             handleChange={setType}

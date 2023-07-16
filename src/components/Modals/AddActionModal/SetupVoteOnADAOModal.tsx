@@ -1,6 +1,6 @@
 import { FlexBox, GridContainer } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
-import { Button, Dropdown2 } from 'pages/CreateEntity/Components'
+import { Button, Dropdown } from 'pages/CreateEntity/Components'
 import React, { useEffect, useMemo, useState } from 'react'
 import { TProposalActionModel } from 'types/protocol'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
@@ -78,7 +78,7 @@ const SetupVoteOnADAOModal: React.FC<Props> = ({ open, action, onClose, onSubmit
         <Typography size='xl' weight='medium'>
           Select DAO
         </Typography>
-        <Dropdown2
+        <Dropdown
           name='dao'
           value={formData.dao}
           options={daos.map((dao) => ({ value: dao.id, text: dao.profile?.name || '' }))}
@@ -92,7 +92,7 @@ const SetupVoteOnADAOModal: React.FC<Props> = ({ open, action, onClose, onSubmit
           <Typography size='xl' weight='medium'>
             Select a group
           </Typography>
-          <Dropdown2
+          <Dropdown
             name='groupAddress'
             value={formData.groupAddress}
             options={Object.values(groups).map((group) => ({
@@ -110,7 +110,7 @@ const SetupVoteOnADAOModal: React.FC<Props> = ({ open, action, onClose, onSubmit
           <Typography size='xl' weight='medium'>
             Select proposal to vote on
           </Typography>
-          <Dropdown2
+          <Dropdown
             name='proposal'
             value={formData.proposalId}
             options={proposals.map((proposal) => ({ value: String(proposal.id), text: proposal.proposal.title || '' }))}

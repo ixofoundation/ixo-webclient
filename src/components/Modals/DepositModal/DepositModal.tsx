@@ -7,7 +7,7 @@ import { useAccount } from 'hooks/account'
 import { convertDenomToMicroDenomWithDecimals, depositInfoToCoin } from 'utils/conversions'
 import { ReactComponent as ArrowDownIcon } from 'assets/images/icon-arrow-down.svg'
 import { useCurrentEntityProfile } from 'hooks/currentEntity'
-import { Dropdown2, Input } from 'pages/CreateEntity/Components'
+import { Dropdown, Input } from 'pages/CreateEntity/Components'
 import CurrencyFormat from 'react-currency-format'
 import { BankSendTrx, fee } from 'lib/protocol'
 import styled, { useTheme } from 'styled-components'
@@ -214,7 +214,7 @@ const DepositModal: React.FunctionComponent<Props> = ({
                     <Avatar size={28} url={selectedToken?.imageUrl} />
                     <Typography color='white' transform='uppercase'>
                       {/* {selectedToken?.symbol} */}
-                      <Dropdown2
+                      <Dropdown
                         options={tokenOptions}
                         value={selectedTokenDenom}
                         onChange={(e) => setSelectedTokenDenom(e.target.value)}

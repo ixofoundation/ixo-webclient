@@ -54,6 +54,7 @@ export const reducer = (state = initialState, action: TCreateEntityActionTypes):
       return {
         stepNo: initialState.stepNo,
         entityType: action.payload,
+        service: [initialIpfsService],
         ...savedState,
       }
     }
@@ -92,7 +93,11 @@ export const reducer = (state = initialState, action: TCreateEntityActionTypes):
       updatedState = { ...state, page: action.payload }
       break
     case ECreateEntityActions.UpdateService:
-      updatedState = { ...state, service: action.payload }
+      if (action.payload.some((item) => item.type === NodeType.Ipfs)) {
+        updatedState = { ...state, service: action.payload }
+      } else {
+        updatedState = { ...state, service: [...state.service, ...action.payload] }
+      }
       break
     case ECreateEntityActions.UpdateClaim:
       updatedState = { ...state, claim: action.payload }

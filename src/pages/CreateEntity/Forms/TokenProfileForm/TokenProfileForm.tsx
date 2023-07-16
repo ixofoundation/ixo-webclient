@@ -1,7 +1,7 @@
 // TODO: denom duplication check
 import React from 'react'
 import { FormWrapper, FormHeader, FormBody, FormRow, Badge } from './TokenProfileForm.styles'
-import { HeadlineMetric, IconUpload, ImageUpload, Input, InputWithLabel, SelectWithLabel } from '../../Components'
+import { HeadlineMetric, IconUpload, ImageUpload, Input, InputWithLabel, SelectWithModal } from '../../Components'
 import { thousandSeparator } from 'utils/formatters'
 import { Box } from 'components/App/App.styles'
 import { EAssetType } from 'types/protocol'
@@ -71,7 +71,7 @@ const TokenProfileForm: React.FC<Props> = ({
               <Badge tagColor={theme.ixoDarkRed}>{denom}</Badge>
             )}
             {setType ? (
-              <SelectWithLabel
+              <SelectWithModal
                 width='150px'
                 height='36px'
                 label='Asset Type'

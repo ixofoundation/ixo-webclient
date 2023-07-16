@@ -2,7 +2,7 @@ import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { NATIVE_MICRODENOM } from 'constants/chains'
 import { useValidators } from 'hooks/validator'
-import { Dropdown2, Input } from 'pages/CreateEntity/Components'
+import { Dropdown, Input } from 'pages/CreateEntity/Components'
 import React, { useEffect, useMemo, useState } from 'react'
 import { TProposalActionModel } from 'types/protocol'
 import { StakeType } from 'utils/messages'
@@ -73,7 +73,7 @@ const SetupStakingActionsModal: React.FC<Props> = ({ open, action, onClose, onSu
         <Typography size='xl' weight='medium'>
           Select Action
         </Typography>
-        <Dropdown2
+        <Dropdown
           name='stake'
           value={formData.stakeType}
           options={[
@@ -94,7 +94,7 @@ const SetupStakingActionsModal: React.FC<Props> = ({ open, action, onClose, onSu
             style={{ textAlign: 'right' }}
           />
           {/* TODO: missing options */}
-          <Dropdown2
+          <Dropdown
             name={'denom'}
             value={formData.denom}
             options={[{ value: formData.denom, text: '$IXO' }]}
@@ -107,7 +107,7 @@ const SetupStakingActionsModal: React.FC<Props> = ({ open, action, onClose, onSu
         <Typography size='xl' weight='medium'>
           Stake with
         </Typography>
-        <Dropdown2
+        <Dropdown
           name={'validator'}
           value={formData.validator}
           options={validators.map((validator) => ({
@@ -135,7 +135,7 @@ const SetupStakingActionsModal: React.FC<Props> = ({ open, action, onClose, onSu
           <Typography size='xl' weight='medium'>
             To Validator
           </Typography>
-          <Dropdown2
+          <Dropdown
             name={'to_validator'}
             value={formData.toValidator}
             options={validators.map((validator) => ({
