@@ -248,7 +248,7 @@ const ReviewProposal: React.FC = () => {
     // AccordedRight TODO:
 
     // Service
-    service = serviceData.map((item: Service) => ({ ...item, id: `{id}#${item.id}` }))
+    service = serviceData
 
     // LinkedEntity
     linkedEntity = Object.values(linkedEntityData)
