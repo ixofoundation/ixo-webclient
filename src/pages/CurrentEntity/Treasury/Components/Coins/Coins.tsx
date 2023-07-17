@@ -14,6 +14,7 @@ import { determineChainFromAddress } from 'utils/account'
 import { useCurrentDaoGroup } from 'hooks/currentDao'
 import { convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
 import { useAccount } from 'hooks/account'
+import { IxoCoinCodexRelayerApi } from 'hooks/configs'
 
 let updateTokenBalanceTimer: NodeJS.Timer | undefined = undefined
 
@@ -170,7 +171,7 @@ const Coins: React.FC<Props> = ({ address }) => {
 
             if (token) {
               customQueries.currency
-                .findTokenInfoFromDenom(token.coinMinimalDenom)
+                .findTokenInfoFromDenom(token.coinMinimalDenom, true, IxoCoinCodexRelayerApi)
                 .then((response) => {
                   if (!response) {
                     throw new Error('Not found')
