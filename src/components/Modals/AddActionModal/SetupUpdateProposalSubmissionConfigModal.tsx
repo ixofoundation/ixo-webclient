@@ -2,7 +2,7 @@ import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { NATIVE_DECIMAL, NATIVE_DENOM, NATIVE_MICRODENOM } from 'constants/chains'
 import { useCurrentDaoGroup } from 'hooks/currentDao'
-import { Button, Dropdown2, Input, Switch } from 'pages/CreateEntity/Components'
+import { Button, Dropdown, Input, Switch } from 'pages/CreateEntity/Components'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { DepositRefundPolicy, UncheckedDepositInfo } from 'types/dao'
@@ -187,7 +187,7 @@ const SetupUpdateProposalSubmissionConfigModal: React.FC<Props> = ({
               style={{ textAlign: 'right' }}
             />
             {/* TODO: missing options */}
-            <Dropdown2
+            <Dropdown
               name={'depositInfo'}
               value={formData.depositInfo.denomOrAddress}
               options={[{ value: formData.depositInfo.denomOrAddress, text: '$IXO' }]}

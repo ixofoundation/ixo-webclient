@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { FlexBox } from 'components/App/App.styles'
-import { AccountValidStatus, Dropdown2, Input, Switch } from 'pages/CreateEntity/Components'
+import { AccountValidStatus, Dropdown, Input, Switch } from 'pages/CreateEntity/Components'
 import { Typography } from 'components/Typography'
 import { TProposalActionModel } from 'types/protocol'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
@@ -77,7 +77,7 @@ const SetupAuthzGrantModal: React.FC<Props> = ({ open, action, onClose, onSubmit
         <Typography color='black' weight='medium' size='xl'>
           Grant or revoke authorization
         </Typography>
-        <Dropdown2
+        <Dropdown
           name='grant_revoke_authorization'
           value={formData.typeUrl}
           options={[
@@ -117,7 +117,7 @@ const SetupAuthzGrantModal: React.FC<Props> = ({ open, action, onClose, onSubmit
             handleChange={(value) => handleUpdateFormData('value', { ...formData.value, msgTypeUrl: value })}
           />
         ) : (
-          <Dropdown2
+          <Dropdown
             name='message_type'
             options={[
               { value: AuthzGrantActionTypes.Delegate, text: 'Stake' },

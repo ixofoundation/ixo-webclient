@@ -2,7 +2,7 @@ import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { NATIVE_DECIMAL } from 'constants/chains'
 import { useCurrentDaoGroup } from 'hooks/currentDao'
-import { Dropdown2, NumberCounter, Switch } from 'pages/CreateEntity/Components'
+import { Dropdown, NumberCounter, Switch } from 'pages/CreateEntity/Components'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { TProposalActionModel } from 'types/protocol'
@@ -158,7 +158,7 @@ const SetupUpdateVotingConfigModal: React.FC<Props> = ({ open, action, onClose, 
             value={formData.proposalDuration}
             onChange={(value: number): void => handleUpdateFormData('proposalDuration', value)}
           />
-          <Dropdown2
+          <Dropdown
             name='proposal_duration_units'
             value={formData.proposalDurationUnits}
             options={[
@@ -203,7 +203,7 @@ const SetupUpdateVotingConfigModal: React.FC<Props> = ({ open, action, onClose, 
               onChange={(value: number): void => handleUpdateFormData('thresholdPercentage', value)}
             />
           )}
-          <Dropdown2
+          <Dropdown
             value={formData.thresholdType}
             options={[
               { value: '%', text: '%' },
@@ -232,7 +232,7 @@ const SetupUpdateVotingConfigModal: React.FC<Props> = ({ open, action, onClose, 
               onChange={(value: number): void => handleUpdateFormData('quorumPercentage', value)}
             />
           )}
-          <Dropdown2
+          <Dropdown
             value={formData.quorumType}
             options={[
               { value: '%', text: '%' },

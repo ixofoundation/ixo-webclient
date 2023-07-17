@@ -1,6 +1,6 @@
 import { FlexBox } from 'components/App/App.styles'
 import { NATIVE_MICRODENOM } from 'constants/chains'
-import { CodeMirror, Dropdown2 } from 'pages/CreateEntity/Components'
+import { CodeMirror, Dropdown } from 'pages/CreateEntity/Components'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { TProposalActionModel } from 'types/protocol'
@@ -122,7 +122,7 @@ const SetupValidatorActionsModal: React.FC<Props> = ({ open, action, onClose, on
       validate={validate}
     >
       <FlexBox width='100%'>
-        <Dropdown2
+        <Dropdown
           name='validator_action_type'
           value={formData.validatorActionType}
           options={[

@@ -1,5 +1,5 @@
 import { useIxoConfigs } from 'hooks/configs'
-import { Dropdown2 } from 'pages/CreateEntity/Components'
+import { Dropdown } from 'pages/CreateEntity/Components'
 import React from 'react'
 
 interface Props {
@@ -12,7 +12,7 @@ const TokenSelector: React.FC<Props> = ({ denom, onChange }): JSX.Element => {
   const assetPairs = getAssetPairs()
 
   return (
-    <Dropdown2
+    <Dropdown
       name={'token'}
       value={denom}
       options={assetPairs.map((asset) => ({ value: asset.display, text: `$${asset.display.toUpperCase()}` }))}

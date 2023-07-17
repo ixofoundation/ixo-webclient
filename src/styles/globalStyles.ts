@@ -16,6 +16,10 @@ export const GlobalStyle = createGlobalStyle`
     border-radius: inherit;
   }
 
+  select:disabled {
+    opacity: 1;
+  }
+
   .shadow-box,
   .chat-container .shadow-box {
     box-shadow: none !important;
