@@ -419,16 +419,14 @@ export function useCreateEntity(): TCreateEntityHookRes {
         cellnodeService.serviceEndpoint,
         chainNetwork,
       )
-    } else if (cellnodeService?.type === NodeType.Ipfs && cellnodeService?.serviceEndpoint) {
+    } else {
       res = await customQueries.cellnode.uploadWeb3Doc(
         utils.common.generateId(12),
         'application/ld+json',
         data,
-        cellnodeService.serviceEndpoint,
+        undefined,
         chainNetwork,
       )
-    } else {
-      res = await customQueries.cellnode.uploadPublicDoc('application/ld+json', data, undefined, chainNetwork)
     }
     return res
   }
@@ -482,7 +480,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
       }
       const buff = Buffer.from(JSON.stringify(payload))
       const res = await UploadDataToService(buff.toString('base64'))
-      console.log('SaveProfile', payload)
+      console.log('SaveProfile', res)
       return res
     } catch (e) {
       console.error('SaveProfile', e)
@@ -532,7 +530,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
       }
       const buff = Buffer.from(JSON.stringify(payload))
       const res = await UploadDataToService(buff.toString('base64'))
-      console.log('SaveCreator', payload)
+      console.log('SaveCreator', res)
       return res
     } catch (e) {
       console.error('SaveCreator', e)
@@ -585,7 +583,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
       }
       const buff = Buffer.from(JSON.stringify(payload))
       const res = await UploadDataToService(buff.toString('base64'))
-      console.log('SaveAdministrator', payload)
+      console.log('SaveAdministrator', res)
       return res
     } catch (e) {
       console.error('SaveAdministrator', e)
@@ -609,7 +607,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
       }
       const buff = Buffer.from(JSON.stringify(payload))
       const res = await UploadDataToService(buff.toString('base64'))
-      console.log('SavePage', payload)
+      console.log('SavePage', res)
       return res
     } catch (e) {
       console.error('SavePage', e)
@@ -633,7 +631,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
       }
       const buff = Buffer.from(JSON.stringify(payload))
       const res = await UploadDataToService(buff.toString('base64'))
-      console.log('SaveTags', payload)
+      console.log('SaveTags', res)
       return res
     } catch (e) {
       console.error('SaveTags', e)
@@ -717,64 +715,64 @@ export function useCreateEntity(): TCreateEntityHookRes {
       await SaveAdministrator(administrator),
       await SavePage(page),
       await SaveTags(ddoTags),
-    ]).then((responses) => responses.map((response: any) => response.value))
+    ])
 
-    if (saveProfileRes) {
+    if (saveProfileRes.status === 'fulfilled' && saveProfileRes.value) {
       linkedResource.push({
         id: '{id}#profile',
         type: 'Settings',
         description: 'Profile',
         mediaType: 'application/ld+json',
-        serviceEndpoint: LinkedResourceServiceEndpointGenerator(saveProfileRes, cellnodeService),
-        proof: LinkedResourceProofGenerator(saveProfileRes, cellnodeService),
+        serviceEndpoint: LinkedResourceServiceEndpointGenerator(saveProfileRes.value, cellnodeService),
+        proof: LinkedResourceProofGenerator(saveProfileRes.value, cellnodeService),
         encrypted: 'false',
         right: '',
       })
     }
-    if (saveCreatorRes) {
+    if (saveCreatorRes.status === 'fulfilled' && saveCreatorRes.value) {
       linkedResource.push({
         id: '{id}#creator',
         type: 'VerifiableCredential',
         description: 'Creator',
         mediaType: 'application/ld+json',
-        serviceEndpoint: LinkedResourceServiceEndpointGenerator(saveCreatorRes, cellnodeService),
-        proof: LinkedResourceProofGenerator(saveCreatorRes, cellnodeService),
+        serviceEndpoint: LinkedResourceServiceEndpointGenerator(saveCreatorRes.value, cellnodeService),
+        proof: LinkedResourceProofGenerator(saveCreatorRes.value, cellnodeService),
         encrypted: 'false',
         right: '',
       })
     }
-    if (saveAdministratorRes) {
+    if (saveAdministratorRes.status === 'fulfilled' && saveAdministratorRes.value) {
       linkedResource.push({
         id: '{id}#administrator',
         type: 'VerifiableCredential',
         description: 'Administrator',
         mediaType: 'application/ld+json',
-        serviceEndpoint: LinkedResourceServiceEndpointGenerator(saveAdministratorRes, cellnodeService),
-        proof: LinkedResourceProofGenerator(saveAdministratorRes, cellnodeService),
+        serviceEndpoint: LinkedResourceServiceEndpointGenerator(saveAdministratorRes.value, cellnodeService),
+        proof: LinkedResourceProofGenerator(saveAdministratorRes.value, cellnodeService),
         encrypted: 'false',
         right: '',
       })
     }
-    if (savePageRes) {
+    if (savePageRes.status === 'fulfilled' && savePageRes.value) {
       linkedResource.push({
         id: '{id}#page',
         type: 'Settings',
         description: 'Page',
         mediaType: 'application/ld+json',
-        serviceEndpoint: LinkedResourceServiceEndpointGenerator(savePageRes, cellnodeService),
-        proof: LinkedResourceProofGenerator(savePageRes, cellnodeService),
+        serviceEndpoint: LinkedResourceServiceEndpointGenerator(savePageRes.value, cellnodeService),
+        proof: LinkedResourceProofGenerator(savePageRes.value, cellnodeService),
         encrypted: 'false',
         right: '',
       })
     }
-    if (saveTagsRes) {
+    if (saveTagsRes.status === 'fulfilled' && saveTagsRes.value) {
       linkedResource.push({
         id: '{id}#tags',
         type: 'Settings',
         description: 'Tags',
         mediaType: 'application/ld+json',
-        serviceEndpoint: LinkedResourceServiceEndpointGenerator(saveTagsRes, cellnodeService),
-        proof: LinkedResourceProofGenerator(saveTagsRes, cellnodeService),
+        serviceEndpoint: LinkedResourceServiceEndpointGenerator(saveTagsRes.value, cellnodeService),
+        proof: LinkedResourceProofGenerator(saveTagsRes.value, cellnodeService),
         encrypted: 'false',
         right: '',
       })
