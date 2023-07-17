@@ -171,17 +171,23 @@ const Coins: React.FC<Props> = ({ address }) => {
 
             if (token) {
               customQueries.currency
-                .findTokenInfoFromDenom(token.coinDenom, true, IxoCoinCodexRelayerApi)
+                .findTokenInfoFromDenom(token.coinMinimalDenom, true, IxoCoinCodexRelayerApi)
                 .then((response) => {
+                  if (!response) {
+                    throw new Error('Not found')
+                  }
                   const { coinName, lastPriceUsd } = response
                   const payload = {
                     balance: getDisplayAmount(amount, token.coinDecimals),
-                    network: `${coinName.toUpperCase()} Network`,
+                    network: `${coinName.toUpperCase()}`,
                     coinDenom: token.coinDenom,
                     coinImageUrl: token.coinImageUrl!,
                     lastPriceUsd,
                   }
                   addData(payload.coinDenom, payload)
+                })
+                .catch((e) => {
+                  console.error(e)
                 })
             }
           })
@@ -237,7 +243,6 @@ const Coins: React.FC<Props> = ({ address }) => {
     updateNativeTokenBalance()
     updateCw20TokenBalance()
     updateTokenBalanceTimer = setInterval(() => {
-      console.log('update token balance timer')
       updateNativeTokenBalance()
       updateCw20TokenBalance()
     }, 1000 * 30)

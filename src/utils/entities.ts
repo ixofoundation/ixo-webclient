@@ -211,8 +211,10 @@ export function apiEntityToEntity(
   const { type, settings, linkedResource, service, linkedEntity } = entity
   linkedResource.concat(Object.values(settings)).forEach((item: LinkedResource) => {
     let url = ''
-    const [identifier, key] = item.serviceEndpoint.split(':')
-    const usedService: Service | undefined = service.find((item: any) => item.id === `{id}#${identifier}`)
+    const [identifier, key] = item.serviceEndpoint.replace('{id}#', '').split(':')
+    const usedService: Service | undefined = service.find(
+      (item: any) => item.id.replace('{id}#', '') === identifier.replace('{id}#', ''),
+    )
 
     if (usedService && usedService.type.toLowerCase() === NodeType.Ipfs.toLowerCase()) {
       url = `https://${key}.ipfs.w3s.link`
@@ -230,7 +232,7 @@ export function apiEntityToEntity(
               let image: string = response.image
               let logo: string = response.logo
 
-              if (!image.startsWith('http')) {
+              if (image && !image.startsWith('http')) {
                 const [identifier] = image.split(':')
                 let endpoint = ''
                 context.forEach((item: any) => {
@@ -240,7 +242,7 @@ export function apiEntityToEntity(
                 })
                 image = image.replace(identifier + ':', endpoint)
               }
-              if (!logo.startsWith('http')) {
+              if (logo && !logo.startsWith('http')) {
                 const [identifier] = logo.split(':')
                 let endpoint = ''
                 context.forEach((item: any) => {
@@ -255,7 +257,10 @@ export function apiEntityToEntity(
             .then((profile) => {
               updateCallback('profile', profile)
             })
-            .catch(() => undefined)
+            .catch((e) => {
+              console.error(`Error Fetching Profile ${entity.id}`, e)
+              return undefined
+            })
           break
         }
         case '{id}#creator': {
@@ -344,10 +349,14 @@ export const LinkedResourceServiceEndpointGenerator = (
   uploadResult: CellnodePublicResource | CellnodeWeb3Resource,
   cellnodeService?: Service,
 ): string => {
-  if (cellnodeService?.type === NodeType.Ipfs) {
-    return `${cellnodeService.id}:${(uploadResult as CellnodeWeb3Resource).cid}`
-  } else if (cellnodeService?.type === NodeType.CellNode) {
-    return `${cellnodeService.id}:/public/${(uploadResult as CellnodePublicResource).key}`
+  if (cellnodeService) {
+    const serviceId = cellnodeService.id.replace('{id}#', '')
+    const serviceType = cellnodeService.type
+    if (serviceType === NodeType.Ipfs) {
+      return `${serviceId}:${(uploadResult as CellnodeWeb3Resource).cid}`
+    } else if (serviceType === NodeType.CellNode) {
+      return `${serviceId}:/public/${(uploadResult as CellnodePublicResource).key}`
+    }
   }
   return `cellnode:/public/${(uploadResult as CellnodePublicResource).key}`
 }
@@ -356,10 +365,13 @@ export const LinkedResourceProofGenerator = (
   uploadResult: CellnodePublicResource | CellnodeWeb3Resource,
   cellnodeService?: Service,
 ): string => {
-  if (cellnodeService?.type === NodeType.Ipfs) {
-    return (uploadResult as CellnodeWeb3Resource).cid
-  } else if (cellnodeService?.type === NodeType.CellNode) {
-    return (uploadResult as CellnodePublicResource).key
+  if (cellnodeService) {
+    const serviceType = cellnodeService.type
+    if (serviceType === NodeType.Ipfs) {
+      return (uploadResult as CellnodeWeb3Resource).cid
+    } else if (serviceType === NodeType.CellNode) {
+      return (uploadResult as CellnodePublicResource).key
+    }
   }
   return (uploadResult as CellnodePublicResource).key
 }

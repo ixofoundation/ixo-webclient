@@ -62,7 +62,7 @@ const SetupBurnNFTModal: React.FC<Props> = ({ open, action, onClose, onSubmit })
         <Dropdown
           name={'collections'}
           value={formData.tokenId}
-          options={['ixo12wgrrvmx5jx2mxhu6dvnfu3greamemnqfvx84a', 'ixo12wgrrvmx5jx2mxhu6dvnfu3greamemnqfvx84b']}
+          options={[]}
           hasArrow={false}
           placeholder={`You don't have any NFTs`}
           onChange={(e) => {

@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { FlexBox } from 'components/App/App.styles'
-import { AccountValidStatus, Dropdown2, Input } from 'pages/CreateEntity/Components'
+import { AccountValidStatus, Dropdown, Input } from 'pages/CreateEntity/Components'
 import { Typography } from 'components/Typography'
 import { TProposalActionModel } from 'types/protocol'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
@@ -58,7 +58,7 @@ const SetupMintModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): J
           style={{ textAlign: 'right' }}
         />
         {/* TODO: missing options */}
-        <Dropdown2
+        <Dropdown
           name={'token'}
           value={govTokenAddress}
           options={[{ value: govTokenAddress, text: '$RED' }]}

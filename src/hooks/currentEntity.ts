@@ -6,7 +6,11 @@ import {
   Service,
 } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { TEntityModel } from 'api/blocksync/types/entities'
-import { updateEntityAction, updateEntityResourceAction } from 'redux/currentEntity/currentEntity.actions'
+import {
+  clearEntityAction,
+  updateEntityAction,
+  updateEntityResourceAction,
+} from 'redux/currentEntity/currentEntity.actions'
 import {
   selectEntityLinkedResource,
   selectEntityProfile,
@@ -24,6 +28,7 @@ import {
   selectEntityStartDate,
   selectEntityEndDate,
   selectCurrentEntity,
+  selectEntityLinkedAccounts,
 } from 'redux/currentEntity/currentEntity.selectors'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { BlockSyncService } from 'services/blocksync'
@@ -53,11 +58,13 @@ export default function useCurrentEntity(): {
   tags: TEntityDDOTagModel[]
   metadata: IidMetadata | undefined
   accounts: EntityAccount[]
+  linkedAccounts: LinkedEntity[]
   owner: string
   service: Service[]
   startDate: string
   endDate: string
   getEntityByDid: (did: string) => Promise<void>
+  clearEntity: () => void
 } {
   const dispatch = useAppDispatch()
   const { cwClient } = useAccount()
@@ -75,6 +82,7 @@ export default function useCurrentEntity(): {
   const tags: TEntityDDOTagModel[] = useAppSelector(selectEntityTags)!
   const metadata: IidMetadata | undefined = useAppSelector(selectEntityMetadata)
   const accounts: EntityAccount[] = useAppSelector(selectEntityAccounts)
+  const linkedAccounts: LinkedEntity[] = useAppSelector(selectEntityLinkedAccounts)
   const owner: string = useAppSelector(selectEntityOwner)
   const service: Service[] = useAppSelector(selectEntityService)
   const startDate: string = useAppSelector(selectEntityStartDate)
@@ -107,6 +115,10 @@ export default function useCurrentEntity(): {
     })
   }
 
+  const clearEntity = (): void => {
+    dispatch(clearEntityAction())
+  }
+
   return {
     entityType,
     currentEntity,
@@ -119,11 +131,13 @@ export default function useCurrentEntity(): {
     tags,
     metadata,
     accounts,
+    linkedAccounts,
     owner,
     service,
     startDate,
     endDate,
     getEntityByDid,
+    clearEntity,
   }
 }
 

@@ -1,6 +1,6 @@
 import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
-import { CodeMirror, Dropdown2, Input, Switch } from 'pages/CreateEntity/Components'
+import { CodeMirror, Dropdown, Input, Switch } from 'pages/CreateEntity/Components'
 import React, { useEffect, useMemo, useState } from 'react'
 import { TProposalActionModel } from 'types/protocol'
 import { isAccountAddress, validateJSON } from 'utils/validation'
@@ -65,7 +65,7 @@ const SetupTransferNFTModal: React.FC<Props> = ({ open, action, onClose, onSubmi
     >
       <FlexBox direction='column' width='100%' gap={2}>
         <Typography size='xl'>Select NFT to burn</Typography>
-        <Dropdown2
+        <Dropdown
           name='nft'
           value={formData.collection}
           // TODO: NFT collection list

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import * as Modal from 'react-modal'
 import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
 import { ModalStyles, CloseButton, ModalBody, ModalWrapper, ModalRow, ModalTitle } from 'components/Modals/styles'
-import { Button, Select } from 'pages/CreateEntity/Components'
+import { Button, TagSelector } from 'pages/CreateEntity/Components'
 import { useAppSelector } from 'redux/hooks'
 import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { TEntityDDOTagModel } from 'types/protocol'
@@ -49,7 +49,7 @@ const DDOTagsSetupModal: React.FC<Props> = ({ ddoTags, entityType, open, onClose
           {ddoTagsConfig.map((ddoTag: any, index: any) => (
             <ModalRow key={index}>
               {renderLabel(ddoTag.name)}
-              <Select
+              <TagSelector
                 name={ddoTag.name}
                 values={formData[index]?.tags ?? []}
                 options={ddoTag.tags.map(({ name }: any) => name)}

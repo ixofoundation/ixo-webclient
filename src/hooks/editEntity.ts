@@ -1,5 +1,9 @@
 import { EncodeObject } from '@cosmjs/proto-signing'
-import { LinkedResource, VerificationMethod } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
+import {
+  LinkedEntity,
+  LinkedResource,
+  VerificationMethod,
+} from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { TEntityModel } from 'api/blocksync/types/entities'
 import BigNumber from 'bignumber.js'
 import {
@@ -262,6 +266,43 @@ export default function useEditEntity(): {
     return messages
   }
 
+  const getEditedLinkedEntityMsgs = async (): Promise<readonly EncodeObject[]> => {
+    const editedLinkedEntity = editEntity.linkedEntity
+    const currentLinkedEntity = currentEntity.linkedEntity
+    if (JSON.stringify(editedLinkedEntity) === JSON.stringify(currentLinkedEntity)) {
+      return []
+    }
+
+    const addedLinkedEntity = editedLinkedEntity.filter(
+      (item: LinkedEntity) =>
+        !currentLinkedEntity.map((item: LinkedEntity) => JSON.stringify(item)).includes(JSON.stringify(item)),
+    )
+
+    const deletedLinkedEntity = currentLinkedEntity.filter(
+      (item: LinkedEntity) =>
+        !editedLinkedEntity.map((item: LinkedEntity) => JSON.stringify(item)).includes(JSON.stringify(item)),
+    )
+
+    const messages: readonly EncodeObject[] = [
+      ...addedLinkedEntity.reduce(
+        (acc: EncodeObject[], cur: LinkedEntity) => [
+          ...acc,
+          ...GetAddLinkedEntityMsgs(editEntity.id, signer, ixo.iid.v1beta1.LinkedEntity.fromPartial(cur)),
+        ],
+        [],
+      ),
+      ...deletedLinkedEntity.reduce(
+        (acc: EncodeObject[], cur: LinkedEntity) => [
+          ...acc,
+          ...GetDeleteLinkedEntityMsgs(editEntity.id, signer, ixo.iid.v1beta1.LinkedEntity.fromPartial(cur)),
+        ],
+        [],
+      ),
+    ]
+
+    return messages
+  }
+
   const getEditedVerificationMethodMsgs = async (): Promise<readonly EncodeObject[]> => {
     if (JSON.stringify(editEntity.verificationMethod) === JSON.stringify(currentEntity.verificationMethod)) {
       return []
@@ -324,6 +365,7 @@ export default function useEditEntity(): {
       ...(await getEditedTagsMsgs()),
       ...(await getEditedLinkedFilesMsgs()),
       ...(await getEditedGroupsMsgs()),
+      ...(await getEditedLinkedEntityMsgs()),
       ...(await getEditedVerificationMethodMsgs()),
     ]
   }

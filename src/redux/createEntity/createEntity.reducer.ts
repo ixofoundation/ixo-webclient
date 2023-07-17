@@ -1,5 +1,12 @@
-import { ELocalisation } from 'types/protocol'
+import { NodeType } from 'types/entities'
+import { ELocalisation, TEntityServiceModel } from 'types/protocol'
 import { ECreateEntityActions, TCreateEntityActionTypes, TCreateEntityState } from './createEntity.types'
+
+export const initialIpfsService: TEntityServiceModel = {
+  id: '{id}#ipfs',
+  type: NodeType.Ipfs,
+  serviceEndpoint: 'https://ipfs.io/ipfs',
+}
 
 export const initialState: TCreateEntityState = {
   entityType: undefined,
@@ -8,7 +15,7 @@ export const initialState: TCreateEntityState = {
   administrator: undefined,
   ddoTags: [],
   page: undefined,
-  service: [],
+  service: [initialIpfsService],
   claim: undefined,
   linkedResource: {},
   accordedRight: {},
@@ -47,6 +54,7 @@ export const reducer = (state = initialState, action: TCreateEntityActionTypes):
       return {
         stepNo: initialState.stepNo,
         entityType: action.payload,
+        service: [initialIpfsService],
         ...savedState,
       }
     }
@@ -85,7 +93,11 @@ export const reducer = (state = initialState, action: TCreateEntityActionTypes):
       updatedState = { ...state, page: action.payload }
       break
     case ECreateEntityActions.UpdateService:
-      updatedState = { ...state, service: action.payload }
+      if (action.payload.some((item) => item.type === NodeType.Ipfs)) {
+        updatedState = { ...state, service: action.payload }
+      } else {
+        updatedState = { ...state, service: [...state.service, ...action.payload] }
+      }
       break
     case ECreateEntityActions.UpdateClaim:
       updatedState = { ...state, claim: action.payload }

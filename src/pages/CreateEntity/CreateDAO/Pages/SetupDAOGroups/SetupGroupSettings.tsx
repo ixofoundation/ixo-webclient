@@ -6,11 +6,10 @@ import { Typography } from 'components/Typography'
 import {
   AccountValidStatus,
   Button,
-  Dropdown2,
+  Dropdown,
   IconUpload,
   InputWithLabel,
   NumberCounter,
-  SimpleSelect,
   Switch,
   TextArea,
 } from 'pages/CreateEntity/Components'
@@ -35,15 +34,15 @@ import {
   convertDenomToMicroDenomWithDecimals,
   convertDurationWithUnitsToDuration,
   convertMicroDenomToDenomWithDecimals,
+  convertSecondsToDurationWithUnits,
 } from 'utils/conversions'
-import { NATIVE_DECIMAL, NATIVE_MICRODENOM } from 'constants/chains'
+import { NATIVE_DECIMAL, NATIVE_DENOM, NATIVE_MICRODENOM } from 'constants/chains'
 import { useTheme } from 'styled-components'
 import BigNumber from 'bignumber.js'
 import type {
   CheckedDepositInfo,
   DepositRefundPolicy,
 } from '@ixo/impactxclient-sdk/types/codegen/DaoPreProposeSingle.types'
-import {} from '@ixo/impactxclient-sdk/types/codegen/DaoMigrator.types'
 import { PercentageThreshold } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalCondorcet.types'
 
 const inputHeight = 48
@@ -191,17 +190,20 @@ const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JS
   const handleSubmit = async (): Promise<void> => {
     setSubmitting(true)
 
-    const daoCoreAddresss = await CreateDAOCoreByGroupId(data)
-    if (!daoCoreAddresss) {
-      Toast.errorToast(null, `Create Group Failed`)
+    try {
+      const daoCoreAddresss = await CreateDAOCoreByGroupId(data)
+      if (daoCoreAddresss) {
+        Toast.successToast(null, `Create Group Succeed`)
+        setSubmitting(false)
+        console.log({ daoCoreAddresss })
+        onSubmit({ ...data, coreAddress: daoCoreAddresss })
+      } else {
+        throw new Error('Not found an address')
+      }
+    } catch (e: any) {
+      Toast.errorToast('Create Group Failed', e.message)
       setSubmitting(false)
-      return
-    } else {
-      Toast.successToast(null, `Create Group Succeed`)
-      setSubmitting(false)
-      console.log({ daoCoreAddresss })
     }
-    onSubmit({ ...data, coreAddress: daoCoreAddresss })
   }
 
   const renderGroupIdentity = (): JSX.Element => {
@@ -959,6 +961,14 @@ const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JS
     const [unstakingDurationUnits, setUnstakingDurationUnits] = useState<DurationUnits>(DurationUnits.Weeks)
 
     useEffect(() => {
+      if (data.token?.config.unstaking_duration && 'time' in data.token.config.unstaking_duration) {
+        const { value, units } = convertSecondsToDurationWithUnits(data.token.config.unstaking_duration.time)
+        setUnstakingDurationAmount(value)
+        setUnstakingDurationUnits(units)
+      }
+    }, [])
+
+    useEffect(() => {
       const duration = convertDurationWithUnitsToDuration({
         value: unstakingDurationAmount,
         units: unstakingDurationUnits,
@@ -978,6 +988,7 @@ const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JS
           : v,
       )
     }, [unstakingDurationAmount, unstakingDurationUnits])
+
     return (
       <CardWrapper direction='column' gap={5} marginBottom={7}>
         <FlexBox alignItems='center' gap={2}>
@@ -1004,10 +1015,11 @@ const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JS
             onChange={(value: number) => setUnstakingDurationAmount(value)}
           />
           <Typography weight='medium' size='xl'>
-            <SimpleSelect
+            <Dropdown
               value={unstakingDurationUnits}
-              options={Object.values(DurationUnits)}
-              onChange={(value) => setUnstakingDurationUnits(value as DurationUnits)}
+              options={Object.entries(DurationUnits).map(([key, value]) => ({ text: key, value: value }))}
+              onChange={(e) => setUnstakingDurationUnits(e.target.value as DurationUnits)}
+              style={{ width: 200, textAlign: 'center' }}
             />
           </Typography>
         </FlexBox>
@@ -1017,6 +1029,16 @@ const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JS
   const VotingDuration = (): JSX.Element => {
     const [proposalDurationAmount, setProposalDurationAmount] = useState(1)
     const [proposalDurationUnits, setProposalDurationUnits] = useState<DurationUnits>(DurationUnits.Weeks)
+
+    useEffect(() => {
+      if ('time' in data.proposalModule.proposalConfig.max_voting_period) {
+        const { value, units } = convertSecondsToDurationWithUnits(
+          data.proposalModule.proposalConfig.max_voting_period.time,
+        )
+        setProposalDurationAmount(value)
+        setProposalDurationUnits(units)
+      }
+    }, [])
 
     useEffect(() => {
       const duration = convertDurationWithUnitsToDuration({
@@ -1060,10 +1082,11 @@ const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JS
             onChange={(value: number) => setProposalDurationAmount(value)}
           />
           <Typography weight='medium' size='xl'>
-            <SimpleSelect
+            <Dropdown
               value={proposalDurationUnits}
-              options={Object.values(DurationUnits)}
-              onChange={(value) => setProposalDurationUnits(value as DurationUnits)}
+              options={Object.entries(DurationUnits).map(([key, value]) => ({ text: key, value: value }))}
+              onChange={(e) => setProposalDurationUnits(e.target.value as DurationUnits)}
+              style={{ width: 200, textAlign: 'center' }}
             />
           </Typography>
         </FlexBox>
@@ -1181,7 +1204,7 @@ const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JS
                   }
                 />
                 <Typography weight='medium' size='xl'>
-                  <SimpleSelect
+                  <Dropdown
                     value={
                       (
                         data.proposalModule.preProposeConfig.deposit_info.denom as {
@@ -1189,13 +1212,17 @@ const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JS
                         }
                       ).native
                     }
-                    options={['$IXO']}
+                    onChange={() => {
+                      //
+                    }}
+                    options={[{ value: NATIVE_MICRODENOM, text: `$${NATIVE_DENOM.toUpperCase()}` }]}
+                    style={{ width: 200, textAlign: 'center' }}
                   />
                 </Typography>
               </FlexBox>
               <FlexBox width='100%' justifyContent='space-between' alignItems='center'>
                 <Typography size='md'>Once a proposal completes, when should deposits be refunded?</Typography>
-                <Dropdown2
+                <Dropdown
                   value={data.proposalModule.preProposeConfig.deposit_info.refund_policy}
                   options={[
                     { value: 'always', text: 'Always' },
@@ -1282,7 +1309,7 @@ const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JS
                     />
                   )}
                 <Typography weight='medium' size='xl'>
-                  <Dropdown2
+                  <Dropdown
                     value={
                       Object.keys(
                         (
@@ -1324,7 +1351,7 @@ const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JS
                         },
                       }))
                     }
-                    style={{ height: inputHeight + 'px' }}
+                    style={{ width: 200, height: inputHeight, textAlign: 'center' }}
                   />
                 </Typography>
               </FlexBox>
@@ -1387,7 +1414,7 @@ const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JS
                     />
                   )}
                 <Typography weight='medium' size='xl'>
-                  <Dropdown2
+                  <Dropdown
                     value={
                       Object.keys(
                         (
@@ -1429,7 +1456,7 @@ const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JS
                         },
                       }))
                     }
-                    style={{ height: inputHeight + 'px' }}
+                    style={{ width: 200, height: inputHeight, textAlign: 'center' }}
                   />
                 </Typography>
               </FlexBox>
@@ -1449,27 +1476,28 @@ const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JS
             <Typography size='md'>Who is allowed to submit proposals to the Group?</Typography>
           </FlexBox>
           <FlexBox justifyContent='flex-end'>
-            <Dropdown2
-              value={String(data.proposalModule.proposalConfig.only_members_execute)}
-              options={[
-                { value: 'false', text: 'Only members' },
-                { value: 'true', text: 'Anyone' },
-              ]}
-              onChange={(e) =>
-                setData((v) => ({
-                  ...v,
-                  proposalModule: {
-                    ...v.proposalModule,
-                    proposalConfig: {
-                      ...v.proposalModule.proposalConfig,
-                      only_members_execute: e.target.value === 'true',
+            <FlexBox>
+              <Dropdown
+                value={String(data.proposalModule.proposalConfig.only_members_execute)}
+                options={[
+                  { value: 'false', text: 'Only members' },
+                  { value: 'true', text: 'Anyone' },
+                ]}
+                onChange={(e) =>
+                  setData((v) => ({
+                    ...v,
+                    proposalModule: {
+                      ...v.proposalModule,
+                      proposalConfig: {
+                        ...v.proposalModule.proposalConfig,
+                        only_members_execute: e.target.value === 'true',
+                      },
                     },
-                  },
-                }))
-              }
-              wrapperStyle={{ width: '320px' }}
-              style={{ height: '48px', textAlign: 'center' }}
-            />
+                  }))
+                }
+                style={{ width: 320, height: '48px', textAlign: 'center' }}
+              />
+            </FlexBox>
           </FlexBox>
         </CardWrapper>
       </FlexBox>

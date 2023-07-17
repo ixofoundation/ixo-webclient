@@ -49,7 +49,7 @@ const AddActionModal: React.FC<Props> = ({ open, actionsToExclude = [], onClose,
         <FlexBox width='100%'>
           <Dropdown
             style={{ height: '48px' }}
-            options={options}
+            options={options.map((v) => ({ text: v, value: v }))}
             hasArrow={false}
             value={selectedGroup}
             onChange={(e) => setSelectedGroup(e.target.value)}

@@ -7,50 +7,56 @@ import React, { useEffect, useState } from 'react'
 import { EntityLinkedEntityConfig, DAOGroupConfig, TDAOGroupModel } from 'types/protocol'
 import { omitKey } from 'utils/objects'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
-import { toTitleCase } from 'utils/formatters'
+import { toTitleCase, truncateString } from 'utils/formatters'
 import { BlockSyncService } from 'services/blocksync'
 import { LinkedEntity, Service } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { NodeType } from 'types/entities'
+import ImpactEntitySetupModal from 'components/Modals/ImpactEntitySetupModal/ImpactEntitySetupModal'
+import LinkedAccountSetupModal from 'components/Modals/LinkedAccountSetupModal/LinkedAccountSetupModal'
 
 const bsService = new BlockSyncService()
 
-const LinkedEntityPropertyBox = (props: PropertyBoxProps & { id: string }) => {
-  const [entityName, setEntityName] = useState('')
+const LinkedEntityPropertyBox = (props: PropertyBoxProps & { id: string; type: string }) => {
+  const [name, setName] = useState('')
 
   useEffect(() => {
     if (props.id) {
-      bsService.entity
-        .getEntityById(props.id)
-        .then((response: any) => {
-          const { service, settings } = response
-          let url = ''
-          const [identifier, key] = settings.Profile.serviceEndpoint.split(':')
-          const usedService: Service | undefined = service.find((item: any) => item.id === `{id}#${identifier}`)
+      if (props.type === 'impactEntity') {
+        bsService.entity
+          .getEntityById(props.id)
+          .then((response: any) => {
+            const { service, settings } = response
+            let url = ''
+            const [identifier, key] = settings.Profile.serviceEndpoint.split(':')
+            const usedService: Service | undefined = service.find((item: any) => item.id === `{id}#${identifier}`)
 
-          if (usedService && usedService.type === NodeType.Ipfs) {
-            url = `https://${key}.ipfs.w3s.link`
-          } else if (usedService && usedService.type === NodeType.CellNode) {
-            url = `${usedService.serviceEndpoint}${key}`
-          }
+            if (usedService && usedService.type === NodeType.Ipfs) {
+              url = `https://${key}.ipfs.w3s.link`
+            } else if (usedService && usedService.type === NodeType.CellNode) {
+              url = `${usedService.serviceEndpoint}${key}`
+            }
 
-          if (url) {
-            fetch(url)
-              .then((response) => response.json())
-              .then((profile) => {
-                console.log({ profile })
-                setEntityName(profile.name)
-              })
-          }
-        })
-        .catch(console.error)
+            if (url) {
+              fetch(url)
+                .then((response) => response.json())
+                .then((profile) => {
+                  console.log({ profile })
+                  setName(profile.name)
+                })
+            }
+          })
+          .catch(console.error)
+      } else if (props.type === 'BlockchainAccount') {
+        setName(truncateString(props.id, 13))
+      }
     }
-  }, [props.id])
+  }, [props])
 
   return (
     <FlexBox direction='column' alignItems='center' gap={4}>
       <PropertyBox icon={props.icon} label={props.label} set={true} handleRemove={props.handleRemove} />
       <Typography variant='secondary' overflowLines={1} style={{ width: 100, textAlign: 'center' }}>
-        &nbsp;{entityName}&nbsp;
+        &nbsp;{name}&nbsp;
       </Typography>
     </FlexBox>
   )
@@ -65,12 +71,28 @@ interface Props {
 
 const SetupLinkedEntity: React.FC<Props> = ({ hidden, linkedEntity, daoGroups, updateLinkedEntity }): JSX.Element => {
   const [openAddLinkedEntityModal, setOpenAddLinkedEntityModal] = useState(false)
+  const [openImpactEntitySetupModal, setOpenImpactEntitySetupModal] = useState(false)
+  const [openLinkedAccountSetupModal, setOpenLinkedAccountSetupModal] = useState(false)
+
+  const handleOpenModal = (key: string): void => {
+    switch (key) {
+      case 'BlockchainAccount':
+        setOpenLinkedAccountSetupModal(true)
+        break
+      case 'impactEntity':
+        setOpenImpactEntitySetupModal(true)
+        break
+      default:
+        break
+    }
+  }
 
   // entity linked entities
   const handleAddLinkedEntity = (newData: LinkedEntity): void => {
     updateLinkedEntity({ ...linkedEntity, [newData.id]: newData })
   }
   const handleRemoveLinkedEntity = (id: string): void => {
+    console.log('handleRemoveLinkedEntity', id)
     updateLinkedEntity(omitKey({ ...linkedEntity }, id))
   }
 
@@ -106,6 +128,7 @@ const SetupLinkedEntity: React.FC<Props> = ({ hidden, linkedEntity, daoGroups, u
                   id={key}
                   icon={Icon && <Icon />}
                   label={label}
+                  type={type}
                   handleRemove={() => handleRemoveLinkedEntity(key)}
                 />
               )
@@ -117,6 +140,16 @@ const SetupLinkedEntity: React.FC<Props> = ({ hidden, linkedEntity, daoGroups, u
       <AddLinkedEntityModal
         open={openAddLinkedEntityModal}
         onClose={(): void => setOpenAddLinkedEntityModal(false)}
+        onAdd={handleOpenModal}
+      />
+      <ImpactEntitySetupModal
+        open={openImpactEntitySetupModal}
+        onClose={(): void => setOpenImpactEntitySetupModal(false)}
+        onAdd={handleAddLinkedEntity}
+      />
+      <LinkedAccountSetupModal
+        open={openLinkedAccountSetupModal}
+        onClose={(): void => setOpenLinkedAccountSetupModal(false)}
         onAdd={handleAddLinkedEntity}
       />
       {/* <LiquiditySetupModal

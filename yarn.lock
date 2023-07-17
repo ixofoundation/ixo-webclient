@@ -2324,10 +2324,10 @@
     "@babel/runtime" "7.19.4"
     axios "^1.3.4"
 
-"@ixo/impactxclient-sdk@^1.1.10":
-  version "1.1.10"
-  resolved "https://registry.yarnpkg.com/@ixo/impactxclient-sdk/-/impactxclient-sdk-1.1.10.tgz#c2b28c61043460bab7f2c908fd7807f9e29a72c9"
-  integrity sha512-MaZ0seG2H7rFqso+0lyoZY1xNZEwPf+kaS6TIV3sGihTnh+GdtA1dIq3TBzzxDwb7zWyoNGKrGr9HLQ6ifYXBQ==
+"@ixo/impactxclient-sdk@^1.1.11":
+  version "1.1.11"
+  resolved "https://registry.yarnpkg.com/@ixo/impactxclient-sdk/-/impactxclient-sdk-1.1.11.tgz#16287ac92592c43e70ce6584f031ec1c83465a8d"
+  integrity sha512-Sl4AprX1rqiLZZbUq2g+BxtjEElkQvkkYnexsvWzYPdih8hYHV8fWOfoOQrjuIfwhfccEWvYF+awT08EigagnA==
   dependencies:
     "@babel/runtime" "7.19.4"
     "@cosmjs/amino" "0.29.4"

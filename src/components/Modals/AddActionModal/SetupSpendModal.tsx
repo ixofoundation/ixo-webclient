@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { FlexBox } from 'components/App/App.styles'
-import { Dropdown2, Input } from 'pages/CreateEntity/Components'
+import { Dropdown, Input } from 'pages/CreateEntity/Components'
 import { Typography } from 'components/Typography'
 import { TProposalActionModel } from 'types/protocol'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
@@ -97,7 +97,7 @@ const SetupSpendModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): 
           handleChange={(value) => handleUpdateFormData('amount', value)}
           style={{ textAlign: 'right' }}
         />
-        <Dropdown2
+        <Dropdown
           name={'token'}
           value={formData.denom}
           options={[
