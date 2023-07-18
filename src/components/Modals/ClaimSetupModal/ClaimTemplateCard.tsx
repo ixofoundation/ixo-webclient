@@ -42,7 +42,7 @@ const ClaimTemplateCard: React.FC<ClaimTemplateProps> = ({ template, selected = 
       {template && (
         <Box className='d-flex flex-column h-100'>
           <Box>
-            <Typography color='grey700'>Service</Typography>
+            <Typography color='grey700'>{template.type}</Typography>
           </Box>
           <Divider />
           <Box>

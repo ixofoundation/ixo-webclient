@@ -88,18 +88,13 @@ const ReviewClaim: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): J
 
   return (
     <FlexBox width={`${deviceWidth.tablet}px`} gap={10} alignItems='stretch'>
-      {/* <ClaimCard
-        type={profile.type}
-        title={profile.title}
-        description={profile.description || ''}
-        numOfQuestions={Object.keys(claimQuestions).length}
-      /> */}
       <ClaimTemplateCard
         template={{
           id: '',
+          type: profile?.type || '',
           title: profile?.name || '',
           description: profile?.description || '',
-          creator: creator.displayName,
+          creator: creator?.displayName,
           createdAt: moment(new Date()).format('DD-MMM-YYYY'),
         }}
       />
@@ -146,7 +141,7 @@ const ReviewClaim: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): J
               <Button
                 variant='primary'
                 onClick={() => {
-                  history.push(`/explore`)
+                  history.push(`/explore?type=${entityType.startsWith('protocol/') ? 'protocol' : entityType}`)
                   clearEntity()
                 }}
                 style={{ width: '100%' }}
@@ -158,7 +153,15 @@ const ReviewClaim: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): J
         )}
         {success === 'false' && (
           <>
-            <FlexBox direction='column' justifyContent='center' alignItems='center' width='100%' height='100%' gap={4}>
+            <FlexBox
+              direction='column'
+              justifyContent='center'
+              alignItems='center'
+              width='100%'
+              height='100%'
+              gap={4}
+              textAlign='center'
+            >
               <SvgBox color={theme.ixoDarkOrange} svgWidth={30} svgHeight={30}>
                 <ExclamationIcon />
               </SvgBox>

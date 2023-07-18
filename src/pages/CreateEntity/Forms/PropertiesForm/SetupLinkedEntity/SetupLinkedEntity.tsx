@@ -9,10 +9,10 @@ import { omitKey } from 'utils/objects'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
 import { toTitleCase, truncateString } from 'utils/formatters'
 import { BlockSyncService } from 'services/blocksync'
-import { LinkedEntity, Service } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
-import { NodeType } from 'types/entities'
+import { LinkedEntity } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import ImpactEntitySetupModal from 'components/Modals/ImpactEntitySetupModal/ImpactEntitySetupModal'
 import LinkedAccountSetupModal from 'components/Modals/LinkedAccountSetupModal/LinkedAccountSetupModal'
+import { serviceEndpointToUrl } from 'utils/entities'
 
 const bsService = new BlockSyncService()
 
@@ -26,15 +26,8 @@ const LinkedEntityPropertyBox = (props: PropertyBoxProps & { id: string; type: s
           .getEntityById(props.id)
           .then((response: any) => {
             const { service, settings } = response
-            let url = ''
-            const [identifier, key] = settings.Profile.serviceEndpoint.split(':')
-            const usedService: Service | undefined = service.find((item: any) => item.id === `{id}#${identifier}`)
 
-            if (usedService && usedService.type === NodeType.Ipfs) {
-              url = `https://${key}.ipfs.w3s.link`
-            } else if (usedService && usedService.type === NodeType.CellNode) {
-              url = `${usedService.serviceEndpoint}${key}`
-            }
+            const url = serviceEndpointToUrl(settings.Profile.serviceEndpoint, service)
 
             if (url) {
               fetch(url)

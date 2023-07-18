@@ -210,3 +210,9 @@ export function useCurrentEntityLinkedFiles(): LinkedResource[] {
 
   return linkedResource.filter((item: LinkedResource) => Object.keys(EntityLinkedResourceConfig).includes(item.type))
 }
+
+export function useCurrentEntityClaimSchemas(): LinkedResource[] {
+  const { linkedResource } = useCurrentEntity()
+
+  return linkedResource.filter((item: LinkedResource) => item.type === 'ClaimSchema')
+}

@@ -97,6 +97,7 @@ const ClaimSelectModal: React.FC<Props> = ({ open, onClose, onSelect }): JSX.Ele
                 {row
                   .map((v) => ({
                     id: `${v.id}#${v.profile?.name || ''}`,
+                    type: v.profile?.type || '',
                     title: v.profile?.name || '',
                     description: v.profile?.description || '',
                     creator: v.creator?.displayName || '',

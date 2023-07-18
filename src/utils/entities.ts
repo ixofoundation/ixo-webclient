@@ -204,24 +204,31 @@ export const getBondDidFromApiListedEntityData = async (data: ApiListedEntityDat
   })
 }
 
+export function serviceEndpointToUrl(serviceEndpoint: string, service: Service[]): string {
+  let url = ''
+  const [identifier, key] = serviceEndpoint.replace('{id}#', '').split(':')
+  const usedService: Service | undefined = service.find(
+    (item: any) => item.id.replace('{id}#', '') === identifier.replace('{id}#', ''),
+  )
+
+  if (usedService && usedService.type.toLocaleLowerCase() === NodeType.Ipfs.toLocaleLowerCase()) {
+    // url = `${usedService.serviceEndpoint}/${key}`
+    url = `https://${key}.ipfs.w3s.link`
+  } else if (usedService && usedService.type.toLocaleLowerCase() === NodeType.CellNode.toLocaleLowerCase()) {
+    url = `${usedService.serviceEndpoint}${key}`
+  } else {
+    url = serviceEndpoint
+  }
+  return url
+}
+
 export function apiEntityToEntity(
   { entity, cwClient }: { entity: any; cwClient: CosmWasmClient },
   updateCallback: (key: string, value: any, merge?: boolean) => void,
 ): void {
   const { type, settings, linkedResource, service, linkedEntity } = entity
   linkedResource.concat(Object.values(settings)).forEach((item: LinkedResource) => {
-    let url = ''
-    const [identifier, key] = item.serviceEndpoint.replace('{id}#', '').split(':')
-    const usedService: Service | undefined = service.find(
-      (item: any) => item.id.replace('{id}#', '') === identifier.replace('{id}#', ''),
-    )
-
-    if (usedService && usedService.type === NodeType.Ipfs) {
-      // url = `${usedService.serviceEndpoint}/${key}`
-      url = `https://${key}.ipfs.w3s.link`
-    } else if (usedService && usedService.type === NodeType.CellNode) {
-      url = `${usedService.serviceEndpoint}${key}`
-    }
+    const url = serviceEndpointToUrl(item.serviceEndpoint, service)
 
     if (item.proof && url) {
       switch (item.id) {
