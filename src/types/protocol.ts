@@ -872,50 +872,29 @@ export interface TEntityAttributeModel {
   value: string
 }
 export interface TBasicMetadataModel {
+  orgName?: string
+  name?: string
+  image?: string
+  logo?: string
+  type?: string
+
   description?: string
   brand?: string
   location?: string
   attributes?: TEntityAttributeModel[]
   metrics?: TEntityMetricModel[]
+
+  category?: string
 }
 export interface TAssetMetadataModel extends TBasicMetadataModel {
-  image?: string
   denom?: string
-  logo?: string
   type?: EAssetType
   tokenName?: string
-  name?: string
   maxSupply?: number | undefined
   decimals?: number
   autoGenerateZLottie?: boolean
 }
-export interface TInvestmentMetadataModel extends TBasicMetadataModel {
-  image?: string
-  logo?: string
-  orgName?: string
-  name?: string
-}
-export interface TDAOMetadataModel extends TBasicMetadataModel {
-  image?: string
-  logo?: string
-  orgName?: string
-  name?: string
-}
-export interface TProjectMetadataModel extends TBasicMetadataModel {
-  image?: string
-  logo?: string
-  orgName?: string
-  name?: string
-}
-export interface TOracleMetadataModel extends TBasicMetadataModel {
-  image?: string
-  logo?: string
-  orgName?: string
-  name?: string
-}
-export interface TProposalMetadataModel extends TBasicMetadataModel {
-  name?: string
-}
+
 export enum EClaimType {
   Service = 'Service',
   Outcome = 'Outcome',
@@ -1055,18 +1034,8 @@ export interface TQuestion {
   order: number
   currency?: string
 }
-export interface TClaimMetadataModel extends TBasicMetadataModel {
-  type: EClaimType
-  title: string
-}
 
-export type TEntityMetadataModel =
-  | TAssetMetadataModel
-  | TInvestmentMetadataModel
-  | TClaimMetadataModel
-  | TDAOMetadataModel
-  | TOracleMetadataModel
-  | TProposalMetadataModel
+export type TEntityMetadataModel = TAssetMetadataModel
 
 // based on ixo-protocol/artefacts/profile_schema.json
 export interface TEntityProfileModel {
@@ -1077,6 +1046,7 @@ export interface TEntityProfileModel {
     '@protected': boolean
   }
   id: string
+  type: string
   orgName: string
   name: string
   image: string
@@ -1086,6 +1056,7 @@ export interface TEntityProfileModel {
   description: string
   attributes: TEntityAttributeModel[]
   metrics: TEntityMetricModel[]
+  category?: string
 }
 export interface TEntityDDOTagModel {
   category: string

@@ -4,10 +4,11 @@ import { ReactComponent as EntityIcon } from 'assets/images/icon-entity.svg'
 import { ReactComponent as CreatorIcon } from 'assets/images/icon-creator.svg'
 import { PageWrapper, Selections, SearchIcon } from './SelectCreationProcess.styles'
 import { Button, CateSelector, ChainSelector, Input } from 'pages/CreateEntity/Components'
-import { useCreateEntityState } from 'hooks/createEntity'
 import { useTheme } from 'styled-components'
+import { RouteComponentProps, useHistory } from 'react-router-dom'
 
-const SelectCreationProcess: React.FC = (): JSX.Element => {
+const SelectCreationProcess: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): JSX.Element => {
+  const history = useHistory()
   const theme: any = useTheme()
   const SearchInputStyles = {
     fontFamily: theme.secondaryFontFamily,
@@ -16,7 +17,6 @@ const SelectCreationProcess: React.FC = (): JSX.Element => {
     lineHeight: 28,
   }
 
-  const { gotoStep } = useCreateEntityState()
   const [isClone, setIsClone] = useState(false)
   const [existingDid, setExistingDid] = useState('')
   const [chainId, setChainId] = useState(undefined)
@@ -24,12 +24,12 @@ const SelectCreationProcess: React.FC = (): JSX.Element => {
   const canClone = useMemo(() => existingDid.length > 0, [existingDid])
 
   const handleCreate = (): void => {
-    gotoStep(1)
+    const baseLink = match.path.split('/').slice(0, -1).join('/')
+    history.push(`${baseLink}/profile`)
   }
 
   const handleClone = (): void => {
     console.log('TODO:', existingDid, canClone)
-    gotoStep(1)
   }
 
   return (

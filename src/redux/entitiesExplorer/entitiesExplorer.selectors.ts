@@ -50,6 +50,13 @@ export const selectDAOEntities = createSelector(selectEntitiesByType('dao'), (da
   return daos.filter((dao) => Object.keys(dao.daoGroups ?? {}).length > 0)
 })
 
+export const selectAllClaimProtocols = createSelector(
+  selectEntitiesByType('protocol/claim'),
+  (entities: TEntityModel[]): TEntityModel[] => {
+    return entities
+  },
+)
+
 export const selectAllTemplateEntities = createSelector(
   selectEntitiesState,
   (entitiesState: EntitiesExplorerState): ExplorerEntity[] => {

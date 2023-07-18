@@ -7,13 +7,12 @@ import { ReactComponent as InfoIcon } from 'assets/images/icon-info.svg'
 import { Button, InputWithLabel, TextArea } from 'pages/CreateEntity/Components'
 import { useCreateEntityState } from 'hooks/createEntity'
 import { useHistory, useParams } from 'react-router-dom'
-import { TProposalMetadataModel } from 'types/protocol'
 
 const SetupInfo: React.FC = (): JSX.Element => {
   const { entityId, coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
   const history = useHistory()
   const createEntityState = useCreateEntityState()
-  const profile = createEntityState.profile as TProposalMetadataModel
+  const profile = createEntityState.profile
   const { updateProfile } = createEntityState
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')

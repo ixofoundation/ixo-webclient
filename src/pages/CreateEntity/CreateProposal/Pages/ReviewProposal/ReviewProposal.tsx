@@ -10,12 +10,7 @@ import { useCreateEntity, useCreateEntityState } from 'hooks/createEntity'
 import useCurrentDao, { useCurrentDaoGroup } from 'hooks/currentDao'
 import moment from 'moment'
 import { durationToSeconds } from 'utils/conversions'
-import {
-  EntityLinkedResourceConfig,
-  ProposalActionConfig,
-  TProposalActionModel,
-  TProposalMetadataModel,
-} from 'types/protocol'
+import { EntityLinkedResourceConfig, ProposalActionConfig, TProposalActionModel } from 'types/protocol'
 import { useAccount } from 'hooks/account'
 import { truncateString } from 'utils/formatters'
 import * as Toast from 'utils/toast'
@@ -26,6 +21,7 @@ import { decodedMessagesString } from 'utils/messages'
 import { fee } from 'lib/protocol'
 import {
   AccordedRight,
+  LinkedClaim,
   LinkedEntity,
   LinkedResource,
   Service,
@@ -55,8 +51,9 @@ const ReviewProposal: React.FC = () => {
     linkedResource,
     clearEntity,
   } = createEntityState
-  const profile = createEntityState.profile as TProposalMetadataModel
-  const { UploadLinkedResource, CreateProtocol, CreateEntityBase, AddLinkedEntity } = useCreateEntity()
+  const profile = createEntityState.profile
+  const { UploadLinkedResource, UploadLinkedClaim, CreateProtocol, CreateEntityBase, AddLinkedEntity } =
+    useCreateEntity()
   const {
     makeAuthzAuthorizationAction,
     makeAuthzExecAction,
@@ -244,6 +241,7 @@ const ReviewProposal: React.FC = () => {
     let service: Service[] = []
     let linkedEntity: LinkedEntity[] = []
     let linkedResource: LinkedResource[] = []
+    let linkedClaim: LinkedClaim[] = []
 
     // AccordedRight TODO:
 
@@ -255,6 +253,9 @@ const ReviewProposal: React.FC = () => {
 
     // LinkedResource
     linkedResource = linkedResource.concat(await UploadLinkedResource())
+
+    // LinkedClaim
+    linkedClaim = linkedClaim.concat(await UploadLinkedClaim())
 
     // Create Protocol for deed
     const protocolDid = await CreateProtocol()
@@ -268,6 +269,7 @@ const ReviewProposal: React.FC = () => {
       linkedResource,
       accordedRight,
       linkedEntity,
+      linkedClaim,
       relayerNode: process.env.REACT_APP_RELAYER_NODE,
     })
     if (!entityDid) {

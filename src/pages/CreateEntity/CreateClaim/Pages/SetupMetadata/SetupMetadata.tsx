@@ -1,23 +1,27 @@
 import { Box } from 'components/App/App.styles'
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useCreateEntityState } from 'hooks/createEntity'
 import { Button } from '../../../Components'
 import { EntityAdditionalInfoForm, ClaimProfileForm } from '../../../Forms'
 import { PageWrapper } from './SetupMetadata.styles'
-import { EClaimType, TClaimMetadataModel } from 'types/protocol'
+import { TEntityMetadataModel } from 'types/protocol'
+import { RouteComponentProps, useHistory } from 'react-router-dom'
 
-const SetupMetadata: React.FC = (): JSX.Element => {
+const SetupMetadata: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): JSX.Element => {
+  const history = useHistory()
+  const baseLink = match.path.split('/').slice(0, -1).join('/')
+
   const createEntityState = useCreateEntityState()
-  const { entityType, startDate, endDate, gotoStep, updateProfile, updateStartEndDate } = createEntityState
-  const profile: TClaimMetadataModel = createEntityState.profile as TClaimMetadataModel
+  const { entityType, startDate, endDate, updateProfile, updateStartEndDate } = createEntityState
+  const profile: TEntityMetadataModel = createEntityState.profile as TEntityMetadataModel
 
-  const canSubmit = true
+  const canSubmit = useMemo(() => !!profile && !!profile.type && !!profile.name && !!profile.description, [profile])
 
   const handlePrev = (): void => {
-    gotoStep(-1)
+    history.push(`${baseLink}/process`)
   }
   const handleNext = (): void => {
-    gotoStep(1)
+    history.push(`${baseLink}/collection`)
   }
 
   const handleUpdateProfile = (key: string, value: any): void => {
@@ -38,10 +42,10 @@ const SetupMetadata: React.FC = (): JSX.Element => {
         </Box> */}
         <Box className='mb-2' />
         <ClaimProfileForm
-          type={profile?.type as EClaimType}
-          setType={(type: EClaimType): void => handleUpdateProfile('type', type)}
-          title={profile?.title}
-          setTitle={(title: string): void => handleUpdateProfile('title', title)}
+          type={profile?.type || ''}
+          setType={(type: string): void => handleUpdateProfile('type', type)}
+          title={profile?.name || ''}
+          setTitle={(name: string): void => handleUpdateProfile('name', name)}
           description={profile?.description ?? ''}
           setDescription={(description: string): void => handleUpdateProfile('description', description)}
         />

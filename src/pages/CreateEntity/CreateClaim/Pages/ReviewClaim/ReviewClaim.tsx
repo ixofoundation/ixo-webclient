@@ -1,6 +1,7 @@
 import { Verification } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/tx'
 import {
   AccordedRight,
+  LinkedClaim,
   LinkedEntity,
   LinkedResource,
   Service,
@@ -14,33 +15,29 @@ import { useQuery } from 'hooks/window'
 import moment from 'moment'
 import { Button } from 'pages/CreateEntity/Components'
 import React, { useState } from 'react'
-import { TClaimMetadataModel } from 'types/protocol'
 import { ReactComponent as CheckCircleIcon } from 'assets/images/icon-check-circle.svg'
 import { ReactComponent as ExclamationIcon } from 'assets/images/icon-exclamation-circle.svg'
-import { useHistory } from 'react-router-dom'
+import { NavLink, RouteComponentProps, useHistory } from 'react-router-dom'
 import { useTheme } from 'styled-components'
 
-const ReviewClaim: React.FC = (): JSX.Element => {
+const ReviewClaim: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): JSX.Element => {
   const theme: any = useTheme()
   const history = useHistory()
+  const baseLink = match.path.split('/').slice(0, -1).join('/')
+
   const createEntityState = useCreateEntityState()
-  const profile: TClaimMetadataModel = createEntityState.profile as TClaimMetadataModel
-  const {
-    entityType,
-    service: serviceData,
-    linkedEntity: linkedEntityData,
-    claimQuestions,
-    creator,
-    clearEntity,
-    gotoStep,
-  } = createEntityState
+  const profile = createEntityState.profile
+  const { entityType, service: serviceData, linkedEntity: linkedEntityData, creator, clearEntity } = createEntityState
   const { UploadLinkedResource, CreateProtocol, CreateEntityBase } = useCreateEntity()
   const [submitting, setSubmitting] = useState(false)
   const { getQuery } = useQuery()
   const success = getQuery('success')
 
+  const handlePrev = () => {
+    history.push(`${baseLink}/property`)
+  }
+
   const handleSignToCreate = async (): Promise<void> => {
-    console.log({ claimQuestions })
     setSubmitting(true)
 
     const accordedRight: AccordedRight[] = []
@@ -48,6 +45,7 @@ const ReviewClaim: React.FC = (): JSX.Element => {
     let service: Service[] = []
     let linkedEntity: LinkedEntity[] = []
     let linkedResource: LinkedResource[] = []
+    const linkedClaim: LinkedClaim[] = []
 
     // AccordedRight TODO:
 
@@ -60,7 +58,7 @@ const ReviewClaim: React.FC = (): JSX.Element => {
     // LinkedResource
     linkedResource = linkedResource.concat(await UploadLinkedResource())
 
-    // Create Protocol for dao
+    // Create Protocol for claim
     const protocolDid = await CreateProtocol()
     if (!protocolDid) {
       setSubmitting(false)
@@ -68,12 +66,13 @@ const ReviewClaim: React.FC = (): JSX.Element => {
       return
     }
 
-    // Create DAO entity
+    // Create Claim entity
     const entityDid = await CreateEntityBase(entityType, protocolDid, {
       service,
       linkedResource,
       accordedRight,
       linkedEntity,
+      linkedClaim,
       verification,
       relayerNode: process.env.REACT_APP_RELAYER_NODE,
     })
@@ -98,8 +97,8 @@ const ReviewClaim: React.FC = (): JSX.Element => {
       <ClaimTemplateCard
         template={{
           id: '',
-          title: profile.title,
-          description: profile.description!,
+          title: profile?.name || '',
+          description: profile?.description || '',
           creator: creator.displayName,
           createdAt: moment(new Date()).format('DD-MMM-YYYY'),
         }}
@@ -112,10 +111,8 @@ const ReviewClaim: React.FC = (): JSX.Element => {
                 This is the last step before creating this Verifiable Claim on the ixo Blockchain.
               </Typography>
               <Typography variant='secondary'>
-                <Typography variant='secondary' color='blue'>
-                  Review the Verifiable Claim details
-                </Typography>{' '}
-                you have configured.
+                <NavLink to={`${baseLink}/collection`}>Review the Verifiable Claim details</NavLink> you have
+                configured.
               </Typography>
               <Typography variant='secondary'>
                 When you are ready to commit, sign with your DID Account keys, or{' '}
@@ -126,7 +123,7 @@ const ReviewClaim: React.FC = (): JSX.Element => {
               </Typography>
             </FlexBox>
             <FlexBox width='100%' gap={4} mt={4}>
-              <Button variant='secondary' onClick={(): void => gotoStep(-1)} style={{ width: '100%' }}>
+              <Button variant='secondary' onClick={handlePrev} style={{ width: '100%' }}>
                 Back
               </Button>
               <Button variant='primary' onClick={handleSignToCreate} style={{ width: '100%' }} loading={submitting}>
@@ -142,19 +139,19 @@ const ReviewClaim: React.FC = (): JSX.Element => {
                 <CheckCircleIcon />
               </SvgBox>
               <Typography variant='secondary' size='2xl'>
-                {profile.title} Successfully created!
+                {profile.name} Successfully created!
               </Typography>
             </FlexBox>
             <FlexBox width='100%' gap={4}>
               <Button
                 variant='primary'
                 onClick={() => {
-                  history.push(`/explore?type=${entityType}`)
+                  history.push(`/explore`)
                   clearEntity()
                 }}
                 style={{ width: '100%' }}
               >
-                View in the Explorer
+                Back to the Explorer
               </Button>
             </FlexBox>
           </>

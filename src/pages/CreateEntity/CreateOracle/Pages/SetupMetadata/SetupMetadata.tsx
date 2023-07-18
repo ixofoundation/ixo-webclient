@@ -4,12 +4,11 @@ import { useCreateEntityState } from 'hooks/createEntity'
 import { Button } from '../../../Components'
 import { OracleProfileForm, EntityAdditionalInfoForm } from '../../../Forms'
 import { PageWrapper } from './SetupMetadata.styles'
-import { TOracleMetadataModel } from 'types/protocol'
 
 const SetupMetadata: React.FC = (): JSX.Element => {
   const createEntityState = useCreateEntityState()
   const { entityType, startDate, endDate, gotoStep, updateProfile, updateStartEndDate } = createEntityState
-  const profile: TOracleMetadataModel = createEntityState.profile as TOracleMetadataModel
+  const profile = createEntityState.profile
 
   const canSubmit: boolean = useMemo(
     () => !!profile?.image && !!profile?.logo && !!profile?.orgName && !!profile?.name,

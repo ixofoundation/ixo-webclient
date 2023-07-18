@@ -1,18 +1,17 @@
 import React, { useEffect } from 'react'
 import { Redirect, Route, RouteComponentProps, useRouteMatch } from 'react-router-dom'
-import { useCreateEntityState, useCreateEntityStrategy } from 'hooks/createEntity'
+import { useCreateEntityState } from 'hooks/createEntity'
+import { ReviewClaim, SelectCreationProcess, SetupDataCollection, SetupMetadata, SetupProperties } from './Pages'
 
 const CreateClaim: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): JSX.Element => {
-  const { getStrategyByEntityType } = useCreateEntityStrategy()
-  const { updateEntityType, updateTitle, updateSubtitle, updateBreadCrumbs } = useCreateEntityState()
-  const isSelectProcessRoute = useRouteMatch('/create/entity/claim/process')
-  const isSetupMetadataRoute = useRouteMatch('/create/entity/claim/profile')
-  const isSetupDataCollectionRoute = useRouteMatch('/create/entity/claim/collection')
-  const isSetupPropertiesRoute = useRouteMatch('/create/entity/claim/property')
-  const { steps } = getStrategyByEntityType('protocol')
+  const { entityType, updateEntityType, updateTitle, updateSubtitle, updateBreadCrumbs } = useCreateEntityState()
+  const isSelectProcessRoute = useRouteMatch(`/create/entity/${entityType}/process`)
+  const isSetupMetadataRoute = useRouteMatch(`/create/entity/${entityType}/profile`)
+  const isSetupDataCollectionRoute = useRouteMatch(`/create/entity/${entityType}/collection`)
+  const isSetupPropertiesRoute = useRouteMatch(`/create/entity/${entityType}/property`)
 
   useEffect(() => {
-    updateEntityType('protocol')
+    updateEntityType('protocol/claim')
     updateTitle('Verifiable Claim creation')
     updateBreadCrumbs([{ text: 'Protocol' }])
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -45,11 +44,14 @@ const CreateClaim: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): J
 
   return (
     <>
-      {Object.values(steps).map((step) => (
-        <Route key={step.url} exact path={step.url} component={step.component} />
-      ))}
+      <Route exact path={`${match.path}/process`} component={SelectCreationProcess} />
+      <Route exact path={`${match.path}/profile`} component={SetupMetadata} />
+      <Route exact path={`${match.path}/collection`} component={SetupDataCollection} />
+      <Route exact path={`${match.path}/property`} component={SetupProperties} />
+      <Route exact path={`${match.path}/review`} component={ReviewClaim} />
+
       <Route exact path={`${match.path}`}>
-        {steps[1] && steps[1].url && <Redirect to={steps[1].url} />}
+        <Redirect to={`${match.path}/process`} />
       </Route>
     </>
   )

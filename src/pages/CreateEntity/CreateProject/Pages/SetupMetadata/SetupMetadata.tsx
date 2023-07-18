@@ -4,12 +4,11 @@ import { useCreateEntityState } from 'hooks/createEntity'
 import { Button } from '../../../Components'
 import { ProjectProfileForm, EntityAdditionalInfoForm } from '../../../Forms'
 import { PageWrapper } from './SetupMetadata.styles'
-import { TProjectMetadataModel } from 'types/protocol'
 
 const SetupMetadata: React.FC = (): JSX.Element => {
   const createEntityState = useCreateEntityState()
   const { entityType, startDate, endDate, gotoStep, updateProfile, updateStartEndDate } = createEntityState
-  const profile: TProjectMetadataModel = createEntityState.profile as TProjectMetadataModel
+  const profile = createEntityState.profile
 
   const canSubmit: boolean = useMemo(
     () => !!profile?.image && !!profile?.logo && !!profile?.orgName && !!profile?.name,
