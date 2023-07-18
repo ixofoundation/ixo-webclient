@@ -77,6 +77,7 @@ import { customQueries, ixo, utils } from '@ixo/impactxclient-sdk'
 import { CellnodePublicResource, CellnodeWeb3Resource } from '@ixo/impactxclient-sdk/types/custom_queries/cellnode'
 import {
   AccordedRight,
+  LinkedClaim,
   LinkedEntity,
   LinkedResource,
   Service,
@@ -89,6 +90,7 @@ import { Cw20Coin } from '@ixo/impactxclient-sdk/types/codegen/Cw20Base.types'
 import { DeliverTxResponse } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/stargate'
 import BigNumber from 'bignumber.js'
 import { LinkedResourceProofGenerator, LinkedResourceServiceEndpointGenerator } from 'utils/entities'
+import { selectAllClaimProtocols } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 export function useCreateEntityStrategy(): {
   getStrategyByEntityType: (entityType: string) => TCreateEntityStrategyType
@@ -367,8 +369,10 @@ interface TCreateEntityHookRes {
   SavePage: (page: TEntityPageModel) => Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined>
   SaveTags: (ddoTags: TEntityDDOTagModel[]) => Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined>
   SaveTokenMetadata: () => Promise<CellnodeWeb3Resource | undefined>
-  SaveClaims: (claim: { [id: string]: TEntityClaimModel }) => Promise<CellnodePublicResource | undefined>
+  SaveClaim: (claim: TEntityClaimModel) => Promise<CellnodeWeb3Resource | undefined>
+  SaveClaimQuestions: (questions: TQuestion[]) => Promise<(CellnodePublicResource | CellnodeWeb3Resource)[]>
   UploadLinkedResource: () => Promise<LinkedResource[]>
+  UploadLinkedClaim: () => Promise<LinkedClaim[]>
   CreateProtocol: () => Promise<string>
   CreateEntityBase: (
     entityType: string,
@@ -378,6 +382,7 @@ interface TCreateEntityHookRes {
       linkedResource: LinkedResource[]
       accordedRight: AccordedRight[]
       linkedEntity: LinkedEntity[]
+      linkedClaim: LinkedClaim[]
       verification?: Verification[]
       relayerNode?: string
     },
@@ -388,9 +393,11 @@ interface TCreateEntityHookRes {
 
 export function useCreateEntity(): TCreateEntityHookRes {
   const { signingClient, signer } = useAccount()
+  const claimProtocols = useAppSelector(selectAllClaimProtocols)
+
   const createEntityState = useCreateEntityState()
   const profile = createEntityState.profile as any
-  const { creator, administrator, page, ddoTags, service } = createEntityState
+  const { creator, administrator, page, ddoTags, service, claimQuestions, claim } = createEntityState
   // TODO: service choose-able
   const cellnodeService = service[0]
 
@@ -477,6 +484,8 @@ export function useCreateEntity(): TCreateEntityHookRes {
         description: profile.description,
         attributes: profile.attributes,
         metrics: profile.metrics,
+
+        category: profile.type,
       }
       const buff = Buffer.from(JSON.stringify(payload))
       const res = await UploadDataToService(buff.toString('base64'))
@@ -672,42 +681,74 @@ export function useCreateEntity(): TCreateEntityHookRes {
     }
   }
 
-  const SaveClaims = async (claim: {
-    [id: string]: TEntityClaimModel
-  }): Promise<CellnodePublicResource | undefined> => {
+  const SaveClaimQuestion = async (
+    question: TQuestion,
+  ): Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined> => {
     try {
-      const claims = Object.values(claim)
-      const headLinMetricClaim = claims.find(({ isHeadlineMetric }) => isHeadlineMetric)
+      const payload = {
+        '@context': {
+          ixo: 'https://w3id.org/ixo/ns/protocol/',
+          '@id': '@type',
+          type: '@type',
+          '@protected': true,
+        },
+        type: 'ixo:entity#claimSchema',
+        question,
+      }
+      const buff = Buffer.from(JSON.stringify(payload))
+      const res = await UploadDataToService(buff.toString('base64'))
+      console.log('SaveClaimQuestion', res)
+      return res
+    } catch (e) {
+      console.error('SaveClaimQuestion', e)
+      return undefined
+    }
+  }
+
+  const SaveClaimQuestions = async (
+    questions: TQuestion[],
+  ): Promise<(CellnodePublicResource | CellnodeWeb3Resource)[]> => {
+    return (await Promise.allSettled(questions.map(SaveClaimQuestion)))
+      .filter((res) => res.status === 'fulfilled')
+      .map((res: any) => res.value)
+  }
+
+  const SaveClaim = async (claim: TEntityClaimModel): Promise<CellnodeWeb3Resource | undefined> => {
+    try {
+      // const headLinMetricClaim = claims.find(({ isHeadlineMetric }) => isHeadlineMetric)
 
       const buff = Buffer.from(
         JSON.stringify({
           '@context': {
-            ixo: 'https://w3id.org/ixo/ns/protocol/',
-            '@id': '@type',
+            ixo: 'https://w3id.org/ixo/vocab/v1',
+            web3: 'https://ipfs.io/ipfs/',
+            id: '@id',
             type: '@type',
             '@protected': true,
           },
-          type: 'ixo:entity#claim',
-          entityClaims: claims,
-          headlineMetric: headLinMetricClaim?.id,
+          id: '{id}#claims',
+          type: 'ixo:Claims',
+          entityClaims: [claim],
+          // headlineMetric: headLinMetricClaim?.id,
         }),
       )
-      const res = await customQueries.cellnode.uploadPublicDoc(
+      const res = await customQueries.cellnode.uploadWeb3Doc(
+        utils.common.generateId(12),
         'application/ld+json',
         buff.toString('base64'),
         undefined,
         chainNetwork,
       )
-      console.log('SaveClaims', res)
+      console.log('SaveClaim', res)
       return res
     } catch (e) {
-      console.error('SaveClaims', e)
+      console.error('SaveClaim', e)
       return undefined
     }
   }
 
   const UploadLinkedResource = async (): Promise<LinkedResource[]> => {
-    const linkedResource: LinkedResource[] = []
+    let linkedResource: LinkedResource[] = []
 
     const [saveProfileRes, saveCreatorRes, saveAdministratorRes, savePageRes, saveTagsRes] = await Promise.allSettled([
       await SaveProfile(profile),
@@ -777,7 +818,48 @@ export function useCreateEntity(): TCreateEntityHookRes {
         right: '',
       })
     }
+
+    linkedResource = linkedResource.concat(
+      await Promise.all(
+        Object.values(claimQuestions).map(async (claimQuestion, index) => {
+          const res: CellnodePublicResource | CellnodeWeb3Resource | undefined = await SaveClaimQuestion(claimQuestion)
+
+          return {
+            id: `{id}#${claimQuestion.title}`,
+            type: 'ClaimSchema',
+            description: claimQuestion.description,
+            mediaType: 'application/ld+json',
+            serviceEndpoint: LinkedResourceServiceEndpointGenerator(res!, cellnodeService),
+            proof: LinkedResourceProofGenerator(res!, cellnodeService),
+            encrypted: 'false',
+            right: '',
+          }
+        }),
+      ),
+    )
+
     return linkedResource
+  }
+
+  const UploadLinkedClaim = async (): Promise<LinkedClaim[]> => {
+    const linkedClaims: LinkedClaim[] = await Promise.all(
+      Object.values(claim).map(async (item) => {
+        const res: CellnodeWeb3Resource | undefined = await SaveClaim(item)
+        const claimProtocol = claimProtocols.find((protocol) => item.template?.id.includes(protocol.id))
+
+        return {
+          type: claimProtocol?.profile?.category || '',
+          id: `{id}#${claimProtocol?.profile?.name}`,
+          description: claimProtocol?.profile?.description || '',
+          serviceEndpoint: LinkedResourceServiceEndpointGenerator(res!, cellnodeService),
+          proof: LinkedResourceProofGenerator(res!, cellnodeService),
+          encrypted: 'false',
+          right: '',
+        }
+      }),
+    )
+
+    return linkedClaims
   }
 
   const CreateProtocol = async (): Promise<string> => {
@@ -800,12 +882,13 @@ export function useCreateEntity(): TCreateEntityHookRes {
       linkedResource: LinkedResource[]
       accordedRight: AccordedRight[]
       linkedEntity: LinkedEntity[]
+      linkedClaim: LinkedClaim[]
       verification?: Verification[]
       relayerNode?: string
     },
   ): Promise<string> => {
     try {
-      const { service, linkedResource, accordedRight, linkedEntity, verification, relayerNode } = payload
+      const { service, linkedResource, accordedRight, linkedEntity, linkedClaim, verification, relayerNode } = payload
       const { startDate, endDate } = profile
       const res = await CreateEntity(signingClient, signer, [
         {
@@ -814,6 +897,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
           context: [{ key: 'class', val: protocolDid }],
           service,
           linkedResource,
+          linkedClaim,
           accordedRight,
           linkedEntity,
           verification,
@@ -1018,9 +1102,11 @@ export function useCreateEntity(): TCreateEntityHookRes {
     SaveAdministrator,
     SavePage,
     SaveTags,
-    SaveClaims,
+    SaveClaim,
+    SaveClaimQuestions,
     SaveTokenMetadata,
     UploadLinkedResource,
+    UploadLinkedClaim,
     CreateProtocol,
     CreateEntityBase,
     CreateDAOCoreByGroupId,

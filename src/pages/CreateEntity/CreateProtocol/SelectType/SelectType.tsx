@@ -21,34 +21,39 @@ const SelectType: React.FC = (): JSX.Element => {
       description: `A <b>Verifiable Claim</b> defines a data schema, data collection format, and evaluation methodology for any type of verifiable claim.`,
     },
     {
-      type: 'asset',
+      type: 'protocol/asset',
       label: 'Asset Class',
       icon: <ImpactTokenIcon />,
       description: `A <b>Asset Class</b> defines a data schema, data collection format, and evaluation methodology for any type of verifiable claim.`,
+      disabled: true,
     },
     {
-      type: 'investment',
+      type: 'protocol/investment',
       label: 'Investment Class',
       icon: <InvestmentIcon />,
       description: `A <b>Investment Class</b> defines a data schema, data collection format, and evaluation methodology for any type of verifiable claim.`,
+      disabled: true,
     },
     {
-      type: 'project',
+      type: 'protocol/project',
       label: 'Project Class',
       icon: <ProjectIcon />,
       description: `A <b>Project Class</b> defines a data schema, data collection format, and evaluation methodology for any type of verifiable claim.`,
+      disabled: true,
     },
     {
-      type: 'oracle',
+      type: 'protocol/oracle',
       label: 'Oracle Class',
       icon: <OracleIcon />,
       description: `A <b>Oracle Class</b> defines a data schema, data collection format, and evaluation methodology for any type of verifiable claim.`,
+      disabled: true,
     },
     {
-      type: 'dao',
+      type: 'protocol/dao',
       label: 'DAO Class',
       icon: <DAOIcon />,
       description: `A <b>DAO Class</b> defines a data schema, data collection format, and evaluation methodology for any type of verifiable claim.`,
+      disabled: true,
     },
   ]
 
@@ -84,6 +89,7 @@ const SelectType: React.FC = (): JSX.Element => {
             onClick={(): void => handleClick(item)}
             onMouseEnter={(): void => setHoveredItem(item)}
             onMouseLeave={(): void => setHoveredItem(undefined)}
+            disabled={item.disabled}
           />
         ))}
       </Box>

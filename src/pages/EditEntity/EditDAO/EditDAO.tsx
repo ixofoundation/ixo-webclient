@@ -1,6 +1,5 @@
 import React, { useContext, useEffect } from 'react'
 import { Redirect, Route, useHistory, useParams } from 'react-router-dom'
-import { TDAOMetadataModel } from 'types/protocol'
 import { EditEntityContext } from '../EditEntity'
 import EditGroups from './EditGroups/EditGroups'
 import EditMetadata from './EditMetadata/EditMetadata'
@@ -12,7 +11,7 @@ const EditDAO: React.FC = (): JSX.Element => {
   const { entityId } = useParams<{ entityId: string }>()
 
   const entity = useContext(EditEntityContext)
-  const profile: TDAOMetadataModel = entity.profile as TDAOMetadataModel
+  const profile = entity.profile
   const entityName = profile?.name || ''
 
   useEffect(() => {

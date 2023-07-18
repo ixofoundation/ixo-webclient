@@ -5,8 +5,8 @@ import { Typography } from 'components/Typography'
 import { EClaimType } from 'types/protocol'
 
 interface Props {
-  type: EClaimType | undefined
-  setType: (type: EClaimType) => void
+  type: string
+  setType: (type: string) => void
   title: string
   setTitle: (title: string) => void
   description: string

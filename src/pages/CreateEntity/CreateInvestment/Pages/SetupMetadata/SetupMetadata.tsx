@@ -4,12 +4,11 @@ import { useCreateEntityState } from 'hooks/createEntity'
 import { Button } from '../../../Components'
 import { InvestmentProfileForm, EntityAdditionalInfoForm } from '../../../Forms'
 import { PageWrapper } from './SetupMetadata.styles'
-import { TInvestmentMetadataModel } from 'types/protocol'
 
 const SetupMetadata: React.FC = (): JSX.Element => {
   const createEntityState = useCreateEntityState()
   const { entityType, startDate, endDate, gotoStep, updateProfile, updateStartEndDate } = createEntityState
-  const profile: TInvestmentMetadataModel = createEntityState.profile as TInvestmentMetadataModel
+  const profile = createEntityState.profile
 
   const canSubmit = true
 

@@ -1,7 +1,6 @@
 import { FlexBox } from 'components/App/App.styles'
 import React from 'react'
 import { useCreateEntityState } from 'hooks/createEntity'
-import { TInvestmentMetadataModel } from 'types/protocol'
 import InvestmentCard from './InvestmentCard'
 import { Typography } from 'components/Typography'
 import { Button } from 'pages/CreateEntity/Components'
@@ -9,7 +8,7 @@ import { deviceWidth } from 'constants/device'
 
 const ReviewInvestment: React.FC = (): JSX.Element => {
   const createEntityState = useCreateEntityState()
-  const profile: TInvestmentMetadataModel = createEntityState.profile as TInvestmentMetadataModel
+  const profile = createEntityState.profile
   const { endDate, gotoStep } = createEntityState
 
   const handleSignToCreate = async (): Promise<void> => {

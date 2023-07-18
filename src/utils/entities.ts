@@ -216,9 +216,10 @@ export function apiEntityToEntity(
       (item: any) => item.id.replace('{id}#', '') === identifier.replace('{id}#', ''),
     )
 
-    if (usedService && usedService.type.toLowerCase() === NodeType.Ipfs.toLowerCase()) {
+    if (usedService && usedService.type === NodeType.Ipfs) {
+      // url = `${usedService.serviceEndpoint}/${key}`
       url = `https://${key}.ipfs.w3s.link`
-    } else if (usedService && usedService.type.toLowerCase() === NodeType.CellNode.toLowerCase()) {
+    } else if (usedService && usedService.type === NodeType.CellNode) {
       url = `${usedService.serviceEndpoint}${key}`
     }
 
@@ -358,7 +359,7 @@ export const LinkedResourceServiceEndpointGenerator = (
       return `${serviceId}:/public/${(uploadResult as CellnodePublicResource).key}`
     }
   }
-  return `cellnode:/public/${(uploadResult as CellnodePublicResource).key}`
+  return `ipfs:${(uploadResult as CellnodeWeb3Resource).cid}`
 }
 
 export const LinkedResourceProofGenerator = (
@@ -373,5 +374,5 @@ export const LinkedResourceProofGenerator = (
       return (uploadResult as CellnodePublicResource).key
     }
   }
-  return (uploadResult as CellnodePublicResource).key
+  return (uploadResult as CellnodeWeb3Resource).cid
 }

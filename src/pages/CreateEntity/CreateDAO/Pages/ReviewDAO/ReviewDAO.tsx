@@ -2,6 +2,7 @@ import { ixo } from '@ixo/impactxclient-sdk'
 import { Verification } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/tx'
 import {
   AccordedRight,
+  LinkedClaim,
   LinkedEntity,
   LinkedResource,
   Service,
@@ -14,7 +15,6 @@ import { useQuery } from 'hooks/window'
 import { Button } from 'pages/CreateEntity/Components'
 import React, { useMemo, useState } from 'react'
 import { NavLink, useHistory } from 'react-router-dom'
-import { TDAOMetadataModel } from 'types/protocol'
 import DAOCard from '../../../Forms/ReviewCard/DAOCard'
 import { ReactComponent as CheckCircleIcon } from 'assets/images/icon-check-circle.svg'
 import { ReactComponent as ExclamationIcon } from 'assets/images/icon-exclamation-circle.svg'
@@ -24,7 +24,7 @@ const ReviewDAO: React.FC = (): JSX.Element => {
   const theme: any = useTheme()
   const history = useHistory()
   const createEntityState = useCreateEntityState()
-  const profile: TDAOMetadataModel = createEntityState.profile as TDAOMetadataModel
+  const profile = createEntityState.profile
   const {
     entityType,
     service: serviceData,
@@ -35,7 +35,7 @@ const ReviewDAO: React.FC = (): JSX.Element => {
     gotoStep,
     gotoStepByNo,
   } = createEntityState
-  const { UploadLinkedResource, CreateProtocol, CreateEntityBase } = useCreateEntity()
+  const { UploadLinkedResource, UploadLinkedClaim, CreateProtocol, CreateEntityBase } = useCreateEntity()
   const [submitting, setSubmitting] = useState(false)
   const { getQuery } = useQuery()
   const success = getQuery('success')
@@ -56,6 +56,7 @@ const ReviewDAO: React.FC = (): JSX.Element => {
     let service: Service[] = []
     let linkedEntity: LinkedEntity[] = []
     let linkedResource: LinkedResource[] = []
+    let linkedClaim: LinkedClaim[] = []
 
     // AccordedRight TODO:
 
@@ -84,6 +85,9 @@ const ReviewDAO: React.FC = (): JSX.Element => {
       )
     }
 
+    // LinkedClaim
+    linkedClaim = linkedClaim.concat(await UploadLinkedClaim())
+
     // Create Protocol for dao
     const protocolDid = await CreateProtocol()
     if (!protocolDid) {
@@ -98,6 +102,7 @@ const ReviewDAO: React.FC = (): JSX.Element => {
       linkedResource,
       accordedRight,
       linkedEntity,
+      linkedClaim,
       verification,
       relayerNode: process.env.REACT_APP_RELAYER_NODE,
     })

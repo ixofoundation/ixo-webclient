@@ -152,6 +152,7 @@ export function useCurrentEntityMetadata(): {
 
 export function useCurrentEntityProfile(): Omit<TEntityProfileModel, '@context' | 'id'> {
   const { profile } = useCurrentEntity()
+  const type = profile?.type ?? ''
   const name = profile?.name ?? ''
   const orgName = profile?.orgName ?? ''
   const image = profile?.image ?? ''
@@ -161,8 +162,9 @@ export function useCurrentEntityProfile(): Omit<TEntityProfileModel, '@context' 
   const description = profile?.description ?? ''
   const attributes = profile?.attributes ?? []
   const metrics = profile?.metrics ?? []
+  const category = profile?.category ?? ''
 
-  return { name, orgName, image, logo, brand, location, description, attributes, metrics }
+  return { type, name, orgName, image, logo, brand, location, description, attributes, metrics, category }
 }
 
 export function useCurrentEntityCreator(): Omit<TEntityCreatorModel, '@type'> {
