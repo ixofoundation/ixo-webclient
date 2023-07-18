@@ -1,5 +1,6 @@
 import { EncodeObject } from '@cosmjs/proto-signing'
 import {
+  LinkedClaim,
   LinkedEntity,
   LinkedResource,
   VerificationMethod,
@@ -8,12 +9,15 @@ import { TEntityModel } from 'api/blocksync/types/entities'
 import BigNumber from 'bignumber.js'
 import {
   fee,
+  GetAddLinkedClaimMsgs,
   GetAddLinkedEntityMsgs,
   GetAddLinkedResourceMsgs,
   GetAddVerifcationMethodMsgs,
+  GetDeleteLinkedClaimMsgs,
   GetDeleteLinkedEntityMsgs,
   GetDeleteLinkedResourceMsgs,
   GetDeleteVerifcationMethodMsgs,
+  GetReplaceLinkedClaimMsgs,
   GetReplaceLinkedResourceMsgs,
   GetUpdateStartAndEndDateMsgs,
 } from 'lib/protocol'
@@ -303,6 +307,41 @@ export default function useEditEntity(): {
     return messages
   }
 
+  const getEditedLinkedClaimMsgs = async (): Promise<readonly EncodeObject[]> => {
+    const editedLinkedClaim = editEntity.linkedClaim
+    const currentLinkedClaim = currentEntity.linkedClaim
+    if (JSON.stringify(editedLinkedClaim) === JSON.stringify(currentLinkedClaim)) {
+      return []
+    }
+
+    const diffLinkedClaim = [
+      ...editedLinkedClaim.filter(
+        (item: LinkedClaim) =>
+          !currentLinkedClaim.map((item: LinkedClaim) => JSON.stringify(item)).includes(JSON.stringify(item)),
+      ),
+      ...currentLinkedClaim
+        .filter(
+          (item: LinkedClaim) =>
+            !editedLinkedClaim.map((item: LinkedClaim) => JSON.stringify(item)).includes(JSON.stringify(item)),
+        )
+        .filter((item: LinkedClaim) => !editedLinkedClaim.some((v) => v.id === item.id)),
+    ]
+
+    const messages: readonly EncodeObject[] = diffLinkedClaim.reduce(
+      (acc: EncodeObject[], cur: LinkedClaim) => [
+        ...acc,
+        ...(currentLinkedClaim.some((item: LinkedClaim) => item.id === cur.id)
+          ? editedLinkedClaim.some((item: LinkedClaim) => item.id === cur.id)
+            ? GetReplaceLinkedClaimMsgs(editEntity.id, signer, cur)
+            : GetDeleteLinkedClaimMsgs(editEntity.id, signer, cur)
+          : GetAddLinkedClaimMsgs(editEntity.id, signer, cur)),
+      ],
+      [],
+    )
+
+    return messages
+  }
+
   const getEditedVerificationMethodMsgs = async (): Promise<readonly EncodeObject[]> => {
     if (JSON.stringify(editEntity.verificationMethod) === JSON.stringify(currentEntity.verificationMethod)) {
       return []
@@ -366,6 +405,7 @@ export default function useEditEntity(): {
       ...(await getEditedLinkedFilesMsgs()),
       ...(await getEditedGroupsMsgs()),
       ...(await getEditedLinkedEntityMsgs()),
+      ...(await getEditedLinkedClaimMsgs()),
       ...(await getEditedVerificationMethodMsgs()),
     ]
   }

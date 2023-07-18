@@ -75,7 +75,7 @@ const PropertiesForm: React.FC<Props> = ({
 }): JSX.Element => {
   const [propertyView, setPropertyView] = useState<string>('')
   const activeProperties = useMemo(() => {
-    if (entityType.startsWith('protocol')) {
+    if (entityType?.startsWith('protocol')) {
       return Properties.filter((property) => property !== 'Claims' && property !== 'Linked Entities')
     } else if (entityType === 'deed') {
       return Properties.filter((property) => property !== 'Settings')

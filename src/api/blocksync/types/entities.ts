@@ -24,6 +24,7 @@ import {
 } from 'types/entities'
 import {
   TEntityAdministratorModel,
+  TEntityClaimModel,
   TEntityCreatorModel,
   TEntityDDOTagModel,
   TEntityPageSectionModel,
@@ -270,4 +271,5 @@ export interface TEntityModel extends Omit<Entity, 'metadata'>, IidDocument {
   tags?: TEntityDDOTagModel[]
   token?: TTokenMetadataModel
   daoGroups?: { [address: string]: DaoGroup }
+  claim?: { [id: string]: TEntityClaimModel }
 }

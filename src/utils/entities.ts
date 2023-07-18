@@ -6,7 +6,12 @@ import { AgentRole } from 'redux/account/account.types'
 import { PageContent } from 'redux/selectedEntity/selectedEntity.types'
 import { ApiListedEntityData } from 'api/blocksync/types/entities'
 import { EntityLinkedResourceConfig, TEntityDDOTagModel, TEntityServiceModel } from 'types/protocol'
-import { LinkedEntity, LinkedResource, Service } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
+import {
+  LinkedClaim,
+  LinkedEntity,
+  LinkedResource,
+  Service,
+} from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { CosmWasmClient } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/cosmwasm-stargate'
 import { getDaoContractInfo } from './dao'
 import { CellnodePublicResource, CellnodeWeb3Resource } from '@ixo/impactxclient-sdk/types/custom_queries/cellnode'
@@ -226,7 +231,7 @@ export function apiEntityToEntity(
   { entity, cwClient }: { entity: any; cwClient: CosmWasmClient },
   updateCallback: (key: string, value: any, merge?: boolean) => void,
 ): void {
-  const { type, settings, linkedResource, service, linkedEntity } = entity
+  const { type, settings, linkedResource, service, linkedEntity, linkedClaim } = entity
   linkedResource.concat(Object.values(settings)).forEach((item: LinkedResource) => {
     const url = serviceEndpointToUrl(item.serviceEndpoint, service)
 
@@ -323,6 +328,20 @@ export function apiEntityToEntity(
         default:
           break
       }
+    }
+  })
+
+  linkedClaim.forEach((item: LinkedClaim) => {
+    const url = serviceEndpointToUrl(item.serviceEndpoint, service)
+
+    if (item.proof && url) {
+      fetch(url)
+        .then((response) => response.json())
+        .then((response) => response.entityClaims[0])
+        .then((claim) => {
+          updateCallback('claim', { [claim.id]: claim }, true)
+        })
+        .catch(() => undefined)
     }
   })
 
