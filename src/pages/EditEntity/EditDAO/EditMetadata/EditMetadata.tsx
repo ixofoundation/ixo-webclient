@@ -1,6 +1,5 @@
 import { Box } from 'components/App/App.styles'
 import React, { useContext, useEffect } from 'react'
-import { TDAOMetadataModel } from 'types/protocol'
 import styled from 'styled-components'
 import { DAOProfileForm, EntityAdditionalInfoForm } from 'pages/CreateEntity/Forms'
 import { Button } from 'pages/CreateEntity/Components'
@@ -18,7 +17,7 @@ const EditMetadata: React.FC = (): JSX.Element => {
   const { entityId } = useParams<{ entityId: string }>()
   const entity = useContext(EditEntityContext)
 
-  const profile: TDAOMetadataModel = entity.profile as TDAOMetadataModel
+  const profile = entity.profile
 
   const canSubmit = true
 

@@ -54,7 +54,7 @@ interface Props {
   handleChange: (values: string[]) => void
 }
 
-const Select: React.FC<Props> = ({
+const TagSelector: React.FC<Props> = ({
   name = '',
   values = [],
   options,
@@ -92,4 +92,4 @@ const Select: React.FC<Props> = ({
   )
 }
 
-export default Select
+export default TagSelector

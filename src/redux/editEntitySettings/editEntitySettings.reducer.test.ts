@@ -24,7 +24,7 @@ import {
   UpdateVersionAction,
 } from './editEntitySettings.types'
 import { EntityStage, EntityStatus, EntityView, PageView, TermsOfUseType, EntityType } from '../../types/entities'
-import { NewEntityAction, EditEntityActions, EditEntitySuccessAction } from '../editEntity/editEntity.types'
+import { NewEntityAction, EditEntityActions, EditEntitySuccessAction } from '../editEntityOld/editEntity.types'
 
 const initialState = SUT.initialState
 

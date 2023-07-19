@@ -1,11 +1,18 @@
 import { contracts, customQueries } from '@ixo/impactxclient-sdk'
 import { CosmWasmClient } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/cosmwasm-stargate'
 import { MarketingInfoResponse, TokenInfoResponse } from '@ixo/impactxclient-sdk/types/codegen/Cw20Base.types'
-import { ProposalResponse, Threshold, VoteInfo } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
+import {
+  ProposalResponse,
+  Threshold,
+  VoteInfo,
+  CosmosMsgForEmpty,
+} from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
 import { UpdateProposalConfigData } from 'components/Modals/AddActionModal/SetupUpdateVotingConfigModal'
 import { chainNetwork } from 'hooks/configs'
 import { Member } from 'types/dao'
 import { durationToSeconds, expirationAtTimeToSecondsFromNow } from './conversions'
+import { ProposalActionConfigMap } from 'types/protocol'
+import { parseEncodedMessage } from './messages'
 
 export const thresholdToTQData = (
   source: Threshold,
@@ -71,19 +78,13 @@ export const getDaoContractInfo = async ({
   const daoCoreClient = new contracts.DaoCore.DaoCoreQueryClient(cwClient, coreAddress)
   const admin = await daoCoreClient.admin()
   const config = await daoCoreClient.config()
-  const cw20Balances = await daoCoreClient.cw20Balances({})
-  const cw20TokenList = await daoCoreClient.cw20TokenList({})
-  const cw721TokenList = await daoCoreClient.cw721TokenList({})
-  const storageItems = await daoCoreClient.listItems({})
   const [{ address: proposalModuleAddress }] = await daoCoreClient.proposalModules({})
   const [{ address: activeProposalModuleAddress }] = await daoCoreClient.activeProposalModules({})
-  const proposalModuleCount = await daoCoreClient.proposalModuleCount()
   const votingModuleAddress = await daoCoreClient.votingModule()
 
   // proposalModule
   const proposalModule: any = {}
   proposalModule.proposalModuleAddress = proposalModuleAddress
-  proposalModule.proposalModuleCount = proposalModuleCount
   const daoProposalSingleClient = new contracts.DaoProposalSingle.DaoProposalSingleQueryClient(
     cwClient,
     proposalModuleAddress,
@@ -176,22 +177,14 @@ export const getDaoContractInfo = async ({
     votingModule.totalWeight = (await cw4GroupClient.totalWeight({})).weight as number
   }
 
-  // treasury
-  const treasury: any = {}
-  treasury.cw20Balances = cw20Balances
-  treasury.cw20TokenList = cw20TokenList
-  treasury.cw721TokenList = cw721TokenList
-
   return {
     coreAddress,
     type,
     admin,
     config,
-    storageItems,
     activeProposalModuleAddress,
     proposalModule,
     votingModule,
-    treasury,
     token,
   }
 }
@@ -231,4 +224,30 @@ export const getDaoContractMembersInfo = async ({
   }
 
   return members
+}
+
+export const proposalMsgToActionConfig = (msg: CosmosMsgForEmpty) => {
+  if ('wasm' in msg && 'execute' in msg.wasm && 'msg' in msg.wasm.execute) {
+    const encodedMessage = parseEncodedMessage(msg.wasm.execute.msg)
+
+    let key: string = Object.keys(encodedMessage)[0]
+    const value: any = Object.values(encodedMessage)[0]
+
+    if (key === 'update_config') {
+      if ('config' in value) {
+        key += '.config'
+      } else if ('deposit_info' in value) {
+        key += '.proposal'
+      } else if ('threshold' in value) {
+        key += '.voting'
+      }
+    }
+
+    const proposalActionDetail = ProposalActionConfigMap[`wasm.execute.${key}`]
+    return {
+      ...proposalActionDetail,
+      data: value,
+      type: `wasm.execute.${key}`,
+    }
+  }
 }

@@ -5,6 +5,7 @@ import { FlexBox } from 'components/App/App.styles'
 import { deviceWidth } from 'constants/device'
 import { PropertiesForm } from 'pages/CreateEntity/Forms'
 import { useHistory, useParams } from 'react-router-dom'
+import { Typography } from 'components/Typography'
 
 const SetupProperties: React.FC = (): JSX.Element => {
   const { entityId, coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
@@ -62,6 +63,10 @@ const SetupProperties: React.FC = (): JSX.Element => {
 
   return (
     <FlexBox direction='column' gap={7.5} width={deviceWidth.tablet + 'px'}>
+      <Typography variant='secondary' size='xl'>
+        Configure the properties
+      </Typography>
+
       <PropertiesForm {...PropertiesFormProps} />
 
       <FlexBox id='setup-property-actions' gap={5}>

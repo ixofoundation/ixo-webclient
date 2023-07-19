@@ -1,10 +1,14 @@
 {
   "theme": {
     "primaryColor": "#0089D7",
-    "secondaryColor": "#162A42"
+    "secondaryColor": "#162A42",
+    "highlight": {
+      "light": "#45B4F2",
+      "dark": "#5A5A6F"
+    }
   },
   "UI": {
-    "logo": "ImpactHub_DAO_Logo",
+    "logo": "ImpactsDAO_icon_only",
     "explorer": {
       "defaultView": "dao"
     },
@@ -14,6 +18,9 @@
         "visible": false
       }
     ],
+    "head": {
+      "title": "Impacts DAO Cooperative"
+    },
     "header": {
       "background": "#000000",
       "buttonColor": "#45B4F2",
@@ -22,9 +29,9 @@
     "footer": {
       "mailTo": {
         "text": "Email",
-        "email": "info@ixo.world"
+        "email": "impacts@ixo.world"
       },
-      "address": "ixo.world Herrengasse 30, 9490 Vaduz, Liechtenstein",
+      "address": "Herrengasse 30, 9490 Vaduz, Liechtenstein",
       "privacyPolicy": {
         "text": "Privacy policy",
         "href": "https://www.ixo.world/privacy-policy"

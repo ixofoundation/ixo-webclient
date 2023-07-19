@@ -76,7 +76,7 @@ export const BlockSection = styled.div`
 `
 
 export const BlockInfo = styled.div<BlockInfoProps>`
-  border: 1.5px solid #00d2ff;
+  border: 1.5px solid ${(props) => props.theme.ixoNewBlue};
   box-sizing: border-box;
   border-radius: 4px;
   border-color: ${(props): string => props.color};

@@ -2,7 +2,6 @@ import React from 'react'
 import { CheckBox, CountryDropDown, DateRangePicker, InputWithLabel, TextArea } from '../../../Components'
 import { FormWrapper } from './EntityDescriptionForm.styles'
 import 'react-dates/initialize'
-import { useEntityConfig } from 'hooks/configs'
 
 interface Props {
   entityType: string
@@ -33,8 +32,6 @@ const EntityDescriptionForm: React.FC<Props> = ({
   endDate,
   setStartEndDate,
 }): JSX.Element => {
-  const { title } = useEntityConfig(entityType)
-
   return (
     <FormWrapper>
       <TextArea
@@ -42,7 +39,7 @@ const EntityDescriptionForm: React.FC<Props> = ({
         handleChange={setDescription}
         width={'400px'}
         height={'210px'}
-        label={`Describe the ${title}`}
+        label={`Description`}
       />
       {setBrand && (
         <InputWithLabel

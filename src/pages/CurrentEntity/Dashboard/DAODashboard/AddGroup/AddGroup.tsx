@@ -1,13 +1,8 @@
 import { FlexBox } from 'components/App/App.styles'
 import React, { useMemo, useState } from 'react'
-import SetupGroupSettings, {
-  initialMembership,
-  initialStaking,
-} from 'pages/CreateEntity/CreateDAO/Pages/SetupDAOGroups/SetupGroupSettings'
+import SetupGroupSettings from 'pages/CreateEntity/CreateDAO/Pages/SetupDAOGroups/SetupGroupSettings'
 import { TDAOGroupModel } from 'types/protocol'
 import { v4 as uuidv4 } from 'uuid'
-import { initialPreProposeConfigState } from 'components/Modals/AddActionModal/SetupUpdateProposalSubmissionConfigModal'
-import { initialProposalConfigState } from 'components/Modals/AddActionModal/SetupUpdateVotingConfigModal'
 import { Button } from 'pages/CreateEntity/Components'
 import { useCreateEntity } from 'hooks/createEntity'
 import { useParams } from 'react-router-dom'
@@ -15,6 +10,10 @@ import { LinkedEntity } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1bet
 import { ixo } from '@ixo/impactxclient-sdk'
 import { errorToast, successToast } from 'utils/toast'
 import { useTheme } from 'styled-components'
+import {
+  initialMembershipGroup,
+  initialStakingGroup,
+} from 'pages/CreateEntity/CreateDAO/Pages/SetupDAOGroups/SetupDAOGroups'
 
 const AddGroup: React.FC = () => {
   const theme: any = useTheme()
@@ -25,33 +24,22 @@ const AddGroup: React.FC = () => {
     if (type === 'staking') {
       return {
         id: uuidv4(),
-        type,
-        name: '',
-        description: '',
-        ...initialPreProposeConfigState,
-        ...initialProposalConfigState,
-        memberships: [initialMembership],
-        staking: { ...initialStaking },
+        ...initialStakingGroup,
       }
     } else if (type === 'membership') {
       return {
         id: uuidv4(),
-        type,
-        name: '',
-        description: '',
-        ...initialPreProposeConfigState,
-        ...initialProposalConfigState,
-        memberships: [initialMembership],
+        ...initialMembershipGroup,
       }
     }
     return undefined
   }, [type])
 
   const handleUpdateGroup = (data: TDAOGroupModel): void => {
-    if (data.contractAddress) {
+    if (data.coreAddress) {
       const linkedEntity: LinkedEntity = ixo.iid.v1beta1.LinkedEntity.fromPartial({
         type: 'Group',
-        id: `{id}#${data.contractAddress}`,
+        id: `{id}#${data.coreAddress}`,
         relationship: 'subsidiary',
         service: '',
       })

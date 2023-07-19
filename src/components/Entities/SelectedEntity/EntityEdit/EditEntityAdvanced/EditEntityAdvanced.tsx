@@ -2,7 +2,7 @@ import React, { Dispatch } from 'react'
 import { RootState } from 'redux/store'
 import EditEntityBase, { EditEntityBaseProps } from '../Components/EditEntityBase/EditEntityBase'
 import * as editEntityAdvancedSelectors from '../../../../../redux/editEntityAdvanced/editEntityAdvanced.selectors'
-import * as editEntitySelectors from '../../../../../redux/editEntity/editEntity.selectors'
+import * as editEntitySelectors from '../../../../../redux/editEntityOld/editEntity.selectors'
 import { connect } from 'react-redux'
 import {
   addLinkedEntity,
@@ -35,7 +35,7 @@ import {
   validated,
   validationError,
 } from '../../../../../redux/editEntityAdvanced/editEntityAdvanced.actions'
-import { goToStep, editEntity } from '../../../../../redux/editEntity/editEntity.actions'
+import { goToStep, editEntity } from '../../../../../redux/editEntityOld/editEntity.actions'
 import { FormData } from 'components/JsonForm/types'
 import FormCardWrapper from 'components/Wrappers/FormCardWrapper/FormCardWrapper'
 import LinkedEntityCard from '../../../CreateEntity/CreateEntityAdvanced/Components/LinkedEntityCard/LinkedEntityCard'

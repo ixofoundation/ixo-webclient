@@ -1,4 +1,4 @@
-import { LinkedResource, Service } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
+import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import useCurrentEntity from 'hooks/currentEntity'
@@ -7,20 +7,20 @@ import { ReactComponent as PdfIcon } from 'assets/images/linked-files/pdf.svg'
 import { ReactComponent as ImageIcon } from 'assets/images/linked-files/image.svg'
 import { ReactComponent as TextIcon } from 'assets/images/linked-files/text.svg'
 import { useTheme } from 'styled-components'
+import { serviceEndpointToUrl } from 'utils/entities'
 
 const MediaTypeToIconMap = {
   'application/pdf': PdfIcon,
-  'application/image': ImageIcon,
-  'application/text': TextIcon,
+  'image/jpeg': ImageIcon,
+  'image/png': ImageIcon,
+  'text/plain': TextIcon,
 }
 
 const LinkedFileBox = (linkedFile: LinkedResource) => {
   const theme: any = useTheme()
   const { service } = useCurrentEntity()
   const Icon = MediaTypeToIconMap[linkedFile.mediaType]
-  const [identifier, key] = linkedFile.serviceEndpoint.split(':')
-  const usedService: Service | undefined = service.find((item: Service) => item.id.includes(identifier))
-  const to = usedService ? usedService.serviceEndpoint + key : ''
+  const to = serviceEndpointToUrl(linkedFile.serviceEndpoint, service)
 
   return (
     <a href={to} target='_blank' rel='noreferrer'>
@@ -38,7 +38,7 @@ const LinkedFileBox = (linkedFile: LinkedResource) => {
         cursor='pointer'
         color={theme.ixoBlack}
       >
-        <Icon />
+        {Icon && <Icon />}
         <Typography weight='medium'>{linkedFile.description}</Typography>
       </FlexBox>
     </a>

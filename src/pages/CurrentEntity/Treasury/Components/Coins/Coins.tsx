@@ -14,6 +14,7 @@ import { determineChainFromAddress } from 'utils/account'
 import { useCurrentDaoGroup } from 'hooks/currentDao'
 import { convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
 import { useAccount } from 'hooks/account'
+import { IxoCoinCodexRelayerApi } from 'hooks/configs'
 
 let updateTokenBalanceTimer: NodeJS.Timer | undefined = undefined
 
@@ -169,17 +170,25 @@ const Coins: React.FC<Props> = ({ address }) => {
             const token = customQueries.currency.findTokenFromDenom(denom)
 
             if (token) {
-              customQueries.currency.findTokenInfoFromDenom(token.coinDenom).then((response) => {
-                const { coinName, lastPriceUsd } = response
-                const payload = {
-                  balance: getDisplayAmount(amount, token.coinDecimals),
-                  network: `${coinName.toUpperCase()} Network`,
-                  coinDenom: token.coinDenom,
-                  coinImageUrl: token.coinImageUrl!,
-                  lastPriceUsd,
-                }
-                addData(payload.coinDenom, payload)
-              })
+              customQueries.currency
+                .findTokenInfoFromDenom(token.coinMinimalDenom, true, IxoCoinCodexRelayerApi)
+                .then((response) => {
+                  if (!response) {
+                    throw new Error('Not found')
+                  }
+                  const { coinName, lastPriceUsd } = response
+                  const payload = {
+                    balance: getDisplayAmount(amount, token.coinDecimals),
+                    network: `${coinName.toUpperCase()}`,
+                    coinDenom: token.coinDenom,
+                    coinImageUrl: token.coinImageUrl!,
+                    lastPriceUsd,
+                  }
+                  addData(payload.coinDenom, payload)
+                })
+                .catch((e) => {
+                  console.error(e)
+                })
             }
           })
         })

@@ -4,11 +4,8 @@ import {
   TEntityMetadataModel,
   TEntityCreatorModel,
   TEntityServiceModel,
-  TEntityLinkedResourceModel,
   ELocalisation,
   TEntityPageModel,
-  TEntityAccordedRightModel,
-  TEntityLinkedEntityModel,
   TEntityAdministratorModel,
   TEntityClaimModel,
   TEntityDDOTagModel,
@@ -80,22 +77,20 @@ import { customQueries, ixo, utils } from '@ixo/impactxclient-sdk'
 import { CellnodePublicResource, CellnodeWeb3Resource } from '@ixo/impactxclient-sdk/types/custom_queries/cellnode'
 import {
   AccordedRight,
+  LinkedClaim,
   LinkedEntity,
   LinkedResource,
   Service,
 } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { WasmInstantiateTrx } from 'lib/protocol/cosmwasm'
-import {
-  convertDenomToMicroDenomWithDecimals,
-  convertDurationWithUnitsToDuration,
-  durationWithUnitsToSeconds,
-} from 'utils/conversions'
-import { Member } from 'types/dao'
 import { chainNetwork } from './configs'
 import { Verification } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/tx'
 import { NodeType } from 'types/entities'
 import { Cw20Coin } from '@ixo/impactxclient-sdk/types/codegen/Cw20Base.types'
 import { DeliverTxResponse } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/stargate'
+import BigNumber from 'bignumber.js'
+import { LinkedResourceProofGenerator, LinkedResourceServiceEndpointGenerator } from 'utils/entities'
+import { selectAllClaimProtocols } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 export function useCreateEntityStrategy(): {
   getStrategyByEntityType: (entityType: string) => TCreateEntityStrategyType
@@ -132,9 +127,9 @@ interface TCreateEntityStateHookRes {
   page: TEntityPageModel
   service: TEntityServiceModel[]
   claim: { [id: string]: TEntityClaimModel }
-  linkedResource: { [id: string]: TEntityLinkedResourceModel }
-  accordedRight: { [key: string]: TEntityAccordedRightModel }
-  linkedEntity: { [key: string]: TEntityLinkedEntityModel }
+  linkedResource: { [id: string]: LinkedResource | undefined }
+  accordedRight: { [key: string]: AccordedRight }
+  linkedEntity: { [key: string]: LinkedEntity }
   assetInstances: TCreateEntityModel[]
   localisation: ELocalisation
   startDate: string
@@ -158,9 +153,9 @@ interface TCreateEntityStateHookRes {
   updatePage: (page: TEntityPageModel) => void
   updateService: (service: TEntityServiceModel[]) => void
   updateClaim: (claim: { [id: string]: TEntityClaimModel }) => void
-  updateLinkedResource: (linkedResource: { [id: string]: TEntityLinkedResourceModel }) => void
-  updateAccordedRight: (accordedRight: { [id: string]: TEntityAccordedRightModel }) => void
-  updateLinkedEntity: (linkedEntity: { [id: string]: TEntityLinkedEntityModel }) => void
+  updateLinkedResource: (linkedResource: { [id: string]: LinkedResource | undefined }) => void
+  updateAccordedRight: (accordedRight: { [id: string]: AccordedRight }) => void
+  updateLinkedEntity: (linkedEntity: { [id: string]: LinkedEntity }) => void
   updateStartEndDate: ({ startDate, endDate }: { startDate: string; endDate: string }) => void
   addAssetInstances: (instances: TCreateEntityModel[]) => void
   updateAssetInstance: (id: number, instance: TCreateEntityModel) => void
@@ -189,10 +184,10 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
   const service: TEntityServiceModel[] = useAppSelector(selectCreateEntityService)
   const claim: { [id: string]: TEntityClaimModel } = useAppSelector(selectCreateEntityClaim)
   const linkedResource: {
-    [id: string]: TEntityLinkedResourceModel
+    [id: string]: LinkedResource | undefined
   } = useAppSelector(selectCreateEntityLinkedResource)
-  const accordedRight: { [key: string]: TEntityAccordedRightModel } = useAppSelector(selectCreateEntityAccordedRight)
-  const linkedEntity: { [key: string]: TEntityLinkedEntityModel } = useAppSelector(selectCreateEntityLinkedEntity)
+  const accordedRight: { [key: string]: AccordedRight } = useAppSelector(selectCreateEntityAccordedRight)
+  const linkedEntity: { [key: string]: LinkedEntity } = useAppSelector(selectCreateEntityLinkedEntity)
   const assetInstances: TCreateEntityModel[] = useAppSelector(selectCreateEntityAssetInstances)
   const localisation: ELocalisation = useAppSelector(selectCreateEntityLocalisation)
   const startDate: string = useAppSelector(selectCreateEntityStartDate)
@@ -272,13 +267,13 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
   const updateClaim = (claim: { [id: string]: TEntityClaimModel }): void => {
     dispatch(updateClaimAction(claim))
   }
-  const updateLinkedResource = (linkedResource: { [id: string]: TEntityLinkedResourceModel }): void => {
+  const updateLinkedResource = (linkedResource: { [id: string]: LinkedResource | undefined }): void => {
     dispatch(updateLinkedResourceAction(linkedResource))
   }
-  const updateAccordedRight = (accordedRight: { [id: string]: TEntityAccordedRightModel }): void => {
+  const updateAccordedRight = (accordedRight: { [id: string]: AccordedRight }): void => {
     dispatch(updateAccordedRightAction(accordedRight))
   }
-  const updateLinkedEntity = (linkedEntity: { [id: string]: TEntityLinkedEntityModel }): void => {
+  const updateLinkedEntity = (linkedEntity: { [id: string]: LinkedEntity }): void => {
     dispatch(updateLinkedEntityAction(linkedEntity))
   }
   const updateStartEndDate = ({ startDate, endDate }: { startDate: string; endDate: string }): void => {
@@ -366,14 +361,18 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
 interface TCreateEntityHookRes {
   CreateDAO: () => Promise<string>
   CreateDAOCredsIssuer: (daoDid: string) => Promise<string>
-  SaveProfile: () => Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined>
-  SaveCreator: (daoCredsIssuerDid: string) => Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined>
-  SaveAdministrator: (daoCredsIssuerDid: string) => Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined>
-  SavePage: () => Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined>
-  SaveTags: () => Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined>
+  SaveProfile: (profile: any) => Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined>
+  SaveCreator: (creator: TEntityCreatorModel) => Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined>
+  SaveAdministrator: (
+    administrator: TEntityCreatorModel,
+  ) => Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined>
+  SavePage: (page: TEntityPageModel) => Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined>
+  SaveTags: (ddoTags: TEntityDDOTagModel[]) => Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined>
   SaveTokenMetadata: () => Promise<CellnodeWeb3Resource | undefined>
-  SaveClaims: () => Promise<CellnodePublicResource | undefined>
+  SaveClaim: (claim: TEntityClaimModel) => Promise<CellnodeWeb3Resource | undefined>
+  SaveClaimQuestions: (questions: TQuestion[]) => Promise<(CellnodePublicResource | CellnodeWeb3Resource)[]>
   UploadLinkedResource: () => Promise<LinkedResource[]>
+  UploadLinkedClaim: () => Promise<LinkedClaim[]>
   CreateProtocol: () => Promise<string>
   CreateEntityBase: (
     entityType: string,
@@ -383,6 +382,7 @@ interface TCreateEntityHookRes {
       linkedResource: LinkedResource[]
       accordedRight: AccordedRight[]
       linkedEntity: LinkedEntity[]
+      linkedClaim: LinkedClaim[]
       verification?: Verification[]
       relayerNode?: string
     },
@@ -391,24 +391,24 @@ interface TCreateEntityHookRes {
   AddLinkedEntity: (did: string, linkedEntity: LinkedEntity) => Promise<DeliverTxResponse | undefined>
 }
 
-const NEW_DAO_CW20_DECIMALS = 6
-
 export function useCreateEntity(): TCreateEntityHookRes {
   const { signingClient, signer } = useAccount()
+  const claimProtocols = useAppSelector(selectAllClaimProtocols)
+
   const createEntityState = useCreateEntityState()
   const profile = createEntityState.profile as any
-  const { creator, administrator, page, ddoTags, claim, service } = createEntityState
+  const { creator, administrator, page, ddoTags, service, claimQuestions, claim } = createEntityState
   // TODO: service choose-able
   const cellnodeService = service[0]
 
-  const daoCoreContractCode = customQueries.contract.getContractCode('devnet', 'dao_core')
-  const daoProposalContractCode = customQueries.contract.getContractCode('devnet', 'dao_proposal_single')
-  const daoPreProposalContractCode = customQueries.contract.getContractCode('devnet', 'dao_pre_propose_single')
-  const daoVotingCw4ContractCode = customQueries.contract.getContractCode('devnet', 'dao_voting_cw4')
-  const cw4ContractCode = customQueries.contract.getContractCode('devnet', 'cw4_group')
-  const daoVotingCw20StakedContractCode = customQueries.contract.getContractCode('devnet', 'dao_voting_cw20_staked')
-  const cw20BaseContractCode = customQueries.contract.getContractCode('devnet', 'cw20_base')
-  const cw20StakeContractCode = customQueries.contract.getContractCode('devnet', 'cw20_stake')
+  const daoCoreContractCode = customQueries.contract.getContractCode(chainNetwork, 'dao_core')
+  const daoProposalContractCode = customQueries.contract.getContractCode(chainNetwork, 'dao_proposal_single')
+  const daoPreProposalContractCode = customQueries.contract.getContractCode(chainNetwork, 'dao_pre_propose_single')
+  const daoVotingCw4ContractCode = customQueries.contract.getContractCode(chainNetwork, 'dao_voting_cw4')
+  const cw4ContractCode = customQueries.contract.getContractCode(chainNetwork, 'cw4_group')
+  const daoVotingCw20StakedContractCode = customQueries.contract.getContractCode(chainNetwork, 'dao_voting_cw20_staked')
+  const cw20BaseContractCode = customQueries.contract.getContractCode(chainNetwork, 'cw20_base')
+  const cw20StakeContractCode = customQueries.contract.getContractCode(chainNetwork, 'cw20_stake')
 
   /**
    * @description auto choose service for uploading data
@@ -426,42 +426,16 @@ export function useCreateEntity(): TCreateEntityHookRes {
         cellnodeService.serviceEndpoint,
         chainNetwork,
       )
-    } else if (cellnodeService?.type === NodeType.Ipfs && cellnodeService?.serviceEndpoint) {
+    } else {
       res = await customQueries.cellnode.uploadWeb3Doc(
         utils.common.generateId(12),
         'application/ld+json',
         data,
-        cellnodeService.serviceEndpoint,
+        undefined,
         chainNetwork,
       )
-    } else {
-      res = await customQueries.cellnode.uploadPublicDoc('application/ld+json', data, undefined, chainNetwork)
     }
     return res
-  }
-
-  const LinkedResourceServiceEndpointGenerator = (
-    uploadResult: CellnodePublicResource | CellnodeWeb3Resource,
-    cellnodeService?: Service,
-  ): string => {
-    if (cellnodeService?.type === NodeType.Ipfs) {
-      return `${cellnodeService.id}:${(uploadResult as CellnodeWeb3Resource).cid}`
-    } else if (cellnodeService?.type === NodeType.CellNode) {
-      return `${cellnodeService.id}:/public/${(uploadResult as CellnodePublicResource).key}`
-    }
-    return `cellnode:/public/${(uploadResult as CellnodePublicResource).key}`
-  }
-
-  const LinkedResourceProofGenerator = (
-    uploadResult: CellnodePublicResource | CellnodeWeb3Resource,
-    cellnodeService?: Service,
-  ): string => {
-    if (cellnodeService?.type === NodeType.Ipfs) {
-      return (uploadResult as CellnodeWeb3Resource).cid
-    } else if (cellnodeService?.type === NodeType.CellNode) {
-      return (uploadResult as CellnodePublicResource).key
-    }
-    return (uploadResult as CellnodePublicResource).key
   }
 
   const CreateDAO = async (): Promise<string> => {
@@ -490,7 +464,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
     }
   }
 
-  const SaveProfile = async (): Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined> => {
+  const SaveProfile = async (profile: any): Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined> => {
     try {
       const payload = {
         '@context': {
@@ -510,10 +484,12 @@ export function useCreateEntity(): TCreateEntityHookRes {
         description: profile.description,
         attributes: profile.attributes,
         metrics: profile.metrics,
+
+        category: profile.type,
       }
       const buff = Buffer.from(JSON.stringify(payload))
       const res = await UploadDataToService(buff.toString('base64'))
-      console.log('SaveProfile', payload)
+      console.log('SaveProfile', res)
       return res
     } catch (e) {
       console.error('SaveProfile', e)
@@ -522,7 +498,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
   }
 
   const SaveCreator = async (
-    daoCredsIssuerDid: string,
+    creator: TEntityCreatorModel,
   ): Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined> => {
     try {
       const payload = {
@@ -544,7 +520,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
         validFrom: new Date().toISOString(), // TODO: new Date(now) ?
         expirationDate: '', //  TODO: always empty ?
         credentialSubject: {
-          id: daoCredsIssuerDid,
+          id: process.env.REACT_APP_RELAYER_NODE,
           type: 'creator',
           displayName: creator.displayName,
           location: creator.location,
@@ -563,7 +539,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
       }
       const buff = Buffer.from(JSON.stringify(payload))
       const res = await UploadDataToService(buff.toString('base64'))
-      console.log('SaveCreator', payload)
+      console.log('SaveCreator', res)
       return res
     } catch (e) {
       console.error('SaveCreator', e)
@@ -572,9 +548,12 @@ export function useCreateEntity(): TCreateEntityHookRes {
   }
 
   const SaveAdministrator = async (
-    daoCredsIssuerDid: string,
+    administrator: TEntityCreatorModel,
   ): Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined> => {
     try {
+      if (!administrator) {
+        throw new Error('Payload is null')
+      }
       const payload = {
         '@context': [
           'https://www.w3.org/2018/credentials/v1',
@@ -594,7 +573,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
         validFrom: new Date().toISOString(), // TODO: new Date(now)?
         expirationDate: '', //  TODO:
         credentialSubject: {
-          id: daoCredsIssuerDid, // TODO:
+          id: process.env.REACT_APP_RELAYER_NODE,
           type: 'administrator',
           displayName: administrator.displayName,
           location: administrator.location,
@@ -613,7 +592,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
       }
       const buff = Buffer.from(JSON.stringify(payload))
       const res = await UploadDataToService(buff.toString('base64'))
-      console.log('SaveAdministrator', payload)
+      console.log('SaveAdministrator', res)
       return res
     } catch (e) {
       console.error('SaveAdministrator', e)
@@ -621,7 +600,9 @@ export function useCreateEntity(): TCreateEntityHookRes {
     }
   }
 
-  const SavePage = async (): Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined> => {
+  const SavePage = async (
+    page: TEntityPageModel,
+  ): Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined> => {
     try {
       const payload = {
         '@context': {
@@ -635,7 +616,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
       }
       const buff = Buffer.from(JSON.stringify(payload))
       const res = await UploadDataToService(buff.toString('base64'))
-      console.log('SavePage', payload)
+      console.log('SavePage', res)
       return res
     } catch (e) {
       console.error('SavePage', e)
@@ -643,158 +624,9 @@ export function useCreateEntity(): TCreateEntityHookRes {
     }
   }
 
-  // const SaveProjectCreds = async (daoCredsIssuerDid: string): Promise<CellnodeWeb3Resource | undefined> => {
-  //   try {
-  //     const buff = Buffer.from(
-  //       JSON.stringify({
-  //         '@context': [
-  //           'https://www.w3.org/2018/credentials/v1',
-  //           'https://w3id.org/ixo/ns/context/v1',
-  //           'https://w3id.org/ixo/ns/credentials/v1',
-  //           {
-  //             '@version': 1,
-  //             '@protected': true,
-  //             id: '@id',
-  //             type: '@type',
-  //           },
-  //         ],
-  //         id: 'https://w3id.org/emerging/credential-schemas/project/v1',
-  //         type: ['VerifiableCredential', 'DeviceCredential'],
-  //         issuer: daoCredsIssuerDid,
-  //         issuanceDate: '2022-01-01T00:00:00Z',
-  //         validFrom: '2022-01-01T00:00:00Z',
-  //         expirationDate: '2024-01-01T00:00:00Z',
-  //         credentialSubject: {
-  //           id: 'https://registry.emerging.eco/project/?id=MimiMoto',
-  //           project: {
-  //             type: 'EnergyEfficiency-Domestic',
-  //             name: 'MimiMoto Zambia',
-  //             description: '',
-  //             attributes: [
-  //               {
-  //                 key: 'Region',
-  //                 value: 'Malawi',
-  //               },
-  //               {
-  //                 key: 'Scale',
-  //                 value: 'Micro',
-  //               },
-  //               {
-  //                 key: 'Annual Target',
-  //                 value: '1,000',
-  //               },
-  //             ],
-  //             linkedResources: [
-  //               {
-  //                 id: 'https://bafybeia4al2szs4d2kvwqhippp3kfguhkvx42oayuy6w2rixsdhoersib4.ipfs.w3s.link/testProjectDocument',
-  //                 type: 'CertificationDocument',
-  //                 description: 'SupaMoto Project Design Document',
-  //                 mediaType: 'application/pdf',
-  //                 serviceEndpoint: '',
-  //                 proof: 'bafybeia4al2szs4d2kvwqhippp3kfguhkvx42oayuy6w2rixsdhoersib4',
-  //                 encrypted: 'false',
-  //               },
-  //               {
-  //                 id: 'https://bafybeia4al2szs4d2kvwqhippp3kfguhkvx42oayuy6w2rixsdhoersib4.ipfs.w3s.link/testProjectDocument',
-  //                 type: 'CertificationDocument',
-  //                 description: 'Verification Report',
-  //                 mediaType: 'application/pdf',
-  //                 serviceEndpoint: '',
-  //                 proof: 'bafybeia4al2szs4d2kvwqhippp3kfguhkvx42oayuy6w2rixsdhoersib4',
-  //                 encrypted: 'false',
-  //               },
-  //               {
-  //                 id: 'https://bafybeia4al2szs4d2kvwqhippp3kfguhkvx42oayuy6w2rixsdhoersib4.ipfs.w3s.link/testProjectDocument',
-  //                 type: 'VerificationMethodology',
-  //                 description: 'Simplified Methodology for Metered and Measured Cooking Devices Using Digital-MRV',
-  //                 mediaType: 'application/ld+json',
-  //                 serviceEndpoint: '',
-  //                 proof: 'bafybeia4al2szs4d2kvwqhippp3kfguhkvx42oayuy6w2rixsdhoersib4',
-  //                 encrypted: 'false',
-  //                 right: '',
-  //               },
-  //             ],
-  //             impacts: [
-  //               {
-  //                 sdgs: [
-  //                   {
-  //                     sdg: '',
-  //                     status: 'self-certified',
-  //                   },
-  //                   {
-  //                     sdg: '',
-  //                     status: 'self-certified',
-  //                   },
-  //                 ],
-  //               },
-  //               {
-  //                 measurement: [
-  //                   {
-  //                     id: '',
-  //                     type: 'ImpactParameter',
-  //                     parameter: '',
-  //                     description:
-  //                       'Emissions reduced per tonne of clean fuel used to replace traditional energy sources for domestic cooking',
-  //                     unit: '',
-  //                     baselineValue: '',
-  //                     source: '',
-  //                     conversionFactor: '23.312',
-  //                     status: 'certified',
-  //                   },
-  //                   {
-  //                     id: '',
-  //                     type: 'ImpactParameter',
-  //                     parameter: 'VER',
-  //                     description:
-  //                       'Disability-adjusted Life Years gained per tonne of clean fuel used to replace traditional energy sources for domestic cooking',
-  //                     unit: '',
-  //                     baselineValue: '',
-  //                     source: '',
-  //                     conversionFactor: '5.623',
-  //                     status: 'certified',
-  //                   },
-  //                   {
-  //                     id: '',
-  //                     type: 'ImpactParameter',
-  //                     parameter: 'GenderEquity',
-  //                     description:
-  //                       'Reduction in gender-related disparity per tonne of clean fuel used to replace traditional energy sources for domestic cooking',
-  //                     unit: '',
-  //                     baselineValue: '',
-  //                     source: '',
-  //                     conversionFactor: '2.531513',
-  //                     status: 'certified',
-  //                   },
-  //                 ],
-  //               },
-  //             ],
-  //             status: 'self-certified',
-  //           },
-  //           proof: {
-  //             type: 'EcdsaSecp256k1Signature2019',
-  //             created: '2023-01-01T19:23:24Z',
-  //             proofPurpose: 'assertionMethod',
-  //             verificationMethod: 'did:ixo:entity:abc123#key-1',
-  //             jws: '',
-  //           },
-  //         },
-  //       }),
-  //     )
-
-  //     await customQueries.cellnode.uploadWeb3Doc(
-  //       utils.common.generateId(12),
-  //       'application/ld+json',
-  //       buff.toString('base64'),
-  //       undefined,
-  //       chainNetwork,
-  //     )
-  //   } catch (e) {
-  //     console.error('saveProjectCreds', e)
-  //     return undefined
-  //   }
-  // }
-
-  const SaveTags = async (): Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined> => {
+  const SaveTags = async (
+    ddoTags: TEntityDDOTagModel[],
+  ): Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined> => {
     try {
       const payload = {
         '@context': {
@@ -808,7 +640,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
       }
       const buff = Buffer.from(JSON.stringify(payload))
       const res = await UploadDataToService(buff.toString('base64'))
-      console.log('SaveTags', payload)
+      console.log('SaveTags', res)
       return res
     } catch (e) {
       console.error('SaveTags', e)
@@ -849,122 +681,185 @@ export function useCreateEntity(): TCreateEntityHookRes {
     }
   }
 
-  const SaveClaims = async (): Promise<CellnodePublicResource | undefined> => {
+  const SaveClaimQuestion = async (
+    question: TQuestion,
+  ): Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined> => {
     try {
-      const claims = Object.values(claim)
-      const headLinMetricClaim = claims.find(({ isHeadlineMetric }) => isHeadlineMetric)
+      const payload = {
+        '@context': {
+          ixo: 'https://w3id.org/ixo/ns/protocol/',
+          '@id': '@type',
+          type: '@type',
+          '@protected': true,
+        },
+        type: 'ixo:entity#claimSchema',
+        question,
+      }
+      const buff = Buffer.from(JSON.stringify(payload))
+      const res = await UploadDataToService(buff.toString('base64'))
+      console.log('SaveClaimQuestion', res)
+      return res
+    } catch (e) {
+      console.error('SaveClaimQuestion', e)
+      return undefined
+    }
+  }
+
+  const SaveClaimQuestions = async (
+    questions: TQuestion[],
+  ): Promise<(CellnodePublicResource | CellnodeWeb3Resource)[]> => {
+    return (await Promise.allSettled(questions.map(SaveClaimQuestion)))
+      .filter((res) => res.status === 'fulfilled')
+      .map((res: any) => res.value)
+  }
+
+  const SaveClaim = async (claim: TEntityClaimModel): Promise<CellnodeWeb3Resource | undefined> => {
+    try {
+      // const headLinMetricClaim = claims.find(({ isHeadlineMetric }) => isHeadlineMetric)
 
       const buff = Buffer.from(
         JSON.stringify({
           '@context': {
-            ixo: 'https://w3id.org/ixo/ns/protocol/',
-            '@id': '@type',
+            ixo: 'https://w3id.org/ixo/vocab/v1',
+            web3: 'https://ipfs.io/ipfs/',
+            id: '@id',
             type: '@type',
             '@protected': true,
           },
-          type: 'ixo:entity#claim',
-          entityClaims: claims,
-          headlineMetric: headLinMetricClaim?.id,
+          id: '{id}#claims',
+          type: 'ixo:Claims',
+          entityClaims: [claim],
+          // headlineMetric: headLinMetricClaim?.id,
         }),
       )
-      const res = await customQueries.cellnode.uploadPublicDoc(
+      const res = await customQueries.cellnode.uploadWeb3Doc(
+        utils.common.generateId(12),
         'application/ld+json',
         buff.toString('base64'),
         undefined,
         chainNetwork,
       )
-      console.log('SaveClaims', res)
+      console.log('SaveClaim', res)
       return res
     } catch (e) {
-      console.error('SaveClaims', e)
+      console.error('SaveClaim', e)
       return undefined
     }
   }
 
   const UploadLinkedResource = async (): Promise<LinkedResource[]> => {
-    // TODO: daoCredsIssuerDid
-    const daoCredsIssuerDid = 'did:ixo:entity:c4a5588bdd7f651f5f5e742887709d57'
-    const linkedResource: LinkedResource[] = []
+    let linkedResource: LinkedResource[] = []
 
     const [saveProfileRes, saveCreatorRes, saveAdministratorRes, savePageRes, saveTagsRes] = await Promise.allSettled([
-      await SaveProfile(),
-      await SaveCreator(daoCredsIssuerDid),
-      await SaveAdministrator(daoCredsIssuerDid),
-      await SavePage(),
-      await SaveTags(),
-    ]).then((responses) => responses.map((response: any) => response.value))
+      await SaveProfile(profile),
+      await SaveCreator(creator),
+      await SaveAdministrator(administrator),
+      await SavePage(page),
+      await SaveTags(ddoTags),
+    ])
 
-    if (saveProfileRes) {
+    if (saveProfileRes.status === 'fulfilled' && saveProfileRes.value) {
       linkedResource.push({
         id: '{id}#profile',
         type: 'Settings',
         description: 'Profile',
         mediaType: 'application/ld+json',
-        // serviceEndpoint: cellnodeService ? `${cellnodeService.id}:/public/${saveProfileRes.key}` : saveProfileRes.url,
-        serviceEndpoint: LinkedResourceServiceEndpointGenerator(saveProfileRes, cellnodeService),
-        // proof: cellnodeService ? saveProfileRes.key : saveProfileRes.cid,
-        proof: LinkedResourceProofGenerator(saveProfileRes, cellnodeService),
+        serviceEndpoint: LinkedResourceServiceEndpointGenerator(saveProfileRes.value, cellnodeService),
+        proof: LinkedResourceProofGenerator(saveProfileRes.value, cellnodeService),
         encrypted: 'false',
         right: '',
       })
     }
-    if (saveCreatorRes) {
+    if (saveCreatorRes.status === 'fulfilled' && saveCreatorRes.value) {
       linkedResource.push({
         id: '{id}#creator',
         type: 'VerifiableCredential',
         description: 'Creator',
         mediaType: 'application/ld+json',
-        // serviceEndpoint: cellnodeService ? `${cellnodeService.id}:/public/${saveCreatorRes.key}` : saveCreatorRes.url,
-        serviceEndpoint: LinkedResourceServiceEndpointGenerator(saveCreatorRes, cellnodeService),
-        // proof: cellnodeService ? saveCreatorRes.key : saveCreatorRes.cid,
-        proof: LinkedResourceProofGenerator(saveCreatorRes, cellnodeService),
+        serviceEndpoint: LinkedResourceServiceEndpointGenerator(saveCreatorRes.value, cellnodeService),
+        proof: LinkedResourceProofGenerator(saveCreatorRes.value, cellnodeService),
         encrypted: 'false',
         right: '',
       })
     }
-    if (saveAdministratorRes) {
+    if (saveAdministratorRes.status === 'fulfilled' && saveAdministratorRes.value) {
       linkedResource.push({
         id: '{id}#administrator',
         type: 'VerifiableCredential',
         description: 'Administrator',
         mediaType: 'application/ld+json',
-        // serviceEndpoint: cellnodeService ? `${cellnodeService.id}:/public/${saveAdministratorRes.key}` : saveAdministratorRes.url,
-        serviceEndpoint: LinkedResourceServiceEndpointGenerator(saveAdministratorRes, cellnodeService),
-        // proof: cellnodeService ? saveAdministratorRes.key : saveAdministratorRes.cid,
-        proof: LinkedResourceProofGenerator(saveAdministratorRes, cellnodeService),
+        serviceEndpoint: LinkedResourceServiceEndpointGenerator(saveAdministratorRes.value, cellnodeService),
+        proof: LinkedResourceProofGenerator(saveAdministratorRes.value, cellnodeService),
         encrypted: 'false',
         right: '',
       })
     }
-    if (savePageRes) {
+    if (savePageRes.status === 'fulfilled' && savePageRes.value) {
       linkedResource.push({
         id: '{id}#page',
         type: 'Settings',
         description: 'Page',
         mediaType: 'application/ld+json',
-        // serviceEndpoint: cellnodeService ? `${cellnodeService.id}:/public/${savePageRes.key}` : savePageRes.url,
-        serviceEndpoint: LinkedResourceServiceEndpointGenerator(savePageRes, cellnodeService),
-        // proof: cellnodeService ? savePageRes.key : savePageRes.cid,
-        proof: LinkedResourceProofGenerator(savePageRes, cellnodeService),
+        serviceEndpoint: LinkedResourceServiceEndpointGenerator(savePageRes.value, cellnodeService),
+        proof: LinkedResourceProofGenerator(savePageRes.value, cellnodeService),
         encrypted: 'false',
         right: '',
       })
     }
-    if (saveTagsRes) {
+    if (saveTagsRes.status === 'fulfilled' && saveTagsRes.value) {
       linkedResource.push({
         id: '{id}#tags',
         type: 'Settings',
         description: 'Tags',
         mediaType: 'application/ld+json',
-        // serviceEndpoint: cellnodeService ? `${cellnodeService.id}:/public/${saveTagsRes.key}` : saveTagsRes.url,
-        serviceEndpoint: LinkedResourceServiceEndpointGenerator(saveTagsRes, cellnodeService),
-        // proof: cellnodeService ? saveTagsRes.key : saveTagsRes.cid,
-        proof: LinkedResourceProofGenerator(saveTagsRes, cellnodeService),
+        serviceEndpoint: LinkedResourceServiceEndpointGenerator(saveTagsRes.value, cellnodeService),
+        proof: LinkedResourceProofGenerator(saveTagsRes.value, cellnodeService),
         encrypted: 'false',
         right: '',
       })
     }
+
+    linkedResource = linkedResource.concat(
+      await Promise.all(
+        Object.values(claimQuestions).map(async (claimQuestion, index) => {
+          const res: CellnodePublicResource | CellnodeWeb3Resource | undefined = await SaveClaimQuestion(claimQuestion)
+
+          return {
+            id: `{id}#${claimQuestion.title}`,
+            type: 'ClaimSchema',
+            description: claimQuestion.description,
+            mediaType: 'application/ld+json',
+            serviceEndpoint: LinkedResourceServiceEndpointGenerator(res!, cellnodeService),
+            proof: LinkedResourceProofGenerator(res!, cellnodeService),
+            encrypted: 'false',
+            right: '',
+          }
+        }),
+      ),
+    )
+
     return linkedResource
+  }
+
+  const UploadLinkedClaim = async (): Promise<LinkedClaim[]> => {
+    const linkedClaims: LinkedClaim[] = await Promise.all(
+      Object.values(claim).map(async (item) => {
+        const res: CellnodeWeb3Resource | undefined = await SaveClaim(item)
+        const claimProtocol = claimProtocols.find((protocol) => item.template?.id.includes(protocol.id))
+
+        return {
+          type: claimProtocol?.profile?.category || '',
+          id: `{id}#${claimProtocol?.profile?.name}`,
+          description: claimProtocol?.profile?.description || '',
+          serviceEndpoint: LinkedResourceServiceEndpointGenerator(res!, cellnodeService),
+          proof: LinkedResourceProofGenerator(res!, cellnodeService),
+          encrypted: 'false',
+          right: '',
+        }
+      }),
+    )
+
+    return linkedClaims
   }
 
   const CreateProtocol = async (): Promise<string> => {
@@ -987,12 +882,13 @@ export function useCreateEntity(): TCreateEntityHookRes {
       linkedResource: LinkedResource[]
       accordedRight: AccordedRight[]
       linkedEntity: LinkedEntity[]
+      linkedClaim: LinkedClaim[]
       verification?: Verification[]
       relayerNode?: string
     },
   ): Promise<string> => {
     try {
-      const { service, linkedResource, accordedRight, linkedEntity, verification, relayerNode } = payload
+      const { service, linkedResource, accordedRight, linkedEntity, linkedClaim, verification, relayerNode } = payload
       const { startDate, endDate } = profile
       const res = await CreateEntity(signingClient, signer, [
         {
@@ -1001,6 +897,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
           context: [{ key: 'class', val: protocolDid }],
           service,
           linkedResource,
+          linkedClaim,
           accordedRight,
           linkedEntity,
           verification,
@@ -1019,230 +916,163 @@ export function useCreateEntity(): TCreateEntityHookRes {
   }
 
   const CreateDAOCoreByGroupId = async (daoGroup: TDAOGroupModel): Promise<string> => {
-    try {
-      const {
-        type,
-        name,
-        description,
-        depositRequired,
-        depositInfo,
-        anyoneCanPropose,
-        onlyMembersExecute,
-        thresholdType,
-        thresholdPercentage,
-        quorumEnabled,
-        quorumType,
-        quorumPercentage,
-        proposalDuration,
-        proposalDurationUnits,
-        allowRevoting,
-        memberships,
-        staking,
-        absoluteThresholdCount,
-      } = daoGroup
-      const maxVotingPeriod = durationWithUnitsToSeconds(proposalDurationUnits ?? '', proposalDuration)
-      const threshold =
-        type === 'multisig' && absoluteThresholdCount
-          ? {
-              absolute_count: {
-                threshold: absoluteThresholdCount,
-              },
-            }
-          : quorumEnabled
-          ? {
-              threshold_quorum: {
-                quorum: {
-                  percent: quorumType === '%' ? String(quorumPercentage) : undefined,
-                  majority: quorumType === 'majority' ? {} : undefined,
-                },
-                threshold: {
-                  percent: thresholdType === '%' ? String(thresholdPercentage) : undefined,
-                  majority: thresholdType === 'majority' ? {} : undefined,
-                },
-              },
-            }
-          : {
-              absolute_percentage: {
-                percentage: {
-                  percent: thresholdType === '%' ? String(thresholdPercentage) : undefined,
-                  majority: thresholdType === 'majority' ? {} : undefined,
-                },
-              },
-            }
+    const { type, config, proposalModule, votingModule, token } = daoGroup
 
-      const msg: any = {
-        admin: null,
-        automatically_add_cw20s: true,
-        automatically_add_cw721s: true,
-        description,
-        image_url: null, // TODO: TBD
-        name,
-        proposal_modules_instantiate_info: [
-          {
-            admin: {
-              core_module: {},
-            },
-            code_id: daoProposalContractCode,
-            label: `DAO_${name}_DaoProposalSingle`,
-            msg: utils.conversions.jsonToBase64({
-              allow_revoting: allowRevoting,
-              close_proposal_on_execution_failure: true,
-              max_voting_period: {
-                time: maxVotingPeriod,
-              },
-              min_voting_period: null,
-              only_members_execute: onlyMembersExecute,
-              pre_propose_info: {
-                module_may_propose: {
-                  info: {
-                    admin: {
-                      core_module: {},
-                    },
-                    code_id: daoPreProposalContractCode,
-                    label: `DAO_${name}_pre-propose-DaoProposalSingle`,
-                    msg: utils.conversions.jsonToBase64({
-                      deposit_info: depositRequired
-                        ? {
-                            amount: depositInfo.amount,
-                            denom: {
-                              token: {
-                                denom: {
-                                  [depositInfo.type]: depositInfo.denomOrAddress,
-                                },
-                              },
-                            },
-                            refund_policy: depositInfo.refundPolicy,
-                          }
-                        : null,
-                      extension: {},
-                      open_proposal_submission: anyoneCanPropose,
-                    }),
+    const msg: any = {
+      admin: null,
+      automatically_add_cw20s: config.automatically_add_cw20s,
+      automatically_add_cw721s: config.automatically_add_cw721s,
+      description: config.description,
+      image_url: config.image_url,
+      name: config.name,
+      proposal_modules_instantiate_info: [
+        {
+          admin: {
+            core_module: {},
+          },
+          code_id: daoProposalContractCode,
+          label: `DAO_${config.name}_DaoProposalSingle`,
+          msg: utils.conversions.jsonToBase64({
+            allow_revoting: proposalModule.proposalConfig.allow_revoting,
+            close_proposal_on_execution_failure: true,
+            max_voting_period: proposalModule.proposalConfig.max_voting_period,
+            min_voting_period: null,
+            only_members_execute: proposalModule.proposalConfig.only_members_execute,
+            pre_propose_info: {
+              module_may_propose: {
+                info: {
+                  admin: {
+                    core_module: {},
                   },
+                  code_id: daoPreProposalContractCode,
+                  label: `DAO_${config.name}_pre-propose-DaoProposalSingle`,
+                  msg: utils.conversions.jsonToBase64({
+                    // deposit_info: proposalModule.preProposeConfig.deposit_info,
+                    deposit_info: proposalModule.preProposeConfig.deposit_info
+                      ? {
+                          ...proposalModule.preProposeConfig.deposit_info,
+                          denom: {
+                            token: {
+                              denom: proposalModule.preProposeConfig.deposit_info.denom,
+                            },
+                          },
+                        }
+                      : null,
+                    extension: {},
+                    open_proposal_submission: proposalModule.preProposeConfig.open_proposal_submission,
+                  }),
                 },
               },
-              threshold,
-            }),
-          },
-        ],
+            },
+            threshold: proposalModule.proposalConfig.threshold,
+          }),
+        },
+      ],
+    }
+    switch (type) {
+      case 'membership':
+      case 'multisig': {
+        msg.voting_module_instantiate_info = {
+          admin: { core_module: {} },
+          code_id: daoVotingCw4ContractCode,
+          label: `DAO_${config.name}_DaoVotingCw4`,
+          msg: utils.conversions.jsonToBase64({
+            cw4_group_code_id: cw4ContractCode,
+            initial_members: votingModule.members,
+          }),
+        }
+        break
       }
-      switch (type) {
-        case 'membership':
-        case 'multisig': {
-          const initialMembers: Member[] = []
-          memberships?.forEach((membership) => {
-            membership.members.forEach((member) => {
-              initialMembers.push({ addr: member, weight: membership.weight })
-            })
-          })
+      case 'staking': {
+        if (!token) {
+          break
+        }
+        /**
+         * if create new token
+         * else use existing one
+         */
+        if (!token.config.token_address) {
+          const initial_balances = votingModule.members.map(
+            ({ addr, weight }): Cw20Coin => ({
+              address: addr,
+              amount: weight.toString(),
+            }),
+          )
+
+          const initial_dao_balance = new BigNumber(token.tokenInfo.total_supply)
+            .minus(
+              new BigNumber(
+                initial_balances.reduce((acc, { amount }) => new BigNumber(acc).plus(amount), new BigNumber(0)),
+              ),
+            )
+            .toString()
+
           msg.voting_module_instantiate_info = {
             admin: { core_module: {} },
-            code_id: daoVotingCw4ContractCode,
-            label: `DAO_${name}_DaoVotingCw4`,
+            code_id: daoVotingCw20StakedContractCode,
+            label: `DAO_${config.name}_DaoVotingCw20Staked`,
             msg: utils.conversions.jsonToBase64({
-              cw4_group_code_id: cw4ContractCode,
-              initial_members: initialMembers,
+              token_info: {
+                new: {
+                  code_id: cw20BaseContractCode,
+                  decimals: token.tokenInfo.decimals,
+                  marketing: token.marketingInfo,
+                  label: token.tokenInfo.name,
+                  name: token.tokenInfo.name,
+                  staking_code_id: cw20StakeContractCode,
+                  symbol: token.tokenInfo.symbol,
+                  initial_balances: initial_balances,
+                  initial_dao_balance: initial_dao_balance,
+                  unstaking_duration: token.config.unstaking_duration,
+                },
+              },
             }),
           }
-          break
-        }
-        case 'staking': {
-          if (!staking) {
-            break
-          }
-          const { tokenContractAddress, unstakingDuration } = staking
-
-          /**
-           * if create new token
-           * else use existing one
-           */
-          if (!tokenContractAddress) {
-            const { tokenSymbol, tokenName, tokenSupply, tokenLogo } = staking
-
-            const microInitialBalances: Cw20Coin[] = memberships.flatMap(({ weight, members }) =>
-              members.map((address) => ({
-                address,
-                amount: convertDenomToMicroDenomWithDecimals(
-                  // Governance Token-based DAOs distribute tier weights
-                  // evenly amongst members.
-                  (weight / members.length / 100) * tokenSupply,
-                  NEW_DAO_CW20_DECIMALS,
-                ).toString(),
-              })),
-            )
-            // To prevent rounding issues, treasury balance becomes the
-            // remaining tokens after the member weights are distributed.
-            const microInitialTreasuryBalance = (
-              convertDenomToMicroDenomWithDecimals(tokenSupply, NEW_DAO_CW20_DECIMALS) -
-              microInitialBalances.reduce((acc, { amount }) => acc + Number(amount), 0)
-            ).toString()
-
-            msg.voting_module_instantiate_info = {
-              admin: { core_module: {} },
-              code_id: daoVotingCw20StakedContractCode,
-              label: `DAO_${name}_DaoVotingCw20Staked`,
-              msg: utils.conversions.jsonToBase64({
-                token_info: {
-                  new: {
-                    code_id: cw20BaseContractCode,
-                    decimals: NEW_DAO_CW20_DECIMALS,
-                    marketing: tokenLogo ? { logo: { url: tokenLogo } } : null,
-                    initial_balances: microInitialBalances,
-                    initial_dao_balance: microInitialTreasuryBalance,
-                    label: tokenName,
-                    name: tokenName,
-                    staking_code_id: cw20StakeContractCode,
-                    symbol: tokenSymbol,
-                    unstaking_duration: convertDurationWithUnitsToDuration(unstakingDuration),
-                  },
-                },
-              }),
-            }
-          } else {
-            msg.voting_module_instantiate_info = {
-              admin: { core_module: {} },
-              code_id: daoVotingCw20StakedContractCode,
-              label: `DAO_${name}_DaoVotingCw20Staked`,
-              msg: utils.conversions.jsonToBase64({
-                token_info: {
-                  existing: {
-                    address: tokenContractAddress,
-                    staking_contract: {
-                      new: {
-                        staking_code_id: cw20StakeContractCode,
-                        unstaking_duration: convertDurationWithUnitsToDuration(unstakingDuration),
-                      },
+        } else {
+          msg.voting_module_instantiate_info = {
+            admin: { core_module: {} },
+            code_id: daoVotingCw20StakedContractCode,
+            label: `DAO_${config.name}_DaoVotingCw20Staked`,
+            msg: utils.conversions.jsonToBase64({
+              token_info: {
+                existing: {
+                  address: token.config.token_address,
+                  staking_contract: {
+                    new: {
+                      staking_code_id: cw20StakeContractCode,
+                      unstaking_duration: token.config.unstaking_duration,
                     },
                   },
                 },
-              }),
-            }
+              },
+            }),
           }
-          break
         }
-        default:
-          break
+        break
       }
-      console.log('Instantiate Dao Group', {
-        codeId: daoCoreContractCode!,
-        msg: msg,
-      })
-
-      const message = {
-        codeId: daoCoreContractCode!,
-        msg: JSON.stringify(msg),
-      }
-
-      const res = await WasmInstantiateTrx(signingClient, signer, [message])
-      console.log('CreateDAOCoreByGroupId', res)
-      const contractAddress = utils.common.getValueFromEvents(res!, 'instantiate', '_contract_address')
-      if (!contractAddress) {
-        throw new Error(res?.rawLog)
-      }
-      return contractAddress
-    } catch (e) {
-      console.error('CreateDAOCoreByGroupId', e)
-      return ''
+      default:
+        break
     }
+    console.log('Instantiate Dao Group', {
+      codeId: daoCoreContractCode!,
+      msg: msg,
+    })
+
+    const message = {
+      codeId: daoCoreContractCode!,
+      msg: JSON.stringify(msg),
+    }
+
+    if (!signingClient) {
+      throw new Error('Connect Wallet First')
+    }
+    const res = await WasmInstantiateTrx(signingClient, signer, [message])
+    console.log('CreateDAOCoreByGroupId', res)
+    const contractAddress = utils.common.getValueFromEvents(res!, 'instantiate', '_contract_address')
+    if (!contractAddress) {
+      throw new Error(res?.rawLog)
+    }
+    return contractAddress
   }
 
   const AddLinkedEntity = async (did: string, linkedEntity: LinkedEntity): Promise<DeliverTxResponse | undefined> => {
@@ -1272,9 +1102,11 @@ export function useCreateEntity(): TCreateEntityHookRes {
     SaveAdministrator,
     SavePage,
     SaveTags,
+    SaveClaim,
+    SaveClaimQuestions,
     SaveTokenMetadata,
-    SaveClaims,
     UploadLinkedResource,
+    UploadLinkedClaim,
     CreateProtocol,
     CreateEntityBase,
     CreateDAOCoreByGroupId,

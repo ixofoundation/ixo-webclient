@@ -23,13 +23,14 @@ import { reducer as currentDaoReducer } from 'redux/currentEntity/dao/currentDao
 import { reducer as submitEntityClaimReducer } from 'redux/submitEntityClaim/submitEntityClaim.reducer'
 import { reducer as selectedEntityExchangeReducer } from 'redux/selectedEntityExchange/entityExchange.reducer'
 import { reducer as selectedEntityAgentsReducer } from 'redux/selectedEntityAgents/entityAgents.reducer'
-import { reducer as editEntityReducer } from 'redux/editEntity/editEntity.reducer'
+import { reducer as editEntityOldReducer } from 'redux/editEntityOld/editEntity.reducer'
 import { reducer as editEntityAdvancedReducer } from 'redux/editEntityAdvanced/editEntityAdvanced.reducer'
 import { reducer as editEntityAttestationReducer } from 'redux/editEntityAttestation/editEntityAttestation.reducer'
 import { reducer as editEntityClaimsReducer } from 'redux/editEntityClaims/editEntityClaims.reducer'
 import { reducer as editEntityPageContentReducer } from 'redux/editEntityPageContent/editEntityPageContent.reducer'
 import { reducer as editEntitySettingsReducer } from 'redux/editEntitySettings/editEntitySettings.reducer'
 import { reducer as editEntityTemplateReducer } from 'redux/editEntityTemplate/editTemplate.reducer'
+import { reducer as editEntityReducer } from 'redux/editEntity/editEntity.reducer'
 import { reducer as validatorReducer } from 'redux/validator/validator.reducer'
 
 export const rootReducer = (history: any) =>
@@ -49,7 +50,7 @@ export const rootReducer = (history: any) =>
     createEntitySettings: createEntitySettingsReducer,
     createEntityAdvanced: createEntityAdvancedReducer,
     createEntityClaims: createEntityClaimsReducer,
-    editEntity: editEntityReducer,
+    editEntityOld: editEntityOldReducer,
     editEntityPageContent: editEntityPageContentReducer,
     editEntityAttestation: editEntityAttestationReducer,
     editEntitySettings: editEntitySettingsReducer,
@@ -62,6 +63,7 @@ export const rootReducer = (history: any) =>
     economy: economyReducer,
     configs: configsReducer,
     newEntity: newEntityReducer,
+    editEntity: editEntityReducer,
     currentEntity: currentEntityReducer,
     currentDao: currentDaoReducer,
     validator: validatorReducer,

@@ -4,7 +4,6 @@ import { deviceWidth } from 'constants/device'
 import { Button } from 'pages/CreateEntity/Components'
 import React, { useContext, useMemo } from 'react'
 import { NavLink, useHistory, useParams } from 'react-router-dom'
-import { TDAOMetadataModel } from 'types/protocol'
 import DAOCard from 'pages/CreateEntity/Forms/ReviewCard/DAOCard'
 import { EditEntityContext } from 'pages/EditEntity/EditEntity'
 
@@ -13,7 +12,7 @@ const ReviewDAO: React.FC = (): JSX.Element => {
   const { entityId } = useParams<{ entityId: string }>()
   const entity = useContext(EditEntityContext)
 
-  const profile: TDAOMetadataModel = entity.profile as TDAOMetadataModel
+  const profile = entity.profile
   const { daoGroups, daoController } = entity
 
   const numOfMembers = useMemo(() => {
@@ -21,7 +20,7 @@ const ReviewDAO: React.FC = (): JSX.Element => {
     if (!daoGroup) {
       return 0
     }
-    return daoGroup.memberships.reduce((acc, cur) => acc + cur.members.length, 0)
+    return daoGroup.votingModule.members.length
   }, [daoGroups, daoController])
 
   const handleSignToCreate = async (): Promise<void> => {

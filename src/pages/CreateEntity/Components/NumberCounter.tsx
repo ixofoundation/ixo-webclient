@@ -101,7 +101,7 @@ const NumberCounter: React.FC<Props> = ({
           type='text'
           pattern='[0-9]*'
           value={value}
-          onChange={(event): void => onChange(Number(event.target.value))}
+          onChange={(event): void => onChange(Number(event.target.value || 0))}
           onFocus={(): void => setFocused(true)}
           onBlur={(): void => setFocused(false)}
           textAlign={direction === 'row' ? 'left' : 'right'}

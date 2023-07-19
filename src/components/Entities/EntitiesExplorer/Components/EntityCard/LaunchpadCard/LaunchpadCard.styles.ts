@@ -3,7 +3,7 @@ import styled from 'styled-components'
 export const Container = styled.div``
 
 export const ActionButton = styled.button`
-  border: 1px solid #00d2ff;
+  border: 1px solid ${(props) => props.theme.ixoNewBlue};
   box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.15);
   border-radius: 4px;
   width: 6rem;

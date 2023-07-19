@@ -1,6 +1,6 @@
 import React from 'react'
 import MultiControlForm from 'components/JsonForm/MultiControlForm/MultiControlForm'
-import { FormCardProps } from '../../../../../../../redux/editEntity/editEntity.types'
+import { FormCardProps } from '../../../../../../../redux/editEntityOld/editEntity.types'
 import { LinkButton } from 'components/JsonForm/JsonForm.styles'
 import { AgentRole } from 'redux/account/account.types'
 import { agentRoleMap } from 'redux/account/strategy-map'

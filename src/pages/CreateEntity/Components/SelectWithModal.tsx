@@ -56,7 +56,7 @@ interface Props {
   options: string[]
 }
 
-const SelectWithLabel: React.FC<Props> = ({
+const SelectWithModal: React.FC<Props> = ({
   value,
   label = '',
   width = '100%',
@@ -101,4 +101,4 @@ const SelectWithLabel: React.FC<Props> = ({
   )
 }
 
-export default SelectWithLabel
+export default SelectWithModal

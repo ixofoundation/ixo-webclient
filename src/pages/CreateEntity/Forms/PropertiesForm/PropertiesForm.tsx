@@ -10,16 +10,14 @@ import { SetupService } from './SetupService'
 import { FlexBox } from 'components/App/App.styles'
 import {
   TDAOGroupModel,
-  TEntityAccordedRightModel,
   TEntityAdministratorModel,
   TEntityClaimModel,
   TEntityCreatorModel,
   TEntityDDOTagModel,
-  TEntityLinkedEntityModel,
-  TEntityLinkedResourceModel,
   TEntityPageModel,
   TEntityServiceModel,
 } from 'types/protocol'
+import { AccordedRight, LinkedEntity, LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 
 const Properties = [
   // 'Services',
@@ -37,20 +35,20 @@ interface Props {
   ddoTags?: TEntityDDOTagModel[]
   page: TEntityPageModel
   service: TEntityServiceModel[]
-  linkedResource: { [id: string]: TEntityLinkedResourceModel }
+  linkedResource: { [id: string]: LinkedResource | undefined }
   claim: { [id: string]: TEntityClaimModel }
-  accordedRight: { [key: string]: TEntityAccordedRightModel }
-  linkedEntity: { [key: string]: TEntityLinkedEntityModel }
+  accordedRight: { [key: string]: AccordedRight }
+  linkedEntity: { [key: string]: LinkedEntity }
   daoGroups?: { [id: string]: TDAOGroupModel }
-  updateCreator: (creator: TEntityCreatorModel) => void
+  updateCreator?: (creator: TEntityCreatorModel) => void
   updateAdministrator: (administrator: TEntityAdministratorModel) => void
   updateDDOTags?: (ddoTags: TEntityDDOTagModel[]) => void
   updatePage: (page: TEntityPageModel) => void
   updateService: (service: TEntityServiceModel[]) => void
-  updateLinkedResource: (linkedResource: { [id: string]: TEntityLinkedResourceModel }) => void
+  updateLinkedResource: (linkedResource: { [id: string]: LinkedResource | undefined }) => void
   updateClaim: (claim: { [id: string]: TEntityClaimModel }) => void
-  updateAccordedRight: (accordedRight: { [id: string]: TEntityAccordedRightModel }) => void
-  updateLinkedEntity: (linkedEntity: { [id: string]: TEntityLinkedEntityModel }) => void
+  updateAccordedRight: (accordedRight: { [id: string]: AccordedRight }) => void
+  updateLinkedEntity: (linkedEntity: { [id: string]: LinkedEntity }) => void
 }
 
 const PropertiesForm: React.FC<Props> = ({
@@ -77,14 +75,12 @@ const PropertiesForm: React.FC<Props> = ({
 }): JSX.Element => {
   const [propertyView, setPropertyView] = useState<string>('')
   const activeProperties = useMemo(() => {
-    switch (entityType.toLowerCase()) {
-      case 'protocol':
-        return Properties.filter((property) => property !== 'Claims')
-      case 'proposal':
-        return Properties.filter((property) => property !== 'Settings')
-      default:
-        return Properties
+    if (entityType?.startsWith('protocol')) {
+      return Properties.filter((property) => property !== 'Claims' && property !== 'Linked Entities')
+    } else if (entityType === 'deed') {
+      return Properties.filter((property) => property !== 'Settings')
     }
+    return Properties
   }, [entityType])
 
   const SettingsProps = {
@@ -127,31 +123,24 @@ const PropertiesForm: React.FC<Props> = ({
   }, [activeProperties])
 
   return (
-    <>
-      <FlexBox direction='column' id='setup-property-tabs' gap={12}>
-        <Typography variant='secondary' size='xl'>
-          Configure the properties
-        </Typography>
-        <FlexBox gap={2} flexWrap='wrap'>
-          {activeProperties.map((key) => (
-            <Badge key={key} active={key === propertyView} onClick={(): void => setPropertyView(key)}>
-              <Typography size='lg' weight='medium' color='white' noWrap>
-                {key}
-              </Typography>
-            </Badge>
-          ))}
-        </FlexBox>
+    <FlexBox direction='column' gap={7.5} width={'100%'}>
+      <FlexBox gap={2} flexWrap='wrap'>
+        {activeProperties.map((key) => (
+          <Badge key={key} active={key === propertyView} onClick={(): void => setPropertyView(key)}>
+            <Typography size='lg' weight='medium' color='white' noWrap>
+              {key}
+            </Typography>
+          </Badge>
+        ))}
       </FlexBox>
 
-      <FlexBox direction='column' gap={7.5} width={'100%'}>
-        {propertyView === 'Services' && <SetupService />}
-        {propertyView === 'Settings' && <SetupSettings {...SettingsProps} />}
-        {propertyView === 'Linked Resources' && <SetupLinkedResource {...LinkedResourceProps} />}
-        {propertyView === 'Claims' && <SetupClaim {...ClaimProps} />}
-        {propertyView === 'Accorded Rights' && <SetupAccordedRight {...AccordedRightProps} />}
-        {propertyView === 'Linked Entities' && <SetupLinkedEntity {...LinkedEntityProps} />}
-      </FlexBox>
-    </>
+      <SetupService hidden={propertyView !== 'Services'} />
+      <SetupSettings hidden={propertyView !== 'Settings'} {...SettingsProps} />
+      <SetupLinkedResource hidden={propertyView !== 'Linked Resources'} {...LinkedResourceProps} />
+      <SetupClaim hidden={propertyView !== 'Claims'} {...ClaimProps} />
+      <SetupAccordedRight hidden={propertyView !== 'Accorded Rights'} {...AccordedRightProps} />
+      <SetupLinkedEntity hidden={propertyView !== 'Linked Entities'} {...LinkedEntityProps} />
+    </FlexBox>
   )
 }
 

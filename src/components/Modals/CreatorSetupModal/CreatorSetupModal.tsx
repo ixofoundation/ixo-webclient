@@ -84,7 +84,7 @@ const CreatorSetupModal: React.FC<Props> = ({ creator, title, open, onClose, onC
   }, [formData?.logo])
 
   const handleFormDataChange = (key: string, value: string): void => {
-    setFormData((pre) => ({ ...pre, [key]: value }))
+    onChange && setFormData((pre) => ({ ...pre, [key]: value }))
   }
 
   const handleContinue = (): void => {

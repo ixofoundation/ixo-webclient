@@ -23,20 +23,24 @@ import { CheckBoxesQuestion } from './CheckBoxesQuestion'
 import { CurrencyQuestion } from './CurrencyQuestion'
 import { omitKey, reorderObjectElement } from 'utils/objects'
 import { Button } from 'pages/CreateEntity/Components'
+import { RouteComponentProps, useHistory } from 'react-router-dom'
 
-const SetupDataCollection: React.FC = (): JSX.Element => {
-  const { claimQuestions, updateClaimQuestions, gotoStep } = useCreateEntityState()
+const SetupDataCollection: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): JSX.Element => {
+  const history = useHistory()
+  const baseLink = match.path.split('/').slice(0, -1).join('/')
+
+  const { claimQuestions, updateClaimQuestions } = useCreateEntityState()
   const questions: TQuestion[] = useMemo(() => Object.values(claimQuestions), [claimQuestions])
 
   const handlePrev = (): void => {
-    gotoStep(-1)
+    history.push(`${baseLink}/profile`)
   }
   const handleNext = (): void => {
-    gotoStep(1)
+    history.push(`${baseLink}/property`)
   }
 
   const handleRemoveQuestion = (id: string): void => {
-    const newQuestions = omitKey(questions, id)
+    const newQuestions = omitKey(claimQuestions, id)
     updateClaimQuestions(newQuestions)
   }
   const handleMoveQuestion = (srcId: string, dstId: string): void => {
@@ -56,11 +60,11 @@ const SetupDataCollection: React.FC = (): JSX.Element => {
     console.log('handleValidationError', id, errors)
   }
   const handleUpdateAnswerRequired = (id: string, required: boolean): void => {
-    handleUpdateProfile({ ...questions[id], required })
+    handleUpdateProfile({ ...claimQuestions[id], required })
   }
   const handleCopyQuestion = (id: string): void => {
     const newId = uuidv4()
-    handleUpdateProfile({ ...questions[id], id: newId })
+    handleUpdateProfile({ ...claimQuestions[id], id: newId })
   }
   const handleAddQuestion = (controlType: ControlType): void => {
     const handleAddShortTextQuestion = (): void => {

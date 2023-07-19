@@ -1,72 +1,18 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import * as Modal from 'react-modal'
 import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
-import { ModalStyles, CloseButton, ModalWrapper, ModalTitle } from 'components/Modals/styles'
-import { Button, ChainSelector, Input } from 'pages/CreateEntity/Components'
-import { TEntityLinkedEntityModel } from 'types/protocol'
-import { FlexBox, SvgBox } from 'components/App/App.styles'
-import { BlockSyncService } from 'services/blocksync'
-import { validateEntityDid } from 'utils/validation'
-import { ReactComponent as SearchIcon } from 'assets/images/icon-search.svg'
-import { useTheme } from 'styled-components'
-
-const bsService = new BlockSyncService()
+import { ModalStyles, CloseButton, ModalWrapper, ModalTitle, ModalBody, ModalRow } from 'components/Modals/styles'
+import { PropertyBox } from 'pages/CreateEntity/Components'
+import { EntityLinkedEntityConfig } from 'types/protocol'
+import _ from 'lodash'
 
 interface Props {
   open: boolean
   onClose: () => void
-  onAdd: (linkedEntity: TEntityLinkedEntityModel) => void
+  onAdd: (key: string) => void
 }
 
 const AddLinkedEntityModal: React.FC<Props> = ({ open, onClose, onAdd }): JSX.Element => {
-  const theme: any = useTheme()
-  const SearchInputStyles = {
-    fontFamily: theme.secondaryFontFamily,
-    fontWeight: 500,
-    fontSize: 20,
-    lineHeight: 28,
-  }
-  const [chainId, setChainId] = useState(undefined)
-  const [entityDid, setEntityDid] = useState('')
-  const [selectedType, setSelectedType] = useState('')
-
-  const handleAdd = () => {
-    onAdd({
-      id: entityDid,
-      type: selectedType,
-      relationship: 'verifies', // TODO: TBD
-      service: 'ixo',
-    })
-    onClose()
-  }
-
-  /**
-   * @description initialize states
-   */
-  useEffect(() => {
-    if (open === false) {
-      setChainId(undefined)
-      setEntityDid('')
-      setSelectedType('')
-    }
-  }, [open])
-
-  /**
-   * @description check entity alive by entityDid, call blocksync
-   */
-  useEffect(() => {
-    if (validateEntityDid(entityDid)) {
-      bsService.entity
-        .getEntityById(entityDid)
-        .then((response: any) => {
-          setSelectedType(response.type)
-        })
-        .catch(() => setSelectedType(''))
-    } else {
-      setSelectedType('')
-    }
-  }, [entityDid])
-
   return (
     <>
       {/* @ts-ignore */}
@@ -77,30 +23,23 @@ const AddLinkedEntityModal: React.FC<Props> = ({ open, onClose, onAdd }): JSX.El
 
         <ModalWrapper>
           <ModalTitle>Add a Linked Entity</ModalTitle>
-          <FlexBox direction='column' gap={4}>
-            <FlexBox width='100%' height='100%' gap={4}>
-              <ChainSelector chainId={chainId!} onChange={setChainId as any} />
-              <Input
-                name='entitydid'
-                inputValue={entityDid}
-                handleChange={setEntityDid}
-                placeholder='Type to Search or enter a DID'
-                preIcon={
-                  <SvgBox color={theme.ixoGrey700}>
-                    <SearchIcon />
-                  </SvgBox>
-                }
-                width='400px'
-                height='48px'
-                style={SearchInputStyles}
-              />
-            </FlexBox>
-            <FlexBox width='100%' justifyContent='flex-end'>
-              <Button variant='primary' disabled={!entityDid || !selectedType} onClick={handleAdd}>
-                Continue
-              </Button>
-            </FlexBox>
-          </FlexBox>
+          <ModalBody>
+            {_.chunk(Object.entries(EntityLinkedEntityConfig), 4).map((row, rowIdx) => (
+              <ModalRow key={rowIdx} style={{ justifyContent: 'flex-start' }}>
+                {row.map(([key, value]) => (
+                  <PropertyBox
+                    key={key}
+                    icon={<value.icon />}
+                    label={value.text}
+                    handleClick={(): void => {
+                      onAdd(key)
+                      onClose()
+                    }}
+                  />
+                ))}
+              </ModalRow>
+            ))}
+          </ModalBody>
         </ModalWrapper>
       </Modal>
     </>

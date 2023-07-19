@@ -17,10 +17,6 @@ export const CollectionCardBackground = styled.div<{ background: string }>`
   background-position: center;
   background-image: url(${(props): string => props.background});
   transition: all 0.2s;
-
-  //  mix-blend-mode: normal;
-  //  border: 2px solid #00d2ff;
-  //  filter: drop-shadow(0px 0px 20px rgba(0, 210, 255, 0.5));
 `
 
 export const CollectionCardWrapper = styled.div`

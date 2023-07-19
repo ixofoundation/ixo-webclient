@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid'
 import { EditEntityClaimsActions, EditEntityClaimActionTypes, EditEntityClaimsState } from './editEntityClaims.types'
-import { EditEntityActionTypes, EditEntityActions } from '../editEntity/editEntity.types'
+import { EditEntityActionTypes, EditEntityActions } from '../editEntityOld/editEntity.types'
 import { omitKey } from 'utils/objects'
 
 const firstEntityClaimId = uuidv4()

@@ -5,10 +5,16 @@ import { Agent, FundSource, LiquiditySource, NodeType } from 'types/entities'
 import { AgentRole } from 'redux/account/account.types'
 import { PageContent } from 'redux/selectedEntity/selectedEntity.types'
 import { ApiListedEntityData } from 'api/blocksync/types/entities'
-import { TEntityDDOTagModel, TEntityServiceModel } from 'types/protocol'
-import { LinkedEntity, LinkedResource, Service } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
+import { EntityLinkedResourceConfig, TEntityDDOTagModel, TEntityServiceModel } from 'types/protocol'
+import {
+  LinkedClaim,
+  LinkedEntity,
+  LinkedResource,
+  Service,
+} from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { CosmWasmClient } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/cosmwasm-stargate'
 import { getDaoContractInfo } from './dao'
+import { CellnodePublicResource, CellnodeWeb3Resource } from '@ixo/impactxclient-sdk/types/custom_queries/cellnode'
 
 export const getCountryCoordinates = (countryCodes: string[]): any[] => {
   const coordinates: any[] = []
@@ -203,21 +209,31 @@ export const getBondDidFromApiListedEntityData = async (data: ApiListedEntityDat
   })
 }
 
+export function serviceEndpointToUrl(serviceEndpoint: string, service: Service[]): string {
+  let url = ''
+  const [identifier, key] = serviceEndpoint.replace('{id}#', '').split(':')
+  const usedService: Service | undefined = service.find(
+    (item: any) => item.id.replace('{id}#', '') === identifier.replace('{id}#', ''),
+  )
+
+  if (usedService && usedService.type.toLocaleLowerCase() === NodeType.Ipfs.toLocaleLowerCase()) {
+    // url = `${usedService.serviceEndpoint}/${key}`
+    url = `https://${key}.ipfs.w3s.link`
+  } else if (usedService && usedService.type.toLocaleLowerCase() === NodeType.CellNode.toLocaleLowerCase()) {
+    url = `${usedService.serviceEndpoint}${key}`
+  } else {
+    url = serviceEndpoint
+  }
+  return url
+}
+
 export function apiEntityToEntity(
   { entity, cwClient }: { entity: any; cwClient: CosmWasmClient },
   updateCallback: (key: string, value: any, merge?: boolean) => void,
 ): void {
-  const { type, settings, linkedResource, service, linkedEntity } = entity
+  const { type, settings, linkedResource, service, linkedEntity, linkedClaim } = entity
   linkedResource.concat(Object.values(settings)).forEach((item: LinkedResource) => {
-    let url = ''
-    const [identifier, key] = item.serviceEndpoint.split(':')
-    const usedService: Service | undefined = service.find((item: any) => item.id === `{id}#${identifier}`)
-
-    if (usedService && usedService.type.toLowerCase() === NodeType.Ipfs.toLowerCase()) {
-      url = `https://${key}.ipfs.w3s.link`
-    } else if (usedService && usedService.type.toLowerCase() === NodeType.CellNode.toLowerCase()) {
-      url = `${usedService.serviceEndpoint}${key}`
-    }
+    const url = serviceEndpointToUrl(item.serviceEndpoint, service)
 
     if (item.proof && url) {
       switch (item.id) {
@@ -229,7 +245,7 @@ export function apiEntityToEntity(
               let image: string = response.image
               let logo: string = response.logo
 
-              if (!image.startsWith('http')) {
+              if (image && !image.startsWith('http')) {
                 const [identifier] = image.split(':')
                 let endpoint = ''
                 context.forEach((item: any) => {
@@ -239,7 +255,7 @@ export function apiEntityToEntity(
                 })
                 image = image.replace(identifier + ':', endpoint)
               }
-              if (!logo.startsWith('http')) {
+              if (logo && !logo.startsWith('http')) {
                 const [identifier] = logo.split(':')
                 let endpoint = ''
                 context.forEach((item: any) => {
@@ -254,7 +270,10 @@ export function apiEntityToEntity(
             .then((profile) => {
               updateCallback('profile', profile)
             })
-            .catch(() => undefined)
+            .catch((e) => {
+              console.error(`Error Fetching Profile ${entity.id}`, e)
+              return undefined
+            })
           break
         }
         case '{id}#creator': {
@@ -312,9 +331,23 @@ export function apiEntityToEntity(
     }
   })
 
+  linkedClaim.forEach((item: LinkedClaim) => {
+    const url = serviceEndpointToUrl(item.serviceEndpoint, service)
+
+    if (item.proof && url) {
+      fetch(url)
+        .then((response) => response.json())
+        .then((response) => response.entityClaims[0])
+        .then((claim) => {
+          updateCallback('claim', { [claim.id]: claim }, true)
+        })
+        .catch(() => undefined)
+    }
+  })
+
   updateCallback(
     'linkedResource',
-    linkedResource.filter((item: any) => item.type === 'document'),
+    linkedResource.filter((item: LinkedResource) => Object.keys(EntityLinkedResourceConfig).includes(item.type)),
   )
   updateCallback(
     'service',
@@ -337,4 +370,35 @@ export function apiEntityToEntity(
           .catch(console.error)
       })
   }
+}
+
+export const LinkedResourceServiceEndpointGenerator = (
+  uploadResult: CellnodePublicResource | CellnodeWeb3Resource,
+  cellnodeService?: Service,
+): string => {
+  if (cellnodeService) {
+    const serviceId = cellnodeService.id.replace('{id}#', '')
+    const serviceType = cellnodeService.type
+    if (serviceType === NodeType.Ipfs) {
+      return `${serviceId}:${(uploadResult as CellnodeWeb3Resource).cid}`
+    } else if (serviceType === NodeType.CellNode) {
+      return `${serviceId}:/public/${(uploadResult as CellnodePublicResource).key}`
+    }
+  }
+  return `ipfs:${(uploadResult as CellnodeWeb3Resource).cid}`
+}
+
+export const LinkedResourceProofGenerator = (
+  uploadResult: CellnodePublicResource | CellnodeWeb3Resource,
+  cellnodeService?: Service,
+): string => {
+  if (cellnodeService) {
+    const serviceType = cellnodeService.type
+    if (serviceType === NodeType.Ipfs) {
+      return (uploadResult as CellnodeWeb3Resource).cid
+    } else if (serviceType === NodeType.CellNode) {
+      return (uploadResult as CellnodePublicResource).key
+    }
+  }
+  return (uploadResult as CellnodeWeb3Resource).cid
 }

@@ -2,12 +2,7 @@ import Dashboard from 'components/Dashboard/Dashboard'
 import { HeaderTab, Path } from 'components/Dashboard/types'
 import { useAccount } from 'hooks/account'
 import useCurrentEntity, { useCurrentEntityProfile } from 'hooks/currentEntity'
-import {
-  Redirect,
-  Route,
-  useParams,
-  // useRouteMatch
-} from 'react-router-dom'
+import { Redirect, Route, useParams, useRouteMatch } from 'react-router-dom'
 import { requireCheckDefault } from 'utils/images'
 import { MyParticipation } from './MyParticipation'
 import { Navigator } from './Navigator'
@@ -17,10 +12,11 @@ import { Governance } from './Governance'
 import { IndividualMember } from './IndividualMember'
 import { AddGroup } from './AddGroup'
 import useCurrentDao from 'hooks/currentDao'
+import EditEntity from './EditEntity'
 
 const DAODashboard: React.FC = (): JSX.Element => {
   const { entityId } = useParams<{ entityId: string }>()
-  // const isIndividualMemberRoute = useRouteMatch('/entity/:entityId/dashboard/overview/:groupId/:address')
+  const isEditEntityRoute = useRouteMatch('/entity/:entityId/dashboard/edit')
   const { entityType, owner } = useCurrentEntity()
   const { name } = useCurrentEntityProfile()
   const { daoGroups } = useCurrentDao()
@@ -62,6 +58,13 @@ const DAODashboard: React.FC = (): JSX.Element => {
       icon: requireCheckDefault(require('assets/img/sidebar/toc.svg')),
       sdg: 'Add Group',
       tooltip: 'Add Group',
+      disabled: !registered || owner !== address,
+    },
+    {
+      url: `/entity/${entityId}/dashboard/edit`,
+      icon: requireCheckDefault(require('assets/img/sidebar/gear.svg')),
+      sdg: 'Edit Entity',
+      tooltip: 'Edit Entity',
       disabled: !registered || owner !== address,
     },
   ]
@@ -110,8 +113,7 @@ const DAODashboard: React.FC = (): JSX.Element => {
     },
   ]
 
-  // const theme = isIndividualMemberRoute ? 'light' : 'dark'
-  const theme = 'dark'
+  const theme = isEditEntityRoute ? 'light' : 'dark'
 
   return (
     <Dashboard
@@ -134,6 +136,9 @@ const DAODashboard: React.FC = (): JSX.Element => {
       {registered && <Route exact path='/entity/:entityId/dashboard/my-participation' component={MyParticipation} />}
       {registered && owner === address && (
         <Route exact path='/entity/:entityId/dashboard/add-group' component={AddGroup} />
+      )}
+      {registered && owner === address && (
+        <Route exact path='/entity/:entityId/dashboard/edit' component={EditEntity} />
       )}
       <Route exact path='/entity/:entityId/dashboard'>
         <Redirect to={`/entity/${entityId}/dashboard/membership`} />

@@ -1,15 +1,13 @@
-import { Box } from 'components/App/App.styles'
+import { Box, FlexBox } from 'components/App/App.styles'
 import React, { useMemo } from 'react'
 import { useCreateEntityState } from 'hooks/createEntity'
 import { Button } from '../../../Components'
 import { DAOProfileForm, EntityAdditionalInfoForm } from '../../../Forms'
-import { PageWrapper } from './SetupMetadata.styles'
-import { TDAOMetadataModel } from 'types/protocol'
 
 const SetupMetadata: React.FC = (): JSX.Element => {
   const createEntityState = useCreateEntityState()
   const { entityType, startDate, endDate, gotoStep, updateProfile, updateStartEndDate } = createEntityState
-  const profile: TDAOMetadataModel = createEntityState.profile as TDAOMetadataModel
+  const profile = createEntityState.profile
 
   const canSubmit: boolean = useMemo(
     () => !!profile && !!profile.image && !!profile.logo && !!profile.orgName && !!profile.name,
@@ -31,7 +29,7 @@ const SetupMetadata: React.FC = (): JSX.Element => {
   }
 
   return (
-    <PageWrapper>
+    <FlexBox justifyContent='stretch' gap={12.5}>
       <Box className='d-flex flex-column'>
         {/* <Box className='d-flex align-items-center justify-content-between'>
           <Typography weight='medium' size='xl'>
@@ -85,7 +83,7 @@ const SetupMetadata: React.FC = (): JSX.Element => {
           </Button>
         </Box>
       </Box>
-    </PageWrapper>
+    </FlexBox>
   )
 }
 

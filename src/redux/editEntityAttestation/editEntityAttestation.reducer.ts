@@ -3,7 +3,7 @@ import {
   EditEntityAttestationActionTypes,
   EditEntityAttestationActions,
 } from './editEntityAttestation.types'
-import { EditEntityActionTypes, EditEntityActions } from '../editEntity/editEntity.types'
+import { EditEntityActionTypes, EditEntityActions } from '../editEntityOld/editEntity.types'
 import { omitKey } from 'utils/objects'
 import * as utils from './editEntityAttestation.utils'
 

@@ -1,32 +1,30 @@
 import React from 'react'
-import { FormWrapper, FormBody, FormRow } from './ClaimProfileForm.styles'
-import { InputWithLabel, SelectWithLabel, TextArea } from '../../Components'
+import { FormWrapper, FormBody, FormRow, FormHeader } from './ClaimProfileForm.styles'
+import { InputWithLabel, SelectWithModal } from '../../Components'
 import { Typography } from 'components/Typography'
 import { EClaimType } from 'types/protocol'
+import { Box, FlexBox } from 'components/App/App.styles'
+import { useTheme } from 'styled-components'
+import moment from 'moment'
 
 interface Props {
-  type: EClaimType | undefined
-  setType: (type: EClaimType) => void
+  type: string
+  setType: (type: string) => void
   title: string
   setTitle: (title: string) => void
-  description: string
-  setDescription: (description: string) => void
 }
 
-const ClaimProfileForm: React.FC<Props> = ({
-  type,
-  setType,
-  title,
-  setTitle,
-  description,
-  setDescription,
-  ...rest
-}): JSX.Element => {
+const ClaimProfileForm: React.FC<Props> = ({ type, setType, title, setTitle, ...rest }): JSX.Element => {
+  const theme: any = useTheme()
   return (
     <FormWrapper {...rest}>
+      <FormHeader>
+        <Box height='240px' background={theme.ixoGrey300}></Box>
+      </FormHeader>
+
       <FormBody>
         <FormRow>
-          <SelectWithLabel
+          <SelectWithModal
             label='Claim Type'
             value={type}
             handleChange={setType}
@@ -44,19 +42,19 @@ const ClaimProfileForm: React.FC<Props> = ({
           )}
         </FormRow>
 
-        <FormRow>
-          {setDescription ? (
-            <TextArea
-              label='Describe the Claim Form'
-              inputValue={description}
-              handleChange={setDescription}
-              height={'350px'}
-            />
-          ) : (
-            <Typography color='grey700' size='xl' weight='bold'>
-              {description}
-            </Typography>
-          )}
+        <FlexBox my={10}>
+          <Typography size='xl' color='grey300'>
+            Claim Description
+          </Typography>
+        </FlexBox>
+
+        <FormRow style={{ justifyContent: 'space-between' }}>
+          <Typography color='color-2' size='md'>
+            Creation Date:
+          </Typography>
+          <Typography color='black' size='md'>
+            {moment().format('DD MMM YYYY')}
+          </Typography>
         </FormRow>
       </FormBody>
     </FormWrapper>

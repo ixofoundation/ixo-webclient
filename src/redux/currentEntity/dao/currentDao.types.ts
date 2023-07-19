@@ -1,16 +1,12 @@
 import { MarketingInfoResponse, TokenInfoResponse } from '@ixo/impactxclient-sdk/types/codegen/Cw20Base.types'
-import {
-  ArrayOfAddr,
-  Config,
-  Cw20BalanceResponse,
-  ProposalModuleCountResponse,
-} from '@ixo/impactxclient-sdk/types/codegen/DaoCore.types'
+import { Config } from '@ixo/impactxclient-sdk/types/codegen/DaoCore.types'
 import { Config as PreProposeConfig } from '@ixo/impactxclient-sdk/types/codegen/DaoPreProposeSingle.types'
 import { Config as ProposalConfig, VoteInfo } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
 import { Config as Cw20StakeConfig } from '@ixo/impactxclient-sdk/types/codegen/Cw20Stake.types'
 import { Member, Proposal } from 'types/dao'
 
 export type DaoGroup = {
+  id?: string
   coreAddress: string
   type: string //  'membership' || 'staking'
   admin: string
@@ -18,34 +14,32 @@ export type DaoGroup = {
   proposalModule: {
     proposalModuleAddress: string
     preProposalContractAddress: string
-    proposalModuleCount: ProposalModuleCountResponse
-    proposals: Proposal[]
     preProposeConfig: PreProposeConfig
     proposalConfig: ProposalConfig
+    proposals: Proposal[]
     votes: VoteInfo[]
   }
   votingModule: {
     votingModuleAddress: string
-    contractCodeId: number
     contractName: string //  'dao_voting_cw20_staked' || 'dao_voting_cw4'
 
     members: Member[]
     totalWeight: number
   }
-  treasury: {
-    cw20Balances: Cw20BalanceResponse
-    cw20TokenList: ArrayOfAddr
-    cw721TokenList: ArrayOfAddr
-  }
-  storageItems: string[]
   token:
     | {
         config: Cw20StakeConfig
         tokenInfo: TokenInfoResponse
         marketingInfo: MarketingInfoResponse
+        treasuryPercent?: number
       }
     | undefined
   selected?: boolean
+  memberships?: {
+    category?: string
+    weight: number
+    members: string[]
+  }[]
 }
 
 export type CurrentDao = {

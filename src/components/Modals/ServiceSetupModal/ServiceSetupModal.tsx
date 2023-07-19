@@ -1,12 +1,60 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect } from 'react'
 import * as Modal from 'react-modal'
 import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
-import { ModalStyles, CloseButton, ModalBody, ModalWrapper, ModalRow, ModalTitle } from 'components/Modals/styles'
+import { ModalStyles, CloseButton } from 'components/Modals/styles'
 import { TEntityServiceModel } from 'types/protocol'
-import { Button } from 'pages/CreateEntity/Components'
-import { FormData } from 'components/JsonForm/types'
-import NodeCard from 'components/Entities/CreateEntity/CreateEntityAdvanced/Components/NodeCard/NodeCard'
+import { Button, Dropdown, InputWithLabel } from 'pages/CreateEntity/Components'
 import { Typography } from 'components/Typography'
+import { FlexBox, SvgBox } from 'components/App/App.styles'
+import { ReactComponent as MinusBoxIcon } from 'assets/images/icon-minus-box.svg'
+import { useTheme } from 'styled-components'
+import { NodeType } from 'types/entities'
+
+interface ServiceFormProps {
+  index: number
+  service: TEntityServiceModel
+  onUpdate?: (service: TEntityServiceModel) => void
+  onRemove?: () => void
+}
+
+const ServiceForm: React.FC<ServiceFormProps> = ({ index, service, onUpdate, onRemove }) => {
+  const theme: any = useTheme()
+  return (
+    <FlexBox direction='column' gap={4} width='100%'>
+      <FlexBox gap={4} alignItems='center'>
+        <Typography size='xl'>Service {index ? index : ''}</Typography>
+        {onRemove && (
+          <SvgBox color={theme.ixoNewBlue} cursor='pointer' onClick={() => onRemove()}>
+            <MinusBoxIcon />
+          </SvgBox>
+        )}
+      </FlexBox>
+      <FlexBox gap={4} width='100%'>
+        <Dropdown
+          options={Object.values(NodeType).map((v) => ({ text: v, value: v }))}
+          value={service.type}
+          onChange={(e) => onUpdate && onUpdate({ ...service, type: e.target.value as NodeType })}
+          disabled={!onUpdate}
+          label='Service Type'
+        />
+        <InputWithLabel
+          label='Service ID'
+          inputValue={service.id}
+          handleChange={(value) => onUpdate && onUpdate({ ...service, id: value })}
+          disabled={!onUpdate}
+        />
+      </FlexBox>
+      <FlexBox width='100%'>
+        <InputWithLabel
+          label='Service Endpoint'
+          inputValue={service.serviceEndpoint}
+          handleChange={(value) => onUpdate && onUpdate({ ...service, serviceEndpoint: value })}
+          disabled={!onUpdate}
+        />
+      </FlexBox>
+    </FlexBox>
+  )
+}
 
 interface Props {
   service: TEntityServiceModel[]
@@ -14,52 +62,38 @@ interface Props {
   onClose: () => void
   onChange?: (services: TEntityServiceModel[]) => void
 }
-const refs: { [id: string]: React.RefObject<any> } = {}
 
 const ServiceSetupModal: React.FC<Props> = ({ service, open, onClose, onChange }): JSX.Element => {
-  const [formData, setFormData] = useState<FormData[]>([])
-  const [error, setError] = useState<boolean>(true)
+  const [formData, setFormData] = useState<TEntityServiceModel[]>([])
 
-  const canSubmit = useMemo(
-    () =>
-      formData.length > 0 &&
-      !formData.some(({ nodeId, type, serviceEndpoint }) => !nodeId || !type || !serviceEndpoint) &&
-      !error,
-    [formData, error],
-  )
+  console.log({ formData })
 
   useEffect(() => {
-    if (service?.length > 0) {
-      setFormData(
-        service.map((data) => ({
-          nodeId: data.id,
-          type: data.type,
-          serviceEndpoint: data.serviceEndpoint,
-        })),
-      )
+    setFormData(service.map((v) => ({ ...v, id: v.id.replace('{id}#', '') })))
+    return () => {
+      setFormData([])
     }
   }, [service])
 
-  const handleAddNode = (): void => {
+  const handleAddService = (): void => {
     if (onChange) {
-      setFormData((pre) => [...pre, {}])
-      refs[formData.length] = React.createRef()
+      setFormData((v) => [
+        ...v,
+        {
+          id: '',
+          type: '',
+          serviceEndpoint: '',
+        },
+      ])
     }
   }
-  const handleUpdateNode = (index: number, service: FormData): void =>
-    onChange && setFormData((pre) => pre.map((origin, idx) => (index === idx ? service : origin)))
-  const handleRemoveNode = (index: number): void =>
-    onChange && setFormData((pre) => pre.filter((_, idx) => idx !== index))
+  const handleUpdateService = (index: number, service: TEntityServiceModel): void =>
+    onChange && setFormData((v) => v.map((origin, idx) => (index === idx ? service : origin)))
+  const handleRemoveService = (index: number): void =>
+    onChange && setFormData((v) => v.filter((v, idx) => idx !== index))
 
-  const handleUpdateServices = (): void => {
-    onChange &&
-      onChange(
-        formData.map((data) => ({
-          id: data.nodeId,
-          type: data.type,
-          serviceEndpoint: data.serviceEndpoint,
-        })),
-      )
+  const handleSubmit = (): void => {
+    onChange && onChange(formData.map((v) => ({ ...v, id: `{id}#${v.id}` })))
     onClose()
   }
   return (
@@ -69,45 +103,42 @@ const ServiceSetupModal: React.FC<Props> = ({ service, open, onClose, onChange }
         <CloseIcon />
       </CloseButton>
 
-      <ModalWrapper style={{ width: 600 }}>
-        <ModalTitle>Services</ModalTitle>
-        <ModalBody>
-          {formData.map((service, index) => {
-            return (
-              <ModalRow key={index}>
-                <NodeCard
-                  ref={refs[index]}
-                  type={service?.type}
-                  nodeId={service?.nodeId}
-                  removable={formData.length > 1}
-                  serviceEndpoint={service?.serviceEndpoint}
-                  handleUpdateContent={(formData): void => handleUpdateNode(index, formData)}
-                  handleRemoveSection={(): void => handleRemoveNode(index)}
-                  handleSubmitted={(): void => {
-                    console.log('service submitted')
-                  }}
-                  handleError={(fields: string[]): void => {
-                    console.log(`service errors`, index, fields)
-                    setError(fields.length > 0)
-                  }}
-                />
-              </ModalRow>
-            )
-          })}
-          {formData.length === 0 && (
-            <ModalRow style={{ justifyContent: 'center' }}>
-              <Typography className='cursor-pointer' color={'blue'} onClick={handleAddNode}>
-                + Add Service
-              </Typography>
-            </ModalRow>
-          )}
-          <ModalRow style={{ justifyContent: 'flex-end' }}>
-            <Button disabled={!canSubmit} onClick={handleUpdateServices}>
-              Continue
-            </Button>
-          </ModalRow>
-        </ModalBody>
-      </ModalWrapper>
+      <FlexBox direction='column' width='600px' gap={4}>
+        <Typography size='xl'>Services</Typography>
+        <FlexBox direction='column' gap={8} width='100%'>
+          {formData
+            .sort((a, b) => {
+              if (a.type === NodeType.Ipfs && b.type !== NodeType.Ipfs) {
+                return -1
+              }
+              if (b.type === NodeType.Ipfs && a.type !== NodeType.Ipfs) {
+                return 1
+              }
+              return 0
+            })
+            .map((service, index) => (
+              <ServiceForm
+                key={index}
+                index={index}
+                service={service}
+                {...(service.type === NodeType.Ipfs && index === 0
+                  ? []
+                  : {
+                      onUpdate: (service) => handleUpdateService(index, service),
+                      onRemove: () => handleRemoveService(index),
+                    })}
+              />
+            ))}
+          <FlexBox>
+            <Typography className='cursor-pointer' color={'blue'} onClick={handleAddService}>
+              + Add another Service
+            </Typography>
+          </FlexBox>
+        </FlexBox>
+        <FlexBox justifyContent='flex-end' width='100%'>
+          <Button onClick={handleSubmit}>Continue</Button>
+        </FlexBox>
+      </FlexBox>
     </Modal>
   )
 }

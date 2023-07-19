@@ -1,95 +1,18 @@
-import { EntityType } from '../../types/entities'
-import { RootState } from 'redux/store'
-
-export interface EditEntityState {
-  step: number
-  entityType: EntityType
-  editing: boolean
-  edited: boolean
-  error: string
-  entityDid: string
-}
+import { TEntityModel } from 'api/blocksync/types/entities'
 
 export enum EditEntityActions {
-  GoToStep = 'ixo/EditEntity/GO_TO_STEP',
-  NewEntity = 'ixo/EditEntity/NEW_ENTITY',
-  EditEntity = 'ixo/EditEntity/EDIT_ENTITY',
-  EditEntityStart = 'ixo/EditEntity/EDIT_ENTITY_START',
-  EditEntitySuccess = 'ixo/EditEntity/EDIT_ENTITY_SUCCESS',
-  EditEntityFailure = 'ixo/EditEntity/EDIT_ENTITY_FAILURE',
+  SetEditedField = 'ixo/EditEntity/SET_EDITED_FIELD',
+  SetEditEntity = 'ixo/EditEntity/SET_EDIT_ENTITY',
 }
 
-export interface Validation {
-  identifier: string
-  validated: boolean
-  errors: string[]
+export interface SetEditedFieldAction {
+  type: typeof EditEntityActions.SetEditedField
+  payload: { key: string; data: any; merge: boolean }
 }
 
-export type EntityStepStrategyMap = {
-  [TKey in EntityType]: {
-    stepCount: number
-    steps: {
-      [stepNumber: number]: {
-        container: any
-        url: string
-        name: string
-        previousStep: number
-        nextStep: number
-      }
-    }
-    selectPageContentApiPayload: (state: RootState) => any
-    selectHeaderInfoApiPayload: (state: RootState) => any
-    selectClaimsApiPayload: (state: RootState) => any
-  }
+export interface SetEditEntityAction {
+  type: typeof EditEntityActions.SetEditEntity
+  payload: TEntityModel
 }
 
-export interface FormCardProps {
-  ref: any
-  handleUpdateContent: (formData: FormData) => void
-  handleError: (errors: string[]) => void
-  handleSubmitted: () => void
-  handleRemoveSection?: () => void
-}
-
-export interface GoToStepAction {
-  type: typeof EditEntityActions.GoToStep
-  payload: {
-    step: number
-  }
-}
-
-export interface NewEntityAction {
-  type: typeof EditEntityActions.NewEntity
-  payload: {
-    entityType: EntityType
-    entityDid: string
-  }
-}
-
-export interface EditEntityAction {
-  type: typeof EditEntityActions.EditEntity
-  payload: Promise<any>
-}
-
-export interface EditEntityStartAction {
-  type: typeof EditEntityActions.EditEntityStart
-}
-
-export interface EditEntitySuccessAction {
-  type: typeof EditEntityActions.EditEntitySuccess
-}
-
-export interface EditEntityFailureAction {
-  type: typeof EditEntityActions.EditEntityFailure
-  payload: {
-    error: any
-  }
-}
-
-export type EditEntityActionTypes =
-  | GoToStepAction
-  | NewEntityAction
-  | EditEntityAction
-  | EditEntityStartAction
-  | EditEntitySuccessAction
-  | EditEntityFailureAction
+export type EditEntityActionTypes = SetEditedFieldAction | SetEditEntityAction

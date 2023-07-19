@@ -1,5 +1,6 @@
 import {
   AccordedRight,
+  LinkedClaim,
   LinkedEntity,
   LinkedResource,
   Service,
@@ -12,7 +13,6 @@ import { useQuery } from 'hooks/window'
 import { Button } from 'pages/CreateEntity/Components'
 import React, { useState } from 'react'
 import { NavLink, useHistory } from 'react-router-dom'
-import { TOracleMetadataModel } from 'types/protocol'
 import OracleCard from './OracleCard'
 import { ReactComponent as CheckCircleIcon } from 'assets/images/icon-check-circle.svg'
 import { ReactComponent as ExclamationIcon } from 'assets/images/icon-exclamation-circle.svg'
@@ -22,9 +22,9 @@ const ReviewOracle: React.FC = (): JSX.Element => {
   const theme: any = useTheme()
   const history = useHistory()
   const createEntityState = useCreateEntityState()
-  const profile: TOracleMetadataModel = createEntityState.profile as TOracleMetadataModel
+  const profile = createEntityState.profile
   const { entityType, service: serviceData, linkedEntity: linkedEntityData, gotoStep, gotoStepByNo } = createEntityState
-  const { UploadLinkedResource, CreateProtocol, CreateEntityBase } = useCreateEntity()
+  const { UploadLinkedResource, UploadLinkedClaim, CreateProtocol, CreateEntityBase } = useCreateEntity()
   const [submitting, setSubmitting] = useState(false)
   const { getQuery } = useQuery()
   const success = getQuery('success')
@@ -36,17 +36,21 @@ const ReviewOracle: React.FC = (): JSX.Element => {
     let service: Service[] = []
     let linkedEntity: LinkedEntity[] = []
     let linkedResource: LinkedResource[] = []
+    let linkedClaim: LinkedClaim[] = []
 
     // AccordedRight TODO:
 
     // Service
-    service = serviceData.map((item: Service) => ({ ...item, id: `{id}#${item.id}` }))
+    service = serviceData
 
     // LinkedEntity
     linkedEntity = Object.values(linkedEntityData)
 
     // LinkedResource
     linkedResource = linkedResource.concat(await UploadLinkedResource())
+
+    // LinkedClaim
+    linkedClaim = linkedClaim.concat(await UploadLinkedClaim())
 
     // Create Protocol for dao
     const protocolDid = await CreateProtocol()
@@ -62,6 +66,7 @@ const ReviewOracle: React.FC = (): JSX.Element => {
       linkedResource,
       accordedRight,
       linkedEntity,
+      linkedClaim,
       relayerNode: process.env.REACT_APP_RELAYER_NODE,
     })
     if (!entityDid) {

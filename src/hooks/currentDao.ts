@@ -25,7 +25,6 @@ export default function useCurrentDao(): {
   clearDaoGroup: () => void
   getNumOfMembersByAddresses: (addresses: string[]) => number
   getProposalsByAddresses: (addresses: string[]) => Proposal[]
-  getTotalCw20Balances: (addresses: string[]) => number
 } {
   const dispatch = useAppDispatch()
   const daoGroups = useAppSelector(selectDaoGroups)
@@ -93,25 +92,15 @@ export default function useCurrentDao(): {
     [getDaoGroupsByAddresses],
   )
 
-  const getTotalCw20Balances = useCallback(
-    (addresses: string[]): number => {
-      return getDaoGroupsByAddresses(addresses)
-        .map((daoGroup) => daoGroup.treasury.cw20Balances)
-        .reduce((acc, cur) => acc + Number(cur), 0)
-    },
-    [getDaoGroupsByAddresses],
-  )
-
   const updateDaoGroup = async (group: DaoGroup) => {
     dispatch(updateGroupAction(group))
   }
 
   const setDaoGroup = async (coreAddress: string) => {
-    const { type, admin, config, proposalModule, votingModule, treasury, storageItems, token } =
-      await getDaoContractInfo({
-        coreAddress,
-        cwClient,
-      })
+    const { type, admin, config, proposalModule, votingModule, token } = await getDaoContractInfo({
+      coreAddress,
+      cwClient,
+    })
 
     updateDaoGroup({
       coreAddress,
@@ -120,8 +109,6 @@ export default function useCurrentDao(): {
       config,
       proposalModule,
       votingModule,
-      treasury,
-      storageItems,
       token,
     })
   }
@@ -143,7 +130,6 @@ export default function useCurrentDao(): {
     clearDaoGroup,
     getNumOfMembersByAddresses,
     getProposalsByAddresses,
-    getTotalCw20Balances,
   }
 }
 

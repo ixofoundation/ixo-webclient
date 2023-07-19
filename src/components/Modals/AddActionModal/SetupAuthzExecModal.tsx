@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { FlexBox } from 'components/App/App.styles'
-import { AccountValidStatus, CodeMirror, Dropdown2, Input, NumberCounter } from 'pages/CreateEntity/Components'
+import { AccountValidStatus, CodeMirror, Dropdown, Input, NumberCounter } from 'pages/CreateEntity/Components'
 import { Typography } from 'components/Typography'
 import { TProposalActionModel } from 'types/protocol'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
@@ -156,7 +156,7 @@ const SetupAuthzExecModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
           <Typography color='black' weight='medium' size='xl'>
             Validator
           </Typography>
-          <Dropdown2
+          <Dropdown
             name={'validator'}
             value={delegate.validatorAddress}
             options={validators.map((validator) => ({
@@ -183,7 +183,7 @@ const SetupAuthzExecModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
               }
             />
             {/* TODO: missing options */}
-            <Dropdown2
+            <Dropdown
               name={'token'}
               value={delegate.amount?.denom}
               options={[{ value: delegate.amount?.denom ?? '', text: '$IXO' }]}
@@ -225,7 +225,7 @@ const SetupAuthzExecModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
           <Typography color='black' weight='medium' size='xl'>
             Validator
           </Typography>
-          <Dropdown2
+          <Dropdown
             name={'validator'}
             value={undelegate.validatorAddress}
             options={validators.map((validator) => ({
@@ -252,7 +252,7 @@ const SetupAuthzExecModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
               }
             />
             {/* TODO: missing options */}
-            <Dropdown2
+            <Dropdown
               name={'token'}
               value={undelegate.amount?.denom}
               options={[{ value: undelegate.amount?.denom ?? '', text: '$IXO' }]}
@@ -295,7 +295,7 @@ const SetupAuthzExecModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
           <Typography color='black' weight='medium' size='xl'>
             Source Validator
           </Typography>
-          <Dropdown2
+          <Dropdown
             name={'src_validator'}
             value={redelegate.validatorSrcAddress}
             options={validators.map((validator) => ({
@@ -312,7 +312,7 @@ const SetupAuthzExecModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
           <Typography color='black' weight='medium' size='xl'>
             Destination Validator
           </Typography>
-          <Dropdown2
+          <Dropdown
             name={'dst_validator'}
             value={redelegate.validatorDstAddress}
             options={validators.map((validator) => ({
@@ -339,7 +339,7 @@ const SetupAuthzExecModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
               }
             />
             {/* TODO: missing options */}
-            <Dropdown2
+            <Dropdown
               name={'token'}
               value={redelegate.amount?.denom}
               options={[{ value: redelegate.amount?.denom ?? '', text: '$IXO' }]}
@@ -382,7 +382,7 @@ const SetupAuthzExecModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
           <Typography color='black' weight='medium' size='xl'>
             Validator
           </Typography>
-          <Dropdown2
+          <Dropdown
             name={'validator'}
             value={claimRewards.validatorAddress}
             options={validators.map((validator) => ({
@@ -420,7 +420,7 @@ const SetupAuthzExecModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
           title='Authz Exec Action Type'
           description='This is the type of action that will be executed on behalf of another account.'
         />
-        <Dropdown2
+        <Dropdown
           name='authz_exec_action_type'
           options={ActionTypeOptions}
           value={formData.authzExecActionType}

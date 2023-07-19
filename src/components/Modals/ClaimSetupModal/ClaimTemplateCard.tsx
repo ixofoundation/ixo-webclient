@@ -1,5 +1,6 @@
 import { Box } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
+import moment from 'moment'
 import React from 'react'
 import styled from 'styled-components'
 import { TEntityClaimTemplateModel } from 'types/protocol'
@@ -41,7 +42,7 @@ const ClaimTemplateCard: React.FC<ClaimTemplateProps> = ({ template, selected = 
       {template && (
         <Box className='d-flex flex-column h-100'>
           <Box>
-            <Typography color='grey700'>Service</Typography>
+            <Typography color='grey700'>{template.type}</Typography>
           </Box>
           <Divider />
           <Box>
@@ -60,7 +61,7 @@ const ClaimTemplateCard: React.FC<ClaimTemplateProps> = ({ template, selected = 
               {template.creator}
             </Typography>
             <Typography color='grey700' size='sm'>
-              Created {template.createdAt}
+              Created {moment(template.createdAt).format('DD-MMM-YYYY')}
             </Typography>
           </Box>
         </Box>

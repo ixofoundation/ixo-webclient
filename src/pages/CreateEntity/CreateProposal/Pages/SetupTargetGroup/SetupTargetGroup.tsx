@@ -2,7 +2,7 @@ import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { deviceWidth } from 'constants/device'
 import React, { useMemo } from 'react'
-import { Button, Dropdown2 } from 'pages/CreateEntity/Components'
+import { Button, Dropdown } from 'pages/CreateEntity/Components'
 import { useHistory, useParams } from 'react-router-dom'
 import { useDAO } from 'hooks/dao'
 import { useAppSelector } from 'redux/hooks'
@@ -52,7 +52,7 @@ const SetupTargetGroup: React.FC = (): JSX.Element => {
             Target group
           </Typography>
 
-          <Dropdown2 options={targetOptions} style={{ height: 48 }} />
+          <Dropdown options={targetOptions} style={{ height: 48 }} />
         </FlexBox>
 
         <FlexBox width='100%' justifyContent='flex-end' gap={4}>

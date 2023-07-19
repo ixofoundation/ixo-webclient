@@ -67,7 +67,7 @@ const TextArea: React.FC<Props> = ({
     handleChange && handleChange(newValue)
   }
   return (
-    <Box position='relative' width='100%'>
+    <Box position='relative' width='100%' style={{ color: rest.disabled ? theme.ixoGrey500 : theme.ixoNewBlue }}>
       {label && (
         <Box
           position='absolute'
@@ -82,7 +82,7 @@ const TextArea: React.FC<Props> = ({
           <Typography
             size={active ? 'sm' : 'xl'}
             weight={active ? 'bold' : 'medium'}
-            color={active ? 'blue' : 'grey500'}
+            color={active ? 'inherit' : 'grey500'}
           >
             {label}
           </Typography>

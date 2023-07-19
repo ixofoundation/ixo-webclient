@@ -5,7 +5,6 @@ import { Typography } from 'components/Typography'
 import { ReactComponent as FundingIcon } from 'assets/images/icon-funding.svg'
 import { ReactComponent as CaretUpIcon } from 'assets/images/icon-caret-up.svg'
 import { useGetTreasuryPools } from 'hooks/dao'
-import useCurrentDao from 'hooks/currentDao'
 import { useTheme } from 'styled-components'
 
 interface Props {
@@ -15,8 +14,7 @@ interface Props {
 
 const TreasuryPool: React.FC<Props> = ({ daoId, groupAddresses }): JSX.Element => {
   const theme: any = useTheme()
-  const { getTotalCw20Balances } = useCurrentDao()
-  const totalCw20Balances = getTotalCw20Balances(groupAddresses)
+  const totalCw20Balances = 0
 
   const { data } = useGetTreasuryPools(daoId)
 

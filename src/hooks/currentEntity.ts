@@ -6,7 +6,11 @@ import {
   Service,
 } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { TEntityModel } from 'api/blocksync/types/entities'
-import { updateEntityAction, updateEntityResourceAction } from 'redux/currentEntity/currentEntity.actions'
+import {
+  clearEntityAction,
+  updateEntityAction,
+  updateEntityResourceAction,
+} from 'redux/currentEntity/currentEntity.actions'
 import {
   selectEntityLinkedResource,
   selectEntityProfile,
@@ -23,10 +27,13 @@ import {
   selectEntityService,
   selectEntityStartDate,
   selectEntityEndDate,
+  selectCurrentEntity,
+  selectEntityLinkedAccounts,
 } from 'redux/currentEntity/currentEntity.selectors'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { BlockSyncService } from 'services/blocksync'
 import {
+  EntityLinkedResourceConfig,
   TEntityAdministratorModel,
   TEntityCreatorModel,
   TEntityDDOTagModel,
@@ -41,6 +48,7 @@ const bsService = new BlockSyncService()
 
 export default function useCurrentEntity(): {
   entityType: string
+  currentEntity: TEntityModel
   linkedResource: LinkedResource[]
   linkedEntity: LinkedEntity[]
   profile: TEntityProfileModel
@@ -50,16 +58,19 @@ export default function useCurrentEntity(): {
   tags: TEntityDDOTagModel[]
   metadata: IidMetadata | undefined
   accounts: EntityAccount[]
+  linkedAccounts: LinkedEntity[]
   owner: string
   service: Service[]
   startDate: string
   endDate: string
   getEntityByDid: (did: string) => Promise<void>
+  clearEntity: () => void
 } {
   const dispatch = useAppDispatch()
   const { cwClient } = useAccount()
   const { clearDaoGroup } = useCurrentDao()
-  const entitites: { [id: string]: TEntityModel } = useAppSelector((state) => state.entities.entities2)
+  // const entitites: { [id: string]: TEntityModel } = useAppSelector((state) => state.entities.entities2)
+  const currentEntity: TEntityModel = useAppSelector(selectCurrentEntity)
   const id: string = useAppSelector(selectEntityId)!
   const entityType: string = useAppSelector(selectEntityType)!
   const linkedResource: LinkedResource[] = useAppSelector(selectEntityLinkedResource)
@@ -71,6 +82,7 @@ export default function useCurrentEntity(): {
   const tags: TEntityDDOTagModel[] = useAppSelector(selectEntityTags)!
   const metadata: IidMetadata | undefined = useAppSelector(selectEntityMetadata)
   const accounts: EntityAccount[] = useAppSelector(selectEntityAccounts)
+  const linkedAccounts: LinkedEntity[] = useAppSelector(selectEntityLinkedAccounts)
   const owner: string = useAppSelector(selectEntityOwner)
   const service: Service[] = useAppSelector(selectEntityService)
   const startDate: string = useAppSelector(selectEntityStartDate)
@@ -91,9 +103,9 @@ export default function useCurrentEntity(): {
     /**
      * find entity in entities state and avoid refetch from api
      */
-    if (entitites && entitites[did]) {
-      updateEntity(entitites[did])
-    }
+    // if (entitites && entitites[did]) {
+    //   updateEntity(entitites[did])
+    // }
     return bsService.entity.getEntityById(did).then((entity: any) => {
       apiEntityToEntity({ entity, cwClient }, (key, data, merge = false) => {
         updateEntityResource({ key, data, merge })
@@ -103,8 +115,13 @@ export default function useCurrentEntity(): {
     })
   }
 
+  const clearEntity = (): void => {
+    dispatch(clearEntityAction())
+  }
+
   return {
     entityType,
+    currentEntity,
     linkedResource,
     linkedEntity,
     profile,
@@ -114,11 +131,13 @@ export default function useCurrentEntity(): {
     tags,
     metadata,
     accounts,
+    linkedAccounts,
     owner,
     service,
     startDate,
     endDate,
     getEntityByDid,
+    clearEntity,
   }
 }
 
@@ -133,7 +152,9 @@ export function useCurrentEntityMetadata(): {
 
 export function useCurrentEntityProfile(): Omit<TEntityProfileModel, '@context' | 'id'> {
   const { profile } = useCurrentEntity()
+  const type = profile?.type ?? ''
   const name = profile?.name ?? ''
+  const orgName = profile?.orgName ?? ''
   const image = profile?.image ?? ''
   const logo = profile?.logo ?? ''
   const brand = profile?.brand ?? ''
@@ -141,8 +162,9 @@ export function useCurrentEntityProfile(): Omit<TEntityProfileModel, '@context' 
   const description = profile?.description ?? ''
   const attributes = profile?.attributes ?? []
   const metrics = profile?.metrics ?? []
+  const category = profile?.category ?? ''
 
-  return { name, image, logo, brand, location, description, attributes, metrics }
+  return { type, name, orgName, image, logo, brand, location, description, attributes, metrics, category }
 }
 
 export function useCurrentEntityCreator(): Omit<TEntityCreatorModel, '@type'> {
@@ -186,5 +208,11 @@ export function useCurrentEntityAdminAccount(): string {
 export function useCurrentEntityLinkedFiles(): LinkedResource[] {
   const { linkedResource } = useCurrentEntity()
 
-  return linkedResource.filter((item: LinkedResource) => item.type === 'document')
+  return linkedResource.filter((item: LinkedResource) => Object.keys(EntityLinkedResourceConfig).includes(item.type))
+}
+
+export function useCurrentEntityClaimSchemas(): LinkedResource[] {
+  const { linkedResource } = useCurrentEntity()
+
+  return linkedResource.filter((item: LinkedResource) => item.type === 'ClaimSchema')
 }

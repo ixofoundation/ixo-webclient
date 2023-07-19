@@ -10,12 +10,7 @@ import { useCreateEntity, useCreateEntityState } from 'hooks/createEntity'
 import useCurrentDao, { useCurrentDaoGroup } from 'hooks/currentDao'
 import moment from 'moment'
 import { durationToSeconds } from 'utils/conversions'
-import {
-  EntityLinkedResourceConfig,
-  ProposalActionConfig,
-  TProposalActionModel,
-  TProposalMetadataModel,
-} from 'types/protocol'
+import { EntityLinkedResourceConfig, ProposalActionConfig, TProposalActionModel } from 'types/protocol'
 import { useAccount } from 'hooks/account'
 import { truncateString } from 'utils/formatters'
 import * as Toast from 'utils/toast'
@@ -26,6 +21,7 @@ import { decodedMessagesString } from 'utils/messages'
 import { fee } from 'lib/protocol'
 import {
   AccordedRight,
+  LinkedClaim,
   LinkedEntity,
   LinkedResource,
   Service,
@@ -41,7 +37,7 @@ const ReviewProposal: React.FC = () => {
   const theme: any = useTheme()
   const history = useHistory()
   const { entityId, coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
-  const { address, cosmWasmClient } = useAccount()
+  const { address, cosmWasmClient, cwClient } = useAccount()
   const { name: entityName } = useCurrentEntityProfile()
   const { setDaoGroup } = useCurrentDao()
   const { daoGroup, preProposalContractAddress, depositInfo, isParticipating, anyoneCanPropose } =
@@ -55,8 +51,9 @@ const ReviewProposal: React.FC = () => {
     linkedResource,
     clearEntity,
   } = createEntityState
-  const profile = createEntityState.profile as TProposalMetadataModel
-  const { UploadLinkedResource, CreateProtocol, CreateEntityBase, AddLinkedEntity } = useCreateEntity()
+  const profile = createEntityState.profile
+  const { UploadLinkedResource, UploadLinkedClaim, CreateProtocol, CreateEntityBase, AddLinkedEntity } =
+    useCreateEntity()
   const {
     makeAuthzAuthorizationAction,
     makeAuthzExecAction,
@@ -118,11 +115,7 @@ const ReviewProposal: React.FC = () => {
     let cw4GroupAddress = ''
 
     if (daoGroup.type === 'membership') {
-      const daoVotingCw4Client = await new contracts.DaoVotingCw4.DaoVotingCw4Client(
-        cosmWasmClient,
-        address,
-        votingModuleAddress,
-      )
+      const daoVotingCw4Client = new contracts.DaoVotingCw4.DaoVotingCw4QueryClient(cwClient, votingModuleAddress)
       cw4GroupAddress = await daoVotingCw4Client.groupContract()
     }
     const wasmMessage: CosmosMsgForEmpty[] = validActions
@@ -248,17 +241,21 @@ const ReviewProposal: React.FC = () => {
     let service: Service[] = []
     let linkedEntity: LinkedEntity[] = []
     let linkedResource: LinkedResource[] = []
+    let linkedClaim: LinkedClaim[] = []
 
     // AccordedRight TODO:
 
     // Service
-    service = serviceData.map((item: Service) => ({ ...item, id: `{id}#${item.id}` }))
+    service = serviceData
 
     // LinkedEntity
     linkedEntity = Object.values(linkedEntityData)
 
     // LinkedResource
     linkedResource = linkedResource.concat(await UploadLinkedResource())
+
+    // LinkedClaim
+    linkedClaim = linkedClaim.concat(await UploadLinkedClaim())
 
     // Create Protocol for deed
     const protocolDid = await CreateProtocol()
@@ -272,6 +269,7 @@ const ReviewProposal: React.FC = () => {
       linkedResource,
       accordedRight,
       linkedEntity,
+      linkedClaim,
       relayerNode: process.env.REACT_APP_RELAYER_NODE,
     })
     if (!entityDid) {
@@ -372,28 +370,30 @@ const ReviewProposal: React.FC = () => {
           <FlexBox direction='column' flexBasis='50%' gap={1}>
             <Typography size='sm'>Linked Resources</Typography>
             <FlexBox gap={3}>
-              {Object.values(linkedResource).map((item: LinkedResource) => {
-                const { id, type } = item
-                const Icon = EntityLinkedResourceConfig[type].icon
-                return (
-                  <SvgBox
-                    key={id}
-                    width='35px'
-                    height='35px'
-                    alignItems='center'
-                    justifyContent='center'
-                    border={`1px solid ${theme.ixoNewBlue}`}
-                    borderRadius='4px'
-                    svgWidth={5}
-                    svgHeight={5}
-                    color={theme.ixoNewBlue}
-                    cursor='pointer'
-                    onClick={() => setSelectedLinkedResource(item)}
-                  >
-                    <Icon />
-                  </SvgBox>
-                )
-              })}
+              {Object.values(linkedResource)
+                .filter((item) => !!item)
+                .map((item: any) => {
+                  const { id, type } = item
+                  const Icon = EntityLinkedResourceConfig[type].icon
+                  return (
+                    <SvgBox
+                      key={id}
+                      width='35px'
+                      height='35px'
+                      alignItems='center'
+                      justifyContent='center'
+                      border={`1px solid ${theme.ixoNewBlue}`}
+                      borderRadius='4px'
+                      svgWidth={5}
+                      svgHeight={5}
+                      color={theme.ixoNewBlue}
+                      cursor='pointer'
+                      onClick={() => setSelectedLinkedResource(item)}
+                    >
+                      <Icon />
+                    </SvgBox>
+                  )
+                })}
             </FlexBox>
           </FlexBox>
           <FlexBox direction='column' flexBasis='50%' gap={1}>

@@ -1,6 +1,6 @@
 import { FlexBox, GridContainer } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
-import { Button, Dropdown2 } from 'pages/CreateEntity/Components'
+import { Button, Dropdown } from 'pages/CreateEntity/Components'
 import React, { useEffect, useMemo, useState } from 'react'
 import { TProposalActionModel } from 'types/protocol'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
@@ -61,7 +61,7 @@ const SetupVoteOnAGovernanceProposalModal: React.FC<Props> = ({ open, action, on
         <Typography size='xl' weight='medium'>
           Select proposal to vote on
         </Typography>
-        <Dropdown2
+        <Dropdown
           name='proposal'
           value={formData.proposalId}
           options={[

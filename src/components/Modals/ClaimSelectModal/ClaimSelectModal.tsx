@@ -11,6 +11,9 @@ import { TEntityClaimTemplateModel } from 'types/protocol'
 import styled, { useTheme } from 'styled-components'
 import { ReactComponent as SearchIcon } from 'assets/images/icon-search.svg'
 import { ReactComponent as SlidersIcon } from 'assets/images/icon-sliders-h-solid.svg'
+import { useAppSelector } from 'redux/hooks'
+import { selectAllClaimProtocols } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { useHistory } from 'react-router-dom'
 
 const ClaimProtocolList = styled(FlexBox)`
   height: 290px;
@@ -25,14 +28,6 @@ const ClaimProtocolList = styled(FlexBox)`
   }
 `
 
-const dummyClaimTemplate = {
-  title: 'Test Claim Title',
-  description:
-    'Nulla porttitor accumsan tincidunt. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eget tortor risus. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a. Curabitur non nulla sit amet nisl tempus convallis quis ac lectus. Donec sollicitudin molestie malesuada.',
-  creator: 'Gregory',
-  createdAt: '22-Sept-2022',
-}
-
 interface Props {
   open: boolean
   onClose: () => void
@@ -40,14 +35,18 @@ interface Props {
 }
 
 const ClaimSelectModal: React.FC<Props> = ({ open, onClose, onSelect }): JSX.Element => {
+  const history = useHistory()
   const theme: any = useTheme()
+  const claimProtocols = useAppSelector(selectAllClaimProtocols)
+
+  console.log({ claimProtocols })
+
   const [keyword, setKeyword] = useState('')
   const [filter, setFilter] = useState(false)
   const [template, setTemplate] = useState<TEntityClaimTemplateModel>()
-  const templates = new Array(9).fill(0)
 
   const handleCreate = (): void => {
-    // TODO: redirect to create claim
+    history.push('/create/entity/protocol/claim')
   }
   const handleContinue = (): void => {
     template && onSelect(template)
@@ -93,16 +92,25 @@ const ClaimSelectModal: React.FC<Props> = ({ open, onClose, onSelect }): JSX.Ele
         </FlexBox>
         <ClaimProtocolList className='overflow-auto' p={2.5}>
           <FlexBox direction='column' gap={6}>
-            {_.chunk(templates, 3).map((row, rowIdx) => (
+            {_.chunk(claimProtocols, 3).map((row, rowIdx) => (
               <FlexBox key={rowIdx} gap={6}>
-                {row.map((_, index) => (
-                  <ClaimTemplateCard
-                    key={index}
-                    template={{ ...dummyClaimTemplate, id: 'claim-select' + rowIdx + index }}
-                    selected={'claim-select' + rowIdx + index === template?.id}
-                    onClick={(): void => setTemplate({ ...dummyClaimTemplate, id: 'claim-select' + rowIdx + index })}
-                  />
-                ))}
+                {row
+                  .map((v) => ({
+                    id: `${v.id}#${v.profile?.name || ''}`,
+                    type: v.profile?.type || '',
+                    title: v.profile?.name || '',
+                    description: v.profile?.description || '',
+                    creator: v.creator?.displayName || '',
+                    createdAt: (v.metadata?.created as unknown as string) || '',
+                  }))
+                  .map((v, index) => (
+                    <ClaimTemplateCard
+                      key={index}
+                      template={v}
+                      selected={v.id === template?.id}
+                      onClick={(): void => setTemplate(v)}
+                    />
+                  ))}
               </FlexBox>
             ))}
           </FlexBox>

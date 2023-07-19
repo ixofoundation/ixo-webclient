@@ -97,7 +97,7 @@ export const BannerRight = styled.div`
     display: block;
     position: absolute;
     height: 1px;
-    background: #00d2ff;
+    background: ${(props) => props.theme.ixoNewBlue};
     width: 100px;
     top: 15%;
   }
@@ -119,7 +119,7 @@ export const BannerRight = styled.div`
   button {
     background: none;
     color: white;
-    border: 1px solid #49bfe0;
+    border: 1px solid ${(props) => props.theme.ixoNewBlue};
     padding: 10px 25px;
     text-transform: uppercase;
     font-size: 15px;

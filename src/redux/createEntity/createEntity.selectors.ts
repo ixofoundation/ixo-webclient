@@ -4,10 +4,7 @@ import {
   TEntityMetadataModel,
   TEntityCreatorModel,
   TEntityServiceModel,
-  TEntityLinkedResourceModel,
   ELocalisation,
-  TEntityAccordedRightModel,
-  TEntityLinkedEntityModel,
   TEntityAdministratorModel,
   TEntityPageModel,
   TEntityClaimModel,
@@ -17,6 +14,7 @@ import {
   TQuestion,
 } from 'types/protocol'
 import { TCreateEntityState, TCreateEntityModel } from './createEntity.types'
+import { AccordedRight, LinkedEntity, LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 
 export const selectCreateEntity = (state: RootState): TCreateEntityState => state.newEntity
 
@@ -82,17 +80,17 @@ export const selectCreateEntityClaim = createSelector(
 
 export const selectCreateEntityLinkedResource = createSelector(
   selectCreateEntity,
-  (createEntity: TCreateEntityState): { [id: string]: TEntityLinkedResourceModel } => createEntity.linkedResource ?? {},
+  (createEntity: TCreateEntityState): { [id: string]: LinkedResource | undefined } => createEntity.linkedResource ?? {},
 )
 
 export const selectCreateEntityAccordedRight = createSelector(
   selectCreateEntity,
-  (createEntity: TCreateEntityState): { [id: string]: TEntityAccordedRightModel } => createEntity.accordedRight ?? {},
+  (createEntity: TCreateEntityState): { [id: string]: AccordedRight } => createEntity.accordedRight ?? {},
 )
 
 export const selectCreateEntityLinkedEntity = createSelector(
   selectCreateEntity,
-  (createEntity: TCreateEntityState): { [id: string]: TEntityLinkedEntityModel } => createEntity.linkedEntity ?? {},
+  (createEntity: TCreateEntityState): { [id: string]: LinkedEntity } => createEntity.linkedEntity ?? {},
 )
 
 export const selectCreateEntityAssetInstances = createSelector(

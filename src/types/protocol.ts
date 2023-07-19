@@ -3,7 +3,6 @@ import { ReactComponent as UserCircleIcon } from 'assets/images/icon-user-circle
 import { ReactComponent as TagsIcon } from 'assets/images/icon-tag.svg'
 import { ReactComponent as PageIcon } from 'assets/images/icon-laptop.svg'
 import { ReactComponent as PaymentIcon } from 'assets/images/icon-payment.svg'
-import { ReactComponent as InvestmentIcon } from 'assets/images/icon-investment.svg'
 import { ReactComponent as ImageIcon } from 'assets/images/icon-image-outline.svg'
 import { ReactComponent as TextIcon } from 'assets/images/icon-text.svg'
 import { ReactComponent as DatabaseIcon } from 'assets/images/icon-database.svg'
@@ -19,9 +18,6 @@ import { ReactComponent as AgentAuthorisationIcon } from 'assets/images/icon-age
 import { ReactComponent as AgentCapabilityIcon } from 'assets/images/icon-agent-capability.svg'
 import { ReactComponent as AgentUsageLicenseIcon } from 'assets/images/icon-usage-license.svg'
 import { ReactComponent as ProjectIcon } from 'assets/images/icon-project.svg'
-import { ReactComponent as OracleIcon } from 'assets/images/icon-oracle.svg'
-import { ReactComponent as EntityIcon } from 'assets/images/icon-entity.svg'
-import { ReactComponent as AssetIcon } from 'assets/images/icon-asset.svg'
 import { ReactComponent as AlphaBondIcon } from 'assets/images/icon-alphabond.svg'
 import { ReactComponent as LBPIcon } from 'assets/images/icon-lbp.svg'
 import { ReactComponent as QuadraticIcon } from 'assets/images/icon-quadratic.svg'
@@ -69,6 +65,7 @@ import { ReactComponent as BoxOpenSolidIcon } from 'assets/images/icon-box-open-
 import { ReactComponent as SlidersHSolidIcon } from 'assets/images/icon-sliders-h-solid.svg'
 import { ReactComponent as VoteYeaIcon } from 'assets/images/icon-vote-yea-solid.svg'
 import { ReactComponent as VolumeUpIcon } from 'assets/images/icon-volume-up-solid.svg'
+import { ReactComponent as LinkedAccountIcon } from 'assets/images/icon-linked-account.svg'
 import ShortText from 'assets/icons/ShortText'
 import DatePicker from 'assets/icons/DatePicker'
 import SingleDatePicker from 'assets/icons/SingleDatePicker'
@@ -85,14 +82,10 @@ import UploadAudio from 'assets/icons/UploadAudio'
 import UploadVideo from 'assets/icons/UploadVideo'
 import SelectPicture from 'assets/icons/SelectPicture'
 import Currency from 'assets/icons/Currency'
-import { LinkedEntity, LinkedResource, Service } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
+import { Service } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { OutputBlockData } from '@editorjs/editorjs'
 import { ControlType, Type } from 'components/JsonForm/types'
-import { UpdatePreProposeConfigData } from 'components/Modals/AddActionModal/SetupUpdateProposalSubmissionConfigModal'
-import SetupUpdateVotingConfigModal, {
-  UpdateProposalConfigData,
-} from 'components/Modals/AddActionModal/SetupUpdateVotingConfigModal'
-import { DurationWithUnits } from './dao'
+import SetupUpdateVotingConfigModal from 'components/Modals/AddActionModal/SetupUpdateVotingConfigModal'
 import {
   SetupAuthzExecModal,
   SetupAuthzGrantModal,
@@ -124,6 +117,7 @@ import {
   SetupStakeToGroupModal,
   SetupSendGroupTokenModal,
 } from 'components/Modals/AddActionModal'
+import { DaoGroup } from 'redux/currentEntity/dao/currentDao.types'
 
 export const EntitySettingsConfig: { [key: string]: any } = {
   // required
@@ -164,55 +158,63 @@ export const EntityLinkedResourceConfig: { [key: string]: any } = {
     icon: ImageIcon,
     accept: { 'image/*': [] },
   },
+  document: {
+    text: 'Document',
+    icon: DocumentIcon,
+    accept: { 'application/pdf': [] },
+  },
   text: {
     text: 'Text',
     icon: TextIcon,
-    accept: { 'text/*': [] },
+    accept: { 'text/plain': ['.txt'] },
   },
   database: {
     text: 'Database',
     icon: DatabaseIcon,
-    accept: { 'image/*': [] },
+    accept: { '*': [] },
+    disabled: true,
   },
   verifiableCredential: {
     text: 'Verifiable Credential',
     icon: CredentialIcon,
-    accept: { 'image/*': [] },
+    accept: { '*': [] },
+    disabled: true,
   },
   authorisation: {
     text: 'Authorisation',
     icon: AuthorisationIcon,
-    accept: { 'image/*': [] },
+    accept: { '*': [] },
+    disabled: true,
   },
   website: {
     text: 'Website',
     icon: GlobeIcon,
-    accept: { 'image/*': [] },
+    accept: { '*': [] },
+    disabled: true,
   },
   algorithm: {
     text: 'Algorithm',
     icon: AlgorithmIcon,
-    accept: { 'image/*': [] },
+    accept: { '*': [] },
+    disabled: true,
   },
   smartContract: {
     text: 'Smart Contract',
     icon: SmartContractIcon,
-    accept: { 'image/*': [] },
+    accept: { '*': [] },
+    disabled: true,
   },
   claims: {
     text: 'Claims',
     icon: ClaimIcon,
-    accept: { 'image/*': [] },
+    accept: { '*': [] },
+    disabled: true,
   },
   dashboard: {
     text: 'Dashboard',
     icon: DashboardIcon,
-    accept: { 'image/*': [] },
-  },
-  document: {
-    text: 'Document',
-    icon: DocumentIcon,
-    accept: { 'image/*': [] },
+    accept: { '*': [] },
+    disabled: true,
   },
 }
 
@@ -236,30 +238,38 @@ export const EntityAccordedRightConfig = {
 }
 
 export const EntityLinkedEntityConfig = {
-  dao: {
-    text: 'DAO',
-    icon: DAOIcon,
+  BlockchainAccount: {
+    text: 'Account',
+    icon: LinkedAccountIcon,
   },
-  project: {
-    text: 'Project',
+  impactEntity: {
+    text: 'Impact Entity',
     icon: ProjectIcon,
   },
-  asset: {
-    text: 'Asset',
-    icon: AssetIcon,
-  },
-  protocol: {
-    text: 'Protocol',
-    icon: EntityIcon,
-  },
-  investment: {
-    text: 'Investment',
-    icon: InvestmentIcon,
-  },
-  oracle: {
-    text: 'Oracle',
-    icon: OracleIcon,
-  },
+  // dao: {
+  //   text: 'DAO',
+  //   icon: DAOIcon,
+  // },
+  // project: {
+  //   text: 'Project',
+  //   icon: ProjectIcon,
+  // },
+  // asset: {
+  //   text: 'Asset',
+  //   icon: AssetIcon,
+  // },
+  // protocol: {
+  //   text: 'Protocol',
+  //   icon: EntityIcon,
+  // },
+  // investment: {
+  //   text: 'Investment',
+  //   icon: InvestmentIcon,
+  // },
+  // oracle: {
+  //   text: 'Oracle',
+  //   icon: OracleIcon,
+  // },
   // paymentTemplate: {
   //   text: 'Payment Template',
   //   icon: CircleIcon,
@@ -767,18 +777,6 @@ export interface TEntityPaymentModel {
 }
 
 // TODO:
-export type TEntityLinkedResourceModel = LinkedResource
-
-// TODO: add more fields
-export interface TEntityAccordedRightModel {
-  text: string
-  icon: React.FC<React.SVGProps<SVGElement>>
-  data: any
-}
-
-export type TEntityLinkedEntityModel = LinkedEntity
-
-// TODO:
 export interface TClaimTemplate {
   id: string
   entityClaimId: string
@@ -834,6 +832,7 @@ export interface TClaimEnrichment {
 }
 export interface TEntityClaimTemplateModel {
   id: string
+  type: string
   title: string
   description: string
   creator: string
@@ -874,6 +873,12 @@ export interface TEntityAttributeModel {
   value: string
 }
 export interface TBasicMetadataModel {
+  orgName?: string
+  name?: string
+  image?: string
+  logo?: string
+  type?: string
+
   description?: string
   brand?: string
   location?: string
@@ -881,43 +886,14 @@ export interface TBasicMetadataModel {
   metrics?: TEntityMetricModel[]
 }
 export interface TAssetMetadataModel extends TBasicMetadataModel {
-  image?: string
   denom?: string
-  logo?: string
   type?: EAssetType
   tokenName?: string
-  name?: string
   maxSupply?: number | undefined
   decimals?: number
   autoGenerateZLottie?: boolean
 }
-export interface TInvestmentMetadataModel extends TBasicMetadataModel {
-  image?: string
-  logo?: string
-  orgName?: string
-  name?: string
-}
-export interface TDAOMetadataModel extends TBasicMetadataModel {
-  image?: string
-  logo?: string
-  orgName?: string
-  name?: string
-}
-export interface TProjectMetadataModel extends TBasicMetadataModel {
-  image?: string
-  logo?: string
-  orgName?: string
-  name?: string
-}
-export interface TOracleMetadataModel extends TBasicMetadataModel {
-  image?: string
-  logo?: string
-  orgName?: string
-  name?: string
-}
-export interface TProposalMetadataModel extends TBasicMetadataModel {
-  name?: string
-}
+
 export enum EClaimType {
   Service = 'Service',
   Outcome = 'Outcome',
@@ -1057,18 +1033,8 @@ export interface TQuestion {
   order: number
   currency?: string
 }
-export interface TClaimMetadataModel extends TBasicMetadataModel {
-  type: EClaimType
-  title: string
-}
 
-export type TEntityMetadataModel =
-  | TAssetMetadataModel
-  | TInvestmentMetadataModel
-  | TClaimMetadataModel
-  | TDAOMetadataModel
-  | TOracleMetadataModel
-  | TProposalMetadataModel
+export type TEntityMetadataModel = TAssetMetadataModel
 
 // based on ixo-protocol/artefacts/profile_schema.json
 export interface TEntityProfileModel {
@@ -1079,6 +1045,8 @@ export interface TEntityProfileModel {
     '@protected': boolean
   }
   id: string
+  type: string
+  orgName: string
   name: string
   image: string
   logo: string
@@ -1087,6 +1055,7 @@ export interface TEntityProfileModel {
   description: string
   attributes: TEntityAttributeModel[]
   metrics: TEntityMetricModel[]
+  category?: string
 }
 export interface TEntityDDOTagModel {
   category: string
@@ -1098,62 +1067,63 @@ export type TEntityPageModel = { [id: string]: TEntityPageSectionModel }
 export type TEntityAdministratorModel = TEntityCreatorModel
 
 /**
- * @todo TODO: type from SDK
  * @description memberships, staking
  */
-export interface TDAOGroupModel extends UpdatePreProposeConfigData, UpdateProposalConfigData {
-  id: string
-  type: string // 'membership' | 'staking' | 'multisig'
-  contractAddress?: string
+// export interface TDAOGroupModel extends UpdatePreProposeConfigData, UpdateProposalConfigData {
+//   id: string
+//   type: string // 'membership' | 'staking' | 'multisig'
+//   contractAddress?: string
 
-  name: string
-  description: string
-  memberships: {
-    category?: string
-    weight: number
-    members: string[]
-  }[]
-  staking?: {
-    // use existing token
-    tokenContractAddress: string
-    // create new token
-    tokenSymbol: string
-    tokenName: string
-    tokenSupply: number
-    tokenLogo?: string
-    treasuryPercent: number
-    // config
-    unstakingDuration: DurationWithUnits
-  }
+//   name: string
+//   description: string
+//   memberships: {
+//     category?: string
+//     weight: number
+//     members: string[]
+//   }[]
+//   staking?: {
+//     // use existing token
+//     tokenContractAddress: string
+//     // create new token
+//     tokenSymbol: string
+//     tokenName: string
+//     tokenSupply: number
+//     tokenLogo?: string
+//     treasuryPercent: number
+//     // config
+//     unstakingDuration: DurationWithUnits
+//   }
 
-  /** <extends from UpdatePreProposeConfigData>
-   *  depositRequired: boolean
-      depositInfo: {
-        amount: string
-        type: 'native' | 'cw20' | 'voting_module_token'
-        denomOrAddress: string
-        token?: GenericToken
-        refundPolicy: DepositRefundPolicy
-      }
-      anyoneCanPropose: boolean // only_members | everyone
-   */
-  /** <extends from UpdateProposalConfigData>
-   *  onlyMembersExecute: boolean
-      thresholdType: '%' | 'majority'
-      thresholdPercentage?: number
-      quorumEnabled: boolean
-      quorumType: '%' | 'majority'
-      quorumPercentage?: number
-      proposalDuration: number
-      proposalDurationUnits: 'weeks' | 'days' | 'hours' | 'minutes' | 'seconds'
-      allowRevoting: boolean
-   */
+//   /** <extends from UpdatePreProposeConfigData>
+//    *  depositRequired: boolean
+//       depositInfo: {
+//         amount: string
+//         type: 'native' | 'cw20' | 'voting_module_token'
+//         denomOrAddress: string
+//         token?: GenericToken
+//         refundPolicy: DepositRefundPolicy
+//       }
+//       anyoneCanPropose: boolean // only_members | everyone
+//    */
+//   /** <extends from UpdateProposalConfigData>
+//    *  onlyMembersExecute: boolean
+//       thresholdType: '%' | 'majority'
+//       thresholdPercentage?: number
+//       quorumEnabled: boolean
+//       quorumType: '%' | 'majority'
+//       quorumPercentage?: number
+//       proposalDuration: number
+//       proposalDurationUnits: 'weeks' | 'days' | 'hours' | 'minutes' | 'seconds'
+//       allowRevoting: boolean
+//    */
 
-  /**
-   * @description absoluteThresholdCount is only for multisig group
-   */
-  absoluteThresholdCount?: string
-}
+//   /**
+//    * @description absoluteThresholdCount is only for multisig group
+//    */
+//   absoluteThresholdCount?: string
+// }
+
+export type TDAOGroupModel = DaoGroup
 
 export interface TProposalActionModel {
   id: string

@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { FlexBox } from 'components/App/App.styles'
-import { Button, Dropdown2, Input } from 'pages/CreateEntity/Components'
+import { Button, Dropdown, Input } from 'pages/CreateEntity/Components'
 import { Typography } from 'components/Typography'
 import { TProposalActionModel } from 'types/protocol'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
@@ -95,7 +95,7 @@ const SetupManageStorageItemsModal: React.FC<Props> = ({ open, action, onClose, 
           </Typography>
           <FlexBox width='100%' gap={4}>
             {/* TODO: options ??? */}
-            <Dropdown2
+            <Dropdown
               name='storage_item_key'
               value={formData.key}
               placeholder='Item'

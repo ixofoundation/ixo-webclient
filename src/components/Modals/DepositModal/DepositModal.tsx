@@ -4,12 +4,12 @@ import { Box, FlexBox, HTMLFlexBoxProps, SvgBox } from 'components/App/App.style
 import { SignStep, TXStatus } from '../common'
 import { Typography } from 'components/Typography'
 import { useAccount } from 'hooks/account'
-import { convertDenomToMicroDenomWithDecimals } from 'utils/conversions'
+import { convertDenomToMicroDenomWithDecimals, depositInfoToCoin } from 'utils/conversions'
 import { ReactComponent as ArrowDownIcon } from 'assets/images/icon-arrow-down.svg'
 import { useCurrentEntityProfile } from 'hooks/currentEntity'
-import { Dropdown2, Input } from 'pages/CreateEntity/Components'
+import { Dropdown, Input } from 'pages/CreateEntity/Components'
 import CurrencyFormat from 'react-currency-format'
-import { BankSendTrx } from 'lib/protocol'
+import { BankSendTrx, fee } from 'lib/protocol'
 import styled, { useTheme } from 'styled-components'
 import { Avatar } from 'pages/CurrentEntity/Components'
 import { errorToast, successToast } from 'utils/toast'
@@ -18,8 +18,8 @@ import { isContractAddress } from 'utils/validation'
 import { useAppSelector } from 'redux/hooks'
 import { isGreaterThanOrEqualTo } from 'utils/currency'
 import { selectStakingGroupByCoreAddress } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
-import { WasmExecuteTrx } from 'lib/protocol/cosmwasm'
 import { ReactComponent as NextStepImage } from 'assets/images/modal/nextstep.svg'
+import { contracts } from '@ixo/impactxclient-sdk'
 
 const StyledInput = styled(Input)`
   color: white;
@@ -65,7 +65,7 @@ const DepositModal: React.FunctionComponent<Props> = ({
   onSuccess,
 }) => {
   const theme: any = useTheme()
-  const { signingClient, signer, nativeTokens, cw20Tokens } = useAccount()
+  const { signingClient, signer, nativeTokens, cw20Tokens, cwClient, cosmWasmClient } = useAccount()
   const [tokenOptions, setTokenOptions] = useState<{ text: string; value: string }[]>([
     { value: NATIVE_MICRODENOM, text: NATIVE_DENOM },
   ])
@@ -114,32 +114,58 @@ const DepositModal: React.FunctionComponent<Props> = ({
       return
     }
 
-    let response
-    if (isContractAddress(selectedTokenDenom)) {
-      const msg = {
-        transfer: {
-          recipient: recipient,
-          amount: convertDenomToMicroDenomWithDecimals(amount, selectedToken.decimals).toString(),
-        },
-      }
+    if (isContractAddress(selectedTokenDenom) && daoGroup?.votingModule.votingModuleAddress) {
+      // const msg = {
+      //   transfer: {
+      //     recipient: recipient,
+      //     amount: convertDenomToMicroDenomWithDecimals(amount, selectedToken.decimals).toString(),
+      //   },
+      // }
 
-      response = await WasmExecuteTrx(signingClient, signer, {
-        contractAddress: selectedTokenDenom,
-        msg: JSON.stringify(msg),
-      })
+      // response = await WasmExecuteTrx(signingClient, signer, {
+      //   contractAddress: selectedTokenDenom,
+      //   msg: JSON.stringify(msg),
+      // })
+
+      const depositInfo = daoGroup.proposalModule.preProposeConfig.deposit_info
+
+      const daoVotingCw20StakedClient = new contracts.DaoVotingCw20Staked.DaoVotingCw20StakedQueryClient(
+        cwClient,
+        daoGroup.votingModule.votingModuleAddress,
+      )
+      const stakingContract = await daoVotingCw20StakedClient.stakingContract()
+      const tokenContract = await daoVotingCw20StakedClient.tokenContract()
+      const cw20BaseClient = new contracts.Cw20Base.Cw20BaseClient(cosmWasmClient, signer.address, tokenContract)
+      const { transactionHash } = await cw20BaseClient.send(
+        {
+          amount: convertDenomToMicroDenomWithDecimals(amount, selectedToken.decimals).toString(),
+          contract: stakingContract,
+          msg: btoa('{"stake": {}}'),
+        },
+        fee,
+        undefined,
+        depositInfo ? [depositInfoToCoin(depositInfo)!] : undefined,
+      )
+
+      if (transactionHash) {
+        setTXStatus(TXStatus.SUCCESS)
+        setTXHash(transactionHash)
+        successToast('Sending', `Success! ${amount} ${selectedToken.symbol} have been successfully sent.`)
+      } else {
+        throw new Error()
+      }
     } else {
-      response = await BankSendTrx(signingClient, signer.address, recipient, {
+      const response = await BankSendTrx(signingClient, signer.address, recipient, {
         denom: selectedTokenDenom,
         amount: convertDenomToMicroDenomWithDecimals(amount, selectedToken.decimals).toString(),
       })
-    }
-
-    if (response) {
-      setTXStatus(TXStatus.SUCCESS)
-      successToast('Sending', `Success! ${amount} ${selectedToken.symbol} have been successfully sent.`)
-    } else {
-      setTXStatus(TXStatus.ERROR)
-      errorToast('Sending', `Failed to send ${amount} ${selectedToken.symbol}. Please try again.`)
+      if (response) {
+        setTXStatus(TXStatus.SUCCESS)
+        successToast('Sending', `Success! ${amount} ${selectedToken.symbol} have been successfully sent.`)
+      } else {
+        setTXStatus(TXStatus.ERROR)
+        errorToast('Sending', `Failed to send ${amount} ${selectedToken.symbol}. Please try again.`)
+      }
     }
   }
 
@@ -188,7 +214,7 @@ const DepositModal: React.FunctionComponent<Props> = ({
                     <Avatar size={28} url={selectedToken?.imageUrl} />
                     <Typography color='white' transform='uppercase'>
                       {/* {selectedToken?.symbol} */}
-                      <Dropdown2
+                      <Dropdown
                         options={tokenOptions}
                         value={selectedTokenDenom}
                         onChange={(e) => setSelectedTokenDenom(e.target.value)}
@@ -238,7 +264,7 @@ const DepositModal: React.FunctionComponent<Props> = ({
               status={txStatus}
               hash={txHash}
               message={{
-                [TXStatus.SUCCESS]: `You have successfully staked ${new Intl.NumberFormat('en-US', {
+                [TXStatus.SUCCESS]: `You have successfully sent ${new Intl.NumberFormat('en-US', {
                   minimumFractionDigits: 2,
                 }).format(Number(amount))} ${selectedToken?.symbol.toUpperCase()}`,
               }}

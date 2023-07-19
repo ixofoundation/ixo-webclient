@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useMemo } from 'react'
 import styled from 'styled-components'
 import MultiControlForm from 'components/JsonForm/MultiControlForm/MultiControlForm'
-import { FormCardProps } from '../../../../../../../redux/editEntity/editEntity.types'
+import { FormCardProps } from '../../../../../../../redux/editEntityOld/editEntity.types'
 
 const FormContainer = styled.div`
   border-top: 1px solid #e8edee;
@@ -12,7 +12,7 @@ const FormContainer = styled.div`
 const ImportButton = styled.button`
   border: 1px solid #56ccf2;
   border-radius: 4px;
-  color: #49bfe0;
+  color: ${(props) => props.theme.ixoNewBlue};
   font-style: normal;
   font-weight: bold;
   font-size: 16px;

@@ -1,6 +1,6 @@
 import React from 'react'
 import MultiControlForm from 'components/JsonForm/MultiControlForm/MultiControlForm'
-import { FormCardProps } from '../../../../../../../redux/editEntity/editEntity.types'
+import { FormCardProps } from '../../../../../../../redux/editEntityOld/editEntity.types'
 // import { EntityClaimType } from 'modules/EntityClaims/types'
 import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { useAppSelector } from 'redux/hooks'

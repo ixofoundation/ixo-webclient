@@ -19,7 +19,7 @@ export const StepsWrapper = styled.div`
       height: 20px;
 
       &.active {
-        background: #00d2ff;
+        background: ${(props) => props.theme.ixoNewBlue};
         color: #ffffff;
       }
       &.inactive {
@@ -27,7 +27,7 @@ export const StepsWrapper = styled.div`
         color: #235975;
       }
       &.passed {
-        background: #00d2ff;
+        background: ${(props) => props.theme.ixoNewBlue};
       }
     }
 
@@ -60,7 +60,7 @@ export const StepsWrapper = styled.div`
         background: #235975;
       }
       .stepNumber.passed > .setpNumberAfter {
-        background: #00d2ff;
+        background: ${(props) => props.theme.ixoNewBlue};
       }
     }
 

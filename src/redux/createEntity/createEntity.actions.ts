@@ -1,14 +1,12 @@
+import { AccordedRight, LinkedEntity, LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import {
   ELocalisation,
   TDAOGroupModel,
   TProposalModel,
-  TEntityAccordedRightModel,
   TEntityClaimModel,
   TEntityAdministratorModel,
   TEntityCreatorModel,
   TEntityDDOTagModel,
-  TEntityLinkedEntityModel,
-  TEntityLinkedResourceModel,
   TEntityMetadataModel,
   TEntityPageModel,
   TEntityServiceModel,
@@ -109,22 +107,20 @@ export const updateClaimAction = (claim: { [id: string]: TEntityClaimModel }): T
 })
 
 export const updateLinkedResourceAction = (linkedResource: {
-  [id: string]: TEntityLinkedResourceModel
+  [id: string]: LinkedResource | undefined
 }): TUpdateLinkedResourceAction => ({
   type: ECreateEntityActions.UpdateLinkedResource,
   payload: linkedResource,
 })
 
 export const updateAccordedRightAction = (accordedRight: {
-  [id: string]: TEntityAccordedRightModel
+  [id: string]: AccordedRight
 }): TUpdateAccordedRightAction => ({
   type: ECreateEntityActions.UpdateAccordedRight,
   payload: accordedRight,
 })
 
-export const updateLinkedEntityAction = (linkedEntity: {
-  [id: string]: TEntityLinkedEntityModel
-}): TUpdateLinkedEntityAction => ({
+export const updateLinkedEntityAction = (linkedEntity: { [id: string]: LinkedEntity }): TUpdateLinkedEntityAction => ({
   type: ECreateEntityActions.UpdateLinkedEntity,
   payload: linkedEntity,
 })

@@ -33,9 +33,9 @@ export const fetchExistingEntity =
   (dispatch: Dispatch, getState: () => RootState): void => {
     const state = getState()
     if (!force) {
-      const { editEntity, selectedEntity } = state
+      const { editEntityOld, selectedEntity } = state
       const { did: entityDid } = selectedEntity
-      const { entityDid: editDid } = editEntity
+      const { entityDid: editDid } = editEntityOld
 
       if (entityDid === editDid) {
         return
