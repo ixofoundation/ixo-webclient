@@ -13,9 +13,18 @@ interface Props {
   title: string
   setTitle: (title: string) => void
   description: string
+  error?: { [id: string]: string }
 }
 
-const ClaimProfileForm: React.FC<Props> = ({ type, setType, title, setTitle, description, ...rest }): JSX.Element => {
+const ClaimProfileForm: React.FC<Props> = ({
+  type,
+  setType,
+  title,
+  setTitle,
+  description,
+  error = {},
+  ...rest
+}): JSX.Element => {
   const theme: any = useTheme()
   return (
     <FormWrapper {...rest}>
@@ -33,15 +42,15 @@ const ClaimProfileForm: React.FC<Props> = ({ type, setType, title, setTitle, des
           />
         </FormRow>
 
-        <FormRow>
+        <FlexBox direction='column' gap={2}>
           {setTitle ? (
-            <InputWithLabel label='Claim Title' inputValue={title} handleChange={setTitle} />
+            <InputWithLabel label='Claim Title' inputValue={title} handleChange={setTitle} error={error.title} />
           ) : (
             <Typography color='grey700' size='xl' weight='bold'>
               {title}
             </Typography>
           )}
-        </FormRow>
+        </FlexBox>
 
         <FlexBox height={'100px'} alignItems='center'>
           {description ? (

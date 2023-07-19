@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Button } from 'pages/CreateEntity/Components'
 import { useCreateEntityState } from 'hooks/createEntity'
 import { FlexBox } from 'components/App/App.styles'
@@ -13,9 +13,10 @@ const SetupProperties: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }
 
   const {
     entityType,
+    profile,
     creator,
     administrator,
-    ddoTags,
+    ddoTags = [],
     page,
     service,
     linkedResource,
@@ -57,6 +58,37 @@ const SetupProperties: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }
     updateAccordedRight,
     updateLinkedEntity,
   }
+
+  useEffect(() => {
+    if (ddoTags.length === 0) {
+      updateDDOTags([
+        {
+          category: 'Entity',
+          tags: ['Claim'],
+          readonly: true,
+        },
+        {
+          category: 'Claim Type',
+          tags: [profile?.type || ''],
+          readonly: true,
+        },
+        {
+          category: 'Token Class',
+          tags: ['Unspecified'],
+          readonly: true,
+        },
+      ])
+    } else {
+      updateDDOTags(
+        ddoTags.map((tag) =>
+          tag.category === 'Entity' || tag.category === 'Claim Type' || tag.category === 'Token Class'
+            ? { ...tag, readOnly: true }
+            : tag,
+        ),
+      )
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const handlePrev = (): void => {
     history.push(`${baseLink}/collection`)
