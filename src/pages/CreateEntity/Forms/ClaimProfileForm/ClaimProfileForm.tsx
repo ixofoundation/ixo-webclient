@@ -12,9 +12,10 @@ interface Props {
   setType: (type: string) => void
   title: string
   setTitle: (title: string) => void
+  description: string
 }
 
-const ClaimProfileForm: React.FC<Props> = ({ type, setType, title, setTitle, ...rest }): JSX.Element => {
+const ClaimProfileForm: React.FC<Props> = ({ type, setType, title, setTitle, description, ...rest }): JSX.Element => {
   const theme: any = useTheme()
   return (
     <FormWrapper {...rest}>
@@ -42,10 +43,14 @@ const ClaimProfileForm: React.FC<Props> = ({ type, setType, title, setTitle, ...
           )}
         </FormRow>
 
-        <FlexBox my={10}>
-          <Typography size='xl' color='grey300'>
-            Claim Description
-          </Typography>
+        <FlexBox height={'100px'} alignItems='center'>
+          {description ? (
+            <Typography color='grey300' overflowLines={4}>
+              {description}
+            </Typography>
+          ) : (
+            <Typography color='grey300'>Claim Description</Typography>
+          )}
         </FlexBox>
 
         <FormRow style={{ justifyContent: 'space-between' }}>

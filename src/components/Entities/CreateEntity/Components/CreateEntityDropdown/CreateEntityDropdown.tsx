@@ -123,7 +123,7 @@ const CreateEntityDropDown: React.FunctionComponent<Props> = ({ entityType }) =>
             <LaunchEntityButton
               exact={true}
               to={`/create/entity/protocol`}
-              className={`protocol disabled`}
+              className={`protocol`}
               onClick={handleToggleModal}
             >
               <ButtonContent>

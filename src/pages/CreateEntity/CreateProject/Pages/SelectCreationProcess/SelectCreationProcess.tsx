@@ -6,6 +6,11 @@ import { PageWrapper, Selections, SearchIcon } from './SelectCreationProcess.sty
 import { Button, CateSelector, ChainSelector, Input } from 'pages/CreateEntity/Components'
 import { useCreateEntityState } from 'hooks/createEntity'
 import { useTheme } from 'styled-components'
+import { BlockSyncService } from 'services/blocksync'
+import { apiEntityToEntity } from 'utils/entities'
+import { useAccount } from 'hooks/account'
+
+const bsService = new BlockSyncService()
 
 const SelectCreationProcess: React.FC = (): JSX.Element => {
   const theme: any = useTheme()
@@ -16,7 +21,19 @@ const SelectCreationProcess: React.FC = (): JSX.Element => {
     lineHeight: 28,
   }
 
-  const { gotoStep } = useCreateEntityState()
+  const { cwClient } = useAccount()
+  const {
+    gotoStep,
+    updateProfile,
+    updateCreator,
+    updateAdministrator,
+    updateDDOTags,
+    updatePage,
+    updateService,
+    updateLinkedEntity,
+    updateLinkedResource,
+    updateStartEndDate,
+  } = useCreateEntityState()
   const [isClone, setIsClone] = useState(false)
   const [existingDid, setExistingDid] = useState('')
   const [chainId, setChainId] = useState(undefined)
@@ -24,13 +41,44 @@ const SelectCreationProcess: React.FC = (): JSX.Element => {
   const canClone = useMemo(() => existingDid.length > 0, [existingDid])
 
   const handleCreate = (): void => {
-    // store token type in Redux
-    console.log('TODO:')
     gotoStep(1)
   }
 
   const handleClone = (): void => {
-    console.log('TODO:', existingDid)
+    bsService.entity.getEntityById(existingDid).then((entity: any) => {
+      apiEntityToEntity({ entity, cwClient }, (key: string, value: any, merge) => {
+        switch (key) {
+          case 'profile':
+            updateProfile(value)
+            break
+          case 'creator':
+            updateCreator(value)
+            break
+          case 'administrator':
+            updateAdministrator(value)
+            break
+          case 'page':
+            updatePage(value)
+            break
+          case 'ddoTags':
+            updateDDOTags(value)
+            break
+          case 'service':
+            updateService(value)
+            break
+          case 'linkedEntity':
+            updateLinkedEntity(value)
+            break
+          case 'linkedResource':
+            updateLinkedResource(value)
+            break
+          default:
+            break
+        }
+      })
+      // additional
+      updateStartEndDate({ startDate: entity.startDate, endDate: entity.endDate })
+    })
     gotoStep(1)
   }
 

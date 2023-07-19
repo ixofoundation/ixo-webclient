@@ -46,6 +46,7 @@ const SetupMetadata: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }):
           setType={(type: string): void => handleUpdateProfile('type', type)}
           title={profile?.name || ''}
           setTitle={(name: string): void => handleUpdateProfile('name', name)}
+          description={profile?.description || ''}
         />
       </Box>
       <Box className='d-flex flex-column justify-content-between' style={{ width: 400 }}>
