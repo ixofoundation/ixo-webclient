@@ -147,15 +147,10 @@ export const FooterTextBlue = styled.span`
 `
 
 export const FooterText = styled.div`
-  padding: 10px 0px 10px 0;
   color: #808080;
   font-family: ${(props): string => props.theme.primaryFontFamily};
   font-size: 14px;
   line-height: 19px;
-
-  @media (min-width: ${deviceWidth.tablet}px) {
-    padding-left: 3.5rem;
-  }
 
   a {
     font-weight: 400;

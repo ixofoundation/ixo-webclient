@@ -18,6 +18,9 @@
         "visible": false
       }
     ],
+    "head": {
+      "title": "Impacts DAO Cooperative"
+    },
     "header": {
       "background": "#000000",
       "buttonColor": "#45B4F2",
@@ -28,7 +31,7 @@
         "text": "Email",
         "email": "info@ixo.world"
       },
-      "address": "ixo.world Herrengasse 30, 9490 Vaduz, Liechtenstein",
+      "address": "Herrengasse 30, 9490 Vaduz, Liechtenstein",
       "privacyPolicy": {
         "text": "Privacy policy",
         "href": "https://www.ixo.world/privacy-policy"
