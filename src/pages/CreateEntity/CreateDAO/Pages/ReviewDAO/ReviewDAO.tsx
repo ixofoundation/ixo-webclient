@@ -158,7 +158,15 @@ const ReviewDAO: React.FC = (): JSX.Element => {
         )}
         {success === 'true' && (
           <>
-            <FlexBox direction='column' justifyContent='center' alignItems='center' width='100%' height='100%' gap={4}>
+            <FlexBox
+              direction='column'
+              justifyContent='center'
+              alignItems='center'
+              width='100%'
+              height='100%'
+              gap={4}
+              textAlign='center'
+            >
               <SvgBox color={theme.ixoLightGreen} svgWidth={30} svgHeight={30}>
                 <CheckCircleIcon />
               </SvgBox>
@@ -182,7 +190,15 @@ const ReviewDAO: React.FC = (): JSX.Element => {
         )}
         {success === 'false' && (
           <>
-            <FlexBox direction='column' justifyContent='center' alignItems='center' width='100%' height='100%' gap={4}>
+            <FlexBox
+              direction='column'
+              justifyContent='center'
+              alignItems='center'
+              width='100%'
+              height='100%'
+              gap={4}
+              textAlign='center'
+            >
               <SvgBox color={theme.ixoDarkOrange} svgWidth={30} svgHeight={30}>
                 <ExclamationIcon />
               </SvgBox>

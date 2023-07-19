@@ -1,7 +1,6 @@
 import * as React from 'react'
 import moment from 'moment'
 import { getCountryName } from 'utils/formatters'
-import { MatchType } from '../../../../types/models'
 import HeaderTabs from 'components/HeaderTabs/HeaderTabs2'
 import {
   HeroInner,
@@ -11,7 +10,7 @@ import {
   HeroInfoItem,
   Title,
   Description,
-} from './EntityHero.styles'
+} from './OverviewHero.styles'
 import CalendarSort from 'assets/icons/CalendarSort'
 import availableFlags from 'data/availableFlags.json'
 import { requireCheckDefault } from 'utils/images'
@@ -22,6 +21,7 @@ import { useParams } from 'react-router-dom'
 import { useAccount } from 'hooks/account'
 import useCurrentDao from 'hooks/currentDao'
 import useCurrentEntity from 'hooks/currentEntity'
+import { MatchType } from 'types/models'
 
 interface Props {
   onlyTitle: boolean
@@ -38,7 +38,7 @@ interface Props {
   creatorLogo: string
 }
 
-const EntityHero: React.FunctionComponent<Props> = ({
+const OverviewHero: React.FunctionComponent<Props> = ({
   onlyTitle,
   enableAssistantButton = true,
   light = false,
@@ -53,14 +53,15 @@ const EntityHero: React.FunctionComponent<Props> = ({
   creatorName,
 }) => {
   const { entityId } = useParams<{ entityId: string }>()
-  const { title, themeColor } = useEntityConfig()
-  const { entityType } = useCurrentEntity()
+  const entityConfig = useEntityConfig()
+  const currentEntity = useCurrentEntity()
   const { address } = useAccount()
   const { daoGroups } = useCurrentDao()
 
-  const isMemberOfDAO = Object.values(daoGroups ?? {}).some((daoGroup) =>
-    daoGroup.votingModule.members.some((member) => member.addr === address),
-  )
+  const entityType = currentEntity.entityType.replace('protocol/', '')
+  const title = entityConfig.title || entityType.replace('protocol/', '')
+  const themeColor = entityConfig.themeColor
+
   const headerTabs = useMemo(() => {
     const buttons: HeaderTab[] = []
 
@@ -87,21 +88,26 @@ const EntityHero: React.FunctionComponent<Props> = ({
     /**
      * @description treasury page
      */
-    buttons.push({
-      iconClass: `icon-funding`,
-      path: `/entity/${entityId}/treasury`,
-      title: 'TREASURY',
-      tooltip: `${title} Treasury`,
-      linkClass: isMemberOfDAO ? '' : 'restricted',
-    })
+    if (entityType === 'dao') {
+      const isMemberOfDAO = Object.values(daoGroups ?? {}).some((daoGroup) =>
+        daoGroup.votingModule.members.some((member) => member.addr === address),
+      )
+      buttons.push({
+        iconClass: `icon-funding`,
+        path: `/entity/${entityId}/treasury`,
+        title: 'TREASURY',
+        tooltip: `${title} Treasury`,
+        linkClass: isMemberOfDAO ? '' : 'restricted',
+      })
+    }
 
     return buttons
-  }, [title, entityId, entityType, isMemberOfDAO])
+  }, [title, entityId, entityType, address, daoGroups])
 
   const getFlagURL = (projectLocation: string): string => {
     if (location && availableFlags.availableFlags.includes(location)) {
       return `url(${requireCheckDefault(
-        require(`../../../../assets/images/country-flags/${projectLocation.toLowerCase()}.svg`),
+        require(`../../../assets/images/country-flags/${projectLocation.toLowerCase()}.svg`),
       )})`
     } else if (location === 'AA') {
       return `url(${requireCheckDefault(require('assets/images/country-flags/global.svg'))})`
@@ -164,4 +170,4 @@ const EntityHero: React.FunctionComponent<Props> = ({
   )
 }
 
-export default EntityHero
+export default OverviewHero

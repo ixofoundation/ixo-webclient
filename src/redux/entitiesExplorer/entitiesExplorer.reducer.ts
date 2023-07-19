@@ -1,5 +1,4 @@
 import { EntitiesExplorerState, EntitiesExplorerActions, EntitiesActionTypes } from './entitiesExplorer.types'
-// import { EntityType } from 'types/entities'
 import { getDefaultSelectedViewCategory, getInitialSelectedCategories, getInitialSelectedSectors } from 'utils/entities'
 import { AccountActions, AccountActionTypes } from 'redux/account/account.types'
 
@@ -9,7 +8,6 @@ export const initialState: EntitiesExplorerState = {
   entities2: null,
   entityConfig: null,
   filter: {
-    // ddoTags: getInitialSelectedCategories(),
     ddoTags: [],
     userEntities: false,
     featuredEntities: true,

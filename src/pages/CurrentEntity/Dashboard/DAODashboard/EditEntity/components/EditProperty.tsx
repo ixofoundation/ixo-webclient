@@ -62,7 +62,7 @@ const EditProperty: React.FC = (): JSX.Element => {
           .filter((v) => v && Object.keys(EntityLinkedResourceConfig).includes(v.type))
           .map((item) => [item.id, item]),
       ),
-      claim: {},
+      claim: editEntity.claim ?? {},
       accordedRight: Object.fromEntries((editEntity.accordedRight ?? []).map((item) => [item.id, item])),
       linkedEntity: Object.fromEntries(
         (editEntity.linkedEntity ?? []).map((item) => [item.id.replace('{id}#', ''), item]),

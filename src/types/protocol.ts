@@ -832,6 +832,7 @@ export interface TClaimEnrichment {
 }
 export interface TEntityClaimTemplateModel {
   id: string
+  type: string
   title: string
   description: string
   creator: string
@@ -883,8 +884,6 @@ export interface TBasicMetadataModel {
   location?: string
   attributes?: TEntityAttributeModel[]
   metrics?: TEntityMetricModel[]
-
-  category?: string
 }
 export interface TAssetMetadataModel extends TBasicMetadataModel {
   denom?: string

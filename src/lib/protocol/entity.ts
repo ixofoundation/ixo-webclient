@@ -356,6 +356,65 @@ export const GetReplaceLinkedEntityMsgs = (
   ]
 }
 
+export const GetAddLinkedClaimMsgs = (
+  entityId: string,
+  signer: TSigner,
+  payload: LinkedClaim,
+): readonly EncodeObject[] => {
+  return [
+    {
+      typeUrl: '/ixo.iid.v1beta1.MsgAddLinkedClaim',
+      value: ixo.iid.v1beta1.MsgAddLinkedClaim.fromPartial({
+        id: entityId,
+        linkedClaim: ixo.iid.v1beta1.LinkedClaim.fromPartial(payload),
+        signer: signer.address,
+      }),
+    },
+  ]
+}
+
+export const GetDeleteLinkedClaimMsgs = (
+  entityId: string,
+  signer: TSigner,
+  payload: LinkedClaim,
+): readonly EncodeObject[] => {
+  return [
+    {
+      typeUrl: '/ixo.iid.v1beta1.MsgDeleteLinkedClaim',
+      value: ixo.iid.v1beta1.MsgDeleteLinkedClaim.fromPartial({
+        id: entityId,
+        claimId: payload.id,
+        signer: signer.address,
+      }),
+    },
+  ]
+}
+
+export const GetReplaceLinkedClaimMsgs = (
+  entityId: string,
+  signer: TSigner,
+  payload: LinkedClaim,
+): readonly EncodeObject[] => {
+  return [
+    {
+      typeUrl: '/ixo.iid.v1beta1.MsgDeleteLinkedClaim',
+      value: ixo.iid.v1beta1.MsgDeleteLinkedClaim.fromPartial({
+        id: entityId,
+        claimId: payload.id,
+        signer: signer.address,
+      }),
+    },
+    {
+      typeUrl: '/ixo.iid.v1beta1.MsgAddLinkedClaim',
+      value: ixo.iid.v1beta1.MsgAddLinkedClaim.fromPartial({
+        id: entityId,
+        linkedClaim: ixo.iid.v1beta1.LinkedClaim.fromPartial(payload),
+        signer: signer.address,
+      }),
+    },
+  ]
+}
+
 export const GetAddVerifcationMethodMsgs = (
   entityId: string,
   signer: TSigner,

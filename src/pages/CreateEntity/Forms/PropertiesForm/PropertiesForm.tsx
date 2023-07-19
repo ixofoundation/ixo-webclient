@@ -29,7 +29,6 @@ const Properties = [
 ]
 
 interface Props {
-  describeText?: boolean
   entityType: string
   creator: TEntityCreatorModel
   administrator: TEntityCreatorModel
@@ -53,7 +52,6 @@ interface Props {
 }
 
 const PropertiesForm: React.FC<Props> = ({
-  describeText,
   entityType,
   creator,
   administrator,
@@ -77,14 +75,12 @@ const PropertiesForm: React.FC<Props> = ({
 }): JSX.Element => {
   const [propertyView, setPropertyView] = useState<string>('')
   const activeProperties = useMemo(() => {
-    switch (entityType?.toLowerCase()) {
-      case 'protocol':
-        return Properties.filter((property) => property !== 'Claims')
-      case 'proposal':
-        return Properties.filter((property) => property !== 'Settings')
-      default:
-        return Properties
+    if (entityType?.startsWith('protocol')) {
+      return Properties.filter((property) => property !== 'Claims' && property !== 'Linked Entities')
+    } else if (entityType === 'deed') {
+      return Properties.filter((property) => property !== 'Settings')
     }
+    return Properties
   }, [entityType])
 
   const SettingsProps = {
@@ -127,33 +123,24 @@ const PropertiesForm: React.FC<Props> = ({
   }, [activeProperties])
 
   return (
-    <>
-      <FlexBox direction='column' id='setup-property-tabs' gap={12}>
-        {describeText && (
-          <Typography variant='secondary' size='xl'>
-            Configure the properties
-          </Typography>
-        )}
-        <FlexBox gap={2} flexWrap='wrap'>
-          {activeProperties.map((key) => (
-            <Badge key={key} active={key === propertyView} onClick={(): void => setPropertyView(key)}>
-              <Typography size='lg' weight='medium' color='white' noWrap>
-                {key}
-              </Typography>
-            </Badge>
-          ))}
-        </FlexBox>
+    <FlexBox direction='column' gap={7.5} width={'100%'}>
+      <FlexBox gap={2} flexWrap='wrap'>
+        {activeProperties.map((key) => (
+          <Badge key={key} active={key === propertyView} onClick={(): void => setPropertyView(key)}>
+            <Typography size='lg' weight='medium' color='white' noWrap>
+              {key}
+            </Typography>
+          </Badge>
+        ))}
       </FlexBox>
 
-      <FlexBox direction='column' gap={7.5} width={'100%'}>
-        <SetupService hidden={propertyView !== 'Services'} />
-        <SetupSettings hidden={propertyView !== 'Settings'} {...SettingsProps} />
-        <SetupLinkedResource hidden={propertyView !== 'Linked Resources'} {...LinkedResourceProps} />
-        <SetupClaim hidden={propertyView !== 'Claims'} {...ClaimProps} />
-        <SetupAccordedRight hidden={propertyView !== 'Accorded Rights'} {...AccordedRightProps} />
-        <SetupLinkedEntity hidden={propertyView !== 'Linked Entities'} {...LinkedEntityProps} />
-      </FlexBox>
-    </>
+      <SetupService hidden={propertyView !== 'Services'} />
+      <SetupSettings hidden={propertyView !== 'Settings'} {...SettingsProps} />
+      <SetupLinkedResource hidden={propertyView !== 'Linked Resources'} {...LinkedResourceProps} />
+      <SetupClaim hidden={propertyView !== 'Claims'} {...ClaimProps} />
+      <SetupAccordedRight hidden={propertyView !== 'Accorded Rights'} {...AccordedRightProps} />
+      <SetupLinkedEntity hidden={propertyView !== 'Linked Entities'} {...LinkedEntityProps} />
+    </FlexBox>
   )
 }
 

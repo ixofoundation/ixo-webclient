@@ -25,6 +25,9 @@ const Wrapper = styled(Box)`
     &__image-picture {
       width: 100%;
     }
+    &__caption:empty {
+      display: none;
+    }
   }
 `
 

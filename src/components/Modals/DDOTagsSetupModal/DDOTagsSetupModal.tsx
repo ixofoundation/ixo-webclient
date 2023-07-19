@@ -19,7 +19,9 @@ interface Props {
 const DDOTagsSetupModal: React.FC<Props> = ({ ddoTags, entityType, open, onClose, onChange }): JSX.Element => {
   const [formData, setFormData] = useState<TEntityDDOTagModel[]>([])
   const entityConfig = useAppSelector(selectEntityConfig)
-  const ddoTagsConfig = entityConfig[entityType]?.filterSchema?.ddoTags ?? []
+  const ddoTagsConfig =
+    entityConfig[entityType && entityType.startsWith('protocol/') ? 'protocol' : entityType]?.filterSchema?.ddoTags ??
+    []
 
   useEffect(() => {
     setFormData(ddoTags ?? [])

@@ -17,12 +17,7 @@ import {
   ErrorContainer,
   NoEntitiesContainer,
 } from './EntitiesExplorer.container.styles'
-import {
-  changeEntitiesType,
-  filterEntitiesQuery,
-  filterSector,
-  getEntitiesByType,
-} from 'redux/entitiesExplorer/entitiesExplorer.actions'
+import { changeEntitiesType, filterEntitiesQuery, filterSector } from 'redux/entitiesExplorer/entitiesExplorer.actions'
 import EntitiesFilter from './Components/EntitiesFilter/EntitiesFilter'
 import { EntityType, EntityTypeStrategyMap } from 'types/entities'
 import { Schema as FilterSchema } from './Components/EntitiesFilter/schema/types'
@@ -35,24 +30,7 @@ import { TEntityModel } from 'api/blocksync/types/entities'
 import { InfiniteScroll } from 'components/InfiniteScroll'
 import { useMediaQuery } from 'react-responsive'
 import { deviceWidth } from 'constants/device'
-// import { checkIsLaunchpadFromApiListedEntityData } from '../Entities.utils'
-
-// const entityFilters = {
-//   project: 'Project',
-//   projects: 'Project',
-//   oracle: 'Oracle',
-//   oracles: 'Oracle',
-//   investment: 'Investment',
-//   investments: 'Investment',
-//   dao: 'Dao',
-//   daos: 'Dao',
-//   protocol: 'Template',
-//   protocols: 'Template',
-//   template: 'Template',
-//   templates: 'Template',
-//   asset: 'Asset',
-//   assets: 'Asset',
-// }
+import ProtocolCard from './Components/EntityCard/ProtocolCard'
 
 export interface Props extends RouteProps {
   match: any
@@ -71,7 +49,6 @@ export interface Props extends RouteProps {
   filterSector: string
   filterQuery: string
   filterCategoryTypeName: string
-  handleGetEntitiesByType: (entityType: string) => void
   handleChangeEntitiesQuery: (query: string) => void
   handleChangeEntitiesType: (type: string) => void
   handleChangeSector: (sector: string) => void
@@ -80,7 +57,7 @@ export interface Props extends RouteProps {
 const EntityCard: any = {
   [EntityType.Project]: ProjectCard,
   [EntityType.Dao]: CellCard,
-  // [EntityType.Protocol]: TemplateCard,
+  [EntityType.Protocol]: ProtocolCard,
   [EntityType.Oracle]: OracleCard,
   // [EntityType.Investment]: InvestmentCard,
   // [EntityType.Asset]: AssetCard,
@@ -106,7 +83,7 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
       data
         .map((entity: TEntityModel, index: any) => {
           return (
-            EntityCard[props.type] &&
+            EntityCard[props.type.startsWith('protocol/') ? 'protocol' : props.type] &&
             React.createElement(EntityCard[props.type], {
               ...entity,
               key: index,
@@ -198,11 +175,6 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sector])
 
-  useEffect(() => {
-    // props.handleGetEntitiesByType(props.type)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.type])
-
   return (
     <Container>
       <div className='d-flex w-100 h-100'>
@@ -248,7 +220,6 @@ function mapStateToProps(state: RootState): Record<string, any> {
 }
 
 const mapDispatchToProps = (dispatch: any): any => ({
-  handleGetEntitiesByType: (entityType: string): void => dispatch(getEntitiesByType(entityType)),
   handleChangeEntitiesQuery: (query: string): void => dispatch(filterEntitiesQuery(query)),
   handleChangeEntitiesType: (type: EntityType): void => dispatch(changeEntitiesType(type)),
   handleChangeSector: (sector: string): void => dispatch(filterSector(sector)),
