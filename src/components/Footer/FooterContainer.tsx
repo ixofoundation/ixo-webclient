@@ -4,6 +4,7 @@ import { Main, SocialIconContainer, SocialIcon } from './FooterRight/FooterRight
 import { FooterText, ByLine } from './FooterLeft/FooterLeft.styles'
 import {
   selectEntityFooterUIConfig,
+  selectEntityHeaderUIConfig,
   selectEntityHeadTitleUIConfig,
   selectEntityLogoConfig,
 } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
@@ -13,9 +14,12 @@ import { requireCheckDefault } from 'utils/images'
 import { Typography } from 'components/Typography'
 import { ReactComponent as IXOLogo } from 'assets/images/ixo-logo.svg'
 import { SvgBox } from 'components/App/App.styles'
+import { useMemo } from 'react'
+import { getIxoWorldRoute } from 'utils/formatters'
 
 const Footer: React.FC = () => {
   const logo = useAppSelector(selectEntityLogoConfig)
+  const headerUIConfig: any = useAppSelector(selectEntityHeaderUIConfig)
   const title = useAppSelector(selectEntityHeadTitleUIConfig)
   const footerConfig: any = useAppSelector(selectEntityFooterUIConfig)
 
@@ -23,12 +27,21 @@ const Footer: React.FC = () => {
   const privacyPolicy = footerConfig?.privacyPolicy
   const socials = footerConfig?.socials ?? {}
 
+  const logoLink = useMemo(() => {
+    if (!headerUIConfig || !headerUIConfig.link) {
+      return getIxoWorldRoute('')
+    }
+    return headerUIConfig.link
+  }, [headerUIConfig])
+
   return (
     <BottomBar className='container-fluid text-white'>
       <div className='row align-items-center'>
         <FooterText className='col-md-8'>
           <div className='row align-items-center'>
-            <AppLogo alt='Logo' src={requireCheckDefault(require(`../../assets/images/${logo}.svg`))} />
+            <a href={logoLink}>
+              <AppLogo alt='Logo' src={requireCheckDefault(require(`../../assets/images/${logo}.svg`))} />
+            </a>
             <span className='mx-md-3 mx-0'>{title}</span>
             <span className='mx-md-3 mx-0'>{address}</span>
             <ByLine>
