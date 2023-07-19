@@ -8,7 +8,7 @@
     }
   },
   "UI": {
-    "logo": "ImpactHub_DAO_Logo",
+    "logo": "ImpactsDAO_icon_only",
     "explorer": {
       "defaultView": "dao"
     },
@@ -29,7 +29,7 @@
     "footer": {
       "mailTo": {
         "text": "Email",
-        "email": "info@ixo.world"
+        "email": "impacts@ixo.world"
       },
       "address": "Herrengasse 30, 9490 Vaduz, Liechtenstein",
       "privacyPolicy": {
