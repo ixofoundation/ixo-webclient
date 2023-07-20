@@ -13,8 +13,8 @@ export const PROFILES = {
     name: 'ixo.world',
     logo: IXOLogo,
   },
-  ixo1xc798xnhp7yy9mpp80v3tsxppw8qk0y9atm965: {
-    address: 'ixo1xc798xnhp7yy9mpp80v3tsxppw8qk0y9atm965',
+  ixo1hwc006qt0dkhkqwwneklshgk4hund4q3p36x7d: {
+    address: 'ixo1hwc006qt0dkhkqwwneklshgk4hund4q3p36x7d',
     name: 'Emerging Cooking Solution',
     logo: ECSLogo,
   },
