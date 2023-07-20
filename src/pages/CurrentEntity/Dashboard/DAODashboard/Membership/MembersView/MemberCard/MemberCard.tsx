@@ -16,6 +16,7 @@ import { contracts } from '@ixo/impactxclient-sdk'
 import { convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
 import { useAccount } from 'hooks/account'
 import CurrencyFormat from 'react-currency-format'
+import { PROFILES } from '__mocks__/profile'
 
 const Wrapper = styled(FlexBox)<{ focused: boolean }>`
   ${({ theme, focused }) => focused && `border-color: ${theme.ixoLightBlue};`}
@@ -77,7 +78,9 @@ const MemberCard: React.FC<Props> = ({ member, selected, onSelectMember }): JSX.
   const { cwClient } = useAccount()
   const { selectedGroupsArr } = useCurrentDao()
   const { type, daoGroup, proposals, votes, votingModuleAddress } = useCurrentDaoGroup(selectedGroupsArr[0].coreAddress)
-  const { avatar, name, addr, role, status } = member
+  const { addr, role, status } = member
+  const avatar = PROFILES[addr] ? PROFILES[addr].logo : member.avatar
+  const name = PROFILES[addr] ? PROFILES[addr].name : member.name
   const [detailView, setDetailView] = useState(false)
   const [userStakings, setUserStakings] = useState('0')
 
@@ -180,7 +183,7 @@ const MemberCard: React.FC<Props> = ({ member, selected, onSelectMember }): JSX.
       <GridContainer columns={2} columnGap={2} rowGap={2} width='100%'>
         <FlexBox alignItems='center' gap={2} lineHeight='0px'>
           <SvgBox svgWidth={6} svgHeight={6} color={theme.ixoLightBlue}>
-            <ClaimIcon />
+            <PieIcon />
           </SvgBox>
           <Typography size='sm' color='white' weight='medium'>
             {new Intl.NumberFormat('en-us', {
@@ -195,7 +198,7 @@ const MemberCard: React.FC<Props> = ({ member, selected, onSelectMember }): JSX.
           {type === 'staking' && (
             <>
               <SvgBox svgWidth={6} svgHeight={6} color={theme.ixoLightBlue}>
-                <PieIcon />
+                <ClaimIcon />
               </SvgBox>
               <Typography size='sm' color='white' weight='medium'>
                 <CurrencyFormat displayType={'text'} value={userStakings} thousandSeparator />
@@ -205,7 +208,7 @@ const MemberCard: React.FC<Props> = ({ member, selected, onSelectMember }): JSX.
           {type !== 'staking' && (
             <>
               <SvgBox svgWidth={6} svgHeight={6} color={theme.ixoDarkBlue}>
-                <PieIcon />
+                <ClaimIcon />
               </SvgBox>
               <Typography size='sm' color='white' weight='medium'>
                 n/a
