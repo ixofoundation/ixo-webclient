@@ -89,11 +89,9 @@ const ImageUploadModal: React.FC<Props> = ({
   })
 
   useEffect(() => {
-    if (!open) {
-      setTempValue(value)
-      setCanSubmit(false)
-      setLoading(false)
-    }
+    setTempValue(value)
+    setCanSubmit(false)
+    setLoading(false)
     // eslint-disable-next-line
   }, [open])
 

@@ -6,7 +6,7 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 import { useTheme } from 'styled-components'
 
-const ProtocolCard: React.FC<TEntityModel> = (entity) => {
+const ProtocolCard: React.FC<TEntityModel & { to?: string }> = (entity) => {
   const theme: any = useTheme()
 
   const id = entity.id
@@ -17,7 +17,7 @@ const ProtocolCard: React.FC<TEntityModel> = (entity) => {
   const createdAt = entity.metadata?.created as unknown as string
 
   return (
-    <NavLink to={{ pathname: `/entity/${id}/overview` }} style={{ textDecoration: 'none' }}>
+    <NavLink to={{ pathname: entity.to || `/entity/${id}/overview` }} style={{ textDecoration: 'none' }}>
       <FlexBox
         direction='column'
         borderRadius='8px'

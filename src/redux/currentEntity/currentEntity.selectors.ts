@@ -3,6 +3,7 @@ import { LinkedEntity, Service } from '@ixo/impactxclient-sdk/types/codegen/ixo/
 import { createSelector } from '@reduxjs/toolkit'
 import { TEntityModel } from 'api/blocksync/types/entities'
 import { RootState } from 'redux/store'
+import { TEntityClaimModel } from 'types/protocol'
 
 export const selectCurrentEntity = (state: RootState): TEntityModel => state.currentEntity
 
@@ -61,6 +62,13 @@ export const selectEntityOwner = createSelector(selectCurrentEntity, (entity: TE
 export const selectEntityService = createSelector(selectCurrentEntity, (entity: TEntityModel): Service[] => {
   return entity.service
 })
+
+export const selectEntityClaim = createSelector(
+  selectCurrentEntity,
+  (entity: TEntityModel): { [id: string]: TEntityClaimModel } => {
+    return entity.claim ?? {}
+  },
+)
 
 export const selectEntityStartDate = createSelector(selectCurrentEntity, (entity: TEntityModel): string => {
   return entity.startDate as never as string
