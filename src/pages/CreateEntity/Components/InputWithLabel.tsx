@@ -1,7 +1,6 @@
-import { theme } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import React, { ChangeEvent, useMemo, useRef, useState } from 'react'
-import styled from 'styled-components'
+import styled, { useTheme } from 'styled-components'
 
 const InputLabel = styled.label<{ filled?: boolean }>`
   position: absolute;
@@ -17,20 +16,20 @@ const InputLabel = styled.label<{ filled?: boolean }>`
   line-height: 100%;
 `
 
-// const ErrorLabel = styled.label`
-//   position: absolute;
-//   left: 10px;
-//   transform: translateY(-50%);
-//   bottom: -26px;
-//   pointer-events: none;
-//   transition: all 0.2s;
+const ErrorLabel = styled.label`
+  position: absolute;
+  left: 10px;
+  transform: translateY(-50%);
+  bottom: -26px;
+  pointer-events: none;
+  transition: all 0.2s;
 
-//   font-family: ${(props): string => props.theme.primaryFontFamily};
-//   font-weight: 300;
-//   line-height: 100%;
-//   font-size: 10px;
-//   color: ${(props): string => props.theme.ixoRed};
-// `
+  font-family: ${(props): string => props.theme.primaryFontFamily};
+  font-weight: 300;
+  line-height: 100%;
+  font-size: 10px;
+  color: ${(props): string => props.theme.ixoRed};
+`
 
 const StyledInput = styled.input`
   width: 100%;
@@ -88,6 +87,7 @@ interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   width?: string
   height?: string
   disabled?: boolean
+  error?: string
   handleChange?: (value: any) => void
   wrapperStyle?: React.CSSProperties
 }
@@ -100,8 +100,10 @@ const InputWithLabel: React.FC<Props> = ({
   height = '48px',
   handleChange,
   wrapperStyle,
+  error,
   ...rest
 }): JSX.Element => {
+  const theme: any = useTheme()
   const inputRef = useRef(undefined)
   const [focused, setFocused] = useState(false)
   const filled = useMemo(() => focused || !!inputValue, [focused, inputValue])
@@ -116,7 +118,7 @@ const InputWithLabel: React.FC<Props> = ({
       width={width}
       height={height}
       disabled={disabled || !handleChange}
-      style={{ color: theme.ixoNewBlue, ...(wrapperStyle ?? {}) }}
+      style={{ color: !error ? theme.ixoNewBlue : theme.ixoRed, ...(wrapperStyle ?? {}) }}
     >
       {label && (
         <InputLabel filled={filled}>
@@ -137,7 +139,7 @@ const InputWithLabel: React.FC<Props> = ({
         onBlur={(): void => setFocused(false)}
         {...rest}
       />
-      {/* <ErrorLabel>{error}</ErrorLabel> */}
+      <ErrorLabel>{error}</ErrorLabel>
     </InputWrapper>
   )
 }

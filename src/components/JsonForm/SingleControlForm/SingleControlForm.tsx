@@ -10,7 +10,7 @@ interface Props {
   schema: JSONSchema7
   uiSchema: UiSchema
   formData: FormData
-  handleSubmit: (event: any) => void
+  handleSubmit?: (event: any) => void
   handleFormDataChange: (formData: any) => void
 }
 
@@ -26,7 +26,7 @@ const SingleControlForm: React.FunctionComponent<Props> = ({
     <FormContainer>
       <ControlContainer>
         <Form
-          onSubmit={handleSubmit}
+          onSubmit={handleSubmit ? handleSubmit : undefined}
           formData={formData}
           onChange={(control): void => handleFormDataChange(control.formData)}
           noHtml5Validate

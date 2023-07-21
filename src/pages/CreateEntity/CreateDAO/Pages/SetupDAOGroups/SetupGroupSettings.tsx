@@ -16,7 +16,7 @@ import {
 import { useCreateEntity } from 'hooks/createEntity'
 import { ReactComponent as InfoIcon } from 'assets/images/icon-info.svg'
 import { ReactComponent as ProfileIcon } from 'assets/images/icon-profile.svg'
-import { ReactComponent as BinIcon } from 'assets/images/icon-bin-lg.svg'
+import { ReactComponent as TrashIcon } from 'assets/images/icon-trash.svg'
 import { ReactComponent as FileUploadIcon } from 'assets/images/icon-file-upload-solid.svg'
 import { ReactComponent as SandClockIcon } from 'assets/images/icon-sandclock.svg'
 import { ReactComponent as VoteSwitchingIcon } from 'assets/images/icon-vote-switching.svg'
@@ -348,7 +348,7 @@ const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JS
                   height={48}
                   onClick={(): void => handleRemoveMembership(membershipIdx)}
                 >
-                  <BinIcon />
+                  <TrashIcon />
                 </Button>
               </FlexBox>
             </FlexBox>
@@ -404,7 +404,7 @@ const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JS
                       style={{ flex: '0 0 52px' }}
                       onClick={(): void => handleRemoveMember(membershipIdx, memberIdx)}
                     >
-                      <BinIcon />
+                      <TrashIcon />
                     </Button>
                   </FlexBox>
                 ))}
@@ -707,7 +707,7 @@ const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JS
                     height={48}
                     onClick={(): void => handleRemoveMembership(distributionIdx)}
                   >
-                    <BinIcon />
+                    <TrashIcon />
                   </Button>
                 </FlexBox>
                 <FlexBox direction='column' gap={5}>
@@ -753,7 +753,7 @@ const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JS
                           style={{ flex: '0 0 52px' }}
                           onClick={(): void => handleRemoveMember(distributionIdx, memberIdx)}
                         >
-                          <BinIcon />
+                          <TrashIcon />
                         </Button>
                       </FlexBox>
                     ))}
@@ -896,7 +896,7 @@ const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JS
                     style={{ flex: '0 0 52px' }}
                     onClick={(): void => handleRemoveMember(0, memberIdx)}
                   >
-                    <BinIcon />
+                    <TrashIcon />
                   </Button>
                 </FlexBox>
               ))}

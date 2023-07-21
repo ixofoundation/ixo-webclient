@@ -1060,6 +1060,7 @@ export interface TEntityProfileModel {
 export interface TEntityDDOTagModel {
   category: string
   tags: string[]
+  readonly?: boolean
 }
 
 export type TEntityPageSectionModel = OutputBlockData

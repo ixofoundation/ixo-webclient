@@ -2,20 +2,22 @@ import Dashboard from 'components/Dashboard/Dashboard'
 import { HeaderTab, Path } from 'components/Dashboard/types'
 import useCurrentEntity, { useCurrentEntityProfile } from 'hooks/currentEntity'
 import { Redirect, Route, useParams } from 'react-router-dom'
+import { toTitleCase } from 'utils/formatters'
 import { requireCheckDefault } from 'utils/images'
 import ClaimQuestions from './ClaimQuestions'
+import Claims from './Claims'
 
-const ClaimDashboard: React.FC = (): JSX.Element => {
+const ProjectDashboard: React.FC = (): JSX.Element => {
   const { entityId } = useParams<{ entityId: string }>()
   const { entityType } = useCurrentEntity()
   const { name } = useCurrentEntityProfile()
 
   const routes: Path[] = [
     {
-      url: `/entity/${entityId}/dashboard/questions`,
-      icon: requireCheckDefault(require('assets/img/sidebar/global.svg')),
-      sdg: 'Questions',
-      tooltip: 'Questions',
+      url: `/entity/${entityId}/dashboard/claims`,
+      icon: requireCheckDefault(require('assets/img/sidebar/claim.svg')),
+      sdg: 'Claims',
+      tooltip: 'Claims',
       strict: true,
     },
   ]
@@ -24,7 +26,7 @@ const ClaimDashboard: React.FC = (): JSX.Element => {
     {
       url: `/explore`,
       icon: '',
-      sdg: 'Explore Protocols',
+      sdg: `Explore ${toTitleCase(entityType)}s`,
       tooltip: '',
     },
     {
@@ -43,17 +45,16 @@ const ClaimDashboard: React.FC = (): JSX.Element => {
 
   const tabs: HeaderTab[] = [
     {
-      iconClass: `icon-claim`,
-      linkClass: 'claim',
+      iconClass: `icon-project`,
       path: `/entity/${entityId}/overview`,
-      title: 'Claim',
-      tooltip: `Claim Overview`,
+      title: toTitleCase(entityType),
+      tooltip: `${toTitleCase(entityType)} Overview`,
     },
     {
       iconClass: `icon-dashboard`,
       path: `/entity/${entityId}/dashboard`,
       title: 'Dashboard',
-      tooltip: `DAO Management`,
+      tooltip: `${toTitleCase(entityType)} Management`,
     },
   ]
 
@@ -68,13 +69,14 @@ const ClaimDashboard: React.FC = (): JSX.Element => {
       tabs={tabs}
       entityType={entityType}
     >
-      <Route exact path='/entity/:entityId/dashboard/questions' component={ClaimQuestions} />
+      <Route exact path='/entity/:entityId/dashboard/claims' component={Claims} />
+      <Route exact path='/entity/:entityId/dashboard/claims/:claimId' component={ClaimQuestions} />
 
       <Route exact path='/entity/:entityId/dashboard'>
-        <Redirect to={`/entity/${entityId}/dashboard/questions`} />
+        <Redirect to={`/entity/${entityId}/dashboard/claims`} />
       </Route>
     </Dashboard>
   )
 }
 
-export default ClaimDashboard
+export default ProjectDashboard

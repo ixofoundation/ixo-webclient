@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import styled, { createGlobalStyle } from 'styled-components'
 import {
   DateRangePicker,
@@ -8,17 +8,21 @@ import {
   OrientationShape,
 } from 'react-dates'
 import moment, { Moment } from 'moment'
+import { DashboardThemeContext } from 'components/Dashboard/Dashboard'
 
 const DISPLAY_FORMAT = 'DD-MMM-YYYY'
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ isDark: boolean }>`
   .DateRangePickerInput {
     display: flex;
     justify-content: space-between;
     gap: 18px;
+    background: transparent;
 
     .DateInput {
       width: 100%;
+      background: transparent;
+
       &_input {
         font-family: ${(props): string => props.theme.primaryFontFamily};
         font-weight: 400;
@@ -28,9 +32,11 @@ const Wrapper = styled.div`
         padding: 6px 10px;
         border: 1px solid ${(props): string => props.theme.ixoNewBlue};
         border-radius: 8px;
+        background: transparent;
+        color: ${(props) => (!props.isDark ? props.theme.ixoBlack : props.theme.ixoWhite)};
 
         &::placeholder {
-          color: ${(props) => props.theme.ixoGrey500};
+          color: ${(props) => (!props.isDark ? props.theme.ixoGrey500 : props.theme.ixoDarkBlue)};
         }
       }
     }
@@ -91,10 +97,11 @@ const DateRangePickerComponent: React.FC<Props> = ({
   orientation,
   onChange,
 }): JSX.Element => {
+  const { isDark } = useContext(DashboardThemeContext)
   const [focusedInput, setFocusedInput] = useState<FocusedInputShape | null>(input ? null : 'startDate')
 
   return (
-    <Wrapper>
+    <Wrapper isDark={isDark}>
       <DateRangePickerGlobalStyle />
       {input ? (
         <DateRangePicker
@@ -133,25 +140,6 @@ const DateRangePickerComponent: React.FC<Props> = ({
           noBorder
         />
       )}
-      {/* <DateRangePicker
-        startDate={startDate ? moment(startDate) : null}
-        startDateId={`start_${id}`}
-        endDate={endDate ? moment(endDate) : null}
-        endDateId={`end_${id}`}
-        displayFormat={DISPLAY_FORMAT}
-        onDatesChange={({ startDate, endDate }): void => {
-          onChange(startDate?.format(DISPLAY_FORMAT) ?? '', endDate?.format(DISPLAY_FORMAT) ?? '')
-        }}
-        focusedInput={focusedInput}
-        onFocusChange={setFocusedInput}
-        numberOfMonths={numberOfMonths}
-        isOutsideRange={(): boolean => false}
-        withPortal={withPortal}
-        openDirection={openDirection}
-        orientation={orientation}
-        hideKeyboardShortcutsPanel
-        noBorder
-      /> */}
     </Wrapper>
   )
 }

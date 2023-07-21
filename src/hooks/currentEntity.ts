@@ -29,12 +29,14 @@ import {
   selectEntityEndDate,
   selectCurrentEntity,
   selectEntityLinkedAccounts,
+  selectEntityClaim,
 } from 'redux/currentEntity/currentEntity.selectors'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { BlockSyncService } from 'services/blocksync'
 import {
   EntityLinkedResourceConfig,
   TEntityAdministratorModel,
+  TEntityClaimModel,
   TEntityCreatorModel,
   TEntityDDOTagModel,
   TEntityPageSectionModel,
@@ -61,6 +63,7 @@ export default function useCurrentEntity(): {
   linkedAccounts: LinkedEntity[]
   owner: string
   service: Service[]
+  claim: { [id: string]: TEntityClaimModel }
   startDate: string
   endDate: string
   getEntityByDid: (did: string) => Promise<void>
@@ -85,6 +88,7 @@ export default function useCurrentEntity(): {
   const linkedAccounts: LinkedEntity[] = useAppSelector(selectEntityLinkedAccounts)
   const owner: string = useAppSelector(selectEntityOwner)
   const service: Service[] = useAppSelector(selectEntityService)
+  const claim: { [id: string]: TEntityClaimModel } = useAppSelector(selectEntityClaim)
   const startDate: string = useAppSelector(selectEntityStartDate)
   const endDate: string = useAppSelector(selectEntityEndDate)
 
@@ -134,6 +138,7 @@ export default function useCurrentEntity(): {
     linkedAccounts,
     owner,
     service,
+    claim,
     startDate,
     endDate,
     getEntityByDid,

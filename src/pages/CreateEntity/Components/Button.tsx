@@ -42,6 +42,7 @@ const buttonBgColor = (variant: TButtonVariant, disabled: boolean, theme: any): 
 const buttonWidthHeight = (size: TButtonSize, width: number | undefined, height: number | undefined): string[] => {
   switch (size) {
     case 'lg':
+      return ['300px', '48px']
     case 'md':
       return ['150px', '48px']
     case 'sm':

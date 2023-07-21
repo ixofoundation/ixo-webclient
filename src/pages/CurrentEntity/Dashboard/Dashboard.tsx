@@ -2,6 +2,7 @@ import useCurrentEntity from 'hooks/currentEntity'
 import React, { useMemo } from 'react'
 import ClaimDashboard from './ClaimDashboard'
 import DAODashboard from './DAODashboard'
+import ProjectDashboard from './ProjectDashboard'
 
 const DashboardPage: React.FC = (): JSX.Element | null => {
   const currentEntity = useCurrentEntity()
@@ -9,6 +10,8 @@ const DashboardPage: React.FC = (): JSX.Element | null => {
 
   const Component = useMemo(() => {
     switch (entityType) {
+      case 'project':
+        return ProjectDashboard
       case 'dao':
         return DAODashboard
       case 'claim':
