@@ -5,7 +5,7 @@ import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.sele
 import { useAppSelector } from 'redux/hooks'
 import { getTags } from 'utils/entities'
 import { ObjectFieldProtocolInformationColumn } from 'components/JsonForm/CustomTemplates/ObjectFieldTemplate'
-import { questionTypeMap } from '../../../../../../redux/createEntityAttestation/strategy-map'
+import { questionTypeMap } from 'types/protocol'
 
 interface Props extends FormCardProps {
   // type: EntityClaimType

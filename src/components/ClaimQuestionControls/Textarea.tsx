@@ -22,8 +22,8 @@ const StyledTextarea = styled.textarea`
   }
 `
 
-const Textarea: React.FC<TClaimQuestionControlProps> = ({ onChange, ...rest }) => {
-  return <StyledTextarea onChange={(e) => onChange(e.target.value)} {...rest} />
+const Textarea: React.FC<TClaimQuestionControlProps> = ({ value, onChange, ...rest }) => {
+  return <StyledTextarea value={(value as string) || ''} onChange={(e) => onChange(e.target.value)} {...rest} />
 }
 
 export default Textarea
