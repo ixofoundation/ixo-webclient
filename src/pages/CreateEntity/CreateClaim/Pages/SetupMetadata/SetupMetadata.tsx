@@ -59,7 +59,7 @@ const SetupMetadata: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }):
           setTitle={(name: string): void => handleUpdateProfile('name', name)}
           description={profile?.description || ''}
           error={{
-            title: claimNameFound ? 'Duplicated Name' : '',
+            title: profile?.name && claimNameFound ? 'Duplicated Name' : '',
           }}
         />
       </Box>

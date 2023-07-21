@@ -7,7 +7,6 @@ import { RootState } from 'redux/store'
 import FormCardWrapper from 'components/Wrappers/FormCardWrapper/FormCardWrapper'
 import ClaimInfoCard from './Components/ClaimInfoCard/ClaimInfoCard'
 import { ClaimInfo, Question } from '../../../../../redux/editEntityAttestation/editEntityAttestation.types'
-import { questionTypeMap } from '../../../../../redux/editEntityAttestation/strategy-map'
 import {
   updateClaimInfo,
   addShortTextQuestion,
@@ -65,6 +64,7 @@ import RatingQuestion from './Components/RatingQuestion/RatingQuestion'
 import CheckBoxesQuestion from './Components/CheckBoxesQuestion/CheckBoxesQuestion'
 import { goToStep } from '../../../../../redux/editEntityOld/editEntity.actions'
 import { QuestionsListWrapper } from './EditEntityAttestation.styles'
+import { questionTypeMap } from 'types/protocol'
 
 interface Props extends EditEntityBaseProps {
   claimInfo: ClaimInfo

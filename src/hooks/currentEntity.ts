@@ -49,6 +49,7 @@ import useCurrentDao from './currentDao'
 const bsService = new BlockSyncService()
 
 export default function useCurrentEntity(): {
+  id: string
   entityType: string
   currentEntity: TEntityModel
   linkedResource: LinkedResource[]
@@ -124,6 +125,7 @@ export default function useCurrentEntity(): {
   }
 
   return {
+    id,
     entityType,
     currentEntity,
     linkedResource,

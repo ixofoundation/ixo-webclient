@@ -22,8 +22,8 @@ const StyledInput = styled.input`
   }
 `
 
-const Input: React.FC<TClaimQuestionControlProps> = ({ onChange, ...rest }) => {
-  return <StyledInput onChange={(e) => onChange(e.target.value)} {...rest} />
+const Input: React.FC<TClaimQuestionControlProps> = ({ value, onChange, ...rest }) => {
+  return <StyledInput value={(value as string) || ''} onChange={(e) => onChange(e.target.value)} {...rest} />
 }
 
 export default Input
