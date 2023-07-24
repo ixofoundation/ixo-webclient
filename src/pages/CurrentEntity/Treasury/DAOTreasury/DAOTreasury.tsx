@@ -1,7 +1,5 @@
 import Dashboard from 'components/Dashboard/Dashboard'
 import { HeaderTab, Path } from 'components/Dashboard/types'
-import { useAccount } from 'hooks/account'
-import useCurrentDao from 'hooks/currentDao'
 import useCurrentEntity, { useCurrentEntityProfile } from 'hooks/currentEntity'
 import { Redirect, Route, useParams } from 'react-router-dom'
 import { requireCheckDefault } from 'utils/images'
@@ -11,12 +9,6 @@ const DAOTreasury: React.FC = (): JSX.Element => {
   const { entityId } = useParams<{ entityId: string }>()
   const { entityType } = useCurrentEntity()
   const { name } = useCurrentEntityProfile()
-  const { daoGroups } = useCurrentDao()
-  const { address } = useAccount()
-
-  const isMemberOfDAO = Object.values(daoGroups ?? {}).some((daoGroup) =>
-    daoGroup.votingModule.members.some((member) => member.addr === address),
-  )
 
   const routes: Path[] = [
     {
@@ -67,11 +59,9 @@ const DAOTreasury: React.FC = (): JSX.Element => {
       path: `/entity/${entityId}/treasury`,
       title: 'Treasury',
       tooltip: `DAO Treasury`,
-      linkClass: isMemberOfDAO ? '' : 'restricted',
     },
   ]
 
-  // const theme = isIndividualMemberRoute ? 'light' : 'dark'
   const theme = 'dark'
 
   return (

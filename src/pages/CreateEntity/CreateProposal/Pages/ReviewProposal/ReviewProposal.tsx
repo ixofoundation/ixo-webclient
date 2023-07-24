@@ -82,6 +82,7 @@ const ReviewProposal: React.FC = () => {
     makeWithdrawTokenSwapAction,
     makeStakeToGroupAction,
     makeSendGroupTokenAction,
+    makeJoinAction,
   } = useMakeProposalAction(coreAddress)
   const [selectedAction, setSelectedAction] = useState<TProposalActionModel | undefined>()
   const SetupActionModal = useMemo(() => {
@@ -146,6 +147,8 @@ const ReviewProposal: React.FC = () => {
             case 'Vote on a Network Proposal':
               // TODO: TBD
               return makeGovernanceVoteAction('ixo12wgrrvmx5jx2mxhu6dvnfu3greamemnqfvx84a', data)
+            case 'Join':
+              return makeJoinAction(data)
 
             // Smart Contracts Category
             case 'Execute Smart Contract':

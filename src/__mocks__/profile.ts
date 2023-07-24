@@ -2,7 +2,8 @@ import EmergingLogo from './imgs/EmergingDAO_logo.svg'
 import IXOLogo from './imgs/ixo_square.svg'
 import ECSLogo from './imgs/ECS_DAO_logo.svg'
 
-export const ImpactsDAOId = 'did:ixo:entity:2f22535f8b179a51d77a0e302e68d35d'
+// DevImpactsDAO
+export const IMPACTS_DAO_ID = 'did:ixo:entity:749003455526fbd4ebdcfbfa50e23d1c'
 
 export const PROFILES = {
   ixo15jqvx0k6uz2q7yxn4u9wdfct3j5w6pn3k555nc: {

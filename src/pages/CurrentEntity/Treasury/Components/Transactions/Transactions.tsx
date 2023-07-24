@@ -1,8 +1,8 @@
-import { FlexBox } from 'components/App/App.styles'
+import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { Table } from 'components/Table'
 import { Typography } from 'components/Typography'
 import React, { useState } from 'react'
-import styled from 'styled-components'
+import styled, { useTheme } from 'styled-components'
 import { ReactComponent as SentTransactionIcon } from 'assets/images/icon-sent-transaction.svg'
 import { ReactComponent as UserPlusSolidIcon } from 'assets/images/icon-user-plus-solid.svg'
 import { ReactComponent as UserMinusSolidIcon } from 'assets/images/icon-user-minus-solid.svg'
@@ -66,83 +66,12 @@ const renderTableHeader = (name: string, justifyContent = 'flex-start') => (
   </FlexBox>
 )
 
-const columns = [
-  {
-    Header: renderTableHeader('Type'),
-    accessor: 'type',
-    renderCell: (cell: any) => {
-      const type = cell.value
-
-      const renderSendTx = () => (
-        <>
-          <SentTransactionIcon />
-          <FlexBox direction='column'>
-            <Typography size='lg'>5,200.234 IXO</Typography>
-            <Typography size='md'>Sent to ixo13452...ghbvd (by ixo12345...12345)</Typography>
-          </FlexBox>
-        </>
-      )
-      const renderGrantTx = () => (
-        <>
-          <UserPlusSolidIcon />
-          <FlexBox direction='column'>
-            <Typography size='lg'>Authorisation granted</Typography>
-            <Typography size='md'>ixo12345...12345</Typography>
-          </FlexBox>
-        </>
-      )
-      const renderRevokeTx = () => (
-        <>
-          <UserMinusSolidIcon />
-          <FlexBox direction='column'>
-            <Typography size='lg'>Authorisation revoked</Typography>
-            <Typography size='md'>ixo12345...12345</Typography>
-          </FlexBox>
-        </>
-      )
-      const renderReceiveTx = () => (
-        <>
-          <IncomingTransactionIcon />
-          <FlexBox direction='column'>
-            <Typography size='lg'>1,200.234 CARBON</Typography>
-            <Typography size='md'>Received from ixo13452...ghbcd</Typography>
-          </FlexBox>
-        </>
-      )
-
-      return (
-        <FlexBox alignItems='center' gap={2} p={4}>
-          {type === 'send' && renderSendTx()}
-          {type === 'grant' && renderGrantTx()}
-          {type === 'revoke' && renderRevokeTx()}
-          {type === 'receive' && renderReceiveTx()}
-        </FlexBox>
-      )
-    },
-  },
-  {
-    Header: renderTableHeader('Date', 'flex-end'),
-    accessor: 'timestamp',
-    renderCell: (cell: any) => {
-      const timestamp = moment(cell.value).utc()
-
-      return (
-        <FlexBox direction='column' alignItems='end' p={4}>
-          <Typography size='lg'>{timestamp.format('DD MMM YY')}</Typography>
-          <Typography size='md' color='dark-blue'>
-            {timestamp.format('hh:mm [UTC]')}
-          </Typography>
-        </FlexBox>
-      )
-    },
-  },
-]
-
 interface Props {
   address: string
 }
 
 const Transactions: React.FC<Props> = ({ address }) => {
+  const theme: any = useTheme()
   const [data] = useState<any[]>([
     // {
     //   type: 'send',
@@ -165,6 +94,80 @@ const Transactions: React.FC<Props> = ({ address }) => {
     //   timestamp: new Date().toISOString(),
     // },
   ])
+
+  const columns = [
+    {
+      Header: renderTableHeader('Type'),
+      accessor: 'type',
+      renderCell: (cell: any) => {
+        const type = cell.value
+
+        const renderSendTx = () => (
+          <>
+            <SentTransactionIcon />
+            <FlexBox direction='column'>
+              <Typography size='lg'>5,200.234 IXO</Typography>
+              <Typography size='md'>Sent to ixo13452...ghbvd (by ixo12345...12345)</Typography>
+            </FlexBox>
+          </>
+        )
+        const renderGrantTx = () => (
+          <>
+            <SvgBox color={theme.ixoGreen}>
+              <UserPlusSolidIcon />
+            </SvgBox>
+            <FlexBox direction='column'>
+              <Typography size='lg'>Authorisation granted</Typography>
+              <Typography size='md'>ixo12345...12345</Typography>
+            </FlexBox>
+          </>
+        )
+        const renderRevokeTx = () => (
+          <>
+            <UserMinusSolidIcon />
+            <FlexBox direction='column'>
+              <Typography size='lg'>Authorisation revoked</Typography>
+              <Typography size='md'>ixo12345...12345</Typography>
+            </FlexBox>
+          </>
+        )
+        const renderReceiveTx = () => (
+          <>
+            <IncomingTransactionIcon />
+            <FlexBox direction='column'>
+              <Typography size='lg'>1,200.234 CARBON</Typography>
+              <Typography size='md'>Received from ixo13452...ghbcd</Typography>
+            </FlexBox>
+          </>
+        )
+
+        return (
+          <FlexBox alignItems='center' gap={2} p={4}>
+            {type === 'send' && renderSendTx()}
+            {type === 'grant' && renderGrantTx()}
+            {type === 'revoke' && renderRevokeTx()}
+            {type === 'receive' && renderReceiveTx()}
+          </FlexBox>
+        )
+      },
+    },
+    {
+      Header: renderTableHeader('Date', 'flex-end'),
+      accessor: 'timestamp',
+      renderCell: (cell: any) => {
+        const timestamp = moment(cell.value).utc()
+
+        return (
+          <FlexBox direction='column' alignItems='end' p={4}>
+            <Typography size='lg'>{timestamp.format('DD MMM YY')}</Typography>
+            <Typography size='md' color='dark-blue'>
+              {timestamp.format('hh:mm [UTC]')}
+            </Typography>
+          </FlexBox>
+        )
+      },
+    },
+  ]
 
   const handleRowClick = (state: any) => () => {
     console.log('handleRowClick', { state })
