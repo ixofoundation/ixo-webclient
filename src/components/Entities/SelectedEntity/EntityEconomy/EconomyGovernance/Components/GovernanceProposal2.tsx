@@ -164,7 +164,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
   const proposalConfig: ProposalConfig | undefined = useMemo(() => daoGroup?.proposalModule.proposalConfig, [daoGroup])
 
   const proposalActions: TProposalActionModel[] = useMemo(
-    () => proposal.msgs.map(proposalMsgToActionConfig),
+    () => proposal.msgs.map(proposalMsgToActionConfig).filter(Boolean),
     [proposal],
   )
 

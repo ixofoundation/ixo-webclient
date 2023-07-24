@@ -3,7 +3,7 @@ import { AddLinkedEntityModal } from 'components/Modals'
 import { Typography } from 'components/Typography'
 import { PropertyBox } from 'pages/CreateEntity/Components'
 import { Props as PropertyBoxProps } from 'pages/CreateEntity/Components/PropertyBox'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { EntityLinkedEntityConfig, DAOGroupConfig, TDAOGroupModel } from 'types/protocol'
 import { omitKey } from 'utils/objects'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
@@ -13,6 +13,8 @@ import { LinkedEntity } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1bet
 import ImpactEntitySetupModal from 'components/Modals/ImpactEntitySetupModal/ImpactEntitySetupModal'
 import LinkedAccountSetupModal from 'components/Modals/LinkedAccountSetupModal/LinkedAccountSetupModal'
 import { serviceEndpointToUrl } from 'utils/entities'
+import DelegateAccountSetupModal from 'components/Modals/DelegateAccountSetupModal/DelegateAccountSetupModal'
+import { errorToast } from 'utils/toast'
 
 const bsService = new BlockSyncService()
 
@@ -21,7 +23,7 @@ const LinkedEntityPropertyBox = (props: PropertyBoxProps & { id: string; type: s
 
   useEffect(() => {
     if (props.id) {
-      if (props.type === 'impactEntity') {
+      if (props.type === 'ImpactEntity') {
         bsService.entity
           .getEntityById(props.id)
           .then((response: any) => {
@@ -40,6 +42,8 @@ const LinkedEntityPropertyBox = (props: PropertyBoxProps & { id: string; type: s
           })
           .catch(console.error)
       } else if (props.type === 'BlockchainAccount') {
+        setName(truncateString(props.id, 13))
+      } else if (props.type === 'IndividualAccount') {
         setName(truncateString(props.id, 13))
       }
     }
@@ -66,15 +70,28 @@ const SetupLinkedEntity: React.FC<Props> = ({ hidden, linkedEntity, daoGroups, u
   const [openAddLinkedEntityModal, setOpenAddLinkedEntityModal] = useState(false)
   const [openImpactEntitySetupModal, setOpenImpactEntitySetupModal] = useState(false)
   const [openLinkedAccountSetupModal, setOpenLinkedAccountSetupModal] = useState(false)
+  const [openDelegateAccountSetupModal, setOpenDelegateAccountSetupModal] = useState(false)
+  const hasDelegateAccount = useMemo(
+    () => Object.values(linkedEntity).some(({ relationship }) => relationship === 'delegate'),
+    [linkedEntity],
+  )
 
   const handleOpenModal = (key: string): void => {
     switch (key) {
       case 'BlockchainAccount':
         setOpenLinkedAccountSetupModal(true)
         break
-      case 'impactEntity':
+      case 'ImpactEntity':
         setOpenImpactEntitySetupModal(true)
         break
+      case 'IndividualAccount': {
+        if (hasDelegateAccount) {
+          errorToast('Not Allowed', 'Already linked a delegate account')
+        } else {
+          setOpenDelegateAccountSetupModal(true)
+        }
+        break
+      }
       default:
         break
     }
@@ -143,6 +160,11 @@ const SetupLinkedEntity: React.FC<Props> = ({ hidden, linkedEntity, daoGroups, u
       <LinkedAccountSetupModal
         open={openLinkedAccountSetupModal}
         onClose={(): void => setOpenLinkedAccountSetupModal(false)}
+        onAdd={handleAddLinkedEntity}
+      />
+      <DelegateAccountSetupModal
+        open={openDelegateAccountSetupModal}
+        onClose={(): void => setOpenDelegateAccountSetupModal(false)}
         onAdd={handleAddLinkedEntity}
       />
       {/* <LiquiditySetupModal

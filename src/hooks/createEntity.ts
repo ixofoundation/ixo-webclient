@@ -501,6 +501,9 @@ export function useCreateEntity(): TCreateEntityHookRes {
     creator: TEntityCreatorModel,
   ): Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined> => {
     try {
+      if (!creator) {
+        throw new Error('Payload is empty')
+      }
       const payload = {
         '@context': [
           'https://www.w3.org/2018/credentials/v1',
@@ -552,7 +555,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
   ): Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined> => {
     try {
       if (!administrator) {
-        throw new Error('Payload is null')
+        throw new Error('Payload is empty')
       }
       const payload = {
         '@context': [
@@ -604,6 +607,9 @@ export function useCreateEntity(): TCreateEntityHookRes {
     page: TEntityPageModel,
   ): Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined> => {
     try {
+      if (Object.values(page).filter(({ data }) => data).length === 0) {
+        throw new Error('Payload is empty')
+      }
       const payload = {
         '@context': {
           ixo: 'https://w3id.org/ixo/ns/protocol/',
@@ -628,6 +634,9 @@ export function useCreateEntity(): TCreateEntityHookRes {
     ddoTags: TEntityDDOTagModel[],
   ): Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined> => {
     try {
+      if (ddoTags.length === 0) {
+        throw new Error('Payload is empty')
+      }
       const payload = {
         '@context': {
           ixo: 'https://w3id.org/ixo/ns/protocol/',

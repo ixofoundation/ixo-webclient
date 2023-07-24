@@ -50,6 +50,8 @@ import { coins } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/amino'
 import { DaoAdminExecData } from 'components/Modals/AddActionModal/SetupDAOAdminExecuteModal'
 import { useCurrentDaoGroup } from './currentDao'
 import { SendGroupTokenData } from 'components/Modals/AddActionModal/SetupSendGroupTokenModal'
+import { JoinData } from 'components/Modals/AddActionModal/SetupJoinModal'
+import { ixo } from '@ixo/impactxclient-sdk'
 
 export function useMakeProposalAction(coreAddress: string) {
   const { daoGroup } = useCurrentDaoGroup(coreAddress)
@@ -678,6 +680,25 @@ export function useMakeProposalAction(coreAddress: string) {
     })
   }
 
+  const makeJoinAction = (data: JoinData): any => {
+    const { id, address } = data
+    return makeStargateMessage({
+      stargate: {
+        typeUrl: '/ixo.iid.v1beta1.MsgAddLinkedEntity',
+        value: ixo.iid.v1beta1.MsgAddLinkedEntity.fromPartial({
+          id,
+          linkedEntity: ixo.iid.v1beta1.LinkedEntity.fromPartial({
+            type: 'MemberDAO',
+            id: address,
+            relationship: `member`,
+            service: ``,
+          }),
+          signer: address,
+        }),
+      },
+    })
+  }
+
   return {
     makeSpendAction,
     makeAuthzExecAction,
@@ -706,5 +727,6 @@ export function useMakeProposalAction(coreAddress: string) {
     makeDaoAdminExecAction,
     makeStakeToGroupAction,
     makeSendGroupTokenAction,
+    makeJoinAction,
   }
 }

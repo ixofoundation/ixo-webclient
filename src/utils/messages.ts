@@ -9,6 +9,7 @@ import { Any } from 'cosmjs-types/google/protobuf/any'
 import { PubKey } from 'cosmjs-types/cosmos/crypto/ed25519/keys'
 
 import { objectMatchesStructure } from './validation'
+import { ixo } from '@ixo/impactxclient-sdk'
 
 export function parseEncodedMessage(base64String?: string) {
   if (base64String) {
@@ -147,6 +148,7 @@ export const typesRegistry = new Registry([
     ['/cosmos.slashing.v1beta1.MsgUnjail', MsgUnjail],
     ['/cosmos.authz.v1beta1.GenericAuthorization', GenericAuthorization],
     ['/cosmos.crypto.ed25519.PubKey', PubKey],
+    ['/ixo.iid.v1beta1.MsgAddLinkedEntity', ixo.iid.v1beta1.MsgAddLinkedEntity],
   ] as ReadonlyArray<[string, GeneratedType]>),
 ])
 

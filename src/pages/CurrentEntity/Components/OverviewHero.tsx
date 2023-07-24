@@ -18,8 +18,6 @@ import { useEntityConfig } from 'hooks/configs'
 import { useMemo } from 'react'
 import { HeaderTab } from 'components/Dashboard/types'
 import { useParams } from 'react-router-dom'
-import { useAccount } from 'hooks/account'
-import useCurrentDao from 'hooks/currentDao'
 import useCurrentEntity from 'hooks/currentEntity'
 import { MatchType } from 'types/models'
 
@@ -55,8 +53,6 @@ const OverviewHero: React.FunctionComponent<Props> = ({
   const { entityId } = useParams<{ entityId: string }>()
   const entityConfig = useEntityConfig()
   const currentEntity = useCurrentEntity()
-  const { address } = useAccount()
-  const { daoGroups } = useCurrentDao()
 
   const entityType = currentEntity.entityType.replace('protocol/', '')
   const title = entityConfig.title || entityType.replace('protocol/', '')
@@ -89,20 +85,16 @@ const OverviewHero: React.FunctionComponent<Props> = ({
      * @description treasury page
      */
     if (entityType === 'dao') {
-      const isMemberOfDAO = Object.values(daoGroups ?? {}).some((daoGroup) =>
-        daoGroup.votingModule.members.some((member) => member.addr === address),
-      )
       buttons.push({
         iconClass: `icon-funding`,
         path: `/entity/${entityId}/treasury`,
         title: 'TREASURY',
         tooltip: `${title} Treasury`,
-        linkClass: isMemberOfDAO ? '' : 'restricted',
       })
     }
 
     return buttons
-  }, [title, entityId, entityType, address, daoGroups])
+  }, [title, entityId, entityType])
 
   const getFlagURL = (projectLocation: string): string => {
     if (location && availableFlags.availableFlags.includes(location)) {
