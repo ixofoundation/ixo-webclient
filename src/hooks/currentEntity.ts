@@ -67,7 +67,7 @@ export default function useCurrentEntity(): {
   claim: { [id: string]: TEntityClaimModel }
   startDate: string
   endDate: string
-  getEntityByDid: (did: string) => Promise<void>
+  getEntityByDid: (did: string, force?: boolean) => Promise<boolean>
   clearEntity: () => void
 } {
   const dispatch = useAppDispatch()
@@ -104,20 +104,27 @@ export default function useCurrentEntity(): {
     dispatch(updateEntityResourceAction({ key, data, merge }))
   }
 
-  const getEntityByDid = (did: string): Promise<void> => {
+  const getEntityByDid = async (did: string, force = false): Promise<boolean> => {
     /**
      * find entity in entities state and avoid refetch from api
      */
     // if (entitites && entitites[did]) {
     //   updateEntity(entitites[did])
     // }
-    return bsService.entity.getEntityById(did).then((entity: any) => {
-      apiEntityToEntity({ entity, cwClient }, (key, data, merge = false) => {
-        updateEntityResource({ key, data, merge })
-      })
+    if (did !== id || force) {
+      return await bsService.entity
+        .getEntityById(did)
+        .then((entity: any) => {
+          apiEntityToEntity({ entity, cwClient }, (key, data, merge = false) => {
+            updateEntityResource({ key, data, merge })
+          })
 
-      updateEntity(entity)
-    })
+          updateEntity(entity)
+          return true
+        })
+        .catch(() => false)
+    }
+    return true
   }
 
   const clearEntity = (): void => {

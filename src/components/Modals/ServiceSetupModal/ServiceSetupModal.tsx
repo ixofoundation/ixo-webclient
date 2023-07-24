@@ -66,8 +66,6 @@ interface Props {
 const ServiceSetupModal: React.FC<Props> = ({ service, open, onClose, onChange }): JSX.Element => {
   const [formData, setFormData] = useState<TEntityServiceModel[]>([])
 
-  console.log({ formData })
-
   useEffect(() => {
     setFormData(service.map((v) => ({ ...v, id: v.id.replace('{id}#', '') })))
     return () => {

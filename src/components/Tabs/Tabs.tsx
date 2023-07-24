@@ -1,7 +1,7 @@
 import React from 'react'
 import { NavLink, withRouter } from 'react-router-dom'
 import { MatchType } from '../../types/models'
-import { createTabsContainer } from './Tabs.styles'
+import { TabsContainer } from './Tabs.styles'
 import Tooltip, { TooltipPosition } from '../Tooltip/Tooltip'
 import Lottie from 'react-lottie'
 import activeAnimation from 'assets/animations/assistant/active.json'
@@ -63,10 +63,8 @@ const TabsComponent: React.FunctionComponent<Props> = ({
     return animation === hoverAnimation ? hoverAnimation : inactiveAnimation
   }
 
-  const TabsContainer = createTabsContainer(activeTabColor, assistant.active)
-
   return (
-    <TabsContainer>
+    <TabsContainer activeTabColor={activeTabColor || ''} assistantActivated={assistant.active}>
       {buttons.map((button, index) => {
         switch (button.linkClass) {
           case 'in-active':

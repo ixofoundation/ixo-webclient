@@ -11,16 +11,23 @@ import {
   SetupProperties as SetupProposalProperties,
   ReviewProposal,
 } from './Pages'
-import { getEntitiesByType } from 'redux/entitiesExplorer/entitiesExplorer.actions'
-import { useAppDispatch } from 'redux/hooks'
+import { IMPACTS_DAO_ID } from '__mocks__/profile'
+import { v4 as uuidv4 } from 'uuid'
+import { TProposalActionModel } from 'types/protocol'
+
+const JoinImpactsDAOAction: TProposalActionModel = {
+  id: uuidv4(),
+  text: 'Join',
+  group: 'Groups',
+}
 
 const CreateProposal: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): JSX.Element => {
-  const dispatch = useAppDispatch()
   const { entityId, coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
   const { getEntityByDid } = useCurrentEntity()
   const { daoGroup } = useCurrentDaoGroup(coreAddress)
   const { name: entityName } = useCurrentEntityProfile()
-  const { updateBreadCrumbs, updateEntityType, updateTitle, updateSubtitle } = useCreateEntityState()
+  const { proposal, updateProposal, updateBreadCrumbs, updateEntityType, updateTitle, updateSubtitle } =
+    useCreateEntityState()
   const isSetupTargetRoute = useRouteMatch('/create/entity/deed/:entityId/:coreAddress/select')
   const isSetupInfoRoute = useRouteMatch('/create/entity/deed/:entityId/:coreAddress/info')
   const isSetupPageRoute = useRouteMatch('/create/entity/deed/:entityId/:coreAddress/page')
@@ -81,7 +88,9 @@ const CreateProposal: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match })
   }, [entityId])
 
   useEffect(() => {
-    dispatch(getEntitiesByType('dao'))
+    if (entityId === IMPACTS_DAO_ID) {
+      updateProposal({ ...proposal, actions: [JoinImpactsDAOAction] })
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 

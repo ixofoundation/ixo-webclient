@@ -170,41 +170,6 @@ export const getEntityById =
     })
   }
 
-/**
- * @deprecated
- * @param entityType
- * @returns
- */
-export const getEntitiesByType =
-  (entityType: string) =>
-  (dispatch: Dispatch, getState: () => RootState): GetEntities2Action => {
-    const {
-      entities: { entities2 },
-      account: { cwClient },
-    } = getState()
-    return dispatch({
-      type: EntitiesExplorerActions.GetEntities2,
-      payload: bsService.entity.getEntitiesByType(entityType).then((entities: any[]) => {
-        return entities
-          ?.filter(
-            (entity) =>
-              entity.relayerNode === process.env.REACT_APP_RELAYER_NODE ||
-              entity.id === process.env.REACT_APP_RELAYER_NODE,
-          )
-          .map((entity) => {
-            const { id } = entity
-            apiEntityToEntity({ entity, cwClient }, (key, value, merge = false) => {
-              dispatch({
-                type: EntitiesExplorerActions.GetIndividualEntity2,
-                payload: { id, key, data: value, merge },
-              })
-            })
-            return { ...(entities2 && entities2[id] ? entities2[id] : {}), ...entity }
-          })
-      }),
-    })
-  }
-
 export const getEntityConfig =
   () =>
   (dispatch: Dispatch): GetEntityConfigAction => {

@@ -249,7 +249,7 @@ export const EntityLinkedEntityConfig = {
     text: 'Impact Entity',
     icon: ProjectIcon,
   },
-  delegate: {
+  IndividualAccount: {
     text: 'Delegate',
     icon: UserIcon,
   },
@@ -478,6 +478,7 @@ export const ProposalActionConfig = {
           'ImpactsDAO is a cooperative of DAOs. If you’re a delegate of a DAO entity that wants to join ImpactsDAO, submit a proposal for your DAO to be added.',
         icon: UserPlusIcon,
         in: ['dao_voting_cw20_staked', 'dao_voting_cw4'],
+        hidden: true,
         setupModal: SetupJoinModal,
       },
       'AuthZ Exec': {

@@ -10,18 +10,17 @@ import ProposalOverviewPage from './Proposal/Overview'
 
 const CurrentEntityPage: React.FC = (): JSX.Element => {
   const { entityId } = useParams<{ entityId: string }>()
-  const { entityType, getEntityByDid, clearEntity } = useCurrentEntity()
+  const { entityType, getEntityByDid } = useCurrentEntity()
   const [errFetchingEntity, setErrFetchingEntity] = useState(false)
 
   useEffect(() => {
     if (entityId) {
-      getEntityByDid(entityId).catch((e) => {
-        setErrFetchingEntity(true)
+      getEntityByDid(entityId).then((result) => {
+        setErrFetchingEntity(!result)
       })
     }
     return () => {
       setErrFetchingEntity(false)
-      clearEntity()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [entityId])
