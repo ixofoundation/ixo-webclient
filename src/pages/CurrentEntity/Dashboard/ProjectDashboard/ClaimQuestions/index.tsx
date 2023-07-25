@@ -1,6 +1,9 @@
 import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { FlexBox } from 'components/App/App.styles'
-import useCurrentEntity from 'hooks/currentEntity'
+import { useAccount } from 'hooks/account'
+import { useCreateEntity } from 'hooks/createEntity'
+import useCurrentEntity, { useCurrentEntityAdminAccount } from 'hooks/currentEntity'
+import { MsgExecAgentSubmit } from 'lib/protocol'
 import { Button } from 'pages/CreateEntity/Components'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
@@ -8,11 +11,15 @@ import { selectEntityById } from 'redux/entitiesExplorer/entitiesExplorer.select
 import { useAppSelector } from 'redux/hooks'
 import { TEntityClaimModel, TQuestion } from 'types/protocol'
 import { serviceEndpointToUrl } from 'utils/entities'
+import { errorToast, successToast } from 'utils/toast'
 import QuestionCard from './QuestionCard'
 
 const ClaimQuestions: React.FC = () => {
   const { claimId } = useParams<{ claimId: string }>()
+  const { signingClient, signer } = useAccount()
   const { claim } = useCurrentEntity()
+  const { UploadDataToService } = useCreateEntity()
+  const adminAddress = useCurrentEntityAdminAccount()
   const selectedClaim: TEntityClaimModel = claim[claimId]
 
   const [templateEntityId] = (selectedClaim?.template?.id || '').split('#')
@@ -27,6 +34,8 @@ const ClaimQuestions: React.FC = () => {
   const disabled = useMemo(() => {
     return formSchemas.length === 0 || formSchemas.length !== Object.values(formData).filter(Boolean).length
   }, [formSchemas, formData])
+
+  const [submitting, setSubmitting] = useState(false)
 
   useEffect(() => {
     if (templateEntity) {
@@ -57,8 +66,34 @@ const ClaimQuestions: React.FC = () => {
     setFormData((v) => ({ ...v, [schemId]: values }))
   }
 
-  const handleSubmit = () => {
-    //
+  const handleSubmit = async () => {
+    setSubmitting(true)
+    // TODO: collectionId where to fetch ???
+    const collectionId = '1'
+
+    // TODO: upload answers to ipfs and get cid as claimId, the saving payload interface ???
+    const res = await UploadDataToService(JSON.stringify(formData))
+    const claimId = (res as any).key || (res as any).cid
+
+    console.log('MsgExecAgentSubmit', { claimId, collectionId, adminAddress })
+
+    const response = await MsgExecAgentSubmit(signingClient, signer, {
+      claimId,
+      collectionId,
+      adminAddress,
+    }).catch((e: any) => {
+      console.error('MsgExecAgentSubmit', e)
+      errorToast('Failed', e.message)
+      return undefined
+    })
+    console.log('MsgExecAgentSubmit', response)
+
+    if (response?.code === 0) {
+      successToast('Success', 'Submit successfully')
+    } else {
+      errorToast('Failed', response?.rawLog)
+    }
+    setSubmitting(false)
   }
 
   return (
@@ -74,7 +109,7 @@ const ClaimQuestions: React.FC = () => {
           />
         ))}
         {formSchemas.length > 0 && (
-          <Button variant='secondary' size={'lg'} onClick={handleSubmit} disabled={disabled}>
+          <Button variant='secondary' size={'lg'} onClick={handleSubmit} disabled={disabled} loading={submitting}>
             Sign And Submit
           </Button>
         )}

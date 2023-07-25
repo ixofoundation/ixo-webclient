@@ -39,64 +39,57 @@ export const CreateEntity = async (
     startDate?: string
     endDate?: string
   }[],
-): Promise<DeliverTxResponse | undefined> => {
-  try {
-    const { address, did, pubKey, keyType } = signer
-    const messages = payload.map((item) => {
-      const {
-        entityType,
+): Promise<DeliverTxResponse> => {
+  const { address, did, pubKey, keyType } = signer
+  const messages = payload.map((item) => {
+    const {
+      entityType,
+      entityStatus,
+      context = [],
+      service = [],
+      linkedResource = [],
+      accordedRight = [],
+      linkedEntity = [],
+      linkedClaim = [],
+      verification = [],
+      relayerNode = did,
+      startDate = '',
+      endDate = '',
+    } = item
+    return {
+      typeUrl: '/ixo.entity.v1beta1.MsgCreateEntity',
+      value: ixo.entity.v1beta1.MsgCreateEntity.fromPartial({
+        entityType: entityType.toLowerCase(),
+        context: customMessages.iid.createAgentIidContext(context as [{ key: string; val: string }]),
+        verification: [
+          ...customMessages.iid.createIidVerificationMethods({
+            did,
+            pubkey: pubKey,
+            address: address,
+            controller: did,
+            type: keyType,
+          }),
+          ...verification,
+        ],
+        controller: [did],
+        ownerDid: did,
+        ownerAddress: address,
+        relayerNode: relayerNode,
+        service: service.map((item: Service) => ixo.iid.v1beta1.Service.fromPartial(item)),
+        linkedResource: linkedResource.map((item: LinkedResource) => ixo.iid.v1beta1.LinkedResource.fromPartial(item)),
+        accordedRight: accordedRight.map((item: AccordedRight) => ixo.iid.v1beta1.AccordedRight.fromPartial(item)),
+        linkedEntity: linkedEntity.map((item: LinkedEntity) => ixo.iid.v1beta1.LinkedEntity.fromPartial(item)),
+        linkedClaim: linkedClaim.map((item: LinkedClaim) => ixo.iid.v1beta1.LinkedClaim.fromPartial(item)),
         entityStatus,
-        context = [],
-        service = [],
-        linkedResource = [],
-        accordedRight = [],
-        linkedEntity = [],
-        linkedClaim = [],
-        verification = [],
-        relayerNode = did,
-        startDate = '',
-        endDate = '',
-      } = item
-      return {
-        typeUrl: '/ixo.entity.v1beta1.MsgCreateEntity',
-        value: ixo.entity.v1beta1.MsgCreateEntity.fromPartial({
-          entityType: entityType.toLowerCase(),
-          context: customMessages.iid.createAgentIidContext(context as [{ key: string; val: string }]),
-          verification: [
-            ...customMessages.iid.createIidVerificationMethods({
-              did,
-              pubkey: pubKey,
-              address: address,
-              controller: did,
-              type: keyType,
-            }),
-            ...verification,
-          ],
-          controller: [did],
-          ownerDid: did,
-          ownerAddress: address,
-          relayerNode: relayerNode,
-          service: service.map((item: Service) => ixo.iid.v1beta1.Service.fromPartial(item)),
-          linkedResource: linkedResource.map((item: LinkedResource) =>
-            ixo.iid.v1beta1.LinkedResource.fromPartial(item),
-          ),
-          accordedRight: accordedRight.map((item: AccordedRight) => ixo.iid.v1beta1.AccordedRight.fromPartial(item)),
-          linkedEntity: linkedEntity.map((item: LinkedEntity) => ixo.iid.v1beta1.LinkedEntity.fromPartial(item)),
-          linkedClaim: linkedClaim.map((item: LinkedClaim) => ixo.iid.v1beta1.LinkedClaim.fromPartial(item)),
-          entityStatus,
-          startDate: startDate ? utils.proto.toTimestamp(new Date(startDate)) : undefined,
-          endDate: endDate ? utils.proto.toTimestamp(new Date(endDate)) : undefined,
-        }),
-      }
-    })
-    const updatedFee = { ...fee, gas: new BigNumber(fee.gas).times(messages.length).toString() }
-    console.log('CreateEntity', 'messages', messages)
-    const response = await client.signAndBroadcast(address, messages, updatedFee)
-    return response
-  } catch (e) {
-    console.error('CreateEntity', e)
-    return undefined
-  }
+        startDate: startDate ? utils.proto.toTimestamp(new Date(startDate)) : undefined,
+        endDate: endDate ? utils.proto.toTimestamp(new Date(endDate)) : undefined,
+      }),
+    }
+  })
+  const updatedFee = { ...fee, gas: new BigNumber(fee.gas).times(messages.length).toString() }
+  console.log('CreateEntity', 'messages', messages)
+  const response = await client.signAndBroadcast(address, messages, updatedFee)
+  return response
 }
 
 // export const TransferEntity = async (entityDid: string): Promise<any> => {
