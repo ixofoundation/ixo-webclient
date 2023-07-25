@@ -9,10 +9,12 @@ import { Typography } from 'components/Typography'
 import useCurrentDao from 'hooks/currentDao'
 import { CurrentDao, DaoGroup } from 'redux/currentEntity/dao/currentDao.types'
 import { deviceWidth } from 'constants/device'
-import { truncateString } from 'utils/formatters'
+import { toTitleCase, truncateString } from 'utils/formatters'
 import { ReactComponent as CopyIcon } from 'assets/images/icon-copy.svg'
 import CopyToClipboard from 'react-copy-to-clipboard'
 import { successToast } from 'utils/toast'
+import { DAOGroupConfig } from 'types/protocol'
+import Tooltip from 'components/Tooltip/Tooltip'
 
 const StyledSlider = styled(Slider)`
   .slick-track {
@@ -107,62 +109,65 @@ const Groups: React.FC<Props> = ({ isFollowing, selectedGroups, selectDaoGroup }
     ],
   }
 
-  const renderGroupCard = (daoGroup: DaoGroup): JSX.Element => (
-    <FlexBox
-      mx={2}
-      aspectRatio={1}
-      direction='column'
-      alignItems='center'
-      justifyContent='center'
-      borderWidth={selectedGroups[daoGroup.coreAddress] ? '2px' : '1px'}
-      borderStyle='solid'
-      borderColor={selectedGroups[daoGroup.coreAddress] ? theme.ixoNewBlue : theme.ixoDarkBlue}
-      borderRadius='12px'
-      cursor='pointer'
-      transition='all .2s'
-      background={selectedGroups[daoGroup.coreAddress] && theme.ixoDarkBlue}
-      hover={{ borderWidth: '2px', borderColor: theme.ixoNewBlue }}
-      onClick={() => !dragging && selectDaoGroup(daoGroup.coreAddress)}
-    >
-      <Box width='90%' textAlign='center' mb={0.1}>
-        <Typography color='white' size='lg' weight='medium' overflowLines={1} style={{ width: '100%' }}>
-          {daoGroup.config.name}
-        </Typography>
-      </Box>
-      <Box>
-        <Typography color='light-blue' weight='medium' size='sm'>
-          {daoGroup.type} group
-        </Typography>
-      </Box>
-      <CopyToClipboard text={daoGroup.coreAddress} onCopy={() => successToast(null, `Copied to clipboard`)}>
-        <FlexBox mb={4} alignItems='center' gap={1} onClick={(e) => e.stopPropagation()}>
-          <Typography color='blue' weight='medium' size='sm' hover={{ underline: true }}>
-            {truncateString(daoGroup.coreAddress, 20, 'middle')}
+  const renderGroupCard = (daoGroup: DaoGroup): JSX.Element => {
+    const Icon = DAOGroupConfig[daoGroup.type]?.icon
+    return (
+      <FlexBox
+        mx={2}
+        aspectRatio={1}
+        direction='column'
+        alignItems='center'
+        justifyContent='center'
+        borderWidth={selectedGroups[daoGroup.coreAddress] ? '2px' : '1px'}
+        borderStyle='solid'
+        borderColor={selectedGroups[daoGroup.coreAddress] ? theme.ixoNewBlue : theme.ixoDarkBlue}
+        borderRadius='12px'
+        cursor='pointer'
+        transition='all .2s'
+        background={selectedGroups[daoGroup.coreAddress] && theme.ixoDarkBlue}
+        hover={{ borderWidth: '2px', borderColor: theme.ixoNewBlue }}
+        onClick={() => !dragging && selectDaoGroup(daoGroup.coreAddress)}
+      >
+        <Box width='90%' textAlign='center' mb={0.1}>
+          <Typography color='white' size='lg' weight='medium' overflowLines={1} style={{ width: '100%' }}>
+            {daoGroup.config.name}
           </Typography>
-          <SvgBox color={theme.ixoNewBlue} svgWidth={5} svgHeight={5}>
-            <CopyIcon />
+        </Box>
+        <Tooltip text={`${toTitleCase(daoGroup.type)} Governance`}>
+          <SvgBox svgWidth={5} svgHeight={5} color={theme.ixoNewBlue}>
+            {Icon && <Icon />}
           </SvgBox>
+        </Tooltip>
+        <CopyToClipboard text={daoGroup.coreAddress} onCopy={() => successToast(null, `Copied to clipboard`)}>
+          <FlexBox mb={4} alignItems='center' gap={1} onClick={(e) => e.stopPropagation()}>
+            <Typography color='blue' weight='medium' size='sm' hover={{ underline: true }}>
+              {truncateString(daoGroup.coreAddress, 20, 'middle')}
+            </Typography>
+            <SvgBox color={theme.ixoNewBlue} svgWidth={5} svgHeight={5}>
+              <CopyIcon />
+            </SvgBox>
+          </FlexBox>
+        </CopyToClipboard>
+        <FlexBox alignItems='center' gap={4} height='36px'>
+          <FlexBox ml={-2}>
+            {daoGroup.votingModule.members.slice(0, 4).map((member, index) => (
+              <Box key={index} width='24px'>
+                <Avatar size={32} url={undefined} />
+              </Box>
+            ))}
+          </FlexBox>
+          {daoGroup.votingModule.members.length > 4 && (
+            <Typography color='white' size='4xl'>
+              ⋯
+            </Typography>
+          )}
         </FlexBox>
-      </CopyToClipboard>
-      <FlexBox alignItems='center' gap={4} height='36px'>
-        <FlexBox ml={-2}>
-          {daoGroup.votingModule.members.slice(0, 4).map((member, index) => (
-            <Box key={index} width='24px'>
-              <Avatar size={32} url={undefined} />
-            </Box>
-          ))}
-        </FlexBox>
-        {daoGroup.votingModule.members.length > 4 && (
-          <Typography color='white' size='4xl'>
-            ⋯
-          </Typography>
-        )}
+        <Typography color='white' weight='medium' size='lg'>
+          {daoGroup.votingModule.members.length} member{daoGroup.votingModule.members.length > 1 && 's'}
+        </Typography>
       </FlexBox>
-      <Typography color='white' weight='medium' size='lg'>
-        {daoGroup.votingModule.members.length} member{daoGroup.votingModule.members.length > 1 && 's'}
-      </Typography>
-    </FlexBox>
-  )
+    )
+  }
 
   useEffect(() => {
     const daoGroupsArr = Object.values(daoGroups)

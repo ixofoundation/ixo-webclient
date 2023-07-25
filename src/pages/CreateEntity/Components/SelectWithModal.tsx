@@ -29,11 +29,12 @@ const Label = styled.label<{ filled?: boolean }>`
 `
 
 const StyledValue = styled(Typography)`
+  padding: 6px 10px;
   width: 100%;
   height: 100%;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
 `
 
 const SelectWrapper = styled.div<{ width: string; height: string }>`
@@ -86,7 +87,7 @@ const SelectWithModal: React.FC<Props> = ({
             </SvgBox>
           )}
         </Label>
-        <StyledValue size='xl' weight='bold'>
+        <StyledValue size='xl' weight='medium'>
           {value}
         </StyledValue>
       </SelectWrapper>

@@ -6,16 +6,27 @@ import { EntityAdditionalInfoForm, ClaimProfileForm } from '../../../Forms'
 import { PageWrapper } from './SetupMetadata.styles'
 import { TEntityMetadataModel } from 'types/protocol'
 import { RouteComponentProps, useHistory } from 'react-router-dom'
+import { selectAllClaimProtocols } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { useAppSelector } from 'redux/hooks'
 
 const SetupMetadata: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): JSX.Element => {
   const history = useHistory()
   const baseLink = match.path.split('/').slice(0, -1).join('/')
 
+  const claimProtocols = useAppSelector(selectAllClaimProtocols)
   const createEntityState = useCreateEntityState()
   const { entityType, startDate, endDate, updateProfile, updateStartEndDate } = createEntityState
   const profile: TEntityMetadataModel = createEntityState.profile as TEntityMetadataModel
 
-  const canSubmit = useMemo(() => !!profile && !!profile.type && !!profile.name && !!profile.description, [profile])
+  const claimNameFound = useMemo(
+    () => claimProtocols.some((entity) => entity.profile?.name === profile?.name),
+    [claimProtocols, profile?.name],
+  )
+
+  const canSubmit = useMemo(
+    () => !!profile && !!profile.type && !!profile.name && !!profile.description && !claimNameFound,
+    [profile, claimNameFound],
+  )
 
   const handlePrev = (): void => {
     history.push(`${baseLink}/process`)
@@ -46,6 +57,10 @@ const SetupMetadata: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }):
           setType={(type: string): void => handleUpdateProfile('type', type)}
           title={profile?.name || ''}
           setTitle={(name: string): void => handleUpdateProfile('name', name)}
+          description={profile?.description || ''}
+          error={{
+            title: profile?.name && claimNameFound ? 'Duplicated Name' : '',
+          }}
         />
       </Box>
       <Box className='d-flex flex-column justify-content-between' style={{ width: 400 }}>

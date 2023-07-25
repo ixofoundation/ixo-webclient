@@ -5,36 +5,38 @@ import { selectEntityThemeConfig } from 'redux/entitiesExplorer/entitiesExplorer
 import { useAppSelector } from 'redux/hooks'
 import { LoaderContainer, Pulse } from './Spinner.styles'
 
+const Container = styled.div<{ backgroundColor: string; scale: number; transparentBg?: boolean }>`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  transform: scale(${(props) => props.scale});
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 8;
+  width: 100%;
+  height: 100%;
+  background-color: ${(props): string =>
+    props.transparentBg ? '' : props.backgroundColor ?? props.theme.ixoDarkestBlue};
+  flex: 1 1 auto;
+  p {
+    color: ${(props) => props.theme.ixoNewBlue};
+    margin-top: 10px;
+  }
+`
+
 export interface Props {
   info?: string
   transparentBg?: boolean
   scale?: number
 }
 
-export const Spinner: React.SFC<Props> = ({ info, transparentBg, scale }) => {
+export const Spinner: React.SFC<Props> = ({ info, transparentBg, scale = 1 }) => {
   const theme = useAppSelector(selectEntityThemeConfig)
 
-  const Container = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    transform: scale(${scale});
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 8;
-    width: 100%;
-    height: 100%;
-    background-color: ${(props): string => (transparentBg ? '' : theme?.backgroundColor ?? props.theme.ixoDarkestBlue)};
-    flex: 1 1 auto;
-    p {
-      color: ${(props) => props.theme.ixoNewBlue};
-      margin-top: 10px;
-    }
-  `
   return (
-    <Container>
+    <Container transparentBg={transparentBg} scale={scale} backgroundColor={theme?.backgroundColor}>
       <LoaderContainer>
         <Pulse />1
         {/* <LoaderWrapper>

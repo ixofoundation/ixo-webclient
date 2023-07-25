@@ -4,7 +4,7 @@ import countryData from 'data/maps/countryLatLng.json'
 import { Agent, FundSource, LiquiditySource, NodeType } from 'types/entities'
 import { AgentRole } from 'redux/account/account.types'
 import { PageContent } from 'redux/selectedEntity/selectedEntity.types'
-import { ApiListedEntityData } from 'api/blocksync/types/entities'
+import { ApiListedEntityData, TEntityModel } from 'api/blocksync/types/entities'
 import { EntityLinkedResourceConfig, TEntityDDOTagModel, TEntityServiceModel } from 'types/protocol'
 import {
   LinkedClaim,
@@ -401,4 +401,13 @@ export const LinkedResourceProofGenerator = (
     }
   }
   return (uploadResult as CellnodeWeb3Resource).cid
+}
+
+export function findDAObyDelegateAccount(daos: TEntityModel[], addr: string): TEntityModel[] {
+  return daos.filter((dao) => {
+    const { linkedEntity } = dao
+    return linkedEntity.some(
+      (item) => item.id.includes(addr) && item.type === 'IndividualAccount' && item.relationship === 'delegate',
+    )
+  })
 }

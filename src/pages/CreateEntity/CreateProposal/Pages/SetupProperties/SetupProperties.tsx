@@ -29,7 +29,6 @@ const SetupProperties: React.FC = (): JSX.Element => {
     updateClaim,
     updateAccordedRight,
     updateLinkedEntity,
-    validateRequiredProperties,
   } = useCreateEntityState()
 
   const handleBack = () => {
@@ -73,7 +72,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
         <Button variant='secondary' onClick={handleBack}>
           Back
         </Button>
-        <Button variant='primary' disabled={!validateRequiredProperties} onClick={handleNext}>
+        <Button variant='primary' onClick={handleNext}>
           Continue
         </Button>
       </FlexBox>

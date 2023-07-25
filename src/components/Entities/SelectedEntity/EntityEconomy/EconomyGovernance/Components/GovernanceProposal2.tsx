@@ -164,7 +164,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
   const proposalConfig: ProposalConfig | undefined = useMemo(() => daoGroup?.proposalModule.proposalConfig, [daoGroup])
 
   const proposalActions: TProposalActionModel[] = useMemo(
-    () => proposal.msgs.map(proposalMsgToActionConfig),
+    () => proposal.msgs.map(proposalMsgToActionConfig).filter(Boolean),
     [proposal],
   )
 
@@ -207,8 +207,8 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
     )
     daoProposalSingleClient
       .execute({ proposalId }, fee, undefined, depositInfo ? [depositInfo] : undefined)
-      .then(({ transactionHash, logs }) => {
-        console.log('handleExecuteProposal', transactionHash, logs)
+      .then(({ transactionHash, logs, events, gasUsed, gasWanted, height }) => {
+        console.log('handleExecuteProposal', { transactionHash, logs, events, gasUsed, gasWanted, height })
         if (transactionHash) {
           onUpdate && onUpdate()
           Toast.successToast(null, 'Successfully executed proposal')

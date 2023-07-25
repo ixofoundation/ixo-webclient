@@ -12,7 +12,7 @@
   "UI": {
     "logo": "ReFi DAO_Logo_White",
     "explorer": {
-      "defaultView": "project"
+      "defaultView": "dao"
     },
     "head": {
       "title": "ReFi DAO",
@@ -21,7 +21,7 @@
     "topMenu": [
       {
         "item": "create",
-        "visible": true
+        "visible": false
       }
     ],
     "header": {

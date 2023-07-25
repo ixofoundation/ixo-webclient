@@ -11,18 +11,23 @@ interface Props {
 const AddQuestionBar: React.FC<Props> = ({ addQuestion }) => {
   return (
     <QuestionBarWrapper>
-      {Object.values(questionTypeMap).map((questionType): JSX.Element => {
-        return (
-          <Tooltip text={`Add ${questionType.title}`} key={questionType.title}>
-            <button key={questionType.controlType} onClick={(): void => addQuestion(questionType.controlType)}>
-              {React.createElement(questionType.icon, {
-                fill: '#C3D0E5',
-                width: '28',
-              })}
-            </button>
-          </Tooltip>
+      {Object.values(questionTypeMap)
+        .filter(
+          (questionType) =>
+            questionType.controlType === ControlType.Text || questionType.controlType === ControlType.TextArea,
         )
-      })}
+        .map((questionType): JSX.Element => {
+          return (
+            <Tooltip text={`Add ${questionType.title}`} key={questionType.title}>
+              <button key={questionType.controlType} onClick={(): void => addQuestion(questionType.controlType)}>
+                {React.createElement(questionType.icon, {
+                  fill: '#C3D0E5',
+                  width: '28',
+                })}
+              </button>
+            </Tooltip>
+          )
+        })}
     </QuestionBarWrapper>
   )
 }

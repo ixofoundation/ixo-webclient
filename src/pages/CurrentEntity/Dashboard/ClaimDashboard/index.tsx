@@ -24,7 +24,7 @@ const ClaimDashboard: React.FC = (): JSX.Element => {
     {
       url: `/explore`,
       icon: '',
-      sdg: 'Explore DAOs',
+      sdg: 'Explore Protocols',
       tooltip: '',
     },
     {

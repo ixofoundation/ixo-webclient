@@ -68,6 +68,11 @@ const AddActionModal: React.FC<Props> = ({ open, actionsToExclude = [], onClose,
             .map((item) => {
               const Icon = item.icon
               const disabled = item.disabled || actionsToExclude.some(({ text }) => text === item.text)
+              const hidden = item.hidden
+
+              if (hidden) {
+                return undefined
+              }
 
               return (
                 <GridItem key={item.text}>
@@ -81,7 +86,8 @@ const AddActionModal: React.FC<Props> = ({ open, actionsToExclude = [], onClose,
                   />
                 </GridItem>
               )
-            })}
+            })
+            .filter(Boolean)}
         </GridContainer>
         <FlexBox width='100%'>
           <Button variant='primary' disabled={!selectedAction} onClick={handleContinue} style={{ width: '100%' }}>

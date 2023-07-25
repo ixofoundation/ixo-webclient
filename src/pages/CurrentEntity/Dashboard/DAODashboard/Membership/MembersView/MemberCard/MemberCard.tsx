@@ -16,7 +16,6 @@ import { contracts } from '@ixo/impactxclient-sdk'
 import { convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
 import { useAccount } from 'hooks/account'
 import CurrencyFormat from 'react-currency-format'
-import { PROFILES } from '__mocks__/profile'
 
 const Wrapper = styled(FlexBox)<{ focused: boolean }>`
   ${({ theme, focused }) => focused && `border-color: ${theme.ixoLightBlue};`}
@@ -79,8 +78,8 @@ const MemberCard: React.FC<Props> = ({ member, selected, onSelectMember }): JSX.
   const { selectedGroupsArr } = useCurrentDao()
   const { type, daoGroup, proposals, votes, votingModuleAddress } = useCurrentDaoGroup(selectedGroupsArr[0].coreAddress)
   const { addr, role, status } = member
-  const avatar = PROFILES[addr] ? PROFILES[addr].logo : member.avatar
-  const name = PROFILES[addr] ? PROFILES[addr].name : member.name
+  const avatar = member.avatar
+  const name = member.name
   const [detailView, setDetailView] = useState(false)
   const [userStakings, setUserStakings] = useState('0')
 

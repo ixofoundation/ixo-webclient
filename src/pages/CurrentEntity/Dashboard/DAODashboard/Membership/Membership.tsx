@@ -6,14 +6,34 @@ import useCurrentDao from 'hooks/currentDao'
 import { Groups } from '../Components'
 import { Typography } from 'components/Typography'
 import { Member } from 'types/dao'
+import { useAppSelector } from 'redux/hooks'
+import { selectEntitiesByType } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { findDAObyDelegateAccount } from 'utils/entities'
+import useCurrentEntity from 'hooks/currentEntity'
+import { IMPACTS_DAO_ID } from '__mocks__/profile'
 
 const Membership: React.FC = (): JSX.Element | null => {
+  const { id: entityId } = useCurrentEntity()
   const { selectedGroups, selectDaoGroup } = useCurrentDao()
+  const daos = useAppSelector(selectEntitiesByType('dao'))
   const selectedGroupAddresses: string[] = Object.keys(selectedGroups)
   const numOfSelectedGroups = selectedGroupAddresses.length
   const members: Member[] = useMemo(
-    () => Object.values(selectedGroups).reduce((acc: Member[], cur) => acc.concat(cur.votingModule.members), []),
-    [selectedGroups],
+    () =>
+      Object.values(selectedGroups)
+        .reduce((acc: Member[], cur) => acc.concat(cur.votingModule.members), [])
+        .map((member: Member) => {
+          if (entityId === IMPACTS_DAO_ID) {
+            // TODO: find by linkedEntity type === "MemberDAO"
+            const subDAO = findDAObyDelegateAccount(daos, member.addr)[0]
+            const avatar = subDAO?.profile?.logo || ''
+            const name = subDAO?.profile?.name || ''
+            return { ...member, avatar, name }
+          } else {
+            return member
+          }
+        }),
+    [selectedGroups, entityId, daos],
   )
 
   const [selectedMembers, setSelectedMembers] = useState<{ [key: string]: boolean }>({})
@@ -68,7 +88,7 @@ const Membership: React.FC = (): JSX.Element | null => {
         <FlexBox direction='column' gap={7.5} width='100%'>
           <FlexBox gap={6} alignItems='center'>
             <Typography variant='secondary' color='white' size='5xl' transform='capitalize'>
-              {numOfSelectedGroups === 1 && `${Object.values(selectedGroups)[0]?.type} group`}
+              {numOfSelectedGroups === 1 && Object.values(selectedGroups)[0]?.config.name}
               {numOfSelectedGroups > 1 && `${numOfSelectedGroups} selected groups`}
             </Typography>
             <Toolbar
