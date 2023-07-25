@@ -9,9 +9,10 @@ import { AddActionModal } from 'components/Modals'
 interface Props {
   actions: TProposalActionModel[]
   setActions: (actions: TProposalActionModel[]) => void
+  constant?: boolean
 }
 
-const SetupActionsForm: React.FC<Props> = ({ actions, setActions }): JSX.Element => {
+const SetupActionsForm: React.FC<Props> = ({ actions, setActions, constant = false }): JSX.Element => {
   const [openAddActionModal, setOpenAddActionModal] = useState(false)
   const [selectedAction, setSelectedAction] = useState<TProposalActionModel | undefined>()
   const SetupModal = useMemo(() => {
@@ -47,11 +48,11 @@ const SetupActionsForm: React.FC<Props> = ({ actions, setActions }): JSX.Element
               set={item.data}
               disabled={disabled}
               handleClick={() => setSelectedAction(item)}
-              handleRemove={() => handleRemoveAction(item.id)}
+              handleRemove={() => !constant && handleRemoveAction(item.id)}
             />
           )
         })}
-        <PropertyBox icon={<PlusIcon />} noData handleClick={(): void => setOpenAddActionModal(true)} />
+        {!constant && <PropertyBox icon={<PlusIcon />} noData handleClick={(): void => setOpenAddActionModal(true)} />}
       </FlexBox>
 
       <AddActionModal

@@ -25,7 +25,7 @@ const EditEntity: React.FC = () => {
       const { transactionHash, code, rawLog } = await ExecuteEditEntity()
       if (transactionHash && code === 0) {
         successToast('Updating', 'Successfully Updated')
-        getEntityByDid(currentEntity.id)
+        getEntityByDid(currentEntity.id, true)
       } else {
         throw new Error(rawLog)
       }

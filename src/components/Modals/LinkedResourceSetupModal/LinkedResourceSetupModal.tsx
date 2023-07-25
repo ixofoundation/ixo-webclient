@@ -78,7 +78,7 @@ const LinkedResourceSetupModal: React.FC<Props> = ({ linkedResource, open, onClo
   })
 
   const handleFormDataChange = (key: string, value: string): void => {
-    setFormData((pre) => ({ ...pre, [key]: value }))
+    onChange && setFormData((pre) => ({ ...pre, [key]: value }))
   }
 
   const handleContinue = (): void => {
@@ -136,7 +136,7 @@ const LinkedResourceSetupModal: React.FC<Props> = ({ linkedResource, open, onClo
                   <Typography color='blue' weight='semi-bold' size={'2xl'}>
                     Drop a file or
                   </Typography>
-                  <Button onClick={openDropZone}>Upload</Button>
+                  <Button onClick={onChange && openDropZone}>Upload</Button>
                   <Typography size='sm' weight='medium' color='grey700'>
                     Media file, max size 5MB
                   </Typography>
@@ -148,7 +148,7 @@ const LinkedResourceSetupModal: React.FC<Props> = ({ linkedResource, open, onClo
                   justifyContent='center'
                   alignItems='center'
                   cursor='pointer'
-                  onClick={openDropZone}
+                  onClick={onChange && openDropZone}
                   title='Click to replace'
                 >
                   {/* <iframe
