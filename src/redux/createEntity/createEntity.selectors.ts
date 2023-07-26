@@ -78,6 +78,12 @@ export const selectCreateEntityClaim = createSelector(
   (createEntity: TCreateEntityState): { [id: string]: TEntityClaimModel } => createEntity.claim ?? {},
 )
 
+export const selectCreateEntityHeadlineClaim = createSelector(
+  selectCreateEntity,
+  (createEntity: TCreateEntityState): TEntityClaimModel | undefined =>
+    Object.values(createEntity.claim ?? {}).find((v) => v.isHeadlineMetric),
+)
+
 export const selectCreateEntityLinkedResource = createSelector(
   selectCreateEntity,
   (createEntity: TCreateEntityState): { [id: string]: LinkedResource | undefined } => createEntity.linkedResource ?? {},

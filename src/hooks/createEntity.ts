@@ -64,6 +64,7 @@ import {
   selectCreateEntityClaimQuestions,
   selectCreateEntityStartDate,
   selectCreateEntityEndDate,
+  selectCreateEntityHeadlineClaim,
 } from 'redux/createEntity/createEntity.selectors'
 import {
   CreateEntityStrategyMap,
@@ -127,6 +128,7 @@ interface TCreateEntityStateHookRes {
   page: TEntityPageModel
   service: TEntityServiceModel[]
   claim: { [id: string]: TEntityClaimModel }
+  headlineMetricClaim: TEntityClaimModel | undefined
   linkedResource: { [id: string]: LinkedResource | undefined }
   accordedRight: { [key: string]: AccordedRight }
   linkedEntity: { [key: string]: LinkedEntity }
@@ -183,6 +185,7 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
   const page: TEntityPageModel = useAppSelector(selectCreateEntityPage)
   const service: TEntityServiceModel[] = useAppSelector(selectCreateEntityService)
   const claim: { [id: string]: TEntityClaimModel } = useAppSelector(selectCreateEntityClaim)
+  const headlineMetricClaim: TEntityClaimModel | undefined = useAppSelector(selectCreateEntityHeadlineClaim)
   const linkedResource: {
     [id: string]: LinkedResource | undefined
   } = useAppSelector(selectCreateEntityLinkedResource)
@@ -317,6 +320,7 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
     page,
     service,
     claim,
+    headlineMetricClaim,
     linkedResource,
     accordedRight,
     linkedEntity,
