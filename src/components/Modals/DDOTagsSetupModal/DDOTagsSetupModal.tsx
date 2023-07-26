@@ -25,6 +25,9 @@ const DDOTagsSetupModal: React.FC<Props> = ({ ddoTags, entityType, open, onClose
 
   useEffect(() => {
     setFormData(ddoTags ?? [])
+    return () => {
+      setFormData([])
+    }
   }, [ddoTags])
 
   const handleUpdateDDOTags = (): void => {

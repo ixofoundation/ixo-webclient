@@ -61,7 +61,7 @@ const ReviewOracle: React.FC = (): JSX.Element => {
     }
 
     // Create DAO entity
-    const entityDid = await CreateEntityBase(entityType, protocolDid, {
+    const { did: entityDid } = await CreateEntityBase(entityType, protocolDid, {
       service,
       linkedResource,
       accordedRight,

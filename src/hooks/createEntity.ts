@@ -386,9 +386,10 @@ interface TCreateEntityHookRes {
       verification?: Verification[]
       relayerNode?: string
     },
-  ) => Promise<string>
+  ) => Promise<{ did?: string; adminAccount?: string }>
   CreateDAOCoreByGroupId: (daoGroup: TDAOGroupModel) => Promise<string>
   AddLinkedEntity: (did: string, linkedEntity: LinkedEntity) => Promise<DeliverTxResponse | undefined>
+  UploadDataToService: (data: string) => Promise<CellnodePublicResource | CellnodeWeb3Resource>
 }
 
 export function useCreateEntity(): TCreateEntityHookRes {
@@ -895,7 +896,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
       verification?: Verification[]
       relayerNode?: string
     },
-  ): Promise<string> => {
+  ): Promise<{ did?: string; adminAccount?: string }> => {
     try {
       const { service, linkedResource, accordedRight, linkedEntity, linkedClaim, verification, relayerNode } = payload
       const { startDate, endDate } = profile
@@ -915,12 +916,19 @@ export function useCreateEntity(): TCreateEntityHookRes {
           endDate,
         },
       ])
-      const did = utils.common.getValueFromEvents(res!, 'wasm', 'token_id')
-      console.log('CreateEntityBase', { did }, res)
-      return did
+      const did = utils.common.getValueFromEvents(res, 'wasm', 'token_id')
+      const adminAccount = utils.common.getValueFromEvents(
+        res,
+        'ixo.entity.v1beta1.EntityCreatedEvent',
+        'entity',
+        (s) => s.accounts.find((a: any) => a.name === 'admin').address,
+      )
+
+      console.log('CreateEntityBase', { did, adminAccount }, res)
+      return { did, adminAccount }
     } catch (e) {
       console.error('CreateEntityBase', e)
-      return ''
+      return {}
     }
   }
 
@@ -1120,5 +1128,6 @@ export function useCreateEntity(): TCreateEntityHookRes {
     CreateEntityBase,
     CreateDAOCoreByGroupId,
     AddLinkedEntity,
+    UploadDataToService,
   }
 }
