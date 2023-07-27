@@ -11,7 +11,7 @@ const HideArrowCss = css`
 const Wrapper = styled.div`
   width: 100%;
   position: relative;
-  background: white;
+  // background: white;
 `
 const Select = styled.select<{ color: string; hasArrow: boolean }>`
   border: 1px solid ${(props): string => props.theme.ixoNewBlue};
@@ -30,6 +30,10 @@ const Select = styled.select<{ color: string; hasArrow: boolean }>`
 
   &:disabled {
     border-color: ${(props) => props.theme.ixoGrey500};
+  }
+
+  &:focus-visible {
+    outline: none;
   }
 `
 const SelectLabel = styled.label`
