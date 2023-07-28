@@ -31,6 +31,7 @@ const ReviewDAO: React.FC = (): JSX.Element => {
     linkedEntity: linkedEntityData,
     daoGroups,
     daoController,
+    linkedResource: linkedResourceData,
     clearEntity,
     gotoStep,
     gotoStepByNo,
@@ -67,6 +68,7 @@ const ReviewDAO: React.FC = (): JSX.Element => {
     linkedEntity = Object.values(linkedEntityData)
 
     // LinkedResource
+    linkedResource = linkedResource.concat(Object.values(linkedResourceData))
     linkedResource = linkedResource.concat(await UploadLinkedResource())
 
     // Verification

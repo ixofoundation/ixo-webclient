@@ -27,6 +27,7 @@ const ReviewProject: React.FC = (): JSX.Element => {
     entityType,
     service: serviceData,
     linkedEntity: linkedEntityData,
+    linkedResource: linkedResourceData,
     headlineMetricClaim,
     endDate,
     clearEntity,
@@ -56,6 +57,7 @@ const ReviewProject: React.FC = (): JSX.Element => {
     linkedEntity = Object.values(linkedEntityData)
 
     // LinkedResource
+    linkedResource = linkedResource.concat(Object.values(linkedResourceData))
     linkedResource = linkedResource.concat(await UploadLinkedResource())
 
     // LinkedClaim

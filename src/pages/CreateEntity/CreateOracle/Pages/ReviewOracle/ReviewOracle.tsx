@@ -23,7 +23,14 @@ const ReviewOracle: React.FC = (): JSX.Element => {
   const history = useHistory()
   const createEntityState = useCreateEntityState()
   const profile = createEntityState.profile
-  const { entityType, service: serviceData, linkedEntity: linkedEntityData, gotoStep, gotoStepByNo } = createEntityState
+  const {
+    entityType,
+    service: serviceData,
+    linkedEntity: linkedEntityData,
+    linkedResource: linkedResourceData,
+    gotoStep,
+    gotoStepByNo,
+  } = createEntityState
   const { UploadLinkedResource, UploadLinkedClaim, CreateProtocol, CreateEntityBase } = useCreateEntity()
   const [submitting, setSubmitting] = useState(false)
   const { getQuery } = useQuery()
@@ -47,6 +54,7 @@ const ReviewOracle: React.FC = (): JSX.Element => {
     linkedEntity = Object.values(linkedEntityData)
 
     // LinkedResource
+    linkedResource = linkedResource.concat(Object.values(linkedResourceData))
     linkedResource = linkedResource.concat(await UploadLinkedResource())
 
     // LinkedClaim

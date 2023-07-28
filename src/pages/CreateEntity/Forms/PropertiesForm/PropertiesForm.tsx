@@ -35,7 +35,7 @@ interface Props {
   ddoTags?: TEntityDDOTagModel[]
   page: TEntityPageModel
   service: TEntityServiceModel[]
-  linkedResource: { [id: string]: LinkedResource | undefined }
+  linkedResource: { [id: string]: LinkedResource }
   claim: { [id: string]: TEntityClaimModel }
   accordedRight: { [key: string]: AccordedRight }
   linkedEntity: { [key: string]: LinkedEntity }
@@ -45,7 +45,7 @@ interface Props {
   updateDDOTags?: (ddoTags: TEntityDDOTagModel[]) => void
   updatePage: (page: TEntityPageModel) => void
   updateService: (service: TEntityServiceModel[]) => void
-  updateLinkedResource: (linkedResource: { [id: string]: LinkedResource | undefined }) => void
+  updateLinkedResource: (linkedResource: { [id: string]: LinkedResource }) => void
   updateClaim: (claim: { [id: string]: TEntityClaimModel }) => void
   updateAccordedRight: (accordedRight: { [id: string]: AccordedRight }) => void
   updateLinkedEntity: (linkedEntity: { [id: string]: LinkedEntity }) => void

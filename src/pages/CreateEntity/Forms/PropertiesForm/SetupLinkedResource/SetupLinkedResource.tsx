@@ -7,6 +7,7 @@ import { EntityLinkedResourceConfig } from 'types/protocol'
 import { v4 as uuidv4 } from 'uuid'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
 import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
+import { omitKey } from 'utils/objects'
 
 const initialLinkedResource = {
   id: '',
@@ -21,8 +22,8 @@ const initialLinkedResource = {
 
 interface Props {
   hidden: boolean
-  linkedResource: { [id: string]: LinkedResource | undefined }
-  updateLinkedResource: (linkedResource: { [id: string]: LinkedResource | undefined }) => void
+  linkedResource: { [id: string]: LinkedResource }
+  updateLinkedResource: (linkedResource: { [id: string]: LinkedResource }) => void
 }
 
 const SetupLinkedResource: React.FC<Props> = ({ hidden, linkedResource, updateLinkedResource }): JSX.Element => {
@@ -38,8 +39,8 @@ const SetupLinkedResource: React.FC<Props> = ({ hidden, linkedResource, updateLi
     updateLinkedResource({ ...linkedResource, [id]: data })
   }
   const handleRemoveLinkedResource = (id: string): void => {
-    updateLinkedResource({ ...linkedResource, [id]: undefined })
-    // updateLinkedResource(omitKey({ ...linkedResource }, id))
+    // updateLinkedResource({ ...linkedResource, [id]: undefined })
+    updateLinkedResource(omitKey({ ...linkedResource }, id))
   }
 
   return (

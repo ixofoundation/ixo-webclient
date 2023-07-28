@@ -48,7 +48,7 @@ const ReviewProposal: React.FC = () => {
     proposal,
     service: serviceData,
     linkedEntity: linkedEntityData,
-    linkedResource,
+    linkedResource: linkedResourceData,
     clearEntity,
   } = createEntityState
   const profile = createEntityState.profile
@@ -91,7 +91,7 @@ const ReviewProposal: React.FC = () => {
     }
     return ProposalActionConfig[selectedAction.group].items[selectedAction.text].setupModal
   }, [selectedAction])
-  const [selectedLinkedResource, setSelectedLinkedResource] = useState<LinkedResource | undefined>()
+  const [selectedLinkedResource, setSelectedLinkedResource] = useState<LinkedResource>()
   const [submitting, setSubmitting] = useState(false)
   const votingPeriod = useMemo(
     () =>
@@ -255,6 +255,7 @@ const ReviewProposal: React.FC = () => {
     linkedEntity = Object.values(linkedEntityData)
 
     // LinkedResource
+    linkedResource = linkedResource.concat(Object.values(linkedResourceData))
     linkedResource = linkedResource.concat(await UploadLinkedResource())
 
     // LinkedClaim
@@ -373,7 +374,7 @@ const ReviewProposal: React.FC = () => {
           <FlexBox direction='column' flexBasis='50%' gap={1}>
             <Typography size='sm'>Linked Resources</Typography>
             <FlexBox gap={3}>
-              {Object.values(linkedResource)
+              {Object.values(linkedResourceData)
                 .filter((item) => !!item)
                 .map((item: any) => {
                   const { id, type } = item

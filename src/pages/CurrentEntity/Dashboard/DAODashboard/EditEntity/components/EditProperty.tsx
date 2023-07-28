@@ -32,8 +32,8 @@ const EditProperty: React.FC = (): JSX.Element => {
     setEditedField('service', service)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-  const updateLinkedResource = useCallback((linkedResource: { [id: string]: LinkedResource | undefined }) => {
-    setEditedField('linkedResource', linkedResource, true)
+  const updateLinkedResource = useCallback((linkedResource: { [id: string]: LinkedResource }) => {
+    setEditedField('linkedResource', Object.values(linkedResource))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   const updateClaim = useCallback((claim: { [id: string]: TEntityClaimModel }) => {
