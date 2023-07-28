@@ -1,15 +1,16 @@
 import { FlexBox } from 'components/App/App.styles'
+import { DashboardThemeContext } from 'components/Dashboard/Dashboard'
 import { Typography } from 'components/Typography'
 import { TTypographyColor, TTypographySize, TTypographyVariant } from 'components/Typography/Typography'
-import React from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
 
-const Check = styled.span<{ checked: boolean }>`
+const Check = styled.span<{ checked: boolean; isDark: boolean }>`
   position: relative;
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  background: ${(props): string => props.theme.ixoGrey500};
+  background: ${(props): string => (props.isDark ? props.theme.ixoDarkBlue : props.theme.ixoGrey500)};
 
   &::after {
     content: ' ';
@@ -44,6 +45,8 @@ const CheckBox: React.FC<Props> = ({
   handleChange,
   ...rest
 }): JSX.Element => {
+  const { isDark } = useContext(DashboardThemeContext)
+
   return (
     <FlexBox
       cursor='pointer'
@@ -51,9 +54,10 @@ const CheckBox: React.FC<Props> = ({
       gap={2.5}
       onClick={(): void => handleChange && handleChange(!value)}
       {...rest}
+      color={isDark ? 'white' : 'black'}
     >
-      <Check checked={value} />
-      <Typography variant={textVariant} size={textSize} color={textColor}>
+      <Check checked={value} isDark={isDark} />
+      <Typography variant={textVariant} size={textSize}>
         {label}
       </Typography>
     </FlexBox>

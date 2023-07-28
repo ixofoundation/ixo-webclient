@@ -38,14 +38,13 @@ const data = [
 ]
 
 interface Props {
-  account: { address: string; name: string; network: string; type: string; balance: string } | undefined
+  availableValue: number
+  stakedValue: number
 }
 
-const BalanceCard: React.FC<Props> = ({ account }) => {
+const BalanceCard: React.FC<Props> = ({ availableValue = 0, stakedValue = 0 }) => {
   const theme: any = useTheme()
-  const totalValue = 0
-  const availableValue = 0
-  const stakedValue = 0
+  const totalValue = availableValue + stakedValue
 
   return (
     <FlexBox direction='column' gap={4} p={8} background='#012D41' borderRadius='12px' color={theme.ixoWhite}>
@@ -94,7 +93,7 @@ const BalanceCard: React.FC<Props> = ({ account }) => {
         alignItems='center'
         color={theme.ixoDarkBlue}
       >
-        {account ? (
+        {totalValue > 0 ? (
           <ResponsiveContainer width='100%' height='100%'>
             <LineChart data={data}>
               <Line dataKey='pv' stroke='#107591' dot={false} strokeWidth={2} />

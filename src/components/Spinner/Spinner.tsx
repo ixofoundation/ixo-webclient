@@ -38,7 +38,7 @@ export const Spinner: React.SFC<Props> = ({ info, transparentBg, scale = 1 }) =>
   return (
     <Container transparentBg={transparentBg} scale={scale} backgroundColor={theme?.backgroundColor}>
       <LoaderContainer>
-        <Pulse />1
+        <Pulse />
         {/* <LoaderWrapper>
           <IxoIcon className="icon-ixo-x" />
         </LoaderWrapper> */}
