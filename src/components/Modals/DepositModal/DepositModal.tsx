@@ -218,7 +218,11 @@ const DepositModal: React.FunctionComponent<Props> = ({
                         options={tokenOptions}
                         value={selectedTokenDenom}
                         onChange={(e) => setSelectedTokenDenom(e.target.value)}
-                        style={{ background: 'none', border: 'none', color: 'white' }}
+                        style={{
+                          background: 'none',
+                          border: 'none',
+                          color: 'white',
+                        }}
                       />
                     </Typography>
                   </Card>

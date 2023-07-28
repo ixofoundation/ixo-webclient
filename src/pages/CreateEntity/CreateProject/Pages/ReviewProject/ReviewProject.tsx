@@ -27,6 +27,7 @@ const ReviewProject: React.FC = (): JSX.Element => {
     entityType,
     service: serviceData,
     linkedEntity: linkedEntityData,
+    headlineMetricClaim,
     endDate,
     clearEntity,
     gotoStep,
@@ -69,7 +70,7 @@ const ReviewProject: React.FC = (): JSX.Element => {
     }
 
     // Create DAO entity
-    const entityDid = await CreateEntityBase(entityType, protocolDid, {
+    const { did: entityDid } = await CreateEntityBase(entityType, protocolDid, {
       service,
       linkedResource,
       accordedRight,
@@ -94,6 +95,7 @@ const ReviewProject: React.FC = (): JSX.Element => {
         logo={profile?.logo ?? ''}
         name={profile?.name ?? ''}
         endDate={endDate}
+        maxSubmission={headlineMetricClaim?.submissions?.maximum ?? 0}
       />
       <FlexBox direction='column' justifyContent='space-between' width='100%' style={{ flex: 1 }}>
         {!success && (

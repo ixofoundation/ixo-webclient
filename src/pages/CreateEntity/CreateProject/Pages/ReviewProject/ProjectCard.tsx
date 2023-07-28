@@ -9,9 +9,10 @@ interface Props {
   name: string
   endDate: string
   logo: string
+  maxSubmission: number
 }
 
-const ProjectCard: React.FC<Props> = ({ image, name, endDate, logo }): JSX.Element => {
+const ProjectCard: React.FC<Props> = ({ image, name, endDate, logo, maxSubmission }): JSX.Element => {
   const theme: any = useTheme()
 
   return (
@@ -43,7 +44,7 @@ const ProjectCard: React.FC<Props> = ({ image, name, endDate, logo }): JSX.Eleme
 
         <FlexBox direction='column' width='100%' gap={1}>
           {/* TODO: 26px */}
-          <Typography size='3xl'>0/200</Typography>
+          <Typography size='3xl'>0/{maxSubmission}</Typography>
         </FlexBox>
 
         <FlexBox width='100%' justifyContent='space-between' alignItems='center'>

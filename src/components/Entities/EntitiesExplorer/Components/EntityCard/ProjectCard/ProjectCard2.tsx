@@ -22,18 +22,21 @@ import flagged from 'assets/images/flagged.svg'
 import { useAppSelector } from 'redux/hooks'
 import { selectEntityPrimaryColor } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { requireCheckDefault } from 'utils/images'
-import { TEntityDDOTagModel, TEntityProfileModel } from 'types/protocol'
+import { TEntityClaimModel, TEntityDDOTagModel, TEntityProfileModel } from 'types/protocol'
 
 interface Props {
   id: string
   profile: TEntityProfileModel
   tags: TEntityDDOTagModel[]
+  claim?: { [id: string]: TEntityClaimModel }
 }
 
-const ProjectCard: React.FunctionComponent<Props> = ({ id, profile, tags }) => {
+const ProjectCard: React.FunctionComponent<Props> = ({ id, profile, tags, claim = {} }) => {
   const sdgs = tags ? tags.find((item) => item && item.category === 'SDG' && Array.isArray(item.tags))?.tags ?? [] : []
   const primaryColor = useAppSelector(selectEntityPrimaryColor)
   // const submittedCount = pendingClaimsCount + successfulClaimsCount + rejectedClaimsCount + disputedClaimsCount
+  const headlineMetric: TEntityClaimModel | undefined = Object.values(claim).find((v) => v.isHeadlineMetric)
+  const maxSubmissions = headlineMetric?.submissions?.maximum ?? 0
 
   return (
     <CardContainer>
@@ -87,7 +90,7 @@ const ProjectCard: React.FunctionComponent<Props> = ({ id, profile, tags }) => {
           <ProgressBar total={0} pending={0} approved={0} rejected={0} disputed={0} />
           <Progress>
             <ProgressSuccessful>{thousandSeparator(0, ',')}</ProgressSuccessful>
-            <ProgressRequired>/{thousandSeparator(0, ',')}</ProgressRequired>
+            <ProgressRequired>/{thousandSeparator(maxSubmissions, ',')}</ProgressRequired>
           </Progress>
           <Logo src={profile?.logo} />
           <StatisticLabel>{'Impact Action'}</StatisticLabel>
