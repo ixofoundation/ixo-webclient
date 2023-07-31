@@ -1,7 +1,7 @@
 import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { NATIVE_DECIMAL } from 'constants/chains'
-import { useCurrentDaoGroup } from 'hooks/currentDao'
+import { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
 import { Dropdown, NumberCounter, Switch } from 'pages/CreateEntity/Components'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
@@ -50,7 +50,7 @@ interface Props {
 
 const SetupUpdateVotingConfigModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
   const { coreAddress } = useParams<{ coreAddress: string }>()
-  const { daoGroup } = useCurrentDaoGroup(coreAddress)
+  const { daoGroup } = useCurrentEntityDAOGroup(coreAddress)
   const proposalConfig = daoGroup?.proposalModule.proposalConfig
   const [formData, setFormData] = useState<UpdateProposalConfigData>(initialProposalConfigState)
 

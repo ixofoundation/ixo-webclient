@@ -2,10 +2,10 @@ import { gql, useQuery } from '@apollo/client'
 import { MarketingInfoResponse, TokenInfoResponse } from '@ixo/impactxclient-sdk/types/codegen/Cw20Base.types'
 import { Config as Cw20StakeConfig } from '@ixo/impactxclient-sdk/types/codegen/Cw20Stake.types'
 import { TEntityModel } from 'api/blocksync/types/entities'
-import { DaoGroup } from 'redux/currentEntity/dao/currentDao.types'
 import { selectDAOEntities } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { useAppSelector } from 'redux/hooks'
 import { Member } from 'types/dao'
+import { TDAOGroupModel } from 'types/protocol'
 
 // GET_ALLDAOGROUPS
 const GET_ALLDAOGROUPS = gql`
@@ -304,7 +304,7 @@ export function useDAO() {
       if (adminAccountAddress) {
         return (
           daos.filter(({ daoGroups = {} }) =>
-            Object.values(daoGroups).some((daoGroup: DaoGroup) =>
+            Object.values(daoGroups).some((daoGroup: TDAOGroupModel) =>
               daoGroup.votingModule.members.some((member: Member) => member.addr === adminAccountAddress),
             ),
           ) ?? []

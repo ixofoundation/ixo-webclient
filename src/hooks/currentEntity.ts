@@ -6,6 +6,7 @@ import {
   Service,
 } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { TEntityModel } from 'api/blocksync/types/entities'
+import { useMemo } from 'react'
 import {
   clearEntityAction,
   updateEntityAction,
@@ -30,10 +31,12 @@ import {
   selectCurrentEntity,
   selectEntityLinkedAccounts,
   selectEntityClaim,
+  selectEntityDAOGroups,
 } from 'redux/currentEntity/currentEntity.selectors'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { BlockSyncService } from 'services/blocksync'
 import {
+  TDAOGroupModel,
   EntityLinkedResourceConfig,
   TEntityAdministratorModel,
   TEntityClaimModel,
@@ -42,9 +45,12 @@ import {
   TEntityPageSectionModel,
   TEntityProfileModel,
 } from 'types/protocol'
+import { getDaoContractInfo, thresholdToTQData } from 'utils/dao'
 import { apiEntityToEntity } from 'utils/entities'
 import { useAccount } from './account'
-import useCurrentDao from './currentDao'
+import { Config as ProposalConfig } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
+import { Coin } from '@ixo/impactxclient-sdk/types/codegen/DaoPreProposeSingle.types'
+import { depositInfoToCoin } from 'utils/conversions'
 
 const bsService = new BlockSyncService()
 
@@ -67,13 +73,15 @@ export default function useCurrentEntity(): {
   claim: { [id: string]: TEntityClaimModel }
   startDate: string
   endDate: string
+  daoGroups: { [address: string]: TDAOGroupModel }
+  selectedDAOGroup: TDAOGroupModel | undefined
   getEntityByDid: (did: string, force?: boolean) => Promise<boolean>
   clearEntity: () => void
+  updateDAOGroup: (coreAddress: string) => Promise<void>
+  selectDAOGroup: (coreAddress: string) => Promise<void>
 } {
   const dispatch = useAppDispatch()
   const { cwClient } = useAccount()
-  const { clearDaoGroup } = useCurrentDao()
-  // const entitites: { [id: string]: TEntityModel } = useAppSelector((state) => state.entities.entities2)
   const currentEntity: TEntityModel = useAppSelector(selectCurrentEntity)
   const id: string = useAppSelector(selectEntityId)!
   const entityType: string = useAppSelector(selectEntityType)!
@@ -92,11 +100,13 @@ export default function useCurrentEntity(): {
   const claim: { [id: string]: TEntityClaimModel } = useAppSelector(selectEntityClaim)
   const startDate: string = useAppSelector(selectEntityStartDate)
   const endDate: string = useAppSelector(selectEntityEndDate)
+  const daoGroups: { [address: string]: TDAOGroupModel } = useAppSelector(selectEntityDAOGroups)
+  const selectedDAOGroup: TDAOGroupModel | undefined = useMemo(
+    () => Object.values(daoGroups).find((daoGroup) => daoGroup.selected),
+    [daoGroups],
+  )
 
   const updateEntity = (data: TEntityModel) => {
-    if (id !== data.id) {
-      clearDaoGroup()
-    }
     dispatch(updateEntityAction(data))
   }
 
@@ -108,9 +118,6 @@ export default function useCurrentEntity(): {
     /**
      * find entity in entities state and avoid refetch from api
      */
-    // if (entitites && entitites[did]) {
-    //   updateEntity(entitites[did])
-    // }
     if (did !== id || force) {
       return await bsService.entity
         .getEntityById(did)
@@ -129,6 +136,45 @@ export default function useCurrentEntity(): {
 
   const clearEntity = (): void => {
     dispatch(clearEntityAction())
+  }
+
+  const updateDAOGroup = async (coreAddress: string) => {
+    console.log('updateDAOGroup ------>')
+    const { type, admin, config, proposalModule, votingModule, token } = await getDaoContractInfo({
+      coreAddress,
+      cwClient,
+    })
+
+    updateEntityResource({
+      key: 'daoGroups',
+      data: {
+        [coreAddress]: {
+          coreAddress,
+          admin,
+          type,
+          config,
+          proposalModule,
+          votingModule,
+          token,
+          selected: daoGroups[coreAddress]?.selected,
+        },
+      },
+      merge: true,
+    })
+  }
+
+  const selectDAOGroup = async (coreAddress: string) => {
+    const _daoGroupsArr = Object.values(daoGroups).map((daoGroup) => {
+      if (daoGroup.coreAddress === coreAddress) {
+        return { ...daoGroup, selected: true }
+      }
+      return { ...daoGroup, selected: false }
+    })
+    updateEntityResource({
+      key: 'daoGroups',
+      data: Object.fromEntries(_daoGroupsArr.map((daoGroup) => [daoGroup.coreAddress, daoGroup])),
+      merge: false,
+    })
   }
 
   return {
@@ -150,8 +196,12 @@ export default function useCurrentEntity(): {
     claim,
     startDate,
     endDate,
+    daoGroups,
+    selectedDAOGroup,
     getEntityByDid,
     clearEntity,
+    updateDAOGroup,
+    selectDAOGroup,
   }
 }
 
@@ -229,4 +279,85 @@ export function useCurrentEntityClaimSchemas(): LinkedResource[] {
   const { linkedResource } = useCurrentEntity()
 
   return linkedResource.filter((item: LinkedResource) => item.type === 'ClaimSchema')
+}
+
+export function useCurrentEntityDAOGroup(coreAddress: string) {
+  const { daoGroups } = useCurrentEntity()
+  const daoGroup: TDAOGroupModel | undefined = daoGroups[coreAddress]
+  const { address } = useAccount()
+
+  const type = daoGroup?.type
+
+  const proposalModuleAddress = useMemo(() => daoGroup?.proposalModule.proposalModuleAddress, [daoGroup])
+  const preProposalContractAddress = useMemo(() => daoGroup?.proposalModule.preProposalContractAddress, [daoGroup])
+  const votingModuleAddress = useMemo(() => daoGroup?.votingModule.votingModuleAddress, [daoGroup])
+
+  const isParticipating = useMemo(() => {
+    return daoGroup?.votingModule.members.some(({ addr, weight }) => addr === address && weight > 0)
+  }, [daoGroup?.votingModule.members, address])
+
+  const proposalConfig: ProposalConfig = useMemo(() => daoGroup?.proposalModule.proposalConfig, [daoGroup])
+
+  const depositInfo: Coin | undefined = useMemo(
+    () => daoGroup && depositInfoToCoin(daoGroup.proposalModule.preProposeConfig.deposit_info!),
+    [daoGroup],
+  )
+
+  const myVotingPower = useMemo(() => {
+    const myWeight = daoGroup?.votingModule.members.find(({ addr }) => addr === address)?.weight ?? 0
+    const totalWeight = daoGroup?.votingModule.totalWeight
+    return myWeight / totalWeight
+  }, [daoGroup, address])
+
+  const proposals = useMemo(() => daoGroup?.proposalModule.proposals ?? [], [daoGroup])
+
+  const myProposals = useMemo(() => {
+    return proposals.filter(({ proposal }) => proposal.proposer === address)
+  }, [proposals, address])
+
+  const members = useMemo(() => {
+    return daoGroup?.votingModule.members ?? []
+  }, [daoGroup])
+
+  const numOfMembers = useMemo(() => {
+    return members.length
+  }, [members])
+
+  const contractName = useMemo(() => {
+    return daoGroup?.votingModule.contractName
+  }, [daoGroup])
+
+  const votes = useMemo(() => daoGroup?.proposalModule.votes, [daoGroup])
+
+  const anyoneCanPropose = useMemo(() => {
+    return daoGroup?.proposalModule.preProposeConfig.open_proposal_submission
+  }, [daoGroup])
+
+  const tqData = useMemo(() => {
+    if (proposalConfig?.threshold) {
+      return thresholdToTQData(proposalConfig?.threshold)
+    }
+    return undefined
+  }, [proposalConfig])
+
+  return {
+    type,
+    daoGroup,
+    isParticipating,
+    proposalConfig,
+    depositInfo,
+    proposals,
+    votes,
+    myVotingPower,
+    myProposals,
+    members,
+    numOfMembers,
+    contractName,
+    anyoneCanPropose,
+    tqData,
+
+    proposalModuleAddress,
+    preProposalContractAddress,
+    votingModuleAddress,
+  }
 }

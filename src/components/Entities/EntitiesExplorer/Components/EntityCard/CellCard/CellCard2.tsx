@@ -14,16 +14,15 @@ import {
 import SDGIcons from '../SDGIcons/SDGIcons'
 import { FlexBox } from 'components/App/App.styles'
 import { requireCheckDefault } from 'utils/images'
-import { TEntityDDOTagModel, TEntityProfileModel } from 'types/protocol'
+import { TDAOGroupModel, TEntityDDOTagModel, TEntityProfileModel } from 'types/protocol'
 import { Typography } from 'components/Typography'
 import { useEffect, useState } from 'react'
-import { DaoGroup } from 'redux/currentEntity/dao/currentDao.types'
 
 interface Props {
   id: string
   profile: TEntityProfileModel
   tags: TEntityDDOTagModel[]
-  daoGroups?: { [address: string]: DaoGroup }
+  daoGroups?: { [address: string]: TDAOGroupModel }
 }
 
 const DAOCard: React.FunctionComponent<Props> = ({ id, profile, tags, daoGroups = {} }) => {
@@ -33,7 +32,7 @@ const DAOCard: React.FunctionComponent<Props> = ({ id, profile, tags, daoGroups 
 
   useEffect(() => {
     if (Object.keys(daoGroups).length > 0) {
-      Object.values(daoGroups).forEach((daoGroup: DaoGroup) => {
+      Object.values(daoGroups).forEach((daoGroup: TDAOGroupModel) => {
         setNumOfMembers((numOfMembers) => numOfMembers + daoGroup.votingModule.members.length)
       })
     }

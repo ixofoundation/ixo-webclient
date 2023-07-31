@@ -7,11 +7,11 @@ import { useWalletManager } from '@gssuper/cosmodal'
 import base58 from 'bs58'
 import { useAppSelector } from 'redux/hooks'
 import { selectStakingGroups } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
-import { DaoGroup } from 'redux/currentEntity/dao/currentDao.types'
 import { convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
 import { Cw20Token, NativeToken, TokenType } from 'types/tokens'
 import { claimAvailable } from 'utils/tokenClaim'
 import { plus } from 'utils/currency'
+import { TDAOGroupModel } from 'types/protocol'
 
 let nativeBalanceTimer: NodeJS.Timer | null = null
 let cw20BalanceTimer: NodeJS.Timer | null = null
@@ -100,7 +100,7 @@ const AccountUpdateService = (): JSX.Element | null => {
   useEffect(() => {
     if (stakingGroups.length > 0 && address) {
       const update = () => {
-        stakingGroups.forEach((stakingGroup: DaoGroup) => {
+        stakingGroups.forEach((stakingGroup: TDAOGroupModel) => {
           const {
             token,
             coreAddress,

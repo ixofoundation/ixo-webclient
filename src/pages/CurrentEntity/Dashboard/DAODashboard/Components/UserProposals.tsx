@@ -3,7 +3,7 @@ import { Table } from 'components/Table'
 import { Typography } from 'components/Typography'
 import ProgressBar from 'components/Widgets/ProgressBar/ProgressBar'
 import { useAccount } from 'hooks/account'
-import { useCurrentDaoGroup } from 'hooks/currentDao'
+import { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
 import { Button } from 'pages/CreateEntity/Components'
 import React, { useMemo } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
@@ -79,7 +79,7 @@ const UserProposals: React.FC<Props> = ({ show, coreAddress, userAddress, full =
   const history = useHistory()
   const { entityId } = useParams<{ entityId: string }>()
   const { address } = useAccount()
-  const { daoGroup, proposals, numOfMembers } = useCurrentDaoGroup(coreAddress)
+  const { daoGroup, proposals, numOfMembers } = useCurrentEntityDAOGroup(coreAddress)
 
   const isParticipating = useMemo(() => {
     return daoGroup.votingModule.members.some(({ addr }) => addr === (userAddress || address))

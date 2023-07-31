@@ -8,10 +8,10 @@ import { MemberDetailCard } from '../MemberDetailCard'
 import { useHistory } from 'react-router-dom'
 import { Avatar } from '../../../../../Components'
 import { useAccount } from 'hooks/account'
-import useCurrentDao, { useCurrentDaoGroup } from 'hooks/currentDao'
 import { contracts } from '@ixo/impactxclient-sdk'
 import CurrencyFormat from 'react-currency-format'
 import { convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
+import useCurrentEntity, { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
 
 const Wrapper = styled(TableRow)<{ focused: boolean }>`
   ${({ theme, focused }) =>
@@ -88,8 +88,10 @@ const MemberListItem: React.FC<Props> = ({ member, selected, onSelectMember }): 
   }
   const history = useHistory()
   const { cwClient } = useAccount()
-  const { selectedGroupsArr } = useCurrentDao()
-  const { type, daoGroup, proposals, votes, votingModuleAddress } = useCurrentDaoGroup(selectedGroupsArr[0].coreAddress)
+  const { selectedDAOGroup } = useCurrentEntity()
+  const { type, daoGroup, proposals, votes, votingModuleAddress } = useCurrentEntityDAOGroup(
+    selectedDAOGroup?.coreAddress || '',
+  )
   const { avatar, name, status, addr } = member
   const [detailView, setDetailView] = useState(false)
   const [userStakings, setUserStakings] = useState('0')

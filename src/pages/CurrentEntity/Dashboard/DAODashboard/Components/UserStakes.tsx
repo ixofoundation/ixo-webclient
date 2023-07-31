@@ -8,12 +8,12 @@ import CurrencyFormat from 'react-currency-format'
 import styled, { useTheme } from 'styled-components'
 import { contracts } from '@ixo/impactxclient-sdk'
 import { useHistory } from 'react-router-dom'
-import useCurrentDao, { useCurrentDaoGroup } from 'hooks/currentDao'
 import { convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
 import { useAccount } from 'hooks/account'
 import { Avatar } from 'pages/CurrentEntity/Components'
 import { GroupStakingModal } from 'components/Modals'
 import PieChart from 'components/Widgets/PieChart/PieChart'
+import useCurrentEntity, { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
 
 const TableWrapper = styled.div`
   color: white;
@@ -130,8 +130,8 @@ const UserStakes: React.FC<Props> = ({ show, coreAddress, userAddress }) => {
   const theme: any = useTheme()
   const history = useHistory()
   const { cwClient, address } = useAccount()
-  const { setDaoGroup } = useCurrentDao()
-  const { daoGroup, votingModuleAddress } = useCurrentDaoGroup(coreAddress)
+  const { updateDAOGroup } = useCurrentEntity()
+  const { daoGroup, votingModuleAddress } = useCurrentEntityDAOGroup(coreAddress)
   const [data, setData] = useState<any[]>([])
   const [groupStakingModalOpen, setGroupStakingModalOpen] = useState(false)
 
@@ -201,7 +201,7 @@ const UserStakes: React.FC<Props> = ({ show, coreAddress, userAddress }) => {
   }
 
   const handleUpdate = () => {
-    setDaoGroup(coreAddress)
+    updateDAOGroup(coreAddress)
     getInfo()
   }
 

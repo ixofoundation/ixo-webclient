@@ -2,7 +2,7 @@ import clxs from 'classnames'
 import { FlexBox, GridContainer, GridItem } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { useQuery } from 'hooks/window'
-import React, { useMemo } from 'react'
+import React from 'react'
 import { useHistory } from 'react-router-dom'
 import { AssetDetailCard, Card } from '../../../Components'
 import { Groups, UserStakes, UserVotingPower, UserProposals } from '../Components'
@@ -10,15 +10,11 @@ import { ReactComponent as ArrowLeftIcon } from 'assets/images/icon-arrow-left.s
 import { ReactComponent as StakesIcon } from 'assets/images/icon-stakes.svg'
 import { ReactComponent as ProposalsIcon } from 'assets/images/icon-proposals.svg'
 import { ReactComponent as PieIcon } from 'assets/images/icon-pie.svg'
-import useCurrentDao from 'hooks/currentDao'
-import { DaoGroup } from 'redux/currentEntity/dao/currentDao.types'
+import useCurrentEntity from 'hooks/currentEntity'
 
 const MyParticipation: React.FC = () => {
   const history = useHistory()
-  const { selectedGroups, selectDaoGroup } = useCurrentDao()
-  const selectedGroup: DaoGroup | undefined = useMemo(() => {
-    return Object.keys(selectedGroups).length === 1 ? Object.values(selectedGroups)[0] : undefined
-  }, [selectedGroups])
+  const { selectedDAOGroup, selectDAOGroup } = useCurrentEntity()
   const { getQuery } = useQuery()
   const token: string | undefined = getQuery('token')
   const expand: string | undefined = getQuery('expand')
@@ -26,19 +22,19 @@ const MyParticipation: React.FC = () => {
 
   return (
     <FlexBox direction='column' gap={6} width='100%' color='white'>
-      <Groups selectedGroups={selectedGroups} selectDaoGroup={(address: string) => selectDaoGroup(address)} />
+      <Groups selectedGroup={selectedDAOGroup} selectDaoGroup={(address: string) => selectDAOGroup(address)} />
 
-      {selectedGroup && (
+      {selectedDAOGroup && (
         <>
           <Typography variant='secondary' size='4xl' weight='normal' color='white'>
-            {selectedGroup.config.name}
+            {selectedDAOGroup.config.name}
           </Typography>
           <Typography variant='secondary' size='2xl' weight='normal' color='dark-blue'>
             My participation
           </Typography>
 
           {/* expand === 'token' */}
-          {selectedGroup.type === 'staking' && (
+          {selectedDAOGroup.type === 'staking' && (
             <Card
               className={clxs({ 'd-none': expand !== 'token' })}
               icon={<StakesIcon />}
@@ -46,11 +42,11 @@ const MyParticipation: React.FC = () => {
               actionIcon={<ArrowLeftIcon />}
               onAction={() => history.goBack()}
             >
-              <UserStakes show={expand === 'token'} coreAddress={selectedGroup.coreAddress} />
+              <UserStakes show={expand === 'token'} coreAddress={selectedDAOGroup.coreAddress} />
             </Card>
           )}
           {/* expand === 'votingPower' */}
-          {selectedGroup.type === 'membership' && (
+          {selectedDAOGroup.type === 'membership' && (
             <Card
               className={clxs({ 'd-none': expand !== 'votingPower' })}
               icon={<PieIcon />}
@@ -58,7 +54,7 @@ const MyParticipation: React.FC = () => {
               actionIcon={<ArrowLeftIcon />}
               onAction={() => history.goBack()}
             >
-              <UserVotingPower show={expand === 'votingPower'} coreAddress={selectedGroup.coreAddress} />
+              <UserVotingPower show={expand === 'votingPower'} coreAddress={selectedDAOGroup.coreAddress} />
             </Card>
           )}
           {/* expand === 'proposal' */}
@@ -69,10 +65,10 @@ const MyParticipation: React.FC = () => {
             actionIcon={<ArrowLeftIcon />}
             onAction={() => history.goBack()}
           >
-            <UserProposals show={expand === 'proposal'} coreAddress={selectedGroup.coreAddress} />
+            <UserProposals show={expand === 'proposal'} coreAddress={selectedDAOGroup.coreAddress} />
           </Card>
           {/* token && tokenDetail */}
-          {selectedGroup.type === 'staking' && <AssetDetailCard show={token && tokenDetail} {...tokenDetail} />}
+          {selectedDAOGroup.type === 'staking' && <AssetDetailCard show={token && tokenDetail} {...tokenDetail} />}
           {/* !expand && !token */}
           <GridContainer
             className={clxs({ 'd-none': expand || token })}
@@ -83,23 +79,23 @@ const MyParticipation: React.FC = () => {
             width='100%'
           >
             <GridItem gridArea='a'>
-              {selectedGroup.type === 'staking' && (
+              {selectedDAOGroup.type === 'staking' && (
                 <Card
                   icon={<StakesIcon />}
                   label='My Stakes'
                   onAction={() => history.push({ pathname: history.location.pathname, search: `?expand=token` })}
                 >
-                  <UserStakes show={!expand && !token} coreAddress={selectedGroup.coreAddress} />
+                  <UserStakes show={!expand && !token} coreAddress={selectedDAOGroup.coreAddress} />
                 </Card>
               )}
 
-              {selectedGroup.type === 'membership' && (
+              {selectedDAOGroup.type === 'membership' && (
                 <Card
                   icon={<PieIcon />}
                   label='My Voting Power'
                   onAction={() => history.push({ pathname: history.location.pathname, search: `?expand=votingPower` })}
                 >
-                  <UserVotingPower show={!expand && !token} coreAddress={selectedGroup.coreAddress} />
+                  <UserVotingPower show={!expand && !token} coreAddress={selectedDAOGroup.coreAddress} />
                 </Card>
               )}
             </GridItem>
@@ -109,7 +105,7 @@ const MyParticipation: React.FC = () => {
                 label='My Proposals'
                 onAction={() => history.push({ pathname: history.location.pathname, search: `?expand=proposal` })}
               >
-                <UserProposals show={!expand && !token} coreAddress={selectedGroup.coreAddress} full={false} />
+                <UserProposals show={!expand && !token} coreAddress={selectedDAOGroup.coreAddress} full={false} />
               </Card>
             </GridItem>
             {/* <GridItem gridArea='c'>

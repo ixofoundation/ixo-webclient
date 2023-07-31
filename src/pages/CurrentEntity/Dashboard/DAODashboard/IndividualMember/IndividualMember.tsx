@@ -2,7 +2,7 @@ import clxs from 'classnames'
 import { FlexBox, GridContainer, GridItem, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { useQuery } from 'hooks/window'
-import React, { useMemo } from 'react'
+import React from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 import { AssetDetailCard, Card } from '../../../Components'
 import { Groups, UserStakes, UserVotingPower, UserProposals } from '../Components'
@@ -10,22 +10,18 @@ import { ReactComponent as ArrowLeftIcon } from 'assets/images/icon-arrow-left.s
 import { ReactComponent as StakesIcon } from 'assets/images/icon-stakes.svg'
 import { ReactComponent as ProposalsIcon } from 'assets/images/icon-proposals.svg'
 import { ReactComponent as PieIcon } from 'assets/images/icon-pie.svg'
-import useCurrentDao from 'hooks/currentDao'
-import { DaoGroup } from 'redux/currentEntity/dao/currentDao.types'
 import { truncateString } from 'utils/formatters'
 import CopyToClipboard from 'react-copy-to-clipboard'
 import { ReactComponent as CopyIcon } from 'assets/images/icon-copy.svg'
 import * as Toast from 'utils/toast'
 import { useTheme } from 'styled-components'
+import useCurrentEntity from 'hooks/currentEntity'
 
 const IndividualMember: React.FC = () => {
   const theme: any = useTheme()
   const { address } = useParams<{ address: string }>()
   const history = useHistory()
-  const { selectedGroups, selectDaoGroup } = useCurrentDao()
-  const selectedGroup: DaoGroup | undefined = useMemo(() => {
-    return Object.keys(selectedGroups).length === 1 ? Object.values(selectedGroups)[0] : undefined
-  }, [selectedGroups])
+  const { selectedDAOGroup, selectDAOGroup } = useCurrentEntity()
   const { getQuery } = useQuery()
   const token: string | undefined = getQuery('token')
   const expand: string | undefined = getQuery('expand')
@@ -33,12 +29,12 @@ const IndividualMember: React.FC = () => {
 
   return (
     <FlexBox direction='column' gap={6} width='100%' color='white'>
-      <Groups selectedGroups={selectedGroups} selectDaoGroup={(address: string) => selectDaoGroup(address)} />
+      <Groups selectedGroup={selectedDAOGroup} selectDaoGroup={(address: string) => selectDAOGroup(address)} />
 
-      {selectedGroup && (
+      {selectedDAOGroup && (
         <>
           <Typography variant='secondary' size='4xl' weight='normal' color='white'>
-            {selectedGroup.config.name}
+            {selectedDAOGroup.config.name}
           </Typography>
           <FlexBox alignItems='center' gap={2}>
             <Typography variant='secondary' size='2xl' weight='normal' color='dark-blue'>
@@ -52,7 +48,7 @@ const IndividualMember: React.FC = () => {
           </FlexBox>
 
           {/* expand === 'token' */}
-          {selectedGroup.type === 'staking' && (
+          {selectedDAOGroup.type === 'staking' && (
             <Card
               className={clxs({ 'd-none': expand !== 'token' })}
               icon={<StakesIcon />}
@@ -60,11 +56,11 @@ const IndividualMember: React.FC = () => {
               actionIcon={<ArrowLeftIcon />}
               onAction={() => history.goBack()}
             >
-              <UserStakes show={expand === 'token'} coreAddress={selectedGroup.coreAddress} userAddress={address} />
+              <UserStakes show={expand === 'token'} coreAddress={selectedDAOGroup.coreAddress} userAddress={address} />
             </Card>
           )}
           {/* expand === 'votingPower' */}
-          {selectedGroup.type === 'membership' && (
+          {selectedDAOGroup.type === 'membership' && (
             <Card
               className={clxs({ 'd-none': expand !== 'votingPower' })}
               icon={<PieIcon />}
@@ -74,7 +70,7 @@ const IndividualMember: React.FC = () => {
             >
               <UserVotingPower
                 show={expand === 'votingPower'}
-                coreAddress={selectedGroup.coreAddress}
+                coreAddress={selectedDAOGroup.coreAddress}
                 userAddress={address}
               />
             </Card>
@@ -87,10 +83,14 @@ const IndividualMember: React.FC = () => {
             actionIcon={<ArrowLeftIcon />}
             onAction={() => history.goBack()}
           >
-            <UserProposals show={expand === 'proposal'} coreAddress={selectedGroup.coreAddress} userAddress={address} />
+            <UserProposals
+              show={expand === 'proposal'}
+              coreAddress={selectedDAOGroup.coreAddress}
+              userAddress={address}
+            />
           </Card>
           {/* token && tokenDetail */}
-          {selectedGroup.type === 'staking' && <AssetDetailCard show={token && tokenDetail} {...tokenDetail} />}
+          {selectedDAOGroup.type === 'staking' && <AssetDetailCard show={token && tokenDetail} {...tokenDetail} />}
           {/* !expand && !token */}
           <GridContainer
             className={clxs({ 'd-none': expand || token })}
@@ -101,17 +101,21 @@ const IndividualMember: React.FC = () => {
             width='100%'
           >
             <GridItem gridArea='a'>
-              {selectedGroup.type === 'staking' && (
+              {selectedDAOGroup.type === 'staking' && (
                 <Card
                   icon={<StakesIcon />}
                   label='Stakes'
                   onAction={() => history.push({ pathname: history.location.pathname, search: `?expand=token` })}
                 >
-                  <UserStakes show={!expand && !token} coreAddress={selectedGroup.coreAddress} userAddress={address} />
+                  <UserStakes
+                    show={!expand && !token}
+                    coreAddress={selectedDAOGroup.coreAddress}
+                    userAddress={address}
+                  />
                 </Card>
               )}
 
-              {selectedGroup.type === 'membership' && (
+              {selectedDAOGroup.type === 'membership' && (
                 <Card
                   icon={<PieIcon />}
                   label='Voting Power'
@@ -119,7 +123,7 @@ const IndividualMember: React.FC = () => {
                 >
                   <UserVotingPower
                     show={!expand && !token}
-                    coreAddress={selectedGroup.coreAddress}
+                    coreAddress={selectedDAOGroup.coreAddress}
                     userAddress={address}
                   />
                 </Card>
@@ -133,7 +137,7 @@ const IndividualMember: React.FC = () => {
               >
                 <UserProposals
                   show={!expand && !token}
-                  coreAddress={selectedGroup.coreAddress}
+                  coreAddress={selectedDAOGroup.coreAddress}
                   userAddress={address}
                   full={false}
                 />
