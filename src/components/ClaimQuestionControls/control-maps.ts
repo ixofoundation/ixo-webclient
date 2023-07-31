@@ -7,12 +7,14 @@ import MultipleSelect from './MultipleSelect'
 import Rating from './Rating'
 import SingleDateSelector from './SingleDateSelector'
 import Textarea from './Textarea'
+import DocumentUpload from './DocumentUpload'
 
 export const ControlMaps = {
   [ControlType.Text]: Input,
   [ControlType.TextArea]: Textarea,
   [ControlType.CheckBoxes]: MultipleSelect,
   [ControlType.ImageUpload]: ImageUpload,
+  [ControlType.DocumentUpload]: DocumentUpload,
   [ControlType.AvatarUpload]: AvatarUpload,
   [ControlType.Rating]: Rating,
   [ControlType.SingleDateSelector]: SingleDateSelector,

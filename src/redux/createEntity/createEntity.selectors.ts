@@ -86,7 +86,7 @@ export const selectCreateEntityHeadlineClaim = createSelector(
 
 export const selectCreateEntityLinkedResource = createSelector(
   selectCreateEntity,
-  (createEntity: TCreateEntityState): { [id: string]: LinkedResource | undefined } => createEntity.linkedResource ?? {},
+  (createEntity: TCreateEntityState): { [id: string]: LinkedResource } => createEntity.linkedResource ?? {},
 )
 
 export const selectCreateEntityAccordedRight = createSelector(

@@ -129,7 +129,7 @@ interface TCreateEntityStateHookRes {
   service: TEntityServiceModel[]
   claim: { [id: string]: TEntityClaimModel }
   headlineMetricClaim: TEntityClaimModel | undefined
-  linkedResource: { [id: string]: LinkedResource | undefined }
+  linkedResource: { [id: string]: LinkedResource }
   accordedRight: { [key: string]: AccordedRight }
   linkedEntity: { [key: string]: LinkedEntity }
   assetInstances: TCreateEntityModel[]
@@ -155,7 +155,7 @@ interface TCreateEntityStateHookRes {
   updatePage: (page: TEntityPageModel) => void
   updateService: (service: TEntityServiceModel[]) => void
   updateClaim: (claim: { [id: string]: TEntityClaimModel }) => void
-  updateLinkedResource: (linkedResource: { [id: string]: LinkedResource | undefined }) => void
+  updateLinkedResource: (linkedResource: { [id: string]: LinkedResource }) => void
   updateAccordedRight: (accordedRight: { [id: string]: AccordedRight }) => void
   updateLinkedEntity: (linkedEntity: { [id: string]: LinkedEntity }) => void
   updateStartEndDate: ({ startDate, endDate }: { startDate: string; endDate: string }) => void
@@ -186,9 +186,7 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
   const service: TEntityServiceModel[] = useAppSelector(selectCreateEntityService)
   const claim: { [id: string]: TEntityClaimModel } = useAppSelector(selectCreateEntityClaim)
   const headlineMetricClaim: TEntityClaimModel | undefined = useAppSelector(selectCreateEntityHeadlineClaim)
-  const linkedResource: {
-    [id: string]: LinkedResource | undefined
-  } = useAppSelector(selectCreateEntityLinkedResource)
+  const linkedResource: { [id: string]: LinkedResource } = useAppSelector(selectCreateEntityLinkedResource)
   const accordedRight: { [key: string]: AccordedRight } = useAppSelector(selectCreateEntityAccordedRight)
   const linkedEntity: { [key: string]: LinkedEntity } = useAppSelector(selectCreateEntityLinkedEntity)
   const assetInstances: TCreateEntityModel[] = useAppSelector(selectCreateEntityAssetInstances)
@@ -270,7 +268,7 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
   const updateClaim = (claim: { [id: string]: TEntityClaimModel }): void => {
     dispatch(updateClaimAction(claim))
   }
-  const updateLinkedResource = (linkedResource: { [id: string]: LinkedResource | undefined }): void => {
+  const updateLinkedResource = (linkedResource: { [id: string]: LinkedResource }): void => {
     dispatch(updateLinkedResourceAction(linkedResource))
   }
   const updateAccordedRight = (accordedRight: { [id: string]: AccordedRight }): void => {

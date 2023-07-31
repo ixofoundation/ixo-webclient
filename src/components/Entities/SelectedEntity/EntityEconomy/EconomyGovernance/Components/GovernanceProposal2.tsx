@@ -35,7 +35,12 @@ import { contracts } from '@ixo/impactxclient-sdk'
 import { useAccount } from 'hooks/account'
 import { SingleChoiceProposal } from '@ixo/impactxclient-sdk/types/codegen/DaoMigrator.types'
 import { proposalMsgToActionConfig } from 'utils/dao'
-import { ProposalActionConfigMap, TProposalActionModel } from 'types/protocol'
+import { EntityLinkedResourceConfig, ProposalActionConfigMap, TProposalActionModel } from 'types/protocol'
+import { TEntityModel } from 'api/blocksync/types/entities'
+import { useAppSelector } from 'redux/hooks'
+import { selectEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
+import { serviceEndpointToUrl } from 'utils/entities'
 
 const Container = styled.div<{ isDark: boolean }>`
   background: ${(props) =>
@@ -130,6 +135,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
   const { convertToDenom } = useIxoConfigs()
   const { daoGroup, proposalModuleAddress, isParticipating, depositInfo, tqData } = useCurrentDaoGroup(coreAddress)
   const { cwClient, cosmWasmClient, address } = useAccount()
+
   const [myVoteStatus, setMyVoteStatus] = useState<VoteInfo | undefined>(undefined)
   const [votes, setVotes] = useState<VoteInfo[]>([])
   const [votingPeriod, setVotingPeriod] = useState<number>(0)
@@ -162,11 +168,23 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
   )
   const perOfYesVotes = useMemo(() => (numOfYesVotes / numOfAvailableVotes) * 100, [numOfAvailableVotes, numOfYesVotes])
   const proposalConfig: ProposalConfig | undefined = useMemo(() => daoGroup?.proposalModule.proposalConfig, [daoGroup])
-
   const proposalActions: TProposalActionModel[] = useMemo(
     () => proposal.msgs.map(proposalMsgToActionConfig).filter(Boolean),
     [proposal],
   )
+  const deedId: string = useMemo(() => proposal.description.split('#deed:').pop() || '', [proposal])
+  const deedEntity: TEntityModel | undefined = useAppSelector(selectEntityById(deedId))
+  const linkedFiles: LinkedResource[] = useMemo(
+    () =>
+      deedEntity?.linkedResource.filter((item: LinkedResource) =>
+        Object.keys(EntityLinkedResourceConfig).includes(item.type),
+      ) ?? [],
+    [deedEntity],
+  )
+
+  /**
+   * Actions
+   */
 
   const getVoteStatus = useCallback(() => {
     const daoProposalSingleClient = new contracts.DaoProposalSingle.DaoProposalSingleQueryClient(
@@ -298,7 +316,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
                 approved={votingRemain}
                 rejected={0}
                 height={22}
-                activeBarColor='#39c3e6'
+                activeBarColor={theme.ixoNewBlue}
                 barColor={isDark ? '#143F54' : undefined}
                 closedText={votingRemain > votingPeriod ? 'Closed' : ''}
               />
@@ -362,6 +380,54 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
               )}
             </FlexBox>
             <FlexBox gap={3}>
+              {/* {proposalActions.map((action, index) => {
+                const Icon = ProposalActionConfigMap[action.type!]?.icon
+                return (
+                  <SvgBox
+                    key={index}
+                    width='35px'
+                    height='35px'
+                    alignItems='center'
+                    justifyContent='center'
+                    border={`1px solid ${theme.ixoNewBlue}`}
+                    borderRadius='4px'
+                    svgWidth={5}
+                    svgHeight={5}
+                    color={theme.ixoNewBlue}
+                    cursor='pointer'
+                    hover={{ background: theme.ixoNewBlue, color: theme.ixoWhite }}
+                    transition='.2s all'
+                    onClick={() => setSelectedAction(action)}
+                  >
+                    {Icon && <Icon />}
+                  </SvgBox>
+                )
+              })} */}
+              {linkedFiles.map((file, index) => {
+                const { type, serviceEndpoint } = file
+                const Icon = EntityLinkedResourceConfig[type].icon
+                const to = serviceEndpointToUrl(serviceEndpoint, deedEntity?.service ?? [])
+                return (
+                  <a href={to} target='_blank' rel='noreferrer' key={index}>
+                    <SvgBox
+                      width='35px'
+                      height='35px'
+                      alignItems='center'
+                      justifyContent='center'
+                      border={`1px solid ${theme.ixoNewBlue}`}
+                      borderRadius='4px'
+                      svgWidth={5}
+                      svgHeight={5}
+                      color={theme.ixoNewBlue}
+                      cursor='pointer'
+                      hover={{ background: theme.ixoNewBlue, color: theme.ixoWhite }}
+                      transition='.2s all'
+                    >
+                      {Icon && <Icon />}
+                    </SvgBox>
+                  </a>
+                )
+              })}
               {proposalActions.map((action, index) => {
                 const Icon = ProposalActionConfigMap[action.type!]?.icon
                 return (

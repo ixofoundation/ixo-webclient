@@ -14,7 +14,11 @@ const AddQuestionBar: React.FC<Props> = ({ addQuestion }) => {
       {Object.values(questionTypeMap)
         .filter(
           (questionType) =>
-            questionType.controlType === ControlType.Text || questionType.controlType === ControlType.TextArea,
+            questionType.controlType === ControlType.Text ||
+            questionType.controlType === ControlType.TextArea ||
+            questionType.controlType === ControlType.CheckBoxes ||
+            questionType.controlType === ControlType.DocumentUpload ||
+            questionType.controlType === ControlType.DateRangeSelector,
         )
         .map((questionType): JSX.Element => {
           return (

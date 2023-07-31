@@ -107,7 +107,7 @@ export const updateClaimAction = (claim: { [id: string]: TEntityClaimModel }): T
 })
 
 export const updateLinkedResourceAction = (linkedResource: {
-  [id: string]: LinkedResource | undefined
+  [id: string]: LinkedResource
 }): TUpdateLinkedResourceAction => ({
   type: ECreateEntityActions.UpdateLinkedResource,
   payload: linkedResource,
