@@ -31,7 +31,14 @@ const ReviewClaim: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): J
   const { signingClient, signer } = useAccount()
   const createEntityState = useCreateEntityState()
   const profile = createEntityState.profile
-  const { entityType, service: serviceData, linkedEntity: linkedEntityData, creator, clearEntity } = createEntityState
+  const {
+    entityType,
+    service: serviceData,
+    linkedEntity: linkedEntityData,
+    linkedResource: linkedResourceData,
+    creator,
+    clearEntity,
+  } = createEntityState
   const { UploadLinkedResource, CreateProtocol, CreateEntityBase } = useCreateEntity()
   const [submitting, setSubmitting] = useState(false)
   const { getQuery } = useQuery()
@@ -60,6 +67,7 @@ const ReviewClaim: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): J
     linkedEntity = Object.values(linkedEntityData)
 
     // LinkedResource
+    linkedResource = linkedResource.concat(Object.values(linkedResourceData))
     linkedResource = linkedResource.concat(await UploadLinkedResource())
 
     // Create Protocol for claim

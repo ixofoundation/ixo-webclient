@@ -35,7 +35,7 @@ const EditProperty: React.FC = (): JSX.Element => {
   const updateService = (service: TEntityServiceModel[]) => {
     entity.updatePartial('service', service)
   }
-  const updateLinkedResource = (linkedResource: { [id: string]: LinkedResource | undefined }) => {
+  const updateLinkedResource = (linkedResource: { [id: string]: LinkedResource }) => {
     entity.updatePartial('linkedResource', linkedResource)
   }
   const updateClaim = (claim: { [id: string]: TEntityClaimModel }) => {

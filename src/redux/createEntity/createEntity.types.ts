@@ -22,7 +22,7 @@ export interface TCreateEntityModel {
   page: TEntityPageModel
   service: TEntityServiceModel[]
   claim: { [id: string]: TEntityClaimModel }
-  linkedResource: { [id: string]: LinkedResource | undefined }
+  linkedResource: { [id: string]: LinkedResource }
   accordedRight: { [id: string]: AccordedRight }
   linkedEntity: { [id: string]: LinkedEntity }
 
@@ -140,7 +140,7 @@ export interface TUpdateClaimAction {
 }
 export interface TUpdateLinkedResourceAction {
   type: typeof ECreateEntityActions.UpdateLinkedResource
-  payload: { [id: string]: LinkedResource | undefined }
+  payload: { [id: string]: LinkedResource }
 }
 export interface TUpdateAccordedRightAction {
   type: typeof ECreateEntityActions.UpdateAccordedRight

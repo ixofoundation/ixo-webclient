@@ -1,6 +1,6 @@
 import * as React from 'react'
 import moment from 'moment'
-import { getCountryName } from 'utils/formatters'
+import { getCountryName, toTitleCase } from 'utils/formatters'
 import HeaderTabs from 'components/HeaderTabs/HeaderTabs2'
 import {
   HeroInner,
@@ -55,7 +55,7 @@ const OverviewHero: React.FunctionComponent<Props> = ({
   const currentEntity = useCurrentEntity()
 
   const entityType = currentEntity.entityType.replace('protocol/', '')
-  const title = entityConfig.title || entityType.replace('protocol/', '')
+  const title = entityConfig.title || toTitleCase(entityType.replace('protocol/', ''))
   const themeColor = entityConfig.themeColor
 
   const headerTabs = useMemo(() => {

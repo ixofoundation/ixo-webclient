@@ -130,7 +130,7 @@ const Accounts: React.FC = () => {
   return (
     <FlexBox direction='column' gap={6} width='100%' color='white'>
       <GridContainer columns={2} gridGap={6} width='100%'>
-        <BalanceCard account={selectedAccount} />
+        <BalanceCard availableValue={0} stakedValue={0} />
 
         <AccountsCard
           accounts={accounts}

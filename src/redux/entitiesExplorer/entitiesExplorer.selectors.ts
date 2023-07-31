@@ -21,15 +21,6 @@ export const selectAllEntities = createSelector(
   },
 )
 
-export const selectAllEntitiesByType = createSelector(
-  selectEntitiesState,
-  (entitiesState: EntitiesExplorerState): ExplorerEntity[] => {
-    return entitiesState.entities
-      ? entitiesState.entities.filter((entity) => entity.type === entitiesState.selectedEntitiesType)
-      : null!
-  },
-)
-
 export const selectAllEntitiesByType2 = createSelector(
   selectEntitiesState,
   (entitiesState: EntitiesExplorerState): TEntityModel[] => {
@@ -356,85 +347,6 @@ export const selectEntityPrimaryColor = createSelector(selectEntityThemeConfig, 
 export const selectEntityThemeHighlightLight = createSelector(selectEntityThemeConfig, (themeConfig: any): string => {
   return themeConfig?.highlight?.light ?? theme.highlight.light
 })
-
-export const selectEntitiesCountries = createSelector(
-  selectAllEntitiesByType,
-  (entities: ExplorerEntity[]): string[] => {
-    return entities?.map((entity) => entity.location ?? '')
-  },
-)
-
-export const selectTotalServiceProvidersCount = createSelector(
-  selectAllEntitiesByType,
-  (entities: ExplorerEntity[]): number => {
-    return !entities
-      ? 0
-      : entities.reduce((total, entity) => {
-          return total + (entity.serviceProvidersCount || 0)
-        }, 0)
-  },
-)
-
-export const selectTotalEvaluatorsCount = createSelector(
-  selectAllEntitiesByType,
-  (entities: ExplorerEntity[]): number => {
-    return !entities
-      ? 0
-      : entities.reduce((total, entity) => {
-          return total + (entity.evaluatorsCount || 0)
-        }, 0)
-  },
-)
-
-export const selectTotalRequiredClaimsCount = createSelector(
-  selectAllEntitiesByType,
-  (entities: ExplorerEntity[]): number => {
-    return !entities
-      ? 0
-      : entities.reduce((total, entity) => {
-          return total + (entity.requiredClaimsCount || 0)
-        }, 0)
-  },
-)
-
-export const selectTotalPendingClaimsCount = createSelector(
-  selectAllEntitiesByType,
-  (entities: ExplorerEntity[]): number => {
-    return !entities
-      ? 0
-      : entities.reduce((total, entity) => {
-          return total + (entity.pendingClaimsCount || 0)
-        }, 0)
-  },
-)
-
-export const selectTotalSuccessfulClaimsCount = createSelector(
-  selectAllEntitiesByType,
-  (entities: ExplorerEntity[]): number => {
-    return !entities
-      ? 0
-      : entities.reduce((total, entity) => {
-          return total + (entity.successfulClaimsCount || 0)
-        }, 0)
-  },
-)
-
-export const selectTotalRejectedClaimsCount = createSelector(
-  selectAllEntitiesByType,
-  (entities: ExplorerEntity[]): number => {
-    return !entities
-      ? 0
-      : entities.reduce((total, entity) => {
-          return total + (entity.rejectedClaimsCount || 0)
-        }, 0)
-  },
-)
-
-export const selectTotalRemainingClaimsCount = createSelector(
-  selectTotalRequiredClaimsCount,
-  selectTotalSuccessfulClaimsCount,
-  (totalClaimsRequired: number, totalClaimsSuccessful: number): number => totalClaimsRequired - totalClaimsSuccessful,
-)
 
 export const selectEntityById = (entityId: string) =>
   createSelector(selectAllEntities, (entities: TEntityModel[]): TEntityModel | undefined => {
