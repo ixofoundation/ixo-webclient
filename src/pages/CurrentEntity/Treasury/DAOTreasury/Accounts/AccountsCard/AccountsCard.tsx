@@ -13,6 +13,8 @@ import { ReactComponent as LinkedAccountIcon } from 'assets/images/icon-linked-a
 import { successToast } from 'utils/toast'
 import Tooltip from 'components/Tooltip/Tooltip'
 import { capitalize } from 'lodash'
+import { TTreasuryAccountModel, TTreasuryCoinModel } from '../Accounts'
+import BigNumber from 'bignumber.js'
 
 export const AccountTypeToIconMap = {
   group: GroupAccountIcon,
@@ -107,7 +109,7 @@ const renderTableHeader = (name: string, justifyContent = 'flex-start') => (
 )
 
 interface Props {
-  accounts: { [address: string]: { address: string; name: string; network: string; type: string; balance: string } }
+  accounts: { [address: string]: TTreasuryAccountModel }
   onSelect: (address: string) => void
 }
 
@@ -163,9 +165,12 @@ const AccountsCard: React.FC<Props> = ({ accounts, onSelect }) => {
     },
     {
       Header: renderTableHeader('Value', 'flex-end'),
-      accessor: 'balance',
+      accessor: 'coins',
       renderCell: (cell: any) => {
-        const balance = cell.value
+        const balance = Object.values(cell.value as { [denom: string]: TTreasuryCoinModel }).reduce(
+          (acc, cur) => new BigNumber(cur.balance).times(cur.lastPriceUsd).plus(new BigNumber(acc)).toString(),
+          '0',
+        )
         const network = cell.row.original?.network
         return (
           <FlexBox height='100%' direction='column' justifyContent='space-between' alignItems='end' p={4}>
