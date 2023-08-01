@@ -6,22 +6,21 @@ import { Button, CheckBox, PropertyBox } from 'pages/CreateEntity/Components'
 import { AddDAOGroupModal } from 'components/Modals'
 import { useCreateEntityState } from 'hooks/createEntity'
 import { v4 as uuidv4 } from 'uuid'
-import { DAOGroupConfig, TDAOGroupModel } from 'types/protocol'
+import { TDAOGroupModel, DAOGroupConfig } from 'types/protocol'
 import { omitKey } from 'utils/objects'
 import SetupGroupSettings from './SetupGroupSettings'
 import { deviceWidth } from 'constants/device'
 import { ixo } from '@ixo/impactxclient-sdk'
-import { DaoGroup } from 'redux/currentEntity/dao/currentDao.types'
 import BigNumber from 'bignumber.js'
 
-export const initialGroupConfig: DaoGroup['config'] = {
+export const initialGroupConfig: TDAOGroupModel['config'] = {
   automatically_add_cw20s: true,
   automatically_add_cw721s: true,
   description: '',
   name: '',
 }
 
-export const initialProposalModule: DaoGroup['proposalModule'] = {
+export const initialProposalModule: TDAOGroupModel['proposalModule'] = {
   proposalModuleAddress: '',
   preProposalContractAddress: '',
   preProposeConfig: {
@@ -49,16 +48,16 @@ export const initialProposalModule: DaoGroup['proposalModule'] = {
   votes: [],
 }
 
-export const initialMembers: DaoGroup['votingModule']['members'] = [{ addr: '', weight: 1 }]
+export const initialMembers: TDAOGroupModel['votingModule']['members'] = [{ addr: '', weight: 1 }]
 
-export const initialVotingModule: DaoGroup['votingModule'] = {
+export const initialVotingModule: TDAOGroupModel['votingModule'] = {
   votingModuleAddress: '',
   contractName: '',
   members: initialMembers,
   totalWeight: 0,
 }
 
-export const initialTokenModule: DaoGroup['token'] = {
+export const initialTokenModule: TDAOGroupModel['token'] = {
   config: {
     token_address: '',
     unstaking_duration: { time: 1209600 },
@@ -78,7 +77,7 @@ export const initialTokenModule: DaoGroup['token'] = {
   treasuryPercent: 90,
 }
 
-export const initialStakingGroup: DaoGroup = {
+export const initialStakingGroup: TDAOGroupModel = {
   coreAddress: '',
   type: 'staking',
   admin: '',
@@ -89,7 +88,7 @@ export const initialStakingGroup: DaoGroup = {
   memberships: [],
 }
 
-export const initialMembershipGroup: DaoGroup = {
+export const initialMembershipGroup: TDAOGroupModel = {
   coreAddress: '',
   type: 'membership',
   admin: '',

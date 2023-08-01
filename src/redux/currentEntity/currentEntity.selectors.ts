@@ -3,7 +3,7 @@ import { LinkedEntity, Service } from '@ixo/impactxclient-sdk/types/codegen/ixo/
 import { createSelector } from '@reduxjs/toolkit'
 import { TEntityModel } from 'api/blocksync/types/entities'
 import { RootState } from 'redux/store'
-import { TEntityClaimModel } from 'types/protocol'
+import { TDAOGroupModel, TEntityClaimModel } from 'types/protocol'
 
 export const selectCurrentEntity = (state: RootState): TEntityModel => state.currentEntity
 
@@ -77,3 +77,10 @@ export const selectEntityStartDate = createSelector(selectCurrentEntity, (entity
 export const selectEntityEndDate = createSelector(selectCurrentEntity, (entity: TEntityModel): string => {
   return entity.endDate as never as string
 })
+
+export const selectEntityDAOGroups = createSelector(
+  selectCurrentEntity,
+  (entity: TEntityModel): { [address: string]: TDAOGroupModel } => {
+    return entity.daoGroups ?? {}
+  },
+)

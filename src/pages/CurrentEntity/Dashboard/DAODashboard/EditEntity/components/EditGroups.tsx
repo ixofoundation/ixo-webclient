@@ -2,12 +2,11 @@ import { FlexBox } from 'components/App/App.styles'
 import React, { useState } from 'react'
 import useEditEntity from 'hooks/editEntity'
 import { CheckBox, PropertyBox } from 'pages/CreateEntity/Components'
-import { DAOGroupConfig } from 'types/protocol'
+import { TDAOGroupModel, DAOGroupConfig } from 'types/protocol'
 import { Typography } from 'components/Typography'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
 import { AddDAOGroupModal } from 'components/Modals'
 import { v4 as uuidv4 } from 'uuid'
-import { DaoGroup } from 'redux/currentEntity/dao/currentDao.types'
 import {
   initialMembershipGroup,
   initialStakingGroup,
@@ -19,7 +18,7 @@ import SetupGroupSettings from 'pages/CreateEntity/CreateDAO/Pages/SetupDAOGroup
 const EditGroups: React.FC = (): JSX.Element => {
   const { editEntity, setEditedField } = useEditEntity()
   const [openAddGroupModal, setOpenAddGroupModal] = useState(false)
-  const daoGroups: { [address: string]: DaoGroup } = editEntity.daoGroups ?? {}
+  const daoGroups: { [address: string]: TDAOGroupModel } = editEntity.daoGroups ?? {}
   const linkedEntity = Object.fromEntries((editEntity.linkedEntity ?? []).map((v) => [v.id, v]))
   const [selectedGroup, setSelectedGroup] = useState('')
   const daoController =
@@ -27,7 +26,7 @@ const EditGroups: React.FC = (): JSX.Element => {
       .map((v) => v.coreAddress)
       .find((addr) => editEntity.verificationMethod.some((v) => v.id.includes(addr))) || ''
 
-  const updateDAOGroups = (daoGroups: { [address: string]: DaoGroup }): void => {
+  const updateDAOGroups = (daoGroups: { [address: string]: TDAOGroupModel }): void => {
     setEditedField('daoGroups', daoGroups)
   }
 
@@ -63,7 +62,7 @@ const EditGroups: React.FC = (): JSX.Element => {
      */
     setSelectedGroup(id)
   }
-  const handleUpdateGroup = (data: DaoGroup): void => {
+  const handleUpdateGroup = (data: TDAOGroupModel): void => {
     if (data.id) {
       const newDaoGroups = omitKey({ ...daoGroups }, data.id)
       updateDAOGroups({

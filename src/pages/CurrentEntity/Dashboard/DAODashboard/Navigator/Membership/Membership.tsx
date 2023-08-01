@@ -4,8 +4,8 @@ import { Card } from '../../../../Components'
 import { Typography } from 'components/Typography'
 import { ReactComponent as ProfileIcon } from 'assets/images/icon-profile.svg'
 import { ReactComponent as CaretUpIcon } from 'assets/images/icon-caret-up.svg'
-import useCurrentDao from 'hooks/currentDao'
 import { useTheme } from 'styled-components'
+import useCurrentEntity from 'hooks/currentEntity'
 
 interface Props {
   groupAddresses?: string[]
@@ -13,8 +13,8 @@ interface Props {
 
 const Membership: React.FC<Props> = ({ groupAddresses = [] }): JSX.Element => {
   const theme: any = useTheme()
-  const { getNumOfMembersByAddresses } = useCurrentDao()
-  const numOfMembers = getNumOfMembersByAddresses(groupAddresses)
+  const { selectedDAOGroup } = useCurrentEntity()
+  const numOfMembers = selectedDAOGroup?.votingModule.members.length || 0
 
   // TODO:
   const approveds = 0

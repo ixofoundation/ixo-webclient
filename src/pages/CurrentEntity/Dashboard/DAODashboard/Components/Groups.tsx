@@ -6,15 +6,14 @@ import { ReactComponent as GroupsIcon } from 'assets/images/icon-groups.svg'
 import { ReactComponent as ChevRightIcon } from 'assets/images/icon-chev-right.svg'
 import { Box, FlexBox, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
-import useCurrentDao from 'hooks/currentDao'
-import { CurrentDao, DaoGroup } from 'redux/currentEntity/dao/currentDao.types'
 import { deviceWidth } from 'constants/device'
 import { toTitleCase, truncateString } from 'utils/formatters'
 import { ReactComponent as CopyIcon } from 'assets/images/icon-copy.svg'
 import CopyToClipboard from 'react-copy-to-clipboard'
 import { successToast } from 'utils/toast'
-import { DAOGroupConfig } from 'types/protocol'
+import { TDAOGroupModel, DAOGroupConfig } from 'types/protocol'
 import Tooltip from 'components/Tooltip/Tooltip'
+import useCurrentEntity from 'hooks/currentEntity'
 
 const StyledSlider = styled(Slider)`
   .slick-track {
@@ -69,14 +68,13 @@ const PrevArrow = (props: any) => {
 }
 
 interface Props {
-  isFollowing?: boolean
-  selectedGroups: CurrentDao
+  selectedGroup: TDAOGroupModel | undefined
   selectDaoGroup: (address: string) => void
 }
 
-const Groups: React.FC<Props> = ({ isFollowing, selectedGroups, selectDaoGroup }): JSX.Element | null => {
+const Groups: React.FC<Props> = ({ selectedGroup, selectDaoGroup }): JSX.Element | null => {
   const theme: any = useTheme()
-  const { daoGroups, myGroups } = useCurrentDao()
+  const { daoGroups } = useCurrentEntity()
   const [dragging, setDragging] = useState(false)
   const settings = {
     className: 'slider variable-width',
@@ -109,7 +107,7 @@ const Groups: React.FC<Props> = ({ isFollowing, selectedGroups, selectDaoGroup }
     ],
   }
 
-  const renderGroupCard = (daoGroup: DaoGroup): JSX.Element => {
+  const renderGroupCard = (daoGroup: TDAOGroupModel): JSX.Element => {
     const Icon = DAOGroupConfig[daoGroup.type]?.icon
     return (
       <FlexBox
@@ -118,13 +116,13 @@ const Groups: React.FC<Props> = ({ isFollowing, selectedGroups, selectDaoGroup }
         direction='column'
         alignItems='center'
         justifyContent='center'
-        borderWidth={selectedGroups[daoGroup.coreAddress] ? '2px' : '1px'}
+        borderWidth={selectedGroup === daoGroup ? '2px' : '1px'}
         borderStyle='solid'
-        borderColor={selectedGroups[daoGroup.coreAddress] ? theme.ixoNewBlue : theme.ixoDarkBlue}
+        borderColor={selectedGroup === daoGroup ? theme.ixoNewBlue : theme.ixoDarkBlue}
         borderRadius='12px'
         cursor='pointer'
         transition='all .2s'
-        background={selectedGroups[daoGroup.coreAddress] && theme.ixoDarkBlue}
+        background={selectedGroup === daoGroup && theme.ixoDarkBlue}
         hover={{ borderWidth: '2px', borderColor: theme.ixoNewBlue }}
         onClick={() => !dragging && selectDaoGroup(daoGroup.coreAddress)}
       >
@@ -180,7 +178,7 @@ const Groups: React.FC<Props> = ({ isFollowing, selectedGroups, selectDaoGroup }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [daoGroups])
 
-  if (Object.values(isFollowing ? myGroups : daoGroups).length === 0) {
+  if (Object.values(daoGroups).length === 0) {
     return null
   }
 
@@ -189,20 +187,11 @@ const Groups: React.FC<Props> = ({ isFollowing, selectedGroups, selectDaoGroup }
       <Card icon={<GroupsIcon />} label='Groups'>
         <Box width='100%' color='white'>
           <StyledSlider {...settings}>
-            {Object.values(isFollowing ? myGroups : daoGroups)
-              // .sort((a, b) => {
-              //   if (a.selected! > b.selected!) {
-              //     return -1
-              //   } else if (a.selected! < b.selected!) {
-              //     return 1
-              //   }
-              //   return 0
-              // })
-              .map((daoGroup: DaoGroup) => (
-                <div key={daoGroup.coreAddress} style={{ width: 240 }}>
-                  {renderGroupCard(daoGroup)}
-                </div>
-              ))}
+            {Object.values(daoGroups).map((daoGroup: TDAOGroupModel) => (
+              <div key={daoGroup.coreAddress} style={{ width: 240 }}>
+                {renderGroupCard(daoGroup)}
+              </div>
+            ))}
           </StyledSlider>
         </Box>
       </Card>

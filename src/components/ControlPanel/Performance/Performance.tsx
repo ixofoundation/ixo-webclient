@@ -7,14 +7,15 @@ import { ReactComponent as UserCircleIcon } from 'assets/images/icon-user-circle
 import { ReactComponent as ProposalsIcon } from 'assets/images/icon-proposals.svg'
 import { ReactComponent as ProjectIcon } from 'assets/images/icon-project.svg'
 import { ReactComponent as FundingIcon } from 'assets/images/icon-funding.svg'
-import useCurrentDao from 'hooks/currentDao'
+import useCurrentEntity from 'hooks/currentEntity'
 
 interface Props {
   widget: Widget
 }
 
 const Performance: React.FC<Props> = () => {
-  const { daoGroupsArr } = useCurrentDao()
+  const { daoGroups } = useCurrentEntity()
+  const daoGroupsArr = useMemo(() => Object.values(daoGroups), [daoGroups])
 
   const members = useMemo(
     () => daoGroupsArr.reduce((pre, cur) => pre + cur.votingModule.members.length, 0),

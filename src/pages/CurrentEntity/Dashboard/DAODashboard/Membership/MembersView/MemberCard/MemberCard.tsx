@@ -11,11 +11,11 @@ import { truncateString } from 'utils/formatters'
 import { MemberDetailCard } from '../MemberDetailCard'
 import { useHistory } from 'react-router-dom'
 import { Avatar } from '../../../../../Components'
-import useCurrentDao, { useCurrentDaoGroup } from 'hooks/currentDao'
 import { contracts } from '@ixo/impactxclient-sdk'
 import { convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
 import { useAccount } from 'hooks/account'
 import CurrencyFormat from 'react-currency-format'
+import useCurrentEntity, { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
 
 const Wrapper = styled(FlexBox)<{ focused: boolean }>`
   ${({ theme, focused }) => focused && `border-color: ${theme.ixoLightBlue};`}
@@ -75,8 +75,10 @@ const MemberCard: React.FC<Props> = ({ member, selected, onSelectMember }): JSX.
     },
   }
   const { cwClient } = useAccount()
-  const { selectedGroupsArr } = useCurrentDao()
-  const { type, daoGroup, proposals, votes, votingModuleAddress } = useCurrentDaoGroup(selectedGroupsArr[0].coreAddress)
+  const { selectedDAOGroup } = useCurrentEntity()
+  const { type, daoGroup, proposals, votes, votingModuleAddress } = useCurrentEntityDAOGroup(
+    selectedDAOGroup?.coreAddress || '',
+  )
   const { addr, role, status } = member
   const avatar = member.avatar
   const name = member.name

@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react'
 import { Redirect, Route, RouteComponentProps, useParams, useRouteMatch } from 'react-router-dom'
 import { useCreateEntityState } from 'hooks/createEntity'
-import { useCurrentDaoGroup } from 'hooks/currentDao'
-import useCurrentEntity, { useCurrentEntityProfile } from 'hooks/currentEntity'
+import useCurrentEntity, { useCurrentEntityDAOGroup, useCurrentEntityProfile } from 'hooks/currentEntity'
 import {
   SetupTargetGroup,
   SetupInfo as SetupProposalInfo,
@@ -24,7 +23,7 @@ const JoinImpactsDAOAction: TProposalActionModel = {
 const CreateProposal: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): JSX.Element => {
   const { entityId, coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
   const { getEntityByDid } = useCurrentEntity()
-  const { daoGroup } = useCurrentDaoGroup(coreAddress)
+  const { daoGroup } = useCurrentEntityDAOGroup(coreAddress)
   const { name: entityName } = useCurrentEntityProfile()
   const { proposal, updateProposal, updateBreadCrumbs, updateEntityType, updateTitle, updateSubtitle } =
     useCreateEntityState()

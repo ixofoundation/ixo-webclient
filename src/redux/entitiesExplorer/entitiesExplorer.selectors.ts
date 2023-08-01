@@ -6,9 +6,8 @@ import * as accountSelectors from 'redux/account/account.selectors'
 import { RootState } from 'redux/store'
 import { Schema as FilterSchema } from 'components/Entities/EntitiesExplorer/Components/EntitiesFilter/schema/types'
 import { theme } from 'components/App/App.styles'
-import { TEntityDDOTagModel } from 'types/protocol'
+import { TDAOGroupModel, TEntityDDOTagModel } from 'types/protocol'
 import { TEntityModel } from 'api/blocksync/types/entities'
-import { DaoGroup } from 'redux/currentEntity/dao/currentDao.types'
 
 const formatDate = (date: string): string => moment(date).format("D MMM \\'YY")
 
@@ -353,12 +352,12 @@ export const selectEntityById = (entityId: string) =>
     return entities.find((entity) => entity.id === entityId)
   })
 
-export const selectStakingGroups = createSelector(selectDAOEntities, (entities: TEntityModel[]): DaoGroup[] => {
-  const stakingGroups: DaoGroup[] = []
+export const selectStakingGroups = createSelector(selectDAOEntities, (entities: TEntityModel[]): TDAOGroupModel[] => {
+  const stakingGroups: TDAOGroupModel[] = []
   entities.forEach((entity: TEntityModel) => {
     const { daoGroups } = entity
     if (daoGroups) {
-      Object.values(daoGroups).forEach((daoGroup: DaoGroup) => {
+      Object.values(daoGroups).forEach((daoGroup: TDAOGroupModel) => {
         if (daoGroup.type === 'staking') {
           stakingGroups.push(daoGroup)
         }
@@ -369,13 +368,13 @@ export const selectStakingGroups = createSelector(selectDAOEntities, (entities: 
 })
 
 export const selectStakingGroupsByTokenAddress = (tokenAddress: string) =>
-  createSelector(selectStakingGroups, (stakingGroups: DaoGroup[]): DaoGroup[] => {
-    return stakingGroups.filter((daoGroup: DaoGroup) => daoGroup.token?.config.token_address === tokenAddress)
+  createSelector(selectStakingGroups, (stakingGroups: TDAOGroupModel[]): TDAOGroupModel[] => {
+    return stakingGroups.filter((daoGroup: TDAOGroupModel) => daoGroup.token?.config.token_address === tokenAddress)
   })
 
 export const selectStakingGroupByCoreAddress = (coreAddress: string) =>
-  createSelector(selectStakingGroups, (stakingGroups: DaoGroup[]): DaoGroup | undefined => {
-    return stakingGroups.find((daoGroup: DaoGroup) => daoGroup.coreAddress === coreAddress)
+  createSelector(selectStakingGroups, (stakingGroups: TDAOGroupModel[]): TDAOGroupModel | undefined => {
+    return stakingGroups.find((daoGroup: TDAOGroupModel) => daoGroup.coreAddress === coreAddress)
   })
 
 export const selectIsMemberOfDAO = (daoId: string, address: string) =>

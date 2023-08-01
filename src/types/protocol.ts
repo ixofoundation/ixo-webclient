@@ -119,8 +119,13 @@ import {
   SetupStakeToGroupModal,
   SetupSendGroupTokenModal,
 } from 'components/Modals/AddActionModal'
-import { DaoGroup } from 'redux/currentEntity/dao/currentDao.types'
 import SetupJoinModal from 'components/Modals/AddActionModal/SetupJoinModal'
+import { Config } from '@ixo/impactxclient-sdk/types/codegen/DaoCore.types'
+import { Config as PreProposeConfig } from '@ixo/impactxclient-sdk/types/codegen/DaoPreProposeSingle.types'
+import { Config as ProposalConfig, VoteInfo } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
+import { Config as Cw20StakeConfig } from '@ixo/impactxclient-sdk/types/codegen/Cw20Stake.types'
+import { Member, Proposal } from 'types/dao'
+import { MarketingInfoResponse, TokenInfoResponse } from '@ixo/impactxclient-sdk/types/codegen/Cw20Base.types'
 
 export const EntitySettingsConfig: { [key: string]: any } = {
   // required
@@ -1149,8 +1154,6 @@ export type TEntityAdministratorModel = TEntityCreatorModel
 //   absoluteThresholdCount?: string
 // }
 
-export type TDAOGroupModel = DaoGroup
-
 export interface TProposalActionModel {
   id: string
   type?: string
@@ -1184,4 +1187,44 @@ export interface TTokenMetadataModel {
     icon: string
     maxSupply: string
   }
+}
+
+/**
+ * @description DAO Group
+ */
+export type TDAOGroupModel = {
+  id?: string
+  coreAddress: string
+  type: string //  'membership' || 'staking'
+  admin: string
+  config: Config
+  proposalModule: {
+    proposalModuleAddress: string
+    preProposalContractAddress: string
+    preProposeConfig: PreProposeConfig
+    proposalConfig: ProposalConfig
+    proposals: Proposal[]
+    votes: VoteInfo[]
+  }
+  votingModule: {
+    votingModuleAddress: string
+    contractName: string //  'dao_voting_cw20_staked' || 'dao_voting_cw4'
+
+    members: Member[]
+    totalWeight: number
+  }
+  token:
+    | {
+        config: Cw20StakeConfig
+        tokenInfo: TokenInfoResponse
+        marketingInfo: MarketingInfoResponse
+        treasuryPercent?: number
+      }
+    | undefined
+  selected?: boolean
+  memberships?: {
+    category?: string
+    weight: number
+    members: string[]
+  }[]
 }

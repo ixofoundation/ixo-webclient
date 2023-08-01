@@ -1,13 +1,12 @@
 import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
-import { useCurrentEntityProfile } from 'hooks/currentEntity'
+import useCurrentEntity, { useCurrentEntityDAOGroup, useCurrentEntityProfile } from 'hooks/currentEntity'
 import { Button } from 'pages/CreateEntity/Components'
 import React, { useMemo, useState } from 'react'
 import { NavLink, useHistory, useParams } from 'react-router-dom'
 import { ReactComponent as WaitIcon } from 'assets/images/eco/wait.svg'
 import { ProgressBar } from 'components/ProgressBar/ProgressBar'
 import { useCreateEntity, useCreateEntityState } from 'hooks/createEntity'
-import useCurrentDao, { useCurrentDaoGroup } from 'hooks/currentDao'
 import moment from 'moment'
 import { durationToSeconds } from 'utils/conversions'
 import { EntityLinkedResourceConfig, ProposalActionConfig, TProposalActionModel } from 'types/protocol'
@@ -39,9 +38,9 @@ const ReviewProposal: React.FC = () => {
   const { entityId, coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
   const { address, cosmWasmClient, cwClient } = useAccount()
   const { name: entityName } = useCurrentEntityProfile()
-  const { setDaoGroup } = useCurrentDao()
+  const { updateDAOGroup } = useCurrentEntity()
   const { daoGroup, preProposalContractAddress, depositInfo, isParticipating, anyoneCanPropose } =
-    useCurrentDaoGroup(coreAddress)
+    useCurrentEntityDAOGroup(coreAddress)
   const createEntityState = useCreateEntityState()
   const {
     entityType,
@@ -309,7 +308,7 @@ const ReviewProposal: React.FC = () => {
 
         if (await handleAddProposalInfoAsLinkedEntity(deedDid, proposalId)) {
           history.push({ pathname: history.location.pathname, search: `?success=true` })
-          setDaoGroup(coreAddress)
+          updateDAOGroup(coreAddress)
           setSubmitting(false)
           return
         }

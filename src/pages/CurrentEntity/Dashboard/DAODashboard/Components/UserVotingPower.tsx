@@ -1,10 +1,10 @@
 import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
-import { useCurrentDaoGroup } from 'hooks/currentDao'
 import React, { useMemo } from 'react'
 import PieChart from 'components/Widgets/PieChart/PieChart'
 import { useAccount } from 'hooks/account'
 import { useTheme } from 'styled-components'
+import { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
 
 interface Props {
   show?: boolean
@@ -15,7 +15,7 @@ interface Props {
 const UserVotingPower: React.FC<Props> = ({ show, coreAddress, userAddress }) => {
   const theme: any = useTheme()
   const { address } = useAccount()
-  const { daoGroup } = useCurrentDaoGroup(coreAddress)
+  const { daoGroup } = useCurrentEntityDAOGroup(coreAddress)
 
   const isParticipating = useMemo(() => {
     return daoGroup.votingModule.members.some(({ addr }) => addr === (userAddress || address))

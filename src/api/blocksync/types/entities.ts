@@ -1,7 +1,6 @@
 import { Entity } from '@ixo/impactxclient-sdk/types/codegen/ixo/entity/v1beta1/entity'
 import { IidDocument } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/iid'
 import { AgentRole } from 'redux/account/account.types'
-import { DaoGroup } from 'redux/currentEntity/dao/currentDao.types'
 import {
   EntityType,
   EntityStatus,
@@ -23,6 +22,7 @@ import {
   FundSource,
 } from 'types/entities'
 import {
+  TDAOGroupModel,
   TEntityAdministratorModel,
   TEntityClaimModel,
   TEntityCreatorModel,
@@ -270,6 +270,6 @@ export interface TEntityModel extends Omit<Entity, 'metadata'>, IidDocument {
   page?: TEntityPageSectionModel[]
   tags?: TEntityDDOTagModel[]
   token?: TTokenMetadataModel
-  daoGroups?: { [address: string]: DaoGroup }
+  daoGroups?: { [address: string]: TDAOGroupModel }
   claim?: { [id: string]: TEntityClaimModel }
 }

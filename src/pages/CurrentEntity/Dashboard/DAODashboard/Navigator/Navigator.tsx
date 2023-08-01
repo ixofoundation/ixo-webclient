@@ -10,19 +10,17 @@ import { GovernanceActivity } from './GovernanceActivity'
 import { Groups } from '../Components'
 import { Membership } from './Membership'
 import { TreasuryPool } from './TreasuryPool'
-import useCurrentDao from 'hooks/currentDao'
 import { Button } from 'pages/CreateEntity/Components'
 import { GroupStakingModal } from 'components/Modals'
+import useCurrentEntity from 'hooks/currentEntity'
 
 const Navigator: React.FC = (): JSX.Element => {
   const { entityId: daoId } = useParams<{ entityId: string }>()
-  const { selectedGroups, selectDaoGroup } = useCurrentDao()
-  const selectedGroupAddresses: string[] = Object.keys(selectedGroups)
-  const numOfSelectedGroups = selectedGroupAddresses.length
+  const { selectedDAOGroup, selectDAOGroup } = useCurrentEntity()
   const [groupStakingModalOpen, setGroupStakingModalOpen] = useState(false)
 
   const renderAction = () => {
-    if (selectedGroups[selectedGroupAddresses[0]].type === 'membership') {
+    if (selectedDAOGroup?.type === 'membership') {
       return (
         <Button
           variant='secondary'
@@ -36,7 +34,7 @@ const Navigator: React.FC = (): JSX.Element => {
           Join
         </Button>
       )
-    } else if (selectedGroups[selectedGroupAddresses[0]].type === 'staking') {
+    } else if (selectedDAOGroup?.type === 'staking') {
       return (
         <Button
           variant='secondary'
@@ -56,16 +54,15 @@ const Navigator: React.FC = (): JSX.Element => {
 
   return (
     <FlexBox direction='column' gap={6}>
-      <Groups selectedGroups={selectedGroups} selectDaoGroup={(address: string) => selectDaoGroup(address, true)} />
+      <Groups selectedGroup={selectedDAOGroup} selectDaoGroup={(address: string) => selectDAOGroup(address)} />
 
-      {numOfSelectedGroups > 0 && (
+      {selectedDAOGroup && (
         <>
           <FlexBox width='100%' alignItems='center' justifyContent='space-between'>
             <Typography variant='secondary' color='white' size='5xl' transform='capitalize'>
-              {numOfSelectedGroups === 1 && `${Object.values(selectedGroups)[0]?.config.name} group`}
-              {numOfSelectedGroups > 1 && `${numOfSelectedGroups} selected groups`}
+              {selectedDAOGroup.config.name} group
             </Typography>
-            {numOfSelectedGroups === 1 && renderAction()}
+            {renderAction()}
           </FlexBox>
 
           <GridContainer
@@ -75,34 +72,34 @@ const Navigator: React.FC = (): JSX.Element => {
             gridGap={6}
           >
             <GridItem gridArea='a'>
-              <Membership groupAddresses={selectedGroupAddresses} />
+              <Membership groupAddresses={[]} />
             </GridItem>
             <GridItem gridArea='b'>
-              <Announcements daoId={daoId} groupAddresses={selectedGroupAddresses} />
+              <Announcements daoId={daoId} groupAddresses={[]} />
             </GridItem>
             <GridItem gridArea='c'>
-              <Governance daoId={daoId} groupAddresses={selectedGroupAddresses} />
+              <Governance daoId={daoId} groupAddresses={[]} />
             </GridItem>
             <GridItem gridArea='d'>
-              <GovernanceActivity daoId={daoId} groupIds={selectedGroupAddresses} />
+              <GovernanceActivity daoId={daoId} groupIds={[]} />
             </GridItem>
             <GridItem gridArea='e'>
-              <Activity daoId={daoId} groupIds={selectedGroupAddresses} />
+              <Activity daoId={daoId} groupIds={[]} />
             </GridItem>
             <GridItem gridArea='f'>
-              <FundingClaims daoId={daoId} groupIds={selectedGroupAddresses} />
+              <FundingClaims daoId={daoId} groupIds={[]} />
             </GridItem>
             <GridItem gridArea='g'>
-              <TreasuryPool daoId={daoId} groupAddresses={selectedGroupAddresses} />
+              <TreasuryPool daoId={daoId} groupAddresses={[]} />
             </GridItem>
           </GridContainer>
         </>
       )}
-      {groupStakingModalOpen && selectedGroups[selectedGroupAddresses[0]] && (
+      {groupStakingModalOpen && selectedDAOGroup && (
         <GroupStakingModal
           open={groupStakingModalOpen}
           setOpen={setGroupStakingModalOpen}
-          daoGroup={selectedGroups[selectedGroupAddresses[0]]}
+          daoGroup={selectedDAOGroup}
         />
       )}
     </FlexBox>

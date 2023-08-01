@@ -3,16 +3,14 @@ import { ReactComponent as CopyIcon } from 'assets/images/icon-copy.svg'
 import { FlexBox, GridContainer, SvgBox } from 'components/App/App.styles'
 import { DepositModal } from 'components/Modals'
 import { Typography } from 'components/Typography'
-import useCurrentDao from 'hooks/currentDao'
 import useCurrentEntity from 'hooks/currentEntity'
 import { useQuery } from 'hooks/window'
 import { Button } from 'pages/CreateEntity/Components'
 import { Card } from 'pages/CurrentEntity/Components'
 import React, { useEffect, useMemo, useState } from 'react'
 import CopyToClipboard from 'react-copy-to-clipboard'
-import { useHistory } from 'react-router-dom'
-import { DaoGroup } from 'redux/currentEntity/dao/currentDao.types'
 import { useTheme } from 'styled-components'
+import { TDAOGroupModel } from 'types/protocol'
 import { truncateString } from 'utils/formatters'
 import { successToast } from 'utils/toast'
 import { Coins } from '../../Components/Coins'
@@ -24,11 +22,10 @@ import BalanceCard from './BalanceCard/BalanceCard'
 
 const Accounts: React.FC = () => {
   const theme: any = useTheme()
-  const history = useHistory()
   const { getQuery } = useQuery()
   const expand: string | undefined = getQuery('expand')
   const { accounts: entityAccounts, linkedAccounts } = useCurrentEntity()
-  const { daoGroups } = useCurrentDao()
+  const { daoGroups } = useCurrentEntity()
 
   const [accounts, setAccounts] = useState<{
     [address: string]: {
@@ -78,7 +75,7 @@ const Accounts: React.FC = () => {
     if (Object.keys(daoGroups).length > 0) {
       ;(async () => {
         await Promise.all(
-          Object.values(daoGroups).map(async (daoGroup: DaoGroup) => {
+          Object.values(daoGroups).map(async (daoGroup: TDAOGroupModel) => {
             setAccounts((accounts) => ({
               ...accounts,
               [daoGroup.coreAddress]: {
@@ -86,7 +83,7 @@ const Accounts: React.FC = () => {
                 name: daoGroup.config.name,
                 type: 'group',
                 network: 'ixo Network',
-                balance: '0',
+                balance: '10',
               },
             }))
           }),
@@ -186,7 +183,7 @@ const Accounts: React.FC = () => {
             <FlexBox>
               <Card
                 label='Coins'
-                onAction={() => history.push({ pathname: history.location.pathname, search: `?expand=coins` })}
+                // onAction={() => history.push({ pathname: history.location.pathname, search: `?expand=coins` })}
               >
                 <Coins address={selectedAccount.address} />
               </Card>
@@ -194,7 +191,7 @@ const Accounts: React.FC = () => {
             <FlexBox>
               <Card
                 label='Impact Tokens'
-                onAction={() => history.push({ pathname: history.location.pathname, search: `?expand=impact_tokens` })}
+                // onAction={() => history.push({ pathname: history.location.pathname, search: `?expand=impact_tokens` })}
               >
                 <ImpactTokens address={selectedAccount.address} />
               </Card>
@@ -202,7 +199,7 @@ const Accounts: React.FC = () => {
             <FlexBox>
               <Card
                 label='Collections'
-                onAction={() => history.push({ pathname: history.location.pathname, search: `?expand=collections` })}
+                // onAction={() => history.push({ pathname: history.location.pathname, search: `?expand=collections` })}
               >
                 <Collections address={selectedAccount.address} />
               </Card>
@@ -210,7 +207,7 @@ const Accounts: React.FC = () => {
             <FlexBox>
               <Card
                 label='Transactions'
-                onAction={() => history.push({ pathname: history.location.pathname, search: `?expand=transactions` })}
+                // onAction={() => history.push({ pathname: history.location.pathname, search: `?expand=transactions` })}
               >
                 <Transactions address={selectedAccount.address} />
               </Card>

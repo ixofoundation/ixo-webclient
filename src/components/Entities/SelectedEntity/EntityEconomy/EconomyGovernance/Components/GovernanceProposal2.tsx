@@ -24,7 +24,6 @@ import {
   VoteInfo,
   Config as ProposalConfig,
 } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
-import { useCurrentDaoGroup } from 'hooks/currentDao'
 import { fee } from 'lib/protocol'
 import * as Toast from 'utils/toast'
 import { useIxoConfigs } from 'hooks/configs'
@@ -41,6 +40,7 @@ import { useAppSelector } from 'redux/hooks'
 import { selectEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { serviceEndpointToUrl } from 'utils/entities'
+import { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
 
 const Container = styled.div<{ isDark: boolean }>`
   background: ${(props) =>
@@ -133,7 +133,8 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
   const { entityId } = useParams<{ entityId: string }>()
   const { isDark } = useContext(DashboardThemeContext)
   const { convertToDenom } = useIxoConfigs()
-  const { daoGroup, proposalModuleAddress, isParticipating, depositInfo, tqData } = useCurrentDaoGroup(coreAddress)
+  const { daoGroup, proposalModuleAddress, isParticipating, depositInfo, tqData } =
+    useCurrentEntityDAOGroup(coreAddress)
   const { cwClient, cosmWasmClient, address } = useAccount()
 
   const [myVoteStatus, setMyVoteStatus] = useState<VoteInfo | undefined>(undefined)

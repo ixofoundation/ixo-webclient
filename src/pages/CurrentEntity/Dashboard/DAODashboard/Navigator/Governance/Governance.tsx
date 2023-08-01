@@ -5,10 +5,10 @@ import { Typography } from 'components/Typography'
 import { ReactComponent as GovernanceIcon } from 'assets/images/icon-governance.svg'
 import { ReactComponent as SandClockIcon } from 'assets/images/icon-sandclock-fill.svg'
 import { ProgressBar } from 'components/ProgressBar/ProgressBar'
-import useCurrentDao from 'hooks/currentDao'
 import { expirationAtTimeToSecondsFromNow, secondsToWdhms } from 'utils/conversions'
 import { useHistory, useParams } from 'react-router-dom'
 import { useTheme } from 'styled-components'
+import useCurrentEntity from 'hooks/currentEntity'
 
 interface Props {
   daoId: string
@@ -19,8 +19,8 @@ const Governance: React.FC<Props> = ({ daoId, groupAddresses }): JSX.Element => 
   const theme: any = useTheme()
   const history = useHistory()
   const { entityId } = useParams<{ entityId: string }>()
-  const { getProposalsByAddresses } = useCurrentDao()
-  const proposals = getProposalsByAddresses(groupAddresses)
+  const { selectedDAOGroup } = useCurrentEntity()
+  const proposals = selectedDAOGroup?.proposalModule.proposals ?? []
   const latestProposal = [...proposals].pop()
 
   const id = latestProposal?.id ?? 0

@@ -68,6 +68,9 @@ const CreatorSetupModal: React.FC<Props> = ({ creator, title, open, onClose, onC
 
   useEffect(() => {
     setFormData(creator)
+    return () => {
+      setFormData(undefined)
+    }
   }, [creator])
 
   useEffect(() => {

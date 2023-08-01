@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 import { Box, FlexBox, HTMLFlexBoxProps, SvgBox } from 'components/App/App.styles'
 import { SignStep, TXStatus } from '../common'
-import { DaoGroup } from 'redux/currentEntity/dao/currentDao.types'
 import { Typography } from 'components/Typography'
 import NextStepImage from 'assets/images/modal/nextstep.svg'
 import { contracts } from '@ixo/impactxclient-sdk'
@@ -25,6 +24,7 @@ import { Avatar } from 'pages/CurrentEntity/Components'
 import { errorToast } from 'utils/toast'
 import { useAppSelector } from 'redux/hooks'
 import { selectStakingGroupByCoreAddress } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { TDAOGroupModel } from 'types/protocol'
 
 const StyledInput = styled(Input)`
   color: white;
@@ -55,7 +55,7 @@ const Card = ({ children, ...rest }: HTMLFlexBoxProps) => {
 }
 
 interface Props {
-  daoGroup: DaoGroup
+  daoGroup: TDAOGroupModel
   open: boolean
   setOpen: (open: boolean) => void
   onSuccess?: (txHash: string) => void
