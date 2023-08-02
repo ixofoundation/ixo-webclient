@@ -374,37 +374,6 @@ export default function useEditEntity(): {
       }),
     )
 
-    // const editedLinkedClaim = editEntity.linkedClaim
-    // const currentLinkedClaim = currentEntity.linkedClaim
-    // if (JSON.stringify(editedLinkedClaim) === JSON.stringify(currentLinkedClaim)) {
-    //   return []
-    // }
-
-    // const diffLinkedClaim = [
-    //   ...editedLinkedClaim.filter(
-    //     (item: LinkedClaim) =>
-    //       !currentLinkedClaim.map((item: LinkedClaim) => JSON.stringify(item)).includes(JSON.stringify(item)),
-    //   ),
-    //   ...currentLinkedClaim
-    //     .filter(
-    //       (item: LinkedClaim) =>
-    //         !editedLinkedClaim.map((item: LinkedClaim) => JSON.stringify(item)).includes(JSON.stringify(item)),
-    //     )
-    //     .filter((item: LinkedClaim) => !editedLinkedClaim.some((v) => v.id === item.id)),
-    // ]
-
-    // const messages: readonly EncodeObject[] = diffLinkedClaim.reduce(
-    //   (acc: EncodeObject[], cur: LinkedClaim) => [
-    //     ...acc,
-    //     ...(currentLinkedClaim.some((item: LinkedClaim) => item.id === cur.id)
-    //       ? editedLinkedClaim.some((item: LinkedClaim) => item.id === cur.id)
-    //         ? GetReplaceLinkedClaimMsgs(editEntity.id, signer, cur)
-    //         : GetDeleteLinkedClaimMsgs(editEntity.id, signer, cur)
-    //       : GetAddLinkedClaimMsgs(editEntity.id, signer, cur)),
-    //   ],
-    //   [],
-    // )
-
     return messages
   }
 
