@@ -55,7 +55,7 @@ jobs:
       - run:
           command: |
             shopt -s globstar
-            TEST=$(ls src/*.test.{ts} | circleci tests split --split-by=name)
+            TEST=$(ls src/*.test.ts | circleci tests split --split-by=name)
             yarn test $TEST
           name: Run tests
 
