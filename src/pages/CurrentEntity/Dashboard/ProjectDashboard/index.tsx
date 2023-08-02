@@ -1,16 +1,20 @@
 import Dashboard from 'components/Dashboard/Dashboard'
 import { HeaderTab, Path } from 'components/Dashboard/types'
+import { useAccount } from 'hooks/account'
 import useCurrentEntity, { useCurrentEntityProfile } from 'hooks/currentEntity'
-import { Redirect, Route, useParams } from 'react-router-dom'
+import { Redirect, Route, useParams, useRouteMatch } from 'react-router-dom'
 import { toTitleCase } from 'utils/formatters'
 import { requireCheckDefault } from 'utils/images'
 import ClaimQuestions from './ClaimQuestions'
 import Claims from './Claims'
+import EditEntity from './EditEntity'
 
 const ProjectDashboard: React.FC = (): JSX.Element => {
   const { entityId } = useParams<{ entityId: string }>()
-  const { entityType } = useCurrentEntity()
+  const isEditEntityRoute = useRouteMatch('/entity/:entityId/dashboard/edit')
+  const { entityType, owner } = useCurrentEntity()
   const { name } = useCurrentEntityProfile()
+  const { registered, address } = useAccount()
 
   const routes: Path[] = [
     {
@@ -19,6 +23,13 @@ const ProjectDashboard: React.FC = (): JSX.Element => {
       sdg: 'Claims',
       tooltip: 'Claims',
       strict: true,
+    },
+    {
+      url: `/entity/${entityId}/dashboard/edit`,
+      icon: requireCheckDefault(require('assets/img/sidebar/gear.svg')),
+      sdg: 'Edit Entity',
+      tooltip: 'Edit Entity',
+      disabled: !registered || owner !== address,
     },
   ]
 
@@ -58,7 +69,7 @@ const ProjectDashboard: React.FC = (): JSX.Element => {
     },
   ]
 
-  const theme = 'dark'
+  const theme = isEditEntityRoute ? 'light' : 'dark'
 
   return (
     <Dashboard
@@ -71,6 +82,10 @@ const ProjectDashboard: React.FC = (): JSX.Element => {
     >
       <Route exact path='/entity/:entityId/dashboard/claims' component={Claims} />
       <Route exact path='/entity/:entityId/dashboard/claims/:claimId' component={ClaimQuestions} />
+
+      {registered && owner === address && (
+        <Route exact path='/entity/:entityId/dashboard/edit' component={EditEntity} />
+      )}
 
       <Route exact path='/entity/:entityId/dashboard'>
         <Redirect to={`/entity/${entityId}/dashboard/claims`} />
