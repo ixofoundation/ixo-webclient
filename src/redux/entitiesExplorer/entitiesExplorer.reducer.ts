@@ -4,7 +4,6 @@ import { AccountActions, AccountActionTypes } from 'redux/account/account.types'
 
 export const initialState: EntitiesExplorerState = {
   selectedEntitiesType: 'project',
-  entities: [],
   entities2: null,
   entityConfig: null,
   filter: {
@@ -33,23 +32,11 @@ export const reducer = (
           itemOffset: 0,
         },
       }
-    case EntitiesExplorerActions.GetEntitiesSuccess:
-      return {
-        ...state,
-        entities: action.payload,
-      }
     case EntitiesExplorerActions.GetEntities2Success:
       return {
         ...state,
         entities2: { ...state.entities2, ...Object.fromEntries(action.payload.map((entity) => [entity.id, entity])) },
       }
-    case EntitiesExplorerActions.GetIndividualEntity: {
-      const { did } = action.payload
-      return {
-        ...state,
-        entities: state.entities?.map((entity) => (entity.did !== did ? entity : { ...entity, ...action.payload })),
-      }
-    }
     case EntitiesExplorerActions.GetIndividualEntity2: {
       const { id, key, data, merge } = action.payload
       const entities2 = state.entities2 ? { ...state.entities2 } : {}

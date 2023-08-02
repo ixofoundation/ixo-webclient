@@ -1,10 +1,11 @@
 import { FlexBox } from 'components/App/App.styles'
 import { PropertyBox } from 'pages/CreateEntity/Components'
 import React, { useMemo, useState } from 'react'
-import { ProposalActionConfig, TProposalActionModel } from 'types/protocol'
+import { TProposalActionModel } from 'types/entities'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
 
 import { AddActionModal } from 'components/Modals'
+import { ProposalActionConfig } from 'constants/entity'
 
 interface Props {
   actions: TProposalActionModel[]

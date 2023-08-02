@@ -4,7 +4,7 @@ import { Typography } from 'components/Typography'
 import { PropertyBox } from 'pages/CreateEntity/Components'
 import { Props as PropertyBoxProps } from 'pages/CreateEntity/Components/PropertyBox'
 import React, { useEffect, useMemo, useState } from 'react'
-import { EntityLinkedEntityConfig, DAOGroupConfig, TDAOGroupModel } from 'types/protocol'
+import { TDAOGroupModel } from 'types/entities'
 import { omitKey } from 'utils/objects'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
 import { toTitleCase, truncateString } from 'utils/formatters'
@@ -15,6 +15,7 @@ import LinkedAccountSetupModal from 'components/Modals/LinkedAccountSetupModal/L
 import { serviceEndpointToUrl } from 'utils/entities'
 import DelegateAccountSetupModal from 'components/Modals/DelegateAccountSetupModal/DelegateAccountSetupModal'
 import { errorToast } from 'utils/toast'
+import { DAOGroupConfig, EntityLinkedEntityConfig } from 'constants/entity'
 
 const bsService = new BlockSyncService()
 

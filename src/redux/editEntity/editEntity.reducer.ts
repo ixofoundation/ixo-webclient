@@ -1,4 +1,4 @@
-import { TEntityModel } from 'api/blocksync/types/entities'
+import { TEntityModel } from 'types/entities'
 import { EditEntityActions, EditEntityActionTypes } from './editEntity.types'
 
 const initialState: TEntityModel = {} as any

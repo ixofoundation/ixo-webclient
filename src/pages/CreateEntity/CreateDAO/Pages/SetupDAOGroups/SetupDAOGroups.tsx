@@ -6,12 +6,13 @@ import { Button, CheckBox, PropertyBox } from 'pages/CreateEntity/Components'
 import { AddDAOGroupModal } from 'components/Modals'
 import { useCreateEntityState } from 'hooks/createEntity'
 import { v4 as uuidv4 } from 'uuid'
-import { TDAOGroupModel, DAOGroupConfig } from 'types/protocol'
+import { TDAOGroupModel } from 'types/entities'
 import { omitKey } from 'utils/objects'
 import SetupGroupSettings from './SetupGroupSettings'
 import { deviceWidth } from 'constants/device'
 import { ixo } from '@ixo/impactxclient-sdk'
 import BigNumber from 'bignumber.js'
+import { DAOGroupConfig } from 'constants/entity'
 
 export const initialGroupConfig: TDAOGroupModel['config'] = {
   automatically_add_cw20s: true,

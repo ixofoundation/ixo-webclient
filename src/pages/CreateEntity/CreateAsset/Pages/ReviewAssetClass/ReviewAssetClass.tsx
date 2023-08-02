@@ -17,7 +17,7 @@ import {
   TokenMetadataTabs,
   TokenMetadataWrapper,
 } from './ReviewAssetClass.styles'
-import { EAssetType, TAssetMetadataModel } from 'types/protocol'
+import { EAssetType, TAssetMetadataModel } from 'types/entities'
 import { Typography } from 'components/Typography'
 
 export const TokenMetadata = ({ description, brand, metrics, attributes }: any): JSX.Element => {

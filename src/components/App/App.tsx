@@ -9,7 +9,7 @@ import AssistantContext from 'contexts/assistant'
 import { AnyObject } from 'immer/dist/internal'
 import { changeEntitiesType, getAllEntities, getEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.actions'
 import { EntityType, EntityConfig } from 'types/entities'
-import React, { lazy, Suspense } from 'react'
+import React from 'react'
 import * as ReactGA from 'react-ga'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
@@ -32,8 +32,6 @@ import { CosmWasmClient } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/cosm
 
 const CHAIN_ID = process.env.REACT_APP_CHAIN_ID!
 const LOCAL_STORAGE_KEY = 'ixo-webclient/connectedWalletId'
-
-const FundingChat = lazy(() => import(/* webpackChunkName: "FundingChat" */ 'components/FundingChat/FundingChat'))
 
 ReactGA.initialize('UA-106630107-5')
 ReactGA.pageview(window.location.pathname + window.location.search)
@@ -151,7 +149,7 @@ class App extends React.Component<Props, State> {
   }
 
   render(): JSX.Element {
-    const { assistantToggled, toggleAssistant } = this.props
+    const { assistantToggled } = this.props
     // let assistantBaseStyles: any = {
     //   background: '#F0F3F9',
     //   zIndex: 8,
@@ -209,11 +207,6 @@ class App extends React.Component<Props, State> {
                     <ContentWrapper>
                       {this.props.loginStatusCheckCompleted ? <Routes /> : <Spinner info={'Loading ixo.world...'} />}
                     </ContentWrapper>
-                    {assistantToggled && (
-                      <Suspense fallback={<div />}>
-                        <FundingChat assistantPanelToggle={toggleAssistant} />
-                      </Suspense>
-                    )}
                   </div>
                   <Footer />
                 </Container>

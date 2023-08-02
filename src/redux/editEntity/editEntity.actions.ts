@@ -1,4 +1,4 @@
-import { TEntityModel } from 'api/blocksync/types/entities'
+import { TEntityModel } from 'types/entities'
 import { EditEntityActions, SetEditedFieldAction } from './editEntity.types'
 
 export const setEditedFieldAction = ({

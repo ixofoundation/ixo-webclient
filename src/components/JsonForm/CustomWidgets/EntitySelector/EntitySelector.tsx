@@ -1,4 +1,4 @@
-import EntitySelectorControl from '../../../EntitySelector/EntitySelector'
+import EntitySelectorControl from '../../../Selector/EntitySelector/EntitySelector'
 
 interface Props {
   value: string

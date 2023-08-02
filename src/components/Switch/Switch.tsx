@@ -7,7 +7,7 @@ interface Props {
   handleChange(): void
 }
 
-export const Switch: React.SFC<Props> = ({ label, on, className = '', handleChange }) => {
+export const Switch: React.FC<Props> = ({ label, on, className = '', handleChange }) => {
   return (
     <>
       <SwitchWrapper aria-label={label} className={className}>

@@ -5,7 +5,7 @@ import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
 import { Button, CheckBox, PropertyBox } from 'pages/CreateEntity/Components'
 import { AddDAOGroupModal } from 'components/Modals'
 import { v4 as uuidv4 } from 'uuid'
-import { DAOGroupConfig, TDAOGroupModel } from 'types/protocol'
+import { TDAOGroupModel } from 'types/entities'
 import { omitKey } from 'utils/objects'
 // import SetupGroupSettings, { initialMembership, initialStaking } from './SetupGroupSettings'
 import { deviceWidth } from 'constants/device'
@@ -18,6 +18,7 @@ import {
   initialMembershipGroup,
   initialStakingGroup,
 } from 'pages/CreateEntity/CreateDAO/Pages/SetupDAOGroups/SetupDAOGroups'
+import { DAOGroupConfig } from 'constants/entity'
 
 const EditGroups: React.FC = (): JSX.Element => {
   const history = useHistory()

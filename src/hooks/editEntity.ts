@@ -5,7 +5,6 @@ import {
   LinkedResource,
   VerificationMethod,
 } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
-import { TEntityModel } from 'api/blocksync/types/entities'
 import BigNumber from 'bignumber.js'
 import {
   fee,
@@ -30,7 +29,8 @@ import { useCreateEntity } from './createEntity'
 import useCurrentEntity from './currentEntity'
 import { DeliverTxResponse } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/stargate'
 import { ixo, utils } from '@ixo/impactxclient-sdk'
-import { EntityLinkedResourceConfig, TDAOGroupModel } from 'types/protocol'
+import { TDAOGroupModel, TEntityModel } from 'types/entities'
+import { EntityLinkedResourceConfig } from 'constants/entity'
 
 export default function useEditEntity(): {
   editEntity: TEntityModel

@@ -2,7 +2,7 @@ import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { CodeMirror, Dropdown, Input, Switch } from 'pages/CreateEntity/Components'
 import React, { useEffect, useMemo, useState } from 'react'
-import { TProposalActionModel } from 'types/protocol'
+import { TProposalActionModel } from 'types/entities'
 import { isAccountAddress, validateJSON } from 'utils/validation'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 

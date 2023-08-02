@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { ChainSelector, Input } from 'pages/CreateEntity/Components'
-import { TProposalActionModel } from 'types/protocol'
+import { TProposalActionModel } from 'types/entities'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 import { ReactComponent as SearchIcon } from 'assets/images/icon-search.svg'
 import { BlockSyncService } from 'services/blocksync'

@@ -1,7 +1,7 @@
 import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import React, { useState } from 'react'
-import { TEntityAttributeModel, TEntityMetricModel } from 'types/protocol'
+import { TEntityAttributeModel, TEntityMetricModel } from 'types/entities'
 import { EntityAttributesForm } from './EntityAttributesForm'
 import { EntityDescriptionForm } from './EntityDescriptionForm'
 import { EntityMetricsForm } from './EntityMetricsForm'

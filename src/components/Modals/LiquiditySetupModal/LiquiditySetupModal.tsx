@@ -4,10 +4,8 @@ import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
 import { ModalStyles, CloseButton, ModalBody, ModalWrapper, ModalRow, ModalTitle } from 'components/Modals/styles'
 import { Button } from 'pages/CreateEntity/Components'
 import { FormData } from 'components/JsonForm/types'
-import { TEntityLiquidityModel } from 'types/protocol'
-import LiquidityCard from 'components/Entities/CreateEntity/CreateEntityAdvanced/Components/LiquidityCard/LiquidityCard'
-import { Typography } from 'components/App/App.styles'
-import { useTheme } from 'styled-components'
+import { TEntityLiquidityModel } from 'types/entities'
+import { Typography } from 'components/Typography'
 
 interface Props {
   liquidity: TEntityLiquidityModel[]
@@ -17,7 +15,6 @@ interface Props {
 }
 
 const LiquiditySetupModal: React.FC<Props> = ({ liquidity, open, onClose, handleChange }): JSX.Element => {
-  const theme: any = useTheme()
   const [formData, setFormData] = useState<FormData[]>([])
 
   useEffect(() => {
@@ -25,9 +22,9 @@ const LiquiditySetupModal: React.FC<Props> = ({ liquidity, open, onClose, handle
   }, [liquidity])
 
   const handleAddLiquidity = (): void => setFormData((pre) => [...pre, {}])
-  const handleUpdateLiquidity = (index: number, liquidity: FormData): void =>
-    setFormData((pre) => pre.map((origin, idx) => (index === idx ? liquidity : origin)))
-  const handleRemoveLiquidity = (index: number): void => setFormData((pre) => pre.filter((_, idx) => idx !== index))
+  // const handleUpdateLiquidity = (index: number, liquidity: FormData): void =>
+  //   setFormData((pre) => pre.map((origin, idx) => (index === idx ? liquidity : origin)))
+  // const handleRemoveLiquidity = (index: number): void => setFormData((pre) => pre.filter((_, idx) => idx !== index))
 
   const handleSubmit = (): void => {
     handleChange(
@@ -50,7 +47,7 @@ const LiquiditySetupModal: React.FC<Props> = ({ liquidity, open, onClose, handle
         <ModalBody>
           {formData.map((liquidity, index) => (
             <ModalRow key={index}>
-              <LiquidityCard
+              {/* <LiquidityCard
                 source={liquidity?.source}
                 liquidityId={liquidity?.liquidityId}
                 handleUpdateContent={(formData): void => handleUpdateLiquidity(index, formData)}
@@ -61,11 +58,11 @@ const LiquiditySetupModal: React.FC<Props> = ({ liquidity, open, onClose, handle
                 handleError={(): void => {
                   // this.props.handleValidationError(stake.id, errors)
                 }}
-              />
+              /> */}
             </ModalRow>
           ))}
           <ModalRow style={{ justifyContent: 'center' }}>
-            <Typography color={theme.ixoNewBlue} style={{ cursor: 'pointer' }} onClick={handleAddLiquidity}>
+            <Typography color='blue' style={{ cursor: 'pointer' }} onClick={handleAddLiquidity}>
               + Add Liquidity
             </Typography>
           </ModalRow>

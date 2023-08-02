@@ -3,15 +3,14 @@ import {
   TEntityMetadataModel,
   TEntityCreatorModel,
   TEntityServiceModel,
-  ELocalisation,
   TEntityAdministratorModel,
   TEntityPageModel,
   TEntityClaimModel,
   TEntityDDOTagModel,
   TDAOGroupModel,
   TProposalModel,
-  TQuestion,
-} from 'types/protocol'
+} from 'types/entities'
+import { ELocalisation, TQuestion } from 'types/protocol'
 
 export interface TCreateEntityModel {
   localisation: ELocalisation

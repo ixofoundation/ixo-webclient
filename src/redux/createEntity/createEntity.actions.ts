@@ -1,6 +1,5 @@
 import { AccordedRight, LinkedEntity, LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import {
-  ELocalisation,
   TDAOGroupModel,
   TProposalModel,
   TEntityClaimModel,
@@ -10,8 +9,8 @@ import {
   TEntityMetadataModel,
   TEntityPageModel,
   TEntityServiceModel,
-  TQuestion,
-} from 'types/protocol'
+} from 'types/entities'
+import { ELocalisation, TQuestion } from 'types/protocol'
 import {
   ECreateEntityActions,
   TAddAssetInstancesAction,

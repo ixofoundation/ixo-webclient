@@ -4,17 +4,16 @@ import {
   TEntityMetadataModel,
   TEntityCreatorModel,
   TEntityServiceModel,
-  ELocalisation,
   TEntityAdministratorModel,
   TEntityPageModel,
   TEntityClaimModel,
   TEntityDDOTagModel,
   TDAOGroupModel,
   TProposalModel,
-  TQuestion,
-} from 'types/protocol'
+} from 'types/entities'
 import { TCreateEntityState, TCreateEntityModel } from './createEntity.types'
 import { AccordedRight, LinkedEntity, LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
+import { ELocalisation, TQuestion } from 'types/protocol'
 
 export const selectCreateEntity = (state: RootState): TCreateEntityState => state.newEntity
 

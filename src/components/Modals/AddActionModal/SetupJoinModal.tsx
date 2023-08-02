@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { InputWithLabel } from 'pages/CreateEntity/Components'
-import { TProposalActionModel } from 'types/protocol'
+import { TProposalActionModel } from 'types/entities'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 import { validateEntityDid } from 'utils/validation'
 import { Typography } from 'components/Typography'

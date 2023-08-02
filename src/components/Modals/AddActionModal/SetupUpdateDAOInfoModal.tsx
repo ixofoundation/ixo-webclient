@@ -4,7 +4,7 @@ import { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
 import { Input, Switch } from 'pages/CreateEntity/Components'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { TProposalActionModel } from 'types/protocol'
+import { TProposalActionModel } from 'types/entities'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 
 export interface UpdateInfoData {

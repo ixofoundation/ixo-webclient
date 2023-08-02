@@ -1,9 +1,8 @@
 import { EntityAccount } from '@ixo/impactxclient-sdk/types/codegen/ixo/entity/v1beta1/entity'
 import { LinkedEntity, Service } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { createSelector } from '@reduxjs/toolkit'
-import { TEntityModel } from 'api/blocksync/types/entities'
 import { RootState } from 'redux/store'
-import { TDAOGroupModel, TEntityClaimModel } from 'types/protocol'
+import { TDAOGroupModel, TEntityClaimModel, TEntityModel } from 'types/entities'
 
 export const selectCurrentEntity = (state: RootState): TEntityModel => state.currentEntity
 

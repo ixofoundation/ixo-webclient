@@ -7,9 +7,9 @@ import { StyledDropzone, LoaderWrapper, UploadingWrapper } from '../Loader.style
 import UploadFlat from 'assets/icons/UploadFlat'
 import { strategyMap } from '../strategy-map'
 import { FileType } from '../types'
-import PulseLoader from '../../PulseLoader/PulseLoader'
-import BackdropModal from '../../BackdropModal/BackdropModal'
-import Portal from 'components/Portal/Portal'
+import PulseLoader from '../../Spinner/PulseLoader/PulseLoader'
+import BackdropModal from './BackdropModal/BackdropModal'
+import Portal from 'components/DropZone/ImageLoader/Portal/Portal'
 
 export interface CroppingModalProps {
   circularCrop: boolean

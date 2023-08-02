@@ -1,7 +1,5 @@
-import moment from 'moment'
 import { Dispatch } from 'redux'
 import {
-  GetEntitiesAction,
   ChangeEntitiesTypeAction,
   FilterToggleUserEntitiesAction,
   FilterToggleFeaturedEntitiesAction,
@@ -23,96 +21,21 @@ import {
   GetEntityByIdAction,
 } from './entitiesExplorer.types'
 import { RootState } from 'redux/store'
-import blocksyncApi from 'api/blocksync/blocksync'
 import { SchemaGitUrl } from 'constants/chains'
-import { ApiListedEntity } from 'api/blocksync/types/entities'
 import Axios from 'axios'
-import { getHeadlineClaimInfo } from 'utils/claims'
-import { TEntityDDOTagModel } from 'types/protocol'
+import { TEntityDDOTagModel } from 'types/entities'
 import { BlockSyncService } from 'services/blocksync'
 import { apiEntityToEntity } from 'utils/entities'
 
 const bsService = new BlockSyncService()
 
-export const getEntities =
-  () =>
-  (dispatch: Dispatch): GetEntitiesAction => {
-    return dispatch({
-      type: EntitiesExplorerActions.GetEntities,
-      // Temp
-      payload: blocksyncApi.project
-        .listProjects()
-        .then((apiEntities: ApiListedEntity[]) => {
-          return apiEntities
-            .filter((entity) => !!entity.data['@type'])
-            .map((apiEntity: ApiListedEntity) => ({
-              ...apiEntity,
-              data: {
-                ...apiEntity.data,
-                creator: {
-                  ...apiEntity.data.creator,
-                  logo:
-                    apiEntity.data.creator?.logo?.replace('pds_pandora.ixo.world', 'cellnode-pandora.ixo.earth') ?? '',
-                },
-                image: apiEntity.data.image?.replace('pds_pandora.ixo.world', 'cellnode-pandora.ixo.earth') ?? '',
-                logo: apiEntity.data.logo?.replace('pds_pandora.ixo.world', 'cellnode-pandora.ixo.earth') ?? '',
-              },
-            }))
-            .map((apiEntity: ApiListedEntity) => {
-              const { claimToUse, successful, pending, rejected, disputed } = getHeadlineClaimInfo(apiEntity)
-
-              return {
-                goal: claimToUse ? claimToUse.goal : undefined,
-                serviceProvidersCount: apiEntity.data.agentStats?.serviceProviders,
-                evaluatorsCount: apiEntity.data.agentStats?.evaluators,
-                requiredClaimsCount: claimToUse ? claimToUse.targetMax : 0,
-                pendingClaimsCount: pending, // due to pendingClaims not existing in the claimStats we have to look in the claims itself!
-                successfulClaimsCount: successful,
-                rejectedClaimsCount: rejected,
-                disputedClaimsCount: disputed,
-                agentDids: apiEntity.data.agents.map((agent) => agent.did),
-                sdgs: apiEntity.data.sdgs,
-                ddoTags: apiEntity.data.ddoTags
-                  ? apiEntity.data.ddoTags.map((ddoTag) => ({
-                      name: ddoTag.category,
-                      tags: ddoTag.tags,
-                    }))
-                  : [],
-                termsType: apiEntity.data.terms ? apiEntity.data.terms['@type'] : undefined,
-                badges: apiEntity.data.displayCredentials.items.map((dc) => dc.badge),
-                claims: apiEntity.data.claims,
-                entityClaims: apiEntity.data.entityClaims,
-                linkedEntities: apiEntity.data.linkedEntities,
-                funding: apiEntity.data.funding,
-                liquidity: apiEntity.data.liquidity,
-
-                // in common
-                did: apiEntity.projectDid,
-                type: apiEntity.data['@type'],
-                status: apiEntity.status,
-                dateCreated: moment(parseInt(apiEntity.data.createdOn.$date.$numberLong)),
-                version: apiEntity.data.version.versionNumber,
-
-                // profile
-                name: apiEntity.data.name,
-                description: apiEntity.data.description,
-                image: apiEntity.data.image,
-                logo: apiEntity.data.logo,
-                location: apiEntity.data.location,
-
-                // creator
-                creatorDid: apiEntity.data.createdBy,
-                creatorName: apiEntity.data.creator.displayName,
-                creatorLogo: apiEntity.data.creator.logo,
-              }
-            })
-        })
-        .catch((e) => {
-          console.log('getEntities', e)
-          return []
-        }),
-    }) as any
-  }
+const filterEntities = (entities: any[]) =>
+  entities.filter(
+    (entity) =>
+      entity.relayerNode === process.env.REACT_APP_RELAYER_NODE ||
+      entity.id === process.env.REACT_APP_RELAYER_NODE ||
+      entity.entityVerified === true,
+  )
 
 export const getAllEntities =
   () =>
@@ -124,22 +47,16 @@ export const getAllEntities =
     return dispatch({
       type: EntitiesExplorerActions.GetEntities2,
       payload: bsService.entity.getAllEntities().then((entities: any[]) => {
-        return entities
-          ?.filter(
-            (entity) =>
-              entity.relayerNode === process.env.REACT_APP_RELAYER_NODE ||
-              entity.id === process.env.REACT_APP_RELAYER_NODE,
-          )
-          .map((entity) => {
-            const { id } = entity
-            apiEntityToEntity({ entity, cwClient }, (key, value, merge = false) => {
-              dispatch({
-                type: EntitiesExplorerActions.GetIndividualEntity2,
-                payload: { id, key, data: value, merge },
-              })
+        return filterEntities(entities).map((entity) => {
+          const { id } = entity
+          apiEntityToEntity({ entity, cwClient }, (key, value, merge = false) => {
+            dispatch({
+              type: EntitiesExplorerActions.GetIndividualEntity2,
+              payload: { id, key, data: value, merge },
             })
-            return { ...(entities2 && entities2[id] ? entities2[id] : {}), ...entity }
           })
+          return { ...(entities2 && entities2[id] ? entities2[id] : {}), ...entity }
+        })
       }),
     })
   }

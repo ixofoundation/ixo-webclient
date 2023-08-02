@@ -8,7 +8,7 @@ import { CardWidthBox, CollectionIcon } from '../ReviewAssetClass/ReviewAssetCla
 import { PageWrapper, PageRow } from './CreateToken.styles'
 import IndividualToken from './IndividualToken'
 import NewTokenTemplate from './NewTokenTemplate'
-import { TAssetMetadataModel } from 'types/protocol'
+import { TAssetMetadataModel } from 'types/entities'
 import { Typography } from 'components/Typography'
 import { useTheme } from 'styled-components'
 

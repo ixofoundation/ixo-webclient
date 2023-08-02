@@ -1,5 +1,5 @@
-import { NodeType } from 'types/entities'
-import { ELocalisation, TEntityServiceModel } from 'types/protocol'
+import { NodeType, TEntityServiceModel } from 'types/entities'
+import { ELocalisation } from 'types/protocol'
 import { ECreateEntityActions, TCreateEntityActionTypes, TCreateEntityState } from './createEntity.types'
 
 export const initialIpfsService: TEntityServiceModel = {

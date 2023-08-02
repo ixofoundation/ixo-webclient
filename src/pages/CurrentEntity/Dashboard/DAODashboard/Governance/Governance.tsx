@@ -1,6 +1,6 @@
 import React from 'react'
 import { Box, FlexBox } from 'components/App/App.styles'
-import GovernanceProposal from 'components/Entities/SelectedEntity/EntityEconomy/EconomyGovernance/Components/GovernanceProposal2'
+import GovernanceProposal from './GovernanceProposal'
 import { durationToSeconds, expirationAtTimeToSecondsFromNow } from 'utils/conversions'
 import { Groups } from '../Components'
 import { Typography } from 'components/Typography'

@@ -5,7 +5,6 @@ import {
   LinkedResource,
   Service,
 } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
-import { TEntityModel } from 'api/blocksync/types/entities'
 import { useMemo } from 'react'
 import {
   clearEntityAction,
@@ -37,20 +36,21 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { BlockSyncService } from 'services/blocksync'
 import {
   TDAOGroupModel,
-  EntityLinkedResourceConfig,
   TEntityAdministratorModel,
   TEntityClaimModel,
   TEntityCreatorModel,
   TEntityDDOTagModel,
+  TEntityModel,
   TEntityPageSectionModel,
   TEntityProfileModel,
-} from 'types/protocol'
+} from 'types/entities'
 import { getDaoContractInfo, thresholdToTQData } from 'utils/dao'
 import { apiEntityToEntity } from 'utils/entities'
 import { useAccount } from './account'
 import { Config as ProposalConfig } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/DaoPreProposeSingle.types'
 import { depositInfoToCoin } from 'utils/conversions'
+import { EntityLinkedResourceConfig } from 'constants/entity'
 
 const bsService = new BlockSyncService()
 

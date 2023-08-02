@@ -20,7 +20,7 @@ import CurrencyFormat from 'react-currency-format'
 import { fee } from 'lib/protocol'
 import styled, { useTheme } from 'styled-components'
 import { Avatar } from 'pages/CurrentEntity/Components'
-import { TDAOGroupModel } from 'types/protocol'
+import { TDAOGroupModel } from 'types/entities'
 
 const StyledInput = styled(Input)`
   color: white;

@@ -3,15 +3,15 @@ import { FlexBox } from 'components/App/App.styles'
 import { deviceWidth } from 'constants/device'
 import { PropertiesForm } from 'pages/CreateEntity/Forms'
 import {
-  EntityLinkedResourceConfig,
   TEntityAdministratorModel,
   TEntityClaimModel,
   TEntityDDOTagModel,
   TEntityPageModel,
   TEntityServiceModel,
-} from 'types/protocol'
+} from 'types/entities'
 import useEditEntity from 'hooks/editEntity'
 import { AccordedRight, LinkedEntity, LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
+import { EntityLinkedResourceConfig } from 'constants/entity'
 
 const EditProperty: React.FC = (): JSX.Element => {
   const { editEntity, setEditedField } = useEditEntity()

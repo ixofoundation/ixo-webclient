@@ -1,7 +1,7 @@
 import { FlexBox } from 'components/App/App.styles'
 import React, { useMemo, useState } from 'react'
 import SetupGroupSettings from 'pages/CreateEntity/CreateDAO/Pages/SetupDAOGroups/SetupGroupSettings'
-import { TDAOGroupModel } from 'types/protocol'
+import { TDAOGroupModel } from 'types/entities'
 import { v4 as uuidv4 } from 'uuid'
 import { Button } from 'pages/CreateEntity/Components'
 import { useCreateEntity } from 'hooks/createEntity'

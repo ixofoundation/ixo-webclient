@@ -4,15 +4,14 @@ import {
   TEntityMetadataModel,
   TEntityCreatorModel,
   TEntityServiceModel,
-  ELocalisation,
   TEntityPageModel,
   TEntityAdministratorModel,
   TEntityClaimModel,
   TEntityDDOTagModel,
   TDAOGroupModel,
   TProposalModel,
-  TQuestion,
-} from 'types/protocol'
+  NodeType,
+} from 'types/entities'
 import {
   addAssetInstancesAction,
   gotoStepAction,
@@ -86,12 +85,12 @@ import {
 import { WasmInstantiateTrx } from 'lib/protocol/cosmwasm'
 import { chainNetwork } from './configs'
 import { Verification } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/tx'
-import { NodeType } from 'types/entities'
 import { Cw20Coin } from '@ixo/impactxclient-sdk/types/codegen/Cw20Base.types'
 import { DeliverTxResponse } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/stargate'
 import BigNumber from 'bignumber.js'
 import { LinkedResourceProofGenerator, LinkedResourceServiceEndpointGenerator } from 'utils/entities'
 import { selectAllClaimProtocols } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { ELocalisation, TQuestion } from 'types/protocol'
 
 export function useCreateEntityStrategy(): {
   getStrategyByEntityType: (entityType: string) => TCreateEntityStrategyType

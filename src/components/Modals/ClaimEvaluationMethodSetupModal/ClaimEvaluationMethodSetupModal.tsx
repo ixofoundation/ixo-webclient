@@ -10,13 +10,13 @@ import {
   TClaimEnrichment,
   TClaimEvaluation,
   TEntityClaimEvaluationMethodModel,
-} from 'types/protocol'
+} from 'types/entities'
 import { FormData } from 'components/JsonForm/types'
 import { v4 as uuidv4 } from 'uuid'
-import EvaluationCard from 'components/Entities/CreateEntity/CreateEntityClaims/Components/EvaluationCard/EvaluationCard'
 import { omitKey } from 'utils/objects'
-import ApprovalCriterionCard from 'components/Entities/CreateEntity/CreateEntityClaims/Components/ApprovalCriterionCard/ApprovalCriterionCard'
-import EnrichmentCard from 'components/Entities/CreateEntity/CreateEntityClaims/Components/EnrichmentCard/EnrichmentCard'
+import EvaluationCard from './EvaluationCard'
+import ApprovalCriterionCard from './ApprovalCriterionCard'
+import EnrichmentCard from './EnrichmentCard'
 
 interface Props {
   open: boolean

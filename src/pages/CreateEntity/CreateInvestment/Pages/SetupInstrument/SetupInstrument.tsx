@@ -2,9 +2,9 @@ import { Button, PropertyBox } from 'pages/CreateEntity/Components'
 import React, { useState } from 'react'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
 import { AddInvestmentInstrumentModal, CreateBondModal } from 'components/Modals'
-import { InvestmentInstrumentsConfig } from 'types/protocol'
 import { Box } from 'components/App/App.styles'
 import { useCreateEntityState } from 'hooks/createEntity'
+import { InvestmentInstrumentsConfig } from 'constants/entity'
 
 const SetupInstrument: React.FC = (): JSX.Element => {
   const { gotoStep } = useCreateEntityState()
