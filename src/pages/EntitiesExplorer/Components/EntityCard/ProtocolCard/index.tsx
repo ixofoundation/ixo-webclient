@@ -46,8 +46,8 @@ const ProtocolCard: React.FC<TEntityModel & { to?: string }> = (entity) => {
             )}
           </FlexBox>
 
-          <FlexBox height='30px'>
-            <Typography size='2xl' weight='medium'>
+          <FlexBox height='60px'>
+            <Typography size='2xl' weight='medium' overflowLines={2}>
               {title}
             </Typography>
           </FlexBox>
