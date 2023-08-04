@@ -8,10 +8,10 @@ import {
   CosmosMsgForEmpty,
 } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
 import { UpdateProposalConfigData } from 'components/Modals/AddActionModal/SetupUpdateVotingConfigModal'
+import { ProposalActionConfigMap } from 'constants/entity'
 import { chainNetwork } from 'hooks/configs'
 import { Member } from 'types/dao'
 import { durationToSeconds, expirationAtTimeToSecondsFromNow } from './conversions'
-import { ProposalActionConfigMap } from 'types/protocol'
 import { decodeProtobufValue, parseEncodedMessage } from './messages'
 
 export const thresholdToTQData = (

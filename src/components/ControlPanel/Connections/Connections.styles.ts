@@ -1,6 +1,5 @@
 import styled from 'styled-components'
 import { SquareButtonSection } from '../ControlPanel.styles'
-import { QRInner } from '../../QRCode/QRCode.styles'
 
 export const ConnectionButtonsWrapper = styled(SquareButtonSection)`
   button {
@@ -42,13 +41,6 @@ export const ConnectionButtonsWrapper = styled(SquareButtonSection)`
     }
     button {
       margin: 0;
-    }
-    ${QRInner} {
-      background: none;
-      box-shadow: none;
-      margin: 0;
-      padding: 0;
-      height: initial;
     }
   }
 `

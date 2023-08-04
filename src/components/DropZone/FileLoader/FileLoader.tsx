@@ -2,7 +2,7 @@ import * as React from 'react'
 import Dropzone, { Accept } from 'react-dropzone'
 import { LoaderWrapper, UploadingWrapper, StyledDropzone } from '../Loader.styles'
 import UploadFlat from 'assets/icons/UploadFlat'
-import PulseLoader from '../../PulseLoader/PulseLoader'
+import PulseLoader from '../../Spinner/PulseLoader/PulseLoader'
 import { strategyMap } from '../strategy-map'
 import { FileType } from '../types'
 

@@ -7,10 +7,7 @@ import Mobile from 'assets/icons/OpenOnMobile'
 import Forum from 'assets/icons/Forum'
 import { ControlPanelSection } from '../ControlPanel.styles'
 import { ConnectionButtonsWrapper } from './Connections.styles'
-import { ConnectionType, Widget, Control } from '../types'
-import MobileConnection from './Mobile'
-// import ShareConnection from './Share/Share'
-// import ForumConnection from './Forum/Forum'
+import { ConnectionType, Widget } from '../types'
 import Tooltip from 'components/Tooltip/Tooltip'
 import { useWindowSize } from 'hooks/window'
 import { deviceWidth } from 'constants/device'
@@ -40,7 +37,6 @@ const Connections: React.FunctionComponent<Props> = ({
 }) => {
   const title = widget?.title
   const controls = widget?.controls ?? []
-  const findControl = (type: ConnectionType): Control | undefined => controls.find((conn) => conn['@type'] === type)
   const windowSize = useWindowSize()
 
   const handleClick = (connectionType: any, endpoint: any): void => {
@@ -104,20 +100,6 @@ const Connections: React.FunctionComponent<Props> = ({
             </Tooltip>
           )
         })}
-        {findControl(ConnectionType.Mobile) && <MobileConnection show={selectedConnection === ConnectionType.Mobile} />}
-        {/* {findControl(ConnectionType.Share) && (
-          <ShareConnection
-            show={selectedConnection === ConnectionType.Share}
-            twitterShareText={
-              findControl(ConnectionType?.Share)?.parameters?.find(
-                (p) => p.name === 'twitterShareText',
-              )?.value!
-            }
-          />
-        )}
-        {findControl(ConnectionType.Forum) && (
-          <ForumConnection show={selectedConnection === ConnectionType.Forum} />
-        )} */}
       </ConnectionButtonsWrapper>
     </ControlPanelSection>
   )

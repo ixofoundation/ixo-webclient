@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { FlexBox } from 'components/App/App.styles'
 import { AccountValidStatus, Input } from 'pages/CreateEntity/Components'
-import { TProposalActionModel } from 'types/protocol'
+import { TProposalActionModel } from 'types/entities'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 import { CosmosMsgFor_Empty } from 'types/dao'
 import { Typography } from 'components/Typography'

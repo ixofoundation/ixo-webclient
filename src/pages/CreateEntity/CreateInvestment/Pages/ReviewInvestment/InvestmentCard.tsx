@@ -1,5 +1,5 @@
 import { Box, FlexBox } from 'components/App/App.styles'
-import { CardTag, CardTags } from 'components/Entities/EntitiesExplorer/Components/EntityCard/EntityCard.styles'
+import { CardTag, CardTags } from 'pages/EntitiesExplorer/Components/EntityCard/EntityCard.styles'
 import { Typography } from 'components/Typography'
 import React from 'react'
 import styled, { useTheme } from 'styled-components'

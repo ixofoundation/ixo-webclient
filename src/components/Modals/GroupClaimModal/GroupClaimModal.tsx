@@ -14,7 +14,7 @@ import { fee } from 'lib/protocol'
 import { claimAvailable } from 'utils/tokenClaim'
 import { plus } from 'utils/currency'
 import { useTheme } from 'styled-components'
-import { TDAOGroupModel } from 'types/protocol'
+import { TDAOGroupModel } from 'types/entities'
 
 const Card = ({ children, ...rest }: HTMLFlexBoxProps) => {
   const theme: any = useTheme()

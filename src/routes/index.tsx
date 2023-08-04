@@ -9,10 +9,7 @@ import { Spinner } from 'components/Spinner/Spinner'
 
 const Splash = lazy(() => import(/* webpackChunkName: "Splash" */ 'pages/Splash/Splash'))
 const EntitiesExplorer = lazy(
-  () =>
-    import(
-      /* webpackChunkName: "EntitiesExplorer" */ 'components/Entities/EntitiesExplorer/EntitiesExplorer.container'
-    ),
+  () => import(/* webpackChunkName: "EntitiesExplorer" */ 'pages/EntitiesExplorer/EntitiesExplorer.container'),
 )
 const CreateEntityPage = lazy(
   () => import(/* webpackChunkName: "CreateEntityPage" */ 'pages/CreateEntity/CreateEntity'),
@@ -22,7 +19,6 @@ const NotFound = lazy(() => import(/* webpackChunkName: "NotFound" */ 'pages/Err
 const CurrentEntityPage = lazy(
   () => import(/* webpackChunkName: "EntityExchangeTradeBid" */ 'pages/CurrentEntity/CurrentEntity'),
 )
-// const DashboardPage = lazy(() => import(/* webpackChunkName: "EntityExchangeTradeBid" */ 'pages/Dashboard/Dashboard'))
 
 interface Props {
   toggleAssistant?: (param: ToogleAssistantPayload) => void

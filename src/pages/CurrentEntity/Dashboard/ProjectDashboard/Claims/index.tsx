@@ -1,11 +1,11 @@
 import { FlexBox } from 'components/App/App.styles'
-import ProtocolCard from 'components/Entities/EntitiesExplorer/Components/EntityCard/ProtocolCard'
+import ProtocolCard from 'pages/EntitiesExplorer/Components/EntityCard/ProtocolCard'
 import useCurrentEntity from 'hooks/currentEntity'
 import React from 'react'
 import { useParams } from 'react-router-dom'
 import { selectEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { useAppSelector } from 'redux/hooks'
-import { TEntityClaimModel } from 'types/protocol'
+import { TEntityClaimModel } from 'types/entities'
 
 const Claim: React.FC<TEntityClaimModel> = ({ id, template }) => {
   const { entityId } = useParams<{ entityId: string }>()

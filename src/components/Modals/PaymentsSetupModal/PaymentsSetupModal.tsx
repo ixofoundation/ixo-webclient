@@ -4,10 +4,8 @@ import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
 import { ModalStyles, CloseButton, ModalBody, ModalWrapper, ModalRow, ModalTitle } from 'components/Modals/styles'
 import { Button } from 'pages/CreateEntity/Components'
 import { FormData } from 'components/JsonForm/types'
-import { TEntityPaymentModel } from 'types/protocol'
-import { Typography } from 'components/App/App.styles'
-import PaymentCard from 'components/Entities/CreateEntity/CreateEntityAdvanced/Components/PaymentCard/PaymentCard'
-import { useTheme } from 'styled-components'
+import { TEntityPaymentModel } from 'types/entities'
+import { Typography } from 'components/Typography'
 
 interface Props {
   payments: TEntityPaymentModel[]
@@ -17,7 +15,6 @@ interface Props {
 }
 
 const PaymentsSetupModal: React.FC<Props> = ({ payments, open, onClose, handleChange }): JSX.Element => {
-  const theme: any = useTheme()
   const [formData, setFormData] = useState<FormData[]>([])
 
   useEffect(() => {
@@ -25,9 +22,9 @@ const PaymentsSetupModal: React.FC<Props> = ({ payments, open, onClose, handleCh
   }, [payments])
 
   const handleAddPayment = (): void => setFormData((pre) => [...pre, {}])
-  const handleUpdatePayment = (index: number, payment: FormData): void =>
-    setFormData((pre) => pre.map((origin, idx) => (index === idx ? payment : origin)))
-  const handleRemovePayment = (index: number): void => setFormData((pre) => pre.filter((_, idx) => idx !== index))
+  // const handleUpdatePayment = (index: number, payment: FormData): void =>
+  //   setFormData((pre) => pre.map((origin, idx) => (index === idx ? payment : origin)))
+  // const handleRemovePayment = (index: number): void => setFormData((pre) => pre.filter((_, idx) => idx !== index))
 
   const handleSubmit = (): void => {
     handleChange(
@@ -50,7 +47,7 @@ const PaymentsSetupModal: React.FC<Props> = ({ payments, open, onClose, handleCh
         <ModalBody>
           {formData.map((payment, index) => (
             <ModalRow key={index}>
-              <PaymentCard
+              {/* <PaymentCard
                 type={payment?.type}
                 paymentId={payment?.paymentId}
                 handleUpdateContent={(formData): void => handleUpdatePayment(index, formData)}
@@ -61,11 +58,11 @@ const PaymentsSetupModal: React.FC<Props> = ({ payments, open, onClose, handleCh
                 handleError={(): void => {
                   // this.props.handleValidationError(stake.id, errors)
                 }}
-              />
+              /> */}
             </ModalRow>
           ))}
           <ModalRow style={{ justifyContent: 'center' }}>
-            <Typography color={theme.ixoNewBlue} style={{ cursor: 'pointer' }} onClick={handleAddPayment}>
+            <Typography color={'blue'} onClick={handleAddPayment}>
               + Add Payment
             </Typography>
           </ModalRow>

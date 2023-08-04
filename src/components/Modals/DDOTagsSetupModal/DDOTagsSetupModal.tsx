@@ -5,7 +5,7 @@ import { ModalStyles, CloseButton, ModalBody, ModalWrapper, ModalRow, ModalTitle
 import { Button, TagSelector } from 'pages/CreateEntity/Components'
 import { useAppSelector } from 'redux/hooks'
 import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
-import { TEntityDDOTagModel } from 'types/protocol'
+import { TEntityDDOTagModel } from 'types/entities'
 import { Typography } from 'components/Typography'
 
 interface Props {

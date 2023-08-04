@@ -9,7 +9,7 @@ import { ProgressBar } from 'components/ProgressBar/ProgressBar'
 import { useCreateEntity, useCreateEntityState } from 'hooks/createEntity'
 import moment from 'moment'
 import { durationToSeconds } from 'utils/conversions'
-import { EntityLinkedResourceConfig, ProposalActionConfig, TProposalActionModel } from 'types/protocol'
+import { TProposalActionModel } from 'types/entities'
 import { useAccount } from 'hooks/account'
 import { truncateString } from 'utils/formatters'
 import * as Toast from 'utils/toast'
@@ -31,6 +31,7 @@ import { ReactComponent as ExclamationIcon } from 'assets/images/icon-exclamatio
 import { getValueFromEvents } from 'utils/objects'
 import { LinkedResourceSetupModal } from 'components/Modals'
 import { useTheme } from 'styled-components'
+import { EntityLinkedResourceConfig, ProposalActionConfig } from 'constants/entity'
 
 const ReviewProposal: React.FC = () => {
   const theme: any = useTheme()

@@ -1,6 +1,6 @@
 import { FlexBox, SvgBox } from 'components/App/App.styles'
 import React, { useEffect, useMemo, useState } from 'react'
-import { TDAOGroupModel } from 'types/protocol'
+import { TDAOGroupModel } from 'types/entities'
 import { CardWrapper, PlusIcon } from './SetupGroupSettings.styles'
 import { Typography } from 'components/Typography'
 import {

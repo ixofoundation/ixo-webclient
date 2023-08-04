@@ -12,7 +12,7 @@ import {
 } from './Pages'
 import { IMPACTS_DAO_ID } from '__mocks__/profile'
 import { v4 as uuidv4 } from 'uuid'
-import { TProposalActionModel } from 'types/protocol'
+import { TProposalActionModel } from 'types/entities'
 
 const JoinImpactsDAOAction: TProposalActionModel = {
   id: uuidv4(),

@@ -24,7 +24,7 @@ import { Avatar } from 'pages/CurrentEntity/Components'
 import { errorToast } from 'utils/toast'
 import { useAppSelector } from 'redux/hooks'
 import { selectStakingGroupByCoreAddress } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
-import { TDAOGroupModel } from 'types/protocol'
+import { TDAOGroupModel } from 'types/entities'
 
 const StyledInput = styled(Input)`
   color: white;

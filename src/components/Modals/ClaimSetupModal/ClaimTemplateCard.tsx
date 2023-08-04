@@ -3,7 +3,7 @@ import { Typography } from 'components/Typography'
 import moment from 'moment'
 import React from 'react'
 import styled from 'styled-components'
-import { TEntityClaimTemplateModel } from 'types/protocol'
+import { TEntityClaimTemplateModel } from 'types/entities'
 
 const Wrapper = styled.div<{ selected?: boolean }>`
   width: 340px;

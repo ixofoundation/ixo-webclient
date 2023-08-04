@@ -1,4 +1,4 @@
-import { TEntityModel } from 'api/blocksync/types/entities'
+import { TEntityModel } from 'types/entities'
 import { CurrentEntityActions, CurrentEntityActionTypes } from './currentEntity.types'
 
 const initialState: TEntityModel = {

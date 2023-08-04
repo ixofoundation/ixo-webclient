@@ -2,12 +2,12 @@ import { Box, FlexBox } from 'components/App/App.styles'
 import { AddLinkedResourceModal, LinkedResourceSetupModal } from 'components/Modals'
 import { PropertyBox } from 'pages/CreateEntity/Components'
 import React, { useState } from 'react'
-import { EntityLinkedResourceConfig } from 'types/protocol'
 // import { omitKey } from 'utils/objects'
 import { v4 as uuidv4 } from 'uuid'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
 import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { omitKey } from 'utils/objects'
+import { EntityLinkedResourceConfig } from 'constants/entity'
 
 const initialLinkedResource = {
   id: '',

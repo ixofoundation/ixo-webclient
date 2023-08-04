@@ -1,13 +1,11 @@
 import moment from 'moment'
 import { createSelector } from '@reduxjs/toolkit'
-import { ExplorerEntity, EntitiesExplorerState, Filter } from './entitiesExplorer.types'
-import { EntityType, EntityConfig } from 'types/entities'
+import { EntitiesExplorerState, Filter } from './entitiesExplorer.types'
+import { EntityConfig, TEntityModel, TEntityDDOTagModel, TDAOGroupModel } from 'types/entities'
 import * as accountSelectors from 'redux/account/account.selectors'
 import { RootState } from 'redux/store'
-import { Schema as FilterSchema } from 'components/Entities/EntitiesExplorer/Components/EntitiesFilter/schema/types'
+import { Schema as FilterSchema } from 'pages/EntitiesExplorer/Components/EntitiesFilter/schema/types'
 import { theme } from 'components/App/App.styles'
-import { TDAOGroupModel, TEntityDDOTagModel } from 'types/protocol'
-import { TEntityModel } from 'api/blocksync/types/entities'
 
 const formatDate = (date: string): string => moment(date).format("D MMM \\'YY")
 
@@ -44,35 +42,6 @@ export const selectAllClaimProtocols = createSelector(
   selectEntitiesByType('protocol/claim'),
   (entities: TEntityModel[]): TEntityModel[] => {
     return entities
-  },
-)
-
-export const selectAllTemplateEntities = createSelector(
-  selectEntitiesState,
-  (entitiesState: EntitiesExplorerState): ExplorerEntity[] => {
-    return entitiesState.entities
-      ? entitiesState.entities
-          .filter((entity) => entity.type === EntityType.Protocol)
-          .sort((a, b) => {
-            if (b?.dateCreated && a?.dateCreated) {
-              return b.dateCreated.unix() - a.dateCreated.unix()
-            }
-            return 0
-          })
-      : null!
-  },
-)
-
-export const selectTokenClassTemplateEntities = createSelector(
-  selectAllTemplateEntities,
-  (entities: ExplorerEntity[]): ExplorerEntity[] => {
-    return entities
-      ? entities.filter((entity) =>
-          entity.ddoTags
-            ?.filter((ddoTag: any) => ddoTag.name === 'Entity')
-            .some((ddoTag: any) => ddoTag.tags.some((tag: any) => tag === 'Token Class')),
-        )
-      : []
   },
 )
 

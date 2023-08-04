@@ -2,10 +2,11 @@ import { Box, FlexBox } from 'components/App/App.styles'
 import { AddAccordedRightModal, PaymentsSetupModal } from 'components/Modals'
 import { PropertyBox } from 'pages/CreateEntity/Components'
 import React, { useEffect, useState } from 'react'
-import { EntityAccordedRightConfig, TEntityPaymentModel } from 'types/protocol'
+import { TEntityPaymentModel } from 'types/entities'
 import { omitKey } from 'utils/objects'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
 import { AccordedRight } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
+import { EntityAccordedRightConfig } from 'constants/entity'
 
 interface Props {
   hidden: boolean

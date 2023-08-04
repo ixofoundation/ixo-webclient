@@ -5,8 +5,9 @@ import { ModalStyles, CloseButton } from 'components/Modals/styles'
 import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { Button } from 'pages/CreateEntity/Components'
 import { Typography } from 'components/Typography'
-import { ProposalActionConfig, TProposalActionModel } from 'types/protocol'
+import { TProposalActionModel } from 'types/entities'
 import styled, { useTheme } from 'styled-components'
+import { ProposalActionConfig } from 'constants/entity'
 
 const inputHeight = '48px'
 const BodyWrapper = styled(FlexBox)`

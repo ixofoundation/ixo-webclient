@@ -11,9 +11,10 @@ import { toTitleCase, truncateString } from 'utils/formatters'
 import { ReactComponent as CopyIcon } from 'assets/images/icon-copy.svg'
 import CopyToClipboard from 'react-copy-to-clipboard'
 import { successToast } from 'utils/toast'
-import { TDAOGroupModel, DAOGroupConfig } from 'types/protocol'
 import Tooltip from 'components/Tooltip/Tooltip'
 import useCurrentEntity from 'hooks/currentEntity'
+import { TDAOGroupModel } from 'types/entities'
+import { DAOGroupConfig } from 'constants/entity'
 
 const StyledSlider = styled(Slider)`
   .slick-track {

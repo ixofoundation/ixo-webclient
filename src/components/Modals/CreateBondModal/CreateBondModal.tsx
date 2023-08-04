@@ -2,8 +2,8 @@ import { useState } from 'react'
 import * as Modal from 'react-modal'
 import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
 import { CloseButton, ModalBody, ModalRow, ModalStyles, ModalTitle, ModalWrapper } from '../styles'
-import ConfigureAlphaBondCard from 'components/Entities/CreateEntity/CreateTemplate/Components/ConfigureAlphaBondCard/ConfigureAlphaBondCard'
-import { AlphaBondInfo } from 'redux/createTemplate/createTemplate.types'
+import ConfigureAlphaBondCard from './ConfigureAlphaBondCard'
+import { AlphaBondInfo } from 'types/bond'
 
 interface Props {
   open: boolean

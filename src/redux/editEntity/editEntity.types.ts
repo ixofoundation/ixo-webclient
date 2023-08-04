@@ -1,4 +1,4 @@
-import { TEntityModel } from 'api/blocksync/types/entities'
+import { TEntityModel } from 'types/entities'
 
 export enum EditEntityActions {
   SetEditedField = 'ixo/EditEntity/SET_EDITED_FIELD',

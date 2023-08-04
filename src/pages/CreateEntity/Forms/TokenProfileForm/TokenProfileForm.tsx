@@ -4,7 +4,7 @@ import { FormWrapper, FormHeader, FormBody, FormRow, Badge } from './TokenProfil
 import { HeadlineMetric, IconUpload, ImageUpload, Input, InputWithLabel, SelectWithModal } from '../../Components'
 import { thousandSeparator } from 'utils/formatters'
 import { Box } from 'components/App/App.styles'
-import { EAssetType } from 'types/protocol'
+import { EAssetType } from 'types/entities'
 import { Typography } from 'components/Typography'
 import { useTheme } from 'styled-components'
 

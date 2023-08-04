@@ -1,7 +1,7 @@
 import * as React from 'react'
 import moment from 'moment'
 import { getCountryName, toTitleCase } from 'utils/formatters'
-import HeaderTabs from 'components/HeaderTabs/HeaderTabs2'
+import HeaderTabs from 'components/HeaderTabs/HeaderTabs'
 import {
   HeroInner,
   Flag,
@@ -12,7 +12,7 @@ import {
   Description,
 } from './OverviewHero.styles'
 import CalendarSort from 'assets/icons/CalendarSort'
-import availableFlags from 'data/availableFlags.json'
+import availableFlags from 'constants/availableFlags.json'
 import { requireCheckDefault } from 'utils/images'
 import { useEntityConfig } from 'hooks/configs'
 import { useMemo } from 'react'

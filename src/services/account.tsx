@@ -11,7 +11,7 @@ import { convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
 import { Cw20Token, NativeToken, TokenType } from 'types/tokens'
 import { claimAvailable } from 'utils/tokenClaim'
 import { plus } from 'utils/currency'
-import { TDAOGroupModel } from 'types/protocol'
+import { TDAOGroupModel } from 'types/entities'
 
 let nativeBalanceTimer: NodeJS.Timer | null = null
 let cw20BalanceTimer: NodeJS.Timer | null = null

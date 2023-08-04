@@ -21,7 +21,6 @@ import {
   // StyledAmountWrapper,
   DateContainer,
 } from './Table.styles'
-import Delegation from './TableCellDelegation'
 import { getDisplayAmount } from 'utils/currency'
 import { thousandSeparator } from 'utils/formatters'
 interface TableProps {
@@ -67,22 +66,6 @@ const renderCell = (cell: any): any => {
       return <>{cell.value && (cell.value.length > 50 ? cell.value.substring(0, 50) + '...' : cell.value)}</>
     case 'commission':
       return <>{Number(cell.value * 100).toFixed(0)}%</>
-    case 'delegation': {
-      const delegation = cell.value
-      const reward = cell.row.original.reward
-      const address = cell.row.original.address
-      return (
-        <Delegation
-          delegation={
-            thousandSeparator(delegation?.amount.toFixed(0) ?? 0, ',') +
-            ' ' +
-            (delegation ? delegation.denom?.toUpperCase() : '')
-          }
-          reward={'(+' + thousandSeparator(reward?.amount.toFixed(0) ?? 0, ',') + ')'}
-          address={address}
-        />
-      )
-    }
     default:
       return cell.render('Cell')
   }

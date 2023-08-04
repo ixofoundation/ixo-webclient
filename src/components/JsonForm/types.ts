@@ -9,7 +9,6 @@ import AvatarUpload from './CustomWidgets/AvatarUpload/AvatarUpload'
 import DocumentUpload from './CustomWidgets/DocumentUpload/DocumentUpload'
 import AudioUpload from './CustomWidgets/AudioUpload/AudioUpload'
 import VideoUpload from './CustomWidgets/VideoUpload/VideoUpload'
-import FileUpload from './CustomWidgets/FileUpload/FileUpload'
 import EmailValidation from './CustomWidgets/EmailValidation/EmailValidation'
 import CountrySelector from './CustomWidgets/CountrySelector/CountrySelector'
 import SDGSelector from './CustomWidgets/SDGSelector/SDGSelector'
@@ -95,7 +94,6 @@ export const customControls = {
   [ControlType.ImageUpload]: ImageUpload,
   [ControlType.AvatarUpload]: AvatarUpload,
   [ControlType.DocumentUpload]: DocumentUpload,
-  [ControlType.FileUpload]: FileUpload,
   [ControlType.AudioUpload]: AudioUpload,
   [ControlType.VideoUpload]: VideoUpload,
   [ControlType.EmailValidation]: EmailValidation,

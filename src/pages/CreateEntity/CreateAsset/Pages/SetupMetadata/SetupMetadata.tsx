@@ -4,7 +4,7 @@ import { useCreateEntityState } from 'hooks/createEntity'
 import { Button } from '../../../Components'
 import { TokenProfileForm, EntityAdditionalInfoForm } from '../../../Forms'
 import { PageWrapper } from './SetupMetadata.styles'
-import { TAssetMetadataModel } from 'types/protocol'
+import { TAssetMetadataModel } from 'types/entities'
 
 const SetupMetadata: React.FC = (): JSX.Element => {
   const createEntityState = useCreateEntityState()

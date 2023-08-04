@@ -2,7 +2,6 @@ import { FlexBox } from 'components/App/App.styles'
 import React, { useState } from 'react'
 import useEditEntity from 'hooks/editEntity'
 import { CheckBox, PropertyBox } from 'pages/CreateEntity/Components'
-import { TDAOGroupModel, DAOGroupConfig } from 'types/protocol'
 import { Typography } from 'components/Typography'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
 import { AddDAOGroupModal } from 'components/Modals'
@@ -14,6 +13,8 @@ import {
 import { omitKey } from 'utils/objects'
 import { LinkedEntity } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import SetupGroupSettings from 'pages/CreateEntity/CreateDAO/Pages/SetupDAOGroups/SetupGroupSettings'
+import { TDAOGroupModel } from 'types/entities'
+import { DAOGroupConfig } from 'constants/entity'
 
 const EditGroups: React.FC = (): JSX.Element => {
   const { editEntity, setEditedField } = useEditEntity()

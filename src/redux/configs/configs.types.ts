@@ -1,5 +1,4 @@
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
-import { BondStateType } from 'redux/bond/bond.types'
 
 export interface AssetType {
   symbol: string //  IXO
@@ -122,7 +121,7 @@ export interface PoolDetail {
   alpha_bond: boolean //  this wouldn't be used
   batch_blocks: number //  this wouldn't be used
   outcome_payment: number // this wouldn't be used
-  state: BondStateType //  this wouldn't be used
+  state: any //  this wouldn't be used
   bond_did: string //  did:ixo:Pa9DmfutkxCvFNXrYPmbEz
 }
 export interface LiquidityPool {

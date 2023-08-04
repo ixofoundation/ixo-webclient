@@ -12,7 +12,7 @@ import { plus } from 'utils/currency'
 import { GroupStakingModal, SendModal2 } from 'components/Modals'
 import { TokenType } from 'types/tokens'
 import { useTheme } from 'styled-components'
-import { TDAOGroupModel } from 'types/protocol'
+import { TDAOGroupModel } from 'types/entities'
 
 interface Props {
   open: boolean
