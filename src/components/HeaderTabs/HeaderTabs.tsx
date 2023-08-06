@@ -8,7 +8,7 @@ import { connect } from 'react-redux'
 import { EntityType } from 'types/entities'
 import { HeaderTab } from 'components/Dashboard/types'
 import { useEntityConfig } from 'hooks/configs'
-import useCurrentEntity, { useCurrentEntityCreator, useCurrentEntityLinkedEntity } from 'hooks/currentEntity'
+import useCurrentEntity, { useCurrentEntityCreator } from 'hooks/currentEntity'
 import { useParams } from 'react-router-dom'
 import { useAccount } from 'hooks/account'
 
@@ -34,7 +34,6 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
   const { title } = useEntityConfig()
   const { entityType } = useCurrentEntity()
   const { id: creatorDid } = useCurrentEntityCreator()
-  const { bondDid } = useCurrentEntityLinkedEntity()
   const { did: userDid, registered } = useAccount()
 
   const buttonsArray = React.useMemo(() => {
@@ -62,13 +61,6 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
         title: 'DASHBOARD',
         tooltip: `${title} Management`,
       })
-    } else if (entityType === EntityType.Investment && bondDid) {
-      buttonArr.push({
-        iconClass: 'icon-dashboard',
-        path: `/projects/${entityId}/bonds/${bondDid}/detail`,
-        title: 'DASHBOARD',
-        tooltip: `${title} Management`,
-      })
     } else {
       buttonArr.push({
         iconClass: 'icon-dashboard',
@@ -86,42 +78,6 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
         title: 'EXCHANGE',
         tooltip: `${title} Exchange`,
       })
-    } else if (bondDid) {
-      if (registered) {
-        // if (isLaunchPad) {
-        //   buttonArr.push({
-        //     iconClass: 'icon-voting',
-        //     path: `/projects/${entityId}/voting`,
-        //     title: 'VOTING',
-        //     tooltip: `${title} Voting`,
-        //   })
-        // } else {
-        //   buttonArr.push({
-        //     iconClass: 'icon-funding',
-        //     path: fundingPageUrl,
-        //     title: 'FUNDING',
-        //     tooltip: `${title} Funding`,
-        //   })
-        // }
-      } else {
-        if (creatorDid !== userDid) {
-          buttonArr.push({
-            iconClass: 'icon-funding',
-            linkClass: 'restricted',
-            path: fundingPageUrl,
-            title: 'FUNDING',
-            tooltip: `${title} Funding`,
-          })
-        } else {
-          buttonArr.push({
-            iconClass: 'icon-funding',
-            linkClass: '',
-            path: fundingPageUrl,
-            title: 'FUNDING',
-            tooltip: `${title} Funding`,
-          })
-        }
-      }
     } else {
       buttonArr.push({
         iconClass: 'icon-funding',
@@ -134,7 +90,7 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
 
     return buttonArr
     // eslint-disable-next-line
-  }, [entityId, entityType, bondDid, userDid, creatorDid, buttons, registered])
+  }, [entityId, entityType, userDid, creatorDid, buttons, registered])
 
   return (
     <PositionController>

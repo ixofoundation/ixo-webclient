@@ -72,8 +72,8 @@ import {
 } from 'redux/createEntity/strategy-map'
 import { TCreateEntityModel } from 'redux/createEntity/createEntity.types'
 import { useAccount } from './account'
-import { CreateEntity, fee } from 'lib/protocol'
-import { customQueries, ixo, utils } from '@ixo/impactxclient-sdk'
+import { CreateEntity } from 'lib/protocol'
+import { customQueries, utils } from '@ixo/impactxclient-sdk'
 import { CellnodePublicResource, CellnodeWeb3Resource } from '@ixo/impactxclient-sdk/types/custom_queries/cellnode'
 import {
   AccordedRight,
@@ -86,7 +86,6 @@ import { WasmInstantiateTrx } from 'lib/protocol/cosmwasm'
 import { chainNetwork } from './configs'
 import { Verification } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/tx'
 import { Cw20Coin } from '@ixo/impactxclient-sdk/types/codegen/Cw20Base.types'
-import { DeliverTxResponse } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/stargate'
 import BigNumber from 'bignumber.js'
 import { LinkedResourceProofGenerator, LinkedResourceServiceEndpointGenerator } from 'utils/entities'
 import { selectAllClaimProtocols } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
@@ -389,7 +388,6 @@ interface TCreateEntityHookRes {
     },
   ) => Promise<{ did?: string; adminAccount?: string }>
   CreateDAOCoreByGroupId: (daoGroup: TDAOGroupModel) => Promise<string>
-  AddLinkedEntity: (did: string, linkedEntity: LinkedEntity) => Promise<DeliverTxResponse | undefined>
   UploadDataToService: (data: string) => Promise<CellnodePublicResource | CellnodeWeb3Resource>
 }
 
@@ -1093,25 +1091,6 @@ export function useCreateEntity(): TCreateEntityHookRes {
     return contractAddress
   }
 
-  const AddLinkedEntity = async (did: string, linkedEntity: LinkedEntity): Promise<DeliverTxResponse | undefined> => {
-    try {
-      const message = {
-        typeUrl: '/ixo.iid.v1beta1.MsgAddLinkedEntity',
-        value: ixo.iid.v1beta1.MsgAddLinkedEntity.fromPartial({
-          id: did,
-          linkedEntity: ixo.iid.v1beta1.LinkedEntity.fromPartial(linkedEntity),
-          signer: signer.address,
-        }),
-      }
-      const response: DeliverTxResponse = await signingClient.signAndBroadcast(signer.address, [message], fee)
-      console.info('AddLinkedEntity', response)
-      return response
-    } catch (e) {
-      console.error('AddLinkedEntity', e)
-      return undefined
-    }
-  }
-
   return {
     CreateDAO,
     CreateDAOCredsIssuer,
@@ -1128,7 +1107,6 @@ export function useCreateEntity(): TCreateEntityHookRes {
     CreateProtocol,
     CreateEntityBase,
     CreateDAOCoreByGroupId,
-    AddLinkedEntity,
     UploadDataToService,
   }
 }
