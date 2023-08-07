@@ -47,7 +47,7 @@ export const reducer = (
       }
       return { ...state, entities2 }
     }
-    case EntitiesExplorerActions.GetEntityById: {
+    case EntitiesExplorerActions.UpdateEntityById: {
       const { id } = action.payload
       return { ...state, entities2: { ...state.entities2, [id]: { ...state.entities2[id], ...action.payload } } }
     }

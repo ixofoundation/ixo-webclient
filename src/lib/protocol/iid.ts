@@ -1,6 +1,8 @@
 import { ixo, SigningStargateClient, createQueryClient, customMessages } from '@ixo/impactxclient-sdk'
 import { IidDocument } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/iid'
+import { LinkedEntity, VerificationMethod } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { fee, RPC_ENDPOINT, TSigner } from './common'
+import { DeliverTxResponse } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/stargate'
 
 export const CreateIidDoc = async (
   client: SigningStargateClient,
@@ -77,3 +79,49 @@ export const CheckIidDoc = async (did: string): Promise<IidDocument> => {
 //     return {}
 //   }
 // }
+
+export const AddLinkedEntity = async (
+  client: SigningStargateClient,
+  signer: TSigner,
+  payload: {
+    did: string
+    linkedEntity: LinkedEntity
+  },
+) => {
+  const { did, linkedEntity } = payload
+  const message = {
+    typeUrl: '/ixo.iid.v1beta1.MsgAddLinkedEntity',
+    value: ixo.iid.v1beta1.MsgAddLinkedEntity.fromPartial({
+      id: did,
+      linkedEntity: ixo.iid.v1beta1.LinkedEntity.fromPartial(linkedEntity),
+      signer: signer.address,
+    }),
+  }
+  const response: DeliverTxResponse = await client.signAndBroadcast(signer.address, [message], fee)
+  console.info('AddLinkedEntity', response)
+  return response
+}
+
+export const AddVerificationMethod = async (
+  client: SigningStargateClient,
+  signer: TSigner,
+  payload: { did: string; relationships: string[]; method: VerificationMethod },
+) => {
+  const { did, relationships, method } = payload
+
+  const message = {
+    typeUrl: '/ixo.iid.v1beta1.MsgAddVerification',
+    value: ixo.iid.v1beta1.MsgAddVerification.fromPartial({
+      id: did,
+      verification: ixo.iid.v1beta1.Verification.fromPartial({
+        relationships: relationships,
+        method: method,
+      }),
+      signer: signer.address,
+    }),
+  }
+
+  const response: DeliverTxResponse = await client.signAndBroadcast(signer.address, [message], fee)
+  console.log('AddVerificationMethod', 'response', response)
+  return response
+}

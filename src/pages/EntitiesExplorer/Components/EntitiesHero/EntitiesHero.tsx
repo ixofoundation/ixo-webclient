@@ -57,7 +57,7 @@ export const EntitiesHero: React.FunctionComponent<Props> = ({
           }}
         ></ColorOverlay>
         <HeroInner className='container'>
-          <div className='row'>
+          <div className='row justify-content-start'>
             <HeroTextWrapper
               className='col-md-5 col-sm-12 col-12'
               style={{
