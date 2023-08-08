@@ -2,13 +2,12 @@ import React, { useState, useEffect } from 'react'
 import * as Modal from 'react-modal'
 import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
 import { ModalStyles, CloseButton } from 'components/Modals/styles'
-import { TEntityServiceModel } from 'types/protocol'
+import { TEntityServiceModel, NodeType } from 'types/entities'
 import { Button, Dropdown, InputWithLabel } from 'pages/CreateEntity/Components'
 import { Typography } from 'components/Typography'
 import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { ReactComponent as MinusBoxIcon } from 'assets/images/icon-minus-box.svg'
 import { useTheme } from 'styled-components'
-import { NodeType } from 'types/entities'
 
 interface ServiceFormProps {
   index: number
@@ -71,7 +70,8 @@ const ServiceSetupModal: React.FC<Props> = ({ service, open, onClose, onChange }
     return () => {
       setFormData([])
     }
-  }, [service])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [JSON.stringify(service)])
 
   const handleAddService = (): void => {
     if (onChange) {

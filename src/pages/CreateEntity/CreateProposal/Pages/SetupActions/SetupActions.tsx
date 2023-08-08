@@ -16,10 +16,10 @@ const SetupActions: React.FC = () => {
   const validActions = useMemo(() => actions.filter((item) => item.data), [actions])
 
   const handleBack = () => {
-    history.push(`/create/entity/deed/${entityId}/${coreAddress}/property`)
+    history.push(`/create/entity/deed/${entityId}/${coreAddress}/property${history.location.search}`)
   }
   const handleContinue = () => {
-    history.push(`/create/entity/deed/${entityId}/${coreAddress}/review`)
+    history.push(`/create/entity/deed/${entityId}/${coreAddress}/review${history.location.search}`)
   }
 
   return (
@@ -31,11 +31,7 @@ const SetupActions: React.FC = () => {
           </Typography>
         </FlexBox>
 
-        <SetupActionsForm
-          actions={actions}
-          setActions={(actions) => updateProposal({ ...proposal, actions })}
-          constant
-        />
+        <SetupActionsForm actions={actions} setActions={(actions) => updateProposal({ ...proposal, actions })} />
 
         <FlexBox width='100%' justifyContent='flex-end' gap={4}>
           <Button variant='secondary' onClick={handleBack}>

@@ -9,10 +9,10 @@ import CurrencyFormat from 'react-currency-format'
 import { selectStakingGroupsByTokenAddress } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { useAppSelector } from 'redux/hooks'
 import { plus } from 'utils/currency'
-import { DaoGroup } from 'redux/currentEntity/dao/currentDao.types'
 import { GroupStakingModal, SendModal2 } from 'components/Modals'
 import { TokenType } from 'types/tokens'
 import { useTheme } from 'styled-components'
+import { TDAOGroupModel } from 'types/entities'
 
 interface Props {
   open: boolean
@@ -31,7 +31,7 @@ interface Props {
 
 const Cw20TokenViewModal: React.FC<Props> = ({ open, token, onClose }) => {
   const theme: any = useTheme()
-  const stakingGroups: DaoGroup[] = useAppSelector(selectStakingGroupsByTokenAddress(token.coinMinimalDenom))
+  const stakingGroups: TDAOGroupModel[] = useAppSelector(selectStakingGroupsByTokenAddress(token.coinMinimalDenom))
   const { cw20Tokens } = useAccount()
   const availableBalance = token.balance
   const [stakedBalances, setStakedBalances] = useState<{

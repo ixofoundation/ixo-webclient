@@ -3,7 +3,6 @@ import { Fragment } from 'react'
 import { deviceWidth } from 'constants/device'
 import MediaQuery from 'react-responsive'
 import { getIxoWorldRoute } from 'utils/formatters'
-import CreateEntityDropdown from 'components/Entities/CreateEntity/Components/CreateEntityDropdown/CreateEntityDropdown'
 import { EntityType } from 'types/entities'
 import { requireCheckDefault } from 'utils/images'
 
@@ -27,6 +26,7 @@ import {
   selectEntityLogoConfig,
 } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { FlexBox } from 'components/App/App.styles'
+import CreateEntityDropdown from '../components/CreateEntityDropdown'
 
 export interface ParentProps {
   currentEntity: EntityType

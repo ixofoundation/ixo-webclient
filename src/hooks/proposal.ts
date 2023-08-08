@@ -48,13 +48,13 @@ import { MsgUnjail } from '@ixo/impactxclient-sdk/types/codegen/cosmos/slashing/
 import { PerformTokenSwapData } from 'components/Modals/AddActionModal/SetupTokenSwapModal'
 import { coins } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/amino'
 import { DaoAdminExecData } from 'components/Modals/AddActionModal/SetupDAOAdminExecuteModal'
-import { useCurrentDaoGroup } from './currentDao'
 import { SendGroupTokenData } from 'components/Modals/AddActionModal/SetupSendGroupTokenModal'
 import { JoinData } from 'components/Modals/AddActionModal/SetupJoinModal'
 import { ixo } from '@ixo/impactxclient-sdk'
+import { useCurrentEntityDAOGroup } from './currentEntity'
 
 export function useMakeProposalAction(coreAddress: string) {
-  const { daoGroup } = useCurrentDaoGroup(coreAddress)
+  const { daoGroup } = useCurrentEntityDAOGroup(coreAddress)
 
   const makeSpendAction = (data: SpendData): any => {
     const { denom, amount, to } = data

@@ -1,7 +1,7 @@
 import JSON5 from 'json5'
 import BigNumber from 'bignumber.js'
 import Ajv from 'ajv'
-import cosmosMsgSchema from './cosmos_msg.json'
+import cosmosMsgSchema from 'constants/cosmos_msg.json'
 import { makeWasmMessage } from './messages'
 
 export const isEmail = (email?: string): boolean => {

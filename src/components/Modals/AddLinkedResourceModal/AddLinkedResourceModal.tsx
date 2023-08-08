@@ -4,7 +4,7 @@ import * as Modal from 'react-modal'
 import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
 import { ModalStyles, CloseButton, ModalBody, ModalWrapper, ModalRow, ModalTitle } from 'components/Modals/styles'
 import { PropertyBox } from 'pages/CreateEntity/Components'
-import { EntityLinkedResourceConfig } from 'types/protocol'
+import { EntityLinkedResourceConfig } from 'constants/entity'
 
 interface Props {
   open: boolean

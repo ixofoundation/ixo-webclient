@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { FlexBox } from 'components/App/App.styles'
 import { Button, Dropdown, Input } from 'pages/CreateEntity/Components'
 import { Typography } from 'components/Typography'
-import { TProposalActionModel } from 'types/protocol'
+import { TProposalActionModel } from 'types/entities'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 
 export interface ManageStorageItemsData {

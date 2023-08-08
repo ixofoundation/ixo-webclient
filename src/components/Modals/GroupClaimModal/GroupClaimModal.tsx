@@ -2,20 +2,19 @@ import React, { useEffect, useState } from 'react'
 import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 import { Box, FlexBox, HTMLFlexBoxProps, SvgBox } from 'components/App/App.styles'
 import { SignStep, TXStatus } from '../common'
-import { DaoGroup } from 'redux/currentEntity/dao/currentDao.types'
 import { Typography } from 'components/Typography'
 import NextStepImage from 'assets/images/modal/nextstep.svg'
-import { useCurrentDaoGroup } from 'hooks/currentDao'
 import { contracts } from '@ixo/impactxclient-sdk'
 import { useAccount } from 'hooks/account'
 import { convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
 import { ReactComponent as ArrowDownIcon } from 'assets/images/icon-arrow-down.svg'
-import { useCurrentEntityProfile } from 'hooks/currentEntity'
+import { useCurrentEntityDAOGroup, useCurrentEntityProfile } from 'hooks/currentEntity'
 import { TokenInfoResponse } from '@ixo/impactxclient-sdk/types/codegen/Cw20Base.types'
 import { fee } from 'lib/protocol'
 import { claimAvailable } from 'utils/tokenClaim'
 import { plus } from 'utils/currency'
 import { useTheme } from 'styled-components'
+import { TDAOGroupModel } from 'types/entities'
 
 const Card = ({ children, ...rest }: HTMLFlexBoxProps) => {
   const theme: any = useTheme()
@@ -36,7 +35,7 @@ const Card = ({ children, ...rest }: HTMLFlexBoxProps) => {
 }
 
 interface Props {
-  daoGroup: DaoGroup
+  daoGroup: TDAOGroupModel
   open: boolean
   setOpen: (open: boolean) => void
   onSuccess?: (txHash: string) => void
@@ -46,7 +45,7 @@ const GroupClaimModal: React.FunctionComponent<Props> = ({ daoGroup, open, setOp
   const theme: any = useTheme()
   const { cwClient, cosmWasmClient, address } = useAccount()
   const { name: daoName } = useCurrentEntityProfile()
-  const { votingModuleAddress, depositInfo } = useCurrentDaoGroup(daoGroup?.coreAddress)
+  const { votingModuleAddress, depositInfo } = useCurrentEntityDAOGroup(daoGroup?.coreAddress)
   const [tokenInfo, setTokenInfo] = useState<TokenInfoResponse | undefined>(undefined)
   const [claimableBalance, setClaimableBalance] = useState('0')
   const daoGroupName = daoGroup?.config.name

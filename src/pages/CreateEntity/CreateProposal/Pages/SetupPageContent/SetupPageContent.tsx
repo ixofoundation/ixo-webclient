@@ -9,10 +9,10 @@ const SetupPageContent: React.FC = () => {
   const { page, entityType, updatePage } = useCreateEntityState()
 
   const handleBack = (): void => {
-    history.push(`/create/entity/deed/${entityId}/${coreAddress}/info`)
+    history.push(`/create/entity/deed/${entityId}/${coreAddress}/info${history.location.search}`)
   }
   const handleNext = (): void => {
-    history.push(`/create/entity/deed/${entityId}/${coreAddress}/property`)
+    history.push(`/create/entity/deed/${entityId}/${coreAddress}/property${history.location.search}`)
   }
 
   return (

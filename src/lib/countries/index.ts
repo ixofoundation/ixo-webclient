@@ -1,4 +1,4 @@
-import countryLatLng from 'data/maps/countryLatLng.json'
+import countryLatLng from 'constants/maps/countryLatLng.json'
 
 const isoCountriesTmp: any = {}
 const isoCountriesLatLngTmp: any = {}

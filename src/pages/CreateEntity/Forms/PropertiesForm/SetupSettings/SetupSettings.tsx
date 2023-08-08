@@ -12,14 +12,14 @@ import {
 } from 'components/Modals'
 import { SetupPageContent } from '../SetupPageContent'
 import {
-  EntitySettingsConfig,
   TEntityClaimEvaluationMethodModel,
   TEntityAdministratorModel,
   TEntityCreatorModel,
   TEntityDDOTagModel,
   TEntityPageModel,
   TEntityServiceModel,
-} from 'types/protocol'
+} from 'types/entities'
+import { EntitySettingsConfig } from 'constants/entity'
 
 interface Props {
   hidden: boolean

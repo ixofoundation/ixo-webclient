@@ -12,7 +12,7 @@ const persistConfig = {
   key: 'root',
   version: 1,
   storage,
-  whitelist: ['createEntity'],
+  whitelist: [],
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer(history))

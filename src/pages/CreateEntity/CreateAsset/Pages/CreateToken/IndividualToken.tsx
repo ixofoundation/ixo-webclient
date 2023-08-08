@@ -17,13 +17,7 @@ import React, { useEffect, useState } from 'react'
 import { useCreateEntityState } from 'hooks/createEntity'
 import { TCreateEntityModel } from 'redux/createEntity/createEntity.types'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
-import {
-  EntityLinkedResourceConfig,
-  EntitySettingsConfig,
-  TAssetMetadataModel,
-  TEntityLiquidityModel,
-  TEntityPaymentModel,
-} from 'types/protocol'
+import { TAssetMetadataModel, TEntityLiquidityModel, TEntityPaymentModel } from 'types/entities'
 import { EntityAttributesForm, TokenProfileForm, EntityDescriptionForm, EntityMetricsForm } from '../../../Forms'
 import { Badge, PropertyBox, PropertyBoxWrapper } from '../../../Forms/PropertiesForm/PropertiesForm.styles'
 import { Wrapper, Row } from './IndividualToken.styles'
@@ -31,6 +25,7 @@ import { SetupPageContent } from '../../../Forms/PropertiesForm/SetupPageContent
 import { Typography } from 'components/Typography'
 import { useTheme } from 'styled-components'
 import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
+import { EntityLinkedResourceConfig, EntitySettingsConfig } from 'constants/entity'
 
 interface Props {
   SN: number

@@ -1,12 +1,12 @@
 import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { NATIVE_DECIMAL, NATIVE_DENOM, NATIVE_MICRODENOM } from 'constants/chains'
-import { useCurrentDaoGroup } from 'hooks/currentDao'
+import { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
 import { Button, Dropdown, Input, Switch } from 'pages/CreateEntity/Components'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { DepositRefundPolicy, UncheckedDepositInfo } from 'types/dao'
-import { TProposalActionModel } from 'types/protocol'
+import { TProposalActionModel } from 'types/entities'
 import { GenericToken, TokenType } from 'types/tokens'
 import { convertMicroDenomToDenomWithDecimals, convertDenomToMicroDenomWithDecimals } from 'utils/conversions'
 import { objectMatchesStructure } from 'utils/validation'
@@ -53,7 +53,7 @@ const SetupUpdateProposalSubmissionConfigModal: React.FC<Props> = ({
   onSubmit,
 }): JSX.Element => {
   const { coreAddress } = useParams<{ coreAddress: string }>()
-  const { daoGroup } = useCurrentDaoGroup(coreAddress)
+  const { daoGroup } = useCurrentEntityDAOGroup(coreAddress)
   const preProposeConfig = daoGroup?.proposalModule.preProposeConfig
   const [formData, setFormData] = useState<UpdatePreProposeConfigData>(initialPreProposeConfigState)
 

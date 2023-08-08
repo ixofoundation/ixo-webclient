@@ -12,7 +12,7 @@ import {
   TEntityDDOTagModel,
   TEntityPageModel,
   TEntityServiceModel,
-} from 'types/protocol'
+} from 'types/entities'
 import { AccordedRight, LinkedEntity, LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 
 const EditProperty: React.FC = (): JSX.Element => {

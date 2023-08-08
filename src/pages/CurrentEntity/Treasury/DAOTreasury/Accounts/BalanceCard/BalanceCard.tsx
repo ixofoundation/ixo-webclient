@@ -5,6 +5,7 @@ import React from 'react'
 import CurrencyFormat from 'react-currency-format'
 import { ReactComponent as CoinsIcon } from 'assets/images/icon-coins-solid.svg'
 import { useTheme } from 'styled-components'
+import BigNumber from 'bignumber.js'
 
 const data = [
   {
@@ -38,13 +39,13 @@ const data = [
 ]
 
 interface Props {
-  availableValue: number
-  stakedValue: number
+  availableValue: string
+  stakedValue: string
 }
 
-const BalanceCard: React.FC<Props> = ({ availableValue = 0, stakedValue = 0 }) => {
+const BalanceCard: React.FC<Props> = ({ availableValue = '0', stakedValue = '0' }) => {
   const theme: any = useTheme()
-  const totalValue = availableValue + stakedValue
+  const totalValue = new BigNumber(availableValue).plus(new BigNumber(stakedValue)).toString()
 
   return (
     <FlexBox direction='column' gap={4} p={8} background='#012D41' borderRadius='12px' color={theme.ixoWhite}>
@@ -93,7 +94,7 @@ const BalanceCard: React.FC<Props> = ({ availableValue = 0, stakedValue = 0 }) =
         alignItems='center'
         color={theme.ixoDarkBlue}
       >
-        {totalValue > 0 ? (
+        {new BigNumber(totalValue).isGreaterThan(0) ? (
           <ResponsiveContainer width='100%' height='100%'>
             <LineChart data={data}>
               <Line dataKey='pv' stroke='#107591' dot={false} strokeWidth={2} />

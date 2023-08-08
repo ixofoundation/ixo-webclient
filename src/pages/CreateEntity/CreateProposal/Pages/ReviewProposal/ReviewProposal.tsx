@@ -1,16 +1,15 @@
 import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
-import { useCurrentEntityProfile } from 'hooks/currentEntity'
+import useCurrentEntity, { useCurrentEntityDAOGroup, useCurrentEntityProfile } from 'hooks/currentEntity'
 import { Button } from 'pages/CreateEntity/Components'
 import React, { useMemo, useState } from 'react'
 import { NavLink, useHistory, useParams } from 'react-router-dom'
 import { ReactComponent as WaitIcon } from 'assets/images/eco/wait.svg'
 import { ProgressBar } from 'components/ProgressBar/ProgressBar'
 import { useCreateEntity, useCreateEntityState } from 'hooks/createEntity'
-import useCurrentDao, { useCurrentDaoGroup } from 'hooks/currentDao'
 import moment from 'moment'
 import { durationToSeconds } from 'utils/conversions'
-import { EntityLinkedResourceConfig, ProposalActionConfig, TProposalActionModel } from 'types/protocol'
+import { TProposalActionModel } from 'types/entities'
 import { useAccount } from 'hooks/account'
 import { truncateString } from 'utils/formatters'
 import * as Toast from 'utils/toast'
@@ -18,7 +17,7 @@ import { contracts, ixo } from '@ixo/impactxclient-sdk'
 import { CosmosMsgForEmpty } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
 import { useMakeProposalAction } from 'hooks/proposal'
 import { decodedMessagesString } from 'utils/messages'
-import { fee } from 'lib/protocol'
+import { AddLinkedEntity, AddVerificationMethod, fee } from 'lib/protocol'
 import {
   AccordedRight,
   LinkedClaim,
@@ -32,16 +31,17 @@ import { ReactComponent as ExclamationIcon } from 'assets/images/icon-exclamatio
 import { getValueFromEvents } from 'utils/objects'
 import { LinkedResourceSetupModal } from 'components/Modals'
 import { useTheme } from 'styled-components'
+import { EntityLinkedResourceConfig, ProposalActionConfig } from 'constants/entity'
 
 const ReviewProposal: React.FC = () => {
   const theme: any = useTheme()
   const history = useHistory()
   const { entityId, coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
-  const { address, cosmWasmClient, cwClient } = useAccount()
+  const { address, cosmWasmClient, cwClient, signingClient, signer } = useAccount()
   const { name: entityName } = useCurrentEntityProfile()
-  const { setDaoGroup } = useCurrentDao()
+  const { updateDAOGroup } = useCurrentEntity()
   const { daoGroup, preProposalContractAddress, depositInfo, isParticipating, anyoneCanPropose } =
-    useCurrentDaoGroup(coreAddress)
+    useCurrentEntityDAOGroup(coreAddress)
   const createEntityState = useCreateEntityState()
   const {
     entityType,
@@ -52,8 +52,7 @@ const ReviewProposal: React.FC = () => {
     clearEntity,
   } = createEntityState
   const profile = createEntityState.profile
-  const { UploadLinkedResource, UploadLinkedClaim, CreateProtocol, CreateEntityBase, AddLinkedEntity } =
-    useCreateEntity()
+  const { UploadLinkedResource, UploadLinkedClaim, CreateProtocol, CreateEntityBase } = useCreateEntity()
   const {
     makeAuthzAuthorizationAction,
     makeAuthzExecAction,
@@ -292,7 +291,21 @@ const ReviewProposal: React.FC = () => {
       relationship: 'proposal',
       service: 'ixo',
     })
-    return !!(await AddLinkedEntity(deedDid, linkedEntity))
+    return !!(await AddLinkedEntity(signingClient, signer, { did: deedDid, linkedEntity }))
+  }
+
+  const handleAddVerification = async (): Promise<boolean> => {
+    const method = ixo.iid.v1beta1.VerificationMethod.fromPartial({
+      id: `${signer.did}#${coreAddress}`,
+      type: 'CosmosAccountAddress',
+      controller: signer.did,
+      blockchainAccountID: coreAddress,
+    })
+    return !!(await AddVerificationMethod(signingClient, signer, {
+      did: entityId,
+      relationships: ['authentication', 'assertionMethod'],
+      method,
+    }))
   }
 
   const handleSubmit = async () => {
@@ -307,9 +320,9 @@ const ReviewProposal: React.FC = () => {
       if (res) {
         const { proposalId } = res
 
-        if (await handleAddProposalInfoAsLinkedEntity(deedDid, proposalId)) {
+        if ((await handleAddProposalInfoAsLinkedEntity(deedDid, proposalId)) && (await handleAddVerification())) {
           history.push({ pathname: history.location.pathname, search: `?success=true` })
-          setDaoGroup(coreAddress)
+          updateDAOGroup(coreAddress)
           setSubmitting(false)
           return
         }
@@ -447,11 +460,7 @@ const ReviewProposal: React.FC = () => {
             </FlexBox>
             {/* Actions */}
             <FlexBox width='100%' gap={4}>
-              <Button
-                variant='secondary'
-                onClick={(): void => history.push(`/create/entity/deed/${entityId}/${coreAddress}/action`)}
-                style={{ width: '100%' }}
-              >
+              <Button variant='secondary' onClick={(): void => history.goBack()} style={{ width: '100%' }}>
                 Back
               </Button>
               <Button variant='primary' onClick={handleSubmit} style={{ width: '100%' }} loading={submitting}>

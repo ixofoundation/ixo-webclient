@@ -2,13 +2,14 @@ import React, { useEffect, useMemo, useState } from 'react'
 import * as Modal from 'react-modal'
 import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
 import { ModalStyles, CloseButton } from 'components/Modals/styles'
-import { ProposalActionConfig, TProposalActionModel } from 'types/protocol'
+import { TProposalActionModel } from 'types/entities'
 import { FlexBox, GridContainer, GridItem } from 'components/App/App.styles'
 import { Button, Dropdown, PropertyBox } from 'pages/CreateEntity/Components'
 import { Typography } from 'components/Typography'
 import { v4 as uuidv4 } from 'uuid'
-import { useCurrentDaoGroup } from 'hooks/currentDao'
 import { useParams } from 'react-router-dom'
+import { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
+import { ProposalActionConfig } from 'constants/entity'
 
 interface Props {
   open: boolean
@@ -19,7 +20,7 @@ interface Props {
 
 const AddActionModal: React.FC<Props> = ({ open, actionsToExclude = [], onClose, onAdd }): JSX.Element => {
   const { coreAddress } = useParams<{ coreAddress: string }>()
-  const { contractName } = useCurrentDaoGroup(coreAddress)
+  const { contractName } = useCurrentEntityDAOGroup(coreAddress)
 
   const options = Object.values(ProposalActionConfig).map((item) => item.text)
   const [selectedGroup, setSelectedGroup] = useState(options[0])

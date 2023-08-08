@@ -2,10 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 import { Box, FlexBox, HTMLFlexBoxProps, SvgBox } from 'components/App/App.styles'
 import { SignStep, TXStatus } from '../common'
-import { DaoGroup } from 'redux/currentEntity/dao/currentDao.types'
 import { Typography } from 'components/Typography'
 import NextStepImage from 'assets/images/modal/nextstep.svg'
-import { useCurrentDaoGroup } from 'hooks/currentDao'
 import { contracts } from '@ixo/impactxclient-sdk'
 import { useAccount } from 'hooks/account'
 import {
@@ -15,13 +13,14 @@ import {
   secondsToWdhms,
 } from 'utils/conversions'
 import { ReactComponent as ArrowDownIcon } from 'assets/images/icon-arrow-down.svg'
-import { useCurrentEntityProfile } from 'hooks/currentEntity'
+import { useCurrentEntityDAOGroup, useCurrentEntityProfile } from 'hooks/currentEntity'
 import { Input } from 'pages/CreateEntity/Components'
 import { MarketingInfoResponse, TokenInfoResponse } from '@ixo/impactxclient-sdk/types/codegen/Cw20Base.types'
 import CurrencyFormat from 'react-currency-format'
 import { fee } from 'lib/protocol'
 import styled, { useTheme } from 'styled-components'
 import { Avatar } from 'pages/CurrentEntity/Components'
+import { TDAOGroupModel } from 'types/entities'
 
 const StyledInput = styled(Input)`
   color: white;
@@ -52,7 +51,7 @@ const Card = ({ children, ...rest }: HTMLFlexBoxProps) => {
 }
 
 interface Props {
-  daoGroup: DaoGroup
+  daoGroup: TDAOGroupModel
   open: boolean
   setOpen: (open: boolean) => void
   onSuccess?: (txHash: string) => void
@@ -62,7 +61,7 @@ const GroupUnstakingModal: React.FunctionComponent<Props> = ({ daoGroup, open, s
   const theme: any = useTheme()
   const { cwClient, cosmWasmClient, address } = useAccount()
   const { name: daoName } = useCurrentEntityProfile()
-  const { votingModuleAddress, depositInfo } = useCurrentDaoGroup(daoGroup?.coreAddress)
+  const { votingModuleAddress, depositInfo } = useCurrentEntityDAOGroup(daoGroup?.coreAddress)
   const [unstakingDuration, setUnstakingDuration] = useState<number>(0)
   const [tokenInfo, setTokenInfo] = useState<TokenInfoResponse | undefined>(undefined)
   const [marketingInfo, setMarketingInfo] = useState<MarketingInfoResponse | undefined>(undefined)

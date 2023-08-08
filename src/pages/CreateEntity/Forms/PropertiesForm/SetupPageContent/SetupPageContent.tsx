@@ -7,7 +7,7 @@ import _ from 'lodash'
 import DragDrop from 'editorjs-drag-drop'
 // @ts-ignore
 import Undo from 'editorjs-undo'
-import { TEntityPageModel } from 'types/protocol'
+import { TEntityPageModel } from 'types/entities'
 import { Wrapper, Row } from './SetupPageContent.styles'
 import { EDITOR_JS_TOOLS } from './SetupPageContent.constants'
 import { OutputBlockData, OutputData } from '@editorjs/editorjs'

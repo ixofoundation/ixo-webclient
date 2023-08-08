@@ -1,4 +1,4 @@
-import EmailVerification from '../../../Verification/EmailVerification/EmailVerification'
+import EmailVerification from './EmailVerification/EmailVerification'
 
 interface Props {
   value: string

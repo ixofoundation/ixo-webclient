@@ -5,31 +5,21 @@ import { PositionController } from './HeaderTabs.styles'
 import { toggleAssistant } from 'redux/account/account.actions'
 import { ToogleAssistantPayload } from 'redux/account/account.types'
 import { connect } from 'react-redux'
-import { useAppSelector } from 'redux/hooks'
-import { RootState } from 'redux/store'
-import * as entitySelectors from 'redux/selectedEntity/selectedEntity.selectors'
-import * as accountSelectors from 'redux/account/account.selectors'
-import { selectEntityBondDid } from 'redux/selectedEntity/selectedEntity.selectors'
 import { EntityType } from 'types/entities'
-import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
-import { checkIsLaunchpadFromApiListedEntityData } from 'utils/entities'
 import { HeaderTab } from 'components/Dashboard/types'
+import { useEntityConfig } from 'hooks/configs'
+import useCurrentEntity, { useCurrentEntityCreator } from 'hooks/currentEntity'
+import { useParams } from 'react-router-dom'
+import { useAccount } from 'hooks/account'
 
-export interface Props {
+interface Props {
   matchType?: any
   activeTabColor?: string
   assistantPanelToggle?: () => void
   toggleAssistant?: (param: ToogleAssistantPayload) => void
   enableAssistantButton?: boolean
   assistantFixed?: boolean
-  entityType?: string
-  isLoggedIn?: boolean
-  entityDid?: string
-  bondDid?: string
-  creatorDid?: string
-  userDid?: string
   buttons?: HeaderTab[]
-  ddoTags?: any[]
 }
 
 const HeaderTabs: React.FunctionComponent<Props> = ({
@@ -38,49 +28,38 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
   toggleAssistant,
   enableAssistantButton,
   assistantFixed = false,
-  entityType,
-  isLoggedIn,
-  bondDid,
-  entityDid,
-  creatorDid,
-  userDid,
   buttons,
-  ddoTags,
 }): JSX.Element => {
-  const entityTypeMap: any = useAppSelector(selectEntityConfig)
-  const entityTitle = entityTypeMap[entityType!]?.title ?? ''
+  const { entityId } = useParams<{ entityId: string }>()
+  const { title } = useEntityConfig()
+  const { entityType } = useCurrentEntity()
+  const { id: creatorDid } = useCurrentEntityCreator()
+  const { did: userDid, registered } = useAccount()
 
   const buttonsArray = React.useMemo(() => {
     if (buttons) {
       return buttons
     }
 
-    const fundingPageUrl = `/projects/${entityDid}/funding`
+    const fundingPageUrl = `/projects/${entityId}/funding`
 
     const buttonArr: HeaderTab[] = [
       {
         iconClass: `icon-${entityType!.toLowerCase()}`,
-        path: `/projects/${entityDid}/overview`,
-        title: entityTitle,
-        tooltip: `${entityTitle} Overview`,
+        path: `/projects/${entityId}/overview`,
+        title: title,
+        tooltip: `${title} Overview`,
       },
     ]
 
-    const isLaunchPad = checkIsLaunchpadFromApiListedEntityData(ddoTags ?? [])
+    // const isLaunchPad = checkIsLaunchpadFromApiListedEntityData(ddoTags ?? [])
 
     if (entityType === EntityType.Project) {
       buttonArr.push({
         iconClass: 'icon-dashboard',
-        path: `/projects/${entityDid}/detail`,
+        path: `/projects/${entityId}/detail`,
         title: 'DASHBOARD',
-        tooltip: `${entityTitle} Management`,
-      })
-    } else if (entityType === EntityType.Investment && bondDid) {
-      buttonArr.push({
-        iconClass: 'icon-dashboard',
-        path: `/projects/${entityDid}/bonds/${bondDid}/detail`,
-        title: 'DASHBOARD',
-        tooltip: `${entityTitle} Management`,
+        tooltip: `${title} Management`,
       })
     } else {
       buttonArr.push({
@@ -88,66 +67,30 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
         linkClass: 'in-active',
         path: '/performace',
         title: 'DASHBOARD',
-        tooltip: `${entityTitle} Management`,
+        tooltip: `${title} Management`,
       })
     }
 
     if (entityType === EntityType.Asset) {
       buttonArr.push({
         iconClass: 'icon-exchange',
-        path: `/projects/${entityDid}/exchange`,
+        path: `/projects/${entityId}/exchange`,
         title: 'EXCHANGE',
-        tooltip: `${entityTitle} Exchange`,
+        tooltip: `${title} Exchange`,
       })
-    } else if (bondDid) {
-      if (isLoggedIn) {
-        if (isLaunchPad) {
-          buttonArr.push({
-            iconClass: 'icon-voting',
-            path: `/projects/${entityDid}/voting`,
-            title: 'VOTING',
-            tooltip: `${entityTitle} Voting`,
-          })
-        } else {
-          buttonArr.push({
-            iconClass: 'icon-funding',
-            path: fundingPageUrl,
-            title: 'FUNDING',
-            tooltip: `${entityTitle} Funding`,
-          })
-        }
-      } else {
-        if (creatorDid !== userDid) {
-          buttonArr.push({
-            iconClass: 'icon-funding',
-            linkClass: 'restricted',
-            path: fundingPageUrl,
-            title: 'FUNDING',
-            tooltip: `${entityTitle} Funding`,
-          })
-        } else {
-          buttonArr.push({
-            iconClass: 'icon-funding',
-            linkClass: '',
-            path: fundingPageUrl,
-            title: 'FUNDING',
-            tooltip: `${entityTitle} Funding`,
-          })
-        }
-      }
     } else {
       buttonArr.push({
         iconClass: 'icon-funding',
         linkClass: 'restricted',
         path: fundingPageUrl,
         title: 'FUNDING',
-        tooltip: `${entityTitle} Funding`,
+        tooltip: `${title} Funding`,
       })
     }
 
     return buttonArr
     // eslint-disable-next-line
-  }, [entityDid, entityType, bondDid, userDid, creatorDid, buttons, ddoTags, isLoggedIn])
+  }, [entityId, entityType, userDid, creatorDid, buttons, registered])
 
   return (
     <PositionController>
@@ -162,20 +105,10 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
   )
 }
 
-const mapStateToProps = (state: RootState): Record<string, any> => ({
-  entityType: entitySelectors.selectEntityType(state),
-  isLoggedIn: accountSelectors.selectUserIsLoggedIn(state),
-  bondDid: selectEntityBondDid(state),
-  entityDid: entitySelectors.selectEntityDid(state),
-  creatorDid: entitySelectors.selectEntityCreator(state),
-  userDid: accountSelectors.selectUserDid(state),
-  ddoTags: entitySelectors.selectEntityDdoTags(state),
-})
-
 const mapDispatchToProps = (dispatch: any): any => ({
   toggleAssistant: (param: ToogleAssistantPayload): void => {
     dispatch(toggleAssistant(param))
   },
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(HeaderTabs)
+export default connect(undefined, mapDispatchToProps)(HeaderTabs)

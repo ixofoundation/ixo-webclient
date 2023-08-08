@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react'
 import { Redirect, Route, RouteComponentProps, useParams, useRouteMatch } from 'react-router-dom'
 import { useCreateEntityState } from 'hooks/createEntity'
-import { useCurrentDaoGroup } from 'hooks/currentDao'
-import useCurrentEntity, { useCurrentEntityProfile } from 'hooks/currentEntity'
+import useCurrentEntity, { useCurrentEntityDAOGroup, useCurrentEntityProfile } from 'hooks/currentEntity'
 import {
   SetupTargetGroup,
   SetupInfo as SetupProposalInfo,
@@ -11,23 +10,17 @@ import {
   SetupProperties as SetupProposalProperties,
   ReviewProposal,
 } from './Pages'
-import { IMPACTS_DAO_ID } from '__mocks__/profile'
-import { v4 as uuidv4 } from 'uuid'
-import { TProposalActionModel } from 'types/protocol'
-
-const JoinImpactsDAOAction: TProposalActionModel = {
-  id: uuidv4(),
-  text: 'Join',
-  group: 'Groups',
-}
+import { useQuery } from 'hooks/window'
 
 const CreateProposal: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): JSX.Element => {
   const { entityId, coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
+  const { getQuery } = useQuery()
+  const join = getQuery('join')
+
   const { getEntityByDid } = useCurrentEntity()
-  const { daoGroup } = useCurrentDaoGroup(coreAddress)
+  const { daoGroup } = useCurrentEntityDAOGroup(coreAddress)
   const { name: entityName } = useCurrentEntityProfile()
-  const { proposal, updateProposal, updateBreadCrumbs, updateEntityType, updateTitle, updateSubtitle } =
-    useCreateEntityState()
+  const { updateBreadCrumbs, updateEntityType, updateTitle, updateSubtitle } = useCreateEntityState()
   const isSetupTargetRoute = useRouteMatch('/create/entity/deed/:entityId/:coreAddress/select')
   const isSetupInfoRoute = useRouteMatch('/create/entity/deed/:entityId/:coreAddress/info')
   const isSetupPageRoute = useRouteMatch('/create/entity/deed/:entityId/:coreAddress/page')
@@ -87,13 +80,6 @@ const CreateProposal: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [entityId])
 
-  useEffect(() => {
-    if (entityId === IMPACTS_DAO_ID) {
-      updateProposal({ ...proposal, actions: [JoinImpactsDAOAction] })
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
   return (
     <>
       <Route exact path={'/create/entity/deed/:entityId/:coreAddress/select'} component={SetupTargetGroup} />
@@ -104,7 +90,11 @@ const CreateProposal: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match })
       <Route exact path={'/create/entity/deed/:entityId/:coreAddress/review'} component={ReviewProposal} />
 
       <Route exact path={`/create/entity/deed/:entityId/:coreAddress`}>
-        <Redirect to={`/create/entity/deed/${entityId}/${coreAddress}/select`} />
+        {join === 'true' ? (
+          <Redirect to={`/create/entity/deed/${entityId}/${coreAddress}/select?join=true`} />
+        ) : (
+          <Redirect to={`/create/entity/deed/${entityId}/${coreAddress}/info`} />
+        )}
       </Route>
     </>
   )

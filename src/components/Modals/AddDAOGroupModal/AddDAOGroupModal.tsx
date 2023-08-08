@@ -4,10 +4,10 @@ import * as Modal from 'react-modal'
 import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
 import { ModalStyles, CloseButton, ModalBody, ModalWrapper, ModalRow, ModalTitle } from 'components/Modals/styles'
 import { AccountValidStatus, Button, InputWithLabel, PropertyBox } from 'pages/CreateEntity/Components'
-import { DAOGroupConfig } from 'types/protocol'
 import { Typography } from 'components/Typography'
 import { FlexBox } from 'components/App/App.styles'
 import { isAccountAddress } from 'utils/validation'
+import { DAOGroupConfig } from 'constants/entity'
 
 interface Props {
   open: boolean

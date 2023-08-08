@@ -1,11 +1,9 @@
 import { EncodeObject } from '@cosmjs/proto-signing'
 import {
-  LinkedClaim,
   LinkedEntity,
   LinkedResource,
   VerificationMethod,
 } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
-import { TEntityModel } from 'api/blocksync/types/entities'
 import BigNumber from 'bignumber.js'
 import {
   fee,
@@ -30,7 +28,10 @@ import { useCreateEntity } from './createEntity'
 import useCurrentEntity from './currentEntity'
 import { DeliverTxResponse } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/stargate'
 import { ixo, utils } from '@ixo/impactxclient-sdk'
-import { EntityLinkedResourceConfig, TDAOGroupModel } from 'types/protocol'
+import { TDAOGroupModel, TEntityModel } from 'types/entities'
+import { EntityLinkedResourceConfig } from 'constants/entity'
+import { CellnodeWeb3Resource } from '@ixo/impactxclient-sdk/types/custom_queries/cellnode'
+import { selectAllClaimProtocols } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 export default function useEditEntity(): {
   editEntity: TEntityModel
@@ -43,8 +44,9 @@ export default function useEditEntity(): {
   const { signer, signingClient } = useAccount()
   const editEntity: TEntityModel = useAppSelector(selectEditEntity)
   const { currentEntity } = useCurrentEntity()
-  const { SaveProfile, SaveAdministrator, SavePage, SaveTags } = useCreateEntity()
+  const { SaveProfile, SaveAdministrator, SavePage, SaveTags, SaveClaim } = useCreateEntity()
   const cellnodeService = editEntity?.service && editEntity?.service[0]
+  const claimProtocols = useAppSelector(selectAllClaimProtocols)
 
   const setEditedField = (key: string, value: any, merge = false) => {
     dispatch(setEditedFieldAction({ key, data: value, merge }))
@@ -308,35 +310,68 @@ export default function useEditEntity(): {
   }
 
   const getEditedLinkedClaimMsgs = async (): Promise<readonly EncodeObject[]> => {
-    const editedLinkedClaim = editEntity.linkedClaim
-    const currentLinkedClaim = currentEntity.linkedClaim
-    if (JSON.stringify(editedLinkedClaim) === JSON.stringify(currentLinkedClaim)) {
-      return []
-    }
+    let messages: readonly EncodeObject[] = []
 
-    const diffLinkedClaim = [
-      ...editedLinkedClaim.filter(
-        (item: LinkedClaim) =>
-          !currentLinkedClaim.map((item: LinkedClaim) => JSON.stringify(item)).includes(JSON.stringify(item)),
-      ),
-      ...currentLinkedClaim
-        .filter(
-          (item: LinkedClaim) =>
-            !editedLinkedClaim.map((item: LinkedClaim) => JSON.stringify(item)).includes(JSON.stringify(item)),
-        )
-        .filter((item: LinkedClaim) => !editedLinkedClaim.some((v) => v.id === item.id)),
-    ]
+    await Promise.all(
+      Object.values(editEntity.claim ?? {}).map(async (claim) => {
+        if (Object.values(currentEntity.claim ?? {}).some((v) => v === claim)) {
+          // skip
+        } else if (
+          Object.values(currentEntity.claim ?? {})
+            .map((v) => v.template?.id)
+            .some((id) => id === claim.template?.id)
+        ) {
+          // replace
+          const res: CellnodeWeb3Resource | undefined = await SaveClaim(claim)
+          const claimProtocol = claimProtocols.find((protocol) => claim.template?.id.includes(protocol.id))
+          const linkedClaim = {
+            type: claimProtocol?.profile?.category || '',
+            id: `{id}#${claimProtocol?.profile?.name}`,
+            description: claimProtocol?.profile?.description || '',
+            serviceEndpoint: LinkedResourceServiceEndpointGenerator(res!, cellnodeService),
+            proof: LinkedResourceProofGenerator(res!, cellnodeService),
+            encrypted: 'false',
+            right: '',
+          }
+          messages = [...messages, ...GetReplaceLinkedClaimMsgs(editEntity.id, signer, linkedClaim)]
+        } else {
+          // add
+          const res: CellnodeWeb3Resource | undefined = await SaveClaim(claim)
+          const claimProtocol = claimProtocols.find((protocol) => claim.template?.id.includes(protocol.id))
+          const linkedClaim = {
+            type: claimProtocol?.profile?.category || '',
+            id: `{id}#${claimProtocol?.profile?.name}`,
+            description: claimProtocol?.profile?.description || '',
+            serviceEndpoint: LinkedResourceServiceEndpointGenerator(res!, cellnodeService),
+            proof: LinkedResourceProofGenerator(res!, cellnodeService),
+            encrypted: 'false',
+            right: '',
+          }
+          messages = [...messages, ...GetAddLinkedClaimMsgs(editEntity.id, signer, linkedClaim)]
+        }
+        return true
+      }),
+    )
 
-    const messages: readonly EncodeObject[] = diffLinkedClaim.reduce(
-      (acc: EncodeObject[], cur: LinkedClaim) => [
-        ...acc,
-        ...(currentLinkedClaim.some((item: LinkedClaim) => item.id === cur.id)
-          ? editedLinkedClaim.some((item: LinkedClaim) => item.id === cur.id)
-            ? GetReplaceLinkedClaimMsgs(editEntity.id, signer, cur)
-            : GetDeleteLinkedClaimMsgs(editEntity.id, signer, cur)
-          : GetAddLinkedClaimMsgs(editEntity.id, signer, cur)),
-      ],
-      [],
+    await Promise.all(
+      Object.values(currentEntity.claim ?? {}).map(async (claim) => {
+        if (!Object.values(editEntity.claim ?? {}).some((v) => v === claim)) {
+          // remove
+          const res: CellnodeWeb3Resource | undefined = await SaveClaim(claim)
+          const claimProtocol = claimProtocols.find((protocol) => claim.template?.id.includes(protocol.id))
+          const linkedClaim = {
+            type: claimProtocol?.profile?.category || '',
+            id: `{id}#${claimProtocol?.profile?.name}`,
+            description: claimProtocol?.profile?.description || '',
+            serviceEndpoint: LinkedResourceServiceEndpointGenerator(res!, cellnodeService),
+            proof: LinkedResourceProofGenerator(res!, cellnodeService),
+            encrypted: 'false',
+            right: '',
+          }
+          messages = [...messages, ...GetDeleteLinkedClaimMsgs(editEntity.id, signer, linkedClaim)]
+        }
+        return true
+      }),
     )
 
     return messages

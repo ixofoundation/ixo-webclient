@@ -5,7 +5,7 @@ import { ModalStyles, CloseButton, ModalBody, ModalWrapper, ModalRow, ModalTitle
 import { Button, TagSelector } from 'pages/CreateEntity/Components'
 import { useAppSelector } from 'redux/hooks'
 import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
-import { TEntityDDOTagModel } from 'types/protocol'
+import { TEntityDDOTagModel } from 'types/entities'
 import { Typography } from 'components/Typography'
 
 interface Props {
@@ -28,7 +28,8 @@ const DDOTagsSetupModal: React.FC<Props> = ({ ddoTags, entityType, open, onClose
     return () => {
       setFormData([])
     }
-  }, [ddoTags])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [JSON.stringify(ddoTags)])
 
   const handleUpdateDDOTags = (): void => {
     if (onChange) {

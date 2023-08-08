@@ -3,8 +3,8 @@ import * as Modal from 'react-modal'
 import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
 import { ModalStyles, CloseButton, ModalWrapper, ModalTitle, ModalBody, ModalRow } from 'components/Modals/styles'
 import { PropertyBox } from 'pages/CreateEntity/Components'
-import { EntityLinkedEntityConfig } from 'types/protocol'
 import _ from 'lodash'
+import { EntityLinkedEntityConfig } from 'constants/entity'
 
 interface Props {
   open: boolean

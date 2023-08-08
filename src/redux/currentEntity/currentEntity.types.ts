@@ -1,4 +1,4 @@
-import { TEntityModel } from 'api/blocksync/types/entities'
+import { TEntityModel } from 'types/entities'
 
 export enum CurrentEntityActions {
   UpdateEntity = 'ixo/CurrentEntity/UPDATE_ENTITY',

@@ -2,13 +2,14 @@ import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { PropertyBox } from 'pages/CreateEntity/Components'
 import React, { useEffect, useMemo, useState } from 'react'
-import { ProposalActionConfigMap, TProposalActionModel } from 'types/protocol'
 import { useAccount } from 'hooks/account'
 import { contracts } from '@ixo/impactxclient-sdk'
 import { useParams } from 'react-router-dom'
 import { useAppSelector } from 'redux/hooks'
 import { selectEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { proposalMsgToActionConfig } from 'utils/dao'
+import { TProposalActionModel } from 'types/entities'
+import { ProposalActionConfigMap } from 'constants/entity'
 
 const InstructionsToExecute: React.FC = () => {
   const { deedId } = useParams<{ deedId: string }>()

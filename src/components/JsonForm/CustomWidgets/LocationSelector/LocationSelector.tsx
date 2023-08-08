@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Axios from 'axios'
-import LocationMap from 'components/LocationMap/LocationMap'
-import { GeoLocation } from 'components/LocationMap/types'
+import LocationMap from 'components/JsonForm/CustomWidgets/LocationSelector/LocationMap/LocationMap'
+import { GeoLocation } from 'components/JsonForm/CustomWidgets/LocationSelector/LocationMap/types'
 
 interface Props {
   value: string

@@ -1,5 +1,5 @@
 import React from 'react'
-import { TEntityAttributeModel } from 'types/protocol'
+import { TEntityAttributeModel } from 'types/entities'
 import { AddLink, FormRow, FormWrapper, RemoveLink, AttributeInput } from './EntityAttributesForm.styles'
 
 interface Props {

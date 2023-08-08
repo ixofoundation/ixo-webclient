@@ -10,8 +10,6 @@ import { Area, AreaChart, YAxis, ResponsiveContainer } from 'recharts'
 import { Button } from 'pages/CreateEntity/Components'
 import Avatar from './Avatar'
 import { GroupStakingModal, GroupUnstakingModal, GroupClaimModal } from 'components/Modals'
-import useCurrentDao, { useCurrentDaoGroup } from 'hooks/currentDao'
-import { DaoGroup } from 'redux/currentEntity/dao/currentDao.types'
 import { useAccount } from 'hooks/account'
 import { contracts } from '@ixo/impactxclient-sdk'
 import { convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
@@ -19,6 +17,7 @@ import { plus } from 'utils/currency'
 import { claimAvailable } from 'utils/tokenClaim'
 import { CHAIN_ID } from 'hooks/configs'
 import { useTheme } from 'styled-components'
+import useCurrentEntity, { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
 
 const data = [
   {
@@ -87,11 +86,8 @@ const AssetDetailCard: React.FC<Props> = ({
   const theme: any = useTheme()
   const history = useHistory()
   const { cwClient, address } = useAccount()
-  const { setDaoGroup, selectedGroups } = useCurrentDao()
-  const selectedGroup: DaoGroup | undefined = useMemo(() => {
-    return Object.keys(selectedGroups).length === 1 ? Object.values(selectedGroups)[0] : undefined
-  }, [selectedGroups])
-  const { votingModuleAddress } = useCurrentDaoGroup(selectedGroup!.coreAddress)
+  const { selectedDAOGroup, updateDAOGroup } = useCurrentEntity()
+  const { votingModuleAddress } = useCurrentEntityDAOGroup(selectedDAOGroup?.coreAddress || '')
   const [groupStakingModalOpen, setGroupStakingModalOpen] = useState(false)
   const [groupUnstakingModalOpen, setGroupUnstakingModalOpen] = useState(false)
   const [groupClaimModalOpen, setGroupClaimModalOpen] = useState(false)
@@ -173,7 +169,7 @@ const AssetDetailCard: React.FC<Props> = ({
   }
 
   const handleUpdate = () => {
-    setDaoGroup(selectedGroup!.coreAddress)
+    selectedDAOGroup?.coreAddress && updateDAOGroup(selectedDAOGroup?.coreAddress)
     getInfo()
   }
 
@@ -384,27 +380,27 @@ const AssetDetailCard: React.FC<Props> = ({
         </GridItem>
       </GridContainer>
 
-      {groupStakingModalOpen && selectedGroup && (
+      {groupStakingModalOpen && selectedDAOGroup && (
         <GroupStakingModal
           open={groupStakingModalOpen}
           setOpen={setGroupStakingModalOpen}
-          daoGroup={selectedGroup}
+          daoGroup={selectedDAOGroup}
           onSuccess={handleUpdate}
         />
       )}
-      {groupUnstakingModalOpen && selectedGroup && (
+      {groupUnstakingModalOpen && selectedDAOGroup && (
         <GroupUnstakingModal
           open={groupUnstakingModalOpen}
           setOpen={setGroupUnstakingModalOpen}
-          daoGroup={selectedGroup}
+          daoGroup={selectedDAOGroup}
           onSuccess={handleUpdate}
         />
       )}
-      {groupClaimModalOpen && selectedGroup && (
+      {groupClaimModalOpen && selectedDAOGroup && (
         <GroupClaimModal
           open={groupClaimModalOpen}
           setOpen={setGroupClaimModalOpen}
-          daoGroup={selectedGroup}
+          daoGroup={selectedDAOGroup}
           onSuccess={handleUpdate}
         />
       )}
