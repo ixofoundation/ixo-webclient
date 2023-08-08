@@ -15,6 +15,7 @@ import Tooltip from 'components/Tooltip/Tooltip'
 import useCurrentEntity from 'hooks/currentEntity'
 import { TDAOGroupModel } from 'types/entities'
 import { DAOGroupConfig } from 'constants/entity'
+import { Member } from 'types/dao'
 
 const StyledSlider = styled(Slider)`
   .slick-track {
@@ -75,7 +76,7 @@ interface Props {
 
 const Groups: React.FC<Props> = ({ selectedGroup, selectDaoGroup }): JSX.Element | null => {
   const theme: any = useTheme()
-  const { daoGroups } = useCurrentEntity()
+  const { daoGroups, isImpactsDAO, linkedEntity } = useCurrentEntity()
   const [dragging, setDragging] = useState(false)
   const settings = {
     className: 'slider variable-width',
@@ -110,6 +111,12 @@ const Groups: React.FC<Props> = ({ selectedGroup, selectDaoGroup }): JSX.Element
 
   const renderGroupCard = (daoGroup: TDAOGroupModel): JSX.Element => {
     const Icon = DAOGroupConfig[daoGroup.type]?.icon
+    const members = isImpactsDAO
+      ? daoGroup.votingModule.members.filter((member: Member) =>
+          linkedEntity.some(({ type, id }) => type === 'MemberDAO' && id.includes(member.addr)),
+        )
+      : daoGroup.votingModule.members
+
     return (
       <FlexBox
         mx={2}
@@ -149,20 +156,20 @@ const Groups: React.FC<Props> = ({ selectedGroup, selectDaoGroup }): JSX.Element
         </CopyToClipboard>
         <FlexBox alignItems='center' gap={4} height='36px'>
           <FlexBox ml={-2}>
-            {daoGroup.votingModule.members.slice(0, 4).map((member, index) => (
+            {members.slice(0, 4).map((member, index) => (
               <Box key={index} width='24px'>
                 <Avatar size={32} url={undefined} />
               </Box>
             ))}
           </FlexBox>
-          {daoGroup.votingModule.members.length > 4 && (
+          {members.length > 4 && (
             <Typography color='white' size='4xl'>
               ⋯
             </Typography>
           )}
         </FlexBox>
         <Typography color='white' weight='medium' size='lg'>
-          {daoGroup.votingModule.members.length} member{daoGroup.votingModule.members.length > 1 && 's'}
+          {members.length} member{members.length > 1 && 's'}
         </Typography>
       </FlexBox>
     )

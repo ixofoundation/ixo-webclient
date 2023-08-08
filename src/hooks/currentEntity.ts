@@ -78,6 +78,7 @@ export default function useCurrentEntity(): {
   selectedDAOGroup: TDAOGroupModel | undefined
   isImpactsDAO: boolean
   isMemberOfImpactsDAO: boolean
+  isOwner: boolean
   getEntityByDid: (did: string, force?: boolean) => Promise<boolean>
   clearEntity: () => void
   updateDAOGroup: (coreAddress: string) => Promise<void>
@@ -113,6 +114,7 @@ export default function useCurrentEntity(): {
     () => !!isImpactsDAO && linkedEntity.some(({ type, id }) => type === 'MemberDAO' && id.includes(address)),
     [address, isImpactsDAO, linkedEntity],
   )
+  const isOwner = owner === address
 
   const updateEntity = (data: TEntityModel) => {
     dispatch(updateEntityAction(data))
@@ -208,6 +210,7 @@ export default function useCurrentEntity(): {
     selectedDAOGroup,
     isImpactsDAO,
     isMemberOfImpactsDAO,
+    isOwner,
     getEntityByDid,
     clearEntity,
     updateDAOGroup,
