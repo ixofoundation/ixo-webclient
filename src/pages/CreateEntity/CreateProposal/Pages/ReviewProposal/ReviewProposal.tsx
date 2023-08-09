@@ -17,7 +17,7 @@ import { contracts, ixo } from '@ixo/impactxclient-sdk'
 import { CosmosMsgForEmpty } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
 import { useMakeProposalAction } from 'hooks/proposal'
 import { decodedMessagesString } from 'utils/messages'
-import { AddLinkedEntity, AddVerificationMethod, fee } from 'lib/protocol'
+import { AddLinkedEntity, fee } from 'lib/protocol'
 import {
   AccordedRight,
   LinkedClaim,
@@ -294,20 +294,6 @@ const ReviewProposal: React.FC = () => {
     return !!(await AddLinkedEntity(signingClient, signer, { did: deedDid, linkedEntity }))
   }
 
-  const handleAddVerification = async (): Promise<boolean> => {
-    const method = ixo.iid.v1beta1.VerificationMethod.fromPartial({
-      id: `${signer.did}#${coreAddress}`,
-      type: 'CosmosAccountAddress',
-      controller: signer.did,
-      blockchainAccountID: coreAddress,
-    })
-    return !!(await AddVerificationMethod(signingClient, signer, {
-      did: entityId,
-      relationships: ['authentication', 'assertionMethod'],
-      method,
-    }))
-  }
-
   const handleSubmit = async () => {
     if (!isParticipating && !anyoneCanPropose) {
       Toast.errorToast(null, 'You must be a member of the group')
@@ -320,7 +306,7 @@ const ReviewProposal: React.FC = () => {
       if (res) {
         const { proposalId } = res
 
-        if ((await handleAddProposalInfoAsLinkedEntity(deedDid, proposalId)) && (await handleAddVerification())) {
+        if (await handleAddProposalInfoAsLinkedEntity(deedDid, proposalId)) {
           history.push({ pathname: history.location.pathname, search: `?success=true` })
           updateDAOGroup(coreAddress)
           setSubmitting(false)
@@ -416,27 +402,29 @@ const ReviewProposal: React.FC = () => {
           <FlexBox direction='column' flexBasis='50%' gap={1}>
             <Typography size='sm'>Actions</Typography>
             <FlexBox gap={3}>
-              {validActions.map((action) => {
-                const Icon = ProposalActionConfig[action.group].items[action.text]?.icon
-                return (
-                  <SvgBox
-                    key={action.id}
-                    width='35px'
-                    height='35px'
-                    alignItems='center'
-                    justifyContent='center'
-                    border={`1px solid ${theme.ixoNewBlue}`}
-                    borderRadius='4px'
-                    svgWidth={5}
-                    svgHeight={5}
-                    color={theme.ixoNewBlue}
-                    cursor='pointer'
-                    onClick={() => setSelectedAction(action)}
-                  >
-                    <Icon />
-                  </SvgBox>
-                )
-              })}
+              {validActions
+                .filter((action) => ProposalActionConfig[action.group].items[action.text])
+                .map((action) => {
+                  const Icon = ProposalActionConfig[action.group].items[action.text].icon
+                  return (
+                    <SvgBox
+                      key={action.id}
+                      width='35px'
+                      height='35px'
+                      alignItems='center'
+                      justifyContent='center'
+                      border={`1px solid ${theme.ixoNewBlue}`}
+                      borderRadius='4px'
+                      svgWidth={5}
+                      svgHeight={5}
+                      color={theme.ixoNewBlue}
+                      cursor='pointer'
+                      onClick={() => setSelectedAction(action)}
+                    >
+                      <Icon />
+                    </SvgBox>
+                  )
+                })}
             </FlexBox>
           </FlexBox>
         </FlexBox>
