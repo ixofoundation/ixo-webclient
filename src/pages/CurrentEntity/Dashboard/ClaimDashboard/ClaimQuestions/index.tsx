@@ -1,17 +1,16 @@
 import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { FlexBox } from 'components/App/App.styles'
-import SingleControlForm from 'components/JsonForm/SingleControlForm/SingleControlForm'
 import { FormData } from 'components/JsonForm/types'
 import useCurrentEntity, { useCurrentEntityClaimSchemas } from 'hooks/currentEntity'
 import React, { useEffect, useState } from 'react'
 import { serviceEndpointToUrl } from 'utils/entities'
+import { Model } from 'survey-core'
+import { Survey } from 'survey-react-ui'
 
 const ClaimQuestions: React.FC = () => {
   const claimSchemaLinkedResources: LinkedResource[] = useCurrentEntityClaimSchemas()
   const { service } = useCurrentEntity()
   const [questionFormData, setQuestionFormData] = useState<FormData[]>([])
-
-  console.log({ questionFormData })
 
   useEffect(() => {
     if (claimSchemaLinkedResources) {
@@ -34,28 +33,10 @@ const ClaimQuestions: React.FC = () => {
   }, [JSON.stringify(claimSchemaLinkedResources), JSON.stringify(service)])
 
   return (
-    <FlexBox direction='column'>
-      {questionFormData.map((data, index) => {
-        const uiSchema = {
-          [data.id]: {
-            'ui:widget': data.control,
-            'ui:uploading': false,
-          },
-        }
-        return (
-          <SingleControlForm
-            key={index}
-            formData={data}
-            handleFormDataChange={(): void => {
-              //
-            }}
-            handleSubmit={() => {
-              //
-            }}
-            schema={data}
-            uiSchema={uiSchema}
-          />
-        )
+    <FlexBox direction='column' gap={2}>
+      {questionFormData.map((data, i) => {
+        const survey = new Model(data)
+        return <Survey key={i} model={survey} />
       })}
     </FlexBox>
   )
