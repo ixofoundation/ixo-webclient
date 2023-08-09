@@ -26,6 +26,12 @@ const SetupTargetGroup: React.FC = (): JSX.Element => {
   const daos = useAppSelector(selectEntitiesByType('dao'))
   const [daoId, setDAOId] = useState('')
 
+  const parentDAOEntity = useMemo(() => {
+    if (validateEntityDid(entityId)) {
+      return daos.find((v) => v.id === entityId)
+    }
+    return undefined
+  }, [daos, entityId])
   const daoEntity = useMemo(() => {
     if (validateEntityDid(daoId)) {
       return daos.find((v) => v.id === daoId)
@@ -56,12 +62,13 @@ const SetupTargetGroup: React.FC = (): JSX.Element => {
       id: uuidv4(),
       text: 'Join',
       group: 'Groups',
-      data: { id: daoId, address },
+      data: { id: entityId, coreAddress, address },
     }
-    console.log({ JoinImpactsDAOAction })
-    updateProposal({ actions: [] })
+    updateProposal({ actions: [JoinImpactsDAOAction] })
     updateProfile({
-      name: `${daoEntity?.profile?.name || 'SubDAO'} application to join ImpactsDAO`,
+      name: `${daoEntity?.profile?.name || 'SubDAO'} application to join ${
+        parentDAOEntity?.profile?.name || 'ImpactsDAO'
+      }`,
       description: '',
     })
 

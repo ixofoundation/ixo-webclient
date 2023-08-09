@@ -1,4 +1,4 @@
-import { ixo } from '@ixo/impactxclient-sdk'
+import { ixo, utils } from '@ixo/impactxclient-sdk'
 import { Verification } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/tx'
 import {
   AccordedRight,
@@ -58,6 +58,7 @@ const ReviewDAO: React.FC = (): JSX.Element => {
     let linkedEntity: LinkedEntity[] = []
     let linkedResource: LinkedResource[] = []
     let linkedClaim: LinkedClaim[] = []
+    let controller: string[] = []
 
     // AccordedRight TODO:
 
@@ -90,6 +91,9 @@ const ReviewDAO: React.FC = (): JSX.Element => {
     // LinkedClaim
     linkedClaim = linkedClaim.concat(await UploadLinkedClaim())
 
+    // controller
+    controller = controller.concat([utils.did.generateWasmDid(daoControllerAddress)])
+
     // Create Protocol for dao
     const protocolDid = await CreateProtocol()
     if (!protocolDid) {
@@ -106,6 +110,7 @@ const ReviewDAO: React.FC = (): JSX.Element => {
       linkedEntity,
       linkedClaim,
       verification,
+      controller,
       relayerNode: process.env.REACT_APP_RELAYER_NODE,
     })
     if (!entityDid) {

@@ -1,6 +1,6 @@
 ---
 id: g5ijgo64
-title: Clone Existing Claim Protocol
+title: protocol-claim-creation
 file_version: 1.1.3
 app_version: 1.14.0
 ---
@@ -8,8 +8,6 @@ app_version: 1.14.0
 The code defined for cloning of an entity from blocksync api call and prefilling newEntity redux state.
 <!-- NOTE-swimm-snippet: the lines below link your snippet to Swimm -->
 ### 📄 src/pages/CreateEntity/CreateClaim/Pages/SelectCreationProcess/SelectCreationProcess.tsx
-<!-- collapsed -->
-
 ```tsx
 53       const handleClone = (): void => {
 54         let claimQuestions = {}
