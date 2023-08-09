@@ -28,7 +28,8 @@ const DDOTagsSetupModal: React.FC<Props> = ({ ddoTags, entityType, open, onClose
     return () => {
       setFormData([])
     }
-  }, [ddoTags])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [JSON.stringify(ddoTags)])
 
   const handleUpdateDDOTags = (): void => {
     if (onChange) {

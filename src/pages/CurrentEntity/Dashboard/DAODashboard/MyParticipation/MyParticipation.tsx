@@ -26,7 +26,7 @@ const MyParticipation: React.FC = () => {
 
       {selectedDAOGroup && (
         <>
-          <Typography variant='secondary' size='4xl' weight='normal' color='white'>
+          <Typography variant='secondary' size='5xl' weight='normal' color='white'>
             {selectedDAOGroup.config.name}
           </Typography>
           <Typography variant='secondary' size='2xl' weight='normal' color='dark-blue'>

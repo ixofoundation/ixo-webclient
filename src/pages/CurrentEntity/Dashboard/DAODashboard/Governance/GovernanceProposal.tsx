@@ -32,9 +32,10 @@ import { useAppSelector } from 'redux/hooks'
 import { selectEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { serviceEndpointToUrl } from 'utils/entities'
-import { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
+import useCurrentEntity, { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
 import { TEntityModel, TProposalActionModel } from 'types/entities'
 import { EntityLinkedResourceConfig, ProposalActionConfigMap } from 'constants/entity'
+import { Typography } from 'components/Typography'
 
 const Container = styled.div<{ isDark: boolean }>`
   background: ${(props) =>
@@ -89,7 +90,8 @@ const Action = styled.button<{ isDark: boolean }>`
   line-height: 19px;
   cursor: pointer;
 
-  &.disable {
+  &.disable,
+  &:disabled {
     pointer-events: none;
     border: transparent 1px solid;
     background-color: ${(props) => (props.isDark ? props.theme.ixoDarkBlue : props.theme.ixoGrey300)};
@@ -127,6 +129,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
   const { entityId } = useParams<{ entityId: string }>()
   const { isDark } = useContext(DashboardThemeContext)
   const { convertToDenom } = useIxoConfigs()
+  const { isImpactsDAO, isMemberOfImpactsDAO, isOwner } = useCurrentEntity()
   const { daoGroup, proposalModuleAddress, isParticipating, depositInfo, tqData } =
     useCurrentEntityDAOGroup(coreAddress)
   const { cwClient, cosmWasmClient, address } = useAccount()
@@ -358,18 +361,27 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
             <FlexBox gap={4}>
               <Action
                 isDark={isDark}
-                className={clsx({ disable: status !== 'open' || !!myVoteStatus || !isParticipating })}
+                className={clsx({ disable: status !== 'open' || !!myVoteStatus })}
                 onClick={(): void => setVoteModalOpen(true)}
+                disabled={!isParticipating || (isImpactsDAO && !isMemberOfImpactsDAO && !isOwner)}
               >
                 {status === 'open' && !myVoteStatus ? 'New Vote' : 'My Vote'}
               </Action>
               {status === 'passed' && (!proposalConfig?.only_members_execute || isParticipating) && (
-                <Action isDark={isDark} onClick={handleExecuteProposal}>
+                <Action
+                  isDark={isDark}
+                  onClick={handleExecuteProposal}
+                  disabled={!isParticipating || (isImpactsDAO && !isMemberOfImpactsDAO && !isOwner)}
+                >
                   Execute
                 </Action>
               )}
               {status === 'rejected' && (
-                <Action isDark={isDark} onClick={handleCloseProposal}>
+                <Action
+                  isDark={isDark}
+                  onClick={handleCloseProposal}
+                  disabled={!isParticipating || (isImpactsDAO && !isMemberOfImpactsDAO && !isOwner)}
+                >
                   Close
                 </Action>
               )}
@@ -423,29 +435,31 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
                   </a>
                 )
               })}
-              {proposalActions.map((action, index) => {
-                const Icon = ProposalActionConfigMap[action.type!]?.icon
-                return (
-                  <SvgBox
-                    key={index}
-                    width='35px'
-                    height='35px'
-                    alignItems='center'
-                    justifyContent='center'
-                    border={`1px solid ${theme.ixoNewBlue}`}
-                    borderRadius='4px'
-                    svgWidth={5}
-                    svgHeight={5}
-                    color={theme.ixoNewBlue}
-                    cursor='pointer'
-                    hover={{ background: theme.ixoNewBlue, color: theme.ixoWhite }}
-                    transition='.2s all'
-                    onClick={() => setSelectedAction(action)}
-                  >
-                    {Icon && <Icon />}
-                  </SvgBox>
-                )
-              })}
+              {proposalActions
+                .filter((action) => !!action.type && !!ProposalActionConfigMap[action.type])
+                .map((action, index) => {
+                  const Icon = ProposalActionConfigMap[action.type!].icon
+                  return (
+                    <SvgBox
+                      key={index}
+                      width='35px'
+                      height='35px'
+                      alignItems='center'
+                      justifyContent='center'
+                      border={`1px solid ${theme.ixoNewBlue}`}
+                      borderRadius='4px'
+                      svgWidth={5}
+                      svgHeight={5}
+                      color={theme.ixoNewBlue}
+                      cursor='pointer'
+                      hover={{ background: theme.ixoNewBlue, color: theme.ixoWhite }}
+                      transition='.2s all'
+                      onClick={() => setSelectedAction(action)}
+                    >
+                      {Icon && <Icon />}
+                    </SvgBox>
+                  )
+                })}
             </FlexBox>
           </div>
 
@@ -454,36 +468,40 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
         </Box>
         <div className='col-12 col-lg-6'>
           <WidgetWrapper title='' gridHeight={gridSizes.standard} light={true} padding={false}>
-            <FlexBox className='p-0 m-0'>
-              <FlexBox>
-                <div className='pl-0'>
-                  <FlexBox>
-                    <strong>Current status: Proposal Passes</strong>
+            <FlexBox className='p-0 m-0' justifyContent='space-between'>
+              <FlexBox direction='column' gap={5}>
+                <FlexBox direction='column'>
+                  <FlexBox mb={2}>
+                    <Typography variant='secondary' weight='bold'>
+                      Current status: Proposal Passes
+                    </Typography>
                   </FlexBox>
-                  <div>
-                    <p>
+                  <FlexBox direction='column'>
+                    <Typography variant='secondary' weight='thin'>
                       <strong>{numOfYesVotes}</strong> Yes ({calcPercentage(numOfAvailableVotes, numOfYesVotes)}%)
-                    </p>
-                    <p>
+                    </Typography>
+                    <Typography variant='secondary' weight='thin'>
                       <strong>{numOfNoVotes}</strong> No ({calcPercentage(numOfAvailableVotes, numOfNoVotes)}%)
-                    </p>
-                    <p>
+                    </Typography>
+                    <Typography variant='secondary' weight='thin'>
                       <strong>{numOfNoWithVetoVotes}</strong> No with Veto (
                       {calcPercentage(numOfAvailableVotes, numOfNoWithVetoVotes)}%)
-                    </p>
-                    <p>
+                    </Typography>
+                    <Typography variant='secondary' weight='thin'>
                       <strong>{numOfAbstainVotes}</strong> Abstain (
                       {calcPercentage(numOfAvailableVotes, numOfAbstainVotes)}%)
-                    </p>
-                    <p>
+                    </Typography>
+                    <Typography variant='secondary' weight='thin'>
                       <strong>{numOfEmptyVotes}</strong> have not yet voted (
                       {calcPercentage(numOfAvailableVotes, numOfEmptyVotes)}%)
-                    </p>
-                  </div>
-                </div>
-                <div className='mt-2'>
-                  <FlexBox>
-                    <strong>Consensus thresholds</strong>
+                    </Typography>
+                  </FlexBox>
+                </FlexBox>
+                <FlexBox direction='column'>
+                  <FlexBox mb={2}>
+                    <Typography variant='secondary' weight='bold'>
+                      Consensus thresholds
+                    </Typography>
                   </FlexBox>
                   {/* <div>
                     <div>
@@ -511,21 +529,21 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
                       % under the 33% required to veto
                     </div>
                   </div> */}
-                  <div>
+                  <FlexBox direction='column'>
                     {tqData?.quorumPercentage && (
-                      <div>
+                      <Typography variant='secondary' weight='thin'>
                         <strong>{getDifference(perOfYesVotes, tqData.quorumPercentage)}</strong>% more than the quorum
                         of {tqData.quorumPercentage}%
-                      </div>
+                      </Typography>
                     )}
-                    <div>
+                    <Typography variant='secondary'>
                       <strong>+ 14</strong>% in favour over the 50% required
-                    </div>
-                    <div>
+                    </Typography>
+                    <Typography variant='secondary'>
                       <strong>- 7</strong>% under the 33% required to veto
-                    </div>
-                  </div>
-                </div>
+                    </Typography>
+                  </FlexBox>
+                </FlexBox>
               </FlexBox>
               <FlexBox>
                 <CircleProgressbar

@@ -3,7 +3,7 @@ import { Table } from 'components/Table'
 import { Typography } from 'components/Typography'
 import ProgressBar from 'components/Widgets/ProgressBar/ProgressBar'
 import { useAccount } from 'hooks/account'
-import { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
+import useCurrentEntity, { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
 import { Button } from 'pages/CreateEntity/Components'
 import React, { useMemo } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
@@ -79,6 +79,7 @@ const UserProposals: React.FC<Props> = ({ show, coreAddress, userAddress, full =
   const history = useHistory()
   const { entityId } = useParams<{ entityId: string }>()
   const { address } = useAccount()
+  const { isImpactsDAO, isMemberOfImpactsDAO, isOwner } = useCurrentEntity()
   const { daoGroup, proposals, numOfMembers } = useCurrentEntityDAOGroup(coreAddress)
 
   const isParticipating = useMemo(() => {
@@ -158,7 +159,11 @@ const UserProposals: React.FC<Props> = ({ show, coreAddress, userAddress, full =
   )
 
   const handleNewProposal = () => {
-    history.push(`/create/entity/deed/${entityId}/${coreAddress}/info`)
+    history.push(`/create/entity/deed/${entityId}/${coreAddress}`)
+  }
+
+  const handleNewProposalForJoin = () => {
+    history.push(`/create/entity/deed/${entityId}/${coreAddress}?join=true`)
   }
 
   const handleRowClick = (state: any) => () => {
@@ -172,7 +177,35 @@ const UserProposals: React.FC<Props> = ({ show, coreAddress, userAddress, full =
     }
   }
 
-  return show ? (
+  if (!show) {
+    return null
+  }
+
+  if (isImpactsDAO && !isMemberOfImpactsDAO && !isOwner) {
+    return (
+      <FlexBox height='100%' direction='column' justifyContent='space-between'>
+        <Typography variant='secondary' size='2xl' color='dark-blue'>
+          ImpactsDAO is a DAO cooperative. If you are a delegate of a DAO and want it to become a member, stake LVC
+          tokens and submit a joining proposal.
+        </Typography>
+        <Button
+          variant='secondary'
+          size='flex'
+          width={170}
+          height={40}
+          textSize='base'
+          textTransform='capitalize'
+          textWeight='medium'
+          disabled={!isParticipating}
+          onClick={handleNewProposalForJoin}
+        >
+          Join
+        </Button>
+      </FlexBox>
+    )
+  }
+
+  return (
     <>
       {sortedUserProposals.length > 0 ? (
         <FlexBox width='100%' direction='column' gap={3}>
@@ -198,6 +231,7 @@ const UserProposals: React.FC<Props> = ({ show, coreAddress, userAddress, full =
           variant='secondary'
           onClick={handleNewProposal}
           size='flex'
+          width={170}
           height={40}
           textSize='base'
           textTransform='capitalize'
@@ -208,7 +242,7 @@ const UserProposals: React.FC<Props> = ({ show, coreAddress, userAddress, full =
         </Button>
       )}
     </>
-  ) : null
+  )
 }
 
 export default UserProposals

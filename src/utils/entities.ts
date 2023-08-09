@@ -139,97 +139,108 @@ export function apiEntityToEntity(
     const url = serviceEndpointToUrl(item.serviceEndpoint, service)
 
     if (item.proof && url) {
-      switch (item.id) {
-        case '{id}#profile': {
-          fetch(url)
-            .then((response) => response.json())
-            .then((response) => {
-              const context = response['@context']
-              let image: string = response.image
-              let logo: string = response.logo
+      if (item.type === 'Settings' || item.type === 'VerifiableCredential') {
+        switch (item.id) {
+          case '{id}#profile': {
+            fetch(url)
+              .then((response) => response.json())
+              .then((response) => {
+                const context = response['@context']
+                let image: string = response.image
+                let logo: string = response.logo
 
-              if (image && !image.startsWith('http')) {
-                const [identifier] = image.split(':')
-                let endpoint = ''
-                context.forEach((item: any) => {
-                  if (typeof item === 'object' && identifier in item) {
-                    endpoint = item[identifier]
-                  }
-                })
-                image = image.replace(identifier + ':', endpoint)
-              }
-              if (logo && !logo.startsWith('http')) {
-                const [identifier] = logo.split(':')
-                let endpoint = ''
-                context.forEach((item: any) => {
-                  if (typeof item === 'object' && identifier in item) {
-                    endpoint = item[identifier]
-                  }
-                })
-                logo = logo.replace(identifier + ':', endpoint)
-              }
-              return { ...response, image, logo }
-            })
-            .then((profile) => {
-              updateCallback('profile', profile)
-            })
-            .catch((e) => {
-              console.error(`Error Fetching Profile ${entity.id}`, e)
-              return undefined
-            })
-          break
+                if (image && !image.startsWith('http')) {
+                  const [identifier] = image.split(':')
+                  let endpoint = ''
+                  context.forEach((item: any) => {
+                    if (typeof item === 'object' && identifier in item) {
+                      endpoint = item[identifier]
+                    }
+                  })
+                  image = image.replace(identifier + ':', endpoint)
+                }
+                if (logo && !logo.startsWith('http')) {
+                  const [identifier] = logo.split(':')
+                  let endpoint = ''
+                  context.forEach((item: any) => {
+                    if (typeof item === 'object' && identifier in item) {
+                      endpoint = item[identifier]
+                    }
+                  })
+                  logo = logo.replace(identifier + ':', endpoint)
+                }
+                return { ...response, image, logo }
+              })
+              .then((profile) => {
+                updateCallback('profile', profile)
+              })
+              .catch((e) => {
+                console.error(`Error Fetching Profile ${entity.id}`, e)
+                return undefined
+              })
+            break
+          }
+          case '{id}#creator': {
+            fetch(url)
+              .then((response) => response.json())
+              .then((response) => response.credentialSubject)
+              .then((creator) => {
+                updateCallback('creator', creator)
+              })
+              .catch(() => undefined)
+            break
+          }
+          case '{id}#administrator': {
+            fetch(url)
+              .then((response) => response.json())
+              .then((response) => response.credentialSubject)
+              .then((administrator) => {
+                updateCallback('administrator', administrator)
+              })
+              .catch(() => undefined)
+            break
+          }
+          case '{id}#page': {
+            fetch(url)
+              .then((response) => response.json())
+              .then((response) => response.page)
+              .then((page) => {
+                updateCallback('page', page)
+              })
+              .catch(() => undefined)
+            break
+          }
+          case '{id}#tags': {
+            fetch(url)
+              .then((response) => response.json())
+              .then((response) => response.entityTags ?? response.ddoTags)
+              .then((tags) => {
+                updateCallback('tags', tags)
+              })
+              .catch(() => undefined)
+            break
+          }
+          case '{id}#token': {
+            fetch(url)
+              .then((response) => response.json())
+              .then((token) => {
+                updateCallback('token', token)
+              })
+              .catch(() => undefined)
+            break
+          }
+          default:
+            break
         }
-        case '{id}#creator': {
-          fetch(url)
-            .then((response) => response.json())
-            .then((response) => response.credentialSubject)
-            .then((creator) => {
-              updateCallback('creator', creator)
-            })
-            .catch(() => undefined)
-          break
-        }
-        case '{id}#administrator': {
-          fetch(url)
-            .then((response) => response.json())
-            .then((response) => response.credentialSubject)
-            .then((administrator) => {
-              updateCallback('administrator', administrator)
-            })
-            .catch(() => undefined)
-          break
-        }
-        case '{id}#page': {
-          fetch(url)
-            .then((response) => response.json())
-            .then((response) => response.page)
-            .then((page) => {
-              updateCallback('page', page)
-            })
-            .catch(() => undefined)
-          break
-        }
-        case '{id}#tags': {
-          fetch(url)
-            .then((response) => response.json())
-            .then((response) => response.entityTags ?? response.ddoTags)
-            .then((tags) => {
-              updateCallback('tags', tags)
-            })
-            .catch(() => undefined)
-          break
-        }
-        case '{id}#token': {
-          fetch(url)
-            .then((response) => response.json())
-            .then((token) => {
-              updateCallback('token', token)
-            })
-            .catch(() => undefined)
-          break
-        }
-        default:
-          break
+      } else if (item.type === 'ClaimSchema') {
+        //
+        fetch(url)
+          .then((response) => response.json())
+          .then((response) => response.question)
+          .then((question) => {
+            updateCallback('claimQuestion', question)
+          })
+          .catch(() => undefined)
       }
     }
   })

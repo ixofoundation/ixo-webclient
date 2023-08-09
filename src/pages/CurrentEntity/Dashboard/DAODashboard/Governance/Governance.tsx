@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, FlexBox } from 'components/App/App.styles'
+import { FlexBox } from 'components/App/App.styles'
 import GovernanceProposal from './GovernanceProposal'
 import { durationToSeconds, expirationAtTimeToSecondsFromNow } from 'utils/conversions'
 import { Groups } from '../Components'
@@ -15,11 +15,15 @@ const Governance: React.FC = () => {
   const theme: any = useTheme()
   const { entityId } = useParams<{ entityId: string }>()
   const history = useHistory()
-  const { selectedDAOGroup, selectDAOGroup } = useCurrentEntity()
+  const { selectedDAOGroup, selectDAOGroup, isImpactsDAO, isMemberOfImpactsDAO, isOwner } = useCurrentEntity()
   const { isParticipating, anyoneCanPropose } = useCurrentEntityDAOGroup(selectedDAOGroup?.coreAddress || '')
 
   const handleNewProposal = () => {
     history.push(`/create/entity/deed/${entityId}/${selectedDAOGroup?.coreAddress}`)
+  }
+
+  const handleNewProposalForJoin = () => {
+    history.push(`/create/entity/deed/${entityId}/${selectedDAOGroup?.coreAddress}?join=true`)
   }
 
   return (
@@ -27,11 +31,9 @@ const Governance: React.FC = () => {
       <Groups selectedGroup={selectedDAOGroup} selectDaoGroup={(address: string) => selectDAOGroup(address)} />
 
       {selectedDAOGroup && (
-        <Box>
-          <Typography variant='secondary' color='white' size='5xl' transform='capitalize'>
-            {selectedDAOGroup?.type} group
-          </Typography>
-        </Box>
+        <Typography variant='secondary' color='white' size='5xl' transform='capitalize'>
+          {selectedDAOGroup?.config.name}
+        </Typography>
       )}
 
       {selectedDAOGroup && (
@@ -39,18 +41,35 @@ const Governance: React.FC = () => {
           <Typography variant='secondary' size='2xl'>
             Current Governance Proposals
           </Typography>
-          <Button
-            variant='secondary'
-            size='flex'
-            height={36}
-            textSize='base'
-            textTransform='capitalize'
-            textWeight='medium'
-            onClick={handleNewProposal}
-            disabled={!isParticipating && !anyoneCanPropose}
-          >
-            New Proposal
-          </Button>
+
+          {isImpactsDAO && !isMemberOfImpactsDAO && !isOwner ? (
+            <Button
+              variant='secondary'
+              size='flex'
+              width={170}
+              height={40}
+              textSize='base'
+              textTransform='capitalize'
+              textWeight='medium'
+              onClick={handleNewProposalForJoin}
+              disabled={!isParticipating}
+            >
+              Join
+            </Button>
+          ) : (
+            <Button
+              variant='secondary'
+              size='flex'
+              height={36}
+              textSize='base'
+              textTransform='capitalize'
+              textWeight='medium'
+              onClick={handleNewProposal}
+              disabled={!isParticipating && !anyoneCanPropose}
+            >
+              New Proposal
+            </Button>
+          )}
         </FlexBox>
       )}
 

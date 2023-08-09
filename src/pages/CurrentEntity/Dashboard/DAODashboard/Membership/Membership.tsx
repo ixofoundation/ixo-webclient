@@ -9,26 +9,26 @@ import { useAppSelector } from 'redux/hooks'
 import { selectEntitiesByType } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { findDAObyDelegateAccount } from 'utils/entities'
 import useCurrentEntity from 'hooks/currentEntity'
-import { IMPACTS_DAO_ID } from '__mocks__/profile'
 
 const Membership: React.FC = (): JSX.Element | null => {
-  const { id: entityId } = useCurrentEntity()
+  const { isImpactsDAO, linkedEntity } = useCurrentEntity()
   const { selectedDAOGroup, selectDAOGroup } = useCurrentEntity()
   const daos = useAppSelector(selectEntitiesByType('dao'))
   const members: Member[] = useMemo(
     () =>
-      (selectedDAOGroup?.votingModule.members ?? []).map((member: Member) => {
-        if (entityId === IMPACTS_DAO_ID) {
-          // TODO: find by linkedEntity type === "MemberDAO"
-          const subDAO = findDAObyDelegateAccount(daos, member.addr)[0]
-          const avatar = subDAO?.profile?.logo || ''
-          const name = subDAO?.profile?.name || ''
-          return { ...member, avatar, name }
-        } else {
-          return member
-        }
-      }),
-    [selectedDAOGroup, entityId, daos],
+      isImpactsDAO
+        ? (selectedDAOGroup?.votingModule.members ?? [])
+            .filter((member: Member) =>
+              linkedEntity.some(({ type, id }) => type === 'MemberDAO' && id.includes(member.addr)),
+            )
+            .map((member: Member) => {
+              const subDAO = findDAObyDelegateAccount(daos, member.addr)[0]
+              const avatar = subDAO?.profile?.logo || ''
+              const name = subDAO?.profile?.name || ''
+              return { ...member, avatar, name }
+            })
+        : selectedDAOGroup?.votingModule.members ?? [],
+    [selectedDAOGroup, isImpactsDAO, daos, linkedEntity],
   )
 
   const [selectedMembers, setSelectedMembers] = useState<{ [key: string]: boolean }>({})

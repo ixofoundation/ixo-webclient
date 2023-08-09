@@ -17,7 +17,7 @@ import { contracts, ixo } from '@ixo/impactxclient-sdk'
 import { CosmosMsgForEmpty } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
 import { useMakeProposalAction } from 'hooks/proposal'
 import { decodedMessagesString } from 'utils/messages'
-import { fee } from 'lib/protocol'
+import { AddLinkedEntity, fee } from 'lib/protocol'
 import {
   AccordedRight,
   LinkedClaim,
@@ -37,7 +37,7 @@ const ReviewProposal: React.FC = () => {
   const theme: any = useTheme()
   const history = useHistory()
   const { entityId, coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
-  const { address, cosmWasmClient, cwClient } = useAccount()
+  const { address, cosmWasmClient, cwClient, signingClient, signer } = useAccount()
   const { name: entityName } = useCurrentEntityProfile()
   const { updateDAOGroup } = useCurrentEntity()
   const { daoGroup, preProposalContractAddress, depositInfo, isParticipating, anyoneCanPropose } =
@@ -52,8 +52,7 @@ const ReviewProposal: React.FC = () => {
     clearEntity,
   } = createEntityState
   const profile = createEntityState.profile
-  const { UploadLinkedResource, UploadLinkedClaim, CreateProtocol, CreateEntityBase, AddLinkedEntity } =
-    useCreateEntity()
+  const { UploadLinkedResource, UploadLinkedClaim, CreateProtocol, CreateEntityBase } = useCreateEntity()
   const {
     makeAuthzAuthorizationAction,
     makeAuthzExecAction,
@@ -292,7 +291,7 @@ const ReviewProposal: React.FC = () => {
       relationship: 'proposal',
       service: 'ixo',
     })
-    return !!(await AddLinkedEntity(deedDid, linkedEntity))
+    return !!(await AddLinkedEntity(signingClient, signer, { did: deedDid, linkedEntity }))
   }
 
   const handleSubmit = async () => {
@@ -403,27 +402,29 @@ const ReviewProposal: React.FC = () => {
           <FlexBox direction='column' flexBasis='50%' gap={1}>
             <Typography size='sm'>Actions</Typography>
             <FlexBox gap={3}>
-              {validActions.map((action) => {
-                const Icon = ProposalActionConfig[action.group].items[action.text]?.icon
-                return (
-                  <SvgBox
-                    key={action.id}
-                    width='35px'
-                    height='35px'
-                    alignItems='center'
-                    justifyContent='center'
-                    border={`1px solid ${theme.ixoNewBlue}`}
-                    borderRadius='4px'
-                    svgWidth={5}
-                    svgHeight={5}
-                    color={theme.ixoNewBlue}
-                    cursor='pointer'
-                    onClick={() => setSelectedAction(action)}
-                  >
-                    <Icon />
-                  </SvgBox>
-                )
-              })}
+              {validActions
+                .filter((action) => ProposalActionConfig[action.group].items[action.text])
+                .map((action) => {
+                  const Icon = ProposalActionConfig[action.group].items[action.text].icon
+                  return (
+                    <SvgBox
+                      key={action.id}
+                      width='35px'
+                      height='35px'
+                      alignItems='center'
+                      justifyContent='center'
+                      border={`1px solid ${theme.ixoNewBlue}`}
+                      borderRadius='4px'
+                      svgWidth={5}
+                      svgHeight={5}
+                      color={theme.ixoNewBlue}
+                      cursor='pointer'
+                      onClick={() => setSelectedAction(action)}
+                    >
+                      <Icon />
+                    </SvgBox>
+                  )
+                })}
             </FlexBox>
           </FlexBox>
         </FlexBox>
@@ -447,11 +448,7 @@ const ReviewProposal: React.FC = () => {
             </FlexBox>
             {/* Actions */}
             <FlexBox width='100%' gap={4}>
-              <Button
-                variant='secondary'
-                onClick={(): void => history.push(`/create/entity/deed/${entityId}/${coreAddress}/action`)}
-                style={{ width: '100%' }}
-              >
+              <Button variant='secondary' onClick={(): void => history.goBack()} style={{ width: '100%' }}>
                 Back
               </Button>
               <Button variant='primary' onClick={handleSubmit} style={{ width: '100%' }} loading={submitting}>

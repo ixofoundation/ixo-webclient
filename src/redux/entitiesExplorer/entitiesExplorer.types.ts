@@ -25,7 +25,7 @@ export enum EntitiesExplorerActions {
   GetEntities2Pending = 'ixo/EntitiesExplorer/GET_ENTITIES2_PENDING',
   GetEntities2Failure = 'ixo/EntitiesExplorer/GET_ENTITIES2_REJECTED',
   GetIndividualEntity2 = 'ixo/EntitiesExplorer/GET_INDIVIDUAL_ENTITY2',
-  GetEntityById = 'ixo/EntitiesExplorer/GET_ENTITY_BY_ID',
+  UpdateEntityById = 'ixo/EntitiesExplorer/UPDATE_ENTITY_BY_ID',
   GetEntityConfig = 'ixo/EntitiesExplorer/GET_ENTITYCONFIG',
   GetEntityConfigSuccess = 'ixo/EntitiesExplorer/GET_ENTITYCONFIG_FULFILLED',
   GetEntityConfigPending = 'ixo/EntitiesExplorer/GET_ENTITYCONFIG_PENDING',
@@ -56,8 +56,8 @@ export interface GetEntities2SuccessAction {
   type: typeof EntitiesExplorerActions.GetEntities2Success
   payload: TEntityModel[]
 }
-export interface GetEntityByIdAction {
-  type: typeof EntitiesExplorerActions.GetEntityById
+export interface UpdateEntityByIdAction {
+  type: typeof EntitiesExplorerActions.UpdateEntityById
   payload: TEntityModel
 }
 export interface GetIndividualEntityAction2 {
@@ -174,7 +174,7 @@ export type EntitiesActionTypes =
   | GetEntities2Action
   | GetEntities2SuccessAction
   | GetIndividualEntityAction2
-  | GetEntityByIdAction
+  | UpdateEntityByIdAction
   | GetEntityConfigAction
   | GetEntityConfigSuccessAction
   | ChangeEntitiesTypeAction

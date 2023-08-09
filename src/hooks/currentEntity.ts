@@ -51,6 +51,7 @@ import { Config as ProposalConfig } from '@ixo/impactxclient-sdk/types/codegen/D
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/DaoPreProposeSingle.types'
 import { depositInfoToCoin } from 'utils/conversions'
 import { EntityLinkedResourceConfig } from 'constants/entity'
+import { IMPACTS_DAO_ID } from 'constants/chains'
 
 const bsService = new BlockSyncService()
 
@@ -75,13 +76,16 @@ export default function useCurrentEntity(): {
   endDate: string
   daoGroups: { [address: string]: TDAOGroupModel }
   selectedDAOGroup: TDAOGroupModel | undefined
+  isImpactsDAO: boolean
+  isMemberOfImpactsDAO: boolean
+  isOwner: boolean
   getEntityByDid: (did: string, force?: boolean) => Promise<boolean>
   clearEntity: () => void
   updateDAOGroup: (coreAddress: string) => Promise<void>
   selectDAOGroup: (coreAddress: string) => Promise<void>
 } {
   const dispatch = useAppDispatch()
-  const { cwClient } = useAccount()
+  const { cwClient, address } = useAccount()
   const currentEntity: TEntityModel = useAppSelector(selectCurrentEntity)
   const id: string = useAppSelector(selectEntityId)!
   const entityType: string = useAppSelector(selectEntityType)!
@@ -105,6 +109,12 @@ export default function useCurrentEntity(): {
     () => Object.values(daoGroups).find((daoGroup) => daoGroup.selected),
     [daoGroups],
   )
+  const isImpactsDAO = id === IMPACTS_DAO_ID
+  const isMemberOfImpactsDAO = useMemo(
+    () => !!isImpactsDAO && linkedEntity.some(({ type, id }) => type === 'MemberDAO' && id.includes(address)),
+    [address, isImpactsDAO, linkedEntity],
+  )
+  const isOwner = owner === address
 
   const updateEntity = (data: TEntityModel) => {
     dispatch(updateEntityAction(data))
@@ -198,6 +208,9 @@ export default function useCurrentEntity(): {
     endDate,
     daoGroups,
     selectedDAOGroup,
+    isImpactsDAO,
+    isMemberOfImpactsDAO,
+    isOwner,
     getEntityByDid,
     clearEntity,
     updateDAOGroup,
@@ -251,17 +264,6 @@ export function useCurrentEntityTags(): {
   const sdgs = tags?.find(({ category }) => category === 'SDG')?.tags ?? []
 
   return { sdgs }
-}
-
-export function useCurrentEntityLinkedEntity(): {
-  bondDid: string
-  linkedProposal?: LinkedEntity
-} {
-  const { linkedEntity = [] } = useCurrentEntity()
-  const bondDid = ''
-  const linkedProposal = linkedEntity.find(({ type }) => type === 'deed')
-
-  return { bondDid, linkedProposal }
 }
 
 export function useCurrentEntityAdminAccount(): string {

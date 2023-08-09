@@ -6,10 +6,14 @@ import { deviceWidth } from 'constants/device'
 import { PropertiesForm } from 'pages/CreateEntity/Forms'
 import { useHistory, useParams } from 'react-router-dom'
 import { Typography } from 'components/Typography'
+import { useQuery } from 'hooks/window'
 
 const SetupProperties: React.FC = (): JSX.Element => {
-  const { entityId, coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
   const history = useHistory()
+  const { entityId, coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
+  const { getQuery } = useQuery()
+  const join = getQuery('join')
+
   const {
     entityType,
     creator,
@@ -32,11 +36,15 @@ const SetupProperties: React.FC = (): JSX.Element => {
   } = useCreateEntityState()
 
   const handleBack = () => {
-    history.push(`/create/entity/deed/${entityId}/${coreAddress}/page`)
+    history.push(`/create/entity/deed/${entityId}/${coreAddress}/page${history.location.search}`)
   }
 
   const handleNext = () => {
-    history.push(`/create/entity/deed/${entityId}/${coreAddress}/action`)
+    if (join === 'true') {
+      history.push(`/create/entity/deed/${entityId}/${coreAddress}/review${history.location.search}`)
+    } else {
+      history.push(`/create/entity/deed/${entityId}/${coreAddress}/action${history.location.search}`)
+    }
   }
 
   const PropertiesFormProps = {

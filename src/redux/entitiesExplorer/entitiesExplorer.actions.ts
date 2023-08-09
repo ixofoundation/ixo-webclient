@@ -18,7 +18,7 @@ import {
   GetEntityConfigAction,
   FilterItemOffsetAction,
   GetEntities2Action,
-  GetEntityByIdAction,
+  UpdateEntityByIdAction,
 } from './entitiesExplorer.types'
 import { RootState } from 'redux/store'
 import { SchemaGitUrl } from 'constants/chains'
@@ -29,13 +29,11 @@ import { apiEntityToEntity } from 'utils/entities'
 
 const bsService = new BlockSyncService()
 
-const filterEntities = (entities: any[]) =>
-  entities.filter(
-    (entity) =>
-      entity.relayerNode === process.env.REACT_APP_RELAYER_NODE ||
-      entity.id === process.env.REACT_APP_RELAYER_NODE ||
-      entity.entityVerified === true,
-  )
+const filterCondition = (entity: any) =>
+  (entity.relayerNode === process.env.REACT_APP_RELAYER_NODE || entity.id === process.env.REACT_APP_RELAYER_NODE) &&
+  // TODO: enable below condition
+  // entity.entityVerified === true &&
+  !entity.type.includes('asset')
 
 export const getAllEntities =
   () =>
@@ -47,7 +45,7 @@ export const getAllEntities =
     return dispatch({
       type: EntitiesExplorerActions.GetEntities2,
       payload: bsService.entity.getAllEntities().then((entities: any[]) => {
-        return filterEntities(entities).map((entity) => {
+        return entities.filter(filterCondition).map((entity) => {
           const { id } = entity
           apiEntityToEntity({ entity, cwClient }, (key, value, merge = false) => {
             dispatch({
@@ -61,19 +59,16 @@ export const getAllEntities =
     })
   }
 
-export const getEntityById =
-  () =>
-  (dispatch: Dispatch, getState: () => RootState): GetEntityByIdAction => {
+export const updateEntityById =
+  (entityId: string) =>
+  (dispatch: Dispatch, getState: () => RootState): UpdateEntityByIdAction => {
     const {
       account: { cwClient },
     } = getState()
     return dispatch({
-      type: EntitiesExplorerActions.GetEntityById,
-      payload: bsService.entity.getEntityById().then((entity: any) => {
-        if (
-          entity.relayerNode === process.env.REACT_APP_RELAYER_NODE ||
-          entity.id === process.env.REACT_APP_RELAYER_NODE
-        ) {
+      type: EntitiesExplorerActions.UpdateEntityById,
+      payload: bsService.entity.getEntityById(entityId).then((entity: any) => {
+        if (filterCondition(entity)) {
           const { id } = entity
           apiEntityToEntity({ entity, cwClient }, (key, value, merge = false) => {
             dispatch({

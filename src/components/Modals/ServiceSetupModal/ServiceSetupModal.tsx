@@ -70,7 +70,8 @@ const ServiceSetupModal: React.FC<Props> = ({ service, open, onClose, onChange }
     return () => {
       setFormData([])
     }
-  }, [service])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [JSON.stringify(service)])
 
   const handleAddService = (): void => {
     if (onChange) {

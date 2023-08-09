@@ -4,7 +4,6 @@ import SetupGroupSettings from 'pages/CreateEntity/CreateDAO/Pages/SetupDAOGroup
 import { TDAOGroupModel } from 'types/entities'
 import { v4 as uuidv4 } from 'uuid'
 import { Button } from 'pages/CreateEntity/Components'
-import { useCreateEntity } from 'hooks/createEntity'
 import { useParams } from 'react-router-dom'
 import { LinkedEntity } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { ixo } from '@ixo/impactxclient-sdk'
@@ -14,11 +13,13 @@ import {
   initialMembershipGroup,
   initialStakingGroup,
 } from 'pages/CreateEntity/CreateDAO/Pages/SetupDAOGroups/SetupDAOGroups'
+import { AddLinkedEntity } from 'lib/protocol'
+import { useAccount } from 'hooks/account'
 
 const AddGroup: React.FC = () => {
   const theme: any = useTheme()
   const { entityId } = useParams<{ entityId: string }>()
-  const { AddLinkedEntity } = useCreateEntity()
+  const { signingClient, signer } = useAccount()
   const [type, setType] = useState<'staking' | 'membership'>('membership')
   const initialDaoGroup = useMemo(() => {
     if (type === 'staking') {
@@ -43,7 +44,7 @@ const AddGroup: React.FC = () => {
         relationship: 'subsidiary',
         service: '',
       })
-      AddLinkedEntity(entityId, linkedEntity).then((response) => {
+      AddLinkedEntity(signingClient, signer, { did: entityId, linkedEntity }).then((response) => {
         if (response) {
           successToast('Success', 'Linked Entity Added')
         } else {
