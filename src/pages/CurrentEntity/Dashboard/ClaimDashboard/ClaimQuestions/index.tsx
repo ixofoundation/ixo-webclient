@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react'
 import { serviceEndpointToUrl } from 'utils/entities'
 import { Model } from 'survey-core'
 import { Survey } from 'survey-react-ui'
+import { themeJson } from 'styles/surveyTheme'
 
 const ClaimQuestions: React.FC = () => {
   const claimSchemaLinkedResources: LinkedResource[] = useCurrentEntityClaimSchemas()
@@ -36,6 +37,8 @@ const ClaimQuestions: React.FC = () => {
     <FlexBox direction='column' gap={2}>
       {questionFormData.map((data, i) => {
         const survey = new Model(data)
+        survey.applyTheme(themeJson)
+        survey.mode = 'display'
         return <Survey key={i} model={survey} />
       })}
     </FlexBox>

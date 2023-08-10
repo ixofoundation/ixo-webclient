@@ -604,6 +604,7 @@ export interface TEntityClaimEvaluationMethodModel {
     [id: string]: TClaimEnrichment
   }
 }
+export type TZlottie = any
 export interface TEntityModel extends Omit<Entity, 'metadata'>, IidDocument {
   publicKey?: string
 
@@ -613,6 +614,7 @@ export interface TEntityModel extends Omit<Entity, 'metadata'>, IidDocument {
   page?: TEntityPageSectionModel[]
   tags?: TEntityDDOTagModel[]
   token?: TTokenMetadataModel
+  zlottie?: TZlottie
   daoGroups?: { [address: string]: TDAOGroupModel }
   claim?: { [id: string]: TEntityClaimModel }
 }

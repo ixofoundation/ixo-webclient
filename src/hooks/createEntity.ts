@@ -676,6 +676,10 @@ export function useCreateEntity(): TCreateEntityHookRes {
     claimQuestionJSON: any,
   ): Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined> => {
     try {
+      if (claimQuestionJSON.pages.length === 0) {
+        throw new Error('No Claim Questions')
+      }
+
       const payload = {
         '@context': {
           ixo: 'https://w3id.org/ixo/ns/protocol/',

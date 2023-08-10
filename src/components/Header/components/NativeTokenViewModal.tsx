@@ -1,7 +1,7 @@
 import { cosmos } from '@ixo/impactxclient-sdk'
 import BigNumber from 'bignumber.js'
 import { FlexBox } from 'components/App/App.styles'
-import { SendModal2 } from 'components/Modals'
+import { SendModal } from 'components/Modals'
 import { Typography } from 'components/Typography'
 import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 import { useAccount } from 'hooks/account'
@@ -300,7 +300,7 @@ const NativeTokenViewModal: React.FC<Props> = ({ open, token, onClose }) => {
           </FlexBox>
         </FlexBox>
       </ModalWrapper>
-      <SendModal2 open={isSending} setOpen={setIsSending} selectedDenomOrAddr={token.coinMinimalDenom} />
+      <SendModal open={isSending} setOpen={setIsSending} selectedDenomOrAddr={token.coinMinimalDenom} />
     </>
   )
 }
