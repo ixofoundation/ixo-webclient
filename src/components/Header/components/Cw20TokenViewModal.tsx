@@ -9,7 +9,7 @@ import CurrencyFormat from 'react-currency-format'
 import { selectStakingGroupsByTokenAddress } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { useAppSelector } from 'redux/hooks'
 import { plus } from 'utils/currency'
-import { GroupStakingModal, SendModal2 } from 'components/Modals'
+import { GroupStakingModal, SendModal } from 'components/Modals'
 import { TokenType } from 'types/tokens'
 import { useTheme } from 'styled-components'
 import { TDAOGroupModel } from 'types/entities'
@@ -210,7 +210,7 @@ const Cw20TokenViewModal: React.FC<Props> = ({ open, token, onClose }) => {
         </FlexBox>
       </ModalWrapper>
       <GroupStakingModal open={isStaking} setOpen={setIsStaking} daoGroup={stakingGroups[0]} />
-      <SendModal2 open={isSending} setOpen={setIsSending} selectedDenomOrAddr={token.coinMinimalDenom} />
+      <SendModal open={isSending} setOpen={setIsSending} selectedDenomOrAddr={token.coinMinimalDenom} />
     </>
   )
 }

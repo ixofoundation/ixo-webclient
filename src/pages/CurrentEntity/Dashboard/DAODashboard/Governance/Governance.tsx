@@ -15,7 +15,7 @@ const Governance: React.FC = () => {
   const theme: any = useTheme()
   const { entityId } = useParams<{ entityId: string }>()
   const history = useHistory()
-  const { selectedDAOGroup, selectDAOGroup, isImpactsDAO, isMemberOfImpactsDAO } = useCurrentEntity()
+  const { selectedDAOGroup, selectDAOGroup, isImpactsDAO, isMemberOfImpactsDAO, isOwner } = useCurrentEntity()
   const { isParticipating, anyoneCanPropose } = useCurrentEntityDAOGroup(selectedDAOGroup?.coreAddress || '')
 
   const handleNewProposal = () => {
@@ -42,7 +42,7 @@ const Governance: React.FC = () => {
             Current Governance Proposals
           </Typography>
 
-          {isImpactsDAO && !isMemberOfImpactsDAO ? (
+          {isImpactsDAO && !isMemberOfImpactsDAO && !isOwner ? (
             <Button
               variant='secondary'
               size='flex'

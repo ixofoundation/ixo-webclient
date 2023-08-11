@@ -9,7 +9,7 @@ import { gridSizes, WidgetWrapper } from 'components/Wrappers/WidgetWrapper'
 import { CircleProgressbar } from 'components/Widgets/CircleProgressbar/CircleProgressbar'
 import moment from 'moment'
 import CopyToClipboard from 'react-copy-to-clipboard'
-import { VoteModal2 } from 'components/Modals'
+import { VoteModal } from 'components/Modals'
 import { DashboardThemeContext } from 'components/Dashboard/Dashboard'
 import { Box, FlexBox, SvgBox } from 'components/App/App.styles'
 import {
@@ -129,7 +129,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
   const { entityId } = useParams<{ entityId: string }>()
   const { isDark } = useContext(DashboardThemeContext)
   const { convertToDenom } = useIxoConfigs()
-  const { isImpactsDAO, isMemberOfImpactsDAO } = useCurrentEntity()
+  const { isImpactsDAO, isMemberOfImpactsDAO, isOwner } = useCurrentEntity()
   const { daoGroup, proposalModuleAddress, isParticipating, depositInfo, tqData } =
     useCurrentEntityDAOGroup(coreAddress)
   const { cwClient, cosmWasmClient, address } = useAccount()
@@ -363,7 +363,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
                 isDark={isDark}
                 className={clsx({ disable: status !== 'open' || !!myVoteStatus })}
                 onClick={(): void => setVoteModalOpen(true)}
-                disabled={!isParticipating || (isImpactsDAO && !isMemberOfImpactsDAO)}
+                disabled={!isParticipating || (isImpactsDAO && !isMemberOfImpactsDAO && !isOwner)}
               >
                 {status === 'open' && !myVoteStatus ? 'New Vote' : 'My Vote'}
               </Action>
@@ -371,7 +371,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
                 <Action
                   isDark={isDark}
                   onClick={handleExecuteProposal}
-                  disabled={!isParticipating || (isImpactsDAO && !isMemberOfImpactsDAO)}
+                  disabled={!isParticipating || (isImpactsDAO && !isMemberOfImpactsDAO && !isOwner)}
                 >
                   Execute
                 </Action>
@@ -380,7 +380,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
                 <Action
                   isDark={isDark}
                   onClick={handleCloseProposal}
-                  disabled={!isParticipating || (isImpactsDAO && !isMemberOfImpactsDAO)}
+                  disabled={!isParticipating || (isImpactsDAO && !isMemberOfImpactsDAO && !isOwner)}
                 >
                   Close
                 </Action>
@@ -435,29 +435,31 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
                   </a>
                 )
               })}
-              {proposalActions.map((action, index) => {
-                const Icon = ProposalActionConfigMap[action.type!]?.icon
-                return (
-                  <SvgBox
-                    key={index}
-                    width='35px'
-                    height='35px'
-                    alignItems='center'
-                    justifyContent='center'
-                    border={`1px solid ${theme.ixoNewBlue}`}
-                    borderRadius='4px'
-                    svgWidth={5}
-                    svgHeight={5}
-                    color={theme.ixoNewBlue}
-                    cursor='pointer'
-                    hover={{ background: theme.ixoNewBlue, color: theme.ixoWhite }}
-                    transition='.2s all'
-                    onClick={() => setSelectedAction(action)}
-                  >
-                    {Icon && <Icon />}
-                  </SvgBox>
-                )
-              })}
+              {proposalActions
+                .filter((action) => !!action.type && !!ProposalActionConfigMap[action.type])
+                .map((action, index) => {
+                  const Icon = ProposalActionConfigMap[action.type!].icon
+                  return (
+                    <SvgBox
+                      key={index}
+                      width='35px'
+                      height='35px'
+                      alignItems='center'
+                      justifyContent='center'
+                      border={`1px solid ${theme.ixoNewBlue}`}
+                      borderRadius='4px'
+                      svgWidth={5}
+                      svgHeight={5}
+                      color={theme.ixoNewBlue}
+                      cursor='pointer'
+                      hover={{ background: theme.ixoNewBlue, color: theme.ixoWhite }}
+                      transition='.2s all'
+                      onClick={() => setSelectedAction(action)}
+                    >
+                      {Icon && <Icon />}
+                    </SvgBox>
+                  )
+                })}
             </FlexBox>
           </div>
 
@@ -558,7 +560,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
           </WidgetWrapper>
         </div>
       </div>
-      {voteModalOpen && <VoteModal2 open={voteModalOpen} setOpen={setVoteModalOpen} onVote={handleVote} />}
+      {voteModalOpen && <VoteModal open={voteModalOpen} setOpen={setVoteModalOpen} onVote={handleVote} />}
       {SetupModal && (
         <SetupModal open={!!SetupModal} action={selectedAction} onClose={() => setSelectedAction(undefined)} />
       )}

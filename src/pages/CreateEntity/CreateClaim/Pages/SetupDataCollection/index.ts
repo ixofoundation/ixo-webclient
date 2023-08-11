@@ -1,1 +1,1 @@
-export { default as SetupDataCollection } from './SetupDataCollection'
+export { default as SetupDataCollection } from './SetupDataCollectionS'
