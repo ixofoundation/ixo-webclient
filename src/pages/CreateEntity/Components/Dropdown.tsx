@@ -74,7 +74,7 @@ const Dropdown: React.FC<Props> = ({
     <Wrapper style={{ color: rest.disabled ? theme.ixoGrey500 : theme.ixoNewBlue, ...(wrapperStyle ?? {}) }}>
       {label && (
         <SelectLabel>
-          <Typography weight={'bold'} size={'sm'}>
+          <Typography weight={'bold'} size={'sm'} style={{ background: 'white' }}>
             {label}
           </Typography>
         </SelectLabel>
