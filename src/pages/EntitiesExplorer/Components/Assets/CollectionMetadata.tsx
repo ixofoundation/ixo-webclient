@@ -38,9 +38,7 @@ const CollectionMetadata: React.FC<TEntityModel> = (collection) => {
         {selected === 'context' && (
           <>
             {collection.profile?.description && <Typography size='md'>{collection.profile?.description}</Typography>}
-            {collection.creator?.displayName && (
-              <Typography size='md'>Creator: {collection.creator?.displayName}</Typography>
-            )}
+            {collection.profile?.name && <Typography size='md'>Creator: {collection.profile?.name}</Typography>}
             {collection.metadata?.created && (
               <Typography size='md'>
                 Minted: {new Date(collection.metadata?.created as never as string).toLocaleDateString()}
@@ -64,8 +62,10 @@ const CollectionMetadata: React.FC<TEntityModel> = (collection) => {
           <ul>
             {collection.profile?.attributes?.map(({ key, value }, index) => (
               <li key={key + index}>
-                <Typography size='md'>
-                  {key}: {value}
+                <Typography size='md'>{key}</Typography>
+                &nbsp;
+                <Typography size='md' weight='bold'>
+                  {value}
                 </Typography>
               </li>
             ))}

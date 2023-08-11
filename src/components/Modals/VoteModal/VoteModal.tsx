@@ -1,71 +1,59 @@
-import styled from 'styled-components'
-import InputText from 'components/Form/InputText/InputText'
-import { FormStyles } from 'types/models'
-import Select from 'components/Form/Select/Select'
+import React, { useState } from 'react'
 import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
-import { useAccount } from 'hooks/account'
-import { GovVoteTrx } from 'lib/protocol'
-import { VoteOption } from '@ixo/impactxclient-sdk/types/codegen/cosmos/gov/v1/gov'
-import Long from 'long'
+import { FlexBox, SvgBox } from 'components/App/App.styles'
+import { Typography } from 'components/Typography'
+import { Vote } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
+import { ReactComponent as ThumbsUpIcon } from 'assets/images/icon-thumbs-up.svg'
+import { ReactComponent as ThumbsDownIcon } from 'assets/images/icon-thumbs-down.svg'
+import { ReactComponent as HandPaperIcon } from 'assets/images/icon-hand-paper.svg'
+import { ReactComponent as QuestionCircleIcon } from 'assets/images/icon-question-circle.svg'
+import { SignStep, TXStatus } from '../common'
+import { useTheme } from 'styled-components'
 
-const Container = styled.div`
-  padding: 1rem 1rem;
-  min-width: 32rem;
-`
-
-const ButtonContainer = styled.div`
-  text-align: center;
-  margin-top: 1.5rem;
-  margin-bottom: 1rem;
-
-  button {
-    border: 1px solid ${(props) => props.theme.ixoNewBlue};
-    border-radius: 0.25rem;
-    height: 2.25rem;
-    width: 6.5rem;
-    background: transparent;
-    color: white;
-    outline: none;
-  }
-`
-
-const SelectWrapper = styled.div`
-  select {
-    background: transparent;
-    color: white;
-    border-color: ${(props): string => props.theme.ixoNewBlue};
-    option {
-      color: ${(props): string => props.theme.ixoNewBlue}};
-    }
-    &:after {
-      border-color: ${(props): string => props.theme.ixoDarkestBlue}};
-    }
-  }
-`
+const VoteOptions = [
+  {
+    value: 'yes',
+    icon: ThumbsUpIcon,
+    text: 'Yes',
+  },
+  {
+    value: 'no',
+    icon: ThumbsDownIcon,
+    text: 'No',
+  },
+  {
+    value: 'no',
+    icon: HandPaperIcon,
+    text: 'No with veto',
+  },
+  {
+    value: 'abstain',
+    icon: QuestionCircleIcon,
+    text: 'Abstain',
+  },
+]
 
 interface Props {
   open: boolean
   setOpen: (open: boolean) => void
-  givenProposalId?: string
-  onSubmit?: (event: React.FormEvent<HTMLFormElement>) => Promise<void>
+  onVote: (value: Vote) => Promise<string>
 }
 
-const VoteModal: React.FC<Props> = ({ open, setOpen, givenProposalId, onSubmit }): JSX.Element => {
-  const { signingClient, address } = useAccount()
+const VoteModal: React.FunctionComponent<Props> = ({ open, setOpen, onVote }) => {
+  const theme: any = useTheme()
+  const [txStatus, setTxStatus] = useState<TXStatus>(TXStatus.UNDEFINED)
+  const [txHash, setTxHash] = useState<string>('')
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
-    event.preventDefault()
-    const proposalId: string = givenProposalId || (event.target as any).elements.proposalId.value
-    const option: VoteOption = (event.target as any).elements.option.value
-
-    if (proposalId && option) {
-      const res = await GovVoteTrx(signingClient, {
-        address,
-        proposalId: Long.fromString(proposalId),
-        option: option,
-      })
-      console.log('GovVoteTrx', res)
-    }
+  const handleVote = (vote: Vote) => () => {
+    setTxStatus(TXStatus.PENDING)
+    onVote(vote).then((hash) => {
+      if (hash) {
+        setTxHash(hash)
+        setTxStatus(TXStatus.SUCCESS)
+      } else {
+        setTxStatus(TXStatus.ERROR)
+      }
+    })
   }
 
   return (
@@ -78,43 +66,43 @@ const VoteModal: React.FC<Props> = ({ open, setOpen, givenProposalId, onSubmit }
       }}
       handleToggleModal={(): void => setOpen(false)}
     >
-      <Container>
-        <form onSubmit={onSubmit ?? handleSubmit}>
-          {!givenProposalId && (
-            <InputText type='text' id='proposalId' formStyle={FormStyles.modal} text='Proposal Id' />
-          )}
-          <SelectWrapper>
-            <Select
-              id='option'
-              options={[
-                {
-                  value: 1,
-                  label: 'Yes',
-                },
-                {
-                  value: 3,
-                  label: 'No',
-                },
-                {
-                  value: 4,
-                  label: 'No with Vote',
-                },
-                {
-                  value: 2,
-                  label: 'Abstain',
-                },
-              ]}
-              text='Options'
-              onChange={(): void => {
-                // Added as select required onChange Props
-              }}
-            />
-          </SelectWrapper>
-          <ButtonContainer>
-            <button type='submit'>Vote</button>
-          </ButtonContainer>
-        </form>
-      </Container>
+      <FlexBox gap={4} py={12} justifyContent='center' width='560px'>
+        {txStatus === TXStatus.UNDEFINED &&
+          VoteOptions.map(({ value, icon: Icon, text }, index) => (
+            <FlexBox
+              key={index}
+              direction='column'
+              alignItems='center'
+              gap={2}
+              color={'white'}
+              cursor='pointer'
+              hover={{ color: theme.ixoNewBlue }}
+            >
+              <FlexBox
+                width='120px'
+                height='120px'
+                borderRadius='8px'
+                justifyContent='center'
+                alignItems='center'
+                borderColor={theme.ixoNewBlue}
+                borderWidth={'1px'}
+                borderStyle='solid'
+                color='currentColor'
+                transition='all .2s'
+                hover={{ borderWidth: '3px' }}
+                onClick={handleVote(value as Vote)}
+              >
+                <SvgBox svgWidth={12.5} svgHeight={12.5} color='currentColor'>
+                  <Icon />
+                </SvgBox>
+              </FlexBox>
+              <Typography size='sm' weight='bold' transform='uppercase' color='inherit'>
+                {text}
+              </Typography>
+            </FlexBox>
+          ))}
+        {txStatus !== TXStatus.UNDEFINED && <SignStep status={txStatus} hash={txHash} />}
+      </FlexBox>
     </ModalWrapper>
   )
 }

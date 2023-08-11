@@ -36,6 +36,7 @@ const FilterButton: React.FC<TButtonProps> = ({ children, ...rest }) => {
 }
 
 interface Props {
+  collectionName: string
   entities: any[]
 }
 
@@ -156,14 +157,23 @@ const Assets: React.FC<Props> = (props) => {
         columns={itemsPerScreen}
         gridGap={7.5}
       >
-        {entities.map((asset, index) => (
-          <AssetCardWrapper key={index} onClick={handleAssetCardClick(index)}>
-            {selecting && (
-              <AssetCardSelection selected={selections[index]}>{selections[index] && <IconCheck />}</AssetCardSelection>
-            )}
-            <AssetCard entity={asset} />
-          </AssetCardWrapper>
-        ))}
+        {entities
+          .sort((a, b) => {
+            if (Number(a.alsoKnownAs.replace('{id}#', '')) > Number(b.alsoKnownAs.replace('{id}#', ''))) {
+              return 1
+            }
+            return -1
+          })
+          .map((asset, index) => (
+            <AssetCardWrapper key={index} onClick={handleAssetCardClick(index)}>
+              {selecting && (
+                <AssetCardSelection selected={selections[index]}>
+                  {selections[index] && <IconCheck />}
+                </AssetCardSelection>
+              )}
+              <AssetCard collectionName={props.collectionName} entity={asset} />
+            </AssetCardWrapper>
+          ))}
       </InfiniteScroll>
     </FlexBox>
   )

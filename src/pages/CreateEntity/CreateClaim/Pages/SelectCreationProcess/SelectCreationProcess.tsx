@@ -11,6 +11,8 @@ import { apiEntityToEntity } from 'utils/entities'
 import { useAccount } from 'hooks/account'
 import { validateEntityDid } from 'utils/validation'
 import { useCreateEntityState } from 'hooks/createEntity'
+import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
+import { EntityLinkedResourceConfig } from 'constants/entity'
 
 const bsService = new BlockSyncService()
 
@@ -77,7 +79,9 @@ const SelectCreationProcess: React.FC<Pick<RouteComponentProps, 'match'>> = ({ m
             updateLinkedEntity(value)
             break
           case 'linkedResource':
-            updateLinkedResource(value)
+            updateLinkedResource(
+              value.filter((item: LinkedResource) => Object.keys(EntityLinkedResourceConfig).includes(item.type)),
+            )
             break
           case 'claimQuestion':
             claimQuestions = { ...claimQuestions, [value.id]: value }

@@ -1,0 +1,12 @@
+{
+  "theme": {
+    "fontFamily": "Inter",
+    "primaryColor": "#4571E1",
+    "secondaryColor": "#162A42",
+    "backgroundColor": "#F6F6F6",
+    "highlight": {
+      "light": "#5F65B9",
+      "dark": "#5A5A6F"
+    }
+  }
+}

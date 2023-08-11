@@ -34,6 +34,7 @@ export const initialState: TCreateEntityState = {
 
   // for Claim
   claimQuestions: {},
+  claimQuestionJSON: { pages: [] },
 
   // extra
   localisation: ELocalisation.EN,
@@ -150,6 +151,9 @@ export const reducer = (state = initialState, action: TCreateEntityActionTypes):
     // for Claim
     case ECreateEntityActions.UpdateClaimQuestions:
       updatedState = { ...state, claimQuestions: action.payload }
+      break
+    case ECreateEntityActions.UpdateClaimQuestionJSON:
+      updatedState = { ...state, claimQuestionJSON: action.payload }
       break
 
     default:

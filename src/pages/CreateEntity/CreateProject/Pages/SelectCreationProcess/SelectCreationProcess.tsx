@@ -9,6 +9,8 @@ import { useTheme } from 'styled-components'
 import { BlockSyncService } from 'services/blocksync'
 import { apiEntityToEntity } from 'utils/entities'
 import { useAccount } from 'hooks/account'
+import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
+import { EntityLinkedResourceConfig } from 'constants/entity'
 
 const bsService = new BlockSyncService()
 
@@ -70,7 +72,9 @@ const SelectCreationProcess: React.FC = (): JSX.Element => {
             updateLinkedEntity(value)
             break
           case 'linkedResource':
-            updateLinkedResource(value)
+            updateLinkedResource(
+              value.filter((item: LinkedResource) => Object.keys(EntityLinkedResourceConfig).includes(item.type)),
+            )
             break
           default:
             break

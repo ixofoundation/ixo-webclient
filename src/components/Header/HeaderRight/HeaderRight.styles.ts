@@ -158,7 +158,7 @@ export const StatusBox = styled.div`
   z-index: 1;
 `
 export const StatusText = styled.p`
-  color: ${(props) => props.theme.ixoWhite};
+  color: ${(props) => props.color};
   text-transform: uppercase;
   font-size: 11px;
   margin: 4px auto;

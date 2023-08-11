@@ -4,6 +4,7 @@ import { useAppSelector } from 'redux/hooks'
 import { selectEntityHeaderButtonColorUIConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { Light, LightLoading, LightReady, Ping } from '../HeaderContainer.styles'
 import WalletConnectButton from 'components/Button/WalletConnectButton'
+import { useTheme } from 'styled-components'
 
 interface HeaderRightProps {
   toggleModal: (IsOpen: boolean) => void
@@ -11,6 +12,7 @@ interface HeaderRightProps {
 
 const HeaderRight: React.FC<HeaderRightProps> = ({ toggleModal }): JSX.Element => {
   const buttonColor: string = useAppSelector(selectEntityHeaderButtonColorUIConfig)
+  const theme: any = useTheme()
   const { address, registered } = useAccount()
 
   const onClickConnectInfo = (): void => {
@@ -40,7 +42,9 @@ const HeaderRight: React.FC<HeaderRightProps> = ({ toggleModal }): JSX.Element =
           <UserBox color={buttonColor}>
             <StatusBox>
               {renderStatusIndicator()}
-              <StatusText>{!address ? 'Not Connected' : 'Connected'}</StatusText>
+              <StatusText color={theme?.blocks?.header?.textColor}>
+                {!address ? 'Not Connected' : 'Connected'}
+              </StatusText>
             </StatusBox>
             <WalletConnectButton onClick={onClickConnectInfo} />
           </UserBox>
