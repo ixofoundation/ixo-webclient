@@ -35,7 +35,7 @@ const CollectionCard: React.FC<any> = (apiEntity) => {
       setCollection(undefined)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [apiEntity])
+  }, [])
 
   return (
     <FlexBox
@@ -77,7 +77,7 @@ const CollectionCard: React.FC<any> = (apiEntity) => {
           backgroundPosition='center center'
           backgroundSize='100% 100%'
           borderRadius='100%'
-          boxShadow='0px 2px 2px 0px rgba(0, 0, 0, 0.25);'
+          boxShadow='0px 2px 2px 0px rgba(0, 0, 0, 0.25)'
         />
 
         <FlexBox width='100%' justifyContent='space-between' alignItems='center'>

@@ -5,6 +5,7 @@ export class BlockSyncService {
   public blocksyncApi: any
   public project: any
   public entity: any
+  public token: any
 
   constructor(bsUrl = process.env.REACT_APP_BLOCK_SYNC_URL) {
     this.blocksyncApi = new Ixo(bsUrl!)
@@ -31,6 +32,16 @@ export class BlockSyncService {
       },
       getCollections: async (): Promise<any> => {
         const url = new URL(`/api/entity/collections`, bsUrl!)
+        return fetch(url.href).then((response) => response.json())
+      },
+      getCollectionsByOwnerAddress: async (address: string): Promise<any> => {
+        const url = new URL(`/api/entity/collectionsByOwnerAddress/${address}`, bsUrl!)
+        return fetch(url.href).then((response) => response.json())
+      },
+    }
+    this.token = {
+      getTokenByAddress: async (address: string): Promise<any> => {
+        const url = new URL(`/api/token/byAddress/${address}`, bsUrl!)
         return fetch(url.href).then((response) => response.json())
       },
     }
