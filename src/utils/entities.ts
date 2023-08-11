@@ -10,7 +10,6 @@ import {
 import { CosmWasmClient } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/cosmwasm-stargate'
 import { getDaoContractInfo } from './dao'
 import { CellnodePublicResource, CellnodeWeb3Resource } from '@ixo/impactxclient-sdk/types/custom_queries/cellnode'
-import { EntityLinkedResourceConfig } from 'constants/entity'
 
 export const getCountryCoordinates = (countryCodes: string[]): any[] => {
   const coordinates: any[] = []
@@ -220,18 +219,23 @@ export function apiEntityToEntity(
               .catch(() => undefined)
             break
           }
-          case '{id}#token': {
-            fetch(url)
-              .then((response) => response.json())
-              .then((token) => {
-                updateCallback('token', token)
-              })
-              .catch(() => undefined)
-            break
-          }
           default:
             break
         }
+      } else if (item.type === 'Lottie') {
+        fetch(url)
+          .then((response) => response.json())
+          .then((token) => {
+            updateCallback('zlottie', token)
+          })
+          .catch(() => undefined)
+      } else if (item.type === 'TokenMetadata') {
+        fetch(url)
+          .then((response) => response.json())
+          .then((token) => {
+            updateCallback('token', token)
+          })
+          .catch(() => undefined)
       } else if (item.type === 'ClaimSchema') {
         //
         fetch(url)
@@ -259,10 +263,7 @@ export function apiEntityToEntity(
     }
   })
 
-  updateCallback(
-    'linkedResource',
-    linkedResource.filter((item: LinkedResource) => Object.keys(EntityLinkedResourceConfig).includes(item.type)),
-  )
+  updateCallback('linkedResource', linkedResource)
   updateCallback(
     'service',
     service.map((item: TEntityServiceModel) => ({ ...item, id: item.id.split('#').pop() })),

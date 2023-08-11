@@ -141,6 +141,8 @@ export interface HTMLElementProps {
   minWidth?: string
   maxWidth?: string
   height?: string
+  minHeight?: string
+  maxHeight?: string
   border?: string
   borderWidth?: string
   borderColor?: string
@@ -238,7 +240,9 @@ const htmlElementCss = css<HTMLDivProps>`
   ${({ width }) => width && `width: ${width}`};
   ${({ minWidth }) => minWidth && `min-width: ${minWidth}`};
   ${({ maxWidth }) => maxWidth && `max-width: ${maxWidth}`};
-  ${({ height }): string | undefined => (height ? `height: ${height}` : undefined)};
+  ${({ height }) => height && `height: ${height};`}
+  ${({ minHeight }) => minHeight && `min-height: ${minHeight};`}
+  ${({ maxHeight }) => maxHeight && `max-height: ${maxHeight};`}
   ${({ border }): string | undefined => (border ? `border: ${border}` : undefined)};
   ${({ borderWidth }): string | undefined => (borderWidth ? `border-width: ${borderWidth}` : undefined)};
   ${({ borderStyle }): string | undefined => (borderStyle ? `border-style: ${borderStyle}` : undefined)};

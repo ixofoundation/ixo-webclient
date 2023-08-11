@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { Box, FlexBox } from 'components/App/App.styles'
-import { AssetCardBody, AssetCardBodyRow, AssetCardHeader, AssetCardHeaderDotBG, AssetLogo } from './AssetCard.styles'
-import { CardTag, CardTags } from '../EntityCard/EntityCard.styles'
+import Lottie from 'react-lottie'
+import { FlexBox } from 'components/App/App.styles'
 import { ProgressBar } from 'components/ProgressBar/ProgressBar'
 import { apiEntityToEntity } from 'utils/entities'
 import { Typography } from 'components/Typography'
@@ -9,26 +8,36 @@ import { NavLink } from 'react-router-dom'
 import { useAccount } from 'hooks/account'
 import { useTheme } from 'styled-components'
 import { TEntityModel } from 'types/entities'
+import { thousandSeparator } from 'utils/formatters'
 
 interface Props {
+  collectionName: string
   entity: any
   selected?: boolean
   isSelecting?: boolean
 }
 
-const AssetCard: React.FC<Props> = ({ entity: _entity, selected = false, isSelecting = false }): JSX.Element => {
+const AssetCard: React.FC<Props> = ({
+  collectionName,
+  entity: _entity,
+  selected = false,
+  isSelecting = false,
+}): JSX.Element => {
   const theme: any = useTheme()
   const { cwClient } = useAccount()
   const [entity, setEntity] = useState<TEntityModel>()
 
+  const no = entity?.alsoKnownAs.replace('{id}#', '')
   const id = entity?.id
   const image = entity?.profile?.image
-  const logo = entity?.profile?.logo
-  const type = entity?.token?.type
-  const tokenName = entity?.token?.tokenName
-  const name = entity?.token?.name
+  const logo = entity?.token?.properties.icon
+  const name = entity?.profile?.name
   const maxSupply = entity?.token?.properties.maxSupply
-  const createdAt = entity?.metadata?.created as never as string
+  const zlottie = entity?.zlottie
+  const tags = entity?.tags?.find(({ category }) => category === 'Asset Type')?.tags ?? []
+  const [produced] = useState(1968)
+  const [claimable] = useState(2000)
+  const [retired] = useState(0)
 
   useEffect(() => {
     if (_entity) {
@@ -44,66 +53,109 @@ const AssetCard: React.FC<Props> = ({ entity: _entity, selected = false, isSelec
 
   return (
     <NavLink to={`/entity/${id}`} style={{ textDecoration: 'none' }}>
-      <FlexBox direction='column' width='100%' overflow='hidden'>
-        <AssetCardHeader background={image!}>
-          <AssetCardHeaderDotBG />
-        </AssetCardHeader>
+      <FlexBox direction='column' width='100%' borderRadius={'10px'} overflow='hidden'>
+        <FlexBox
+          position='relative'
+          background={`url(${image!})`}
+          width='100%'
+          minHeight='170px'
+          backgroundSize='100% 100%'
+        >
+          <FlexBox position='absolute' top='50%' left='50%' transform='translate(-50%, -50%)'>
+            {zlottie && (
+              <Lottie
+                width={150}
+                height={150}
+                options={{
+                  loop: true,
+                  autoplay: true,
+                  animationData: zlottie,
+                }}
+              />
+            )}
+          </FlexBox>
+        </FlexBox>
 
-        <AssetCardBody>
-          <AssetCardBodyRow style={{ justifyContent: 'space-between', alignItems: 'center' }}>
-            <CardTags style={{ gap: 5 }}>
-              <CardTag tagColor={theme.ixoDarkRed}>{type}</CardTag>
-            </CardTags>
-            <AssetLogo src={logo} alt='' />
-          </AssetCardBodyRow>
+        <FlexBox
+          direction='column'
+          justifyContent='space-between'
+          p={4}
+          gap={2}
+          width='100%'
+          height='100%'
+          background={theme.ixoWhite}
+        >
+          <FlexBox gap={1} alignItems='center' height='24px'>
+            {tags.map((tag, i) => (
+              <FlexBox
+                key={i}
+                background={i % 2 ? theme.ixoOrange : theme.ixoDarkRed}
+                borderRadius={'100px'}
+                color='white'
+                px={2}
+                py={1}
+              >
+                <Typography size='sm'>{tag}</Typography>
+              </FlexBox>
+            ))}
+          </FlexBox>
 
-          <AssetCardBodyRow style={{ flexDirection: 'column', height: 70 }}>
+          <FlexBox direction='column' justifyContent='center' height='70px'>
             <Typography color='black' weight='bold' size='2xl' style={{ marginBottom: 4 }}>
-              {tokenName}
-            </Typography>
-            <Typography color='color-2' weight='normal' size='md'>
               {name}
             </Typography>
-          </AssetCardBodyRow>
-
-          <AssetCardBodyRow style={{ flexDirection: 'column', gap: 4 }}>
-            <ProgressBar total={100} approved={33} rejected={0} activeBarColor={theme.ixoLightGreen} height={9} />
-            <Box className='d-flex'>
-              <Typography size='sm' weight='bold' color='blue' transform='uppercase'>
-                124.12&nbsp;Carbon&nbsp;
-              </Typography>
-              <Typography size='sm' weight='normal' color='black'>
-                claimable&nbsp;/&nbsp;
-              </Typography>
-              <Typography size='sm' weight='bold' color='black'>
-                2145&nbsp;
-              </Typography>
-              <Typography size='sm' weight='normal' color='black'>
-                produced
-              </Typography>
-            </Box>
-          </AssetCardBodyRow>
-
-          <AssetCardBodyRow style={{ alignItems: 'baseline' }}>
-            <Typography color='black' weight='semi-bold' size='2xl'>
-              1
-            </Typography>
-            {maxSupply && (
-              <Typography color='color-2' weight='medium' size='md'>
-                of {Number(maxSupply).toLocaleString()}
-              </Typography>
-            )}
-          </AssetCardBodyRow>
-
-          <AssetCardBodyRow style={{ justifyContent: 'space-between' }}>
             <Typography color='color-2' weight='normal' size='md'>
-              {new Date(createdAt).toLocaleDateString()}
+              {collectionName}
             </Typography>
-            <Typography color='dark-blue' weight='normal' size='md'>
-              $230.00
-            </Typography>
-          </AssetCardBodyRow>
-        </AssetCardBody>
+          </FlexBox>
+
+          <FlexBox direction='column' gap={1} width='100%'>
+            <FlexBox gap={1} alignItems='baseline'>
+              <Typography size='md' color='black' transform='uppercase'>
+                {thousandSeparator(produced, ',')}
+              </Typography>
+              <Typography size='sm' color='black'>
+                CARBON produced
+              </Typography>
+            </FlexBox>
+            <ProgressBar
+              total={claimable}
+              approved={produced}
+              rejected={retired}
+              activeBarColor={theme.ixoLightGreen}
+              height={8}
+            />
+            <FlexBox gap={1} alignItems='baseline'>
+              <Typography size='sm' color='green'>
+                {thousandSeparator(claimable, ',')} claimable
+              </Typography>
+              <Typography size='sm' color='blue'>
+                {thousandSeparator(retired, ',')} retired
+              </Typography>
+            </FlexBox>
+          </FlexBox>
+
+          <FlexBox width='100%' justifyContent='space-between' alignItems='center'>
+            <FlexBox alignItems='baseline'>
+              <Typography color='black' weight='semi-bold' size='2xl'>
+                #{no}&nbsp;
+              </Typography>
+              {maxSupply && (
+                <Typography color='color-2' weight='medium' size='md'>
+                  of {Number(maxSupply).toLocaleString()}
+                </Typography>
+              )}
+            </FlexBox>
+
+            <FlexBox
+              width='32px'
+              height='32px'
+              borderRadius='100%'
+              background={`url(${logo}), ${theme.ixoGrey100}`}
+              backgroundSize='100%'
+            />
+          </FlexBox>
+        </FlexBox>
       </FlexBox>
     </NavLink>
   )
