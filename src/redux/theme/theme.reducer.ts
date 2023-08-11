@@ -1,4 +1,4 @@
-import { CustomThemeActionType, CustomThemeActionTypeStates, CustomThemeActionTypes } from './theme.types'
+import { CustomThemeActionTypeStates, CustomThemeActionTypes } from './theme.types'
 
 // TODO replace any type with appropriate type
 export const reducer = (state = {}, action: CustomThemeActionTypes): any => {
