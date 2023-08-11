@@ -9,7 +9,6 @@ export const getCustomTheme =
     return dispatch({
       type: CustomThemeActionType,
       payload: Axios.get(CustomThemeUrl!).then((response) => {
-        console.log(response.data.theme)
         return response.data.theme
       }),
     })
