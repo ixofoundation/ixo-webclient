@@ -30,6 +30,7 @@ export const CreateEntity = async (
     entityStatus?: number
     context?: Context[]
     service?: Service[]
+    controller?: string[]
     linkedResource?: LinkedResource[]
     accordedRight?: AccordedRight[]
     linkedEntity?: LinkedEntity[]
@@ -52,6 +53,7 @@ export const CreateEntity = async (
       linkedEntity = [],
       linkedClaim = [],
       verification = [],
+      controller = [],
       relayerNode = did,
       startDate = '',
       endDate = '',
@@ -71,7 +73,7 @@ export const CreateEntity = async (
           }),
           ...verification,
         ],
-        controller: [did],
+        controller: [did, ...controller],
         ownerDid: did,
         ownerAddress: address,
         relayerNode: relayerNode,

@@ -67,7 +67,6 @@ import { ReactComponent as SlidersHSolidIcon } from 'assets/images/icon-sliders-
 import { ReactComponent as VoteYeaIcon } from 'assets/images/icon-vote-yea-solid.svg'
 import { ReactComponent as VolumeUpIcon } from 'assets/images/icon-volume-up-solid.svg'
 import { ReactComponent as LinkedAccountIcon } from 'assets/images/icon-linked-account.svg'
-import { ReactComponent as UserPlusIcon } from 'assets/images/icon-user-plus-solid.svg'
 import {
   SetupAuthzExecModal,
   SetupAuthzGrantModal,
@@ -98,7 +97,6 @@ import {
   SetupSubmitProposalOnADAOModal,
   SetupStakeToGroupModal,
   SetupSendGroupTokenModal,
-  SetupJoinModal,
   SetupUpdateVotingConfigModal,
 } from 'components/Modals/AddActionModal'
 
@@ -452,15 +450,6 @@ export const ProposalActionConfig = {
     id: 'groups',
     text: 'Groups',
     items: {
-      Join: {
-        text: 'Join',
-        description:
-          'ImpactsDAO is a cooperative of DAOs. If you’re a delegate of a DAO entity that wants to join ImpactsDAO, submit a proposal for your DAO to be added.',
-        icon: UserPlusIcon,
-        in: ['dao_voting_cw20_staked', 'dao_voting_cw4'],
-        hidden: true,
-        setupModal: SetupJoinModal,
-      },
       'AuthZ Exec': {
         text: 'AuthZ Exec',
         description: 'Perform an action on behalf of another account.',
@@ -696,14 +685,5 @@ export const ProposalActionConfigMap = {
     description: 'Update the voting parameters for your DAO.',
     icon: PaperIcon,
     setupModal: SetupUpdateVotingConfigModal,
-  },
-  '/ixo.iid.v1beta1.MsgAddLinkedEntity': {
-    type: '/ixo.iid.v1beta1.MsgAddLinkedEntity',
-    group: 'Groups',
-    text: 'Join',
-    description:
-      'ImpactsDAO is a cooperative of DAOs. If you’re a delegate of a DAO entity that wants to join ImpactsDAO, submit a proposal for your DAO to be added.',
-    icon: UserPlusIcon,
-    setupModal: SetupJoinModal,
   },
 }

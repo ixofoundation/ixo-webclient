@@ -359,8 +359,6 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
 }
 
 interface TCreateEntityHookRes {
-  CreateDAO: () => Promise<string>
-  CreateDAOCredsIssuer: (daoDid: string) => Promise<string>
   SaveProfile: (profile: any) => Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined>
   SaveCreator: (creator: TEntityCreatorModel) => Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined>
   SaveAdministrator: (
@@ -384,6 +382,7 @@ interface TCreateEntityHookRes {
       linkedEntity: LinkedEntity[]
       linkedClaim: LinkedClaim[]
       verification?: Verification[]
+      controller?: string[]
       relayerNode?: string
     },
   ) => Promise<{ did?: string; adminAccount?: string }>
@@ -436,32 +435,6 @@ export function useCreateEntity(): TCreateEntityHookRes {
       )
     }
     return res
-  }
-
-  const CreateDAO = async (): Promise<string> => {
-    try {
-      const res = await CreateEntity(signingClient, signer, [{ entityType: 'dao' }])
-      const daoDid = utils.common.getValueFromEvents(res!, 'wasm', 'token_id')
-      console.log('CreateDAO', { daoDid })
-      return daoDid
-    } catch (e) {
-      console.error('CreateDAO', e)
-      return ''
-    }
-  }
-
-  const CreateDAOCredsIssuer = async (daoDid: string): Promise<string> => {
-    try {
-      const res = await CreateEntity(signingClient, signer, [
-        { entityType: 'dao', context: [{ key: 'class', val: daoDid }] },
-      ])
-      const daoCredsIssuerDid = utils.common.getValueFromEvents(res!, 'wasm', 'token_id')
-      console.log('CreateDAOCredsIssuer', { daoCredsIssuerDid })
-      return daoCredsIssuerDid
-    } catch (e) {
-      console.error('CreateDAOCredsIssuer', e)
-      return ''
-    }
   }
 
   const SaveProfile = async (profile: any): Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined> => {
@@ -893,11 +866,21 @@ export function useCreateEntity(): TCreateEntityHookRes {
       linkedEntity: LinkedEntity[]
       linkedClaim: LinkedClaim[]
       verification?: Verification[]
+      controller?: string[]
       relayerNode?: string
     },
   ): Promise<{ did?: string; adminAccount?: string }> => {
     try {
-      const { service, linkedResource, accordedRight, linkedEntity, linkedClaim, verification, relayerNode } = payload
+      const {
+        service,
+        linkedResource,
+        accordedRight,
+        linkedEntity,
+        linkedClaim,
+        verification,
+        relayerNode,
+        controller = [],
+      } = payload
       const { startDate, endDate } = profile
       const res = await CreateEntity(signingClient, signer, [
         {
@@ -911,6 +894,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
           linkedEntity,
           verification,
           relayerNode,
+          controller,
           startDate,
           endDate,
         },
@@ -1092,8 +1076,6 @@ export function useCreateEntity(): TCreateEntityHookRes {
   }
 
   return {
-    CreateDAO,
-    CreateDAOCredsIssuer,
     SaveProfile,
     SaveCreator,
     SaveAdministrator,
