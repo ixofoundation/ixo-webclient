@@ -162,3 +162,14 @@ export function useAccount(): {
     updateName,
   }
 }
+
+export function useSigner() {
+  const address: string = useAppSelector(selectAccountAddress)
+  const pubKey: string = useAppSelector(selectAccountPubKey)
+  const pubKeyUint8: Uint8Array | undefined = pubKey ? Uint8Array.from(decode(pubKey)) : undefined
+  const keyType: KeyTypes = useAppSelector(selectAccountKeyType)
+  const did: string = useAppSelector(selectAccountDid)
+  const signer: TSigner = { address, did, pubKey: pubKeyUint8!, keyType }
+
+  return signer
+}

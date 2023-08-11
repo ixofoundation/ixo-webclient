@@ -4,6 +4,12 @@ export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+
+  .svc-creator {
+    &__banner {
+      display: none;
+    }
+  }
 `
 export const Row = styled.div`
   width: 100%;
