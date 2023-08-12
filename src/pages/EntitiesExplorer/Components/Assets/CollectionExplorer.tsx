@@ -25,6 +25,7 @@ const CollectionExplorer: React.FC<Props> = (props) => {
   const [collection, setCollection] = useState<TEntityModel>()
 
   const logo = collection?.token?.properties?.icon
+  const collectionId = collection?.id
   const collectionName = collection?.profile?.name
   const name = collection?.token?.name
 
@@ -49,7 +50,7 @@ const CollectionExplorer: React.FC<Props> = (props) => {
       >
         <GridItem gridArea='a'>
           <FlexBox alignItems='center' justifyContent='space-between'>
-            <FlexBox direction='column'>
+            <FlexBox direction='column' style={{ flex: 1 }}>
               <Typography weight='bold' size='2xl'>
                 {name}
               </Typography>
@@ -87,7 +88,16 @@ const CollectionExplorer: React.FC<Props> = (props) => {
       </GridContainer>
 
       {/* Assets */}
-      <Assets collectionName={collectionName!} entities={props.entities} />
+      <Assets
+        collectionId={collectionId!}
+        collectionName={collectionName!}
+        entities={props.entities.sort((a, b) => {
+          if (Number(a.alsoKnownAs.replace('{id}#', '')) > Number(b.alsoKnownAs.replace('{id}#', ''))) {
+            return 1
+          }
+          return -1
+        })}
+      />
     </FlexBox>
   )
 }

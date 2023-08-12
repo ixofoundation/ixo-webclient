@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import Lottie from 'react-lottie'
 import { FlexBox } from 'components/App/App.styles'
 import { ProgressBar } from 'components/ProgressBar/ProgressBar'
@@ -9,6 +9,9 @@ import { useAccount } from 'hooks/account'
 import { useTheme } from 'styled-components'
 import { TEntityModel } from 'types/entities'
 import { thousandSeparator } from 'utils/formatters'
+import { BlockSyncService } from 'services/blocksync'
+
+const bsService = new BlockSyncService()
 
 interface Props {
   collectionName: string
@@ -35,9 +38,11 @@ const AssetCard: React.FC<Props> = ({
   const maxSupply = entity?.token?.properties.maxSupply
   const zlottie = entity?.zlottie
   const tags = entity?.tags?.find(({ category }) => category === 'Asset Type')?.tags ?? []
-  const [produced] = useState(1968)
-  const [claimable] = useState(2000)
-  const [retired] = useState(0)
+
+  const adminAccount = useMemo(() => entity?.accounts?.find((v) => v.name === 'admin')?.address || '', [entity])
+  const [produced, setProduced] = useState(0)
+  const [claimable, setClaimable] = useState(0)
+  const [retired, setRetired] = useState(0)
 
   useEffect(() => {
     if (_entity) {
@@ -50,6 +55,31 @@ const AssetCard: React.FC<Props> = ({
       setEntity(undefined)
     }
   }, [_entity, cwClient])
+
+  useEffect(() => {
+    if (adminAccount) {
+      bsService.token
+        .getTokenByAddress(adminAccount)
+        .then((response: any) => {
+          const carbon = response['CARBON']
+          const claimable = Object.values(carbon.tokens).reduce((acc: number, cur: any) => acc + cur.amount, 0)
+          const produced = Object.values(carbon.tokens).reduce((acc: number, cur: any) => acc + cur.minted, 0)
+          const retired = Object.values(carbon.tokens).reduce((acc: number, cur: any) => acc + cur.retired, 0)
+
+          setProduced(produced)
+          setClaimable(claimable)
+          setRetired(retired)
+        })
+        .catch((e: any) => {
+          console.error('getTokenByAddress', e)
+        })
+      return () => {
+        setProduced(0)
+        setClaimable(0)
+        setRetired(0)
+      }
+    }
+  }, [adminAccount])
 
   return (
     <NavLink to={`/entity/${id}`} style={{ textDecoration: 'none' }}>
