@@ -3,10 +3,10 @@
     "name": "impacthub.ixo.world",
     "displayName": "Impact Hub",
     "blocksync": "https://blocksync.ixo.earth",
-    "rpc": "https://rpc-impacthub.keplr.app",
-    "rest": "https://lcd-impacthub.keplr.app",
-    "chainId": "ixo-4",
-    "chainName": "IXO",
+    "rpc": "https://impacthub.ixo.world/rpc/",
+    "rest": "https://impacthub.ixo.world/rest/",
+    "chainId": "ixo-5",
+    "chainName": "ixo",
     "stakeCurrency": {
       "coinDenom": "IXO",
       "coinMinimalDenom": "uixo",
@@ -51,7 +51,7 @@
       }
     ],
     "features": ["stargate", "ibc-transfer"],
-    "explorerUrlToTx": "https://blockscan.ixo.earth/transactions/${txHash}",
+    "explorerUrlToTx": "https://blockscan.ixo.world/transactions/${txHash}",
     "paymentCoins": [
       {
         "coinDenom": "IXO",
@@ -59,7 +59,7 @@
         "coinDecimals": 6,
         "coinGeckoId": "pool:uixo",
         "coinImageUrl": "window.location.origin + '/public/assets/tokens/ixo.png'",
-        "counterpartyChainId": "ixo-4",
+        "counterpartyChainId": "ixo-5",
         "sourceChannelId": "channel-37",
         "destChannelId": "channel-0"
       },
