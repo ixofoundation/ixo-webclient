@@ -54,7 +54,7 @@
   "project": {
     "title": "Project",
     "plural": "Projects",
-    "themeColor": "#41204B",
+    "themeColor": "#49BFE0",
     "headerSchema": {
       "@context": "https://schema.ixo.foundation/project",
       "@type": "Header",
@@ -91,7 +91,7 @@
           "@type": "HeaderOverride",
           "ddoSector": "Sector",
           "ddoTag": "Emerging",
-          "color": "#FFFFFF",
+          "color": "#000000",
           "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/emerging_header_override.png",
           "title": "Emerging",
           "subTitle": "Eco Marketplace",
@@ -1180,7 +1180,7 @@
   "oracle": {
     "title": "Oracle",
     "plural": "Oracles",
-    "themeColor": "#A33232",
+    "themeColor": "#AD245C",
     "headerSchema": {
       "@context": "https://schema.ixo.foundation/oracle",
       "@type": "Header",
@@ -1217,7 +1217,7 @@
           "@type": "HeaderOverride",
           "ddoSector": "Sector",
           "ddoTag": "Emerging",
-          "color": "#FFFFFF",
+          "color": "#000000",
           "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/emerging_header_override.png",
           "title": "Emerging",
           "subTitle": "Eco Marketplace",
@@ -1846,7 +1846,7 @@
   "investment": {
     "title": "Investment",
     "plural": "Investments",
-    "themeColor": "#4CADE9",
+    "themeColor": "#E4BC3D",
     "headerSchema": {
       "@context": "https://schema.ixo.foundation/investment",
       "@type": "Header",
@@ -1883,7 +1883,7 @@
           "@type": "HeaderOverride",
           "ddoSector": "Sector",
           "ddoTag": "Emerging",
-          "color": "#FFFFFF",
+          "color": "#000000",
           "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/emerging_header_override.png",
           "title": "Emerging",
           "subTitle": "Eco Marketplace",
@@ -2648,7 +2648,7 @@
   "dao": {
     "title": "DAO",
     "plural": "DAOs",
-    "themeColor": "#5F65B9",
+    "themeColor": "#85AD5C",
     "headerSchema": {
       "@context": "https://schema.ixo.foundation/cell",
       "@type": "Header",
@@ -2685,7 +2685,7 @@
           "@type": "HeaderOverride",
           "ddoSector": "Sector",
           "ddoTag": "Emerging",
-          "color": "#FFFFFF",
+          "color": "#000000",
           "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/emerging_header_override.png",
           "title": "Emerging",
           "subTitle": "Eco Marketplace",
@@ -3249,7 +3249,7 @@
   "protocol": {
     "title": "Protocol",
     "plural": "Protocols",
-    "themeColor": "#162A42",
+    "themeColor": "#7c2740",
     "headerSchema": {
       "@context": "https://schema.ixo.foundation/protocol",
       "@type": "Header",
@@ -3286,7 +3286,7 @@
           "@type": "HeaderOverride",
           "ddoSector": "Sector",
           "ddoTag": "Emerging",
-          "color": "#FFFFFF",
+          "color": "#000000",
           "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/emerging_header_override.png",
           "title": "Emerging",
           "subTitle": "Eco Marketplace",
@@ -4197,7 +4197,7 @@
   "asset": {
     "title": "Asset",
     "plural": "Assets",
-    "themeColor": "#AE9C3E",
+    "themeColor": "#ED9526",
     "headerSchema": {
       "@context": "https://schema.ixo.foundation/data-asset",
       "@type": "Header",
@@ -4234,7 +4234,7 @@
           "@type": "HeaderOverride",
           "ddoSector": "Sector",
           "ddoTag": "Emerging",
-          "color": "#FFFFFF",
+          "color": "#000000",
           "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/emerging_header_override.png",
           "title": "Emerging",
           "subTitle": "Eco Marketplace",

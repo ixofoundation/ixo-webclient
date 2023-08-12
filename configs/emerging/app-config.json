@@ -1,11 +1,11 @@
 [
     {
         "name": "emerging.ixo.earth",
-        "displayName": "emerging testnet",
-        "blocksync": "https://blocksync-pandora.ixo.earth",
-        "rpc": "https://testnet.ixo.earth/rpc/",
-        "rest": "https://testnet.ixo.earth/rest/",
-        "chainId": "pandora-8",
+        "displayName": "Emerging",
+        "blocksync": "https://blocksync.ixo.earth",
+        "rpc": "https://impacthub.ixo.world/rpc/",
+        "rest": "https://impacthub.ixo.world/rest/",
+        "chainId": "ixo-5",
         "chainName": "ixo",
         "stakeCurrency": {
             "coinDenom": "IXO",
@@ -46,7 +46,7 @@
         "features": [
             "stargate"
         ],
-        "explorerUrlToTx": "https://blockscan-pandora.ixo.earth/transactions/${txHash}",
+        "explorerUrlToTx": "https://blockscan.ixo.world/transactions/${txHash}",
         "paymentCoins": [
             {
                 "coinDenom": "IXO",
@@ -54,7 +54,7 @@
                 "coinDecimals": 6,
                 "coinGeckoId": "pool:uixo",
                 "coinImageUrl": "window.location.origin + '/public/assets/tokens/ixo.png'",
-                "counterpartyChainId": "pandora-8",
+                "counterpartyChainId": "ixo-5",
                 "sourceChannelId": "channel-0",
                 "destChannelId": "channel-0"
             }
