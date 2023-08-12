@@ -6,6 +6,7 @@ import CopyToClipboard from 'react-copy-to-clipboard'
 import { truncateString } from 'utils/formatters'
 import { successToast } from 'utils/toast'
 import { ConnectButton } from './WalletConnectButton.styles'
+import { useTheme } from 'styled-components'
 
 interface Props {
   onClick: () => void
@@ -14,6 +15,7 @@ interface Props {
 const WalletConnectButton: React.FC<Props> = ({ onClick }) => {
   const { address, name } = useAccount()
   const { connect } = useWalletManager()
+  const theme: any = useTheme()
 
   return !address ? (
     <ConnectButton onClick={connect}>
@@ -28,7 +30,7 @@ const WalletConnectButton: React.FC<Props> = ({ onClick }) => {
         onClick()
       }}
     >
-      <Typography variant='secondary' size='md' color='white'>
+      <Typography variant='secondary' size='md' color={theme?.blocks?.header?.textColor}>
         {truncateString(name, 8, 'end')}
       </Typography>
 

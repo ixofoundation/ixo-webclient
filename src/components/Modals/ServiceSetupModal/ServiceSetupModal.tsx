@@ -21,7 +21,7 @@ const ServiceForm: React.FC<ServiceFormProps> = ({ index, service, onUpdate, onR
   return (
     <FlexBox direction='column' gap={4} width='100%'>
       <FlexBox gap={4} alignItems='center'>
-        <Typography size='xl'>Service {index ? index : ''}</Typography>
+        <Typography size='xl'>Service {index + 1}</Typography>
         {onRemove && (
           <SvgBox color={theme.ixoNewBlue} cursor='pointer' onClick={() => onRemove()}>
             <MinusBoxIcon />

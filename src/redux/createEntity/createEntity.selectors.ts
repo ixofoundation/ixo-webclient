@@ -140,3 +140,7 @@ export const selectCreateEntityClaimQuestions = createSelector(
   selectCreateEntity,
   (createEntity: TCreateEntityState): { [id: string]: TQuestion } => createEntity.claimQuestions ?? {},
 )
+export const selectCreateEntityClaimQuestionJSON = createSelector(
+  selectCreateEntity,
+  (createEntity: TCreateEntityState): any => createEntity.claimQuestionJSON ?? { pages: [] },
+)

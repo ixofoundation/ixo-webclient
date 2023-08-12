@@ -1,6 +1,6 @@
 import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { Button } from 'pages/CreateEntity/Components'
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { TButtonProps } from 'pages/CreateEntity/Components/Button'
 import AssetCard from './AssetCard'
 import { AssetCardSelection, AssetCardWrapper } from './AssetCard.styles'
@@ -15,8 +15,11 @@ import { InfiniteScroll } from 'components/InfiniteScroll'
 import { deviceWidth } from 'constants/device'
 import { useMediaQuery } from 'react-responsive'
 import { useTheme } from 'styled-components'
+import { BlockSyncService } from 'services/blocksync'
+import { useAccount } from 'hooks/account'
 
 let timer: any = null
+const bsService = new BlockSyncService()
 
 const FilterButton: React.FC<TButtonProps> = ({ children, ...rest }) => {
   return (
@@ -36,19 +39,58 @@ const FilterButton: React.FC<TButtonProps> = ({ children, ...rest }) => {
 }
 
 interface Props {
+  collectionId: string
+  collectionName: string
   entities: any[]
 }
 
 const Assets: React.FC<Props> = (props) => {
   const theme: any = useTheme()
+  const { address } = useAccount()
   const isMobile = useMediaQuery({ maxWidth: deviceWidth.tablet })
   const isTablet = useMediaQuery({ minWidth: deviceWidth.tablet, maxWidth: deviceWidth.desktop })
   const itemsPerScreen = useMemo(() => (!isMobile ? (!isTablet ? 4 : 2) : 1), [isTablet, isMobile])
   const [scrollOffset, setScrollOffest] = useState(1)
-  const entities = useMemo(() => props.entities.slice(0, scrollOffset * 4), [scrollOffset, props.entities])
   const [selections, setSelections] = useState(new Array(props.entities.length).fill(false))
   const [selecting, setSelecting] = useState(false)
-  const [filterBy, setFilterBy] = useState<'all' | 'on-sale' | 'owned'>('all')
+  const [filterBy, setFilterBy] = useState<'all' | 'on-sale' | 'owned'>('owned')
+  const [myEntities, seMyEntities] = useState<any[]>([])
+  const myEntityIds = useMemo(() => myEntities.map((v) => v.id), [myEntities])
+
+  const [entities, hasMore] = useMemo(() => {
+    let entities = props.entities
+    switch (filterBy) {
+      case 'all':
+        break
+      case 'on-sale':
+        break
+      case 'owned':
+        entities = entities.filter((entity) => myEntityIds.includes(entity.id))
+        break
+      default:
+        break
+    }
+    const slicedEntities = entities.slice(0, scrollOffset * 4)
+    const hasMore = slicedEntities.length < entities.length
+    return [slicedEntities, hasMore]
+  }, [scrollOffset, props.entities, filterBy, myEntityIds])
+
+  useEffect(() => {
+    if (address && props.collectionId) {
+      bsService.entity
+        .getCollectionsByOwnerAddress(address)
+        .then((response: any) => {
+          const entities = response.find((v: any) => v.collection.id === props.collectionId)?.entities ?? []
+          seMyEntities(entities)
+        })
+        .catch((e: any) => {
+          console.error('getCollectionsByOwnerAddress', e)
+        })
+      return () => {
+        seMyEntities([])
+      }
+    }
+  }, [address, props.collectionId])
 
   const handleSelecting = () => {
     setSelecting((prev) => !prev)
@@ -87,6 +129,7 @@ const Assets: React.FC<Props> = (props) => {
               </SvgBox>
             }
             onClick={() => setFilterBy('on-sale')}
+            disabled
           >
             On Sale
           </FilterButton>
@@ -145,14 +188,14 @@ const Assets: React.FC<Props> = (props) => {
       </FlexBox>
 
       <InfiniteScroll
-        dataLength={entities.length} //This is important field to render the next data
+        dataLength={entities.length} // This is important field to render the next data
         next={() => {
           timer = setTimeout(() => {
             setScrollOffest((scrollOffset) => scrollOffset + 1)
             clearTimeout(timer)
           }, 1000 * 3)
         }}
-        hasMore={entities.length < props.entities.length}
+        hasMore={hasMore}
         columns={itemsPerScreen}
         gridGap={7.5}
       >
@@ -161,7 +204,7 @@ const Assets: React.FC<Props> = (props) => {
             {selecting && (
               <AssetCardSelection selected={selections[index]}>{selections[index] && <IconCheck />}</AssetCardSelection>
             )}
-            <AssetCard entity={asset} />
+            <AssetCard collectionName={props.collectionName} entity={asset} />
           </AssetCardWrapper>
         ))}
       </InfiniteScroll>
