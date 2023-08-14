@@ -7,6 +7,7 @@ import { reducer as newEntityReducer } from 'redux/createEntity/createEntity.red
 import { reducer as currentEntityReducer } from 'redux/currentEntity/currentEntity.reducer'
 import { reducer as editEntityReducer } from 'redux/editEntity/editEntity.reducer'
 import { reducer as validatorReducer } from 'redux/validator/validator.reducer'
+import { reducer as customThemeReducer } from 'redux/theme/theme.reducer'
 
 export const rootReducer = (history: any) =>
   combineReducers({
@@ -17,5 +18,6 @@ export const rootReducer = (history: any) =>
     editEntity: editEntityReducer,
     currentEntity: currentEntityReducer,
     validator: validatorReducer,
+    customTheme: customThemeReducer,
     router: connectRouter(history),
   })

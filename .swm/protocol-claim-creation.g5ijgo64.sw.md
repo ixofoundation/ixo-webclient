@@ -9,48 +9,50 @@ The code defined for cloning of an entity from blocksync api call and prefilling
 <!-- NOTE-swimm-snippet: the lines below link your snippet to Swimm -->
 ### 📄 src/pages/CreateEntity/CreateClaim/Pages/SelectCreationProcess/SelectCreationProcess.tsx
 ```tsx
-53       const handleClone = (): void => {
-54         let claimQuestions = {}
-55         bsService.entity.getEntityById(existingDid).then((entity: any) => {
-56           apiEntityToEntity({ entity, cwClient }, (key: string, value: any, merge) => {
-57             switch (key) {
-58               case 'profile':
-59                 updateProfile(value)
-60                 break
-61               case 'creator':
-62                 updateCreator(value)
-63                 break
-64               case 'administrator':
-65                 updateAdministrator(value)
-66                 break
-67               case 'page':
-68                 updatePage(value)
-69                 break
-70               case 'ddoTags':
-71                 updateDDOTags(value)
-72                 break
-73               case 'service':
-74                 updateService(value)
-75                 break
-76               case 'linkedEntity':
-77                 updateLinkedEntity(value)
-78                 break
-79               case 'linkedResource':
-80                 updateLinkedResource(value)
-81                 break
-82               case 'claimQuestion':
-83                 claimQuestions = { ...claimQuestions, [value.id]: value }
-84                 updateClaimQuestions(claimQuestions)
+55       const handleClone = (): void => {
+56         let claimQuestions = {}
+57         bsService.entity.getEntityById(existingDid).then((entity: any) => {
+58           apiEntityToEntity({ entity, cwClient }, (key: string, value: any, merge) => {
+59             switch (key) {
+60               case 'profile':
+61                 updateProfile(value)
+62                 break
+63               case 'creator':
+64                 updateCreator(value)
+65                 break
+66               case 'administrator':
+67                 updateAdministrator(value)
+68                 break
+69               case 'page':
+70                 updatePage(value)
+71                 break
+72               case 'ddoTags':
+73                 updateDDOTags(value)
+74                 break
+75               case 'service':
+76                 updateService(value)
+77                 break
+78               case 'linkedEntity':
+79                 updateLinkedEntity(value)
+80                 break
+81               case 'linkedResource':
+82                 updateLinkedResource(
+83                   value.filter((item: LinkedResource) => Object.keys(EntityLinkedResourceConfig).includes(item.type)),
+84                 )
 85                 break
-86               default:
-87                 break
-88             }
-89           })
-90           // additional
-91           updateStartEndDate({ startDate: entity.startDate, endDate: entity.endDate })
-92         })
-93         history.push(`${baseLink}/profile`)
-94       }
+86               case 'claimQuestion':
+87                 claimQuestions = { ...claimQuestions, [value.id]: value }
+88                 updateClaimQuestions(claimQuestions)
+89                 break
+90               default:
+91                 break
+92             }
+93           })
+94           // additional
+95           updateStartEndDate({ startDate: entity.startDate, endDate: entity.endDate })
+96         })
+97         history.push(`${baseLink}/profile`)
+98       }
 ```
 
 <br/>

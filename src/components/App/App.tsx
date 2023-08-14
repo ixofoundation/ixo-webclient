@@ -27,6 +27,7 @@ import { UserInfo } from 'redux/account/account.types'
 import { Container, ContentWrapper, theme } from './App.styles'
 import { WalletManagerProvider, WalletType } from '@gssuper/cosmodal'
 import { CosmWasmClient } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/cosmwasm-stargate'
+import { getCustomTheme } from 'redux/theme/theme.actions'
 // For Sentry performance profiling
 // import { withProfiler } from '@sentry/react'
 
@@ -61,6 +62,7 @@ export interface Props {
   handleGetEntityConfig: () => void
   handleChangeEntitiesType: (type: EntityType) => void
   handleGetAllEntities: () => void
+  handleGetCustomTheme: () => void
 }
 
 class App extends React.Component<Props, State> {
@@ -76,6 +78,7 @@ class App extends React.Component<Props, State> {
 
   componentDidMount(): void {
     this.props.handleGetEntityConfig()
+    this.props.handleGetCustomTheme()
   }
   UNSAFE_componentWillReceiveProps(props: any): void {
     if (props.entityTypeMap !== this.props.entityTypeMap) {
@@ -117,7 +120,13 @@ class App extends React.Component<Props, State> {
             pending: highlight.light,
           }
         }
+        customizedTheme = {
+          ...customizedTheme,
+          ...props.customTheme,
+        }
         this.setState({ customizedTheme })
+      } else {
+        this.setState((prevState) => ({ customizedTheme: { ...prevState.customizedTheme, ...props.customTheme } }))
       }
     }
     if (props.cwClient !== this.props.cwClient && props.cwClient) {
@@ -225,6 +234,7 @@ const mapStateToProps = (state: RootState): Record<string, any> => ({
   assistantToggled: state.account.assistantToggled,
   loginStatusCheckCompleted: state.account.loginStatusCheckCompleted,
   entityTypeMap: state.entities.entityConfig,
+  customTheme: state.customTheme,
 })
 
 const mapDispatchToProps = (dispatch: any): any => ({
@@ -232,6 +242,7 @@ const mapDispatchToProps = (dispatch: any): any => ({
     dispatch(toggleAssistant())
   },
   handleGetEntityConfig: (): void => dispatch(getEntityConfig()),
+  handleGetCustomTheme: (): void => dispatch(getCustomTheme()),
   handleChangeEntitiesType: (type: EntityType): void => dispatch(changeEntitiesType(type)),
   handleGetAllEntities: (): void => dispatch(getAllEntities()),
 })

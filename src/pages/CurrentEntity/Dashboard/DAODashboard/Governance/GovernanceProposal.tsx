@@ -9,7 +9,7 @@ import { gridSizes, WidgetWrapper } from 'components/Wrappers/WidgetWrapper'
 import { CircleProgressbar } from 'components/Widgets/CircleProgressbar/CircleProgressbar'
 import moment from 'moment'
 import CopyToClipboard from 'react-copy-to-clipboard'
-import { VoteModal2 } from 'components/Modals'
+import { VoteModal } from 'components/Modals'
 import { DashboardThemeContext } from 'components/Dashboard/Dashboard'
 import { Box, FlexBox, SvgBox } from 'components/App/App.styles'
 import {
@@ -560,7 +560,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
           </WidgetWrapper>
         </div>
       </div>
-      {voteModalOpen && <VoteModal2 open={voteModalOpen} setOpen={setVoteModalOpen} onVote={handleVote} />}
+      {voteModalOpen && <VoteModal open={voteModalOpen} setOpen={setVoteModalOpen} onVote={handleVote} />}
       {SetupModal && (
         <SetupModal open={!!SetupModal} action={selectedAction} onClose={() => setSelectedAction(undefined)} />
       )}

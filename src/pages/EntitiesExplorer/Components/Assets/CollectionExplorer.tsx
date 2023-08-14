@@ -6,12 +6,11 @@ import { ReactComponent as ArrowLeftIcon } from 'assets/images/icon-arrow-left.s
 import { Typography } from 'components/Typography'
 import CollectionMetadata from './CollectionMetadata'
 import Assets from './Assets'
-import { getSDGIcon } from 'components/Modals/SelectionModal/SelectionModal'
 import { useMediaQuery } from 'react-responsive'
 import { deviceWidth } from 'constants/device'
 import { useAccount } from 'hooks/account'
-import { useTheme } from 'styled-components'
 import { TEntityModel } from 'types/entities'
+import CollectionCard from './CollectionCard'
 
 interface Props {
   collection: any
@@ -20,20 +19,15 @@ interface Props {
 }
 
 const CollectionExplorer: React.FC<Props> = (props) => {
-  const theme: any = useTheme()
   const isMobile = useMediaQuery({ maxWidth: deviceWidth.tablet })
   const isTablet = useMediaQuery({ minWidth: deviceWidth.tablet, maxWidth: deviceWidth.desktop })
   const { cwClient } = useAccount()
   const [collection, setCollection] = useState<TEntityModel>()
 
-  const logo = collection?.profile?.logo
-  const image = collection?.token?.image
+  const logo = collection?.token?.properties?.icon
+  const collectionId = collection?.id
+  const collectionName = collection?.profile?.name
   const name = collection?.token?.name
-  const tokenName = collection?.token?.tokenName
-
-  const sdgs = collection?.tags
-    ? collection.tags.find((item) => item && item.category === 'SDG' && Array.isArray(item.tags))?.tags ?? []
-    : []
 
   useEffect(() => {
     setCollection(props.collection)
@@ -56,12 +50,12 @@ const CollectionExplorer: React.FC<Props> = (props) => {
       >
         <GridItem gridArea='a'>
           <FlexBox alignItems='center' justifyContent='space-between'>
-            <FlexBox direction='column'>
+            <FlexBox direction='column' style={{ flex: 1 }}>
               <Typography weight='bold' size='2xl'>
-                {tokenName}
+                {name}
               </Typography>
               <Typography size='md' color='color-2'>
-                {name}
+                {collectionName}
               </Typography>
             </FlexBox>
             <FlexBox
@@ -88,29 +82,22 @@ const CollectionExplorer: React.FC<Props> = (props) => {
           </FlexBox>
         </GridItem>
         <GridItem gridArea='c'>
-          <FlexBox
-            width='100%'
-            height='190px'
-            justifyContent='flex-end'
-            borderRadius='8px'
-            background={`url(${image}), linear-gradient(180deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.5) 100%)`}
-            backgroundSize='100%'
-            backgroundPosition='center center'
-            p={5}
-            gap={2}
-            color={theme.ixoWhite}
-          >
-            {sdgs.map((value, index) => {
-              const sdgIcon = getSDGIcon(value)
-              return <i key={index} className={sdgIcon.class} />
-            })}
-          </FlexBox>
+          <CollectionCard {...props.collection} />
         </GridItem>
         <GridItem gridArea='d'>{collection && <CollectionMetadata {...collection} />}</GridItem>
       </GridContainer>
 
       {/* Assets */}
-      <Assets entities={props.entities} />
+      <Assets
+        collectionId={collectionId!}
+        collectionName={collectionName!}
+        entities={props.entities.sort((a, b) => {
+          if (Number(a.alsoKnownAs.replace('{id}#', '')) > Number(b.alsoKnownAs.replace('{id}#', ''))) {
+            return 1
+          }
+          return -1
+        })}
+      />
     </FlexBox>
   )
 }

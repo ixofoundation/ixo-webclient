@@ -144,7 +144,7 @@ const CreateToken: React.FC = (): JSX.Element => {
               type={item.profile?.type}
               denom={item.profile?.denom}
               maxSupply={item.profile?.maxSupply}
-              price={230} //   TODO:
+              price={189} //   TODO:
               onClick={(): void => setSelectedToken({ item, index: index + 1 })}
             />
           ))}
