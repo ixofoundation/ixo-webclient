@@ -1,0 +1,10 @@
+{
+  "theme": {
+    "primaryColor": "#2B94F5",
+    "secondaryColor": "#162A42",
+    "highlight": {
+      "light": "#45B4F2",
+      "dark": "#5A5A6F"
+    }
+  }
+}
