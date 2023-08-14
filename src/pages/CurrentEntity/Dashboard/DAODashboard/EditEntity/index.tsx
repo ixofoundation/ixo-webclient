@@ -4,12 +4,15 @@ import useCurrentEntity from 'hooks/currentEntity'
 import useEditEntity from 'hooks/editEntity'
 import { Button } from 'pages/CreateEntity/Components'
 import React, { useEffect, useState } from 'react'
+import { useHistory, useParams } from 'react-router-dom'
 import { errorToast, successToast } from 'utils/toast'
 import EditGroups from './components/EditGroups'
 import EditProfile from './components/EditProfile'
 import EditProperty from './components/EditProperty'
 
 const EditEntity: React.FC = () => {
+  const history = useHistory()
+  const { entityId } = useParams<{ entityId: string }>()
   const { currentEntity, getEntityByDid } = useCurrentEntity()
   const { setEditEntity, ExecuteEditEntity } = useEditEntity()
   const [editing, setEditing] = useState(false)
@@ -37,11 +40,21 @@ const EditEntity: React.FC = () => {
     }
   }
 
+  const handleTransferEntity = async () => {
+    history.push(`/transfer/entity/${entityId}`)
+  }
+
   return (
     <FlexBox width='100%' direction='column' alignItems='start' gap={10} color='black' background='white'>
       <Typography variant='secondary' size='2xl'>
         Here you can update the DAO settings and submit the changes as a proposal.
       </Typography>
+
+      <FlexBox>
+        <Button size='flex' width={240} onClick={handleTransferEntity} textTransform='uppercase'>
+          Transfer Entity
+        </Button>
+      </FlexBox>
 
       <FlexBox width='100%' direction='column' gap={8}>
         <Typography variant='secondary' size='4xl'>
@@ -68,7 +81,7 @@ const EditEntity: React.FC = () => {
       </FlexBox>
 
       <FlexBox>
-        <Button size='flex' width={180} onClick={handleEditEntity} loading={editing} textTransform='capitalize'>
+        <Button size='flex' width={240} onClick={handleEditEntity} loading={editing} textTransform='uppercase'>
           Update Entity
         </Button>
       </FlexBox>

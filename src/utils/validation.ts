@@ -164,3 +164,11 @@ export const validateEntityDid = (entityDid: string): boolean => {
     return false
   }
 }
+
+export const validateDid = (did: string): boolean => {
+  try {
+    return did.startsWith('did:x:')
+  } catch {
+    return false
+  }
+}

@@ -19,6 +19,7 @@ const NotFound = lazy(() => import(/* webpackChunkName: "NotFound" */ 'pages/Err
 const CurrentEntityPage = lazy(
   () => import(/* webpackChunkName: "EntityExchangeTradeBid" */ 'pages/CurrentEntity/CurrentEntity'),
 )
+const TransferEntityPage = lazy(() => import('pages/TransferEntity'))
 
 interface Props {
   toggleAssistant?: (param: ToogleAssistantPayload) => void
@@ -65,6 +66,7 @@ const App: React.FunctionComponent<Props> = ({ toggleAssistant }) => {
         <Route path='/create/entity' component={CreateEntityPage} />
         <Route path='/edit/entity/:entityId' component={EditEntityPage} />
         <Route path='/entity/:entityId' component={CurrentEntityPage} />
+        <Route path='/transfer/entity/:entityId' component={TransferEntityPage} />
         <Route path='*' component={NotFound} />
       </Switch>
     </Suspense>
