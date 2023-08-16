@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import * as Modal from 'react-modal'
 import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { Button, InputWithLabel } from 'pages/CreateEntity/Components'
@@ -6,6 +6,7 @@ import { ModalStyles, CloseButton } from 'components/Modals/styles'
 import { Typography } from 'components/Typography'
 import { useTheme } from 'styled-components'
 import { ReactComponent as TimesCircleIcon } from 'assets/images/icon-times-circle.svg'
+import { ReactComponent as CheckCircleIcon } from 'assets/images/icon-check-circle.svg'
 import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
 import { validateDid } from 'utils/validation'
 
@@ -18,6 +19,10 @@ interface Props {
 const TransferEntityModal: React.FC<Props> = ({ open, recipientDid, onClose, onSubmit }): JSX.Element => {
   const theme: any = useTheme()
   const [did, setDid] = useState('')
+
+  useEffect(() => {
+    setDid('')
+  }, [open])
 
   return (
     // @ts-ignore
@@ -35,7 +40,7 @@ const TransferEntityModal: React.FC<Props> = ({ open, recipientDid, onClose, onS
           <FlexBox direction='column' width='100%' gap={4}>
             <Typography>Paste the recipient ixo DID</Typography>
             <InputWithLabel
-              name='subdao_id'
+              name='ixo_did'
               height='48px'
               label='Recipient ixo did'
               inputValue={did}
@@ -46,17 +51,17 @@ const TransferEntityModal: React.FC<Props> = ({ open, recipientDid, onClose, onS
             />
             {did && !validateDid(did) && (
               <FlexBox width='100%' justifyContent='flex-end' alignItems='center' gap={2}>
-                <Typography size='xl'>Not a valid did</Typography>
+                <Typography size='xl'>Not a valid ixo DID</Typography>
                 <SvgBox color={theme.ixoRed}>
                   <TimesCircleIcon />
                 </SvgBox>
               </FlexBox>
             )}
-            {did && !validateDid(did) && (
+            {did && validateDid(did) && (
               <FlexBox width='100%' justifyContent='flex-end' alignItems='center' gap={2}>
-                <Typography size='xl'>Not a valid did</Typography>
-                <SvgBox color={theme.ixoRed}>
-                  <TimesCircleIcon />
+                <Typography size='xl'>Valid ixo DID</Typography>
+                <SvgBox color={theme.ixoGreen}>
+                  <CheckCircleIcon />
                 </SvgBox>
               </FlexBox>
             )}

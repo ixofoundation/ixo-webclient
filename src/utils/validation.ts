@@ -165,10 +165,13 @@ export const validateEntityDid = (entityDid: string): boolean => {
   }
 }
 
+export const validateWasmDid = (did: string): boolean => {
+  return did.startsWith('did:ixo:wasm:')
+}
+export const validateIid = (did: string): boolean => {
+  return did.startsWith('did:x:')
+}
+
 export const validateDid = (did: string): boolean => {
-  try {
-    return did.startsWith('did:x:')
-  } catch {
-    return false
-  }
+  return !!did && (validateIid(did) || validateWasmDid(did))
 }

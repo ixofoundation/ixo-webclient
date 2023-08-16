@@ -38,6 +38,7 @@ export interface ITypographyProps extends React.HTMLAttributes<HTMLDivElement> {
   transform?: string
   noWrap?: boolean
   underline?: boolean
+  wordBreak?: string
   hover?: {
     underline?: boolean
   }
@@ -218,6 +219,10 @@ const Typography = styled.div<ITypographyProps>`
   ${({ transform }) => {
     return transform && `text-transform: ${transform};`
   }}
+  ${({ wordBreak }) => {
+    return wordBreak && `word-break: ${wordBreak};`
+  }}
+
   ${({ hover }) => {
     return hover && hoverCss
   }}

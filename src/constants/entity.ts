@@ -40,7 +40,7 @@ import { ReactComponent as MemberShipIcon } from 'assets/images/icon-membership.
 import { ReactComponent as StakingIcon } from 'assets/images/icon-staking.svg'
 import { ReactComponent as MultisigIcon } from 'assets/images/icon-multisig.svg'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
-import { ReactComponent as LockOnIcon } from 'assets/images/icon-lock-on.svg'
+import { ReactComponent as LockOnIcon } from 'assets/images/icon-lock-open-solid.svg'
 import { ReactComponent as StarIcon } from 'assets/images/icon-star.svg'
 import { ReactComponent as FireIcon } from 'assets/images/icon-fire.svg'
 import { ReactComponent as TreasuryIcon } from 'assets/images/icon-treasury.svg'

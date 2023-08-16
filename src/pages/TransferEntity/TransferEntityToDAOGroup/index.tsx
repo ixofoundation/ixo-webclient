@@ -1,109 +1,27 @@
 import { Box, FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
-import React from 'react'
+import React, { useState } from 'react'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
 import { PropertyBox } from 'pages/CreateEntity/Components'
-import { TDAOGroupModel } from 'types/entities'
 import { deviceWidth } from 'constants/device'
-import BigNumber from 'bignumber.js'
 import { DAOGroupConfig } from 'constants/entity'
 import { useTransferEntityState } from 'hooks/transferEntity'
 import { utils } from '@ixo/impactxclient-sdk'
-
-export const initialGroupConfig: TDAOGroupModel['config'] = {
-  automatically_add_cw20s: true,
-  automatically_add_cw721s: true,
-  description: '',
-  name: '',
-}
-
-export const initialProposalModule: TDAOGroupModel['proposalModule'] = {
-  proposalModuleAddress: '',
-  preProposalContractAddress: '',
-  preProposeConfig: {
-    open_proposal_submission: false,
-    deposit_info: null,
-  },
-  proposalConfig: {
-    allow_revoting: true,
-    close_proposal_on_execution_failure: true,
-    dao: '',
-    max_voting_period: { time: 604800 },
-    only_members_execute: false,
-    threshold: {
-      threshold_quorum: {
-        threshold: {
-          majority: {},
-        },
-        quorum: {
-          percent: '0.2',
-        },
-      },
-    },
-  },
-  proposals: [],
-  votes: [],
-}
-
-export const initialMembers: TDAOGroupModel['votingModule']['members'] = [{ addr: '', weight: 1 }]
-
-export const initialVotingModule: TDAOGroupModel['votingModule'] = {
-  votingModuleAddress: '',
-  contractName: '',
-  members: initialMembers,
-  totalWeight: 0,
-}
-
-export const initialTokenModule: TDAOGroupModel['token'] = {
-  config: {
-    token_address: '',
-    unstaking_duration: { time: 1209600 },
-  },
-  tokenInfo: {
-    decimals: 6,
-    name: '',
-    symbol: '',
-    total_supply: new BigNumber(10_000_000).times(new BigNumber(10).pow(6)).toString(),
-  },
-  marketingInfo: {
-    description: null,
-    logo: null,
-    marketing: null,
-    project: null,
-  },
-  treasuryPercent: 90,
-}
-
-export const initialStakingGroup: TDAOGroupModel = {
-  coreAddress: '',
-  type: 'staking',
-  admin: '',
-  config: initialGroupConfig,
-  proposalModule: initialProposalModule,
-  votingModule: initialVotingModule,
-  token: initialTokenModule,
-  memberships: [],
-}
-
-export const initialMembershipGroup: TDAOGroupModel = {
-  coreAddress: '',
-  type: 'membership',
-  admin: '',
-  config: initialGroupConfig,
-  proposalModule: initialProposalModule,
-  votingModule: initialVotingModule,
-  token: undefined,
-  memberships: [],
-}
+import TransferEntityModal from 'components/Modals/TransferEntityModal'
+import { useHistory, useParams } from 'react-router-dom'
 
 const TransferEntityToDAOGroup: React.FC = (): JSX.Element => {
-  const { selectedEntity, updateRecipientDid } = useTransferEntityState()
+  const history = useHistory()
+  const { entityId } = useParams<{ entityId: string }>()
+  const { selectedEntity, recipientDid, updateRecipientDid } = useTransferEntityState()
+  const [openTransferEntityModal, setOpenTransferEntityModal] = useState(false)
 
   const handleClick = (key: string) => () => {
     if (key === 'other') {
-      //
+      setOpenTransferEntityModal(true)
     } else {
       updateRecipientDid(utils.did.generateWasmDid(key))
+      history.push(`/transfer/entity/${entityId}/to`)
     }
   }
 
@@ -147,6 +65,16 @@ const TransferEntityToDAOGroup: React.FC = (): JSX.Element => {
           </FlexBox>
         </FlexBox>
       </FlexBox>
+      <TransferEntityModal
+        open={openTransferEntityModal}
+        recipientDid={recipientDid}
+        onClose={() => setOpenTransferEntityModal(false)}
+        onSubmit={(value) => {
+          updateRecipientDid(value)
+          setOpenTransferEntityModal(false)
+          history.push(`/transfer/entity/${entityId}/to`)
+        }}
+      />
     </>
   )
 }
