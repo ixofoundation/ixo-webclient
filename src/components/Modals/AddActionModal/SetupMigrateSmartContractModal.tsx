@@ -57,7 +57,7 @@ const SetupMigrateSmartContractModal: React.FC<Props> = ({ open, action, onClose
       <FlexBox>
         <Typography size='xl' weight='medium'>
           This will{' '}
-          <a href='https://docs.cosmwasm.com/docs/1.0/smart-contracts/migration/' rel='noreferrer' target='_blank'>
+          <a href='https://docs.cosmwasm.com/docs/smart-contracts/migration/' rel='noreferrer' target='_blank'>
             <Typography size='xl' weight='medium' underline color='black'>
               migrate
             </Typography>

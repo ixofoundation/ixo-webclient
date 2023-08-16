@@ -17,8 +17,9 @@ import {
   FilterQueryAction,
   GetEntityConfigAction,
   FilterItemOffsetAction,
-  GetEntities2Action,
+  GetEntitiesAction,
   UpdateEntityByIdAction,
+  GetCollectionsAction,
 } from './entitiesExplorer.types'
 import { RootState } from 'redux/store'
 import { SchemaGitUrl } from 'constants/chains'
@@ -37,24 +38,35 @@ const filterCondition = (entity: any) =>
 
 export const getAllEntities =
   () =>
-  (dispatch: Dispatch, getState: () => RootState): GetEntities2Action => {
+  (dispatch: Dispatch, getState: () => RootState): GetEntitiesAction => {
     const {
-      entities: { entities2 },
+      entities: { entities },
       account: { cwClient },
     } = getState()
     return dispatch({
-      type: EntitiesExplorerActions.GetEntities2,
-      payload: bsService.entity.getAllEntities().then((entities: any[]) => {
-        return entities.filter(filterCondition).map((entity) => {
+      type: EntitiesExplorerActions.GetEntities,
+      payload: bsService.entity.getAllEntities().then((apiEntities: any[]) => {
+        return apiEntities.filter(filterCondition).map((entity) => {
           const { id } = entity
           apiEntityToEntity({ entity, cwClient }, (key, value, merge = false) => {
             dispatch({
-              type: EntitiesExplorerActions.GetIndividualEntity2,
+              type: EntitiesExplorerActions.GetIndividualEntity,
               payload: { id, key, data: value, merge },
             })
           })
-          return { ...(entities2 && entities2[id] ? entities2[id] : {}), ...entity }
+          return { ...(entities && entities[id] ? entities[id] : {}), ...entity }
         })
+      }),
+    })
+  }
+
+export const getCollectionsAction =
+  () =>
+  (dispatch: Dispatch): GetCollectionsAction => {
+    return dispatch({
+      type: EntitiesExplorerActions.GetCollections,
+      payload: bsService.entity.getCollections().then((apiCollections: any[]) => {
+        return apiCollections
       }),
     })
   }
@@ -72,7 +84,7 @@ export const updateEntityById =
           const { id } = entity
           apiEntityToEntity({ entity, cwClient }, (key, value, merge = false) => {
             dispatch({
-              type: EntitiesExplorerActions.GetIndividualEntity2,
+              type: EntitiesExplorerActions.GetIndividualEntity,
               payload: { id, key, data: value, merge },
             })
           })

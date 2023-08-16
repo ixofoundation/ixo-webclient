@@ -4,7 +4,8 @@ import { AccountActions, AccountActionTypes } from 'redux/account/account.types'
 
 export const initialState: EntitiesExplorerState = {
   selectedEntitiesType: 'project',
-  entities2: null,
+  entities: {},
+  collections: [],
   entityConfig: null,
   filter: {
     ddoTags: [],
@@ -32,24 +33,26 @@ export const reducer = (
           itemOffset: 0,
         },
       }
-    case EntitiesExplorerActions.GetEntities2Success:
+    case EntitiesExplorerActions.GetEntitiesSuccess:
       return {
         ...state,
-        entities2: { ...state.entities2, ...Object.fromEntries(action.payload.map((entity) => [entity.id, entity])) },
+        entities: { ...state.entities, ...Object.fromEntries(action.payload.map((entity) => [entity.id, entity])) },
       }
-    case EntitiesExplorerActions.GetIndividualEntity2: {
+    case EntitiesExplorerActions.GetCollectionsSuccess:
+      return { ...state, collections: action.payload }
+    case EntitiesExplorerActions.GetIndividualEntity: {
       const { id, key, data, merge } = action.payload
-      const entities2 = state.entities2 ? { ...state.entities2 } : {}
+      const entities = state.entities ? { ...state.entities } : {}
       if (merge) {
-        entities2[id] = { ...(entities2[id] || {}), [key]: { ...entities2[id][key], ...data } }
+        entities[id] = { ...(entities[id] || {}), [key]: { ...entities[id][key], ...data } }
       } else {
-        entities2[id] = { ...(entities2[id] || {}), [key]: data }
+        entities[id] = { ...(entities[id] || {}), [key]: data }
       }
-      return { ...state, entities2 }
+      return { ...state, entities }
     }
     case EntitiesExplorerActions.UpdateEntityById: {
       const { id } = action.payload
-      return { ...state, entities2: { ...state.entities2, [id]: { ...state.entities2[id], ...action.payload } } }
+      return { ...state, entities: { ...state.entities, [id]: { ...state.entities[id], ...action.payload } } }
     }
     case EntitiesExplorerActions.GetEntityConfigSuccess: {
       const entityConfig = action.payload
