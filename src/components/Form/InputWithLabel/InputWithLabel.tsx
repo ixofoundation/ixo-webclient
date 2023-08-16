@@ -14,7 +14,7 @@ export const InputLabel = styled.label<{ filled?: boolean }>`
   margin: 0;
   padding: ${(props): string => (props.filled ? '0 3px' : '0')};
   line-height: 100%;
-  z-index: 9999;
+  z-index: 99;
 `
 
 const ErrorLabel = styled.label`
