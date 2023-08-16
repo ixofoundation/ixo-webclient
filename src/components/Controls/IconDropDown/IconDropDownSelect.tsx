@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { DropDownOption } from './types'
-import { Container, SelectContainer } from './IconDropDownSelect.styles'
+import { Container, SelectContainer, SelectLabelWrapper } from './IconDropDownSelect.styles'
 import { requireCheckDefault } from 'utils/images'
+import { Typography } from 'components/Typography'
+import { InputLabel } from 'components/Form/InputWithLabel'
 
 interface Props {
   options: DropDownOption[]
@@ -11,6 +13,7 @@ interface Props {
   onChange: (value: string) => void
   onBlur: (value: string) => void
   onFocus: (value: string) => void
+  label?: string
 }
 
 const DropDownImageSelect: React.FunctionComponent<Props> = ({
@@ -21,6 +24,7 @@ const DropDownImageSelect: React.FunctionComponent<Props> = ({
   onChange,
   onBlur,
   onFocus,
+  label,
 }) => {
   const [selectedIconSRC, setSelectedIconSRC] = useState<string | null>('')
   const onChangeHandler = (value: string): void => {
@@ -49,6 +53,19 @@ const DropDownImageSelect: React.FunctionComponent<Props> = ({
 
   return (
     <Container>
+      <SelectLabelWrapper>
+        {label && (
+          <InputLabel filled={Boolean(value)}>
+            <Typography
+              weight={value ? 'bold' : 'medium'}
+              size={value ? 'sm' : 'xl'}
+              color={value ? 'inherit' : 'grey500'}
+            >
+              {label}
+            </Typography>
+          </InputLabel>
+        )}
+      </SelectLabelWrapper>
       <SelectContainer
         value={value}
         onChange={(e): void => onChangeHandler(e.target.value)}
