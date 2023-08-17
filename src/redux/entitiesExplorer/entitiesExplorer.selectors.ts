@@ -153,6 +153,13 @@ export const selectedFilteredEntities = createSelector(
     }
 
     /**
+     * @description filter by entityVerified === true
+     */
+    if (filter.verified) {
+      filteredEntities = filteredEntities.filter((entity) => entity.entityVerified === filter.verified)
+    }
+
+    /**
      * @description sort by createdAt
      */
     filteredEntities = filteredEntities.sort((a, b) => {

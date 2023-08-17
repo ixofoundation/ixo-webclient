@@ -51,6 +51,7 @@ import { DaoAdminExecData } from 'components/Modals/AddActionModal/SetupDAOAdmin
 import { SendGroupTokenData } from 'components/Modals/AddActionModal/SetupSendGroupTokenModal'
 import { ixo } from '@ixo/impactxclient-sdk'
 import { useCurrentEntityDAOGroup } from './currentEntity'
+import { AcceptToMarketplaceData } from 'components/Modals/AddActionModal/SetupAcceptToMarketplaceModal'
 
 export function useMakeProposalAction(coreAddress: string) {
   const { daoGroup } = useCurrentEntityDAOGroup(coreAddress)
@@ -742,5 +743,6 @@ export function useMakeProposalAction(coreAddress: string) {
     makeStakeToGroupAction,
     makeSendGroupTokenAction,
     makeJoinAction,
+    makeAcceptToMarketplaceAction,
   }
 }
