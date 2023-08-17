@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo } from 'react'
-import { Redirect, Route, useParams } from 'react-router-dom'
+import { Redirect, Route, useHistory, useParams } from 'react-router-dom'
 import TransferEntityLayout from './Components/TransferEntityLayout'
 import { useTransferEntityState } from 'hooks/transferEntity'
 import { useAppSelector } from 'redux/hooks'
@@ -12,10 +12,17 @@ import TransferEntityTo from './TransferEntityTo'
 
 const TransferEntity: React.FC = (): JSX.Element => {
   const { did } = useSigner()
+  const history = useHistory()
   const { entityId } = useParams<{ entityId: string }>()
 
   const selectedEntity: TEntityModel | undefined = useAppSelector(selectEntityById(entityId))
-  const { breadCrumbs, title, subtitle, updateSelectedEntity } = useTransferEntityState()
+  const {
+    breadCrumbs,
+    title,
+    subtitle,
+    selectedEntity: selectedEntityStored,
+    updateSelectedEntity,
+  } = useTransferEntityState()
 
   const isEligible = useMemo(
     () => did && selectedEntity && selectedEntity.controller.includes(did),
@@ -28,6 +35,13 @@ const TransferEntity: React.FC = (): JSX.Element => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedEntity])
+
+  useEffect(() => {
+    if (!selectedEntityStored) {
+      history.push(`/transfer/entity/${entityId}`)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedEntityStored])
 
   return (
     <TransferEntityLayout title={title} subtitle={subtitle} breadCrumbs={breadCrumbs}>

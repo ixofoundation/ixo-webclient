@@ -211,7 +211,8 @@ export const TransferEntity = async (
     }),
   }
 
+  console.log('TransferEntity', { message })
   const response: DeliverTxResponse = await client.signAndBroadcast(signer.address, [message], fee)
-  console.log('TransferEntity', 'response', response)
+  console.log('TransferEntity', { response })
   return response
 }

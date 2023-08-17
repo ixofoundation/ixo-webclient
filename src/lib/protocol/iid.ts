@@ -110,22 +110,17 @@ export const AddLinkedEntity = async (
 }
 
 export const AddLinkedResource = async (client: SigningStargateClient, signer: TSigner, payload: LinkedResource) => {
-  try {
-    const message = {
-      typeUrl: '/ixo.iid.v1beta1.MsgAddLinkedResource',
-      value: ixo.iid.v1beta1.MsgAddLinkedResource.fromPartial({
-        id: signer.did,
-        linkedResource: ixo.iid.v1beta1.LinkedResource.fromPartial(payload),
-        signer: signer.address,
-      }),
-    }
-
-    const response = await client.signAndBroadcast(signer.address, [message], fee)
-    return response
-  } catch (e) {
-    console.error('AddLinkedResource', e)
-    throw new Error(JSON.stringify(e))
+  const message = {
+    typeUrl: '/ixo.iid.v1beta1.MsgAddLinkedResource',
+    value: ixo.iid.v1beta1.MsgAddLinkedResource.fromPartial({
+      id: signer.did,
+      linkedResource: ixo.iid.v1beta1.LinkedResource.fromPartial(payload),
+      signer: signer.address,
+    }),
   }
+
+  const response = await client.signAndBroadcast(signer.address, [message], fee)
+  return response
 }
 
 export const DeleteLinkedResource = async (client: SigningStargateClient, signer: TSigner, resourceId: string) => {
