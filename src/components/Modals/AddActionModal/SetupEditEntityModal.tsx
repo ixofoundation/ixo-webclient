@@ -66,15 +66,9 @@ const SetupEditEntityModal: React.FC<Props> = ({ open, action, onClose, onSubmit
     }
   }, [entityDid])
 
-  // const handleUpdateFormData = (key: string, value: any) => {
-  //   onSubmit && setFormData((data) => ({ ...data, [key]: value }))
-  // }
-
   const handleConfirm = () => {
-    // onSubmit && onSubmit({ ...action, data: formData })
     onSubmit &&
       history.push({ pathname: `/edit/entity/${entityDid}`, search: `?redirectTo=${history.location.pathname}` })
-    // onClose()
   }
 
   return (

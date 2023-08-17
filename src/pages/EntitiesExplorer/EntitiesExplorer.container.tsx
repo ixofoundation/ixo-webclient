@@ -186,11 +186,11 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
 
 function mapStateToProps(state: RootState): Record<string, any> {
   return {
-    entities: entitiesSelectors.selectedFilteredEntities2(state),
+    entities: entitiesSelectors.selectedFilteredEntities(state),
     entityTypeMap: entitiesSelectors.selectEntityConfig(state),
-    entitiesCount: entitiesSelectors.selectAllEntitiesCount2(state),
+    entitiesCount: entitiesSelectors.selectAllEntitiesCount(state),
     type: entitiesSelectors.selectSelectedEntitiesType(state),
-    filteredEntitiesCount: entitiesSelectors.selectFilteredEntitiesCount2(state),
+    filteredEntitiesCount: entitiesSelectors.selectFilteredEntitiesCount(state),
     filterCategories: entitiesSelectors.selectFilterCategories(state),
     filterSector: entitiesSelectors.selectFilterSector(state),
     filterUserEntities: entitiesSelectors.selectFilterUserEntities(state),
@@ -200,7 +200,7 @@ function mapStateToProps(state: RootState): Record<string, any> {
     filterSchema: entitiesSelectors.selectFilterSchema(state),
     filterQuery: entitiesSelectors.selectFilterQuery(state),
     filterCategoryTypeName: entitiesSelectors.selectFilterCategoryTypeName(state),
-    isLoadingEntities: entitiesSelectors.selectIsLoadingEntities2(state),
+    isLoadingEntities: entitiesSelectors.selectIsLoadingEntities(state),
   }
 }
 

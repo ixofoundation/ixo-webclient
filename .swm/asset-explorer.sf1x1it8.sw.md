@@ -5,7 +5,41 @@ file_version: 1.1.3
 app_version: 1.14.0
 ---
 
-filter entites by tag user selected and pagination with infinite-scroll
+# CollectionCard
+
+<br/>
+
+Get collections and entities by owner address
+<!-- NOTE-swimm-snippet: the lines below link your snippet to Swimm -->
+### 📄 src/pages/EntitiesExplorer/Components/Assets/CollectionCard.tsx
+<!-- collapsed -->
+
+```tsx
+42       useEffect(() => {
+43         if (address && collectionId) {
+44           bsService.entity
+45             .getCollectionsByOwnerAddress(address)
+46             .then((response: any) => {
+47               const entities = response.find((v: any) => v.collection.id === collectionId)?.entities ?? []
+48               setNumOfPurchase(entities.length)
+49             })
+50             .catch((e: any) => {
+51               console.error('getCollectionsByOwnerAddress', e)
+52             })
+53           return () => {
+54             setNumOfPurchase(500)
+55           }
+56         }
+57       }, [address, collectionId])
+```
+
+<br/>
+
+# Assets
+
+<br/>
+
+Filter entites by tag user selected and pagination with infinite-scroll
 <!-- NOTE-swimm-snippet: the lines below link your snippet to Swimm -->
 ### 📄 src/pages/EntitiesExplorer/Components/Assets/Assets.tsx
 <!-- collapsed -->
@@ -44,17 +78,21 @@ Retrive collections owned by signed address
 81             .getCollectionsByOwnerAddress(address)
 82             .then((response: any) => {
 83               const entities = response.find((v: any) => v.collection.id === props.collectionId)?.entities ?? []
-84               seMyEntities(entities)
+84               setMyEntities(entities)
 85             })
 86             .catch((e: any) => {
 87               console.error('getCollectionsByOwnerAddress', e)
 88             })
 89           return () => {
-90             seMyEntities([])
+90             setMyEntities([])
 91           }
 92         }
 93       }, [address, props.collectionId])
 ```
+
+<br/>
+
+<br/>
 
 <br/>
 
