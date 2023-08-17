@@ -1,6 +1,6 @@
 import moment from 'moment'
 import { createSelector } from '@reduxjs/toolkit'
-import { EntitiesExplorerState, Filter } from './entitiesExplorer.types'
+import { EntitiesExplorerState, Filter, TCollection } from './entitiesExplorer.types'
 import { EntityConfig, TEntityModel, TEntityDDOTagModel, TDAOGroupModel } from 'types/entities'
 import * as accountSelectors from 'redux/account/account.selectors'
 import { RootState } from 'redux/store'
@@ -14,14 +14,14 @@ export const selectEntitiesState = (state: RootState): EntitiesExplorerState => 
 export const selectAllEntities = createSelector(
   selectEntitiesState,
   (entitiesState: EntitiesExplorerState): TEntityModel[] => {
-    return Object.values(entitiesState.entities2 ?? {})
+    return Object.values(entitiesState.entities ?? {})
   },
 )
 
-export const selectAllEntitiesByType2 = createSelector(
+export const selectAllEntitiesByType = createSelector(
   selectEntitiesState,
   (entitiesState: EntitiesExplorerState): TEntityModel[] => {
-    return Object.values(entitiesState.entities2 ?? {}).filter((entity) =>
+    return Object.values(entitiesState.entities ?? {}).filter((entity) =>
       entity.type.toLowerCase().includes(entitiesState.selectedEntitiesType.toLowerCase()),
     )
   },
@@ -30,7 +30,7 @@ export const selectAllEntitiesByType2 = createSelector(
 export const selectEntitiesByType = (type: string) =>
   createSelector(selectEntitiesState, (entitiesState: EntitiesExplorerState): TEntityModel[] => {
     return type
-      ? Object.values(entitiesState.entities2 ?? {}).filter((entity) => entity.type?.toLowerCase().includes(type))
+      ? Object.values(entitiesState.entities ?? {}).filter((entity) => entity.type?.toLowerCase().includes(type))
       : []
   })
 
@@ -59,8 +59,8 @@ export const selectSelectedEntitiesType = createSelector(
   },
 )
 
-export const selectedFilteredEntities2 = createSelector(
-  selectAllEntitiesByType2,
+export const selectedFilteredEntities = createSelector(
+  selectAllEntitiesByType,
   selectEntitiesFilter,
   accountSelectors.selectAccountDid,
   (entities: TEntityModel[], filter: Filter, userDid: string): TEntityModel[] => {
@@ -160,23 +160,20 @@ export const selectedFilteredEntities2 = createSelector(
   },
 )
 
-export const selectAllEntitiesCount2 = createSelector(selectAllEntitiesByType2, (entities: TEntityModel[]): number => {
+export const selectAllEntitiesCount = createSelector(selectAllEntitiesByType, (entities: TEntityModel[]): number => {
   return !entities ? 0 : entities.length
 })
 
-export const selectFilteredEntitiesCount2 = createSelector(
-  selectedFilteredEntities2,
+export const selectFilteredEntitiesCount = createSelector(
+  selectedFilteredEntities,
   (entities: TEntityModel[]): number => {
     return !entities ? 0 : entities.length
   },
 )
 
-export const selectIsLoadingEntities2 = createSelector(
-  selectAllEntitiesByType2,
-  (entities: TEntityModel[]): boolean => {
-    return entities === null
-  },
-)
+export const selectIsLoadingEntities = createSelector(selectAllEntitiesByType, (entities: TEntityModel[]): boolean => {
+  return entities === null
+})
 
 export const selectFilterDateFrom = createSelector(selectEntitiesFilter, (filter: Filter): string => {
   return filter.dateFrom
@@ -355,4 +352,16 @@ export const selectIsMemberOfDAO = (daoId: string, address: string) =>
     return Object.values(dao.daoGroups ?? {}).some((daoGroup) =>
       daoGroup.votingModule.members.some((member) => member.addr === address),
     )
+  })
+
+export const selectCollections = createSelector(
+  selectEntitiesState,
+  (entities: EntitiesExplorerState): TCollection[] => {
+    return entities.collections
+  },
+)
+
+export const selectCollectionByCollectionId = (collectionId: string) =>
+  createSelector(selectCollections, (collections: TCollection[]): TCollection | undefined => {
+    return collections.find(({ collection }) => collection.id === collectionId)
   })

@@ -37,6 +37,7 @@ const CountryDropDown: React.FunctionComponent<Props> = ({ value, onChange, onBl
         onBlur={onBlur}
         onFocus={onFocus}
         selectText={'Select Country'}
+        label={'Select Country'}
       />
     </Container>
   )

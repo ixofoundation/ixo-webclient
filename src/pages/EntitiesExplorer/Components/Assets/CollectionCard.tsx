@@ -6,21 +6,23 @@ import { getSDGIcon } from 'components/Modals/SelectionModal/SelectionModal'
 import { useAccount } from 'hooks/account'
 import { TEntityModel } from 'types/entities'
 import { FlexBox } from 'components/App/App.styles'
+import { BlockSyncService } from 'services/blocksync'
+
+const bsService = new BlockSyncService()
 
 const CollectionCard: React.FC<any> = (apiEntity) => {
   const theme: any = useTheme()
-  const { cwClient } = useAccount()
+  const { cwClient, address } = useAccount()
   const [collection, setCollection] = useState<TEntityModel>()
+  const [numOfPurchase, setNumOfPurchase] = useState(500)
 
+  const collectionId = collection?.id
   const logo = collection?.token?.properties?.icon
   const image = collection?.profile?.image
   const collectionName = collection?.token?.name
   const name = collection?.profile?.name
   const tokenName = collection?.token?.tokenName
   // const description = collection?.token?.description
-
-  // TODO:
-  const numOfPurchase = 1
 
   const sdgs = collection?.tags
     ? collection.tags.find((item) => item && item.category === 'SDG' && Array.isArray(item.tags))?.tags ?? []
@@ -36,6 +38,23 @@ const CollectionCard: React.FC<any> = (apiEntity) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  useEffect(() => {
+    if (address && collectionId) {
+      bsService.entity
+        .getCollectionsByOwnerAddress(address)
+        .then((response: any) => {
+          const entities = response.find((v: any) => v.collection.id === collectionId)?.entities ?? []
+          setNumOfPurchase(entities.length)
+        })
+        .catch((e: any) => {
+          console.error('getCollectionsByOwnerAddress', e)
+        })
+      return () => {
+        setNumOfPurchase(500)
+      }
+    }
+  }, [address, collectionId])
 
   return (
     <FlexBox
@@ -54,6 +73,7 @@ const CollectionCard: React.FC<any> = (apiEntity) => {
         position='relative'
         background={`url(${image!})`}
         backgroundPosition='center center'
+        backgroundSize='100%'
         width='100%'
         height='150px'
       >
