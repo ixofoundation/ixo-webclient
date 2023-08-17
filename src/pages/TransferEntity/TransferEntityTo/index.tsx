@@ -87,7 +87,7 @@ const TransferEntityTo: React.FC = (): JSX.Element => {
     history.goBack()
   }
 
-  const handleCreateDocument = async () => {
+  const handleCreateDocument = async (): Promise<boolean> => {
     try {
       const payload = {
         reEnableKeys,
@@ -115,14 +115,19 @@ const TransferEntityTo: React.FC = (): JSX.Element => {
       console.log({ linkedResource })
       const addRes = await AddLinkedResource(signingClient, signer, linkedResource)
       console.log('AddLinkedResource', addRes)
+      if (addRes.code !== 0) {
+        throw addRes.rawLog
+      }
       successToast('Success', 'Successfully created document!')
+      return true
     } catch (e) {
       console.error(e)
       errorToast('Error at Signing', e)
+      return false
     }
   }
 
-  const handleSigningTransfer = async () => {
+  const handleSigningTransfer = async (): Promise<boolean> => {
     try {
       if (!entityId || !recipientDid) {
         // eslint-disable-next-line no-throw-literal
@@ -133,16 +138,23 @@ const TransferEntityTo: React.FC = (): JSX.Element => {
         throw rawLog
       }
       successToast('Success', 'Successfully transferred!')
+      return true
     } catch (e) {
       errorToast('Error at Signing', e)
+      return false
     }
   }
 
   const handleSubmit = async () => {
     setSubmitting(true)
 
-    await handleCreateDocument()
-    await handleSigningTransfer()
+    const created = await handleCreateDocument()
+    if (created) {
+      const signed = await handleSigningTransfer()
+      if (signed) {
+        history.push(`/entity/${entityId}/dashboard`)
+      }
+    }
 
     setSubmitting(false)
   }
