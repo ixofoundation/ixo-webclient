@@ -82,6 +82,7 @@ const ReviewProposal: React.FC = () => {
     makeStakeToGroupAction,
     makeSendGroupTokenAction,
     makeJoinAction,
+    makeAcceptToMarketplaceAction,
   } = useMakeProposalAction(coreAddress)
   const [selectedAction, setSelectedAction] = useState<TProposalActionModel | undefined>()
   const SetupActionModal = useMemo(() => {
@@ -169,6 +170,10 @@ const ReviewProposal: React.FC = () => {
               return makeStakeToGroupAction(data)
             case 'Send Group Tokens':
               return makeSendGroupTokenAction(data)
+
+            // Entities
+            case 'Accept to Marketplace':
+              return makeAcceptToMarketplaceAction(data)
 
             // Custom
             case 'Custom':

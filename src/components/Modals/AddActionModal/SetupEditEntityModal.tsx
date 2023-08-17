@@ -17,17 +17,6 @@ const Body = styled(FlexBox)`
   }
 `
 
-export interface ManageStorageItemsData {
-  setting: boolean
-  key: string
-  value: string
-}
-const initialState: ManageStorageItemsData = {
-  setting: true,
-  key: '',
-  value: '',
-}
-
 interface Props {
   open: boolean
   action: TProposalActionModel
@@ -44,16 +33,9 @@ const SetupEditEntityModal: React.FC<Props> = ({ open, action, onClose, onSubmit
     lineHeight: 28,
   }
   const history = useHistory()
-  const [, setFormData] = useState<ManageStorageItemsData>(initialState)
   const [chainId, setChainId] = useState(undefined)
   const [entityDid, setEntityDid] = useState('')
   const [validate, setValidate] = useState(false)
-
-  useEffect(() => {
-    if (action.data) {
-      setFormData(action.data)
-    }
-  }, [action.data])
 
   useEffect(() => {
     if (validateEntityDid(entityDid)) {

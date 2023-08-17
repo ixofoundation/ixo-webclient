@@ -45,6 +45,13 @@ export const selectAllClaimProtocols = createSelector(
   },
 )
 
+export const selectUnverifiedEntities = createSelector(
+  selectAllEntities,
+  (entities: TEntityModel[]): TEntityModel[] => {
+    return entities.filter((entity) => entity.entityVerified === false && entity.status === 0)
+  },
+)
+
 export const selectEntitiesFilter = createSelector(
   selectEntitiesState,
   (entitiesState: EntitiesExplorerState): Filter => {
@@ -141,6 +148,13 @@ export const selectedFilteredEntities = createSelector(
           (entityCategory) => entityCategory.category === 'Sector' && entityCategory.tags.includes(filter.sector),
         ),
       )
+    }
+
+    /**
+     * @description filter by entityVerified === true
+     */
+    if (filter.verified) {
+      filteredEntities = filteredEntities.filter((entity) => entity.entityVerified === filter.verified)
     }
 
     /**

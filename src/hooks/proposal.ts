@@ -51,6 +51,7 @@ import { DaoAdminExecData } from 'components/Modals/AddActionModal/SetupDAOAdmin
 import { SendGroupTokenData } from 'components/Modals/AddActionModal/SetupSendGroupTokenModal'
 import { ixo } from '@ixo/impactxclient-sdk'
 import { useCurrentEntityDAOGroup } from './currentEntity'
+import { AcceptToMarketplaceData } from 'components/Modals/AddActionModal/SetupAcceptToMarketplaceModal'
 
 export function useMakeProposalAction(coreAddress: string) {
   const { daoGroup } = useCurrentEntityDAOGroup(coreAddress)
@@ -698,6 +699,19 @@ export function useMakeProposalAction(coreAddress: string) {
     })
   }
 
+  const makeAcceptToMarketplaceAction = (data: AcceptToMarketplaceData): any => {
+    const { did } = data
+    return makeStargateMessage({
+      stargate: {
+        typeUrl: '/ixo.entity.v1beta1.MsgUpdateEntityVerified',
+        value: ixo.entity.v1beta1.MsgUpdateEntityVerified.fromPartial({
+          id: did,
+          entityVerified: true,
+        }),
+      },
+    })
+  }
+
   return {
     makeSpendAction,
     makeAuthzExecAction,
@@ -727,5 +741,6 @@ export function useMakeProposalAction(coreAddress: string) {
     makeStakeToGroupAction,
     makeSendGroupTokenAction,
     makeJoinAction,
+    makeAcceptToMarketplaceAction,
   }
 }
