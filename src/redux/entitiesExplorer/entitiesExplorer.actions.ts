@@ -32,8 +32,7 @@ const bsService = new BlockSyncService()
 
 const filterCondition = (entity: any) =>
   (entity.relayerNode === process.env.REACT_APP_RELAYER_NODE || entity.id === process.env.REACT_APP_RELAYER_NODE) &&
-  // TODO: enable below condition
-  // entity.entityVerified === true &&
+  entity.entityVerified === true &&
   !entity.type.includes('asset')
 
 export const getAllEntities =

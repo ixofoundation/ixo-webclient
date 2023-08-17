@@ -881,7 +881,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
         relayerNode,
         controller = [],
       } = payload
-      const { startDate, endDate } = profile
+      const { startDate, endDate } = createEntityState
       const res = await CreateEntity(signingClient, signer, [
         {
           entityType,
