@@ -700,13 +700,15 @@ export function useMakeProposalAction(coreAddress: string) {
   }
 
   const makeAcceptToMarketplaceAction = (data: AcceptToMarketplaceData): any => {
-    const { did } = data
+    const { did, relayerNodeDid, relayerNodeAddress } = data
     return makeStargateMessage({
       stargate: {
         typeUrl: '/ixo.entity.v1beta1.MsgUpdateEntityVerified',
         value: ixo.entity.v1beta1.MsgUpdateEntityVerified.fromPartial({
           id: did,
           entityVerified: true,
+          relayerNodeDid,
+          relayerNodeAddress,
         }),
       },
     })

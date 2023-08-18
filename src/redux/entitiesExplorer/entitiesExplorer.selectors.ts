@@ -48,7 +48,9 @@ export const selectAllClaimProtocols = createSelector(
 export const selectUnverifiedEntities = createSelector(
   selectAllEntities,
   (entities: TEntityModel[]): TEntityModel[] => {
-    return entities.filter((entity) => entity.entityVerified === false && entity.status === 0)
+    return entities
+      .filter((entity) => entity.entityVerified === false && entity.status === 0)
+      .filter((entity) => entity.type !== 'deed')
   },
 )
 

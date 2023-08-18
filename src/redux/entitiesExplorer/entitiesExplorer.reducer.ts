@@ -17,7 +17,7 @@ export const initialState: EntitiesExplorerState = {
     itemOffset: 0, //  for pagination
     dateFrom: '',
     dateTo: '',
-    verified: false,
+    verified: true,
   },
 } as any
 

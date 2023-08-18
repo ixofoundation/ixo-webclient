@@ -76,7 +76,7 @@ interface Props {
 
 const Groups: React.FC<Props> = ({ selectedGroup, selectDaoGroup }): JSX.Element | null => {
   const theme: any = useTheme()
-  const { daoGroups, isImpactsDAO, linkedEntity } = useCurrentEntity()
+  const { daoGroups, daoController, isImpactsDAO, linkedEntity } = useCurrentEntity()
   const [dragging, setDragging] = useState(false)
   const settings = {
     className: 'slider variable-width',
@@ -111,11 +111,12 @@ const Groups: React.FC<Props> = ({ selectedGroup, selectDaoGroup }): JSX.Element
 
   const renderGroupCard = (daoGroup: TDAOGroupModel): JSX.Element => {
     const Icon = DAOGroupConfig[daoGroup.type]?.icon
-    const members = isImpactsDAO
-      ? daoGroup.votingModule.members.filter((member: Member) =>
-          linkedEntity.some(({ type, id }) => type === 'MemberDAO' && id.includes(member.addr)),
-        )
-      : daoGroup.votingModule.members
+    const members =
+      isImpactsDAO && daoController === daoGroup.coreAddress
+        ? daoGroup.votingModule.members.filter((member: Member) =>
+            linkedEntity.some(({ type, id }) => type === 'MemberDAO' && id.includes(member.addr)),
+          )
+        : daoGroup.votingModule.members
 
     return (
       <FlexBox
