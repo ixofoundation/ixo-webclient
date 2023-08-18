@@ -12,13 +12,14 @@ import { ReactComponent as TimesCircleIcon } from 'assets/images/icon-times-circ
 import { ReactComponent as CheckCircleIcon } from 'assets/images/icon-check-circle.svg'
 import { ReactComponent as LockOpenIcon } from 'assets/images/icon-lock-open-solid.svg'
 import { ReactComponent as InfoIcon } from 'assets/images/icon-info.svg'
-import { AddLinkedResource, TransferEntity } from 'lib/protocol'
+import { AddLinkedResource, CheckIidDoc, CreateIidDocForGroup, TransferEntity } from 'lib/protocol'
 import { useAccount } from 'hooks/account'
 import { errorToast, successToast } from 'utils/toast'
 import { LinkedResource, VerificationMethod } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { customQueries, utils } from '@ixo/impactxclient-sdk'
 import { chainNetwork } from 'hooks/configs'
 import { LinkedResourceProofGenerator, LinkedResourceServiceEndpointGenerator } from 'utils/entities'
+import { v4 as uuidv4 } from 'uuid'
 
 const VMKeyMap = {
   authentication: 'Authentication',
@@ -103,7 +104,7 @@ const TransferEntityTo: React.FC = (): JSX.Element => {
       )
 
       const linkedResource: LinkedResource = {
-        id: '{id}#vm',
+        id: uuidv4(),
         type: 'text',
         description: 'verification key re-enabling',
         mediaType: 'application/ld+json',
@@ -132,6 +133,9 @@ const TransferEntityTo: React.FC = (): JSX.Element => {
       if (!entityId || !recipientDid) {
         // eslint-disable-next-line no-throw-literal
         throw 'EntityId or RecipientDid is invalid'
+      }
+      if (!(await CheckIidDoc(recipientDid))) {
+        await CreateIidDocForGroup(signingClient, signer, recipientDid)
       }
       const { code, rawLog } = await TransferEntity(signingClient, signer, { id: entityId, recipientDid })
       if (code !== 0) {

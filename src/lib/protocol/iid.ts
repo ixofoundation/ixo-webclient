@@ -56,6 +56,46 @@ export const CreateIidDoc = async (
   }
 }
 
+export const CreateIidDocForGroup = async (client: SigningStargateClient, signer: TSigner, did: string) => {
+  const address = did.replace('did:ixo:wasm:', '')
+
+  const message = {
+    typeUrl: '/ixo.iid.v1beta1.MsgCreateIidDocument',
+    value: ixo.iid.v1beta1.MsgCreateIidDocument.fromPartial({
+      context: customMessages.iid.createAgentIidContext(),
+      id: did,
+      alsoKnownAs: 'group',
+      verifications: [
+        ixo.iid.v1beta1.Verification.fromPartial({
+          relationships: ['authentication'],
+          method: ixo.iid.v1beta1.VerificationMethod.fromPartial({
+            id: did,
+            type: 'CosmosAccountAddress',
+            blockchainAccountID: address,
+            controller: '{id}',
+          }),
+        }),
+        ixo.iid.v1beta1.Verification.fromPartial({
+          relationships: ['authentication'],
+          method: ixo.iid.v1beta1.VerificationMethod.fromPartial({
+            id: did + '#' + address,
+            type: 'CosmosAccountAddress',
+            blockchainAccountID: address,
+            controller: '{id}',
+          }),
+        }),
+      ],
+      signer: signer.address,
+      controllers: [did],
+    }),
+  }
+
+  console.log('CreateIidDocForGroup', { message })
+  const response = await client.signAndBroadcast(signer.address, [message], fee)
+  console.log('CreateIidDocForGroup', { response })
+  return response
+}
+
 export const CheckIidDoc = async (did: string): Promise<IidDocument> => {
   try {
     const client = await createQueryClient(RPC_ENDPOINT!)
@@ -69,23 +109,6 @@ export const CheckIidDoc = async (did: string): Promise<IidDocument> => {
     return undefined!
   }
 }
-
-// const getAccountInfo = async (): Promise<{
-//   accountNumber?: number
-//   sequence?: number
-// }> => {
-//   try {
-//     if (!address) {
-//       throw `queryClient is not initialized!`
-//     }
-//     const { account } = await qc.cosmos.auth.v1beta1.account({ address })
-//     const { accountNumber, sequence } = accountFromAny(account)
-//     return { accountNumber, sequence }
-//   } catch (e) {
-//     console.error('getAccountInfo:', e)
-//     return {}
-//   }
-// }
 
 export const AddLinkedEntity = async (
   client: SigningStargateClient,
