@@ -43,9 +43,9 @@ interface Props {
   stakedValue: string
 }
 
-const BalanceCard: React.FC<Props> = ({ availableValue = '0', stakedValue = '0' }) => {
+const BalanceCard: React.FC<Props> = ({ availableValue = '0', stakedValue = '0.00' }) => {
   const theme: any = useTheme()
-  const totalValue = new BigNumber(availableValue).plus(new BigNumber(stakedValue)).toString()
+  const totalValue = new BigNumber(availableValue).plus(new BigNumber(stakedValue)).toFixed(2)
 
   return (
     <FlexBox direction='column' gap={4} p={8} background='#012D41' borderRadius='12px' color={theme.ixoWhite}>
