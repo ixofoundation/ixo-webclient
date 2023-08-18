@@ -4,6 +4,7 @@ import {
   LinkedEntity,
   LinkedResource,
   Service,
+  VerificationMethod,
 } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { useMemo } from 'react'
 import {
@@ -31,6 +32,8 @@ import {
   selectEntityLinkedAccounts,
   selectEntityClaim,
   selectEntityDAOGroups,
+  selectEntityVerificationMethod,
+  selectEntityController,
 } from 'redux/currentEntity/currentEntity.selectors'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { BlockSyncService } from 'services/blocksync'
@@ -70,12 +73,15 @@ export default function useCurrentEntity(): {
   accounts: EntityAccount[]
   linkedAccounts: LinkedEntity[]
   owner: string
+  controller: string[]
   service: Service[]
   claim: { [id: string]: TEntityClaimModel }
   startDate: string
   endDate: string
+  verificationMethod: VerificationMethod[]
   daoGroups: { [address: string]: TDAOGroupModel }
   selectedDAOGroup: TDAOGroupModel | undefined
+  daoController: string
   isImpactsDAO: boolean
   isMemberOfImpactsDAO: boolean
   isOwner: boolean
@@ -100,14 +106,23 @@ export default function useCurrentEntity(): {
   const accounts: EntityAccount[] = useAppSelector(selectEntityAccounts)
   const linkedAccounts: LinkedEntity[] = useAppSelector(selectEntityLinkedAccounts)
   const owner: string = useAppSelector(selectEntityOwner)
+  const controller: string[] = useAppSelector(selectEntityController)
   const service: Service[] = useAppSelector(selectEntityService)
   const claim: { [id: string]: TEntityClaimModel } = useAppSelector(selectEntityClaim)
   const startDate: string = useAppSelector(selectEntityStartDate)
   const endDate: string = useAppSelector(selectEntityEndDate)
+  const verificationMethod: VerificationMethod[] = useAppSelector(selectEntityVerificationMethod)
   const daoGroups: { [address: string]: TDAOGroupModel } = useAppSelector(selectEntityDAOGroups)
   const selectedDAOGroup: TDAOGroupModel | undefined = useMemo(
     () => Object.values(daoGroups).find((daoGroup) => daoGroup.selected),
     [daoGroups],
+  )
+  const daoController: string = useMemo(
+    () =>
+      Object.values(daoGroups)
+        .map((v) => v.coreAddress)
+        .find((addr) => verificationMethod.some((v) => v.id.includes(addr))) || '',
+    [daoGroups, verificationMethod],
   )
   const isImpactsDAO = id === IMPACTS_DAO_ID
   const isMemberOfImpactsDAO = useMemo(
@@ -202,12 +217,15 @@ export default function useCurrentEntity(): {
     accounts,
     linkedAccounts,
     owner,
+    controller,
     service,
     claim,
     startDate,
     endDate,
+    verificationMethod,
     daoGroups,
     selectedDAOGroup,
+    daoController,
     isImpactsDAO,
     isMemberOfImpactsDAO,
     isOwner,
