@@ -12,8 +12,8 @@ import { useAccount } from 'hooks/account'
 import { useTheme } from 'styled-components'
 import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { EntityLinkedResourceConfig } from 'constants/entity'
-
-const bsService = new BlockSyncService()
+import { useAppSelector } from 'redux/hooks'
+import { selectRelayerByChainId } from 'redux/configs/configs.selectors'
 
 const SelectCreationProcess: React.FC = (): JSX.Element => {
   const theme: any = useTheme()
@@ -41,6 +41,8 @@ const SelectCreationProcess: React.FC = (): JSX.Element => {
   const [chainId, setChainId] = useState(undefined)
   const [cloningEntityType, setCloningEntityType] = useState('')
 
+  const relayer = useAppSelector(selectRelayerByChainId(chainId!))
+
   const canClone = useMemo(() => chainId && cloningEntityType === 'dao', [chainId, cloningEntityType])
 
   const handleCreate = (): void => {
@@ -48,6 +50,7 @@ const SelectCreationProcess: React.FC = (): JSX.Element => {
   }
 
   const handleClone = (): void => {
+    const bsService = new BlockSyncService(relayer?.blocksync)
     bsService.entity.getEntityById(existingDid).then((entity: any) => {
       apiEntityToEntity({ entity, cwClient }, (key: string, value: any, merge) => {
         switch (key) {
@@ -89,6 +92,7 @@ const SelectCreationProcess: React.FC = (): JSX.Element => {
 
   useEffect(() => {
     if (validateEntityDid(existingDid)) {
+      const bsService = new BlockSyncService(relayer?.blocksync)
       bsService.entity
         .getEntityById(existingDid)
         .then((response: any) => {
@@ -98,7 +102,7 @@ const SelectCreationProcess: React.FC = (): JSX.Element => {
     } else {
       setCloningEntityType('')
     }
-  }, [existingDid])
+  }, [existingDid, relayer])
 
   return (
     <PageWrapper>

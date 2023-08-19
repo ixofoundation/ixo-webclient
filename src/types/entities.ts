@@ -606,6 +606,7 @@ export interface TEntityClaimEvaluationMethodModel {
 }
 export type TZlottie = any
 export interface TEntityModel extends Omit<Entity, 'metadata'>, IidDocument {
+  owner: string
   publicKey?: string
 
   profile?: TEntityProfileModel

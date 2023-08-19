@@ -54,3 +54,16 @@ export const selectEntityConfigByType = createSelector(
 
 export const selectEntityConfigByGivenType = (type: string) =>
   createSelector(selectConfigs, (configs: ConfigsState): any => configs.entityConfig && configs.entityConfig[type])
+
+/**
+ * @description RelayerConfig selectors
+ */
+export const selectRelayerConfig = createSelector(
+  selectConfigs,
+  (configs: ConfigsState): RelayerInfo[] => configs.relayersConfig,
+)
+
+export const selectRelayerByChainId = (chainId: string) =>
+  createSelector(selectRelayerConfig, (config: RelayerInfo[]): RelayerInfo | undefined =>
+    config.find((v) => v.chainId === chainId),
+  )
