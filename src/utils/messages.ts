@@ -149,6 +149,7 @@ export const typesRegistry = new Registry([
     ['/cosmos.authz.v1beta1.GenericAuthorization', GenericAuthorization],
     ['/cosmos.crypto.ed25519.PubKey', PubKey],
     ['/ixo.iid.v1beta1.MsgAddLinkedEntity', ixo.iid.v1beta1.MsgAddLinkedEntity],
+    ['/ixo.entity.v1beta1.MsgUpdateEntityVerified', ixo.entity.v1beta1.MsgUpdateEntityVerified],
   ] as ReadonlyArray<[string, GeneratedType]>),
 ])
 
