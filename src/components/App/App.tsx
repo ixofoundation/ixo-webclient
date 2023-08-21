@@ -4,10 +4,14 @@ import 'react-dates/lib/css/_datepicker.css'
 import 'assets/icons.css'
 import 'assets/toasts.scss'
 
-import blocksyncApi from 'api/blocksync/blocksync'
 import AssistantContext from 'contexts/assistant'
 import { AnyObject } from 'immer/dist/internal'
-import { changeEntitiesType, getAllEntities, getEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.actions'
+import {
+  changeEntitiesType,
+  getAllEntities,
+  getCollectionsAction,
+  getEntityConfig,
+} from 'redux/entitiesExplorer/entitiesExplorer.actions'
 import { EntityType, EntityConfig } from 'types/entities'
 import React from 'react'
 import * as ReactGA from 'react-ga'
@@ -63,6 +67,7 @@ export interface Props {
   handleChangeEntitiesType: (type: EntityType) => void
   handleGetAllEntities: () => void
   handleGetCustomTheme: () => void
+  handleGetCollections: () => void
 }
 
 class App extends React.Component<Props, State> {
@@ -79,6 +84,7 @@ class App extends React.Component<Props, State> {
   componentDidMount(): void {
     this.props.handleGetEntityConfig()
     this.props.handleGetCustomTheme()
+    this.props.handleGetCollections()
   }
   UNSAFE_componentWillReceiveProps(props: any): void {
     if (props.entityTypeMap !== this.props.entityTypeMap) {
@@ -136,25 +142,6 @@ class App extends React.Component<Props, State> {
 
   componentWillUnmount(): void {
     clearInterval(this.keySafeInterval)
-  }
-
-  handlePingExplorer = (): Promise<any> => {
-    return new Promise((resolve, reject) => {
-      const t0 = performance.now()
-      blocksyncApi.network
-        .pingIxoExplorer()
-        .then((result) => {
-          if (result === 'API is running') {
-            const t1 = performance.now()
-            resolve(Math.trunc(t1 - t0))
-          } else {
-            reject(0)
-          }
-        })
-        .catch(() => {
-          reject(0)
-        })
-    })
   }
 
   render(): JSX.Element {
@@ -245,6 +232,7 @@ const mapDispatchToProps = (dispatch: any): any => ({
   handleGetCustomTheme: (): void => dispatch(getCustomTheme()),
   handleChangeEntitiesType: (type: EntityType): void => dispatch(changeEntitiesType(type)),
   handleGetAllEntities: (): void => dispatch(getAllEntities()),
+  handleGetCollections: (): void => dispatch(getCollectionsAction()),
 })
 
 export const AppConnected = withRouter(connect(mapStateToProps, mapDispatchToProps)(App as any) as any)
