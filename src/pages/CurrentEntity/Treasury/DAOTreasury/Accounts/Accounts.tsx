@@ -49,8 +49,7 @@ const Accounts: React.FC = () => {
   const { getQuery } = useQuery()
   const expand: string | undefined = getQuery('expand')
   const { cwClient } = useAccount()
-  const { accounts: entityAccounts, linkedAccounts } = useCurrentEntity()
-  const { daoGroups } = useCurrentEntity()
+  const { accounts: entityAccounts, linkedAccounts, daoGroups } = useCurrentEntity()
 
   const [accounts, setAccounts] = useState<{
     [address: string]: TTreasuryAccountModel
@@ -65,9 +64,9 @@ const Accounts: React.FC = () => {
   const availableValue = useMemo(
     () =>
       Object.values(accounts)
-        .reduce((acc: TTreasuryCoinModel[], cur) => [...acc, ...Object.values(cur.coins)], [])
+        .flatMap((account) => (account.coins ? Object.values(account.coins) : []))
         .reduce(
-          (acc, cur) => new BigNumber(acc).plus(new BigNumber(cur.balance).times(cur.lastPriceUsd)).toString(),
+          (total, coin) => new BigNumber(total).plus(new BigNumber(coin.balance).times(coin.lastPriceUsd)).toFixed(2),
           '0',
         ),
     [accounts],
@@ -260,13 +259,12 @@ const Accounts: React.FC = () => {
     return () => {
       //
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(Object.keys(accounts))])
 
   return (
     <FlexBox direction='column' gap={6} width='100%' color='white'>
       <GridContainer columns={2} gridGap={6} width='100%'>
-        <BalanceCard availableValue={availableValue} stakedValue={'0'} />
+        <BalanceCard availableValue={availableValue} stakedValue={'0.00'} />
 
         <AccountsCard
           accounts={accounts}
