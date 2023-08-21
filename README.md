@@ -91,7 +91,7 @@ docker run -p 3000:3000 ixo-webclient:latest
 
 #### Docker-compose
 
-Modify the port value to the value specified in default.conf if it was changed
+Modify the port value to the value specified in default.conf if it was changed.
 
 ```shell
 docker-compose up -d
