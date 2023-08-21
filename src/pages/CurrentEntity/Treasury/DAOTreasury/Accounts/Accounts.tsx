@@ -259,6 +259,7 @@ const Accounts: React.FC = () => {
     return () => {
       //
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(Object.keys(accounts))])
 
   return (
