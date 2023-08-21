@@ -82,7 +82,6 @@ const ReviewProposal: React.FC = () => {
     makeStakeToGroupAction,
     makeSendGroupTokenAction,
     makeJoinAction,
-    makeAcceptToMarketplaceAction,
   } = useMakeProposalAction(coreAddress)
   const [selectedAction, setSelectedAction] = useState<TProposalActionModel | undefined>()
   const SetupActionModal = useMemo(() => {
@@ -170,10 +169,6 @@ const ReviewProposal: React.FC = () => {
               return makeStakeToGroupAction(data)
             case 'Send Group Tokens':
               return makeSendGroupTokenAction(data)
-
-            // Entities
-            case 'Accept to Marketplace':
-              return makeAcceptToMarketplaceAction(data)
 
             // Custom
             case 'Custom':
@@ -300,31 +295,27 @@ const ReviewProposal: React.FC = () => {
   }
 
   const handleSubmit = async () => {
-    try {
-      if (!isParticipating && !anyoneCanPropose) {
-        Toast.errorToast(null, 'You must be a member of the group')
-        return
-      }
-      setSubmitting(true)
-      const deedDid = await handleCreateDeed()
-      if (deedDid) {
-        const res = await handlePropose(deedDid)
-        if (res) {
-          const { proposalId } = res
+    if (!isParticipating && !anyoneCanPropose) {
+      Toast.errorToast(null, 'You must be a member of the group')
+      return
+    }
+    setSubmitting(true)
+    const deedDid = await handleCreateDeed()
+    if (deedDid) {
+      const res = await handlePropose(deedDid)
+      if (res) {
+        const { proposalId } = res
 
-          if (await handleAddProposalInfoAsLinkedEntity(deedDid, proposalId)) {
-            history.push({ pathname: history.location.pathname, search: `?success=true` })
-            updateDAOGroup(coreAddress)
-            setSubmitting(false)
-            return
-          }
+        if (await handleAddProposalInfoAsLinkedEntity(deedDid, proposalId)) {
+          history.push({ pathname: history.location.pathname, search: `?success=true` })
+          updateDAOGroup(coreAddress)
+          setSubmitting(false)
+          return
         }
       }
-      history.push({ pathname: history.location.pathname, search: `?success=false` })
-      setSubmitting(false)
-    } catch (e) {
-      console.error('handleSubmit', e)
     }
+    history.push({ pathname: history.location.pathname, search: `?success=false` })
+    setSubmitting(false)
   }
 
   return (

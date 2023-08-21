@@ -1,5 +1,5 @@
 import { EntityAccount } from '@ixo/impactxclient-sdk/types/codegen/ixo/entity/v1beta1/entity'
-import { LinkedEntity, Service, VerificationMethod } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
+import { LinkedEntity, Service } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { createSelector } from '@reduxjs/toolkit'
 import { RootState } from 'redux/store'
 import { TDAOGroupModel, TEntityClaimModel, TEntityModel } from 'types/entities'
@@ -55,11 +55,7 @@ export const selectEntityAccounts = createSelector(selectCurrentEntity, (entity:
 })
 
 export const selectEntityOwner = createSelector(selectCurrentEntity, (entity: TEntityModel): string => {
-  return entity.owner
-})
-
-export const selectEntityController = createSelector(selectCurrentEntity, (entity: TEntityModel): string[] => {
-  return entity.controller
+  return (entity as any).owner
 })
 
 export const selectEntityService = createSelector(selectCurrentEntity, (entity: TEntityModel): Service[] => {
@@ -80,13 +76,6 @@ export const selectEntityStartDate = createSelector(selectCurrentEntity, (entity
 export const selectEntityEndDate = createSelector(selectCurrentEntity, (entity: TEntityModel): string => {
   return entity.endDate as never as string
 })
-
-export const selectEntityVerificationMethod = createSelector(
-  selectCurrentEntity,
-  (entity: TEntityModel): VerificationMethod[] => {
-    return entity.verificationMethod
-  },
-)
 
 export const selectEntityDAOGroups = createSelector(
   selectCurrentEntity,

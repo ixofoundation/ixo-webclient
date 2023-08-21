@@ -11,12 +11,12 @@ import { findDAObyDelegateAccount } from 'utils/entities'
 import useCurrentEntity from 'hooks/currentEntity'
 
 const Membership: React.FC = (): JSX.Element | null => {
-  const { isImpactsDAO, linkedEntity, daoController } = useCurrentEntity()
+  const { isImpactsDAO, linkedEntity } = useCurrentEntity()
   const { selectedDAOGroup, selectDAOGroup } = useCurrentEntity()
   const daos = useAppSelector(selectEntitiesByType('dao'))
   const members: Member[] = useMemo(
     () =>
-      isImpactsDAO && daoController === selectedDAOGroup?.coreAddress
+      isImpactsDAO
         ? (selectedDAOGroup?.votingModule.members ?? [])
             .filter((member: Member) =>
               linkedEntity.some(({ type, id }) => type === 'MemberDAO' && id.includes(member.addr)),
@@ -28,14 +28,7 @@ const Membership: React.FC = (): JSX.Element | null => {
               return { ...member, avatar, name }
             })
         : selectedDAOGroup?.votingModule.members ?? [],
-    [
-      isImpactsDAO,
-      daoController,
-      selectedDAOGroup?.coreAddress,
-      selectedDAOGroup?.votingModule.members,
-      linkedEntity,
-      daos,
-    ],
+    [selectedDAOGroup, isImpactsDAO, daos, linkedEntity],
   )
 
   const [selectedMembers, setSelectedMembers] = useState<{ [key: string]: boolean }>({})

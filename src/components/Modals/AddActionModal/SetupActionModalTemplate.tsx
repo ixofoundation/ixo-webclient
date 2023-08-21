@@ -45,7 +45,6 @@ const SetupActionModalTemplate: React.FC<Props> = ({
 }): JSX.Element => {
   const theme: any = useTheme()
   const Icon = ProposalActionConfig[action.group].items[action.text].icon
-  const description = ProposalActionConfig[action.group].items[action.text].description
 
   return (
     // @ts-ignore
@@ -65,11 +64,6 @@ const SetupActionModalTemplate: React.FC<Props> = ({
         </FlexBox>
 
         <BodyWrapper width='100%' direction='column' gap={4}>
-          {description && (
-            <Typography weight='medium' size='md'>
-              {description}
-            </Typography>
-          )}
           {children}
         </BodyWrapper>
 

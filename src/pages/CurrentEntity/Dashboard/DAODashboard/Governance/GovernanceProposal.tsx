@@ -129,7 +129,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
   const { entityId } = useParams<{ entityId: string }>()
   const { isDark } = useContext(DashboardThemeContext)
   const { convertToDenom } = useIxoConfigs()
-  const { isImpactsDAO, isMemberOfImpactsDAO, isOwner, daoController } = useCurrentEntity()
+  const { isImpactsDAO, isMemberOfImpactsDAO, isOwner } = useCurrentEntity()
   const { daoGroup, proposalModuleAddress, isParticipating, depositInfo, tqData } =
     useCurrentEntityDAOGroup(coreAddress)
   const { cwClient, cosmWasmClient, address } = useAccount()
@@ -363,10 +363,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
                 isDark={isDark}
                 className={clsx({ disable: status !== 'open' || !!myVoteStatus })}
                 onClick={(): void => setVoteModalOpen(true)}
-                disabled={
-                  !isParticipating ||
-                  (isImpactsDAO && daoController === daoGroup.coreAddress && !isMemberOfImpactsDAO && !isOwner)
-                }
+                disabled={!isParticipating || (isImpactsDAO && !isMemberOfImpactsDAO && !isOwner)}
               >
                 {status === 'open' && !myVoteStatus ? 'New Vote' : 'My Vote'}
               </Action>
@@ -374,10 +371,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
                 <Action
                   isDark={isDark}
                   onClick={handleExecuteProposal}
-                  disabled={
-                    !isParticipating ||
-                    (isImpactsDAO && daoController === daoGroup.coreAddress && !isMemberOfImpactsDAO && !isOwner)
-                  }
+                  disabled={!isParticipating || (isImpactsDAO && !isMemberOfImpactsDAO && !isOwner)}
                 >
                   Execute
                 </Action>
@@ -386,10 +380,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
                 <Action
                   isDark={isDark}
                   onClick={handleCloseProposal}
-                  disabled={
-                    !isParticipating ||
-                    (isImpactsDAO && daoController === daoGroup.coreAddress && !isMemberOfImpactsDAO && !isOwner)
-                  }
+                  disabled={!isParticipating || (isImpactsDAO && !isMemberOfImpactsDAO && !isOwner)}
                 >
                   Close
                 </Action>

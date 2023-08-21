@@ -29,7 +29,6 @@ const initialState: TEntityModel = {
   accounts: [],
 
   // extracted payloads
-  owner: '',
   profile: undefined,
   creator: undefined,
   administrator: undefined,

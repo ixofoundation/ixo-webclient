@@ -9,51 +9,50 @@ The code defined for cloning of an entity from blocksync api call and prefilling
 <!-- NOTE-swimm-snippet: the lines below link your snippet to Swimm -->
 ### 📄 src/pages/CreateEntity/CreateClaim/Pages/SelectCreationProcess/SelectCreationProcess.tsx
 ```tsx
-56       const handleClone = (): void => {
-57         let claimQuestions = {}
-58         const bsService = new BlockSyncService(relayer?.blocksync)
-59         bsService.entity.getEntityById(existingDid).then((entity: any) => {
-60           apiEntityToEntity({ entity, cwClient }, (key: string, value: any, merge) => {
-61             switch (key) {
-62               case 'profile':
-63                 updateProfile(value)
-64                 break
-65               case 'creator':
-66                 updateCreator(value)
-67                 break
-68               case 'administrator':
-69                 updateAdministrator(value)
-70                 break
-71               case 'page':
-72                 updatePage(value)
-73                 break
-74               case 'ddoTags':
-75                 updateDDOTags(value)
-76                 break
-77               case 'service':
-78                 updateService(value)
-79                 break
-80               case 'linkedEntity':
-81                 updateLinkedEntity(value)
-82                 break
-83               case 'linkedResource':
-84                 updateLinkedResource(
-85                   value.filter((item: LinkedResource) => Object.keys(EntityLinkedResourceConfig).includes(item.type)),
-86                 )
-87                 break
-88               case 'claimQuestion':
-89                 claimQuestions = { ...claimQuestions, [value.id]: value }
-90                 updateClaimQuestions(claimQuestions)
+55       const handleClone = (): void => {
+56         let claimQuestions = {}
+57         bsService.entity.getEntityById(existingDid).then((entity: any) => {
+58           apiEntityToEntity({ entity, cwClient }, (key: string, value: any, merge) => {
+59             switch (key) {
+60               case 'profile':
+61                 updateProfile(value)
+62                 break
+63               case 'creator':
+64                 updateCreator(value)
+65                 break
+66               case 'administrator':
+67                 updateAdministrator(value)
+68                 break
+69               case 'page':
+70                 updatePage(value)
+71                 break
+72               case 'ddoTags':
+73                 updateDDOTags(value)
+74                 break
+75               case 'service':
+76                 updateService(value)
+77                 break
+78               case 'linkedEntity':
+79                 updateLinkedEntity(value)
+80                 break
+81               case 'linkedResource':
+82                 updateLinkedResource(
+83                   value.filter((item: LinkedResource) => Object.keys(EntityLinkedResourceConfig).includes(item.type)),
+84                 )
+85                 break
+86               case 'claimQuestion':
+87                 claimQuestions = { ...claimQuestions, [value.id]: value }
+88                 updateClaimQuestions(claimQuestions)
+89                 break
+90               default:
 91                 break
-92               default:
-93                 break
-94             }
-95           })
-96           // additional
-97           updateStartEndDate({ startDate: entity.startDate, endDate: entity.endDate })
-98         })
-99         history.push(`${baseLink}/profile`)
-100      }
+92             }
+93           })
+94           // additional
+95           updateStartEndDate({ startDate: entity.startDate, endDate: entity.endDate })
+96         })
+97         history.push(`${baseLink}/profile`)
+98       }
 ```
 
 <br/>
@@ -61,20 +60,21 @@ The code defined for cloning of an entity from blocksync api call and prefilling
 The code is responsible for fetching an entity's details based on its ID
 <!-- NOTE-swimm-snippet: the lines below link your snippet to Swimm -->
 ### 📄 src/pages/CreateEntity/CreateClaim/Pages/SelectCreationProcess/SelectCreationProcess.tsx
+<!-- collapsed -->
+
 ```tsx
-102      useEffect(() => {
-103        if (validateEntityDid(existingDid)) {
-104          const bsService = new BlockSyncService(relayer?.blocksync)
-105          bsService.entity
-106            .getEntityById(existingDid)
-107            .then((response: any) => {
-108              setCloningEntityType(response.type)
-109            })
-110            .catch(() => setCloningEntityType(''))
-111        } else {
-112          setCloningEntityType('')
-113        }
-114      }, [existingDid, relayer?.blocksync])
+96       useEffect(() => {
+97         if (validateEntityDid(existingDid)) {
+98           bsService.entity
+99             .getEntityById(existingDid)
+100            .then((response: any) => {
+101              setCloningEntityType(response.type)
+102            })
+103            .catch(() => setCloningEntityType(''))
+104        } else {
+105          setCloningEntityType('')
+106        }
+107      }, [existingDid])
 ```
 
 <br/>
