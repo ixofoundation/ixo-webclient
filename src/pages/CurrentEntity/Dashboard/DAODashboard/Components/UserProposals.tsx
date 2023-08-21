@@ -79,7 +79,7 @@ const UserProposals: React.FC<Props> = ({ show, coreAddress, userAddress, full =
   const history = useHistory()
   const { entityId } = useParams<{ entityId: string }>()
   const { address } = useAccount()
-  const { isImpactsDAO, isMemberOfImpactsDAO, isOwner, daoController } = useCurrentEntity()
+  const { isImpactsDAO, isMemberOfImpactsDAO, isOwner } = useCurrentEntity()
   const { daoGroup, proposals, numOfMembers } = useCurrentEntityDAOGroup(coreAddress)
 
   const isParticipating = useMemo(() => {
@@ -181,7 +181,7 @@ const UserProposals: React.FC<Props> = ({ show, coreAddress, userAddress, full =
     return null
   }
 
-  if (isImpactsDAO && daoController === daoGroup.coreAddress && !isMemberOfImpactsDAO && !isOwner) {
+  if (isImpactsDAO && !isMemberOfImpactsDAO && !isOwner) {
     return (
       <FlexBox height='100%' direction='column' justifyContent='space-between'>
         <Typography variant='secondary' size='2xl' color='dark-blue'>

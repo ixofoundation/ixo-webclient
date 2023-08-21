@@ -13,8 +13,8 @@ import { validateEntityDid } from 'utils/validation'
 import { useCreateEntityState } from 'hooks/createEntity'
 import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { EntityLinkedResourceConfig } from 'constants/entity'
-import { useAppSelector } from 'redux/hooks'
-import { selectRelayerByChainId } from 'redux/configs/configs.selectors'
+
+const bsService = new BlockSyncService()
 
 const SelectCreationProcess: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): JSX.Element => {
   const baseLink = match.path.split('/').slice(0, -1).join('/')
@@ -45,7 +45,6 @@ const SelectCreationProcess: React.FC<Pick<RouteComponentProps, 'match'>> = ({ m
   const [existingDid, setExistingDid] = useState('')
   const [chainId, setChainId] = useState(undefined)
   const [cloningEntityType, setCloningEntityType] = useState('')
-  const relayer = useAppSelector(selectRelayerByChainId(chainId!))
 
   const canClone = useMemo(() => chainId && cloningEntityType === 'protocol/claim', [chainId, cloningEntityType])
 
@@ -55,7 +54,6 @@ const SelectCreationProcess: React.FC<Pick<RouteComponentProps, 'match'>> = ({ m
 
   const handleClone = (): void => {
     let claimQuestions = {}
-    const bsService = new BlockSyncService(relayer?.blocksync)
     bsService.entity.getEntityById(existingDid).then((entity: any) => {
       apiEntityToEntity({ entity, cwClient }, (key: string, value: any, merge) => {
         switch (key) {
@@ -101,7 +99,6 @@ const SelectCreationProcess: React.FC<Pick<RouteComponentProps, 'match'>> = ({ m
 
   useEffect(() => {
     if (validateEntityDid(existingDid)) {
-      const bsService = new BlockSyncService(relayer?.blocksync)
       bsService.entity
         .getEntityById(existingDid)
         .then((response: any) => {
@@ -111,7 +108,7 @@ const SelectCreationProcess: React.FC<Pick<RouteComponentProps, 'match'>> = ({ m
     } else {
       setCloningEntityType('')
     }
-  }, [existingDid, relayer?.blocksync])
+  }, [existingDid])
 
   return (
     <PageWrapper>

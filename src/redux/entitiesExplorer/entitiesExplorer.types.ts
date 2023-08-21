@@ -10,7 +10,6 @@ export interface Filter {
   popularEntities: boolean
   query: string
   itemOffset: number
-  verified: boolean
 }
 
 export type TCollection = {

@@ -1,5 +1,5 @@
 import { Box } from 'components/App/App.styles'
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { ReactComponent as EntityIcon } from 'assets/images/icon-entity.svg'
 import { ReactComponent as CreatorIcon } from 'assets/images/icon-creator.svg'
 import { PageWrapper, Selections, SearchIcon } from './SelectCreationProcess.styles'
@@ -11,9 +11,8 @@ import { apiEntityToEntity } from 'utils/entities'
 import { useAccount } from 'hooks/account'
 import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { EntityLinkedResourceConfig } from 'constants/entity'
-import { useAppSelector } from 'redux/hooks'
-import { selectRelayerByChainId } from 'redux/configs/configs.selectors'
-import { validateEntityDid } from 'utils/validation'
+
+const bsService = new BlockSyncService()
 
 const SelectCreationProcess: React.FC = (): JSX.Element => {
   const theme: any = useTheme()
@@ -40,17 +39,14 @@ const SelectCreationProcess: React.FC = (): JSX.Element => {
   const [isClone, setIsClone] = useState(false)
   const [existingDid, setExistingDid] = useState('')
   const [chainId, setChainId] = useState(undefined)
-  const [cloningEntityType, setCloningEntityType] = useState('')
-  const relayer = useAppSelector(selectRelayerByChainId(chainId!))
 
-  const canClone = useMemo(() => chainId && cloningEntityType === 'project', [chainId, cloningEntityType])
+  const canClone = useMemo(() => existingDid.length > 0, [existingDid])
 
   const handleCreate = (): void => {
     gotoStep(1)
   }
 
   const handleClone = (): void => {
-    const bsService = new BlockSyncService(relayer?.blocksync)
     bsService.entity.getEntityById(existingDid).then((entity: any) => {
       apiEntityToEntity({ entity, cwClient }, (key: string, value: any, merge) => {
         switch (key) {
@@ -89,20 +85,6 @@ const SelectCreationProcess: React.FC = (): JSX.Element => {
     })
     gotoStep(1)
   }
-
-  useEffect(() => {
-    if (validateEntityDid(existingDid)) {
-      const bsService = new BlockSyncService(relayer?.blocksync)
-      bsService.entity
-        .getEntityById(existingDid)
-        .then((response: any) => {
-          setCloningEntityType(response.type)
-        })
-        .catch(() => setCloningEntityType(''))
-    } else {
-      setCloningEntityType('')
-    }
-  }, [existingDid, relayer?.blocksync])
 
   return (
     <PageWrapper>

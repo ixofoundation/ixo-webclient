@@ -105,7 +105,7 @@ export const votingRemainingDateFormat = (min: number): string => {
 }
 
 export function getDifference(a: number, b: number) {
-  const difference = Number((Number(a) - Number(b)).toFixed(2))
+  const difference = a - b
   if (difference >= 0) {
     return '+ ' + difference
   } else {
