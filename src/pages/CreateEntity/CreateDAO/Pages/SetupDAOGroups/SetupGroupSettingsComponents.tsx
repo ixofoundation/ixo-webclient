@@ -1,5 +1,5 @@
 import { FlexBox, SvgBox } from 'components/App/App.styles'
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { TDAOGroupModel } from 'types/entities'
 import { CardWrapper, PlusIcon } from './SetupGroupSettings.styles'
 import { Typography } from 'components/Typography'
@@ -13,6 +13,7 @@ import {
   Switch,
   TextArea,
 } from 'pages/CreateEntity/Components'
+import { union } from 'lodash'
 import { ReactComponent as InfoIcon } from 'assets/images/icon-info.svg'
 import { ReactComponent as ProfileIcon } from 'assets/images/icon-profile.svg'
 import { ReactComponent as TrashIcon } from 'assets/images/icon-trash.svg'
@@ -24,7 +25,6 @@ import { ReactComponent as ThresholdIcon } from 'assets/images/icon-threshold.sv
 import { ReactComponent as TokenContractIcon } from 'assets/images/icon-token-contract.svg'
 import { ReactComponent as CalendarIcon } from 'assets/images/icon-calendar.svg'
 import { DurationUnits } from 'types/dao'
-import * as _ from 'lodash'
 import Tooltip from 'components/Tooltip/Tooltip'
 import { validateTokenSymbol } from 'utils/validation'
 import {
@@ -141,7 +141,7 @@ export const GroupMemberships = ({ setData, data, inputHeight }: RenderGroupIden
   }
   const attachMembers = (membershipIdx: number, addresses: string[]): void => {
     const members = (data.memberships ?? [])[membershipIdx]?.members ?? ['']
-    handleUpdateMembership(membershipIdx, 'members', _.union(members.concat(addresses)))
+    handleUpdateMembership(membershipIdx, 'members', union(members.concat(addresses)))
   }
   const handleUpdateMember = (membershipIdx: number, memberIdx: number, value: string): void => {
     const members = (data.memberships ?? [])[membershipIdx]?.members ?? ['']
@@ -315,11 +315,11 @@ export const Staking = ({
   setUseExistingToken,
   inputHeight,
 }: DataStateProps & UseExistingTokenProps & { inputHeight: RenderGroupIdentityProps['inputHeight'] }): JSX.Element => {
+  const theme: any = useTheme()
+
   if (!data.token) {
     return <></>
   }
-
-  const theme: any = useTheme()
 
   const initialMembership = { category: '', weight: 10, members: [] }
 
@@ -855,7 +855,7 @@ export const UnstakingPeriod = ({
       setUnstakingDurationAmount(value)
       setUnstakingDurationUnits(units)
     }
-  }, [])
+  }, [data, setUnstakingDurationAmount, setUnstakingDurationUnits])
 
   useEffect(() => {
     const duration = convertDurationWithUnitsToDuration({
@@ -876,7 +876,7 @@ export const UnstakingPeriod = ({
           }
         : v,
     )
-  }, [unstakingDurationAmount, unstakingDurationUnits])
+  }, [unstakingDurationAmount, unstakingDurationUnits, setData])
 
   return (
     <CardWrapper direction='column' gap={5} marginBottom={7}>
@@ -931,7 +931,7 @@ export const VotingDuration = ({
       setProposalDurationAmount(value)
       setProposalDurationUnits(units)
     }
-  }, [])
+  }, [data.proposalModule.proposalConfig.max_voting_period, setProposalDurationAmount, setProposalDurationUnits])
 
   useEffect(() => {
     const duration = convertDurationWithUnitsToDuration({
@@ -948,7 +948,7 @@ export const VotingDuration = ({
         },
       },
     }))
-  }, [proposalDurationAmount, proposalDurationUnits])
+  }, [proposalDurationAmount, proposalDurationUnits, setData])
 
   return (
     <CardWrapper direction='column' gap={5}>
