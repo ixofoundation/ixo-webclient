@@ -50,7 +50,7 @@
     "@editorjs/warning": "1.2.0",
     "@gssuper/cosmodal": "^0.0.14",
     "@ixo/cosmos-chain-resolver": "^0.0.3",
-    "@ixo/impactxclient-sdk": "^1.1.12",
+    "@ixo/impactxclient-sdk": "^1.1.13",
     "@ixo/ixo-apimodule": "1.0.9",
     "@keplr-wallet/common": "^0.11.57",
     "@keplr-wallet/cosmos": "^0.11.57",
