@@ -94,51 +94,6 @@ export const CreateEntity = async (
   return response
 }
 
-// export const TransferEntity = async (entityDid: string): Promise<any> => {
-//   const client = await createClient()
-
-//   const tester = getUser()
-//   const account = (await tester.getAccounts())[0]
-//   const myAddress = account.address
-//   const did = tester.did
-
-//   const alice = getUser(WalletUsers.alice)
-
-//   const message = {
-//     typeUrl: '/ixo.entity.v1beta1.MsgTransferEntity',
-//     value: ixo.entity.v1beta1.MsgTransferEntity.fromPartial({
-//       entityDid: entityDid,
-//       ownerDid: did,
-//       ownerAddress: myAddress,
-//       recipientDid: alice.did,
-//     }),
-//   }
-
-//   const response = await client.signAndBroadcast(myAddress, [message], fee)
-//   return response
-// }
-
-// export const UpdateEntity = async (): Promise<any> => {
-//   const client = await createClient()
-
-//   const tester = getUser()
-//   const account = (await tester.getAccounts())[0]
-//   const myAddress = account.address
-//   const did = tester.did
-
-//   const message = {
-//     typeUrl: '/ixo.entity.v1beta1.MsgUpdateEntity',
-//     value: ixo.entity.v1beta1.MsgUpdateEntity.fromPartial({
-//       status: 1,
-//       controllerDid: did,
-//       controllerAddress: myAddress,
-//     }),
-//   }
-
-//   const response = await client.signAndBroadcast(myAddress, [message], fee)
-//   return response
-// }
-
 export const EntityList = async (request: QueryEntityListRequest): Promise<QueryEntityListResponse> => {
   try {
     const client = await createQueryClient(RPC_ENDPOINT!)
@@ -214,5 +169,37 @@ export const TransferEntity = async (
   console.log('TransferEntity', { message })
   const response: DeliverTxResponse = await client.signAndBroadcast(signer.address, [message], fee)
   console.log('TransferEntity', { response })
+  return response
+}
+
+export const UpdateEntity = async (
+  client: SigningStargateClient,
+  signer: TSigner,
+  payload: Partial<MsgUpdateEntity>,
+) => {
+  const queryClient = await createQueryClient(RPC_ENDPOINT!)
+  const entity = await queryClient.ixo.entity.v1beta1.entity({
+    id: payload?.id || signer.address,
+  })
+  if (!entity.entity) {
+    throw new Error('Entity not found')
+  }
+
+  const message = {
+    typeUrl: '/ixo.entity.v1beta1.MsgUpdateEntity',
+    value: ixo.entity.v1beta1.MsgUpdateEntity.fromPartial({
+      id: payload?.id || signer.did,
+      entityStatus: payload?.entityStatus || entity.entity.status,
+      startDate: payload?.startDate || entity.entity.startDate,
+      endDate: payload?.endDate || entity.entity.endDate,
+      credentials: payload?.credentials || entity.entity.credentials,
+      controllerDid: signer.did,
+      controllerAddress: signer.address,
+    }),
+  }
+
+  console.log('UpdateEntity', { message })
+  const response: DeliverTxResponse = await client.signAndBroadcast(signer.address, [message], fee)
+  console.log('UpdateEntity', { response })
   return response
 }

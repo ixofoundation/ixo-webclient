@@ -12,7 +12,7 @@ import { ReactComponent as TimesCircleIcon } from 'assets/images/icon-times-circ
 import { ReactComponent as CheckCircleIcon } from 'assets/images/icon-check-circle.svg'
 import { ReactComponent as LockOpenIcon } from 'assets/images/icon-lock-open-solid.svg'
 import { ReactComponent as InfoIcon } from 'assets/images/icon-info.svg'
-import { AddLinkedResource, CheckIidDoc, CreateIidDocForGroup, TransferEntity } from 'lib/protocol'
+import { AddLinkedResource, CheckIidDoc, CreateIidDocForGroup, TransferEntity, UpdateEntity } from 'lib/protocol'
 import { useAccount } from 'hooks/account'
 import { errorToast, successToast } from 'utils/toast'
 import { LinkedResource, VerificationMethod } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
@@ -128,6 +128,25 @@ const TransferEntityTo: React.FC = (): JSX.Element => {
     }
   }
 
+  const handleUpdateStatusToTransferred = async (): Promise<boolean> => {
+    try {
+      if (!entityId) {
+        // eslint-disable-next-line no-throw-literal
+        throw 'EntityId or RecipientDid is invalid'
+      }
+
+      const { code, rawLog } = await UpdateEntity(signingClient, signer, { id: entityId, entityStatus: 2 })
+      if (code !== 0) {
+        throw rawLog
+      }
+      successToast('Success', 'Successfully updated status to transferred!')
+      return true
+    } catch (e) {
+      errorToast('Error at Signing', e)
+      return false
+    }
+  }
+
   const handleSigningTransfer = async (): Promise<boolean> => {
     try {
       if (!entityId || !recipientDid) {
@@ -154,9 +173,12 @@ const TransferEntityTo: React.FC = (): JSX.Element => {
 
     const created = await handleCreateDocument()
     if (created) {
-      const signed = await handleSigningTransfer()
-      if (signed) {
-        history.push(`/entity/${entityId}/dashboard`)
+      const updateStatus = await handleUpdateStatusToTransferred()
+      if (updateStatus) {
+        const signed = await handleSigningTransfer()
+        if (signed) {
+          history.push(`/entity/${entityId}/dashboard`)
+        }
       }
     }
 
