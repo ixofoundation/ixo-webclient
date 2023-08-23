@@ -168,7 +168,7 @@ const AccountsCard: React.FC<Props> = ({ accounts, onSelect }) => {
       accessor: 'coins',
       renderCell: (cell: any) => {
         const balance = Object.values(cell.value as { [denom: string]: TTreasuryCoinModel }).reduce(
-          (acc, cur) => new BigNumber(cur.balance).times(cur.lastPriceUsd).plus(new BigNumber(acc)).toString(),
+          (acc, cur) => new BigNumber(cur.balance).times(cur.lastPriceUsd).plus(new BigNumber(acc)).toFixed(2),
           '0',
         )
         const network = cell.row.original?.network

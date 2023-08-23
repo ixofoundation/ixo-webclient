@@ -67,6 +67,7 @@ import { ReactComponent as SlidersHSolidIcon } from 'assets/images/icon-sliders-
 import { ReactComponent as VoteYeaIcon } from 'assets/images/icon-vote-yea-solid.svg'
 import { ReactComponent as VolumeUpIcon } from 'assets/images/icon-volume-up-solid.svg'
 import { ReactComponent as LinkedAccountIcon } from 'assets/images/icon-linked-account.svg'
+import { ReactComponent as CheckSquareIcon } from 'assets/images/icon-check-square.svg'
 import {
   SetupAuthzExecModal,
   SetupAuthzGrantModal,
@@ -98,6 +99,7 @@ import {
   SetupStakeToGroupModal,
   SetupSendGroupTokenModal,
   SetupUpdateVotingConfigModal,
+  SetupAcceptToMarketplaceModal,
 } from 'components/Modals/AddActionModal'
 
 export const EntitySettingsConfig: { [key: string]: any } = {
@@ -615,6 +617,14 @@ export const ProposalActionConfig = {
         icon: SlidersHSolidIcon,
         in: ['dao_voting_cw20_staked', 'dao_voting_cw4'],
         setupModal: SetupEditEntityModal,
+        disabled: true,
+      },
+      'Accept to Marketplace': {
+        text: 'Accept to Marketplace',
+        description: 'Every entity created on a marketplace has to be accepted by the DAO that runs the marketplace.',
+        icon: CheckSquareIcon,
+        in: ['dao_voting_cw20_staked', 'dao_voting_cw4'],
+        setupModal: SetupAcceptToMarketplaceModal,
       },
     },
   },
