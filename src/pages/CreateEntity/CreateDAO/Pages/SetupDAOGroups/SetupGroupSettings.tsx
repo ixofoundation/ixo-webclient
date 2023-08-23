@@ -5,7 +5,6 @@ import { useCreateEntity } from 'hooks/createEntity'
 import { deviceWidth } from 'constants/device'
 import { Member } from 'types/dao'
 import * as Toast from 'utils/toast'
-import * as _ from 'lodash'
 import { isAccountAddress } from 'utils/validation'
 import BigNumber from 'bignumber.js'
 import {
