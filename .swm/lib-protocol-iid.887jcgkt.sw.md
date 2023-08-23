@@ -5,6 +5,10 @@ file_version: 1.1.3
 app_version: 1.14.0
 ---
 
+**AddLinkedEntity**
+
+<br/>
+
 Function used to add a linked entity to a blockchain using provided signingClient and signer.
 <!-- NOTE-swimm-snippet: the lines below link your snippet to Swimm -->
 ### 📄 src/lib/protocol/iid.ts
@@ -33,6 +37,10 @@ Function used to add a linked entity to a blockchain using provided signingClien
 102      return response
 103    }
 ```
+
+<br/>
+
+**AddVerificationMethod**
 
 <br/>
 
@@ -69,7 +77,56 @@ Function used to add a verification method to a blockchain using provided signin
 
 <br/>
 
+**CreateIidDocForGroup**
+
 <br/>
+
+Function used to create a iid document for dao group address using provided signingClient, signer and did.
+<!-- NOTE-swimm-snippet: the lines below link your snippet to Swimm -->
+### 📄 src/lib/protocol/iid.ts
+<!-- collapsed -->
+
+```typescript
+59     export const CreateIidDocForGroup = async (client: SigningStargateClient, signer: TSigner, did: string) => {
+60       const address = did.replace('did:ixo:wasm:', '')
+61     
+62       const message = {
+63         typeUrl: '/ixo.iid.v1beta1.MsgCreateIidDocument',
+64         value: ixo.iid.v1beta1.MsgCreateIidDocument.fromPartial({
+65           context: customMessages.iid.createAgentIidContext(),
+66           id: did,
+67           alsoKnownAs: 'group',
+68           verifications: [
+69             ixo.iid.v1beta1.Verification.fromPartial({
+70               relationships: ['authentication'],
+71               method: ixo.iid.v1beta1.VerificationMethod.fromPartial({
+72                 id: did,
+73                 type: 'CosmosAccountAddress',
+74                 blockchainAccountID: address,
+75                 controller: '{id}',
+76               }),
+77             }),
+78             ixo.iid.v1beta1.Verification.fromPartial({
+79               relationships: ['authentication'],
+80               method: ixo.iid.v1beta1.VerificationMethod.fromPartial({
+81                 id: did + '#' + address,
+82                 type: 'CosmosAccountAddress',
+83                 blockchainAccountID: address,
+84                 controller: '{id}',
+85               }),
+86             }),
+87           ],
+88           signer: signer.address,
+89           controllers: [did],
+90         }),
+91       }
+92     
+93       console.log('CreateIidDocForGroup', { message })
+94       const response = await client.signAndBroadcast(signer.address, [message], fee)
+95       console.log('CreateIidDocForGroup', { response })
+96       return response
+97     }
+```
 
 <br/>
 

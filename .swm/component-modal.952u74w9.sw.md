@@ -9,6 +9,8 @@ A modal used when publishing a proposal for accepting to marketplace<br/>
 (MsgUpdateEntityVerified to update entityVerified: true)
 <!-- NOTE-swimm-snippet: the lines below link your snippet to Swimm -->
 ### 📄 src/components/Modals/AddActionModal/SetupAcceptToMarketplaceModal.tsx
+<!-- collapsed -->
+
 ```tsx
 29     const SetupAcceptToMarketplaceModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
 30       const unverifiedEntities = useAppSelector(selectUnverifiedEntities)
@@ -74,6 +76,84 @@ A modal used when publishing a proposal for accepting to marketplace<br/>
 90         </SetupActionModalTemplate>
 91       )
 92     }
+```
+
+<br/>
+
+A modal used when transferring entity with toDid input field and validation check
+<!-- NOTE-swimm-snippet: the lines below link your snippet to Swimm -->
+### 📄 src/components/Modals/TransferEntityModal/index.tsx
+<!-- collapsed -->
+
+```tsx
+19     const TransferEntityModal: React.FC<Props> = ({ open, recipientDid, onClose, onSubmit }): JSX.Element => {
+20       const theme: any = useTheme()
+21       const [did, setDid] = useState('')
+22     
+23       useEffect(() => {
+24         setDid('')
+25       }, [open])
+26     
+27       return (
+28         // @ts-ignore
+29         <Modal style={ModalStyles} isOpen={open} onRequestClose={onClose} contentLabel='Modal' ariaHideApp={false}>
+30           <CloseButton onClick={onClose}>
+31             <CloseIcon />
+32           </CloseButton>
+33     
+34           <FlexBox direction='column' gap={8} width={'700px'}>
+35             <Typography weight='medium' size='xl'>
+36               Transfer Entity
+37             </Typography>
+38     
+39             <FlexBox width='100%' direction='column' gap={4}>
+40               <FlexBox direction='column' width='100%' gap={4}>
+41                 <Typography>Paste the recipient ixo DID</Typography>
+42                 <InputWithLabel
+43                   name='ixo_did'
+44                   height='48px'
+45                   label='Recipient ixo did'
+46                   inputValue={did}
+47                   handleChange={(value) => setDid(value)}
+48                   wrapperStyle={{
+49                     color: did ? (validateDid(did) ? theme.ixoGreen : theme.ixoRed) : theme.ixoNewBlue,
+50                   }}
+51                 />
+52                 {did && !validateDid(did) && (
+53                   <FlexBox width='100%' justifyContent='flex-end' alignItems='center' gap={2}>
+54                     <Typography size='xl'>Not a valid ixo DID</Typography>
+55                     <SvgBox color={theme.ixoRed}>
+56                       <TimesCircleIcon />
+57                     </SvgBox>
+58                   </FlexBox>
+59                 )}
+60                 {did && validateDid(did) && (
+61                   <FlexBox width='100%' justifyContent='flex-end' alignItems='center' gap={2}>
+62                     <Typography size='xl'>Valid ixo DID</Typography>
+63                     <SvgBox color={theme.ixoGreen}>
+64                       <CheckCircleIcon />
+65                     </SvgBox>
+66                   </FlexBox>
+67                 )}
+68               </FlexBox>
+69             </FlexBox>
+70     
+71             {onSubmit && (
+72               <FlexBox width='100%'>
+73                 <Button
+74                   variant='primary'
+75                   onClick={() => onSubmit(did)}
+76                   disabled={!validateDid(did)}
+77                   style={{ width: '100%' }}
+78                 >
+79                   Confirm
+80                 </Button>
+81               </FlexBox>
+82             )}
+83           </FlexBox>
+84         </Modal>
+85       )
+86     }
 ```
 
 <br/>
