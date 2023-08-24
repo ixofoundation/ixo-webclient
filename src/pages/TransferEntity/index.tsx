@@ -9,6 +9,7 @@ import { TEntityModel } from 'types/entities'
 import { FlexBox } from 'components/App/App.styles'
 import TransferEntityToDAOGroup from './TransferEntityToDAOGroup'
 import TransferEntityTo from './TransferEntityTo'
+import TransferEntityReview from './TransferEntityReview'
 
 const TransferEntity: React.FC = (): JSX.Element => {
   const { did } = useSigner()
@@ -35,6 +36,7 @@ const TransferEntity: React.FC = (): JSX.Element => {
         <>
           <Route strict path={`/transfer/entity/:entityId/group`} component={TransferEntityToDAOGroup} />
           <Route strict path={`/transfer/entity/:entityId/to`} component={TransferEntityTo} />
+          <Route strict path={`/transfer/entity/:entityId/review`} component={TransferEntityReview} />
 
           <Route exact path='/transfer/entity/:entityId'>
             {selectedEntity?.type === 'dao' ? (

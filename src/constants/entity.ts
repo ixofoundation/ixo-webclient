@@ -697,3 +697,11 @@ export const ProposalActionConfigMap = {
     setupModal: SetupUpdateVotingConfigModal,
   },
 }
+
+export const VMKeyMap = {
+  authentication: 'Authentication',
+  assertionMethod: 'Assertion Method',
+  keyAgreement: 'Key Agreement',
+  capabilityInvocation: 'Capability Invocation',
+  capabilityDelegation: 'Capability Delegation',
+}

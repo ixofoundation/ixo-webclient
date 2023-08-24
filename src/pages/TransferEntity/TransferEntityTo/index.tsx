@@ -20,14 +20,7 @@ import { customQueries, utils } from '@ixo/impactxclient-sdk'
 import { chainNetwork } from 'hooks/configs'
 import { LinkedResourceProofGenerator, LinkedResourceServiceEndpointGenerator } from 'utils/entities'
 import { v4 as uuidv4 } from 'uuid'
-
-const VMKeyMap = {
-  authentication: 'Authentication',
-  assertionMethod: 'Assertion Method',
-  keyAgreement: 'Key Agreement',
-  capabilityInvocation: 'Capability Invocation',
-  capabilityDelegation: 'Capability Delegation',
-}
+import { VMKeyMap } from 'constants/entity'
 
 const TransferEntityTo: React.FC = (): JSX.Element => {
   const theme: any = useTheme()
@@ -67,6 +60,9 @@ const TransferEntityTo: React.FC = (): JSX.Element => {
 
   useEffect(() => {
     setKeys(verificationMethods)
+    return () => {
+      setKeys([])
+    }
   }, [verificationMethods])
 
   const getVMKeyType = (vmId: string): string => {
@@ -122,8 +118,8 @@ const TransferEntityTo: React.FC = (): JSX.Element => {
       successToast('Success', 'Successfully created document!')
       return true
     } catch (e) {
-      console.error(e)
-      errorToast('Error at Signing', e)
+      console.error('handleCreateDocument', e)
+      errorToast('Error at Signing', typeof e === 'string' && e)
       return false
     }
   }
@@ -142,7 +138,8 @@ const TransferEntityTo: React.FC = (): JSX.Element => {
       successToast('Success', 'Successfully updated status to transferred!')
       return true
     } catch (e) {
-      errorToast('Error at Signing', e)
+      console.error('handleUpdateStatusToTransferred', e)
+      errorToast('Error at Signing', typeof e === 'string' && e)
       return false
     }
   }
@@ -163,7 +160,8 @@ const TransferEntityTo: React.FC = (): JSX.Element => {
       successToast('Success', 'Successfully transferred!')
       return true
     } catch (e) {
-      errorToast('Error at Signing', e)
+      console.error('handleSigningTransfer', e)
+      errorToast('Error at Signing', typeof e === 'string' && e)
       return false
     }
   }
