@@ -48,6 +48,9 @@ export interface TCreateEntityState extends TCreateEntityModel {
   }
   claimQuestionJSON?: any
 
+  // for Investment
+  bondDid?: string
+
   // extra
   stepNo: number
   breadCrumbs: { text: string; link?: string }[]
@@ -83,6 +86,8 @@ export enum ECreateEntityActions {
   UpdateDAOController = 'ixo/create/entity/UPDATE_DAO_CONTROLLER',
   // for Proposal
   UpdateProposal = 'ixo/create/entity/UPDATE_PROPOSAL',
+  // for Investment
+  UpdateBondDid = 'ixo/create/entity/UPDATE_BOND_DID',
   // for Claim
   UpdateClaimQuestions = 'ixo/create/entity/UPDATE_CLAIM_QUESTIONS',
   UpdateClaimQuestionJSON = 'ixo/create/entity/UPDATE_CLAIM_QUESTION_JSON',
@@ -195,6 +200,10 @@ export interface TUpdateClaimQuestionJSONAction {
   type: typeof ECreateEntityActions.UpdateClaimQuestionJSON
   payload: any
 }
+export interface TUpdateBondDidAction {
+  type: typeof ECreateEntityActions.UpdateBondDid
+  payload: string
+}
 
 export type TCreateEntityActionTypes =
   | TUpdateEntityTypeAction
@@ -223,3 +232,4 @@ export type TCreateEntityActionTypes =
   | TUpdateProposalAction
   | TUpdateClaimQuestionsAction
   | TUpdateClaimQuestionJSONAction
+  | TUpdateBondDidAction

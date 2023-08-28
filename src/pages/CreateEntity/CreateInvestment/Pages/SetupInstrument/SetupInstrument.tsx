@@ -7,8 +7,8 @@ import { useCreateEntityState } from 'hooks/createEntity'
 import { InvestmentInstrumentsConfig } from 'constants/entity'
 
 const SetupInstrument: React.FC = (): JSX.Element => {
-  const { gotoStep } = useCreateEntityState()
-  const [investmentInstrument, setInvestmentInstrument] = useState<{ [key: string]: any }>({})
+  const { bondDid, gotoStep, updateBondDid } = useCreateEntityState()
+  const [investmentInstrument, setInvestmentInstrument] = useState<Record<string, any>>({})
   const [openAddInstrumentModal, setOpenAddInstrumentModal] = useState(false)
 
   // const canSubmit = useMemo(() => !!investmentInstrument?.alphaBond?.data, [investmentInstrument])
@@ -53,10 +53,14 @@ const SetupInstrument: React.FC = (): JSX.Element => {
         onClose={(): void => setOpenAddInstrumentModal(false)}
         handleChange={(key: string): void => handleOpenAddInstrumentModal(key, true)}
       />
-      <CreateBondModal
-        open={investmentInstrument.alphaBond?.openModal}
-        onClose={(): void => handleOpenAddInstrumentModal('alphaBond', false)}
-      />
+      {investmentInstrument.alphaBond?.openModal && (
+        <CreateBondModal
+          open={investmentInstrument.alphaBond?.openModal}
+          bondDid={bondDid}
+          onSubmit={updateBondDid}
+          onClose={(): void => handleOpenAddInstrumentModal('alphaBond', false)}
+        />
+      )}
     </Box>
   )
 }

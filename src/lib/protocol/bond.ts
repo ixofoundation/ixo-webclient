@@ -7,8 +7,25 @@ import {
   QueryLastBatchResponse,
 } from '@ixo/impactxclient-sdk/types/codegen/ixo/bonds/v1beta1/query'
 import { DeliverTxResponse } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/stargate'
-import { fee, RPC_ENDPOINT } from './common'
+import { fee, RPC_ENDPOINT, TSigner } from './common'
 import { Coin } from '@cosmjs/proto-signing'
+import { MsgCreateBond } from '@ixo/impactxclient-sdk/types/codegen/ixo/bonds/v1beta1/tx'
+
+export const CreateBond = async (
+  client: SigningStargateClient,
+  signer: TSigner,
+  payload: MsgCreateBond,
+): Promise<DeliverTxResponse> => {
+  const message = {
+    typeUrl: '/ixo.bonds.v1beta1.MsgCreateBond',
+    value: ixo.bonds.v1beta1.MsgCreateBond.fromPartial(payload),
+  }
+
+  console.log('CreateBond', { message })
+  const response = await client.signAndBroadcast(signer.address, [message], fee)
+  console.log('CreateBond', { response })
+  return response
+}
 
 export const Buy = async (
   client: SigningStargateClient,

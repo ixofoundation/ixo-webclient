@@ -39,6 +39,7 @@ import {
   updateClaimQuestionsAction,
   updateStartEndDateAction,
   updateClaimQuestionJSONAction,
+  updateBondDidAction,
 } from 'redux/createEntity/createEntity.actions'
 import {
   selectCreateEntityAccordedRight,
@@ -66,6 +67,7 @@ import {
   selectCreateEntityEndDate,
   selectCreateEntityHeadlineClaim,
   selectCreateEntityClaimQuestionJSON,
+  selectCreateEntityBondDid,
 } from 'redux/createEntity/createEntity.selectors'
 import {
   CreateEntityStrategyMap,
@@ -141,6 +143,7 @@ interface TCreateEntityStateHookRes {
   proposal: TProposalModel
   claimQuestions: { [id: string]: TQuestion }
   claimQuestionJSON: any
+  bondDid: string
   validateRequiredProperties: boolean
   updateEntityType: (entityType: string) => void
   clearEntity: () => void
@@ -169,6 +172,7 @@ interface TCreateEntityStateHookRes {
   updateProposal: (proposal: TProposalModel) => void
   updateClaimQuestions: (claimQuestions: { [id: string]: TQuestion }) => void
   updateClaimQuestionJSON: (claimQuestionJSON: any) => void
+  updateBondDid: (bondDid: string) => void
 }
 
 export function useCreateEntityState(): TCreateEntityStateHookRes {
@@ -200,6 +204,8 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
   const daoController: string = useAppSelector(selectCreateEntityDAOController)
   // for Proposal
   const proposal: TProposalModel = useAppSelector(selectCreateEntityProposal)
+  // for Investment
+  const bondDid: string = useAppSelector(selectCreateEntityBondDid)
   // for Claim
   const claimQuestions: { [id: string]: TQuestion } = useAppSelector(selectCreateEntityClaimQuestions)
   const claimQuestionJSON: any = useAppSelector(selectCreateEntityClaimQuestionJSON)
@@ -310,6 +316,9 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
   const updateClaimQuestionJSON = (claimQuestionJSON: any): void => {
     dispatch(updateClaimQuestionJSONAction(claimQuestionJSON))
   }
+  const updateBondDid = (bondDid: string): void => {
+    dispatch(updateBondDidAction(bondDid))
+  }
 
   return {
     entityType,
@@ -337,6 +346,7 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
     proposal,
     claimQuestions,
     claimQuestionJSON,
+    bondDid,
     validateRequiredProperties,
     updateEntityType,
     clearEntity,
@@ -365,6 +375,7 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
     updateProposal,
     updateClaimQuestions,
     updateClaimQuestionJSON,
+    updateBondDid,
   }
 }
 

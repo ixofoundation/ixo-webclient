@@ -9,6 +9,7 @@ import { useIxoConfigs } from 'hooks/configs'
 import { FormCardProps } from 'types/protocol'
 import { AlphaBondInfo } from 'types/bond'
 import CreateBondSigningModal from './CreateBondSigningModal'
+import BigNumber from 'bignumber.js'
 
 const SubmitButton = styled.button`
   background-color: ${(props): string => props.theme.ixoNewBlue};
@@ -47,10 +48,10 @@ const ConfigureAlphaBondCard: FunctionComponent<Props> = ({ formData, handleUpda
       formData?.reserveToken &&
       formData?.feeAddress &&
       formData?.reserveWithdrawalAddress &&
-      formData?.maxSupply > 0 &&
-      formData?.initialPrice > 0 &&
-      formData?.initialSupply > 0 &&
-      formData?.outcomePayment > 0 &&
+      new BigNumber(formData?.maxSupply).isGreaterThan(0) &&
+      new BigNumber(formData?.initialPrice).isGreaterThan(0) &&
+      new BigNumber(formData?.initialSupply).isGreaterThan(0) &&
+      new BigNumber(formData?.outcomePayment).isGreaterThan(0) &&
       formData?.targetRaise > 0 &&
       formData?.minimumYield > 0 &&
       formData?.period > 0,

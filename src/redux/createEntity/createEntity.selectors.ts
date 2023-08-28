@@ -144,3 +144,9 @@ export const selectCreateEntityClaimQuestionJSON = createSelector(
   selectCreateEntity,
   (createEntity: TCreateEntityState): any => createEntity.claimQuestionJSON ?? { pages: [] },
 )
+
+// for Investment
+export const selectCreateEntityBondDid = createSelector(
+  selectCreateEntity,
+  (createEntity: TCreateEntityState): string => createEntity.bondDid || '',
+)
