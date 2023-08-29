@@ -24,7 +24,6 @@ import {
   UpdateCw20TokensAction,
   UpdateNativeTokensAction,
 } from './account.types'
-import { RootState } from 'redux/store'
 import { Dispatch } from 'redux'
 import Axios from 'axios'
 import { displayTokenAmount, getDisplayAmount } from 'utils/currency'
@@ -231,64 +230,6 @@ export const getTransactionsByAsset =
         }),
       ),
     })
-  }
-
-export const updateLoginStatus =
-  () =>
-  (dispatch: Dispatch, getState: () => RootState): any => {
-    // const {
-    //   account: { userInfo, address },
-    // } = getState()
-    // if (!keysafe) {
-    //   if (userInfo !== null) {
-    //     return dispatch(logout())
-    //   }
-    //   return
-    // }
-    // keysafe.getInfo((error: any, response: any) => {
-    //   if (response) {
-    //     const newUserInfo = { ...response, loggedInKeysafe: true }
-    //     if (address) {
-    //       getAccount(address)(dispatch)
-    //       getUSDRate()(dispatch)
-    //     }
-    //     blocksyncApi.user
-    //       .getDidDoc(newUserInfo.didDoc.did)
-    //       .then((didResponse: any) => {
-    //         if (didResponse.error) {
-    //           newUserInfo.ledgered = false
-    //           newUserInfo.hasKYC = false
-    //         } else {
-    //           newUserInfo.ledgered = true
-    //           newUserInfo.hasKYC = didResponse.credentials.length > 0
-    //         }
-    //         if (JSON.stringify(userInfo) !== JSON.stringify(newUserInfo)) {
-    //           Axios.get(`${process.env.REACT_APP_GAIA_URL}/pubKeyToAddr/${newUserInfo.didDoc.pubKey}`).then(
-    //             (addressResponse) => {
-    //               const address = addressResponse.data.result
-    //               Axios.get(`${process.env.REACT_APP_GAIA_URL}/auth/accounts/${address}`).then((response) => {
-    //                 const account = _.get(response.data.result, 'value.base_vesting_account.base_account', null)
-    //                 if (account) {
-    //                   const { account_number: accountNumber, sequence } = account
-    //                   dispatch(login(newUserInfo, address, accountNumber, sequence))
-    //                   return
-    //                 }
-    //                 const { account_number: accountNumber, sequence } = response.data.result.value
-    //                 dispatch(login(newUserInfo, address, accountNumber, sequence))
-    //               })
-    //             },
-    //           )
-    //         }
-    //       })
-    //       .catch((e) => {
-    //         console.log('blocksyncApi.user.getDidDoc', e)
-    //       })
-    //   } else {
-    //     if (userInfo !== null) {
-    //       dispatch(logout())
-    //     }
-    //   }
-    // })
   }
 
 export const toggleAssistant = (

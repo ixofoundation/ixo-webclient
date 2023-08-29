@@ -10,21 +10,32 @@ export interface Filter {
   popularEntities: boolean
   query: string
   itemOffset: number
+  verified: boolean
+}
+
+export type TCollection = {
+  collection: TEntityModel
+  entities: TEntityModel[]
 }
 
 export interface EntitiesExplorerState {
-  entities2: { [id: string]: TEntityModel }
+  entities: { [id: string]: TEntityModel }
+  collections: TCollection[]
   entityConfig: EntityConfig
   selectedEntitiesType: string
   filter: Filter
 }
 
 export enum EntitiesExplorerActions {
-  GetEntities2 = 'ixo/EntitiesExplorer/GET_ENTITIES2',
-  GetEntities2Success = 'ixo/EntitiesExplorer/GET_ENTITIES2_FULFILLED',
-  GetEntities2Pending = 'ixo/EntitiesExplorer/GET_ENTITIES2_PENDING',
-  GetEntities2Failure = 'ixo/EntitiesExplorer/GET_ENTITIES2_REJECTED',
-  GetIndividualEntity2 = 'ixo/EntitiesExplorer/GET_INDIVIDUAL_ENTITY2',
+  GetEntities = 'ixo/EntitiesExplorer/GET_ENTITIES',
+  GetEntitiesSuccess = 'ixo/EntitiesExplorer/GET_ENTITIES_FULFILLED',
+  GetEntitiesPending = 'ixo/EntitiesExplorer/GET_ENTITIES_PENDING',
+  GetEntitiesFailure = 'ixo/EntitiesExplorer/GET_ENTITIES_REJECTED',
+  GetCollections = 'ixo/EntitiesExplorer/GET_COLLECTIONS',
+  GetCollectionsSuccess = 'ixo/EntitiesExplorer/GET_COLLECTIONS_FULFILLED',
+  GetCollectionsPending = 'ixo/EntitiesExplorer/GET_COLLECTIONS_PENDING',
+  GetCollectionsFailure = 'ixo/EntitiesExplorer/GET_COLLECTIONS_REJECTED',
+  GetIndividualEntity = 'ixo/EntitiesExplorer/GET_INDIVIDUAL_ENTITY',
   UpdateEntityById = 'ixo/EntitiesExplorer/UPDATE_ENTITY_BY_ID',
   GetEntityConfig = 'ixo/EntitiesExplorer/GET_ENTITYCONFIG',
   GetEntityConfigSuccess = 'ixo/EntitiesExplorer/GET_ENTITYCONFIG_FULFILLED',
@@ -47,21 +58,29 @@ export enum EntitiesExplorerActions {
   FilterQuery = 'ixo/EntitiesExplorer/FILTER_QUERY',
 }
 
-export interface GetEntities2Action {
-  type: typeof EntitiesExplorerActions.GetEntities2
+export interface GetEntitiesAction {
+  type: typeof EntitiesExplorerActions.GetEntities
   payload: Promise<TEntityModel[]>
 }
 
-export interface GetEntities2SuccessAction {
-  type: typeof EntitiesExplorerActions.GetEntities2Success
+export interface GetEntitiesSuccessAction {
+  type: typeof EntitiesExplorerActions.GetEntitiesSuccess
   payload: TEntityModel[]
+}
+export interface GetCollectionsAction {
+  type: typeof EntitiesExplorerActions.GetCollections
+  payload: Promise<TCollection[]>
+}
+export interface GetCollectionsSuccessAction {
+  type: typeof EntitiesExplorerActions.GetCollectionsSuccess
+  payload: TCollection[]
 }
 export interface UpdateEntityByIdAction {
   type: typeof EntitiesExplorerActions.UpdateEntityById
   payload: TEntityModel
 }
-export interface GetIndividualEntityAction2 {
-  type: typeof EntitiesExplorerActions.GetIndividualEntity2
+export interface GetIndividualEntityAction {
+  type: typeof EntitiesExplorerActions.GetIndividualEntity
   payload: { id: string; key: string; data: any; merge: boolean }
 }
 
@@ -171,9 +190,11 @@ export interface FilterQueryAction {
 }
 
 export type EntitiesActionTypes =
-  | GetEntities2Action
-  | GetEntities2SuccessAction
-  | GetIndividualEntityAction2
+  | GetEntitiesAction
+  | GetEntitiesSuccessAction
+  | GetCollectionsAction
+  | GetCollectionsSuccessAction
+  | GetIndividualEntityAction
   | UpdateEntityByIdAction
   | GetEntityConfigAction
   | GetEntityConfigSuccessAction

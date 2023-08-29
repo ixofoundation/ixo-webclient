@@ -11,7 +11,7 @@ Show "Join" Button instead of "New Proposal" when you are not a member of the Im
 <!-- collapsed -->
 
 ```tsx
-184      if (isImpactsDAO && !isMemberOfImpactsDAO && !isOwner) {
+184      if (isImpactsDAO && daoController === daoGroup.coreAddress && !isMemberOfImpactsDAO && !isOwner) {
 185        return (
 186          <FlexBox height='100%' direction='column' justifyContent='space-between'>
 187            <Typography variant='secondary' size='2xl' color='dark-blue'>
@@ -41,12 +41,10 @@ Show "Join" Button instead of "New Proposal" when you are not a member of the Im
 members filtered when it's ImpactsDAO by linkedEntity type is being 'MemberDAO' which should be added with Join Proposal.
 <!-- NOTE-swimm-snippet: the lines below link your snippet to Swimm -->
 ### 📄 src/pages/CurrentEntity/Dashboard/DAODashboard/Membership/Membership.tsx
-<!-- collapsed -->
-
 ```tsx
 17       const members: Member[] = useMemo(
 18         () =>
-19           isImpactsDAO
+19           isImpactsDAO && daoController === selectedDAOGroup?.coreAddress
 20             ? (selectedDAOGroup?.votingModule.members ?? [])
 21                 .filter((member: Member) =>
 22                   linkedEntity.some(({ type, id }) => type === 'MemberDAO' && id.includes(member.addr)),
@@ -58,9 +56,20 @@ members filtered when it's ImpactsDAO by linkedEntity type is being 'MemberDAO' 
 28                   return { ...member, avatar, name }
 29                 })
 30             : selectedDAOGroup?.votingModule.members ?? [],
-31         [selectedDAOGroup, isImpactsDAO, daos, linkedEntity],
-32       )
+31         [
+32           isImpactsDAO,
+33           daoController,
+34           selectedDAOGroup?.coreAddress,
+35           selectedDAOGroup?.votingModule.members,
+36           linkedEntity,
+37           daos,
+38         ],
+39       )
 ```
+
+<br/>
+
+<br/>
 
 <br/>
 

@@ -53,6 +53,7 @@ const EditEntity: React.FC = (): JSX.Element => {
     <EditEntityContext.Provider value={{ ...value, updatePartial: handleUpdatePartial }}>
       <EditEntityLayout title={value.title} subtitle={value.subtitle} breadCrumbs={value.breadCrumbs}>
         {Component && cwClient && <Component />}
+        {!Component && `Work in progress for editing ${value.entityType}`}
       </EditEntityLayout>
     </EditEntityContext.Provider>
   )

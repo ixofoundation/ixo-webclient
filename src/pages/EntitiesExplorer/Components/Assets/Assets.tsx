@@ -53,8 +53,8 @@ const Assets: React.FC<Props> = (props) => {
   const [scrollOffset, setScrollOffest] = useState(1)
   const [selections, setSelections] = useState(new Array(props.entities.length).fill(false))
   const [selecting, setSelecting] = useState(false)
-  const [filterBy, setFilterBy] = useState<'all' | 'on-sale' | 'owned'>('owned')
-  const [myEntities, seMyEntities] = useState<any[]>([])
+  const [filterBy, setFilterBy] = useState<'all' | 'on-sale' | 'owned'>('all')
+  const [myEntities, setMyEntities] = useState<any[]>([])
   const myEntityIds = useMemo(() => myEntities.map((v) => v.id), [myEntities])
 
   const [entities, hasMore] = useMemo(() => {
@@ -81,13 +81,13 @@ const Assets: React.FC<Props> = (props) => {
         .getCollectionsByOwnerAddress(address)
         .then((response: any) => {
           const entities = response.find((v: any) => v.collection.id === props.collectionId)?.entities ?? []
-          seMyEntities(entities)
+          setMyEntities(entities)
         })
         .catch((e: any) => {
           console.error('getCollectionsByOwnerAddress', e)
         })
       return () => {
-        seMyEntities([])
+        setMyEntities([])
       }
     }
   }, [address, props.collectionId])
