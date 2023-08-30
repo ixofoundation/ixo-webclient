@@ -20,7 +20,6 @@ import { HeaderTab } from 'components/Dashboard/types'
 import { useParams } from 'react-router-dom'
 import useCurrentEntity from 'hooks/currentEntity'
 import { MatchType } from 'types/models'
-import { EntityType } from 'types/entities'
 
 interface Props {
   onlyTitle: boolean

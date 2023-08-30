@@ -12,7 +12,7 @@ const GAIA_RPC = CHAINS[CHAIN_ID as string]?.rpc
 /**
  * @deprecated
  */
-const addTestNet = async (): Promise<any> => {
+export const addTestNet = async (): Promise<any> => {
   if (CHAIN_ID) {
     await window.keplr.experimentalSuggestChain(CHAINS[CHAIN_ID])
   }
@@ -21,7 +21,7 @@ const addTestNet = async (): Promise<any> => {
 /**
  * @deprecated
  */
-const addMainNet = async (): Promise<any> => {
+export const addMainNet = async (): Promise<any> => {
   if (CHAIN_ID) {
     await window.keplr.experimentalSuggestChain(CHAINS[CHAIN_ID])
   }
