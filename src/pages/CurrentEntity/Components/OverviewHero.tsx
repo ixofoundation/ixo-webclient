@@ -20,6 +20,7 @@ import { HeaderTab } from 'components/Dashboard/types'
 import { useParams } from 'react-router-dom'
 import useCurrentEntity from 'hooks/currentEntity'
 import { MatchType } from 'types/models'
+import { EntityType } from 'types/entities'
 
 interface Props {
   onlyTitle: boolean
@@ -90,6 +91,15 @@ const OverviewHero: React.FunctionComponent<Props> = ({
         path: `/entity/${entityId}/treasury`,
         title: 'TREASURY',
         tooltip: `${title} Treasury`,
+      })
+    }
+
+    if (entityType === 'asset/device') {
+      buttons.push({
+        iconClass: 'icon-exchange',
+        path: `/entity/${entityId}/exchange`,
+        title: 'EXCHANGE',
+        tooltip: `${title} Exchange`,
       })
     }
 

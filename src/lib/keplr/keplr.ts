@@ -59,9 +59,9 @@ export const connectAccount = async (): Promise<any> => {
     return [null, null]
   }
 
-  // Suggest chain if we don't have
-  await addTestNet()
-  await addMainNet()
+  //   // Suggest chain if we don't have
+  //   await addTestNet()
+  //   await addMainNet()
 
   // Enable chain
   await window.keplr.enable(CHAIN_ID)
