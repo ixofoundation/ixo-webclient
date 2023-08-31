@@ -2,7 +2,6 @@ import {
   AccountActions,
   LoginAction,
   LogoutAction,
-  GetAccountAction,
   UserInfo,
   ToggleAssistantAction,
   ToogleAssistantPayload,
@@ -28,7 +27,6 @@ import { Dispatch } from 'redux'
 import Axios from 'axios'
 import { displayTokenAmount, getDisplayAmount } from 'utils/currency'
 import BigNumber from 'bignumber.js'
-import { apiCurrencyToCurrency } from './account.utils'
 import { upperCase } from 'lodash'
 import { thousandSeparator } from 'utils/formatters'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
@@ -51,25 +49,6 @@ export const logout = (): LogoutAction => ({
   type: AccountActions.Logout,
 })
 
-export const getAccount =
-  (address: string) =>
-  (dispatch: Dispatch): GetAccountAction => {
-    return dispatch({
-      type: AccountActions.GetAccount,
-      payload: Axios.get(process.env.REACT_APP_GAIA_URL + '/bank/balances/' + address)
-        .then((response) => {
-          return {
-            balances: response.data.result.map((coin: any) => apiCurrencyToCurrency(coin)),
-          }
-        })
-        .catch((e) => {
-          console.log('/bank/balances', e)
-          return {
-            balances: [],
-          }
-        }),
-    })
-  }
 export const getUSDRate =
   (denom = 'ixo') =>
   (dispatch: Dispatch): GetUSDRateAction => {

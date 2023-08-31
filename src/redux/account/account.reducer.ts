@@ -40,11 +40,6 @@ export const reducer = (state = initialState, action: AccountActionTypes): Accou
         sequence: action.payload.sequence,
         loginStatusCheckCompleted: true,
       }
-    case AccountActions.GetAccountSuccess:
-      return {
-        ...state,
-        balances: action.payload.balances,
-      }
     case AccountActions.GetTransactionsSuccess:
       return {
         ...state,

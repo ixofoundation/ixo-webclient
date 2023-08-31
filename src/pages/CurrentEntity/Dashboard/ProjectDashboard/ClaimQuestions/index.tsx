@@ -3,9 +3,9 @@ import { FlexBox } from 'components/App/App.styles'
 import { useSigner } from 'hooks/account'
 import { useCreateEntity } from 'hooks/createEntity'
 import { useCurrentEntityAdminAccount } from 'hooks/currentEntity'
-import { MsgExecAgentSubmit } from 'lib/protocol'
+import { CreateCollection, MsgExecAgentSubmit } from 'lib/protocol'
 import { Button } from 'pages/CreateEntity/Components'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { selectEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { useAppSelector } from 'redux/hooks'
@@ -16,11 +16,11 @@ import { Model } from 'survey-core'
 import { Survey } from 'survey-react-ui'
 import { themeJson } from 'styles/surveyTheme'
 import { selectAccountSigningClient } from 'redux/account/account.selectors'
-import { SigningStargateClient } from '@ixo/impactxclient-sdk'
+import { SigningStargateClient, utils } from '@ixo/impactxclient-sdk'
 import { selectEntityClaim } from 'redux/currentEntity/currentEntity.selectors'
 
 const ClaimQuestions: React.FC = () => {
-  const { claimId } = useParams<{ claimId: string }>()
+  const { entityId, claimId } = useParams<{ entityId: string; claimId: string }>()
   const signer = useSigner()
   const signingClient: SigningStargateClient = useAppSelector(selectAccountSigningClient)
   const claim: { [id: string]: TEntityClaimModel } = useAppSelector(selectEntityClaim)
@@ -33,10 +33,24 @@ const ClaimQuestions: React.FC = () => {
   const templateEntity = useAppSelector(selectEntityById(templateEntityId))
 
   const [questionFormData, setQuestionFormData] = useState<any[]>([])
-  console.log({ questionFormData })
-
+  const [answer, setAnswer] = useState()
   const [submitting, setSubmitting] = useState(false)
 
+  const survey = useMemo(() => {
+    if (!questionFormData[0]) {
+      return undefined
+    }
+    const survey = new Model(questionFormData[0])
+    survey.applyTheme(themeJson)
+    survey.onComplete.add((sender: any, options: any) => {
+      setAnswer(sender.data)
+    })
+    return survey
+  }, [questionFormData])
+
+  /**
+   * @description fetch question form data
+   */
   useEffect(() => {
     if (templateEntity && (templateEntity?.linkedResource ?? []).length > 0) {
       const claimSchemaLinkedResources: LinkedResource[] = templateEntity.linkedResource.filter(
@@ -65,11 +79,26 @@ const ClaimQuestions: React.FC = () => {
 
   const handleSubmit = async () => {
     setSubmitting(true)
-    // TODO: collectionId where to fetch ???
-    const collectionId = '1'
 
-    // TODO: upload answers to ipfs and get cid as claimId, the saving payload interface ???
-    const res = await UploadDataToService(JSON.stringify({}))
+    /**
+     * @description create claim collection
+     */
+    const createCollectionRes = await CreateCollection(signingClient, signer, {
+      entityDid: entityId,
+      protocolDid: templateEntityId,
+      paymentsAccount: adminAddress,
+    })
+    const collectionId = utils.common.getValueFromEvents(
+      createCollectionRes!,
+      'ixo.claims.v1beta1.CollectionCreatedEvent',
+      'collection',
+      (c) => c.id,
+    )
+
+    /**
+     * @description upload answers to ipfs and get cid as claimId, the saving payload interface ???
+     */
+    const res = await UploadDataToService(JSON.stringify(answer))
     const claimId = (res as any).key || (res as any).cid
 
     console.log('MsgExecAgentSubmit', { claimId, collectionId, adminAddress })
@@ -96,14 +125,8 @@ const ClaimQuestions: React.FC = () => {
   return (
     <FlexBox width='100%'>
       <FlexBox direction='column' width='60%' gap={7}>
-        {questionFormData.map((data, index) => {
-          const survey = new Model(data)
-          survey.applyTheme(themeJson)
-          survey.onComplete.add((sender, options) => {
-            console.log(JSON.stringify(sender.data, null, 3), options)
-          })
-          return <Survey key={index} model={survey} />
-        })}
+        {survey && <Survey model={survey} />}
+
         {questionFormData.length > 0 && (
           <Button variant='secondary' size={'lg'} onClick={handleSubmit} loading={submitting}>
             Sign And Submit

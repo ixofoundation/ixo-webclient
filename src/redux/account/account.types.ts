@@ -114,10 +114,6 @@ export type AgentRoleStrategyMap = {
 export enum AccountActions {
   Login = 'ixo/Account/Login',
   Logout = 'ixo/Account/Logout',
-  GetAccount = 'ixo/Account/GET_ACCOUNT',
-  GetAccountSuccess = 'ixo/Account/GET_ACCOUNT_FULFILLED',
-  GetAccountPending = 'ixo/Account/GET_ACCOUNT_PENDING',
-  GetAccountFailure = 'ixo/Account/GET_ACCOUNT_REJECTED',
   GetTransactions = 'ixo/Account/GET_TRANSACTIONS',
   GetTransactionsSuccess = 'ixo/Account/GET_TRANSACTIONS_FULFILLED',
   GetTransactionsPending = 'ixo/Account/GET_TRANSACTIONS_PENDING',
@@ -162,18 +158,6 @@ export interface LoginAction {
 
 export interface LogoutAction {
   type: typeof AccountActions.Logout
-}
-
-export interface GetAccountAction {
-  type: typeof AccountActions.GetAccount
-  payload: Promise<any>
-}
-
-export interface GetAccountSuccessAction {
-  type: typeof AccountActions.GetAccountSuccess
-  payload: {
-    balances: Coin[]
-  }
 }
 
 export interface GetTransactionsAction {
@@ -283,8 +267,6 @@ export interface UpdateDidAction {
 export type AccountActionTypes =
   | LoginAction
   | LogoutAction
-  | GetAccountAction
-  | GetAccountSuccessAction
   | GetTransactionsAction
   | GetTransactionsSuccessAction
   | GetTransactionsByAssetAction
