@@ -252,7 +252,7 @@ const Accounts: React.FC = () => {
       updateCw20TokenBalance(account.address).then((coin: TTreasuryCoinModel) => {
         setAccounts((v) => ({
           ...v,
-          [coin.address]: { ...v[coin.address], coins: { ...v[coin.address].coins, [coin.coinDenom]: coin } },
+          [coin.address]: { ...v[coin.address], coins: { ...(v[coin.address]?.coins ?? {}), [coin.coinDenom]: coin } },
         }))
       })
     })
