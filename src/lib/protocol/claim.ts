@@ -1,8 +1,10 @@
 import { fee, RPC_ENDPOINT, TSigner } from './common'
-import { ixo, SigningStargateClient, utils, cosmos, createQueryClient } from '@ixo/impactxclient-sdk'
+import { ixo, SigningStargateClient, utils, cosmos } from '@ixo/impactxclient-sdk'
 import { DeliverTxResponse } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/stargate'
 import { addDays } from 'utils/common'
 import Long from 'long'
+
+const { createRPCQueryClient } = cosmos.ClientFactory
 
 export const CreateCollection = async (
   client: SigningStargateClient,
@@ -108,7 +110,7 @@ export const GrantEntityAccountClaimsSubmitAuthz = async (
     overrideCurretGrants = false,
   } = payload
 
-  const queryClient = await createQueryClient(RPC_ENDPOINT!)
+  const queryClient = await createRPCQueryClient({ rpcEndpoint: RPC_ENDPOINT! })
   const granteeGrants = await queryClient.cosmos.authz.v1beta1.granteeGrants({
     grantee: granteeAddress,
   })
@@ -212,7 +214,7 @@ export const GrantEntityAccountClaimsEvaluateAuthz = async (
     overrideCurretGrants = false,
   } = payload
 
-  const queryClient = await createQueryClient(RPC_ENDPOINT!)
+  const queryClient = await createRPCQueryClient({ rpcEndpoint: RPC_ENDPOINT! })
   const granteeGrants = await queryClient.cosmos.authz.v1beta1.granteeGrants({
     grantee: granteeAddress,
   })

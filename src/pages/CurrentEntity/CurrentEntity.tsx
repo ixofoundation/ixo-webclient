@@ -1,33 +1,26 @@
 import { Spinner } from 'components/Spinner/Spinner'
 import useCurrentEntity from 'hooks/currentEntity'
-import NotFound from 'pages/Error/NotFound'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { Redirect, Route, Switch, useParams } from 'react-router-dom'
 import DashboardPage from './Dashboard/Dashboard'
 import OverviewPage from './Overview/Overview'
 import TreasuryPage from './Treasury/Treasury'
 import ProposalOverviewPage from './Proposal/Overview'
+import { useAppSelector } from 'redux/hooks'
+import { TEntityModel } from 'types/entities'
+import { selectEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 const CurrentEntityPage: React.FC = (): JSX.Element => {
   const { entityId } = useParams<{ entityId: string }>()
-  const { entityType, getEntityByDid } = useCurrentEntity()
-  const [errFetchingEntity, setErrFetchingEntity] = useState(false)
+  const entity: TEntityModel | undefined = useAppSelector(selectEntityById(entityId))
+  const { entityType, updateEntity } = useCurrentEntity()
 
   useEffect(() => {
-    if (entityId) {
-      getEntityByDid(entityId).then((result) => {
-        setErrFetchingEntity(!result)
-      })
-    }
-    return () => {
-      setErrFetchingEntity(false)
+    if (entity) {
+      updateEntity(entity)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [entityId])
-
-  if (errFetchingEntity) {
-    return <NotFound />
-  }
+  }, [entity])
 
   if (!entityType) {
     return <Spinner info='Loading Entity...' />
