@@ -89,6 +89,7 @@ export default function useCurrentEntity(): {
   clearEntity: () => void
   updateDAOGroup: (coreAddress: string) => Promise<void>
   selectDAOGroup: (coreAddress: string) => Promise<void>
+  updateEntity: (entity: TEntityModel) => void
 } {
   const dispatch = useAppDispatch()
   const { cwClient, address } = useAccount()
@@ -164,7 +165,6 @@ export default function useCurrentEntity(): {
   }
 
   const updateDAOGroup = async (coreAddress: string) => {
-    console.log('updateDAOGroup ------>')
     const { type, admin, config, proposalModule, votingModule, token } = await getDaoContractInfo({
       coreAddress,
       cwClient,
@@ -233,6 +233,7 @@ export default function useCurrentEntity(): {
     clearEntity,
     updateDAOGroup,
     selectDAOGroup,
+    updateEntity,
   }
 }
 
