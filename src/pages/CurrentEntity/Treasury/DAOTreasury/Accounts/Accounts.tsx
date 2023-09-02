@@ -218,21 +218,21 @@ const Accounts: React.FC = () => {
         votingModuleAddress,
       )
 
-      const stakingContract = await daoVotingCw20StakedClient.stakingContract()
-      const cw20StakeClient = new contracts.Cw20Stake.Cw20StakeQueryClient(cwClient, stakingContract)
-      const { total: microTotalValue } = await cw20StakeClient.totalValue()
-
       const tokenContract = await daoVotingCw20StakedClient.tokenContract()
       const cw20BaseClient = new contracts.Cw20Base.Cw20BaseQueryClient(cwClient, tokenContract)
       const tokenInfo = await cw20BaseClient.tokenInfo()
       const marketingInfo = await cw20BaseClient.marketingInfo()
-      const totalValue = convertMicroDenomToDenomWithDecimals(microTotalValue, tokenInfo.decimals).toString()
+      const { balance: microTotalLockedValue } = await cw20BaseClient.balance({ address })
+      const totalLockedValue = convertMicroDenomToDenomWithDecimals(
+        microTotalLockedValue,
+        tokenInfo.decimals,
+      ).toString()
 
       const payload = {
         address,
         coinDenom: tokenInfo.symbol,
         network: 'IXO',
-        balance: totalValue,
+        balance: totalLockedValue,
         coinImageUrl: marketingInfo?.logo !== 'embedded' ? marketingInfo.logo?.url ?? '' : '',
         lastPriceUsd: 0,
       }
