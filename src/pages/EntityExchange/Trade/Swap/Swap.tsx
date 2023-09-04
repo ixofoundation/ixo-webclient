@@ -12,7 +12,7 @@ import { useParams } from 'react-router-dom'
 import { findDenomByMinimalDenom, minimalAmountToAmount } from 'redux/account/account.utils'
 
 import { selectSelectedAccountAddress } from 'redux/selectedEntityExchange/entityExchange.selectors'
-
+import * as _ from 'lodash'
 import { getUSDRateByCoingeckoId } from 'utils/coingecko'
 import BigNumber from 'bignumber.js'
 import { useIxoConfigs } from 'hooks/configs'
@@ -53,7 +53,7 @@ const Swap: React.FunctionComponent = () => {
   const [balances, setBalances] = useState({})
   const [chainId, setChainId] = useState(process.env.REACT_APP_CHAIN_ID)
   const [fromTokenSelected, setFromTokenSelected] = useState<boolean>(true)
-  const [slippage, _] = useState<number>(3)
+  const [slippage] = useState<number>(3)
 
   const fromTokenBalance = useMemo(
     () => (fromToken?.display ? balances[fromToken.display] : '0'),
@@ -73,13 +73,13 @@ const Swap: React.FunctionComponent = () => {
     return [false, 'Review My Order']
   }, [fromAmount, fromTokenBalance, slippage])
 
-  const canSubmit = useMemo(() => {
-    return (
+  const canSubmit = useMemo<boolean>(() => {
+    return Boolean(
       fromToken &&
-      toToken &&
-      new BigNumber(fromAmount).isGreaterThan(new BigNumber(0)) &&
-      new BigNumber(toAmount).isGreaterThan(new BigNumber(0)) &&
-      !swapError
+        toToken &&
+        new BigNumber(fromAmount).isGreaterThan(new BigNumber(0)) &&
+        new BigNumber(toAmount).isGreaterThan(new BigNumber(0)) &&
+        !swapError,
     )
   }, [fromToken, toToken, fromAmount, toAmount, swapError])
 
