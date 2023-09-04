@@ -63,7 +63,6 @@ export const GetBalances = async (address: string, rpc = RPC_ENDPOINT): Promise<
   const res = await client.cosmos.bank.v1beta1.allBalances({
     address,
   })
-  console.info('GetBalances', res)
   return res.balances
 }
 

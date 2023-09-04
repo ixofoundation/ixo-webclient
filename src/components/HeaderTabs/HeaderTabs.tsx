@@ -74,14 +74,14 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
       })
     }
 
-    if (entityType === 'asset/device') {
-      buttonArr.push({
-        iconClass: 'icon-exchange',
-        path: `/projects/${entityId}/exchange`,
-        title: 'EXCHANGE',
-        tooltip: `${title} Exchange`,
-      })
-    } else {
+    buttonArr.push({
+      iconClass: 'icon-exchange',
+      path: `/exchange/trade/${entityId}`,
+      title: 'EXCHANGE',
+      tooltip: `Asset Exchange`,
+    })
+
+    if (entityType === 'TODO: ') {
       buttonArr.push({
         iconClass: 'icon-funding',
         linkClass: 'restricted',

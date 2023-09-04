@@ -4,7 +4,7 @@ import { useAppSelector } from 'redux/hooks'
 import { RootState } from 'redux/store'
 import { EntityType } from 'types/entities'
 import * as entitySelectors from 'redux/selectedEntity/selectedEntity.selectors'
-import { Redirect, Route, useParams } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 import Dashboard from 'components/Dashboard/Dashboard'
 
 import EntityExchangeTrade from './Trade/Swap'
@@ -19,6 +19,7 @@ import { MatchType } from 'types/models'
 import { getLiquidityPools } from 'redux/selectedEntityExchange/entityExchange.actions'
 import { selectTradingAllowed } from 'redux/configs/configs.selectors'
 import { requireCheckDefault } from 'utils/images'
+import useRouteQuery from 'hooks/useRouteQuery'
 
 interface Props {
   location: any
@@ -40,7 +41,8 @@ const EntityExchange: FunctionComponent<Props> = ({
   location,
 }) => {
   const tradingAllowed = useAppSelector(selectTradingAllowed)
-  const { entityId } = useParams<{ entityId: string }>()
+  const query = useRouteQuery()
+  const entityId = query.get('from')
 
   let title = name
 
@@ -201,11 +203,12 @@ const EntityExchange: FunctionComponent<Props> = ({
       entityType={type}
       matchType={MatchType.strict}
     >
-      <Route exact path='/entity/:projectDID/exchange'>
-        <Redirect to={`/entity/${entityId}/exchange/${tradingAllowed ? 'trade' : 'portfolio'}`} />
-      </Route>
-      <Route exact path={`/entity/:projectDID/exchange/trade`} component={EntityExchangeTrade} />
-      <Route exact path={`/entity/:projectDID/exchange/trade/swap`} component={EntityExchangeTradeSwap} />
+      {/* These routes are nested under '/exchange' */}
+      <Switch>
+        <Route exact path='/exchange/trade/swap' component={EntityExchangeTradeSwap} />
+        <Route path='/exchange/trade/swap/wallet/:wallet' component={EntityExchangeTradeSwap} />
+        <Route exact path='/exchange/trade/:id' component={EntityExchangeTrade} />
+      </Switch>
     </Dashboard>
   )
 }
