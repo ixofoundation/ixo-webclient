@@ -96,7 +96,7 @@ const OverviewHero: React.FunctionComponent<Props> = ({
     if (entityType === 'asset/device') {
       buttons.push({
         iconClass: 'icon-exchange',
-        path: `/entity/${entityId}/exchange`,
+        path: `/exchange/trade/${entityId}`,
         title: 'EXCHANGE',
         tooltip: `${title} Exchange`,
       })
