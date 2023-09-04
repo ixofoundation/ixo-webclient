@@ -1,13 +1,11 @@
 import React from 'react'
 
 import { SubmitButton, Stat } from './Swap.styles'
-
-import * as _ from 'lodash'
 import Tooltip from 'components/Tooltip/Tooltip'
 
 export type RenderSwapDetailProps = {
   handleSubmit: () => void
-  canSubmit?: boolean
+  canSubmit: boolean
   swapErrorMsg: string
   networkName: string
   swapError: boolean

@@ -4,7 +4,7 @@ import { useAppSelector } from 'redux/hooks'
 import { RootState } from 'redux/store'
 import { EntityType } from 'types/entities'
 import * as entitySelectors from 'redux/selectedEntity/selectedEntity.selectors'
-import { Redirect, Route, Switch, useHistory } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 import Dashboard from 'components/Dashboard/Dashboard'
 
 import EntityExchangeTrade from './Trade/Swap'
@@ -42,7 +42,6 @@ const EntityExchange: FunctionComponent<Props> = ({
 }) => {
   const tradingAllowed = useAppSelector(selectTradingAllowed)
   const query = useRouteQuery()
-  const history = useHistory()
   const entityId = query.get('from')
 
   let title = name

@@ -7,16 +7,12 @@ import { TermsOfUseType } from 'types/entities'
 import { ApiListedEntity } from 'api/blocksync/types/entities'
 
 import { TradeWrapper, AssetCardWrapper, TradePanel } from '../Swap.styles'
-import { useLocation, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 
 import { findDenomByMinimalDenom, minimalAmountToAmount } from 'redux/account/account.utils'
 
-import {
-  selectLiquidityPools,
-  selectSelectedAccountAddress,
-} from 'redux/selectedEntityExchange/entityExchange.selectors'
+import { selectSelectedAccountAddress } from 'redux/selectedEntityExchange/entityExchange.selectors'
 
-import * as _ from 'lodash'
 import { getUSDRateByCoingeckoId } from 'utils/coingecko'
 import BigNumber from 'bignumber.js'
 import { useIxoConfigs } from 'hooks/configs'
@@ -36,12 +32,11 @@ import { changeSelectedAccountAddress } from 'redux/selectedEntityExchange/entit
 const bsService = new BlockSyncService()
 
 const Swap: React.FunctionComponent = () => {
-  const { search } = useLocation()
   const { wallet } = useParams() as any
   const walletType = wallet
   const { getAssetsByChainId, getRelayerNameByChainId } = useIxoConfigs()
   const selectedAccountAddress = useAppSelector(selectSelectedAccountAddress)
-  const liquidityPools = useAppSelector(selectLiquidityPools)
+  //   const liquidityPools = useAppSelector(selectLiquidityPools)
   const dispatch = useAppDispatch()
 
   const [viewSettings, setViewSettings] = useState(false)
@@ -58,7 +53,7 @@ const Swap: React.FunctionComponent = () => {
   const [balances, setBalances] = useState({})
   const [chainId, setChainId] = useState(process.env.REACT_APP_CHAIN_ID)
   const [fromTokenSelected, setFromTokenSelected] = useState<boolean>(true)
-  const [slippage, setSlippage] = useState<number>(3)
+  const [slippage, _] = useState<number>(3)
 
   const fromTokenBalance = useMemo(
     () => (fromToken?.display ? balances[fromToken.display] : '0'),
@@ -77,6 +72,7 @@ const Swap: React.FunctionComponent = () => {
     }
     return [false, 'Review My Order']
   }, [fromAmount, fromTokenBalance, slippage])
+
   const canSubmit = useMemo(() => {
     return (
       fromToken &&
@@ -86,6 +82,7 @@ const Swap: React.FunctionComponent = () => {
       !swapError
     )
   }, [fromToken, toToken, fromAmount, toAmount, swapError])
+
   const pairList = useMemo<AssetType[]>(
     () =>
       assets
@@ -100,14 +97,14 @@ const Swap: React.FunctionComponent = () => {
       // availablePairs,
     ],
   )
-  const selectedPoolDetail = useMemo(() => {
-    if (!liquidityPools) {
-      return undefined
-    }
-    return liquidityPools.find((pool) =>
-      _.difference(pool.poolDetail!.reserve_tokens, [fromToken?.base, toToken?.base]),
-    )?.poolDetail
-  }, [liquidityPools, fromToken, toToken])
+  //   const selectedPoolDetail = useMemo(() => {
+  //     if (!liquidityPools) {
+  //       return undefined
+  //     }
+  //     return liquidityPools.find((pool) =>
+  //       _.difference(pool.poolDetail!.reserve_tokens, [fromToken?.base, toToken?.base]),
+  //     )?.poolDetail
+  //   }, [liquidityPools, fromToken, toToken])
 
   useEffect(() => {
     ;(async () => {
@@ -126,7 +123,7 @@ const Swap: React.FunctionComponent = () => {
     })()
   }, [walletType, dispatch])
 
-  const panelHeight = '420px'
+  //   const panelHeight = '420px'
 
   // TODO: maybe this API calling should be processed in Redux in the future
   useEffect(() => {
@@ -257,6 +254,7 @@ const Swap: React.FunctionComponent = () => {
             {!viewSettings &&
               (viewPairList === 'none' ? (
                 <RenderSwapPanel
+                  canSubmit={canSubmit}
                   fromAmount={fromAmount}
                   fromTokenBalance={fromTokenBalance}
                   fromTokenSelected={fromTokenSelected}

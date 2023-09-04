@@ -2,16 +2,16 @@ import React, { useState, useEffect, useMemo } from 'react'
 // import BalanceCard from 'pages/Bond/Accounts/Components/ProjectAccount'
 // import AssetWrapper from 'pages/Bond/Accounts/Components/ProjectAccountWrapper'
 // import AccountTransactionTable from 'components/Bonds/BondAccountTable/BondAccountTable'
-import { useAppSelector, useAppDispatch } from 'redux/hooks'
+import { useAppDispatch } from 'redux/hooks'
 import { changePortfolioAsset } from 'redux/selectedEntityExchange/entityExchange.actions'
-import { displayTokenAmount } from 'utils/currency'
-import BigNumber from 'bignumber.js'
+// import { displayTokenAmount } from 'utils/currency'
+// import BigNumber from 'bignumber.js'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 import { SendModal } from 'components/Modals'
 
 const Portfolio: React.FunctionComponent = () => {
   const dispatch = useAppDispatch()
-  const { transactions, usdRate } = useAppSelector((state) => state.account)
+  //   const { transactions, usdRate } = useAppSelector((state) => state.account)
   const [selected, setSelected] = useState(0)
   const [sendModalOpen, setSendModalOpen] = useState<boolean>(false)
   const [balances] = useState<Coin[]>([])
@@ -22,20 +22,20 @@ const Portfolio: React.FunctionComponent = () => {
     return undefined
   }, [balances, selected])
 
-  const handleAddAccount = (): void => {
-    // dispatch(
-    //   toggleAssistant({
-    //     fixed: true,
-    //     intent: `/add_account`,
-    //   }),
-    // )
-  }
-  const handleDownloadCSV = (): void => {
-    console.log('handleDownloadCSV')
-  }
-  const handleNewTransaction = (): void => {
-    setSendModalOpen(true)
-  }
+  //   const handleAddAccount = (): void => {
+  //     // dispatch(
+  //     //   toggleAssistant({
+  //     //     fixed: true,
+  //     //     intent: `/add_account`,
+  //     //   }),
+  //     // )
+  //   }
+  //   const handleDownloadCSV = (): void => {
+  //     console.log('handleDownloadCSV')
+  //   }
+  //   const handleNewTransaction = (): void => {
+  //     setSendModalOpen(true)
+  //   }
 
   // useEffect(() => {
   //   if (selectedAddress) {

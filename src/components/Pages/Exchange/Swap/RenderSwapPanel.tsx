@@ -1,8 +1,6 @@
 import React from 'react'
 
-import { CardBody, CardHeader, SettingsButton, SubmitButton, SwapButton, Stat, CardHeaderText } from './Swap.styles'
-
-import * as _ from 'lodash'
+import { CardBody, CardHeader, CardHeaderText } from './Swap.styles'
 
 import RenderSwapDetail, { RenderSwapDetailProps } from 'components/Pages/Exchange/Swap/RenderSwapDetail'
 import RenderSettingsButton, { RenderSettingsButtonProps } from './RenderSettingsButton'
