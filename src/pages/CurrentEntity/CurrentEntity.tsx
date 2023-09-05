@@ -31,7 +31,6 @@ const CurrentEntityPage: React.FC = (): JSX.Element => {
       <Route path='/entity/:entityId/dashboard' component={DashboardPage} />
       <Route path='/entity/:entityId/treasury' component={TreasuryPage} />
       <Route path='/entity/:entityId/overview/proposal/:deedId' component={ProposalOverviewPage} />
-
       <Route exact path='/entity/:entityId'>
         <Redirect to={`/entity/${entityId}/overview`} />
       </Route>

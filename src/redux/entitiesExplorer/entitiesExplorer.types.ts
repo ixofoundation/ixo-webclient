@@ -1,4 +1,13 @@
-import { EntityConfig, TEntityDDOTagModel, TEntityModel } from 'types/entities'
+import {
+  EntityConfig,
+  TEntityDDOTagModel,
+  TEntityModel,
+  LiquiditySource,
+  FundSource,
+  TermsOfUseType,
+} from 'types/entities'
+import { Moment } from 'moment'
+import { Timestamp } from '@ixo/impactxclient-sdk/types/utils/proto'
 
 export interface Filter {
   ddoTags: TEntityDDOTagModel[]
@@ -187,6 +196,51 @@ export interface FilterQueryAction {
   payload: {
     query: string
   }
+}
+
+export interface ExplorerEntity {
+  name?: string
+  description?: string
+  creatorDid?: string
+  dateCreated?: Moment
+  creatorName?: string
+  creatorLogo?: string
+  location?: string
+  goal?: string
+  serviceProvidersCount?: number
+  evaluatorsCount?: number
+  requiredClaimsCount?: number
+  successfulClaimsCount?: number
+  pendingClaimsCount?: number
+  rejectedClaimsCount?: number
+  disputedClaimsCount?: number
+  sdgs?: string[]
+  agentDids?: string[]
+  image?: string
+  logo?: string
+  ddoTags?: TEntityDDOTagModel[]
+  termsType?: TermsOfUseType
+  badges?: string[]
+  version?: string
+  entityClaims?: any
+  linkedEntities?: any[]
+  liquidity?: {
+    ['@context']: string
+    items: { ['@type']: LiquiditySource; id: string }[]
+  }
+  funding?: {
+    //  TODO: this should be removed
+    ['@context']: string
+    items: { ['@type']: FundSource; id: string }[]
+  }
+
+  // new
+  did: string
+  type: string
+  status: string | number
+  startDate?: Timestamp
+  endDate?: Timestamp
+  relayerNode?: string
 }
 
 export type EntitiesActionTypes =
