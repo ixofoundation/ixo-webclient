@@ -30,9 +30,9 @@ import { apiEntityToEntity } from 'utils/entities'
 
 const bsService = new BlockSyncService()
 
-const filterCondition = (entity: any) => true
-//   (entity.relayerNode === process.env.REACT_APP_RELAYER_NODE || entity.id === process.env.REACT_APP_RELAYER_NODE) &&
-//   !entity.type.includes('asset')
+const filterCondition = (entity: any) =>
+  (entity.relayerNode === process.env.REACT_APP_RELAYER_NODE || entity.id === process.env.REACT_APP_RELAYER_NODE) &&
+  !entity.type.includes('asset')
 
 // NOTE: This is a really expensive call
 // Ends up making over 7000 http requests
