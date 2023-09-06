@@ -13,11 +13,15 @@ import { selectEntityById } from 'redux/entitiesExplorer/entitiesExplorer.select
 const CurrentEntityPage: React.FC = (): JSX.Element => {
   const { entityId } = useParams<{ entityId: string }>()
   const entity: TEntityModel | undefined = useAppSelector(selectEntityById(entityId))
-  const { entityType, updateEntity } = useCurrentEntity()
+  const { entityType, updateEntity, clearEntity } = useCurrentEntity()
 
   useEffect(() => {
     if (entity) {
       updateEntity(entity)
+    }
+
+    return () => {
+      clearEntity()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [entity])
@@ -31,7 +35,6 @@ const CurrentEntityPage: React.FC = (): JSX.Element => {
       <Route path='/entity/:entityId/dashboard' component={DashboardPage} />
       <Route path='/entity/:entityId/treasury' component={TreasuryPage} />
       <Route path='/entity/:entityId/overview/proposal/:deedId' component={ProposalOverviewPage} />
-
       <Route exact path='/entity/:entityId'>
         <Redirect to={`/entity/${entityId}/overview`} />
       </Route>

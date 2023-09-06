@@ -1,5 +1,13 @@
 import countryData from 'constants/maps/countryLatLng.json'
-import { Agent, NodeType, TEntityDDOTagModel, TEntityModel, TEntityServiceModel } from 'types/entities'
+import {
+  Agent,
+  FundSource,
+  LiquiditySource,
+  NodeType,
+  TEntityDDOTagModel,
+  TEntityModel,
+  TEntityServiceModel,
+} from 'types/entities'
 import { AgentRole } from 'redux/account/account.types'
 import {
   LinkedClaim,
@@ -10,6 +18,10 @@ import {
 import { CosmWasmClient } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/cosmwasm-stargate'
 import { getDaoContractInfo } from './dao'
 import { CellnodePublicResource, CellnodeWeb3Resource } from '@ixo/impactxclient-sdk/types/custom_queries/cellnode'
+import Axios from 'axios'
+import { ApiListedEntityData } from 'api/blocksync/types/entities'
+import { get } from 'lodash'
+import { PageContent } from 'redux/selectedEntity/selectedEntity.types'
 
 export const getCountryCoordinates = (countryCodes: string[]): any[] => {
   const coordinates: any[] = []
@@ -325,4 +337,97 @@ export function findDAObyDelegateAccount(daos: TEntityModel[], addr: string): TE
       (item) => item.id.includes(addr) && item.type === 'IndividualAccount' && item.relationship === 'delegate',
     )
   })
+}
+
+export const checkIsLaunchpadFromApiListedEntityData = (ddoTags: any[]): boolean => {
+  return (
+    (ddoTags
+      .find((ddoTag) => ddoTag.category === 'Project Type' || ddoTag.name === 'Project Type')
+      ?.tags.some((tag: any) => tag === 'Candidate') ||
+      ddoTags
+        .find((ddoTag) => ddoTag.category === 'Oracle Type' || ddoTag.name === 'Oracle Type')
+        ?.tags.some((tag: any) => tag === 'Candidate')) &&
+    ddoTags
+      .find((ddoTag) => ddoTag.category === 'Stage' || ddoTag.name === 'Stage')
+      ?.tags.some((tag: any) => tag === 'Selection')
+  )
+}
+
+export const getBondDidFromApiListedEntityData = async (data: ApiListedEntityData): Promise<string> => {
+  let alphaBonds: any[] = []
+
+  if (data.funding) {
+    // TODO: should be removed
+    alphaBonds = data.funding.items.filter((elem) => elem['@type'] === FundSource.Alphabond)
+  } else if (data.liquidity) {
+    alphaBonds = data.liquidity.items.filter((elem) => elem['@type'] === LiquiditySource.Alphabond)
+  }
+
+  return Promise.all(
+    alphaBonds.map((alphaBond) => {
+      return Axios.get(`${process.env.REACT_APP_GAIA_URL}/bonds/${alphaBond.id}`, {
+        transformResponse: [
+          (response: string): any => {
+            const parsedResponse = JSON.parse(response)
+
+            return get(parsedResponse, 'result.value', parsedResponse)
+          },
+        ],
+      })
+    }),
+  ).then((bondDetails) => {
+    const bondToShow = bondDetails
+      .map((bondDetail) => bondDetail.data)
+      .find((bond) => bond.function_type !== 'swapper_function')
+
+    return bondToShow?.bond_did ?? undefined
+  })
+}
+
+export const replaceLegacyPDSInEntity = (data: ApiListedEntityData): ApiListedEntityData => ({
+  ...data,
+  image: data.image?.replace('pds_pandora.ixo.world', 'cellnode-pandora.ixo.earth'),
+  logo: data.logo?.replace('pds_pandora.ixo.world', 'cellnode-pandora.ixo.earth'),
+  creator: {
+    ...data.creator,
+    logo: data.creator.logo?.replace('pds_pandora.ixo.world', 'cellnode-pandora.ixo.earth'),
+  },
+  owner: {
+    ...data.owner,
+    logo: data.owner.logo?.replace('pds_pandora.ixo.world', 'cellnode-pandora.ixo.earth'),
+  },
+})
+
+export const replaceLegacyPDSInPageContent = (content: PageContent): PageContent => {
+  const { header, body, images, profiles, social, embedded } = content
+
+  const newHeader = {
+    ...header,
+    image: header.image?.replace('pds_pandora.ixo.world', 'cellnode-pandora.ixo.earth'),
+    logo: header.logo?.replace('pds_pandora.ixo.world', 'cellnode-pandora.ixo.earth'),
+  }
+
+  const newBody = body.map((item) => ({
+    ...item,
+    image: item.image?.replace('pds_pandora.ixo.world', 'cellnode-pandora.ixo.earth'),
+  }))
+
+  const newImages = images.map((item) => ({
+    ...item,
+    image: item.image?.replace('pds_pandora.ixo.world', 'cellnode-pandora.ixo.earth'),
+  }))
+
+  const newProfiles = profiles.map((item) => ({
+    ...item,
+    image: item.image?.replace('pds_pandora.ixo.world', 'cellnode-pandora.ixo.earth'),
+  }))
+
+  return {
+    header: newHeader,
+    body: newBody,
+    images: newImages,
+    profiles: newProfiles,
+    social,
+    embedded,
+  }
 }
