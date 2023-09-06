@@ -338,6 +338,7 @@ const Swap: React.FunctionComponent = () => {
         fromAsset={fromToken!}
         toAsset={toToken!}
         fromAmount={fromAmount}
+        slippage={slippage}
       />
     </TradeWrapper>
   )

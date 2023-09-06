@@ -13,6 +13,7 @@ import { calcToAmount } from 'redux/selectedEntityExchange/entityExchange.utils'
 import { displayTokenAmount } from 'utils/currency'
 import { ReactComponent as WarningIcon } from 'assets/images/exchange/warning.svg'
 import SignStep, { TXStatus } from './components/SignStep'
+import RenderSignStep from 'components/Pages/Exchange/Swap/RenderSignStep'
 
 const SwapPanel = styled.div`
   position: relative;
@@ -95,12 +96,13 @@ interface Props {
   fromAmount: BigNumber
   open: boolean
   setOpen: (open: boolean) => void
+  slippage: any
 }
 
 let timer: any = null
 const timeInterval = 30 * 1000 //  30s
 
-const SwapModal: React.FunctionComponent<Props> = ({ open, setOpen, fromAsset, toAsset, fromAmount }) => {
+const SwapModal: React.FunctionComponent<Props> = ({ open, setOpen, fromAsset, toAsset, fromAmount, slippage }) => {
   const steps = ['Review', 'Sign', 'Result']
   const [currentStep, setCurrentStep] = useState(0)
   const [fromUSDRate, setFromUSDRate] = useState(0)
@@ -178,8 +180,6 @@ const SwapModal: React.FunctionComponent<Props> = ({ open, setOpen, fromAsset, t
     </>
   )
 
-  const renderSignStep = (): JSX.Element => <SignStep status={TXStatus.PENDING} />
-
   const renderResultStep = (): JSX.Element => (
     <SignStep
       status={TXStatus.SUCCESS}
@@ -206,7 +206,15 @@ const SwapModal: React.FunctionComponent<Props> = ({ open, setOpen, fromAsset, t
         <StepsTransactions className='px-4 pb-4' steps={steps} currentStepNo={currentStep} />
 
         {currentStep === 0 && renderReviewStep()}
-        {currentStep === 1 && renderSignStep()}
+        {currentStep === 1 && (
+          <RenderSignStep
+            inputAmount={fromAmount}
+            inputToken={fromAsset}
+            outputAmount={toAmount}
+            outputToken={toAsset}
+            slippage={slippage}
+          />
+        )}
         {currentStep === 2 && renderResultStep()}
 
         {currentStep === 0 && (
