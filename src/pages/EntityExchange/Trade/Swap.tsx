@@ -20,10 +20,10 @@ const RenderWalletChoosePanel = (): JSX.Element => (
           <span>WalletConnect</span>
         </WalletBox>
       </Tooltip>
-      <NavLink to={{ pathname: '/exchange/trade/swap/wallet/keplr' }}>
+      <NavLink style={{ textDecoration: 'none' }} to={{ pathname: '/exchange/trade/swap/wallet/keplr' }}>
         <WalletBox>
           <img src={IMG_wallet2} alt='wallet2' />
-          <span>Keplr</span>
+          <span style={{ color: 'white' }}>Keplr</span>
         </WalletBox>
       </NavLink>
       <WalletBox>

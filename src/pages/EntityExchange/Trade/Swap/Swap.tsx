@@ -97,14 +97,6 @@ const Swap: React.FunctionComponent = () => {
       // availablePairs,
     ],
   )
-  //   const selectedPoolDetail = useMemo(() => {
-  //     if (!liquidityPools) {
-  //       return undefined
-  //     }
-  //     return liquidityPools.find((pool) =>
-  //       _.difference(pool.poolDetail!.reserve_tokens, [fromToken?.base, toToken?.base]),
-  //     )?.poolDetail
-  //   }, [liquidityPools, fromToken, toToken])
 
   useEffect(() => {
     ;(async () => {
@@ -225,8 +217,6 @@ const Swap: React.FunctionComponent = () => {
   const handleSubmit = (): void => {
     setOpenTransactionModal(true)
   }
-
-  console.log({ fromEntity })
 
   return (
     <TradeWrapper>

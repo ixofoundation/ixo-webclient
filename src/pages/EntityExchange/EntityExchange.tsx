@@ -4,7 +4,7 @@ import { useAppSelector } from 'redux/hooks'
 import { RootState } from 'redux/store'
 import { EntityType } from 'types/entities'
 import * as entitySelectors from 'redux/selectedEntity/selectedEntity.selectors'
-import { Route, Switch } from 'react-router-dom'
+import { Redirect, Route, Switch } from 'react-router-dom'
 import Dashboard from 'components/Dashboard/Dashboard'
 
 import EntityExchangeTrade from './Trade/Swap'
@@ -205,7 +205,10 @@ const EntityExchange: FunctionComponent<Props> = ({
     >
       {/* These routes are nested under '/exchange' */}
       <Switch>
-        <Route exact path='/exchange/trade/swap' component={EntityExchangeTradeSwap} />
+        <Route exact path='/exchange'>
+          <Redirect to={`/exchange/trade/swap`} />
+        </Route>
+        <Route exact path='/exchange/trade/swap' component={EntityExchangeTrade} />
         <Route path='/exchange/trade/swap/wallet/:wallet' component={EntityExchangeTradeSwap} />
         <Route exact path='/exchange/trade/:id' component={EntityExchangeTrade} />
       </Switch>
