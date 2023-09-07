@@ -10,7 +10,7 @@ import EditProfile from './components/EditProfile'
 import EditProperty from './components/EditProperty'
 
 const EditEntity: React.FC = () => {
-  const { currentEntity, getEntityByDid } = useCurrentEntity()
+  const { currentEntity } = useCurrentEntity()
   const { setEditEntity, ExecuteEditEntity } = useEditEntity()
   const [editing, setEditing] = useState(false)
 
@@ -25,7 +25,6 @@ const EditEntity: React.FC = () => {
       const { transactionHash, code, rawLog } = await ExecuteEditEntity()
       if (transactionHash && code === 0) {
         successToast('Updating', 'Successfully Updated')
-        getEntityByDid(currentEntity.id, true)
       } else {
         throw new Error(rawLog)
       }

@@ -142,7 +142,7 @@ export function serviceEndpointToUrl(serviceEndpoint: string, service: Service[]
 }
 
 export function apiEntityToEntity(
-  { entity, cwClient }: { entity: any; cwClient: CosmWasmClient },
+  { entity, cwClient }: { entity: any; cwClient?: CosmWasmClient },
   updateCallback: (key: string, value: any, merge?: boolean) => void,
 ): void {
   const { type, settings, linkedResource, service, linkedEntity, linkedClaim } = entity
@@ -284,7 +284,7 @@ export function apiEntityToEntity(
   /**
    * @description entityType === dao
    */
-  if (type === 'dao') {
+  if (type === 'dao' && cwClient) {
     linkedEntity
       .filter((item: LinkedEntity) => item.type === 'Group')
       .forEach((item: LinkedEntity) => {

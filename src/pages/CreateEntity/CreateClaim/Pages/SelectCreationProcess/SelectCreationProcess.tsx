@@ -1,20 +1,18 @@
 import { Box } from 'components/App/App.styles'
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { ReactComponent as EntityIcon } from 'assets/images/icon-entity.svg'
 import { ReactComponent as CreatorIcon } from 'assets/images/icon-creator.svg'
 import { PageWrapper, Selections, SearchIcon } from './SelectCreationProcess.styles'
 import { Button, CateSelector, ChainSelector, Input } from 'pages/CreateEntity/Components'
 import { useTheme } from 'styled-components'
 import { RouteComponentProps, useHistory } from 'react-router-dom'
-import { BlockSyncService } from 'services/blocksync'
 import { apiEntityToEntity } from 'utils/entities'
-import { useAccount } from 'hooks/account'
-import { validateEntityDid } from 'utils/validation'
 import { useCreateEntityState } from 'hooks/createEntity'
 import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { EntityLinkedResourceConfig } from 'constants/entity'
 import { useAppSelector } from 'redux/hooks'
 import { selectRelayerByChainId } from 'redux/configs/configs.selectors'
+import { useGetEntityById } from 'hooks/entities'
 
 const SelectCreationProcess: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): JSX.Element => {
   const baseLink = match.path.split('/').slice(0, -1).join('/')
@@ -27,7 +25,6 @@ const SelectCreationProcess: React.FC<Pick<RouteComponentProps, 'match'>> = ({ m
     lineHeight: 28,
   }
 
-  const { cwClient } = useAccount()
   const {
     updateProfile,
     updateCreator,
@@ -44,10 +41,11 @@ const SelectCreationProcess: React.FC<Pick<RouteComponentProps, 'match'>> = ({ m
   const [isClone, setIsClone] = useState(false)
   const [existingDid, setExistingDid] = useState('')
   const [chainId, setChainId] = useState(undefined)
-  const [cloningEntityType, setCloningEntityType] = useState('')
+  const { data: selectedEntity } = useGetEntityById(existingDid)
   const relayer = useAppSelector(selectRelayerByChainId(chainId!))
+  console.log({ relayer })
 
-  const canClone = useMemo(() => chainId && cloningEntityType === 'protocol/claim', [chainId, cloningEntityType])
+  const canClone = useMemo(() => chainId && selectedEntity?.type === 'protocol/claim', [chainId, selectedEntity])
 
   const handleCreate = (): void => {
     history.push(`${baseLink}/profile`)
@@ -55,63 +53,46 @@ const SelectCreationProcess: React.FC<Pick<RouteComponentProps, 'match'>> = ({ m
 
   const handleClone = (): void => {
     let claimQuestions = {}
-    const bsService = new BlockSyncService(relayer?.blocksync)
-    bsService.entity.getEntityById(existingDid).then((entity: any) => {
-      apiEntityToEntity({ entity, cwClient }, (key: string, value: any, merge) => {
-        switch (key) {
-          case 'profile':
-            updateProfile(value)
-            break
-          case 'creator':
-            updateCreator(value)
-            break
-          case 'administrator':
-            updateAdministrator(value)
-            break
-          case 'page':
-            updatePage(value)
-            break
-          case 'ddoTags':
-            updateDDOTags(value)
-            break
-          case 'service':
-            updateService(value)
-            break
-          case 'linkedEntity':
-            updateLinkedEntity(value)
-            break
-          case 'linkedResource':
-            updateLinkedResource(
-              value.filter((item: LinkedResource) => Object.keys(EntityLinkedResourceConfig).includes(item.type)),
-            )
-            break
-          case 'claimQuestion':
-            claimQuestions = { ...claimQuestions, [value.id]: value }
-            updateClaimQuestions(claimQuestions)
-            break
-          default:
-            break
-        }
-      })
-      // additional
-      updateStartEndDate({ startDate: entity.startDate, endDate: entity.endDate })
+    apiEntityToEntity({ entity: selectedEntity }, (key: string, value: any, merge) => {
+      switch (key) {
+        case 'profile':
+          updateProfile(value)
+          break
+        case 'creator':
+          updateCreator(value)
+          break
+        case 'administrator':
+          updateAdministrator(value)
+          break
+        case 'page':
+          updatePage(value)
+          break
+        case 'ddoTags':
+          updateDDOTags(value)
+          break
+        case 'service':
+          updateService(value)
+          break
+        case 'linkedEntity':
+          updateLinkedEntity(value)
+          break
+        case 'linkedResource':
+          updateLinkedResource(
+            value.filter((item: LinkedResource) => Object.keys(EntityLinkedResourceConfig).includes(item.type)),
+          )
+          break
+        case 'claimQuestion':
+          claimQuestions = { ...claimQuestions, [value.id]: value }
+          updateClaimQuestions(claimQuestions)
+          break
+        default:
+          break
+      }
     })
+    // additional
+    updateStartEndDate({ startDate: selectedEntity.startDate, endDate: selectedEntity.endDate })
     history.push(`${baseLink}/profile`)
   }
-
-  useEffect(() => {
-    if (validateEntityDid(existingDid)) {
-      const bsService = new BlockSyncService(relayer?.blocksync)
-      bsService.entity
-        .getEntityById(existingDid)
-        .then((response: any) => {
-          setCloningEntityType(response.type)
-        })
-        .catch(() => setCloningEntityType(''))
-    } else {
-      setCloningEntityType('')
-    }
-  }, [existingDid, relayer?.blocksync])
 
   return (
     <PageWrapper>

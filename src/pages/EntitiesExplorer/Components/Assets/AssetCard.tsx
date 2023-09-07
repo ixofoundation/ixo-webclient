@@ -9,9 +9,6 @@ import { useAccount } from 'hooks/account'
 import { useTheme } from 'styled-components'
 import { TEntityModel } from 'types/entities'
 import { thousandSeparator } from 'utils/formatters'
-import { BlockSyncService } from 'services/blocksync'
-
-const bsService = new BlockSyncService()
 
 interface Props {
   collectionName: string
@@ -58,21 +55,21 @@ const AssetCard: React.FC<Props> = ({
 
   useEffect(() => {
     if (adminAccount) {
-      bsService.token
-        .getTokenByAddress(adminAccount)
-        .then((response: any) => {
-          const carbon = response['CARBON']
-          const claimable = Object.values(carbon.tokens).reduce((acc: number, cur: any) => acc + cur.amount, 0)
-          const produced = Object.values(carbon.tokens).reduce((acc: number, cur: any) => acc + cur.minted, 0)
-          const retired = Object.values(carbon.tokens).reduce((acc: number, cur: any) => acc + cur.retired, 0)
+      // bsService.token
+      //   .getTokenByAddress(adminAccount)
+      //   .then((response: any) => {
+      //     const carbon = response['CARBON']
+      //     const claimable = Object.values(carbon.tokens).reduce((acc: number, cur: any) => acc + cur.amount, 0)
+      //     const produced = Object.values(carbon.tokens).reduce((acc: number, cur: any) => acc + cur.minted, 0)
+      //     const retired = Object.values(carbon.tokens).reduce((acc: number, cur: any) => acc + cur.retired, 0)
 
-          setProduced(produced)
-          setClaimable(claimable)
-          setRetired(retired)
-        })
-        .catch((e: any) => {
-          console.error('getTokenByAddress', e)
-        })
+      //     setProduced(produced)
+      //     setClaimable(claimable)
+      //     setRetired(retired)
+      //   })
+      //   .catch((e: any) => {
+      //     console.error('getTokenByAddress', e)
+      //   })
       return () => {
         setProduced(0)
         setClaimable(0)

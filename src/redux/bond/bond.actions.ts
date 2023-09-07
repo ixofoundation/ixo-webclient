@@ -4,7 +4,6 @@ import {
   GetBondDetailAction,
   ClearBondAction,
   GetTransactionsAction,
-  GetOutcomesTargetsAction,
   GetPriceHistoryAction,
   GetAlphaHistoryAction,
   GetWithdrawHistoryAction,
@@ -17,9 +16,6 @@ import { RootState } from 'redux/store'
 import { getDisplayAmount } from 'utils/currency'
 import { BigNumber } from 'bignumber.js'
 import moment from 'moment'
-import { BlockSyncService } from 'services/blocksync'
-
-const bsService = new BlockSyncService()
 
 const BLOCKSYNC_API = process.env.REACT_APP_BLOCK_SYNC_URL
 const BLOCKSCAN_API = process.env.REACT_APP_BLOCK_SCAN_URL
@@ -175,32 +171,6 @@ export const getTransactionsByBondDID =
               value: new BigNumber(transfer_amount).dividedBy(new BigNumber(quantity)).toNumber().toFixed(2),
               amount: transfer_amount,
               isMyStake: isMyTX,
-            }
-          })
-        }),
-      ),
-    })
-  }
-
-export const getOutcomesTargets =
-  () =>
-  (dispatch: Dispatch, getState: () => RootState): GetOutcomesTargetsAction => {
-    const {
-      selectedEntity: {
-        entityClaims: { items },
-      },
-    } = getState()
-
-    const requests = items.map((item: any) => bsService.project.getProjectByProjectDid(item['@id']))
-
-    return dispatch({
-      type: BondActions.GetOutcomesTargets,
-      payload: Promise.all(requests).then(
-        Axios.spread((...responses) => {
-          return responses.map((response: any, index) => {
-            return {
-              ...items[index],
-              ddoTags: response.data.ddoTags,
             }
           })
         }),

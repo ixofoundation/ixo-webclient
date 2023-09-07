@@ -6,7 +6,6 @@ import { Redirect, Route, useParams, useRouteMatch } from 'react-router-dom'
 import { requireCheckDefault } from 'utils/images'
 import { MyParticipation } from './MyParticipation'
 import { Navigator } from './Navigator'
-// import { OverviewIndividualMember } from './OverviewIndividualMember'
 import { Membership } from './Membership'
 import { Governance } from './Governance'
 import { IndividualMember } from './IndividualMember'
@@ -121,11 +120,6 @@ const DAODashboard: React.FC = (): JSX.Element => {
       <Route exact path='/entity/:entityId/dashboard/navigator' component={Navigator} />
       <Route exact path='/entity/:entityId/dashboard/membership' component={Membership} />
       <Route exact path='/entity/:entityId/dashboard/membership/:address' component={IndividualMember} />
-      {/* <Route
-        exact
-        path='/entity/:entityId/dashboard/overview/:coreAddress/:address'
-        component={OverviewIndividualMember}
-      /> */}
       <Route exact path='/entity/:entityId/dashboard/governance' component={Governance} />
       {registered && <Route exact path='/entity/:entityId/dashboard/my-participation' component={MyParticipation} />}
       {registered && owner === address && (

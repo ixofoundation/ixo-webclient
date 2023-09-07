@@ -7,9 +7,9 @@ import 'assets/toasts.scss'
 import AssistantContext from 'contexts/assistant'
 import {
   changeEntitiesType,
-  getAllEntities,
-  getCollectionsAction,
+  getEntitiesFromGraphqlAction,
   getEntityConfig,
+  updateEntityPropertyAction,
 } from 'redux/entitiesExplorer/entitiesExplorer.actions'
 import React, { useEffect, useState } from 'react'
 import * as ReactGA from 'react-ga'
@@ -29,6 +29,8 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { selectCustomTheme } from 'redux/theme/theme.selectors'
 import { useAccount } from 'hooks/account'
+import { useGetAllEntities } from 'hooks/entities'
+import { apiEntityToEntity } from 'utils/entities'
 
 const CHAIN_ID = process.env.REACT_APP_CHAIN_ID!
 const LOCAL_STORAGE_KEY = 'ixo-webclient/connectedWalletId'
@@ -42,13 +44,13 @@ const App: React.FC = () => {
   const customTheme = useAppSelector(selectCustomTheme)
   const entityConfig = useAppSelector(selectEntityConfig)
   const { cwClient } = useAccount()
+  const { data: apiEntities } = useGetAllEntities()
 
   const [customizedTheme, setCustomizedTheme] = useState<any>(theme)
 
   useEffect(() => {
     dispatch(getEntityConfig())
     dispatch(getCustomTheme())
-    dispatch(getCollectionsAction())
   }, [dispatch])
 
   useEffect(() => {
@@ -104,11 +106,18 @@ const App: React.FC = () => {
   }, [entityConfig])
 
   useEffect(() => {
-    if (cwClient) {
-      dispatch(getAllEntities())
+    if (cwClient && apiEntities.length > 0) {
+      dispatch(getEntitiesFromGraphqlAction(apiEntities))
+
+      apiEntities.forEach((entity: any) => {
+        const { id } = entity
+        apiEntityToEntity({ entity, cwClient }, (key, data, merge = false) => {
+          dispatch(updateEntityPropertyAction(id, key, data, merge))
+        })
+      })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cwClient])
+  }, [cwClient, apiEntities])
 
   return (
     <ThemeProvider theme={customizedTheme}>

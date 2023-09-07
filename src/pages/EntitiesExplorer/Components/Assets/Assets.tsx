@@ -1,6 +1,6 @@
 import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { Button } from 'pages/CreateEntity/Components'
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { TButtonProps } from 'pages/CreateEntity/Components/Button'
 import AssetCard from './AssetCard'
 import { AssetCardSelection, AssetCardWrapper } from './AssetCard.styles'
@@ -15,11 +15,10 @@ import { InfiniteScroll } from 'components/InfiniteScroll'
 import { deviceWidth } from 'constants/device'
 import { useMediaQuery } from 'react-responsive'
 import { useTheme } from 'styled-components'
-import { BlockSyncService } from 'services/blocksync'
 import { useAccount } from 'hooks/account'
+import { useGetAssetDevicesByCollectionIdAndOwner } from 'hooks/entities'
 
 let timer: any = null
-const bsService = new BlockSyncService()
 
 const FilterButton: React.FC<TButtonProps> = ({ children, ...rest }) => {
   return (
@@ -47,6 +46,7 @@ interface Props {
 const Assets: React.FC<Props> = (props) => {
   const theme: any = useTheme()
   const { address } = useAccount()
+  const { data: myEntities } = useGetAssetDevicesByCollectionIdAndOwner(props.collectionId, address)
   const isMobile = useMediaQuery({ maxWidth: deviceWidth.tablet })
   const isTablet = useMediaQuery({ minWidth: deviceWidth.tablet, maxWidth: deviceWidth.desktop })
   const itemsPerScreen = useMemo(() => (!isMobile ? (!isTablet ? 4 : 2) : 1), [isTablet, isMobile])
@@ -54,8 +54,7 @@ const Assets: React.FC<Props> = (props) => {
   const [selections, setSelections] = useState(new Array(props.entities.length).fill(false))
   const [selecting, setSelecting] = useState(false)
   const [filterBy, setFilterBy] = useState<'all' | 'on-sale' | 'owned'>('all')
-  const [myEntities, setMyEntities] = useState<any[]>([])
-  const myEntityIds = useMemo(() => myEntities.map((v) => v.id), [myEntities])
+  const myEntityIds = useMemo(() => myEntities.map((v: any) => v.id), [myEntities])
 
   const [entities, hasMore] = useMemo(() => {
     let entities = props.entities
@@ -74,23 +73,6 @@ const Assets: React.FC<Props> = (props) => {
     const hasMore = slicedEntities.length < entities.length
     return [slicedEntities, hasMore]
   }, [scrollOffset, props.entities, filterBy, myEntityIds])
-
-  useEffect(() => {
-    if (address && props.collectionId) {
-      bsService.entity
-        .getCollectionsByOwnerAddress(address)
-        .then((response: any) => {
-          const entities = response.find((v: any) => v.collection.id === props.collectionId)?.entities ?? []
-          setMyEntities(entities)
-        })
-        .catch((e: any) => {
-          console.error('getCollectionsByOwnerAddress', e)
-        })
-      return () => {
-        setMyEntities([])
-      }
-    }
-  }, [address, props.collectionId])
 
   const handleSelecting = () => {
     setSelecting((prev) => !prev)
