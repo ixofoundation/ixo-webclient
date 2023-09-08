@@ -29,7 +29,7 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { selectCustomTheme } from 'redux/theme/theme.selectors'
 import { useAccount } from 'hooks/account'
-import { useGetAllEntities } from 'hooks/entities'
+import { useGetAllEntities } from 'graphql/entities'
 import { apiEntityToEntity } from 'utils/entities'
 
 const CHAIN_ID = process.env.REACT_APP_CHAIN_ID!

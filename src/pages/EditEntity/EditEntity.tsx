@@ -5,7 +5,7 @@ import { initialState } from 'redux/createEntity/createEntity.reducer'
 import { TCreateEntityState } from 'redux/createEntity/createEntity.types'
 import EditDAO from './EditDAO/EditDAO'
 import { apiEntityToEntity } from 'utils/entities'
-import { useGetEntityById } from 'hooks/entities'
+import { useGetEntityById } from 'graphql/entities'
 
 export const EditEntityContext = createContext<
   {

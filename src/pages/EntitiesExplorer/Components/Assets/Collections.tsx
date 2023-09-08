@@ -4,7 +4,7 @@ import CollectionCard from './CollectionCard'
 import CollectionExplorer from './CollectionExplorer'
 import { deviceWidth } from 'constants/device'
 import { useMediaQuery } from 'react-responsive'
-import { useGetAllCollections } from 'hooks/entities'
+import { useGetAllCollections } from 'graphql/entities'
 import { useHistory } from 'react-router-dom'
 import { useQuery } from 'hooks/window'
 

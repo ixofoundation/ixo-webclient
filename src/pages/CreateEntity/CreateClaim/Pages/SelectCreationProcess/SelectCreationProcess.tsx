@@ -12,7 +12,7 @@ import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1b
 import { EntityLinkedResourceConfig } from 'constants/entity'
 import { useAppSelector } from 'redux/hooks'
 import { selectRelayerByChainId } from 'redux/configs/configs.selectors'
-import { useGetEntityById } from 'hooks/entities'
+import { useGetEntityById } from 'graphql/entities'
 
 const SelectCreationProcess: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): JSX.Element => {
   const baseLink = match.path.split('/').slice(0, -1).join('/')

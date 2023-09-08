@@ -16,7 +16,7 @@ import { deviceWidth } from 'constants/device'
 import { useMediaQuery } from 'react-responsive'
 import { useTheme } from 'styled-components'
 import { useAccount } from 'hooks/account'
-import { useGetAssetDevicesByCollectionIdAndOwner } from 'hooks/entities'
+import { useGetAssetDevicesByCollectionIdAndOwner } from 'graphql/entities'
 
 let timer: any = null
 

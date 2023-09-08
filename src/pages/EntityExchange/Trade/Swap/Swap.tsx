@@ -26,7 +26,7 @@ import { RootState } from 'redux/store'
 import * as keplr from 'lib/keplr/keplr'
 import { setKeplrWallet } from 'redux/account/account.actions'
 import { changeSelectedAccountAddress } from 'redux/selectedEntityExchange/entityExchange.actions'
-import { useGetEntityById } from 'hooks/entities'
+import { useGetEntityById } from 'graphql/entities'
 
 const Swap: React.FunctionComponent = () => {
   const { wallet } = useParams() as any

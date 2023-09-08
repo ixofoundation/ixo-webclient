@@ -26,7 +26,7 @@ import { useIxoConfigs } from 'hooks/configs'
 import { AssetType } from 'redux/configs/configs.types'
 import NftBuyModal from 'components/ControlPanel/Actions/NftBuyModal'
 import { requireCheckDefault } from 'utils/images'
-import { useGetEntityById } from 'hooks/entities'
+import { useGetEntityById } from 'graphql/entities'
 
 const NftAssetList = [
   {

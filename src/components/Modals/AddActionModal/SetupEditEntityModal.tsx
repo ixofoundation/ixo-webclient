@@ -6,7 +6,7 @@ import SetupActionModalTemplate from './SetupActionModalTemplate'
 import { ReactComponent as SearchIcon } from 'assets/images/icon-search.svg'
 import { useHistory } from 'react-router-dom'
 import styled, { useTheme } from 'styled-components'
-import { useGetEntityById } from 'hooks/entities'
+import { useGetEntityById } from 'graphql/entities'
 
 const Body = styled(FlexBox)`
   input {

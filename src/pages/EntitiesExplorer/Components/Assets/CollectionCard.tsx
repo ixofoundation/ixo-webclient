@@ -6,7 +6,7 @@ import { getSDGIcon } from 'components/Modals/SelectionModal/SelectionModal'
 import { useAccount } from 'hooks/account'
 import { TEntityModel } from 'types/entities'
 import { FlexBox } from 'components/App/App.styles'
-import { useGetAssetDevicesByCollectionIdAndOwner } from 'hooks/entities'
+import { useGetAssetDevicesByCollectionIdAndOwner } from 'graphql/entities'
 
 const CollectionCard: React.FC<any> = (apiEntity) => {
   const theme: any = useTheme()

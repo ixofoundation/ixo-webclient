@@ -11,7 +11,7 @@ import { deviceWidth } from 'constants/device'
 import { TEntityModel } from 'types/entities'
 import CollectionCard from './CollectionCard'
 import { useHistory } from 'react-router-dom'
-import { useGetAssetDevicesByCollectionId } from 'hooks/entities'
+import { useGetAssetDevicesByCollectionId } from 'graphql/entities'
 
 interface Props {
   collection: any

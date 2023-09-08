@@ -7,7 +7,7 @@ import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { ReactComponent as SearchIcon } from 'assets/images/icon-search.svg'
 import { useTheme } from 'styled-components'
 import { LinkedEntity } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
-import { useGetEntityById } from 'hooks/entities'
+import { useGetEntityById } from 'graphql/entities'
 
 interface Props {
   open: boolean
