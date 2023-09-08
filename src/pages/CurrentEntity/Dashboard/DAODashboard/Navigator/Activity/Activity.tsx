@@ -12,7 +12,6 @@ import { ReactComponent as ProfileIcon } from 'assets/images/icon-profile.svg'
 import { ReactComponent as EyeIcon } from 'assets/images/icon-eye.svg'
 import { ReactComponent as IXOIcon } from 'assets/images/icon-ixo.svg'
 import { truncateString } from 'utils/formatters'
-import { useGetTransactions } from 'hooks/dao'
 
 const TableWrapper = styled.div`
   color: white;
@@ -119,7 +118,6 @@ const Activity: React.FC<Props> = ({ daoId, groupIds }): JSX.Element => {
       ),
     },
   ]
-  const { data } = useGetTransactions(daoId, groupIds)
   const [tab, setTab] = useState('Transactions')
   return (
     <Card icon={<ClockIcon />} label='Activity'>
@@ -144,7 +142,7 @@ const Activity: React.FC<Props> = ({ daoId, groupIds }): JSX.Element => {
       <TableWrapper>
         <Table
           columns={columns}
-          data={data}
+          data={[]}
           getRowProps={() => ({ style: { height: 70 } })}
           getCellProps={() => ({ style: { background: '#023044' } })}
         />

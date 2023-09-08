@@ -4,7 +4,6 @@ import moment from 'moment'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import AssetCard from 'components/Entities/EntitiesExplorer/Components/EntityCard/AssetCard/AssetCard'
 import { TermsOfUseType } from 'types/entities'
-import { ApiListedEntity } from 'api/blocksync/types/entities'
 
 import { TradeWrapper, AssetCardWrapper, TradePanel } from '../Swap.styles'
 import { useParams } from 'react-router-dom'
@@ -19,7 +18,6 @@ import { useIxoConfigs } from 'hooks/configs'
 import { AssetType } from 'redux/configs/configs.types'
 import SwapModal from 'components/ControlPanel/Actions/SwapModal'
 import { calcToAmount } from 'redux/selectedEntityExchange/entityExchange.utils'
-import { BlockSyncService } from 'services/blocksync'
 import RenderSwapPanel from 'components/Pages/Exchange/Swap/RenderSwapPanel'
 import RenderPairListPanel from 'components/Pages/Exchange/Swap/RenderPairListPanel'
 import RenderSettingsPanel from 'components/Pages/Exchange/Swap/RenderSettingsPanel'
@@ -28,8 +26,7 @@ import { RootState } from 'redux/store'
 import * as keplr from 'lib/keplr/keplr'
 import { setKeplrWallet } from 'redux/account/account.actions'
 import { changeSelectedAccountAddress } from 'redux/selectedEntityExchange/entityExchange.actions'
-
-const bsService = new BlockSyncService()
+import { useGetEntityById } from 'graphql/entities'
 
 const Swap: React.FunctionComponent = () => {
   const { wallet } = useParams() as any
@@ -48,8 +45,8 @@ const Swap: React.FunctionComponent = () => {
   const [toToken, setToToken] = useState<AssetType | undefined>(undefined)
   const [fromAmount, setFromAmount] = useState<BigNumber>(new BigNumber(0))
   const [toAmount, setToAmount] = useState<BigNumber>(new BigNumber(0))
-  const [fromEntity, setFromEntity] = useState<any | undefined>(undefined)
-  const [toEntity, setToEntity] = useState<any | undefined>(undefined)
+  const { data: fromEntity } = useGetEntityById(fromToken?.entityId || '')
+  const { data: toEntity } = useGetEntityById(toToken?.entityId || '')
   const [balances, setBalances] = useState({})
   const [chainId, setChainId] = useState(process.env.REACT_APP_CHAIN_ID)
   const [fromTokenSelected, setFromTokenSelected] = useState<boolean>(true)
@@ -154,12 +151,6 @@ const Swap: React.FunctionComponent = () => {
       setFromAmount(new BigNumber(0))
       setToAmount(new BigNumber(0))
     }
-    if (fromToken?.entityId) {
-      bsService.entity?.getEntityById(fromToken?.entityId).then((apiEntity: ApiListedEntity) => {
-        console.log({ apiEntity })
-        setFromEntity(apiEntity)
-      })
-    }
   }, [fromToken, setFromAmount, setToAmount, setFromUSDRate])
 
   useEffect(() => {
@@ -167,11 +158,6 @@ const Swap: React.FunctionComponent = () => {
       getUSDRateByCoingeckoId(toToken?.coingeckoId).then((rate): void => setToUSDRate(rate))
       setFromAmount(new BigNumber(0))
       setToAmount(new BigNumber(0))
-    }
-    if (toToken?.entityId) {
-      bsService.entity?.getEntityById(toToken?.entityId).then((apiEntity: ApiListedEntity) => {
-        setToEntity(apiEntity)
-      })
     }
   }, [toToken, setFromAmount, setToAmount, setFromUSDRate])
 

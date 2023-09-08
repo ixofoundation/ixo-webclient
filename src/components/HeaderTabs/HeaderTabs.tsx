@@ -32,12 +32,9 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
 }): JSX.Element => {
   const { entityId } = useParams<{ entityId: string }>()
   const { title } = useEntityConfig()
-  const entityConfig = useEntityConfig()
   const { entityType } = useCurrentEntity()
   const { id: creatorDid } = useCurrentEntityCreator()
   const { did: userDid, registered } = useAccount()
-
-  console.log({ entityConfig })
 
   const buttonsArray = React.useMemo(() => {
     if (buttons) {

@@ -8,16 +8,12 @@ import { TDAOGroupModel } from 'types/entities'
 import { omitKey } from 'utils/objects'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
 import { toTitleCase, truncateString } from 'utils/formatters'
-import { BlockSyncService } from 'services/blocksync'
 import { LinkedEntity } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import ImpactEntitySetupModal from 'components/Modals/ImpactEntitySetupModal/ImpactEntitySetupModal'
 import LinkedAccountSetupModal from 'components/Modals/LinkedAccountSetupModal/LinkedAccountSetupModal'
-import { serviceEndpointToUrl } from 'utils/entities'
 import DelegateAccountSetupModal from 'components/Modals/DelegateAccountSetupModal/DelegateAccountSetupModal'
 import { errorToast } from 'utils/toast'
 import { DAOGroupConfig, EntityLinkedEntityConfig } from 'constants/entity'
-
-const bsService = new BlockSyncService()
 
 const LinkedEntityPropertyBox = (props: PropertyBoxProps & { id: string; type: string }) => {
   const [name, setName] = useState('')
@@ -25,23 +21,7 @@ const LinkedEntityPropertyBox = (props: PropertyBoxProps & { id: string; type: s
   useEffect(() => {
     if (props.id) {
       if (props.type === 'ImpactEntity') {
-        bsService.entity
-          .getEntityById(props.id)
-          .then((response: any) => {
-            const { service, settings } = response
-
-            const url = serviceEndpointToUrl(settings.Profile.serviceEndpoint, service)
-
-            if (url) {
-              fetch(url)
-                .then((response) => response.json())
-                .then((profile) => {
-                  console.log({ profile })
-                  setName(profile.name)
-                })
-            }
-          })
-          .catch(console.error)
+        setName(truncateString(props.id, 13))
       } else if (props.type === 'BlockchainAccount') {
         setName(truncateString(props.id, 13))
       } else if (props.type === 'IndividualAccount') {

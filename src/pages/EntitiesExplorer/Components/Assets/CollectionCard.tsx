@@ -6,17 +6,14 @@ import { getSDGIcon } from 'components/Modals/SelectionModal/SelectionModal'
 import { useAccount } from 'hooks/account'
 import { TEntityModel } from 'types/entities'
 import { FlexBox } from 'components/App/App.styles'
-import { BlockSyncService } from 'services/blocksync'
-
-const bsService = new BlockSyncService()
+import { useGetAssetDevicesByCollectionIdAndOwner } from 'graphql/entities'
 
 const CollectionCard: React.FC<any> = (apiEntity) => {
   const theme: any = useTheme()
-  const { cwClient, address } = useAccount()
+  const { address } = useAccount()
   const [collection, setCollection] = useState<TEntityModel>()
-  const [numOfPurchase, setNumOfPurchase] = useState(500)
 
-  const collectionId = collection?.id
+  const collectionId = apiEntity.id
   const logo = collection?.token?.properties?.icon
   const image = collection?.profile?.image
   const collectionName = collection?.token?.name
@@ -28,9 +25,11 @@ const CollectionCard: React.FC<any> = (apiEntity) => {
     ? collection.tags.find((item) => item && item.category === 'SDG' && Array.isArray(item.tags))?.tags ?? []
     : []
 
+  const { totalCount: numOfPurchase } = useGetAssetDevicesByCollectionIdAndOwner(collectionId, address)
+
   useEffect(() => {
     setCollection(apiEntity)
-    apiEntityToEntity({ entity: apiEntity, cwClient }, (key, value) => {
+    apiEntityToEntity({ entity: apiEntity }, (key, value) => {
       setCollection((collection: any) => ({ ...collection, [key]: value }))
     })
     return () => {
@@ -38,23 +37,6 @@ const CollectionCard: React.FC<any> = (apiEntity) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
-  useEffect(() => {
-    if (address && collectionId) {
-      bsService.entity
-        .getCollectionsByOwnerAddress(address)
-        .then((response: any) => {
-          const entities = response.find((v: any) => v.collection.id === collectionId)?.entities ?? []
-          setNumOfPurchase(entities.length)
-        })
-        .catch((e: any) => {
-          console.error('getCollectionsByOwnerAddress', e)
-        })
-      return () => {
-        setNumOfPurchase(500)
-      }
-    }
-  }, [address, collectionId])
 
   return (
     <FlexBox

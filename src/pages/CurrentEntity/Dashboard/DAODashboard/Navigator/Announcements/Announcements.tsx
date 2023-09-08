@@ -1,14 +1,12 @@
 import { Box, FlexBox } from 'components/App/App.styles'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import moment from 'moment'
 import { Card, TabButton } from '../../../../Components'
 import { ReactComponent as BellIcon } from 'assets/images/icon-bell-in-circle.svg'
 import { Typography } from 'components/Typography'
-import { useGetAnnouncements } from 'hooks/dao'
 import { useTheme } from 'styled-components'
 
 const DEFAULT_FILTER_BY = 'newest'
-const DEFAULT_LIMIT = 3
 
 interface Props {
   daoId: string
@@ -16,13 +14,7 @@ interface Props {
 }
 const Announcements: React.FC<Props> = ({ daoId, groupAddresses = [] }): JSX.Element => {
   const theme: any = useTheme()
-  const { data, refetch } = useGetAnnouncements(daoId, groupAddresses, DEFAULT_FILTER_BY, DEFAULT_LIMIT)
   const [filterBy, setFilterBy] = useState(DEFAULT_FILTER_BY)
-
-  useEffect(() => {
-    refetch({ groupIds: groupAddresses, filterBy, limit: DEFAULT_LIMIT })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filterBy])
 
   return (
     <Card icon={<BellIcon />} label='Announcements'>
@@ -39,7 +31,7 @@ const Announcements: React.FC<Props> = ({ daoId, groupAddresses = [] }): JSX.Ele
       </FlexBox>
 
       <FlexBox width='100%' gap={7.5}>
-        {data.map((item: any, index: number) => (
+        {[].map((item: any, index: number) => (
           <FlexBox key={index} borderRadius='4px' background='#012131' gap={4} p={4} direction='column'>
             <FlexBox alignItems='center' gap={2.5}>
               <Box>

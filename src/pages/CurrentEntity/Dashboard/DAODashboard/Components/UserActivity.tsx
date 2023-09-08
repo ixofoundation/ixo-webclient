@@ -12,7 +12,6 @@ import { ReactComponent as ProfileIcon } from 'assets/images/icon-profile.svg'
 import { ReactComponent as EyeIcon } from 'assets/images/icon-eye.svg'
 import { ReactComponent as IXOIcon } from 'assets/images/icon-ixo.svg'
 import { truncateString } from 'utils/formatters'
-import { useGetTransactions } from 'hooks/dao'
 
 const TableWrapper = styled.div`
   color: white;
@@ -40,7 +39,6 @@ const renderTableHeader = (name: string) => (
 
 const UserActivity: React.FC = (): JSX.Element => {
   const theme: any = useTheme()
-  const { data } = useGetTransactions('', [])
   const [tab, setTab] = useState('Transactions')
 
   const columns = [
@@ -141,7 +139,7 @@ const UserActivity: React.FC = (): JSX.Element => {
       <TableWrapper>
         <Table
           columns={columns}
-          data={data}
+          data={[]}
           getRowProps={() => ({ style: { height: 70 } })}
           getCellProps={() => ({ style: { background: '#023044' } })}
         />

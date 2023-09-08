@@ -1,16 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import * as Modal from 'react-modal'
 import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
 import { ModalStyles, CloseButton, ModalWrapper, ModalTitle } from 'components/Modals/styles'
 import { Button, ChainSelector, Input } from 'pages/CreateEntity/Components'
 import { FlexBox, SvgBox } from 'components/App/App.styles'
-import { BlockSyncService } from 'services/blocksync'
-import { validateEntityDid } from 'utils/validation'
 import { ReactComponent as SearchIcon } from 'assets/images/icon-search.svg'
 import { useTheme } from 'styled-components'
 import { LinkedEntity } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
-
-const bsService = new BlockSyncService()
+import { useGetEntityById } from 'graphql/entities'
 
 interface Props {
   open: boolean
@@ -28,7 +25,10 @@ const ImpactEntitySetupModal: React.FC<Props> = ({ open, onClose, onAdd }): JSX.
   }
   const [chainId, setChainId] = useState(undefined)
   const [entityDid, setEntityDid] = useState('')
-  const [selectedType, setSelectedType] = useState('')
+
+  const { data: selectedEntity } = useGetEntityById(entityDid)
+
+  const selectedType = useMemo(() => selectedEntity?.type, [selectedEntity])
 
   const handleAdd = () => {
     onAdd({
@@ -47,25 +47,8 @@ const ImpactEntitySetupModal: React.FC<Props> = ({ open, onClose, onAdd }): JSX.
     if (open === false) {
       setChainId(undefined)
       setEntityDid('')
-      setSelectedType('')
     }
   }, [open])
-
-  /**
-   * @description check entity alive by entityDid, call blocksync
-   */
-  useEffect(() => {
-    if (validateEntityDid(entityDid)) {
-      bsService.entity
-        .getEntityById(entityDid)
-        .then((response: any) => {
-          setSelectedType(response.type)
-        })
-        .catch(() => setSelectedType(''))
-    } else {
-      setSelectedType('')
-    }
-  }, [entityDid])
 
   return (
     <>
@@ -81,7 +64,7 @@ const ImpactEntitySetupModal: React.FC<Props> = ({ open, onClose, onAdd }): JSX.
             <FlexBox width='100%' height='100%' gap={4}>
               <ChainSelector chainId={chainId!} onChange={setChainId as any} />
               <Input
-                name='entitydid'
+                name='entityDid'
                 inputValue={entityDid}
                 handleChange={setEntityDid}
                 placeholder='Type to Search or enter a DID'

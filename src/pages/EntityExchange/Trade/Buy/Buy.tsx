@@ -4,7 +4,6 @@ import moment from 'moment'
 import { useAppSelector } from 'redux/hooks'
 import AssetCard from 'components/Entities/EntitiesExplorer/Components/EntityCard/AssetCard/AssetCard'
 import { TermsOfUseType } from 'types/entities'
-import { ApiListedEntity } from 'api/blocksync/types/entities'
 import { CardBody, CardHeader, SettingsButton, SubmitButton, Overlay, Stat, CardHeaderText } from './Buy.styles'
 import { TradeWrapper, AssetCardWrapper, TradePanel } from '../Swap.styles'
 import { useHistory, useLocation } from 'react-router-dom'
@@ -27,9 +26,7 @@ import { useIxoConfigs } from 'hooks/configs'
 import { AssetType } from 'redux/configs/configs.types'
 import NftBuyModal from 'components/ControlPanel/Actions/NftBuyModal'
 import { requireCheckDefault } from 'utils/images'
-import { BlockSyncService } from 'services/blocksync'
-
-const bsService = new BlockSyncService()
+import { useGetEntityById } from 'graphql/entities'
 
 const NftAssetList = [
   {
@@ -53,7 +50,8 @@ const Buy: React.FunctionComponent = () => {
   const [balances, setBalances] = useState({})
 
   const [nftAsset, setNftAsset] = useState<any>(undefined)
-  const [nftEntity, setNftEntity] = useState<ApiListedEntity | undefined>(undefined)
+  const { data: nftEntity } = useGetEntityById(nftAsset?.entityId || '')
+
   // TODO: nftPrice should be fetched from blockchain(cellnode)
   const nftPrice = 250
   // TODO: nftRemainings should be fetched from blocksync
@@ -124,14 +122,6 @@ const Buy: React.FunctionComponent = () => {
     }
     // eslint-disable-next-line
   }, [walletType, selectedAccountAddress])
-
-  useEffect(() => {
-    if (nftAsset?.entityId) {
-      bsService.project.getProjectByProjectDid(nftAsset?.entityId).then((apiEntity: ApiListedEntity) => {
-        setNftEntity(apiEntity)
-      })
-    }
-  }, [nftAsset])
 
   useEffect(() => {
     if (token?.coingeckoId) {
