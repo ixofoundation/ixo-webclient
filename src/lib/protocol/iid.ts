@@ -1,4 +1,4 @@
-import { ixo, SigningStargateClient, createQueryClient, customMessages } from '@ixo/impactxclient-sdk'
+import { ixo, SigningStargateClient, customMessages } from '@ixo/impactxclient-sdk'
 import { IidDocument } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/iid'
 import {
   LinkedClaim,
@@ -10,6 +10,8 @@ import { fee, RPC_ENDPOINT, TSigner } from './common'
 import { DeliverTxResponse } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/stargate'
 import { EncodeObject } from '@cosmjs/proto-signing'
 import { Verification } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/tx'
+
+const { createRPCQueryClient } = ixo.ClientFactory
 
 export const CreateIidDoc = async (
   client: SigningStargateClient,
@@ -98,7 +100,7 @@ export const CreateIidDocForGroup = async (client: SigningStargateClient, signer
 
 export const CheckIidDoc = async (did: string): Promise<IidDocument> => {
   try {
-    const client = await createQueryClient(RPC_ENDPOINT!)
+    const client = await createRPCQueryClient({ rpcEndpoint: RPC_ENDPOINT! })
     const { iidDocument } = await client.ixo.iid.v1beta1.iidDocument({
       id: did,
     })

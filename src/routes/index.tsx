@@ -20,6 +20,9 @@ const CurrentEntityPage = lazy(
   () => import(/* webpackChunkName: "EntityExchangeTradeBid" */ 'pages/CurrentEntity/CurrentEntity'),
 )
 const TransferEntityPage = lazy(() => import('pages/TransferEntity'))
+const EntityExchange = lazy(
+  () => import(/* webpackChunkName: "EntityExchange" */ 'pages/EntityExchange/EntityExchange'),
+)
 
 interface Props {
   toggleAssistant?: (param: ToogleAssistantPayload) => void
@@ -63,6 +66,7 @@ const App: React.FunctionComponent<Props> = ({ toggleAssistant }) => {
           path={'/explore'}
           render={(routeProps): JSX.Element => <EntitiesExplorer {...routeProps.location} />}
         />
+        <Route path='/exchange' component={EntityExchange} />
         <Route path='/create/entity' component={CreateEntityPage} />
         <Route path='/edit/entity/:entityId' component={EditEntityPage} />
         <Route path='/entity/:entityId' component={CurrentEntityPage} />

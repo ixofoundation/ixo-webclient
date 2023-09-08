@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { Redirect, Route, RouteComponentProps, useParams, useRouteMatch } from 'react-router-dom'
 import { useCreateEntityState } from 'hooks/createEntity'
-import useCurrentEntity, { useCurrentEntityDAOGroup, useCurrentEntityProfile } from 'hooks/currentEntity'
+import { useCurrentEntityDAOGroup, useCurrentEntityProfile } from 'hooks/currentEntity'
 import {
   SetupTargetGroup,
   SetupInfo as SetupProposalInfo,
@@ -17,7 +17,6 @@ const CreateProposal: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match })
   const { getQuery } = useQuery()
   const join = getQuery('join')
 
-  const { getEntityByDid } = useCurrentEntity()
   const { daoGroup } = useCurrentEntityDAOGroup(coreAddress)
   const { name: entityName } = useCurrentEntityProfile()
   const { updateBreadCrumbs, updateEntityType, updateTitle, updateSubtitle } = useCreateEntityState()
@@ -74,11 +73,6 @@ const CreateProposal: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isReviewRoute?.isExact])
-
-  useEffect(() => {
-    getEntityByDid(entityId)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [entityId])
 
   return (
     <>

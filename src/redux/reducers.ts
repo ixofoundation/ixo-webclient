@@ -9,9 +9,14 @@ import { reducer as currentEntityReducer } from 'redux/currentEntity/currentEnti
 import { reducer as editEntityReducer } from 'redux/editEntity/editEntity.reducer'
 import { reducer as validatorReducer } from 'redux/validator/validator.reducer'
 import { reducer as customThemeReducer } from 'redux/theme/theme.reducer'
+import { reducer as selectedEntityReducer } from 'redux/selectedEntity/selectedEntity.reducer'
+import { reducer as selectedEntityExchangeReducer } from 'redux/selectedEntityExchange/entityExchange.reducer'
+import { reducer as bondReducer } from 'redux/bond/bond.reducer'
+import { reducer as submitEntityClaimReducer } from 'redux/submitEntityClaim/submitEntityClaim.reducer'
 
 export const rootReducer = (history: any) =>
   combineReducers({
+    activeBond: bondReducer,
     account: accountReducer,
     entities: entitiesReducer,
     configs: configsReducer,
@@ -21,5 +26,8 @@ export const rootReducer = (history: any) =>
     transferEntity: transferEntityReducer,
     validator: validatorReducer,
     customTheme: customThemeReducer,
+    selectedEntity: selectedEntityReducer,
+    selectedEntityExchange: selectedEntityExchangeReducer,
+    submitEntityClaim: submitEntityClaimReducer,
     router: connectRouter(history),
   })

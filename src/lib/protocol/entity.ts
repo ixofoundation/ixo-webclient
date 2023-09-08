@@ -1,4 +1,4 @@
-import { createQueryClient, ixo, SigningStargateClient, customMessages, utils } from '@ixo/impactxclient-sdk'
+import { ixo, SigningStargateClient, customMessages, utils, createQueryClient } from '@ixo/impactxclient-sdk'
 import {
   QueryEntityIidDocumentRequest,
   QueryEntityListRequest,
@@ -21,6 +21,8 @@ import { fee, RPC_ENDPOINT, TSigner } from './common'
 import { Verification } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/tx'
 import { EncodeObject } from '@cosmjs/proto-signing'
 import { MsgTransferEntity, MsgUpdateEntity } from '@ixo/impactxclient-sdk/types/codegen/ixo/entity/v1beta1/tx'
+
+const { createRPCQueryClient } = ixo.ClientFactory
 
 export const CreateEntity = async (
   client: SigningStargateClient,
@@ -96,7 +98,7 @@ export const CreateEntity = async (
 
 export const EntityList = async (request: QueryEntityListRequest): Promise<QueryEntityListResponse> => {
   try {
-    const client = await createQueryClient(RPC_ENDPOINT!)
+    const client = await createRPCQueryClient({ rpcEndpoint: RPC_ENDPOINT! })
     const res: QueryEntityListResponse = await client.ixo.entity.v1beta1.entityList(request)
     return res
   } catch (e) {
@@ -114,7 +116,7 @@ export const EntityList = async (request: QueryEntityListRequest): Promise<Query
  */
 export const GetEntity = async (request: QueryEntityRequest): Promise<QueryEntityResponse> => {
   try {
-    const client = await createQueryClient(RPC_ENDPOINT!)
+    const client = await createRPCQueryClient({ rpcEndpoint: RPC_ENDPOINT! })
     const res: QueryEntityResponse = await client.ixo.entity.v1beta1.entity(request)
     return res
   } catch (e) {
@@ -132,7 +134,7 @@ export const GetEntity = async (request: QueryEntityRequest): Promise<QueryEntit
  */
 export const GetEntityIidDocument = async (request: QueryEntityIidDocumentRequest): Promise<IidDocument> => {
   try {
-    const client = await createQueryClient(RPC_ENDPOINT!)
+    const client = await createRPCQueryClient({ rpcEndpoint: RPC_ENDPOINT! })
     const { iidDocument } = await client.ixo.entity.v1beta1.entityIidDocument(request)
     client.cosmos.base.tendermint.v1beta1.getLatestValidatorSet()
     return iidDocument!

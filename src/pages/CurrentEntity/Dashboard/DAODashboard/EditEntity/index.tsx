@@ -15,7 +15,7 @@ import { ReactComponent as ExclamationIcon } from 'assets/images/icon-exclamatio
 const EditEntity: React.FC = () => {
   const history = useHistory()
   const { entityId } = useParams<{ entityId: string }>()
-  const { currentEntity, isOwner, getEntityByDid } = useCurrentEntity()
+  const { currentEntity, isOwner } = useCurrentEntity()
   const { setEditEntity, ExecuteEditEntity } = useEditEntity()
   const [editing, setEditing] = useState(false)
 
@@ -30,7 +30,6 @@ const EditEntity: React.FC = () => {
       const { transactionHash, code, rawLog } = await ExecuteEditEntity()
       if (transactionHash && code === 0) {
         successToast('Updating', 'Successfully Updated')
-        getEntityByDid(currentEntity.id, true)
       } else {
         throw new Error(rawLog)
       }
