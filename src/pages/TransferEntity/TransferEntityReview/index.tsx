@@ -1,17 +1,24 @@
+import { ixo } from '@ixo/impactxclient-sdk'
 import { FlexBox } from 'components/App/App.styles'
 import FormCard from 'components/Card/FormCard'
 import { InputWithLabel } from 'components/Form/InputWithLabel'
 import { Typography } from 'components/Typography'
-import { VMKeyMap } from 'constants/entity'
+import { useAccount } from 'hooks/account'
+// import { VMKeyMap } from 'constants/entity'
 import { useTransferEntityState } from 'hooks/transferEntity'
-import { Button } from 'pages/CreateEntity/Components'
-import React, { useMemo, useState } from 'react'
-import { useHistory } from 'react-router-dom'
+import { AddVerificationMethod, UpdateEntity } from 'lib/protocol'
+import { Button, Switch } from 'pages/CreateEntity/Components'
+import React, { useEffect, useMemo, useState } from 'react'
+import { useHistory, useParams } from 'react-router-dom'
 import { useTheme } from 'styled-components'
+import { serviceEndpointToUrl } from 'utils/entities'
+import { errorToast, successToast } from 'utils/toast'
 
 const TransferEntityReview: React.FC = () => {
   const theme: any = useTheme()
   const history = useHistory()
+  const { entityId } = useParams<{ entityId: string }>()
+  const { signingClient, signer } = useAccount()
   const { selectedEntity } = useTransferEntityState()
   const [submitting, setSubmitting] = useState(false)
   const [
@@ -20,6 +27,8 @@ const TransferEntityReview: React.FC = () => {
     keyAgreements = [],
     capabilityInvocations = [],
     capabilityDelegations = [],
+    service = [],
+    transferDocument = undefined,
   ] = useMemo(
     () => [
       selectedEntity?.authentication,
@@ -27,31 +36,125 @@ const TransferEntityReview: React.FC = () => {
       selectedEntity?.keyAgreement,
       selectedEntity?.capabilityInvocation,
       selectedEntity?.capabilityDelegation,
+      selectedEntity?.service,
+      selectedEntity?.linkedResource.find((v) => v.type === 'text'),
     ],
     [selectedEntity],
   )
 
-  const getVMKeyType = (vmId: string): string => {
-    if (authentications.includes(vmId)) {
-      return 'authentication'
-    } else if (assertionMethods.includes(vmId)) {
-      return 'assertionMethod'
-    } else if (keyAgreements.includes(vmId)) {
-      return 'keyAgreement'
-    } else if (capabilityInvocations.includes(vmId)) {
-      return 'capabilityInvocation'
-    } else if (capabilityDelegations.includes(vmId)) {
-      return 'capabilityDelegation'
+  const [verificationMethods, setVerificationMethods] = useState<any[]>([])
+
+  console.log({
+    verificationMethods,
+    authentications,
+    assertionMethods,
+    keyAgreements,
+    capabilityInvocations,
+    capabilityDelegations,
+  })
+
+  const isEligible = useMemo(() => verificationMethods.some((v) => v.reEnable), [verificationMethods])
+
+  useEffect(() => {
+    if (transferDocument) {
+      const { serviceEndpoint } = transferDocument
+      const url = serviceEndpointToUrl(serviceEndpoint, service)
+      fetch(url)
+        .then((response) => response.json())
+        .then((response) => {
+          setVerificationMethods((response.keys ?? []).map((v: any) => ({ ...v, reEnable: true })))
+        })
+        .catch((e) => {
+          setVerificationMethods([])
+        })
     }
-    return ''
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [transferDocument])
+
+  // const getVMKeyType = (vmId: string): string => {
+  //   if (authentications.includes(vmId)) {
+  //     return 'authentication'
+  //   } else if (assertionMethods.includes(vmId)) {
+  //     return 'assertionMethod'
+  //   } else if (keyAgreements.includes(vmId)) {
+  //     return 'keyAgreement'
+  //   } else if (capabilityInvocations.includes(vmId)) {
+  //     return 'capabilityInvocation'
+  //   } else if (capabilityDelegations.includes(vmId)) {
+  //     return 'capabilityDelegation'
+  //   }
+  //   return ''
+  // }
+
+  const handleUpdateVMReEnable = (vmId: string, value: boolean) => {
+    setVerificationMethods((v) => v.map((item) => ({ ...item, reEnable: item.id === vmId ? value : item.reEnable })))
+  }
+
+  const handleAddVerificationMethods = async (): Promise<boolean> => {
+    try {
+      console.log(verificationMethods.filter((v) => v.reEnable))
+      const verifications = verificationMethods.map((v) => {
+        return ixo.iid.v1beta1.Verification.fromPartial({
+          relationships: ['authentication'],
+          method: ixo.iid.v1beta1.VerificationMethod.fromPartial({
+            id: v.id,
+            type: v.type,
+            controller: v.controller,
+            blockchainAccountID: v.blockchainAccountID,
+            publicKeyHex: v.publicKeyHex,
+            publicKeyMultibase: v.publicKeyMultibase,
+            publicKeyBase58: v.publicKeyBase58,
+          }),
+        })
+      })
+
+      const { code, rawLog } = await AddVerificationMethod(signingClient, signer, { did: entityId, verifications })
+      if (code !== 0) {
+        throw rawLog
+      }
+      successToast('Success', 'Successfully updated status to transferred!')
+      return true
+    } catch (e) {
+      console.error('handleAddVerificationMethods', e)
+      errorToast('Error at Signing', typeof e === 'string' && e)
+      return false
+    }
+  }
+
+  const handleUpdateStatusToCreated = async (): Promise<boolean> => {
+    try {
+      if (!entityId) {
+        // eslint-disable-next-line no-throw-literal
+        throw 'EntityId or RecipientDid is invalid'
+      }
+
+      const { code, rawLog } = await UpdateEntity(signingClient, signer, { id: entityId, entityStatus: 0 })
+      if (code !== 0) {
+        throw rawLog
+      }
+      successToast('Success', 'Successfully updated status to transferred!')
+      return true
+    } catch (e) {
+      console.error('handleUpdateStatusToTransferred', e)
+      errorToast('Error at Signing', typeof e === 'string' && e)
+      return false
+    }
   }
 
   const onBack = () => {
     history.goBack()
   }
 
-  const handleSubmit = async () => {
+  const onSubmit = async () => {
     setSubmitting(true)
+
+    const added = await handleAddVerificationMethods()
+    if (added) {
+      const updateStatus = await handleUpdateStatusToCreated()
+      if (updateStatus) {
+        history.push(`/entity/${entityId}/dashboard`)
+      }
+    }
 
     setSubmitting(false)
   }
@@ -61,17 +164,19 @@ const TransferEntityReview: React.FC = () => {
       <FlexBox maxWidth='800px' width='100%' direction='column' gap={5}>
         <Typography>The former owner of the entity created a document to re-enable verification keys.</Typography>
 
-        {/* {verificationMethods.map((vm, index) => {
-          const vmKeyType = getVMKeyType(vm.id)
+        {verificationMethods.map((vm: any, index) => {
           return (
             <FormCard
               key={index}
               title={
-                <FlexBox alignItems='center' gap={4}>
+                <FlexBox width='100%' alignItems='center' justifyContent='space-between' gap={4}>
                   <Typography color='black'>KEY #{index + 1}</Typography>
-                  <FlexBox p={2} borderRadius={'8px'} background={'#A1E393'}>
-                    <Typography color='black'>{VMKeyMap[vmKeyType]}</Typography>
-                  </FlexBox>
+                  <Switch
+                    size='base'
+                    onLabel='RE-ENABLE'
+                    value={vm.reEnable}
+                    onChange={(value) => handleUpdateVMReEnable(vm.id, value)}
+                  />
                 </FlexBox>
               }
             >
@@ -100,13 +205,13 @@ const TransferEntityReview: React.FC = () => {
               />
             </FormCard>
           )
-        })} */}
+        })}
 
         <FlexBox alignItems='center' width='100%' gap={7}>
           <Button variant='secondary' size='full' height={48} onClick={onBack}>
             Back
           </Button>
-          <Button size='full' height={48} loading={submitting} onClick={handleSubmit}>
+          <Button size='full' height={48} loading={submitting} disabled={!isEligible} onClick={onSubmit}>
             Re-enable keys
           </Button>
         </FlexBox>

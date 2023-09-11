@@ -19,7 +19,7 @@ const FormCard: React.FC<PropsWithChildren<FormCardProp>> = ({ preIcon, title, c
       width='100%'
       p={7}
     >
-      <FlexBox alignItems='center' gap={2}>
+      <FlexBox alignItems='center' gap={2} width='100%'>
         {preIcon && preIcon}
         {typeof title === 'string' ? (
           <Typography size='xl' weight='medium'>

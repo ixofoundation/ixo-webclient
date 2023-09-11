@@ -1,11 +1,6 @@
 import { ixo, SigningStargateClient, customMessages } from '@ixo/impactxclient-sdk'
 import { IidDocument } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/iid'
-import {
-  LinkedClaim,
-  LinkedEntity,
-  LinkedResource,
-  VerificationMethod,
-} from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
+import { LinkedClaim, LinkedEntity, LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { fee, RPC_ENDPOINT, TSigner } from './common'
 import { DeliverTxResponse } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/stargate'
 import { EncodeObject } from '@cosmjs/proto-signing'
@@ -379,23 +374,21 @@ export const GetDeleteVerifcationMethodMsgs = (
 export const AddVerificationMethod = async (
   client: SigningStargateClient,
   signer: TSigner,
-  payload: { did: string; relationships: string[]; method: VerificationMethod },
+  payload: { did: string; verifications: Verification[] },
 ) => {
-  const { did, relationships, method } = payload
+  const { did, verifications } = payload
 
-  const message = {
+  const messages = verifications.map((verification) => ({
     typeUrl: '/ixo.iid.v1beta1.MsgAddVerification',
     value: ixo.iid.v1beta1.MsgAddVerification.fromPartial({
       id: did,
-      verification: ixo.iid.v1beta1.Verification.fromPartial({
-        relationships: relationships,
-        method: method,
-      }),
+      verification,
       signer: signer.address,
     }),
-  }
+  }))
 
-  const response: DeliverTxResponse = await client.signAndBroadcast(signer.address, [message], fee)
-  console.log('AddVerificationMethod', 'response', response)
+  console.log('AddVerificationMethod', { messages })
+  const response: DeliverTxResponse = await client.signAndBroadcast(signer.address, messages, fee)
+  console.log('AddVerificationMethod', { response })
   return response
 }

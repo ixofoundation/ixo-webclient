@@ -46,8 +46,7 @@ const EditEntity: React.FC = () => {
   }
 
   const handleReEnableKeys = async () => {
-    //
-    history.push(`/transfer/entity/${entityId}/`)
+    history.push(`/transfer/entity/${entityId}/review`)
   }
 
   return (
