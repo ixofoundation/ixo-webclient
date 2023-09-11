@@ -110,7 +110,8 @@ const TransferEntityTo: React.FC = (): JSX.Element => {
         right: '',
       }
       console.log({ linkedResource })
-      const addRes = await AddLinkedResource(signingClient, signer, linkedResource)
+
+      const addRes = await AddLinkedResource(signingClient, signer, { linkedResource, entityId })
       console.log('AddLinkedResource', addRes)
       if (addRes.code !== 0) {
         throw addRes.rawLog

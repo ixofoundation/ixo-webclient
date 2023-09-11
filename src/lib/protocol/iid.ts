@@ -134,17 +134,15 @@ export const AddLinkedEntity = async (
   return response
 }
 
-export const AddLinkedResource = async (client: SigningStargateClient, signer: TSigner, payload: LinkedResource) => {
-  const message = {
-    typeUrl: '/ixo.iid.v1beta1.MsgAddLinkedResource',
-    value: ixo.iid.v1beta1.MsgAddLinkedResource.fromPartial({
-      id: signer.did,
-      linkedResource: ixo.iid.v1beta1.LinkedResource.fromPartial(payload),
-      signer: signer.address,
-    }),
-  }
+export const AddLinkedResource = async (
+  client: SigningStargateClient,
+  signer: TSigner,
+  payload: { entityId: string; linkedResource: LinkedResource },
+) => {
+  const { entityId, linkedResource } = payload
+  const msgs = GetAddLinkedResourceMsgs(entityId, signer, linkedResource)
 
-  const response = await client.signAndBroadcast(signer.address, [message], fee)
+  const response = await client.signAndBroadcast(signer.address, msgs, fee)
   return response
 }
 
