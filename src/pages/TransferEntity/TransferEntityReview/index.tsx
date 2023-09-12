@@ -6,7 +6,7 @@ import { Typography } from 'components/Typography'
 import { useAccount } from 'hooks/account'
 // import { VMKeyMap } from 'constants/entity'
 import { useTransferEntityState } from 'hooks/transferEntity'
-import { AddVerificationMethod, UpdateEntity } from 'lib/protocol'
+import { AddVerificationMethod, DeleteLinkedResource, UpdateEntity } from 'lib/protocol'
 import { Button, Switch } from 'pages/CreateEntity/Components'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
@@ -37,7 +37,7 @@ const TransferEntityReview: React.FC = () => {
       selectedEntity?.capabilityInvocation,
       selectedEntity?.capabilityDelegation,
       selectedEntity?.service,
-      selectedEntity?.linkedResource.find((v) => v.type === 'text'),
+      selectedEntity?.linkedResource.find((v) => v.type === 'VerificationMethods'),
     ],
     [selectedEntity],
   )
@@ -92,26 +92,28 @@ const TransferEntityReview: React.FC = () => {
 
   const handleAddVerificationMethods = async (): Promise<boolean> => {
     try {
-      console.log(verificationMethods.filter((v) => v.reEnable))
-      const verifications = verificationMethods.map((v) => {
-        return ixo.iid.v1beta1.Verification.fromPartial({
-          relationships: ['authentication'],
-          method: ixo.iid.v1beta1.VerificationMethod.fromPartial({
-            id: v.id,
-            type: v.type,
-            controller: v.controller,
-            blockchainAccountID: v.blockchainAccountID,
-            publicKeyHex: v.publicKeyHex,
-            publicKeyMultibase: v.publicKeyMultibase,
-            publicKeyBase58: v.publicKeyBase58,
-          }),
+      const verifications = verificationMethods
+        .filter((v) => v.reEnable)
+        .map((v) => {
+          return ixo.iid.v1beta1.Verification.fromPartial({
+            relationships: ['authentication'],
+            method: ixo.iid.v1beta1.VerificationMethod.fromPartial({
+              id: v.id,
+              type: v.type,
+              controller: v.controller,
+              blockchainAccountID: v.blockchainAccountID,
+              publicKeyHex: v.publicKeyHex,
+              publicKeyMultibase: v.publicKeyMultibase,
+              publicKeyBase58: v.publicKeyBase58,
+            }),
+          })
         })
-      })
 
-      const { code, rawLog } = await AddVerificationMethod(signingClient, signer, { did: entityId, verifications })
-      if (code !== 0) {
-        throw rawLog
+      const response = await AddVerificationMethod(signingClient, signer, { did: entityId, verifications })
+      if (response.code !== 0) {
+        throw response.rawLog
       }
+      console.info('handleAddVerificationMethods', { response })
       successToast('Success', 'Successfully updated status to transferred!')
       return true
     } catch (e) {
@@ -128,14 +130,34 @@ const TransferEntityReview: React.FC = () => {
         throw 'EntityId or RecipientDid is invalid'
       }
 
-      const { code, rawLog } = await UpdateEntity(signingClient, signer, { id: entityId, entityStatus: 0 })
-      if (code !== 0) {
-        throw rawLog
+      const response = await UpdateEntity(signingClient, signer, { id: entityId, entityStatus: 0 })
+      if (response.code !== 0) {
+        throw response.rawLog
       }
+      console.info('handleUpdateStatusToCreated', { response })
       successToast('Success', 'Successfully updated status to transferred!')
       return true
     } catch (e) {
       console.error('handleUpdateStatusToTransferred', e)
+      errorToast('Error at Signing', typeof e === 'string' && e)
+      return false
+    }
+  }
+
+  const handleRemoveDocument = async (): Promise<boolean> => {
+    try {
+      if (!transferDocument?.id) {
+        // eslint-disable-next-line no-throw-literal
+        throw 'Resource Id is empty'
+      }
+      const addRes = await DeleteLinkedResource(signingClient, signer, transferDocument?.id)
+      if (addRes.code !== 0) {
+        throw addRes.rawLog
+      }
+      successToast('Success', 'Successfully removed document!')
+      return true
+    } catch (e) {
+      console.error('handleRemoveDocument', e)
       errorToast('Error at Signing', typeof e === 'string' && e)
       return false
     }
@@ -152,7 +174,10 @@ const TransferEntityReview: React.FC = () => {
     if (added) {
       const updateStatus = await handleUpdateStatusToCreated()
       if (updateStatus) {
-        history.push(`/entity/${entityId}/dashboard`)
+        const removeStatus = await handleRemoveDocument()
+        if (removeStatus) {
+          history.push(`/entity/${entityId}/dashboard`)
+        }
       }
     }
 
@@ -190,7 +215,7 @@ const TransferEntityReview: React.FC = () => {
                 color='black'
               >
                 {Object.entries(vm)
-                  .filter(([key]) => key !== 'description')
+                  .filter(([key]) => key !== 'description' && key !== 'reEnable')
                   .map(([key, value]) => (
                     <Typography key={key} wordBreak={'break-all'}>
                       {key}: {value}

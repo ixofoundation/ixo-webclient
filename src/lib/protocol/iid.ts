@@ -152,7 +152,9 @@ export const DeleteLinkedResource = async (client: SigningStargateClient, signer
       }),
     }
 
+    console.log('DeleteLinkedResource', { message })
     const response = await client.signAndBroadcast(signer.address, [message], fee)
+    console.log('DeleteLinkedResource', { response })
     return response
   } catch (e) {
     console.error('DeleteLinkedResource', e)

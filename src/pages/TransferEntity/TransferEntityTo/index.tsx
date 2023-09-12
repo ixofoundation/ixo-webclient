@@ -19,7 +19,6 @@ import { LinkedResource, VerificationMethod } from '@ixo/impactxclient-sdk/types
 import { customQueries, utils } from '@ixo/impactxclient-sdk'
 import { chainNetwork } from 'hooks/configs'
 import { LinkedResourceProofGenerator, LinkedResourceServiceEndpointGenerator } from 'utils/entities'
-import { v4 as uuidv4 } from 'uuid'
 import { VMKeyMap } from 'constants/entity'
 
 const TransferEntityTo: React.FC = (): JSX.Element => {
@@ -100,9 +99,9 @@ const TransferEntityTo: React.FC = (): JSX.Element => {
       )
 
       const linkedResource: LinkedResource = {
-        id: uuidv4(),
-        type: 'text',
-        description: 'verification key re-enabling',
+        id: '{id}#verificationMethods',
+        type: 'VerificationMethods',
+        description: 'Verification Methods',
         mediaType: 'application/ld+json',
         serviceEndpoint: LinkedResourceServiceEndpointGenerator(res),
         proof: LinkedResourceProofGenerator(res),
