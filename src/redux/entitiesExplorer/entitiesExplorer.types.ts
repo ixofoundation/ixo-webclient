@@ -1,4 +1,13 @@
-import { EntityConfig, TEntityDDOTagModel, TEntityModel } from 'types/entities'
+import {
+  EntityConfig,
+  TEntityDDOTagModel,
+  TEntityModel,
+  LiquiditySource,
+  FundSource,
+  TermsOfUseType,
+} from 'types/entities'
+import { Moment } from 'moment'
+import { Timestamp } from '@ixo/impactxclient-sdk/types/utils/proto'
 
 export interface Filter {
   ddoTags: TEntityDDOTagModel[]
@@ -21,22 +30,16 @@ export type TCollection = {
 export interface EntitiesExplorerState {
   entities: { [id: string]: TEntityModel }
   collections: TCollection[]
+  assetCollections: { [id: string]: TEntityModel }
+  assetDevices: { [id: string]: TEntityModel }
   entityConfig: EntityConfig
   selectedEntitiesType: string
   filter: Filter
 }
 
 export enum EntitiesExplorerActions {
-  GetEntities = 'ixo/EntitiesExplorer/GET_ENTITIES',
-  GetEntitiesSuccess = 'ixo/EntitiesExplorer/GET_ENTITIES_FULFILLED',
-  GetEntitiesPending = 'ixo/EntitiesExplorer/GET_ENTITIES_PENDING',
-  GetEntitiesFailure = 'ixo/EntitiesExplorer/GET_ENTITIES_REJECTED',
-  GetCollections = 'ixo/EntitiesExplorer/GET_COLLECTIONS',
-  GetCollectionsSuccess = 'ixo/EntitiesExplorer/GET_COLLECTIONS_FULFILLED',
-  GetCollectionsPending = 'ixo/EntitiesExplorer/GET_COLLECTIONS_PENDING',
-  GetCollectionsFailure = 'ixo/EntitiesExplorer/GET_COLLECTIONS_REJECTED',
+  GetEntitiesFromGraphql = 'ixo/EntitiesExplorer/GET_ENTITIES_FROM_GRAPHQL',
   GetIndividualEntity = 'ixo/EntitiesExplorer/GET_INDIVIDUAL_ENTITY',
-  UpdateEntityById = 'ixo/EntitiesExplorer/UPDATE_ENTITY_BY_ID',
   GetEntityConfig = 'ixo/EntitiesExplorer/GET_ENTITYCONFIG',
   GetEntityConfigSuccess = 'ixo/EntitiesExplorer/GET_ENTITYCONFIG_FULFILLED',
   GetEntityConfigPending = 'ixo/EntitiesExplorer/GET_ENTITYCONFIG_PENDING',
@@ -58,27 +61,11 @@ export enum EntitiesExplorerActions {
   FilterQuery = 'ixo/EntitiesExplorer/FILTER_QUERY',
 }
 
-export interface GetEntitiesAction {
-  type: typeof EntitiesExplorerActions.GetEntities
-  payload: Promise<TEntityModel[]>
-}
-
-export interface GetEntitiesSuccessAction {
-  type: typeof EntitiesExplorerActions.GetEntitiesSuccess
+export interface GetEntitiesFromGraphqlAction {
+  type: typeof EntitiesExplorerActions.GetEntitiesFromGraphql
   payload: TEntityModel[]
 }
-export interface GetCollectionsAction {
-  type: typeof EntitiesExplorerActions.GetCollections
-  payload: Promise<TCollection[]>
-}
-export interface GetCollectionsSuccessAction {
-  type: typeof EntitiesExplorerActions.GetCollectionsSuccess
-  payload: TCollection[]
-}
-export interface UpdateEntityByIdAction {
-  type: typeof EntitiesExplorerActions.UpdateEntityById
-  payload: TEntityModel
-}
+
 export interface GetIndividualEntityAction {
   type: typeof EntitiesExplorerActions.GetIndividualEntity
   payload: { id: string; key: string; data: any; merge: boolean }
@@ -189,13 +176,54 @@ export interface FilterQueryAction {
   }
 }
 
+export interface ExplorerEntity {
+  name?: string
+  description?: string
+  creatorDid?: string
+  dateCreated?: Moment
+  creatorName?: string
+  creatorLogo?: string
+  location?: string
+  goal?: string
+  serviceProvidersCount?: number
+  evaluatorsCount?: number
+  requiredClaimsCount?: number
+  successfulClaimsCount?: number
+  pendingClaimsCount?: number
+  rejectedClaimsCount?: number
+  disputedClaimsCount?: number
+  sdgs?: string[]
+  agentDids?: string[]
+  image?: string
+  logo?: string
+  ddoTags?: TEntityDDOTagModel[]
+  termsType?: TermsOfUseType
+  badges?: string[]
+  version?: string
+  entityClaims?: any
+  linkedEntities?: any[]
+  liquidity?: {
+    ['@context']: string
+    items: { ['@type']: LiquiditySource; id: string }[]
+  }
+  funding?: {
+    //  TODO: this should be removed
+    ['@context']: string
+    items: { ['@type']: FundSource; id: string }[]
+  }
+
+  // new
+  did: string
+  type: string
+  status: string | number
+  startDate?: Timestamp
+  endDate?: Timestamp
+  relayerNode?: string
+}
+
 export type EntitiesActionTypes =
-  | GetEntitiesAction
-  | GetEntitiesSuccessAction
-  | GetCollectionsAction
-  | GetCollectionsSuccessAction
+  | GetEntitiesFromGraphqlAction
   | GetIndividualEntityAction
-  | UpdateEntityByIdAction
   | GetEntityConfigAction
   | GetEntityConfigSuccessAction
   | ChangeEntitiesTypeAction

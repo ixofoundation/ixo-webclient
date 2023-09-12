@@ -1,15 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { ChainSelector, Input } from 'pages/CreateEntity/Components'
 import { TProposalActionModel } from 'types/entities'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 import { ReactComponent as SearchIcon } from 'assets/images/icon-search.svg'
-import { BlockSyncService } from 'services/blocksync'
-import { validateEntityDid } from 'utils/validation'
 import { useHistory } from 'react-router-dom'
 import styled, { useTheme } from 'styled-components'
-
-const bsService = new BlockSyncService()
+import { useGetEntityById } from 'graphql/entities'
 
 const Body = styled(FlexBox)`
   input {
@@ -35,18 +32,7 @@ const SetupEditEntityModal: React.FC<Props> = ({ open, action, onClose, onSubmit
   const history = useHistory()
   const [chainId, setChainId] = useState(undefined)
   const [entityDid, setEntityDid] = useState('')
-  const [validate, setValidate] = useState(false)
-
-  useEffect(() => {
-    if (validateEntityDid(entityDid)) {
-      bsService.entity
-        .getEntityById(entityDid)
-        .then(() => setValidate(true))
-        .catch(() => setValidate(false))
-    } else {
-      setValidate(false)
-    }
-  }, [entityDid])
+  const { error: validate } = useGetEntityById(entityDid)
 
   const handleConfirm = () => {
     onSubmit &&
@@ -59,7 +45,7 @@ const SetupEditEntityModal: React.FC<Props> = ({ open, action, onClose, onSubmit
       action={action}
       onClose={onClose}
       onSubmit={onSubmit && handleConfirm}
-      validate={validate}
+      validate={!!validate}
     >
       <Body width='100%' height='100%' gap={4}>
         <ChainSelector chainId={chainId!} onChange={setChainId as any} />

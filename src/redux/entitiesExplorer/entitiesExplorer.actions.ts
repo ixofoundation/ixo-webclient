@@ -17,80 +17,28 @@ import {
   FilterQueryAction,
   GetEntityConfigAction,
   FilterItemOffsetAction,
-  GetEntitiesAction,
-  UpdateEntityByIdAction,
-  GetCollectionsAction,
+  GetEntitiesFromGraphqlAction,
+  GetIndividualEntityAction,
 } from './entitiesExplorer.types'
 import { RootState } from 'redux/store'
 import { SchemaGitUrl } from 'constants/chains'
 import Axios from 'axios'
-import { TEntityDDOTagModel } from 'types/entities'
-import { BlockSyncService } from 'services/blocksync'
-import { apiEntityToEntity } from 'utils/entities'
+import { TEntityDDOTagModel, TEntityModel } from 'types/entities'
 
-const bsService = new BlockSyncService()
+export const getEntitiesFromGraphqlAction = (entities: TEntityModel[]): GetEntitiesFromGraphqlAction => ({
+  type: EntitiesExplorerActions.GetEntitiesFromGraphql,
+  payload: entities,
+})
 
-const filterCondition = (entity: any) =>
-  (entity.relayerNode === process.env.REACT_APP_RELAYER_NODE || entity.id === process.env.REACT_APP_RELAYER_NODE) &&
-  !entity.type.includes('asset')
-
-export const getAllEntities =
-  () =>
-  (dispatch: Dispatch, getState: () => RootState): GetEntitiesAction => {
-    const {
-      entities: { entities },
-      account: { cwClient },
-    } = getState()
-    return dispatch({
-      type: EntitiesExplorerActions.GetEntities,
-      payload: bsService.entity.getAllEntities().then((apiEntities: any[]) => {
-        return apiEntities.filter(filterCondition).map((entity) => {
-          const { id } = entity
-          apiEntityToEntity({ entity, cwClient }, (key, value, merge = false) => {
-            dispatch({
-              type: EntitiesExplorerActions.GetIndividualEntity,
-              payload: { id, key, data: value, merge },
-            })
-          })
-          return { ...(entities && entities[id] ? entities[id] : {}), ...entity }
-        })
-      }),
-    })
-  }
-
-export const getCollectionsAction =
-  () =>
-  (dispatch: Dispatch): GetCollectionsAction => {
-    return dispatch({
-      type: EntitiesExplorerActions.GetCollections,
-      payload: bsService.entity.getCollections().then((apiCollections: any[]) => {
-        return apiCollections
-      }),
-    })
-  }
-
-export const updateEntityById =
-  (entityId: string) =>
-  (dispatch: Dispatch, getState: () => RootState): UpdateEntityByIdAction => {
-    const {
-      account: { cwClient },
-    } = getState()
-    return dispatch({
-      type: EntitiesExplorerActions.UpdateEntityById,
-      payload: bsService.entity.getEntityById(entityId).then((entity: any) => {
-        if (filterCondition(entity)) {
-          const { id } = entity
-          apiEntityToEntity({ entity, cwClient }, (key, value, merge = false) => {
-            dispatch({
-              type: EntitiesExplorerActions.GetIndividualEntity,
-              payload: { id, key, data: value, merge },
-            })
-          })
-          return entity
-        }
-      }),
-    })
-  }
+export const updateEntityPropertyAction = (
+  id: string,
+  key: string,
+  data: any,
+  merge: boolean,
+): GetIndividualEntityAction => ({
+  type: EntitiesExplorerActions.GetIndividualEntity,
+  payload: { id, key, data, merge },
+})
 
 export const getEntityConfig =
   () =>
