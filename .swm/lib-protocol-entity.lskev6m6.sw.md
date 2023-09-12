@@ -11,37 +11,37 @@ StargateSigning function for updating entity status, startDate, endDate, credent
 <!-- collapsed -->
 
 ```typescript
-175    export const UpdateEntity = async (
-176      client: SigningStargateClient,
-177      signer: TSigner,
-178      payload: Partial<MsgUpdateEntity>,
-179    ) => {
-180      const queryClient = await createQueryClient(RPC_ENDPOINT!)
-181      const entity = await queryClient.ixo.entity.v1beta1.entity({
-182        id: payload?.id || signer.address,
-183      })
-184      if (!entity.entity) {
-185        throw new Error('Entity not found')
-186      }
-187    
-188      const message = {
-189        typeUrl: '/ixo.entity.v1beta1.MsgUpdateEntity',
-190        value: ixo.entity.v1beta1.MsgUpdateEntity.fromPartial({
-191          id: payload?.id || signer.did,
-192          entityStatus: payload?.entityStatus || entity.entity.status,
-193          startDate: payload?.startDate || entity.entity.startDate,
-194          endDate: payload?.endDate || entity.entity.endDate,
-195          credentials: payload?.credentials || entity.entity.credentials,
-196          controllerDid: signer.did,
-197          controllerAddress: signer.address,
-198        }),
-199      }
-200    
-201      console.log('UpdateEntity', { message })
-202      const response: DeliverTxResponse = await client.signAndBroadcast(signer.address, [message], fee)
-203      console.log('UpdateEntity', { response })
-204      return response
-205    }
+177    export const UpdateEntity = async (
+178      client: SigningStargateClient,
+179      signer: TSigner,
+180      payload: Partial<MsgUpdateEntity>,
+181    ) => {
+182      const queryClient = await createQueryClient(RPC_ENDPOINT!)
+183      const entity = await queryClient.ixo.entity.v1beta1.entity({
+184        id: payload?.id || signer.address,
+185      })
+186      if (!entity.entity) {
+187        throw new Error('Entity not found')
+188      }
+189    
+190      const message = {
+191        typeUrl: '/ixo.entity.v1beta1.MsgUpdateEntity',
+192        value: ixo.entity.v1beta1.MsgUpdateEntity.fromPartial({
+193          id: payload?.id || signer.did,
+194          entityStatus: payload?.entityStatus === undefined ? entity.entity.status : payload?.entityStatus,
+195          startDate: payload?.startDate || entity.entity.startDate,
+196          endDate: payload?.endDate || entity.entity.endDate,
+197          credentials: payload?.credentials || entity.entity.credentials,
+198          controllerDid: signer.did,
+199          controllerAddress: signer.address,
+200        }),
+201      }
+202    
+203      console.log('UpdateEntity', { message })
+204      const response: DeliverTxResponse = await client.signAndBroadcast(signer.address, [message], fee)
+205      console.log('UpdateEntity', { response })
+206      return response
+207    }
 ```
 
 <br/>

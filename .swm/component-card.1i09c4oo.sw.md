@@ -26,7 +26,7 @@ Form Card component used in creation flow (light mode)
 19           width='100%'
 20           p={7}
 21         >
-22           <FlexBox alignItems='center' gap={2}>
+22           <FlexBox alignItems='center' gap={2} width='100%'>
 23             {preIcon && preIcon}
 24             {typeof title === 'string' ? (
 25               <Typography size='xl' weight='medium'>
