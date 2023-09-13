@@ -5,6 +5,10 @@ file_version: 1.1.3
 app_version: 1.14.0
 ---
 
+**AddLinkedEntity**
+
+<br/>
+
 Function used to add a linked entity to a blockchain using provided signingClient and signer.
 <!-- NOTE-swimm-snippet: the lines below link your snippet to Swimm -->
 ### 📄 src/lib/protocol/iid.ts
@@ -36,40 +40,92 @@ Function used to add a linked entity to a blockchain using provided signingClien
 
 <br/>
 
+**AddVerificationMethod**
+
+<br/>
+
 Function used to add a verification method to a blockchain using provided signingClient and signer.
 <!-- NOTE-swimm-snippet: the lines below link your snippet to Swimm -->
 ### 📄 src/lib/protocol/iid.ts
 <!-- collapsed -->
 
 ```typescript
-105    export const AddVerificationMethod = async (
-106      client: SigningStargateClient,
-107      signer: TSigner,
-108      payload: { did: string; relationships: string[]; method: VerificationMethod },
-109    ) => {
-110      const { did, relationships, method } = payload
-111    
-112      const message = {
-113        typeUrl: '/ixo.iid.v1beta1.MsgAddVerification',
-114        value: ixo.iid.v1beta1.MsgAddVerification.fromPartial({
-115          id: did,
-116          verification: ixo.iid.v1beta1.Verification.fromPartial({
-117            relationships: relationships,
-118            method: method,
-119          }),
-120          signer: signer.address,
-121        }),
-122      }
-123    
-124      const response: DeliverTxResponse = await client.signAndBroadcast(signer.address, [message], fee)
-125      console.log('AddVerificationMethod', 'response', response)
-126      return response
-127    }
+376    export const AddVerificationMethod = async (
+377      client: SigningStargateClient,
+378      signer: TSigner,
+379      payload: { did: string; verifications: Verification[] },
+380    ) => {
+381      const { did, verifications } = payload
+382    
+383      const messages = verifications.map((verification) => ({
+384        typeUrl: '/ixo.iid.v1beta1.MsgAddVerification',
+385        value: ixo.iid.v1beta1.MsgAddVerification.fromPartial({
+386          id: did,
+387          verification,
+388          signer: signer.address,
+389        }),
+390      }))
+391    
+392      console.log('AddVerificationMethod', { messages })
+393      const response: DeliverTxResponse = await client.signAndBroadcast(signer.address, messages, fee)
+394      console.log('AddVerificationMethod', { response })
+395      return response
+396    }
+397    
 ```
 
 <br/>
 
+**CreateIidDocForGroup**
+
 <br/>
+
+Function used to create a iid document for dao group address using provided signingClient, signer and did.
+<!-- NOTE-swimm-snippet: the lines below link your snippet to Swimm -->
+### 📄 src/lib/protocol/iid.ts
+<!-- collapsed -->
+
+```typescript
+59     export const CreateIidDocForGroup = async (client: SigningStargateClient, signer: TSigner, did: string) => {
+60       const address = did.replace('did:ixo:wasm:', '')
+61     
+62       const message = {
+63         typeUrl: '/ixo.iid.v1beta1.MsgCreateIidDocument',
+64         value: ixo.iid.v1beta1.MsgCreateIidDocument.fromPartial({
+65           context: customMessages.iid.createAgentIidContext(),
+66           id: did,
+67           alsoKnownAs: 'group',
+68           verifications: [
+69             ixo.iid.v1beta1.Verification.fromPartial({
+70               relationships: ['authentication'],
+71               method: ixo.iid.v1beta1.VerificationMethod.fromPartial({
+72                 id: did,
+73                 type: 'CosmosAccountAddress',
+74                 blockchainAccountID: address,
+75                 controller: '{id}',
+76               }),
+77             }),
+78             ixo.iid.v1beta1.Verification.fromPartial({
+79               relationships: ['authentication'],
+80               method: ixo.iid.v1beta1.VerificationMethod.fromPartial({
+81                 id: did + '#' + address,
+82                 type: 'CosmosAccountAddress',
+83                 blockchainAccountID: address,
+84                 controller: '{id}',
+85               }),
+86             }),
+87           ],
+88           signer: signer.address,
+89           controllers: [did],
+90         }),
+91       }
+92     
+93       console.log('CreateIidDocForGroup', { message })
+94       const response = await client.signAndBroadcast(signer.address, [message], fee)
+95       console.log('CreateIidDocForGroup', { response })
+96       return response
+97     }
+```
 
 <br/>
 

@@ -8,63 +8,16 @@ import {
   CreateClaimSuccessAction,
   CreateClaimFailureAction,
   ClearClaimTemplateAction,
-  GetClaimTemplateAction,
 } from './submitEntityClaim.types'
 import { Dispatch } from 'redux'
 import { RootState } from 'redux/store'
 import blocksyncApi from 'api/blocksync/blocksync'
-import { ApiListedEntity } from 'api/blocksync/types/entities'
-import { ApiResource } from 'api/blocksync/types/resource'
-/* import { Attestation } from '../types' */
-import { fromBase64 } from 'js-base64'
 import { FormData } from 'components/JsonForm/types'
 import { selectCellNodeEndpoint } from 'redux/selectedEntity/selectedEntity.selectors'
-import { BlockSyncService } from 'services/blocksync'
-
-const bsService = new BlockSyncService()
 
 export const clearClaimTemplate = (): ClearClaimTemplateAction => ({
   type: SubmitEntityClaimActions.ClearClaimTemplate,
 })
-
-export const getClaimTemplate =
-  (templateDid: string, serviceEndpoint: string | undefined = undefined) =>
-  (dispatch: Dispatch, getState: () => RootState): GetClaimTemplateAction => {
-    const state = getState()
-    const { submitEntityClaim } = state
-    let cellNodeEndpoint = serviceEndpoint
-    if (!cellNodeEndpoint) {
-      cellNodeEndpoint = selectCellNodeEndpoint(state)
-    }
-
-    if (submitEntityClaim && submitEntityClaim.templateDid === templateDid) {
-      return null!
-    }
-
-    dispatch(clearClaimTemplate())
-
-    const fetchTemplateEntity: Promise<ApiListedEntity> = bsService.project.getProjectByProjectDid(templateDid)
-
-    const fetchContent = (key: string): Promise<ApiResource> =>
-      bsService.project.fetchPublic(key, cellNodeEndpoint!) as Promise<ApiResource>
-
-    return dispatch({
-      type: SubmitEntityClaimActions.GetClaimTemplate,
-      payload: fetchTemplateEntity.then((apiEntity: ApiListedEntity) => {
-        return fetchContent(apiEntity.data.page.cid).then((resourceData: ApiResource) => {
-          const attestation: any = JSON.parse(fromBase64(resourceData.data))
-
-          return {
-            templateDid,
-            claimTitle: apiEntity.data.name,
-            claimShortDescription: apiEntity.data.description,
-            type: attestation.claimInfo.type,
-            questions: attestation.forms,
-          }
-        })
-      }),
-    })
-  }
 
 export const saveAnswer =
   (formData: FormData) =>

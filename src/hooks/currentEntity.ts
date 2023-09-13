@@ -36,7 +36,6 @@ import {
   selectEntityController,
 } from 'redux/currentEntity/currentEntity.selectors'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
-import { BlockSyncService } from 'services/blocksync'
 import {
   TDAOGroupModel,
   TEntityAdministratorModel,
@@ -48,15 +47,12 @@ import {
   TEntityProfileModel,
 } from 'types/entities'
 import { getDaoContractInfo, thresholdToTQData } from 'utils/dao'
-import { apiEntityToEntity } from 'utils/entities'
 import { useAccount } from './account'
 import { Config as ProposalConfig } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/DaoPreProposeSingle.types'
 import { depositInfoToCoin } from 'utils/conversions'
 import { EntityLinkedResourceConfig } from 'constants/entity'
 import { IMPACTS_DAO_ID } from 'constants/chains'
-
-const bsService = new BlockSyncService()
 
 export default function useCurrentEntity(): {
   id: string
@@ -85,7 +81,6 @@ export default function useCurrentEntity(): {
   isImpactsDAO: boolean
   isMemberOfImpactsDAO: boolean
   isOwner: boolean
-  getEntityByDid: (did: string, force?: boolean) => Promise<boolean>
   clearEntity: () => void
   updateDAOGroup: (coreAddress: string) => Promise<void>
   selectDAOGroup: (coreAddress: string) => Promise<void>
@@ -138,26 +133,6 @@ export default function useCurrentEntity(): {
 
   const updateEntityResource = ({ key, data, merge }: { key: string; data: any; merge: boolean }) => {
     dispatch(updateEntityResourceAction({ key, data, merge }))
-  }
-
-  const getEntityByDid = async (did: string, force = false): Promise<boolean> => {
-    /**
-     * find entity in entities state and avoid refetch from api
-     */
-    if (did !== id || force) {
-      return await bsService.entity
-        .getEntityById(did)
-        .then((entity: any) => {
-          apiEntityToEntity({ entity, cwClient }, (key, data, merge = false) => {
-            updateEntityResource({ key, data, merge })
-          })
-
-          updateEntity(entity)
-          return true
-        })
-        .catch(() => false)
-    }
-    return true
   }
 
   const clearEntity = (): void => {
@@ -229,7 +204,6 @@ export default function useCurrentEntity(): {
     isImpactsDAO,
     isMemberOfImpactsDAO,
     isOwner,
-    getEntityByDid,
     clearEntity,
     updateDAOGroup,
     selectDAOGroup,

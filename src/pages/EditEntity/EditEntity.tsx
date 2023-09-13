@@ -4,11 +4,8 @@ import { useParams } from 'react-router-dom'
 import { initialState } from 'redux/createEntity/createEntity.reducer'
 import { TCreateEntityState } from 'redux/createEntity/createEntity.types'
 import EditDAO from './EditDAO/EditDAO'
-import { useAccount } from 'hooks/account'
 import { apiEntityToEntity } from 'utils/entities'
-import { BlockSyncService } from 'services/blocksync'
-
-const bsService = new BlockSyncService()
+import { useGetEntityById } from 'graphql/entities'
 
 export const EditEntityContext = createContext<
   {
@@ -21,8 +18,9 @@ export const EditEntityContext = createContext<
 
 const EditEntity: React.FC = (): JSX.Element => {
   const { entityId } = useParams<{ entityId: string }>()
-  const { cwClient } = useAccount()
   const [value, setValue] = useState<TCreateEntityState>(initialState)
+
+  const { data: selectedEntity } = useGetEntityById(entityId)
 
   const handleUpdate = useCallback((value: any) => {
     setValue((pre) => ({ ...pre, ...value }))
@@ -40,19 +38,17 @@ const EditEntity: React.FC = (): JSX.Element => {
   }, [value.entityType])
 
   useEffect(() => {
-    if (entityId && cwClient) {
-      bsService.entity.getEntityById(entityId).then((entity: any) => {
-        handleUpdate({ ...entity, entityType: entity.type })
-        apiEntityToEntity({ entity, cwClient }, handleUpdatePartial)
-      })
+    if (selectedEntity) {
+      handleUpdate({ ...selectedEntity, entityType: selectedEntity.type })
+      apiEntityToEntity({ entity: selectedEntity }, handleUpdatePartial)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [entityId, cwClient])
+  }, [selectedEntity])
 
   return (
     <EditEntityContext.Provider value={{ ...value, updatePartial: handleUpdatePartial }}>
       <EditEntityLayout title={value.title} subtitle={value.subtitle} breadCrumbs={value.breadCrumbs}>
-        {Component && cwClient && <Component />}
+        {Component && <Component />}
         {!Component && `Work in progress for editing ${value.entityType}`}
       </EditEntityLayout>
     </EditEntityContext.Provider>

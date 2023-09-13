@@ -21,7 +21,6 @@ import { CellnodePublicResource, CellnodeWeb3Resource } from '@ixo/impactxclient
 import Axios from 'axios'
 import { ApiListedEntityData } from 'api/blocksync/types/entities'
 import { get } from 'lodash'
-import { PageContent } from 'redux/selectedEntity/selectedEntity.types'
 
 export const getCountryCoordinates = (countryCodes: string[]): any[] => {
   const coordinates: any[] = []
@@ -142,7 +141,7 @@ export function serviceEndpointToUrl(serviceEndpoint: string, service: Service[]
 }
 
 export function apiEntityToEntity(
-  { entity, cwClient }: { entity: any; cwClient: CosmWasmClient },
+  { entity, cwClient }: { entity: any; cwClient?: CosmWasmClient },
   updateCallback: (key: string, value: any, merge?: boolean) => void,
 ): void {
   const { type, settings, linkedResource, service, linkedEntity, linkedClaim } = entity
@@ -284,7 +283,7 @@ export function apiEntityToEntity(
   /**
    * @description entityType === dao
    */
-  if (type === 'dao') {
+  if (type === 'dao' && cwClient) {
     linkedEntity
       .filter((item: LinkedEntity) => item.type === 'Group')
       .forEach((item: LinkedEntity) => {
@@ -382,52 +381,4 @@ export const getBondDidFromApiListedEntityData = async (data: ApiListedEntityDat
 
     return bondToShow?.bond_did ?? undefined
   })
-}
-
-export const replaceLegacyPDSInEntity = (data: ApiListedEntityData): ApiListedEntityData => ({
-  ...data,
-  image: data.image?.replace('pds_pandora.ixo.world', 'cellnode-pandora.ixo.earth'),
-  logo: data.logo?.replace('pds_pandora.ixo.world', 'cellnode-pandora.ixo.earth'),
-  creator: {
-    ...data.creator,
-    logo: data.creator.logo?.replace('pds_pandora.ixo.world', 'cellnode-pandora.ixo.earth'),
-  },
-  owner: {
-    ...data.owner,
-    logo: data.owner.logo?.replace('pds_pandora.ixo.world', 'cellnode-pandora.ixo.earth'),
-  },
-})
-
-export const replaceLegacyPDSInPageContent = (content: PageContent): PageContent => {
-  const { header, body, images, profiles, social, embedded } = content
-
-  const newHeader = {
-    ...header,
-    image: header.image?.replace('pds_pandora.ixo.world', 'cellnode-pandora.ixo.earth'),
-    logo: header.logo?.replace('pds_pandora.ixo.world', 'cellnode-pandora.ixo.earth'),
-  }
-
-  const newBody = body.map((item) => ({
-    ...item,
-    image: item.image?.replace('pds_pandora.ixo.world', 'cellnode-pandora.ixo.earth'),
-  }))
-
-  const newImages = images.map((item) => ({
-    ...item,
-    image: item.image?.replace('pds_pandora.ixo.world', 'cellnode-pandora.ixo.earth'),
-  }))
-
-  const newProfiles = profiles.map((item) => ({
-    ...item,
-    image: item.image?.replace('pds_pandora.ixo.world', 'cellnode-pandora.ixo.earth'),
-  }))
-
-  return {
-    header: newHeader,
-    body: newBody,
-    images: newImages,
-    profiles: newProfiles,
-    social,
-    embedded,
-  }
 }

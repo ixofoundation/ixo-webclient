@@ -13,7 +13,6 @@ import BigNumber from 'bignumber.js'
 import { useIxoConfigs } from 'hooks/configs'
 import { AssetType } from 'redux/configs/configs.types'
 import SwapModal from 'components/ControlPanel/Actions/SwapModal'
-import { BlockSyncService } from 'services/blocksync'
 import RenderSwapPanel from 'components/Pages/Exchange/Swap/RenderSwapPanel'
 import RenderPairListPanel from 'components/Pages/Exchange/Swap/RenderPairListPanel'
 import RenderSettingsPanel from 'components/Pages/Exchange/Swap/RenderSettingsPanel'
@@ -24,8 +23,6 @@ import { setKeplrWallet } from 'redux/account/account.actions'
 import { changeSelectedAccountAddress } from 'redux/selectedEntityExchange/entityExchange.actions'
 import useExchange from 'hooks/exchange'
 import { setInputAsset, setInputAssetAmount, setOutputAsset } from 'redux/exchange/exchange.actions'
-
-const bsService = new BlockSyncService()
 
 const Swap: React.FunctionComponent = () => {
   const { wallet } = useParams() as any
