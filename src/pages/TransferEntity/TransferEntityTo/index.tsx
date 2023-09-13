@@ -169,13 +169,20 @@ const TransferEntityTo: React.FC = (): JSX.Element => {
   const handleSubmit = async () => {
     setSubmitting(true)
 
-    const created = await handleCreateDocument()
-    if (created) {
-      const updateStatus = await handleUpdateStatusToTransferred()
-      if (updateStatus) {
-        const signed = await handleSigningTransfer()
-        if (signed) {
-          history.push(`/entity/${entityId}/dashboard`)
+    if (!reEnableKeys) {
+      const signed = await handleSigningTransfer()
+      if (signed) {
+        history.push(`/entity/${entityId}/dashboard`)
+      }
+    } else {
+      const created = await handleCreateDocument()
+      if (created) {
+        const updateStatus = await handleUpdateStatusToTransferred()
+        if (updateStatus) {
+          const signed = await handleSigningTransfer()
+          if (signed) {
+            history.push(`/entity/${entityId}/dashboard`)
+          }
         }
       }
     }
