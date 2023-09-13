@@ -28,10 +28,11 @@ interface Props {
   balance: string
   amount: BigNumber
   className?: string
-  handleAmountChange: (value: string | BigNumber) => void
+  handleAmountChange?: (value: string | BigNumber) => void
   handleAssetSelect: () => void
   handleFocused: () => void
   isLayout?: boolean
+  displayType?: 'text' | 'input'
 }
 
 const AmountInputBox: React.FC<Props> = ({
@@ -47,8 +48,9 @@ const AmountInputBox: React.FC<Props> = ({
   handleFocused,
   className = '',
   isLayout = true,
+  displayType,
 }): JSX.Element => {
-  const usdAmount = useMemo(() => new BigNumber(amount).times(new BigNumber(usdRate)), [usdRate, amount])
+  const usdAmount = new BigNumber(amount).times(new BigNumber(usdRate))
 
   const renderBody = (): JSX.Element => (
     <AmountInputBoxBody>
@@ -82,7 +84,7 @@ const AmountInputBox: React.FC<Props> = ({
                 fontSize='14px'
                 lineHeight='16px'
                 fontWeight={400}
-                onClick={(): void => handleAmountChange(balance)}
+                onClick={(): void => handleAmountChange && handleAmountChange(balance)}
               >
                 Max
               </BlueText>
@@ -97,7 +99,8 @@ const AmountInputBox: React.FC<Props> = ({
           placeholder='Amount'
           decimalScale={decimals}
           prefix={isFromToken ? '' : '≈ '}
-          onValueChange={({ value }: any): void => handleAmountChange(value)}
+          onValueChange={({ value }: any): void => handleAmountChange && handleAmountChange(value)}
+          displayType={displayType}
         />
       </div>
       <div className='d-flex align-items-center justify-content-end'>

@@ -7,7 +7,7 @@ import * as entitySelectors from 'redux/selectedEntity/selectedEntity.selectors'
 import { Redirect, Route, Switch } from 'react-router-dom'
 import Dashboard from 'components/Dashboard/Dashboard'
 
-import EntityExchangeTrade from './Trade/Swap'
+import EntityExchangeTrade from './Trade/Trade'
 import EntityExchangeTradeSwap from './Trade/Swap/Swap'
 import {
   selectPortfolioAsset,
@@ -189,10 +189,6 @@ const EntityExchange: FunctionComponent<Props> = ({
   const theme = 'dark'
 
   const routes = generateRoutes()
-
-  useEffect(() => {
-    getLiquidityPools()
-  }, [])
 
   return (
     <Dashboard

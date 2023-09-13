@@ -27,11 +27,15 @@ export type Token = {
   type: TokenType
   address?: string
 }
+
 export enum TokenType {
   Cw1155,
   Cw20,
   Native,
+  Token1155,
+  token2,
 }
+
 export type TokenAmount = {
   [key in AmountType]?: string | ObjectMap
 }

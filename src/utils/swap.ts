@@ -1,8 +1,13 @@
 import { pools, tokens } from 'constants/pools'
 import { TokenAmount, TokenSelect, TokenType } from 'types/swap'
 import { CURRENCY_TOKEN } from 'types/wallet'
-
-import { getMicroAmount } from './encoding'
+import { createQueryClient as createQueryClientImport } from '@ixo/impactxclient-sdk'
+import Axios from 'axios'
+import { Uint8ArrayToJS, getMicroAmount, strToArray } from './encoding'
+import { RPC_ENDPOINT } from 'lib/protocol'
+import { findDenomByMinimalDenom, minimalAmountToAmount } from 'redux/account/account.utils'
+import * as _ from 'lodash'
+import { SupportedDenoms, SupportedStandards } from 'hooks/exchange'
 
 export const getInputTokenAmount = (
   token: CURRENCY_TOKEN,
@@ -62,3 +67,215 @@ export const getTokenSelectByDenom = (denom: string): TokenSelect =>
   getTokenTypeByDenom(denom) === TokenType.Cw1155 ? TokenSelect.Token1155 : TokenSelect.Token2
 export const getTokenTypeByDenom = (denom: string): TokenType => tokens.get(denom)?.type!
 export const isCw1155Token = (denom: string) => getTokenTypeByDenom(denom) === TokenType.Cw1155
+
+export let queryClient: Awaited<ReturnType<typeof createQueryClientImport>>
+
+export const createQueryClient = async (setNewGlobal = true, rpcEndpoint?: string) => {
+  const newQueryClient = await createQueryClientImport(rpcEndpoint || (RPC_ENDPOINT as string))
+  if (setNewGlobal) queryClient = newQueryClient
+  return newQueryClient
+}
+
+export const queryOutputAmount = async (
+  inputTokenType: TokenType,
+  inputTokenAmount: TokenAmount,
+  swapContractAddress: string,
+) => {
+  let query = {}
+  if (inputTokenType == TokenType.Token1155) {
+    query = {
+      token1155_for_token2_price: {
+        token1155_amount: inputTokenAmount,
+      },
+    }
+  } else {
+    query = {
+      token2_for_token1155_price: {
+        token2_amount: inputTokenAmount,
+      },
+    }
+  }
+
+  await createQueryClient()
+  const response = await queryClient.cosmwasm.wasm.v1.smartContractState({
+    address: swapContractAddress,
+    queryData: strToArray(JSON.stringify(query)),
+  })
+  const parsedResponse = JSON.parse(Uint8ArrayToJS(response.data))
+
+  return Number(parsedResponse.token2_amount ?? parsedResponse.token1155_amount)
+}
+export const splitAmountOnRandomParts = (amount: number, parts: number, min = 100): number[] => {
+  const randomBit = amount - min * parts
+  const result: number[] = []
+
+  for (let i = 0; i < parts; i++) {
+    result.push(Math.random())
+  }
+
+  const multiplier = randomBit / result.reduce((prev, curr) => prev + curr)
+  return result.map((amount) => Math.round(amount * multiplier + min))
+}
+export const getRandomTokenIds = (tokenIds: string[], idsCount: number): string[] =>
+  tokenIds.sort(() => 0.5 - Math.random()).slice(0, idsCount)
+
+export const formatInputAmount = (
+  inputTokenType: TokenSelect,
+  inputAmount: number,
+  inputTokensId: string[],
+): TokenAmount => {
+  if (inputTokenType == TokenSelect.Token1155) {
+    const includedBatchesCount = Math.floor(Math.random() * inputTokensId.length) + 1
+
+    const batchesAmounts = splitAmountOnRandomParts(inputAmount, includedBatchesCount)
+    const batchesIds = getRandomTokenIds(inputTokensId, includedBatchesCount)
+
+    return {
+      multiple: {},
+    }
+
+    return {
+      multiple: {
+        ...batchesIds.reduce((acc, id, index) => {
+          acc[id] = batchesAmounts[index].toString()
+          return acc
+        }, {}),
+      },
+    }
+  } else {
+    return { single: inputAmount.toString() }
+  }
+}
+
+export const formatOutputAmount = (
+  inputTokenType: TokenSelect,
+  outputTokenIds: string[],
+  outputAmount: number,
+  includeBatches = true,
+): TokenAmount => {
+  if (inputTokenType == TokenSelect.Token1155) {
+    return {
+      single: outputAmount.toFixed(),
+    }
+  } else {
+    const anyBatches = Math.random() < 0.5
+
+    if (!includeBatches) {
+      return {
+        single: outputAmount.toFixed(),
+      }
+    }
+
+    if (anyBatches) {
+      return {
+        single: outputAmount.toFixed(),
+      }
+    } else {
+      const includedBatchesCount = Math.floor(Math.random() * outputTokenIds.length) + 1
+      const batchesAmounts = splitAmountOnRandomParts(Number(outputAmount.toFixed()), includedBatchesCount)
+      const batchesIds = getRandomTokenIds(outputTokenIds, includedBatchesCount)
+
+      return {
+        multiple: {
+          ...batchesIds.reduce((acc, id, index) => {
+            acc[id] = batchesAmounts[index].toString()
+            return acc
+          }, {}),
+        },
+      }
+    }
+  }
+}
+
+export const queryTokenBalances = async (
+  queryClientArg: typeof queryClient,
+  chain: string,
+  address: string,
+): Promise<CURRENCY_TOKEN[]> => {
+  try {
+    const balances: CURRENCY_TOKEN[] = []
+    const batches: Map<string, string> = new Map()
+    for (const [denom, token] of tokens) {
+      switch (token.type) {
+        case TokenType.Cw1155: {
+          const ownerTokensQuery = { tokens: { owner: address } }
+          const ownerTokensResponse = await queryClientArg.cosmwasm.wasm.v1.smartContractState({
+            address: token.address!,
+            queryData: strToArray(JSON.stringify(ownerTokensQuery)),
+          })
+          const ownerTokenIds: string[] = JSON.parse(Uint8ArrayToJS(ownerTokensResponse.data)).tokens
+
+          const ownerBalancesQuery = {
+            batch_balance: {
+              owner: address,
+              token_ids: ownerTokenIds,
+            },
+          }
+          const ownerBalancesResponse = await queryClientArg.cosmwasm.wasm.v1.smartContractState({
+            address: token.address!,
+            queryData: strToArray(JSON.stringify(ownerBalancesQuery)),
+          })
+          const ownerBalances = JSON.parse(Uint8ArrayToJS(ownerBalancesResponse.data)).balances
+          const totalBalance = ownerBalances.reduce((prev: string, current: string) => Number(prev) + Number(current))
+
+          for (const [index, tokenId] of ownerTokenIds.entries()) {
+            batches.set(tokenId, ownerBalances[index].toString())
+          }
+
+          balances.push({ denom, amount: totalBalance.toString(), batches, ibc: false, chain })
+          break
+        }
+        case TokenType.Cw20: {
+          const query = { balance: { address } }
+          const response = await queryClientArg.cosmwasm.wasm.v1.smartContractState({
+            address: token.address!,
+            queryData: strToArray(JSON.stringify(query)),
+          })
+
+          balances.push({ denom, amount: JSON.parse(Uint8ArrayToJS(response.data)).balance, ibc: false, chain })
+          break
+        }
+      }
+    }
+
+    return balances
+  } catch (error) {
+    console.error('queryTokenBalances::', error)
+    return []
+  }
+}
+
+const getBankBalances = async ({ accountAddress }: any) => {
+  return await Axios.get(`${process.env.REACT_APP_GAIA_URL}/bank/balances/${accountAddress}`)
+    .then((response) => response.data)
+    .then((response) => response.result)
+    .catch((e) => {
+      console.error(e)
+      return []
+    })
+}
+
+export const getTokenBalances = async ({ accountAddress }: { accountAddress: string }) => {
+  const bankBalances = await getBankBalances({ accountAddress })
+  await createQueryClient()
+  const tokenBalances = await queryTokenBalances(queryClient, 'devnet-1', accountAddress)
+
+  console.log({ tokenBalances })
+
+  const balances = [...bankBalances, ...tokenBalances].map(({ denom, amount, batches }: any) => ({
+    denom: findDenomByMinimalDenom(denom),
+    amount: minimalAmountToAmount(denom, amount),
+    batches: (batches && batches) || [],
+  }))
+
+  return balances
+}
+
+export const getTokenTypeFromDenom = (denom: SupportedDenoms): SupportedStandards | undefined => {
+  const tokenTypes = new Map<SupportedDenoms, SupportedStandards>()
+
+  tokenTypes.set('uixo', '20')
+  tokenTypes.set('carbon', '1155')
+
+  return tokenTypes.get(denom)
+}

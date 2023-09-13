@@ -1,24 +1,18 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import Axios from 'axios'
 import moment from 'moment'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import AssetCard from 'components/Entities/EntitiesExplorer/Components/EntityCard/AssetCard/AssetCard'
 import { TermsOfUseType } from 'types/entities'
-import { ApiListedEntity } from 'api/blocksync/types/entities'
 
 import { TradeWrapper, AssetCardWrapper, TradePanel } from '../Swap.styles'
 import { useParams } from 'react-router-dom'
 
-import { findDenomByMinimalDenom, minimalAmountToAmount } from 'redux/account/account.utils'
-
 import { selectSelectedAccountAddress } from 'redux/selectedEntityExchange/entityExchange.selectors'
 import * as _ from 'lodash'
-import { getUSDRateByCoingeckoId } from 'utils/coingecko'
 import BigNumber from 'bignumber.js'
 import { useIxoConfigs } from 'hooks/configs'
 import { AssetType } from 'redux/configs/configs.types'
 import SwapModal from 'components/ControlPanel/Actions/SwapModal'
-import { calcToAmount } from 'redux/selectedEntityExchange/entityExchange.utils'
 import { BlockSyncService } from 'services/blocksync'
 import RenderSwapPanel from 'components/Pages/Exchange/Swap/RenderSwapPanel'
 import RenderPairListPanel from 'components/Pages/Exchange/Swap/RenderPairListPanel'
@@ -28,6 +22,8 @@ import { RootState } from 'redux/store'
 import * as keplr from 'lib/keplr/keplr'
 import { setKeplrWallet } from 'redux/account/account.actions'
 import { changeSelectedAccountAddress } from 'redux/selectedEntityExchange/entityExchange.actions'
+import useExchange from 'hooks/exchange'
+import { setInputAsset, setInputAssetAmount, setOutputAsset } from 'redux/exchange/exchange.actions'
 
 const bsService = new BlockSyncService()
 
@@ -36,7 +32,6 @@ const Swap: React.FunctionComponent = () => {
   const walletType = wallet
   const { getAssetsByChainId, getRelayerNameByChainId } = useIxoConfigs()
   const selectedAccountAddress = useAppSelector(selectSelectedAccountAddress)
-  //   const liquidityPools = useAppSelector(selectLiquidityPools)
   const dispatch = useAppDispatch()
 
   const [viewSettings, setViewSettings] = useState(false)
@@ -45,43 +40,29 @@ const Swap: React.FunctionComponent = () => {
   const [fromUSDRate, setFromUSDRate] = useState(0)
   const [toUSDRate, setToUSDRate] = useState(0)
   const [fromToken, setFromToken] = useState<AssetType | undefined>(undefined)
-  const [toToken, setToToken] = useState<AssetType | undefined>(undefined)
   const [fromAmount, setFromAmount] = useState<BigNumber>(new BigNumber(0))
-  const [toAmount, setToAmount] = useState<BigNumber>(new BigNumber(0))
-  const [fromEntity, setFromEntity] = useState<any | undefined>(undefined)
-  const [toEntity, setToEntity] = useState<any | undefined>(undefined)
-  const [balances, setBalances] = useState({})
-  const [chainId, setChainId] = useState(process.env.REACT_APP_CHAIN_ID)
   const [fromTokenSelected, setFromTokenSelected] = useState<boolean>(true)
-  const [slippage] = useState<number>(3)
 
-  const fromTokenBalance = useMemo(
-    () => (fromToken?.display ? balances[fromToken.display] : '0'),
-    [balances, fromToken],
-  )
-  const toTokenBalance = useMemo(() => (toToken?.display ? balances[toToken!.display!] : '0'), [balances, toToken])
+  const {
+    balances,
+    slippage,
+    chainId,
+    setChainId,
+    swapError,
+    swapErrorMsg,
+    canSubmit,
+    tokenBalances,
+    inputAsset,
+    outputAsset,
+  } = useExchange({
+    address: selectedAccountAddress as string,
+    setOutputAsset,
+    setInputAsset,
+  })
+
   const assets = useMemo(() => getAssetsByChainId(chainId!), [getAssetsByChainId, chainId])
-  const networkName = useMemo(() => getRelayerNameByChainId(chainId!), [getRelayerNameByChainId, chainId])
-  const [swapError, swapErrorMsg] = useMemo(() => {
-    if (
-      new BigNumber(fromAmount)
-        .times(new BigNumber((Number(slippage) + 100) / 100))
-        .isGreaterThan(new BigNumber(fromTokenBalance))
-    ) {
-      return [true, 'Price impact too high']
-    }
-    return [false, 'Review My Order']
-  }, [fromAmount, fromTokenBalance, slippage])
 
-  const canSubmit = useMemo<boolean>(() => {
-    return Boolean(
-      fromToken &&
-        toToken &&
-        new BigNumber(fromAmount).isGreaterThan(new BigNumber(0)) &&
-        new BigNumber(toAmount).isGreaterThan(new BigNumber(0)) &&
-        !swapError,
-    )
-  }, [fromToken, toToken, fromAmount, toAmount, swapError])
+  const networkName = useMemo(() => getRelayerNameByChainId(chainId!), [getRelayerNameByChainId, chainId])
 
   const pairList = useMemo<AssetType[]>(
     () =>
@@ -89,12 +70,15 @@ const Swap: React.FunctionComponent = () => {
         // .filter((currency) =>
         //   availablePairs.some((pair) => currency.denom === pair),
         // )
-        .filter((currency: any) => currency.display !== fromToken?.display && currency.display !== toToken?.display),
+        .filter(
+          (currency: any) =>
+            currency.display !== inputAsset?.asset?.display && currency.display !== outputAsset?.asset?.display,
+        ),
     [
       assets,
-      fromToken,
-      toToken,
-      // availablePairs,
+      inputAsset.asset,
+      outputAsset.asset,
+      // availablePairs,`
     ],
   )
 
@@ -115,107 +99,39 @@ const Swap: React.FunctionComponent = () => {
     })()
   }, [walletType, dispatch])
 
-  //   const panelHeight = '420px'
-
-  // TODO: maybe this API calling should be processed in Redux in the future
-  useEffect(() => {
-    if (selectedAccountAddress) {
-      Axios.get(`${process.env.REACT_APP_GAIA_URL}/bank/balances/${selectedAccountAddress}`)
-        .then((response) => response.data)
-        .then((response) => response.result)
-        .then((response) =>
-          response.map(({ denom, amount }: any) => ({
-            denom: findDenomByMinimalDenom(denom),
-            amount: minimalAmountToAmount(denom, amount),
-          })),
-        )
-        .then((response) => _.mapValues(_.keyBy(response, 'denom'), 'amount'))
-        .then((response) => setBalances(response))
-        .catch((e) => {
-          console.error(e)
-          setBalances({})
-        })
-    }
-  }, [selectedAccountAddress])
-
-  //   useEffect(() => {
-  //     if (!walletType || !selectedAccountAddress) {
-  //       const { pathname } = history.location
-  //       const chunks = pathname.split('/')
-  //       chunks.pop()
-  //       history.push(chunks.join('/'))
-  //     }
-  //     // eslint-disable-next-line
-  //   }, [walletType, selectedAccountAddress])
-
-  useEffect(() => {
-    if (fromToken?.coingeckoId) {
-      getUSDRateByCoingeckoId(fromToken?.coingeckoId).then((rate): void => setFromUSDRate(rate))
-      setFromAmount(new BigNumber(0))
-      setToAmount(new BigNumber(0))
-    }
-    if (fromToken?.entityId) {
-      bsService.entity?.getEntityById(fromToken?.entityId).then((apiEntity: ApiListedEntity) => {
-        console.log({ apiEntity })
-        setFromEntity(apiEntity)
-      })
-    }
-  }, [fromToken, setFromAmount, setToAmount, setFromUSDRate])
-
-  useEffect(() => {
-    if (toToken?.coingeckoId) {
-      getUSDRateByCoingeckoId(toToken?.coingeckoId).then((rate): void => setToUSDRate(rate))
-      setFromAmount(new BigNumber(0))
-      setToAmount(new BigNumber(0))
-    }
-    if (toToken?.entityId) {
-      bsService.entity?.getEntityById(toToken?.entityId).then((apiEntity: ApiListedEntity) => {
-        setToEntity(apiEntity)
-      })
-    }
-  }, [toToken, setFromAmount, setToAmount, setFromUSDRate])
-
   const handleSwapClick = (): void => {
-    setFromToken(toToken)
-    setToToken(fromToken)
-    setFromAmount(toAmount)
-    setToAmount(fromAmount)
+    const temp = { ...inputAsset } // Create a copy of inputAsset
+    dispatch(setInputAsset(outputAsset))
+    dispatch(setOutputAsset(temp))
   }
 
-  const handleFromAmountChange = (value: string | BigNumber): void => {
-    if (!value) {
-      setFromAmount(new BigNumber(0))
-      setToAmount(new BigNumber(0))
-      return
+  const handleFromAmountChange = (value: string | BigNumber) => {
+    if (typeof value === 'string' && value.length === 0) {
+      dispatch(setInputAssetAmount(BigNumber(0)))
     }
-    if (value.toString().endsWith('.')) {
-      return
-    }
-
-    const fromAmount = new BigNumber(value)
-    setFromAmount(fromAmount)
-    if (toToken) {
-      setToAmount(calcToAmount(fromAmount, fromUSDRate, toUSDRate))
+    if (typeof value === 'string' && value.length > 0) {
+      dispatch(setInputAssetAmount(BigNumber(value)))
     }
   }
-  const handleToAmountChange = (value: any): void => {
-    if (!value) {
-      setFromAmount(new BigNumber(0))
-      setToAmount(new BigNumber(0))
-      return
-    }
-    if (value.toString().endsWith('.')) {
-      return
-    }
 
-    const toAmount = new BigNumber(value)
-    setToAmount(toAmount)
-    if (fromToken) {
-      setFromAmount(calcToAmount(toAmount, toUSDRate, fromUSDRate))
-    }
-  }
   const handleSubmit = (): void => {
     setOpenTransactionModal(true)
+  }
+
+  const handleInputTokenSelect = (token: AssetType) => {
+    dispatch(
+      setInputAsset({
+        asset: token,
+      }),
+    )
+  }
+
+  const handleOutputTokenSelect = (token: AssetType) => {
+    dispatch(
+      setOutputAsset({
+        asset: token,
+      }),
+    )
   }
 
   return (
@@ -223,16 +139,16 @@ const Swap: React.FunctionComponent = () => {
       {selectedAccountAddress && (
         <div className='d-flex'>
           <AssetCardWrapper>
-            {fromEntity && (
+            {inputAsset.entity && (
               <AssetCard
                 id={'asset-card'}
-                did={fromEntity?.id}
-                name={fromEntity?.profile?.brand}
-                logo={fromEntity?.profile?.logo}
-                image={fromEntity?.profile?.image}
-                sdgs={fromEntity?.sdgs}
-                description={fromEntity?.profile?.description}
-                dateCreated={moment(fromEntity?.metadata?.created)}
+                did={inputAsset.entity?.id}
+                name={inputAsset.entity?.profile?.brand}
+                logo={inputAsset.entity?.profile?.logo}
+                image={inputAsset.entity?.profile?.image}
+                sdgs={inputAsset.entity?.sdgs}
+                description={inputAsset.entity?.profile?.description}
+                dateCreated={moment(inputAsset.entity?.metadata?.created)}
                 badges={[]}
                 version={''}
                 termsType={TermsOfUseType.PayPerUse}
@@ -245,19 +161,18 @@ const Swap: React.FunctionComponent = () => {
               (viewPairList === 'none' ? (
                 <RenderSwapPanel
                   canSubmit={canSubmit}
-                  fromAmount={fromAmount}
-                  fromTokenBalance={fromTokenBalance}
+                  fromAmount={inputAsset.amount}
+                  fromTokenBalance={inputAsset.balance}
                   fromTokenSelected={fromTokenSelected}
-                  fromUSDRate={fromUSDRate}
-                  fromToken={fromToken}
-                  setFromToken={setFromToken}
+                  fromUSDRate={inputAsset.usdAmount?.toNumber() || 0}
+                  fromToken={inputAsset.asset}
+                  setFromToken={handleInputTokenSelect}
                   setFromTokenSelected={setFromTokenSelected}
-                  setToToken={setToToken}
+                  setToToken={handleOutputTokenSelect}
                   setViewPairList={setViewPairList}
                   viewSettings={viewSettings}
                   setViewSettings={setViewSettings}
-                  toAmount={toAmount}
-                  handleToAmountChange={handleToAmountChange}
+                  toAmount={outputAsset.amount}
                   handleFromAmountChange={handleFromAmountChange}
                   handleSubmit={handleSubmit}
                   handleSwapClick={handleSwapClick}
@@ -265,29 +180,28 @@ const Swap: React.FunctionComponent = () => {
                   swapErrorMsg={swapErrorMsg}
                   networkName={networkName}
                   slippage={slippage}
-                  toTokenBalance={toTokenBalance}
+                  toTokenBalance={outputAsset.balance}
                   toUSDRate={toUSDRate}
-                  toToken={toToken}
+                  toToken={outputAsset.asset}
                 />
               ) : (
                 <RenderPairListPanel
                   fromAmount={fromAmount}
-                  fromTokenBalance={fromTokenBalance}
+                  fromTokenBalance={inputAsset.balance}
                   fromTokenSelected={fromTokenSelected}
                   fromUSDRate={fromUSDRate}
                   fromToken={fromToken}
-                  setFromToken={setFromToken}
+                  setFromToken={handleInputTokenSelect}
                   setFromTokenSelected={setFromTokenSelected}
-                  setToToken={setToToken}
+                  setToToken={handleOutputTokenSelect}
                   setViewPairList={setViewPairList}
                   viewSettings={viewSettings}
                   setViewSettings={setViewSettings}
-                  toAmount={toAmount}
-                  handleToAmountChange={handleToAmountChange}
+                  toAmount={outputAsset.amount}
                   handleFromAmountChange={handleFromAmountChange}
-                  toTokenBalance={toTokenBalance}
+                  toTokenBalance={outputAsset.balance}
                   toUSDRate={toUSDRate}
-                  toToken={toToken}
+                  toToken={outputAsset.asset}
                   pairList={pairList}
                   viewPairList={viewPairList}
                   balances={balances}
@@ -303,16 +217,16 @@ const Swap: React.FunctionComponent = () => {
             )}
           </TradePanel>
           <AssetCardWrapper>
-            {toEntity && (
+            {outputAsset.entity && (
               <AssetCard
                 id={'asset-card'}
-                did={toEntity?.id}
-                name={toEntity?.profile?.brand}
-                logo={toEntity?.profile?.logo}
-                image={toEntity?.profile?.image}
-                sdgs={toEntity?.sdgs}
-                description={toEntity?.profile?.description}
-                dateCreated={moment(fromEntity?.metadata?.created)}
+                did={outputAsset.entity?.id}
+                name={outputAsset.entity?.profile?.brand}
+                logo={outputAsset.entity?.profile?.logo}
+                image={outputAsset.entity?.profile?.image}
+                sdgs={outputAsset.entity?.sdgs}
+                description={outputAsset.entity?.profile?.description}
+                dateCreated={moment(outputAsset.entity?.metadata?.created)}
                 badges={[]}
                 version={''}
                 termsType={TermsOfUseType.PayPerUse}
@@ -325,10 +239,14 @@ const Swap: React.FunctionComponent = () => {
       <SwapModal
         open={openTransactionModal}
         setOpen={setOpenTransactionModal}
-        fromAsset={fromToken!}
-        toAsset={toToken!}
-        fromAmount={fromAmount}
+        fromAsset={inputAsset.asset!}
+        toAsset={outputAsset.asset!}
+        fromAmount={inputAsset.amount}
+        toAmount={outputAsset.amount}
         slippage={slippage}
+        inputAsset={inputAsset}
+        outputAsset={outputAsset}
+        tokenBalances={tokenBalances}
       />
     </TradeWrapper>
   )

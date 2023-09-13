@@ -6,6 +6,8 @@ import { TRX_FEE, TRX_FEE_OPTION, TRX_MSG } from 'types/transactions'
 
 import { TokenAmount, TokenSelect } from 'types/swap'
 import { strToArray } from 'utils/encoding'
+import { DexAsset, calculateBaseAmount, calculateBaseDenomAmount } from 'hooks/exchange'
+import { formatInputAmount, formatOutputAmount, getTokenTypeFromDenom } from 'utils/swap'
 
 export const defaultTrxFeeOption: TRX_FEE_OPTION = 'average'
 
@@ -33,129 +35,6 @@ const generateCoins = (denoms: string[], amounts: string[]): Coin[] => {
   return coins
 }
 
-export const generateBankSendTrx = ({
-  fromAddress,
-  toAddress,
-  denom,
-  amount,
-}: {
-  fromAddress: string
-  toAddress: string
-  denom: string
-  amount: string
-}): TRX_MSG => ({
-  typeUrl: '/cosmos.bank.v1beta1.MsgSend',
-  value: cosmos.bank.v1beta1.MsgSend.fromPartial({
-    fromAddress,
-    toAddress,
-    amount: [cosmos.base.v1beta1.Coin.fromPartial({ amount, denom })],
-  }),
-})
-export const generateBankMultiSendTrx = ({
-  fromAddress,
-  toAddresses,
-  amounts,
-  denoms,
-}: {
-  fromAddress: string
-  toAddresses: string[]
-  denoms: string[]
-  amounts: string[]
-}): TRX_MSG => ({
-  typeUrl: '/cosmos.bank.v1beta1.MsgMultiSend',
-  value: cosmos.bank.v1beta1.MsgMultiSend.fromPartial({
-    inputs: [
-      {
-        address: fromAddress,
-        coins: generateCoins(denoms, amounts),
-      },
-    ],
-    outputs: toAddresses.map((address, index) => ({
-      address: address,
-      coins: [
-        cosmos.base.v1beta1.Coin.fromPartial({
-          amount: amounts[index],
-          denom: denoms[index],
-        }),
-      ],
-    })),
-  }),
-})
-
-export const generateDelegateTrx = ({
-  delegatorAddress,
-  validatorAddress,
-  denom,
-  amount,
-}: {
-  delegatorAddress: string
-  validatorAddress: string
-  denom: string
-  amount: string
-}): TRX_MSG => ({
-  typeUrl: '/cosmos.staking.v1beta1.MsgDelegate',
-  value: cosmos.staking.v1beta1.MsgDelegate.fromPartial({
-    delegatorAddress,
-    validatorAddress,
-    amount: cosmos.base.v1beta1.Coin.fromPartial({ amount, denom }),
-  }),
-})
-
-export const generateUndelegateTrx = ({
-  delegatorAddress,
-  validatorAddress,
-  denom,
-  amount,
-}: {
-  delegatorAddress: string
-  validatorAddress: string
-  denom: string
-  amount: string
-}): TRX_MSG => ({
-  typeUrl: '/cosmos.staking.v1beta1.MsgUndelegate',
-  value: cosmos.staking.v1beta1.MsgUndelegate.fromPartial({
-    delegatorAddress,
-    validatorAddress,
-    amount: cosmos.base.v1beta1.Coin.fromPartial({ amount, denom }),
-  }),
-})
-
-export const generateRedelegateTrx = ({
-  delegatorAddress,
-  validatorSrcAddress,
-  validatorDstAddress,
-  denom,
-  amount,
-}: {
-  delegatorAddress: string
-  validatorSrcAddress: string
-  validatorDstAddress: string
-  denom: string
-  amount: string
-}): TRX_MSG => ({
-  typeUrl: '/cosmos.staking.v1beta1.MsgBeginRedelegate',
-  value: cosmos.staking.v1beta1.MsgBeginRedelegate.fromPartial({
-    delegatorAddress,
-    validatorSrcAddress,
-    validatorDstAddress,
-    amount: cosmos.base.v1beta1.Coin.fromPartial({ amount, denom }),
-  }),
-})
-
-export const generateWithdrawRewardTrx = ({
-  delegatorAddress,
-  validatorAddress,
-}: {
-  delegatorAddress: string
-  validatorAddress: string
-}): TRX_MSG => ({
-  typeUrl: '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward',
-  value: cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward.fromPartial({
-    delegatorAddress,
-    validatorAddress,
-  }),
-})
-
 export const generateSwapTrx = ({
   contractAddress,
   senderAddress,
@@ -169,7 +48,7 @@ export const generateSwapTrx = ({
   inputTokenSelect: TokenSelect
   inputTokenAmount: TokenAmount
   outputTokenAmount: TokenAmount
-  funds: Map<string, string>
+  funds?: Map<string, string>
 }): TRX_MSG => ({
   typeUrl: '/cosmwasm.wasm.v1.MsgExecuteContract',
   value: cosmwasm.wasm.v1.MsgExecuteContract.fromPartial({
@@ -184,7 +63,7 @@ export const generateSwapTrx = ({
       }),
     ),
     sender: senderAddress,
-    funds: generateCoins(Array.from(funds.keys()), Array.from(funds.values())),
+    funds: funds ? generateCoins(Array.from(funds.keys()), Array.from(funds.values())) : [],
   }),
 })
 
@@ -192,3 +71,83 @@ export const getValueFromTrxEvents = (trxRes: TxResponse, event: string, attribu
   JSON.parse(trxRes?.rawLog!)
     [messageIndex]['events'].find((e: any) => e.type === event)
     ['attributes'].find((e: any) => e.key === attribute)['value']
+
+export const orchestrateSwapTransaction = ({
+  inputAsset,
+  outputAsset,
+  tokenBalances,
+  slippage,
+  address,
+}: {
+  inputAsset: DexAsset
+  outputAsset: DexAsset
+  tokenBalances: any
+  slippage: number
+  address: string
+}) => {
+  const tokenPair = `${inputAsset.denom?.toLowerCase()}-${outputAsset.denom?.toLowerCase()}`
+
+  switch (tokenPair) {
+    case 'uixo-carbon':
+    case 'carbon-uixo':
+      if (inputAsset.denom) {
+        console.log('properTokenPairSelected')
+        const contractAddress = 'ixo17srjznxl9dvzdkpwpw24gg668wc73val88a6m5ajg6ankwvz9wtsek9x34'
+        const inputToken =
+          getTokenTypeFromDenom(inputAsset.denom) === '1155' ? TokenSelect.Token1155 : TokenSelect.Token2
+
+        console.log({ inputToken })
+        const tokenIds: Map<string, string> =
+          inputToken === TokenSelect.Token1155
+            ? tokenBalances.find((item: any) => item.denom.toLowerCase() === 'carbon').batches
+            : new Map()
+
+        const baseUnitAmount =
+          inputToken === TokenSelect.Token1155
+            ? inputAsset.amount.toNumber()
+            : calculateBaseAmount(inputAsset.amount, 6).toNumber()
+
+        console.log({ tokenIds })
+
+        const formattedInputAmount = formatInputAmount(inputToken, baseUnitAmount, Array.from(tokenIds.keys()))
+
+        const outputAmountWithSlippage = outputAsset.amount.minus(outputAsset.amount.times(slippage / 100)).toNumber()
+
+        const formattedOutputAmount = formatOutputAmount(
+          inputToken,
+          Array.from(tokenIds.keys()),
+          outputAmountWithSlippage,
+          false,
+        )
+
+        const funds: any =
+          inputToken === TokenSelect.Token2
+            ? new Map<string, string>([
+                // Specify the funds (Token2 tokens) you want to send
+                ['uixo', baseUnitAmount.toString()], // Adjust the token type and amount as needed
+              ])
+            : undefined
+
+        console.log({
+          contractAddress,
+          senderAddress: address,
+          inputTokenAmount: formattedInputAmount,
+          inputTokenSelect: inputToken,
+          outputTokenAmount: { single: '0' },
+          funds,
+        })
+
+        return generateSwapTrx({
+          contractAddress,
+          senderAddress: address,
+          inputTokenAmount: formattedInputAmount,
+          inputTokenSelect: inputToken,
+          outputTokenAmount: formattedOutputAmount,
+          funds,
+        })
+      }
+      break
+    default:
+      break
+  }
+}

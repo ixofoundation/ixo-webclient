@@ -14,6 +14,7 @@ import { displayTokenAmount } from 'utils/currency'
 import { ReactComponent as WarningIcon } from 'assets/images/exchange/warning.svg'
 import SignStep, { TXStatus } from './components/SignStep'
 import RenderSignStep from 'components/Pages/Exchange/Swap/RenderSignStep'
+import { DexAsset } from 'hooks/exchange'
 
 const SwapPanel = styled.div`
   position: relative;
@@ -94,25 +95,35 @@ interface Props {
   fromAsset: AssetType
   toAsset: AssetType
   fromAmount: BigNumber
+  toAmount: BigNumber
   open: boolean
   setOpen: (open: boolean) => void
   slippage: any
+  inputAsset: DexAsset
+  outputAsset: DexAsset
+  tokenBalances: any
 }
 
 let timer: any = null
 const timeInterval = 30 * 1000 //  30s
 
-const SwapModal: React.FunctionComponent<Props> = ({ open, setOpen, fromAsset, toAsset, fromAmount, slippage }) => {
+const SwapModal: React.FunctionComponent<Props> = ({
+  open,
+  setOpen,
+  fromAsset,
+  toAsset,
+  fromAmount,
+  slippage,
+  toAmount,
+  inputAsset,
+  outputAsset,
+  tokenBalances,
+}) => {
   const steps = ['Review', 'Sign', 'Result']
   const [currentStep, setCurrentStep] = useState(0)
   const [fromUSDRate, setFromUSDRate] = useState(0)
   const [toUSDRate, setToUSDRate] = useState(0)
   const [shouldPriceUpdate, setShouldPriceUpdate] = useState(false)
-
-  const toAmount: BigNumber = useMemo(
-    () => calcToAmount(fromAmount, fromUSDRate, toUSDRate),
-    [fromAmount, fromUSDRate, toUSDRate],
-  )
 
   useEffect(() => {
     setCurrentStep(0)
@@ -208,11 +219,11 @@ const SwapModal: React.FunctionComponent<Props> = ({ open, setOpen, fromAsset, t
         {currentStep === 0 && renderReviewStep()}
         {currentStep === 1 && (
           <RenderSignStep
-            inputAmount={fromAmount}
-            inputToken={fromAsset}
-            outputAmount={toAmount}
-            outputToken={toAsset}
+            tokenBalances={tokenBalances}
+            inputAsset={inputAsset}
+            outputAsset={outputAsset}
             slippage={slippage}
+            setCurrentStep={setCurrentStep}
           />
         )}
         {currentStep === 2 && renderResultStep()}
