@@ -117,7 +117,7 @@ const InputWithLabel: React.FC<Props> = ({
     <InputWrapper
       width={width}
       height={height}
-      disabled={disabled || !handleChange}
+      disabled={disabled}
       style={{ color: !error ? theme.ixoNewBlue : theme.ixoRed, ...(wrapperStyle ?? {}) }}
     >
       {label && (
