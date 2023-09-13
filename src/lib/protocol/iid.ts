@@ -141,12 +141,18 @@ export const AddLinkedResource = async (
   return response
 }
 
-export const DeleteLinkedResource = async (client: SigningStargateClient, signer: TSigner, resourceId: string) => {
+export const DeleteLinkedResource = async (
+  client: SigningStargateClient,
+  signer: TSigner,
+  payload: { entityId: string; resourceId: string },
+) => {
   try {
+    const { entityId, resourceId } = payload
+
     const message = {
       typeUrl: '/ixo.iid.v1beta1.MsgDeleteLinkedResource',
       value: ixo.iid.v1beta1.MsgDeleteLinkedResource.fromPartial({
-        id: signer.did,
+        id: entityId,
         resourceId: resourceId,
         signer: signer.address,
       }),

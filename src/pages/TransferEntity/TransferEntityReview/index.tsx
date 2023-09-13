@@ -127,7 +127,7 @@ const TransferEntityReview: React.FC = () => {
     try {
       if (!entityId) {
         // eslint-disable-next-line no-throw-literal
-        throw 'EntityId or RecipientDid is invalid'
+        throw 'EntityId is invalid'
       }
 
       const response = await UpdateEntity(signingClient, signer, { id: entityId, entityStatus: 0 })
@@ -135,7 +135,7 @@ const TransferEntityReview: React.FC = () => {
         throw response.rawLog
       }
       console.info('handleUpdateStatusToCreated', { response })
-      successToast('Success', 'Successfully updated status to transferred!')
+      successToast('Success', 'Successfully updated status to back to created!')
       return true
     } catch (e) {
       console.error('handleUpdateStatusToTransferred', e)
@@ -146,11 +146,11 @@ const TransferEntityReview: React.FC = () => {
 
   const handleRemoveDocument = async (): Promise<boolean> => {
     try {
-      if (!transferDocument?.id) {
+      if (!transferDocument?.id || !entityId) {
         // eslint-disable-next-line no-throw-literal
-        throw 'Resource Id is empty'
+        throw 'EntityId or documentId is invalid'
       }
-      const addRes = await DeleteLinkedResource(signingClient, signer, transferDocument?.id)
+      const addRes = await DeleteLinkedResource(signingClient, signer, { entityId, resourceId: transferDocument?.id })
       if (addRes.code !== 0) {
         throw addRes.rawLog
       }
