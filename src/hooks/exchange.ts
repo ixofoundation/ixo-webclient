@@ -7,16 +7,9 @@ import { selectInputAsset, selectOutputAsset } from 'redux/exchange/exchange.sel
 import { ExchangeAsset } from 'redux/exchange/exchange.types'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { BlockSyncService } from 'services/blocksync'
-import { generateSwapTrx } from 'services/swap'
-import { TokenSelect, TokenType } from 'types/swap'
+import { TokenType } from 'types/swap'
 import { getUSDRateByCoingeckoId } from 'utils/coingecko'
-import {
-  formatInputAmount,
-  formatOutputAmount,
-  getTokenBalances,
-  getTokenTypeFromDenom,
-  queryOutputAmount,
-} from 'utils/swap'
+import { getTokenBalances, getTokenTypeFromDenom, queryOutputAmount } from 'utils/swap'
 
 type UseExchangeProps = {
   address: string
@@ -37,7 +30,7 @@ export const calculateBaseDenomAmount = (amount: BigNumber, exponent: number) =>
 }
 
 function useExchange({ address }: UseExchangeProps) {
-  const dispatch = useAppDispatch()
+  const dispatch: any = useAppDispatch()
   const [balances, setBalances] = useState<Dictionary<string>>({})
   const [slippage] = useState<number>(3)
   const [chainId, setChainId] = useState(process.env.REACT_APP_CHAIN_ID)
