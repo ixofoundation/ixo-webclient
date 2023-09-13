@@ -1,12 +1,12 @@
 import { ApiListedEntity } from 'api/blocksync/types/entities'
 import BigNumber from 'bignumber.js'
+import { useGetEntityById } from 'graphql/entities'
 import { Dictionary, mapValues, keyBy } from 'lodash'
 import { useState, useEffect, useMemo } from 'react'
 import { setInputAsset, setInputAssetUSDAmount, setOutputAsset } from 'redux/exchange/exchange.actions'
 import { selectInputAsset, selectOutputAsset } from 'redux/exchange/exchange.selectors'
 import { ExchangeAsset } from 'redux/exchange/exchange.types'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
-import { BlockSyncService } from 'services/blocksync'
 import { TokenType } from 'types/swap'
 import { getUSDRateByCoingeckoId } from 'utils/coingecko'
 import { getTokenBalances, getTokenTypeFromDenom, queryOutputAmount } from 'utils/swap'
@@ -18,8 +18,6 @@ type UseExchangeProps = {
 }
 export type SupportedDenoms = 'uixo' | 'carbon'
 export type SupportedStandards = '20' | '1155'
-
-const bsService = new BlockSyncService()
 
 export const calculateBaseAmount = (amount: BigNumber, exponent: number) => {
   return amount.times(Math.pow(10, exponent))
@@ -115,15 +113,15 @@ function useExchange({ address }: UseExchangeProps) {
   }, [inputAsset.amount, outputAsset.amount, swapError])
 
   const setInputAssetEntity = (entityId: string) => {
-    bsService.entity?.getEntityById(entityId).then((apiEntity: ApiListedEntity) => {
-      dispatch(setInputAsset({ entity: apiEntity }))
-    })
+    const { data } = useGetEntityById(entityId)
+
+    dispatch(setInputAsset({ entity: data }))
   }
 
   const setOutputAssetEntity = (entityId: string) => {
-    bsService.entity?.getEntityById(entityId).then((apiEntity: ApiListedEntity) => {
-      dispatch(setOutputAsset({ entity: apiEntity }))
-    })
+    const { data } = useGetEntityById(entityId)
+
+    dispatch(setOutputAsset({ entity: data }))
   }
 
   return {
