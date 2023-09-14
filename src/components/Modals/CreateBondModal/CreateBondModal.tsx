@@ -14,6 +14,7 @@ import { cosmos, ixo } from '@ixo/impactxclient-sdk'
 import { errorToast, successToast } from 'utils/toast'
 import { useIxoConfigs } from 'hooks/configs'
 import { convertCoinToDecCoin } from 'utils/currency'
+import { useGetBondDid } from 'graphql/bonds'
 
 interface Props {
   open: boolean
@@ -26,6 +27,7 @@ const CreateBondModal: React.FC<Props> = ({ open, bondDid, onSubmit, onClose }):
   const theme: any = useTheme()
   const { signingClient, signer } = useAccount()
   const { getAssetPairs, convertToMinimalDenom } = useIxoConfigs()
+  const { data: bondDetailFromApi } = useGetBondDid(bondDid)
   const coins = getAssetPairs()
 
   const [alphaBondInfo, setAlphaBondInfo] = useState<Partial<AlphaBondInfo>>({
@@ -38,13 +40,13 @@ const CreateBondModal: React.FC<Props> = ({ open, bondDid, onSubmit, onClose }):
   const [submitting, setSubmitting] = useState(false)
 
   useEffect(() => {
-    if (bondDid) {
-      // TODO: fetch from blocksync and set state
+    if (bondDetailFromApi) {
+      setAlphaBondInfo(bondDetailFromApi)
     } else {
       setAlphaBondInfo({ reserveToken: coins[0].display! })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [bondDid])
+  }, [bondDetailFromApi])
 
   const handleFormChange = (key: string) => (value: string) => {
     setAlphaBondInfo((v) => ({ ...v, [key]: value }))

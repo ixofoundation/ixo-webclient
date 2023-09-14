@@ -29,6 +29,7 @@ import { InfiniteScroll } from 'components/InfiniteScroll'
 import { useMediaQuery } from 'react-responsive'
 import { deviceWidth } from 'constants/device'
 import ProtocolCard from './Components/EntityCard/ProtocolCard'
+import InvestmentCard from './Components/EntityCard/InvestmentCard'
 
 export interface Props extends RouteProps {
   match: any
@@ -57,7 +58,7 @@ const EntityCard: any = {
   [EntityType.Dao]: CellCard,
   [EntityType.Protocol]: ProtocolCard,
   [EntityType.Oracle]: OracleCard,
-  // [EntityType.Investment]: InvestmentCard,
+  [EntityType.Investment]: InvestmentCard,
   // [EntityType.Asset]: AssetCard,
 }
 
