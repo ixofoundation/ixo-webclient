@@ -79,7 +79,7 @@ export const selectedFilteredEntities = createSelector(
     /**
      * @description filter by entityStatus
      */
-    filteredEntities = filteredEntities.filter((entity) => entity.status === 0 || entity.controller.includes(userDid))
+    filteredEntities = filteredEntities.filter((entity) => entity.status === 0 || entity.status === 2)
 
     /**
      * @description filter by user entities or entity Status 0

@@ -65,7 +65,7 @@ const AddActionModal: React.FC<Props> = ({ open, actionsToExclude = [], onClose,
         </FlexBox>
         <GridContainer columns={4} width='100%' gridGap={4}>
           {groupItems
-            .filter((item) => item.in.includes(contractName))
+            .filter((item) => !contractName || item.in.includes(contractName))
             .map((item) => {
               const Icon = item.icon
               const disabled = item.disabled || actionsToExclude.some(({ text }) => text === item.text)

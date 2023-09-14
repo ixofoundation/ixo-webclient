@@ -5,17 +5,14 @@ import 'assets/icons.css'
 import 'assets/toasts.scss'
 
 import AssistantContext from 'contexts/assistant'
-import { AnyObject } from 'immer/dist/internal'
 import {
   changeEntitiesType,
-  getAllEntities,
-  getCollectionsAction,
+  getEntitiesFromGraphqlAction,
   getEntityConfig,
+  updateEntityPropertyAction,
 } from 'redux/entitiesExplorer/entitiesExplorer.actions'
-import { EntityType, EntityConfig } from 'types/entities'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import * as ReactGA from 'react-ga'
-import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import Services from 'services'
@@ -24,16 +21,16 @@ import Footer from '../Footer/FooterContainer'
 import { HeaderConnected } from '../Header/HeaderContainer'
 import ScrollToTop from '../ScrollToTop/ScrollToTop'
 import { Spinner } from '../Spinner/Spinner'
-import { RootState } from 'redux/store'
 import { Routes } from 'routes'
-import { toggleAssistant } from 'redux/account/account.actions'
-import { UserInfo } from 'redux/account/account.types'
 import { Container, ContentWrapper, theme } from './App.styles'
 import { WalletManagerProvider, WalletType } from '@gssuper/cosmodal'
-import { CosmWasmClient } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/cosmwasm-stargate'
 import { getCustomTheme } from 'redux/theme/theme.actions'
-// For Sentry performance profiling
-// import { withProfiler } from '@sentry/react'
+import { useAppDispatch, useAppSelector } from 'redux/hooks'
+import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { selectCustomTheme } from 'redux/theme/theme.selectors'
+import { useAccount } from 'hooks/account'
+import { useGetAllEntities } from 'graphql/entities'
+import { apiEntityToEntity } from 'utils/entities'
 
 const CHAIN_ID = process.env.REACT_APP_CHAIN_ID!
 const LOCAL_STORAGE_KEY = 'ixo-webclient/connectedWalletId'
@@ -41,55 +38,25 @@ const LOCAL_STORAGE_KEY = 'ixo-webclient/connectedWalletId'
 ReactGA.initialize('UA-106630107-5')
 ReactGA.pageview(window.location.pathname + window.location.search)
 
-export interface State {
-  loginError: string
-  error: any
-  errorInfo: any
-  customizedTheme: AnyObject
-}
+const App: React.FC = () => {
+  const dispatch = useAppDispatch()
 
-export interface Props {
-  pingError?: string
-  pingResult?: string
-  userInfo: UserInfo
-  location: any
-  history: any
-  match: any
-  entityTypeMap: EntityConfig
-  cwClient: CosmWasmClient
-  onIxoInit: () => void
-  onKeysafeInit: () => void
-  onWeb3Connect: () => void
-  loginStatusCheckCompleted: boolean
-  assistantToggled: boolean
-  toggleAssistant: () => void
-  handleGetEntityConfig: () => void
-  handleChangeEntitiesType: (type: EntityType) => void
-  handleGetAllEntities: () => void
-  handleGetCustomTheme: () => void
-  handleGetCollections: () => void
-}
+  const customTheme = useAppSelector(selectCustomTheme)
+  const entityConfig = useAppSelector(selectEntityConfig)
+  const { cwClient } = useAccount()
+  const { data: apiEntities } = useGetAllEntities()
 
-class App extends React.Component<Props, State> {
-  state: any = {
-    loginError: null,
-    isProjectPage: false,
-    errorInfo: null,
-    error: null,
-    customizedTheme: theme,
-  }
+  const [customizedTheme, setCustomizedTheme] = useState<any>(theme)
 
-  private keySafeInterval: any = null
+  useEffect(() => {
+    dispatch(getEntityConfig())
+    dispatch(getCustomTheme())
+  }, [dispatch])
 
-  componentDidMount(): void {
-    this.props.handleGetEntityConfig()
-    this.props.handleGetCustomTheme()
-    this.props.handleGetCollections()
-  }
-  UNSAFE_componentWillReceiveProps(props: any): void {
-    if (props.entityTypeMap !== this.props.entityTypeMap) {
-      let newEntityType = EntityType.Project
-      const { UI } = props.entityTypeMap
+  useEffect(() => {
+    if (entityConfig) {
+      let newEntityType = 'project'
+      const { UI } = entityConfig
       if (UI) {
         const { explorer } = UI
         if (explorer) {
@@ -99,143 +66,110 @@ class App extends React.Component<Props, State> {
           }
         }
       }
-      this.props.handleChangeEntitiesType(newEntityType)
 
       // apply custom theme
-      const { theme: myTheme } = props.entityTypeMap
+      const { theme: myTheme } = entityConfig
       if (myTheme) {
-        let customizedTheme = this.state.customizedTheme
+        let newCustomizedTheme = customizedTheme
         const { fontFamily, primaryColor, highlight } = myTheme
         if (fontFamily) {
-          customizedTheme = {
-            ...customizedTheme,
+          newCustomizedTheme = {
+            ...newCustomizedTheme,
             primaryFontFamily: fontFamily,
           }
         }
         if (primaryColor) {
-          customizedTheme = {
-            ...customizedTheme,
+          newCustomizedTheme = {
+            ...newCustomizedTheme,
             ixoBlue: primaryColor,
             ixoNewBlue: primaryColor,
           }
         }
         if (highlight) {
-          customizedTheme = {
-            ...customizedTheme,
+          newCustomizedTheme = {
+            ...newCustomizedTheme,
             highlight,
             pending: highlight.light,
           }
         }
-        customizedTheme = {
-          ...customizedTheme,
-          ...props.customTheme,
+        newCustomizedTheme = {
+          ...newCustomizedTheme,
+          ...customTheme,
         }
-        this.setState({ customizedTheme })
+        setCustomizedTheme(newCustomizedTheme)
       } else {
-        this.setState((prevState) => ({ customizedTheme: { ...prevState.customizedTheme, ...props.customTheme } }))
+        setCustomizedTheme((v: any) => ({ ...v, ...customTheme }))
       }
+      dispatch(changeEntitiesType(newEntityType))
     }
-    if (props.cwClient !== this.props.cwClient && props.cwClient) {
-      this.props.handleGetAllEntities()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [entityConfig])
+
+  useEffect(() => {
+    if (cwClient && apiEntities.length > 0) {
+      dispatch(getEntitiesFromGraphqlAction(apiEntities))
+
+      apiEntities.forEach((entity: any) => {
+        const { id } = entity
+        apiEntityToEntity({ entity, cwClient }, (key, data, merge = false) => {
+          dispatch(updateEntityPropertyAction(id, key, data, merge))
+        })
+      })
     }
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cwClient, apiEntities])
 
-  componentWillUnmount(): void {
-    clearInterval(this.keySafeInterval)
-  }
-
-  render(): JSX.Element {
-    const { assistantToggled } = this.props
-    // let assistantBaseStyles: any = {
-    //   background: '#F0F3F9',
-    //   zIndex: 8,
-    // }
-
-    // if (assistantFixed || isMobile) {
-    //   assistantBaseStyles = {
-    //     ...assistantBaseStyles,
-    //     position: 'fixed',
-    //     right: 0,
-    //   }
-    // }
-
-    return (
-      <ThemeProvider theme={this.state.customizedTheme}>
-        <WalletManagerProvider
-          defaultChainId={CHAIN_ID}
-          enabledWalletTypes={[
-            WalletType.Keplr,
-            // WalletType.WalletConnect
-          ]}
-          localStorageKey={LOCAL_STORAGE_KEY}
-          walletConnectClientMeta={{
-            // TODO:
-            name: 'CosmodalExampleDAPP',
-            description: 'A dapp using the cosmodal library.',
-            url: 'https://cosmodal.example.app',
-            icons: ['https://cosmodal.example.app/walletconnect.png'],
-          }}
-          defaultUiConfig={{
-            classNames: {
-              modalContent: 'cosmodal-content',
-              modalOverlay: 'cosmodal-overlay',
-              modalHeader: 'cosmodal-header',
-              modalSubheader: 'cosmodal-subheader',
-              modalCloseButton: 'cosmodal-close-button',
-              walletList: 'cosmodal-wallet-list',
-              wallet: 'cosmodal-wallet',
-              walletImage: 'cosmodal-wallet-image',
-              walletInfo: 'cosmodal-wallet-info',
-              walletName: 'cosmodal-wallet-name',
-              walletDescription: 'cosmodal-wallet-description',
-              textContent: 'cosmodal-text-content',
-            },
-          }}
-        >
-          <AssistantContext.Provider value={{ active: assistantToggled }}>
-            <ToastContainer theme='dark' hideProgressBar={true} position='top-right' />
-            <Services />
-            {this.props.entityTypeMap && this.props.cwClient && (
-              <ScrollToTop>
-                <Container>
-                  <HeaderConnected />
-                  <div className='d-flex' style={{ flex: 1 }}>
-                    <ContentWrapper>
-                      {this.props.loginStatusCheckCompleted ? <Routes /> : <Spinner info={'Loading ixo.world...'} />}
-                    </ContentWrapper>
-                  </div>
-                  <Footer />
-                </Container>
-              </ScrollToTop>
-            )}
-          </AssistantContext.Provider>
-        </WalletManagerProvider>
-      </ThemeProvider>
-    )
-  }
+  return (
+    <ThemeProvider theme={customizedTheme}>
+      <WalletManagerProvider
+        defaultChainId={CHAIN_ID}
+        enabledWalletTypes={[
+          WalletType.Keplr,
+          // WalletType.WalletConnect
+        ]}
+        localStorageKey={LOCAL_STORAGE_KEY}
+        walletConnectClientMeta={{
+          // TODO:
+          name: 'CosmodalExampleDAPP',
+          description: 'A dapp using the cosmodal library.',
+          url: 'https://cosmodal.example.app',
+          icons: ['https://cosmodal.example.app/walletconnect.png'],
+        }}
+        defaultUiConfig={{
+          classNames: {
+            modalContent: 'cosmodal-content',
+            modalOverlay: 'cosmodal-overlay',
+            modalHeader: 'cosmodal-header',
+            modalSubheader: 'cosmodal-subheader',
+            modalCloseButton: 'cosmodal-close-button',
+            walletList: 'cosmodal-wallet-list',
+            wallet: 'cosmodal-wallet',
+            walletImage: 'cosmodal-wallet-image',
+            walletInfo: 'cosmodal-wallet-info',
+            walletName: 'cosmodal-wallet-name',
+            walletDescription: 'cosmodal-wallet-description',
+            textContent: 'cosmodal-text-content',
+          },
+        }}
+      >
+        <AssistantContext.Provider value={{ active: false }}>
+          <ToastContainer theme='dark' hideProgressBar={true} position='top-right' />
+          <Services />
+          <ScrollToTop>
+            <Container>
+              <HeaderConnected />
+              <div className='d-flex' style={{ flex: 1 }}>
+                <ContentWrapper>
+                  {entityConfig && cwClient ? <Routes /> : <Spinner info={'Loading ixo.world...'} />}
+                </ContentWrapper>
+              </div>
+              <Footer />
+            </Container>
+          </ScrollToTop>
+        </AssistantContext.Provider>
+      </WalletManagerProvider>
+    </ThemeProvider>
+  )
 }
 
-const mapStateToProps = (state: RootState): Record<string, any> => ({
-  userInfo: state.account.userInfo,
-  cwClient: state.account.cwClient,
-  assistantToggled: state.account.assistantToggled,
-  loginStatusCheckCompleted: state.account.loginStatusCheckCompleted,
-  entityTypeMap: state.entities.entityConfig,
-  customTheme: state.customTheme,
-})
-
-const mapDispatchToProps = (dispatch: any): any => ({
-  toggleAssistant: (): void => {
-    dispatch(toggleAssistant())
-  },
-  handleGetEntityConfig: (): void => dispatch(getEntityConfig()),
-  handleGetCustomTheme: (): void => dispatch(getCustomTheme()),
-  handleChangeEntitiesType: (type: EntityType): void => dispatch(changeEntitiesType(type)),
-  handleGetAllEntities: (): void => dispatch(getAllEntities()),
-  handleGetCollections: (): void => dispatch(getCollectionsAction()),
-})
-
-export const AppConnected = withRouter(connect(mapStateToProps, mapDispatchToProps)(App as any) as any)
-
-// For Sentry performance profiling
-// export const AppConnected = withProfiler(withRouter(connect(mapStateToProps, mapDispatchToProps)(App as any) as any))
+export const AppConnected = withRouter(App)

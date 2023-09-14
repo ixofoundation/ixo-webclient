@@ -1,4 +1,4 @@
-import { createQueryClient, ixo, SigningStargateClient, customMessages, utils } from '@ixo/impactxclient-sdk'
+import { ixo, SigningStargateClient, customMessages, utils, createQueryClient } from '@ixo/impactxclient-sdk'
 import {
   QueryEntityIidDocumentRequest,
   QueryEntityListRequest,
@@ -20,7 +20,9 @@ import BigNumber from 'bignumber.js'
 import { fee, RPC_ENDPOINT, TSigner } from './common'
 import { Verification } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/tx'
 import { EncodeObject } from '@cosmjs/proto-signing'
-import { MsgUpdateEntity } from '@ixo/impactxclient-sdk/types/codegen/ixo/entity/v1beta1/tx'
+import { MsgTransferEntity, MsgUpdateEntity } from '@ixo/impactxclient-sdk/types/codegen/ixo/entity/v1beta1/tx'
+
+const { createRPCQueryClient } = ixo.ClientFactory
 
 export const CreateEntity = async (
   client: SigningStargateClient,
@@ -94,54 +96,9 @@ export const CreateEntity = async (
   return response
 }
 
-// export const TransferEntity = async (entityDid: string): Promise<any> => {
-//   const client = await createClient()
-
-//   const tester = getUser()
-//   const account = (await tester.getAccounts())[0]
-//   const myAddress = account.address
-//   const did = tester.did
-
-//   const alice = getUser(WalletUsers.alice)
-
-//   const message = {
-//     typeUrl: '/ixo.entity.v1beta1.MsgTransferEntity',
-//     value: ixo.entity.v1beta1.MsgTransferEntity.fromPartial({
-//       entityDid: entityDid,
-//       ownerDid: did,
-//       ownerAddress: myAddress,
-//       recipientDid: alice.did,
-//     }),
-//   }
-
-//   const response = await client.signAndBroadcast(myAddress, [message], fee)
-//   return response
-// }
-
-// export const UpdateEntity = async (): Promise<any> => {
-//   const client = await createClient()
-
-//   const tester = getUser()
-//   const account = (await tester.getAccounts())[0]
-//   const myAddress = account.address
-//   const did = tester.did
-
-//   const message = {
-//     typeUrl: '/ixo.entity.v1beta1.MsgUpdateEntity',
-//     value: ixo.entity.v1beta1.MsgUpdateEntity.fromPartial({
-//       status: 1,
-//       controllerDid: did,
-//       controllerAddress: myAddress,
-//     }),
-//   }
-
-//   const response = await client.signAndBroadcast(myAddress, [message], fee)
-//   return response
-// }
-
 export const EntityList = async (request: QueryEntityListRequest): Promise<QueryEntityListResponse> => {
   try {
-    const client = await createQueryClient(RPC_ENDPOINT!)
+    const client = await createRPCQueryClient({ rpcEndpoint: RPC_ENDPOINT! })
     const res: QueryEntityListResponse = await client.ixo.entity.v1beta1.entityList(request)
     return res
   } catch (e) {
@@ -159,7 +116,7 @@ export const EntityList = async (request: QueryEntityListRequest): Promise<Query
  */
 export const GetEntity = async (request: QueryEntityRequest): Promise<QueryEntityResponse> => {
   try {
-    const client = await createQueryClient(RPC_ENDPOINT!)
+    const client = await createRPCQueryClient({ rpcEndpoint: RPC_ENDPOINT! })
     const res: QueryEntityResponse = await client.ixo.entity.v1beta1.entity(request)
     return res
   } catch (e) {
@@ -177,110 +134,13 @@ export const GetEntity = async (request: QueryEntityRequest): Promise<QueryEntit
  */
 export const GetEntityIidDocument = async (request: QueryEntityIidDocumentRequest): Promise<IidDocument> => {
   try {
-    const client = await createQueryClient(RPC_ENDPOINT!)
+    const client = await createRPCQueryClient({ rpcEndpoint: RPC_ENDPOINT! })
     const { iidDocument } = await client.ixo.entity.v1beta1.entityIidDocument(request)
     client.cosmos.base.tendermint.v1beta1.getLatestValidatorSet()
     return iidDocument!
   } catch (e) {
     throw new Error(JSON.stringify(e))
   }
-}
-
-export const AddLinkedResource = async (client: SigningStargateClient, signer: TSigner, payload: LinkedResource) => {
-  try {
-    const message = {
-      typeUrl: '/ixo.iid.v1beta1.MsgAddLinkedResource',
-      value: ixo.iid.v1beta1.MsgAddLinkedResource.fromPartial({
-        id: signer.did,
-        linkedResource: ixo.iid.v1beta1.LinkedResource.fromPartial(payload),
-        signer: signer.address,
-      }),
-    }
-
-    const response = await client.signAndBroadcast(signer.address, [message], fee)
-    return response
-  } catch (e) {
-    console.error('AddLinkedResource', e)
-    throw new Error(JSON.stringify(e))
-  }
-}
-
-export const DeleteLinkedResource = async (client: SigningStargateClient, signer: TSigner, resourceId: string) => {
-  try {
-    const message = {
-      typeUrl: '/ixo.iid.v1beta1.MsgDeleteLinkedResource',
-      value: ixo.iid.v1beta1.MsgDeleteLinkedResource.fromPartial({
-        id: signer.did,
-        resourceId: resourceId,
-        signer: signer.address,
-      }),
-    }
-
-    const response = await client.signAndBroadcast(signer.address, [message], fee)
-    return response
-  } catch (e) {
-    console.error('DeleteLinkedResource', e)
-    throw new Error(JSON.stringify(e))
-  }
-}
-
-export const GetAddLinkedResourceMsgs = (
-  entityId: string,
-  signer: TSigner,
-  payload: LinkedResource,
-): readonly EncodeObject[] => {
-  return [
-    {
-      typeUrl: '/ixo.iid.v1beta1.MsgAddLinkedResource',
-      value: ixo.iid.v1beta1.MsgAddLinkedResource.fromPartial({
-        id: entityId,
-        linkedResource: ixo.iid.v1beta1.LinkedResource.fromPartial(payload),
-        signer: signer.address,
-      }),
-    },
-  ]
-}
-
-export const GetDeleteLinkedResourceMsgs = (
-  entityId: string,
-  signer: TSigner,
-  payload: LinkedResource,
-): readonly EncodeObject[] => {
-  return [
-    {
-      typeUrl: '/ixo.iid.v1beta1.MsgDeleteLinkedResource',
-      value: ixo.iid.v1beta1.MsgDeleteLinkedResource.fromPartial({
-        id: entityId,
-        resourceId: payload.id,
-        signer: signer.address,
-      }),
-    },
-  ]
-}
-
-export const GetReplaceLinkedResourceMsgs = (
-  entityId: string,
-  signer: TSigner,
-  payload: LinkedResource,
-): readonly EncodeObject[] => {
-  return [
-    {
-      typeUrl: '/ixo.iid.v1beta1.MsgDeleteLinkedResource',
-      value: ixo.iid.v1beta1.MsgDeleteLinkedResource.fromPartial({
-        id: entityId,
-        resourceId: payload.id,
-        signer: signer.address,
-      }),
-    },
-    {
-      typeUrl: '/ixo.iid.v1beta1.MsgAddLinkedResource',
-      value: ixo.iid.v1beta1.MsgAddLinkedResource.fromPartial({
-        id: entityId,
-        linkedResource: ixo.iid.v1beta1.LinkedResource.fromPartial(payload),
-        signer: signer.address,
-      }),
-    },
-  ]
 }
 
 export const GetUpdateStartAndEndDateMsgs = (payload: Partial<MsgUpdateEntity>): readonly EncodeObject[] => {
@@ -292,154 +152,56 @@ export const GetUpdateStartAndEndDateMsgs = (payload: Partial<MsgUpdateEntity>):
   ]
 }
 
-export const GetAddLinkedEntityMsgs = (
-  entityId: string,
+export const TransferEntity = async (
+  client: SigningStargateClient,
   signer: TSigner,
-  payload: LinkedEntity,
-): readonly EncodeObject[] => {
-  return [
-    {
-      typeUrl: '/ixo.iid.v1beta1.MsgAddLinkedEntity',
-      value: ixo.iid.v1beta1.MsgAddLinkedEntity.fromPartial({
-        id: entityId,
-        linkedEntity: ixo.iid.v1beta1.LinkedEntity.fromPartial(payload),
-        signer: signer.address,
-      }),
-    },
-  ]
+  payload: Partial<MsgTransferEntity>,
+) => {
+  const { id, recipientDid } = payload
+  const message = {
+    typeUrl: '/ixo.entity.v1beta1.MsgTransferEntity',
+    value: ixo.entity.v1beta1.MsgTransferEntity.fromPartial({
+      id,
+      recipientDid,
+      ownerDid: signer.did,
+      ownerAddress: signer.address,
+    }),
+  }
+
+  console.log('TransferEntity', { message })
+  const response: DeliverTxResponse = await client.signAndBroadcast(signer.address, [message], fee)
+  console.log('TransferEntity', { response })
+  return response
 }
 
-export const GetDeleteLinkedEntityMsgs = (
-  entityId: string,
+export const UpdateEntity = async (
+  client: SigningStargateClient,
   signer: TSigner,
-  payload: LinkedEntity,
-): readonly EncodeObject[] => {
-  return [
-    {
-      typeUrl: '/ixo.iid.v1beta1.MsgDeleteLinkedEntity',
-      value: ixo.iid.v1beta1.MsgDeleteLinkedEntity.fromPartial({
-        id: entityId,
-        entityId: payload.id,
-        signer: signer.address,
-      }),
-    },
-  ]
-}
+  payload: Partial<MsgUpdateEntity>,
+) => {
+  const queryClient = await createQueryClient(RPC_ENDPOINT!)
+  const entity = await queryClient.ixo.entity.v1beta1.entity({
+    id: payload?.id || signer.address,
+  })
+  if (!entity.entity) {
+    throw new Error('Entity not found')
+  }
 
-export const GetReplaceLinkedEntityMsgs = (
-  entityId: string,
-  signer: TSigner,
-  payload: LinkedResource,
-): readonly EncodeObject[] => {
-  return [
-    {
-      typeUrl: '/ixo.iid.v1beta1.MsgDeleteLinkedEntity',
-      value: ixo.iid.v1beta1.MsgDeleteLinkedEntity.fromPartial({
-        id: entityId,
-        entityId: payload.id,
-        signer: signer.address,
-      }),
-    },
-    {
-      typeUrl: '/ixo.iid.v1beta1.MsgAddLinkedEntity',
-      value: ixo.iid.v1beta1.MsgAddLinkedEntity.fromPartial({
-        id: entityId,
-        linkedEntity: ixo.iid.v1beta1.LinkedEntity.fromPartial(payload),
-        signer: signer.address,
-      }),
-    },
-  ]
-}
+  const message = {
+    typeUrl: '/ixo.entity.v1beta1.MsgUpdateEntity',
+    value: ixo.entity.v1beta1.MsgUpdateEntity.fromPartial({
+      id: payload?.id || signer.did,
+      entityStatus: payload?.entityStatus === undefined ? entity.entity.status : payload?.entityStatus,
+      startDate: payload?.startDate || entity.entity.startDate,
+      endDate: payload?.endDate || entity.entity.endDate,
+      credentials: payload?.credentials || entity.entity.credentials,
+      controllerDid: signer.did,
+      controllerAddress: signer.address,
+    }),
+  }
 
-export const GetAddLinkedClaimMsgs = (
-  entityId: string,
-  signer: TSigner,
-  payload: LinkedClaim,
-): readonly EncodeObject[] => {
-  return [
-    {
-      typeUrl: '/ixo.iid.v1beta1.MsgAddLinkedClaim',
-      value: ixo.iid.v1beta1.MsgAddLinkedClaim.fromPartial({
-        id: entityId,
-        linkedClaim: ixo.iid.v1beta1.LinkedClaim.fromPartial(payload),
-        signer: signer.address,
-      }),
-    },
-  ]
-}
-
-export const GetDeleteLinkedClaimMsgs = (
-  entityId: string,
-  signer: TSigner,
-  payload: LinkedClaim,
-): readonly EncodeObject[] => {
-  return [
-    {
-      typeUrl: '/ixo.iid.v1beta1.MsgDeleteLinkedClaim',
-      value: ixo.iid.v1beta1.MsgDeleteLinkedClaim.fromPartial({
-        id: entityId,
-        claimId: payload.id,
-        signer: signer.address,
-      }),
-    },
-  ]
-}
-
-export const GetReplaceLinkedClaimMsgs = (
-  entityId: string,
-  signer: TSigner,
-  payload: LinkedClaim,
-): readonly EncodeObject[] => {
-  return [
-    {
-      typeUrl: '/ixo.iid.v1beta1.MsgDeleteLinkedClaim',
-      value: ixo.iid.v1beta1.MsgDeleteLinkedClaim.fromPartial({
-        id: entityId,
-        claimId: payload.id,
-        signer: signer.address,
-      }),
-    },
-    {
-      typeUrl: '/ixo.iid.v1beta1.MsgAddLinkedClaim',
-      value: ixo.iid.v1beta1.MsgAddLinkedClaim.fromPartial({
-        id: entityId,
-        linkedClaim: ixo.iid.v1beta1.LinkedClaim.fromPartial(payload),
-        signer: signer.address,
-      }),
-    },
-  ]
-}
-
-export const GetAddVerifcationMethodMsgs = (
-  entityId: string,
-  signer: TSigner,
-  payload: Verification,
-): readonly EncodeObject[] => {
-  return [
-    {
-      typeUrl: '/ixo.iid.v1beta1.MsgAddVerification',
-      value: ixo.iid.v1beta1.MsgAddVerification.fromPartial({
-        id: entityId,
-        verification: payload,
-        signer: signer.address,
-      }),
-    },
-  ]
-}
-
-export const GetDeleteVerifcationMethodMsgs = (
-  entityId: string,
-  signer: TSigner,
-  payload: Verification,
-): readonly EncodeObject[] => {
-  return [
-    {
-      typeUrl: '/ixo.iid.v1beta1.MsgRevokeVerification',
-      value: ixo.iid.v1beta1.MsgRevokeVerification.fromPartial({
-        id: entityId,
-        methodId: payload.method?.id,
-        signer: signer.address,
-      }),
-    },
-  ]
+  console.log('UpdateEntity', { message })
+  const response: DeliverTxResponse = await client.signAndBroadcast(signer.address, [message], fee)
+  console.log('UpdateEntity', { response })
+  return response
 }

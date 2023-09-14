@@ -4,7 +4,6 @@ import { Box, FlexBox, GridContainer, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { ReactComponent as FundingIcon } from 'assets/images/icon-funding.svg'
 import { ReactComponent as CaretUpIcon } from 'assets/images/icon-caret-up.svg'
-import { useGetTreasuryPools } from 'hooks/dao'
 import { useTheme } from 'styled-components'
 
 interface Props {
@@ -15,8 +14,6 @@ interface Props {
 const TreasuryPool: React.FC<Props> = ({ daoId, groupAddresses }): JSX.Element => {
   const theme: any = useTheme()
   const totalCw20Balances = 0
-
-  const { data } = useGetTreasuryPools(daoId)
 
   return (
     <Card icon={<FundingIcon />} label='Treasury Pool'>
@@ -37,7 +34,7 @@ const TreasuryPool: React.FC<Props> = ({ daoId, groupAddresses }): JSX.Element =
             <Typography color='green'>
               {new Intl.NumberFormat('en-US', {
                 signDisplay: 'exceptZero',
-              }).format(data.dayChanges)}
+              }).format(0)}
               %
             </Typography>
             <SvgBox color={theme.ixoGreen} svgWidth={5} svgHeight={5}>
@@ -49,7 +46,7 @@ const TreasuryPool: React.FC<Props> = ({ daoId, groupAddresses }): JSX.Element =
           Treasury Assets
         </Typography>
         <FlexBox gap={2.5} mt={2}>
-          {data.assets?.map((asset: any) => (
+          {[].map((asset: any) => (
             <img key={asset.name} width={24} height={24} src={asset.logoUrl} alt={asset.name} />
           ))}
         </FlexBox>

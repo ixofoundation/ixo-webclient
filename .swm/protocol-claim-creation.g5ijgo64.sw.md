@@ -9,72 +9,48 @@ The code defined for cloning of an entity from blocksync api call and prefilling
 <!-- NOTE-swimm-snippet: the lines below link your snippet to Swimm -->
 ### 📄 src/pages/CreateEntity/CreateClaim/Pages/SelectCreationProcess/SelectCreationProcess.tsx
 ```tsx
-56       const handleClone = (): void => {
-57         let claimQuestions = {}
-58         const bsService = new BlockSyncService(relayer?.blocksync)
-59         bsService.entity.getEntityById(existingDid).then((entity: any) => {
-60           apiEntityToEntity({ entity, cwClient }, (key: string, value: any, merge) => {
-61             switch (key) {
-62               case 'profile':
-63                 updateProfile(value)
-64                 break
-65               case 'creator':
-66                 updateCreator(value)
-67                 break
-68               case 'administrator':
-69                 updateAdministrator(value)
-70                 break
-71               case 'page':
-72                 updatePage(value)
-73                 break
-74               case 'ddoTags':
-75                 updateDDOTags(value)
-76                 break
-77               case 'service':
-78                 updateService(value)
-79                 break
-80               case 'linkedEntity':
-81                 updateLinkedEntity(value)
-82                 break
-83               case 'linkedResource':
-84                 updateLinkedResource(
-85                   value.filter((item: LinkedResource) => Object.keys(EntityLinkedResourceConfig).includes(item.type)),
-86                 )
-87                 break
-88               case 'claimQuestion':
-89                 claimQuestions = { ...claimQuestions, [value.id]: value }
-90                 updateClaimQuestions(claimQuestions)
-91                 break
-92               default:
-93                 break
-94             }
-95           })
-96           // additional
-97           updateStartEndDate({ startDate: entity.startDate, endDate: entity.endDate })
-98         })
-99         history.push(`${baseLink}/profile`)
-100      }
-```
-
-<br/>
-
-The code is responsible for fetching an entity's details based on its ID
-<!-- NOTE-swimm-snippet: the lines below link your snippet to Swimm -->
-### 📄 src/pages/CreateEntity/CreateClaim/Pages/SelectCreationProcess/SelectCreationProcess.tsx
-```tsx
-102      useEffect(() => {
-103        if (validateEntityDid(existingDid)) {
-104          const bsService = new BlockSyncService(relayer?.blocksync)
-105          bsService.entity
-106            .getEntityById(existingDid)
-107            .then((response: any) => {
-108              setCloningEntityType(response.type)
-109            })
-110            .catch(() => setCloningEntityType(''))
-111        } else {
-112          setCloningEntityType('')
-113        }
-114      }, [existingDid, relayer?.blocksync])
+54       const handleClone = (): void => {
+55         let claimQuestions = {}
+56         apiEntityToEntity({ entity: selectedEntity }, (key: string, value: any, merge) => {
+57           switch (key) {
+58             case 'profile':
+59               updateProfile(value)
+60               break
+61             case 'creator':
+62               updateCreator(value)
+63               break
+64             case 'administrator':
+65               updateAdministrator(value)
+66               break
+67             case 'page':
+68               updatePage(value)
+69               break
+70             case 'ddoTags':
+71               updateDDOTags(value)
+72               break
+73             case 'service':
+74               updateService(value)
+75               break
+76             case 'linkedEntity':
+77               updateLinkedEntity(value)
+78               break
+79             case 'linkedResource':
+80               updateLinkedResource(
+81                 value.filter((item: LinkedResource) => Object.keys(EntityLinkedResourceConfig).includes(item.type)),
+82               )
+83               break
+84             case 'claimQuestion':
+85               claimQuestions = { ...claimQuestions, [value.id]: value }
+86               updateClaimQuestions(claimQuestions)
+87               break
+88             default:
+89               break
+90           }
+91         })
+92         // additional
+93         updateStartEndDate({ startDate: selectedEntity.startDate, endDate: selectedEntity.endDate })
+94         history.push(`${baseLink}/profile`)
+95       }
 ```
 
 <br/>

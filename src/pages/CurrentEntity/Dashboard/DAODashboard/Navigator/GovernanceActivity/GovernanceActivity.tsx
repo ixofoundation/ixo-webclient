@@ -5,7 +5,6 @@ import { Card } from '../../../../Components'
 import { ReactComponent as PieIcon } from 'assets/images/icon-pie.svg'
 import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
-import { useGetVotes } from 'hooks/dao'
 import { useTheme } from 'styled-components'
 
 const CustomTooltip = ({ active, payload, label }: any) => {
@@ -34,12 +33,11 @@ interface Props {
 
 const GovernanceActivity: React.FC<Props> = ({ daoId, groupIds }): JSX.Element => {
   const theme: any = useTheme()
-  const { data } = useGetVotes(daoId, groupIds)
 
   return (
     <Card icon={<PieIcon />} label='Governance activity'>
       <ResponsiveContainer width='100%' height='100%'>
-        <BarChart width={500} height={300} data={data as any[]}>
+        <BarChart width={500} height={300} data={[] as any[]}>
           <defs>
             <linearGradient id='color' x1='0.5' y1='0' x2='0.5' y2='1'>
               <stop offset='0%' stopColor='#03d0fb' />

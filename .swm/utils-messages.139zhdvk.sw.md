@@ -20,8 +20,11 @@ Constants for non-standard stargate message typeUrls
 150        ['/cosmos.crypto.ed25519.PubKey', PubKey],
 151        ['/ixo.iid.v1beta1.MsgAddLinkedEntity', ixo.iid.v1beta1.MsgAddLinkedEntity],
 152        ['/ixo.entity.v1beta1.MsgUpdateEntityVerified', ixo.entity.v1beta1.MsgUpdateEntityVerified],
-153      ] as ReadonlyArray<[string, GeneratedType]>),
-154    ])
+153        ['/ixo.iid.v1beta1.MsgAddVerification', ixo.iid.v1beta1.MsgAddVerification],
+154        ['/ixo.iid.v1beta1.MsgDeleteLinkedResource', ixo.iid.v1beta1.MsgDeleteLinkedResource],
+155        ['/ixo.entity.v1beta1.MsgUpdateEntity', ixo.entity.v1beta1.MsgUpdateEntity],
+156      ] as ReadonlyArray<[string, GeneratedType]>),
+157    ])
 ```
 
 <br/>

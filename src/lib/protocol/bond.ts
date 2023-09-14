@@ -1,4 +1,4 @@
-import { SigningStargateClient, ixo, createQueryClient, cosmos } from '@ixo/impactxclient-sdk'
+import { SigningStargateClient, ixo, cosmos } from '@ixo/impactxclient-sdk'
 import {
   QueryBondResponse,
   QueryBuyPriceResponse,
@@ -9,6 +9,8 @@ import {
 import { DeliverTxResponse } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/stargate'
 import { fee, RPC_ENDPOINT } from './common'
 import { Coin } from '@cosmjs/proto-signing'
+
+const { createRPCQueryClient } = ixo.ClientFactory
 
 export const Buy = async (
   client: SigningStargateClient,
@@ -72,7 +74,7 @@ export const GetBondDetail = async (bondDid: string): Promise<QueryBondResponse 
     if (!bondDid) {
       throw new Error('bondDid is undefined')
     }
-    const queryClient = await createQueryClient(RPC_ENDPOINT)
+    const queryClient = await createRPCQueryClient({ rpcEndpoint: RPC_ENDPOINT })
     const res: QueryBondResponse = await queryClient.ixo.bonds.v1beta1.bond({ bondDid })
     return res
   } catch (e) {
@@ -89,7 +91,7 @@ export const GetCurrentPrice = async (bondDid: string): Promise<QueryCurrentPric
     if (!bondDid) {
       throw new Error('bondDid is undefined')
     }
-    const queryClient = await createQueryClient(RPC_ENDPOINT)
+    const queryClient = await createRPCQueryClient({ rpcEndpoint: RPC_ENDPOINT })
     const res: QueryCurrentPriceResponse = await queryClient.ixo.bonds.v1beta1.currentPrice({ bondDid })
     return res
   } catch (e) {
@@ -106,7 +108,7 @@ export const GetBuyPrice = async (bondDid: string, bondAmount: string): Promise<
     if (!bondDid) {
       throw new Error('bondDid is undefined')
     }
-    const queryClient = await createQueryClient(RPC_ENDPOINT)
+    const queryClient = await createRPCQueryClient({ rpcEndpoint: RPC_ENDPOINT })
     const res: QueryBuyPriceResponse = await queryClient.ixo.bonds.v1beta1.buyPrice({ bondDid, bondAmount })
     return res
   } catch (e) {
@@ -126,7 +128,7 @@ export const GetCustomPrice = async (
     if (!bondDid) {
       throw new Error('bondDid is undefined')
     }
-    const queryClient = await createQueryClient(RPC_ENDPOINT)
+    const queryClient = await createRPCQueryClient({ rpcEndpoint: RPC_ENDPOINT })
     const res: QueryCustomPriceResponse = await queryClient.ixo.bonds.v1beta1.customPrice({ bondDid, bondAmount })
     return res
   } catch (e) {
@@ -143,7 +145,7 @@ export const GetLastBatch = async (bondDid: string): Promise<QueryLastBatchRespo
     if (!bondDid) {
       throw new Error('bondDid is undefined')
     }
-    const queryClient = await createQueryClient(RPC_ENDPOINT)
+    const queryClient = await createRPCQueryClient({ rpcEndpoint: RPC_ENDPOINT })
     const res: QueryLastBatchResponse = await queryClient.ixo.bonds.v1beta1.lastBatch({ bondDid })
     return res
   } catch (e) {

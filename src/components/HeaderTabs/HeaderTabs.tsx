@@ -45,9 +45,9 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
 
     const buttonArr: HeaderTab[] = [
       {
-        iconClass: `icon-${entityType!.toLowerCase()}`,
+        iconClass: `icon-${entityType!.split('/')[0].toLowerCase()}`,
         path: `/projects/${entityId}/overview`,
-        title: title,
+        title: entityType,
         tooltip: `${title} Overview`,
       },
     ]
@@ -71,14 +71,14 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
       })
     }
 
-    if (entityType === EntityType.Asset) {
-      buttonArr.push({
-        iconClass: 'icon-exchange',
-        path: `/projects/${entityId}/exchange`,
-        title: 'EXCHANGE',
-        tooltip: `${title} Exchange`,
-      })
-    } else {
+    buttonArr.push({
+      iconClass: 'icon-exchange',
+      path: `/exchange/trade/${entityId}`,
+      title: 'EXCHANGE',
+      tooltip: `Asset Exchange`,
+    })
+
+    if (entityType === 'TODO: ') {
       buttonArr.push({
         iconClass: 'icon-funding',
         linkClass: 'restricted',
