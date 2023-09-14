@@ -24,20 +24,6 @@ router where review re-enabling keys<br/>
 
 # TransferEntity
 
-<br/>
-
-Check if signed in user is controller of the entity.
-<!-- NOTE-swimm-snippet: the lines below link your snippet to Swimm -->
-### 📄 src/pages/TransferEntity/index.tsx
-```tsx
-21       const isEligible = useMemo(
-22         () => did && selectedEntity && selectedEntity.controller.includes(did),
-23         [selectedEntity, did],
-24       )
-```
-
-<br/>
-
 # TransferEntityTo
 
 <br/>

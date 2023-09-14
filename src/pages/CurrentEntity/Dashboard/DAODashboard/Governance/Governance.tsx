@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { FlexBox } from 'components/App/App.styles'
 import GovernanceProposal from './GovernanceProposal'
 import { durationToSeconds, expirationAtTimeToSecondsFromNow } from 'utils/conversions'
@@ -9,15 +9,31 @@ import { Link, useHistory, useParams } from 'react-router-dom'
 import { ProposalResponse } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
 import { ReactComponent as EmptyIcon } from 'assets/images/icon-empty.svg'
 import { useTheme } from 'styled-components'
-import useCurrentEntity, { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
+import useCurrentEntity, { useCurrentEntityDAOGroup, useCurrentEntityProfile } from 'hooks/currentEntity'
 
 const Governance: React.FC = () => {
   const theme: any = useTheme()
   const { entityId } = useParams<{ entityId: string }>()
   const history = useHistory()
-  const { selectedDAOGroup, selectDAOGroup, isImpactsDAO, isMemberOfImpactsDAO, isOwner, daoController } =
-    useCurrentEntity()
+  const {
+    entityStatus,
+    selectedDAOGroup,
+    verificationMethod,
+    selectDAOGroup,
+    isImpactsDAO,
+    isMemberOfImpactsDAO,
+    isOwner,
+    daoController,
+  } = useCurrentEntity()
+  const { name: entityName } = useCurrentEntityProfile()
   const { isParticipating, anyoneCanPropose } = useCurrentEntityDAOGroup(selectedDAOGroup?.coreAddress || '')
+
+  const hasVerificationKey = useMemo(
+    () =>
+      selectedDAOGroup?.coreAddress &&
+      verificationMethod.some((v) => v.blockchainAccountID === selectedDAOGroup?.coreAddress),
+    [verificationMethod, selectedDAOGroup?.coreAddress],
+  )
 
   const handleNewProposal = () => {
     history.push(`/create/entity/deed/${entityId}/${selectedDAOGroup?.coreAddress}`)
@@ -25,6 +41,10 @@ const Governance: React.FC = () => {
 
   const handleNewProposalForJoin = () => {
     history.push(`/create/entity/deed/${entityId}/${selectedDAOGroup?.coreAddress}?join=true`)
+  }
+
+  const handleReEnableKeys = () => {
+    history.push(`/transfer/entity/${entityId}/review?groupAddress=${selectedDAOGroup?.coreAddress}`)
   }
 
   return (
@@ -43,34 +63,51 @@ const Governance: React.FC = () => {
             Current Governance Proposals
           </Typography>
 
-          {isImpactsDAO && daoController === selectedDAOGroup.coreAddress && !isMemberOfImpactsDAO && !isOwner ? (
-            <Button
-              variant='secondary'
-              size='flex'
-              width={170}
-              height={40}
-              textSize='base'
-              textTransform='capitalize'
-              textWeight='medium'
-              onClick={handleNewProposalForJoin}
-              disabled={!isParticipating}
-            >
-              Join
-            </Button>
-          ) : (
-            <Button
-              variant='secondary'
-              size='flex'
-              height={36}
-              textSize='base'
-              textTransform='capitalize'
-              textWeight='medium'
-              onClick={handleNewProposal}
-              disabled={!isParticipating && !anyoneCanPropose}
-            >
-              New Proposal
-            </Button>
-          )}
+          <FlexBox alignItems='center' gap={4}>
+            {entityStatus === 2 && hasVerificationKey && (
+              <Button
+                variant='secondary'
+                size='flex'
+                height={36}
+                textSize='base'
+                textTransform='none'
+                textWeight='medium'
+                onClick={handleReEnableKeys}
+                disabled={!isParticipating && !anyoneCanPropose}
+              >
+                Re-enable keys for {entityName || 'DAO'}
+              </Button>
+            )}
+
+            {isImpactsDAO && daoController === selectedDAOGroup.coreAddress && !isMemberOfImpactsDAO && !isOwner ? (
+              <Button
+                variant='secondary'
+                size='flex'
+                width={170}
+                height={40}
+                textSize='base'
+                textTransform='capitalize'
+                textWeight='medium'
+                onClick={handleNewProposalForJoin}
+                disabled={!isParticipating}
+              >
+                Join
+              </Button>
+            ) : (
+              <Button
+                variant='secondary'
+                size='flex'
+                height={36}
+                textSize='base'
+                textTransform='capitalize'
+                textWeight='medium'
+                onClick={handleNewProposal}
+                disabled={!isParticipating && !anyoneCanPropose}
+              >
+                New Proposal
+              </Button>
+            )}
+          </FlexBox>
         </FlexBox>
       )}
 

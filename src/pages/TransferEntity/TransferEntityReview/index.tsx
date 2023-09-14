@@ -1,57 +1,48 @@
-import { ixo } from '@ixo/impactxclient-sdk'
+import { contracts, ixo, utils } from '@ixo/impactxclient-sdk'
 import { FlexBox } from 'components/App/App.styles'
 import FormCard from 'components/Card/FormCard'
 import { InputWithLabel } from 'components/Form/InputWithLabel'
 import { Typography } from 'components/Typography'
 import { useAccount } from 'hooks/account'
-// import { VMKeyMap } from 'constants/entity'
 import { useTransferEntityState } from 'hooks/transferEntity'
-import { AddVerificationMethod, DeleteLinkedResource, UpdateEntity } from 'lib/protocol'
+import { useQuery } from 'hooks/window'
+import { AddVerificationMethod, DeleteLinkedResource, fee, UpdateEntity } from 'lib/protocol'
 import { Button, Switch } from 'pages/CreateEntity/Components'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 import { useTheme } from 'styled-components'
 import { serviceEndpointToUrl } from 'utils/entities'
 import { errorToast, successToast } from 'utils/toast'
+import { CosmosMsgForEmpty } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
+import { decodedMessagesString, makeStargateMessage } from 'utils/messages'
+import { getValueFromEvents } from 'utils/objects'
+import { depositInfoToCoin } from 'utils/conversions'
+import { Coin } from '@ixo/impactxclient-sdk/types/codegen/DaoPreProposeSingle.types'
 
-const TransferEntityReview: React.FC = () => {
-  const theme: any = useTheme()
+const TransferEntityToGroupButton: React.FC<{
+  groupAddress: string
+  verificationMethods: any[]
+  setVerificationMethods: (verificationMethods: any) => void
+}> = ({ groupAddress, verificationMethods, setVerificationMethods }) => {
   const history = useHistory()
   const { entityId } = useParams<{ entityId: string }>()
-  const { signingClient, signer } = useAccount()
+
+  const { cosmWasmClient, address } = useAccount()
   const { selectedEntity } = useTransferEntityState()
-  const [submitting, setSubmitting] = useState(false)
-  const [
-    authentications = [],
-    assertionMethods = [],
-    keyAgreements = [],
-    capabilityInvocations = [],
-    capabilityDelegations = [],
-    service = [],
-    transferDocument = undefined,
-  ] = useMemo(
-    () => [
-      selectedEntity?.authentication,
-      selectedEntity?.assertionMethod,
-      selectedEntity?.keyAgreement,
-      selectedEntity?.capabilityInvocation,
-      selectedEntity?.capabilityDelegation,
-      selectedEntity?.service,
-      selectedEntity?.linkedResource.find((v) => v.type === 'VerificationMethods'),
-    ],
-    [selectedEntity],
+  const daoGroups = useMemo(() => selectedEntity?.daoGroups ?? {}, [selectedEntity])
+  const daoGroup = useMemo(() => daoGroups[groupAddress], [daoGroups, groupAddress])
+  const preProposalContractAddress = useMemo(() => daoGroup?.proposalModule?.preProposalContractAddress, [daoGroup])
+  const depositInfo: Coin | undefined = useMemo(
+    () => daoGroup && depositInfoToCoin(daoGroup.proposalModule.preProposeConfig.deposit_info!),
+    [daoGroup],
   )
 
-  const [verificationMethods, setVerificationMethods] = useState<any[]>([])
+  const [submitting, setSubmitting] = useState(false)
 
-  console.log({
-    verificationMethods,
-    authentications,
-    assertionMethods,
-    keyAgreements,
-    capabilityInvocations,
-    capabilityDelegations,
-  })
+  const [service = [], transferDocument = undefined] = useMemo(
+    () => [selectedEntity?.service, selectedEntity?.linkedResource.find((v) => v.type === 'VerificationMethods')],
+    [selectedEntity],
+  )
 
   const isEligible = useMemo(() => verificationMethods.some((v) => v.reEnable), [verificationMethods])
 
@@ -71,24 +62,179 @@ const TransferEntityReview: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [transferDocument])
 
-  // const getVMKeyType = (vmId: string): string => {
-  //   if (authentications.includes(vmId)) {
-  //     return 'authentication'
-  //   } else if (assertionMethods.includes(vmId)) {
-  //     return 'assertionMethod'
-  //   } else if (keyAgreements.includes(vmId)) {
-  //     return 'keyAgreement'
-  //   } else if (capabilityInvocations.includes(vmId)) {
-  //     return 'capabilityInvocation'
-  //   } else if (capabilityDelegations.includes(vmId)) {
-  //     return 'capabilityDelegation'
-  //   }
-  //   return ''
-  // }
+  const handlePublishProposal = async (): Promise<boolean> => {
+    try {
+      const verifications = verificationMethods
+        .filter((v) => v.reEnable)
+        .map((v) => {
+          return ixo.iid.v1beta1.Verification.fromPartial({
+            relationships: ['authentication'],
+            method: ixo.iid.v1beta1.VerificationMethod.fromPartial({
+              id: v.id,
+              type: v.type,
+              controller: v.controller,
+              blockchainAccountID: v.blockchainAccountID,
+              publicKeyHex: v.publicKeyHex,
+              publicKeyMultibase: v.publicKeyMultibase,
+              publicKeyBase58: v.publicKeyBase58,
+            }),
+          })
+        })
 
-  const handleUpdateVMReEnable = (vmId: string, value: boolean) => {
-    setVerificationMethods((v) => v.map((item) => ({ ...item, reEnable: item.id === vmId ? value : item.reEnable })))
+      if (!groupAddress || !entityId) {
+        // eslint-disable-next-line no-throw-literal
+        throw 'EntityId or Group Address is invalid'
+      }
+
+      if (verifications.length === 0) {
+        // eslint-disable-next-line no-throw-literal
+        throw 'No keys to re-enable'
+      }
+
+      let wasmMessage: CosmosMsgForEmpty[] = []
+
+      wasmMessage.push(
+        makeStargateMessage({
+          stargate: {
+            typeUrl: '/ixo.entity.v1beta1.MsgUpdateEntity',
+            value: ixo.entity.v1beta1.MsgUpdateEntity.fromPartial({
+              id: entityId,
+              entityStatus: 0,
+              startDate: selectedEntity?.startDate,
+              endDate: selectedEntity?.startDate,
+              credentials: selectedEntity?.credentials,
+              controllerDid: utils.did.generateWasmDid(groupAddress),
+              controllerAddress: groupAddress,
+            }),
+          },
+        }),
+      )
+
+      wasmMessage.push(
+        makeStargateMessage({
+          stargate: {
+            typeUrl: '/ixo.iid.v1beta1.MsgDeleteLinkedResource',
+            value: ixo.iid.v1beta1.MsgDeleteLinkedResource.fromPartial({
+              id: entityId,
+              resourceId: transferDocument?.id,
+              signer: groupAddress,
+            }),
+          },
+        }),
+      )
+
+      wasmMessage = [
+        ...wasmMessage,
+        ...verifications.map((verification) =>
+          makeStargateMessage({
+            stargate: {
+              typeUrl: '/ixo.iid.v1beta1.MsgAddVerification',
+              value: ixo.iid.v1beta1.MsgAddVerification.fromPartial({
+                id: entityId,
+                verification,
+                signer: groupAddress,
+              }),
+            },
+          }),
+        ),
+      ]
+
+      console.log('handlePublishProposal wasmMessage', decodedMessagesString(wasmMessage))
+
+      const daoPreProposeSingleClient = new contracts.DaoPreProposeSingle.DaoPreProposeSingleClient(
+        cosmWasmClient,
+        address,
+        preProposalContractAddress,
+      )
+      const response = await daoPreProposeSingleClient
+        .propose(
+          {
+            msg: {
+              propose: {
+                title: 'Re-enable Verification Methods',
+                description:
+                  'The former owner of the entity submitted a request to re-enable some Verification Methods.',
+                msgs: wasmMessage,
+              },
+            },
+          },
+          fee,
+          undefined,
+          depositInfo ? [depositInfo] : undefined,
+        )
+        .then((res) => {
+          const { logs, transactionHash } = res
+          const proposalId = Number(getValueFromEvents(logs, 'wasm', 'proposal_id') || '0')
+
+          successToast(null, `Successfully published proposals`)
+          return { transactionHash, proposalId }
+        })
+        .catch((e) => {
+          console.error(e)
+          errorToast(null, typeof e === 'string' && e)
+          return undefined
+        })
+
+      console.log('handlePublishProposal', { response })
+
+      return true
+    } catch (e) {
+      console.error('handlePublishProposal', e)
+      return false
+    }
   }
+
+  const onSubmit = async () => {
+    setSubmitting(true)
+
+    const publishProposal = await handlePublishProposal()
+    if (publishProposal) {
+      history.push(`/entity/${entityId}/dashboard`)
+    }
+
+    setSubmitting(false)
+  }
+
+  return (
+    <Button size='full' height={48} loading={submitting} disabled={!isEligible} onClick={onSubmit}>
+      Submit Proposal To Re-enable
+    </Button>
+  )
+}
+
+const TransferEntityToAccountButton: React.FC<{
+  verificationMethods: any[]
+  setVerificationMethods: (verificationMethods: any) => void
+}> = ({ verificationMethods, setVerificationMethods }) => {
+  const history = useHistory()
+  const { entityId } = useParams<{ entityId: string }>()
+
+  const { signingClient, signer } = useAccount()
+  const { selectedEntity } = useTransferEntityState()
+  const [submitting, setSubmitting] = useState(false)
+
+  const [service = [], transferDocument = undefined] = useMemo(
+    () => [selectedEntity?.service, selectedEntity?.linkedResource.find((v) => v.type === 'VerificationMethods')],
+    [selectedEntity],
+  )
+
+  const isEligible = useMemo(() => verificationMethods.some((v) => v.reEnable), [verificationMethods])
+
+  useEffect(() => {
+    if (transferDocument) {
+      const { serviceEndpoint } = transferDocument
+      const url = serviceEndpointToUrl(serviceEndpoint, service)
+      fetch(url)
+        .then((response) => response.json())
+        .then((response) => {
+          setVerificationMethods((response.keys ?? []).map((v: any) => ({ ...v, reEnable: true })))
+        })
+        .catch((e) => {
+          setVerificationMethods([])
+        })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [transferDocument])
 
   const handleAddVerificationMethods = async (): Promise<boolean> => {
     try {
@@ -163,25 +309,44 @@ const TransferEntityReview: React.FC = () => {
     }
   }
 
-  const onBack = () => {
-    history.goBack()
-  }
-
   const onSubmit = async () => {
     setSubmitting(true)
 
-    const added = await handleAddVerificationMethods()
-    if (added) {
+    const removeStatus = await handleRemoveDocument()
+    if (removeStatus) {
       const updateStatus = await handleUpdateStatusToCreated()
       if (updateStatus) {
-        const removeStatus = await handleRemoveDocument()
-        if (removeStatus) {
+        const addedVMs = await handleAddVerificationMethods()
+        if (addedVMs) {
           history.push(`/entity/${entityId}/dashboard`)
         }
       }
     }
 
     setSubmitting(false)
+  }
+
+  return (
+    <Button size='full' height={48} loading={submitting} disabled={!isEligible} onClick={onSubmit}>
+      Re-enable keys
+    </Button>
+  )
+}
+
+const TransferEntityReview: React.FC = () => {
+  const theme: any = useTheme()
+  const history = useHistory()
+  const { getQuery } = useQuery()
+  const groupAddress = getQuery('groupAddress')
+
+  const [verificationMethods, setVerificationMethods] = useState<any[]>([])
+
+  const handleUpdateVMReEnable = (vmId: string, value: boolean) => {
+    setVerificationMethods((v) => v.map((item) => ({ ...item, reEnable: item.id === vmId ? value : item.reEnable })))
+  }
+
+  const onBack = () => {
+    history.goBack()
   }
 
   return (
@@ -236,9 +401,18 @@ const TransferEntityReview: React.FC = () => {
           <Button variant='secondary' size='full' height={48} onClick={onBack}>
             Back
           </Button>
-          <Button size='full' height={48} loading={submitting} disabled={!isEligible} onClick={onSubmit}>
-            Re-enable keys
-          </Button>
+          {groupAddress ? (
+            <TransferEntityToGroupButton
+              groupAddress={groupAddress}
+              verificationMethods={verificationMethods}
+              setVerificationMethods={setVerificationMethods}
+            />
+          ) : (
+            <TransferEntityToAccountButton
+              verificationMethods={verificationMethods}
+              setVerificationMethods={setVerificationMethods}
+            />
+          )}
         </FlexBox>
       </FlexBox>
     </FlexBox>

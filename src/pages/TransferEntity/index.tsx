@@ -18,10 +18,7 @@ const TransferEntity: React.FC = (): JSX.Element => {
   const selectedEntity: TEntityModel | undefined = useAppSelector(selectEntityById(entityId))
   const { breadCrumbs, title, subtitle, updateSelectedEntity } = useTransferEntityState()
 
-  const isEligible = useMemo(
-    () => did && selectedEntity && selectedEntity.controller.includes(did),
-    [selectedEntity, did],
-  )
+  const isEligible = useMemo(() => did && selectedEntity, [selectedEntity, did])
 
   useEffect(() => {
     if (selectedEntity) {
