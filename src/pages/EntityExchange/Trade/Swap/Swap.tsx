@@ -8,7 +8,6 @@ import { TradeWrapper, AssetCardWrapper, TradePanel } from '../Swap.styles'
 import { useParams } from 'react-router-dom'
 
 import { selectSelectedAccountAddress } from 'redux/selectedEntityExchange/entityExchange.selectors'
-import * as _ from 'lodash'
 import BigNumber from 'bignumber.js'
 import { useIxoConfigs } from 'hooks/configs'
 import { AssetType } from 'redux/configs/configs.types'

@@ -48,8 +48,8 @@ function useExchange({ address }: UseExchangeProps) {
   }, [address, setBalances])
 
   useEffect(() => {
-    if (inputAsset.asset && inputAsset.asset.coingeckoid) {
-      getUSDRateByCoingeckoId(inputAsset?.asset.coingeckoId).then((rate): void => {
+    if (inputAsset?.asset && inputAsset?.asset?.coingeckoid) {
+      getUSDRateByCoingeckoId(inputAsset?.asset?.coingeckoId).then((rate): void => {
         dispatch(setInputAssetUSDAmount(BigNumber(rate)))
       })
     }
@@ -57,7 +57,7 @@ function useExchange({ address }: UseExchangeProps) {
 
   useEffect(() => {
     if (balances && inputAsset?.asset?.base) {
-      dispatch(setInputAsset({ balance: balances[inputAsset.asset.display as any] }))
+      dispatch(setInputAsset({ balance: balances[inputAsset?.asset?.display as any] }))
     }
   }, [balances, inputAsset?.asset?.base])
 
@@ -70,7 +70,7 @@ function useExchange({ address }: UseExchangeProps) {
         (item: any) => item.denom.toLowerCase() === inputAsset.asset?.base?.toLowerCase(),
       )
 
-      const baseUnitAmount = calculateBaseAmount(inputAsset.amount, denomUnit.exponent)
+      const baseUnitAmount = calculateBaseAmount(inputAsset.amount, denomUnit?.exponent || 0)
 
       return await queryOutputAmount(
         queryType,

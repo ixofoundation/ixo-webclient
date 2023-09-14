@@ -6,7 +6,6 @@ import Axios from 'axios'
 import { Uint8ArrayToJS, getMicroAmount, strToArray } from './encoding'
 import { RPC_ENDPOINT } from 'lib/protocol'
 import { findDenomByMinimalDenom, minimalAmountToAmount } from 'redux/account/account.utils'
-import * as _ from 'lodash'
 import { SupportedDenoms, SupportedStandards } from 'hooks/exchange'
 
 export const getInputTokenAmount = (
@@ -118,34 +117,6 @@ export const splitAmountOnRandomParts = (amount: number, parts: number, min = 10
 }
 export const getRandomTokenIds = (tokenIds: string[], idsCount: number): string[] =>
   tokenIds.sort(() => 0.5 - Math.random()).slice(0, idsCount)
-
-export const formatInputAmount = (
-  inputTokenType: TokenSelect,
-  inputAmount: number,
-  inputTokensId: string[],
-): TokenAmount => {
-  if (inputTokenType == TokenSelect.Token1155) {
-    const includedBatchesCount = Math.floor(Math.random() * inputTokensId.length) + 1
-
-    const batchesAmounts = splitAmountOnRandomParts(inputAmount, includedBatchesCount)
-    const batchesIds = getRandomTokenIds(inputTokensId, includedBatchesCount)
-
-    return {
-      multiple: {},
-    }
-
-    return {
-      multiple: {
-        ...batchesIds.reduce((acc, id, index) => {
-          acc[id] = batchesAmounts[index].toString()
-          return acc
-        }, {}),
-      },
-    }
-  } else {
-    return { single: inputAmount.toString() }
-  }
-}
 
 export const formatOutputAmount = (
   inputTokenType: TokenSelect,

@@ -80,14 +80,14 @@ class IxoSwapAdapter implements SwapAdapter {
     const denomUnit = inputAsset.asset?.denomUnits?.find(
       (item: any) => item.denom.toLowerCase() === inputAsset.asset?.base?.toLowerCase(),
     )
-    return inputAsset.amount.times(Math.pow(10, denomUnit.exponent))
+    return inputAsset.amount.times(Math.pow(10, denomUnit?.exponent || 0))
   }
 
   private useSmallestUnit = (outputAsset: ExchangeAsset) => {
     const denomUnit = outputAsset.asset?.denomUnits?.find(
       (item: any) => item.denom.toLowerCase() === outputAsset.asset?.base?.toLowerCase(),
     )
-    return outputAsset.amount.dividedBy(Math.pow(10, denomUnit.exponent))
+    return outputAsset.amount.dividedBy(Math.pow(10, denomUnit?.exponent || 0))
   }
 
   approvedForAll(address: string) {
@@ -169,7 +169,7 @@ class IxoSwapAdapter implements SwapAdapter {
 
   async CarbonToIxo({ inputAsset, outputAsset }: SwapAdapterGenerateTransactionProps) {
     return this.getTokens().then(async (response) => {
-      const tokenIds: string[] = Array.from((response as any)?.batches?.keys())
+      const tokenIds: string[] = Array.from((response as any)?.batches?.keys() || [])
       const includedBatchesCount = Math.floor(Math.random() * tokenIds.length) + 1
 
       const batchesAmounts = splitAmountOnRandomParts(inputAsset.amount.toNumber(), includedBatchesCount)

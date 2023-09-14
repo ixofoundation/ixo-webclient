@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import cx from 'classnames'
 import BigNumber from 'bignumber.js'
 import ChevDownIcon from 'assets/images/icon-chev-down.svg'

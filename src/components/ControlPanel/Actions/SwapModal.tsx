@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
 import OverlayButtonIcon from 'assets/images/modal/overlaybutton-down.svg'
@@ -9,7 +9,6 @@ import NextStepIcon from 'assets/images/modal/nextstep.svg'
 import { getUSDRateByCoingeckoId } from 'utils/coingecko'
 import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 import BigNumber from 'bignumber.js'
-import { calcToAmount } from 'redux/selectedEntityExchange/entityExchange.utils'
 import { displayTokenAmount } from 'utils/currency'
 import { ReactComponent as WarningIcon } from 'assets/images/exchange/warning.svg'
 import SignStep, { TXStatus } from './components/SignStep'
