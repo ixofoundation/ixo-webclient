@@ -14,7 +14,9 @@ import { displayTokenAmount } from 'utils/currency'
 import { ReactComponent as WarningIcon } from 'assets/images/exchange/warning.svg'
 import SignStep, { TXStatus } from './components/SignStep'
 import RenderSignStep from 'components/Pages/Exchange/Swap/RenderSignStep'
-import { DexAsset } from 'hooks/exchange'
+import { ExchangeAsset } from 'redux/exchange/exchange.types'
+import { useDispatch } from 'react-redux'
+import { resetState } from 'redux/exchange/exchange.actions'
 
 const SwapPanel = styled.div`
   position: relative;
@@ -99,8 +101,8 @@ interface Props {
   open: boolean
   setOpen: (open: boolean) => void
   slippage: any
-  inputAsset: DexAsset
-  outputAsset: DexAsset
+  inputAsset: ExchangeAsset
+  outputAsset: ExchangeAsset
   tokenBalances: any
 }
 
@@ -124,6 +126,7 @@ const SwapModal: React.FunctionComponent<Props> = ({
   const [fromUSDRate, setFromUSDRate] = useState(0)
   const [toUSDRate, setToUSDRate] = useState(0)
   const [shouldPriceUpdate, setShouldPriceUpdate] = useState(false)
+  const dispatch = useDispatch()
 
   useEffect(() => {
     setCurrentStep(0)
@@ -146,6 +149,16 @@ const SwapModal: React.FunctionComponent<Props> = ({
       getUSDRateByCoingeckoId(toAsset?.coingeckoId).then((rate): void => setToUSDRate(rate))
     }
   }, [toAsset])
+
+  useEffect(() => {
+    let timerId: NodeJS.Timeout
+    if (currentStep === 2) {
+      timerId = setTimeout(() => {
+        dispatch(resetState())
+      }, 3000)
+    }
+    return () => clearTimeout(timerId)
+  }, [currentStep])
 
   const handleUpdatePrice = (): void => {
     getUSDRateByCoingeckoId(fromAsset?.coingeckoId).then((rate): void => setFromUSDRate(rate))
