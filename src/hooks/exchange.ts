@@ -1,4 +1,3 @@
-import { ApiListedEntity } from 'api/blocksync/types/entities'
 import BigNumber from 'bignumber.js'
 import { useGetEntityById } from 'graphql/entities'
 import { Dictionary, mapValues, keyBy } from 'lodash'
@@ -59,7 +58,7 @@ function useExchange({ address }: UseExchangeProps) {
     if (balances && inputAsset?.asset?.base) {
       dispatch(setInputAsset({ balance: balances[inputAsset?.asset?.display as any] }))
     }
-  }, [balances, inputAsset?.asset?.base])
+  }, [balances, inputAsset.asset?.base])
 
   const getOutputAmount = async (inputAsset: ExchangeAsset) => {
     if (inputAsset.asset?.base) {
