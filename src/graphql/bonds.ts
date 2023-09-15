@@ -36,7 +36,7 @@ const GET_BOND_DID = gql`
     }
   }
 `
-export function useGetBondDid(bondDid: string) {
+export function useGetBondDid(bondDid: string | undefined) {
   const { loading, error, data, refetch } = useQuery(GET_BOND_DID, {
     variables: { bondDid },
     skip: !bondDid,
