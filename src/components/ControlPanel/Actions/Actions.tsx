@@ -13,6 +13,7 @@ const Actions: React.FC<Props> = () => {
     <Card
       icon={<AssistantIcon />}
       title='Actions'
+      columns={2}
       items={[
         {
           icon: <PlusIcon />,

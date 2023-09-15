@@ -263,6 +263,13 @@ export function useCurrentEntityTags(): {
   return { sdgs }
 }
 
+export function useCurrentEntityClaims() {
+  const claim: { [id: string]: TEntityClaimModel } = useAppSelector(selectEntityClaim)
+  const headlineClaim = Object.values(claim).find((v) => v.isHeadlineMetric)
+
+  return { claim, headlineClaim }
+}
+
 export function useCurrentEntityAdminAccount(): string {
   const { accounts } = useCurrentEntity()
   return accounts.find((account) => account.name === 'admin')?.address || ''
