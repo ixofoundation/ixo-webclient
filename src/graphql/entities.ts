@@ -1,5 +1,4 @@
 import { gql, useQuery } from '@apollo/client'
-import { IMPACTS_DAO_ID } from 'constants/chains'
 import { validateEntityDid } from 'utils/validation'
 
 // GET_ALL_ENTITIES
@@ -47,7 +46,7 @@ const GET_ALL_ENTITIES = gql`
 `
 export function useGetAllEntities() {
   const { loading, error, data, refetch } = useQuery(GET_ALL_ENTITIES, {
-    variables: { relayerNode: IMPACTS_DAO_ID },
+    variables: { relayerNode: process.env.REACT_APP_RELAYER_NODE },
   })
   return { loading, error, data: data?.entities?.nodes ?? [], refetch }
 }

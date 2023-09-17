@@ -14,6 +14,10 @@ export const selectEntityType = createSelector(selectCurrentEntity, (entity: TEn
   return entity.type
 })
 
+export const selectEntityStatus = createSelector(selectCurrentEntity, (entity: TEntityModel) => {
+  return entity.status
+})
+
 export const selectEntityMetadata = createSelector(selectCurrentEntity, (entity: TEntityModel) => {
   return entity.metadata
 })

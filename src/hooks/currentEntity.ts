@@ -34,6 +34,7 @@ import {
   selectEntityDAOGroups,
   selectEntityVerificationMethod,
   selectEntityController,
+  selectEntityStatus,
 } from 'redux/currentEntity/currentEntity.selectors'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import {
@@ -57,6 +58,7 @@ import { IMPACTS_DAO_ID } from 'constants/chains'
 export default function useCurrentEntity(): {
   id: string
   entityType: string
+  entityStatus: number
   currentEntity: TEntityModel
   linkedResource: LinkedResource[]
   linkedEntity: LinkedEntity[]
@@ -91,6 +93,7 @@ export default function useCurrentEntity(): {
   const currentEntity: TEntityModel = useAppSelector(selectCurrentEntity)
   const id: string = useAppSelector(selectEntityId)!
   const entityType: string = useAppSelector(selectEntityType)!
+  const entityStatus: number = useAppSelector(selectEntityStatus)!
   const linkedResource: LinkedResource[] = useAppSelector(selectEntityLinkedResource)
   const linkedEntity: LinkedEntity[] = useAppSelector(selectEntityLinkedEntity)!
   const profile: TEntityProfileModel = useAppSelector(selectEntityProfile)!
@@ -180,6 +183,7 @@ export default function useCurrentEntity(): {
   return {
     id,
     entityType,
+    entityStatus,
     currentEntity,
     linkedResource,
     linkedEntity,
@@ -257,6 +261,13 @@ export function useCurrentEntityTags(): {
   const sdgs = tags?.find(({ category }) => category === 'SDG')?.tags ?? []
 
   return { sdgs }
+}
+
+export function useCurrentEntityClaims() {
+  const claim: { [id: string]: TEntityClaimModel } = useAppSelector(selectEntityClaim)
+  const headlineClaim = Object.values(claim).find((v) => v.isHeadlineMetric)
+
+  return { claim, headlineClaim }
 }
 
 export function useCurrentEntityAdminAccount(): string {
