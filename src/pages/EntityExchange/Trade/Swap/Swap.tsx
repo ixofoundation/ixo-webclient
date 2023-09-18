@@ -33,10 +33,10 @@ const Swap: React.FunctionComponent = () => {
   const [viewSettings, setViewSettings] = useState(false)
   const [openTransactionModal, setOpenTransactionModal] = useState(false)
   const [viewPairList, setViewPairList] = useState<'none' | 'from' | 'to'>('none')
-  const [fromUSDRate, setFromUSDRate] = useState(0)
-  const [toUSDRate, setToUSDRate] = useState(0)
-  const [fromToken, setFromToken] = useState<AssetType | undefined>(undefined)
-  const [fromAmount, setFromAmount] = useState<BigNumber>(new BigNumber(0))
+//   const [fromUSDRate, setFromUSDRate] = useState(0)
+//   const [toUSDRate, setToUSDRate] = useState(0)
+//   const [fromToken, setFromToken] = useState<AssetType | undefined>(undefined)
+//   const [fromAmount, setFromAmount] = useState<BigNumber>(new BigNumber(0))
   const [fromTokenSelected, setFromTokenSelected] = useState<boolean>(true)
 
   const {
@@ -177,16 +177,16 @@ const Swap: React.FunctionComponent = () => {
                   networkName={networkName}
                   slippage={slippage}
                   toTokenBalance={outputAsset.balance}
-                  toUSDRate={toUSDRate}
+                  toUSDRate={outputAsset.usdAmount?.toNumber() || 0}
                   toToken={outputAsset.asset}
                 />
               ) : (
                 <RenderPairListPanel
-                  fromAmount={fromAmount}
+                  fromAmount={inputAsset.amount}
                   fromTokenBalance={inputAsset.balance}
                   fromTokenSelected={fromTokenSelected}
-                  fromUSDRate={fromUSDRate}
-                  fromToken={fromToken}
+                  fromUSDRate={inputAsset.usdAmount?.toNumber() || 0}
+                  fromToken={inputAsset.asset}
                   setFromToken={handleInputTokenSelect}
                   setFromTokenSelected={setFromTokenSelected}
                   setToToken={handleOutputTokenSelect}
@@ -196,7 +196,7 @@ const Swap: React.FunctionComponent = () => {
                   toAmount={outputAsset.amount}
                   handleFromAmountChange={handleFromAmountChange}
                   toTokenBalance={outputAsset.balance}
-                  toUSDRate={toUSDRate}
+                  toUSDRate={outputAsset.usdAmount?.toNumber() || 0}
                   toToken={outputAsset.asset}
                   pairList={pairList}
                   viewPairList={viewPairList}

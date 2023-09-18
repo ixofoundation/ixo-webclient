@@ -229,7 +229,9 @@ const getBankBalances = async ({ accountAddress }: any) => {
 export const getTokenBalances = async ({ accountAddress }: { accountAddress: string }) => {
   const bankBalances = await getBankBalances({ accountAddress })
   await createQueryClient()
-  const tokenBalances = await queryTokenBalances(queryClient, 'devnet-1', accountAddress)
+  const tokenBalances = await queryTokenBalances(queryClient, 'devnet-1', accountAddress).then((response) =>
+    response ? response : [],
+  )
 
   console.log({ tokenBalances })
 

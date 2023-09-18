@@ -49,6 +49,7 @@ function useExchange({ address }: UseExchangeProps) {
   useEffect(() => {
     if (inputAsset?.asset && inputAsset?.asset?.coingeckoid) {
       getUSDRateByCoingeckoId(inputAsset?.asset?.coingeckoId).then((rate): void => {
+        console.log("coingecko runs")
         dispatch(setInputAssetUSDAmount(BigNumber(rate)))
       })
     }
