@@ -55,13 +55,13 @@ function useExchange({ address }: UseExchangeProps) {
         dispatch(setInputAssetUSDAmount(BigNumber(rate)))
       })
     }
-  }, [inputAsset?.asset, dispatch])
+  }, [inputAsset.asset, dispatch])
 
   useEffect(() => {
     if (balances && inputAsset?.asset?.base) {
       dispatch(setInputAsset({ balance: balances[inputAsset?.asset?.display as any] }))
     }
-  }, [balances, inputAsset.asset?.base, inputAsset?.asset?.display, dispatch])
+  }, [balances, inputAsset.asset?.base, inputAsset.asset?.display, dispatch])
 
   const getOutputAmount = async (inputAsset: ExchangeAsset) => {
     if (inputAsset.asset?.base) {
