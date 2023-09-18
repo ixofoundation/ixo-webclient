@@ -1,7 +1,6 @@
 import { Reducer } from 'redux'
-import { ExchangeActionTypes, ExchangeActions } from './exchange.types'
+import { ExchangeActionTypes, ExchangeActions, ExchangeState } from './exchange.types'
 import BigNumber from 'bignumber.js'
-import { ExchangeState } from './exchange.types'
 
 const initialState: ExchangeState = {
   balances: {},

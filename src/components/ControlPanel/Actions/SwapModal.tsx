@@ -15,7 +15,7 @@ import SignStep, { TXStatus } from './components/SignStep'
 import RenderSignStep from 'components/Pages/Exchange/Swap/RenderSignStep'
 import { ExchangeAsset } from 'redux/exchange/exchange.types'
 import { useDispatch } from 'react-redux'
-import { resetState } from 'redux/exchange/exchange.actions'
+import { resetState, setInputAssetUSDAmount, setOutputAssetUSDAmount } from 'redux/exchange/exchange.actions'
 
 const SwapPanel = styled.div`
   position: relative;
@@ -122,8 +122,6 @@ const SwapModal: React.FunctionComponent<Props> = ({
 }) => {
   const steps = ['Review', 'Sign', 'Result']
   const [currentStep, setCurrentStep] = useState(0)
-  const [fromUSDRate, setFromUSDRate] = useState(0)
-  const [toUSDRate, setToUSDRate] = useState(0)
   const [shouldPriceUpdate, setShouldPriceUpdate] = useState(false)
   const dispatch = useDispatch()
 
@@ -139,15 +137,19 @@ const SwapModal: React.FunctionComponent<Props> = ({
     }
   }, [open])
   useEffect(() => {
-    if (fromAsset?.coingeckoId) {
-      getUSDRateByCoingeckoId(fromAsset?.coingeckoId).then((rate): void => setFromUSDRate(rate))
+    if (inputAsset?.asset?.coingeckoId) {
+      getUSDRateByCoingeckoId(inputAsset?.asset?.coingeckoId).then((rate): void => {
+        dispatch(setInputAssetUSDAmount(BigNumber(rate)))
+      })
     }
-  }, [fromAsset])
+  }, [inputAsset?.asset?.coingeckoId, dispatch])
   useEffect(() => {
-    if (toAsset?.coingeckoId) {
-      getUSDRateByCoingeckoId(toAsset?.coingeckoId).then((rate): void => setToUSDRate(rate))
+    if (outputAsset?.asset?.coingeckoId) {
+      getUSDRateByCoingeckoId(outputAsset?.asset?.coingeckoId).then((rate): void => {
+        dispatch(setOutputAssetUSDAmount(BigNumber(rate)))
+      })
     }
-  }, [toAsset])
+  }, [outputAsset?.asset?.coingeckoId, dispatch])
 
   useEffect(() => {
     let timerId: NodeJS.Timeout
@@ -157,11 +159,15 @@ const SwapModal: React.FunctionComponent<Props> = ({
       }, 3000)
     }
     return () => clearTimeout(timerId)
-  }, [currentStep])
+  }, [currentStep, dispatch])
 
   const handleUpdatePrice = (): void => {
-    getUSDRateByCoingeckoId(fromAsset?.coingeckoId).then((rate): void => setFromUSDRate(rate))
-    getUSDRateByCoingeckoId(toAsset?.coingeckoId).then((rate): void => setToUSDRate(rate))
+    getUSDRateByCoingeckoId(fromAsset?.coingeckoId).then((rate): void => {
+      dispatch(setInputAssetUSDAmount(BigNumber(rate)))
+    })
+    getUSDRateByCoingeckoId(toAsset?.coingeckoId).then((rate): void => {
+      dispatch(setOutputAssetUSDAmount(BigNumber(rate)))
+    })
     setShouldPriceUpdate(false)
 
     clearTimeout(timer)

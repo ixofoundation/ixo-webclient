@@ -14,9 +14,8 @@ type RenderSignStepProps = {
 const RenderSignStep = ({ inputAsset, outputAsset, setCurrentStep }: RenderSignStepProps): JSX.Element => {
   const { offlineSigner, address } = useAppSelector((state) => state.account.keplrWallet)
 
-  const IxoSwap = new IxoSwapAdapter({ walletAddress: address, offlineSigner })
-
   useEffect(() => {
+    const IxoSwap = new IxoSwapAdapter({ walletAddress: address, offlineSigner })
     IxoSwap.checkIfNeedToApprove().then((approveTrx) => {
       IxoSwap.generateSwapTransaction({ inputAsset, outputAsset }).then((swapTrx) => {
         const callback = () => {
@@ -26,7 +25,7 @@ const RenderSignStep = ({ inputAsset, outputAsset, setCurrentStep }: RenderSignS
         IxoSwap.executeWasmTRX({ offlineSigner, swapTrxs: approveTrx ? [approveTrx, swapTrx] : [swapTrx], callback })
       })
     })
-  }, [])
+  }, [inputAsset, outputAsset, offlineSigner, setCurrentStep, address])
 
   return <SignStep status={TXStatus.PENDING} />
 }

@@ -15,7 +15,7 @@ export const getInputTokenAmount = (
 ): TokenAmount => {
   if (tokenSelect === TokenSelect.Token1155 && token.batches) {
     let totalInputAmountRest = Number(tokenAmount)
-    let inputTokenBatches = new Map<string, string>()
+    const inputTokenBatches = new Map<string, string>()
     for (const [tokenId, amount] of token.batches) {
       const tokenAmount = Number(amount)
 
@@ -64,7 +64,7 @@ export const getSwapFunds = (inputTokenDenom: string, inputAmount: string): Map<
 
 export const getTokenSelectByDenom = (denom: string): TokenSelect =>
   getTokenTypeByDenom(denom) === TokenType.Cw1155 ? TokenSelect.Token1155 : TokenSelect.Token2
-export const getTokenTypeByDenom = (denom: string): TokenType => tokens.get(denom)?.type!
+export const getTokenTypeByDenom = (denom: string): TokenType => tokens.get(denom)?.type as TokenType
 export const isCw1155Token = (denom: string) => getTokenTypeByDenom(denom) === TokenType.Cw1155
 
 export let queryClient: Awaited<ReturnType<typeof createQueryClientImport>>
@@ -81,7 +81,7 @@ export const queryOutputAmount = async (
   swapContractAddress: string,
 ) => {
   let query = {}
-  if (inputTokenType == TokenType.Token1155) {
+  if (inputTokenType === TokenType.Token1155) {
     query = {
       token1155_for_token2_price: {
         token1155_amount: inputTokenAmount,
@@ -124,7 +124,7 @@ export const formatOutputAmount = (
   outputAmount: number,
   includeBatches = true,
 ): TokenAmount => {
-  if (inputTokenType == TokenSelect.Token1155) {
+  if (inputTokenType === TokenSelect.Token1155) {
     return {
       single: outputAmount.toFixed(),
     }

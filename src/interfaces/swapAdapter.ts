@@ -46,7 +46,6 @@ interface SwapAdapter {
   generateSwapTransaction(props: SwapAdapterGenerateTransactionProps): Promise<TRX_MSG>
 
   executeWasmTRX(props: SwapAdapterPerformSwapProps): void
-  calculateOutputValue(): void
 }
 
 export default SwapAdapter

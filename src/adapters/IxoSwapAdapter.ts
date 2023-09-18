@@ -250,8 +250,6 @@ class IxoSwapAdapter implements SwapAdapter {
         .finally(callback)
     })
   }
-
-  calculateOutputValue(): void {}
 }
 
 export default IxoSwapAdapter

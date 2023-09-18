@@ -10,6 +10,6 @@ export const defaultTrxFee: TRX_FEE = {
 }
 
 export const getValueFromTrxEvents = (trxRes: TxResponse, event: string, attribute: string, messageIndex = 0) =>
-  JSON.parse(trxRes?.rawLog!)
+  JSON.parse(trxRes?.rawLog)
     [messageIndex]['events'].find((e: any) => e.type === event)
     ['attributes'].find((e: any) => e.key === attribute)['value']

@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import { useGetEntityById } from 'graphql/entities'
+import { useGetEntityByIdLazyQuery } from 'graphql/entities'
 import { Dictionary, mapValues, keyBy } from 'lodash'
 import { useState, useEffect, useMemo } from 'react'
 import { setInputAsset, setInputAssetUSDAmount, setOutputAsset } from 'redux/exchange/exchange.actions'
@@ -36,6 +36,9 @@ function useExchange({ address }: UseExchangeProps) {
   const inputAsset = useAppSelector(selectInputAsset)
   const outputAsset = useAppSelector(selectOutputAsset)
 
+  const { fetchEntityById: fetchInputEntityById, data: inputEntityData } = useGetEntityByIdLazyQuery()
+  const { fetchEntityById: fetchOutputEntityById, data: outputEntityData } = useGetEntityByIdLazyQuery()
+
   useEffect(() => {
     if (address) {
       getTokenBalances({ accountAddress: address }).then((balances) => {
@@ -49,17 +52,16 @@ function useExchange({ address }: UseExchangeProps) {
   useEffect(() => {
     if (inputAsset?.asset && inputAsset?.asset?.coingeckoid) {
       getUSDRateByCoingeckoId(inputAsset?.asset?.coingeckoId).then((rate): void => {
-        console.log("coingecko runs")
         dispatch(setInputAssetUSDAmount(BigNumber(rate)))
       })
     }
-  }, [inputAsset])
+  }, [inputAsset?.asset, dispatch])
 
   useEffect(() => {
     if (balances && inputAsset?.asset?.base) {
       dispatch(setInputAsset({ balance: balances[inputAsset?.asset?.display as any] }))
     }
-  }, [balances, inputAsset.asset?.base])
+  }, [balances, inputAsset.asset?.base, inputAsset?.asset?.display, dispatch])
 
   const getOutputAmount = async (inputAsset: ExchangeAsset) => {
     if (inputAsset.asset?.base) {
@@ -95,14 +97,26 @@ function useExchange({ address }: UseExchangeProps) {
     if (inputAsset.amount.isGreaterThan(0) && outputAsset.asset?.base) {
       getOutputAmount(inputAsset).then((value) => dispatch(setOutputAsset({ amount: value })))
     }
-  }, [inputAsset.amount, setOutputAsset, outputAsset.asset?.base])
+  }, [inputAsset, outputAsset.asset?.base, dispatch])
+
+  useEffect(() => {
+    if (inputEntityData) {
+      dispatch(setInputAsset({ entity: inputEntityData }))
+    }
+  }, [dispatch, inputEntityData])
+
+  useEffect(() => {
+    if (outputEntityData) {
+      dispatch(setOutputAsset({ entity: outputEntityData }))
+    }
+  }, [dispatch, outputEntityData])
 
   const [swapError, swapErrorMsg] = useMemo(() => {
     if (new BigNumber(inputAsset.amount).times((Number(slippage) + 100) / 100).isGreaterThan(1000)) {
       return [true, 'Price impact too high']
     }
     return [false, 'Review My Order']
-  }, [inputAsset.amount, outputAsset.amount, slippage])
+  }, [inputAsset.amount, slippage])
 
   const canSubmit = useMemo<boolean>(() => {
     return Boolean(
@@ -113,15 +127,11 @@ function useExchange({ address }: UseExchangeProps) {
   }, [inputAsset.amount, outputAsset.amount, swapError])
 
   const setInputAssetEntity = (entityId: string) => {
-    const { data } = useGetEntityById(entityId)
-
-    dispatch(setInputAsset({ entity: data }))
+    fetchInputEntityById(entityId)
   }
 
   const setOutputAssetEntity = (entityId: string) => {
-    const { data } = useGetEntityById(entityId)
-
-    dispatch(setOutputAsset({ entity: data }))
+    fetchOutputEntityById(entityId)
   }
 
   return {
