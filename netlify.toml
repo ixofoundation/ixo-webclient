@@ -27,3 +27,7 @@
 
 [[plugins]]
   package = "@netlify/plugin-lighthouse"
+
+[context.deploy-preview.environment]
+REACT_APP_CONFIG_ASSETLIST_URL=https://raw.githubusercontent.com/ixofoundation/ixo-webclient/{{github.ref}}/configs/testzone/asset-list.json
+
