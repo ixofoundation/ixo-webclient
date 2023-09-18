@@ -17,10 +17,10 @@ const InvestmentDashboard: React.FC = (): JSX.Element => {
 
   const routes: Path[] = [
     {
-      url: `/entity/${entityId}/dashboard/claims`,
+      url: `/entity/${entityId}/dashboard/overview`,
       icon: requireCheckDefault(require('assets/img/sidebar/global.svg')),
-      sdg: 'Claims',
-      tooltip: 'Claims',
+      sdg: 'Overview',
+      tooltip: 'Overview',
       strict: true,
     },
     {
