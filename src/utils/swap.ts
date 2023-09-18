@@ -238,7 +238,7 @@ export const getTokenBalances = async ({ accountAddress }: { accountAddress: str
   const balances = [...bankBalances, ...tokenBalances].map(({ denom, amount, batches }: any) => ({
     denom: findDenomByMinimalDenom(denom),
     amount: minimalAmountToAmount(denom, amount),
-    batches: (batches && batches) || [],
+    batches: batches || [],
   }))
 
   return balances
