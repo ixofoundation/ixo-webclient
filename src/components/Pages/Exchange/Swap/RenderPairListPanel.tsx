@@ -12,8 +12,8 @@ export type RenderPairListPanelProps = RenderSettingsButtonProps &
   Omit<PairListCardProps, 'handleSelectToken'> & {
     panelHeight?: string
     setViewPairList: React.Dispatch<React.SetStateAction<PairListCardProps['viewPairList']>>
-    setFromToken: React.Dispatch<React.SetStateAction<AssetType | undefined>>
-    setToToken: React.Dispatch<React.SetStateAction<AssetType | undefined>>
+    setFromToken: (token: AssetType) => void
+    setToToken: (token: AssetType) => void
     fromToken?: AssetType
     fromTokenSelected: boolean
     fromUSDRate: number
@@ -24,7 +24,7 @@ export type RenderPairListPanelProps = RenderSettingsButtonProps &
     fromTokenBalance: string
     toTokenBalance: string
     handleFromAmountChange: (value: any) => void
-    handleToAmountChange: (value: any) => void
+    handleToAmountChange?: (value: any) => void
     setFromTokenSelected: React.Dispatch<React.SetStateAction<boolean>>
   }
 const RenderPairListPanel = ({
@@ -64,12 +64,11 @@ const RenderPairListPanel = ({
         balances={balances}
         viewPairList={viewPairList}
         handleSelectToken={(currency): void => {
-          console.log({ currency })
           setViewPairList('none')
           if (viewPairList === 'from') {
-            setFromToken(currency)
+            setFromToken(currency as AssetType)
           } else if (viewPairList === 'to') {
-            setToToken(currency)
+            setToToken(currency as AssetType)
           }
         }}
       >
