@@ -140,7 +140,7 @@ const ReviewInvestment: React.FC = (): JSX.Element => {
               <Button variant='secondary' onClick={(): void => gotoStep(-1)} style={{ width: '100%' }}>
                 Back
               </Button>
-              <Button variant='primary' onClick={handleSignToCreate} style={{ width: '100%' }}>
+              <Button variant='primary' onClick={handleSignToCreate} style={{ width: '100%' }} loading={submitting}>
                 Sign To Create
               </Button>
             </FlexBox>

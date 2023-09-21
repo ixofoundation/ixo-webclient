@@ -26,7 +26,7 @@ interface Props {
 const CreateBondModal: React.FC<Props> = ({ open, bondDid, onSubmit, onClose }): JSX.Element => {
   const theme: any = useTheme()
   const { signingClient, signer } = useAccount()
-  const { getAssetPairs, convertToMinimalDenom } = useIxoConfigs()
+  const { getAssetPairs, convertToMinimalDenom, convertToDenom } = useIxoConfigs()
   const { data: bondDetailFromApi } = useGetBondDid(bondDid)
   const coins = getAssetPairs()
 
@@ -41,7 +41,31 @@ const CreateBondModal: React.FC<Props> = ({ open, bondDid, onSubmit, onClose }):
 
   useEffect(() => {
     if (bondDetailFromApi) {
-      setAlphaBondInfo(bondDetailFromApi)
+      // setAlphaBondInfo(bondDetailFromApi)
+      setAlphaBondInfo({
+        token: bondDetailFromApi.token,
+        name: bondDetailFromApi.name,
+        description: bondDetailFromApi.description,
+        controllerDid: bondDetailFromApi.controllerDid,
+        reserveToken: convertToDenom({ denom: bondDetailFromApi.reserveTokens[0], amount: '0' })?.denom,
+        txFeePercentage: Number(bondDetailFromApi.txFeePercentage),
+        exitFeePercentage: Number(bondDetailFromApi.exitFeePercentage),
+        feeAddress: bondDetailFromApi.feeAddress,
+        reserveWithdrawalAddress: bondDetailFromApi.reserveWithdrawalAddress,
+        maxSupply: bondDetailFromApi.maxSupply.amount,
+        initialPrice: Number(bondDetailFromApi.functionParameters.find((v: any) => v.param === 'p0')?.value).toString(),
+        initialSupply: Number(
+          bondDetailFromApi.functionParameters.find((v: any) => v.param === 'd0')?.value,
+        ).toString(),
+        baseCurveShape: 2, // TODO:
+        outcomePayment: bondDetailFromApi.outcomePayment,
+        allowReserveWithdrawals: bondDetailFromApi.allowReserveWithdrawals,
+        bondDid: bondDetailFromApi.bondDid,
+        // new
+        minimumYield: 0, // TODO:
+        period: 0, //  TODO:
+        targetRaise: 0, //  TODO:
+      })
     } else {
       setAlphaBondInfo({ reserveToken: coins[0].display! })
     }
@@ -68,6 +92,8 @@ const CreateBondModal: React.FC<Props> = ({ open, bondDid, onSubmit, onClose }):
         // eslint-disable-next-line no-throw-literal
         throw 'Missing or Invalid inputs'
       }
+      const did = signer.did
+
       const bondDid = generateBondDid()
       const microInitialPrice = convertCoinToDecCoin(
         convertToMinimalDenom(
@@ -89,8 +115,8 @@ const CreateBondModal: React.FC<Props> = ({ open, bondDid, onSubmit, onClose }):
         token: alphaBondInfo.token,
         name: alphaBondInfo.name,
         description: alphaBondInfo.description,
-        creatorDid: signer.did,
-        controllerDid: signer.did,
+        creatorDid: did,
+        controllerDid: did,
         functionType: 'augmented_function',
         functionParameters: [
           ixo.bonds.v1beta1.FunctionParam.fromPartial({
@@ -130,7 +156,7 @@ const CreateBondModal: React.FC<Props> = ({ open, bondDid, onSubmit, onClose }):
         batchBlocks: '1',
         outcomePayment: alphaBondInfo.outcomePayment,
         creatorAddress: signer.address,
-        oracleDid: 'oracleDid', // TODO:
+        oracleDid: did,
       }
       const { code, rawLog } = await CreateBond(signingClient, signer, payload)
       if (code !== 0) {
@@ -143,6 +169,7 @@ const CreateBondModal: React.FC<Props> = ({ open, bondDid, onSubmit, onClose }):
       errorToast('Error at Signing', typeof e === 'string' && e)
     } finally {
       setSubmitting(false)
+      onClose()
     }
   }
 
@@ -255,7 +282,7 @@ const CreateBondModal: React.FC<Props> = ({ open, bondDid, onSubmit, onClose }):
                 />
                 <InputWithLabel
                   name='reserveToken'
-                  inputValue={alphaBondInfo.reserveToken?.toUpperCase()}
+                  inputValue={alphaBondInfo.token?.toUpperCase()}
                   readOnly
                   width='100px'
                   style={{ textAlign: 'center' }}

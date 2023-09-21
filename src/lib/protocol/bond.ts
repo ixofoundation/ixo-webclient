@@ -52,7 +52,9 @@ export const Buy = async (
       }),
     }
 
+    console.log('Bond.Buy', { message })
     const response = await client.signAndBroadcast(address, [message], fee)
+    console.log('Bond.Buy', { response })
     return response
   } catch (e) {
     console.error('Buy', e)
@@ -79,6 +81,31 @@ export const WithdrawShare = async (
     return response
   } catch (e) {
     console.error('WithdrawShare', e)
+    return undefined
+  }
+}
+
+export const WithdrawReserve = async (
+  client: SigningStargateClient,
+  payload: { did: string; bondDid: string; address: string; amount: Coin },
+): Promise<DeliverTxResponse | undefined> => {
+  try {
+    const { did, bondDid, address, amount } = payload
+    const message = {
+      typeUrl: '/ixo.bonds.v1beta1.MsgWithdrawReserve',
+      value: ixo.bonds.v1beta1.MsgWithdrawReserve.fromPartial({
+        withdrawerDid: did,
+        bondDid: bondDid,
+        withdrawerAddress: address,
+        amount: [cosmos.base.v1beta1.Coin.fromPartial(amount)],
+      }),
+    }
+    console.info('WithdrawReserve', { message })
+    const response: DeliverTxResponse = await client.signAndBroadcast(address, [message], fee)
+    console.info('WithdrawReserve', { response })
+    return response
+  } catch (e) {
+    console.error('WithdrawReserve', e)
     return undefined
   }
 }
