@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect } from 'react'
+import React, { FunctionComponent } from 'react'
 import { connect } from 'react-redux'
 import { useAppSelector } from 'redux/hooks'
 import { RootState } from 'redux/store'
@@ -7,7 +7,7 @@ import * as entitySelectors from 'redux/selectedEntity/selectedEntity.selectors'
 import { Redirect, Route, Switch } from 'react-router-dom'
 import Dashboard from 'components/Dashboard/Dashboard'
 
-import EntityExchangeTrade from './Trade/Swap'
+import EntityExchangeTrade from './Trade/Trade'
 import EntityExchangeTradeSwap from './Trade/Swap/Swap'
 import {
   selectPortfolioAsset,
@@ -16,7 +16,6 @@ import {
 } from 'redux/selectedEntityExchange/entityExchange.selectors'
 import { Path } from 'components/Dashboard/types'
 import { MatchType } from 'types/models'
-import { getLiquidityPools } from 'redux/selectedEntityExchange/entityExchange.actions'
 import { selectTradingAllowed } from 'redux/configs/configs.selectors'
 import { requireCheckDefault } from 'utils/images'
 import useRouteQuery from 'hooks/useRouteQuery'
@@ -189,10 +188,6 @@ const EntityExchange: FunctionComponent<Props> = ({
   const theme = 'dark'
 
   const routes = generateRoutes()
-
-  useEffect(() => {
-    getLiquidityPools()
-  }, [])
 
   return (
     <Dashboard

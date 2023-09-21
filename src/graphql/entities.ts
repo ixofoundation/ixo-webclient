@@ -1,4 +1,4 @@
-import { gql, useQuery } from '@apollo/client'
+import { gql, useLazyQuery, useQuery } from '@apollo/client'
 import { validateEntityDid } from 'utils/validation'
 
 // GET_ALL_ENTITIES
@@ -92,6 +92,18 @@ export function useGetEntityById(id: string) {
     skip: !validateEntityDid(id),
   })
   return { loading, error, data: data?.entity, refetch }
+}
+
+export function useGetEntityByIdLazyQuery() {
+  const [getEntityById, { loading, error, data, refetch }] = useLazyQuery(GET_ENTITY_BY_ID)
+
+  const fetchEntityById = (id: string) => {
+    if (validateEntityDid(id)) {
+      getEntityById({ variables: { id } })
+    }
+  }
+
+  return { loading, error, data: data?.entity, refetch, fetchEntityById }
 }
 
 // GET_ALL_ASSET_COLLECTIONS

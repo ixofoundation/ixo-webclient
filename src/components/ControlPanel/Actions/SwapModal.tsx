@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
 import OverlayButtonIcon from 'assets/images/modal/overlaybutton-down.svg'
@@ -9,10 +9,13 @@ import NextStepIcon from 'assets/images/modal/nextstep.svg'
 import { getUSDRateByCoingeckoId } from 'utils/coingecko'
 import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 import BigNumber from 'bignumber.js'
-import { calcToAmount } from 'redux/selectedEntityExchange/entityExchange.utils'
 import { displayTokenAmount } from 'utils/currency'
 import { ReactComponent as WarningIcon } from 'assets/images/exchange/warning.svg'
 import SignStep, { TXStatus } from './components/SignStep'
+import RenderSignStep from 'components/Pages/Exchange/Swap/RenderSignStep'
+import { ExchangeAsset } from 'redux/exchange/exchange.types'
+import { useDispatch } from 'react-redux'
+import { resetState, setInputAssetUSDAmount, setOutputAssetUSDAmount } from 'redux/exchange/exchange.actions'
 
 const SwapPanel = styled.div`
   position: relative;
@@ -93,24 +96,34 @@ interface Props {
   fromAsset: AssetType
   toAsset: AssetType
   fromAmount: BigNumber
+  toAmount: BigNumber
   open: boolean
   setOpen: (open: boolean) => void
+  slippage: any
+  inputAsset: ExchangeAsset
+  outputAsset: ExchangeAsset
+  tokenBalances: any
 }
 
 let timer: any = null
 const timeInterval = 30 * 1000 //  30s
 
-const SwapModal: React.FunctionComponent<Props> = ({ open, setOpen, fromAsset, toAsset, fromAmount }) => {
+const SwapModal: React.FunctionComponent<Props> = ({
+  open,
+  setOpen,
+  fromAsset,
+  toAsset,
+  fromAmount,
+  slippage,
+  toAmount,
+  inputAsset,
+  outputAsset,
+  tokenBalances,
+}) => {
   const steps = ['Review', 'Sign', 'Result']
   const [currentStep, setCurrentStep] = useState(0)
-  const [fromUSDRate, setFromUSDRate] = useState(0)
-  const [toUSDRate, setToUSDRate] = useState(0)
   const [shouldPriceUpdate, setShouldPriceUpdate] = useState(false)
-
-  const toAmount: BigNumber = useMemo(
-    () => calcToAmount(fromAmount, fromUSDRate, toUSDRate),
-    [fromAmount, fromUSDRate, toUSDRate],
-  )
+  const dispatch = useDispatch()
 
   useEffect(() => {
     setCurrentStep(0)
@@ -124,19 +137,37 @@ const SwapModal: React.FunctionComponent<Props> = ({ open, setOpen, fromAsset, t
     }
   }, [open])
   useEffect(() => {
-    if (fromAsset?.coingeckoId) {
-      getUSDRateByCoingeckoId(fromAsset?.coingeckoId).then((rate): void => setFromUSDRate(rate))
+    if (inputAsset?.asset?.coingeckoId) {
+      getUSDRateByCoingeckoId(inputAsset?.asset?.coingeckoId).then((rate): void => {
+        dispatch(setInputAssetUSDAmount(BigNumber(rate)))
+      })
     }
-  }, [fromAsset])
+  }, [inputAsset?.asset?.coingeckoId, dispatch])
   useEffect(() => {
-    if (toAsset?.coingeckoId) {
-      getUSDRateByCoingeckoId(toAsset?.coingeckoId).then((rate): void => setToUSDRate(rate))
+    if (outputAsset?.asset?.coingeckoId) {
+      getUSDRateByCoingeckoId(outputAsset?.asset?.coingeckoId).then((rate): void => {
+        dispatch(setOutputAssetUSDAmount(BigNumber(rate)))
+      })
     }
-  }, [toAsset])
+  }, [outputAsset?.asset?.coingeckoId, dispatch])
+
+  useEffect(() => {
+    let timerId: NodeJS.Timeout
+    if (currentStep === 2) {
+      timerId = setTimeout(() => {
+        dispatch(resetState())
+      }, 3000)
+    }
+    return () => clearTimeout(timerId)
+  }, [currentStep, dispatch])
 
   const handleUpdatePrice = (): void => {
-    getUSDRateByCoingeckoId(fromAsset?.coingeckoId).then((rate): void => setFromUSDRate(rate))
-    getUSDRateByCoingeckoId(toAsset?.coingeckoId).then((rate): void => setToUSDRate(rate))
+    getUSDRateByCoingeckoId(fromAsset?.coingeckoId).then((rate): void => {
+      dispatch(setInputAssetUSDAmount(BigNumber(rate)))
+    })
+    getUSDRateByCoingeckoId(toAsset?.coingeckoId).then((rate): void => {
+      dispatch(setOutputAssetUSDAmount(BigNumber(rate)))
+    })
     setShouldPriceUpdate(false)
 
     clearTimeout(timer)
@@ -178,8 +209,6 @@ const SwapModal: React.FunctionComponent<Props> = ({ open, setOpen, fromAsset, t
     </>
   )
 
-  const renderSignStep = (): JSX.Element => <SignStep status={TXStatus.PENDING} />
-
   const renderResultStep = (): JSX.Element => (
     <SignStep
       status={TXStatus.SUCCESS}
@@ -206,7 +235,15 @@ const SwapModal: React.FunctionComponent<Props> = ({ open, setOpen, fromAsset, t
         <StepsTransactions className='px-4 pb-4' steps={steps} currentStepNo={currentStep} />
 
         {currentStep === 0 && renderReviewStep()}
-        {currentStep === 1 && renderSignStep()}
+        {currentStep === 1 && (
+          <RenderSignStep
+            tokenBalances={tokenBalances}
+            inputAsset={inputAsset}
+            outputAsset={outputAsset}
+            slippage={slippage}
+            setCurrentStep={setCurrentStep}
+          />
+        )}
         {currentStep === 2 && renderResultStep()}
 
         {currentStep === 0 && (

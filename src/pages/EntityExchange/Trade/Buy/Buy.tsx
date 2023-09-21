@@ -19,7 +19,7 @@ import {
   NftSelectBox,
   TokenSelectBox,
   NftPairListCard,
-} from '../Components'
+} from 'components/Pages/Exchange/Swap'
 import { getUSDRateByCoingeckoId } from 'utils/coingecko'
 import BigNumber from 'bignumber.js'
 import { useIxoConfigs } from 'hooks/configs'

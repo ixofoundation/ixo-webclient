@@ -21,6 +21,7 @@ export interface AssetType {
   isFeeCurrency: boolean
   isBondToken: boolean
   coingeckoId: string
+  standard: string
 }
 
 export interface AssetListConfig {

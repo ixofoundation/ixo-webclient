@@ -13,6 +13,7 @@ import { reducer as selectedEntityReducer } from 'redux/selectedEntity/selectedE
 import { reducer as selectedEntityExchangeReducer } from 'redux/selectedEntityExchange/entityExchange.reducer'
 import { reducer as bondReducer } from 'redux/bond/bond.reducer'
 import { reducer as submitEntityClaimReducer } from 'redux/submitEntityClaim/submitEntityClaim.reducer'
+import exchangeReducer from 'redux/exchange/exchange.reducer'
 
 export const rootReducer = (history: any) =>
   combineReducers({
@@ -29,5 +30,6 @@ export const rootReducer = (history: any) =>
     selectedEntity: selectedEntityReducer,
     selectedEntityExchange: selectedEntityExchangeReducer,
     submitEntityClaim: submitEntityClaimReducer,
+    exchange: exchangeReducer,
     router: connectRouter(history),
   })
