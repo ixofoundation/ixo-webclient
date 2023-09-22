@@ -144,157 +144,161 @@ export function apiEntityToEntity(
   { entity, cwClient }: { entity: any; cwClient?: CosmWasmClient },
   updateCallback: (key: string, value: any, merge?: boolean) => void,
 ): void {
-  const { type, settings, linkedResource, service, linkedEntity, linkedClaim } = entity
-  linkedResource.concat(Object.values(settings)).forEach((item: LinkedResource) => {
-    const url = serviceEndpointToUrl(item.serviceEndpoint, service)
+  try {
+    const { type, settings, linkedResource, service, linkedEntity, linkedClaim } = entity
+    linkedResource?.concat(Object.values(settings || {}))?.forEach((item: LinkedResource) => {
+      const url = serviceEndpointToUrl(item.serviceEndpoint, service)
 
-    if (item.proof && url) {
-      if (item.type === 'Settings' || item.type === 'VerifiableCredential') {
-        switch (item.id) {
-          case '{id}#profile': {
-            fetch(url)
-              .then((response) => response.json())
-              .then((response) => {
-                const context = response['@context']
-                let image: string = response.image
-                let logo: string = response.logo
+      if (item.proof && url) {
+        if (item.type === 'Settings' || item.type === 'VerifiableCredential') {
+          switch (item.id) {
+            case '{id}#profile': {
+              fetch(url)
+                .then((response) => response.json())
+                .then((response) => {
+                  const context = response['@context']
+                  let image: string = response.image
+                  let logo: string = response.logo
 
-                if (image && !image.startsWith('http')) {
-                  const [identifier] = image.split(':')
-                  let endpoint = ''
-                  context.forEach((item: any) => {
-                    if (typeof item === 'object' && identifier in item) {
-                      endpoint = item[identifier]
-                    }
-                  })
-                  image = image.replace(identifier + ':', endpoint)
-                }
-                if (logo && !logo.startsWith('http')) {
-                  const [identifier] = logo.split(':')
-                  let endpoint = ''
-                  context.forEach((item: any) => {
-                    if (typeof item === 'object' && identifier in item) {
-                      endpoint = item[identifier]
-                    }
-                  })
-                  logo = logo.replace(identifier + ':', endpoint)
-                }
-                return { ...response, image, logo }
-              })
-              .then((profile) => {
-                updateCallback('profile', profile)
-              })
-              .catch((e) => {
-                console.error(`Error Fetching Profile ${entity.id}`, e)
-                return undefined
-              })
-            break
+                  if (image && !image.startsWith('http')) {
+                    const [identifier] = image.split(':')
+                    let endpoint = ''
+                    context.forEach((item: any) => {
+                      if (typeof item === 'object' && identifier in item) {
+                        endpoint = item[identifier]
+                      }
+                    })
+                    image = image.replace(identifier + ':', endpoint)
+                  }
+                  if (logo && !logo.startsWith('http')) {
+                    const [identifier] = logo.split(':')
+                    let endpoint = ''
+                    context.forEach((item: any) => {
+                      if (typeof item === 'object' && identifier in item) {
+                        endpoint = item[identifier]
+                      }
+                    })
+                    logo = logo.replace(identifier + ':', endpoint)
+                  }
+                  return { ...response, image, logo }
+                })
+                .then((profile) => {
+                  updateCallback('profile', profile)
+                })
+                .catch((e) => {
+                  console.error(`Error Fetching Profile ${entity.id}`, e)
+                  return undefined
+                })
+              break
+            }
+            case '{id}#creator': {
+              fetch(url)
+                .then((response) => response.json())
+                .then((response) => response.credentialSubject)
+                .then((creator) => {
+                  updateCallback('creator', creator)
+                })
+                .catch(() => undefined)
+              break
+            }
+            case '{id}#administrator': {
+              fetch(url)
+                .then((response) => response.json())
+                .then((response) => response.credentialSubject)
+                .then((administrator) => {
+                  updateCallback('administrator', administrator)
+                })
+                .catch(() => undefined)
+              break
+            }
+            case '{id}#page': {
+              fetch(url)
+                .then((response) => response.json())
+                .then((response) => response.page)
+                .then((page) => {
+                  updateCallback('page', page)
+                })
+                .catch(() => undefined)
+              break
+            }
+            case '{id}#tags': {
+              fetch(url)
+                .then((response) => response.json())
+                .then((response) => response.entityTags ?? response.ddoTags)
+                .then((tags) => {
+                  updateCallback('tags', tags)
+                })
+                .catch(() => undefined)
+              break
+            }
+            default:
+              break
           }
-          case '{id}#creator': {
-            fetch(url)
-              .then((response) => response.json())
-              .then((response) => response.credentialSubject)
-              .then((creator) => {
-                updateCallback('creator', creator)
-              })
-              .catch(() => undefined)
-            break
-          }
-          case '{id}#administrator': {
-            fetch(url)
-              .then((response) => response.json())
-              .then((response) => response.credentialSubject)
-              .then((administrator) => {
-                updateCallback('administrator', administrator)
-              })
-              .catch(() => undefined)
-            break
-          }
-          case '{id}#page': {
-            fetch(url)
-              .then((response) => response.json())
-              .then((response) => response.page)
-              .then((page) => {
-                updateCallback('page', page)
-              })
-              .catch(() => undefined)
-            break
-          }
-          case '{id}#tags': {
-            fetch(url)
-              .then((response) => response.json())
-              .then((response) => response.entityTags ?? response.ddoTags)
-              .then((tags) => {
-                updateCallback('tags', tags)
-              })
-              .catch(() => undefined)
-            break
-          }
-          default:
-            break
+        } else if (item.type === 'Lottie') {
+          fetch(url)
+            .then((response) => response.json())
+            .then((token) => {
+              updateCallback('zlottie', token)
+            })
+            .catch(() => undefined)
+        } else if (item.type === 'TokenMetadata') {
+          fetch(url)
+            .then((response) => response.json())
+            .then((token) => {
+              updateCallback('token', token)
+            })
+            .catch(() => undefined)
+        } else if (item.type === 'ClaimSchema') {
+          //
+          fetch(url)
+            .then((response) => response.json())
+            .then((response) => response.question)
+            .then((question) => {
+              updateCallback('claimQuestion', question)
+            })
+            .catch(() => undefined)
         }
-      } else if (item.type === 'Lottie') {
+      }
+    })
+
+    linkedClaim.forEach((item: LinkedClaim) => {
+      const url = serviceEndpointToUrl(item.serviceEndpoint, service)
+
+      if (item.proof && url) {
         fetch(url)
           .then((response) => response.json())
-          .then((token) => {
-            updateCallback('zlottie', token)
-          })
-          .catch(() => undefined)
-      } else if (item.type === 'TokenMetadata') {
-        fetch(url)
-          .then((response) => response.json())
-          .then((token) => {
-            updateCallback('token', token)
-          })
-          .catch(() => undefined)
-      } else if (item.type === 'ClaimSchema') {
-        //
-        fetch(url)
-          .then((response) => response.json())
-          .then((response) => response.question)
-          .then((question) => {
-            updateCallback('claimQuestion', question)
+          .then((response) => response.entityClaims[0])
+          .then((claim) => {
+            updateCallback('claim', { [claim.id]: claim }, true)
           })
           .catch(() => undefined)
       }
-    }
-  })
+    })
 
-  linkedClaim.forEach((item: LinkedClaim) => {
-    const url = serviceEndpointToUrl(item.serviceEndpoint, service)
+    updateCallback('linkedResource', linkedResource)
+    updateCallback(
+      'service',
+      service.map((item: TEntityServiceModel) => ({ ...item, id: item.id.split('#').pop() })),
+    )
 
-    if (item.proof && url) {
-      fetch(url)
-        .then((response) => response.json())
-        .then((response) => response.entityClaims[0])
-        .then((claim) => {
-          updateCallback('claim', { [claim.id]: claim }, true)
+    /**
+     * @description entityType === dao
+     */
+    if (type === 'dao' && cwClient) {
+      linkedEntity
+        .filter((item: LinkedEntity) => item.type === 'Group')
+        .forEach((item: LinkedEntity) => {
+          const { id } = item
+          const [, coreAddress] = id.split('#')
+          getDaoContractInfo({ coreAddress, cwClient })
+            .then((response) => {
+              updateCallback('daoGroups', { [response.coreAddress]: response }, true)
+            })
+            .catch(console.error)
         })
-        .catch(() => undefined)
     }
-  })
-
-  updateCallback('linkedResource', linkedResource)
-  updateCallback(
-    'service',
-    service.map((item: TEntityServiceModel) => ({ ...item, id: item.id.split('#').pop() })),
-  )
-
-  /**
-   * @description entityType === dao
-   */
-  if (type === 'dao' && cwClient) {
-    linkedEntity
-      .filter((item: LinkedEntity) => item.type === 'Group')
-      .forEach((item: LinkedEntity) => {
-        const { id } = item
-        const [, coreAddress] = id.split('#')
-        getDaoContractInfo({ coreAddress, cwClient })
-          .then((response) => {
-            updateCallback('daoGroups', { [response.coreAddress]: response }, true)
-          })
-          .catch(console.error)
-      })
+  } catch (error) {
+    console.log('apiEntityToEntity error, ', error)
   }
 }
 

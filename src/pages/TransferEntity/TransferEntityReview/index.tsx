@@ -1,6 +1,6 @@
 import { contracts, ixo, utils } from '@ixo/impactxclient-sdk'
 import { FlexBox } from 'components/App/App.styles'
-import FormCard from 'components/Card/FormCard'
+import { FormCard } from 'components'
 import { InputWithLabel } from 'components/Form/InputWithLabel'
 import { Typography } from 'components/Typography'
 import { useAccount } from 'hooks/account'

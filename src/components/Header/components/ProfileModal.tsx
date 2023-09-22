@@ -9,7 +9,7 @@ import { ReactComponent as ImpactTokenIcon } from 'assets/images/icon-impact-tok
 import { ReactComponent as WalletIcon } from 'assets/images/icon-wallet-solid.svg'
 import BigNumber from 'bignumber.js'
 import { FlexBox, ScrollBox, SvgBox } from 'components/App/App.styles'
-import BalanceCard from 'components/Card/BalanceCard'
+import { BalanceCard } from 'components'
 import { Typography } from 'components/Typography'
 import { useAccount } from 'hooks/account'
 import { Avatar, TabButton } from 'pages/CurrentEntity/Components'

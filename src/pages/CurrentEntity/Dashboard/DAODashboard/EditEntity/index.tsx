@@ -1,5 +1,5 @@
 import { FlexBox } from 'components/App/App.styles'
-import FormCard from 'components/Card/FormCard'
+import { FormCard } from 'components'
 import { Typography } from 'components/Typography'
 import useCurrentEntity from 'hooks/currentEntity'
 import useEditEntity from 'hooks/editEntity'

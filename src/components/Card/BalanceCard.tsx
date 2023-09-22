@@ -15,7 +15,7 @@ export interface BalanceCardProps {
   onClick?: () => void
 }
 
-const BalanceCard: React.FC<BalanceCardProps> = ({
+export const BalanceCard: React.FC<BalanceCardProps> = ({
   balance,
   network,
   coinDenom,
@@ -71,5 +71,3 @@ const BalanceCard: React.FC<BalanceCardProps> = ({
     </FlexBox>
   )
 }
-
-export default BalanceCard

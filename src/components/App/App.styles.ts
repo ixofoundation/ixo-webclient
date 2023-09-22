@@ -163,6 +163,7 @@ export interface HTMLElementProps {
   background?: string
   backgroundSize?: string
   backgroundPosition?: string
+  backgroundColor?: string
   zIndex?: number
   pointerEvents?: string
   cursor?: string
@@ -207,7 +208,7 @@ export interface HTMLFlexBoxProps extends HTMLDivProps {
   flexShrink?: number
 }
 
-const htmlElementCss = css<HTMLDivProps>`
+export const htmlElementCss = css<HTMLDivProps>`
   ${({ aspectRatio }) => aspectRatio && `aspect-ratio: ${aspectRatio}`};
   ${({ margin }) => margin && `margin: ${margin}`};
   ${({ marginBottom }): string | undefined => (marginBottom ? `margin-bottom: ${marginBottom * 0.25}rem` : undefined)};

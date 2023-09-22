@@ -6,14 +6,13 @@ import DashboardPage from './Dashboard/Dashboard'
 import OverviewPage from './Overview/Overview'
 import TreasuryPage from './Treasury/Treasury'
 import ProposalOverviewPage from './Proposal/Overview'
-import { useAppSelector } from 'redux/hooks'
-import { TEntityModel } from 'types/entities'
-import { selectEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { useGetEntityById } from 'graphql/entities'
 
 const CurrentEntityPage: React.FC = (): JSX.Element => {
   const { entityId } = useParams<{ entityId: string }>()
-  const entity: TEntityModel | undefined = useAppSelector(selectEntityById(entityId))
   const { entityType, updateEntity, clearEntity } = useCurrentEntity()
+
+  const { data: entity } = useGetEntityById(entityId)
 
   useEffect(() => {
     if (entity) {
@@ -23,7 +22,6 @@ const CurrentEntityPage: React.FC = (): JSX.Element => {
     return () => {
       clearEntity()
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [entity])
 
   if (!entityType) {

@@ -10,6 +10,7 @@ export interface Props {
   activeBarColor?: string
   barColor?: string
   closedText?: string
+  radius?: string
 }
 
 export const ProgressBar: React.FunctionComponent<Props> = ({
@@ -22,6 +23,7 @@ export const ProgressBar: React.FunctionComponent<Props> = ({
   barColor,
   height = 6,
   closedText = '',
+  radius,
 }) => {
   const pendingWidth = (pending / total) * 100
   const approvedWidth = (approved / total) * 100
@@ -29,7 +31,7 @@ export const ProgressBar: React.FunctionComponent<Props> = ({
   const disputedWidth = (disputed / total) * 100
 
   return (
-    <Bar height={height} barColor={barColor}>
+    <Bar height={height} barColor={barColor} borderRadius={radius}>
       <Successful style={{ width: approvedWidth + '%' }} barColor={activeBarColor} />
       <Pending style={{ width: pendingWidth + '%' }} />
       <Rejected style={{ width: rejectedWidth + '%' }} />

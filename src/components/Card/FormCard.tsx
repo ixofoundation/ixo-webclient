@@ -8,7 +8,7 @@ export interface FormCardProp {
   title: string | JSX.Element
 }
 
-const FormCard: React.FC<PropsWithChildren<FormCardProp>> = ({ preIcon, title, children }) => {
+export const FormCard: React.FC<PropsWithChildren<FormCardProp>> = ({ preIcon, title, children }) => {
   const theme: any = useTheme()
   return (
     <FlexBox
@@ -33,5 +33,3 @@ const FormCard: React.FC<PropsWithChildren<FormCardProp>> = ({ preIcon, title, c
     </FlexBox>
   )
 }
-
-export default FormCard

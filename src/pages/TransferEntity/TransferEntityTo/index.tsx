@@ -1,5 +1,5 @@
 import { FlexBox, SvgBox } from 'components/App/App.styles'
-import FormCard from 'components/Card/FormCard'
+import { FormCard } from 'components'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 import { ReactComponent as ArrowCircleRightIcon } from 'assets/images/icon-arrow-circle-right-solid.svg'
