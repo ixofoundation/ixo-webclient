@@ -57,26 +57,26 @@ function useExchange({ address }: UseExchangeProps) {
   }, [address, setBalances])
 
   useEffect(() => {
-    if (inputAsset?.asset && inputAsset?.asset?.coingeckoid) {
-      getUSDRateByCoingeckoId(inputAsset?.asset?.coingeckoId).then((rate): void => {
+    if (inputAsset.asset && inputAsset.asset?.coingeckoid) {
+      getUSDRateByCoingeckoId(inputAsset.asset?.coingeckoId).then((rate): void => {
         dispatch(setInputAssetUSDAmount(BigNumber(rate)))
       })
     }
   }, [inputAsset.asset, dispatch])
 
   useEffect(() => {
-    if (balances && inputAsset?.asset?.base) {
-      dispatch(setInputAsset({ balance: balances[inputAsset?.asset?.display as any] }))
+    if (balances && inputAsset.asset?.base) {
+      dispatch(setInputAsset({ balance: balances[inputAsset.asset?.display as any] }))
     }
   }, [balances, inputAsset.asset?.base, inputAsset.asset?.display, dispatch])
 
   useEffect(() => {
-    if (inputAsset?.usdAmount && outputAsset.amount) {
-      const carbonInUSD = inputAsset?.usdAmount.multipliedBy(inputAsset.amount.dividedBy(outputAsset.amount))
+    if (inputAsset.usdAmount && outputAsset.amount) {
+      const carbonInUSD = inputAsset.usdAmount.multipliedBy(inputAsset.amount.dividedBy(outputAsset.amount))
 
       dispatch(setOutputAssetUSDAmount(carbonInUSD))
     }
-  }, [inputAsset?.usdAmount, outputAsset.amount, dispatch, inputAsset.amount])
+  }, [inputAsset.usdAmount, outputAsset.amount, dispatch, inputAsset.amount])
 
   const getOutputAmount = async (inputAsset: ExchangeAsset) => {
     if (inputAsset.asset?.base) {
