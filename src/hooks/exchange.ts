@@ -72,7 +72,7 @@ function useExchange({ address }: UseExchangeProps) {
 
   useEffect(() => {
     if (inputAsset?.usdAmount && outputAsset.amount) {
-      const carbonInUSD = inputAsset.usdAmount.multipliedBy(inputAsset.amount.dividedBy(outputAsset.amount))
+      const carbonInUSD = inputAsset?.usdAmount.multipliedBy(inputAsset.amount.dividedBy(outputAsset.amount))
 
       dispatch(setOutputAssetUSDAmount(carbonInUSD))
     }
