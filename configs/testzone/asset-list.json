@@ -116,8 +116,8 @@
         "entityId": "did:example:carbon",
         "assetType": "nft",
         "logoURIs": {
-          "png": "https://github.com/cosmos/chain-registry/blob/master/carbon/images/usc.png",
-          "svg": "https://github.com/cosmos/chain-registry/blob/master/carbon/images/usc.svg",
+          "png": "https://raw.githubusercontent.com/cosmos/chain-registry/master/carbon/images/usc.png",
+          "svg": "https://raw.githubusercontent.com/cosmos/chain-registry/master/carbon/images/usc.svg",
           "zlottie": ""
         },
         "denomUnits": [

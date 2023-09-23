@@ -22,21 +22,20 @@ import { setKeplrWallet } from 'redux/account/account.actions'
 import { changeSelectedAccountAddress } from 'redux/selectedEntityExchange/entityExchange.actions'
 import useExchange from 'hooks/exchange'
 import { setInputAsset, setInputAssetAmount, setOutputAsset } from 'redux/exchange/exchange.actions'
+import { selectInputEntity, selectOutputEntity } from 'redux/exchange/exchange.selectors'
 
 const Swap: React.FunctionComponent = () => {
   const { wallet } = useParams() as any
   const walletType = wallet
   const { getAssetsByChainId, getRelayerNameByChainId } = useIxoConfigs()
   const selectedAccountAddress = useAppSelector(selectSelectedAccountAddress)
+  const inputAssetEntity = useAppSelector(selectInputEntity)
+  const outputAssetEntity = useAppSelector(selectOutputEntity)
   const dispatch = useAppDispatch()
 
   const [viewSettings, setViewSettings] = useState(false)
   const [openTransactionModal, setOpenTransactionModal] = useState(false)
   const [viewPairList, setViewPairList] = useState<'none' | 'from' | 'to'>('none')
-//   const [fromUSDRate, setFromUSDRate] = useState(0)
-//   const [toUSDRate, setToUSDRate] = useState(0)
-//   const [fromToken, setFromToken] = useState<AssetType | undefined>(undefined)
-//   const [fromAmount, setFromAmount] = useState<BigNumber>(new BigNumber(0))
   const [fromTokenSelected, setFromTokenSelected] = useState<boolean>(true)
 
   const {
@@ -50,6 +49,8 @@ const Swap: React.FunctionComponent = () => {
     tokenBalances,
     inputAsset,
     outputAsset,
+    getInputAssetEntity,
+    getOutputAssetEntity,
   } = useExchange({
     address: selectedAccountAddress as string,
     setOutputAsset,
@@ -62,14 +63,10 @@ const Swap: React.FunctionComponent = () => {
 
   const pairList = useMemo<AssetType[]>(
     () =>
-      assets
-        // .filter((currency) =>
-        //   availablePairs.some((pair) => currency.denom === pair),
-        // )
-        .filter(
-          (currency: any) =>
-            currency.display !== inputAsset?.asset?.display && currency.display !== outputAsset?.asset?.display,
-        ),
+      assets.filter(
+        (currency: any) =>
+          currency.display !== inputAsset?.asset?.display && currency.display !== outputAsset?.asset?.display,
+      ),
     [
       assets,
       inputAsset.asset,
@@ -115,6 +112,8 @@ const Swap: React.FunctionComponent = () => {
   }
 
   const handleInputTokenSelect = (token: AssetType) => {
+    console.log('Entity ID', token.entityId)
+    getInputAssetEntity(token.entityId)
     dispatch(
       setInputAsset({
         asset: token,
@@ -128,6 +127,7 @@ const Swap: React.FunctionComponent = () => {
         asset: token,
       }),
     )
+    getOutputAssetEntity(token.entityId)
   }
 
   return (
@@ -135,16 +135,16 @@ const Swap: React.FunctionComponent = () => {
       {selectedAccountAddress && (
         <div className='d-flex'>
           <AssetCardWrapper>
-            {inputAsset.entity && (
+            {inputAssetEntity && (
               <AssetCard
                 id={'asset-card'}
-                did={inputAsset.entity?.id}
-                name={inputAsset.entity?.profile?.brand}
-                logo={inputAsset.entity?.profile?.logo}
-                image={inputAsset.entity?.profile?.image}
-                sdgs={inputAsset.entity?.sdgs}
-                description={inputAsset.entity?.profile?.description}
-                dateCreated={moment(inputAsset.entity?.metadata?.created)}
+                did={inputAssetEntity?.id}
+                name={inputAssetEntity?.profile?.brand}
+                logo={inputAssetEntity?.profile?.logo}
+                image={inputAssetEntity?.profile?.image}
+                sdgs={inputAssetEntity?.sdgs}
+                description={inputAssetEntity?.profile?.description}
+                dateCreated={moment(inputAssetEntity?.metadata?.created)}
                 badges={[]}
                 version={''}
                 termsType={TermsOfUseType.PayPerUse}
@@ -213,16 +213,16 @@ const Swap: React.FunctionComponent = () => {
             )}
           </TradePanel>
           <AssetCardWrapper>
-            {outputAsset.entity && (
+            {outputAssetEntity && (
               <AssetCard
                 id={'asset-card'}
-                did={outputAsset.entity?.id}
-                name={outputAsset.entity?.profile?.brand}
-                logo={outputAsset.entity?.profile?.logo}
-                image={outputAsset.entity?.profile?.image}
-                sdgs={outputAsset.entity?.sdgs}
-                description={outputAsset.entity?.profile?.description}
-                dateCreated={moment(outputAsset.entity?.metadata?.created)}
+                did={outputAssetEntity?.id}
+                name={outputAssetEntity?.profile?.brand}
+                logo={outputAssetEntity?.profile?.logo}
+                image={outputAssetEntity?.profile?.image}
+                sdgs={outputAssetEntity?.sdgs}
+                description={outputAssetEntity?.profile?.description}
+                dateCreated={moment(outputAssetEntity?.metadata?.created)}
                 badges={[]}
                 version={''}
                 termsType={TermsOfUseType.PayPerUse}

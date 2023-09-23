@@ -13,6 +13,9 @@ import {
   SetSlippageAction,
   SetTokenBalancesAction,
 } from './exchange.types'
+import { Dispatch } from 'react'
+import Axios from 'axios'
+import { serviceEndpointToUrl } from 'utils/entities'
 
 export const setBalances = (balances: Record<string, string>): SetBalancesAction => ({
   type: ExchangeActions.SetBalances,
@@ -29,15 +32,36 @@ export const setOutputAssetUSDAmount = (usdAmount: BigNumber): SetOutputAssetUSD
   payload: usdAmount,
 })
 
-export const setInputAssetEntity = (entity: any): SetInputAssetEntityAction => ({
-  type: ExchangeActions.SetInputAssetEntity,
-  payload: entity,
-})
+export const setInputAssetEntity = (entity: any) => {
+  return async (dispatch: Dispatch<SetInputAssetEntityAction>) => {
+    try {
+      const url = serviceEndpointToUrl(entity.settings.Profile.serviceEndpoint, entity.service)
+      const response = await Axios.get(url)
+      dispatch({
+        type: ExchangeActions.SetInputAssetEntity,
+        payload: { ...entity, profile: response.data },
+      })
+    } catch (error) {
+      console.error('Error fetching data:', error)
+    }
+  }
+}
 
-export const setOutputAssetEntity = (entity: any): SetOutputAssetEntityAction => ({
-  type: ExchangeActions.SetOutputAssetEntity,
-  payload: entity,
-})
+export const setOutputAssetEntity = (entity: any) => {
+  return async (dispatch: Dispatch<SetOutputAssetEntityAction>) => {
+    try {
+      const url = serviceEndpointToUrl(entity.settings.Profile.serviceEndpoint, entity.service)
+      const response = await Axios.get(url)
+
+      dispatch({
+        type: ExchangeActions.SetOutputAssetEntity,
+        payload: { ...entity, profile: response.data },
+      })
+    } catch (error) {
+      console.error('Error fetching data:', error)
+    }
+  }
+}
 
 export const setSlippage = (slippage: number): SetSlippageAction => ({
   type: ExchangeActions.SetSlippage,

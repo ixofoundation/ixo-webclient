@@ -2,7 +2,14 @@ import BigNumber from 'bignumber.js'
 import { useGetEntityByIdLazyQuery } from 'graphql/entities'
 import { Dictionary, mapValues, keyBy } from 'lodash'
 import { useState, useEffect, useMemo } from 'react'
-import { setInputAsset, setInputAssetUSDAmount, setOutputAsset } from 'redux/exchange/exchange.actions'
+import {
+  setInputAsset,
+  setInputAssetEntity,
+  setInputAssetUSDAmount,
+  setOutputAsset,
+  setOutputAssetEntity,
+  setOutputAssetUSDAmount,
+} from 'redux/exchange/exchange.actions'
 import { selectInputAsset, selectOutputAsset } from 'redux/exchange/exchange.selectors'
 import { ExchangeAsset } from 'redux/exchange/exchange.types'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
@@ -50,18 +57,26 @@ function useExchange({ address }: UseExchangeProps) {
   }, [address, setBalances])
 
   useEffect(() => {
-    if (inputAsset?.asset && inputAsset?.asset?.coingeckoid) {
-      getUSDRateByCoingeckoId(inputAsset?.asset?.coingeckoId).then((rate): void => {
+    if (inputAsset.asset && inputAsset.asset?.coingeckoid) {
+      getUSDRateByCoingeckoId(inputAsset.asset?.coingeckoId).then((rate): void => {
         dispatch(setInputAssetUSDAmount(BigNumber(rate)))
       })
     }
   }, [inputAsset.asset, dispatch])
 
   useEffect(() => {
-    if (balances && inputAsset?.asset?.base) {
-      dispatch(setInputAsset({ balance: balances[inputAsset?.asset?.display as any] }))
+    if (balances && inputAsset.asset?.base) {
+      dispatch(setInputAsset({ balance: balances[inputAsset.asset?.display as any] }))
     }
   }, [balances, inputAsset.asset?.base, inputAsset.asset?.display, dispatch])
+
+  useEffect(() => {
+    if (inputAsset.usdAmount && outputAsset.amount) {
+      const carbonInUSD = inputAsset.usdAmount.multipliedBy(inputAsset.amount.dividedBy(outputAsset.amount))
+
+      dispatch(setOutputAssetUSDAmount(carbonInUSD))
+    }
+  }, [inputAsset.usdAmount, outputAsset.amount, dispatch, inputAsset.amount])
 
   const getOutputAmount = async (inputAsset: ExchangeAsset) => {
     if (inputAsset.asset?.base) {
@@ -73,18 +88,14 @@ function useExchange({ address }: UseExchangeProps) {
       )
 
       const baseUnitAmount = calculateBaseAmount(inputAsset.amount, denomUnit?.exponent || 0)
-
       return await queryOutputAmount(
         queryType,
         { single: baseUnitAmount.toString() },
         'ixo17srjznxl9dvzdkpwpw24gg668wc73val88a6m5ajg6ankwvz9wtsek9x34',
       ).then((value) => {
         if (tokenType === '1155') {
-          console.log('1155 value ran')
           return calculateBaseDenomAmount(BigNumber(value), 6)
         } else {
-          console.log('1155 nommer ran')
-
           return BigNumber(value)
         }
       })
@@ -100,23 +111,25 @@ function useExchange({ address }: UseExchangeProps) {
   }, [inputAsset, outputAsset.asset?.base, dispatch])
 
   useEffect(() => {
+    console.log('input entity useEffect Ran', inputEntityData)
     if (inputEntityData) {
-      dispatch(setInputAsset({ entity: inputEntityData }))
+      console.log('dispatching input entity')
+      dispatch(setInputAssetEntity(inputEntityData))
     }
   }, [dispatch, inputEntityData])
 
   useEffect(() => {
     if (outputEntityData) {
-      dispatch(setOutputAsset({ entity: outputEntityData }))
+      dispatch(setOutputAssetEntity(outputEntityData))
     }
   }, [dispatch, outputEntityData])
 
   const [swapError, swapErrorMsg] = useMemo(() => {
-    if (new BigNumber(inputAsset.amount).times((Number(slippage) + 100) / 100).isGreaterThan(1000)) {
-      return [true, 'Price impact too high']
+    if (new BigNumber(inputAsset.amount).isGreaterThan(inputAsset.balance)) {
+      return [true, 'Insufficient balance']
     }
     return [false, 'Review My Order']
-  }, [inputAsset.amount, slippage])
+  }, [inputAsset.amount, inputAsset.balance])
 
   const canSubmit = useMemo<boolean>(() => {
     return Boolean(
@@ -126,11 +139,11 @@ function useExchange({ address }: UseExchangeProps) {
     )
   }, [inputAsset.amount, outputAsset.amount, swapError])
 
-  const setInputAssetEntity = (entityId: string) => {
+  const getInputAssetEntity = (entityId: string) => {
     fetchInputEntityById(entityId)
   }
 
-  const setOutputAssetEntity = (entityId: string) => {
+  const getOutputAssetEntity = (entityId: string) => {
     fetchOutputEntityById(entityId)
   }
 
@@ -142,8 +155,8 @@ function useExchange({ address }: UseExchangeProps) {
     swapError,
     swapErrorMsg,
     canSubmit,
-    setOutputAssetEntity,
-    setInputAssetEntity,
+    getInputAssetEntity,
+    getOutputAssetEntity,
     tokenBalances,
     inputAsset,
     outputAsset,

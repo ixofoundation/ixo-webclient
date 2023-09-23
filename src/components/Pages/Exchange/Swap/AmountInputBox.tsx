@@ -101,6 +101,7 @@ const AmountInputBox: React.FC<Props> = ({
           prefix={isFromToken ? '' : '≈ '}
           onValueChange={({ value }: any): void => handleAmountChange && handleAmountChange(value)}
           displayType={displayType}
+          max={balance}
         />
       </div>
       <div className='d-flex align-items-center justify-content-end'>
