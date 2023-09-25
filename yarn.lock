@@ -15345,11 +15345,6 @@ react-paginate@8.1.4:
   dependencies:
     prop-types "^15"
 
-react-path-tooltip@^1.0.25:
-  version "1.0.25"
-  resolved "https://registry.yarnpkg.com/react-path-tooltip/-/react-path-tooltip-1.0.25.tgz#5734bc5523d10b33d17ac307f0502e1acf8034bb"
-  integrity sha512-wT1+mDi10aFyP3nyRCz3ixcwWGPIeCb3QOPHFYC+kIzaQUPk82Lrm3TsDn2k24n8FdUbbsxpfL8iwIddzaG5LQ==
-
 react-pdf@6.1.0:
   version "6.1.0"
   resolved "https://registry.yarnpkg.com/react-pdf/-/react-pdf-6.1.0.tgz#2f8019d254ee929feb0dea141a12166f8542aa36"
@@ -15632,15 +15627,6 @@ react-spring@9.5.5:
     "@react-spring/three" "~9.5.5"
     "@react-spring/web" "~9.5.5"
     "@react-spring/zdog" "~9.5.5"
-
-react-svg-worldmap@^2.0.0-alpha.16:
-  version "2.0.0-alpha.16"
-  resolved "https://registry.yarnpkg.com/react-svg-worldmap/-/react-svg-worldmap-2.0.0-alpha.16.tgz#78989f8afdad5a5b0ca8bac53ee6a68d71c2a6f0"
-  integrity sha512-yztQgcshmUjN6GQ5irTuEiO54iWzY/iZsPP7vygEc+yY1IFlbXWOffRaZW7cHm9oBBmSk+/UNaaDI9iCQlHQ8g==
-  dependencies:
-    d3-geo "^2.0.2"
-    react-path-tooltip "^1.0.25"
-    tslib "^2.4.0"
 
 react-svg@^16.1.8:
   version "16.1.8"

@@ -11,34 +11,34 @@ export const Bar = styled.div<{ height: number; barColor?: string; borderRadius?
   overflow: hidden;
 `
 
-export const Rejected = styled.div`
+export const Rejected = styled.div<{ borderRadius?: string }>`
   && {
     background: ${(props): string => props.theme.rejectedGradient};
   }
-  border-radius: 0 10px 10px 0;
+  border-radius: ${({ borderRadius }) => borderRadius || '0 10px 10px 0'};
   position: relative;
   left: -2px;
 `
 
-export const Successful = styled.div<{ barColor?: string }>`
+export const Successful = styled.div<{ barColor?: string; borderRadius?: string }>`
   && {
     background: ${({ barColor, theme }): string => (barColor ? barColor : theme.approvedGradient)};
   }
-  border-radius: 10px;
+  border-radius: ${({ borderRadius }) => borderRadius || '10px'};
   position: relative;
   z-index: 1;
 `
-export const Pending = styled.div`
+export const Pending = styled.div<{ borderRadius?: string }>`
   && {
     background: ${(props): string => props.theme.highlight.light};
   }
-  border-radius: 10px;
+  border-radius: ${({ borderRadius }) => borderRadius || '10px'};
   position: relative;
 `
-export const Disputed = styled.div`
+export const Disputed = styled.div<{ borderRadius?: string }>`
   && {
     background: ${(props): string => props.theme.disputedGradient};
   }
-  border-radius: 10px;
+  border-radius: ${({ borderRadius }) => borderRadius || '10px'};
   position: relative;
 `

@@ -324,6 +324,7 @@ export const FlexBox = styled(Box)<HTMLFlexBoxProps>`
   justify-content: ${({ justifyContent = 'start' }): string => justifyContent};
   align-items: ${({ alignItems = 'start' }): string => alignItems};
   gap: ${({ gap = 0 }): string => gap * 0.25 + 'rem'};
+  borderradius: ${({ borderRadius }): string => borderRadius || 'none'};
   ${({ flexWrap }): string | undefined => (flexWrap ? `flex-wrap: ${flexWrap}` : undefined)};
   ${({ flexBasis }): string | undefined => (flexBasis ? `flex-basis: ${flexBasis}` : undefined)};
   ${({ flexGrow }) => flexGrow && `flex-grow: ${flexGrow};`}

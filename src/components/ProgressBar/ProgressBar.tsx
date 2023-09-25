@@ -32,10 +32,10 @@ export const ProgressBar: React.FunctionComponent<Props> = ({
 
   return (
     <Bar height={height} barColor={barColor} borderRadius={radius}>
-      <Successful style={{ width: approvedWidth + '%' }} barColor={activeBarColor} />
-      <Pending style={{ width: pendingWidth + '%' }} />
-      <Rejected style={{ width: rejectedWidth + '%' }} />
-      <Disputed style={{ width: disputedWidth + '%' }} />
+      <Successful style={{ width: approvedWidth + '%' }} barColor={activeBarColor} borderRadius='none' />
+      <Pending style={{ width: pendingWidth + '%' }} borderRadius='none' />
+      <Rejected style={{ width: rejectedWidth + '%' }} borderRadius='none' />
+      <Disputed style={{ width: disputedWidth + '%' }} borderRadius='none' />
       {rejected === 0 && (
         <small className='pl-2 justify-content-start align-items-center d-flex position-absolute w-100 h-100'>
           {closedText}

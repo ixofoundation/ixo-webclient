@@ -7,12 +7,13 @@ import { Typography } from 'components/Typography'
 import { NavLink } from 'react-router-dom'
 import { useAccount } from 'hooks/account'
 import { useTheme } from 'styled-components'
-import { TEntityModel } from 'types/entities'
+import { EntityType, TEntityModel } from 'types/entities'
 import { thousandSeparator } from 'utils/formatters'
 import { useGetAccountTokens } from 'graphql/tokens'
 import { Title } from 'components/Text'
 import { HorizontalLine } from 'components/HorizontalLine'
 import { Tag } from 'components'
+import { getEntityIcon } from 'utils/getEntityIcon'
 
 interface Props extends HTMLFlexBoxProps {
   collectionName: string
@@ -65,8 +66,6 @@ const AssetCard: React.FC<Props> = ({
     }
   }, [_entity, cwClient])
 
-  console.log('after use effect')
-
   useEffect(() => {
     if (accountTokens['CARBON']) {
       const carbon = accountTokens['CARBON']
@@ -84,15 +83,17 @@ const AssetCard: React.FC<Props> = ({
       }
     }
   }, [accountTokens])
-
-  console.log('before return')
-
+  console.log({ entityType: entity?.type })
   return (
-    <FlexBox direction='column' width='100%' borderRadius={'10px'} height='100%' {...rest}>
+    <FlexBox direction='column' width='100%' borderRadius={'10px'} height='100%' overflow='hidden' {...rest}>
       <FlexBox position='relative' background={`url(${image!})`} width='100%' height='50%' backgroundSize='100% 100%'>
         <FlexBox gap={1} alignItems='center' height='24px' margin='10px'>
+          <FlexBox background={'#20798C'} borderRadius={'100%'} color='white'>
+            {getEntityIcon(entity?.type)}
+          </FlexBox>
+
           {tags.map((tag, i) => (
-            <FlexBox key={i} background={theme.ixoGreen} borderRadius={'100px'} color='white' px={2} py={1}>
+            <FlexBox key={i + tag} background={'#20798C'} borderRadius={'100px'} color='white' px={2} py={1}>
               <Typography size='sm'>{tag}</Typography>
             </FlexBox>
           ))}
