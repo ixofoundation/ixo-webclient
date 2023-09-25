@@ -79,6 +79,7 @@ const BondStatistics: React.FC<Props> = ({ bondDid }) => {
       const res = await GetCurrentPrice(bondDid)
       if (res) {
         const { currentPrice } = res
+        console.log({ currentPrice })
         setCurrentPrice(convertToDenom(convertDecCoinToCoin(currentPrice[0])))
       }
     }

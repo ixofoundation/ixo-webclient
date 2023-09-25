@@ -24,6 +24,7 @@ import { FlexBox } from 'components/App/App.styles'
 import { WithdrawReserve } from 'lib/protocol'
 import { useAccount } from 'hooks/account'
 import { cosmos } from '@ixo/impactxclient-sdk'
+import { useIxoConfigs } from 'hooks/configs'
 
 const AmountInputLabel = styled.div<{ error: boolean }>`
   font-family: ${(props): string => props.theme.primaryFontFamily};
@@ -51,6 +52,7 @@ const BondWithdrawReserveModal: React.FC<Props> = ({ open, bondDid, setOpen }) =
   const [signTXStatus, setSignTXStatus] = useState<TXStatus>(TXStatus.PENDING)
   const [signTXhash, setSignTXhash] = useState<string | null>(null)
 
+  const { convertToMinimalDenom } = useIxoConfigs()
   const { address: accountAddress, did, signingClient } = useAccount()
   const { data: bondDetail } = useGetBondDid(bondDid)
   const availableReserve = useMemo(() => bondDetail?.availableReserve ?? [], [bondDetail])
@@ -133,12 +135,28 @@ const BondWithdrawReserveModal: React.FC<Props> = ({ open, bondDid, setOpen }) =
   }
 
   const handleSubmit = async () => {
-    await WithdrawReserve(signingClient, {
-      did,
-      address: accountAddress,
-      bondDid,
-      amount: cosmos.base.v1beta1.Coin.fromPartial({ denom: bondDetail.token, amount: String(amount) }),
-    })
+    try {
+      const microAmount = convertToMinimalDenom(
+        cosmos.base.v1beta1.Coin.fromPartial({ denom: asset?.denom, amount: String(amount) }),
+      )
+      const res = await WithdrawReserve(signingClient, {
+        did,
+        address: accountAddress,
+        bondDid,
+        amount: microAmount!,
+      })
+      if (res.code === 0) {
+        setSignTXStatus(TXStatus.SUCCESS)
+        setSignTXhash(res.transactionHash)
+      } else {
+        setSignTXStatus(TXStatus.ERROR)
+        setSignTXhash(null)
+      }
+    } catch (e) {
+      console.error('handleSubmit', e)
+      setSignTXStatus(TXStatus.ERROR)
+      setSignTXhash(null)
+    }
   }
 
   useEffect(() => {

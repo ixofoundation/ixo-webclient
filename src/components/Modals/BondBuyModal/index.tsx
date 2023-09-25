@@ -11,12 +11,13 @@ import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 import { ModalInput, SignStep, SlippageSelector, SlippageType, TokenSelector, TXStatus } from '../common'
 import { useAccount } from 'hooks/account'
 import { Coin } from '@cosmjs/proto-signing'
-import { GetCurrentPrice, GetBuyPrice, Buy } from 'lib/protocol'
+import { GetCurrentPrice, GetBuyPrice, Buy, SetNextAlpha } from 'lib/protocol'
 import { convertDecCoinToCoin, isLessThan, subtract, toFixed } from 'utils/currency'
 import { useIxoConfigs } from 'hooks/configs'
 import { useGetBondDid } from 'graphql/bonds'
 import { useTheme } from 'styled-components'
 import { NATIVE_DENOM } from 'constants/chains'
+import BigNumber from 'bignumber.js'
 
 interface Props {
   open: boolean
@@ -47,6 +48,12 @@ const BondBuyModal: React.FC<Props> = ({ open, bondDid, setOpen }): JSX.Element 
     }
     return subtract(bondDetail.maxSupply?.amount ?? '0', bondDetail.currentSupply?.amount ?? '0')
   }, [bondDetail])
+
+  // TODO: remove the code once tested
+  const publicAlpha = useMemo(
+    () => (bondDetail?.functionParameters ?? []).find((v: any) => v.param === 'publicAlpha')?.value,
+    [bondDetail],
+  )
 
   const [txStatus, setTxStatus] = useState<TXStatus>(TXStatus.PENDING)
   const [txHash, setTxHash] = useState<string>('')
@@ -86,6 +93,10 @@ const BondBuyModal: React.FC<Props> = ({ open, bondDid, setOpen }): JSX.Element 
       if (res?.transactionHash) {
         setTxStatus(TXStatus.SUCCESS)
         setTxHash(res.transactionHash)
+
+        // TODO: remove the code once tested
+        const alpha = new BigNumber(publicAlpha).plus(0.01).multipliedBy(new BigNumber(10).pow(18)).toString()
+        await SetNextAlpha(signingClient, { did, bondDid, address, alpha })
       } else {
         setTxStatus(TXStatus.ERROR)
         setTxHash('')
