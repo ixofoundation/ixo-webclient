@@ -15,7 +15,7 @@ import { useGetEntityByIdLazyQuery } from 'graphql/entities'
 import { useAccount } from 'hooks/account'
 import { apiEntityToEntity } from 'utils/entities'
 import { useDispatch } from 'react-redux'
-import { updateEntityPropertyAction } from 'redux/entitiesExplorer/entitiesExplorer.actions'
+import { updateEntityAction, updateEntityPropertyAction } from 'redux/entitiesExplorer/entitiesExplorer.actions'
 
 const EditEntity: React.FC = () => {
   const dispatch = useDispatch()
@@ -34,6 +34,7 @@ const EditEntity: React.FC = () => {
 
   useEffect(() => {
     if (data) {
+      dispatch(updateEntityAction(data))
       apiEntityToEntity({ entity: data, cwClient }, (key, data, merge = false) => {
         dispatch(updateEntityPropertyAction(entityId, key, data, merge))
       })
