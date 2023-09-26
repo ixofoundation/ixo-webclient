@@ -174,7 +174,9 @@ export const queryTokenBalances = async (
             address: token.address!,
             queryData: strToArray(JSON.stringify(ownerTokensQuery)),
           })
-          const ownerTokenIds: string[] = JSON.parse(Uint8ArrayToJS(ownerTokensResponse.data)).tokens
+          const ownerTokenIds: string[] = ownerTokensResponse?.data
+            ? JSON.parse(Uint8ArrayToJS(ownerTokensResponse.data)).tokens
+            : []
 
           const ownerBalancesQuery = {
             batch_balance: {
@@ -186,8 +188,13 @@ export const queryTokenBalances = async (
             address: token.address!,
             queryData: strToArray(JSON.stringify(ownerBalancesQuery)),
           })
-          const ownerBalances = JSON.parse(Uint8ArrayToJS(ownerBalancesResponse.data)).balances
-          const totalBalance = ownerBalances.reduce((prev: string, current: string) => Number(prev) + Number(current))
+          const ownerBalances = ownerBalancesResponse?.data
+            ? JSON.parse(Uint8ArrayToJS(ownerBalancesResponse.data)).balances
+            : []
+          const totalBalance = ownerBalances?.reduce(
+            (prev: string, current: string) => Number(prev) + Number(current),
+            0,
+          )
 
           for (const [index, tokenId] of ownerTokenIds.entries()) {
             batches.set(tokenId, ownerBalances[index].toString())
