@@ -33,3 +33,5 @@ package-lock.json
 /public/configs
 # Local Netlify folder
 .netlify
+
+src/generated
