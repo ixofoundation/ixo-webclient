@@ -13,7 +13,7 @@ import {
 } from 'redux/entitiesExplorer/entitiesExplorer.actions'
 import React, { useEffect, useState } from 'react'
 import * as ReactGA from 'react-ga'
-import { withRouter } from 'react-router-dom'
+import { useHistory, withRouter } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import Services from 'services'
 import { ThemeProvider } from 'styled-components'
@@ -40,18 +40,27 @@ ReactGA.pageview(window.location.pathname + window.location.search)
 
 const App: React.FC = () => {
   const dispatch = useAppDispatch()
+  const history = useHistory()
 
   const customTheme = useAppSelector(selectCustomTheme)
   const entityConfig = useAppSelector(selectEntityConfig)
   const { cwClient } = useAccount()
-  const { data: apiEntities } = useGetAllEntities()
+  const { data: apiEntities, refetch } = useGetAllEntities()
 
   const [customizedTheme, setCustomizedTheme] = useState<any>(theme)
 
   useEffect(() => {
     dispatch(getEntityConfig())
     dispatch(getCustomTheme())
-  }, [dispatch])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  useEffect(() => {
+    if (history.location.pathname === '/explore') {
+      refetch()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [history.location.pathname])
 
   useEffect(() => {
     if (entityConfig) {
