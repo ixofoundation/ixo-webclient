@@ -1,16 +1,11 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React from 'react'
 import Lottie from 'react-lottie'
-import { Box, FlexBox, HTMLFlexBoxProps } from 'components/App/App.styles'
+import { FlexBox, HTMLFlexBoxProps } from 'components/App/App.styles'
 import { ProgressBar } from 'components/ProgressBar/ProgressBar'
-import { apiEntityToEntity, serviceEndpointToUrl } from 'utils/entities'
 import { Typography } from 'components/Typography'
-import { NavLink } from 'react-router-dom'
-import { useAccount } from 'hooks/account'
 import { useTheme } from 'styled-components'
 import { TEntityModel } from 'types/entities'
 import { thousandSeparator } from 'utils/formatters'
-import { useGetAccountTokens } from 'graphql/tokens'
-import { Title } from 'components/Text'
 import { HorizontalLine } from 'components/HorizontalLine'
 import { Tag } from 'components'
 import { getEntityIcon } from 'utils/getEntityIcon'
@@ -51,10 +46,10 @@ const AssetCard: React.FC<Props> = ({
 
           {entity?.tags
             ?.find(({ category }) => category === 'Asset Type')
-            ?.tags?.map((tag, i) => (
+            ?.tags?.map((tag) => (
               <FlexBox
                 zIndex={9999}
-                key={`${i} ${tag}`}
+                key={`${tag}`}
                 background={'#20798C'}
                 borderRadius={'100px'}
                 color='white'

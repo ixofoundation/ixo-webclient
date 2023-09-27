@@ -22,7 +22,7 @@ const CurrentEntityPage: React.FC = (): JSX.Element => {
     return () => {
       clearEntity()
     }
-  }, [entity])
+  }, [entity, clearEntity, updateEntity])
 
   if (!entityType) {
     return <Spinner info='Loading Entity...' />
