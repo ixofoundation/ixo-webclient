@@ -9,7 +9,6 @@
     "start": "yarn run build && serve -s build",
     "prebuild": "yarn generate",
     "build": "craco build",
-    "pretest": "yarn generate",
     "test": "craco test --watchAll=false",
     "test:watch": "TZ=UTC craco test",
     "test:watch:win": "set \"TZ=UTC\" && craco test",
