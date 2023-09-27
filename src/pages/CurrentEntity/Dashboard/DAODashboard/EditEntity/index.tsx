@@ -11,12 +11,20 @@ import EditGroups from './components/EditGroups'
 import EditProfile from './components/EditProfile'
 import EditProperty from './components/EditProperty'
 import { ReactComponent as ExclamationIcon } from 'assets/images/icon-exclamation-circle.svg'
+import { useGetEntityByIdLazyQuery } from 'graphql/entities'
+import { useAccount } from 'hooks/account'
+import { apiEntityToEntity } from 'utils/entities'
+import { useDispatch } from 'react-redux'
+import { updateEntityAction, updateEntityPropertyAction } from 'redux/entitiesExplorer/entitiesExplorer.actions'
 
 const EditEntity: React.FC = () => {
+  const dispatch = useDispatch()
   const history = useHistory()
   const { entityId } = useParams<{ entityId: string }>()
+  const { cwClient } = useAccount()
   const { currentEntity, isOwner } = useCurrentEntity()
   const { setEditEntity, ExecuteEditEntity } = useEditEntity()
+  const { fetchEntityById, data } = useGetEntityByIdLazyQuery()
   const [editing, setEditing] = useState(false)
 
   useEffect(() => {
@@ -24,12 +32,23 @@ const EditEntity: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(currentEntity)])
 
+  useEffect(() => {
+    if (data) {
+      dispatch(updateEntityAction(data))
+      apiEntityToEntity({ entity: data, cwClient }, (key, data, merge = false) => {
+        dispatch(updateEntityPropertyAction(entityId, key, data, merge))
+      })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [JSON.stringify(data)])
+
   const handleEditEntity = async () => {
     setEditing(true)
     try {
       const { transactionHash, code, rawLog } = await ExecuteEditEntity()
       if (transactionHash && code === 0) {
         successToast('Updating', 'Successfully Updated')
+        fetchEntityById(entityId)
       } else {
         throw new Error(rawLog)
       }

@@ -39,6 +39,7 @@ export interface EntitiesExplorerState {
 
 export enum EntitiesExplorerActions {
   GetEntitiesFromGraphql = 'ixo/EntitiesExplorer/GET_ENTITIES_FROM_GRAPHQL',
+  GetSpecificEntity = 'ixo/EntitiesExplorer/GET_SPECIFIC_ENTITY',
   GetIndividualEntity = 'ixo/EntitiesExplorer/GET_INDIVIDUAL_ENTITY',
   GetEntityConfig = 'ixo/EntitiesExplorer/GET_ENTITYCONFIG',
   GetEntityConfigSuccess = 'ixo/EntitiesExplorer/GET_ENTITYCONFIG_FULFILLED',
@@ -64,6 +65,11 @@ export enum EntitiesExplorerActions {
 export interface GetEntitiesFromGraphqlAction {
   type: typeof EntitiesExplorerActions.GetEntitiesFromGraphql
   payload: TEntityModel[]
+}
+
+export interface GetSpecificEntityAction {
+  type: typeof EntitiesExplorerActions.GetSpecificEntity
+  payload: TEntityModel
 }
 
 export interface GetIndividualEntityAction {
@@ -223,6 +229,7 @@ export interface ExplorerEntity {
 
 export type EntitiesActionTypes =
   | GetEntitiesFromGraphqlAction
+  | GetSpecificEntityAction
   | GetIndividualEntityAction
   | GetEntityConfigAction
   | GetEntityConfigSuccessAction

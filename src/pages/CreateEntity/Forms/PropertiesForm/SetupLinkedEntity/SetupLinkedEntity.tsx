@@ -34,7 +34,7 @@ const LinkedEntityPropertyBox = (props: PropertyBoxProps & { id: string; type: s
     <FlexBox direction='column' alignItems='center' gap={4}>
       <PropertyBox icon={props.icon} label={props.label} set={true} handleRemove={props.handleRemove} />
       <Typography variant='secondary' overflowLines={1} style={{ width: 100, textAlign: 'center' }}>
-        &nbsp;{name}&nbsp;
+        {name}
       </Typography>
     </FlexBox>
   )
@@ -91,40 +91,46 @@ const SetupLinkedEntity: React.FC<Props> = ({ hidden, linkedEntity, daoGroups, u
     <>
       <FlexBox direction='column' style={hidden ? { display: 'none' } : {}}>
         <Box className='d-flex flex-wrap' style={{ gap: 20 }}>
-          {Object.entries(linkedEntity).map(([key, value]) => {
-            const { type } = value
+          {Object.entries(linkedEntity)
+            .map(([key, value]) => {
+              const { type } = value
 
-            if (type === 'Group') {
-              /**
-               * @description case of dao group (smartContract)
-               */
-              const label = Object.values(daoGroups).find(({ coreAddress }) => coreAddress === key)?.type || ''
-              const name = Object.values(daoGroups).find(({ coreAddress }) => coreAddress === key)?.config.name || ''
-              const Icon = DAOGroupConfig[label]?.icon
-              return (
-                <FlexBox key={key} direction='column' alignItems='center' gap={4}>
-                  <PropertyBox icon={Icon && <Icon />} label={toTitleCase(label)} set={true} />
-                  <Typography variant='secondary' overflowLines={1} style={{ width: 100, textAlign: 'center' }}>
-                    &nbsp;{name}&nbsp;
-                  </Typography>
-                </FlexBox>
-              )
-            } else {
-              const Icon = EntityLinkedEntityConfig[type]?.icon
-              const label = EntityLinkedEntityConfig[type]?.text || type
+              if (type === 'Group') {
+                /**
+                 * @description case of dao group (smartContract)
+                 */
+                const label = Object.values(daoGroups).find(({ coreAddress }) => coreAddress === key)?.type || ''
+                const name = Object.values(daoGroups).find(({ coreAddress }) => coreAddress === key)?.config.name || ''
+                const Icon = DAOGroupConfig[label]?.icon
 
-              return (
-                <LinkedEntityPropertyBox
-                  key={key}
-                  id={key}
-                  icon={Icon && <Icon />}
-                  label={label}
-                  type={type}
-                  handleRemove={() => handleRemoveLinkedEntity(key)}
-                />
-              )
-            }
-          })}
+                if (!DAOGroupConfig[label]) {
+                  return null
+                }
+                return (
+                  <FlexBox key={key} direction='column' alignItems='center' gap={4}>
+                    <PropertyBox icon={Icon && <Icon />} label={toTitleCase(label)} set={true} />
+                    <Typography variant='secondary' overflowLines={1} style={{ width: 100, textAlign: 'center' }}>
+                      {name}
+                    </Typography>
+                  </FlexBox>
+                )
+              } else {
+                const Icon = EntityLinkedEntityConfig[type]?.icon
+                const label = EntityLinkedEntityConfig[type]?.text || type
+
+                return (
+                  <LinkedEntityPropertyBox
+                    key={key}
+                    id={key}
+                    icon={Icon && <Icon />}
+                    label={label}
+                    type={type}
+                    handleRemove={() => handleRemoveLinkedEntity(key)}
+                  />
+                )
+              }
+            })
+            .filter((v) => !!v)}
           <PropertyBox icon={<PlusIcon />} noData handleClick={(): void => setOpenAddLinkedEntityModal(true)} />
         </Box>
       </FlexBox>
