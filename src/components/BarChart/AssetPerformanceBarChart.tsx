@@ -1,16 +1,29 @@
-import React, { PureComponent } from 'react'
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
+import { Flex, Text } from '@mantine/core'
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, TooltipProps } from 'recharts'
 import { useTheme } from 'styled-components'
+import { formatCookingTime } from 'utils/time'
+interface CustomTooltipProps extends TooltipProps<any, any> {
+  active?: boolean
+  payload?: any
+}
+
+const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
+  if (active && payload && payload.length) {
+    return (
+      <Flex bg='#012131' p={10} direction='column'>
+        <Text weight='bold'>{formatCookingTime(payload[0].value)}</Text>
+        <Text weight='bold'>{label}</Text>
+      </Flex>
+    )
+  }
+
+  return null
+}
 
 export const AssetPerformanceBarChart = ({ data }: { data: Record<string, string | number>[] }) => {
   const theme = useTheme() as any
-
   const lightBlue = theme.ixoLightBlue
-  const newBlue = theme.ixoNewBlue
-  const blue = theme.ixoBlue
-  const lightGrey = theme.ixoGrey300
   const darkBlue = theme.ixoDarkBlue
-  const navyBlue = theme.ixoNavyBlue
 
   return (
     <ResponsiveContainer width='100%' height={250}>
@@ -28,12 +41,12 @@ export const AssetPerformanceBarChart = ({ data }: { data: Record<string, string
             <stop offset='1' stopColor={darkBlue} stopOpacity={1} />
           </linearGradient>
         </defs>
-        <XAxis width={4} dataKey='month' interval={10} />
-        <YAxis domain={[0, 'dataMax + 5000']} />
-        <Tooltip />
+        <XAxis width={4} dataKey='month' interval={5} />
+        <YAxis domain={[0, 'dataMax + 120']} />
+        <Tooltip content={<CustomTooltip />} />
         <Bar
           stackId='a'
-          dataKey='total'
+          dataKey='duration'
           label={false}
           fill={lightBlue}
           background={{ fill: 'url(#colorUv)' }}
