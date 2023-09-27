@@ -1,0 +1,26 @@
+query Messages($first: Int, $filter: MessageFilter) {
+  messages(first: $first, filter: $filter) {
+    nodes {
+      id
+      value
+      typeUrl
+      to
+      from
+      denoms
+      nodeId
+      tokenNames
+      transactionByTransactionHash {
+        code
+        fee
+        gasUsed
+        gasWanted
+        hash
+        height
+        nodeId
+        time
+      }
+      transactionHash
+    }
+    totalCount
+  }
+}
