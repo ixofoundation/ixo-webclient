@@ -264,10 +264,15 @@ export function apiEntityToEntity(
     linkedClaim.forEach((item: LinkedClaim) => {
       const url = serviceEndpointToUrl(item.serviceEndpoint, service)
 
+      console.log({ url })
+
       if (item.proof && url) {
         fetch(url)
           .then((response) => response.json())
-          .then((response) => response.entityClaims[0])
+          .then((response) => {
+            console.log({ response })
+            return response.entityClaims[0]
+          })
           .then((claim) => {
             updateCallback('claim', { [claim.id]: claim }, true)
           })
@@ -385,4 +390,8 @@ export const getBondDidFromApiListedEntityData = async (data: ApiListedEntityDat
 
     return bondToShow?.bond_did ?? undefined
   })
+}
+
+export default function getEntityAdmin(entity: TEntityModel) {
+  return entity.accounts.find((acc) => acc.name === 'admin')?.address
 }

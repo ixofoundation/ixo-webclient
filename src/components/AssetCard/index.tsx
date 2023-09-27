@@ -2,12 +2,12 @@ import React, { useEffect, useMemo, useState } from 'react'
 import Lottie from 'react-lottie'
 import { Box, FlexBox, HTMLFlexBoxProps } from 'components/App/App.styles'
 import { ProgressBar } from 'components/ProgressBar/ProgressBar'
-import { apiEntityToEntity } from 'utils/entities'
+import { apiEntityToEntity, serviceEndpointToUrl } from 'utils/entities'
 import { Typography } from 'components/Typography'
 import { NavLink } from 'react-router-dom'
 import { useAccount } from 'hooks/account'
 import { useTheme } from 'styled-components'
-import { EntityType, TEntityModel } from 'types/entities'
+import { TEntityModel } from 'types/entities'
 import { thousandSeparator } from 'utils/formatters'
 import { useGetAccountTokens } from 'graphql/tokens'
 import { Title } from 'components/Text'
@@ -17,96 +17,63 @@ import { getEntityIcon } from 'utils/getEntityIcon'
 
 interface Props extends HTMLFlexBoxProps {
   collectionName: string
-  entity: any
+  entity: TEntityModel
   selected?: boolean
   isSelecting?: boolean
+  accountTokens?: any
 }
 
 const AssetCard: React.FC<Props> = ({
   collectionName,
-  entity: _entity,
+  entity,
   selected = false,
   isSelecting = false,
+  accountTokens,
   ...rest
-}): JSX.Element => {
+}): JSX.Element | null => {
   const theme: any = useTheme()
-  const { cwClient } = useAccount()
-  const [entity, setEntity] = useState<TEntityModel>()
 
-  const no = entity?.alsoKnownAs.replace('{id}#', '')
-  const id = entity?.id
-  const image = entity?.profile?.image
-  const logo = entity?.token?.properties?.icon
-  const name = entity?.profile?.name
-  const maxSupply = entity?.token?.properties?.maxSupply
-  const zlottie = entity?.zlottie
-  const tags = entity?.tags?.find(({ category }) => category === 'Asset Type')?.tags ?? []
+  if (!entity) return <></>
 
-  const adminAccount = useMemo(() => entity?.accounts?.find((v) => v.name === 'admin')?.address || '', [entity])
-
-  const { data: accountTokens, error } = useGetAccountTokens(adminAccount)
-  console.log({ error })
-
-  const [produced, setProduced] = useState(0)
-  const [claimable, setClaimable] = useState(0)
-  const [retired, setRetired] = useState(0)
-
-  console.log('before use effect')
-
-  useEffect(() => {
-    if (_entity) {
-      setEntity(_entity)
-      console.log({ _entity, cwClient })
-      apiEntityToEntity({ entity: _entity, cwClient }, (key, value) => {
-        setEntity((entity: any) => ({ ...entity, [key]: value }))
-      })
-    }
-    return () => {
-      setEntity(undefined)
-    }
-  }, [_entity, cwClient])
-
-  useEffect(() => {
-    if (accountTokens['CARBON']) {
-      const carbon = accountTokens['CARBON']
-      const claimable = Object.values(carbon.tokens).reduce((acc: number, cur: any) => acc + cur.amount, 0)
-      const produced = Object.values(carbon.tokens).reduce((acc: number, cur: any) => acc + cur.minted, 0)
-      const retired = Object.values(carbon.tokens).reduce((acc: number, cur: any) => acc + cur.retired, 0)
-
-      setProduced(produced)
-      setClaimable(claimable)
-      setRetired(retired)
-      return () => {
-        setProduced(0)
-        setClaimable(0)
-        setRetired(0)
-      }
-    }
-  }, [accountTokens])
-  console.log({ entityType: entity?.type })
   return (
     <FlexBox direction='column' width='100%' borderRadius={'10px'} height='100%' overflow='hidden' {...rest}>
-      <FlexBox position='relative' background={`url(${image!})`} width='100%' height='50%' backgroundSize='100% 100%'>
+      <FlexBox
+        position='relative'
+        background={`url(${entity.profile?.image})`}
+        width='100%'
+        height='50%'
+        backgroundSize='100% 100%'
+      >
         <FlexBox gap={1} alignItems='center' height='24px' margin='10px'>
           <FlexBox background={'#20798C'} borderRadius={'100%'} color='white'>
-            {getEntityIcon(entity?.type)}
+            {getEntityIcon(entity.type)}
           </FlexBox>
 
-          {tags.map((tag, i) => (
-            <FlexBox key={i + tag} background={'#20798C'} borderRadius={'100px'} color='white' px={2} py={1}>
-              <Typography size='sm'>{tag}</Typography>
-            </FlexBox>
-          ))}
+          {entity?.tags
+            ?.find(({ category }) => category === 'Asset Type')
+            ?.tags?.map((tag, i) => (
+              <FlexBox
+                zIndex={9999}
+                key={`${i} ${tag}`}
+                background={'#20798C'}
+                borderRadius={'100px'}
+                color='white'
+                px={2}
+                py={1}
+              >
+                <Typography size='sm'>{tag}</Typography>
+              </FlexBox>
+            ))}
         </FlexBox>
         <FlexBox position='absolute' top='50%' left='50%' transform='translate(-50%, -50%)'>
-          {zlottie && (
+          {entity.zlottie && (
             <Lottie
               width={150}
               height={150}
               options={{
                 loop: true,
                 autoplay: true,
-                animationData: zlottie,
+                animationData: entity.zlottie,
               }}
             />
           )}
@@ -117,23 +84,21 @@ const AssetCard: React.FC<Props> = ({
           radius='none'
           total={1800}
           approved={1200}
-          rejected={retired}
+          rejected={accountTokens.retired}
           activeBarColor={theme.ixoLightGreen}
           height={8}
         />
       </FlexBox>
       <FlexBox width='100%' direction='column' background={theme.ixoWhite} p={2}>
         <FlexBox width='100%'>
-          <Typography color='black' size='xs'>
-            EMERGING COOKING SOLUTIONS
-          </Typography>
+          <Typography color='black' size='xs'></Typography>
         </FlexBox>
 
         <FlexBox direction='column' justifyContent='space-between' width='100%' height='100%' pt={2}>
           <FlexBox justifyContent='space-between' width='100%'>
             <FlexBox direction='column' justifyContent='center'>
               <Typography color='black' weight='bold' size='md' style={{ marginBottom: 4 }}>
-                {name}
+                {entity.profile?.name}
               </Typography>
               <Typography color='color-2' weight='normal' size='sm'>
                 {collectionName}
@@ -143,7 +108,7 @@ const AssetCard: React.FC<Props> = ({
               width='32px'
               height='32px'
               borderRadius='100%'
-              background={`url(${logo}), ${theme.ixoGrey100}`}
+              background={`url(${entity.profile?.logo}), ${theme.ixoGrey100}`}
               backgroundSize='100%'
             />
           </FlexBox>
@@ -152,7 +117,7 @@ const AssetCard: React.FC<Props> = ({
           <FlexBox direction='column' gap={1} width='100%' mb={2}>
             <FlexBox gap={1} alignItems='baseline'>
               <Typography size='md' color='black' transform='uppercase' weight='bold'>
-                {thousandSeparator(produced, ',')}
+                {thousandSeparator(accountTokens.produced, ',')}
               </Typography>
               <Typography size='md' color='black' weight='bold'>
                 CARBON
@@ -161,18 +126,18 @@ const AssetCard: React.FC<Props> = ({
 
             <FlexBox gap={1} alignItems='baseline'>
               <Typography size='sm' color='green'>
-                {thousandSeparator(retired, ',')} retired
+                {thousandSeparator(accountTokens.retired, ',')} retired
               </Typography>
               <Typography size='sm' color='grey700'>
-                {thousandSeparator(claimable, ',')} claimable
+                {thousandSeparator(accountTokens.claimable, ',')} claimable
               </Typography>
             </FlexBox>
           </FlexBox>
 
           <FlexBox width='100%' justifyContent='space-between' alignItems='center'>
-            <Tag>{thousandSeparator(claimable, ',')} Carbon</Tag>
+            <Tag>{thousandSeparator(accountTokens.claimable, ',')} Carbon</Tag>
             <Tag>
-              #{no}/{Number(maxSupply).toLocaleString()}
+              #{entity.alsoKnownAs.replace('{id}#', '')}/{Number(entity.token?.properties?.maxSupply).toLocaleString()}
             </Tag>
           </FlexBox>
         </FlexBox>

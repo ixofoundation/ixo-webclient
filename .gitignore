@@ -31,3 +31,5 @@ package-lock.json
 /Windows Network
 
 /public/configs
+# Local Netlify folder
+.netlify

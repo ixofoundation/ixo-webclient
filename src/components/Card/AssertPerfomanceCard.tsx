@@ -1,7 +1,5 @@
 import { FlexBox } from 'components/App/App.styles'
 import { Card, CardProps } from './Card'
-import { HorizontalLine } from 'components/HorizontalLine'
-import { CopyIcon } from 'components/Icons'
 import { AssetPerformanceBarChart } from 'components/BarChart'
 import { Button } from 'components'
 import { useTheme } from 'styled-components'
