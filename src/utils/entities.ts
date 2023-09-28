@@ -264,13 +264,10 @@ export function apiEntityToEntity(
     linkedClaim.forEach((item: LinkedClaim) => {
       const url = serviceEndpointToUrl(item.serviceEndpoint, service)
 
-      console.log({ url })
-
       if (item.proof && url) {
         fetch(url)
           .then((response) => response.json())
           .then((response) => {
-            console.log({ response })
             return response.entityClaims[0]
           })
           .then((claim) => {

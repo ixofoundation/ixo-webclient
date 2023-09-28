@@ -1,28 +1,18 @@
 import Dashboard from 'components/Dashboard/Dashboard'
 import useCurrentEntity from 'hooks/currentEntity'
 import { MatchType } from 'types/models'
-import * as _ from 'lodash'
+import _ from 'lodash'
 import { FlexBox } from 'components/App/App.styles'
 import AssetCard from 'components/AssetCard'
 import { useGetEntityById } from 'graphql/entities'
-import {
-  ActivityCard,
-  AssetCreditsCard,
-  AssetEventsTable,
-  AssetPerformanceCard,
-  AssetStatsCard,
-  Card,
-  MapImage,
-} from 'components'
+import { AssetCreditsCard, AssetEventsTable, AssetPerformanceCard, AssetStatsCard, Card, MapImage } from 'components'
 import { useEffect, useMemo, useState } from 'react'
 import { useGetAccountTokens } from 'graphql/tokens'
 import { TEntityModel } from 'types/entities'
 import { useAccount } from 'hooks/account'
 import { apiEntityToEntity } from 'utils/entities'
-import { resolveClaims } from 'utils/asset'
+import { useGetCreatorProfileWithVerifiableCredential } from 'utils/asset'
 import { Message, useMessagesQuery } from 'generated/graphql'
-import { getCookingSessions } from 'api/netlify/getCookingSessions'
-import moment from 'moment'
 import { getCookStove } from 'api/netlify/getCookStove'
 import { Flex, Text } from '@mantine/core'
 import {
@@ -33,16 +23,20 @@ import {
   ClockIcon,
   ImpactsCreditIcon,
 } from 'components/Icons'
+import { useLocation } from 'react-router-dom'
 
 const AssetDashboard = () => {
   const currentEntity = useCurrentEntity()
   const entityType = currentEntity.entityType.replace('protocol/', '')
+  const location = useLocation()
+  const searchParams = new URLSearchParams(location.search)
+  const collection = searchParams.get('collection')
 
   const { data } = useGetEntityById(currentEntity.id)
 
   const { cwClient } = useAccount()
   const [entity, setEntity] = useState<TEntityModel>()
-  const [cookingSessions, setCookingSessions] = useState<any>()
+
   const [cookStove, setCookStove] = useState<any>()
 
   const adminAccount = useMemo(() => data?.accounts?.find((v: any) => v.name === 'admin')?.address || '', [data])
@@ -55,30 +49,6 @@ const AssetDashboard = () => {
 
   useEffect(() => {
     getCookStove(data.externalId).then((response) => setCookStove(response.data))
-  }, [data.externalId])
-
-  useEffect(() => {
-    getCookingSessions(data.externalId).then((response) => {
-      const aggregatedData: any[] = []
-
-      // Iterate through each data point
-      response.data.content.forEach((item: any) => {
-        const week = moment(item.startDateTime).week()
-        const month = moment(item.startDateTime).format('MMM')
-
-        const dateFormat = `${month}-${week}`
-        // Check if the week is already in the aggregated data
-        const existingWeekData = _.find(aggregatedData, { date: dateFormat })
-
-        if (existingWeekData) {
-          existingWeekData.duration += Math.ceil(item.duration / 60) // Add to existing week data
-        } else {
-          aggregatedData.push({ date: dateFormat, duration: Math.ceil(item.duration / 60), month, week }) // Create new entry for the week
-        }
-      })
-
-      setCookingSessions(aggregatedData)
-    })
   }, [data.externalId])
 
   const carbonTokens = useMemo(() => {
@@ -107,7 +77,11 @@ const AssetDashboard = () => {
 
   const assetNumber = _.get(currentEntity, 'currentEntity.alsoKnownAs').replace('{id}', '')
   const did = _.get(currentEntity, 'id')
-  const claims = resolveClaims(entity?.linkedClaim, entity?.service)
+
+  const { profile } = useGetCreatorProfileWithVerifiableCredential({
+    endpoint: entity?.linkedResource?.find((item) => item.type === 'VerifiableCredential')?.serviceEndpoint || '',
+    service: entity?.service || [],
+  })
 
   return (
     <Dashboard
@@ -121,7 +95,8 @@ const AssetDashboard = () => {
       <FlexBox height='300px' width='100%' gap={5}>
         {entity && (
           <AssetCard
-            collectionName='SupaMoto Collection'
+            collectionName={collection}
+            creator={profile?.name || ''}
             entity={entity}
             accountTokens={carbonTokens}
             width='250px'
@@ -129,7 +104,13 @@ const AssetDashboard = () => {
           />
         )}
         <FlexBox flexGrow={1} height='100%' gap={5}>
-          <AssetStatsCard title='Assets Stats' did={did} icon={<AssetStatsIcon />} />
+          <AssetStatsCard
+            title='Assets Stats'
+            creator={profile?.name}
+            created={entity?.metadata?.created}
+            did={did}
+            icon={<AssetStatsIcon />}
+          />
           <AssetCreditsCard
             title='Impact Credits'
             icon={<ImpactsCreditIcon transform='scale(1.4)' />}
@@ -141,7 +122,7 @@ const AssetDashboard = () => {
       </FlexBox>
       <FlexBox height='400px' py={5}>
         <AssetPerformanceCard
-          data={cookingSessions}
+          externalId={data.externalId}
           title='Asset Performance'
           icon={<AssetPerformanceIcon transform='scale(1.4)' />}
         />
@@ -160,16 +141,9 @@ const AssetDashboard = () => {
         </Flex>
 
         <Card title='Claim Activity' height='100%' width='100%' icon={<AssetActivityIcon transform='scale(1.4)' />}>
-          <FlexBox width='100%' gap={2} direction='column'>
-            {claims.map((value, index) => (
-              <ActivityCard
-                key={`${value} ${index}`}
-                name='Fuel Purchase'
-                quantity='15kg'
-                createdAt={new Date().toLocaleDateString()}
-              />
-            ))}
-          </FlexBox>
+          <Flex w='100%' h='100%' gap={2} align='center' justify='center'>
+            <Text>Coming Soon</Text>
+          </Flex>
         </Card>
       </FlexBox>
       <FlexBox py={5} height='auto' width={'100%'} gap={10} overflowY='hidden'>

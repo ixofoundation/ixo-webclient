@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Redirect, Route, Switch, useParams } from 'react-router-dom'
+import { Redirect, Route, Switch, useLocation, useParams } from 'react-router-dom'
 import DashboardPage from './Dashboard/Dashboard'
 import OverviewPage from './Overview/Overview'
 import TreasuryPage from './Treasury/Treasury'
@@ -11,6 +11,9 @@ import { useGetEntityById } from 'graphql/entities'
 const CurrentEntityPage: React.FC = (): JSX.Element => {
   const { entityId } = useParams<{ entityId: string }>()
   const { entityType, updateEntity, clearEntity } = useCurrentEntity()
+  const location = useLocation<{ collectionName: string }>()
+
+  console.log({ location })
 
   const { data } = useGetEntityById(entityId)
   useEffect(() => {
@@ -35,7 +38,7 @@ const CurrentEntityPage: React.FC = (): JSX.Element => {
       <Route path='/entity/:entityId/treasury' component={TreasuryPage} />
       <Route path='/entity/:entityId/overview/proposal/:deedId' component={ProposalOverviewPage} />
       <Route exact path='/entity/:entityId'>
-        <Redirect to={`/entity/${entityId}/overview`} />
+        <Redirect to={`/entity/${entityId}/overview?collection=${location.state?.collectionName}`} />
       </Route>
     </Switch>
   )

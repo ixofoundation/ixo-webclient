@@ -3,11 +3,15 @@ import { Card, CardProps } from './Card'
 import { AssetPerformanceBarChart } from 'components/BarChart'
 import { Button } from 'components'
 import { useTheme } from 'styled-components'
+import { useEffect, useState } from 'react'
+import moment from 'moment'
+import { getCookingSessions } from 'api/netlify/getCookingSessions'
+import _ from 'lodash'
 
 export type AssetPerformanceCardProps = Omit<CardProps, 'children'> & {
   did?: string
+  externalId: string
   creator?: string
-  data: Array<Record<string, string | number>>
 }
 
 const buttons = ['Cooking Time', 'Fuel Usage', 'Time Saved', 'Health Benefits']
@@ -16,10 +20,36 @@ export const AssetPerformanceCard = ({
   width = '100%',
   height = '100%',
   did,
-  data,
+  externalId,
   ...props
 }: AssetPerformanceCardProps) => {
   const theme = useTheme() as any
+  const [cookingSessions, setCookingSessions] = useState<any>()
+
+  useEffect(() => {
+    getCookingSessions(externalId).then((response) => {
+      const aggregatedData: any[] = []
+
+      // Iterate through each data point
+      response.data.content.forEach((item: any) => {
+        const week = moment(item.startDateTime).week()
+        const month = moment(item.startDateTime).format('MMM')
+
+        const dateFormat = `${month}-${week}`
+        // Check if the week is already in the aggregated data
+        const existingWeekData = _.find(aggregatedData, { date: dateFormat })
+
+        if (existingWeekData) {
+          existingWeekData.duration += Math.ceil(item.duration / 60) // Add to existing week data
+        } else {
+          aggregatedData.push({ date: dateFormat, duration: Math.ceil(item.duration / 60), month, week }) // Create new entry for the week
+        }
+      })
+
+      setCookingSessions(aggregatedData)
+    })
+  }, [externalId, setCookingSessions])
+
   return (
     <Card width={width} height={height} {...props} position='relative'>
       <FlexBox gap={4} my={4}>
@@ -36,7 +66,7 @@ export const AssetPerformanceCard = ({
           </Button>
         ))}{' '}
       </FlexBox>
-      <AssetPerformanceBarChart data={data} />
+      <AssetPerformanceBarChart data={cookingSessions} />
     </Card>
   )
 }

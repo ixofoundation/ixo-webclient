@@ -11,11 +11,12 @@ import { Tag } from 'components'
 import { getEntityIcon } from 'utils/getEntityIcon'
 
 interface Props extends HTMLFlexBoxProps {
-  collectionName: string
+  collectionName?: string | null
   entity: TEntityModel
   selected?: boolean
   isSelecting?: boolean
   accountTokens?: any
+  creator: string
 }
 
 const AssetCard: React.FC<Props> = ({
@@ -24,6 +25,7 @@ const AssetCard: React.FC<Props> = ({
   selected = false,
   isSelecting = false,
   accountTokens,
+  creator,
   ...rest
 }): JSX.Element | null => {
   const theme: any = useTheme()
@@ -86,14 +88,16 @@ const AssetCard: React.FC<Props> = ({
       </FlexBox>
       <FlexBox width='100%' direction='column' background={theme.ixoWhite} p={2}>
         <FlexBox width='100%'>
-          <Typography color='black' size='xs'></Typography>
+          <Typography color='black' size='xs'>
+            {creator}
+          </Typography>
         </FlexBox>
 
         <FlexBox direction='column' justifyContent='space-between' width='100%' height='100%' pt={2}>
           <FlexBox justifyContent='space-between' width='100%'>
             <FlexBox direction='column' justifyContent='center'>
               <Typography color='black' weight='bold' size='md' style={{ marginBottom: 4 }}>
-                {entity.profile?.name}
+                {entity.profile?.brand}
               </Typography>
               <Typography color='color-2' weight='normal' size='sm'>
                 {collectionName}
