@@ -27,6 +27,8 @@
 
 [build]
 command = "bash set-deploy-preview-env.sh && yarn build"
+functions = "functions"
+
 
 [[plugins]]
   package = "@netlify/plugin-lighthouse"

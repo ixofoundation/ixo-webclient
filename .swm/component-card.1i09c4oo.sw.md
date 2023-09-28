@@ -15,7 +15,7 @@ Form Card component used in creation flow (light mode)
 <!-- collapsed -->
 
 ```tsx
-11     const FormCard: React.FC<PropsWithChildren<FormCardProp>> = ({ preIcon, title, children }) => {
+11     export const FormCard: React.FC<PropsWithChildren<FormCardProp>> = ({ preIcon, title, children }) => {
 12       const theme: any = useTheme()
 13       return (
 14         <FlexBox

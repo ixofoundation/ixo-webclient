@@ -75,7 +75,7 @@ const TabsComponent: React.FunctionComponent<Props> = ({
                     className={button.linkClass ? button.linkClass : ''}
                     exact={matchType === MatchType.exact}
                     // strict={matchType === MatchType.strict}
-                    to={{ pathname: button.path }}
+                    to={{ pathname: button.path, search: button.search }}
                     key={index}
                   >
                     {button.iconClass && <i className={button.iconClass} />}
@@ -90,7 +90,7 @@ const TabsComponent: React.FunctionComponent<Props> = ({
                 className={button.linkClass ? button.linkClass : ''}
                 exact={matchType === MatchType.exact}
                 // strict={matchType === MatchType.strict}
-                to={{ pathname: button.path }}
+                to={{ pathname: button.path, search: button.search }}
                 key={index}
               >
                 {button.iconClass && <i className={button.iconClass} />}
@@ -105,7 +105,7 @@ const TabsComponent: React.FunctionComponent<Props> = ({
                   className='in-active'
                   exact={matchType === MatchType.exact}
                   strict={matchType === MatchType.strict}
-                  to={{ pathname: button.path }}
+                  to={{ pathname: button.path, search: button.search }}
                 >
                   {button.iconClass && <i className={button.iconClass} />}
                   {button.title && <p>{button.title}</p>}
@@ -120,7 +120,7 @@ const TabsComponent: React.FunctionComponent<Props> = ({
                     className={button.linkClass}
                     exact={matchType === MatchType.exact || button.path === '/'}
                     strict={matchType === MatchType.strict}
-                    to={{ pathname: button.path }}
+                    to={{ pathname: button.path, search: button.search }}
                   >
                     {button.iconClass && <i className={button.iconClass} />}
                     {button.title && <p>{button.title}</p>}
@@ -134,7 +134,7 @@ const TabsComponent: React.FunctionComponent<Props> = ({
                 className={button.linkClass}
                 exact={matchType === MatchType.exact}
                 strict={matchType === MatchType.strict}
-                to={{ pathname: button.path }}
+                to={{ pathname: button.path, search: button.search }}
                 key={index}
               >
                 {button.iconClass && <i className={button.iconClass} />}

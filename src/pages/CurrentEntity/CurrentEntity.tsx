@@ -1,34 +1,36 @@
-import { Spinner } from 'components/Spinner/Spinner'
-import useCurrentEntity from 'hooks/currentEntity'
 import React, { useEffect } from 'react'
-import { Redirect, Route, Switch, useParams } from 'react-router-dom'
+import { Redirect, Route, Switch, useLocation, useParams } from 'react-router-dom'
 import DashboardPage from './Dashboard/Dashboard'
 import OverviewPage from './Overview/Overview'
 import TreasuryPage from './Treasury/Treasury'
 import ProposalOverviewPage from './Proposal/Overview'
-import { useAppSelector } from 'redux/hooks'
-import { TEntityModel } from 'types/entities'
-import { selectEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import useCurrentEntity from 'hooks/currentEntity'
+import { Spinner } from 'components/Spinner/Spinner'
+import { useGetEntityById } from 'graphql/entities'
 
 const CurrentEntityPage: React.FC = (): JSX.Element => {
   const { entityId } = useParams<{ entityId: string }>()
-  const entity: TEntityModel | undefined = useAppSelector(selectEntityById(entityId))
   const { entityType, updateEntity, clearEntity } = useCurrentEntity()
+  const location = useLocation<{ collectionName: string }>()
 
+  console.log({ location })
+
+  const { data } = useGetEntityById(entityId)
   useEffect(() => {
-    if (entity) {
-      updateEntity(entity)
+    if (data) {
+      updateEntity(data)
     }
 
     return () => {
       clearEntity()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [entity])
+  }, [data])
 
   if (!entityType) {
     return <Spinner info='Loading Entity...' />
   }
+
   return (
     <Switch>
       <Route exact path='/entity/:entityId/overview' component={OverviewPage} />
@@ -36,7 +38,7 @@ const CurrentEntityPage: React.FC = (): JSX.Element => {
       <Route path='/entity/:entityId/treasury' component={TreasuryPage} />
       <Route path='/entity/:entityId/overview/proposal/:deedId' component={ProposalOverviewPage} />
       <Route exact path='/entity/:entityId'>
-        <Redirect to={`/entity/${entityId}/overview`} />
+        <Redirect to={`/entity/${entityId}/overview?collection=${location.state?.collectionName}`} />
       </Route>
     </Switch>
   )

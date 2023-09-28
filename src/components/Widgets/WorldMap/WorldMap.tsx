@@ -1,6 +1,6 @@
-import React from 'react'
 // @ts-ignore
-import { ComposableMap, ZoomableGroup, Geographies, Geography, Markers, Marker, Lines, Line } from 'react-simple-maps'
+import React from 'react'
+import { ComposableMap, ZoomableGroup, Geographies, Geography, Marker, Line } from 'react-simple-maps'
 import { MapWrapper, MobileSwipeIconWrapper } from './WorldMap.styles'
 import MobileSwipe from 'assets/icons/MobileSwipe'
 import { requireCheckDefault } from 'utils/images'
@@ -48,12 +48,12 @@ export class WorldMap extends React.Component<ParentProps> {
         >
           <ZoomableGroup zoom={3}>
             <Geographies geography={requireCheckDefault(require('data/maps/world-50m-simplified.json'))}>
+              {/* @ts-ignore */}
               {(geographies: any, projection: any): JSX.Element =>
                 geographies.map((geography: any, index: any) => (
                   <Geography
                     key={index}
                     geography={geography}
-                    projection={projection}
                     style={{
                       default: countryProps,
                       hover: countryProps,
@@ -63,18 +63,16 @@ export class WorldMap extends React.Component<ParentProps> {
                 ))
               }
             </Geographies>
-            <Markers style={{ outlineWidth: '0px' }}>
+            <Marker>
               {this.props.markers.map((value: LatLng, i: number) => {
                 return (
                   <Marker
                     key={i}
-                    marker={{ coordinates: [value[0], value[1]] }}
+                    coordinates={[value[0], value[1]]}
                     style={{
                       default: markerProps,
                       hover: markerProps,
                       pressed: markerProps,
-                      outline: 'none!important',
-                      outlineWidth: '0px',
                     }}
                   >
                     <circle cx={0} cy={0} r={3} filter='url(#glow)' />
@@ -93,10 +91,10 @@ export class WorldMap extends React.Component<ParentProps> {
                   </Marker>
                 )
               })}
-            </Markers>
-            <Lines>
+            </Marker>
+            <Line>
               <Line />
-            </Lines>
+            </Line>
           </ZoomableGroup>
         </ComposableMap>
         <MobileSwipeIconWrapper>

@@ -23,10 +23,15 @@ yarn-debug.log*
 yarn-error.log*
 
 .module-cache
-.env
+*.env
+.env*
 docker-compose.dev.yml
 package-lock.json
 
 /Windows Network
 
 /public/configs
+# Local Netlify folder
+.netlify
+
+src/generated
