@@ -1,7 +1,6 @@
 export * from './Button'
 export * from './Card'
 export * from './Tag'
-export * from './WorldMap'
 export * from './ActivityCard'
 export * from './AssetEventsTable'
 export * from './MapImage'
