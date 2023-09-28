@@ -55,7 +55,7 @@ export const useGetCreatorProfileWithVerifiableCredential = ({
 
   useEffect(() => {
     if (!profileUrl && data?.settings?.Profile?.serviceEndpoint && data?.service) {
-      const profileUrlResponse = serviceEndpointToUrl(data?.settings?.Profile?.serviceEndpoint, data?.service)
+      const profileUrlResponse = serviceEndpointToUrl(data.settings.Profile.serviceEndpoint, data.service)
       setProfileUrl(profileUrlResponse)
     }
   }, [profileUrl, setProfileUrl, data?.settings?.Profile?.serviceEndpoint, data?.service])
