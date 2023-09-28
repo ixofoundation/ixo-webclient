@@ -105,7 +105,7 @@ const OverviewHero: React.FunctionComponent<Props> = ({
     }
 
     return buttons
-  }, [title, entityId, entityType])
+  }, [title, entityId, entityType, search])
 
   const getFlagURL = (projectLocation: string): string => {
     if (location && availableFlags.availableFlags.includes(location)) {
