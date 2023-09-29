@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "generate": "graphql-codegen --config codegen.yml",
+    "generate": "graphql-codegen --require dotenv/config --config codegen.ts",
     "predev": "yarn generate",
     "dev": "craco start -h 0.0.0.0",
     "start": "yarn run build && serve -s build",
@@ -81,6 +81,7 @@
     "connected-react-router": "6.9.3",
     "debounce": "1.2.1",
     "detect-grid": "1.1.0",
+    "dotenv": "^16.3.1",
     "editorjs-drag-drop": "1.1.9",
     "editorjs-undo": "2.0.14",
     "graphql": "^16.6.0",
