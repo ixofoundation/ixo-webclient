@@ -1,5 +1,5 @@
-import { contracts, createSigningClient, customQueries, utils } from '@ixo/impactxclient-sdk'
-import { CheckIidDoc, RPC_ENDPOINT } from 'lib/protocol'
+import { contracts, createSigningClient, utils } from '@ixo/impactxclient-sdk'
+import { CheckIidDoc, GetTokenAsset, RPC_ENDPOINT } from 'lib/protocol'
 import { useAccount } from 'hooks/account'
 import { useEffect } from 'react'
 import { SigningCosmWasmClient, CosmWasmClient } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/cosmwasm-stargate'
@@ -75,9 +75,7 @@ const AccountUpdateService = (): JSX.Element | null => {
           /**
            * @description find token info from currency list via sdk
            */
-          const token = customQueries.currency.findTokenFromDenom(denom)
-
-          if (token) {
+          GetTokenAsset(denom).then((token) => {
             const displayAmount = convertMicroDenomToDenomWithDecimals(amount, token.coinDecimals).toString()
             const payload: NativeToken = {
               type: TokenType.Native,
@@ -88,7 +86,7 @@ const AccountUpdateService = (): JSX.Element | null => {
               decimals: token.coinDecimals,
             }
             updateNativeTokens({ [payload.denomOrAddress]: payload })
-          }
+          })
         })
       }
 
