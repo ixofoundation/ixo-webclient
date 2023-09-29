@@ -6,26 +6,26 @@ import TreasuryPage from './Treasury/Treasury'
 import ProposalOverviewPage from './Proposal/Overview'
 import useCurrentEntity from 'hooks/currentEntity'
 import { Spinner } from 'components/Spinner/Spinner'
-import { useGetEntityById } from 'graphql/entities'
+import { TEntityModel } from 'types/entities'
+import { useAppSelector } from 'redux/hooks'
+import { selectEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 const CurrentEntityPage: React.FC = (): JSX.Element => {
-  const { entityId } = useParams<{ entityId: string }>()
-  const { entityType, updateEntity, clearEntity } = useCurrentEntity()
   const location = useLocation<{ collectionName: string }>()
+  const { entityId } = useParams<{ entityId: string }>()
+  const entity: TEntityModel | undefined = useAppSelector(selectEntityById(entityId))
+  const { entityType, updateEntity, clearEntity } = useCurrentEntity()
 
-  console.log({ location })
-
-  const { data } = useGetEntityById(entityId)
   useEffect(() => {
-    if (data) {
-      updateEntity(data)
+    if (entity) {
+      updateEntity(entity)
     }
 
     return () => {
       clearEntity()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data])
+  }, [entity])
 
   if (!entityType) {
     return <Spinner info='Loading Entity...' />
