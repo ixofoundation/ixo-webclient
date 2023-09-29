@@ -3,6 +3,7 @@ import React, { useMemo } from 'react'
 import ClaimDashboard from './ClaimDashboard'
 import DAODashboard from './DAODashboard'
 import ProjectDashboard from './ProjectDashboard'
+import AssetDashboard from './AssetDashboard'
 
 const DashboardPage: React.FC = (): JSX.Element | null => {
   const currentEntity = useCurrentEntity()
@@ -16,6 +17,8 @@ const DashboardPage: React.FC = (): JSX.Element | null => {
         return DAODashboard
       case 'claim':
         return ClaimDashboard
+      case 'asset/device':
+        return AssetDashboard
       default:
         return undefined
     }

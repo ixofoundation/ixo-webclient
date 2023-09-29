@@ -34,9 +34,9 @@ import {
   selectEntityDAOGroups,
   selectEntityVerificationMethod,
   selectEntityController,
+  selectEntityStatus,
 } from 'redux/currentEntity/currentEntity.selectors'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
-import { BlockSyncService } from 'services/blocksync'
 import {
   TDAOGroupModel,
   TEntityAdministratorModel,
@@ -48,7 +48,6 @@ import {
   TEntityProfileModel,
 } from 'types/entities'
 import { getDaoContractInfo, thresholdToTQData } from 'utils/dao'
-import { apiEntityToEntity } from 'utils/entities'
 import { useAccount } from './account'
 import { Config as ProposalConfig } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/DaoPreProposeSingle.types'
@@ -56,11 +55,10 @@ import { depositInfoToCoin } from 'utils/conversions'
 import { EntityLinkedResourceConfig } from 'constants/entity'
 import { IMPACTS_DAO_ID } from 'constants/chains'
 
-const bsService = new BlockSyncService()
-
 export default function useCurrentEntity(): {
   id: string
   entityType: string
+  entityStatus: number
   currentEntity: TEntityModel
   linkedResource: LinkedResource[]
   linkedEntity: LinkedEntity[]
@@ -85,7 +83,6 @@ export default function useCurrentEntity(): {
   isImpactsDAO: boolean
   isMemberOfImpactsDAO: boolean
   isOwner: boolean
-  getEntityByDid: (did: string, force?: boolean) => Promise<boolean>
   clearEntity: () => void
   updateDAOGroup: (coreAddress: string) => Promise<void>
   selectDAOGroup: (coreAddress: string) => Promise<void>
@@ -96,6 +93,7 @@ export default function useCurrentEntity(): {
   const currentEntity: TEntityModel = useAppSelector(selectCurrentEntity)
   const id: string = useAppSelector(selectEntityId)!
   const entityType: string = useAppSelector(selectEntityType)!
+  const entityStatus: number = useAppSelector(selectEntityStatus)!
   const linkedResource: LinkedResource[] = useAppSelector(selectEntityLinkedResource)
   const linkedEntity: LinkedEntity[] = useAppSelector(selectEntityLinkedEntity)!
   const profile: TEntityProfileModel = useAppSelector(selectEntityProfile)!
@@ -138,26 +136,6 @@ export default function useCurrentEntity(): {
 
   const updateEntityResource = ({ key, data, merge }: { key: string; data: any; merge: boolean }) => {
     dispatch(updateEntityResourceAction({ key, data, merge }))
-  }
-
-  const getEntityByDid = async (did: string, force = false): Promise<boolean> => {
-    /**
-     * find entity in entities state and avoid refetch from api
-     */
-    if (did !== id || force) {
-      return await bsService.entity
-        .getEntityById(did)
-        .then((entity: any) => {
-          apiEntityToEntity({ entity, cwClient }, (key, data, merge = false) => {
-            updateEntityResource({ key, data, merge })
-          })
-
-          updateEntity(entity)
-          return true
-        })
-        .catch(() => false)
-    }
-    return true
   }
 
   const clearEntity = (): void => {
@@ -205,6 +183,7 @@ export default function useCurrentEntity(): {
   return {
     id,
     entityType,
+    entityStatus,
     currentEntity,
     linkedResource,
     linkedEntity,
@@ -229,7 +208,6 @@ export default function useCurrentEntity(): {
     isImpactsDAO,
     isMemberOfImpactsDAO,
     isOwner,
-    getEntityByDid,
     clearEntity,
     updateDAOGroup,
     selectDAOGroup,
@@ -283,6 +261,13 @@ export function useCurrentEntityTags(): {
   const sdgs = tags?.find(({ category }) => category === 'SDG')?.tags ?? []
 
   return { sdgs }
+}
+
+export function useCurrentEntityClaims() {
+  const claim: { [id: string]: TEntityClaimModel } = useAppSelector(selectEntityClaim)
+  const headlineClaim = Object.values(claim).find((v) => v.isHeadlineMetric)
+
+  return { claim, headlineClaim }
 }
 
 export function useCurrentEntityAdminAccount(): string {

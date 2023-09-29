@@ -16,9 +16,9 @@ type RenderSwapPanelProps = RenderSwapButtonProps &
     handleFromAmountChange: (value: string | BigNumber) => void
     setViewPairList: React.Dispatch<React.SetStateAction<'none' | 'from' | 'to'>>
     setFromTokenSelected: React.Dispatch<React.SetStateAction<boolean>>
-    handleToAmountChange: (value: any) => void
-    setFromToken: React.Dispatch<React.SetStateAction<AssetType | undefined>>
-    setToToken: React.Dispatch<React.SetStateAction<AssetType | undefined>>
+    handleToAmountChange?: (value: any) => void
+    setFromToken: (token: AssetType) => void
+    setToToken: (token: AssetType) => void
     fromToken?: AssetType
     fromTokenSelected: boolean
     fromUSDRate: number
@@ -86,6 +86,7 @@ const RenderSwapPanel = ({
           handleAmountChange={handleToAmountChange}
           handleAssetSelect={(): void => setViewPairList('to')}
           handleFocused={(): void => setFromTokenSelected(false)}
+          displayType='text'
         />
         <RenderSwapButton handleSwapClick={handleSwapClick} />
       </div>

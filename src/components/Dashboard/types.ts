@@ -13,4 +13,5 @@ export interface HeaderTab {
   path: string
   title?: string
   tooltip?: string
+  search?: string
 }

@@ -5,7 +5,6 @@ import { AccountActions, AccountActionTypes } from 'redux/account/account.types'
 export const initialState: EntitiesExplorerState = {
   selectedEntitiesType: 'project',
   entities: {},
-  collections: [],
   entityConfig: null,
   filter: {
     ddoTags: [],
@@ -17,7 +16,7 @@ export const initialState: EntitiesExplorerState = {
     itemOffset: 0, //  for pagination
     dateFrom: '',
     dateTo: '',
-    verified: true,
+    verified: false,
   },
 } as any
 
@@ -34,13 +33,16 @@ export const reducer = (
           itemOffset: 0,
         },
       }
-    case EntitiesExplorerActions.GetEntitiesSuccess:
+    case EntitiesExplorerActions.GetEntitiesFromGraphql:
       return {
         ...state,
         entities: { ...state.entities, ...Object.fromEntries(action.payload.map((entity) => [entity.id, entity])) },
       }
-    case EntitiesExplorerActions.GetCollectionsSuccess:
-      return { ...state, collections: action.payload }
+    case EntitiesExplorerActions.GetSpecificEntity: {
+      const { id } = action.payload
+      const entities = state.entities ? { ...state.entities } : {}
+      return { ...state, entities: { ...entities, [id]: action.payload } }
+    }
     case EntitiesExplorerActions.GetIndividualEntity: {
       const { id, key, data, merge } = action.payload
       const entities = state.entities ? { ...state.entities } : {}
@@ -50,10 +52,6 @@ export const reducer = (
         entities[id] = { ...(entities[id] || {}), [key]: data }
       }
       return { ...state, entities }
-    }
-    case EntitiesExplorerActions.UpdateEntityById: {
-      const { id } = action.payload
-      return { ...state, entities: { ...state.entities, [id]: { ...state.entities[id], ...action.payload } } }
     }
     case EntitiesExplorerActions.GetEntityConfigSuccess: {
       const entityConfig = action.payload

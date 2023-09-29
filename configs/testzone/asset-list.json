@@ -6,7 +6,7 @@
         "symbol": "IXO",
         "description": "The test token of the ixo Test Zone",
         "display": "ixo",
-        "entityId": "did:ixo:2SQ8YLqmbPAkEyd42sKXaY",
+        "entityId": "did:ixo:entity:366e24c64b793d8b750b1db1e87f3b09",
         "assetType": "coin",
         "base": "uixo",
         "denomUnits": [
@@ -109,57 +109,28 @@
         "coingeckoId": "ixo"
       },
       {
-        "symbol": "XUSD",
-        "description": "A Test Bond Token on the ixo Test Zone",
-        "display": "xusd",
-        "entityId": "did:ixo:Qysd94Mtr91Y2AzTd4pe1t",
-        "assetType": "bond",
-        "base": "xusd",
+        "symbol": "CARBON",
+        "description": "Impact Carbon Tokens",
+        "display": "CARBON",
+        "base": "carbon",
+        "entityId": "did:example:carbon",
+        "assetType": "nft",
+        "logoURIs": {
+          "png": "https://raw.githubusercontent.com/cosmos/chain-registry/master/carbon/images/usc.png",
+          "svg": "https://raw.githubusercontent.com/cosmos/chain-registry/master/carbon/images/usc.svg",
+          "zlottie": ""
+        },
         "denomUnits": [
           {
-            "denom": "xusd",
+            "denom": "CARBON",
             "exponent": 0,
             "aliases": []
           }
         ],
-        "logoURIs": {
-          "png": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/feature/exchange/src/assets/tokens/xusd.png",
-          "svg": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/feature/exchange/src/assets/tokens/xusd.svg",
-          "zlottie": ""
-        },
         "isStakeCurrency": "false",
         "isFeeCurrency": "false",
-        "isBondToken": "true",
-        "coingeckoId": "xusd"
-      },
-      {
-        "symbol": "OSMO",
-        "description": "The native token of Osmosis",
-        "display": "osmo",
-        "entityId": "did:ixo:WmhcC2tc59FoEVdopu1Q9j",
-        "assetType": "coin",
-        "base": "uosmo",
-        "denomUnits": [
-          {
-            "denom": "uosmo",
-            "exponent": 0,
-            "aliases": []
-          },
-          {
-            "denom": "osmo",
-            "exponent": 6,
-            "aliases": []
-          }
-        ],
-        "logoURIs": {
-          "png": "https://raw.githubusercontent.com/cosmos/chain-registry/master/osmosis/images/osmo.png",
-          "svg": "https://raw.githubusercontent.com/cosmos/chain-registry/master/osmosis/images/osmo.svg",
-          "zlottie": ""
-        },
-        "isStakeCurrency": "true",
-        "isFeeCurrency": "true",
         "isBondToken": "false",
-        "coingeckoId": "osmosis"
+        "contractAddress": "YOUR_IMPACT_TOKEN_CONTRACT_ADDRESS"
       }
     ]
   }

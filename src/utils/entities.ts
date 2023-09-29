@@ -21,7 +21,6 @@ import { CellnodePublicResource, CellnodeWeb3Resource } from '@ixo/impactxclient
 import Axios from 'axios'
 import { ApiListedEntityData } from 'api/blocksync/types/entities'
 import { get } from 'lodash'
-import { PageContent } from 'redux/selectedEntity/selectedEntity.types'
 
 export const getCountryCoordinates = (countryCodes: string[]): any[] => {
   const coordinates: any[] = []
@@ -142,160 +141,166 @@ export function serviceEndpointToUrl(serviceEndpoint: string, service: Service[]
 }
 
 export function apiEntityToEntity(
-  { entity, cwClient }: { entity: any; cwClient: CosmWasmClient },
+  { entity, cwClient }: { entity: any; cwClient?: CosmWasmClient },
   updateCallback: (key: string, value: any, merge?: boolean) => void,
 ): void {
-  const { type, settings, linkedResource, service, linkedEntity, linkedClaim } = entity
-  linkedResource.concat(Object.values(settings)).forEach((item: LinkedResource) => {
-    const url = serviceEndpointToUrl(item.serviceEndpoint, service)
+  try {
+    const { type, settings, linkedResource, service, linkedEntity, linkedClaim } = entity
+    linkedResource?.concat(Object.values(settings || {}))?.forEach((item: LinkedResource) => {
+      const url = serviceEndpointToUrl(item.serviceEndpoint, service)
 
-    if (item.proof && url) {
-      if (item.type === 'Settings' || item.type === 'VerifiableCredential') {
-        switch (item.id) {
-          case '{id}#profile': {
-            fetch(url)
-              .then((response) => response.json())
-              .then((response) => {
-                const context = response['@context']
-                let image: string = response.image
-                let logo: string = response.logo
+      if (item.proof && url) {
+        if (item.type === 'Settings' || item.type === 'VerifiableCredential') {
+          switch (item.id) {
+            case '{id}#profile': {
+              fetch(url)
+                .then((response) => response.json())
+                .then((response) => {
+                  const context = response['@context']
+                  let image: string = response.image
+                  let logo: string = response.logo
 
-                if (image && !image.startsWith('http')) {
-                  const [identifier] = image.split(':')
-                  let endpoint = ''
-                  context.forEach((item: any) => {
-                    if (typeof item === 'object' && identifier in item) {
-                      endpoint = item[identifier]
-                    }
-                  })
-                  image = image.replace(identifier + ':', endpoint)
-                }
-                if (logo && !logo.startsWith('http')) {
-                  const [identifier] = logo.split(':')
-                  let endpoint = ''
-                  context.forEach((item: any) => {
-                    if (typeof item === 'object' && identifier in item) {
-                      endpoint = item[identifier]
-                    }
-                  })
-                  logo = logo.replace(identifier + ':', endpoint)
-                }
-                return { ...response, image, logo }
-              })
-              .then((profile) => {
-                updateCallback('profile', profile)
-              })
-              .catch((e) => {
-                console.error(`Error Fetching Profile ${entity.id}`, e)
-                return undefined
-              })
-            break
+                  if (image && !image.startsWith('http')) {
+                    const [identifier] = image.split(':')
+                    let endpoint = ''
+                    context.forEach((item: any) => {
+                      if (typeof item === 'object' && identifier in item) {
+                        endpoint = item[identifier]
+                      }
+                    })
+                    image = image.replace(identifier + ':', endpoint)
+                  }
+                  if (logo && !logo.startsWith('http')) {
+                    const [identifier] = logo.split(':')
+                    let endpoint = ''
+                    context.forEach((item: any) => {
+                      if (typeof item === 'object' && identifier in item) {
+                        endpoint = item[identifier]
+                      }
+                    })
+                    logo = logo.replace(identifier + ':', endpoint)
+                  }
+                  return { ...response, image, logo }
+                })
+                .then((profile) => {
+                  updateCallback('profile', profile)
+                })
+                .catch((e) => {
+                  console.error(`Error Fetching Profile ${entity.id}`, e)
+                  return undefined
+                })
+              break
+            }
+            case '{id}#creator': {
+              fetch(url)
+                .then((response) => response.json())
+                .then((response) => response.credentialSubject)
+                .then((creator) => {
+                  updateCallback('creator', creator)
+                })
+                .catch(() => undefined)
+              break
+            }
+            case '{id}#administrator': {
+              fetch(url)
+                .then((response) => response.json())
+                .then((response) => response.credentialSubject)
+                .then((administrator) => {
+                  updateCallback('administrator', administrator)
+                })
+                .catch(() => undefined)
+              break
+            }
+            case '{id}#page': {
+              fetch(url)
+                .then((response) => response.json())
+                .then((response) => response.page)
+                .then((page) => {
+                  updateCallback('page', page)
+                })
+                .catch(() => undefined)
+              break
+            }
+            case '{id}#tags': {
+              fetch(url)
+                .then((response) => response.json())
+                .then((response) => response.entityTags ?? response.ddoTags)
+                .then((tags) => {
+                  updateCallback('tags', tags)
+                })
+                .catch(() => undefined)
+              break
+            }
+            default:
+              break
           }
-          case '{id}#creator': {
-            fetch(url)
-              .then((response) => response.json())
-              .then((response) => response.credentialSubject)
-              .then((creator) => {
-                updateCallback('creator', creator)
-              })
-              .catch(() => undefined)
-            break
-          }
-          case '{id}#administrator': {
-            fetch(url)
-              .then((response) => response.json())
-              .then((response) => response.credentialSubject)
-              .then((administrator) => {
-                updateCallback('administrator', administrator)
-              })
-              .catch(() => undefined)
-            break
-          }
-          case '{id}#page': {
-            fetch(url)
-              .then((response) => response.json())
-              .then((response) => response.page)
-              .then((page) => {
-                updateCallback('page', page)
-              })
-              .catch(() => undefined)
-            break
-          }
-          case '{id}#tags': {
-            fetch(url)
-              .then((response) => response.json())
-              .then((response) => response.entityTags ?? response.ddoTags)
-              .then((tags) => {
-                updateCallback('tags', tags)
-              })
-              .catch(() => undefined)
-            break
-          }
-          default:
-            break
+        } else if (item.type === 'Lottie') {
+          fetch(url)
+            .then((response) => response.json())
+            .then((token) => {
+              updateCallback('zlottie', token)
+            })
+            .catch(() => undefined)
+        } else if (item.type === 'TokenMetadata') {
+          fetch(url)
+            .then((response) => response.json())
+            .then((token) => {
+              updateCallback('token', token)
+            })
+            .catch(() => undefined)
+        } else if (item.type === 'ClaimSchema') {
+          //
+          fetch(url)
+            .then((response) => response.json())
+            .then((response) => response.question)
+            .then((question) => {
+              updateCallback('claimQuestion', question)
+            })
+            .catch(() => undefined)
         }
-      } else if (item.type === 'Lottie') {
+      }
+    })
+
+    linkedClaim.forEach((item: LinkedClaim) => {
+      const url = serviceEndpointToUrl(item.serviceEndpoint, service)
+
+      if (item.proof && url) {
         fetch(url)
           .then((response) => response.json())
-          .then((token) => {
-            updateCallback('zlottie', token)
+          .then((response) => {
+            return response.entityClaims[0]
           })
-          .catch(() => undefined)
-      } else if (item.type === 'TokenMetadata') {
-        fetch(url)
-          .then((response) => response.json())
-          .then((token) => {
-            updateCallback('token', token)
-          })
-          .catch(() => undefined)
-      } else if (item.type === 'ClaimSchema') {
-        //
-        fetch(url)
-          .then((response) => response.json())
-          .then((response) => response.question)
-          .then((question) => {
-            updateCallback('claimQuestion', question)
+          .then((claim) => {
+            updateCallback('claim', { [claim.id]: claim }, true)
           })
           .catch(() => undefined)
       }
-    }
-  })
+    })
 
-  linkedClaim.forEach((item: LinkedClaim) => {
-    const url = serviceEndpointToUrl(item.serviceEndpoint, service)
+    updateCallback('linkedResource', linkedResource)
+    updateCallback(
+      'service',
+      service.map((item: TEntityServiceModel) => ({ ...item, id: item.id.split('#').pop() })),
+    )
 
-    if (item.proof && url) {
-      fetch(url)
-        .then((response) => response.json())
-        .then((response) => response.entityClaims[0])
-        .then((claim) => {
-          updateCallback('claim', { [claim.id]: claim }, true)
+    /**
+     * @description entityType === dao
+     */
+    if (type === 'dao' && cwClient) {
+      linkedEntity
+        .filter((item: LinkedEntity) => item.type === 'Group')
+        .forEach((item: LinkedEntity) => {
+          const { id } = item
+          const [, coreAddress] = id.split('#')
+          getDaoContractInfo({ coreAddress, cwClient })
+            .then((response) => {
+              updateCallback('daoGroups', { [response.coreAddress]: response }, true)
+            })
+            .catch(console.error)
         })
-        .catch(() => undefined)
     }
-  })
-
-  updateCallback('linkedResource', linkedResource)
-  updateCallback(
-    'service',
-    service.map((item: TEntityServiceModel) => ({ ...item, id: item.id.split('#').pop() })),
-  )
-
-  /**
-   * @description entityType === dao
-   */
-  if (type === 'dao') {
-    linkedEntity
-      .filter((item: LinkedEntity) => item.type === 'Group')
-      .forEach((item: LinkedEntity) => {
-        const { id } = item
-        const [, coreAddress] = id.split('#')
-        getDaoContractInfo({ coreAddress, cwClient })
-          .then((response) => {
-            updateCallback('daoGroups', { [response.coreAddress]: response }, true)
-          })
-          .catch(console.error)
-      })
+  } catch (error) {
+    console.log('apiEntityToEntity error, ', error)
   }
 }
 
@@ -384,50 +389,6 @@ export const getBondDidFromApiListedEntityData = async (data: ApiListedEntityDat
   })
 }
 
-export const replaceLegacyPDSInEntity = (data: ApiListedEntityData): ApiListedEntityData => ({
-  ...data,
-  image: data.image?.replace('pds_pandora.ixo.world', 'cellnode-pandora.ixo.earth'),
-  logo: data.logo?.replace('pds_pandora.ixo.world', 'cellnode-pandora.ixo.earth'),
-  creator: {
-    ...data.creator,
-    logo: data.creator.logo?.replace('pds_pandora.ixo.world', 'cellnode-pandora.ixo.earth'),
-  },
-  owner: {
-    ...data.owner,
-    logo: data.owner.logo?.replace('pds_pandora.ixo.world', 'cellnode-pandora.ixo.earth'),
-  },
-})
-
-export const replaceLegacyPDSInPageContent = (content: PageContent): PageContent => {
-  const { header, body, images, profiles, social, embedded } = content
-
-  const newHeader = {
-    ...header,
-    image: header.image?.replace('pds_pandora.ixo.world', 'cellnode-pandora.ixo.earth'),
-    logo: header.logo?.replace('pds_pandora.ixo.world', 'cellnode-pandora.ixo.earth'),
-  }
-
-  const newBody = body.map((item) => ({
-    ...item,
-    image: item.image?.replace('pds_pandora.ixo.world', 'cellnode-pandora.ixo.earth'),
-  }))
-
-  const newImages = images.map((item) => ({
-    ...item,
-    image: item.image?.replace('pds_pandora.ixo.world', 'cellnode-pandora.ixo.earth'),
-  }))
-
-  const newProfiles = profiles.map((item) => ({
-    ...item,
-    image: item.image?.replace('pds_pandora.ixo.world', 'cellnode-pandora.ixo.earth'),
-  }))
-
-  return {
-    header: newHeader,
-    body: newBody,
-    images: newImages,
-    profiles: newProfiles,
-    social,
-    embedded,
-  }
+export default function getEntityAdmin(entity: TEntityModel) {
+  return entity.accounts.find((acc) => acc.name === 'admin')?.address
 }

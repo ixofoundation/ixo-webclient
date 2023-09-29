@@ -12,10 +12,11 @@ export interface ICardItems {
 interface Props {
   icon: JSX.Element
   title: string
+  columns: number
   items: ICardItems[]
 }
 
-const Card: React.FC<Props> = ({ icon, title, items }) => {
+const Card: React.FC<Props> = ({ icon, title, columns, items }) => {
   const theme: any = useTheme()
 
   return (
@@ -29,7 +30,7 @@ const Card: React.FC<Props> = ({ icon, title, items }) => {
         </Typography>
       </FlexBox>
 
-      <GridContainer width='100%' columns={2} gridGap={2}>
+      <GridContainer width='100%' columns={columns} gridGap={2}>
         {items.map((item, index) => (
           <FlexBox
             key={index}

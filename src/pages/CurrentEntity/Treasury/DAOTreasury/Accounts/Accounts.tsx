@@ -14,6 +14,8 @@ import { Button } from 'pages/CreateEntity/Components'
 import { Card } from 'pages/CurrentEntity/Components'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import CopyToClipboard from 'react-copy-to-clipboard'
+import { selectStakingGroups } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { useAppSelector } from 'redux/hooks'
 import { useTheme } from 'styled-components'
 import { TDAOGroupModel } from 'types/entities'
 import { determineChainFromAddress } from 'utils/account'
@@ -50,6 +52,7 @@ const Accounts: React.FC = () => {
   const expand: string | undefined = getQuery('expand')
   const { cwClient } = useAccount()
   const { accounts: entityAccounts, linkedAccounts, daoGroups } = useCurrentEntity()
+  const stakingGroups = useAppSelector(selectStakingGroups)
 
   const [accounts, setAccounts] = useState<{
     [address: string]: TTreasuryAccountModel
@@ -240,6 +243,46 @@ const Accounts: React.FC = () => {
     },
     [cwClient, daoGroups],
   )
+  const updateCw20TokenBalances = useCallback(
+    async (address): Promise<TTreasuryCoinModel[]> => {
+      const coins: TTreasuryCoinModel[] = (await Promise.all(
+        stakingGroups.map(async (stakingGroup: TDAOGroupModel) => {
+          const {
+            token,
+            votingModule: { votingModuleAddress },
+          } = stakingGroup
+
+          if (token) {
+            const daoVotingCw20StakedClient = new contracts.DaoVotingCw20Staked.DaoVotingCw20StakedQueryClient(
+              cwClient,
+              votingModuleAddress,
+            )
+            const tokenContract = await daoVotingCw20StakedClient.tokenContract()
+
+            const cw20BaseClient = new contracts.Cw20Base.Cw20BaseQueryClient(cwClient, tokenContract)
+            const { balance: microBalance } = await cw20BaseClient.balance({ address })
+            const balance = convertMicroDenomToDenomWithDecimals(microBalance, token.tokenInfo.decimals)
+            if (balance === 0) {
+              return undefined
+            }
+
+            const payload: TTreasuryCoinModel = {
+              address,
+              coinDenom: token.tokenInfo.symbol,
+              network: 'IXO',
+              balance: balance.toString(),
+              coinImageUrl: (token.marketingInfo?.logo !== 'embedded' && token.marketingInfo.logo?.url) || '',
+              lastPriceUsd: 0,
+            }
+            return payload
+          }
+          return undefined
+        }),
+      )) as TTreasuryCoinModel[]
+      return coins.filter(Boolean)
+    },
+    [cwClient, stakingGroups],
+  )
 
   useEffect(() => {
     Object.values(accounts).forEach((account) => {
@@ -254,6 +297,17 @@ const Accounts: React.FC = () => {
           ...v,
           [coin.address]: { ...v[coin.address], coins: { ...(v[coin.address]?.coins ?? {}), [coin.coinDenom]: coin } },
         }))
+      })
+      updateCw20TokenBalances(account.address).then((coins: TTreasuryCoinModel[]) => {
+        coins.forEach((coin) => {
+          setAccounts((v) => ({
+            ...v,
+            [coin.address]: {
+              ...v[coin.address],
+              coins: { ...(v[coin.address]?.coins ?? {}), [coin.coinDenom]: coin },
+            },
+          }))
+        })
       })
     })
     return () => {

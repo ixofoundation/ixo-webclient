@@ -9,9 +9,7 @@ import { useAccount } from 'hooks/account'
 import { useTheme } from 'styled-components'
 import { TEntityModel } from 'types/entities'
 import { thousandSeparator } from 'utils/formatters'
-import { BlockSyncService } from 'services/blocksync'
-
-const bsService = new BlockSyncService()
+import { useGetAccountTokens } from 'graphql/tokens'
 
 interface Props {
   collectionName: string
@@ -40,6 +38,9 @@ const AssetCard: React.FC<Props> = ({
   const tags = entity?.tags?.find(({ category }) => category === 'Asset Type')?.tags ?? []
 
   const adminAccount = useMemo(() => entity?.accounts?.find((v) => v.name === 'admin')?.address || '', [entity])
+
+  const { data: accountTokens } = useGetAccountTokens(adminAccount)
+
   const [produced, setProduced] = useState(0)
   const [claimable, setClaimable] = useState(0)
   const [retired, setRetired] = useState(0)
@@ -57,32 +58,28 @@ const AssetCard: React.FC<Props> = ({
   }, [_entity, cwClient])
 
   useEffect(() => {
-    if (adminAccount) {
-      bsService.token
-        .getTokenByAddress(adminAccount)
-        .then((response: any) => {
-          const carbon = response['CARBON']
-          const claimable = Object.values(carbon.tokens).reduce((acc: number, cur: any) => acc + cur.amount, 0)
-          const produced = Object.values(carbon.tokens).reduce((acc: number, cur: any) => acc + cur.minted, 0)
-          const retired = Object.values(carbon.tokens).reduce((acc: number, cur: any) => acc + cur.retired, 0)
+    if (accountTokens['CARBON']) {
+      const carbon = accountTokens['CARBON']
+      const claimable = Object.values(carbon.tokens).reduce((acc: number, cur: any) => acc + cur.amount, 0)
+      const produced = Object.values(carbon.tokens).reduce((acc: number, cur: any) => acc + cur.minted, 0)
+      const retired = Object.values(carbon.tokens).reduce((acc: number, cur: any) => acc + cur.retired, 0)
 
-          setProduced(produced)
-          setClaimable(claimable)
-          setRetired(retired)
-        })
-        .catch((e: any) => {
-          console.error('getTokenByAddress', e)
-        })
+      setProduced(produced)
+      setClaimable(claimable)
+      setRetired(retired)
       return () => {
         setProduced(0)
         setClaimable(0)
         setRetired(0)
       }
     }
-  }, [adminAccount])
+  }, [accountTokens])
 
   return (
-    <NavLink to={`/entity/${id}`} style={{ textDecoration: 'none' }}>
+    <NavLink
+      to={{ pathname: `/entity/${id}`, state: { collectionName: collectionName } }}
+      style={{ textDecoration: 'none' }}
+    >
       <FlexBox direction='column' width='100%' borderRadius={'10px'} overflow='hidden'>
         <FlexBox
           position='relative'

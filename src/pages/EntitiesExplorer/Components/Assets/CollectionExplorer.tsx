@@ -8,20 +8,21 @@ import CollectionMetadata from './CollectionMetadata'
 import Assets from './Assets'
 import { useMediaQuery } from 'react-responsive'
 import { deviceWidth } from 'constants/device'
-import { useAccount } from 'hooks/account'
 import { TEntityModel } from 'types/entities'
 import CollectionCard from './CollectionCard'
+import { useHistory } from 'react-router-dom'
+import { useGetAssetDevicesByCollectionId } from 'graphql/entities'
 
 interface Props {
   collection: any
-  entities: any[]
-  onBack: () => void
 }
 
 const CollectionExplorer: React.FC<Props> = (props) => {
   const isMobile = useMediaQuery({ maxWidth: deviceWidth.tablet })
   const isTablet = useMediaQuery({ minWidth: deviceWidth.tablet, maxWidth: deviceWidth.desktop })
-  const { cwClient } = useAccount()
+
+  const history = useHistory()
+  const { data: assetDevices } = useGetAssetDevicesByCollectionId(props.collection.id)
   const [collection, setCollection] = useState<TEntityModel>()
 
   const logo = collection?.token?.properties?.icon
@@ -31,13 +32,23 @@ const CollectionExplorer: React.FC<Props> = (props) => {
 
   useEffect(() => {
     setCollection(props.collection)
-    apiEntityToEntity({ entity: props.collection, cwClient }, (key, value) => {
+    apiEntityToEntity({ entity: props.collection }, (key, value) => {
       setCollection((collection: any) => ({ ...collection, [key]: value }))
     })
     return () => {
       setCollection(undefined)
     }
-  }, [props.collection, cwClient])
+  }, [props.collection])
+
+  const onBack = () => {
+    const pathname = history.location.pathname
+    const searchParams = new URLSearchParams(history.location.search)
+    searchParams.delete('collectionId')
+    history.push({
+      pathname: pathname,
+      search: searchParams.toString(),
+    })
+  }
 
   return (
     <FlexBox width='100%' direction='column' gap={8}>
@@ -72,7 +83,7 @@ const CollectionExplorer: React.FC<Props> = (props) => {
           <FlexBox width='100%' justifyContent='flex-end'>
             <Button
               variant='white'
-              onClick={props.onBack}
+              onClick={onBack}
               textSize='base'
               textTransform='capitalize'
               icon={<ArrowLeftIcon />}
@@ -91,7 +102,7 @@ const CollectionExplorer: React.FC<Props> = (props) => {
       <Assets
         collectionId={collectionId!}
         collectionName={collectionName!}
-        entities={props.entities.sort((a, b) => {
+        entities={[...assetDevices].sort((a: any, b: any) => {
           if (Number(a.alsoKnownAs.replace('{id}#', '')) > Number(b.alsoKnownAs.replace('{id}#', ''))) {
             return 1
           }

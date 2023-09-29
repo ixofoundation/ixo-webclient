@@ -17,7 +17,7 @@ import { requireCheckDefault } from 'utils/images'
 import { useEntityConfig } from 'hooks/configs'
 import { useMemo } from 'react'
 import { HeaderTab } from 'components/Dashboard/types'
-import { useParams } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom'
 import useCurrentEntity from 'hooks/currentEntity'
 import { MatchType } from 'types/models'
 
@@ -53,6 +53,7 @@ const OverviewHero: React.FunctionComponent<Props> = ({
   const { entityId } = useParams<{ entityId: string }>()
   const entityConfig = useEntityConfig()
   const currentEntity = useCurrentEntity()
+  const { search } = useLocation()
 
   const entityType = currentEntity.entityType.replace('protocol/', '')
   const title = entityConfig.title || toTitleCase(entityType.replace('protocol/', ''))
@@ -79,6 +80,7 @@ const OverviewHero: React.FunctionComponent<Props> = ({
       path: `/entity/${entityId}/dashboard`,
       title: 'DASHBOARD',
       tooltip: `${title} Management`,
+      search,
     })
 
     /**
@@ -103,7 +105,7 @@ const OverviewHero: React.FunctionComponent<Props> = ({
     }
 
     return buttons
-  }, [title, entityId, entityType])
+  }, [title, entityId, entityType, search])
 
   const getFlagURL = (projectLocation: string): string => {
     if (location && availableFlags.availableFlags.includes(location)) {

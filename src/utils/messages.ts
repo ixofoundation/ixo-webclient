@@ -150,6 +150,9 @@ export const typesRegistry = new Registry([
     ['/cosmos.crypto.ed25519.PubKey', PubKey],
     ['/ixo.iid.v1beta1.MsgAddLinkedEntity', ixo.iid.v1beta1.MsgAddLinkedEntity],
     ['/ixo.entity.v1beta1.MsgUpdateEntityVerified', ixo.entity.v1beta1.MsgUpdateEntityVerified],
+    ['/ixo.iid.v1beta1.MsgAddVerification', ixo.iid.v1beta1.MsgAddVerification],
+    ['/ixo.iid.v1beta1.MsgDeleteLinkedResource', ixo.iid.v1beta1.MsgDeleteLinkedResource],
+    ['/ixo.entity.v1beta1.MsgUpdateEntity', ixo.entity.v1beta1.MsgUpdateEntity],
   ] as ReadonlyArray<[string, GeneratedType]>),
 ])
 

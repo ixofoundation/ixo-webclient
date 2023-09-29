@@ -14,6 +14,7 @@ const Connect: React.FC<Props> = ({ widget }) => {
     <Card
       icon={<CommentIcon />}
       title='Connect'
+      columns={2}
       items={(widget?.controls ?? [])
         .filter((control) => control[`@type`] === 'External')
         .filter((control) => {

@@ -90,7 +90,9 @@ const IndividualMember: React.FC = () => {
             />
           </Card>
           {/* token && tokenDetail */}
-          {selectedDAOGroup.type === 'staking' && <AssetDetailCard show={token && tokenDetail} {...tokenDetail} />}
+          {selectedDAOGroup.type === 'staking' && (
+            <AssetDetailCard show={token && tokenDetail} {...tokenDetail} userAddress={address} />
+          )}
           {/* !expand && !token */}
           <GridContainer
             className={clxs({ 'd-none': expand || token })}

@@ -11,13 +11,16 @@ import {
   ReviewProposal,
 } from './Pages'
 import { useQuery } from 'hooks/window'
+import { useAppSelector } from 'redux/hooks'
+import { selectEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { TEntityModel } from 'types/entities'
 
 const CreateProposal: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): JSX.Element => {
   const { entityId, coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
   const { getQuery } = useQuery()
   const join = getQuery('join')
 
-  const { getEntityByDid } = useCurrentEntity()
+  const { updateEntity } = useCurrentEntity()
   const { daoGroup } = useCurrentEntityDAOGroup(coreAddress)
   const { name: entityName } = useCurrentEntityProfile()
   const { updateBreadCrumbs, updateEntityType, updateTitle, updateSubtitle } = useCreateEntityState()
@@ -27,6 +30,7 @@ const CreateProposal: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match })
   const isSetupPropertiesRoute = useRouteMatch('/create/entity/deed/:entityId/:coreAddress/property')
   const isSetupActionsRoute = useRouteMatch('/create/entity/deed/:entityId/:coreAddress/action')
   const isReviewRoute = useRouteMatch('/create/entity/deed/:entityId/:coreAddress/review')
+  const selectedEntity: TEntityModel | undefined = useAppSelector(selectEntityById(entityId))
 
   useEffect(() => {
     updateEntityType('deed')
@@ -76,9 +80,11 @@ const CreateProposal: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match })
   }, [isReviewRoute?.isExact])
 
   useEffect(() => {
-    getEntityByDid(entityId)
+    if (selectedEntity) {
+      updateEntity(selectedEntity)
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [entityId])
+  }, [selectedEntity])
 
   return (
     <>
