@@ -459,21 +459,21 @@ export const ProposalActionConfig = {
     id: 'groups',
     text: 'Groups',
     items: {
-      'AuthZ Exec': {
-        text: 'AuthZ Exec',
-        description: 'Perform an action on behalf of another account.',
-        icon: LockOnIcon,
-        in: ['dao_voting_cw20_staked', 'dao_voting_cw4'],
-        disabled: true,
-        setupModal: SetupAuthzExecModal,
-      },
       'AuthZ Grant / Revoke': {
         text: 'AuthZ Grant / Revoke',
         description: 'Grant / revoke authorisations that allow other accounts to perform actions on behalf of the DAO.',
         icon: AuthGrantIcon,
         in: ['dao_voting_cw20_staked', 'dao_voting_cw4'],
-        disabled: true,
+        disabled: false,
         setupModal: SetupAuthzGrantModal,
+      },
+      'AuthZ Exec': {
+        text: 'AuthZ Exec',
+        description: 'Perform an action on behalf of another account.',
+        icon: LockOnIcon,
+        in: ['dao_voting_cw20_staked', 'dao_voting_cw4'],
+        disabled: false,
+        setupModal: SetupAuthzExecModal,
       },
       'Change Group Membership': {
         text: 'Change Group Membership',
