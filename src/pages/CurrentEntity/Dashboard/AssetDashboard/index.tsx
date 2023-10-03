@@ -8,7 +8,6 @@ import { useGetEntityById } from 'graphql/entities'
 import { AssetCreditsCard, AssetEventsTable, AssetPerformanceCard, AssetStatsCard, Card, MapImage } from 'components'
 import { useEffect, useMemo, useState } from 'react'
 import { useGetAccountTokens } from 'graphql/tokens'
-import { TEntityModel } from 'types/entities'
 import { useAccount } from 'hooks/account'
 import { apiEntityToEntity } from 'utils/entities'
 import { useGetCreatorProfileWithVerifiableCredential } from 'utils/asset'
@@ -25,6 +24,20 @@ import {
 } from 'components/Icons'
 import { useLocation } from 'react-router-dom'
 
+const EmptyAssetCardData = {
+  type: '',
+  logo: '',
+  collectionName: '',
+  title: '',
+  cardImage: '',
+  creator: '',
+  tags: '',
+  animation: '',
+  assetNumber: '',
+  maxSupply: '',
+  accountTokens: {},
+}
+
 const AssetDashboard = () => {
   const currentEntity = useCurrentEntity()
   const entityType = currentEntity.entityType.replace('protocol/', '')
@@ -35,7 +48,7 @@ const AssetDashboard = () => {
   const { data } = useGetEntityById(currentEntity.id)
 
   const { cwClient } = useAccount()
-  const [entity, setEntity] = useState<TEntityModel>()
+  const [entity, setEntity] = useState<any>()
 
   const [cookStove, setCookStove] = useState<any>()
 
@@ -79,9 +92,37 @@ const AssetDashboard = () => {
   const did = _.get(currentEntity, 'id')
 
   const { profile } = useGetCreatorProfileWithVerifiableCredential({
-    endpoint: entity?.linkedResource?.find((item) => item.type === 'VerifiableCredential')?.serviceEndpoint || '',
+    endpoint: entity?.linkedResource?.find((item: any) => item.type === 'VerifiableCredential')?.serviceEndpoint || '',
     service: entity?.service || [],
   })
+
+  const inputAssetCardData = useMemo(() => {
+    if (entity) {
+      const {
+        settings: { Profile, Tags },
+        linkedResource,
+      } = entity
+      const {
+        data: { image, logo, type, brand, name },
+      } = Profile
+      const zLottie = linkedResource.find((resource: any) => resource.type === 'Lottie').data
+
+      return {
+        logo,
+        type: type.split(':')[1],
+        collectionName: collection,
+        title: brand,
+        cardImage: image,
+        creator: name,
+        tags: Tags.data.entityTags,
+        animation: zLottie,
+        assetNumber: '',
+        maxSupply: '',
+        accountTokens: {},
+      }
+    }
+    return EmptyAssetCardData
+  }, [entity, collection])
 
   return (
     <Dashboard
@@ -93,16 +134,7 @@ const AssetDashboard = () => {
       matchType={MatchType.strict}
     >
       <FlexBox height='300px' width='100%' gap={5}>
-        {entity && (
-          <AssetCard
-            collectionName={collection}
-            creator={profile?.name || ''}
-            entity={entity}
-            accountTokens={carbonTokens}
-            width='250px'
-            height='100%'
-          />
-        )}
+        {entity && <AssetCard {...inputAssetCardData} accountTokens={carbonTokens} width='250px' height='100%' />}
         <FlexBox flexGrow={1} height='100%' gap={5}>
           <AssetStatsCard
             title='Assets Stats'
