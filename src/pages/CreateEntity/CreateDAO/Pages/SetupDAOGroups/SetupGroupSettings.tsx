@@ -19,8 +19,6 @@ import {
   RenderActions,
 } from './SetupGroupSettingsComponents'
 
-const inputHeight = 48
-
 interface Props {
   daoGroup: TDAOGroupModel
   onBack?: () => void
@@ -182,24 +180,26 @@ const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JS
   return (
     <FlexBox width={'100%'} justifyContent='center'>
       <FlexBox direction='column' width={deviceWidth.tablet + 'px'}>
-        <RenderGroupIdentity setData={setData} data={data} inputHeight={inputHeight} />
-        {data.type === 'membership' && <GroupMemberships setData={setData} data={data} inputHeight={inputHeight} />}
-        {data.type === 'staking' && (
-          <Staking
-            setData={setData}
-            data={data}
-            inputHeight={inputHeight}
-            useExistingToken={useExistingToken}
-            setUseExistingToken={setUseExistingToken}
-          />
+        <RenderGroupIdentity setData={setData} data={data} />
+        {data.type === 'multisig' ? (
+          <RenderMultisigGroupMembership setData={setData} data={data} />
+        ) : (
+          <>
+            {data.type === 'membership' && <GroupMemberships setData={setData} data={data} />}
+            {data.type === 'staking' && (
+              <Staking
+                setData={setData}
+                data={data}
+                useExistingToken={useExistingToken}
+                setUseExistingToken={setUseExistingToken}
+              />
+            )}
+            {data.type === 'staking' && <UnstakingPeriod setData={setData} data={data} />}
+            {<VotingDuration setData={setData} data={data} />}
+            {<RenderAdvancedSwitch showAdvanced={showAdvanced} setShowAdvanced={setShowAdvanced} />}
+            {showAdvanced && <RenderAdvancedSettings setData={setData} data={data} />}
+          </>
         )}
-        {data.type === 'staking' && <UnstakingPeriod setData={setData} data={data} inputHeight={inputHeight} />}
-        {data.type === 'multisig' && (
-          <RenderMultisigGroupMembership setData={setData} data={data} inputHeight={inputHeight} />
-        )}
-        {<VotingDuration setData={setData} data={data} inputHeight={inputHeight} />}
-        {<RenderAdvancedSwitch showAdvanced={showAdvanced} setShowAdvanced={setShowAdvanced} />}
-        {showAdvanced && <RenderAdvancedSettings setData={setData} data={data} inputHeight={inputHeight} />}
         {
           <RenderActions
             errMsg={errMsg}

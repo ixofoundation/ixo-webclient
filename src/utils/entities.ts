@@ -296,7 +296,9 @@ export function apiEntityToEntity(
             .then((response) => {
               updateCallback('daoGroups', { [response.coreAddress]: response }, true)
             })
-            .catch(console.error)
+            .catch((e) => {
+              console.error('getDaoContractInfo', coreAddress, e)
+            })
         })
     }
   } catch (error) {
