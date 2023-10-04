@@ -50,6 +50,7 @@ export const initialProposalModule: TDAOGroupModel['proposalModule'] = {
 }
 
 export const initialMembers: TDAOGroupModel['votingModule']['members'] = [{ addr: '', weight: 1 }]
+export const initialMemberships: TDAOGroupModel['memberships'] = [{ members: [''], weight: 1 }]
 
 export const initialVotingModule: TDAOGroupModel['votingModule'] = {
   votingModuleAddress: '',
@@ -100,6 +101,31 @@ export const initialMembershipGroup: TDAOGroupModel = {
   memberships: [],
 }
 
+export const initialMultisigGroup: TDAOGroupModel = {
+  coreAddress: '',
+  type: 'multisig',
+  admin: '',
+  config: initialGroupConfig,
+  proposalModule: {
+    ...initialProposalModule,
+    proposalConfig: {
+      allow_revoting: true,
+      close_proposal_on_execution_failure: true,
+      dao: '',
+      max_voting_period: { time: 604800 },
+      only_members_execute: false,
+      threshold: {
+        absolute_count: {
+          threshold: '0',
+        },
+      },
+    },
+  },
+  votingModule: initialVotingModule,
+  token: undefined,
+  memberships: initialMemberships,
+}
+
 const SetupDAOGroups: React.FC = (): JSX.Element => {
   const { daoGroups, daoController, linkedEntity, updateDAOGroups, updateLinkedEntity, updateDAOController, gotoStep } =
     useCreateEntityState()
@@ -112,16 +138,28 @@ const SetupDAOGroups: React.FC = (): JSX.Element => {
 
   const handleAddGroup = (type: string): void => {
     const id = uuidv4()
-    if (type !== 'staking') {
-      updateDAOGroups({
-        ...daoGroups,
-        [id]: { id, ...initialMembershipGroup },
-      })
-    } else {
-      updateDAOGroups({
-        ...daoGroups,
-        [id]: { id, ...initialStakingGroup },
-      })
+
+    switch (type) {
+      case 'membership':
+        updateDAOGroups({
+          ...daoGroups,
+          [id]: { id, ...initialMembershipGroup },
+        })
+        break
+      case 'multisig':
+        updateDAOGroups({
+          ...daoGroups,
+          [id]: { id, ...initialMultisigGroup },
+        })
+        break
+      case 'staking':
+        updateDAOGroups({
+          ...daoGroups,
+          [id]: { id, ...initialStakingGroup },
+        })
+        break
+      default:
+        break
     }
 
     /**

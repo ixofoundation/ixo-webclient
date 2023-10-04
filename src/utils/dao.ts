@@ -11,7 +11,6 @@ import { UpdateProposalConfigData } from 'components/Modals/AddActionModal/Setup
 import { ProposalActionConfigMap } from 'constants/entity'
 import { chainNetwork } from 'hooks/configs'
 import { Member } from 'types/dao'
-import { sleep } from './common'
 import { durationToSeconds, expirationAtTimeToSecondsFromNow } from './conversions'
 import { decodeProtobufValue, parseEncodedMessage } from './messages'
 
@@ -74,7 +73,6 @@ export const getDaoContractInfo = async ({
   if (!cwClient) {
     throw new Error('')
   }
-  await sleep(500)
   let type = ''
   let token: any = undefined
   const daoCoreClient = new contracts.DaoCore.DaoCoreQueryClient(cwClient, coreAddress)

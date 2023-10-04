@@ -117,13 +117,13 @@ const App: React.FC = () => {
   useEffect(() => {
     if (cwClient && apiEntities.length > 0) {
       dispatch(getEntitiesFromGraphqlAction(apiEntities))
-
-      apiEntities.forEach((entity: any) => {
-        const { id } = entity
-        apiEntityToEntity({ entity, cwClient }, (key, data, merge = false) => {
-          dispatch(updateEntityPropertyAction(id, key, data, merge))
-        })
-      })
+      ;(async () => {
+        for (const entity of apiEntities) {
+          apiEntityToEntity({ entity, cwClient }, (key, data, merge = false) => {
+            dispatch(updateEntityPropertyAction(entity.id, key, data, merge))
+          })
+        }
+      })()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cwClient, apiEntities])
