@@ -8,8 +8,6 @@ app_version: 1.14.0
 This function appears to handle converting API responses related to an entity into a more suitable internal representation. (redux state)
 <!-- NOTE-swimm-snippet: the lines below link your snippet to Swimm -->
 ### 📄 src/utils/entities.ts
-<!-- collapsed -->
-
 ```typescript
 143    export function apiEntityToEntity(
 144      { entity, cwClient }: { entity: any; cwClient?: CosmWasmClient },
@@ -167,98 +165,15 @@ This function appears to handle converting API responses related to an entity in
 296                .then((response) => {
 297                  updateCallback('daoGroups', { [response.coreAddress]: response }, true)
 298                })
-299                .catch(console.error)
-300            })
-301        }
-302      } catch (error) {
-303        console.log('apiEntityToEntity error, ', error)
-304      }
-305    }
-306    
-307    export const LinkedResourceServiceEndpointGenerator = (
-308      uploadResult: CellnodePublicResource | CellnodeWeb3Resource,
-309      cellnodeService?: Service,
-310    ): string => {
-311      if (cellnodeService) {
-312        const serviceId = cellnodeService.id.replace('{id}#', '')
-313        const serviceType = cellnodeService.type
-314        if (serviceType === NodeType.Ipfs) {
-315          return `${serviceId}:${(uploadResult as CellnodeWeb3Resource).cid}`
-316        } else if (serviceType === NodeType.CellNode) {
-317          return `${serviceId}:/public/${(uploadResult as CellnodePublicResource).key}`
-318        }
-319      }
-320      return `ipfs:${(uploadResult as CellnodeWeb3Resource).cid}`
-321    }
-322    
-323    export const LinkedResourceProofGenerator = (
-324      uploadResult: CellnodePublicResource | CellnodeWeb3Resource,
-325      cellnodeService?: Service,
-326    ): string => {
-327      if (cellnodeService) {
-328        const serviceType = cellnodeService.type
-329        if (serviceType === NodeType.Ipfs) {
-330          return (uploadResult as CellnodeWeb3Resource).cid
-331        } else if (serviceType === NodeType.CellNode) {
-332          return (uploadResult as CellnodePublicResource).key
-333        }
-334      }
-335      return (uploadResult as CellnodeWeb3Resource).cid
-336    }
-337    
-338    export function findDAObyDelegateAccount(daos: TEntityModel[], addr: string): TEntityModel[] {
-339      return daos.filter((dao) => {
-340        const { linkedEntity } = dao
-341        return linkedEntity.some(
-342          (item) => item.id.includes(addr) && item.type === 'IndividualAccount' && item.relationship === 'delegate',
-343        )
-344      })
-345    }
-346    
-347    export const checkIsLaunchpadFromApiListedEntityData = (ddoTags: any[]): boolean => {
-348      return (
-349        (ddoTags
-350          .find((ddoTag) => ddoTag.category === 'Project Type' || ddoTag.name === 'Project Type')
-351          ?.tags.some((tag: any) => tag === 'Candidate') ||
-352          ddoTags
-353            .find((ddoTag) => ddoTag.category === 'Oracle Type' || ddoTag.name === 'Oracle Type')
-354            ?.tags.some((tag: any) => tag === 'Candidate')) &&
-355        ddoTags
-356          .find((ddoTag) => ddoTag.category === 'Stage' || ddoTag.name === 'Stage')
-357          ?.tags.some((tag: any) => tag === 'Selection')
-358      )
-359    }
-360    
-361    export const getBondDidFromApiListedEntityData = async (data: ApiListedEntityData): Promise<string> => {
-362      let alphaBonds: any[] = []
-363    
-364      if (data.funding) {
-365        // TODO: should be removed
-366        alphaBonds = data.funding.items.filter((elem) => elem['@type'] === FundSource.Alphabond)
-367      } else if (data.liquidity) {
-368        alphaBonds = data.liquidity.items.filter((elem) => elem['@type'] === LiquiditySource.Alphabond)
-369      }
-370    
-371      return Promise.all(
-372        alphaBonds.map((alphaBond) => {
-373          return Axios.get(`${process.env.REACT_APP_GAIA_URL}/bonds/${alphaBond.id}`, {
-374            transformResponse: [
-375              (response: string): any => {
-376                const parsedResponse = JSON.parse(response)
-377    
-378                return get(parsedResponse, 'result.value', parsedResponse)
-379              },
-380            ],
-381          })
-382        }),
-383      ).then((bondDetails) => {
-384        const bondToShow = bondDetails
-385          .map((bondDetail) => bondDetail.data)
-386          .find((bond) => bond.function_type !== 'swapper_function')
-387    
-388        return bondToShow?.bond_did ?? undefined
-389      })
-390    }
+299                .catch((e) => {
+300                  console.error('getDaoContractInfo', coreAddress, e)
+301                })
+302            })
+303        }
+304      } catch (error) {
+305        console.log('apiEntityToEntity error, ', error)
+306      }
+307    }
 ```
 
 <br/>
