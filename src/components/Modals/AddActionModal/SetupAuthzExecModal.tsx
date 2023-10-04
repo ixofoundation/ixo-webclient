@@ -5,11 +5,12 @@ import { Typography } from 'components/Typography'
 import { TProposalActionModel } from 'types/entities'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 import { isAccountAddress, isNonZeroBalance, validateJSON } from 'utils/validation'
-import { NATIVE_DENOM } from 'constants/chains'
+import { NATIVE_MICRODENOM } from 'constants/chains'
 import type { MsgWithdrawDelegatorReward } from 'cosmjs-types/cosmos/distribution/v1beta1/tx'
 import type { MsgBeginRedelegate, MsgDelegate, MsgUndelegate } from 'cosmjs-types/cosmos/staking/v1beta1/tx'
 import { TitleAndDescription } from './Component'
 import { useValidators } from 'hooks/validator'
+import { useIxoConfigs } from 'hooks/configs'
 
 export enum AuthzExecActionTypes {
   Delegate = '/cosmos.staking.v1beta1.MsgDelegate',
@@ -38,12 +39,12 @@ export interface AuthzExecData {
 const initialState: AuthzExecData = {
   authzExecActionType: AuthzExecActionTypes.Delegate,
   delegate: {
-    amount: { denom: NATIVE_DENOM, amount: '0' },
+    amount: { denom: NATIVE_MICRODENOM, amount: '0' },
     delegatorAddress: '',
     validatorAddress: '',
   },
   undelegate: {
-    amount: { denom: NATIVE_DENOM, amount: '0' },
+    amount: { denom: NATIVE_MICRODENOM, amount: '0' },
     delegatorAddress: '',
     validatorAddress: '',
   },
@@ -51,7 +52,7 @@ const initialState: AuthzExecData = {
     delegatorAddress: '',
     validatorSrcAddress: '',
     validatorDstAddress: '',
-    amount: { denom: NATIVE_DENOM, amount: '0' },
+    amount: { denom: NATIVE_MICRODENOM, amount: '0' },
   },
   claimRewards: {
     delegatorAddress: '',
@@ -69,6 +70,7 @@ interface Props {
 
 const SetupAuthzExecModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
   const { validators } = useValidators()
+  const { convertToDenom, convertToMinimalDenom } = useIxoConfigs()
   const [formData, setFormData] = useState<AuthzExecData>(initialState)
 
   const validate: boolean = useMemo(() => {
@@ -173,26 +175,37 @@ const SetupAuthzExecModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
           <Typography color='black' weight='medium' size='xl'>
             Choose Token Amount
           </Typography>
-          <FlexBox alignItems='center' gap={2} width='100%'>
-            <NumberCounter
-              direction={'row-reverse'}
-              height={inputHeight}
-              value={Number(delegate.amount?.amount)}
-              onChange={(value) =>
-                handleUpdateDelegateFormData('amount', { ...(delegate.amount ?? {}), amount: value.toString() })
-              }
-            />
-            {/* TODO: missing options */}
-            <Dropdown
-              name={'token'}
-              value={delegate.amount?.denom}
-              options={[{ value: delegate.amount?.denom ?? '', text: '$IXO' }]}
-              onChange={(e) =>
-                handleUpdateDelegateFormData('amount', { ...(delegate.amount ?? {}), denom: e.target.value })
-              }
-              style={{ textAlign: 'center', height: inputHeight }}
-            />
-          </FlexBox>
+
+          {delegate.amount && (
+            <FlexBox alignItems='center' gap={2} width='100%'>
+              <NumberCounter
+                direction={'row-reverse'}
+                height={inputHeight}
+                value={Number(convertToDenom(delegate.amount)?.amount || '0')}
+                onChange={(value) =>
+                  handleUpdateDelegateFormData('amount', {
+                    ...delegate.amount,
+                    amount: convertToMinimalDenom({
+                      amount: value.toString(),
+                      denom: delegate.amount ? convertToDenom(delegate.amount)?.denom ?? '' : '',
+                    })?.amount,
+                  })
+                }
+              />
+              <Dropdown
+                name={'token'}
+                value={delegate.amount.denom}
+                options={[
+                  {
+                    value: delegate.amount.denom,
+                    text: `$${(convertToDenom(delegate.amount)?.denom ?? '').toUpperCase()}`,
+                  },
+                ]}
+                onChange={(e) => handleUpdateDelegateFormData('amount', { ...delegate.amount, denom: e.target.value })}
+                style={{ textAlign: 'center', height: inputHeight }}
+              />
+            </FlexBox>
+          )}
         </FlexBox>
       </>
     )
