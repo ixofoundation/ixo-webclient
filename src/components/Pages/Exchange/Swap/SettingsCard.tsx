@@ -94,7 +94,7 @@ const SettingsCard: React.FC<Props> = ({ chainId, setChainId }): JSX.Element => 
 
   return (
     <SettingsCardWrapper>
-      {slippage && handleSlippageSelection && (
+      {slippage && (
         <SettingsCardOption>
           <SettingsCardOptionHeader onClick={(): void => toggleOption(1)}>
             <span>Max Slippage</span>
