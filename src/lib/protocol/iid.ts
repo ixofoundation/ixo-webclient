@@ -6,7 +6,7 @@ import { DeliverTxResponse } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/s
 import { EncodeObject } from '@cosmjs/proto-signing'
 import { Verification } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/tx'
 
-const { createRPCQueryClient } = ixo.ClientFactory
+const createRPCQueryClient = ixo.ClientFactory.createRPCQueryClient
 
 export const CreateIidDoc = async (
   client: SigningStargateClient,

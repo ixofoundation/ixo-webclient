@@ -927,9 +927,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
       name: config.name,
       proposal_modules_instantiate_info: [
         {
-          admin: {
-            core_module: {},
-          },
+          admin: { core_module: {} },
           code_id: daoProposalContractCode,
           label: `DAO_${config.name}_DaoProposalSingle`,
           msg: utils.conversions.jsonToBase64({
@@ -941,9 +939,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
             pre_propose_info: {
               module_may_propose: {
                 info: {
-                  admin: {
-                    core_module: {},
-                  },
+                  admin: { core_module: {} },
                   code_id: daoPreProposalContractCode,
                   label: `DAO_${config.name}_pre-propose-DaoProposalSingle`,
                   msg: utils.conversions.jsonToBase64({
