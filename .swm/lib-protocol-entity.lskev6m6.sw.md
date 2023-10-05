@@ -11,37 +11,39 @@ StargateSigning function for updating entity status, startDate, endDate, credent
 <!-- collapsed -->
 
 ```typescript
-177    export const UpdateEntity = async (
-178      client: SigningStargateClient,
-179      signer: TSigner,
-180      payload: Partial<MsgUpdateEntity>,
-181    ) => {
-182      const queryClient = await createQueryClient(RPC_ENDPOINT!)
-183      const entity = await queryClient.ixo.entity.v1beta1.entity({
-184        id: payload?.id || signer.address,
-185      })
-186      if (!entity.entity) {
-187        throw new Error('Entity not found')
-188      }
-189    
-190      const message = {
-191        typeUrl: '/ixo.entity.v1beta1.MsgUpdateEntity',
-192        value: ixo.entity.v1beta1.MsgUpdateEntity.fromPartial({
-193          id: payload?.id || signer.did,
-194          entityStatus: payload?.entityStatus === undefined ? entity.entity.status : payload?.entityStatus,
-195          startDate: payload?.startDate || entity.entity.startDate,
-196          endDate: payload?.endDate || entity.entity.endDate,
-197          credentials: payload?.credentials || entity.entity.credentials,
-198          controllerDid: signer.did,
-199          controllerAddress: signer.address,
-200        }),
-201      }
-202    
-203      console.log('UpdateEntity', { message })
-204      const response: DeliverTxResponse = await client.signAndBroadcast(signer.address, [message], fee)
-205      console.log('UpdateEntity', { response })
-206      return response
-207    }
+184    export const UpdateEntity = async (
+185      client: SigningStargateClient,
+186      signer: TSigner,
+187      payload: Partial<MsgUpdateEntity>,
+188    ) => {
+189      const queryClient = await createQueryClient(RPC_ENDPOINT!)
+190      await sleepByLimiter()
+191      const entity = await queryClient.ixo.entity.v1beta1.entity({
+192        id: payload?.id || signer.address,
+193      })
+194      if (!entity.entity) {
+195        throw new Error('Entity not found')
+196      }
+197    
+198      const message = {
+199        typeUrl: '/ixo.entity.v1beta1.MsgUpdateEntity',
+200        value: ixo.entity.v1beta1.MsgUpdateEntity.fromPartial({
+201          id: payload?.id || signer.did,
+202          entityStatus: payload?.entityStatus === undefined ? entity.entity.status : payload?.entityStatus,
+203          startDate: payload?.startDate || entity.entity.startDate,
+204          endDate: payload?.endDate || entity.entity.endDate,
+205          credentials: payload?.credentials || entity.entity.credentials,
+206          controllerDid: signer.did,
+207          controllerAddress: signer.address,
+208        }),
+209      }
+210    
+211      console.log('UpdateEntity', { message })
+212      await sleepByLimiter()
+213      const response: DeliverTxResponse = await client.signAndBroadcast(signer.address, [message], fee)
+214      console.log('UpdateEntity', { response })
+215      return response
+216    }
 ```
 
 <br/>
