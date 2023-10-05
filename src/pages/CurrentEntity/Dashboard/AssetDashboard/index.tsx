@@ -116,7 +116,7 @@ const AssetDashboard = () => {
       }
     }
     return EmptyAssetCardData
-  }, [entity, collection])
+  }, [entity, collection, assetNumber])
 
   return (
     <Dashboard
