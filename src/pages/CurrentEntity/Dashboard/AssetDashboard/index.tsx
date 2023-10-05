@@ -11,7 +11,7 @@ import { useGetAccountTokens } from 'graphql/tokens'
 import { useAccount } from 'hooks/account'
 import { apiEntityToEntity } from 'utils/entities'
 import { useGetCreatorProfileWithVerifiableCredential } from 'utils/asset'
-import { Message, useMessagesQuery } from 'generated/graphql'
+import { Entity, Message, useEntityQuery, useMessagesQuery } from 'generated/graphql'
 import { getCookStove } from 'api/netlify/getCookStove'
 import { Flex, Text } from '@mantine/core'
 import {
@@ -23,6 +23,7 @@ import {
   ImpactsCreditIcon,
 } from 'components/Icons'
 import { useLocation } from 'react-router-dom'
+import { transformEntity } from 'utils/transformEntity'
 
 const EmptyAssetCardData = {
   type: '',
@@ -45,24 +46,35 @@ const AssetDashboard = () => {
   const searchParams = new URLSearchParams(location.search)
   const collection = searchParams.get('collection')
 
-  const { data } = useGetEntityById(currentEntity.id)
+  const { data } = useEntityQuery({
+    variables: { id: currentEntity.id },
+    onCompleted: (data) => {
+      transformEntity(data?.entity as Entity).then((entity) => setEntity(entity))
+    },
+  })
 
-  const { cwClient } = useAccount()
   const [entity, setEntity] = useState<any>()
 
   const [cookStove, setCookStove] = useState<any>()
 
-  const adminAccount = useMemo(() => data?.accounts?.find((v: any) => v.name === 'admin')?.address || '', [data])
+  const adminAccount = useMemo(
+    () => data?.entity?.accounts?.find((v: any) => v.name === 'admin')?.address || '',
+    [data],
+  )
 
   const { data: accountTokens } = useGetAccountTokens(adminAccount)
 
   const { data: messagesData } = useMessagesQuery({
-    variables: { first: 10, filter: { value: { contains: { id: data.id } } } },
+    variables: { first: 10, filter: { value: { contains: { id: data?.entity?.id } } } },
   })
 
   useEffect(() => {
-    getCookStove(data.externalId).then((response) => setCookStove(response.data))
-  }, [data.externalId])
+    if (data?.entity?.externalId) {
+      getCookStove(data?.entity?.externalId)
+        .then(({ data }) => setCookStove(data))
+        .catch(console.log)
+    }
+  }, [data?.entity?.externalId])
 
   const carbonTokens = useMemo(() => {
     if (accountTokens['CARBON']) {
@@ -76,19 +88,7 @@ const AssetDashboard = () => {
     return { retired: 0, produced: 0, claimable: 0 }
   }, [accountTokens])
 
-  useEffect(() => {
-    if (data) {
-      setEntity(data)
-      apiEntityToEntity({ entity: data, cwClient }, (key, value) => {
-        setEntity((entity: any) => ({ ...entity, [key]: value }))
-      })
-    }
-    return () => {
-      setEntity(undefined)
-    }
-  }, [data, cwClient])
-
-  const assetNumber = _.get(currentEntity, 'currentEntity.alsoKnownAs').replace('{id}', '')
+  const assetNumber = _.get(currentEntity, 'currentEntity.alsoKnownAs').replace('{id}#', '')
   const did = _.get(currentEntity, 'id')
 
   const { profile } = useGetCreatorProfileWithVerifiableCredential({
@@ -102,21 +102,18 @@ const AssetDashboard = () => {
         settings: { Profile, Tags },
         linkedResource,
       } = entity
-      const {
-        data: { image, logo, type, brand, name },
-      } = Profile
-      const zLottie = linkedResource.find((resource: any) => resource.type === 'Lottie').data
+      const zLottie = linkedResource?.find((resource: any) => resource.type === 'Lottie').data
 
       return {
-        logo,
-        type: type.split(':')[1],
+        logo: Profile?.data?.logo,
+        type: Profile?.type.split(':')[1] ?? '',
         collectionName: collection,
-        title: brand,
-        cardImage: image,
-        creator: name,
-        tags: Tags.data.entityTags,
+        title: Profile?.data?.brand,
+        cardImage: Profile?.data?.image,
+        creator: Profile?.data?.name,
+        tags: Tags?.data?.entityTags ?? [],
         animation: zLottie,
-        assetNumber: '',
+        assetNumber: assetNumber,
         maxSupply: '',
         accountTokens: {},
       }
@@ -127,7 +124,7 @@ const AssetDashboard = () => {
   return (
     <Dashboard
       theme={'dark'}
-      title={`SupaMoto ${assetNumber}`}
+      title={`SupaMoto #${assetNumber}`}
       subRoutes={[]}
       baseRoutes={[]}
       entityType={entityType}
@@ -152,9 +149,9 @@ const AssetDashboard = () => {
           />
         </FlexBox>
       </FlexBox>
-      <FlexBox height='400px' py={5}>
+      <FlexBox height='420px' py={5}>
         <AssetPerformanceCard
-          externalId={data.externalId}
+          externalId={data?.entity?.externalId ?? ''}
           title='Asset Performance'
           icon={<AssetPerformanceIcon transform='scale(1.4)' />}
         />

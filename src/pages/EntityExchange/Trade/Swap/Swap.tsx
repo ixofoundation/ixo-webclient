@@ -24,6 +24,7 @@ import AssetCard from 'components/AssetCard'
 import { Flex } from '@mantine/core'
 import { useGetAccountTokens } from 'graphql/tokens'
 import { useTheme } from 'styled-components'
+import { useMediaQuery } from '@mantine/hooks'
 
 const EmptyAssetCardData = {
   type: '',
@@ -48,6 +49,7 @@ const Swap: React.FunctionComponent = () => {
   const inputAssetEntity = useAppSelector(selectInputEntity)
   const outputAssetEntity = useAppSelector(selectOutputEntity)
   const dispatch = useAppDispatch()
+  const isSmallScreen = useMediaQuery('(max-width: 1024px)')
 
   const [viewSettings, setViewSettings] = useState(false)
   const [openTransactionModal, setOpenTransactionModal] = useState(false)
@@ -214,19 +216,19 @@ const Swap: React.FunctionComponent = () => {
     return { retired: 0, produced: 0, claimable: 0 }
   }, [accountTokens])
 
-  const hasInputData = Boolean(inputAssetCardData && inputAssetCardData.type)
-  const hasOutputData = Boolean(outputAssetCardData && outputAssetCardData.type)
+  const hasInputData = Boolean(inputAssetCardData.type.length > 0)
+  const hasOutputData = Boolean(outputAssetCardData.type.length > 0)
 
   return (
     <Flex w='100%' bg={theme.ixoDarkestBlue}>
       {selectedAccountAddress && (
         <Flex align='center' justify={hasInputData ? 'flex-start' : 'center'} w='100%'>
-          <Flex h='300px' mx={30}>
-            {hasInputData && (
+          <Flex h='300px' mx={30} w={isSmallScreen ? '10%' : '30%'} justify='flex-end'>
+            {!isSmallScreen && hasInputData && (
               <AssetCard {...inputAssetCardData} accountTokens={carbonTokens} width='250px' height='100%' />
             )}
           </Flex>
-          <TradePanel>
+          <TradePanel width={isSmallScreen ? '100%' : '40%'}>
             {!viewSettings &&
               (viewPairList === 'none' ? (
                 <RenderSwapPanel
@@ -286,8 +288,8 @@ const Swap: React.FunctionComponent = () => {
               />
             )}
           </TradePanel>
-          <Flex h='300px' mx={30}>
-            {hasOutputData && (
+          <Flex h='300px' mx={30} w={isSmallScreen ? '10%' : '30%'} justify='flex-start'>
+            {!isSmallScreen && hasOutputData && (
               <AssetCard {...outputAssetCardData} accountTokens={carbonTokens} width='250px' height='100%' />
             )}
           </Flex>

@@ -59,6 +59,32 @@ const resolveFields = (data: Record<string, any>, fields: string[], context: any
   return inputObject
 }
 
+const getAccountsRestGQLQuery = async (address: string) => {
+  const requestBody = {
+    query: `
+          query GetAccountTokens($address: String!) {
+            getAccountTokens(address: $address)
+          }
+        `,
+    variables: {
+      address,
+    },
+  }
+
+  return await fetch(process.env.REACT_APP_BLOCK_SYNC_GRAPHQL as string, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(requestBody),
+  })
+    .then((response) => response.json())
+    .catch((error) => {
+      // Handle any errors that occur during the fetch
+      console.error('Error:', error)
+    })
+}
+
 const tranformSettings = async (settings: Entity['settings'], services: Service[]) => {
   try {
     if (!settings) return
@@ -86,6 +112,19 @@ const tranformSettings = async (settings: Entity['settings'], services: Service[
   }
 }
 
+const transformAccounts = async (accounts: any[]) => {
+  const accountsWithData = []
+
+  if (accounts?.length > 0) {
+    for (const account of accounts) {
+      const response = await getAccountsRestGQLQuery(account.address)
+      accountsWithData.push({ ...account, data: response?.data?.getAccountTokens })
+    }
+  }
+
+  return accountsWithData
+}
+
 const transformLinkedResources = async (resources: any[], service: Service[]) => {
   try {
     return await Promise.all(
@@ -109,8 +148,9 @@ export const transformEntity = async (entity: Entity) => {
     const transformedPromises = [
       tranformSettings(entity?.settings, services),
       transformLinkedResources(entity?.linkedResource, services),
+      transformAccounts(entity?.accounts),
     ]
-    const [settings, linkedResource] = await Promise.all(transformedPromises)
+    const [settings, linkedResource, accounts] = await Promise.all(transformedPromises)
 
     if (settings) {
       entity = { ...entity, settings }
@@ -118,6 +158,10 @@ export const transformEntity = async (entity: Entity) => {
 
     if (linkedResource) {
       entity = { ...entity, linkedResource }
+    }
+
+    if (accounts) {
+      entity = { ...entity, accounts }
     }
 
     return { ...entity }

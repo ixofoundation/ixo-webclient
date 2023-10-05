@@ -70,6 +70,10 @@ export const selectEntityService = createSelector(selectCurrentEntity, (entity: 
   return entity.service
 })
 
+export const selectEntitySettings = createSelector(selectCurrentEntity, (entity: any): any => {
+  return entity.settings
+})
+
 export const selectEntityClaim = createSelector(
   selectCurrentEntity,
   (entity: TEntityModel): { [id: string]: TEntityClaimModel } => {

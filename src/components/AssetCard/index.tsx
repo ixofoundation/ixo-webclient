@@ -59,7 +59,7 @@ const AssetCard: React.FC<Props> = ({
               ?.find(({ category }: any) => category === 'Asset Type')
               ?.tags?.map((tag: any) => (
                 <FlexBox
-                  zIndex={9999}
+                  zIndex={9}
                   key={`${tag}`}
                   background={'#20798C'}
                   borderRadius={'100px'}

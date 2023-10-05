@@ -1,0 +1,3 @@
+query GetAccountTokens($address: String!, $name: String) {
+  getAccountTokens(address: $address, name: $name)
+}
