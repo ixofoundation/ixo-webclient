@@ -87,6 +87,7 @@
     "graphql": "^16.6.0",
     "javascript-time-ago": "^2.5.9",
     "js-base64": "3.7.3",
+    "limiter": "^2.1.0",
     "lodash": "4.17.21",
     "moment": "2.29.4",
     "qrcode": "1.5.1",
