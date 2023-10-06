@@ -51,7 +51,7 @@
     "@editorjs/simple-image": "1.4.1",
     "@editorjs/table": "2.1.0",
     "@editorjs/warning": "1.2.0",
-    "@gssuper/cosmodal": "^0.0.14",
+    "@gssuper/cosmodal": "^0.0.15",
     "@ixo/cosmos-chain-resolver": "^0.0.4",
     "@ixo/impactxclient-sdk": "^1.1.13",
     "@ixo/ixo-apimodule": "1.0.9",
