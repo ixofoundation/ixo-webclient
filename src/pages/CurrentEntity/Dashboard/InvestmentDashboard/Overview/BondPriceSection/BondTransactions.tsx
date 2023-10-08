@@ -77,7 +77,6 @@ const BondTransactions: React.FC<Props> = ({ bondDid }) => {
   const theme: any = useTheme()
   const { convertToDenom } = useIxoConfigs()
   const { data: bondTransactions } = useGetBondTransactions(bondDid)
-  console.log({ bondTransactions })
 
   const columns = useMemo(
     () => [

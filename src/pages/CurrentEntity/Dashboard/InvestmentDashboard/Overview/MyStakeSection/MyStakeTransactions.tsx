@@ -79,7 +79,6 @@ const MyStakeTransactions: React.FC<Props> = ({ bondDid }) => {
   const { convertToDenom } = useIxoConfigs()
   const { did: accountDid } = useAccount()
   const { data: bondTransactions } = useGetBondTransactions(bondDid, accountDid)
-  console.log({ bondTransactions })
 
   const columns = useMemo(
     () => [

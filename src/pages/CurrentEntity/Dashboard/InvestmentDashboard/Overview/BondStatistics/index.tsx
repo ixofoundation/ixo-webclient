@@ -22,7 +22,6 @@ const BondStatistics: React.FC<Props> = ({ bondDid }) => {
   const theme: any = useTheme()
   const history = useHistory()
   const { data: bondDetail } = useGetBondDid(bondDid)
-  console.log({ bondDetail })
   const { convertToDenom } = useIxoConfigs()
   const { balances } = useAccount()
 

@@ -71,7 +71,6 @@ interface Props {
 
 const AlphaHistory: React.FC<Props> = ({ bondDid }) => {
   const { data: alphas } = useGetBondAlphas(bondDid)
-  console.log({ alphas })
 
   const columns = useMemo(
     () => [

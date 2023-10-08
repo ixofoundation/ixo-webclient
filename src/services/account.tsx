@@ -76,6 +76,9 @@ const AccountUpdateService = (): JSX.Element | null => {
            * @description find token info from currency list via sdk
            */
           GetTokenAsset(denom).then((token) => {
+            if (!token) {
+              return
+            }
             const displayAmount = convertMicroDenomToDenomWithDecimals(amount, token.coinDecimals).toString()
             const payload: NativeToken = {
               type: TokenType.Native,

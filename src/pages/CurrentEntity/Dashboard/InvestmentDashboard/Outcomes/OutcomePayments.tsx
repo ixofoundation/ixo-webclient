@@ -1,13 +1,13 @@
+import { FlexBox, SvgBox } from 'components/App/App.styles'
+import { Typography } from 'components/Typography'
+import moment from 'moment'
 import React, { useMemo } from 'react'
 import styled, { useTheme } from 'styled-components'
 import { Table } from 'components/Table'
+import { useGetBondOutcomePayments } from 'graphql/bonds'
 import { useIxoConfigs } from 'hooks/configs'
-import moment from 'moment'
 import { ReactComponent as EyeIcon } from 'assets/images/icon-eye.svg'
-import { FlexBox, SvgBox } from 'components/App/App.styles'
-import { Typography } from 'components/Typography'
-import { useGetBondWithdrawals } from 'graphql/bonds'
-import { useAccount } from 'hooks/account'
+import { truncateString } from 'utils/formatters'
 
 const TableWrapper = styled(FlexBox)`
   color: white;
@@ -72,11 +72,10 @@ interface Props {
   bondDid: string
 }
 
-const ReserveWithdrawals: React.FC<Props> = ({ bondDid }) => {
+const OutcomePayments: React.FC<Props> = ({ bondDid }) => {
   const theme: any = useTheme()
   const { convertToDenom } = useIxoConfigs()
-  const { did: accountDid } = useAccount()
-  const { data: withdrawals } = useGetBondWithdrawals(bondDid, accountDid)
+  const { data: outcomePayments } = useGetBondOutcomePayments(bondDid)
 
   const columns = useMemo(
     () => [
@@ -89,7 +88,9 @@ const ReserveWithdrawals: React.FC<Props> = ({ bondDid }) => {
           const time = moment(timestamp).format('hh:mm')
           return (
             <FlexBox direction='column' gap={1} p={4}>
-              <Typography size='lg'>{date}</Typography>
+              <Typography size='lg' noWrap>
+                {date}
+              </Typography>
               <Typography size='sm' color='light-blue'>
                 {time}
               </Typography>
@@ -98,49 +99,45 @@ const ReserveWithdrawals: React.FC<Props> = ({ bondDid }) => {
         },
       },
       {
+        Header: renderTableHeader('Status'),
+        accessor: 'status',
+        renderCell: (cell: any) => {
+          return (
+            <FlexBox direction='column' p={4}>
+              <Typography size='lg'>{'Open'}</Typography>
+            </FlexBox>
+          )
+        },
+      },
+      {
         Header: renderTableHeader('Type'),
         accessor: 'type',
         renderCell: (cell: any) => {
-          const type = cell.value
-          let color: any = undefined
-
-          switch (type) {
-            case 'reserve':
-              color = 'green'
-              break
-            case 'share':
-              color = 'red'
-              break
-            default:
-              break
-          }
           return (
             <FlexBox direction='column' p={4}>
-              <Typography size='base' transform='capitalize' weight='bold' {...(color ? { color } : [])}>
-                {cell.value}
-              </Typography>
+              <Typography size='lg'>{'Success Fee'}</Typography>
             </FlexBox>
           )
         },
       },
       {
-        Header: renderTableHeader('Purpose'),
-        accessor: 'purpose',
+        Header: renderTableHeader('Payor'),
+        accessor: 'senderAddress',
         renderCell: (cell: any) => {
           return (
             <FlexBox direction='column' p={4}>
-              <Typography size='lg'>{cell.value}</Typography>
+              <Typography size='lg'>{truncateString(cell.value, 20)}</Typography>
             </FlexBox>
           )
         },
       },
       {
-        Header: renderTableHeader('Description'),
-        accessor: 'description',
+        Header: renderTableHeader('Conditions'),
+        accessor: 'condition',
         renderCell: (cell: any) => {
           return (
             <FlexBox direction='column' p={4}>
-              <Typography size='lg'>{cell.value}</Typography>
+              <Typography size='lg'>{'(Target A > 90%) AND (Target B > 50%)'}</Typography>
             </FlexBox>
           )
         },
@@ -187,10 +184,6 @@ const ReserveWithdrawals: React.FC<Props> = ({ bondDid }) => {
     [convertToDenom, theme],
   )
 
-  const onRowClick = (state: any) => () => {
-    console.log('onRowClick', { state })
-  }
-
   return (
     <TableWrapper
       width='100%'
@@ -203,14 +196,14 @@ const ReserveWithdrawals: React.FC<Props> = ({ bondDid }) => {
     >
       <Table
         columns={columns}
-        data={withdrawals}
+        data={outcomePayments}
         getRowProps={(state) => ({
           style: { height: 70, cursor: 'pointer' },
-          onClick: onRowClick(state),
+          // onClick: onRowClick(state),
         })}
         getCellProps={() => ({ style: { background: '#023044' } })}
       />
-      {withdrawals.length === 0 && (
+      {outcomePayments.length === 0 && (
         <FlexBox
           width='100%'
           height='80px'
@@ -220,7 +213,7 @@ const ReserveWithdrawals: React.FC<Props> = ({ bondDid }) => {
           background='#053549'
         >
           <Typography variant='primary' size='lg' color='dark-blue'>
-            No Withdrawals
+            No Outcome payment histories
           </Typography>
         </FlexBox>
       )}
@@ -228,4 +221,4 @@ const ReserveWithdrawals: React.FC<Props> = ({ bondDid }) => {
   )
 }
 
-export default ReserveWithdrawals
+export default OutcomePayments

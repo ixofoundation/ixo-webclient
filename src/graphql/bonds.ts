@@ -40,6 +40,7 @@ export function useGetBondDid(bondDid: string | undefined) {
   const { loading, error, data, refetch } = useQuery(GET_BOND_DID, {
     variables: { bondDid },
     skip: !bondDid,
+    pollInterval: 1000 * 5,
   })
   return { loading, error, data: data?.bond, refetch }
 }
@@ -77,6 +78,7 @@ export function useGetBondTransactions(bondDid: string, accountDid?: string | nu
   const { loading, error, data, refetch } = useQuery(GET_BOND_BUYSELL_TRANSACTIONS, {
     variables: { bondDid, accountDid },
     skip: !bondDid,
+    pollInterval: 1000 * 5,
   })
   return {
     loading,
@@ -131,6 +133,7 @@ export function useGetBondWithdrawals(bondDid: string, accountDid: string) {
   const { loading, error, data, refetch } = useQuery(GET_BOND_WITHDRAWALS, {
     variables: { bondDid, accountDid },
     skip: !bondDid || !accountDid,
+    pollInterval: 1000 * 5,
   })
   return {
     loading,
@@ -181,11 +184,50 @@ export function useGetBondAlphas(bondDid: string) {
   const { loading, error, data, refetch } = useQuery(GET_BOND_ALPHAS, {
     variables: { bondDid },
     skip: !bondDid,
+    pollInterval: 1000 * 5,
   })
   return {
     loading,
     error,
     data: (data?.bondAlphas.nodes ?? []).sort((a: any, b: any) => {
+      const timestampA = new Date(a.timestamp).getTime()
+      const timestampB = new Date(b.timestamp).getTime()
+      if (timestampA < timestampB) {
+        return 1
+      }
+      return -1
+    }),
+    refetch,
+  }
+}
+
+// GET_BOND_ALPHAS
+const GET_BOND_OUTCOMEPAYMENTS = gql`
+  query GetOutcomePayments($bondDid: String) {
+    outcomePayments(filter: { bondDid: { equalTo: $bondDid } }) {
+      nodes {
+        amount
+        bondDid
+        height
+        id
+        nodeId
+        senderDid
+        senderAddress
+        timestamp
+      }
+    }
+  }
+`
+export function useGetBondOutcomePayments(bondDid: string) {
+  const { loading, error, data, refetch } = useQuery(GET_BOND_OUTCOMEPAYMENTS, {
+    variables: { bondDid },
+    skip: !bondDid,
+    pollInterval: 1000 * 5,
+  })
+  return {
+    loading,
+    error,
+    data: (data?.outcomePayments.nodes ?? []).sort((a: any, b: any) => {
       const timestampA = new Date(a.timestamp).getTime()
       const timestampB = new Date(b.timestamp).getTime()
       if (timestampA < timestampB) {

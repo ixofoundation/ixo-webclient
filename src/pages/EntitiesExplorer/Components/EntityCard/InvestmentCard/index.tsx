@@ -1,7 +1,6 @@
 import { FlexBox } from 'components/App/App.styles'
 import { ProgressBar } from 'components/ProgressBar/ProgressBar'
 import { Typography } from 'components/Typography'
-import { useGetBondDid } from 'graphql/bonds'
 import moment from 'moment'
 import { Avatar } from 'pages/CurrentEntity/Components'
 import React from 'react'
@@ -20,9 +19,7 @@ const InvestmentCard: React.FC<TEntityModel & { to?: string }> = (entity) => {
   const numOfInvestors = 0
   const bondDid = entity.linkedEntity.find((v) => v.type === 'bond')?.id
 
-  const { data: bondDetail } = useGetBondDid(bondDid!)
-
-  console.log({ bondDetail })
+  console.log({ id, bondDid })
 
   return (
     <NavLink to={{ pathname: entity.to || `/entity/${id}/overview` }} style={{ textDecoration: 'none' }}>

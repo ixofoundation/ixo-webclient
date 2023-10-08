@@ -32,8 +32,8 @@ const InvestmentDashboard: React.FC = (): JSX.Element => {
     {
       url: `/entity/${entityId}/dashboard/outcomes`,
       icon: requireCheckDefault(require('assets/img/sidebar/outcomes.svg')),
-      sdg: 'Outcome Targets',
-      tooltip: 'Outcome Targets',
+      sdg: 'Outcomes',
+      tooltip: 'Outcomes',
       strict: true,
     },
     {
