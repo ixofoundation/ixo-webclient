@@ -24,7 +24,11 @@ const SetupInfo: React.FC = (): JSX.Element => {
   const canContinue = name && description
 
   const onBack = () => {
-    history.push(`/create/entity/deed/${entityId}/${coreAddress}/select${history.location.search}`)
+    if (join) {
+      history.push(`/create/entity/deed/${entityId}/${coreAddress}/select${history.location.search}`)
+    } else {
+      history.push(`/entity/${entityId}/dashboard/governance`)
+    }
   }
   const onContinue = () => {
     if (name && description) {

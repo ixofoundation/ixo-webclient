@@ -76,20 +76,17 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
   )
 
   const renderCards = (data: any): JSX.Element[] => {
-    return (
-      data &&
-      data
-        .map((entity: TEntityModel, index: any) => {
-          return (
-            EntityCard[props.type.startsWith('protocol/') ? 'protocol' : props.type] &&
-            React.createElement(EntityCard[props.type], {
-              ...entity,
-              key: index,
-            })
-          )
-        })
-        .filter(Boolean)
-    )
+    return data
+      ?.map((entity: TEntityModel, index: number) => {
+        return (
+          EntityCard[props.type.startsWith('protocol/') ? 'protocol' : props.type] &&
+          React.createElement(EntityCard[props.type], {
+            ...entity,
+            key: `card-${index}`,
+          })
+        )
+      })
+      .filter(Boolean)
   }
 
   const renderEntities = (): JSX.Element => {

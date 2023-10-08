@@ -42,6 +42,8 @@ import type {
 } from '@ixo/impactxclient-sdk/types/codegen/DaoPreProposeSingle.types'
 import { PercentageThreshold } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalCondorcet.types'
 
+const inputHeight = 48
+
 type RenderActionsProps = {
   errMsg: string
   onBack?: () => void
@@ -68,11 +70,9 @@ export const RenderActions = ({ errMsg, onBack, submitting, handleSubmit, valid 
   )
 }
 
-type RenderGroupIdentityProps = DataStateProps & {
-  inputHeight: number | string
-}
+type RenderGroupIdentityProps = DataStateProps
 
-export const RenderGroupIdentity = ({ inputHeight, data, setData }: RenderGroupIdentityProps): JSX.Element => {
+export const RenderGroupIdentity = ({ data, setData }: RenderGroupIdentityProps): JSX.Element => {
   return (
     <CardWrapper direction='column' gap={5} marginBottom={7}>
       <FlexBox gap={2} alignItems='center'>
@@ -110,7 +110,7 @@ type DataStateProps = {
   data: TDAOGroupModel
 }
 
-export const GroupMemberships = ({ setData, data, inputHeight }: RenderGroupIdentityProps): JSX.Element => {
+export const GroupMemberships = ({ setData, data }: RenderGroupIdentityProps): JSX.Element => {
   const initialMembership = { category: '', weight: 1, members: [] }
   // TODO: properly type theme
   const theme: any = useTheme()
@@ -313,8 +313,7 @@ export const Staking = ({
   setData,
   useExistingToken,
   setUseExistingToken,
-  inputHeight,
-}: DataStateProps & UseExistingTokenProps & { inputHeight: RenderGroupIdentityProps['inputHeight'] }): JSX.Element => {
+}: DataStateProps & UseExistingTokenProps): JSX.Element => {
   const theme: any = useTheme()
 
   if (!data.token) {
@@ -703,11 +702,7 @@ export const Staking = ({
 //  * @type multisig
 //  * @returns
 //  */
-export const RenderMultisigGroupMembership = ({
-  setData,
-  data,
-  inputHeight,
-}: DataStateProps & { inputHeight: RenderGroupIdentityProps['inputHeight'] }): JSX.Element => {
+export const RenderMultisigGroupMembership = ({ setData, data }: DataStateProps): JSX.Element => {
   const theme: any = useTheme()
   const handleUpdateMembership = (membershipIdx: number, key: string, value: any): void => {
     setData((pre) => ({
@@ -764,7 +759,7 @@ export const RenderMultisigGroupMembership = ({
             Members
           </Typography>
           <FlexBox direction='column' gap={4} width='100%'>
-            {(data.memberships ?? [])[0].members.map((member, memberIdx) => (
+            {(data.memberships ?? [])[0]?.members.map((member, memberIdx) => (
               <FlexBox key={memberIdx} alignItems='center' gap={4} width='100%'>
                 <InputWithLabel
                   height={inputHeight + 'px'}
@@ -807,13 +802,8 @@ export const RenderMultisigGroupMembership = ({
             label='Minimum Number of Signatories'
             height={inputHeight + 'px'}
             inputValue={
-              Number(
-                (
-                  data.proposalModule.proposalConfig.threshold as {
-                    absolute_count: { threshold: string }
-                  }
-                ).absolute_count.threshold,
-              ) * 100
+              (data.proposalModule.proposalConfig.threshold as { absolute_count: { threshold: string } }).absolute_count
+                .threshold
             }
             handleChange={(value) =>
               value <= ((data.memberships ?? [])[0].members.filter(Boolean).length ?? 0) &&
@@ -825,7 +815,7 @@ export const RenderMultisigGroupMembership = ({
                     ...v.proposalModule.proposalConfig,
                     threshold: {
                       ...v.proposalModule.proposalConfig.threshold,
-                      absolute_count: { threshold: (value / 100).toString() },
+                      absolute_count: { threshold: value.toString() },
                     },
                   },
                 },
@@ -834,18 +824,14 @@ export const RenderMultisigGroupMembership = ({
             width='50%'
           />
           <Typography size='xl'>
-            of {(data.memberships ?? [])[0].members.filter(Boolean).length ?? 0} accounts
+            of {(data.memberships ?? [])[0]?.members.filter(Boolean).length ?? 0} accounts
           </Typography>
         </FlexBox>
       </CardWrapper>
     </FlexBox>
   )
 }
-export const UnstakingPeriod = ({
-  data,
-  setData,
-  inputHeight,
-}: DataStateProps & { inputHeight: RenderGroupIdentityProps['inputHeight'] }): JSX.Element => {
+export const UnstakingPeriod = ({ data, setData }: DataStateProps): JSX.Element => {
   const [unstakingDurationAmount, setUnstakingDurationAmount] = useState(2)
   const [unstakingDurationUnits, setUnstakingDurationUnits] = useState<DurationUnits>(DurationUnits.Weeks)
 
@@ -915,11 +901,7 @@ export const UnstakingPeriod = ({
     </CardWrapper>
   )
 }
-export const VotingDuration = ({
-  data,
-  setData,
-  inputHeight,
-}: DataStateProps & { inputHeight: RenderGroupIdentityProps['inputHeight'] }): JSX.Element => {
+export const VotingDuration = ({ data, setData }: DataStateProps): JSX.Element => {
   const [proposalDurationAmount, setProposalDurationAmount] = useState(1)
   const [proposalDurationUnits, setProposalDurationUnits] = useState<DurationUnits>(DurationUnits.Weeks)
 
@@ -997,7 +979,7 @@ export const RenderAdvancedSwitch = ({ showAdvanced, setShowAdvanced }: RenderAd
     </FlexBox>
   )
 }
-export const RenderAdvancedSettings = ({ setData, data, inputHeight }: RenderGroupIdentityProps): JSX.Element => {
+export const RenderAdvancedSettings = ({ setData, data }: RenderGroupIdentityProps): JSX.Element => {
   return (
     <FlexBox direction='column' gap={7}>
       {/* Allow Vote Switching */}

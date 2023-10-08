@@ -19,6 +19,7 @@ import {
   FilterItemOffsetAction,
   GetEntitiesFromGraphqlAction,
   GetIndividualEntityAction,
+  GetSpecificEntityAction,
 } from './entitiesExplorer.types'
 import { RootState } from 'redux/store'
 import { SchemaGitUrl } from 'constants/chains'
@@ -28,6 +29,11 @@ import { TEntityDDOTagModel, TEntityModel } from 'types/entities'
 export const getEntitiesFromGraphqlAction = (entities: TEntityModel[]): GetEntitiesFromGraphqlAction => ({
   type: EntitiesExplorerActions.GetEntitiesFromGraphql,
   payload: entities,
+})
+
+export const updateEntityAction = (entity: TEntityModel): GetSpecificEntityAction => ({
+  type: EntitiesExplorerActions.GetSpecificEntity,
+  payload: entity,
 })
 
 export const updateEntityPropertyAction = (

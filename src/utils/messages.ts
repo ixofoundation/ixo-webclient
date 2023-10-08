@@ -160,7 +160,6 @@ export const typesRegistry = new Registry([
 // array.
 export const encodeProtobufValue = (typeUrl: string, value: any): Uint8Array => {
   const type = typesRegistry.lookupType(typeUrl)
-  console.log({ typeUrl, typesRegistry })
   if (!type) {
     throw new Error(`Type ${typeUrl} not found in registry.`)
   }

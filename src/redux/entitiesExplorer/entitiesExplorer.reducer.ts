@@ -38,6 +38,11 @@ export const reducer = (
         ...state,
         entities: { ...state.entities, ...Object.fromEntries(action.payload.map((entity) => [entity.id, entity])) },
       }
+    case EntitiesExplorerActions.GetSpecificEntity: {
+      const { id } = action.payload
+      const entities = state.entities ? { ...state.entities } : {}
+      return { ...state, entities: { ...entities, [id]: action.payload } }
+    }
     case EntitiesExplorerActions.GetIndividualEntity: {
       const { id, key, data, merge } = action.payload
       const entities = state.entities ? { ...state.entities } : {}

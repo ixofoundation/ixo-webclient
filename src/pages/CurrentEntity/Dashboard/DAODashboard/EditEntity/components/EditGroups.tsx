@@ -32,12 +32,26 @@ const EditGroups: React.FC = (): JSX.Element => {
   }
 
   const updateDAOController = (id: string) => {
-    setEditedField(
-      'verificationMethod',
-      editEntity.verificationMethod.map((v) =>
-        v.id.includes('{id}#') ? { ...v, id: `{id}#${id}`, blockchainAccountID: id } : v,
-      ),
-    )
+    if (daoController) {
+      // update daoController
+      setEditedField(
+        'verificationMethod',
+        editEntity.verificationMethod.map((v) =>
+          v.id.includes('{id}#') ? { ...v, id: `{id}#${id}`, blockchainAccountID: id } : v,
+        ),
+      )
+    } else {
+      // add new daoController
+      setEditedField('verificationMethod', [
+        ...editEntity.verificationMethod,
+        {
+          id: `{id}#${id}`,
+          type: 'CosmosAccountAddress',
+          controller: '{id}',
+          blockchainAccountID: id,
+        },
+      ])
+    }
   }
 
   const updateLinkedEntity = (linkedEntity: { [id: string]: LinkedEntity }) => {

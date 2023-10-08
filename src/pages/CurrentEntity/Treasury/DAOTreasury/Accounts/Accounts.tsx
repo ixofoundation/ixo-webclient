@@ -9,18 +9,20 @@ import { useAccount } from 'hooks/account'
 import { IxoCoinCodexRelayerApi } from 'hooks/configs'
 import useCurrentEntity from 'hooks/currentEntity'
 import { useQuery } from 'hooks/window'
-import { GetBalances } from 'lib/protocol'
+import { GetBalances, GetTokenAsset } from 'lib/protocol'
 import { Button } from 'pages/CreateEntity/Components'
 import { Card } from 'pages/CurrentEntity/Components'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import CopyToClipboard from 'react-copy-to-clipboard'
+import { selectStakingGroups } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { useAppSelector } from 'redux/hooks'
 import { useTheme } from 'styled-components'
 import { TDAOGroupModel } from 'types/entities'
 import { determineChainFromAddress } from 'utils/account'
 import { convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
 import { getDisplayAmount } from 'utils/currency'
 import { truncateString } from 'utils/formatters'
-import { errorToast, successToast } from 'utils/toast'
+import { successToast } from 'utils/toast'
 import { Coins } from '../../Components/Coins'
 import { Collections } from '../../Components/Collections'
 import { ImpactTokens } from '../../Components/ImpactTokens'
@@ -50,6 +52,7 @@ const Accounts: React.FC = () => {
   const expand: string | undefined = getQuery('expand')
   const { cwClient } = useAccount()
   const { accounts: entityAccounts, linkedAccounts, daoGroups } = useCurrentEntity()
+  const stakingGroups = useAppSelector(selectStakingGroups)
 
   const [accounts, setAccounts] = useState<{
     [address: string]: TTreasuryAccountModel
@@ -154,106 +157,106 @@ const Accounts: React.FC = () => {
     }
   }, [linkedAccounts])
 
-  const updateNativeTokenBalance = useCallback(async (address: string): Promise<TTreasuryCoinModel> => {
-    return new Promise((resolve, reject) => {
-      if (!address) {
-        reject()
-        return
-      }
-      determineChainFromAddress(address).then((chainInfo) => {
-        const { rpc } = chainInfo
+  const updateNativeTokenBalances = useCallback(async (address: string): Promise<TTreasuryCoinModel[]> => {
+    if (!address) {
+      return []
+    }
+    const { rpc } = await determineChainFromAddress(address)
 
-        GetBalances(address, rpc)
-          .then((balances) => {
-            balances.forEach(({ amount, denom }) => {
-              /**
-               * @description find token info from currency list via sdk
-               */
-              const token = customQueries.currency.findTokenFromDenom(denom)
+    const balances = await GetBalances(address, rpc)
 
-              if (token) {
-                customQueries.currency
-                  .findTokenInfoFromDenom(token.coinMinimalDenom, true, IxoCoinCodexRelayerApi)
-                  .then((response) => {
-                    if (!response) {
-                      throw new Error('Not found')
-                    }
-                    const { coinName, lastPriceUsd } = response
-                    const payload = {
-                      address,
-                      balance: getDisplayAmount(amount, token.coinDecimals),
-                      network: `${coinName.toUpperCase()}`,
-                      coinDenom: token.coinDenom,
-                      coinImageUrl: token.coinImageUrl!,
-                      lastPriceUsd,
-                    }
-                    resolve(payload)
-                  })
-                  .catch((e) => {
-                    console.error(e)
-                    reject()
-                  })
-              }
-            })
-          })
-          .catch((e) => {
-            errorToast('Error', e.toString())
-            reject()
-          })
-      })
-    })
+    const coins: TTreasuryCoinModel[] = (await Promise.all(
+      await balances
+        .map(async ({ amount, denom }) => {
+          const token = await GetTokenAsset(denom)
+          const tokenInfo = await customQueries.currency.findTokenInfoFromDenom(
+            token.coinMinimalDenom,
+            true,
+            IxoCoinCodexRelayerApi,
+          )
+          if (!tokenInfo) {
+            return undefined
+          }
+          const { coinName, lastPriceUsd } = tokenInfo
+          const payload = {
+            address,
+            balance: getDisplayAmount(amount, token.coinDecimals),
+            network: `${coinName.toUpperCase()}`,
+            coinDenom: token.coinDenom,
+            coinImageUrl: token.coinImageUrl!,
+            lastPriceUsd,
+          }
+          return payload
+        })
+        .filter((v) => v !== undefined),
+    )) as TTreasuryCoinModel[]
+    return coins
   }, [])
 
-  const updateCw20TokenBalance = useCallback(
-    async (address): Promise<TTreasuryCoinModel> => {
-      const daoGroup = daoGroups[address]
-      const type = daoGroup?.type
-      const votingModuleAddress = daoGroup?.votingModule.votingModuleAddress
+  const updateCw20TokenBalances = useCallback(
+    async (address): Promise<TTreasuryCoinModel[]> => {
+      const coins: TTreasuryCoinModel[] = (await Promise.all(
+        stakingGroups.map(async (stakingGroup: TDAOGroupModel) => {
+          const {
+            token,
+            votingModule: { votingModuleAddress },
+          } = stakingGroup
 
-      if (type === 'membership' || !votingModuleAddress) {
-        throw new Error('')
-      }
-      const daoVotingCw20StakedClient = new contracts.DaoVotingCw20Staked.DaoVotingCw20StakedQueryClient(
-        cwClient,
-        votingModuleAddress,
-      )
+          if (token) {
+            const daoVotingCw20StakedClient = new contracts.DaoVotingCw20Staked.DaoVotingCw20StakedQueryClient(
+              cwClient,
+              votingModuleAddress,
+            )
+            const tokenContract = await daoVotingCw20StakedClient.tokenContract()
 
-      const tokenContract = await daoVotingCw20StakedClient.tokenContract()
-      const cw20BaseClient = new contracts.Cw20Base.Cw20BaseQueryClient(cwClient, tokenContract)
-      const tokenInfo = await cw20BaseClient.tokenInfo()
-      const marketingInfo = await cw20BaseClient.marketingInfo()
-      const { balance: microTotalLockedValue } = await cw20BaseClient.balance({ address })
-      const totalLockedValue = convertMicroDenomToDenomWithDecimals(
-        microTotalLockedValue,
-        tokenInfo.decimals,
-      ).toString()
+            const cw20BaseClient = new contracts.Cw20Base.Cw20BaseQueryClient(cwClient, tokenContract)
+            const { balance: microBalance } = await cw20BaseClient.balance({ address })
+            const balance = convertMicroDenomToDenomWithDecimals(microBalance, token.tokenInfo.decimals)
+            if (balance === 0) {
+              return undefined
+            }
 
-      const payload = {
-        address,
-        coinDenom: tokenInfo.symbol,
-        network: 'IXO',
-        balance: totalLockedValue,
-        coinImageUrl: marketingInfo?.logo !== 'embedded' ? marketingInfo.logo?.url ?? '' : '',
-        lastPriceUsd: 0,
-      }
-      return payload
+            const payload: TTreasuryCoinModel = {
+              address,
+              coinDenom: token.tokenInfo.symbol,
+              network: 'IXO',
+              balance: balance.toString(),
+              coinImageUrl: (token.marketingInfo?.logo !== 'embedded' && token.marketingInfo.logo?.url) || '',
+              lastPriceUsd: 0,
+            }
+            return payload
+          }
+          return undefined
+        }),
+      )) as TTreasuryCoinModel[]
+      return coins.filter(Boolean)
     },
-    [cwClient, daoGroups],
+    [cwClient, stakingGroups],
   )
 
   useEffect(() => {
     Object.values(accounts).forEach((account) => {
-      updateNativeTokenBalance(account.address).then((coin: TTreasuryCoinModel) => {
-        setAccounts((v) => ({
-          ...v,
-          [coin.address]: { ...v[coin.address], coins: { ...v[coin.address].coins, [coin.coinDenom]: coin } },
-        }))
+      updateNativeTokenBalances(account.address).then((coins: TTreasuryCoinModel[]) => {
+        coins.forEach((coin) => {
+          setAccounts((v) => ({
+            ...v,
+            [coin.address]: {
+              ...v[coin.address],
+              coins: { ...(v[coin.address]?.coins ?? {}), [coin.coinDenom]: coin },
+            },
+          }))
+        })
       })
-      updateCw20TokenBalance(account.address).then((coin: TTreasuryCoinModel) => {
-        setAccounts((v) => ({
-          ...v,
-          [coin.address]: { ...v[coin.address], coins: { ...(v[coin.address]?.coins ?? {}), [coin.coinDenom]: coin } },
-        }))
+      updateCw20TokenBalances(account.address).then((coins: TTreasuryCoinModel[]) => {
+        coins.forEach((coin) => {
+          setAccounts((v) => ({
+            ...v,
+            [coin.address]: {
+              ...v[coin.address],
+              coins: { ...(v[coin.address]?.coins ?? {}), [coin.coinDenom]: coin },
+            },
+          }))
+        })
       })
     })
     return () => {

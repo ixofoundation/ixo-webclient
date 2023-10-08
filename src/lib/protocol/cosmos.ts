@@ -1,6 +1,6 @@
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 import { DeliverTxResponse } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/stargate'
-import { cosmos, SigningStargateClient } from '@ixo/impactxclient-sdk'
+import { cosmos, createQueryClient, customQueries, SigningStargateClient } from '@ixo/impactxclient-sdk'
 import { fee, RPC_ENDPOINT } from './common'
 import { VoteOption } from '@ixo/impactxclient-sdk/types/codegen/cosmos/gov/v1/gov'
 import {
@@ -10,6 +10,7 @@ import {
 } from '@ixo/impactxclient-sdk/types/codegen/cosmos/staking/v1beta1/staking'
 import { Input, Output } from '@ixo/impactxclient-sdk/types/codegen/cosmos/bank/v1beta1/bank'
 import { QueryDelegationTotalRewardsResponse } from '@ixo/impactxclient-sdk/types/codegen/cosmos/distribution/v1beta1/query'
+import { TokenAsset } from '@ixo/impactxclient-sdk/types/custom_queries/currency.types'
 
 const { createRPCQueryClient } = cosmos.ClientFactory
 
@@ -66,6 +67,27 @@ export const GetBalances = async (address: string, rpc = RPC_ENDPOINT): Promise<
     address,
   })
   return res.balances
+}
+
+export const GetTokenAsset = async (denom: string, rpc = RPC_ENDPOINT): Promise<TokenAsset> => {
+  if (!denom) {
+    // eslint-disable-next-line no-throw-literal
+    throw 'Denom is undefined'
+  }
+
+  const isIbc = /^ibc\//i.test(denom)
+  if (isIbc) {
+    const client = await createQueryClient(rpc!)
+    const ibcToken = await customQueries.currency.findIbcTokenFromHash(client, denom)
+    if (!ibcToken.token) {
+      // eslint-disable-next-line no-throw-literal
+      throw 'Token Asset not found'
+    }
+    return ibcToken.token
+  }
+
+  const token = customQueries.currency.findTokenFromDenom(denom)
+  return token
 }
 
 export const GetValidators = async (): Promise<Validator[]> => {

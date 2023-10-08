@@ -9,7 +9,6 @@ import { Navigator } from './Navigator'
 import { Membership } from './Membership'
 import { Governance } from './Governance'
 import { IndividualMember } from './IndividualMember'
-import { AddGroup } from './AddGroup'
 import EditEntity from './EditEntity'
 
 const DAODashboard: React.FC = (): JSX.Element => {
@@ -46,13 +45,6 @@ const DAODashboard: React.FC = (): JSX.Element => {
       sdg: 'My Participation',
       tooltip: 'My Participation',
       disabled: !registered,
-    },
-    {
-      url: `/entity/${entityId}/dashboard/add-group`,
-      icon: requireCheckDefault(require('assets/img/sidebar/toc.svg')),
-      sdg: 'Add Group',
-      tooltip: 'Add Group',
-      disabled: !registered || owner !== address,
     },
     {
       url: `/entity/${entityId}/dashboard/edit`,
@@ -122,9 +114,6 @@ const DAODashboard: React.FC = (): JSX.Element => {
       <Route exact path='/entity/:entityId/dashboard/membership/:address' component={IndividualMember} />
       <Route exact path='/entity/:entityId/dashboard/governance' component={Governance} />
       {registered && <Route exact path='/entity/:entityId/dashboard/my-participation' component={MyParticipation} />}
-      {registered && owner === address && (
-        <Route exact path='/entity/:entityId/dashboard/add-group' component={AddGroup} />
-      )}
       {registered && owner === address && (
         <Route exact path='/entity/:entityId/dashboard/edit' component={EditEntity} />
       )}

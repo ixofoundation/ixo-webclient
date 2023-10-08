@@ -22,45 +22,31 @@ import useCurrentEntity, { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
 const data = [
   {
     name: 'Page A',
-    uv: 4000,
-    pv: 2400,
-    amt: 2400,
+    uv: 0,
   },
   {
     name: 'Page B',
-    uv: 3000,
-    pv: 1398,
-    amt: 2210,
+    uv: 0,
   },
   {
     name: 'Page C',
-    uv: 2000,
-    pv: 9800,
-    amt: 2290,
+    uv: 0,
   },
   {
     name: 'Page D',
-    uv: 2780,
-    pv: 3908,
-    amt: 2000,
+    uv: 0,
   },
   {
     name: 'Page E',
-    uv: 1890,
-    pv: 4800,
-    amt: 2181,
+    uv: 0,
   },
   {
     name: 'Page F',
-    uv: 2390,
-    pv: 3800,
-    amt: 2500,
+    uv: 0,
   },
   {
     name: 'Page G',
-    uv: 3490,
-    pv: 4300,
-    amt: 2100,
+    uv: 0,
   },
 ]
 
@@ -72,6 +58,7 @@ interface Props {
   coinImageUrl?: string
   lastPriceUsd?: number
   priceChangePercent?: TokenAssetInfo['priceChangePercent']
+  userAddress: string
 }
 
 const AssetDetailCard: React.FC<Props> = ({
@@ -81,6 +68,7 @@ const AssetDetailCard: React.FC<Props> = ({
   coinImageUrl,
   lastPriceUsd,
   priceChangePercent,
+  userAddress,
   ...rest
 }) => {
   const theme: any = useTheme()
@@ -124,8 +112,8 @@ const AssetDetailCard: React.FC<Props> = ({
 
     const stakingContract = await daoVotingCw20StakedClient.stakingContract()
     const cw20StakeClient = new contracts.Cw20Stake.Cw20StakeQueryClient(cwClient, stakingContract)
-    const { value: microStakedValue } = await cw20StakeClient.stakedValue({ address })
-    const { claims } = await cw20StakeClient.claims({ address })
+    const { value: microStakedValue } = await cw20StakeClient.stakedValue({ address: userAddress || address })
+    const { claims } = await cw20StakeClient.claims({ address: userAddress || address })
     const microUnstakingValue = claims
       .filter((claim) => !claimAvailable(claim, 0)) //  TODO: TBD blockHeight
       .reduce((acc, cur) => plus(acc, cur.amount), '0')
@@ -136,7 +124,7 @@ const AssetDetailCard: React.FC<Props> = ({
     const tokenContract = await daoVotingCw20StakedClient.tokenContract()
     const cw20BaseClient = new contracts.Cw20Base.Cw20BaseQueryClient(cwClient, tokenContract)
     const tokenInfo = await cw20BaseClient.tokenInfo()
-    const { balance: microBalance } = await cw20BaseClient.balance({ address })
+    const { balance: microBalance } = await cw20BaseClient.balance({ address: userAddress || address })
 
     const stakedValue = convertMicroDenomToDenomWithDecimals(microStakedValue, tokenInfo.decimals).toString()
     const unstakingValue = convertMicroDenomToDenomWithDecimals(microUnstakingValue, tokenInfo.decimals).toString()
@@ -148,7 +136,7 @@ const AssetDetailCard: React.FC<Props> = ({
     setClaimableBalance(claimableValue)
     setBalance(balance)
     setTokenAddress(tokenContract)
-  }, [address, cwClient, votingModuleAddress])
+  }, [address, userAddress, cwClient, votingModuleAddress])
 
   useEffect(() => {
     getInfo()
