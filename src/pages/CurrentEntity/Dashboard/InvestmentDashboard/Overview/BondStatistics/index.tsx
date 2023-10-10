@@ -13,6 +13,7 @@ import { convertDecCoinToCoin, percentFormat, toFixed } from 'utils/currency'
 import { GetCurrentPrice } from 'lib/protocol'
 import { Coin } from '@cosmjs/proto-signing'
 import { BondStateType } from 'redux/bond/bond.types'
+import { useMapBondDetail } from 'hooks/bond'
 
 interface Props {
   bondDid: string
@@ -23,48 +24,17 @@ const BondStatistics: React.FC<Props> = ({ bondDid }) => {
   const history = useHistory()
   const { data: bondDetail } = useGetBondDid(bondDid)
   const { convertToDenom } = useIxoConfigs()
-  const { balances } = useAccount()
-
   const {
-    // state = '',
-    token = '',
-    reserveToken = '',
-    currentSupply = 0,
-    currentReserve = 0,
-    availableReserve = 0,
-    initialRaised = 0,
-    publicAlpha = 0,
-    outcomePayment = 0,
-  } = useMemo(
-    () => {
-      const state = bondDetail?.state
-      const token = bondDetail?.token
-      const reserveToken = convertToDenom({ denom: bondDetail?.reserveTokens[0], amount: '0' })?.denom
-      const currentSupply = bondDetail?.currentSupply.amount
-      const microCurrentReserve = bondDetail?.currentReserve[0]
-      const currentReserve = convertToDenom(microCurrentReserve)?.amount
-      const microAvailableReserve = bondDetail?.availableReserve[0]
-      const availableReserve = convertToDenom(microAvailableReserve)?.amount
-      const microInitialRaised = (bondDetail?.functionParameters ?? []).find((v: any) => v.param === 'd0')?.value
-      const initialRaised = convertToDenom({ denom: bondDetail?.reserveTokens[0], amount: microInitialRaised })?.amount
-      const publicAlpha = (bondDetail?.functionParameters ?? []).find((v: any) => v.param === 'publicAlpha')?.value
-      const outcomePayment = bondDetail?.outcomePayment
-
-      return {
-        state,
-        token,
-        reserveToken,
-        currentSupply,
-        currentReserve,
-        availableReserve,
-        initialRaised,
-        publicAlpha,
-        outcomePayment,
-      }
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [bondDetail],
-  )
+    token,
+    reserveToken,
+    currentSupply,
+    currentReserve,
+    availableReserve,
+    initialRaised,
+    publicAlpha,
+    outcomePayment,
+  } = useMapBondDetail(bondDetail)
+  const { balances } = useAccount()
 
   const userTokenBalance = useMemo(
     () => balances.find((balance) => balance.denom === token)?.amount || '0',

@@ -1,12 +1,14 @@
-import { FlexBox } from 'components/App/App.styles'
-import { ProgressBar } from 'components/ProgressBar/ProgressBar'
+import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
-import moment from 'moment'
 import { Avatar } from 'pages/CurrentEntity/Components'
-import React from 'react'
+import React, { useMemo } from 'react'
 import { NavLink } from 'react-router-dom'
 import { useTheme } from 'styled-components'
 import { TEntityModel } from 'types/entities'
+import { ReactComponent as InvestmentIcon } from 'assets/images/icon-investment.svg'
+import { useGetBondDid } from 'graphql/bonds'
+import { useMapBondDetail } from 'hooks/bond'
+import BigNumber from 'bignumber.js'
 
 const InvestmentCard: React.FC<TEntityModel & { to?: string }> = (entity) => {
   const theme: any = useTheme()
@@ -15,17 +17,19 @@ const InvestmentCard: React.FC<TEntityModel & { to?: string }> = (entity) => {
   const image = entity.profile?.image || ''
   const logo = entity.profile?.logo || ''
   const title = entity.profile?.name || ''
-  const createdAt = entity.metadata?.created as unknown as string
-  const numOfInvestors = 0
   const bondDid = entity.linkedEntity.find((v) => v.type === 'bond')?.id
-
-  console.log({ id, bondDid })
+  const { data: bondDetail } = useGetBondDid(bondDid)
+  const { state, currentReserve, currentReserveUsd, initialRaised, initialRaisedUsd } = useMapBondDetail(bondDetail)
+  const fundedPercentage = useMemo(
+    () => new BigNumber(currentReserve).dividedBy(initialRaised).toNumber(),
+    [currentReserve, initialRaised],
+  )
 
   return (
     <NavLink to={{ pathname: entity.to || `/entity/${id}/overview` }} style={{ textDecoration: 'none' }}>
       <FlexBox
         direction='column'
-        borderRadius='8px'
+        borderRadius='12px'
         background='white'
         boxShadow='0px 4px 4px 0px rgba(0, 0, 0, 0.25);'
         color={theme.ixoBlack}
@@ -34,64 +38,61 @@ const InvestmentCard: React.FC<TEntityModel & { to?: string }> = (entity) => {
         transition='.2s box-shadow'
         hover={{ boxShadow: '0px 10px 25px 0px rgba(0, 0, 0, 0.15)' }}
       >
-        <FlexBox background={`url(${image})`} backgroundSize='cover' width='100%' height='180px' />
-        <FlexBox p={4.5} direction='column' gap={4} width='100%'>
-          <FlexBox width='100%' alignItems='center' justifyContent='space-between' gap={2}>
-            <FlexBox alignItems='center' gap={2}>
-              <FlexBox borderRadius='4px' overflow='hidden' boxShadow='0px 3px 15px 0px rgba(0, 0, 0, 0.15)'>
-                <FlexBox background='white' py={1} px={2}>
-                  <Typography size='xs' color='black'>
-                    Investment
-                  </Typography>
-                </FlexBox>
-                <FlexBox background='#7C2740' py={1} px={2}>
-                  <Typography size='xs' weight='bold' color='white'>
-                    Alphabond
-                  </Typography>
-                </FlexBox>
-              </FlexBox>
-
-              <FlexBox borderRadius='4px' overflow='hidden' boxShadow='0px 3px 15px 0px rgba(0, 0, 0, 0.15)'>
-                <FlexBox background='white' py={1} px={2}>
-                  <Typography size='xs' color='black'>
-                    Investors
-                  </Typography>
-                </FlexBox>
-                <FlexBox background='black' py={1} px={2} minWidth='32px' justifyContent='center'>
-                  <Typography size='xs' weight='bold' color='white'>
-                    {numOfInvestors}
-                  </Typography>
-                </FlexBox>
-              </FlexBox>
+        <FlexBox background={`url(${image})`} backgroundSize='cover' width='100%' height='200px' position='relative'>
+          <FlexBox position='absolute' top='16px' left='16px' alignItems='center' gap={1}>
+            <SvgBox borderRadius='100%' p={1} svgWidth={4} svgHeight={4} background={'#20798C'} color={'white'}>
+              <InvestmentIcon />
+            </SvgBox>
+            <FlexBox borderRadius='100px' px={2} py={1} background={'#20798C'}>
+              <Typography color='white' size='sm'>
+                Alphabond
+              </Typography>
             </FlexBox>
+          </FlexBox>
+        </FlexBox>
 
+        <FlexBox background={'#ECECEC'} width='100%' height='8px'>
+          <FlexBox background={'#4C9F38'} width={`${fundedPercentage}%`} height='8px' />
+        </FlexBox>
+
+        <FlexBox p={4.5} direction='column' gap={4} width='100%'>
+          <FlexBox width='100%'>
+            <Typography size='sm' transform='uppercase'>
+              Emerging Cooking Solutions
+            </Typography>
+          </FlexBox>
+
+          <FlexBox width='100%' alignItems='center' justifyContent='space-between'>
+            <Typography size='xl' weight='semi-bold' overflowLines={2}>
+              {title}
+            </Typography>
             <Avatar url={logo} size={32} borderWidth={0} />
           </FlexBox>
 
-          <FlexBox height='60px'>
-            <Typography size='2xl' weight='medium' overflowLines={2}>
-              {title}
-            </Typography>
-          </FlexBox>
+          <FlexBox width='100%' height='1px' background='#EFEFEF' />
 
           <FlexBox width='100%' direction='column' gap={2}>
-            <ProgressBar total={100} pending={0} approved={35} rejected={0} disputed={0} height={8} />
-            <FlexBox gap={1}>
-              <Typography color='blue' size='sm' weight='bold'>
-                35%
-              </Typography>
-              <Typography color='black' size='sm'>
-                Funded
-              </Typography>
+            <Typography size='xl' weight='semi-bold'>
+              {Intl.NumberFormat(undefined, { style: 'currency', currency: 'USD' }).format(currentReserveUsd)} raised
+            </Typography>
+
+            <Typography color='green' size='md'>
+              {fundedPercentage}% funded
+            </Typography>
+
+            <FlexBox width='100%' justifyContent='space-between' alignItems='center'>
+              <FlexBox color='#949494' background='#EFEFEF' borderRadius='12px' px={2} py={1}>
+                <Typography size='sm' weight='semi-bold'>
+                  {Intl.NumberFormat(undefined, { style: 'currency', currency: 'USD' }).format(initialRaisedUsd)} target
+                </Typography>
+              </FlexBox>
+
+              <FlexBox color='#949494' background='#EFEFEF' borderRadius='12px' px={2} py={1}>
+                <Typography size='sm' weight='semi-bold'>
+                  {state}
+                </Typography>
+              </FlexBox>
             </FlexBox>
-          </FlexBox>
-
-          <FlexBox width='100%' direction='column' gap={2}>
-            <Typography size='3xl' weight='medium'>
-              {Intl.NumberFormat(undefined, { currency: 'USD' }).format(1230000)}
-            </Typography>
-            <Typography size='base'>Raised of $2 million target</Typography>
-            <Typography size='sm'>Closes • {moment(createdAt).format('DD/MM/YYYY')}</Typography>
           </FlexBox>
         </FlexBox>
       </FlexBox>

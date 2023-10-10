@@ -6,7 +6,7 @@ import React from 'react'
 import CurrencyFormat from 'react-currency-format'
 import styled from 'styled-components'
 import { Avatar } from 'pages/CurrentEntity/Components'
-import { TTreasuryCoinModel } from '../../DAOTreasury/Accounts/Accounts'
+import { TTreasuryCoinModel } from '../../DAOTreasury/Accounts'
 
 const TableWrapper = styled.div`
   color: white;

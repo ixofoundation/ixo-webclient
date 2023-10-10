@@ -3,7 +3,7 @@ import { HeaderTab, Path } from 'components/Dashboard/types'
 import useCurrentEntity, { useCurrentEntityProfile } from 'hooks/currentEntity'
 import { Redirect, Route, useParams } from 'react-router-dom'
 import { requireCheckDefault } from 'utils/images'
-import Accounts from './Accounts/Accounts'
+import Accounts from './Accounts'
 
 const DAOTreasury: React.FC = (): JSX.Element => {
   const { entityId } = useParams<{ entityId: string }>()

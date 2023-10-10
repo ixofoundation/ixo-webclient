@@ -13,7 +13,7 @@ import { ReactComponent as LinkedAccountIcon } from 'assets/images/icon-linked-a
 import { successToast } from 'utils/toast'
 import Tooltip from 'components/Tooltip/Tooltip'
 import { capitalize } from 'lodash'
-import { TTreasuryAccountModel, TTreasuryCoinModel } from '../Accounts'
+import { TTreasuryAccountModel, TTreasuryCoinModel } from '../../InvestmentFunding/Accounts'
 import BigNumber from 'bignumber.js'
 
 export const AccountTypeToIconMap = {

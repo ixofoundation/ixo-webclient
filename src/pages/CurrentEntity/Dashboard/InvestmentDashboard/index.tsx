@@ -79,6 +79,12 @@ const InvestmentDashboard: React.FC = (): JSX.Element => {
       title: 'Dashboard',
       tooltip: `${toTitleCase(entityType)} Management`,
     },
+    {
+      iconClass: `icon-funding`,
+      path: `/entity/${entityId}/treasury`,
+      title: 'Funding',
+      tooltip: `Investment Funding`,
+    },
   ]
 
   const bondLinkedEntity = useCurrentEntityBondLinkedEntity()
