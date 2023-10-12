@@ -1,7 +1,7 @@
 import Dashboard from 'components/Dashboard/Dashboard'
 import { HeaderTab, Path } from 'components/Dashboard/types'
 import useCurrentEntity, { useCurrentEntityProfile } from 'hooks/currentEntity'
-import { Redirect, Route, useParams } from 'react-router-dom'
+import { Redirect, Route, useParams, useRouteMatch } from 'react-router-dom'
 import { requireCheckDefault } from 'utils/images'
 import Accounts from './Accounts'
 import Claims from './Claims'
@@ -12,6 +12,7 @@ const InvestmentFunding: React.FC = (): JSX.Element => {
   const { entityId } = useParams<{ entityId: string }>()
   const { entityType } = useCurrentEntity()
   const { name } = useCurrentEntityProfile()
+  const isClaimScreenRoute = useRouteMatch('/entity/:entityId/treasury/claims')
 
   const routes: Path[] = [
     {
@@ -83,7 +84,7 @@ const InvestmentFunding: React.FC = (): JSX.Element => {
     },
   ]
 
-  const theme = 'dark'
+  const theme = isClaimScreenRoute ? 'light' : 'dark'
 
   return (
     <Dashboard
