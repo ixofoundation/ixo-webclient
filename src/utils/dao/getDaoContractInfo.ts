@@ -27,17 +27,13 @@ export const getDaoContractInfo = async ({
     { address: coreAddress, data: { voting_module: {} } },
   ]
 
-  console.log('dao queries run')
   const [admin, config, proposalModules, votingModuleAddress] = await queryMultipleContracts(daoQueries)
-  console.log('dao queries done')
 
   const proposalModule: any = {
     proposalConfig: config,
     proposalModuleAddress: proposalModules[0].address,
     votes: null,
   }
-
-  console.log({ proposalAddress: proposalModule?.proposalModuleAddress })
 
   // proposalModule
   const proposalQueries = [
@@ -60,17 +56,10 @@ export const getDaoContractInfo = async ({
       },
     },
   ]
-
-  console.log('proposal queries run')
-
   const [proposalConfig, proposalsList, proposalCreationPolicy] = await queryMultipleContracts(proposalQueries)
-  console.log('proposal queries done')
 
   proposalModule.proposalConfig = proposalConfig
-
   const proposals = proposalsList.proposals
-
-  console.log('vote queries run')
 
   const getVotes = async (proposals: ProposalResponse[]): Promise<VoteInfo[]> => {
     const voteQueries = proposals.map(({ id }) => ({
@@ -91,8 +80,6 @@ export const getDaoContractInfo = async ({
   }
 
   const votes: VoteInfo[] = await getVotes(proposals)
-
-  console.log('vote queries done')
 
   proposalModule.votes = votes
 
@@ -130,10 +117,7 @@ export const getDaoContractInfo = async ({
     },
   ]
 
-  console.log('prepropose queries run')
-
   const [preProposeConfig] = await queryMultipleContracts(preProposeQueries)
-  console.log('prepropose queries run')
 
   proposalModule.preProposeConfig = preProposeConfig
 
@@ -141,18 +125,9 @@ export const getDaoContractInfo = async ({
   const votingModule: any = {}
   votingModule.votingModuleAddress = votingModuleAddress
 
-  let codeId
-  try {
-    console.log('cwClient.getContract queries run')
+  const result = await cwClient.getContract(votingModule.votingModuleAddress)
+  const codeId = result.codeId
 
-    const result = await cwClient.getContract(votingModule.votingModuleAddress)
-    console.log('cwClient.getContract queries done')
-
-    codeId = result.codeId
-    await sleepByLimiter()
-  } catch (error) {
-    console.log({ error })
-  }
   votingModule.contractCodeId = codeId
   votingModule.contractName = getContractNameByCodeId(votingModule.contractCodeId)
 
@@ -163,20 +138,14 @@ export const getDaoContractInfo = async ({
       { address: votingModule.votingModuleAddress, data: { staking_contract: {} } },
       { address: votingModule.votingModuleAddress, data: { token_contract: {} } },
     ]
-    console.log('daoVotingCW20StakedQueries queries run')
-
     const [stakingContract, tokenContract] = await queryMultipleContracts(daoVotingCW20StakedQueries)
-    console.log('daoVotingCW20StakedQueries queries done')
 
     const cw20StakeQueries = [
       { address: stakingContract, data: { total_value: {} } },
       { address: stakingContract, data: { list_stakers: {} } },
       { address: stakingContract, data: { get_config: {} } },
     ]
-    console.log('cw20StakeQueries queries run')
-
     const [totalValue, listStakers, getConfig] = await queryMultipleContracts(cw20StakeQueries)
-    console.log('cw20StakeQueries queries done')
 
     const total = totalValue.total
     const stakers = listStakers.stakers
@@ -186,10 +155,7 @@ export const getDaoContractInfo = async ({
       { address: tokenContract, data: { token_info: {} } },
       { address: tokenContract, data: { marketing_info: {} } },
     ]
-    console.log('cw20BaseQueries queries run')
-
     const [tokenInfo, marketingInfo] = await queryMultipleContracts(cw20BaseQueries)
-    console.log('cw20BaseQueries queries done')
 
     token = {
       tokenInfo,
@@ -203,19 +169,14 @@ export const getDaoContractInfo = async ({
     type = 'membership'
 
     const daoVotingCw4Queries = [{ address: votingModule.votingModuleAddress, data: { group_contract: {} } }]
-    console.log('daoVotingCw4Queries queries run')
-
     const [groupContract] = await queryMultipleContracts(daoVotingCw4Queries)
-    console.log('daoVotingCw4Queries queries done')
 
     const cw4GroupQueries = [
       { address: groupContract, data: { list_members: {} } },
       { address: groupContract, data: { total_weight: {} } },
     ]
-    console.log('cw4GroupQueries queries run')
 
     const [listMembers, totalWeight] = await queryMultipleContracts(cw4GroupQueries)
-    console.log('cw4GroupQueries queries done')
 
     votingModule.members = listMembers.members
 
