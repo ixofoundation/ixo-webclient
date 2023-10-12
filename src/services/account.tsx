@@ -187,7 +187,7 @@ const AccountUpdateService = (): JSX.Element | null => {
       updateCosmWasmClient(undefined)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [!!connectedWallet])
+  }, [connectedWallet])
 
   useEffect(() => {
     CosmWasmClient.connect(RPC_ENDPOINT!).then(updateCWClient)
