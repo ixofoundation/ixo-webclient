@@ -11,6 +11,7 @@ import {
 import { Input, Output } from '@ixo/impactxclient-sdk/types/codegen/cosmos/bank/v1beta1/bank'
 import { QueryDelegationTotalRewardsResponse } from '@ixo/impactxclient-sdk/types/codegen/cosmos/distribution/v1beta1/query'
 import { TokenAsset } from '@ixo/impactxclient-sdk/types/custom_queries/currency.types'
+import { sleepByLimiter } from 'utils/limiter'
 
 const { createRPCQueryClient } = cosmos.ClientFactory
 
@@ -29,6 +30,7 @@ export const BankSendTrx = async (
         amount: [cosmos.base.v1beta1.Coin.fromPartial(token)],
       }),
     }
+    await sleepByLimiter()
     const response = await client.signAndBroadcast(myAddress, [message], fee)
     return response
   } catch (e) {
@@ -50,6 +52,7 @@ export const BankMultiSendTrx = async (
         outputs,
       }),
     }
+    await sleepByLimiter()
     const response = await client.signAndBroadcast(address, [message], fee)
     return response
   } catch (e) {
@@ -63,6 +66,7 @@ export const GetBalances = async (address: string, rpc = RPC_ENDPOINT): Promise<
     throw new Error('address is undefined')
   }
   const client = await createRPCQueryClient({ rpcEndpoint: rpc! })
+  await sleepByLimiter()
   const res = await client.cosmos.bank.v1beta1.allBalances({
     address,
   })
@@ -78,6 +82,7 @@ export const GetTokenAsset = async (denom: string, rpc = RPC_ENDPOINT): Promise<
   const isIbc = /^ibc\//i.test(denom)
   if (isIbc) {
     const client = await createQueryClient(rpc!)
+    await sleepByLimiter()
     const ibcToken = await customQueries.currency.findIbcTokenFromHash(client, denom)
     if (!ibcToken.token) {
       // eslint-disable-next-line no-throw-literal
@@ -93,6 +98,7 @@ export const GetTokenAsset = async (denom: string, rpc = RPC_ENDPOINT): Promise<
 export const GetValidators = async (): Promise<Validator[]> => {
   try {
     const client = await createRPCQueryClient({ rpcEndpoint: RPC_ENDPOINT! })
+    await sleepByLimiter()
     const { validators = [] } = await client.cosmos.staking.v1beta1.validators({ status: 'BOND_STATUS_BONDED' })
     return validators
   } catch (e) {
@@ -107,6 +113,7 @@ export const GetValidatorByAddr = async (validatorAddr: string): Promise<Validat
       throw new Error('validatorAddr is undefined')
     }
     const client = await createRPCQueryClient({ rpcEndpoint: RPC_ENDPOINT! })
+    await sleepByLimiter()
     const { validator } = await client.cosmos.staking.v1beta1.validator({
       validatorAddr,
     })
@@ -120,6 +127,7 @@ export const GetValidatorByAddr = async (validatorAddr: string): Promise<Validat
 export const GetDelegatorValidators = async (delegatorAddr: string): Promise<Validator[]> => {
   try {
     const client = await createRPCQueryClient({ rpcEndpoint: RPC_ENDPOINT! })
+    await sleepByLimiter()
     const { validators } = await client.cosmos.staking.v1beta1.delegatorValidators({ delegatorAddr })
     return validators
   } catch (e) {
@@ -131,6 +139,7 @@ export const GetDelegatorValidators = async (delegatorAddr: string): Promise<Val
 export const GetDelegatorDelegations = async (delegatorAddr: string): Promise<DelegationResponse[]> => {
   try {
     const client = await createRPCQueryClient({ rpcEndpoint: RPC_ENDPOINT! })
+    await sleepByLimiter()
     const { delegationResponses } = await client.cosmos.staking.v1beta1.delegatorDelegations({ delegatorAddr })
     return delegationResponses
   } catch (e) {
@@ -142,6 +151,7 @@ export const GetDelegatorDelegations = async (delegatorAddr: string): Promise<De
 export const GetDelegatorUnbondingDelegations = async (delegatorAddr: string): Promise<UnbondingDelegation[]> => {
   try {
     const client = await createRPCQueryClient({ rpcEndpoint: RPC_ENDPOINT! })
+    await sleepByLimiter()
     const { unbondingResponses } = await client.cosmos.staking.v1beta1.delegatorUnbondingDelegations({ delegatorAddr })
     return unbondingResponses
   } catch (e) {
@@ -155,6 +165,7 @@ export const GetDelegationTotalRewards = async (
 ): Promise<QueryDelegationTotalRewardsResponse | undefined> => {
   try {
     const client = await createRPCQueryClient({ rpcEndpoint: RPC_ENDPOINT! })
+    await sleepByLimiter()
     const totalRewardsResponse = await client.cosmos.distribution.v1beta1.delegationTotalRewards({ delegatorAddress })
     return totalRewardsResponse
   } catch (e) {
@@ -177,6 +188,7 @@ export const GovVoteTrx = async (
         option,
       }),
     }
+    await sleepByLimiter()
     const response = await client.signAndBroadcast(address, [message], fee)
     return response
   } catch (e) {
@@ -191,6 +203,7 @@ export const GetWithdrawAddress = async (address: string): Promise<string> => {
       throw new Error('address is undefined')
     }
     const client = await createRPCQueryClient({ rpcEndpoint: RPC_ENDPOINT! })
+    await sleepByLimiter()
     const { withdrawAddress } = await client.cosmos.distribution.v1beta1.delegatorWithdrawAddress({
       delegatorAddress: address,
     })
@@ -214,6 +227,7 @@ export const SetWithdrawAddress = async (
         withdrawAddress,
       }),
     }
+    await sleepByLimiter()
     const response = await client.signAndBroadcast(delegatorAddress, [message], fee)
     return response
   } catch (e) {
@@ -260,6 +274,7 @@ export const GovSubmitProposalTrx = async (
         },
       }),
     }
+    await sleepByLimiter()
     const response = await client.signAndBroadcast(address, [message], fee)
     return response
   } catch (e) {
@@ -282,6 +297,7 @@ export const GovDepositTrx = async (
         amount,
       }),
     }
+    await sleepByLimiter()
     const response = await client.signAndBroadcast(address, [message], fee)
     console.info('GovDepositTrx', response)
     return response
