@@ -140,22 +140,18 @@ export const getDaoContractInfo = async ({
     ]
     const [stakingContract, tokenContract] = await queryMultipleContracts(daoVotingCW20StakedQueries)
 
-    const cw20StakeQueries = [
+    const cw20Queries = [
       { address: stakingContract, data: { total_value: {} } },
       { address: stakingContract, data: { list_stakers: {} } },
       { address: stakingContract, data: { get_config: {} } },
+      { address: tokenContract, data: { token_info: {} } },
+      { address: tokenContract, data: { marketing_info: {} } },
     ]
-    const [totalValue, listStakers, getConfig] = await queryMultipleContracts(cw20StakeQueries)
+    const [totalValue, listStakers, getConfig, tokenInfo, marketingInfo] = await queryMultipleContracts(cw20Queries)
 
     const total = totalValue.total
     const stakers = listStakers.stakers
     const config = getConfig
-
-    const cw20BaseQueries = [
-      { address: tokenContract, data: { token_info: {} } },
-      { address: tokenContract, data: { marketing_info: {} } },
-    ]
-    const [tokenInfo, marketingInfo] = await queryMultipleContracts(cw20BaseQueries)
 
     token = {
       tokenInfo,
