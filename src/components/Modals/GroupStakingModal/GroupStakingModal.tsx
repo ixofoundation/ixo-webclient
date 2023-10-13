@@ -9,7 +9,6 @@ import { useAccount } from 'hooks/account'
 import {
   convertDenomToMicroDenomWithDecimals,
   convertMicroDenomToDenomWithDecimals,
-  depositInfoToCoin,
   durationToSeconds,
   secondsToWdhms,
 } from 'utils/conversions'
@@ -67,9 +66,6 @@ const GroupStakingModal: React.FunctionComponent<Props> = ({ daoGroup, open, set
   const { name: daoName } = useCurrentEntityProfile()
   const {
     votingModule: { votingModuleAddress },
-    proposalModule: {
-      preProposeConfig: { deposit_info: depositInfo },
-    },
   } = useAppSelector(selectStakingGroupByCoreAddress(daoGroup?.coreAddress))!
   const [unstakingDuration, setUnstakingDuration] = useState<number>(0)
   const [tokenInfo, setTokenInfo] = useState<TokenInfoResponse | undefined>(undefined)
@@ -147,7 +143,7 @@ const GroupStakingModal: React.FunctionComponent<Props> = ({ daoGroup, open, set
         },
         fee,
         undefined,
-        depositInfo ? [depositInfoToCoin(depositInfo)!] : undefined,
+        undefined,
       )
       if (transactionHash) {
         setTXStatus(TXStatus.SUCCESS)
@@ -156,9 +152,9 @@ const GroupStakingModal: React.FunctionComponent<Props> = ({ daoGroup, open, set
       } else {
         throw new Error()
       }
-    } catch (e) {
+    } catch (e: any) {
       console.error(e)
-      errorToast(null, 'Error at signing')
+      errorToast('Error at signing', typeof e === 'string' ? e : e.message)
       setTXStatus(TXStatus.ERROR)
     }
   }
