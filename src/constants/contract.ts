@@ -1,0 +1,1 @@
+export const MULTI_CALL_CONTRACT_ADDRESS = process.env.MULTI_CALL_CONTRACT_ADDRESS || ''

@@ -2,8 +2,7 @@ import { toBase64 } from '@cosmjs/encoding'
 import { Uint8ArrayToJS, base64ToJson, strToArray } from './encoding'
 import { createQueryClient } from '@ixo/impactxclient-sdk'
 import { RPC_ENDPOINT } from 'lib/protocol'
-
-const contractAddress = 'ixo1rrra808ggl30g27zdmp9ecc00u7le2tn5gunv86p8aa99jrc84qqk8dttm'
+import { MULTI_CALL_CONTRACT_ADDRESS } from 'constants/contract'
 
 export const queryMultipleContracts = async (queries: any): Promise<any> => {
   try {
@@ -19,19 +18,16 @@ export const queryMultipleContracts = async (queries: any): Promise<any> => {
     }
 
     const multicallRes: any = await queryClient.cosmwasm.wasm.v1.smartContractState({
-      address: contractAddress,
+      address: MULTI_CALL_CONTRACT_ADDRESS,
       queryData: strToArray(JSON.stringify(msg)),
     })
 
-    if (multicallRes && multicallRes.data) {
+    if (multicallRes?.data) {
       const resParsed = JSON.parse(Uint8ArrayToJS(multicallRes.data))
 
       const decoded = resParsed.return_data.map((e: any) => {
-        console.log(e)
         return base64ToJson(e.data)
       })
-
-      console.dir(decoded, { depth: null })
 
       return decoded
     }
