@@ -3,11 +3,11 @@ import { validateEntityDid } from 'utils/validation'
 
 // GET_ALL_ENTITIES
 const GET_ALL_ENTITIES = gql`
-  query GetAllEntities($relayerNode: String!) {
+  query GetAllEntities($relayerNode: String!, $owner: String) {
     entities(
       filter: {
         not: { type: { startsWith: "asset" } }
-        or: [{ relayerNode: { equalTo: $relayerNode } }, { id: { equalTo: $relayerNode } }]
+        or: [{ relayerNode: { equalTo: $relayerNode } }, { id: { equalTo: $relayerNode } }, { id: { owner: $owner } }]
       }
     ) {
       nodes {
@@ -44,9 +44,9 @@ const GET_ALL_ENTITIES = gql`
     }
   }
 `
-export function useGetAllEntities() {
+export function useGetAllEntities(connectedAccount?: string) {
   const { loading, error, data, refetch } = useQuery(GET_ALL_ENTITIES, {
-    variables: { relayerNode: process.env.REACT_APP_RELAYER_NODE },
+    variables: { relayerNode: process.env.REACT_APP_RELAYER_NODE, owner: connectedAccount },
   })
   return { loading, error, data: data?.entities?.nodes ?? [], refetch }
 }
