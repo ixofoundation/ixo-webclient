@@ -3,7 +3,6 @@ import { ProposalResponse, VoteInfo } from '@ixo/impactxclient-sdk/types/codegen
 
 import { durationToSeconds, expirationAtTimeToSecondsFromNow } from 'utils/conversions'
 import { getContractNameByCodeId } from './getContractNameByCodeId'
-import { sleepByLimiter } from 'utils/limiter'
 
 import { queryMultipleContracts } from 'utils/multiContractCall'
 
