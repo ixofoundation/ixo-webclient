@@ -5,8 +5,8 @@ import useEditEntity from 'hooks/editEntity'
 import { Button } from 'pages/CreateEntity/Components'
 import React, { useEffect, useState } from 'react'
 import { errorToast, successToast } from 'utils/toast'
-import EditProfile from './components/EditProfile'
-import EditProperty from './components/EditProperty'
+import EditProfile from '../../components/EditProfile'
+import EditProperty from '../../components/EditProperty'
 
 const EditEntity: React.FC = () => {
   const { currentEntity } = useCurrentEntity()

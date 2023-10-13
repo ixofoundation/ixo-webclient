@@ -7,6 +7,7 @@ import CurrencyFormat from 'react-currency-format'
 import styled from 'styled-components'
 import { Avatar } from 'pages/CurrentEntity/Components'
 import { TTreasuryCoinModel } from '../../DAOTreasury/Accounts'
+import { renderTableHeader } from 'components/Table/Table'
 
 const TableWrapper = styled.div`
   color: white;
@@ -44,26 +45,6 @@ const TableWrapper = styled.div`
     }
   }
 `
-
-const renderTableHeader = (name: string, justifyContent = 'flex-start') => (
-  <FlexBox
-    p={4}
-    justifyContent={
-      justifyContent as
-        | 'flex-start'
-        | 'flex-end'
-        | 'center'
-        | 'space-between'
-        | 'space-around'
-        | 'space-evenly'
-        | 'stretch'
-    }
-  >
-    <Typography color='light-grey-blue' transform='uppercase' weight='bold' size='md'>
-      {name}
-    </Typography>
-  </FlexBox>
-)
 
 const columns = [
   {

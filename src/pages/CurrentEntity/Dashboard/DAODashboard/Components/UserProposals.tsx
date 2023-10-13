@@ -1,5 +1,6 @@
 import { FlexBox } from 'components/App/App.styles'
 import { Table } from 'components/Table'
+import { renderTableHeader } from 'components/Table/Table'
 import { Typography } from 'components/Typography'
 import ProgressBar from 'components/Widgets/ProgressBar/ProgressBar'
 import { useAccount } from 'hooks/account'
@@ -46,26 +47,6 @@ const TableWrapper = styled.div`
     }
   }
 `
-
-const renderTableHeader = (name: string, justifyContent = 'flex-start') => (
-  <FlexBox
-    p={4}
-    justifyContent={
-      justifyContent as
-        | 'flex-start'
-        | 'flex-end'
-        | 'center'
-        | 'space-between'
-        | 'space-around'
-        | 'space-evenly'
-        | 'stretch'
-    }
-  >
-    <Typography color='light-grey-blue' transform='uppercase' weight='bold' size='md'>
-      {name}
-    </Typography>
-  </FlexBox>
-)
 
 interface Props {
   show?: boolean

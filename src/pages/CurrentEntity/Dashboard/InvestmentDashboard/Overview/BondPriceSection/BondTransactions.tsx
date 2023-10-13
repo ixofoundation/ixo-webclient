@@ -9,6 +9,7 @@ import { ReactComponent as EyeIcon } from 'assets/images/icon-eye.svg'
 import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { useGetBondTransactions } from 'graphql/bonds'
+import { renderTableHeader } from 'components/Table/Table'
 
 const TableWrapper = styled(FlexBox)`
   color: white;
@@ -48,26 +49,6 @@ const TableWrapper = styled(FlexBox)`
     }
   }
 `
-
-const renderTableHeader = (name: string, justifyContent = 'flex-start') => (
-  <FlexBox
-    p={4}
-    justifyContent={
-      justifyContent as
-        | 'flex-start'
-        | 'flex-end'
-        | 'center'
-        | 'space-between'
-        | 'space-around'
-        | 'space-evenly'
-        | 'stretch'
-    }
-  >
-    <Typography color='light-grey-blue' transform='uppercase' weight='bold' size='md'>
-      {name}
-    </Typography>
-  </FlexBox>
-)
 
 interface Props {
   bondDid: string

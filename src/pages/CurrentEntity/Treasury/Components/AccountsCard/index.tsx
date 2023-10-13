@@ -15,6 +15,7 @@ import Tooltip from 'components/Tooltip/Tooltip'
 import { capitalize } from 'lodash'
 import { TTreasuryAccountModel, TTreasuryCoinModel } from '../../InvestmentFunding/Accounts'
 import BigNumber from 'bignumber.js'
+import { renderTableHeader } from 'components/Table/Table'
 
 export const AccountTypeToIconMap = {
   group: GroupAccountIcon,
@@ -87,26 +88,6 @@ const TableWrapper = styled.div`
     margin: 4px 0px;
   }
 `
-
-const renderTableHeader = (name: string, justifyContent = 'flex-start') => (
-  <FlexBox
-    p={4}
-    justifyContent={
-      justifyContent as
-        | 'flex-start'
-        | 'flex-end'
-        | 'center'
-        | 'space-between'
-        | 'space-around'
-        | 'space-evenly'
-        | 'stretch'
-    }
-  >
-    <Typography color='light-grey-blue' transform='uppercase' weight='bold' size='md'>
-      {name}
-    </Typography>
-  </FlexBox>
-)
 
 interface Props {
   accounts: { [address: string]: TTreasuryAccountModel }
