@@ -31,6 +31,7 @@ import { selectCustomTheme } from 'redux/theme/theme.selectors'
 import { useAccount } from 'hooks/account'
 import { useGetAllEntities } from 'graphql/entities'
 import { apiEntityToEntity } from 'utils/entities'
+import { sleep } from 'utils/common'
 
 const CHAIN_ID = process.env.REACT_APP_CHAIN_ID!
 const LOCAL_STORAGE_KEY = 'ixo-webclient/connectedWalletId'
@@ -119,6 +120,7 @@ const App: React.FC = () => {
       dispatch(getEntitiesFromGraphqlAction(apiEntities))
       ;(async () => {
         for (const entity of apiEntities) {
+          await sleep(3 * 1000)
           apiEntityToEntity({ entity, cwClient }, (key, data, merge = false) => {
             dispatch(updateEntityPropertyAction(entity.id, key, data, merge))
           })

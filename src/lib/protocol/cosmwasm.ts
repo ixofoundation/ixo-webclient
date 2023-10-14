@@ -1,6 +1,7 @@
 import { cosmos, cosmwasm, SigningStargateClient, utils } from '@ixo/impactxclient-sdk'
 import BigNumber from 'bignumber.js'
 import Long from 'long'
+import { sleepByLimiter } from 'utils/limiter'
 import { fee, TSigner } from './common'
 
 export const WasmInstantiateTrx = async (
@@ -28,6 +29,7 @@ export const WasmInstantiateTrx = async (
     }))
 
     const updatedFee = { ...fee, gas: new BigNumber(fee.gas).times(messages.length).toString() }
+    await sleepByLimiter()
     const response = await client.signAndBroadcast(address, messages, updatedFee)
     return response
   } catch (e) {
@@ -58,6 +60,7 @@ export const WasmExecuteTrx = async (
       }),
     }
 
+    await sleepByLimiter()
     const response = await client.signAndBroadcast(address, [message], fee)
     return response
   } catch (e) {
