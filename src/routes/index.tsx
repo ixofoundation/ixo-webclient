@@ -1,7 +1,5 @@
 import React, { lazy, Suspense } from 'react'
 import { Route, Switch, useHistory, useLocation } from 'react-router-dom'
-import { toggleAssistant } from 'redux/account/account.actions'
-import { ToogleAssistantPayload } from 'redux/account/account.types'
 import { connect } from 'react-redux'
 import { useAppSelector } from 'redux/hooks'
 import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
@@ -24,11 +22,7 @@ const EntityExchange = lazy(
   () => import(/* webpackChunkName: "EntityExchange" */ 'pages/EntityExchange/EntityExchange'),
 )
 
-interface Props {
-  toggleAssistant?: (param: ToogleAssistantPayload) => void
-}
-
-const App: React.FunctionComponent<Props> = ({ toggleAssistant }) => {
+const App: React.FunctionComponent = () => {
   const entityTypeMap = useAppSelector(selectEntityConfig)
   const location = useLocation()
   const history = useHistory()
@@ -37,10 +31,6 @@ const App: React.FunctionComponent<Props> = ({ toggleAssistant }) => {
     if (location.pathname.includes('action')) {
       return
     }
-
-    toggleAssistant!({
-      forceClose: true,
-    })
     // eslint-disable-next-line
   }, [location])
 
@@ -79,10 +69,6 @@ const App: React.FunctionComponent<Props> = ({ toggleAssistant }) => {
 
 const mapStateToProps = (): Record<string, any> => ({})
 
-const mapDispatchToProps = (dispatch: any): any => ({
-  toggleAssistant: (param: ToogleAssistantPayload): void => {
-    dispatch(toggleAssistant(param))
-  },
-})
+const mapDispatchToProps = (dispatch: any): any => ({})
 
 export const Routes = connect(mapStateToProps, mapDispatchToProps)(App)

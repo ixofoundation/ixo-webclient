@@ -84,7 +84,7 @@ export const selectIsLoading = createSelector(selectSubmitEntityClaim, (submitEn
 export const selectClaimApiPayload = createSelector(
   selectTemplateDid,
   selectClaimType,
-  accountSelectors.selectUserDid,
+  accountSelectors.selectAccountDid,
   entitySelectors.selectEntityDid,
   selectQuestions,
   selectAnswers,

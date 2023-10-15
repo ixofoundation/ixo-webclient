@@ -6,8 +6,6 @@ import { Container, AddSectionButton, Header, AssistanceButton } from './FormCar
 import Down from 'assets/icons/Down'
 import Tooltip, { TooltipPosition } from 'components/Tooltip/Tooltip'
 import assistanceAnimation from 'assets/animations/transaction/blue_pending.json'
-import { useAppDispatch } from 'redux/hooks'
-import { toggleAssistant } from 'redux/account/account.actions'
 
 interface Props {
   title: string
@@ -29,17 +27,16 @@ const FormCardWrapper: React.FunctionComponent<Props> = ({
   keyword = undefined,
   onAddSection,
 }) => {
-  const dispatch = useAppDispatch()
   const [expand, setExpand] = useState(true)
   const [animLoop, setAnimLoop] = useState(false)
 
   function handleAssistance(): void {
-    dispatch(
-      toggleAssistant({
-        fixed: true,
-        intent: `/${keyword}{"relayerNode": "did:sov:Rmb6Rd1CU6k74FM2xzy6Do"}`,
-      }),
-    )
+    // dispatch(
+    //   toggleAssistant({
+    //     fixed: true,
+    //     intent: `/${keyword}{"relayerNode": "did:sov:Rmb6Rd1CU6k74FM2xzy6Do"}`,
+    //   }),
+    // )
   }
 
   return (
