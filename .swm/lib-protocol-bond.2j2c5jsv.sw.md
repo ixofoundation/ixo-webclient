@@ -9,21 +9,22 @@ Signing method for Creating Bond with given params (MsgCreateBond)
 <!-- NOTE-swimm-snippet: the lines below link your snippet to Swimm -->
 ### 📄 src/lib/protocol/bond.ts
 ```typescript
-14     export const CreateBond = async (
-15       client: SigningStargateClient,
-16       signer: TSigner,
-17       payload: MsgCreateBond,
-18     ): Promise<DeliverTxResponse> => {
-19       const message = {
-20         typeUrl: '/ixo.bonds.v1beta1.MsgCreateBond',
-21         value: ixo.bonds.v1beta1.MsgCreateBond.fromPartial(payload),
-22       }
-23     
-24       console.log('CreateBond', { message })
-25       const response = await client.signAndBroadcast(signer.address, [message], fee)
-26       console.log('CreateBond', { response })
-27       return response
-28     }
+16     export const CreateBond = async (
+17       client: SigningStargateClient,
+18       signer: TSigner,
+19       payload: MsgCreateBond,
+20     ): Promise<DeliverTxResponse> => {
+21       const message = {
+22         typeUrl: '/ixo.bonds.v1beta1.MsgCreateBond',
+23         value: ixo.bonds.v1beta1.MsgCreateBond.fromPartial(payload),
+24       }
+25     
+26       console.log('CreateBond', { message })
+27       await sleepByLimiter()
+28       const response = await client.signAndBroadcast(signer.address, [message], fee)
+29       console.log('CreateBond', { response })
+30       return response
+31     }
 ```
 
 <br/>
