@@ -1,54 +1,23 @@
 import { createSelector } from '@reduxjs/toolkit'
 import { RootState } from 'redux/store'
-import { AccountState, UserInfo } from './account.types'
+import { AccountState } from './account.types'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 import { KeyTypes } from 'lib/protocol'
 import { SigningStargateClient } from '@ixo/impactxclient-sdk'
 import { SigningCosmWasmClient, CosmWasmClient } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/cosmwasm-stargate'
 import { NATIVE_MICRODENOM } from 'constants/chains'
-import { WalletType } from '@gssuper/cosmodal'
+import { ConnectedWallet, WalletType } from 'types/wallet'
 import BigNumber from 'bignumber.js'
 import { Cw20Token, NativeToken } from 'types/tokens'
 
 export const selectAccountState = (state: RootState): AccountState => state.account
 
-/**
- * @deprecated
- */
-export const selectUserInfo = createSelector(selectAccountState, (account: AccountState): UserInfo => {
-  return account.userInfo
-})
-
-/**
- * @deprecated
- */
-export const selectUserIsLoggedIn = createSelector(selectUserInfo, (userInfo: UserInfo): boolean => {
-  return userInfo ? userInfo.loggedInKeysafe : false
-})
-
-/**
- * @deprecated use selectAccountDid() instead
- */
-export const selectUserDid = createSelector(selectUserInfo, (userInfo: UserInfo): string => {
-  return userInfo ? userInfo.didDoc.did : ''
-})
-
-/**
- * @deprecated
- */
-export const selectUserAccountNumber = createSelector(selectAccountState, (account: AccountState): string => {
-  return account ? account.accountNumber : null!
-})
-
-/**
- * @deprecated
- */
-export const selectUserSequence = createSelector(selectAccountState, (account: AccountState): string => {
-  return account ? account.sequence : null!
-})
-
 export const selectAccountAddress = createSelector(selectAccountState, (account: AccountState): string => {
-  return account ? account.address : null!
+  return account ? account.address : ''
+})
+
+export const selectAccountDid = createSelector(selectAccountState, (account: AccountState): string => {
+  return account?.did || ''
 })
 
 export const selectAccountBalances = createSelector(selectAccountState, (account: AccountState): Coin[] => {
@@ -70,6 +39,12 @@ export const selectAccountSelectedWallet = createSelector(
   },
 )
 
+export const selectAccountConnectedWallet = createSelector(
+  selectAccountState,
+  (account: AccountState): ConnectedWallet | undefined => {
+    return account.connectedWallet
+  },
+)
 export const selectAccountName = createSelector(selectAccountState, (account: AccountState): string => account?.name)
 
 export const selectAccountRegistered = createSelector(
@@ -108,5 +83,3 @@ export const selectAccountKeyType = createSelector(
   // (account: AccountState): KeyTypes => (account?.selectedWallet === WalletType.Keplr ? 'secp' : 'ed'),
   (): KeyTypes => 'secp',
 )
-
-export const selectAccountDid = createSelector(selectAccountState, (account: AccountState): string => account?.did)

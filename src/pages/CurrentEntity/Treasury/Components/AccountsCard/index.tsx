@@ -120,6 +120,7 @@ const AccountsCard: React.FC<Props> = ({ accounts, onSelect }) => {
                     svgHeight={6}
                     borderRadius='100%'
                     background={theme.ixoDarkBlue}
+                    style={{ flex: 1 }}
                   >
                     <Icon />
                   </SvgBox>

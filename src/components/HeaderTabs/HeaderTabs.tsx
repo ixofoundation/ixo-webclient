@@ -2,8 +2,6 @@ import * as React from 'react'
 import { Tabs } from '../Tabs/Tabs'
 import { MatchType } from 'types/models'
 import { PositionController } from './HeaderTabs.styles'
-import { toggleAssistant } from 'redux/account/account.actions'
-import { ToogleAssistantPayload } from 'redux/account/account.types'
 import { connect } from 'react-redux'
 import { EntityType } from 'types/entities'
 import { HeaderTab } from 'components/Dashboard/types'
@@ -16,7 +14,6 @@ interface Props {
   matchType?: any
   activeTabColor?: string
   assistantPanelToggle?: () => void
-  toggleAssistant?: (param: ToogleAssistantPayload) => void
   enableAssistantButton?: boolean
   assistantFixed?: boolean
   buttons?: HeaderTab[]
@@ -25,7 +22,6 @@ interface Props {
 const HeaderTabs: React.FunctionComponent<Props> = ({
   matchType,
   activeTabColor,
-  toggleAssistant,
   enableAssistantButton,
   assistantFixed = false,
   buttons,
@@ -98,7 +94,9 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
         activeTabColor={activeTabColor}
         buttons={buttonsArray}
         matchType={matchType || MatchType.exact}
-        assistantPanelToggle={(): void => toggleAssistant!({ fixed: assistantFixed })}
+        assistantPanelToggle={(): void => {
+          // toggleAssistant!({ fixed: assistantFixed })
+        }}
         enableAssistantButton={enableAssistantButton!}
       />
     </PositionController>
@@ -106,9 +104,9 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
 }
 
 const mapDispatchToProps = (dispatch: any): any => ({
-  toggleAssistant: (param: ToogleAssistantPayload): void => {
-    dispatch(toggleAssistant(param))
-  },
+  // toggleAssistant: (param: ToogleAssistantPayload): void => {
+  //   dispatch(toggleAssistant(param))
+  // },
 })
 
 export default connect(undefined, mapDispatchToProps)(HeaderTabs)

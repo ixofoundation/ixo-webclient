@@ -1,8 +1,7 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
 
 import { TradePanel } from '../Swap.styles'
-import { useParams } from 'react-router-dom'
 
 import { selectSelectedAccountAddress } from 'redux/selectedEntityExchange/entityExchange.selectors'
 import BigNumber from 'bignumber.js'
@@ -14,9 +13,6 @@ import RenderPairListPanel from 'components/Pages/Exchange/Swap/RenderPairListPa
 import RenderSettingsPanel from 'components/Pages/Exchange/Swap/RenderSettingsPanel'
 import { connect } from 'react-redux'
 import { RootState } from 'redux/store'
-import * as keplr from 'lib/keplr/keplr'
-import { setKeplrWallet } from 'redux/account/account.actions'
-import { changeSelectedAccountAddress } from 'redux/selectedEntityExchange/entityExchange.actions'
 import useExchange from 'hooks/exchange'
 import { setInputAsset, setInputAssetAmount, setOutputAsset } from 'redux/exchange/exchange.actions'
 import { selectInputEntity, selectOutputEntity } from 'redux/exchange/exchange.selectors'
@@ -41,9 +37,7 @@ const EmptyAssetCardData = {
 }
 
 const Swap: React.FunctionComponent = () => {
-  const { wallet } = useParams() as any
   const theme = useTheme() as any
-  const walletType = wallet
   const { getAssetsByChainId, getRelayerNameByChainId } = useIxoConfigs()
   const selectedAccountAddress = useAppSelector(selectSelectedAccountAddress)
   const inputAssetEntity = useAppSelector(selectInputEntity)
@@ -87,23 +81,6 @@ const Swap: React.FunctionComponent = () => {
       ),
     [assets, inputAsset.asset, outputAsset.asset],
   )
-
-  useEffect(() => {
-    ;(async () => {
-      switch (walletType) {
-        case 'keplr': {
-          const [accounts, offlineSigner] = await keplr.connectAccount()
-          if (accounts) {
-            dispatch(setKeplrWallet(accounts[0].address, offlineSigner))
-            dispatch(changeSelectedAccountAddress(accounts[0].address))
-          }
-          break
-        }
-        default:
-          break
-      }
-    })()
-  }, [walletType, dispatch])
 
   const handleSwapClick = (): void => {
     const temp = { ...inputAsset }

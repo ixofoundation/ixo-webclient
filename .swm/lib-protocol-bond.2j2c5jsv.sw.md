@@ -20,7 +20,6 @@ Signing method for Creating Bond with given params (MsgCreateBond)
 24       }
 25     
 26       console.log('CreateBond', { message })
-27       await sleepByLimiter()
 28       const response = await client.signAndBroadcast(signer.address, [message], fee)
 29       console.log('CreateBond', { response })
 30       return response

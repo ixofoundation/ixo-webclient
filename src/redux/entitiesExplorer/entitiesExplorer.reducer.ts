@@ -25,7 +25,7 @@ export const reducer = (
   action: EntitiesActionTypes | AccountActionTypes,
 ): EntitiesExplorerState => {
   switch (action.type) {
-    case AccountActions.Login:
+    case AccountActions.Connect:
       return {
         ...state,
         filter: {
