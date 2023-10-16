@@ -1,0 +1,44 @@
+query entities($relayerNode: String!, $owner: String) {
+  entities(
+    filter: {
+      not: { type: { startsWith: "asset" } }
+      or: [
+        { relayerNode: { equalTo: $relayerNode } }
+        { id: { equalTo: $relayerNode } }
+        { owner: { equalTo: $owner } }
+      ]
+    }
+  ) {
+    nodes {
+      id
+      accordedRight
+      accounts
+      alsoKnownAs
+      assertionMethod
+      authentication
+      capabilityInvocation
+      context
+      capabilityDelegation
+      controller
+      credentials
+      endDate
+      entityVerified
+      externalId
+      keyAgreement
+      linkedClaim
+      linkedResource
+      linkedEntity
+      nodeId
+      owner
+      metadata
+      service
+      relayerNode
+      startDate
+      settings
+      status
+      type
+      verificationMethod
+    }
+    totalCount
+  }
+}
