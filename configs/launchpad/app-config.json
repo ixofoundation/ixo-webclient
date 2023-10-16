@@ -3,7 +3,7 @@
     "name": "impacthub.ixo.world",
     "displayName": "Impact Hub",
     "blocksync": "https://blocksync.ixo.earth",
-    "rpc": "https://impacthub.ixo.world/rpc/",
+    "rpc": "https://ixo-rpc.ibs.team/",
     "rest": "https://impacthub.ixo.world/rest/",
     "chainId": "ixo-5",
     "chainName": "ixo",
