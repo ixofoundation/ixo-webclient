@@ -9,6 +9,7 @@ import SelectTradeMethod from './SelectTradeMethod'
 import AmountInputBox from './AmountInputBox'
 import { AssetType } from 'redux/configs/configs.types'
 import BigNumber from 'bignumber.js'
+import { Flex } from '@mantine/core'
 
 type RenderSwapPanelProps = RenderSwapButtonProps &
   RenderSettingsButtonProps &
@@ -54,7 +55,7 @@ const RenderSwapPanel = ({
   setViewSettings,
   handleSwapClick,
 }: RenderSwapPanelProps): JSX.Element => (
-  <>
+  <Flex w='100%' direction={'column'}>
     <CardHeader>
       <CardHeaderText>
         <span>I want to&nbsp;</span>
@@ -102,7 +103,7 @@ const RenderSwapPanel = ({
         swapErrorMsg={swapErrorMsg}
       />
     </CardBody>
-  </>
+  </Flex>
 )
 
 export default RenderSwapPanel

@@ -4,7 +4,6 @@ import { FlexBox, HTMLFlexBoxProps } from 'components/App/App.styles'
 import { ProgressBar } from 'components/ProgressBar/ProgressBar'
 import { Typography } from 'components/Typography'
 import { useTheme } from 'styled-components'
-import { TEntityModel } from 'types/entities'
 import { thousandSeparator } from 'utils/formatters'
 import { HorizontalLine } from 'components/HorizontalLine'
 import { Tag } from 'components'
@@ -12,65 +11,75 @@ import { getEntityIcon } from 'utils/getEntityIcon'
 
 interface Props extends HTMLFlexBoxProps {
   collectionName?: string | null
-  entity: TEntityModel
-  selected?: boolean
-  isSelecting?: boolean
+  cardImage: string
+  type: string
   accountTokens?: any
   creator: string
+  tags: any[]
+  animation: any
+  title: any
+  logo: string
+  assetNumber: string | number
+  maxSupply: string | number
 }
 
 const AssetCard: React.FC<Props> = ({
   collectionName,
-  entity,
-  selected = false,
-  isSelecting = false,
+  cardImage,
   accountTokens,
   creator,
+  animation,
+  title,
+  logo,
+  tags,
+  type,
+  assetNumber,
+  maxSupply,
   ...rest
 }): JSX.Element | null => {
   const theme: any = useTheme()
-
-  if (!entity) return <></>
 
   return (
     <FlexBox direction='column' width='100%' borderRadius={'10px'} height='100%' overflow='hidden' {...rest}>
       <FlexBox
         position='relative'
-        background={`url(${entity.profile?.image})`}
+        background={`url(${cardImage})`}
         width='100%'
         height='50%'
         backgroundSize='100% 100%'
       >
         <FlexBox gap={1} alignItems='center' height='24px' margin='10px'>
           <FlexBox background={'#20798C'} borderRadius={'100%'} color='white'>
-            {getEntityIcon(entity.type)}
+            {getEntityIcon(type)}
           </FlexBox>
 
-          {entity?.tags
-            ?.find(({ category }) => category === 'Asset Type')
-            ?.tags?.map((tag) => (
-              <FlexBox
-                zIndex={9999}
-                key={`${tag}`}
-                background={'#20798C'}
-                borderRadius={'100px'}
-                color='white'
-                px={2}
-                py={1}
-              >
-                <Typography size='sm'>{tag}</Typography>
-              </FlexBox>
-            ))}
+          {tags &&
+            tags.length > 0 &&
+            tags
+              ?.find(({ category }: any) => category === 'Asset Type')
+              ?.tags?.map((tag: any) => (
+                <FlexBox
+                  zIndex={9}
+                  key={`${tag}`}
+                  background={'#20798C'}
+                  borderRadius={'100px'}
+                  color='white'
+                  px={2}
+                  py={1}
+                >
+                  <Typography size='sm'>{tag}</Typography>
+                </FlexBox>
+              ))}
         </FlexBox>
         <FlexBox position='absolute' top='50%' left='50%' transform='translate(-50%, -50%)'>
-          {entity.zlottie && (
+          {animation && (
             <Lottie
               width={150}
               height={150}
               options={{
                 loop: true,
                 autoplay: true,
-                animationData: entity.zlottie,
+                animationData: animation,
               }}
             />
           )}
@@ -81,7 +90,7 @@ const AssetCard: React.FC<Props> = ({
           radius='none'
           total={1800}
           approved={1200}
-          rejected={accountTokens.retired}
+          rejected={accountTokens?.retired}
           activeBarColor={theme.ixoLightGreen}
           height={8}
         />
@@ -97,7 +106,7 @@ const AssetCard: React.FC<Props> = ({
           <FlexBox justifyContent='space-between' width='100%'>
             <FlexBox direction='column' justifyContent='center'>
               <Typography color='black' weight='bold' size='md' style={{ marginBottom: 4 }}>
-                {entity.profile?.brand}
+                {title}
               </Typography>
               <Typography color='color-2' weight='normal' size='sm'>
                 {collectionName}
@@ -107,7 +116,7 @@ const AssetCard: React.FC<Props> = ({
               width='32px'
               height='32px'
               borderRadius='100%'
-              background={`url(${entity.profile?.logo}), ${theme.ixoGrey100}`}
+              background={`url(${logo}), ${theme.ixoGrey100}`}
               backgroundSize='100%'
             />
           </FlexBox>
@@ -116,7 +125,7 @@ const AssetCard: React.FC<Props> = ({
           <FlexBox direction='column' gap={1} width='100%' mb={2}>
             <FlexBox gap={1} alignItems='baseline'>
               <Typography size='md' color='black' transform='uppercase' weight='bold'>
-                {thousandSeparator(accountTokens.produced, ',')}
+                {thousandSeparator(accountTokens?.produced, ',')}
               </Typography>
               <Typography size='md' color='black' weight='bold'>
                 CARBON
@@ -125,18 +134,18 @@ const AssetCard: React.FC<Props> = ({
 
             <FlexBox gap={1} alignItems='baseline'>
               <Typography size='sm' color='green'>
-                {thousandSeparator(accountTokens.retired, ',')} retired
+                {thousandSeparator(accountTokens?.retired, ',')} retired
               </Typography>
               <Typography size='sm' color='grey700'>
-                {thousandSeparator(accountTokens.claimable, ',')} claimable
+                {thousandSeparator(accountTokens?.claimable, ',')} claimable
               </Typography>
             </FlexBox>
           </FlexBox>
 
           <FlexBox width='100%' justifyContent='space-between' alignItems='center'>
-            <Tag>{thousandSeparator(accountTokens.claimable, ',')} Carbon</Tag>
+            <Tag>{thousandSeparator(accountTokens?.claimable, ',')} Carbon</Tag>
             <Tag>
-              #{entity.alsoKnownAs.replace('{id}#', '')}/{Number(entity.token?.properties?.maxSupply).toLocaleString()}
+              #{assetNumber}/{Number(maxSupply).toLocaleString()}
             </Tag>
           </FlexBox>
         </FlexBox>

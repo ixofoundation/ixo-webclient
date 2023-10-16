@@ -11,3 +11,7 @@ export const formatCookingTime = (duration: number): string => {
 
   return `${hours}h ${minutes}min cooking time`
 }
+
+export const formatFuelUsage = (duration: number): string => {
+  return `${duration}kg fuel used`
+}

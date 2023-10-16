@@ -35,6 +35,7 @@ import {
   selectEntityVerificationMethod,
   selectEntityController,
   selectEntityStatus,
+  selectEntitySettings,
 } from 'redux/currentEntity/currentEntity.selectors'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import {
@@ -54,9 +55,11 @@ import { Coin } from '@ixo/impactxclient-sdk/types/codegen/DaoPreProposeSingle.t
 import { depositInfoToCoin } from 'utils/conversions'
 import { EntityLinkedResourceConfig } from 'constants/entity'
 import { IMPACTS_DAO_ID } from 'constants/chains'
+import { OutputBlockData } from '@editorjs/editorjs'
 
 export default function useCurrentEntity(): {
   id: string
+  settings: any
   entityType: string
   entityStatus: number
   currentEntity: TEntityModel
@@ -107,6 +110,7 @@ export default function useCurrentEntity(): {
   const owner: string = useAppSelector(selectEntityOwner)
   const controller: string[] = useAppSelector(selectEntityController)
   const service: Service[] = useAppSelector(selectEntityService)
+  const settings: Service[] = useAppSelector(selectEntitySettings)
   const claim: { [id: string]: TEntityClaimModel } = useAppSelector(selectEntityClaim)
   const startDate: string = useAppSelector(selectEntityStartDate)
   const endDate: string = useAppSelector(selectEntityEndDate)
@@ -182,6 +186,7 @@ export default function useCurrentEntity(): {
 
   return {
     id,
+    settings,
     entityType,
     entityStatus,
     currentEntity,
@@ -261,6 +266,13 @@ export function useCurrentEntityTags(): {
   const sdgs = tags?.find(({ category }) => category === 'SDG')?.tags ?? []
 
   return { sdgs }
+}
+
+export function useCurrentEntityPage(): OutputBlockData[] {
+  const { settings } = useCurrentEntity()
+  const page = settings?.Page?.data?.page ?? []
+
+  return page
 }
 
 export function useCurrentEntityClaims() {

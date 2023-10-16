@@ -4,15 +4,11 @@ import { MatchType } from 'types/models'
 import _ from 'lodash'
 import { FlexBox } from 'components/App/App.styles'
 import AssetCard from 'components/AssetCard'
-import { useGetEntityById } from 'graphql/entities'
 import { AssetCreditsCard, AssetEventsTable, AssetPerformanceCard, AssetStatsCard, Card, MapImage } from 'components'
 import { useEffect, useMemo, useState } from 'react'
 import { useGetAccountTokens } from 'graphql/tokens'
-import { TEntityModel } from 'types/entities'
-import { useAccount } from 'hooks/account'
-import { apiEntityToEntity } from 'utils/entities'
 import { useGetCreatorProfileWithVerifiableCredential } from 'utils/asset'
-import { Message, useMessagesQuery } from 'generated/graphql'
+import { Entity, Message, useEntityQuery, useMessagesQuery } from 'generated/graphql'
 import { getCookStove } from 'api/netlify/getCookStove'
 import { Flex, Text } from '@mantine/core'
 import {
@@ -24,6 +20,21 @@ import {
   ImpactsCreditIcon,
 } from 'components/Icons'
 import { useLocation } from 'react-router-dom'
+import { transformEntity } from 'utils/transformEntity'
+
+const EmptyAssetCardData = {
+  type: '',
+  logo: '',
+  collectionName: '',
+  title: '',
+  cardImage: '',
+  creator: '',
+  tags: '',
+  animation: '',
+  assetNumber: '',
+  maxSupply: '',
+  accountTokens: {},
+}
 
 const AssetDashboard = () => {
   const currentEntity = useCurrentEntity()
@@ -32,24 +43,35 @@ const AssetDashboard = () => {
   const searchParams = new URLSearchParams(location.search)
   const collection = searchParams.get('collection')
 
-  const { data } = useGetEntityById(currentEntity.id)
+  const { data } = useEntityQuery({
+    variables: { id: currentEntity.id },
+    onCompleted: (data) => {
+      transformEntity(data?.entity as Entity).then((entity) => setEntity(entity))
+    },
+  })
 
-  const { cwClient } = useAccount()
-  const [entity, setEntity] = useState<TEntityModel>()
+  const [entity, setEntity] = useState<any>()
 
   const [cookStove, setCookStove] = useState<any>()
 
-  const adminAccount = useMemo(() => data?.accounts?.find((v: any) => v.name === 'admin')?.address || '', [data])
+  const adminAccount = useMemo(
+    () => data?.entity?.accounts?.find((v: any) => v.name === 'admin')?.address || '',
+    [data],
+  )
 
   const { data: accountTokens } = useGetAccountTokens(adminAccount)
 
   const { data: messagesData } = useMessagesQuery({
-    variables: { first: 10, filter: { value: { contains: { id: data.id } } } },
+    variables: { first: 10, filter: { value: { contains: { id: data?.entity?.id } } } },
   })
 
   useEffect(() => {
-    getCookStove(data.externalId).then((response) => setCookStove(response.data))
-  }, [data.externalId])
+    if (data?.entity?.externalId) {
+      getCookStove(data?.entity?.externalId)
+        .then(({ data }) => setCookStove(data))
+        .catch(console.log)
+    }
+  }, [data?.entity?.externalId])
 
   const carbonTokens = useMemo(() => {
     if (accountTokens['CARBON']) {
@@ -63,46 +85,50 @@ const AssetDashboard = () => {
     return { retired: 0, produced: 0, claimable: 0 }
   }, [accountTokens])
 
-  useEffect(() => {
-    if (data) {
-      setEntity(data)
-      apiEntityToEntity({ entity: data, cwClient }, (key, value) => {
-        setEntity((entity: any) => ({ ...entity, [key]: value }))
-      })
-    }
-    return () => {
-      setEntity(undefined)
-    }
-  }, [data, cwClient])
-
-  const assetNumber = _.get(currentEntity, 'currentEntity.alsoKnownAs').replace('{id}', '')
+  const assetNumber = _.get(currentEntity, 'currentEntity.alsoKnownAs').replace('{id}#', '')
   const did = _.get(currentEntity, 'id')
 
   const { profile } = useGetCreatorProfileWithVerifiableCredential({
-    endpoint: entity?.linkedResource?.find((item) => item.type === 'VerifiableCredential')?.serviceEndpoint || '',
+    endpoint: entity?.linkedResource?.find((item: any) => item.type === 'VerifiableCredential')?.serviceEndpoint || '',
     service: entity?.service || [],
   })
+
+  const inputAssetCardData = useMemo(() => {
+    if (entity) {
+      const {
+        settings: { Profile, Tags },
+        linkedResource,
+      } = entity
+      const zLottie = linkedResource?.find((resource: any) => resource.type === 'Lottie').data
+
+      return {
+        logo: Profile?.data?.logo,
+        type: Profile?.type.split(':')[1] ?? '',
+        collectionName: collection,
+        title: Profile?.data?.brand,
+        cardImage: Profile?.data?.image,
+        creator: Profile?.data?.name,
+        tags: Tags?.data?.entityTags ?? [],
+        animation: zLottie,
+        assetNumber: assetNumber,
+        maxSupply: '',
+        accountTokens: {},
+      }
+    }
+    return EmptyAssetCardData
+  }, [entity, collection, assetNumber])
 
   return (
     <Dashboard
       theme={'dark'}
-      title={`SupaMoto ${assetNumber}`}
+      title={`SupaMoto #${assetNumber}`}
       subRoutes={[]}
       baseRoutes={[]}
       entityType={entityType}
       matchType={MatchType.strict}
     >
       <FlexBox height='300px' width='100%' gap={5}>
-        {entity && (
-          <AssetCard
-            collectionName={collection}
-            creator={profile?.name || ''}
-            entity={entity}
-            accountTokens={carbonTokens}
-            width='250px'
-            height='100%'
-          />
-        )}
+        {entity && <AssetCard {...inputAssetCardData} accountTokens={carbonTokens} width='250px' height='100%' />}
         <FlexBox flexGrow={1} height='100%' gap={5}>
           <AssetStatsCard
             title='Assets Stats'
@@ -120,9 +146,9 @@ const AssetDashboard = () => {
           />
         </FlexBox>
       </FlexBox>
-      <FlexBox height='400px' py={5}>
+      <FlexBox height='420px' py={5}>
         <AssetPerformanceCard
-          externalId={data.externalId}
+          externalId={data?.entity?.externalId ?? ''}
           title='Asset Performance'
           icon={<AssetPerformanceIcon transform='scale(1.4)' />}
         />

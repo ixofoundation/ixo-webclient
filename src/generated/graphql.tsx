@@ -2215,6 +2215,11 @@ export type PageInfo = {
 /** The root query type which gives access points into the data universe. */
 export type Query = Node & {
   __typename?: 'Query';
+  _prismaMigration?: Maybe<_PrismaMigration>;
+  /** Reads a single `_PrismaMigration` using its globally unique `ID`. */
+  _prismaMigrationByNodeId?: Maybe<_PrismaMigration>;
+  /** Reads and enables pagination through a set of `_PrismaMigration`. */
+  _prismaMigrations?: Maybe<_PrismaMigrationsConnection>;
   bond?: Maybe<Bond>;
   bondAlpha?: Maybe<BondAlpha>;
   /** Reads a single `BondAlpha` using its globally unique `ID`. */
@@ -2349,6 +2354,31 @@ export type Query = Node & {
   transactionByNodeId?: Maybe<Transaction>;
   /** Reads and enables pagination through a set of `Transaction`. */
   transactions?: Maybe<TransactionsConnection>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type Query_PrismaMigrationArgs = {
+  id: Scalars['String']['input'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type Query_PrismaMigrationByNodeIdArgs = {
+  nodeId: Scalars['ID']['input'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type Query_PrismaMigrationsArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  condition?: InputMaybe<_PrismaMigrationCondition>;
+  filter?: InputMaybe<_PrismaMigrationFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<_PrismaMigrationsOrderBy>>;
 };
 
 
@@ -4220,6 +4250,129 @@ export enum TransactionsOrderBy {
   TimeDesc = 'TIME_DESC'
 }
 
+export type _PrismaMigration = Node & {
+  __typename?: '_PrismaMigration';
+  appliedStepsCount: Scalars['Int']['output'];
+  checksum: Scalars['String']['output'];
+  finishedAt?: Maybe<Scalars['Datetime']['output']>;
+  id: Scalars['String']['output'];
+  logs?: Maybe<Scalars['String']['output']>;
+  migrationName: Scalars['String']['output'];
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID']['output'];
+  rolledBackAt?: Maybe<Scalars['Datetime']['output']>;
+  startedAt: Scalars['Datetime']['output'];
+};
+
+/**
+ * A condition to be used against `_PrismaMigration` object types. All fields are
+ * tested for equality and combined with a logical ‘and.’
+ */
+export type _PrismaMigrationCondition = {
+  /** Checks for equality with the object’s `appliedStepsCount` field. */
+  appliedStepsCount?: InputMaybe<Scalars['Int']['input']>;
+  /** Checks for equality with the object’s `checksum` field. */
+  checksum?: InputMaybe<Scalars['String']['input']>;
+  /** Checks for equality with the object’s `finishedAt` field. */
+  finishedAt?: InputMaybe<Scalars['Datetime']['input']>;
+  /** Checks for equality with the object’s `id` field. */
+  id?: InputMaybe<Scalars['String']['input']>;
+  /** Checks for equality with the object’s `logs` field. */
+  logs?: InputMaybe<Scalars['String']['input']>;
+  /** Checks for equality with the object’s `migrationName` field. */
+  migrationName?: InputMaybe<Scalars['String']['input']>;
+  /** Checks for equality with the object’s `rolledBackAt` field. */
+  rolledBackAt?: InputMaybe<Scalars['Datetime']['input']>;
+  /** Checks for equality with the object’s `startedAt` field. */
+  startedAt?: InputMaybe<Scalars['Datetime']['input']>;
+};
+
+/** A filter to be used against `_PrismaMigration` object types. All fields are combined with a logical ‘and.’ */
+export type _PrismaMigrationFilter = {
+  /** Checks for all expressions in this list. */
+  and?: InputMaybe<Array<_PrismaMigrationFilter>>;
+  /** Filter by the object’s `appliedStepsCount` field. */
+  appliedStepsCount?: InputMaybe<IntFilter>;
+  /** Filter by the object’s `checksum` field. */
+  checksum?: InputMaybe<StringFilter>;
+  /** Filter by the object’s `finishedAt` field. */
+  finishedAt?: InputMaybe<DatetimeFilter>;
+  /** Filter by the object’s `id` field. */
+  id?: InputMaybe<StringFilter>;
+  /** Filter by the object’s `logs` field. */
+  logs?: InputMaybe<StringFilter>;
+  /** Filter by the object’s `migrationName` field. */
+  migrationName?: InputMaybe<StringFilter>;
+  /** Negates the expression. */
+  not?: InputMaybe<_PrismaMigrationFilter>;
+  /** Checks for any expressions in this list. */
+  or?: InputMaybe<Array<_PrismaMigrationFilter>>;
+  /** Filter by the object’s `rolledBackAt` field. */
+  rolledBackAt?: InputMaybe<DatetimeFilter>;
+  /** Filter by the object’s `startedAt` field. */
+  startedAt?: InputMaybe<DatetimeFilter>;
+};
+
+/** A connection to a list of `_PrismaMigration` values. */
+export type _PrismaMigrationsConnection = {
+  __typename?: '_PrismaMigrationsConnection';
+  /** A list of edges which contains the `_PrismaMigration` and cursor to aid in pagination. */
+  edges: Array<_PrismaMigrationsEdge>;
+  /** A list of `_PrismaMigration` objects. */
+  nodes: Array<_PrismaMigration>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `_PrismaMigration` you could get from the connection. */
+  totalCount: Scalars['Int']['output'];
+};
+
+/** A `_PrismaMigration` edge in the connection. */
+export type _PrismaMigrationsEdge = {
+  __typename?: '_PrismaMigrationsEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']['output']>;
+  /** The `_PrismaMigration` at the end of the edge. */
+  node: _PrismaMigration;
+};
+
+/** Methods to use when ordering `_PrismaMigration`. */
+export enum _PrismaMigrationsOrderBy {
+  AppliedStepsCountAsc = 'APPLIED_STEPS_COUNT_ASC',
+  AppliedStepsCountDesc = 'APPLIED_STEPS_COUNT_DESC',
+  ChecksumAsc = 'CHECKSUM_ASC',
+  ChecksumDesc = 'CHECKSUM_DESC',
+  FinishedAtAsc = 'FINISHED_AT_ASC',
+  FinishedAtDesc = 'FINISHED_AT_DESC',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  LogsAsc = 'LOGS_ASC',
+  LogsDesc = 'LOGS_DESC',
+  MigrationNameAsc = 'MIGRATION_NAME_ASC',
+  MigrationNameDesc = 'MIGRATION_NAME_DESC',
+  Natural = 'NATURAL',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  RolledBackAtAsc = 'ROLLED_BACK_AT_ASC',
+  RolledBackAtDesc = 'ROLLED_BACK_AT_DESC',
+  StartedAtAsc = 'STARTED_AT_ASC',
+  StartedAtDesc = 'STARTED_AT_DESC'
+}
+
+export type EntityQueryVariables = Exact<{
+  id: Scalars['String']['input'];
+}>;
+
+
+export type EntityQuery = { __typename?: 'Query', entity?: { __typename?: 'Entity', accordedRight: any, accounts: any, alsoKnownAs: string, assertionMethod: Array<string>, authentication: Array<string>, capabilityDelegation: Array<string>, capabilityInvocation: Array<string>, context: any, controller: Array<string>, credentials?: Array<string | null> | null, endDate?: any | null, entityVerified: boolean, externalId?: string | null, id: string, linkedClaim: any, keyAgreement: Array<string>, linkedEntity: any, linkedResource: any, metadata: any, nodeId: string, owner?: string | null, relayerNode: string, service: any, settings: any, startDate?: any | null, status: number, type: string, verificationMethod: any } | null };
+
+export type GetAccountTokensQueryVariables = Exact<{
+  address: Scalars['String']['input'];
+  name?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type GetAccountTokensQuery = { __typename?: 'Query', getAccountTokens: any };
+
 export type MessagesQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']['input']>;
   filter?: InputMaybe<MessageFilter>;
@@ -4229,6 +4382,102 @@ export type MessagesQueryVariables = Exact<{
 export type MessagesQuery = { __typename?: 'Query', messages?: { __typename?: 'MessagesConnection', totalCount: number, nodes: Array<{ __typename?: 'Message', id: number, value: any, typeUrl: string, to?: string | null, from?: string | null, denoms?: Array<string | null> | null, nodeId: string, tokenNames?: Array<string | null> | null, transactionHash: string, transactionByTransactionHash?: { __typename?: 'Transaction', code: number, fee: any, gasUsed: string, gasWanted: string, hash: string, height: number, nodeId: string, time: any } | null }> } | null };
 
 
+export const EntityDocument = gql`
+    query entity($id: String!) {
+  entity(id: $id) {
+    accordedRight
+    accounts
+    alsoKnownAs
+    assertionMethod
+    authentication
+    capabilityDelegation
+    capabilityInvocation
+    context
+    controller
+    credentials
+    endDate
+    entityVerified
+    externalId
+    id
+    linkedClaim
+    keyAgreement
+    linkedEntity
+    linkedResource
+    metadata
+    nodeId
+    owner
+    relayerNode
+    service
+    settings
+    startDate
+    status
+    type
+    verificationMethod
+  }
+}
+    `;
+
+/**
+ * __useEntityQuery__
+ *
+ * To run a query within a React component, call `useEntityQuery` and pass it any options that fit your needs.
+ * When your component renders, `useEntityQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useEntityQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useEntityQuery(baseOptions: Apollo.QueryHookOptions<EntityQuery, EntityQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<EntityQuery, EntityQueryVariables>(EntityDocument, options);
+      }
+export function useEntityLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<EntityQuery, EntityQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<EntityQuery, EntityQueryVariables>(EntityDocument, options);
+        }
+export type EntityQueryHookResult = ReturnType<typeof useEntityQuery>;
+export type EntityLazyQueryHookResult = ReturnType<typeof useEntityLazyQuery>;
+export type EntityQueryResult = Apollo.QueryResult<EntityQuery, EntityQueryVariables>;
+export const GetAccountTokensDocument = gql`
+    query GetAccountTokens($address: String!, $name: String) {
+  getAccountTokens(address: $address, name: $name)
+}
+    `;
+
+/**
+ * __useGetAccountTokensQuery__
+ *
+ * To run a query within a React component, call `useGetAccountTokensQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAccountTokensQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAccountTokensQuery({
+ *   variables: {
+ *      address: // value for 'address'
+ *      name: // value for 'name'
+ *   },
+ * });
+ */
+export function useGetAccountTokensQuery(baseOptions: Apollo.QueryHookOptions<GetAccountTokensQuery, GetAccountTokensQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAccountTokensQuery, GetAccountTokensQueryVariables>(GetAccountTokensDocument, options);
+      }
+export function useGetAccountTokensLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAccountTokensQuery, GetAccountTokensQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAccountTokensQuery, GetAccountTokensQueryVariables>(GetAccountTokensDocument, options);
+        }
+export type GetAccountTokensQueryHookResult = ReturnType<typeof useGetAccountTokensQuery>;
+export type GetAccountTokensLazyQueryHookResult = ReturnType<typeof useGetAccountTokensLazyQuery>;
+export type GetAccountTokensQueryResult = Apollo.QueryResult<GetAccountTokensQuery, GetAccountTokensQueryVariables>;
 export const MessagesDocument = gql`
     query Messages($first: Int, $filter: MessageFilter) {
   messages(first: $first, filter: $filter) {
