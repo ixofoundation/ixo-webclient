@@ -22,8 +22,11 @@ export const TradeWrapper = styled.div`
   }
 `
 
-export const TradePanel = styled.div`
-  width: 370px;
+export const TradePanel = styled.div<{ width?: string }>`
+  width: ${({ width }) => width || '40%'};
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 
   @media (max-width: ${deviceWidth.mobile}px) {
     width: 320px;

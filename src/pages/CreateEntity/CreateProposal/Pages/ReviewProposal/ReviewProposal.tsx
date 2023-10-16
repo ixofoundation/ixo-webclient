@@ -302,6 +302,7 @@ const ReviewProposal: React.FC = () => {
   const handleSubmit = async () => {
     try {
       if (!isParticipating && !anyoneCanPropose) {
+        console.log(111111, isParticipating, anyoneCanPropose)
         Toast.errorToast(null, 'You must be a member of the group')
         return
       }

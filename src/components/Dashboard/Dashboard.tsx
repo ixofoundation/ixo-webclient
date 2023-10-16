@@ -64,7 +64,7 @@ export const DashboardThemes = {
 export type DashboardTheme = typeof DashboardThemes[keyof typeof DashboardThemes]
 
 interface Props {
-  title: string
+  title: string | JSX.Element
   subRoutes: Path[]
   baseRoutes: Path[]
   theme: DashboardTheme

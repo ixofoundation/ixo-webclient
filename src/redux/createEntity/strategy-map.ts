@@ -3,12 +3,13 @@ import {
   ReviewAssetClass,
   SelectCreationProcess as SelectAssetCreationProcess,
   SetupMetadata as SetupAssetMetadata,
-  SetupProperties,
+  SetupProperties as SetupAssetProperties,
 } from 'pages/CreateEntity/CreateAsset/Pages'
 import {
   SelectCreationProcess as SelectInvestmentCreationProcess,
   SetupMetadata as SetupInvestmentMetadata,
   SetupInstrument as SetupInvestmentInstrument,
+  SetupProperties as SetupInvestmentProperties,
   ReviewInvestment,
 } from 'pages/CreateEntity/CreateInvestment/Pages'
 import {
@@ -88,7 +89,7 @@ export const CreateEntityStrategyMap: TCreateEntityStrategyMap = {
       [`3`]: {
         id: 3,
         name: 'Asset Class Properties',
-        component: SetupProperties,
+        component: SetupAssetProperties,
         url: '/create/entity/asset/property',
         prevStep: 2,
         nextStep: 4,
@@ -142,7 +143,7 @@ export const CreateEntityStrategyMap: TCreateEntityStrategyMap = {
       [`4`]: {
         id: 4,
         name: 'Configure the Investment Settings',
-        component: SetupProperties,
+        component: SetupInvestmentProperties,
         url: '/create/entity/investment/property',
         prevStep: 3,
         nextStep: 5,

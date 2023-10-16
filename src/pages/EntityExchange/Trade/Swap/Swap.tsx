@@ -1,11 +1,7 @@
-import React, { useEffect, useMemo, useState } from 'react'
-import moment from 'moment'
+import React, { useMemo, useState } from 'react'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
-import AssetCard from 'components/Entities/EntitiesExplorer/Components/EntityCard/AssetCard/AssetCard'
-import { TermsOfUseType } from 'types/entities'
 
-import { TradeWrapper, AssetCardWrapper, TradePanel } from '../Swap.styles'
-import { useParams } from 'react-router-dom'
+import { TradePanel } from '../Swap.styles'
 
 import { selectSelectedAccountAddress } from 'redux/selectedEntityExchange/entityExchange.selectors'
 import BigNumber from 'bignumber.js'
@@ -17,21 +13,37 @@ import RenderPairListPanel from 'components/Pages/Exchange/Swap/RenderPairListPa
 import RenderSettingsPanel from 'components/Pages/Exchange/Swap/RenderSettingsPanel'
 import { connect } from 'react-redux'
 import { RootState } from 'redux/store'
-import * as keplr from 'lib/keplr/keplr'
-import { setKeplrWallet } from 'redux/account/account.actions'
-import { changeSelectedAccountAddress } from 'redux/selectedEntityExchange/entityExchange.actions'
 import useExchange from 'hooks/exchange'
 import { setInputAsset, setInputAssetAmount, setOutputAsset } from 'redux/exchange/exchange.actions'
 import { selectInputEntity, selectOutputEntity } from 'redux/exchange/exchange.selectors'
+import AssetCard from 'components/AssetCard'
+import { Flex } from '@mantine/core'
+import { useGetAccountTokens } from 'graphql/tokens'
+import { useTheme } from 'styled-components'
+import { useMediaQuery } from '@mantine/hooks'
+
+const EmptyAssetCardData = {
+  type: '',
+  logo: '',
+  collectionName: '',
+  title: '',
+  cardImage: '',
+  creator: '',
+  tags: '',
+  animation: '',
+  assetNumber: '',
+  maxSupply: '',
+  accountTokens: {},
+}
 
 const Swap: React.FunctionComponent = () => {
-  const { wallet } = useParams() as any
-  const walletType = wallet
+  const theme = useTheme() as any
   const { getAssetsByChainId, getRelayerNameByChainId } = useIxoConfigs()
   const selectedAccountAddress = useAppSelector(selectSelectedAccountAddress)
   const inputAssetEntity = useAppSelector(selectInputEntity)
   const outputAssetEntity = useAppSelector(selectOutputEntity)
   const dispatch = useAppDispatch()
+  const isSmallScreen = useMediaQuery('(max-width: 1024px)')
 
   const [viewSettings, setViewSettings] = useState(false)
   const [openTransactionModal, setOpenTransactionModal] = useState(false)
@@ -67,33 +79,11 @@ const Swap: React.FunctionComponent = () => {
         (currency: any) =>
           currency.display !== inputAsset?.asset?.display && currency.display !== outputAsset?.asset?.display,
       ),
-    [
-      assets,
-      inputAsset.asset,
-      outputAsset.asset,
-      // availablePairs,`
-    ],
+    [assets, inputAsset.asset, outputAsset.asset],
   )
 
-  useEffect(() => {
-    ;(async () => {
-      switch (walletType) {
-        case 'keplr': {
-          const [accounts, offlineSigner] = await keplr.connectAccount()
-          if (accounts) {
-            dispatch(setKeplrWallet(accounts[0].address, offlineSigner))
-            dispatch(changeSelectedAccountAddress(accounts[0].address))
-          }
-          break
-        }
-        default:
-          break
-      }
-    })()
-  }, [walletType, dispatch])
-
   const handleSwapClick = (): void => {
-    const temp = { ...inputAsset } // Create a copy of inputAsset
+    const temp = { ...inputAsset }
     dispatch(setInputAsset(outputAsset))
     dispatch(setOutputAsset(temp))
   }
@@ -112,7 +102,6 @@ const Swap: React.FunctionComponent = () => {
   }
 
   const handleInputTokenSelect = (token: AssetType) => {
-    console.log('Entity ID', token.entityId)
     getInputAssetEntity(token.entityId)
     dispatch(
       setInputAsset({
@@ -122,37 +111,101 @@ const Swap: React.FunctionComponent = () => {
   }
 
   const handleOutputTokenSelect = (token: AssetType) => {
+    getOutputAssetEntity(token.entityId)
     dispatch(
       setOutputAsset({
         asset: token,
       }),
     )
-    getOutputAssetEntity(token.entityId)
   }
 
+  const inputAssetCardData = useMemo(() => {
+    if (inputAssetEntity) {
+      const {
+        settings: { Profile, Tags },
+        linkedResource,
+      } = inputAssetEntity
+      const {
+        data: { name, image, logo, type, brand },
+      } = Profile
+      const zLottie = linkedResource.find((resource: any) => resource.type === 'Lottie').data
+
+      return {
+        logo,
+        type: type.split(':')[1],
+        collectionName: name,
+        title: brand,
+        cardImage: image,
+        creator: '',
+        tags: Tags.data.entityTags,
+        animation: zLottie,
+        assetNumber: '',
+        maxSupply: '',
+        accountTokens: {},
+      }
+    }
+    return EmptyAssetCardData
+  }, [inputAssetEntity])
+
+  const outputAssetCardData = useMemo(() => {
+    if (outputAssetEntity) {
+      const {
+        settings: { Profile, Tags },
+        linkedResource,
+      } = outputAssetEntity
+      const {
+        data: { name, image, logo, type, brand },
+      } = Profile
+      const zLottie = linkedResource?.find((resource: any) => resource.type === 'Lottie').data
+
+      return {
+        logo,
+        type: type.split(':')[1],
+        collectionName: name,
+        title: brand,
+        cardImage: image,
+        creator: '',
+        tags: Tags.data.entityTags,
+        animation: zLottie,
+        assetNumber: '',
+        maxSupply: '',
+        accountTokens: {},
+      }
+    }
+    return EmptyAssetCardData
+  }, [outputAssetEntity])
+
+  const adminAccount = useMemo(
+    () => inputAssetEntity?.accounts?.find((v: any) => v.name === 'admin')?.address || '',
+    [inputAssetEntity],
+  )
+  const { data: accountTokens } = useGetAccountTokens(adminAccount)
+
+  const carbonTokens = useMemo(() => {
+    if (accountTokens['CARBON']) {
+      const carbon = accountTokens['CARBON']
+      const claimable = Object.values(carbon.tokens).reduce((acc: number, cur: any) => acc + cur.amount, 0)
+      const produced = Object.values(carbon.tokens).reduce((acc: number, cur: any) => acc + cur.minted, 0)
+      const retired = Object.values(carbon.tokens).reduce((acc: number, cur: any) => acc + cur.retired, 0)
+      return { retired, produced, claimable }
+    }
+
+    return { retired: 0, produced: 0, claimable: 0 }
+  }, [accountTokens])
+
+  const hasInputData = Boolean(inputAssetCardData.type.length > 0)
+  const hasOutputData = Boolean(outputAssetCardData.type.length > 0)
+
   return (
-    <TradeWrapper>
+    <Flex w='100%' bg={theme.ixoDarkestBlue}>
       {selectedAccountAddress && (
-        <div className='d-flex'>
-          <AssetCardWrapper>
-            {inputAssetEntity && (
-              <AssetCard
-                id={'asset-card'}
-                did={inputAssetEntity?.id}
-                name={inputAssetEntity?.profile?.brand}
-                logo={inputAssetEntity?.profile?.logo}
-                image={inputAssetEntity?.profile?.image}
-                sdgs={inputAssetEntity?.sdgs}
-                description={inputAssetEntity?.profile?.description}
-                dateCreated={moment(inputAssetEntity?.metadata?.created)}
-                badges={[]}
-                version={''}
-                termsType={TermsOfUseType.PayPerUse}
-                isExplorer={false}
-              />
+        <Flex align='center' justify={hasInputData ? 'flex-start' : 'center'} w='100%'>
+          <Flex h='300px' mx={30} w={isSmallScreen ? '10%' : '30%'} justify='flex-end'>
+            {!isSmallScreen && hasInputData && (
+              <AssetCard {...inputAssetCardData} accountTokens={carbonTokens} width='250px' height='100%' />
             )}
-          </AssetCardWrapper>
-          <TradePanel>
+          </Flex>
+          <TradePanel width={isSmallScreen ? '100%' : '40%'}>
             {!viewSettings &&
               (viewPairList === 'none' ? (
                 <RenderSwapPanel
@@ -212,25 +265,12 @@ const Swap: React.FunctionComponent = () => {
               />
             )}
           </TradePanel>
-          <AssetCardWrapper>
-            {outputAssetEntity && (
-              <AssetCard
-                id={'asset-card'}
-                did={outputAssetEntity?.id}
-                name={outputAssetEntity?.profile?.brand}
-                logo={outputAssetEntity?.profile?.logo}
-                image={outputAssetEntity?.profile?.image}
-                sdgs={outputAssetEntity?.sdgs}
-                description={outputAssetEntity?.profile?.description}
-                dateCreated={moment(outputAssetEntity?.metadata?.created)}
-                badges={[]}
-                version={''}
-                termsType={TermsOfUseType.PayPerUse}
-                isExplorer={false}
-              />
+          <Flex h='300px' mx={30} w={isSmallScreen ? '10%' : '30%'} justify='flex-start'>
+            {!isSmallScreen && hasOutputData && (
+              <AssetCard {...outputAssetCardData} accountTokens={carbonTokens} width='250px' height='100%' />
             )}
-          </AssetCardWrapper>
-        </div>
+          </Flex>
+        </Flex>
       )}
       <SwapModal
         open={openTransactionModal}
@@ -244,7 +284,7 @@ const Swap: React.FunctionComponent = () => {
         outputAsset={outputAsset}
         tokenBalances={tokenBalances}
       />
-    </TradeWrapper>
+    </Flex>
   )
 }
 

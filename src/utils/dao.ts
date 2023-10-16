@@ -12,7 +12,6 @@ import { ProposalActionConfigMap } from 'constants/entity'
 import { chainNetwork } from 'hooks/configs'
 import { Member } from 'types/dao'
 import { durationToSeconds, expirationAtTimeToSecondsFromNow } from './conversions'
-import { sleepByLimiter } from './limiter'
 import { decodeProtobufValue, parseEncodedMessage } from './messages'
 
 export const thresholdToTQData = (
@@ -77,19 +76,14 @@ export const getDaoContractInfo = async ({
   let type = ''
   let token: any = undefined
   const daoCoreClient = new contracts.DaoCore.DaoCoreQueryClient(cwClient, coreAddress)
-  await sleepByLimiter()
   const admin = await exponentialBackoff(() => daoCoreClient.admin(), 5, 1000, 30000)
-
-  await sleepByLimiter()
   const config = await exponentialBackoff(() => daoCoreClient.config(), 5, 1000, 30000)
-  await sleepByLimiter()
   const [{ address: proposalModuleAddress }] = await exponentialBackoff(
     () => daoCoreClient.proposalModules({}),
     5,
     1000,
     30000,
   )
-  await sleepByLimiter()
   const votingModuleAddress = await exponentialBackoff(() => daoCoreClient.votingModule(), 5, 1000, 30000)
 
   // proposalModule
@@ -99,16 +93,12 @@ export const getDaoContractInfo = async ({
     cwClient,
     proposalModuleAddress,
   )
-  await sleepByLimiter()
   proposalModule.proposalConfig = await exponentialBackoff(() => daoProposalSingleClient.config(), 5, 1000, 30000)
-  await sleepByLimiter()
   const { proposals } = await exponentialBackoff(() => daoProposalSingleClient.listProposals({}), 5, 1000, 30000)
   const votes: VoteInfo[] = await proposals.reduce(
     async (previousPromise: Promise<VoteInfo[]>, current: ProposalResponse) => {
       const { id } = current
-      await sleepByLimiter()
       const { votes } = await daoProposalSingleClient.listVotes({ proposalId: id })
-      await sleepByLimiter()
       const previous = await previousPromise
       return previous.concat(votes)
     },
@@ -135,7 +125,6 @@ export const getDaoContractInfo = async ({
     }
   })
 
-  await sleepByLimiter()
   const {
     module: { addr: preProposalContractAddress },
   } = (await exponentialBackoff(() => daoProposalSingleClient.proposalCreationPolicy(), 5, 1000, 30000)) as {
@@ -146,13 +135,11 @@ export const getDaoContractInfo = async ({
     cwClient,
     preProposalContractAddress,
   )
-  await sleepByLimiter()
   proposalModule.preProposeConfig = await exponentialBackoff(() => daoPreProposeSingleClient.config(), 5, 1000, 30000)
 
   // votingModule
   const votingModule: any = {}
   votingModule.votingModuleAddress = votingModuleAddress
-  await sleepByLimiter()
   const { codeId } = await exponentialBackoff(
     () => cwClient.getContract(votingModule.votingModuleAddress),
     5,
@@ -168,23 +155,20 @@ export const getDaoContractInfo = async ({
       cwClient,
       votingModule.votingModuleAddress,
     )
-    await sleepByLimiter()
+
     const stakingContract = await exponentialBackoff(() => daoVotingCw20StakedClient.stakingContract(), 5, 1000, 30000)
-    await sleepByLimiter()
+
     const tokenContract = await exponentialBackoff(() => daoVotingCw20StakedClient.tokenContract(), 5, 1000, 30000)
 
     const cw20StakeClient = new contracts.Cw20Stake.Cw20StakeQueryClient(cwClient, stakingContract)
-    await sleepByLimiter()
+
     const { total } = await exponentialBackoff(() => cw20StakeClient.totalValue(), 5, 1000, 30000)
-    await sleepByLimiter()
-    const { stakers } = await exponentialBackoff(() => cw20StakeClient.listStakers({}), 5, 1000, 30000)
-    await sleepByLimiter()
+
     const config = await exponentialBackoff(() => cw20StakeClient.getConfig(), 5, 1000, 30000)
 
     const cw20BaseClient = new contracts.Cw20Base.Cw20BaseQueryClient(cwClient, tokenContract)
-    await sleepByLimiter()
     const tokenInfo: TokenInfoResponse = await exponentialBackoff(() => cw20BaseClient.tokenInfo(), 5, 1000, 30000)
-    await sleepByLimiter()
+
     const marketingInfo: MarketingInfoResponse = await exponentialBackoff(
       () => cw20BaseClient.marketingInfo(),
       5,
@@ -207,13 +191,10 @@ export const getDaoContractInfo = async ({
       votingModule.votingModuleAddress,
     )
 
-    await sleepByLimiter()
     const cw4GroupAddress = await exponentialBackoff(() => daoVotingCw4Client.groupContract(), 5, 1000, 30000)
     const cw4GroupClient = new contracts.Cw4Group.Cw4GroupQueryClient(cwClient, cw4GroupAddress)
-    await sleepByLimiter()
     votingModule.members = (await exponentialBackoff(() => cw4GroupClient.listMembers({}), 5, 1000, 30000))
       .members as never[]
-    await sleepByLimiter()
     votingModule.totalWeight = (await exponentialBackoff(() => cw4GroupClient.totalWeight({}), 5, 1000, 30000))
       .weight as number
   }

@@ -7,6 +7,7 @@ import PairListCard, { PairListCardProps } from './PairListCard'
 import AmountInputBox from './AmountInputBox'
 import { AssetType } from 'redux/configs/configs.types'
 import BigNumber from 'bignumber.js'
+import { Flex } from '@mantine/core'
 
 export type RenderPairListPanelProps = RenderSettingsButtonProps &
   Omit<PairListCardProps, 'handleSelectToken'> & {
@@ -50,7 +51,7 @@ const RenderPairListPanel = ({
   toAmount,
   toUSDRate,
 }: RenderPairListPanelProps): JSX.Element => (
-  <>
+  <Flex w='100%' direction='column'>
     <CardHeader>
       <CardHeaderText>
         <span>I want to&nbsp;</span>
@@ -102,7 +103,7 @@ const RenderPairListPanel = ({
         )}
       </PairListCard>
     </CardBody>
-  </>
+  </Flex>
 )
 
 export default RenderPairListPanel

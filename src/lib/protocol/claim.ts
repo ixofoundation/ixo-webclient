@@ -3,7 +3,6 @@ import { ixo, SigningStargateClient, utils, cosmos } from '@ixo/impactxclient-sd
 import { DeliverTxResponse } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/stargate'
 import { addDays } from 'utils/common'
 import Long from 'long'
-import { sleepByLimiter } from 'utils/limiter'
 
 const { createRPCQueryClient } = cosmos.ClientFactory
 
@@ -83,7 +82,6 @@ export const CreateCollection = async (
         : undefined,
     }),
   }
-  await sleepByLimiter()
   const response = await client.signAndBroadcast(signer.address, [message], fee)
   console.log('CreateCollection', { response })
   return response
@@ -152,7 +150,6 @@ export const GrantEntityAccountClaimsSubmitAuthz = async (
     }),
   }
 
-  await sleepByLimiter()
   const response = await client.signAndBroadcast(signer.address, [message], fee)
   return response
 }
@@ -188,7 +185,6 @@ export const MsgExecAgentSubmit = async (
     }),
   }
 
-  await sleepByLimiter()
   const response = await client.signAndBroadcast(signer.address, [message], fee)
   return response
 }
@@ -219,7 +215,6 @@ export const GrantEntityAccountClaimsEvaluateAuthz = async (
   } = payload
 
   const queryClient = await createRPCQueryClient({ rpcEndpoint: RPC_ENDPOINT! })
-  await sleepByLimiter()
   const granteeGrants = await queryClient.cosmos.authz.v1beta1.granteeGrants({
     grantee: granteeAddress,
   })
@@ -268,7 +263,6 @@ export const GrantEntityAccountClaimsEvaluateAuthz = async (
     }),
   }
 
-  await sleepByLimiter()
   const response = await client.signAndBroadcast(signer.address, [message], fee)
   return response
 }
@@ -317,7 +311,6 @@ export const MsgExecAgentEvaluate = async (
     }),
   }
 
-  await sleepByLimiter()
   const response = await client.signAndBroadcast(signer.address, [message], fee)
   return response
 }

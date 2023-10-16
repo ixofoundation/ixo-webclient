@@ -18,6 +18,7 @@ afterAll(() => {
 beforeEach(() => {
   state = {
     account: {
+      did: 'someCreatorDid',
       userInfo: {
         didDoc: {
           did: 'someCreatorDid',
@@ -291,7 +292,7 @@ describe('SubmitEntityClaim Selectors', () => {
       // when ... we call the selector
       const result = SUT.selectSavingAnswer(state)
       // then ... should return result as expected
-      expect(result).toEqual(true)
+      expect(result).toEqual(state.submitEntityClaim.savingAnswer)
     })
   })
 

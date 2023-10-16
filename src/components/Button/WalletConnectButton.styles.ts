@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const ConnectButton = styled.div`
+export const ConnectButton = styled.div<{ disabled?: boolean }>`
   border: 1px solid currentColor;
   border-radius: 8px;
 
@@ -15,4 +15,6 @@ export const ConnectButton = styled.div`
   align-items: center;
 
   padding: 10px;
+
+  ${(props) => props.disabled && `pointer-events: none;`}
 `

@@ -8,6 +8,7 @@ import { ReactComponent as UserPlusSolidIcon } from 'assets/images/icon-user-plu
 import { ReactComponent as UserMinusSolidIcon } from 'assets/images/icon-user-minus-solid.svg'
 import { ReactComponent as IncomingTransactionIcon } from 'assets/images/icon-incoming-transaction.svg'
 import moment from 'moment'
+import { renderTableHeader } from 'components/Table/Table'
 
 const TableWrapper = styled.div`
   color: white;
@@ -45,26 +46,6 @@ const TableWrapper = styled.div`
     }
   }
 `
-
-const renderTableHeader = (name: string, justifyContent = 'flex-start') => (
-  <FlexBox
-    p={4}
-    justifyContent={
-      justifyContent as
-        | 'flex-start'
-        | 'flex-end'
-        | 'center'
-        | 'space-between'
-        | 'space-around'
-        | 'space-evenly'
-        | 'stretch'
-    }
-  >
-    <Typography color='light-grey-blue' transform='uppercase' weight='bold' size='md'>
-      {name}
-    </Typography>
-  </FlexBox>
-)
 
 interface Props {
   address: string

@@ -24,8 +24,12 @@ export const selectOutputEntity = createSelector(selectExchangeState, (exchange)
   return exchange.outputAsset.entity
 })
 
-export const selectSlippage = createSelector(selectExchangeState, (exchange): number => {
-  return exchange.slippage
+export const selectSettings = createSelector(selectExchangeState, (exchange): any => {
+  return exchange.settings
+})
+
+export const selectSlippage = createSelector(selectSettings, (settings): number => {
+  return settings.slippage
 })
 
 export const selectTokenBalances = createSelector(selectExchangeState, (exchange): any => {

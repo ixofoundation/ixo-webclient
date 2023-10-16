@@ -4220,6 +4220,21 @@ export enum TransactionsOrderBy {
   TimeDesc = 'TIME_DESC'
 }
 
+export type EntityQueryVariables = Exact<{
+  id: Scalars['String']['input'];
+}>;
+
+
+export type EntityQuery = { __typename?: 'Query', entity?: { __typename?: 'Entity', accordedRight: any, accounts: any, alsoKnownAs: string, assertionMethod: Array<string>, authentication: Array<string>, capabilityDelegation: Array<string>, capabilityInvocation: Array<string>, context: any, controller: Array<string>, credentials?: Array<string | null> | null, endDate?: any | null, entityVerified: boolean, externalId?: string | null, id: string, linkedClaim: any, keyAgreement: Array<string>, linkedEntity: any, linkedResource: any, metadata: any, nodeId: string, owner?: string | null, relayerNode: string, service: any, settings: any, startDate?: any | null, status: number, type: string, verificationMethod: any } | null };
+
+export type GetAccountTokensQueryVariables = Exact<{
+  address: Scalars['String']['input'];
+  name?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type GetAccountTokensQuery = { __typename?: 'Query', getAccountTokens: any };
+
 export type MessagesQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']['input']>;
   filter?: InputMaybe<MessageFilter>;
@@ -4229,6 +4244,102 @@ export type MessagesQueryVariables = Exact<{
 export type MessagesQuery = { __typename?: 'Query', messages?: { __typename?: 'MessagesConnection', totalCount: number, nodes: Array<{ __typename?: 'Message', id: number, value: any, typeUrl: string, to?: string | null, from?: string | null, denoms?: Array<string | null> | null, nodeId: string, tokenNames?: Array<string | null> | null, transactionHash: string, transactionByTransactionHash?: { __typename?: 'Transaction', code: number, fee: any, gasUsed: string, gasWanted: string, hash: string, height: number, nodeId: string, time: any } | null }> } | null };
 
 
+export const EntityDocument = gql`
+    query entity($id: String!) {
+  entity(id: $id) {
+    accordedRight
+    accounts
+    alsoKnownAs
+    assertionMethod
+    authentication
+    capabilityDelegation
+    capabilityInvocation
+    context
+    controller
+    credentials
+    endDate
+    entityVerified
+    externalId
+    id
+    linkedClaim
+    keyAgreement
+    linkedEntity
+    linkedResource
+    metadata
+    nodeId
+    owner
+    relayerNode
+    service
+    settings
+    startDate
+    status
+    type
+    verificationMethod
+  }
+}
+    `;
+
+/**
+ * __useEntityQuery__
+ *
+ * To run a query within a React component, call `useEntityQuery` and pass it any options that fit your needs.
+ * When your component renders, `useEntityQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useEntityQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useEntityQuery(baseOptions: Apollo.QueryHookOptions<EntityQuery, EntityQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<EntityQuery, EntityQueryVariables>(EntityDocument, options);
+      }
+export function useEntityLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<EntityQuery, EntityQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<EntityQuery, EntityQueryVariables>(EntityDocument, options);
+        }
+export type EntityQueryHookResult = ReturnType<typeof useEntityQuery>;
+export type EntityLazyQueryHookResult = ReturnType<typeof useEntityLazyQuery>;
+export type EntityQueryResult = Apollo.QueryResult<EntityQuery, EntityQueryVariables>;
+export const GetAccountTokensDocument = gql`
+    query GetAccountTokens($address: String!, $name: String) {
+  getAccountTokens(address: $address, name: $name)
+}
+    `;
+
+/**
+ * __useGetAccountTokensQuery__
+ *
+ * To run a query within a React component, call `useGetAccountTokensQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAccountTokensQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAccountTokensQuery({
+ *   variables: {
+ *      address: // value for 'address'
+ *      name: // value for 'name'
+ *   },
+ * });
+ */
+export function useGetAccountTokensQuery(baseOptions: Apollo.QueryHookOptions<GetAccountTokensQuery, GetAccountTokensQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAccountTokensQuery, GetAccountTokensQueryVariables>(GetAccountTokensDocument, options);
+      }
+export function useGetAccountTokensLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAccountTokensQuery, GetAccountTokensQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAccountTokensQuery, GetAccountTokensQueryVariables>(GetAccountTokensDocument, options);
+        }
+export type GetAccountTokensQueryHookResult = ReturnType<typeof useGetAccountTokensQuery>;
+export type GetAccountTokensLazyQueryHookResult = ReturnType<typeof useGetAccountTokensLazyQuery>;
+export type GetAccountTokensQueryResult = Apollo.QueryResult<GetAccountTokensQuery, GetAccountTokensQueryVariables>;
 export const MessagesDocument = gql`
     query Messages($first: Int, $filter: MessageFilter) {
   messages(first: $first, filter: $filter) {

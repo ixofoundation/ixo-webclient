@@ -7,15 +7,15 @@ import { Button } from 'pages/CreateEntity/Components'
 import React, { useEffect, useState } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 import { errorToast, successToast } from 'utils/toast'
-import EditGroups from './components/EditGroups'
-import EditProfile from './components/EditProfile'
-import EditProperty from './components/EditProperty'
+import EditGroups from '../../components/EditGroups'
 import { ReactComponent as ExclamationIcon } from 'assets/images/icon-exclamation-circle.svg'
 import { useGetEntityByIdLazyQuery } from 'graphql/entities'
 import { useAccount } from 'hooks/account'
 import { apiEntityToEntity } from 'utils/entities'
 import { useDispatch } from 'react-redux'
 import { updateEntityAction, updateEntityPropertyAction } from 'redux/entitiesExplorer/entitiesExplorer.actions'
+import EditProfile from '../../components/EditProfile'
+import EditProperty from '../../components/EditProperty'
 
 const EditEntity: React.FC = () => {
   const dispatch = useDispatch()

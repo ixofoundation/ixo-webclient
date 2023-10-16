@@ -4,7 +4,6 @@ import BigNumber from 'bignumber.js'
 
 const initialState: ExchangeState = {
   balances: {},
-  slippage: 3,
   chainId: process.env.REACT_APP_CHAIN_ID,
   tokenBalances: [],
   inputAsset: {
@@ -24,6 +23,9 @@ const initialState: ExchangeState = {
     asset: null,
     usdAmount: BigNumber(0),
     batches: [],
+  },
+  settings: {
+    slippage: 3,
   },
 }
 
@@ -85,7 +87,7 @@ const reducer: Reducer<ExchangeState, ExchangeActionTypes> = (state = initialSta
     case ExchangeActions.SetSlippage:
       return {
         ...state,
-        slippage: action.payload,
+        settings: { ...state.settings, slippage: action.payload },
       }
     case ExchangeActions.SetTokenBalances:
       return {

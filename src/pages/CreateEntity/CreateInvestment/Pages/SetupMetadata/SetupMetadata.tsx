@@ -1,5 +1,5 @@
 import { Box } from 'components/App/App.styles'
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useCreateEntityState } from 'hooks/createEntity'
 import { Button } from '../../../Components'
 import { InvestmentProfileForm, EntityAdditionalInfoForm } from '../../../Forms'
@@ -10,7 +10,10 @@ const SetupMetadata: React.FC = (): JSX.Element => {
   const { entityType, startDate, endDate, gotoStep, updateProfile, updateStartEndDate } = createEntityState
   const profile = createEntityState.profile
 
-  const canSubmit = true
+  const canSubmit: boolean = useMemo(
+    () => !!profile && !!profile.image && !!profile.logo && !!profile.orgName && !!profile.name,
+    [profile],
+  )
 
   const handlePrev = (): void => {
     gotoStep(-1)

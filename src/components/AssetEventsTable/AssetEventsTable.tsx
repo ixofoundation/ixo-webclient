@@ -85,7 +85,7 @@ export const AssetEventsTable = ({ events }: AssetEventsTableProps) => {
                 style={{ cursor: 'pointer' }}
                 onClick={() =>
                   window
-                    .open(`${process.env.REACT_APP_BLOCK_SCAN_URL}transactions/${transactionHash}`, '_blank')!
+                    .open(`${process.env.REACT_APP_BLOCK_SCAN_URL}/transactions/${transactionHash}`, '_blank')!
                     .focus()
                 }
               >

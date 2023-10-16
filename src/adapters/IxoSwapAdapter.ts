@@ -209,13 +209,9 @@ class IxoSwapAdapter implements SwapAdapter {
       msg = await this.CarbonToIxo({ inputAsset, outputAsset })
     }
 
-    console.log({ msg })
-
     const funds: any = inputTokenCondition
       ? new Map<string, string>([['uixo', this.useBaseDenomAmount(inputAsset).toString()]])
       : undefined
-
-    console.log({ funds })
 
     return {
       typeUrl: '/cosmwasm.wasm.v1.MsgExecuteContract',
@@ -243,11 +239,7 @@ class IxoSwapAdapter implements SwapAdapter {
         setLocalData: (k, d) => store.set(k, d),
       },
     ).then((client) => {
-      client
-        .signAndBroadcast(this.walletAddress, swapTrxs as any, this.fee)
-        .then(console.log)
-        .catch(console.log)
-        .finally(callback)
+      client.signAndBroadcast(this.walletAddress, swapTrxs as any, this.fee).finally(callback)
     })
   }
 }

@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useState } from 'react'
 import Lottie from 'react-lottie'
 import styled from 'styled-components'
 import { StepsTransactions } from 'components/Modals/common/StepsTransactions/StepsTransactions'
-import { useAppSelector } from 'redux/hooks'
 import EyeIcon from 'assets/images/icon-eye.svg'
 import NextStepIcon from 'assets/images/modal/nextstep.svg'
 import pendingAnimation from 'assets/animations/transaction/pending.json'
@@ -18,6 +17,7 @@ import sov from 'sovrin-did'
 import { unset } from 'lodash'
 import { AlphaBondInfo } from 'types/bond'
 import { Container, NextStep, PrevStep, TXStatusBoard } from '../styles'
+import { useAccount } from 'hooks/account'
 
 const InfoBox = styled.div`
   background: #03324a;
@@ -91,11 +91,7 @@ const CreateBondSigningModal: React.FunctionComponent<Props> = ({ alphaBondInfo 
     // eslint-disable-next-line
   }, [alphaBondInfo])
 
-  const {
-    userInfo,
-    // sequence: userSequence,
-    // accountNumber: userAccountNumber,
-  } = useAppSelector((state) => state.account)
+  const { did } = useAccount()
 
   const handlePrevStep = (): void => {
     if (currentStep === 0) {
@@ -159,8 +155,8 @@ const CreateBondSigningModal: React.FunctionComponent<Props> = ({ alphaBondInfo 
   }
 
   const signInTransaction = (): void => {
-    if (!userInfo) {
-      Toast.errorToast(null, 'Please sign in Keysafe first!')
+    if (!did) {
+      Toast.errorToast(null, 'Please sign in first!')
       return
     }
     if (!alphaBondInfo) {
@@ -201,7 +197,7 @@ const CreateBondSigningModal: React.FunctionComponent<Props> = ({ alphaBondInfo 
           value: alphaBondInfo.baseCurveShape.toFixed(18),
         },
       ],
-      creator_did: userInfo.didDoc.did,
+      creator_did: did,
       controller_did: alphaBondInfo.controllerDid,
       reserve_tokens: [alphaBondInfo.reserveToken],
       tx_fee_percentage: alphaBondInfo.txFeePercentage.toFixed(18),

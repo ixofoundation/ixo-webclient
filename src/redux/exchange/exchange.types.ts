@@ -2,11 +2,15 @@ import BigNumber from 'bignumber.js'
 
 export interface ExchangeState {
   balances: Record<string, string>
-  slippage: number
   chainId: string | undefined
   tokenBalances: any[]
   inputAsset: ExchangeAsset
   outputAsset: ExchangeAsset
+  settings: ExchangeSettings
+}
+
+export type ExchangeSettings = {
+  slippage: number
 }
 
 export type ExchangeAsset = {

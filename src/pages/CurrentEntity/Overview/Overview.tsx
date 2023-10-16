@@ -4,6 +4,7 @@ import { useEntityConfig } from 'hooks/configs'
 import useCurrentEntity, {
   useCurrentEntityCreator,
   useCurrentEntityLinkedFiles,
+  useCurrentEntityPage,
   useCurrentEntityProfile,
 } from 'hooks/currentEntity'
 import { useParams } from 'react-router-dom'
@@ -13,11 +14,12 @@ import { PageContent } from './PageContent'
 
 const Overview: React.FC = () => {
   const { entityId } = useParams<{ entityId: string }>()
-  const { page = [], startDate } = useCurrentEntity()
+  const { startDate } = useCurrentEntity()
   const { controlPanelSchema } = useEntityConfig()
   const { name, description, location } = useCurrentEntityProfile()
   const { displayName: creatorName, logo: creatorLogo } = useCurrentEntityCreator()
   const linkedFiles = useCurrentEntityLinkedFiles()
+  const page = useCurrentEntityPage()
 
   return (
     <div className='container-fluid h-100' style={{ background: '#F8F9FD' }}>

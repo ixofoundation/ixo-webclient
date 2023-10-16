@@ -5,7 +5,6 @@ import { fee, RPC_ENDPOINT, TSigner } from './common'
 import { DeliverTxResponse } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/stargate'
 import { EncodeObject } from '@cosmjs/proto-signing'
 import { Verification } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/tx'
-import { sleepByLimiter } from 'utils/limiter'
 
 const createRPCQueryClient = ixo.ClientFactory.createRPCQueryClient
 
@@ -45,7 +44,6 @@ export const CreateIidDoc = async (
         controllers: [did],
       }),
     }
-    await sleepByLimiter()
     const response = await client.signAndBroadcast(address, [message], fee)
     console.log('CreateIidDoc', 'response', response)
     return response
@@ -90,7 +88,6 @@ export const CreateIidDocForGroup = async (client: SigningStargateClient, signer
   }
 
   console.log('CreateIidDocForGroup', { message })
-  await sleepByLimiter()
   const response = await client.signAndBroadcast(signer.address, [message], fee)
   console.log('CreateIidDocForGroup', { response })
   return response
@@ -99,7 +96,6 @@ export const CreateIidDocForGroup = async (client: SigningStargateClient, signer
 export const CheckIidDoc = async (did: string): Promise<IidDocument> => {
   try {
     const client = await createRPCQueryClient({ rpcEndpoint: RPC_ENDPOINT! })
-    await sleepByLimiter()
     const { iidDocument } = await client.ixo.iid.v1beta1.iidDocument({
       id: did,
     })
@@ -128,7 +124,6 @@ export const AddLinkedEntity = async (
       signer: signer.address,
     }),
   }
-  await sleepByLimiter()
   const response: DeliverTxResponse = await client.signAndBroadcast(signer.address, [message], fee)
   console.info('AddLinkedEntity', response)
   return response
@@ -142,7 +137,6 @@ export const AddLinkedResource = async (
   const { entityId, linkedResource } = payload
   const msgs = GetAddLinkedResourceMsgs(entityId, signer, linkedResource)
 
-  await sleepByLimiter()
   const response = await client.signAndBroadcast(signer.address, msgs, fee)
   return response
 }
@@ -165,7 +159,6 @@ export const DeleteLinkedResource = async (
     }
 
     console.log('DeleteLinkedResource', { message })
-    await sleepByLimiter()
     const response = await client.signAndBroadcast(signer.address, [message], fee)
     console.log('DeleteLinkedResource', { response })
     return response
@@ -403,7 +396,6 @@ export const AddVerificationMethod = async (
   }))
 
   console.log('AddVerificationMethod', { messages })
-  await sleepByLimiter()
   const response: DeliverTxResponse = await client.signAndBroadcast(signer.address, messages, fee)
   console.log('AddVerificationMethod', { response })
   return response
