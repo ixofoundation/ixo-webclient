@@ -4122,6 +4122,7 @@ export type Transaction = Node & {
   gasWanted: Scalars['String']['output'];
   hash: Scalars['String']['output'];
   height: Scalars['Int']['output'];
+  memo: Scalars['String']['output'];
   /** Reads and enables pagination through a set of `Message`. */
   messagesByTransactionHash: MessagesConnection;
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
@@ -4158,6 +4159,8 @@ export type TransactionCondition = {
   hash?: InputMaybe<Scalars['String']['input']>;
   /** Checks for equality with the object’s `height` field. */
   height?: InputMaybe<Scalars['Int']['input']>;
+  /** Checks for equality with the object’s `memo` field. */
+  memo?: InputMaybe<Scalars['String']['input']>;
   /** Checks for equality with the object’s `time` field. */
   time?: InputMaybe<Scalars['Datetime']['input']>;
 };
@@ -4178,6 +4181,8 @@ export type TransactionFilter = {
   hash?: InputMaybe<StringFilter>;
   /** Filter by the object’s `height` field. */
   height?: InputMaybe<IntFilter>;
+  /** Filter by the object’s `memo` field. */
+  memo?: InputMaybe<StringFilter>;
   /** Filter by the object’s `messagesByTransactionHash` relation. */
   messagesByTransactionHash?: InputMaybe<TransactionToManyMessageFilter>;
   /** Some related `messagesByTransactionHash` exist. */
@@ -4236,6 +4241,8 @@ export enum TransactionsOrderBy {
   HashDesc = 'HASH_DESC',
   HeightAsc = 'HEIGHT_ASC',
   HeightDesc = 'HEIGHT_DESC',
+  MemoAsc = 'MEMO_ASC',
+  MemoDesc = 'MEMO_DESC',
   Natural = 'NATURAL',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC',

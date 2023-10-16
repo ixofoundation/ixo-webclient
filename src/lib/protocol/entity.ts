@@ -21,6 +21,7 @@ import { fee, RPC_ENDPOINT, TSigner } from './common'
 import { Verification } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/tx'
 import { EncodeObject } from '@cosmjs/proto-signing'
 import { MsgTransferEntity, MsgUpdateEntity } from '@ixo/impactxclient-sdk/types/codegen/ixo/entity/v1beta1/tx'
+import { sleepByLimiter } from 'utils/limiter'
 
 const { createRPCQueryClient } = ixo.ClientFactory
 
@@ -91,14 +92,17 @@ export const CreateEntity = async (
     }
   })
   const updatedFee = { ...fee, gas: new BigNumber(fee.gas).times(messages.length).toString() }
-  console.log('CreateEntity', 'messages', messages)
+  console.log('CreateEntity', { messages })
+  await sleepByLimiter()
   const response = await client.signAndBroadcast(address, messages, updatedFee)
+  console.log('CreateEntity', { response })
   return response
 }
 
 export const EntityList = async (request: QueryEntityListRequest): Promise<QueryEntityListResponse> => {
   try {
     const client = await createRPCQueryClient({ rpcEndpoint: RPC_ENDPOINT! })
+    await sleepByLimiter()
     const res: QueryEntityListResponse = await client.ixo.entity.v1beta1.entityList(request)
     return res
   } catch (e) {
@@ -117,6 +121,7 @@ export const EntityList = async (request: QueryEntityListRequest): Promise<Query
 export const GetEntity = async (request: QueryEntityRequest): Promise<QueryEntityResponse> => {
   try {
     const client = await createRPCQueryClient({ rpcEndpoint: RPC_ENDPOINT! })
+    await sleepByLimiter()
     const res: QueryEntityResponse = await client.ixo.entity.v1beta1.entity(request)
     return res
   } catch (e) {
@@ -135,6 +140,7 @@ export const GetEntity = async (request: QueryEntityRequest): Promise<QueryEntit
 export const GetEntityIidDocument = async (request: QueryEntityIidDocumentRequest): Promise<IidDocument> => {
   try {
     const client = await createRPCQueryClient({ rpcEndpoint: RPC_ENDPOINT! })
+    await sleepByLimiter()
     const { iidDocument } = await client.ixo.entity.v1beta1.entityIidDocument(request)
     client.cosmos.base.tendermint.v1beta1.getLatestValidatorSet()
     return iidDocument!
@@ -169,6 +175,7 @@ export const TransferEntity = async (
   }
 
   console.log('TransferEntity', { message })
+  await sleepByLimiter()
   const response: DeliverTxResponse = await client.signAndBroadcast(signer.address, [message], fee)
   console.log('TransferEntity', { response })
   return response
@@ -180,6 +187,7 @@ export const UpdateEntity = async (
   payload: Partial<MsgUpdateEntity>,
 ) => {
   const queryClient = await createQueryClient(RPC_ENDPOINT!)
+  await sleepByLimiter()
   const entity = await queryClient.ixo.entity.v1beta1.entity({
     id: payload?.id || signer.address,
   })
@@ -201,6 +209,7 @@ export const UpdateEntity = async (
   }
 
   console.log('UpdateEntity', { message })
+  await sleepByLimiter()
   const response: DeliverTxResponse = await client.signAndBroadcast(signer.address, [message], fee)
   console.log('UpdateEntity', { response })
   return response
