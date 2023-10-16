@@ -45,8 +45,8 @@ const App: React.FC = () => {
 
   const customTheme = useAppSelector(selectCustomTheme)
   const entityConfig = useAppSelector(selectEntityConfig)
-  const { cwClient } = useAccount()
-  const { data: apiEntities, refetch } = useGetAllEntities()
+  const { cwClient, address } = useAccount()
+  const { data: apiEntities, refetch } = useGetAllEntities(address)
 
   const [customizedTheme, setCustomizedTheme] = useState<any>(theme)
 

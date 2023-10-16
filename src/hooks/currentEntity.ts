@@ -299,6 +299,17 @@ export function useCurrentEntityClaimSchemas(): LinkedResource[] {
   return linkedResource.filter((item: LinkedResource) => item.type === 'ClaimSchema')
 }
 
+export function useCurrentEntityLinkedEntities(): LinkedEntity[] {
+  const { linkedEntity } = useCurrentEntity()
+
+  return linkedEntity
+}
+
+export function useCurrentEntityBondLinkedEntity(): LinkedEntity | undefined {
+  const linkedEntity = useCurrentEntityLinkedEntities()
+  return linkedEntity.find((v) => v.type === 'bond')
+}
+
 export function useCurrentEntityDAOGroup(coreAddress: string) {
   const { daoGroups } = useCurrentEntity()
   const daoGroup: TDAOGroupModel | undefined = daoGroups[coreAddress]

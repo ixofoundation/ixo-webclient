@@ -1,3 +1,5 @@
+import { FlexBox } from 'components/App/App.styles'
+import { Typography } from 'components/Typography'
 import React from 'react'
 import { useTable, Column, useSortBy } from 'react-table'
 
@@ -101,3 +103,23 @@ const Table: React.FC<TableProps> = ({
 }
 
 export default Table
+
+export const renderTableHeader = (name: string, justifyContent = 'flex-start') => (
+  <FlexBox
+    p={4}
+    justifyContent={
+      justifyContent as
+        | 'flex-start'
+        | 'flex-end'
+        | 'center'
+        | 'space-between'
+        | 'space-around'
+        | 'space-evenly'
+        | 'stretch'
+    }
+  >
+    <Typography color='light-grey-blue' transform='uppercase' weight='bold' size='md'>
+      {name}
+    </Typography>
+  </FlexBox>
+)

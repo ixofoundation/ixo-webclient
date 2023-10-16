@@ -65,8 +65,14 @@ export const nFormatter = (num: number, digits = 0): string | number | undefined
 }
 
 export const convertDecCoinToCoin = (decCoin: DecCoin): Coin => {
-  const amount = new BigNumber(decCoin.amount).dividedBy(Math.pow(10, 18)).toString()
+  const amount = new BigNumber(decCoin.amount).dividedBy(new BigNumber(10).pow(18)).toString(10)
   const denom = decCoin.denom
+  return { amount, denom }
+}
+
+export const convertCoinToDecCoin = (coin: Coin): DecCoin => {
+  const amount = new BigNumber(coin.amount).multipliedBy(new BigNumber(10).pow(18)).toString(10)
+  const denom = coin.denom
   return { amount, denom }
 }
 

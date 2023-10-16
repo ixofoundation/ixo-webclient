@@ -27,8 +27,8 @@ import { Coins } from '../../Components/Coins'
 import { Collections } from '../../Components/Collections'
 import { ImpactTokens } from '../../Components/ImpactTokens'
 import { Transactions } from '../../Components/Transactions'
-import AccountsCard, { AccountTypeToIconMap } from './AccountsCard/AccountsCard'
-import BalanceCard from './BalanceCard/BalanceCard'
+import AccountsCard, { AccountTypeToIconMap } from '../../Components/AccountsCard'
+import BalanceCard from '../../Components/BalanceCard'
 
 export interface TTreasuryCoinModel {
   coinDenom: string

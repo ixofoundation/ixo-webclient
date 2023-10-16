@@ -6,6 +6,8 @@ import CurrencyFormat from 'react-currency-format'
 import { ReactComponent as CoinsIcon } from 'assets/images/icon-coins-solid.svg'
 import { useTheme } from 'styled-components'
 import BigNumber from 'bignumber.js'
+import useCurrentEntity from 'hooks/currentEntity'
+import { toTitleCase } from 'utils/formatters'
 
 const data = [
   {
@@ -45,6 +47,7 @@ interface Props {
 
 const BalanceCard: React.FC<Props> = ({ availableValue = '0', stakedValue = '0.00' }) => {
   const theme: any = useTheme()
+  const { entityType } = useCurrentEntity()
   const totalValue = new BigNumber(availableValue).plus(new BigNumber(stakedValue)).toFixed(2)
 
   return (
@@ -106,10 +109,10 @@ const BalanceCard: React.FC<Props> = ({ availableValue = '0', stakedValue = '0.0
               <CoinsIcon />
             </SvgBox>
             <Typography variant='secondary' size='2xl'>
-              The DAO Treasury is empty.
+              The {toTitleCase(entityType)} Treasury is empty.
             </Typography>
             <Typography variant='secondary' size='2xl'>
-              Deposit to a DAO Account.
+              Deposit to a {toTitleCase(entityType)} Account.
             </Typography>
           </>
         )}

@@ -17,7 +17,7 @@ const Container = styled.div<{ theme: ThemeContext }>`
 `
 
 interface Props {
-  title: string
+  title: string | JSX.Element
   subtle?: string
 }
 
