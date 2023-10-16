@@ -15,27 +15,28 @@ Function used to add a linked entity to a blockchain using provided signingClien
 <!-- collapsed -->
 
 ```typescript
-83     export const AddLinkedEntity = async (
-84       client: SigningStargateClient,
-85       signer: TSigner,
-86       payload: {
-87         did: string
-88         linkedEntity: LinkedEntity
-89       },
-90     ) => {
-91       const { did, linkedEntity } = payload
-92       const message = {
-93         typeUrl: '/ixo.iid.v1beta1.MsgAddLinkedEntity',
-94         value: ixo.iid.v1beta1.MsgAddLinkedEntity.fromPartial({
-95           id: did,
-96           linkedEntity: ixo.iid.v1beta1.LinkedEntity.fromPartial(linkedEntity),
-97           signer: signer.address,
-98         }),
-99       }
-100      const response: DeliverTxResponse = await client.signAndBroadcast(signer.address, [message], fee)
-101      console.info('AddLinkedEntity', response)
-102      return response
-103    }
+114    export const AddLinkedEntity = async (
+115      client: SigningStargateClient,
+116      signer: TSigner,
+117      payload: {
+118        did: string
+119        linkedEntity: LinkedEntity
+120      },
+121    ) => {
+122      const { did, linkedEntity } = payload
+123      const message = {
+124        typeUrl: '/ixo.iid.v1beta1.MsgAddLinkedEntity',
+125        value: ixo.iid.v1beta1.MsgAddLinkedEntity.fromPartial({
+126          id: did,
+127          linkedEntity: ixo.iid.v1beta1.LinkedEntity.fromPartial(linkedEntity),
+128          signer: signer.address,
+129        }),
+130      }
+131      await sleepByLimiter()
+132      const response: DeliverTxResponse = await client.signAndBroadcast(signer.address, [message], fee)
+133      console.info('AddLinkedEntity', response)
+134      return response
+135    }
 ```
 
 <br/>
@@ -50,28 +51,28 @@ Function used to add a verification method to a blockchain using provided signin
 <!-- collapsed -->
 
 ```typescript
-376    export const AddVerificationMethod = async (
-377      client: SigningStargateClient,
-378      signer: TSigner,
-379      payload: { did: string; verifications: Verification[] },
-380    ) => {
-381      const { did, verifications } = payload
-382    
-383      const messages = verifications.map((verification) => ({
-384        typeUrl: '/ixo.iid.v1beta1.MsgAddVerification',
-385        value: ixo.iid.v1beta1.MsgAddVerification.fromPartial({
-386          id: did,
-387          verification,
-388          signer: signer.address,
-389        }),
-390      }))
-391    
-392      console.log('AddVerificationMethod', { messages })
-393      const response: DeliverTxResponse = await client.signAndBroadcast(signer.address, messages, fee)
-394      console.log('AddVerificationMethod', { response })
-395      return response
-396    }
-397    
+389    export const AddVerificationMethod = async (
+390      client: SigningStargateClient,
+391      signer: TSigner,
+392      payload: { did: string; verifications: Verification[] },
+393    ) => {
+394      const { did, verifications } = payload
+395    
+396      const messages = verifications.map((verification) => ({
+397        typeUrl: '/ixo.iid.v1beta1.MsgAddVerification',
+398        value: ixo.iid.v1beta1.MsgAddVerification.fromPartial({
+399          id: did,
+400          verification,
+401          signer: signer.address,
+402        }),
+403      }))
+404    
+405      console.log('AddVerificationMethod', { messages })
+406      await sleepByLimiter()
+407      const response: DeliverTxResponse = await client.signAndBroadcast(signer.address, messages, fee)
+408      console.log('AddVerificationMethod', { response })
+409      return response
+410    }
 ```
 
 <br/>
@@ -86,41 +87,42 @@ Function used to create a iid document for dao group address using provided sign
 <!-- collapsed -->
 
 ```typescript
-59     export const CreateIidDocForGroup = async (client: SigningStargateClient, signer: TSigner, did: string) => {
-60       const address = did.replace('did:ixo:wasm:', '')
-61     
-62       const message = {
-63         typeUrl: '/ixo.iid.v1beta1.MsgCreateIidDocument',
-64         value: ixo.iid.v1beta1.MsgCreateIidDocument.fromPartial({
-65           context: customMessages.iid.createAgentIidContext(),
-66           id: did,
-67           alsoKnownAs: 'group',
-68           verifications: [
-69             ixo.iid.v1beta1.Verification.fromPartial({
-70               relationships: ['authentication'],
-71               method: ixo.iid.v1beta1.VerificationMethod.fromPartial({
-72                 id: did,
-73                 type: 'CosmosAccountAddress',
-74                 blockchainAccountID: address,
-75                 controller: '{id}',
-76               }),
-77             }),
-78             ixo.iid.v1beta1.Verification.fromPartial({
-79               relationships: ['authentication'],
-80               method: ixo.iid.v1beta1.VerificationMethod.fromPartial({
-81                 id: did + '#' + address,
-82                 type: 'CosmosAccountAddress',
-83                 blockchainAccountID: address,
-84                 controller: '{id}',
-85               }),
-86             }),
-87           ],
-88           signer: signer.address,
-89           controllers: [did],
-90         }),
-91       }
-92     
-93       console.log('CreateIidDocForGroup', { message })
+58     export const CreateIidDocForGroup = async (client: SigningStargateClient, signer: TSigner, did: string) => {
+59       const address = did.replace('did:ixo:wasm:', '')
+60     
+61       const message = {
+62         typeUrl: '/ixo.iid.v1beta1.MsgCreateIidDocument',
+63         value: ixo.iid.v1beta1.MsgCreateIidDocument.fromPartial({
+64           context: customMessages.iid.createAgentIidContext(),
+65           id: did,
+66           alsoKnownAs: 'group',
+67           verifications: [
+68             ixo.iid.v1beta1.Verification.fromPartial({
+69               relationships: ['authentication'],
+70               method: ixo.iid.v1beta1.VerificationMethod.fromPartial({
+71                 id: did,
+72                 type: 'CosmosAccountAddress',
+73                 blockchainAccountID: address,
+74                 controller: '{id}',
+75               }),
+76             }),
+77             ixo.iid.v1beta1.Verification.fromPartial({
+78               relationships: ['authentication'],
+79               method: ixo.iid.v1beta1.VerificationMethod.fromPartial({
+80                 id: did + '#' + address,
+81                 type: 'CosmosAccountAddress',
+82                 blockchainAccountID: address,
+83                 controller: '{id}',
+84               }),
+85             }),
+86           ],
+87           signer: signer.address,
+88           controllers: [did],
+89         }),
+90       }
+91     
+92       console.log('CreateIidDocForGroup', { message })
+93       await sleepByLimiter()
 94       const response = await client.signAndBroadcast(signer.address, [message], fee)
 95       console.log('CreateIidDocForGroup', { response })
 96       return response
