@@ -7,7 +7,11 @@ const GET_ALL_ENTITIES = gql`
     entities(
       filter: {
         not: { type: { startsWith: "asset" } }
-        or: [{ relayerNode: { equalTo: $relayerNode } }, { id: { equalTo: $relayerNode } }, { id: { owner: $owner } }]
+        or: [
+          { relayerNode: { equalTo: $relayerNode } }
+          { id: { equalTo: $relayerNode } }
+          { owner: { equalTo: $owner } }
+        ]
       }
     ) {
       nodes {

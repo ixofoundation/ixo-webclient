@@ -4220,6 +4220,14 @@ export enum TransactionsOrderBy {
   TimeDesc = 'TIME_DESC'
 }
 
+export type EntitiesQueryVariables = Exact<{
+  relayerNode: Scalars['String']['input'];
+  owner?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type EntitiesQuery = { __typename?: 'Query', entities?: { __typename?: 'EntitiesConnection', totalCount: number, nodes: Array<{ __typename?: 'Entity', id: string, accordedRight: any, accounts: any, alsoKnownAs: string, assertionMethod: Array<string>, authentication: Array<string>, capabilityInvocation: Array<string>, context: any, capabilityDelegation: Array<string>, controller: Array<string>, credentials?: Array<string | null> | null, endDate?: any | null, entityVerified: boolean, externalId?: string | null, keyAgreement: Array<string>, linkedClaim: any, linkedResource: any, linkedEntity: any, nodeId: string, owner?: string | null, metadata: any, service: any, relayerNode: string, startDate?: any | null, settings: any, status: number, type: string, verificationMethod: any }> } | null };
+
 export type EntityQueryVariables = Exact<{
   id: Scalars['String']['input'];
 }>;
@@ -4244,6 +4252,74 @@ export type MessagesQueryVariables = Exact<{
 export type MessagesQuery = { __typename?: 'Query', messages?: { __typename?: 'MessagesConnection', totalCount: number, nodes: Array<{ __typename?: 'Message', id: number, value: any, typeUrl: string, to?: string | null, from?: string | null, denoms?: Array<string | null> | null, nodeId: string, tokenNames?: Array<string | null> | null, transactionHash: string, transactionByTransactionHash?: { __typename?: 'Transaction', code: number, fee: any, gasUsed: string, gasWanted: string, hash: string, height: number, nodeId: string, time: any } | null }> } | null };
 
 
+export const EntitiesDocument = gql`
+    query entities($relayerNode: String!, $owner: String) {
+  entities(
+    filter: {not: {type: {startsWith: "asset"}}, or: [{relayerNode: {equalTo: $relayerNode}}, {id: {equalTo: $relayerNode}}, {owner: {equalTo: $owner}}]}
+  ) {
+    nodes {
+      id
+      accordedRight
+      accounts
+      alsoKnownAs
+      assertionMethod
+      authentication
+      capabilityInvocation
+      context
+      capabilityDelegation
+      controller
+      credentials
+      endDate
+      entityVerified
+      externalId
+      keyAgreement
+      linkedClaim
+      linkedResource
+      linkedEntity
+      nodeId
+      owner
+      metadata
+      service
+      relayerNode
+      startDate
+      settings
+      status
+      type
+      verificationMethod
+    }
+    totalCount
+  }
+}
+    `;
+
+/**
+ * __useEntitiesQuery__
+ *
+ * To run a query within a React component, call `useEntitiesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useEntitiesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useEntitiesQuery({
+ *   variables: {
+ *      relayerNode: // value for 'relayerNode'
+ *      owner: // value for 'owner'
+ *   },
+ * });
+ */
+export function useEntitiesQuery(baseOptions: Apollo.QueryHookOptions<EntitiesQuery, EntitiesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<EntitiesQuery, EntitiesQueryVariables>(EntitiesDocument, options);
+      }
+export function useEntitiesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<EntitiesQuery, EntitiesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<EntitiesQuery, EntitiesQueryVariables>(EntitiesDocument, options);
+        }
+export type EntitiesQueryHookResult = ReturnType<typeof useEntitiesQuery>;
+export type EntitiesLazyQueryHookResult = ReturnType<typeof useEntitiesLazyQuery>;
+export type EntitiesQueryResult = Apollo.QueryResult<EntitiesQuery, EntitiesQueryVariables>;
 export const EntityDocument = gql`
     query entity($id: String!) {
   entity(id: $id) {

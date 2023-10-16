@@ -163,7 +163,7 @@ export const getDaoContractInfo = async ({
     const cw20StakeClient = new contracts.Cw20Stake.Cw20StakeQueryClient(cwClient, stakingContract)
 
     const { total } = await exponentialBackoff(() => cw20StakeClient.totalValue(), 5, 1000, 30000)
-
+    const { stakers } = await exponentialBackoff(() => cw20StakeClient.listStakers({}), 5, 1000, 30000)
     const config = await exponentialBackoff(() => cw20StakeClient.getConfig(), 5, 1000, 30000)
 
     const cw20BaseClient = new contracts.Cw20Base.Cw20BaseQueryClient(cwClient, tokenContract)
