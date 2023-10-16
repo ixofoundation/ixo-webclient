@@ -1,17 +1,20 @@
-import { Flex, Text } from '@mantine/core'
+import { Flex, Text, Paper, Loader } from '@mantine/core'
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, TooltipProps } from 'recharts'
 import { useTheme } from 'styled-components'
-import { formatCookingTime } from 'utils/time'
+import { formatCookingTime, formatFuelUsage } from 'utils/time'
 interface CustomTooltipProps extends TooltipProps<any, any> {
   active?: boolean
   payload?: any
+  chart?: string
 }
 
-const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
+const CustomTooltip = ({ active, payload, label, chart }: CustomTooltipProps) => {
   if (active && payload && payload.length) {
     return (
       <Flex bg='#012131' p={10} direction='column'>
-        <Text weight='bold'>{formatCookingTime(payload[0].value)}</Text>
+        <Text weight='bold'>
+          {chart === 'Fuel Usage' ? formatFuelUsage(payload[0].value) : formatCookingTime(payload[0].value)}
+        </Text>
         <Text weight='bold'>{label}</Text>
       </Flex>
     )
@@ -20,10 +23,20 @@ const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
   return null
 }
 
-export const AssetPerformanceBarChart = ({ data }: { data: Record<string, string | number>[] }) => {
+export const AssetPerformanceBarChart = ({ data, chart }: { data: any[] | null; chart: string }) => {
   const theme = useTheme() as any
   const lightBlue = theme.ixoLightBlue
   const darkBlue = theme.ixoDarkBlue
+
+  if (!data || data.length < 1) {
+    return (
+      <Paper style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+        <Loader />
+      </Paper>
+    )
+  }
+
+  const interval = chart === 'Fuel Usage' ? 0 : 5
 
   return (
     <ResponsiveContainer width='100%' height={250}>
@@ -41,9 +54,9 @@ export const AssetPerformanceBarChart = ({ data }: { data: Record<string, string
             <stop offset='1' stopColor={darkBlue} stopOpacity={1} />
           </linearGradient>
         </defs>
-        <XAxis width={4} dataKey='month' interval={5} />
+        <XAxis width={4} dataKey='month' interval={interval} />
         <YAxis domain={[0, 'dataMax + 120']} />
-        <Tooltip content={<CustomTooltip />} />
+        <Tooltip content={<CustomTooltip chart={chart} />} />
         <Bar
           stackId='a'
           dataKey='duration'

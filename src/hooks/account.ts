@@ -45,6 +45,7 @@ import { KeplrExtensionWallet } from 'wallets/keplr/extension'
 import { getKeplrChainInfo } from '@ixo/cosmos-chain-resolver'
 import { CHAIN_ID, WALLET_STORE_LOCAL_STORAGE_KEY } from './configs'
 import { ChainInfo } from '@keplr-wallet/types'
+import { useIxoConfigs } from './configs'
 
 export function useAccount(): {
   selectedWallet: WalletType | undefined
@@ -58,6 +59,7 @@ export function useAccount(): {
   keyType: KeyTypes
   did: string
   balances: Coin[]
+  displayBalances: Coin[]
   nativeTokens: NativeToken[]
   cw20Tokens: Cw20Token[]
   name: string
@@ -80,6 +82,7 @@ export function useAccount(): {
   updateName: (name: string) => void
 } {
   const dispatch = useAppDispatch()
+  const { convertToDenom } = useIxoConfigs()
   const selectedWallet: WalletType | undefined = useAppSelector(selectAccountSelectedWallet)
   const connectedWallet: ConnectedWallet | undefined = useAppSelector(selectAccountConnectedWallet)
   const address: string = useAppSelector(selectAccountAddress)
@@ -92,6 +95,7 @@ export function useAccount(): {
   const did: string = useAppSelector(selectAccountDid)
   const name: string = useAppSelector(selectAccountName)
   const balances: Coin[] = useAppSelector(selectAccountBalances)
+  const displayBalances: Coin[] = balances.map((balance) => convertToDenom(balance)).filter(Boolean) as Coin[]
   const nativeTokens: NativeToken[] = useAppSelector(selectAccountNativeTokens)
   const cw20Tokens: Cw20Token[] = useAppSelector(selectAccountCw20Tokens)
   const registered: boolean | undefined = useAppSelector(selectAccountRegistered)
@@ -175,6 +179,7 @@ export function useAccount(): {
     keyType,
     did,
     balances,
+    displayBalances,
     nativeTokens,
     cw20Tokens,
     name,

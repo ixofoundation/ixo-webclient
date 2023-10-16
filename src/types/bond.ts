@@ -1,17 +1,18 @@
 export interface AlphaBondInfo {
   token: string
   name: string
+  description: string
   controllerDid: string
   reserveToken: string
   txFeePercentage: number
   exitFeePercentage: number
   feeAddress: string
   reserveWithdrawalAddress: string
-  maxSupply: number
-  initialPrice: number
-  initialSupply: number
+  maxSupply: string
+  initialPrice: string
+  initialSupply: string
   baseCurveShape: number
-  outcomePayment: number
+  outcomePayment: string
   allowReserveWithdrawals: boolean
   bondDid: string
 

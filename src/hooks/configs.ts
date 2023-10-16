@@ -80,6 +80,9 @@ export function useIxoConfigs(): IxoConfigsHookExports {
     // eslint-disable-next-line
     [assetListConfig],
   )
+  /**
+   * @return { base: string; display: string; exponent: number }[]
+   */
   const getAssetPairs = useCallback(
     (chainId: string = CHAIN_ID!) => {
       try {

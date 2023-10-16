@@ -10,7 +10,7 @@ import {
   setOutputAssetEntity,
   setOutputAssetUSDAmount,
 } from 'redux/exchange/exchange.actions'
-import { selectInputAsset, selectOutputAsset } from 'redux/exchange/exchange.selectors'
+import { selectInputAsset, selectOutputAsset, selectSlippage } from 'redux/exchange/exchange.selectors'
 import { ExchangeAsset } from 'redux/exchange/exchange.types'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { TokenType } from 'types/swap'
@@ -35,8 +35,8 @@ export const calculateBaseDenomAmount = (amount: BigNumber, exponent: number) =>
 
 function useExchange({ address }: UseExchangeProps) {
   const dispatch: any = useAppDispatch()
+  const slippage = useAppSelector(selectSlippage)
   const [balances, setBalances] = useState<Dictionary<string>>({})
-  const [slippage] = useState<number>(3)
   const [chainId, setChainId] = useState(process.env.REACT_APP_CHAIN_ID)
   const [tokenBalances, setTokenBalances] = useState<any>([])
 
@@ -104,16 +104,13 @@ function useExchange({ address }: UseExchangeProps) {
   }
 
   useEffect(() => {
-    // This is determined by the value of asset in respective liquidity pool
     if (inputAsset.amount.isGreaterThan(0) && outputAsset.asset?.base) {
       getOutputAmount(inputAsset).then((value) => dispatch(setOutputAsset({ amount: value })))
     }
   }, [inputAsset, outputAsset.asset?.base, dispatch])
 
   useEffect(() => {
-    console.log('input entity useEffect Ran', inputEntityData)
     if (inputEntityData) {
-      console.log('dispatching input entity')
       dispatch(setInputAssetEntity(inputEntityData))
     }
   }, [dispatch, inputEntityData])

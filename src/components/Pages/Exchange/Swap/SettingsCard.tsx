@@ -14,6 +14,10 @@ import {
 } from './SettingsCard.styles'
 import ChevDownIcon from 'assets/images/icon-chev-down.svg'
 import { useIxoConfigs } from 'hooks/configs'
+import { useAppSelector } from 'redux/hooks'
+import { selectSlippage } from 'redux/exchange/exchange.selectors'
+import { useDispatch } from 'react-redux'
+import { setSlippage } from 'redux/exchange/exchange.actions'
 
 const SlippageSetting = ({ slippage, setSlippage }: any): JSX.Element => {
   const options = useMemo(() => [1, 2, 3, 5], [])
@@ -65,14 +69,19 @@ const NetworkSetting = ({ chainId, setChainId }: any): JSX.Element => {
 }
 
 interface Props {
-  slippage?: number
   chainId?: string
-  setSlippage?: (slippage: number) => void
   setChainId: (network: string) => void
 }
 export type SettingsCardProps = Props
 
-const SettingsCard: React.FC<Props> = ({ slippage, chainId, setSlippage, setChainId }): JSX.Element => {
+const SettingsCard: React.FC<Props> = ({ chainId, setChainId }): JSX.Element => {
+  const slippage = useAppSelector(selectSlippage)
+  const dispatch = useDispatch()
+
+  const handleSlippageSelection = (slippage: number) => {
+    dispatch(setSlippage(slippage))
+  }
+
   const [selectedOption, setSelectedOption] = useState(0)
 
   const toggleOption = (number: number): void => {
@@ -85,7 +94,7 @@ const SettingsCard: React.FC<Props> = ({ slippage, chainId, setSlippage, setChai
 
   return (
     <SettingsCardWrapper>
-      {slippage && setSlippage && (
+      {slippage && (
         <SettingsCardOption>
           <SettingsCardOptionHeader onClick={(): void => toggleOption(1)}>
             <span>Max Slippage</span>
@@ -95,7 +104,7 @@ const SettingsCard: React.FC<Props> = ({ slippage, chainId, setSlippage, setChai
             </div>
           </SettingsCardOptionHeader>
           <SettingsCardOptionBody height={selectedOption === 1 ? '70px' : '0'}>
-            <SlippageSetting slippage={slippage} setSlippage={setSlippage} />
+            <SlippageSetting slippage={slippage} setSlippage={handleSlippageSelection} />
           </SettingsCardOptionBody>
         </SettingsCardOption>
       )}

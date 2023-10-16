@@ -93,9 +93,14 @@ const OverviewHero: React.FunctionComponent<Props> = ({
         title: 'TREASURY',
         tooltip: `${title} Treasury`,
       })
-    }
-
-    if (entityType === 'asset/device') {
+    } else if (entityType === 'investment') {
+      buttons.push({
+        iconClass: `icon-funding`,
+        path: `/entity/${entityId}/treasury`,
+        title: 'FUNDING',
+        tooltip: `${title} Funding`,
+      })
+    } else if (entityType === 'asset/device') {
       buttons.push({
         iconClass: 'icon-exchange',
         path: `/exchange/trade/${entityId}`,
