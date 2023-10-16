@@ -60,7 +60,7 @@ export const CHAINS = {
   'ixo-4': {
     chainId: 'ixo-4',
     chainName: 'Impact Hub',
-    rpc: 'https://impacthub.ixo.world/rpc/',
+    rpc: 'https://ixo-rpc.ibs.team/',
     rest: 'https://impacthub.ixo.world/rest/',
     bip44: {
       coinType: 118,
