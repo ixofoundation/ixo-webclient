@@ -13,6 +13,7 @@ import { chainNetwork } from 'hooks/configs'
 import { Member } from 'types/dao'
 import { durationToSeconds, expirationAtTimeToSecondsFromNow } from './conversions'
 import { decodeProtobufValue, parseEncodedMessage } from './messages'
+import { exponentialBackoff } from './exponentialBackoff'
 
 export const thresholdToTQData = (
   source: Threshold,

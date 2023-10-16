@@ -1,8 +1,8 @@
-async function exponentialBackoff<T>(
+export async function exponentialBackoff<T>(
   operation: () => Promise<T>,
   maxRetries: number,
-  baseDelayMs: number = 1000,
-  maxDelayMs: number = 30000,
+  baseDelayMs = 1000,
+  maxDelayMs = 30000,
 ): Promise<T> {
   let retries = 0
 
