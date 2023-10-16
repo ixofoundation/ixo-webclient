@@ -63,7 +63,7 @@ import { ReactComponent as FireIcon } from 'assets/images/icon-fire.svg'
 import { ReactComponent as TreasuryIcon } from 'assets/images/icon-treasury.svg'
 import { ReactComponent as DatabaseMultiIcon } from 'assets/images/icon-coins-solid.svg'
 import { ReactComponent as ArrowDownIcon } from 'assets/images/icon-arrow-down.svg'
-import { ReactComponent as SpendIcon } from 'assets/images/icon-hand-holding-usd-solid.svg'
+import { ReactComponent as HandHoldingUSDIcon } from 'assets/images/icon-hand-holding-usd-solid.svg'
 import { ReactComponent as CycleIcon } from 'assets/images/icon-cycle.svg'
 import { ReactComponent as ArrowUpIcon } from 'assets/images/icon-arrow-up.svg'
 import { ReactComponent as AuthGrantIcon } from 'assets/images/icon-auth-grant.svg'
@@ -613,7 +613,7 @@ export const ProposalActionConfig = {
       Spend: {
         text: 'Spend',
         description: 'Spend native or CW20 tokens from the treasury.',
-        icon: SpendIcon,
+        icon: HandHoldingUSDIcon,
         in: ['dao_voting_cw20_staked'],
         setupModal: SetupSpendModal,
       },

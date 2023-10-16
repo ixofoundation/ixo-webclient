@@ -58,7 +58,7 @@ const InvestmentCard: React.FC<Props> = ({ image, name, endDate, logo }): JSX.El
             </Typography>
             {/* TODO: 26px */}
             <Typography color='grey700' size='3xl' style={{ flexBasis: '33%' }}>
-              {'0.02'}
+              {'0.00'}
             </Typography>
           </FlexBox>
 

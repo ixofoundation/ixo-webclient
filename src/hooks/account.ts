@@ -37,6 +37,7 @@ import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/c
 import { SigningCosmWasmClient, CosmWasmClient } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/cosmwasm-stargate'
 import { WalletType } from '@gssuper/cosmodal'
 import { Cw20Token, NativeToken } from 'types/tokens'
+import { useIxoConfigs } from './configs'
 
 export function useAccount(): {
   selectedWallet: WalletType | undefined
@@ -49,6 +50,7 @@ export function useAccount(): {
   keyType: KeyTypes
   did: string
   balances: Coin[]
+  displayBalances: Coin[]
   nativeTokens: NativeToken[]
   cw20Tokens: Cw20Token[]
   name: string
@@ -69,6 +71,7 @@ export function useAccount(): {
   updateName: (name: string) => void
 } {
   const dispatch = useAppDispatch()
+  const { convertToDenom } = useIxoConfigs()
   const selectedWallet: WalletType | undefined = useAppSelector(selectAccountSelectedWallet)
   const address: string = useAppSelector(selectAccountAddress)
   const signingClient: SigningStargateClient = useAppSelector(selectAccountSigningClient)
@@ -80,6 +83,7 @@ export function useAccount(): {
   const did: string = useAppSelector(selectAccountDid)
   const name: string = useAppSelector(selectAccountName)
   const balances: Coin[] = useAppSelector(selectAccountBalances)
+  const displayBalances: Coin[] = balances.map((balance) => convertToDenom(balance)).filter(Boolean) as Coin[]
   const nativeTokens: NativeToken[] = useAppSelector(selectAccountNativeTokens)
   const cw20Tokens: Cw20Token[] = useAppSelector(selectAccountCw20Tokens)
   const registered: boolean | undefined = useAppSelector(selectAccountRegistered)
@@ -142,6 +146,7 @@ export function useAccount(): {
     keyType,
     did,
     balances,
+    displayBalances,
     nativeTokens,
     cw20Tokens,
     name,

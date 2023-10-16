@@ -9,6 +9,7 @@ export const theme = {
   ixoLightGreen: '#73B556',
   ixoRed: '#E2223B',
   ixoDarkRed: '#A11C43',
+  ixoYellow: '#E4D33D',
 
   ixoLightGreyBlue: '#688EA0',
   ixoLightBlue: '#83D9F2',
