@@ -43,9 +43,8 @@ import { Cw20Token, NativeToken } from 'types/tokens'
 import { getConnectedWalletInfo } from 'utils/account'
 import { KeplrExtensionWallet } from 'wallets/keplr/extension'
 import { getKeplrChainInfo } from '@ixo/cosmos-chain-resolver'
-import { CHAIN_ID, WALLET_STORE_LOCAL_STORAGE_KEY } from './configs'
+import { CHAIN_ID, WALLET_STORE_LOCAL_STORAGE_KEY, useIxoConfigs } from './configs'
 import { ChainInfo } from '@keplr-wallet/types'
-import { useIxoConfigs } from './configs'
 
 export function useAccount(): {
   selectedWallet: WalletType | undefined

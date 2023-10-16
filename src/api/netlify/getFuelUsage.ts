@@ -2,10 +2,10 @@ import axios from 'axios'
 import _ from 'lodash'
 import moment from 'moment'
 
-interface Session {
-  startDateTime: string
-  duration: number
-}
+// interface Session {
+//   startDateTime: string
+//   duration: number
+// }
 
 interface AggregatedData {
   date: string

@@ -1,8 +1,7 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
 
 import { TradePanel } from '../Swap.styles'
-import { useParams } from 'react-router-dom'
 
 import { selectSelectedAccountAddress } from 'redux/selectedEntityExchange/entityExchange.selectors'
 import BigNumber from 'bignumber.js'
@@ -38,9 +37,7 @@ const EmptyAssetCardData = {
 }
 
 const Swap: React.FunctionComponent = () => {
-  const { wallet } = useParams() as any
   const theme = useTheme() as any
-  const walletType = wallet
   const { getAssetsByChainId, getRelayerNameByChainId } = useIxoConfigs()
   const selectedAccountAddress = useAppSelector(selectSelectedAccountAddress)
   const inputAssetEntity = useAppSelector(selectInputEntity)
