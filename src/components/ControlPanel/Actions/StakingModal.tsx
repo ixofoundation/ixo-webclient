@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import cx from 'classnames'
 import Axios from 'axios'
 import Lottie from 'react-lottie'
-import * as keplr from 'lib/keplr/keplr'
 import TokenSelector from 'components/TokenSelector/TokenSelector'
 import { StepsTransactions } from 'components/StepsTransactions/StepsTransactions'
 import AmountInput from 'components/AmountInput/AmountInput'
@@ -11,11 +10,9 @@ import OverlayButtonUpIcon from 'assets/images/modal/overlaybutton-up.svg'
 import NextStepIcon from 'assets/images/modal/nextstep.svg'
 import EyeIcon from 'assets/images/icon-eye.svg'
 import CheckIcon from 'assets/images/icon-check.svg'
-import { getDisplayAmount, getMinimalAmount } from 'utils/currency'
+import { getDisplayAmount } from 'utils/currency'
 import { BigNumber } from 'bignumber.js'
 import { apiCurrencyToCurrency } from 'redux/account/account.utils'
-import { MsgDelegate, MsgUndelegate, MsgBeginRedelegate } from 'cosmjs-types/cosmos/staking/v1beta1/tx'
-import { MsgWithdrawDelegatorReward } from 'cosmjs-types/cosmos/distribution/v1beta1/tx'
 import pendingAnimation from 'assets/animations/transaction/pending.json'
 import successAnimation from 'assets/animations/transaction/success.json'
 import errorAnimation from 'assets/animations/transaction/fail.json'
@@ -75,7 +72,7 @@ const StakingModal: React.FunctionComponent<Props> = ({
   const [memoStatus, setMemoStatus] = useState<string>('nomemo')
   const [balances, setBalances] = useState<Coin[]>([])
   const [validators, setValidators] = useState<ValidatorInfo[]>([])
-  const [delegatedValidators, setDelegatedValidators] = useState<any[]>([])
+  const [, setDelegatedValidators] = useState<any[]>([])
   const [selectedValidator, setSelectedValidator] = useState<ValidatorInfo | null>(defaultValidator)
   const [selectedValidatorDst, setSelectedValidatorDst] = useState<ValidatorInfo | null>(null)
   const [signTXStatus, setSignTXStatus] = useState<TXStatus>(TXStatus.PENDING)
@@ -109,155 +106,155 @@ const StakingModal: React.FunctionComponent<Props> = ({
     }
   }
 
-  const generateTXRequestMSG = (): any => {
-    const msgs = []
+  // const generateTXRequestMSG = (): any => {
+  //   const msgs = []
 
-    switch (selectedStakingMethod) {
-      case StakingMethod.DELEGATE:
-        if (walletType === 'keysafe') {
-          msgs.push({
-            type: 'cosmos-sdk/MsgDelegate',
-            value: {
-              amount: {
-                amount: getMinimalAmount(String(amount)),
-                denom: 'uixo',
-              },
-              delegator_address: accountAddress,
-              validator_address: validatorAddress,
-            },
-          })
-        } else {
-          msgs.push({
-            typeUrl: '/cosmos.staking.v1beta1.MsgDelegate',
-            value: MsgDelegate.fromPartial({
-              amount: {
-                amount: getMinimalAmount(String(amount)),
-                denom: 'uixo',
-              },
-              delegatorAddress: accountAddress,
-              validatorAddress: validatorAddress!,
-            }),
-          })
-        }
-        break
-      case StakingMethod.UNDELEGATE:
-        if (walletType === 'keysafe') {
-          msgs.push({
-            type: 'cosmos-sdk/MsgUndelegate',
-            value: {
-              amount: {
-                amount: getMinimalAmount(String(amount)),
-                denom: 'uixo',
-              },
-              delegator_address: accountAddress,
-              validator_address: validatorAddress,
-            },
-          })
-        } else {
-          msgs.push({
-            typeUrl: '/cosmos.staking.v1beta1.MsgUndelegate',
-            value: MsgUndelegate.fromPartial({
-              amount: {
-                amount: getMinimalAmount(String(amount)),
-                denom: 'uixo',
-              },
-              delegatorAddress: accountAddress,
-              validatorAddress: validatorAddress!,
-            }),
-          })
-        }
-        break
-      case StakingMethod.REDELEGATE:
-        if (walletType === 'keysafe') {
-          msgs.push({
-            type: 'cosmos-sdk/MsgBeginRedelegate',
-            value: {
-              amount: {
-                amount: getMinimalAmount(String(amount)),
-                denom: 'uixo',
-              },
-              delegator_address: accountAddress,
-              validator_src_address: validatorAddress,
-              validator_dst_address: validatorDstAddress,
-            },
-          })
-        } else {
-          msgs.push({
-            typeUrl: '/cosmos.staking.v1beta1.MsgBeginRedelegate',
-            value: MsgBeginRedelegate.fromPartial({
-              amount: {
-                amount: getMinimalAmount(String(amount)),
-                denom: 'uixo',
-              },
-              delegatorAddress: accountAddress,
-              validatorSrcAddress: validatorAddress!,
-              validatorDstAddress: validatorDstAddress!,
-            }),
-          })
-        }
-        break
-      case StakingMethod.GETREWARD:
-        if (walletType === 'keysafe') {
-          delegatedValidators
-            .filter((validator) => validator.reward.length > 0)
-            .forEach((validator) => {
-              if (defaultValidator !== null && defaultValidator.address !== validator.validator_address) {
-                return
-              }
-              msgs.push({
-                type: 'cosmos-sdk/MsgWithdrawDelegationReward',
-                value: {
-                  delegator_address: accountAddress,
-                  validator_address: validator.validator_address,
-                },
-              })
-            })
-        } else {
-          delegatedValidators
-            .filter((validator) => validator.reward.length > 0)
-            .forEach((validator) => {
-              if (defaultValidator !== null && defaultValidator.address !== validator.validator_address) {
-                return
-              }
-              msgs.push({
-                typeUrl: '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward',
-                value: MsgWithdrawDelegatorReward.fromPartial({
-                  delegatorAddress: accountAddress,
-                  validatorAddress: validator.validator_address,
-                }),
-              })
-            })
-        }
-        break
-      default:
-        break
-    }
-    return msgs
-  }
+  //   switch (selectedStakingMethod) {
+  //     case StakingMethod.DELEGATE:
+  //       if (walletType === 'keysafe') {
+  //         msgs.push({
+  //           type: 'cosmos-sdk/MsgDelegate',
+  //           value: {
+  //             amount: {
+  //               amount: getMinimalAmount(String(amount)),
+  //               denom: 'uixo',
+  //             },
+  //             delegator_address: accountAddress,
+  //             validator_address: validatorAddress,
+  //           },
+  //         })
+  //       } else {
+  //         msgs.push({
+  //           typeUrl: '/cosmos.staking.v1beta1.MsgDelegate',
+  //           value: MsgDelegate.fromPartial({
+  //             amount: {
+  //               amount: getMinimalAmount(String(amount)),
+  //               denom: 'uixo',
+  //             },
+  //             delegatorAddress: accountAddress,
+  //             validatorAddress: validatorAddress!,
+  //           }),
+  //         })
+  //       }
+  //       break
+  //     case StakingMethod.UNDELEGATE:
+  //       if (walletType === 'keysafe') {
+  //         msgs.push({
+  //           type: 'cosmos-sdk/MsgUndelegate',
+  //           value: {
+  //             amount: {
+  //               amount: getMinimalAmount(String(amount)),
+  //               denom: 'uixo',
+  //             },
+  //             delegator_address: accountAddress,
+  //             validator_address: validatorAddress,
+  //           },
+  //         })
+  //       } else {
+  //         msgs.push({
+  //           typeUrl: '/cosmos.staking.v1beta1.MsgUndelegate',
+  //           value: MsgUndelegate.fromPartial({
+  //             amount: {
+  //               amount: getMinimalAmount(String(amount)),
+  //               denom: 'uixo',
+  //             },
+  //             delegatorAddress: accountAddress,
+  //             validatorAddress: validatorAddress!,
+  //           }),
+  //         })
+  //       }
+  //       break
+  //     case StakingMethod.REDELEGATE:
+  //       if (walletType === 'keysafe') {
+  //         msgs.push({
+  //           type: 'cosmos-sdk/MsgBeginRedelegate',
+  //           value: {
+  //             amount: {
+  //               amount: getMinimalAmount(String(amount)),
+  //               denom: 'uixo',
+  //             },
+  //             delegator_address: accountAddress,
+  //             validator_src_address: validatorAddress,
+  //             validator_dst_address: validatorDstAddress,
+  //           },
+  //         })
+  //       } else {
+  //         msgs.push({
+  //           typeUrl: '/cosmos.staking.v1beta1.MsgBeginRedelegate',
+  //           value: MsgBeginRedelegate.fromPartial({
+  //             amount: {
+  //               amount: getMinimalAmount(String(amount)),
+  //               denom: 'uixo',
+  //             },
+  //             delegatorAddress: accountAddress,
+  //             validatorSrcAddress: validatorAddress!,
+  //             validatorDstAddress: validatorDstAddress!,
+  //           }),
+  //         })
+  //       }
+  //       break
+  //     case StakingMethod.GETREWARD:
+  //       if (walletType === 'keysafe') {
+  //         delegatedValidators
+  //           .filter((validator) => validator.reward.length > 0)
+  //           .forEach((validator) => {
+  //             if (defaultValidator !== null && defaultValidator.address !== validator.validator_address) {
+  //               return
+  //             }
+  //             msgs.push({
+  //               type: 'cosmos-sdk/MsgWithdrawDelegationReward',
+  //               value: {
+  //                 delegator_address: accountAddress,
+  //                 validator_address: validator.validator_address,
+  //               },
+  //             })
+  //           })
+  //       } else {
+  //         delegatedValidators
+  //           .filter((validator) => validator.reward.length > 0)
+  //           .forEach((validator) => {
+  //             if (defaultValidator !== null && defaultValidator.address !== validator.validator_address) {
+  //               return
+  //             }
+  //             msgs.push({
+  //               typeUrl: '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward',
+  //               value: MsgWithdrawDelegatorReward.fromPartial({
+  //                 delegatorAddress: accountAddress,
+  //                 validatorAddress: validator.validator_address,
+  //               }),
+  //             })
+  //           })
+  //       }
+  //       break
+  //     default:
+  //       break
+  //   }
+  //   return msgs
+  // }
 
-  const generateTXRequestFee = (): any => {
-    let fee = {
-      amount: [{ amount: String(5000), denom: 'uixo' }],
-      gas: String(200000),
-    }
-    switch (selectedStakingMethod) {
-      case StakingMethod.REDELEGATE:
-        fee = {
-          amount: [{ amount: String(7500), denom: 'uixo' }],
-          gas: String(300000),
-        }
-        break
-      case StakingMethod.GETREWARD:
-        fee = {
-          amount: [{ amount: String(10000), denom: 'uixo' }],
-          gas: String(400000),
-        }
-        break
-      default:
-        break
-    }
-    return fee
-  }
+  // const generateTXRequestFee = (): any => {
+  //   let fee = {
+  //     amount: [{ amount: String(5000), denom: 'uixo' }],
+  //     gas: String(200000),
+  //   }
+  //   switch (selectedStakingMethod) {
+  //     case StakingMethod.REDELEGATE:
+  //       fee = {
+  //         amount: [{ amount: String(7500), denom: 'uixo' }],
+  //         gas: String(300000),
+  //       }
+  //       break
+  //     case StakingMethod.GETREWARD:
+  //       fee = {
+  //         amount: [{ amount: String(10000), denom: 'uixo' }],
+  //         gas: String(400000),
+  //       }
+  //       break
+  //     default:
+  //       break
+  //   }
+  //   return fee
+  // }
 
   const handlePrevStep = (): void => {
     setCurrentStep(currentStep - 1)
@@ -269,33 +266,31 @@ const StakingModal: React.FunctionComponent<Props> = ({
       setCurrentStep(currentStep + 1)
     }
     if (currentStep === 2 || (currentStep === 0 && selectedStakingMethod === StakingMethod.GETREWARD)) {
-      const msgs = generateTXRequestMSG()
-      const fee = generateTXRequestFee()
+      // const msgs = generateTXRequestMSG()
+      // const fee = generateTXRequestFee()
 
       if (walletType === 'keplr') {
-        const [accounts, offlineSigner] = await keplr.connectAccount()
-        const address = accounts[0].address
-        const client = await keplr.initStargateClient(offlineSigner)
-
-        const payload = {
-          msgs,
-          chain_id: process.env.REACT_APP_CHAIN_ID,
-          fee,
-          memo,
-        }
-
-        try {
-          const result = await keplr.sendTransaction(client, address, payload)
-          if (result) {
-            setSignTXStatus(TXStatus.SUCCESS)
-            setSignTXhash(result.transactionHash)
-          } else {
-            // eslint-disable-next-line
-            throw 'transaction failed'
-          }
-        } catch (e) {
-          setSignTXStatus(TXStatus.ERROR)
-        }
+        // const [accounts, offlineSigner] = await keplr.connectAccount()
+        // const address = accounts[0].address
+        // const client = await keplr.initStargateClient(offlineSigner)
+        // const payload = {
+        //   msgs,
+        //   chain_id: process.env.REACT_APP_CHAIN_ID,
+        //   fee,
+        //   memo,
+        // }
+        // try {
+        //   const result = await keplr.sendTransaction(client, address, payload)
+        //   if (result) {
+        //     setSignTXStatus(TXStatus.SUCCESS)
+        //     setSignTXhash(result.transactionHash)
+        //   } else {
+        //     // eslint-disable-next-line
+        //     throw 'transaction failed'
+        //   }
+        // } catch (e) {
+        //   setSignTXStatus(TXStatus.ERROR)
+        // }
       }
     }
   }
