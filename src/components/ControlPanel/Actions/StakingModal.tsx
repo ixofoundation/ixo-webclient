@@ -72,7 +72,7 @@ const StakingModal: React.FunctionComponent<Props> = ({
   const [memoStatus, setMemoStatus] = useState<string>('nomemo')
   const [balances, setBalances] = useState<Coin[]>([])
   const [validators, setValidators] = useState<ValidatorInfo[]>([])
-  const [, setDelegatedValidators] = useState<any[]>([])
+  // const [, setDelegatedValidators] = useState<any[]>([])
   const [selectedValidator, setSelectedValidator] = useState<ValidatorInfo | null>(defaultValidator)
   const [selectedValidatorDst, setSelectedValidatorDst] = useState<ValidatorInfo | null>(null)
   const [signTXStatus, setSignTXStatus] = useState<TXStatus>(TXStatus.PENDING)
@@ -476,7 +476,7 @@ const StakingModal: React.FunctionComponent<Props> = ({
         })
       })
       getAllRewards().then(({ rewards, total }) => {
-        setDelegatedValidators(rewards)
+        // setDelegatedValidators(rewards)
         setSumOfRewards(Number(getDisplayAmount(new BigNumber(total[0]?.amount))))
       })
     }
