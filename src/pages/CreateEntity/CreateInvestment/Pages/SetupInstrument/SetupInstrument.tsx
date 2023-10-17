@@ -13,7 +13,7 @@ const SetupInstrument: React.FC = (): JSX.Element => {
   const [openAddInstrumentModal, setOpenAddInstrumentModal] = useState(false)
   const bondDid = useMemo(() => Object.values(linkedEntity).find((v) => v.type === 'bond')?.id || '', [linkedEntity])
 
-  const canSubmit = true
+  const canSubmit = useMemo(() => !!bondDid, [bondDid])
 
   const handleOpenAddInstrumentModal = (key: string, open: boolean): void => {
     setInvestmentInstrument((pre) => ({
