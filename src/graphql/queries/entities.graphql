@@ -3,9 +3,9 @@ query entities($relayerNode: String!, $owner: String) {
     filter: {
       not: { type: { startsWith: "asset" } }
       or: [
-        { relayerNode: { equalTo: $relayerNode } }
-        { id: { equalTo: $relayerNode } }
-        { owner: { equalTo: $owner } }
+        { and: [{ relayerNode: { equalTo: $relayerNode } }, { entityVerified: { equalTo: true } }] }
+        { and: [{ id: { equalTo: $relayerNode } }, { entityVerified: { equalTo: true } }] }
+        { and: [{ entityVerified: { equalTo: false } }, { owner: { equalTo: $owner } }] }
       ]
     }
   ) {
