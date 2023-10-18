@@ -68,7 +68,7 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
   const { getQuery } = useQuery()
   const type: string | undefined = getQuery('type')
   const sector: string | undefined = getQuery('sector')
-  const itemsCount = 6
+  const itemsCount = 10
   const [scrollOffset, setScrollOffest] = useState(1)
   const entities = React.useMemo(
     () => props.entities.slice(0, scrollOffset * itemsCount),

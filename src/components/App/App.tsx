@@ -28,8 +28,8 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { selectCustomTheme } from 'redux/theme/theme.selectors'
 import { useAccount } from 'hooks/account'
-import { useGetAllEntities } from 'graphql/entities'
 import { apiEntityToEntity } from 'utils/entities'
+import { useEntitiesLazyQuery } from 'generated/graphql'
 
 ReactGA.initialize('UA-106630107-5')
 ReactGA.pageview(window.location.pathname + window.location.search)
@@ -41,7 +41,8 @@ const App: React.FC = () => {
   const customTheme = useAppSelector(selectCustomTheme)
   const entityConfig = useAppSelector(selectEntityConfig)
   const { cwClient, address } = useAccount()
-  const { data: apiEntities, refetch } = useGetAllEntities(address)
+  const [apiEntities, setApiEntities] = useState<any>([])
+  const [fetchEntities, { refetch }] = useEntitiesLazyQuery()
 
   const [customizedTheme, setCustomizedTheme] = useState<any>(theme)
 
@@ -50,6 +51,16 @@ const App: React.FC = () => {
     dispatch(getCustomTheme())
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  useEffect(() => {
+    const relayerNode = process.env.REACT_APP_RELAYER_NODE ?? ''
+    fetchEntities({
+      variables: {
+        relayerNode,
+        ...(address && { owner: address }),
+      },
+    }).then((response) => setApiEntities(response.data?.entities?.nodes))
+  }, [address, fetchEntities])
 
   useEffect(() => {
     if (history.location.pathname === '/explore') {
@@ -112,7 +123,7 @@ const App: React.FC = () => {
 
   useEffect(() => {
     if (cwClient && apiEntities.length > 0) {
-      dispatch(getEntitiesFromGraphqlAction(apiEntities))
+      dispatch(getEntitiesFromGraphqlAction(apiEntities as any))
       ;(async () => {
         for (const entity of apiEntities) {
           apiEntityToEntity({ entity, cwClient }, (key, data, merge = false) => {
