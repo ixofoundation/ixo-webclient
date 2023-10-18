@@ -45,6 +45,7 @@ import { KeplrExtensionWallet } from 'wallets/keplr/extension'
 import { getKeplrChainInfo } from '@ixo/cosmos-chain-resolver'
 import { WALLET_STORE_LOCAL_STORAGE_KEY, useIxoConfigs, chainNetwork } from './configs'
 import { ChainInfo } from '@keplr-wallet/types'
+import { errorToast } from 'utils/toast'
 
 export function useAccount(): {
   selectedWallet: WalletType | undefined
@@ -102,15 +103,21 @@ export function useAccount(): {
   const signer: TSigner = { address, did, pubKey: pubKeyUint8!, keyType }
 
   const connect = async (): Promise<void> => {
-    const chainInfo = await getKeplrChainInfo('impacthub', chainNetwork)
-    const wallet = KeplrExtensionWallet
-    const walletClient = await wallet.getClient(chainInfo as ChainInfo)
-    if (!walletClient) {
-      throw new Error('Failed to retrieve wallet client.')
+    try {
+      const chainInfo = await getKeplrChainInfo('impacthub', chainNetwork)
+      chainInfo.rest = process.env.REACT_APP_GAIA_URL || chainInfo.rest
+      const wallet = KeplrExtensionWallet
+      const walletClient = await wallet.getClient(chainInfo as ChainInfo)
+      if (!walletClient) {
+        throw new Error('Failed to retrieve wallet client.')
+      }
+      const connectedWallet = await getConnectedWalletInfo(wallet, walletClient, chainInfo as ChainInfo)
+      dispatch(connectAction(connectedWallet))
+      localStorage.setItem(WALLET_STORE_LOCAL_STORAGE_KEY, 'connected')
+    } catch (e: any) {
+      console.error('connect wallet', e)
+      errorToast('Connecting wallet', e.message)
     }
-    const connectedWallet = await getConnectedWalletInfo(wallet, walletClient, chainInfo as ChainInfo)
-    dispatch(connectAction(connectedWallet))
-    localStorage.setItem(WALLET_STORE_LOCAL_STORAGE_KEY, 'connected')
   }
 
   const disconnect = (): void => {
