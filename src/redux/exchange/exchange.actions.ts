@@ -14,8 +14,7 @@ import {
   SetTokenBalancesAction,
 } from './exchange.types'
 import { Dispatch } from 'react'
-import Axios from 'axios'
-import { serviceEndpointToUrl } from 'utils/entities'
+import { transformEntity } from 'utils/transformEntity'
 
 export const setBalances = (balances: Record<string, string>): SetBalancesAction => ({
   type: ExchangeActions.SetBalances,
@@ -35,11 +34,11 @@ export const setOutputAssetUSDAmount = (usdAmount: BigNumber): SetOutputAssetUSD
 export const setInputAssetEntity = (entity: any) => {
   return async (dispatch: Dispatch<SetInputAssetEntityAction>) => {
     try {
-      const url = serviceEndpointToUrl(entity.settings.Profile.serviceEndpoint, entity.service)
-      const response = await Axios.get(url)
+      const payload = await transformEntity(entity)
+
       dispatch({
         type: ExchangeActions.SetInputAssetEntity,
-        payload: { ...entity, profile: response.data },
+        payload,
       })
     } catch (error) {
       console.error('Error fetching data:', error)
@@ -50,12 +49,11 @@ export const setInputAssetEntity = (entity: any) => {
 export const setOutputAssetEntity = (entity: any) => {
   return async (dispatch: Dispatch<SetOutputAssetEntityAction>) => {
     try {
-      const url = serviceEndpointToUrl(entity.settings.Profile.serviceEndpoint, entity.service)
-      const response = await Axios.get(url)
+      const payload = await transformEntity(entity)
 
       dispatch({
         type: ExchangeActions.SetOutputAssetEntity,
-        payload: { ...entity, profile: response.data },
+        payload,
       })
     } catch (error) {
       console.error('Error fetching data:', error)

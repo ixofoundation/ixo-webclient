@@ -67,7 +67,12 @@ const TextArea: React.FC<Props> = ({
     handleChange && handleChange(newValue)
   }
   return (
-    <Box position='relative' width='100%' style={{ color: rest.disabled ? theme.ixoGrey500 : theme.ixoNewBlue }}>
+    <Box
+      position='relative'
+      width='100%'
+      lineHeight='0'
+      style={{ color: rest.disabled ? theme.ixoGrey500 : theme.ixoNewBlue }}
+    >
       {label && (
         <Box
           position='absolute'

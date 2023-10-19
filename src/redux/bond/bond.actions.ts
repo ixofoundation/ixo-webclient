@@ -3,7 +3,6 @@ import {
   BondActions,
   GetBondDetailAction,
   ClearBondAction,
-  GetTransactionsAction,
   GetPriceHistoryAction,
   GetAlphaHistoryAction,
   GetWithdrawHistoryAction,
@@ -12,13 +11,10 @@ import {
 import { Dispatch } from 'redux'
 import { get } from 'lodash'
 import { formatCurrency, minimalDenomToDenom } from '../account/account.utils'
-import { RootState } from 'redux/store'
-import { getDisplayAmount } from 'utils/currency'
-import { BigNumber } from 'bignumber.js'
 import moment from 'moment'
 
 const BLOCKSYNC_API = process.env.REACT_APP_BLOCK_SYNC_URL
-const BLOCKSCAN_API = process.env.REACT_APP_BLOCK_SCAN_URL
+// const BLOCKSCAN_API = process.env.REACT_APP_BLOCK_SCAN_URL
 
 export const getBondDid = (bondDid: string): GetBondDidAction => {
   return {
@@ -88,91 +84,6 @@ export const getBondDetail =
             availableReserve: bond.available_reserve,
             controllerDid: bond.controller_did,
           }
-        }),
-      ),
-    })
-  }
-
-export const getTransactionsByBondDID =
-  (bondDid: string) =>
-  (dispatch: Dispatch, getState: () => RootState): GetTransactionsAction => {
-    const { account } = getState()
-    let userDid: string | undefined = undefined
-
-    try {
-      const { userInfo } = account
-      const { didDoc } = userInfo
-      const { did } = didDoc
-      userDid = did.slice(8)
-    } catch (e) {
-      userDid = undefined
-    }
-
-    const transactionReq = Axios.get(`${BLOCKSCAN_API}/transactions/listTransactionsByBondDid/${bondDid}`)
-
-    const oldTransactionReq = Axios.get(`${BLOCKSCAN_API}/oldtransactions/listTransactionsByBondDid/${bondDid}`)
-
-    const priceReq = Axios.get(`${BLOCKSYNC_API}/api/bonds/getPriceHistoryByBondDid/${bondDid}`)
-
-    return dispatch({
-      type: BondActions.GetTransactions,
-      payload: Promise.all([oldTransactionReq, transactionReq, priceReq]).then(
-        Axios.spread((...responses) => {
-          const transactions = [...responses[0].data, ...responses[1].data]
-          let priceHistory: any[] = []
-          if (responses[2].data) {
-            priceHistory = responses[2].data.priceHistory
-          }
-
-          return transactions.map((data) => {
-            let transaction = data.tx_response
-            const status = transaction.logs.length ? 'succeed' : 'failed'
-            const events = transaction.logs[0]?.events
-            const quantity = transaction.tx?.body?.messages[0]?.amount
-              ? formatCurrency(transaction.tx?.body?.messages[0]?.amount).amount
-              : 0
-            const buySell = transaction.tx?.body?.messages[0]['@type'].includes('MsgBuy')
-            let isMyTX = false
-            // TODO: temporary hack for ubs demo on May, 2022
-            if (buySell) {
-              isMyTX = transaction.tx?.body?.messages[0]['buyer_did'].includes(userDid)
-            }
-            const price =
-              priceHistory.find(
-                (his) => {
-                  return Math.abs(moment(his.time).diff(transaction.timestamp)) < 1000
-                },
-                // moment(his.time).diff(transaction.timestamp) < 1,
-              )?.price ??
-              priceHistory.filter((his) => transaction.timestamp > his.time).pop()?.price ??
-              0
-
-            transaction = {
-              ...transaction,
-              price: price,
-            }
-
-            let transfer_amount = '0'
-            if (events) {
-              const transfer_event = events.find((eve: any) => eve.type === 'transfer')
-              if (transfer_event) {
-                transfer_amount = getDisplayAmount(
-                  new BigNumber(parseInt(transfer_event.attributes.find((attr: any) => attr.key === 'amount').value)),
-                ).toString()
-              }
-            }
-
-            return {
-              ...transaction,
-              status: status,
-              quantity: quantity,
-              buySell: buySell,
-              price: price,
-              value: new BigNumber(transfer_amount).dividedBy(new BigNumber(quantity)).toNumber().toFixed(2),
-              amount: transfer_amount,
-              isMyStake: isMyTX,
-            }
-          })
         }),
       ),
     })

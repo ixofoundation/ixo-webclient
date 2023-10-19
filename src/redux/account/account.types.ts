@@ -1,22 +1,8 @@
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 import { SigningStargateClient } from '@ixo/impactxclient-sdk'
 import { SigningCosmWasmClient, CosmWasmClient } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/cosmwasm-stargate'
-import { WalletType } from '@gssuper/cosmodal'
 import { Cw20Token, NativeToken } from 'types/tokens'
-
-export interface DidDoc {
-  did: string
-  pubKey: string
-  credentials?: unknown[]
-}
-
-export interface UserInfo {
-  didDoc: DidDoc
-  name: string
-  ledgered: boolean
-  loggedInKeysafe: boolean
-  hasKYC: boolean
-}
+import { ConnectedWallet, WalletType } from 'types/wallet'
 
 export enum TransactionType {
   TRANSACTION_SEND = 'send',
@@ -54,36 +40,9 @@ export interface CurrencyType {
 }
 
 export interface AccountState {
-  userInfo: UserInfo
-  loginStatusCheckCompleted: boolean
-  assistantToggled: boolean
-  assistantFixed: boolean
-  intent: string
-  params: any
-  accountNumber: string
-  sequence: string
-  transactions: TransactionInfo[]
-  transactionsByAsset: {
-    [asset: string]: TransactionInfo[]
-  }[]
-  usdRate: number
-  marketChart: {
-    prices: {
-      date: Date
-      price: number
-    }[]
-    market_caps: {
-      date: Date
-      caps: number
-    }[]
-    total_volumes: {
-      date: Date
-      volumes: number
-    }[]
-  }
-  keplrWallet: KeplrWalletInfo
   // refinement
   selectedWallet: WalletType | undefined
+  connectedWallet: ConnectedWallet | undefined
   name: string
   registered: boolean
   pubKey: string //  base64
@@ -112,30 +71,8 @@ export type AgentRoleStrategyMap = {
 }
 
 export enum AccountActions {
-  Login = 'ixo/Account/Login',
-  Logout = 'ixo/Account/Logout',
-  GetAccount = 'ixo/Account/GET_ACCOUNT',
-  GetAccountSuccess = 'ixo/Account/GET_ACCOUNT_FULFILLED',
-  GetAccountPending = 'ixo/Account/GET_ACCOUNT_PENDING',
-  GetAccountFailure = 'ixo/Account/GET_ACCOUNT_REJECTED',
-  GetTransactions = 'ixo/Account/GET_TRANSACTIONS',
-  GetTransactionsSuccess = 'ixo/Account/GET_TRANSACTIONS_FULFILLED',
-  GetTransactionsPending = 'ixo/Account/GET_TRANSACTIONS_PENDING',
-  GetTransactionsFailure = 'ixo/Account/GET_TRANSACTIONS_REJECTED',
-  GetTransactionsByAsset = 'ixo/Account/GET_TRANSACTIONSBYASSET',
-  GetTransactionsByAssetSuccess = 'ixo/Account/GET_TRANSACTIONSBYASSET_FULFILLED',
-  GetTransactionsByAssetPending = 'ixo/Account/GET_TRANSACTIONSBYASSET_PENDING',
-  GetTransactionsByAssetFailure = 'ixo/Account/GET_TRANSACTIONSBYASSET_REJECTED',
-  GetUSDRate = 'ixo/Account/GET_USDRATE',
-  GetUSDRateSuccess = 'ixo/Account/GET_USDRATE_FULFILLED',
-  GetUSDRatePending = 'ixo/Account/GET_USDRATE_PENDING',
-  GetUSDRateFailure = 'ixo/Account/GET_USDRATE_REJECTED',
-  GetMarketChart = 'ixo/Account/GET_MARKETCHART',
-  GetMarketChartSuccess = 'ixo/Account/GET_MARKETCHART_FULFILLED',
-  GetMarketChartPending = 'ixo/Account/GET_MARKETCHART_PENDING',
-  GetMarketChartFailure = 'ixo/Account/GET_MARKETCHART_REJECTED',
-  ToggleAssistant = 'ixo/Account/TOGGLE_ASSISTANT',
-  SetKeplrWallet = 'ixo/Account/SET_KEPLR_WALLET',
+  Connect = 'ixo/Account/CONNECT',
+  Disconnect = 'ixo/Account/DISCONNECT',
   ChooseWallet = 'ixo/Account/CHOOSE_WALLET',
   UpdateName = 'ixo/Account/UPDATE_NAME',
   UpdateAddress = 'ixo/Account/UPDATE_ADDRESS',
@@ -150,87 +87,14 @@ export enum AccountActions {
   UpdateDid = 'ixo/Account/UPDATE_DID',
 }
 
-export interface LoginAction {
-  type: typeof AccountActions.Login
-  payload: {
-    userInfo: UserInfo
-    address: string
-    accountNumber: string
-    sequence: string
-  }
+export interface ConnectAction {
+  type: typeof AccountActions.Connect
+  payload: ConnectedWallet
 }
 
-export interface LogoutAction {
-  type: typeof AccountActions.Logout
+export interface DisconnectAction {
+  type: typeof AccountActions.Disconnect
 }
-
-export interface GetAccountAction {
-  type: typeof AccountActions.GetAccount
-  payload: Promise<any>
-}
-
-export interface GetAccountSuccessAction {
-  type: typeof AccountActions.GetAccountSuccess
-  payload: {
-    balances: Coin[]
-  }
-}
-
-export interface GetTransactionsAction {
-  type: typeof AccountActions.GetTransactions
-  payload: Promise<any>
-}
-
-export interface GetTransactionsSuccessAction {
-  type: typeof AccountActions.GetTransactionsSuccess
-  payload: TransactionInfo[]
-}
-export interface GetTransactionsByAssetAction {
-  type: typeof AccountActions.GetTransactionsByAsset
-  payload: Promise<any>
-}
-
-export interface GetTransactionsByAssetSuccessAction {
-  type: typeof AccountActions.GetTransactionsByAssetSuccess
-  payload: {
-    [asset: string]: TransactionInfo[]
-  }[]
-}
-export interface GetUSDRateAction {
-  type: typeof AccountActions.GetUSDRate
-  payload: Promise<number>
-}
-export interface GetUSDRateSuccessAction {
-  type: typeof AccountActions.GetUSDRateSuccess
-  payload: number
-}
-export interface GetMarketChartAction {
-  type: typeof AccountActions.GetMarketChart
-  payload: Promise<any>
-}
-export interface GetMarketChartSuccessAction {
-  type: typeof AccountActions.GetMarketChartSuccess
-  payload: any
-}
-
-export interface ToogleAssistantPayload {
-  fixed?: boolean
-  forceClose?: boolean
-  forceOpen?: boolean
-  intent?: string
-  params?: any
-}
-
-export interface ToggleAssistantAction {
-  type: typeof AccountActions.ToggleAssistant
-  payload: ToogleAssistantPayload
-}
-
-export interface SetKeplrWalletAction {
-  type: typeof AccountActions.SetKeplrWallet
-  payload: KeplrWalletInfo
-}
-
 export interface ChooseWalletAction {
   type: typeof AccountActions.ChooseWallet
   payload: WalletType | undefined
@@ -281,20 +145,8 @@ export interface UpdateDidAction {
 }
 
 export type AccountActionTypes =
-  | LoginAction
-  | LogoutAction
-  | GetAccountAction
-  | GetAccountSuccessAction
-  | GetTransactionsAction
-  | GetTransactionsSuccessAction
-  | GetTransactionsByAssetAction
-  | GetTransactionsByAssetSuccessAction
-  | GetUSDRateAction
-  | GetUSDRateSuccessAction
-  | GetMarketChartAction
-  | GetMarketChartSuccessAction
-  | ToggleAssistantAction
-  | SetKeplrWalletAction
+  | ConnectAction
+  | DisconnectAction
   | ChooseWalletAction
   | UpdateNameAction
   | UpdateAddressAction

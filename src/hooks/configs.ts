@@ -27,6 +27,7 @@ export const chainNetwork: ChainNetwork = CHAIN_ID?.startsWith('ixo')
   : 'devnet'
 
 export const IxoCoinCodexRelayerApi = 'https://ixo-coincodex-relayer.ixo-api.workers.dev'
+export const WALLET_STORE_LOCAL_STORAGE_KEY = 'ixo-webclient/connectedWalletId'
 
 interface IxoConfigsHookExports {
   paymentCoins: PaymentCoins[]
@@ -79,6 +80,9 @@ export function useIxoConfigs(): IxoConfigsHookExports {
     // eslint-disable-next-line
     [assetListConfig],
   )
+  /**
+   * @return { base: string; display: string; exponent: number }[]
+   */
   const getAssetPairs = useCallback(
     (chainId: string = CHAIN_ID!) => {
       try {

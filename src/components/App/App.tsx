@@ -23,18 +23,13 @@ import ScrollToTop from '../ScrollToTop/ScrollToTop'
 import { Spinner } from '../Spinner/Spinner'
 import { Routes } from 'routes'
 import { Container, ContentWrapper, theme } from './App.styles'
-import { WalletManagerProvider, WalletType } from '@gssuper/cosmodal'
 import { getCustomTheme } from 'redux/theme/theme.actions'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { selectCustomTheme } from 'redux/theme/theme.selectors'
 import { useAccount } from 'hooks/account'
-import { useGetAllEntities } from 'graphql/entities'
 import { apiEntityToEntity } from 'utils/entities'
-import { sleep } from 'utils/common'
-
-const CHAIN_ID = process.env.REACT_APP_CHAIN_ID!
-const LOCAL_STORAGE_KEY = 'ixo-webclient/connectedWalletId'
+import { useEntitiesLazyQuery } from 'generated/graphql'
 
 ReactGA.initialize('UA-106630107-5')
 ReactGA.pageview(window.location.pathname + window.location.search)
@@ -45,8 +40,9 @@ const App: React.FC = () => {
 
   const customTheme = useAppSelector(selectCustomTheme)
   const entityConfig = useAppSelector(selectEntityConfig)
-  const { cwClient } = useAccount()
-  const { data: apiEntities, refetch } = useGetAllEntities()
+  const { cwClient, address } = useAccount()
+  const [apiEntities, setApiEntities] = useState<any>([])
+  const [fetchEntities, { refetch }] = useEntitiesLazyQuery()
 
   const [customizedTheme, setCustomizedTheme] = useState<any>(theme)
 
@@ -55,6 +51,16 @@ const App: React.FC = () => {
     dispatch(getCustomTheme())
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  useEffect(() => {
+    const relayerNode = process.env.REACT_APP_RELAYER_NODE ?? ''
+    fetchEntities({
+      variables: {
+        relayerNode,
+        ...(address && { owner: address }),
+      },
+    }).then((response) => setApiEntities(response.data?.entities?.nodes))
+  }, [address, fetchEntities])
 
   useEffect(() => {
     if (history.location.pathname === '/explore') {
@@ -117,10 +123,9 @@ const App: React.FC = () => {
 
   useEffect(() => {
     if (cwClient && apiEntities.length > 0) {
-      dispatch(getEntitiesFromGraphqlAction(apiEntities))
+      dispatch(getEntitiesFromGraphqlAction(apiEntities as any))
       ;(async () => {
         for (const entity of apiEntities) {
-          await sleep(3 * 1000)
           apiEntityToEntity({ entity, cwClient }, (key, data, merge = false) => {
             dispatch(updateEntityPropertyAction(entity.id, key, data, merge))
           })
@@ -132,53 +137,21 @@ const App: React.FC = () => {
 
   return (
     <ThemeProvider theme={customizedTheme}>
-      <WalletManagerProvider
-        defaultChainId={CHAIN_ID}
-        enabledWalletTypes={[
-          WalletType.Keplr,
-          // WalletType.WalletConnect
-        ]}
-        localStorageKey={LOCAL_STORAGE_KEY}
-        walletConnectClientMeta={{
-          // TODO:
-          name: 'CosmodalExampleDAPP',
-          description: 'A dapp using the cosmodal library.',
-          url: 'https://cosmodal.example.app',
-          icons: ['https://cosmodal.example.app/walletconnect.png'],
-        }}
-        defaultUiConfig={{
-          classNames: {
-            modalContent: 'cosmodal-content',
-            modalOverlay: 'cosmodal-overlay',
-            modalHeader: 'cosmodal-header',
-            modalSubheader: 'cosmodal-subheader',
-            modalCloseButton: 'cosmodal-close-button',
-            walletList: 'cosmodal-wallet-list',
-            wallet: 'cosmodal-wallet',
-            walletImage: 'cosmodal-wallet-image',
-            walletInfo: 'cosmodal-wallet-info',
-            walletName: 'cosmodal-wallet-name',
-            walletDescription: 'cosmodal-wallet-description',
-            textContent: 'cosmodal-text-content',
-          },
-        }}
-      >
-        <AssistantContext.Provider value={{ active: false }}>
-          <ToastContainer theme='dark' hideProgressBar={true} position='top-right' />
-          <Services />
-          <ScrollToTop>
-            <Container>
-              <HeaderConnected />
-              <div className='d-flex' style={{ flex: 1 }}>
-                <ContentWrapper>
-                  {entityConfig && cwClient ? <Routes /> : <Spinner info={'Loading ixo.world...'} />}
-                </ContentWrapper>
-              </div>
-              <Footer />
-            </Container>
-          </ScrollToTop>
-        </AssistantContext.Provider>
-      </WalletManagerProvider>
+      <AssistantContext.Provider value={{ active: false }}>
+        <ToastContainer theme='dark' hideProgressBar={true} position='top-right' />
+        <Services />
+        <ScrollToTop>
+          <Container>
+            <HeaderConnected />
+            <div className='d-flex' style={{ flex: 1 }}>
+              <ContentWrapper>
+                {entityConfig && cwClient ? <Routes /> : <Spinner info={'Loading ixo.world...'} />}
+              </ContentWrapper>
+            </div>
+            <Footer />
+          </Container>
+        </ScrollToTop>
+      </AssistantContext.Provider>
     </ThemeProvider>
   )
 }

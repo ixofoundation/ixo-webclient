@@ -96,9 +96,7 @@ const CreateEntityDropdown: React.FunctionComponent<Props> = ({ entityType }) =>
               exact={true}
               to={`/create/entity/${EntityType.Investment.toLowerCase()}`}
               className={`
-                  ${EntityType.Investment.toLowerCase()} ${
-                entityType === EntityType.Investment ? 'active' : ''
-              } disabled
+                  ${EntityType.Investment.toLowerCase()} ${entityType === EntityType.Investment ? 'active' : ''}
                   `}
               onClick={handleToggleModal}
             >

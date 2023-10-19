@@ -222,7 +222,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
       proposalModuleAddress,
     )
     daoProposalSingleClient
-      .execute({ proposalId }, fee, undefined, depositInfo ? [depositInfo] : undefined)
+      .execute({ proposalId }, fee, undefined, undefined)
       .then(({ transactionHash, logs, events, gasUsed, gasWanted, height }) => {
         console.log('handleExecuteProposal', { transactionHash, logs, events, gasUsed, gasWanted, height })
         if (transactionHash) {

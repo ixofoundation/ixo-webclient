@@ -35,6 +35,7 @@ import {
   selectEntityVerificationMethod,
   selectEntityController,
   selectEntityStatus,
+  selectEntitySettings,
 } from 'redux/currentEntity/currentEntity.selectors'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import {
@@ -54,9 +55,11 @@ import { Coin } from '@ixo/impactxclient-sdk/types/codegen/DaoPreProposeSingle.t
 import { depositInfoToCoin } from 'utils/conversions'
 import { EntityLinkedResourceConfig } from 'constants/entity'
 import { IMPACTS_DAO_ID } from 'constants/chains'
+import { OutputBlockData } from '@editorjs/editorjs'
 
 export default function useCurrentEntity(): {
   id: string
+  settings: any
   entityType: string
   entityStatus: number
   currentEntity: TEntityModel
@@ -107,6 +110,7 @@ export default function useCurrentEntity(): {
   const owner: string = useAppSelector(selectEntityOwner)
   const controller: string[] = useAppSelector(selectEntityController)
   const service: Service[] = useAppSelector(selectEntityService)
+  const settings: Service[] = useAppSelector(selectEntitySettings)
   const claim: { [id: string]: TEntityClaimModel } = useAppSelector(selectEntityClaim)
   const startDate: string = useAppSelector(selectEntityStartDate)
   const endDate: string = useAppSelector(selectEntityEndDate)
@@ -182,6 +186,7 @@ export default function useCurrentEntity(): {
 
   return {
     id,
+    settings,
     entityType,
     entityStatus,
     currentEntity,
@@ -263,6 +268,13 @@ export function useCurrentEntityTags(): {
   return { sdgs }
 }
 
+export function useCurrentEntityPage(): OutputBlockData[] {
+  const { settings } = useCurrentEntity()
+  const page = settings?.Page?.data?.page ?? []
+
+  return page
+}
+
 export function useCurrentEntityClaims() {
   const claim: { [id: string]: TEntityClaimModel } = useAppSelector(selectEntityClaim)
   const headlineClaim = Object.values(claim).find((v) => v.isHeadlineMetric)
@@ -285,6 +297,17 @@ export function useCurrentEntityClaimSchemas(): LinkedResource[] {
   const { linkedResource } = useCurrentEntity()
 
   return linkedResource.filter((item: LinkedResource) => item.type === 'ClaimSchema')
+}
+
+export function useCurrentEntityLinkedEntities(): LinkedEntity[] {
+  const { linkedEntity } = useCurrentEntity()
+
+  return linkedEntity
+}
+
+export function useCurrentEntityBondLinkedEntity(): LinkedEntity | undefined {
+  const linkedEntity = useCurrentEntityLinkedEntities()
+  return linkedEntity.find((v) => v.type === 'bond')
 }
 
 export function useCurrentEntityDAOGroup(coreAddress: string) {

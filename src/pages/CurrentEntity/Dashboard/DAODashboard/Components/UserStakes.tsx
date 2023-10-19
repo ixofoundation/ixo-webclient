@@ -14,6 +14,7 @@ import { Avatar } from 'pages/CurrentEntity/Components'
 import { GroupStakingModal } from 'components/Modals'
 import PieChart from 'components/Widgets/PieChart/PieChart'
 import useCurrentEntity, { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
+import { renderTableHeader } from 'components/Table/Table'
 
 const TableWrapper = styled.div`
   color: white;
@@ -51,26 +52,6 @@ const TableWrapper = styled.div`
     }
   }
 `
-
-const renderTableHeader = (name: string, justifyContent = 'flex-start') => (
-  <FlexBox
-    p={4}
-    justifyContent={
-      justifyContent as
-        | 'flex-start'
-        | 'flex-end'
-        | 'center'
-        | 'space-between'
-        | 'space-around'
-        | 'space-evenly'
-        | 'stretch'
-    }
-  >
-    <Typography color='light-grey-blue' transform='uppercase' weight='bold' size='md'>
-      {name}
-    </Typography>
-  </FlexBox>
-)
 
 const columns = [
   {

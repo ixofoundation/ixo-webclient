@@ -33,8 +33,6 @@ export const useGetCreator = ({ endpoint, service }: { endpoint: string; service
     resolveVerifiableCredential(endpoint, service).then((response) => setVerifiableCredential(response))
   }, [setVerifiableCredential, endpoint, service])
 
-  console.log({ verifiableCredential })
-
   const { data, error } = useGetEntityById(verifiableCredential?.issuer?.id)
 
   return { data, error }

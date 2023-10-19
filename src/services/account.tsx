@@ -1,9 +1,8 @@
-import { contracts, createSigningClient, utils } from '@ixo/impactxclient-sdk'
+import { contracts, createSigningClient } from '@ixo/impactxclient-sdk'
 import { CheckIidDoc, GetTokenAsset, RPC_ENDPOINT } from 'lib/protocol'
 import { useAccount } from 'hooks/account'
 import { useEffect } from 'react'
 import { SigningCosmWasmClient, CosmWasmClient } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/cosmwasm-stargate'
-import { useWalletManager } from '@gssuper/cosmodal'
 import base58 from 'bs58'
 import { useAppSelector } from 'redux/hooks'
 import { selectStakingGroups } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
@@ -22,6 +21,7 @@ const AccountUpdateService = (): JSX.Element | null => {
     address,
     balances,
     cwClient,
+    connectedWallet,
     updateBalances,
     updateNativeTokens,
     updateCw20Tokens,
@@ -35,7 +35,6 @@ const AccountUpdateService = (): JSX.Element | null => {
     updateRegistered,
     updateDid,
   } = useAccount()
-  const { connectedWallet } = useWalletManager()
   const stakingGroups = useAppSelector(selectStakingGroups)
 
   useEffect(() => {
@@ -76,6 +75,9 @@ const AccountUpdateService = (): JSX.Element | null => {
            * @description find token info from currency list via sdk
            */
           GetTokenAsset(denom).then((token) => {
+            if (!token) {
+              return
+            }
             const displayAmount = convertMicroDenomToDenomWithDecimals(amount, token.coinDecimals).toString()
             const payload: NativeToken = {
               type: TokenType.Native,
@@ -162,9 +164,8 @@ const AccountUpdateService = (): JSX.Element | null => {
 
   useEffect(() => {
     if (connectedWallet) {
-      const { wallet, name, address, publicKey, offlineSigner } = connectedWallet
+      const { wallet, name, address, did, publicKey, offlineSigner } = connectedWallet
       const pubKey = base58.encode(publicKey.data)
-      const did = utils.did.generateSecpDid(pubKey)
 
       updateName(name)
       updateAddress(address)

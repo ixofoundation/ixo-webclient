@@ -1,4 +1,3 @@
-import { useWalletManager } from '@gssuper/cosmodal'
 import { customQueries } from '@ixo/impactxclient-sdk'
 import { ReactComponent as AssetIcon } from 'assets/images/icon-asset.svg'
 import { ReactComponent as BondIcon } from 'assets/images/icon-bond.svg'
@@ -25,8 +24,7 @@ import { IxoCoinCodexRelayerApi } from 'hooks/configs'
 
 const ProfileModal: React.FC = () => {
   const theme: any = useTheme()
-  const { connectedWallet, disconnect } = useWalletManager()
-  const { address, name, cw20Tokens, nativeTokens } = useAccount()
+  const { address, name, cw20Tokens, nativeTokens, connectedWallet, disconnect } = useAccount()
   const [showAssetType, setShowAssetType] = useState('Coins')
   const [coinBalanceData, setCoinBalanceData] = useState<{
     [denom: string]: {

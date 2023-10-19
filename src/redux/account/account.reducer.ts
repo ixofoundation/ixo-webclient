@@ -1,27 +1,15 @@
+import { WalletType } from 'types/wallet'
 import { AccountActionTypes, AccountActions, AccountState } from './account.types'
 
 export const initialState: AccountState = {
-  userInfo: null,
-  loginStatusCheckCompleted: true,
-  assistantToggled: false,
-  assistantFixed: false,
-  intent: '',
-  params: null,
-  accountNumber: null,
-  sequence: null,
-  transactions: [],
-  transactionsByAsset: [],
-  usdRate: 0,
-  marketChart: null,
-  keplrWallet: null,
-
-  selectedWallet: undefined,
+  selectedWallet: WalletType.Keplr,
+  connectedWallet: undefined,
   name: undefined,
   registered: undefined,
   pubKey: undefined,
+  cwClient: undefined,
   signingClient: undefined,
   cosmWasmClient: undefined,
-  cwClient: undefined,
   did: undefined,
   address: null,
   balances: [],
@@ -31,54 +19,15 @@ export const initialState: AccountState = {
 
 export const reducer = (state = initialState, action: AccountActionTypes): AccountState => {
   switch (action.type) {
-    case AccountActions.Login:
+    case AccountActions.Connect:
       return {
         ...state,
-        userInfo: action.payload.userInfo,
-        address: action.payload.address,
-        accountNumber: action.payload.accountNumber,
-        sequence: action.payload.sequence,
-        loginStatusCheckCompleted: true,
+        connectedWallet: action.payload,
       }
-    case AccountActions.GetAccountSuccess:
+    case AccountActions.Disconnect:
       return {
         ...state,
-        balances: action.payload.balances,
-      }
-    case AccountActions.GetTransactionsSuccess:
-      return {
-        ...state,
-        transactions: action.payload,
-      }
-    case AccountActions.GetTransactionsByAssetSuccess:
-      return {
-        ...state,
-        transactionsByAsset: action.payload,
-      }
-    case AccountActions.Logout:
-      return { ...initialState, loginStatusCheckCompleted: true }
-    case AccountActions.ToggleAssistant:
-      return {
-        ...state,
-        assistantToggled: (!state.assistantToggled && !action.payload.forceClose) || !!action.payload.forceOpen,
-        assistantFixed: action.payload.fixed ?? state.assistantFixed,
-        intent: action.payload.intent!,
-        params: action.payload.params ? action.payload.params : state.params,
-      }
-    case AccountActions.SetKeplrWallet:
-      return {
-        ...state,
-        keplrWallet: action.payload,
-      }
-    case AccountActions.GetUSDRateSuccess:
-      return {
-        ...state,
-        usdRate: action.payload,
-      }
-    case AccountActions.GetMarketChartSuccess:
-      return {
-        ...state,
-        marketChart: action.payload,
+        connectedWallet: undefined,
       }
     case AccountActions.ChooseWallet:
       return {

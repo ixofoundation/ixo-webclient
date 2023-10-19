@@ -14,6 +14,9 @@ import { selectLiquidityPools } from 'redux/selectedEntityExchange/entityExchang
 import { findDenomByMinimalDenom, minimalDenomToDenom } from 'redux/account/account.utils'
 import SignStep, { TXStatus } from './components/SignStep'
 import { CheckWrapper, Container } from './Modal.styles'
+import { customQueries } from '@ixo/impactxclient-sdk'
+import { IxoCoinCodexRelayerApi } from 'hooks/configs'
+import { NATIVE_MICRODENOM } from 'constants/chains'
 
 interface Props {
   walletType: string
@@ -43,7 +46,7 @@ const SupplyLiquidityModal: React.FunctionComponent<Props> = ({
   const liquidityPools = useAppSelector(selectLiquidityPools)
 
   // TODO: usdRate is for just `ixo` but may need to change for all asset types
-  const { userInfo, usdRate } = useAppSelector((state) => state.account)
+  const [usdRate, setUsdRate] = useState(0)
 
   const selectedPoolDetail = useMemo(() => {
     if (!bondDid) {
@@ -166,6 +169,13 @@ const SupplyLiquidityModal: React.FunctionComponent<Props> = ({
   useEffect(() => {
     console.log('validations', validations)
   }, [validations])
+
+  useEffect(() => {
+    customQueries.currency.findTokenInfoFromDenom(NATIVE_MICRODENOM, true, IxoCoinCodexRelayerApi).then((response) => {
+      const { lastPriceUsd } = response
+      setUsdRate(lastPriceUsd)
+    })
+  }, [])
 
   // const handlePrevStep = (): void => {
   //   setCurrentStep(currentStep - 1)

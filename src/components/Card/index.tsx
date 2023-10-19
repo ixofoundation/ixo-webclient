@@ -1,6 +1,6 @@
 export * from './AssetStatsCard'
 export * from './AssetCreditsCard'
-export * from './AssertPerfomanceCard'
+export * from './AssetPerfomanceCard'
 export * from './BalanceCard'
 export * from './Card'
 export * from './FormCard'

@@ -13,7 +13,7 @@ import { PageContent } from './PageContent'
 
 const Overview: React.FC = () => {
   const { entityId } = useParams<{ entityId: string }>()
-  const { page = [], startDate } = useCurrentEntity()
+  const { startDate, page } = useCurrentEntity()
   const { controlPanelSchema } = useEntityConfig()
   const { name, description, location } = useCurrentEntityProfile()
   const { displayName: creatorName, logo: creatorLogo } = useCurrentEntityCreator()

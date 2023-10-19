@@ -15,10 +15,13 @@ import {
   selectAccountFunded,
   selectAccountCw20Tokens,
   selectAccountNativeTokens,
+  selectAccountConnectedWallet,
 } from 'redux/account/account.selectors'
 import { decode } from 'bs58'
 import {
   chooseWalletAction,
+  connectAction,
+  disconnectAction,
   updateAddressAction,
   updateBalancesAction,
   updateCosmWasmAction,
@@ -35,11 +38,18 @@ import {} from 'redux/account/account.types'
 import { GetBalances, KeyTypes, TSigner } from 'lib/protocol'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 import { SigningCosmWasmClient, CosmWasmClient } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/cosmwasm-stargate'
-import { WalletType } from '@gssuper/cosmodal'
+import { ConnectedWallet, WalletType } from 'types/wallet'
 import { Cw20Token, NativeToken } from 'types/tokens'
+import { getConnectedWalletInfo } from 'utils/account'
+import { KeplrExtensionWallet } from 'wallets/keplr/extension'
+import { getKeplrChainInfo } from '@ixo/cosmos-chain-resolver'
+import { WALLET_STORE_LOCAL_STORAGE_KEY, useIxoConfigs, chainNetwork } from './configs'
+import { ChainInfo } from '@keplr-wallet/types'
+import { errorToast } from 'utils/toast'
 
 export function useAccount(): {
   selectedWallet: WalletType | undefined
+  connectedWallet: ConnectedWallet | undefined
   address: string
   signingClient: SigningStargateClient
   cosmWasmClient: SigningCosmWasmClient
@@ -49,12 +59,15 @@ export function useAccount(): {
   keyType: KeyTypes
   did: string
   balances: Coin[]
+  displayBalances: Coin[]
   nativeTokens: NativeToken[]
   cw20Tokens: Cw20Token[]
   name: string
   registered: boolean | undefined
   funded: boolean
   signer: TSigner
+  connect: () => Promise<void>
+  disconnect: () => void
   updateBalances: () => Promise<void>
   updateNativeTokens: (balances: { [denom: string]: NativeToken }) => void
   updateCw20Tokens: (balances: { [addr: string]: Cw20Token }) => void
@@ -69,7 +82,9 @@ export function useAccount(): {
   updateName: (name: string) => void
 } {
   const dispatch = useAppDispatch()
+  const { convertToDenom } = useIxoConfigs()
   const selectedWallet: WalletType | undefined = useAppSelector(selectAccountSelectedWallet)
+  const connectedWallet: ConnectedWallet | undefined = useAppSelector(selectAccountConnectedWallet)
   const address: string = useAppSelector(selectAccountAddress)
   const signingClient: SigningStargateClient = useAppSelector(selectAccountSigningClient)
   const cosmWasmClient: SigningCosmWasmClient = useAppSelector(selectAccountCosmWasmClient)
@@ -80,11 +95,35 @@ export function useAccount(): {
   const did: string = useAppSelector(selectAccountDid)
   const name: string = useAppSelector(selectAccountName)
   const balances: Coin[] = useAppSelector(selectAccountBalances)
+  const displayBalances: Coin[] = balances.map((balance) => convertToDenom(balance)).filter(Boolean) as Coin[]
   const nativeTokens: NativeToken[] = useAppSelector(selectAccountNativeTokens)
   const cw20Tokens: Cw20Token[] = useAppSelector(selectAccountCw20Tokens)
   const registered: boolean | undefined = useAppSelector(selectAccountRegistered)
   const funded: boolean = useAppSelector(selectAccountFunded)
   const signer: TSigner = { address, did, pubKey: pubKeyUint8!, keyType }
+
+  const connect = async (): Promise<void> => {
+    try {
+      const chainInfo = await getKeplrChainInfo('impacthub', chainNetwork)
+      chainInfo.rest = process.env.REACT_APP_GAIA_URL || chainInfo.rest
+      const wallet = KeplrExtensionWallet
+      const walletClient = await wallet.getClient(chainInfo as ChainInfo)
+      if (!walletClient) {
+        throw new Error('Failed to retrieve wallet client.')
+      }
+      const connectedWallet = await getConnectedWalletInfo(wallet, walletClient, chainInfo as ChainInfo)
+      dispatch(connectAction(connectedWallet))
+      localStorage.setItem(WALLET_STORE_LOCAL_STORAGE_KEY, 'connected')
+    } catch (e: any) {
+      console.error('connect wallet', e)
+      errorToast('Connecting wallet', e.message)
+    }
+  }
+
+  const disconnect = (): void => {
+    dispatch(disconnectAction())
+    localStorage.removeItem(WALLET_STORE_LOCAL_STORAGE_KEY)
+  }
 
   const updateBalances = async (): Promise<void> => {
     try {
@@ -133,6 +172,7 @@ export function useAccount(): {
 
   return {
     selectedWallet,
+    connectedWallet,
     address,
     signingClient,
     cosmWasmClient,
@@ -142,12 +182,15 @@ export function useAccount(): {
     keyType,
     did,
     balances,
+    displayBalances,
     nativeTokens,
     cw20Tokens,
     name,
     registered,
     funded,
     signer,
+    connect,
+    disconnect,
     updateBalances,
     updateNativeTokens,
     updateCw20Tokens,

@@ -36,11 +36,11 @@ interface Props {
 }
 
 const PageContent: React.FC<Props> = ({ page }): JSX.Element => {
-  const nonEmptyPage = page.filter((content) => !!content.data)
+  const nonEmptyPage = page?.filter((content) => !!content.data)
 
   return (
     <Wrapper>
-      {nonEmptyPage.length > 0 && (
+      {nonEmptyPage?.length > 0 && (
         <ReactEditorJS
           tools={EDITOR_JS_TOOLS}
           defaultValue={{ time: new Date().getTime(), blocks: nonEmptyPage }}

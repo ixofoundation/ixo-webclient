@@ -1,7 +1,7 @@
 import SignStep, { TXStatus } from 'components/ControlPanel/Actions/components/SignStep'
 import { useEffect } from 'react'
-import { useAppSelector } from 'redux/hooks'
 import IxoSwapAdapter from 'adapters/IxoSwapAdapter'
+import { useAccount } from 'hooks/account'
 
 type RenderSignStepProps = {
   inputAsset: any
@@ -12,7 +12,8 @@ type RenderSignStepProps = {
 }
 
 const RenderSignStep = ({ inputAsset, outputAsset, setCurrentStep }: RenderSignStepProps): JSX.Element => {
-  const { offlineSigner, address } = useAppSelector((state) => state.account.keplrWallet)
+  const { connectedWallet } = useAccount()
+  const { offlineSigner, address } = connectedWallet!
 
   useEffect(() => {
     const IxoSwap = new IxoSwapAdapter({ walletAddress: address, offlineSigner })

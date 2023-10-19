@@ -1,0 +1,32 @@
+query entity($id: String!) {
+  entity(id: $id) {
+    accordedRight
+    accounts
+    alsoKnownAs
+    assertionMethod
+    authentication
+    capabilityDelegation
+    capabilityInvocation
+    context
+    controller
+    credentials
+    endDate
+    entityVerified
+    externalId
+    id
+    linkedClaim
+    keyAgreement
+    linkedEntity
+    linkedResource
+    metadata
+    nodeId
+    owner
+    relayerNode
+    service
+    settings
+    startDate
+    status
+    type
+    verificationMethod
+  }
+}
