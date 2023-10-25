@@ -1,4 +1,4 @@
-import { Box, FlexBox } from 'components/App/App.styles'
+import { FlexBox } from 'components/App/App.styles'
 import ControlPanel from 'components/ControlPanel/ControlPanel'
 import { useEntityConfig } from 'hooks/configs'
 import useCurrentEntity, {
@@ -7,13 +7,18 @@ import useCurrentEntity, {
   useCurrentEntityPage,
   useCurrentEntityProfile,
 } from 'hooks/currentEntity'
+import { useQuery } from 'hooks/window'
 import { useParams } from 'react-router-dom'
+import ClaimForm from './ClaimForm'
 import { OverviewHero } from '../Components'
 import { LinkedFiles } from './LinkedFiles'
 import { PageContent } from './PageContent'
 
 const Overview: React.FC = () => {
   const { entityId } = useParams<{ entityId: string }>()
+  const { getQuery } = useQuery()
+  const claimId = getQuery('claimId')
+
   const { startDate } = useCurrentEntity()
   const { controlPanelSchema } = useEntityConfig()
   const { name, description, location } = useCurrentEntityProfile()
@@ -36,12 +41,18 @@ const Overview: React.FC = () => {
             creatorName={creatorName}
             creatorLogo={creatorLogo}
           />
-          <PageContent page={page} />
-          <LinkedFiles linkedFiles={linkedFiles} />
+          {!claimId ? (
+            <>
+              <PageContent page={page} />
+              <LinkedFiles linkedFiles={linkedFiles} />
+            </>
+          ) : (
+            <ClaimForm claimId={claimId} />
+          )}
         </FlexBox>
-        <Box className='col-lg-3' background='#F0F3F9'>
-          <ControlPanel schema={controlPanelSchema} entityDid={entityId} claims={[]} />
-        </Box>
+        <FlexBox className='col-lg-3' background='#F0F3F9'>
+          <ControlPanel schema={controlPanelSchema} entityDid={entityId} />
+        </FlexBox>
       </div>
     </div>
   )

@@ -7,6 +7,7 @@ import Accounts from './Accounts'
 import Claims from './Claims'
 import Payments from './Payments'
 import Events from './Events'
+import ClaimSubmission from './ClaimSubmission'
 
 const InvestmentFunding: React.FC = (): JSX.Element => {
   const { entityId } = useParams<{ entityId: string }>()
@@ -38,6 +39,7 @@ const InvestmentFunding: React.FC = (): JSX.Element => {
       icon: requireCheckDefault(require('assets/img/sidebar/check.svg')),
       sdg: 'Claims',
       tooltip: 'Claims',
+      strict: false,
     },
   ]
 
@@ -99,6 +101,7 @@ const InvestmentFunding: React.FC = (): JSX.Element => {
       <Route exact path='/entity/:entityId/treasury/payments' component={Payments} />
       <Route exact path='/entity/:entityId/treasury/events' component={Events} />
       <Route exact path='/entity/:entityId/treasury/claims' component={Claims} />
+      <Route exact path='/entity/:entityId/treasury/claims/:claimId' component={ClaimSubmission} />
       <Route exact path='/entity/:entityId/treasury'>
         <Redirect to={`/entity/${entityId}/treasury/accounts`} />
       </Route>

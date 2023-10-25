@@ -1,50 +1,71 @@
 import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { useClaimSetting } from 'hooks/claim'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTheme } from 'styled-components'
+import { EvaluationStatus } from '@ixo/impactxclient-sdk/types/codegen/ixo/claims/v1beta1/claims'
+import { chainNetwork } from 'hooks/configs'
+import { customQueries } from '@ixo/impactxclient-sdk'
+import { NavLink, useHistory } from 'react-router-dom'
 
 interface Props {
-  status: string
-  name: string
-  identifier: string
-  timestamp?: number
+  status: EvaluationStatus
+  claimId: string
 }
 
-const ClaimItem: React.FC<Props> = ({ status, name, identifier, timestamp }) => {
+const ClaimItem: React.FC<Props> = ({ status, claimId }) => {
+  const {
+    location: { pathname },
+  } = useHistory()
   const theme: any = useTheme()
   const Setting = useClaimSetting()
+  const [name, setName] = useState('')
+
+  useEffect(() => {
+    if (claimId) {
+      customQueries.cellnode
+        .getPublicDoc(claimId, undefined, chainNetwork)
+        .then((response) => {
+          setName(response?.credentialSubject?.claim?.type?.replace('claim:', ''))
+        })
+        .catch((e) => {
+          console.error('getPublicDoc', e)
+        })
+    }
+  }, [claimId])
 
   return (
-    <FlexBox
-      direction='column'
-      width='100%'
-      height='70px'
-      borderRadius='4px'
-      background={theme.ixoGradientLight}
-      justifyContent='center'
-      cursor='pointer'
-      px={8}
-      position='relative'
-    >
+    <NavLink to={`${pathname}/${claimId}`} style={{ width: '100%' }}>
       <FlexBox
-        position='absolute'
-        top='50%'
-        left='0px'
-        transform='translate(-50%, -50%)'
-        width='8px'
-        height='24px'
-        background={Setting[status].color}
-        borderRadius='100px'
-      />
+        direction='column'
+        width='100%'
+        height='70px'
+        borderRadius='4px'
+        background={theme.ixoGradientLight}
+        justifyContent='center'
+        cursor='pointer'
+        px={8}
+        position='relative'
+      >
+        <FlexBox
+          position='absolute'
+          top='50%'
+          left='0px'
+          transform='translate(-50%, -50%)'
+          width='8px'
+          height='24px'
+          background={Setting[status].color}
+          borderRadius='100px'
+        />
 
-      <Typography color='black' size='lg' weight='bold'>
-        {name}
-      </Typography>
-      <Typography color='dark-blue' size='sm'>
-        {identifier}
-      </Typography>
-    </FlexBox>
+        <Typography color='black' size='lg' weight='bold'>
+          {name}
+        </Typography>
+        <Typography color='dark-blue' size='sm'>
+          {claimId}
+        </Typography>
+      </FlexBox>
+    </NavLink>
   )
 }
 

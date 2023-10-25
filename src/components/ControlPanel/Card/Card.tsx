@@ -4,8 +4,9 @@ import { Typography } from 'components/Typography'
 import { useTheme } from 'styled-components'
 
 export interface ICardItems {
-  icon: JSX.Element
+  icon?: JSX.Element
   content: string | JSX.Element
+  active?: boolean
   onClick?: () => void
 }
 
@@ -39,16 +40,18 @@ const Card: React.FC<Props> = ({ icon, title, columns, items }) => {
             p={3}
             gap={2}
             alignItems='center'
-            borderColor={'transparent'}
+            borderColor={item.active ? theme.ixoNewBlue : 'transparent'}
             borderWidth={'1px'}
             borderStyle={'solid'}
             hover={item.onClick ? { borderColor: theme.ixoNewBlue } : {}}
             onClick={item.onClick && item.onClick}
             cursor={item.onClick && 'pointer'}
           >
-            <SvgBox svgWidth={5} svgHeight={5} color={theme.ixoBlack}>
-              {item.icon}
-            </SvgBox>
+            {item.icon && (
+              <SvgBox svgWidth={5} svgHeight={5} color={theme.ixoBlack}>
+                {item.icon}
+              </SvgBox>
+            )}
             <Typography size='sm' color='black'>
               {item.content}
             </Typography>

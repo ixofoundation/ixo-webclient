@@ -88,7 +88,7 @@ const InvestmentDashboard: React.FC = (): JSX.Element => {
   ]
 
   const bondLinkedEntity = useCurrentEntityBondLinkedEntity()
-  const bondDid = bondLinkedEntity?.id || ''
+  const bondDid = bondLinkedEntity?.id ?? ''
   const { data: bondDetail } = useGetBondDid(bondDid)
 
   return (

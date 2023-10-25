@@ -1,18 +1,62 @@
+// import { EvaluationStatus } from '@ixo/impactxclient-sdk/types/codegen/ixo/claims/v1beta1/claims'
+import { ixo } from '@ixo/impactxclient-sdk'
 import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
+import { useGetClaimCollection, useGetClaims } from 'graphql/claims'
+import { useMemo } from 'react'
 import ClaimCategory from './ClaimCategory'
 import ClaimItem from './ClaimItem'
 import ClaimTab from './ClaimTab'
 
 const Claims: React.FC = () => {
+  const collectionId = '1'
+  const { data: claimCollection } = useGetClaimCollection(collectionId)
+  const { data: claims } = useGetClaims(collectionId)
+
+  const { pendingClaims, approvedClaims, rejectedClaims } = useMemo(() => {
+    const pendingClaims = claims.filter((claim: any) => !claim.evaluationByClaimId?.status)
+    const approvedClaims = claims.filter(
+      (claim: any) => claim.evaluationByClaimId?.status === ixo.claims.v1beta1.EvaluationStatus.APPROVED,
+    )
+    const rejectedClaims = claims.filter(
+      (claim: any) => claim.evaluationByClaimId?.status === ixo.claims.v1beta1.EvaluationStatus.REJECTED,
+    )
+    const disputedClaims = claims.filter(
+      (claim: any) => claim.evaluationByClaimId?.status === ixo.claims.v1beta1.EvaluationStatus.DISPUTED,
+    )
+    return { pendingClaims, approvedClaims, rejectedClaims, disputedClaims }
+  }, [claims])
+
+  const { approved, disputed, rejected, pending } = useMemo(() => {
+    const approved = claimCollection.approved ?? 0
+    const disputed = claimCollection.disputed ?? 0
+    const evaluated = claimCollection.evaluated ?? 0
+    const rejected = claimCollection.rejected ?? 0
+
+    const pending = evaluated - approved - disputed - rejected
+
+    return {
+      approved,
+      disputed,
+      evaluated,
+      rejected,
+      pending,
+    }
+  }, [claimCollection])
+
   return (
     <FlexBox direction='column' gap={6} width='100%' color='black'>
-      <FlexBox width='100%' gap={2} color='black' flexWrap='wrap'>
-        <ClaimTab status={'saved'} value={2} />
-        <ClaimTab status={'pending'} value={3} />
-        <ClaimTab status={'rejected'} value={18} />
-        <ClaimTab status={'approved'} value={15} />
-        <ClaimTab status={'disputed'} value={6} />
+      <FlexBox direction='column' width='100%' gap={4}>
+        <Typography variant='secondary' size='2xl'>
+          All Claims
+        </Typography>
+        <FlexBox width='100%' gap={2} color='black' flexWrap='wrap'>
+          <ClaimTab status={4} value={0} />
+          <ClaimTab status={ixo.claims.v1beta1.EvaluationStatus.PENDING} value={pending} />
+          <ClaimTab status={ixo.claims.v1beta1.EvaluationStatus.REJECTED} value={rejected} />
+          <ClaimTab status={ixo.claims.v1beta1.EvaluationStatus.APPROVED} value={approved} />
+          <ClaimTab status={ixo.claims.v1beta1.EvaluationStatus.DISPUTED} value={disputed} />
+        </FlexBox>
       </FlexBox>
 
       <FlexBox width='100%' gap={2} color='black' flexWrap='wrap'>
@@ -29,8 +73,8 @@ const Claims: React.FC = () => {
             Saved Claims
           </Typography>
           <FlexBox direction='column' gap={2} width='100%'>
-            <ClaimItem status='saved' name='Claim/Project Name' identifier='did:sov:RFWuuFmLvNd8uq9x5sUYku' />
-            <ClaimItem status='saved' name='Claim/Project Name' identifier='did:sov:RFWuuFmLvNd8uq9x5sUYku' />
+            {/* <ClaimItem status='saved' name='Claim/Project Name' identifier='did:sov:RFWuuFmLvNd8uq9x5sUYku' />
+            <ClaimItem status='saved' name='Claim/Project Name' identifier='did:sov:RFWuuFmLvNd8uq9x5sUYku' /> */}
           </FlexBox>
         </FlexBox>
 
@@ -41,9 +85,13 @@ const Claims: React.FC = () => {
             Claims Pending
           </Typography>
           <FlexBox direction='column' gap={2} width='100%'>
-            <ClaimItem status='pending' name='Claim/Project Name' identifier='did:sov:RFWuuFmLvNd8uq9x5sUYku' />
-            <ClaimItem status='pending' name='Claim/Project Name' identifier='did:sov:RFWuuFmLvNd8uq9x5sUYku' />
-            <ClaimItem status='pending' name='Claim/Project Name' identifier='did:sov:RFWuuFmLvNd8uq9x5sUYku' />
+            {pendingClaims.slice(0, 3).map((claim: any) => (
+              <ClaimItem
+                key={claim.claimId}
+                status={ixo.claims.v1beta1.EvaluationStatus.PENDING}
+                claimId={claim.claimId}
+              />
+            ))}
           </FlexBox>
         </FlexBox>
 
@@ -54,9 +102,13 @@ const Claims: React.FC = () => {
             Claims Rejected
           </Typography>
           <FlexBox direction='column' gap={2} width='100%'>
-            <ClaimItem status='rejected' name='Claim/Project Name' identifier='did:sov:RFWuuFmLvNd8uq9x5sUYku' />
-            <ClaimItem status='rejected' name='Claim/Project Name' identifier='did:sov:RFWuuFmLvNd8uq9x5sUYku' />
-            <ClaimItem status='rejected' name='Claim/Project Name' identifier='did:sov:RFWuuFmLvNd8uq9x5sUYku' />
+            {rejectedClaims.slice(0, 3).map((claim: any) => (
+              <ClaimItem
+                key={claim.claimId}
+                status={ixo.claims.v1beta1.EvaluationStatus.REJECTED}
+                claimId={claim.claimId}
+              />
+            ))}
           </FlexBox>
         </FlexBox>
 
@@ -67,9 +119,13 @@ const Claims: React.FC = () => {
             Claims Approved
           </Typography>
           <FlexBox direction='column' gap={2} width='100%'>
-            <ClaimItem status='approved' name='Claim/Project Name' identifier='did:sov:RFWuuFmLvNd8uq9x5sUYku' />
-            <ClaimItem status='approved' name='Claim/Project Name' identifier='did:sov:RFWuuFmLvNd8uq9x5sUYku' />
-            <ClaimItem status='approved' name='Claim/Project Name' identifier='did:sov:RFWuuFmLvNd8uq9x5sUYku' />
+            {approvedClaims.slice(0, 3).map((claim: any) => (
+              <ClaimItem
+                key={claim.claimId}
+                status={ixo.claims.v1beta1.EvaluationStatus.APPROVED}
+                claimId={claim.claimId}
+              />
+            ))}
           </FlexBox>
         </FlexBox>
       </FlexBox>

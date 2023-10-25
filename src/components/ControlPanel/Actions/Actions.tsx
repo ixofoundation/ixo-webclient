@@ -17,7 +17,7 @@ const Actions: React.FC<Props> = () => {
       items={[
         {
           icon: <PlusIcon />,
-          content: 'Apply to join',
+          content: 'Offer',
           onClick: () => {
             console.log('TODO: apply to join')
           },

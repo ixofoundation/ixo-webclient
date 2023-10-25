@@ -17,7 +17,7 @@ import { contracts, ixo } from '@ixo/impactxclient-sdk'
 import { CosmosMsgForEmpty } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
 import { useMakeProposalAction } from 'hooks/proposal'
 import { decodedMessagesString } from 'utils/messages'
-import { AddLinkedEntity, fee } from 'lib/protocol'
+import { AddLinkedEntity, CreateCollection, fee } from 'lib/protocol'
 import {
   AccordedRight,
   LinkedClaim,
@@ -49,6 +49,7 @@ const ReviewProposal: React.FC = () => {
     service: serviceData,
     linkedEntity: linkedEntityData,
     linkedResource: linkedResourceData,
+    claim,
     clearEntity,
   } = createEntityState
   const profile = createEntityState.profile
@@ -250,7 +251,7 @@ const ReviewProposal: React.FC = () => {
     let linkedResource: LinkedResource[] = []
     let linkedClaim: LinkedClaim[] = []
 
-    // AccordedRight TODO:
+    // AccordedRight
 
     // Service
     service = serviceData
@@ -271,8 +272,8 @@ const ReviewProposal: React.FC = () => {
       return ''
     }
 
-    // Create DAO entity
-    const { did: entityDid } = await CreateEntityBase(entityType, protocolDid, {
+    // Create Deed entity
+    const { did: entityDid, adminAccount } = await CreateEntityBase(entityType, protocolDid, {
       service,
       linkedResource,
       accordedRight,
@@ -283,6 +284,20 @@ const ReviewProposal: React.FC = () => {
     if (!entityDid) {
       return ''
     }
+
+    // Create Claim Collection
+    const claimTemplateIds = Object.values(claim)
+      .map((claim) => (claim.template?.id ? claim.template?.id.split('#')[0] : undefined))
+      .filter(Boolean) as string[]
+    await CreateCollection(
+      signingClient,
+      signer,
+      claimTemplateIds.map((claimTemplateId) => ({
+        entityDid,
+        protocolDid: claimTemplateId,
+        paymentsAccount: adminAccount,
+      })),
+    )
 
     return entityDid
 
@@ -302,7 +317,6 @@ const ReviewProposal: React.FC = () => {
   const handleSubmit = async () => {
     try {
       if (!isParticipating && !anyoneCanPropose) {
-        console.log(111111, isParticipating, anyoneCanPropose)
         Toast.errorToast(null, 'You must be a member of the group')
         return
       }

@@ -49,7 +49,7 @@ const DropDownImageSelect: React.FunctionComponent<Props> = ({
       setSelectedIconSRC(selectedOption.iconAssetPath)
     }
     // eslint-disable-next-line
-  }, [options])
+  }, [JSON.stringify(options)])
 
   return (
     <Container>

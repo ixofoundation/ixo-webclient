@@ -1,28 +1,29 @@
+import { ixo } from '@ixo/impactxclient-sdk'
 import { useTheme } from 'styled-components'
 
 export function useClaimSetting() {
   const theme: any = useTheme()
 
   return {
-    saved: {
-      text: 'Saved',
-      color: theme.ixoNewBlue,
-    },
-    pending: {
+    [ixo.claims.v1beta1.EvaluationStatus.PENDING]: {
       text: 'Pending',
       color: theme.ixoOrange,
     },
-    rejected: {
+    [ixo.claims.v1beta1.EvaluationStatus.REJECTED]: {
       text: 'Rejected',
       color: theme.ixoRed,
     },
-    approved: {
+    [ixo.claims.v1beta1.EvaluationStatus.APPROVED]: {
       text: 'Approved',
       color: theme.ixoGreen,
     },
-    disputed: {
+    [ixo.claims.v1beta1.EvaluationStatus.DISPUTED]: {
       text: 'Disputed',
       color: theme.ixoYellow,
+    },
+    [4]: {
+      text: 'Saved',
+      color: theme.ixoNewBlue,
     },
   }
 }

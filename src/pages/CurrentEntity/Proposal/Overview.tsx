@@ -39,7 +39,7 @@ const Overview: React.FC = () => {
           />
         </FlexBox>
         <Box className='col-lg-3' background='#F0F3F9'>
-          <ControlPanel schema={controlPanelSchema} entityDid={entityId} claims={[]} />
+          <ControlPanel schema={controlPanelSchema} entityDid={entityId} />
         </Box>
       </div>
     </div>

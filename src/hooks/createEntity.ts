@@ -457,17 +457,17 @@ export function useCreateEntity(): TCreateEntityHookRes {
         },
         id: 'ixo:entity#profile',
         type: 'profile',
-        orgName: profile.orgName,
-        name: profile.name,
-        image: profile.image,
-        logo: profile.logo,
-        brand: profile.brand,
-        location: profile.location,
-        description: profile.description,
-        attributes: profile.attributes,
-        metrics: profile.metrics,
+        orgName: profile?.orgName,
+        name: profile?.name,
+        image: profile?.image,
+        logo: profile?.logo,
+        brand: profile?.brand,
+        location: profile?.location,
+        description: profile?.description,
+        attributes: profile?.attributes,
+        metrics: profile?.metrics,
 
-        category: profile.type,
+        category: profile?.type,
       }
       const buff = Buffer.from(JSON.stringify(payload))
       const res = await UploadDataToService(buff.toString('base64'))
@@ -831,7 +831,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
 
         return {
           type: claimProtocol?.profile?.category || '',
-          id: `{id}#${claimProtocol?.profile?.name}`,
+          id: item.id,
           description: claimProtocol?.profile?.description || '',
           serviceEndpoint: LinkedResourceServiceEndpointGenerator(res!, cellnodeService),
           proof: LinkedResourceProofGenerator(res!, cellnodeService),

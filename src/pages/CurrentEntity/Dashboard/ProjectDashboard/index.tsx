@@ -5,8 +5,6 @@ import useCurrentEntity, { useCurrentEntityProfile } from 'hooks/currentEntity'
 import { Redirect, Route, useParams, useRouteMatch } from 'react-router-dom'
 import { toTitleCase } from 'utils/formatters'
 import { requireCheckDefault } from 'utils/images'
-import ClaimQuestions from './ClaimQuestions'
-import Claims from './Claims'
 import EditEntity from './EditEntity'
 
 const ProjectDashboard: React.FC = (): JSX.Element => {
@@ -17,13 +15,6 @@ const ProjectDashboard: React.FC = (): JSX.Element => {
   const { registered, address } = useAccount()
 
   const routes: Path[] = [
-    {
-      url: `/entity/${entityId}/dashboard/claims`,
-      icon: requireCheckDefault(require('assets/img/sidebar/claim.svg')),
-      sdg: 'Claims',
-      tooltip: 'Claims',
-      strict: true,
-    },
     {
       url: `/entity/${entityId}/dashboard/edit`,
       icon: requireCheckDefault(require('assets/img/sidebar/gear.svg')),
@@ -80,15 +71,12 @@ const ProjectDashboard: React.FC = (): JSX.Element => {
       tabs={tabs}
       entityType={entityType}
     >
-      <Route exact path='/entity/:entityId/dashboard/claims' component={Claims} />
-      <Route exact path='/entity/:entityId/dashboard/claims/:claimId' component={ClaimQuestions} />
-
       {registered && owner === address && (
         <Route exact path='/entity/:entityId/dashboard/edit' component={EditEntity} />
       )}
 
       <Route exact path='/entity/:entityId/dashboard'>
-        <Redirect to={`/entity/${entityId}/dashboard/claims`} />
+        <Redirect to={`/entity/${entityId}/dashboard/edit`} />
       </Route>
     </Dashboard>
   )

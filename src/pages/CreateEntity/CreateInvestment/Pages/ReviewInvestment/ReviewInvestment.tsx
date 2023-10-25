@@ -18,6 +18,8 @@ import {
   LinkedResource,
   Service,
 } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
+import { CreateCollection } from 'lib/protocol'
+import { useAccount } from 'hooks/account'
 
 const ReviewInvestment: React.FC = (): JSX.Element => {
   const theme: any = useTheme()
@@ -25,6 +27,7 @@ const ReviewInvestment: React.FC = (): JSX.Element => {
   const { getQuery } = useQuery()
   const success = getQuery('success')
 
+  const { signingClient, signer } = useAccount()
   const {
     entityType,
     profile,
@@ -32,6 +35,7 @@ const ReviewInvestment: React.FC = (): JSX.Element => {
     service: serviceData,
     linkedEntity: linkedEntityData,
     linkedResource: linkedResourceData,
+    claim,
     gotoStep,
     gotoStepByNo,
     clearEntity,
@@ -49,7 +53,7 @@ const ReviewInvestment: React.FC = (): JSX.Element => {
       let linkedResource: LinkedResource[] = []
       let linkedClaim: LinkedClaim[] = []
 
-      // AccordedRight TODO:
+      // AccordedRight
 
       // Service
       service = serviceData
@@ -72,7 +76,7 @@ const ReviewInvestment: React.FC = (): JSX.Element => {
       }
 
       // Create DAO entity
-      const { did: entityDid } = await CreateEntityBase(entityType, protocolDid, {
+      const { did: entityDid, adminAccount } = await CreateEntityBase(entityType, protocolDid, {
         service,
         linkedResource,
         accordedRight,
@@ -84,6 +88,20 @@ const ReviewInvestment: React.FC = (): JSX.Element => {
         // eslint-disable-next-line no-throw-literal
         throw 'Create Investment Entity failed'
       }
+
+      // Create Claim Collection
+      const claimTemplateIds = Object.values(claim)
+        .map((claim) => (claim.template?.id ? claim.template?.id.split('#')[0] : undefined))
+        .filter(Boolean) as string[]
+      await CreateCollection(
+        signingClient,
+        signer,
+        claimTemplateIds.map((claimTemplateId) => ({
+          entityDid,
+          protocolDid: claimTemplateId,
+          paymentsAccount: adminAccount,
+        })),
+      )
 
       history.push({ pathname: history.location.pathname, search: `?success=true` })
     } catch (e) {

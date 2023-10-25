@@ -19,10 +19,13 @@ import DAOCard from '../../../Forms/ReviewCard/DAOCard'
 import { ReactComponent as CheckCircleIcon } from 'assets/images/icon-check-circle.svg'
 import { ReactComponent as ExclamationIcon } from 'assets/images/icon-exclamation-circle.svg'
 import { useTheme } from 'styled-components'
+import { useAccount } from 'hooks/account'
+import { CreateCollection } from 'lib/protocol'
 
 const ReviewDAO: React.FC = (): JSX.Element => {
   const theme: any = useTheme()
   const history = useHistory()
+  const { signingClient, signer } = useAccount()
   const createEntityState = useCreateEntityState()
   const profile = createEntityState.profile
   const {
@@ -31,6 +34,7 @@ const ReviewDAO: React.FC = (): JSX.Element => {
     linkedEntity: linkedEntityData,
     daoGroups,
     daoController,
+    claim,
     linkedResource: linkedResourceData,
     clearEntity,
     gotoStep,
@@ -103,7 +107,7 @@ const ReviewDAO: React.FC = (): JSX.Element => {
     }
 
     // Create DAO entity
-    const { did: entityDid } = await CreateEntityBase(entityType, protocolDid, {
+    const { did: entityDid, adminAccount } = await CreateEntityBase(entityType, protocolDid, {
       service,
       linkedResource,
       accordedRight,
@@ -118,6 +122,20 @@ const ReviewDAO: React.FC = (): JSX.Element => {
       history.push({ pathname: history.location.pathname, search: `?success=false` })
       return
     }
+
+    // Create Claim Collection
+    const claimTemplateIds = Object.values(claim)
+      .map((claim) => (claim.template?.id ? claim.template?.id.split('#')[0] : undefined))
+      .filter(Boolean) as string[]
+    await CreateCollection(
+      signingClient,
+      signer,
+      claimTemplateIds.map((claimTemplateId) => ({
+        entityDid,
+        protocolDid: claimTemplateId,
+        paymentsAccount: adminAccount,
+      })),
+    )
 
     setSubmitting(false)
     history.push({ pathname: history.location.pathname, search: `?success=true` })

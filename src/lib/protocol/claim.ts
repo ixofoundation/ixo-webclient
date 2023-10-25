@@ -3,6 +3,7 @@ import { ixo, SigningStargateClient, utils, cosmos } from '@ixo/impactxclient-sd
 import { DeliverTxResponse } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/stargate'
 import { addDays } from 'utils/common'
 import Long from 'long'
+import BigNumber from 'bignumber.js'
 
 const { createRPCQueryClient } = cosmos.ClientFactory
 
@@ -13,11 +14,9 @@ export const CreateCollection = async (
     entityDid: string
     protocolDid: string
     paymentsAccount?: string
-  },
+  }[],
 ): Promise<DeliverTxResponse> => {
-  const { entityDid, protocolDid, paymentsAccount } = payload
-
-  const message = {
+  const messages = payload.map(({ entityDid, protocolDid, paymentsAccount }) => ({
     typeUrl: '/ixo.claims.v1beta1.MsgCreateCollection',
     value: ixo.claims.v1beta1.MsgCreateCollection.fromPartial({
       signer: signer.address,
@@ -81,8 +80,9 @@ export const CreateCollection = async (
           })
         : undefined,
     }),
-  }
-  const response = await client.signAndBroadcast(signer.address, [message], fee)
+  }))
+  const updatedFee = { ...fee, gas: new BigNumber(fee.gas).times(messages.length).toString() }
+  const response = await client.signAndBroadcast(signer.address, messages, updatedFee)
   console.log('CreateCollection', { response })
   return response
 }

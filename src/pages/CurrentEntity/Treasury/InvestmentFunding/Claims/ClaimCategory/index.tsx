@@ -14,7 +14,7 @@ const ClaimCategory: React.FC<Props> = ({ category, selected = false, onSelect }
   return (
     <FlexBox
       borderRadius='4px'
-      border={`1px solid ${selected ? 'transparent' : theme.ixoNewBlue}`}
+      border={`1px solid ${selected ? theme.ixoNewBlue : theme.ixoGrey300}`}
       p={2}
       cursor='pointer'
       onClick={onSelect && onSelect}
