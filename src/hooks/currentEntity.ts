@@ -191,7 +191,7 @@ export default function useCurrentEntity(): {
   const [refetchAndUpdate] = useEntityLazyQuery({
     variables: { id },
     onCompleted: (data) => {
-      apiEntityToEntity({ entity: data.entity, cwClient }, (key, data, merge = false) => {
+      apiEntityToEntity({ entity: data.entity, cwClient }, (key, data, merge = true) => {
         dispatch(updateEntityPropertyAction(id, key, data, merge))
       })
     },

@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { FlexBox } from 'components/App/App.styles'
 import GovernanceProposal from './GovernanceProposal'
 import { durationToSeconds, expirationAtTimeToSecondsFromNow } from 'utils/conversions'
@@ -35,17 +35,17 @@ const Governance: React.FC = () => {
     [verificationMethod, selectedDAOGroup?.coreAddress],
   )
 
-  const handleNewProposal = () => {
+  const handleNewProposal = useCallback(() => {
     history.push(`/create/entity/deed/${entityId}/${selectedDAOGroup?.coreAddress}`)
-  }
+  }, [history, entityId, selectedDAOGroup])
 
-  const handleNewProposalForJoin = () => {
+  const handleNewProposalForJoin = useCallback(() => {
     history.push(`/create/entity/deed/${entityId}/${selectedDAOGroup?.coreAddress}?join=true`)
-  }
+  }, [history, entityId, selectedDAOGroup])
 
-  const handleReEnableKeys = () => {
+  const handleReEnableKeys = useCallback(() => {
     history.push(`/transfer/entity/${entityId}/review?groupAddress=${selectedDAOGroup?.coreAddress}`)
-  }
+  }, [history, entityId, selectedDAOGroup])
 
   return (
     <FlexBox direction='column' gap={6} width='100%' color='white'>
@@ -232,4 +232,4 @@ const Governance: React.FC = () => {
   )
 }
 
-export default Governance
+export default React.memo(Governance)
