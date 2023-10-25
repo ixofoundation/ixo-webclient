@@ -4,7 +4,6 @@ import { useEntityConfig } from 'hooks/configs'
 import useCurrentEntity, {
   useCurrentEntityCreator,
   useCurrentEntityLinkedFiles,
-  useCurrentEntityPage,
   useCurrentEntityProfile,
 } from 'hooks/currentEntity'
 import { useQuery } from 'hooks/window'
@@ -19,12 +18,11 @@ const Overview: React.FC = () => {
   const { getQuery } = useQuery()
   const claimId = getQuery('claimId')
 
-  const { startDate } = useCurrentEntity()
+  const { startDate, page } = useCurrentEntity()
   const { controlPanelSchema } = useEntityConfig()
   const { name, description, location } = useCurrentEntityProfile()
   const { displayName: creatorName, logo: creatorLogo } = useCurrentEntityCreator()
   const linkedFiles = useCurrentEntityLinkedFiles()
-  const page = useCurrentEntityPage()
 
   return (
     <div className='container-fluid h-100' style={{ background: '#F8F9FD' }}>
