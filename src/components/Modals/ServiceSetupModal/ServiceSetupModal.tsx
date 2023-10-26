@@ -65,7 +65,7 @@ interface Props {
 const ServiceSetupModal: React.FC<Props> = ({ service, open, onClose, onChange }): JSX.Element => {
   const [formData, setFormData] = useState<TEntityServiceModel[]>([])
 
-  const validation = useMemo(() => {
+  const isFormDataValid = useMemo(() => {
     // Check null value
     if (formData.some((item) => !item.type || !item.serviceEndpoint || !item.id.replace('{id}#', ''))) {
       return false
@@ -147,7 +147,7 @@ const ServiceSetupModal: React.FC<Props> = ({ service, open, onClose, onChange }
           </FlexBox>
         </FlexBox>
         <FlexBox justifyContent='flex-end' width='100%'>
-          <Button disabled={!validation} onClick={handleSubmit}>
+          <Button disabled={!isFormDataValid} onClick={handleSubmit}>
             Continue
           </Button>
         </FlexBox>
