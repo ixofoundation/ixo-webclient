@@ -128,9 +128,9 @@ const EntitiesExplorer = ({
       filter: {
         not: { type: { startsWith: 'asset' } },
         or: [
-          { relayerNode: { equalTo: relayerNode } },
-          { id: { equalTo: relayerNode } },
-          { and: [{ relayerNode: { equalTo: relayerNode } }, { entityVerified: { equalTo: false } }] },
+          { relayerNode: { equalTo: relayerNode }, entityVerified: { equalTo: true } },
+          { id: { equalTo: relayerNode }, entityVerified: { equalTo: true } },
+          { and: [{ relayerNode: { equalTo: relayerNode } }, { entityVerified: { equalTo: true } }] },
           {
             ...(accountAddress && {
               and: [{ entityVerified: { equalTo: false } }, { owner: { equalTo: accountAddress } }],

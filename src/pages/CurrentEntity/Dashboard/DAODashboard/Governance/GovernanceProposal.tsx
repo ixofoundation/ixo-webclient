@@ -99,6 +99,11 @@ const Action = styled.button<{ isDark: boolean }>`
   }
 `
 
+const calcPercentage = (limit: number, value: number): number => {
+  if (!limit) return 0
+  return Number(((value / limit) * 100).toFixed(0))
+}
+
 interface GovernanceProposalProps {
   coreAddress: string
   proposalId: number
@@ -267,11 +272,6 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
       setVotes([])
     }
   }, [getVoteStatus])
-
-  const calcPercentage = (limit: number, value: number): number => {
-    if (!limit) return 0
-    return Number(((value / limit) * 100).toFixed(0))
-  }
 
   // const formatDiffThresholds = (value: number): string => {
   //   if (value >= 0) return `+ ${value}`
@@ -580,4 +580,4 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
   )
 }
 
-export default GovernanceProposal
+export default React.memo(GovernanceProposal)
