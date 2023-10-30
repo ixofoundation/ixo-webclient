@@ -4,7 +4,15 @@ module.exports = {
     es2021: true,
     jest: true,
   },
-  extends: ['react-app', 'react-app/jest', 'eslint:recommended', 'plugin:react/recommended', 'plugin:@typescript-eslint/recommended', 'prettier', 'plugin:storybook/recommended'],
+  extends: [
+    'react-app',
+    'react-app/jest',
+    'eslint:recommended',
+    'plugin:react/recommended',
+    'plugin:@typescript-eslint/recommended',
+    'prettier',
+    'plugin:storybook/recommended',
+  ],
   ignorePatterns: ['node_modules', 'build'],
   overrides: [],
   parser: '@typescript-eslint/parser',
@@ -35,5 +43,6 @@ module.exports = {
     'jest/no-conditional-expect': 'off',
     'no-useless-computed-key': 'off',
     'react/jsx-pascal-case': 'off',
+    'react/display-name': 'off',
   },
 }
