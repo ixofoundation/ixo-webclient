@@ -1,11 +1,5 @@
 import * as React from 'react'
 import { RouteProps } from 'react-router'
-import CellCard from './Components/EntityCard/CellCard/CellCard'
-import ProjectCard from './Components/EntityCard/ProjectCard/ProjectCard'
-// import TemplateCard from './Components/EntityCard/TemplateCard/TemplateCard'
-// import InvestmentCard from './Components/EntityCard/InvestmentCard/InvestmentCard'
-import OracleCard from './Components/EntityCard/OracleCard/OracleCard'
-// import AssetCard from './Components/EntityCard/AssetCard/AssetCard'
 import { EntitiesHero } from './Components/EntitiesHero/EntitiesHero'
 import { Spinner } from 'components/Spinner/Spinner'
 import { connect } from 'react-redux'
@@ -28,8 +22,7 @@ import { useQuery } from 'hooks/window'
 import { InfiniteScroll } from 'components/InfiniteScroll'
 import { useMediaQuery } from 'react-responsive'
 import { deviceWidth } from 'constants/device'
-import ProtocolCard from './Components/EntityCard/ProtocolCard'
-import InvestmentCard from './Components/EntityCard/InvestmentCard'
+import { createEntityCard, withEntityData } from 'components'
 
 export interface Props extends RouteProps {
   match: any
@@ -53,15 +46,6 @@ export interface Props extends RouteProps {
   handleChangeSector: (sector: string) => void
 }
 
-const EntityCard: any = {
-  [EntityType.Project]: ProjectCard,
-  [EntityType.Dao]: CellCard,
-  [EntityType.Protocol]: ProtocolCard,
-  [EntityType.Oracle]: OracleCard,
-  [EntityType.Investment]: InvestmentCard,
-  // [EntityType.Asset]: AssetCard,
-}
-
 const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
   const isMobile = useMediaQuery({ maxWidth: deviceWidth.tablet })
   const isTablet = useMediaQuery({ minWidth: deviceWidth.tablet, maxWidth: deviceWidth.desktop })
@@ -75,42 +59,14 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
     [scrollOffset, props.entities],
   )
 
-  const renderCards = (data: any): JSX.Element[] => {
-    return data
-      ?.map((entity: TEntityModel, index: number) => {
-        return (
-          EntityCard[props.type.startsWith('protocol/') ? 'protocol' : props.type] &&
-          React.createElement(EntityCard[props.type], {
-            ...entity,
-            key: `card-${index}`,
-          })
-        )
-      })
-      .filter(Boolean)
-  }
-
   const renderEntities = (): JSX.Element => {
     const { entityTypeMap, type } = props
+    const columns = !isMobile ? (!isTablet ? 3 : 2) : 1
 
     const renderNoSearchFound = (): JSX.Element => (
       <NoEntitiesContainer>
         <p>There are no {entityTypeMap[props.type]?.plural.toLowerCase()} that match your search criteria</p>
       </NoEntitiesContainer>
-    )
-
-    const renderNonAssets = (): JSX.Element => (
-      <InfiniteScroll
-        dataLength={entities.length} //This is important field to render the next data
-        next={() => {
-          setTimeout(() => {
-            setScrollOffest((scrollOffset) => scrollOffset + 1)
-          }, 1000 * 3)
-        }}
-        hasMore={entities.length < props.entities.length}
-        columns={!isMobile ? (!isTablet ? 3 : 2) : 1}
-      >
-        {renderCards(entities)}
-      </InfiniteScroll>
     )
 
     const renderAssets = (): JSX.Element => <AssetCollections />
@@ -133,7 +89,26 @@ const EntitiesExplorer: React.FunctionComponent<Props> = (props) => {
             <EntitiesFilter filterSchema={props.filterSchema} />
             <EntitiesBody>
               {props.filteredEntitiesCount === 0 && renderNoSearchFound()}
-              {props.filteredEntitiesCount > 0 && renderNonAssets()}
+              {props.filteredEntitiesCount > 0 && (
+                <InfiniteScroll
+                  dataLength={entities.length} //This is important field to render the next data
+                  next={() => {
+                    setTimeout(() => {
+                      setScrollOffest((scrollOffset) => scrollOffset + 1)
+                    }, 1000 * 3)
+                  }}
+                  hasMore={entities.length < props.entities.length}
+                  columns={columns}
+                >
+                  {entities
+                    .map((entity: TEntityModel) => {
+                      const EntityCard = createEntityCard(props.type)
+                      const WrappedEntityCard = withEntityData(EntityCard)
+                      return <WrappedEntityCard key={entity.id} {...entity} />
+                    })
+                    .filter(Boolean)}
+                </InfiniteScroll>
+              )}
             </EntitiesBody>
           </div>
         </EntitiesContainer>

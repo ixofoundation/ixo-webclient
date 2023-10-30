@@ -1,7 +1,6 @@
 import React from 'react'
 import Lottie from 'react-lottie'
 import { FlexBox, HTMLFlexBoxProps } from 'components/App/App.styles'
-import { ProgressBar } from 'components/ProgressBar/ProgressBar'
 import { Typography } from 'components/Typography'
 import { useTheme } from 'styled-components'
 import { thousandSeparator } from 'utils/formatters'
@@ -13,7 +12,7 @@ interface Props extends HTMLFlexBoxProps {
   collectionName?: string | null
   cardImage: string
   type: string
-  accountTokens?: any
+  metrics?: any
   creator: string
   tags: any[]
   animation: any
@@ -23,10 +22,10 @@ interface Props extends HTMLFlexBoxProps {
   maxSupply: string | number
 }
 
-const AssetCard: React.FC<Props> = ({
+export const DaoCard: React.FC<Props> = ({
   collectionName,
   cardImage,
-  accountTokens,
+  metrics,
   creator,
   animation,
   title,
@@ -45,7 +44,7 @@ const AssetCard: React.FC<Props> = ({
         position='relative'
         background={`url(${cardImage})`}
         width='100%'
-        height='50%'
+        height='200px'
         backgroundSize='100% 100%'
       >
         <FlexBox gap={1} alignItems='center' height='24px' margin='10px'>
@@ -85,23 +84,7 @@ const AssetCard: React.FC<Props> = ({
           )}
         </FlexBox>
       </FlexBox>
-      <FlexBox width='100%' borderRadius='none'>
-        <ProgressBar
-          radius='none'
-          total={1800}
-          approved={1200}
-          rejected={accountTokens?.retired}
-          activeBarColor={theme.ixoLightGreen}
-          height={8}
-        />
-      </FlexBox>
       <FlexBox width='100%' direction='column' background={theme.ixoWhite} p={2}>
-        <FlexBox width='100%'>
-          <Typography color='black' size='xs'>
-            {creator}
-          </Typography>
-        </FlexBox>
-
         <FlexBox direction='column' justifyContent='space-between' width='100%' height='100%' pt={2}>
           <FlexBox justifyContent='space-between' width='100%'>
             <FlexBox direction='column' justifyContent='center'>
@@ -125,33 +108,29 @@ const AssetCard: React.FC<Props> = ({
           <FlexBox direction='column' gap={1} width='100%' mb={2}>
             <FlexBox gap={1} alignItems='baseline'>
               <Typography size='md' color='black' transform='uppercase' weight='bold'>
-                {thousandSeparator(accountTokens?.produced, ',')}
+                {thousandSeparator(metrics?.members, ',')}
               </Typography>
               <Typography size='md' color='black' weight='bold'>
-                CARBON
+                members
               </Typography>
             </FlexBox>
 
             <FlexBox gap={1} alignItems='baseline'>
               <Typography size='sm' color='green'>
-                {thousandSeparator(accountTokens?.retired, ',')} retired
+                {thousandSeparator(metrics?.proposals, ',')}
               </Typography>
               <Typography size='sm' color='grey700'>
-                {thousandSeparator(accountTokens?.claimable, ',')} claimable
+                {thousandSeparator(metrics?.activeProposals, ',')} active proposals
               </Typography>
             </FlexBox>
           </FlexBox>
 
           <FlexBox width='100%' justifyContent='space-between' alignItems='center'>
-            <Tag>{thousandSeparator(accountTokens?.claimable, ',')} Carbon</Tag>
-            <Tag>
-              #{assetNumber}/{Number(maxSupply).toLocaleString()}
-            </Tag>
+            <Tag>forming</Tag>
+            <Tag>forming</Tag>
           </FlexBox>
         </FlexBox>
       </FlexBox>
     </FlexBox>
   )
 }
-
-export default AssetCard
