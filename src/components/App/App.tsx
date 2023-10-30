@@ -5,15 +5,10 @@ import 'assets/icons.css'
 import 'assets/toasts.scss'
 
 import AssistantContext from 'contexts/assistant'
-import {
-  changeEntitiesType,
-  getEntitiesFromGraphqlAction,
-  getEntityConfig,
-  updateEntityPropertyAction,
-} from 'redux/entitiesExplorer/entitiesExplorer.actions'
+import { changeEntitiesType, getEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.actions'
 import React, { useEffect, useState } from 'react'
 import * as ReactGA from 'react-ga'
-import { useHistory, withRouter } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import Services from 'services'
 import { ThemeProvider } from 'styled-components'
@@ -28,21 +23,15 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { selectCustomTheme } from 'redux/theme/theme.selectors'
 import { useAccount } from 'hooks/account'
-import { apiEntityToEntity } from 'utils/entities'
-import { useEntitiesLazyQuery } from 'generated/graphql'
 
 ReactGA.initialize('UA-106630107-5')
 ReactGA.pageview(window.location.pathname + window.location.search)
 
 const App: React.FC = () => {
   const dispatch = useAppDispatch()
-  const history = useHistory()
-
   const customTheme = useAppSelector(selectCustomTheme)
   const entityConfig = useAppSelector(selectEntityConfig)
-  const { cwClient, address } = useAccount()
-  const [apiEntities, setApiEntities] = useState<any>([])
-  const [fetchEntities, { refetch }] = useEntitiesLazyQuery()
+  const { cwClient } = useAccount()
 
   const [customizedTheme, setCustomizedTheme] = useState<any>(theme)
 
@@ -51,23 +40,6 @@ const App: React.FC = () => {
     dispatch(getCustomTheme())
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
-  useEffect(() => {
-    const relayerNode = process.env.REACT_APP_RELAYER_NODE ?? ''
-    fetchEntities({
-      variables: {
-        relayerNode,
-        ...(address && { owner: address }),
-      },
-    }).then((response) => setApiEntities(response.data?.entities?.nodes))
-  }, [address, fetchEntities])
-
-  useEffect(() => {
-    if (history.location.pathname === '/explore') {
-      refetch()
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [history.location.pathname])
 
   useEffect(() => {
     if (entityConfig) {
@@ -120,20 +92,6 @@ const App: React.FC = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [entityConfig])
-
-  useEffect(() => {
-    if (cwClient && apiEntities.length > 0) {
-      dispatch(getEntitiesFromGraphqlAction(apiEntities as any))
-      ;(async () => {
-        for (const entity of apiEntities) {
-          apiEntityToEntity({ entity, cwClient }, (key, data, merge = false) => {
-            dispatch(updateEntityPropertyAction(entity.id, key, data, merge))
-          })
-        }
-      })()
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cwClient, apiEntities])
 
   return (
     <ThemeProvider theme={customizedTheme}>

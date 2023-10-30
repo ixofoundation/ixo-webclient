@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { FlexBox } from 'components/App/App.styles'
 import GovernanceProposal from './GovernanceProposal'
 import { durationToSeconds, expirationAtTimeToSecondsFromNow } from 'utils/conversions'
@@ -10,6 +10,17 @@ import { ProposalResponse } from '@ixo/impactxclient-sdk/types/codegen/DaoPropos
 import { ReactComponent as EmptyIcon } from 'assets/images/icon-empty.svg'
 import { useTheme } from 'styled-components'
 import useCurrentEntity, { useCurrentEntityDAOGroup, useCurrentEntityProfile } from 'hooks/currentEntity'
+import { TDAOGroupModel } from 'types/entities'
+
+const GovernanceHeader = React.memo(({ selectedDAOGroup }: { selectedDAOGroup?: TDAOGroupModel }) => (
+  <>
+    {selectedDAOGroup && (
+      <Typography variant='secondary' color='white' size='5xl' transform='capitalize'>
+        {selectedDAOGroup?.config.name}
+      </Typography>
+    )}
+  </>
+))
 
 const Governance: React.FC = () => {
   const theme: any = useTheme()
@@ -35,27 +46,31 @@ const Governance: React.FC = () => {
     [verificationMethod, selectedDAOGroup?.coreAddress],
   )
 
-  const handleNewProposal = () => {
+  const handleNewProposal = useCallback(() => {
     history.push(`/create/entity/deed/${entityId}/${selectedDAOGroup?.coreAddress}`)
-  }
+  }, [history, entityId, selectedDAOGroup])
 
-  const handleNewProposalForJoin = () => {
+  const handleNewProposalForJoin = useCallback(() => {
     history.push(`/create/entity/deed/${entityId}/${selectedDAOGroup?.coreAddress}?join=true`)
-  }
+  }, [history, entityId, selectedDAOGroup])
 
-  const handleReEnableKeys = () => {
+  const handleReEnableKeys = useCallback(() => {
     history.push(`/transfer/entity/${entityId}/review?groupAddress=${selectedDAOGroup?.coreAddress}`)
-  }
+  }, [history, entityId, selectedDAOGroup])
+
+  const sortedProposals = useMemo(() => {
+    return selectedDAOGroup?.proposalModule.proposals.sort((a, b) => {
+      if (a.id > b.id) return -1
+      if (a.id < b.id) return 1
+      return 0
+    })
+  }, [selectedDAOGroup])
 
   return (
     <FlexBox direction='column' gap={6} width='100%' color='white'>
       <Groups selectedGroup={selectedDAOGroup} selectDaoGroup={(address: string) => selectDAOGroup(address)} />
 
-      {selectedDAOGroup && (
-        <Typography variant='secondary' color='white' size='5xl' transform='capitalize'>
-          {selectedDAOGroup?.config.name}
-        </Typography>
-      )}
+      <GovernanceHeader selectedDAOGroup={selectedDAOGroup} />
 
       {selectedDAOGroup && (
         <FlexBox width='100%' alignItems='center' justifyContent='space-between'>
@@ -192,44 +207,34 @@ const Governance: React.FC = () => {
             </FlexBox>
           )}
         {selectedDAOGroup &&
-          selectedDAOGroup.proposalModule.proposals
-            .sort((a, b) => {
-              if (a.id > b.id) {
-                return -1
-              } else if (a.id < b.id) {
-                return 1
-              }
-              return 0
-            })
-            .map((item: ProposalResponse, i) => {
-              const { id, proposal } = item
-              const { title, proposer, status, expiration, description } = proposal
-              const secondsFromNow = expirationAtTimeToSecondsFromNow(expiration) ?? 0
-              const secondsFromStart =
-                durationToSeconds(100, selectedDAOGroup.proposalModule.proposalConfig.max_voting_period) -
-                secondsFromNow
-              const submissionDate = new Date(new Date().getTime() - secondsFromStart * 1000)
-              const closeDate = new Date(new Date().getTime() + secondsFromNow * 1000)
-              const [, deedDid] = description.split('#deed:')
+          sortedProposals?.map((item: ProposalResponse, i) => {
+            const { id, proposal } = item
+            const { title, proposer, status, expiration, description } = proposal
+            const secondsFromNow = expirationAtTimeToSecondsFromNow(expiration) ?? 0
+            const secondsFromStart =
+              durationToSeconds(100, selectedDAOGroup.proposalModule.proposalConfig.max_voting_period) - secondsFromNow
+            const submissionDate = new Date(new Date().getTime() - secondsFromStart * 1000)
+            const closeDate = new Date(new Date().getTime() + secondsFromNow * 1000)
+            const [, deedDid] = description.split('#deed:')
 
-              return (
-                <GovernanceProposal
-                  key={i}
-                  coreAddress={selectedDAOGroup.coreAddress}
-                  proposal={proposal}
-                  proposalId={id}
-                  title={title}
-                  proposer={proposer}
-                  submissionDate={submissionDate.toISOString()}
-                  closeDate={closeDate.toISOString()}
-                  status={status}
-                  deedDid={deedDid}
-                />
-              )
-            })}
+            return (
+              <GovernanceProposal
+                key={i}
+                coreAddress={selectedDAOGroup.coreAddress}
+                proposal={proposal}
+                proposalId={id}
+                title={title}
+                proposer={proposer}
+                submissionDate={submissionDate.toISOString()}
+                closeDate={closeDate.toISOString()}
+                status={status}
+                deedDid={deedDid}
+              />
+            )
+          })}
       </FlexBox>
     </FlexBox>
   )
 }
 
-export default Governance
+export default React.memo(Governance)

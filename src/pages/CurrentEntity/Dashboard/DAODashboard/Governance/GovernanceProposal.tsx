@@ -99,6 +99,11 @@ const Action = styled.button<{ isDark: boolean }>`
   }
 `
 
+const calcPercentage = (limit: number, value: number): number => {
+  if (!limit) return 0
+  return Number(((value / limit) * 100).toFixed(0))
+}
+
 interface GovernanceProposalProps {
   coreAddress: string
   proposalId: number
@@ -129,7 +134,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
   const { entityId } = useParams<{ entityId: string }>()
   const { isDark } = useContext(DashboardThemeContext)
   const { convertToDenom } = useIxoConfigs()
-  const { isImpactsDAO, isMemberOfImpactsDAO, isOwner, daoController } = useCurrentEntity()
+  const { isImpactsDAO, isMemberOfImpactsDAO, isOwner, daoController, refetchAndUpdate } = useCurrentEntity()
   const { daoGroup, proposalModuleAddress, isParticipating, depositInfo, tqData } =
     useCurrentEntityDAOGroup(coreAddress)
   const { cwClient, cosmWasmClient, address } = useAccount()
@@ -213,6 +218,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
         console.error('handleVote', e)
         return ''
       })
+      .finally(refetchAndUpdate)
   }
 
   const handleExecuteProposal = () => {
@@ -234,6 +240,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
         console.error('handleExecuteProposal', e)
         Toast.errorToast(null, 'Transaction failed')
       })
+      .finally(refetchAndUpdate)
   }
 
   const handleCloseProposal = () => {
@@ -255,6 +262,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
         console.error('handleCloseProposal', e)
         Toast.errorToast(null, 'Transaction failed')
       })
+      .finally(refetchAndUpdate)
   }
 
   useEffect(() => {
@@ -264,11 +272,6 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
       setVotes([])
     }
   }, [getVoteStatus])
-
-  const calcPercentage = (limit: number, value: number): number => {
-    if (!limit) return 0
-    return Number(((value / limit) * 100).toFixed(0))
-  }
 
   // const formatDiffThresholds = (value: number): string => {
   //   if (value >= 0) return `+ ${value}`
@@ -577,4 +580,4 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
   )
 }
 
-export default GovernanceProposal
+export default React.memo(GovernanceProposal)
