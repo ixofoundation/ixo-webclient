@@ -204,7 +204,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
       proposalModuleAddress,
     )
     return daoProposalSingleClient
-      .vote({ proposalId, vote }, fee, undefined, depositInfo ? [depositInfo] : undefined)
+      .vote({ proposalId, vote }, fee, undefined, undefined)
       .then(({ transactionHash }) => {
         getVoteStatus()
         return transactionHash
@@ -243,7 +243,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
       proposalModuleAddress,
     )
     daoProposalSingleClient
-      .close({ proposalId }, fee, undefined, depositInfo ? [depositInfo] : undefined)
+      .close({ proposalId }, fee, undefined, undefined)
       .then(({ transactionHash, logs }) => {
         console.log('handleCloseProposal', transactionHash, logs)
         if (transactionHash) {
