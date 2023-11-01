@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import * as Modal from 'react-modal'
 import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
 import { ModalStyles, CloseButton } from 'components/Modals/styles'
@@ -65,6 +65,19 @@ interface Props {
 const ServiceSetupModal: React.FC<Props> = ({ service, open, onClose, onChange }): JSX.Element => {
   const [formData, setFormData] = useState<TEntityServiceModel[]>([])
 
+  const isFormDataValid = useMemo(() => {
+    // Check null value
+    if (formData.some((item) => !item.type || !item.serviceEndpoint || !item.id.replace('{id}#', ''))) {
+      return false
+    }
+    // Check serviceEndpoint duplication
+    const serviceEndpoints = formData.map((item) => item.serviceEndpoint)
+    if (new Set(serviceEndpoints).size !== serviceEndpoints.length) {
+      return false
+    }
+    return true
+  }, [formData])
+
   useEffect(() => {
     setFormData(service.map((v) => ({ ...v, id: v.id.replace('{id}#', '') })))
     return () => {
@@ -79,7 +92,7 @@ const ServiceSetupModal: React.FC<Props> = ({ service, open, onClose, onChange }
         ...v,
         {
           id: '',
-          type: '',
+          type: NodeType.CellNode,
           serviceEndpoint: '',
         },
       ])
@@ -134,7 +147,9 @@ const ServiceSetupModal: React.FC<Props> = ({ service, open, onClose, onChange }
           </FlexBox>
         </FlexBox>
         <FlexBox justifyContent='flex-end' width='100%'>
-          <Button onClick={handleSubmit}>Continue</Button>
+          <Button disabled={!isFormDataValid} onClick={handleSubmit}>
+            Continue
+          </Button>
         </FlexBox>
       </FlexBox>
     </Modal>
