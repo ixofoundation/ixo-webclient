@@ -86,7 +86,7 @@
     "dotenv": "^16.3.1",
     "editorjs-drag-drop": "1.1.9",
     "editorjs-undo": "2.0.14",
-    "graphql": "^16.6.0",
+    "graphql": "^16.8.1",
     "javascript-time-ago": "^2.5.9",
     "js-base64": "3.7.3",
     "lodash": "4.17.21",
