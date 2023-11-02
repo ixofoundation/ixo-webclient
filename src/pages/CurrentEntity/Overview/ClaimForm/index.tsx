@@ -4,10 +4,8 @@ import { useSigner } from 'hooks/account'
 import { useCreateEntity } from 'hooks/createEntity'
 import { useCurrentEntityAdminAccount } from 'hooks/currentEntity'
 import { MsgExecAgentSubmit } from 'lib/protocol'
-import { Button } from 'pages/CreateEntity/Components'
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { selectEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { useAppSelector } from 'redux/hooks'
 import { TEntityClaimModel } from 'types/entities'
 import { serviceEndpointToUrl } from 'utils/entities'
@@ -19,6 +17,7 @@ import { selectAccountSigningClient } from 'redux/account/account.selectors'
 import { SigningStargateClient } from '@ixo/impactxclient-sdk'
 import { selectEntityClaim } from 'redux/currentEntity/currentEntity.selectors'
 import { useGetClaimCollectionByEntityIdAndClaimTemplateId } from 'graphql/claims'
+import { useGetEntityById } from 'graphql/entities'
 
 interface Props {
   claimId: string
@@ -35,27 +34,10 @@ const ClaimForm: React.FC<Props> = ({ claimId }) => {
   const selectedClaim: TEntityClaimModel = claim[claimId]
 
   const [templateEntityId] = (selectedClaim?.template?.id || '').split('#')
-  const templateEntity = useAppSelector(selectEntityById(templateEntityId))
+  const { data: templateEntity } = useGetEntityById(templateEntityId)
+
   const claimCollection = useGetClaimCollectionByEntityIdAndClaimTemplateId({ entityId, protocolId: templateEntityId })
-  console.log({ claimCollection })
-
   const [questionFormData, setQuestionFormData] = useState<any[]>([])
-  console.log({ questionFormData })
-
-  const [answer, setAnswer] = useState()
-  const [submitting, setSubmitting] = useState(false)
-
-  const survey = useMemo(() => {
-    if (!questionFormData[0]) {
-      return undefined
-    }
-    const survey = new Model(questionFormData[0])
-    survey.applyTheme(themeJson)
-    survey.onComplete.add((sender: any, options: any) => {
-      setAnswer(sender.data)
-    })
-    return survey
-  }, [questionFormData])
 
   useEffect(() => {
     if (templateEntity && (templateEntity?.linkedResource ?? []).length > 0) {
@@ -83,43 +65,71 @@ const ClaimForm: React.FC<Props> = ({ claimId }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(templateEntity?.linkedResource ?? [])])
 
-  const handleSubmit = async () => {
-    setSubmitting(true)
-    const collectionId = claimCollection?.id
+  const handleSubmit = useCallback(
+    async (answer: any): Promise<boolean> => {
+      try {
+        const collectionId = claimCollection?.id
 
-    const res = await UploadDataToService(JSON.stringify({ answer }))
-    const claimId = (res as any).key || (res as any).cid
+        const res = await UploadDataToService(JSON.stringify({ answer }))
+        const claimId = (res as any).key || (res as any).cid
 
-    console.log('MsgExecAgentSubmit', { claimId, collectionId, adminAddress })
+        const response = await MsgExecAgentSubmit(signingClient, signer, {
+          claimId,
+          collectionId,
+          adminAddress,
+        })
 
-    const response = await MsgExecAgentSubmit(signingClient, signer, {
-      claimId,
-      collectionId,
-      adminAddress,
-    }).catch((e: any) => {
-      console.error('MsgExecAgentSubmit', e)
-      errorToast('Failed', e.message)
+        if (response.code !== 0) {
+          throw response.rawLog
+        }
+
+        successToast('Success', 'Submit successfully')
+        return true
+      } catch (e: any) {
+        console.error(e)
+        errorToast('Failed', typeof e === 'string' ? e : e.message)
+        return false
+      }
+    },
+    [UploadDataToService, adminAddress, claimCollection?.id, signer, signingClient],
+  )
+
+  const survey = useMemo(() => {
+    if (!questionFormData[0]) {
       return undefined
-    })
-    console.log('MsgExecAgentSubmit', response)
-
-    if (response?.code === 0) {
-      successToast('Success', 'Submit successfully')
-    } else {
-      errorToast('Failed', response?.rawLog)
     }
-    setSubmitting(false)
-  }
+    const survey = new Model(questionFormData[0])
+    survey.applyTheme(themeJson)
+    survey.allowCompleteSurveyAutomatic = false
+
+    function preventComplete(sender: any, options: any) {
+      options.allowComplete = false
+      postResults(sender)
+    }
+
+    async function postResults(sender: any) {
+      survey.onCompleting.remove(preventComplete)
+
+      survey.completeText = 'Submitting...'
+      const response = await handleSubmit(sender.data)
+      if (response) {
+        sender.doComplete()
+      } else {
+        survey.completeText = 'Try again'
+        survey.onCompleting.add(preventComplete)
+      }
+    }
+
+    survey.onCompleting.add(preventComplete)
+    survey.completeText = 'Submit'
+    return survey
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [questionFormData])
 
   return (
     <FlexBox width='100%'>
       <FlexBox direction='column' width='100%' gap={7}>
         {survey && <Survey model={survey} />}
-        {questionFormData.length > 0 && (
-          <Button variant='secondary' size={'lg'} onClick={handleSubmit} loading={submitting}>
-            Sign And Submit
-          </Button>
-        )}
       </FlexBox>
     </FlexBox>
   )

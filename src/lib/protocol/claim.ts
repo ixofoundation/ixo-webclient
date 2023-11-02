@@ -4,6 +4,7 @@ import { DeliverTxResponse } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/s
 import { addDays } from 'utils/common'
 import Long from 'long'
 import BigNumber from 'bignumber.js'
+import { Payments } from '@ixo/impactxclient-sdk/types/codegen/ixo/claims/v1beta1/claims'
 
 const { createRPCQueryClient } = cosmos.ClientFactory
 
@@ -13,75 +14,80 @@ export const CreateCollection = async (
   payload: {
     entityDid: string
     protocolDid: string
-    paymentsAccount?: string
+    startDate: string
+    endDate: string
+    quota: string
+    payments: Payments | undefined
   }[],
 ): Promise<DeliverTxResponse> => {
-  const messages = payload.map(({ entityDid, protocolDid, paymentsAccount }) => ({
+  const messages = payload.map(({ entityDid, protocolDid, payments, startDate, endDate, quota }) => ({
     typeUrl: '/ixo.claims.v1beta1.MsgCreateCollection',
     value: ixo.claims.v1beta1.MsgCreateCollection.fromPartial({
       signer: signer.address,
       entity: entityDid,
       protocol: protocolDid,
-      startDate: utils.proto.toTimestamp(new Date()),
-      endDate: utils.proto.toTimestamp(addDays(new Date(), 365)),
-      quota: Long.fromNumber(100),
+      startDate: utils.proto.toTimestamp(new Date(startDate)),
+      endDate: utils.proto.toTimestamp(new Date(endDate)),
+      quota: Long.fromNumber(Number(quota)),
       state: ixo.claims.v1beta1.CollectionState.OPEN,
-      payments: paymentsAccount
-        ? ixo.claims.v1beta1.Payments.fromPartial({
-            approval: ixo.claims.v1beta1.Payment.fromPartial({
-              account: paymentsAccount,
-              amount: [
-                cosmos.base.v1beta1.Coin.fromPartial({
-                  amount: '1000000',
-                  denom: 'uixo',
-                }),
-              ],
-              timeoutNs: utils.proto.toDuration((1000000000 * 60 * 0).toString()), // ns * seconds * minutes
-              // contract_1155Payment:
-              //   ixo.claims.v1beta1.Contract1155Payment.fromPartial({
-              //     address:
-              //       "ixo1nc5tatafv6eyq7llkr2gv50ff9e22mnf70qgjlv737ktmt4eswrqvg5w3c",
-              //     tokenId: "db03fa33c1e2ca35794adbb14aebb153",
-              //     amount: 1,
-              //   }),
-            }),
-            submission: ixo.claims.v1beta1.Payment.fromPartial({
-              account: paymentsAccount,
-              amount: [
-                cosmos.base.v1beta1.Coin.fromPartial({
-                  amount: '1000000',
-                  denom: 'uixo',
-                }),
-              ],
-              timeoutNs: utils.proto.toDuration((1000000000 * 60 * 0.5).toString()), // ns * seconds * minutes
-              // contract_1155Payment:
-              //   ixo.claims.v1beta1.Contract1155Payment.fromPartial({
-              //     address:
-              //       "ixo1nc5tatafv6eyq7llkr2gv50ff9e22mnf70qgjlv737ktmt4eswrqvg5w3c",
-              //     tokenId: "db03fa33c1e2ca35794adbb14aebb153",
-              //     amount: 1,
-              //   }),
-            }),
-            evaluation: ixo.claims.v1beta1.Payment.fromPartial({
-              account: paymentsAccount,
-              amount: [
-                cosmos.base.v1beta1.Coin.fromPartial({
-                  amount: '1000000',
-                  denom: 'uixo',
-                }),
-              ],
-              timeoutNs: utils.proto.toDuration((1000000000 * 60 * 5).toString()), // ns * seconds * minutes
-            }),
-            rejection: ixo.claims.v1beta1.Payment.fromPartial({
-              account: paymentsAccount,
-              amount: [],
-              timeoutNs: utils.proto.toDuration((1000000000 * 60 * 5).toString()), // ns * seconds * minutes
-            }),
-          })
-        : undefined,
+      payments,
+      // payments: paymentsAccount
+      //   ? ixo.claims.v1beta1.Payments.fromPartial({
+      //       approval: ixo.claims.v1beta1.Payment.fromPartial({
+      //         account: paymentsAccount,
+      //         amount: [
+      //           cosmos.base.v1beta1.Coin.fromPartial({
+      //             amount: '1000000',
+      //             denom: 'uixo',
+      //           }),
+      //         ],
+      //         timeoutNs: utils.proto.toDuration((1000000000 * 60 * 0).toString()), // ns * seconds * minutes
+      //         // contract_1155Payment:
+      //         //   ixo.claims.v1beta1.Contract1155Payment.fromPartial({
+      //         //     address:
+      //         //       "ixo1nc5tatafv6eyq7llkr2gv50ff9e22mnf70qgjlv737ktmt4eswrqvg5w3c",
+      //         //     tokenId: "db03fa33c1e2ca35794adbb14aebb153",
+      //         //     amount: 1,
+      //         //   }),
+      //       }),
+      //       submission: ixo.claims.v1beta1.Payment.fromPartial({
+      //         account: paymentsAccount,
+      //         amount: [
+      //           cosmos.base.v1beta1.Coin.fromPartial({
+      //             amount: '1000000',
+      //             denom: 'uixo',
+      //           }),
+      //         ],
+      //         timeoutNs: utils.proto.toDuration((1000000000 * 60 * 0.5).toString()), // ns * seconds * minutes
+      //         // contract_1155Payment:
+      //         //   ixo.claims.v1beta1.Contract1155Payment.fromPartial({
+      //         //     address:
+      //         //       "ixo1nc5tatafv6eyq7llkr2gv50ff9e22mnf70qgjlv737ktmt4eswrqvg5w3c",
+      //         //     tokenId: "db03fa33c1e2ca35794adbb14aebb153",
+      //         //     amount: 1,
+      //         //   }),
+      //       }),
+      //       evaluation: ixo.claims.v1beta1.Payment.fromPartial({
+      //         account: paymentsAccount,
+      //         amount: [
+      //           cosmos.base.v1beta1.Coin.fromPartial({
+      //             amount: '1000000',
+      //             denom: 'uixo',
+      //           }),
+      //         ],
+      //         timeoutNs: utils.proto.toDuration((1000000000 * 60 * 5).toString()), // ns * seconds * minutes
+      //       }),
+      //       rejection: ixo.claims.v1beta1.Payment.fromPartial({
+      //         account: paymentsAccount,
+      //         amount: [],
+      //         timeoutNs: utils.proto.toDuration((1000000000 * 60 * 5).toString()), // ns * seconds * minutes
+      //       }),
+      //     })
+      //   : undefined,
     }),
   }))
   const updatedFee = { ...fee, gas: new BigNumber(fee.gas).times(messages.length).toString() }
+  console.log('CreateCollection', { messages })
   const response = await client.signAndBroadcast(signer.address, messages, updatedFee)
   console.log('CreateCollection', { response })
   return response
@@ -184,8 +190,9 @@ export const MsgExecAgentSubmit = async (
       ],
     }),
   }
-
+  console.log('MsgExecAgentSubmit', { message })
   const response = await client.signAndBroadcast(signer.address, [message], fee)
+  console.log('MsgExecAgentSubmit', response)
   return response
 }
 

@@ -1,29 +1,51 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Card } from '../Card'
 import { Widget } from '../types'
 import { ReactComponent as AssistantIcon } from 'assets/images/icon-assistant.svg'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
+import { ApplyToJoinModal } from 'components/Modals'
+import { useAppSelector } from 'redux/hooks'
+import { selectAllDeedOffersForEntityId } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { useHistory, useParams } from 'react-router-dom'
+import { TEntityModel } from 'types/entities'
 
 interface Props {
   widget: Widget
 }
 
 const Actions: React.FC<Props> = () => {
+  const history = useHistory()
+  const { entityId } = useParams<{ entityId: string }>()
+  const deedOffers: TEntityModel[] = useAppSelector(selectAllDeedOffersForEntityId(entityId))
+  const [applyToJoinModalOpen, setApplyToJoinModalOpen] = useState(false)
+
+  const handleSubmit = (collectionId: string) => {
+    const search = new URLSearchParams()
+    search.append('collectionId', collectionId)
+    history.push({ pathname: history.location.pathname, search: search.toString() })
+  }
+
   return (
-    <Card
-      icon={<AssistantIcon />}
-      title='Actions'
-      columns={2}
-      items={[
-        {
-          icon: <PlusIcon />,
-          content: 'Offer',
-          onClick: () => {
-            console.log('TODO: apply to join')
+    <>
+      <Card
+        icon={<AssistantIcon />}
+        title='Actions'
+        columns={2}
+        items={[
+          {
+            icon: <PlusIcon />,
+            content: 'Offer',
+            onClick: () => setApplyToJoinModalOpen(true),
           },
-        },
-      ]}
-    />
+        ]}
+      />
+      <ApplyToJoinModal
+        offers={deedOffers}
+        open={applyToJoinModalOpen}
+        onClose={() => setApplyToJoinModalOpen(false)}
+        onSubmit={handleSubmit}
+      />
+    </>
   )
 }
 

@@ -4,10 +4,8 @@ import useCurrentEntity, { useCurrentEntityProfile } from 'hooks/currentEntity'
 import { Redirect, Route, useParams, useRouteMatch } from 'react-router-dom'
 import { requireCheckDefault } from 'utils/images'
 import Accounts from './Accounts'
-import Claims from './Claims'
 import Payments from './Payments'
 import Events from './Events'
-import ClaimSubmission from './ClaimSubmission'
 
 const InvestmentFunding: React.FC = (): JSX.Element => {
   const { entityId } = useParams<{ entityId: string }>()
@@ -100,8 +98,6 @@ const InvestmentFunding: React.FC = (): JSX.Element => {
       <Route exact path='/entity/:entityId/treasury/accounts' component={Accounts} />
       <Route exact path='/entity/:entityId/treasury/payments' component={Payments} />
       <Route exact path='/entity/:entityId/treasury/events' component={Events} />
-      <Route exact path='/entity/:entityId/treasury/claims' component={Claims} />
-      <Route exact path='/entity/:entityId/treasury/claims/:claimId' component={ClaimSubmission} />
       <Route exact path='/entity/:entityId/treasury'>
         <Redirect to={`/entity/${entityId}/treasury/accounts`} />
       </Route>

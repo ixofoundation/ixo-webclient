@@ -12,11 +12,13 @@ import ClaimForm from './ClaimForm'
 import { OverviewHero } from '../Components'
 import { LinkedFiles } from './LinkedFiles'
 import { PageContent } from './PageContent'
+import OfferForm from './OfferForm'
 
 const Overview: React.FC = () => {
   const { entityId } = useParams<{ entityId: string }>()
   const { getQuery } = useQuery()
   const claimId = getQuery('claimId')
+  const claimCollectionId = getQuery('collectionId')
 
   const { startDate, page } = useCurrentEntity()
   const { controlPanelSchema } = useEntityConfig()
@@ -39,14 +41,14 @@ const Overview: React.FC = () => {
             creatorName={creatorName}
             creatorLogo={creatorLogo}
           />
-          {!claimId ? (
+          {!claimId && !claimCollectionId && (
             <>
               <PageContent page={page} />
               <LinkedFiles linkedFiles={linkedFiles} />
             </>
-          ) : (
-            <ClaimForm claimId={claimId} />
           )}
+          {claimCollectionId && <OfferForm claimCollectionId={claimCollectionId} />}
+          {claimId && <ClaimForm claimId={claimId} />}
         </FlexBox>
         <FlexBox className='col-lg-3' background='#F0F3F9'>
           <ControlPanel schema={controlPanelSchema} entityDid={entityId} />

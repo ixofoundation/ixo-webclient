@@ -17,13 +17,10 @@ import ProjectCard from './ProjectCard'
 import { ReactComponent as CheckCircleIcon } from 'assets/images/icon-check-circle.svg'
 import { ReactComponent as ExclamationIcon } from 'assets/images/icon-exclamation-circle.svg'
 import { useTheme } from 'styled-components'
-import { CreateCollection } from 'lib/protocol'
-import { useAccount } from 'hooks/account'
 
 const ReviewProject: React.FC = (): JSX.Element => {
   const theme: any = useTheme()
   const history = useHistory()
-  const { signingClient, signer } = useAccount()
   const createEntityState = useCreateEntityState()
   const profile = createEntityState.profile
   const {
@@ -31,9 +28,7 @@ const ReviewProject: React.FC = (): JSX.Element => {
     service: serviceData,
     linkedEntity: linkedEntityData,
     linkedResource: linkedResourceData,
-    headlineMetricClaim,
     endDate,
-    claim,
     clearEntity,
     gotoStep,
     gotoStepByNo,
@@ -76,7 +71,7 @@ const ReviewProject: React.FC = (): JSX.Element => {
     }
 
     // Create DAO entity
-    const { did: entityDid, adminAccount } = await CreateEntityBase(entityType, protocolDid, {
+    const { did: entityDid } = await CreateEntityBase(entityType, protocolDid, {
       service,
       linkedResource,
       accordedRight,
@@ -90,20 +85,6 @@ const ReviewProject: React.FC = (): JSX.Element => {
       return
     }
 
-    // Create Claim Collection
-    const claimTemplateIds = Object.values(claim)
-      .map((claim) => (claim.template?.id ? claim.template?.id.split('#')[0] : undefined))
-      .filter(Boolean) as string[]
-    await CreateCollection(
-      signingClient,
-      signer,
-      claimTemplateIds.map((claimTemplateId) => ({
-        entityDid,
-        protocolDid: claimTemplateId,
-        paymentsAccount: adminAccount,
-      })),
-    )
-
     setSubmitting(false)
     history.push({ pathname: history.location.pathname, search: `?success=true` })
   }
@@ -115,7 +96,7 @@ const ReviewProject: React.FC = (): JSX.Element => {
         logo={profile?.logo ?? ''}
         name={profile?.name ?? ''}
         endDate={endDate}
-        maxSubmission={headlineMetricClaim?.submissions?.maximum ?? 0}
+        maxSubmission={0}
       />
       <FlexBox direction='column' justifyContent='space-between' width='100%' style={{ flex: 1 }}>
         {!success && (

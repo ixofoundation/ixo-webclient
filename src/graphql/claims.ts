@@ -1,4 +1,7 @@
 import { gql, useQuery } from '@apollo/client'
+import { selectEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { useAppSelector } from 'redux/hooks'
+import { validateEntityDid } from 'utils/validation'
 
 // GET_CLAIM_COLLECTION
 const GET_CLAIM_COLLECTION = gql`
@@ -27,6 +30,13 @@ export function useGetClaimCollection(collectionId: string | number) {
     variables: { collectionId: String(collectionId) },
   })
   return { loading, error, data: data?.claimCollection ?? {}, refetch }
+}
+
+export function useGetClaimTemplateEntityByCollectionId(collectionId: string | number) {
+  const { data: claimCollection } = useGetClaimCollection(collectionId)
+  const claimTemplateId = claimCollection.protocol
+  const claimTemplateEntity = useAppSelector(selectEntityById(claimTemplateId))
+  return claimTemplateEntity
 }
 
 // GET_CLAIM_COLLECTIONS
@@ -61,9 +71,48 @@ export function useGetClaimCollections() {
 export function useGetClaimCollectionByEntityIdAndClaimTemplateId(params: { entityId: string; protocolId: string }) {
   const { entityId, protocolId } = params
   const { data: claimCollections } = useGetClaimCollections()
-  return claimCollections.find(
-    (collection: any) => collection.protocol === protocolId && collection.entity === entityId,
-  )
+  return claimCollections
+    .filter((collection: any) => collection.protocol === protocolId && collection.entity === entityId)
+    .sort((a: any, b: any) => Number(a.id) > Number(b.id))[0]
+}
+
+// GET_CLAIM_COLLECTIONS
+const GET_CLAIM_COLLECTIONS_BY_ENTITYID = gql`
+  query GetClaimCollectionsByEntityId($entityId: String) {
+    claimCollections(filter: { entity: { equalTo: $entityId } }) {
+      nodes {
+        id
+        state
+        startDate
+        rejected
+        quota
+        protocol
+        payments
+        nodeId
+        evaluated
+        entity
+        endDate
+        disputed
+        count
+        approved
+        admin
+      }
+      totalCount
+    }
+  }
+`
+export function useGetClaimCollectionsByEntityId(entityId: string) {
+  const { loading, error, data, refetch } = useQuery(GET_CLAIM_COLLECTIONS_BY_ENTITYID, {
+    variables: { entityId },
+    skip: !validateEntityDid(entityId),
+  })
+  return {
+    loading,
+    error,
+    data: data?.claimCollections.nodes ?? [],
+    isExist: !!data?.claimCollections.totalCount,
+    refetch,
+  }
 }
 
 // GET_CLAIMS

@@ -4,7 +4,7 @@ import { Typography } from 'components/Typography'
 import { useTheme } from 'styled-components'
 
 export interface ICardItems {
-  icon?: JSX.Element
+  icon?: React.ReactNode
   content: string | JSX.Element
   active?: boolean
   onClick?: () => void
@@ -14,7 +14,7 @@ interface Props {
   icon: JSX.Element
   title: string
   columns: number
-  items: ICardItems[]
+  items: ICardItems[] | JSX.Element
 }
 
 const Card: React.FC<Props> = ({ icon, title, columns, items }) => {
@@ -32,31 +32,33 @@ const Card: React.FC<Props> = ({ icon, title, columns, items }) => {
       </FlexBox>
 
       <GridContainer width='100%' columns={columns} gridGap={2}>
-        {items.map((item, index) => (
-          <FlexBox
-            key={index}
-            borderRadius='8px'
-            background={item.onClick ? theme.ixoGrey100 : '#FCFCFC'}
-            p={3}
-            gap={2}
-            alignItems='center'
-            borderColor={item.active ? theme.ixoNewBlue : 'transparent'}
-            borderWidth={'1px'}
-            borderStyle={'solid'}
-            hover={item.onClick ? { borderColor: theme.ixoNewBlue } : {}}
-            onClick={item.onClick && item.onClick}
-            cursor={item.onClick && 'pointer'}
-          >
-            {item.icon && (
-              <SvgBox svgWidth={5} svgHeight={5} color={theme.ixoBlack}>
-                {item.icon}
-              </SvgBox>
-            )}
-            <Typography size='sm' color='black'>
-              {item.content}
-            </Typography>
-          </FlexBox>
-        ))}
+        {Array.isArray(items)
+          ? items.map((item, index) => (
+              <FlexBox
+                key={index}
+                borderRadius='8px'
+                background={item.onClick ? theme.ixoGrey100 : '#FCFCFC'}
+                p={3}
+                gap={2}
+                alignItems='center'
+                borderColor={item.active ? theme.ixoNewBlue : 'transparent'}
+                borderWidth={'1px'}
+                borderStyle={'solid'}
+                hover={item.onClick ? { borderColor: theme.ixoNewBlue } : {}}
+                onClick={item.onClick && item.onClick}
+                cursor={item.onClick && 'pointer'}
+              >
+                {item.icon && (
+                  <SvgBox svgWidth={5} svgHeight={5} color={theme.ixoBlack}>
+                    {item.icon}
+                  </SvgBox>
+                )}
+                <Typography size='sm' color='black'>
+                  {item.content}
+                </Typography>
+              </FlexBox>
+            ))
+          : items}
       </GridContainer>
     </FlexBox>
   )

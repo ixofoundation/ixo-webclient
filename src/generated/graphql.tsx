@@ -4255,7 +4255,7 @@ export type MessagesQuery = { __typename?: 'Query', messages?: { __typename?: 'M
 export const EntitiesDocument = gql`
     query entities($relayerNode: String!, $owner: String) {
   entities(
-    filter: {not: {type: {startsWith: "asset"}}, or: [{relayerNode: {equalTo: $relayerNode}}, {id: {equalTo: $relayerNode}}, {owner: {equalTo: $owner}}]}
+    filter: {not: {type: {startsWith: "asset"}}, or: [{and: [{relayerNode: {equalTo: $relayerNode}}, {entityVerified: {equalTo: true}}]}, {and: [{id: {equalTo: $relayerNode}}, {entityVerified: {equalTo: true}}]}, {and: [{entityVerified: {equalTo: false}}, {owner: {equalTo: $owner}}]}, {and: [{entityVerified: {equalTo: false}}, {type: {startsWith: "protocol/"}}]}]}
   ) {
     nodes {
       id

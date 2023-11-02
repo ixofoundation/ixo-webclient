@@ -1,16 +1,22 @@
 import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import React from 'react'
+import { selectEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { useAppSelector } from 'redux/hooks'
 import { useTheme } from 'styled-components'
+import { TEntityModel } from 'types/entities'
 
 interface Props {
-  category: string
+  claimCollection: any
   selected?: boolean
   onSelect?: () => void
 }
 
-const ClaimCategory: React.FC<Props> = ({ category, selected = false, onSelect }) => {
+const ClaimCategory: React.FC<Props> = ({ claimCollection, selected = false, onSelect }) => {
   const theme: any = useTheme()
+  const templateId: string = claimCollection.protocol
+  const templateEntity: TEntityModel | undefined = useAppSelector(selectEntityById(templateId))
+
   return (
     <FlexBox
       borderRadius='4px'
@@ -20,7 +26,7 @@ const ClaimCategory: React.FC<Props> = ({ category, selected = false, onSelect }
       onClick={onSelect && onSelect}
     >
       <Typography size='sm' weight='bold' color='darkest-blue'>
-        {category}
+        {templateEntity?.profile?.name ?? claimCollection.id}
       </Typography>
     </FlexBox>
   )

@@ -276,10 +276,10 @@ export function useCurrentEntityPage(): OutputBlockData[] {
 }
 
 export function useCurrentEntityClaims() {
-  const claim: { [id: string]: TEntityClaimModel } = useAppSelector(selectEntityClaim)
-  const headlineClaim = Object.values(claim).find((v) => v.isHeadlineMetric)
+  const claims: { [id: string]: TEntityClaimModel } = useAppSelector(selectEntityClaim)
+  const headlineClaim = Object.values(claims).find((v) => v.isHeadlineMetric)
 
-  return { claim, headlineClaim }
+  return { claims, headlineClaim }
 }
 
 export function useCurrentEntityAdminAccount(): string {

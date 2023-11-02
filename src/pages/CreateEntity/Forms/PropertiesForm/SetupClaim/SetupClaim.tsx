@@ -18,6 +18,11 @@ const SetupClaim: React.FC<Props> = ({ hidden, claim, updateClaim }): JSX.Elemen
   const [editModalOpen, setEditModalOpen] = useState(false)
 
   const handleUpdateEntityClaim = (id: string, newClaim: TEntityClaimModel): void => {
+    if (Object.values(claim).some((item) => item.template?.id === newClaim.template?.id)) {
+      handleRemoveEntityClaim(id)
+      return
+    }
+
     let _claim = claim
     if (newClaim.isHeadlineMetric) {
       _claim = Object.fromEntries(
@@ -28,7 +33,7 @@ const SetupClaim: React.FC<Props> = ({ hidden, claim, updateClaim }): JSX.Elemen
   }
   const handleRemoveEntityClaim = (id: string): void => {
     const _claim = claim
-    if (_claim[id].isHeadlineMetric) {
+    if (_claim[id]?.isHeadlineMetric) {
       const altClaimId = Object.keys(claim).find((item) => item !== id)
       if (altClaimId) {
         _claim[altClaimId].isHeadlineMetric = true
@@ -61,8 +66,6 @@ const SetupClaim: React.FC<Props> = ({ hidden, claim, updateClaim }): JSX.Elemen
               setSelectedClaim({
                 id: uuidv4(),
                 template: undefined,
-                submissions: undefined,
-                approvalTarget: undefined,
                 isEncrypted: false,
                 isHeadlineMetric: Object.keys(claim).length === 0,
               })

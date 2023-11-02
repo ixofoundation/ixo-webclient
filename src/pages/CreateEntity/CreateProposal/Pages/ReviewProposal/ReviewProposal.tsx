@@ -17,7 +17,7 @@ import { contracts, ixo } from '@ixo/impactxclient-sdk'
 import { CosmosMsgForEmpty } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
 import { useMakeProposalAction } from 'hooks/proposal'
 import { decodedMessagesString } from 'utils/messages'
-import { AddLinkedEntity, CreateCollection, fee } from 'lib/protocol'
+import { AddLinkedEntity, fee } from 'lib/protocol'
 import {
   AccordedRight,
   LinkedClaim,
@@ -49,7 +49,6 @@ const ReviewProposal: React.FC = () => {
     service: serviceData,
     linkedEntity: linkedEntityData,
     linkedResource: linkedResourceData,
-    claim,
     clearEntity,
   } = createEntityState
   const profile = createEntityState.profile
@@ -273,7 +272,7 @@ const ReviewProposal: React.FC = () => {
     }
 
     // Create Deed entity
-    const { did: entityDid, adminAccount } = await CreateEntityBase(entityType, protocolDid, {
+    const { did: entityDid } = await CreateEntityBase(entityType, protocolDid, {
       service,
       linkedResource,
       accordedRight,
@@ -284,20 +283,6 @@ const ReviewProposal: React.FC = () => {
     if (!entityDid) {
       return ''
     }
-
-    // Create Claim Collection
-    const claimTemplateIds = Object.values(claim)
-      .map((claim) => (claim.template?.id ? claim.template?.id.split('#')[0] : undefined))
-      .filter(Boolean) as string[]
-    await CreateCollection(
-      signingClient,
-      signer,
-      claimTemplateIds.map((claimTemplateId) => ({
-        entityDid,
-        protocolDid: claimTemplateId,
-        paymentsAccount: adminAccount,
-      })),
-    )
 
     return entityDid
 

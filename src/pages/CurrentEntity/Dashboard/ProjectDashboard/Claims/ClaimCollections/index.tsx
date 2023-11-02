@@ -1,15 +1,18 @@
-// import { EvaluationStatus } from '@ixo/impactxclient-sdk/types/codegen/ixo/claims/v1beta1/claims'
 import { ixo } from '@ixo/impactxclient-sdk'
 import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
-import { useGetClaimCollection, useGetClaims } from 'graphql/claims'
-import { useMemo } from 'react'
+import { useGetClaimCollection, useGetClaimCollectionsByEntityId, useGetClaims } from 'graphql/claims'
+import { useMemo, useState } from 'react'
+import { useParams } from 'react-router-dom'
 import ClaimCategory from './ClaimCategory'
 import ClaimItem from './ClaimItem'
 import ClaimTab from './ClaimTab'
 
-const Claims: React.FC = () => {
-  const collectionId = '1'
+interface Props {
+  collectionId: string
+}
+
+const ClaimCollection: React.FC<Props> = ({ collectionId }) => {
   const { data: claimCollection } = useGetClaimCollection(collectionId)
   const { data: claims } = useGetClaims(collectionId)
 
@@ -45,26 +48,13 @@ const Claims: React.FC = () => {
   }, [claimCollection])
 
   return (
-    <FlexBox direction='column' gap={6} width='100%' color='black'>
-      <FlexBox direction='column' width='100%' gap={4}>
-        <Typography variant='secondary' size='2xl'>
-          All Claims
-        </Typography>
-        <FlexBox width='100%' gap={2} color='black' flexWrap='wrap'>
-          <ClaimTab status={4} value={0} />
-          <ClaimTab status={ixo.claims.v1beta1.EvaluationStatus.PENDING} value={pending} />
-          <ClaimTab status={ixo.claims.v1beta1.EvaluationStatus.REJECTED} value={rejected} />
-          <ClaimTab status={ixo.claims.v1beta1.EvaluationStatus.APPROVED} value={approved} />
-          <ClaimTab status={ixo.claims.v1beta1.EvaluationStatus.DISPUTED} value={disputed} />
-        </FlexBox>
-      </FlexBox>
-
+    <>
       <FlexBox width='100%' gap={2} color='black' flexWrap='wrap'>
-        <ClaimCategory category='Educational Pass' />
-        <ClaimCategory category='Schools Built' />
-        <ClaimCategory category='Teachers Trained' />
-        <ClaimCategory category='Another Claim' />
-        <ClaimCategory category='One More Claim' />
+        <ClaimTab status={4} value={0} />
+        <ClaimTab status={ixo.claims.v1beta1.EvaluationStatus.PENDING} value={pending} />
+        <ClaimTab status={ixo.claims.v1beta1.EvaluationStatus.REJECTED} value={rejected} />
+        <ClaimTab status={ixo.claims.v1beta1.EvaluationStatus.APPROVED} value={approved} />
+        <ClaimTab status={ixo.claims.v1beta1.EvaluationStatus.DISPUTED} value={disputed} />
       </FlexBox>
 
       <FlexBox direction='column' width='100%' gap={6}>
@@ -129,8 +119,32 @@ const Claims: React.FC = () => {
           </FlexBox>
         </FlexBox>
       </FlexBox>
+    </>
+  )
+}
+
+const ClaimCollections: React.FC = () => {
+  const { entityId } = useParams<{ entityId: string }>()
+  const { data: claimCollections } = useGetClaimCollectionsByEntityId(entityId)
+  console.log({ claimCollections })
+  const [collectionId, setCollectionId] = useState('')
+
+  return (
+    <FlexBox direction='column' gap={6} width='100%' color='black'>
+      <FlexBox width='100%' gap={2} color='black' flexWrap='wrap'>
+        {claimCollections.map((claimCollection: any) => (
+          <ClaimCategory
+            key={claimCollection.id}
+            claimCollection={claimCollection}
+            selected={claimCollection.id === collectionId}
+            onSelect={() => setCollectionId(claimCollection.id)}
+          />
+        ))}
+      </FlexBox>
+
+      {collectionId && <ClaimCollection collectionId={collectionId} />}
     </FlexBox>
   )
 }
 
-export default Claims
+export default ClaimCollections

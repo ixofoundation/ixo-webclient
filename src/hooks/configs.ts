@@ -32,8 +32,8 @@ export const WALLET_STORE_LOCAL_STORAGE_KEY = 'ixo-webclient/connectedWalletId'
 interface IxoConfigsHookExports {
   paymentCoins: PaymentCoins[]
   getAssetPairs: (chainId?: string) => any[]
-  convertToDenom: (coin: Coin) => Coin | undefined
-  convertToMinimalDenom: (coin: Coin) => Coin | undefined
+  convertToDenom: (coin: Coin | undefined) => Coin | undefined
+  convertToMinimalDenom: (coin: Coin | undefined) => Coin | undefined
   getAssetsByChainId: (chainId: string) => AssetType[]
   getRelayerNameByChainId: (chainId: string) => string
   getRelayerNameAndChainIdList: () => { [key: string]: string }
