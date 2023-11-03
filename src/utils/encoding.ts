@@ -50,3 +50,14 @@ export function Uint8ArrayToJS(data: Uint8Array): string {
   const decodedData = Utf8ArrayToStr(data)
   return decodedData
 }
+
+export function base64ToJson(b64: string): any {
+  try {
+    const decodedStr: string = Buffer.from(b64, 'base64').toString('utf-8')
+    const jsonObj: any = JSON.parse(decodedStr)
+    return jsonObj
+  } catch (error) {
+    console.error('An error occurred:', error)
+    return null
+  }
+}
