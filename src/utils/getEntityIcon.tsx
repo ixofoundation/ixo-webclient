@@ -6,7 +6,7 @@ export const getEntityIcon = (type: string | undefined): React.ReactNode | null 
     case 'asset/device':
       return <AssetIcon transform='scale(.8)' />
     case 'dao':
-      return <DAOIcon />
+      return <DAOIcon transform='scale(.8)' />
     default:
       return null
   }

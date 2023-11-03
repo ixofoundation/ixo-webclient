@@ -40,7 +40,15 @@ export const AssetCard: React.FC<Props> = ({
   const theme: any = useTheme()
 
   return (
-    <FlexBox direction='column' width='100%' borderRadius={'10px'} height='100%' overflow='hidden' {...rest}>
+    <FlexBox
+      direction='column'
+      width='100%'
+      borderRadius={'10px'}
+      height='100%'
+      overflow='hidden'
+      hover={{ boxShadow: '0px 10px 25px 0px rgba(0, 0, 0, 0.15)' }}
+      {...rest}
+    >
       <FlexBox
         position='relative'
         background={`url(${cardImage})`}

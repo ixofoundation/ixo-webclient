@@ -1,5 +1,5 @@
-query entities($filter: EntityFilter) {
-  entities(filter: $filter) {
+query entities($filter: EntityFilter, $after: Cursor, $first: Int) {
+  entities(filter: $filter, after: $after, first: $first) {
     nodes {
       id
       accordedRight

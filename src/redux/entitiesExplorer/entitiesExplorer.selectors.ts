@@ -172,7 +172,7 @@ export const selectedFilteredEntities = createSelector(
       return 0
     })
 
-    return filteredEntities
+    return entities
   },
 )
 

@@ -108,24 +108,66 @@ const EntitiesExplorer = ({
   const type: string | undefined = getQuery('type')
   const sector: string | undefined = getQuery('sector')
   const relayerNode = process.env.REACT_APP_RELAYER_NODE
+  const [endCursor, setEndCursor] = React.useState<string | null>()
 
   const tabletColumns = isTablet ? 2 : 3
   const columns = isMobile ? 1 : tabletColumns
 
   const { data, loading, refetch } = useEntitiesQuery({
+    fetchPolicy: 'cache-first',
     variables: {
+      first: 15,
+      ...(endCursor && { after: endCursor }),
       filter: {
-        not: { type: { startsWith: 'asset' } },
         or: [
-          { relayerNode: { equalTo: relayerNode }, entityVerified: { equalTo: true } },
-          { id: { equalTo: relayerNode }, entityVerified: { equalTo: true } },
-          { and: [{ relayerNode: { equalTo: relayerNode } }, { entityVerified: { equalTo: true } }] },
           {
-            ...(accountAddress && {
-              and: [{ entityVerified: { equalTo: false } }, { owner: { equalTo: accountAddress } }],
-            }),
+            relayerNode: {
+              equalTo: relayerNode,
+            },
+            entityVerified: {
+              equalTo: false,
+            },
+          },
+          {
+            id: {
+              equalTo: relayerNode,
+            },
+            entityVerified: {
+              equalTo: false,
+            },
+          },
+          {
+            and: [
+              {
+                relayerNode: {
+                  equalTo: relayerNode,
+                },
+              },
+              {
+                entityVerified: {
+                  equalTo: false,
+                },
+              },
+            ],
+          },
+          {
+            and: [
+              {
+                entityVerified: {
+                  equalTo: false,
+                },
+              },
+              {
+                owner: {
+                  equalTo: accountAddress,
+                },
+              },
+            ],
           },
         ],
+        type: {
+          in: type === 'protocol' ? ['protocol', 'deed'] : [type ?? ''],
+        },
       },
     },
     onCompleted: ({ entities }) => {
@@ -137,6 +179,7 @@ const EntitiesExplorer = ({
             updateEntityProperties(entity.id, key, data, merge)
           })
         }
+        setEndCursor(entities?.pageInfo.endCursor)
       }
     },
   })

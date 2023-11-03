@@ -103,7 +103,7 @@ const App: React.FC = () => {
             <HeaderConnected />
             <div className='d-flex' style={{ flex: 1 }}>
               <ContentWrapper>
-                {entityConfig && cwClient ? <Routes /> : <Spinner info={'Loading ixo.world...'} />}
+                {entityConfig && cwClient ? <Routes /> : <Spinner info={'Connecting to the Internet of Impacts...'} />}
               </ContentWrapper>
             </div>
             <Footer />

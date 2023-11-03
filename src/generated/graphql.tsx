@@ -4222,6 +4222,8 @@ export enum TransactionsOrderBy {
 
 export type EntitiesQueryVariables = Exact<{
   filter?: InputMaybe<EntityFilter>;
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
 
@@ -4252,8 +4254,8 @@ export type MessagesQuery = { __typename?: 'Query', messages?: { __typename?: 'M
 
 
 export const EntitiesDocument = gql`
-    query entities($filter: EntityFilter) {
-  entities(filter: $filter) {
+    query entities($filter: EntityFilter, $after: Cursor, $first: Int) {
+  entities(filter: $filter, after: $after, first: $first) {
     nodes {
       id
       accordedRight
@@ -4306,6 +4308,8 @@ export const EntitiesDocument = gql`
  * const { data, loading, error } = useEntitiesQuery({
  *   variables: {
  *      filter: // value for 'filter'
+ *      after: // value for 'after'
+ *      first: // value for 'first'
  *   },
  * });
  */
