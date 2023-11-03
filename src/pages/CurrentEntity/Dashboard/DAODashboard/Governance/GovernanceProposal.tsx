@@ -20,10 +20,9 @@ import {
 } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
 import { fee } from 'lib/protocol'
 import * as Toast from 'utils/toast'
-import { useIxoConfigs } from 'hooks/configs'
 import { serializeCoin } from 'utils/conversions'
 import { useHistory, useParams } from 'react-router-dom'
-import { getDifference, truncateString, votingRemainingDateFormat } from 'utils/formatters'
+import { getDifference, thousandSeparator, truncateString, votingRemainingDateFormat } from 'utils/formatters'
 import { contracts } from '@ixo/impactxclient-sdk'
 import { useAccount } from 'hooks/account'
 import { SingleChoiceProposal } from '@ixo/impactxclient-sdk/types/codegen/DaoMigrator.types'
@@ -36,6 +35,7 @@ import useCurrentEntity, { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
 import { TEntityModel, TProposalActionModel } from 'types/entities'
 import { EntityLinkedResourceConfig, ProposalActionConfigMap } from 'constants/entity'
 import { Typography } from 'components/Typography'
+import { getDisplayAmount } from 'utils/currency'
 
 const Container = styled.div<{ isDark: boolean }>`
   background: ${(props) =>
@@ -133,7 +133,6 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
   const theme: any = useTheme()
   const { entityId } = useParams<{ entityId: string }>()
   const { isDark } = useContext(DashboardThemeContext)
-  const { convertToDenom } = useIxoConfigs()
   const { isImpactsDAO, isMemberOfImpactsDAO, isOwner, daoController, refetchAndUpdate } = useCurrentEntity()
   const { daoGroup, proposalModuleAddress, isParticipating, depositInfo, tqData } =
     useCurrentEntityDAOGroup(coreAddress)
@@ -343,7 +342,12 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
               <div className='col-6 pb-3'>
                 <LabelSM>Deposit</LabelSM>
                 <br />
-                <LabelLG style={{ textTransform: 'uppercase' }}>{serializeCoin(convertToDenom(depositInfo))}</LabelLG>
+                <LabelLG style={{ textTransform: 'uppercase' }}>
+                  {serializeCoin({
+                    amount: thousandSeparator(getDisplayAmount(depositInfo.amount), ','),
+                    denom: 'ixo',
+                  })}
+                </LabelLG>
               </div>
             )}
           </div>
