@@ -77,7 +77,7 @@ export function useGetOfferFormByClaimCollectionId(collectionId: string) {
     (linkedResource: any) => linkedResource.type === 'surveyTemplate',
   )
   const service = offerEntity?.service
-  const [claimQuestion, setClaimQuestion] = useState({})
+  const [offerQuestion, setOfferQuestion] = useState({})
 
   useEffect(() => {
     if (offerFormLinkedResource && service.length > 0) {
@@ -86,15 +86,14 @@ export function useGetOfferFormByClaimCollectionId(collectionId: string) {
         .then((response) => response.json())
         .then((response) => response.question)
         .then((question) => {
-          console.log('claimQuestion', question)
-          setClaimQuestion(question)
+          setOfferQuestion(question)
         })
         .catch(() => undefined)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [offerFormLinkedResource, service])
 
-  return claimQuestion
+  return offerQuestion
 }
 
 // GET_ENTITY_BY_ID
