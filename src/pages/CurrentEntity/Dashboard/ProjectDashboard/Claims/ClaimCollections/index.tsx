@@ -4,7 +4,7 @@ import { Typography } from 'components/Typography'
 import { useGetClaimCollection, useGetClaimCollectionsByEntityId, useGetClaims } from 'graphql/claims'
 import { useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import ClaimCategory from './ClaimCategory'
+import ClaimCollectionCategory from '../../../components/ClaimCollectionCategory'
 import ClaimItem from './ClaimItem'
 import ClaimTab from './ClaimTab'
 
@@ -126,14 +126,13 @@ const ClaimCollection: React.FC<Props> = ({ collectionId }) => {
 const ClaimCollections: React.FC = () => {
   const { entityId } = useParams<{ entityId: string }>()
   const { data: claimCollections } = useGetClaimCollectionsByEntityId(entityId)
-  console.log({ claimCollections })
   const [collectionId, setCollectionId] = useState('')
 
   return (
     <FlexBox direction='column' gap={6} width='100%' color='black'>
       <FlexBox width='100%' gap={2} color='black' flexWrap='wrap'>
         {claimCollections.map((claimCollection: any) => (
-          <ClaimCategory
+          <ClaimCollectionCategory
             key={claimCollection.id}
             claimCollection={claimCollection}
             selected={claimCollection.id === collectionId}

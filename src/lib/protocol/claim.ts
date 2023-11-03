@@ -156,7 +156,9 @@ export const GrantEntityAccountClaimsSubmitAuthz = async (
     }),
   }
 
+  console.log('GrantEntityAccountClaimsSubmitAuthz', { message })
   const response = await client.signAndBroadcast(signer.address, [message], fee)
+  console.log('GrantEntityAccountClaimsSubmitAuthz', { response })
   return response
 }
 

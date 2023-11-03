@@ -12,7 +12,7 @@ interface Props {
   onSelect?: () => void
 }
 
-const ClaimCategory: React.FC<Props> = ({ claimCollection, selected = false, onSelect }) => {
+const ClaimCollectionCategory: React.FC<Props> = ({ claimCollection, selected = false, onSelect }) => {
   const theme: any = useTheme()
   const templateId: string = claimCollection.protocol
   const templateEntity: TEntityModel | undefined = useAppSelector(selectEntityById(templateId))
@@ -32,4 +32,4 @@ const ClaimCategory: React.FC<Props> = ({ claimCollection, selected = false, onS
   )
 }
 
-export default ClaimCategory
+export default ClaimCollectionCategory
