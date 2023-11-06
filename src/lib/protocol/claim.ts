@@ -5,6 +5,7 @@ import { addDays } from 'utils/common'
 import Long from 'long'
 import BigNumber from 'bignumber.js'
 import { Payments } from '@ixo/impactxclient-sdk/types/codegen/ixo/claims/v1beta1/claims'
+import { GrantAuthorization } from '@ixo/impactxclient-sdk/types/codegen/cosmos/authz/v1beta1/authz'
 
 const { createRPCQueryClient } = cosmos.ClientFactory
 
@@ -322,4 +323,24 @@ export const MsgExecAgentEvaluate = async (
 
   const response = await client.signAndBroadcast(signer.address, [message], fee)
   return response
+}
+
+export const GetGranteeRole = async (payload: {
+  granteeAddress: string
+  adminAddress: string
+}): Promise<{ submitAuth: GrantAuthorization | undefined; evaluateAuth: GrantAuthorization | undefined }> => {
+  const { granteeAddress, adminAddress } = payload
+  const queryClient = await createRPCQueryClient({ rpcEndpoint: RPC_ENDPOINT! })
+
+  const granteeGrants = await queryClient.cosmos.authz.v1beta1.granteeGrants({
+    grantee: granteeAddress,
+  })
+
+  const submitAuth = granteeGrants.grants.find(
+    (g) => g.authorization?.typeUrl === '/ixo.claims.v1beta1.SubmitClaimAuthorization' && g.granter === adminAddress,
+  )
+  const evaluateAuth = granteeGrants.grants.find(
+    (g) => g.authorization?.typeUrl === '/ixo.claims.v1beta1.EvaluateClaimAuthorization' && g.granter === adminAddress,
+  )
+  return { submitAuth, evaluateAuth }
 }
