@@ -33,7 +33,7 @@ const ClaimForm: React.FC<Props> = ({ claimId }) => {
   const adminAddress = useCurrentEntityAdminAccount()
   const selectedClaim: TEntityClaimModel = claim[claimId]
 
-  const [templateEntityId] = (selectedClaim?.template?.id || '').split('#')
+  const [templateEntityId] = (selectedClaim?.template?.id ?? '').split('#')
   const { data: templateEntity } = useGetEntityById(templateEntityId)
 
   const claimCollection = useGetClaimCollectionByEntityIdAndClaimTemplateId({ entityId, protocolId: templateEntityId })

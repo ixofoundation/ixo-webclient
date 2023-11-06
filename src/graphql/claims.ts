@@ -73,7 +73,7 @@ export function useGetClaimCollectionByEntityIdAndClaimTemplateId(params: { enti
   const { data: claimCollections } = useGetClaimCollections()
   return claimCollections
     .filter((collection: any) => collection.protocol === protocolId && collection.entity === entityId)
-    .sort((a: any, b: any) => Number(a.id) > Number(b.id))[0]
+    .sort((a: any, b: any) => (Number(a.id) < Number(b.id) ? 1 : -1))[0]
 }
 
 // GET_CLAIM_COLLECTIONS

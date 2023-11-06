@@ -31,12 +31,13 @@ const ClaimCollection: React.FC<Props> = ({ collectionId }) => {
   }, [claims])
 
   const { approved, disputed, rejected, pending } = useMemo(() => {
+    const count = claimCollection.count ?? 0
     const approved = claimCollection.approved ?? 0
     const disputed = claimCollection.disputed ?? 0
     const evaluated = claimCollection.evaluated ?? 0
     const rejected = claimCollection.rejected ?? 0
 
-    const pending = evaluated - approved - disputed - rejected
+    const pending = count - evaluated - approved - disputed - rejected
 
     return {
       approved,

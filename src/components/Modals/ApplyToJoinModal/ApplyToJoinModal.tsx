@@ -68,7 +68,7 @@ const ApplyToJoinModal: React.FC<Props> = ({ offers, open, onClose, onSubmit }):
       <ModalWrapper style={{ width: 600 }}>
         <ModalTitle>For which claim collection would you like to submit an offer?</ModalTitle>
         <ModalBody>
-          <ModalRow>
+          <ModalRow style={{ justifyContent: 'left' }}>
             {offers.map((entity: TEntityModel) => (
               <OfferBox
                 key={entity.id}

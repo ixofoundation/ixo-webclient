@@ -39,7 +39,7 @@ const OfferForm: React.FC<Props> = ({ claimCollectionId }) => {
         )
 
         const linkedResource: LinkedResource = ixo.iid.v1beta1.LinkedResource.fromPartial({
-          id: '{id}#offer',
+          id: `{id}#offer#${claimCollectionId}`,
           type: 'DeedOffer',
           proof: uploadRes.key,
           right: '',

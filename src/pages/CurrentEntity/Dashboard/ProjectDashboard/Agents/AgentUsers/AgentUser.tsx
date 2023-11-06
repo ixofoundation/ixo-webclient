@@ -1,6 +1,7 @@
 import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { useAccount } from 'hooks/account'
+import { useCurrentEntityAdminAccount } from 'hooks/currentEntity'
 import { useQuery } from 'hooks/window'
 import { GrantEntityAccountClaimsSubmitAuthz } from 'lib/protocol/claim'
 import { Button } from 'pages/CreateEntity/Components'
@@ -15,6 +16,7 @@ const AgentUserCard: React.FC<{ address: string }> = ({ address }) => {
   const collectionId = getQuery('collectionId')
   const { entityId } = useParams<{ entityId: string }>()
   const { signingClient, signer } = useAccount()
+  const adminAddress = useCurrentEntityAdminAccount()
   const [granting, setGranting] = useState(false)
 
   const handleGrant = async () => {
@@ -24,7 +26,7 @@ const AgentUserCard: React.FC<{ address: string }> = ({ address }) => {
       const payload = {
         entityDid: entityId,
         name: 'admin',
-        adminAddress: signer.address,
+        adminAddress: adminAddress,
         collectionId,
         granteeAddress: address,
         agentQuota: 10,
