@@ -100,4 +100,4 @@ const EntityAdditionalInfoForm: React.FC<Props> = ({
   )
 }
 
-export default EntityAdditionalInfoForm
+export default React.memo(EntityAdditionalInfoForm)

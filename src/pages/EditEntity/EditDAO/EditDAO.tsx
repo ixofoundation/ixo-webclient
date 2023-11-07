@@ -17,8 +17,7 @@ const EditDAO: React.FC = (): JSX.Element => {
   useEffect(() => {
     entity.updatePartial('breadCrumbs', [{ text: 'DAO' }, { text: entityName }])
     entity.updatePartial('title', `Edit (${entityName}) DAO`)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [entityName])
+  }, [entityName, entity])
 
   return (
     <>

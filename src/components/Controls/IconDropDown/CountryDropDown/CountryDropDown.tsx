@@ -2,6 +2,7 @@ import countries from 'constants/maps/countryLatLng.json'
 import { DropDownOption } from '../types'
 import IconDropDownSelect from '../IconDropDownSelect'
 import { Container } from './CountryDropDown.styles'
+import React from 'react'
 
 interface Props {
   value: string
@@ -43,4 +44,4 @@ const CountryDropDown: React.FunctionComponent<Props> = ({ value, onChange, onBl
   )
 }
 
-export default CountryDropDown
+export default React.memo(CountryDropDown)

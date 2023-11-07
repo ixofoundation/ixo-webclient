@@ -83,4 +83,4 @@ const EntityDescriptionForm: React.FC<Props> = ({
   )
 }
 
-export default EntityDescriptionForm
+export default React.memo(EntityDescriptionForm)

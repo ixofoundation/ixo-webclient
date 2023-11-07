@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import DefCountryDropDown from 'components/Controls/IconDropDown/CountryDropDown/CountryDropDown'
+import React from 'react'
 
 const CountryDropDown = styled(DefCountryDropDown)`
   width: 100%;
@@ -26,4 +27,4 @@ const CountryDropDown = styled(DefCountryDropDown)`
   }
 `
 
-export default CountryDropDown
+export default React.memo(CountryDropDown)
