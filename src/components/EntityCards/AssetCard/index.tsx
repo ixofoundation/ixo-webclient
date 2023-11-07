@@ -53,7 +53,7 @@ export const AssetCard: React.FC<Props> = ({
         position='relative'
         background={`url(${cardImage})`}
         width='100%'
-        height='50%'
+        height='200px'
         backgroundSize='100% 100%'
       >
         <FlexBox gap={1} alignItems='center' height='24px' margin='10px'>
