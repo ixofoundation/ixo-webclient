@@ -3289,10 +3289,10 @@
   resolved "https://registry.yarnpkg.com/@istanbuljs/schema/-/schema-0.1.3.tgz#e45e384e4b8ec16bce2fd903af78450f6bf7ec98"
   integrity sha512-ZXRY4jNvVgSVQ8DL3LTcakaAtXwTVUxE81hslsyD2AtoXW/wVob10HkOJ1X/pAlcI7D+2YoZKg5do8G/w6RYgA==
 
-"@ixo/cosmos-chain-resolver@^0.0.4":
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/@ixo/cosmos-chain-resolver/-/cosmos-chain-resolver-0.0.4.tgz#5925590f9944804ba04e63b2a9068740c83a00b2"
-  integrity sha512-RsoVLPuP4v+qh98E18T8CTQ1TQuwzNn3wtFQ6m3md32j7PoqHkJcBFarqlu6KA7JpsWYu/e53q3xL7bX0HZ5Cg==
+"@ixo/cosmos-chain-resolver@^0.0.5":
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/@ixo/cosmos-chain-resolver/-/cosmos-chain-resolver-0.0.5.tgz#5f01667e31ad7708defc6a91c804aab9eb32c88e"
+  integrity sha512-FiUXqUb4Sd7GmBApcUrdjbpwbd/V8zgq69CpmzlYck1+BlEBvsq5WeO4bHv+H0L4CCUECPsjZkhCiFnw5BBs/g==
   dependencies:
     "@babel/runtime" "7.19.4"
     axios "^1.3.4"
