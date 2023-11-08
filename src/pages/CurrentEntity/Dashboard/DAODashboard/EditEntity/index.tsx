@@ -29,7 +29,8 @@ const EditEntity: React.FC = () => {
 
   useEffect(() => {
     setEditEntity(currentEntity)
-  }, [currentEntity, setEditEntity])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [JSON.stringify(currentEntity)])
 
   useEffect(() => {
     if (data) {
@@ -38,7 +39,8 @@ const EditEntity: React.FC = () => {
         dispatch(updateEntityPropertyAction(entityId, key, data, merge))
       })
     }
-  }, [data, cwClient, dispatch, entityId])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [JSON.stringify(data)])
 
   const handleEditEntity = async () => {
     setEditing(true)

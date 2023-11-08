@@ -38,7 +38,7 @@ export const DaoCard: React.FC<Props> = ({
   type,
   assetNumber,
   maxSupply,
-  tags: { daoTypeTags = [], stage },
+  tags: { daoTypeTags = [], stage } = {},
   ...rest
 }): JSX.Element | null => {
   const theme: any = useTheme()

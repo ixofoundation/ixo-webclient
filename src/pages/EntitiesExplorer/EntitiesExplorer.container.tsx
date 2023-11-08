@@ -108,16 +108,14 @@ const EntitiesExplorer = ({
   const type: string | undefined = getQuery('type')
   const sector: string | undefined = getQuery('sector')
   const relayerNode = process.env.REACT_APP_RELAYER_NODE
-  const [endCursor, setEndCursor] = React.useState<string | null>()
 
   const tabletColumns = isTablet ? 2 : 3
   const columns = isMobile ? 1 : tabletColumns
 
   const { data, loading, refetch } = useEntitiesQuery({
+    skip: entities.length > 0,
     fetchPolicy: 'cache-first',
     variables: {
-      first: 15,
-      ...(endCursor && { after: endCursor }),
       filter: {
         or: [
           {
@@ -165,9 +163,6 @@ const EntitiesExplorer = ({
             ],
           },
         ],
-        type: {
-          in: type === 'protocol' ? ['protocol', 'deed'] : [type ?? ''],
-        },
       },
     },
     onCompleted: ({ entities }) => {
@@ -179,7 +174,6 @@ const EntitiesExplorer = ({
             updateEntityProperties(entity.id, key, data, merge)
           })
         }
-        setEndCursor(entities?.pageInfo.endCursor)
       }
     },
   })
