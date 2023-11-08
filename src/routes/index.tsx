@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { useAppSelector } from 'redux/hooks'
 import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { Spinner } from 'components/Spinner/Spinner'
+import EntityEconomy from 'pages/EntityEconomy/EntityEconomy'
 
 const Splash = lazy(() => import(/* webpackChunkName: "Splash" */ 'pages/Splash/Splash'))
 const EntitiesExplorer = lazy(
@@ -57,6 +58,7 @@ const App: React.FunctionComponent = () => {
           render={(routeProps): JSX.Element => <EntitiesExplorer {...routeProps.location} />}
         />
         <Route path='/exchange' component={EntityExchange} />
+        <Route path='/economy' component={EntityEconomy} />
         <Route path='/create/entity' component={CreateEntityPage} />
         <Route path='/edit/entity/:entityId' component={EditEntityPage} />
         <Route path='/entity/:entityId' component={CurrentEntityPage} />
