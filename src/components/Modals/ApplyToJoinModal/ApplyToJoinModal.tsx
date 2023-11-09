@@ -8,6 +8,7 @@ import { FlexBox } from 'components/App/App.styles'
 import { ReactComponent as ClaimIcon } from 'assets/images/icon-claim.svg'
 import { Typography } from 'components/Typography'
 import { useGetClaimTemplateEntityByCollectionId } from 'graphql/claims'
+import { AgentRoles } from 'types/models'
 
 interface OfferBoxProps {
   entity: TEntityModel
@@ -48,14 +49,14 @@ interface Props {
   offers: TEntityModel[]
   open: boolean
   onClose: () => void
-  onSubmit: (selectedCollectionId: string) => void
+  onSubmit: (selectedCollectionId: string, agentRole: AgentRoles) => void
 }
 
 const ApplyToJoinModal: React.FC<Props> = ({ offers, open, onClose, onSubmit }): JSX.Element => {
   const [selectedCollectionId, setSelectedCollectionId] = useState('')
 
-  const handleSubmit = (): void => {
-    onSubmit(selectedCollectionId)
+  const handleSubmit = (agentRole: AgentRoles) => (): void => {
+    onSubmit(selectedCollectionId, agentRole)
     onClose()
   }
   return (
@@ -79,8 +80,23 @@ const ApplyToJoinModal: React.FC<Props> = ({ offers, open, onClose, onSubmit }):
             ))}
           </ModalRow>
           <ModalRow>
-            <Button variant='primary' onClick={handleSubmit} disabled={!selectedCollectionId}>
-              Continue
+            <Button
+              variant='primary'
+              onClick={handleSubmit(AgentRoles.serviceProviders)}
+              textTransform='capitalize'
+              size='flex'
+              disabled={!selectedCollectionId}
+            >
+              Continue as Service Agent
+            </Button>
+            <Button
+              variant='primary'
+              onClick={handleSubmit(AgentRoles.evaluators)}
+              textTransform='capitalize'
+              size='flex'
+              disabled={!selectedCollectionId}
+            >
+              Continue as Evaluator Agent
             </Button>
           </ModalRow>
         </ModalBody>

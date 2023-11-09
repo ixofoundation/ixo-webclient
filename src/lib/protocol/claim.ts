@@ -273,7 +273,9 @@ export const GrantEntityAccountClaimsEvaluateAuthz = async (
     }),
   }
 
+  console.log('GrantEntityAccountClaimsEvaluateAuthz', { message })
   const response = await client.signAndBroadcast(signer.address, [message], fee)
+  console.log('GrantEntityAccountClaimsEvaluateAuthz', { response })
   return response
 }
 
@@ -321,7 +323,9 @@ export const MsgExecAgentEvaluate = async (
     }),
   }
 
+  console.log('MsgExecAgentEvaluate', { message })
   const response = await client.signAndBroadcast(signer.address, [message], fee)
+  console.log('MsgExecAgentEvaluate', { response })
   return response
 }
 

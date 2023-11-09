@@ -13,18 +13,20 @@ import { AddLinkedResource } from 'lib/protocol'
 import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { useGetIid } from 'graphql/iid'
 import { Typography } from 'components/Typography'
+import { AgentRoles } from 'types/models'
 
 interface Props {
   claimCollectionId: string
+  agentRole: AgentRoles
 }
 
-const OfferForm: React.FC<Props> = ({ claimCollectionId }) => {
+const OfferForm: React.FC<Props> = ({ claimCollectionId, agentRole }) => {
   const { signingClient, signer } = useAccount()
   const offerQuestionForm = useGetOfferFormByClaimCollectionId(claimCollectionId)
   const { data: iid } = useGetIid(signer.did)
   const offerSent = useMemo(() => {
     const linkedResource: LinkedResource[] = iid?.linkedResource ?? []
-    return linkedResource.some((v) => v.description === claimCollectionId)
+    return linkedResource.some((v) => v.description.split('#')[0] === claimCollectionId)
   }, [iid, claimCollectionId])
 
   const handleSubmit = useCallback(
@@ -45,7 +47,7 @@ const OfferForm: React.FC<Props> = ({ claimCollectionId }) => {
           right: '',
           encrypted: 'false',
           mediaType: 'application/ld+json',
-          description: claimCollectionId,
+          description: `${claimCollectionId}#${agentRole}`,
           serviceEndpoint: uploadRes.url,
         })
         const res = await AddLinkedResource(signingClient, signer, { entityId: signer.did, linkedResource })
@@ -61,7 +63,7 @@ const OfferForm: React.FC<Props> = ({ claimCollectionId }) => {
         return false
       }
     },
-    [claimCollectionId, signer, signingClient],
+    [agentRole, claimCollectionId, signer, signingClient],
   )
 
   const survey = useMemo(() => {

@@ -34,15 +34,13 @@ const ClaimCollection: React.FC<Props> = ({ collectionId }) => {
     const count = claimCollection.count ?? 0
     const approved = claimCollection.approved ?? 0
     const disputed = claimCollection.disputed ?? 0
-    const evaluated = claimCollection.evaluated ?? 0
     const rejected = claimCollection.rejected ?? 0
 
-    const pending = count - evaluated - approved - disputed - rejected
+    const pending = count - approved - disputed - rejected
 
     return {
       approved,
       disputed,
-      evaluated,
       rejected,
       pending,
     }
@@ -51,7 +49,7 @@ const ClaimCollection: React.FC<Props> = ({ collectionId }) => {
   return (
     <>
       <FlexBox width='100%' gap={2} color='black' flexWrap='wrap'>
-        <ClaimTab status={4} value={0} />
+        <ClaimTab status={ixo.claims.v1beta1.EvaluationStatus.UNRECOGNIZED} value={0} />
         <ClaimTab status={ixo.claims.v1beta1.EvaluationStatus.PENDING} value={pending} />
         <ClaimTab status={ixo.claims.v1beta1.EvaluationStatus.REJECTED} value={rejected} />
         <ClaimTab status={ixo.claims.v1beta1.EvaluationStatus.APPROVED} value={approved} />

@@ -8,6 +8,7 @@ import { useAppSelector } from 'redux/hooks'
 import { selectAllDeedOffersForEntityId } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { useHistory, useParams } from 'react-router-dom'
 import { TEntityModel } from 'types/entities'
+import { AgentRoles } from 'types/models'
 
 interface Props {
   widget: Widget
@@ -19,9 +20,10 @@ const Actions: React.FC<Props> = () => {
   const deedOffers: TEntityModel[] = useAppSelector(selectAllDeedOffersForEntityId(entityId))
   const [applyToJoinModalOpen, setApplyToJoinModalOpen] = useState(false)
 
-  const handleSubmit = (collectionId: string) => {
+  const handleSubmit = (collectionId: string, agentRole: AgentRoles) => {
     const search = new URLSearchParams()
     search.append('collectionId', collectionId)
+    search.append('agentRole', agentRole)
     history.push({ pathname: history.location.pathname, search: search.toString() })
   }
 

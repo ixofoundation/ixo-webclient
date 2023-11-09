@@ -8,6 +8,9 @@ import { requireCheckDefault } from 'utils/images'
 import Agents from './Agents'
 import Claims from './Claims'
 import EditEntity from './EditEntity'
+import { useGetUserGranteeRole } from 'hooks/claim'
+import { AgentRoles } from 'types/models'
+import ClaimDetail from './ClaimDetail'
 
 const ProjectDashboard: React.FC = (): JSX.Element => {
   const { entityId } = useParams<{ entityId: string }>()
@@ -16,6 +19,7 @@ const ProjectDashboard: React.FC = (): JSX.Element => {
   const { entityType, owner } = useCurrentEntity()
   const { name } = useCurrentEntityProfile()
   const { registered, address } = useAccount()
+  const signerRole = useGetUserGranteeRole()
 
   const routes: Path[] = [
     {
@@ -30,7 +34,7 @@ const ProjectDashboard: React.FC = (): JSX.Element => {
       icon: requireCheckDefault(require('assets/img/sidebar/check.svg')),
       sdg: 'Claims',
       tooltip: 'Claims',
-      disabled: !registered || owner !== address,
+      disabled: !registered || (owner !== address && signerRole !== AgentRoles.evaluators),
     },
     {
       url: `/entity/${entityId}/dashboard/edit`,
@@ -87,7 +91,12 @@ const ProjectDashboard: React.FC = (): JSX.Element => {
       entityType={entityType}
     >
       {registered && owner === address && <Route exact path='/entity/:entityId/dashboard/agents' component={Agents} />}
-      {registered && owner === address && <Route exact path='/entity/:entityId/dashboard/claims' component={Claims} />}
+      {registered && (owner === address || signerRole === AgentRoles.evaluators) && (
+        <>
+          <Route exact path='/entity/:entityId/dashboard/claims' component={Claims} />
+          <Route exact path='/entity/:entityId/dashboard/claims/:claimId' component={ClaimDetail} />
+        </>
+      )}
       {registered && owner === address && (
         <Route exact path='/entity/:entityId/dashboard/edit' component={EditEntity} />
       )}

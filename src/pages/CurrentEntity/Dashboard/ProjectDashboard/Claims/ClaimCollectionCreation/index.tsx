@@ -17,6 +17,8 @@ import ClaimCollectionCreationSubmissionStep from './Submission'
 import ClaimCollections from '../ClaimCollections'
 import { useGetClaimCollectionsByEntityId } from 'graphql/claims'
 import ClaimCollectionCreationSuccessStep from './Success'
+import { useGetUserGranteeRole } from 'hooks/claim'
+import { AgentRoles } from 'types/models'
 
 const ClaimCollectionCreation: React.FC = () => {
   const { entityId } = useParams<{ entityId: string }>()
@@ -24,6 +26,7 @@ const ClaimCollectionCreation: React.FC = () => {
   const { claims } = useCurrentEntityClaims()
   const { signingClient, signer } = useAccount()
   const { isExist: isCollectionExist } = useGetClaimCollectionsByEntityId(entityId)
+  const userRole = useGetUserGranteeRole()
 
   const [step, setStep] = useState<'start' | 'select' | 'scope' | 'payment' | 'submission' | 'review' | 'success'>(
     'start',
@@ -126,7 +129,7 @@ const ClaimCollectionCreation: React.FC = () => {
   if (step === 'start') {
     return (
       <>
-        <ClaimCollectionCreationStartStep onSubmit={() => setStep('select')} />
+        {userRole === AgentRoles.owners && <ClaimCollectionCreationStartStep onSubmit={() => setStep('select')} />}
         {isCollectionExist && <ClaimCollections />}
       </>
     )

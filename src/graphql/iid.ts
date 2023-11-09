@@ -37,7 +37,9 @@ export function useGetUserIids() {
 export function useGetJoiningAgentsByCollectionId(collectionId: string) {
   const { data: users } = useGetUserIids()
 
-  return users.filter((user: any) => user.linkedResource.some((item: any) => item.description === collectionId))
+  return users.filter((user: any) =>
+    user.linkedResource.some((item: any) => item.description.split('#')[0] === collectionId),
+  )
 }
 
 // GET_IID

@@ -1,7 +1,6 @@
 import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { FlexBox } from 'components/App/App.styles'
 import { useSigner } from 'hooks/account'
-import { useCreateEntity } from 'hooks/createEntity'
 import { useCurrentEntityAdminAccount } from 'hooks/currentEntity'
 import { MsgExecAgentSubmit } from 'lib/protocol'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
@@ -14,10 +13,12 @@ import { Model } from 'survey-core'
 import { Survey } from 'survey-react-ui'
 import { themeJson } from 'styles/surveyTheme'
 import { selectAccountSigningClient } from 'redux/account/account.selectors'
-import { SigningStargateClient } from '@ixo/impactxclient-sdk'
+import { SigningStargateClient, customQueries } from '@ixo/impactxclient-sdk'
 import { selectEntityClaim } from 'redux/currentEntity/currentEntity.selectors'
 import { useGetClaimCollectionByEntityIdAndClaimTemplateId } from 'graphql/claims'
 import { useGetEntityById } from 'graphql/entities'
+import { CellnodePublicResource } from '@ixo/impactxclient-sdk/types/custom_queries/cellnode'
+import { chainNetwork } from 'hooks/configs'
 
 interface Props {
   claimId: string
@@ -29,7 +30,6 @@ const ClaimForm: React.FC<Props> = ({ claimId }) => {
   const signingClient: SigningStargateClient = useAppSelector(selectAccountSigningClient)
   const claim: { [id: string]: TEntityClaimModel } = useAppSelector(selectEntityClaim)
 
-  const { UploadDataToService } = useCreateEntity()
   const adminAddress = useCurrentEntityAdminAccount()
   const selectedClaim: TEntityClaimModel = claim[claimId]
 
@@ -70,8 +70,14 @@ const ClaimForm: React.FC<Props> = ({ claimId }) => {
       try {
         const collectionId = claimCollection?.id
 
-        const res = await UploadDataToService(JSON.stringify({ answer }))
-        const claimId = (res as any).key || (res as any).cid
+        const data = JSON.stringify(answer)
+        const res: CellnodePublicResource = await customQueries.cellnode.uploadPublicDoc(
+          'application/ld+json',
+          Buffer.from(data).toString('base64'),
+          undefined,
+          chainNetwork,
+        )
+        const claimId = res.key
 
         const response = await MsgExecAgentSubmit(signingClient, signer, {
           claimId,
@@ -91,7 +97,7 @@ const ClaimForm: React.FC<Props> = ({ claimId }) => {
         return false
       }
     },
-    [UploadDataToService, adminAddress, claimCollection?.id, signer, signingClient],
+    [adminAddress, claimCollection?.id, signer, signingClient],
   )
 
   const survey = useMemo(() => {

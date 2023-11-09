@@ -28,6 +28,7 @@ const GET_CLAIM_COLLECTION = gql`
 export function useGetClaimCollection(collectionId: string | number) {
   const { loading, error, data, refetch } = useQuery(GET_CLAIM_COLLECTION, {
     variables: { collectionId: String(collectionId) },
+    skip: !collectionId,
   })
   return { loading, error, data: data?.claimCollection ?? {}, refetch }
 }
@@ -76,7 +77,7 @@ export function useGetClaimCollectionByEntityIdAndClaimTemplateId(params: { enti
     .sort((a: any, b: any) => (Number(a.id) < Number(b.id) ? 1 : -1))[0]
 }
 
-// GET_CLAIM_COLLECTIONS
+// GET_CLAIM_COLLECTIONS_BY_ENTITYID
 const GET_CLAIM_COLLECTIONS_BY_ENTITYID = gql`
   query GetClaimCollectionsByEntityId($entityId: String) {
     claimCollections(filter: { entity: { equalTo: $entityId } }) {
@@ -218,7 +219,18 @@ const GET_CLAIM = gql`
 export function useGetClaim(claimId: string) {
   const { loading, error, data, refetch } = useQuery(GET_CLAIM, {
     variables: { claimId: claimId },
+    skip: !claimId,
+    pollInterval: 5 * 1000,
   })
 
   return { loading, error, data: data?.claim, refetch }
+}
+
+export function useGetClaimTemplateEntityByClaimId(claimId: string) {
+  const { data: claim } = useGetClaim(claimId)
+  const collectionId = claim?.collection?.id || ''
+  const { data: claimCollection } = useGetClaimCollection(collectionId)
+  const claimTemplateId = claimCollection.protocol
+  const claimTemplateEntity = useAppSelector(selectEntityById(claimTemplateId))
+  return claimTemplateEntity
 }

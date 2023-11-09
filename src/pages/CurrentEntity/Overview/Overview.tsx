@@ -13,12 +13,14 @@ import { OverviewHero } from '../Components'
 import { LinkedFiles } from './LinkedFiles'
 import { PageContent } from './PageContent'
 import OfferForm from './OfferForm'
+import { AgentRoles } from 'types/models'
 
 const Overview: React.FC = () => {
   const { entityId } = useParams<{ entityId: string }>()
   const { getQuery } = useQuery()
   const claimId = getQuery('claimId')
   const claimCollectionId = getQuery('collectionId')
+  const agentRole: AgentRoles = getQuery('agentRole') as AgentRoles
 
   const { startDate, page } = useCurrentEntity()
   const { controlPanelSchema } = useEntityConfig()
@@ -47,7 +49,7 @@ const Overview: React.FC = () => {
               <LinkedFiles linkedFiles={linkedFiles} />
             </>
           )}
-          {claimCollectionId && <OfferForm claimCollectionId={claimCollectionId} />}
+          {claimCollectionId && agentRole && <OfferForm claimCollectionId={claimCollectionId} agentRole={agentRole} />}
           {claimId && <ClaimForm claimId={claimId} />}
         </FlexBox>
         <FlexBox className='col-lg-3' background='#F0F3F9'>

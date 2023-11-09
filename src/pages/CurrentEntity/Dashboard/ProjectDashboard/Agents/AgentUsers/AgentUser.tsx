@@ -3,15 +3,17 @@ import { Typography } from 'components/Typography'
 import { useAccount } from 'hooks/account'
 import { useCurrentEntityAdminAccount } from 'hooks/currentEntity'
 import { useQuery } from 'hooks/window'
-import { GrantEntityAccountClaimsSubmitAuthz } from 'lib/protocol/claim'
+import { GrantEntityAccountClaimsEvaluateAuthz, GrantEntityAccountClaimsSubmitAuthz } from 'lib/protocol/claim'
 import { Button } from 'pages/CreateEntity/Components'
 import { Avatar } from 'pages/CurrentEntity/Components'
 import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
+import { IAgent } from 'types/agent'
+import { AgentRoles } from 'types/models'
 import { truncateString } from 'utils/formatters'
 import { errorToast, successToast } from 'utils/toast'
 
-const AgentUserCard: React.FC<{ address: string }> = ({ address }) => {
+const AgentUserCard: React.FC<IAgent & { noAction?: boolean }> = ({ address, role, noAction }) => {
   const { getQuery } = useQuery()
   const collectionId = getQuery('collectionId')
   const { entityId } = useParams<{ entityId: string }>()
@@ -23,18 +25,34 @@ const AgentUserCard: React.FC<{ address: string }> = ({ address }) => {
     try {
       setGranting(true)
 
-      const payload = {
-        entityDid: entityId,
-        name: 'admin',
-        adminAddress: adminAddress,
-        collectionId,
-        granteeAddress: address,
-        agentQuota: 10,
-        overrideCurretGrants: false,
-      }
-      const response = await GrantEntityAccountClaimsSubmitAuthz(signingClient, signer, payload)
-      if (response.code !== 0) {
-        throw response.rawLog
+      if (role === AgentRoles.serviceProviders) {
+        const payload = {
+          entityDid: entityId,
+          name: 'admin',
+          adminAddress: adminAddress,
+          collectionId,
+          granteeAddress: address,
+          agentQuota: 10,
+          overrideCurretGrants: false,
+        }
+        const response = await GrantEntityAccountClaimsSubmitAuthz(signingClient, signer, payload)
+        if (response.code !== 0) {
+          throw response.rawLog
+        }
+      } else if (role === AgentRoles.evaluators) {
+        const payload = {
+          entityDid: entityId,
+          name: 'admin',
+          adminAddress: adminAddress,
+          collectionId,
+          granteeAddress: address,
+          agentQuota: 10,
+          overrideCurretGrants: false,
+        }
+        const response = await GrantEntityAccountClaimsEvaluateAuthz(signingClient, signer, payload)
+        if (response.code !== 0) {
+          throw response.rawLog
+        }
       }
 
       successToast(null, 'Successfully Granted!')
@@ -62,21 +80,25 @@ const AgentUserCard: React.FC<{ address: string }> = ({ address }) => {
           <Typography size='lg' weight='bold'>
             {truncateString(address, 16, 'middle')}
           </Typography>
+          <Typography size='md'>{role}</Typography>
         </FlexBox>
       </FlexBox>
 
-      <Button variant='secondary' size='md' textTransform='capitalize' onClick={handleGrant} loading={granting}>
-        Grant
-      </Button>
+      {!noAction && (
+        <Button variant='secondary' size='md' textTransform='capitalize' onClick={handleGrant} loading={granting}>
+          Grant
+        </Button>
+      )}
     </FlexBox>
   )
 }
 
 interface Props {
   title: string
-  agents: string[]
+  agents: IAgent[]
+  noAction?: boolean
 }
-const AgentUserSection: React.FC<Props> = ({ title, agents }) => {
+const AgentUserSection: React.FC<Props> = ({ title, agents, noAction }) => {
   return (
     <FlexBox width='100%' direction='column' gap={6}>
       <FlexBox width='100%'>
@@ -85,7 +107,7 @@ const AgentUserSection: React.FC<Props> = ({ title, agents }) => {
       {agents.length > 0 ? (
         <FlexBox width='100%' gap={6}>
           {agents.map((agent) => (
-            <AgentUserCard key={agent} address={agent} />
+            <AgentUserCard key={agent.address} {...agent} noAction={noAction} />
           ))}
         </FlexBox>
       ) : (
