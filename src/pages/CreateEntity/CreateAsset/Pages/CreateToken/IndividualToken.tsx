@@ -171,6 +171,10 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
     },
     [setProfile],
   )
+  const setDescription = useCallback(
+    (description: string) => handleUpdateProfile('description', description),
+    [handleUpdateProfile],
+  )
 
   const handleSubmit = (): void => {
     // TODO:
@@ -338,7 +342,7 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
               <EntityDescriptionForm
                 entityType={entityType}
                 description={profile?.description}
-                setDescription={(description) => handleUpdateProfile('description', description)}
+                setDescription={setDescription}
                 brand={profile?.brand}
                 location={profile?.location}
                 startDate={(profile as any)?.startDate}
