@@ -22,6 +22,7 @@ export enum WalletType {
   Discord = 'discord',
   Twitter = 'twitter',
   WalletConnect = 'wc',
+  ImpactXMobile = 'impactx_mobile',
 }
 export interface IKeplrWalletConnectV1 extends Keplr {
   dontOpenAppOnEnable: boolean
@@ -62,8 +63,10 @@ export interface ConnectedWallet {
   name: string
   address: string
   did: string
-  publicKey: {
-    data: Uint8Array
-    hex: string
-  }
+  publicKey:
+    | {
+        data: Uint8Array
+        hex: string
+      }
+    | Uint8Array
 }

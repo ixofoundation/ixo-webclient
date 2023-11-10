@@ -123,7 +123,7 @@ interface ParentProps {
 }
 
 interface Callbacks {
-  handleToggleModal?: (theStatus: boolean) => void
+  handleToggleModal: () => void
 }
 export interface Props extends ParentProps, Callbacks {}
 
@@ -169,13 +169,13 @@ export const ModalWrapper: React.SFC<Props> = (props) => {
     <Modal
       style={modalStyles as any}
       isOpen={props.isModalOpen}
-      onRequestClose={(): void => props.handleToggleModal!(false)}
+      onRequestClose={(): void => props.handleToggleModal()}
       contentLabel='Modal'
       ariaHideApp={false}
       // closeTimeoutMS={300}
     >
       <ModalInner color={props.bgColor}>
-        <CloseModal onClick={(): void => props.handleToggleModal!(false)}>
+        <CloseModal onClick={(): void => props.handleToggleModal()}>
           <img alt='' src={CloseIcon} />
         </CloseModal>
         {props.header && renderHeader()}

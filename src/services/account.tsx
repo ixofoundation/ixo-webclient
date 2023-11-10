@@ -1,8 +1,8 @@
-import { contracts, createSigningClient } from '@ixo/impactxclient-sdk'
+import { contracts } from '@ixo/impactxclient-sdk'
 import { CheckIidDoc, GetTokenAsset, RPC_ENDPOINT } from 'lib/protocol'
 import { useAccount } from 'hooks/account'
 import { useEffect } from 'react'
-import { SigningCosmWasmClient, CosmWasmClient } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/cosmwasm-stargate'
+import { CosmWasmClient } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/cosmwasm-stargate'
 import base58 from 'bs58'
 import { useAppSelector } from 'redux/hooks'
 import { selectStakingGroups } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
@@ -165,7 +165,16 @@ const AccountUpdateService = (): JSX.Element | null => {
   useEffect(() => {
     if (connectedWallet) {
       const { wallet, name, address, did, publicKey, offlineSigner } = connectedWallet
-      const pubKey = base58.encode(publicKey.data)
+      console.log('typeof pubkey', typeof publicKey)
+      let pubKey: string
+
+      if (typeof publicKey === 'string') {
+        pubKey = base58.encode(new TextEncoder().encode(publicKey)) // if publicKey is a string, encode it to Uint8Array first
+      } else if (publicKey instanceof Uint8Array) {
+        pubKey = base58.encode(publicKey) // if publicKey is Uint8Array, encode it directly
+      } else {
+        pubKey = base58.encode(publicKey.data) // if publicKey is an object with a data property
+      }
 
       updateName(name)
       updateAddress(address)
@@ -173,8 +182,8 @@ const AccountUpdateService = (): JSX.Element | null => {
       updateDid(did)
       chooseWallet(wallet.type)
 
-      createSigningClient(RPC_ENDPOINT!, offlineSigner).then(updateSigningClient)
-      SigningCosmWasmClient.connectWithSigner(RPC_ENDPOINT!, offlineSigner).then(updateCosmWasmClient)
+      //   createSigningClient(RPC_ENDPOINT!, offlineSigner).then(updateSigningClient)
+      //   SigningCosmWasmClient.connectWithSigner(RPC_ENDPOINT!, offlineSigner).then(updateCosmWasmClient)
     } else {
       updateName('')
       updateAddress('')

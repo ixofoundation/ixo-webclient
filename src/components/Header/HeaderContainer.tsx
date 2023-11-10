@@ -18,158 +18,138 @@ import ProfileModal from './components/ProfileModal'
 import { InfoLink, ModalData, TopBar } from './HeaderContainer.styles'
 import { HeaderLeft } from './HeaderLeft/HeaderLeft'
 import HeaderRight from './HeaderRight/HeaderRight'
+import { useDisclosure } from '@mantine/hooks'
+import { WalletConnector } from 'components/WalletConnector'
 
 interface Props {
   entityType?: EntityType
   headerUIConfig?: any
 }
 
-const Header: React.FC<Props> = (props: Props): JSX.Element => {
-  const theme: any = useTheme()
-  const {
-    address,
-    name,
-    pubKey,
-    pubKeyUint8,
-    signingClient,
-    keyType,
-    did,
-    selectedWallet,
-    registered,
-    funded,
-    updateBalances,
-    updateRegistered,
-  } = useAccount()
+const FundYourAccount = ({ theme, selectedWallet, address, handledFunded }: any) => (
+  <ModalData>
+    <Success width='64' fill={theme.ixoNewBlue} />
+    <h3 style={{ textTransform: 'uppercase' }}>YOU HAVE SUCCESSFULLY INSTALLED {selectedWallet}</h3>
+    <p>
+      <span>NEXT STEP - </span>Fund your Account with IXO Tokens to Register your self-sovereign identity on the
+      blockchain
+      <br />
+      (This requires a small amount of IXO for gas).
+      <br />
+      Your Account address is <span>{address || '-'}</span>
+    </p>
+    <Button type={ButtonTypes.dark} onClick={handledFunded}>
+      I HAVE FUNDED MY ACCOUNT
+    </Button>
+    <InfoLink
+      href='https://medium.com/ixo-blog/the-ixo-keysafe-kyc-and-becoming-an-ixo-member-ef33d9e985b6'
+      target='_blank'
+    >
+      Why do I need to sign my credentials?
+    </InfoLink>
+  </ModalData>
+)
 
-  const [isModalOpen, setIsModalOpen] = useState(false)
+const ConnectAccount = () => <WalletConnector />
+
+const LedgerAccount = ({ handleLedgerDid }: any) => (
+  <ModalData>
+    <p>
+      YOUR ACCOUNT HAS SUCCESSFULLY BEEN FUNDED
+      <br />
+      Now you can Register your self-sovereign identity on the blockchain, which will deduct a small gas fee from your
+      account.
+    </p>
+    <Button type={ButtonTypes.dark} onClick={handleLedgerDid}>
+      SIGN THIS REQUEST
+    </Button>
+  </ModalData>
+)
+
+const AccountModal = () => (
+  <ModalData>
+    <ProfileModal />
+  </ModalData>
+)
+
+interface HeaderProps {
+  entityType?: EntityType
+  headerUIConfig?: any
+}
+
+interface ModalStep {
+  title: string
+  content: JSX.Element
+}
+
+const Header: React.FC<HeaderProps> = ({ entityType, headerUIConfig }) => {
+  const theme = useTheme()
+  const [opened, handlers] = useDisclosure(false)
+
+  const { address, name, registered, funded, updateBalances, updateRegistered, selectedWallet } = useAccount()
+
+  const [modalStep, setModalStep] = useState(0)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const buttonColor: string = useAppSelector(selectEntityHeaderButtonColorUIConfig)
+
+  const modalSteps: ModalStep[] = [
+    // Step 0: No connected account
+    {
+      title: 'Connect Your Wallet',
+      content: <ConnectAccount />,
+    },
+    // Step 1: Fund account
+    {
+      title: 'Fund Your Account',
+      content: <FundYourAccount />,
+    },
+    {
+      title: 'Account',
+      content: <AccountModal />,
+    },
+    // Additional steps...
+  ]
 
   useEffect(() => {
-    if (address && registered === false) {
-      setIsModalOpen(true)
-    } else if (registered === true) {
-      setIsModalOpen(false)
+    if (!address) {
+      setModalStep(0)
+    } else if (address && !registered) {
+      setModalStep(1)
+    } else {
+      setModalStep(2) // Assuming step 2 is already implemented as the registered state
     }
   }, [address, registered])
 
-  const handleBurgerClick = (): void => {
+  const handleBurgerClick = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen)
   }
-  const handleToggleModal = (isModalOpen: boolean): void => {
-    setIsModalOpen(isModalOpen)
-  }
-  const handleLedgerDid = async (): Promise<void> => {
-    if (signingClient && address && did && pubKey && keyType) {
-      const res = await CreateIidDoc(signingClient, { address, did, pubKey: pubKeyUint8!, keyType })
-      updateRegistered(!!res)
-    } else {
-      console.error('handleLedgerDid', { signingClient, address, did, pubKey, keyType })
-    }
-  }
 
-  const handledFunded = (): void => {
-    updateBalances()
+  const renderModalContent = () => {
+    return modalSteps[modalStep].content
   }
-
-  const renderModalHeader = (): {
-    title: string
-    titleNoCaps?: boolean
-  } => {
-    if (name) {
-      return {
-        title: 'Hi, ' + truncateString(name, 20, 'end'),
-        titleNoCaps: true,
-      }
-    } else {
-      return {
-        title: '',
-        titleNoCaps: undefined,
-      }
-    }
-  }
-
-  const renderModalData = (): JSX.Element => {
-    if (!funded) {
-      return (
-        <ModalData>
-          <Success width='64' fill={theme.ixoNewBlue} />
-          <h3 style={{ textTransform: 'uppercase' }}>YOU HAVE SUCCESSFULLY INSTALLED {selectedWallet}</h3>
-          <p>
-            <span>NEXT STEP - </span>Fund your Account with IXO Tokens to Register your self-sovereign identity on the
-            blockchain
-            <br />
-            (This requires a small amount of IXO for gas).
-            <br />
-            Your Account address is <span>{address || '-'}</span>
-          </p>
-          <Button type={ButtonTypes.dark} onClick={handledFunded}>
-            I HAVE FUNDED MY ACCOUNT
-          </Button>
-          <InfoLink
-            href='https://medium.com/ixo-blog/the-ixo-keysafe-kyc-and-becoming-an-ixo-member-ef33d9e985b6'
-            target='_blank'
-          >
-            Why do I need to sign my credentials?
-          </InfoLink>
-        </ModalData>
-      )
-    } else if (!registered) {
-      return (
-        <ModalData>
-          <p>
-            YOUR ACCOUNT HAS SUCCESSFULLY BEEN FUNDED
-            <br />
-            Now you can Register your self-sovereign identity on the blockchain, which will deduct a small gas fee from
-            your account.
-          </p>
-          <Button type={ButtonTypes.dark} onClick={handleLedgerDid}>
-            SIGN THIS REQUEST
-          </Button>
-        </ModalData>
-      )
-    } else {
-      return (
-        <ModalData>
-          <ProfileModal />
-        </ModalData>
-      )
-    }
-  }
-
-  const { headerUIConfig } = props
 
   let customBackground = '#000000'
-  if (headerUIConfig) {
-    const { background } = headerUIConfig
-    if (background) {
-      customBackground = background
-    }
+  if (headerUIConfig?.background) {
+    customBackground = headerUIConfig.background
   }
+
+  if (!entityType) return null
 
   return (
     <TopBar
-      className={`container-fluid ${isMobileMenuOpen === true ? 'openMenu' : ''}`}
-      color={buttonColor}
+      className={`container-fluid ${isMobileMenuOpen ? 'openMenu' : ''}`}
+      color={headerUIConfig?.buttonColor}
       background={customBackground}
     >
-      <ModalWrapper isModalOpen={isModalOpen} handleToggleModal={handleToggleModal} header={renderModalHeader()}>
-        {renderModalData()}
+      <ModalWrapper isModalOpen={opened} handleToggleModal={handlers.toggle}>
+        {renderModalContent()}
       </ModalWrapper>
       <div className='row'>
-        <HeaderLeft
-          currentEntity={props.entityType!}
-          openMenu={isMobileMenuOpen}
-          handleBurgerClick={handleBurgerClick}
-        />
-        <MediaQuery minWidth={`${deviceWidth.desktop}px`}>
-          <HeaderRight toggleModal={handleToggleModal} />
-        </MediaQuery>
+        <HeaderLeft currentEntity={entityType} openMenu={isMobileMenuOpen} handleBurgerClick={handleBurgerClick} />
+        <HeaderRight toggleModal={handlers.open} />
       </div>
     </TopBar>
   )
 }
-
 const mapStateToProps = (state: RootState): Record<string, any> => ({
   entityType: entitiesSelectors.selectSelectedEntitiesType(state),
   headerUIConfig: entitiesSelectors.selectEntityHeaderUIConfig(state),

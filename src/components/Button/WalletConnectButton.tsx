@@ -68,7 +68,7 @@ const WalletConnectButton: React.FC<Props> = ({ onClick }) => {
   }, [])
 
   return !address ? (
-    <ConnectButton onClick={onConnect} disabled={isConnecting}>
+    <ConnectButton onClick={onClick} disabled={isConnecting}>
       <Typography variant='secondary' size='md'>
         {isConnecting ? 'Connecting...' : 'Connect'}
       </Typography>

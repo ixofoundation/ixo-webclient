@@ -7,7 +7,7 @@ import WalletConnectButton from 'components/Button/WalletConnectButton'
 import { useTheme } from 'styled-components'
 
 interface HeaderRightProps {
-  toggleModal: (IsOpen: boolean) => void
+  toggleModal: () => void
 }
 
 const HeaderRight: React.FC<HeaderRightProps> = ({ toggleModal }): JSX.Element => {
@@ -16,7 +16,7 @@ const HeaderRight: React.FC<HeaderRightProps> = ({ toggleModal }): JSX.Element =
   const { address, registered } = useAccount()
 
   const onClickConnectInfo = (): void => {
-    toggleModal(true)
+    toggleModal()
   }
 
   const renderLightIndicator = (): JSX.Element => {

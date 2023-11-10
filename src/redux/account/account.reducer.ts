@@ -2,7 +2,7 @@ import { WalletType } from 'types/wallet'
 import { AccountActionTypes, AccountActions, AccountState } from './account.types'
 
 export const initialState: AccountState = {
-  selectedWallet: WalletType.Keplr,
+  selectedWallet: WalletType,
   connectedWallet: undefined,
   name: undefined,
   registered: undefined,
