@@ -55,6 +55,23 @@ const SetupMetadata: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }):
     [updateStartEndDate],
   )
 
+  const setMetrics = useCallback((metrics: any[]) => handleUpdateProfile('metrics', metrics), [handleUpdateProfile])
+  const setType = useCallback((type: string) => handleUpdateProfile('type', type), [handleUpdateProfile])
+  const setTitle = useCallback((name: string) => handleUpdateProfile('name', name), [handleUpdateProfile])
+  const setDescription = useCallback(
+    (description: string) => handleUpdateProfile('description', description),
+    [handleUpdateProfile],
+  )
+  const setBrand = useCallback((brand: string) => handleUpdateProfile('brand', brand), [handleUpdateProfile])
+  const setLocation = useCallback(
+    (location: string) => handleUpdateProfile('location', location),
+    [handleUpdateProfile],
+  )
+  const setAttributes = useCallback(
+    (attributes: any[]) => handleUpdateProfile('attributes', attributes),
+    [handleUpdateProfile],
+  )
+
   const emptyArray = useMemo(() => [], [])
 
   return (
@@ -63,9 +80,9 @@ const SetupMetadata: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }):
         <Box className='mb-2' />
         <ClaimProfileForm
           type={profile?.type || ''}
-          setType={(type: string) => handleUpdateProfile('type', type)}
+          setType={setType}
           title={profile?.name || ''}
-          setTitle={(name: string) => handleUpdateProfile('name', name)}
+          setTitle={setTitle}
           description={profile?.description || ''}
           error={{
             title: profile?.name && claimNameFound ? 'Duplicated Name' : '',
@@ -77,15 +94,15 @@ const SetupMetadata: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }):
           <EntityAdditionalInfoForm
             entityType={entityType}
             description={profile?.description ?? ''}
-            setDescription={(description: string) => handleUpdateProfile('description', description)}
+            setDescription={setDescription}
             brand={profile?.brand ?? ''}
-            setBrand={(brand: string) => handleUpdateProfile('brand', brand)}
+            setBrand={setBrand}
             location={profile?.location ?? ''}
-            setLocation={(location: string) => handleUpdateProfile('location', location)}
+            setLocation={setLocation}
             metrics={profile?.metrics ?? emptyArray}
-            setMetrics={(metrics: any[]) => handleUpdateProfile('metrics', metrics)}
+            setMetrics={setMetrics}
             attributes={profile?.attributes ?? emptyArray}
-            setAttributes={(attributes: any[]) => handleUpdateProfile('attributes', attributes)}
+            setAttributes={setAttributes}
             startDate={startDate}
             endDate={endDate}
             setStartEndDate={handleSetStartEndDate}

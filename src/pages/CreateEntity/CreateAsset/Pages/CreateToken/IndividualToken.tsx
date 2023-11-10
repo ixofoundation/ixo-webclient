@@ -164,12 +164,12 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
 
   const handleUpdateProfile = useCallback(
     (key: string, value: any): void => {
-      setProfile({
-        ...profile,
+      setProfile((prevProfile) => ({
+        ...prevProfile,
         [key]: value,
-      })
+      }))
     },
-    [setProfile, profile],
+    [setProfile],
   )
 
   const handleSubmit = (): void => {
