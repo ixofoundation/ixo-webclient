@@ -19,6 +19,7 @@ import { useGetClaimCollectionsByEntityId } from 'graphql/claims'
 import ClaimCollectionCreationSuccessStep from './Success'
 import { useGetUserGranteeRole } from 'hooks/claim'
 import { AgentRoles } from 'types/models'
+import { useGetEntityByIdLazyQuery } from 'graphql/entities'
 
 const ClaimCollectionCreation: React.FC = () => {
   const { entityId } = useParams<{ entityId: string }>()
@@ -27,6 +28,7 @@ const ClaimCollectionCreation: React.FC = () => {
   const { signingClient, signer } = useAccount()
   const { isExist: isCollectionExist } = useGetClaimCollectionsByEntityId(entityId)
   const userRole = useGetUserGranteeRole()
+  const { fetchEntityById } = useGetEntityByIdLazyQuery()
 
   const [step, setStep] = useState<'start' | 'select' | 'scope' | 'payment' | 'submission' | 'review' | 'success'>(
     'start',
@@ -52,39 +54,37 @@ const ClaimCollectionCreation: React.FC = () => {
   const [loading, setLoading] = useState(false)
 
   async function CreateDeedOffer(collectionId: string | number) {
-    try {
-      if (!data.protocolDeedId || !collectionId) {
-        // eslint-disable-next-line no-throw-literal
-        throw 'Invalid parameters'
-      }
-      const linkedEntity: LinkedEntity[] = [
-        ixo.iid.v1beta1.LinkedEntity.fromPartial({
-          id: String(collectionId),
-          type: 'ClaimCollection',
-          service: 'ixo',
-          relationship: 'submission',
-        }),
-        ixo.iid.v1beta1.LinkedEntity.fromPartial({
-          id: entityId,
-          type: entityType,
-          service: 'ixo',
-          relationship: 'offers',
-        }),
-      ]
-
-      const res = await CreateEntity(signingClient, signer, [
-        {
-          entityType: 'deed/offer',
-          linkedEntity,
-          context: [{ key: 'class', val: data.protocolDeedId }],
-        },
-      ])
-      const protocolDid = utils.common.getValueFromEvents(res, 'wasm', 'token_id')
-      console.log({ protocolDid })
-    } catch (e) {
-      console.error(e)
-      errorToast(e)
+    if (!data.protocolDeedId || !collectionId) {
+      // eslint-disable-next-line no-throw-literal
+      throw 'Invalid parameters'
     }
+    const linkedEntity: LinkedEntity[] = [
+      ixo.iid.v1beta1.LinkedEntity.fromPartial({
+        id: String(collectionId),
+        type: 'ClaimCollection',
+        service: 'ixo',
+        relationship: 'submission',
+      }),
+      ixo.iid.v1beta1.LinkedEntity.fromPartial({
+        id: entityId,
+        type: entityType,
+        service: 'ixo',
+        relationship: 'offers',
+      }),
+    ]
+
+    const res = await CreateEntity(signingClient, signer, [
+      {
+        entityType: 'deed/offer',
+        linkedEntity,
+        context: [{ key: 'class', val: data.protocolDeedId }],
+      },
+    ])
+    if (res.code !== 0) {
+      throw res.rawLog
+    }
+    const did = utils.common.getValueFromEvents(res, 'wasm', 'token_id')
+    return did
   }
 
   async function handleSignToCreate() {
@@ -115,8 +115,12 @@ const ClaimCollectionCreation: React.FC = () => {
         'collection',
         (c) => c.id,
       )
-      await CreateDeedOffer(collectionId)
-      successToast(null, 'Create Offer successfully!')
+      const deedOfferDid = await CreateDeedOffer(collectionId)
+      if (deedOfferDid) {
+        fetchEntityById(deedOfferDid)
+      }
+
+      successToast(null, 'Create Deed Offer successfully!')
       setStep('success')
     } catch (e) {
       console.error(e)

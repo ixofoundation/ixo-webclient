@@ -41,12 +41,14 @@ const Actions: React.FC<Props> = () => {
           },
         ]}
       />
-      <ApplyToJoinModal
-        offers={deedOffers}
-        open={applyToJoinModalOpen}
-        onClose={() => setApplyToJoinModalOpen(false)}
-        onSubmit={handleSubmit}
-      />
+      {applyToJoinModalOpen && (
+        <ApplyToJoinModal
+          offers={deedOffers}
+          open={applyToJoinModalOpen}
+          onClose={() => setApplyToJoinModalOpen(false)}
+          onSubmit={handleSubmit}
+        />
+      )}
     </>
   )
 }

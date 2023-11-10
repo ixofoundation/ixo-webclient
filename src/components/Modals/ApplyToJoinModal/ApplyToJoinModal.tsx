@@ -96,7 +96,7 @@ const ApplyToJoinModal: React.FC<Props> = ({ offers, open, onClose, onSubmit }):
               size='flex'
               disabled={!selectedCollectionId}
             >
-              Continue as Evaluator Agent
+              Continue as Evaluation Agent
             </Button>
           </ModalRow>
         </ModalBody>

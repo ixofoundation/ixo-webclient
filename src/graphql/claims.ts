@@ -29,6 +29,7 @@ export function useGetClaimCollection(collectionId: string | number) {
   const { loading, error, data, refetch } = useQuery(GET_CLAIM_COLLECTION, {
     variables: { collectionId: String(collectionId) },
     skip: !collectionId,
+    pollInterval: 5 * 1000,
   })
   return { loading, error, data: data?.claimCollection ?? {}, refetch }
 }
@@ -106,6 +107,7 @@ export function useGetClaimCollectionsByEntityId(entityId: string) {
   const { loading, error, data, refetch } = useQuery(GET_CLAIM_COLLECTIONS_BY_ENTITYID, {
     variables: { entityId },
     skip: !validateEntityDid(entityId),
+    pollInterval: 5 * 1000,
   })
   return {
     loading,
@@ -166,6 +168,7 @@ const GET_CLAIMS = gql`
 export function useGetClaims(collectionId: string | number) {
   const { loading, error, data, refetch } = useQuery(GET_CLAIMS, {
     variables: { collectionId: String(collectionId) },
+    pollInterval: 5 * 1000,
   })
 
   return { loading, error, data: data?.claims?.nodes ?? [], refetch }

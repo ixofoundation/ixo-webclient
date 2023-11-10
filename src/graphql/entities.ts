@@ -1,7 +1,10 @@
 import { gql, useLazyQuery, useQuery } from '@apollo/client'
 import { useEffect, useState } from 'react'
-import { serviceEndpointToUrl } from 'utils/entities'
+import { useAppDispatch } from 'redux/hooks'
+import { apiEntityToEntity, serviceEndpointToUrl } from 'utils/entities'
 import { validateEntityDid } from 'utils/validation'
+import { updateEntityAction, updateEntityPropertyAction } from 'redux/entitiesExplorer/entitiesExplorer.actions'
+import { useAccount } from 'hooks/account'
 
 // GET_ALL_ENTITIES
 const GET_ALL_ENTITIES = gql`
@@ -63,7 +66,7 @@ const GET_ALL_DEED_OFFER_ENTITIES = gql`
   }
 `
 export function useGetAllDeedOfferEntities() {
-  const { loading, error, data, refetch } = useQuery(GET_ALL_DEED_OFFER_ENTITIES)
+  const { loading, error, data, refetch } = useQuery(GET_ALL_DEED_OFFER_ENTITIES, { pollInterval: 5 * 1000 })
   return { loading, error, data: data?.entities?.nodes ?? [], refetch }
 }
 
@@ -140,6 +143,8 @@ export function useGetEntityById(id: string) {
 }
 
 export function useGetEntityByIdLazyQuery() {
+  const dispatch = useAppDispatch()
+  const { cwClient } = useAccount()
   const [getEntityById, { loading, error, data, refetch }] = useLazyQuery(GET_ENTITY_BY_ID)
 
   const fetchEntityById = (id: string) => {
@@ -147,6 +152,17 @@ export function useGetEntityByIdLazyQuery() {
       getEntityById({ variables: { id } })
     }
   }
+
+  useEffect(() => {
+    if (data?.entity) {
+      const entityId = data?.entity.id
+      dispatch(updateEntityAction(data?.entity))
+      apiEntityToEntity({ entity: data?.entity, cwClient }, (key, data, merge = false) => {
+        dispatch(updateEntityPropertyAction(entityId, key, data, merge))
+      })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [JSON.stringify(data?.entity)])
 
   return { loading, error, data: data?.entity, refetch, fetchEntityById }
 }
