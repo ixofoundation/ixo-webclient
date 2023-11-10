@@ -50,16 +50,7 @@ const EntityDescriptionForm: React.FC<Props> = ({
           handleChange={(name: string): void => setBrand(name)}
         />
       )}
-      {setLocation && (
-        <CountryDropDown
-          value={location || ''}
-          onChange={setLocation}
-          onBlur={setLocation}
-          onFocus={() => {
-            //
-          }}
-        />
-      )}
+      {setLocation && <CountryDropDown value={location || ''} onChange={setLocation} onBlur={setLocation} />}
       {setStartEndDate && (
         <DateRangePicker
           id='protocol'

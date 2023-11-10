@@ -1,5 +1,5 @@
+import React, { useCallback, useMemo } from 'react'
 import { Box } from 'components/App/App.styles'
-import React, { useMemo } from 'react'
 import { useCreateEntityState } from 'hooks/createEntity'
 import { Button } from '../../../Components'
 import { EntityAdditionalInfoForm, ClaimProfileForm } from '../../../Forms'
@@ -28,35 +28,44 @@ const SetupMetadata: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }):
     [profile, claimNameFound],
   )
 
-  const handlePrev = (): void => {
+  const handlePrev = useCallback((): void => {
     history.push(`${baseLink}/process`)
-  }
-  const handleNext = (): void => {
-    history.push(`${baseLink}/collection`)
-  }
+  }, [history, baseLink])
 
-  const handleUpdateProfile = (key: string, value: any): void => {
-    updateProfile({
-      ...profile,
-      [key]: value,
-    })
-  }
+  const handleNext = useCallback((): void => {
+    history.push(`${baseLink}/collection`)
+  }, [history, baseLink])
+
+  const handleUpdateProfile = useCallback(
+    (key: string, value: any): void => {
+      updateProfile({
+        ...profile,
+        [key]: value,
+      })
+    },
+    [updateProfile, profile],
+  )
+
+  const handleSetStartEndDate = useCallback(
+    (startDate: string, endDate: string) => {
+      if (updateStartEndDate) {
+        updateStartEndDate({ startDate, endDate })
+      }
+    },
+    [updateStartEndDate],
+  )
+
+  const emptyArray = useMemo(() => [], [])
 
   return (
     <PageWrapper>
       <Box className='d-flex flex-column'>
-        {/* <Box className='d-flex align-items-center justify-content-between'>
-          <Typography weight='medium' size='xl'>
-            Localisation:
-          </Typography>
-          <LocalisationForm localisation={localisation} setLocalisation={updateLocalisation} />
-        </Box> */}
         <Box className='mb-2' />
         <ClaimProfileForm
           type={profile?.type || ''}
-          setType={(type: string): void => handleUpdateProfile('type', type)}
+          setType={(type: string) => handleUpdateProfile('type', type)}
           title={profile?.name || ''}
-          setTitle={(name: string): void => handleUpdateProfile('name', name)}
+          setTitle={(name: string) => handleUpdateProfile('name', name)}
           description={profile?.description || ''}
           error={{
             title: profile?.name && claimNameFound ? 'Duplicated Name' : '',
@@ -68,23 +77,18 @@ const SetupMetadata: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }):
           <EntityAdditionalInfoForm
             entityType={entityType}
             description={profile?.description ?? ''}
-            setDescription={(description): void => handleUpdateProfile('description', description)}
+            setDescription={(description: string) => handleUpdateProfile('description', description)}
             brand={profile?.brand ?? ''}
-            setBrand={(brand): void => handleUpdateProfile('brand', brand)}
+            setBrand={(brand: string) => handleUpdateProfile('brand', brand)}
             location={profile?.location ?? ''}
-            setLocation={(location): void => handleUpdateProfile('location', location)}
-            metrics={profile?.metrics ?? []}
-            setMetrics={(metrics): void => handleUpdateProfile('metrics', metrics)}
-            attributes={profile?.attributes ?? []}
-            setAttributes={(attributes): void => handleUpdateProfile('attributes', attributes)}
+            setLocation={(location: string) => handleUpdateProfile('location', location)}
+            metrics={profile?.metrics ?? emptyArray}
+            setMetrics={(metrics: any[]) => handleUpdateProfile('metrics', metrics)}
+            attributes={profile?.attributes ?? emptyArray}
+            setAttributes={(attributes: any[]) => handleUpdateProfile('attributes', attributes)}
             startDate={startDate}
             endDate={endDate}
-            setStartEndDate={(startDate, endDate) => {
-              updateStartEndDate({
-                startDate,
-                endDate,
-              })
-            }}
+            setStartEndDate={handleSetStartEndDate}
           />
         </Box>
 

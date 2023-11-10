@@ -1,3 +1,4 @@
+import { useCallback } from 'react'
 import CountryDropDown from '../../../Controls/IconDropDown/CountryDropDown/CountryDropDown'
 
 interface Props {
@@ -9,14 +10,19 @@ interface Props {
 }
 
 const CountrySelector: React.FunctionComponent<Props> = ({ id, value, onChange, onBlur, onFocus }) => {
-  return (
-    <CountryDropDown
-      value={value}
-      onBlur={(value): void => onBlur(id, value)}
-      onFocus={(value): void => onFocus(id, value)}
-      onChange={onChange}
-    ></CountryDropDown>
+  const handleBlur = useCallback(
+    (value: string) => {
+      onBlur(id, value)
+    },
+    [onBlur, id],
   )
+  const handleFocus = useCallback(
+    (value: string) => {
+      onFocus(id, value)
+    },
+    [onFocus, id],
+  )
+  return <CountryDropDown value={value} onBlur={handleBlur} onFocus={handleFocus} onChange={onChange}></CountryDropDown>
 }
 
 export default CountrySelector

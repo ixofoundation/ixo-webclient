@@ -1,6 +1,6 @@
 import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { TEntityAttributeModel, TEntityMetricModel } from 'types/entities'
 import { EntityAttributesForm } from './EntityAttributesForm'
 import { EntityDescriptionForm } from './EntityDescriptionForm'
@@ -73,6 +73,15 @@ const EntityAdditionalInfoForm: React.FC<Props> = ({
       </Typography>
     </FlexBox>
   )
+
+  const handleSetStartEndDate = useCallback(
+    (val1: string, val2: string) => {
+      if (setStartEndDate) {
+        setStartEndDate(val1, val2)
+      }
+    },
+    [setStartEndDate],
+  )
   return (
     <>
       {renderTabs()}
@@ -90,7 +99,7 @@ const EntityAdditionalInfoForm: React.FC<Props> = ({
             setAutoGenerateZLottie={setAutoGenerateZLottie}
             startDate={startDate}
             endDate={endDate}
-            setStartEndDate={(val1, val2): void => setStartEndDate && setStartEndDate(val1, val2)}
+            setStartEndDate={handleSetStartEndDate}
           />
         )}
         {tab === 'metrics' && <EntityMetricsForm metrics={metrics} setMetrics={setMetrics} />}
