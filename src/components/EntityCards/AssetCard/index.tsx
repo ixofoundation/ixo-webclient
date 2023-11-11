@@ -8,8 +8,10 @@ import { thousandSeparator } from 'utils/formatters'
 import { HorizontalLine } from 'components/HorizontalLine'
 import { Tag } from 'components'
 import { getEntityIcon } from 'utils/getEntityIcon'
+import { useHistory } from 'react-router-dom'
 
 interface Props extends HTMLFlexBoxProps {
+  id?: string
   collectionName?: string | null
   cardImage: string
   type: string
@@ -23,7 +25,7 @@ interface Props extends HTMLFlexBoxProps {
   maxSupply: string | number
 }
 
-const AssetCard: React.FC<Props> = ({
+export const AssetCard: React.FC<Props> = ({
   collectionName,
   cardImage,
   accountTokens,
@@ -35,17 +37,32 @@ const AssetCard: React.FC<Props> = ({
   type,
   assetNumber,
   maxSupply,
+  id,
   ...rest
 }): JSX.Element | null => {
   const theme: any = useTheme()
+  const history = useHistory()
 
   return (
-    <FlexBox direction='column' width='100%' borderRadius={'10px'} height='100%' overflow='hidden' {...rest}>
+    <FlexBox
+      direction='column'
+      width='100%'
+      borderRadius={'10px'}
+      height='100%'
+      overflow='hidden'
+      hover={{ boxShadow: '0px 10px 25px 0px rgba(0, 0, 0, 0.15)' }}
+      onClick={() =>
+        history.push({
+          pathname: `/entity/${id}/overview`,
+        })
+      }
+      {...rest}
+    >
       <FlexBox
         position='relative'
         background={`url(${cardImage})`}
         width='100%'
-        height='50%'
+        height='200px'
         backgroundSize='100% 100%'
       >
         <FlexBox gap={1} alignItems='center' height='24px' margin='10px'>
@@ -153,5 +170,3 @@ const AssetCard: React.FC<Props> = ({
     </FlexBox>
   )
 }
-
-export default AssetCard

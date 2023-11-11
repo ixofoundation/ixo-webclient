@@ -13,7 +13,7 @@ import { omitKey } from 'utils/objects'
 // import { v4 as uuidv4 } from 'uuid'
 import { Box } from 'components/App/App.styles'
 import { Button } from 'pages/CreateEntity/Components'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useCreateEntityState } from 'hooks/createEntity'
 import { TCreateEntityModel } from 'redux/createEntity/createEntity.types'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
@@ -162,12 +162,19 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
     setEntityLinkedResource((pre) => omitKey(pre, id))
   }
 
-  const handleUpdateProfile = (key: string, value: any): void => {
-    setProfile({
-      ...profile,
-      [key]: value,
-    })
-  }
+  const handleUpdateProfile = useCallback(
+    (key: string, value: any): void => {
+      setProfile((prevProfile) => ({
+        ...prevProfile,
+        [key]: value,
+      }))
+    },
+    [setProfile],
+  )
+  const setDescription = useCallback(
+    (description: string) => handleUpdateProfile('description', description),
+    [handleUpdateProfile],
+  )
 
   const handleSubmit = (): void => {
     // TODO:
@@ -335,7 +342,7 @@ const IndividualToken: React.FC<Props> = ({ SN, token, goBack }): JSX.Element =>
               <EntityDescriptionForm
                 entityType={entityType}
                 description={profile?.description}
-                setDescription={(description): void => handleUpdateProfile('description', description)}
+                setDescription={setDescription}
                 brand={profile?.brand}
                 location={profile?.location}
                 startDate={(profile as any)?.startDate}
