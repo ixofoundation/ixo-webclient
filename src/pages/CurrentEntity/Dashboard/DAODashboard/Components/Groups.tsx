@@ -191,12 +191,24 @@ const Groups: React.FC<Props> = ({ selectedGroup, selectDaoGroup }): JSX.Element
     return null
   }
 
+  const groups = Object.values(daoGroups).sort((group) => {
+    if (group.coreAddress === daoController) {
+      return -1
+    }
+    // If 'b' has the 'priority' property and 'a' doesn't, 'b' comes first
+    if (group.coreAddress !== daoController) {
+      return 1
+    }
+    // If neither or both have the property, retain original order
+    return 0
+  })
+
   return (
     <Box mb={4} width='100%'>
       <Card icon={<GroupsIcon />} label='Groups'>
         <Box width='100%' color='white'>
           <StyledSlider {...settings}>
-            {Object.values(daoGroups).map((daoGroup: TDAOGroupModel) => (
+            {groups.map((daoGroup: TDAOGroupModel) => (
               <div key={daoGroup.coreAddress} style={{ width: 240 }}>
                 {renderGroupCard(daoGroup)}
               </div>

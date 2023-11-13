@@ -62,7 +62,7 @@ const SelectCreationProcess: React.FC = (): JSX.Element => {
         case 'page':
           updatePage(value)
           break
-        case 'ddoTags':
+        case 'tags':
           updateDDOTags(value)
           break
         case 'service':

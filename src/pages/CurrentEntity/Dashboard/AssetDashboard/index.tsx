@@ -3,8 +3,15 @@ import useCurrentEntity from 'hooks/currentEntity'
 import { MatchType } from 'types/models'
 import _ from 'lodash'
 import { FlexBox } from 'components/App/App.styles'
-import AssetCard from 'components/AssetCard'
-import { AssetCreditsCard, AssetEventsTable, AssetPerformanceCard, AssetStatsCard, Card, MapImage } from 'components'
+import {
+  AssetCreditsCard,
+  AssetEventsTable,
+  AssetPerformanceCard,
+  AssetStatsCard,
+  Card,
+  MapImage,
+  AssetCard,
+} from 'components'
 import { useEffect, useMemo, useState } from 'react'
 import { useGetAccountTokens } from 'graphql/tokens'
 import { useGetCreatorProfileWithVerifiableCredential } from 'utils/asset'

@@ -222,8 +222,8 @@ const CreatorSetupModal: React.FC<Props> = ({ creator, title, open, onClose, onC
               {/* Country */}
               <CountryDropDown
                 value={formData?.location || ''}
-                onChange={(value) => handleFormDataChange('location', value)}
-                onBlur={(value) => handleFormDataChange('location', value)}
+                onChange={(value: string) => handleFormDataChange('location', value)}
+                onBlur={(value: string) => handleFormDataChange('location', value)}
                 onFocus={() => {
                   //
                 }}
