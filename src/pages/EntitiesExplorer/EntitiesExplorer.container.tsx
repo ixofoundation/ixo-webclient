@@ -123,7 +123,7 @@ const EntitiesExplorer = ({
               equalTo: relayerNode,
             },
             entityVerified: {
-              equalTo: false,
+              equalTo: true,
             },
           },
           {
@@ -131,7 +131,7 @@ const EntitiesExplorer = ({
               equalTo: relayerNode,
             },
             entityVerified: {
-              equalTo: false,
+              equalTo: true,
             },
           },
           {
@@ -143,7 +143,7 @@ const EntitiesExplorer = ({
               },
               {
                 entityVerified: {
-                  equalTo: false,
+                  equalTo: true,
                 },
               },
             ],
@@ -152,7 +152,7 @@ const EntitiesExplorer = ({
             and: [
               {
                 entityVerified: {
-                  equalTo: false,
+                  in: [false, true],
                 },
               },
               {
