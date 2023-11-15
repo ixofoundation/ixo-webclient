@@ -4,8 +4,8 @@ export const addDays = (date: Date, days: number) => {
   return result
 }
 
-export const sleep = async (ms: number) => {
-  let timer: NodeJS.Timer
+export const sleep = async (ms: number): Promise<boolean> => {
+  let timer: ReturnType<typeof setTimeout>
   return new Promise((resolve) => {
     timer = setTimeout(() => {
       resolve(true)

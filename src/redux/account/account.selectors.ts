@@ -32,12 +32,9 @@ export const selectAccountCw20Tokens = createSelector(selectAccountState, (accou
   return Object.values(account.cw20Tokens)
 })
 
-export const selectAccountSelectedWallet = createSelector(
-  selectAccountState,
-  (account: AccountState): WalletType | undefined => {
-    return account.selectedWallet
-  },
-)
+export const selectAccountSelectedWallet = createSelector(selectAccountState, (account: AccountState): WalletType => {
+  return account.selectedWallet ?? WalletType.None
+})
 
 export const selectAccountConnectedWallet = createSelector(
   selectAccountState,

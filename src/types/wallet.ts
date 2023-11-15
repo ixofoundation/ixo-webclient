@@ -23,6 +23,7 @@ export enum WalletType {
   Twitter = 'twitter',
   WalletConnect = 'wc',
   ImpactXMobile = 'impactx_mobile',
+  None = 'none',
 }
 export interface IKeplrWalletConnectV1 extends Keplr {
   dontOpenAppOnEnable: boolean

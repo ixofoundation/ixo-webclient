@@ -6,7 +6,6 @@ import { truncateString } from 'utils/formatters'
 import { successToast } from 'utils/toast'
 import { ConnectButton } from './WalletConnectButton.styles'
 import { useTheme } from 'styled-components'
-import { WALLET_STORE_LOCAL_STORAGE_KEY } from 'hooks/configs'
 
 interface Props {
   onClick: () => void
@@ -16,12 +15,6 @@ const WalletConnectButton: React.FC<Props> = ({ onClick }) => {
   const theme: any = useTheme()
   const { address, name, connect, connectedWallet } = useAccount()
   const [isConnecting, setIsConnecting] = useState(false)
-
-  const onConnect = async () => {
-    setIsConnecting(true)
-    await connect()
-    setIsConnecting(false)
-  }
 
   // Keystore change event listener.
   useEffect(() => {
@@ -41,7 +34,7 @@ const WalletConnectButton: React.FC<Props> = ({ onClick }) => {
       // Reconnect to wallet, since name/address may have changed.
       if (connectedWallet) {
         setIsConnecting(true)
-        await connect()
+        await connect({})
         setIsConnecting(false)
       }
     }
@@ -54,18 +47,6 @@ const WalletConnectButton: React.FC<Props> = ({ onClick }) => {
       window.removeEventListener(windowKeystoreRefreshEvent, listener)
     }
   }, [connectedWallet, connect])
-
-  // Autoconnect
-  useEffect(() => {
-    ;(async () => {
-      if (localStorage && localStorage.getItem(WALLET_STORE_LOCAL_STORAGE_KEY)) {
-        setIsConnecting(true)
-        await connect()
-        setIsConnecting(false)
-      }
-    })()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
 
   return !address ? (
     <ConnectButton onClick={onClick} disabled={isConnecting}>

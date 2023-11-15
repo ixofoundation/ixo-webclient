@@ -1,70 +1,38 @@
-import React, { useEffect } from 'react'
-import { Text, Tabs, Flex } from '@mantine/core'
-import { QRCodeSVG } from 'qrcode.react'
-import useSignX from 'hooks/signX'
-import { useDispatch } from 'react-redux'
-import { connectAction } from 'redux/account/account.actions'
-import { WALLET_STORE_LOCAL_STORAGE_KEY } from 'hooks/configs'
-import Logo from 'assets/images/oval-x-icon.png'
+import React, { useEffect, useState } from 'react'
+import { Text, Tabs, Flex, Box, Anchor, TabsValue } from '@mantine/core'
 import { ReactComponent as KeplrIcon } from 'assets/images/icon-keplr.svg'
 import { ReactComponent as ImpactXIcon } from 'assets/images/x-icon.svg'
-import { WalletType } from 'types/wallet'
+import { ImpactXMobile } from './ImpactXMobileConnect'
+import { KeplrConnect } from './KeplrConnect'
+import Success from 'assets/icons/Success'
+import { Button, ButtonTypes } from '../Form/Buttons'
+import { useAccount } from 'hooks/account'
+import ProfileModal from 'components/Header/components/ProfileModal'
+import { GettingStarted } from './GettingStarted'
+import { useTheme } from 'styled-components'
 
-const ImpactXMobile = () => {
-  const { loginData, loginSuccess, loginError } = useSignX()
-  const dispatch = useDispatch()
+const WalletMenu = () => {
+  const [activeTab, setActiveTab] = useState('init') // default to 'Keplr'
 
-  useEffect(() => {
-    if (loginSuccess) {
-      console.log({ loginSuccess })
-      dispatch(
-        connectAction({ ...loginSuccess, publicKey: loginSuccess.pubKey, wallet: { type: WalletType.ImpactXMobile } }),
-      )
-      localStorage.setItem(WALLET_STORE_LOCAL_STORAGE_KEY, 'connected')
+  const handleTabChange = (value: TabsValue) => {
+    if (value) {
+      // Check if the value is not null
+      setActiveTab(value) // If it's a valid string, update the state
     }
-  }, [loginSuccess])
-
-  console.log({ loginData })
-
-  useEffect(() => {
-    if (loginError) {
-      console.error('Login error:', loginError)
-      // Handle the error, e.g., show an error message to the user
-    }
-  }, [loginError])
+  }
 
   return (
-    <Flex w='100%' h='100%' justify='center' align='center'>
-      {loginData && (
-        <QRCodeSVG
-          value={JSON.stringify(loginData)}
-          size={250}
-          bgColor={'#ffffff'}
-          fgColor={'#000000'}
-          level={'Q'}
-          style={{ padding: '20px', background: 'white', borderRadius: '20px' }}
-          imageSettings={{
-            src: Logo,
-            x: undefined,
-            y: undefined,
-            height: 30,
-            width: 30,
-            excavate: true,
-          }}
-        />
-      )}
-    </Flex>
-  )
-}
-
-export const WalletConnector = () => {
-  return (
-    <Tabs orientation='vertical' variant='pills' w={'650px'} h='500px'>
+    <Tabs orientation='vertical' variant='pills' w={'650px'} h='500px' onTabChange={handleTabChange} value={activeTab}>
       <Flex direction='column'>
         <Text color='white' size='xl' weight={'bold'} mb={30}>
           Connect Wallet
         </Text>
         <Tabs.List>
+          <Tabs.Tab value='init' hidden>
+            <Text color='white' size='md' weight='bolder' style={{}}>
+              Getting Started
+            </Text>{' '}
+          </Tabs.Tab>
           <Tabs.Tab value='Keplr' icon={<KeplrIcon scale={0.5} height={40} width={40} />}>
             <Text color='white' size='md' weight='bolder' style={{}}>
               Keplr
@@ -78,13 +46,104 @@ export const WalletConnector = () => {
         </Tabs.List>
       </Flex>
 
+      <Tabs.Panel value='init' p='xs'>
+        <GettingStarted />
+      </Tabs.Panel>
+
       <Tabs.Panel value='Keplr' p='xs'>
-        Messages tab content
+        {activeTab === 'Keplr' && <KeplrConnect />}
       </Tabs.Panel>
 
       <Tabs.Panel value='ImpactX' p='xs'>
-        <ImpactXMobile />
+        {activeTab === 'ImpactX' && <ImpactXMobile />}
       </Tabs.Panel>
     </Tabs>
   )
+}
+
+const FundYourAccount = () => {
+  const theme = useTheme() as any
+  const { address, selectedWallet, updateBalances } = useAccount()
+
+  const handledFunded = (): void => {
+    updateBalances()
+  }
+
+  return (
+    <Box>
+      <Success width='64' fill={theme.ixoNewBlue} />
+      <h3 style={{ textTransform: 'uppercase' }}>YOU HAVE SUCCESSFULLY INSTALLED {selectedWallet}</h3>
+      <p>
+        <span>NEXT STEP - </span>Fund your Account with IXO Tokens to Register your self-sovereign identity on the
+        blockchain
+        <br />
+        (This requires a small amount of IXO for gas).
+        <br />
+        Your Account address is <span>{address || '-'}</span>
+      </p>
+      <Button type={ButtonTypes.dark} onClick={handledFunded}>
+        I HAVE FUNDED MY ACCOUNT
+      </Button>
+      <Anchor
+        href='https://medium.com/ixo-blog/the-ixo-keysafe-kyc-and-becoming-an-ixo-member-ef33d9e985b6'
+        target='_blank'
+      >
+        Why do I need to sign my credentials?
+      </Anchor>
+    </Box>
+  )
+}
+
+const LedgerAccount = ({ handleLedgerDid }: any) => (
+  <Box>
+    <p>
+      YOUR ACCOUNT HAS SUCCESSFULLY BEEN FUNDED
+      <br />
+      Now you can Register your self-sovereign identity on the blockchain, which will deduct a small gas fee from your
+      account.
+    </p>
+    <Button type={ButtonTypes.dark} onClick={handleLedgerDid}>
+      SIGN THIS REQUEST
+    </Button>
+  </Box>
+)
+
+const AccountModal = () => (
+  <Box>
+    <ProfileModal />
+  </Box>
+)
+
+export const WalletConnector = () => {
+  const { address, registered } = useAccount()
+  const [modalStep, setModalStep] = useState(0)
+
+  const modalSteps = [
+    // Step 0: No connected account
+    {
+      title: 'Connect Your Wallet',
+      content: <WalletMenu />,
+    },
+    // Step 1: Fund account
+    {
+      title: 'Fund Your Account',
+      content: <FundYourAccount />,
+    },
+    {
+      title: 'Account',
+      content: <AccountModal />,
+    },
+  ]
+
+  useEffect(() => {
+    if (!address) {
+      setModalStep(0)
+    } else if (address && !registered) {
+      setModalStep(1)
+    } else {
+      setModalStep(2) // Assuming step 2 is already implemented as the registered state
+    }
+  }, [address, registered])
+
+  return modalSteps[modalStep].content
 }

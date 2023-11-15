@@ -203,9 +203,9 @@ const EntityExchange: FunctionComponent<Props> = ({
         <Route exact path='/exchange'>
           <Redirect to={`/exchange/trade/swap`} />
         </Route>
-        <Route exact path='/exchange/trade/swap' component={EntityExchangeTrade} />
-        <Route path='/exchange/trade/swap/wallet/:wallet' component={EntityExchangeTradeSwap} />
-        <Route exact path='/exchange/trade/:id' component={EntityExchangeTrade} />
+        {/* <Route exact path='/exchange/trade/swap' component={EntityExchangeTrade} /> */}
+        <Route exact path='/exchange/trade/swap' component={EntityExchangeTradeSwap} />
+        {/* <Route exact path='/exchange/trade/:id' component={EntityExchangeTrade} /> */}
       </Switch>
     </Dashboard>
   )

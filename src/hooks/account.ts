@@ -48,7 +48,7 @@ import { ChainInfo } from '@keplr-wallet/types'
 import { errorToast } from 'utils/toast'
 
 export function useAccount(): {
-  selectedWallet: WalletType | undefined
+  selectedWallet: WalletType
   connectedWallet: ConnectedWallet | undefined
   address: string
   signingClient: SigningStargateClient
@@ -66,7 +66,7 @@ export function useAccount(): {
   registered: boolean | undefined
   funded: boolean
   signer: TSigner
-  connect: () => Promise<void>
+  connect: ({ impactXData }: { impactXData?: any }) => Promise<void>
   disconnect: () => void
   updateBalances: () => Promise<void>
   updateNativeTokens: (balances: { [denom: string]: NativeToken }) => void
@@ -83,7 +83,7 @@ export function useAccount(): {
 } {
   const dispatch = useAppDispatch()
   const { convertToDenom } = useIxoConfigs()
-  const selectedWallet: WalletType | undefined = useAppSelector(selectAccountSelectedWallet)
+  const selectedWallet: WalletType = useAppSelector(selectAccountSelectedWallet)
   const connectedWallet: ConnectedWallet | undefined = useAppSelector(selectAccountConnectedWallet)
   const address: string = useAppSelector(selectAccountAddress)
   const signingClient: SigningStargateClient = useAppSelector(selectAccountSigningClient)
@@ -102,18 +102,39 @@ export function useAccount(): {
   const funded: boolean = useAppSelector(selectAccountFunded)
   const signer: TSigner = { address, did, pubKey: pubKeyUint8!, keyType }
 
-  const connect = async (): Promise<void> => {
+  const connect = async ({ impactXData }: { impactXData?: any }): Promise<void> => {
     try {
-      const chainInfo = await getKeplrChainInfo('impacthub', chainNetwork)
-      chainInfo.rest = process.env.REACT_APP_GAIA_URL || chainInfo.rest
-      const wallet = KeplrExtensionWallet
-      const walletClient = await wallet.getClient(chainInfo as ChainInfo)
-      if (!walletClient) {
-        throw new Error('Failed to retrieve wallet client.')
+      if (selectedWallet === WalletType.Keplr) {
+        const chainInfo = await getKeplrChainInfo('impacthub', chainNetwork)
+        chainInfo.rest = process.env.REACT_APP_GAIA_URL ?? chainInfo.rest
+        const wallet = KeplrExtensionWallet
+        const walletClient = await wallet.getClient(chainInfo as ChainInfo)
+        if (!walletClient) {
+          throw new Error('Failed to retrieve wallet client.')
+        }
+        const connectedWallet = await getConnectedWalletInfo(wallet, walletClient, chainInfo as ChainInfo)
+        dispatch(connectAction(connectedWallet))
+        localStorage.setItem(WALLET_STORE_LOCAL_STORAGE_KEY, JSON.stringify(connectedWallet))
       }
-      const connectedWallet = await getConnectedWalletInfo(wallet, walletClient, chainInfo as ChainInfo)
-      dispatch(connectAction(connectedWallet))
-      localStorage.setItem(WALLET_STORE_LOCAL_STORAGE_KEY, 'connected')
+      if (selectedWallet === WalletType.ImpactXMobile) {
+        if (impactXData) {
+          dispatch(
+            connectAction({
+              ...impactXData,
+              publicKey: impactXData.pubKey,
+              wallet: { type: WalletType.ImpactXMobile },
+            }),
+          )
+          localStorage.setItem(
+            WALLET_STORE_LOCAL_STORAGE_KEY,
+            JSON.stringify({
+              ...impactXData,
+              publicKey: impactXData.pubKey,
+              wallet: { type: WalletType.ImpactXMobile },
+            }),
+          )
+        }
+      }
     } catch (e: any) {
       console.error('connect wallet', e)
       errorToast('Connecting wallet', e.message)

@@ -198,80 +198,79 @@ const Swap: React.FunctionComponent = () => {
 
   return (
     <Flex w='100%' bg={theme.ixoDarkestBlue}>
-      {selectedAccountAddress && (
-        <Flex align='center' justify={hasInputData ? 'flex-start' : 'center'} w='100%'>
-          <Flex h='300px' mx={30} w={isSmallScreen ? '10%' : '30%'} justify='flex-end'>
-            {!isSmallScreen && hasInputData && (
-              <AssetCard {...inputAssetCardData} accountTokens={carbonTokens} width='250px' height='100%' />
-            )}
-          </Flex>
-          <TradePanel width={isSmallScreen ? '100%' : '40%'}>
-            {!viewSettings &&
-              (viewPairList === 'none' ? (
-                <RenderSwapPanel
-                  canSubmit={canSubmit}
-                  fromAmount={inputAsset.amount}
-                  fromTokenBalance={inputAsset.balance}
-                  fromTokenSelected={fromTokenSelected}
-                  fromUSDRate={inputAsset.usdAmount?.toNumber() || 0}
-                  fromToken={inputAsset.asset}
-                  setFromToken={handleInputTokenSelect}
-                  setFromTokenSelected={setFromTokenSelected}
-                  setToToken={handleOutputTokenSelect}
-                  setViewPairList={setViewPairList}
-                  viewSettings={viewSettings}
-                  setViewSettings={setViewSettings}
-                  toAmount={outputAsset.amount}
-                  handleFromAmountChange={handleFromAmountChange}
-                  handleSubmit={handleSubmit}
-                  handleSwapClick={handleSwapClick}
-                  swapError={swapError}
-                  swapErrorMsg={swapErrorMsg}
-                  networkName={networkName}
-                  slippage={slippage}
-                  toTokenBalance={outputAsset.balance}
-                  toUSDRate={outputAsset.usdAmount?.toNumber() || 0}
-                  toToken={outputAsset.asset}
-                />
-              ) : (
-                <RenderPairListPanel
-                  fromAmount={inputAsset.amount}
-                  fromTokenBalance={inputAsset.balance}
-                  fromTokenSelected={fromTokenSelected}
-                  fromUSDRate={inputAsset.usdAmount?.toNumber() || 0}
-                  fromToken={inputAsset.asset}
-                  setFromToken={handleInputTokenSelect}
-                  setFromTokenSelected={setFromTokenSelected}
-                  setToToken={handleOutputTokenSelect}
-                  setViewPairList={setViewPairList}
-                  viewSettings={viewSettings}
-                  setViewSettings={setViewSettings}
-                  toAmount={outputAsset.amount}
-                  handleFromAmountChange={handleFromAmountChange}
-                  toTokenBalance={outputAsset.balance}
-                  toUSDRate={outputAsset.usdAmount?.toNumber() || 0}
-                  toToken={outputAsset.asset}
-                  pairList={pairList}
-                  viewPairList={viewPairList}
-                  balances={balances}
-                />
-              ))}
-            {viewSettings && (
-              <RenderSettingsPanel
-                setViewSettings={setViewSettings}
-                viewSettings={viewSettings}
-                chainId={chainId}
-                setChainId={setChainId}
-              />
-            )}
-          </TradePanel>
-          <Flex h='300px' mx={30} w={isSmallScreen ? '10%' : '30%'} justify='flex-start'>
-            {!isSmallScreen && hasOutputData && (
-              <AssetCard {...outputAssetCardData} accountTokens={carbonTokens} width='250px' height='100%' />
-            )}
-          </Flex>
+      <Flex align='center' justify={hasInputData ? 'flex-start' : 'center'} w='100%'>
+        <Flex h='300px' mx={30} w={isSmallScreen ? '10%' : '30%'} justify='flex-end'>
+          {!isSmallScreen && hasInputData && (
+            <AssetCard {...inputAssetCardData} accountTokens={carbonTokens} width='250px' height='100%' />
+          )}
         </Flex>
-      )}
+        <TradePanel width={isSmallScreen ? '100%' : '40%'}>
+          {!viewSettings &&
+            (viewPairList === 'none' ? (
+              <RenderSwapPanel
+                canSubmit={canSubmit}
+                fromAmount={inputAsset.amount}
+                fromTokenBalance={inputAsset.balance}
+                fromTokenSelected={fromTokenSelected}
+                fromUSDRate={inputAsset.usdAmount?.toNumber() || 0}
+                fromToken={inputAsset.asset}
+                setFromToken={handleInputTokenSelect}
+                setFromTokenSelected={setFromTokenSelected}
+                setToToken={handleOutputTokenSelect}
+                setViewPairList={setViewPairList}
+                viewSettings={viewSettings}
+                setViewSettings={setViewSettings}
+                toAmount={outputAsset.amount}
+                handleFromAmountChange={handleFromAmountChange}
+                handleSubmit={handleSubmit}
+                handleSwapClick={handleSwapClick}
+                swapError={swapError}
+                swapErrorMsg={swapErrorMsg}
+                networkName={networkName}
+                slippage={slippage}
+                toTokenBalance={outputAsset.balance}
+                toUSDRate={outputAsset.usdAmount?.toNumber() || 0}
+                toToken={outputAsset.asset}
+              />
+            ) : (
+              <RenderPairListPanel
+                fromAmount={inputAsset.amount}
+                fromTokenBalance={inputAsset.balance}
+                fromTokenSelected={fromTokenSelected}
+                fromUSDRate={inputAsset.usdAmount?.toNumber() || 0}
+                fromToken={inputAsset.asset}
+                setFromToken={handleInputTokenSelect}
+                setFromTokenSelected={setFromTokenSelected}
+                setToToken={handleOutputTokenSelect}
+                setViewPairList={setViewPairList}
+                viewSettings={viewSettings}
+                setViewSettings={setViewSettings}
+                toAmount={outputAsset.amount}
+                handleFromAmountChange={handleFromAmountChange}
+                toTokenBalance={outputAsset.balance}
+                toUSDRate={outputAsset.usdAmount?.toNumber() || 0}
+                toToken={outputAsset.asset}
+                pairList={pairList}
+                viewPairList={viewPairList}
+                balances={balances}
+              />
+            ))}
+          {viewSettings && (
+            <RenderSettingsPanel
+              setViewSettings={setViewSettings}
+              viewSettings={viewSettings}
+              chainId={chainId}
+              setChainId={setChainId}
+            />
+          )}
+        </TradePanel>
+        <Flex h='300px' mx={30} w={isSmallScreen ? '10%' : '30%'} justify='flex-start'>
+          {!isSmallScreen && hasOutputData && (
+            <AssetCard {...outputAssetCardData} accountTokens={carbonTokens} width='250px' height='100%' />
+          )}
+        </Flex>
+      </Flex>
+
       <SwapModal
         open={openTransactionModal}
         setOpen={setOpenTransactionModal}

@@ -49,9 +49,10 @@ interface Props {
   status: TXStatus
   customDesc?: string
   hash?: string
+  noLottie?: boolean
 }
 
-const SignStep: React.FC<Props> = ({ status, hash, customDesc }) => {
+const SignStep: React.FC<Props> = ({ status, hash, customDesc, noLottie, children }) => {
   function chooseAnimation(status: any): any {
     switch (status) {
       case TXStatus.PENDING:
@@ -81,17 +82,20 @@ const SignStep: React.FC<Props> = ({ status, hash, customDesc }) => {
   }
   return (
     <TXStatusBoard className='mx-4 d-flex align-items-center flex-column'>
-      <Lottie
-        height={120}
-        width={120}
-        options={{
-          loop: true,
-          autoplay: true,
-          animationData: chooseAnimation(status),
-        }}
-      />
+      {!noLottie && (
+        <Lottie
+          height={120}
+          width={120}
+          options={{
+            loop: true,
+            autoplay: true,
+            animationData: chooseAnimation(status),
+          }}
+        />
+      )}
       <span className='status'>{status}</span>
       <span className='message'>{generateTXMessage(status)}</span>
+      {children}
       {customDesc && <span className='custom-message'>{customDesc}</span>}
       {status === TXStatus.SUCCESS && hash && (
         <div className='transaction mt-3' onClick={handleViewTransaction}>
