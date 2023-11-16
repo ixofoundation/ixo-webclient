@@ -1,0 +1,13 @@
+{
+  "name": "@ixo-webclient/types",
+  "version": "1.0.0",
+  "main": "src/index.ts",
+  "author": "zach",
+  "license": "MIT",
+  "dependencies": {
+    "@cosmjs/proto-signing": "^0.31.3",
+    "@ixo/impactxclient-sdk": "^1.1.15",
+    "@keplr-wallet/types": "^0.12.43",
+    "@walletconnect/client": "^1.8.0"
+  }
+}

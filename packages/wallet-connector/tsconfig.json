@@ -1,0 +1,11 @@
+{
+    "extends": "@ixo-webclient/tsconfig/base.json",
+    "compilerOptions": {
+      "baseUrl": ".",
+      "outDir": "build",
+      "declaration": true,
+      "rootDir": "src",
+      "jsx": "react-jsx"
+    },
+    "include": ["src/**/*"]
+  }

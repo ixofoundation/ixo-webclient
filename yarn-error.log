@@ -1,0 +1,59 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Program Files\nodejs\node_modules\yarn\bin\yarn.js
+
+PATH: 
+  C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\kapan\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0;C:\Windows\System32\OpenSSH;C:\Program Files\Git\cmd;C:\Users\kapan\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Program Files\Docker\Docker\resources\bin;C:\Program Files\Go\bin;C:\Program Files\MySQL\MySQL Shell 8.0\bin;C:\Users\kapan\AppData\Local\Microsoft\WindowsApps;C:\Users\kapan\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\kapan\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Users\kapan\Downloads\sonar-scanner-cli-4.7.0.2747-windows\sonar-scanner-4.7.0.2747-windows\bin;C:\Users\kapan\go\bin;C:\Program Files\PostgreSQL\16\bin
+
+Yarn version: 
+  1.22.19
+
+Node version: 
+  16.18.1
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: https://registry.yarnpkg.com/@ixo-webclient%2ftsconfig: Not found
+      at Request.params.callback [as _callback] (C:\Users\kapan\AppData\Roaming\nvm\v16.18.1\node_modules\yarn\lib\cli.js:66145:18)
+      at Request.self.callback (C:\Users\kapan\AppData\Roaming\nvm\v16.18.1\node_modules\yarn\lib\cli.js:140890:22)
+      at Request.emit (node:events:513:28)
+      at Request.<anonymous> (C:\Users\kapan\AppData\Roaming\nvm\v16.18.1\node_modules\yarn\lib\cli.js:141862:10)
+      at Request.emit (node:events:513:28)
+      at IncomingMessage.<anonymous> (C:\Users\kapan\AppData\Roaming\nvm\v16.18.1\node_modules\yarn\lib\cli.js:141784:12)
+      at Object.onceWrapper (node:events:627:28)
+      at IncomingMessage.emit (node:events:525:35)
+      at endReadableNT (node:internal/streams/readable:1358:12)
+      at processTicksAndRejections (node:internal/process/task_queues:83:21)
+
+npm manifest: 
+  {
+      "private": true,
+      "workspaces": {
+          "packages": [
+              "apps/*",
+              "packages/*"
+            ]
+      },
+        "name": "ixo-webclient",
+      "scripts": {
+        "build": "turbo run build",
+        "clean": "turbo run clean",
+        "dev": "turbo run dev --no-cache --continue",
+        "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+        "lint": "turbo run lint",
+        "test": "turbo run test"
+      },
+      "devDependencies": {
+        "prettier": "^2.7.1",
+        "@ixo-webclient/tsconfig": "workspace:^0.0.0",
+        "turbo": "latest"
+      },
+      "packageManager": "pnpm@8.9.0"
+    }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
