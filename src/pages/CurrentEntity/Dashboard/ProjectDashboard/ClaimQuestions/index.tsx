@@ -18,6 +18,7 @@ import { themeJson } from 'styles/surveyTheme'
 import { selectAccountSigningClient } from 'redux/account/account.selectors'
 import { SigningStargateClient } from '@ixo/impactxclient-sdk'
 import { selectEntityClaim } from 'redux/currentEntity/currentEntity.selectors'
+import { fetchWithRetry } from 'utils/fetch'
 
 const ClaimQuestions: React.FC = () => {
   const { claimId } = useParams<{ claimId: string }>()
@@ -47,7 +48,7 @@ const ClaimQuestions: React.FC = () => {
         const responses = await Promise.all(
           claimSchemaLinkedResources.map((item) => {
             const url = serviceEndpointToUrl(item.serviceEndpoint, templateEntity.service)
-            return fetch(url)
+            return fetchWithRetry(url, {}, 3, 1000)
               .then((response) => response.json())
               .then((response) => {
                 return response

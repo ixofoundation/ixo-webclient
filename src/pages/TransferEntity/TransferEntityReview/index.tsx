@@ -18,6 +18,7 @@ import { decodedMessagesString, makeStargateMessage } from 'utils/messages'
 import { getValueFromEvents } from 'utils/objects'
 import { depositInfoToCoin } from 'utils/conversions'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/DaoPreProposeSingle.types'
+import { fetchWithRetry } from 'utils/fetch'
 
 const TransferEntityToGroupButton: React.FC<{
   groupAddress: string
@@ -50,7 +51,7 @@ const TransferEntityToGroupButton: React.FC<{
     if (transferDocument) {
       const { serviceEndpoint } = transferDocument
       const url = serviceEndpointToUrl(serviceEndpoint, service)
-      fetch(url)
+      fetchWithRetry(url, {}, 3, 1000)
         .then((response) => response.json())
         .then((response) => {
           setVerificationMethods((response.keys ?? []).map((v: any) => ({ ...v, reEnable: true })))
@@ -224,7 +225,7 @@ const TransferEntityToAccountButton: React.FC<{
     if (transferDocument) {
       const { serviceEndpoint } = transferDocument
       const url = serviceEndpointToUrl(serviceEndpoint, service)
-      fetch(url)
+      fetchWithRetry(url, {}, 3, 1000)
         .then((response) => response.json())
         .then((response) => {
           setVerificationMethods((response.keys ?? []).map((v: any) => ({ ...v, reEnable: true })))

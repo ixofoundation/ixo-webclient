@@ -45,3 +45,10 @@ export const hasExpired = (expiration: Expiration): boolean => {
   // without more context, so return false or handle accordingly
   return false
 }
+
+export default function secondsTillTimeStamp(timeout: string): number {
+  const now = new Date()
+  const timeoutDate = new Date(timeout)
+  const diff = timeoutDate.getTime() - now.getTime()
+  return Math.floor(diff / 1000)
+}

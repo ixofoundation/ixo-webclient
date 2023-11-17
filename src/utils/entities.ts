@@ -21,6 +21,7 @@ import { CellnodePublicResource, CellnodeWeb3Resource } from '@ixo/impactxclient
 import Axios from 'axios'
 import { ApiListedEntityData } from 'api/blocksync/types/entities'
 import { get } from 'lodash'
+import { fetchWithRetry } from './fetch'
 
 export const getCountryCoordinates = (countryCodes: string[]): any[] => {
   const coordinates: any[] = []
@@ -153,7 +154,7 @@ export function apiEntityToEntity(
         if (item.type === 'Settings' || item.type === 'VerifiableCredential') {
           switch (item.id) {
             case '{id}#profile': {
-              fetch(url)
+              fetchWithRetry(url, {}, 3, 1000)
                 .then((response) => response.json())
                 .then((response) => {
                   const context = response['@context']
@@ -192,7 +193,7 @@ export function apiEntityToEntity(
               break
             }
             case '{id}#creator': {
-              fetch(url)
+              fetchWithRetry(url, {}, 3, 1000)
                 .then((response) => response.json())
                 .then((response) => response.credentialSubject)
                 .then((creator) => {
@@ -202,7 +203,7 @@ export function apiEntityToEntity(
               break
             }
             case '{id}#administrator': {
-              fetch(url)
+              fetchWithRetry(url, {}, 3, 1000)
                 .then((response) => response.json())
                 .then((response) => response.credentialSubject)
                 .then((administrator) => {
@@ -212,7 +213,7 @@ export function apiEntityToEntity(
               break
             }
             case '{id}#page': {
-              fetch(url)
+              fetchWithRetry(url, {}, 3, 1000)
                 .then((response) => response.json())
                 .then((response) => response.page)
                 .then((page) => {
@@ -222,7 +223,7 @@ export function apiEntityToEntity(
               break
             }
             case '{id}#tags': {
-              fetch(url)
+              fetchWithRetry(url, {}, 3, 1000)
                 .then((response) => response.json())
                 .then((response) => response.entityTags ?? response.ddoTags)
                 .then((tags) => {
@@ -235,14 +236,14 @@ export function apiEntityToEntity(
               break
           }
         } else if (item.type === 'Lottie') {
-          fetch(url)
+          fetchWithRetry(url, {}, 3, 1000)
             .then((response) => response.json())
             .then((token) => {
               updateCallback('zlottie', token)
             })
             .catch(() => undefined)
         } else if (item.type === 'TokenMetadata') {
-          fetch(url)
+          fetchWithRetry(url, {}, 3, 1000)
             .then((response) => response.json())
             .then((token) => {
               updateCallback('token', token)
@@ -250,7 +251,7 @@ export function apiEntityToEntity(
             .catch(() => undefined)
         } else if (item.type === 'ClaimSchema') {
           //
-          fetch(url)
+          fetchWithRetry(url, {}, 3, 1000)
             .then((response) => response.json())
             .then((response) => response.question)
             .then((question) => {
@@ -265,7 +266,7 @@ export function apiEntityToEntity(
       const url = serviceEndpointToUrl(item.serviceEndpoint, service)
 
       if (item.proof && url) {
-        fetch(url)
+        fetchWithRetry(url, {}, 3, 1000)
           .then((response) => response.json())
           .then((response) => {
             return response.entityClaims[0]

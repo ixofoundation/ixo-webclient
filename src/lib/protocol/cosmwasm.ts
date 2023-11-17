@@ -2,6 +2,7 @@ import { cosmos, cosmwasm, SigningStargateClient, utils } from '@ixo/impactxclie
 import BigNumber from 'bignumber.js'
 import Long from 'long'
 import { fee, TSigner } from './common'
+import { WalletType } from 'types/wallet'
 
 export const WasmInstantiateTrx = async (
   client: SigningStargateClient,
@@ -26,7 +27,6 @@ export const WasmInstantiateTrx = async (
         sender: address,
       }),
     }))
-
     const updatedFee = { ...fee, gas: new BigNumber(fee.gas).times(messages.length).toString() }
     const response = await client.signAndBroadcast(address, messages, updatedFee)
     return response
@@ -34,6 +34,39 @@ export const WasmInstantiateTrx = async (
     console.error('WasmInstantiateTrx', e)
     return undefined
   }
+}
+
+type ExecuteTransactionProps = {
+  client: SigningStargateClient
+  signer: TSigner
+  payload: { codeId: number; msg: string }[]
+  walletType: WalletType
+}
+
+export const executeTransaction = async ({ client, signer, payload, walletType }: ExecuteTransactionProps) => {
+  const { address, did } = signer
+  const messages = payload.map(({ codeId, msg }) => ({
+    typeUrl: '/cosmwasm.wasm.v1.MsgInstantiateContract',
+    value: cosmwasm.wasm.v1.MsgInstantiateContract.fromPartial({
+      admin: address,
+      codeId: Long.fromNumber(codeId),
+      funds: [
+        cosmos.base.v1beta1.Coin.fromPartial({
+          amount: '1',
+          denom: 'uixo',
+        }),
+      ],
+      label: did + 'contract' + codeId,
+      msg: utils.conversions.JsonToArray(msg),
+      sender: address,
+    }),
+  }))
+
+  if (WalletType.Keplr === walletType) {
+    await WasmInstantiateTrx(client, signer, payload)
+  }
+  //   if (WalletType.ImpactXMobile === walletType) {
+  //   }
 }
 
 export const WasmExecuteTrx = async (

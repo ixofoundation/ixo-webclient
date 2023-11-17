@@ -1,8 +1,9 @@
 import { useCallback, useState, useEffect } from 'react'
-import { SignX, hashTransactData } from '@ixo/signx-sdk'
+import { SignX } from '@ixo/signx-sdk'
 import { toHex } from '@cosmjs/encoding'
 import { AccountState } from 'redux/account/account.types'
 import { createRegistry } from '@ixo/impactxclient-sdk'
+import { useDisclosure } from '@mantine/hooks'
 
 // Initialize the SignX client outside of the hook to avoid reinitialization on every render
 const signXClient = new SignX({
@@ -18,6 +19,7 @@ export default function useSignX() {
   const [transactionInProgress, setTransactionInProgress] = useState(false)
   const [transactionQRData, setTransactionQRData] = useState<any>(null)
   const [transactionSuccess, setTransactionSuccess] = useState<any>(null)
+  const [opened, handlers] = useDisclosure(false)
 
   // Define the event handlers
   const handleLoginSuccess = useCallback((response) => {
@@ -93,5 +95,16 @@ export default function useSignX() {
     setTransactionQRData(transactRequest)
   }
 
-  return { loginData, loginSuccess, loginError, startTransaction, transactionQRData, transactionSuccess }
+  return {
+    loginData,
+    loginSuccess,
+    loginError,
+    startTransaction,
+    transactionQRData,
+    transactionSuccess,
+    timeout: signXClient.timeout,
+    signXClient,
+    opened,
+    handlers,
+  }
 }

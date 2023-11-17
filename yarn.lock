@@ -3309,10 +3309,10 @@
     stream "0.0.2"
     tls "0.0.1"
 
-"@ixo/signx-sdk@^0.0.1":
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/@ixo/signx-sdk/-/signx-sdk-0.0.1.tgz#3e73bf304f69c1748988ad09cd7d2d0ef8796d3c"
-  integrity sha512-S17w/Q7DoCtY+0WUiNSdxwgpLV/o/HVB8c+vc+E6tAHhZiEZTNju84Qr7SOmUeS3FGBNebblDz3K1LWiktsy9A==
+"@ixo/signx-sdk@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@ixo/signx-sdk/-/signx-sdk-0.0.3.tgz#bc35668688e8768f9451a445e0e153ac9e89205b"
+  integrity sha512-DRrwWYS/cZYmePr01EJf5ZOIMn8NOa4sTROm3iIx5Oyq92o7UGDiZECKUlhX7PMR6SOH2ud+8n8tVYMRtaiQBg==
   dependencies:
     "@babel/runtime" "7.19.4"
     axios "1.3.4"
@@ -11023,6 +11023,11 @@ devtools-protocol@0.0.981744:
   version "0.0.981744"
   resolved "https://registry.yarnpkg.com/devtools-protocol/-/devtools-protocol-0.0.981744.tgz#9960da0370284577d46c28979a0b32651022bacf"
   integrity sha512-0cuGS8+jhR67Fy7qG3i3Pc7Aw494sb9yG9QgpG97SFVWwolgYjlhJg7n+UaHxOQT30d1TYu/EYe9k01ivLErIg==
+
+dexie@^3.2.4:
+  version "3.2.4"
+  resolved "https://registry.yarnpkg.com/dexie/-/dexie-3.2.4.tgz#b22a9729be1102acb2eee16102ea6e2bc76454cf"
+  integrity sha512-VKoTQRSv7+RnffpOJ3Dh6ozknBqzWw/F3iqMdsZg958R0AS8AnY9x9d1lbwENr0gzeGJHXKcGhAMRaqys6SxqA==
 
 didyoumean@^1.2.2:
   version "1.2.2"

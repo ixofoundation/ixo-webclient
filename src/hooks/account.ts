@@ -116,25 +116,6 @@ export function useAccount(): {
         dispatch(connectAction(connectedWallet))
         localStorage.setItem(WALLET_STORE_LOCAL_STORAGE_KEY, JSON.stringify(connectedWallet))
       }
-      if (selectedWallet === WalletType.ImpactXMobile) {
-        if (impactXData) {
-          dispatch(
-            connectAction({
-              ...impactXData,
-              publicKey: impactXData.pubKey,
-              wallet: { type: WalletType.ImpactXMobile },
-            }),
-          )
-          localStorage.setItem(
-            WALLET_STORE_LOCAL_STORAGE_KEY,
-            JSON.stringify({
-              ...impactXData,
-              publicKey: impactXData.pubKey,
-              wallet: { type: WalletType.ImpactXMobile },
-            }),
-          )
-        }
-      }
     } catch (e: any) {
       console.error('connect wallet', e)
       errorToast('Connecting wallet', e.message)

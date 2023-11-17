@@ -10,9 +10,10 @@ import { useAccount } from 'hooks/account'
 import ProfileModal from 'components/Header/components/ProfileModal'
 import { GettingStarted } from './GettingStarted'
 import { useTheme } from 'styled-components'
+import SegmentedSwitch from 'components/SegmentedSwitch'
 
 const WalletMenu = () => {
-  const [activeTab, setActiveTab] = useState('init') // default to 'Keplr'
+  const [activeTab, setActiveTab] = useState('desktop') // default to 'Keplr'
 
   const handleTabChange = (value: TabsValue) => {
     if (value) {
@@ -22,42 +23,21 @@ const WalletMenu = () => {
   }
 
   return (
-    <Tabs orientation='vertical' variant='pills' w={'650px'} h='500px' onTabChange={handleTabChange} value={activeTab}>
-      <Flex direction='column'>
+    <Box w='400px'>
+      <Flex direction='column' w='100%'>
         <Text color='white' size='xl' weight={'bold'} mb={30}>
-          Connect Wallet
+          Connect
         </Text>
-        <Tabs.List>
-          <Tabs.Tab value='init' hidden>
-            <Text color='white' size='md' weight='bolder' style={{}}>
-              Getting Started
-            </Text>{' '}
-          </Tabs.Tab>
-          <Tabs.Tab value='Keplr' icon={<KeplrIcon scale={0.5} height={40} width={40} />}>
-            <Text color='white' size='md' weight='bolder' style={{}}>
-              Keplr
-            </Text>{' '}
-          </Tabs.Tab>
-          <Tabs.Tab value='ImpactX' icon={<ImpactXIcon scale={2} height={40} width={40} />}>
-            <Text color='white' size='md' weight='bolder'>
-              ImpactsX Mobile
-            </Text>{' '}
-          </Tabs.Tab>
-        </Tabs.List>
+        <Flex w='100%' justify='center'>
+          <Box w='60%'>
+            <SegmentedSwitch value={activeTab} setValue={setActiveTab} />
+          </Box>
+        </Flex>
       </Flex>
 
-      <Tabs.Panel value='init' p='xs'>
-        <GettingStarted />
-      </Tabs.Panel>
-
-      <Tabs.Panel value='Keplr' p='xs'>
-        {activeTab === 'Keplr' && <KeplrConnect />}
-      </Tabs.Panel>
-
-      <Tabs.Panel value='ImpactX' p='xs'>
-        {activeTab === 'ImpactX' && <ImpactXMobile />}
-      </Tabs.Panel>
-    </Tabs>
+      <Flex>{activeTab === 'Keplr' && <KeplrConnect />}</Flex>
+      <Flex>{activeTab === 'mobile' && <ImpactXMobile />}</Flex>
+    </Box>
   )
 }
 

@@ -7,6 +7,7 @@ import { serviceEndpointToUrl } from 'utils/entities'
 import { Model } from 'survey-core'
 import { Survey } from 'survey-react-ui'
 import { themeJson } from 'styles/surveyTheme'
+import { fetchWithRetry } from 'utils/fetch'
 
 const ClaimQuestions: React.FC = () => {
   const claimSchemaLinkedResources: LinkedResource[] = useCurrentEntityClaimSchemas()
@@ -19,7 +20,7 @@ const ClaimQuestions: React.FC = () => {
         const responses = await Promise.all(
           claimSchemaLinkedResources.map((item) => {
             const url = serviceEndpointToUrl(item.serviceEndpoint, service)
-            return fetch(url)
+            return fetchWithRetry(url, {}, 3, 1000)
               .then((response) => response.json())
               .then((response) => {
                 return response
