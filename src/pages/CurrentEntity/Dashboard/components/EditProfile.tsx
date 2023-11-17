@@ -1,6 +1,6 @@
 import { Box, FlexBox } from 'components/App/App.styles'
 import React from 'react'
-import { EntityAdditionalInfoForm, ProjectProfileForm } from 'pages/CreateEntity/Forms'
+import { DAOProfileForm, EntityAdditionalInfoForm } from 'pages/CreateEntity/Forms'
 import useEditEntity from 'hooks/editEntity'
 
 const EditProfile: React.FC = (): JSX.Element => {
@@ -21,7 +21,7 @@ const EditProfile: React.FC = (): JSX.Element => {
     <FlexBox justifyContent='stretch' gap={12.5}>
       <Box className='d-flex flex-column'>
         <Box className='mb-2' />
-        <ProjectProfileForm
+        <DAOProfileForm
           image={editEntity.profile?.image}
           setImage={(image): void => handleUpdateProfile('image', image)}
           logo={editEntity.profile?.logo || ''}

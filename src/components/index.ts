@@ -1,5 +1,6 @@
 export * from './Button'
 export * from './Card'
+export * from './EntityCards'
 export * from './Tag'
 export * from './ActivityCard'
 export * from './AssetEventsTable'

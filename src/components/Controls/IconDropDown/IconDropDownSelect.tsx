@@ -48,8 +48,7 @@ const DropDownImageSelect: React.FunctionComponent<Props> = ({
     } else {
       setSelectedIconSRC(selectedOption.iconAssetPath)
     }
-    // eslint-disable-next-line
-  }, [options])
+  }, [options, value])
 
   return (
     <Container>
@@ -100,4 +99,4 @@ const DropDownImageSelect: React.FunctionComponent<Props> = ({
   )
 }
 
-export default DropDownImageSelect
+export default React.memo(DropDownImageSelect)

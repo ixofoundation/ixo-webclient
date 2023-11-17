@@ -1,3 +1,4 @@
+import { useCallback } from 'react'
 import ResourceTypeDropDown from '../../../Controls/IconDropDown/ResourceTypeDropDown/ResourceTypeDropDown'
 
 interface Props {
@@ -9,15 +10,29 @@ interface Props {
 }
 
 const ResourceType: React.FunctionComponent<Props> = ({ id, value, onChange, onBlur, onFocus }) => {
+  const handleBlur = useCallback(
+    (value: string) => {
+      onBlur(id, value)
+    },
+    [onBlur, id],
+  )
+  const handleFocus = useCallback(
+    (value: string) => {
+      onFocus(id, value)
+    },
+    [onFocus, id],
+  )
+
+  const handleChange = useCallback(
+    (sdg: string) => {
+      onChange(sdg)
+    },
+    [onChange],
+  )
   return (
     <>
       <div>
-        <ResourceTypeDropDown
-          onBlur={(value): void => onBlur(id, value)}
-          onFocus={(value): void => onFocus(id, value)}
-          value={value}
-          onChange={(sdg): void => onChange(sdg)}
-        />
+        <ResourceTypeDropDown onBlur={handleBlur} onFocus={handleFocus} value={value} onChange={handleChange} />
       </div>
     </>
   )

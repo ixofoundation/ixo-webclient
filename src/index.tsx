@@ -9,6 +9,7 @@ import { GlobalStyle } from 'styles/globalStyles'
 import * as Sentry from '@sentry/react'
 import { BrowserTracing } from '@sentry/tracing'
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client'
+import { StrictMode } from 'react'
 
 process.env.NODE_ENV === 'production' &&
   Sentry.init({
@@ -25,16 +26,18 @@ const client = new ApolloClient({
 })
 
 ReactDOM.render(
-  <Provider store={store}>
-    <GlobalStyle />
-    <PersistGate loading={null} persistor={persistor}>
-      <ConnectedRouter history={history}>
-        <ApolloProvider client={client}>
-          <AppConnected />
-        </ApolloProvider>
-      </ConnectedRouter>
-    </PersistGate>
-  </Provider>,
+  <StrictMode>
+    <Provider store={store}>
+      <GlobalStyle />
+      <PersistGate loading={null} persistor={persistor}>
+        <ConnectedRouter history={history}>
+          <ApolloProvider client={client}>
+            <AppConnected />
+          </ApolloProvider>
+        </ConnectedRouter>
+      </PersistGate>
+    </Provider>
+  </StrictMode>,
   document.getElementById('root'),
 )
 

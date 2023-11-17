@@ -16,6 +16,9 @@ import useCurrentEntity from 'hooks/currentEntity'
 import { TDAOGroupModel } from 'types/entities'
 import { DAOGroupConfig } from 'constants/entity'
 import { Member } from 'types/dao'
+import { findDAObyDelegateAccount } from 'utils/entities'
+import { useAppSelector } from 'redux/hooks'
+import { selectEntitiesByType } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 const StyledSlider = styled(Slider)`
   .slick-track {
@@ -78,6 +81,8 @@ const Groups: React.FC<Props> = ({ selectedGroup, selectDaoGroup }): JSX.Element
   const theme: any = useTheme()
   const { daoGroups, daoController, isImpactsDAO, linkedEntity } = useCurrentEntity()
   const [dragging, setDragging] = useState(false)
+  const daos = useAppSelector(selectEntitiesByType('dao'))
+
   const settings = {
     className: 'slider variable-width',
     infinite: false,
@@ -113,9 +118,15 @@ const Groups: React.FC<Props> = ({ selectedGroup, selectDaoGroup }): JSX.Element
     const Icon = DAOGroupConfig[daoGroup.type]?.icon
     const members =
       isImpactsDAO && daoController === daoGroup.coreAddress
-        ? daoGroup.votingModule.members.filter((member: Member) =>
-            linkedEntity.some(({ type, id }) => type === 'MemberDAO' && id.includes(member.addr)),
-          )
+        ? daoGroup.votingModule.members
+            .filter((member: Member) =>
+              linkedEntity.some(({ type, id }) => type === 'MemberDAO' && id.includes(member.addr)),
+            )
+            .map((member: Member) => {
+              const subDAO = findDAObyDelegateAccount(daos, member.addr)[0]
+              const avatar = subDAO?.profile?.logo || subDAO?.profile?.image
+              return { ...member, avatar }
+            })
         : daoGroup.votingModule.members
 
     return (
@@ -191,12 +202,24 @@ const Groups: React.FC<Props> = ({ selectedGroup, selectDaoGroup }): JSX.Element
     return null
   }
 
+  const groups = Object.values(daoGroups).sort((group) => {
+    if (group.coreAddress === daoController) {
+      return -1
+    }
+    // If 'b' has the 'priority' property and 'a' doesn't, 'b' comes first
+    if (group.coreAddress !== daoController) {
+      return 1
+    }
+    // If neither or both have the property, retain original order
+    return 0
+  })
+
   return (
     <Box mb={4} width='100%'>
       <Card icon={<GroupsIcon />} label='Groups'>
         <Box width='100%' color='white'>
           <StyledSlider {...settings}>
-            {Object.values(daoGroups).map((daoGroup: TDAOGroupModel) => (
+            {groups.map((daoGroup: TDAOGroupModel) => (
               <div key={daoGroup.coreAddress} style={{ width: 240 }}>
                 {renderGroupCard(daoGroup)}
               </div>

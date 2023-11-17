@@ -4221,12 +4221,13 @@ export enum TransactionsOrderBy {
 }
 
 export type EntitiesQueryVariables = Exact<{
-  relayerNode: Scalars['String']['input'];
-  owner?: InputMaybe<Scalars['String']['input']>;
+  filter?: InputMaybe<EntityFilter>;
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
 
-export type EntitiesQuery = { __typename?: 'Query', entities?: { __typename?: 'EntitiesConnection', totalCount: number, nodes: Array<{ __typename?: 'Entity', id: string, accordedRight: any, accounts: any, alsoKnownAs: string, assertionMethod: Array<string>, authentication: Array<string>, capabilityInvocation: Array<string>, context: any, capabilityDelegation: Array<string>, controller: Array<string>, credentials?: Array<string | null> | null, endDate?: any | null, entityVerified: boolean, externalId?: string | null, keyAgreement: Array<string>, linkedClaim: any, linkedResource: any, linkedEntity: any, nodeId: string, owner?: string | null, metadata: any, service: any, relayerNode: string, startDate?: any | null, settings: any, status: number, type: string, verificationMethod: any }> } | null };
+export type EntitiesQuery = { __typename?: 'Query', entities?: { __typename?: 'EntitiesConnection', totalCount: number, nodes: Array<{ __typename?: 'Entity', id: string, accordedRight: any, accounts: any, alsoKnownAs: string, assertionMethod: Array<string>, authentication: Array<string>, capabilityInvocation: Array<string>, context: any, capabilityDelegation: Array<string>, controller: Array<string>, credentials?: Array<string | null> | null, endDate?: any | null, entityVerified: boolean, externalId?: string | null, keyAgreement: Array<string>, linkedClaim: any, linkedResource: any, linkedEntity: any, nodeId: string, owner?: string | null, metadata: any, service: any, relayerNode: string, startDate?: any | null, settings: any, status: number, type: string, verificationMethod: any }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, endCursor?: any | null } } | null };
 
 export type EntityQueryVariables = Exact<{
   id: Scalars['String']['input'];
@@ -4253,10 +4254,8 @@ export type MessagesQuery = { __typename?: 'Query', messages?: { __typename?: 'M
 
 
 export const EntitiesDocument = gql`
-    query entities($relayerNode: String!, $owner: String) {
-  entities(
-    filter: {not: {type: {startsWith: "asset"}}, or: [{relayerNode: {equalTo: $relayerNode}}, {id: {equalTo: $relayerNode}}, {owner: {equalTo: $owner}}]}
-  ) {
+    query entities($filter: EntityFilter, $after: Cursor, $first: Int) {
+  entities(filter: $filter, after: $after, first: $first) {
     nodes {
       id
       accordedRight
@@ -4288,6 +4287,10 @@ export const EntitiesDocument = gql`
       verificationMethod
     }
     totalCount
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
   }
 }
     `;
@@ -4304,12 +4307,13 @@ export const EntitiesDocument = gql`
  * @example
  * const { data, loading, error } = useEntitiesQuery({
  *   variables: {
- *      relayerNode: // value for 'relayerNode'
- *      owner: // value for 'owner'
+ *      filter: // value for 'filter'
+ *      after: // value for 'after'
+ *      first: // value for 'first'
  *   },
  * });
  */
-export function useEntitiesQuery(baseOptions: Apollo.QueryHookOptions<EntitiesQuery, EntitiesQueryVariables>) {
+export function useEntitiesQuery(baseOptions?: Apollo.QueryHookOptions<EntitiesQuery, EntitiesQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<EntitiesQuery, EntitiesQueryVariables>(EntitiesDocument, options);
       }
