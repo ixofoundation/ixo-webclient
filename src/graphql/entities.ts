@@ -209,7 +209,6 @@ const GET_ASSET_DEVICES_LENGTH_BY_COLLECTIONID_AND_OWNER = gql`
     entities(
       filter: {
         iidById: { context: { contains: [{ key: "class", val: $collectionId }] } }
-        type: { equalTo: "asset/device" }
         owner: { equalTo: $ownerAddress }
       }
     ) {
