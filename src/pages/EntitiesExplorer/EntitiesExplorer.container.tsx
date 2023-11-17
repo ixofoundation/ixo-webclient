@@ -107,7 +107,6 @@ const EntitiesExplorer = ({
   const { getQuery } = useQuery()
   const type: string | undefined = getQuery('type')
   const sector: string | undefined = getQuery('sector')
-  const relayerNode = process.env.REACT_APP_RELAYER_NODE
 
   const tabletColumns = isTablet ? 2 : 3
   const columns = isMobile ? 1 : tabletColumns
@@ -117,52 +116,7 @@ const EntitiesExplorer = ({
     fetchPolicy: 'cache-first',
     variables: {
       filter: {
-        or: [
-          {
-            relayerNode: {
-              equalTo: relayerNode,
-            },
-            entityVerified: {
-              equalTo: true,
-            },
-          },
-          {
-            id: {
-              equalTo: relayerNode,
-            },
-            entityVerified: {
-              equalTo: true,
-            },
-          },
-          {
-            and: [
-              {
-                relayerNode: {
-                  equalTo: relayerNode,
-                },
-              },
-              {
-                entityVerified: {
-                  equalTo: true,
-                },
-              },
-            ],
-          },
-          {
-            and: [
-              {
-                entityVerified: {
-                  in: [false, true],
-                },
-              },
-              {
-                owner: {
-                  equalTo: accountAddress,
-                },
-              },
-            ],
-          },
-        ],
+        not: { type: { startsWith: 'asset' } },
       },
     },
     onCompleted: ({ entities }) => {
