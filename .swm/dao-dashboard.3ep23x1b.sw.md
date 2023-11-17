@@ -51,7 +51,7 @@ members filtered when it's ImpactsDAO by linkedEntity type is being 'MemberDAO' 
 23                 )
 24                 .map((member: Member) => {
 25                   const subDAO = findDAObyDelegateAccount(daos, member.addr)[0]
-26                   const avatar = subDAO?.profile?.logo || ''
+26                   const avatar = subDAO?.profile?.logo || subDAO?.profile?.image
 27                   const name = subDAO?.profile?.name || ''
 28                   return { ...member, avatar, name }
 29                 })
