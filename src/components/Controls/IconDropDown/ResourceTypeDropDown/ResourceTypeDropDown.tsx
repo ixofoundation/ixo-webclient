@@ -1,4 +1,4 @@
-import { DropDownOption } from '../types'
+import React, { useMemo } from 'react'
 import IconDropDownSelect from '../IconDropDownSelect'
 import { Container } from './ResourceTypeDropDown.styles'
 import { LinkedResourceType } from 'types/entities'
@@ -11,13 +11,15 @@ interface Props {
 }
 
 const ResourceTypeDropDown: React.FunctionComponent<Props> = ({ value, onChange, onBlur, onFocus }) => {
-  const options: DropDownOption[] = Object.keys(LinkedResourceType)
-    .slice(1)
-    .map((resourceType) => ({
-      text: LinkedResourceType[resourceType],
-      value: LinkedResourceType[resourceType],
-      iconAssetPath: `/img/resourcetype/${LinkedResourceType[resourceType]}.svg`,
-    }))
+  const options = useMemo(() => {
+    return Object.keys(LinkedResourceType)
+      .slice(1) // Assuming the first item is not needed
+      .map((resourceType) => ({
+        text: LinkedResourceType[resourceType],
+        value: LinkedResourceType[resourceType],
+        iconAssetPath: `/img/resourcetype/${LinkedResourceType[resourceType]}.svg`,
+      }))
+  }, [])
 
   return (
     <Container>
@@ -33,4 +35,4 @@ const ResourceTypeDropDown: React.FunctionComponent<Props> = ({ value, onChange,
   )
 }
 
-export default ResourceTypeDropDown
+export default React.memo(ResourceTypeDropDown)

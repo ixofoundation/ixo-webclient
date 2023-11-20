@@ -11,6 +11,7 @@ module.exports = {
     'plugin:react/recommended',
     'plugin:@typescript-eslint/recommended',
     'prettier',
+    'plugin:storybook/recommended',
   ],
   ignorePatterns: ['node_modules', 'build'],
   overrides: [],
@@ -42,5 +43,6 @@ module.exports = {
     'jest/no-conditional-expect': 'off',
     'no-useless-computed-key': 'off',
     'react/jsx-pascal-case': 'off',
+    'react/display-name': 'off',
   },
 }

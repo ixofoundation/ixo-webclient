@@ -23,7 +23,7 @@ const Membership: React.FC = (): JSX.Element | null => {
             )
             .map((member: Member) => {
               const subDAO = findDAObyDelegateAccount(daos, member.addr)[0]
-              const avatar = subDAO?.profile?.logo || ''
+              const avatar = subDAO?.profile?.logo || subDAO?.profile?.image
               const name = subDAO?.profile?.name || ''
               return { ...member, avatar, name }
             })

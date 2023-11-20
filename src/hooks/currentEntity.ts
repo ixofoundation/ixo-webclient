@@ -56,6 +56,9 @@ import { depositInfoToCoin } from 'utils/conversions'
 import { EntityLinkedResourceConfig } from 'constants/entity'
 import { IMPACTS_DAO_ID } from 'constants/chains'
 import { OutputBlockData } from '@editorjs/editorjs'
+import { useEntityLazyQuery } from 'generated/graphql'
+import { apiEntityToEntity } from 'utils/entities'
+import { updateEntityPropertyAction } from 'redux/entitiesExplorer/entitiesExplorer.actions'
 
 export default function useCurrentEntity(): {
   id: string
@@ -90,6 +93,7 @@ export default function useCurrentEntity(): {
   updateDAOGroup: (coreAddress: string) => Promise<void>
   selectDAOGroup: (coreAddress: string) => Promise<void>
   updateEntity: (entity: TEntityModel) => void
+  refetchAndUpdate: () => void
 } {
   const dispatch = useAppDispatch()
   const { cwClient, address } = useAccount()
@@ -184,6 +188,15 @@ export default function useCurrentEntity(): {
     })
   }
 
+  const [refetchAndUpdate] = useEntityLazyQuery({
+    variables: { id },
+    onCompleted: (data) => {
+      apiEntityToEntity({ entity: data.entity, cwClient }, (key, data, merge = true) => {
+        dispatch(updateEntityPropertyAction(id, key, data, merge))
+      })
+    },
+  })
+
   return {
     id,
     settings,
@@ -217,6 +230,7 @@ export default function useCurrentEntity(): {
     updateDAOGroup,
     selectDAOGroup,
     updateEntity,
+    refetchAndUpdate,
   }
 }
 

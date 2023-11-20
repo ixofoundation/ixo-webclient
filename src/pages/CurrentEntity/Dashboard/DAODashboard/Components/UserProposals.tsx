@@ -166,8 +166,8 @@ const UserProposals: React.FC<Props> = ({ show, coreAddress, userAddress, full =
     return (
       <FlexBox height='100%' direction='column' justifyContent='space-between'>
         <Typography variant='secondary' size='2xl' color='dark-blue'>
-          ImpactsDAO is a DAO cooperative. If you are a delegate of a DAO and want it to become a member, stake LVC
-          tokens and submit a joining proposal.
+          You are not yet a member of this DAO. To participate in governance stake at least 1 DAO governance token. To
+          join as a member of the DAO submit a Membership Proposal (this may require a proposal deposit amount).
         </Typography>
         <Button
           variant='secondary'
