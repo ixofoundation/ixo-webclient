@@ -196,3 +196,11 @@ export function useEntityConfig(type?: string): any {
 
   return { ...entityConfigByType }
 }
+
+export function useClaimTypesConfig(): any {
+  const protocolConfig = useEntityConfig('protocol')
+  const filterSchema = protocolConfig.filterSchema
+  const ddoTags = filterSchema.ddoTags ?? []
+  const claimTypes = ddoTags.find((tag: any) => tag.name === 'Claim Type')?.tags ?? []
+  return claimTypes
+}

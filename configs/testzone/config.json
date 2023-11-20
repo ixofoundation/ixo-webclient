@@ -3983,6 +3983,11 @@
               "@type": "Tag",
               "name": "Impact",
               "icon": "dispute.svg"
+            },
+            {
+              "@type": "Tag",
+              "name": "Impact123",
+              "icon": "dispute.svg"
             }
           ]
         },
