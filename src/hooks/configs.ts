@@ -18,6 +18,7 @@ import {
   getExchangeConfigAction,
   getRelayersConfigAction,
 } from 'redux/configs/configs.actions'
+import { Schema, SchemaCategory } from 'pages/EntitiesExplorer/Components/EntitiesFilter/schema/types'
 
 export const CHAIN_ID = process.env.REACT_APP_CHAIN_ID
 export const chainNetwork: ChainNetwork = CHAIN_ID?.startsWith('ixo')
@@ -199,8 +200,8 @@ export function useEntityConfig(type?: string): any {
 
 export function useClaimTypesConfig(): any {
   const protocolConfig = useEntityConfig('protocol')
-  const filterSchema = protocolConfig.filterSchema
-  const ddoTags = filterSchema.ddoTags ?? []
-  const claimTypes = ddoTags.find((tag: any) => tag.name === 'Claim Type')?.tags ?? []
+  const filterSchema: Schema = protocolConfig.filterSchema as Schema
+  const ddoTags: SchemaCategory[] = filterSchema.ddoTags ?? []
+  const claimTypes = ddoTags.find((tag: SchemaCategory) => tag.name === 'Claim Type')?.tags ?? []
   return claimTypes
 }

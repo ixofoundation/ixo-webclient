@@ -6,6 +6,7 @@ import { Box, FlexBox } from 'components/App/App.styles'
 import { useTheme } from 'styled-components'
 import moment from 'moment'
 import { useClaimTypesConfig } from 'hooks/configs'
+import { SchemaCategory } from 'pages/EntitiesExplorer/Components/EntitiesFilter/schema/types'
 
 interface Props {
   type: string
@@ -40,7 +41,7 @@ const ClaimProfileForm: React.FC<Props> = ({
             label='Claim Type'
             value={type}
             handleChange={setType}
-            options={claimTypes.map((value: any) => value.name)}
+            options={claimTypes.map((value: SchemaCategory) => value.name)}
           />
         </FormRow>
 
