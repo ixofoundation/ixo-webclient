@@ -2,7 +2,6 @@ import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import React from 'react'
 import styled from 'styled-components'
-import { EClaimType } from 'types/protocol'
 
 const Divider = styled.div`
   width: 100%;
@@ -10,7 +9,7 @@ const Divider = styled.div`
 `
 
 interface Props {
-  type: EClaimType
+  type: string
   title: string
   description: string
   numOfQuestions: number
