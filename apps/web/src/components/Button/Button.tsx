@@ -1,5 +1,5 @@
 // Button.tsx
-import React from 'react'
+import React, { ReactNode } from 'react'
 import styled from 'styled-components'
 
 interface ButtonProps {
@@ -8,6 +8,7 @@ interface ButtonProps {
   buttonBackground?: string
   size?: 'xs' | 'sm' | 'md' | 'l' | 'xl'
   active?: boolean
+  children?: ReactNode
 }
 
 const getButtonSize = (size: string) => {
@@ -55,6 +56,6 @@ export const StyledButton = styled.button<ButtonProps>`
   background: ${({ buttonBackground, theme }) => buttonBackground || theme.ixoBlue};
 `
 
-export const Button: React.FC<ButtonProps> = ({ children, ...rest }) => {
+export const Button = ({ children, ...rest }: ButtonProps) => {
   return <StyledButton {...rest}>{children}</StyledButton>
 }

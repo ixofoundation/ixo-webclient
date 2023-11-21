@@ -1,15 +1,16 @@
 import React, { useEffect } from 'react'
-import { Redirect, Route, RouteComponentProps, useRouteMatch } from 'react-router-dom'
+import { Navigate, Route, matchPath, useLocation} from 'react-router-dom'
 import { useCreateEntityState, useCreateEntityStrategy } from 'hooks/createEntity'
 
-const CreateDAO: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): JSX.Element => {
+const CreateDAO = (): JSX.Element => {
   const { getStrategyByEntityType } = useCreateEntityStrategy()
   const { updateEntityType, updateTitle, updateSubtitle, updateBreadCrumbs } = useCreateEntityState()
-  const isSelectProcessRoute = useRouteMatch('/create/entity/dao/process')
-  const isSetupMetadataRoute = useRouteMatch('/create/entity/dao/profile')
-  const isSetupGroupsRoute = useRouteMatch('/create/entity/dao/group')
-  const isSetupPropertiesRoute = useRouteMatch('/create/entity/dao/property')
-  const isReviewRoute = useRouteMatch('/create/entity/dao/review')
+  const { pathname } = useLocation()
+  const isSelectProcessRoute = matchPath({path: '/create/entity/dao/process', end: true}, pathname)
+  const isSetupMetadataRoute = matchPath({path: '/create/entity/dao/profile', end: true}, pathname)
+  const isSetupGroupsRoute = matchPath({path: '/create/entity/dao/group', end: true}, pathname)
+  const isSetupPropertiesRoute = matchPath({path: '/create/entity/dao/property', end: true}, pathname)
+  const isReviewRoute = matchPath({path: '/create/entity/dao/review', end: true}, pathname)
   const { steps } = getStrategyByEntityType('dao')
 
   useEffect(() => {
@@ -20,43 +21,43 @@ const CreateDAO: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): JSX
   }, [])
 
   useEffect(() => {
-    if (isSelectProcessRoute?.isExact) {
+    if (isSelectProcessRoute) {
       updateSubtitle('New or Clone')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSelectProcessRoute?.isExact])
+  }, [isSelectProcessRoute])
   useEffect(() => {
-    if (isSetupMetadataRoute?.isExact) {
+    if (isSetupMetadataRoute) {
       updateSubtitle('Profile')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSetupMetadataRoute?.isExact])
+  }, [isSetupMetadataRoute])
   useEffect(() => {
-    if (isSetupGroupsRoute?.isExact) {
+    if (isSetupGroupsRoute) {
       updateSubtitle('Add Groups')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSetupGroupsRoute?.isExact])
+  }, [isSetupGroupsRoute])
   useEffect(() => {
-    if (isSetupPropertiesRoute?.isExact) {
+    if (isSetupPropertiesRoute) {
       updateSubtitle('Configure the DAO Settings')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSetupPropertiesRoute?.isExact])
+  }, [isSetupPropertiesRoute])
   useEffect(() => {
-    if (isReviewRoute?.isExact) {
+    if (isReviewRoute) {
       updateSubtitle('Review and Sign to Commit')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isReviewRoute?.isExact])
+  }, [isReviewRoute])
 
   return (
     <>
-      {Object.values(steps).map((step) => (
-        <Route key={step.url} exact path={step.url} component={step.component} />
+      {Object.values(steps).map(({url, component: Component}) => (
+        <Route key={url} path={url} element={<Component/>} />
       ))}
-      <Route exact path={`${match.path}`}>
-        {steps[1]?.url && <Redirect to={steps[1].url} />}
+      <Route path={`${pathname}`}>
+        {steps[1]?.url && <Navigate to={steps[1].url} />}
       </Route>
     </>
   )

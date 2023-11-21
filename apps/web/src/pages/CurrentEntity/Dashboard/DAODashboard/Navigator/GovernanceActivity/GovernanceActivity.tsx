@@ -63,7 +63,7 @@ const GovernanceActivity: React.FC<Props> = ({ daoId, groupIds }): JSX.Element =
             fill='url(#color)'
             barSize={8}
             radius={[100, 100, 100, 100]}
-            background={{ fill: 'url(#background)', radius: [100, 100, 100, 100] }}
+            background={{ fill: 'url(#background)', radius: 100 }}
           />
         </BarChart>
       </ResponsiveContainer>

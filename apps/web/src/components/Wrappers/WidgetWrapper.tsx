@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { deviceWidth } from 'constants/device'
+import { ReactNode } from 'react';
 
 const Container = styled.div<{ light: boolean; padding: boolean }>`
   background: ${/* eslint-disable-line */ (props) => (props.light ? 'unset' : props.theme.ixoGradientDark2)};
@@ -103,9 +104,10 @@ export interface ParentProps {
   padding?: boolean
   titleIcon?: JSX.Element
   light?: boolean
+  children?: ReactNode
 }
 
-export const WidgetWrapper: React.SFC<ParentProps> = ({
+export const WidgetWrapper = ({
   title,
   link,
   path,
@@ -115,7 +117,7 @@ export const WidgetWrapper: React.SFC<ParentProps> = ({
   children,
   padding = true,
   light = false,
-}) => {
+}: ParentProps) => {
   const setGridHeight = (): string => {
     if (!gridHeight || window.innerWidth < 576) {
       return 'none'

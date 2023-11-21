@@ -5,6 +5,7 @@ import EyeIcon from 'assets/images/icon-eye.svg'
 import pendingAnimation from 'assets/animations/transaction/pending.json'
 import successAnimation from 'assets/animations/transaction/success.json'
 import errorAnimation from 'assets/animations/transaction/fail.json'
+import { ReactNode } from 'react'
 
 const TXStatusBoard = styled.div`
   & > .lottie {
@@ -50,9 +51,10 @@ interface Props {
   customDesc?: string
   hash?: string
   noLottie?: boolean
+  children?: ReactNode
 }
 
-const SignStep: React.FC<Props> = ({ status, hash, customDesc, noLottie, children }) => {
+const SignStep = ({ status, hash, customDesc, noLottie, children }: Props) => {
   function chooseAnimation(status: any): any {
     switch (status) {
       case TXStatus.PENDING:

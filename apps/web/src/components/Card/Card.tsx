@@ -31,7 +31,7 @@ export const Card: React.FC<CardProps> = ({ children, title, icon, ...props }) =
         <Text h='100%' color='white' size='24px'>
           {icon}
         </Text>
-        <Text weight='bolder' size='24px' color='white' ml={6}>
+        <Text style={{ fontWeight: 700 }} size='24px' color='white' ml={6}>
           {title}
         </Text>
       </Flex>

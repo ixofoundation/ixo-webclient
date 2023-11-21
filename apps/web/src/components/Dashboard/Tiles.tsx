@@ -103,7 +103,7 @@ const Icon = styled.div`
 export const Tile: React.FunctionComponent<TileProps> = ({ to = '#', title, value, subtle, icon }) => {
   if (icon) {
     return (
-      <StyledLink to={to} exact>
+      <StyledLink to={to} end>
         <div className='d-flex w-full'>
           <Icon>{icon}</Icon>
           <div style={{ textAlign: 'left' }}>
@@ -122,7 +122,7 @@ export const Tile: React.FunctionComponent<TileProps> = ({ to = '#', title, valu
   }
 
   return (
-    <StyledLink to={to} exact>
+    <StyledLink to={to} end>
       <Title>{title}</Title>
       <Value>{value}</Value>
       <Subtle>{subtle}</Subtle>

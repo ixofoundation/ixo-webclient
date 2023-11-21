@@ -39,7 +39,7 @@ interface Props {
 }
 
 const SetupInstantiateSmartContractModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
-  const { coreAddress } = useParams<{ coreAddress: string }>()
+  const { coreAddress = "" } = useParams<{ coreAddress: string }>()
   const initialState: InstantiateData = {
     admin: coreAddress,
     codeId: 0,

@@ -11,7 +11,6 @@ module.exports = {
     'plugin:react/recommended',
     'plugin:@typescript-eslint/recommended',
     'prettier',
-    'plugin:storybook/recommended',
   ],
   ignorePatterns: ['node_modules', 'build'],
   overrides: [],

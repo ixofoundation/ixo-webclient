@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Text, Tabs, Flex, Box, Anchor, TabsValue } from '@mantine/core'
+import { Text, Tabs, Flex, Box, Anchor } from '@mantine/core'
 import { ReactComponent as KeplrIcon } from 'assets/images/icon-keplr.svg'
 import { ReactComponent as ImpactXIcon } from 'assets/images/x-icon.svg'
 import { ImpactXMobile } from './ImpactXMobileConnect'
@@ -14,7 +14,7 @@ import { useTheme } from 'styled-components'
 const WalletMenu = () => {
   const [activeTab, setActiveTab] = useState('init') // default to 'Keplr'
 
-  const handleTabChange = (value: TabsValue) => {
+  const handleTabChange = (value: any) => {
     if (value) {
       // Check if the value is not null
       setActiveTab(value) // If it's a valid string, update the state
@@ -22,24 +22,24 @@ const WalletMenu = () => {
   }
 
   return (
-    <Tabs orientation='vertical' variant='pills' w={'650px'} h='500px' onTabChange={handleTabChange} value={activeTab}>
+    <Tabs orientation='vertical' variant='pills' w={'650px'} h='500px' onChange={handleTabChange} value={activeTab}>
       <Flex direction='column'>
-        <Text color='white' size='xl' weight={'bold'} mb={30}>
+        <Text color='white' size='xl' style={{weight: 700}} mb={30}>
           Connect Wallet
         </Text>
         <Tabs.List>
           <Tabs.Tab value='init' hidden>
-            <Text color='white' size='md' weight='bolder' style={{}}>
+            <Text color='white' size='md' style={{weight: 700}}>
               Getting Started
             </Text>{' '}
           </Tabs.Tab>
-          <Tabs.Tab value='Keplr' icon={<KeplrIcon scale={0.5} height={40} width={40} />}>
-            <Text color='white' size='md' weight='bolder' style={{}}>
+          <Tabs.Tab value='Keplr' leftSection={<KeplrIcon scale={0.5} height={40} width={40} />}>
+            <Text color='white' size='md' style={{weight: 700}}>
               Keplr
             </Text>{' '}
           </Tabs.Tab>
-          <Tabs.Tab value='ImpactX' icon={<ImpactXIcon scale={2} height={40} width={40} />}>
-            <Text color='white' size='md' weight='bolder'>
+          <Tabs.Tab value='ImpactX' leftSection={<ImpactXIcon scale={2} height={40} width={40} />}>
+            <Text color='white' size='md' style={{weight: 700}}>
               ImpactsX Mobile
             </Text>{' '}
           </Tabs.Tab>

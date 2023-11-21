@@ -17,7 +17,7 @@ export const EditEntityContext = createContext<
 })
 
 const EditEntity: React.FC = (): JSX.Element => {
-  const { entityId } = useParams<{ entityId: string }>()
+  const { entityId = "" } = useParams<{ entityId: string }>()
   const [value, setValue] = useState<TCreateEntityState>(initialState)
 
   const { data: selectedEntity } = useGetEntityById(entityId)

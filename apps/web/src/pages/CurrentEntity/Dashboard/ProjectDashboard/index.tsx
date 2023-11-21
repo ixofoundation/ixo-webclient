@@ -2,7 +2,7 @@ import Dashboard from 'components/Dashboard/Dashboard'
 import { HeaderTab, Path } from 'components/Dashboard/types'
 import { useAccount } from 'hooks/account'
 import useCurrentEntity, { useCurrentEntityProfile } from 'hooks/currentEntity'
-import { Redirect, Route, useParams, useRouteMatch } from 'react-router-dom'
+import { Navigate, Route, useMatch, useParams } from 'react-router-dom'
 import { toTitleCase } from 'utils/formatters'
 import { requireCheckDefault } from 'utils/images'
 import ClaimQuestions from './ClaimQuestions'
@@ -11,7 +11,7 @@ import EditEntity from './EditEntity'
 
 const ProjectDashboard: React.FC = (): JSX.Element => {
   const { entityId } = useParams<{ entityId: string }>()
-  const isEditEntityRoute = useRouteMatch('/entity/:entityId/dashboard/edit')
+  const isEditEntityRoute = useMatch('/entity/:entityId/dashboard/edit')
   const { entityType, owner } = useCurrentEntity()
   const { name } = useCurrentEntityProfile()
   const { registered, address } = useAccount()
@@ -80,15 +80,15 @@ const ProjectDashboard: React.FC = (): JSX.Element => {
       tabs={tabs}
       entityType={entityType}
     >
-      <Route exact path='/entity/:entityId/dashboard/claims' component={Claims} />
-      <Route exact path='/entity/:entityId/dashboard/claims/:claimId' component={ClaimQuestions} />
+      <Route path='/entity/:entityId/dashboard/claims' element={<Claims/>} />
+      <Route path='/entity/:entityId/dashboard/claims/:claimId' element={<ClaimQuestions/>} />
 
       {registered && owner === address && (
-        <Route exact path='/entity/:entityId/dashboard/edit' component={EditEntity} />
+        <Route path='/entity/:entityId/dashboard/edit' element={<EditEntity/>} />
       )}
 
-      <Route exact path='/entity/:entityId/dashboard'>
-        <Redirect to={`/entity/${entityId}/dashboard/claims`} />
+      <Route path='/entity/:entityId/dashboard'>
+        <Navigate to={`/entity/${entityId}/dashboard/claims`} />
       </Route>
     </Dashboard>
   )

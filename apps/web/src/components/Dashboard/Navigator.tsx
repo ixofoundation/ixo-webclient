@@ -1,6 +1,6 @@
 import React from 'react'
 import styled, { useTheme } from 'styled-components'
-import { withRouter, RouteComponentProps } from 'react-router'
+import { useNavigate } from 'react-router-dom'
 import Home from 'assets/icons/Home'
 import Select, { components, ControlProps, OptionProps } from 'react-select'
 
@@ -31,10 +31,11 @@ const Option: React.FunctionComponent<OptionProps<any>> = ({ children, ...rest }
   )
 }
 
-const Navigator: React.FunctionComponent<RouteComponentProps> = ({ history }) => {
+const Navigator = () => {
   const theme: any = useTheme()
+  const navigate = useNavigate()
   const handleNavigatorChange = (event: any): void => {
-    history.push(event.value.url)
+    navigate(event.value.url)
   }
 
   const styles = {
@@ -103,4 +104,4 @@ const Navigator: React.FunctionComponent<RouteComponentProps> = ({ history }) =>
   )
 }
 
-export default withRouter(Navigator)
+export default Navigator

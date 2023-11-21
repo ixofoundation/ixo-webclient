@@ -12,7 +12,7 @@ import { LinkedFiles } from './LinkedFiles'
 import { PageContent } from './PageContent'
 
 const Overview: React.FC = () => {
-  const { entityId } = useParams<{ entityId: string }>()
+  const { entityId = "" } = useParams<{ entityId: string }>()
   const { startDate, page } = useCurrentEntity()
   const { controlPanelSchema } = useEntityConfig()
   const { name, description, location } = useCurrentEntityProfile()

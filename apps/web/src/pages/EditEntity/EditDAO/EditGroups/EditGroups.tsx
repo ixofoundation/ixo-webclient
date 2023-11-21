@@ -12,7 +12,7 @@ import { deviceWidth } from 'constants/device'
 import { ixo } from '@ixo/impactxclient-sdk'
 import SetupGroupSettings from 'pages/CreateEntity/CreateDAO/Pages/SetupDAOGroups/SetupGroupSettings'
 import { EditEntityContext } from 'pages/EditEntity/EditEntity'
-import { useHistory, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { LinkedEntity } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import {
   initialMembershipGroup,
@@ -21,7 +21,8 @@ import {
 import { DAOGroupConfig } from 'constants/entity'
 
 const EditGroups: React.FC = (): JSX.Element => {
-  const history = useHistory()
+  const navigate = useNavigate()
+  const { search } = useLocation()
   const { entityId } = useParams<{ entityId: string }>()
   const entity = useContext(EditEntityContext)
 
@@ -108,7 +109,7 @@ const EditGroups: React.FC = (): JSX.Element => {
     })
 
     entity.updatePartial('linkedEntity', tempLinkedEntity)
-    history.push({ pathname: `/edit/entity/${entityId}/property`, search: history.location.search })
+    navigate({ pathname: `/edit/entity/${entityId}/property`, search })
   }
 
   if (selectedGroup) {
@@ -175,7 +176,7 @@ const EditGroups: React.FC = (): JSX.Element => {
         </FlexBox>
 
         <FlexBox gap={5} marginTop={10}>
-          <Button variant='secondary' onClick={(): void => history.goBack()}>
+          <Button variant='secondary' onClick={(): void => navigate(-1)}>
             Back
           </Button>
           <Button variant='primary' disabled={!canSubmit} onClick={handleContinue}>

@@ -10,7 +10,7 @@ import { useMediaQuery } from 'react-responsive'
 import { deviceWidth } from 'constants/device'
 import { TEntityModel } from 'types/entities'
 import CollectionCard from './CollectionCard'
-import { useHistory } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useGetAssetDevicesByCollectionId } from 'graphql/entities'
 
 interface Props {
@@ -21,7 +21,8 @@ const CollectionExplorer: React.FC<Props> = (props) => {
   const isMobile = useMediaQuery({ maxWidth: deviceWidth.tablet })
   const isTablet = useMediaQuery({ minWidth: deviceWidth.tablet, maxWidth: deviceWidth.desktop })
 
-  const history = useHistory()
+  const navigate = useNavigate()
+  const {pathname, search} = useLocation()
   const { data: assetDevices } = useGetAssetDevicesByCollectionId(props.collection.id)
   const [collection, setCollection] = useState<TEntityModel>()
 
@@ -41,10 +42,9 @@ const CollectionExplorer: React.FC<Props> = (props) => {
   }, [props.collection])
 
   const onBack = () => {
-    const pathname = history.location.pathname
-    const searchParams = new URLSearchParams(history.location.search)
+    const searchParams = new URLSearchParams(search)
     searchParams.delete('collectionId')
-    history.push({
+    navigate({
       pathname: pathname,
       search: searchParams.toString(),
     })

@@ -5,7 +5,7 @@ import { durationToSeconds, expirationAtTimeToSecondsFromNow } from 'utils/conve
 import { Groups } from '../Components'
 import { Typography } from 'components/Typography'
 import { Button } from 'pages/CreateEntity/Components'
-import { Link, useHistory, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { ProposalResponse } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
 import { ReactComponent as EmptyIcon } from 'assets/images/icon-empty.svg'
 import { useTheme } from 'styled-components'
@@ -25,7 +25,7 @@ const GovernanceHeader = React.memo(({ selectedDAOGroup }: { selectedDAOGroup?: 
 const Governance: React.FC = () => {
   const theme: any = useTheme()
   const { entityId } = useParams<{ entityId: string }>()
-  const history = useHistory()
+  const navigate =useNavigate()
   const {
     entityStatus,
     selectedDAOGroup,
@@ -47,16 +47,16 @@ const Governance: React.FC = () => {
   )
 
   const handleNewProposal = useCallback(() => {
-    history.push(`/create/entity/deed/${entityId}/${selectedDAOGroup?.coreAddress}`)
-  }, [history, entityId, selectedDAOGroup])
+    navigate(`/create/entity/deed/${entityId}/${selectedDAOGroup?.coreAddress}`)
+  }, [navigate, entityId, selectedDAOGroup])
 
   const handleNewProposalForJoin = useCallback(() => {
-    history.push(`/create/entity/deed/${entityId}/${selectedDAOGroup?.coreAddress}?join=true`)
-  }, [history, entityId, selectedDAOGroup])
+    navigate(`/create/entity/deed/${entityId}/${selectedDAOGroup?.coreAddress}?join=true`)
+  }, [navigate, entityId, selectedDAOGroup])
 
   const handleReEnableKeys = useCallback(() => {
-    history.push(`/transfer/entity/${entityId}/review?groupAddress=${selectedDAOGroup?.coreAddress}`)
-  }, [history, entityId, selectedDAOGroup])
+    navigate(`/transfer/entity/${entityId}/review?groupAddress=${selectedDAOGroup?.coreAddress}`)
+  }, [navigate, entityId, selectedDAOGroup])
 
   const sortedProposals = useMemo(() => {
     return selectedDAOGroup?.proposalModule.proposals.sort((a, b) => {

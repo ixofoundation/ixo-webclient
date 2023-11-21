@@ -1,3 +1,4 @@
+// @ts-nocheck @zach
 import * as React from 'react'
 import { Bar } from 'react-chartjs-2'
 // @ts-ignore
@@ -55,6 +56,7 @@ export default class BarChartProjects extends React.Component<ParentProps, any> 
     this.dataBasedOnDeviceWidth()
 
     // https://github.com/jedtrow/Chart.js-Rounded-Bar-Charts/blob/master/Chart.roundedBarCharts.js
+    // Chart.registry.elements.get("reactangle");
     Chart.elements.Rectangle.prototype.draw = (): void => {
       const ctx = this._chart.ctx
       const vm = this._view

@@ -9,7 +9,7 @@ import { ReactComponent as InvestmentIcon } from 'assets/images/icon-investment.
 import { ReactComponent as ProjectIcon } from 'assets/images/icon-project.svg'
 import { ReactComponent as OracleIcon } from 'assets/images/icon-oracle.svg'
 import { ReactComponent as DAOIcon } from 'assets/images/icon-dao.svg'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useCreateEntityState } from 'hooks/createEntity'
 
 const SelectType: React.FC = (): JSX.Element => {
@@ -58,11 +58,11 @@ const SelectType: React.FC = (): JSX.Element => {
   ]
 
   const { updateTitle, updateSubtitle, updateEntityType } = useCreateEntityState()
-  const history = useHistory()
+  const navigate =useNavigate()
   const [hoveredItem, setHoveredItem] = useState<any>(undefined)
 
   const handleClick = (item: any): void => {
-    history.push(`/create/entity/${item.type.toLowerCase()}`)
+    navigate(`/create/entity/${item.type.toLowerCase()}`)
   }
 
   useEffect(() => {

@@ -5,7 +5,7 @@ import { ReactComponent as CreatorIcon } from 'assets/images/icon-creator.svg'
 import { PageWrapper, Selections, SearchIcon } from './SelectCreationProcess.styles'
 import { Button, CateSelector, ChainSelector, Input } from 'pages/CreateEntity/Components'
 import { useTheme } from 'styled-components'
-import { RouteComponentProps, useHistory } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { apiEntityToEntity } from 'utils/entities'
 import { useCreateEntityState } from 'hooks/createEntity'
 import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
@@ -14,9 +14,10 @@ import { useAppSelector } from 'redux/hooks'
 import { selectRelayerByChainId } from 'redux/configs/configs.selectors'
 import { useGetEntityById } from 'graphql/entities'
 
-const SelectCreationProcess: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): JSX.Element => {
-  const baseLink = match.path.split('/').slice(0, -1).join('/')
-  const history = useHistory()
+const SelectCreationProcess = (): JSX.Element => {
+  const {pathname} = useLocation()
+  const baseLink = pathname.split('/').slice(0, -1).join('/')
+  const navigate =useNavigate()
   const theme: any = useTheme()
   const SearchInputStyles = {
     fontFamily: theme.secondaryFontFamily,
@@ -48,7 +49,7 @@ const SelectCreationProcess: React.FC<Pick<RouteComponentProps, 'match'>> = ({ m
   const canClone = useMemo(() => chainId && selectedEntity?.type === 'protocol/claim', [chainId, selectedEntity])
 
   const handleCreate = (): void => {
-    history.push(`${baseLink}/profile`)
+    navigate(`${baseLink}/profile`)
   }
 
   const handleClone = (): void => {
@@ -91,7 +92,7 @@ const SelectCreationProcess: React.FC<Pick<RouteComponentProps, 'match'>> = ({ m
     })
     // additional
     updateStartEndDate({ startDate: selectedEntity.startDate, endDate: selectedEntity.endDate })
-    history.push(`${baseLink}/profile`)
+    navigate(`${baseLink}/profile`)
   }
 
   return (

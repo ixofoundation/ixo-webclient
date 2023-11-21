@@ -1,5 +1,5 @@
 import React from 'react'
-import { NavLink, withRouter } from 'react-router-dom'
+import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { MatchType } from '../../types/models'
 import { TabsContainer } from './Tabs.styles'
 import Tooltip, { TooltipPosition } from '../Tooltip/Tooltip'
@@ -16,9 +16,6 @@ export interface Props {
   activeTabColor: string | undefined
   assistantPanelToggle?: () => void
   enableAssistantButton: boolean
-  history: any
-  location: any
-  match: any
 }
 
 const TabsComponent: React.FunctionComponent<Props> = ({
@@ -27,11 +24,11 @@ const TabsComponent: React.FunctionComponent<Props> = ({
   activeTabColor,
   assistantPanelToggle,
   // enableAssistantButton,
-  location,
-  history,
 }) => {
   const [animation, setAnimation] = React.useState(inactiveAnimation)
   const assistant = React.useContext(AssistantContext)
+  const navigate = useNavigate()
+  const location = useLocation()
 
   const assistantButtonClicked = (): void => {
     const isActive = assistant.active
@@ -40,7 +37,7 @@ const TabsComponent: React.FunctionComponent<Props> = ({
       setAnimation(hoverAnimation)
 
       if (location.pathname.includes('action')) {
-        history.goBack()
+        navigate(-1)
       } else {
         assistantPanelToggle!()
       }
@@ -73,7 +70,6 @@ const TabsComponent: React.FunctionComponent<Props> = ({
                 <Tooltip text={button.tooltip} key={index} position={TooltipPosition.Bottom}>
                   <NavLink
                     className={button.linkClass ? button.linkClass : ''}
-                    exact={matchType === MatchType.exact}
                     // strict={matchType === MatchType.strict}
                     to={{ pathname: button.path, search: button.search }}
                     key={index}
@@ -88,7 +84,6 @@ const TabsComponent: React.FunctionComponent<Props> = ({
             return (
               <NavLink
                 className={button.linkClass ? button.linkClass : ''}
-                exact={matchType === MatchType.exact}
                 // strict={matchType === MatchType.strict}
                 to={{ pathname: button.path, search: button.search }}
                 key={index}
@@ -101,10 +96,9 @@ const TabsComponent: React.FunctionComponent<Props> = ({
           case 'restricted':
             return (
               <Tooltip text='Requires Authorisation' key={index} position={TooltipPosition.Bottom}>
+                {/* Navlink strict */}
                 <NavLink
                   className='in-active'
-                  exact={matchType === MatchType.exact}
-                  strict={matchType === MatchType.strict}
                   to={{ pathname: button.path, search: button.search }}
                 >
                   {button.iconClass && <i className={button.iconClass} />}
@@ -118,8 +112,6 @@ const TabsComponent: React.FunctionComponent<Props> = ({
                 <Tooltip text={button.tooltip} key={index} position={TooltipPosition.Bottom}>
                   <NavLink
                     className={button.linkClass}
-                    exact={matchType === MatchType.exact || button.path === '/'}
-                    strict={matchType === MatchType.strict}
                     to={{ pathname: button.path, search: button.search }}
                   >
                     {button.iconClass && <i className={button.iconClass} />}
@@ -132,8 +124,6 @@ const TabsComponent: React.FunctionComponent<Props> = ({
             return (
               <NavLink
                 className={button.linkClass}
-                exact={matchType === MatchType.exact}
-                strict={matchType === MatchType.strict}
                 to={{ pathname: button.path, search: button.search }}
                 key={index}
               >
@@ -187,4 +177,4 @@ const TabsComponent: React.FunctionComponent<Props> = ({
   )
 }
 
-export const Tabs = withRouter(TabsComponent)
+export const Tabs = TabsComponent

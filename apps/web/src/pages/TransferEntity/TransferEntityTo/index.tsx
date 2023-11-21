@@ -1,7 +1,7 @@
 import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { FormCard } from 'components'
 import React, { useEffect, useMemo, useState } from 'react'
-import { useHistory, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { ReactComponent as ArrowCircleRightIcon } from 'assets/images/icon-arrow-circle-right-solid.svg'
 import { Button, InputWithLabel, Switch } from 'pages/CreateEntity/Components'
 import { useTransferEntityState } from 'hooks/transferEntity'
@@ -23,8 +23,8 @@ import { VMKeyMap } from 'constants/entity'
 
 const TransferEntityTo: React.FC = (): JSX.Element => {
   const theme: any = useTheme()
-  const history = useHistory()
-  const { entityId } = useParams<{ entityId: string }>()
+  const navigate = useNavigate()
+  const { entityId = "" } = useParams<{ entityId: string }>()
   const { signingClient, signer } = useAccount()
   const { selectedEntity, recipientDid } = useTransferEntityState()
   const [
@@ -80,7 +80,7 @@ const TransferEntityTo: React.FC = (): JSX.Element => {
   }
 
   const onBack = () => {
-    history.goBack()
+    navigate(-1)
   }
 
   const handleCreateDocument = async (): Promise<boolean> => {
@@ -172,7 +172,7 @@ const TransferEntityTo: React.FC = (): JSX.Element => {
     if (!reEnableKeys) {
       const signed = await handleSigningTransfer()
       if (signed) {
-        history.push(`/entity/${entityId}/dashboard`)
+        navigate(`/entity/${entityId}/dashboard`)
       }
     } else {
       const created = await handleCreateDocument()
@@ -181,7 +181,7 @@ const TransferEntityTo: React.FC = (): JSX.Element => {
         if (updateStatus) {
           const signed = await handleSigningTransfer()
           if (signed) {
-            history.push(`/entity/${entityId}/dashboard`)
+            navigate(`/entity/${entityId}/dashboard`)
           }
         }
       }

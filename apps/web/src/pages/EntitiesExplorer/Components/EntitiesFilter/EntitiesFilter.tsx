@@ -54,7 +54,7 @@ import {
 } from 'redux/entitiesExplorer/entitiesExplorer.actions'
 import { selectEntityConfig, selectEntityConfigByGivenType } from 'redux/configs/configs.selectors'
 import { Schema as FilterSchema } from 'pages/EntitiesExplorer/Components/EntitiesFilter/schema/types'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useQuery } from 'hooks/window'
 
 // TODO - make this 2 separate components - Desktop and Mobile
@@ -64,7 +64,7 @@ interface Props {
 }
 
 const EntitiesFilter: FC<Props> = () => {
-  const history = useHistory()
+  const navigate = useNavigate()
   const { query } = useQuery()
   const dispatch = useAppDispatch()
   const startDate = useAppSelector(selectFilterDateFrom)
@@ -190,13 +190,13 @@ const EntitiesFilter: FC<Props> = () => {
 
   const handleFilterSector = (sector: string): void => {
     query.set('sector', sector)
-    history.replace({ search: query.toString() })
+    navigate({ search: query.toString() }, { replace: true})
   }
 
   const handleResetSectorFilter = (): void => {
     setActiveFilter('')
     query.delete('sector')
-    history.replace({ search: query.toString() })
+    navigate({ search: query.toString() }, { replace: true})
   }
 
   const handleResetDateFilter = (): void => {

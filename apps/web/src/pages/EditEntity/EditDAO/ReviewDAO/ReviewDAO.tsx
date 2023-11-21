@@ -3,12 +3,13 @@ import { Typography } from 'components/Typography'
 import { deviceWidth } from 'constants/device'
 import { Button } from 'pages/CreateEntity/Components'
 import React, { useContext, useMemo } from 'react'
-import { NavLink, useHistory, useParams } from 'react-router-dom'
+import { NavLink, useLocation, useNavigate, useParams } from 'react-router-dom'
 import DAOCard from 'pages/CreateEntity/Forms/ReviewCard/DAOCard'
 import { EditEntityContext } from 'pages/EditEntity/EditEntity'
 
 const ReviewDAO: React.FC = (): JSX.Element => {
-  const history = useHistory()
+  const {search} = useLocation()
+  const navigate = useNavigate()
   const { entityId } = useParams<{ entityId: string }>()
   const entity = useContext(EditEntityContext)
 
@@ -25,12 +26,11 @@ const ReviewDAO: React.FC = (): JSX.Element => {
 
   const handleSignToCreate = async (): Promise<void> => {
     console.log('modified => ', { entity })
-    if (history.location.search) {
-      const searchParams = new URLSearchParams(history.location.search)
+    if (search) {
+      const searchParams = new URLSearchParams(search)
       const redirectTo = searchParams.get('redirectTo')
       if (redirectTo) {
-        history.push({
-          pathname: redirectTo,
+        navigate({pathname: redirectTo}, {
           state: { type: 'Edit Entity', data: { linkedEntity: entity.linkedEntity } },
         })
       }
@@ -46,13 +46,13 @@ const ReviewDAO: React.FC = (): JSX.Element => {
             This is the last step before creating this DAO on the ixo Blockchain.
           </Typography>
           <Typography variant='secondary'>
-            <NavLink to={{ pathname: `/edit/entity/${entityId}/metadata`, search: history.location.search }}>
+            <NavLink to={{ pathname: `/edit/entity/${entityId}/metadata`, search }}>
               Review the DAO details
             </NavLink>{' '}
             you have configured.
           </Typography>
           <Typography variant='secondary'>
-            <NavLink to={{ pathname: `/edit/entity/${entityId}/groups`, search: history.location.search }}>
+            <NavLink to={{ pathname: `/edit/entity/${entityId}/groups`, search }}>
               View the DAO Groups
             </NavLink>{' '}
             you have added.
@@ -66,7 +66,7 @@ const ReviewDAO: React.FC = (): JSX.Element => {
           </Typography>
         </FlexBox>
         <FlexBox width='100%' gap={4}>
-          <Button variant='secondary' onClick={(): void => history.goBack()} style={{ width: '100%' }}>
+          <Button variant='secondary' onClick={(): void => navigate(-1)} style={{ width: '100%' }}>
             Back
           </Button>
           <Button variant='primary' onClick={handleSignToCreate} style={{ width: '100%' }}>

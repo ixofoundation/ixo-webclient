@@ -32,7 +32,7 @@ export interface Props {
   scale?: number
 }
 
-export const Spinner: React.SFC<Props> = ({ info, transparentBg, scale = 1 }) => {
+export const Spinner = ({ info, transparentBg, scale = 1 }: Props) => {
   const theme = useAppSelector(selectEntityThemeConfig)
 
   return (

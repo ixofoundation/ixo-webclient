@@ -34,7 +34,7 @@ interface Props {
 
 const SetupStakeToGroupModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
   const theme: any = useTheme()
-  const { coreAddress } = useParams<{ coreAddress: string }>()
+  const { coreAddress = "" } = useParams<{ coreAddress: string }>()
   const { cwClient } = useAccount()
   const [formData, setFormData] = useState<StakeToGroupData>(initialState)
   const [tokenBalance, setTokenBalance] = useState<Coin>({ amount: '0', denom: '' })

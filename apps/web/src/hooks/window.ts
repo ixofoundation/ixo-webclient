@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react'
-import { useHistory, useLocation } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 
 interface UseWindowSizeHooksReturnType {
   width?: number
@@ -43,7 +43,7 @@ interface UseQueryHookReturnType {
 }
 
 function useQuery(): UseQueryHookReturnType {
-  const history = useHistory()
+  const navigate = useNavigate()
   const { search } = useLocation()
 
   const queryParams = useMemo((): URLSearchParams => new URLSearchParams(search), [search])
@@ -56,7 +56,7 @@ function useQuery(): UseQueryHookReturnType {
     if (clearSearchParam) {
       queryParams.delete(searchParam)
 
-      history.replace({ search: queryParams.toString() })
+      navigate({ search: queryParams.toString() }, { replace: true })
     }
 
     return query

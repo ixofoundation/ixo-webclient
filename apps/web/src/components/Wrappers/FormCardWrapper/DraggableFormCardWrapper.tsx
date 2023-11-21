@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { ReactNode, useState } from 'react'
 import cx from 'classnames'
 import Lottie from 'react-lottie'
 import { Collapse } from 'react-collapse'
@@ -26,6 +26,7 @@ interface Props {
   disableDrag?: boolean
   keyword?: string
   onAddSection?: () => void
+  children?: ReactNode
 }
 
 const FormCardWrapper: React.FunctionComponent<Props> = ({

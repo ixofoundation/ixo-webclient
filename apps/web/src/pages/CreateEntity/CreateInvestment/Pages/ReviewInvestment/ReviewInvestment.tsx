@@ -5,7 +5,7 @@ import InvestmentCard from './InvestmentCard'
 import { Typography } from 'components/Typography'
 import { Button } from 'pages/CreateEntity/Components'
 import { deviceWidth } from 'constants/device'
-import { NavLink, useHistory } from 'react-router-dom'
+import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { useQuery } from 'hooks/window'
 import { useTheme } from 'styled-components'
 import { ReactComponent as CheckCircleIcon } from 'assets/images/icon-check-circle.svg'
@@ -21,7 +21,8 @@ import {
 
 const ReviewInvestment: React.FC = (): JSX.Element => {
   const theme: any = useTheme()
-  const history = useHistory()
+  const navigate = useNavigate()
+  const { pathname } = useLocation()
   const { getQuery } = useQuery()
   const success = getQuery('success')
 
@@ -85,11 +86,11 @@ const ReviewInvestment: React.FC = (): JSX.Element => {
         throw 'Create Investment Entity failed'
       }
 
-      history.push({ pathname: history.location.pathname, search: `?success=true` })
+      navigate({ pathname: pathname, search: `?success=true` })
     } catch (e) {
       console.error('handleSignToCreate', e)
       errorToast('Error at Signing', typeof e === 'string' && e)
-      history.push({ pathname: history.location.pathname, search: `?success=false` })
+      navigate({ pathname: pathname, search: `?success=false` })
     } finally {
       setSubmitting(false)
     }
@@ -168,7 +169,7 @@ const ReviewInvestment: React.FC = (): JSX.Element => {
               <Button
                 variant='primary'
                 onClick={() => {
-                  history.push(`/explore?type=${entityType}`)
+                  navigate(`/explore?type=${entityType}`)
                   clearEntity()
                 }}
                 style={{ width: '100%' }}
@@ -197,7 +198,7 @@ const ReviewInvestment: React.FC = (): JSX.Element => {
               </Typography>
             </FlexBox>
             <FlexBox width='100%' gap={4}>
-              <Button variant='secondary' onClick={() => history.goBack()} style={{ width: '100%' }}>
+              <Button variant='secondary' onClick={() => navigate(-1)} style={{ width: '100%' }}>
                 Back
               </Button>
               <Button variant='primary' onClick={handleSignToCreate} style={{ width: '100%' }} loading={submitting}>

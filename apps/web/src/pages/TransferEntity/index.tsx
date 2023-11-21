@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo } from 'react'
-import { Redirect, Route, useParams } from 'react-router-dom'
+import { Navigate, Route, useParams } from 'react-router-dom'
 import TransferEntityLayout from './Components/TransferEntityLayout'
 import { useTransferEntityState } from 'hooks/transferEntity'
 import { useAppSelector } from 'redux/hooks'
@@ -15,7 +15,7 @@ const TransferEntity: React.FC = (): JSX.Element => {
   const { did } = useSigner()
   const { entityId } = useParams<{ entityId: string }>()
 
-  const selectedEntity: TEntityModel | undefined = useAppSelector(selectEntityById(entityId))
+  const selectedEntity: TEntityModel | undefined = useAppSelector(selectEntityById(entityId ?? ""))
   const { breadCrumbs, title, subtitle, updateSelectedEntity } = useTransferEntityState()
 
   const isEligible = useMemo(() => did && selectedEntity, [selectedEntity, did])
@@ -31,15 +31,15 @@ const TransferEntity: React.FC = (): JSX.Element => {
     <TransferEntityLayout title={title} subtitle={subtitle} breadCrumbs={breadCrumbs}>
       {isEligible ? (
         <>
-          <Route strict path={`/transfer/entity/:entityId/group`} component={TransferEntityToDAOGroup} />
-          <Route strict path={`/transfer/entity/:entityId/to`} component={TransferEntityTo} />
-          <Route strict path={`/transfer/entity/:entityId/review`} component={TransferEntityReview} />
+          <Route path={`/transfer/entity/:entityId/group`} element={<TransferEntityToDAOGroup/>} />
+          <Route path={`/transfer/entity/:entityId/to`} element={<TransferEntityTo/>} />
+          <Route path={`/transfer/entity/:entityId/review`} element={<TransferEntityReview/>} />
 
-          <Route exact path='/transfer/entity/:entityId'>
+          <Route path='/transfer/entity/:entityId'>
             {selectedEntity?.type === 'dao' ? (
-              <Redirect to={`/transfer/entity/${entityId}/group`} />
+              <Navigate to={`/transfer/entity/${entityId}/group`} />
             ) : (
-              <Redirect to={`/transfer/entity/${entityId}/to`} />
+              <Navigate to={`/transfer/entity/${entityId}/to`} />
             )}
           </Route>
         </>

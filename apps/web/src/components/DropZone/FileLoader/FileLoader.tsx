@@ -66,7 +66,7 @@ const FileLoader: React.FunctionComponent<Props> = ({
             <StyledDropzone
               {...getRootProps({
                 className: 'dropzone',
-                onDrop: (event) => event.stopPropagation(),
+                onDrop: (event: any) => event.stopPropagation(),
               })}
             >
               <input {...getInputProps()} />
@@ -89,7 +89,7 @@ const FileLoader: React.FunctionComponent<Props> = ({
           <StyledDropzone
             {...getRootProps({
               className: 'dropzone',
-              onDrop: (event) => event.stopPropagation(),
+              onDrop: (event: any) => event.stopPropagation(),
             })}
           >
             <input {...getInputProps()} />

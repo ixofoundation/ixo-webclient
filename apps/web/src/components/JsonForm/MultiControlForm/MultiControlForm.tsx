@@ -1,8 +1,10 @@
-import React, { useState, useImperativeHandle, useEffect } from 'react'
-import Form, { FormValidation } from '@rjsf/core'
+import React, { useState, useImperativeHandle, useEffect, ReactNode } from 'react'
+import Form from '@rjsf/core'
 import { FormData } from '../types'
 import { FormContainer } from '../JsonForm.styles'
 import * as formUtils from '../../../utils/forms'
+import { TemplatesType } from '@rjsf/utils'
+import validator from "@rjsf/validator-ajv8";
 
 interface Props {
   ref?: any
@@ -16,7 +18,8 @@ interface Props {
   onFormDataChange: (formData: any) => void
   onSubmit: () => void
   onError?: (fields: string[]) => void
-  validate?: (formData: any, errors: FormValidation) => FormValidation
+  validate?: (formData: any, errors: any) => any
+  children?: ReactNode
 }
 
 const MultiControlForm: React.FunctionComponent<Props> = React.forwardRef(
@@ -93,9 +96,16 @@ const MultiControlForm: React.FunctionComponent<Props> = React.forwardRef(
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [extraErrors])
 
+    const CustomObjectFieldTemplate = customObjectFieldTemplate
+
+    const templates: Partial<TemplatesType> = {
+      ObjectFieldTemplate: CustomObjectFieldTemplate
+    };
+
     return (
       <FormContainer>
         <Form
+        validator={validator}
           ref={jsonFormRef}
           formData={formData}
           onChange={(e): void => onFormDataChange(e.formData)}
@@ -105,14 +115,14 @@ const MultiControlForm: React.FunctionComponent<Props> = React.forwardRef(
           showErrorList={false}
           schema={schema}
           uiSchema={uiSchema}
-          validate={validate}
+          customValidate={validate}
           transformErrors={(errors: any): any =>
             validationComplete ? formUtils.transformErrors(errors) : formUtils.transformErrorsTouched(errors, touched)
           }
           onBlur={handleTouched}
           onFocus={handleTouched}
           onError={handleError}
-          ObjectFieldTemplate={customObjectFieldTemplate}
+          templates={templates}
           extraErrors={extraErrors}
         >
           {children}

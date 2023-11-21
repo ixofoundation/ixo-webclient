@@ -3,7 +3,7 @@ import { Typography } from 'components/Typography'
 import React from 'react'
 import { ReactComponent as ThreeDotIcon } from 'assets/images/icon-threedot.svg'
 import { useTheme } from 'styled-components'
-import { useHistory } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 
 interface Props {
   id: string
@@ -17,8 +17,8 @@ interface Props {
 
 const Tab: React.FC<Props> = ({ id, prefix, color, header, body, footer, onClick }) => {
   const theme: any = useTheme()
-  const history = useHistory()
-  const selected = history.location.hash === `#${id}`
+  const {hash} =useLocation()
+  const selected = hash === `#${id}`
 
   return (
     <FlexBox

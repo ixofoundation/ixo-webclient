@@ -1,3 +1,4 @@
+import { ReactNode } from 'react'
 import styled from 'styled-components'
 
 const ExpandContainer = styled.div`
@@ -18,9 +19,10 @@ const ExpandContainer = styled.div`
 
 interface Props {
   expanded: boolean
+  children?: ReactNode
 }
 
-const Expand: React.FunctionComponent<Props> = ({ expanded = false, children }) => {
+const Expand = ({ expanded = false, children }: Props) => {
   return <ExpandContainer className={`${expanded ? 'show' : ''}`}>{children}</ExpandContainer>
 }
 

@@ -1,3 +1,4 @@
+import { ReactNode } from 'react'
 import styled from 'styled-components'
 
 const Container = styled.div`
@@ -5,6 +6,6 @@ const Container = styled.div`
   background: ${/* eslint-disable-line */ (props) => props.theme.ixoGrey300};
   color: white;
 `
-export const LayoutWrapperClaims: React.SFC = ({ children }) => {
+export const LayoutWrapperClaims = ({ children }: { children?: ReactNode}) => {
   return <Container className='container-fluid'>{children}</Container>
 }

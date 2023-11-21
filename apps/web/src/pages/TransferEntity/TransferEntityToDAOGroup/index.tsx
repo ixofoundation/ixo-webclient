@@ -8,10 +8,10 @@ import { DAOGroupConfig } from 'constants/entity'
 import { useTransferEntityState } from 'hooks/transferEntity'
 import { utils } from '@ixo/impactxclient-sdk'
 import TransferEntityModal from 'components/Modals/TransferEntityModal'
-import { useHistory, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 const TransferEntityToDAOGroup: React.FC = (): JSX.Element => {
-  const history = useHistory()
+  const navigate = useNavigate()
   const { entityId } = useParams<{ entityId: string }>()
   const { selectedEntity, recipientDid, updateRecipientDid } = useTransferEntityState()
   const [openTransferEntityModal, setOpenTransferEntityModal] = useState(false)
@@ -21,7 +21,7 @@ const TransferEntityToDAOGroup: React.FC = (): JSX.Element => {
       setOpenTransferEntityModal(true)
     } else {
       updateRecipientDid(utils.did.generateWasmDid(key))
-      history.push(`/transfer/entity/${entityId}/to`)
+      navigate(`/transfer/entity/${entityId}/to`)
     }
   }
 
@@ -72,7 +72,7 @@ const TransferEntityToDAOGroup: React.FC = (): JSX.Element => {
         onSubmit={(value) => {
           updateRecipientDid(value)
           setOpenTransferEntityModal(false)
-          history.push(`/transfer/entity/${entityId}/to`)
+          navigate(`/transfer/entity/${entityId}/to`)
         }}
       />
     </>

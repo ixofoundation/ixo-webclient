@@ -1,5 +1,6 @@
 import { Typography } from 'components/Typography'
 import { Hover, TooltipWrapper, TooltipInner, AfterClick } from './Tooltip.styles'
+import { ReactNode } from 'react'
 
 export enum TooltipPosition {
   Top = 'top',
@@ -14,6 +15,7 @@ interface Props {
   position?: TooltipPosition
   afterClick?: boolean
   clicked?: boolean
+  children?: ReactNode
 }
 
 const Tooltip: React.FunctionComponent<Props> = ({

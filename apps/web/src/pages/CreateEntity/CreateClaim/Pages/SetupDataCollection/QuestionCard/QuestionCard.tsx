@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { ReactNode, useState } from 'react'
 import cx from 'classnames'
 import { Collapse } from 'react-collapse'
 import { Draggable } from 'react-beautiful-dnd'
@@ -17,6 +17,7 @@ interface Props {
   handleRemove(): void
   handleCopy(): void
   handleToggleRequire(): void
+  children?: ReactNode
 }
 
 const QuestionCard: React.FunctionComponent<Props> = ({

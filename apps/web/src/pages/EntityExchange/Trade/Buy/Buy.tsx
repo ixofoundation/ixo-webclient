@@ -6,7 +6,7 @@ import AssetCard from 'components/Entities/EntitiesExplorer/Components/EntityCar
 import { TermsOfUseType } from 'types/entities'
 import { CardBody, CardHeader, SettingsButton, SubmitButton, Overlay, Stat, CardHeaderText } from './Buy.styles'
 import { TradeWrapper, AssetCardWrapper, TradePanel } from '../Swap.styles'
-import { useHistory, useLocation } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import queryString from 'query-string'
 import { findDenomByMinimalDenom, minimalAmountToAmount } from 'redux/account/account.utils'
 import SliderSettings from 'assets/images/icon-sliders-h-solid.svg'
@@ -39,8 +39,8 @@ const NftAssetList = [
 ]
 
 const Buy: React.FunctionComponent = () => {
-  const { search } = useLocation()
-  const history = useHistory()
+  const { search, pathname } = useLocation()
+  const navigate = useNavigate()
   const walletType = queryString.parse(search)?.wallet
   const { getAssetsByChainId, getRelayerNameByChainId } = useIxoConfigs()
   const selectedAccountAddress = useAppSelector(selectSelectedAccountAddress)
@@ -115,10 +115,9 @@ const Buy: React.FunctionComponent = () => {
 
   useEffect(() => {
     if (!walletType || !selectedAccountAddress) {
-      const { pathname } = history.location
       const chunks = pathname.split('/')
       chunks.pop()
-      history.push(chunks.join('/'))
+      navigate(chunks.join('/'))
     }
     // eslint-disable-next-line
   }, [walletType, selectedAccountAddress])

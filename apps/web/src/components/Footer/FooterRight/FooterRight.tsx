@@ -1,5 +1,5 @@
 import { Main, SocialIconContainer, SocialIcon } from './FooterRight.styles'
-export const FooterRight: React.SFC<any> = () => {
+export const FooterRight = () => {
   return (
     <Main className='col-md-4'>
       <div className='row'>

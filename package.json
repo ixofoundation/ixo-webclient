@@ -1,25 +1,25 @@
 {
-    "private": true,
-    "workspaces": {
-        "packages": [
-            "apps/*",
-            "packages/*"
-          ]
-    },
-      "name": "ixo-webclient",
-    "scripts": {
-      "build": "turbo build",
-      "clean": "turbo clean",
-      "dev": "turbo dev",
-      "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-      "lint": "turbo lint",
-      "test": "turbo test",
-      "postinstall": "patch-package"
-    },
-    "devDependencies": {
-      "prettier": "^2.7.1",
-      "@ixo-webclient/tsconfig": "*",
-      "turbo": "latest",
-      "postinstall-postinstall": "^2.1.0"
-    }
+  "private": true,
+  "workspaces": {
+    "packages": [
+      "apps/*",
+      "packages/*"
+    ]
+  },
+  "name": "ixo-webclient",
+  "scripts": {
+    "build": "turbo build",
+    "clean": "turbo clean",
+    "dev": "turbo dev",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "lint": "turbo lint",
+    "test": "turbo test",
+    "postinstall": "patch-package"
+  },
+  "devDependencies": {
+    "@ixo-webclient/tsconfig": "*",
+    "postinstall-postinstall": "^2.1.0",
+    "prettier": "^3.1.0",
+    "turbo": "latest"
   }
+}

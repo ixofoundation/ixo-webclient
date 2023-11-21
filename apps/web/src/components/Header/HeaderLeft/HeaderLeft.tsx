@@ -52,7 +52,7 @@ export const HeaderLeft: React.FC<ParentProps> = (props) => {
     if (inHeader) {
       return (
         <Fragment>
-          <HeaderLink exact={true} to={splashIsRootRoute ? '/explore' : '/'}>
+          <HeaderLink end={true} to={splashIsRootRoute ? '/explore' : '/'}>
             Explore
           </HeaderLink>
           <MediaQuery minWidth={`${deviceWidth.desktop}px`}>
@@ -69,7 +69,7 @@ export const HeaderLeft: React.FC<ParentProps> = (props) => {
           <MenuHeaderContainer>
             <MenuHeaderLink
               className='first-mobile'
-              exact={true}
+              end={true}
               to={splashIsRootRoute ? '/explore' : '/'}
               onClick={props.handleBurgerClick}
             >

@@ -15,7 +15,7 @@ import { GroupStakingModal } from 'components/Modals'
 import useCurrentEntity from 'hooks/currentEntity'
 
 const Navigator: React.FC = (): JSX.Element => {
-  const { entityId: daoId } = useParams<{ entityId: string }>()
+  const { entityId: daoId = "" } = useParams<{ entityId: string }>()
   const { selectedDAOGroup, selectDAOGroup } = useCurrentEntity()
   const [groupStakingModalOpen, setGroupStakingModalOpen] = useState(false)
 

@@ -14,18 +14,11 @@ const OTPInput: React.FunctionComponent<Props> = ({ hasError, disabled, otp, han
   return (
     <OTPContainer className='input-group'>
       <OTP
-        isDisabled={disabled}
         value={otp}
         numInputs={6}
-        isInputNum
         onChange={handleChange}
-        separator=''
-        hasErrored={hasError}
-        errorStyle={{
-          borderColor: 'red',
-          borderWidth: '3px',
-          borderStyle: 'solid',
-        }}
+        renderSeparator=''
+        renderInput={(props) => <input disabled={disabled} type={"number"} />}
       />
       <button
         disabled={!otp || otp.length < 6}

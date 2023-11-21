@@ -6,7 +6,7 @@ import { ReactComponent as GovernanceIcon } from 'assets/images/icon-governance.
 import { ReactComponent as SandClockIcon } from 'assets/images/icon-sandclock-fill.svg'
 import { ProgressBar } from 'components/ProgressBar/ProgressBar'
 import { expirationAtTimeToSecondsFromNow, secondsToWdhms } from 'utils/conversions'
-import { useHistory, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useTheme } from 'styled-components'
 import useCurrentEntity from 'hooks/currentEntity'
 
@@ -17,7 +17,7 @@ interface Props {
 
 const Governance: React.FC<Props> = ({ daoId, groupAddresses }): JSX.Element => {
   const theme: any = useTheme()
-  const history = useHistory()
+  const navigate =useNavigate()
   const { entityId } = useParams<{ entityId: string }>()
   const { selectedDAOGroup } = useCurrentEntity()
   const proposals = selectedDAOGroup?.proposalModule.proposals ?? []
@@ -58,7 +58,7 @@ const Governance: React.FC<Props> = ({ daoId, groupAddresses }): JSX.Element => 
     <Card
       icon={<GovernanceIcon />}
       label='Governance'
-      onAction={() => history.push(`/entity/${entityId}/dashboard/governance`)}
+      onAction={() => navigate(`/entity/${entityId}/dashboard/governance`)}
     >
       <FlexBox width='100%' direction='column' alignItems='center' gap={1}>
         <Typography color='blue' size='5xl'>

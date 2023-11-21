@@ -21,7 +21,7 @@ import {
 import { fee } from 'lib/protocol'
 import * as Toast from 'utils/toast'
 import { serializeCoin } from 'utils/conversions'
-import { useHistory, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { getDifference, thousandSeparator, truncateString, votingRemainingDateFormat } from 'utils/formatters'
 import { contracts } from '@ixo/impactxclient-sdk'
 import { useAccount } from 'hooks/account'
@@ -129,7 +129,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
   deedDid,
   onUpdate,
 }) => {
-  const history = useHistory()
+  const navigate =useNavigate()
   const theme: any = useTheme()
   const { entityId } = useParams<{ entityId: string }>()
   const { isDark } = useContext(DashboardThemeContext)
@@ -296,7 +296,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
               <SvgBox
                 cursor='pointer'
                 svgWidth={6}
-                onClick={() => history.push(`/entity/${entityId}/overview/proposal/${deedDid}`)}
+                onClick={() => navigate(`/entity/${entityId}/overview/proposal/${deedDid}`)}
               >
                 <ExpandIcon />
               </SvgBox>

@@ -4,7 +4,7 @@ import { ChainSelector, Input } from 'pages/CreateEntity/Components'
 import { TProposalActionModel } from 'types/entities'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 import { ReactComponent as SearchIcon } from 'assets/images/icon-search.svg'
-import { useHistory } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import styled, { useTheme } from 'styled-components'
 import { useGetEntityById } from 'graphql/entities'
 
@@ -29,14 +29,15 @@ const SetupEditEntityModal: React.FC<Props> = ({ open, action, onClose, onSubmit
     fontSize: 20,
     lineHeight: 28,
   }
-  const history = useHistory()
+  const navigate = useNavigate()
+  const {pathname} = useLocation()
   const [chainId, setChainId] = useState(undefined)
   const [entityDid, setEntityDid] = useState('')
   const { error: validate } = useGetEntityById(entityDid)
 
   const handleConfirm = () => {
     onSubmit &&
-      history.push({ pathname: `/edit/entity/${entityDid}`, search: `?redirectTo=${history.location.pathname}` })
+      navigate({ pathname: `/edit/entity/${entityDid}`, search: `?redirectTo=${pathname}` })
   }
 
   return (

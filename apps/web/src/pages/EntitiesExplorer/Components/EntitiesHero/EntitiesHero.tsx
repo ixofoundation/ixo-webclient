@@ -6,7 +6,7 @@ import { EntityType } from 'types/entities'
 import HeaderTabs from 'components/HeaderTabs/HeaderTabs'
 import { useAppSelector } from 'redux/hooks'
 import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import MediaQuery from 'react-responsive'
 import { deviceWidth } from 'constants/device'
 import { useQuery } from 'hooks/window'
@@ -28,7 +28,7 @@ export const EntitiesHero: React.FunctionComponent<Props> = ({
   filterQuery,
   handleChangeQuery,
 }) => {
-  const history = useHistory()
+  const navigate = useNavigate()
   const entityTypeMap = useAppSelector(selectEntityConfig)
   const entityStrategyMap = entityTypeMap[type]
   const header = getHeaderSchema(filterSector, entityStrategyMap.headerSchema)
@@ -81,9 +81,9 @@ export const EntitiesHero: React.FunctionComponent<Props> = ({
             filterQuery={filterQuery}
             filterChanged={(type) => {
               query.set('type', type)
-              history.replace({ search: query.toString() })
+              navigate({ search: query.toString() })
             }}
-            // filterChanged={(type) => history.push({ pathname: history.location.pathname, search: `?type=${type}` })}
+            // filterChanged={(type) => navigate({ pathname: pathname, search: `?type=${type}` })}
             queryChanged={handleChangeQuery!}
           />
         )}

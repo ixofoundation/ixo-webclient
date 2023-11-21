@@ -3,7 +3,7 @@ import { Typography } from 'components/Typography'
 import { deviceWidth } from 'constants/device'
 import React, { useMemo, useState } from 'react'
 import { Button, InputWithLabel } from 'pages/CreateEntity/Components'
-import { useHistory, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useAppSelector } from 'redux/hooks'
 import { selectEntitiesByType } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { validateEntityDid } from 'utils/validation'
@@ -18,8 +18,9 @@ import { useCreateEntityState } from 'hooks/createEntity'
 
 const SetupTargetGroup: React.FC = (): JSX.Element => {
   const theme: any = useTheme()
-  const history = useHistory()
-  const { entityId, coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
+  const navigate =useNavigate()
+  const { entityId = "", coreAddress = "" } = useParams<{ entityId: string; coreAddress: string }>()
+  const {search} = useLocation()
 
   const { address } = useAccount()
   const { updateProfile, updateProposal } = useCreateEntityState()
@@ -55,7 +56,7 @@ const SetupTargetGroup: React.FC = (): JSX.Element => {
   }, [address, daoEntity])
 
   const onBack = () => {
-    history.push(`/entity/${entityId}/dashboard/governance`)
+    navigate(`/entity/${entityId}/dashboard/governance`)
   }
   const onContinue = () => {
     const JoinImpactsDAOAction: TProposalActionModel = {
@@ -72,7 +73,7 @@ const SetupTargetGroup: React.FC = (): JSX.Element => {
       description: '',
     })
 
-    history.push(`/create/entity/deed/${entityId}/${coreAddress}/info${history.location.search}`)
+    navigate(`/create/entity/deed/${entityId}/${coreAddress}/info${search}`)
   }
 
   return (

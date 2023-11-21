@@ -72,7 +72,7 @@ const CateSelector: React.FC<Props> = ({
       className={cx({ active })}
     >
       <SvgBox svgWidth={12} svgHeight={12} color={'white'}>
-        {icon}
+        <>{icon}</>
       </SvgBox>
       <Box className='text-center label'>
         <Typography variant='secondary'>{label}</Typography>

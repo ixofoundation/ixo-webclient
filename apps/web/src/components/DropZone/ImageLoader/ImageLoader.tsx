@@ -45,13 +45,13 @@ const CroppingModal: React.FC<CroppingModalProps> = ({
           circularCrop={circularCrop}
           minHeight={50}
           minWidth={50}
-          src={imgSrc}
           onComplete={onComplete}
-          onImageLoaded={onImageLoaded}
           onChange={onCropChange}
           crop={crop}
           keepSelection={keepCropSelection}
-        />
+        >
+          <img src={imgSrc} />
+        </ReactCrop>
       </BackdropModal>
     </Portal>
   )
@@ -234,7 +234,7 @@ const ImageLoader: React.FC<Props> = ({
             <StyledDropzone
               {...getRootProps({
                 className: 'dropzone',
-                onDrop: (event) => event.stopPropagation(),
+                onDrop: (event: any) => event.stopPropagation(),
               })}
             >
               <input {...getInputProps()} />
@@ -265,7 +265,7 @@ const ImageLoader: React.FC<Props> = ({
           <StyledDropzone
             {...getRootProps({
               className: 'dropzone',
-              onDrop: (event) => event.stopPropagation(),
+              onDrop: (event: any) => event.stopPropagation(),
             })}
           >
             <input {...getInputProps()} />

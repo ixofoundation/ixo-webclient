@@ -8,7 +8,6 @@ import AssistantContext from 'contexts/assistant'
 import { changeEntitiesType, getEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.actions'
 import React, { useEffect, useState } from 'react'
 import * as ReactGA from 'react-ga'
-import { withRouter } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import Services from 'services'
 import { ThemeProvider } from 'styled-components'
@@ -114,4 +113,4 @@ const App: React.FC = () => {
   )
 }
 
-export const AppConnected = withRouter(App)
+export const AppConnected = App

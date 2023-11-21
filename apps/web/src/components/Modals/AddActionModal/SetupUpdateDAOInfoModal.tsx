@@ -32,7 +32,7 @@ interface Props {
 }
 
 const SetupUpdateDAOInfoModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
-  const { coreAddress } = useParams<{ coreAddress: string }>()
+  const { coreAddress = "" } = useParams<{ coreAddress: string }>()
   const { daoGroup } = useCurrentEntityDAOGroup(coreAddress)
 
   const [formData, setFormData] = useState<UpdateInfoData>(initialState)

@@ -17,16 +17,18 @@ import { Button } from 'pages/CreateEntity/Components'
 import React, { useState } from 'react'
 import { ReactComponent as CheckCircleIcon } from 'assets/images/icon-check-circle.svg'
 import { ReactComponent as ExclamationIcon } from 'assets/images/icon-exclamation-circle.svg'
-import { NavLink, RouteComponentProps, useHistory } from 'react-router-dom'
+import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { useTheme } from 'styled-components'
 import { CreateCollection } from 'lib/protocol'
 import { useAccount } from 'hooks/account'
 import { utils } from '@ixo/impactxclient-sdk'
 
-const ReviewClaim: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): JSX.Element => {
+const ReviewClaim = (): JSX.Element => {
   const theme: any = useTheme()
-  const history = useHistory()
-  const baseLink = match.path.split('/').slice(0, -1).join('/')
+  const navigate =useNavigate()
+  const { pathname } = useLocation();
+
+  const baseLink = pathname.split('/').slice(0, -1).join('/');
 
   const { signingClient, signer } = useAccount()
   const createEntityState = useCreateEntityState()
@@ -45,7 +47,7 @@ const ReviewClaim: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): J
   const success = getQuery('success')
 
   const handlePrev = () => {
-    history.push(`${baseLink}/property`)
+    navigate(`${baseLink}/property`)
   }
 
   const handleSignToCreate = async (): Promise<void> => {
@@ -74,7 +76,7 @@ const ReviewClaim: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): J
     const protocolDid = await CreateProtocol()
     if (!protocolDid) {
       setSubmitting(false)
-      history.push({ pathname: history.location.pathname, search: `?success=false` })
+      navigate({ pathname: pathname, search: `?success=false` })
       return
     }
 
@@ -90,7 +92,7 @@ const ReviewClaim: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): J
     })
     if (!entityDid) {
       setSubmitting(false)
-      history.push({ pathname: history.location.pathname, search: `?success=false` })
+      navigate({ pathname: pathname, search: `?success=false` })
       return
     }
 
@@ -109,12 +111,12 @@ const ReviewClaim: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): J
 
     if (!collectionId) {
       setSubmitting(false)
-      history.push({ pathname: history.location.pathname, search: `?success=false` })
+      navigate({ pathname: pathname, search: `?success=false` })
       return
     }
 
     setSubmitting(false)
-    history.push({ pathname: history.location.pathname, search: `?success=true` })
+    navigate({ pathname: pathname, search: `?success=true` })
   }
 
   return (
@@ -172,7 +174,7 @@ const ReviewClaim: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): J
               <Button
                 variant='primary'
                 onClick={() => {
-                  history.push(`/explore?type=${entityType.startsWith('protocol/') ? 'protocol' : entityType}`)
+                  navigate(`/explore?type=${entityType.startsWith('protocol/') ? 'protocol' : entityType}`)
                   clearEntity()
                 }}
                 style={{ width: '100%' }}
@@ -201,7 +203,7 @@ const ReviewClaim: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): J
               </Typography>
             </FlexBox>
             <FlexBox width='100%' gap={4}>
-              <Button variant='secondary' onClick={() => history.goBack()} style={{ width: '100%' }}>
+              <Button variant='secondary' onClick={() => navigate(-1)} style={{ width: '100%' }}>
                 Back
               </Button>
               <Button variant='primary' onClick={handleSignToCreate} style={{ width: '100%' }} loading={submitting}>

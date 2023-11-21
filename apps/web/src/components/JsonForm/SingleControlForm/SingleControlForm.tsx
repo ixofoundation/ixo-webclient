@@ -1,17 +1,18 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import { JSONSchema7 } from 'json-schema'
-import Form, { UiSchema } from '@rjsf/core'
+import Form from '@rjsf/core'
 import { FormContainer } from '../JsonForm.styles'
 import { FormData } from '../types'
 import * as formUtils from '../../../utils/forms'
 import { ControlContainer } from './SingleControlForm.styles'
-
+import validator from "@rjsf/validator-ajv8";
 interface Props {
   schema: JSONSchema7
-  uiSchema: UiSchema
+  uiSchema: any
   formData: FormData
   handleSubmit?: (event: any) => void
   handleFormDataChange: (formData: any) => void
+  children?: ReactNode
 }
 
 const SingleControlForm: React.FunctionComponent<Props> = ({
@@ -26,6 +27,7 @@ const SingleControlForm: React.FunctionComponent<Props> = ({
     <FormContainer>
       <ControlContainer>
         <Form
+        validator={validator}
           onSubmit={handleSubmit ? handleSubmit : undefined}
           formData={formData}
           onChange={(control): void => handleFormDataChange(control.formData)}

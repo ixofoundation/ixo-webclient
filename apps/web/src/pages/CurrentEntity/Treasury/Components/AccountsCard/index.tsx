@@ -198,7 +198,7 @@ const AccountsCard: React.FC<Props> = ({ accounts, onSelect }) => {
             <SvgBox
               width='32px'
               height='32px'
-              alignItems='center'
+              alignItems="center"
               justifyContent='center'
               svgWidth={6}
               svgHeight={6}

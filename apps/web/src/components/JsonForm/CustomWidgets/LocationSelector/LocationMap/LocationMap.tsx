@@ -1,11 +1,15 @@
+// @ts-nocheck @zach
 import React from 'react'
 import { withGoogleMap, GoogleMap, withScriptjs, InfoWindow, Marker } from 'react-google-maps'
 import Autocomplete from 'react-google-autocomplete'
-import Geocode from 'react-geocode'
+import Geocode, { setDefaults } from 'react-geocode'
 import { GeoLocation } from './types'
 import { GoogleMapWrapper, InputWrapper } from './LocationMap.styles'
 
-Geocode.setApiKey(process.env.REACT_APP_GOOGLE_API_KEY!)
+
+setDefaults({
+  key: process.env.REACT_APP_GOOGLE_API_KEY!
+})
 
 interface Props {
   zoom: number
@@ -52,7 +56,7 @@ class LocationMap extends React.Component<Props, State> {
   }
 
   geoCodeFromLatLng = (lat: number, lng: number): void => {
-    Geocode.fromLatLng(lat.toString(), lng.toString()).then(
+    Geocode.fromLatLng(lat, lng).then(
       (response: any) => {
         const addressArray = response.results[0].address_components
 

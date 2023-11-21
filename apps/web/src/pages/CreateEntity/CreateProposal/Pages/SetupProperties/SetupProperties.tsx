@@ -4,15 +4,16 @@ import { useCreateEntityState } from 'hooks/createEntity'
 import { FlexBox } from 'components/App/App.styles'
 import { deviceWidth } from 'constants/device'
 import { PropertiesForm } from 'pages/CreateEntity/Forms'
-import { useHistory, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { Typography } from 'components/Typography'
 import { useQuery } from 'hooks/window'
 
 const SetupProperties: React.FC = (): JSX.Element => {
-  const history = useHistory()
+  const navigate =useNavigate()
   const { entityId, coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
   const { getQuery } = useQuery()
   const join = getQuery('join')
+  const {search} = useLocation()
 
   const {
     entityType,
@@ -36,14 +37,14 @@ const SetupProperties: React.FC = (): JSX.Element => {
   } = useCreateEntityState()
 
   const handleBack = () => {
-    history.push(`/create/entity/deed/${entityId}/${coreAddress}/page${history.location.search}`)
+    navigate(`/create/entity/deed/${entityId}/${coreAddress}/page${search}`)
   }
 
   const handleNext = () => {
     if (join === 'true') {
-      history.push(`/create/entity/deed/${entityId}/${coreAddress}/review${history.location.search}`)
+      navigate(`/create/entity/deed/${entityId}/${coreAddress}/review${search}`)
     } else {
-      history.push(`/create/entity/deed/${entityId}/${coreAddress}/action${history.location.search}`)
+      navigate(`/create/entity/deed/${entityId}/${coreAddress}/action${search}`)
     }
   }
 

@@ -4,12 +4,15 @@ import { useCreateEntityState } from 'hooks/createEntity'
 import { FlexBox } from 'components/App/App.styles'
 import { deviceWidth } from 'constants/device'
 import { PropertiesForm } from 'pages/CreateEntity/Forms'
-import { RouteComponentProps, useHistory } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { Typography } from 'components/Typography'
 
-const SetupProperties: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): JSX.Element => {
-  const history = useHistory()
-  const baseLink = match.path.split('/').slice(0, -1).join('/')
+const SetupProperties = (): JSX.Element => {
+  const navigate =useNavigate()
+  const location = useLocation();
+  
+  // Assuming you are trying to reconstruct a base link from the current path
+  const baseLink = location.pathname.split('/').slice(0, -1).join('/');
 
   const {
     entityType,
@@ -91,10 +94,10 @@ const SetupProperties: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }
   }, [])
 
   const handlePrev = (): void => {
-    history.push(`${baseLink}/collection`)
+    navigate(`${baseLink}/collection`)
   }
   const handleNext = (): void => {
-    history.push(`${baseLink}/review`)
+    navigate(`${baseLink}/review`)
   }
 
   return (

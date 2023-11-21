@@ -171,9 +171,7 @@ export const AddClaim = styled(Link)`
   }
 `
 
-export const SubNavItem = styled(NavLink).attrs({
-  activeClassName: 'active',
-})`
+export const SubNavItem = styled(NavLink).attrs({})`
   color: ${(props: any): string => props.theme.ixoNewBlue};
   font-family: ${(props: any): string => props.theme.secondaryFontFamily};
   font-weight: 300;

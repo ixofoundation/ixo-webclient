@@ -1,5 +1,5 @@
 import React from 'react'
-import QrReader from 'react-qr-reader'
+import { OnResultFunction, QrReader } from 'react-qr-reader'
 import { QRWrapper, ExplainerText } from './QRCodeScan.styles'
 import Phone from 'assets/icons/Phone'
 import PhoneQR from 'assets/icons/PhoneQR'
@@ -27,10 +27,19 @@ const QRCodeScan: React.FunctionComponent<Props> = ({ id, value, placeholder, on
     console.error(err)
   }
 
+  const handleResult: OnResultFunction = (result, error) => {
+    if(result){
+      handleScan(result)
+    }
+    if(error){
+      handleError(error)
+    }
+  }
+
   return (
     <QRWrapper className='row'>
       <div className='col-12 col-md-6'>
-        <QrReader delay={300} onError={handleError} onScan={handleScan} style={{ width: '100%' }} />
+        <QrReader constraints={{ facingMode: "user" }} scanDelay={300} onResult={handleResult} containerStyle={{ width: '100%' }} />
         <input
           value={value}
           placeholder={placeholder}

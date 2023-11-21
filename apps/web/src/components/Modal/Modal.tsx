@@ -1,3 +1,4 @@
+import { ReactNode } from 'react'
 import { ModalWrapper } from './Modal.styles'
 
 interface Props {
@@ -9,9 +10,10 @@ interface Props {
   onSubmit: () => void
   onCancel: () => void
   onReset?: () => void
+  children?: ReactNode
 }
 
-const Modal: React.FunctionComponent<Props> = ({
+const Modal = ({
   children,
   submitText,
   cancelText,
@@ -21,7 +23,7 @@ const Modal: React.FunctionComponent<Props> = ({
   onSubmit,
   onCancel,
   onReset,
-}) => {
+}: Props) => {
   return (
     <ModalWrapper style={style} data-rbd-drag-handle-draggable-id='gibberish' data-rbd-drag-handle-context-id={0}>
       <div>{children}</div>

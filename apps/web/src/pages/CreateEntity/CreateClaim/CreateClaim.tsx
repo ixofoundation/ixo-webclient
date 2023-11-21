@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react'
-import { Redirect, Route, RouteComponentProps, useRouteMatch } from 'react-router-dom'
+import {  Navigate, Route, matchPath } from 'react-router-dom'
 import { useCreateEntityState } from 'hooks/createEntity'
 import { ReviewClaim, SelectCreationProcess, SetupDataCollection, SetupMetadata, SetupProperties } from './Pages'
 
-const CreateClaim: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): JSX.Element => {
+const CreateClaim = (): JSX.Element => {
   const { entityType, updateEntityType, updateTitle, updateSubtitle, updateBreadCrumbs } = useCreateEntityState()
-  const isSelectProcessRoute = useRouteMatch(`/create/entity/${entityType}/process`)
-  const isSetupMetadataRoute = useRouteMatch(`/create/entity/${entityType}/profile`)
-  const isSetupDataCollectionRoute = useRouteMatch(`/create/entity/${entityType}/collection`)
-  const isSetupPropertiesRoute = useRouteMatch(`/create/entity/${entityType}/property`)
+  const isSelectProcessRoute = matchPath({ path: `/create/entity/${entityType}/process`, end: true }, `/create/entity/${entityType}/process`)
+  const isSetupMetadataRoute = matchPath({ path: `/create/entity/${entityType}/profile`, end: true }, `/create/entity/${entityType}/profile`)
+  const isSetupDataCollectionRoute = matchPath({path: `/create/entity/${entityType}/collection`, end: true}, `/create/entity/${entityType}/collection`)
+  const isSetupPropertiesRoute = matchPath({path: `/create/entity/${entityType}/collection`, end: true}, `/create/entity/${entityType}/property`)
 
   useEffect(() => {
     updateEntityType('protocol/claim')
@@ -18,40 +18,40 @@ const CreateClaim: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): J
   }, [])
 
   useEffect(() => {
-    if (isSelectProcessRoute?.isExact) {
+    if (isSelectProcessRoute) {
       updateSubtitle('New or Clone')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSelectProcessRoute?.isExact])
+  }, [isSelectProcessRoute])
   useEffect(() => {
-    if (isSetupMetadataRoute?.isExact) {
+    if (isSetupMetadataRoute) {
       updateSubtitle('Profile')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSetupMetadataRoute?.isExact])
+  }, [isSetupMetadataRoute])
   useEffect(() => {
-    if (isSetupDataCollectionRoute?.isExact) {
+    if (isSetupDataCollectionRoute) {
       updateSubtitle('Data Collection Form')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSetupDataCollectionRoute?.isExact])
+  }, [isSetupDataCollectionRoute])
   useEffect(() => {
-    if (isSetupPropertiesRoute?.isExact) {
+    if (isSetupPropertiesRoute) {
       updateSubtitle('Configuration')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSetupPropertiesRoute?.isExact])
+  }, [isSetupPropertiesRoute])
 
   return (
     <>
-      <Route exact path={`${match.path}/process`} component={SelectCreationProcess} />
-      <Route exact path={`${match.path}/profile`} component={SetupMetadata} />
-      <Route exact path={`${match.path}/collection`} component={SetupDataCollection} />
-      <Route exact path={`${match.path}/property`} component={SetupProperties} />
-      <Route exact path={`${match.path}/review`} component={ReviewClaim} />
+      <Route path={`/process`} element={<SelectCreationProcess/>} />
+      <Route path={`/profile`} element={<SetupMetadata/>} />
+      <Route path={`/collection`} element={<SetupDataCollection/>} />
+      <Route path={`/property`} element={<SetupProperties/>} />
+      <Route path={`/review`} element={<ReviewClaim/>} />
 
-      <Route exact path={`${match.path}`}>
-        <Redirect to={`${match.path}/process`} />
+      <Route path={`/`}>
+        <Navigate to={`/process`} />
       </Route>
     </>
   )

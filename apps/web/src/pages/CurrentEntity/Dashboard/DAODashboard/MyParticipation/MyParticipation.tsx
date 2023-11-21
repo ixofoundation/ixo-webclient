@@ -3,7 +3,7 @@ import { FlexBox, GridContainer, GridItem } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { useQuery } from 'hooks/window'
 import React from 'react'
-import { useHistory } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { AssetDetailCard, Card } from '../../../Components'
 import { Groups, UserStakes, UserVotingPower, UserProposals } from '../Components'
 import { ReactComponent as ArrowLeftIcon } from 'assets/images/icon-arrow-left.svg'
@@ -13,12 +13,13 @@ import { ReactComponent as PieIcon } from 'assets/images/icon-pie.svg'
 import useCurrentEntity from 'hooks/currentEntity'
 
 const MyParticipation: React.FC = () => {
-  const history = useHistory()
+  const navigate =useNavigate()
   const { selectedDAOGroup, selectDAOGroup } = useCurrentEntity()
   const { getQuery } = useQuery()
   const token: string | undefined = getQuery('token')
   const expand: string | undefined = getQuery('expand')
-  const tokenDetail: any = history.location.state
+  const { pathname, state } = useLocation()
+  const tokenDetail: any = state
 
   return (
     <FlexBox direction='column' gap={6} width='100%' color='white'>
@@ -40,7 +41,7 @@ const MyParticipation: React.FC = () => {
               icon={<StakesIcon />}
               label='My Stakes'
               actionIcon={<ArrowLeftIcon />}
-              onAction={() => history.goBack()}
+              onAction={() => navigate(-1)}
             >
               <UserStakes show={expand === 'token'} coreAddress={selectedDAOGroup.coreAddress} />
             </Card>
@@ -52,7 +53,7 @@ const MyParticipation: React.FC = () => {
               icon={<PieIcon />}
               label='My Voting Power'
               actionIcon={<ArrowLeftIcon />}
-              onAction={() => history.goBack()}
+              onAction={() => navigate(-1)}
             >
               <UserVotingPower show={expand === 'votingPower'} coreAddress={selectedDAOGroup.coreAddress} />
             </Card>
@@ -63,7 +64,7 @@ const MyParticipation: React.FC = () => {
             icon={<ProposalsIcon />}
             label='My Proposals'
             actionIcon={<ArrowLeftIcon />}
-            onAction={() => history.goBack()}
+            onAction={() => navigate(-1)}
           >
             <UserProposals show={expand === 'proposal'} coreAddress={selectedDAOGroup.coreAddress} />
           </Card>
@@ -83,7 +84,7 @@ const MyParticipation: React.FC = () => {
                 <Card
                   icon={<StakesIcon />}
                   label='My Stakes'
-                  onAction={() => history.push({ pathname: history.location.pathname, search: `?expand=token` })}
+                  onAction={() => navigate({ pathname: pathname, search: `?expand=token` })}
                 >
                   <UserStakes show={!expand && !token} coreAddress={selectedDAOGroup.coreAddress} />
                 </Card>
@@ -93,7 +94,7 @@ const MyParticipation: React.FC = () => {
                 <Card
                   icon={<PieIcon />}
                   label='My Voting Power'
-                  onAction={() => history.push({ pathname: history.location.pathname, search: `?expand=votingPower` })}
+                  onAction={() => navigate({ pathname: pathname, search: `?expand=votingPower` })}
                 >
                   <UserVotingPower show={!expand && !token} coreAddress={selectedDAOGroup.coreAddress} />
                 </Card>
@@ -103,7 +104,7 @@ const MyParticipation: React.FC = () => {
               <Card
                 icon={<ProposalsIcon />}
                 label='My Proposals'
-                onAction={() => history.push({ pathname: history.location.pathname, search: `?expand=proposal` })}
+                onAction={() => navigate({ pathname: pathname, search: `?expand=proposal` })}
               >
                 <UserProposals show={!expand && !token} coreAddress={selectedDAOGroup.coreAddress} full={false} />
               </Card>

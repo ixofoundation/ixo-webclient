@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Redirect, Route, useHistory } from 'react-router-dom'
+import { Navigate, Route, useLocation, useNavigate } from 'react-router-dom'
 import CreateAsset from './CreateAsset/CreateAsset'
 import CreateInvestment from './CreateInvestment/CreateInvestment'
 import CreateEntityLayout from './CreateEntityLayout/CreateEntityLayout'
@@ -13,10 +13,8 @@ import { useCreateEntityState, useCreateEntityStrategy } from 'hooks/createEntit
 import { CreateEntityStrategyMap } from 'redux/createEntity/strategy-map'
 
 const CreateEntity: React.FC = (): JSX.Element => {
-  const history = useHistory()
-  const {
-    location: { pathname },
-  } = history
+  const navigate = useNavigate()
+  const { pathname } = useLocation()
 
   const { stepNo, breadCrumbs, title, subtitle } = useCreateEntityState()
   const { getStrategyAndStepByPath } = useCreateEntityStrategy()
@@ -26,23 +24,23 @@ const CreateEntity: React.FC = (): JSX.Element => {
   useEffect(() => {
     if (entityType && stepNo) {
       const { steps } = CreateEntityStrategyMap[entityType]
-      steps[stepNo]?.url && history.push(steps[stepNo].url)
+      steps[stepNo]?.url && navigate(steps[stepNo].url)
     }
     // eslint-disable-next-line
   }, [stepNo, entityType])
 
   return (
     <CreateEntityLayout title={title} subtitle={subtitle} breadCrumbs={breadCrumbs}>
-      <Route strict path={`/create/entity/protocol`} component={CreateProtocol} />
-      <Route strict path={`/create/entity/asset`} component={CreateAsset} />
-      <Route strict path={`/create/entity/investment`} component={CreateInvestment} />
-      <Route strict path={`/create/entity/claim`} component={CreateClaim} />
-      <Route strict path={`/create/entity/dao`} component={CreateDAO} />
-      <Route strict path={`/create/entity/project`} component={CreateProject} />
-      <Route strict path={`/create/entity/oracle`} component={CreateOracle} />
-      <Route strict path={`/create/entity/deed/:entityId/:coreAddress`} component={CreateProposal} />
-      <Route exact path='/create/entity'>
-        <Redirect to={`/create/entity/protocol`} />
+      <Route path={`/create/entity/protocol`} element={<CreateProtocol/>} />
+      <Route path={`/create/entity/asset`} element={<CreateAsset/>} />
+      <Route path={`/create/entity/investment`} element={<CreateInvestment/>} />
+      <Route path={`/create/entity/claim`} element={<CreateClaim/>} />
+      <Route path={`/create/entity/dao`} element={<CreateDAO/>} />
+      <Route path={`/create/entity/project`} element={<CreateProject/>} />
+      <Route path={`/create/entity/oracle`} element={<CreateOracle/>} />
+      <Route path={`/create/entity/deed/:entityId/:coreAddress`} element={<CreateProposal/>} />
+      <Route path='/create/entity'>
+        <Navigate to={`/create/entity/protocol`} />
       </Route>
     </CreateEntityLayout>
   )

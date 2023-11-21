@@ -20,7 +20,7 @@ import { SigningStargateClient } from '@ixo/impactxclient-sdk'
 import { selectEntityClaim } from 'redux/currentEntity/currentEntity.selectors'
 
 const ClaimQuestions: React.FC = () => {
-  const { claimId } = useParams<{ claimId: string }>()
+  const { claimId = "" } = useParams<{ claimId: string }>()
   const signer = useSigner()
   const signingClient: SigningStargateClient = useAppSelector(selectAccountSigningClient)
   const claim: { [id: string]: TEntityClaimModel } = useAppSelector(selectEntityClaim)

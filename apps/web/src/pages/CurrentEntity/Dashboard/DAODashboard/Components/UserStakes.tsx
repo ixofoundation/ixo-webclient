@@ -7,7 +7,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import CurrencyFormat from 'react-currency-format'
 import styled, { useTheme } from 'styled-components'
 import { contracts } from '@ixo/impactxclient-sdk'
-import { useHistory } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
 import { useAccount } from 'hooks/account'
 import { Avatar } from 'pages/CurrentEntity/Components'
@@ -109,7 +109,8 @@ interface Props {
 
 const UserStakes: React.FC<Props> = ({ show, coreAddress, userAddress }) => {
   const theme: any = useTheme()
-  const history = useHistory()
+  const { pathname } = useLocation()
+  const navigate =useNavigate()
   const { cwClient, address } = useAccount()
   const { updateDAOGroup } = useCurrentEntity()
   const { daoGroup, votingModuleAddress } = useCurrentEntityDAOGroup(coreAddress)
@@ -174,11 +175,10 @@ const UserStakes: React.FC<Props> = ({ show, coreAddress, userAddress }) => {
   const handleRowClick = (state: any) => () => {
     const { original } = state
     // original = { coinDenom, network, coinImageUrl, lastPriceUsd, balance, priceChangePercent }
-    history.push({
-      pathname: history.location.pathname,
+    navigate({
+      pathname: pathname,
       search: `?token=${original.coinDenom}`,
-      state: original,
-    })
+    }, { state: original})
   }
 
   const handleUpdate = () => {

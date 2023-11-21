@@ -23,20 +23,22 @@ import { CheckBoxesQuestion } from './CheckBoxesQuestion'
 import { CurrencyQuestion } from './CurrencyQuestion'
 import { omitKey, reorderObjectElement } from 'utils/objects'
 import { Button } from 'pages/CreateEntity/Components'
-import { RouteComponentProps, useHistory } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
-const SetupDataCollection: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): JSX.Element => {
-  const history = useHistory()
-  const baseLink = match.path.split('/').slice(0, -1).join('/')
+const SetupDataCollection = (): JSX.Element => {
+  const navigate =useNavigate()
+  const { pathname } = useLocation();
+
+  const baseLink = pathname.split('/').slice(0, -1).join('/');
 
   const { claimQuestions, updateClaimQuestions } = useCreateEntityState()
   const questions: TQuestion[] = useMemo(() => Object.values(claimQuestions), [claimQuestions])
 
   const handlePrev = (): void => {
-    history.push(`${baseLink}/profile`)
+    navigate(`${baseLink}/profile`)
   }
   const handleNext = (): void => {
-    history.push(`${baseLink}/property`)
+    navigate(`${baseLink}/property`)
   }
 
   const handleRemoveQuestion = (id: string): void => {

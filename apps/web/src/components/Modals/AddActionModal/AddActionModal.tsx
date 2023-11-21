@@ -19,7 +19,7 @@ interface Props {
 }
 
 const AddActionModal: React.FC<Props> = ({ open, actionsToExclude = [], onClose, onAdd }): JSX.Element => {
-  const { coreAddress } = useParams<{ coreAddress: string }>()
+  const { coreAddress = "" } = useParams<{ coreAddress: string }>()
   const { contractName } = useCurrentEntityDAOGroup(coreAddress)
 
   const options = Object.values(ProposalActionConfig).map((item) => item.text)

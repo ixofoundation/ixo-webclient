@@ -9,7 +9,7 @@ import { useQuery } from 'hooks/window'
 import { AddVerificationMethod, DeleteLinkedResource, fee, UpdateEntity } from 'lib/protocol'
 import { Button, Switch } from 'pages/CreateEntity/Components'
 import React, { useEffect, useMemo, useState } from 'react'
-import { useHistory, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useTheme } from 'styled-components'
 import { serviceEndpointToUrl } from 'utils/entities'
 import { errorToast, successToast } from 'utils/toast'
@@ -24,7 +24,7 @@ const TransferEntityToGroupButton: React.FC<{
   verificationMethods: any[]
   setVerificationMethods: (verificationMethods: any) => void
 }> = ({ groupAddress, verificationMethods, setVerificationMethods }) => {
-  const history = useHistory()
+  const navigate = useNavigate()
   const { entityId } = useParams<{ entityId: string }>()
 
   const { cosmWasmClient, address } = useAccount()
@@ -189,7 +189,7 @@ const TransferEntityToGroupButton: React.FC<{
 
     const publishProposal = await handlePublishProposal()
     if (publishProposal) {
-      history.push(`/entity/${entityId}/dashboard`)
+      navigate(`/entity/${entityId}/dashboard`)
     }
 
     setSubmitting(false)
@@ -206,7 +206,7 @@ const TransferEntityToAccountButton: React.FC<{
   verificationMethods: any[]
   setVerificationMethods: (verificationMethods: any) => void
 }> = ({ verificationMethods, setVerificationMethods }) => {
-  const history = useHistory()
+  const navigate = useNavigate()
   const { entityId } = useParams<{ entityId: string }>()
 
   const { signingClient, signer } = useAccount()
@@ -255,7 +255,7 @@ const TransferEntityToAccountButton: React.FC<{
           })
         })
 
-      const response = await AddVerificationMethod(signingClient, signer, { did: entityId, verifications })
+      const response = await AddVerificationMethod(signingClient, signer, { did: entityId ?? "", verifications })
       if (response.code !== 0) {
         throw response.rawLog
       }
@@ -318,7 +318,7 @@ const TransferEntityToAccountButton: React.FC<{
       if (updateStatus) {
         const addedVMs = await handleAddVerificationMethods()
         if (addedVMs) {
-          history.push(`/entity/${entityId}/dashboard`)
+          navigate(`/entity/${entityId}/dashboard`)
         }
       }
     }
@@ -335,7 +335,7 @@ const TransferEntityToAccountButton: React.FC<{
 
 const TransferEntityReview: React.FC = () => {
   const theme: any = useTheme()
-  const history = useHistory()
+  const navigate = useNavigate()
   const { getQuery } = useQuery()
   const groupAddress = getQuery('groupAddress')
 
@@ -346,7 +346,7 @@ const TransferEntityReview: React.FC = () => {
   }
 
   const onBack = () => {
-    history.goBack()
+    navigate(-1)
   }
 
   return (
@@ -383,7 +383,7 @@ const TransferEntityReview: React.FC = () => {
                   .filter(([key]) => key !== 'description' && key !== 'reEnable')
                   .map(([key, value]) => (
                     <Typography key={key} wordBreak={'break-all'}>
-                      {key}: {value}
+                      <>{key}: {value}</>
                     </Typography>
                   ))}
               </FlexBox>

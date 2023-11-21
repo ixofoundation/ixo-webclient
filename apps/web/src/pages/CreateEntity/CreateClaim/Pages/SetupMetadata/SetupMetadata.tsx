@@ -5,13 +5,16 @@ import { Button } from '../../../Components'
 import { EntityAdditionalInfoForm, ClaimProfileForm } from '../../../Forms'
 import { PageWrapper } from './SetupMetadata.styles'
 import { TEntityMetadataModel } from 'types/entities'
-import { RouteComponentProps, useHistory } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { selectAllClaimProtocols } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { useAppSelector } from 'redux/hooks'
 
-const SetupMetadata: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): JSX.Element => {
-  const history = useHistory()
-  const baseLink = match.path.split('/').slice(0, -1).join('/')
+const SetupMetadata = (): JSX.Element => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  
+  // Assuming you are trying to reconstruct a base link from the current path
+  const baseLink = location.pathname.split('/').slice(0, -1).join('/');
 
   const claimProtocols = useAppSelector(selectAllClaimProtocols)
   const createEntityState = useCreateEntityState()
@@ -29,12 +32,12 @@ const SetupMetadata: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }):
   )
 
   const handlePrev = useCallback((): void => {
-    history.push(`${baseLink}/process`)
-  }, [history, baseLink])
+    navigate(`${baseLink}/process`)
+  }, [navigate, baseLink])
 
   const handleNext = useCallback((): void => {
-    history.push(`${baseLink}/collection`)
-  }, [history, baseLink])
+    navigate(`${baseLink}/collection`)
+  }, [navigate, baseLink])
 
   const handleUpdateProfile = useCallback(
     (key: string, value: any): void => {

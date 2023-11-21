@@ -6,11 +6,11 @@ import React, { useEffect, useState } from 'react'
 import { ReactComponent as InfoIcon } from 'assets/images/icon-info.svg'
 import { Button, InputWithLabel, TextArea } from 'pages/CreateEntity/Components'
 import { useCreateEntityState } from 'hooks/createEntity'
-import { useHistory, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useQuery } from 'hooks/window'
 
 const SetupInfo: React.FC = (): JSX.Element => {
-  const history = useHistory()
+  const navigate =useNavigate()
 
   const { entityId, coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
   const { getQuery } = useQuery()
@@ -21,19 +21,20 @@ const SetupInfo: React.FC = (): JSX.Element => {
   const { updateProfile } = createEntityState
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
+  const { search } = useLocation()
   const canContinue = name && description
 
   const onBack = () => {
     if (join) {
-      history.push(`/create/entity/deed/${entityId}/${coreAddress}/select${history.location.search}`)
+      navigate(`/create/entity/deed/${entityId}/${coreAddress}/select${search}`)
     } else {
-      history.push(`/entity/${entityId}/dashboard/governance`)
+      navigate(`/entity/${entityId}/dashboard/governance`)
     }
   }
   const onContinue = () => {
     if (name && description) {
       updateProfile({ name, description })
-      history.push(`/create/entity/deed/${entityId}/${coreAddress}/page${history.location.search}`)
+      navigate(`/create/entity/deed/${entityId}/${coreAddress}/page${search}`)
     }
   }
 

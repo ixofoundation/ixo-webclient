@@ -1,4 +1,4 @@
-import styled, { css, FlattenInterpolation, ThemeProps } from 'styled-components'
+import styled, { css, Interpolation } from 'styled-components'
 import { Input } from 'pages/CreateEntity/Components'
 import { Typography } from 'components/App/App.styles'
 import { deviceWidth } from 'constants/device'
@@ -95,7 +95,7 @@ export const SelectionButton = styled.div<{ selected?: boolean }>`
   transition: all 0.2s;
   cursor: pointer;
 
-  ${(props): FlattenInterpolation<ThemeProps<any>> => props.selected && (activeButtonCSS as any)}
+  ${(props): any => props.selected && (activeButtonCSS as any)}
 
   &:hover {
     ${activeButtonCSS}

@@ -1,11 +1,11 @@
 import * as React from 'react'
-import { useHistory } from 'react-router-dom'
+import {  useNavigate } from 'react-router-dom'
 import { ButtonTypes, Button } from 'components/Form/Buttons'
 import { Banner, BannerLeft, BannerRight, ButtonContainer } from './ErrorPages.styles'
 import { requireCheckDefault } from 'utils/images'
 
 const NotFound: React.FC = () => {
-  const history = useHistory()
+  const navigate = useNavigate()
 
   return (
     <Banner className='row'>
@@ -20,7 +20,7 @@ const NotFound: React.FC = () => {
             <h2>Oops, something went wrong.</h2>
             <p>The link you followed may either be broken or no longer exists. </p>
             <ButtonContainer>
-              <Button type={ButtonTypes.dark} onClick={(): void => history.goBack()}>
+              <Button type={ButtonTypes.dark} onClick={(): void => navigate(-1)}>
                 Back to previous page
               </Button>
             </ButtonContainer>

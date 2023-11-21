@@ -194,7 +194,7 @@ const Accounts: React.FC = () => {
   }, [])
 
   const updateCw20TokenBalances = useCallback(
-    async (address): Promise<TTreasuryCoinModel[]> => {
+    async (address: string): Promise<TTreasuryCoinModel[]> => {
       const coins: TTreasuryCoinModel[] = (await Promise.all(
         stakingGroups.map(async (stakingGroup: TDAOGroupModel) => {
           const {
@@ -324,7 +324,7 @@ const Accounts: React.FC = () => {
             <FlexBox>
               <Card
                 label='Coins'
-                // onAction={() => history.push({ pathname: history.location.pathname, search: `?expand=coins` })}
+                // onAction={() => navigate({ pathname: pathname, search: `?expand=coins` })}
               >
                 <Coins coins={selectedAccount.coins} />
               </Card>
@@ -332,7 +332,7 @@ const Accounts: React.FC = () => {
             <FlexBox>
               <Card
                 label='Impact Tokens'
-                // onAction={() => history.push({ pathname: history.location.pathname, search: `?expand=impact_tokens` })}
+                // onAction={() => navigate({ pathname: pathname, search: `?expand=impact_tokens` })}
               >
                 <ImpactTokens address={selectedAccount.address} />
               </Card>
@@ -340,7 +340,7 @@ const Accounts: React.FC = () => {
             <FlexBox>
               <Card
                 label='Collections'
-                // onAction={() => history.push({ pathname: history.location.pathname, search: `?expand=collections` })}
+                // onAction={() => navigate({ pathname: pathname, search: `?expand=collections` })}
               >
                 <Collections address={selectedAccount.address} />
               </Card>
@@ -348,7 +348,7 @@ const Accounts: React.FC = () => {
             <FlexBox>
               <Card
                 label='Transactions'
-                // onAction={() => history.push({ pathname: history.location.pathname, search: `?expand=transactions` })}
+                // onAction={() => navigate({ pathname: pathname, search: `?expand=transactions` })}
               >
                 <Transactions address={selectedAccount.address} />
               </Card>
@@ -357,28 +357,28 @@ const Accounts: React.FC = () => {
 
           {/* Coins expanded view */}
           {/* <FlexBox width='100%' style={expand !== 'coins' ? { display: 'none' } : {}}>
-            <Card label='Coins' actionIcon={<ArrowLeftIcon />} onAction={() => history.goBack()}>
+            <Card label='Coins' actionIcon={<ArrowLeftIcon />} onAction={() => navigate(-1)}>
               <Coins address={selectedAccount.address} />
             </Card>
           </FlexBox> */}
 
           {/* Impact Tokens expanded view */}
           {/* <FlexBox width='100%' style={expand !== 'impact_tokens' ? { display: 'none' } : {}}>
-            <Card label='Impact Tokens' actionIcon={<ArrowLeftIcon />} onAction={() => history.goBack()}>
+            <Card label='Impact Tokens' actionIcon={<ArrowLeftIcon />} onAction={() => navigate(-1)}>
               <ImpactTokens address={selectedAccount.address} />
             </Card>
           </FlexBox> */}
 
           {/* Collections expanded view */}
           {/* <FlexBox width='100%' style={expand !== 'collections' ? { display: 'none' } : {}}>
-            <Card label='Collections' actionIcon={<ArrowLeftIcon />} onAction={() => history.goBack()}>
+            <Card label='Collections' actionIcon={<ArrowLeftIcon />} onAction={() => navigate(-1)}>
               <Collections address={selectedAccount.address} />
             </Card>
           </FlexBox> */}
 
           {/* Transactions expanded view */}
           {/* <FlexBox width='100%' style={expand !== 'transactions' ? { display: 'none' } : {}}>
-            <Card label='Transactions' actionIcon={<ArrowLeftIcon />} onAction={() => history.goBack()}>
+            <Card label='Transactions' actionIcon={<ArrowLeftIcon />} onAction={() => navigate(-1)}>
               <Transactions address={selectedAccount.address} />
             </Card>
           </FlexBox> */}

@@ -120,6 +120,7 @@ interface ParentProps {
   header?: Header
   bgColor?: string
   zIndex?: number
+  children?: React.ReactNode
 }
 
 interface Callbacks {
@@ -127,7 +128,7 @@ interface Callbacks {
 }
 export interface Props extends ParentProps, Callbacks {}
 
-export const ModalWrapper: React.SFC<Props> = (props) => {
+export const ModalWrapper = (props: Props) => {
   const modalStyles = React.useMemo(
     () => ({
       ...defModalStyles,

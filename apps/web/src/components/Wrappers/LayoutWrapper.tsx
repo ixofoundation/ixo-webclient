@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { deviceWidth } from 'constants/device'
+import { ReactNode } from 'react'
 
 const Container = styled.div`
   padding: 20px 0px;
@@ -13,6 +14,7 @@ const Container = styled.div`
 
 interface Props {
   className?: string
+  children?: ReactNode
 }
 
 export const LayoutWrapper: React.FunctionComponent<Props> = ({ children, className }) => {

@@ -7,7 +7,7 @@ import { thousandSeparator } from 'utils/formatters'
 import { HorizontalLine } from 'components/HorizontalLine'
 import { Tag } from 'components'
 import { getEntityIcon } from 'utils/getEntityIcon'
-import { useHistory } from 'react-router'
+import { useNavigate } from 'react-router'
 
 interface Props extends HTMLFlexBoxProps {
   id: string
@@ -42,12 +42,12 @@ export const DaoCard: React.FC<Props> = ({
   ...rest
 }): JSX.Element | null => {
   const theme: any = useTheme()
-  const history = useHistory()
+  const navigate = useNavigate()
 
   return (
     <FlexBox
       onClick={() =>
-        history.push({
+        navigate({
           pathname: `/entity/${id}/overview`,
         })
       }

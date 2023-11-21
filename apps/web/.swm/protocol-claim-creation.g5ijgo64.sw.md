@@ -49,7 +49,7 @@ The code defined for cloning of an entity from blocksync api call and prefilling
 91         })
 92         // additional
 93         updateStartEndDate({ startDate: selectedEntity.startDate, endDate: selectedEntity.endDate })
-94         history.push(`${baseLink}/profile`)
+94         navigate(`${baseLink}/profile`)
 95       }
 ```
 

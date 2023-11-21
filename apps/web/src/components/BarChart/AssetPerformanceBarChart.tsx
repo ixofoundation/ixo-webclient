@@ -12,10 +12,10 @@ const CustomTooltip = ({ active, payload, label, chart }: CustomTooltipProps) =>
   if (active && payload && payload.length) {
     return (
       <Flex bg='#012131' p={10} direction='column'>
-        <Text weight='bold'>
+        <Text style={{ fontWeight: 500 }}>
           {chart === 'Fuel Usage' ? formatFuelUsage(payload[0].value) : formatCookingTime(payload[0].value)}
         </Text>
-        <Text weight='bold'>{label}</Text>
+        <Text style={{ fontWeight: 500 }}>{label}</Text>
       </Flex>
     )
   }

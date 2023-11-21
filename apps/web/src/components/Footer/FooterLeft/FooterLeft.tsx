@@ -17,7 +17,7 @@ import {
 import { Link } from 'react-router-dom'
 import { requireCheckDefault } from 'utils/images'
 
-export const FooterLeft: React.SFC<any> = () => {
+export const FooterLeft = () => {
   return (
     <Main className='col-md-8'>
       <div className='row'>
@@ -35,7 +35,7 @@ export const FooterLeft: React.SFC<any> = () => {
                   className='disabled'
                   target='_blank'
                   rel='noopener noreferrer'
-                  exact={true}
+                  end={true}
                   onClick={(e): void => e.preventDefault()}
                   to='#'
                 >
@@ -59,7 +59,7 @@ export const FooterLeft: React.SFC<any> = () => {
                   className='nowrap disabled'
                   target='_blank'
                   rel='noopener noreferrer'
-                  exact={true}
+                  end={true}
                   onClick={(e): void => e.preventDefault()}
                   to='#'
                 >
@@ -72,13 +72,13 @@ export const FooterLeft: React.SFC<any> = () => {
                   className='nowrap disabled'
                   target='_blank'
                   rel='noopener noreferrer'
-                  exact={true}
+                  end={true}
                   onClick={(e): void => e.preventDefault()}
                   to='#'
                 >
                   Blockchain SDK
                 </FooterLink>
-                <FooterLink className='nowrap' exact={true} to='/todo'>
+                <FooterLink className='nowrap' end={true} to='/todo'>
                   Oracle Launchpad
                 </FooterLink>
                 <FooterLink
@@ -101,7 +101,7 @@ export const FooterLeft: React.SFC<any> = () => {
                   Portals
                 </FooterLink>
                 <FooterLink
-                  exact={true}
+                  end={true}
                   to='/entities/select?type=Investment&categories=[{"name": "View", "tags": ["Featured"]}]'
                 >
                   Funds
@@ -114,7 +114,7 @@ export const FooterLeft: React.SFC<any> = () => {
                   Relayers
                 </FooterLink>
                 <FooterLink
-                  exact={true}
+                  end={true}
                   to='/entities/select?type=Oracle&categories=[{"name": "View", "tags": ["Featured"]}]'
                 >
                   Oracles
@@ -144,7 +144,7 @@ export const FooterLeft: React.SFC<any> = () => {
             <FooterMenu style={{ zIndex: 10 }}>
               <h4>About</h4>
               <div>
-                <FooterLink target='_blank' rel='noopener noreferrer' exact={true} to='/'>
+                <FooterLink target='_blank' rel='noopener noreferrer' end={true} to='/'>
                   ixo.world
                 </FooterLink>
                 <ExternalFooterLink target='_blank' rel='noopener noreferrer' href='https://ixo.foundation'>

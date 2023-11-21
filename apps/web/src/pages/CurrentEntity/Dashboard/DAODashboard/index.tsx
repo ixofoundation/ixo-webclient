@@ -2,7 +2,7 @@ import Dashboard from 'components/Dashboard/Dashboard'
 import { HeaderTab, Path } from 'components/Dashboard/types'
 import { useAccount } from 'hooks/account'
 import useCurrentEntity, { useCurrentEntityProfile } from 'hooks/currentEntity'
-import { Redirect, Route, useParams, useRouteMatch } from 'react-router-dom'
+import { Navigate, Route, useMatch, useParams } from 'react-router-dom'
 import { requireCheckDefault } from 'utils/images'
 import { MyParticipation } from './MyParticipation'
 import { Navigator } from './Navigator'
@@ -13,7 +13,7 @@ import EditEntity from './EditEntity'
 
 const DAODashboard: React.FC = (): JSX.Element => {
   const { entityId } = useParams<{ entityId: string }>()
-  const isEditEntityRoute = useRouteMatch('/entity/:entityId/dashboard/edit')
+  const isEditEntityRoute = useMatch('/entity/:entityId/dashboard/edit')
   const { entityType, owner } = useCurrentEntity()
   const { name } = useCurrentEntityProfile()
   const { registered, address } = useAccount()
@@ -109,19 +109,19 @@ const DAODashboard: React.FC = (): JSX.Element => {
       tabs={tabs}
       entityType={entityType}
     >
-      <Route exact path='/entity/:entityId/dashboard/navigator' component={Navigator} />
-      <Route exact path='/entity/:entityId/dashboard/membership' component={Membership} />
-      <Route exact path='/entity/:entityId/dashboard/membership/:address' component={IndividualMember} />
-      <Route exact path='/entity/:entityId/dashboard/governance' component={Governance} />
-      {registered && <Route exact path='/entity/:entityId/dashboard/my-participation' component={MyParticipation} />}
+      <Route  path='/entity/:entityId/dashboard/navigator' element={<Navigator/>} />
+      <Route  path='/entity/:entityId/dashboard/membership' element={<Membership/>} />
+      <Route  path='/entity/:entityId/dashboard/membership/:address' element={<IndividualMember/>} />
+      <Route  path='/entity/:entityId/dashboard/governance' element={<Governance/>} />
+      {registered && <Route  path='/entity/:entityId/dashboard/my-participation' element={<MyParticipation/>} />}
       {registered && owner === address && (
-        <Route exact path='/entity/:entityId/dashboard/edit' component={EditEntity} />
+        <Route  path='/entity/:entityId/dashboard/edit' element={<EditEntity/>} />
       )}
-      <Route exact path='/entity/:entityId/dashboard'>
-        <Redirect to={`/entity/${entityId}/dashboard/membership`} />
+      <Route  path='/entity/:entityId/dashboard'>
+        <Navigate to={`/entity/${entityId}/dashboard/membership`} />
       </Route>
 
-      <Redirect to={`/entity/${entityId}/dashboard/membership`} />
+      <Navigate to={`/entity/${entityId}/dashboard/membership`} />
     </Dashboard>
   )
 }

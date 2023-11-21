@@ -1,3 +1,4 @@
+// @ts-nocheck @zach
 import React from 'react'
 import { TClaimQuestionControlProps } from './types'
 import styled, { useTheme } from 'styled-components'

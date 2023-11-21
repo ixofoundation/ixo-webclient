@@ -1,4 +1,4 @@
-import React, { createContext } from 'react'
+import React, { ReactNode, createContext } from 'react'
 import styled from 'styled-components'
 import { deviceWidth } from 'constants/device'
 import HeaderTabs from 'components/HeaderTabs/HeaderTabs'
@@ -71,6 +71,7 @@ interface Props {
   tabs?: HeaderTab[]
   entityType?: string
   matchType?: string
+  children?: ReactNode
 }
 
 const Dashboard: React.FunctionComponent<Props> = ({

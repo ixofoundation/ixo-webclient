@@ -77,7 +77,8 @@ const AssetCard: React.FC<Props> = ({
 
   return (
     <NavLink
-      to={{ pathname: `/entity/${id}`, state: { collectionName: collectionName } }}
+      to={{ pathname: `/entity/${id}` }}
+      state={{ collectionName: collectionName }}
       style={{ textDecoration: 'none' }}
     >
       <FlexBox direction='column' width='100%' borderRadius={'10px'} overflow='hidden'>

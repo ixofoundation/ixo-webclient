@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import styled from 'styled-components'
 
 export interface TagProps {
   backgroundColor?: string
   color?: string
+  children?: ReactNode
 }
 
 const StyledTag = styled.div<TagProps>`
@@ -16,7 +17,7 @@ const StyledTag = styled.div<TagProps>`
   font-weight: bold;
 `
 
-export const Tag: React.FC<TagProps> = ({ backgroundColor, color, children }) => {
+export const Tag = ({ backgroundColor, color, children }: TagProps) => {
   return (
     <StyledTag backgroundColor={backgroundColor} color={color}>
       {children}

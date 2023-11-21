@@ -7,7 +7,7 @@ import { useAccount } from 'hooks/account'
 import useCurrentEntity, { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
 import { Button } from 'pages/CreateEntity/Components'
 import React, { useMemo } from 'react'
-import { useHistory, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import styled, { useTheme } from 'styled-components'
 import { votingRemainingDateFormat } from 'utils/formatters'
 
@@ -57,7 +57,7 @@ interface Props {
 
 const UserProposals: React.FC<Props> = ({ show, coreAddress, userAddress, full = true }) => {
   const theme: any = useTheme()
-  const history = useHistory()
+  const navigate =useNavigate()
   const { entityId } = useParams<{ entityId: string }>()
   const { address } = useAccount()
   const { isImpactsDAO, isMemberOfImpactsDAO, isOwner, daoController } = useCurrentEntity()
@@ -140,11 +140,11 @@ const UserProposals: React.FC<Props> = ({ show, coreAddress, userAddress, full =
   )
 
   const handleNewProposal = () => {
-    history.push(`/create/entity/deed/${entityId}/${coreAddress}`)
+    navigate(`/create/entity/deed/${entityId}/${coreAddress}`)
   }
 
   const handleNewProposalForJoin = () => {
-    history.push(`/create/entity/deed/${entityId}/${coreAddress}?join=true`)
+    navigate(`/create/entity/deed/${entityId}/${coreAddress}?join=true`)
   }
 
   const handleRowClick = (state: any) => () => {
@@ -154,7 +154,7 @@ const UserProposals: React.FC<Props> = ({ show, coreAddress, userAddress, full =
     const [, deedDid] = description.split('#deed:')
 
     if (deedDid) {
-      history.push(`/entity/${deedDid}/overview`)
+      navigate(`/entity/${deedDid}/overview`)
     }
   }
 

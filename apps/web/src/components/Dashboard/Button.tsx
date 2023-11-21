@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 const Button = styled.button`
-  color: ${({ theme }): string => (theme === 'light' ? '#373d3f' : theme.highlight.light)};
+  color: ${({ theme }): string => (theme.theme === 'light' ? '#373d3f' : theme.highlight.light)};
   min-width: 85px;
   height: 42px;
   font-weight: bold;

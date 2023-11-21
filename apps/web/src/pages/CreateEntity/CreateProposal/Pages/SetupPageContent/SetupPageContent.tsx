@@ -1,18 +1,19 @@
 import { useCreateEntityState } from 'hooks/createEntity'
 import React from 'react'
-import { useHistory, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { SetupPageContent as SetupPage } from '../../../Forms/PropertiesForm/SetupPageContent'
 
 const SetupPageContent: React.FC = () => {
   const { entityId, coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
-  const history = useHistory()
+  const navigate = useNavigate()
+  const { search } = useLocation()
   const { page, entityType, updatePage } = useCreateEntityState()
 
   const handleBack = (): void => {
-    history.push(`/create/entity/deed/${entityId}/${coreAddress}/info${history.location.search}`)
+    navigate(`/create/entity/deed/${entityId}/${coreAddress}/info${search}`)
   }
   const handleNext = (): void => {
-    history.push(`/create/entity/deed/${entityId}/${coreAddress}/property${history.location.search}`)
+    navigate(`/create/entity/deed/${entityId}/${coreAddress}/property${search}`)
   }
 
   return (

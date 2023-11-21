@@ -1,10 +1,11 @@
 // Title.tsx
-import React from 'react'
+import React, { ReactNode } from 'react'
 import styled from 'styled-components'
 
 export interface TitleProps {
   fontSize?: string
   color?: string
+  children?: ReactNode
 }
 
 const StyledTitle = styled.h1<TitleProps>`

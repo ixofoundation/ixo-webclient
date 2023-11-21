@@ -31,7 +31,7 @@ const ImageCropModal: React.FC<Props> = ({
   const [rotation, setRotation] = useState(0)
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null)
 
-  const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
+  const onCropComplete = useCallback((croppedArea: any, croppedAreaPixels :any) => {
     setCroppedAreaPixels(croppedAreaPixels)
   }, [])
 

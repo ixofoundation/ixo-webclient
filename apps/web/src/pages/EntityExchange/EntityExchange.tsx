@@ -1,13 +1,9 @@
-import React, { FunctionComponent } from 'react'
-import { connect } from 'react-redux'
+
 import { useAppSelector } from 'redux/hooks'
-import { RootState } from 'redux/store'
-import { EntityType } from 'types/entities'
 import * as entitySelectors from 'redux/selectedEntity/selectedEntity.selectors'
-import { Redirect, Route, Switch } from 'react-router-dom'
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import Dashboard from 'components/Dashboard/Dashboard'
 
-import EntityExchangeTrade from './Trade/Trade'
 import EntityExchangeTradeSwap from './Trade/Swap/Swap'
 import {
   selectPortfolioAsset,
@@ -20,30 +16,21 @@ import { selectTradingAllowed } from 'redux/configs/configs.selectors'
 import { requireCheckDefault } from 'utils/images'
 import useRouteQuery from 'hooks/useRouteQuery'
 
-interface Props {
-  location: any
-  type: EntityType
-  did: string
-  name: string
-  portfolioAsset: string
-  stakeCellEntity: string
-  selectedAccountAddress: string
-}
+const EntityExchange = () => {
+  const did=  useAppSelector(entitySelectors.selectEntityDid)
+  const name= useAppSelector(entitySelectors.selectEntityName)
+  const type= useAppSelector(entitySelectors.selectEntityType)
+  const portfolioAsset= useAppSelector(selectPortfolioAsset)
+  const stakeCellEntity= useAppSelector(selectStakeCellEntity)
+  const selectedAccountAddress= useAppSelector(selectSelectedAccountAddress)
+  const location = useLocation()
 
-const EntityExchange: FunctionComponent<Props> = ({
-  did,
-  type,
-  name,
-  portfolioAsset,
-  stakeCellEntity,
-  selectedAccountAddress,
-  location,
-}) => {
+
   const tradingAllowed = useAppSelector(selectTradingAllowed)
   const query = useRouteQuery()
   const entityId = query.get('from')
 
-  let title = name
+  let title = name ?? ""
 
   const generateRoutes = (): Path[] => {
     const { pathname } = location
@@ -123,7 +110,7 @@ const EntityExchange: FunctionComponent<Props> = ({
     breadCrumbs.unshift({
       url: `/entity/${entityId}/overview`,
       icon: '',
-      sdg: name,
+      sdg: title,
       tooltip: '',
     })
     if (location.pathname.indexOf(`/exchange/trade/swap`) > -1) {
@@ -180,7 +167,7 @@ const EntityExchange: FunctionComponent<Props> = ({
     breadCrumbs.push({
       url: `/entity/${did}/overview`,
       icon: '',
-      sdg: name,
+      sdg: title,
       tooltip: '',
     })
   }
@@ -199,27 +186,17 @@ const EntityExchange: FunctionComponent<Props> = ({
       matchType={MatchType.strict}
     >
       {/* These routes are nested under '/exchange' */}
-      <Switch>
-        <Route exact path='/exchange'>
-          <Redirect to={`/exchange/trade/swap`} />
+      <Routes>
+        <Route path='/exchange'>
+          <Navigate to={`/exchange/trade/swap`} />
         </Route>
         {/* <Route exact path='/exchange/trade/swap' component={EntityExchangeTrade} /> */}
-        <Route exact path='/exchange/trade/swap' component={EntityExchangeTradeSwap} />
+        <Route path='/exchange/trade/swap' element={<EntityExchangeTradeSwap/>} />
         {/* <Route exact path='/exchange/trade/:id' component={EntityExchangeTrade} /> */}
-      </Switch>
+      </Routes>
     </Dashboard>
   )
 }
 
-const mapStateToProps = (state: RootState): any => ({
-  did: entitySelectors.selectEntityDid(state),
-  name: entitySelectors.selectEntityName(state),
-  type: entitySelectors.selectEntityType(state),
-  portfolioAsset: selectPortfolioAsset(state),
-  stakeCellEntity: selectStakeCellEntity(state),
-  selectedAccountAddress: selectSelectedAccountAddress(state),
-})
 
-const mapDispatchToProps = (): any => ({})
-
-export default connect(mapStateToProps, mapDispatchToProps)(EntityExchange)
+export default (EntityExchange)

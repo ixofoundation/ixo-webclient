@@ -1,3 +1,4 @@
+import { ReactNode } from 'react'
 import { BackdropWrapper, Button, ButtonWrapper, ModalWrapper } from './BackdropModal.styles'
 
 interface Props {
@@ -10,6 +11,7 @@ interface Props {
   onSubmit: () => void
   onCancel: () => void
   onReset?: () => void
+  children?: ReactNode
 }
 
 const BackdropModal: React.FunctionComponent<Props> = ({

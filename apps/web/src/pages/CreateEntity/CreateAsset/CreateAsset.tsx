@@ -1,15 +1,16 @@
 import React, { useEffect } from 'react'
-import { Redirect, Route, RouteComponentProps, useRouteMatch } from 'react-router-dom'
+import { Navigate, Route, matchPath, useLocation } from 'react-router-dom'
 import { useCreateEntityState, useCreateEntityStrategy } from 'hooks/createEntity'
 
-const CreateAsset: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): JSX.Element => {
+const CreateAsset = (): JSX.Element => {
   const { getStrategyByEntityType } = useCreateEntityStrategy()
   const { updateEntityType, updateTitle, updateSubtitle, updateBreadCrumbs } = useCreateEntityState()
-  const isSelectProcessRoute = useRouteMatch('/create/entity/asset/process')
-  const isSetupMetadataRoute = useRouteMatch('/create/entity/asset/profile')
-  const isSetupPropertiesRoute = useRouteMatch('/create/entity/asset/property')
-  const isReviewRoute = useRouteMatch('/create/entity/asset/review')
-  const isCreateTokenRoute = useRouteMatch('/create/entity/asset/create-token')
+  const { pathname } = useLocation()
+  const isSelectProcessRoute = matchPath({ path: '/create/entity/asset/process', end: true }, pathname)
+  const isSetupMetadataRoute = matchPath({ path: '/create/entity/asset/profile', end: true }, pathname)
+  const isSetupPropertiesRoute = matchPath({ path: '/create/entity/asset/property', end: true }, pathname)
+  const isReviewRoute = matchPath({ path: '/create/entity/asset/review', end: true }, pathname)
+  const isCreateTokenRoute = matchPath({ path: '/create/entity/asset/create-token', end: true }, pathname)
 
   const { steps } = getStrategyByEntityType('asset')
 
@@ -21,43 +22,43 @@ const CreateAsset: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): J
   }, [])
 
   useEffect(() => {
-    if (isSelectProcessRoute?.isExact) {
+    if (isSelectProcessRoute) {
       updateSubtitle('New or Clone')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSelectProcessRoute?.isExact])
+  }, [isSelectProcessRoute])
   useEffect(() => {
-    if (isSetupMetadataRoute?.isExact) {
+    if (isSetupMetadataRoute) {
       updateSubtitle('Profile')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSetupMetadataRoute?.isExact])
+  }, [isSetupMetadataRoute])
   useEffect(() => {
-    if (isSetupPropertiesRoute?.isExact) {
+    if (isSetupPropertiesRoute) {
       updateSubtitle('Asset Class Properties')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSetupPropertiesRoute?.isExact])
+  }, [isSetupPropertiesRoute])
   useEffect(() => {
-    if (isReviewRoute?.isExact) {
+    if (isReviewRoute) {
       updateSubtitle('Asset Collection')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isReviewRoute?.isExact])
+  }, [isReviewRoute])
   useEffect(() => {
-    if (isCreateTokenRoute?.isExact) {
+    if (isCreateTokenRoute) {
       updateSubtitle('Create Asset')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isCreateTokenRoute?.isExact])
+  }, [isCreateTokenRoute])
 
   return (
     <>
-      {Object.values(steps).map((step) => (
-        <Route key={step.url} exact path={step.url} component={step.component} />
+      {Object.values(steps).map(({url, component: Component}) => (
+        <Route key={url} path={url} element={<Component/>} />
       ))}
-      <Route exact path={`${match.path}`}>
-        {steps[1] && steps[1].url && <Redirect to={steps[1].url} />}
+      <Route path={`${pathname}`}>
+        {steps[1] && steps[1].url && <Navigate to={steps[1].url} />}
       </Route>
     </>
   )

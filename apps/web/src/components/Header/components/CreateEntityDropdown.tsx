@@ -67,7 +67,7 @@ const CreateEntityDropdown: React.FunctionComponent<Props> = ({ entityType }) =>
         <DropdownModal style={{ display: isModalOpen ? 'block' : 'none' }}>
           <ButtonsWrapper>
             <LaunchEntityButton
-              exact={true}
+              end={true}
               to={`/create/entity/${EntityType.Project.toLowerCase()}`}
               className={`
                   ${EntityType.Project.toLowerCase()} ${entityType === EntityType.Project ? 'active' : ''}
@@ -80,7 +80,7 @@ const CreateEntityDropdown: React.FunctionComponent<Props> = ({ entityType }) =>
               </ButtonContent>
             </LaunchEntityButton>
             <LaunchEntityButton
-              exact={true}
+              end={true}
               to={`/create/entity/${EntityType.Oracle.toLowerCase()}`}
               className={`
                   ${EntityType.Oracle.toLowerCase()} ${entityType === EntityType.Oracle ? 'active' : ''}
@@ -93,7 +93,7 @@ const CreateEntityDropdown: React.FunctionComponent<Props> = ({ entityType }) =>
               </ButtonContent>
             </LaunchEntityButton>
             <LaunchEntityButton
-              exact={true}
+              end={true}
               to={`/create/entity/${EntityType.Investment.toLowerCase()}`}
               className={`
                   ${EntityType.Investment.toLowerCase()} ${entityType === EntityType.Investment ? 'active' : ''}
@@ -106,7 +106,7 @@ const CreateEntityDropdown: React.FunctionComponent<Props> = ({ entityType }) =>
               </ButtonContent>
             </LaunchEntityButton>
             <LaunchEntityButton
-              exact={true}
+              end={true}
               to={`/create/entity/${EntityType.Dao.toLowerCase()}`}
               className={`
                   ${EntityType.Dao.toLowerCase()} ${entityType === EntityType.Dao ? 'active' : ''}
@@ -119,7 +119,7 @@ const CreateEntityDropdown: React.FunctionComponent<Props> = ({ entityType }) =>
               </ButtonContent>
             </LaunchEntityButton>
             <LaunchEntityButton
-              exact={true}
+              end={true}
               to={`/create/entity/protocol`}
               className={`protocol`}
               onClick={handleToggleModal}
@@ -130,7 +130,7 @@ const CreateEntityDropdown: React.FunctionComponent<Props> = ({ entityType }) =>
               </ButtonContent>
             </LaunchEntityButton>
             <LaunchEntityButton
-              exact={true}
+              end={true}
               to={`/create/entity/${EntityType.Asset.toLowerCase()}`}
               className={`
                   ${EntityType.Asset.toLowerCase()} ${entityType === EntityType.Asset ? 'active' : ''} disabled

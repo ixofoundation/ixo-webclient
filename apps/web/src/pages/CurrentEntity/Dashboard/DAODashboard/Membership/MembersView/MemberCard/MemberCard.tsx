@@ -1,4 +1,4 @@
-import { Box, FlexBox, GridContainer, SvgBox } from 'components/App/App.styles'
+import { Box, FlexBox, GridContainer, HTMLFlexBoxProps, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import React, { useEffect, useMemo, useState } from 'react'
 import styled, { useTheme } from 'styled-components'
@@ -9,7 +9,7 @@ import { ReactComponent as PaperIcon } from 'assets/images/icon-paper.svg'
 import ThreeDot from 'assets/icons/ThreeDot'
 import { truncateString } from 'utils/formatters'
 import { MemberDetailCard } from '../MemberDetailCard'
-import { useHistory } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { Avatar } from '../../../../../Components'
 import { contracts } from '@ixo/impactxclient-sdk'
 import { convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
@@ -17,7 +17,7 @@ import { useAccount } from 'hooks/account'
 import CurrencyFormat from 'react-currency-format'
 import useCurrentEntity, { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
 
-const Wrapper = styled(FlexBox)<{ focused: boolean }>`
+const Wrapper = styled(FlexBox)<HTMLFlexBoxProps &{ focused: boolean }>`
   ${({ theme, focused }) => focused && `border-color: ${theme.ixoLightBlue};`}
   &:hover {
     border-color: ${(props) => props.theme.ixoLightBlue};
@@ -51,7 +51,8 @@ interface Props {
 
 const MemberCard: React.FC<Props> = ({ member, selected, onSelectMember }): JSX.Element => {
   const theme: any = useTheme()
-  const history = useHistory()
+  const {pathname} = useLocation()
+  const navigate =useNavigate()
   const STATUSES = {
     approved: {
       status: 'approved',
@@ -122,7 +123,7 @@ const MemberCard: React.FC<Props> = ({ member, selected, onSelectMember }): JSX.
   }, [votingModuleAddress, cwClient, type])
 
   const handleMemberView = () => {
-    history.push(`${history.location.pathname}/${addr}`)
+    navigate(`${pathname}/${addr}`)
   }
 
   return !detailView ? (

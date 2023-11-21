@@ -1,5 +1,5 @@
 import { JSONSchema7 } from 'json-schema'
-import { UiSchema } from '@rjsf/core'
+import { UiSchema } from '@rjsf/utils'
 import { ClaimInfo } from 'redux/createEntityAttestation/createEntityAttestation.types'
 
 // export enum EntityClaimType {

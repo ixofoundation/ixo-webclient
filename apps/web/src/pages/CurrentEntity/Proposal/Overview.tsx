@@ -12,7 +12,7 @@ import { PageContent } from '../Overview/PageContent'
 import { InstructionsToExecute } from './InstructionsToExecute'
 
 const Overview: React.FC = () => {
-  const { entityId, deedId } = useParams<{ entityId: string; deedId: string }>()
+  const { entityId = "", deedId = "" } = useParams<{ entityId: string; deedId: string }>()
   const { controlPanelSchema } = useEntityConfig()
   const entity = useAppSelector(selectEntityById(deedId))
 

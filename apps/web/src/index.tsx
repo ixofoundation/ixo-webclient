@@ -1,15 +1,16 @@
 import reportWebVitals from './reportWebVitals'
 import * as ReactDOM from 'react-dom'
-import { Provider } from 'react-redux'
+import { Provider, ReactReduxContext } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
-import { ConnectedRouter } from 'connected-react-router'
-import { history, store, persistor } from './redux/store'
+import { store, persistor, history } from './redux/store'
 import { AppConnected } from './components/App/App'
 import { GlobalStyle } from 'styles/globalStyles'
 import * as Sentry from '@sentry/react'
 import { BrowserTracing } from '@sentry/tracing'
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client'
-import { StrictMode } from 'react'
+import { StrictMode, createContext } from 'react'
+import { createRoot } from 'react-dom/client'
+import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom'
 
 process.env.NODE_ENV === 'production' &&
   Sentry.init({
@@ -25,21 +26,30 @@ const client = new ApolloClient({
   cache: new InMemoryCache({ addTypename: false }),
 })
 
-ReactDOM.render(
-  <StrictMode>
-    <Provider store={store}>
-      <GlobalStyle />
-      <PersistGate loading={null} persistor={persistor}>
-        <ConnectedRouter history={history}>
-          <ApolloProvider client={client}>
-            <AppConnected />
-          </ApolloProvider>
-        </ConnectedRouter>
-      </PersistGate>
-    </Provider>
-  </StrictMode>,
-  document.getElementById('root'),
+const StoreContext = createContext(null)
+
+const App = () => (
+  <Provider store={store} >
+    <GlobalStyle />
+    <PersistGate loading={null} persistor={persistor}>
+      <ApolloProvider client={client}>
+          <AppConnected />
+      </ApolloProvider>
+    </PersistGate>
+  </Provider>
 )
+
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path="/" element={<App />}/>
+  )
+);
+
+// const router = createBrowserRouter(createRoutesFromElements(<Route path='/' element={<App />} />))
+
+// @ts-expect-error
+const root = createRoot(document.getElementById('root'))
+root.render(<RouterProvider router={router} /> )
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

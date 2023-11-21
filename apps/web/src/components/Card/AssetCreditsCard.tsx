@@ -19,28 +19,28 @@ export const AssetCreditsCard = ({
     <Card width={width} height={height} {...props}>
       <Flex direction='column' justify='center' w='100%' h='100%'>
         <Flex w='100%' justify={'center'} align={'flex-end'} my={8}>
-          <Text weight='bolder' size='xl'>
+          <Text style={{ fontWeight: 700 }} size='xl'>
             {carbonAmountProduced || 0} CARBON
           </Text>
-          <Text weight='bolder' ml={4}>
+          <Text style={{ fontWeight: 700 }} ml={4}>
             {' '}
             produced
           </Text>
         </Flex>
         <Flex w='100%' justify={'center'} align={'flex-end'} my={8}>
-          <Text weight='bolder' size='xl' color='#6FCF97'>
+          <Text style={{ fontWeight: 700 }} size='xl' color='#6FCF97'>
             {carbonAmountRetired || 0} CARBON
           </Text>
-          <Text weight='bolder' ml={4} color='#6FCF97'>
+          <Text style={{ fontWeight: 700 }} ml={4} color='#6FCF97'>
             {' '}
             retired
           </Text>
         </Flex>
         <Flex w='100%' justify={'center'} align={'flex-end'} my={8}>
-          <Text weight='bolder' size='xl' color='#00D2FF'>
+          <Text style={{ fontWeight: 700 }} size='xl' color='#00D2FF'>
             {carbonAmountClaimable || 0} CARBON
           </Text>{' '}
-          <Text weight='bolder' color='#00D2FF' ml={4}>
+          <Text style={{ fontWeight: 700 }} color='#00D2FF' ml={4}>
             {' '}
             claimable
           </Text>

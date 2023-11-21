@@ -5,14 +5,15 @@ import CollectionExplorer from './CollectionExplorer'
 import { deviceWidth } from 'constants/device'
 import { useMediaQuery } from 'react-responsive'
 import { useGetAllCollections } from 'graphql/entities'
-import { useHistory } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useQuery } from 'hooks/window'
 
 const AssetCollections: React.FC = () => {
   const isMobile = useMediaQuery({ maxWidth: deviceWidth.tablet })
   const isTablet = useMediaQuery({ minWidth: deviceWidth.tablet, maxWidth: deviceWidth.desktop })
 
-  const history = useHistory()
+  const navigate = useNavigate()
+  const {pathname, search} = useLocation()
   const { getQuery } = useQuery()
   const collectionId = getQuery('collectionId')
 
@@ -23,10 +24,9 @@ const AssetCollections: React.FC = () => {
   )
 
   const onCollectionClick = (collectionId: string) => () => {
-    const pathname = history.location.pathname
-    const searchParams = new URLSearchParams(history.location.search)
+    const searchParams = new URLSearchParams(search)
     searchParams.append('collectionId', collectionId)
-    history.push({
+    navigate({
       pathname: pathname,
       search: searchParams.toString(),
     })

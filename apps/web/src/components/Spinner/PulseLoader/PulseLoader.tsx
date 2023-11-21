@@ -7,12 +7,12 @@ interface Props {
   borderColor?: string
 }
 
-const PulseLoader: React.SFC<Props> = ({
+const PulseLoader = ({
   children,
   repeat,
   style,
   borderColor = '#dfe3e8',
-}) => {
+}: Props) => {
   return (
     <PulseLoaderWrapper
       className={`${repeat ? 'repeat' : ''}`}

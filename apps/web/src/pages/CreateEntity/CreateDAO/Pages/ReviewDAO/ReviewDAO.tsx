@@ -14,7 +14,7 @@ import { useCreateEntity, useCreateEntityState } from 'hooks/createEntity'
 import { useQuery } from 'hooks/window'
 import { Button } from 'pages/CreateEntity/Components'
 import React, { useMemo, useState } from 'react'
-import { NavLink, useHistory } from 'react-router-dom'
+import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import DAOCard from '../../../Forms/ReviewCard/DAOCard'
 import { ReactComponent as CheckCircleIcon } from 'assets/images/icon-check-circle.svg'
 import { ReactComponent as ExclamationIcon } from 'assets/images/icon-exclamation-circle.svg'
@@ -22,7 +22,7 @@ import { useTheme } from 'styled-components'
 
 const ReviewDAO: React.FC = (): JSX.Element => {
   const theme: any = useTheme()
-  const history = useHistory()
+  const navigate =useNavigate()
   const createEntityState = useCreateEntityState()
   const profile = createEntityState.profile
   const {
@@ -37,6 +37,7 @@ const ReviewDAO: React.FC = (): JSX.Element => {
     gotoStepByNo,
   } = createEntityState
   const { UploadLinkedResource, UploadLinkedClaim, CreateProtocol, CreateEntityBase } = useCreateEntity()
+  const { pathname } = useLocation()
   const [submitting, setSubmitting] = useState(false)
   const { getQuery } = useQuery()
   const success = getQuery('success')
@@ -98,7 +99,7 @@ const ReviewDAO: React.FC = (): JSX.Element => {
     const protocolDid = await CreateProtocol()
     if (!protocolDid) {
       setSubmitting(false)
-      history.push({ pathname: history.location.pathname, search: `?success=false` })
+      navigate({ pathname: pathname, search: `?success=false` })
       return
     }
 
@@ -115,12 +116,12 @@ const ReviewDAO: React.FC = (): JSX.Element => {
     })
     if (!entityDid) {
       setSubmitting(false)
-      history.push({ pathname: history.location.pathname, search: `?success=false` })
+      navigate({ pathname: pathname, search: `?success=false` })
       return
     }
 
     setSubmitting(false)
-    history.push({ pathname: history.location.pathname, search: `?success=true` })
+    navigate({ pathname: pathname, search: `?success=true` })
   }
 
   return (
@@ -185,7 +186,7 @@ const ReviewDAO: React.FC = (): JSX.Element => {
               <Button
                 variant='primary'
                 onClick={() => {
-                  history.push(`/explore?type=${entityType}`)
+                  navigate(`/explore?type=${entityType}`)
                   clearEntity()
                 }}
                 style={{ width: '100%' }}
@@ -214,7 +215,7 @@ const ReviewDAO: React.FC = (): JSX.Element => {
               </Typography>
             </FlexBox>
             <FlexBox width='100%' gap={4}>
-              <Button variant='secondary' onClick={() => history.goBack()} style={{ width: '100%' }}>
+              <Button variant='secondary' onClick={() => navigate(-1)} style={{ width: '100%' }}>
                 Back
               </Button>
               <Button variant='primary' onClick={handleSignToCreate} style={{ width: '100%' }} loading={submitting}>

@@ -8,7 +8,7 @@ import { thousandSeparator } from 'utils/formatters'
 import { HorizontalLine } from 'components/HorizontalLine'
 import { Tag } from 'components'
 import { getEntityIcon } from 'utils/getEntityIcon'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 interface Props extends HTMLFlexBoxProps {
   id?: string
@@ -41,7 +41,7 @@ export const AssetCard: React.FC<Props> = ({
   ...rest
 }): JSX.Element | null => {
   const theme: any = useTheme()
-  const history = useHistory()
+  const navigate = useNavigate()
 
   return (
     <FlexBox
@@ -52,7 +52,7 @@ export const AssetCard: React.FC<Props> = ({
       overflow='hidden'
       hover={{ boxShadow: '0px 10px 25px 0px rgba(0, 0, 0, 0.15)' }}
       onClick={() =>
-        history.push({
+        navigate({
           pathname: `/entity/${id}/overview`,
         })
       }

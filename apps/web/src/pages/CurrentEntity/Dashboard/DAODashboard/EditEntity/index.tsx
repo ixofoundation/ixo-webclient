@@ -5,7 +5,7 @@ import useCurrentEntity from 'hooks/currentEntity'
 import useEditEntity from 'hooks/editEntity'
 import { Button } from 'pages/CreateEntity/Components'
 import React, { useEffect, useState } from 'react'
-import { useHistory, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { errorToast, successToast } from 'utils/toast'
 import EditGroups from '../../components/EditGroups'
 import { ReactComponent as ExclamationIcon } from 'assets/images/icon-exclamation-circle.svg'
@@ -19,8 +19,8 @@ import EditProperty from '../../components/EditProperty'
 
 const EditEntity: React.FC = () => {
   const dispatch = useDispatch()
-  const history = useHistory()
-  const { entityId } = useParams<{ entityId: string }>()
+  const navigate =useNavigate()
+  const { entityId = "" } = useParams<{ entityId: string }>()
   const { cwClient } = useAccount()
   const { currentEntity, isOwner } = useCurrentEntity()
   const { setEditEntity, ExecuteEditEntity } = useEditEntity()
@@ -61,11 +61,11 @@ const EditEntity: React.FC = () => {
   }
 
   const handleTransferEntity = async () => {
-    history.push(`/transfer/entity/${entityId}`)
+    navigate(`/transfer/entity/${entityId}`)
   }
 
   const handleReEnableKeys = async () => {
-    history.push(`/transfer/entity/${entityId}/review`)
+    navigate(`/transfer/entity/${entityId}/review`)
   }
 
   return (

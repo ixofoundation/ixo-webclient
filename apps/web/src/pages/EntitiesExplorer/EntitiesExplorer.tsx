@@ -1,5 +1,4 @@
 import React, { Dispatch } from 'react'
-import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import {
   filterCategories,
@@ -9,10 +8,11 @@ import {
 } from 'redux/entitiesExplorer/entitiesExplorer.actions'
 import { EntityType, EntityTypeStrategyMap, TEntityDDOTagModel } from 'types/entities'
 import * as entitiesUtils from 'utils/entities'
-import * as queryString from 'query-string'
+import queryString from 'query-string'
 import { ErrorContainer } from './EntitiesExplorer.container.styles'
 import { RootState } from 'redux/store'
 import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { Navigate } from 'react-router-dom'
 
 interface Props {
   location: any
@@ -69,7 +69,7 @@ const EntitiesSelect: React.FunctionComponent<Props> = ({
     )
   }
 
-  return <Redirect to='/explore' />
+  return <Navigate to='/explore' />
 }
 
 const mapStateToProps = (state: RootState): Record<string, any> => ({

@@ -3,7 +3,7 @@ import { Typography } from 'components/Typography'
 import useCurrentEntity, { useCurrentEntityDAOGroup, useCurrentEntityProfile } from 'hooks/currentEntity'
 import { Button } from 'pages/CreateEntity/Components'
 import React, { useMemo, useState } from 'react'
-import { NavLink, useHistory, useParams } from 'react-router-dom'
+import { NavLink, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { ReactComponent as WaitIcon } from 'assets/images/eco/wait.svg'
 import { ProgressBar } from 'components/ProgressBar/ProgressBar'
 import { useCreateEntity, useCreateEntityState } from 'hooks/createEntity'
@@ -35,14 +35,15 @@ import { EntityLinkedResourceConfig, ProposalActionConfig } from 'constants/enti
 
 const ReviewProposal: React.FC = () => {
   const theme: any = useTheme()
-  const history = useHistory()
-  const { entityId, coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
+  const navigate =useNavigate()
+  const { entityId = "", coreAddress = "" } = useParams<{ entityId: string; coreAddress: string }>()
   const { address, cosmWasmClient, cwClient, signingClient, signer } = useAccount()
   const { name: entityName } = useCurrentEntityProfile()
   const { updateDAOGroup, refetchAndUpdate } = useCurrentEntity()
   const { daoGroup, preProposalContractAddress, depositInfo, isParticipating, anyoneCanPropose } =
     useCurrentEntityDAOGroup(coreAddress)
   const createEntityState = useCreateEntityState()
+  const { pathname } = useLocation()
   const {
     entityType,
     proposal,
@@ -286,7 +287,7 @@ const ReviewProposal: React.FC = () => {
 
     return entityDid
 
-    // history.push({ pathname: history.location.pathname, search: `?success=true` })
+    // navigate({ pathname: pathname, search: `?success=true` })
   }
 
   const handleAddProposalInfoAsLinkedEntity = async (deedDid: string, proposalId: number): Promise<boolean> => {
@@ -317,13 +318,13 @@ const ReviewProposal: React.FC = () => {
             updateDAOGroup(coreAddress)
             setSubmitting(false)
             refetchAndUpdate()
-            history.push({ pathname: history.location.pathname, search: `?success=true` })
+            navigate({ pathname: pathname, search: `?success=true` })
             return
           }
         }
       }
       setSubmitting(false)
-      history.push({ pathname: history.location.pathname, search: `?success=false` })
+      navigate({ pathname: pathname, search: `?success=false` })
     } catch (e) {
       console.error('handleSubmit', e)
     }
@@ -459,7 +460,7 @@ const ReviewProposal: React.FC = () => {
             </FlexBox>
             {/* Actions */}
             <FlexBox width='100%' gap={4}>
-              <Button variant='secondary' onClick={(): void => history.goBack()} style={{ width: '100%' }}>
+              <Button variant='secondary' onClick={(): void => navigate(-1)} style={{ width: '100%' }}>
                 Back
               </Button>
               <Button variant='primary' onClick={handleSubmit} style={{ width: '100%' }} loading={submitting}>
@@ -490,7 +491,7 @@ const ReviewProposal: React.FC = () => {
               <Button
                 variant='primary'
                 onClick={() => {
-                  history.push(`/entity/${entityId}/dashboard/governance`)
+                  navigate(`/entity/${entityId}/dashboard/governance`)
                   clearEntity()
                 }}
                 style={{ width: '100%' }}
@@ -511,7 +512,7 @@ const ReviewProposal: React.FC = () => {
               </Typography>
             </FlexBox>
             <FlexBox width='100%' gap={4}>
-              <Button variant='secondary' onClick={() => history.goBack()} style={{ width: '100%' }}>
+              <Button variant='secondary' onClick={() => navigate(-1)} style={{ width: '100%' }}>
                 Back
               </Button>
               <Button variant='primary' onClick={handleSubmit} style={{ width: '100%' }} loading={submitting}>

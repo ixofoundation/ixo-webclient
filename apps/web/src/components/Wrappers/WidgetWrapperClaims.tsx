@@ -1,3 +1,4 @@
+import { ReactNode } from 'react'
 import styled from 'styled-components'
 
 const Container = styled.div`
@@ -20,9 +21,10 @@ const Container = styled.div`
 
 export interface ParentProps {
   title?: string
+  children?: ReactNode
 }
 
-export const WidgetWrapperClaims: React.SFC<ParentProps> = ({ title, children }) => {
+export const WidgetWrapperClaims = ({ title, children }: ParentProps) => {
   return (
     <Container className='container-fluid'>
       <h3>{title}</h3>

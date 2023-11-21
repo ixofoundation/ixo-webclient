@@ -1,16 +1,16 @@
 import React from 'react'
-import { Redirect, Route } from 'react-router-dom'
+import { Navigate, Route } from 'react-router-dom'
 import SelectType from './SelectType/SelectType'
 import CreateClaim from '../CreateClaim/CreateClaim'
 
 const CreateProtocol: React.FC = () => {
   return (
     <>
-      <Route path='/create/entity/protocol/type' component={SelectType} />
-      <Route path='/create/entity/protocol/claim' component={CreateClaim} />
+      <Route path='/create/entity/protocol/type' element={<SelectType/>} />
+      <Route path='/create/entity/protocol/claim' element={<CreateClaim/>} />
 
-      <Route exact path='/create/entity/protocol'>
-        <Redirect to='/create/entity/protocol/type' />
+      <Route  path='/create/entity/protocol'>
+        <Navigate to='/create/entity/protocol/type' />
       </Route>
     </>
   )

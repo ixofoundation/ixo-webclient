@@ -1,7 +1,7 @@
 import React from 'react'
 import { Wrapper, Row } from './SetupDataCollection.styles'
 import { Button } from 'pages/CreateEntity/Components'
-import { RouteComponentProps, useHistory } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { SurveyCreator, SurveyCreatorComponent } from 'survey-creator-react'
 import { ICreatorOptions } from 'survey-creator-core'
 import 'survey-core/survey.i18n.js'
@@ -16,9 +16,12 @@ const options: ICreatorOptions = {
   isAutoSave: true,
 }
 
-const SetupDataCollection: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): JSX.Element => {
-  const history = useHistory()
-  const baseLink = match.path.split('/').slice(0, -1).join('/')
+const SetupDataCollection = (): JSX.Element => {
+  const navigate =useNavigate()
+  const location = useLocation();
+  
+  // Assuming you are trying to reconstruct a base link from the current path
+  const baseLink = location.pathname.split('/').slice(0, -1).join('/');
 
   const { claimQuestionJSON, updateClaimQuestionJSON } = useCreateEntityState()
 
@@ -26,13 +29,13 @@ const SetupDataCollection: React.FC<Pick<RouteComponentProps, 'match'>> = ({ mat
   creator.JSON = claimQuestionJSON
 
   const handlePrev = (): void => {
-    history.push(`${baseLink}/profile`)
+    navigate(`${baseLink}/profile`)
   }
   const handleNext = (): void => {
     console.log(creator.JSON)
     updateClaimQuestionJSON(creator.JSON)
 
-    history.push(`${baseLink}/property`)
+    navigate(`${baseLink}/property`)
   }
 
   return (

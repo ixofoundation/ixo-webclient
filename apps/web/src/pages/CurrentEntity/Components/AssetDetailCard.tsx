@@ -5,7 +5,7 @@ import { ReactComponent as ArrowLeftIcon } from 'assets/images/icon-arrow-left.s
 import { Typography } from 'components/Typography'
 import CurrencyFormat from 'react-currency-format'
 import BigNumber from 'bignumber.js'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { Area, AreaChart, YAxis, ResponsiveContainer } from 'recharts'
 import { Button } from 'pages/CreateEntity/Components'
 import Avatar from './Avatar'
@@ -72,7 +72,7 @@ const AssetDetailCard: React.FC<Props> = ({
   ...rest
 }) => {
   const theme: any = useTheme()
-  const history = useHistory()
+  const navigate =useNavigate()
   const { cwClient, address } = useAccount()
   const { selectedDAOGroup, updateDAOGroup } = useCurrentEntity()
   const { votingModuleAddress } = useCurrentEntityDAOGroup(selectedDAOGroup?.coreAddress || '')
@@ -227,7 +227,7 @@ const AssetDetailCard: React.FC<Props> = ({
             </FlexBox>
           </FlexBox>
         </FlexBox>
-        <SvgBox color='white' cursor='pointer' onClick={() => history.goBack()}>
+        <SvgBox color='white' cursor='pointer' onClick={() => navigate(-1)}>
           <ArrowLeftIcon />
         </SvgBox>
       </FlexBox>

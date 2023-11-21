@@ -4,22 +4,23 @@ import { deviceWidth } from 'constants/device'
 import { useCreateEntityState } from 'hooks/createEntity'
 import { Button } from 'pages/CreateEntity/Components'
 import React, { useMemo } from 'react'
-import { useHistory, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { SetupActionsForm } from './SetupActionsForm'
 
 const SetupActions: React.FC = () => {
-  const history = useHistory()
+  const navigate =useNavigate()
   const { entityId, coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
+  const { search } = useLocation()
   const { proposal, updateProposal } = useCreateEntityState()
 
   const actions = useMemo(() => proposal?.actions ?? [], [proposal])
   const validActions = useMemo(() => actions.filter((item) => item.data), [actions])
 
   const handleBack = () => {
-    history.push(`/create/entity/deed/${entityId}/${coreAddress}/property${history.location.search}`)
+    navigate(`/create/entity/deed/${entityId}/${coreAddress}/property${search}`)
   }
   const handleContinue = () => {
-    history.push(`/create/entity/deed/${entityId}/${coreAddress}/review${history.location.search}`)
+    navigate(`/create/entity/deed/${entityId}/${coreAddress}/review${search}`)
   }
 
   return (

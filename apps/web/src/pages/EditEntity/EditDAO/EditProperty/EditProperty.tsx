@@ -3,7 +3,7 @@ import { Button } from 'pages/CreateEntity/Components'
 import { FlexBox } from 'components/App/App.styles'
 import { deviceWidth } from 'constants/device'
 import { PropertiesForm } from 'pages/CreateEntity/Forms'
-import { useHistory, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { EditEntityContext } from 'pages/EditEntity/EditEntity'
 import {
   TEntityAdministratorModel,
@@ -16,7 +16,8 @@ import {
 import { AccordedRight, LinkedEntity, LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 
 const EditProperty: React.FC = (): JSX.Element => {
-  const history = useHistory()
+  const navigate = useNavigate()
+  const {search} = useLocation()
   const { entityId } = useParams<{ entityId: string }>()
   const entity = useContext(EditEntityContext)
 
@@ -76,13 +77,13 @@ const EditProperty: React.FC = (): JSX.Element => {
       <PropertiesForm {...PropertiesFormProps} />
 
       <FlexBox id='setup-property-actions' gap={5}>
-        <Button variant='secondary' onClick={(): void => history.goBack()}>
+        <Button variant='secondary' onClick={(): void => navigate(-1)}>
           Back
         </Button>
         <Button
           variant='primary'
           onClick={(): void =>
-            history.push({ pathname: `/edit/entity/${entityId}/review`, search: history.location.search })
+            navigate({ pathname: `/edit/entity/${entityId}/review`, search })
           }
         >
           Continue

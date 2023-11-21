@@ -5,7 +5,7 @@ import React, { useEffect, useState, useMemo } from 'react'
 import styled, { css, useTheme } from 'styled-components'
 import { truncateString } from 'utils/formatters'
 import { MemberDetailCard } from '../MemberDetailCard'
-import { useHistory } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { Avatar } from '../../../../../Components'
 import { useAccount } from 'hooks/account'
 import { contracts } from '@ixo/impactxclient-sdk'
@@ -86,7 +86,8 @@ const MemberListItem: React.FC<Props> = ({ member, selected, onSelectMember }): 
       color: theme.ixoNewBlue,
     },
   }
-  const history = useHistory()
+  const navigate =useNavigate()
+  const { pathname } = useLocation()
   const { cwClient } = useAccount()
   const { selectedDAOGroup } = useCurrentEntity()
   const { type, daoGroup, proposals, votes, votingModuleAddress } = useCurrentEntityDAOGroup(
@@ -134,7 +135,7 @@ const MemberListItem: React.FC<Props> = ({ member, selected, onSelectMember }): 
   }, [votingModuleAddress, cwClient, type])
 
   const handleMemberView = () => {
-    history.push(`${history.location.pathname}/${addr}`)
+    navigate(`${pathname}/${addr}`)
   }
 
   return (

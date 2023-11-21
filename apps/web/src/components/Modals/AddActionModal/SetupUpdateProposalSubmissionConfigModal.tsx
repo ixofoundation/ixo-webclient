@@ -52,7 +52,7 @@ const SetupUpdateProposalSubmissionConfigModal: React.FC<Props> = ({
   onClose,
   onSubmit,
 }): JSX.Element => {
-  const { coreAddress } = useParams<{ coreAddress: string }>()
+  const { coreAddress = "" } = useParams<{ coreAddress: string }>()
   const { daoGroup } = useCurrentEntityDAOGroup(coreAddress)
   const preProposeConfig = daoGroup?.proposalModule.preProposeConfig
   const [formData, setFormData] = useState<UpdatePreProposeConfigData>(initialPreProposeConfigState)

@@ -1,6 +1,5 @@
 import React, { lazy, Suspense } from 'react'
-import { Route, Switch, useHistory, useLocation } from 'react-router-dom'
-import { connect } from 'react-redux'
+import { Route, useLocation, Routes as ReactRouterRoutes, useNavigate } from 'react-router-dom'
 import { useAppSelector } from 'redux/hooks'
 import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { Spinner } from 'components/Spinner/Spinner'
@@ -25,7 +24,7 @@ const EntityExchange = lazy(
 const App: React.FunctionComponent = () => {
   const entityTypeMap = useAppSelector(selectEntityConfig)
   const location = useLocation()
-  const history = useHistory()
+  const navigate = useNavigate()
 
   React.useEffect(() => {
     if (location.pathname.includes('action')) {
@@ -39,9 +38,9 @@ const App: React.FunctionComponent = () => {
   React.useEffect(() => {
     if (location.pathname === '/') {
       if (splashIsRootRoute) {
-        history.push('/')
+        navigate('/')
       } else {
-        history.push('/explore')
+        navigate('/explore')
       }
     }
     // eslint-disable-next-line
@@ -49,26 +48,21 @@ const App: React.FunctionComponent = () => {
 
   return (
     <Suspense fallback={<Spinner info='Loading' />}>
-      <Switch>
-        <Route exact path='/' component={Splash} />
+      <ReactRouterRoutes>
+        <Route  path='/' element={<Splash/>} />
         <Route
-          exact
           path={'/explore'}
-          render={(routeProps): JSX.Element => <EntitiesExplorer {...routeProps.location} />}
+          element={ <EntitiesExplorer />}
         />
-        <Route path='/exchange' component={EntityExchange} />
-        <Route path='/create/entity' component={CreateEntityPage} />
-        <Route path='/edit/entity/:entityId' component={EditEntityPage} />
-        <Route path='/entity/:entityId' component={CurrentEntityPage} />
-        <Route path='/transfer/entity/:entityId' component={TransferEntityPage} />
-        <Route path='*' component={NotFound} />
-      </Switch>
+        <Route path='/exchange' element={<EntityExchange/>} />
+        <Route path='/create/entity' element={<CreateEntityPage/>} />
+        <Route path='/edit/entity/:entityId' element={<EditEntityPage/>} />
+        <Route path='/entity/:entityId' element={<CurrentEntityPage/>} />
+        <Route path='/transfer/entity/:entityId' element={<TransferEntityPage/>} />
+        <Route path='*' element={<NotFound/>} />
+      </ReactRouterRoutes>
     </Suspense>
   )
 }
 
-const mapStateToProps = (): Record<string, any> => ({})
-
-const mapDispatchToProps = (dispatch: any): any => ({})
-
-export const Routes = connect(mapStateToProps, mapDispatchToProps)(App)
+export const Routes = App

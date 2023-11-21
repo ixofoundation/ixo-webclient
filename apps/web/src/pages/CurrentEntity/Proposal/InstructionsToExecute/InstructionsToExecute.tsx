@@ -12,7 +12,7 @@ import { TProposalActionModel } from 'types/entities'
 import { ProposalActionConfigMap } from 'constants/entity'
 
 const InstructionsToExecute: React.FC = () => {
-  const { deedId } = useParams<{ deedId: string }>()
+  const { deedId = "" } = useParams<{ deedId: string }>()
   const { cwClient, address } = useAccount()
   const entity = useAppSelector(selectEntityById(deedId))
   const linkedProposal = useMemo(() => (entity?.linkedEntity ?? []).find(({ type }) => type === 'deed'), [entity])

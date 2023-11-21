@@ -52,7 +52,8 @@ const SetupPageContent: React.FC<Props> = ({ page = {}, entityType, onChange, on
   const handleChange = (): void => {
     onChange && onChange(_.keyBy(value.blocks, 'id'))
   }
-  const handleInitialize = useCallback((instance) => {
+  
+  const handleInitialize = useCallback((instance: any) => {
     editorCore.current = instance
   }, [])
 

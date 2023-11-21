@@ -28,7 +28,7 @@ interface Props {
 }
 
 const SetupSpendModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
-  const { entityId, coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
+  const { entityId = "", coreAddress = "" } = useParams<{ entityId: string; coreAddress: string }>()
   const { getTokenInfo } = useDAO()
   const [formData, setFormData] = useState<SpendData>(initialState)
 

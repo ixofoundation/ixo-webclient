@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Redirect, Route, RouteComponentProps, useParams, useRouteMatch } from 'react-router-dom'
+import { Navigate, Route, matchPath, useLocation, useParams } from 'react-router-dom'
 import { useCreateEntityState } from 'hooks/createEntity'
 import useCurrentEntity, { useCurrentEntityDAOGroup, useCurrentEntityProfile } from 'hooks/currentEntity'
 import {
@@ -15,21 +15,22 @@ import { useAppSelector } from 'redux/hooks'
 import { selectEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { TEntityModel } from 'types/entities'
 
-const CreateProposal: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): JSX.Element => {
-  const { entityId, coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
+const CreateProposal = (): JSX.Element => {
+  const { entityId = "", coreAddress = ""} = useParams<{ entityId: string; coreAddress: string }>()
   const { getQuery } = useQuery()
   const join = getQuery('join')
+  const { pathname } = useLocation()
 
   const { updateEntity } = useCurrentEntity()
   const { daoGroup } = useCurrentEntityDAOGroup(coreAddress)
   const { name: entityName } = useCurrentEntityProfile()
   const { updateBreadCrumbs, updateEntityType, updateTitle, updateSubtitle } = useCreateEntityState()
-  const isSetupTargetRoute = useRouteMatch('/create/entity/deed/:entityId/:coreAddress/select')
-  const isSetupInfoRoute = useRouteMatch('/create/entity/deed/:entityId/:coreAddress/info')
-  const isSetupPageRoute = useRouteMatch('/create/entity/deed/:entityId/:coreAddress/page')
-  const isSetupPropertiesRoute = useRouteMatch('/create/entity/deed/:entityId/:coreAddress/property')
-  const isSetupActionsRoute = useRouteMatch('/create/entity/deed/:entityId/:coreAddress/action')
-  const isReviewRoute = useRouteMatch('/create/entity/deed/:entityId/:coreAddress/review')
+  const isSetupTargetRoute = matchPath({path: '/create/entity/deed/:entityId/:coreAddress/select', end: true}, pathname)
+  const isSetupInfoRoute = matchPath({path: '/create/entity/deed/:entityId/:coreAddress/info', end: true}, pathname)
+  const isSetupPageRoute = matchPath({path: '/create/entity/deed/:entityId/:coreAddress/page', end: true}, pathname)
+  const isSetupPropertiesRoute = matchPath({path: '/create/entity/deed/:entityId/:coreAddress/property', end: true}, pathname)
+  const isSetupActionsRoute = matchPath({path: '/create/entity/deed/:entityId/:coreAddress/action', end: true}, pathname)
+  const isReviewRoute = matchPath({path: '/create/entity/deed/:entityId/:coreAddress/review', end: true}, pathname)
   const selectedEntity: TEntityModel | undefined = useAppSelector(selectEntityById(entityId))
 
   useEffect(() => {
@@ -43,41 +44,41 @@ const CreateProposal: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match })
   }, [daoGroup?.config.name, entityName])
 
   useEffect(() => {
-    if (isSetupTargetRoute?.isExact) {
+    if (isSetupTargetRoute) {
       updateSubtitle('Select the Target Group')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSetupTargetRoute?.isExact])
+  }, [isSetupTargetRoute])
   useEffect(() => {
-    if (isSetupInfoRoute?.isExact) {
+    if (isSetupInfoRoute) {
       updateSubtitle('Proposal Info')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSetupInfoRoute?.isExact])
+  }, [isSetupInfoRoute])
   useEffect(() => {
-    if (isSetupPageRoute?.isExact) {
+    if (isSetupPageRoute) {
       updateSubtitle('Configure the proposal page')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSetupPageRoute?.isExact])
+  }, [isSetupPageRoute])
   useEffect(() => {
-    if (isSetupPropertiesRoute?.isExact) {
+    if (isSetupPropertiesRoute) {
       updateSubtitle('Configure the proposal settings')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSetupPropertiesRoute?.isExact])
+  }, [isSetupPropertiesRoute])
   useEffect(() => {
-    if (isSetupActionsRoute?.isExact) {
+    if (isSetupActionsRoute) {
       updateSubtitle('Add actions')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSetupActionsRoute?.isExact])
+  }, [isSetupActionsRoute])
   useEffect(() => {
-    if (isReviewRoute?.isExact) {
+    if (isReviewRoute) {
       updateSubtitle('Review and Submit')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isReviewRoute?.isExact])
+  }, [isReviewRoute])
 
   useEffect(() => {
     if (selectedEntity) {
@@ -88,18 +89,18 @@ const CreateProposal: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match })
 
   return (
     <>
-      <Route exact path={'/create/entity/deed/:entityId/:coreAddress/select'} component={SetupTargetGroup} />
-      <Route exact path={'/create/entity/deed/:entityId/:coreAddress/info'} component={SetupProposalInfo} />
-      <Route exact path={'/create/entity/deed/:entityId/:coreAddress/page'} component={SetupPageContent} />
-      <Route exact path={'/create/entity/deed/:entityId/:coreAddress/property'} component={SetupProposalProperties} />
-      <Route exact path={'/create/entity/deed/:entityId/:coreAddress/action'} component={SetupActions} />
-      <Route exact path={'/create/entity/deed/:entityId/:coreAddress/review'} component={ReviewProposal} />
+      <Route path={'/create/entity/deed/:entityId/:coreAddress/select'} element={<SetupTargetGroup/>} />
+      <Route path={'/create/entity/deed/:entityId/:coreAddress/info'} element={<SetupProposalInfo/>} />
+      <Route path={'/create/entity/deed/:entityId/:coreAddress/page'} element={<SetupPageContent/>} />
+      <Route path={'/create/entity/deed/:entityId/:coreAddress/property'} element={<SetupProposalProperties/>} />
+      <Route path={'/create/entity/deed/:entityId/:coreAddress/action'} element={<SetupActions/>} />
+      <Route path={'/create/entity/deed/:entityId/:coreAddress/review'} element={<ReviewProposal/>} />
 
-      <Route exact path={`/create/entity/deed/:entityId/:coreAddress`}>
+      <Route path={`/create/entity/deed/:entityId/:coreAddress`}>
         {join === 'true' ? (
-          <Redirect to={`/create/entity/deed/${entityId}/${coreAddress}/select?join=true`} />
+          <Navigate to={`/create/entity/deed/${entityId}/${coreAddress}/select?join=true`} />
         ) : (
-          <Redirect to={`/create/entity/deed/${entityId}/${coreAddress}/info`} />
+          <Navigate to={`/create/entity/deed/${entityId}/${coreAddress}/info`} />
         )}
       </Route>
     </>

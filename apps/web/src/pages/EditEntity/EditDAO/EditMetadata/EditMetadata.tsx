@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { DAOProfileForm, EntityAdditionalInfoForm } from 'pages/CreateEntity/Forms'
 import { Button } from 'pages/CreateEntity/Components'
 import { EditEntityContext } from 'pages/EditEntity/EditEntity'
-import { useHistory, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 
 const PageWrapper = styled.div`
   display: flex;
@@ -13,7 +13,8 @@ const PageWrapper = styled.div`
 `
 
 const EditMetadata: React.FC = (): JSX.Element => {
-  const history = useHistory()
+  const navigate = useNavigate()
+  const {search} = useLocation()
   const { entityId } = useParams<{ entityId: string }>()
   const entity = useContext(EditEntityContext)
 
@@ -22,10 +23,10 @@ const EditMetadata: React.FC = (): JSX.Element => {
   const canSubmit = true
 
   const handlePrev = (): void => {
-    history.goBack()
+    navigate(-1)
   }
   const handleNext = (): void => {
-    history.push({ pathname: `/edit/entity/${entityId}/groups`, search: history.location.search })
+    navigate({ pathname: `/edit/entity/${entityId}/groups`, search })
   }
 
   const handleUpdateProfile = (key: string, value: any): void => {

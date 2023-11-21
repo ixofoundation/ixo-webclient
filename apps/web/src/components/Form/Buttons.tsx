@@ -99,9 +99,10 @@ export interface Props {
   href?: string
   target?: string
   className?: string
+  children?: React.ReactNode
 }
 
-export const Button: React.FunctionComponent<Props> = (props) => {
+export const Button = (props: Props) => {
   const renderPlus = (): JSX.Element => {
     if (props.plus) {
       return <Plus>+ </Plus>
