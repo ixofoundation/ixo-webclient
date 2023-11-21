@@ -32,59 +32,6 @@ export const CreateCollection = async (
       quota: Long.fromNumber(Number(quota)),
       state: ixo.claims.v1beta1.CollectionState.OPEN,
       payments,
-      // payments: paymentsAccount
-      //   ? ixo.claims.v1beta1.Payments.fromPartial({
-      //       approval: ixo.claims.v1beta1.Payment.fromPartial({
-      //         account: paymentsAccount,
-      //         amount: [
-      //           cosmos.base.v1beta1.Coin.fromPartial({
-      //             amount: '1000000',
-      //             denom: 'uixo',
-      //           }),
-      //         ],
-      //         timeoutNs: utils.proto.toDuration((1000000000 * 60 * 0).toString()), // ns * seconds * minutes
-      //         // contract_1155Payment:
-      //         //   ixo.claims.v1beta1.Contract1155Payment.fromPartial({
-      //         //     address:
-      //         //       "ixo1nc5tatafv6eyq7llkr2gv50ff9e22mnf70qgjlv737ktmt4eswrqvg5w3c",
-      //         //     tokenId: "db03fa33c1e2ca35794adbb14aebb153",
-      //         //     amount: 1,
-      //         //   }),
-      //       }),
-      //       submission: ixo.claims.v1beta1.Payment.fromPartial({
-      //         account: paymentsAccount,
-      //         amount: [
-      //           cosmos.base.v1beta1.Coin.fromPartial({
-      //             amount: '1000000',
-      //             denom: 'uixo',
-      //           }),
-      //         ],
-      //         timeoutNs: utils.proto.toDuration((1000000000 * 60 * 0.5).toString()), // ns * seconds * minutes
-      //         // contract_1155Payment:
-      //         //   ixo.claims.v1beta1.Contract1155Payment.fromPartial({
-      //         //     address:
-      //         //       "ixo1nc5tatafv6eyq7llkr2gv50ff9e22mnf70qgjlv737ktmt4eswrqvg5w3c",
-      //         //     tokenId: "db03fa33c1e2ca35794adbb14aebb153",
-      //         //     amount: 1,
-      //         //   }),
-      //       }),
-      //       evaluation: ixo.claims.v1beta1.Payment.fromPartial({
-      //         account: paymentsAccount,
-      //         amount: [
-      //           cosmos.base.v1beta1.Coin.fromPartial({
-      //             amount: '1000000',
-      //             denom: 'uixo',
-      //           }),
-      //         ],
-      //         timeoutNs: utils.proto.toDuration((1000000000 * 60 * 5).toString()), // ns * seconds * minutes
-      //       }),
-      //       rejection: ixo.claims.v1beta1.Payment.fromPartial({
-      //         account: paymentsAccount,
-      //         amount: [],
-      //         timeoutNs: utils.proto.toDuration((1000000000 * 60 * 5).toString()), // ns * seconds * minutes
-      //       }),
-      //     })
-      //   : undefined,
     }),
   }))
   const updatedFee = { ...fee, gas: new BigNumber(fee.gas).times(messages.length).toString() }

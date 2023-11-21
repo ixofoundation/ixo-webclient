@@ -74,14 +74,13 @@ export const ClaimsItem: React.FC<TEntityClaimModel> = (item) => {
 const ClaimsCard: React.FC = () => {
   const history = useHistory()
   const { claim } = useCurrentEntity()
-  const claims: TEntityClaimModel[] = Object.values(claim)
 
   return (
     <Card
       icon={<ClaimIcon />}
       title='Claims'
       columns={1}
-      items={claims.map((claim) => ({
+      items={Object.values(claim).map((claim) => ({
         content: claim.template?.title ?? '',
         onClick: () => {
           const search = new URLSearchParams()
