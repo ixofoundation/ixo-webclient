@@ -2630,6 +2630,7 @@ export type QueryEvaluationsArgs = {
 /** The root query type which gives access points into the data universe. */
 export type QueryGetAccountTokensArgs = {
   address: Scalars['String']['input'];
+  allEntityRetired?: InputMaybe<Scalars['Boolean']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -2637,12 +2638,14 @@ export type QueryGetAccountTokensArgs = {
 /** The root query type which gives access points into the data universe. */
 export type QueryGetTokensTotalByAddressArgs = {
   address: Scalars['String']['input'];
+  allEntityRetired?: InputMaybe<Scalars['Boolean']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
 };
 
 
 /** The root query type which gives access points into the data universe. */
 export type QueryGetTokensTotalForCollectionArgs = {
+  allEntityRetired?: InputMaybe<Scalars['Boolean']['input']>;
   did: Scalars['String']['input'];
   name?: InputMaybe<Scalars['String']['input']>;
 };
@@ -2650,6 +2653,7 @@ export type QueryGetTokensTotalForCollectionArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QueryGetTokensTotalForCollectionAmountsArgs = {
+  allEntityRetired?: InputMaybe<Scalars['Boolean']['input']>;
   did: Scalars['String']['input'];
   name?: InputMaybe<Scalars['String']['input']>;
 };
@@ -2658,6 +2662,7 @@ export type QueryGetTokensTotalForCollectionAmountsArgs = {
 /** The root query type which gives access points into the data universe. */
 export type QueryGetTokensTotalForEntitiesArgs = {
   address: Scalars['String']['input'];
+  allEntityRetired?: InputMaybe<Scalars['Boolean']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -3341,6 +3346,8 @@ export type Token = Node & {
   tokenClassByName?: Maybe<TokenClass>;
   /** Reads and enables pagination through a set of `TokenDatum`. */
   tokenDataByTokenId: TokenDataConnection;
+  /** Reads and enables pagination through a set of `TokenRetired`. */
+  tokenRetiredsById: TokenRetiredsConnection;
   /** Reads and enables pagination through a set of `TokenTransaction`. */
   tokenTransactionsByTokenId: TokenTransactionsConnection;
 };
@@ -3355,6 +3362,18 @@ export type TokenTokenDataByTokenIdArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<TokenDataOrderBy>>;
+};
+
+
+export type TokenTokenRetiredsByIdArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  condition?: InputMaybe<TokenRetiredCondition>;
+  filter?: InputMaybe<TokenRetiredFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<TokenRetiredsOrderBy>>;
 };
 
 
@@ -3825,6 +3844,10 @@ export type TokenFilter = {
   tokenDataByTokenId?: InputMaybe<TokenToManyTokenDatumFilter>;
   /** Some related `tokenDataByTokenId` exist. */
   tokenDataByTokenIdExist?: InputMaybe<Scalars['Boolean']['input']>;
+  /** Filter by the object’s `tokenRetiredsById` relation. */
+  tokenRetiredsById?: InputMaybe<TokenToManyTokenRetiredFilter>;
+  /** Some related `tokenRetiredsById` exist. */
+  tokenRetiredsByIdExist?: InputMaybe<Scalars['Boolean']['input']>;
   /** Filter by the object’s `tokenTransactionsByTokenId` relation. */
   tokenTransactionsByTokenId?: InputMaybe<TokenToManyTokenTransactionFilter>;
   /** Some related `tokenTransactionsByTokenId` exist. */
@@ -3842,6 +3865,8 @@ export type TokenRetired = Node & {
   nodeId: Scalars['ID']['output'];
   owner: Scalars['String']['output'];
   reason: Scalars['String']['output'];
+  /** Reads a single `Token` that is related to this `TokenRetired`. */
+  tokenById?: Maybe<Token>;
   /** Reads a single `TokenClass` that is related to this `TokenRetired`. */
   tokenClassByName?: Maybe<TokenClass>;
 };
@@ -3889,6 +3914,8 @@ export type TokenRetiredFilter = {
   owner?: InputMaybe<StringFilter>;
   /** Filter by the object’s `reason` field. */
   reason?: InputMaybe<StringFilter>;
+  /** Filter by the object’s `tokenById` relation. */
+  tokenById?: InputMaybe<TokenFilter>;
   /** Filter by the object’s `tokenClassByName` relation. */
   tokenClassByName?: InputMaybe<TokenClassFilter>;
 };
@@ -3944,6 +3971,16 @@ export type TokenToManyTokenDatumFilter = {
   none?: InputMaybe<TokenDatumFilter>;
   /** Some related `TokenDatum` matches the filter criteria. All fields are combined with a logical ‘and.’ */
   some?: InputMaybe<TokenDatumFilter>;
+};
+
+/** A filter to be used against many `TokenRetired` object types. All fields are combined with a logical ‘and.’ */
+export type TokenToManyTokenRetiredFilter = {
+  /** Every related `TokenRetired` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: InputMaybe<TokenRetiredFilter>;
+  /** No related `TokenRetired` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: InputMaybe<TokenRetiredFilter>;
+  /** Some related `TokenRetired` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: InputMaybe<TokenRetiredFilter>;
 };
 
 /** A filter to be used against many `TokenTransaction` object types. All fields are combined with a logical ‘and.’ */

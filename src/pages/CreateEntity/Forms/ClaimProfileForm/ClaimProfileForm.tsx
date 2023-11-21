@@ -2,10 +2,11 @@ import React from 'react'
 import { FormWrapper, FormBody, FormRow, FormHeader } from './ClaimProfileForm.styles'
 import { InputWithLabel, SelectWithModal } from '../../Components'
 import { Typography } from 'components/Typography'
-import { EClaimType } from 'types/protocol'
 import { Box, FlexBox } from 'components/App/App.styles'
 import { useTheme } from 'styled-components'
 import moment from 'moment'
+import { useClaimTypesConfig } from 'hooks/configs'
+import { SchemaCategory } from 'pages/EntitiesExplorer/Components/EntitiesFilter/schema/types'
 
 interface Props {
   type: string
@@ -26,6 +27,8 @@ const ClaimProfileForm: React.FC<Props> = ({
   ...rest
 }): JSX.Element => {
   const theme: any = useTheme()
+  const claimTypes = useClaimTypesConfig()
+
   return (
     <FormWrapper {...rest}>
       <FormHeader>
@@ -38,7 +41,7 @@ const ClaimProfileForm: React.FC<Props> = ({
             label='Claim Type'
             value={type}
             handleChange={setType}
-            options={Object.entries(EClaimType).map(([, value]) => value)}
+            options={claimTypes.map((value: SchemaCategory) => value.name)}
           />
         </FormRow>
 
