@@ -11,29 +11,29 @@ Show "Join" Button instead of "New Proposal" when you are not a member of the Im
 <!-- collapsed -->
 
 ```tsx
-184      if (isImpactsDAO && daoController === daoGroup.coreAddress && !isMemberOfImpactsDAO && !isOwner) {
-185        return (
-186          <FlexBox height='100%' direction='column' justifyContent='space-between'>
-187            <Typography variant='secondary' size='2xl' color='dark-blue'>
-188              ImpactsDAO is a DAO cooperative. If you are a delegate of a DAO and want it to become a member, stake LVC
-189              tokens and submit a joining proposal.
-190            </Typography>
-191            <Button
-192              variant='secondary'
-193              size='flex'
-194              width={170}
-195              height={40}
-196              textSize='base'
-197              textTransform='capitalize'
-198              textWeight='medium'
-199              disabled={!isParticipating}
-200              onClick={handleNewProposalForJoin}
-201            >
-202              Join
-203            </Button>
-204          </FlexBox>
-205        )
-206      }
+165      if (isImpactsDAO && daoController === daoGroup.coreAddress && !isMemberOfImpactsDAO && !isOwner) {
+166        return (
+167          <FlexBox height='100%' direction='column' justifyContent='space-between'>
+168            <Typography variant='secondary' size='2xl' color='dark-blue'>
+169              You are not yet a member of this DAO. To participate in governance stake at least 1 DAO governance token. To
+170              join as a member of the DAO submit a Membership Proposal (this may require a proposal deposit amount).
+171            </Typography>
+172            <Button
+173              variant='secondary'
+174              size='flex'
+175              width={170}
+176              height={40}
+177              textSize='base'
+178              textTransform='capitalize'
+179              textWeight='medium'
+180              disabled={!isParticipating}
+181              onClick={handleNewProposalForJoin}
+182            >
+183              Join
+184            </Button>
+185          </FlexBox>
+186        )
+187      }
 ```
 
 <br/>
@@ -51,7 +51,7 @@ members filtered when it's ImpactsDAO by linkedEntity type is being 'MemberDAO' 
 23                 )
 24                 .map((member: Member) => {
 25                   const subDAO = findDAObyDelegateAccount(daos, member.addr)[0]
-26                   const avatar = subDAO?.profile?.logo || ''
+26                   const avatar = subDAO?.profile?.logo || subDAO?.profile?.image
 27                   const name = subDAO?.profile?.name || ''
 28                   return { ...member, avatar, name }
 29                 })

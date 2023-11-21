@@ -443,3 +443,11 @@
   background-repeat: no-repeat;
   background-size: contain;
 }
+
+.icon-ixo-logo-svg {
+    background-image: url('https://solarimpulse.com/files/companies/logo/2018-11-29-195846/logo_ixo_Foundation.jpg');
+    background-repeat: no-repeat;
+    background-size: contain; /* or 'cover' depending on your needs */
+  }
+
+ 

@@ -20,10 +20,9 @@ import {
 } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
 import { fee } from 'lib/protocol'
 import * as Toast from 'utils/toast'
-import { useIxoConfigs } from 'hooks/configs'
 import { serializeCoin } from 'utils/conversions'
 import { useHistory, useParams } from 'react-router-dom'
-import { getDifference, truncateString, votingRemainingDateFormat } from 'utils/formatters'
+import { getDifference, thousandSeparator, truncateString, votingRemainingDateFormat } from 'utils/formatters'
 import { contracts } from '@ixo/impactxclient-sdk'
 import { useAccount } from 'hooks/account'
 import { SingleChoiceProposal } from '@ixo/impactxclient-sdk/types/codegen/DaoMigrator.types'
@@ -36,6 +35,7 @@ import useCurrentEntity, { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
 import { TEntityModel, TProposalActionModel } from 'types/entities'
 import { EntityLinkedResourceConfig, ProposalActionConfigMap } from 'constants/entity'
 import { Typography } from 'components/Typography'
+import { getDisplayAmount } from 'utils/currency'
 
 const Container = styled.div<{ isDark: boolean }>`
   background: ${(props) =>
@@ -99,6 +99,11 @@ const Action = styled.button<{ isDark: boolean }>`
   }
 `
 
+const calcPercentage = (limit: number, value: number): number => {
+  if (!limit) return 0
+  return Number(((value / limit) * 100).toFixed(0))
+}
+
 interface GovernanceProposalProps {
   coreAddress: string
   proposalId: number
@@ -128,8 +133,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
   const theme: any = useTheme()
   const { entityId } = useParams<{ entityId: string }>()
   const { isDark } = useContext(DashboardThemeContext)
-  const { convertToDenom } = useIxoConfigs()
-  const { isImpactsDAO, isMemberOfImpactsDAO, isOwner, daoController } = useCurrentEntity()
+  const { isImpactsDAO, isMemberOfImpactsDAO, isOwner, daoController, refetchAndUpdate } = useCurrentEntity()
   const { daoGroup, proposalModuleAddress, isParticipating, depositInfo, tqData } =
     useCurrentEntityDAOGroup(coreAddress)
   const { cwClient, cosmWasmClient, address } = useAccount()
@@ -204,7 +208,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
       proposalModuleAddress,
     )
     return daoProposalSingleClient
-      .vote({ proposalId, vote }, fee, undefined, depositInfo ? [depositInfo] : undefined)
+      .vote({ proposalId, vote }, fee, undefined, undefined)
       .then(({ transactionHash }) => {
         getVoteStatus()
         return transactionHash
@@ -213,6 +217,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
         console.error('handleVote', e)
         return ''
       })
+      .finally(refetchAndUpdate)
   }
 
   const handleExecuteProposal = () => {
@@ -234,6 +239,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
         console.error('handleExecuteProposal', e)
         Toast.errorToast(null, 'Transaction failed')
       })
+      .finally(refetchAndUpdate)
   }
 
   const handleCloseProposal = () => {
@@ -243,7 +249,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
       proposalModuleAddress,
     )
     daoProposalSingleClient
-      .close({ proposalId }, fee, undefined, depositInfo ? [depositInfo] : undefined)
+      .close({ proposalId }, fee, undefined, undefined)
       .then(({ transactionHash, logs }) => {
         console.log('handleCloseProposal', transactionHash, logs)
         if (transactionHash) {
@@ -255,6 +261,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
         console.error('handleCloseProposal', e)
         Toast.errorToast(null, 'Transaction failed')
       })
+      .finally(refetchAndUpdate)
   }
 
   useEffect(() => {
@@ -264,11 +271,6 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
       setVotes([])
     }
   }, [getVoteStatus])
-
-  const calcPercentage = (limit: number, value: number): number => {
-    if (!limit) return 0
-    return Number(((value / limit) * 100).toFixed(0))
-  }
 
   // const formatDiffThresholds = (value: number): string => {
   //   if (value >= 0) return `+ ${value}`
@@ -340,7 +342,12 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
               <div className='col-6 pb-3'>
                 <LabelSM>Deposit</LabelSM>
                 <br />
-                <LabelLG style={{ textTransform: 'uppercase' }}>{serializeCoin(convertToDenom(depositInfo))}</LabelLG>
+                <LabelLG style={{ textTransform: 'uppercase' }}>
+                  {serializeCoin({
+                    amount: thousandSeparator(getDisplayAmount(depositInfo.amount), ','),
+                    denom: 'ixo',
+                  })}
+                </LabelLG>
               </div>
             )}
           </div>
@@ -577,4 +584,4 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
   )
 }
 
-export default GovernanceProposal
+export default React.memo(GovernanceProposal)

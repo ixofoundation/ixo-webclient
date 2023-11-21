@@ -877,8 +877,7 @@ export const UnstakingPeriod = ({ data, setData }: DataStateProps): JSX.Element 
           In order to vote, members must stake their tokens with the Group. Members who would like to leave the Group or
           trade their governance tokens must first unstake them. This setting configures how long members have to wait
           after unstaking their tokens for those tokens to become available. The longer you set this duration, the more
-          sure you can be sure that people who register their tokens are keen to participate in your Group&apos;s
-          governance.
+          you can be sure that people who register their tokens are keen to participate in your Group&apos;s governance.
         </Typography>
       </FlexBox>
       <FlexBox alignItems='center' justifyContent='flex-end' gap={4}>

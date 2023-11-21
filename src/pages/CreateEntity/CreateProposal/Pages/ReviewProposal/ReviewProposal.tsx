@@ -39,7 +39,7 @@ const ReviewProposal: React.FC = () => {
   const { entityId, coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
   const { address, cosmWasmClient, cwClient, signingClient, signer } = useAccount()
   const { name: entityName } = useCurrentEntityProfile()
-  const { updateDAOGroup } = useCurrentEntity()
+  const { updateDAOGroup, refetchAndUpdate } = useCurrentEntity()
   const { daoGroup, preProposalContractAddress, depositInfo, isParticipating, anyoneCanPropose } =
     useCurrentEntityDAOGroup(coreAddress)
   const createEntityState = useCreateEntityState()
@@ -313,15 +313,16 @@ const ReviewProposal: React.FC = () => {
           const { proposalId } = res
 
           if (await handleAddProposalInfoAsLinkedEntity(deedDid, proposalId)) {
-            history.push({ pathname: history.location.pathname, search: `?success=true` })
             updateDAOGroup(coreAddress)
             setSubmitting(false)
+            refetchAndUpdate()
+            history.push({ pathname: history.location.pathname, search: `?success=true` })
             return
           }
         }
       }
-      history.push({ pathname: history.location.pathname, search: `?success=false` })
       setSubmitting(false)
+      history.push({ pathname: history.location.pathname, search: `?success=false` })
     } catch (e) {
       console.error('handleSubmit', e)
     }
