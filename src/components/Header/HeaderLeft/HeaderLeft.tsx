@@ -58,9 +58,6 @@ export const HeaderLeft: React.FC<ParentProps> = (props) => {
           <MediaQuery minWidth={`${deviceWidth.desktop}px`}>
             <CreateEntityDropdown />
           </MediaQuery>
-          {/* <HeaderLink exact={false} strict to={`/exchange`} color={buttonColor}>
-            Exchange
-          </HeaderLink> */}
         </Fragment>
       )
     } else {
