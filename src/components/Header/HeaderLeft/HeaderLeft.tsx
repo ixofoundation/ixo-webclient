@@ -52,15 +52,12 @@ export const HeaderLeft: React.FC<ParentProps> = (props) => {
     if (inHeader) {
       return (
         <Fragment>
-          <HeaderLink exact={true} to={splashIsRootRoute ? '/explore?type=project' : '/'}>
+          <HeaderLink exact={true} to={splashIsRootRoute ? '/explore?type=dao' : '/'}>
             Explore
           </HeaderLink>
           <MediaQuery minWidth={`${deviceWidth.desktop}px`}>
             <CreateEntityDropdown />
           </MediaQuery>
-          {/* <HeaderLink exact={false} strict to={`/exchange`} color={buttonColor}>
-            Exchange
-          </HeaderLink> */}
         </Fragment>
       )
     } else {
@@ -70,7 +67,7 @@ export const HeaderLeft: React.FC<ParentProps> = (props) => {
             <MenuHeaderLink
               className='first-mobile'
               exact={true}
-              to={splashIsRootRoute ? '/explore?type=project' : '/'}
+              to={splashIsRootRoute ? '/explore?type=dao' : '/'}
               onClick={props.handleBurgerClick}
             >
               Explore
