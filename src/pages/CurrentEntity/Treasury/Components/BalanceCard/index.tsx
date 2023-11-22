@@ -62,7 +62,7 @@ const BalanceCard: React.FC<Props> = ({ availableValue = '0', stakedValue = '0.0
         </Typography>
       </FlexBox>
 
-      <FlexBox width='100%' justifyContent='space-between' alignItems='center'>
+      <FlexBox width='100%' justifyContent='space-between' alignItems='end'>
         <Typography variant='secondary' size='4xl'>
           <CurrencyFormat prefix='$' displayType={'text'} value={totalValue} thousandSeparator decimalScale={2} />
         </Typography>
