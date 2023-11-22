@@ -67,7 +67,6 @@ export function transformEntityData(entity: TEntityModel): any {
     const headlineMetric: TEntityClaimModel | undefined = Object.values(entity.claim ?? {}).find(
       (v) => v.isHeadlineMetric,
     )
-    const maxSubmissions = headlineMetric?.submissions?.maximum ?? 0
     return {
       ...entity,
       id: entity.id,
@@ -76,7 +75,7 @@ export function transformEntityData(entity: TEntityModel): any {
       metrics: {
         title: headlineMetric?.template?.title ?? 'Metric',
         nominator: 0,
-        denominator: maxSubmissions,
+        denominator: 0,
       },
       creator: entity.creator?.displayName,
       animation: entity.zlottie,

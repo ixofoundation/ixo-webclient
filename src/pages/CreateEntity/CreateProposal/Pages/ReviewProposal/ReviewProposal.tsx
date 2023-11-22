@@ -250,7 +250,7 @@ const ReviewProposal: React.FC = () => {
     let linkedResource: LinkedResource[] = []
     let linkedClaim: LinkedClaim[] = []
 
-    // AccordedRight TODO:
+    // AccordedRight
 
     // Service
     service = serviceData
@@ -271,7 +271,7 @@ const ReviewProposal: React.FC = () => {
       return ''
     }
 
-    // Create DAO entity
+    // Create Deed entity
     const { did: entityDid } = await CreateEntityBase(entityType, protocolDid, {
       service,
       linkedResource,
@@ -302,7 +302,6 @@ const ReviewProposal: React.FC = () => {
   const handleSubmit = async () => {
     try {
       if (!isParticipating && !anyoneCanPropose) {
-        console.log(111111, isParticipating, anyoneCanPropose)
         Toast.errorToast(null, 'You must be a member of the group')
         return
       }

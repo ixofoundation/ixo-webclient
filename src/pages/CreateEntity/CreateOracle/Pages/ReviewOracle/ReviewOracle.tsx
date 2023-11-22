@@ -45,7 +45,7 @@ const ReviewOracle: React.FC = (): JSX.Element => {
     let linkedResource: LinkedResource[] = []
     let linkedClaim: LinkedClaim[] = []
 
-    // AccordedRight TODO:
+    // AccordedRight
 
     // Service
     service = serviceData

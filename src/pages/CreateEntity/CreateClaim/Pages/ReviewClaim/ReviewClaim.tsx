@@ -19,16 +19,12 @@ import { ReactComponent as CheckCircleIcon } from 'assets/images/icon-check-circ
 import { ReactComponent as ExclamationIcon } from 'assets/images/icon-exclamation-circle.svg'
 import { NavLink, RouteComponentProps, useHistory } from 'react-router-dom'
 import { useTheme } from 'styled-components'
-import { CreateCollection } from 'lib/protocol'
-import { useAccount } from 'hooks/account'
-import { utils } from '@ixo/impactxclient-sdk'
 
 const ReviewClaim: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): JSX.Element => {
   const theme: any = useTheme()
   const history = useHistory()
   const baseLink = match.path.split('/').slice(0, -1).join('/')
 
-  const { signingClient, signer } = useAccount()
   const createEntityState = useCreateEntityState()
   const profile = createEntityState.profile
   const {
@@ -79,7 +75,7 @@ const ReviewClaim: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): J
     }
 
     // Create Claim entity
-    const { did: entityDid, adminAccount } = await CreateEntityBase(entityType, protocolDid, {
+    const { did: entityDid } = await CreateEntityBase(entityType, protocolDid, {
       service,
       linkedResource,
       accordedRight,
@@ -89,25 +85,6 @@ const ReviewClaim: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): J
       relayerNode: process.env.REACT_APP_RELAYER_NODE,
     })
     if (!entityDid) {
-      setSubmitting(false)
-      history.push({ pathname: history.location.pathname, search: `?success=false` })
-      return
-    }
-
-    const res = await CreateCollection(signingClient, signer, {
-      entityDid,
-      protocolDid,
-      paymentsAccount: adminAccount,
-    })
-    const collectionId = utils.common.getValueFromEvents(
-      res!,
-      'ixo.claims.v1beta1.CollectionCreatedEvent',
-      'collection',
-      (c) => c.id,
-    )
-    console.log({ collectionId })
-
-    if (!collectionId) {
       setSubmitting(false)
       history.push({ pathname: history.location.pathname, search: `?success=false` })
       return
