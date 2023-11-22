@@ -1,66 +1,55 @@
-import React, { useEffect } from 'react'
-import { Navigate, Route, matchPath, useLocation} from 'react-router-dom'
-import { useCreateEntityState, useCreateEntityStrategy } from 'hooks/createEntity'
+import React, { useEffect } from 'react';
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
+import { useCreateEntityState, useCreateEntityStrategy } from 'hooks/createEntity';
+import _ from 'lodash'
 
 const CreateDAO = (): JSX.Element => {
-  const { getStrategyByEntityType } = useCreateEntityStrategy()
-  const { updateEntityType, updateTitle, updateSubtitle, updateBreadCrumbs } = useCreateEntityState()
-  const { pathname } = useLocation()
-  const isSelectProcessRoute = matchPath({path: '/create/entity/dao/process', end: true}, pathname)
-  const isSetupMetadataRoute = matchPath({path: '/create/entity/dao/profile', end: true}, pathname)
-  const isSetupGroupsRoute = matchPath({path: '/create/entity/dao/group', end: true}, pathname)
-  const isSetupPropertiesRoute = matchPath({path: '/create/entity/dao/property', end: true}, pathname)
-  const isReviewRoute = matchPath({path: '/create/entity/dao/review', end: true}, pathname)
-  const { steps } = getStrategyByEntityType('dao')
+  const { getStrategyByEntityType } = useCreateEntityStrategy();
+  const { updateEntityType, updateTitle, updateSubtitle, updateBreadCrumbs, subtitle, entityType, title, breadCrumbs } = useCreateEntityState();
+  const { pathname } = useLocation();
+  const { steps } = getStrategyByEntityType('dao');
 
   useEffect(() => {
-    updateEntityType('dao')
-    updateTitle('DAO creation')
-    updateBreadCrumbs([{ text: 'DAO' }])
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+    if(entityType !== "dao"){
+      updateEntityType('dao');
+    }
 
-  useEffect(() => {
-    if (isSelectProcessRoute) {
-      updateSubtitle('New or Clone')
+    if(title !== "DAO creation"){
+      updateTitle('DAO creation');
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSelectProcessRoute])
-  useEffect(() => {
-    if (isSetupMetadataRoute) {
-      updateSubtitle('Profile')
+    
+    if(!_.isEqual(breadCrumbs, [{ text: 'DAO' }])){
+      updateBreadCrumbs([{ text: 'DAO' }]);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSetupMetadataRoute])
-  useEffect(() => {
-    if (isSetupGroupsRoute) {
-      updateSubtitle('Add Groups')
+    
+  
+    const routeMap = {
+      '/create/entity/dao/process': 'New or Clone',
+      '/create/entity/dao/profile': 'Profile',
+      '/create/entity/dao/group': 'Add Groups',
+      '/create/entity/dao/property': 'Configure the DAO Settings',
+      '/create/entity/dao/review': 'Review and Sign to Commit',
+    };
+
+    console.log({pathname})
+  
+    const newSubtitle = routeMap[pathname] || '';
+    if (newSubtitle !== subtitle) {
+      updateSubtitle(newSubtitle);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSetupGroupsRoute])
-  useEffect(() => {
-    if (isSetupPropertiesRoute) {
-      updateSubtitle('Configure the DAO Settings')
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSetupPropertiesRoute])
-  useEffect(() => {
-    if (isReviewRoute) {
-      updateSubtitle('Review and Sign to Commit')
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isReviewRoute])
+  }, [pathname, updateEntityType, updateTitle, updateSubtitle, subtitle, breadCrumbs, entityType, title, updateBreadCrumbs]);
+  
 
   return (
-    <>
-      {Object.values(steps).map(({url, component: Component}) => (
-        <Route key={url} path={url} element={<Component/>} />
-      ))}
-      <Route path={`${pathname}`}>
-        {steps[1]?.url && <Navigate to={steps[1].url} />}
-      </Route>
-    </>
-  )
-}
+    <Routes>
+      <>
+        <Route index element={steps[1]?.fullUrl && <Navigate to={steps[1].fullUrl} />}/>
+        {Object.values(steps).map(({ url, component: Component }) => (
+          <Route key={url} path={url} element={<Component />} />
+        ))}
+      </>
+    </Routes>
+  );
+};
 
-export default CreateDAO
+export default CreateDAO;

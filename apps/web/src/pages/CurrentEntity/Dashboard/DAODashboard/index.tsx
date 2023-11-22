@@ -2,7 +2,7 @@ import Dashboard from 'components/Dashboard/Dashboard'
 import { HeaderTab, Path } from 'components/Dashboard/types'
 import { useAccount } from 'hooks/account'
 import useCurrentEntity, { useCurrentEntityProfile } from 'hooks/currentEntity'
-import { Navigate, Route, useMatch, useParams } from 'react-router-dom'
+import { Navigate, Route, Routes, useMatch, useParams } from 'react-router-dom'
 import { requireCheckDefault } from 'utils/images'
 import { MyParticipation } from './MyParticipation'
 import { Navigator } from './Navigator'
@@ -109,19 +109,19 @@ const DAODashboard: React.FC = (): JSX.Element => {
       tabs={tabs}
       entityType={entityType}
     >
-      <Route  path='/entity/:entityId/dashboard/navigator' element={<Navigator/>} />
-      <Route  path='/entity/:entityId/dashboard/membership' element={<Membership/>} />
-      <Route  path='/entity/:entityId/dashboard/membership/:address' element={<IndividualMember/>} />
-      <Route  path='/entity/:entityId/dashboard/governance' element={<Governance/>} />
-      {registered && <Route  path='/entity/:entityId/dashboard/my-participation' element={<MyParticipation/>} />}
-      {registered && owner === address && (
-        <Route  path='/entity/:entityId/dashboard/edit' element={<EditEntity/>} />
-      )}
-      <Route  path='/entity/:entityId/dashboard'>
-        <Navigate to={`/entity/${entityId}/dashboard/membership`} />
-      </Route>
+      <Routes>
+        <Route path='/entity/:entityId/dashboard/navigator' element={<Navigator />} />
+        <Route path='/entity/:entityId/dashboard/membership' element={<Membership />} />
+        <Route path='/entity/:entityId/dashboard/membership/:address' element={<IndividualMember />} />
+        <Route path='/entity/:entityId/dashboard/governance' element={<Governance />} />
+        {registered && <Route path='/entity/:entityId/dashboard/my-participation' element={<MyParticipation />} />}
+        {registered && owner === address && <Route path='/entity/:entityId/dashboard/edit' element={<EditEntity />} />}
+        <Route path='/entity/:entityId/dashboard'>
+          <Navigate to={`/entity/${entityId}/dashboard/membership`} />
+        </Route>
 
-      <Navigate to={`/entity/${entityId}/dashboard/membership`} />
+        <Navigate to={`/entity/${entityId}/dashboard/membership`} />
+      </Routes>
     </Dashboard>
   )
 }

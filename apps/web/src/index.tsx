@@ -10,7 +10,8 @@ import { BrowserTracing } from '@sentry/tracing'
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client'
 import { StrictMode, createContext } from 'react'
 import { createRoot } from 'react-dom/client'
-import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom'
+import { Route, BrowserRouter, Routes, createBrowserRouter, createRoutesFromElements } from 'react-router-dom'
+import { MantineProvider } from '@mantine/core'
 
 process.env.NODE_ENV === 'production' &&
   Sentry.init({
@@ -29,27 +30,27 @@ const client = new ApolloClient({
 const StoreContext = createContext(null)
 
 const App = () => (
-  <Provider store={store} >
-    <GlobalStyle />
-    <PersistGate loading={null} persistor={persistor}>
-      <ApolloProvider client={client}>
+  <MantineProvider>
+    <Provider store={store}>
+      <GlobalStyle />
+      <PersistGate loading={null} persistor={persistor}>
+        <ApolloProvider client={client}>
           <AppConnected />
-      </ApolloProvider>
-    </PersistGate>
-  </Provider>
+        </ApolloProvider>
+      </PersistGate>
+    </Provider>
+  </MantineProvider>
 )
-
-const router = createBrowserRouter(
-  createRoutesFromElements(
-    <Route path="/" element={<App />}/>
-  )
-);
 
 // const router = createBrowserRouter(createRoutesFromElements(<Route path='/' element={<App />} />))
 
 // @ts-expect-error
 const root = createRoot(document.getElementById('root'))
-root.render(<RouterProvider router={router} /> )
+root.render(
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>,
+)
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

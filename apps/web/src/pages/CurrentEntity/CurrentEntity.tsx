@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Navigate, Route, Routes, useLocation, useParams } from 'react-router-dom'
+import { Navigate, Outlet, Route, Routes, useLocation, useParams } from 'react-router-dom'
 import DashboardPage from './Dashboard/Dashboard'
 import OverviewPage from './Overview/Overview'
 import TreasuryPage from './Treasury/Treasury'
@@ -12,7 +12,7 @@ import { selectEntityById } from 'redux/entitiesExplorer/entitiesExplorer.select
 
 const CurrentEntityPage: React.FC = (): JSX.Element => {
   const location = useLocation()
-  const { entityId = "" } = useParams<{ entityId: string }>()
+  const { entityId = '' } = useParams<{ entityId: string }>()
   const entity: TEntityModel | undefined = useAppSelector(selectEntityById(entityId))
   const { entityType, updateEntity, clearEntity } = useCurrentEntity()
 
@@ -33,14 +33,24 @@ const CurrentEntityPage: React.FC = (): JSX.Element => {
 
   return (
     <Routes>
-      <Route  path='/entity/:entityId/overview' element={<OverviewPage/>} />
-      <Route path='/entity/:entityId/dashboard' element={<DashboardPage/>} />
-      <Route path='/entity/:entityId/treasury' element={<TreasuryPage/>} />
-      <Route path='/entity/:entityId/overview/proposal/:deedId' element={<ProposalOverviewPage/>} />
-      <Route  path='/entity/:entityId'>
-        <Navigate to={`/entity/${entityId}/overview?collection=${location.state?.collectionName}`} />
-      </Route>
+      <Route index element={<Navigate to='overview' />} />
+      <Route path='overview' element={<OverviewPage />} />
+      <Route path='dashboard' element={<DashboardPage />} />
+      <Route path='treasury' element={<TreasuryPage />} />
+      <Route path='overview/proposal/:deedId' element={<ProposalOverviewPage />} />
+      {/* Add other nested routes as needed */}
     </Routes>
+    // <Routes>
+    //   <Route path="/" element={<Outlet/>}>
+    //     <Route path='overview' element={<OverviewPage />} />
+    //     <Route path='dashboard' element={<DashboardPage />} />
+    //     <Route path='treasury' element={<TreasuryPage />} />
+    //     <Route path='/entity/:entityId/overview/proposal/:deedId' element={<ProposalOverviewPage />} />
+    //     <Route path='/entity/:entityId'>
+    //       <Navigate to={`/entity/${entityId}/overview?collection=${location.state?.collectionName}`} />
+    //     </Route>
+    //   </Route>
+    // </Routes>
   )
 }
 

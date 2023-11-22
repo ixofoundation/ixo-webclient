@@ -22,6 +22,7 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { selectCustomTheme } from 'redux/theme/theme.selectors'
 import { useAccount } from 'hooks/account'
+import { Text } from '@mantine/core'
 
 ReactGA.initialize('UA-106630107-5')
 ReactGA.pageview(window.location.pathname + window.location.search)
@@ -37,6 +38,8 @@ const App: React.FC = () => {
   useEffect(() => {
     dispatch(getEntityConfig())
     dispatch(getCustomTheme())
+
+    console.log("App")
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 

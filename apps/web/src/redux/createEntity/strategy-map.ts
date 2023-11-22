@@ -51,6 +51,7 @@ export interface TCreateEntityStepType {
   name: string
   component: React.FC<any>
   url: string
+  fullUrl?: string
   prevStep: number | undefined
   nextStep: number | undefined
 }
@@ -212,7 +213,8 @@ export const CreateEntityStrategyMap: TCreateEntityStrategyMap = {
         id: 1,
         name: 'New or Clone',
         component: SelectDAOCreationProcess,
-        url: '/create/entity/dao/process',
+        url: '/process',
+        fullUrl: '/create/entity/dao/process',
         prevStep: undefined,
         nextStep: 2,
       },
@@ -220,7 +222,8 @@ export const CreateEntityStrategyMap: TCreateEntityStrategyMap = {
         id: 2,
         name: 'Profile',
         component: SetupDAOMetadata,
-        url: '/create/entity/dao/profile',
+        fullUrl: '/create/entity/dao/profile',
+        url: '/profile',
         prevStep: 1,
         nextStep: 3,
       },
@@ -228,7 +231,8 @@ export const CreateEntityStrategyMap: TCreateEntityStrategyMap = {
         id: 3,
         name: 'Add Groups',
         component: SetupDAOGroups,
-        url: '/create/entity/dao/group',
+        fullUrl: '/create/entity/dao/group',
+        url: '/group',
         prevStep: 2,
         nextStep: 4,
       },
@@ -236,7 +240,8 @@ export const CreateEntityStrategyMap: TCreateEntityStrategyMap = {
         id: 4,
         name: 'Configure the DAO Settings',
         component: SetupDAOProperties,
-        url: '/create/entity/dao/property',
+        fullUrl: '/create/entity/dao/property',
+        url: '/property',
         prevStep: 3,
         nextStep: 5,
       },
@@ -244,7 +249,8 @@ export const CreateEntityStrategyMap: TCreateEntityStrategyMap = {
         id: 5,
         name: 'Review and Sign to Commit',
         component: ReviewDAO,
-        url: '/create/entity/dao/review',
+        url: '/review',
+        fullUrl: '/create/entity/dao/review',
         prevStep: 4,
         nextStep: undefined,
       },

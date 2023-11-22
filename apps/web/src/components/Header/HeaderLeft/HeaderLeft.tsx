@@ -52,7 +52,7 @@ export const HeaderLeft: React.FC<ParentProps> = (props) => {
     if (inHeader) {
       return (
         <Fragment>
-          <HeaderLink end={true} to={splashIsRootRoute ? '/explore' : '/'}>
+          <HeaderLink  to={splashIsRootRoute ? 'explore' : '/'}>
             Explore
           </HeaderLink>
           <MediaQuery minWidth={`${deviceWidth.desktop}px`}>

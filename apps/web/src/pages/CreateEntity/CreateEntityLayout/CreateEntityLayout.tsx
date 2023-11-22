@@ -18,30 +18,35 @@ interface Props {
   children?: React.ReactNode
 }
 
-const CreateEntityLayout: React.FC<Props> = ({ title, subtitle, breadCrumbs, children }): JSX.Element => {
-  const renderBreadCrumbs = (): JSX.Element => {
-    return (
-      <BreadCrumbs>
-        {breadCrumbs.map((item, index) => (
-          <Typography key={index} variant='secondary' size='sm' color='grey700'>
-            {item.link ? <NavLink to={item.link}> {item.text}</NavLink> : item.text}
-            &nbsp;&gt;&nbsp;
-          </Typography>
-        ))}
+type RenderBreadCrumbsProps = {
+  breadCrumbs: { text: string; link?: string }[]
+  title: string
+}
 
-        <Typography variant='secondary' color='black' size='sm'>
-          {title}
+const RenderBreadCrumbs = ({breadCrumbs, title}: RenderBreadCrumbsProps): JSX.Element => {
+  return (
+    <BreadCrumbs>
+      {breadCrumbs.map((item, index) => (
+        <Typography key={index} variant='secondary' size='sm' color='grey700'>
+          {item.link ? <NavLink to={item.link}> {item.text}</NavLink> : item.text}
+          &nbsp;&gt;&nbsp;
         </Typography>
-      </BreadCrumbs>
-    )
-  }
+      ))}
 
+      <Typography variant='secondary' color='black' size='sm'>
+        {title}
+      </Typography>
+    </BreadCrumbs>
+  )
+}
+
+const CreateEntityLayout: React.FC<Props> = ({ title, subtitle, breadCrumbs, children }): JSX.Element => {
   return (
     <LayoutWrapper>
       <LayoutHeader>
         <LayoutContainer className='container'>
           <LayoutRow className='row d-flex flex-column'>
-            <Box className='mb-4'>{renderBreadCrumbs()}</Box>
+            <Box className='mb-4'><RenderBreadCrumbs breadCrumbs={breadCrumbs} title={title} /></Box>
             <Typography variant='secondary' size='5xl' className='mb-2'>
               {title}
             </Typography>

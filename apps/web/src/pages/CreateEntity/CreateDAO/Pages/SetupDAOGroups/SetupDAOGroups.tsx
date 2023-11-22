@@ -136,6 +136,8 @@ const SetupDAOGroups: React.FC = (): JSX.Element => {
     [daoGroups],
   )
 
+  console.log("In setup dao groups")
+
   const handleAddGroup = (type: string): void => {
     const id = uuidv4()
 
