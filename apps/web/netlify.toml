@@ -26,8 +26,6 @@
   NODE_OPTIONS = "--max_old_space_size=4096"
 
 [build]
-command = "bash set-deploy-preview-env.sh && yarn build"
-functions = "functions"
 
 
 [[plugins]]
