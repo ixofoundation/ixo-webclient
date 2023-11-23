@@ -14,6 +14,7 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "lint": "turbo lint",
     "test": "turbo test",
+    "storybook": "turbo storybook",
     "postinstall": "patch-package"
   },
   "devDependencies": {

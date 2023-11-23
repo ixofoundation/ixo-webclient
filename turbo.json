@@ -5,6 +5,7 @@
       "outputs": ["build/**"]
     },
     "lint": {},
-    "dev": {}
+    "dev": {},
+    "storybook": {}
   }
 }
