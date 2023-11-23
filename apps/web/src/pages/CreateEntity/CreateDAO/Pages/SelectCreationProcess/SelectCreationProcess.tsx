@@ -39,7 +39,6 @@ const SelectCreationProcess: React.FC = (): JSX.Element => {
   const { data: selectedEntity } = useGetEntityById(existingDid)
 
   const relayer = useAppSelector(selectRelayerByChainId(chainId!))
-  console.log({ relayer })
 
   const canClone = useMemo(() => chainId && selectedEntity?.type === 'dao', [chainId, selectedEntity])
 
