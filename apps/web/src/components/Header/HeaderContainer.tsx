@@ -9,6 +9,7 @@ import { HeaderLeft } from './HeaderLeft/HeaderLeft'
 import HeaderRight from './HeaderRight/HeaderRight'
 import { useDisclosure } from '@mantine/hooks'
 import { WalletConnector } from 'components/WalletConnector'
+import { useWallet } from '@ixo-webclient/wallet-connector'
 
 // interface Props {
 //   entityType?: EntityType
@@ -21,7 +22,7 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ entityType, headerUIConfig }) => {
-  const [opened, handlers] = useDisclosure(false)
+  const {open} = useWallet()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   const handleBurgerClick = () => {
@@ -41,12 +42,12 @@ const Header: React.FC<HeaderProps> = ({ entityType, headerUIConfig }) => {
       color={headerUIConfig?.buttonColor}
       background={customBackground}
     >
-      <ModalWrapper isModalOpen={opened} handleToggleModal={handlers.toggle}>
+      {/* <ModalWrapper isModalOpen={opened} handleToggleModal={handlers.toggle}>
         <WalletConnector />
-      </ModalWrapper>
+      </ModalWrapper> */}
       <div className='row'>
         <HeaderLeft currentEntity={entityType} openMenu={isMobileMenuOpen} handleBurgerClick={handleBurgerClick} />
-        <HeaderRight toggleModal={handlers.open} />
+        <HeaderRight toggleModal={open} />
       </div>
     </TopBar>
   )

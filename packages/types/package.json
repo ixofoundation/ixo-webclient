@@ -1,9 +1,13 @@
 {
   "name": "@ixo-webclient/types",
   "version": "1.0.0",
-  "main": "src/index.ts",
+  "main": "index.js",
   "author": "zach",
   "license": "MIT",
+  "scripts": {
+    "dev": "tsc && tsc-alias",
+    "build": "tsc && tsc-alias"
+  },
   "dependencies": {
     "@cosmjs/proto-signing": "^0.31.3",
     "@ixo/impactxclient-sdk": "^1.1.15",

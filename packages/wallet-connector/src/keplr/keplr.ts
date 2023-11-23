@@ -2,7 +2,7 @@ import { getKeplrChainInfo } from "@ixo/cosmos-chain-resolver";
 import { IWalletConnector } from "../interfaces/walletConnector";
 import { KeplrExtensionWallet, chainNetwork } from "../constants";
 import { ChainInfo } from "@ixo-webclient/types";
-import { getConnectedWalletInfo } from "src/utils";
+import { getConnectedWalletInfo } from "utils";
 
 export class Keplr implements IWalletConnector {
     async connect() {

@@ -10,7 +10,7 @@
   "scripts": {
     "build": "turbo build",
     "clean": "turbo clean",
-    "dev": "turbo dev",
+    "dev": "turbo dev --no-cache --force",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "lint": "turbo lint",
     "test": "turbo test",

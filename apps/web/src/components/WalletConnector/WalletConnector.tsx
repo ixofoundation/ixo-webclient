@@ -24,22 +24,22 @@ const WalletMenu = () => {
   return (
     <Tabs orientation='vertical' variant='pills' w={'650px'} h='500px' onChange={handleTabChange} value={activeTab}>
       <Flex direction='column'>
-        <Text color='white' size='xl' style={{weight: 700}} mb={30}>
+        <Text size='xl' style={{ weight: 700, color: 'white' }} mb={30}>
           Connect Wallet
         </Text>
         <Tabs.List>
           <Tabs.Tab value='init' hidden>
-            <Text color='white' size='md' style={{weight: 700}}>
+            <Text size='md' style={{ weight: 700, color: 'white' }}>
               Getting Started
             </Text>{' '}
           </Tabs.Tab>
           <Tabs.Tab value='Keplr' leftSection={<KeplrIcon scale={0.5} height={40} width={40} />}>
-            <Text color='white' size='md' style={{weight: 700}}>
+            <Text size='md' style={{ weight: 700, color: 'white' }}>
               Keplr
             </Text>{' '}
           </Tabs.Tab>
           <Tabs.Tab value='ImpactX' leftSection={<ImpactXIcon scale={2} height={40} width={40} />}>
-            <Text color='white' size='md' style={{weight: 700}}>
+            <Text size='md' style={{ weight: 700, color: 'white' }}>
               ImpactsX Mobile
             </Text>{' '}
           </Tabs.Tab>

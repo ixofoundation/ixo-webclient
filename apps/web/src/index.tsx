@@ -11,7 +11,9 @@ import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client'
 import { StrictMode, createContext } from 'react'
 import { createRoot } from 'react-dom/client'
 import { Route, BrowserRouter, Routes, createBrowserRouter, createRoutesFromElements } from 'react-router-dom'
-import { MantineProvider } from '@mantine/core'
+import { Flex, MantineProvider, Modal, Text } from '@mantine/core'
+import { WalletModal, WalletProvider } from '@ixo-webclient/wallet-connector'
+import '@mantine/core/styles.css';
 
 process.env.NODE_ENV === 'production' &&
   Sentry.init({
@@ -31,14 +33,17 @@ const StoreContext = createContext(null)
 
 const App = () => (
   <MantineProvider>
-    <Provider store={store}>
-      <GlobalStyle />
-      <PersistGate loading={null} persistor={persistor}>
-        <ApolloProvider client={client}>
-          <AppConnected />
-        </ApolloProvider>
-      </PersistGate>
-    </Provider>
+    <WalletProvider>
+      <WalletModal />
+      <Provider store={store}>
+        <GlobalStyle />
+        <PersistGate loading={null} persistor={persistor}>
+          <ApolloProvider client={client}>
+            <AppConnected />
+          </ApolloProvider>
+        </PersistGate>
+      </Provider>
+    </WalletProvider>
   </MantineProvider>
 )
 

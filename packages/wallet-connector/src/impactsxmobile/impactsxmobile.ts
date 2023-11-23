@@ -1,9 +1,9 @@
-import { IWalletConnector } from "src/interfaces/walletConnector";
+import { IWalletConnector } from "interfaces/walletConnector";
 import { SignX } from '@ixo/signx-sdk';
 const SIGN_X_LOGIN_SUCCESS = 'SIGN_X_LOGIN_SUCCESS';
 const SIGN_X_LOGIN_ERROR = 'SIGN_X_LOGIN_ERROR';
 
-class SignXWalletConnector {
+export class SignXWallet {
   private signXClient: SignX;
 
   constructor() {

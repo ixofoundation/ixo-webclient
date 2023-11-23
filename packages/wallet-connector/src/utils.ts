@@ -1,7 +1,7 @@
 import { toHex } from "@cosmjs/encoding"
 import { ChainInfo, ConnectedWallet, Wallet, WalletClient, WalletType } from "@ixo-webclient/types"
 import {utils} from '@ixo/impactxclient-sdk'
-import base58 = require("bs58")
+import base58  from "bs58"
 
 export const getConnectedWalletInfo = async (
     wallet: Wallet,

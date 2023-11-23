@@ -1,9 +1,19 @@
 {
     "extends": "@ixo-webclient/tsconfig/base.json",
     "compilerOptions": {
-      "baseUrl": ".",
-      "outDir": "build",
+      "target": "es6",
+      "lib": ["dom", "dom.iterable", "esnext"],
+      "allowJs": true,
+      "skipLibCheck": true,
+      "esModuleInterop": true,
+      "allowSyntheticDefaultImports": true,
+      "strict": true,
+      "forceConsistentCasingInFileNames": true,
+      "baseUrl": "src",
+      "outDir": ".",
       "declaration": true,
+      "module": "commonjs",
+      "moduleResolution": "node",
       "rootDir": "src",
       "jsx": "react-jsx"
     },
