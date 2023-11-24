@@ -5,6 +5,7 @@ import DAODashboard from './DAODashboard'
 import InvestmentDashboard from './InvestmentDashboard'
 import ProjectDashboard from './ProjectDashboard'
 import AssetDashboard from './AssetDashboard'
+import OracleDashboard from './OracleDashboard'
 
 const DashboardPage: React.FC = (): JSX.Element | null => {
   const currentEntity = useCurrentEntity()
@@ -22,6 +23,8 @@ const DashboardPage: React.FC = (): JSX.Element | null => {
         return InvestmentDashboard
       case 'asset/device':
         return AssetDashboard
+      case 'oracle/evaluation':
+        return OracleDashboard
       default:
         return undefined
     }
