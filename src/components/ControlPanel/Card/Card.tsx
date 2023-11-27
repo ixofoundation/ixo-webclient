@@ -2,6 +2,7 @@ import { FlexBox, GridContainer, SvgBox } from 'components/App/App.styles'
 import React from 'react'
 import { Typography } from 'components/Typography'
 import { useTheme } from 'styled-components'
+import { ReactComponent as AssistantIcon } from 'assets/images/icon-assistant.svg'
 
 export interface ICardItems {
   icon?: React.ReactNode
@@ -21,14 +22,19 @@ const Card: React.FC<Props> = ({ icon, title, columns, items }) => {
   const theme: any = useTheme()
 
   return (
-    <FlexBox direction='column' gap={5} background='#ffffff' borderRadius='12px' p={5}>
-      <FlexBox gap={2} alignItems='center'>
-        <SvgBox svgWidth={4} svgHeight={4} color={theme.ixoNewBlue}>
-          {icon}
+    <FlexBox width='100%' direction='column' gap={5} background='#ffffff' borderRadius='12px' p={5}>
+      <FlexBox width='100%' alignItems='center' justifyContent='space-between'>
+        <FlexBox gap={2} alignItems='center'>
+          <SvgBox svgWidth={5} svgHeight={5} color={theme.ixoNewBlue}>
+            {icon}
+          </SvgBox>
+          <Typography variant='secondary' size='lg'>
+            {title}
+          </Typography>
+        </FlexBox>
+        <SvgBox svgWidth={6} svgHeight={6} color={theme.ixoNewBlue}>
+          <AssistantIcon />
         </SvgBox>
-        <Typography variant='secondary' size='lg'>
-          {title}
-        </Typography>
       </FlexBox>
 
       <GridContainer width='100%' columns={columns} gridGap={2}>
