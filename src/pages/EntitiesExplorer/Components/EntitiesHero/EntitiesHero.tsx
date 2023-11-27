@@ -120,7 +120,7 @@ const getHeaderTabButtons = (entityType: EntityType, entityTitle: string): any =
       },
       {
         iconClass: 'icon-economy',
-        linkClass: 'in-active',
+        linkClass: '',
         path: '/economy',
         title: 'ECONOMY',
         tooltip: `The Impact Economy`,
