@@ -92,6 +92,7 @@ import BigNumber from 'bignumber.js'
 import { LinkedResourceProofGenerator, LinkedResourceServiceEndpointGenerator } from 'utils/entities'
 import { selectAllClaimProtocols } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { ELocalisation, TQuestion } from 'types/protocol'
+import { useWallet } from '@ixo-webclient/wallet-connector'
 
 export function useCreateEntityStrategy(): {
   getStrategyByEntityType: (entityType: string) => TCreateEntityStrategyType
@@ -402,6 +403,8 @@ interface TCreateEntityHookRes {
 export function useCreateEntity(): TCreateEntityHookRes {
   const { signingClient, signer } = useAccount()
   const claimProtocols = useAppSelector(selectAllClaimProtocols)
+  const { execute, wallet } = useWallet()
+
 
   const createEntityState = useCreateEntityState()
   const profile = createEntityState.profile as any
@@ -1059,17 +1062,19 @@ export function useCreateEntity(): TCreateEntityHookRes {
       msg: JSON.stringify(msg),
     }
 
-    if (!signingClient) {
+    console.log({wallet})
+
+    if (!wallet?.pubKey) {
       throw new Error('Connect Wallet First')
     }
-    const res = await WasmInstantiateTrx(signingClient, signer, [message])
+    const res = await execute([message])
     console.log('CreateDAOCoreByGroupId', res)
     const contractAddress = utils.common.getValueFromEvents(res!, 'instantiate', '_contract_address')
     if (!contractAddress) {
-      throw new Error(res?.rawLog)
+      throw new Error("error at line 1072")
     }
     return contractAddress
-  }
+  } 
 
   return {
     SaveProfile,

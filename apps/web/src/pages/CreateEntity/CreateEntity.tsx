@@ -24,13 +24,16 @@ const CreateEntity: React.FC = (): JSX.Element => {
   const navigate = useNavigate()
   const { pathname } = useLocation()
 
-  const { stepNo, breadCrumbs, title, subtitle } = useCreateEntityState()
+  const { stepNo, breadCrumbs, title, subtitle, entityType } = useCreateEntityState()
   const { getStrategyAndStepByPath } = useCreateEntityStrategy()
   const { strategy } = getStrategyAndStepByPath(pathname)
-  const entityType = strategy?.entityType
+
+  console.log({entityType, stepNo})
 
   useEffect(() => {
+    console.log("create entity running")
     if (entityType && stepNo) {
+      console.log("running", {entityType, stepNo})
       const { steps } = CreateEntityStrategyMap[entityType]
       steps[stepNo]?.fullUrl && navigate(steps[stepNo]?.fullUrl ?? "/")
     }

@@ -22,7 +22,7 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ entityType, headerUIConfig }) => {
-  const {open} = useWallet()
+  const { open } = useWallet()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   const handleBurgerClick = () => {

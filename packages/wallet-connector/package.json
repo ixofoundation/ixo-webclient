@@ -2,13 +2,16 @@
   "name": "@ixo-webclient/wallet-connector",
   "version": "1.0.0",
   "description": "Multi crypto wallet orchestrator",
-  "main": "index.js",
   "author": "Zach",
   "license": "MIT",
   "private": true,
+  "main": "dist/wallet-connector.cjs.js",
+  "module": "dist/wallet-connector.es.js",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc && tsc-alias",
-    "build:watch": "concurrently --kill-others \"tsc -w\" \"tsc-alias -w\""
+    "build:types": "tsc --emitDeclarationOnly && tsc-alias",
+    "build": "vite build && yarn build:types",
+    "build:watch": "concurrently --kill-others \"yarn build --watch \""
   },
   "dependencies": {
     "@cosmjs/encoding": "^0.31.3",
@@ -16,13 +19,26 @@
     "@ixo/cosmos-chain-resolver": "^0.0.5",
     "@mantine/core": "^7.2.2",
     "@mantine/hooks": "^7.2.2",
-    "bs58": "5.0.0"
+    "assert": "^2.1.0",
+    "bs58": "5.0.0",
+    "crypto-browserify": "^3.12.0",
+    "https-browserify": "^1.0.0",
+    "os-browserify": "^0.3.0",
+    "path-browserify": "^1.0.1",
+    "process": "^0.11.10",
+    "qrcode.react": "^3.1.0",
+    "readable-stream": "^4.4.2",
+    "stream-http": "^3.2.0",
+    "url": "^0.11.3",
+    "@ixo/impactxclient-sdk": "*"
   },
   "devDependencies": {
+    "@vitejs/plugin-react": "^4.2.0",
     "concurrently": "^8.2.2",
     "react": "^18.2.0",
     "react-dom": "18.2.0",
-    "tsc-alias": "^1.8.8"
+    "tsc-alias": "^1.8.8",
+    "vite": "^5.0.2"
   },
   "peerDependencies": {
     "@mantine/core": "^7.2.2",

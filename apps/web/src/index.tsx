@@ -12,8 +12,10 @@ import { StrictMode, createContext } from 'react'
 import { createRoot } from 'react-dom/client'
 import { Route, BrowserRouter, Routes, createBrowserRouter, createRoutesFromElements } from 'react-router-dom'
 import { Flex, MantineProvider, Modal, Text } from '@mantine/core'
-import { WalletModal, WalletProvider } from '@ixo-webclient/wallet-connector'
+import { WalletProvider } from '@ixo-webclient/wallet-connector'
 import '@mantine/core/styles.css';
+import { chainNetwork } from 'hooks/configs'
+import ProfileModal from 'components/Header/components/ProfileModal'
 
 process.env.NODE_ENV === 'production' &&
   Sentry.init({
@@ -25,7 +27,7 @@ process.env.NODE_ENV === 'production' &&
   })
 
 const client = new ApolloClient({
-  uri: process.env.REACT_APP_BLOCK_SYNC_GRAPHQL,
+  uri: process.env.REACT_APP_BLOCK_SYNC_GRAPHQL, 
   cache: new InMemoryCache({ addTypename: false }),
 })
 
@@ -33,8 +35,7 @@ const StoreContext = createContext(null)
 
 const App = () => (
   <MantineProvider>
-    <WalletProvider>
-      <WalletModal />
+    <WalletProvider chainNetwork={chainNetwork} customComponent={<ProfileModal/>} >
       <Provider store={store}>
         <GlobalStyle />
         <PersistGate loading={null} persistor={persistor}>

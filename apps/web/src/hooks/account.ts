@@ -46,6 +46,8 @@ import { getKeplrChainInfo } from '@ixo/cosmos-chain-resolver'
 import { WALLET_STORE_LOCAL_STORAGE_KEY, useIxoConfigs, chainNetwork } from './configs'
 import { ChainInfo } from '@keplr-wallet/types'
 import { errorToast } from 'utils/toast'
+import { useWallet } from '@ixo-webclient/wallet-connector'
+import { useEffect } from 'react'
 
 export function useAccount(): {
   selectedWallet: WalletType
@@ -101,44 +103,17 @@ export function useAccount(): {
   const registered: boolean | undefined = useAppSelector(selectAccountRegistered)
   const funded: boolean = useAppSelector(selectAccountFunded)
   const signer: TSigner = { address, did, pubKey: pubKeyUint8!, keyType }
+  const { wallet } = useWallet()
+
+  useEffect(() => {
+    if(wallet){
+      dispatch(connectAction(wallet as ConnectedWallet))
+      localStorage.setItem(WALLET_STORE_LOCAL_STORAGE_KEY, JSON.stringify(wallet))
+    }
+  }, [wallet])
 
   const connect = async ({ impactXData }: { impactXData?: any }): Promise<void> => {
-    try {
-      if (selectedWallet === WalletType.Keplr) {
-        const chainInfo = await getKeplrChainInfo('impacthub', chainNetwork)
-        chainInfo.rest = process.env.REACT_APP_GAIA_URL ?? chainInfo.rest
-        const wallet = KeplrExtensionWallet
-        const walletClient = await wallet.getClient(chainInfo as ChainInfo)
-        if (!walletClient) {
-          throw new Error('Failed to retrieve wallet client.')
-        }
-        const connectedWallet = await getConnectedWalletInfo(wallet, walletClient, chainInfo as ChainInfo)
-        dispatch(connectAction(connectedWallet))
-        localStorage.setItem(WALLET_STORE_LOCAL_STORAGE_KEY, JSON.stringify(connectedWallet))
-      }
-      if (selectedWallet === WalletType.ImpactXMobile) {
-        if (impactXData) {
-          dispatch(
-            connectAction({
-              ...impactXData,
-              publicKey: impactXData.pubKey,
-              wallet: { type: WalletType.ImpactXMobile },
-            }),
-          )
-          localStorage.setItem(
-            WALLET_STORE_LOCAL_STORAGE_KEY,
-            JSON.stringify({
-              ...impactXData,
-              publicKey: impactXData.pubKey,
-              wallet: { type: WalletType.ImpactXMobile },
-            }),
-          )
-        }
-      }
-    } catch (e: any) {
-      console.error('connect wallet', e)
-      errorToast('Connecting wallet', e.message)
-    }
+    console.log(impactXData)
   }
 
   const disconnect = (): void => {
