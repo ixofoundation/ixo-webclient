@@ -16,6 +16,7 @@ import Table, { renderTableHeader } from 'components/Table/Table'
 import { truncateString } from 'utils/formatters'
 import { ReactComponent as IXOIcon } from 'assets/images/icon-ixo.svg'
 import { ReactComponent as EyeIcon } from 'assets/images/icon-eye.svg'
+import ClaimLocation from './ClaimLocation'
 
 const TableWrapper = styled.div`
   color: white;
@@ -309,7 +310,7 @@ const Overview: React.FC = () => {
 
   const renderClaimLocations = () => (
     <Card icon={<PiePieceIcon />} label='Claim Locations'>
-      Map
+      <ClaimLocation />
     </Card>
   )
 
