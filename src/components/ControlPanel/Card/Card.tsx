@@ -13,7 +13,7 @@ export interface ICardItems {
 
 interface Props {
   icon: JSX.Element
-  title: string
+  title: JSX.Element | string
   columns: number
   items: ICardItems[] | JSX.Element
 }

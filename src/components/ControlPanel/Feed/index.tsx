@@ -6,6 +6,8 @@ import { Typography } from 'components/Typography'
 import { ReactComponent as BellIcon } from 'assets/images/icon-bell.svg'
 import { ReactComponent as ThumbsUpIcon } from 'assets/images/icon-thumbs-up.svg'
 import { ReactComponent as CommentIcon } from 'assets/images/icon-comment-alt.svg'
+import { ReactComponent as BookMarkIcon } from 'assets/images/icon-bookmark.svg'
+import { useState } from 'react'
 
 const FeedItem = () => {
   const theme: any = useTheme()
@@ -65,11 +67,47 @@ const FeedItem = () => {
 
 const FeedCard = () => {
   const theme: any = useTheme()
+  const [tab, setTab] = useState<'unread' | 'favourite'>('unread')
 
   return (
     <Card
       icon={<BellIcon />}
-      title='Feed'
+      title={
+        <FlexBox alignItems='center' gap={4}>
+          <Typography variant='secondary' size='lg'>
+            Feed
+          </Typography>
+          <FlexBox gap={2} alignItems='center' color={theme.ixoWhite}>
+            <FlexBox
+              borderRadius='100px'
+              width='24px'
+              height='24px'
+              justifyContent='center'
+              alignItems='center'
+              background={tab === 'unread' ? theme.ixoNewBlue : `${theme.ixoNewBlue}66`}
+              cursor='pointer'
+              onClick={() => setTab('unread')}
+            >
+              <Typography size='sm'>12</Typography>
+            </FlexBox>
+            <FlexBox
+              height='24px'
+              px={2}
+              justifyContent='center'
+              alignItems='center'
+              borderRadius='100px'
+              background={tab === 'favourite' ? theme.ixoNewBlue : `${theme.ixoNewBlue}66`}
+              cursor='pointer'
+              onClick={() => setTab('favourite')}
+            >
+              <SvgBox svgWidth={5} svgHeight={5} color={theme.ixoWhite}>
+                <BookMarkIcon />
+              </SvgBox>
+              <Typography size='sm'>32</Typography>
+            </FlexBox>
+          </FlexBox>
+        </FlexBox>
+      }
       columns={1}
       items={
         <>

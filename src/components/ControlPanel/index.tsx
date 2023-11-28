@@ -15,6 +15,7 @@ import ActionsCard from './Actions/Actions'
 import ClaimsCard from './Claims'
 import ConnectCard from './Connect/Connect'
 import FeedCard from './Feed'
+import MessagesCard from './Messages'
 
 interface Props {
   schema: Schema
@@ -45,12 +46,19 @@ const ControlPanel: React.FC<Props> = ({ schema }) => {
     </>
   )
 
+  const renderMessages = () => (
+    <>
+      <MessagesCard />
+    </>
+  )
+
   return (
     <FlexBox width='100%' height='100%' background='#F0F3F9' direction='column' justifyContent='space-between' gap={6}>
       <FlexBox width='100%' direction='column' gap={6} p={5}>
         {activeTab === 'profile' && renderProfile()}
         {activeTab === 'detail' && renderDetail()}
         {activeTab === 'feed' && renderFeed()}
+        {activeTab === 'message' && renderMessages()}
       </FlexBox>
       <FlexBox
         width='100%'
