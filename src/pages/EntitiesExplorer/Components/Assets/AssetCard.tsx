@@ -58,7 +58,7 @@ const AssetCard: React.FC<Props> = ({
     return () => {
       setEntity(undefined)
     }
-  }, [_entity, cwClient, updateEntity])
+  }, [_entity, cwClient])
 
   useEffect(() => {
     if (accountTokens['CARBON']) {
