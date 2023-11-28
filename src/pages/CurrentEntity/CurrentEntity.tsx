@@ -21,8 +21,6 @@ const CurrentEntityPage: React.FC = (): JSX.Element => {
   const { entityType, updateEntity, clearEntity } = useCurrentEntity()
   const [fetchedEntity, setFetchedEntity] = useState<TEntityModel | null>(null)
 
-  console.log({ entityType, entity, entityId, fetchedEntity })
-
   useEntityQuery({
     variables: {
       id: entityId,
@@ -39,7 +37,6 @@ const CurrentEntityPage: React.FC = (): JSX.Element => {
 
   useEffect(() => {
     if (fetchedEntity) {
-      console.log('updating using gql data')
       updateEntity(fetchedEntity)
     }
     if (entity) {

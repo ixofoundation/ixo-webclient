@@ -58,6 +58,7 @@ const AssetCard: React.FC<Props> = ({
     return () => {
       setEntity(undefined)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [_entity, cwClient])
 
   useEffect(() => {
