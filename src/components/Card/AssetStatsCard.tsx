@@ -11,6 +11,7 @@ export type AssetStatsCardProps = Omit<CardProps, 'children'> & {
   did?: string
   creator?: string
   created?: any
+  project?: string
 }
 
 export const AssetStatsCard = ({
@@ -19,6 +20,7 @@ export const AssetStatsCard = ({
   did,
   creator,
   created,
+  project,
   ...props
 }: AssetStatsCardProps) => {
   return (
@@ -37,7 +39,7 @@ export const AssetStatsCard = ({
         <span>Creator</span> <span style={{ color: '#00D2FF' }}>{creator}</span>
       </FlexBox>
       <FlexBox justifyContent='space-between'>
-        <span>Project</span> <span style={{ color: '#00D2FF' }}>SupaMoto</span>
+        <span>Project</span> <span style={{ color: '#00D2FF' }}>{project}</span>
       </FlexBox>
       <FlexBox justifyContent='space-between'>
         <span>Created</span> <span>{moment(created).format('DD MMM YYYY')}</span>
