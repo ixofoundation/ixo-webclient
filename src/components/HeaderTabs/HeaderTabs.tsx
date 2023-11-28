@@ -37,12 +37,12 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
       return buttons
     }
 
-    const fundingPageUrl = `/projects/${entityId}/funding`
+    const fundingPageUrl = `/entity/${entityId}/funding`
 
     const buttonArr: HeaderTab[] = [
       {
         iconClass: `icon-${entityType!.split('/')[0].toLowerCase()}`,
-        path: `/projects/${entityId}/overview`,
+        path: `/entity/${entityId}/overview`,
         title: entityType,
         tooltip: `${title} Overview`,
       },
@@ -53,7 +53,7 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
     if (entityType === EntityType.Project) {
       buttonArr.push({
         iconClass: 'icon-dashboard',
-        path: `/projects/${entityId}/detail`,
+        path: `/entity/${entityId}/detail`,
         title: 'DASHBOARD',
         tooltip: `${title} Management`,
       })
