@@ -375,7 +375,7 @@ const Overview: React.FC = () => {
       <FlexBox width='100%' height='320px'>
         {renderClaimEvaluation()}
       </FlexBox>
-      <FlexBox width='100%' height='320px' gap={6}>
+      <FlexBox width='100%' gap={6}>
         {renderClaimLocations()}
         {renderLatestClaims()}
       </FlexBox>
