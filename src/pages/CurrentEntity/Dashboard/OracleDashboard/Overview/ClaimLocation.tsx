@@ -5,8 +5,7 @@ import styled, { useTheme } from 'styled-components'
 
 const Container = styled(FlexBox)`
   width: 100%;
-  height: 100%;
-  minheight: 350px;
+  height: 300px;
 
   .mapboxgl-control-container {
     display: none;
