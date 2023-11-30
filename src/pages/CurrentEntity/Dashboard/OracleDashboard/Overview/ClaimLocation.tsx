@@ -1,5 +1,4 @@
 import { FlexBox } from 'components/App/App.styles'
-import mapboxgl from 'mapbox-gl'
 import { useRef } from 'react'
 import Map, { Layer, Source, MapRef, GeoJSONSource, LayerProps } from 'react-map-gl'
 import styled, { useTheme } from 'styled-components'
@@ -57,40 +56,13 @@ const ClaimLocation = () => {
     <Container>
       <Map
         initialViewState={{
-          latitude: 40.67,
-          longitude: -103.59,
+          latitude: 24,
+          longitude: -27,
           zoom: 3,
         }}
-        // mapStyle='mapbox://styles/mapbox/dark-v9'
-        mapStyle={{
-          version: 8,
-          sources: {
-            'raster-tiles': {
-              type: 'raster',
-              tiles: ['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],
-              tileSize: 256,
-            },
-          },
-          layers: [
-            {
-              id: 'background',
-              type: 'background',
-              paint: {
-                'background-color': 'transparent',
-              },
-            },
-            {
-              id: 'simple-tiles',
-              type: 'raster',
-              source: 'raster-tiles',
-              minzoom: 0,
-              maxzoom: 22,
-              paint: {
-                'raster-opacity': 0.5,
-              },
-            },
-          ],
-        }}
+        minZoom={1}
+        maxZoom={5}
+        mapStyle='mapbox://styles/gregoryixo45/clpk7w1qm00ff01p8a9p9b3tq'
         mapboxAccessToken={MAPBOX_TOKEN}
         interactiveLayerIds={[clusterLayer.id || '']}
         onClick={onClick}
