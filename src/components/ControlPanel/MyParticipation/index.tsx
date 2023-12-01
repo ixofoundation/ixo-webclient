@@ -7,9 +7,11 @@ import { ReactComponent as UserAstronautIcon } from 'assets/images/icon-user-ast
 import { ReactComponent as UserNinjaIcon } from 'assets/images/icon-user-ninja-solid.svg'
 import { ReactComponent as UserCheckIcon } from 'assets/images/icon-user-check-solid.svg'
 import { Card } from '../Card'
+import { useCurrentEntityProfile } from 'hooks/currentEntity'
 
 const MyParticipationCard = () => {
   const theme: any = useTheme()
+  const { name } = useCurrentEntityProfile()
 
   return (
     <Card
@@ -19,7 +21,7 @@ const MyParticipationCard = () => {
       items={
         <>
           <FlexBox width='100%' alignItems='center' justifyContent='space-between'>
-            <Typography size='md'>WaterDAO</Typography>
+            <Typography size='md'>{name}</Typography>
 
             <FlexBox gap={2}>
               <SvgBox

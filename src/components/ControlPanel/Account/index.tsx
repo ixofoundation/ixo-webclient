@@ -11,6 +11,7 @@ import { ReactComponent as UserNinjaIcon } from 'assets/images/icon-user-ninja-s
 import { Card } from '../Card'
 import { useAccount } from 'hooks/account'
 import { successToast } from 'utils/toast'
+import PropoverButton from 'components/Button/PopoverButton'
 
 const AccountCard = () => {
   const theme: any = useTheme()
@@ -50,19 +51,12 @@ const AccountCard = () => {
             <Typography size='md'>Credentials</Typography>
 
             <FlexBox gap={2}>
-              <SvgBox
-                width='40px'
-                height='40px'
-                background='#F7F8F9'
-                borderRadius='8px'
-                svgWidth={5}
-                svgHeight={5}
-                color={theme.ixoNewBlue}
-                justifyContent='center'
-                alignItems='center'
-              >
-                <StarIcon />
-              </SvgBox>
+              <PropoverButton
+                icon={<StarIcon />}
+                title={'KYC Credential'}
+                description='This is a description of the Credential. It can say something about why the Credential is needed.'
+              />
+
               <SvgBox
                 width='40px'
                 height='40px'
