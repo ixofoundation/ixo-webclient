@@ -1,7 +1,7 @@
 import { FlexBox, SvgBox } from 'components/App/App.styles'
 import useCurrentEntity from 'hooks/currentEntity'
 import { Card } from 'pages/CurrentEntity/Components'
-import OracleCard from 'pages/EntitiesExplorer/Components/EntityCard/OracleCard/OracleCard'
+import { OracleCard } from 'components/EntityCards/OracleCard'
 import React from 'react'
 import { ReactComponent as PiePieceIcon } from 'assets/images/icon-pie-piece.svg'
 import { Typography } from 'components/Typography'
@@ -17,6 +17,9 @@ import { truncateString } from 'utils/formatters'
 import { ReactComponent as IXOIcon } from 'assets/images/icon-ixo.svg'
 import { ReactComponent as EyeIcon } from 'assets/images/icon-eye.svg'
 import ClaimLocation from './ClaimLocation'
+import { withEntityData } from 'components'
+import CopyToClipboard from 'react-copy-to-clipboard'
+import { successToast } from 'utils/toast'
 
 const TableWrapper = styled.div`
   color: white;
@@ -154,10 +157,12 @@ const Overview: React.FC = () => {
   const renderOracleStats = () => (
     <Card icon={<PiePieceIcon />} label='Oracle Stats'>
       <FlexBox alignItems='center' gap={2}>
-        <Typography size='md'>did:ixosdjfo123124523414124124e45u987</Typography>
-        <SvgBox cursor='pointer' svgWidth={4} svgHeight={4} color={theme.ixoNewBlue}>
-          <CopyIcon />
-        </SvgBox>
+        <Typography size='md'>{currentEntity.id}</Typography>
+        <CopyToClipboard text={currentEntity.id} onCopy={() => successToast(`Copied to clipboard`)}>
+          <SvgBox cursor='pointer' svgWidth={4} svgHeight={4} color={theme.ixoNewBlue}>
+            <CopyIcon />
+          </SvgBox>
+        </CopyToClipboard>
       </FlexBox>
 
       <FlexBox width='100%' background={theme.ixoWhite} height='1px' />
@@ -171,12 +176,18 @@ const Overview: React.FC = () => {
 
       <FlexBox width='100%' justifyContent='space-between'>
         <Typography size='md'>Created</Typography>
-        <Typography size='md'>13 Apr 2023</Typography>
+        <Typography size='md'>
+          {moment(currentEntity.metadata?.created as unknown as string).format('DD MMM YYYY')}
+        </Typography>
       </FlexBox>
 
       <FlexBox width='100%' justifyContent='space-between'>
         <Typography size='md'>Expires</Typography>
-        <Typography size='md'>13 Apr 2024</Typography>
+        <Typography size='md'>
+          {moment(currentEntity.metadata?.created as unknown as string)
+            .add(1, 'y')
+            .format('DD MMM YYYY')}
+        </Typography>
       </FlexBox>
 
       <FlexBox width='100%' background={theme.ixoWhite} height='1px' />
@@ -188,17 +199,17 @@ const Overview: React.FC = () => {
 
       <FlexBox width='100%' justifyContent='space-between'>
         <Typography size='md'>Claims Evaluated</Typography>
-        <Typography size='md'>1,254</Typography>
+        <Typography size='md'>0</Typography>
       </FlexBox>
 
       <FlexBox width='100%' justifyContent='space-between'>
         <Typography size='md'>Impact Verified</Typography>
-        <Typography size='md'>1,322,123 kg CO2</Typography>
+        <Typography size='md'>0 kg CO2</Typography>
       </FlexBox>
 
       <FlexBox width='100%' justifyContent='space-between'>
         <Typography size='md'>CARBON generated</Typography>
-        <Typography size='md'>1,324 CARBON</Typography>
+        <Typography size='md'>0 CARBON</Typography>
       </FlexBox>
     </Card>
   )
@@ -217,14 +228,14 @@ const Overview: React.FC = () => {
         <FlexBox direction='column' justifyContent='center' alignItems='center' gap={4}>
           <FlexBox gap={2} alignItems='baseline'>
             <Typography size='5xl' color='blue'>
-              1,200,000
+              0
             </Typography>
             <Typography size='xl' color='blue'>
               CARBON
             </Typography>
           </FlexBox>
           <FlexBox gap={2}>
-            <Typography size='xl'>= 1,200,000 kg CO2 e verified</Typography>
+            <Typography size='xl'>= 0 kg CO2 e verified</Typography>
           </FlexBox>
         </FlexBox>
 
@@ -242,7 +253,7 @@ const Overview: React.FC = () => {
               Evaluated Claims
             </Typography>
             <Typography weight='bold' size='md'>
-              1,200
+              0
             </Typography>
           </FlexBox>
           <FlexBox direction='column' gap={2} alignItems='center' p={4} width='100%' background='#012131'>
@@ -250,7 +261,7 @@ const Overview: React.FC = () => {
               Approved
             </Typography>
             <Typography weight='bold' size='md'>
-              95.2%
+              0%
             </Typography>
           </FlexBox>
         </FlexBox>
@@ -363,11 +374,13 @@ const Overview: React.FC = () => {
     </Card>
   )
 
+  const WrappedOracleCard = withEntityData(OracleCard)
+
   return (
     <FlexBox direction='column' width='100%' gap={6}>
-      <FlexBox width='100%' height='520px' alignItems='stretch' gap={6}>
-        <FlexBox style={{ flex: '0 0 300px' }}>
-          <OracleCard {...currentEntity} />
+      <FlexBox width='100%' alignItems='stretch' gap={6}>
+        <FlexBox height='100%' style={{ flex: '0 0 300px' }}>
+          <WrappedOracleCard {...currentEntity} />
         </FlexBox>
         {renderOracleStats()}
         {renderCreditsVerified()}
