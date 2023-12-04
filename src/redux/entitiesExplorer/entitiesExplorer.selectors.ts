@@ -8,7 +8,7 @@ import { Schema as FilterSchema } from 'pages/EntitiesExplorer/Components/Entiti
 import { theme } from 'components/App/App.styles'
 import { LinkedEntity } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 
-const relayerNode = process.env.REACT_APP_RELAYER_NODE
+// const relayerNode = process.env.REACT_APP_RELAYER_NODE
 const formatDate = (date: string): string => moment(date).format("D MMM \\'YY")
 
 export const selectEntitiesState = (state: RootState): EntitiesExplorerState => state.entities
