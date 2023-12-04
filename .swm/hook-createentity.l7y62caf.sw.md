@@ -6,14 +6,17 @@ app_version: 1.14.0
 ---
 
 No upload claimQuestionJSON as linkedResource when object's empty.
+
 <!-- NOTE-swimm-snippet: the lines below link your snippet to Swimm -->
+
 ### 📄 src/hooks/createEntity.ts
+
 <!-- collapsed -->
 
 ```typescript
-679          if (claimQuestionJSON.pages.length === 0) {
-680            throw new Error('No Claim Questions')
-681          }
+680          if (questionJSON.pages.length === 0) {
+681            throw new Error('No Questions')
+682          }
 ```
 
 <br/>

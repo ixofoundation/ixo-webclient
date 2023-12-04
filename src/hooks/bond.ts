@@ -2,11 +2,16 @@ import { customQueries } from '@ixo/impactxclient-sdk'
 import BigNumber from 'bignumber.js'
 import { useEffect, useMemo, useState } from 'react'
 import { IxoCoinCodexRelayerApi, useIxoConfigs } from './configs'
+import { GetCurrentPrice } from 'lib/protocol'
+import { convertDecCoinToCoin } from 'utils/currency'
+import { Coin } from '@cosmjs/proto-signing'
 
 export function useMapBondDetail(bondDetail: any) {
   const { convertToDenom } = useIxoConfigs()
+  const [currentPrice, setCurrentPrice] = useState<Coin | undefined>(undefined)
 
   const {
+    bondDid = '',
     state = '',
     token = '',
     reserveToken = '',
@@ -18,6 +23,7 @@ export function useMapBondDetail(bondDetail: any) {
     outcomePayment = 0,
   } = useMemo(
     () => {
+      const bondDid = bondDetail?.bondDid
       const state = bondDetail?.state
       const token = bondDetail?.token
       const reserveToken = convertToDenom({ denom: bondDetail?.reserveTokens[0], amount: '0' })?.denom
@@ -32,6 +38,7 @@ export function useMapBondDetail(bondDetail: any) {
       const outcomePayment = bondDetail?.outcomePayment
 
       return {
+        bondDid,
         state,
         token,
         reserveToken,
@@ -63,6 +70,24 @@ export function useMapBondDetail(bondDetail: any) {
     })
   }, [reserveToken])
 
+  useEffect(() => {
+    const run = async () => {
+      if (bondDid) {
+        const res = await GetCurrentPrice(bondDid)
+        if (res) {
+          const { currentPrice } = res
+          setCurrentPrice(convertToDenom(convertDecCoinToCoin(currentPrice[0])))
+        }
+      }
+    }
+    run()
+
+    return () => {
+      setCurrentPrice(undefined)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [bondDid])
+
   return {
     state,
     token,
@@ -75,5 +100,6 @@ export function useMapBondDetail(bondDetail: any) {
     initialRaisedUsd,
     publicAlpha,
     outcomePayment,
+    currentPrice,
   }
 }

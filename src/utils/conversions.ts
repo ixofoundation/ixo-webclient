@@ -1,6 +1,7 @@
 import { Coin as BaseCoin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 import { Expiration } from '@ixo/impactxclient-sdk/types/codegen/DaoCore.types'
 import { CheckedDepositInfo, Coin } from '@ixo/impactxclient-sdk/types/codegen/DaoPreProposeSingle.types'
+import BigNumber from 'bignumber.js'
 import { Duration, DurationUnits, DurationWithUnits } from 'types/dao'
 
 export const durationWithUnitsToSeconds = (
@@ -198,4 +199,12 @@ export function convertDenomToMicroDenomWithDecimals(amount: number | string, de
   // Need to round. Example: `8.029409 * Math.pow(10, 6)`.
   amount = Math.round(amount * Math.pow(10, decimals))
   return isNaN(amount) ? 0 : amount
+}
+
+export function convertSecondsToNanoSeconds(seconds: string | number): string {
+  return new BigNumber(seconds).multipliedBy(1000000000).toString()
+}
+
+export function convertNanoSecondsToSeconds(ns: string | number): string {
+  return new BigNumber(ns).dividedBy(1000000000).toString()
 }

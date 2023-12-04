@@ -34,9 +34,7 @@ interface Props {
 const ProjectCard: React.FunctionComponent<Props> = ({ id, profile, tags, claim = {} }) => {
   const sdgs = tags ? tags.find((item) => item && item.category === 'SDG' && Array.isArray(item.tags))?.tags ?? [] : []
   const primaryColor = useAppSelector(selectEntityPrimaryColor)
-  // const submittedCount = pendingClaimsCount + successfulClaimsCount + rejectedClaimsCount + disputedClaimsCount
-  const headlineMetric: TEntityClaimModel | undefined = Object.values(claim).find((v) => v.isHeadlineMetric)
-  const maxSubmissions = headlineMetric?.submissions?.maximum ?? 0
+  const maxSubmissions = 0
 
   return (
     <CardContainer>

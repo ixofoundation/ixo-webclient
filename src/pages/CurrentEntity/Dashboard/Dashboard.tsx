@@ -10,6 +10,8 @@ const DashboardPage: React.FC = (): JSX.Element | null => {
   const currentEntity = useCurrentEntity()
   const entityType = currentEntity.entityType.replace('protocol/', '')
 
+  console.log({ entityType, currentEntity })
+
   const Component = useMemo(() => {
     switch (entityType) {
       case 'project':
@@ -21,6 +23,7 @@ const DashboardPage: React.FC = (): JSX.Element | null => {
       case 'investment':
         return InvestmentDashboard
       case 'asset/device':
+      case 'asset/learnership':
         return AssetDashboard
       default:
         return undefined

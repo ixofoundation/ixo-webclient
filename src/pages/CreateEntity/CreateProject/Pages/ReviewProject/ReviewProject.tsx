@@ -28,7 +28,6 @@ const ReviewProject: React.FC = (): JSX.Element => {
     service: serviceData,
     linkedEntity: linkedEntityData,
     linkedResource: linkedResourceData,
-    headlineMetricClaim,
     endDate,
     clearEntity,
     gotoStep,
@@ -48,7 +47,7 @@ const ReviewProject: React.FC = (): JSX.Element => {
     let linkedResource: LinkedResource[] = []
     let linkedClaim: LinkedClaim[] = []
 
-    // AccordedRight TODO:
+    // AccordedRight
 
     // Service
     service = serviceData
@@ -97,7 +96,7 @@ const ReviewProject: React.FC = (): JSX.Element => {
         logo={profile?.logo ?? ''}
         name={profile?.name ?? ''}
         endDate={endDate}
-        maxSubmission={headlineMetricClaim?.submissions?.maximum ?? 0}
+        maxSubmission={0}
       />
       <FlexBox direction='column' justifyContent='space-between' width='100%' style={{ flex: 1 }}>
         {!success && (

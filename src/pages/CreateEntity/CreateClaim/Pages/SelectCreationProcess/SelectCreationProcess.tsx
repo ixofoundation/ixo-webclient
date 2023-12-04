@@ -10,8 +10,6 @@ import { apiEntityToEntity } from 'utils/entities'
 import { useCreateEntityState } from 'hooks/createEntity'
 import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { EntityLinkedResourceConfig } from 'constants/entity'
-import { useAppSelector } from 'redux/hooks'
-import { selectRelayerByChainId } from 'redux/configs/configs.selectors'
 import { useGetEntityById } from 'graphql/entities'
 
 const SelectCreationProcess: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): JSX.Element => {
@@ -42,8 +40,6 @@ const SelectCreationProcess: React.FC<Pick<RouteComponentProps, 'match'>> = ({ m
   const [existingDid, setExistingDid] = useState('')
   const [chainId, setChainId] = useState(undefined)
   const { data: selectedEntity } = useGetEntityById(existingDid)
-  const relayer = useAppSelector(selectRelayerByChainId(chainId!))
-  console.log({ relayer })
 
   const canClone = useMemo(() => chainId && selectedEntity?.type === 'protocol/claim', [chainId, selectedEntity])
 

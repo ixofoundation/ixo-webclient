@@ -6,6 +6,8 @@ import * as accountSelectors from 'redux/account/account.selectors'
 import { RootState } from 'redux/store'
 import { Schema as FilterSchema } from 'pages/EntitiesExplorer/Components/EntitiesFilter/schema/types'
 import { theme } from 'components/App/App.styles'
+import { LinkedEntity } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
+
 const relayerNode = process.env.REACT_APP_RELAYER_NODE
 const formatDate = (date: string): string => moment(date).format("D MMM \\'YY")
 
@@ -44,6 +46,20 @@ export const selectAllClaimProtocols = createSelector(
     return entities
   },
 )
+
+export const selectAllDeedProtocols = createSelector(
+  selectEntitiesByType('protocol/deed'),
+  (entities: TEntityModel[]): TEntityModel[] => {
+    return entities
+  },
+)
+
+export const selectAllDeedOffersForEntityId = (entityId: string) =>
+  createSelector(selectEntitiesByType('deed/offer'), (entities: TEntityModel[]): TEntityModel[] => {
+    return entities.filter((entity) =>
+      entity.linkedEntity.some((item: LinkedEntity) => item.relationship === 'offers' && item.id === entityId),
+    )
+  })
 
 export const selectUnverifiedEntities = createSelector(
   selectAllEntities,
@@ -186,7 +202,9 @@ export const selectedFilteredEntities = createSelector(
       // Condition 4
       const condition4 = [false, true].includes(entity.entityVerified) && entity.owner === accountAddress
 
-      return condition1 || condition2 || condition3 || condition4
+      const condition5 = entity.entityVerified
+
+      return condition1 || condition2 || condition3 || condition4 || condition5
     })
 
     return filteredEntities

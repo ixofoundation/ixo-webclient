@@ -5,11 +5,12 @@ import Close from 'assets/icons/Close'
 import { Schema, ConnectionType, ActionType } from './types'
 import Performance from './Performance/Performance'
 import Share from './Share/Share'
+import Actions from './Actions/Actions'
+import ClaimsCard from './Claims'
 
 interface Props {
   entityDid: string
   schema: Schema
-  claims?: any[]
   assistantPanelToggle?: () => void
 }
 
@@ -103,7 +104,9 @@ class ControlPanel extends React.Component<Props, State> {
             ref={(ref): HTMLDivElement => (this.panelRef = ref!)}
           >
             <Performance />
-            <Share widget={actions} />
+            <Actions widget={actions} />
+            <ClaimsCard />
+            <Share />
           </ControlPanelWrapper>
         </ControlPanelScrollWrapper>
       </>

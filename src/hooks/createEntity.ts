@@ -38,7 +38,7 @@ import {
   clearEntityAction,
   updateClaimQuestionsAction,
   updateStartEndDateAction,
-  updateClaimQuestionJSONAction,
+  updateQuestionJSONAction,
 } from 'redux/createEntity/createEntity.actions'
 import {
   selectCreateEntityAccordedRight,
@@ -65,7 +65,7 @@ import {
   selectCreateEntityStartDate,
   selectCreateEntityEndDate,
   selectCreateEntityHeadlineClaim,
-  selectCreateEntityClaimQuestionJSON,
+  selectCreateEntityQuestionJSON,
 } from 'redux/createEntity/createEntity.selectors'
 import {
   CreateEntityStrategyMap,
@@ -140,7 +140,7 @@ interface TCreateEntityStateHookRes {
   daoController: string
   proposal: TProposalModel
   claimQuestions: { [id: string]: TQuestion }
-  claimQuestionJSON: any
+  questionJSON: any
   validateRequiredProperties: boolean
   updateEntityType: (entityType: string) => void
   clearEntity: () => void
@@ -168,7 +168,7 @@ interface TCreateEntityStateHookRes {
   updateDAOController: (controller: string) => void
   updateProposal: (proposal: TProposalModel) => void
   updateClaimQuestions: (claimQuestions: { [id: string]: TQuestion }) => void
-  updateClaimQuestionJSON: (claimQuestionJSON: any) => void
+  updateQuestionJSON: (claimQuestionJSON: any) => void
 }
 
 export function useCreateEntityState(): TCreateEntityStateHookRes {
@@ -202,7 +202,7 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
   const proposal: TProposalModel = useAppSelector(selectCreateEntityProposal)
   // for Claim
   const claimQuestions: { [id: string]: TQuestion } = useAppSelector(selectCreateEntityClaimQuestions)
-  const claimQuestionJSON: any = useAppSelector(selectCreateEntityClaimQuestionJSON)
+  const questionJSON: any = useAppSelector(selectCreateEntityQuestionJSON)
   const validateRequiredProperties = useMemo(() => {
     return !!creator && !!administrator && Object.keys(page ?? {}).length > 0 && service?.length > 0
   }, [creator, administrator, page, service])
@@ -307,8 +307,8 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
   const updateClaimQuestions = (claimQuestions: { [id: string]: TQuestion }): void => {
     dispatch(updateClaimQuestionsAction(claimQuestions))
   }
-  const updateClaimQuestionJSON = (claimQuestionJSON: any): void => {
-    dispatch(updateClaimQuestionJSONAction(claimQuestionJSON))
+  const updateQuestionJSON = (claimQuestionJSON: any): void => {
+    dispatch(updateQuestionJSONAction(claimQuestionJSON))
   }
 
   return {
@@ -336,7 +336,7 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
     daoController,
     proposal,
     claimQuestions,
-    claimQuestionJSON,
+    questionJSON,
     validateRequiredProperties,
     updateEntityType,
     clearEntity,
@@ -364,7 +364,7 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
     updateDAOController,
     updateProposal,
     updateClaimQuestions,
-    updateClaimQuestionJSON,
+    updateQuestionJSON,
   }
 }
 
@@ -378,6 +378,7 @@ interface TCreateEntityHookRes {
   SaveTags: (ddoTags: TEntityDDOTagModel[]) => Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined>
   SaveTokenMetadata: () => Promise<CellnodeWeb3Resource | undefined>
   SaveClaim: (claim: TEntityClaimModel) => Promise<CellnodeWeb3Resource | undefined>
+  SaveQuestionJSON: (claimQuestionJSON: any) => Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined>
   UploadLinkedResource: () => Promise<LinkedResource[]>
   UploadLinkedClaim: () => Promise<LinkedClaim[]>
   CreateProtocol: () => Promise<string>
@@ -405,7 +406,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
 
   const createEntityState = useCreateEntityState()
   const profile = createEntityState.profile as any
-  const { creator, administrator, page, ddoTags, service, claimQuestionJSON, claim } = createEntityState
+  const { creator, administrator, page, ddoTags, service, questionJSON, claim } = createEntityState
   // TODO: service choose-able
   const cellnodeService = service[0]
 
@@ -457,17 +458,17 @@ export function useCreateEntity(): TCreateEntityHookRes {
         },
         id: 'ixo:entity#profile',
         type: 'profile',
-        orgName: profile.orgName,
-        name: profile.name,
-        image: profile.image,
-        logo: profile.logo,
-        brand: profile.brand,
-        location: profile.location,
-        description: profile.description,
-        attributes: profile.attributes,
-        metrics: profile.metrics,
+        orgName: profile?.orgName,
+        name: profile?.name,
+        image: profile?.image,
+        logo: profile?.logo,
+        brand: profile?.brand,
+        location: profile?.location,
+        description: profile?.description,
+        attributes: profile?.attributes,
+        metrics: profile?.metrics,
 
-        category: profile.type,
+        category: profile?.type,
       }
       const buff = Buffer.from(JSON.stringify(payload))
       const res = await UploadDataToService(buff.toString('base64'))
@@ -672,12 +673,12 @@ export function useCreateEntity(): TCreateEntityHookRes {
     }
   }
 
-  const SaveClaimQuestionJSON = async (
-    claimQuestionJSON: any,
+  const SaveQuestionJSON = async (
+    questionJSON: any,
   ): Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined> => {
     try {
-      if (claimQuestionJSON.pages.length === 0) {
-        throw new Error('No Claim Questions')
+      if (questionJSON.pages.length === 0) {
+        throw new Error('No Questions')
       }
 
       const payload = {
@@ -687,15 +688,15 @@ export function useCreateEntity(): TCreateEntityHookRes {
           type: '@type',
           '@protected': true,
         },
-        type: 'ixo:entity#claimSchema',
-        question: claimQuestionJSON,
+        type: 'ixo:entity#surveyTemplate',
+        question: questionJSON,
       }
       const buff = Buffer.from(JSON.stringify(payload))
       const res = await UploadDataToService(buff.toString('base64'))
-      console.log('SaveClaimQuestionJSON', res)
+      console.log('SaveQuestionJSON', res)
       return res
     } catch (e) {
-      console.error('SaveClaimQuestionJSON', e)
+      console.error('SaveQuestionJSON', e)
       return undefined
     }
   }
@@ -737,14 +738,14 @@ export function useCreateEntity(): TCreateEntityHookRes {
   const UploadLinkedResource = async (): Promise<LinkedResource[]> => {
     const linkedResource: LinkedResource[] = []
 
-    const [saveProfileRes, saveCreatorRes, saveAdministratorRes, savePageRes, saveTagsRes, saveClaimQuestionJSONRes] =
+    const [saveProfileRes, saveCreatorRes, saveAdministratorRes, savePageRes, saveTagsRes, saveQuestionJSONRes] =
       await Promise.allSettled([
         await SaveProfile(profile),
         await SaveCreator(creator),
         await SaveAdministrator(administrator),
         await SavePage(page),
         await SaveTags(ddoTags),
-        await SaveClaimQuestionJSON(claimQuestionJSON),
+        await SaveQuestionJSON(questionJSON),
       ])
 
     if (saveProfileRes.status === 'fulfilled' && saveProfileRes.value) {
@@ -807,14 +808,14 @@ export function useCreateEntity(): TCreateEntityHookRes {
         right: '',
       })
     }
-    if (saveClaimQuestionJSONRes.status === 'fulfilled' && saveClaimQuestionJSONRes.value) {
+    if (saveQuestionJSONRes.status === 'fulfilled' && saveQuestionJSONRes.value) {
       linkedResource.push({
-        id: `{id}#${claimQuestionJSON.title || 'claimQuestion'}`,
-        type: 'ClaimSchema',
-        description: claimQuestionJSON.description,
+        id: `{id}#${questionJSON.title || 'surveyTemplate'}`,
+        type: 'surveyTemplate',
+        description: questionJSON.description,
         mediaType: 'application/ld+json',
-        serviceEndpoint: LinkedResourceServiceEndpointGenerator(saveClaimQuestionJSONRes.value, cellnodeService),
-        proof: LinkedResourceProofGenerator(saveClaimQuestionJSONRes.value, cellnodeService),
+        serviceEndpoint: LinkedResourceServiceEndpointGenerator(saveQuestionJSONRes.value, cellnodeService),
+        proof: LinkedResourceProofGenerator(saveQuestionJSONRes.value, cellnodeService),
         encrypted: 'false',
         right: '',
       })
@@ -831,7 +832,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
 
         return {
           type: claimProtocol?.profile?.category || '',
-          id: `{id}#${claimProtocol?.profile?.name}`,
+          id: item.id,
           description: claimProtocol?.profile?.description || '',
           serviceEndpoint: LinkedResourceServiceEndpointGenerator(res!, cellnodeService),
           proof: LinkedResourceProofGenerator(res!, cellnodeService),
@@ -1079,6 +1080,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
     SaveTags,
     SaveClaim,
     SaveTokenMetadata,
+    SaveQuestionJSON,
     UploadLinkedResource,
     UploadLinkedClaim,
     CreateProtocol,

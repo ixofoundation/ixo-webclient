@@ -60,7 +60,7 @@ const ReviewDAO: React.FC = (): JSX.Element => {
     let linkedClaim: LinkedClaim[] = []
     let controller: string[] = []
 
-    // AccordedRight TODO:
+    // AccordedRight
 
     // Service
     service = serviceData
