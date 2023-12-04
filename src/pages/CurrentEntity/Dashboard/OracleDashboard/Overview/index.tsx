@@ -5,37 +5,17 @@ import { OracleCard } from 'components/EntityCards/OracleCard'
 import React from 'react'
 import { ReactComponent as PiePieceIcon } from 'assets/images/icon-pie-piece.svg'
 import { Typography } from 'components/Typography'
-import styled, { useTheme } from 'styled-components'
+import { useTheme } from 'styled-components'
 import { ReactComponent as CopyIcon } from 'assets/images/icon-copy.svg'
 import { Bar, BarChart, ResponsiveContainer, Tooltip, YAxis } from 'recharts'
 import moment from 'moment'
-import { useClaimSetting } from 'hooks/claim'
-import { ixo } from '@ixo/impactxclient-sdk'
 import { ReactComponent as ClockIcon } from 'assets/images/icon-clock.svg'
-import Table, { renderTableHeader } from 'components/Table/Table'
-import { truncateString } from 'utils/formatters'
-import { ReactComponent as IXOIcon } from 'assets/images/icon-ixo.svg'
-import { ReactComponent as EyeIcon } from 'assets/images/icon-eye.svg'
 import ClaimLocation from './ClaimLocation'
 import { withEntityData } from 'components'
 import CopyToClipboard from 'react-copy-to-clipboard'
 import { successToast } from 'utils/toast'
-
-const TableWrapper = styled.div`
-  color: white;
-  width: 100%;
-
-  table {
-    width: 100%;
-    border-spacing: 0 4px;
-    border-collapse: separate;
-
-    th,
-    td {
-      height: inherit;
-    }
-  }
-`
+import LatestClaims from './LatestClaims'
+import EvaluatedClaims from './EvaluatedClaims'
 
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
@@ -59,90 +39,6 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 const Overview: React.FC = () => {
   const theme: any = useTheme()
   const { currentEntity } = useCurrentEntity()
-  const Setting = useClaimSetting()
-  const columns = [
-    {
-      Header: renderTableHeader('Date Status'),
-      accessor: 'timestamp',
-      sortable: true,
-      renderCell: (cell: any) => {
-        const status = cell.row.original?.status
-        return (
-          <FlexBox p={5} position={'relative'}>
-            <FlexBox
-              position='absolute'
-              top={'50%'}
-              left={'0px'}
-              transform='translate(-50%, -50%)'
-              width='12px'
-              height='40px'
-              borderRadius='100px'
-              background={theme[status] ?? theme.rejected}
-            />
-            <Typography color='white'>
-              {'3h 45m'}{' '}
-              <Typography color='light-blue' size='md'>
-                ago
-              </Typography>
-            </Typography>
-          </FlexBox>
-        )
-      },
-    },
-    {
-      Header: renderTableHeader('Action'),
-      accessor: 'action',
-      renderCell: (cell: any) => (
-        <FlexBox p={5}>
-          <Typography>Claim Approved</Typography>
-        </FlexBox>
-      ),
-    },
-    {
-      Header: renderTableHeader('Asset'),
-      accessor: 'asset',
-      renderCell: (cell: any) => (
-        <FlexBox p={5}>
-          <Typography>Supamoto #123</Typography>
-        </FlexBox>
-      ),
-    },
-    {
-      Header: renderTableHeader('Impact'),
-      accessor: 'impact',
-      renderCell: (cell: any) => (
-        <FlexBox p={5}>
-          <Typography>235 kgCO2e</Typography>
-        </FlexBox>
-      ),
-    },
-    {
-      Header: renderTableHeader('Proof'),
-      accessor: 'proof',
-      renderCell: (cell: any) => (
-        <FlexBox p={5}>
-          <Typography color='blue'>{truncateString('ixo1xc798xnhp7yy9mpp80v3tsxppw8qk0y9atm965', 10)}</Typography>
-        </FlexBox>
-      ),
-    },
-    {
-      Header: renderTableHeader('Value'),
-      accessor: 'value',
-      renderCell: (cell: any) => (
-        <FlexBox height='100%'>
-          <FlexBox width='100%' height='100%' p={5} alignItems='center' background={theme.ixoNavyBlue} gap={2.5}>
-            <IXOIcon />
-            <Typography weight='bold'>235 CARBON</Typography>
-          </FlexBox>
-          <FlexBox height='100%' alignItems='center' background={theme.ixoMediumBlue}>
-            <SvgBox width='60px' alignItems='center' justifyContent='center' color={theme.ixoNewBlue} svgWidth={5.5}>
-              <EyeIcon />
-            </SvgBox>
-          </FlexBox>
-        </FlexBox>
-      ),
-    },
-  ]
 
   const claimEvaluationData = [
     { claims: 1 },
@@ -327,50 +223,13 @@ const Overview: React.FC = () => {
 
   const renderLatestClaims = () => (
     <Card icon={<PiePieceIcon />} label='Latest Claims'>
-      <FlexBox direction='column' width='100%' gap={4}>
-        <FlexBox
-          direction='column'
-          width='100%'
-          height='70px'
-          borderRadius='4px'
-          background={'#002D42'}
-          justifyContent='center'
-          cursor='pointer'
-          px={8}
-          position='relative'
-        >
-          <FlexBox
-            position='absolute'
-            top='50%'
-            left='0px'
-            transform='translate(-50%, -50%)'
-            width='8px'
-            height='24px'
-            background={Setting[ixo.claims.v1beta1.EvaluationStatus.PENDING].color}
-            borderRadius='100px'
-          />
-
-          <Typography color='white' size='base'>
-            Fuel Purchase Claim
-          </Typography>
-          <Typography color='blue' size='sm'>
-            30 kg
-          </Typography>
-        </FlexBox>
-      </FlexBox>
+      <LatestClaims />
     </Card>
   )
 
   const renderEvaluatedClaims = () => (
     <Card label='Evaluated Claims' icon={<ClockIcon />}>
-      <TableWrapper>
-        <Table
-          columns={columns}
-          data={[{}]}
-          getRowProps={() => ({ style: { height: 70 } })}
-          getCellProps={() => ({ style: { background: '#023044' } })}
-        />
-      </TableWrapper>
+      <EvaluatedClaims />
     </Card>
   )
 
@@ -388,7 +247,7 @@ const Overview: React.FC = () => {
       <FlexBox width='100%' height='320px'>
         {renderClaimEvaluation()}
       </FlexBox>
-      <FlexBox width='100%' gap={6}>
+      <FlexBox width='100%' height='400px' gap={6}>
         {renderClaimLocations()}
         {renderLatestClaims()}
       </FlexBox>

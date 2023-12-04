@@ -57,7 +57,7 @@ const ClaimLocation = () => {
         initialViewState={{
           latitude: 24,
           longitude: -27,
-          zoom: 3,
+          zoom: 1,
         }}
         minZoom={1}
         maxZoom={5}
