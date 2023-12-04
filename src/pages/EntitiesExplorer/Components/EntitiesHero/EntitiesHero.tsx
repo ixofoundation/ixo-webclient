@@ -10,6 +10,7 @@ import { useHistory } from 'react-router-dom'
 import MediaQuery from 'react-responsive'
 import { deviceWidth } from 'constants/device'
 import { useQuery } from 'hooks/window'
+import { isDevelopment } from 'constants/common'
 // TODO - when we know what the other entity types headers will look like then possibly refactor this as it's messy with all the conditions
 // or whatever else is needed. For now, just doing it based on entityType
 
@@ -120,7 +121,7 @@ const getHeaderTabButtons = (entityType: EntityType, entityTitle: string): any =
       },
       {
         iconClass: 'icon-economy',
-        linkClass: '',
+        linkClass: isDevelopment ? '' : 'in-active',
         path: '/economy',
         title: 'ECONOMY',
         tooltip: `The Impact Economy`,
