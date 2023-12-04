@@ -59,7 +59,6 @@ const MyParticipationCard = () => {
   const { name } = useCurrentEntityProfile()
   const { daoGroups } = useCurrentEntity()
   const daoGroupsArr = Object.values(daoGroups)
-  console.log({ daoGroupsArr })
 
   return (
     <Card
