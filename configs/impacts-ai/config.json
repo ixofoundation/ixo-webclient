@@ -2,11 +2,11 @@
     "theme": {
         "fontFamily": "Roboto Condensed",
         "primaryColor": "#00D2A0",
-        "secondaryColor": "#162A42",
-        "backgroundColor": "#13263D",
+        "secondaryColor": "#112121",
+        "backgroundColor": "#000000",
         "highlight": {
-            "light": "#45B4F2",
-            "dark": "#5A5A6F"
+            "light": "#26EBBC",
+            "dark": "#2B8973"
         }
     },
     "UI": {
@@ -59,8 +59,8 @@
             "@context": "https://schema.ixo.foundation/project",
             "@type": "Header",
             "color": "transparent",
-            "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/emerging_header_override.png",
-            "title": "Emerging",
+            "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/impact/src/assets/images/header-overrides/ImpactsAI_hero.png",
+            "title": "Impacts AI",
             "subTitle": "Projects Explorer",
             "indicators": [
                 {
@@ -1187,8 +1187,8 @@
             "@context": "https://schema.ixo.foundation/oracle",
             "@type": "Header",
             "color": "transparent",
-            "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/emerging_header_override.png",
-            "title": "Emerging",
+            "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/impact/src/assets/images/header-overrides/ImpactsAI_hero.png",
+            "title": "Impacts AI",
             "subTitle": "Oracles Explorer",
             "indicators": [
                 {
@@ -1853,8 +1853,8 @@
             "@context": "https://schema.ixo.foundation/investment",
             "@type": "Header",
             "color": "transparent",
-            "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/emerging_header_override.png",
-            "title": "Emerging",
+            "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/impact/src/assets/images/header-overrides/ImpactsAI_hero.png",
+            "title": "Impacts AI",
             "subTitle": "Investment Explorer",
             "indicators": [
                 {
@@ -2655,8 +2655,8 @@
             "@context": "https://schema.ixo.foundation/cell",
             "@type": "Header",
             "color": "transparent",
-            "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/emerging_header_override.png",
-            "title": "Emerging",
+            "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/impact/src/assets/images/header-overrides/ImpactsAI_hero.png",
+            "title": "Impacts AI",
             "subTitle": "DAO Explorer",
             "indicators": [
                 {
@@ -3256,8 +3256,8 @@
             "@context": "https://schema.ixo.foundation/protocol",
             "@type": "Header",
             "color": "transparent",
-            "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/emerging_header_override.png",
-            "title": "Emerging",
+            "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/impact/src/assets/images/header-overrides/ImpactsAI_hero.png",
+            "title": "Impacts AI",
             "subTitle": "Protocol Explorer",
             "indicators": [
                 {
@@ -4214,8 +4214,8 @@
             "@context": "https://schema.ixo.foundation/data-asset",
             "@type": "Header",
             "color": "transparent",
-            "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/emerging_header_override.png",
-            "title": "Emerging",
+            "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/impact/src/assets/images/header-overrides/ImpactsAI_hero.png",
+            "title": "Impacts AI",
             "subTitle": "Asset Explorer",
             "indicators": [
                 {
