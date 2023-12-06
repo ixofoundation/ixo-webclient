@@ -27,7 +27,7 @@
         "header": {
             "background": "#000000",
             "buttonColor": "#00D2A0",
-            "link": "https://impacts.ai/"
+            "link": "https://marketplace.impacts.ai/explore?type=dao"
         },
         "footer": {
             "mailTo": {
@@ -39,13 +39,7 @@
                 "text": "Privacy policy",
                 "href": "https://www.ixo.world/privacy-policy"
             },
-            "socials": {
-                "twitter": {
-                    "title": "Twitter",
-                    "href": "https://twitter.com/impacts-ai",
-                    "iconClassName": "icon-twitter"
-                }
-            }
+            "socials": {}
         }
     },
     "route": {
