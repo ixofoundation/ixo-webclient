@@ -17,6 +17,7 @@ import { selectAPR } from 'redux/selectedEntityExchange/entityExchange.selectors
 import BigNumber from 'bignumber.js'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { EntityExchangeState } from 'redux/selectedEntityExchange/entityExchange.types'
+import { useAccount } from 'hooks/account'
 // interface ValidatorDataType {
 //   userDid: string
 //   validatorAddress: string
@@ -70,7 +71,8 @@ const Stake: React.FunctionComponent = () => {
   const [totalRewards, setTotalRewards] = useState<number>(0)
   const [stakeModalOpen, setStakeModalOpen] = useState(false)
   const [walletType] = useState<string | null>(null)
-  const [selectedAddress] = useState<string | null>(null)
+  // const [selectedAddress] = useState<string | null>(null)
+  const { address: selectedAddress } = useAccount()
 
   const [modalTitle, setModalTitle] = useState('My Stake')
 
@@ -124,9 +126,7 @@ const Stake: React.FunctionComponent = () => {
             <StatsLabel className='pr-5'>{`APR: ${APR.toFixed(1)}%`}</StatsLabel>
             <Button>{`Claim Reward: ${thousandSeparator(totalRewards.toFixed(2), ',')} IXO`}</Button>
           </div>
-          <div className='row'>
-            <Table columns={columns} data={validators} />
-          </div>
+          <div className='row'>{/* <Table columns={columns} data={validators} /> */}</div>
         </>
       )}
 

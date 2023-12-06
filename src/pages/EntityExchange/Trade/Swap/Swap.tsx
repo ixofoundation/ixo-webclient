@@ -1,9 +1,8 @@
 import React, { useMemo, useState } from 'react'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
 
-import { TradePanel } from '../Swap.styles'
+import { TradePanel } from '../Trade.styles'
 
-import { selectSelectedAccountAddress } from 'redux/selectedEntityExchange/entityExchange.selectors'
 import BigNumber from 'bignumber.js'
 import { useIxoConfigs } from 'hooks/configs'
 import { AssetType } from 'redux/configs/configs.types'
@@ -19,8 +18,8 @@ import { selectInputEntity, selectOutputEntity } from 'redux/exchange/exchange.s
 import { AssetCard } from 'components'
 import { Flex } from '@mantine/core'
 import { useGetAccountTokens } from 'graphql/tokens'
-import { useTheme } from 'styled-components'
 import { useMediaQuery } from '@mantine/hooks'
+import { useAccount } from 'hooks/account'
 
 const EmptyAssetCardData = {
   type: '',
@@ -37,9 +36,8 @@ const EmptyAssetCardData = {
 }
 
 const Swap: React.FunctionComponent = () => {
-  const theme = useTheme() as any
   const { getAssetsByChainId, getRelayerNameByChainId } = useIxoConfigs()
-  const selectedAccountAddress = useAppSelector(selectSelectedAccountAddress)
+  const { address: selectedAccountAddress } = useAccount()
   const inputAssetEntity = useAppSelector(selectInputEntity)
   const outputAssetEntity = useAppSelector(selectOutputEntity)
   const dispatch = useAppDispatch()
@@ -197,7 +195,7 @@ const Swap: React.FunctionComponent = () => {
   const hasOutputData = Boolean(outputAssetCardData.type.length > 0)
 
   return (
-    <Flex w='100%' bg={theme.ixoDarkestBlue}>
+    <Flex w='100%'>
       {selectedAccountAddress && (
         <Flex align='center' justify={hasInputData ? 'flex-start' : 'center'} w='100%'>
           <Flex h='300px' mx={30} w={isSmallScreen ? '10%' : '30%'} justify='flex-end'>

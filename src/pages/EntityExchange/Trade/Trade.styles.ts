@@ -13,7 +13,6 @@ export const TradeWrapper = styled.div`
   align-items: center;
   width: 100%;
   height: 100%;
-  background: ${(props): string => props.theme.ixoDarkestBlue};
 
   @media (max-width: ${deviceWidth.desktopLarge}px) {
     ${AssetCardWrapper} {

@@ -8,7 +8,6 @@ import {
   setInputAssetUSDAmount,
   setOutputAsset,
   setOutputAssetEntity,
-  setOutputAssetUSDAmount,
 } from 'redux/exchange/exchange.actions'
 import { selectInputAsset, selectOutputAsset, selectSlippage } from 'redux/exchange/exchange.selectors'
 import { ExchangeAsset } from 'redux/exchange/exchange.types'
@@ -71,12 +70,12 @@ function useExchange({ address }: UseExchangeProps) {
   }, [balances, inputAsset.asset?.base, inputAsset.asset?.display, dispatch])
 
   useEffect(() => {
-    if (inputAsset.usdAmount && outputAsset.amount) {
-      const carbonInUSD = inputAsset.usdAmount.multipliedBy(inputAsset.amount.dividedBy(outputAsset.amount))
+    if (inputAsset.usdAmount && outputAsset.usdAmount) {
+      const outputAmount = inputAsset.usdAmount.multipliedBy(inputAsset.amount.dividedBy(outputAsset.usdAmount))
 
-      dispatch(setOutputAssetUSDAmount(carbonInUSD))
+      dispatch(setOutputAsset({ amount: outputAmount }))
     }
-  }, [inputAsset.usdAmount, outputAsset.amount, dispatch, inputAsset.amount])
+  }, [inputAsset.usdAmount, outputAsset.usdAmount, dispatch, inputAsset.amount])
 
   const getOutputAmount = async (inputAsset: ExchangeAsset) => {
     if (inputAsset.asset?.base) {
