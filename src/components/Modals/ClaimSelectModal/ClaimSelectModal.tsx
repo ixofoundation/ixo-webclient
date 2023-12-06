@@ -12,7 +12,7 @@ import styled, { useTheme } from 'styled-components'
 import { ReactComponent as SearchIcon } from 'assets/images/icon-search.svg'
 import { ReactComponent as SlidersIcon } from 'assets/images/icon-sliders-h-solid.svg'
 import { useAppSelector } from 'redux/hooks'
-import { selectAllClaimProtocols } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { selectAllDeedProtocols } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { useHistory } from 'react-router-dom'
 
 const ClaimProtocolList = styled(FlexBox)`
@@ -37,7 +37,7 @@ interface Props {
 const ClaimSelectModal: React.FC<Props> = ({ open, onClose, onSelect }): JSX.Element => {
   const history = useHistory()
   const theme: any = useTheme()
-  const claimProtocols = useAppSelector(selectAllClaimProtocols)
+  const claimProtocols = useAppSelector(selectAllDeedProtocols)
 
   console.log({ claimProtocols })
 

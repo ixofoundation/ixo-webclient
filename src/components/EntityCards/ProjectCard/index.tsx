@@ -8,8 +8,10 @@ import { HorizontalLine } from 'components/HorizontalLine'
 import { Tag } from 'components'
 import { getEntityIcon } from 'utils/getEntityIcon'
 import { ProgressBar } from 'components/ProgressBar/ProgressBar'
+import { useHistory } from 'react-router-dom'
 
 interface Props extends HTMLFlexBoxProps {
+  id: string
   collectionName?: string | null
   cardImage: string
   type: string
@@ -24,6 +26,7 @@ interface Props extends HTMLFlexBoxProps {
 }
 
 export const ProjectCard: React.FC<Props> = ({
+  id,
   collectionName,
   cardImage,
   metrics,
@@ -38,14 +41,21 @@ export const ProjectCard: React.FC<Props> = ({
   ...rest
 }): JSX.Element | null => {
   const theme: any = useTheme()
+  const history = useHistory()
 
   return (
     <FlexBox
+      onClick={() =>
+        history.push({
+          pathname: `/entity/${id}/overview`,
+        })
+      }
       direction='column'
       width='100%'
       borderRadius={'10px'}
       height='100%'
       overflow='hidden'
+      cursor='pointer'
       hover={{ boxShadow: '0px 10px 25px 0px rgba(0, 0, 0, 0.15)' }}
       {...rest}
     >

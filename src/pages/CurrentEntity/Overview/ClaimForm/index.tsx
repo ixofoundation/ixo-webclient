@@ -42,7 +42,7 @@ const ClaimForm: React.FC<Props> = ({ claimId }) => {
   useEffect(() => {
     if (templateEntity && (templateEntity?.linkedResource ?? []).length > 0) {
       const claimSchemaLinkedResources: LinkedResource[] = templateEntity.linkedResource.filter(
-        (item: LinkedResource) => item.type === 'ClaimSchema',
+        (item: LinkedResource) => item.type === 'surveyTemplate',
       )
 
       ;(async () => {
