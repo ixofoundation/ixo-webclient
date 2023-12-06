@@ -8,7 +8,7 @@ import { Schema as FilterSchema } from 'pages/EntitiesExplorer/Components/Entiti
 import { theme } from 'components/App/App.styles'
 import { LinkedEntity } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 
-// const relayerNode = process.env.REACT_APP_RELAYER_NODE
+const relayerNode = process.env.REACT_APP_RELAYER_NODE
 const formatDate = (date: string): string => moment(date).format("D MMM \\'YY")
 
 export const selectEntitiesState = (state: RootState): EntitiesExplorerState => state.entities
@@ -189,21 +189,21 @@ export const selectedFilteredEntities = createSelector(
       return 0
     })
 
-    // filteredEntities = filteredEntities.filter((entity) => {
-    //   // Condition 1
-    //   const condition1 = entity.relayerNode === relayerNode && entity.entityVerified === true
+    filteredEntities = filteredEntities.filter((entity) => {
+      // Condition 1
+      const condition1 = entity.relayerNode === relayerNode && entity.entityVerified === true
 
-    //   // Condition 2
-    //   const condition2 = entity.id === relayerNode && entity.entityVerified === true
+      // Condition 2
+      const condition2 = entity.id === relayerNode && entity.entityVerified === true
 
-    //   // Condition 3
-    //   const condition3 = entity.relayerNode === relayerNode && entity.entityVerified === true
+      // Condition 3
+      const condition3 = entity.relayerNode === relayerNode && entity.entityVerified === true
 
-    //   // Condition 4
-    //   const condition4 = [false, true].includes(entity.entityVerified) && entity.owner === accountAddress
+      // Condition 4
+      const condition4 = [false, true].includes(entity.entityVerified) && entity.owner === accountAddress
 
-    //   return condition1 || condition2 || condition3 || condition4
-    // })
+      return condition1 || condition2 || condition3 || condition4
+    })
 
     return filteredEntities
   },
