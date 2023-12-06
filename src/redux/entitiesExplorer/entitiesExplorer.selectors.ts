@@ -202,9 +202,7 @@ export const selectedFilteredEntities = createSelector(
       // Condition 4
       const condition4 = [false, true].includes(entity.entityVerified) && entity.owner === accountAddress
 
-      const condition5 = entity.entityVerified
-
-      return condition1 || condition2 || condition3 || condition4 || condition5
+      return condition1 || condition2 || condition3 || condition4
     })
 
     return filteredEntities
