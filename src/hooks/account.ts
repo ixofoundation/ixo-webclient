@@ -106,6 +106,7 @@ export function useAccount(): {
     try {
       const chainInfo = await getKeplrChainInfo('impacthub', chainNetwork)
       chainInfo.rest = process.env.REACT_APP_GAIA_URL || chainInfo.rest
+      chainInfo.rpc = process.env.REACT_APP_RPC_URL || chainInfo.rpc
       const wallet = KeplrExtensionWallet
       const walletClient = await wallet.getClient(chainInfo as ChainInfo)
       if (!walletClient) {
