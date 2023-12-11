@@ -93,7 +93,7 @@ export const GetTokenAsset = async (denom: string, rpc = RPC_ENDPOINT): Promise<
 export const GetValidators = async (): Promise<Validator[]> => {
   try {
     const client = await createRPCQueryClient({ rpcEndpoint: RPC_ENDPOINT! })
-    const { validators = [] } = await client.cosmos.staking.v1beta1.validators({ status: 'BOND_STATUS_BONDED' })
+    const { validators = [] } = await client.cosmos.staking.v1beta1.validators({ status: '' })
     return validators
   } catch (e) {
     console.error('GetValidators', e)
@@ -117,6 +117,20 @@ export const GetValidatorByAddr = async (validatorAddr: string): Promise<Validat
   }
 }
 
+export const GetDelegation = async (
+  validatorAddr: string,
+  delegatorAddr: string,
+): Promise<DelegationResponse | undefined> => {
+  try {
+    const client = await createRPCQueryClient({ rpcEndpoint: RPC_ENDPOINT! })
+    const { delegationResponse } = await client.cosmos.staking.v1beta1.delegation({ validatorAddr, delegatorAddr })
+    return delegationResponse
+  } catch (e) {
+    console.error('GetDelegation', e)
+    return undefined
+  }
+}
+
 export const GetDelegatorValidators = async (delegatorAddr: string): Promise<Validator[]> => {
   try {
     const client = await createRPCQueryClient({ rpcEndpoint: RPC_ENDPOINT! })
@@ -134,7 +148,7 @@ export const GetDelegatorDelegations = async (delegatorAddr: string): Promise<De
     const { delegationResponses } = await client.cosmos.staking.v1beta1.delegatorDelegations({ delegatorAddr })
     return delegationResponses
   } catch (e) {
-    console.error('GetDelegatorValidators', e)
+    console.error('GetDelegatorDelegations', e)
     return []
   }
 }
@@ -161,6 +175,82 @@ export const GetDelegationTotalRewards = async (
     console.error('GetDelegationTotalRewards', e)
     return undefined
   }
+}
+
+export const StakingDelegate = async (
+  client: SigningStargateClient,
+  payload: { delegatorAddress: string; validatorAddress: string; amount: Coin },
+): Promise<DeliverTxResponse> => {
+  const { delegatorAddress, validatorAddress, amount } = payload
+  const message = {
+    typeUrl: '/cosmos.staking.v1beta1.MsgDelegate',
+    value: cosmos.staking.v1beta1.MsgDelegate.fromPartial({
+      delegatorAddress,
+      validatorAddress,
+      amount,
+    }),
+  }
+  console.log('StakingDelegate', { message })
+  const response = await client.signAndBroadcast(delegatorAddress, [message], fee)
+  console.log('StakingDelegate', { response })
+  return response
+}
+
+export const StakingUndelegate = async (
+  client: SigningStargateClient,
+  payload: { delegatorAddress: string; validatorAddress: string; amount: Coin },
+): Promise<DeliverTxResponse> => {
+  const { delegatorAddress, validatorAddress, amount } = payload
+  const message = {
+    typeUrl: '/cosmos.staking.v1beta1.MsgUndelegate',
+    value: cosmos.staking.v1beta1.MsgUndelegate.fromPartial({
+      delegatorAddress,
+      validatorAddress,
+      amount,
+    }),
+  }
+  console.log('StakingUndelegate', { message })
+  const response = await client.signAndBroadcast(delegatorAddress, [message], fee)
+  console.log('StakingUndelegate', { response })
+  return response
+}
+
+export const StakingBeginRedelegate = async (
+  client: SigningStargateClient,
+  payload: { delegatorAddress: string; validatorSrcAddress: string; validatorDstAddress: string; amount: Coin },
+): Promise<DeliverTxResponse> => {
+  const { delegatorAddress, validatorSrcAddress, validatorDstAddress, amount } = payload
+  const message = {
+    typeUrl: '/cosmos.staking.v1beta1.MsgBeginRedelegate',
+    value: cosmos.staking.v1beta1.MsgBeginRedelegate.fromPartial({
+      delegatorAddress,
+      validatorSrcAddress,
+      validatorDstAddress,
+      amount,
+    }),
+  }
+  console.log('StakingBeginRedelegate', { message })
+  const response = await client.signAndBroadcast(delegatorAddress, [message], fee)
+  console.log('StakingBeginRedelegate', { response })
+  return response
+}
+
+export const DistributionWithdrawDelegatorReward = async (
+  client: SigningStargateClient,
+  payload: { delegatorAddress: string; validatorAddress: string },
+) => {
+  const { delegatorAddress, validatorAddress } = payload
+  const message = {
+    typeUrl: '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward',
+    value: cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward.fromPartial({
+      delegatorAddress,
+      validatorAddress,
+    }),
+  }
+  console.log('DistributionWithdrawDelegatorReward', { message })
+  const response = await client.signAndBroadcast(delegatorAddress, [message], fee)
+  console.log('DistributionWithdrawDelegatorReward', { response })
+  return response
 }
 
 export const GovVoteTrx = async (

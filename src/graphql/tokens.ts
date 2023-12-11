@@ -25,7 +25,9 @@ const GET_TOKENOMICS = gql`
   }
 `
 export function useGetTokenomics() {
-  const { loading, error, data, refetch } = useQuery(GET_TOKENOMICS)
+  const { loading, error, data, refetch } = useQuery(GET_TOKENOMICS, {
+    pollInterval: 1000 * 60 * 60, // 1 hour
+  })
   return {
     loading,
     error,

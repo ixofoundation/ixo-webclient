@@ -68,7 +68,7 @@ const AmountInput: React.FunctionComponent<Props> = ({
         <InputWrapper>
           <input
             type='number'
-            value={amount}
+            value={amount || 0}
             onChange={handleAmountChange}
             placeholder={placeholder}
             step={step}
@@ -80,7 +80,7 @@ const AmountInput: React.FunctionComponent<Props> = ({
       {!disable && (memoStatus === 'memoedit' || memoStatus === 'memowith') && (
         <MemoInputWrapper>
           <input
-            value={memo!}
+            value={memo || ''}
             onChange={handleMemoChange}
             placeholder={'(Optional) Start typing a public Tx Memo...'}
           />

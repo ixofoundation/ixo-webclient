@@ -2376,6 +2376,7 @@ export type Query = Node & {
   tokenomicsAccounts?: Maybe<TokenomicsAccountsConnection>;
   tokenomicsInflation: Scalars['JSON']['output'];
   tokenomicsSupplyCommunityPool: Scalars['JSON']['output'];
+  tokenomicsSupplyIBC: Scalars['JSON']['output'];
   tokenomicsSupplyStaked: Scalars['JSON']['output'];
   tokenomicsSupplyTotal: Scalars['JSON']['output'];
   /** Reads and enables pagination through a set of `Token`. */
@@ -4155,6 +4156,7 @@ export type TokenomicsAccount = Node & {
   nodeId: Scalars['ID']['output'];
   rewardsBalance: Scalars['BigInt']['output'];
   totalBalance: Scalars['BigInt']['output'];
+  type?: Maybe<Scalars['String']['output']>;
 };
 
 /**
@@ -4174,6 +4176,8 @@ export type TokenomicsAccountCondition = {
   rewardsBalance?: InputMaybe<Scalars['BigInt']['input']>;
   /** Checks for equality with the object’s `totalBalance` field. */
   totalBalance?: InputMaybe<Scalars['BigInt']['input']>;
+  /** Checks for equality with the object’s `type` field. */
+  type?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** A filter to be used against `TokenomicsAccount` object types. All fields are combined with a logical ‘and.’ */
@@ -4196,6 +4200,8 @@ export type TokenomicsAccountFilter = {
   rewardsBalance?: InputMaybe<BigIntFilter>;
   /** Filter by the object’s `totalBalance` field. */
   totalBalance?: InputMaybe<BigIntFilter>;
+  /** Filter by the object’s `type` field. */
+  type?: InputMaybe<StringFilter>;
 };
 
 /** A connection to a list of `TokenomicsAccount` values. */
@@ -4236,7 +4242,9 @@ export enum TokenomicsAccountsOrderBy {
   RewardsBalanceAsc = 'REWARDS_BALANCE_ASC',
   RewardsBalanceDesc = 'REWARDS_BALANCE_DESC',
   TotalBalanceAsc = 'TOTAL_BALANCE_ASC',
-  TotalBalanceDesc = 'TOTAL_BALANCE_DESC'
+  TotalBalanceDesc = 'TOTAL_BALANCE_DESC',
+  TypeAsc = 'TYPE_ASC',
+  TypeDesc = 'TYPE_DESC'
 }
 
 /** A connection to a list of `Token` values. */
