@@ -1,4 +1,3 @@
-import React from 'react'
 import { CardBody, CardHeader, CardHeaderText } from './Swap.styles'
 import RenderSettingsButton, { RenderSettingsButtonProps } from './RenderSettingsButton'
 import SettingsCard, { SettingsCardProps } from './SettingsCard'
@@ -9,7 +8,7 @@ type RenderSettingsPanelProps = RenderSettingsButtonProps &
     panelHeight?: string
   }
 const RenderSettingsPanel = ({
-  panelHeight,
+  panelHeight = '420px',
   viewSettings,
   setViewSettings,
   chainId,

@@ -197,8 +197,8 @@ const Swap: React.FunctionComponent = () => {
   return (
     <Flex w='100%'>
       {selectedAccountAddress && (
-        <Flex align='center' justify={hasInputData ? 'flex-start' : 'center'} w='100%'>
-          <Flex h='300px' mx={30} w={isSmallScreen ? '10%' : '30%'} justify='flex-end'>
+        <Flex align='stretch' justify={hasInputData ? 'flex-start' : 'center'} w='100%'>
+          <Flex h='420px' mt={40} mx={30} w={isSmallScreen ? '10%' : '30%'} justify='flex-end'>
             {!isSmallScreen && hasInputData && (
               <AssetCard {...inputAssetCardData} accountTokens={carbonTokens} width='250px' height='100%' />
             )}
@@ -263,7 +263,7 @@ const Swap: React.FunctionComponent = () => {
               />
             )}
           </TradePanel>
-          <Flex h='300px' mx={30} w={isSmallScreen ? '10%' : '30%'} justify='flex-start'>
+          <Flex h='420px' mt={40} mx={30} w={isSmallScreen ? '10%' : '30%'} justify='flex-start'>
             {!isSmallScreen && hasOutputData && (
               <AssetCard {...outputAssetCardData} accountTokens={carbonTokens} width='250px' height='100%' />
             )}
