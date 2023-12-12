@@ -43,17 +43,17 @@ const ClaimDashboard: React.FC = (): JSX.Element => {
 
   const tabs: HeaderTab[] = [
     {
-      iconClass: `icon-claim`,
-      linkClass: 'claim',
+      iconClass: `icon-deed`,
+      linkClass: 'deed',
       path: `/entity/${entityId}/overview`,
-      title: 'Claim',
-      tooltip: `Claim Overview`,
+      title: 'Deed',
+      tooltip: `Deed Overview`,
     },
     {
       iconClass: `icon-dashboard`,
       path: `/entity/${entityId}/dashboard`,
       title: 'Dashboard',
-      tooltip: `DAO Management`,
+      tooltip: `Deed Management`,
     },
   ]
 

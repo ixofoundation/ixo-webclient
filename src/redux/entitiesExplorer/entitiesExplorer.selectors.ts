@@ -23,9 +23,12 @@ export const selectAllEntities = createSelector(
 export const selectAllEntitiesByType = createSelector(
   selectEntitiesState,
   (entitiesState: EntitiesExplorerState): TEntityModel[] => {
-    return Object.values(entitiesState.entities ?? {}).filter((entity) =>
-      entity.type.toLowerCase().includes(entitiesState.selectedEntitiesType.toLowerCase()),
-    )
+    return Object.values(entitiesState.entities ?? {}).filter((entity) => {
+      if (entitiesState.selectedEntitiesType.toLowerCase() === 'protocol') {
+        return entity.type.toLowerCase().includes('protocol/')
+      }
+      return entity.type.toLowerCase().includes(entitiesState.selectedEntitiesType.toLowerCase())
+    })
   },
 )
 

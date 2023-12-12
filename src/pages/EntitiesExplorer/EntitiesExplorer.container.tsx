@@ -193,7 +193,6 @@ const EntitiesExplorer = ({
 
   useEffect(() => {
     if (type) {
-      console.log({ type })
       handleChangeEntitiesType(type as any)
     }
   }, [type, handleChangeEntitiesType])

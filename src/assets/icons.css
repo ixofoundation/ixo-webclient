@@ -52,6 +52,10 @@
   content: '\e906';
 }
 
+.icon-deed:before {
+  content: '\e906';
+}
+
 .icon-close:before {
   content: '\e907';
 }
