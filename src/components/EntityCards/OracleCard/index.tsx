@@ -7,8 +7,7 @@ import { thousandSeparator } from 'utils/formatters'
 import { HorizontalLine } from 'components/HorizontalLine'
 import { Tag } from 'components'
 import { getEntityIcon } from 'utils/getEntityIcon'
-import { ProgressBar } from 'components/ProgressBar/ProgressBar'
-import { useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router'
 
 interface Props extends HTMLFlexBoxProps {
   id: string
@@ -17,7 +16,7 @@ interface Props extends HTMLFlexBoxProps {
   type: string
   metrics?: any
   creator: string
-  tags: any[]
+  tags: any
   animation: any
   title: any
   logo: string
@@ -25,8 +24,9 @@ interface Props extends HTMLFlexBoxProps {
   maxSupply: string | number
 }
 
-export const ProjectCard: React.FC<Props> = ({
+export const OracleCard: React.FC<Props> = ({
   id,
+  zIndex,
   collectionName,
   cardImage,
   metrics,
@@ -38,6 +38,7 @@ export const ProjectCard: React.FC<Props> = ({
   type,
   assetNumber,
   maxSupply,
+  tags: { daoTypeTags = [] } = {},
   ...rest
 }): JSX.Element | null => {
   const theme: any = useTheme()
@@ -67,27 +68,23 @@ export const ProjectCard: React.FC<Props> = ({
         backgroundSize='100% 100%'
       >
         <FlexBox gap={1} alignItems='center' height='24px' margin='10px'>
-          <FlexBox background={'#20798C'} borderRadius={'100%'} color='white'>
+          <FlexBox background={'#20798C'} borderRadius={'100%'}>
             {getEntityIcon(type)}
           </FlexBox>
 
-          {tags &&
-            tags.length > 0 &&
-            tags
-              ?.find(({ category }: any) => category === 'Asset Type')
-              ?.tags?.map((tag: any) => (
-                <FlexBox
-                  zIndex={9}
-                  key={`${tag}`}
-                  background={'#20798C'}
-                  borderRadius={'100px'}
-                  color='white'
-                  px={2}
-                  py={1}
-                >
-                  <Typography size='sm'>{tag}</Typography>
-                </FlexBox>
-              ))}
+          {daoTypeTags?.tags?.map((tag: any) => (
+            <FlexBox
+              zIndex={1}
+              key={`${tag}`}
+              background={'#20798C'}
+              borderRadius={'100px'}
+              color='white'
+              px={2}
+              py={1}
+            >
+              <Typography size='sm'>{tag}</Typography>
+            </FlexBox>
+          ))}
         </FlexBox>
         <FlexBox position='absolute' top='50%' left='50%' transform='translate(-50%, -50%)'>
           {animation && (
@@ -103,28 +100,12 @@ export const ProjectCard: React.FC<Props> = ({
           )}
         </FlexBox>
       </FlexBox>
-      <FlexBox width='100%' borderRadius='none'>
-        <ProgressBar
-          radius='none'
-          total={metrics?.denominator}
-          approved={metrics?.nominator}
-          rejected={0}
-          activeBarColor={theme.ixoLightGreen}
-          height={8}
-        />
-      </FlexBox>
       <FlexBox width='100%' direction='column' background={theme.ixoWhite} p={2}>
-        <FlexBox width='100%'>
-          <Typography color='black' size='sm' transform='uppercase'>
-            {creator}
-          </Typography>
-        </FlexBox>
-
         <FlexBox direction='column' justifyContent='space-between' width='100%' height='100%' pt={2}>
-          <FlexBox justifyContent='space-between' width='100%'>
+          <FlexBox justifyContent='space-between' alignItems='center' width='100%'>
             <FlexBox direction='column' justifyContent='center'>
-              <Typography color='black' weight='bold' size='lg' style={{ marginBottom: 4 }}>
-                {collectionName}
+              <Typography color='black' weight='bold' size='xl'>
+                {title}
               </Typography>
             </FlexBox>
             <FlexBox
@@ -140,21 +121,26 @@ export const ProjectCard: React.FC<Props> = ({
           <FlexBox direction='column' gap={1} width='100%' mb={2}>
             <FlexBox gap={1} alignItems='baseline'>
               <Typography size='md' color='black' transform='uppercase' weight='bold'>
-                {thousandSeparator(metrics?.nominator ?? 0, ',')} / {thousandSeparator(metrics?.denominator ?? 0, ',')}
+                {thousandSeparator('1200000', ',')}
               </Typography>
-              <Typography size='md' color='black' weight='bold'></Typography>
+              <Typography size='md' color='black' weight='bold'>
+                kgCO2
+              </Typography>
             </FlexBox>
 
             <FlexBox gap={1} alignItems='baseline'>
+              <Typography size='sm' color='grey700'>
+                {thousandSeparator('1200000', ',')} claims
+              </Typography>
               <Typography size='sm' color='green'>
-                {metrics?.title}
+                {thousandSeparator('1200000', ',')} CARBON
               </Typography>
             </FlexBox>
           </FlexBox>
 
           <FlexBox width='100%' justifyContent='space-between' alignItems='center'>
-            <Tag>forming</Tag>
-            <Tag>forming</Tag>
+            <Tag>Carbon</Tag>
+            <Tag>92.1%</Tag>
           </FlexBox>
         </FlexBox>
       </FlexBox>
