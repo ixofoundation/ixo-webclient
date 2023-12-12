@@ -26,26 +26,28 @@ const ClaimCollectionCreationSelectStep: React.FC<Props> = ({ hidden, onSubmit, 
           For which linked Claim do you wish to create the new Claim Collection for?
         </Typography>
 
-        {Object.values(claims).map((claim) => (
-          <FlexBox key={claim.id} direction='column' alignItems='center' gap={4}>
-            <PropertyBox
-              icon={<ClaimIcon />}
-              required={true}
-              set={true}
-              hovered={selected === claim.id}
-              handleClick={(): void => setSelected(claim.id)}
-            />
-            <Typography
-              variant='primary'
-              size='md'
-              color={selected === claim.id ? 'blue' : 'black'}
-              overflowLines={2}
-              style={{ width: 100, textAlign: 'center' }}
-            >
-              {claim.template?.title ?? ''}
-            </Typography>
-          </FlexBox>
-        ))}
+        <FlexBox gap={6} alignItems='center'>
+          {Object.values(claims).map((claim) => (
+            <FlexBox key={claim.id} direction='column' alignItems='center' gap={4}>
+              <PropertyBox
+                icon={<ClaimIcon />}
+                required={true}
+                set={true}
+                hovered={selected === claim.id}
+                handleClick={(): void => setSelected(claim.id)}
+              />
+              <Typography
+                variant='primary'
+                size='md'
+                color={selected === claim.id ? 'blue' : 'black'}
+                overflowLines={2}
+                style={{ width: 100, textAlign: 'center' }}
+              >
+                {claim.template?.title ?? ''}
+              </Typography>
+            </FlexBox>
+          ))}
+        </FlexBox>
 
         <Typography variant='secondary' size='base'>
           Alternatively you can add a new linked claim.

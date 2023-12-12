@@ -22,7 +22,7 @@ const Overview: React.FC = () => {
   const claimCollectionId = getQuery('collectionId')
   const agentRole: AgentRoles = getQuery('agentRole') as AgentRoles
 
-  const { startDate, page } = useCurrentEntity()
+  const { startDate, page, entityType } = useCurrentEntity()
   const { controlPanelSchema } = useEntityConfig()
   const { name, description, location } = useCurrentEntityProfile()
   const { displayName: creatorName, logo: creatorLogo } = useCurrentEntityCreator()
@@ -53,7 +53,7 @@ const Overview: React.FC = () => {
           {claimId && <ClaimForm claimId={claimId} />}
         </FlexBox>
         <FlexBox className='col-lg-3' background='#F0F3F9'>
-          <ControlPanel schema={controlPanelSchema} entityDid={entityId} />
+          <ControlPanel schema={controlPanelSchema} entityDid={entityId} entityType={entityType} />
         </FlexBox>
       </div>
     </div>
