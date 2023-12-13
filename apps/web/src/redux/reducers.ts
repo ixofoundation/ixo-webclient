@@ -14,6 +14,7 @@ import { reducer as selectedEntityExchangeReducer } from 'redux/selectedEntityEx
 import { reducer as bondReducer } from 'redux/bond/bond.reducer'
 import { reducer as submitEntityClaimReducer } from 'redux/submitEntityClaim/submitEntityClaim.reducer'
 import exchangeReducer from 'redux/exchange/exchange.reducer'
+import { multiStepReducer } from './entityMultiStepCreation/slice'
 
 export const rootReducer = (history: any) =>
   combineReducers({
@@ -31,5 +32,6 @@ export const rootReducer = (history: any) =>
     selectedEntityExchange: selectedEntityExchangeReducer,
     submitEntityClaim: submitEntityClaimReducer,
     exchange: exchangeReducer,
+    multiStepCreation: multiStepReducer,
     router: connectRouter(history),
   })

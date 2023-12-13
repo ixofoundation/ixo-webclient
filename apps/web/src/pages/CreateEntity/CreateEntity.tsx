@@ -1,60 +1,138 @@
-import React, { useEffect } from 'react'
-import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
-import CreateAsset from './CreateAsset/CreateAsset'
-import CreateInvestment from './CreateInvestment/CreateInvestment'
+import { useEffect } from 'react'
+import { ActionFunctionArgs, LoaderFunctionArgs, Outlet, useLoaderData, useParams } from 'react-router-dom'
+
 import CreateEntityLayout from './CreateEntityLayout/CreateEntityLayout'
-import CreateClaim from './CreateClaim/CreateClaim'
-import CreateDAO from './CreateDAO/CreateDAO'
-import CreateProject from './CreateProject/CreateProject'
-import CreateOracle from './CreateOracle/CreateOracle'
-import CreateProposal from './CreateProposal/CreateProposal'
-import CreateProtocol from './CreateProtocol/CreateProtocol'
-import { useCreateEntityState, useCreateEntityStrategy } from 'hooks/createEntity'
-import { CreateEntityStrategyMap } from 'redux/createEntity/strategy-map'
+import { Step, resetEntityMultiStepCreation, selectCurrentStep, setSteps } from 'redux/entityMultiStepCreation/slice'
+import { useDispatch, useSelector } from 'react-redux'
+import useStepperNavigate from 'hooks/stepperNavigation'
+import { useCreateEntityState } from 'hooks/createEntity'
 
-const CreateEntityInit = () => {
-  useEffect(() => {
-    console.log("Create Entity init")
-  },[])
-
-  return <Navigate to="/protocol"/>
+type EntityLoaderData = {
+  steps: Step[]
 }
 
-const CreateEntity: React.FC = (): JSX.Element => {
-  const navigate = useNavigate()
-  const { pathname } = useLocation()
+const stepMap = new Map<string, string[]>([
+  ['dao', ['process', 'profile', 'groups', 'settings', 'review']],
+  ['protocol', ['type', 'process', 'profile', 'collection', 'settings', 'review']],
+  ['oracle', ['process', 'profile', 'settings', 'review']],
+  ['project', ['process', 'profile', 'settings', 'review']],
+  ['investment', ['process', 'profile', 'instrument', 'settings', 'review']],
+  ['asset', ['process', 'profile', 'settings', 'review', 'create-token']],
+])
 
-  const { stepNo, breadCrumbs, title, subtitle, entityType } = useCreateEntityState()
-  const { getStrategyAndStepByPath } = useCreateEntityStrategy()
-  const { strategy } = getStrategyAndStepByPath(pathname)
+const buildEntitySteps = (entity: string, order: string[]): { title: string; steps: Step[] } => {
+  // Define the original steps
+  const steps: Step[] = [
+    {
+      title: 'New or Clone',
+      path: 'process',
+      number: 0,
+    },
+    {
+      title: 'Select Type of Protocol',
+      path: 'type',
+      number: 0,
+    },
+    {
+      title: 'Verifiable Claim creation',
+      path: 'collection',
+      number: 0,
+    },
+    {
+      title: 'Profile',
+      path: 'profile',
+      number: 0,
+    },
+    {
+      title: 'Add Groups',
+      path: 'groups',
+      number: 0,
+    },
+    {
+      title: `Configure the ${entity} Settings`,
+      path: 'settings',
+      number: 0,
+    },
+    {
+      title: `Create Investment Instrument/s`,
+      path: 'instrument',
+      number: 0,
+    },
+    {
+      title: 'Review and Sign to Commit',
+      path: 'review',
+      number: 0,
+    },
+  ]
 
-  console.log({entityType, stepNo})
+  // Sort the steps based on the order array
+  const sortedSteps: Step[] = order
+    .map((stepName, index) => {
+      const foundStep = steps.find((step) => step.path === stepName)
+      return foundStep ? { ...foundStep, number: index + 1, path: `/create/entity/${entity}/${foundStep.path}` } : null
+    })
+    .filter((step) => step !== null) as Step[] // Cast to Step[] after filtering out null entries
+
+  return {
+    title: `Create ${entity}`,
+    steps: sortedSteps,
+  }
+}
+
+export const loader = async ({ params }: LoaderFunctionArgs): Promise<EntityLoaderData> => {
+  const entityType = params.entityType
+  const entityMeta: { title: string; steps: Step[] } = {
+    title: '',
+    steps: [],
+  }
+
+  if (entityType && stepMap.has(entityType)) {
+    const stepBuilder = buildEntitySteps(entityType, stepMap.get(entityType) ?? [])
+
+    entityMeta.title = stepBuilder.title
+    entityMeta.steps = stepBuilder.steps
+  }
+
+  return {
+    ...entityMeta,
+  }
+}
+
+export const action = async (args: ActionFunctionArgs) => {
+  return null
+}
+
+const CreateEntity = (): JSX.Element => {
+  const navigate = useStepperNavigate()
+  const { entityType } = useParams()
+  const currentStep = useSelector(selectCurrentStep)
+  const dispatch = useDispatch()
+  const data = useLoaderData() as EntityLoaderData
+  const { updateEntityType, entityType: stateEntityType } = useCreateEntityState()
+  const loaderData = useLoaderData() as any
+
+  const shouldUpdateEntityType =
+    entityType !== stateEntityType && !(entityType === 'protocol' && stateEntityType.includes('protocol'))
 
   useEffect(() => {
-    console.log("create entity running")
-    if (entityType && stepNo) {
-      console.log("running", {entityType, stepNo})
-      const { steps } = CreateEntityStrategyMap[entityType]
-      steps[stepNo]?.fullUrl && navigate(steps[stepNo]?.fullUrl ?? "/")
+    dispatch(setSteps(data.steps))
+
+    if (entityType && shouldUpdateEntityType) {
+      updateEntityType(entityType)
+      const firstStep = data.steps[0]
+      if (firstStep) {
+        navigate(firstStep)
+      }
     }
 
-  }, [stepNo, entityType, navigate])
-
-  console.log("Create Entity")
+    return () => {
+      dispatch(resetEntityMultiStepCreation())
+    }
+  }, [entityType, dispatch, data.steps, navigate, stateEntityType, updateEntityType, shouldUpdateEntityType])
 
   return (
-    <CreateEntityLayout title={title} subtitle={subtitle} breadCrumbs={breadCrumbs}>
-      <Routes>
-        <Route index element={<CreateEntityInit/>} />
-        <Route path={`/protocol`} element={<CreateProtocol />} />
-        <Route path={`/asset`} element={<CreateAsset />} />
-        <Route path={`/investment`} element={<CreateInvestment />} />
-        <Route path={`/claim`} element={<CreateClaim />} />
-        <Route path={`/dao/*`} element={<CreateDAO />} />
-        <Route path={`/project`} element={<CreateProject />} />
-        <Route path={`/oracle`} element={<CreateOracle />} />
-        <Route path={`/deed/:entityId/:coreAddress`} element={<CreateProposal />} />
-      </Routes>
+    <CreateEntityLayout title={loaderData.title} subtitle={currentStep.title} breadCrumbs={[]}>
+      <Outlet />
     </CreateEntityLayout>
   )
 }

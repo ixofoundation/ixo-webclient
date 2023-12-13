@@ -1,9 +1,5 @@
-import * as React from 'react'
-import { RouteProps } from 'react-router'
 import { EntitiesHero } from './Components/EntitiesHero/EntitiesHero'
 import { Spinner } from 'components/Spinner/Spinner'
-import { connect } from 'react-redux'
-import { RootState } from 'redux/store'
 import {
   Container,
   EntitiesBody,
@@ -14,15 +10,14 @@ import {
 import {
   changeEntitiesType,
   filterEntitiesQuery,
-  filterSector,
+  filterSector as filterSectorAction,
   getEntitiesFromGraphqlAction,
   updateEntityPropertyAction,
 } from 'redux/entitiesExplorer/entitiesExplorer.actions'
 import EntitiesFilter from './Components/EntitiesFilter/EntitiesFilter'
-import { EntityType, EntityTypeStrategyMap, TEntityDDOTagModel, TEntityModel } from 'types/entities'
-import { Schema as FilterSchema } from './Components/EntitiesFilter/schema/types'
+import { EntityType, TEntityModel } from 'types/entities'
 import * as entitiesSelectors from 'redux/entitiesExplorer/entitiesExplorer.selectors'
-import { useEffect } from 'react'
+import { useCallback, useEffect } from 'react'
 import AssetCollections from './Components/Assets/Collections'
 import { useQuery } from 'hooks/window'
 import { InfiniteScroll } from 'components/InfiniteScroll'
@@ -32,82 +27,39 @@ import { createEntityCard, withEntityData } from 'components'
 import { useEntitiesQuery } from 'generated/graphql'
 import { selectAccountAddress, selectAccountCWClient } from 'redux/account/account.selectors'
 import { apiEntityToEntity } from 'utils/entities'
+import { useAppDispatch, useAppSelector } from 'redux/hooks'
+import { selectEntityConfig } from 'redux/configs/configs.selectors'
 
-export type Props = RouteProps & {
-  match: any
-  type: EntityType
-  entities: TEntityModel[]
-  entitiesCount: number
-  entityTypeMap: EntityTypeStrategyMap
-  filteredEntitiesCount: number
-  filterCategories: TEntityDDOTagModel[]
-  filterUserEntities: boolean
-  filterFeaturedEntities: boolean
-  filterPopularEntities: boolean
-  filterItemOffset: number
-  isLoadingEntities: boolean
-  filterSchema: FilterSchema
-  filterSector: string
-  filterQuery: string
-  filterCategoryTypeName: string
-  handleChangeEntitiesQuery: (query: string) => void
-  handleChangeEntitiesType: (type: string) => void
-  handleChangeSector: (sector: string) => void
-}
-const mapStateToProps = (state: RootState) => {
-  return {
-    entities: entitiesSelectors.selectedFilteredEntities(state),
-    entityTypeMap: entitiesSelectors.selectEntityConfig(state),
-    entitiesCount: entitiesSelectors.selectAllEntitiesCount(state),
-    type: entitiesSelectors.selectSelectedEntitiesType(state),
-    filteredEntitiesCount: entitiesSelectors.selectFilteredEntitiesCount(state),
-    filterCategories: entitiesSelectors.selectFilterCategories(state),
-    filterSector: entitiesSelectors.selectFilterSector(state),
-    filterUserEntities: entitiesSelectors.selectFilterUserEntities(state),
-    filterFeaturedEntities: entitiesSelectors.selectFilterFeaturedEntities(state),
-    filterPopularEntities: entitiesSelectors.selectFilterPopularEntities(state),
-    filterItemOffset: entitiesSelectors.selectFilterItemOffset(state),
-    filterSchema: entitiesSelectors.selectFilterSchema(state),
-    filterQuery: entitiesSelectors.selectFilterQuery(state),
-    filterCategoryTypeName: entitiesSelectors.selectFilterCategoryTypeName(state),
-    accountAddress: selectAccountAddress(state),
-    cwClient: selectAccountCWClient(state),
-  }
-}
+const relayerNode = process.env.REACT_APP_RELAYER_NODE
 
-const mapDispatchToProps = (dispatch: any) => ({
-  handleChangeEntitiesQuery: (query: string): void => dispatch(filterEntitiesQuery(query)),
-  handleChangeEntitiesType: (type: EntityType): void => dispatch(changeEntitiesType(type)),
-  handleChangeSector: (sector: string): void => dispatch(filterSector(sector)),
-  updateEntities: (entities: any): void => dispatch(getEntitiesFromGraphqlAction(entities)),
-  updateEntityProperties: (id: string, key: string, data: any, merge: boolean) =>
-    dispatch(updateEntityPropertyAction(id, key, data, merge)),
-})
+const EntitiesExplorer = () => {
+  // Selectors
+  const accountAddress = useAppSelector(selectAccountAddress)
+  const entityTypeMap = useAppSelector(selectEntityConfig)
+  const filterQuery = useAppSelector(entitiesSelectors.selectFilterQuery)
+  const filterSchema = useAppSelector(entitiesSelectors.selectFilterSchema)
+  const filterSector = useAppSelector(entitiesSelectors.selectFilterSector)
+  const filteredEntitiesCount = useAppSelector(entitiesSelectors.selectFilteredEntitiesCount)
+  const cwClient = useAppSelector(selectAccountCWClient)
+  const typeFromProps = useAppSelector(entitiesSelectors.selectSelectedEntitiesType)
+  const entities = useAppSelector(entitiesSelectors.selectedFilteredEntities)
 
-type EntitiesExplorerProps = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>
-
-const EntitiesExplorer = ({
-  accountAddress,
-  updateEntityProperties,
-  updateEntities,
-  handleChangeSector,
-  entityTypeMap,
-  filterQuery,
-  filterSchema,
-  filterSector,
-  filteredEntitiesCount,
-  handleChangeEntitiesQuery,
-  handleChangeEntitiesType,
-  cwClient,
-  type: typeFromProps,
-  entities,
-}: EntitiesExplorerProps) => {
   const isMobile = useMediaQuery({ maxWidth: deviceWidth.tablet })
   const isTablet = useMediaQuery({ minWidth: deviceWidth.tablet, maxWidth: deviceWidth.desktop })
   const { getQuery } = useQuery()
   const type: string | undefined = getQuery('type')
   const sector: string | undefined = getQuery('sector')
-  const relayerNode = process.env.REACT_APP_RELAYER_NODE
+
+  const dispatch = useAppDispatch()
+
+  const handleChangeEntitiesQuery = (query: string) => {
+    dispatch(filterEntitiesQuery(query))
+  }
+  const handleChangeEntitiesType = useCallback((type: EntityType) => dispatch(changeEntitiesType(type)),[dispatch])
+  const handleChangeSector = useCallback((sector: string) => dispatch(filterSectorAction(sector)), [dispatch])
+  const updateEntities = useCallback((entities: any) => dispatch(getEntitiesFromGraphqlAction(entities)), [dispatch])
+  const updateEntityProperties = useCallback((id: string, key: string, data: any, merge: boolean) =>
+  dispatch(updateEntityPropertyAction(id, key, data, merge)), [dispatch])
 
   const tabletColumns = isTablet ? 2 : 3
   const columns = isMobile ? 1 : tabletColumns
@@ -181,20 +133,12 @@ const EntitiesExplorer = ({
   const hasMore = Boolean(data?.entities?.pageInfo.hasNextPage)
 
   const renderEntities = (): JSX.Element => {
-    const renderNoSearchFound = (): JSX.Element => (
-      <NoEntitiesContainer>
-        <p>There are no {entityTypeMap[type as any]?.plural.toLowerCase()} that match your search criteria</p>
-      </NoEntitiesContainer>
-    )
-
-    const renderAssets = (): JSX.Element => <AssetCollections />
-
     if (type === EntityType.Asset) {
       return (
         <EntitiesContainer className='container-fluid'>
           <div className='container'>
             <EntitiesFilter filterSchema={filterSchema} />
-            <EntitiesBody>{renderAssets()}</EntitiesBody>
+            <EntitiesBody><AssetCollections /></EntitiesBody>
           </div>
         </EntitiesContainer>
       )
@@ -206,7 +150,11 @@ const EntitiesExplorer = ({
           <div className='container'>
             <EntitiesFilter filterSchema={filterSchema} />
             <EntitiesBody>
-              {filteredEntitiesCount === 0 && renderNoSearchFound()}
+              {filteredEntitiesCount === 0 && (
+                <NoEntitiesContainer>
+                  <p>There are no {entityTypeMap[type as any]?.plural.toLowerCase()} that match your search criteria</p>
+                </NoEntitiesContainer>
+              )}
               {filteredEntitiesCount > 0 && (
                 <InfiniteScroll
                   dataLength={entities.length} //This is important field to render the next data
@@ -238,13 +186,15 @@ const EntitiesExplorer = ({
   }
 
   useEffect(() => {
-    if (type) {
+    if (type !== typeFromProps) {
       handleChangeEntitiesType(type as any)
     }
-  }, [type, handleChangeEntitiesType])
+  }, [type, handleChangeEntitiesType, typeFromProps])
 
   useEffect(() => {
-    handleChangeSector(sector ?? '')
+    if (sector) {
+      handleChangeSector(sector)
+    }
   }, [sector, handleChangeSector])
 
   return (
@@ -270,4 +220,4 @@ const EntitiesExplorer = ({
   )
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(EntitiesExplorer as any)
+export default EntitiesExplorer

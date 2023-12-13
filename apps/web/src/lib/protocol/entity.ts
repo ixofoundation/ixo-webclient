@@ -24,8 +24,7 @@ import { MsgTransferEntity, MsgUpdateEntity } from '@ixo/impactxclient-sdk/types
 
 const createRPCQueryClient = ixo.ClientFactory.createRPCQueryClient
 
-export const CreateEntity = async (
-  client: SigningStargateClient,
+export const CreateEntityMessage = async (
   signer: TSigner,
   payload: {
     entityType: string
@@ -42,7 +41,7 @@ export const CreateEntity = async (
     startDate?: string
     endDate?: string
   }[],
-): Promise<DeliverTxResponse> => {
+) => {
   const { address, did, pubKey, keyType } = signer
   const messages = payload.map((item) => {
     const {
@@ -92,9 +91,7 @@ export const CreateEntity = async (
   })
   const updatedFee = { ...fee, gas: new BigNumber(fee.gas).times(messages.length).toString() }
   console.log('CreateEntity', { messages })
-  const response = await client.signAndBroadcast(address, messages, updatedFee)
-  console.log('CreateEntity', { response })
-  return response
+  return { messages, fee: updatedFee }
 }
 
 export const EntityList = async (request: QueryEntityListRequest): Promise<QueryEntityListResponse> => {
@@ -153,8 +150,7 @@ export const GetUpdateStartAndEndDateMsgs = (payload: Partial<MsgUpdateEntity>):
   ]
 }
 
-export const TransferEntity = async (
-  client: SigningStargateClient,
+export const TransferEntityMessage = async (
   signer: TSigner,
   payload: Partial<MsgTransferEntity>,
 ) => {
@@ -170,13 +166,10 @@ export const TransferEntity = async (
   }
 
   console.log('TransferEntity', { message })
-  const response: DeliverTxResponse = await client.signAndBroadcast(signer.address, [message], fee)
-  console.log('TransferEntity', { response })
-  return response
+  return { message: [message], fee }
 }
 
-export const UpdateEntity = async (
-  client: SigningStargateClient,
+export const UpdateEntityMessage = async (
   signer: TSigner,
   payload: Partial<MsgUpdateEntity>,
 ) => {
@@ -202,7 +195,5 @@ export const UpdateEntity = async (
   }
 
   console.log('UpdateEntity', { message })
-  const response: DeliverTxResponse = await client.signAndBroadcast(signer.address, [message], fee)
-  console.log('UpdateEntity', { response })
-  return response
+  return { message: [message], fee }
 }

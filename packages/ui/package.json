@@ -2,17 +2,22 @@
   "name": "@ixo-webclient/ui",
   "version": "1.0.0",
   "description": "Ixo webclient ui package",
-  "main": "index.ts",
   "author": "Zach",
   "license": "MIT",
   "private": true,
+  "main": "dist/wallet-connector.cjs.js",
+  "module": "dist/wallet-connector.es.js",
+  "types": "dist/index.d.ts",
   "dependencies": {
     "@mantine/core": "^7.2.2",
     "@mantine/hooks": "^7.2.2"
   },
   "scripts": {
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "build:types": "tsc --emitDeclarationOnly && tsc-alias",
+    "build": "vite build && yarn build:types",
+    "build:watch": "concurrently --kill-others \"yarn build --watch \""
   },
   "devDependencies": {
     "react": "^18.2.0",

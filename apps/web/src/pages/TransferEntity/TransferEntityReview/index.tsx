@@ -6,7 +6,7 @@ import { Typography } from 'components/Typography'
 import { useAccount } from 'hooks/account'
 import { useTransferEntityState } from 'hooks/transferEntity'
 import { useQuery } from 'hooks/window'
-import { AddVerificationMethod, DeleteLinkedResource, fee, UpdateEntity } from 'lib/protocol'
+import { AddVerificationMethod, DeleteLinkedResource, fee, UpdateEntityMessage } from 'lib/protocol'
 import { Button, Switch } from 'pages/CreateEntity/Components'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -18,6 +18,8 @@ import { decodedMessagesString, makeStargateMessage } from 'utils/messages'
 import { getValueFromEvents } from 'utils/objects'
 import { depositInfoToCoin } from 'utils/conversions'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/DaoPreProposeSingle.types'
+import { useWallet } from '@ixo-webclient/wallet-connector'
+import { DeliverTxResponse } from '@cosmjs/stargate'
 
 const TransferEntityToGroupButton: React.FC<{
   groupAddress: string
@@ -208,7 +210,7 @@ const TransferEntityToAccountButton: React.FC<{
 }> = ({ verificationMethods, setVerificationMethods }) => {
   const navigate = useNavigate()
   const { entityId } = useParams<{ entityId: string }>()
-
+  const { execute } = useWallet()
   const { signingClient, signer } = useAccount()
   const { selectedEntity } = useTransferEntityState()
   const [submitting, setSubmitting] = useState(false)
@@ -276,7 +278,9 @@ const TransferEntityToAccountButton: React.FC<{
         throw 'EntityId is invalid'
       }
 
-      const response = await UpdateEntity(signingClient, signer, { id: entityId, entityStatus: 0 })
+      const transactionData = await UpdateEntityMessage(signer, { id: entityId, entityStatus: 0 })
+      const response = await execute(transactionData) as unknown as DeliverTxResponse
+
       if (response.code !== 0) {
         throw response.rawLog
       }

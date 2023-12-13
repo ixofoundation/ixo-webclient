@@ -16,7 +16,7 @@
         "contexts": ["./contexts"],
         "walletModal": ["./walletModal"],
         "assets": ["./assets"],
-        "constants": ["./constants"],
+        "@constants": ["./constants"],
         "utils": ["./utils"],
         "impactsxmobile": ["./impactsxmobile"]
       },

@@ -23,97 +23,43 @@ import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.sele
 import { selectCustomTheme } from 'redux/theme/theme.selectors'
 import { useAccount } from 'hooks/account'
 import { WalletModal } from '@ixo-webclient/wallet-connector'
+import { Outlet } from 'react-router-dom'
+import { selectEntityType } from 'redux/currentEntity/currentEntity.selectors'
 
 ReactGA.initialize('UA-106630107-5')
 ReactGA.pageview(window.location.pathname + window.location.search)
 
 const App: React.FC = () => {
   const dispatch = useAppDispatch()
+  // const entityConfig = useAppSelector(selectEntityConfig)
   const customTheme = useAppSelector(selectCustomTheme)
-  const entityConfig = useAppSelector(selectEntityConfig)
+  const entitiesType = useAppSelector(selectEntityType)
   const { cwClient } = useAccount()
 
-  const [customizedTheme, setCustomizedTheme] = useState<any>(theme)
-
   useEffect(() => {
-    dispatch(getEntityConfig())
+    // dispatch(getEntityConfig())
     dispatch(getCustomTheme())
 
     console.log('App')
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  useEffect(() => {
-    if (entityConfig) {
-      let newEntityType = 'project'
-      const { UI } = entityConfig
-      if (UI) {
-        const { explorer } = UI
-        if (explorer) {
-          const { defaultView } = explorer
-          if (defaultView) {
-            newEntityType = defaultView
-          }
-        }
-      }
-
-      // apply custom theme
-      const { theme: myTheme } = entityConfig
-      if (myTheme) {
-        let newCustomizedTheme = customizedTheme
-        const { fontFamily, primaryColor, highlight } = myTheme
-        if (fontFamily) {
-          newCustomizedTheme = {
-            ...newCustomizedTheme,
-            primaryFontFamily: fontFamily,
-          }
-        }
-        if (primaryColor) {
-          newCustomizedTheme = {
-            ...newCustomizedTheme,
-            ixoBlue: primaryColor,
-            ixoNewBlue: primaryColor,
-          }
-        }
-        if (highlight) {
-          newCustomizedTheme = {
-            ...newCustomizedTheme,
-            highlight,
-            pending: highlight.light,
-          }
-        }
-        newCustomizedTheme = {
-          ...newCustomizedTheme,
-          ...customTheme,
-        }
-        setCustomizedTheme(newCustomizedTheme)
-      } else {
-        setCustomizedTheme((v: any) => ({ ...v, ...customTheme }))
-      }
-      dispatch(changeEntitiesType(newEntityType))
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [entityConfig])
+  if (!customTheme && !entitiesType) return null
 
   return (
-    <ThemeProvider theme={customizedTheme}>
-      <WalletModal />
-      <AssistantContext.Provider value={{ active: false }}>
-        <ToastContainer theme='dark' hideProgressBar={true} position='top-right' />
-        <Services />
-        <ScrollToTop>
-          <Container>
-            <HeaderConnected />
-            <div className='d-flex' style={{ flex: 1 }}>
-              <ContentWrapper>
-                {entityConfig && cwClient ? <Routes /> : <Spinner info={'Connecting to the Internet of Impacts...'} />}
-              </ContentWrapper>
-            </div>
-            <Footer />
-          </Container>
-        </ScrollToTop>
-      </AssistantContext.Provider>
-    </ThemeProvider>
+    <AssistantContext.Provider value={{ active: false }}>
+      <ToastContainer theme='dark' hideProgressBar={true} position='top-right' />
+      <Services />
+      <ScrollToTop>
+        <Container>
+          <HeaderConnected />
+          <div className='d-flex' style={{ flex: 1 }}>
+            <ContentWrapper>{cwClient && <Outlet />}</ContentWrapper>
+          </div>
+          <Footer />
+        </Container>
+      </ScrollToTop>
+    </AssistantContext.Provider>
   )
 }
 

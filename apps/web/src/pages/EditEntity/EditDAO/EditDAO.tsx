@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react'
-import {  Navigate, Route, useLocation, useParams } from 'react-router-dom'
+import {  Navigate, Route, Routes, useLocation, useParams } from 'react-router-dom'
 import { EditEntityContext } from '../EditEntity'
 import EditGroups from './EditGroups/EditGroups'
 import EditMetadata from './EditMetadata/EditMetadata'
@@ -21,7 +21,7 @@ const EditDAO: React.FC = (): JSX.Element => {
   }, [entityName])
 
   return (
-    <>
+    <Routes>
       <Route  path='/edit/entity/:entityId/metadata' element={<EditMetadata/>} />
       <Route  path='/edit/entity/:entityId/groups' element={<EditGroups/>} />
       <Route  path='/edit/entity/:entityId/property' element={<EditProperty/>} />
@@ -29,7 +29,7 @@ const EditDAO: React.FC = (): JSX.Element => {
       <Route  path={`/edit/entity/:entityId`}>
         <Navigate to={{ pathname: `/edit/entity/${entityId}/metadata`, search }} />
       </Route>
-    </>
+    </Routes>
   )
 }
 

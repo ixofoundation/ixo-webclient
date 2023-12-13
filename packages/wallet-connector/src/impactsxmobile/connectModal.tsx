@@ -7,8 +7,10 @@ import { WalletType } from "@ixo-webclient/types";
 
 export function TimeLeft({ timeout }: { timeout: number }) {
   // Convert timeout to seconds for ease of display
-  const [timeLeft, setTimeLeft] = useState(timeout / 1000);
+  const [timeLeft, setTimeLeft] = useState(Math.floor(timeout / 1000));
   const [percent, setPercent] = useState(100);
+
+  console.log({timeLeft})
 
   useEffect(() => {
     // Only set the interval if there is time left
@@ -60,7 +62,7 @@ export const ConnectModal = () => {
           Scan this QR code with your Impacts X Mobile app
         </Text>
       </Flex>
-      <TimeLeft timeout={mobile?.timeout || 0} />
+      {mobile?.timeout && <TimeLeft timeout={mobile.timeout - new Date().getTime()} />}
       {mobile.qr && (
         <QRCodeSVG
           value={mobile.qr}

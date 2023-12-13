@@ -8,13 +8,15 @@ import { Button, Dropdown, TextArea } from 'pages/CreateEntity/Components'
 import { InputWithLabel } from 'components/Form/InputWithLabel'
 import { useTheme } from 'styled-components'
 import { generateBondDid } from 'utils/bond'
-import { CreateBond } from 'lib/protocol'
+import { CreateBondMessage } from 'lib/protocol'
 import { useAccount } from 'hooks/account'
 import { cosmos, ixo } from '@ixo/impactxclient-sdk'
 import { errorToast, successToast } from 'utils/toast'
 import { useIxoConfigs } from 'hooks/configs'
 import { convertCoinToDecCoin } from 'utils/currency'
 import { useGetBondDid } from 'graphql/bonds'
+import { useWallet } from '@ixo-webclient/wallet-connector'
+import { DeliverTxResponse } from '@cosmjs/stargate'
 
 interface Props {
   open: boolean
@@ -29,7 +31,7 @@ const CreateBondModal: React.FC<Props> = ({ open, bondDid, onSubmit, onClose }):
   const { getAssetPairs, convertToMinimalDenom, convertToDenom } = useIxoConfigs()
   const { data: bondDetailFromApi } = useGetBondDid(bondDid)
   const coins = getAssetPairs()
-
+  const { execute } = useWallet()
   const [alphaBondInfo, setAlphaBondInfo] = useState<Partial<AlphaBondInfo>>({
     reserveToken: coins[0].display!,
   })
@@ -158,9 +160,11 @@ const CreateBondModal: React.FC<Props> = ({ open, bondDid, onSubmit, onClose }):
         creatorAddress: signer.address,
         oracleDid: did,
       }
-      const { code, rawLog } = await CreateBond(signingClient, signer, payload)
-      if (code !== 0) {
-        throw rawLog
+      const createBondData = await CreateBondMessage(payload)
+      const response = (await execute(createBondData)) as unknown as DeliverTxResponse
+
+      if (response.code !== 0) {
+        throw response.rawLog
       }
       successToast('Bond', 'Successfully bond created')
       onSubmit(bondDid)

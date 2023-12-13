@@ -9,10 +9,10 @@ import { v4 as uuidv4 } from 'uuid'
 import {
   initialMembershipGroup,
   initialStakingGroup,
-} from 'pages/CreateEntity/CreateDAO/Pages/SetupDAOGroups/SetupDAOGroups'
+} from 'pages/CreateEntity/EntityPages/SetupGroups/SetupGroups'
 import { omitKey } from 'utils/objects'
 import { LinkedEntity } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
-import SetupGroupSettings from 'pages/CreateEntity/CreateDAO/Pages/SetupDAOGroups/SetupGroupSettings'
+import SetupGroupSettings from 'pages/CreateEntity/EntityPages/SetupGroups/SetupGroupSettings'
 import { TDAOGroupModel } from 'types/entities'
 import { DAOGroupConfig } from 'constants/entity'
 

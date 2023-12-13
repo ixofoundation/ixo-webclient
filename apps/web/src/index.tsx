@@ -8,14 +8,25 @@ import { GlobalStyle } from 'styles/globalStyles'
 import * as Sentry from '@sentry/react'
 import { BrowserTracing } from '@sentry/tracing'
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client'
-import { StrictMode, createContext } from 'react'
+import { StrictMode, Suspense, createContext, useEffect, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import { Route, BrowserRouter, Routes, createBrowserRouter, createRoutesFromElements } from 'react-router-dom'
 import { Flex, MantineProvider, Modal, Text } from '@mantine/core'
-import { WalletProvider } from '@ixo-webclient/wallet-connector'
-import '@mantine/core/styles.css';
+import { WalletModal, WalletProvider } from '@ixo-webclient/wallet-connector'
+import '@mantine/core/styles.css'
 import { chainNetwork } from 'hooks/configs'
 import ProfileModal from 'components/Header/components/ProfileModal'
+import { RPC_ENDPOINT } from 'lib/protocol'
+import Router from 'router'
+import { useAppDispatch, useAppSelector } from 'redux/hooks'
+import { selectCustomTheme } from 'redux/theme/theme.selectors'
+import { theme } from 'components/App/App.styles'
+import { selectEntityConfig } from 'redux/configs/configs.selectors'
+import { changeEntitiesType, getEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.actions'
+import { getCustomTheme } from 'redux/theme/theme.actions'
+import { ThemeProvider } from 'styled-components'
+import { useAccount } from 'hooks/account'
+import { Spinner } from 'components/Spinner/Spinner'
 
 process.env.NODE_ENV === 'production' &&
   Sentry.init({
@@ -27,35 +38,85 @@ process.env.NODE_ENV === 'production' &&
   })
 
 const client = new ApolloClient({
-  uri: process.env.REACT_APP_BLOCK_SYNC_GRAPHQL, 
+  uri: process.env.REACT_APP_BLOCK_SYNC_GRAPHQL,
   cache: new InMemoryCache({ addTypename: false }),
 })
 
 const StoreContext = createContext(null)
 
-const App = () => (
-  <MantineProvider>
-    <WalletProvider chainNetwork={chainNetwork} customComponent={<ProfileModal/>} >
-      <Provider store={store}>
-        <GlobalStyle />
-        <PersistGate loading={null} persistor={persistor}>
-          <ApolloProvider client={client}>
-            <AppConnected />
-          </ApolloProvider>
-        </PersistGate>
-      </Provider>
-    </WalletProvider>
-  </MantineProvider>
-)
+const App = () => {
+  const [customizedTheme, setCustomizedTheme] = useState<any>(theme)
+  const dispatch = useAppDispatch()
+  const entityConfig = useAppSelector(selectEntityConfig)
+  const customTheme = useAppSelector(selectCustomTheme)
+
+  useEffect(() => {
+    if (!entityConfig) return
+
+    // Determine entity type
+    const newEntityType = entityConfig.UI?.explorer?.defaultView || 'project'
+    dispatch(changeEntitiesType(newEntityType))
+
+    // Apply custom theme
+    const { theme: myTheme } = entityConfig
+    const newCustomizedTheme = { ...customizedTheme, ...customTheme }
+
+    if (myTheme) {
+      const { fontFamily, primaryColor, highlight } = myTheme
+
+      if (fontFamily) {
+        newCustomizedTheme.primaryFontFamily = fontFamily
+      }
+      if (primaryColor) {
+        newCustomizedTheme.ixoBlue = primaryColor
+        newCustomizedTheme.ixoNewBlue = primaryColor
+      }
+      if (highlight) {
+        newCustomizedTheme.highlight = highlight
+        newCustomizedTheme.pending = highlight.light
+      }
+    }
+
+    setCustomizedTheme(newCustomizedTheme)
+  }, [entityConfig])
+
+  console.log({ entityConfig, customTheme })
+
+  if (!entityConfig && !customTheme) {
+    return <Spinner info='Loading' />
+  }
+
+  return (
+    <Suspense fallback={<Spinner info='Connecting to the internet of impacts' />}>
+      <ThemeProvider theme={customizedTheme}>
+        <MantineProvider>
+          <WalletProvider
+            chainNetwork={chainNetwork}
+            customComponent={<ProfileModal />}
+            rpcEndpoint={RPC_ENDPOINT ?? ''}
+          >
+            <WalletModal />
+            <GlobalStyle />
+            <ApolloProvider client={client}>
+              <Router />
+            </ApolloProvider>
+          </WalletProvider>
+        </MantineProvider>
+      </ThemeProvider>
+    </Suspense>
+  )
+}
 
 // const router = createBrowserRouter(createRoutesFromElements(<Route path='/' element={<App />} />))
 
 // @ts-expect-error
 const root = createRoot(document.getElementById('root'))
 root.render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>,
+  <Provider store={store}>
+    <PersistGate loading={null} persistor={persistor}>
+      <App />{' '}
+    </PersistGate>
+  </Provider>,
 )
 
 // If you want to start measuring performance in your app, pass a function

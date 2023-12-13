@@ -172,7 +172,7 @@ const AccountUpdateService = (): JSX.Element | null => {
 
   useEffect(() => {
     if (connectedWallet) {
-      const { wallet, name, address, did, publicKey, offlineSigner } = connectedWallet
+      const { wallet, name, address, did, publicKey } = connectedWallet
       console.log('typeof pubkey', typeof publicKey)
       let pubKey: string
 

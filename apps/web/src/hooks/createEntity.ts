@@ -39,6 +39,7 @@ import {
   updateClaimQuestionsAction,
   updateStartEndDateAction,
   updateClaimQuestionJSONAction,
+  updateProtocolTypeAction
 } from 'redux/createEntity/createEntity.actions'
 import {
   selectCreateEntityAccordedRight,
@@ -67,14 +68,9 @@ import {
   selectCreateEntityHeadlineClaim,
   selectCreateEntityClaimQuestionJSON,
 } from 'redux/createEntity/createEntity.selectors'
-import {
-  CreateEntityStrategyMap,
-  TCreateEntityStepType,
-  TCreateEntityStrategyType,
-} from 'redux/createEntity/strategy-map'
 import { TCreateEntityModel } from 'redux/createEntity/createEntity.types'
 import { useAccount } from './account'
-import { CreateEntity } from 'lib/protocol'
+import { CreateEntityMessage } from 'lib/protocol'
 import { customQueries, utils } from '@ixo/impactxclient-sdk'
 import { CellnodePublicResource, CellnodeWeb3Resource } from '@ixo/impactxclient-sdk/types/custom_queries/cellnode'
 import {
@@ -84,7 +80,7 @@ import {
   LinkedResource,
   Service,
 } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
-import { WasmInstantiateTrx } from 'lib/protocol/cosmwasm'
+import { WasmInstantiateMessage } from 'lib/protocol/cosmwasm'
 import { chainNetwork } from './configs'
 import { Verification } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/tx'
 import { Cw20Coin } from '@ixo/impactxclient-sdk/types/codegen/Cw20Base.types'
@@ -93,28 +89,7 @@ import { LinkedResourceProofGenerator, LinkedResourceServiceEndpointGenerator } 
 import { selectAllClaimProtocols } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { ELocalisation, TQuestion } from 'types/protocol'
 import { useWallet } from '@ixo-webclient/wallet-connector'
-
-export function useCreateEntityStrategy(): {
-  getStrategyByEntityType: (entityType: string) => TCreateEntityStrategyType
-  getStrategyAndStepByPath: (path: string) => { strategy: TCreateEntityStrategyType; step: TCreateEntityStepType }
-} {
-  const getStrategyByEntityType = (entityType: string): TCreateEntityStrategyType => {
-    return CreateEntityStrategyMap[entityType]
-  }
-  const getStrategyAndStepByPath = (
-    path: string,
-  ): { strategy: TCreateEntityStrategyType; step: TCreateEntityStepType } => {
-    const strategy = Object.values(CreateEntityStrategyMap).find(({ steps }) =>
-      Object.values(steps).some(({ url }) => url === path),
-    )
-    const step = Object.values(strategy?.steps ?? {}).find(({ url }) => url === path)
-    return { strategy, step } as any
-  }
-  return {
-    getStrategyByEntityType,
-    getStrategyAndStepByPath,
-  }
-}
+import { DeliverTxResponse } from '@cosmjs/stargate'
 
 interface TCreateEntityStateHookRes {
   entityType: string
@@ -145,7 +120,6 @@ interface TCreateEntityStateHookRes {
   validateRequiredProperties: boolean
   updateEntityType: (entityType: string) => void
   clearEntity: () => void
-  gotoStep: (type: 1 | -1) => void
   gotoStepByNo: (no: number) => void
   updateBreadCrumbs: (breadCrumbs: { text: string; link?: string }[]) => void
   updateTitle: (title: string) => void
@@ -170,6 +144,8 @@ interface TCreateEntityStateHookRes {
   updateProposal: (proposal: TProposalModel) => void
   updateClaimQuestions: (claimQuestions: { [id: string]: TQuestion }) => void
   updateClaimQuestionJSON: (claimQuestionJSON: any) => void
+  // temp solution
+  updateProtocolType: (type: string) => void
 }
 
 export function useCreateEntityState(): TCreateEntityStateHookRes {
@@ -208,32 +184,13 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
     return !!creator && !!administrator && Object.keys(page ?? {}).length > 0 && service?.length > 0
   }, [creator, administrator, page, service])
 
-  const updateEntityType = (entityType: string): void => {
+  const updateEntityType = useCallback((entityType: string): void => {
     dispatch(updateEntityTypeAction(entityType))
-  }
+  }, [dispatch])
+  
   const clearEntity = (): void => {
     dispatch(clearEntityAction())
   }
-  const gotoStep = useCallback(
-    (type: 1 | -1): void => {
-      if (!entityType) return
-      const { steps } = CreateEntityStrategyMap[entityType]
-      const nextStep = stepNo + 1
-      const prevStep = stepNo - 1
-
-      if (type === 1) {
-        if (nextStep && steps[nextStep]) {
-          dispatch(gotoStepAction(nextStep))
-        }
-      } else if (type === -1) {
-        if (prevStep && steps[prevStep]) {
-          dispatch(gotoStepAction(prevStep))
-        }
-      }
-    },
-    // eslint-disable-next-line
-    [entityType, stepNo],
-  )
   const gotoStepByNo = useCallback(
     (no: number): void => {
       dispatch(gotoStepAction(no))
@@ -311,6 +268,9 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
   const updateClaimQuestionJSON = (claimQuestionJSON: any): void => {
     dispatch(updateClaimQuestionJSONAction(claimQuestionJSON))
   }
+  const updateProtocolType = (type: string): void => {
+    dispatch(updateProtocolTypeAction(type))
+  }
 
   return {
     entityType,
@@ -341,7 +301,6 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
     validateRequiredProperties,
     updateEntityType,
     clearEntity,
-    gotoStep,
     gotoStepByNo,
     updateBreadCrumbs,
     updateTitle,
@@ -366,6 +325,7 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
     updateProposal,
     updateClaimQuestions,
     updateClaimQuestionJSON,
+    updateProtocolType
   }
 }
 
@@ -401,7 +361,7 @@ interface TCreateEntityHookRes {
 }
 
 export function useCreateEntity(): TCreateEntityHookRes {
-  const { signingClient, signer } = useAccount()
+  const { signer } = useAccount()
   const claimProtocols = useAppSelector(selectAllClaimProtocols)
   const { execute, wallet } = useWallet()
 
@@ -849,7 +809,8 @@ export function useCreateEntity(): TCreateEntityHookRes {
 
   const CreateProtocol = async (): Promise<string> => {
     try {
-      const res = await CreateEntity(signingClient, signer, [{ entityType: 'protocol' }])
+      const transactionData = await CreateEntityMessage(signer, [{ entityType: 'protocol' }])
+      const res = await execute(transactionData)
       const protocolDid = utils.common.getValueFromEvents(res!, 'wasm', 'token_id')
       console.log('CreateProtocol', { protocolDid })
       return protocolDid
@@ -885,7 +846,8 @@ export function useCreateEntity(): TCreateEntityHookRes {
         controller = [],
       } = payload
       const { startDate, endDate } = createEntityState
-      const res = await CreateEntity(signingClient, signer, [
+
+      const transactionData = await CreateEntityMessage(signer, [
         {
           entityType,
           entityStatus: 0,
@@ -902,6 +864,9 @@ export function useCreateEntity(): TCreateEntityHookRes {
           endDate,
         },
       ])
+
+      const res = await execute(transactionData) as unknown as DeliverTxResponse
+
       const did = utils.common.getValueFromEvents(res, 'wasm', 'token_id')
       const adminAccount = utils.common.getValueFromEvents(
         res,
@@ -1064,10 +1029,12 @@ export function useCreateEntity(): TCreateEntityHookRes {
 
     console.log({wallet})
 
-    if (!wallet?.pubKey) {
+    if (!wallet) {
       throw new Error('Connect Wallet First')
     }
-    const res = await execute([message])
+
+    const transactionData = await WasmInstantiateMessage(signer, [message])
+    const res = await execute(transactionData)
     console.log('CreateDAOCoreByGroupId', res)
     const contractAddress = utils.common.getValueFromEvents(res!, 'instantiate', '_contract_address')
     if (!contractAddress) {

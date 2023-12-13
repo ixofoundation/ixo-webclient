@@ -10,14 +10,14 @@ import { omitKey } from 'utils/objects'
 // import SetupGroupSettings, { initialMembership, initialStaking } from './SetupGroupSettings'
 import { deviceWidth } from 'constants/device'
 import { ixo } from '@ixo/impactxclient-sdk'
-import SetupGroupSettings from 'pages/CreateEntity/CreateDAO/Pages/SetupDAOGroups/SetupGroupSettings'
+import SetupGroupSettings from 'pages/CreateEntity/EntityPages/SetupGroups/SetupGroupSettings'
 import { EditEntityContext } from 'pages/EditEntity/EditEntity'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { LinkedEntity } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import {
   initialMembershipGroup,
   initialStakingGroup,
-} from 'pages/CreateEntity/CreateDAO/Pages/SetupDAOGroups/SetupDAOGroups'
+} from 'pages/CreateEntity/EntityPages/SetupGroups/SetupGroups'
 import { DAOGroupConfig } from 'constants/entity'
 
 const EditGroups: React.FC = (): JSX.Element => {

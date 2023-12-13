@@ -110,17 +110,16 @@ const DAODashboard: React.FC = (): JSX.Element => {
       entityType={entityType}
     >
       <Routes>
-        <Route path='/entity/:entityId/dashboard/navigator' element={<Navigator />} />
-        <Route path='/entity/:entityId/dashboard/membership' element={<Membership />} />
-        <Route path='/entity/:entityId/dashboard/membership/:address' element={<IndividualMember />} />
-        <Route path='/entity/:entityId/dashboard/governance' element={<Governance />} />
-        {registered && <Route path='/entity/:entityId/dashboard/my-participation' element={<MyParticipation />} />}
-        {registered && owner === address && <Route path='/entity/:entityId/dashboard/edit' element={<EditEntity />} />}
-        <Route path='/entity/:entityId/dashboard'>
-          <Navigate to={`/entity/${entityId}/dashboard/membership`} />
+        <Route index element={<Navigate to={`membership`} />} />
+        <Route path='navigator' element={<Navigator />} />
+        <Route path='membership'>
+          <Route path=':address' element={<IndividualMember />} /> 
+           <Route index element={<Membership />}/>
         </Route>
-
-        <Navigate to={`/entity/${entityId}/dashboard/membership`} />
+        
+        <Route path='governance' element={<Governance />} />
+        {registered && <Route path='my-participation' element={<MyParticipation />} />}
+        {registered && owner === address && <Route path='edit' element={<EditEntity />} />}
       </Routes>
     </Dashboard>
   )

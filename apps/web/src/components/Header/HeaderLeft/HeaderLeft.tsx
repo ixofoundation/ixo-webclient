@@ -22,6 +22,7 @@ import {
 import { useAppSelector } from 'redux/hooks'
 import {
   selectEntityConfig,
+  selectEntityHeaderButtonColorUIConfig,
   selectEntityHeaderUIConfig,
   selectEntityLogoConfig,
 } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
@@ -38,6 +39,8 @@ export const HeaderLeft: React.FC<ParentProps> = (props) => {
   const entityTypeMap: any = useAppSelector(selectEntityConfig)
   const headerUIConfig: any = useAppSelector(selectEntityHeaderUIConfig)
   const logoConfig = useAppSelector(selectEntityLogoConfig)
+  const buttonColor: string = useAppSelector(selectEntityHeaderButtonColorUIConfig)
+
 
   const logoLink = React.useMemo(() => {
     if (!headerUIConfig || !headerUIConfig.link) {
@@ -52,7 +55,7 @@ export const HeaderLeft: React.FC<ParentProps> = (props) => {
     if (inHeader) {
       return (
         <Fragment>
-          <HeaderLink  to={splashIsRootRoute ? 'explore' : '/'}>
+          <HeaderLink color={buttonColor} to={splashIsRootRoute ? 'explore?type=dao' : '/'}>
             Explore
           </HeaderLink>
           <MediaQuery minWidth={`${deviceWidth.desktop}px`}>
@@ -70,7 +73,7 @@ export const HeaderLeft: React.FC<ParentProps> = (props) => {
             <MenuHeaderLink
               className='first-mobile'
               end={true}
-              to={splashIsRootRoute ? '/explore' : '/'}
+              to={splashIsRootRoute ? '/explore?type=dao' : '/'}
               onClick={props.handleBurgerClick}
             >
               Explore

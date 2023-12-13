@@ -12,7 +12,13 @@ import { ReactComponent as TimesCircleIcon } from 'assets/images/icon-times-circ
 import { ReactComponent as CheckCircleIcon } from 'assets/images/icon-check-circle.svg'
 import { ReactComponent as LockOpenIcon } from 'assets/images/icon-lock-open-solid.svg'
 import { ReactComponent as InfoIcon } from 'assets/images/icon-info.svg'
-import { AddLinkedResource, CheckIidDoc, CreateIidDocForGroup, TransferEntity, UpdateEntity } from 'lib/protocol'
+import {
+  AddLinkedResource,
+  CheckIidDoc,
+  CreateIidDocForGroup,
+  TransferEntityMessage,
+  UpdateEntityMessage,
+} from 'lib/protocol'
 import { useAccount } from 'hooks/account'
 import { errorToast, successToast } from 'utils/toast'
 import { LinkedResource, VerificationMethod } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
@@ -20,13 +26,16 @@ import { customQueries, utils } from '@ixo/impactxclient-sdk'
 import { chainNetwork } from 'hooks/configs'
 import { LinkedResourceProofGenerator, LinkedResourceServiceEndpointGenerator } from 'utils/entities'
 import { VMKeyMap } from 'constants/entity'
+import { useWallet } from '@ixo-webclient/wallet-connector'
+import { DeliverTxResponse } from '@cosmjs/stargate'
 
 const TransferEntityTo: React.FC = (): JSX.Element => {
   const theme: any = useTheme()
   const navigate = useNavigate()
-  const { entityId = "" } = useParams<{ entityId: string }>()
+  const { entityId = '' } = useParams<{ entityId: string }>()
   const { signingClient, signer } = useAccount()
   const { selectedEntity, recipientDid } = useTransferEntityState()
+  const { execute } = useWallet()
   const [
     daoGroups = {},
     verificationMethods = [],
@@ -131,9 +140,11 @@ const TransferEntityTo: React.FC = (): JSX.Element => {
         throw 'EntityId or RecipientDid is invalid'
       }
 
-      const { code, rawLog } = await UpdateEntity(signingClient, signer, { id: entityId, entityStatus: 2 })
-      if (code !== 0) {
-        throw rawLog
+      const transactionData = await UpdateEntityMessage(signer, { id: entityId, entityStatus: 2 })
+      const response = (await execute(transactionData)) as unknown as DeliverTxResponse
+
+      if (response.code !== 0) {
+        throw response.rawLog
       }
       successToast('Success', 'Successfully updated status to transferred!')
       return true
@@ -153,9 +164,11 @@ const TransferEntityTo: React.FC = (): JSX.Element => {
       if (!(await CheckIidDoc(recipientDid))) {
         await CreateIidDocForGroup(signingClient, signer, recipientDid)
       }
-      const { code, rawLog } = await TransferEntity(signingClient, signer, { id: entityId, recipientDid })
-      if (code !== 0) {
-        throw rawLog
+      const transactionData = await TransferEntityMessage(signer, { id: entityId, recipientDid })
+      const response = (await execute(transactionData)) as unknown as DeliverTxResponse
+
+      if (response.code !== 0) {
+        throw response.rawLog
       }
       successToast('Success', 'Successfully transferred!')
       return true

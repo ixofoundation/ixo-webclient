@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Navigate, Outlet, Route, Routes, useLocation, useParams } from 'react-router-dom'
+import { Navigate, Route, Routes, useParams } from 'react-router-dom'
 import DashboardPage from './Dashboard/Dashboard'
 import OverviewPage from './Overview/Overview'
 import TreasuryPage from './Treasury/Treasury'
@@ -11,7 +11,6 @@ import { useAppSelector } from 'redux/hooks'
 import { selectEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 const CurrentEntityPage: React.FC = (): JSX.Element => {
-  const location = useLocation()
   const { entityId = '' } = useParams<{ entityId: string }>()
   const entity: TEntityModel | undefined = useAppSelector(selectEntityById(entityId))
   const { entityType, updateEntity, clearEntity } = useCurrentEntity()
@@ -35,8 +34,8 @@ const CurrentEntityPage: React.FC = (): JSX.Element => {
     <Routes>
       <Route index element={<Navigate to='overview' />} />
       <Route path='overview' element={<OverviewPage />} />
-      <Route path='dashboard' element={<DashboardPage />} />
-      <Route path='treasury' element={<TreasuryPage />} />
+      <Route path='dashboard/*' element={<DashboardPage />} />
+      <Route path='treasury/*' element={<TreasuryPage />} />
       <Route path='overview/proposal/:deedId' element={<ProposalOverviewPage />} />
       {/* Add other nested routes as needed */}
     </Routes>

@@ -42,6 +42,9 @@ export const initialState: TCreateEntityState = {
   breadCrumbs: [{ text: 'Protocol', link: '/create/entity' }],
   title: '',
   subtitle: '',
+
+  // temp solution for protocol flow
+  protocolType: '',
 } as any
 
 export const reducer = (state = initialState, action: TCreateEntityActionTypes): TCreateEntityState => {
@@ -158,6 +161,9 @@ export const reducer = (state = initialState, action: TCreateEntityActionTypes):
       updatedState = { ...state, claimQuestionJSON: action.payload }
       break
 
+    case ECreateEntityActions.UpdateProtocolType:
+      updatedState = { ...state, protocolType: action.payload }
+      break
     default:
       return state
   }

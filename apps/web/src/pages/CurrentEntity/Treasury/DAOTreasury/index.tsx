@@ -1,7 +1,7 @@
 import Dashboard from 'components/Dashboard/Dashboard'
 import { HeaderTab, Path } from 'components/Dashboard/types'
 import useCurrentEntity, { useCurrentEntityProfile } from 'hooks/currentEntity'
-import { Navigate, Route, useParams } from 'react-router-dom'
+import { Navigate, Route, Routes, useParams } from 'react-router-dom'
 import { requireCheckDefault } from 'utils/images'
 import Accounts from './Accounts'
 
@@ -73,10 +73,10 @@ const DAOTreasury: React.FC = (): JSX.Element => {
       tabs={tabs}
       entityType={entityType}
     >
-      <Route  path='/entity/:entityId/treasury/accounts' element={<Accounts/>} />
-      <Route  path='/entity/:entityId/treasury'>
-        <Navigate to={`/entity/${entityId}/treasury/accounts`} />
-      </Route>
+      <Routes>
+        <Route path='accounts' element={<Accounts />} />
+        <Route index element={<Navigate to={`accounts`} />} />
+      </Routes>
     </Dashboard>
   )
 }

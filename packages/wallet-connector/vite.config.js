@@ -29,7 +29,7 @@ export default defineConfig({
       "contexts": ["/src/contexts"],
       "walletModal": ["/src/walletModal"],
       "assets": ["/src/assets"],
-      "constants": ["/src/constants"],
+      "@constants": ["/src/constants"],
       "utils": ["/src/utils"],
       "impactsxmobile": ["/src/impactsxmobile"],
       'stream': 'readable-stream',

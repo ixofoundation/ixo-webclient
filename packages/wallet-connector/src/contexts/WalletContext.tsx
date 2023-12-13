@@ -16,12 +16,14 @@ interface WalletContextType {
   setMobile: React.Dispatch<SetStateAction<MobileStateProps>>
   signXWallet: SignXWallet
   CustomComponent: ReactNode
+  rpcEndpoint: string
 }
 
 interface WalletProviderProps {
   children: ReactNode;
   chainNetwork: string
   customComponent: ReactNode
+  rpcEndpoint: string
 }
 
 export const WalletContext = createContext<WalletContextType | undefined>(
@@ -36,7 +38,7 @@ type MobileStateProps = {
 
 let signXWallet: SignXWallet
 
-export const WalletProvider = ({ children, chainNetwork, customComponent }: WalletProviderProps) => {
+export const WalletProvider = ({ children, chainNetwork, customComponent, rpcEndpoint }: WalletProviderProps) => {
   const [wallet, setWallet] = useState<Wallet | null>(null);
   const [opened, { open, close }] = useDisclosure(false);
   const [mobile, setMobile] = useState<MobileStateProps>({ qr: null, timeout: 0});
@@ -46,12 +48,12 @@ export const WalletProvider = ({ children, chainNetwork, customComponent }: Wall
   if(chainNetwork && !signXWallet){
     console.log("initialise sign x", chainNetwork)
     signXWallet = new SignXWallet(chainNetwork as keyof typeof SignXEndpoints)
-    setMobile(prevState => ({...prevState, timeout: signXWallet.timeout}))
+    setMobile(prevState => ({...prevState }))
   }
 
   const providerValue = useMemo(
-    () => ({ wallet, setWallet, opened, open, close, mobile, setMobile, signXWallet, CustomComponent: customComponent }),
-    [wallet, setWallet, opened, open, close, setMobile, mobile, signXWallet, customComponent]
+    () => ({ wallet, setWallet, opened, open, close, mobile, setMobile, signXWallet, CustomComponent: customComponent, rpcEndpoint }),
+    [wallet, setWallet, opened, open, close, setMobile, mobile, signXWallet, customComponent, rpcEndpoint]
   );
 
   return (

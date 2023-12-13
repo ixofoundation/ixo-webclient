@@ -1,8 +1,10 @@
 import { WalletType } from "@ixo-webclient/types";
 import { useContext } from "react";
 import { WalletContextType, WalletContext } from "contexts";
-import { SignXWallet } from "impactsxmobile";
+import { createSigningClient } from "@ixo/impactxclient-sdk";
 import { Keplr } from "keplr";
+import { CHAIN_ID } from "@constants";
+import * as store from "store";
 
 type UseWalletProps = WalletContextType & {
   connectWallet: (type: WalletType) => Promise<void>;
@@ -28,9 +30,10 @@ export const useWallet = (): UseWalletProps => {
 
     if (type === WalletType.ImpactXMobile) {
       const loginData = await context.signXWallet.init();
+      console.log({loginData})
       context.setMobile({
         qr: JSON.stringify(loginData),
-        timeout: Number(loginData.timeout),
+        timeout: Number(new Date(loginData.timeout).getTime()),
       });
       const wallet: any = await context.signXWallet.connect();
       console.log("typeof pubKey, ", wallet.pubKey);
@@ -44,17 +47,31 @@ export const useWallet = (): UseWalletProps => {
     }
   };
 
-  const execute = async (data: any) => {
+  const execute = async (data: {
+    messages: any[];
+    fee: {
+      amount: { amount: string; denom: string }[];
+      gas: string;
+    };
+  }) => {
+    const { messages, fee } = data;
+    console.log({ data });
     if (context?.wallet?.wallet?.type === WalletType.ImpactXMobile) {
       try {
-        console.log("trying to execute on impacts x")
         context.setMobile((prevState) => ({ ...prevState, transacting: true }));
 
-        const transactData = await context.signXWallet.initTransaction(data, context.wallet);
+        const transactData = await context.signXWallet.initTransaction(
+          messages,
+          context.wallet
+        );
 
-        context.setMobile({
-          qr: JSON.stringify(transactData),
-        });
+        context.setMobile((prevState) => ({
+          ...prevState,
+          qr: JSON.stringify(transactData.data),
+          timeout: transactData.timeout,
+        }));
+
+        context.open();
 
         const transaction =
           await context.signXWallet.waitOnTransactionExecution();
@@ -64,6 +81,7 @@ export const useWallet = (): UseWalletProps => {
             ...prevState,
             transacting: false,
           }));
+          context.close();
           return transaction;
         }
       } catch (error) {
@@ -72,6 +90,36 @@ export const useWallet = (): UseWalletProps => {
           transacting: false,
         }));
 
+        console.error({ error });
+      }
+    }
+    if (context?.wallet?.wallet?.type === WalletType.Keplr) {
+      try {
+        console.log("keplr wallet running");
+        const offlineSigner = (window as any).getOfflineSigner(CHAIN_ID);
+        console.log("offline signer", offlineSigner);
+
+        return await createSigningClient(
+          context.rpcEndpoint,
+          offlineSigner,
+          false,
+          {},
+          {
+            getLocalData: (k) => store.get(k),
+            setLocalData: (k, d) => store.set(k, d),
+          }
+        ).then((client) => {
+          console.log("client", client);
+
+          console.log(context?.wallet?.address, data, data?.fee);
+
+          return client.signAndBroadcast(
+            context?.wallet?.address,
+            messages as any,
+            fee
+          );
+        });
+      } catch (error) {
         console.error({ error });
       }
     }

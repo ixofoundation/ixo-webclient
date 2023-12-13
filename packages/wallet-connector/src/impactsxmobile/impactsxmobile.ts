@@ -2,6 +2,8 @@ import { IWalletConnector } from "interfaces/walletConnector";
 import { SignX } from "@ixo/signx-sdk";
 import { Wallet } from "contexts";
 import { toHex } from "@cosmjs/encoding";
+import { createRegistry } from "@ixo/impactxclient-sdk";
+
 const SIGN_X_LOGIN_SUCCESS = "SIGN_X_LOGIN_SUCCESS";
 const SIGN_X_LOGIN_ERROR = "SIGN_X_LOGIN_ERROR";
 const SIGN_X_TRANSACT_SUCCESS = "SIGN_X_TRANSACT_SUCCESS";
@@ -13,10 +15,9 @@ export const SignXEndpoints = {
   mainnet: "https://signx.ixo.earth",
 };
 
-
 export const strToArray = (str: string): Uint8Array => {
-  return new Uint8Array(Buffer.from(str))
-}
+  return new Uint8Array(Buffer.from(str));
+};
 
 export class SignXWallet {
   private signXClient: SignX;
@@ -36,13 +37,19 @@ export class SignXWallet {
   }
 
   async initTransaction(data: any, wallet: Wallet) {
-    return await this.signXClient.transact({
-      address: wallet.address,
-      did: wallet.did!,
-      pubkey: toHex(wallet.pubKey),
-      timestamp: new Date().toISOString(),
-      txBodyHex: toHex(strToArray(JSON.stringify(({ messages: data as any, memo: undefined }))))
-    });
+    const registry = createRegistry();
+    return {
+      timeout: this.timeout,
+      data: await this.signXClient.transact({
+        address: wallet.address,
+        did: wallet.did!,
+        pubkey: toHex(wallet.pubKey),
+        timestamp: new Date().toISOString(),
+        txBodyHex: toHex(
+          registry.encodeTxBody({ messages: data as any, memo: undefined })
+        ),
+      }),
+    };
   }
 
   async connect() {

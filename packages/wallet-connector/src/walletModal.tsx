@@ -5,8 +5,15 @@ import { ConnectModal as ImpactsXConnectModal, TimeLeft } from "impactsxmobile";
 import { useWallet } from "hooks";
 import { KeplrIcon } from "assets/keplr-icon";
 import { QRCodeSVG } from "qrcode.react";
+import { upperFirst } from "@mantine/hooks";
+import { WalletType } from "@ixo-webclient/types";
 
 const DesktopWalletModal = () => {
+  const { connectWallet } = useWallet()
+  const handleKeplrConnect = () => {
+    connectWallet(WalletType.Keplr)
+  }
+
   return (
     <Flex
       w="100%"
@@ -30,6 +37,7 @@ const DesktopWalletModal = () => {
           }}
           leftSection={<KeplrIcon size={14} />}
           variant="default"
+          onClick={handleKeplrConnect}
         >
           Keplr Wallet
         </Button>
@@ -125,13 +133,15 @@ export const WalletModal = (): JSX.Element => {
     if (wallet && mobile?.transacting) {
       setStep("transacting");
     }
-    if (wallet) {
+    if (wallet && !mobile?.transacting) {
       setStep("profile");
     }
     if (!wallet) {
       setStep("connect");
     }
-  }, [wallet]);
+  }, [wallet, mobile.transacting]);
+
+  console.log({ mobile, step })
 
   return (
     <MantineProvider>
@@ -148,11 +158,11 @@ export const WalletModal = (): JSX.Element => {
           },
         }}
         radius="lg"
-        size="md"
+        size={step === "profile" ? "lg" : "md"}
         padding="xl"
         opened={opened}
         onClose={close}
-        title="Connect"
+        title={upperFirst(step)}
       >
         {step === "profile" && CustomComponent}
         {step === "connect" && <ConnectModal />}

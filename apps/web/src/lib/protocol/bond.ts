@@ -14,20 +14,14 @@ import { BondStateType } from 'redux/bond/bond.types'
 
 const createRPCQueryClient = ixo.ClientFactory.createRPCQueryClient
 
-export const CreateBond = async (
-  client: SigningStargateClient,
-  signer: TSigner,
+export const CreateBondMessage = async (
   payload: MsgCreateBond,
-): Promise<DeliverTxResponse> => {
+) => {
   const message = {
     typeUrl: '/ixo.bonds.v1beta1.MsgCreateBond',
     value: ixo.bonds.v1beta1.MsgCreateBond.fromPartial(payload),
   }
-
-  console.log('CreateBond', { message })
-  const response = await client.signAndBroadcast(signer.address, [message], fee)
-  console.log('CreateBond', { response })
-  return response
+  return { messages: [message], fee}
 }
 
 export const Buy = async (

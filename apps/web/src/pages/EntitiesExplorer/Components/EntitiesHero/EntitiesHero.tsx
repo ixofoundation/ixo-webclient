@@ -31,8 +31,8 @@ export const EntitiesHero: React.FunctionComponent<Props> = ({
   const navigate = useNavigate()
   const entityTypeMap = useAppSelector(selectEntityConfig)
   const entityStrategyMap = entityTypeMap[type]
-  const header = getHeaderSchema(filterSector, entityStrategyMap.headerSchema)
-  const headerTabButtons = getHeaderTabButtons(type, entityStrategyMap.plural)
+  const header = getHeaderSchema(filterSector, entityStrategyMap?.headerSchema)
+  const headerTabButtons = getHeaderTabButtons(type, entityStrategyMap?.plural)
   const { query } = useQuery()
 
   const getHeaderBackgroundUrl = (imagePath: string): string => {
@@ -47,13 +47,13 @@ export const EntitiesHero: React.FunctionComponent<Props> = ({
   return (
     <HeroContainer
       style={{
-        backgroundImage: getHeaderBackgroundUrl(header.image),
+        backgroundImage: getHeaderBackgroundUrl(header?.image),
       }}
     >
       <MediaQuery minWidth={deviceWidth.tablet}>
         <ColorOverlay
           style={{
-            backgroundColor: header.color || entityStrategyMap.themeColor,
+            backgroundColor: header?.color || entityStrategyMap?.themeColor,
           }}
         ></ColorOverlay>
         <HeroInner className='container'>
@@ -61,22 +61,22 @@ export const EntitiesHero: React.FunctionComponent<Props> = ({
             <HeroTextWrapper
               className='col-md-5 col-sm-12 col-12'
               style={{
-                color: header.color === 'transparent' ? '#FFF' : header.color,
+                color: header?.color === 'transparent' ? '#FFF' : header?.color,
               }}
             >
-              <h1>{header.title}</h1>
-              <h3>{header.subTitle}</h3>
+              <h1>{header?.title}</h1>
+              <h3>{header?.subTitle}</h3>
             </HeroTextWrapper>
           </div>
         </HeroInner>
         <HeaderTabs
           buttons={headerTabButtons}
-          activeTabColor={entityStrategyMap.themeColor}
+          activeTabColor={entityStrategyMap?.themeColor}
           enableAssistantButton={true}
         />
         {showSearch && (
           <Search
-            entityColor={entityStrategyMap.themeColor}
+            entityColor={entityStrategyMap?.themeColor}
             type={type}
             filterQuery={filterQuery}
             filterChanged={(type) => {
@@ -93,7 +93,7 @@ export const EntitiesHero: React.FunctionComponent<Props> = ({
 }
 
 const getHeaderSchema = (filterSector: string, headerSchema: Schema): SchemaBase => {
-  const headerOverride = headerSchema.overrides.find((override) => filterSector === override.ddoTag)
+  const headerOverride = headerSchema?.overrides?.find((override) => filterSector === override.ddoTag)
 
   return headerOverride || headerSchema
 }
@@ -101,10 +101,10 @@ const getHeaderSchema = (filterSector: string, headerSchema: Schema): SchemaBase
 const getHeaderTabButtons = (entityType: EntityType, entityTitle: string): any => {
   const tabButtons = [
     {
-      iconClass: `icon-${entityType.toLowerCase()}`,
-      linkClass: entityType.toLowerCase(),
+      iconClass: `icon-${entityType?.toLowerCase()}`,
+      linkClass: entityType?.toLowerCase(),
       path: '/explore',
-      title: entityTitle.toUpperCase(),
+      title: entityTitle?.toUpperCase(),
       tooltip: `${entityTitle} Explorer`,
     },
   ]

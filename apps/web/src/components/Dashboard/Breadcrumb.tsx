@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
-import { NavLink, Route } from 'react-router-dom'
+import { NavLink, Route, Routes } from 'react-router-dom'
 import RightIcon from 'assets/icons/Right'
 import { deviceWidth } from 'constants/device'
 import { DashboardThemeContext, ThemeContext } from './Dashboard'
@@ -52,11 +52,11 @@ const Breadcrumb: React.FunctionComponent<Props> = ({ subRoutes, baseRoutes }) =
           <RightIcon fill={theme.isDark ? '#436779' : '#979797'} />
         </span>
       ))}
+      <Routes>
       {subRoutes.map((subRoute, key) => (
-        <Route path={subRoute.url} key={`sdg-${key}`}>
-          <NavItem to={subRoute.url}>{subRoute.sdg}</NavItem>
-        </Route>
+        <Route path={subRoute.url} key={`sdg-${key}`} element={<NavItem to={subRoute.url}>{subRoute.sdg}</NavItem>} />
       ))}
+      </Routes>
     </Container>
   )
 }

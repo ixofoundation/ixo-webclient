@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo } from 'react'
-import { Navigate, Route, useParams } from 'react-router-dom'
+import { Navigate, Route, Routes, useParams } from 'react-router-dom'
 import TransferEntityLayout from './Components/TransferEntityLayout'
 import { useTransferEntityState } from 'hooks/transferEntity'
 import { useAppSelector } from 'redux/hooks'
@@ -30,7 +30,7 @@ const TransferEntity: React.FC = (): JSX.Element => {
   return (
     <TransferEntityLayout title={title} subtitle={subtitle} breadCrumbs={breadCrumbs}>
       {isEligible ? (
-        <>
+        <Routes>
           <Route path={`/transfer/entity/:entityId/group`} element={<TransferEntityToDAOGroup/>} />
           <Route path={`/transfer/entity/:entityId/to`} element={<TransferEntityTo/>} />
           <Route path={`/transfer/entity/:entityId/review`} element={<TransferEntityReview/>} />
@@ -42,7 +42,7 @@ const TransferEntity: React.FC = (): JSX.Element => {
               <Navigate to={`/transfer/entity/${entityId}/to`} />
             )}
           </Route>
-        </>
+        </Routes>
       ) : (
         <FlexBox>Loading...</FlexBox>
       )}

@@ -29,6 +29,7 @@ import { ImpactTokens } from '../../Components/ImpactTokens'
 import { Transactions } from '../../Components/Transactions'
 import AccountsCard, { AccountTypeToIconMap } from '../../Components/AccountsCard'
 import BalanceCard from '../../Components/BalanceCard'
+import { Text } from '@mantine/core'
 
 export interface TTreasuryCoinModel {
   coinDenom: string
@@ -267,6 +268,7 @@ const Accounts: React.FC = () => {
 
   return (
     <FlexBox direction='column' gap={6} width='100%' color='white'>
+      <Text>I should show</Text>
       <GridContainer columns={2} gridGap={6} width='100%'>
         <BalanceCard availableValue={availableValue} stakedValue={'0.00'} />
 

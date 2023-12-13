@@ -3,11 +3,7 @@ import BigNumber from 'bignumber.js'
 import Long from 'long'
 import { fee, TSigner } from './common'
 
-export const WasmInstantiateTrx = async (
-  client: SigningStargateClient,
-  signer: TSigner,
-  payload: { codeId: number; msg: string }[],
-) => {
+export const WasmInstantiateMessage = async (signer: TSigner, payload: { codeId: number; msg: string }[]) => {
   try {
     const { address, did } = signer
     const messages = payload.map(({ codeId, msg }) => ({
@@ -28,8 +24,7 @@ export const WasmInstantiateTrx = async (
     }))
 
     const updatedFee = { ...fee, gas: new BigNumber(fee.gas).times(messages.length).toString() }
-    const response = await client.signAndBroadcast(address, messages, updatedFee)
-    return response
+    return { messages, fee: updatedFee }
   } catch (e) {
     console.error('WasmInstantiateTrx', e)
     return undefined
@@ -58,8 +53,7 @@ export const WasmExecuteTrx = async (
       }),
     }
 
-    const response = await client.signAndBroadcast(address, [message], fee)
-    return response
+    return { message: [message], fee }
   } catch (e) {
     console.error('WasmExecuteTrx', e)
     return undefined

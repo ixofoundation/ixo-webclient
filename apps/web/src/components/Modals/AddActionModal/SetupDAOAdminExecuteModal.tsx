@@ -5,7 +5,7 @@ import { TProposalActionModel } from 'types/entities'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 import { CosmosMsgFor_Empty } from 'types/dao'
 import { Typography } from 'components/Typography'
-import { SetupActionsForm } from 'pages/CreateEntity/CreateProposal/Pages/SetupActions/SetupActionsForm'
+import { SetupActionsForm } from 'pages/CreateEntity/EntityPages/SetupActions/SetupActionsForm'
 import { useMakeProposalAction } from 'hooks/proposal'
 
 export const TYPE_URL_MSG_GRANT = '/cosmos.authz.v1beta1.MsgGrant'

@@ -51,7 +51,10 @@ export const getEntityConfig =
   (dispatch: Dispatch): GetEntityConfigAction => {
     return dispatch({
       type: EntitiesExplorerActions.GetEntityConfig,
-      payload: Axios.get(SchemaGitUrl!).then((response) => response.data),
+      payload: Axios.get(SchemaGitUrl!).then((response) => {
+        console.log("response of entity config", response.data)
+        return response.data
+      }),
     })
   }
 

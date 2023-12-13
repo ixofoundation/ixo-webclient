@@ -260,7 +260,7 @@ export const selectFilterQuery = createSelector(selectEntitiesFilter, (filter: F
 export const selectFilterSchema = createSelector(
   selectEntitiesState,
   (entitiesState: EntitiesExplorerState): FilterSchema => {
-    return entitiesState.entityConfig[entitiesState.selectedEntitiesType]?.filterSchema
+    return entitiesState?.entityConfig[entitiesState?.selectedEntitiesType]?.filterSchema
   },
 )
 

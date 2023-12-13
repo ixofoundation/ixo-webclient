@@ -53,6 +53,9 @@ export interface TCreateEntityState extends TCreateEntityModel {
   breadCrumbs: { text: string; link?: string }[]
   title: string
   subtitle: string
+
+  // temp solution for protocol type
+  protocolType: string
 }
 
 export enum ECreateEntityActions {
@@ -86,6 +89,8 @@ export enum ECreateEntityActions {
   // for Claim
   UpdateClaimQuestions = 'ixo/create/entity/UPDATE_CLAIM_QUESTIONS',
   UpdateClaimQuestionJSON = 'ixo/create/entity/UPDATE_CLAIM_QUESTION_JSON',
+  // for Protocol
+  UpdateProtocolType = 'ixo/create/entity/UPDATE_PROTOCOL_TYPE',
 }
 
 export interface TUpdateEntityTypeAction {
@@ -196,6 +201,11 @@ export interface TUpdateClaimQuestionJSONAction {
   payload: any
 }
 
+export interface TUpdateProtocolType {
+  type: typeof ECreateEntityActions.UpdateProtocolType
+  payload: string
+}
+
 export type TCreateEntityActionTypes =
   | TUpdateEntityTypeAction
   | TClearEntityAction
@@ -223,3 +233,4 @@ export type TCreateEntityActionTypes =
   | TUpdateProposalAction
   | TUpdateClaimQuestionsAction
   | TUpdateClaimQuestionJSONAction
+  | TUpdateProtocolType

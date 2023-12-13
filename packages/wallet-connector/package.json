@@ -5,7 +5,7 @@
   "author": "Zach",
   "license": "MIT",
   "private": true,
-  "main": "dist/wallet-connector.cjs.js",
+  "main": "dist/wallet-connector.es.js",
   "module": "dist/wallet-connector.es.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -17,6 +17,7 @@
     "@cosmjs/encoding": "^0.31.3",
     "@ixo-webclient/types": "*",
     "@ixo/cosmos-chain-resolver": "^0.0.5",
+    "@ixo/impactxclient-sdk": "*",
     "@mantine/core": "^7.2.2",
     "@mantine/hooks": "^7.2.2",
     "assert": "^2.1.0",
@@ -28,9 +29,9 @@
     "process": "^0.11.10",
     "qrcode.react": "^3.1.0",
     "readable-stream": "^4.4.2",
+    "store": "^2.0.12",
     "stream-http": "^3.2.0",
-    "url": "^0.11.3",
-    "@ixo/impactxclient-sdk": "*"
+    "url": "^0.11.3"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.2.0",
