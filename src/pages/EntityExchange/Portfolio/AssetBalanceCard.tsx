@@ -3,6 +3,8 @@ import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { useTheme } from 'styled-components'
 import { LineChart, Line, ResponsiveContainer } from 'recharts'
+import { useMemo } from 'react'
+import { useIxoConfigs } from 'hooks/configs'
 
 const data = [
   {
@@ -30,11 +32,15 @@ const data = [
 
 interface AssetBalanceCardProp {
   asset: Coin
+  selected?: boolean
   onClick: () => void
 }
 
-const AssetBalanceCard: React.FC<AssetBalanceCardProp> = ({ asset, onClick }) => {
+const AssetBalanceCard: React.FC<AssetBalanceCardProp> = ({ asset, selected, onClick }) => {
   const theme: any = useTheme()
+  const { convertToDenom } = useIxoConfigs()
+
+  const displayAsset = useMemo(() => convertToDenom(asset), [asset, convertToDenom])
 
   return (
     <FlexBox
@@ -43,7 +49,7 @@ const AssetBalanceCard: React.FC<AssetBalanceCardProp> = ({ asset, onClick }) =>
       width='310px'
       p={4}
       borderRadius='4px'
-      border={`1px solid ${theme.ixoNewBlue}`}
+      border={`1px solid ${selected ? theme.ixoNewBlue : 'transparent'}`}
       background={theme.ixoGradientDark2}
       onClick={onClick}
       cursor={'pointer'}
@@ -51,7 +57,7 @@ const AssetBalanceCard: React.FC<AssetBalanceCardProp> = ({ asset, onClick }) =>
       <FlexBox width='100%' alignItems='center' justifyContent='space-between'>
         <FlexBox borderRadius='6px' py={1} px={2} background={theme.ixoMediumBlue}>
           <Typography variant='primary' size='md' weight={'bold'}>
-            {asset.denom}
+            {displayAsset?.denom}
           </Typography>
         </FlexBox>
         <FlexBox borderRadius='6px' py={1} px={2} background={theme.ixoNavyBlue}>
@@ -63,7 +69,7 @@ const AssetBalanceCard: React.FC<AssetBalanceCardProp> = ({ asset, onClick }) =>
 
       <FlexBox direction='column'>
         <Typography size='4xl'>
-          {asset.denom} {asset.amount}
+          {displayAsset?.denom} {displayAsset?.amount}
         </Typography>
         <Typography size='sm'>USD 0</Typography>
       </FlexBox>
@@ -71,14 +77,14 @@ const AssetBalanceCard: React.FC<AssetBalanceCardProp> = ({ asset, onClick }) =>
       <FlexBox width='100%' alignItems='center'>
         <FlexBox width='100%' direction='column'>
           <Typography weight={'bold'}>
-            {asset.denom} {asset.amount}
+            {displayAsset?.denom} {displayAsset?.amount}
           </Typography>
           <Typography size='sm' color='dark-blue'>
             Available
           </Typography>
         </FlexBox>
         <FlexBox width='100%' direction='column'>
-          <Typography weight={'bold'}>{asset.denom} 0</Typography>
+          <Typography weight={'bold'}>{displayAsset?.denom} 0</Typography>
           <Typography size='sm' color='dark-blue'>
             Locked in Escrow
           </Typography>

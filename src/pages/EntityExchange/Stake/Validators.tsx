@@ -11,6 +11,8 @@ import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 import StakingModal from 'components/ControlPanel/Actions/StakingModal'
 import { useAccount } from 'hooks/account'
 import { useIxoConfigs } from 'hooks/configs'
+import { Dropdown } from 'pages/CreateEntity/Components'
+import { BondStatus } from 'cosmjs-types/cosmos/staking/v1beta1/staking'
 
 const TableWrapper = styled(FlexBox)`
   color: white;
@@ -52,6 +54,7 @@ const Validators: React.FC = () => {
   const { validators, getValidators } = useValidators()
   const { convertToDenom } = useIxoConfigs()
 
+  const [selectedValidatorStatus, setSelectedValidatorStatus] = useState(BondStatus.BOND_STATUS_BONDED)
   const [selectedValidator, setSelectedValidator] = useState('')
 
   const onValidatorSelect = (address: string) => () => {
@@ -198,9 +201,19 @@ const Validators: React.FC = () => {
         boxShadow='0px 2px 10px 0px rgba(0, 0, 0, 0.18)'
         p={4}
       >
+        <Dropdown
+          options={[
+            { text: 'Bonded', value: BondStatus.BOND_STATUS_BONDED as unknown as string },
+            { text: 'UnBonded', value: BondStatus.BOND_STATUS_UNBONDED as unknown as string },
+            { text: 'UnBonding', value: BondStatus.BOND_STATUS_UNBONDING as unknown as string },
+          ]}
+          value={selectedValidatorStatus}
+          onChange={(event) => setSelectedValidatorStatus(event.target.value as unknown as BondStatus)}
+          style={{ width: 200, height: 48 }}
+        />
         <Table
           columns={columns}
-          data={validators}
+          data={validators.filter((validator) => Number(validator.status) === Number(selectedValidatorStatus))}
           getRowProps={() => ({
             style: { height: 70, cursor: 'pointer' },
           })}

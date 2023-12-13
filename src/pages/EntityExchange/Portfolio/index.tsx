@@ -6,9 +6,11 @@ import React, { useState } from 'react'
 import { Button } from 'pages/CreateEntity/Components'
 import AssetBalanceCard from './AssetBalanceCard'
 import AssetTransactionTable from './AssetTransactionTable'
+import { useIxoConfigs } from 'hooks/configs'
 
 const Portfolio: React.FC = () => {
-  const { displayBalances } = useAccount()
+  const { convertToDenom } = useIxoConfigs()
+  const { balances, address } = useAccount()
   const [selectedAsset, setSelectedAsset] = useState<Coin | undefined>(undefined)
 
   return (
@@ -17,8 +19,13 @@ const Portfolio: React.FC = () => {
         Assets
       </Typography>
       <FlexBox width='100%' gap={4} mb={4}>
-        {displayBalances.map((balance, index) => (
-          <AssetBalanceCard key={index} asset={balance} onClick={() => setSelectedAsset(balance)} />
+        {balances.map((balance, index) => (
+          <AssetBalanceCard
+            key={index}
+            asset={balance}
+            selected={selectedAsset?.denom === balance.denom}
+            onClick={() => setSelectedAsset(balance)}
+          />
         ))}
       </FlexBox>
 
@@ -26,14 +33,14 @@ const Portfolio: React.FC = () => {
         <>
           <FlexBox width='100%' alignItems='center' justifyContent='space-between'>
             <Typography variant='secondary' size='2xl'>
-              Reserve Account Transactions ({selectedAsset.denom})
+              Reserve Account Transactions ({convertToDenom(selectedAsset)?.denom.toUpperCase()})
             </Typography>
             <Button variant='secondary' size='flex'>
               New Transaction
             </Button>
           </FlexBox>
           <FlexBox width='100%'>
-            <AssetTransactionTable asset={selectedAsset} />
+            <AssetTransactionTable address={address} asset={selectedAsset} />
           </FlexBox>
         </>
       )}

@@ -4,8 +4,13 @@ import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { EyeIcon } from 'components/Icons'
 import Table, { renderTableHeader } from 'components/Table/Table'
 import { Typography } from 'components/Typography'
+import { TTypographyColor } from 'components/Typography/Typography'
+import { useMessagesQuery } from 'generated/graphql'
+import { useIxoConfigs } from 'hooks/configs'
+import usePrice from 'hooks/price'
 import moment from 'moment'
 import { useMemo } from 'react'
+import CurrencyFormat from 'react-currency-format'
 import styled, { useTheme } from 'styled-components'
 
 const TableWrapper = styled(FlexBox)`
@@ -43,37 +48,43 @@ const TableWrapper = styled(FlexBox)`
 `
 
 interface AssetTransactionTableProps {
+  address: string
   asset: Coin
 }
-const AssetTransactionTable: React.FC<AssetTransactionTableProps> = ({ asset }) => {
+const AssetTransactionTable: React.FC<AssetTransactionTableProps> = ({ address, asset }) => {
   const theme: any = useTheme()
+  const { convertToDenom } = useIxoConfigs()
+  const usdRate = usePrice(asset.denom)
 
-  const transactionData = [
-    {
-      timestamp: 1701808148639,
-      type: 'buy',
-      amount: 100,
-      price: 1000,
+  const { data: messagesData } = useMessagesQuery({
+    variables: {
+      first: 10,
+      filter: {
+        or: [
+          {
+            typeUrl: { equalTo: '/cosmos.bank.v1beta1.MsgSend' },
+            from: { equalTo: address },
+            denoms: { contains: [asset.denom] },
+          },
+          {
+            typeUrl: { equalTo: '/cosmos.bank.v1beta1.MsgSend' },
+            to: { equalTo: address },
+            denoms: { contains: [asset.denom] },
+          },
+        ],
+      },
     },
-    {
-      timestamp: 1701808148639,
-      type: 'send',
-      amount: 50,
-      price: 500,
-    },
-    {
-      timestamp: 1701808148639,
-      type: 'receive',
-      amount: 250,
-      price: 500,
-    },
-    {
-      timestamp: 1701808148639,
-      type: 'swap',
-      amount: 100,
-      price: 1000,
-    },
-  ]
+  })
+
+  const transactionData = useMemo(() => {
+    return (messagesData?.messages?.nodes ?? [])
+      .map((data) => ({
+        timestamp: data.transactionByTransactionHash?.time,
+        type: data.from === address ? 'send' : 'receive',
+        amount: (data.value.amount as Coin[]).find(({ denom }) => denom === asset.denom),
+      }))
+      .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
+  }, [messagesData, address, asset.denom])
 
   const columns = useMemo(
     () => [
@@ -99,7 +110,7 @@ const AssetTransactionTable: React.FC<AssetTransactionTableProps> = ({ asset }) 
         accessor: 'type',
         renderCell: (cell: any) => {
           const type = cell.value
-          let color: any = undefined
+          let color: TTypographyColor | undefined = undefined
 
           switch (type) {
             case 'buy':
@@ -130,7 +141,7 @@ const AssetTransactionTable: React.FC<AssetTransactionTableProps> = ({ asset }) 
         Header: renderTableHeader('Quantity'),
         accessor: 'amount',
         renderCell: (cell: any) => {
-          const amount = cell.value || 0
+          const amount = convertToDenom(cell.value)?.amount || 0
           return (
             <FlexBox direction='column' p={4}>
               <Typography size='lg'>{amount}</Typography>
@@ -142,10 +153,11 @@ const AssetTransactionTable: React.FC<AssetTransactionTableProps> = ({ asset }) 
         Header: renderTableHeader('Price'),
         accessor: 'price',
         renderCell: (cell: any) => {
-          const price = cell.value || 0
           return (
             <FlexBox direction='column' p={4}>
-              <Typography size='lg'>{price}</Typography>
+              <Typography size='lg'>
+                <CurrencyFormat displayType='text' value={usdRate} thousandSeparator decimalScale={6} prefix='$' />
+              </Typography>
             </FlexBox>
           )
         },
@@ -154,9 +166,8 @@ const AssetTransactionTable: React.FC<AssetTransactionTableProps> = ({ asset }) 
         Header: renderTableHeader('Value'),
         accessor: 'value',
         renderCell: (cell: any) => {
-          const price = cell.row.original?.price
-          const amount = cell.row.original?.amount
-          const usdAmount = new BigNumber(price).times(amount).toString()
+          const amount = convertToDenom(cell.row.original?.amount)?.amount || 0
+          const usdAmount = new BigNumber(usdRate).times(amount).toString()
 
           return (
             <FlexBox justifyContent='flex-end' alignItems='stretch' width='250px' height='100%'>
@@ -168,7 +179,9 @@ const AssetTransactionTable: React.FC<AssetTransactionTableProps> = ({ asset }) 
                 background={theme.ixoNavyBlue}
                 style={{ flex: 1 }}
               >
-                <Typography weight='bold'>${usdAmount}</Typography>
+                <Typography weight='bold'>
+                  <CurrencyFormat displayType='text' value={usdAmount} thousandSeparator decimalScale={2} prefix='$' />
+                </Typography>
               </FlexBox>
               <SvgBox
                 width='60px'
@@ -186,7 +199,7 @@ const AssetTransactionTable: React.FC<AssetTransactionTableProps> = ({ asset }) 
         },
       },
     ],
-    [theme],
+    [convertToDenom, theme, usdRate],
   )
 
   return (
