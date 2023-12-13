@@ -325,14 +325,14 @@ export const FlexBox = styled(Box)<HTMLFlexBoxProps>`
   justify-content: ${({ justifyContent = 'start' }): string => justifyContent};
   align-items: ${({ alignItems = 'start' }): string => alignItems};
   gap: ${({ gap = 0 }): string => gap * 0.25 + 'rem'};
-  borderradius: ${({ borderRadius }): string => borderRadius || 'none'};
+  ${({ borderRadius }): string | undefined => (borderRadius ? `border-radius: ${borderRadius};` : undefined)}
   ${({ flexWrap }): string | undefined => (flexWrap ? `flex-wrap: ${flexWrap}` : undefined)};
   ${({ flexBasis }): string | undefined => (flexBasis ? `flex-basis: ${flexBasis}` : undefined)};
   ${({ flexGrow }) => flexGrow && `flex-grow: ${flexGrow};`}
   ${({ flexShrink }) => flexShrink && `flex-shrink: ${flexShrink};`}
 `
 
-export const SvgBox = styled(FlexBox)<HTMLFlexBoxProps & { svgWidth?: number; svgHeight?: number, children?: ReactNode }>`
+export const SvgBox = styled(FlexBox)<{ svgWidth?: number; svgHeight?: number }>`
   line-height: 0;
 
   svg {

@@ -486,16 +486,9 @@ export interface TEntityClaimTemplateModel {
   creator: string
   createdAt: string
 }
-export interface TEntityClaimSubmissionModel {
-  maximum: number
-  startDate: string
-  endDate: string
-}
 export interface TEntityClaimModel {
   id: string
   template?: TEntityClaimTemplateModel
-  submissions?: TEntityClaimSubmissionModel
-  approvalTarget?: number
   isEncrypted?: boolean
   isHeadlineMetric?: boolean
 }

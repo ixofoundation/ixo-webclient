@@ -42,6 +42,7 @@ export function useGetBondDid(bondDid: string | undefined) {
     skip: !bondDid,
     pollInterval: 1000 * 5,
   })
+
   return { loading, error, data: data?.bond, refetch }
 }
 

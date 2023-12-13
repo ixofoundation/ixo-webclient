@@ -1,17 +1,14 @@
 import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { useGetBondDid } from 'graphql/bonds'
-import React, { useEffect, useMemo, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import React, { useMemo } from 'react'
+import { useHistory } from 'react-router-dom'
 import { useTheme } from 'styled-components'
 import Tab from './Tab'
 import { ReactComponent as AlphqbondIcon } from 'assets/images/icon-alphabond.svg'
 import { Spinner } from 'components/Spinner/Spinner'
-import { useIxoConfigs } from 'hooks/configs'
 import BigNumber from 'bignumber.js'
 import { useAccount } from 'hooks/account'
-import { convertDecCoinToCoin, percentFormat, toFixed } from 'utils/currency'
-import { GetCurrentPrice } from 'lib/protocol'
-import { Coin } from '@cosmjs/proto-signing'
+import { percentFormat, toFixed } from 'utils/currency'
 import { BondStateType } from 'redux/bond/bond.types'
 import { useMapBondDetail } from 'hooks/bond'
 
@@ -21,9 +18,8 @@ interface Props {
 
 const BondStatistics: React.FC<Props> = ({ bondDid }) => {
   const theme: any = useTheme()
-  const navigate =useNavigate()
+  const history = useHistory()
   const { data: bondDetail } = useGetBondDid(bondDid)
-  const { convertToDenom } = useIxoConfigs()
   const {
     token,
     reserveToken,
@@ -33,6 +29,7 @@ const BondStatistics: React.FC<Props> = ({ bondDid }) => {
     initialRaised,
     publicAlpha,
     outcomePayment,
+    currentPrice,
   } = useMapBondDetail(bondDetail)
   const { balances } = useAccount()
 
@@ -41,28 +38,8 @@ const BondStatistics: React.FC<Props> = ({ bondDid }) => {
     [balances, token],
   )
 
-  const [currentPrice, setCurrentPrice] = useState<Coin | undefined>(undefined)
-
-  useEffect(() => {
-    const run = async () => {
-      const res = await GetCurrentPrice(bondDid)
-      if (res) {
-        const { currentPrice } = res
-        console.log({ currentPrice })
-        setCurrentPrice(convertToDenom(convertDecCoinToCoin(currentPrice[0])))
-      }
-    }
-    if (bondDid) {
-      run()
-    }
-    return () => {
-      setCurrentPrice(undefined)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [bondDid])
-
   const onTabClick = (id: string) => () => {
-    navigate({ hash: id })
+    history.push({ hash: id })
   }
 
   if (!bondDetail) {
@@ -97,7 +74,6 @@ const BondStatistics: React.FC<Props> = ({ bondDid }) => {
           header={'Capital Raised'}
           body={new BigNumber(currentReserve).toFormat()}
           footer={`${percentFormat(currentReserve, initialRaised, 2)} of Funding Target`}
-          onClick={onTabClick('capital_raised')}
         />
       ) : (
         <Tab
@@ -107,7 +83,6 @@ const BondStatistics: React.FC<Props> = ({ bondDid }) => {
           header={'Payout'}
           body={new BigNumber(outcomePayment).toFormat()}
           footer={`${percentFormat(0, outcomePayment ?? 0, 0)} of Expected Payout`}
-          onClick={onTabClick('capital_raised')}
         />
       )}
       <Tab

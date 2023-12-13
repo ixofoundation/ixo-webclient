@@ -5,7 +5,7 @@ import { Typography } from 'components/Typography'
 import { useGetBondDid } from 'graphql/bonds'
 import { useAccount } from 'hooks/account'
 import useCurrentEntity, { useCurrentEntityBondLinkedEntity, useCurrentEntityProfile } from 'hooks/currentEntity'
-import { Navigate, Route, Routes, useMatch, useParams } from 'react-router-dom'
+import { Redirect, Route, useParams, useRouteMatch } from 'react-router-dom'
 import { useTheme } from 'styled-components'
 import { toTitleCase } from 'utils/formatters'
 import { requireCheckDefault } from 'utils/images'
@@ -16,7 +16,7 @@ import Overview from './Overview'
 const InvestmentDashboard: React.FC = (): JSX.Element => {
   const theme: any = useTheme()
   const { entityId } = useParams<{ entityId: string }>()
-  const isEditEntityRoute = useMatch('/entity/:entityId/dashboard/edit')
+  const isEditEntityRoute = useRouteMatch('/entity/:entityId/dashboard/edit')
   const { entityType, owner } = useCurrentEntity()
   const { name } = useCurrentEntityProfile()
   const { registered, address } = useAccount()
@@ -88,7 +88,7 @@ const InvestmentDashboard: React.FC = (): JSX.Element => {
   ]
 
   const bondLinkedEntity = useCurrentEntityBondLinkedEntity()
-  const bondDid = bondLinkedEntity?.id || ''
+  const bondDid = bondLinkedEntity?.id ?? ''
   const { data: bondDetail } = useGetBondDid(bondDid)
 
   return (
@@ -109,17 +109,15 @@ const InvestmentDashboard: React.FC = (): JSX.Element => {
       tabs={tabs}
       entityType={entityType}
     >
-      <Routes>
-        <Route  path='/entity/:entityId/dashboard/overview' element={<Overview/>} />
-        <Route  path='/entity/:entityId/dashboard/outcomes' element={<Outcomes/>} />
+      <Route exact path='/entity/:entityId/dashboard/overview' component={Overview} />
+      <Route exact path='/entity/:entityId/dashboard/outcomes' component={Outcomes} />
 
-        {registered && owner === address && (
-          <Route  path='/entity/:entityId/dashboard/edit' element={<EditEntity/>} />
-        )}
-        <Route  path='/entity/:entityId/dashboard'>
-          <Navigate to={`/entity/${entityId}/dashboard/overview`} />
-        </Route>
-      </Routes>
+      {registered && owner === address && (
+        <Route exact path='/entity/:entityId/dashboard/edit' component={EditEntity} />
+      )}
+      <Route exact path='/entity/:entityId/dashboard'>
+        <Redirect to={`/entity/${entityId}/dashboard/overview`} />
+      </Route>
     </Dashboard>
   )
 }

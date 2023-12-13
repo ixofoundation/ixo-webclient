@@ -179,7 +179,7 @@ const AccountsCard: React.FC<Props> = ({ accounts, onSelect }) => {
     <FlexBox
       position='relative'
       direction='column'
-      gap={4}
+      gap={8}
       p={8}
       background='#012D41'
       borderRadius='12px'
@@ -192,13 +192,13 @@ const AccountsCard: React.FC<Props> = ({ accounts, onSelect }) => {
         </Typography>
       </FlexBox>
 
-      <FlexBox position='absolute' top={'95px'} left={'0px'} width='100%' justifyContent='center' gap={2}>
+      <FlexBox position='absolute' top={'110px'} left={'0px'} width='100%' justifyContent='center' gap={2}>
         {Object.entries(AccountTypeToIconMap).map(([key, Icon]) => (
           <Tooltip key={key} text={capitalize(key) + ' accounts'}>
             <SvgBox
               width='32px'
               height='32px'
-              alignItems="center"
+              alignItems='center'
               justifyContent='center'
               svgWidth={6}
               svgHeight={6}

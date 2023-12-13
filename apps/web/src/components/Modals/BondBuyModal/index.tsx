@@ -11,13 +11,14 @@ import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 import { ModalInput, SignStep, SlippageSelector, SlippageType, TokenSelector, TXStatus } from '../common'
 import { useAccount } from 'hooks/account'
 import { Coin } from '@cosmjs/proto-signing'
-import { GetCurrentPrice, GetBuyPrice, Buy, SetNextAlpha } from 'lib/protocol'
-import { convertDecCoinToCoin, isLessThan, subtract, toFixed } from 'utils/currency'
+import { GetBuyPrice, Buy, SetNextAlpha } from 'lib/protocol'
+import { isLessThan, subtract, toFixed } from 'utils/currency'
 import { useIxoConfigs } from 'hooks/configs'
 import { useGetBondDid } from 'graphql/bonds'
 import { useTheme } from 'styled-components'
 import { NATIVE_DENOM } from 'constants/chains'
 import BigNumber from 'bignumber.js'
+import { useMapBondDetail } from 'hooks/bond'
 
 interface Props {
   open: boolean
@@ -30,6 +31,7 @@ const BondBuyModal: React.FC<Props> = ({ open, bondDid, setOpen }): JSX.Element 
   const { convertToDenom, convertToMinimalDenom } = useIxoConfigs()
   const { displayBalances: balances, signingClient, did, address, updateBalances } = useAccount()
   const { data: bondDetail } = useGetBondDid(bondDid)
+  const { publicAlpha, currentPrice } = useMapBondDetail(bondDetail)
   const steps = ['Bond', 'Amount', 'Order', 'Sign']
   const [currentStep, setCurrentStep] = useState<number>(0)
 
@@ -39,7 +41,6 @@ const BondBuyModal: React.FC<Props> = ({ open, bondDid, setOpen }): JSX.Element 
     [bondDetail],
   )
   const [slippage, setSlippage] = useState<SlippageType>(SlippageType.Ten)
-  const [currentPrice, setCurrentPrice] = useState<Coin | undefined>(undefined)
   const [buyAmount, setBuyAmount] = useState<string>('')
   const [estPayPrice, setEstPayPrice] = useState<Coin | undefined>(undefined)
   const availableAmount = useMemo(() => {
@@ -48,12 +49,6 @@ const BondBuyModal: React.FC<Props> = ({ open, bondDid, setOpen }): JSX.Element 
     }
     return subtract(bondDetail.maxSupply?.amount ?? '0', bondDetail.currentSupply?.amount ?? '0')
   }, [bondDetail])
-
-  // TODO: remove the code once tested
-  const publicAlpha = useMemo(
-    () => (bondDetail?.functionParameters ?? []).find((v: any) => v.param === 'publicAlpha')?.value,
-    [bondDetail],
-  )
 
   const [txStatus, setTxStatus] = useState<TXStatus>(TXStatus.PENDING)
   const [txHash, setTxHash] = useState<string>('')
@@ -108,20 +103,6 @@ const BondBuyModal: React.FC<Props> = ({ open, bondDid, setOpen }): JSX.Element 
     updateBalances()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
-  useEffect(() => {
-    const run = async () => {
-      const res = await GetCurrentPrice(bondDid)
-      if (res) {
-        const { currentPrice } = res
-        setCurrentPrice(convertToDenom(convertDecCoinToCoin(currentPrice[0])))
-      }
-    }
-    if (bondDid) {
-      run()
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [bondDid])
 
   useEffect(() => {
     const run = async (buyAmount: string) => {

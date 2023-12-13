@@ -81,6 +81,7 @@ export const ControlPanelWrapper = styled.div`
 export const ControlPanelScrollWrapper = styled.div`
   position: relative;
   transition: 0.3s all;
+  width: 100%;
 
   @media (min-width: ${deviceWidth.desktop}px) {
     position: sticky;

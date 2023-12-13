@@ -123,6 +123,9 @@ export const getTags = (entityConfig: any, ddoTagName: string): any[] => {
 }
 
 export function serviceEndpointToUrl(serviceEndpoint: string, service: Service[]): string {
+  if (service.length === 0) {
+    return serviceEndpoint
+  }
   let url = ''
   const [identifier, key] = serviceEndpoint.replace('{id}#', '').split(':')
   const usedService: Service | undefined = service.find(
@@ -130,7 +133,6 @@ export function serviceEndpointToUrl(serviceEndpoint: string, service: Service[]
   )
 
   if (usedService && usedService.type.toLocaleLowerCase() === NodeType.Ipfs.toLocaleLowerCase()) {
-    // url = `${usedService.serviceEndpoint}/${key}`
     url = `https://${key}.ipfs.w3s.link`
   } else if (usedService && usedService.type.toLocaleLowerCase() === NodeType.CellNode.toLocaleLowerCase()) {
     url = `${usedService.serviceEndpoint}${key}`
@@ -249,7 +251,6 @@ export function apiEntityToEntity(
             })
             .catch(() => undefined)
         } else if (item.type === 'ClaimSchema') {
-          //
           fetch(url)
             .then((response) => response.json())
             .then((response) => response.question)

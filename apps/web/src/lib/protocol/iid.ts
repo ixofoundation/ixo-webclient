@@ -306,14 +306,14 @@ export const GetAddLinkedClaimMsgs = (
 export const GetDeleteLinkedClaimMsgs = (
   entityId: string,
   signer: TSigner,
-  payload: LinkedClaim,
+  claimId: string,
 ): readonly EncodeObject[] => {
   return [
     {
       typeUrl: '/ixo.iid.v1beta1.MsgDeleteLinkedClaim',
       value: ixo.iid.v1beta1.MsgDeleteLinkedClaim.fromPartial({
         id: entityId,
-        claimId: payload.id,
+        claimId: claimId,
         signer: signer.address,
       }),
     },

@@ -40,7 +40,7 @@ const initialState: TEntityModel = {
 export const reducer = (state = initialState, action: CurrentEntityActionTypes): TEntityModel => {
   switch (action.type) {
     case CurrentEntityActions.UpdateEntity: {
-      return action.payload
+      return { ...state, ...action.payload }
     }
     case CurrentEntityActions.UpdateEntityResource: {
       const { key, data, merge } = action.payload

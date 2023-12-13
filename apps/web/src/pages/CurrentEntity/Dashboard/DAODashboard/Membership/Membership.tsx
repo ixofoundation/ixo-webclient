@@ -11,7 +11,6 @@ import { findDAObyDelegateAccount } from 'utils/entities'
 import useCurrentEntity from 'hooks/currentEntity'
 
 const Membership: React.FC = (): JSX.Element | null => {
-  console.log("membership is running to town")
   const { isImpactsDAO, linkedEntity, daoController } = useCurrentEntity()
   const { selectedDAOGroup, selectDAOGroup } = useCurrentEntity()
   const daos = useAppSelector(selectEntitiesByType('dao'))
@@ -24,7 +23,7 @@ const Membership: React.FC = (): JSX.Element | null => {
             )
             .map((member: Member) => {
               const subDAO = findDAObyDelegateAccount(daos, member.addr)[0]
-              const avatar = subDAO?.profile?.logo || ''
+              const avatar = subDAO?.profile?.logo || subDAO?.profile?.image
               const name = subDAO?.profile?.name || ''
               return { ...member, avatar, name }
             })

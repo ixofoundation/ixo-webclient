@@ -15,7 +15,6 @@ import {
   GetDeleteLinkedEntityMsgs,
   GetDeleteLinkedResourceMsgs,
   GetDeleteVerifcationMethodMsgs,
-  GetReplaceLinkedClaimMsgs,
   GetReplaceLinkedResourceMsgs,
   GetUpdateStartAndEndDateMsgs,
 } from 'lib/protocol'
@@ -41,7 +40,7 @@ export default function useEditEntity(): {
 } {
   const dispatch = useAppDispatch()
 
-  const { signer, signingClient } = useAccount()
+  const {  , signingClient } = useAccount()
   const editEntity: TEntityModel = useAppSelector(selectEditEntity)
   const { currentEntity } = useCurrentEntity()
   const { SaveProfile, SaveAdministrator, SavePage, SaveTags, SaveClaim } = useCreateEntity()
@@ -314,33 +313,13 @@ export default function useEditEntity(): {
 
     await Promise.all(
       Object.values(editEntity.claim ?? {}).map(async (claim) => {
-        if (Object.values(currentEntity.claim ?? {}).some((v) => v === claim)) {
-          // skip
-        } else if (
-          Object.values(currentEntity.claim ?? {})
-            .map((v) => v.template?.id)
-            .some((id) => id === claim.template?.id)
-        ) {
-          // replace
-          const res: CellnodeWeb3Resource | undefined = await SaveClaim(claim)
-          const claimProtocol = claimProtocols.find((protocol) => claim.template?.id.includes(protocol.id))
-          const linkedClaim = {
-            type: claimProtocol?.profile?.category || '',
-            id: `{id}#${claimProtocol?.profile?.name}`,
-            description: claimProtocol?.profile?.description || '',
-            serviceEndpoint: LinkedResourceServiceEndpointGenerator(res!, cellnodeService),
-            proof: LinkedResourceProofGenerator(res!, cellnodeService),
-            encrypted: 'false',
-            right: '',
-          }
-          messages = [...messages, ...GetReplaceLinkedClaimMsgs(editEntity.id, signer, linkedClaim)]
-        } else {
+        if (!Object.values(currentEntity.claim ?? {}).some((v) => v.id === claim.id)) {
           // add
           const res: CellnodeWeb3Resource | undefined = await SaveClaim(claim)
           const claimProtocol = claimProtocols.find((protocol) => claim.template?.id.includes(protocol.id))
           const linkedClaim = {
             type: claimProtocol?.profile?.category || '',
-            id: `{id}#${claimProtocol?.profile?.name}`,
+            id: utils.common.generateId(10),
             description: claimProtocol?.profile?.description || '',
             serviceEndpoint: LinkedResourceServiceEndpointGenerator(res!, cellnodeService),
             proof: LinkedResourceProofGenerator(res!, cellnodeService),
@@ -357,18 +336,7 @@ export default function useEditEntity(): {
       Object.values(currentEntity.claim ?? {}).map(async (claim) => {
         if (!Object.values(editEntity.claim ?? {}).some((v) => v === claim)) {
           // remove
-          const res: CellnodeWeb3Resource | undefined = await SaveClaim(claim)
-          const claimProtocol = claimProtocols.find((protocol) => claim.template?.id.includes(protocol.id))
-          const linkedClaim = {
-            type: claimProtocol?.profile?.category || '',
-            id: `{id}#${claimProtocol?.profile?.name}`,
-            description: claimProtocol?.profile?.description || '',
-            serviceEndpoint: LinkedResourceServiceEndpointGenerator(res!, cellnodeService),
-            proof: LinkedResourceProofGenerator(res!, cellnodeService),
-            encrypted: 'false',
-            right: '',
-          }
-          messages = [...messages, ...GetDeleteLinkedClaimMsgs(editEntity.id, signer, linkedClaim)]
+          messages = [...messages, ...GetDeleteLinkedClaimMsgs(editEntity.id, signer, claim.id)]
         }
         return true
       }),

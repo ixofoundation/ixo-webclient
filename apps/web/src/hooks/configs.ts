@@ -18,6 +18,7 @@ import {
   getExchangeConfigAction,
   getRelayersConfigAction,
 } from 'redux/configs/configs.actions'
+import { Schema, SchemaCategory } from 'pages/EntitiesExplorer/Components/EntitiesFilter/schema/types'
 
 export const CHAIN_ID = process.env.REACT_APP_CHAIN_ID
 export const chainNetwork: ChainNetwork = CHAIN_ID?.startsWith('ixo')
@@ -32,8 +33,8 @@ export const WALLET_STORE_LOCAL_STORAGE_KEY = 'ixo-webclient/connectedWalletId'
 interface IxoConfigsHookExports {
   paymentCoins: PaymentCoins[]
   getAssetPairs: (chainId?: string) => any[]
-  convertToDenom: (coin: Coin) => Coin | undefined
-  convertToMinimalDenom: (coin: Coin) => Coin | undefined
+  convertToDenom: (coin: Coin | undefined) => Coin | undefined
+  convertToMinimalDenom: (coin: Coin | undefined) => Coin | undefined
   getAssetsByChainId: (chainId: string) => AssetType[]
   getRelayerNameByChainId: (chainId: string) => string
   getRelayerNameAndChainIdList: () => { [key: string]: string }
@@ -195,4 +196,12 @@ export function useEntityConfig(type?: string): any {
   const entityConfigByType = useAppSelector(type ? selectEntityConfigByGivenType(type) : selectEntityConfigByType)
 
   return { ...entityConfigByType }
+}
+
+export function useClaimTypesConfig(): any {
+  const protocolConfig = useEntityConfig('protocol')
+  const filterSchema: Schema = protocolConfig.filterSchema as Schema
+  const ddoTags: SchemaCategory[] = filterSchema.ddoTags ?? []
+  const claimTypes = ddoTags.find((tag: SchemaCategory) => tag.name === 'Claim Type')?.tags ?? []
+  return claimTypes
 }

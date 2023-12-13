@@ -3486,6 +3486,16 @@
               "@type": "Tag",
               "name": "Impact",
               "icon": "dispute.svg"
+            },
+            {
+              "@type": "Tag",
+              "name": "Offset",
+              "icon": "dispute.svg"
+            },
+            {
+              "@type": "Tag",
+              "name": "Contribution",
+              "icon": "dispute.svg"
             }
           ]
         },

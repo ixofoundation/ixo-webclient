@@ -1,7 +1,7 @@
 import Dashboard from 'components/Dashboard/Dashboard'
 import { HeaderTab, Path } from 'components/Dashboard/types'
 import useCurrentEntity, { useCurrentEntityProfile } from 'hooks/currentEntity'
-import { Navigate, Route, Routes, useParams } from 'react-router-dom'
+import { Redirect, Route, useParams } from 'react-router-dom'
 import { requireCheckDefault } from 'utils/images'
 import ClaimQuestions from './ClaimQuestions'
 
@@ -43,17 +43,17 @@ const ClaimDashboard: React.FC = (): JSX.Element => {
 
   const tabs: HeaderTab[] = [
     {
-      iconClass: `icon-claim`,
-      linkClass: 'claim',
+      iconClass: `icon-deed`,
+      linkClass: 'deed',
       path: `/entity/${entityId}/overview`,
-      title: 'Claim',
-      tooltip: `Claim Overview`,
+      title: 'Deed',
+      tooltip: `Deed Overview`,
     },
     {
       iconClass: `icon-dashboard`,
       path: `/entity/${entityId}/dashboard`,
       title: 'Dashboard',
-      tooltip: `DAO Management`,
+      tooltip: `Deed Management`,
     },
   ]
 
@@ -68,12 +68,11 @@ const ClaimDashboard: React.FC = (): JSX.Element => {
       tabs={tabs}
       entityType={entityType}
     >
-      <Routes>
-        <Route  path='/entity/:entityId/dashboard/questions' element={<ClaimQuestions/>} />
-        <Route path='/entity/:entityId/dashboard'>
-          <Navigate to={`/entity/${entityId}/dashboard/questions`} />
-        </Route>
-      </Routes>
+      <Route exact path='/entity/:entityId/dashboard/questions' component={ClaimQuestions} />
+
+      <Route exact path='/entity/:entityId/dashboard'>
+        <Redirect to={`/entity/${entityId}/dashboard/questions`} />
+      </Route>
     </Dashboard>
   )
 }

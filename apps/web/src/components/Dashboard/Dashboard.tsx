@@ -1,4 +1,4 @@
-import React, { ReactNode, createContext } from 'react'
+import React, { createContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { deviceWidth } from 'constants/device'
 import HeaderTabs from 'components/HeaderTabs/HeaderTabs'
@@ -46,22 +46,26 @@ const Break = styled.div`
   }
 `
 
-export interface ThemeContext {
-  theme: string
-  isDark: boolean
-}
-
-export const DashboardThemeContext = createContext<ThemeContext>({
-  theme: 'light',
-  isDark: false,
-})
-
 export const DashboardThemes = {
   LIGHT: 'light',
   DARK: 'dark',
 } as const
 
 export type DashboardTheme = typeof DashboardThemes[keyof typeof DashboardThemes]
+
+export interface ThemeContext {
+  theme: string
+  isDark: boolean
+  setTheme: (theme: DashboardTheme) => void
+}
+
+export const DashboardThemeContext = createContext<ThemeContext>({
+  theme: 'light',
+  isDark: false,
+  setTheme: (theme: DashboardTheme) => {
+    //
+  },
+})
 
 interface Props {
   title: string | JSX.Element
@@ -71,7 +75,6 @@ interface Props {
   tabs?: HeaderTab[]
   entityType?: string
   matchType?: string
-  children?: ReactNode
 }
 
 const Dashboard: React.FunctionComponent<Props> = ({
@@ -85,9 +88,15 @@ const Dashboard: React.FunctionComponent<Props> = ({
   matchType = MatchType.strict,
 }) => {
   const entityTypeMap = useAppSelector(selectEntityConfig)
+  const [_theme, setTheme] = useState(theme)
+
+  useEffect(() => {
+    setTheme(theme)
+  }, [theme])
+
   return (
-    <DashboardThemeContext.Provider value={{ theme, isDark: theme === 'dark' }}>
-      <Container color={theme === 'dark' ? 'white' : 'black'}>
+    <DashboardThemeContext.Provider value={{ theme: _theme, isDark: _theme === 'dark', setTheme }}>
+      <Container color={_theme === 'dark' ? 'white' : 'black'}>
         <HeaderTabs
           buttons={tabs}
           matchType={matchType}
@@ -95,7 +104,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
           activeTabColor={entityTypeMap![entityType!]?.themeColor}
         />
         <Sidebar routes={subRoutes} />
-        <Board themeMode={theme}>
+        <Board themeMode={_theme}>
           <Breadcrumb subRoutes={subRoutes} baseRoutes={baseRoutes} />
           <Header title={title} />
           <Break />

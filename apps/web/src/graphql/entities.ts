@@ -1,19 +1,15 @@
 import { gql, useLazyQuery, useQuery } from '@apollo/client'
+import { useEffect, useState } from 'react'
+import { useAppDispatch } from 'redux/hooks'
+import { apiEntityToEntity, serviceEndpointToUrl } from 'utils/entities'
 import { validateEntityDid } from 'utils/validation'
+import { updateEntityAction, updateEntityPropertyAction } from 'redux/entitiesExplorer/entitiesExplorer.actions'
+import { useAccount } from 'hooks/account'
 
 // GET_ALL_ENTITIES
 const GET_ALL_ENTITIES = gql`
   query GetAllEntities($relayerNode: String!, $owner: String) {
-    entities(
-      filter: {
-        not: { type: { startsWith: "asset" } }
-        or: [
-          { relayerNode: { equalTo: $relayerNode } }
-          { id: { equalTo: $relayerNode } }
-          { owner: { equalTo: $owner } }
-        ]
-      }
-    ) {
+    entities {
       nodes {
         id
         accordedRight
@@ -53,6 +49,54 @@ export function useGetAllEntities(connectedAccount?: string) {
     variables: { relayerNode: process.env.REACT_APP_RELAYER_NODE, owner: connectedAccount },
   })
   return { loading, error, data: data?.entities?.nodes ?? [], refetch }
+}
+
+// GET_ALL_DEED_OFFER_ENTITIES
+const GET_ALL_DEED_OFFER_ENTITIES = gql`
+  query GetAllDeedOfferEntities {
+    entities(filter: { type: { equalTo: "deed/offer" } }) {
+      nodes {
+        id
+        type
+        linkedEntity
+        linkedResource
+        service
+      }
+    }
+  }
+`
+export function useGetAllDeedOfferEntities() {
+  const { loading, error, data, refetch } = useQuery(GET_ALL_DEED_OFFER_ENTITIES, { pollInterval: 5 * 1000 })
+  return { loading, error, data: data?.entities?.nodes ?? [], refetch }
+}
+
+export function useGetOfferFormByClaimCollectionId(collectionId: string) {
+  const { data: offerEntities } = useGetAllDeedOfferEntities()
+  const offerEntity = offerEntities.find((entity: any) =>
+    entity.linkedEntity.some((linkedEntity: any) => linkedEntity.id === collectionId),
+  )
+
+  const offerFormLinkedResource = offerEntity?.linkedResource.find(
+    (linkedResource: any) => linkedResource.type === 'surveyTemplate',
+  )
+  const service = offerEntity?.service
+  const [offerQuestion, setOfferQuestion] = useState({})
+
+  useEffect(() => {
+    if (offerFormLinkedResource && service.length > 0) {
+      const url = serviceEndpointToUrl(offerFormLinkedResource.serviceEndpoint, service)
+      fetch(url)
+        .then((response) => response.json())
+        .then((response) => response.question)
+        .then((question) => {
+          setOfferQuestion(question)
+        })
+        .catch(() => undefined)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [offerFormLinkedResource, service])
+
+  return offerQuestion
 }
 
 // GET_ENTITY_BY_ID
@@ -99,6 +143,8 @@ export function useGetEntityById(id: string) {
 }
 
 export function useGetEntityByIdLazyQuery() {
+  const dispatch = useAppDispatch()
+  const { cwClient } = useAccount()
   const [getEntityById, { loading, error, data, refetch }] = useLazyQuery(GET_ENTITY_BY_ID)
 
   const fetchEntityById = (id: string) => {
@@ -106,6 +152,17 @@ export function useGetEntityByIdLazyQuery() {
       getEntityById({ variables: { id } })
     }
   }
+
+  useEffect(() => {
+    if (data?.entity) {
+      const entityId = data?.entity.id
+      dispatch(updateEntityAction(data?.entity))
+      apiEntityToEntity({ entity: data?.entity, cwClient }, (key, data, merge = false) => {
+        dispatch(updateEntityPropertyAction(entityId, key, data, merge))
+      })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [JSON.stringify(data?.entity)])
 
   return { loading, error, data: data?.entity, refetch, fetchEntityById }
 }
@@ -208,7 +265,6 @@ const GET_ASSET_DEVICES_LENGTH_BY_COLLECTIONID_AND_OWNER = gql`
     entities(
       filter: {
         iidById: { context: { contains: [{ key: "class", val: $collectionId }] } }
-        type: { contains: "asset" }
         owner: { equalTo: $ownerAddress }
       }
     ) {

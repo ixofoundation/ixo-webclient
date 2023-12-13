@@ -12,8 +12,8 @@ import styled, { useTheme } from 'styled-components'
 import { ReactComponent as SearchIcon } from 'assets/images/icon-search.svg'
 import { ReactComponent as SlidersIcon } from 'assets/images/icon-sliders-h-solid.svg'
 import { useAppSelector } from 'redux/hooks'
-import { selectAllClaimProtocols } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
-import { useNavigate } from 'react-router-dom'
+import { selectAllDeedProtocols } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { useHistory } from 'react-router-dom'
 
 const ClaimProtocolList = styled(FlexBox)`
   height: 290px;
@@ -35,9 +35,9 @@ interface Props {
 }
 
 const ClaimSelectModal: React.FC<Props> = ({ open, onClose, onSelect }): JSX.Element => {
-  const navigate =useNavigate()
+  const history = useHistory()
   const theme: any = useTheme()
-  const claimProtocols = useAppSelector(selectAllClaimProtocols)
+  const claimProtocols = useAppSelector(selectAllDeedProtocols)
 
   console.log({ claimProtocols })
 
@@ -46,7 +46,7 @@ const ClaimSelectModal: React.FC<Props> = ({ open, onClose, onSelect }): JSX.Ele
   const [template, setTemplate] = useState<TEntityClaimTemplateModel>()
 
   const handleCreate = (): void => {
-    navigate('/create/entity/protocol/claim')
+    history.push('/create/entity/protocol/claim')
   }
   const handleContinue = (): void => {
     template && onSelect(template)

@@ -17,7 +17,7 @@ const ProtocolCard: React.FC<TEntityModel & { to?: string }> = (entity) => {
   const createdAt = entity.metadata?.created as unknown as string
 
   return (
-    <NavLink to={{ pathname: entity.to || `/entity/${id}/overview` }} style={{ textDecoration: 'none' }}>
+    <NavLink to={{ pathname: entity.to || `/entity/${id}/overview` }} style={{ width: '100%', textDecoration: 'none' }}>
       <FlexBox
         direction='column'
         borderRadius='8px'

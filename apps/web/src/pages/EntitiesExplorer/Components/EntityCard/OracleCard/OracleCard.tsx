@@ -25,13 +25,13 @@ import { useTheme } from 'styled-components'
 
 interface Props {
   id: string
-  profile: TEntityProfileModel
-  tags: TEntityDDOTagModel[]
+  profile?: TEntityProfileModel
+  tags?: TEntityDDOTagModel[]
 }
 
-const OracleCard: React.FunctionComponent<Props> = ({ id, profile, tags }) => {
+const OracleCard: React.FunctionComponent<Props> = ({ id, profile, tags = [] }) => {
   const theme: any = useTheme()
-  const sdgs = tags?.find(({ category }) => category === 'SDG')?.tags ?? []
+  const sdgs = Array.isArray(tags) ? tags.find(({ category }) => category === 'SDG')?.tags ?? [] : []
 
   return (
     <CardContainer>
@@ -50,7 +50,7 @@ const OracleCard: React.FunctionComponent<Props> = ({ id, profile, tags }) => {
           >
             <SDGIcons sdgs={sdgs} />
             <Description>
-              <p>{excerptText(profile?.description, 20)}</p>
+              <p>{excerptText(profile?.description || '', 20)}</p>
             </Description>
           </CardTopContainer>
         </CardTop>
@@ -59,7 +59,7 @@ const OracleCard: React.FunctionComponent<Props> = ({ id, profile, tags }) => {
             <CardTag tagColor={theme.ixoDarkRed}>Oracle</CardTag>
           </CardTags>
           <MainContent>
-            <MultiLineTitle>{excerptText(profile?.name, 10)}</MultiLineTitle>
+            <MultiLineTitle>{excerptText(profile?.name || '', 10)}</MultiLineTitle>
           </MainContent>
           <StatisticsContainer className='row'>
             <div className='col-4'>

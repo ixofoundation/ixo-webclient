@@ -55,8 +55,8 @@ const OverviewHero: React.FunctionComponent<Props> = ({
   const currentEntity = useCurrentEntity()
   const { search } = useLocation()
 
-  const entityType = currentEntity.entityType.replace('protocol/', '')
-  const title = entityConfig.title || toTitleCase(entityType.replace('protocol/', ''))
+  const entityType = currentEntity.entityType.replace('protocol/', '').replace('oracle/evaluation', 'oracle')
+  const title = entityConfig.title || toTitleCase(entityType)
   const themeColor = entityConfig.themeColor
 
   const headerTabs = useMemo(() => {

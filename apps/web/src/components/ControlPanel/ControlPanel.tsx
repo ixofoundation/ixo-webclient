@@ -5,11 +5,13 @@ import Close from 'assets/icons/Close'
 import { Schema, ConnectionType, ActionType } from './types'
 import Performance from './Performance/Performance'
 import Share from './Share/Share'
+import Actions from './Actions/Actions'
+import ClaimsCard from './Claims'
 
 interface Props {
   entityDid: string
   schema: Schema
-  claims?: any[]
+  entityType: string
   assistantPanelToggle?: () => void
 }
 
@@ -82,7 +84,7 @@ class ControlPanel extends React.Component<Props, State> {
   }
 
   render(): JSX.Element {
-    const { schema } = this.props
+    const { schema, entityType } = this.props
     const actions = schema?.actions
 
     const isViewedFromApp = !!window.MobileContext
@@ -103,7 +105,9 @@ class ControlPanel extends React.Component<Props, State> {
             ref={(ref): HTMLDivElement => (this.panelRef = ref!)}
           >
             <Performance />
-            <Share widget={actions} />
+            <Actions widget={actions} />
+            {!entityType.startsWith('protocol') && <ClaimsCard />}
+            <Share />
           </ControlPanelWrapper>
         </ControlPanelScrollWrapper>
       </>

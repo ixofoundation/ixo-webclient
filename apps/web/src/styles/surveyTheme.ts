@@ -41,5 +41,5 @@ export const themeJson = {
     '--sjs-special-yellow-light': 'rgba(255, 152, 20, 0.1)',
     '--sjs-special-yellow-forecolor': 'rgba(255, 255, 255, 1)',
   },
-  isPanelless: false,
+  isPanelless: true,
 }

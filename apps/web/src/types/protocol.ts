@@ -152,6 +152,11 @@ export enum EClaimType {
   Staking = 'Staking',
   Impact = 'Impact',
 }
+export enum EDeedType {
+  Proposal = 'Proposal',
+  Offer = 'Offer',
+  Request = 'Request',
+}
 export enum EClaimFeature {
   ShortText = 'Short Text',
   LongText = 'Long Text',

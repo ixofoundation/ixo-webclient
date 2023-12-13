@@ -1,8 +1,8 @@
 import { EntityType } from 'types/entities'
 import { DaoCard } from './DaoCard'
 import ProtocolCard from 'pages/EntitiesExplorer/Components/EntityCard/ProtocolCard'
-import OracleCard from 'pages/EntitiesExplorer/Components/EntityCard/OracleCard/OracleCard'
 import InvestmentCard from 'pages/EntitiesExplorer/Components/EntityCard/InvestmentCard'
+import { OracleCard } from './OracleCard'
 import { AssetCard } from './AssetCard'
 import { ProjectCard } from './ProjectCard'
 

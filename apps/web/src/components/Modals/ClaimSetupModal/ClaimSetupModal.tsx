@@ -2,7 +2,7 @@ import React, { useState, useMemo, useEffect } from 'react'
 import * as Modal from 'react-modal'
 import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
 import { ModalStyles, CloseButton, ModalWrapper } from 'components/Modals/styles'
-import { Button, DateRangePicker, InputWithLabel, Switch, TextArea } from 'pages/CreateEntity/Components'
+import { Button, InputWithLabel, Switch, TextArea } from 'pages/CreateEntity/Components'
 import { TEntityClaimModel, TEntityClaimTemplateModel } from 'types/entities'
 import { FlexBox } from 'components/App/App.styles'
 import ClaimTemplateCard from './ClaimTemplateCard'
@@ -29,13 +29,7 @@ const ClaimSetupModal: React.FC<Props> = ({ claim, open, onClose, onChange }): J
   const [formData, setFormData] = useState<TEntityClaimModel>(claim)
   const [claimSelectModalOpen, setClaimSelectModalOpen] = useState<boolean>(false)
   const canSubmit = useMemo(() => {
-    return (
-      formData.template &&
-      formData.submissions?.maximum &&
-      formData.submissions?.startDate &&
-      formData.submissions?.endDate &&
-      formData.approvalTarget
-    )
+    return formData.template
   }, [formData])
 
   useEffect(() => {
@@ -80,35 +74,6 @@ const ClaimSetupModal: React.FC<Props> = ({ claim, open, onClose, onChange }): J
                     label='Goal Description'
                     inputValue={formData.template?.description || ''}
                     disabled
-                  />
-                </FlexBox>
-                <FlexBox gap={4} className='w-100'>
-                  <InputWithLabel
-                    inputValue={formData.submissions?.maximum}
-                    label={'Max Submissions #'}
-                    handleChange={(maxSubmissions: string): void =>
-                      handleFormChange('submissions', { ...formData.submissions, maximum: maxSubmissions })
-                    }
-                  />
-                  <InputWithLabel
-                    inputValue={formData.approvalTarget}
-                    label={'Approval Target %'}
-                    handleChange={(approvalTarget: string): void => handleFormChange('approvalTarget', approvalTarget)}
-                  />
-                </FlexBox>
-                <FlexBox className='w-100'>
-                  <DateRangePicker
-                    id='protocol'
-                    startDate={formData.submissions?.startDate || ''}
-                    endDate={formData.submissions?.endDate || ''}
-                    withPortal
-                    onChange={(submissionStartDate, submissionEndDate) => {
-                      handleFormChange('submissions', {
-                        ...formData.submissions,
-                        startDate: submissionStartDate,
-                        endDate: submissionEndDate,
-                      })
-                    }}
                   />
                 </FlexBox>
               </FlexBox>

@@ -1,4 +1,4 @@
-import { Box, FlexBox } from 'components/App/App.styles'
+import { FlexBox } from 'components/App/App.styles'
 import ControlPanel from 'components/ControlPanel/ControlPanel'
 import { useEntityConfig } from 'hooks/configs'
 import useCurrentEntity, {
@@ -6,14 +6,23 @@ import useCurrentEntity, {
   useCurrentEntityLinkedFiles,
   useCurrentEntityProfile,
 } from 'hooks/currentEntity'
+import { useQuery } from 'hooks/window'
 import { useParams } from 'react-router-dom'
+import ClaimForm from './ClaimForm'
 import { OverviewHero } from '../Components'
 import { LinkedFiles } from './LinkedFiles'
 import { PageContent } from './PageContent'
+import OfferForm from './OfferForm'
+import { AgentRoles } from 'types/models'
 
 const Overview: React.FC = () => {
-  const { entityId = "" } = useParams<{ entityId: string }>()
-  const { startDate, page } = useCurrentEntity()
+  const { entityId } = useParams<{ entityId: string }>()
+  const { getQuery } = useQuery()
+  const claimId = getQuery('claimId')
+  const claimCollectionId = getQuery('collectionId')
+  const agentRole: AgentRoles = getQuery('agentRole') as AgentRoles
+
+  const { startDate, page, entityType } = useCurrentEntity()
   const { controlPanelSchema } = useEntityConfig()
   const { name, description, location } = useCurrentEntityProfile()
   const { displayName: creatorName, logo: creatorLogo } = useCurrentEntityCreator()
@@ -34,12 +43,18 @@ const Overview: React.FC = () => {
             creatorName={creatorName}
             creatorLogo={creatorLogo}
           />
-          <PageContent page={page} />
-          <LinkedFiles linkedFiles={linkedFiles} />
+          {!claimId && !claimCollectionId && (
+            <>
+              <PageContent page={page} />
+              <LinkedFiles linkedFiles={linkedFiles} />
+            </>
+          )}
+          {claimCollectionId && agentRole && <OfferForm claimCollectionId={claimCollectionId} agentRole={agentRole} />}
+          {claimId && <ClaimForm claimId={claimId} />}
         </FlexBox>
-        <Box className='col-lg-3' background='#F0F3F9'>
-          <ControlPanel schema={controlPanelSchema} entityDid={entityId} claims={[]} />
-        </Box>
+        <FlexBox className='col-lg-3' background='#F0F3F9'>
+          <ControlPanel schema={controlPanelSchema} entityDid={entityId} entityType={entityType} />
+        </FlexBox>
       </div>
     </div>
   )
