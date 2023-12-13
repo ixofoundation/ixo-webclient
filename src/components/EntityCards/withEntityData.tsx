@@ -103,7 +103,7 @@ export function transformEntityData(entity: TEntityModel): any {
     title: entity.profile?.brand,
     logo: entity.profile?.logo,
     tags: entity.tags?.slice(0, 2),
-    type: '',
+    type: entity.type,
     assetNumber: '',
     maxSupply: 0,
   }
