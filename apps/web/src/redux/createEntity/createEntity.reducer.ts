@@ -34,7 +34,7 @@ export const initialState: TCreateEntityState = {
 
   // for Claim
   claimQuestions: {},
-  claimQuestionJSON: { pages: [] },
+  questionJSON: { pages: [] },
 
   // extra
   localisation: ELocalisation.EN,
@@ -42,9 +42,6 @@ export const initialState: TCreateEntityState = {
   breadCrumbs: [{ text: 'Protocol', link: '/create/entity' }],
   title: '',
   subtitle: '',
-
-  // temp solution for protocol flow
-  protocolType: '',
 } as any
 
 export const reducer = (state = initialState, action: TCreateEntityActionTypes): TCreateEntityState => {
@@ -54,8 +51,6 @@ export const reducer = (state = initialState, action: TCreateEntityActionTypes):
       const entityType = action.payload
       const ls = localStorage.getItem(`ixo.create.entity.${entityType}`)
       const savedState = JSON.parse(ls!)
-
-      console.log({entityType, ls, savedState})
 
       return {
         stepNo: initialState.stepNo,
@@ -157,13 +152,10 @@ export const reducer = (state = initialState, action: TCreateEntityActionTypes):
     case ECreateEntityActions.UpdateClaimQuestions:
       updatedState = { ...state, claimQuestions: action.payload }
       break
-    case ECreateEntityActions.UpdateClaimQuestionJSON:
-      updatedState = { ...state, claimQuestionJSON: action.payload }
+    case ECreateEntityActions.UpdateQuestionJSON:
+      updatedState = { ...state, questionJSON: action.payload }
       break
 
-    case ECreateEntityActions.UpdateProtocolType:
-      updatedState = { ...state, protocolType: action.payload }
-      break
     default:
       return state
   }

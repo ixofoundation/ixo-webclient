@@ -1,7 +1,7 @@
 import Dashboard from 'components/Dashboard/Dashboard'
 import { HeaderTab, Path } from 'components/Dashboard/types'
 import useCurrentEntity, { useCurrentEntityProfile } from 'hooks/currentEntity'
-import { Redirect, Route, useParams, useRouteMatch } from 'react-router-dom'
+import { Navigate, Route, useMatch, useParams } from 'react-router-dom'
 import { requireCheckDefault } from 'utils/images'
 import Accounts from './Accounts'
 import Payments from './Payments'
@@ -11,7 +11,7 @@ const InvestmentFunding: React.FC = (): JSX.Element => {
   const { entityId } = useParams<{ entityId: string }>()
   const { entityType } = useCurrentEntity()
   const { name } = useCurrentEntityProfile()
-  const isClaimScreenRoute = useRouteMatch('/entity/:entityId/treasury/claims')
+  const isClaimScreenRoute = useMatch('/entity/:entityId/treasury/claims')
 
   const routes: Path[] = [
     {
@@ -37,7 +37,6 @@ const InvestmentFunding: React.FC = (): JSX.Element => {
       icon: requireCheckDefault(require('assets/img/sidebar/check.svg')),
       sdg: 'Claims',
       tooltip: 'Claims',
-      strict: false,
     },
   ]
 
@@ -95,11 +94,11 @@ const InvestmentFunding: React.FC = (): JSX.Element => {
       tabs={tabs}
       entityType={entityType}
     >
-      <Route exact path='/entity/:entityId/treasury/accounts' component={Accounts} />
-      <Route exact path='/entity/:entityId/treasury/payments' component={Payments} />
-      <Route exact path='/entity/:entityId/treasury/events' component={Events} />
-      <Route exact path='/entity/:entityId/treasury'>
-        <Redirect to={`/entity/${entityId}/treasury/accounts`} />
+      <Route path='/entity/:entityId/treasury/accounts' element={<Accounts />} />
+      <Route path='/entity/:entityId/treasury/payments' element={<Payments />} />
+      <Route path='/entity/:entityId/treasury/events' element={<Events />} />
+      <Route path='/entity/:entityId/treasury'>
+        <Navigate to={`/entity/${entityId}/treasury/accounts`} />
       </Route>
     </Dashboard>
   )

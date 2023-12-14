@@ -8,7 +8,7 @@ import { HorizontalLine } from 'components/HorizontalLine'
 import { Tag } from 'components'
 import { getEntityIcon } from 'utils/getEntityIcon'
 import { ProgressBar } from 'components/ProgressBar/ProgressBar'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 interface Props extends HTMLFlexBoxProps {
   id: string
@@ -41,12 +41,12 @@ export const ProjectCard: React.FC<Props> = ({
   ...rest
 }): JSX.Element | null => {
   const theme: any = useTheme()
-  const history = useHistory()
+  const navigate = useNavigate()
 
   return (
     <FlexBox
       onClick={() =>
-        history.push({
+        navigate({
           pathname: `/entity/${id}/overview`,
         })
       }

@@ -67,14 +67,9 @@ import {
   selectCreateEntityHeadlineClaim,
   selectCreateEntityQuestionJSON,
 } from 'redux/createEntity/createEntity.selectors'
-import {
-  CreateEntityStrategyMap,
-  TCreateEntityStepType,
-  TCreateEntityStrategyType,
-} from 'redux/createEntity/strategy-map'
 import { TCreateEntityModel } from 'redux/createEntity/createEntity.types'
 import { useAccount } from './account'
-import { CreateEntity } from 'lib/protocol'
+import { CreateEntityMessage } from 'lib/protocol'
 import { customQueries, utils } from '@ixo/impactxclient-sdk'
 import { CellnodePublicResource, CellnodeWeb3Resource } from '@ixo/impactxclient-sdk/types/custom_queries/cellnode'
 import {
@@ -84,7 +79,7 @@ import {
   LinkedResource,
   Service,
 } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
-import { WasmInstantiateTrx } from 'lib/protocol/cosmwasm'
+import { WasmInstantiateMessage } from 'lib/protocol/cosmwasm'
 import { chainNetwork } from './configs'
 import { Verification } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/tx'
 import { Cw20Coin } from '@ixo/impactxclient-sdk/types/codegen/Cw20Base.types'
@@ -92,28 +87,8 @@ import BigNumber from 'bignumber.js'
 import { LinkedResourceProofGenerator, LinkedResourceServiceEndpointGenerator } from 'utils/entities'
 import { selectAllClaimProtocols } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { ELocalisation, TQuestion } from 'types/protocol'
-
-export function useCreateEntityStrategy(): {
-  getStrategyByEntityType: (entityType: string) => TCreateEntityStrategyType
-  getStrategyAndStepByPath: (path: string) => { strategy: TCreateEntityStrategyType; step: TCreateEntityStepType }
-} {
-  const getStrategyByEntityType = (entityType: string): TCreateEntityStrategyType => {
-    return CreateEntityStrategyMap[entityType]
-  }
-  const getStrategyAndStepByPath = (
-    path: string,
-  ): { strategy: TCreateEntityStrategyType; step: TCreateEntityStepType } => {
-    const strategy = Object.values(CreateEntityStrategyMap).find(({ steps }) =>
-      Object.values(steps).some(({ url }) => url === path),
-    )
-    const step = Object.values(strategy?.steps ?? {}).find(({ url }) => url === path)
-    return { strategy, step } as any
-  }
-  return {
-    getStrategyByEntityType,
-    getStrategyAndStepByPath,
-  }
-}
+import { useWallet } from '@ixo-webclient/wallet-connector'
+import { DeliverTxResponse } from '@cosmjs/stargate'
 
 interface TCreateEntityStateHookRes {
   entityType: string
@@ -144,7 +119,6 @@ interface TCreateEntityStateHookRes {
   validateRequiredProperties: boolean
   updateEntityType: (entityType: string) => void
   clearEntity: () => void
-  gotoStep: (type: 1 | -1) => void
   gotoStepByNo: (no: number) => void
   updateBreadCrumbs: (breadCrumbs: { text: string; link?: string }[]) => void
   updateTitle: (title: string) => void
@@ -213,26 +187,6 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
   const clearEntity = (): void => {
     dispatch(clearEntityAction())
   }
-  const gotoStep = useCallback(
-    (type: 1 | -1): void => {
-      if (!entityType) return
-      const { steps } = CreateEntityStrategyMap[entityType]
-      const nextStep = stepNo + 1
-      const prevStep = stepNo - 1
-
-      if (type === 1) {
-        if (nextStep && steps[nextStep]) {
-          dispatch(gotoStepAction(nextStep))
-        }
-      } else if (type === -1) {
-        if (prevStep && steps[prevStep]) {
-          dispatch(gotoStepAction(prevStep))
-        }
-      }
-    },
-    // eslint-disable-next-line
-    [entityType, stepNo],
-  )
   const gotoStepByNo = useCallback(
     (no: number): void => {
       dispatch(gotoStepAction(no))
@@ -340,7 +294,6 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
     validateRequiredProperties,
     updateEntityType,
     clearEntity,
-    gotoStep,
     gotoStepByNo,
     updateBreadCrumbs,
     updateTitle,
@@ -418,6 +371,8 @@ export function useCreateEntity(): TCreateEntityHookRes {
   const daoVotingCw20StakedContractCode = customQueries.contract.getContractCode(chainNetwork, 'dao_voting_cw20_staked')
   const cw20BaseContractCode = customQueries.contract.getContractCode(chainNetwork, 'cw20_base')
   const cw20StakeContractCode = customQueries.contract.getContractCode(chainNetwork, 'cw20_stake')
+
+  const { execute } = useWallet()
 
   /**
    * @description auto choose service for uploading data
@@ -847,8 +802,10 @@ export function useCreateEntity(): TCreateEntityHookRes {
 
   const CreateProtocol = async (): Promise<string> => {
     try {
-      const res = await CreateEntity(signingClient, signer, [{ entityType: 'protocol' }])
-      const protocolDid = utils.common.getValueFromEvents(res!, 'wasm', 'token_id')
+      const createEntityMessagePayload = await CreateEntityMessage(signer, [{ entityType: 'protocol' }])
+
+      const response = (await execute(createEntityMessagePayload)) as unknown as DeliverTxResponse
+      const protocolDid = utils.common.getValueFromEvents(response!, 'wasm', 'token_id')
       console.log('CreateProtocol', { protocolDid })
       return protocolDid
     } catch (e) {
@@ -883,7 +840,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
         controller = [],
       } = payload
       const { startDate, endDate } = createEntityState
-      const res = await CreateEntity(signingClient, signer, [
+      const createEntityMessagePayload = await CreateEntityMessage(signer, [
         {
           entityType,
           entityStatus: 0,
@@ -900,15 +857,17 @@ export function useCreateEntity(): TCreateEntityHookRes {
           endDate,
         },
       ])
-      const did = utils.common.getValueFromEvents(res, 'wasm', 'token_id')
+
+      const response = (await execute(createEntityMessagePayload)) as unknown as DeliverTxResponse
+      const did = utils.common.getValueFromEvents(response, 'wasm', 'token_id')
       const adminAccount = utils.common.getValueFromEvents(
-        res,
+        response,
         'ixo.entity.v1beta1.EntityCreatedEvent',
         'entity',
         (s) => s.accounts.find((a: any) => a.name === 'admin').address,
       )
 
-      console.log('CreateEntityBase', { did, adminAccount }, res)
+      console.log('CreateEntityBase', { did, adminAccount }, response)
       return { did, adminAccount }
     } catch (e) {
       console.error('CreateEntityBase', e)
@@ -1063,13 +1022,19 @@ export function useCreateEntity(): TCreateEntityHookRes {
     if (!signingClient) {
       throw new Error('Connect Wallet First')
     }
-    const res = await WasmInstantiateTrx(signingClient, signer, [message])
-    console.log('CreateDAOCoreByGroupId', res)
-    const contractAddress = utils.common.getValueFromEvents(res!, 'instantiate', '_contract_address')
-    if (!contractAddress) {
-      throw new Error(res?.rawLog)
+    const instantiateWasmPayload = await WasmInstantiateMessage(signer, [message])
+
+    if (instantiateWasmPayload) {
+      const response = (await execute(instantiateWasmPayload)) as unknown as DeliverTxResponse
+      console.log('CreateDAOCoreByGroupId', response)
+      const contractAddress = utils.common.getValueFromEvents(response!, 'instantiate', '_contract_address')
+      if (!contractAddress) {
+        throw new Error(response?.rawLog)
+      }
+      return contractAddress
     }
-    return contractAddress
+
+    return 'Error'
   }
 
   return {

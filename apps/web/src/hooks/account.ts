@@ -34,18 +34,12 @@ import {
   updateRegisteredAction,
   updateSigningClientAction,
 } from 'redux/account/account.actions'
-import {} from 'redux/account/account.types'
 import { GetBalances, KeyTypes, TSigner } from 'lib/protocol'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 import { SigningCosmWasmClient, CosmWasmClient } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/cosmwasm-stargate'
 import { ConnectedWallet, WalletType } from 'types/wallet'
 import { Cw20Token, NativeToken } from 'types/tokens'
-import { getConnectedWalletInfo } from 'utils/account'
-import { KeplrExtensionWallet } from 'wallets/keplr/extension'
-import { getKeplrChainInfo } from '@ixo/cosmos-chain-resolver'
-import { WALLET_STORE_LOCAL_STORAGE_KEY, useIxoConfigs, chainNetwork } from './configs'
-import { ChainInfo } from '@keplr-wallet/types'
-import { errorToast } from 'utils/toast'
+import { WALLET_STORE_LOCAL_STORAGE_KEY, useIxoConfigs } from './configs'
 import { useWallet } from '@ixo-webclient/wallet-connector'
 import { useEffect } from 'react'
 
@@ -110,7 +104,7 @@ export function useAccount(): {
       dispatch(connectAction(wallet as ConnectedWallet))
       localStorage.setItem(WALLET_STORE_LOCAL_STORAGE_KEY, JSON.stringify(wallet))
     }
-  }, [wallet])
+  }, [wallet, dispatch])
 
   const connect = async ({ impactXData }: { impactXData?: any }): Promise<void> => {
     console.log(impactXData)

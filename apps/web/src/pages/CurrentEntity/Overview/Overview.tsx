@@ -53,7 +53,7 @@ const Overview: React.FC = () => {
           {claimId && <ClaimForm claimId={claimId} />}
         </FlexBox>
         <FlexBox className='col-lg-3' background='#F0F3F9'>
-          <ControlPanel schema={controlPanelSchema} entityDid={entityId} entityType={entityType} />
+          <ControlPanel schema={controlPanelSchema} entityDid={entityId ?? ""} entityType={entityType} />
         </FlexBox>
       </div>
     </div>

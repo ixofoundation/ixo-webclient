@@ -23,10 +23,11 @@ const SetupDataCollection = (): JSX.Element => {
   const previousStep = useAppSelector(selectPreviousStep)
   const nextStep = useAppSelector(selectNextStep)
 
-  const { claimQuestionJSON, updateClaimQuestionJSON } = useCreateEntityState()
+  const { questionJSON, updateQuestionJSON } = useCreateEntityState()
+
 
   const creator = new SurveyCreator({ options })
-  creator.JSON = claimQuestionJSON
+  creator.JSON = questionJSON
 
   const handlePrev = (): void => {
     if (previousStep?.number) {
@@ -34,7 +35,7 @@ const SetupDataCollection = (): JSX.Element => {
     }
   }
   const handleNext = (): void => {
-    updateClaimQuestionJSON(creator.JSON)
+    updateQuestionJSON(creator.JSON)
 
     if (nextStep?.number) {
       navigate(nextStep)

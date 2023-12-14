@@ -7,7 +7,7 @@ import {
   QueryLastBatchResponse,
 } from '@ixo/impactxclient-sdk/types/codegen/ixo/bonds/v1beta1/query'
 import { DeliverTxResponse } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/stargate'
-import { fee, RPC_ENDPOINT, TSigner } from './common'
+import { fee, RPC_ENDPOINT } from './common'
 import { Coin } from '@cosmjs/proto-signing'
 import { MsgCreateBond } from '@ixo/impactxclient-sdk/types/codegen/ixo/bonds/v1beta1/tx'
 import { BondStateType } from 'redux/bond/bond.types'

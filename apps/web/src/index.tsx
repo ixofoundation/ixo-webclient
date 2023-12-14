@@ -1,17 +1,14 @@
 import reportWebVitals from './reportWebVitals'
-import * as ReactDOM from 'react-dom'
-import { Provider, ReactReduxContext } from 'react-redux'
+import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
-import { store, persistor, history } from './redux/store'
-import { AppConnected } from './components/App/App'
+import { store, persistor } from './redux/store'
 import { GlobalStyle } from 'styles/globalStyles'
 import * as Sentry from '@sentry/react'
 import { BrowserTracing } from '@sentry/tracing'
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client'
-import { StrictMode, Suspense, createContext, useEffect, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import { createRoot } from 'react-dom/client'
-import { Route, BrowserRouter, Routes, createBrowserRouter, createRoutesFromElements } from 'react-router-dom'
-import { Flex, MantineProvider, Modal, Text } from '@mantine/core'
+import { MantineProvider } from '@mantine/core'
 import { WalletModal, WalletProvider } from '@ixo-webclient/wallet-connector'
 import '@mantine/core/styles.css'
 import { chainNetwork } from 'hooks/configs'
@@ -22,10 +19,8 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { selectCustomTheme } from 'redux/theme/theme.selectors'
 import { theme } from 'components/App/App.styles'
 import { selectEntityConfig } from 'redux/configs/configs.selectors'
-import { changeEntitiesType, getEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.actions'
-import { getCustomTheme } from 'redux/theme/theme.actions'
+import { changeEntitiesType } from 'redux/entitiesExplorer/entitiesExplorer.actions'
 import { ThemeProvider } from 'styled-components'
-import { useAccount } from 'hooks/account'
 import { Spinner } from 'components/Spinner/Spinner'
 
 process.env.NODE_ENV === 'production' &&
@@ -41,8 +36,6 @@ const client = new ApolloClient({
   uri: process.env.REACT_APP_BLOCK_SYNC_GRAPHQL,
   cache: new InMemoryCache({ addTypename: false }),
 })
-
-const StoreContext = createContext(null)
 
 const App = () => {
   const [customizedTheme, setCustomizedTheme] = useState<any>(theme)
@@ -78,6 +71,7 @@ const App = () => {
     }
 
     setCustomizedTheme(newCustomizedTheme)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [entityConfig])
 
   console.log({ entityConfig, customTheme })

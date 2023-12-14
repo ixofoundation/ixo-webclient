@@ -12,7 +12,7 @@ import { PageContent } from '../Overview/PageContent'
 import { InstructionsToExecute } from './InstructionsToExecute'
 
 const Overview: React.FC = () => {
-  const { entityId, deedId } = useParams<{ entityId: string; deedId: string }>()
+  const { entityId = "", deedId = "" } = useParams<{ entityId: string; deedId: string }>()
   const { controlPanelSchema, entityType } = useEntityConfig()
   const entity = useAppSelector(selectEntityById(deedId))
 
@@ -39,7 +39,7 @@ const Overview: React.FC = () => {
           />
         </FlexBox>
         <Box className='col-lg-3' background='#F0F3F9'>
-          <ControlPanel schema={controlPanelSchema} entityDid={entityId} entityType={entityType} />
+          <ControlPanel schema={controlPanelSchema} entityDid={entityId ?? ""} entityType={entityType} />
         </Box>
       </div>
     </div>

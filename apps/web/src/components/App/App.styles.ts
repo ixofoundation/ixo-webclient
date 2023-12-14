@@ -332,7 +332,7 @@ export const FlexBox = styled(Box)<HTMLFlexBoxProps>`
   ${({ flexShrink }) => flexShrink && `flex-shrink: ${flexShrink};`}
 `
 
-export const SvgBox = styled(FlexBox)<{ svgWidth?: number; svgHeight?: number }>`
+export const SvgBox = styled(FlexBox)<HTMLFlexBoxProps & { svgWidth?: number; svgHeight?: number, children?: ReactNode }>`
   line-height: 0;
 
   svg {

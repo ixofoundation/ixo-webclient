@@ -1,5 +1,5 @@
 import { useCallback, useState, useEffect } from 'react'
-import { SignX, hashTransactData } from '@ixo/signx-sdk'
+import { SignX } from '@ixo/signx-sdk'
 import { toHex } from '@cosmjs/encoding'
 import { AccountState } from 'redux/account/account.types'
 import { createRegistry } from '@ixo/impactxclient-sdk'

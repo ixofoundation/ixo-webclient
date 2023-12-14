@@ -6,7 +6,7 @@ import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
 import { ApplyToJoinModal } from 'components/Modals'
 import { useAppSelector } from 'redux/hooks'
 import { selectAllDeedOffersForEntityId } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
-import { useHistory, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { TEntityModel } from 'types/entities'
 import { AgentRoles } from 'types/models'
 
@@ -15,8 +15,9 @@ interface Props {
 }
 
 const Actions: React.FC<Props> = () => {
-  const history = useHistory()
-  const { entityId } = useParams<{ entityId: string }>()
+  const navigate = useNavigate()
+  const location = useLocation()
+  const { entityId = "" } = useParams<{ entityId: string }>()
   const deedOffers: TEntityModel[] = useAppSelector(selectAllDeedOffersForEntityId(entityId))
   const [applyToJoinModalOpen, setApplyToJoinModalOpen] = useState(false)
 
@@ -24,7 +25,7 @@ const Actions: React.FC<Props> = () => {
     const search = new URLSearchParams()
     search.append('collectionId', collectionId)
     search.append('agentRole', agentRole)
-    history.push({ pathname: history.location.pathname, search: search.toString() })
+    navigate({ pathname: location.pathname, search: search.toString() })
   }
 
   return (

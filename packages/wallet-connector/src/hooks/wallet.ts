@@ -2,14 +2,21 @@ import { WalletType } from "@ixo-webclient/types";
 import { useContext } from "react";
 import { WalletContextType, WalletContext } from "contexts";
 import { createSigningClient } from "@ixo/impactxclient-sdk";
+import { DeliverTxResponse } from "@cosmjs/stargate";
+import { StdFee } from "@ixo/impactxclient-sdk/node_modules/@cosmjs/amino";
 import { Keplr } from "keplr";
 import { CHAIN_ID } from "@constants";
 import * as store from "store";
 
+type ExecuteProps = {
+  messages: any[];
+  fee: StdFee | undefined;
+};
+
 type UseWalletProps = WalletContextType & {
   connectWallet: (type: WalletType) => Promise<void>;
   disconnectWallet: () => void;
-  execute: (data: any) => void;
+  execute: (data: ExecuteProps) => Promise<DeliverTxResponse | string>;
 };
 
 const KeplrWallet = new Keplr();
@@ -30,7 +37,7 @@ export const useWallet = (): UseWalletProps => {
 
     if (type === WalletType.ImpactXMobile) {
       const loginData = await context.signXWallet.init();
-      console.log({loginData})
+      console.log({ loginData });
       context.setMobile({
         qr: JSON.stringify(loginData),
         timeout: Number(new Date(loginData.timeout).getTime()),
@@ -47,15 +54,10 @@ export const useWallet = (): UseWalletProps => {
     }
   };
 
-  const execute = async (data: {
-    messages: any[];
-    fee: {
-      amount: { amount: string; denom: string }[];
-      gas: string;
-    };
-  }) => {
+  const execute = async (
+    data: ExecuteProps
+  ): Promise<DeliverTxResponse | string> => {
     const { messages, fee } = data;
-    console.log({ data });
     if (context?.wallet?.wallet?.type === WalletType.ImpactXMobile) {
       try {
         context.setMobile((prevState) => ({ ...prevState, transacting: true }));
@@ -82,7 +84,7 @@ export const useWallet = (): UseWalletProps => {
             transacting: false,
           }));
           context.close();
-          return transaction;
+          return transaction as DeliverTxResponse;
         }
       } catch (error) {
         context.setMobile((prevState) => ({
@@ -116,13 +118,22 @@ export const useWallet = (): UseWalletProps => {
           return client.signAndBroadcast(
             context?.wallet?.address,
             messages as any,
-            fee
-          );
+            fee ?? {
+              amount: [
+                {
+                  denom: "uixo",
+                  amount: "100000",
+                },
+              ],
+              gas: "3000000",
+            }
+          ) as unknown as DeliverTxResponse;
         });
       } catch (error) {
         console.error({ error });
       }
     }
+    return String("Wallet not found");
   };
 
   const disconnectWallet = (): void => {

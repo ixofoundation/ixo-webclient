@@ -40,7 +40,7 @@ export default function useEditEntity(): {
 } {
   const dispatch = useAppDispatch()
 
-  const {  , signingClient } = useAccount()
+  const { signer , signingClient } = useAccount()
   const editEntity: TEntityModel = useAppSelector(selectEditEntity)
   const { currentEntity } = useCurrentEntity()
   const { SaveProfile, SaveAdministrator, SavePage, SaveTags, SaveClaim } = useCreateEntity()

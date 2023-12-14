@@ -46,16 +46,13 @@ export interface TCreateEntityState extends TCreateEntityModel {
   claimQuestions?: {
     [id: string]: TQuestion
   }
-  claimQuestionJSON?: any
+  questionJSON?: any
 
   // extra
   stepNo: number
   breadCrumbs: { text: string; link?: string }[]
   title: string
   subtitle: string
-
-  // temp solution for protocol type
-  protocolType: string
 }
 
 export enum ECreateEntityActions {
@@ -88,9 +85,7 @@ export enum ECreateEntityActions {
   UpdateProposal = 'ixo/create/entity/UPDATE_PROPOSAL',
   // for Claim
   UpdateClaimQuestions = 'ixo/create/entity/UPDATE_CLAIM_QUESTIONS',
-  UpdateClaimQuestionJSON = 'ixo/create/entity/UPDATE_CLAIM_QUESTION_JSON',
-  // for Protocol
-  UpdateProtocolType = 'ixo/create/entity/UPDATE_PROTOCOL_TYPE',
+  UpdateQuestionJSON = 'ixo/create/entity/UPDATE_QUESTION_JSON',
 }
 
 export interface TUpdateEntityTypeAction {
@@ -196,14 +191,9 @@ export interface TUpdateClaimQuestionsAction {
     [id: string]: TQuestion
   }
 }
-export interface TUpdateClaimQuestionJSONAction {
-  type: typeof ECreateEntityActions.UpdateClaimQuestionJSON
+export interface TUpdateQuestionJSONAction {
+  type: typeof ECreateEntityActions.UpdateQuestionJSON
   payload: any
-}
-
-export interface TUpdateProtocolType {
-  type: typeof ECreateEntityActions.UpdateProtocolType
-  payload: string
 }
 
 export type TCreateEntityActionTypes =
@@ -232,5 +222,4 @@ export type TCreateEntityActionTypes =
   | TUpdateDAOControllerAction
   | TUpdateProposalAction
   | TUpdateClaimQuestionsAction
-  | TUpdateClaimQuestionJSONAction
-  | TUpdateProtocolType
+  | TUpdateQuestionJSONAction

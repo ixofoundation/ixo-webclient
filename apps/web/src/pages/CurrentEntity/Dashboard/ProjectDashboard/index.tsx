@@ -2,7 +2,7 @@ import Dashboard from 'components/Dashboard/Dashboard'
 import { HeaderTab, Path } from 'components/Dashboard/types'
 import { useAccount } from 'hooks/account'
 import useCurrentEntity, { useCurrentEntityProfile } from 'hooks/currentEntity'
-import { Redirect, Route, useParams, useRouteMatch } from 'react-router-dom'
+import { Navigate, Route, useMatch, useParams } from 'react-router-dom'
 import { toTitleCase } from 'utils/formatters'
 import { requireCheckDefault } from 'utils/images'
 import Agents from './Agents'
@@ -14,8 +14,8 @@ import ClaimDetail from './ClaimDetail'
 
 const ProjectDashboard: React.FC = (): JSX.Element => {
   const { entityId } = useParams<{ entityId: string }>()
-  const isEditEntityRoute = useRouteMatch('/entity/:entityId/dashboard/edit')
-  const isClaimScreenRoute = useRouteMatch('/entity/:entityId/dashboard/claims')
+  const isEditEntityRoute = useMatch('/entity/:entityId/dashboard/edit')
+  const isClaimScreenRoute = useMatch('/entity/:entityId/dashboard/claims')
   const { entityType, owner } = useCurrentEntity()
   const { name } = useCurrentEntityProfile()
   const { registered, address } = useAccount()
@@ -91,20 +91,16 @@ const ProjectDashboard: React.FC = (): JSX.Element => {
       tabs={tabs}
       entityType={entityType}
     >
-      {registered && owner === address && <Route exact path='/entity/:entityId/dashboard/agents' component={Agents} />}
+      {registered && owner === address && <Route path='/entity/:entityId/dashboard/agents' Component={Agents} />}
       {registered && (owner === address || signerRole === AgentRoles.evaluators) && (
         <>
-          <Route exact path='/entity/:entityId/dashboard/claims' component={Claims} />
-          <Route exact path='/entity/:entityId/dashboard/claims/:claimId' component={ClaimDetail} />
+          <Route path='/entity/:entityId/dashboard/claims' Component={Claims} />
+          <Route path='/entity/:entityId/dashboard/claims/:claimId' Component={ClaimDetail} />
         </>
       )}
-      {registered && owner === address && (
-        <Route exact path='/entity/:entityId/dashboard/edit' component={EditEntity} />
-      )}
+      {registered && owner === address && <Route path='/entity/:entityId/dashboard/edit' Component={EditEntity} />}
 
-      <Route exact path='/entity/:entityId/dashboard'>
-        <Redirect to={`/entity/${entityId}/dashboard/agents`} />
-      </Route>
+      <Route path='/entity/:entityId/dashboard' element={<Navigate to={`/entity/${entityId}/dashboard/agents`} />} />
     </Dashboard>
   )
 }

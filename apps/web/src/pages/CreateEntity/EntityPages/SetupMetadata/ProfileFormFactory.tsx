@@ -1,9 +1,10 @@
 import { useCreateEntityState } from 'hooks/createEntity'
 import { ClaimProfileForm } from 'pages/CreateEntity/Forms'
 import { useCallback, useMemo } from 'react'
-import { selectAllClaimProtocols } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { selectAllClaimProtocols, selectAllDeedProtocols } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { useAppSelector } from 'redux/hooks'
 import BaseProfileForm from './BaseProfileForm'
+import { DeedProfileForm } from 'pages/CreateEntity/Forms/DeedProfileForm'
 
 const ProfileFormBase = () => {
   const { updateProfile, profile } = useCreateEntityState()
@@ -73,6 +74,42 @@ const ProfileFormProtocolClaim = () => {
   )
 }
 
+const ProfileFormProtocolDeed = () => {
+  const { updateProfile, profile } = useCreateEntityState()
+  const deedProtocols = useAppSelector(selectAllDeedProtocols)
+
+  const handleUpdateProfile = useCallback(
+    (key: string, value: any): void => {
+      updateProfile({
+        ...profile,
+        [key]: value,
+      })
+    },
+    [updateProfile, profile],
+  )
+
+  const setType = useCallback((type: string) => handleUpdateProfile('type', type), [handleUpdateProfile])
+  const setTitle = useCallback((name: string) => handleUpdateProfile('name', name), [handleUpdateProfile])
+
+  const deedNameFound = useMemo(
+    () => deedProtocols.some((entity) => entity.profile?.name === profile?.name),
+    [deedProtocols, profile?.name],
+  )
+
+  return (
+    <DeedProfileForm
+      type={profile?.type || ''}
+      setType={setType}
+      title={profile?.name || ''}
+      setTitle={setTitle}
+      description={profile?.description || ''}
+      error={{
+        title: profile?.name && deedNameFound ? 'Duplicated Name' : '',
+      }}
+    />
+  )
+}
+
 export const ProfileFormFactory = () => {
   const { entityType } = useCreateEntityState()
 
@@ -84,5 +121,9 @@ export const ProfileFormFactory = () => {
       return <ProfileFormBase />
     case 'protocol/claim':
       return <ProfileFormProtocolClaim />
+    case 'protocol/deed':
+      return <ProfileFormProtocolDeed />
+    default:
+      return <ProfileFormBase />
   }
 }

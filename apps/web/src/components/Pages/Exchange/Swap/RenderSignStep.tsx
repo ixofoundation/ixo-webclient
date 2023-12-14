@@ -2,9 +2,8 @@ import SignStep, { TXStatus } from 'components/ControlPanel/Actions/components/S
 import { useEffect } from 'react'
 import IxoSwapAdapter from 'adapters/IxoSwapAdapter'
 import { useAccount } from 'hooks/account'
-import useSignX from 'hooks/signX'
-import { ImpactXQRModal } from 'components/ImpactXQRModal'
-import { WalletType } from 'types/wallet'
+
+import { useWallet } from '@ixo-webclient/wallet-connector'
 
 type RenderSignStepProps = {
   inputAsset: any
@@ -15,9 +14,9 @@ type RenderSignStepProps = {
 }
 
 const RenderSignStep = ({ inputAsset, outputAsset, setCurrentStep }: RenderSignStepProps): JSX.Element => {
-  const { connectedWallet, selectedWallet, pubKey } = useAccount()
-  const { offlineSigner, address, did } = connectedWallet!
-  const { startTransaction: startIxoMobileTransaction, transactionQRData, transactionSuccess } = useSignX()
+  const { connectedWallet } = useAccount()
+  const { offlineSigner, address } = connectedWallet!
+  const { execute } = useWallet()
 
   useEffect(() => {
     const IxoSwap = new IxoSwapAdapter({ walletAddress: address, offlineSigner })
@@ -27,33 +26,15 @@ const RenderSignStep = ({ inputAsset, outputAsset, setCurrentStep }: RenderSignS
           setCurrentStep((prevStep) => prevStep + 1)
         }
 
-        if (selectedWallet === WalletType.Keplr) {
-          IxoSwap.executeWasmTRX({ offlineSigner, swapTrxs: approveTrx ? [approveTrx, swapTrx] : [swapTrx], callback })
-        }
-
-        if (selectedWallet === WalletType.ImpactXMobile) {
-          startIxoMobileTransaction({
-            address,
-            did,
-            pubKey,
-            msgs: approveTrx ? [approveTrx, swapTrx] : [swapTrx],
-            memo: '',
-          })
-        }
+        const swapMessage = approveTrx ? [approveTrx, swapTrx] : [swapTrx]
+     
+        execute({messages: swapMessage, fee: undefined}).then(() => callback())
       })
     })
   }, [inputAsset, outputAsset, offlineSigner, setCurrentStep, address])
 
-  useEffect(() => {
-    if (transactionSuccess) {
-      setCurrentStep((prevStep) => prevStep + 1)
-    }
-  }, [transactionSuccess])
-
   return (
-    <SignStep status={TXStatus.PENDING} noLottie={Boolean(transactionQRData)}>
-      {transactionQRData && <ImpactXQRModal data={transactionQRData} />}
-    </SignStep>
+    <SignStep status={TXStatus.PENDING} />
   )
 }
 

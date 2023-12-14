@@ -10,7 +10,6 @@ import { useTheme } from 'styled-components'
 import { TEntityModel } from 'types/entities'
 import { thousandSeparator } from 'utils/formatters'
 import { useGetAccountTokens } from 'graphql/tokens'
-import useCurrentEntity from 'hooks/currentEntity'
 
 interface Props {
   collectionName: string
@@ -27,7 +26,6 @@ const AssetCard: React.FC<Props> = ({
 }): JSX.Element => {
   const theme: any = useTheme()
   const { cwClient } = useAccount()
-  const { updateEntity } = useCurrentEntity()
   const [entity, setEntity] = useState<TEntityModel>()
 
   const no = entity?.alsoKnownAs.replace('{id}#', '')
@@ -50,7 +48,6 @@ const AssetCard: React.FC<Props> = ({
   useEffect(() => {
     if (_entity) {
       setEntity(_entity)
-      updateEntity(_entity)
       apiEntityToEntity({ entity: _entity, cwClient }, (key, value) => {
         setEntity((entity: any) => ({ ...entity, [key]: value }))
       })
@@ -58,7 +55,6 @@ const AssetCard: React.FC<Props> = ({
     return () => {
       setEntity(undefined)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [_entity, cwClient])
 
   useEffect(() => {
@@ -81,7 +77,8 @@ const AssetCard: React.FC<Props> = ({
 
   return (
     <NavLink
-      to={{ pathname: `/entity/${id}`, state: { collectionName: collectionName } }}
+      to={{ pathname: `/entity/${id}` }}
+      state={{ collectionName: collectionName }}
       style={{ textDecoration: 'none' }}
     >
       <FlexBox direction='column' width='100%' borderRadius={'10px'} overflow='hidden'>

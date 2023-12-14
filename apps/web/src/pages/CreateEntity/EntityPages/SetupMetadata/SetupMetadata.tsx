@@ -23,6 +23,8 @@ const SetupMetadata: React.FC = (): JSX.Element => {
         return !!profile && !!profile.image && !!profile.logo && !!profile.orgName && !!profile.name
       case 'protocol/claim':
         return !!profile && !!profile.type && !!profile.name && !!profile.description
+      case 'protocol/deed':
+        return !!profile && !!profile.type && !!profile.name && !!profile.description
       default:
         return !!profile && !!profile.image && !!profile.logo && !!profile.orgName && !!profile.name
     }

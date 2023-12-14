@@ -1,4 +1,4 @@
-import { ixo, SigningStargateClient, customMessages, utils } from '@ixo/impactxclient-sdk'
+import { ixo, customMessages, utils } from '@ixo/impactxclient-sdk'
 import {
   QueryEntityIidDocumentRequest,
   QueryEntityListRequest,
@@ -15,7 +15,6 @@ import {
   Context,
   LinkedClaim,
 } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
-import { DeliverTxResponse } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/stargate'
 import BigNumber from 'bignumber.js'
 import { fee, RPC_ENDPOINT, TSigner } from './common'
 import { Verification } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/tx'
@@ -166,7 +165,7 @@ export const TransferEntityMessage = async (
   }
 
   console.log('TransferEntity', { message })
-  return { message: [message], fee }
+  return { messages: [message], fee }
 }
 
 export const UpdateEntityMessage = async (
@@ -195,5 +194,5 @@ export const UpdateEntityMessage = async (
   }
 
   console.log('UpdateEntity', { message })
-  return { message: [message], fee }
+  return { messages: [message], fee }
 }
