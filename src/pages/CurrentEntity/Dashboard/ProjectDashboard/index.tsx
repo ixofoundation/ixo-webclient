@@ -34,6 +34,7 @@ const ProjectDashboard: React.FC = (): JSX.Element => {
       icon: requireCheckDefault(require('assets/img/sidebar/check.svg')),
       sdg: 'Claims',
       tooltip: 'Claims',
+      strict: true,
       disabled: !registered || (owner !== address && signerRole !== AgentRoles.evaluators),
     },
     {

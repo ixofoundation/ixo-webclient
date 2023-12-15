@@ -15,9 +15,36 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
+  BigInt: { input: any; output: any; }
   Cursor: { input: any; output: any; }
   Datetime: { input: any; output: any; }
   JSON: { input: any; output: any; }
+};
+
+/** A filter to be used against BigInt fields. All fields are combined with a logical ‘and.’ */
+export type BigIntFilter = {
+  /** Not equal to the specified value, treating null like an ordinary value. */
+  distinctFrom?: InputMaybe<Scalars['BigInt']['input']>;
+  /** Equal to the specified value. */
+  equalTo?: InputMaybe<Scalars['BigInt']['input']>;
+  /** Greater than the specified value. */
+  greaterThan?: InputMaybe<Scalars['BigInt']['input']>;
+  /** Greater than or equal to the specified value. */
+  greaterThanOrEqualTo?: InputMaybe<Scalars['BigInt']['input']>;
+  /** Included in the specified list. */
+  in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
+  /** Is null (if `true` is specified) or is not null (if `false` is specified). */
+  isNull?: InputMaybe<Scalars['Boolean']['input']>;
+  /** Less than the specified value. */
+  lessThan?: InputMaybe<Scalars['BigInt']['input']>;
+  /** Less than or equal to the specified value. */
+  lessThanOrEqualTo?: InputMaybe<Scalars['BigInt']['input']>;
+  /** Equal to the specified value, treating null like an ordinary value. */
+  notDistinctFrom?: InputMaybe<Scalars['BigInt']['input']>;
+  /** Not equal to the specified value. */
+  notEqualTo?: InputMaybe<Scalars['BigInt']['input']>;
+  /** Not included in the specified list. */
+  notIn?: InputMaybe<Array<Scalars['BigInt']['input']>>;
 };
 
 export type Bond = Node & {
@@ -2342,6 +2369,15 @@ export type Query = Node & {
   tokenTransactionByNodeId?: Maybe<TokenTransaction>;
   /** Reads and enables pagination through a set of `TokenTransaction`. */
   tokenTransactions?: Maybe<TokenTransactionsConnection>;
+  tokenomicsAccount?: Maybe<TokenomicsAccount>;
+  /** Reads a single `TokenomicsAccount` using its globally unique `ID`. */
+  tokenomicsAccountByNodeId?: Maybe<TokenomicsAccount>;
+  /** Reads and enables pagination through a set of `TokenomicsAccount`. */
+  tokenomicsAccounts?: Maybe<TokenomicsAccountsConnection>;
+  tokenomicsInflation: Scalars['JSON']['output'];
+  tokenomicsSupplyCommunityPool: Scalars['JSON']['output'];
+  tokenomicsSupplyStaked: Scalars['JSON']['output'];
+  tokenomicsSupplyTotal: Scalars['JSON']['output'];
   /** Reads and enables pagination through a set of `Token`. */
   tokens?: Maybe<TokensConnection>;
   transaction?: Maybe<Transaction>;
@@ -2957,6 +2993,31 @@ export type QueryTokenTransactionsArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<TokenTransactionsOrderBy>>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryTokenomicsAccountArgs = {
+  address: Scalars['String']['input'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryTokenomicsAccountByNodeIdArgs = {
+  nodeId: Scalars['ID']['input'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryTokenomicsAccountsArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  condition?: InputMaybe<TokenomicsAccountCondition>;
+  filter?: InputMaybe<TokenomicsAccountFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<TokenomicsAccountsOrderBy>>;
 };
 
 
@@ -4082,6 +4143,107 @@ export enum TokenTransactionsOrderBy {
   TokenIdDesc = 'TOKEN_ID_DESC',
   ToAsc = 'TO_ASC',
   ToDesc = 'TO_DESC'
+}
+
+export type TokenomicsAccount = Node & {
+  __typename?: 'TokenomicsAccount';
+  accountNumber: Scalars['Int']['output'];
+  address: Scalars['String']['output'];
+  availBalance: Scalars['BigInt']['output'];
+  delegationsBalance: Scalars['BigInt']['output'];
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID']['output'];
+  rewardsBalance: Scalars['BigInt']['output'];
+  totalBalance: Scalars['BigInt']['output'];
+  type?: Maybe<Scalars['String']['output']>;
+};
+
+/**
+ * A condition to be used against `TokenomicsAccount` object types. All fields are
+ * tested for equality and combined with a logical ‘and.’
+ */
+export type TokenomicsAccountCondition = {
+  /** Checks for equality with the object’s `accountNumber` field. */
+  accountNumber?: InputMaybe<Scalars['Int']['input']>;
+  /** Checks for equality with the object’s `address` field. */
+  address?: InputMaybe<Scalars['String']['input']>;
+  /** Checks for equality with the object’s `availBalance` field. */
+  availBalance?: InputMaybe<Scalars['BigInt']['input']>;
+  /** Checks for equality with the object’s `delegationsBalance` field. */
+  delegationsBalance?: InputMaybe<Scalars['BigInt']['input']>;
+  /** Checks for equality with the object’s `rewardsBalance` field. */
+  rewardsBalance?: InputMaybe<Scalars['BigInt']['input']>;
+  /** Checks for equality with the object’s `totalBalance` field. */
+  totalBalance?: InputMaybe<Scalars['BigInt']['input']>;
+  /** Checks for equality with the object’s `type` field. */
+  type?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** A filter to be used against `TokenomicsAccount` object types. All fields are combined with a logical ‘and.’ */
+export type TokenomicsAccountFilter = {
+  /** Filter by the object’s `accountNumber` field. */
+  accountNumber?: InputMaybe<IntFilter>;
+  /** Filter by the object’s `address` field. */
+  address?: InputMaybe<StringFilter>;
+  /** Checks for all expressions in this list. */
+  and?: InputMaybe<Array<TokenomicsAccountFilter>>;
+  /** Filter by the object’s `availBalance` field. */
+  availBalance?: InputMaybe<BigIntFilter>;
+  /** Filter by the object’s `delegationsBalance` field. */
+  delegationsBalance?: InputMaybe<BigIntFilter>;
+  /** Negates the expression. */
+  not?: InputMaybe<TokenomicsAccountFilter>;
+  /** Checks for any expressions in this list. */
+  or?: InputMaybe<Array<TokenomicsAccountFilter>>;
+  /** Filter by the object’s `rewardsBalance` field. */
+  rewardsBalance?: InputMaybe<BigIntFilter>;
+  /** Filter by the object’s `totalBalance` field. */
+  totalBalance?: InputMaybe<BigIntFilter>;
+  /** Filter by the object’s `type` field. */
+  type?: InputMaybe<StringFilter>;
+};
+
+/** A connection to a list of `TokenomicsAccount` values. */
+export type TokenomicsAccountsConnection = {
+  __typename?: 'TokenomicsAccountsConnection';
+  /** A list of edges which contains the `TokenomicsAccount` and cursor to aid in pagination. */
+  edges: Array<TokenomicsAccountsEdge>;
+  /** A list of `TokenomicsAccount` objects. */
+  nodes: Array<TokenomicsAccount>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `TokenomicsAccount` you could get from the connection. */
+  totalCount: Scalars['Int']['output'];
+};
+
+/** A `TokenomicsAccount` edge in the connection. */
+export type TokenomicsAccountsEdge = {
+  __typename?: 'TokenomicsAccountsEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']['output']>;
+  /** The `TokenomicsAccount` at the end of the edge. */
+  node: TokenomicsAccount;
+};
+
+/** Methods to use when ordering `TokenomicsAccount`. */
+export enum TokenomicsAccountsOrderBy {
+  AccountNumberAsc = 'ACCOUNT_NUMBER_ASC',
+  AccountNumberDesc = 'ACCOUNT_NUMBER_DESC',
+  AddressAsc = 'ADDRESS_ASC',
+  AddressDesc = 'ADDRESS_DESC',
+  AvailBalanceAsc = 'AVAIL_BALANCE_ASC',
+  AvailBalanceDesc = 'AVAIL_BALANCE_DESC',
+  DelegationsBalanceAsc = 'DELEGATIONS_BALANCE_ASC',
+  DelegationsBalanceDesc = 'DELEGATIONS_BALANCE_DESC',
+  Natural = 'NATURAL',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  RewardsBalanceAsc = 'REWARDS_BALANCE_ASC',
+  RewardsBalanceDesc = 'REWARDS_BALANCE_DESC',
+  TotalBalanceAsc = 'TOTAL_BALANCE_ASC',
+  TotalBalanceDesc = 'TOTAL_BALANCE_DESC',
+  TypeAsc = 'TYPE_ASC',
+  TypeDesc = 'TYPE_DESC'
 }
 
 /** A connection to a list of `Token` values. */

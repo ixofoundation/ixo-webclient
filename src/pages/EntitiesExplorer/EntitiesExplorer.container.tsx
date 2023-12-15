@@ -113,7 +113,7 @@ const EntitiesExplorer = ({
 
   const { data, loading, refetch } = useEntitiesQuery({
     skip: entities.length > 0,
-    fetchPolicy: 'cache-first',
+    fetchPolicy: 'network-only',
     variables: {
       filter: {
         not: { type: { startsWith: 'asset' } },

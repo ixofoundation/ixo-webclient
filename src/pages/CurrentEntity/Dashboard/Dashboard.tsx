@@ -5,10 +5,13 @@ import DAODashboard from './DAODashboard'
 import InvestmentDashboard from './InvestmentDashboard'
 import ProjectDashboard from './ProjectDashboard'
 import AssetDashboard from './AssetDashboard'
+import OracleDashboard from './OracleDashboard'
 
 const DashboardPage: React.FC = (): JSX.Element | null => {
   const currentEntity = useCurrentEntity()
   const entityType = currentEntity.entityType.replace('protocol/', '')
+
+  console.log({ entityType, currentEntity })
 
   const Component = useMemo(() => {
     switch (entityType) {
@@ -16,12 +19,15 @@ const DashboardPage: React.FC = (): JSX.Element | null => {
         return ProjectDashboard
       case 'dao':
         return DAODashboard
-      case 'claim':
+      case 'deed':
         return ClaimDashboard
       case 'investment':
         return InvestmentDashboard
       case 'asset/device':
+      case 'asset/learnership':
         return AssetDashboard
+      case 'oracle/evaluation':
+        return OracleDashboard
       default:
         return undefined
     }

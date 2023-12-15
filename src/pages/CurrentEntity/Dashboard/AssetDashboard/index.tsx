@@ -49,17 +49,17 @@ const AssetDashboard = () => {
   const location = useLocation()
   const searchParams = new URLSearchParams(location.search)
   const collection = searchParams.get('collection')
+  const [entity, setEntity] = useState<any>()
+  const [cookStove, setCookStove] = useState<any>()
 
   const { data } = useEntityQuery({
     variables: { id: currentEntity.id },
     onCompleted: (data) => {
+      setEntity(data?.entity)
+      currentEntity.updateEntity(data?.entity as any)
       transformEntity(data?.entity as Entity).then((entity) => setEntity(entity))
     },
   })
-
-  const [entity, setEntity] = useState<any>()
-
-  const [cookStove, setCookStove] = useState<any>()
 
   const adminAccount = useMemo(
     () => data?.entity?.accounts?.find((v: any) => v.name === 'admin')?.address || '',
@@ -106,7 +106,7 @@ const AssetDashboard = () => {
         settings: { Profile, Tags },
         linkedResource,
       } = entity
-      const zLottie = linkedResource?.find((resource: any) => resource.type === 'Lottie').data
+      const zLottie = linkedResource?.find((resource: any) => resource.type === 'Lottie')?.data
 
       return {
         logo: Profile?.data?.logo,
@@ -128,19 +128,20 @@ const AssetDashboard = () => {
   return (
     <Dashboard
       theme={'dark'}
-      title={`SupaMoto #${assetNumber}`}
+      title={`${collection} #${assetNumber}`}
       subRoutes={[]}
       baseRoutes={[]}
       entityType={entityType}
       matchType={MatchType.strict}
     >
       <FlexBox height='300px' width='100%' gap={5}>
-        {entity && <AssetCard {...inputAssetCardData} accountTokens={carbonTokens} width='250px' height='100%' />}
+        {entity && <AssetCard {...inputAssetCardData} accountTokens={carbonTokens} width='300px' height='100%' />}
         <FlexBox flexGrow={1} height='100%' gap={5}>
           <AssetStatsCard
             title='Assets Stats'
             creator={profile?.name}
             created={entity?.metadata?.created}
+            project={profile?.brand}
             did={did}
             icon={<AssetStatsIcon />}
           />
