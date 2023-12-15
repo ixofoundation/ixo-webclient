@@ -77,26 +77,6 @@ const EntityExchange: FunctionComponent<Props> = ({
       sdg: stakeCellEntity ?? (process.env.REACT_APP_CHAIN_ID!.indexOf('pandora') > -1 ? 'pandora' : 'impact-hub'),
       tooltip: 'Stake',
     })
-    routes.push({
-      url: `/exchange/pools`,
-      icon: requireCheckDefault(require('assets/img/sidebar/pools.svg')),
-      sdg: 'Explorer',
-      tooltip: 'Pools',
-    })
-    routes.push({
-      // url: `/exchange/airdrop`,
-      url: '#',
-      icon: requireCheckDefault(require('assets/img/sidebar/airdrop.svg')),
-      sdg: 'Missions',
-      // tooltip: 'Airdrop',
-      tooltip: 'Not Available',
-    })
-    // routes.push({
-    //   url: `/projects/${did}/exchange/vote`,
-    //   icon: requireCheckDefault(require('assets/img/sidebar/vote.svg')),
-    //   sdg: 'Vote',
-    //   tooltip: 'Vote',
-    // })
 
     return routes
   }

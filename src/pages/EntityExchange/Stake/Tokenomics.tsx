@@ -24,7 +24,7 @@ const Tokenomics: React.FC = () => {
         Inflation: {tokenomicsInflation.toFixed(2)}%
       </Typography>
       <Typography color='blue' weight='bold'>
-        APR: {apr.toFixed(2)}%
+        APY: {apr.toFixed(2)}%
       </Typography>
     </FlexBox>
   )

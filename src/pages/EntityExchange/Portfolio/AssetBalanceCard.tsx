@@ -5,6 +5,9 @@ import { useTheme } from 'styled-components'
 import { LineChart, Line, ResponsiveContainer } from 'recharts'
 import { useMemo } from 'react'
 import { useIxoConfigs } from 'hooks/configs'
+import CurrencyFormat from 'react-currency-format'
+import usePrice from 'hooks/price'
+import BigNumber from 'bignumber.js'
 
 const data = [
   {
@@ -39,6 +42,7 @@ interface AssetBalanceCardProp {
 const AssetBalanceCard: React.FC<AssetBalanceCardProp> = ({ asset, selected, onClick }) => {
   const theme: any = useTheme()
   const { convertToDenom } = useIxoConfigs()
+  const usdRate = usePrice(asset.denom)
 
   const displayAsset = useMemo(() => convertToDenom(asset), [asset, convertToDenom])
 
@@ -57,7 +61,7 @@ const AssetBalanceCard: React.FC<AssetBalanceCardProp> = ({ asset, selected, onC
       <FlexBox width='100%' alignItems='center' justifyContent='space-between'>
         <FlexBox borderRadius='6px' py={1} px={2} background={theme.ixoMediumBlue}>
           <Typography variant='primary' size='md' weight={'bold'}>
-            {displayAsset?.denom}
+            {displayAsset?.denom.toUpperCase()}
           </Typography>
         </FlexBox>
         <FlexBox borderRadius='6px' py={1} px={2} background={theme.ixoNavyBlue}>
@@ -67,25 +71,53 @@ const AssetBalanceCard: React.FC<AssetBalanceCardProp> = ({ asset, selected, onC
         </FlexBox>
       </FlexBox>
 
-      <FlexBox direction='column'>
-        <Typography size='4xl'>
-          {displayAsset?.denom} {displayAsset?.amount}
+      <FlexBox direction='column' width='100%'>
+        <Typography size='4xl' overflowLines={1} style={{ width: '100%' }}>
+          <CurrencyFormat
+            displayType='text'
+            value={displayAsset?.amount}
+            thousandSeparator
+            decimalScale={6}
+            suffix={' ' + displayAsset?.denom.toUpperCase()}
+          />
         </Typography>
-        <Typography size='sm'>USD 0</Typography>
+        <Typography size='sm'>
+          <CurrencyFormat
+            displayType='text'
+            value={new BigNumber(displayAsset?.amount || '0').times(usdRate).toString()}
+            thousandSeparator
+            decimalScale={2}
+            suffix={' USD'}
+          />
+        </Typography>
       </FlexBox>
 
-      <FlexBox width='100%' alignItems='center'>
-        <FlexBox width='100%' direction='column'>
-          <Typography weight={'bold'}>
-            {displayAsset?.denom} {displayAsset?.amount}
+      <FlexBox width='100%' alignItems='center' gap={4}>
+        <FlexBox width='50%' direction='column'>
+          <Typography weight={'bold'} overflowLines={1} style={{ width: '100%' }}>
+            <CurrencyFormat
+              displayType='text'
+              value={displayAsset?.amount}
+              thousandSeparator
+              decimalScale={6}
+              suffix={' ' + displayAsset?.denom.toUpperCase()}
+            />
           </Typography>
           <Typography size='sm' color='dark-blue'>
             Available
           </Typography>
         </FlexBox>
-        <FlexBox width='100%' direction='column'>
-          <Typography weight={'bold'}>{displayAsset?.denom} 0</Typography>
-          <Typography size='sm' color='dark-blue'>
+        <FlexBox width='50%' direction='column'>
+          <Typography weight={'bold'}>
+            <CurrencyFormat
+              displayType='text'
+              value={0}
+              thousandSeparator
+              decimalScale={6}
+              suffix={' ' + displayAsset?.denom.toUpperCase()}
+            />
+          </Typography>
+          <Typography size='sm' color='dark-blue' noWrap>
             Locked in Escrow
           </Typography>
         </FlexBox>

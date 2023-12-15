@@ -13,6 +13,7 @@ import { useAccount } from 'hooks/account'
 import { useIxoConfigs } from 'hooks/configs'
 import { Dropdown } from 'pages/CreateEntity/Components'
 import { BondStatus } from 'cosmjs-types/cosmos/staking/v1beta1/staking'
+import { Flex } from '@mantine/core'
 
 const TableWrapper = styled(FlexBox)`
   color: white;
@@ -57,8 +58,57 @@ const Validators: React.FC = () => {
   const [selectedValidatorStatus, setSelectedValidatorStatus] = useState(BondStatus.BOND_STATUS_BONDED)
   const [selectedValidator, setSelectedValidator] = useState('')
 
+  const [sort, setSort] = useState<{ [key: string]: 'asc' | 'desc' | undefined }>({
+    name: 'asc',
+    description: undefined,
+    votingPower: undefined,
+    commission: undefined,
+    delegation: undefined,
+  })
+
+  const sortedValidators = useMemo(() => {
+    const [sortBy, order] = Object.entries(sort).find(([, value]) => value) ?? ['name', 'asc']
+
+    return validators.sort((a, b) => {
+      switch (sortBy) {
+        case 'name':
+        default:
+          if (order === 'desc') return String(b?.moniker || '').localeCompare(String(a?.moniker || ''))
+          return String(a?.moniker || '').localeCompare(String(b?.moniker || ''))
+        case 'description':
+          if (order === 'desc') return String(b?.description || '').localeCompare(String(a?.description || ''))
+          return String(a?.description || '').localeCompare(String(b?.description || ''))
+        case 'votingPower':
+          if (order === 'desc') return Number(b?.votingPower) - Number(a?.votingPower)
+          return Number(a?.votingPower) - Number(b?.votingPower)
+        case 'commission':
+          if (order === 'desc') return Number(b?.commission) - Number(a?.commission)
+          return Number(a?.commission) - Number(b?.commission)
+        case 'delegation':
+          if (order === 'desc') return Number(b.delegation?.amount || '0') - Number(a.delegation?.amount || '0')
+          return Number(a.delegation?.amount || '0') - Number(b.delegation?.amount || '0')
+      }
+    })
+  }, [sort, validators])
+
   const onValidatorSelect = (address: string) => () => {
     setSelectedValidator(address)
+  }
+
+  const handleSortClick = (key: string) => {
+    setSort((sort: any) => {
+      let newSortForKey: 'asc' | 'desc' | undefined
+      switch (sort[key]) {
+        case 'asc':
+          newSortForKey = 'desc'
+          break
+        case 'desc':
+        default:
+          newSortForKey = 'asc'
+          break
+      }
+      return { [key]: newSortForKey }
+    })
   }
 
   const columns = useMemo(
@@ -76,7 +126,10 @@ const Validators: React.FC = () => {
         },
       },
       {
-        Header: renderTableHeader('Name'),
+        Header: renderTableHeader('Name', undefined, {
+          direction: sort.name,
+          onClick: () => handleSortClick('name'),
+        }),
         accessor: 'moniker',
         renderCell: (cell: any) => {
           const name = cell.value
@@ -90,7 +143,10 @@ const Validators: React.FC = () => {
         },
       },
       {
-        Header: renderTableHeader('Mission'),
+        Header: renderTableHeader('Mission', undefined, {
+          direction: sort.description,
+          onClick: () => handleSortClick('description'),
+        }),
         accessor: 'description',
         renderCell: (cell: any) => {
           const description = cell.value
@@ -102,7 +158,10 @@ const Validators: React.FC = () => {
         },
       },
       {
-        Header: renderTableHeader('Voting Power'),
+        Header: renderTableHeader('Voting Power', undefined, {
+          direction: sort.votingPower,
+          onClick: () => handleSortClick('votingPower'),
+        }),
         accessor: 'votingPower',
         renderCell: (cell: any) => {
           const votingPower = cell.value
@@ -116,7 +175,10 @@ const Validators: React.FC = () => {
         },
       },
       {
-        Header: renderTableHeader('Commission'),
+        Header: renderTableHeader('Commission', undefined, {
+          direction: sort.commission,
+          onClick: () => handleSortClick('commission'),
+        }),
         accessor: 'commission',
         renderCell: (cell: any) => {
           const commission = cell.value
@@ -128,7 +190,10 @@ const Validators: React.FC = () => {
         },
       },
       {
-        Header: renderTableHeader('My Delegation'),
+        Header: renderTableHeader('My Delegation', undefined, {
+          direction: sort.delegation,
+          onClick: () => handleSortClick('delegation'),
+        }),
         accessor: 'address',
         renderCell: (cell: any) => {
           const address = cell.value
@@ -187,7 +252,7 @@ const Validators: React.FC = () => {
         },
       },
     ],
-    [theme, convertToDenom],
+    [sort, convertToDenom, theme],
   )
 
   return (
@@ -201,19 +266,27 @@ const Validators: React.FC = () => {
         boxShadow='0px 2px 10px 0px rgba(0, 0, 0, 0.18)'
         p={4}
       >
-        <Dropdown
-          options={[
-            { text: 'Bonded', value: BondStatus.BOND_STATUS_BONDED as unknown as string },
-            { text: 'UnBonded', value: BondStatus.BOND_STATUS_UNBONDED as unknown as string },
-            { text: 'UnBonding', value: BondStatus.BOND_STATUS_UNBONDING as unknown as string },
-          ]}
-          value={selectedValidatorStatus}
-          onChange={(event) => setSelectedValidatorStatus(event.target.value as unknown as BondStatus)}
-          style={{ width: 200, height: 48 }}
-        />
+        <Flex w={'100%'} justify={'flex-end'}>
+          <Dropdown
+            options={[
+              { text: 'Active', value: BondStatus.BOND_STATUS_BONDED as unknown as string },
+              { text: 'Jailed', value: '4' },
+              { text: 'Inactive', value: BondStatus.BOND_STATUS_UNBONDED as unknown as string },
+            ]}
+            value={selectedValidatorStatus}
+            onChange={(event) => setSelectedValidatorStatus(event.target.value as unknown as BondStatus)}
+            wrapperStyle={{ width: 200, height: 48 }}
+          />
+        </Flex>
         <Table
           columns={columns}
-          data={validators.filter((validator) => Number(validator.status) === Number(selectedValidatorStatus))}
+          data={
+            Number(selectedValidatorStatus) === 4
+              ? sortedValidators.filter((validator) => validator.jailed)
+              : sortedValidators.filter(
+                  (validator) => Number(validator.status) === Number(selectedValidatorStatus) && !validator.jailed,
+                )
+          }
           getRowProps={() => ({
             style: { height: 70, cursor: 'pointer' },
           })}
@@ -234,7 +307,7 @@ const Validators: React.FC = () => {
       >
         <StakingModal
           accountAddress={address!}
-          defaultValidator={validators.find((validator) => validator.address === selectedValidator)}
+          defaultValidator={sortedValidators.find((validator) => validator.address === selectedValidator)}
         />
       </ModalWrapper>
     </>

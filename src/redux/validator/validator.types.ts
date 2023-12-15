@@ -14,6 +14,7 @@ export type TValidatorModel = {
   logo: string
   delegation?: Coin
   reward?: Coin
+  jailed: boolean
 }
 
 export type TValidatorState = {
