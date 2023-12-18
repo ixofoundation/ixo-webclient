@@ -94,11 +94,12 @@ export const CurrencyFormat = styled(ReactCurrencyFormat)`
   color: white;
   padding: 0px 7px;
   width: 100%;
+  height: 28px;
   border-radius: 5px;
   text-align: right;
 
   &::placeholder {
-    color: ${(props): string => props.theme.ixoDarkBlue};
+    color: ${(props: any): string => props.theme.ixoDarkBlue};
     font-size: 20px;
   }
 `
