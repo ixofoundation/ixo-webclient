@@ -2,9 +2,8 @@ import { pools, tokens } from 'constants/pools'
 import { TokenAmount, TokenSelect, TokenType } from 'types/swap'
 import { CURRENCY_TOKEN } from 'types/wallet'
 import { createQueryClient as createQueryClientImport } from '@ixo/impactxclient-sdk'
-import Axios from 'axios'
 import { Uint8ArrayToJS, getMicroAmount, strToArray } from './encoding'
-import { RPC_ENDPOINT } from 'lib/protocol'
+import { GetBalances, RPC_ENDPOINT } from 'lib/protocol'
 import { findDenomByMinimalDenom, minimalAmountToAmount } from 'redux/account/account.utils'
 import { SupportedDenoms, SupportedStandards } from 'hooks/exchange'
 
@@ -223,18 +222,8 @@ export const queryTokenBalances = async (
   }
 }
 
-const getBankBalances = async ({ accountAddress }: any) => {
-  return await Axios.get(`${process.env.REACT_APP_GAIA_URL}/bank/balances/${accountAddress}`)
-    .then((response) => response.data)
-    .then((response) => response.result)
-    .catch((e) => {
-      console.error(e)
-      return []
-    })
-}
-
 export const getTokenBalances = async ({ accountAddress }: { accountAddress: string }) => {
-  const bankBalances = await getBankBalances({ accountAddress })
+  const bankBalances = await GetBalances(accountAddress)
   await createQueryClient()
   const tokenBalances = await queryTokenBalances(queryClient, 'devnet-1', accountAddress).then((response) =>
     response ? response : [],

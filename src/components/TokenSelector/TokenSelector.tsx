@@ -23,6 +23,7 @@ const AvailableAmount = styled.div`
   font-size: 15px;
   line-height: 22px;
   color: #537b8e;
+  pointer-events: none;
 `
 
 const IconWrapper = styled.div`
@@ -85,6 +86,7 @@ const TokenSelector: React.FunctionComponent<Props> = ({
       flexGrow: 1,
       padding: 15,
       paddingLeft: 12,
+      cursor: 'pointer',
 
       '& > div:last-child': {
         margin: 0,

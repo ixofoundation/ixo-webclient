@@ -10,6 +10,7 @@ const AllValidatorWrapper = styled.div`
   padding: 15px;
   display: flex;
   align-items: center;
+  cursor: pointer;
 `
 
 const IconWrapper = styled.div`
@@ -48,6 +49,7 @@ const LabelWrapper = styled.div`
   font-size: 15px;
   line-height: 22px;
   color: #537b8e;
+  pointer-events: none;
 `
 
 interface Props {
