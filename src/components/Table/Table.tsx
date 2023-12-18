@@ -1,7 +1,9 @@
-import { FlexBox } from 'components/App/App.styles'
+import { FlexBox, SvgBox, theme } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import React from 'react'
 import { useTable, Column, useSortBy } from 'react-table'
+import { ReactComponent as SortLtoGIcon } from 'assets/images/icon-sort-ltog.svg'
+import { ReactComponent as SortGtoLIcon } from 'assets/images/icon-sort-gtol.svg'
 
 // Create a default prop getter
 const defaultPropGetter = () => ({})
@@ -104,7 +106,11 @@ const Table: React.FC<TableProps> = ({
 
 export default Table
 
-export const renderTableHeader = (name: string, justifyContent = 'flex-start') => (
+export const renderTableHeader = (
+  name: string,
+  justifyContent = 'flex-start',
+  sort?: { direction: 'asc' | 'desc' | undefined; onClick: () => void },
+) => (
   <FlexBox
     p={4}
     justifyContent={
@@ -117,9 +123,19 @@ export const renderTableHeader = (name: string, justifyContent = 'flex-start') =
         | 'space-evenly'
         | 'stretch'
     }
+    alignItems='center'
+    gap={2}
+    cursor='pointer'
+    {...(sort ? { onClick: sort.onClick } : {})}
   >
     <Typography color='light-grey-blue' transform='uppercase' weight='bold' size='md'>
       {name}
     </Typography>
+    {sort && (
+      <SvgBox color={theme.ixoDarkBlue}>
+        {sort.direction !== 'desc' && <SortLtoGIcon />}
+        {sort.direction === 'desc' && <SortGtoLIcon />}
+      </SvgBox>
+    )}
   </FlexBox>
 )

@@ -27,6 +27,7 @@ export type TTypographyColor =
   | 'grey300'
   | 'green'
   | 'red'
+  | 'orange'
   | 'inherit'
 
 export interface ITypographyProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -168,6 +169,9 @@ const greenCss = css`
 `
 const redCss = css`
   color: ${(props) => props.theme.ixoRed};
+`
+const orangeCss = css`
+  color: ${(props) => props.theme.ixoOrange};
 `
 const inheritColorCss = css`
   color: inherit;
@@ -326,6 +330,8 @@ const Typography = styled.div<ITypographyProps>`
         return greenCss
       case 'red':
         return redCss
+      case 'orange':
+        return orangeCss
       case 'inherit':
         return inheritColorCss
       default:
