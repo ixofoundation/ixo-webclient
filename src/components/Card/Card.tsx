@@ -28,10 +28,10 @@ export const Card: React.FC<CardProps> = ({ children, title, icon, ...props }) =
   return (
     <CardWrapper {...props}>
       <Flex align='center'>
-        <Text h='100%' color='white' size='24px'>
+        <Text h='100%' c='white' size='24px'>
           {icon}
         </Text>
-        <Text weight='bolder' size='24px' color='white' ml={6}>
+        <Text fw='bolder' size='24px' c='white' ml={6}>
           {title}
         </Text>
       </Flex>

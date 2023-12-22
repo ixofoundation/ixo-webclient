@@ -9,7 +9,7 @@ import { useTheme } from 'styled-components'
 import useCurrentEntity, { useCurrentEntityDAOGroup, useCurrentEntityProfile } from 'hooks/currentEntity'
 import { TDAOGroupModel } from 'types/entities'
 import { Flex, Button as MButton, UnstyledButton } from '@mantine/core'
-import GovernanceProposalCard from './GovernanceProposalCard'
+import ProposalCard from './ProposalCard'
 
 const GovernanceHeader = React.memo(({ selectedDAOGroup }: { selectedDAOGroup?: TDAOGroupModel }) => (
   <>
@@ -217,7 +217,7 @@ const Governance: React.FC = () => {
               </Flex>
             )}
 
-          {selectedDAOGroup && (
+          {selectedDAOGroup && (sortedProposals?.length ?? 0) > 0 && (
             <Flex gap='lg'>
               <UnstyledButton style={{ color: '#0089D7' }}>All</UnstyledButton>
               <UnstyledButton style={{ color: '#213E59' }}>Active</UnstyledButton>
@@ -229,11 +229,11 @@ const Governance: React.FC = () => {
           {selectedDAOGroup &&
             sortedProposals?.map((item: ProposalResponse, i) => {
               return (
-                <GovernanceProposalCard
+                <ProposalCard
                   key={i}
-                  active={true}
                   coreAddress={selectedDAOGroup?.coreAddress}
                   proposalId={item.id}
+                  proposal={item.proposal}
                 />
               )
             })}
