@@ -25,7 +25,7 @@ const GroupView: React.FC<Props> = ({ selectedGroup }) => {
       </Typography>
 
       <Typography variant='secondary' size='5xl'>
-        {daoGroup?.config?.name}
+        {daoGroup.config?.name}
       </Typography>
 
       <GridContainer
