@@ -41,8 +41,8 @@
           }
         ],
         "logoURIs": {
-          "png": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/feature/exchange/src/assets/tokens/xusd.png",
-          "svg": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/feature/exchange/src/assets/tokens/xusd.svg",
+          "png": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/tokens/xusd.png",
+          "svg": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/tokens/xusd.svg",
           "zlottie": ""
         },
         "isStakeCurrency": "false",
@@ -123,8 +123,8 @@
           }
         ],
         "logoURIs": {
-          "png": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/feature/exchange/src/assets/tokens/xusd.png",
-          "svg": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/feature/exchange/src/assets/tokens/xusd.svg",
+          "png": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/tokens/xusd.png",
+          "svg": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/tokens/xusd.svg",
           "zlottie": ""
         },
         "isStakeCurrency": "false",

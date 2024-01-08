@@ -3,7 +3,6 @@ import React, { useEffect, useMemo, useState } from 'react'
 import {
   PairListWrapper,
   PairListSearchRow,
-  PairListSearchInputWrapper,
   PairListSearchInput,
   PairListSearchIcon,
   PairListTokenWrapper,
@@ -16,6 +15,7 @@ import { getUSDRateByCoingeckoId } from 'utils/coingecko'
 import { AssetType } from 'redux/configs/configs.types'
 import AssistantButton from 'components/AssistantButton/AssistantButton'
 import CashIcon from 'assets/images/assets/cash.svg'
+import { FlexBox } from 'components/App/App.styles'
 
 const decimals = 2
 
@@ -86,7 +86,7 @@ const PairListToken = ({ currency, balances, onClick }: any): JSX.Element => {
         </div>
         <div className='d-flex align-items-center justify-content-between w-100'>
           <WhiteText lineHeight='16px' fontSize='14px' fontWeight={400}>
-            {'Osmosis'}
+            {'ImpactHub'}
           </WhiteText>
           <GrayText lineHeight='16px' fontSize='14px' fontWeight={400}>
             $ {displayTokenAmount(new BigNumber(usdAmount), decimals)}
@@ -116,11 +116,11 @@ const PairListCard: React.FC<Props> = ({
   return (
     <PairListWrapper>
       {children}
-      <PairListSearchRow className='mt-2'>
-        <PairListSearchInputWrapper>
+      <PairListSearchRow>
+        <FlexBox position='relative' width='100%'>
           <PairListSearchInput value={search} placeholder='Search for an Asset' onChange={handleSearchChange} />
           <PairListSearchIcon />
-        </PairListSearchInputWrapper>
+        </FlexBox>
         <AssistantButton />
       </PairListSearchRow>
       <PairListTokens>

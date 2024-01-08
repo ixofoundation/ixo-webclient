@@ -1,36 +1,43 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import AssetStakingCard from 'components/Entities/EntitiesExplorer/Components/EntityCard/AssetCard/AssetStakingCard'
 import { TermsOfUseType } from 'types/entities'
-import Tooltip, { TooltipPosition } from 'components/Tooltip/Tooltip'
-import { TradeWrapper, CardHeader, CardBody, WalletBox, TradePanel, AssetCardWrapper } from './Swap.styles'
-import IMG_wallet1 from 'assets/images/icon-walletconnect.svg'
+import { TradeWrapper, CardHeader, CardBody, WalletBox, TradePanel, AssetCardWrapper } from './Trade.styles'
 import IMG_wallet2 from 'assets/images/icon-keplr.svg'
-import IMG_wallet3 from 'assets/images/icon-keysafe.svg'
 import { connect } from 'react-redux'
 import { RootState } from 'redux/store'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useHistory } from 'react-router-dom'
 import { Flex } from '@mantine/core'
+import { useAccount } from 'hooks/account'
 
-const Trade = ({ selectedEntity }: Pick<RootState, 'selectedEntity'>) => {
+const Trade = ({ currentEntity }: Pick<RootState, 'currentEntity'>) => {
+  const history = useHistory()
+  const { address } = useAccount()
+
+  useEffect(() => {
+    if (address) {
+      history.push('/exchange/trade/swap/wallet/keplr')
+    }
+  }, [address, history])
+
   return (
     <TradeWrapper>
       <div className='d-flex'>
         <AssetCardWrapper>
-          {selectedEntity && (
+          {currentEntity && (
             <>
               <CardHeader>&nbsp;</CardHeader>
               <AssetStakingCard
-                did={selectedEntity?.did || ''}
-                name={selectedEntity?.name || ''}
-                logo={selectedEntity?.logo || ''}
-                image={selectedEntity?.image || ''}
-                sdgs={selectedEntity?.sdgs}
-                description={selectedEntity?.description || ''}
+                did={currentEntity?.id || ''}
+                name={currentEntity?.profile?.name || ''}
+                logo={currentEntity?.profile?.logo || ''}
+                image={currentEntity?.profile?.image || ''}
+                sdgs={[]}
+                description={currentEntity?.profile?.description || ''}
                 badges={[]}
                 version={''}
                 termsType={TermsOfUseType.PayPerUse}
                 isExplorer={false}
-                link={`/projects/${selectedEntity?.did || ''}/overview`}
+                link={`/entity/${currentEntity?.id || ''}/overview`}
               />
             </>
           )}
@@ -39,22 +46,12 @@ const Trade = ({ selectedEntity }: Pick<RootState, 'selectedEntity'>) => {
           <Flex w='100%' direction='column'>
             <CardHeader>Connect My Wallet</CardHeader>
             <CardBody>
-              <Tooltip text={'Coming soon'} position={TooltipPosition.Bottom}>
-                <WalletBox>
-                  <img src={IMG_wallet1} alt='wallet1' />
-                  <span>WalletConnect</span>
-                </WalletBox>
-              </Tooltip>
               <NavLink style={{ textDecoration: 'none' }} to={{ pathname: '/exchange/trade/swap/wallet/keplr' }}>
                 <WalletBox>
                   <img src={IMG_wallet2} alt='wallet2' />
                   <span style={{ color: 'white' }}>Keplr</span>
                 </WalletBox>
               </NavLink>
-              <WalletBox>
-                <img src={IMG_wallet3} alt='wallet3' />
-                <span>ixo Keysafe</span>
-              </WalletBox>
             </CardBody>
           </Flex>
         </TradePanel>

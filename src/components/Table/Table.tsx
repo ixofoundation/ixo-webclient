@@ -1,7 +1,10 @@
-import { Flex } from '@mantine/core'
+import { SvgBox, theme } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import React from 'react'
+import { Flex } from '@mantine/core'
 import { useTable, Column, useSortBy } from 'react-table'
+import { ReactComponent as SortLtoGIcon } from 'assets/images/icon-sort-ltog.svg'
+import { ReactComponent as SortGtoLIcon } from 'assets/images/icon-sort-gtol.svg'
 
 // Create a default prop getter
 const defaultPropGetter = () => ({})
@@ -104,10 +107,35 @@ const Table: React.FC<TableProps> = ({
 
 export default Table
 
-export const renderTableHeader = (name: string, justifyContent = 'flex-start') => (
-  <Flex p={16} justify={justifyContent}>
+export const renderTableHeader = (
+  name: string,
+  justifyContent = 'flex-start',
+  sort?: { direction: 'asc' | 'desc' | undefined; onClick: () => void },
+) => (
+  <Flex
+    p={16}
+    justify={
+      justifyContent as
+        | 'flex-start'
+        | 'flex-end'
+        | 'center'
+        | 'space-between'
+        | 'space-around'
+        | 'space-evenly'
+        | 'stretch'
+    }
+    align='center'
+    gap={16}
+    {...(sort ? { onClick: sort.onClick } : {})}
+  >
     <Typography color='light-grey-blue' transform='uppercase' weight='bold' size='md'>
       {name}
     </Typography>
+    {sort && (
+      <SvgBox color={theme.ixoDarkBlue}>
+        {sort.direction !== 'desc' && <SortLtoGIcon />}
+        {sort.direction === 'desc' && <SortGtoLIcon />}
+      </SvgBox>
+    )}
   </Flex>
 )

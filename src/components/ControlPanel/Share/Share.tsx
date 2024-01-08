@@ -5,7 +5,7 @@ import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { useTheme } from 'styled-components'
 
-const Share: React.FC = () => {
+const ShareCard: React.FC = () => {
   const theme: any = useTheme()
   const items = [
     {
@@ -53,4 +53,4 @@ const Share: React.FC = () => {
   )
 }
 
-export default Share
+export default ShareCard

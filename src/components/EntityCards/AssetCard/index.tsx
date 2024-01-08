@@ -47,8 +47,8 @@ export const AssetCard: React.FC<Props> = ({
     <FlexBox
       direction='column'
       width='100%'
-      borderRadius={'10px'}
       height='100%'
+      borderRadius={'10px'}
       overflow='hidden'
       hover={{ boxShadow: '0px 10px 25px 0px rgba(0, 0, 0, 0.15)' }}
       onClick={() =>
@@ -112,7 +112,15 @@ export const AssetCard: React.FC<Props> = ({
           height={8}
         />
       </FlexBox>
-      <FlexBox width='100%' direction='column' background={theme.ixoWhite} p={2}>
+      <FlexBox
+        width='100%'
+        height='100%'
+        direction='column'
+        background={theme.ixoWhite}
+        p={2}
+        borderRadius='0px 0px 12px 12px'
+        style={{ flex: 1 }}
+      >
         <FlexBox width='100%'>
           <Typography color='black' size='xs'>
             {creator}

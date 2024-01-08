@@ -104,8 +104,8 @@ export const PairListTokens = styled.ul`
   padding: 0;
   padding-right: 10px;
   overflow-x: hidden;
-  overflow-y: scroll;
-  height: 218px;
+  overflow-y: auto;
+  height: 220px;
 
   &::-webkit-scrollbar {
     width: 16px;
