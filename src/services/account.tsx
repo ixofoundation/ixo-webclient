@@ -1,4 +1,4 @@
-import { contracts, createSigningClient } from '@ixo/impactxclient-sdk'
+import { contracts, createSigningClient, customQueries } from '@ixo/impactxclient-sdk'
 import { CheckIidDoc, GetTokenAsset, RPC_ENDPOINT } from 'lib/protocol'
 import { useAccount } from 'hooks/account'
 import { useEffect } from 'react'
@@ -11,6 +11,7 @@ import { Cw20Token, NativeToken, TokenType } from 'types/tokens'
 import { claimAvailable } from 'utils/tokenClaim'
 import { plus } from 'utils/currency'
 import { TDAOGroupModel } from 'types/entities'
+import { IxoCoinCodexRelayerApi } from 'hooks/configs'
 
 let nativeBalanceTimer: NodeJS.Timer | null = null
 let cw20BalanceTimer: NodeJS.Timer | null = null
@@ -69,27 +70,53 @@ const AccountUpdateService = (): JSX.Element | null => {
 
   useEffect(() => {
     if (balances.length > 0) {
-      const update = () => {
-        balances.forEach(({ amount, denom }) => {
-          /**
-           * @description find token info from currency list via sdk
-           */
-          GetTokenAsset(denom).then((token) => {
-            if (!token) {
-              return
-            }
-            const displayAmount = convertMicroDenomToDenomWithDecimals(amount, token.coinDecimals).toString()
-            const payload: NativeToken = {
-              type: TokenType.Native,
-              balance: displayAmount,
-              symbol: token.coinDenom,
-              denomOrAddress: token.coinMinimalDenom,
-              imageUrl: token.coinImageUrl!,
-              decimals: token.coinDecimals,
-            }
-            updateNativeTokens({ [payload.denomOrAddress]: payload })
-          })
-        })
+      const update = async () => {
+        for (const balance of balances) {
+          const { amount, denom } = balance
+
+          const token = await GetTokenAsset(denom)
+          if (!token) {
+            continue
+          }
+
+          const tokenInfo = await customQueries.currency.findTokenInfoFromDenom(
+            token.coinMinimalDenom,
+            true,
+            IxoCoinCodexRelayerApi,
+          )
+
+          const displayAmount = convertMicroDenomToDenomWithDecimals(amount, token.coinDecimals).toString()
+          const payload: NativeToken = {
+            type: TokenType.Native,
+            balance: displayAmount,
+            symbol: token.coinDenom,
+            denomOrAddress: token.coinMinimalDenom,
+            imageUrl: token.coinImageUrl!,
+            decimals: token.coinDecimals,
+            lastPriceUsd: tokenInfo?.lastPriceUsd,
+          }
+          updateNativeTokens({ [payload.denomOrAddress]: payload })
+        }
+        // balances.forEach(({ amount, denom }) => {
+        //   /**
+        //    * @description find token info from currency list via sdk
+        //    */
+        //   GetTokenAsset(denom).then((token) => {
+        //     if (!token) {
+        //       return
+        //     }
+        //     const displayAmount = convertMicroDenomToDenomWithDecimals(amount, token.coinDecimals).toString()
+        //     const payload: NativeToken = {
+        //       type: TokenType.Native,
+        //       balance: displayAmount,
+        //       symbol: token.coinDenom,
+        //       denomOrAddress: token.coinMinimalDenom,
+        //       imageUrl: token.coinImageUrl!,
+        //       decimals: token.coinDecimals,
+        //     }
+        //     updateNativeTokens({ [payload.denomOrAddress]: payload })
+        //   })
+        // })
       }
 
       update()

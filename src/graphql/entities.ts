@@ -207,17 +207,15 @@ const GET_ALL_ASSET_COLLECTIONS = gql`
 `
 export function useGetAllCollections() {
   const { loading, error, data, refetch } = useQuery(GET_ALL_ASSET_COLLECTIONS)
-  return { loading, error, data: data?.entities?.nodes ?? [], refetch }
+  const nodes = data?.entities?.nodes ?? []
+  const ids: string[] = nodes.map((v: any) => v.id)
+  return { loading, error, data: nodes, ids, refetch }
 }
 
 // GET_ASSET_DEVICES_BY_COLLECTIONID
 const GET_ASSET_DEVICES_BY_COLLECTIONID = gql`
   query GetAssetDevicesByCollectionId($collectionId: String!) {
-    entities(
-      filter: {
-        iidById: { context: { contains: [{ key: "class", val: $collectionId }] } }
-      }
-    ) {
+    entities(filter: { iidById: { context: { contains: [{ key: "class", val: $collectionId }] } } }) {
       nodes {
         id
         accordedRight
@@ -259,8 +257,8 @@ export function useGetAssetDevicesByCollectionId(collectionId: string) {
   return { loading, error, data: data?.entities?.nodes ?? [], refetch }
 }
 
-// GET_ASSET_DEVICES_LENGTH_BY_COLLECTIONID_AND_OWNER
-const GET_ASSET_DEVICES_LENGTH_BY_COLLECTIONID_AND_OWNER = gql`
+// GET_ASSET_DEVICES_BY_COLLECTIONID_AND_OWNER
+const GET_ASSET_DEVICES_BY_COLLECTIONID_AND_OWNER = gql`
   query GetAssetDevicesByCollectionIdAndOwner($collectionId: String!, $ownerAddress: String) {
     entities(
       filter: {
@@ -303,9 +301,54 @@ const GET_ASSET_DEVICES_LENGTH_BY_COLLECTIONID_AND_OWNER = gql`
   }
 `
 export function useGetAssetDevicesByCollectionIdAndOwner(collectionId: string, ownerAddress?: string) {
-  const { loading, error, data, refetch } = useQuery(GET_ASSET_DEVICES_LENGTH_BY_COLLECTIONID_AND_OWNER, {
+  const { loading, error, data, refetch } = useQuery(GET_ASSET_DEVICES_BY_COLLECTIONID_AND_OWNER, {
     variables: { collectionId, ...(ownerAddress ? { ownerAddress } : {}) },
     skip: !validateEntityDid(collectionId),
   })
-  return { loading, error, data: data?.entities?.nodes ?? [], totalCount: data?.entities?.totalCount ?? 0, refetch }
+  return {
+    loading,
+    error,
+    data: data?.entities?.nodes ?? [],
+    totalCount: data?.entities?.totalCount ?? 0,
+    refetch,
+  }
+}
+
+export function useGetAssetDevicesByCollectionIdAndOwnerLazyQuery() {
+  const [getAssetDevicesByCollectionIdAndOwner, { loading, error, data, refetch }] = useLazyQuery(
+    GET_ASSET_DEVICES_BY_COLLECTIONID_AND_OWNER,
+  )
+
+  return { loading, error, data: data?.entity, refetch, getAssetDevicesByCollectionIdAndOwner }
+}
+
+export function useGetAssetDevicesByOwner(ownerAddress: string) {
+  const { ids } = useGetAllCollections()
+  const { getAssetDevicesByCollectionIdAndOwner } = useGetAssetDevicesByCollectionIdAndOwnerLazyQuery()
+  const [assetDevices, setAssetDevices] = useState<any[]>([])
+
+  useEffect(() => {
+    ;(async () => {
+      let _assetDevices: any[] = []
+      for (const id of ids) {
+        const {
+          data: {
+            entities: { nodes },
+          },
+        } = await getAssetDevicesByCollectionIdAndOwner({
+          variables: { collectionId: id, ownerAddress },
+        })
+        _assetDevices = [..._assetDevices, ...nodes]
+      }
+
+      setAssetDevices(_assetDevices)
+    })()
+
+    return () => {
+      setAssetDevices([])
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [JSON.stringify(ids)])
+
+  return assetDevices
 }

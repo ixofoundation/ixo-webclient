@@ -7,6 +7,7 @@ import { successToast } from 'utils/toast'
 import { ConnectButton } from './WalletConnectButton.styles'
 import { useTheme } from 'styled-components'
 import { WALLET_STORE_LOCAL_STORAGE_KEY } from 'hooks/configs'
+import { useHistory } from 'react-router-dom'
 
 interface Props {
   onClick: () => void
@@ -14,7 +15,8 @@ interface Props {
 
 const WalletConnectButton: React.FC<Props> = ({ onClick }) => {
   const theme: any = useTheme()
-  const { address, name, connect, connectedWallet } = useAccount()
+  const history = useHistory()
+  const { address, name, registered, connect, connectedWallet } = useAccount()
   const [isConnecting, setIsConnecting] = useState(false)
 
   const onConnect = async () => {
@@ -77,7 +79,11 @@ const WalletConnectButton: React.FC<Props> = ({ onClick }) => {
     <ConnectButton
       onClick={(e) => {
         e.preventDefault()
-        onClick()
+        if (registered) {
+          history.push('/myaccount')
+        } else {
+          onClick()
+        }
       }}
     >
       <Typography variant='secondary' size='md' color={theme?.blocks?.header?.textColor}>
