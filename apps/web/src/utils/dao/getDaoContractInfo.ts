@@ -7,6 +7,72 @@ import { getContractNameByCodeId } from './getContractNameByCodeId'
 import { queryMultipleContracts } from 'utils/multiContractCall'
 import { exponentialBackoff } from 'utils/exponentialBackoff'
 
+const aggregateDaoQueries = async (entities: any[]) => {
+  let batchedQueries: any[] = []
+  entities.forEach((item) => {
+    const { id } = item
+    const [, coreAddress] = id.split('#')
+
+    const daoQueries = [
+      { address: coreAddress, data: { admin: {} } },
+      { address: coreAddress, data: { config: {} } },
+      { address: coreAddress, data: { proposal_modules: {} } },
+      { address: coreAddress, data: { voting_module: {} } },
+    ]
+
+    batchedQueries = [...batchedQueries, ...daoQueries]
+  })
+
+  const [admin, config, proposalModules, votingModuleAddress] = await exponentialBackoff(
+    () => queryMultipleContracts(batchedQueries),
+    5,
+    1000,
+    30000,
+  )
+
+  return { admin, config, proposalModules, votingModuleAddress }
+}
+
+export const processDaoContractInfo = async (entities: any) => {
+  const daoQueries = await aggregateDaoQueries(entities)
+
+  console.log({daoQueries})
+
+
+}
+
+const aggregateProposalQueries = async (proposalModuleAddress: string) => {
+  const proposalQueries = [
+    {
+      address: proposalModuleAddress,
+      data: {
+        config: {},
+      },
+    },
+    {
+      address: proposalModuleAddress,
+      data: {
+        list_proposals: {},
+      },
+    },
+    {
+      address: proposalModuleAddress,
+      data: {
+        proposal_creation_policy: {},
+      },
+    },
+  ]
+
+  const [proposalConfig, proposalsList, proposalCreationPolicy] = await exponentialBackoff(
+    () => queryMultipleContracts(proposalQueries),
+    5,
+    1000,
+    30000,
+  )
+
+  return { proposalConfig, proposalsList, proposalCreationPolicy }
+}
+
 export const getDaoContractInfo = async ({
   coreAddress,
   cwClient,
@@ -154,7 +220,7 @@ export const getDaoContractInfo = async ({
       { address: votingModule.votingModuleAddress, data: { staking_contract: {} } },
       { address: votingModule.votingModuleAddress, data: { token_contract: {} } },
     ]
-    const [stakingContract, tokenContract] = await await exponentialBackoff(
+    const [stakingContract, tokenContract] = await exponentialBackoff(
       () => queryMultipleContracts(daoVotingCW20StakedQueries),
       5,
       1000,
