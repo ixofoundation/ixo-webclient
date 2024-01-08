@@ -29,5 +29,5 @@ export type Cw20Token = GenericToken & {
 
 export type NativeToken = GenericToken & {
   balance: string
-  lastPriceUsd: number
+  lastPriceUsd?: number
 }

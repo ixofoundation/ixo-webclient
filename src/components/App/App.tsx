@@ -23,6 +23,8 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { selectCustomTheme } from 'redux/theme/theme.selectors'
 import { useAccount } from 'hooks/account'
+import { MantineProvider } from '@mantine/core'
+import mantineTheme from 'styles/mantine'
 
 ReactGA.initialize('UA-106630107-5')
 ReactGA.pageview(window.location.pathname + window.location.search)
@@ -94,23 +96,29 @@ const App: React.FC = () => {
   }, [entityConfig])
 
   return (
-    <ThemeProvider theme={customizedTheme}>
-      <AssistantContext.Provider value={{ active: false }}>
-        <ToastContainer theme='dark' hideProgressBar={true} position='top-right' />
-        <Services />
-        <ScrollToTop>
-          <Container>
-            <HeaderConnected />
-            <div className='d-flex' style={{ flex: 1 }}>
-              <ContentWrapper>
-                {entityConfig && cwClient ? <Routes /> : <Spinner info={'Connecting to the Internet of Impacts...'} />}
-              </ContentWrapper>
-            </div>
-            <Footer />
-          </Container>
-        </ScrollToTop>
-      </AssistantContext.Provider>
-    </ThemeProvider>
+    <MantineProvider theme={mantineTheme}>
+      <ThemeProvider theme={customizedTheme}>
+        <AssistantContext.Provider value={{ active: false }}>
+          <ToastContainer theme='dark' hideProgressBar={true} position='top-right' />
+          <Services />
+          <ScrollToTop>
+            <Container>
+              <HeaderConnected />
+              <div className='d-flex' style={{ flex: 1 }}>
+                <ContentWrapper>
+                  {entityConfig && cwClient ? (
+                    <Routes />
+                  ) : (
+                    <Spinner info={'Connecting to the Internet of Impacts...'} />
+                  )}
+                </ContentWrapper>
+              </div>
+              <Footer />
+            </Container>
+          </ScrollToTop>
+        </AssistantContext.Provider>
+      </ThemeProvider>
+    </MantineProvider>
   )
 }
 

@@ -214,7 +214,7 @@ const EntitiesExplorer = ({
           />
           {entityTypeMap && loading && (
             <div style={{ height: '100%' }}>
-              <Spinner info={`Loading ${entityTypeMap[type as any]?.plural}`} />
+              <Spinner info={`Loading ${entityTypeMap[type as any]?.plural || ''}`} />
             </div>
           )}
           {renderEntities()}
