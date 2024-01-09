@@ -106,7 +106,7 @@ class ControlPanel extends React.Component<Props, State> {
           >
             <Performance />
             <Actions widget={actions} />
-            {!entityType.startsWith('protocol') && <ClaimsCard />}
+            {!entityType?.startsWith('protocol') && <ClaimsCard />}
             <Share />
           </ControlPanelWrapper>
         </ControlPanelScrollWrapper>

@@ -147,6 +147,29 @@ export const secondsToWdhms = (
   )
 }
 
+export function formatMinutes(minutes: number) {
+  if (typeof minutes !== 'number' || isNaN(minutes)) {
+    return 'Invalid input'
+  }
+
+  const days = Math.floor(minutes / (24 * 60))
+  const hours = Math.floor((minutes % (24 * 60)) / 60)
+  const remainingMinutes = minutes % 60
+
+  let formattedString = ''
+  if (days > 0) {
+    formattedString += `${days}d `
+  }
+  if (hours > 0) {
+    formattedString += `${hours}h `
+  }
+  if (remainingMinutes > 0) {
+    formattedString += `${remainingMinutes}m`
+  }
+
+  return formattedString.trim()
+}
+
 // Converts Date to string from the current point with no sign.
 // Example: dateToWdhms(new Date(Date.now() + 1000)) === '1 second'
 //          dateToWdhms(new Date(Date.now() - 1000)) === '1 second'

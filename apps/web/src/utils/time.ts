@@ -1,4 +1,5 @@
 import { Expiration } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
+import BigNumber from 'bignumber.js'
 import TimeAgo from 'javascript-time-ago'
 import en from 'javascript-time-ago/locale/en'
 
@@ -24,14 +25,32 @@ function isAtTimeExpiration(expiration: Expiration): expiration is { at_time: Ti
   return (expiration as any).at_time !== undefined
 }
 
+export const expirationToTimestamp = (expiration: Expiration): number => {
+  if (isAtTimeExpiration(expiration)) {
+    const expirationTimeBigInt = new BigNumber(expiration.at_time).dividedBy(1_000_000).toNumber()
+    return expirationTimeBigInt
+  }
+
+  return new Date().getTime()
+}
+
+export const diffMinsFromNow = (expiration: Expiration): number => {
+  if (isAtTimeExpiration(expiration)) {
+    const expirationTimeBigInt = new BigNumber(expiration.at_time).dividedBy(1_000_000).toNumber()
+    return (expirationTimeBigInt - new Date().getTime()) / 60000
+  }
+
+  return 0
+}
+
 // Function to check if the expiration has expired
-export const hasExpired = (expiration: Expiration): boolean => {
+export const isExpired = (expiration: Expiration): boolean => {
   if (isAtTimeExpiration(expiration)) {
     const expirationTimeBigInt = BigInt(expiration.at_time)
     const currentTimeBigInt = BigInt(Date.now())
 
     // Convert current time from milliseconds to microseconds for comparison
-    const currentTimeMicroseconds = currentTimeBigInt * BigInt(1000)
+    const currentTimeMicroseconds = currentTimeBigInt * BigInt(1_000_000)
 
     // Check if the current time in microseconds is greater than the expiration time
     return currentTimeMicroseconds > expirationTimeBigInt

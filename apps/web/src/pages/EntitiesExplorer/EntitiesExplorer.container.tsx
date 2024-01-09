@@ -1,3 +1,4 @@
+import * as React from 'react'
 import { RouteProps } from 'react-router'
 import { EntitiesHero } from './Components/EntitiesHero/EntitiesHero'
 import { Spinner } from 'components/Spinner/Spinner'
@@ -32,7 +33,7 @@ import { useEntitiesQuery } from 'generated/graphql'
 import { selectAccountAddress, selectAccountCWClient } from 'redux/account/account.selectors'
 import { apiEntityToEntity } from 'utils/entities'
 
-export type Props = RouteProps & {
+export interface Props extends RouteProps {
   match: any
   type: EntityType
   entities: TEntityModel[]
@@ -86,6 +87,7 @@ const mapDispatchToProps = (dispatch: any) => ({
 type EntitiesExplorerProps = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>
 
 const EntitiesExplorer = ({
+  accountAddress,
   updateEntityProperties,
   updateEntities,
   handleChangeSector,
@@ -111,7 +113,7 @@ const EntitiesExplorer = ({
 
   const { data, loading, refetch } = useEntitiesQuery({
     skip: entities.length > 0,
-    fetchPolicy: 'cache-first',
+    fetchPolicy: 'network-only',
     variables: {
       filter: {
         not: { type: { startsWith: 'asset' } },
@@ -212,7 +214,7 @@ const EntitiesExplorer = ({
           />
           {entityTypeMap && loading && (
             <div style={{ height: '100%' }}>
-              <Spinner info={`Loading ${entityTypeMap[type as any]?.plural}`} />
+              <Spinner info={`Loading ${entityTypeMap[type as any]?.plural || ''}`} />
             </div>
           )}
           {renderEntities()}

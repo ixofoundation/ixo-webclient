@@ -19,7 +19,10 @@ const BalanceCard = () => {
   const totalBalance = useMemo(() => {
     return nativeTokens.reduce(
       (prev, cur) =>
-        new BigNumber(cur.balance).times(new BigNumber(cur.lastPriceUsd)).plus(new BigNumber(prev)).toString(),
+        new BigNumber(cur.balance)
+          .times(new BigNumber(cur.lastPriceUsd || 0))
+          .plus(new BigNumber(prev))
+          .toString(),
       '0',
     )
   }, [nativeTokens])

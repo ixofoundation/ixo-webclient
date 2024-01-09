@@ -1,6 +1,7 @@
-import { FlexBox, SvgBox, theme } from 'components/App/App.styles'
+import { SvgBox, theme } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import React from 'react'
+import { Flex } from '@mantine/core'
 import { useTable, Column, useSortBy } from 'react-table'
 import { ReactComponent as SortLtoGIcon } from 'assets/images/icon-sort-ltog.svg'
 import { ReactComponent as SortGtoLIcon } from 'assets/images/icon-sort-gtol.svg'
@@ -111,9 +112,9 @@ export const renderTableHeader = (
   justifyContent = 'flex-start',
   sort?: { direction: 'asc' | 'desc' | undefined; onClick: () => void },
 ) => (
-  <FlexBox
-    p={4}
-    justifyContent={
+  <Flex
+    p={16}
+    justify={
       justifyContent as
         | 'flex-start'
         | 'flex-end'
@@ -123,9 +124,8 @@ export const renderTableHeader = (
         | 'space-evenly'
         | 'stretch'
     }
-    alignItems='center'
-    gap={2}
-    cursor='pointer'
+    align='center'
+    gap={16}
     {...(sort ? { onClick: sort.onClick } : {})}
   >
     <Typography color='light-grey-blue' transform='uppercase' weight='bold' size='md'>
@@ -137,5 +137,5 @@ export const renderTableHeader = (
         {sort.direction === 'desc' && <SortGtoLIcon />}
       </SvgBox>
     )}
-  </FlexBox>
+  </Flex>
 )

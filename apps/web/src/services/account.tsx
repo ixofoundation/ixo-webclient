@@ -76,47 +76,53 @@ const AccountUpdateService = (): JSX.Element | null => {
 
   useEffect(() => {
     if (balances.length > 0) {
-      const update = () => {
-        balances.forEach(({ amount, denom }) => {
-          /**
-           * @description find token info from currency list via sdk
-           */
-          GetTokenAsset(denom).then((token) => {
-            if (!token) {
-              return
-            }
+      const update = async () => {
+        for (const balance of balances) {
+          const { amount, denom } = balance
 
-            customQueries.currency
-              .findTokenInfoFromDenom(token.coinMinimalDenom, true, IxoCoinCodexRelayerApi)
-              .then((response) => {
-                const { lastPriceUsd } = response
-                const displayAmount = convertMicroDenomToDenomWithDecimals(amount, token.coinDecimals).toString()
-                const payload: NativeToken = {
-                  type: TokenType.Native,
-                  balance: displayAmount,
-                  symbol: token.coinDenom,
-                  denomOrAddress: token.coinMinimalDenom,
-                  imageUrl: token.coinImageUrl!,
-                  decimals: token.coinDecimals,
-                  lastPriceUsd,
-                }
-                updateNativeTokens({ [payload.denomOrAddress]: payload })
-              })
-              .catch(() => {
-                const displayAmount = convertMicroDenomToDenomWithDecimals(amount, token.coinDecimals).toString()
-                const payload: NativeToken = {
-                  type: TokenType.Native,
-                  balance: displayAmount,
-                  symbol: token.coinDenom,
-                  denomOrAddress: token.coinMinimalDenom,
-                  imageUrl: token.coinImageUrl!,
-                  decimals: token.coinDecimals,
-                  lastPriceUsd: 0,
-                }
-                updateNativeTokens({ [payload.denomOrAddress]: payload })
-              })
-          })
-        })
+          const token = await GetTokenAsset(denom)
+          if (!token) {
+            continue
+          }
+
+          const tokenInfo = await customQueries.currency.findTokenInfoFromDenom(
+            token.coinMinimalDenom,
+            true,
+            IxoCoinCodexRelayerApi,
+          )
+
+          const displayAmount = convertMicroDenomToDenomWithDecimals(amount, token.coinDecimals).toString()
+          const payload: NativeToken = {
+            type: TokenType.Native,
+            balance: displayAmount,
+            symbol: token.coinDenom,
+            denomOrAddress: token.coinMinimalDenom,
+            imageUrl: token.coinImageUrl!,
+            decimals: token.coinDecimals,
+            lastPriceUsd: tokenInfo?.lastPriceUsd,
+          }
+          updateNativeTokens({ [payload.denomOrAddress]: payload })
+        }
+        // balances.forEach(({ amount, denom }) => {
+        //   /**
+        //    * @description find token info from currency list via sdk
+        //    */
+        //   GetTokenAsset(denom).then((token) => {
+        //     if (!token) {
+        //       return
+        //     }
+        //     const displayAmount = convertMicroDenomToDenomWithDecimals(amount, token.coinDecimals).toString()
+        //     const payload: NativeToken = {
+        //       type: TokenType.Native,
+        //       balance: displayAmount,
+        //       symbol: token.coinDenom,
+        //       denomOrAddress: token.coinMinimalDenom,
+        //       imageUrl: token.coinImageUrl!,
+        //       decimals: token.coinDecimals,
+        //     }
+        //     updateNativeTokens({ [payload.denomOrAddress]: payload })
+        //   })
+        // })
       }
 
       update()

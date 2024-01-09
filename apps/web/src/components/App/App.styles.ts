@@ -7,6 +7,7 @@ export const theme = {
   ixoDarkOrange: '#ED9526',
   ixoGreen: '#5AB946',
   ixoLightGreen: '#73B556',
+  ixoLightRed: '#F9909E',
   ixoRed: '#E2223B',
   ixoDarkRed: '#A11C43',
   ixoYellow: '#E4D33D',
@@ -332,7 +333,7 @@ export const FlexBox = styled(Box)<HTMLFlexBoxProps>`
   ${({ flexShrink }) => flexShrink && `flex-shrink: ${flexShrink};`}
 `
 
-export const SvgBox = styled(FlexBox)<HTMLFlexBoxProps & { svgWidth?: number; svgHeight?: number, children?: ReactNode }>`
+export const SvgBox = styled(FlexBox)<{ svgWidth?: number; svgHeight?: number }>`
   line-height: 0;
 
   svg {
