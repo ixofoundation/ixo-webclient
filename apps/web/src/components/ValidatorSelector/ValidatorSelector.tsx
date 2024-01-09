@@ -3,9 +3,11 @@ import styled, { useTheme } from 'styled-components'
 import Select, { components } from 'react-select'
 import DefaultValidatorLogo from 'assets/img/relayer.png'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
+import { TValidatorModel } from 'redux/validator/validator.types'
 
 const SelectorWrapper = styled.div`
   position: relative;
+  cursor: pointer;
 
   & input {
     margin: 0px !important;
@@ -41,6 +43,7 @@ const DelegationLabel = styled.div`
   font-size: 15px;
   line-height: 22px;
   color: #537b8e;
+  pointer-events: none;
 `
 export interface ValidatorInfo {
   name: string
@@ -56,9 +59,9 @@ export interface ValidatorInfo {
 interface Props {
   delegationLabel?: string
   disable: boolean
-  selectedValidator: ValidatorInfo
-  validators: ValidatorInfo[]
-  handleChange: (value: ValidatorInfo) => void
+  selectedValidator: TValidatorModel
+  validators: TValidatorModel[]
+  handleChange: (value: TValidatorModel) => void
 }
 
 const ValidatorSelector: React.FunctionComponent<Props> = ({
@@ -100,6 +103,7 @@ const ValidatorSelector: React.FunctionComponent<Props> = ({
       flexGrow: 1,
       padding: 15,
       paddingLeft: 12,
+      cursor: 'pointer',
 
       '& > div:last-child': {
         margin: 0,
@@ -173,9 +177,9 @@ const ValidatorSelector: React.FunctionComponent<Props> = ({
   }
 
   const options = useMemo(() => {
-    return validators.map((token: ValidatorInfo) => ({
+    return validators.map((token: TValidatorModel) => ({
       value: token,
-      label: token.name,
+      label: token.moniker,
     }))
   }, [validators])
 
@@ -198,7 +202,7 @@ const ValidatorSelector: React.FunctionComponent<Props> = ({
           selectedValidator
             ? {
                 value: selectedValidator,
-                label: selectedValidator.name,
+                label: selectedValidator.moniker,
               }
             : null
         }

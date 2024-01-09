@@ -34,6 +34,7 @@ export const KeplrConnect = () => {
   useEffect(() => {
     setLoading(true)
     connect().then(() => setLoading(false))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   if (loading) {

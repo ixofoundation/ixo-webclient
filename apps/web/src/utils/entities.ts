@@ -16,7 +16,7 @@ import {
   Service,
 } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { CosmWasmClient } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/cosmwasm-stargate'
-import { getDaoContractInfo, processDaoContractInfo } from './dao'
+import { getDaoContractInfo } from './dao'
 import { CellnodePublicResource, CellnodeWeb3Resource } from '@ixo/impactxclient-sdk/types/custom_queries/cellnode'
 import Axios from 'axios'
 import { ApiListedEntityData } from 'api/blocksync/types/entities'
@@ -288,21 +288,19 @@ export function apiEntityToEntity(
      * @description entityType === dao
      */
     if (type === 'dao' && cwClient) {
-      processDaoContractInfo(linkedEntity
-        .filter((item: LinkedEntity) => item.type === 'Group'))
-      // linkedEntity
-      //   .filter((item: LinkedEntity) => item.type === 'Group')
-      //   .forEach((item: LinkedEntity) => {
-      //     const { id } = item
-      //     const [, coreAddress] = id.split('#')
-      //     getDaoContractInfo({ coreAddress, cwClient })
-      //       .then((response) => {
-      //         updateCallback('daoGroups', { [response.coreAddress]: response }, true)
-      //       })
-      //       .catch((e) => {
-      //         console.error('getDaoContractInfo', coreAddress, e)
-      //       })
-      //   })
+      linkedEntity
+        .filter((item: LinkedEntity) => item.type === 'Group')
+        .forEach((item: LinkedEntity) => {
+          const { id } = item
+          const [, coreAddress] = id.split('#')
+          getDaoContractInfo({ coreAddress, cwClient })
+            .then((response) => {
+              updateCallback('daoGroups', { [response.coreAddress]: response }, true)
+            })
+            .catch((e) => {
+              console.error('getDaoContractInfo', coreAddress, e)
+            })
+        })
     }
   } catch (error) {
     console.log('apiEntityToEntity error, ', error)

@@ -1,4 +1,4 @@
-import styled, { css, Interpolation } from 'styled-components'
+import styled, { css } from 'styled-components'
 import { Input } from 'pages/CreateEntity/Components'
 import { Typography } from 'components/App/App.styles'
 import { deviceWidth } from 'constants/device'

@@ -1,4 +1,4 @@
-import { contracts, createSigningClient, customQueries } from '@ixo/impactxclient-sdk'
+import { contracts, customQueries } from '@ixo/impactxclient-sdk'
 import { CheckIidDoc, GetTokenAsset, RPC_ENDPOINT } from 'lib/protocol'
 import { useAccount } from 'hooks/account'
 import { useEffect } from 'react'

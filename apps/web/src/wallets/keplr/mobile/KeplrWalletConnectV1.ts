@@ -14,12 +14,13 @@ import {
 } from '@keplr-wallet/types'
 import { isAndroid, isMobile } from '@walletconnect/browser-utils'
 import { IConnector, IJsonRpcRequest, IRequestOptions } from '@walletconnect/types'
-import { payloadId } from '@walletconnect/utils'
 import Axios from 'axios'
 import { Buffer } from 'buffer'
 import deepmerge from 'deepmerge'
 import { SecretUtils } from 'secretjs/types/enigmautils'
 import { WalletClient } from 'types/wallet'
+import { payloadId } from "@walletconnect/jsonrpc-utils";
+
 
 // VersionFormatRegExp checks if a chainID is in the format required for parsing versions
 // The chainID should be in the form: `{identifier}-{version}`

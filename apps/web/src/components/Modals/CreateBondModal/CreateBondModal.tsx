@@ -27,7 +27,7 @@ interface Props {
 
 const CreateBondModal: React.FC<Props> = ({ open, bondDid, onSubmit, onClose }): JSX.Element => {
   const theme: any = useTheme()
-  const { signingClient, signer } = useAccount()
+  const { signer } = useAccount()
   const { getAssetPairs, convertToMinimalDenom, convertToDenom } = useIxoConfigs()
   const { data: bondDetailFromApi } = useGetBondDid(bondDid)
   const coins = getAssetPairs()

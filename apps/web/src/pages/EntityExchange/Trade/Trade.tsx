@@ -5,19 +5,19 @@ import { TradeWrapper, CardHeader, CardBody, WalletBox, TradePanel, AssetCardWra
 import IMG_wallet2 from 'assets/images/icon-keplr.svg'
 import { connect } from 'react-redux'
 import { RootState } from 'redux/store'
-import { NavLink, useHistory } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { Flex } from '@mantine/core'
 import { useAccount } from 'hooks/account'
 
 const Trade = ({ currentEntity }: Pick<RootState, 'currentEntity'>) => {
-  const history = useHistory()
+  const navigate = useNavigate()
   const { address } = useAccount()
 
   useEffect(() => {
     if (address) {
-      history.push('/exchange/trade/swap/wallet/keplr')
+      navigate('/exchange/trade/swap/wallet/keplr')
     }
-  }, [address, history])
+  }, [address, navigate])
 
   return (
     <TradeWrapper>

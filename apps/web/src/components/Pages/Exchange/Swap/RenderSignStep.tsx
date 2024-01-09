@@ -31,7 +31,7 @@ const RenderSignStep = ({ inputAsset, outputAsset, setCurrentStep }: RenderSignS
         execute({messages: swapMessage, fee: undefined}).then(() => callback())
       })
     })
-  }, [inputAsset, outputAsset, offlineSigner, setCurrentStep, address])
+  }, [inputAsset, outputAsset, offlineSigner, setCurrentStep, address, execute])
 
   return (
     <SignStep status={TXStatus.PENDING} />

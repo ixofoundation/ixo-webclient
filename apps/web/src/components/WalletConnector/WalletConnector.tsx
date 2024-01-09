@@ -94,19 +94,19 @@ const FundYourAccount = () => {
   )
 }
 
-const LedgerAccount = ({ handleLedgerDid }: any) => (
-  <Box>
-    <p>
-      YOUR ACCOUNT HAS SUCCESSFULLY BEEN FUNDED
-      <br />
-      Now you can Register your self-sovereign identity on the blockchain, which will deduct a small gas fee from your
-      account.
-    </p>
-    <Button type={ButtonTypes.dark} onClick={handleLedgerDid}>
-      SIGN THIS REQUEST
-    </Button>
-  </Box>
-)
+// const LedgerAccount = ({ handleLedgerDid }: any) => (
+//   <Box>
+//     <p>
+//       YOUR ACCOUNT HAS SUCCESSFULLY BEEN FUNDED
+//       <br />
+//       Now you can Register your self-sovereign identity on the blockchain, which will deduct a small gas fee from your
+//       account.
+//     </p>
+//     <Button type={ButtonTypes.dark} onClick={handleLedgerDid}>
+//       SIGN THIS REQUEST
+//     </Button>
+//   </Box>
+// )
 
 const AccountModal = () => (
   <Box>

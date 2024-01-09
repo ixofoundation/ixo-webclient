@@ -5,9 +5,9 @@ import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import Dashboard from 'components/Dashboard/Dashboard'
 
 // import EntityExchangeTradeSwap from './Trade/Swap/Swap'
-import EntityExchangePortfolio from './Portfolio'
-import EntityExchangeStake from './Stake'
-import EntityExchangePools from './Pools/Pools'
+// import EntityExchangePortfolio from './Portfolio'
+// import EntityExchangeStake from './Stake'
+// import EntityExchangePools from './Pools/Pools'
 import {
   selectPortfolioAsset,
   selectSelectedAccountAddress,
@@ -173,7 +173,7 @@ const EntityExchange = () => {
           <Navigate to={`/exchange/trade/swap`} />
         </Route>
         {/* <Route exact path='/exchange/trade/swap' component={EntityExchangeTrade} /> */}
-        <Route path='/exchange/trade/swap' element={<EntityExchangeTradeSwap/>} />
+        {/* <Route path='/exchange/trade/swap' element={<EntityExchangeTradeSwap/>} /> */}
         {/* <Route exact path='/exchange/trade/:id' component={EntityExchangeTrade} /> */}
       </Routes>
     </Dashboard>

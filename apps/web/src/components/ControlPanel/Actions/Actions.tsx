@@ -17,7 +17,7 @@ interface Props {
 const ActionsCard: React.FC<Props> = () => {
   const navigate = useNavigate()
   const { pathname } = useLocation()
-  const { entityId } = useParams<{ entityId: string }>()
+  const { entityId = "" } = useParams<{ entityId: string }>()
   const deedOffers: TEntityModel[] = useAppSelector(selectAllDeedOffersForEntityId(entityId))
   const [applyToJoinModalOpen, setApplyToJoinModalOpen] = useState(false)
 
