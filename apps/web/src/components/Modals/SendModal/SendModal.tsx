@@ -57,9 +57,9 @@ const SendModal: React.FunctionComponent<Props> = ({ open, selectedDenomOrAddr, 
   const { nativeTokens, cw20Tokens, signingClient, signer } = useAccount()
   const selectedToken = useMemo(
     () =>
-      (isContractAddress(selectedDenomOrAddr) ? cw20Tokens : nativeTokens).find(
-        (token) => token.denomOrAddress === selectedDenomOrAddr,
-      ),
+      isContractAddress(selectedDenomOrAddr)
+        ? cw20Tokens.find((token) => token.denomOrAddress === selectedDenomOrAddr)
+        : nativeTokens.find((token) => token.denomOrAddress === selectedDenomOrAddr),
     [nativeTokens, cw20Tokens, selectedDenomOrAddr],
   )
   const balance = useMemo(() => (selectedToken ? selectedToken.balance : '0'), [selectedToken])

@@ -117,29 +117,19 @@ const ServiceSetupModal: React.FC<Props> = ({ service, open, onClose, onChange }
       <FlexBox direction='column' width='600px' gap={4}>
         <Typography size='xl'>Services</Typography>
         <FlexBox direction='column' gap={8} width='100%'>
-          {formData
-            .sort((a, b) => {
-              if (a.type === NodeType.Ipfs && b.type !== NodeType.Ipfs) {
-                return -1
-              }
-              if (b.type === NodeType.Ipfs && a.type !== NodeType.Ipfs) {
-                return 1
-              }
-              return 0
-            })
-            .map((service, index) => (
-              <ServiceForm
-                key={index}
-                index={index}
-                service={service}
-                {...(service.type === NodeType.Ipfs && index === 0
-                  ? []
-                  : {
-                      onUpdate: (service) => handleUpdateService(index, service),
-                      onRemove: () => handleRemoveService(index),
-                    })}
-              />
-            ))}
+          {formData.map((service, index) => (
+            <ServiceForm
+              key={index}
+              index={index}
+              service={service}
+              {...(index < 2
+                ? []
+                : {
+                    onUpdate: (service) => handleUpdateService(index, service),
+                    onRemove: () => handleRemoveService(index),
+                  })}
+            />
+          ))}
           <FlexBox>
             <Typography className='cursor-pointer' color={'blue'} onClick={handleAddService}>
               + Add another Service

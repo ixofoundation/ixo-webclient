@@ -1,4 +1,4 @@
-import { NodeType, TEntityServiceModel } from 'types/entities'
+import { NodeType, PDS_URL, TEntityServiceModel } from 'types/entities'
 import { ELocalisation } from 'types/protocol'
 import { ECreateEntityActions, TCreateEntityActionTypes, TCreateEntityState } from './createEntity.types'
 
@@ -8,6 +8,12 @@ export const initialIpfsService: TEntityServiceModel = {
   serviceEndpoint: 'https://ipfs.io/ipfs',
 }
 
+export const initialCellnodeService: TEntityServiceModel = {
+  id: '{id}#cellnode',
+  type: NodeType.CellNode,
+  serviceEndpoint: PDS_URL!,
+}
+
 export const initialState: TCreateEntityState = {
   entityType: undefined,
   profile: undefined,
@@ -15,7 +21,7 @@ export const initialState: TCreateEntityState = {
   administrator: undefined,
   ddoTags: [],
   page: undefined,
-  service: [initialIpfsService],
+  service: [initialIpfsService, initialCellnodeService],
   claim: undefined,
   linkedResource: {},
   accordedRight: {},

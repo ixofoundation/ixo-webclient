@@ -1,7 +1,7 @@
 import React from 'react'
 import { Card } from '../Card'
 import { Widget } from '../types'
-import { ReactComponent as CommentIcon } from 'assets/images/icon-comment-alt.svg'
+import { ReactComponent as ShareIcon } from 'assets/images/icon-share-alt-square-solid.svg'
 import { ReactSVG } from 'react-svg'
 import { requireCheckDefault } from 'utils/images'
 
@@ -9,10 +9,10 @@ interface Props {
   widget: Widget
 }
 
-const Connect: React.FC<Props> = ({ widget }) => {
+const ConnectCard: React.FC<Props> = ({ widget }) => {
   return (
     <Card
-      icon={<CommentIcon />}
+      icon={<ShareIcon />}
       title='Connect'
       columns={2}
       items={(widget?.controls ?? [])
@@ -36,4 +36,4 @@ const Connect: React.FC<Props> = ({ widget }) => {
   )
 }
 
-export default Connect
+export default ConnectCard

@@ -1,4 +1,4 @@
-import { contracts } from '@ixo/impactxclient-sdk'
+import { contracts, createSigningClient, customQueries } from '@ixo/impactxclient-sdk'
 import { CheckIidDoc, GetTokenAsset, RPC_ENDPOINT } from 'lib/protocol'
 import { useAccount } from 'hooks/account'
 import { useEffect } from 'react'
@@ -11,6 +11,7 @@ import { Cw20Token, NativeToken, TokenType } from 'types/tokens'
 import { claimAvailable } from 'utils/tokenClaim'
 import { plus } from 'utils/currency'
 import { TDAOGroupModel } from 'types/entities'
+import { IxoCoinCodexRelayerApi } from 'hooks/configs'
 
 let cw20BalanceTimer: ReturnType<typeof setInterval> | null = null
 
@@ -84,16 +85,36 @@ const AccountUpdateService = (): JSX.Element | null => {
             if (!token) {
               return
             }
-            const displayAmount = convertMicroDenomToDenomWithDecimals(amount, token.coinDecimals).toString()
-            const payload: NativeToken = {
-              type: TokenType.Native,
-              balance: displayAmount,
-              symbol: token.coinDenom,
-              denomOrAddress: token.coinMinimalDenom,
-              imageUrl: token.coinImageUrl!,
-              decimals: token.coinDecimals,
-            }
-            updateNativeTokens({ [payload.denomOrAddress]: payload })
+
+            customQueries.currency
+              .findTokenInfoFromDenom(token.coinMinimalDenom, true, IxoCoinCodexRelayerApi)
+              .then((response) => {
+                const { lastPriceUsd } = response
+                const displayAmount = convertMicroDenomToDenomWithDecimals(amount, token.coinDecimals).toString()
+                const payload: NativeToken = {
+                  type: TokenType.Native,
+                  balance: displayAmount,
+                  symbol: token.coinDenom,
+                  denomOrAddress: token.coinMinimalDenom,
+                  imageUrl: token.coinImageUrl!,
+                  decimals: token.coinDecimals,
+                  lastPriceUsd,
+                }
+                updateNativeTokens({ [payload.denomOrAddress]: payload })
+              })
+              .catch(() => {
+                const displayAmount = convertMicroDenomToDenomWithDecimals(amount, token.coinDecimals).toString()
+                const payload: NativeToken = {
+                  type: TokenType.Native,
+                  balance: displayAmount,
+                  symbol: token.coinDenom,
+                  denomOrAddress: token.coinMinimalDenom,
+                  imageUrl: token.coinImageUrl!,
+                  decimals: token.coinDecimals,
+                  lastPriceUsd: 0,
+                }
+                updateNativeTokens({ [payload.denomOrAddress]: payload })
+              })
           })
         })
       }

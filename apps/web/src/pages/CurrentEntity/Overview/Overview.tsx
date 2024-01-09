@@ -1,5 +1,5 @@
 import { FlexBox } from 'components/App/App.styles'
-import ControlPanel from 'components/ControlPanel/ControlPanel'
+import ControlPanel from 'components/ControlPanel'
 import { useEntityConfig } from 'hooks/configs'
 import useCurrentEntity, {
   useCurrentEntityCreator,
@@ -7,7 +7,6 @@ import useCurrentEntity, {
   useCurrentEntityProfile,
 } from 'hooks/currentEntity'
 import { useQuery } from 'hooks/window'
-import { useParams } from 'react-router-dom'
 import ClaimForm from './ClaimForm'
 import { OverviewHero } from '../Components'
 import { LinkedFiles } from './LinkedFiles'
@@ -16,13 +15,12 @@ import OfferForm from './OfferForm'
 import { AgentRoles } from 'types/models'
 
 const Overview: React.FC = () => {
-  const { entityId } = useParams<{ entityId: string }>()
   const { getQuery } = useQuery()
   const claimId = getQuery('claimId')
   const claimCollectionId = getQuery('collectionId')
   const agentRole: AgentRoles = getQuery('agentRole') as AgentRoles
 
-  const { startDate, page, entityType } = useCurrentEntity()
+  const { startDate, page } = useCurrentEntity()
   const { controlPanelSchema } = useEntityConfig()
   const { name, description, location } = useCurrentEntityProfile()
   const { displayName: creatorName, logo: creatorLogo } = useCurrentEntityCreator()
@@ -52,8 +50,9 @@ const Overview: React.FC = () => {
           {claimCollectionId && agentRole && <OfferForm claimCollectionId={claimCollectionId} agentRole={agentRole} />}
           {claimId && <ClaimForm claimId={claimId} />}
         </FlexBox>
-        <FlexBox className='col-lg-3' background='#F0F3F9'>
-          <ControlPanel schema={controlPanelSchema} entityDid={entityId ?? ""} entityType={entityType} />
+        <FlexBox className='col-lg-3 p-0' background='#F0F3F9'>
+          {/* <ControlPanel schema={controlPanelSchema} entityDid={entityId} /> */}
+          <ControlPanel schema={controlPanelSchema} />
         </FlexBox>
       </div>
     </div>

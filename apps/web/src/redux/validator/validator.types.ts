@@ -1,4 +1,5 @@
-import { BondStatus, Validator } from '@ixo/impactxclient-sdk/types/codegen/cosmos/staking/v1beta1/staking'
+import { Coin } from '@cosmjs/proto-signing'
+import { BondStatus } from '@ixo/impactxclient-sdk/types/codegen/cosmos/staking/v1beta1/staking'
 
 export type TValidatorModel = {
   address: string
@@ -7,8 +8,13 @@ export type TValidatorModel = {
   description: string
   commission: number
   moniker: string
-  votingPower: number
+  votingPower: string
+  votingPowerRate: number
   status: BondStatus
+  logo: string
+  delegation?: Coin
+  reward?: Coin
+  jailed: boolean
 }
 
 export type TValidatorState = {
@@ -21,7 +27,7 @@ export enum ValidatorActions {
 
 export interface GetValidatorAction {
   type: typeof ValidatorActions.GetValidators
-  payload: Validator[]
+  payload: TValidatorModel[]
 }
 
 export type ValidatorActionTypes = GetValidatorAction

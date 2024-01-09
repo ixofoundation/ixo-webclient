@@ -14,3 +14,30 @@ export function useGetAccountTokens(address: string) {
   })
   return { loading, error, data: data?.getAccountTokens ?? {}, refetch }
 }
+
+// GET_TOKENOMICS
+const GET_TOKENOMICS = gql`
+  query GetTokenomics {
+    tokenomicsInflation
+    tokenomicsSupplyCommunityPool
+    tokenomicsSupplyStaked
+    tokenomicsSupplyTotal
+  }
+`
+export function useGetTokenomics() {
+  const { loading, error, data, refetch } = useQuery(GET_TOKENOMICS, {
+    pollInterval: 1000 * 60 * 60, // 1 hour
+  })
+  return {
+    loading,
+    error,
+    data: {
+      tokenomicsInflation: data?.tokenomicsInflation ?? 0,
+      tokenomicsSupplyStaked: data?.tokenomicsSupplyStaked ?? {
+        notBondedTokens: '0',
+        bondedTokens: '0',
+      },
+    },
+    refetch,
+  }
+}

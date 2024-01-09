@@ -41,8 +41,8 @@ const AmountInputBox: React.FC<Props> = ({
   isFromToken,
   isTriangle = true,
   usdRate,
-  amount,
-  balance,
+  amount = '0',
+  balance = '0',
   handleAmountChange,
   handleAssetSelect,
   handleFocused,
@@ -94,7 +94,7 @@ const AmountInputBox: React.FC<Props> = ({
       </div>
       <div className='d-flex align-items-center'>
         <CurrencyFormat
-          value={new BigNumber(amount).toNumber() === 0 ? '' : new BigNumber(amount).toString()}
+          value={new BigNumber(amount).toNumber() === 0 ? '0' : new BigNumber(amount).toString()}
           thousandSeparator
           placeholder='Amount'
           decimalScale={decimals}

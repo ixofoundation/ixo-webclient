@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import cx from 'classnames'
-import Axios from 'axios'
 import Lottie from 'react-lottie'
 import TokenSelector from 'components/TokenSelector/TokenSelector'
 import { StepsTransactions } from 'components/StepsTransactions/StepsTransactions'
@@ -10,13 +9,12 @@ import OverlayButtonUpIcon from 'assets/images/modal/overlaybutton-up.svg'
 import NextStepIcon from 'assets/images/modal/nextstep.svg'
 import EyeIcon from 'assets/images/icon-eye.svg'
 import CheckIcon from 'assets/images/icon-check.svg'
-import { getDisplayAmount } from 'utils/currency'
+import { convertDecCoinToCoin, getDisplayAmount } from 'utils/currency'
 import { BigNumber } from 'bignumber.js'
-import { apiCurrencyToCurrency } from 'redux/account/account.utils'
 import pendingAnimation from 'assets/animations/transaction/pending.json'
 import successAnimation from 'assets/animations/transaction/success.json'
 import errorAnimation from 'assets/animations/transaction/fail.json'
-import ValidatorSelector, { ValidatorInfo } from 'components/ValidatorSelector/ValidatorSelector'
+import ValidatorSelector from 'components/ValidatorSelector/ValidatorSelector'
 import { thousandSeparator } from 'utils/formatters'
 import AllValidator from 'components/ValidatorSelector/AllValidator'
 import {
@@ -31,8 +29,19 @@ import {
   LabelWrapper,
   Divider,
 } from './Modal.styles'
-import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 import { requireCheckDefault } from 'utils/images'
+import { TValidatorModel } from 'redux/validator/validator.types'
+import { useAccount } from 'hooks/account'
+import { useValidators } from 'hooks/validator'
+import {
+  DistributionWithdrawDelegatorReward,
+  GetDelegationTotalRewards,
+  StakingBeginRedelegate,
+  StakingDelegate,
+  StakingUndelegate,
+} from 'lib/protocol'
+import { useIxoConfigs } from 'hooks/configs'
+import { Coin } from '@cosmjs/proto-signing'
 
 enum StakingMethod {
   UNSET = 'UNSET',
@@ -47,20 +56,17 @@ enum TXStatus {
   ERROR = 'error',
 }
 interface Props {
-  walletType: string
   accountAddress: string
-  defaultValidator?: ValidatorInfo | null
-  handleStakingMethodChange: (method: string) => void
+  defaultValidator?: TValidatorModel | null
 }
 
-const StakingModal: React.FunctionComponent<Props> = ({
-  walletType,
-  accountAddress,
-  defaultValidator = null,
-  handleStakingMethodChange,
-}) => {
+const StakingModal: React.FunctionComponent<Props> = ({ accountAddress, defaultValidator = null }) => {
+  const { convertToMinimalDenom } = useIxoConfigs()
+  const { displayBalances: balances, signingClient } = useAccount()
+  const { validators } = useValidators()
+
   const [steps, setSteps] = useState(['Validator', 'Amount', 'Order', 'Sign'])
-  const [asset, setAsset] = useState<Coin | null>(null)
+  const [selectedCoin, setSelectedCoin] = useState<Coin | null>(null)
   const [currentStep, setCurrentStep] = useState<number>(0)
   const [validatorAddress, setValidatorAddress] = useState<string | null>(
     defaultValidator ? defaultValidator.address : null,
@@ -70,24 +76,21 @@ const StakingModal: React.FunctionComponent<Props> = ({
   const [amount, setAmount] = useState<number | null>(null)
   const [memo, setMemo] = useState<string>('')
   const [memoStatus, setMemoStatus] = useState<string>('nomemo')
-  const [balances, setBalances] = useState<Coin[]>([])
-  const [validators, setValidators] = useState<ValidatorInfo[]>([])
-  // const [, setDelegatedValidators] = useState<any[]>([])
-  const [selectedValidator, setSelectedValidator] = useState<ValidatorInfo | null>(defaultValidator)
-  const [selectedValidatorDst, setSelectedValidatorDst] = useState<ValidatorInfo | null>(null)
+  const [selectedValidator, setSelectedValidator] = useState<TValidatorModel | null>(defaultValidator)
+  const [selectedValidatorDst, setSelectedValidatorDst] = useState<TValidatorModel | null>(null)
   const [signTXStatus, setSignTXStatus] = useState<TXStatus>(TXStatus.PENDING)
   const [signTXhash, setSignTXhash] = useState<string | null>(null)
   const [sumOfRewards, setSumOfRewards] = useState<number>(0)
 
   const handleTokenChange = (token: Coin): void => {
-    setAsset(token)
+    setSelectedCoin(token)
   }
 
-  const handleValidatorChange = (validator: ValidatorInfo): void => {
+  const handleValidatorChange = (validator: TValidatorModel): void => {
     setValidatorAddress(validator.address)
     setSelectedValidator(validator)
   }
-  const handleValidatorDstChange = (validator: ValidatorInfo): void => {
+  const handleValidatorDstChange = (validator: TValidatorModel): void => {
     setValidatorDstAddress(validator.address)
     setSelectedValidatorDst(validator)
   }
@@ -123,12 +126,10 @@ const StakingModal: React.FunctionComponent<Props> = ({
 
   const handleStakingMethod = (label: StakingMethod): void => {
     if (label === StakingMethod.GETREWARD) {
-      setSteps(['Validators', '', '', 'Sign'])
-      setAsset(balances.filter(({ denom }) => denom === 'ixo')[0])
+      setSteps([defaultValidator ? 'Validator' : 'Validators', '', '', 'Sign'])
     } else {
       setSteps(['Validator', 'Amount', 'Order', 'Sign'])
     }
-    handleStakingMethodChange(`${label} My Stake`)
     setSelectedStakingMethod(label)
   }
 
@@ -148,12 +149,12 @@ const StakingModal: React.FunctionComponent<Props> = ({
             }
             return false
           case StakingMethod.GETREWARD:
-            if (asset) {
+            if (selectedCoin) {
               return true
             }
             return false
           default:
-            if (asset && validatorAddress) {
+            if (selectedCoin && validatorAddress) {
               return true
             }
             return false
@@ -193,70 +194,6 @@ const StakingModal: React.FunctionComponent<Props> = ({
     }
   }
 
-  const getBalances = async (address: string): Promise<any> => {
-    return Axios.get(process.env.REACT_APP_GAIA_URL + '/bank/balances/' + address).then((response) => {
-      return {
-        balances: response.data.result.map((coin: any) => apiCurrencyToCurrency(coin)),
-      }
-    })
-  }
-
-  const getValidators = (): Promise<any> => {
-    return Axios.get(`${process.env.REACT_APP_GAIA_URL}/staking/validators`)
-      .then((response) => response.data)
-      .then(async ({ result }) => {
-        return await result.map(async (validator: any) => {
-          const identity = validator.description.identity
-          let logo
-
-          if (identity) {
-            logo = await Axios.get(
-              `https://keybase.io/_/api/1.0/user/lookup.json?key_suffix=${identity}&fields=pictures`,
-            )
-              .then((response) => response.data)
-              .then((response) => response.them[0])
-              .then((response) => response.pictures)
-              .then((response) => response.primary)
-              .then((response) => response.url)
-              .catch(() => requireCheckDefault(require('assets/img/relayer.png')))
-          } else {
-            logo = requireCheckDefault(require('assets/img/relayer.png'))
-          }
-
-          const delegation = await Axios.get(
-            `${process.env.REACT_APP_GAIA_URL}/cosmos/staking/v1beta1/validators/${validator.operator_address}/delegations/${accountAddress}`,
-          )
-            .then((response) => response.data)
-            .then((response) => response.delegation_response)
-            .then((response) => response.balance)
-            .then(({ amount, denom }) => ({
-              amount: denom !== 'uixo' ? amount : getDisplayAmount(new BigNumber(amount)),
-              denom: denom !== 'uixo' ? denom : 'ixo',
-            }))
-            .catch(() => null)
-
-          return {
-            address: validator.operator_address,
-            name: validator.description.moniker,
-            logo,
-            commission: Number(validator.commission.commission_rates.rate * 100).toFixed(0) + '%',
-            delegation,
-          }
-        })
-      })
-  }
-  const getAllRewards = (): Promise<any> => {
-    return (
-      Axios.get(`${process.env.REACT_APP_GAIA_URL}/cosmos/distribution/v1beta1/delegators/${accountAddress}/rewards`)
-        .then((response) => response.data)
-        // .then((response) => response.total[0])
-        // .then(({ amount }) =>
-        //   Number(getDisplayAmount(new BigNumber(amount)).toFixed(0)),
-        // )
-        .catch(() => ({ rewards: [], total: 0 }))
-    )
-  }
-
   const generateTXMessage = (txStatus: TXStatus): string => {
     switch (txStatus) {
       case TXStatus.PENDING:
@@ -270,37 +207,115 @@ const StakingModal: React.FunctionComponent<Props> = ({
     }
   }
 
+  const handleDelegate = async () => {
+    if (validatorAddress && amount) {
+      const delegateAmount = convertToMinimalDenom({ amount: String(amount), denom: selectedCoin?.denom || '' })
+      try {
+        const { code, rawLog, transactionHash } = await StakingDelegate(signingClient, {
+          delegatorAddress: accountAddress,
+          validatorAddress,
+          amount: delegateAmount!,
+        })
+        if (code) {
+          throw rawLog
+        }
+        setSignTXStatus(TXStatus.SUCCESS)
+        setSignTXhash(transactionHash)
+      } catch (e: any) {
+        console.error('handleDelegate', e.message)
+        setSignTXStatus(TXStatus.ERROR)
+      }
+    }
+  }
+
+  const handleUndelegate = async () => {
+    if (validatorAddress && amount) {
+      const delegateAmount = convertToMinimalDenom({ amount: String(amount), denom: selectedCoin?.denom || '' })
+      try {
+        const { code, rawLog, transactionHash } = await StakingUndelegate(signingClient, {
+          delegatorAddress: accountAddress,
+          validatorAddress,
+          amount: delegateAmount!,
+        })
+        if (code) {
+          throw rawLog
+        }
+        setSignTXStatus(TXStatus.SUCCESS)
+        setSignTXhash(transactionHash)
+      } catch (e: any) {
+        console.error('handleUndelegate', e.message)
+        setSignTXStatus(TXStatus.ERROR)
+      }
+    }
+  }
+
+  const handleBeginRedelegate = async () => {
+    if (validatorAddress && validatorDstAddress && amount) {
+      const delegateAmount = convertToMinimalDenom({ amount: String(amount), denom: selectedCoin?.denom || '' })
+      try {
+        const { code, rawLog, transactionHash } = await StakingBeginRedelegate(signingClient, {
+          delegatorAddress: accountAddress,
+          validatorSrcAddress: validatorAddress,
+          validatorDstAddress,
+          amount: delegateAmount!,
+        })
+        if (code) {
+          throw rawLog
+        }
+        setSignTXStatus(TXStatus.SUCCESS)
+        setSignTXhash(transactionHash)
+      } catch (e: any) {
+        console.error('handleBeginRedelegate', e.message)
+        setSignTXStatus(TXStatus.ERROR)
+      }
+    }
+  }
+
+  const handleWithdrawDelegatorReward = async () => {
+    if (validatorAddress) {
+      try {
+        const { code, rawLog, transactionHash } = await DistributionWithdrawDelegatorReward(signingClient, {
+          delegatorAddress: accountAddress,
+          validatorAddress,
+        })
+        if (code) {
+          throw rawLog
+        }
+        setSignTXStatus(TXStatus.SUCCESS)
+        setSignTXhash(transactionHash)
+      } catch (e: any) {
+        console.error('handleWithdrawDelegatorReward', e.message)
+        setSignTXStatus(TXStatus.ERROR)
+      }
+    }
+  }
+
   useEffect(() => {
     if (currentStep === 0) {
-      setValidators([])
-      getBalances(accountAddress).then(({ balances }) => {
-        setBalances(
-          balances.map((balance: any) => {
-            if (balance.denom === 'uixo') {
-              //  default to ixo
-              setAsset({
-                denom: 'ixo',
-                amount: getDisplayAmount(new BigNumber(balance.amount)),
-              })
-              return {
-                denom: 'ixo',
-                amount: getDisplayAmount(new BigNumber(balance.amount)),
-              }
-            }
-            return balance
-          }),
-        )
+      GetDelegationTotalRewards(accountAddress).then((response) => {
+        if (response) {
+          const { total: totalDecCoin } = response
+          const totalCoin = convertDecCoinToCoin(totalDecCoin[0])
+          setSumOfRewards(Number(getDisplayAmount(new BigNumber(totalCoin?.amount))))
+        }
       })
-      getValidators().then((response) => {
-        response.map(async (item: any) => {
-          const validator = await item
-          setValidators((old) => [...old, validator])
-        })
-      })
-      getAllRewards().then(({ rewards, total }) => {
-        // setDelegatedValidators(rewards)
-        setSumOfRewards(Number(getDisplayAmount(new BigNumber(total[0]?.amount))))
-      })
+    } else if (currentStep === 3) {
+      switch (selectedStakingMethod) {
+        case StakingMethod.DELEGATE:
+          handleDelegate()
+          break
+        case StakingMethod.UNDELEGATE:
+          handleUndelegate()
+          break
+        case StakingMethod.REDELEGATE:
+          handleBeginRedelegate()
+          break
+        case StakingMethod.GETREWARD:
+          handleWithdrawDelegatorReward()
+          break
+        default:
+          break
+      }
     }
     if (currentStep < 3) {
       setSignTXStatus(TXStatus.PENDING)
@@ -308,6 +323,11 @@ const StakingModal: React.FunctionComponent<Props> = ({
     }
     // eslint-disable-next-line
   }, [currentStep])
+
+  useEffect(() => {
+    setSelectedCoin(balances.filter(({ denom }) => denom === 'ixo')[0])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [JSON.stringify(balances)])
 
   return (
     <Container>
@@ -320,9 +340,9 @@ const StakingModal: React.FunctionComponent<Props> = ({
           {selectedStakingMethod === StakingMethod.GETREWARD && (
             <>
               <AllValidator
-                placeholder={!defaultValidator ? 'All Validators' : defaultValidator.name}
+                placeholder={!defaultValidator ? 'All Validators' : defaultValidator.moniker}
                 label={`${thousandSeparator(
-                  !defaultValidator ? sumOfRewards : defaultValidator.reward!.amount,
+                  !defaultValidator ? sumOfRewards : new BigNumber(defaultValidator.reward?.amount ?? 0).toFixed(2),
                   ',',
                 )} IXO Available`}
                 logo={
@@ -336,14 +356,14 @@ const StakingModal: React.FunctionComponent<Props> = ({
             <>
               <CheckWrapper>
                 <TokenSelector
-                  selectedToken={asset!}
+                  selectedToken={selectedCoin!}
                   tokens={balances}
                   handleChange={handleTokenChange}
                   disable={currentStep !== 0 || selectedStakingMethod === StakingMethod.GETREWARD}
                   label={
-                    (asset &&
+                    (selectedCoin &&
                       selectedStakingMethod !== StakingMethod.GETREWARD &&
-                      `${thousandSeparator(asset.amount, ',')} Available`) ||
+                      `${thousandSeparator(selectedCoin.amount, ',')} Available`) ||
                     undefined
                   }
                 />
@@ -387,7 +407,7 @@ const StakingModal: React.FunctionComponent<Props> = ({
               </CheckWrapper>
               {selectedValidatorDst && (
                 <Label className='mt-2'>
-                  Commission: <strong>{selectedValidatorDst.commission}</strong>
+                  Commission: <strong>{selectedValidatorDst.commission}%</strong>
                 </Label>
               )}
             </>
@@ -470,13 +490,13 @@ const StakingModal: React.FunctionComponent<Props> = ({
               handleMemoChange={handleMemoChange}
               handleMemoStatus={setMemoStatus}
               disable={currentStep !== 1}
-              suffix={asset!.denom.toUpperCase()}
+              suffix={selectedCoin!.denom.toUpperCase()}
             />
             {currentStep === 2 && <img className='check-icon' src={CheckIcon} alt='check-icon' />}
           </CheckWrapper>
           <LabelWrapper className='mt-2'>
             <Label>
-              Network fees: <strong>0.05 {asset!.denom.toUpperCase()}</strong>
+              Network fees: <strong>0.005 {selectedCoin!.denom.toUpperCase()}</strong>
             </Label>
             {currentStep === 2 && (
               <Label>

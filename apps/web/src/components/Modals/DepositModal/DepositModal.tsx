@@ -72,9 +72,9 @@ const DepositModal: React.FunctionComponent<Props> = ({
   const [selectedTokenDenom, setSelectedTokenDenom] = useState(selectedDenomOrAddr)
   const selectedToken = useMemo(
     () =>
-      (isContractAddress(selectedTokenDenom) ? cw20Tokens : nativeTokens).find(
-        (token) => token.denomOrAddress === selectedTokenDenom,
-      ),
+      isContractAddress(selectedTokenDenom)
+        ? cw20Tokens.find((token) => token.denomOrAddress === selectedTokenDenom)
+        : nativeTokens.find((token) => token.denomOrAddress === selectedTokenDenom),
     [nativeTokens, cw20Tokens, selectedTokenDenom],
   )
   const balance = useMemo(() => (selectedToken ? selectedToken.balance : '0'), [selectedToken])

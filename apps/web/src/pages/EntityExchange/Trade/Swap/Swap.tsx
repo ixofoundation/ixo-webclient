@@ -1,9 +1,8 @@
 import React, { useMemo, useState } from 'react'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
 
-import { TradePanel } from '../Swap.styles'
+import { TradePanel } from '../Trade.styles'
 
-import { selectSelectedAccountAddress } from 'redux/selectedEntityExchange/entityExchange.selectors'
 import BigNumber from 'bignumber.js'
 import { useIxoConfigs } from 'hooks/configs'
 import { AssetType } from 'redux/configs/configs.types'
@@ -19,8 +18,9 @@ import { selectInputEntity, selectOutputEntity } from 'redux/exchange/exchange.s
 import { AssetCard } from 'components'
 import { Flex } from '@mantine/core'
 import { useGetAccountTokens } from 'graphql/tokens'
-import { useTheme } from 'styled-components'
 import { useMediaQuery } from '@mantine/hooks'
+import { useAccount } from 'hooks/account'
+import { useTheme } from 'styled-components'
 
 const EmptyAssetCardData = {
   type: '',
@@ -37,13 +37,13 @@ const EmptyAssetCardData = {
 }
 
 const Swap: React.FunctionComponent = () => {
-  const theme = useTheme() as any
   const { getAssetsByChainId, getRelayerNameByChainId } = useIxoConfigs()
-  const selectedAccountAddress = useAppSelector(selectSelectedAccountAddress)
+  const { address: selectedAccountAddress } = useAccount()
   const inputAssetEntity = useAppSelector(selectInputEntity)
   const outputAssetEntity = useAppSelector(selectOutputEntity)
   const dispatch = useAppDispatch()
   const isSmallScreen = useMediaQuery('(max-width: 1024px)')
+  const theme = useTheme() as any
 
   const [viewSettings, setViewSettings] = useState(false)
   const [openTransactionModal, setOpenTransactionModal] = useState(false)

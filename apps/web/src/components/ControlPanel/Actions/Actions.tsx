@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import { Card } from '../Card'
 import { Widget } from '../types'
-import { ReactComponent as AssistantIcon } from 'assets/images/icon-assistant.svg'
+import { ReactComponent as HandPaperIcon } from 'assets/images/icon-hand-paper.svg'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
 import { ApplyToJoinModal } from 'components/Modals'
 import { useAppSelector } from 'redux/hooks'
 import { selectAllDeedOffersForEntityId } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useLocation, useParams } from 'react-router-dom'
 import { TEntityModel } from 'types/entities'
 import { AgentRoles } from 'types/models'
 
@@ -14,10 +14,10 @@ interface Props {
   widget: Widget
 }
 
-const Actions: React.FC<Props> = () => {
+const ActionsCard: React.FC<Props> = () => {
   const navigate = useNavigate()
-  const location = useLocation()
-  const { entityId = "" } = useParams<{ entityId: string }>()
+  const { pathname } = useLocation()
+  const { entityId } = useParams<{ entityId: string }>()
   const deedOffers: TEntityModel[] = useAppSelector(selectAllDeedOffersForEntityId(entityId))
   const [applyToJoinModalOpen, setApplyToJoinModalOpen] = useState(false)
 
@@ -25,13 +25,13 @@ const Actions: React.FC<Props> = () => {
     const search = new URLSearchParams()
     search.append('collectionId', collectionId)
     search.append('agentRole', agentRole)
-    navigate({ pathname: location.pathname, search: search.toString() })
+    navigate({ pathname: pathname, search: search.toString() })
   }
 
   return (
     <>
       <Card
-        icon={<AssistantIcon />}
+        icon={<HandPaperIcon />}
         title='Actions'
         columns={2}
         items={[
@@ -54,4 +54,4 @@ const Actions: React.FC<Props> = () => {
   )
 }
 
-export default Actions
+export default ActionsCard

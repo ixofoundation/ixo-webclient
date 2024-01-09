@@ -4,7 +4,10 @@ import * as entitySelectors from 'redux/selectedEntity/selectedEntity.selectors'
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import Dashboard from 'components/Dashboard/Dashboard'
 
-import EntityExchangeTradeSwap from './Trade/Swap/Swap'
+// import EntityExchangeTradeSwap from './Trade/Swap/Swap'
+import EntityExchangePortfolio from './Portfolio'
+import EntityExchangeStake from './Stake'
+import EntityExchangePools from './Pools/Pools'
 import {
   selectPortfolioAsset,
   selectSelectedAccountAddress,
@@ -14,10 +17,9 @@ import { Path } from 'components/Dashboard/types'
 import { MatchType } from 'types/models'
 import { selectTradingAllowed } from 'redux/configs/configs.selectors'
 import { requireCheckDefault } from 'utils/images'
-import useRouteQuery from 'hooks/useRouteQuery'
 
 const EntityExchange = () => {
-  const did=  useAppSelector(entitySelectors.selectEntityDid)
+  const did =  useAppSelector(entitySelectors.selectEntityDid)
   const name= useAppSelector(entitySelectors.selectEntityName)
   const type= useAppSelector(entitySelectors.selectEntityType)
   const portfolioAsset= useAppSelector(selectPortfolioAsset)
@@ -27,8 +29,6 @@ const EntityExchange = () => {
 
 
   const tradingAllowed = useAppSelector(selectTradingAllowed)
-  const query = useRouteQuery()
-  const entityId = query.get('from')
 
   let title = name ?? ""
 
@@ -37,68 +37,40 @@ const EntityExchange = () => {
     const routes = []
 
     routes.push({
-      url: `/entity/${entityId}/exchange/portfolio`,
+      url: `/exchange/portfolio`,
       icon: requireCheckDefault(require('assets/img/sidebar/portfolio.svg')),
       sdg: portfolioAsset ?? 'No Asset',
       tooltip: 'My Portfolio',
     })
-    if (pathname.includes('/exchange/trade/swap')) {
+    if (pathname.includes('/trade/swap')) {
       routes.push({
-        url: `/entity/${entityId}/exchange/trade/swap`,
+        url: `/exchange/trade/swap`,
         icon: requireCheckDefault(require('assets/img/sidebar/trade.svg')),
         sdg: 'Swap',
         tooltip: 'Swap',
+        strict: true,
       })
     } else {
-      if (tradingAllowed) {
-        routes.push({
-          url: `/entity/${did}/exchange/trade`,
-          icon: requireCheckDefault(require('assets/img/sidebar/trade.svg')),
-          sdg: 'Trade',
-          tooltip: 'Trade',
-        })
-      } else {
-        routes.push({
-          url: `#`,
-          icon: requireCheckDefault(require('assets/img/sidebar/trade.svg')),
-          sdg: 'Trade',
-          tooltip: 'Trading disabled',
-        })
-      }
+      routes.push({
+        url: tradingAllowed ? `/exchange/trade` : '#',
+        icon: requireCheckDefault(require('assets/img/sidebar/trade.svg')),
+        sdg: 'Trade',
+        tooltip: tradingAllowed ? 'Trade' : 'Trading disabled',
+      })
     }
     routes.push({
-      url: `/entity/${entityId}/exchange/stake`,
+      url: `/exchange/stake`,
       icon: requireCheckDefault(require('assets/img/sidebar/stake.svg')),
       sdg: stakeCellEntity ?? (process.env.REACT_APP_CHAIN_ID!.indexOf('pandora') > -1 ? 'pandora' : 'impact-hub'),
       tooltip: 'Stake',
     })
-    routes.push({
-      url: `/entity/${entityId}/exchange/pools`,
-      icon: requireCheckDefault(require('assets/img/sidebar/pools.svg')),
-      sdg: 'Explorer',
-      tooltip: 'Pools',
-    })
-    routes.push({
-      // url: `/projects/${did}/exchange/airdrop`,
-      url: '#',
-      icon: requireCheckDefault(require('assets/img/sidebar/airdrop.svg')),
-      sdg: 'Missions',
-      // tooltip: 'Airdrop',
-      tooltip: 'Not Available',
-    })
-    // routes.push({
-    //   url: `/projects/${did}/exchange/vote`,
-    //   icon: requireCheckDefault(require('assets/img/sidebar/vote.svg')),
-    //   sdg: 'Vote',
-    //   tooltip: 'Vote',
-    // })
 
     return routes
   }
 
   const breadCrumbs = [
     {
-      url: `/entity/${entityId}/exchange/trade`,
+      url: `/exchange/trade`,
       icon: '',
       sdg: 'Exchange',
       tooltip: '',
@@ -108,14 +80,14 @@ const EntityExchange = () => {
   if (location.pathname.indexOf('/exchange/trade') > -1) {
     title = 'Impact Exchange' //  FIXME: hardcoded
     breadCrumbs.unshift({
-      url: `/entity/${entityId}/overview`,
+      url: `/entity/${did}/overview`,
       icon: '',
       sdg: title,
       tooltip: '',
     })
     if (location.pathname.indexOf(`/exchange/trade/swap`) > -1) {
       breadCrumbs.push({
-        url: `/entity/${entityId}/exchange/trade`,
+        url: `#`,
         icon: '',
         sdg: 'Trade',
         tooltip: '',
@@ -165,12 +137,21 @@ const EntityExchange = () => {
     })
   } else {
     breadCrumbs.push({
-      url: `/entity/${did}/overview`,
+      url: `#`,
       icon: '',
       sdg: title,
       tooltip: '',
     })
   }
+
+  const tabs = [
+    {
+      iconClass: 'icon-exchange',
+      path: `/exchange`,
+      title: 'EXCHANGE',
+      tooltip: `Asset Exchange`,
+    },
+  ]
 
   const theme = 'dark'
 
@@ -182,6 +163,7 @@ const EntityExchange = () => {
       title={title}
       subRoutes={routes}
       baseRoutes={breadCrumbs}
+      tabs={tabs}
       entityType={type}
       matchType={MatchType.strict}
     >
