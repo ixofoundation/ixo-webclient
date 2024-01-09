@@ -16,6 +16,7 @@ import ClaimsCard from './Claims'
 import ConnectCard from './Connect/Connect'
 import FeedCard from './Feed'
 import MessagesCard from './Messages'
+import AssistantCard from './Assistant'
 
 interface Props {
   schema: Schema
@@ -52,6 +53,12 @@ const ControlPanel: React.FC<Props> = ({ schema }) => {
     </>
   )
 
+  const renderAssistant = () => (
+    <>
+      <AssistantCard />
+    </>
+  )
+
   return (
     <FlexBox width='100%' height='100%' background='#F0F3F9' direction='column' justifyContent='space-between' gap={6}>
       <FlexBox width='100%' direction='column' gap={6} p={5}>
@@ -59,6 +66,7 @@ const ControlPanel: React.FC<Props> = ({ schema }) => {
         {activeTab === 'detail' && renderDetail()}
         {activeTab === 'feed' && renderFeed()}
         {activeTab === 'message' && renderMessages()}
+        {activeTab === 'assistant' && renderAssistant()}
       </FlexBox>
       <FlexBox
         width='100%'
