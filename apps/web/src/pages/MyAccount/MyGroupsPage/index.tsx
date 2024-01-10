@@ -4,7 +4,7 @@ import GroupsCard from './GroupsCard'
 import { useQuery } from 'hooks/window'
 import GroupView from './GroupView'
 
-const MyGroupsPage: React.FC = () => {
+const MyGroupsPage = () => {
   const { getQuery } = useQuery()
   const selectedGroup = getQuery('selectedGroup')
 

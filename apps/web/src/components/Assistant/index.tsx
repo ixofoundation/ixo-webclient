@@ -11,12 +11,12 @@ export default function Assistant() {
       direction='column'
       justify='space-between'
       h='100%'
-      sx={{ borderRadius: '16px', backgroundColor: theme.ixoWhite }}
+      style={{ borderRadius: '16px', backgroundColor: theme.ixoWhite }}
     >
       <Text pb='lg'>
         Impact Assistant <b>Oxi</b>
       </Text>
-      <Flex direction='column' justify='flex-end' sx={{ flexGrow: 1 }}>
+      <Flex direction='column' justify='flex-end' style={{ flexGrow: 1 }}>
         <Conversation />
         <QueryInput />
       </Flex>

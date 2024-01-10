@@ -3,7 +3,7 @@ import React from 'react'
 import HeadLine from './HeadLine'
 import BalanceView from './BalanceView'
 
-const MyPortfolioPage: React.FC = () => {
+const MyPortfolioPage = () => {
   return (
     <Flex direction={'column'} gap={40}>
       <HeadLine />

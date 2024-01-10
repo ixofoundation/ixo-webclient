@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from 'react'
+import React, { ReactNode, createContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { deviceWidth } from 'constants/device'
 import HeaderTabs from 'components/HeaderTabs/HeaderTabs'
@@ -77,6 +77,7 @@ interface Props {
   matchType?: string
   noTabs?: boolean
   noBreadcrumbs?: boolean
+  children: ReactNode
 }
 
 const Dashboard: React.FunctionComponent<Props> = ({

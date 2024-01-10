@@ -15,7 +15,7 @@ import CurrencyFormat from 'react-currency-format'
 import { contracts } from '@ixo/impactxclient-sdk'
 import { convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
 import { useQuery } from 'hooks/window'
-import { useHistory } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 interface Props {
   daoGroup: TDAOGroupModel
@@ -24,7 +24,8 @@ const GroupCard: React.FC<Props> = ({ daoGroup }) => {
   const theme: any = useTheme()
   const { getQuery } = useQuery()
   const selectedGroup = getQuery('selectedGroup')
-  const history = useHistory()
+  const navigate = useNavigate()
+  const { pathname } = useLocation()
 
   const { address, cwClient } = useAccount()
   const dao: TEntityModel | undefined = useGetDAOByGroupAddress(daoGroup.coreAddress)
@@ -85,7 +86,7 @@ const GroupCard: React.FC<Props> = ({ daoGroup }) => {
         cursor: 'pointer',
         background: selectedGroup === daoGroup.coreAddress ? '#184761' : '#213E59',
       }}
-      onClick={() => history.push(`${history.location.pathname}?selectedGroup=${daoGroup.coreAddress}`)}
+      onClick={() => navigate(`${pathname}?selectedGroup=${daoGroup.coreAddress}`)}
     >
       <Flex direction='column' justify={'center'} align={'center'} gap={8}>
         <Avatar src={dao.profile?.logo} alt='' size={32} radius={100} />

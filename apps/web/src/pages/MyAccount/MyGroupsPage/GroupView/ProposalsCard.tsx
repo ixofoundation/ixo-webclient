@@ -10,14 +10,14 @@ import { ReactComponent as AgentIcon } from 'assets/img/sidebar/agents.svg'
 import { ReactComponent as SandClockIcon } from 'assets/images/icon-sandclock.svg'
 import { expirationAtTimeToSecondsFromNow, formatMinutes } from 'utils/conversions'
 import { diffMinsFromNow } from 'utils/time'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useGetDAOByGroupAddress } from 'hooks/dao'
 
 interface Props {
   daoGroup: TDAOGroupModel
 }
 const ProposalsCard: React.FC<Props> = ({ daoGroup }) => {
-  const history = useHistory()
+  const navigate = useNavigate()
   const theme: any = useTheme()
 
   const dao = useGetDAOByGroupAddress(daoGroup.coreAddress)
@@ -86,7 +86,7 @@ const ProposalsCard: React.FC<Props> = ({ daoGroup }) => {
             variant='outline'
             style={{ color: 'white' }}
             onClick={() =>
-              history.push({
+              navigate({
                 pathname: `/entity/${dao?.id}/dashboard/governance`,
                 search: `?selectedGroup=${daoGroup.coreAddress}`,
               })
@@ -99,7 +99,7 @@ const ProposalsCard: React.FC<Props> = ({ daoGroup }) => {
             variant='outline'
             style={{ color: 'white' }}
             onClick={() =>
-              history.push({
+              navigate({
                 pathname: `/create/entity/deed/${dao?.id}/${daoGroup.coreAddress}/info`,
               })
             }

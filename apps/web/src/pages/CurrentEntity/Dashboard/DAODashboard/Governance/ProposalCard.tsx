@@ -11,7 +11,7 @@ import { SvgBox } from 'components/App/App.styles'
 import { SingleChoiceProposal } from '@ixo/impactxclient-sdk/types/codegen/DaoMigrator.types'
 import { VoteModal } from 'components/Modals'
 import { fee } from 'lib/protocol'
-import { useHistory, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { diffMinsFromNow, expirationToTimestamp, isExpired } from 'utils/time'
 import moment from 'moment'
 import { errorToast, successToast } from 'utils/toast'
@@ -132,7 +132,7 @@ const ProposalCard: React.FC<Props> = ({ coreAddress, proposalId, proposal }) =>
   const { proposer, status, title, description: description_origin, allow_revoting, expiration } = proposal
   const [description, deedDid] = description_origin.split('#deed:')
 
-  const history = useHistory()
+  const navigate = useNavigate()
   const { entityId } = useParams<{ entityId: string }>()
   const { cwClient, address, cosmWasmClient } = useAccount()
   const { daoGroup, proposalModuleAddress, isParticipating, anyoneCanPropose } = useCurrentEntityDAOGroup(coreAddress)
@@ -198,7 +198,7 @@ const ProposalCard: React.FC<Props> = ({ coreAddress, proposalId, proposal }) =>
   }
 
   const onViewMore = () => {
-    history.push(`/entity/${entityId}/overview/proposal/${deedDid}`)
+    navigate(`/entity/${entityId}/overview/proposal/${deedDid}`)
   }
 
   const onExecute = () => {
@@ -247,7 +247,7 @@ const ProposalCard: React.FC<Props> = ({ coreAddress, proposalId, proposal }) =>
         <Button
           variant='filled'
           color='lime'
-          leftIcon={
+          leftSection={
             <SvgBox svgWidth={5} svgHeight={5}>
               <ThumbsUpIcon />
             </SvgBox>
@@ -264,7 +264,7 @@ const ProposalCard: React.FC<Props> = ({ coreAddress, proposalId, proposal }) =>
         <Button
           variant='filled'
           color='red'
-          leftIcon={
+          leftSection={
             <SvgBox svgWidth={5} svgHeight={5}>
               <ThumbsDownIcon />
             </SvgBox>

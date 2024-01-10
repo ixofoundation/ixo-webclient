@@ -53,6 +53,7 @@
     "@editorjs/table": "2.3.0",
     "@editorjs/warning": "1.4.0",
     "@ixo-webclient/wallet-connector": "*",
+    "@ixo/assistant-sdk": "^0.0.2",
     "@ixo/cosmos-chain-resolver": "^0.0.5",
     "@ixo/impactxclient-sdk": "^1.1.15",
     "@ixo/ixo-apimodule": "1.0.9",

@@ -28,7 +28,7 @@ export default function Conversation() {
 
   return (
     <ScrollArea viewportRef={viewport} p={0} h='100%' mah='450px'>
-      <Flex id='Container' direction='column' justify='flex-end' sx={{ flexGrow: 1 }} pt={0} mih='450px'>
+      <Flex id='Container' direction='column' justify='flex-end' style={{ flexGrow: 1 }} pt={0} mih='450px'>
         {messages.map((message) => {
           if (message.role === 'user') return <UserMessage message={message.content} key={message.content} />
           if (message.role === 'assistant') return <AssistantMessage message={message.content} key={message.content} />

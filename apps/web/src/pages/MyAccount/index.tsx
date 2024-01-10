@@ -1,6 +1,6 @@
 import { useAccount } from 'hooks/account'
 import { useEffect } from 'react'
-import { Redirect, Route, useHistory } from 'react-router-dom'
+import { Route, useNavigate, Navigate } from 'react-router-dom'
 import MyPortfolioPage from './MyPortfolioPage'
 import Dashboard from 'components/Dashboard/Dashboard'
 import { Path } from 'components/Dashboard/types'
@@ -8,7 +8,7 @@ import { requireCheckDefault } from 'utils/images'
 import MyGroupsPage from './MyGroupsPage'
 
 const MyAccountPage: React.FC = (): JSX.Element => {
-  const history = useHistory()
+  const navigate = useNavigate()
   const { address } = useAccount()
   const title = 'My Portfolio'
 
@@ -29,18 +29,16 @@ const MyAccountPage: React.FC = (): JSX.Element => {
 
   useEffect(() => {
     if (!address) {
-      history.push('/explore')
+      navigate('/explore')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address])
 
   return (
     <Dashboard theme={'dark'} title={title} subRoutes={routes} baseRoutes={[]} tabs={[]} noTabs noBreadcrumbs>
-      <Route exact path='/myaccount/portfolio' component={MyPortfolioPage} />
-      <Route exact path='/myaccount/groups' component={MyGroupsPage} />
-      <Route exact path='/myaccount/'>
-        <Redirect to={`/myaccount/portfolio`} />
-      </Route>
+      <Route  path='/myaccount/portfolio' Component={MyPortfolioPage} />
+      <Route  path='/myaccount/groups' Component={MyGroupsPage} />
+      <Route  path='/myaccount/' element={<Navigate to={`/myaccount/portfolio`} />}/>
     </Dashboard>
   )
 }

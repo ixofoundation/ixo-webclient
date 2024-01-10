@@ -42,7 +42,7 @@ export default function QueryInput() {
     <Flex
       align='center'
       justify='space-between'
-      sx={{
+      style={{
         border: `1px solid ${theme.ixoNewBlue}`,
         borderRadius: '16px',
       }}
@@ -59,7 +59,7 @@ export default function QueryInput() {
         placeholder={isThinking ? 'Please wait...' : 'Talk to your assistant'}
         autosize
         variant='unstyled'
-        sx={{ flexGrow: 1 }}
+        style={{ flexGrow: 1 }}
         p='10px'
         pr='0'
         value={typedMessage}

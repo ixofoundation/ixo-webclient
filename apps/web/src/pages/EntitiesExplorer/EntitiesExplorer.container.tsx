@@ -33,7 +33,7 @@ import { useEntitiesQuery } from 'generated/graphql'
 import { selectAccountAddress, selectAccountCWClient } from 'redux/account/account.selectors'
 import { apiEntityToEntity } from 'utils/entities'
 
-export interface Props extends RouteProps {
+export interface Props {
   match: any
   type: EntityType
   entities: TEntityModel[]

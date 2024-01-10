@@ -16,6 +16,7 @@ import { reducer as submitEntityClaimReducer } from 'redux/submitEntityClaim/sub
 import { reducer as economyReducer } from 'redux/entityEconomy/entityEconomy.reducer'
 import assistantReducer from 'redux/assistant/assistant.slice'
 import exchangeReducer from 'redux/exchange/exchange.reducer'
+import { multiStepReducer } from './entityMultiStepCreation/slice'
 
 export const rootReducer = (history: any) =>
   combineReducers({
@@ -35,5 +36,6 @@ export const rootReducer = (history: any) =>
     exchange: exchangeReducer,
     economy: economyReducer,
     assistant: assistantReducer,
+    multiStepCreation: multiStepReducer,
     router: connectRouter(history),
   })

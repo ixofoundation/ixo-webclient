@@ -9,7 +9,7 @@ export function UserMessage({ message }: Props) {
   const theme: any = useTheme()
   if (!message) return null
   return (
-    <Text p='lg' sx={{ backgroundColor: theme.ixoGrey300, borderRadius: '16px' }} fw={300}>
+    <Text p='lg' style={{ backgroundColor: theme.ixoGrey300, borderRadius: '16px' }} fw={300}>
       {message}
     </Text>
   )

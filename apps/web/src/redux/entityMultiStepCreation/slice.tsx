@@ -90,7 +90,7 @@ export const selectEntityData = createSelector([selectEntityCreationState], (ent
 
 export const selectSteps = createSelector([selectEntityCreationState], (entityCreation) => entityCreation.steps)
 
-export const selectNextStep = createSelector([selectCurrentStep, selectSteps], (currentStep, steps) => {
+export const selectNextStep = createSelector([selectCurrentStep, selectSteps], (currentStep, steps: Step[]) => {
   const currentIndex = steps.findIndex((step) => step.number === currentStep.number)
   // Check if there is a next step
   if (currentIndex >= 0 && currentIndex < steps.length - 1) {
@@ -101,7 +101,7 @@ export const selectNextStep = createSelector([selectCurrentStep, selectSteps], (
 })
 
 // Selector to get the previous step
-export const selectPreviousStep = createSelector([selectCurrentStep, selectSteps], (currentStep, steps) => {
+export const selectPreviousStep = createSelector([selectCurrentStep, selectSteps], (currentStep, steps: Step[]) => {
   const currentIndex = steps.findIndex((step) => step.number === currentStep.number)
   // Check if there is a previous step
   if (currentIndex > 0) {

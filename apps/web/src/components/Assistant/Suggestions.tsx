@@ -20,7 +20,7 @@ export default function Suggestions({ sendMessage, messages, isOpen }: Props) {
       pb='20px'
       h='100%'
       w='100%'
-      sx={{
+      style={{
         opacity: isOpen ? 1 : 0,
         zIndex: isOpen ? 1 : -1,
       }}

@@ -8,7 +8,7 @@ export default function SuggestionButton({ onClick, ...props }: ButtonProps & { 
 
   return (
     <Button
-      styles={{
+      style={{
         inner: {
           justifyContent: 'space-between',
           '>span:last-child': { display: 'none' },
@@ -32,9 +32,8 @@ export default function SuggestionButton({ onClick, ...props }: ButtonProps & { 
       fw={300}
       radius='0'
       variant='outline'
-      compact
       fullWidth
-      rightIcon={
+      rightSection={
         <SvgBox svgWidth={5} svgHeight={5} color={theme.ixoNewBlue}>
           <SendPlaneIcon />
         </SvgBox>
