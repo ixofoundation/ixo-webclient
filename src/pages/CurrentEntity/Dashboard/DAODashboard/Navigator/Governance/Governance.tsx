@@ -9,6 +9,7 @@ import { expirationAtTimeToSecondsFromNow, secondsToWdhms } from 'utils/conversi
 import { useHistory, useParams } from 'react-router-dom'
 import { useTheme } from 'styled-components'
 import useCurrentEntity from 'hooks/currentEntity'
+import { useQuery } from 'hooks/window'
 
 interface Props {
   daoId: string
@@ -19,7 +20,10 @@ const Governance: React.FC<Props> = ({ daoId, groupAddresses }): JSX.Element => 
   const theme: any = useTheme()
   const history = useHistory()
   const { entityId } = useParams<{ entityId: string }>()
-  const { selectedDAOGroup } = useCurrentEntity()
+  const { getQuery } = useQuery()
+  const selectedGroup = getQuery('selectedGroup')
+  const { daoGroups } = useCurrentEntity()
+  const selectedDAOGroup = daoGroups[selectedGroup]
   const proposals = selectedDAOGroup?.proposalModule.proposals ?? []
   const latestProposal = [...proposals].pop()
 

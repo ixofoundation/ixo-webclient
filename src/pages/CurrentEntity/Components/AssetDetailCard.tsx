@@ -18,6 +18,7 @@ import { claimAvailable } from 'utils/tokenClaim'
 import { CHAIN_ID } from 'hooks/configs'
 import { useTheme } from 'styled-components'
 import useCurrentEntity, { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
+import { useQuery } from 'hooks/window'
 
 const data = [
   {
@@ -74,7 +75,10 @@ const AssetDetailCard: React.FC<Props> = ({
   const theme: any = useTheme()
   const history = useHistory()
   const { cwClient, address } = useAccount()
-  const { selectedDAOGroup, updateDAOGroup } = useCurrentEntity()
+  const { daoGroups, updateDAOGroup } = useCurrentEntity()
+  const { getQuery } = useQuery()
+  const selectedGroup = getQuery('selectedGroup')
+  const selectedDAOGroup = daoGroups[selectedGroup]
   const { votingModuleAddress } = useCurrentEntityDAOGroup(selectedDAOGroup?.coreAddress || '')
   const [groupStakingModalOpen, setGroupStakingModalOpen] = useState(false)
   const [groupUnstakingModalOpen, setGroupUnstakingModalOpen] = useState(false)

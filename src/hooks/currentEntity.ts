@@ -84,14 +84,12 @@ export default function useCurrentEntity(): {
   endDate: string
   verificationMethod: VerificationMethod[]
   daoGroups: { [address: string]: TDAOGroupModel }
-  selectedDAOGroup: TDAOGroupModel | undefined
   daoController: string
   isImpactsDAO: boolean
   isMemberOfImpactsDAO: boolean
   isOwner: boolean
   clearEntity: () => void
   updateDAOGroup: (coreAddress: string) => Promise<void>
-  selectDAOGroup: (coreAddress: string) => Promise<void>
   updateEntity: (entity: TEntityModel) => void
   refetchAndUpdate: () => void
 } {
@@ -120,10 +118,6 @@ export default function useCurrentEntity(): {
   const endDate: string = useAppSelector(selectEntityEndDate)
   const verificationMethod: VerificationMethod[] = useAppSelector(selectEntityVerificationMethod)
   const daoGroups: { [address: string]: TDAOGroupModel } = useAppSelector(selectEntityDAOGroups)
-  const selectedDAOGroup: TDAOGroupModel | undefined = useMemo(
-    () => Object.values(daoGroups).find((daoGroup) => daoGroup.selected),
-    [daoGroups],
-  )
   const daoController: string = useMemo(
     () =>
       Object.values(daoGroups)
@@ -174,20 +168,6 @@ export default function useCurrentEntity(): {
     })
   }
 
-  const selectDAOGroup = async (coreAddress: string) => {
-    const _daoGroupsArr = Object.values(daoGroups).map((daoGroup) => {
-      if (daoGroup.coreAddress === coreAddress) {
-        return { ...daoGroup, selected: true }
-      }
-      return { ...daoGroup, selected: false }
-    })
-    updateEntityResource({
-      key: 'daoGroups',
-      data: Object.fromEntries(_daoGroupsArr.map((daoGroup) => [daoGroup.coreAddress, daoGroup])),
-      merge: false,
-    })
-  }
-
   const [refetchAndUpdate] = useEntityLazyQuery({
     variables: { id },
     onCompleted: (data) => {
@@ -221,14 +201,12 @@ export default function useCurrentEntity(): {
     endDate,
     verificationMethod,
     daoGroups,
-    selectedDAOGroup,
     daoController,
     isImpactsDAO,
     isMemberOfImpactsDAO,
     isOwner,
     clearEntity,
     updateDAOGroup,
-    selectDAOGroup,
     updateEntity,
     refetchAndUpdate,
   }
@@ -333,7 +311,7 @@ export function useCurrentEntityDAOGroup(coreAddress: string) {
 
   const proposalModuleAddress = useMemo(() => daoGroup?.proposalModule.proposalModuleAddress, [daoGroup])
   const preProposalContractAddress = useMemo(() => daoGroup?.proposalModule.preProposalContractAddress, [daoGroup])
-  const votingModuleAddress = useMemo(() => daoGroup?.votingModule.votingModuleAddress, [daoGroup])
+  const votingModuleAddress = useMemo(() => daoGroup?.votingModule?.votingModuleAddress, [daoGroup])
 
   const isParticipating = useMemo(() => {
     return daoGroup?.votingModule.members.some(({ addr, weight }) => addr === address && weight > 0)

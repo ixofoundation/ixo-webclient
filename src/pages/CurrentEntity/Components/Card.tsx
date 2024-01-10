@@ -26,10 +26,9 @@ const Card: React.FC<Props> = ({
       direction='column'
       width={'100%'}
       height='100%'
-      background={theme.ixoGradientDark2}
+      background={'#152B3F'}
       borderRadius={'4px'}
       p={5}
-      border={'1px solid #083347'}
       gap={6}
       {...rest}
     >

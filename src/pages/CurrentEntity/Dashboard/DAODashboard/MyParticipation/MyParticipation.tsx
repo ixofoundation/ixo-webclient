@@ -14,15 +14,17 @@ import useCurrentEntity from 'hooks/currentEntity'
 
 const MyParticipation: React.FC = () => {
   const history = useHistory()
-  const { selectedDAOGroup, selectDAOGroup } = useCurrentEntity()
+  const { daoGroups } = useCurrentEntity()
   const { getQuery } = useQuery()
   const token: string | undefined = getQuery('token')
   const expand: string | undefined = getQuery('expand')
+  const selectedGroup = getQuery('selectedGroup')
+  const selectedDAOGroup = daoGroups[selectedGroup]
   const tokenDetail: any = history.location.state
 
   return (
     <FlexBox direction='column' gap={6} width='100%' color='white'>
-      <Groups selectedGroup={selectedDAOGroup} selectDaoGroup={(address: string) => selectDAOGroup(address)} />
+      <Groups />
 
       {selectedDAOGroup && (
         <>
