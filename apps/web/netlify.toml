@@ -1,2 +1,14 @@
+[build]
+  base = "apps/web" # Base directory of the web app in your monorepo
+  command = "yarn build" # Replace with your actual build command
+  publish = "build" # Replace with the directory where your build's output is stored
+
+[context.production]
+  # Production settings (when merged to main branch)
+  # You can set environment variables or different build commands specific to production
+
+[context.deploy-preview]
+  # Settings for deploy previews (for pull requests)
+  # You can set environment variables or different build commands specific to PR previews
 
 
