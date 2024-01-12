@@ -83,7 +83,7 @@ const InvestmentDashboard: React.FC = (): JSX.Element => {
       iconClass: `icon-funding`,
       path: `/entity/${entityId}/treasury`,
       title: 'Funding',
-      tooltip: `Investment Funding`,
+      tooltip: `${toTitleCase(entityType)} Funding`,
     },
   ]
 

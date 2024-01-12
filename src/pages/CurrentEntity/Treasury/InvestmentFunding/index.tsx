@@ -6,6 +6,7 @@ import { requireCheckDefault } from 'utils/images'
 import Accounts from './Accounts'
 import Payments from './Payments'
 import Events from './Events'
+import { toTitleCase } from 'utils/formatters'
 
 const InvestmentFunding: React.FC = (): JSX.Element => {
   const { entityId } = useParams<{ entityId: string }>()
@@ -45,7 +46,7 @@ const InvestmentFunding: React.FC = (): JSX.Element => {
     {
       url: `/explore`,
       icon: '',
-      sdg: 'Explore Investments',
+      sdg: `Explore ${toTitleCase(entityType)}s`,
       tooltip: '',
     },
     {
@@ -64,23 +65,23 @@ const InvestmentFunding: React.FC = (): JSX.Element => {
 
   const tabs: HeaderTab[] = [
     {
-      iconClass: `icon-investment`,
-      linkClass: 'investment',
+      iconClass: `icon-${entityType}`,
+      linkClass: entityType,
       path: `/entity/${entityId}/overview`,
-      title: 'Investment',
-      tooltip: `Investment Overview`,
+      title: toTitleCase(entityType),
+      tooltip: `${toTitleCase(entityType)} Overview`,
     },
     {
       iconClass: `icon-dashboard`,
       path: `/entity/${entityId}/dashboard`,
       title: 'Dashboard',
-      tooltip: `Investment Management`,
+      tooltip: `${toTitleCase(entityType)} Management`,
     },
     {
       iconClass: `icon-funding`,
       path: `/entity/${entityId}/treasury`,
       title: 'Funding',
-      tooltip: `Investment Funding`,
+      tooltip: `${toTitleCase(entityType)} Funding`,
     },
   ]
 
