@@ -209,6 +209,7 @@
     "assert": "^2.1.0",
     "babel-plugin-named-exports-order": "0.0.2",
     "buffer": "6.0.3",
+    "console-browserify": "^1.2.0",
     "craco-esbuild": "0.5.2",
     "crypto-browserify": "3.12.0",
     "eslint-config-prettier": "9.0.0",
