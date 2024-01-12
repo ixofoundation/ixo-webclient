@@ -1,4 +1,5 @@
 [build]
+  NODE_VERSION = "18.18.2"
   base = "apps/web" # Base directory of the web app in your monorepo
   command = "yarn build" # Replace with your actual build command
   publish = "build" # Replace with the directory where your build's output is stored
