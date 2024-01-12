@@ -33,7 +33,7 @@ module.exports = {
           process: 'process/browser.js',
           Buffer: ['buffer', 'Buffer'],
         }),
-        new NodePolyfillPlugin({ excludeAliases: ['process/browser'] }),
+        new NodePolyfillPlugin({ excludeAliases: ['process/browser'], 'console' }),
       ])
       webpackConfig.ignoreWarnings = [
         function ignoreSourcemapsloaderWarnings(warning) {
