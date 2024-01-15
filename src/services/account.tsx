@@ -223,7 +223,7 @@ const AccountUpdateService = (): JSX.Element | null => {
 
   useEffect(() => {
     if (address) {
-      dispatch(fetchInstantAssistantMessage('Hello'))
+      dispatch(fetchInstantAssistantMessage('What can you do?'))
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address])
