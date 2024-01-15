@@ -9,6 +9,9 @@ import Header from './Header'
 import { HeaderTab, Path } from './types'
 import { useAppSelector } from 'redux/hooks'
 import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { selectAssistantToggle } from 'redux/assistant/assistant.selectors'
+import { Flex } from '@mantine/core'
+import ControlPanel from 'components/ControlPanel'
 // import { entityTypeMap } from 'modules/Entities/strategy-map'
 
 const Container = styled.div<{ color: string }>`
@@ -28,10 +31,10 @@ const Board = styled.div<{ themeMode: string }>`
   padding: 2.5rem 0.75rem;
   display: flex;
   flex-direction: column;
+  width: 100%;
 
   @media (min-width: ${deviceWidth.mobile}px) {
     padding: 2rem 2.25rem;
-    width: calc(100% - 75px);
   }
 `
 const Content = styled.div`
@@ -92,6 +95,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
   noBreadcrumbs = false,
 }) => {
   const entityTypeMap = useAppSelector(selectEntityConfig)
+  const togglePanel = useAppSelector(selectAssistantToggle)
   const [_theme, setTheme] = useState(theme)
 
   useEffect(() => {
@@ -110,12 +114,17 @@ const Dashboard: React.FunctionComponent<Props> = ({
           />
         )}
         <Sidebar routes={subRoutes} />
-        <Board themeMode={_theme}>
-          {!noBreadcrumbs && <Breadcrumb subRoutes={subRoutes} baseRoutes={baseRoutes} />}
-          <Header title={title} />
-          <Break />
-          <Content>{children}</Content>
-        </Board>
+        <Flex w={'100%'}>
+          <Flex w='100%' style={{ flex: 1 }}>
+            <Board themeMode={_theme}>
+              {!noBreadcrumbs && <Breadcrumb subRoutes={subRoutes} baseRoutes={baseRoutes} />}
+              <Header title={title} />
+              <Break />
+              <Content>{children}</Content>
+            </Board>
+          </Flex>
+          {togglePanel && <ControlPanel tab='assistant' />}
+        </Flex>
       </Container>
     </DashboardThemeContext.Provider>
   )

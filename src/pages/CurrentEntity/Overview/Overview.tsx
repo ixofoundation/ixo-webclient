@@ -1,6 +1,5 @@
 import { FlexBox } from 'components/App/App.styles'
 import ControlPanel from 'components/ControlPanel'
-import { useEntityConfig } from 'hooks/configs'
 import useCurrentEntity, {
   useCurrentEntityCreator,
   useCurrentEntityLinkedFiles,
@@ -21,7 +20,6 @@ const Overview: React.FC = () => {
   const agentRole: AgentRoles = getQuery('agentRole') as AgentRoles
 
   const { startDate, page } = useCurrentEntity()
-  const { controlPanelSchema } = useEntityConfig()
   const { name, description, location } = useCurrentEntityProfile()
   const { displayName: creatorName, logo: creatorLogo } = useCurrentEntityCreator()
   const linkedFiles = useCurrentEntityLinkedFiles()
@@ -51,8 +49,7 @@ const Overview: React.FC = () => {
           {claimId && <ClaimForm claimId={claimId} />}
         </FlexBox>
         <FlexBox className='col-lg-3 p-0' background='#F0F3F9'>
-          {/* <ControlPanel schema={controlPanelSchema} entityDid={entityId} /> */}
-          <ControlPanel schema={controlPanelSchema} />
+          <ControlPanel />
         </FlexBox>
       </div>
     </div>
