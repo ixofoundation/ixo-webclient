@@ -1,4 +1,3 @@
-import { FlexBox } from 'components/App/App.styles'
 import ControlPanel from 'components/ControlPanel'
 import useCurrentEntity, {
   useCurrentEntityCreator,
@@ -12,6 +11,7 @@ import { LinkedFiles } from './LinkedFiles'
 import { PageContent } from './PageContent'
 import OfferForm from './OfferForm'
 import { AgentRoles } from 'types/models'
+import { Flex, ScrollArea } from '@mantine/core'
 
 const Overview: React.FC = () => {
   const { getQuery } = useQuery()
@@ -25,9 +25,9 @@ const Overview: React.FC = () => {
   const linkedFiles = useCurrentEntityLinkedFiles()
 
   return (
-    <div className='container-fluid h-100' style={{ background: '#F8F9FD' }}>
-      <div className='row h-100'>
-        <FlexBox className='col-lg-9' direction='column' py={20} px={20} xs={{ px: 6 }}>
+    <Flex w='100%' h='100%' bg='#F8F9FD'>
+      <ScrollArea w='100%'>
+        <Flex w='100%' direction='column' p={80} style={{ flex: 1 }}>
           <OverviewHero
             onlyTitle={false}
             assistantFixed={true}
@@ -47,12 +47,12 @@ const Overview: React.FC = () => {
           )}
           {claimCollectionId && agentRole && <OfferForm claimCollectionId={claimCollectionId} agentRole={agentRole} />}
           {claimId && <ClaimForm claimId={claimId} />}
-        </FlexBox>
-        <FlexBox className='col-lg-3 p-0' background='#F0F3F9'>
-          <ControlPanel />
-        </FlexBox>
-      </div>
-    </div>
+        </Flex>
+      </ScrollArea>
+      <Flex h='100%' bg='#F0F3F9'>
+        <ControlPanel />
+      </Flex>
+    </Flex>
   )
 }
 

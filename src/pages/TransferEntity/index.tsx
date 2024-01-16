@@ -10,6 +10,7 @@ import { FlexBox } from 'components/App/App.styles'
 import TransferEntityToDAOGroup from './TransferEntityToDAOGroup'
 import TransferEntityTo from './TransferEntityTo'
 import TransferEntityReview from './TransferEntityReview'
+import { ScrollArea } from '@mantine/core'
 
 const TransferEntity: React.FC = (): JSX.Element => {
   const { did } = useSigner()
@@ -28,25 +29,27 @@ const TransferEntity: React.FC = (): JSX.Element => {
   }, [selectedEntity])
 
   return (
-    <TransferEntityLayout title={title} subtitle={subtitle} breadCrumbs={breadCrumbs}>
-      {isEligible ? (
-        <>
-          <Route strict path={`/transfer/entity/:entityId/group`} component={TransferEntityToDAOGroup} />
-          <Route strict path={`/transfer/entity/:entityId/to`} component={TransferEntityTo} />
-          <Route strict path={`/transfer/entity/:entityId/review`} component={TransferEntityReview} />
+    <ScrollArea w='100%' h='100%'>
+      <TransferEntityLayout title={title} subtitle={subtitle} breadCrumbs={breadCrumbs}>
+        {isEligible ? (
+          <>
+            <Route strict path={`/transfer/entity/:entityId/group`} component={TransferEntityToDAOGroup} />
+            <Route strict path={`/transfer/entity/:entityId/to`} component={TransferEntityTo} />
+            <Route strict path={`/transfer/entity/:entityId/review`} component={TransferEntityReview} />
 
-          <Route exact path='/transfer/entity/:entityId'>
-            {selectedEntity?.type === 'dao' ? (
-              <Redirect to={`/transfer/entity/${entityId}/group`} />
-            ) : (
-              <Redirect to={`/transfer/entity/${entityId}/to`} />
-            )}
-          </Route>
-        </>
-      ) : (
-        <FlexBox>Loading...</FlexBox>
-      )}
-    </TransferEntityLayout>
+            <Route exact path='/transfer/entity/:entityId'>
+              {selectedEntity?.type === 'dao' ? (
+                <Redirect to={`/transfer/entity/${entityId}/group`} />
+              ) : (
+                <Redirect to={`/transfer/entity/${entityId}/to`} />
+              )}
+            </Route>
+          </>
+        ) : (
+          <FlexBox>Loading...</FlexBox>
+        )}
+      </TransferEntityLayout>
+    </ScrollArea>
   )
 }
 

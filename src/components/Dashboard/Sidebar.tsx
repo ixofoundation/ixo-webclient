@@ -75,10 +75,11 @@ export const Container = styled.div`
   }
 
   @media (min-width: ${deviceWidth.mobile}px) {
-    position: sticky;
+    position: absolute;
     top: 70px;
     width: 75px;
     min-width: 75px;
+    height: calc(100% - 70px);
     display: block;
     padding-top: 15px;
 

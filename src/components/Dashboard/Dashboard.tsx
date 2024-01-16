@@ -10,7 +10,7 @@ import { HeaderTab, Path } from './types'
 import { useAppSelector } from 'redux/hooks'
 import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { selectAssistantToggle } from 'redux/assistant/assistant.selectors'
-import { Flex } from '@mantine/core'
+import { Flex, ScrollArea } from '@mantine/core'
 import ControlPanel from 'components/ControlPanel'
 // import { entityTypeMap } from 'modules/Entities/strategy-map'
 
@@ -19,6 +19,7 @@ const Container = styled.div<{ color: string }>`
   flex: 1 1 auto;
   font-family: ${(props): string => props.theme.secondaryFontFamily};
   color: ${(props): string => props.color};
+  height: 100%;
 
   @media (min-width: ${deviceWidth.mobile}px) {
     display: flex;
@@ -46,6 +47,12 @@ const Content = styled.div`
 const Break = styled.div`
   @media (max-width: ${deviceWidth.mobile}px) {
     margin: 5px 0;
+  }
+`
+
+const StyledScrollArea = styled(ScrollArea)`
+  & > div > div {
+    height: 100%;
   }
 `
 
@@ -114,16 +121,18 @@ const Dashboard: React.FunctionComponent<Props> = ({
           />
         )}
         <Sidebar routes={subRoutes} />
-        <Flex w={'100%'}>
-          <Flex w='100%' style={{ flex: 1 }}>
-            <Board themeMode={_theme}>
-              {!noBreadcrumbs && <Breadcrumb subRoutes={subRoutes} baseRoutes={baseRoutes} />}
-              <Header title={title} />
-              <Break />
-              <Content>{children}</Content>
-            </Board>
-          </Flex>
-          {togglePanel && <ControlPanel tab='assistant' />}
+        <Flex w={'100%'} h='100%' ml={75}>
+          <StyledScrollArea w='100%' h='100%'>
+            <Flex w='100%' h='100%' style={{ flex: 1 }}>
+              <Board themeMode={_theme}>
+                {!noBreadcrumbs && <Breadcrumb subRoutes={subRoutes} baseRoutes={baseRoutes} />}
+                <Header title={title} />
+                <Break />
+                <Content>{children}</Content>
+              </Board>
+            </Flex>
+          </StyledScrollArea>
+          <Flex style={{ flex: 1 }}>{togglePanel && <ControlPanel tab='assistant' />}</Flex>
         </Flex>
       </Container>
     </DashboardThemeContext.Provider>
