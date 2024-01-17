@@ -1,10 +1,10 @@
-import { Field, ID, ObjectType, } from '@nestjs/graphql';
+import { Field, ID, ObjectType } from '@nestjs/graphql';
 import { GraphQLJSON } from 'graphql-type-json';
 
 @ObjectType()
 export class LinkedEntity {
-  @Field(type => GraphQLJSON)
-  data: any
+  @Field((type) => GraphQLJSON)
+  data: any;
 }
 
 @ObjectType()
@@ -16,7 +16,7 @@ export class Entity {
   type: string;
 
   @Field(() => LinkedEntity)
-  linkedEntity: LinkedEntity
+  linkedEntity: LinkedEntity;
 }
 
 @ObjectType()
@@ -36,7 +36,7 @@ class Settings {
   @Field()
   encrypted: string;
 
-  @Field() 
+  @Field()
   mediaType: string;
 
   @Field()

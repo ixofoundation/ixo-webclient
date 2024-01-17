@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { RouteProps } from 'react-router'
 import { EntitiesHero } from './Components/EntitiesHero/EntitiesHero'
 import { Spinner } from 'components/Spinner/Spinner'
 import { connect } from 'react-redux'

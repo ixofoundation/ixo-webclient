@@ -1,4 +1,3 @@
-import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import * as entitiesSelectors from 'redux/entitiesExplorer/entitiesExplorer.selectors'
@@ -7,8 +6,6 @@ import { EntityType } from 'types/entities'
 import { TopBar } from './HeaderContainer.styles'
 import { HeaderLeft } from './HeaderLeft/HeaderLeft'
 import HeaderRight from './HeaderRight/HeaderRight'
-import { useDisclosure } from '@mantine/hooks'
-import { WalletConnector } from 'components/WalletConnector'
 import { useWallet } from '@ixo-webclient/wallet-connector'
 
 // interface Props {

@@ -29,9 +29,9 @@ export class EntityResolver {
     return this.blockSyncService.query(query, variables);
   }
 
-  @ResolveField('linkedEntity', returns => LinkedEntity)
+  @ResolveField('linkedEntity', (returns) => LinkedEntity)
   async getLinkedEntity(@Parent() entity: Entity) {
-    console.log("linkedEntity", entity.linkedEntity)
-    return { data: "works"}
+    console.log('linkedEntity', entity.linkedEntity);
+    return { data: 'works' };
   }
 }

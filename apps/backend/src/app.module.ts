@@ -7,7 +7,6 @@ import { EntitiesModule } from './entities/entities.module';
 import { EntitiesService } from './entities/entities.service';
 import { HttpService } from '@nestjs/axios';
 
-
 @Module({
   imports: [
     EntitiesModule,

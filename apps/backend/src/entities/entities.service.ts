@@ -1,8 +1,5 @@
 export class EntitiesService {
-    constructor(
-    ) {}
-  
-    async getEntities() {
+  constructor() {}
 
-    }
-  }
+  async getEntities() {}
+}
