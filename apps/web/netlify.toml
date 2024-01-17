@@ -1,7 +1,7 @@
 [build]
   NODE_VERSION = "18.18.2"
   base = "./"
-  command = "yarn && yarn build" # Replace with your actual build command
+  command = "set NODE_OPTIONS=--max-old-space-size=8192 && yarn build" # Replace with your actual build command
   publish = "build" # Replace with the directory where your build's output is stored
 
 [context.production]
