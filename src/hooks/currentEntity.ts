@@ -6,7 +6,7 @@ import {
   Service,
   VerificationMethod,
 } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
-import { useMemo } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import {
   clearEntityAction,
   updateEntityAction,
@@ -52,13 +52,21 @@ import { getDaoContractInfo, thresholdToTQData } from 'utils/dao'
 import { useAccount } from './account'
 import { Config as ProposalConfig } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/DaoPreProposeSingle.types'
-import { depositInfoToCoin } from 'utils/conversions'
+import { convertMicroDenomToDenomWithDecimals, depositInfoToCoin } from 'utils/conversions'
 import { EntityLinkedResourceConfig } from 'constants/entity'
 import { IMPACTS_DAO_ID } from 'constants/chains'
 import { OutputBlockData } from '@editorjs/editorjs'
 import { useEntityLazyQuery } from 'generated/graphql'
 import { apiEntityToEntity } from 'utils/entities'
 import { updateEntityPropertyAction } from 'redux/entitiesExplorer/entitiesExplorer.actions'
+import { TTreasuryAccountModel, TTreasuryCoinModel } from 'pages/CurrentEntity/Treasury/DAOTreasury/Accounts'
+import { truncateString } from 'utils/formatters'
+import { determineChainFromAddress } from 'utils/account'
+import { GetBalances, GetTokenAsset } from 'lib/protocol'
+import { contracts, customQueries } from '@ixo/impactxclient-sdk'
+import { IxoCoinCodexRelayerApi } from './configs'
+import { getDisplayAmount } from 'utils/currency'
+import { selectStakingGroups } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 export default function useCurrentEntity(): {
   id: string
@@ -381,4 +389,205 @@ export function useCurrentEntityDAOGroup(coreAddress: string) {
     preProposalContractAddress,
     votingModuleAddress,
   }
+}
+
+export function useCurrentEntityTreasury() {
+  const { cwClient } = useAccount()
+  const { accounts: entityAccounts, linkedAccounts, daoGroups } = useCurrentEntity()
+  const stakingGroups = useAppSelector(selectStakingGroups)
+  const [accounts, setAccounts] = useState<{
+    [address: string]: TTreasuryAccountModel
+  }>({})
+
+  // entityAccounts
+  useEffect(() => {
+    if (entityAccounts.length > 0) {
+      ;(async () => {
+        await Promise.all(
+          entityAccounts.map(async (account) => {
+            setAccounts((accounts) => ({
+              ...accounts,
+              [account.address]: {
+                address: account.address,
+                name: account.name,
+                type: 'entity',
+                network: 'ixo Network',
+                coins: {},
+              },
+            }))
+          }),
+        )
+      })()
+    }
+    return () => {
+      setAccounts((accounts) =>
+        Object.fromEntries(Object.entries(accounts).filter(([key, value]) => value.type !== 'entity')),
+      )
+    }
+  }, [entityAccounts])
+
+  // groupAccounts
+  useEffect(() => {
+    if (Object.keys(daoGroups).length > 0) {
+      ;(async () => {
+        await Promise.all(
+          Object.values(daoGroups).map(async (daoGroup: TDAOGroupModel) => {
+            setAccounts((accounts) => ({
+              ...accounts,
+              [daoGroup.coreAddress]: {
+                address: daoGroup.coreAddress,
+                name: daoGroup.config.name,
+                type: 'group',
+                network: 'ixo Network',
+                coins: {},
+              },
+            }))
+          }),
+        )
+      })()
+    }
+    return () => {
+      setAccounts((accounts) =>
+        Object.fromEntries(Object.entries(accounts).filter(([key, value]) => value.type !== 'group')),
+      )
+    }
+  }, [daoGroups])
+
+  // linkedAccounts
+  useEffect(() => {
+    if (linkedAccounts.length > 0) {
+      ;(async () => {
+        await Promise.all(
+          linkedAccounts.map((account) => {
+            setAccounts((accounts) => ({
+              ...accounts,
+              [account.id]: {
+                address: account.id,
+                name: truncateString(account.id, 15),
+                type: 'linked',
+                network: account.relationship,
+                coins: {},
+              },
+            }))
+            return ''
+          }),
+        )
+      })()
+      return () => {
+        setAccounts((accounts) =>
+          Object.fromEntries(Object.entries(accounts).filter(([key, value]) => value.type !== 'linked')),
+        )
+      }
+    }
+  }, [linkedAccounts])
+
+  const updateNativeTokenBalances = useCallback(async (address: string): Promise<TTreasuryCoinModel[]> => {
+    if (!address) {
+      return []
+    }
+    const { rpc } = await determineChainFromAddress(address)
+
+    const balances = await GetBalances(address, rpc)
+
+    const coins: TTreasuryCoinModel[] = (await Promise.all(
+      await balances
+        .map(async ({ amount, denom }) => {
+          const token = await GetTokenAsset(denom)
+          const tokenInfo = await customQueries.currency.findTokenInfoFromDenom(
+            token.coinMinimalDenom,
+            true,
+            IxoCoinCodexRelayerApi,
+          )
+          if (!tokenInfo) {
+            return undefined
+          }
+          const { coinName, lastPriceUsd } = tokenInfo
+          const payload = {
+            address,
+            balance: getDisplayAmount(amount, token.coinDecimals),
+            network: `${coinName.toUpperCase()}`,
+            coinDenom: token.coinDenom,
+            coinImageUrl: token.coinImageUrl!,
+            lastPriceUsd,
+          }
+          return payload
+        })
+        .filter((v) => v !== undefined),
+    )) as TTreasuryCoinModel[]
+    return coins
+  }, [])
+
+  const updateCw20TokenBalances = useCallback(
+    async (address): Promise<TTreasuryCoinModel[]> => {
+      const coins: TTreasuryCoinModel[] = (await Promise.all(
+        stakingGroups.map(async (stakingGroup: TDAOGroupModel) => {
+          const {
+            token,
+            votingModule: { votingModuleAddress },
+          } = stakingGroup
+
+          if (token) {
+            const daoVotingCw20StakedClient = new contracts.DaoVotingCw20Staked.DaoVotingCw20StakedQueryClient(
+              cwClient,
+              votingModuleAddress,
+            )
+            const tokenContract = await daoVotingCw20StakedClient.tokenContract()
+
+            const cw20BaseClient = new contracts.Cw20Base.Cw20BaseQueryClient(cwClient, tokenContract)
+            const { balance: microBalance } = await cw20BaseClient.balance({ address })
+            const balance = convertMicroDenomToDenomWithDecimals(microBalance, token.tokenInfo.decimals)
+            if (balance === 0) {
+              return undefined
+            }
+
+            const payload: TTreasuryCoinModel = {
+              address,
+              coinDenom: token.tokenInfo.symbol,
+              network: 'IXO',
+              balance: balance.toString(),
+              coinImageUrl: (token.marketingInfo?.logo !== 'embedded' && token.marketingInfo.logo?.url) || '',
+              lastPriceUsd: 0,
+            }
+            return payload
+          }
+          return undefined
+        }),
+      )) as TTreasuryCoinModel[]
+      return coins.filter(Boolean)
+    },
+    [cwClient, stakingGroups],
+  )
+
+  useEffect(() => {
+    Object.values(accounts).forEach((account) => {
+      updateNativeTokenBalances(account.address).then((coins: TTreasuryCoinModel[]) => {
+        coins.forEach((coin) => {
+          setAccounts((v) => ({
+            ...v,
+            [coin.address]: {
+              ...v[coin.address],
+              coins: { ...(v[coin.address]?.coins ?? {}), [coin.coinDenom]: coin },
+            },
+          }))
+        })
+      })
+      updateCw20TokenBalances(account.address).then((coins: TTreasuryCoinModel[]) => {
+        coins.forEach((coin) => {
+          setAccounts((v) => ({
+            ...v,
+            [coin.address]: {
+              ...v[coin.address],
+              coins: { ...(v[coin.address]?.coins ?? {}), [coin.coinDenom]: coin },
+            },
+          }))
+        })
+      })
+    })
+    return () => {
+      //
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [JSON.stringify(Object.keys(accounts))])
+
+  return accounts
 }

@@ -1,36 +1,64 @@
 import { SvgBox } from 'components/App/App.styles'
 import { Card } from 'pages/CurrentEntity/Components'
-import React from 'react'
+import React, { useMemo } from 'react'
 import { Flex } from '@mantine/core'
 import { Typography } from 'components/Typography'
 import { useTheme } from 'styled-components'
 
 import { ReactComponent as FundingIcon } from 'assets/images/icon-funding.svg'
 import { ReactComponent as UpIcon } from 'assets/images/icon-up-full.svg'
-import { ReactComponent as EntityAccountIcon } from 'assets/images/icon-entity-account.svg'
-import { ReactComponent as GroupAccountIcon } from 'assets/images/icon-group-account.svg'
-import { ReactComponent as LinkedAccountIcon } from 'assets/images/icon-linked-account.svg'
+import { useCurrentEntityTreasury } from 'hooks/currentEntity'
+import { AccountTypeToIconMap } from 'pages/CurrentEntity/Treasury/Components/AccountsCard'
+import { getTotalUSDvalueFromTreasuryCoins } from 'utils/treasury'
+import CurrencyFormat from 'react-currency-format'
+import BigNumber from 'bignumber.js'
 
 const TreasuryPoolCard: React.FC = () => {
   const theme: any = useTheme()
+  const accounts = useCurrentEntityTreasury()
 
-  const accounts = [
-    {
-      icon: <EntityAccountIcon />,
-      label: 'Entity Accounts',
-      value: '$245.43K',
-    },
-    {
-      icon: <GroupAccountIcon />,
-      label: 'Group Accounts',
-      value: '$345.43K',
-    },
-    {
-      icon: <LinkedAccountIcon />,
-      label: 'Linked Accounts',
-      value: '$245.43K',
-    },
-  ]
+  const treasuryAccounts = useMemo(() => {
+    const arr: any[] = []
+    Object.values(accounts).forEach((account) => {
+      const totalBalance = getTotalUSDvalueFromTreasuryCoins(account.coins)
+      arr.push({ ...account, totalBalance })
+    })
+
+    const entityAccounts = arr.filter((account) => account.type === 'entity')
+    const groupAccounts = arr.filter((account) => account.type === 'group')
+    const linkedAccounts = arr.filter((account) => account.type === 'linked')
+
+    return [
+      {
+        label: 'Entity Account',
+        type: 'entity',
+        value: entityAccounts.reduce(
+          (pre, cur) => new BigNumber(pre).plus(new BigNumber(cur.totalBalance)).toString(),
+          '0',
+        ),
+      },
+      {
+        label: 'Group Account',
+        type: 'group',
+        value: groupAccounts.reduce(
+          (pre, cur) => new BigNumber(pre).plus(new BigNumber(cur.totalBalance)).toString(),
+          '0',
+        ),
+      },
+      {
+        label: 'Linked Account',
+        type: 'linked',
+        value: linkedAccounts.reduce(
+          (pre, cur) => new BigNumber(pre).plus(new BigNumber(cur.totalBalance)).toString(),
+          '0',
+        ),
+      },
+    ]
+  }, [accounts])
+
+  const totalBalance = useMemo(() => {
+    return treasuryAccounts.reduce((pre, cur) => new BigNumber(pre).plus(new BigNumber(cur.value)).toString(), '0')
+  }, [treasuryAccounts])
 
   return (
     <Card
@@ -43,9 +71,18 @@ const TreasuryPoolCard: React.FC = () => {
     >
       <Flex w='100%' h='100%' direction={'column'} justify={'space-between'} align={'center'}>
         <Flex direction='column' justify={'center'} align={'center'}>
-          <Typography size='5xl'>$230.75k</Typography>
+          <Typography size='5xl'>
+            <CurrencyFormat
+              displayType='text'
+              value={totalBalance ?? '0'}
+              thousandSeparator
+              decimalScale={2}
+              fixedDecimalScale
+              prefix='$'
+            />
+          </Typography>
           <Flex align={'center'} gap={4} style={{ color: theme.ixoGreen }}>
-            <Typography size='md'>+0.14%</Typography>
+            <Typography size='md'>+0.00%</Typography>
             <SvgBox svgWidth={5} svgHeight={5}>
               <UpIcon />
             </SvgBox>
@@ -56,26 +93,43 @@ const TreasuryPoolCard: React.FC = () => {
         </Flex>
 
         <Flex w='100%' h='170px' gap={16}>
-          {accounts.map((account, index) => (
-            <Flex
-              key={index}
-              bg={'#213E59'}
-              py={20}
-              w={'100%'}
-              direction={'column'}
-              align={'center'}
-              justify={'center'}
-              style={{ borderRadius: 4 }}
-            >
-              <Flex direction={'column'} gap={16} justify={'center'} align={'center'}>
-                <Flex direction={'column'} align={'center'} gap={4} style={{ color: theme.ixoNewBlue }}>
-                  <SvgBox>{account.icon}</SvgBox>
-                  <Typography size='md'>{account.label}</Typography>
+          {treasuryAccounts.map((account, index) => {
+            const Icon = AccountTypeToIconMap[account.type]
+
+            return (
+              <Flex
+                key={index}
+                bg={'#213E59'}
+                py={20}
+                w={'100%'}
+                direction={'column'}
+                align={'center'}
+                justify={'center'}
+                style={{ borderRadius: 4 }}
+              >
+                <Flex direction={'column'} gap={16} justify={'center'} align={'center'}>
+                  <Flex direction={'column'} align={'center'} gap={4} style={{ color: theme.ixoNewBlue }}>
+                    {Icon && (
+                      <SvgBox>
+                        <Icon />
+                      </SvgBox>
+                    )}
+                    <Typography size='md'>{account.label}</Typography>
+                  </Flex>
+                  <Typography size='xl'>
+                    <CurrencyFormat
+                      displayType='text'
+                      value={account.value ?? '0'}
+                      thousandSeparator
+                      decimalScale={2}
+                      fixedDecimalScale
+                      prefix='$'
+                    />
+                  </Typography>
                 </Flex>
-                <Typography size='xl'>{account.value}</Typography>
               </Flex>
-            </Flex>
-          ))}
+            )
+          })}
         </Flex>
       </Flex>
     </Card>

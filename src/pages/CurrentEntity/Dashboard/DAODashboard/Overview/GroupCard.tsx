@@ -1,6 +1,6 @@
 import { Avatar, Flex } from '@mantine/core'
 import { Typography } from 'components/Typography'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTheme } from 'styled-components'
 import { TDAOGroupModel } from 'types/entities'
 import { SvgBox } from 'components/App/App.styles'
@@ -15,7 +15,11 @@ import { ReactComponent as FundingIcon } from 'assets/images/icon-funding.svg'
 import { ReactComponent as CoinsIcon } from 'assets/images/icon-coins-solid.svg'
 import { ReactComponent as PaperIcon } from 'assets/images/icon-paper.svg'
 import { ReactComponent as HandshakeIcon } from 'assets/images/icon-handshake.svg'
-import CurrencyFormat from 'react-currency-format'
+import { GetBalances, GetTokenAsset } from 'lib/protocol'
+import { customQueries } from '@ixo/impactxclient-sdk'
+import { IxoCoinCodexRelayerApi } from 'hooks/configs'
+import BigNumber from 'bignumber.js'
+import { convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
 
 interface Props {
   daoGroup: TDAOGroupModel
@@ -25,6 +29,38 @@ const GroupCard: React.FC<Props> = ({ daoGroup }) => {
 
   const { currentEntity: dao, daoController } = useCurrentEntity()
   const { isParticipating } = useCurrentEntityDAOGroup(daoGroup.coreAddress)
+
+  const [lockedValue, setLockedValue] = useState('0')
+
+  useEffect(() => {
+    ;(async () => {
+      const balances = await GetBalances(daoGroup.coreAddress)
+      let value = '0'
+
+      for (const balance of balances) {
+        const microAmount = balance.amount
+        const token = await GetTokenAsset(balance.denom)
+        const tokenInfo = await customQueries.currency.findTokenInfoFromDenom(
+          token.coinMinimalDenom,
+          true,
+          IxoCoinCodexRelayerApi,
+        )
+        if (!tokenInfo) {
+          continue
+        }
+
+        const amount = convertMicroDenomToDenomWithDecimals(microAmount, token.coinDecimals)
+        const { lastPriceUsd } = tokenInfo
+        value = new BigNumber(value).plus(new BigNumber(amount).times(new BigNumber(lastPriceUsd))).toString()
+      }
+
+      setLockedValue(value)
+    })()
+
+    return () => {
+      setLockedValue('0')
+    }
+  }, [daoGroup.coreAddress])
 
   if (!dao) {
     return null
@@ -126,7 +162,12 @@ const GroupCard: React.FC<Props> = ({ daoGroup }) => {
               <FundingIcon />
             </SvgBox>
             <Typography size='sm' color='white' weight='medium'>
-              <CurrencyFormat displayType={'text'} value={'0'} thousandSeparator prefix='$' />
+              {Intl.NumberFormat(undefined, {
+                currency: 'USD',
+                style: 'currency',
+                notation: 'compact',
+                maximumFractionDigits: 2,
+              }).format(Number(lockedValue))}
             </Typography>
           </Flex>
 
