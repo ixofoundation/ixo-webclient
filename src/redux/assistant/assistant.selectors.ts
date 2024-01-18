@@ -32,3 +32,8 @@ export const selectAssistantError = createDraftSafeSelector(
   selectAssistantState,
   (state: IAssistantState): Error | undefined => state?.messageError || state.connectionError,
 )
+
+export const selectAssistantToggle = createDraftSafeSelector(
+  selectAssistantState,
+  (state: IAssistantState): boolean => state?.togglePanel,
+)

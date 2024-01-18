@@ -1,6 +1,4 @@
 import React, { useState } from 'react'
-import { Schema } from './types'
-import { FlexBox } from 'components/App/App.styles'
 import CircleTab from './components/CircleTab'
 import { ReactComponent as ProfileIcon } from 'assets/images/icon-profile.svg'
 import { ReactComponent as DAOIcon } from 'assets/images/icon-dao.svg'
@@ -17,12 +15,22 @@ import ConnectCard from './Connect/Connect'
 import FeedCard from './Feed'
 import MessagesCard from './Messages'
 import AssistantCard from './Assistant'
+import { useEntityConfig } from 'hooks/configs'
+import { Flex, ScrollArea } from '@mantine/core'
+import styled from 'styled-components'
+
+const StyledScrollArea = styled(ScrollArea)`
+  & > div > div {
+    height: 100%;
+  }
+`
 
 interface Props {
-  schema: Schema
+  tab?: 'profile' | 'detail' | 'feed' | 'message' | 'assistant'
 }
-const ControlPanel: React.FC<Props> = ({ schema }) => {
-  const [activeTab, setActiveTab] = useState('profile')
+const ControlPanel: React.FC<Props> = ({ tab }) => {
+  const { controlPanelSchema: schema } = useEntityConfig()
+  const [activeTab, setActiveTab] = useState<'profile' | 'detail' | 'feed' | 'message' | 'assistant'>(tab || 'profile')
 
   const renderProfile = () => (
     <>
@@ -60,39 +68,46 @@ const ControlPanel: React.FC<Props> = ({ schema }) => {
   )
 
   return (
-    <FlexBox width='100%' height='100%' background='#F0F3F9' direction='column' justifyContent='space-between' gap={6}>
-      <FlexBox width='100%' direction='column' gap={6} p={5}>
-        {activeTab === 'profile' && renderProfile()}
-        {activeTab === 'detail' && renderDetail()}
-        {activeTab === 'feed' && renderFeed()}
-        {activeTab === 'message' && renderMessages()}
-        {activeTab === 'assistant' && renderAssistant()}
-      </FlexBox>
-      <FlexBox
-        width='100%'
-        background='#D7DFED'
-        p={5}
-        justifyContent='space-around'
-        alignItems='center'
-        flexWrap='wrap'
-        gap={4}
+    <StyledScrollArea h='100%'>
+      <Flex
+        w='360px'
+        h='100%'
+        bg='#F0F3F9'
+        direction='column'
+        justify='space-between'
+        gap={24}
+        style={{ color: 'black' }}
       >
-        <CircleTab icon={<ProfileIcon />} active={activeTab === 'profile'} onClick={() => setActiveTab('profile')} />
-        <CircleTab icon={<DAOIcon />} active={activeTab === 'detail'} onClick={() => setActiveTab('detail')} />
-        <CircleTab icon={<BellIcon />} active={activeTab === 'feed'} onClick={() => setActiveTab('feed')} badge={12} />
-        <CircleTab
-          icon={<CommentIcon />}
-          active={activeTab === 'message'}
-          onClick={() => setActiveTab('message')}
-          badge={8}
-        />
-        <CircleTab
-          icon={<AssistantIcon />}
-          active={activeTab === 'assistant'}
-          onClick={() => setActiveTab('assistant')}
-        />
-      </FlexBox>
-    </FlexBox>
+        <Flex w='100%' direction='column' gap={24} p={20} pt={32}>
+          {activeTab === 'profile' && renderProfile()}
+          {activeTab === 'detail' && renderDetail()}
+          {activeTab === 'feed' && renderFeed()}
+          {activeTab === 'message' && renderMessages()}
+          {activeTab === 'assistant' && renderAssistant()}
+        </Flex>
+        <Flex w='100%' bg='#D7DFED' p={20} justify='space-around' align='center' wrap='wrap' gap={16}>
+          <CircleTab icon={<ProfileIcon />} active={activeTab === 'profile'} onClick={() => setActiveTab('profile')} />
+          <CircleTab icon={<DAOIcon />} active={activeTab === 'detail'} onClick={() => setActiveTab('detail')} />
+          <CircleTab
+            icon={<BellIcon />}
+            active={activeTab === 'feed'}
+            onClick={() => setActiveTab('feed')}
+            badge={12}
+          />
+          <CircleTab
+            icon={<CommentIcon />}
+            active={activeTab === 'message'}
+            onClick={() => setActiveTab('message')}
+            badge={8}
+          />
+          <CircleTab
+            icon={<AssistantIcon />}
+            active={activeTab === 'assistant'}
+            onClick={() => setActiveTab('assistant')}
+          />
+        </Flex>
+      </Flex>
+    </StyledScrollArea>
   )
 }
 

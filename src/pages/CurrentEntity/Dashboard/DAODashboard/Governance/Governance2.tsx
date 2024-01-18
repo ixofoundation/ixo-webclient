@@ -67,7 +67,7 @@ const Governance: React.FC = () => {
 
       <GovernanceHeader selectedDAOGroup={selectedDAOGroup} />
 
-      <Flex direction={'column'} gap={'lg'} miw={900} maw={'80%'}>
+      <Flex direction={'column'} gap={'lg'} w='100%'>
         {selectedDAOGroup && (
           <Flex w='100%' align='center' justify='space-between'>
             <Typography variant='secondary' size='2xl'>

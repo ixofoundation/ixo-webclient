@@ -116,7 +116,7 @@ const MyParticipationCard = () => {
           <FlexBox width='100%' height='1px' background={'#EAEAEA'} />
 
           {daoGroupsArr.map((daoGroup) => (
-            <DAOGroupItem key={daoGroup.id} address={daoGroup.coreAddress} />
+            <DAOGroupItem key={daoGroup.coreAddress} address={daoGroup.coreAddress} />
           ))}
         </>
       }

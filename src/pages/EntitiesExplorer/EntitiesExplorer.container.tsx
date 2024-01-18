@@ -32,6 +32,7 @@ import { createEntityCard, withEntityData } from 'components'
 import { useEntitiesQuery } from 'generated/graphql'
 import { selectAccountAddress, selectAccountCWClient } from 'redux/account/account.selectors'
 import { apiEntityToEntity } from 'utils/entities'
+import { ScrollArea } from '@mantine/core'
 
 export interface Props extends RouteProps {
   match: any
@@ -202,25 +203,27 @@ const EntitiesExplorer = ({
   }, [sector, handleChangeSector])
 
   return (
-    <Container>
-      <div className='d-flex w-100 h-100'>
-        <div className='d-flex flex-column flex-grow-1 w-100 h-100'>
-          <EntitiesHero
-            type={typeFromProps as EntityType}
-            filterSector={filterSector}
-            showSearch={true}
-            filterQuery={filterQuery}
-            handleChangeQuery={handleChangeEntitiesQuery}
-          />
-          {entityTypeMap && loading && (
-            <div style={{ height: '100%' }}>
-              <Spinner info={`Loading ${entityTypeMap[type as any]?.plural || ''}`} />
-            </div>
-          )}
-          {renderEntities()}
+    <ScrollArea w='100%' h={'calc(100vh - 222px)'}>
+      <Container>
+        <div className='d-flex w-100 h-100'>
+          <div className='d-flex flex-column flex-grow-1 w-100 h-100'>
+            <EntitiesHero
+              type={typeFromProps as EntityType}
+              filterSector={filterSector}
+              showSearch={true}
+              filterQuery={filterQuery}
+              handleChangeQuery={handleChangeEntitiesQuery}
+            />
+            {entityTypeMap && loading && (
+              <div style={{ height: '100%' }}>
+                <Spinner info={`Loading ${entityTypeMap[type as any]?.plural || ''}`} />
+              </div>
+            )}
+            {renderEntities()}
+          </div>
         </div>
-      </div>
-    </Container>
+      </Container>
+    </ScrollArea>
   )
 }
 
