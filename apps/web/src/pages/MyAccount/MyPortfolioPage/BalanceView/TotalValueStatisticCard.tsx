@@ -50,7 +50,7 @@ const TotalValueStatisticCard: React.FC = () => {
 
   return (
     <Card label='Total Value'>
-      <Flex justify='space-between' align='start' gap={32}>
+      <Flex justify='space-between' align='flex-start' gap={32}>
         <Flex direction='column'>
           <Typography variant='secondary' size='4xl'>
             <CurrencyFormat prefix='$' displayType={'text'} value={totalValue} thousandSeparator decimalScale={2} />
