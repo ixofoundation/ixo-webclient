@@ -17,13 +17,13 @@ import { HeaderConnected } from '../Header/HeaderContainer'
 import ScrollToTop from '../ScrollToTop/ScrollToTop'
 import { Spinner } from '../Spinner/Spinner'
 import { Routes } from 'routes'
-import { Container, ContentWrapper, theme } from './App.styles'
+import { Container, theme } from './App.styles'
 import { getCustomTheme } from 'redux/theme/theme.actions'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { selectCustomTheme } from 'redux/theme/theme.selectors'
 import { useAccount } from 'hooks/account'
-import { MantineProvider } from '@mantine/core'
+import { Flex, MantineProvider } from '@mantine/core'
 import mantineTheme from 'styles/mantine'
 
 ReactGA.initialize('UA-106630107-5')
@@ -104,15 +104,9 @@ const App: React.FC = () => {
           <ScrollToTop>
             <Container>
               <HeaderConnected />
-              <div className='d-flex' style={{ flex: 1 }}>
-                <ContentWrapper>
-                  {entityConfig && cwClient ? (
-                    <Routes />
-                  ) : (
-                    <Spinner info={'Connecting to the Internet of Impacts...'} />
-                  )}
-                </ContentWrapper>
-              </div>
+              <Flex mt={74} w='100%' h={'calc(100vh - 222px)'} style={{ flex: 1 }}>
+                {entityConfig && cwClient ? <Routes /> : <Spinner info={'Connecting to the Internet of Impacts...'} />}
+              </Flex>
               <Footer />
             </Container>
           </ScrollToTop>

@@ -10,6 +10,7 @@ const initialAssistantState: IAssistantState = {
   isConnectionLoading: false,
   messageError: undefined,
   connectionError: undefined,
+  togglePanel: false,
 }
 
 const AssistantSlice = createSlice({
@@ -47,6 +48,10 @@ const AssistantSlice = createSlice({
       state.messageError = undefined
       state.connectionError = undefined
     },
+
+    togglePanel: (state) => {
+      state.togglePanel = !state.togglePanel
+    },
   },
 })
 
@@ -60,6 +65,8 @@ export const {
   setConnectionError,
 
   resetMessages,
+
+  togglePanel,
 } = AssistantSlice.actions
 
 export default AssistantSlice.reducer

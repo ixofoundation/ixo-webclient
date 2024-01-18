@@ -4,7 +4,7 @@ import { useAccount } from 'hooks/account'
 import { useEffect } from 'react'
 import { SigningCosmWasmClient, CosmWasmClient } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/cosmwasm-stargate'
 import base58 from 'bs58'
-import { useAppSelector } from 'redux/hooks'
+import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { selectStakingGroups } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
 import { Cw20Token, NativeToken, TokenType } from 'types/tokens'
@@ -12,11 +12,13 @@ import { claimAvailable } from 'utils/tokenClaim'
 import { plus } from 'utils/currency'
 import { TDAOGroupModel } from 'types/entities'
 import { IxoCoinCodexRelayerApi } from 'hooks/configs'
+import fetchInstantAssistantMessage from 'redux/assistant/thunks/fetchAssistantMessage'
 
 let nativeBalanceTimer: NodeJS.Timer | null = null
 let cw20BalanceTimer: NodeJS.Timer | null = null
 
 const AccountUpdateService = (): JSX.Element | null => {
+  const dispatch = useAppDispatch()
   const {
     did,
     address,
@@ -218,6 +220,13 @@ const AccountUpdateService = (): JSX.Element | null => {
     CosmWasmClient.connect(RPC_ENDPOINT!).then(updateCWClient)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  useEffect(() => {
+    if (address) {
+      dispatch(fetchInstantAssistantMessage('What can you do?'))
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [address])
 
   return null
 }
