@@ -12,7 +12,7 @@ export default function Suggestions({ sendMessage, messages, isOpen }: Props) {
   return (
     <Flex
       direction='column'
-      align='start'
+      align='flex-start'
       gap='4px'
       my='xs'
       pos='absolute'

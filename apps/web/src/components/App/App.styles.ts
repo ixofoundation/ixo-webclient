@@ -202,7 +202,7 @@ export interface HTMLDivProps extends HTMLElementProps {
 export interface HTMLFlexBoxProps extends HTMLDivProps {
   direction?: 'row' | 'column' | 'row-reverse'
   justifyContent?: 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around' | 'space-evenly' | 'stretch'
-  alignItems?: 'stretch' | 'center' | 'start' | 'end' | 'baseline'
+  alignItems?: 'stretch' | 'center' | 'start' | 'end' | 'baseline' | 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around' | 'space-evenly' | 'stretch'
   gap?: number
   flexWrap?: string
   flexBasis?: string
@@ -324,7 +324,7 @@ export const FlexBox = styled(Box)<HTMLFlexBoxProps>`
   display: flex;
   flex-direction: ${({ direction = 'row' }): string => direction};
   justify-content: ${({ justifyContent = 'start' }): string => justifyContent};
-  align-items: ${({ alignItems = 'start' }): string => alignItems};
+  align-items: ${({ alignItems = 'flex-start' }): string => alignItems};
   gap: ${({ gap = 0 }): string => gap * 0.25 + 'rem'};
   ${({ borderRadius }): string | undefined => (borderRadius ? `border-radius: ${borderRadius};` : undefined)}
   ${({ flexWrap }): string | undefined => (flexWrap ? `flex-wrap: ${flexWrap}` : undefined)};

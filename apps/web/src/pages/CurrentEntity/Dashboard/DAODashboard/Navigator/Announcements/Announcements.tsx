@@ -52,7 +52,7 @@ const Announcements: React.FC<Props> = ({ daoId, groupAddresses = [] }): JSX.Ele
                 {item.title}
               </Typography>
             </FlexBox>
-            <FlexBox alignItems='start' gap={2.5}>
+            <FlexBox alignItems='flex-start' gap={2.5}>
               <Box>
                 <Box
                   background={`url(${item.announcerAvatar}), ${theme.ixoGrey500}`}

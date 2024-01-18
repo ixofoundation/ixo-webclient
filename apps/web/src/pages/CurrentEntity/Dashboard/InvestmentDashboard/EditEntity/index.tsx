@@ -36,7 +36,7 @@ const EditEntity: React.FC = () => {
   }
 
   return (
-    <FlexBox width='100%' direction='column' alignItems='start' gap={10} color='black' background='white'>
+    <FlexBox width='100%' direction='column' alignItems='flex-start' gap={10} color='black' background='white'>
       <Typography variant='secondary' size='2xl'>
         Here you can update the Investment settings and submit the changes as a proposal.
       </Typography>
