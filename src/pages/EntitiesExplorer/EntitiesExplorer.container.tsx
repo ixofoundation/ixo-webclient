@@ -193,7 +193,6 @@ const EntitiesExplorer = ({
 
   useEffect(() => {
     if (type) {
-      console.log({ type })
       handleChangeEntitiesType(type as any)
     }
   }, [type, handleChangeEntitiesType])
@@ -215,7 +214,7 @@ const EntitiesExplorer = ({
           />
           {entityTypeMap && loading && (
             <div style={{ height: '100%' }}>
-              <Spinner info={`Loading ${entityTypeMap[type as any]?.plural}`} />
+              <Spinner info={`Loading ${entityTypeMap[type as any]?.plural || ''}`} />
             </div>
           )}
           {renderEntities()}

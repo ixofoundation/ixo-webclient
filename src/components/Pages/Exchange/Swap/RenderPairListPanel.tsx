@@ -31,7 +31,7 @@ export type RenderPairListPanelProps = RenderSettingsButtonProps &
 const RenderPairListPanel = ({
   viewSettings,
   setViewSettings,
-  panelHeight,
+  panelHeight = '420px',
   pairList,
   balances,
   viewPairList,

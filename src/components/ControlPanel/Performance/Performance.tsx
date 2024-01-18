@@ -8,7 +8,7 @@ import ProtocolPerformance from './ProtocolPerformance'
 import ProjectPerformance from './ProjectPerformance'
 import AssetPerformance from './AssetPerformance'
 
-const Performance: React.FC = () => {
+const PerformanceCard: React.FC = () => {
   const { entityType } = useCurrentEntity()
 
   switch (entityType) {
@@ -29,4 +29,4 @@ const Performance: React.FC = () => {
   }
 }
 
-export default Performance
+export default PerformanceCard

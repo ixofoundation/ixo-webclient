@@ -1,5 +1,5 @@
 import { TEntityClaimModel, TEntityModel } from 'types/entities'
-import { hasExpired } from 'utils/time'
+import { isExpired } from 'utils/time'
 
 export function withEntityData(Component: React.ComponentType<any>) {
   const WrappedComponent = (entity: TEntityModel): JSX.Element => {
@@ -29,7 +29,7 @@ export function transformEntityData(entity: TEntityModel): any {
 
         // Add to the active proposals count
         acc.activeProposals += cur.proposalModule.proposals.filter((proposal) =>
-          hasExpired(proposal.proposal.expiration),
+          isExpired(proposal.proposal.expiration),
         ).length
 
         return acc
@@ -103,7 +103,7 @@ export function transformEntityData(entity: TEntityModel): any {
     title: entity.profile?.brand,
     logo: entity.profile?.logo,
     tags: entity.tags?.slice(0, 2),
-    type: '',
+    type: entity.type,
     assetNumber: '',
     maxSupply: 0,
   }

@@ -11,15 +11,13 @@ const DashboardPage: React.FC = (): JSX.Element | null => {
   const currentEntity = useCurrentEntity()
   const entityType = currentEntity.entityType.replace('protocol/', '')
 
-  console.log({ entityType, currentEntity })
-
   const Component = useMemo(() => {
     switch (entityType) {
       case 'project':
         return ProjectDashboard
       case 'dao':
         return DAODashboard
-      case 'claim':
+      case 'deed':
         return ClaimDashboard
       case 'investment':
         return InvestmentDashboard

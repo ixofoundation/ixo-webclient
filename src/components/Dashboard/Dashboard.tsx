@@ -75,6 +75,8 @@ interface Props {
   tabs?: HeaderTab[]
   entityType?: string
   matchType?: string
+  noTabs?: boolean
+  noBreadcrumbs?: boolean
 }
 
 const Dashboard: React.FunctionComponent<Props> = ({
@@ -86,6 +88,8 @@ const Dashboard: React.FunctionComponent<Props> = ({
   children,
   entityType,
   matchType = MatchType.strict,
+  noTabs = false,
+  noBreadcrumbs = false,
 }) => {
   const entityTypeMap = useAppSelector(selectEntityConfig)
   const [_theme, setTheme] = useState(theme)
@@ -97,15 +101,17 @@ const Dashboard: React.FunctionComponent<Props> = ({
   return (
     <DashboardThemeContext.Provider value={{ theme: _theme, isDark: _theme === 'dark', setTheme }}>
       <Container color={_theme === 'dark' ? 'white' : 'black'}>
-        <HeaderTabs
-          buttons={tabs}
-          matchType={matchType}
-          enableAssistantButton={true}
-          activeTabColor={entityTypeMap![entityType!]?.themeColor}
-        />
+        {!noTabs && (
+          <HeaderTabs
+            buttons={tabs}
+            matchType={matchType}
+            enableAssistantButton={true}
+            activeTabColor={entityTypeMap![entityType!]?.themeColor}
+          />
+        )}
         <Sidebar routes={subRoutes} />
         <Board themeMode={_theme}>
-          <Breadcrumb subRoutes={subRoutes} baseRoutes={baseRoutes} />
+          {!noBreadcrumbs && <Breadcrumb subRoutes={subRoutes} baseRoutes={baseRoutes} />}
           <Header title={title} />
           <Break />
           <Content>{children}</Content>

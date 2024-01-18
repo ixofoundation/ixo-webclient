@@ -11,6 +11,7 @@ import ClaimsCard from './Claims'
 interface Props {
   entityDid: string
   schema: Schema
+  entityType: string
   assistantPanelToggle?: () => void
 }
 
@@ -83,7 +84,7 @@ class ControlPanel extends React.Component<Props, State> {
   }
 
   render(): JSX.Element {
-    const { schema } = this.props
+    const { schema, entityType } = this.props
     const actions = schema?.actions
 
     const isViewedFromApp = !!window.MobileContext
@@ -105,7 +106,7 @@ class ControlPanel extends React.Component<Props, State> {
           >
             <Performance />
             <Actions widget={actions} />
-            <ClaimsCard />
+            {!entityType?.startsWith('protocol') && <ClaimsCard />}
             <Share />
           </ControlPanelWrapper>
         </ControlPanelScrollWrapper>

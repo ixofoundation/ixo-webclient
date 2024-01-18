@@ -23,6 +23,8 @@ const EntityExchange = lazy(
   () => import(/* webpackChunkName: "EntityExchange" */ 'pages/EntityExchange/EntityExchange'),
 )
 
+const MyAccountPage = lazy(() => import('pages/MyAccount'))
+
 const App: React.FunctionComponent = () => {
   const entityTypeMap = useAppSelector(selectEntityConfig)
   const location = useLocation()
@@ -57,6 +59,7 @@ const App: React.FunctionComponent = () => {
           path={'/explore'}
           render={(routeProps): JSX.Element => <EntitiesExplorer {...routeProps.location} />}
         />
+        <Route path='/myaccount' component={MyAccountPage} />
         <Route path='/exchange' component={EntityExchange} />
         <Route path='/economy' component={EntityEconomy} />
         <Route path='/create/entity' component={CreateEntityPage} />

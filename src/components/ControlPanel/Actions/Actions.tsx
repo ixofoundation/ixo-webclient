@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Card } from '../Card'
 import { Widget } from '../types'
-import { ReactComponent as AssistantIcon } from 'assets/images/icon-assistant.svg'
+import { ReactComponent as HandPaperIcon } from 'assets/images/icon-hand-paper.svg'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
 import { ApplyToJoinModal } from 'components/Modals'
 import { useAppSelector } from 'redux/hooks'
@@ -14,7 +14,7 @@ interface Props {
   widget: Widget
 }
 
-const Actions: React.FC<Props> = () => {
+const ActionsCard: React.FC<Props> = () => {
   const history = useHistory()
   const { entityId } = useParams<{ entityId: string }>()
   const deedOffers: TEntityModel[] = useAppSelector(selectAllDeedOffersForEntityId(entityId))
@@ -30,7 +30,7 @@ const Actions: React.FC<Props> = () => {
   return (
     <>
       <Card
-        icon={<AssistantIcon />}
+        icon={<HandPaperIcon />}
         title='Actions'
         columns={2}
         items={[
@@ -53,4 +53,4 @@ const Actions: React.FC<Props> = () => {
   )
 }
 
-export default Actions
+export default ActionsCard

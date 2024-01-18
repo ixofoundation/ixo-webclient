@@ -1,19 +1,15 @@
 import React from 'react'
 
-import { SettingsButton } from './Swap.styles'
-import SliderSettingsIcon from 'assets/images/icon-sliders-h-solid.svg'
+import { SvgBox } from 'components/App/App.styles'
+import { ReactComponent as SliderSettingsIcon } from 'assets/images/icon-sliders-h-solid.svg'
 
 export type RenderSettingsButtonProps = {
   viewSettings: boolean
   setViewSettings: React.Dispatch<React.SetStateAction<boolean>>
 }
-const RenderSettingsButton = ({ viewSettings, setViewSettings }: RenderSettingsButtonProps): JSX.Element => (
-  <SettingsButton
-    onClick={(): void => {
-      setViewSettings(!viewSettings)
-    }}
-  >
-    <img src={SliderSettingsIcon} alt='' />
-  </SettingsButton>
+const RenderSettingsButton: React.FC<RenderSettingsButtonProps> = ({ viewSettings, setViewSettings }): JSX.Element => (
+  <SvgBox onClick={(): void => setViewSettings(!viewSettings)} svgWidth={7} svgHeight={7} cursor='pointer'>
+    <SliderSettingsIcon />
+  </SvgBox>
 )
 export default RenderSettingsButton

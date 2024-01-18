@@ -111,10 +111,6 @@ export const SwapButton = styled.div`
   padding: 6px;
 `
 
-export const SettingsButton = styled.div`
-  cursor: pointer;
-`
-
 export const SubmitButton = styled.button<{ disabled: boolean }>`
   width: 100%;
   font-family: Roboto;

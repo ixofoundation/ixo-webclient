@@ -14,6 +14,7 @@ import { reducer as selectedEntityExchangeReducer } from 'redux/selectedEntityEx
 import { reducer as bondReducer } from 'redux/bond/bond.reducer'
 import { reducer as submitEntityClaimReducer } from 'redux/submitEntityClaim/submitEntityClaim.reducer'
 import { reducer as economyReducer } from 'redux/entityEconomy/entityEconomy.reducer'
+import assistantReducer from 'redux/assistant/assistant.slice'
 import exchangeReducer from 'redux/exchange/exchange.reducer'
 
 export const rootReducer = (history: any) =>
@@ -33,5 +34,6 @@ export const rootReducer = (history: any) =>
     submitEntityClaim: submitEntityClaimReducer,
     exchange: exchangeReducer,
     economy: economyReducer,
+    assistant: assistantReducer,
     router: connectRouter(history),
   })

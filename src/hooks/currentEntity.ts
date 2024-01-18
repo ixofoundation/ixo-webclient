@@ -310,7 +310,7 @@ export function useCurrentEntityLinkedFiles(): LinkedResource[] {
 export function useCurrentEntityClaimSchemas(): LinkedResource[] {
   const { linkedResource } = useCurrentEntity()
 
-  return linkedResource.filter((item: LinkedResource) => item.type === 'ClaimSchema')
+  return linkedResource.filter((item: LinkedResource) => item.type === 'surveyTemplate')
 }
 
 export function useCurrentEntityLinkedEntities(): LinkedEntity[] {

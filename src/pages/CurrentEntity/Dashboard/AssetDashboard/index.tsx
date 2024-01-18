@@ -167,7 +167,7 @@ const AssetDashboard = () => {
             <Flex color='white' align='center'>
               <AssetLocationIcon transform='scale(1.4)' />
             </Flex>
-            <Text ml={6} weight='bolder' size='24px'>
+            <Text ml={6} aria-flowto='bolder' size='24px'>
               Asset Location
             </Text>
           </Flex>

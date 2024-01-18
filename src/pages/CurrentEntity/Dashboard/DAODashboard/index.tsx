@@ -10,13 +10,24 @@ import { Membership } from './Membership'
 import { Governance } from './Governance'
 import { IndividualMember } from './IndividualMember'
 import EditEntity from './EditEntity'
+import { useQuery } from 'hooks/window'
+import { useEffect } from 'react'
 
 const DAODashboard: React.FC = (): JSX.Element => {
   const { entityId } = useParams<{ entityId: string }>()
   const isEditEntityRoute = useRouteMatch('/entity/:entityId/dashboard/edit')
-  const { entityType, owner } = useCurrentEntity()
+  const { entityType, owner, selectDAOGroup } = useCurrentEntity()
   const { name } = useCurrentEntityProfile()
   const { registered, address } = useAccount()
+
+  const { getQuery } = useQuery()
+  const selectedGroup = getQuery('selectedGroup')
+  useEffect(() => {
+    if (selectedGroup) {
+      selectDAOGroup(selectedGroup)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedGroup])
 
   const routes: Path[] = [
     // {
@@ -120,8 +131,6 @@ const DAODashboard: React.FC = (): JSX.Element => {
       <Route exact path='/entity/:entityId/dashboard'>
         <Redirect to={`/entity/${entityId}/dashboard/membership`} />
       </Route>
-
-      <Redirect to={`/entity/${entityId}/dashboard/membership`} />
     </Dashboard>
   )
 }
