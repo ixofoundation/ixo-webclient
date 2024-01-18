@@ -323,7 +323,7 @@ export const Box = styled.div<HTMLDivProps>`
 export const FlexBox = styled(Box)<HTMLFlexBoxProps>`
   display: flex;
   flex-direction: ${({ direction = 'row' }): string => direction};
-  justify-content: ${({ justifyContent = 'start' }): string => justifyContent};
+  justify-content: ${({ justifyContent = 'flex-start' }): string => justifyContent};
   align-items: ${({ alignItems = 'flex-start' }): string => alignItems};
   gap: ${({ gap = 0 }): string => gap * 0.25 + 'rem'};
   ${({ borderRadius }): string | undefined => (borderRadius ? `border-radius: ${borderRadius};` : undefined)}
