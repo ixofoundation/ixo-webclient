@@ -69,7 +69,7 @@ const ProjectDashboard: React.FC = (): JSX.Element => {
 
   const tabs: HeaderTab[] = [
     {
-      iconClass: `icon-project`,
+      iconClass: `icon-${entityType}`,
       path: `/entity/${entityId}/overview`,
       title: toTitleCase(entityType),
       tooltip: `${toTitleCase(entityType)} Overview`,
@@ -79,6 +79,12 @@ const ProjectDashboard: React.FC = (): JSX.Element => {
       path: `/entity/${entityId}/dashboard`,
       title: 'Dashboard',
       tooltip: `${toTitleCase(entityType)} Management`,
+    },
+    {
+      iconClass: `icon-funding`,
+      path: `/entity/${entityId}/treasury`,
+      title: 'Funding',
+      tooltip: `${toTitleCase(entityType)} Funding`,
     },
   ]
 

@@ -2376,7 +2376,6 @@ export type Query = Node & {
   tokenomicsAccounts?: Maybe<TokenomicsAccountsConnection>;
   tokenomicsInflation: Scalars['JSON']['output'];
   tokenomicsSupplyCommunityPool: Scalars['JSON']['output'];
-  tokenomicsSupplyIBC: Scalars['JSON']['output'];
   tokenomicsSupplyStaked: Scalars['JSON']['output'];
   tokenomicsSupplyTotal: Scalars['JSON']['output'];
   /** Reads and enables pagination through a set of `Token`. */
