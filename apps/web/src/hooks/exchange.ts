@@ -90,7 +90,7 @@ function useExchange({ address }: UseExchangeProps) {
       return await queryOutputAmount(
         queryType,
         { single: baseUnitAmount.toString() },
-        'ixo17srjznxl9dvzdkpwpw24gg668wc73val88a6m5ajg6ankwvz9wtsek9x34',
+        'ixo1p5nwq2ut6344qwlvjv42ayqhvarl46lnqfmnrgjnh2cwahl54g2qpg4y8y',
       ).then((value) => {
         if (tokenType === '1155') {
           return calculateBaseDenomAmount(BigNumber(value), 6)

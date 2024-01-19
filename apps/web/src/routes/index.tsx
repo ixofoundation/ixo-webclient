@@ -38,7 +38,7 @@ const App: React.FunctionComponent = () => {
     <Suspense fallback={<Spinner info='Loading' />}>
       <ReactRouterRoutes>
         <Route path='/' element={<Splash />} />
-        <Route path='/exchange' element={<EntityExchange />} />
+        <Route path='/exchange/*' element={<EntityExchange />} />
         <Route path='/edit/entity/:entityId' element={<EditEntityPage />} />
         <Route path='/entity/:entityId/*' element={<CurrentEntityPage />} />
         <Route path='/transfer/entity/:entityId' element={<TransferEntityPage />} />

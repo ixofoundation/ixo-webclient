@@ -7,4 +7,4 @@ tokens.set('CARBON', {
 })
 
 export const pools = new Dictionary((keyObject: Pool) => JSON.stringify(keyObject))
-pools.set({ token1155: 'CARBON', token2: 'uixo' }, 'ixo17srjznxl9dvzdkpwpw24gg668wc73val88a6m5ajg6ankwvz9wtsek9x34')
+pools.set({ token1155: 'CARBON', token2: 'uixo' }, 'ixo1p5nwq2ut6344qwlvjv42ayqhvarl46lnqfmnrgjnh2cwahl54g2qpg4y8y')

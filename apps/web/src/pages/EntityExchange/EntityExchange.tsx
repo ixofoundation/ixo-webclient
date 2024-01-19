@@ -1,10 +1,9 @@
-
 import { useAppSelector } from 'redux/hooks'
 import * as entitySelectors from 'redux/selectedEntity/selectedEntity.selectors'
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import Dashboard from 'components/Dashboard/Dashboard'
 
-// import EntityExchangeTradeSwap from './Trade/Swap/Swap'
+import EntityExchangeTradeSwap from './Trade/Swap/Swap'
 // import EntityExchangePortfolio from './Portfolio'
 // import EntityExchangeStake from './Stake'
 // import EntityExchangePools from './Pools/Pools'
@@ -19,18 +18,17 @@ import { selectTradingAllowed } from 'redux/configs/configs.selectors'
 import { requireCheckDefault } from 'utils/images'
 
 const EntityExchange = () => {
-  const did =  useAppSelector(entitySelectors.selectEntityDid)
-  const name= useAppSelector(entitySelectors.selectEntityName)
-  const type= useAppSelector(entitySelectors.selectEntityType)
-  const portfolioAsset= useAppSelector(selectPortfolioAsset)
-  const stakeCellEntity= useAppSelector(selectStakeCellEntity)
-  const selectedAccountAddress= useAppSelector(selectSelectedAccountAddress)
+  const did = useAppSelector(entitySelectors.selectEntityDid)
+  const name = useAppSelector(entitySelectors.selectEntityName)
+  const type = useAppSelector(entitySelectors.selectEntityType)
+  const portfolioAsset = useAppSelector(selectPortfolioAsset)
+  const stakeCellEntity = useAppSelector(selectStakeCellEntity)
+  const selectedAccountAddress = useAppSelector(selectSelectedAccountAddress)
   const location = useLocation()
 
+  const tradingAllowed = useAppSelector(selectTradingAllowed) || true
 
-  const tradingAllowed = useAppSelector(selectTradingAllowed)
-
-  let title = name ?? ""
+  let title = name ?? ''
 
   const generateRoutes = (): Path[] => {
     const { pathname } = location
@@ -169,10 +167,8 @@ const EntityExchange = () => {
     >
       {/* These routes are nested under '/exchange' */}
       <Routes>
-        <Route path='/exchange'>
-          <Navigate to={`/exchange/trade/swap`} />
-        </Route>
-        {/* <Route exact path='/exchange/trade/swap' component={EntityExchangeTrade} /> */}
+        <Route index element={<Navigate to={`/exchange/trade/swap`} />} />
+        <Route path='trade/swap' Component={EntityExchangeTradeSwap} />
         {/* <Route path='/exchange/trade/swap' element={<EntityExchangeTradeSwap/>} /> */}
         {/* <Route exact path='/exchange/trade/:id' component={EntityExchangeTrade} /> */}
       </Routes>
@@ -180,5 +176,4 @@ const EntityExchange = () => {
   )
 }
 
-
-export default (EntityExchange)
+export default EntityExchange

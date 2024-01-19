@@ -45,8 +45,8 @@ class IxoSwapAdapter implements SwapAdapter {
   offlineSigner: any
 
   constructor({ walletAddress, offlineSigner }: SwapAdapterConstructorProps) {
-    this.walletAddress = walletAddress
-    this.smartContractAddress = 'ixo17srjznxl9dvzdkpwpw24gg668wc73val88a6m5ajg6ankwvz9wtsek9x34'
+    this.walletAddress = walletAddress 
+    this.smartContractAddress = 'ixo1p5nwq2ut6344qwlvjv42ayqhvarl46lnqfmnrgjnh2cwahl54g2qpg4y8y'
     this.impactContractAddress = 'ixo1nc5tatafv6eyq7llkr2gv50ff9e22mnf70qgjlv737ktmt4eswrqvg5w3c'
     this.rpcEndpoint = RPC_ENDPOINT as string
     this.offlineSigner = offlineSigner
