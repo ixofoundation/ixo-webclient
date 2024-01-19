@@ -1,6 +1,6 @@
 [build]
   NODE_VERSION = "18.18.2"
-  base = "./"
+  base = "/"
   command = "set NODE_OPTIONS=--max-old-space-size=8192 && yarn build" # Replace with your actual build command
   publish = "apps/web/build" # Replace with the directory where your build's output is stored
 
@@ -11,4 +11,6 @@
 [context.deploy-preview]
   # Settings for deploy previews (for pull requests)
   # You can set environment variables or different build commands specific to PR previews
+  publish = "apps/web/build" # Replace with the directory where your build's output is stored
+
 
