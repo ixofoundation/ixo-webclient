@@ -109,7 +109,7 @@ const Sidebar: React.FunctionComponent<Props> = ({ routes }) => {
             )
           }
           return (
-            <NavItem exact={!route.strict} to={route.url} key={`sidebar-${key}`}>
+            <NavItem to={route.url} key={`sidebar-${key}`}>
               <img alt={route.tooltip} src={route.icon} />
               <ToolTipSecondary>{route.tooltip}</ToolTipSecondary>
             </NavItem>

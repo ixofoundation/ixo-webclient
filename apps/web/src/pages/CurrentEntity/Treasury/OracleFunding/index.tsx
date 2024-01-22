@@ -1,7 +1,7 @@
 import Dashboard from 'components/Dashboard/Dashboard'
 import { HeaderTab, Path } from 'components/Dashboard/types'
 import useCurrentEntity, { useCurrentEntityProfile } from 'hooks/currentEntity'
-import { Redirect, Route, useParams } from 'react-router-dom'
+import { Navigate, Route, useParams } from 'react-router-dom'
 import { requireCheckDefault } from 'utils/images'
 import Accounts from './Accounts'
 import { toTitleCase } from 'utils/formatters'
@@ -74,10 +74,8 @@ const OracleFunding: React.FC = (): JSX.Element => {
       tabs={tabs}
       entityType={entityType}
     >
-      <Route exact path='/entity/:entityId/treasury/accounts' component={Accounts} />
-      <Route exact path='/entity/:entityId/treasury'>
-        <Redirect to={`/entity/${entityId}/treasury/accounts`} />
-      </Route>
+      <Route path='/entity/:entityId/treasury/accounts' Component={Accounts} />
+      <Route path='/entity/:entityId/treasury' element={<Navigate to={`/entity/${entityId}/treasury/accounts`} />} />
     </Dashboard>
   )
 }

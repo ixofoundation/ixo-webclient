@@ -7,7 +7,7 @@ import {
   LayoutRow,
   LayoutWrapper,
   BreadCrumbs,
-} from './CreateEntityLayout.styles'
+} from './styles'
 import { Typography } from 'components/Typography'
 import { Box } from 'components/App/App.styles'
 import { ScrollArea } from '@mantine/core'
