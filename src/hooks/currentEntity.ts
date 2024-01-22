@@ -402,9 +402,9 @@ export function useCurrentEntityTreasury() {
   // entityAccounts
   useEffect(() => {
     if (entityAccounts.length > 0) {
-      entityAccounts.forEach((account) => {
-        setAccounts((accounts) => ({
-          ...accounts,
+      const newAccounts = entityAccounts.reduce(
+        (acc, account) => ({
+          ...acc,
           [account.address]: {
             address: account.address,
             name: account.name,
@@ -412,8 +412,10 @@ export function useCurrentEntityTreasury() {
             network: 'ixo Network',
             coins: {},
           },
-        }))
-      })
+        }),
+        {},
+      )
+      setAccounts((accounts) => ({ ...accounts, ...newAccounts }))
     }
     return () => {
       setAccounts((accounts) =>
@@ -425,9 +427,9 @@ export function useCurrentEntityTreasury() {
   // groupAccounts
   useEffect(() => {
     if (Object.keys(daoGroups).length > 0) {
-      Object.values(daoGroups).forEach((daoGroup: TDAOGroupModel) => {
-        setAccounts((accounts) => ({
-          ...accounts,
+      const newAccounts = Object.values(daoGroups).reduce(
+        (acc, daoGroup) => ({
+          ...acc,
           [daoGroup.coreAddress]: {
             address: daoGroup.coreAddress,
             name: daoGroup.config.name,
@@ -435,8 +437,10 @@ export function useCurrentEntityTreasury() {
             network: 'ixo Network',
             coins: {},
           },
-        }))
-      })
+        }),
+        {},
+      )
+      setAccounts((accounts) => ({ ...accounts, ...newAccounts }))
     }
     return () => {
       setAccounts((accounts) =>
@@ -448,9 +452,9 @@ export function useCurrentEntityTreasury() {
   // linkedAccounts
   useEffect(() => {
     if (linkedAccounts.length > 0) {
-      linkedAccounts.forEach((account) => {
-        setAccounts((accounts) => ({
-          ...accounts,
+      const newAccounts = linkedAccounts.reduce(
+        (acc, account) => ({
+          ...acc,
           [account.id]: {
             address: account.id,
             name: truncateString(account.id, 15),
@@ -458,8 +462,11 @@ export function useCurrentEntityTreasury() {
             network: account.relationship,
             coins: {},
           },
-        }))
-      })
+        }),
+        {},
+      )
+      setAccounts((accounts) => ({ ...accounts, ...newAccounts }))
+
       return () => {
         setAccounts((accounts) =>
           Object.fromEntries(Object.entries(accounts).filter(([key, value]) => value.type !== 'linked')),
