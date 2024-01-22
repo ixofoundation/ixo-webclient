@@ -402,22 +402,18 @@ export function useCurrentEntityTreasury() {
   // entityAccounts
   useEffect(() => {
     if (entityAccounts.length > 0) {
-      ;(async () => {
-        await Promise.all(
-          entityAccounts.map(async (account) => {
-            setAccounts((accounts) => ({
-              ...accounts,
-              [account.address]: {
-                address: account.address,
-                name: account.name,
-                type: 'entity',
-                network: 'ixo Network',
-                coins: {},
-              },
-            }))
-          }),
-        )
-      })()
+      entityAccounts.forEach((account) => {
+        setAccounts((accounts) => ({
+          ...accounts,
+          [account.address]: {
+            address: account.address,
+            name: account.name,
+            type: 'entity',
+            network: 'ixo Network',
+            coins: {},
+          },
+        }))
+      })
     }
     return () => {
       setAccounts((accounts) =>
@@ -429,22 +425,18 @@ export function useCurrentEntityTreasury() {
   // groupAccounts
   useEffect(() => {
     if (Object.keys(daoGroups).length > 0) {
-      ;(async () => {
-        await Promise.all(
-          Object.values(daoGroups).map(async (daoGroup: TDAOGroupModel) => {
-            setAccounts((accounts) => ({
-              ...accounts,
-              [daoGroup.coreAddress]: {
-                address: daoGroup.coreAddress,
-                name: daoGroup.config.name,
-                type: 'group',
-                network: 'ixo Network',
-                coins: {},
-              },
-            }))
-          }),
-        )
-      })()
+      Object.values(daoGroups).forEach((daoGroup: TDAOGroupModel) => {
+        setAccounts((accounts) => ({
+          ...accounts,
+          [daoGroup.coreAddress]: {
+            address: daoGroup.coreAddress,
+            name: daoGroup.config.name,
+            type: 'group',
+            network: 'ixo Network',
+            coins: {},
+          },
+        }))
+      })
     }
     return () => {
       setAccounts((accounts) =>
@@ -456,23 +448,18 @@ export function useCurrentEntityTreasury() {
   // linkedAccounts
   useEffect(() => {
     if (linkedAccounts.length > 0) {
-      ;(async () => {
-        await Promise.all(
-          linkedAccounts.map((account) => {
-            setAccounts((accounts) => ({
-              ...accounts,
-              [account.id]: {
-                address: account.id,
-                name: truncateString(account.id, 15),
-                type: 'linked',
-                network: account.relationship,
-                coins: {},
-              },
-            }))
-            return ''
-          }),
-        )
-      })()
+      linkedAccounts.forEach((account) => {
+        setAccounts((accounts) => ({
+          ...accounts,
+          [account.id]: {
+            address: account.id,
+            name: truncateString(account.id, 15),
+            type: 'linked',
+            network: account.relationship,
+            coins: {},
+          },
+        }))
+      })
       return () => {
         setAccounts((accounts) =>
           Object.fromEntries(Object.entries(accounts).filter(([key, value]) => value.type !== 'linked')),
