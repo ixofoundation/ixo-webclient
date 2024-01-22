@@ -3,13 +3,14 @@ on:
   pull_request:
     branches:
       - dev 
-env: 
-  REACT_APP_BLOCK_SYNC_GRAPHQL: ${{ vars.REACT_APP_BLOCK_SYNC_GRAPHQL }}
-  
+
+
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
-    environment: development
+    environment: dev
+    env: 
+      REACT_APP_BLOCK_SYNC_GRAPHQL: ${{ vars.REACT_APP_BLOCK_SYNC_GRAPHQL }}
     steps:
     - uses: actions/checkout@v2
 
