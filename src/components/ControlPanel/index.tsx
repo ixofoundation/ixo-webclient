@@ -68,16 +68,16 @@ const ControlPanel: React.FC<Props> = ({ tab }) => {
   )
 
   return (
-    <StyledScrollArea h='100%'>
-      <Flex
-        w='360px'
-        h='100%'
-        bg='#F0F3F9'
-        direction='column'
-        justify='space-between'
-        gap={24}
-        style={{ color: 'black' }}
-      >
+    <Flex
+      w='360px'
+      h='100%'
+      bg='#F0F3F9'
+      direction='column'
+      justify='space-between'
+      gap={24}
+      style={{ color: 'black' }}
+    >
+      <StyledScrollArea h='100%'>
         <Flex w='100%' direction='column' gap={24} p={20} pt={32}>
           {activeTab === 'profile' && renderProfile()}
           {activeTab === 'detail' && renderDetail()}
@@ -85,29 +85,24 @@ const ControlPanel: React.FC<Props> = ({ tab }) => {
           {activeTab === 'message' && renderMessages()}
           {activeTab === 'assistant' && renderAssistant()}
         </Flex>
-        <Flex w='100%' bg='#D7DFED' p={20} justify='space-around' align='center' wrap='wrap' gap={16}>
-          <CircleTab icon={<ProfileIcon />} active={activeTab === 'profile'} onClick={() => setActiveTab('profile')} />
-          <CircleTab icon={<DAOIcon />} active={activeTab === 'detail'} onClick={() => setActiveTab('detail')} />
-          <CircleTab
-            icon={<BellIcon />}
-            active={activeTab === 'feed'}
-            onClick={() => setActiveTab('feed')}
-            badge={12}
-          />
-          <CircleTab
-            icon={<CommentIcon />}
-            active={activeTab === 'message'}
-            onClick={() => setActiveTab('message')}
-            badge={8}
-          />
-          <CircleTab
-            icon={<AssistantIcon />}
-            active={activeTab === 'assistant'}
-            onClick={() => setActiveTab('assistant')}
-          />
-        </Flex>
+      </StyledScrollArea>
+      <Flex w='100%' bg='#D7DFED' p={20} justify='space-around' align='center' wrap='wrap' gap={16}>
+        <CircleTab icon={<ProfileIcon />} active={activeTab === 'profile'} onClick={() => setActiveTab('profile')} />
+        <CircleTab icon={<DAOIcon />} active={activeTab === 'detail'} onClick={() => setActiveTab('detail')} />
+        <CircleTab icon={<BellIcon />} active={activeTab === 'feed'} onClick={() => setActiveTab('feed')} badge={12} />
+        <CircleTab
+          icon={<CommentIcon />}
+          active={activeTab === 'message'}
+          onClick={() => setActiveTab('message')}
+          badge={8}
+        />
+        <CircleTab
+          icon={<AssistantIcon />}
+          active={activeTab === 'assistant'}
+          onClick={() => setActiveTab('assistant')}
+        />
       </Flex>
-    </StyledScrollArea>
+    </Flex>
   )
 }
 
