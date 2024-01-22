@@ -8,6 +8,7 @@ import { useTheme } from 'styled-components'
 import { ResponsiveContainer, Line, LineChart } from 'recharts'
 import { SvgBox } from 'components/App/App.styles'
 import { ReactComponent as CoinsIcon } from 'assets/images/icon-coins-solid.svg'
+import { useAccountStakedBalances, useAccountUSDBalances } from 'hooks/account'
 
 const data = [
   {
@@ -42,11 +43,11 @@ const data = [
 
 const TotalValueStatisticCard: React.FC = () => {
   const theme: any = useTheme()
+  const availableValue = useAccountUSDBalances()
+  const { totalStakedBalance: stakedValue } = useAccountStakedBalances()
 
-  const availableValue = 1_050_435.32
-  const stakedValue = 1_050_435.32
-  const totalValue = availableValue + stakedValue
-  const dailyChange = 100.45
+  const totalValue = new BigNumber(availableValue).plus(stakedValue).toString()
+  const dailyChange = 0
 
   return (
     <Card label='Total Value'>

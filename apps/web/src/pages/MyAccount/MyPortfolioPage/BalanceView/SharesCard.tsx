@@ -3,7 +3,6 @@ import BigNumber from 'bignumber.js'
 import { Table } from 'components/Table'
 import { renderTableHeader } from 'components/Table/Table'
 import { Typography } from 'components/Typography'
-import { useAccount } from 'hooks/account'
 import { Avatar, Card } from 'pages/CurrentEntity/Components'
 import React from 'react'
 import CurrencyFormat from 'react-currency-format'
@@ -96,8 +95,6 @@ const columns = [
 ]
 
 const SharesCard: React.FC = () => {
-  const { cw20Tokens } = useAccount()
-  const nonEmptyCw20Tokens = cw20Tokens.filter((v) => Number(v.balance) > 0)
   const handleRowClick = (state: any) => () => {
     console.log('handleRowClick', { state })
   }
@@ -106,14 +103,14 @@ const SharesCard: React.FC = () => {
       <TableWrapper>
         <Table
           columns={columns}
-          data={nonEmptyCw20Tokens}
+          data={[]}
           getRowProps={(state) => ({
             style: { height: 70, cursor: 'pointer' },
             onClick: handleRowClick(state),
           })}
           getCellProps={() => ({ style: { background: '#023044' } })}
         />
-        {nonEmptyCw20Tokens.length === 0 && (
+        {[].length === 0 && (
           <Flex w='100%' h='80px' align='center' justify='center' bg='#053549' style={{ borderRadius: 8 }}>
             <Typography variant='primary' size='lg' color='dark-blue'>
               This account holds no Shares

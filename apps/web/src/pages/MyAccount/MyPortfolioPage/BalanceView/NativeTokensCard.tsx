@@ -95,7 +95,9 @@ const columns = [
 ]
 
 const NativeTokensCard: React.FC = () => {
-  const { nativeTokens } = useAccount()
+  const { nativeTokens, cw20Tokens } = useAccount()
+  const tokens = [...nativeTokens, ...cw20Tokens.filter((v) => Number(v.balance) > 0)]
+
   const handleRowClick = (state: any) => () => {
     console.log('handleRowClick', { state })
   }
@@ -105,14 +107,14 @@ const NativeTokensCard: React.FC = () => {
       <TableWrapper>
         <Table
           columns={columns}
-          data={Object.values(nativeTokens)}
+          data={tokens}
           getRowProps={(state) => ({
             style: { height: 70, cursor: 'pointer' },
             onClick: handleRowClick(state),
           })}
           getCellProps={() => ({ style: { background: '#023044' } })}
         />
-        {Object.keys(nativeTokens).length === 0 && (
+        {tokens.length === 0 && (
           <Flex w='100%' h='80px' align='center' justify='center' bg='#053549' style={{ borderRadius: 8 }}>
             <Typography variant='primary' size='lg' color='dark-blue'>
               This account holds no Coins
