@@ -5,6 +5,7 @@ on:
       - dev 
 env: 
   REACT_APP_BLOCK_SYNC_GRAPHQL: ${{ vars.REACT_APP_BLOCK_SYNC_GRAPHQL }}
+  NODE_OPTIONS: "--max_old_space_size=8192"
 
 jobs:
   build-deploy:
