@@ -5,6 +5,7 @@
   commandOrigin = "config"
   publish = "apps/web/build" # Replace with the directory where your build's output is stored
   publishOrigin = "config"
+  package = "apps/web"
 
 [context.production]
   # Production settings (when merged to main branch)
