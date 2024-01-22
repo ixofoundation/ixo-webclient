@@ -8,7 +8,7 @@
   },
   "name": "ixo-webclient",
   "scripts": {
-    "build": "turbo build",
+    "build": "turbo build --concurrency=1",
     "clean": "turbo clean",
     "dev": "turbo dev --no-cache --force",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
