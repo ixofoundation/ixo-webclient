@@ -83,7 +83,7 @@ const router = createBrowserRouter([
   },
 ])
 
-// 4️⃣ RouterProvider added
+
 export default function Router() {
   return <RouterProvider router={router} />
 }
