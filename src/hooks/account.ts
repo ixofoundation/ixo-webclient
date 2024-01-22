@@ -35,7 +35,15 @@ import {
   updateSigningClientAction,
 } from 'redux/account/account.actions'
 import {} from 'redux/account/account.types'
-import { GetBalances, KeyTypes, TSigner } from 'lib/protocol'
+import {
+  GetBalances,
+  GetDelegationTotalRewards,
+  GetDelegatorDelegations,
+  GetDelegatorUnbondingDelegations,
+  GetDelegatorValidators,
+  KeyTypes,
+  TSigner,
+} from 'lib/protocol'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 import { SigningCosmWasmClient, CosmWasmClient } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/cosmwasm-stargate'
 import { ConnectedWallet, WalletType } from 'types/wallet'
@@ -46,6 +54,11 @@ import { getKeplrChainInfo } from '@ixo/cosmos-chain-resolver'
 import { WALLET_STORE_LOCAL_STORAGE_KEY, useIxoConfigs, chainNetwork } from './configs'
 import { ChainInfo } from '@keplr-wallet/types'
 import { errorToast } from 'utils/toast'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import { convertDecCoinToCoin, plus } from 'utils/currency'
+import { convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
+import { NATIVE_DECIMAL, NATIVE_MICRODENOM } from 'constants/chains'
+import BigNumber from 'bignumber.js'
 
 export function useAccount(): {
   selectedWallet: WalletType | undefined
@@ -216,4 +229,111 @@ export function useSigner() {
   const signer: TSigner = { address, did, pubKey: pubKeyUint8!, keyType }
 
   return signer
+}
+
+export function useAccountStakedBalances() {
+  const { address } = useAccount()
+  const [stakedBalances, setStakedBalances] = useState<{
+    [validatorAddr: string]: {
+      name?: string
+      address?: string
+      delegation?: string
+      unbonding?: string
+      rewards?: string
+    }
+  }>({})
+
+  const totalStakedBalance = useMemo(() => {
+    return Object.values(stakedBalances)
+      .map((balance) => plus(balance.delegation || '0', balance.unbonding || '0'))
+      .reduce((pre, cur) => plus(pre, cur), '0')
+  }, [stakedBalances])
+
+  const update = useCallback(() => {
+    GetDelegatorValidators(address).then((validators) => {
+      validators.forEach((validator) => {
+        const { description, operatorAddress } = validator
+        if (operatorAddress) {
+          setStakedBalances((pre) => ({
+            ...pre,
+            [operatorAddress]: {
+              ...(pre[operatorAddress] ?? {}),
+              name: description?.moniker || '',
+              address: operatorAddress,
+            },
+          }))
+        }
+      })
+    })
+    GetDelegatorDelegations(address).then((delegationResponses) => {
+      delegationResponses.forEach((response) => {
+        const { balance, delegation } = response
+        if (delegation && balance) {
+          const { validatorAddress } = delegation
+          if (validatorAddress) {
+            setStakedBalances((pre) => ({
+              ...pre,
+              [validatorAddress]: {
+                ...(pre[validatorAddress] ?? {}),
+                delegation: convertMicroDenomToDenomWithDecimals(balance.amount, NATIVE_DECIMAL).toString(),
+              },
+            }))
+          }
+        }
+      })
+    })
+    GetDelegatorUnbondingDelegations(address).then((unbondingResponses) => {
+      unbondingResponses.forEach((response) => {
+        const { validatorAddress, entries } = response
+        const balance = entries.map((entry) => entry.balance).reduce((pre, cur) => plus(pre, cur), '0')
+        if (validatorAddress) {
+          setStakedBalances((pre) => ({
+            ...pre,
+            [validatorAddress]: {
+              ...(pre[validatorAddress] ?? {}),
+              unbonding: convertMicroDenomToDenomWithDecimals(balance, NATIVE_DECIMAL).toString(),
+            },
+          }))
+        }
+      })
+    })
+    GetDelegationTotalRewards(address).then((response) => {
+      if (response) {
+        const { rewards } = response
+        rewards.forEach((item) => {
+          const { validatorAddress, reward } = item
+          const rewardDecCoin = reward.find(({ denom }) => denom === NATIVE_MICRODENOM)
+          if (rewardDecCoin && validatorAddress) {
+            const rewardCoin = convertDecCoinToCoin(rewardDecCoin)
+            setStakedBalances((pre) => ({
+              ...pre,
+              [validatorAddress]: {
+                ...(pre[validatorAddress] ?? {}),
+                rewards: convertMicroDenomToDenomWithDecimals(rewardCoin.amount, NATIVE_DECIMAL).toString(),
+              },
+            }))
+          }
+        })
+      }
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [address])
+
+  useEffect(() => {
+    update()
+  }, [update])
+
+  return { stakedBalances, totalStakedBalance }
+}
+
+export function useAccountUSDBalances() {
+  const { nativeTokens } = useAccount()
+
+  return useMemo(() => {
+    return nativeTokens.reduce(
+      (pre, cur) =>
+        new BigNumber(pre).plus(new BigNumber(cur.balance).times(new BigNumber(cur.lastPriceUsd ?? 0))).toString(),
+      '0',
+    )
+  }, [nativeTokens])
 }
