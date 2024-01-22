@@ -51,7 +51,7 @@ const ConnectModal = () => {
 
   return (
     <Flex w="100%" direction="column" align="center">
-      <Box w="50%">
+      {/* <Box w="50%">
         <SegmentedControl
           w="100%"
           data={["mobile", "desktop"]}
@@ -74,7 +74,7 @@ const ConnectModal = () => {
           onChange={setActiveTab}
           value={activeTab}
         />
-      </Box>
+      </Box> */}
       <Box>
         {activeTab === "mobile" && <ImpactsXConnectModal />}
         {activeTab === "desktop" && <DesktopWalletModal />}
@@ -140,8 +140,6 @@ export const WalletModal = (): JSX.Element => {
       setStep("connect");
     }
   }, [wallet, mobile.transacting]);
-
-  console.log({ mobile, step })
 
   return (
     <MantineProvider>
