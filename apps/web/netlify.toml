@@ -13,4 +13,5 @@
   # You can set environment variables or different build commands specific to PR previews
   publish = "apps/web/build" # Replace with the directory where your build's output is stored
 
-
+[functions]
+  directory = "apps/web/functions"
