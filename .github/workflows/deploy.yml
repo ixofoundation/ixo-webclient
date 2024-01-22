@@ -3,7 +3,9 @@ on:
   pull_request:
     branches:
       - dev 
-
+env: 
+  REACT_APP_BLOCK_SYNC_GRAPHQL: ${{ vars.REACT_APP_BLOCK_SYNC_GRAPHQL }}
+  
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
