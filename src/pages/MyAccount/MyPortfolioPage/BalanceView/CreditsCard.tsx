@@ -6,7 +6,7 @@ import { Typography } from 'components/Typography'
 import { useGetAccountTokens } from 'graphql/tokens'
 import { useAccount } from 'hooks/account'
 import { Avatar, Card } from 'pages/CurrentEntity/Components'
-import React from 'react'
+import React, { useMemo } from 'react'
 import CurrencyFormat from 'react-currency-format'
 import styled from 'styled-components'
 
@@ -99,7 +99,16 @@ const columns = [
 const CreditsCard: React.FC = () => {
   const { address } = useAccount()
   const { data: accountTokens } = useGetAccountTokens(address)
-  console.log({ accountTokens })
+
+  const tokens = useMemo(() => {
+    return Object.entries(accountTokens).map(([symbol, obj]) => ({
+      symbol,
+      imageUrl: (obj as any).image,
+      network: 'IXO',
+      lastPriceUsd: 0.025,
+      balance: (Object.values((obj as any).tokens)[0] as any).amount,
+    }))
+  }, [accountTokens])
 
   const handleRowClick = (state: any) => () => {
     console.log('handleRowClick', { state })
@@ -109,14 +118,14 @@ const CreditsCard: React.FC = () => {
       <TableWrapper>
         <Table
           columns={columns}
-          data={[]}
+          data={tokens}
           getRowProps={(state) => ({
             style: { height: 70, cursor: 'pointer' },
             onClick: handleRowClick(state),
           })}
           getCellProps={() => ({ style: { background: '#023044' } })}
         />
-        {[].length === 0 && (
+        {tokens.length === 0 && (
           <Flex w='100%' h='80px' align='center' justify='center' bg='#053549' style={{ borderRadius: 8 }}>
             <Typography variant='primary' size='lg' color='dark-blue'>
               This account holds no Credits
