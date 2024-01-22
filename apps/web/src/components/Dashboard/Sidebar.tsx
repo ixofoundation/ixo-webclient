@@ -75,10 +75,11 @@ export const Container = styled.div`
   }
 
   @media (min-width: ${deviceWidth.mobile}px) {
-    position: sticky;
+    position: absolute;
     top: 70px;
     width: 75px;
     min-width: 75px;
+    height: calc(100% - 70px);
     display: block;
     padding-top: 15px;
 
@@ -108,7 +109,7 @@ const Sidebar: React.FunctionComponent<Props> = ({ routes }) => {
             )
           }
           return (
-            <NavItem end={!route.strict} to={route.url} key={`sidebar-${key}`}>
+            <NavItem exact={!route.strict} to={route.url} key={`sidebar-${key}`}>
               <img alt={route.tooltip} src={route.icon} />
               <ToolTipSecondary>{route.tooltip}</ToolTipSecondary>
             </NavItem>

@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { deviceWidth } from 'constants/device'
 
 export const TopBar = styled.header<{ background: string; color: string }>`
-  position: sticky;
+  position: fixed;
   top: 0;
   padding: 0 15px;
   z-index: 9;

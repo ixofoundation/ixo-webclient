@@ -8,4 +8,6 @@ export type IAssistantState = {
 
   isConnectionLoading: boolean
   connectionError: Error | undefined
+
+  togglePanel: boolean
 }

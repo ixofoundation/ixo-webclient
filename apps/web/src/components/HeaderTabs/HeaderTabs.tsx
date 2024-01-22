@@ -9,6 +9,8 @@ import { useEntityConfig } from 'hooks/configs'
 import useCurrentEntity, { useCurrentEntityCreator } from 'hooks/currentEntity'
 import { useParams } from 'react-router-dom'
 import { useAccount } from 'hooks/account'
+import { useAppDispatch } from 'redux/hooks'
+import { togglePanel } from 'redux/assistant/assistant.slice'
 
 interface Props {
   matchType?: any
@@ -26,6 +28,7 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
   assistantFixed = false,
   buttons,
 }): JSX.Element => {
+  const dispatch = useAppDispatch()
   const { entityId } = useParams<{ entityId: string }>()
   const { title } = useEntityConfig()
   const { entityType } = useCurrentEntity()
@@ -95,7 +98,7 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
         buttons={buttonsArray}
         matchType={matchType || MatchType.exact}
         assistantPanelToggle={(): void => {
-          // toggleAssistant!({ fixed: assistantFixed })
+          dispatch(togglePanel())
         }}
         enableAssistantButton={enableAssistantButton!}
       />

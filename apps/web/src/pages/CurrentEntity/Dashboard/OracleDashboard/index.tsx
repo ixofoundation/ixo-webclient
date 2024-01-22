@@ -35,7 +35,7 @@ const OracleDashboard: React.FC = (): JSX.Element => {
     {
       url: `/explore`,
       icon: '',
-      sdg: `Explore ${toTitleCase('oracle')}s`,
+      sdg: `Explore ${toTitleCase(entityType)}s`,
       tooltip: '',
     },
     {
@@ -54,7 +54,7 @@ const OracleDashboard: React.FC = (): JSX.Element => {
 
   const tabs: HeaderTab[] = [
     {
-      iconClass: `icon-oracle`,
+      iconClass: `icon-${entityType}`,
       path: `/entity/${entityId}/overview`,
       title: toTitleCase('oracle'),
       tooltip: `${toTitleCase('oracle')} Overview`,
@@ -64,6 +64,12 @@ const OracleDashboard: React.FC = (): JSX.Element => {
       path: `/entity/${entityId}/dashboard`,
       title: 'Dashboard',
       tooltip: `${toTitleCase('oracle')} Management`,
+    },
+    {
+      iconClass: `icon-funding`,
+      path: `/entity/${entityId}/treasury`,
+      title: 'Funding',
+      tooltip: `${toTitleCase(entityType)} Funding`,
     },
   ]
 
