@@ -100,7 +100,7 @@ export const DaoCard: React.FC<Props> = ({
           )}
         </FlexBox>
       </FlexBox>
-      <FlexBox width='100%' direction='column' background={theme.ixoWhite} p={2}>
+      <FlexBox width='100%' direction='column' background={theme.ixoWhite} p={2} style={{ flex: 1 }}>
         <FlexBox direction='column' justifyContent='space-between' width='100%' height='100%' pt={2}>
           <FlexBox justifyContent='space-between' width='100%'>
             <FlexBox direction='column' justifyContent='center'>

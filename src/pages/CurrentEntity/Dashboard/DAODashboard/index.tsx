@@ -5,38 +5,27 @@ import useCurrentEntity, { useCurrentEntityProfile } from 'hooks/currentEntity'
 import { Redirect, Route, useParams, useRouteMatch } from 'react-router-dom'
 import { requireCheckDefault } from 'utils/images'
 import { MyParticipation } from './MyParticipation'
-import { Navigator } from './Navigator'
 import { Membership } from './Membership'
 import { Governance } from './Governance'
 import { IndividualMember } from './IndividualMember'
 import EditEntity from './EditEntity'
-import { useQuery } from 'hooks/window'
-import { useEffect } from 'react'
+import Overview from './Overview'
 
 const DAODashboard: React.FC = (): JSX.Element => {
   const { entityId } = useParams<{ entityId: string }>()
   const isEditEntityRoute = useRouteMatch('/entity/:entityId/dashboard/edit')
-  const { entityType, owner, selectDAOGroup } = useCurrentEntity()
+  const { entityType, owner } = useCurrentEntity()
   const { name } = useCurrentEntityProfile()
   const { registered, address } = useAccount()
 
-  const { getQuery } = useQuery()
-  const selectedGroup = getQuery('selectedGroup')
-  useEffect(() => {
-    if (selectedGroup) {
-      selectDAOGroup(selectedGroup)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedGroup])
-
   const routes: Path[] = [
-    // {
-    //   url: `/entity/${entityId}/dashboard/navigator`,
-    //   icon: requireCheckDefault(require('assets/img/sidebar/global.svg')),
-    //   sdg: 'Navigator',
-    //   tooltip: 'Navigator',
-    //   strict: true,
-    // },
+    {
+      url: `/entity/${entityId}/dashboard/overview`,
+      icon: requireCheckDefault(require('assets/img/sidebar/global.svg')),
+      sdg: 'Overview',
+      tooltip: 'Overview',
+      strict: true,
+    },
     {
       url: `/entity/${entityId}/dashboard/membership`,
       icon: requireCheckDefault(require('assets/img/sidebar/agents.svg')),
@@ -120,16 +109,18 @@ const DAODashboard: React.FC = (): JSX.Element => {
       tabs={tabs}
       entityType={entityType}
     >
-      <Route exact path='/entity/:entityId/dashboard/navigator' component={Navigator} />
+      <Route exact path='/entity/:entityId/dashboard/overview' component={Overview} />
       <Route exact path='/entity/:entityId/dashboard/membership' component={Membership} />
       <Route exact path='/entity/:entityId/dashboard/membership/:address' component={IndividualMember} />
       <Route exact path='/entity/:entityId/dashboard/governance' component={Governance} />
+
       {registered && <Route exact path='/entity/:entityId/dashboard/my-participation' component={MyParticipation} />}
       {registered && owner === address && (
         <Route exact path='/entity/:entityId/dashboard/edit' component={EditEntity} />
       )}
+
       <Route exact path='/entity/:entityId/dashboard'>
-        <Redirect to={`/entity/${entityId}/dashboard/membership`} />
+        <Redirect to={`/entity/${entityId}/dashboard/overview`} />
       </Route>
     </Dashboard>
   )

@@ -1,26 +1,16 @@
 // import { ReactComponent as ArrowLeftIcon } from 'assets/images/icon-arrow-left.svg'
-import { contracts, customQueries } from '@ixo/impactxclient-sdk'
 import { ReactComponent as CopyIcon } from 'assets/images/icon-copy.svg'
 import BigNumber from 'bignumber.js'
 import { FlexBox, GridContainer, SvgBox } from 'components/App/App.styles'
 import { DepositModal } from 'components/Modals'
 import { Typography } from 'components/Typography'
-import { useAccount } from 'hooks/account'
-import { IxoCoinCodexRelayerApi } from 'hooks/configs'
-import useCurrentEntity from 'hooks/currentEntity'
+import { useCurrentEntityTreasury } from 'hooks/currentEntity'
 import { useQuery } from 'hooks/window'
-import { GetBalances, GetTokenAsset } from 'lib/protocol'
 import { Button } from 'pages/CreateEntity/Components'
 import { Card } from 'pages/CurrentEntity/Components'
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import CopyToClipboard from 'react-copy-to-clipboard'
-import { selectStakingGroups } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
-import { useAppSelector } from 'redux/hooks'
 import { useTheme } from 'styled-components'
-import { TDAOGroupModel } from 'types/entities'
-import { determineChainFromAddress } from 'utils/account'
-import { convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
-import { getDisplayAmount } from 'utils/currency'
 import { truncateString } from 'utils/formatters'
 import { successToast } from 'utils/toast'
 import { Coins } from '../../Components/Coins'
@@ -50,16 +40,10 @@ const Accounts: React.FC = () => {
   const theme: any = useTheme()
   const { getQuery } = useQuery()
   const expand: string | undefined = getQuery('expand')
-  const { cwClient } = useAccount()
-  const { accounts: entityAccounts, linkedAccounts, daoGroups } = useCurrentEntity()
-  const stakingGroups = useAppSelector(selectStakingGroups)
 
-  const [accounts, setAccounts] = useState<{
-    [address: string]: TTreasuryAccountModel
-  }>({})
+  const accounts = useCurrentEntityTreasury()
 
   const [selectedAccount, setSelectedAccount] = useState<TTreasuryAccountModel | undefined>(undefined)
-
   const [depositModalOpen, setDepositModalOpen] = useState(false)
 
   const Icon = useMemo(() => AccountTypeToIconMap[selectedAccount?.type || ''], [selectedAccount])
@@ -74,196 +58,6 @@ const Accounts: React.FC = () => {
         ),
     [accounts],
   )
-
-  // entityAccounts
-  useEffect(() => {
-    if (entityAccounts.length > 0) {
-      ;(async () => {
-        await Promise.all(
-          entityAccounts.map(async (account) => {
-            setAccounts((accounts) => ({
-              ...accounts,
-              [account.address]: {
-                address: account.address,
-                name: account.name,
-                type: 'entity',
-                network: 'ixo Network',
-                coins: {},
-              },
-            }))
-          }),
-        )
-      })()
-    }
-    return () => {
-      setAccounts((accounts) =>
-        Object.fromEntries(Object.entries(accounts).filter(([key, value]) => value.type !== 'entity')),
-      )
-    }
-  }, [entityAccounts])
-
-  // groupAccounts
-  useEffect(() => {
-    if (Object.keys(daoGroups).length > 0) {
-      ;(async () => {
-        await Promise.all(
-          Object.values(daoGroups).map(async (daoGroup: TDAOGroupModel) => {
-            setAccounts((accounts) => ({
-              ...accounts,
-              [daoGroup.coreAddress]: {
-                address: daoGroup.coreAddress,
-                name: daoGroup.config.name,
-                type: 'group',
-                network: 'ixo Network',
-                coins: {},
-              },
-            }))
-          }),
-        )
-      })()
-    }
-    return () => {
-      setAccounts((accounts) =>
-        Object.fromEntries(Object.entries(accounts).filter(([key, value]) => value.type !== 'group')),
-      )
-    }
-  }, [daoGroups])
-
-  // linkedAccounts
-  useEffect(() => {
-    if (linkedAccounts.length > 0) {
-      ;(async () => {
-        await Promise.all(
-          linkedAccounts.map((account) => {
-            setAccounts((accounts) => ({
-              ...accounts,
-              [account.id]: {
-                address: account.id,
-                name: truncateString(account.id, 15),
-                type: 'linked',
-                network: account.relationship,
-                coins: {},
-              },
-            }))
-            return ''
-          }),
-        )
-      })()
-      return () => {
-        setAccounts((accounts) =>
-          Object.fromEntries(Object.entries(accounts).filter(([key, value]) => value.type !== 'linked')),
-        )
-      }
-    }
-  }, [linkedAccounts])
-
-  const updateNativeTokenBalances = useCallback(async (address: string): Promise<TTreasuryCoinModel[]> => {
-    if (!address) {
-      return []
-    }
-    const { rpc } = await determineChainFromAddress(address)
-
-    const balances = await GetBalances(address, rpc)
-
-    const coins: TTreasuryCoinModel[] = (await Promise.all(
-      await balances
-        .map(async ({ amount, denom }) => {
-          const token = await GetTokenAsset(denom)
-          const tokenInfo = await customQueries.currency.findTokenInfoFromDenom(
-            token.coinMinimalDenom,
-            true,
-            IxoCoinCodexRelayerApi,
-          )
-          if (!tokenInfo) {
-            return undefined
-          }
-          const { coinName, lastPriceUsd } = tokenInfo
-          const payload = {
-            address,
-            balance: getDisplayAmount(amount, token.coinDecimals),
-            network: `${coinName.toUpperCase()}`,
-            coinDenom: token.coinDenom,
-            coinImageUrl: token.coinImageUrl!,
-            lastPriceUsd,
-          }
-          return payload
-        })
-        .filter((v) => v !== undefined),
-    )) as TTreasuryCoinModel[]
-    return coins
-  }, [])
-
-  const updateCw20TokenBalances = useCallback(
-    async (address): Promise<TTreasuryCoinModel[]> => {
-      const coins: TTreasuryCoinModel[] = (await Promise.all(
-        stakingGroups.map(async (stakingGroup: TDAOGroupModel) => {
-          const {
-            token,
-            votingModule: { votingModuleAddress },
-          } = stakingGroup
-
-          if (token) {
-            const daoVotingCw20StakedClient = new contracts.DaoVotingCw20Staked.DaoVotingCw20StakedQueryClient(
-              cwClient,
-              votingModuleAddress,
-            )
-            const tokenContract = await daoVotingCw20StakedClient.tokenContract()
-
-            const cw20BaseClient = new contracts.Cw20Base.Cw20BaseQueryClient(cwClient, tokenContract)
-            const { balance: microBalance } = await cw20BaseClient.balance({ address })
-            const balance = convertMicroDenomToDenomWithDecimals(microBalance, token.tokenInfo.decimals)
-            if (balance === 0) {
-              return undefined
-            }
-
-            const payload: TTreasuryCoinModel = {
-              address,
-              coinDenom: token.tokenInfo.symbol,
-              network: 'IXO',
-              balance: balance.toString(),
-              coinImageUrl: (token.marketingInfo?.logo !== 'embedded' && token.marketingInfo.logo?.url) || '',
-              lastPriceUsd: 0,
-            }
-            return payload
-          }
-          return undefined
-        }),
-      )) as TTreasuryCoinModel[]
-      return coins.filter(Boolean)
-    },
-    [cwClient, stakingGroups],
-  )
-
-  useEffect(() => {
-    Object.values(accounts).forEach((account) => {
-      updateNativeTokenBalances(account.address).then((coins: TTreasuryCoinModel[]) => {
-        coins.forEach((coin) => {
-          setAccounts((v) => ({
-            ...v,
-            [coin.address]: {
-              ...v[coin.address],
-              coins: { ...(v[coin.address]?.coins ?? {}), [coin.coinDenom]: coin },
-            },
-          }))
-        })
-      })
-      updateCw20TokenBalances(account.address).then((coins: TTreasuryCoinModel[]) => {
-        coins.forEach((coin) => {
-          setAccounts((v) => ({
-            ...v,
-            [coin.address]: {
-              ...v[coin.address],
-              coins: { ...(v[coin.address]?.coins ?? {}), [coin.coinDenom]: coin },
-            },
-          }))
-        })
-      })
-    })
-    return () => {
-      //
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [JSON.stringify(Object.keys(accounts))])
 
   return (
     <FlexBox direction='column' gap={6} width='100%' color='white'>

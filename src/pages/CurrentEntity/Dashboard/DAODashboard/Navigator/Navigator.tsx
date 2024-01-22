@@ -13,10 +13,14 @@ import { TreasuryPool } from './TreasuryPool'
 import { Button } from 'pages/CreateEntity/Components'
 import { GroupStakingModal } from 'components/Modals'
 import useCurrentEntity from 'hooks/currentEntity'
+import { useQuery } from 'hooks/window'
 
 const Navigator: React.FC = (): JSX.Element => {
   const { entityId: daoId } = useParams<{ entityId: string }>()
-  const { selectedDAOGroup, selectDAOGroup } = useCurrentEntity()
+  const { getQuery } = useQuery()
+  const selectedGroup = getQuery('selectedGroup')
+  const { daoGroups } = useCurrentEntity()
+  const selectedDAOGroup = daoGroups[selectedGroup]
   const [groupStakingModalOpen, setGroupStakingModalOpen] = useState(false)
 
   const renderAction = () => {
@@ -54,7 +58,7 @@ const Navigator: React.FC = (): JSX.Element => {
 
   return (
     <FlexBox direction='column' gap={6}>
-      <Groups selectedGroup={selectedDAOGroup} selectDaoGroup={(address: string) => selectDAOGroup(address)} />
+      <Groups />
 
       {selectedDAOGroup && (
         <>

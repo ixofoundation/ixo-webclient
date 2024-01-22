@@ -1,7 +1,6 @@
-import { FlexBox } from 'components/App/App.styles'
 import React, { useMemo, useState } from 'react'
 import { MembersView } from './MembersView'
-import { Toolbar } from './Toolbar'
+// import { Toolbar } from './Toolbar'
 import { Groups } from '../Components'
 import { Typography } from 'components/Typography'
 import { Member } from 'types/dao'
@@ -9,10 +8,19 @@ import { useAppSelector } from 'redux/hooks'
 import { selectEntitiesByType } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { findDAObyDelegateAccount } from 'utils/entities'
 import useCurrentEntity from 'hooks/currentEntity'
+import { useQuery } from 'hooks/window'
+import { Flex } from '@mantine/core'
+import { GridContainer, GridItem } from 'components/App/App.styles'
+import GovernanceCard from 'pages/MyAccount/MyGroupsPage/GroupView/GovernanceCard'
+import VotingPowerCard from 'pages/MyAccount/MyGroupsPage/GroupView/VotingPowerCard'
+import TokensCard from 'pages/MyAccount/MyGroupsPage/GroupView/TokensCard'
 
 const Membership: React.FC = (): JSX.Element | null => {
-  const { isImpactsDAO, linkedEntity, daoController } = useCurrentEntity()
-  const { selectedDAOGroup, selectDAOGroup } = useCurrentEntity()
+  const { getQuery } = useQuery()
+  const selectedGroup = getQuery('selectedGroup')
+  const { isImpactsDAO, linkedEntity, daoController, daoGroups } = useCurrentEntity()
+  const selectedDAOGroup = daoGroups[selectedGroup]
+
   const daos = useAppSelector(selectEntitiesByType('dao'))
   const members: Member[] = useMemo(
     () =>
@@ -39,7 +47,7 @@ const Membership: React.FC = (): JSX.Element | null => {
   )
 
   const [selectedMembers, setSelectedMembers] = useState<{ [key: string]: boolean }>({})
-  const [filter, setFilter] = useState<{
+  const [filter] = useState<{
     status: 'approved' | 'pending' | 'rejected' | undefined
     view: 'panel' | 'list'
     keyword: string
@@ -83,16 +91,16 @@ const Membership: React.FC = (): JSX.Element | null => {
   }, [filter, sort, members])
 
   return (
-    <FlexBox direction='column' gap={6} width='100%' color='white'>
-      <Groups selectedGroup={selectedDAOGroup} selectDaoGroup={(address: string) => selectDAOGroup(address)} />
+    <Flex direction='column' gap={24} w='100%'>
+      <Groups />
 
       {selectedDAOGroup && (
-        <FlexBox direction='column' gap={7.5} width='100%'>
-          <FlexBox gap={6} alignItems='center'>
-            <Typography variant='secondary' color='white' size='5xl' transform='capitalize'>
+        <Flex direction='column' gap={28} w='100%'>
+          <Flex gap={24} align='center'>
+            <Typography variant='secondary' size='5xl' transform='capitalize'>
               {selectedDAOGroup.config.name}
             </Typography>
-            <Toolbar
+            {/* <Toolbar
               status={filter.status}
               view={filter.view}
               keyword={filter.keyword}
@@ -100,8 +108,28 @@ const Membership: React.FC = (): JSX.Element | null => {
               onStatusChange={(status) => setFilter((pre) => ({ ...pre, status }))}
               onViewChange={(view) => setFilter((pre) => ({ ...pre, view }))}
               onKeywordChange={(keyword) => setFilter((pre) => ({ ...pre, keyword }))}
-            />
-          </FlexBox>
+            /> */}
+          </Flex>
+
+          <GridContainer
+            gridTemplateAreas={`"a b"`}
+            gridTemplateColumns={'1fr 1fr'}
+            gridTemplateRows={'repeat(1, minmax(340px, auto))'}
+            gridGap={6}
+            width='100%'
+          >
+            <GridItem gridArea='a' alignSelf='center' height='100%'>
+              <GovernanceCard daoGroup={selectedDAOGroup} />
+            </GridItem>
+            <GridItem gridArea='b' alignSelf='center' height='100%'>
+              {selectedDAOGroup.type === 'membership' ? (
+                <VotingPowerCard daoGroup={selectedDAOGroup} />
+              ) : (
+                <TokensCard daoGroup={selectedDAOGroup} />
+              )}
+            </GridItem>
+          </GridContainer>
+
           <MembersView
             view={filter.view}
             members={filteredMembers}
@@ -110,9 +138,9 @@ const Membership: React.FC = (): JSX.Element | null => {
             selectedMembers={selectedMembers}
             setSelectedMembers={setSelectedMembers}
           />
-        </FlexBox>
+        </Flex>
       )}
-    </FlexBox>
+    </Flex>
   )
 }
 export default Membership
