@@ -25,8 +25,8 @@ jobs:
 
     - name: Build
       run: |
-      export NODE_OPTIONS="--max_old_space_size=8192"
-      yarn build  # Build Script
+        export NODE_OPTIONS="--max_old_space_size=8192"
+        yarn build  # Build Script
 
     - name: Deploy to Netlify
       uses: netlify/actions/cli@master
