@@ -8,7 +8,7 @@ import { TDAOGroupModel } from 'types/entities'
 import { Avatar, Flex } from '@mantine/core'
 import { ReactComponent as AgentsIcon } from 'assets/img/sidebar/agents.svg'
 import { useQuery } from 'hooks/window'
-import { useHistory } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import CopyToClipboard from 'react-copy-to-clipboard'
 import { truncateString } from 'utils/formatters'
 import { ReactComponent as CopyIcon } from 'assets/images/icon-copy.svg'
@@ -20,7 +20,8 @@ interface IGroupCardProps {
 
 const GroupCard: React.FC<IGroupCardProps> = ({ daoGroup }) => {
   const theme: any = useTheme()
-  const history = useHistory()
+  const navigate = useNavigate()
+  const { pathname } = useLocation()
   const { getQuery } = useQuery()
   const selectedGroup = getQuery('selectedGroup')
   const { currentEntity: dao } = useCurrentEntity()
@@ -45,7 +46,7 @@ const GroupCard: React.FC<IGroupCardProps> = ({ daoGroup }) => {
         cursor: 'pointer',
         background: selectedGroup === daoGroup.coreAddress ? '#184761' : '#213E59',
       }}
-      onClick={() => history.push(`${history.location.pathname}?selectedGroup=${daoGroup.coreAddress}`)}
+      onClick={() => navigate(`${pathname}?selectedGroup=${daoGroup.coreAddress}`)}
     >
       {isParticipating && (
         <Flex pos={'absolute'} top={10} right={10} py={2} px={6} style={{ borderRadius: 999 }} bg={theme.ixoNewBlue}>

@@ -512,7 +512,7 @@ export function useCurrentEntityTreasury() {
   }, [])
 
   const updateCw20TokenBalances = useCallback(
-    async (address): Promise<TTreasuryCoinModel[]> => {
+    async (address: string): Promise<TTreasuryCoinModel[]> => {
       const coins: TTreasuryCoinModel[] = (await Promise.all(
         stakingGroups.map(async (stakingGroup: TDAOGroupModel) => {
           const {

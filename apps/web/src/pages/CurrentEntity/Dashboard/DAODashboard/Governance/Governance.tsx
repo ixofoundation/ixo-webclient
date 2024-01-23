@@ -44,15 +44,15 @@ const Governance: React.FC = () => {
 
   const handleNewProposal = useCallback(() => {
     navigate(`/create/entity/deed/${entityId}/${selectedDAOGroup?.coreAddress}`)
-  }, [history, entityId, selectedDAOGroup])
+  }, [navigate, entityId, selectedDAOGroup])
 
   const handleNewProposalForJoin = useCallback(() => {
     navigate(`/create/entity/deed/${entityId}/${selectedDAOGroup?.coreAddress}?join=true`)
-  }, [history, entityId, selectedDAOGroup])
+  }, [navigate, entityId, selectedDAOGroup])
 
   const handleReEnableKeys = useCallback(() => {
     navigate(`/transfer/entity/${entityId}/review?groupAddress=${selectedDAOGroup?.coreAddress}`)
-  }, [history, entityId, selectedDAOGroup])
+  }, [navigate, entityId, selectedDAOGroup])
 
   const sortedProposals = useMemo(() => {
     return selectedDAOGroup?.proposalModule.proposals.sort((a, b) => {
