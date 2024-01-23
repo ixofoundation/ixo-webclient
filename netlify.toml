@@ -1,7 +1,6 @@
 [build]
   NODE_VERSION = "18.18.2"
   base = "/"
-  command = "yarn build" # Replace with your actual build command
   publish = "build" # Replace with the directory where your build's output is stored
   package = "apps/web"
 
@@ -13,8 +12,6 @@
   # Settings for deploy previews (for pull requests)
   # You can set environment variables or different build commands specific to PR previews
   publish = "build" # Replace with the directory where your build's output is stored.
-
-  command = "yarn build" # Replace with your actual build command
 
 [functions]
   directory = "functions"
