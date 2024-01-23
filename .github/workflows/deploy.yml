@@ -50,7 +50,7 @@ jobs:
         yarn build  # Build Script
 
     - name: Deploy to Netlify
-      uses: netlify/actions/cli@master
+    - uses: netlify/actions/cli@master
       working-directory: ./apps/web
       env:
         NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
