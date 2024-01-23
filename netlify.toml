@@ -3,6 +3,7 @@
   base = "/"
   command = "set NODE_OPTIONS=--max-old-space-size=8192 && yarn build" # Replace with your actual build command
   publish = "build" # Replace with the directory where your build's output is stored
+  package = "apps/web"
 
 [context.production]
   # Production settings (when merged to main branch)
