@@ -2,10 +2,7 @@
   NODE_VERSION = "18.18.2"
   base = "/"
   command = "set NODE_OPTIONS=--max-old-space-size=8192 && yarn build" # Replace with your actual build command
-  commandOrigin = "config"
-  publish = "apps/web/build" # Replace with the directory where your build's output is stored
-  publishOrigin = "config"
-  package = "apps/web"
+  publish = "build" # Replace with the directory where your build's output is stored
 
 [context.production]
   # Production settings (when merged to main branch)
@@ -14,10 +11,9 @@
 [context.deploy-preview]
   # Settings for deploy previews (for pull requests)
   # You can set environment variables or different build commands specific to PR previews
-  publish = "apps/web/build" # Replace with the directory where your build's output is stored.
-  publishOrigin = "config"
-  commandOrigin = "config"
+  publish = "build" # Replace with the directory where your build's output is stored.
+
   command = "set NODE_OPTIONS=--max-old-space-size=8192 && yarn build" # Replace with your actual build command
 
 [functions]
-  directory = "apps/web/functions"
+  directory = "functions"

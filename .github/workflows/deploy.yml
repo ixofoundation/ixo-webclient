@@ -5,6 +5,10 @@ on:
       - dev 
     types: [opened, synchronize]
 
+defaults:
+ run:
+  working-directory: ./apps/web
+
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
@@ -50,8 +54,7 @@ jobs:
         yarn build  # Build Script
 
     - name: Deploy to Netlify
-    - uses: netlify/actions/cli@master
-      working-directory: ./apps/web
+      uses: netlify/actions/cli@master
       env:
         NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
         NETLIFY_SITE_ID: 98449c34-e6ca-47c1-9814-1a4007adb702  # Replace with your Netlify Site ID
