@@ -1,4 +1,4 @@
-import { Card } from 'pages/CurrentEntity/Components'
+import { Avatar, Card } from 'pages/CurrentEntity/Components'
 import React, { useMemo } from 'react'
 import { TDAOGroupModel } from 'types/entities'
 import { Flex } from '@mantine/core'
@@ -10,11 +10,13 @@ import { ReactComponent as AgentIcon } from 'assets/img/sidebar/agents.svg'
 import { ReactComponent as CoinsIcon } from 'assets/images/icon-coins-solid.svg'
 import { useTheme } from 'styled-components'
 import { useAccount } from 'hooks/account'
+import CurrencyFormat from 'react-currency-format'
 
 interface Props {
   daoGroup: TDAOGroupModel
 }
 const GovernanceCard: React.FC<Props> = ({ daoGroup }) => {
+  const token = daoGroup.token
   const theme: any = useTheme()
   const { address } = useAccount()
   const userVotingPower = useMemo(() => {
@@ -27,7 +29,7 @@ const GovernanceCard: React.FC<Props> = ({ daoGroup }) => {
 
   return (
     <Card label='Governance' icon={<AgentIcon />}>
-      <Flex w='100%' direction={'column'} gap={24} align={'center'} justify={'center'}>
+      <Flex w='100%' h='100%' direction={'column'} gap={24} align={'center'}>
         <Flex align={'center'} gap={4}>
           <SvgBox svgWidth={5} svgHeight={5}>
             {daoGroup.type === 'membership' && <CoinsIcon />}
@@ -38,26 +40,62 @@ const GovernanceCard: React.FC<Props> = ({ daoGroup }) => {
           </Typography>
         </Flex>
 
-        <PieChart
-          data={[
-            { name: 'Rest Voting Power', value: 1 - userVotingPower, color: theme.ixoDarkBlue },
-            { name: 'My Voting Power', value: userVotingPower, color: theme.ixoNewBlue },
-          ]}
-          descriptor={
-            <Flex direction='column' align='center'>
-              <Typography variant='secondary' size='3xl' weight='bold'>
-                {new Intl.NumberFormat('en-us', {
-                  style: 'percent',
-                  minimumFractionDigits: 0,
-                  maximumFractionDigits: 2,
-                }).format(userVotingPower)}
-              </Typography>
-              <Typography size='md' transform='capitalize'>
-                voting power
-              </Typography>
-            </Flex>
-          }
-        />
+        {userVotingPower > 0 ? (
+          <Flex w={'100%'} h='100%' direction={'column'} align={'center'} justify={'space-between'}>
+            <PieChart
+              data={[
+                { name: 'Rest Voting Power', value: 1 - userVotingPower, color: theme.ixoDarkBlue },
+                { name: 'My Voting Power', value: userVotingPower, color: theme.ixoNewBlue },
+              ]}
+              descriptor={
+                <Flex direction='column' align='center'>
+                  <Typography variant='secondary' size='2xl' weight='bold'>
+                    {new Intl.NumberFormat('en-us', {
+                      style: 'percent',
+                      minimumFractionDigits: 0,
+                      maximumFractionDigits: 2,
+                    }).format(userVotingPower)}
+                  </Typography>
+                  <Typography size='md' transform='capitalize'>
+                    voting power
+                  </Typography>
+                </Flex>
+              }
+              height='140px'
+              radius={70}
+              thickness={8}
+            />
+            {daoGroup.type === 'staking' && (
+              <Flex w={'100%'} align={'center'} justify={'space-between'}>
+                <Typography>Token Supply</Typography>
+                <Flex align={'center'} gap={12}>
+                  <Typography>
+                    <CurrencyFormat
+                      displayType={'text'}
+                      value={token?.tokenInfo?.total_supply || '0'}
+                      thousandSeparator
+                      decimalScale={2}
+                    />
+                  </Typography>
+                  <Flex align={'center'} gap={4}>
+                    <Avatar size={24} borderWidth={0} url={(token?.marketingInfo.logo as any)?.url} />
+                    <Typography transform='uppercase'>{token?.tokenInfo.symbol}</Typography>
+                  </Flex>
+                </Flex>
+              </Flex>
+            )}
+          </Flex>
+        ) : (
+          <Flex w={'100%'} h='100%' align={'center'} justify={'center'}>
+            <Typography variant='secondary' size='sm' color='dark-blue' textAlign='center'>
+              Participation in this group requires membership.
+              <br />
+              Ask an existing member to make a
+              <br />
+              proposal for you to join.
+            </Typography>
+          </Flex>
+        )}
       </Flex>
     </Card>
   )

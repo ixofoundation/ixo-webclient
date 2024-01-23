@@ -1,4 +1,4 @@
-export { default as Groups } from './Groups'
+export { default as Groups } from './Groups2'
 export { default as UserStakes } from './UserStakes'
 export { default as UserVotingPower } from './UserVotingPower'
 export { default as UserProposals } from './UserProposals'

@@ -12,6 +12,7 @@ import { contracts } from '@ixo/impactxclient-sdk'
 import CurrencyFormat from 'react-currency-format'
 import { convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
 import useCurrentEntity, { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
+import { useQuery } from 'hooks/window'
 
 const Wrapper = styled(TableRow)<{ focused: boolean }>`
   ${({ theme, focused }) =>
@@ -86,10 +87,13 @@ const MemberListItem: React.FC<Props> = ({ member, selected, onSelectMember }): 
       color: theme.ixoNewBlue,
     },
   }
-  const navigate =useNavigate()
+  const navigate = useNavigate()
   const { pathname } = useLocation()
   const { cwClient } = useAccount()
-  const { selectedDAOGroup } = useCurrentEntity()
+  const { getQuery } = useQuery()
+  const selectedGroup = getQuery('selectedGroup')
+  const { daoGroups } = useCurrentEntity()
+  const selectedDAOGroup = daoGroups[selectedGroup]
   const { type, daoGroup, proposals, votes, votingModuleAddress } = useCurrentEntityDAOGroup(
     selectedDAOGroup?.coreAddress || '',
   )

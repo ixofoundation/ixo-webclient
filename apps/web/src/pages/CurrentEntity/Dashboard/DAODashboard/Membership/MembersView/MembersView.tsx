@@ -19,6 +19,7 @@ import { ReactComponent as SortLtoGIcon } from 'assets/images/icon-sort-ltog.svg
 import { ReactComponent as SortGtoLIcon } from 'assets/images/icon-sort-gtol.svg'
 import { useTheme } from 'styled-components'
 import useCurrentEntity from 'hooks/currentEntity'
+import { useQuery } from 'hooks/window'
 // import { ReactComponent as ChevDownIcon } from 'assets/images/icon-chev-down.svg'
 
 interface Props {
@@ -38,7 +39,10 @@ const MembersView: React.FC<Props> = ({
   setSelectedMembers,
 }): JSX.Element => {
   const theme: any = useTheme()
-  const { selectedDAOGroup } = useCurrentEntity()
+  const { getQuery } = useQuery()
+  const selectedGroup = getQuery('selectedGroup')
+  const { daoGroups } = useCurrentEntity()
+  const selectedDAOGroup = daoGroups[selectedGroup]
 
   const handleSortClick = (key: string) => {
     setSort((sort: any) => {

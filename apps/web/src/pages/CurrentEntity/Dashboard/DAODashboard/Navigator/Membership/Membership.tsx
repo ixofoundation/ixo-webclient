@@ -6,6 +6,7 @@ import { ReactComponent as ProfileIcon } from 'assets/images/icon-profile.svg'
 import { ReactComponent as CaretUpIcon } from 'assets/images/icon-caret-up.svg'
 import { useTheme } from 'styled-components'
 import useCurrentEntity from 'hooks/currentEntity'
+import { useQuery } from 'hooks/window'
 
 interface Props {
   groupAddresses?: string[]
@@ -13,7 +14,10 @@ interface Props {
 
 const Membership: React.FC<Props> = ({ groupAddresses = [] }): JSX.Element => {
   const theme: any = useTheme()
-  const { selectedDAOGroup } = useCurrentEntity()
+  const { getQuery } = useQuery()
+  const selectedGroup = getQuery('selectedGroup')
+  const { daoGroups } = useCurrentEntity()
+  const selectedDAOGroup = daoGroups[selectedGroup]
   const numOfMembers = selectedDAOGroup?.votingModule.members.length || 0
 
   // TODO:

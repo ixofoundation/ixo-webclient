@@ -36,7 +36,7 @@ import { ReactComponent as SmartContract2Icon } from 'assets/images/icon-smart-c
 import { ReactComponent as JamboDAppIcon } from 'assets/images/icon-jambo-dapp.svg'
 import { ReactComponent as MatrixServerIcon } from 'assets/images/icon-matrix-server.svg'
 import { ReactComponent as EvaluationMethodologyIcon } from 'assets/images/icon-evaluation-methodology.svg'
-import { ReactComponent as MemberShipIcon } from 'assets/images/icon-membership.svg'
+import { ReactComponent as HandshakeIcon } from 'assets/images/icon-handshake.svg'
 import { ReactComponent as StakingIcon } from 'assets/images/icon-staking.svg'
 import { ReactComponent as MultisigIcon } from 'assets/images/icon-multisig.svg'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
@@ -357,7 +357,7 @@ export const DAOGroupConfig: { [key: string]: any } = {
     text: 'Membership',
     description:
       'Membership-based governance allocates a predefined voting weight to the account of each member in the Group. Changes in membership have to be approved by existing members casting their votes.',
-    icon: MemberShipIcon,
+    icon: HandshakeIcon,
   },
   staking: {
     text: 'Staking',

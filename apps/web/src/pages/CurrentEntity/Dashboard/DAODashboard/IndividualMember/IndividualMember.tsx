@@ -20,17 +20,19 @@ import useCurrentEntity from 'hooks/currentEntity'
 const IndividualMember: React.FC = () => {
   const theme: any = useTheme()
   const { address = "" } = useParams<{ address: string }>()
-  const navigate =useNavigate()
-  const { selectedDAOGroup, selectDAOGroup } = useCurrentEntity()
+  const navigate = useNavigate()
+  const { state, pathname } = useLocation()
+  const { daoGroups } = useCurrentEntity()
   const { getQuery } = useQuery()
   const token: string | undefined = getQuery('token')
   const expand: string | undefined = getQuery('expand')
-  const {state, pathname} = useLocation()
+  const selectedGroup = getQuery('selectedGroup')
+  const selectedDAOGroup = daoGroups[selectedGroup]
   const tokenDetail: any = state
 
   return (
     <FlexBox direction='column' gap={6} width='100%' color='white'>
-      <Groups selectedGroup={selectedDAOGroup} selectDaoGroup={(address: string) => selectDAOGroup(address)} />
+      <Groups />
 
       {selectedDAOGroup && (
         <>

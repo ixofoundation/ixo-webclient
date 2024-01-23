@@ -11,6 +11,7 @@ import { ReactComponent as EmptyIcon } from 'assets/images/icon-empty.svg'
 import { useTheme } from 'styled-components'
 import useCurrentEntity, { useCurrentEntityDAOGroup, useCurrentEntityProfile } from 'hooks/currentEntity'
 import { TDAOGroupModel } from 'types/entities'
+import { useQuery } from 'hooks/window'
 
 const GovernanceHeader = React.memo(({ selectedDAOGroup }: { selectedDAOGroup?: TDAOGroupModel }) => (
   <>
@@ -25,17 +26,12 @@ const GovernanceHeader = React.memo(({ selectedDAOGroup }: { selectedDAOGroup?: 
 const Governance: React.FC = () => {
   const theme: any = useTheme()
   const { entityId } = useParams<{ entityId: string }>()
-  const navigate =useNavigate()
-  const {
-    entityStatus,
-    selectedDAOGroup,
-    verificationMethod,
-    selectDAOGroup,
-    isImpactsDAO,
-    isMemberOfImpactsDAO,
-    isOwner,
-    daoController,
-  } = useCurrentEntity()
+  const navigate = useNavigate()
+  const { getQuery } = useQuery()
+  const selectedGroup = getQuery('selectedGroup')
+  const { entityStatus, verificationMethod, isImpactsDAO, isMemberOfImpactsDAO, isOwner, daoController, daoGroups } =
+    useCurrentEntity()
+  const selectedDAOGroup = daoGroups[selectedGroup]
   const { name: entityName } = useCurrentEntityProfile()
   const { isParticipating, anyoneCanPropose } = useCurrentEntityDAOGroup(selectedDAOGroup?.coreAddress || '')
 
@@ -48,15 +44,15 @@ const Governance: React.FC = () => {
 
   const handleNewProposal = useCallback(() => {
     navigate(`/create/entity/deed/${entityId}/${selectedDAOGroup?.coreAddress}`)
-  }, [navigate, entityId, selectedDAOGroup])
+  }, [history, entityId, selectedDAOGroup])
 
   const handleNewProposalForJoin = useCallback(() => {
     navigate(`/create/entity/deed/${entityId}/${selectedDAOGroup?.coreAddress}?join=true`)
-  }, [navigate, entityId, selectedDAOGroup])
+  }, [history, entityId, selectedDAOGroup])
 
   const handleReEnableKeys = useCallback(() => {
     navigate(`/transfer/entity/${entityId}/review?groupAddress=${selectedDAOGroup?.coreAddress}`)
-  }, [navigate, entityId, selectedDAOGroup])
+  }, [history, entityId, selectedDAOGroup])
 
   const sortedProposals = useMemo(() => {
     return selectedDAOGroup?.proposalModule.proposals.sort((a, b) => {
@@ -68,7 +64,7 @@ const Governance: React.FC = () => {
 
   return (
     <FlexBox direction='column' gap={6} width='100%' color='white'>
-      <Groups selectedGroup={selectedDAOGroup} selectDaoGroup={(address: string) => selectDAOGroup(address)} />
+      <Groups />
 
       <GovernanceHeader selectedDAOGroup={selectedDAOGroup} />
 

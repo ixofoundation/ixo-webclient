@@ -1,24 +1,19 @@
 import React, { useMemo } from 'react'
-import { Card } from '../../../../Components'
 import { Box, FlexBox, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { ReactComponent as GovernanceIcon } from 'assets/images/icon-governance.svg'
 import { ReactComponent as SandClockIcon } from 'assets/images/icon-sandclock-fill.svg'
 import { ProgressBar } from 'components/ProgressBar/ProgressBar'
 import { expirationAtTimeToSecondsFromNow, secondsToWdhms } from 'utils/conversions'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 import { useTheme } from 'styled-components'
 import useCurrentEntity from 'hooks/currentEntity'
 import { useQuery } from 'hooks/window'
+import { Card } from 'pages/CurrentEntity/Components'
 
-interface Props {
-  daoId: string
-  groupAddresses: string[]
-}
-
-const Governance: React.FC<Props> = ({ daoId, groupAddresses }): JSX.Element => {
+const GovernanceCard: React.FC = (): JSX.Element => {
   const theme: any = useTheme()
-  const navigate = useNavigate()
+  const history = useHistory()
   const { entityId } = useParams<{ entityId: string }>()
   const { getQuery } = useQuery()
   const selectedGroup = getQuery('selectedGroup')
@@ -62,7 +57,7 @@ const Governance: React.FC<Props> = ({ daoId, groupAddresses }): JSX.Element => 
     <Card
       icon={<GovernanceIcon />}
       label='Governance'
-      onAction={() => navigate(`/entity/${entityId}/dashboard/governance`)}
+      onAction={() => history.push(`/entity/${entityId}/dashboard/governance`)}
     >
       <FlexBox width='100%' direction='column' alignItems='center' gap={1}>
         <Typography color='blue' size='5xl'>
@@ -128,4 +123,4 @@ const Governance: React.FC<Props> = ({ daoId, groupAddresses }): JSX.Element => 
   )
 }
 
-export default Governance
+export default GovernanceCard

@@ -16,8 +16,9 @@ import { convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
 import { useAccount } from 'hooks/account'
 import CurrencyFormat from 'react-currency-format'
 import useCurrentEntity, { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
+import { useQuery } from 'hooks/window'
 
-const Wrapper = styled(FlexBox)<HTMLFlexBoxProps &{ focused: boolean }>`
+const Wrapper = styled(FlexBox)<HTMLFlexBoxProps & { focused: boolean }>`
   ${({ theme, focused }) => focused && `border-color: ${theme.ixoLightBlue};`}
   &:hover {
     border-color: ${(props) => props.theme.ixoLightBlue};
@@ -51,8 +52,10 @@ interface Props {
 
 const MemberCard: React.FC<Props> = ({ member, selected, onSelectMember }): JSX.Element => {
   const theme: any = useTheme()
-  const {pathname} = useLocation()
-  const navigate =useNavigate()
+  const navigate = useNavigate()
+  const { pathname } = useLocation()
+  const { getQuery } = useQuery()
+  const selectedGroup = getQuery('selectedGroup')
   const STATUSES = {
     approved: {
       status: 'approved',
@@ -76,7 +79,8 @@ const MemberCard: React.FC<Props> = ({ member, selected, onSelectMember }): JSX.
     },
   }
   const { cwClient } = useAccount()
-  const { selectedDAOGroup } = useCurrentEntity()
+  const { daoGroups } = useCurrentEntity()
+  const selectedDAOGroup = daoGroups[selectedGroup]
   const { type, daoGroup, proposals, votes, votingModuleAddress } = useCurrentEntityDAOGroup(
     selectedDAOGroup?.coreAddress || '',
   )
