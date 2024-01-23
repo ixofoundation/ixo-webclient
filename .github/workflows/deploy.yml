@@ -34,7 +34,7 @@ jobs:
       REACT_APP_MULTI_CALL_CONTRACT_ADDRESS: ${{ vars.REACT_APP_MULTI_CALL_CONTRACT_ADDRESS }}
       NODE_ENV: ${{ vars.NODE_ENV }}
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
     - name: Set up Node.js
       uses: actions/setup-node@v4
