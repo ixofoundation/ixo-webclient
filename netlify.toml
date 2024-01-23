@@ -1,7 +1,7 @@
 [build]
   NODE_VERSION = "18.18.2"
   base = "/"
-  command = "set NODE_OPTIONS=--max-old-space-size=8192 && yarn build" # Replace with your actual build command
+  command = "yarn build" # Replace with your actual build command
   publish = "build" # Replace with the directory where your build's output is stored
   package = "apps/web"
 
@@ -14,7 +14,7 @@
   # You can set environment variables or different build commands specific to PR previews
   publish = "build" # Replace with the directory where your build's output is stored.
 
-  command = "set NODE_OPTIONS=--max-old-space-size=8192 && yarn build" # Replace with your actual build command
+  command = "yarn build" # Replace with your actual build command
 
 [functions]
   directory = "functions"
