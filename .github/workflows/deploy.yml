@@ -55,4 +55,4 @@ jobs:
         NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
         NETLIFY_SITE_ID: 98449c34-e6ca-47c1-9814-1a4007adb702  # Replace with your Netlify Site ID
       with:
-        args: deploy --dir=apps/web/build --context deploy-preview --filter @ixo-webclient/web   # Update --dir with the directory of your build output
+        args: deploy --build --context deploy-preview --filter @ixo-webclient/web   # Update --dir with the directory of your build output
