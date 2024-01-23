@@ -105,7 +105,7 @@ docker-compose up -d
 
 ### Styling
 
-IXO-Web is styled using styled components. all styling information is kept within a component. The main file - App.tsx contains theme information, where you can add variables for use through the Web App.
+IXO Web is styled using styled components. all styling information is kept within a component. The main file - App.tsx contains theme information, where you can add variables for use through the Web App.
 
 ### Container Components
 
