@@ -10,9 +10,6 @@ import {
   SetupInstrument,
   SetupDataCollection
 } from 'pages/CreateEntity/EntityPages'
-import { store } from 'redux/store'
-import { getEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.actions'
-import { getCustomTheme } from 'redux/theme/theme.actions'
 
 import * as CreateEntity from 'pages/CreateEntity/CreateEntity.route'
 import * as Explore from 'pages/EntitiesExplorer/EntitiesExplorer.route'
@@ -23,13 +20,6 @@ const router = createBrowserRouter([
   {
     path: '*',
     element: <AppConnected/>,
-    loader: async () => {
-      console.log("running loader dispatches")
-      store.dispatch(getEntityConfig())
-      store.dispatch(getCustomTheme())
-      // store.dispatch(changeEntitiesType('project'))
-      return null
-    },
     children: [
       {
         path: 'explore',

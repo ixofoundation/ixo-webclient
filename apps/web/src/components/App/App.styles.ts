@@ -204,7 +204,19 @@ export interface HTMLDivProps extends HTMLElementProps {
 export interface HTMLFlexBoxProps extends HTMLDivProps {
   direction?: 'row' | 'column' | 'row-reverse'
   justifyContent?: 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around' | 'space-evenly' | 'stretch'
-  alignItems?: 'stretch' | 'center' | 'start' | 'end' | 'baseline' | 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around' | 'space-evenly' | 'stretch'
+  alignItems?:
+    | 'stretch'
+    | 'center'
+    | 'start'
+    | 'end'
+    | 'baseline'
+    | 'flex-start'
+    | 'flex-end'
+    | 'center'
+    | 'space-between'
+    | 'space-around'
+    | 'space-evenly'
+    | 'stretch'
   gap?: number
   flexWrap?: string
   flexBasis?: string

@@ -19,9 +19,10 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { selectCustomTheme } from 'redux/theme/theme.selectors'
 import { theme } from 'components/App/App.styles'
 import { selectEntityConfig } from 'redux/configs/configs.selectors'
-import { changeEntitiesType } from 'redux/entitiesExplorer/entitiesExplorer.actions'
+import { changeEntitiesType, getEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.actions'
 import { ThemeProvider } from 'styled-components'
 import { Spinner } from 'components/Spinner/Spinner'
+import { getCustomTheme } from 'redux/theme/theme.actions'
 
 process.env.NODE_ENV === 'production' &&
   Sentry.init({
@@ -38,51 +39,63 @@ const client = new ApolloClient({
 })
 
 const App = () => {
-  const [customizedTheme, setCustomizedTheme] = useState<any>(theme)
-  const dispatch = useAppDispatch()
-  const entityConfig = useAppSelector(selectEntityConfig)
-  const customTheme = useAppSelector(selectCustomTheme)
+  // const [customizedTheme, setCustomizedTheme] = useState<any>(theme)
+  // const dispatch = useAppDispatch()
+  // const entityConfig = useAppSelector(selectEntityConfig)
+  // const customTheme = useAppSelector(selectCustomTheme)
 
-  useEffect(() => {
-    if (!entityConfig) return
+  // useEffect(() => {
+  //   dispatch(getEntityConfig())
+  //   dispatch(getCustomTheme())
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [])
 
-    // Determine entity type
-    const newEntityType = entityConfig.UI?.explorer?.defaultView || 'project'
-    dispatch(changeEntitiesType(newEntityType))
+  // console.log({entityConfig})
 
-    // Apply custom theme
-    const { theme: myTheme } = entityConfig
-    const newCustomizedTheme = { ...customizedTheme, ...customTheme }
+  // useEffect(() => {
+  //   if (!entityConfig) return
 
-    if (myTheme) {
-      const { fontFamily, primaryColor, highlight } = myTheme
+  //   // Determine entity type
+  //   const newEntityType = entityConfig.UI?.explorer?.defaultView
 
-      if (fontFamily) {
-        newCustomizedTheme.primaryFontFamily = fontFamily
-      }
-      if (primaryColor) {
-        newCustomizedTheme.ixoBlue = primaryColor
-        newCustomizedTheme.ixoNewBlue = primaryColor
-      }
-      if (highlight) {
-        newCustomizedTheme.highlight = highlight
-        newCustomizedTheme.pending = highlight.light
-      }
-    }
+  //   console.log({newEntityType})
+  //   if(entityConfig){
+  //     dispatch(changeEntitiesType(newEntityType))
+  //   }
 
-    setCustomizedTheme(newCustomizedTheme)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [entityConfig])
+  //   // Apply custom theme
+  //   const { theme: myTheme } = entityConfig
+  //   const newCustomizedTheme = { ...customizedTheme, ...customTheme }
 
-  console.log({ entityConfig, customTheme })
+  //   if (myTheme) {
+  //     const { fontFamily, primaryColor, highlight } = myTheme
 
-  if (!entityConfig && !customTheme) {
-    return <Spinner info='Loading' />
-  }
+  //     if (fontFamily) {
+  //       newCustomizedTheme.primaryFontFamily = fontFamily
+  //     }
+  //     if (primaryColor) {
+  //       newCustomizedTheme.ixoBlue = primaryColor
+  //       newCustomizedTheme.ixoNewBlue = primaryColor
+  //     }
+  //     if (highlight) {
+  //       newCustomizedTheme.highlight = highlight
+  //       newCustomizedTheme.pending = highlight.light
+  //     }
+  //   }
+
+  //   setCustomizedTheme(newCustomizedTheme)
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [entityConfig, dispatch])
+
+  // console.log({ entityConfig, customTheme })
+
+  // if (!entityConfig && !customTheme) {
+  //   return <Spinner info='Loading' />
+  // }
 
   return (
     <Suspense fallback={<Spinner info='Connecting to the internet of impacts' />}>
-      <ThemeProvider theme={customizedTheme}>
+      <ThemeProvider theme={theme}>
         <MantineProvider>
           <WalletProvider
             chainNetwork={chainNetwork}
@@ -92,7 +105,7 @@ const App = () => {
             <WalletModal />
             <GlobalStyle />
             <ApolloProvider client={client}>
-              <Router />
+               <Router />
             </ApolloProvider>
           </WalletProvider>
         </MantineProvider>

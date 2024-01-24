@@ -1,0 +1,22 @@
+diff --git a/node_modules/survey-core/defaultV2.css b/node_modules/survey-core/defaultV2.css
+index 4f5dff5..ba8e00f 100644
+--- a/node_modules/survey-core/defaultV2.css
++++ b/node_modules/survey-core/defaultV2.css
+@@ -1065,7 +1065,7 @@ sv-popup {
+   line-height: calc(1.5 * (var(--sjs-font-size, 16px)));
+   flex: 1;
+   display: flex;
+-  justify-content: start;
++  justify-content: flex-start;
+   align-items: center;
+ }
+ 
+@@ -6487,7 +6487,7 @@ sv-components-container,
+   margin-bottom: calc(-2 * (var(--sjs-base-unit, var(--base-unit, 8px))));
+ }
+ .sd-root-modern.sd-root-modern--mobile .sd-matrix__label {
+-  justify-content: start;
++  justify-content: flex-start;
+ }
+ .sd-root-modern.sd-root-modern--mobile .sd-table__cell {
+   border-top: none;

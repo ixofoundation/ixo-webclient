@@ -19,26 +19,30 @@ import { selectCustomTheme } from 'redux/theme/theme.selectors'
 import { useAccount } from 'hooks/account'
 import { Outlet } from 'react-router-dom'
 import { selectEntityType } from 'redux/currentEntity/currentEntity.selectors'
+import { selectEntityConfig } from 'redux/configs/configs.selectors'
+import { getAsyncEntityConfig, getEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.actions'
+import { Flex } from '@mantine/core'
 
 ReactGA.initialize('UA-106630107-5')
 ReactGA.pageview(window.location.pathname + window.location.search)
 
 const App: React.FC = () => {
-  const dispatch = useAppDispatch()
   // const entityConfig = useAppSelector(selectEntityConfig)
-  const customTheme = useAppSelector(selectCustomTheme)
-  const entitiesType = useAppSelector(selectEntityType)
+  // const customTheme = useAppSelector(selectCustomTheme)
   const { cwClient } = useAccount()
+  // const dispatch = useAppDispatch()
+  
 
-  useEffect(() => {
-    // dispatch(getEntityConfig())
-    dispatch(getCustomTheme())
+  // useEffect(() => {
+  //   if (!entityConfig) {
+  //     dispatch(getAsyncEntityConfig())
+  //   }
+  //   if (!customTheme) {
+  //     dispatch(getCustomTheme())
+  //   }
+  // }, [entityConfig, customTheme, dispatch])
 
-    console.log('App')
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  if (!customTheme && !entitiesType) return null
+  // if (!customTheme && !entityConfig) return null
 
   return (
     <AssistantContext.Provider value={{ active: false }}>
@@ -47,9 +51,9 @@ const App: React.FC = () => {
       <ScrollToTop>
         <Container>
           <HeaderConnected />
-          <div className='d-flex' style={{ flex: 1 }}>
+          <Flex mt={74} w='100%' h={'calc(100vh - 222px)'} style={{ flex: 1 }}>
             <ContentWrapper>{cwClient && <Outlet />}</ContentWrapper>
-          </div>
+          </Flex>
           <Footer />
         </Container>
       </ScrollToTop>

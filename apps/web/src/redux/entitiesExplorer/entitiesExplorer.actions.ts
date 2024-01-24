@@ -25,6 +25,7 @@ import { RootState } from 'redux/store'
 import { SchemaGitUrl } from 'constants/chains'
 import Axios from 'axios'
 import { TEntityDDOTagModel, TEntityModel } from 'types/entities'
+import { createAsyncThunk } from '@reduxjs/toolkit'
 
 export const getEntitiesFromGraphqlAction = (entities: TEntityModel[]): GetEntitiesFromGraphqlAction => ({
   type: EntitiesExplorerActions.GetEntitiesFromGraphql,
@@ -57,6 +58,11 @@ export const getEntityConfig =
       }),
     })
   }
+
+export const getAsyncEntityConfig = createAsyncThunk(EntitiesExplorerActions.GetEntityConfig, async () => {
+  const response = await Axios.get(SchemaGitUrl!)
+  return response.data
+})
 
 export const changeEntitiesType = (type: string): ChangeEntitiesTypeAction => ({
   type: EntitiesExplorerActions.ChangeEntitiesType,

@@ -1,11 +1,12 @@
 import { EntitiesExplorerState, EntitiesExplorerActions, EntitiesActionTypes } from './entitiesExplorer.types'
 import { getDefaultSelectedViewCategory, getInitialSelectedCategories, getInitialSelectedSectors } from 'utils/entities'
 import { AccountActions, AccountActionTypes } from 'redux/account/account.types'
+import { config } from './entityConfig'
 
 export const initialState: EntitiesExplorerState = {
   selectedEntitiesType: 'project',
   entities: {},
-  entityConfig: null,
+  entityConfig: config,
   filter: {
     ddoTags: [],
     userEntities: false,
@@ -24,6 +25,8 @@ export const reducer = (
   state = initialState,
   action: EntitiesActionTypes | AccountActionTypes,
 ): EntitiesExplorerState => {
+  console.log("action type", action.type)
+
   switch (action.type) {
     case AccountActions.Connect:
       return {
@@ -68,17 +71,18 @@ export const reducer = (
       }
     }
     case EntitiesExplorerActions.ChangeEntitiesType: {
-      const filterView = getDefaultSelectedViewCategory(state.entityConfig[action.payload.type])
+      if(!action?.payload?.type) return state
+      const filterView = getDefaultSelectedViewCategory(state.entityConfig[action?.payload?.type])
       return {
         ...state,
-        selectedEntitiesType: action.payload.type,
+        selectedEntitiesType: action?.payload?.type,
         filter: {
           ...state.filter,
           ...filterView,
           dateFrom: '',
           dateTo: '',
-          ddoTags: getInitialSelectedCategories(state.entityConfig[action.payload.type]),
-          sector: getInitialSelectedSectors(state.entityConfig[action.payload.type]),
+          ddoTags: getInitialSelectedCategories(state.entityConfig[action?.payload?.type]),
+          sector: getInitialSelectedSectors(state.entityConfig[action?.payload?.type]),
           itemOffset: 0,
         },
       }
