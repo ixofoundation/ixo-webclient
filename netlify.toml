@@ -23,10 +23,9 @@
 #ixo-networks/networkconfig
 
 [build.environment]
-  NODE_OPTIONS = "--max_old_space_size=4096"
 
 [build]
-command = "set NODE_OPTIONS=--max_old_space_size=6144 && yarn build"
+command = "yarn build"
 functions = "functions"
 
 
