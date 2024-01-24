@@ -16,7 +16,8 @@
     "lint:fix": "eslint --ext=js,jsx,ts,tsx src --fix",
     "format": "prettier --ext=js,jsx,ts,tsx,css,md,json src --write --config ./.prettierrc",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "postinstall": "patch-package"
   },
   "browserslist": {
     "production": [
@@ -96,6 +97,8 @@
     "lodash": "4.17.21",
     "mapbox-gl": "^2.15.0",
     "moment": "2.29.4",
+    "patch-package": "^8.0.0",
+    "postinstall-postinstall": "^2.1.0",
     "qrcode": "1.5.1",
     "query-string": "7.1.1",
     "rasa-webchat": "1.0.1",
@@ -215,6 +218,7 @@
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-prettier": "5.0.0",
     "eslint-plugin-storybook": "^0.6.15",
+    "follow-redirects": "1.15.2",
     "https-browserify": "^1.0.0",
     "jest-canvas-mock": "2.4.0",
     "path-browserify": "1.0.1",
@@ -235,7 +239,8 @@
   },
   "resolutions": {
     "@types/react": "17.0.39",
-    "@types/react-dom": "17.0.11"
+    "@types/react-dom": "17.0.11",
+    "follow-redirects": "1.15.2"
   },
   "babel": {
     "presets": [

@@ -14,8 +14,7 @@ import { TDAOGroupModel } from 'types/entities'
 import { IxoCoinCodexRelayerApi } from 'hooks/configs'
 import fetchInstantAssistantMessage from 'redux/assistant/thunks/fetchAssistantMessage'
 
-let nativeBalanceTimer: NodeJS.Timer | null = null
-let cw20BalanceTimer: NodeJS.Timer | null = null
+let cw20BalanceTimer: ReturnType<typeof setInterval> | null = null
 
 const AccountUpdateService = (): JSX.Element | null => {
   const dispatch = useAppDispatch()
@@ -55,16 +54,23 @@ const AccountUpdateService = (): JSX.Element | null => {
   }, [did])
 
   useEffect(() => {
+    let intervalId: number | null = null
+
     if (!address) {
       chooseWallet(undefined)
     } else {
       updateBalances()
-      nativeBalanceTimer = setInterval(() => {
+
+      intervalId = setInterval(() => {
         updateBalances()
-      }, 1000 * 60)
+      }, 1000 * 60) as unknown as number
+
       return () => {
-        clearInterval(nativeBalanceTimer!)
-        nativeBalanceTimer = null
+        if (intervalId !== null) {
+          // Clear the interval using the id
+          clearInterval(intervalId)
+        }
+        intervalId = null
       }
     }
     // eslint-disable-next-line
@@ -184,8 +190,10 @@ const AccountUpdateService = (): JSX.Element | null => {
         update()
       }, 1000 * 60)
       return () => {
-        clearInterval(cw20BalanceTimer!)
-        cw20BalanceTimer = null
+        if (cw20BalanceTimer !== null) {
+          clearInterval(cw20BalanceTimer)
+          cw20BalanceTimer = null
+        }
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
