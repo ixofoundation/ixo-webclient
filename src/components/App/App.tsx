@@ -5,7 +5,12 @@ import 'assets/icons.css'
 import 'assets/toasts.scss'
 
 import AssistantContext from 'contexts/assistant'
-import { changeEntitiesType, getEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.actions'
+import {
+  changeEntitiesType,
+  getEntitiesFromGraphqlAction,
+  getEntityConfig,
+  updateEntityPropertyAction,
+} from 'redux/entitiesExplorer/entitiesExplorer.actions'
 import React, { useEffect, useState } from 'react'
 import * as ReactGA from 'react-ga'
 import { withRouter } from 'react-router-dom'
@@ -20,11 +25,13 @@ import { Routes } from 'routes'
 import { Container, theme } from './App.styles'
 import { getCustomTheme } from 'redux/theme/theme.actions'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
-import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { selectEntityConfig, selectedFilteredEntities } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { selectCustomTheme } from 'redux/theme/theme.selectors'
 import { useAccount } from 'hooks/account'
 import { Flex, MantineProvider } from '@mantine/core'
 import mantineTheme from 'styles/mantine'
+import { useEntitiesQuery } from 'generated/graphql'
+import { apiEntityToEntity } from 'utils/entities'
 
 ReactGA.initialize('UA-106630107-5')
 ReactGA.pageview(window.location.pathname + window.location.search)
@@ -33,9 +40,31 @@ const App: React.FC = () => {
   const dispatch = useAppDispatch()
   const customTheme = useAppSelector(selectCustomTheme)
   const entityConfig = useAppSelector(selectEntityConfig)
+  const entities = useAppSelector(selectedFilteredEntities)
   const { cwClient } = useAccount()
 
   const [customizedTheme, setCustomizedTheme] = useState<any>(theme)
+
+  useEntitiesQuery({
+    skip: entities.length > 0,
+    fetchPolicy: 'network-only',
+    variables: {
+      filter: {
+        not: { type: { startsWith: 'asset' } },
+      },
+    },
+    onCompleted: ({ entities }) => {
+      const nodes = entities?.nodes ?? []
+      if (nodes.length > 0) {
+        dispatch(getEntitiesFromGraphqlAction(nodes as any[]))
+        for (const entity of nodes) {
+          apiEntityToEntity({ entity, cwClient }, (key, data, merge = false) => {
+            dispatch(updateEntityPropertyAction(entity.id, key, data, merge))
+          })
+        }
+      }
+    },
+  })
 
   useEffect(() => {
     dispatch(getEntityConfig())
@@ -105,7 +134,11 @@ const App: React.FC = () => {
             <Container>
               <HeaderConnected />
               <Flex mt={74} w='100%' h={'calc(100vh - 222px)'} style={{ flex: 1 }}>
-                {entityConfig && cwClient ? <Routes /> : <Spinner info={'Connecting to the Internet of Impacts...'} />}
+                {entityConfig && cwClient && entities.length > 0 ? (
+                  <Routes />
+                ) : (
+                  <Spinner info={'Connecting to the Internet of Impacts...'} />
+                )}
               </Flex>
               <Footer />
             </Container>

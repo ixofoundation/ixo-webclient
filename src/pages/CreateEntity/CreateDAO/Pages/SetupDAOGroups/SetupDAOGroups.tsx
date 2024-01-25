@@ -214,7 +214,7 @@ const SetupDAOGroups: React.FC = (): JSX.Element => {
     gotoStep(1)
   }
 
-  if (selectedGroup) {
+  if (selectedGroup && daoGroups[selectedGroup]) {
     return (
       <SetupGroupSettings
         daoGroup={daoGroups[selectedGroup]}

@@ -17,7 +17,7 @@ import { NATIVE_DENOM, NATIVE_MICRODENOM } from 'constants/chains'
 import { isContractAddress } from 'utils/validation'
 import { useAppSelector } from 'redux/hooks'
 import { isGreaterThanOrEqualTo } from 'utils/currency'
-import { selectStakingGroupByCoreAddress } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { selectGroupByCoreAddress } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { ReactComponent as NextStepImage } from 'assets/images/modal/nextstep.svg'
 import { contracts } from '@ixo/impactxclient-sdk'
 
@@ -78,7 +78,7 @@ const DepositModal: React.FunctionComponent<Props> = ({
     [nativeTokens, cw20Tokens, selectedTokenDenom],
   )
   const balance = useMemo(() => (selectedToken ? selectedToken.balance : '0'), [selectedToken])
-  const daoGroup = useAppSelector(selectStakingGroupByCoreAddress(recipient))
+  const daoGroup = useAppSelector(selectGroupByCoreAddress(recipient))
   const { name: daoName } = useCurrentEntityProfile()
   const daoGroupName = daoGroup?.config.name
 

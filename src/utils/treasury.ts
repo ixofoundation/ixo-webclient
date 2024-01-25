@@ -5,7 +5,7 @@ export function getTotalUSDvalueFromTreasuryCoins(coins: { [denom: string]: TTre
   return (
     Object.values(coins).reduce(
       (pre, cur) =>
-        new BigNumber(pre).plus(new BigNumber(cur.balance).times(new BigNumber(cur.lastPriceUsd))).toString(),
+        new BigNumber(pre).plus(new BigNumber(cur.balance).times(new BigNumber(cur.lastPriceUsd))).toFixed(),
       '0',
     ) ?? '0'
   )

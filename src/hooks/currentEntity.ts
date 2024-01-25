@@ -335,7 +335,7 @@ export function useCurrentEntityDAOGroup(coreAddress: string) {
   const myVotingPower = useMemo(() => {
     const myWeight = daoGroup?.votingModule.members.find(({ addr }) => addr === address)?.weight ?? 0
     const totalWeight = daoGroup?.votingModule.totalWeight
-    return myWeight / totalWeight
+    return totalWeight ? myWeight / totalWeight : 0
   }, [daoGroup, address])
 
   const proposals = useMemo(() => daoGroup?.proposalModule.proposals ?? [], [daoGroup])

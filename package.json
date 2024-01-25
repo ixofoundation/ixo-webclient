@@ -56,7 +56,7 @@
     "@editorjs/warning": "1.2.0",
     "@ixo/assistant-sdk": "^0.0.2",
     "@ixo/cosmos-chain-resolver": "^0.0.6",
-    "@ixo/impactxclient-sdk": "^1.1.16",
+    "@ixo/impactxclient-sdk": "^1.1.21",
     "@ixo/ixo-apimodule": "1.0.9",
     "@keplr-wallet/common": "^0.11.57",
     "@keplr-wallet/cosmos": "^0.11.57",

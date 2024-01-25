@@ -14,6 +14,7 @@ import { useQuery } from 'hooks/window'
 import { useAppSelector } from 'redux/hooks'
 import { selectEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { TEntityModel } from 'types/entities'
+import { Spinner } from 'components/Spinner/Spinner'
 
 const CreateProposal: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match }): JSX.Element => {
   const { entityId, coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
@@ -85,6 +86,10 @@ const CreateProposal: React.FC<Pick<RouteComponentProps, 'match'>> = ({ match })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedEntity])
+
+  if (!daoGroup) {
+    return <Spinner info={'Loading DAO Group...'} />
+  }
 
   return (
     <>

@@ -83,14 +83,22 @@ const MembersView: React.FC<Props> = ({
     <FlexBox direction='column' width='100%' gap={8}>
       {view === 'panel' && (
         <>
-          <FlexBox alignItems='center' gap={8}>
-            {renderSortItem('Name', sort.name, 'string', () => handleSortClick('name'))}
-            {renderSortItem('Voting Power', sort.votingPower, 'number', () => handleSortClick('votingPower'))}
-            {selectedDAOGroup?.type === 'staking' &&
-              renderSortItem('Staking', sort.staking, 'number', () => handleSortClick('staking'))}
-            {renderSortItem('Votes', sort.votes, 'number', () => handleSortClick('votes'))}
-            {renderSortItem('Proposals', sort.proposals, 'number', () => handleSortClick('proposals'))}
-          </FlexBox>
+          {members.length > 0 ? (
+            <FlexBox alignItems='center' gap={8}>
+              {renderSortItem('Name', sort.name, 'string', () => handleSortClick('name'))}
+              {renderSortItem('Voting Power', sort.votingPower, 'number', () => handleSortClick('votingPower'))}
+              {selectedDAOGroup?.type === 'staking' &&
+                renderSortItem('Staking', sort.staking, 'number', () => handleSortClick('staking'))}
+              {renderSortItem('Votes', sort.votes, 'number', () => handleSortClick('votes'))}
+              {renderSortItem('Proposals', sort.proposals, 'number', () => handleSortClick('proposals'))}
+            </FlexBox>
+          ) : (
+            <FlexBox>
+              <Typography size='2xl' color='dark-blue'>
+                No members yet.
+              </Typography>
+            </FlexBox>
+          )}
 
           <GridContainer columns={5} width='100%' columnGap={4} rowGap={4}>
             {members.map((member, index) => (

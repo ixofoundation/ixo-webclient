@@ -282,7 +282,7 @@ export const GroupMemberships = ({ setData, data }: RenderGroupIdentityProps): J
               ))}
               <Button size='flex' textTransform='none' height={48} onClick={(): void => handleAddMember(membershipIdx)}>
                 <FlexBox alignItems='center' gap={2}>
-                  <PlusIcon color={theme.ixoNewBlue} />
+                  <PlusIcon color={theme.ixoWhite} />
                   Add a Member
                 </FlexBox>
               </Button>
@@ -527,7 +527,7 @@ export const Staking = ({
                 inputValue={convertMicroDenomToDenomWithDecimals(
                   data.token?.tokenInfo.total_supply,
                   data.token?.tokenInfo.decimals,
-                )}
+                ).toLocaleString()}
                 handleChange={(value): void =>
                   setData((v) =>
                     v.token
@@ -538,7 +538,7 @@ export const Staking = ({
                             tokenInfo: {
                               ...v.token.tokenInfo,
                               total_supply: convertDenomToMicroDenomWithDecimals(
-                                value,
+                                value.replace(/,(?=\d{3})/g, ''),
                                 v.token.tokenInfo.decimals,
                               ).toString(),
                             },

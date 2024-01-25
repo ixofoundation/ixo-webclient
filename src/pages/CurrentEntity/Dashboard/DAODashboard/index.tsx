@@ -10,44 +10,54 @@ import { Governance } from './Governance'
 import { IndividualMember } from './IndividualMember'
 import EditEntity from './EditEntity'
 import Overview from './Overview'
+import { useQuery } from 'hooks/window'
+import { getDAOGroupLinkedEntities } from 'utils/entities'
+import { Spinner } from 'components/Spinner/Spinner'
 
 const DAODashboard: React.FC = (): JSX.Element => {
   const { entityId } = useParams<{ entityId: string }>()
   const isEditEntityRoute = useRouteMatch('/entity/:entityId/dashboard/edit')
-  const { entityType, owner } = useCurrentEntity()
+  const { entityType, owner, daoGroups, linkedEntity } = useCurrentEntity()
   const { name } = useCurrentEntityProfile()
   const { registered, address } = useAccount()
 
+  const { getQuery } = useQuery()
+  const selectedGroup = getQuery('selectedGroup')
+
+  const searchParams = new URLSearchParams()
+  searchParams.set('selectedGroup', selectedGroup)
+  searchParams.toString()
+
   const routes: Path[] = [
     {
-      url: `/entity/${entityId}/dashboard/overview`,
+      url: `/entity/${entityId}/dashboard/overview` + (selectedGroup ? '?' + searchParams.toString() : ''),
       icon: requireCheckDefault(require('assets/img/sidebar/global.svg')),
       sdg: 'Overview',
       tooltip: 'Overview',
       strict: true,
     },
     {
-      url: `/entity/${entityId}/dashboard/membership`,
+      url: `/entity/${entityId}/dashboard/membership` + (selectedGroup ? '?' + searchParams.toString() : ''),
       icon: requireCheckDefault(require('assets/img/sidebar/agents.svg')),
       sdg: 'Membership',
       tooltip: 'Membership',
       strict: true,
     },
     {
-      url: `/entity/${entityId}/dashboard/governance`,
+      url: `/entity/${entityId}/dashboard/governance` + (selectedGroup ? '?' + searchParams.toString() : ''),
       icon: requireCheckDefault(require('assets/img/sidebar/governance.svg')),
       sdg: 'Governance',
       tooltip: 'Governance',
     },
     {
-      url: `/entity/${entityId}/dashboard/my-participation`,
+      url: `/entity/${entityId}/dashboard/my-participation` + (selectedGroup ? '?' + searchParams.toString() : ''),
       icon: requireCheckDefault(require('assets/img/sidebar/profile.svg')),
       sdg: 'My Participation',
       tooltip: 'My Participation',
       disabled: !registered,
     },
     {
-      url: `/entity/${entityId}/dashboard/edit`,
+      url: `/entity/${entityId}/dashboard/edit` + (selectedGroup ? '?' + searchParams.toString() : ''),
       icon: requireCheckDefault(require('assets/img/sidebar/gear.svg')),
       sdg: 'Edit Entity',
       tooltip: 'Edit Entity',
@@ -99,6 +109,10 @@ const DAODashboard: React.FC = (): JSX.Element => {
   ]
 
   const theme = isEditEntityRoute ? 'light' : 'dark'
+
+  if (getDAOGroupLinkedEntities(linkedEntity).length > 0 && Object.keys(daoGroups).length === 0) {
+    return <Spinner info='Loading DAO Groups...' />
+  }
 
   return (
     <Dashboard

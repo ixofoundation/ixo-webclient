@@ -133,6 +133,7 @@ const ProposalCard: React.FC<Props> = ({ coreAddress, proposalId, proposal }) =>
   const [description, deedDid] = description_origin.split('#deed:')
 
   const history = useHistory()
+  const theme: any = useTheme()
   const { entityId } = useParams<{ entityId: string }>()
   const { cwClient, address, cosmWasmClient } = useAccount()
   const { daoGroup, proposalModuleAddress, isParticipating, anyoneCanPropose } = useCurrentEntityDAOGroup(coreAddress)
@@ -245,15 +246,15 @@ const ProposalCard: React.FC<Props> = ({ coreAddress, proposalId, proposal }) =>
     if (myVoteStatus?.vote === 'yes') {
       return (
         <Button
-          variant='filled'
-          color='lime'
+          variant='outline'
+          color='ixo-blue'
           leftIcon={
             <SvgBox svgWidth={5} svgHeight={5}>
               <ThumbsUpIcon />
             </SvgBox>
           }
           {...(allow_revoting && !isExpired(expiration) ? { onClick: () => setVoteModalOpen(true) } : [])}
-          style={{ color: 'white' }}
+          style={{ color: theme.ixoLightGreen }}
         >
           Yes
         </Button>
@@ -262,15 +263,15 @@ const ProposalCard: React.FC<Props> = ({ coreAddress, proposalId, proposal }) =>
     if (myVoteStatus?.vote === 'no') {
       return (
         <Button
-          variant='filled'
-          color='red'
+          variant='outline'
+          color='ixo-blue.8'
           leftIcon={
             <SvgBox svgWidth={5} svgHeight={5}>
               <ThumbsDownIcon />
             </SvgBox>
           }
           {...(allow_revoting && !isExpired(expiration) ? { onClick: () => setVoteModalOpen(true) } : [])}
-          style={{ color: 'white' }}
+          style={{ color: theme.ixoLightRed }}
         >
           No
         </Button>
@@ -279,14 +280,14 @@ const ProposalCard: React.FC<Props> = ({ coreAddress, proposalId, proposal }) =>
 
     if (isExpired(expiration)) {
       return (
-        <Button variant='filled' color='ixo-blue.9' style={{ color: '#22658C' }}>
+        <Button variant='outline' color='ixo-blue.8' style={{ color: '#22658C' }}>
           Not Voted
         </Button>
       )
     }
 
     return (
-      <Button variant='filled' color='ixo-blue' onClick={() => setVoteModalOpen(true)} style={{ color: 'white' }}>
+      <Button variant='outline' color='ixo-blue.8' onClick={() => setVoteModalOpen(true)} style={{ color: 'white' }}>
         Vote
       </Button>
     )
@@ -299,7 +300,7 @@ const ProposalCard: React.FC<Props> = ({ coreAddress, proposalId, proposal }) =>
 
     if (status === 'passed') {
       return (
-        <Button variant='filled' color='ixo-blue' onClick={onExecute} style={{ color: 'white' }}>
+        <Button variant='outline' color='ixo-blue' onClick={onExecute} style={{ color: 'white' }}>
           Execute
         </Button>
       )
@@ -307,7 +308,7 @@ const ProposalCard: React.FC<Props> = ({ coreAddress, proposalId, proposal }) =>
 
     if (status === 'rejected') {
       return (
-        <Button variant='filled' color='ixo-blue' onClick={onClose} style={{ color: 'white' }}>
+        <Button variant='outline' color='ixo-blue' onClick={onClose} style={{ color: 'white' }}>
           Close
         </Button>
       )
@@ -361,16 +362,19 @@ const ProposalCard: React.FC<Props> = ({ coreAddress, proposalId, proposal }) =>
             <Typography size='xl'>{title}</Typography>
           </Flex>
           <Flex h='1px' w='200px' bg={'#213E59'} />
-          <Flex h={48}>
+          <Flex h={48} gap='xs'>
             <Typography size='md' overflowLines={3}>
               {description}
+            </Typography>
+            <Typography size='md' color='blue' onClick={onViewMore} style={{ cursor: 'pointer' }}>
+              View More
             </Typography>
           </Flex>
           <Flex gap={18} align={'center'}>
             {isParticipating && renderVoteButton()}
-            <Button variant='outline' onClick={onViewMore} style={{ color: 'white' }}>
+            {/* <Button variant='outline' onClick={onViewMore} style={{ color: 'white' }}>
               View More
-            </Button>
+            </Button> */}
             {renderSubmitButton()}
           </Flex>
         </Flex>

@@ -27,6 +27,7 @@ const mantineTheme: MantineThemeOverride = {
         size: 'md',
         w: 160,
         color: 'white',
+        radius: 'sm',
       },
     },
   },

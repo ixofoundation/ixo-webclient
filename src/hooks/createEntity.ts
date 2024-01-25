@@ -432,7 +432,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
       res = await customQueries.cellnode.uploadPublicDoc(
         'application/ld+json',
         data,
-        cellnodeService.serviceEndpoint,
+        new URL(cellnodeService.serviceEndpoint).origin,
         chainNetwork,
       )
     } else {

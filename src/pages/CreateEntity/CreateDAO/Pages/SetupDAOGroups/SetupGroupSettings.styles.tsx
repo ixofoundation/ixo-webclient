@@ -23,6 +23,9 @@ export const CardWrapper = styled(FlexBox)`
 export const PlusIcon = styled(PlusIconSvg)<{ color?: string }>`
   width: 1.5rem;
   height: 1.5rem;
+
+  color: ${(props): string => props.color ?? props.theme.ixoNewBlue};
+
   path {
     fill: ${(props): string => props.color ?? props.theme.ixoNewBlue};
   }
