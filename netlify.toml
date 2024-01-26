@@ -14,4 +14,4 @@
   publish = "build" # Replace with the directory where your build's output is stored.
 
 [functions]
-  directory = "functions"
+  directory = "apps/web/functions"
