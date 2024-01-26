@@ -55,7 +55,7 @@ export const HeaderLeft: React.FC<ParentProps> = (props) => {
     if (inHeader) {
       return (
         <Fragment>
-          <HeaderLink color={buttonColor} to={splashIsRootRoute ? 'explore?type=dao' : '/'}>
+          <HeaderLink color={buttonColor} to={'explore?type=dao'}>
             Explore
           </HeaderLink>
           <MediaQuery minWidth={`${deviceWidth.desktop}px`}>

@@ -57,6 +57,7 @@ export const reducer = (
       return { ...state, entities }
     }
     case EntitiesExplorerActions.GetEntityConfigSuccess: {
+      console.log({selectedEntitiesType: state.selectedEntitiesType})
       const entityConfig = action.payload
       const filterView = getDefaultSelectedViewCategory(entityConfig[state.selectedEntitiesType])
 

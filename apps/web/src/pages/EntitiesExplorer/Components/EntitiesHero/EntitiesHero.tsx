@@ -4,12 +4,11 @@ import Search from '../Search/Search'
 import { HeroInner, HeroContainer, HeroTextWrapper, ColorOverlay } from './EntitiesHero.styles'
 import { EntityType } from 'types/entities'
 import HeaderTabs from 'components/HeaderTabs/HeaderTabs'
-import { useAppSelector } from 'redux/hooks'
-import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { useNavigate } from 'react-router-dom'
 import MediaQuery from 'react-responsive'
 import { deviceWidth } from 'constants/device'
 import { useQuery } from 'hooks/window'
+import { useIxoConfigs } from 'hooks/configs'
 // TODO - when we know what the other entity types headers will look like then possibly refactor this as it's messy with all the conditions
 // or whatever else is needed. For now, just doing it based on entityType
 
@@ -29,8 +28,9 @@ export const EntitiesHero: React.FunctionComponent<Props> = ({
   handleChangeQuery,
 }) => {
   const navigate = useNavigate()
-  const entityTypeMap = useAppSelector(selectEntityConfig)
-  const entityStrategyMap = entityTypeMap[type]
+  // const entityTypeMap = useAppSelector(selectEntityConfig)
+  const { entityConfig}  = useIxoConfigs()
+  const entityStrategyMap = entityConfig[type]
   const header = getHeaderSchema(filterSector, entityStrategyMap?.headerSchema)
   const headerTabButtons = getHeaderTabButtons(type, entityStrategyMap?.plural)
   const { query } = useQuery()

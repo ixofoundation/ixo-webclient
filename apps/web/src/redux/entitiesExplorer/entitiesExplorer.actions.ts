@@ -61,7 +61,8 @@ export const getEntityConfig =
 
 export const getAsyncEntityConfig = createAsyncThunk(EntitiesExplorerActions.GetEntityConfig, async () => {
   const response = await Axios.get(SchemaGitUrl!)
-  return response.data
+  console.log({asyncConfig: response.data})
+  return {}
 })
 
 export const changeEntitiesType = (type: string): ChangeEntitiesTypeAction => ({

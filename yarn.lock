@@ -6497,6 +6497,19 @@
   resolved "https://registry.yarnpkg.com/@swc/types/-/types-0.1.5.tgz#043b731d4f56a79b4897a3de1af35e75d56bc63a"
   integrity sha512-myfUej5naTBWnqOCc/MdVOLVjXUXtIA+NpDrDBKJtLLg2shUjBu3cZmB/85RyitKc55+lUUyl7oRfLOvkr2hsw==
 
+"@tabler/icons-react@^2.46.0":
+  version "2.46.0"
+  resolved "https://registry.yarnpkg.com/@tabler/icons-react/-/icons-react-2.46.0.tgz#a24cf737687a18cdf1b0e1189ef69462e82dbd89"
+  integrity sha512-X8MRxuslIOFqMjAo+GvUZDpjlOwNYNJTuOsHXf/NBvVI6ygqUf0FUNsDLLA5fQ6k6KtRwxMlgGB+eR8ZG1UP0g==
+  dependencies:
+    "@tabler/icons" "2.46.0"
+    prop-types "^15.7.2"
+
+"@tabler/icons@2.46.0":
+  version "2.46.0"
+  resolved "https://registry.yarnpkg.com/@tabler/icons/-/icons-2.46.0.tgz#e629df8901b799372914c694000cc2ea3d45bb6b"
+  integrity sha512-Q5G8Pj5IO+Uhc6pszpu5/hGYY018JwEzzvmuqr+gKJtfIvAHA3umpwUilMRLEy89p+WCP+YsDhicMhfBCCv1qA==
+
 "@tanem/svg-injector@^10.1.68":
   version "10.1.68"
   resolved "https://registry.yarnpkg.com/@tanem/svg-injector/-/svg-injector-10.1.68.tgz#0bd08da3c4184b055a6fe16909037c96f49e3cd1"
@@ -7134,13 +7147,6 @@
   integrity sha512-TJxDm6OfAX2KJWJdMEVTwWke5Sc/E/RlnPGvGfS0W7+6ocy2xhDVQVh/KvC2Uf7kACs+gDytdusDSdWfWkaNzw==
   dependencies:
     "@types/react" "*"
-
-"@types/react-ga@^2.3.0":
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/@types/react-ga/-/react-ga-2.3.0.tgz#dbd56dd622cabb5baebc896e3ee67dfdc29babc1"
-  integrity sha512-7Vkv6wH1Kem4vkjuJxRYxDgLfokm0shugDk0W5p9C28POrsPAXezLbgP5C2tyFZ7lKARdyrCxwkdRTC1UV0dHg==
-  dependencies:
-    react-ga "*"
 
 "@types/react-gauge-chart@0.4.3":
   version "0.4.3"
@@ -19948,7 +19954,7 @@ react-fast-compare@^3.0.1, react-fast-compare@^3.1.1:
   resolved "https://registry.yarnpkg.com/react-fast-compare/-/react-fast-compare-3.2.2.tgz#929a97a532304ce9fee4bcae44234f1ce2c21d49"
   integrity sha512-nsO+KSNgo1SbJqJEYRE9ERzo7YtYbou/OqjSQKxV7jcKox7+usiUVZOAC+XnDOABXggQTno0Y1CpVnuWEc1boQ==
 
-react-ga@*, react-ga@3.3.1:
+react-ga@3.3.1:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/react-ga/-/react-ga-3.3.1.tgz#d8e1f4e05ec55ed6ff944dcb14b99011dfaf9504"
   integrity sha512-4Vc0W5EvXAXUN/wWyxvsAKDLLgtJ3oLmhYYssx+YzphJpejtOst6cbIHCIyF50Fdxuf5DDKqRYny24yJ2y7GFQ==
@@ -20009,6 +20015,11 @@ react-icons@^4.11.0:
   version "4.12.0"
   resolved "https://registry.yarnpkg.com/react-icons/-/react-icons-4.12.0.tgz#54806159a966961bfd5cdb26e492f4dafd6a8d78"
   integrity sha512-IBaDuHiShdZqmfc/TwHu6+d6k2ltNCf3AszxNmjJc1KUfXdEeRJOKyNvLmAHaarhzGmTSVygNdyu8/opXv2gaw==
+
+react-icons@^5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/react-icons/-/react-icons-5.0.1.tgz#1694e11bfa2a2888cab47dcc30154ce90485feee"
+  integrity sha512-WqLZJ4bLzlhmsvme6iFdgO8gfZP17rfjYEJ2m9RsZjZ+cc4k1hTzknEz63YS1MeT50kVzoa1Nz36f4BEx+Wigw==
 
 react-image-crop@10.1.8:
   version "10.1.8"

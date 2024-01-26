@@ -293,10 +293,10 @@ export const selectFilterQuery = createSelector(selectEntitiesFilter, (filter: F
   return filter.query
 })
 
-export const selectFilterSchema = createSelector(
-  selectEntitiesState,
-  (entitiesState: EntitiesExplorerState): FilterSchema => {
-    return entitiesState.entityConfig[entitiesState.selectedEntitiesType]?.filterSchema
+export const selectFilterSchema = createSelector(selectEntitiesState, (state: RootState) => state.configs.entityConfig, (entitiesState: EntitiesExplorerState, entityConfig): FilterSchema => {
+    console.log({entitiesState})
+    console.log({entityConfigSelector: entityConfig})
+    return entityConfig ? entityConfig[entitiesState?.selectedEntitiesType]?.filterSchema : {}
   },
 )
 

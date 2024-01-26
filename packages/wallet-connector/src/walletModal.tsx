@@ -99,7 +99,7 @@ const TransactModal = () => {
           Scan this QR code with your Impacts X Mobile app
         </Text>
       </Flex>
-      <TimeLeft timeout={mobile?.timeout || 0} />
+      {/* <TimeLeft timeout={mobile?.timeout || 0} /> */}
       {mobile.qr && (
         <QRCodeSVG
           value={mobile.qr}

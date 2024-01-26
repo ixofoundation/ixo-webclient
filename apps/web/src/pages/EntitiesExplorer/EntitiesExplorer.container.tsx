@@ -135,20 +135,14 @@ const EntitiesExplorer = ({
   const hasMore = Boolean(data?.entities?.pageInfo.hasNextPage)
 
   const renderEntities = (): JSX.Element => {
-    const renderNoSearchFound = (): JSX.Element => (
-      <NoEntitiesContainer>
-        <p>There are no {entityTypeMap[type as any]?.plural.toLowerCase()} that match your search criteria</p>
-      </NoEntitiesContainer>
-    )
-
-    const renderAssets = (): JSX.Element => <AssetCollections />
-
     if (type === EntityType.Asset) {
       return (
         <EntitiesContainer className='container-fluid'>
           <div className='container'>
             <EntitiesFilter filterSchema={filterSchema} />
-            <EntitiesBody>{renderAssets()}</EntitiesBody>
+            <EntitiesBody>
+              <AssetCollections />
+            </EntitiesBody>
           </div>
         </EntitiesContainer>
       )
@@ -160,7 +154,11 @@ const EntitiesExplorer = ({
           <div className='container'>
             <EntitiesFilter filterSchema={filterSchema} />
             <EntitiesBody>
-              {filteredEntitiesCount === 0 && renderNoSearchFound()}
+              {filteredEntitiesCount === 0 && (
+                <NoEntitiesContainer>
+                  <p>There are no results that match your search criteria</p>
+                </NoEntitiesContainer>
+              )}
               {filteredEntitiesCount > 0 && (
                 <InfiniteScroll
                   dataLength={entities.length} //This is important field to render the next data
@@ -185,7 +183,7 @@ const EntitiesExplorer = ({
     } else {
       return (
         <ErrorContainer>
-          <p>No {entityTypeMap[type as any]?.plural.toLowerCase()} were found</p>
+          <p>No results were found</p>
         </ErrorContainer>
       )
     }

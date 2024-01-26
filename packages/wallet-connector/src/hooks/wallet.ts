@@ -36,20 +36,25 @@ export const useWallet = (): UseWalletProps => {
     }
 
     if (type === WalletType.ImpactXMobile) {
-      const loginData = await context.signXWallet.init();
-      console.log({ loginData });
-      context.setMobile({
-        qr: JSON.stringify(loginData),
-        timeout: Number(new Date(loginData.timeout).getTime()),
-      });
-      const wallet: any = await context.signXWallet.connect();
-      console.log("typeof pubKey, ", wallet.pubKey);
-      if (wallet) {
-        context.setWallet({
-          ...wallet,
-          publicKey: wallet.pubKey,
-          wallet: { type: WalletType.ImpactXMobile },
+      try {
+        const loginData = await context.signXWallet.init();
+        console.log({ loginData });
+        context.setMobile({
+          qr: JSON.stringify(loginData),
+          timeout: Number(new Date(loginData.timeout).getTime()),
         });
+        const wallet: any = await context.signXWallet.connect();
+        console.log("typeof pubKey, ", wallet.pubKey);
+        if (wallet) {
+          context.setWallet({
+            ...wallet,
+            publicKey: wallet.pubKey,
+            wallet: { type: WalletType.ImpactXMobile },
+          });
+        }
+      } catch (error) {
+        // TODO: send to logger
+        console.log({ error });
       }
     }
   };

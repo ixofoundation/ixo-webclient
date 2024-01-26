@@ -6,12 +6,12 @@ import { GlobalStyle } from 'styles/globalStyles'
 import * as Sentry from '@sentry/react'
 import { BrowserTracing } from '@sentry/tracing'
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client'
-import { Suspense } from 'react'
+import { Suspense, useEffect } from 'react'
 import { createRoot } from 'react-dom/client'
 import { MantineProvider } from '@mantine/core'
 import { WalletModal, WalletProvider } from '@ixo-webclient/wallet-connector'
 import '@mantine/core/styles.css'
-import { chainNetwork } from 'hooks/configs'
+import { chainNetwork, useIxoConfigs } from 'hooks/configs'
 import ProfileModal from 'components/Header/components/ProfileModal'
 import { RPC_ENDPOINT } from 'lib/protocol'
 import Router from 'router'
@@ -39,6 +39,14 @@ const client = new ApolloClient({
 })
 
 const App = () => {
+  const { fetchEntityConfig, entityConfig } = useIxoConfigs()
+
+  useEffect(() => {
+    fetchEntityConfig()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  console.log({ entityConfig })
   // const [customizedTheme, setCustomizedTheme] = useState<any>(theme)
   // const dispatch = useAppDispatch()
   // const entityConfig = useAppSelector(selectEntityConfig)
@@ -104,9 +112,7 @@ const App = () => {
           >
             <WalletModal />
             <GlobalStyle />
-            <ApolloProvider client={client}>
-               <Router />
-            </ApolloProvider>
+            <ApolloProvider client={client}>{entityConfig && <Router />}</ApolloProvider>
           </WalletProvider>
         </MantineProvider>
       </ThemeProvider>

@@ -4,33 +4,15 @@ import { QRCodeSVG } from "qrcode.react";
 import { XIcon } from "assets/x-icon";
 import { useWallet } from "hooks";
 import { WalletType } from "@ixo-webclient/types";
+import { BrokenLink } from "assets/brokenLink";
 
-export function TimeLeft({ timeout }: { timeout: number }) {
-  // Convert timeout to seconds for ease of display
-  const [timeLeft, setTimeLeft] = useState(Math.floor(timeout / 1000));
-  const [percent, setPercent] = useState(100);
-
-  console.log({timeLeft})
-
-  useEffect(() => {
-    // Only set the interval if there is time left
-    if (timeLeft > 0) {
-      const interval = setInterval(() => {
-        setTimeLeft((prevTime) => {
-          const newTime = prevTime - 1; // Decrementing by 1 second
-          return newTime > 0 ? newTime : 0; // Ensure time doesn't go below zero
-        });
-      }, 1000); // Interval set to 1 second
-
-      return () => clearInterval(interval);
-    }
-  }, [timeLeft]);
-
-  useEffect(() => {
-    // Update percent based on time left
-    setPercent((timeLeft / (timeout / 1000)) * 100);
-  }, [timeLeft, timeout]);
-
+export function TimeLeft({
+  percent,
+  timeLeft,
+}: {
+  percent: number;
+  timeLeft: number;
+}) {
   return (
     <Flex direction="column" align="center" gap="5px" w="100%">
       <Box style={{ flex: "1", alignSelf: "stretch" }}>
@@ -42,11 +24,45 @@ export function TimeLeft({ timeout }: { timeout: number }) {
 }
 
 export const ConnectModal = () => {
-  const { connectWallet, mobile } = useWallet()
+  const { connectWallet, mobile } = useWallet();
 
   useEffect(() => {
-    connectWallet(WalletType.ImpactXMobile)
-  }, [])
+    connectWallet(WalletType.ImpactXMobile);
+  }, []);
+
+  // Correctly calculate timeout
+  const initialTimeout = (mobile.timeout || 0) - new Date().getTime();
+  // Convert timeout to seconds for initial state of timeLeft
+  const [timeLeft, setTimeLeft] = useState(Math.floor(initialTimeout / 1000));
+
+  useEffect(() => {
+    if (timeLeft > 0) {
+      const interval = setInterval(() => {
+        setTimeLeft((prevTime) => Math.max(prevTime - 1, 0));
+      }, 1000);
+      return () => clearInterval(interval);
+    }
+  }, [timeLeft]);
+
+  // Calculate percent based on timeLeft
+  const percent = (timeLeft / (initialTimeout / 1000)) * 100;
+
+  console.log({ timeLeft });
+
+  // Conditional rendering based on timeLeft
+  if (timeLeft <= 0) {
+    return (
+      <Flex direction="column" align="center" justify="space-between" h={"150px"}>
+        <BrokenLink />
+        <Button
+          variant="outline"
+          onClick={() => connectWallet(WalletType.ImpactXMobile)}
+        >
+          Regenerate QR
+        </Button>
+      </Flex>
+    );
+  }
 
   return (
     <Flex
@@ -62,7 +78,7 @@ export const ConnectModal = () => {
           Scan this QR code with your Impacts X Mobile app
         </Text>
       </Flex>
-      {mobile?.timeout && <TimeLeft timeout={mobile.timeout - new Date().getTime()} />}
+      {mobile?.timeout && <TimeLeft percent={percent} timeLeft={timeLeft} />}
       {mobile.qr && (
         <QRCodeSVG
           value={mobile.qr}

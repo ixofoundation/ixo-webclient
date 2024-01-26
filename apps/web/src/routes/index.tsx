@@ -1,8 +1,7 @@
 import React, { lazy, Suspense } from 'react'
-import { Route, useLocation, Routes as ReactRouterRoutes, useNavigate } from 'react-router-dom'
-import { useAppSelector } from 'redux/hooks'
-import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { Route, Routes as ReactRouterRoutes, useNavigate } from 'react-router-dom'
 import { Spinner } from 'components/Spinner/Spinner'
+import { useIxoConfigs } from 'hooks/configs'
 
 const Splash = lazy(() => import(/* webpackChunkName: "Splash" */ 'pages/Splash/Splash'))
 const EditEntityPage = lazy(() => import(/* webpackChunkName: "EditEntityPage" */ 'pages/EditEntity/EditEntity'))
@@ -15,24 +14,20 @@ const EntityExchange = lazy(
 )
 
 const App: React.FunctionComponent = () => {
-  const entityTypeMap = useAppSelector(selectEntityConfig)
-  const location = useLocation()
+  const { entityConfig } = useIxoConfigs()
   const navigate = useNavigate()
 
-  const splashIsRootRoute = React.useMemo(() => !!entityTypeMap?.route?.splashIsRootRoute, [entityTypeMap])
+  const splashIsRootRoute = React.useMemo(() => !!entityConfig?.route?.splashIsRootRoute, [entityConfig])
 
   React.useEffect(() => {
-    if (location.pathname === '/') {
-      console.log("routes index")
-      if (splashIsRootRoute) {
-        navigate('/')
-      } else {
-        navigate('/explore')
-      }
+    if (splashIsRootRoute) {
+      navigate('/')
+    } else {
+      navigate('/explore?ThisIsNotHowWeDo=0')
     }
-    console.log("routes index, useEffect body")
+
     // eslint-disable-next-line
-  }, [splashIsRootRoute, location.pathname])
+  }, [splashIsRootRoute])
 
   return (
     <Suspense fallback={<Spinner info='Loading' />}>

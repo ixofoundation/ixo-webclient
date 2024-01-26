@@ -2,6 +2,7 @@ import { useCallback } from 'react'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import {
   selectAssetListConfig,
+  selectEntityConfig,
   selectEntityConfigByGivenType,
   selectEntityConfigByType,
   selectPaymentCoins,
@@ -24,13 +25,15 @@ export const CHAIN_ID = process.env.REACT_APP_CHAIN_ID
 export const chainNetwork: ChainNetwork = CHAIN_ID?.startsWith('ixo')
   ? 'mainnet'
   : CHAIN_ID?.startsWith('pandora')
-  ? 'testnet'
-  : 'devnet'
+    ? 'testnet'
+    : 'devnet'
 
 export const IxoCoinCodexRelayerApi = 'https://ixo-coincodex-relayer.ixo-api.workers.dev'
 export const WALLET_STORE_LOCAL_STORAGE_KEY = 'ixo-webclient/connectedWalletId'
 
 interface IxoConfigsHookExports {
+  entityConfig: any
+
   paymentCoins: PaymentCoins[]
   getAssetPairs: (chainId?: string) => any[]
   convertToDenom: (coin: Coin | undefined) => Coin | undefined
@@ -50,6 +53,7 @@ export function useIxoConfigs(): IxoConfigsHookExports {
   const dispatch = useAppDispatch()
   const assetListConfig = useAppSelector(selectAssetListConfig)
   const relayersConfig = useAppSelector(selectRelayersConfig)
+  const entityConfig = useAppSelector(selectEntityConfig)
   const paymentCoins: PaymentCoins[] = useAppSelector(selectPaymentCoins)
 
   const fetchRelayersConfig = useCallback(() => {
@@ -178,6 +182,7 @@ export function useIxoConfigs(): IxoConfigsHookExports {
 
   return {
     paymentCoins,
+    entityConfig,
     getAssetPairs,
     convertToDenom,
     convertToMinimalDenom,
