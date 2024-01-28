@@ -109,14 +109,21 @@ export function useAccount(): {
   const registered: boolean | undefined = useAppSelector(selectAccountRegistered)
   const funded: boolean = useAppSelector(selectAccountFunded)
   const signer: TSigner = { address, did, pubKey: pubKeyUint8!, keyType }
-  const { wallet } = useWallet()
+  const { wallet, setWallet } = useWallet()
 
   useEffect(() => {
-    if(wallet){
+    if (wallet) {
       dispatch(connectAction(wallet as ConnectedWallet))
       localStorage.setItem(WALLET_STORE_LOCAL_STORAGE_KEY, JSON.stringify(wallet))
+    } else {
+      // check if current wallet in state
+      const persistedWallet = localStorage.getItem(WALLET_STORE_LOCAL_STORAGE_KEY)
+      if (persistedWallet) {
+        setWallet(JSON.parse(persistedWallet))
+        dispatch(connectAction(JSON.parse(persistedWallet)))
+      }
     }
-  }, [wallet, dispatch])
+  }, [wallet, dispatch, setWallet])
 
   const connect = async ({ impactXData }: { impactXData?: any }): Promise<void> => {
     console.log(impactXData)

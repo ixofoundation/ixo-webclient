@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Box, Flex, Progress, Text, Button } from "@mantine/core";
+import {
+  Box,
+  Flex,
+  Progress,
+  Text,
+  Button,
+  Loader,
+  Skeleton,
+} from "@mantine/core";
 import { QRCodeSVG } from "qrcode.react";
 import { XIcon } from "assets/x-icon";
 import { useWallet } from "hooks";
@@ -25,15 +33,19 @@ export function TimeLeft({
 
 export const ConnectModal = () => {
   const { connectWallet, mobile } = useWallet();
+  const [qrCodeExpired, setQRCodeExpired] = useState(false);
+  
+  // Set the initial timeout to be 2 minutes from now
+  const twoMinutesInMilliseconds = 120000;
+  const initialTimeout = new Date().getTime() + twoMinutesInMilliseconds;
+
+  // Convert timeout to seconds for initial state of timeLeft
+  const [timeLeft, setTimeLeft] = useState(twoMinutesInMilliseconds / 1000);
+  const percent = (timeLeft / (twoMinutesInMilliseconds / 1000)) * 100;
 
   useEffect(() => {
     connectWallet(WalletType.ImpactXMobile);
   }, []);
-
-  // Correctly calculate timeout
-  const initialTimeout = (mobile.timeout || 0) - new Date().getTime();
-  // Convert timeout to seconds for initial state of timeLeft
-  const [timeLeft, setTimeLeft] = useState(Math.floor(initialTimeout / 1000));
 
   useEffect(() => {
     if (timeLeft > 0) {
@@ -44,19 +56,31 @@ export const ConnectModal = () => {
     }
   }, [timeLeft]);
 
-  // Calculate percent based on timeLeft
-  const percent = (timeLeft / (initialTimeout / 1000)) * 100;
+  useEffect(() => {
+    if (mobile.qr && timeLeft <= 0) {
+      setQRCodeExpired(true);
+    }
+  }, [timeLeft]);
 
-  console.log({ timeLeft });
+  const handleRegenerateQR = () => {
+    connectWallet(WalletType.ImpactXMobile)
+    setTimeLeft(twoMinutesInMilliseconds / 1000)
+    setQRCodeExpired(false)
+  }
 
   // Conditional rendering based on timeLeft
-  if (timeLeft <= 0) {
+  if (qrCodeExpired) {
     return (
-      <Flex direction="column" align="center" justify="space-between" h={"150px"}>
+      <Flex
+        direction="column"
+        align="center"
+        justify="space-between"
+        h={"150px"}
+      >
         <BrokenLink />
         <Button
           variant="outline"
-          onClick={() => connectWallet(WalletType.ImpactXMobile)}
+          onClick={handleRegenerateQR}
         >
           Regenerate QR
         </Button>
@@ -78,7 +102,7 @@ export const ConnectModal = () => {
           Scan this QR code with your Impacts X Mobile app
         </Text>
       </Flex>
-      {mobile?.timeout && <TimeLeft percent={percent} timeLeft={timeLeft} />}
+      {mobile.timeout! > 0 && <TimeLeft percent={percent} timeLeft={timeLeft} />}
       {mobile.qr && (
         <QRCodeSVG
           value={mobile.qr}

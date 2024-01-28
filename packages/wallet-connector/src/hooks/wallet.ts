@@ -1,6 +1,6 @@
 import { WalletType } from "@ixo-webclient/types";
 import { useContext } from "react";
-import { WalletContextType, WalletContext } from "contexts";
+import { WalletContextType, WalletContext, Wallet } from "contexts";
 import { createSigningClient } from "@ixo/impactxclient-sdk";
 import { DeliverTxResponse } from "@cosmjs/stargate";
 import { StdFee } from "@ixo/impactxclient-sdk/node_modules/@cosmjs/amino";
@@ -17,6 +17,7 @@ type UseWalletProps = WalletContextType & {
   connectWallet: (type: WalletType) => Promise<void>;
   disconnectWallet: () => void;
   execute: (data: ExecuteProps) => Promise<DeliverTxResponse | string>;
+  setWallet: (wallet: Wallet | null) =>  void
 };
 
 const KeplrWallet = new Keplr();

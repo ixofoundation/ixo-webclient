@@ -32,6 +32,7 @@ export default defineConfig({
       "@constants": ["/src/constants"],
       "utils": ["/src/utils"],
       "impactsxmobile": ["/src/impactsxmobile"],
+      "components": ["./components"],
       'stream': 'readable-stream',
       'assert': 'assert',
       'http': 'stream-http',

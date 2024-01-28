@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
 import { Modal, Box, MantineProvider, Flex, Text, Button } from "@mantine/core";
-import { SegmentedControl } from "@mantine/core";
-import { ConnectModal as ImpactsXConnectModal, TimeLeft } from "impactsxmobile";
 import { useWallet } from "hooks";
 import { KeplrIcon } from "assets/keplr-icon";
 import { QRCodeSVG } from "qrcode.react";
 import { upperFirst } from "@mantine/hooks";
 import { WalletType } from "@ixo-webclient/types";
+import { ConnectModal } from "components/connectModal";
 
 const DesktopWalletModal = () => {
   const { connectWallet } = useWallet()
@@ -46,42 +45,6 @@ const DesktopWalletModal = () => {
   );
 };
 
-const ConnectModal = () => {
-  const [activeTab, setActiveTab] = useState("mobile");
-
-  return (
-    <Flex w="100%" direction="column" align="center">
-      {/* <Box w="50%">
-        <SegmentedControl
-          w="100%"
-          data={["mobile", "desktop"]}
-          styles={{
-            root: {
-              backgroundColor: "#436779",
-              color: "white",
-              padding: 0,
-              height: "33px",
-            },
-            indicator: {
-              backgroundColor: "#00D2FF",
-            },
-            label: {
-              color: "white",
-            },
-          }}
-          radius={23}
-          mb="sm"
-          onChange={setActiveTab}
-          value={activeTab}
-        />
-      </Box> */}
-      <Box>
-        {activeTab === "mobile" && <ImpactsXConnectModal />}
-        {activeTab === "desktop" && <DesktopWalletModal />}
-      </Box>
-    </Flex>
-  );
-};
 
 const TransactModal = () => {
   const { mobile } = useWallet();

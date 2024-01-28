@@ -18,7 +18,8 @@
         "assets": ["./assets"],
         "@constants": ["./constants"],
         "utils": ["./utils"],
-        "impactsxmobile": ["./impactsxmobile"]
+        "impactsxmobile": ["./impactsxmobile"],
+        "components": ["./components"]
       },
       "outDir": "./dist",
       "declaration": true,
