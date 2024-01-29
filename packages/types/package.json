@@ -1,0 +1,25 @@
+{
+  "name": "@ixo-webclient/types",
+  "version": "1.0.0",
+  "author": "zach",
+  "license": "MIT",
+  "main": "dist/types.cjs.js",
+  "module": "dist/types.es.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build:types": "tsc --emitDeclarationOnly && tsc-alias",
+    "build": "vite build && yarn build:types",
+    "build:watch": "concurrently --kill-others \"yarn build -w\""
+  },
+  "dependencies": {
+    "@cosmjs/proto-signing": "^0.31.3",
+    "@ixo/impactxclient-sdk": "^1.1.15",
+    "@keplr-wallet/types": "^0.12.44",
+    "@walletconnect/client": "^1.8.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.2.0",
+    "typescript": "^5.3.2",
+    "vite": "^5.0.2"
+  }
+}

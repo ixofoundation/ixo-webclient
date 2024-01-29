@@ -1,0 +1,32 @@
+{
+    "extends": "@ixo-webclient/tsconfig/base.json",
+    "compilerOptions": {
+      "target": "es6",
+      "lib": ["dom", "dom.iterable", "esnext"],
+      "allowJs": true,
+      "skipLibCheck": true,
+      "esModuleInterop": true,
+      "allowSyntheticDefaultImports": true,
+      "strict": true,
+      "forceConsistentCasingInFileNames": true,
+      "baseUrl": "./src",
+      "paths": {
+        "keplr": ["./keplr"],
+        "hooks": ["./hooks"],
+        "contexts": ["./contexts"],
+        "walletModal": ["./walletModal"],
+        "assets": ["./assets"],
+        "@constants": ["./constants"],
+        "utils": ["./utils"],
+        "impactsxmobile": ["./impactsxmobile"],
+        "components": ["./components"]
+      },
+      "outDir": "./dist",
+      "declaration": true,
+      "module": "commonjs",
+      "moduleResolution": "node",
+      "rootDir": "src",
+      "jsx": "react-jsx"
+    },
+    "include": ["src/**/*"]
+  }
