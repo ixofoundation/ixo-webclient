@@ -12,9 +12,12 @@ import { AccountTypeToIconMap } from 'pages/CurrentEntity/Treasury/Components/Ac
 import { getTotalUSDvalueFromTreasuryCoins } from 'utils/treasury'
 import CurrencyFormat from 'react-currency-format'
 import BigNumber from 'bignumber.js'
+import { useHistory, useParams } from 'react-router-dom'
 
 const TreasuryPoolCard: React.FC = () => {
   const theme: any = useTheme()
+  const history = useHistory()
+  const { entityId } = useParams<{ entityId: string }>()
   const accounts = useCurrentEntityTreasury()
 
   const treasuryAccounts = useMemo(() => {
@@ -33,7 +36,7 @@ const TreasuryPoolCard: React.FC = () => {
         label: 'Entity Account',
         type: 'entity',
         value: entityAccounts.reduce(
-          (pre, cur) => new BigNumber(pre).plus(new BigNumber(cur.totalBalance)).toString(),
+          (pre, cur) => new BigNumber(pre).plus(new BigNumber(cur.totalBalance)).toFixed(),
           '0',
         ),
       },
@@ -41,7 +44,7 @@ const TreasuryPoolCard: React.FC = () => {
         label: 'Group Account',
         type: 'group',
         value: groupAccounts.reduce(
-          (pre, cur) => new BigNumber(pre).plus(new BigNumber(cur.totalBalance)).toString(),
+          (pre, cur) => new BigNumber(pre).plus(new BigNumber(cur.totalBalance)).toFixed(),
           '0',
         ),
       },
@@ -49,7 +52,7 @@ const TreasuryPoolCard: React.FC = () => {
         label: 'Linked Account',
         type: 'linked',
         value: linkedAccounts.reduce(
-          (pre, cur) => new BigNumber(pre).plus(new BigNumber(cur.totalBalance)).toString(),
+          (pre, cur) => new BigNumber(pre).plus(new BigNumber(cur.totalBalance)).toFixed(),
           '0',
         ),
       },
@@ -57,7 +60,7 @@ const TreasuryPoolCard: React.FC = () => {
   }, [accounts])
 
   const totalBalance = useMemo(() => {
-    return treasuryAccounts.reduce((pre, cur) => new BigNumber(pre).plus(new BigNumber(cur.value)).toString(), '0')
+    return treasuryAccounts.reduce((pre, cur) => new BigNumber(pre).plus(new BigNumber(cur.value)).toFixed(), '0')
   }, [treasuryAccounts])
 
   return (
@@ -68,6 +71,7 @@ const TreasuryPoolCard: React.FC = () => {
           <FundingIcon />
         </SvgBox>
       }
+      onAction={() => history.push(`/entity/${entityId}/treasury`)}
     >
       <Flex w='100%' h='100%' direction={'column'} justify={'space-between'} align={'center'}>
         <Flex direction='column' justify={'center'} align={'center'}>

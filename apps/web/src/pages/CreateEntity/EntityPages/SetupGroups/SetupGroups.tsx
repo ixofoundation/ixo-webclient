@@ -222,7 +222,7 @@ const SetupDAOGroups = (): JSX.Element => {
     }
   }
 
-  if (selectedGroup) {
+  if (selectedGroup && daoGroups[selectedGroup]) {
     return (
       <SetupGroupSettings
         daoGroup={daoGroups[selectedGroup]}

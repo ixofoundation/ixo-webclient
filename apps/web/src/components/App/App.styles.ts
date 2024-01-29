@@ -168,6 +168,7 @@ export interface HTMLElementProps {
   backgroundSize?: string
   backgroundPosition?: string
   backgroundColor?: string
+  backgroundRepeat?: string
   zIndex?: number
   pointerEvents?: string
   cursor?: string
@@ -284,6 +285,8 @@ export const htmlElementCss = css<HTMLDivProps>`
   ${({ backgroundSize }): string | undefined => (backgroundSize ? `background-size: ${backgroundSize}` : undefined)};
   ${({ backgroundPosition }): string | undefined =>
     backgroundPosition ? `background-position: ${backgroundPosition}` : undefined};
+  ${({ backgroundRepeat }): string | undefined =>
+    backgroundRepeat ? `background-repeat: ${backgroundRepeat}` : undefined};
   ${({ zIndex }): string | undefined => (zIndex ? `z-index: ${zIndex}` : undefined)};
   ${({ pointerEvents }): string | undefined => (pointerEvents ? `pointer-events: ${pointerEvents}` : undefined)};
   ${({ cursor }): string | undefined => (cursor ? `cursor: ${cursor}` : undefined)};

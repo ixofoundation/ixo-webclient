@@ -135,7 +135,7 @@ export function serviceEndpointToUrl(serviceEndpoint: string, service: Service[]
   if (usedService && usedService.type.toLocaleLowerCase() === NodeType.Ipfs.toLocaleLowerCase()) {
     url = `https://${key}.ipfs.w3s.link`
   } else if (usedService && usedService.type.toLocaleLowerCase() === NodeType.CellNode.toLocaleLowerCase()) {
-    url = `${usedService.serviceEndpoint}${key}`
+    url = new URL(key, usedService.serviceEndpoint).href
   } else {
     url = serviceEndpoint
   }
@@ -288,19 +288,17 @@ export function apiEntityToEntity(
      * @description entityType === dao
      */
     if (type === 'dao' && cwClient) {
-      linkedEntity
-        .filter((item: LinkedEntity) => item.type === 'Group')
-        .forEach((item: LinkedEntity) => {
-          const { id } = item
-          const [, coreAddress] = id.split('#')
-          getDaoContractInfo({ coreAddress, cwClient })
-            .then((response) => {
-              updateCallback('daoGroups', { [response.coreAddress]: response }, true)
-            })
-            .catch((e) => {
-              console.error('getDaoContractInfo', coreAddress, e)
-            })
-        })
+      getDAOGroupLinkedEntities(linkedEntity).forEach((item: LinkedEntity) => {
+        const { id } = item
+        const [, coreAddress] = id.split('#')
+        getDaoContractInfo({ coreAddress, cwClient })
+          .then((response) => {
+            updateCallback('daoGroups', { [response.coreAddress]: response }, true)
+          })
+          .catch((e) => {
+            console.error('getDaoContractInfo', coreAddress, e)
+          })
+      })
     }
   } catch (error) {
     console.log('apiEntityToEntity error, ', error)
@@ -394,4 +392,8 @@ export const getBondDidFromApiListedEntityData = async (data: ApiListedEntityDat
 
 export default function getEntityAdmin(entity: TEntityModel) {
   return entity.accounts.find((acc) => acc.name === 'admin')?.address
+}
+
+export function getDAOGroupLinkedEntities(linkedEntity: LinkedEntity[]): LinkedEntity[] {
+  return linkedEntity.filter((v) => v.type === 'Group' && v.relationship === 'subsidiary')
 }

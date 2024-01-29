@@ -1,4 +1,4 @@
-import React, { ReactNode, createContext, useEffect, useState } from 'react'
+import React, { ReactNode, createContext, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { deviceWidth } from 'constants/device'
 import HeaderTabs from 'components/HeaderTabs/HeaderTabs'
@@ -106,6 +106,15 @@ const Dashboard: React.FunctionComponent<Props> = ({
   const togglePanel = useAppSelector(selectAssistantToggle)
   const [_theme, setTheme] = useState(theme)
 
+  const viewport = useRef<HTMLDivElement>(null)
+  const [scrollPosition, onScrollPositionChange] = useState({ x: 0, y: 0 })
+
+  useEffect(() => {
+    if (viewport.current!.scrollHeight === scrollPosition.y) {
+      //
+    }
+  }, [scrollPosition])
+
   useEffect(() => {
     setTheme(theme)
   }, [theme])
@@ -123,7 +132,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
         )}
         <Sidebar routes={subRoutes} />
         <Flex w={'100%'} h='100%' ml={75}>
-          <StyledScrollArea w='100%' h='100%'>
+          <StyledScrollArea w='100%' h='100%' viewportRef={viewport} onScrollPositionChange={onScrollPositionChange}>
             <Flex w='100%' h='100%' style={{ flex: 1 }}>
               <Board themeMode={_theme}>
                 {!noBreadcrumbs && <Breadcrumb subRoutes={subRoutes} baseRoutes={baseRoutes} />}

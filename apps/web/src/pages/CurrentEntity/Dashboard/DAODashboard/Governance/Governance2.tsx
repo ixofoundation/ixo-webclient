@@ -122,8 +122,11 @@ const Governance: React.FC = () => {
                   radius='xs'
                   size='md'
                   onClick={handleNewProposal}
-                  disabled={!isParticipating && !anyoneCanPropose}
-                  style={{ color: 'white' }}
+                  style={{
+                    color: 'white',
+                    pointerEvents: !isParticipating && !anyoneCanPropose ? 'none' : 'auto',
+                    opacity: !isParticipating && !anyoneCanPropose ? 0.5 : 1,
+                  }}
                 >
                   New Proposal
                 </MButton>
@@ -204,7 +207,7 @@ const Governance: React.FC = () => {
                   <Typography variant='secondary' color='dark-blue' size='2xl'>
                     Only members can submit proposals.
                   </Typography>
-                  <Link to={`/entity/${entityId}/dashboard/my-participation`}>
+                  <Link to={`/entity/${entityId}/dashboard/my-participation?selectedGroup=${selectedGroup}`}>
                     <Typography variant='secondary' color='blue' size='2xl'>
                       Join by staking
                     </Typography>

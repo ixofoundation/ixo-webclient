@@ -21,7 +21,7 @@ export const initialState: TCreateEntityState = {
   administrator: undefined,
   ddoTags: [],
   page: undefined,
-  service: [initialIpfsService, initialCellnodeService],
+  service: [initialCellnodeService, initialIpfsService],
   claim: undefined,
   linkedResource: {},
   accordedRight: {},

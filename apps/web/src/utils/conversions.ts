@@ -163,7 +163,7 @@ export function formatMinutes(minutes: number) {
   if (hours > 0) {
     formattedString += `${hours}h `
   }
-  if (remainingMinutes > 0) {
+  if (remainingMinutes >= 0) {
     formattedString += `${remainingMinutes}m`
   }
 

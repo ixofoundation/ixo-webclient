@@ -293,9 +293,12 @@ export const selectFilterQuery = createSelector(selectEntitiesFilter, (filter: F
   return filter.query
 })
 
-export const selectFilterSchema = createSelector(selectEntitiesState, (state: RootState) => state.configs.entityConfig, (entitiesState: EntitiesExplorerState, entityConfig): FilterSchema => {
-    console.log({entitiesState})
-    console.log({entityConfigSelector: entityConfig})
+export const selectFilterSchema = createSelector(
+  selectEntitiesState,
+  (state: RootState) => state.configs.entityConfig,
+  (entitiesState: EntitiesExplorerState, entityConfig): FilterSchema => {
+    console.log({ entitiesState })
+    console.log({ entityConfigSelector: entityConfig })
     return entityConfig ? entityConfig[entitiesState?.selectedEntitiesType]?.filterSchema : {}
   },
 )
@@ -385,6 +388,19 @@ export const selectStakingGroups = createSelector(selectDAOEntities, (entities: 
   return stakingGroups
 })
 
+export const selectGroups = createSelector(selectDAOEntities, (entities: TEntityModel[]): TDAOGroupModel[] => {
+  const groups: TDAOGroupModel[] = []
+  entities.forEach((entity: TEntityModel) => {
+    const { daoGroups } = entity
+    if (daoGroups) {
+      Object.values(daoGroups).forEach((daoGroup: TDAOGroupModel) => {
+        groups.push(daoGroup)
+      })
+    }
+  })
+  return groups
+})
+
 export const selectStakingGroupsByTokenAddress = (tokenAddress: string) =>
   createSelector(selectStakingGroups, (stakingGroups: TDAOGroupModel[]): TDAOGroupModel[] => {
     return stakingGroups.filter((daoGroup: TDAOGroupModel) => daoGroup.token?.config.token_address === tokenAddress)
@@ -393,6 +409,11 @@ export const selectStakingGroupsByTokenAddress = (tokenAddress: string) =>
 export const selectStakingGroupByCoreAddress = (coreAddress: string) =>
   createSelector(selectStakingGroups, (stakingGroups: TDAOGroupModel[]): TDAOGroupModel | undefined => {
     return stakingGroups.find((daoGroup: TDAOGroupModel) => daoGroup.coreAddress === coreAddress)
+  })
+
+export const selectGroupByCoreAddress = (coreAddress: string) =>
+  createSelector(selectGroups, (groups: TDAOGroupModel[]): TDAOGroupModel | undefined => {
+    return groups.find((daoGroup: TDAOGroupModel) => daoGroup.coreAddress === coreAddress)
   })
 
 export const selectIsMemberOfDAO = (daoId: string, address: string) =>
