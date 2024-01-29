@@ -33,7 +33,7 @@ const router = createBrowserRouter([
         element: <Explore.Component />,
       },
       {
-        path: 'exchange',
+        path: 'exchange/*',
         Component: EntityExchange.Component,
       },
       {

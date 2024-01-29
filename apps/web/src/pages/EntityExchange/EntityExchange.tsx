@@ -167,7 +167,7 @@ const EntityExchange = () => {
     >
       {/* These routes are nested under '/exchange' */}
       <Routes>
-        <Route index element={<Navigate to={`/exchange/trade/swap`} />} />
+        <Route index element={<Navigate to={`trade/swap`} />} />
         <Route path='trade/swap' Component={EntityExchangeTradeSwap} />
         {/* <Route path='/exchange/trade/swap' element={<EntityExchangeTradeSwap/>} /> */}
         {/* <Route exact path='/exchange/trade/:id' component={EntityExchangeTrade} /> */}

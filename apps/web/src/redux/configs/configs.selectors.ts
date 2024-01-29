@@ -19,7 +19,7 @@ export const selectRelayersConfig = createSelector(
 
 export const selectExchangeConfig = createSelector(
   selectConfigs,
-  (configs: ConfigsState): ExchangeConfig => configs.exchangeConfig,
+  (configs: ConfigsState): ExchangeConfig => configs?.exchangeConfig,
 )
 
 export const selectMyRelayer = createSelector(selectRelayersConfig, (relayers: RelayerInfo[]): RelayerInfo => {
@@ -38,7 +38,7 @@ export const selectCurrencies = createSelector(
 
 export const selectTradingAllowed = createSelector(
   selectExchangeConfig,
-  (exchangeConfig: ExchangeConfig): boolean => exchangeConfig.tradingAllowed,
+  (exchangeConfig: ExchangeConfig): boolean => exchangeConfig?.tradingAllowed,
 )
 
 /**
