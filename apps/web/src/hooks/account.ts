@@ -118,10 +118,18 @@ export function useAccount(): {
     } else {
       // check if current wallet in state
       const persistedWallet = localStorage.getItem(WALLET_STORE_LOCAL_STORAGE_KEY)
-      console.log({persistedWallet})
+
       if (persistedWallet) {
-        setWallet(JSON.parse(persistedWallet))
-        dispatch(connectAction(JSON.parse(persistedWallet)))
+        try {
+          // Attempt to parse the persisted wallet
+          const parsedWallet = JSON.parse(persistedWallet);
+          // If parsing was successful, set the wallet
+          setWallet(parsedWallet);
+          dispatch(connectAction(parsedWallet));
+        } catch (e) {
+          // If parsing fails, handle it as a string or invalid JSON
+          localStorage.removeItem(WALLET_STORE_LOCAL_STORAGE_KEY);
+        }
       }
     }
   }, [wallet, dispatch, setWallet])
