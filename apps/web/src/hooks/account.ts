@@ -109,7 +109,7 @@ export function useAccount(): {
   const registered: boolean | undefined = useAppSelector(selectAccountRegistered)
   const funded: boolean = useAppSelector(selectAccountFunded)
   const signer: TSigner = { address, did, pubKey: pubKeyUint8!, keyType }
-  const { wallet, setWallet } = useWallet()
+  const { wallet, setWallet, disconnectWallet } = useWallet()
 
   useEffect(() => {
     if (wallet) {
@@ -118,6 +118,7 @@ export function useAccount(): {
     } else {
       // check if current wallet in state
       const persistedWallet = localStorage.getItem(WALLET_STORE_LOCAL_STORAGE_KEY)
+      console.log({persistedWallet})
       if (persistedWallet) {
         setWallet(JSON.parse(persistedWallet))
         dispatch(connectAction(JSON.parse(persistedWallet)))
@@ -130,6 +131,7 @@ export function useAccount(): {
   }
 
   const disconnect = (): void => {
+    disconnectWallet()
     dispatch(disconnectAction())
     localStorage.removeItem(WALLET_STORE_LOCAL_STORAGE_KEY)
   }

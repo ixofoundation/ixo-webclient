@@ -372,7 +372,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
   const cw20BaseContractCode = customQueries.contract.getContractCode(chainNetwork, 'cw20_base')
   const cw20StakeContractCode = customQueries.contract.getContractCode(chainNetwork, 'cw20_stake')
 
-  const { execute } = useWallet()
+  const { execute, wallet } = useWallet()
 
   /**
    * @description auto choose service for uploading data
@@ -1019,9 +1019,9 @@ export function useCreateEntity(): TCreateEntityHookRes {
       msg: JSON.stringify(msg),
     }
 
-    if (!signingClient) {
-      throw new Error('Connect Wallet First')
-    }
+    // if (!signingClient || !wallet) {
+    //   throw new Error('Connect Wallet First')
+    // }
     const instantiateWasmPayload = await WasmInstantiateMessage(signer, [message])
 
     if (instantiateWasmPayload) {

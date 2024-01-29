@@ -1,6 +1,6 @@
 import { useAccount } from 'hooks/account'
 import { useEffect } from 'react'
-import { Route, useNavigate, Navigate } from 'react-router-dom'
+import { Route, useNavigate, Navigate, Routes } from 'react-router-dom'
 import MyPortfolioPage from './MyPortfolioPage'
 import Dashboard from 'components/Dashboard/Dashboard'
 import { Path } from 'components/Dashboard/types'
@@ -36,9 +36,11 @@ const MyAccountPage: React.FC = (): JSX.Element => {
 
   return (
     <Dashboard theme={'dark'} title={title} subRoutes={routes} baseRoutes={[]} tabs={[]} noTabs noBreadcrumbs>
-      <Route  path='/myaccount/portfolio' Component={MyPortfolioPage} />
-      <Route  path='/myaccount/groups' Component={MyGroupsPage} />
-      <Route  path='/myaccount/' element={<Navigate to={`/myaccount/portfolio`} />}/>
+      <Routes>
+        <Route index element={<Navigate to={`portfolio`} />} />
+        <Route path='portfolio' Component={MyPortfolioPage} />
+        <Route path='groups' Component={MyGroupsPage} />
+      </Routes>
     </Dashboard>
   )
 }

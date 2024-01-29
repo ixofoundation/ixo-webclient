@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import { Navigate, Route, Routes, useParams } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { Navigate, Route, Routes, useLocation, useParams } from 'react-router-dom'
 import DashboardPage from './Dashboard/Dashboard'
 import OverviewPage from './Overview/Overview'
 import TreasuryPage from './Treasury/Treasury'
@@ -9,13 +9,36 @@ import { Spinner } from 'components/Spinner/Spinner'
 import { TEntityModel } from 'types/entities'
 import { useAppSelector } from 'redux/hooks'
 import { selectEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { useEntityQuery } from 'generated/graphql'
+import { apiEntityToEntity } from 'utils/entities'
+import { useAccount } from 'hooks/account'
 
 const CurrentEntityPage: React.FC = (): JSX.Element => {
-  const { entityId = '' } = useParams<{ entityId: string }>()
+  const { state } = useLocation()
+  const { entityId = "" } = useParams<{ entityId: string }>()
+  const { cwClient } = useAccount()
   const entity: TEntityModel | undefined = useAppSelector(selectEntityById(entityId))
   const { entityType, updateEntity, clearEntity } = useCurrentEntity()
+  const [fetchedEntity, setFetchedEntity] = useState<TEntityModel | null>(null)
+
+  useEntityQuery({
+    variables: {
+      id: entityId,
+    },
+    skip: Boolean(entity),
+    onCompleted: (data) => {
+      console.log({ data: data?.entity })
+      setFetchedEntity(data?.entity as any)
+      apiEntityToEntity({ entity: data?.entity, cwClient }, (key, value) => {
+        setFetchedEntity((entity: any) => ({ ...entity, [key]: value }))
+      })
+    },
+  })
 
   useEffect(() => {
+    if (fetchedEntity) {
+      updateEntity(fetchedEntity)
+    }
     if (entity) {
       updateEntity(entity)
     }
@@ -24,15 +47,16 @@ const CurrentEntityPage: React.FC = (): JSX.Element => {
       clearEntity()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [entity])
+  }, [entity, fetchedEntity])
 
   if (!entityType) {
     return <Spinner info='Loading Entity...' />
   }
 
+
   return (
     <Routes>
-      <Route index element={<Navigate to='overview' />} />
+      <Route index element={<Navigate to={`overview?collection=${state?.collectionName}`}  />} />
       <Route path='overview' element={<OverviewPage />} />
       <Route path='dashboard/*' element={<DashboardPage />} />
       <Route path='treasury/*' element={<TreasuryPage />} />

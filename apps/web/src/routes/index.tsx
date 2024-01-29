@@ -2,6 +2,7 @@ import React, { lazy, Suspense } from 'react'
 import { Route, Routes as ReactRouterRoutes, useNavigate } from 'react-router-dom'
 import { Spinner } from 'components/Spinner/Spinner'
 import { useIxoConfigs } from 'hooks/configs'
+import { Flex } from '@mantine/core'
 
 const Splash = lazy(() => import(/* webpackChunkName: "Splash" */ 'pages/Splash/Splash'))
 const EditEntityPage = lazy(() => import(/* webpackChunkName: "EditEntityPage" */ 'pages/EditEntity/EditEntity'))
@@ -30,16 +31,21 @@ const App: React.FunctionComponent = () => {
   }, [splashIsRootRoute])
 
   return (
-    <Suspense fallback={<Spinner info='Loading' />}>
-      <ReactRouterRoutes>
-        <Route path='/' element={<Splash />} />
-        <Route path='/exchange/*' element={<EntityExchange />} />
-        <Route path='/edit/entity/:entityId' element={<EditEntityPage />} />
-        <Route path='/entity/:entityId/*' element={<CurrentEntityPage />} />
-        <Route path='/transfer/entity/:entityId' element={<TransferEntityPage />} />
-        <Route path='*' element={<p>Nothing found in App maaaaan</p>} />
-      </ReactRouterRoutes>
-    </Suspense>
+    <ReactRouterRoutes>
+      <Route path='/' element={<Splash />} />
+      <Route path='exchange/*' element={<EntityExchange />} />
+      <Route path='edit/entity/:entityId' element={<EditEntityPage />} />
+      <Route path='entity/:entityId/*' element={<CurrentEntityPage />} />
+      <Route path='transfer/entity/:entityId' element={<TransferEntityPage />} />
+      <Route
+        path='*'
+        element={
+          <Flex h='100vh' w='100vw' justify='center' align='center'>
+            Nothing found in App maaaaan
+          </Flex>
+        }
+      />
+    </ReactRouterRoutes>
   )
 }
 

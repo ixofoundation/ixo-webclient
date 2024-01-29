@@ -52,6 +52,7 @@ export const useWallet = (): UseWalletProps => {
             publicKey: wallet.pubKey,
             wallet: { type: WalletType.ImpactXMobile },
           });
+          context.close()
         }
       } catch (error) {
         // TODO: send to logger
@@ -143,7 +144,7 @@ export const useWallet = (): UseWalletProps => {
   };
 
   const disconnectWallet = (): void => {
-    // Logic to disconnect the wallet
+    context.setWallet(null)
   };
 
   // Add other wallet-related methods here

@@ -69,7 +69,7 @@ const EntitiesSelect: React.FunctionComponent<Props> = ({
     )
   }
 
-  return <Navigate to='/explore?ThisisHowWeDo=1' />
+  return <Navigate to='/explore?type=dao' />
 }
 
 const mapStateToProps = (state: RootState): Record<string, any> => ({

@@ -5,11 +5,11 @@ import useCurrentEntity, { useCurrentEntityProfile } from 'hooks/currentEntity'
 import { Navigate, Route, Routes, useMatch, useParams } from 'react-router-dom'
 import { requireCheckDefault } from 'utils/images'
 import { MyParticipation } from './MyParticipation'
-import { Navigator } from './Navigator'
 import { Membership } from './Membership'
 import { Governance } from './Governance'
 import { IndividualMember } from './IndividualMember'
 import EditEntity from './EditEntity'
+import Overview from './Overview'
 
 const DAODashboard: React.FC = (): JSX.Element => {
   const { entityId } = useParams<{ entityId: string }>()
@@ -26,6 +26,13 @@ const DAODashboard: React.FC = (): JSX.Element => {
     //   tooltip: 'Navigator',
     //   strict: true,
     // },
+    {
+      url: `/entity/${entityId}/dashboard/overview`,
+      icon: requireCheckDefault(require('assets/img/sidebar/global.svg')),
+      sdg: 'Overview',
+      tooltip: 'Overview',
+      strict: true,
+    },
     {
       url: `/entity/${entityId}/dashboard/membership`,
       icon: requireCheckDefault(require('assets/img/sidebar/agents.svg')),
@@ -110,16 +117,24 @@ const DAODashboard: React.FC = (): JSX.Element => {
       entityType={entityType}
     >
       <Routes>
-        <Route index element={<Navigate to={`membership`} />} />
-        <Route path='navigator' element={<Navigator />} />
+        <Route index element={<Navigate to={`overview`} />} />
+        <Route path='overview' Component={Overview} />
+        <Route path='membership' Component={Membership} />
+        <Route path='membership/:address' Component={IndividualMember} />
+        <Route path='governance' Component={Governance} />
+
+        {registered && <Route path='my-participation' Component={MyParticipation} />}
+        {registered && owner === address && <Route path='edit' Component={EditEntity} />}
+
+        {/* <Route path='navigator' element={<Navigator />} />
         <Route path='membership'>
-          <Route path=':address' element={<IndividualMember />} /> 
-           <Route index element={<Membership />}/>
-        </Route>
-        
+          <Route path=':address' element={<IndividualMember />} />
+          <Route index element={<Membership />} />
+        </Route> */}
+        {/* 
         <Route path='governance' element={<Governance />} />
         {registered && <Route path='my-participation' element={<MyParticipation />} />}
-        {registered && owner === address && <Route path='edit' element={<EditEntity />} />}
+        {registered && owner === address && <Route path='edit' element={<EditEntity />} />} */}
       </Routes>
     </Dashboard>
   )

@@ -13,30 +13,37 @@ import Footer from '../Footer/FooterContainer'
 import { HeaderConnected } from '../Header/HeaderContainer'
 import ScrollToTop from '../ScrollToTop/ScrollToTop'
 import { Container, ContentWrapper } from './App.styles'
-import { useAccount } from 'hooks/account'
 import { Outlet } from 'react-router-dom'
 import { Flex } from '@mantine/core'
-
+import { WalletModal, WalletProvider } from '@ixo-webclient/wallet-connector'
+import RedirectToMyAccount from 'components/Header/components/RedirectToMyAccount'
+import { chainNetwork } from 'hooks/configs'
+import { RPC_ENDPOINT } from 'lib/protocol'
 
 ReactGA.initialize('UA-106630107-5')
 ReactGA.pageview(window.location.pathname + window.location.search)
 
 const App: React.FC = () => {
-  const { cwClient } = useAccount()
-
   return (
     <AssistantContext.Provider value={{ active: false }}>
-      <ToastContainer theme='dark' hideProgressBar={true} position='top-right' />
-      <Services />
-      <ScrollToTop>
-        <Container>
-          <HeaderConnected />
-          <Flex mt={74} w='100%' h={'calc(100vh - 222px)'} style={{ flex: 1 }}>
-            <ContentWrapper>{cwClient && <Outlet />}</ContentWrapper>
-          </Flex>
-          <Footer />
-        </Container>
-      </ScrollToTop>
+      <WalletProvider
+        chainNetwork={chainNetwork}
+        customComponent={<RedirectToMyAccount />}
+        rpcEndpoint={RPC_ENDPOINT ?? ''}
+      >
+        <WalletModal />
+        <ToastContainer theme='dark' hideProgressBar={true} position='top-right' />
+        <Services />
+        <ScrollToTop>
+          <Container>
+            <HeaderConnected />
+            <Flex mt={74} w='100%' h={'calc(100vh - 222px)'} style={{ flex: 1 }}>
+              <ContentWrapper> <Outlet /></ContentWrapper>
+            </Flex>
+            <Footer />
+          </Container>
+        </ScrollToTop>
+      </WalletProvider>
     </AssistantContext.Provider>
   )
 }

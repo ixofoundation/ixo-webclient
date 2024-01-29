@@ -5,6 +5,8 @@ import { selectEntityHeaderButtonColorUIConfig } from 'redux/entitiesExplorer/en
 import { Light, LightLoading, LightReady, Ping } from '../HeaderContainer.styles'
 import WalletConnectButton from 'components/Button/WalletConnectButton'
 import { useTheme } from 'styled-components'
+import { useWallet } from '@ixo-webclient/wallet-connector'
+import { useNavigate } from 'react-router-dom'
 
 interface HeaderRightProps {
   toggleModal: () => void
@@ -14,8 +16,14 @@ const HeaderRight: React.FC<HeaderRightProps> = ({ toggleModal }): JSX.Element =
   const buttonColor: string = useAppSelector(selectEntityHeaderButtonColorUIConfig)
   const theme: any = useTheme()
   const { address, registered } = useAccount()
+  const { wallet, mobile } = useWallet()
+  const navigate = useNavigate()
 
-  const onClickConnectInfo = (): void => {
+  const onClickConnectInfo = () => {
+    if (wallet && !mobile.transacting) {
+      return navigate('/myaccount')
+    }
+
     toggleModal()
   }
 
@@ -36,19 +44,17 @@ const HeaderRight: React.FC<HeaderRightProps> = ({ toggleModal }): JSX.Element =
   }
 
   return (
-      <NoPadLeft className='col-md-2 col-lg-4'>
-        <Inner className='d-flex justify-content-end'>
-          <UserBox color={buttonColor}>
-            <StatusBox>
-              {renderStatusIndicator()}
-              <StatusText color={theme?.blocks?.header?.textColor}>
-                {!address ? 'Not Connected' : 'Connected'}
-              </StatusText>
-            </StatusBox>
-            <WalletConnectButton onClick={onClickConnectInfo} />
-          </UserBox>
-        </Inner>
-      </NoPadLeft>
+    <NoPadLeft className='col-md-2 col-lg-4'>
+      <Inner className='d-flex justify-content-end'>
+        <UserBox color={buttonColor}>
+          <StatusBox>
+            {renderStatusIndicator()}
+            <StatusText color={theme?.blocks?.header?.textColor}>{!address ? 'Not Connected' : 'Connected'}</StatusText>
+          </StatusBox>
+          <WalletConnectButton onClick={onClickConnectInfo} />
+        </UserBox>
+      </Inner>
+    </NoPadLeft>
   )
 }
 

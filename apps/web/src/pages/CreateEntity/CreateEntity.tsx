@@ -69,7 +69,7 @@ const buildEntitySteps = (entity: string, order: string[]): { title: string; ste
   const sortedSteps: Step[] = order
     .map((stepName, index) => {
       const foundStep = steps.find((step) => step.path === stepName)
-      return foundStep ? { ...foundStep, number: index + 1, path: `/create/entity/${entity}/${foundStep.path}` } : null
+      return foundStep ? { ...foundStep, number: index + 1, path: `/entity/create/${entity}/${foundStep.path}` } : null
     })
     .filter((step) => step !== null) as Step[] // Cast to Step[] after filtering out null entries
 

@@ -22,6 +22,7 @@ import { theme } from 'components/App/App.styles'
 // import { changeEntitiesType, getEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.actions'
 import { ThemeProvider } from 'styled-components'
 import { Spinner } from 'components/Spinner/Spinner'
+import RedirectToMyAccount from 'components/Header/components/RedirectToMyAccount'
 // import { getCustomTheme } from 'redux/theme/theme.actions'
 
 process.env.NODE_ENV === 'production' &&
@@ -105,15 +106,15 @@ const App = () => {
     <Suspense fallback={<Spinner info='Connecting to the internet of impacts' />}>
       <ThemeProvider theme={theme}>
         <MantineProvider>
-          <WalletProvider
+          {/* <WalletProvider
             chainNetwork={chainNetwork}
-            customComponent={<ProfileModal />}
+            customComponent={<RedirectToMyAccount />}
             rpcEndpoint={RPC_ENDPOINT ?? ''}
           >
-            <WalletModal />
+            <WalletModal /> */}
             <GlobalStyle />
             <ApolloProvider client={client}>{entityConfig && <Router />}</ApolloProvider>
-          </WalletProvider>
+          {/* </WalletProvider> */}
         </MantineProvider>
       </ThemeProvider>
     </Suspense>
