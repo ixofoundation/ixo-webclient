@@ -354,7 +354,7 @@ interface TCreateEntityHookRes {
 }
 
 export function useCreateEntity(): TCreateEntityHookRes {
-  const { signingClient, signer } = useAccount()
+  const { signer } = useAccount()
   const claimProtocols = useAppSelector(selectAllClaimProtocols)
 
   const createEntityState = useCreateEntityState()
@@ -372,7 +372,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
   const cw20BaseContractCode = customQueries.contract.getContractCode(chainNetwork, 'cw20_base')
   const cw20StakeContractCode = customQueries.contract.getContractCode(chainNetwork, 'cw20_stake')
 
-  const { execute, wallet } = useWallet()
+  const { execute } = useWallet()
 
   /**
    * @description auto choose service for uploading data

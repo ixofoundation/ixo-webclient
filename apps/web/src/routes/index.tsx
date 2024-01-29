@@ -1,6 +1,5 @@
-import React, { lazy, Suspense } from 'react'
+import React, { lazy } from 'react'
 import { Route, Routes as ReactRouterRoutes, useNavigate } from 'react-router-dom'
-import { Spinner } from 'components/Spinner/Spinner'
 import { useIxoConfigs } from 'hooks/configs'
 import { Flex } from '@mantine/core'
 

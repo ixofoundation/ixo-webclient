@@ -112,7 +112,7 @@ const CreateEntity = (): JSX.Element => {
   const loaderData = useLoaderData() as any
 
   const shouldUpdateEntityType =
-    entityType !== stateEntityType && !(entityType === 'protocol' && stateEntityType.includes('protocol'))
+    entityType !== stateEntityType && !(entityType === 'protocol' && stateEntityType?.includes('protocol'))
 
   useEffect(() => {
     dispatch(setSteps(data.steps))
