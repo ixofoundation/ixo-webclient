@@ -54,10 +54,49 @@ jobs:
         export NODE_OPTIONS="--max_old_space_size=8192"
         yarn build  # Build Script
 
-    - name: Deploy to Netlify
+    - name: Deploy to dev.ixo.earth deploy preview
       uses: netlify/actions/cli@master
       env:
         NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
         NETLIFY_SITE_ID: 98449c34-e6ca-47c1-9814-1a4007adb702  # Replace with your Netlify Site ID
+      with:
+        args: deploy --dir=apps/web/build --filter @ixo-webclient/web   # Update --dir with the directory of your build output
+
+    - name: Deploy to yoma.ixo.earth deploy preview
+      uses: netlify/actions/cli@master
+      env:
+        NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        NETLIFY_SITE_ID: ffd81e41-b107-4846-a472-4a69bf1991d3  # Replace with your Netlify Site ID
+        REACT_APP_CONFIG_ASSETLIST_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/yoma/asset-list.json
+        REACT_APP_CONFIG_EXCHANGE_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/yoma/exchange.json
+        REACT_APP_CONFIG_RELAYER_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/yoma/app-config.json 
+        REACT_APP_CONFIG_SCHEMA_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/yoma/config.json
+        REACT_APP_CUSTOM_THEME_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/yoma/theme.json
+      with:
+        args: deploy --dir=apps/web/build --filter @ixo-webclient/web   # Update --dir with the directory of your build output
+
+    - name: Deploy to idcc.ixo.earth deploy preview
+      uses: netlify/actions/cli@master
+      env:
+        NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        NETLIFY_SITE_ID: 8095507c-1245-49e1-9f54-167b18c2de4b  # Replace with your Netlify Site ID
+        REACT_APP_CONFIG_ASSETLIST_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/idcc/asset-list.json
+        REACT_APP_CONFIG_EXCHANGE_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/idcc/exchange.json
+        REACT_APP_CONFIG_RELAYER_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/idcc/app-config.json 
+        REACT_APP_CONFIG_SCHEMA_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/idcc/config.json
+        REACT_APP_CUSTOM_THEME_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/idcc/theme.json
+      with:
+        args: deploy --dir=apps/web/build --filter @ixo-webclient/web   # Update --dir with the directory of your build output
+
+    - name: Deploy to test.ixo.earth deploy preview
+      uses: netlify/actions/cli@master
+      env:
+        NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        NETLIFY_SITE_ID: 50ab39f7-d558-493b-8cc6-6f47fa4c8c56  # Replace with your Netlify Site ID
+        REACT_APP_CONFIG_ASSETLIST_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/testzone/asset-list.json
+        REACT_APP_CONFIG_EXCHANGE_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/testzone/exchange.json
+        REACT_APP_CONFIG_RELAYER_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/testzone/app-config.json 
+        REACT_APP_CONFIG_SCHEMA_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/testzone/config.json
+        REACT_APP_CUSTOM_THEME_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/testzone/theme.json
       with:
         args: deploy --dir=apps/web/build --filter @ixo-webclient/web   # Update --dir with the directory of your build output
