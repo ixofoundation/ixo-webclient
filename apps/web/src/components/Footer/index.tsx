@@ -33,16 +33,16 @@ const Footer: React.FC = () => {
         {title && <Text>{title}</Text>}
         {address && <Text>{address}</Text>}
         {privacyPolicy && (
-          <Anchor href={privacyPolicy.href} target='_blank' color={'white'} underline={false}>
-            <Text weight={'bold'}>{privacyPolicy.text}</Text>
+          <Anchor href={privacyPolicy.href} target='_blank' color={'white'} underline={undefined}>
+            <Text fw={'bold'}>{privacyPolicy.text}</Text>
           </Anchor>
         )}
         {/* <Text weight={'bold'}>Terms of Use</Text> */}
       </Flex>
 
       <Flex align={'center'} gap={4}>
-        <Text weight={'bold'}>Powered by</Text>
-        <Text color='ixo-blue' weight={'bold'}>
+        <Text fw={'bold'}>Powered by</Text>
+        <Text color='ixo-blue' fw={'bold'}>
           ixo
         </Text>
       </Flex>
@@ -53,7 +53,7 @@ const Footer: React.FC = () => {
             key={index}
             href={item.href}
             target='_blank'
-            underline={false}
+            underline={undefined}
             className={item.iconClassName}
             color={'white'}
           />

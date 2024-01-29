@@ -12,11 +12,11 @@ import { AccountTypeToIconMap } from 'pages/CurrentEntity/Treasury/Components/Ac
 import { getTotalUSDvalueFromTreasuryCoins } from 'utils/treasury'
 import CurrencyFormat from 'react-currency-format'
 import BigNumber from 'bignumber.js'
-import { useHistory, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 const TreasuryPoolCard: React.FC = () => {
   const theme: any = useTheme()
-  const history = useHistory()
+  const navigate = useNavigate()
   const { entityId } = useParams<{ entityId: string }>()
   const accounts = useCurrentEntityTreasury()
 
@@ -71,7 +71,7 @@ const TreasuryPoolCard: React.FC = () => {
           <FundingIcon />
         </SvgBox>
       }
-      onAction={() => history.push(`/entity/${entityId}/treasury`)}
+      onAction={() => navigate(`/entity/${entityId}/treasury`)}
     >
       <Flex w='100%' h='100%' direction={'column'} justify={'space-between'} align={'center'}>
         <Flex direction='column' justify={'center'} align={'center'}>
