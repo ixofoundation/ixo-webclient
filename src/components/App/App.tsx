@@ -17,7 +17,7 @@ import { withRouter } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import Services from 'services'
 import { ThemeProvider } from 'styled-components'
-import Footer from '../Footer/FooterContainer'
+import Footer from '../Footer'
 import { HeaderConnected } from '../Header/HeaderContainer'
 import ScrollToTop from '../ScrollToTop/ScrollToTop'
 import { Spinner } from '../Spinner/Spinner'
@@ -133,7 +133,7 @@ const App: React.FC = () => {
           <ScrollToTop>
             <Container>
               <HeaderConnected />
-              <Flex mt={74} w='100%' h={'calc(100vh - 222px)'} style={{ flex: 1 }}>
+              <Flex mt={74} w='100%' h={'calc(100vh - 74px)'} style={{ flex: 1 }}>
                 {entityConfig && cwClient && entities.length > 0 ? (
                   <Routes />
                 ) : (

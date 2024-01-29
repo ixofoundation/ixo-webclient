@@ -203,7 +203,7 @@ const EntitiesExplorer = ({
   }, [sector, handleChangeSector])
 
   return (
-    <ScrollArea w='100%' h={'calc(100vh - 222px)'}>
+    <ScrollArea w='100%' h={'calc(100vh - 74px)'}>
       <Container>
         <div className='d-flex w-100 h-100'>
           <div className='d-flex flex-column flex-grow-1 w-100 h-100'>

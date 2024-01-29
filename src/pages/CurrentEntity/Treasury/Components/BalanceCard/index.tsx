@@ -95,7 +95,7 @@ const BalanceCard: React.FC<Props> = ({ availableValue = '0', stakedValue = '0.0
         color={theme.ixoDarkBlue}
       >
         {new BigNumber(totalValue).isGreaterThan(0) ? (
-          <ResponsiveContainer width='100%' height='100%'>
+          <ResponsiveContainer width='99%' height='270px'>
             <LineChart data={data}>
               <Line dataKey='pv' stroke='#107591' dot={false} strokeWidth={2} />
             </LineChart>
