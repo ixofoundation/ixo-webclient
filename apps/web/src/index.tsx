@@ -6,7 +6,7 @@ import { GlobalStyle } from 'styles/globalStyles'
 import * as Sentry from '@sentry/react'
 import { BrowserTracing } from '@sentry/tracing'
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client'
-import { Suspense, useEffect } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import { MantineProvider } from '@mantine/core'
 import '@mantine/core/styles.css'
@@ -19,6 +19,9 @@ import { theme } from 'components/App/App.styles'
 // import { changeEntitiesType, getEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.actions'
 import { ThemeProvider } from 'styled-components'
 import { Spinner } from 'components/Spinner/Spinner'
+import { useAppDispatch, useAppSelector } from 'redux/hooks'
+import { selectCustomTheme } from 'redux/theme/theme.selectors'
+import { getCustomTheme } from 'redux/theme/theme.actions'
 // import { getCustomTheme } from 'redux/theme/theme.actions'
 
 process.env.NODE_ENV === 'production' &&
@@ -37,70 +40,49 @@ const client = new ApolloClient({
 
 const App = () => {
   const { fetchEntityConfig, entityConfig } = useIxoConfigs()
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
     fetchEntityConfig()
+    dispatch(getCustomTheme())
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  console.log({ entityConfig })
-  // const [customizedTheme, setCustomizedTheme] = useState<any>(theme)
-  // const dispatch = useAppDispatch()
-  // const entityConfig = useAppSelector(selectEntityConfig)
-  // const customTheme = useAppSelector(selectCustomTheme)
+  const [customizedTheme, setCustomizedTheme] = useState<any>(theme)
+  const customTheme = useAppSelector(selectCustomTheme)
 
-  // useEffect(() => {
-  //   dispatch(getEntityConfig())
-  //   dispatch(getCustomTheme())
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [])
+  useEffect(() => {
+    if (!entityConfig) return
 
-  // console.log({entityConfig})
+    // Apply custom theme
+    const { theme: myTheme } = entityConfig
+    const newCustomizedTheme = { ...customizedTheme, ...customTheme }
 
-  // useEffect(() => {
-  //   if (!entityConfig) return
+    if (myTheme) {
+      const { fontFamily, primaryColor, highlight } = myTheme
 
-  //   // Determine entity type
-  //   const newEntityType = entityConfig.UI?.explorer?.defaultView
+      if (fontFamily) {
+        newCustomizedTheme.primaryFontFamily = fontFamily
+      }
+      if (primaryColor) {
+        newCustomizedTheme.ixoBlue = primaryColor
+        newCustomizedTheme.ixoNewBlue = primaryColor
+      }
+      if (highlight) {
+        newCustomizedTheme.highlight = highlight
+        newCustomizedTheme.pending = highlight.light
+      }
+    }
 
-  //   console.log({newEntityType})
-  //   if(entityConfig){
-  //     dispatch(changeEntitiesType(newEntityType))
-  //   }
+    setCustomizedTheme(newCustomizedTheme)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [entityConfig, dispatch])
 
-  //   // Apply custom theme
-  //   const { theme: myTheme } = entityConfig
-  //   const newCustomizedTheme = { ...customizedTheme, ...customTheme }
-
-  //   if (myTheme) {
-  //     const { fontFamily, primaryColor, highlight } = myTheme
-
-  //     if (fontFamily) {
-  //       newCustomizedTheme.primaryFontFamily = fontFamily
-  //     }
-  //     if (primaryColor) {
-  //       newCustomizedTheme.ixoBlue = primaryColor
-  //       newCustomizedTheme.ixoNewBlue = primaryColor
-  //     }
-  //     if (highlight) {
-  //       newCustomizedTheme.highlight = highlight
-  //       newCustomizedTheme.pending = highlight.light
-  //     }
-  //   }
-
-  //   setCustomizedTheme(newCustomizedTheme)
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [entityConfig, dispatch])
-
-  // console.log({ entityConfig, customTheme })
-
-  // if (!entityConfig && !customTheme) {
-  //   return <Spinner info='Loading' />
-  // }
 
   return (
     <Suspense fallback={<Spinner info='Connecting to the internet of impacts' />}>
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={customizedTheme}>
         <MantineProvider>
           {/* <WalletProvider
             chainNetwork={chainNetwork}

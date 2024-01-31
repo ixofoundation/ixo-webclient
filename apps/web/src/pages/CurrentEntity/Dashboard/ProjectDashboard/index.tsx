@@ -2,7 +2,7 @@ import Dashboard from 'components/Dashboard/Dashboard'
 import { HeaderTab, Path } from 'components/Dashboard/types'
 import { useAccount } from 'hooks/account'
 import useCurrentEntity, { useCurrentEntityProfile } from 'hooks/currentEntity'
-import { Navigate, Route, useMatch, useParams } from 'react-router-dom'
+import { Navigate, Route, useMatch, useParams, Routes } from 'react-router-dom'
 import { toTitleCase } from 'utils/formatters'
 import { requireCheckDefault } from 'utils/images'
 import Agents from './Agents'
@@ -91,16 +91,19 @@ const ProjectDashboard: React.FC = (): JSX.Element => {
       tabs={tabs}
       entityType={entityType}
     >
-      {registered && owner === address && <Route path='/entity/:entityId/dashboard/agents' Component={Agents} />}
-      {registered && (owner === address || signerRole === AgentRoles.evaluators) && (
-        <>
-          <Route path='/entity/:entityId/dashboard/claims' Component={Claims} />
-          <Route path='/entity/:entityId/dashboard/claims/:claimId' Component={ClaimDetail} />
-        </>
-      )}
-      {registered && owner === address && <Route path='/entity/:entityId/dashboard/edit' Component={EditEntity} />}
+      <Routes>
+      <Route index element={<Navigate to={`agents`} />} />
 
-      <Route path='/entity/:entityId/dashboard' element={<Navigate to={`/entity/${entityId}/dashboard/agents`} />} />
+        {registered && owner === address && <Route path='agents' Component={Agents} />}
+        {registered && (owner === address || signerRole === AgentRoles.evaluators) && (
+          <>
+            <Route path='claims' Component={Claims} />
+            <Route path='claims/:claimId' Component={ClaimDetail} />
+          </>
+        )}
+        {registered && owner === address && <Route path='edit' Component={EditEntity} />}
+
+      </Routes>
     </Dashboard>
   )
 }
