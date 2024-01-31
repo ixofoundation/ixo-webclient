@@ -48,7 +48,7 @@ export const SplashCards: FC = () => {
                         <CardIcon className={icon.class} />
                       </OverlayTrigger>
                     ) : (
-                      <div className='content'>
+                      <div className='content' style={{ width: '100%', height: '100%' }}>
                         <CardIcon className={icon.class} />
                       </div>
                     )}
@@ -123,16 +123,19 @@ export const SplashLaunchSection: FC = () => {
                 <SectionHeading>Launch a Collection</SectionHeading>
                 <SectionSubheading>Tokenise your Impact Assets</SectionSubheading>
                 <Paragraph>
-                  Impact Assets are dynamic NFTs that digitise real-world devices (such as a clean cookstove) or outcomes.
+                  Impact Assets are dynamic NFTs that digitise real-world devices (such as a clean cookstove) or
+                  outcomes.
                   <br />
                   <br />
-                  The usage of the device is digitally measured and reported. The data is verified using a causal-AI model,
-                  and based on the verified impacts, Impact Tokens are issued. They represent certain verified outcomes, for example
-                  1 CARBON = 1 kgCO<sub>2</sub> emissions avoided. The Tokens are backed up by Impact Certificates, which contain all the
-                  underlying data like usage time, evaluation methods, fuel usage, project details etc.
+                  The usage of the device is digitally measured and reported. The data is verified using a causal-AI
+                  model, and based on the verified impacts, Impact Tokens are issued. They represent certain verified
+                  outcomes, for example 1 CARBON = 1 kgCO<sub>2</sub> emissions avoided. The Tokens are backed up by
+                  Impact Certificates, which contain all the underlying data like usage time, evaluation methods, fuel
+                  usage, project details etc.
                   <br />
                   <br />
-                  Impact Assets and Tokens can be sold directly, or traded through interchain decentralised Impact Exchanges.
+                  Impact Assets and Tokens can be sold directly, or traded through interchain decentralised Impact
+                  Exchanges.
                   <br />
                   <br />
                   <em>

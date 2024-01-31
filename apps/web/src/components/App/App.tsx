@@ -9,7 +9,7 @@ import React from 'react'
 import * as ReactGA from 'react-ga'
 import { ToastContainer } from 'react-toastify'
 import Services from 'services'
-import Footer from '../Footer/FooterContainer'
+import Footer from '../Footer'
 import { HeaderConnected } from '../Header/HeaderContainer'
 import ScrollToTop from '../ScrollToTop/ScrollToTop'
 import { Container, ContentWrapper } from './App.styles'
@@ -38,7 +38,9 @@ const App: React.FC = () => {
           <Container>
             <HeaderConnected />
             <Flex mt={74} w='100%' h={'calc(100vh - 222px)'} style={{ flex: 1 }}>
-              <ContentWrapper> <Outlet /></ContentWrapper>
+              <ContentWrapper>
+                <Outlet />
+              </ContentWrapper>
             </Flex>
             <Footer />
           </Container>
