@@ -55,6 +55,7 @@ jobs:
 
     - name: Deploy to dev.ixo.earth
       uses: netlify/actions/cli@master
+      id: dev_ixo_earth_dev_deploy
       env:
         NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
         NETLIFY_SITE_ID: 98449c34-e6ca-47c1-9814-1a4007adb702  # Replace with your Netlify Site ID
@@ -63,6 +64,7 @@ jobs:
 
     - name: Deploy to test.ixo.earth
       uses: netlify/actions/cli@master
+      id: test_ixo_earth_dev_deploy
       env:
         NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
         NETLIFY_SITE_ID: 50ab39f7-d558-493b-8cc6-6f47fa4c8c56  # Replace with your Netlify Site ID
@@ -73,3 +75,44 @@ jobs:
         REACT_APP_CUSTOM_THEME_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/testzone/theme.json
       with:
         args: deploy --dir=apps/web/build --prod --filter @ixo-webclient/web   # Update --dir with the directory of your build output
+
+    - name: Deploy to idcc.ixo.earth deploy preview
+      uses: netlify/actions/cli@master
+      id: idcc_ixo_earth_dev_deploy
+      env:
+        NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        NETLIFY_SITE_ID: 8095507c-1245-49e1-9f54-167b18c2de4b  # Replace with your Netlify Site ID
+        REACT_APP_CONFIG_ASSETLIST_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/idcc/asset-list.json
+        REACT_APP_CONFIG_EXCHANGE_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/idcc/exchange.json
+        REACT_APP_CONFIG_RELAYER_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/idcc/app-config.json 
+        REACT_APP_CONFIG_SCHEMA_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/idcc/config.json
+        REACT_APP_CUSTOM_THEME_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/idcc/theme.json
+      with:
+        args: deploy --dir=apps/web/build --prod --filter @ixo-webclient/web  
+
+    - name: Deploy to yoma.ixo.earth deploy preview
+      uses: netlify/actions/cli@master
+      id: yoma_ixo_earth_dev_deploy
+      env:
+        NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        NETLIFY_SITE_ID: 8095507c-1245-49e1-9f54-167b18c2de4b  # Replace with your Netlify Site ID
+        REACT_APP_CONFIG_ASSETLIST_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/idcc/asset-list.json
+        REACT_APP_CONFIG_EXCHANGE_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/idcc/exchange.json
+        REACT_APP_CONFIG_RELAYER_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/idcc/app-config.json 
+        REACT_APP_CONFIG_SCHEMA_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/idcc/config.json
+        REACT_APP_CUSTOM_THEME_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/idcc/theme.json
+      with:
+        args: deploy --dir=apps/web/build --prod --filter @ixo-webclient/web  
+
+    - name: Send URLs to Slack
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      run: |
+        URL1=${{ steps.dev_ixo_earth_dev_deploy.outputs.NETLIFY_LIVE_URL }}
+        URL2=${{ steps.test_ixo_earth_dev_deploy.outputs.NETLIFY_LIVE_URL }}
+        URL3=${{ steps.idcc_ixo_earth_dev_deploy.outputs.NETLIFY_LIVE_URL }}
+        URL4=${{ steps.yoma_ixo_earth_dev_deploy.outputs.NETLIFY_LIVE_URL }}
+
+        MESSAGE="Deployment to development environment for dev.ixo.earth: $URL1\nDeployment to development environment for test.ixo.earth: $URL2\nDeployment development environment for idcc.ixo.earth: $URL3\nDeployment to development environment for yoma.ixo.earth: $URL4\n"
+
+        curl -X POST -H 'Content-type: application/json' --data "{\"text\":\"$MESSAGE\"}" $SLACK_WEBHOOK_URL

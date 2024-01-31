@@ -2,21 +2,18 @@ import React, { useEffect, useState } from 'react'
 import 'react-image-crop/dist/ReactCrop.css'
 import * as Modal from 'react-modal'
 import { useDropzone } from 'react-dropzone'
-import blocksyncApi from 'api/blocksync/blocksync'
 import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
 import { ReactComponent as ImageIcon } from 'assets/images/icon-image-fill.svg'
 import { UploadBox, SelectImage, DisplayImage } from './ImageUploadModal.styles'
 import { ModalStyles, CloseButton, ModalBody, ModalRow, ModalWrapper, ModalInput } from 'components/Modals/styles'
 import { Box } from 'components/App/App.styles'
-import { PDS_URL } from 'types/entities'
 import PulseLoader from 'components/Spinner/PulseLoader/PulseLoader'
 import { default as ImageCropModal } from '../ImageCropModal/ImageCropModal'
 import { Button } from 'pages/CreateEntity/Components'
 import { Typography } from 'components/Typography'
 import * as Toast from 'utils/toast'
 import { useTheme } from 'styled-components'
-
-const cellNodeEndpoint = PDS_URL
+import { useCreateEntity } from 'hooks/createEntity'
 
 interface Props {
   open: boolean
@@ -37,10 +34,12 @@ const ImageUploadModal: React.FC<Props> = ({
 }): JSX.Element => {
   const theme: any = useTheme()
   const [imgSrc, setImgSrc] = useState(undefined)
+  const [imgContentType, setImgContentType] = useState('')
   const [tempValue, setTempValue] = useState(value)
   const [canSubmit, setCanSubmit] = useState(false)
   const [loading, setLoading] = useState(false)
   const [cropModalOpen, setCropModalOpen] = useState(false)
+  const { uploadPublicDoc } = useCreateEntity()
 
   const handleSave = (base64EncodedImage: any): void => {
     if (!base64EncodedImage) {
@@ -49,15 +48,11 @@ const ImageUploadModal: React.FC<Props> = ({
     setLoading(true)
     setTempValue('')
     setCanSubmit(false)
-    blocksyncApi.project
-      .createPublic(base64EncodedImage, cellNodeEndpoint!)
+
+    uploadPublicDoc(base64EncodedImage, imgContentType)
       .then((response: any) => {
-        console.log('ImageUploadModal', response)
-        if (response?.result?.key) {
-          const url = new URL(`/public/${response.result.key}`, cellNodeEndpoint)
-          setTempValue(url.href)
-        } else {
-          throw new Error('Error uploading')
+        if (response?.key) {
+          setTempValue(response.url)
         }
       })
       .catch(() => {
@@ -78,6 +73,7 @@ const ImageUploadModal: React.FC<Props> = ({
     maxFiles: 1,
     onDrop: (acceptedFiles) => {
       const [file] = acceptedFiles
+      setImgContentType(file.type)
 
       const reader = new FileReader()
       reader.onload = (e: any): void => {

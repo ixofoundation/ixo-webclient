@@ -56,6 +56,7 @@ jobs:
 
     - name: Deploy to dev.ixo.earth deploy preview
       uses: netlify/actions/cli@master
+      id: dev_ixo_earth_deploy_preview
       env:
         NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
         NETLIFY_SITE_ID: 98449c34-e6ca-47c1-9814-1a4007adb702  # Replace with your Netlify Site ID
@@ -64,6 +65,7 @@ jobs:
 
     - name: Deploy to yoma.ixo.earth deploy preview
       uses: netlify/actions/cli@master
+      id: yoma_ixo_earth_deploy_preview
       env:
         NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
         NETLIFY_SITE_ID: ffd81e41-b107-4846-a472-4a69bf1991d3  # Replace with your Netlify Site ID
@@ -77,6 +79,7 @@ jobs:
 
     - name: Deploy to idcc.ixo.earth deploy preview
       uses: netlify/actions/cli@master
+      id: idcc_ixo_earth_deploy_preview
       env:
         NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
         NETLIFY_SITE_ID: 8095507c-1245-49e1-9f54-167b18c2de4b  # Replace with your Netlify Site ID
@@ -90,6 +93,7 @@ jobs:
 
     - name: Deploy to test.ixo.earth deploy preview
       uses: netlify/actions/cli@master
+      id: test_ixo_earth_deploy_preview
       env:
         NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
         NETLIFY_SITE_ID: 50ab39f7-d558-493b-8cc6-6f47fa4c8c56  # Replace with your Netlify Site ID
@@ -99,4 +103,17 @@ jobs:
         REACT_APP_CONFIG_SCHEMA_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/testzone/config.json
         REACT_APP_CUSTOM_THEME_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/testzone/theme.json
       with:
-        args: deploy --dir=apps/web/build --filter @ixo-webclient/web   # Update --dir with the directory of your build output
+        args: deploy --dir=apps/web/build --filter @ixo-webclient/web   # Update --dir with the directory of your build output.
+
+    - name: Send URLs to Slack
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      run: |
+        URL1=${{ steps.dev_ixo_earth_deploy_preview.outputs.NETLIFY_URL }}
+        URL2=${{ steps.yoma_ixo_earth_deploy_preview.outputs.NETLIFY_URL }}
+        URL3=${{ steps.idcc_ixo_earth_deploy_preview.outputs.NETLIFY_URL }}
+        URL4=${{ steps.test_ixo_earth_deploy_preview.outputs.NETLIFY_URL }}
+
+        MESSAGE="Deploy preview for dev.ixo.earth: $URL1\nDeploy preview for yoma.ixo.earth: $URL2\nDeploy preview for idcc.ixo.earth: $URL3\nDeploy preview for test.ixo.earth: $URL4\n"
+
+        curl -X POST -H 'Content-type: application/json' --data "{\"text\":\"$MESSAGE\"}" $SLACK_WEBHOOK_URL
