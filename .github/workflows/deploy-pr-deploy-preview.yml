@@ -105,12 +105,6 @@ jobs:
       with:
         args: deploy --dir=apps/web/build --filter @ixo-webclient/web   # Update --dir with the directory of your build output.
 
-    - name: Send message to Slack
-      env:
-        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-      run: |
-        curl -X POST -H 'Content-type: application/json' --data '{"text":"Here is the URL: <YOUR_URL_HERE>"}' $SLACK_WEBHOOK_URL
-      
     - name: Send URLs to Slack
       env:
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
