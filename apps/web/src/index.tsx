@@ -10,7 +10,7 @@ import { Suspense, useEffect } from 'react'
 import { createRoot } from 'react-dom/client'
 import { MantineProvider } from '@mantine/core'
 import '@mantine/core/styles.css'
-import {  useIxoConfigs } from 'hooks/configs'
+import { useIxoConfigs } from 'hooks/configs'
 import Router from 'router'
 // import { useAppDispatch, useAppSelector } from 'redux/hooks'
 // import { selectCustomTheme } from 'redux/theme/theme.selectors'
@@ -19,6 +19,7 @@ import { theme } from 'components/App/App.styles'
 // import { changeEntitiesType, getEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.actions'
 import { ThemeProvider } from 'styled-components'
 import { Spinner } from 'components/Spinner/Spinner'
+import mantineTheme from 'styles/mantine'
 // import { getCustomTheme } from 'redux/theme/theme.actions'
 
 process.env.NODE_ENV === 'production' &&
@@ -99,21 +100,21 @@ const App = () => {
   // }
 
   return (
-    <Suspense fallback={<Spinner info='Connecting to the internet of impacts' />}>
-      <ThemeProvider theme={theme}>
-        <MantineProvider>
+    <ThemeProvider theme={theme}>
+      <MantineProvider theme={mantineTheme}>
+        <Suspense fallback={<Spinner info='Connecting to the internet of impacts' />}>
           {/* <WalletProvider
             chainNetwork={chainNetwork}
             customComponent={<RedirectToMyAccount />}
             rpcEndpoint={RPC_ENDPOINT ?? ''}
           >
             <WalletModal /> */}
-            <GlobalStyle />
-            <ApolloProvider client={client}>{entityConfig && <Router />}</ApolloProvider>
+          <GlobalStyle />
+          <ApolloProvider client={client}>{entityConfig && <Router />}</ApolloProvider>
           {/* </WalletProvider> */}
-        </MantineProvider>
-      </ThemeProvider>
-    </Suspense>
+        </Suspense>
+      </MantineProvider>
+    </ThemeProvider>
   )
 }
 
@@ -124,7 +125,7 @@ const root = createRoot(document.getElementById('root'))
 root.render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
-      <App />{' '}
+      <App />
     </PersistGate>
   </Provider>,
 )

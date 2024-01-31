@@ -61,7 +61,7 @@ export const DashboardThemes = {
   DARK: 'dark',
 } as const
 
-export type DashboardTheme = typeof DashboardThemes[keyof typeof DashboardThemes]
+export type DashboardTheme = (typeof DashboardThemes)[keyof typeof DashboardThemes]
 
 export interface ThemeContext {
   theme: string
@@ -131,7 +131,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
           />
         )}
         <Sidebar routes={subRoutes} />
-        <Flex w={'100%'} h='100%' ml={75}>
+        <Flex w={'100%'} h='100%'>
           <StyledScrollArea w='100%' h='100%' viewportRef={viewport} onScrollPositionChange={onScrollPositionChange}>
             <Flex w='100%' h='100%' style={{ flex: 1 }}>
               <Board themeMode={_theme}>
