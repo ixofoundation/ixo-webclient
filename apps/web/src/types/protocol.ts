@@ -85,9 +85,7 @@ import { ReactComponent as VoteYeaIcon } from 'assets/images/icon-vote-yea-solid
 import { ReactComponent as VolumeUpIcon } from 'assets/images/icon-volume-up-solid.svg'
 import { ReactComponent as LinkedAccountIcon } from 'assets/images/icon-linked-account.svg'
 import { ReactComponent as UserPlusIcon } from 'assets/images/icon-user-plus-solid.svg'
-
 import { Service } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
-import { OutputBlockData } from '@editorjs/editorjs'
 import SetupUpdateVotingConfigModal from 'components/Modals/AddActionModal/SetupUpdateVotingConfigModal'
 import {
   SetupAuthzExecModal,
@@ -1135,8 +1133,6 @@ export interface TEntityDDOTagModel {
   readonly?: boolean
 }
 
-export type TEntityPageSectionModel = OutputBlockData
-export type TEntityPageModel = { [id: string]: TEntityPageSectionModel }
 export type TEntityAdministratorModel = TEntityCreatorModel
 
 /**
