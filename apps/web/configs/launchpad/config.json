@@ -71,7 +71,7 @@
       "@context": "https://schema.ixo.foundation/project",
       "@type": "Header",
       "color": "transparent",
-      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/relayerlaunchpad.png",
+      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/src/assets/images/header-overrides/relayerlaunchpad.png",
       "title": "Launchpad",
       "subTitle": "Projects Explorer",
       "indicators": [
@@ -104,7 +104,7 @@
           "ddoSector": "Sector",
           "ddoTag": "Relayer Launchpad",
           "color": "#FFF",
-          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/relayerlaunchpad.png",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/src/assets/images/header-overrides/relayerlaunchpad.png",
           "title": "Launchpad",
           "subTitle": "Internet of Impact",
           "indicators": [
@@ -132,7 +132,7 @@
           "ddoSector": "Sector",
           "ddoTag": "UBS Zone",
           "color": "#fff",
-          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/ubs_zone.png",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/src/assets/images/header-overrides/ubs_zone.png",
           "title": "Alphabonds",
           "subTitle": "Projects Explorer",
           "indicators": [
@@ -160,7 +160,7 @@
           "ddoSector": "Sector",
           "ddoTag": "IDCC",
           "color": "#FF00A8",
-          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/idcc_hero.png",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/src/assets/images/header-overrides/idcc_hero.png",
           "title": "IDCC",
           "subTitle": "Hong Kong",
           "indicators": [
@@ -188,7 +188,7 @@
           "ddoSector": "Sector",
           "ddoTag": "EdHeroes",
           "color": "#FF00FF",
-          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/edheroes.png",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/src/assets/images/header-overrides/edheroes.png",
           "title": "Global Future Talent",
           "subTitle": "Innovation Hub",
           "indicators": [
@@ -924,7 +924,7 @@
       "@context": "https://schema.ixo.foundation/oracle",
       "@type": "Header",
       "color": "transparent",
-      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/relayerlaunchpad.png",
+      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/src/assets/images/header-overrides/relayerlaunchpad.png",
       "title": "Launchpad",
       "subTitle": "Oracles Explorer",
       "indicators": [
@@ -957,7 +957,7 @@
           "ddoSector": "Sector",
           "ddoTag": "Relayer Launchpad",
           "color": "#FFF",
-          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/relayerlaunchpad.png",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/src/assets/images/header-overrides/relayerlaunchpad.png",
           "title": "Launchpad",
           "subTitle": "Internet of Impact",
           "indicators": [
@@ -985,7 +985,7 @@
           "ddoSector": "Sector",
           "ddoTag": "UBS Zone",
           "color": "#fff",
-          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/ubs_zone.png",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/src/assets/images/header-overrides/ubs_zone.png",
           "title": "Alphabonds",
           "subTitle": "Oracles Explorer",
           "indicators": [
@@ -1013,7 +1013,7 @@
           "ddoSector": "Sector",
           "ddoTag": "IDCC",
           "color": "#FF00A8",
-          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/idcc_hero.png",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/src/assets/images/header-overrides/idcc_hero.png",
           "title": "IDCC",
           "subTitle": "Hong Kong",
           "indicators": [
@@ -1041,7 +1041,7 @@
           "ddoSector": "Sector",
           "ddoTag": "EdHeroes",
           "color": "#FF00FF",
-          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/edheroes.png",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/src/assets/images/header-overrides/edheroes.png",
           "title": "Global Future Talent",
           "subTitle": "Innovation Hub",
           "indicators": [
@@ -1404,7 +1404,7 @@
       "@context": "https://schema.ixo.foundation/investment",
       "@type": "Header",
       "color": "transparent",
-      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/relayerlaunchpad.png",
+      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/src/assets/images/header-overrides/relayerlaunchpad.png",
       "title": "Launchpad",
       "subTitle": "Investments Explorer",
       "indicators": [
@@ -1437,7 +1437,7 @@
           "ddoSector": "Sector",
           "ddoTag": "Relayer Launchpad",
           "color": "#FFF",
-          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/relayerlaunchpad.png",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/src/assets/images/header-overrides/relayerlaunchpad.png",
           "title": "Launchpad",
           "subTitle": "Internet of Impact",
           "indicators": [
@@ -1465,7 +1465,7 @@
           "ddoSector": "Sector",
           "ddoTag": "UBS Zone",
           "color": "#fff",
-          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/ubs_zone.png",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/src/assets/images/header-overrides/ubs_zone.png",
           "title": "Alphabonds",
           "subTitle": "Investment Explorer",
           "indicators": [
@@ -1493,7 +1493,7 @@
           "ddoSector": "Sector",
           "ddoTag": "IDCC",
           "color": "#FF00A8",
-          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/idcc_hero.png",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/src/assets/images/header-overrides/idcc_hero.png",
           "title": "IDCC",
           "subTitle": "Hong Kong",
           "indicators": [
@@ -1521,7 +1521,7 @@
           "ddoSector": "Sector",
           "ddoTag": "EdHeroes",
           "color": "#FF00FF",
-          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/edheroes.png",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/src/assets/images/header-overrides/edheroes.png",
           "title": "Global Future Talent",
           "subTitle": "Innovation Hub",
           "indicators": [
@@ -2025,7 +2025,7 @@
       "@context": "https://schema.ixo.foundation/cell",
       "@type": "Header",
       "color": "transparent",
-      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/relayerlaunchpad.png",
+      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/src/assets/images/header-overrides/relayerlaunchpad.png",
       "title": "Launchpad",
       "subTitle": "DAOs Explorer",
       "indicators": [
@@ -2058,7 +2058,7 @@
           "ddoSector": "Sector",
           "ddoTag": "Relayer Launchpad",
           "color": "#FFF",
-          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/relayerlaunchpad.png",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/src/assets/images/header-overrides/relayerlaunchpad.png",
           "title": "Launchpad",
           "subTitle": "Internet of Impact",
           "indicators": [
@@ -2086,7 +2086,7 @@
           "ddoSector": "Sector",
           "ddoTag": "UBS Zone",
           "color": "#fff",
-          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/ubs_zone.png",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/src/assets/images/header-overrides/ubs_zone.png",
           "title": "Alphabonds",
           "subTitle": "Cell Explorer",
           "indicators": [
@@ -2114,7 +2114,7 @@
           "ddoSector": "Sector",
           "ddoTag": "IDCC",
           "color": "#FF00A8",
-          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/idcc_hero.png",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/src/assets/images/header-overrides/idcc_hero.png",
           "title": "IDCC",
           "subTitle": "Hong Kong",
           "indicators": [
@@ -2142,7 +2142,7 @@
           "ddoSector": "Sector",
           "ddoTag": "EdHeroes",
           "color": "#FF00FF",
-          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/edheroes.png",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/src/assets/images/header-overrides/edheroes.png",
           "title": "Global Future Talent",
           "subTitle": "Innovation Hub",
           "indicators": [
@@ -2743,7 +2743,7 @@
       "@context": "https://schema.ixo.foundation/protocol",
       "@type": "Header",
       "color": "transparent",
-      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/relayerlaunchpad.png",
+      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/src/assets/images/header-overrides/relayerlaunchpad.png",
       "title": "Launchpad",
       "subTitle": "Protocol Explorer",
       "indicators": [
@@ -2776,7 +2776,7 @@
           "ddoSector": "Sector",
           "ddoTag": "Relayer Launchpad",
           "color": "#FFF",
-          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/relayerlaunchpad.png",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/src/assets/images/header-overrides/relayerlaunchpad.png",
           "title": "Launchpad",
           "subTitle": "Internet of Impact",
           "indicators": [
@@ -2804,7 +2804,7 @@
           "ddoSector": "Sector",
           "ddoTag": "UBS Zone",
           "color": "#fff",
-          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/ubs_zone.png",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/src/assets/images/header-overrides/ubs_zone.png",
           "title": "Alphabonds",
           "subTitle": "Protocols Explorer",
           "indicators": [
@@ -2832,7 +2832,7 @@
           "ddoSector": "Sector",
           "ddoTag": "IDCC",
           "color": "#FF00A8",
-          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/idcc_hero.png",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/src/assets/images/header-overrides/idcc_hero.png",
           "title": "IDCC",
           "subTitle": "Hong Kong",
           "indicators": [
@@ -2860,7 +2860,7 @@
           "ddoSector": "Sector",
           "ddoTag": "EdHeroes",
           "color": "#FF00FF",
-          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/edheroes.png",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/src/assets/images/header-overrides/edheroes.png",
           "title": "Global Future Talent",
           "subTitle": "Innovation Hub",
           "indicators": [
@@ -3359,7 +3359,7 @@
       "@context": "https://schema.ixo.foundation/data-asset",
       "@type": "Header",
       "color": "transparent",
-      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/relayerlaunchpad.png",
+      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/src/assets/images/header-overrides/relayerlaunchpad.png",
       "title": "Launchpad",
       "subTitle": "Assets Explorer",
       "indicators": [
@@ -3392,7 +3392,7 @@
           "ddoSector": "Sector",
           "ddoTag": "Relayer Launchpad",
           "color": "#FFF",
-          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/relayerlaunchpad.png",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/src/assets/images/header-overrides/relayerlaunchpad.png",
           "title": "Launchpad",
           "subTitle": "Internet of Impact",
           "indicators": [
@@ -3420,7 +3420,7 @@
           "ddoSector": "Sector",
           "ddoTag": "UBS Zone",
           "color": "#fff",
-          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/ubs_zone.png",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/src/assets/images/header-overrides/ubs_zone.png",
           "title": "Alphabonds",
           "subTitle": "Asset Explorer",
           "indicators": [
@@ -3448,7 +3448,7 @@
           "ddoSector": "Sector",
           "ddoTag": "IDCC",
           "color": "#FF00A8",
-          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/idcc_hero.png",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/src/assets/images/header-overrides/idcc_hero.png",
           "title": "IDCC",
           "subTitle": "Hong Kong",
           "indicators": [
@@ -3476,7 +3476,7 @@
           "ddoSector": "Sector",
           "ddoTag": "EdHeroes",
           "color": "#FF00FF",
-          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/edheroes.png",
+          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/src/assets/images/header-overrides/edheroes.png",
           "title": "Global Future Talent",
           "subTitle": "Innovation Hub",
           "indicators": [

@@ -61,7 +61,7 @@ export const DashboardThemes = {
   DARK: 'dark',
 } as const
 
-export type DashboardTheme = typeof DashboardThemes[keyof typeof DashboardThemes]
+export type DashboardTheme = (typeof DashboardThemes)[keyof typeof DashboardThemes]
 
 export interface ThemeContext {
   theme: string

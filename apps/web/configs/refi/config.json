@@ -60,7 +60,7 @@
       "@context": "https://schema.ixo.foundation/project",
       "@type": "Header",
       "color": "transparent",
-      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/refi_hero.jpg",
+      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/src/assets/images/header-overrides/refi_hero.jpg",
       "title": "ReFi DAO",
       "subTitle": "Projects Explorer",
       "indicators": [
@@ -1185,7 +1185,7 @@
       "@context": "https://schema.ixo.foundation/oracle",
       "@type": "Header",
       "color": "transparent",
-      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/refi_hero.jpg",
+      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/src/assets/images/header-overrides/refi_hero.jpg",
       "title": "ReFi DAO",
       "subTitle": "Oracles Explorer",
       "indicators": [
@@ -1850,7 +1850,7 @@
       "@context": "https://schema.ixo.foundation/investment",
       "@type": "Header",
       "color": "transparent",
-      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/refi_hero.jpg",
+      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/src/assets/images/header-overrides/refi_hero.jpg",
       "title": "ReFi DAO",
       "subTitle": "A network state to regenerate the Earth",
       "indicators": [
@@ -2651,7 +2651,7 @@
       "@context": "https://schema.ixo.foundation/cell",
       "@type": "Header",
       "color": "transparent",
-      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/refi_hero.jpg",
+      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/src/assets/images/header-overrides/refi_hero.jpg",
       "title": "ReFi DAO",
       "subTitle": "A network state to regenerate the Earth",
       "indicators": [
@@ -3251,7 +3251,7 @@
       "@context": "https://schema.ixo.foundation/protocol",
       "@type": "Header",
       "color": "transparent",
-      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/refi_hero.jpg",
+      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/src/assets/images/header-overrides/refi_hero.jpg",
       "title": "ReFi DAO",
       "subTitle": "A network state to regenerate the Earth",
       "indicators": [
@@ -4208,7 +4208,7 @@
       "@context": "https://schema.ixo.foundation/data-asset",
       "@type": "Header",
       "color": "transparent",
-      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/src/assets/images/header-overrides/refi_hero.jpg",
+      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/src/assets/images/header-overrides/refi_hero.jpg",
       "title": "ReFi DAO",
       "subTitle": "A network state to regenerate the Earth",
       "indicators": [

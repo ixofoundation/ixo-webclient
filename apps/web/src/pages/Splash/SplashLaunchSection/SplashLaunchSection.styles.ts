@@ -202,7 +202,7 @@ export const Card = styled.a<IconProps>`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 5px;
+  padding: 0px;
   transition: all 0.5s ease;
 
   :hover {
@@ -223,6 +223,11 @@ export const Card = styled.a<IconProps>`
 
 export const CardIcon = styled.i`
   font-size: 55px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   :before {
     color: white;
