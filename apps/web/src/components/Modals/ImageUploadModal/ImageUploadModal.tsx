@@ -49,10 +49,14 @@ const ImageUploadModal: React.FC<Props> = ({
     setTempValue('')
     setCanSubmit(false)
 
-    uploadPublicDoc(base64EncodedImage, imgContentType)
+    uploadPublicDoc(base64EncodedImage.split(',')[1], imgContentType)
       .then((response: any) => {
         if (response?.key) {
-          setTempValue(response.url)
+          if(response?.url){
+            setTempValue(response.url)
+          } else {
+            setTempValue(process.env.REACT_APP_PDS_URL + "/" + response.key)
+          }
         }
       })
       .catch(() => {
@@ -72,15 +76,20 @@ const ImageUploadModal: React.FC<Props> = ({
     },
     maxFiles: 1,
     onDrop: (acceptedFiles) => {
-      const [file] = acceptedFiles
-      setImgContentType(file.type)
-
-      const reader = new FileReader()
+      const [file] = acceptedFiles;
+    
+      const reader = new FileReader();
       reader.onload = (e: any): void => {
-        setImgSrc(e.target.result)
-        setCropModalOpen(true)
-      }
-      reader.readAsDataURL(file)
+        const base64String = e.target.result;
+        setImgSrc(base64String);
+    
+        // Extract MIME type from the Base64 string
+        const mimeType = base64String.match(/data:([a-zA-Z0-9]+\/[a-zA-Z0-9-.+]+).*,.*/)[1];
+        setImgContentType(mimeType);
+    
+        setCropModalOpen(true);
+      };
+      reader.readAsDataURL(file);
     },
   })
 
