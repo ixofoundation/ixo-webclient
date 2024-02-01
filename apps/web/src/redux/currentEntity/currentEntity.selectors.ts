@@ -50,6 +50,10 @@ export const selectEntityPage = createSelector(selectCurrentEntity, (entity: TEn
   return entity.page
 })
 
+export const selectEntityPageLegacy = createSelector(selectCurrentEntity, (entity: TEntityModel) => {
+  return entity.pageLegacy
+})
+
 export const selectEntityTags = createSelector(selectCurrentEntity, (entity: TEntityModel) => {
   return entity.tags
 })

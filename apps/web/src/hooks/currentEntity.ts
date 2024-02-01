@@ -36,6 +36,7 @@ import {
   selectEntityController,
   selectEntityStatus,
   selectEntitySettings,
+  selectEntityPageLegacy,
 } from 'redux/currentEntity/currentEntity.selectors'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import {
@@ -45,6 +46,7 @@ import {
   TEntityCreatorModel,
   TEntityDDOTagModel,
   TEntityModel,
+  TEntityPageSectionLegacyModel,
   TEntityPageSectionModel,
   TEntityProfileModel,
 } from 'types/entities'
@@ -80,6 +82,7 @@ export default function useCurrentEntity(): {
   creator: TEntityCreatorModel
   administrator: TEntityAdministratorModel
   page: TEntityPageSectionModel[]
+  pageLegacy: TEntityPageSectionLegacyModel
   tags: TEntityDDOTagModel[]
   metadata: IidMetadata | undefined
   accounts: EntityAccount[]
@@ -113,6 +116,7 @@ export default function useCurrentEntity(): {
   const creator: TEntityCreatorModel = useAppSelector(selectEntityCreator)!
   const administrator: TEntityAdministratorModel = useAppSelector(selectEntityAdministrator)!
   const page: TEntityPageSectionModel[] = useAppSelector(selectEntityPage)!
+  const pageLegacy: TEntityPageSectionLegacyModel = useAppSelector(selectEntityPageLegacy)!
   const tags: TEntityDDOTagModel[] = useAppSelector(selectEntityTags)!
   const metadata: IidMetadata | undefined = useAppSelector(selectEntityMetadata)
   const accounts: EntityAccount[] = useAppSelector(selectEntityAccounts)
@@ -197,6 +201,7 @@ export default function useCurrentEntity(): {
     creator,
     administrator,
     page,
+    pageLegacy,
     tags,
     metadata,
     accounts,
