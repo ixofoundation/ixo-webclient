@@ -30,13 +30,6 @@ const mantineTheme: MantineThemeOverride = {
         radius: 'sm',
       },
     },
-    Anchor: {
-      styles: (theme: any, params: any) => ({
-        root: {
-          '&:hover': { color: mantineThemeColors['ixo-blue'][6] },
-        },
-      }),
-    },
   },
 }
 
