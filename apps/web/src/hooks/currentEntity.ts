@@ -484,9 +484,12 @@ export function useCurrentEntityTreasury() {
     if (!address) {
       return []
     }
-    const { rpc } = await determineChainFromAddress(address)
+    const chainInfo = await determineChainFromAddress(address)
+    if (!chainInfo) {
+      return []
+    }
 
-    const balances = await GetBalances(address, rpc)
+    const balances = await GetBalances(address, chainInfo.rpc)
 
     const coins: TTreasuryCoinModel[] = (await Promise.all(
       await balances
