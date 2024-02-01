@@ -12,7 +12,6 @@ import {
 import { Dispatch } from 'redux'
 import { RootState } from 'redux/store'
 import { FormData } from 'components/JsonForm/types'
-import { selectCellNodeEndpoint } from 'redux/selectedEntity/selectedEntity.selectors'
 import { customQueries } from '@ixo/impactxclient-sdk'
 import { chainNetwork } from 'hooks/configs'
 
