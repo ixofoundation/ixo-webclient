@@ -40,7 +40,7 @@ export const RadialBackgroundContainer = styled.div`
     opacity: 1;
   }
 
-  :before {
+  &:before {
     content: '';
     width: 100vw;
     height: 100%;
@@ -105,7 +105,7 @@ export const Tab = styled.div`
     position: relative;
   }
 
-  :hover {
+  &:hover {
     border: 2px solid #a931fa;
   }
 

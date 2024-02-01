@@ -422,6 +422,14 @@ export interface TEntityCreatorModel {
 }
 export type TEntityAdministratorModel = TEntityCreatorModel
 export type TEntityPageSectionModel = OutputBlockData
+export interface TEntityPageSectionLegacyModel {
+  header: any
+  body: any[]
+  images: any[]
+  profiles: any[]
+  social: any
+  embedded: any
+}
 export type TEntityPageModel = { [id: string]: TEntityPageSectionModel }
 export interface TEntityDDOTagModel {
   category: string
@@ -606,6 +614,7 @@ export interface TEntityModel extends Omit<Entity, 'metadata'>, IidDocument {
   creator?: TEntityCreatorModel
   administrator?: TEntityAdministratorModel
   page?: TEntityPageSectionModel[]
+  pageLegacy?: TEntityPageSectionLegacyModel
   tags?: TEntityDDOTagModel[]
   token?: TTokenMetadataModel
   zlottie?: TZlottie
