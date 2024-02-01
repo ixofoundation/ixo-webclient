@@ -12,6 +12,7 @@ import { PageContent } from './PageContent'
 import OfferForm from './OfferForm'
 import { AgentRoles } from 'types/models'
 import { Flex, ScrollArea } from '@mantine/core'
+import PageContentLegacy from './PageContentLegacy'
 
 const Overview: React.FC = () => {
   const { getQuery } = useQuery()
@@ -19,7 +20,7 @@ const Overview: React.FC = () => {
   const claimCollectionId = getQuery('collectionId')
   const agentRole: AgentRoles = getQuery('agentRole') as AgentRoles
 
-  const { startDate, page } = useCurrentEntity()
+  const { startDate, page, pageLegacy } = useCurrentEntity()
   const { name, description, location } = useCurrentEntityProfile()
   const { displayName: creatorName, logo: creatorLogo } = useCurrentEntityCreator()
   const linkedFiles = useCurrentEntityLinkedFiles()
@@ -41,7 +42,8 @@ const Overview: React.FC = () => {
           />
           {!claimId && !claimCollectionId && (
             <>
-              <PageContent page={page} />
+              {page && <PageContent page={page} />}
+              {pageLegacy && <PageContentLegacy page={pageLegacy} />}
               <LinkedFiles linkedFiles={linkedFiles} />
             </>
           )}

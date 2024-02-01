@@ -142,6 +142,10 @@ export function serviceEndpointToUrl(serviceEndpoint: string, service: Service[]
   return url
 }
 
+function replacePDSWithCellNode(page: any) {
+  return JSON.parse(JSON.stringify(page).replaceAll('pds_pandora.ixo.world', 'cellnode-pandora.ixo.earth'))
+}
+
 export function apiEntityToEntity(
   { entity, cwClient }: { entity: any; cwClient?: CosmWasmClient },
   updateCallback: (key: string, value: any, merge?: boolean) => void,
@@ -216,9 +220,13 @@ export function apiEntityToEntity(
             case '{id}#page': {
               fetch(url)
                 .then((response) => response.json())
-                .then((response) => response.page)
-                .then((page) => {
-                  updateCallback('page', page)
+                .then((response) => {
+                  if ('@context' in response && 'page' in response) {
+                    updateCallback('page', response.page)
+                  } else {
+                    // Legacy page contents
+                    updateCallback('pageLegacy', replacePDSWithCellNode(response))
+                  }
                 })
                 .catch(() => undefined)
               break

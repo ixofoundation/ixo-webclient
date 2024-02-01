@@ -3,7 +3,7 @@ import { EDITOR_JS_TOOLS } from 'pages/CreateEntity/Forms/PropertiesForm/SetupPa
 import { createReactEditorJS } from 'react-editor-js'
 import styled from 'styled-components'
 import { Box } from 'components/App/App.styles'
-import { OutputBlockData } from '@editorjs/editorjs'
+import { TEntityPageSectionModel } from 'types/entities'
 
 const ReactEditorJS = createReactEditorJS()
 
@@ -32,11 +32,11 @@ const Wrapper = styled(Box)`
 `
 
 interface Props {
-  page: OutputBlockData[]
+  page: TEntityPageSectionModel[]
 }
 
 const PageContent: React.FC<Props> = ({ page }): JSX.Element => {
-  const nonEmptyPage = page?.filter((content) => !!content.data)
+  const nonEmptyPage = (page ?? []).filter((content) => !!content.data)
 
   return (
     <Wrapper>

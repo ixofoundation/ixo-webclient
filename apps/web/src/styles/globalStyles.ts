@@ -70,4 +70,9 @@ export const GlobalStyle = createGlobalStyle`
       }
     }
   }
+
+  a:hover {
+    color: currentColor;
+    text-decoration: none;
+  }
 `
