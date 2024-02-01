@@ -205,7 +205,7 @@ export const Card = styled.a<IconProps>`
   padding: 0px;
   transition: all 0.5s ease;
 
-  :hover {
+  &:hover {
     text-decoration: none;
     background: ${/* eslint-disable-line */ (props) => props.iconColor};
   }
@@ -229,7 +229,7 @@ export const CardIcon = styled.i`
   justify-content: center;
   align-items: center;
 
-  :before {
+  &:before {
     color: white;
   }
 
