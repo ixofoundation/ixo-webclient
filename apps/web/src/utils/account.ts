@@ -17,14 +17,19 @@ export const getPrefixFromAddress = (address: string): string => {
   return prefix
 }
 
-export const determineChainFromAddress = async (address: string): Promise<KeplrChainInfo> => {
-  const prefix: string = getPrefixFromAddress(address)
-  const chainName: string = getChainNameFromAddressPrefix(prefix)
-  const chainInfo: KeplrChainInfo = await getKeplrChainInfo(
-    chainName,
-    chainName === 'impacthub' ? chainNetwork : undefined,
-  )
-  return chainInfo
+export const determineChainFromAddress = async (address: string): Promise<KeplrChainInfo | undefined> => {
+  try {
+    const prefix: string = getPrefixFromAddress(address)
+    const chainName: string = getChainNameFromAddressPrefix(prefix)
+    const chainInfo: KeplrChainInfo = await getKeplrChainInfo(
+      chainName,
+      chainName === 'impacthub' ? chainNetwork : undefined,
+    )
+    return chainInfo
+  } catch (e) {
+    // console.error('determineChainFromAddress', e)
+    return undefined
+  }
 }
 
 export const getConnectedWalletInfo = async (
