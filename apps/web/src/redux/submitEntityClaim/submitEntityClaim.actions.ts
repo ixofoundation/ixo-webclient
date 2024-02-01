@@ -11,9 +11,10 @@ import {
 } from './submitEntityClaim.types'
 import { Dispatch } from 'redux'
 import { RootState } from 'redux/store'
-import blocksyncApi from 'api/blocksync/blocksync'
 import { FormData } from 'components/JsonForm/types'
 import { selectCellNodeEndpoint } from 'redux/selectedEntity/selectedEntity.selectors'
+import { customQueries } from '@ixo/impactxclient-sdk'
+import { chainNetwork } from 'hooks/configs'
 
 export const clearClaimTemplate = (): ClearClaimTemplateAction => ({
   type: SubmitEntityClaimActions.ClearClaimTemplate,
@@ -30,7 +31,6 @@ export const saveAnswer =
     const {
       submitEntityClaim: { questions, currentQuestionNo },
     } = state
-    const cellNodeEndpoint = selectCellNodeEndpoint(state)
 
     const questionForm = questions[currentQuestionNo - 1]
 
@@ -40,8 +40,13 @@ export const saveAnswer =
     if (control.includes('upload') && Object.keys(formData).length > 0) {
       return dispatch({
         type: SubmitEntityClaimActions.SaveAnswer,
-        payload: blocksyncApi.project.createPublic(formData[id], cellNodeEndpoint!).then((response: any) => ({
-          [id]: `${cellNodeEndpoint}public/${response.result}`,
+        payload: customQueries.cellnode.uploadPublicDoc(
+          formData[id].match(/data:([a-zA-Z0-9]+\/[a-zA-Z0-9-.+]+).*,.*/)[1],
+          formData[id],
+          undefined,
+          chainNetwork,
+        ).then((response: any) => ({
+          [id]: response.url,
         })),
       })
     }
