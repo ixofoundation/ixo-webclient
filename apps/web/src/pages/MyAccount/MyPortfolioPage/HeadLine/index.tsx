@@ -31,10 +31,12 @@ const HeadLine: React.FC = () => {
           style={{ border: `1px solid ${theme.ixoNewBlue}` }}
         >
           <Flex align={'center'} gap={8}>
-            <Flex w={24} h={24} style={{ borderRadius: 8 }}>
-              <img width={'100%'} height={'100%'} src={connectedWallet?.wallet.imageUrl} alt='' />
-            </Flex>
-            <Typography transform='capitalize'>{connectedWallet?.wallet.type}</Typography>
+            {connectedWallet?.wallet.imageUrl && (
+              <Flex w={24} h={24} style={{ borderRadius: 8 }}>
+                <img width={'100%'} height={'100%'} src={connectedWallet.wallet.imageUrl} alt='' />
+              </Flex>
+            )}
+            <Typography transform='uppercase'>{connectedWallet?.wallet.type}</Typography>
           </Flex>
           <Flex align={'center'} gap={8}>
             <Typography>{truncateString(address, 20, 'middle')}</Typography>

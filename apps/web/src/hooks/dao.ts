@@ -9,6 +9,9 @@ import { TEntityModel, TDAOGroupModel } from 'types/entities'
 //
 export function useDAO() {
   const daos: TEntityModel[] = useAppSelector(selectDAOEntities)
+  const daoGroups = useMemo(() => {
+    return daos.reduce((prev, cur) => [...prev, ...Object.values(cur.daoGroups ?? {})], [] as TDAOGroupModel[])
+  }, [daos])
 
   const getParentDAOs = (daoId: string): TEntityModel[] => {
     const dao: TEntityModel | undefined = daos.find(({ id }) => id === daoId)
@@ -51,6 +54,7 @@ export function useDAO() {
 
   return {
     daos,
+    daoGroups,
     getParentDAOs,
     getTokenInfo,
   }
@@ -59,7 +63,7 @@ export function useDAO() {
 export function useParticipatingDAO(address: string) {
   const daos: TEntityModel[] = useAppSelector(selectDAOEntities)
 
-  const participatingDAOEntities = daos.filter((dao) =>
+  const participatingDAOEntities: TEntityModel[] = daos.filter((dao) =>
     Object.values(dao.daoGroups ?? {}).find((daoGroup) =>
       daoGroup.votingModule.members.some(({ addr, weight }) => addr === address && weight > 0),
     ),
