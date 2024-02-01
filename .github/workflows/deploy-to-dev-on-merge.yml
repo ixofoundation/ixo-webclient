@@ -108,10 +108,10 @@ jobs:
       env:
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       run: |
-        URL1=${{ steps.dev_ixo_earth_dev_deploy.outputs.NETLIFY_LIVE_URL }}
-        URL2=${{ steps.test_ixo_earth_dev_deploy.outputs.NETLIFY_LIVE_URL }}
-        URL3=${{ steps.idcc_ixo_earth_dev_deploy.outputs.NETLIFY_LIVE_URL }}
-        URL4=${{ steps.yoma_ixo_earth_dev_deploy.outputs.NETLIFY_LIVE_URL }}
+        URL1=${{ steps.dev_ixo_earth_dev_deploy.outputs.NETLIFY_URL }}
+        URL2=${{ steps.test_ixo_earth_dev_deploy.outputs.NETLIFY_URL }}
+        URL3=${{ steps.idcc_ixo_earth_dev_deploy.outputs.NETLIFY_URL }}
+        URL4=${{ steps.yoma_ixo_earth_dev_deploy.outputs.NETLIFY_URL }}
 
         MESSAGE="Deployment to development environment for dev.ixo.earth: $URL1\nDeployment to development environment for test.ixo.earth: $URL2\nDeployment development environment for idcc.ixo.earth: $URL3\nDeployment to development environment for yoma.ixo.earth: $URL4\n"
 

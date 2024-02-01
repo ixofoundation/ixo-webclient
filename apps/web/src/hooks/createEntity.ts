@@ -351,7 +351,7 @@ interface TCreateEntityHookRes {
   ) => Promise<{ did?: string; adminAccount?: string }>
   CreateDAOCoreByGroupId: (daoGroup: TDAOGroupModel) => Promise<string>
   UploadDataToService: (data: string) => Promise<CellnodePublicResource | CellnodeWeb3Resource>
-  uploadPublicDoc: (data: string, contentType: string) => Promise<CellnodePublicResource>
+  uploadPublicDoc: (data: string, contentType: string) => Promise<CellnodePublicResource | Error>
 }
 
 export function useCreateEntity(): TCreateEntityHookRes {
@@ -1038,7 +1038,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
     return 'Error'
   }
 
-  const uploadPublicDoc = async (data: string, contentType: string): Promise<CellnodePublicResource> => {
+  const uploadPublicDoc = async (data: string, contentType: string): Promise<CellnodePublicResource | Error> => {
     const response = await customQueries.cellnode.uploadPublicDoc(
       contentType,
       data,
@@ -1063,6 +1063,6 @@ export function useCreateEntity(): TCreateEntityHookRes {
     CreateEntityBase,
     CreateDAOCoreByGroupId,
     UploadDataToService,
-    uploadPublicDoc
+    uploadPublicDoc,
   }
 }
