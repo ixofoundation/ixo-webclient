@@ -2,21 +2,18 @@ import React, { useEffect, useState } from 'react'
 import 'react-image-crop/dist/ReactCrop.css'
 import * as Modal from 'react-modal'
 import { useDropzone } from 'react-dropzone'
-import blocksyncApi from 'api/blocksync/blocksync'
 import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
 import { ReactComponent as ImageIcon } from 'assets/images/icon-image-fill.svg'
 import { UploadBox, SelectImage, DisplayImage } from './ImageUploadModal.styles'
 import { ModalStyles, CloseButton, ModalBody, ModalRow, ModalWrapper, ModalInput } from 'components/Modals/styles'
 import { Box } from 'components/App/App.styles'
-import { PDS_URL } from 'types/entities'
 import PulseLoader from 'components/Spinner/PulseLoader/PulseLoader'
 import { default as ImageCropModal } from '../ImageCropModal/ImageCropModal'
 import { Button } from 'pages/CreateEntity/Components'
 import { Typography } from 'components/Typography'
 import * as Toast from 'utils/toast'
 import { useTheme } from 'styled-components'
-
-const cellNodeEndpoint = PDS_URL
+import { useCreateEntity } from 'hooks/createEntity'
 
 interface Props {
   open: boolean
@@ -41,6 +38,8 @@ const ImageUploadModal: React.FC<Props> = ({
   const [canSubmit, setCanSubmit] = useState(false)
   const [loading, setLoading] = useState(false)
   const [cropModalOpen, setCropModalOpen] = useState(false)
+  const { uploadPublicDoc } = useCreateEntity()
+  const [imgContentType, setImgContentType] = useState('')
 
   const handleSave = (base64EncodedImage: any): void => {
     if (!base64EncodedImage) {
@@ -49,15 +48,14 @@ const ImageUploadModal: React.FC<Props> = ({
     setLoading(true)
     setTempValue('')
     setCanSubmit(false)
-    blocksyncApi.project
-      .createPublic(base64EncodedImage, cellNodeEndpoint!)
+    uploadPublicDoc(base64EncodedImage.split(',')[1], imgContentType)
       .then((response: any) => {
-        console.log('ImageUploadModal', response)
-        if (response?.result?.key) {
-          const url = new URL(`/public/${response.result.key}`, cellNodeEndpoint)
-          setTempValue(url.href)
-        } else {
-          throw new Error('Error uploading')
+        if (response?.key) {
+          if (response?.url) {
+            setTempValue(response.url)
+          } else {
+            setTempValue(process.env.REACT_APP_PDS_URL + '/' + response.key)
+          }
         }
       })
       .catch(() => {
@@ -81,7 +79,13 @@ const ImageUploadModal: React.FC<Props> = ({
 
       const reader = new FileReader()
       reader.onload = (e: any): void => {
-        setImgSrc(e.target.result)
+        const base64String = e.target.result
+        setImgSrc(base64String)
+
+        // Extract MIME type from the Base64 string
+        const mimeType = base64String.match(/data:([a-zA-Z0-9]+\/[a-zA-Z0-9-.+]+).*,.*/)[1]
+        setImgContentType(mimeType)
+
         setCropModalOpen(true)
       }
       reader.readAsDataURL(file)
