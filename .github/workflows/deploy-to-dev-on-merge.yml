@@ -68,6 +68,7 @@ jobs:
       env:
         NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
         NETLIFY_SITE_ID: 50ab39f7-d558-493b-8cc6-6f47fa4c8c56  # Replace with your Netlify Site ID
+        REACT_APP_RELAYER_NODE: did:ixo:entity:2f22535f8b179a51d77a0e302e68d35d
         REACT_APP_CONFIG_ASSETLIST_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/testzone/asset-list.json
         REACT_APP_CONFIG_EXCHANGE_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/testzone/exchange.json
         REACT_APP_CONFIG_RELAYER_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/testzone/app-config.json 
@@ -82,6 +83,7 @@ jobs:
       env:
         NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
         NETLIFY_SITE_ID: 8095507c-1245-49e1-9f54-167b18c2de4b  # Replace with your Netlify Site ID
+        REACT_APP_RELAYER_NODE: did:ixo:entity:ff581af6e2e071758b1f94835933d038
         REACT_APP_CONFIG_ASSETLIST_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/idcc/asset-list.json
         REACT_APP_CONFIG_EXCHANGE_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/idcc/exchange.json
         REACT_APP_CONFIG_RELAYER_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/idcc/app-config.json 
@@ -96,6 +98,7 @@ jobs:
       env:
         NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
         NETLIFY_SITE_ID: 8095507c-1245-49e1-9f54-167b18c2de4b  # Replace with your Netlify Site ID
+        REACT_APP_RELAYER_NODE: did:ixo:entity:50a7d92f449ab5752f63c64521adb3cc
         REACT_APP_CONFIG_ASSETLIST_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/idcc/asset-list.json
         REACT_APP_CONFIG_EXCHANGE_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/idcc/exchange.json
         REACT_APP_CONFIG_RELAYER_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/idcc/app-config.json 
