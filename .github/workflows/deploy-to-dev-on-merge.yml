@@ -69,6 +69,7 @@ jobs:
         NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
         NETLIFY_SITE_ID: 50ab39f7-d558-493b-8cc6-6f47fa4c8c56  # Replace with your Netlify Site ID
         REACT_APP_RELAYER_NODE: did:ixo:entity:2f22535f8b179a51d77a0e302e68d35d
+        REACT_APP_CHAIN_ID: pandora-8
         REACT_APP_CONFIG_ASSETLIST_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/testzone/asset-list.json
         REACT_APP_CONFIG_EXCHANGE_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/testzone/exchange.json
         REACT_APP_CONFIG_RELAYER_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/testzone/app-config.json 

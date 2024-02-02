@@ -183,12 +183,12 @@ export const AnimationBackgroundImage = styled.img`
 `
 
 interface IconProps {
-  iconColor: string
+  iconcolor: string
 }
 
 export const Card = styled.a<IconProps>`
   border-radius: 8px;
-  border: 2px solid ${/* eslint-disable-line */ (props) => props.iconColor};
+  border: 2px solid ${/* eslint-disable-line */ (props) => props.iconcolor};
   background: #dcdcdc;
   width: 96px;
   height: 122px;
@@ -207,7 +207,7 @@ export const Card = styled.a<IconProps>`
 
   &:hover {
     text-decoration: none;
-    background: ${/* eslint-disable-line */ (props) => props.iconColor};
+    background: ${/* eslint-disable-line */ (props) => props.iconcolor};
   }
 
   @media (max-width: ${deviceWidth.desktopExtra}px) {

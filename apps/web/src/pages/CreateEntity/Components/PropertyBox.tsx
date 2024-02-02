@@ -138,14 +138,14 @@ const PropertyBox: React.FC<Props> = ({
     <Wrapper>
       {!inherited && !required && handleRemove && (
         <Box className='action' onClick={handleRemove}>
-          <SvgBox svgWidth={6} svgHeight={6} color='transparent'>
+          <SvgBox $svgWidth={6} $svgHeight={6} color='transparent'>
             <BinIcon />
           </SvgBox>
         </Box>
       )}
       {inherited && (
         <Box className='action'>
-          <SvgBox svgWidth={4} svgHeight={4} color='white'>
+          <SvgBox $svgWidth={4} $svgHeight={4} color='white'>
             <LockIcon />
           </SvgBox>
         </Box>

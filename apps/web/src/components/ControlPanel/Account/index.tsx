@@ -24,21 +24,21 @@ const AccountCard = () => {
       columns={1}
       items={
         <>
-          <FlexBox width='100%' gap={3} alignItems='center'>
+          <FlexBox width='100%' $gap={3} $alignItems='center'>
             <FlexBox style={{ flex: 1 }}>
               <Avatar size={60} borderWidth={0} />
             </FlexBox>
             <FlexBox
               p={3}
               width='100%'
-              alignItems='center'
-              justifyContent='space-between'
-              borderRadius='8px'
+              $alignItems='center'
+              $justifyContent='space-between'
+              $borderRadius='8px'
               background='#F7F8F9'
             >
               <Typography size='md'>{name}</Typography>
               <CopyToClipboard text={address} onCopy={() => successToast(`Copied to clipboard`)}>
-                <SvgBox color={theme.ixoNewBlue} cursor='pointer' svgWidth={6} svgHeight={6}>
+                <SvgBox color={theme.ixoNewBlue} cursor='pointer' $svgWidth={6} $svgHeight={6}>
                   <CopyIcon />
                 </SvgBox>
               </CopyToClipboard>
@@ -47,10 +47,10 @@ const AccountCard = () => {
 
           <FlexBox width='100%' height='1px' background={'#EAEAEA'} />
 
-          <FlexBox width='100%' alignItems='center' justifyContent='space-between'>
+          <FlexBox width='100%' $alignItems='center' $justifyContent='space-between'>
             <Typography size='md'>Credentials</Typography>
 
-            <FlexBox gap={2}>
+            <FlexBox $gap={2}>
               <PropoverButton
                 icon={<StarIcon />}
                 title={'KYC Credential'}
@@ -61,12 +61,12 @@ const AccountCard = () => {
                 width='40px'
                 height='40px'
                 background='#F7F8F9'
-                borderRadius='8px'
-                svgWidth={5}
-                svgHeight={5}
+                $borderRadius='8px'
+                $svgWidth={5}
+                $svgHeight={5}
                 color={theme.ixoNewBlue}
-                justifyContent='center'
-                alignItems='center'
+                $justifyContent='center'
+                $alignItems='center'
               >
                 <UserAstronautIcon />
               </SvgBox>
@@ -74,12 +74,12 @@ const AccountCard = () => {
                 width='40px'
                 height='40px'
                 background='#F7F8F9'
-                borderRadius='8px'
-                svgWidth={5}
-                svgHeight={5}
+                $borderRadius='8px'
+                $svgWidth={5}
+                $svgHeight={5}
                 color={theme.ixoNewBlue}
-                justifyContent='center'
-                alignItems='center'
+                $justifyContent='center'
+                $alignItems='center'
               >
                 <UserNinjaIcon />
               </SvgBox>

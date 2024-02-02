@@ -19,9 +19,9 @@ const ClaimCollectionCreationSuccessStep: React.FC<Props> = ({ hidden, onSubmit 
   }
 
   return (
-    <FlexBox direction='column'>
-      <FlexBox direction='column' gap={9} width={deviceWidth.tablet + 'px'} mb={40}>
-        <SvgBox svgWidth={30} svgHeight={30} color={theme.ixoLightGreen}>
+    <FlexBox $direction='column'>
+      <FlexBox $direction='column' $gap={9} width={deviceWidth.tablet + 'px'} mb={40}>
+        <SvgBox $svgWidth={30} $svgHeight={30} color={theme.ixoLightGreen}>
           <CheckCircleIcon />
         </SvgBox>
 
@@ -30,7 +30,7 @@ const ClaimCollectionCreationSuccessStep: React.FC<Props> = ({ hidden, onSubmit 
         <FlexBox width='100%' height='1px' background={theme.ixoGrey300} />
       </FlexBox>
 
-      <FlexBox gap={5}>
+      <FlexBox $gap={5}>
         <Button variant='primary' size='flex' width={300} onClick={onSubmit}>
           Back to Dashboard
         </Button>

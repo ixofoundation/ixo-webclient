@@ -9,7 +9,7 @@ interface Props {
 
 const BondAlphaSection: React.FC<Props> = ({ bondDid }) => {
   return (
-    <FlexBox direction='column' width='100%' gap={6}>
+    <FlexBox $direction='column' width='100%' $gap={6}>
       <Typography size='lg'>Alpha History</Typography>
       <AlphaHistory bondDid={bondDid} />
     </FlexBox>

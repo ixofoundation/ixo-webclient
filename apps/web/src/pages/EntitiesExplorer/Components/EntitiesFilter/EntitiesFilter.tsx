@@ -190,13 +190,13 @@ const EntitiesFilter: FC<Props> = () => {
 
   const handleFilterSector = (sector: string): void => {
     query.set('sector', sector)
-    navigate({ search: query.toString() }, { replace: true})
+    navigate({ search: query.toString() }, { replace: true })
   }
 
   const handleResetSectorFilter = (): void => {
     setActiveFilter('')
     query.delete('sector')
-    navigate({ search: query.toString() }, { replace: true})
+    navigate({ search: query.toString() }, { replace: true })
   }
 
   const handleResetDateFilter = (): void => {
@@ -405,7 +405,7 @@ const EntitiesFilter: FC<Props> = () => {
 
           <ButtonOuter onClick={handleResetFilters} disabled={!resetIsActive()}>
             <ButtonInner>
-              <ButtonIcon iconSize={16} className='icon-reset' />
+              <ButtonIcon $iconSize={16} className='icon-reset' />
               Reset
             </ButtonInner>
           </ButtonOuter>

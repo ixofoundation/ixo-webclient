@@ -63,7 +63,7 @@ const AlphaHistory: React.FC<Props> = ({ bondDid }) => {
           const date = moment(timestamp).format('DD MMM ‘YY')
           const time = moment(timestamp).format('hh:mm')
           return (
-            <FlexBox direction='column' gap={1} p={4}>
+            <FlexBox $direction='column' $gap={1} p={4}>
               <Typography size='lg'>{date}</Typography>
               <Typography size='sm' color='light-blue'>
                 {time}
@@ -77,7 +77,7 @@ const AlphaHistory: React.FC<Props> = ({ bondDid }) => {
         accessor: 'oracleDid',
         renderCell: (cell: any) => {
           return (
-            <FlexBox direction='column' p={4}>
+            <FlexBox $direction='column' p={4}>
               <Typography size='lg'>{cell.value}</Typography>
             </FlexBox>
           )
@@ -88,7 +88,7 @@ const AlphaHistory: React.FC<Props> = ({ bondDid }) => {
         accessor: 'alpha',
         renderCell: (cell: any) => {
           return (
-            <FlexBox direction='column' p={4}>
+            <FlexBox $direction='column' p={4}>
               <Typography size='lg'>
                 {new Intl.NumberFormat(undefined, { maximumFractionDigits: 3 }).format(cell.value)}
               </Typography>
@@ -107,11 +107,11 @@ const AlphaHistory: React.FC<Props> = ({ bondDid }) => {
   return (
     <TableWrapper
       width='100%'
-      direction='column'
-      borderRadius='4px'
+      $direction='column'
+      $borderRadius='4px'
       border={`1px solid #0C3549`}
       background='linear-gradient(180deg, #012639 0%, #002D42 97.29%)'
-      boxShadow='0px 2px 10px 0px rgba(0, 0, 0, 0.18)'
+      $boxShadow='0px 2px 10px 0px rgba(0, 0, 0, 0.18)'
       p={4}
     >
       <Table
@@ -127,9 +127,9 @@ const AlphaHistory: React.FC<Props> = ({ bondDid }) => {
         <FlexBox
           width='100%'
           height='80px'
-          alignItems='center'
-          justifyContent='center'
-          borderRadius='8px'
+          $alignItems='center'
+          $justifyContent='center'
+          $borderRadius='8px'
           background='#053549'
         >
           <Typography variant='primary' size='lg' color='dark-blue'>

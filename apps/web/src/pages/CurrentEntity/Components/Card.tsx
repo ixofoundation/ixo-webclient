@@ -23,20 +23,20 @@ const Card: React.FC<Props> = ({
   const theme: any = useTheme()
   return (
     <FlexBox
-      direction='column'
+      $direction='column'
       width={'100%'}
       height='100%'
       background={'#152B3F'}
-      borderRadius={'4px'}
+      $borderRadius={'4px'}
       p={5}
-      gap={6}
+      $gap={6}
       {...rest}
     >
       {/* Card Header */}
-      <FlexBox width='100%' alignItems='center' justifyContent='space-between'>
-        <FlexBox alignItems='center' gap={2}>
+      <FlexBox width='100%' $alignItems='center' $justifyContent='space-between'>
+        <FlexBox $alignItems='center' $gap={2}>
           {icon && (
-            <SvgBox color='white' svgWidth={4.5} svgHeight={4.5}>
+            <SvgBox color='white' $svgWidth={4.5} $svgHeight={4.5}>
               {icon}
             </SvgBox>
           )}
@@ -44,7 +44,7 @@ const Card: React.FC<Props> = ({
             {label}
           </Typography>
         </FlexBox>
-        <SvgBox color={theme.ixoDarkBlue} svgWidth={6} cursor='pointer' onClick={onAction}>
+        <SvgBox color={theme.ixoDarkBlue} $svgWidth={6} cursor='pointer' onClick={onAction}>
           {actionIcon}
         </SvgBox>
       </FlexBox>

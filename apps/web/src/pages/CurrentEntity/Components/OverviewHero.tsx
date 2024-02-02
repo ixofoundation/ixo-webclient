@@ -22,7 +22,7 @@ import useCurrentEntity from 'hooks/currentEntity'
 import { MatchType } from 'types/models'
 
 interface Props {
-  onlyTitle: boolean
+  $onlyTitle: boolean
   assistantPanelToggle?: () => void
   enableAssistantButton?: boolean
   light?: boolean
@@ -37,7 +37,7 @@ interface Props {
 }
 
 const OverviewHero: React.FunctionComponent<Props> = ({
-  onlyTitle,
+  $onlyTitle,
   enableAssistantButton = true,
   light = false,
   assistantFixed = false,
@@ -131,12 +131,12 @@ const OverviewHero: React.FunctionComponent<Props> = ({
 
   return (
     <>
-      <HeroContainer onlyTitle={onlyTitle} light={light ? 1 : 0}>
+      <HeroContainer $onlyTitle={$onlyTitle} light={light ? 1 : 0}>
         <HeroInner className='detailed'>
           <div className='row'>
             <div className='col-sm-12'>
               {name && <Title light={light ? 1 : 0}>{name}</Title>}
-              {!onlyTitle && (
+              {!$onlyTitle && (
                 <>
                   {description && <Description>{description}</Description>}
                   <HeroInfoItemsWrapper>

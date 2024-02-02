@@ -54,9 +54,9 @@ const SetupActionModalTemplate: React.FC<Props> = ({
         <CloseIcon />
       </CloseButton>
 
-      <FlexBox direction='column' gap={8} width={width}>
-        <FlexBox alignItems='center' gap={4}>
-          <SvgBox color={theme.ixoBlack} svgWidth={8} svgHeight={8}>
+      <FlexBox $direction='column' $gap={8} width={width}>
+        <FlexBox $alignItems='center' $gap={4}>
+          <SvgBox color={theme.ixoBlack} $svgWidth={8} $svgHeight={8}>
             <Icon />
           </SvgBox>
           <Typography weight='medium' size='xl'>
@@ -64,7 +64,7 @@ const SetupActionModalTemplate: React.FC<Props> = ({
           </Typography>
         </FlexBox>
 
-        <BodyWrapper width='100%' direction='column' gap={4}>
+        <BodyWrapper width='100%' $direction='column' $gap={4}>
           {description && (
             <Typography weight='medium' size='md'>
               {description}

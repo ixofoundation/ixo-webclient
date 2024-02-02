@@ -16,20 +16,20 @@ const ClaimTab: React.FC<Props> = ({ status, value }) => {
 
   return (
     <FlexBox
-      direction='column'
+      $direction='column'
       width='200px'
       height='100px'
-      borderRadius='4px'
+      $borderRadius='4px'
       background={theme.ixoGradientLight}
-      alignItems='center'
-      justifyContent='center'
+      $alignItems='center'
+      $justifyContent='center'
       cursor='pointer'
     >
       <Typography variant='secondary' size='5xl'>
         {value}
       </Typography>
-      <FlexBox alignItems='center' gap={2} color={Setting[status]?.color}>
-        <FlexBox borderRadius='100%' width='10px' height='10px' background='currentColor' />
+      <FlexBox $alignItems='center' $gap={2} color={Setting[status]?.color}>
+        <FlexBox $borderRadius='100%' width='10px' height='10px' background='currentColor' />
         <Typography weight='bold' size='sm'>
           {Setting[status]?.text}
         </Typography>

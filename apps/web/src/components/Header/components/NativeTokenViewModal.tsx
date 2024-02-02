@@ -169,9 +169,9 @@ const NativeTokenViewModal: React.FC<Props> = ({ open, token, onClose }) => {
         }}
         handleToggleModal={onClose}
       >
-        <FlexBox direction='column' width='380px' gap={6} color={theme.ixoWhite}>
+        <FlexBox $direction='column' width='380px' $gap={6} color={theme.ixoWhite}>
           {/* Marketing Info */}
-          <FlexBox width='100%' direction='column' alignItems='center' gap={3}>
+          <FlexBox width='100%' $direction='column' $alignItems='center' $gap={3}>
             <Avatar size={38} url={token.coinImageUrl} />
             <Typography size='lg' weight='medium'>
               {token.coinDenom}
@@ -179,8 +179,8 @@ const NativeTokenViewModal: React.FC<Props> = ({ open, token, onClose }) => {
           </FlexBox>
 
           {/* Balances */}
-          <FlexBox width='100%' direction='column' gap={3}>
-            <FlexBox width='100%' justifyContent='space-between'>
+          <FlexBox width='100%' $direction='column' $gap={3}>
+            <FlexBox width='100%' $justifyContent='space-between'>
               <Typography weight='medium'>Total Balance</Typography>
               <Typography weight='medium'>
                 <CurrencyFormat
@@ -193,7 +193,7 @@ const NativeTokenViewModal: React.FC<Props> = ({ open, token, onClose }) => {
               </Typography>
             </FlexBox>
 
-            <FlexBox width='100%' justifyContent='space-between'>
+            <FlexBox width='100%' $justifyContent='space-between'>
               <Typography weight='medium'>Available Balance</Typography>
               <Typography weight='medium'>
                 <CurrencyFormat
@@ -207,25 +207,25 @@ const NativeTokenViewModal: React.FC<Props> = ({ open, token, onClose }) => {
             </FlexBox>
 
             {Object.keys(stakedBalances).length > 0 && (
-              <FlexBox width='100%' direction='column' gap={3}>
+              <FlexBox width='100%' $direction='column' $gap={3}>
                 <Typography weight='medium'>Stakes</Typography>
-                <FlexBox direction='column' gap={3} width='100%'>
+                <FlexBox $direction='column' $gap={3} width='100%'>
                   {Object.values(stakedBalances).map((stakedBalance, index) => (
                     <FlexBox
                       key={index}
                       p={4}
-                      borderRadius='8px'
+                      $borderRadius='8px'
                       background='#053549'
-                      direction='column'
+                      $direction='column'
                       width='100%'
-                      gap={2.5}
+                      $gap={2.5}
                     >
                       <FlexBox>
                         <Typography color='dark-blue' weight='medium'>
                           {stakedBalance.name || ''}
                         </Typography>
                       </FlexBox>
-                      <FlexBox width='100%' justifyContent='space-between' alignItems='center'>
+                      <FlexBox width='100%' $justifyContent='space-between' $alignItems='center'>
                         <Typography weight='medium'>Staked Amount</Typography>
                         <Typography weight='medium'>
                           <CurrencyFormat
@@ -237,7 +237,7 @@ const NativeTokenViewModal: React.FC<Props> = ({ open, token, onClose }) => {
                           />
                         </Typography>
                       </FlexBox>
-                      <FlexBox width='100%' justifyContent='space-between' alignItems='center'>
+                      <FlexBox width='100%' $justifyContent='space-between' $alignItems='center'>
                         <Typography weight='medium'>Unbonding</Typography>
                         <Typography weight='medium'>
                           <CurrencyFormat
@@ -249,7 +249,7 @@ const NativeTokenViewModal: React.FC<Props> = ({ open, token, onClose }) => {
                           />
                         </Typography>
                       </FlexBox>
-                      <FlexBox width='100%' justifyContent='space-between' alignItems='center'>
+                      <FlexBox width='100%' $justifyContent='space-between' $alignItems='center'>
                         <Typography weight='medium'>Pending Rewards</Typography>
                         <Typography weight='medium'>
                           <CurrencyFormat
@@ -269,7 +269,7 @@ const NativeTokenViewModal: React.FC<Props> = ({ open, token, onClose }) => {
           </FlexBox>
 
           {/* Actions */}
-          <FlexBox width='100%' gap={4}>
+          <FlexBox width='100%' $gap={4}>
             <Button
               variant='secondary'
               size='full'

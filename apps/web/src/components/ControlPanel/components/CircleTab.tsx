@@ -17,14 +17,14 @@ const CircleTab: React.FC<Props> = ({ active, icon, badge, onClick }) => {
       position='relative'
       background={active ? theme.ixoNewBlue : theme.ixoWhite}
       color={active ? theme.ixoWhite : theme.ixoNewBlue}
-      borderRadius='100%'
+      $borderRadius='100%'
       width='46px'
       height='46px'
       {...(onClick && { onClick })}
-      svgWidth={7}
-      svgHeight={7}
-      justifyContent='center'
-      alignItems='center'
+      $svgWidth={7}
+      $svgHeight={7}
+      $justifyContent='center'
+      $alignItems='center'
       cursor={'pointer'}
     >
       {icon}
@@ -38,9 +38,9 @@ const CircleTab: React.FC<Props> = ({ active, icon, badge, onClick }) => {
           color={theme.ixoWhite}
           width='24px'
           height='24px'
-          borderRadius='100%'
-          justifyContent='center'
-          alignItems='center'
+          $borderRadius='100%'
+          $justifyContent='center'
+          $alignItems='center'
         >
           <Typography size='sm'>{badge}</Typography>
         </FlexBox>

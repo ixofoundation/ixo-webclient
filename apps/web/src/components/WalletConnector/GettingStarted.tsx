@@ -8,7 +8,7 @@ export const GettingStarted = () => {
       </Text>
 
       <Flex h='30%' direction='column' align='center'>
-        <Text style={{ fontWeight: 500, textAlign: "center" }} size='md' mt='md'>
+        <Text style={{ fontWeight: 500, textAlign: 'center' }} size='md' mt='md'>
           What are wallets?
         </Text>
 

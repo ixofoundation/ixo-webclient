@@ -169,16 +169,16 @@ export const GradientButton = styled.a`
 `
 
 interface GradientAppButtonProps {
-  marginRight?: number
+  marginright?: number
 }
 
-export const GradientAppButton = styled(GradientButton) <GradientAppButtonProps>`
+export const GradientAppButton = styled(GradientButton)<GradientAppButtonProps>`
   display: inline-block;
   width: 147px;
   height: 46px;
   padding: 0;
   margin: 0;
-  margin-right: ${/* eslint-disable-line */ (props) => props.marginRight || 0}px;
+  margin-right: ${/* eslint-disable-line */ (props) => props.marginright || 0}px;
   // remove these once app links are ready ==========
   // cursor: not-allowed;
 
@@ -194,7 +194,7 @@ export const GradientAppButton = styled(GradientButton) <GradientAppButtonProps>
     width: 147px;
     height: 46px;
     margin: 0;
-    margin-right: ${/* eslint-disable-line */ (props) => props.marginRight || 0}px;
+    margin-right: ${/* eslint-disable-line */ (props) => props.marginright || 0}px;
   }
 
   @media (max-width: ${deviceWidth.tablet}px) {
@@ -205,7 +205,7 @@ export const GradientAppButton = styled(GradientButton) <GradientAppButtonProps>
     min-width: 147px;
     height: 46px;
     margin: 0;
-    margin-right: ${/* eslint-disable-line */ (props) => props.marginRight || 0}px;
+    margin-right: ${/* eslint-disable-line */ (props) => props.marginright || 0}px;
   }
 `
 

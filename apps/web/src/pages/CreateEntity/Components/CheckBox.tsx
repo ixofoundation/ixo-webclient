@@ -50,8 +50,8 @@ const CheckBox: React.FC<Props> = ({
   return (
     <FlexBox
       cursor='pointer'
-      alignItems='center'
-      gap={2.5}
+      $alignItems='center'
+      $gap={2.5}
       onClick={(): void => handleChange && handleChange(!value)}
       {...rest}
       color={isDark ? 'white' : 'black'}

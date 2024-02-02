@@ -96,7 +96,7 @@ const TotalValueStatisticCard: React.FC = () => {
           </ResponsiveContainer>
         ) : (
           <>
-            <SvgBox svgWidth={10} svgHeight={10} color={theme.ixoDarkBlue} mb={4}>
+            <SvgBox $svgWidth={10} $svgHeight={10} color={theme.ixoDarkBlue} mb={4}>
               <CoinsIcon />
             </SvgBox>
             <Typography variant='secondary' size='2xl'>

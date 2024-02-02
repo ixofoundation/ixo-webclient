@@ -35,26 +35,26 @@ export const AssetStatsCard = ({
       </CopyToClipboard>
 
       <HorizontalLine />
-      <FlexBox justifyContent='space-between'>
+      <FlexBox $justifyContent='space-between'>
         <span>Creator</span> <span style={{ color: '#00D2FF' }}>{creator}</span>
       </FlexBox>
-      <FlexBox justifyContent='space-between'>
+      <FlexBox $justifyContent='space-between'>
         <span>Project</span> <span style={{ color: '#00D2FF' }}>{project}</span>
       </FlexBox>
-      <FlexBox justifyContent='space-between'>
+      <FlexBox $justifyContent='space-between'>
         <span>Created</span> <span>{moment(created).format('DD MMM YYYY')}</span>
       </FlexBox>
-      {/* <FlexBox justifyContent='space-between'>
+      {/* <FlexBox $justifyContent='space-between'>
         <span>Expires</span> <span>24/09/2023</span>
       </FlexBox> */}
       <HorizontalLine />
-      <FlexBox justifyContent='space-between'>
+      <FlexBox $justifyContent='space-between'>
         <span>Emission Saved</span> <span>1,234 KGCo2</span>
       </FlexBox>
-      <FlexBox justifyContent='space-between'>
+      <FlexBox $justifyContent='space-between'>
         <span>Carbon Generated</span> <span>123 Carbon</span>
       </FlexBox>
-      <FlexBox justifyContent='space-between'>
+      <FlexBox $justifyContent='space-between'>
         <span>Carbon Saved</span> <span>800 Carbon</span>
       </FlexBox>
     </Card>

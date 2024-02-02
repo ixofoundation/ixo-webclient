@@ -18,9 +18,9 @@ const Rating: React.FC<TClaimQuestionControlProps> = ({ value, onChange, ...rest
         emptySymbol={new Array(scale).fill(0).map((v, n) => (
           <FlexBox
             key={n}
-            alignItems='center'
-            justifyContent='center'
-            borderRadius='100%'
+            $alignItems='center'
+            $justifyContent='center'
+            $borderRadius='100%'
             width='24px'
             height='24px'
             background={theme.ixoDarkBlue}
@@ -32,9 +32,9 @@ const Rating: React.FC<TClaimQuestionControlProps> = ({ value, onChange, ...rest
         fullSymbol={new Array(scale).fill(0).map((v, n) => (
           <FlexBox
             key={n}
-            alignItems='center'
-            justifyContent='center'
-            borderRadius='100%'
+            $alignItems='center'
+            $justifyContent='center'
+            $borderRadius='100%'
             width='24px'
             height='24px'
             background={theme.ixoNewBlue}

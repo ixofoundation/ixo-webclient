@@ -17,7 +17,7 @@ const SetupService: React.FC<Props> = ({ hidden }): JSX.Element => {
 
   return (
     <>
-      <FlexBox direction='column' style={hidden ? { display: 'none' } : {}}>
+      <FlexBox $direction='column' style={hidden ? { display: 'none' } : {}}>
         <Typography className='mb-3' variant='secondary' size='2xl'>
           Add a Service
         </Typography>

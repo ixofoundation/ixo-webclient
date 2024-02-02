@@ -20,12 +20,12 @@ const PropoverButton: React.FC<Props> = ({ icon, title, description }) => {
         width='40px'
         height='40px'
         background='#F7F8F9'
-        borderRadius='8px'
-        svgWidth={5}
-        svgHeight={5}
+        $borderRadius='8px'
+        $svgWidth={5}
+        $svgHeight={5}
         color={theme.ixoNewBlue}
-        justifyContent='center'
-        alignItems='center'
+        $justifyContent='center'
+        $alignItems='center'
         cursor='pointer'
       >
         {icon}
@@ -36,24 +36,24 @@ const PropoverButton: React.FC<Props> = ({ icon, title, description }) => {
           position='absolute'
           top={'0px'}
           right={'0px'}
-          borderRadius='12px'
+          $borderRadius='12px'
           p={5}
           width='250px'
-          gap={2}
+          $gap={2}
           background={theme.ixoGrey300}
-          direction='column'
+          $direction='column'
         >
-          <FlexBox alignItems='center' gap={2}>
+          <FlexBox $alignItems='center' $gap={2}>
             <SvgBox
               width='40px'
               height='40px'
               background={theme.ixoGrey100}
-              borderRadius='8px'
-              svgWidth={5}
-              svgHeight={5}
+              $borderRadius='8px'
+              $svgWidth={5}
+              $svgHeight={5}
               color={theme.ixoNewBlue}
-              justifyContent='center'
-              alignItems='center'
+              $justifyContent='center'
+              $alignItems='center'
             >
               {icon}
             </SvgBox>
@@ -64,10 +64,10 @@ const PropoverButton: React.FC<Props> = ({ icon, title, description }) => {
 
           <Typography size='sm'>{description}</Typography>
 
-          <FlexBox width='100%' justifyContent='flex-end'>
-            <FlexBox alignItems='center' gap={2} color={theme.ixoNewBlue} cursor='pointer'>
+          <FlexBox width='100%' $justifyContent='flex-end'>
+            <FlexBox $alignItems='center' $gap={2} color={theme.ixoNewBlue} cursor='pointer'>
               <Typography size='sm'>View</Typography>
-              <SvgBox svgWidth={6} svgHeight={6}>
+              <SvgBox $svgWidth={6} $svgHeight={6}>
                 <ArrowRightIcon />
               </SvgBox>
             </FlexBox>

@@ -45,28 +45,27 @@ export const AssetCard: React.FC<Props> = ({
 
   return (
     <FlexBox
-      direction='column'
+      $direction='column'
       width='100%'
       height='100%'
-      borderRadius={'10px'}
+      $borderRadius={'10px'}
       overflow='hidden'
-      hover={{ boxShadow: '0px 10px 25px 0px rgba(0, 0, 0, 0.15)' }}
+      hover={{ $boxShadow: '0px 10px 25px 0px rgba(0, 0, 0, 0.15)' }}
       onClick={() =>
         navigate({
           pathname: `/entity/${id}/overview`,
         })
       }
-      {...rest}
     >
       <FlexBox
         position='relative'
         background={`url(${cardImage})`}
         width='100%'
         height='200px'
-        backgroundSize='100% 100%'
+        $backgroundSize='100% 100%'
       >
-        <FlexBox gap={1} alignItems='center' height='24px' margin='10px'>
-          <FlexBox background={'#20798C'} borderRadius={'100%'} color='white'>
+        <FlexBox $gap={1} $alignItems='center' height='24px' margin='10px'>
+          <FlexBox background={'#20798C'} $borderRadius={'100%'} color='white'>
             {getEntityIcon(type)}
           </FlexBox>
 
@@ -76,10 +75,10 @@ export const AssetCard: React.FC<Props> = ({
               ?.find(({ category }: any) => category === 'Asset Type')
               ?.tags?.map((tag: any) => (
                 <FlexBox
-                  zIndex={9}
+                  $zIndex={9}
                   key={`${tag}`}
                   background={'#20798C'}
-                  borderRadius={'100px'}
+                  $borderRadius={'100px'}
                   color='white'
                   px={2}
                   py={1}
@@ -102,7 +101,7 @@ export const AssetCard: React.FC<Props> = ({
           )}
         </FlexBox>
       </FlexBox>
-      <FlexBox width='100%' borderRadius='none'>
+      <FlexBox width='100%' $borderRadius='none'>
         <ProgressBar
           radius='none'
           total={1800}
@@ -115,10 +114,10 @@ export const AssetCard: React.FC<Props> = ({
       <FlexBox
         width='100%'
         height='100%'
-        direction='column'
+        $direction='column'
         background={theme.ixoWhite}
         p={2}
-        borderRadius='0px 0px 12px 12px'
+        $borderRadius='0px 0px 12px 12px'
         style={{ flex: 1 }}
       >
         <FlexBox width='100%'>
@@ -127,9 +126,9 @@ export const AssetCard: React.FC<Props> = ({
           </Typography>
         </FlexBox>
 
-        <FlexBox direction='column' justifyContent='space-between' width='100%' height='100%' pt={2}>
-          <FlexBox justifyContent='space-between' width='100%'>
-            <FlexBox direction='column' justifyContent='center'>
+        <FlexBox $direction='column' $justifyContent='space-between' width='100%' height='100%' pt={2}>
+          <FlexBox $justifyContent='space-between' width='100%'>
+            <FlexBox $direction='column' $justifyContent='center'>
               <Typography color='black' weight='bold' size='md' style={{ marginBottom: 4 }}>
                 {title}
               </Typography>
@@ -140,15 +139,15 @@ export const AssetCard: React.FC<Props> = ({
             <FlexBox
               width='32px'
               height='32px'
-              borderRadius='100%'
+              $borderRadius='100%'
               background={`url(${logo}), ${theme.ixoGrey100}`}
-              backgroundSize='100%'
+              $backgroundSize='100%'
             />
           </FlexBox>
           <HorizontalLine color={theme.ixoGrey100} margin='0' />
 
-          <FlexBox direction='column' gap={1} width='100%' mb={2}>
-            <FlexBox gap={1} alignItems='baseline'>
+          <FlexBox $direction='column' $gap={1} width='100%' mb={2}>
+            <FlexBox $gap={1} $alignItems='baseline'>
               <Typography size='md' color='black' transform='uppercase' weight='bold'>
                 {thousandSeparator(accountTokens?.produced, ',')}
               </Typography>
@@ -157,7 +156,7 @@ export const AssetCard: React.FC<Props> = ({
               </Typography>
             </FlexBox>
 
-            <FlexBox gap={1} alignItems='baseline'>
+            <FlexBox $gap={1} $alignItems='baseline'>
               <Typography size='sm' color='green'>
                 {thousandSeparator(accountTokens?.retired, ',')} retired
               </Typography>
@@ -167,7 +166,7 @@ export const AssetCard: React.FC<Props> = ({
             </FlexBox>
           </FlexBox>
 
-          <FlexBox width='100%' justifyContent='space-between' alignItems='center'>
+          <FlexBox width='100%' $justifyContent='space-between' $alignItems='center'>
             <Tag>{thousandSeparator(accountTokens?.claimable, ',')} Carbon</Tag>
             <Tag>
               #{assetNumber}/{Number(maxSupply).toLocaleString()}

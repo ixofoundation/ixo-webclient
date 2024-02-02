@@ -70,7 +70,7 @@ const DAOCard: React.FunctionComponent<Props> = ({ id, profile, tags, daoGroups 
             <MultiLineTitle fontWeight={700}>{profile?.name}</MultiLineTitle>
           </MainContent>
 
-          <FlexBox width='100%' alignItems='baseline' gap={1}>
+          <FlexBox width='100%' $alignItems='baseline' $gap={1}>
             <Typography color='black' size='4xl'>
               {numOfMembers}
             </Typography>

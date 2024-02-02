@@ -69,7 +69,7 @@ const SetupStakingActionsModal: React.FC<Props> = ({ open, action, onClose, onSu
       onSubmit={onSubmit && handleConfirm}
       validate={validate}
     >
-      <FlexBox width='100%' gap={2} direction='column'>
+      <FlexBox width='100%' $gap={2} $direction='column'>
         <Typography size='xl' weight='medium'>
           Select Action
         </Typography>
@@ -87,7 +87,7 @@ const SetupStakingActionsModal: React.FC<Props> = ({ open, action, onClose, onSu
       </FlexBox>
 
       {formData.stakeType !== StakeType.WithdrawDelegatorReward && (
-        <FlexBox width='100%' gap={4}>
+        <FlexBox width='100%' $gap={4}>
           <Input
             inputValue={formData.amount}
             handleChange={(value) => handleUpdateFormData('amount', value)}
@@ -103,7 +103,7 @@ const SetupStakingActionsModal: React.FC<Props> = ({ open, action, onClose, onSu
         </FlexBox>
       )}
 
-      <FlexBox width='100%' gap={2} direction='column'>
+      <FlexBox width='100%' $gap={2} $direction='column'>
         <Typography size='xl' weight='medium'>
           Stake with
         </Typography>
@@ -131,7 +131,7 @@ const SetupStakingActionsModal: React.FC<Props> = ({ open, action, onClose, onSu
       </FlexBox>
 
       {formData.stakeType === StakeType.Redelegate && (
-        <FlexBox width='100%' gap={2} direction='column'>
+        <FlexBox width='100%' $gap={2} $direction='column'>
           <Typography size='xl' weight='medium'>
             To Validator
           </Typography>

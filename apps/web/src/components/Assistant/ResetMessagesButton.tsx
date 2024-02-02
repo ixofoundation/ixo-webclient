@@ -15,8 +15,8 @@ export default function ResetMessagesButton() {
 
   return (
     <SvgBox
-      svgWidth={7}
-      svgHeight={7}
+      $svgWidth={7}
+      $svgHeight={7}
       style={{
         position: 'absolute',
         top: '-40px',

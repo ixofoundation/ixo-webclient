@@ -169,7 +169,10 @@ export function apiEntityToEntity(
                   if (image && !image.startsWith('http')) {
                     const [identifier] = image.split(':')
                     let endpoint = ''
-                    context.forEach((item: any) => {
+                    ;(Array.isArray(context)
+                      ? context
+                      : Object.entries(context).map(([key, value]) => ({ [key]: value }))
+                    ).forEach((item: any) => {
                       if (typeof item === 'object' && identifier in item) {
                         endpoint = item[identifier]
                       }
@@ -179,7 +182,10 @@ export function apiEntityToEntity(
                   if (logo && !logo.startsWith('http')) {
                     const [identifier] = logo.split(':')
                     let endpoint = ''
-                    context.forEach((item: any) => {
+                    ;(Array.isArray(context)
+                      ? context
+                      : Object.entries(context).map(([key, value]) => ({ [key]: value }))
+                    ).forEach((item: any) => {
                       if (typeof item === 'object' && identifier in item) {
                         endpoint = item[identifier]
                       }
@@ -333,6 +339,10 @@ export const LinkedResourceProofGenerator = (
   uploadResult: CellnodePublicResource | CellnodeWeb3Resource,
   cellnodeService?: Service,
 ): string => {
+  console.log({ cellnodeService })
+  console.log({ uploadResult })
+
+
   if (cellnodeService) {
     const serviceType = cellnodeService.type
     if (serviceType === NodeType.Ipfs) {
@@ -404,4 +414,12 @@ export default function getEntityAdmin(entity: TEntityModel) {
 
 export function getDAOGroupLinkedEntities(linkedEntity: LinkedEntity[]): LinkedEntity[] {
   return linkedEntity.filter((v) => v.type === 'Group' && v.relationship === 'subsidiary')
+}
+
+export function isCellnodePublicResource(object: any): object is CellnodePublicResource {
+  return 'key' in object && 'contentType' in object;
+}
+
+export function isCellnodeWeb3Resource(object: any): object is CellnodeWeb3Resource {
+  return 'cid' in object && 'name' in object;
 }

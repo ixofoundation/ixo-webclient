@@ -57,7 +57,7 @@ const SetupVoteOnAGovernanceProposalModal: React.FC<Props> = ({ open, action, on
       onSubmit={onSubmit && handleConfirm}
       validate={validate}
     >
-      <FlexBox width='100%' direction='column' gap={2}>
+      <FlexBox width='100%' $direction='column' $gap={2}>
         <Typography size='xl' weight='medium'>
           Select proposal to vote on
         </Typography>
@@ -74,12 +74,12 @@ const SetupVoteOnAGovernanceProposalModal: React.FC<Props> = ({ open, action, on
         />
       </FlexBox>
 
-      <FlexBox width='100%' direction='column' gap={4}>
+      <FlexBox width='100%' $direction='column' $gap={4}>
         <Typography size='xl' weight='medium'>
           #Juno v 12 Upgrade
         </Typography>
 
-        <FlexBox width='100%' direction='column' gap={1}>
+        <FlexBox width='100%' $direction='column' $gap={1}>
           <FlexBox width='100%'>
             <Typography size='md' color='grey700' style={{ flex: '0 0 160px' }}>
               Status
@@ -117,12 +117,12 @@ const SetupVoteOnAGovernanceProposalModal: React.FC<Props> = ({ open, action, on
         </Typography>
       </FlexBox>
 
-      <FlexBox width='100%' direction='column' gap={2}>
+      <FlexBox width='100%' $direction='column' $gap={2}>
         <Typography size='xl' weight='medium'>
           Vote
         </Typography>
 
-        <GridContainer width='100%' columns={2} gridGap={2}>
+        <GridContainer width='100%' columns={2} $gridGap={2}>
           <Button
             variant={formData.vote === VoteOption.VOTE_OPTION_YES ? 'primary' : 'secondary'}
             onClick={() => handleUpdateFormData('vote', VoteOption.VOTE_OPTION_YES)}

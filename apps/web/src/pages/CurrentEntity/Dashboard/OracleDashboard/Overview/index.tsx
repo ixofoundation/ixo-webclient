@@ -22,7 +22,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
     const timestamp = payload[0].payload?.timestamp
     const claims = payload[0].payload?.claims
     return (
-      <FlexBox direction='column' background='#012131' borderRadius='4px' px={4} py={3} gap={1}>
+      <FlexBox $direction='column' background='#012131' $borderRadius='4px' px={4} py={3} $gap={1}>
         <Typography color='white' size='md' weight='bold'>
           {claims} verified
         </Typography>
@@ -52,10 +52,10 @@ const Overview: React.FC = () => {
 
   const renderOracleStats = () => (
     <Card icon={<PiePieceIcon />} label='Oracle Stats'>
-      <FlexBox alignItems='center' gap={2}>
+      <FlexBox $alignItems='center' $gap={2}>
         <Typography size='md'>{currentEntity.id}</Typography>
         <CopyToClipboard text={currentEntity.id} onCopy={() => successToast(`Copied to clipboard`)}>
-          <SvgBox cursor='pointer' svgWidth={4} svgHeight={4} color={theme.ixoNewBlue}>
+          <SvgBox cursor='pointer' $svgWidth={4} $svgHeight={4} color={theme.ixoNewBlue}>
             <CopyIcon />
           </SvgBox>
         </CopyToClipboard>
@@ -63,21 +63,21 @@ const Overview: React.FC = () => {
 
       <FlexBox width='100%' background={theme.ixoWhite} height='1px' />
 
-      <FlexBox width='100%' justifyContent='space-between'>
+      <FlexBox width='100%' $justifyContent='space-between'>
         <Typography size='md'>Creator</Typography>
         <Typography size='md' color='blue'>
           Emerging Cooking Solutions
         </Typography>
       </FlexBox>
 
-      <FlexBox width='100%' justifyContent='space-between'>
+      <FlexBox width='100%' $justifyContent='space-between'>
         <Typography size='md'>Created</Typography>
         <Typography size='md'>
           {moment(currentEntity.metadata?.created as unknown as string).format('DD MMM YYYY')}
         </Typography>
       </FlexBox>
 
-      <FlexBox width='100%' justifyContent='space-between'>
+      <FlexBox width='100%' $justifyContent='space-between'>
         <Typography size='md'>Expires</Typography>
         <Typography size='md'>
           {moment(currentEntity.metadata?.created as unknown as string)
@@ -88,22 +88,22 @@ const Overview: React.FC = () => {
 
       <FlexBox width='100%' background={theme.ixoWhite} height='1px' />
 
-      <FlexBox width='100%' justifyContent='space-between'>
+      <FlexBox width='100%' $justifyContent='space-between'>
         <Typography size='md'>Model</Typography>
         <Typography size='md'>Casual AI 01</Typography>
       </FlexBox>
 
-      <FlexBox width='100%' justifyContent='space-between'>
+      <FlexBox width='100%' $justifyContent='space-between'>
         <Typography size='md'>Claims Evaluated</Typography>
         <Typography size='md'>0</Typography>
       </FlexBox>
 
-      <FlexBox width='100%' justifyContent='space-between'>
+      <FlexBox width='100%' $justifyContent='space-between'>
         <Typography size='md'>Impact Verified</Typography>
         <Typography size='md'>0 kg CO2</Typography>
       </FlexBox>
 
-      <FlexBox width='100%' justifyContent='space-between'>
+      <FlexBox width='100%' $justifyContent='space-between'>
         <Typography size='md'>CARBON generated</Typography>
         <Typography size='md'>0 CARBON</Typography>
       </FlexBox>
@@ -113,16 +113,16 @@ const Overview: React.FC = () => {
   const renderCreditsVerified = () => (
     <Card icon={<PiePieceIcon />} label='Impact Credits Verified'>
       <FlexBox
-        direction='column'
-        alignItems='center'
-        justifyContent='space-around'
+        $direction='column'
+        $alignItems='center'
+        $justifyContent='space-around'
         p={6}
-        gap={8}
+        $gap={8}
         width='100%'
         height='100%'
       >
-        <FlexBox direction='column' justifyContent='center' alignItems='center' gap={4}>
-          <FlexBox gap={2} alignItems='baseline'>
+        <FlexBox $direction='column' $justifyContent='center' $alignItems='center' $gap={4}>
+          <FlexBox $gap={2} $alignItems='baseline'>
             <Typography size='5xl' color='blue'>
               0
             </Typography>
@@ -130,17 +130,17 @@ const Overview: React.FC = () => {
               CARBON
             </Typography>
           </FlexBox>
-          <FlexBox gap={2}>
+          <FlexBox $gap={2}>
             <Typography size='xl'>= 0 kg CO2 e verified</Typography>
           </FlexBox>
         </FlexBox>
 
-        <FlexBox width='100%' gap={4}>
+        <FlexBox width='100%' $gap={4}>
           <FlexBox
-            direction='column'
-            gap={2}
-            alignItems='center'
-            justifyContent='flex-end'
+            $direction='column'
+            $gap={2}
+            $alignItems='center'
+            $justifyContent='flex-end'
             p={4}
             width='100%'
             background='#012131'
@@ -152,7 +152,7 @@ const Overview: React.FC = () => {
               0
             </Typography>
           </FlexBox>
-          <FlexBox direction='column' gap={2} alignItems='center' p={4} width='100%' background='#012131'>
+          <FlexBox $direction='column' $gap={2} $alignItems='center' p={4} width='100%' background='#012131'>
             <Typography color='blue' weight='bold' size='md'>
               Approved
             </Typography>
@@ -167,14 +167,14 @@ const Overview: React.FC = () => {
 
   const renderClaimEvaluation = () => (
     <Card icon={<PiePieceIcon />} label='Claim Evaluation'>
-      <FlexBox width='100%' justifyContent='flex-start'>
-        <FlexBox gap={4}>
-          <FlexBox border={`1px solid ${theme.ixoNewBlue}`} borderRadius='4px' py={1} px={4} cursor='pointer'>
+      <FlexBox width='100%' $justifyContent='flex-start'>
+        <FlexBox $gap={4}>
+          <FlexBox border={`1px solid ${theme.ixoNewBlue}`} $borderRadius='4px' py={1} px={4} cursor='pointer'>
             <Typography color='blue' size='md'>
               Impact Verified
             </Typography>
           </FlexBox>
-          <FlexBox border={`1px solid ${theme.ixoNewBlue}`} borderRadius='4px' py={1} px={4} cursor='pointer'>
+          <FlexBox border={`1px solid ${theme.ixoNewBlue}`} $borderRadius='4px' py={1} px={4} cursor='pointer'>
             <Typography color='blue' size='md'>
               Claims Evaluated
             </Typography>
@@ -236,8 +236,8 @@ const Overview: React.FC = () => {
   const WrappedOracleCard = withEntityData(OracleCard)
 
   return (
-    <FlexBox direction='column' width='100%' gap={6}>
-      <FlexBox width='100%' alignItems='stretch' gap={6}>
+    <FlexBox $direction='column' width='100%' $gap={6}>
+      <FlexBox width='100%' $alignItems='stretch' $gap={6}>
         <FlexBox height='100%' style={{ flex: '0 0 300px' }}>
           <WrappedOracleCard {...currentEntity} />
         </FlexBox>
@@ -247,7 +247,7 @@ const Overview: React.FC = () => {
       <FlexBox width='100%' height='320px'>
         {renderClaimEvaluation()}
       </FlexBox>
-      <FlexBox width='100%' height='400px' gap={6}>
+      <FlexBox width='100%' height='400px' $gap={6}>
         {renderClaimLocations()}
         {renderLatestClaims()}
       </FlexBox>

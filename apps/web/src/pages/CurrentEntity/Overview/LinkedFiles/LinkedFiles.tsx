@@ -28,13 +28,13 @@ const LinkedFileBox = (linkedFile: LinkedResource) => {
         width='150px'
         py={4}
         px={5}
-        borderRadius='4px'
+        $borderRadius='4px'
         background='#F8F9FD'
-        direction='column'
-        alignItems='center'
-        justifyContent='center'
-        gap={2}
-        textAlign='center'
+        $direction='column'
+        $alignItems='center'
+        $justifyContent='center'
+        $gap={2}
+        $textAlign='center'
         cursor='pointer'
         color={theme.ixoBlack}
       >
@@ -54,11 +54,11 @@ const LinkedFiles: React.FC<Props> = ({ linkedFiles }) => {
     return null
   }
   return (
-    <FlexBox width='100%' direction='column' gap={5} px={5} pt={5} pb={9} background='white' borderRadius='4px'>
+    <FlexBox width='100%' $direction='column' $gap={5} px={5} pt={5} pb={9} background='white' $borderRadius='4px'>
       <Typography variant='secondary' size='2xl'>
         Linked Files
       </Typography>
-      <FlexBox gap={4} flexWrap='wrap'>
+      <FlexBox $gap={4} $flexWrap='wrap'>
         {linkedFiles.map((linkedFile: LinkedResource, index: number) => (
           <LinkedFileBox key={index} {...linkedFile} />
         ))}

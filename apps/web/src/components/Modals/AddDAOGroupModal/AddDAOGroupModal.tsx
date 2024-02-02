@@ -40,9 +40,9 @@ const AddDAOGroupModal: React.FC<Props> = ({ open, onClose, onAdd, onClone }): J
           {selectedItem && (
             <ModalRow>
               {selectedItem === 'new' ? (
-                <FlexBox direction='column' gap={4} style={{ width: 0, flexGrow: 1 }}>
+                <FlexBox $direction='column' $gap={4} style={{ width: 0, flexGrow: 1 }}>
                   <Typography size='md'>{DAOGroupConfig[selectedItem].description}</Typography>
-                  <FlexBox gap={4} width='100%'>
+                  <FlexBox $gap={4} width='100%'>
                     <InputWithLabel
                       height='48px'
                       label='Enter ixo Address'

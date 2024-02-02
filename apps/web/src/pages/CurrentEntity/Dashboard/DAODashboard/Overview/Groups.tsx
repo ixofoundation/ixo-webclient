@@ -31,7 +31,7 @@ const Groups: React.FC = () => {
       >
         <Typography size='lg'>Members</Typography>
         {sortBy === 'members' && (
-          <SvgBox svgWidth={4.5} svgHeight={4.5}>
+          <SvgBox $svgWidth={4.5} $svgHeight={4.5}>
             {sortDirection && <SortGToLIcon />}
             {!sortDirection && <SortLToGIcon />}
           </SvgBox>
@@ -46,7 +46,7 @@ const Groups: React.FC = () => {
       >
         <Typography size='lg'>Treasury</Typography>
         {sortBy === 'treasury' && (
-          <SvgBox svgWidth={4.5} svgHeight={4.5}>
+          <SvgBox $svgWidth={4.5} $svgHeight={4.5}>
             {sortDirection && <SortGToLIcon />}
             {!sortDirection && <SortLToGIcon />}
           </SvgBox>
@@ -61,7 +61,7 @@ const Groups: React.FC = () => {
       >
         <Typography size='lg'>Proposals</Typography>
         {sortBy === 'proposals' && (
-          <SvgBox svgWidth={4.5} svgHeight={4.5}>
+          <SvgBox $svgWidth={4.5} $svgHeight={4.5}>
             {sortDirection && <SortGToLIcon />}
             {!sortDirection && <SortLToGIcon />}
           </SvgBox>
@@ -76,7 +76,7 @@ const Groups: React.FC = () => {
       >
         <Typography size='lg'>Type</Typography>
         {sortBy === 'type' && (
-          <SvgBox svgWidth={4.5} svgHeight={4.5}>
+          <SvgBox $svgWidth={4.5} $svgHeight={4.5}>
             {sortDirection && <SortGToLIcon />}
             {!sortDirection && <SortLToGIcon />}
           </SvgBox>

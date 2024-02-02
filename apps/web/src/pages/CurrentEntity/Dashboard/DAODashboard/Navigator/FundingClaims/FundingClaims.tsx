@@ -16,48 +16,48 @@ const FundingClaims: React.FC<Props> = ({ daoId, groupIds }): JSX.Element => {
   const theme: any = useTheme()
 
   const StatusBox = ({ color }: { color: string }): JSX.Element => (
-    <Box width='12px' height='12px' background={color} borderRadius='100%' />
+    <Box width='12px' height='12px' background={color} $borderRadius='100%' />
   )
   return (
     <Card icon={<CheckIcon />} label='Funding Claims'>
-      <FlexBox width='100%' alignItems='center' justifyContent='space-between' gap={6} color='white' px={10}>
-        <FlexBox direction='column' gap={2} whiteSpace='nowrap'>
-          <FlexBox alignItems='center' gap={5}>
+      <FlexBox width='100%' $alignItems='center' $justifyContent='space-between' $gap={6} color='white' px={10}>
+        <FlexBox $direction='column' $gap={2} $whiteSpace='nowrap'>
+          <FlexBox $alignItems='center' $gap={5}>
             <StatusBox color={theme.approved} />
             <Typography size='md'>
               {/* <Typography weight='bold'>{claimStatus.approveds?.toLocaleString()}</Typography> claims approved */}
             </Typography>
           </FlexBox>
-          <FlexBox alignItems='center' gap={5}>
+          <FlexBox $alignItems='center' $gap={5}>
             <StatusBox color={theme.pending} />
             <Typography size='md'>
               {/* <Typography weight='bold'>{claimStatus.pendings?.toLocaleString()}</Typography> claims pending approval */}
             </Typography>
           </FlexBox>
-          <FlexBox alignItems='center' gap={5}>
+          <FlexBox $alignItems='center' $gap={5}>
             <StatusBox color={theme.rejected} />
             <Typography size='md'>
               {/* <Typography weight='bold'>{claimStatus.rejecteds?.toLocaleString()}</Typography> claims rejected */}
             </Typography>
           </FlexBox>
-          <FlexBox alignItems='center' gap={5}>
+          <FlexBox $alignItems='center' $gap={5}>
             <StatusBox color={theme.disputed} />
             <Typography size='md'>
               {/* <Typography weight='bold'>{claimStatus.disputeds?.toLocaleString()}</Typography> claims disputed */}
             </Typography>
           </FlexBox>
-          <FlexBox alignItems='center' gap={5}>
+          <FlexBox $alignItems='center' $gap={5}>
             <StatusBox color={theme.remained} />
             <Typography size='md'>
               {/* <Typography weight='bold'>{claimStatus.remainings?.toLocaleString()}</Typography> claims remaining */}
             </Typography>
           </FlexBox>
 
-          <FlexBox alignItems='center' justifyContent='space-between' width='100%'>
+          <FlexBox $alignItems='center' $justifyContent='space-between' width='100%'>
             <Typography variant='secondary' size='lg'>
               Outcomes Contracts
             </Typography>
-            <SvgBox svgWidth={4.5}>
+            <SvgBox $svgWidth={4.5}>
               <ExpandIcon />
             </SvgBox>
           </FlexBox>
@@ -107,7 +107,7 @@ const FundingClaims: React.FC<Props> = ({ daoId, groupIds }): JSX.Element => {
             </Typography>
           }
           descriptor={
-            <FlexBox direction='column' alignItems='center' gap={1}>
+            <FlexBox $direction='column' $alignItems='center' $gap={1}>
               <Typography size='sm'>payments awarded for</Typography>
               <Typography size='sm' weight='bold'>
                 {0} Contracts

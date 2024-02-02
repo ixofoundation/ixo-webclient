@@ -69,14 +69,14 @@ const IconListFilterDesktop: FC<Props> = ({
                 className={utils.getItemClassName(items, itemName)}
               >
                 <Typography weight='medium'>{itemName}</Typography>
-                <SvgBox color='currentColor' svgWidth={12.5} svgHeight={12.5}>
+                <SvgBox color='currentColor' $svgWidth={12.5} $svgHeight={12.5}>
                   <ReactSVG src={requireCheckDefault(require(`./assets/icons/${itemIcon}`))} />
                 </SvgBox>
               </FilterSelectButton>
             )
           })}
         </ModalItems>
-        <FlexBox width='100%' alignItems='center' justifyContent='space-between'>
+        <FlexBox width='100%' $alignItems='center' $justifyContent='space-between'>
           {handleFilterReset && (
             <Button variant='secondary' onClick={handleResetClick}>
               Reset

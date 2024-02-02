@@ -14,11 +14,11 @@ const Portfolio: React.FC = () => {
   const [selectedAsset, setSelectedAsset] = useState<Coin | undefined>(undefined)
 
   return (
-    <FlexBox width='100%' direction='column' gap={4}>
+    <FlexBox width='100%' $direction='column' $gap={4}>
       <Typography variant='secondary' size='2xl'>
         Assets
       </Typography>
-      <FlexBox width='100%' gap={4} mb={4}>
+      <FlexBox width='100%' $gap={4} mb={4}>
         {balances.map((balance, index) => (
           <AssetBalanceCard
             key={index}
@@ -31,7 +31,7 @@ const Portfolio: React.FC = () => {
 
       {selectedAsset && (
         <>
-          <FlexBox width='100%' alignItems='center' justifyContent='space-between'>
+          <FlexBox width='100%' $alignItems='center' $justifyContent='space-between'>
             <Typography variant='secondary' size='2xl'>
               Reserve Account Transactions ({convertToDenom(selectedAsset)?.denom.toUpperCase()})
             </Typography>

@@ -62,7 +62,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
   }
 
   useEffect(() => {
-    if(entityType === "protocol/claim"){
+    if (entityType === 'protocol/claim') {
       if (!ddoTags || ddoTags?.length === 0) {
         updateDDOTags([
           {
@@ -95,26 +95,26 @@ const SetupProperties: React.FC = (): JSX.Element => {
   }, [entityType])
 
   const handleContinue = () => {
-    if(nextStep?.number){
+    if (nextStep?.number) {
       navigate(nextStep)
     }
   }
 
   const handleBack = () => {
-    if(previousStep?.number){
+    if (previousStep?.number) {
       navigate(previousStep)
     }
   }
 
   return (
-    <FlexBox direction='column' gap={7.5} width={deviceWidth.tablet + 'px'}>
+    <FlexBox $direction='column' $gap={7.5} width={deviceWidth.tablet + 'px'}>
       <Typography variant='secondary' size='xl'>
         Configure the properties
       </Typography>
 
       <PropertiesForm {...PropertiesFormProps} />
 
-      <FlexBox id='setup-property-actions' gap={5}>
+      <FlexBox id='setup-property-actions' $gap={5}>
         <Button variant='secondary' onClick={handleBack}>
           Back
         </Button>

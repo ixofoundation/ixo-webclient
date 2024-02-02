@@ -42,7 +42,7 @@ const NextArrow = (props: any) => {
       className={props.className}
       width='36px'
       height='36px'
-      borderRadius='100%'
+      $borderRadius='100%'
       background={theme.ixoDarkBlue}
       style={{ ...props.style }}
       onClick={props.onClick}
@@ -60,7 +60,7 @@ const PrevArrow = (props: any) => {
       className={props.className}
       width='36px'
       height='36px'
-      borderRadius='100%'
+      $borderRadius='100%'
       background={theme.ixoDarkBlue}
       style={{ ...props.style }}
       onClick={props.onClick}
@@ -132,41 +132,41 @@ const Groups: React.FC<Props> = ({ selectedGroup, selectDaoGroup }): JSX.Element
     return (
       <FlexBox
         mx={2}
-        aspectRatio={1}
-        direction='column'
-        alignItems='center'
-        justifyContent='center'
-        borderWidth={selectedGroup === daoGroup ? '2px' : '1px'}
-        borderStyle='solid'
-        borderColor={selectedGroup === daoGroup ? theme.ixoNewBlue : theme.ixoDarkBlue}
-        borderRadius='12px'
+        $aspectRatio={1}
+        $direction='column'
+        $alignItems='center'
+        $justifyContent='center'
+        $borderWidth={selectedGroup === daoGroup ? '2px' : '1px'}
+        $borderStyle='solid'
+        $borderColor={selectedGroup === daoGroup ? theme.ixoNewBlue : theme.ixoDarkBlue}
+        $borderRadius='12px'
         cursor='pointer'
         transition='all .2s'
         background={selectedGroup === daoGroup && theme.ixoDarkBlue}
-        hover={{ borderWidth: '2px', borderColor: theme.ixoNewBlue }}
+        hover={{ $borderWidth: '2px', $borderColor: theme.ixoNewBlue }}
         onClick={() => !dragging && selectDaoGroup(daoGroup.coreAddress)}
       >
-        <Box width='90%' textAlign='center' mb={0.1}>
-          <Typography color='white' size='lg' weight='medium' overflowLines={1} style={{ width: '100%' }}>
+        <Box width='90%' $textAlign='center' mb={0.1}>
+          <Typography color='white' size='lg' weight='medium' $overflowLines={1} style={{ width: '100%' }}>
             {daoGroup.config.name}
           </Typography>
         </Box>
         <Tooltip text={`${toTitleCase(daoGroup.type)} Governance`}>
-          <SvgBox svgWidth={5} svgHeight={5} color={theme.ixoNewBlue}>
+          <SvgBox $svgWidth={5} $svgHeight={5} color={theme.ixoNewBlue}>
             {Icon && <Icon />}
           </SvgBox>
         </Tooltip>
         <CopyToClipboard text={daoGroup.coreAddress} onCopy={() => successToast(null, `Copied to clipboard`)}>
-          <FlexBox mb={4} alignItems='center' gap={1} onClick={(e) => e.stopPropagation()}>
+          <FlexBox mb={4} $alignItems='center' $gap={1} onClick={(e) => e.stopPropagation()}>
             <Typography color='blue' weight='medium' size='sm' hover={{ underline: true }}>
               {truncateString(daoGroup.coreAddress, 20, 'middle')}
             </Typography>
-            <SvgBox color={theme.ixoNewBlue} svgWidth={5} svgHeight={5}>
+            <SvgBox color={theme.ixoNewBlue} $svgWidth={5} $svgHeight={5}>
               <CopyIcon />
             </SvgBox>
           </FlexBox>
         </CopyToClipboard>
-        <FlexBox alignItems='center' gap={4} height='36px'>
+        <FlexBox $alignItems='center' $gap={4} height='36px'>
           <FlexBox ml={-2}>
             {members.slice(0, 4).map((member, index) => (
               <Box key={index} width='24px'>

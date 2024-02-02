@@ -99,23 +99,23 @@ const LinkedResourceSetupModal: React.FC<Props> = ({ linkedResource, open, onClo
         <CloseIcon />
       </CloseButton>
 
-      <FlexBox direction='column' gap={4} width='100%'>
+      <FlexBox $direction='column' $gap={4} width='100%'>
         <FlexBox>
           <Typography size='2xl'>Linked Resource</Typography>
         </FlexBox>
 
-        <FlexBox width='100%' gap={12} alignItems='stretch'>
-          <FlexBox direction='column' gap={4}>
+        <FlexBox width='100%' $gap={12} $alignItems='stretch'>
+          <FlexBox $direction='column' $gap={4}>
             <FlexBox
               width='400px'
               height='400px'
               background={theme.ixoGrey100}
-              borderRadius='8px'
-              direction='column'
-              justifyContent='center'
-              alignItems='center'
+              $borderRadius='8px'
+              $direction='column'
+              $justifyContent='center'
+              $alignItems='center'
               overflow='hidden'
-              gap={4}
+              $gap={4}
               {...getRootProps()}
             >
               {uploading ? (
@@ -145,8 +145,8 @@ const LinkedResourceSetupModal: React.FC<Props> = ({ linkedResource, open, onClo
                 <FlexBox
                   width='100%'
                   height='100%'
-                  justifyContent='center'
-                  alignItems='center'
+                  $justifyContent='center'
+                  $alignItems='center'
                   cursor='pointer'
                   onClick={onChange && openDropZone}
                   title='Click to replace'
@@ -165,7 +165,7 @@ const LinkedResourceSetupModal: React.FC<Props> = ({ linkedResource, open, onClo
                 </FlexBox>
               )}
             </FlexBox>
-            <FlexBox gap={4} alignItems='center' width='100%'>
+            <FlexBox $gap={4} $alignItems='center' width='100%'>
               <Typography size='xl'>Web:</Typography>
               <InputWithLabel
                 height='48px'
@@ -178,7 +178,7 @@ const LinkedResourceSetupModal: React.FC<Props> = ({ linkedResource, open, onClo
             </FlexBox>
           </FlexBox>
 
-          <FlexBox direction='column' gap={4} width='100%' height='100%'>
+          <FlexBox $direction='column' $gap={4} width='100%' height='100%'>
             {/* Type of Resource */}
             <InputWithLabel
               name='linked_resource_type'
@@ -209,7 +209,7 @@ const LinkedResourceSetupModal: React.FC<Props> = ({ linkedResource, open, onClo
           </FlexBox>
         </FlexBox>
 
-        <FlexBox width='100%' justifyContent='flex-end' alignItems='center' gap={4}>
+        <FlexBox width='100%' $justifyContent='flex-end' $alignItems='center' $gap={4}>
           <Button onClick={handleContinue} disabled={disabled}>
             Continue
           </Button>

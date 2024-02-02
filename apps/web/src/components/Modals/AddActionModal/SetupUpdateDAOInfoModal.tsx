@@ -32,7 +32,7 @@ interface Props {
 }
 
 const SetupUpdateDAOInfoModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
-  const { coreAddress = "" } = useParams<{ coreAddress: string }>()
+  const { coreAddress = '' } = useParams<{ coreAddress: string }>()
   const { daoGroup } = useCurrentEntityDAOGroup(coreAddress)
 
   const [formData, setFormData] = useState<UpdateInfoData>(initialState)
@@ -64,7 +64,7 @@ const SetupUpdateDAOInfoModal: React.FC<Props> = ({ open, action, onClose, onSub
       onSubmit={onSubmit && handleConfirm}
       validate={validate}
     >
-      <FlexBox direction='column' width='100%' gap={2}>
+      <FlexBox $direction='column' width='100%' $gap={2}>
         <Typography color='black' weight='medium' size='xl'>
           Name
         </Typography>
@@ -76,7 +76,7 @@ const SetupUpdateDAOInfoModal: React.FC<Props> = ({ open, action, onClose, onSub
         />
       </FlexBox>
 
-      <FlexBox direction='column' width='100%' gap={2}>
+      <FlexBox $direction='column' width='100%' $gap={2}>
         <Typography color='black' weight='medium' size='xl'>
           Description
         </Typography>
@@ -88,7 +88,7 @@ const SetupUpdateDAOInfoModal: React.FC<Props> = ({ open, action, onClose, onSub
         />
       </FlexBox>
 
-      <FlexBox width='100%' gap={4} alignItems='center'>
+      <FlexBox width='100%' $gap={4} $alignItems='center'>
         <Typography color='black' weight='medium' size='xl'>
           Automatically add tokens
         </Typography>
@@ -99,7 +99,7 @@ const SetupUpdateDAOInfoModal: React.FC<Props> = ({ open, action, onClose, onSub
         />
       </FlexBox>
 
-      <FlexBox width='100%' gap={4} alignItems='center'>
+      <FlexBox width='100%' $gap={4} $alignItems='center'>
         <Typography color='black' weight='medium' size='xl'>
           Automatically add NFTs
         </Typography>

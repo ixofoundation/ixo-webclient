@@ -116,18 +116,18 @@ const SetupSendGroupTokenModal: React.FC<Props> = ({ open, action, onClose, onSu
       onSubmit={onSubmit && handleConfirm}
       validate={validate}
     >
-      <FlexBox width='100%' gap={2} direction='column'>
+      <FlexBox width='100%' $gap={2} $direction='column'>
         <Typography size='xl' weight='medium'>
           Token Group Address
         </Typography>
         <Input inputValue={formData.contract} handleChange={(value) => handleUpdateFormData('contract', value)} />
       </FlexBox>
 
-      <FlexBox width='100%' gap={2} direction='column'>
+      <FlexBox width='100%' $gap={2} $direction='column'>
         <Typography size='xl' weight='medium'>
           Amount
         </Typography>
-        <FlexBox width='100%' alignItems='center' gap={6} color={tokenBalance.denom ? 'black' : theme.ixoGrey500}>
+        <FlexBox width='100%' $alignItems='center' $gap={6} color={tokenBalance.denom ? 'black' : theme.ixoGrey500}>
           <FlexBox position='relative' width='100%'>
             <Input
               inputValue={
@@ -150,13 +150,13 @@ const SetupSendGroupTokenModal: React.FC<Props> = ({ open, action, onClose, onSu
               </FlexBox>
             )}
           </FlexBox>
-          <Typography size='xl' weight='medium' noWrap>
+          <Typography size='xl' weight='medium' $noWrap>
             {tokenBalance.denom ? '$' + tokenBalance.denom.toUpperCase() : 'group token'}
           </Typography>
         </FlexBox>
       </FlexBox>
 
-      <FlexBox width='100%' gap={2} direction='column'>
+      <FlexBox width='100%' $gap={2} $direction='column'>
         <Typography size='xl' weight='medium'>
           Send to
         </Typography>

@@ -3,7 +3,7 @@ import { Link, NavLink } from 'react-router-dom'
 import { deviceWidth } from 'constants/device'
 
 interface HeroContainerProps {
-  readonly onlyTitle: boolean
+  readonly $onlyTitle: boolean
   light?: boolean | number
 }
 
@@ -11,7 +11,7 @@ export const HeroContainer = styled.div<HeroContainerProps>`
   margin: 0;
   position: relative;
   background: ${(props: any): string => (props.light ? 'transparent' : props.theme.ixoDarkestBlue)};
-  color: ${(props: any): string => (props.onlyTitle ? 'white' : 'black')};
+  color: ${(props: any): string => (props.$onlyTitle ? 'white' : 'black')};
 `
 
 export const HeroInner = styled.div`

@@ -51,7 +51,7 @@ const SetupManageStorageItemsModal: React.FC<Props> = ({ open, action, onClose, 
       onSubmit={onSubmit && handleConfirm}
       validate={validate}
     >
-      <FlexBox width='100%' gap={4}>
+      <FlexBox width='100%' $gap={4}>
         <Button
           variant={formData.setting ? 'primary' : 'secondary'}
           onClick={() => handleUpdateFormData('setting', true)}
@@ -69,11 +69,11 @@ const SetupManageStorageItemsModal: React.FC<Props> = ({ open, action, onClose, 
       </FlexBox>
 
       {formData.setting ? (
-        <FlexBox width='100%' direction='column' gap={2}>
+        <FlexBox width='100%' $direction='column' $gap={2}>
           <Typography size='xl' weight='normal'>
             Set storage item
           </Typography>
-          <FlexBox width='100%' gap={4}>
+          <FlexBox width='100%' $gap={4}>
             <Input
               name='storage_item_key'
               placeholder='Item'
@@ -89,11 +89,11 @@ const SetupManageStorageItemsModal: React.FC<Props> = ({ open, action, onClose, 
           </FlexBox>
         </FlexBox>
       ) : (
-        <FlexBox width='100%' direction='column' gap={2}>
+        <FlexBox width='100%' $direction='column' $gap={2}>
           <Typography size='xl' weight='normal'>
             Remove storage item
           </Typography>
-          <FlexBox width='100%' gap={4}>
+          <FlexBox width='100%' $gap={4}>
             {/* TODO: options ??? */}
             <Dropdown
               name='storage_item_key'

@@ -14,10 +14,7 @@ import SetupGroupSettings from 'pages/CreateEntity/EntityPages/SetupGroups/Setup
 import { EditEntityContext } from 'pages/EditEntity/EditEntity'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { LinkedEntity } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
-import {
-  initialMembershipGroup,
-  initialStakingGroup,
-} from 'pages/CreateEntity/EntityPages/SetupGroups/SetupGroups'
+import { initialMembershipGroup, initialStakingGroup } from 'pages/CreateEntity/EntityPages/SetupGroups/SetupGroups'
 import { DAOGroupConfig } from 'constants/entity'
 
 const EditGroups: React.FC = (): JSX.Element => {
@@ -124,7 +121,7 @@ const EditGroups: React.FC = (): JSX.Element => {
 
   return (
     <>
-      <FlexBox direction='column' gap={5}>
+      <FlexBox $direction='column' $gap={5}>
         <Box width={`${deviceWidth.mobile}px`}>
           <Typography variant='secondary'>
             A DAO has one or more Groups. Each Group has its own membership and governance mechanism. A Group may even
@@ -133,7 +130,7 @@ const EditGroups: React.FC = (): JSX.Element => {
           </Typography>
         </Box>
 
-        <FlexBox gap={5}>
+        <FlexBox $gap={5}>
           {Object.entries(entity.daoGroups ?? {}).map(([key, value]) => {
             const inherited = Object.values(entity.linkedEntity)
               .filter((item: LinkedEntity) => item.type === 'Group')
@@ -145,7 +142,7 @@ const EditGroups: React.FC = (): JSX.Element => {
             const Icon = DAOGroupConfig[value.type]?.icon
             const text = DAOGroupConfig[value.type]?.text
             return (
-              <FlexBox key={key} direction='column' alignItems='center' gap={4}>
+              <FlexBox key={key} $direction='column' $alignItems='center' $gap={4}>
                 <PropertyBox
                   icon={Icon && <Icon />}
                   label={text}
@@ -154,7 +151,7 @@ const EditGroups: React.FC = (): JSX.Element => {
                   handleClick={() => !inherited && setSelectedGroup(key)}
                   inherited={inherited}
                 />
-                <Typography variant='secondary' overflowLines={1} style={{ width: 100, textAlign: 'center' }}>
+                <Typography variant='secondary' $overflowLines={1} style={{ width: 100, textAlign: 'center' }}>
                   &nbsp;{(value as any).config?.name || value.config.name}&nbsp;
                 </Typography>
                 <CheckBox
@@ -175,7 +172,7 @@ const EditGroups: React.FC = (): JSX.Element => {
           <PropertyBox icon={<PlusIcon />} noData handleClick={(): void => setOpenAddGroupModal(true)} />
         </FlexBox>
 
-        <FlexBox gap={5} marginTop={10}>
+        <FlexBox $gap={5} $marginTop={10}>
           <Button variant='secondary' onClick={(): void => navigate(-1)}>
             Back
           </Button>

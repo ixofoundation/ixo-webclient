@@ -13,7 +13,7 @@ const AssetCollections: React.FC = () => {
   const isTablet = useMediaQuery({ minWidth: deviceWidth.tablet, maxWidth: deviceWidth.desktop })
 
   const navigate = useNavigate()
-  const {pathname, search} = useLocation()
+  const { pathname, search } = useLocation()
   const { getQuery } = useQuery()
   const collectionId = getQuery('collectionId')
 
@@ -37,7 +37,7 @@ const AssetCollections: React.FC = () => {
   }
 
   return (
-    <GridContainer width='100%' columns={!isMobile ? (!isTablet ? 3 : 2) : 1} gridGap={10}>
+    <GridContainer width='100%' columns={!isMobile ? (!isTablet ? 3 : 2) : 1} $gridGap={10}>
       {collections.map((collection: any) => (
         <FlexBox key={collection.id} onClick={onCollectionClick(collection.id)}>
           <CollectionCard {...collection} />

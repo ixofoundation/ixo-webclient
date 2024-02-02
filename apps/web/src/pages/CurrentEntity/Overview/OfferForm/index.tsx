@@ -100,14 +100,14 @@ const OfferForm: React.FC<Props> = ({ claimCollectionId, agentRole }) => {
 
   if (offerSent) {
     return (
-      <FlexBox width='100%' justifyContent='center' alignItems='center' height='300px'>
+      <FlexBox width='100%' $justifyContent='center' $alignItems='center' height='300px'>
         <Typography size='5xl'>Offer sent</Typography>
       </FlexBox>
     )
   }
 
   return (
-    <FlexBox direction='column' width='100%' gap={7}>
+    <FlexBox $direction='column' width='100%' $gap={7}>
       {survey && <Survey model={survey} />}
     </FlexBox>
   )

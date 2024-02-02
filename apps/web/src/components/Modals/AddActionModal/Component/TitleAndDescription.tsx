@@ -11,13 +11,13 @@ interface Props {
 
 const TitleAndDescription: React.FC<Props> = ({ title, description }): JSX.Element => {
   return (
-    <FlexBox gap={2} alignItems='center'>
+    <FlexBox $gap={2} $alignItems='center'>
       <Typography size='xl' weight='medium'>
         {title}
       </Typography>
       {description && (
         <Tooltip text={description} width='20rem'>
-          <SvgBox color='black' svgWidth={5} svgHeight={5} cursor='pointer'>
+          <SvgBox color='black' $svgWidth={5} $svgHeight={5} cursor='pointer'>
             <InfoIcon />
           </SvgBox>
         </Tooltip>

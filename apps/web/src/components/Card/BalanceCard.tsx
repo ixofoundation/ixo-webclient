@@ -28,23 +28,23 @@ export const BalanceCard: React.FC<BalanceCardProps> = ({
   return (
     <FlexBox
       width='100%'
-      borderWidth='1px'
-      borderStyle='solid'
-      borderColor={'transparent'}
-      borderRadius='8px'
+      $borderWidth='1px'
+      $borderStyle='solid'
+      $borderColor={'transparent'}
+      $borderRadius='8px'
       background='#053549'
       p={4}
-      gap={2}
-      alignItems='center'
+      $gap={2}
+      $alignItems='center'
       color={theme.ixoWhite}
       cursor='pointer'
       transition='all .2s'
-      hover={{ borderColor: theme.ixoNewBlue }}
+      hover={{ $borderColor: theme.ixoNewBlue }}
       onClick={onClick && onClick}
     >
       <Avatar size={38} url={coinImageUrl} />
-      <FlexBox direction='column' flexGrow={1}>
-        <FlexBox width='100%' justifyContent='space-between' alignItems='center'>
+      <FlexBox $direction='column' $flexGrow={1}>
+        <FlexBox width='100%' $justifyContent='space-between' $alignItems='center'>
           <Typography size='lg' weight='medium'>
             {coinDenom}
           </Typography>
@@ -52,7 +52,7 @@ export const BalanceCard: React.FC<BalanceCardProps> = ({
             <CurrencyFormat displayType='text' value={balance} thousandSeparator decimalScale={2} fixedDecimalScale />
           </Typography>
         </FlexBox>
-        <FlexBox width='100%' justifyContent='space-between' alignItems='center'>
+        <FlexBox width='100%' $justifyContent='space-between' $alignItems='center'>
           <Typography size='md' weight='medium'>
             {network}
           </Typography>

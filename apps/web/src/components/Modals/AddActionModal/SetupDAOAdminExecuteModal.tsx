@@ -161,8 +161,8 @@ const SetupDAOAdminExecuteModal: React.FC<Props> = ({ open, action, onClose, onS
       onSubmit={onSubmit && handleConfirm}
       validate={validate}
     >
-      <FlexBox direction='column' width='100%' gap={2}>
-        <FlexBox width='100%' gap={4}>
+      <FlexBox $direction='column' width='100%' $gap={2}>
+        <FlexBox width='100%' $gap={4}>
           <Input
             name='core_address'
             placeholder='Enter Address'

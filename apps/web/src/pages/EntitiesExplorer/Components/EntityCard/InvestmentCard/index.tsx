@@ -28,22 +28,22 @@ const InvestmentCard: React.FC<TEntityModel & { to?: string }> = (entity) => {
   return (
     <NavLink to={{ pathname: entity.to || `/entity/${id}/overview` }} style={{ textDecoration: 'none' }}>
       <FlexBox
-        direction='column'
-        borderRadius='12px'
+        $direction='column'
+        $borderRadius='12px'
         background='white'
-        boxShadow='0px 4px 4px 0px rgba(0, 0, 0, 0.25);'
+        $boxShadow='0px 4px 4px 0px rgba(0, 0, 0, 0.25);'
         color={theme.ixoBlack}
         overflow='hidden'
         cursor='pointer'
         transition='.2s box-shadow'
-        hover={{ boxShadow: '0px 10px 25px 0px rgba(0, 0, 0, 0.15)' }}
+        hover={{ $boxShadow: '0px 10px 25px 0px rgba(0, 0, 0, 0.15)' }}
       >
-        <FlexBox background={`url(${image})`} backgroundSize='cover' width='100%' height='200px' position='relative'>
-          <FlexBox position='absolute' top='16px' left='16px' alignItems='center' gap={1}>
-            <SvgBox borderRadius='100%' p={1} svgWidth={4} svgHeight={4} background={'#20798C'} color={'white'}>
+        <FlexBox background={`url(${image})`} $backgroundSize='cover' width='100%' height='200px' position='relative'>
+          <FlexBox position='absolute' top='16px' left='16px' $alignItems='center' $gap={1}>
+            <SvgBox $borderRadius='100%' p={1} $svgWidth={4} $svgHeight={4} background={'#20798C'} color={'white'}>
               <InvestmentIcon />
             </SvgBox>
-            <FlexBox borderRadius='100px' px={2} py={1} background={'#20798C'}>
+            <FlexBox $borderRadius='100px' px={2} py={1} background={'#20798C'}>
               <Typography color='white' size='sm'>
                 Alphabond
               </Typography>
@@ -55,15 +55,15 @@ const InvestmentCard: React.FC<TEntityModel & { to?: string }> = (entity) => {
           <FlexBox background={'#4C9F38'} width={`${fundedPercentage}%`} height='8px' />
         </FlexBox>
 
-        <FlexBox p={4.5} direction='column' gap={4} width='100%'>
+        <FlexBox p={4.5} $direction='column' $gap={4} width='100%'>
           <FlexBox width='100%'>
             <Typography size='sm' transform='uppercase'>
               Emerging Cooking Solutions
             </Typography>
           </FlexBox>
 
-          <FlexBox width='100%' alignItems='center' justifyContent='space-between'>
-            <Typography size='xl' weight='semi-bold' overflowLines={2}>
+          <FlexBox width='100%' $alignItems='center' $justifyContent='space-between'>
+            <Typography size='xl' weight='semi-bold' $overflowLines={2}>
               {title}
             </Typography>
             <Avatar url={logo} size={32} borderWidth={0} />
@@ -71,7 +71,7 @@ const InvestmentCard: React.FC<TEntityModel & { to?: string }> = (entity) => {
 
           <FlexBox width='100%' height='1px' background='#EFEFEF' />
 
-          <FlexBox width='100%' direction='column' gap={2}>
+          <FlexBox width='100%' $direction='column' $gap={2}>
             <Typography size='xl' weight='semi-bold'>
               {Intl.NumberFormat(undefined, { style: 'currency', currency: 'USD' }).format(currentReserveUsd)} raised
             </Typography>
@@ -80,14 +80,14 @@ const InvestmentCard: React.FC<TEntityModel & { to?: string }> = (entity) => {
               {fundedPercentage}% funded
             </Typography>
 
-            <FlexBox width='100%' justifyContent='space-between' alignItems='center'>
-              <FlexBox color='#949494' background='#EFEFEF' borderRadius='12px' px={2} py={1}>
+            <FlexBox width='100%' $justifyContent='space-between' $alignItems='center'>
+              <FlexBox color='#949494' background='#EFEFEF' $borderRadius='12px' px={2} py={1}>
                 <Typography size='sm' weight='semi-bold'>
                   {Intl.NumberFormat(undefined, { style: 'currency', currency: 'USD' }).format(initialRaisedUsd)} target
                 </Typography>
               </FlexBox>
 
-              <FlexBox color='#949494' background='#EFEFEF' borderRadius='12px' px={2} py={1}>
+              <FlexBox color='#949494' background='#EFEFEF' $borderRadius='12px' px={2} py={1}>
                 <Typography size='sm' weight='semi-bold'>
                   {state}
                 </Typography>

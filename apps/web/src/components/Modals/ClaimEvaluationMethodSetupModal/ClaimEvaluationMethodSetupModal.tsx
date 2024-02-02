@@ -212,16 +212,16 @@ const ClaimEvaluationMethodSetupModal: React.FC<Props> = ({
         <CloseIcon />
       </CloseButton>
 
-      <FlexBox direction='column' gap={8} width='700px'>
-        <FlexBox justifyContent='space-between' alignItems='center'>
+      <FlexBox $direction='column' $gap={8} width='700px'>
+        <FlexBox $justifyContent='space-between' $alignItems='center'>
           <Typography size='2xl'>Select a Verifiable Claim Protocol</Typography>
         </FlexBox>
-        <FlexBox width='100%' direction='column' alignItems='end'>
+        <FlexBox width='100%' $direction='column' $alignItems='end'>
           {renderClaimEvaluations()}
           {renderClaimApprovalCriteria()}
           {renderClaimEnrichments()}
         </FlexBox>
-        <FlexBox className='w-100' justifyContent='flex-end' gap={5}>
+        <FlexBox className='w-100' $justifyContent='flex-end' $gap={5}>
           <Button disabled={!formData} onClick={handleContinue}>
             Continue
           </Button>

@@ -167,23 +167,23 @@ const AssetDetailCard: React.FC<Props> = ({
 
   return show ? (
     <FlexBox
-      direction='column'
+      $direction='column'
       width={'100%'}
       height='100%'
       background={theme.ixoGradientDark2}
-      borderRadius={'4px'}
+      $borderRadius={'4px'}
       p={5}
       border={'1px solid #083347'}
-      gap={6}
+      $gap={6}
       {...rest}
     >
       {/* Card Header */}
-      <FlexBox width='100%' justifyContent='space-between' alignItems='center'>
-        <FlexBox width='50%' justifyContent='space-between' alignItems='center'>
+      <FlexBox width='100%' $justifyContent='space-between' $alignItems='center'>
+        <FlexBox width='50%' $justifyContent='space-between' $alignItems='center'>
           {/* coinImageUrl */}
-          <FlexBox alignItems='center' gap={2}>
+          <FlexBox $alignItems='center' $gap={2}>
             <Avatar size={38} url={coinImageUrl} />
-            <FlexBox direction='column'>
+            <FlexBox $direction='column'>
               <Typography size='lg' transform='uppercase'>
                 {coinDenom}
               </Typography>
@@ -191,9 +191,9 @@ const AssetDetailCard: React.FC<Props> = ({
             </FlexBox>
           </FlexBox>
           {/* coinBalance */}
-          <FlexBox direction='column' alignItems='end'>
+          <FlexBox $direction='column' $alignItems='end'>
             {/* coinBalance */}
-            <FlexBox alignItems='center' gap={4}>
+            <FlexBox $alignItems='center' $gap={4}>
               <Typography size='lg'>
                 <CurrencyFormat
                   displayType={'text'}
@@ -211,7 +211,7 @@ const AssetDetailCard: React.FC<Props> = ({
               </Typography>
             </FlexBox>
             {/* coinBalance in USD */}
-            <FlexBox alignItems='center' gap={4}>
+            <FlexBox $alignItems='center' $gap={4}>
               <Typography size='md' color='dark-blue'>
                 <CurrencyFormat prefix='$' displayType={'text'} value={balanceUsd} thousandSeparator decimalScale={2} />
               </Typography>
@@ -237,14 +237,14 @@ const AssetDetailCard: React.FC<Props> = ({
       </FlexBox>
       {/* Card Body */}
       <GridContainer
-        gridTemplateAreas={`"a b"`}
-        gridTemplateColumns={'1fr 1fr'}
-        gridTemplateRows={'repeat(1, minmax(330px, auto))'}
-        gridGap={12}
+        $gridTemplateAreas={`"a b"`}
+        $gridTemplateColumns={'1fr 1fr'}
+        $gridTemplateRows={'repeat(1, minmax(330px, auto))'}
+        $gridGap={12}
         width='100%'
       >
         {/* Area chart */}
-        <GridItem gridArea='a' alignSelf='center' height={'175px'}>
+        <GridItem $gridArea='a' $alignSelf='center' height={'175px'}>
           <ResponsiveContainer width='100%' height='100%'>
             <AreaChart data={data}>
               <defs>
@@ -264,12 +264,12 @@ const AssetDetailCard: React.FC<Props> = ({
           </ResponsiveContainer>
         </GridItem>
         {/* Staking stats */}
-        <GridItem gridArea='b' alignSelf='center'>
-          <FlexBox width='100%' direction='column' alignItems='end' gap={12}>
+        <GridItem $gridArea='b' $alignSelf='center'>
+          <FlexBox width='100%' $direction='column' $alignItems='end' $gap={12}>
             {/* Balances */}
-            <FlexBox width='100%' direction='column' gap={2}>
+            <FlexBox width='100%' $direction='column' $gap={2}>
               {/* available */}
-              <FlexBox width='100%' alignItems='center' justifyContent='space-between'>
+              <FlexBox width='100%' $alignItems='center' $justifyContent='space-between'>
                 <Typography size='lg'>available</Typography>
                 <Typography size='lg'>
                   <CurrencyFormat
@@ -282,7 +282,7 @@ const AssetDetailCard: React.FC<Props> = ({
                 </Typography>
               </FlexBox>
               {/* staked */}
-              <FlexBox width='100%' alignItems='center' justifyContent='space-between'>
+              <FlexBox width='100%' $alignItems='center' $justifyContent='space-between'>
                 <Typography size='lg'>staked</Typography>
                 <Typography size='lg'>
                   <CurrencyFormat
@@ -295,7 +295,7 @@ const AssetDetailCard: React.FC<Props> = ({
                 </Typography>
               </FlexBox>
               {/* unstaking */}
-              <FlexBox width='100%' alignItems='center' justifyContent='space-between'>
+              <FlexBox width='100%' $alignItems='center' $justifyContent='space-between'>
                 <Typography size='lg'>unstaking</Typography>
                 <Typography size='lg'>
                   <CurrencyFormat
@@ -308,7 +308,7 @@ const AssetDetailCard: React.FC<Props> = ({
                 </Typography>
               </FlexBox>
               {/* claimable */}
-              <FlexBox width='100%' alignItems='center' justifyContent='space-between'>
+              <FlexBox width='100%' $alignItems='center' $justifyContent='space-between'>
                 <Typography size='lg'>claimable</Typography>
                 <Typography size='lg'>
                   <CurrencyFormat
@@ -322,7 +322,7 @@ const AssetDetailCard: React.FC<Props> = ({
               </FlexBox>
             </FlexBox>
             {/* Manage action */}
-            <FlexBox gap={3} width='100%' justifyContent='flex-end'>
+            <FlexBox $gap={3} width='100%' $justifyContent='flex-end'>
               <Button
                 variant='secondary'
                 size='flex'

@@ -70,8 +70,8 @@ const LinkedAccountSetupModal: React.FC<Props> = ({ open, onClose, onAdd }): JSX
 
         <ModalWrapper>
           <ModalTitle>Add a Linked Account</ModalTitle>
-          <FlexBox direction='column' gap={4}>
-            <FlexBox width='100%' height='100%' gap={4}>
+          <FlexBox $direction='column' $gap={4}>
+            <FlexBox width='100%' height='100%' $gap={4}>
               <InputWithLabel
                 name='address'
                 inputValue={address}
@@ -88,15 +88,15 @@ const LinkedAccountSetupModal: React.FC<Props> = ({ open, onClose, onAdd }): JSX
                 wrapperStyle={{ color: address ? (chainInfo ? theme.ixoGreen : theme.ixoRed) : theme.ixoNewBlue }}
               />
               <FlexBox
-                justifyContent='center'
-                alignItems='center'
-                gap={2}
+                $justifyContent='center'
+                $alignItems='center'
+                $gap={2}
                 width='200px'
                 height='48px'
-                borderWidth='1px'
-                borderStyle='solid'
-                borderColor={address ? (chainInfo ? theme.ixoGreen : theme.ixoRed) : theme.ixoNewBlue}
-                borderRadius='8px'
+                $borderWidth='1px'
+                $borderStyle='solid'
+                $borderColor={address ? (chainInfo ? theme.ixoGreen : theme.ixoRed) : theme.ixoNewBlue}
+                $borderRadius='8px'
               >
                 {address ? (
                   chainInfo ? (
@@ -118,7 +118,7 @@ const LinkedAccountSetupModal: React.FC<Props> = ({ open, onClose, onAdd }): JSX
                 )}
               </FlexBox>
             </FlexBox>
-            <FlexBox width='100%' justifyContent='flex-end'>
+            <FlexBox width='100%' $justifyContent='flex-end'>
               <Button variant='primary' disabled={!chainInfo} onClick={handleAdd}>
                 Continue
               </Button>

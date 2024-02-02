@@ -26,7 +26,6 @@ interface Props extends HTMLFlexBoxProps {
 
 export const OracleCard: React.FC<Props> = ({
   id,
-  zIndex,
   collectionName,
   cardImage,
   metrics,
@@ -51,33 +50,32 @@ export const OracleCard: React.FC<Props> = ({
           pathname: `/entity/${id}/overview`,
         })
       }
-      direction='column'
+      $direction='column'
       width='100%'
-      borderRadius={'10px'}
+      $borderRadius={'10px'}
       height='100%'
       overflow='hidden'
       cursor='pointer'
-      hover={{ boxShadow: '0px 10px 25px 0px rgba(0, 0, 0, 0.15)' }}
-      {...rest}
+      hover={{ $boxShadow: '0px 10px 25px 0px rgba(0, 0, 0, 0.15)' }}
     >
       <FlexBox
         position='relative'
         background={`url(${cardImage})`}
         width='100%'
         height='200px'
-        backgroundSize='100% 100%'
+        $backgroundSize='100% 100%'
       >
-        <FlexBox gap={1} alignItems='center' height='24px' margin='10px'>
-          <FlexBox background={'#20798C'} borderRadius={'100%'}>
+        <FlexBox $gap={1} $alignItems='center' height='24px' margin='10px'>
+          <FlexBox background={'#20798C'} $borderRadius={'100%'}>
             {getEntityIcon(type)}
           </FlexBox>
 
           {daoTypeTags?.tags?.map((tag: any) => (
             <FlexBox
-              zIndex={1}
+              $zIndex={1}
               key={`${tag}`}
               background={'#20798C'}
-              borderRadius={'100px'}
+              $borderRadius={'100px'}
               color='white'
               px={2}
               py={1}
@@ -100,10 +98,10 @@ export const OracleCard: React.FC<Props> = ({
           )}
         </FlexBox>
       </FlexBox>
-      <FlexBox width='100%' direction='column' background={theme.ixoWhite} p={2}>
-        <FlexBox direction='column' justifyContent='space-between' width='100%' height='100%' pt={2}>
-          <FlexBox justifyContent='space-between' alignItems='center' width='100%'>
-            <FlexBox direction='column' justifyContent='center'>
+      <FlexBox width='100%' $direction='column' background={theme.ixoWhite} p={2}>
+        <FlexBox $direction='column' $justifyContent='space-between' width='100%' height='100%' pt={2}>
+          <FlexBox $justifyContent='space-between' $alignItems='center' width='100%'>
+            <FlexBox $direction='column' $justifyContent='center'>
               <Typography color='black' weight='bold' size='xl'>
                 {title}
               </Typography>
@@ -111,15 +109,15 @@ export const OracleCard: React.FC<Props> = ({
             <FlexBox
               width='32px'
               height='32px'
-              borderRadius='100%'
+              $borderRadius='100%'
               background={`url(${logo}), ${theme.ixoGrey100}`}
-              backgroundSize='100%'
+              $backgroundSize='100%'
             />
           </FlexBox>
           <HorizontalLine color={theme.ixoGrey100} margin='0' />
 
-          <FlexBox direction='column' gap={1} width='100%' mb={2}>
-            <FlexBox gap={1} alignItems='baseline'>
+          <FlexBox $direction='column' $gap={1} width='100%' mb={2}>
+            <FlexBox $gap={1} $alignItems='baseline'>
               <Typography size='md' color='black' transform='uppercase' weight='bold'>
                 {thousandSeparator('1200000', ',')}
               </Typography>
@@ -128,7 +126,7 @@ export const OracleCard: React.FC<Props> = ({
               </Typography>
             </FlexBox>
 
-            <FlexBox gap={1} alignItems='baseline'>
+            <FlexBox $gap={1} $alignItems='baseline'>
               <Typography size='sm' color='grey700'>
                 {thousandSeparator('1200000', ',')} claims
               </Typography>
@@ -138,7 +136,7 @@ export const OracleCard: React.FC<Props> = ({
             </FlexBox>
           </FlexBox>
 
-          <FlexBox width='100%' justifyContent='space-between' alignItems='center'>
+          <FlexBox width='100%' $justifyContent='space-between' $alignItems='center'>
             <Tag>Carbon</Tag>
             <Tag>92.1%</Tag>
           </FlexBox>

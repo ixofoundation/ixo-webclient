@@ -41,7 +41,6 @@ export const HeaderLeft: React.FC<ParentProps> = (props) => {
   const logoConfig = useAppSelector(selectEntityLogoConfig)
   const buttonColor: string = useAppSelector(selectEntityHeaderButtonColorUIConfig)
 
-
   const logoLink = React.useMemo(() => {
     if (!headerUIConfig || !headerUIConfig.link) {
       return getIxoWorldRoute('')
@@ -121,7 +120,7 @@ export const HeaderLeft: React.FC<ParentProps> = (props) => {
       </Main>
       <MediaQuery maxWidth={`${deviceWidth.desktop - 1}px`}>
         <MobileMenu className={props.openMenu === true ? 'openMenu' : ''}>
-          <FlexBox width='100%' alignItems='center' justifyContent='space-around'>
+          <FlexBox width='100%' $alignItems='center' $justifyContent='space-around'>
             {getMenuItems(false)}
           </FlexBox>
         </MobileMenu>

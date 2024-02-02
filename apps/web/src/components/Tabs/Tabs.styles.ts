@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { deviceWidth } from 'constants/device'
 
-export const TabsContainer = styled.div<{ activeTabColor: string; assistantActivated: boolean }>`
+export const TabsContainer = styled.div<{ activetabcolor: string }>`
   display: flex;
   flex-flow: row nowrap;
   justify-content: flex-start;
@@ -60,7 +60,7 @@ export const TabsContainer = styled.div<{ activeTabColor: string; assistantActiv
     }
 
     &.active {
-      background: ${(props: any): string => props.activeTabColor || props.theme.ixoMediumBlue};
+      background: ${(props: any): string => props.activetabcolor || props.theme.ixoMediumBlue};
       color: white;
       font-weight: bold;
     }
@@ -78,10 +78,7 @@ export const TabsContainer = styled.div<{ activeTabColor: string; assistantActiv
   }
 
   button {
-    background: ${(props) =>
-      props.assistantActivated
-        ? 'linear-gradient(180deg, #0C5173 0%, #3ABAD9 161.23%)'
-        : 'linear-gradient(123.17deg, #0C5173 0%, #002A3F 101.44%)'};
+    background: linear-gradient(123.17deg, #0c5173 0%, #002a3f 101.44%);
     border: none;
     width: 50px;
     border-top-right-radius: 4px;
