@@ -2,13 +2,11 @@ import React, { useEffect, useState } from 'react'
 import 'react-image-crop/dist/ReactCrop.css'
 import * as Modal from 'react-modal'
 import { useDropzone } from 'react-dropzone'
-import blocksyncApi from 'api/blocksync/blocksync'
 import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
 import { ReactComponent as ImageIcon } from 'assets/images/icon-image-fill.svg'
 import { UploadBox, SelectImage, DisplayImage } from './ImageUploadModal.styles'
 import { ModalStyles, CloseButton, ModalBody, ModalRow, ModalWrapper, ModalInput } from 'components/Modals/styles'
 import { Box } from 'components/App/App.styles'
-import { PDS_URL } from 'types/entities'
 import PulseLoader from 'components/Spinner/PulseLoader/PulseLoader'
 import { default as ImageCropModal } from '../ImageCropModal/ImageCropModal'
 import { Button } from 'pages/CreateEntity/Components'
@@ -16,8 +14,6 @@ import { Typography } from 'components/Typography'
 import * as Toast from 'utils/toast'
 import { useTheme } from 'styled-components'
 import { useCreateEntity } from 'hooks/createEntity'
-
-const cellNodeEndpoint = PDS_URL
 
 interface Props {
   open: boolean

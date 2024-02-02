@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import * as Modal from 'react-modal'
-import blocksyncApi from 'api/blocksync/blocksync'
 import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
 import { ModalStyles, CloseButton } from 'components/Modals/styles'
 import { TEntityCreatorModel, PDS_URL } from 'types/entities'
