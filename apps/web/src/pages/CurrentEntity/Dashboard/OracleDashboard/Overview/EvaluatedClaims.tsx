@@ -42,7 +42,7 @@ const EvaluatedClaims: React.FC = () => {
               transform='translate(-50%, -50%)'
               width='12px'
               height='40px'
-              borderRadius='100px'
+              $borderRadius='100px'
               background={theme[status] ?? theme.rejected}
             />
             <Typography color='white'>
@@ -96,12 +96,12 @@ const EvaluatedClaims: React.FC = () => {
       accessor: 'value',
       renderCell: (cell: any) => (
         <FlexBox height='100%'>
-          <FlexBox width='100%' height='100%' p={5} alignItems='center' background={theme.ixoNavyBlue} gap={2.5}>
+          <FlexBox width='100%' height='100%' p={5} $alignItems='center' background={theme.ixoNavyBlue} $gap={2.5}>
             <IXOIcon />
             <Typography weight='bold'>235 CARBON</Typography>
           </FlexBox>
-          <FlexBox height='100%' alignItems='center' background={theme.ixoMediumBlue}>
-            <SvgBox width='60px' alignItems='center' justifyContent='center' color={theme.ixoNewBlue} svgWidth={5.5}>
+          <FlexBox height='100%' $alignItems='center' background={theme.ixoMediumBlue}>
+            <SvgBox width='60px' $alignItems='center' $justifyContent='center' color={theme.ixoNewBlue} $svgWidth={5.5}>
               <EyeIcon />
             </SvgBox>
           </FlexBox>

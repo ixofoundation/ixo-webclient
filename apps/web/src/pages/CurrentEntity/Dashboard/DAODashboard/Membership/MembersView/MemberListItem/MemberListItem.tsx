@@ -145,12 +145,12 @@ const MemberListItem: React.FC<Props> = ({ member, selected, onSelectMember }): 
   return (
     <Wrapper
       height={'66px'}
-      borderRadius='12px'
+      $borderRadius='12px'
       background={'transparent'}
       cursor='pointer'
-      outlineWidth='2px'
-      outlineStyle='solid'
-      outlineColor={'transparent'}
+      $outlineWidth='2px'
+      $outlineStyle='solid'
+      $outlineColor={'transparent'}
       transition='all .2s'
       position='relative'
       px={8}
@@ -163,12 +163,12 @@ const MemberListItem: React.FC<Props> = ({ member, selected, onSelectMember }): 
           position='absolute'
           top='8px'
           left='8px'
-          borderRadius='100%'
+          $borderRadius='100%'
           width='12px'
           height='12px'
           background={STATUSES[status!]?.color}
         />
-        <FlexBox alignItems='center' gap={5} marginLeft={8}>
+        <FlexBox $alignItems='center' $gap={5} $marginLeft={8}>
           <Avatar size={50} url={avatar} />
           <Typography color='white' size='lg' weight='medium' hover={{ underline: true }} onClick={handleMemberView}>
             {truncateString(name ?? addr, 20)}
@@ -214,7 +214,7 @@ const MemberListItem: React.FC<Props> = ({ member, selected, onSelectMember }): 
           <ThreeDot />
         </DetailButton>
         {detailView && (
-          <Box position='absolute' top='0px' right='0px' zIndex={100}>
+          <Box position='absolute' top='0px' right='0px' $zIndex={100}>
             <MemberDetailCard member={member} onClose={() => setDetailView(false)} />
           </Box>
         )}

@@ -169,7 +169,10 @@ export function apiEntityToEntity(
                   if (image && !image.startsWith('http')) {
                     const [identifier] = image.split(':')
                     let endpoint = ''
-                    context.forEach((item: any) => {
+                    ;(Array.isArray(context)
+                      ? context
+                      : Object.entries(context).map(([key, value]) => ({ [key]: value }))
+                    ).forEach((item: any) => {
                       if (typeof item === 'object' && identifier in item) {
                         endpoint = item[identifier]
                       }
@@ -179,7 +182,10 @@ export function apiEntityToEntity(
                   if (logo && !logo.startsWith('http')) {
                     const [identifier] = logo.split(':')
                     let endpoint = ''
-                    context.forEach((item: any) => {
+                    ;(Array.isArray(context)
+                      ? context
+                      : Object.entries(context).map(([key, value]) => ({ [key]: value }))
+                    ).forEach((item: any) => {
                       if (typeof item === 'object' && identifier in item) {
                         endpoint = item[identifier]
                       }

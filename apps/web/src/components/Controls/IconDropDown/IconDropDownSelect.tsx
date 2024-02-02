@@ -54,7 +54,7 @@ const DropDownImageSelect: React.FunctionComponent<Props> = ({
     <Container>
       <SelectLabelWrapper>
         {label && (
-          <InputLabel filled={Boolean(value)}>
+          <InputLabel $filled={Boolean(value)}>
             <Typography
               weight={value ? 'bold' : 'medium'}
               size={value ? 'sm' : 'xl'}

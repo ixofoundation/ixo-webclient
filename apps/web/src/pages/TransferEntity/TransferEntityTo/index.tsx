@@ -204,18 +204,18 @@ const TransferEntityTo: React.FC = (): JSX.Element => {
   }
 
   return (
-    <FlexBox width='100%' justifyContent='center'>
-      <FlexBox maxWidth='800px' width='100%' direction='column' gap={5}>
+    <FlexBox width='100%' $justifyContent='center'>
+      <FlexBox $maxWidth='800px' width='100%' $direction='column' $gap={5}>
         <FormCard
           preIcon={
-            <SvgBox svgWidth={8} svgHeight={8} color='black'>
+            <SvgBox $svgWidth={8} $svgHeight={8} color='black'>
               <ArrowCircleRightIcon />
             </SvgBox>
           }
           title='Transferring to'
         >
           {validateIid(recipientDid) && (
-            <FlexBox direction='column' gap={5} width='100%'>
+            <FlexBox $direction='column' $gap={5} width='100%'>
               <InputWithLabel
                 name='ixo_did'
                 width='100%'
@@ -228,7 +228,7 @@ const TransferEntityTo: React.FC = (): JSX.Element => {
               />
 
               {recipientDid && !validateDid(recipientDid) && (
-                <FlexBox width='100%' justifyContent='flex-end' alignItems='center' gap={2}>
+                <FlexBox width='100%' $justifyContent='flex-end' $alignItems='center' $gap={2}>
                   <Typography size='xl'>Not a valid ixo DID</Typography>
                   <SvgBox color={theme.ixoRed}>
                     <TimesCircleIcon />
@@ -236,7 +236,7 @@ const TransferEntityTo: React.FC = (): JSX.Element => {
                 </FlexBox>
               )}
               {recipientDid && validateDid(recipientDid) && (
-                <FlexBox width='100%' justifyContent='flex-end' alignItems='center' gap={2}>
+                <FlexBox width='100%' $justifyContent='flex-end' $alignItems='center' $gap={2}>
                   <Typography size='xl'>Valid ixo DID</Typography>
                   <SvgBox color={theme.ixoGreen}>
                     <CheckCircleIcon />
@@ -246,7 +246,7 @@ const TransferEntityTo: React.FC = (): JSX.Element => {
             </FlexBox>
           )}
           {validateWasmDid(recipientDid) && (
-            <FlexBox width='100%' alignItems='center' gap={4}>
+            <FlexBox width='100%' $alignItems='center' $gap={4}>
               <InputWithLabel
                 name='group_name'
                 width='100%'
@@ -267,7 +267,7 @@ const TransferEntityTo: React.FC = (): JSX.Element => {
 
         <FormCard
           preIcon={
-            <SvgBox svgWidth={8} svgHeight={8} color='black'>
+            <SvgBox $svgWidth={8} $svgHeight={8} color='black'>
               <LockOpenIcon />
             </SvgBox>
           }
@@ -278,7 +278,7 @@ const TransferEntityTo: React.FC = (): JSX.Element => {
             document with which the new owner can re-enable the keys. The document will be transferred along with the
             entity.
           </Typography>
-          <FlexBox width='100%' justifyContent='space-between' alignItems='center'>
+          <FlexBox width='100%' $justifyContent='space-between' $alignItems='center'>
             <Typography size='xl'>Create document to re-enable keys</Typography>
             <Switch size='md' onLabel='YES' offLabel='NO' value={reEnableKeys} onChange={setReEnablekeys} />
           </FlexBox>
@@ -286,17 +286,17 @@ const TransferEntityTo: React.FC = (): JSX.Element => {
           {!reEnableKeys && (
             <FlexBox
               width='100%'
-              direction='column'
-              alignItems='center'
-              justifyContent='center'
-              textAlign='center'
-              borderRadius='8px'
-              gap={5}
+              $direction='column'
+              $alignItems='center'
+              $justifyContent='center'
+              $textAlign='center'
+              $borderRadius='8px'
+              $gap={5}
               p={3}
               background={`${theme.ixoDarkOrange}22`}
             >
-              <FlexBox alignItems='center' color={theme.ixoDarkOrange} gap={1}>
-                <SvgBox color='inherit' svgWidth={6} svgHeight={6}>
+              <FlexBox $alignItems='center' color={theme.ixoDarkOrange} $gap={1}>
+                <SvgBox color='inherit' $svgWidth={6} $svgHeight={6}>
                   <InfoIcon />
                 </SvgBox>
                 <Typography size='xl'>Warning</Typography>
@@ -320,27 +320,27 @@ const TransferEntityTo: React.FC = (): JSX.Element => {
               <FormCard
                 key={index}
                 title={
-                  <FlexBox alignItems='center' gap={4}>
+                  <FlexBox $alignItems='center' $gap={4}>
                     <Typography color='black'>KEY #{index + 1}</Typography>
-                    <FlexBox p={2} borderRadius={'8px'} background={'#A1E393'}>
+                    <FlexBox p={2} $borderRadius={'8px'} background={'#A1E393'}>
                       <Typography color='black'>{VMKeyMap[vmKeyType]}</Typography>
                     </FlexBox>
                   </FlexBox>
                 }
               >
                 <FlexBox
-                  direction='column'
+                  $direction='column'
                   width='100%'
                   background={theme.ixoGrey100}
-                  borderRadius='8px'
-                  gap={2}
+                  $borderRadius='8px'
+                  $gap={2}
                   p={4}
                   color='black'
                 >
                   {Object.entries(vm)
                     .filter(([key]) => key !== 'description')
                     .map(([key, value]) => (
-                      <Typography key={key} wordBreak={'break-all'}>
+                      <Typography key={key} $wordBreak={'break-all'}>
                         {key}: {value}
                       </Typography>
                     ))}
@@ -356,7 +356,7 @@ const TransferEntityTo: React.FC = (): JSX.Element => {
             )
           })}
 
-        <FlexBox alignItems='center' width='100%' gap={7}>
+        <FlexBox $alignItems='center' width='100%' $gap={7}>
           <Button variant='secondary' size='full' height={48} onClick={onBack}>
             Back
           </Button>

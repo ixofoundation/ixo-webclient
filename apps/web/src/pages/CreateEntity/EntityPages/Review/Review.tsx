@@ -123,13 +123,13 @@ const ReviewDAO: React.FC = (): JSX.Element => {
   const renderEntityCard = (type: string, entity: any) => {
     const EntityCard = createEntityCard(type as EntityType)
     const WrappedEntityCard = withEntityData(EntityCard)
-    return <WrappedEntityCard key={entity.id} {...entity} width="40%" boxShadow="0px 4px 8px rgba(0, 0, 0, 0.1)"/>
+    return <WrappedEntityCard key={entity.id} {...entity} width='40%' $boxShadow='0px 4px 8px rgba(0, 0, 0, 0.1)' />
   }
 
   return (
-    <FlexBox width={`${deviceWidth.tablet}px`} gap={10} alignItems='stretch'>
-      {renderEntityCard(entityType, { ...createEntityState } )}
-      <FlexBox direction='column' justifyContent='space-between' gap={4} width='100%' style={{ flex: 1 }}>
+    <FlexBox width={`${deviceWidth.tablet}px`} $gap={10} $alignItems='stretch'>
+      {renderEntityCard(entityType, { ...createEntityState })}
+      <FlexBox $direction='column' $justifyContent='space-between' $gap={4} width='100%' style={{ flex: 1 }}>
         {!success && (
           <CreationSuccessScreen
             entityType={entityType}
@@ -140,22 +140,22 @@ const ReviewDAO: React.FC = (): JSX.Element => {
         {success === 'true' && (
           <>
             <FlexBox
-              direction='column'
-              justifyContent='center'
-              alignItems='center'
+              $direction='column'
+              $justifyContent='center'
+              $alignItems='center'
               width='100%'
               height='100%'
-              gap={4}
-              textAlign='center'
+              $gap={4}
+              $textAlign='center'
             >
-              <SvgBox color={theme.ixoLightGreen} svgWidth={30} svgHeight={30}>
+              <SvgBox color={theme.ixoLightGreen} $svgWidth={30} $svgHeight={30}>
                 <CheckCircleIcon />
               </SvgBox>
               <Typography variant='secondary' size='2xl'>
                 {profile?.name} Successfully created!
               </Typography>
             </FlexBox>
-            <FlexBox width='100%' gap={4}>
+            <FlexBox width='100%' $gap={4}>
               <Button
                 variant='primary'
                 onClick={() => {
@@ -172,22 +172,22 @@ const ReviewDAO: React.FC = (): JSX.Element => {
         {success === 'false' && (
           <>
             <FlexBox
-              direction='column'
-              justifyContent='center'
-              alignItems='center'
+              $direction='column'
+              $justifyContent='center'
+              $alignItems='center'
               width='100%'
               height='100%'
-              gap={4}
-              textAlign='center'
+              $gap={4}
+              $textAlign='center'
             >
-              <SvgBox color={theme.ixoDarkOrange} svgWidth={30} svgHeight={30}>
+              <SvgBox color={theme.ixoDarkOrange} $svgWidth={30} $svgHeight={30}>
                 <ExclamationIcon />
               </SvgBox>
               <Typography variant='secondary' size='2xl'>
                 Something went wrong. Please try again.
               </Typography>
             </FlexBox>
-            <FlexBox width='100%' gap={4}>
+            <FlexBox width='100%' $gap={4}>
               <Button variant='secondary' onClick={() => navigate(-1)} style={{ width: '100%' }}>
                 Back
               </Button>

@@ -16,7 +16,7 @@ const TokenSelector: React.FC<Props> = ({ denom, onChange }): JSX.Element => {
       name={'token'}
       value={denom}
       options={assetPairs.map((asset) => ({ value: asset.display, text: `$${asset.display.toUpperCase()}` }))}
-      hasArrow={false}
+      $hasArrow={false}
       onChange={(e) => onChange(e.target.value)}
       style={{ textAlign: 'center' }}
     />

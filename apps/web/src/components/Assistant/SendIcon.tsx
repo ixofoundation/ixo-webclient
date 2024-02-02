@@ -12,14 +12,14 @@ export default function SendIcon({ typedMessage, sendMessage }: { typedMessage: 
     return (
       // @ts-expect-error
       <UnstyledButton component={Flex} p='20px' h={60} onClick={sendMessage}>
-        <SvgBox svgWidth={5} svgHeight={5} color={theme.ixoNewBlue}>
+        <SvgBox $svgWidth={5} $svgHeight={5} color={theme.ixoNewBlue}>
           <SendPlaneIcon />
         </SvgBox>
       </UnstyledButton>
     )
   return (
     <Flex p='20px' h={60}>
-      <SvgBox svgWidth={5} svgHeight={5} color={theme.ixoNewBlue}>
+      <SvgBox $svgWidth={5} $svgHeight={5} color={theme.ixoNewBlue}>
         <AssistantIcon />
       </SvgBox>
     </Flex>

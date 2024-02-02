@@ -46,7 +46,7 @@ const SetupCustomModal: React.FC<Props> = ({ open, action, onClose, onSubmit }):
       onSubmit={onSubmit && handleConfirm}
       validate={validate}
     >
-      <FlexBox width='100%' direction='column' gap={2}>
+      <FlexBox width='100%' $direction='column' $gap={2}>
         <CodeMirror value={formData.message} onChange={(value) => handleUpdateFormData('message', value)} />
       </FlexBox>
     </SetupActionModalTemplate>

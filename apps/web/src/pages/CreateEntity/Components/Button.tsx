@@ -62,7 +62,7 @@ const StyledButton = styled.button<{
   size: TButtonSize
   width?: number
   height?: number
-  isDark: boolean
+  readonly $isDark: boolean
   disabled: boolean
 }>`
   border: none;
@@ -78,7 +78,7 @@ const StyledButton = styled.button<{
   justify-content: center;
   align-items: center;
 
-  color: ${(props): string => buttonColor(props.variant, props.isDark, props.theme)};
+  color: ${(props): string => buttonColor(props.variant, props.$isDark, props.theme)};
   background: ${(props): string => buttonBgColor(props.variant, props.disabled, props.theme)};
 
   letter-spacing: 0.3px;
@@ -139,7 +139,7 @@ const Button: React.FC<TButtonProps> = ({
       width={width}
       height={height}
       disabled={disabled}
-      isDark={theme.isDark}
+      $isDark={theme.isDark}
       onClick={onClick && !loading ? onClick : undefined}
       {...rest}
     >
@@ -148,7 +148,7 @@ const Button: React.FC<TButtonProps> = ({
           <AssistantIcon />
         </SvgBox>
       ) : (
-        <FlexBox gap={2} alignItems='center'>
+        <FlexBox $gap={2} $alignItems='center'>
           {icon && icon}
           <Typography
             weight={textWeight}

@@ -16,25 +16,25 @@ const DAOOverview: React.FC = () => {
   return (
     <Flex w={'100%'} direction={'column'} gap={6}>
       <GridContainer
-        gridTemplateAreas={`"a b b""c d d""e e e"`}
-        gridTemplateColumns={'1fr 1fr 1fr'}
-        gridTemplateRows={'repeat(3, minmax(400px, auto))'}
-        gridGap={6}
+        $gridTemplateAreas={`"a b b""c d d""e e e"`}
+        $gridTemplateColumns={'1fr 1fr 1fr'}
+        $gridTemplateRows={'repeat(3, minmax(400px, auto))'}
+        $gridGap={6}
         width='100%'
       >
-        <GridItem gridArea='a' alignSelf='stretch' height='400px'>
+        <GridItem $gridArea='a' $alignSelf='stretch' height='400px'>
           <WrappedDAOCard {...currentEntity} />
         </GridItem>
-        <GridItem gridArea='b' alignSelf='stretch' height='400px'>
+        <GridItem $gridArea='b' $alignSelf='stretch' height='400px'>
           <TreasuryPoolCard />
         </GridItem>
-        <GridItem gridArea='c' alignSelf='stretch' height='400px'>
+        <GridItem $gridArea='c' $alignSelf='stretch' height='400px'>
           <GovernanceCard />
         </GridItem>
-        <GridItem gridArea='d' alignSelf='stretch' height='400px'>
+        <GridItem $gridArea='d' $alignSelf='stretch' height='400px'>
           <GovernanceActivityCard />
         </GridItem>
-        <GridItem gridArea='e' alignSelf='stretch' height='400px'>
+        <GridItem $gridArea='e' $alignSelf='stretch' height='400px'>
           <Groups />
         </GridItem>
       </GridContainer>

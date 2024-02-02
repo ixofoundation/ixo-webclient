@@ -95,9 +95,9 @@ const InvestmentDashboard: React.FC = (): JSX.Element => {
     <Dashboard
       theme={isEditEntityRoute ? 'light' : 'dark'}
       title={
-        <FlexBox alignItems='center' gap={6}>
+        <FlexBox $alignItems='center' $gap={6}>
           {name}
-          <FlexBox background={theme.ixoNewBlue} p={2} borderRadius={'8px'}>
+          <FlexBox background={theme.ixoNewBlue} p={2} $borderRadius={'8px'}>
             <Typography size='base' color='white'>
               {bondDetail?.state}
             </Typography>

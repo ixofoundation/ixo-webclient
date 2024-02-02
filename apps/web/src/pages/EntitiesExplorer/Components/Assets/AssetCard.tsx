@@ -81,13 +81,13 @@ const AssetCard: React.FC<Props> = ({
       state={{ collectionName: collectionName }}
       style={{ textDecoration: 'none' }}
     >
-      <FlexBox direction='column' width='100%' borderRadius={'10px'} overflow='hidden'>
+      <FlexBox $direction='column' width='100%' $borderRadius={'10px'} overflow='hidden'>
         <FlexBox
           position='relative'
           background={`url(${image!})`}
           width='100%'
-          minHeight='170px'
-          backgroundSize='100% 100%'
+          $minHeight='170px'
+          $backgroundSize='100% 100%'
         >
           <FlexBox position='absolute' top='50%' left='50%' transform='translate(-50%, -50%)'>
             {zlottie && (
@@ -105,20 +105,20 @@ const AssetCard: React.FC<Props> = ({
         </FlexBox>
 
         <FlexBox
-          direction='column'
-          justifyContent='space-between'
+          $direction='column'
+          $justifyContent='space-between'
           p={4}
-          gap={2}
+          $gap={2}
           width='100%'
           height='100%'
           background={theme.ixoWhite}
         >
-          <FlexBox gap={1} alignItems='center' height='24px'>
+          <FlexBox $gap={1} $alignItems='center' height='24px'>
             {tags.map((tag, i) => (
               <FlexBox
                 key={i}
                 background={i % 2 ? theme.ixoOrange : theme.ixoDarkRed}
-                borderRadius={'100px'}
+                $borderRadius={'100px'}
                 color='white'
                 px={2}
                 py={1}
@@ -128,7 +128,7 @@ const AssetCard: React.FC<Props> = ({
             ))}
           </FlexBox>
 
-          <FlexBox direction='column' justifyContent='center' height='70px'>
+          <FlexBox $direction='column' $justifyContent='center' height='70px'>
             <Typography color='black' weight='bold' size='2xl' style={{ marginBottom: 4 }}>
               {name}
             </Typography>
@@ -137,8 +137,8 @@ const AssetCard: React.FC<Props> = ({
             </Typography>
           </FlexBox>
 
-          <FlexBox direction='column' gap={1} width='100%'>
-            <FlexBox gap={1} alignItems='baseline'>
+          <FlexBox $direction='column' $gap={1} width='100%'>
+            <FlexBox $gap={1} $alignItems='baseline'>
               <Typography size='md' color='black' transform='uppercase'>
                 {thousandSeparator(produced, ',')}
               </Typography>
@@ -153,7 +153,7 @@ const AssetCard: React.FC<Props> = ({
               activeBarColor={theme.ixoLightGreen}
               height={8}
             />
-            <FlexBox gap={1} alignItems='baseline'>
+            <FlexBox $gap={1} $alignItems='baseline'>
               <Typography size='sm' color='green'>
                 {thousandSeparator(claimable, ',')} claimable
               </Typography>
@@ -163,8 +163,8 @@ const AssetCard: React.FC<Props> = ({
             </FlexBox>
           </FlexBox>
 
-          <FlexBox width='100%' justifyContent='space-between' alignItems='center'>
-            <FlexBox alignItems='baseline'>
+          <FlexBox width='100%' $justifyContent='space-between' $alignItems='center'>
+            <FlexBox $alignItems='baseline'>
               <Typography color='black' weight='semi-bold' size='2xl'>
                 #{no}&nbsp;
               </Typography>
@@ -178,9 +178,9 @@ const AssetCard: React.FC<Props> = ({
             <FlexBox
               width='32px'
               height='32px'
-              borderRadius='100%'
+              $borderRadius='100%'
               background={`url(${logo}), ${theme.ixoGrey100}`}
-              backgroundSize='100%'
+              $backgroundSize='100%'
             />
           </FlexBox>
         </FlexBox>

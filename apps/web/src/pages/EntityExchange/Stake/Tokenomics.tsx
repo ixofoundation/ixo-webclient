@@ -19,7 +19,7 @@ const Tokenomics: React.FC = () => {
   )
 
   return (
-    <FlexBox gap={4} alignItems='center'>
+    <FlexBox $gap={4} $alignItems='center'>
       <Typography color='blue' weight='bold'>
         Inflation: {tokenomicsInflation.toFixed(2)}%
       </Typography>

@@ -28,7 +28,7 @@ interface Props {
 }
 
 const SetupSpendModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
-  const { entityId = "", coreAddress = "" } = useParams<{ entityId: string; coreAddress: string }>()
+  const { entityId = '', coreAddress = '' } = useParams<{ entityId: string; coreAddress: string }>()
   const { getTokenInfo } = useDAO()
   const [formData, setFormData] = useState<SpendData>(initialState)
 
@@ -91,7 +91,7 @@ const SetupSpendModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): 
       onSubmit={onSubmit && handleConfirm}
       validate={validate}
     >
-      <FlexBox width='100%' gap={4}>
+      <FlexBox width='100%' $gap={4}>
         <Input
           inputValue={formData.amount}
           handleChange={(value) => handleUpdateFormData('amount', value)}
@@ -106,7 +106,7 @@ const SetupSpendModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): 
               ? [{ value: cw20Token.config.token_address, text: `$${cw20Token.tokenInfo.symbol.toUpperCase()}` }]
               : []),
           ]}
-          hasArrow={false}
+          $hasArrow={false}
           onChange={(e) => handleUpdateFormData('denom', e.target.value)}
           style={{ textAlign: 'center' }}
         />
@@ -118,7 +118,7 @@ const SetupSpendModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): 
         </Typography>
       </FlexBox>
 
-      <FlexBox width='100%' gap={4}>
+      <FlexBox width='100%' $gap={4}>
         <Input
           name='to_address'
           placeholder='Paste Address'

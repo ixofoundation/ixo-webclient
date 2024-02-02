@@ -64,22 +64,22 @@ const ClaimCollectionCreationPaymentStep: React.FC<Props> = ({ hidden, onSubmit,
   }
 
   return (
-    <FlexBox direction='column'>
-      <FlexBox direction='column' gap={9} width={deviceWidth.tablet + 'px'} mb={40}>
+    <FlexBox $direction='column'>
+      <FlexBox $direction='column' $gap={9} width={deviceWidth.tablet + 'px'} mb={40}>
         <Typography variant='secondary' size='base'>
           Set up the payments for the claim collection
         </Typography>
 
-        <FlexBox gap={6} width='100%' justifyContent='space-between' alignItems='center'>
+        <FlexBox $gap={6} width='100%' $justifyContent='space-between' $alignItems='center'>
           <Typography>Payer account</Typography>
           <Typography size='2xl'>{paymentsAccount}</Typography>
         </FlexBox>
 
         <FlexBox width='100%' height='1px' background={theme.ixoGrey300} />
 
-        <FlexBox direction='column' gap={6} width='100%'>
+        <FlexBox $direction='column' $gap={6} width='100%'>
           <Typography>Oracle Payments</Typography>
-          <FlexBox gap={6} width='100%' alignItems='center'>
+          <FlexBox $gap={6} width='100%' $alignItems='center'>
             <InputWithLabel
               name='oraclePayments'
               height={'48px'}
@@ -98,9 +98,9 @@ const ClaimCollectionCreationPaymentStep: React.FC<Props> = ({ hidden, onSubmit,
 
         <FlexBox width='100%' height='1px' background={theme.ixoGrey300} />
 
-        <FlexBox direction='column' gap={6} width='100%'>
+        <FlexBox $direction='column' $gap={6} width='100%'>
           <Typography>Service Payments</Typography>
-          <FlexBox gap={6} width='100%' alignItems='center'>
+          <FlexBox $gap={6} width='100%' $alignItems='center'>
             <InputWithLabel
               name='servicePayments'
               height={'48px'}
@@ -115,7 +115,7 @@ const ClaimCollectionCreationPaymentStep: React.FC<Props> = ({ hidden, onSubmit,
               />
             </FlexBox>
           </FlexBox>
-          <FlexBox gap={6} width='100%' alignItems='center'>
+          <FlexBox $gap={6} width='100%' $alignItems='center'>
             <InputWithLabel
               name='approvalPayments'
               height={'48px'}
@@ -130,7 +130,7 @@ const ClaimCollectionCreationPaymentStep: React.FC<Props> = ({ hidden, onSubmit,
               />
             </FlexBox>
           </FlexBox>
-          <FlexBox gap={6} width='100%' alignItems='center'>
+          <FlexBox $gap={6} width='100%' $alignItems='center'>
             <InputWithLabel
               name='rejectionPayments'
               height={'48px'}
@@ -149,9 +149,9 @@ const ClaimCollectionCreationPaymentStep: React.FC<Props> = ({ hidden, onSubmit,
 
         <FlexBox width='100%' height='1px' background={theme.ixoGrey300} />
 
-        <FlexBox direction='column' gap={6} width='100%'>
+        <FlexBox $direction='column' $gap={6} width='100%'>
           <Typography>Payout time delay</Typography>
-          <FlexBox gap={6} width='100%' alignItems='center'>
+          <FlexBox $gap={6} width='100%' $alignItems='center'>
             <InputWithLabel
               name='timeouts'
               height={'48px'}
@@ -173,7 +173,7 @@ const ClaimCollectionCreationPaymentStep: React.FC<Props> = ({ hidden, onSubmit,
         <FlexBox width='100%' height='1px' background={theme.ixoGrey300} />
       </FlexBox>
 
-      <FlexBox gap={5}>
+      <FlexBox $gap={5}>
         <Button variant='secondary' onClick={onCancel}>
           Back
         </Button>

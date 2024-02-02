@@ -61,12 +61,12 @@ const SetupWithdrawTokenSwapModal: React.FC<Props> = ({ open, action, onClose, o
         </Typography>
       </FlexBox>
 
-      <FlexBox width='100%' direction='column' gap={2}>
+      <FlexBox width='100%' $direction='column' $gap={2}>
         <Typography weight='medium' size='xl'>
           Existing token swap contract
         </Typography>
 
-        <FlexBox width='100%' gap={4}>
+        <FlexBox width='100%' $gap={4}>
           <Input
             name='token_swap_contract_address'
             placeholder='Paste Address'

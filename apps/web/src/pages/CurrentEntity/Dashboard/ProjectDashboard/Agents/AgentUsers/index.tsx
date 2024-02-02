@@ -65,7 +65,7 @@ const AgentUsers: React.FC = () => {
   }, [adminAddress, JSON.stringify(agents)])
 
   return (
-    <FlexBox width='100%' direction='column' gap={6}>
+    <FlexBox width='100%' $direction='column' $gap={6}>
       <AgentUserSection title={'Authorized'} agents={approvedAgents} noAction />
       <FlexBox width='100%' height='1px' background={theme.ixoDarkBlue} />
       <AgentUserSection title={'Pending approval'} agents={pendingAgents} />

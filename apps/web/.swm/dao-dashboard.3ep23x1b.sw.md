@@ -6,14 +6,17 @@ app_version: 1.14.0
 ---
 
 Show "Join" Button instead of "New Proposal" when you are not a member of the ImpactsDAO.
+
 <!-- NOTE-swimm-snippet: the lines below link your snippet to Swimm -->
+
 ### 📄 src/pages/CurrentEntity/Dashboard/DAODashboard/Components/UserProposals.tsx
+
 <!-- collapsed -->
 
 ```tsx
 165      if (isImpactsDAO && daoController === daoGroup.coreAddress && !isMemberOfImpactsDAO && !isOwner) {
 166        return (
-167          <FlexBox height='100%' direction='column' justifyContent='space-between'>
+167          <FlexBox height='100%' $direction='column' $justifyContent='space-between'>
 168            <Typography variant='secondary' size='2xl' color='dark-blue'>
 169              You are not yet a member of this DAO. To participate in governance stake at least 1 DAO governance token. To
 170              join as a member of the DAO submit a Membership Proposal (this may require a proposal deposit amount).
@@ -39,8 +42,11 @@ Show "Join" Button instead of "New Proposal" when you are not a member of the Im
 <br/>
 
 members filtered when it's ImpactsDAO by linkedEntity type is being 'MemberDAO' which should be added with Join Proposal.
+
 <!-- NOTE-swimm-snippet: the lines below link your snippet to Swimm -->
+
 ### 📄 src/pages/CurrentEntity/Dashboard/DAODashboard/Membership/Membership.tsx
+
 ```tsx
 17       const members: Member[] = useMemo(
 18         () =>

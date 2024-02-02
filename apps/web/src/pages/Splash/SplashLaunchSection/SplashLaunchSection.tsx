@@ -42,7 +42,7 @@ export const SplashCards: FC = () => {
             {iconGroup.map((icon) => {
               return (
                 <NoPaddingCol key={icon.class}>
-                  <Card iconColor={icon.bgColor} href={icon.url} target='_blank' rel='noopener noreferrer'>
+                  <Card iconcolor={icon.bgColor} href={icon.url} target='_blank' rel='noopener noreferrer'>
                     {icon.tooltip ? (
                       <OverlayTrigger placement='top' overlay={<Tooltip id={`tooltip-top`}>{icon.tooltip}</Tooltip>}>
                         <CardIcon className={icon.class} />

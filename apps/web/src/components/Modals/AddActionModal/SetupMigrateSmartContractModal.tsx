@@ -65,8 +65,8 @@ const SetupMigrateSmartContractModal: React.FC<Props> = ({ open, action, onClose
           the selected contract to a new code ID.
         </Typography>
       </FlexBox>
-      <FlexBox direction='column' width='100%' gap={2}>
-        <FlexBox width='100%' gap={4}>
+      <FlexBox $direction='column' width='100%' $gap={2}>
+        <FlexBox width='100%' $gap={4}>
           <Input
             width='100px'
             name='code_id'
@@ -83,7 +83,7 @@ const SetupMigrateSmartContractModal: React.FC<Props> = ({ open, action, onClose
         </FlexBox>
       </FlexBox>
 
-      <FlexBox direction='column' width='100%' gap={2}>
+      <FlexBox $direction='column' width='100%' $gap={2}>
         <Typography color='black' weight='medium' size='xl'>
           Migrate message
         </Typography>

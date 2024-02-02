@@ -30,14 +30,13 @@ const SetupEditEntityModal: React.FC<Props> = ({ open, action, onClose, onSubmit
     lineHeight: 28,
   }
   const navigate = useNavigate()
-  const {pathname} = useLocation()
+  const { pathname } = useLocation()
   const [chainId, setChainId] = useState(undefined)
   const [entityDid, setEntityDid] = useState('')
   const { error: validate } = useGetEntityById(entityDid)
 
   const handleConfirm = () => {
-    onSubmit &&
-      navigate({ pathname: `/edit/entity/${entityDid}`, search: `?redirectTo=${pathname}` })
+    onSubmit && navigate({ pathname: `/edit/entity/${entityDid}`, search: `?redirectTo=${pathname}` })
   }
 
   return (
@@ -48,7 +47,7 @@ const SetupEditEntityModal: React.FC<Props> = ({ open, action, onClose, onSubmit
       onSubmit={onSubmit && handleConfirm}
       validate={!!validate}
     >
-      <Body width='100%' height='100%' gap={4}>
+      <Body width='100%' height='100%' $gap={4}>
         <ChainSelector chainId={chainId!} onChange={setChainId as any} />
         <Input
           name='entitydid'

@@ -49,7 +49,7 @@ const SetupAcceptToMarketplaceModal: React.FC<Props> = ({ open, action, onClose,
     if (selectedEntity) {
       const { relayerNode } = selectedEntity
 
-      setFormData((v) => ({ ...v, relayerNodeAddress: coreAddress || "", relayerNodeDid: relayerNode || "" }))
+      setFormData((v) => ({ ...v, relayerNodeAddress: coreAddress || '', relayerNodeDid: relayerNode || '' }))
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(selectedEntity)])
@@ -67,7 +67,7 @@ const SetupAcceptToMarketplaceModal: React.FC<Props> = ({ open, action, onClose,
       onSubmit={onSubmit && handleConfirm}
       validate={validate}
     >
-      <FlexBox direction='column' width='100%' gap={2}>
+      <FlexBox $direction='column' width='100%' $gap={2}>
         <Dropdown
           name={'unverified_entities'}
           options={dropdownOptions}

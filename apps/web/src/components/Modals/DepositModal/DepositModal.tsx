@@ -38,10 +38,10 @@ const Card = ({ children, ...rest }: HTMLFlexBoxProps) => {
       p={2}
       width='100%'
       height='48px'
-      alignItems='center'
-      justifyContent='center'
+      $alignItems='center'
+      $justifyContent='center'
       border={`1px solid ${theme.ixoNewBlue}`}
-      borderRadius={'8px'}
+      $borderRadius={'8px'}
       {...rest}
     >
       {children}
@@ -180,13 +180,13 @@ const DepositModal: React.FunctionComponent<Props> = ({
       handleToggleModal={(): void => setOpen(false)}
     >
       <FlexBox width='600px'>
-        <FlexBox width='400px' gap={4} py={12} mx={'auto'} justifyContent='center'>
+        <FlexBox width='400px' $gap={4} py={12} mx={'auto'} $justifyContent='center'>
           {txStatus === TXStatus.UNDEFINED && (
-            <FlexBox direction='column' width='100%' gap={8}>
+            <FlexBox $direction='column' width='100%' $gap={8}>
               {/* body */}
-              <FlexBox direction='column' width='100%' alignItems='center' gap={4}>
+              <FlexBox $direction='column' width='100%' $alignItems='center' $gap={4}>
                 {/* Amount & Denom */}
-                <FlexBox width='100%' gap={2} alignItems='center'>
+                <FlexBox width='100%' $gap={2} $alignItems='center'>
                   <Box position='relative' style={{ flex: 1 }}>
                     <StyledInput
                       inputValue={amount}
@@ -195,7 +195,7 @@ const DepositModal: React.FunctionComponent<Props> = ({
                       placeholder='Enter Amount'
                     />
                     {/* my balance */}
-                    <FlexBox position='absolute' top='-16px' right='16px' gap={2}>
+                    <FlexBox position='absolute' top='-16px' right='16px' $gap={2}>
                       <Typography size='sm' color='dark-blue'>
                         <CurrencyFormat displayType={'text'} value={balance} thousandSeparator decimalScale={2} />
                       </Typography>
@@ -210,9 +210,9 @@ const DepositModal: React.FunctionComponent<Props> = ({
                       </Typography>
                     </FlexBox>
                   </Box>
-                  <Card justifyContent='flex-start' alignItems='center' flexBasis='33%' gap={2} cursor='pointer'>
+                  <Card $justifyContent='flex-start' $alignItems='center' $flexBasis='33%' $gap={2} cursor='pointer'>
                     <Avatar size={28} url={selectedToken?.imageUrl} />
-                    <Typography color='white' transform='uppercase'>
+                    <Typography color='white' transform='uppercase' style={{ flex: 1 }}>
                       {/* {selectedToken?.symbol} */}
                       <Dropdown
                         options={tokenOptions}
@@ -229,20 +229,20 @@ const DepositModal: React.FunctionComponent<Props> = ({
                 </FlexBox>
                 {/* Arrow Down icon */}
                 <FlexBox
-                  alignItems='center'
-                  justifyContent='center'
-                  borderRadius='100%'
+                  $alignItems='center'
+                  $justifyContent='center'
+                  $borderRadius='100%'
                   width='40px'
                   height='40px'
                   border={`1px solid ${theme.ixoDarkBlue}`}
-                  boxShadow={theme.ixoShadow2}
+                  $boxShadow={theme.ixoShadow2}
                 >
-                  <SvgBox color={theme.ixoNewBlue} svgHeight={8}>
+                  <SvgBox color={theme.ixoNewBlue} $svgHeight={8}>
                     <ArrowDownIcon />
                   </SvgBox>
                 </FlexBox>
                 {/* DAO name & Group Name */}
-                <Card gap={2}>
+                <Card $gap={2}>
                   <Typography color={'dark-blue'} weight='medium'>
                     {daoName}
                   </Typography>
@@ -252,7 +252,7 @@ const DepositModal: React.FunctionComponent<Props> = ({
                 </Card>
               </FlexBox>
               {/* Action */}
-              <FlexBox width='100%' justifyContent='flex-end' alignItems='center'>
+              <FlexBox width='100%' $justifyContent='flex-end' $alignItems='center'>
                 <SvgBox
                   cursor='pointer'
                   onClick={() => validAmount && handleSigning()}

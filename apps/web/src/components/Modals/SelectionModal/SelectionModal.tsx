@@ -102,8 +102,8 @@ const SelectionModal: React.FC<Props> = ({
                   return (
                     <SDGSelectionButton
                       key={value}
-                      bgColor={sdgIcon.bgColor}
-                      selected={selections.some((_) => _ === value)}
+                      $bgColor={sdgIcon.bgColor}
+                      $selected={selections.some((_) => _ === value)}
                       onClick={(): void => {
                         handleChange && handleSelect(value)
                       }}

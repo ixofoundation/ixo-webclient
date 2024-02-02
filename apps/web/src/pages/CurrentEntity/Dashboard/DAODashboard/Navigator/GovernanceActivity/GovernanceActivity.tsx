@@ -12,7 +12,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
     const timestamp = payload[0].payload?.timestamp
     const votes = payload[0].payload?.votes
     return (
-      <FlexBox direction='column' background='#012131' borderRadius='4px' px={4} py={3} gap={1}>
+      <FlexBox $direction='column' background='#012131' $borderRadius='4px' px={4} py={3} $gap={1}>
         <Typography color='white' size='md' weight='bold'>
           {moment(timestamp).format('ddd, D MMM, YYYY')}
         </Typography>
@@ -67,8 +67,8 @@ const GovernanceActivity: React.FC<Props> = ({ daoId, groupIds }): JSX.Element =
           />
         </BarChart>
       </ResponsiveContainer>
-      <FlexBox width='100%' justifyContent='flex-end'>
-        <FlexBox mr={2} gap={4}>
+      <FlexBox width='100%' $justifyContent='flex-end'>
+        <FlexBox mr={2} $gap={4}>
           <Typography color='dark-blue' size='md'>
             Day
           </Typography>

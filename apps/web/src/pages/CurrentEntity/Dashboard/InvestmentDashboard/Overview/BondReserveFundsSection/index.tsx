@@ -130,8 +130,8 @@ const BondReserveFundsSection: React.FC<Props> = ({ bondDid }) => {
   }
 
   return (
-    <FlexBox direction='column' width='100%' gap={6}>
-      <FlexBox width='100%' gap={4}>
+    <FlexBox $direction='column' width='100%' $gap={6}>
+      <FlexBox width='100%' $gap={4}>
         {isActiveWithdrawReserve && (
           <Button variant='secondary' size='flex' onClick={onWithdrawClick} loading={loading}>
             Withdraw

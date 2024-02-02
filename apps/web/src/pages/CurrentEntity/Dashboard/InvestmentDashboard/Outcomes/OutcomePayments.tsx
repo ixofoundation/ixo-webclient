@@ -68,8 +68,8 @@ const OutcomePayments: React.FC<Props> = ({ bondDid }) => {
           const date = moment(timestamp).format('DD MMM ‘YY')
           const time = moment(timestamp).format('hh:mm')
           return (
-            <FlexBox direction='column' gap={1} p={4}>
-              <Typography size='lg' noWrap>
+            <FlexBox $direction='column' $gap={1} p={4}>
+              <Typography size='lg' $noWrap>
                 {date}
               </Typography>
               <Typography size='sm' color='light-blue'>
@@ -84,7 +84,7 @@ const OutcomePayments: React.FC<Props> = ({ bondDid }) => {
         accessor: 'status',
         renderCell: (cell: any) => {
           return (
-            <FlexBox direction='column' p={4}>
+            <FlexBox $direction='column' p={4}>
               <Typography size='lg'>{'Open'}</Typography>
             </FlexBox>
           )
@@ -95,7 +95,7 @@ const OutcomePayments: React.FC<Props> = ({ bondDid }) => {
         accessor: 'type',
         renderCell: (cell: any) => {
           return (
-            <FlexBox direction='column' p={4}>
+            <FlexBox $direction='column' p={4}>
               <Typography size='lg'>{'Success Fee'}</Typography>
             </FlexBox>
           )
@@ -106,7 +106,7 @@ const OutcomePayments: React.FC<Props> = ({ bondDid }) => {
         accessor: 'senderAddress',
         renderCell: (cell: any) => {
           return (
-            <FlexBox direction='column' p={4}>
+            <FlexBox $direction='column' p={4}>
               <Typography size='lg'>{truncateString(cell.value, 20)}</Typography>
             </FlexBox>
           )
@@ -117,7 +117,7 @@ const OutcomePayments: React.FC<Props> = ({ bondDid }) => {
         accessor: 'condition',
         renderCell: (cell: any) => {
           return (
-            <FlexBox direction='column' p={4}>
+            <FlexBox $direction='column' p={4}>
               <Typography size='lg'>{'(Target A > 90%) AND (Target B > 50%)'}</Typography>
             </FlexBox>
           )
@@ -133,11 +133,11 @@ const OutcomePayments: React.FC<Props> = ({ bondDid }) => {
           }).format(Number(amount?.amount || '0'))
 
           return (
-            <FlexBox justifyContent='flex-end' alignItems='stretch' width='250px' height='100%'>
+            <FlexBox $justifyContent='flex-end' $alignItems='stretch' width='250px' height='100%'>
               <FlexBox
                 height='100%'
-                justifyContent='center'
-                alignItems='center'
+                $justifyContent='center'
+                $alignItems='center'
                 p={4}
                 background={theme.ixoNavyBlue}
                 style={{ flex: 1 }}
@@ -149,8 +149,8 @@ const OutcomePayments: React.FC<Props> = ({ bondDid }) => {
               <SvgBox
                 width='60px'
                 height='100%'
-                justifyContent='center'
-                alignItems='center'
+                $justifyContent='center'
+                $alignItems='center'
                 background={theme.ixoMediumBlue}
                 color='white'
                 hover={{ color: theme.ixoNewBlue }}
@@ -168,11 +168,11 @@ const OutcomePayments: React.FC<Props> = ({ bondDid }) => {
   return (
     <TableWrapper
       width='100%'
-      direction='column'
-      borderRadius='4px'
+      $direction='column'
+      $borderRadius='4px'
       border={`1px solid #0C3549`}
       background='linear-gradient(180deg, #012639 0%, #002D42 97.29%)'
-      boxShadow='0px 2px 10px 0px rgba(0, 0, 0, 0.18)'
+      $boxShadow='0px 2px 10px 0px rgba(0, 0, 0, 0.18)'
       p={4}
     >
       <Table
@@ -188,9 +188,9 @@ const OutcomePayments: React.FC<Props> = ({ bondDid }) => {
         <FlexBox
           width='100%'
           height='80px'
-          alignItems='center'
-          justifyContent='center'
-          borderRadius='8px'
+          $alignItems='center'
+          $justifyContent='center'
+          $borderRadius='8px'
           background='#053549'
         >
           <Typography variant='primary' size='lg' color='dark-blue'>

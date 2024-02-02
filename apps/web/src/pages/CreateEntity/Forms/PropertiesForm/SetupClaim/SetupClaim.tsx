@@ -44,7 +44,7 @@ const SetupClaim: React.FC<Props> = ({ hidden, claim, updateClaim }): JSX.Elemen
 
   return (
     <>
-      <FlexBox direction='column' style={hidden ? { display: 'none' } : {}}>
+      <FlexBox $direction='column' style={hidden ? { display: 'none' } : {}}>
         <Box className='d-flex flex-wrap' style={{ gap: 20 }}>
           {Object.entries(claim).map(([key, value]) => (
             <PropertyBox

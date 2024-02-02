@@ -55,9 +55,9 @@ const columns = [
       const coinImageUrl = cell.row.original?.coinImageUrl
 
       return (
-        <FlexBox alignItems='center' gap={2} p={4}>
+        <FlexBox $alignItems='center' $gap={2} p={4}>
           <Avatar size={38} url={coinImageUrl} />
-          <FlexBox direction='column'>
+          <FlexBox $direction='column'>
             <Typography size='lg' transform='uppercase'>
               {coinDenom}
             </Typography>
@@ -73,7 +73,7 @@ const columns = [
     renderCell: (cell: any) => {
       const balance = cell.value
       return (
-        <FlexBox direction='column' alignItems='end' p={4}>
+        <FlexBox $direction='column' $alignItems='end' p={4}>
           <Typography size='lg'>
             <CurrencyFormat
               displayType={'text'}
@@ -108,7 +108,7 @@ const Collections: React.FC<Props> = ({ address }) => {
   }
 
   return (
-    <FlexBox width='100%' direction='column' gap={3}>
+    <FlexBox width='100%' $direction='column' $gap={3}>
       <TableWrapper>
         <Table
           columns={columns}
@@ -123,9 +123,9 @@ const Collections: React.FC<Props> = ({ address }) => {
           <FlexBox
             width='100%'
             height='80px'
-            alignItems='center'
-            justifyContent='center'
-            borderRadius='8px'
+            $alignItems='center'
+            $justifyContent='center'
+            $borderRadius='8px'
             background='#053549'
           >
             <Typography variant='primary' size='lg' color='dark-blue'>

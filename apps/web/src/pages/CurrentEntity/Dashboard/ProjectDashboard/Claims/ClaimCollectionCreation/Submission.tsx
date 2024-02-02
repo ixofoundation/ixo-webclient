@@ -27,17 +27,17 @@ const ClaimCollectionCreationSubmissionStep: React.FC<Props> = ({ hidden, onSubm
   }
 
   return (
-    <FlexBox direction='column'>
-      <FlexBox direction='column' gap={9} width={deviceWidth.tablet + 'px'} mb={40}>
+    <FlexBox $direction='column'>
+      <FlexBox $direction='column' $gap={9} width={deviceWidth.tablet + 'px'} mb={40}>
         <Typography variant='secondary' size='base'>
           Set up the claim submission process
         </Typography>
 
-        <FlexBox direction='column' gap={6}>
+        <FlexBox $direction='column' $gap={6}>
           <Typography>Offer application form</Typography>
-          <FlexBox gap={6}>
+          <FlexBox $gap={6}>
             {deedProtocols.map((entity: TEntityModel) => (
-              <FlexBox key={entity.id} direction='column' alignItems='center' gap={4}>
+              <FlexBox key={entity.id} $direction='column' $alignItems='center' $gap={4}>
                 <PropertyBox
                   icon={<ClaimIcon />}
                   required={true}
@@ -49,7 +49,7 @@ const ClaimCollectionCreationSubmissionStep: React.FC<Props> = ({ hidden, onSubm
                   variant='primary'
                   size='md'
                   color={protocolDeedId === entity.id ? 'blue' : 'black'}
-                  overflowLines={2}
+                  $overflowLines={2}
                   style={{ width: 100, textAlign: 'center' }}
                 >
                   {entity.profile?.name || entity.id}
@@ -58,13 +58,13 @@ const ClaimCollectionCreationSubmissionStep: React.FC<Props> = ({ hidden, onSubm
             ))}
 
             <NavLink to={`/create/entity/protocol/deed/profile?type=offer`}>
-              <FlexBox direction='column' alignItems='center' gap={4}>
+              <FlexBox $direction='column' $alignItems='center' $gap={4}>
                 <PropertyBox icon={<PlusIcon />} noData />
                 <Typography
                   variant='primary'
                   size='md'
                   color={'black'}
-                  overflowLines={2}
+                  $overflowLines={2}
                   style={{ width: 100, textAlign: 'center' }}
                 >
                   Create Custom
@@ -77,7 +77,7 @@ const ClaimCollectionCreationSubmissionStep: React.FC<Props> = ({ hidden, onSubm
         <FlexBox width='100%' height='1px' background={theme.ixoGrey300} />
       </FlexBox>
 
-      <FlexBox gap={5}>
+      <FlexBox $gap={5}>
         <Button variant='secondary' onClick={onCancel}>
           Back
         </Button>

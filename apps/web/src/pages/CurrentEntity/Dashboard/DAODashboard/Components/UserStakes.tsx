@@ -63,9 +63,9 @@ const columns = [
       const coinImageUrl = cell.row.original?.coinImageUrl
 
       return (
-        <FlexBox alignItems='center' gap={2} p={4}>
+        <FlexBox $alignItems='center' $gap={2} p={4}>
           <Avatar size={38} url={coinImageUrl} />
-          <FlexBox direction='column'>
+          <FlexBox $direction='column'>
             <Typography size='lg' transform='uppercase'>
               {coinDenom}
             </Typography>
@@ -83,7 +83,7 @@ const columns = [
       const lastPriceUsd = cell.row.original?.lastPriceUsd ?? 0
       const balanceUsd = new BigNumber(balance).times(lastPriceUsd).toString()
       return (
-        <FlexBox direction='column' alignItems='end' p={4}>
+        <FlexBox $direction='column' $alignItems='end' p={4}>
           <Typography size='lg'>
             <CurrencyFormat
               displayType={'text'}
@@ -110,7 +110,7 @@ interface Props {
 const UserStakes: React.FC<Props> = ({ show, coreAddress, userAddress }) => {
   const theme: any = useTheme()
   const { pathname } = useLocation()
-  const navigate =useNavigate()
+  const navigate = useNavigate()
   const { cwClient, address } = useAccount()
   const { updateDAOGroup } = useCurrentEntity()
   const { daoGroup, votingModuleAddress } = useCurrentEntityDAOGroup(coreAddress)
@@ -175,10 +175,13 @@ const UserStakes: React.FC<Props> = ({ show, coreAddress, userAddress }) => {
   const handleRowClick = (state: any) => () => {
     const { original } = state
     // original = { coinDenom, network, coinImageUrl, lastPriceUsd, balance, priceChangePercent }
-    navigate({
-      pathname: pathname,
-      search: `?token=${original.coinDenom}`,
-    }, { state: original})
+    navigate(
+      {
+        pathname: pathname,
+        search: `?token=${original.coinDenom}`,
+      },
+      { state: original },
+    )
   }
 
   const handleUpdate = () => {
@@ -189,14 +192,14 @@ const UserStakes: React.FC<Props> = ({ show, coreAddress, userAddress }) => {
   return show ? (
     <>
       {isParticipating && data.length > 0 ? (
-        <FlexBox width='100%' direction='column' gap={3}>
+        <FlexBox width='100%' $direction='column' $gap={3}>
           <PieChart
             data={[
               { name: 'Rest Voting Power', value: 1 - userVotingPower, color: theme.ixoDarkBlue },
               { name: 'My Voting Power', value: userVotingPower, color: theme.ixoNewBlue },
             ]}
             descriptor={
-              <FlexBox direction='column' alignItems='center'>
+              <FlexBox $direction='column' $alignItems='center'>
                 <Typography variant='secondary' size='3xl' weight='bold'>
                   {new Intl.NumberFormat('en-us', {
                     style: 'percent',

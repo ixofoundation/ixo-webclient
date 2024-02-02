@@ -47,7 +47,7 @@ const BondStatistics: React.FC<Props> = ({ bondDid }) => {
   }
 
   return (
-    <FlexBox width='100%' gap={4} alignItems='stretch'>
+    <FlexBox width='100%' $gap={4} $alignItems='stretch'>
       <Tab
         id='price'
         prefix={reserveToken.toUpperCase()}
@@ -98,7 +98,7 @@ const BondStatistics: React.FC<Props> = ({ bondDid }) => {
         <Tab
           id='alpha'
           prefix={
-            <SvgBox color={theme.ixoNewBlue} svgWidth={8} svgHeight={8}>
+            <SvgBox color={theme.ixoNewBlue} $svgWidth={8} $svgHeight={8}>
               <AlphqbondIcon />
             </SvgBox>
           }
@@ -112,7 +112,7 @@ const BondStatistics: React.FC<Props> = ({ bondDid }) => {
         <Tab
           id='alpha'
           prefix={
-            <SvgBox color={theme.ixoNewBlue} svgWidth={8} svgHeight={8}>
+            <SvgBox color={theme.ixoNewBlue} $svgWidth={8} $svgHeight={8}>
               <AlphqbondIcon />
             </SvgBox>
           }

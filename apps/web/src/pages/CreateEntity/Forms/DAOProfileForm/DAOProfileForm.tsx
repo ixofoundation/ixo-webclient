@@ -33,7 +33,7 @@ const DAOProfileForm: React.FC<Props> = ({
       </FormHeader>
 
       <FormBody>
-        <FlexBox justifyContent='flex-end'>
+        <FlexBox $justifyContent='flex-end'>
           <IconUpload icon={logo} placeholder='DAO Icon' handleChange={setLogo} />
         </FlexBox>
 

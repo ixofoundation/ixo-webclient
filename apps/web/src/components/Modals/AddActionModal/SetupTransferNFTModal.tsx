@@ -63,7 +63,7 @@ const SetupTransferNFTModal: React.FC<Props> = ({ open, action, onClose, onSubmi
       onSubmit={onSubmit && handleConfirm}
       validate={validate}
     >
-      <FlexBox direction='column' width='100%' gap={2}>
+      <FlexBox $direction='column' width='100%' $gap={2}>
         <Typography size='xl'>Select NFT to burn</Typography>
         <Dropdown
           name='nft'
@@ -78,13 +78,13 @@ const SetupTransferNFTModal: React.FC<Props> = ({ open, action, onClose, onSubmi
         />
       </FlexBox>
 
-      <FlexBox direction='column' width='100%' gap={2}>
+      <FlexBox $direction='column' width='100%' $gap={2}>
         <Typography size='xl'>Where would you like to transfer the NFT?</Typography>
         <Input name='wallet_address' inputValue={formData.recipient} disabled />
       </FlexBox>
 
-      <FlexBox direction='column' width='100%' gap={2}>
-        <FlexBox gap={4} alignItems='center'>
+      <FlexBox $direction='column' width='100%' $gap={2}>
+        <FlexBox $gap={4} $alignItems='center'>
           <Typography size='xl'>Execute smart contract?</Typography>
           <Switch
             size='md'

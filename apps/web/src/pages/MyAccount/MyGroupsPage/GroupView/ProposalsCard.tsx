@@ -53,7 +53,7 @@ const ProposalsCard: React.FC<Props> = ({ daoGroup }) => {
         </Flex>
         <Badge bg={'#213E59'} color={theme.ixoNewBlue}>
           <Flex align={'center'} gap={4}>
-            <SvgBox svgWidth={4} svgHeight={4}>
+            <SvgBox $svgWidth={4} $svgHeight={4}>
               <SandClockIcon />
             </SvgBox>
             <Typography size='sm'>

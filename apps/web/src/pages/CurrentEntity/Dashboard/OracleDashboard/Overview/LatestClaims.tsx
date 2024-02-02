@@ -8,12 +8,12 @@ const ClaimItem: React.FC = () => {
   const Setting = useClaimSetting()
   return (
     <FlexBox
-      direction='column'
+      $direction='column'
       width='100%'
       height='70px'
-      borderRadius='4px'
+      $borderRadius='4px'
       background={'#002D42'}
-      justifyContent='center'
+      $justifyContent='center'
       cursor='pointer'
       px={8}
       position='relative'
@@ -26,7 +26,7 @@ const ClaimItem: React.FC = () => {
         width='8px'
         height='24px'
         background={Setting[ixo.claims.v1beta1.EvaluationStatus.PENDING].color}
-        borderRadius='100px'
+        $borderRadius='100px'
       />
 
       <Typography color='white' size='base'>
@@ -41,7 +41,7 @@ const ClaimItem: React.FC = () => {
 
 const LatestClaims: React.FC = () => {
   return (
-    <FlexBox direction='column' width='100%' gap={2}>
+    <FlexBox $direction='column' width='100%' $gap={2}>
       <ClaimItem />
       <ClaimItem />
       <ClaimItem />

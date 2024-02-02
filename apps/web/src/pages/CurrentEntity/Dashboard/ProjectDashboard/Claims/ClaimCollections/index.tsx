@@ -48,7 +48,7 @@ const ClaimCollection: React.FC<Props> = ({ collectionId }) => {
 
   return (
     <>
-      <FlexBox width='100%' gap={2} color='black' flexWrap='wrap'>
+      <FlexBox width='100%' $gap={2} color='black' $flexWrap='wrap'>
         <ClaimTab status={ixo.claims.v1beta1.EvaluationStatus.UNRECOGNIZED} value={0} />
         <ClaimTab status={ixo.claims.v1beta1.EvaluationStatus.PENDING} value={pending} />
         <ClaimTab status={ixo.claims.v1beta1.EvaluationStatus.REJECTED} value={rejected} />
@@ -56,12 +56,12 @@ const ClaimCollection: React.FC<Props> = ({ collectionId }) => {
         <ClaimTab status={ixo.claims.v1beta1.EvaluationStatus.DISPUTED} value={disputed} />
       </FlexBox>
 
-      <FlexBox direction='column' width='100%' gap={6}>
-        <FlexBox direction='column' width='100%' gap={4}>
+      <FlexBox $direction='column' width='100%' $gap={6}>
+        <FlexBox $direction='column' width='100%' $gap={4}>
           <Typography variant='secondary' size='2xl'>
             Saved Claims
           </Typography>
-          <FlexBox direction='column' gap={2} width='100%'>
+          <FlexBox $direction='column' $gap={2} width='100%'>
             {/* <ClaimItem status='saved' name='Claim/Project Name' identifier='did:sov:RFWuuFmLvNd8uq9x5sUYku' />
             <ClaimItem status='saved' name='Claim/Project Name' identifier='did:sov:RFWuuFmLvNd8uq9x5sUYku' /> */}
           </FlexBox>
@@ -69,11 +69,11 @@ const ClaimCollection: React.FC<Props> = ({ collectionId }) => {
 
         <FlexBox width='100%' height='1px' background='#D5D9E0' />
 
-        <FlexBox direction='column' width='100%' gap={4}>
+        <FlexBox $direction='column' width='100%' $gap={4}>
           <Typography variant='secondary' size='2xl'>
             Claims Pending
           </Typography>
-          <FlexBox direction='column' gap={2} width='100%'>
+          <FlexBox $direction='column' $gap={2} width='100%'>
             {pendingClaims.slice(0, 3).map((claim: any) => (
               <ClaimItem
                 key={claim.claimId}
@@ -86,11 +86,11 @@ const ClaimCollection: React.FC<Props> = ({ collectionId }) => {
 
         <FlexBox width='100%' height='1px' background='#D5D9E0' />
 
-        <FlexBox direction='column' width='100%' gap={4}>
+        <FlexBox $direction='column' width='100%' $gap={4}>
           <Typography variant='secondary' size='2xl'>
             Claims Rejected
           </Typography>
-          <FlexBox direction='column' gap={2} width='100%'>
+          <FlexBox $direction='column' $gap={2} width='100%'>
             {rejectedClaims.slice(0, 3).map((claim: any) => (
               <ClaimItem
                 key={claim.claimId}
@@ -103,11 +103,11 @@ const ClaimCollection: React.FC<Props> = ({ collectionId }) => {
 
         <FlexBox width='100%' height='1px' background='#D5D9E0' />
 
-        <FlexBox direction='column' width='100%' gap={4}>
+        <FlexBox $direction='column' width='100%' $gap={4}>
           <Typography variant='secondary' size='2xl'>
             Claims Approved
           </Typography>
-          <FlexBox direction='column' gap={2} width='100%'>
+          <FlexBox $direction='column' $gap={2} width='100%'>
             {approvedClaims.slice(0, 3).map((claim: any) => (
               <ClaimItem
                 key={claim.claimId}
@@ -123,13 +123,13 @@ const ClaimCollection: React.FC<Props> = ({ collectionId }) => {
 }
 
 const ClaimCollections: React.FC = () => {
-  const { entityId = "" } = useParams<{ entityId: string }>()
+  const { entityId = '' } = useParams<{ entityId: string }>()
   const { data: claimCollections } = useGetClaimCollectionsByEntityId(entityId)
   const [collectionId, setCollectionId] = useState('')
 
   return (
-    <FlexBox direction='column' gap={6} width='100%' color='black'>
-      <FlexBox width='100%' gap={2} color='black' flexWrap='wrap'>
+    <FlexBox $direction='column' $gap={6} width='100%' color='black'>
+      <FlexBox width='100%' $gap={2} color='black' $flexWrap='wrap'>
         {claimCollections.map((claimCollection: any) => (
           <ClaimCollectionCategory
             key={claimCollection.id}

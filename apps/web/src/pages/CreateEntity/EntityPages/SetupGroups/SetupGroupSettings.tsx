@@ -178,8 +178,8 @@ const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JS
   }
 
   return (
-    <FlexBox width={'100%'} justifyContent='center'>
-      <FlexBox direction='column' width={deviceWidth.tablet + 'px'}>
+    <FlexBox width={'100%'} $justifyContent='center'>
+      <FlexBox $direction='column' width={deviceWidth.tablet + 'px'}>
         <RenderGroupIdentity setData={setData} data={data} />
         {data.type === 'multisig' ? (
           <RenderMultisigGroupMembership setData={setData} data={data} />

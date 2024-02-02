@@ -9,7 +9,7 @@ const Outcomes: React.FC = () => {
   const bondDid = bondLinkedEntity?.id || ''
 
   return (
-    <FlexBox width='100%' direction='column' gap={6}>
+    <FlexBox width='100%' $direction='column' $gap={6}>
       <Typography variant='secondary' size='2xl'>
         Outcome Targets
       </Typography>

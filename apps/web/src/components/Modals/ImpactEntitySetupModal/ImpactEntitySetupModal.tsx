@@ -60,8 +60,8 @@ const ImpactEntitySetupModal: React.FC<Props> = ({ open, onClose, onAdd }): JSX.
 
         <ModalWrapper>
           <ModalTitle>Add a Linked Entity</ModalTitle>
-          <FlexBox direction='column' gap={4}>
-            <FlexBox width='100%' height='100%' gap={4}>
+          <FlexBox $direction='column' $gap={4}>
+            <FlexBox width='100%' height='100%' $gap={4}>
               <ChainSelector chainId={chainId!} onChange={setChainId as any} />
               <Input
                 name='entityDid'
@@ -78,7 +78,7 @@ const ImpactEntitySetupModal: React.FC<Props> = ({ open, onClose, onAdd }): JSX.
                 style={SearchInputStyles}
               />
             </FlexBox>
-            <FlexBox width='100%' justifyContent='flex-end'>
+            <FlexBox width='100%' $justifyContent='flex-end'>
               <Button variant='primary' disabled={!entityDid || !selectedType} onClick={handleAdd}>
                 Continue
               </Button>

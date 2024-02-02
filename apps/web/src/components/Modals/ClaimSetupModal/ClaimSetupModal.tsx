@@ -56,15 +56,15 @@ const ClaimSetupModal: React.FC<Props> = ({ claim, open, onClose, onChange }): J
         </CloseButton>
 
         <StyledModalWrapper style={{ width: 870 }}>
-          <FlexBox marginBottom={4}>
+          <FlexBox $marginBottom={4}>
             <Typography size='2xl'>Claim</Typography>
           </FlexBox>
-          <FlexBox direction='column' marginBottom={10}>
-            <FlexBox gap={12.5} className='w-100'>
+          <FlexBox $direction='column' $marginBottom={10}>
+            <FlexBox $gap={12.5} className='w-100'>
               <FlexBox>
                 <ClaimTemplateCard template={formData.template} onClick={(): void => setClaimSelectModalOpen(true)} />
               </FlexBox>
-              <FlexBox direction='column' gap={4} className='w-100'>
+              <FlexBox $direction='column' $gap={4} className='w-100'>
                 <FlexBox className='w-100'>
                   <InputWithLabel inputValue={formData.template?.title} label={'Claim Title'} disabled />
                 </FlexBox>
@@ -79,7 +79,7 @@ const ClaimSetupModal: React.FC<Props> = ({ claim, open, onClose, onChange }): J
               </FlexBox>
             </FlexBox>
           </FlexBox>
-          <FlexBox className='w-100' justifyContent='flex-end' alignItems='center' gap={8}>
+          <FlexBox className='w-100' $justifyContent='flex-end' $alignItems='center' $gap={8}>
             <Switch onLabel='Encrypted' value={!!formData.isEncrypted} />
             <Switch
               onLabel='Headline Metric'

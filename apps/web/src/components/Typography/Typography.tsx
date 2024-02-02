@@ -35,12 +35,12 @@ export interface ITypographyProps extends React.HTMLAttributes<HTMLDivElement> {
   size?: TTypographySize
   weight?: TTypographyWeight
   color?: TTypographyColor
-  overflowLines?: number
+  $overflowLines?: number
   transform?: string
-  noWrap?: boolean
+  $noWrap?: boolean
   underline?: boolean
-  wordBreak?: string
-  textAlign?: string
+  $wordBreak?: string
+  $textAlign?: string
   hover?: {
     underline?: boolean
   }
@@ -183,7 +183,7 @@ const currentColorCss = css`
 /* overflow */
 const overflowCss = css<ITypographyProps>`
   display: -webkit-box;
-  -webkit-line-clamp: ${({ overflowLines }) => overflowLines};
+  -webkit-line-clamp: ${({ $overflowLines }) => $overflowLines};
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -218,17 +218,17 @@ const Typography = styled.div<ITypographyProps>`
   display: inline-block;
   transition: all 0.2s;
 
-  ${({ overflowLines }) => {
-    return overflowLines && (overflowLines === 1 ? overflowOneLineCss : overflowCss)
+  ${({ $overflowLines }) => {
+    return $overflowLines && ($overflowLines === 1 ? overflowOneLineCss : overflowCss)
   }}
   ${({ transform }) => {
     return transform && `text-transform: ${transform};`
   }}
-  ${({ wordBreak }) => {
-    return wordBreak && `word-break: ${wordBreak};`
+  ${({ $wordBreak }) => {
+    return $wordBreak && `word-break: ${$wordBreak};`
   }}
-  ${({ textAlign }) => {
-    return textAlign && `text-align: ${textAlign};`
+  ${({ $textAlign }) => {
+    return $textAlign && `text-align: ${$textAlign};`
   }}
 
   ${({ hover }) => {
@@ -237,8 +237,8 @@ const Typography = styled.div<ITypographyProps>`
   ${({ underline }) => {
     return underline ? underlineCss : nounderlineCss
   }}
-  ${({ noWrap }) => {
-    return noWrap && noWrapCss
+  ${({ $noWrap }) => {
+    return $noWrap && noWrapCss
   }}
   ${({ variant = 'primary' }) => {
     switch (variant) {

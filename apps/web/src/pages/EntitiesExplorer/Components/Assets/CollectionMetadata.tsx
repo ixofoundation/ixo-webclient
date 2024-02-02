@@ -9,8 +9,8 @@ const CollectionMetadata: React.FC<TEntityModel> = (collection) => {
   const [selected, setSelected] = useState<'context' | 'metrics' | 'attributes'>('context')
 
   return (
-    <FlexBox direction='column' gap={2}>
-      <FlexBox alignItems='center' gap={3} cursor='pointer'>
+    <FlexBox $direction='column' $gap={2}>
+      <FlexBox $alignItems='center' $gap={3} cursor='pointer'>
         <Typography
           color={selected === 'context' ? 'blue' : 'dark-blue'}
           weight='medium'
@@ -34,7 +34,7 @@ const CollectionMetadata: React.FC<TEntityModel> = (collection) => {
         </Typography>
       </FlexBox>
 
-      <FlexBox direction='column' gap={2} color={theme.ixoColor2} maxWidth='440px'>
+      <FlexBox $direction='column' $gap={2} color={theme.ixoColor2} $maxWidth='440px'>
         {selected === 'context' && (
           <>
             {collection.profile?.description && <Typography size='md'>{collection.profile?.description}</Typography>}

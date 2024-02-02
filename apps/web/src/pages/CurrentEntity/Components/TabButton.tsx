@@ -18,9 +18,9 @@ const TabButton: React.FC<TabButtonProps> = ({
   const theme: any = useTheme()
   return (
     <FlexBox
-      alignItems='center'
-      gap={2}
-      borderRadius='8px'
+      $alignItems='center'
+      $gap={2}
+      $borderRadius='8px'
       px={2}
       py={1}
       color={theme.ixoWhite}
@@ -31,11 +31,11 @@ const TabButton: React.FC<TabButtonProps> = ({
       {...rest}
     >
       {preIcon && (
-        <SvgBox svgWidth={6} svgHeight={6}>
+        <SvgBox $svgWidth={6} $svgHeight={6}>
           {preIcon}
         </SvgBox>
       )}
-      <Typography size={textSize} noWrap>
+      <Typography size={textSize} $noWrap>
         {children}
       </Typography>
     </FlexBox>

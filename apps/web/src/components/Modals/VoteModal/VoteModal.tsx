@@ -66,14 +66,14 @@ const VoteModal: React.FunctionComponent<Props> = ({ open, setOpen, onVote }) =>
       }}
       handleToggleModal={(): void => setOpen(false)}
     >
-      <FlexBox gap={4} py={12} justifyContent='center' width='560px'>
+      <FlexBox $gap={4} py={12} $justifyContent='center' width='560px'>
         {txStatus === TXStatus.UNDEFINED &&
           VoteOptions.map(({ value, icon: Icon, text }, index) => (
             <FlexBox
               key={index}
-              direction='column'
-              alignItems='center'
-              gap={2}
+              $direction='column'
+              $alignItems='center'
+              $gap={2}
               color={'white'}
               cursor='pointer'
               hover={{ color: theme.ixoNewBlue }}
@@ -81,18 +81,18 @@ const VoteModal: React.FunctionComponent<Props> = ({ open, setOpen, onVote }) =>
               <FlexBox
                 width='120px'
                 height='120px'
-                borderRadius='8px'
-                justifyContent='center'
-                alignItems='center'
-                borderColor={theme.ixoNewBlue}
-                borderWidth={'1px'}
-                borderStyle='solid'
+                $borderRadius='8px'
+                $justifyContent='center'
+                $alignItems='center'
+                $borderColor={theme.ixoNewBlue}
+                $borderWidth={'1px'}
+                $borderStyle='solid'
                 color='currentColor'
                 transition='all .2s'
-                hover={{ borderWidth: '3px' }}
+                hover={{ $borderWidth: '3px' }}
                 onClick={handleVote(value as Vote)}
               >
-                <SvgBox svgWidth={12.5} svgHeight={12.5} color='currentColor'>
+                <SvgBox $svgWidth={12.5} $svgHeight={12.5} color='currentColor'>
                   <Icon />
                 </SvgBox>
               </FlexBox>

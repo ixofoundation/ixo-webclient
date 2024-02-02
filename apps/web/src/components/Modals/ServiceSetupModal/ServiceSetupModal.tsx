@@ -19,8 +19,8 @@ interface ServiceFormProps {
 const ServiceForm: React.FC<ServiceFormProps> = ({ index, service, onUpdate, onRemove }) => {
   const theme: any = useTheme()
   return (
-    <FlexBox direction='column' gap={4} width='100%'>
-      <FlexBox gap={4} alignItems='center'>
+    <FlexBox $direction='column' $gap={4} width='100%'>
+      <FlexBox $gap={4} $alignItems='center'>
         <Typography size='xl'>Service {index + 1}</Typography>
         {onRemove && (
           <SvgBox color={theme.ixoNewBlue} cursor='pointer' onClick={() => onRemove()}>
@@ -28,7 +28,7 @@ const ServiceForm: React.FC<ServiceFormProps> = ({ index, service, onUpdate, onR
           </SvgBox>
         )}
       </FlexBox>
-      <FlexBox gap={4} width='100%'>
+      <FlexBox $gap={4} width='100%'>
         <Dropdown
           options={Object.values(NodeType).map((v) => ({ text: v, value: v }))}
           value={service.type}
@@ -114,9 +114,9 @@ const ServiceSetupModal: React.FC<Props> = ({ service, open, onClose, onChange }
         <CloseIcon />
       </CloseButton>
 
-      <FlexBox direction='column' width='600px' gap={4}>
+      <FlexBox $direction='column' width='600px' $gap={4}>
         <Typography size='xl'>Services</Typography>
-        <FlexBox direction='column' gap={8} width='100%'>
+        <FlexBox $direction='column' $gap={8} width='100%'>
           {formData.map((service, index) => (
             <ServiceForm
               key={index}
@@ -136,7 +136,7 @@ const ServiceSetupModal: React.FC<Props> = ({ service, open, onClose, onChange }
             </Typography>
           </FlexBox>
         </FlexBox>
-        <FlexBox justifyContent='flex-end' width='100%'>
+        <FlexBox $justifyContent='flex-end' width='100%'>
           <Button disabled={!isFormDataValid} onClick={handleSubmit}>
             Continue
           </Button>

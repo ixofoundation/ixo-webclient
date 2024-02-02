@@ -48,31 +48,31 @@ const AssetBalanceCard: React.FC<AssetBalanceCardProp> = ({ asset, selected, onC
 
   return (
     <FlexBox
-      direction='column'
-      gap={2}
+      $direction='column'
+      $gap={2}
       width='310px'
       p={4}
-      borderRadius='4px'
+      $borderRadius='4px'
       border={`1px solid ${selected ? theme.ixoNewBlue : 'transparent'}`}
       background={theme.ixoGradientDark2}
       onClick={onClick}
       cursor={'pointer'}
     >
-      <FlexBox width='100%' alignItems='center' justifyContent='space-between'>
-        <FlexBox borderRadius='6px' py={1} px={2} background={theme.ixoMediumBlue}>
+      <FlexBox width='100%' $alignItems='center' $justifyContent='space-between'>
+        <FlexBox $borderRadius='6px' py={1} px={2} background={theme.ixoMediumBlue}>
           <Typography variant='primary' size='md' weight={'bold'}>
             {displayAsset?.denom.toUpperCase()}
           </Typography>
         </FlexBox>
-        <FlexBox borderRadius='6px' py={1} px={2} background={theme.ixoNavyBlue}>
+        <FlexBox $borderRadius='6px' py={1} px={2} background={theme.ixoNavyBlue}>
           <Typography variant='primary' size='md' weight={'bold'}>
             Reserve
           </Typography>
         </FlexBox>
       </FlexBox>
 
-      <FlexBox direction='column' width='100%'>
-        <Typography size='4xl' overflowLines={1} style={{ width: '100%' }}>
+      <FlexBox $direction='column' width='100%'>
+        <Typography size='4xl' $overflowLines={1} style={{ width: '100%' }}>
           <CurrencyFormat
             displayType='text'
             value={displayAsset?.amount}
@@ -92,9 +92,9 @@ const AssetBalanceCard: React.FC<AssetBalanceCardProp> = ({ asset, selected, onC
         </Typography>
       </FlexBox>
 
-      <FlexBox width='100%' alignItems='center' gap={4}>
-        <FlexBox width='50%' direction='column'>
-          <Typography weight={'bold'} overflowLines={1} style={{ width: '100%' }}>
+      <FlexBox width='100%' $alignItems='center' $gap={4}>
+        <FlexBox width='50%' $direction='column'>
+          <Typography weight={'bold'} $overflowLines={1} style={{ width: '100%' }}>
             <CurrencyFormat
               displayType='text'
               value={displayAsset?.amount}
@@ -107,7 +107,7 @@ const AssetBalanceCard: React.FC<AssetBalanceCardProp> = ({ asset, selected, onC
             Available
           </Typography>
         </FlexBox>
-        <FlexBox width='50%' direction='column'>
+        <FlexBox width='50%' $direction='column'>
           <Typography weight={'bold'}>
             <CurrencyFormat
               displayType='text'
@@ -117,7 +117,7 @@ const AssetBalanceCard: React.FC<AssetBalanceCardProp> = ({ asset, selected, onC
               suffix={' ' + displayAsset?.denom.toUpperCase()}
             />
           </Typography>
-          <Typography size='sm' color='dark-blue' noWrap>
+          <Typography size='sm' color='dark-blue' $noWrap>
             Locked in Escrow
           </Typography>
         </FlexBox>

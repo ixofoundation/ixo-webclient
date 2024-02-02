@@ -31,9 +31,9 @@ const LinkedEntityPropertyBox = (props: PropertyBoxProps & { id: string; type: s
   }, [props])
 
   return (
-    <FlexBox direction='column' alignItems='center' gap={4}>
+    <FlexBox $direction='column' $alignItems='center' $gap={4}>
       <PropertyBox icon={props.icon} label={props.label} set={true} handleRemove={props.handleRemove} />
-      <Typography variant='secondary' overflowLines={1} style={{ width: 100, textAlign: 'center' }}>
+      <Typography variant='secondary' $overflowLines={1} style={{ width: 100, textAlign: 'center' }}>
         {name}
       </Typography>
     </FlexBox>
@@ -89,7 +89,7 @@ const SetupLinkedEntity: React.FC<Props> = ({ hidden, linkedEntity, daoGroups, u
 
   return (
     <>
-      <FlexBox direction='column' style={hidden ? { display: 'none' } : {}}>
+      <FlexBox $direction='column' style={hidden ? { display: 'none' } : {}}>
         <Box className='d-flex flex-wrap' style={{ gap: 20 }}>
           {Object.entries(linkedEntity)
             .map(([key, value]) => {
@@ -107,9 +107,9 @@ const SetupLinkedEntity: React.FC<Props> = ({ hidden, linkedEntity, daoGroups, u
                   return null
                 }
                 return (
-                  <FlexBox key={key} direction='column' alignItems='center' gap={4}>
+                  <FlexBox key={key} $direction='column' $alignItems='center' $gap={4}>
                     <PropertyBox icon={Icon && <Icon />} label={toTitleCase(label)} set={true} />
-                    <Typography variant='secondary' overflowLines={1} style={{ width: 100, textAlign: 'center' }}>
+                    <Typography variant='secondary' $overflowLines={1} style={{ width: 100, textAlign: 'center' }}>
                       {name}
                     </Typography>
                   </FlexBox>

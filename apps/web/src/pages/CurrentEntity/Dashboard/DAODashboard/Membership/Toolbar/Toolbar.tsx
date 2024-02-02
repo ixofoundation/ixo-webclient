@@ -86,7 +86,7 @@ const Toolbar: React.FC<Props> = ({
   const [isSearching, setIsSearching] = useState(false)
 
   return (
-    <FlexBox gap={3}>
+    <FlexBox $gap={3}>
       {chooseStatus ? (
         <>
           <Button background={STATUSES[status ?? 'all'].color} onClick={() => setChooseStatus(false)}>
@@ -133,7 +133,7 @@ const Toolbar: React.FC<Props> = ({
             <img src={ListIcon} alt='list-view' />
           </Button>
 
-          <Button background={theme.ixoDarkBlue} alignItems='center' gap={1}>
+          <Button background={theme.ixoDarkBlue} $alignItems='center' $gap={1}>
             <SvgBox onClick={() => setIsSearching(!isSearching)}>
               <SearchIcon />
             </SvgBox>
@@ -146,7 +146,7 @@ const Toolbar: React.FC<Props> = ({
             )}
           </Button>
 
-          <Button alignItems='center' background={theme.ixoDarkBlue} opacity={0.3} gap={1}>
+          <Button $alignItems='center' background={theme.ixoDarkBlue} opacity={0.3} $gap={1}>
             {numOfMembers.toLocaleString()}
             <ProfileIcon />
           </Button>

@@ -66,7 +66,7 @@ const MembersView: React.FC<Props> = ({
     varType: 'string' | 'number',
     onClick: () => void,
   ): JSX.Element => (
-    <FlexBox alignItems='center' gap={2} onClick={onClick} cursor='pointer'>
+    <FlexBox $alignItems='center' $gap={2} onClick={onClick} cursor='pointer'>
       <Typography color={sort ? 'blue' : 'dark-blue'} size='lg'>
         {label}
       </Typography>
@@ -80,11 +80,11 @@ const MembersView: React.FC<Props> = ({
   )
 
   return (
-    <FlexBox direction='column' width='100%' gap={8}>
+    <FlexBox $direction='column' width='100%' $gap={8}>
       {view === 'panel' && (
         <>
           {members.length > 0 ? (
-            <FlexBox alignItems='center' gap={8}>
+            <FlexBox $alignItems='center' $gap={8}>
               {renderSortItem('Name', sort.name, 'string', () => handleSortClick('name'))}
               {renderSortItem('Voting Power', sort.votingPower, 'number', () => handleSortClick('votingPower'))}
               {selectedDAOGroup?.type === 'staking' &&
@@ -100,7 +100,7 @@ const MembersView: React.FC<Props> = ({
             </FlexBox>
           )}
 
-          <GridContainer columns={5} width='100%' columnGap={4} rowGap={4}>
+          <GridContainer columns={5} width='100%' $columnGap={4} $rowGap={4}>
             {members.map((member, index) => (
               <MemberCard
                 key={index}
@@ -119,7 +119,7 @@ const MembersView: React.FC<Props> = ({
           <TableHead>
             <TableRow>
               <TableHeadItem>
-                <Box marginLeft={8}>{renderSortItem('Name', sort.name, 'string', () => handleSortClick('name'))}</Box>
+                <Box $marginLeft={8}>{renderSortItem('Name', sort.name, 'string', () => handleSortClick('name'))}</Box>
               </TableHeadItem>
               <TableHeadItem>
                 {renderSortItem('Voting Power', sort.votingPower, 'number', () => handleSortClick('votingPower'))}
@@ -153,10 +153,10 @@ const MembersView: React.FC<Props> = ({
       )}
       {/* <FlexBox
         width='100%'
-        alignItems='center'
-        justifyContent='center'
+        $alignItems='center'
+        $justifyContent='center'
         cursor='pointer'
-        borderRadius='8px'
+        $borderRadius='8px'
         background={theme.ixoDarkBlue}
         padding={4}
       >

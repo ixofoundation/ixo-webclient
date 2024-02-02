@@ -39,10 +39,10 @@ const Card = ({ children, ...rest }: HTMLFlexBoxProps) => {
       p={2}
       width='100%'
       height='48px'
-      alignItems='center'
-      justifyContent='center'
+      $alignItems='center'
+      $justifyContent='center'
       border={`1px solid ${theme.ixoNewBlue}`}
-      borderRadius={'8px'}
+      $borderRadius={'8px'}
       {...rest}
     >
       {children}
@@ -166,13 +166,13 @@ const GroupUnstakingModal: React.FunctionComponent<Props> = ({ daoGroup, open, s
       handleToggleModal={(): void => setOpen(false)}
     >
       <FlexBox width='600px'>
-        <FlexBox width='400px' gap={4} py={12} mx={'auto'} justifyContent='center'>
+        <FlexBox width='400px' $gap={4} py={12} mx={'auto'} $justifyContent='center'>
           {txStatus === TXStatus.UNDEFINED && (
-            <FlexBox direction='column' width='100%' gap={8}>
+            <FlexBox $direction='column' width='100%' $gap={8}>
               {/* body */}
-              <FlexBox direction='column' width='100%' alignItems='center' gap={4}>
+              <FlexBox $direction='column' width='100%' $alignItems='center' $gap={4}>
                 {/* DAO name & Group Name */}
-                <Card gap={2}>
+                <Card $gap={2}>
                   <Typography color={'dark-blue'} weight='medium'>
                     {daoName}
                   </Typography>
@@ -182,20 +182,20 @@ const GroupUnstakingModal: React.FunctionComponent<Props> = ({ daoGroup, open, s
                 </Card>
                 {/* Arrow Down icon */}
                 <FlexBox
-                  alignItems='center'
-                  justifyContent='center'
-                  borderRadius='100%'
+                  $alignItems='center'
+                  $justifyContent='center'
+                  $borderRadius='100%'
                   width='40px'
                   height='40px'
                   border={`1px solid ${theme.ixoDarkBlue}`}
-                  boxShadow={theme.ixoShadow2}
+                  $boxShadow={theme.ixoShadow2}
                 >
-                  <SvgBox color={theme.ixoNewBlue} svgHeight={8}>
+                  <SvgBox color={theme.ixoNewBlue} $svgHeight={8}>
                     <ArrowDownIcon />
                   </SvgBox>
                 </FlexBox>
                 {/* Amount & Denom */}
-                <FlexBox width='100%' gap={2} alignItems='center'>
+                <FlexBox width='100%' $gap={2} $alignItems='center'>
                   <Box position='relative' style={{ flex: 1 }}>
                     <StyledInput
                       inputValue={amount}
@@ -204,7 +204,7 @@ const GroupUnstakingModal: React.FunctionComponent<Props> = ({ daoGroup, open, s
                       placeholder='Enter Amount'
                     />
                     {/* my staked balance */}
-                    <FlexBox position='absolute' top='-16px' right='16px' gap={2}>
+                    <FlexBox position='absolute' top='-16px' right='16px' $gap={2}>
                       <Typography size='sm' color='dark-blue'>
                         <CurrencyFormat displayType={'text'} value={stakedBalance} thousandSeparator decimalScale={2} />
                       </Typography>
@@ -219,7 +219,7 @@ const GroupUnstakingModal: React.FunctionComponent<Props> = ({ daoGroup, open, s
                       </Typography>
                     </FlexBox>
                   </Box>
-                  <Card justifyContent='flex-start' alignItems='center' flexBasis='33%' gap={2}>
+                  <Card $justifyContent='flex-start' $alignItems='center' $flexBasis='33%' $gap={2}>
                     <Avatar size={28} url={marketingInfo?.logo !== 'embedded' ? marketingInfo?.logo?.url : undefined} />
                     <Typography color='white' transform='uppercase'>
                       {tokenInfo?.symbol}
@@ -228,7 +228,7 @@ const GroupUnstakingModal: React.FunctionComponent<Props> = ({ daoGroup, open, s
                 </FlexBox>
               </FlexBox>
               {/* Unstaking Period & next button */}
-              <FlexBox width='100%' justifyContent='space-between' alignItems='center'>
+              <FlexBox width='100%' $justifyContent='space-between' $alignItems='center'>
                 <Typography size='sm' color='dark-blue'>
                   The unbonding period is {secondsToWdhms(unstakingDuration, undefined, true, true)}. Your tokens will
                   be available after that.

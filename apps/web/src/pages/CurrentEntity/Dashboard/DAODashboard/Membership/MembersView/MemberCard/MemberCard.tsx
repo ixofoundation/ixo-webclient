@@ -132,19 +132,19 @@ const MemberCard: React.FC<Props> = ({ member, selected, onSelectMember }): JSX.
 
   return !detailView ? (
     <Wrapper
-      minWidth='240px'
+      $minWidth='240px'
       width='100%'
       height={'320px'}
-      direction='column'
-      alignItems='center'
-      justifyContent='space-between'
-      borderRadius='12px'
+      $direction='column'
+      $alignItems='center'
+      $justifyContent='space-between'
+      $borderRadius='12px'
       padding={6}
       background={'linear-gradient(180deg, #01273A 0%, #002D42 100%)'}
       cursor='pointer'
-      borderWidth='2px'
-      borderStyle='solid'
-      borderColor={theme.ixoDarkBlue}
+      $borderWidth='2px'
+      $borderStyle='solid'
+      $borderColor={theme.ixoDarkBlue}
       transition='all .2s'
       position='relative'
       focused={selected}
@@ -154,7 +154,7 @@ const MemberCard: React.FC<Props> = ({ member, selected, onSelectMember }): JSX.
         position='absolute'
         top='20px'
         left='20px'
-        borderRadius='100%'
+        $borderRadius='100%'
         width='12px'
         height='12px'
         background={STATUSES[status!]?.color}
@@ -177,7 +177,7 @@ const MemberCard: React.FC<Props> = ({ member, selected, onSelectMember }): JSX.
 
       <Avatar url={avatar} size={100} />
 
-      <FlexBox direction='column' gap={2} width='100%' alignItems='center'>
+      <FlexBox $direction='column' $gap={2} width='100%' $alignItems='center'>
         <Typography size='lg' color='white' weight='medium' hover={{ underline: true }} onClick={handleMemberView}>
           {truncateString(name ?? addr, 20)}
         </Typography>
@@ -186,9 +186,9 @@ const MemberCard: React.FC<Props> = ({ member, selected, onSelectMember }): JSX.
         </Typography>
       </FlexBox>
 
-      <GridContainer columns={2} columnGap={2} rowGap={2} width='100%'>
-        <FlexBox alignItems='center' gap={2} lineHeight='0px'>
-          <SvgBox svgWidth={6} svgHeight={6} color={theme.ixoLightBlue}>
+      <GridContainer columns={2} $columnGap={2} $rowGap={2} width='100%'>
+        <FlexBox $alignItems='center' $gap={2} $lineHeight='0px'>
+          <SvgBox $svgWidth={6} $svgHeight={6} color={theme.ixoLightBlue}>
             <PieIcon />
           </SvgBox>
           <Typography size='sm' color='white' weight='medium'>
@@ -200,10 +200,10 @@ const MemberCard: React.FC<Props> = ({ member, selected, onSelectMember }): JSX.
           </Typography>
         </FlexBox>
 
-        <FlexBox alignItems='center' gap={2} lineHeight='0px'>
+        <FlexBox $alignItems='center' $gap={2} $lineHeight='0px'>
           {type === 'staking' && (
             <>
-              <SvgBox svgWidth={6} svgHeight={6} color={theme.ixoLightBlue}>
+              <SvgBox $svgWidth={6} $svgHeight={6} color={theme.ixoLightBlue}>
                 <ClaimIcon />
               </SvgBox>
               <Typography size='sm' color='white' weight='medium'>
@@ -213,7 +213,7 @@ const MemberCard: React.FC<Props> = ({ member, selected, onSelectMember }): JSX.
           )}
           {type !== 'staking' && (
             <>
-              <SvgBox svgWidth={6} svgHeight={6} color={theme.ixoDarkBlue}>
+              <SvgBox $svgWidth={6} $svgHeight={6} color={theme.ixoDarkBlue}>
                 <ClaimIcon />
               </SvgBox>
               <Typography size='sm' color='white' weight='medium'>
@@ -223,8 +223,8 @@ const MemberCard: React.FC<Props> = ({ member, selected, onSelectMember }): JSX.
           )}
         </FlexBox>
 
-        <FlexBox alignItems='center' gap={2} lineHeight='0px'>
-          <SvgBox svgWidth={6} svgHeight={6} color={theme.ixoLightBlue}>
+        <FlexBox $alignItems='center' $gap={2} $lineHeight='0px'>
+          <SvgBox $svgWidth={6} $svgHeight={6} color={theme.ixoLightBlue}>
             <MultisigIcon />
           </SvgBox>
           <Typography size='sm' color='white' weight='medium'>
@@ -232,8 +232,8 @@ const MemberCard: React.FC<Props> = ({ member, selected, onSelectMember }): JSX.
           </Typography>
         </FlexBox>
 
-        <FlexBox alignItems='center' gap={2} lineHeight='0px'>
-          <SvgBox svgWidth={6} svgHeight={6} color={theme.ixoLightBlue}>
+        <FlexBox $alignItems='center' $gap={2} $lineHeight='0px'>
+          <SvgBox $svgWidth={6} $svgHeight={6} color={theme.ixoLightBlue}>
             <PaperIcon />
           </SvgBox>
           <Typography size='sm' color='white' weight='medium'>

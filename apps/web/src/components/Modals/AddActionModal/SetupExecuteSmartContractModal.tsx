@@ -87,8 +87,8 @@ const SetupExecuteSmartContractModal: React.FC<Props> = ({ open, action, onClose
       onSubmit={onSubmit && handleConfirm}
       validate={validate}
     >
-      <FlexBox direction='column' width='100%' gap={2}>
-        <FlexBox width='100%' gap={4}>
+      <FlexBox $direction='column' width='100%' $gap={2}>
+        <FlexBox width='100%' $gap={4}>
           <Input
             name='smart_contract_address'
             height={inputHeight}
@@ -100,20 +100,20 @@ const SetupExecuteSmartContractModal: React.FC<Props> = ({ open, action, onClose
         </FlexBox>
       </FlexBox>
 
-      <FlexBox direction='column' width='100%' gap={2}>
+      <FlexBox $direction='column' width='100%' $gap={2}>
         <Typography color='black' weight='medium' size='xl'>
           Message (json)
         </Typography>
         <CodeMirror value={formData.message} onChange={(value) => handleUpdateFormData('message', value)} />
       </FlexBox>
 
-      <FlexBox direction='column' width='100%' gap={2}>
+      <FlexBox $direction='column' width='100%' $gap={2}>
         <Typography color='black' weight='medium' size='xl'>
           Funds
         </Typography>
 
         {formData.funds.map((fund: Coin, index: number) => (
-          <FlexBox key={index} alignItems='center' gap={2} width='100%'>
+          <FlexBox key={index} $alignItems='center' $gap={2} width='100%'>
             <Box style={{ flex: '0 0 200px' }}>
               <NumberCounter
                 direction={'row-reverse'}
@@ -127,7 +127,7 @@ const SetupExecuteSmartContractModal: React.FC<Props> = ({ open, action, onClose
               name={'token'}
               value={fund.denom}
               options={[{ value: NATIVE_MICRODENOM, text: '$IXO' }]}
-              hasArrow={false}
+              $hasArrow={false}
               onChange={(e) => handleUpdateFund(index, { ...fund, denom: e.target.value })}
               style={{ textAlign: 'center', height: inputHeight }}
             />
@@ -138,7 +138,7 @@ const SetupExecuteSmartContractModal: React.FC<Props> = ({ open, action, onClose
           </FlexBox>
         ))}
 
-        <AddFundButton alignItems='center' gap={2.5} onClick={handleAddFund}>
+        <AddFundButton $alignItems='center' $gap={2.5} onClick={handleAddFund}>
           <SvgBox color='black'>
             <PlusIcon />
           </SvgBox>

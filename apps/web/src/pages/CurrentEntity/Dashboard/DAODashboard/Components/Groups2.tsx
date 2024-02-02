@@ -72,7 +72,7 @@ const GroupCard: React.FC<IGroupCardProps> = ({ daoGroup }) => {
             <Typography color='blue' weight='medium' size='sm' hover={{ underline: true }}>
               {truncateString(daoGroup.coreAddress, 20, 'middle')}
             </Typography>
-            <SvgBox color={theme.ixoNewBlue} svgWidth={5} svgHeight={5}>
+            <SvgBox color={theme.ixoNewBlue} $svgWidth={5} $svgHeight={5}>
               <CopyIcon />
             </SvgBox>
           </Flex>

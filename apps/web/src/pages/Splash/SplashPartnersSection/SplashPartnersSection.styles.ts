@@ -36,14 +36,14 @@ export const CardsContainer = styled.div`
 `
 
 interface CardProps {
-  backgroundColor: string | '#282828'
+  backgroundcolor: string | '#282828'
 }
 
 export const Card = styled.a<CardProps>`
   overflow: hidden;
   width: 300px;
   height: 130px;
-  background-color: ${/* eslint-disable-line */ (props) => props.backgroundColor};
+  background-color: ${/* eslint-disable-line */ (props) => props.backgroundcolor};
   border-radius: 8px;
   position: relative;
   margin: 10px 0;

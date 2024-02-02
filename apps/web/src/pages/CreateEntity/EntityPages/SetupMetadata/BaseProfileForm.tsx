@@ -39,7 +39,7 @@ const BaseProfileForm = ({
       </FormHeader>
 
       <FormBody>
-        <FlexBox justifyContent='flex-end'>
+        <FlexBox $justifyContent='flex-end'>
           <IconUpload icon={logo} placeholder={`${upperFirstEntityType} Icon`} handleChange={setLogo} />
         </FlexBox>
 
@@ -54,7 +54,12 @@ const BaseProfileForm = ({
         </FormRow>
         <FormRow>
           {setName ? (
-            <InputWithLabel label={`${upperFirstEntityType} Name`} height='48px' inputValue={name} handleChange={setName} />
+            <InputWithLabel
+              label={`${upperFirstEntityType} Name`}
+              height='48px'
+              inputValue={name}
+              handleChange={setName}
+            />
           ) : (
             <Typography color='grey700' size='xl' weight='bold'>
               {name}

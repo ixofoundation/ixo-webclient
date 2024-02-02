@@ -75,10 +75,10 @@ export const PropertyBox = styled.div<{
   }
 `
 
-export const Badge = styled.div<{ active: boolean }>`
+export const Badge = styled.div<{ $active: boolean }>`
   border-radius: 9999px;
   padding: 5px 10px;
-  background: ${(props): string => (props.active ? props.theme.ixoNewBlue : props.theme.ixoDarkBlue)};
+  background: ${(props): string => (props.$active ? props.theme.ixoNewBlue : props.theme.ixoDarkBlue)};
   transition: all 0.2s;
   cursor: pointer;
 

@@ -111,13 +111,13 @@ const SetupManageSubDAOsModal: React.FC<Props> = ({ open, action, onClose, onSub
       onSubmit={onSubmit && handleConfirm}
       validate={validate}
     >
-      <FlexBox direction='column' width='100%' gap={2}>
+      <FlexBox $direction='column' width='100%' $gap={2}>
         <Typography color='black' weight='medium' size='xl'>
           SubDAOs to recognise
         </Typography>
-        <FlexBox direction='column' width='100%' gap={4}>
+        <FlexBox $direction='column' width='100%' $gap={4}>
           {formData.toAdd.map((member: SubDao, index: number) => (
-            <FlexBox key={index} width='100%' gap={4} alignItems='center'>
+            <FlexBox key={index} width='100%' $gap={4} $alignItems='center'>
               <Input
                 name='smart_contract_address'
                 height={inputHeight}
@@ -131,7 +131,7 @@ const SetupManageSubDAOsModal: React.FC<Props> = ({ open, action, onClose, onSub
             </FlexBox>
           ))}
 
-          <AddButton alignItems='center' gap={2.5} onClick={handleAddMemberToAdd}>
+          <AddButton $alignItems='center' $gap={2.5} onClick={handleAddMemberToAdd}>
             <SvgBox color='black'>
               <PlusIcon />
             </SvgBox>
@@ -142,13 +142,13 @@ const SetupManageSubDAOsModal: React.FC<Props> = ({ open, action, onClose, onSub
         </FlexBox>
       </FlexBox>
 
-      <FlexBox direction='column' width='100%' gap={2}>
+      <FlexBox $direction='column' width='100%' $gap={2}>
         <Typography color='black' weight='medium' size='xl'>
           SubDAOs to remove
         </Typography>
-        <FlexBox direction='column' width='100%' gap={4}>
+        <FlexBox $direction='column' width='100%' $gap={4}>
           {formData.toRemove.map((member: { address: string }, index: number) => (
-            <FlexBox key={index} width='100%' gap={4} alignItems='center'>
+            <FlexBox key={index} width='100%' $gap={4} $alignItems='center'>
               <Input
                 name='smart_contract_address'
                 height={inputHeight}
@@ -162,7 +162,7 @@ const SetupManageSubDAOsModal: React.FC<Props> = ({ open, action, onClose, onSub
             </FlexBox>
           ))}
 
-          <AddButton alignItems='center' gap={2.5} onClick={handleAddMemberToRemove}>
+          <AddButton $alignItems='center' $gap={2.5} onClick={handleAddMemberToRemove}>
             <SvgBox color='black'>
               <PlusIcon />
             </SvgBox>

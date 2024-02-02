@@ -75,7 +75,7 @@ const SetupJoinModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): J
       onSubmit={onSubmit && handleConfirm}
       validate={isDelegating}
     >
-      <FlexBox direction='column' width='100%' gap={4}>
+      <FlexBox $direction='column' width='100%' $gap={4}>
         <Typography>
           ImpactsDAO is a cooperative of DAOs. If you’re a delegate of a DAO entity that wants to join ImpactsDAO,
           submit a proposal for your DAO to be added.
@@ -91,7 +91,7 @@ const SetupJoinModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): J
           }}
         />
         {daoId && !daoEntity && (
-          <FlexBox width='100%' justifyContent='flex-end' alignItems='center' gap={2}>
+          <FlexBox width='100%' $justifyContent='flex-end' $alignItems='center' $gap={2}>
             <Typography size='xl'>Not a valid did</Typography>
             <SvgBox color={theme.ixoRed}>
               <TimesCircleIcon />
@@ -99,12 +99,12 @@ const SetupJoinModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): J
           </FlexBox>
         )}
         {daoId && daoEntity && !isDelegating && (
-          <FlexBox width='100%' justifyContent='space-between' alignItems='center'>
-            <FlexBox alignItems='center' gap={2}>
+          <FlexBox width='100%' $justifyContent='space-between' $alignItems='center'>
+            <FlexBox $alignItems='center' $gap={2}>
               <Avatar url={daoEntity?.profile?.logo} size={60} borderWidth={0} />
               <Typography size='xl'>{daoEntity?.profile?.name}</Typography>
             </FlexBox>
-            <FlexBox alignItems='center' gap={2}>
+            <FlexBox $alignItems='center' $gap={2}>
               <Typography size='xl'>You are not a delegate on this entity</Typography>
               <SvgBox color={theme.ixoRed}>
                 <TimesCircleIcon />
@@ -113,12 +113,12 @@ const SetupJoinModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): J
           </FlexBox>
         )}
         {daoId && daoEntity && isDelegating && (
-          <FlexBox width='100%' justifyContent='space-between' alignItems='center'>
-            <FlexBox alignItems='center' gap={2}>
+          <FlexBox width='100%' $justifyContent='space-between' $alignItems='center'>
+            <FlexBox $alignItems='center' $gap={2}>
               <Avatar url={daoEntity?.profile?.logo} size={60} borderWidth={0} />
               <Typography size='xl'>{daoEntity?.profile?.name}</Typography>
             </FlexBox>
-            <FlexBox alignItems='center' gap={2}>
+            <FlexBox $alignItems='center' $gap={2}>
               <Typography size='xl'>You are a delegate on this entity</Typography>
               <SvgBox color={theme.ixoGreen}>
                 <CheckCircleIcon />

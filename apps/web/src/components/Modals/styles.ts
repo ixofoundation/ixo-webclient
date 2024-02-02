@@ -103,13 +103,13 @@ export const SelectionButton = styled.div<{ selected?: boolean }>`
 `
 
 export const SDGSelectionButton = styled.div<{
-  selected?: boolean
-  bgColor: string
+  $selected?: boolean
+  $bgColor: string
 }>`
   width: 142px;
   height: 120px;
   border-radius: 8px;
-  background: ${(props): string => (props.selected ? props.bgColor + 'AA' : props.theme.ixoGrey300)};
+  background: ${(props): string => (props.$selected ? props.$bgColor + 'AA' : props.theme.ixoGrey300)};
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -124,7 +124,7 @@ export const SDGSelectionButton = styled.div<{
   }
 
   &:hover {
-    background: ${(props): string => props.bgColor + 'AA'};
+    background: ${(props): string => props.$bgColor + 'AA'};
   }
 `
 

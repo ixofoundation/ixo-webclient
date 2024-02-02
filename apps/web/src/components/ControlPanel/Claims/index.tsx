@@ -19,13 +19,13 @@ export const ClaimsItem: React.FC<TEntityClaimModel> = (item) => {
   const theme: any = useTheme()
   const navigate = useNavigate()
   const location = useLocation()
-  const { entityId = "" } = useParams<{ entityId: string }>()
+  const { entityId = '' } = useParams<{ entityId: string }>()
   const protocolId = item.template?.id.split('#')[0] ?? ''
   const claimCollection = useGetClaimCollectionByEntityIdAndClaimTemplateId({ entityId, protocolId })
   const claimCollectionId = claimCollection?.id
 
   return (
-    <FlexBox width='100%' alignItems='center' gap={2}>
+    <FlexBox width='100%' $alignItems='center' $gap={2}>
       <FlexBox
         width='100%'
         cursor={'pointer'}
@@ -41,18 +41,18 @@ export const ClaimsItem: React.FC<TEntityClaimModel> = (item) => {
       </FlexBox>
       <FlexBox
         width='100%'
-        borderRadius='8px'
+        $borderRadius='8px'
         background={theme.ixoGrey100}
         p={3}
-        gap={2}
-        alignItems='center'
-        borderColor={'transparent'}
-        borderWidth={'1px'}
-        borderStyle={'solid'}
-        hover={{ borderColor: theme.ixoNewBlue }}
+        $gap={2}
+        $alignItems='center'
+        $borderColor={'transparent'}
+        $borderWidth={'1px'}
+        $borderStyle={'solid'}
+        hover={{ $borderColor: theme.ixoNewBlue }}
         cursor={'pointer'}
       >
-        <SvgBox svgWidth={5} svgHeight={5} color={theme.ixoBlack}>
+        <SvgBox $svgWidth={5} $svgHeight={5} color={theme.ixoBlack}>
           <PlusIcon />
         </SvgBox>
         <Typography
@@ -74,7 +74,7 @@ export const ClaimsItem: React.FC<TEntityClaimModel> = (item) => {
 
 const ClaimsCard: React.FC = () => {
   const navigate = useNavigate()
-  const location  = useLocation()
+  const location = useLocation()
   const { claim } = useCurrentEntity()
 
   return (

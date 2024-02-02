@@ -42,7 +42,7 @@ const DeedProfileForm: React.FC<Props> = ({
           />
         </FormRow>
 
-        <FlexBox direction='column' gap={2}>
+        <FlexBox $direction='column' $gap={2}>
           {setTitle ? (
             <InputWithLabel label='Deed Title' inputValue={title} handleChange={setTitle} error={error.title} />
           ) : (
@@ -52,9 +52,9 @@ const DeedProfileForm: React.FC<Props> = ({
           )}
         </FlexBox>
 
-        <FlexBox height={'100px'} alignItems='center'>
+        <FlexBox height={'100px'} $alignItems='center'>
           {description ? (
-            <Typography color='grey300' overflowLines={4}>
+            <Typography color='grey300' $overflowLines={4}>
               {description}
             </Typography>
           ) : (
