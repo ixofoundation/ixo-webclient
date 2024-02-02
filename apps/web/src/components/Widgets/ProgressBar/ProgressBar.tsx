@@ -21,7 +21,7 @@ const ProgressBar: React.FC<Props> = ({ data, totalValue, width = '100%', height
       width={width}
       height={height}
       background={background || theme.ixoDarkBlue}
-      borderRadius='100px'
+      $borderRadius='100px'
       overflow='hidden'
     >
       {data.map((item, index) => {

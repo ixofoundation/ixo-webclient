@@ -116,16 +116,16 @@ export const Typography = styled.span<{
 `
 
 export interface HTMLElementProps {
-  aspectRatio?: number
+  $aspectRatio?: number
   margin?: string
-  marginBottom?: number
-  marginTop?: number
-  marginLeft?: number
-  marginRight?: number
-  paddingBottom?: number
-  paddingTop?: number
-  paddingLeft?: number
-  paddingRight?: number
+  $marginBottom?: number
+  $marginTop?: number
+  $marginLeft?: number
+  $marginRight?: number
+  $paddingBottom?: number
+  $paddingTop?: number
+  $paddingLeft?: number
+  $paddingRight?: number
   padding?: number
   p?: number
   px?: number
@@ -142,20 +142,20 @@ export interface HTMLElementProps {
   mr?: number
   mb?: number
   width?: string
-  minWidth?: string
-  maxWidth?: string
+  $minWidth?: string
+  $maxWidth?: string
   height?: string
-  minHeight?: string
-  maxHeight?: string
+  $minHeight?: string
+  $maxHeight?: string
   border?: string
-  borderWidth?: string
-  borderColor?: string
-  borderStyle?: string
-  borderRadius?: string
-  borderRight?: string
-  borderRightStyle?: string
-  borderRightWidth?: string
-  borderRightColor?: string
+  $borderWidth?: string
+  $borderColor?: string
+  $borderStyle?: string
+  $borderRadius?: string
+  $borderRight?: string
+  $borderRightStyle?: string
+  $borderRightWidth?: string
+  $borderRightColor?: string
   position?: string
   left?: string
   right?: string
@@ -165,30 +165,28 @@ export interface HTMLElementProps {
   display?: string
   transition?: string
   background?: string
-  backgroundSize?: string
-  backgroundPosition?: string
-  backgroundColor?: string
-  backgroundRepeat?: string
-  zIndex?: number
-  pointerEvents?: string
+  $backgroundSize?: string
+  $backgroundPosition?: string
+  $backgroundRepeat?: string
+  $backgroundColor?: string
+  $zIndex?: number
+  $pointerEvents?: string
   cursor?: string
   filter?: string
   overflow?: string
-  overflowX?: string
-  overflowY?: string
+  $overflowX?: string
+  $overflowY?: string
   opacity?: number
-  whiteSpace?: string
-  lineHeight?: string
+  $whiteSpace?: string
+  $lineHeight?: string
   outline?: string
-  outlineStyle?: string
-  outlineColor?: string
-  outlineWidth?: string
+  $outlineStyle?: string
+  $outlineColor?: string
+  $outlineWidth?: string
   visibility?: string
   color?: string
-  fontSize?: number
-  fontWeight?: number | string
-  boxShadow?: string
-  textAlign?: string
+  $boxShadow?: string
+  $textAlign?: string
 
   className?: string
   children?: ReactNode
@@ -203,9 +201,9 @@ export interface HTMLDivProps extends HTMLElementProps {
 }
 
 export interface HTMLFlexBoxProps extends HTMLDivProps {
-  direction?: 'row' | 'column' | 'row-reverse'
-  justifyContent?: 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around' | 'space-evenly' | 'stretch'
-  alignItems?:
+  readonly $direction?: 'row' | 'column' | 'row-reverse'
+  $justifyContent?: 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around' | 'space-evenly' | 'stretch'
+  $alignItems?:
     | 'stretch'
     | 'center'
     | 'start'
@@ -218,25 +216,27 @@ export interface HTMLFlexBoxProps extends HTMLDivProps {
     | 'space-around'
     | 'space-evenly'
     | 'stretch'
-  gap?: number
-  flexWrap?: string
-  flexBasis?: string
-  flexGrow?: number
-  flexShrink?: number
+  $gap?: number
+  $flexWrap?: string
+  $flexBasis?: string
+  $flexGrow?: number
+  $flexShrink?: number
 }
 
 export const htmlElementCss = css<HTMLDivProps>`
-  ${({ aspectRatio }) => aspectRatio && `aspect-ratio: ${aspectRatio}`};
+  ${({ $aspectRatio }) => $aspectRatio && `aspect-ratio: ${$aspectRatio}`};
   ${({ margin }) => margin && `margin: ${margin}`};
-  ${({ marginBottom }): string | undefined => (marginBottom ? `margin-bottom: ${marginBottom * 0.25}rem` : undefined)};
-  ${({ marginRight }): string | undefined => (marginRight ? `margin-right: ${marginRight * 0.25}rem` : undefined)};
-  ${({ marginLeft }): string | undefined => (marginLeft ? `margin-left: ${marginLeft * 0.25}rem` : undefined)};
-  ${({ marginTop }): string | undefined => (marginTop ? `margin-top: ${marginTop * 0.25}rem` : undefined)};
-  ${({ paddingBottom }): string | undefined =>
-    paddingBottom ? `padding-bottom: ${paddingBottom * 0.25}rem` : undefined};
-  ${({ paddingRight }): string | undefined => (paddingRight ? `padding-right: ${paddingRight * 0.25}rem` : undefined)};
-  ${({ paddingLeft }): string | undefined => (paddingLeft ? `padding-left: ${paddingLeft * 0.25}rem` : undefined)};
-  ${({ paddingTop }): string | undefined => (paddingTop ? `padding-top: ${paddingTop * 0.25}rem` : undefined)};
+  ${({ $marginBottom }): string | undefined =>
+    $marginBottom ? `margin-bottom: ${$marginBottom * 0.25}rem` : undefined};
+  ${({ $marginRight }): string | undefined => ($marginRight ? `margin-right: ${$marginRight * 0.25}rem` : undefined)};
+  ${({ $marginLeft }): string | undefined => ($marginLeft ? `margin-left: ${$marginLeft * 0.25}rem` : undefined)};
+  ${({ $marginTop }): string | undefined => ($marginTop ? `margin-top: ${$marginTop * 0.25}rem` : undefined)};
+  ${({ $paddingBottom }): string | undefined =>
+    $paddingBottom ? `padding-bottom: ${$paddingBottom * 0.25}rem` : undefined};
+  ${({ $paddingRight }): string | undefined =>
+    $paddingRight ? `padding-right: ${$paddingRight * 0.25}rem` : undefined};
+  ${({ $paddingLeft }): string | undefined => ($paddingLeft ? `padding-left: ${$paddingLeft * 0.25}rem` : undefined)};
+  ${({ $paddingTop }): string | undefined => ($paddingTop ? `padding-top: ${$paddingTop * 0.25}rem` : undefined)};
   ${({ padding }): string | undefined => (padding ? `padding: ${padding * 0.25}rem` : undefined)};
   ${({ p }) => p && `padding: ${p * 0.25}rem`};
   ${({ px }) => px && `padding-left: ${px * 0.25}rem; padding-right: ${px * 0.25}rem`};
@@ -256,23 +256,23 @@ export const htmlElementCss = css<HTMLDivProps>`
   ${({ mt }) => mt && `margin-top: ${mt * 0.25}rem`};
   ${({ mb }) => mb && `margin-bottom: ${mb * 0.25}rem`};
   ${({ width }) => width && `width: ${width}`};
-  ${({ minWidth }) => minWidth && `min-width: ${minWidth}`};
-  ${({ maxWidth }) => maxWidth && `max-width: ${maxWidth}`};
+  ${({ $minWidth }) => $minWidth && `min-width: ${$minWidth}`};
+  ${({ $maxWidth }) => $maxWidth && `max-width: ${$maxWidth}`};
   ${({ height }) => height && `height: ${height};`}
-  ${({ minHeight }) => minHeight && `min-height: ${minHeight};`}
-  ${({ maxHeight }) => maxHeight && `max-height: ${maxHeight};`}
+  ${({ $minHeight }) => $minHeight && `min-height: ${$minHeight};`}
+  ${({ $maxHeight }) => $maxHeight && `max-height: ${$maxHeight};`}
   ${({ border }): string | undefined => (border ? `border: ${border}` : undefined)};
-  ${({ borderWidth }): string | undefined => (borderWidth ? `border-width: ${borderWidth}` : undefined)};
-  ${({ borderStyle }): string | undefined => (borderStyle ? `border-style: ${borderStyle}` : undefined)};
-  ${({ borderColor }): string | undefined => (borderColor ? `border-color: ${borderColor}` : undefined)};
-  ${({ borderRadius }): string | undefined => (borderRadius ? `border-radius: ${borderRadius}` : undefined)};
-  ${({ borderRight }): string | undefined => (borderRight ? `border-right: ${borderRight}` : undefined)};
-  ${({ borderRightWidth }): string | undefined =>
-    borderRightWidth ? `border-right-width: ${borderRightWidth}` : undefined};
-  ${({ borderRightStyle }): string | undefined =>
-    borderRightStyle ? `border-right-style: ${borderRightStyle}` : undefined};
-  ${({ borderRightColor }): string | undefined =>
-    borderRightColor ? `border-right-color: ${borderRightColor}` : undefined};
+  ${({ $borderWidth }): string | undefined => ($borderWidth ? `border-width: ${$borderWidth}` : undefined)};
+  ${({ $borderStyle }): string | undefined => ($borderStyle ? `border-style: ${$borderStyle}` : undefined)};
+  ${({ $borderColor }): string | undefined => ($borderColor ? `border-color: ${$borderColor}` : undefined)};
+  ${({ $borderRadius }): string | undefined => ($borderRadius ? `border-radius: ${$borderRadius}` : undefined)};
+  ${({ $borderRight }): string | undefined => ($borderRight ? `border-right: ${$borderRight}` : undefined)};
+  ${({ $borderRightWidth }): string | undefined =>
+    $borderRightWidth ? `border-right-width: ${$borderRightWidth}` : undefined};
+  ${({ $borderRightStyle }): string | undefined =>
+    $borderRightStyle ? `border-right-style: ${$borderRightStyle}` : undefined};
+  ${({ $borderRightColor }): string | undefined =>
+    $borderRightColor ? `border-right-color: ${$borderRightColor}` : undefined};
   ${({ position }): string | undefined => (position ? `position: ${position}` : undefined)};
   ${({ left }): string | undefined => (left ? `left: ${left}` : undefined)};
   ${({ right }): string | undefined => (right ? `right: ${right}` : undefined)};
@@ -282,38 +282,38 @@ export const htmlElementCss = css<HTMLDivProps>`
   ${({ display }): string | undefined => (display ? `display: ${display}` : undefined)};
   ${({ transition }): string | undefined => (transition ? `transition: ${transition}` : undefined)};
   ${({ background }): string | undefined => (background ? `background: ${background}` : undefined)};
-  ${({ backgroundSize }): string | undefined => (backgroundSize ? `background-size: ${backgroundSize}` : undefined)};
-  ${({ backgroundPosition }): string | undefined =>
-    backgroundPosition ? `background-position: ${backgroundPosition}` : undefined};
-  ${({ backgroundRepeat }): string | undefined =>
-    backgroundRepeat ? `background-repeat: ${backgroundRepeat}` : undefined};
-  ${({ zIndex }): string | undefined => (zIndex ? `z-index: ${zIndex}` : undefined)};
-  ${({ pointerEvents }): string | undefined => (pointerEvents ? `pointer-events: ${pointerEvents}` : undefined)};
+  ${({ $backgroundSize }): string | undefined => ($backgroundSize ? `background-size: ${$backgroundSize}` : undefined)};
+  ${({ $backgroundPosition }): string | undefined =>
+    $backgroundPosition ? `background-position: ${$backgroundPosition}` : undefined};
+  ${({ $backgroundRepeat }): string | undefined =>
+    $backgroundRepeat ? `background-repeat: ${$backgroundRepeat}` : undefined};
+    ${({ $backgroundColor }): string | undefined =>
+      $backgroundColor ? `background-repeat: ${$backgroundColor}` : undefined};F
+  ${({ $zIndex }): string | undefined => ($zIndex ? `z-index: ${$zIndex}` : undefined)};
+  ${({ $pointerEvents }): string | undefined => ($pointerEvents ? `pointer-events: ${$pointerEvents}` : undefined)};
   ${({ cursor }): string | undefined => (cursor ? `cursor: ${cursor}` : undefined)};
   ${({ filter }): string | undefined => (filter ? `filter: ${filter}` : undefined)};
   ${({ overflow }) => overflow && `overflow: ${overflow};`}
-  ${({ overflowX }) => overflowX && `overflow-x: ${overflowX};`}
-  ${({ overflowY }) => overflowY && `overflow-y: ${overflowY};`}
+  ${({ $overflowX }) => $overflowX && `overflow-x: ${$overflowX};`}
+  ${({ $overflowY }) => $overflowY && `overflow-y: ${$overflowY};`}
   ${({ opacity }): string | undefined => (opacity ? `opacity: ${opacity}` : undefined)};
-  ${({ whiteSpace }): string | undefined => (whiteSpace ? `white-space: ${whiteSpace}` : undefined)};
-  ${({ lineHeight }): string | undefined => (lineHeight ? `line-height: ${lineHeight}` : undefined)};
+  ${({ $whiteSpace }): string | undefined => ($whiteSpace ? `white-space: ${$whiteSpace}` : undefined)};
+  ${({ $lineHeight }): string | undefined => ($lineHeight ? `line-height: ${$lineHeight}` : undefined)};
   ${({ outline }): string | undefined => (outline ? `outline: ${outline}` : undefined)};
-  ${({ outlineStyle }): string | undefined => (outlineStyle ? `outline-style: ${outlineStyle}` : undefined)};
-  ${({ outlineWidth }): string | undefined => (outlineWidth ? `outline-width: ${outlineWidth}` : undefined)};
-  ${({ outlineColor }): string | undefined => (outlineColor ? `outline-color: ${outlineColor}` : undefined)};
+  ${({ $outlineStyle }): string | undefined => ($outlineStyle ? `outline-style: ${$outlineStyle}` : undefined)};
+  ${({ $outlineWidth }): string | undefined => ($outlineWidth ? `outline-width: ${$outlineWidth}` : undefined)};
+  ${({ $outlineColor }): string | undefined => ($outlineColor ? `outline-color: ${$outlineColor}` : undefined)};
   ${({ visibility }): string | undefined => (visibility ? `visibility: ${visibility}` : undefined)};
   ${({ color }) => color && `color: ${color}`};
-  ${({ fontSize }) => fontSize && `font-size: ${fontSize * 0.25}rem`};
-  ${({ fontWeight }) => fontWeight && `font-weight: ${fontWeight}`};
-  ${({ boxShadow }) => boxShadow && `box-shadow: ${boxShadow}`};
-  ${({ textAlign }) => textAlign && `text-align: ${textAlign}`};
+  ${({ $boxShadow }) => $boxShadow && `box-shadow: ${$boxShadow}`};
+  ${({ $textAlign }) => $textAlign && `text-align: ${$textAlign}`};
 
   &:hover {
     ${({ hover }) => hover?.background && `background: ${hover.background};`}
-    ${({ hover }) => hover?.borderWidth && `border-width: ${hover.borderWidth};`}
-    ${({ hover }) => hover?.borderColor && `border-color: ${hover.borderColor};`}
-    ${({ hover }) => hover?.borderStyle && `border-style: ${hover.borderStyle};`}
-    ${({ hover }) => hover?.boxShadow && `box-shadow: ${hover.boxShadow};`}
+    ${({ hover }) => hover?.$borderWidth && `border-width: ${hover.$borderWidth};`}
+    ${({ hover }) => hover?.$borderColor && `border-color: ${hover.$borderColor};`}
+    ${({ hover }) => hover?.$borderStyle && `border-style: ${hover.$borderStyle};`}
+    ${({ hover }) => hover?.$boxShadow && `box-shadow: ${hover.$boxShadow};`}
     ${({ hover }) => hover?.color && `color: ${hover.color};`}
   }
 
@@ -324,12 +324,12 @@ export const htmlElementCss = css<HTMLDivProps>`
 
 const tableRowRoundCss = css<HTMLDivProps>`
   td:first-child {
-    border-top-left-radius: ${(props) => props.borderRadius};
-    border-bottom-left-radius: ${(props) => props.borderRadius};
+    border-top-left-radius: ${(props) => props.$borderRadius};
+    border-bottom-left-radius: ${(props) => props.$borderRadius};
   }
   td:last-child {
-    border-bottom-right-radius: ${(props) => props.borderRadius};
-    border-top-right-radius: ${(props) => props.borderRadius};
+    border-bottom-right-radius: ${(props) => props.$borderRadius};
+    border-top-right-radius: ${(props) => props.$borderRadius};
   }
 `
 
@@ -339,23 +339,28 @@ export const Box = styled.div<HTMLDivProps>`
 
 export const FlexBox = styled(Box)<HTMLFlexBoxProps>`
   display: flex;
-  flex-direction: ${({ direction = 'row' }): string => direction};
-  justify-content: ${({ justifyContent = 'flex-start' }): string => justifyContent};
-  align-items: ${({ alignItems = 'flex-start' }): string => alignItems};
-  gap: ${({ gap = 0 }): string => gap * 0.25 + 'rem'};
-  ${({ borderRadius }): string | undefined => (borderRadius ? `border-radius: ${borderRadius};` : undefined)}
-  ${({ flexWrap }): string | undefined => (flexWrap ? `flex-wrap: ${flexWrap}` : undefined)};
-  ${({ flexBasis }): string | undefined => (flexBasis ? `flex-basis: ${flexBasis}` : undefined)};
-  ${({ flexGrow }) => flexGrow && `flex-grow: ${flexGrow};`}
-  ${({ flexShrink }) => flexShrink && `flex-shrink: ${flexShrink};`}
+  flex-direction: ${({ $direction = 'row' }): string => $direction};
+  justify-content: ${({ $justifyContent = 'flex-start' }): string => $justifyContent};
+  align-items: ${({ $alignItems = 'flex-start' }): string => $alignItems};
+  gap: ${({ $gap = 0 }): string => $gap * 0.25 + 'rem'};
+  ${({ $borderRadius }): string | undefined => ($borderRadius ? `border-radius: ${$borderRadius};` : undefined)}
+  ${({ $flexWrap }): string | undefined => ($flexWrap ? `flex-wrap: ${$flexWrap}` : undefined)};
+  ${({ $flexBasis }): string | undefined => ($flexBasis ? `flex-basis: ${$flexBasis}` : undefined)};
+  ${({ $flexGrow }) => $flexGrow && `flex-grow: ${$flexGrow};`}
+  ${({ $flexShrink }) => $flexShrink && `flex-shrink: ${$flexShrink};`}
 `
 
-export const SvgBox = styled(FlexBox)<HTMLFlexBoxProps & { svgWidth?: number; svgHeight?: number }>`
+export const SvgBox = styled(FlexBox)<
+  HTMLFlexBoxProps & {
+    readonly $svgWidth?: number
+    readonly $svgHeight?: number
+  }
+>`
   line-height: 0;
 
   svg {
-    ${({ svgWidth }) => svgWidth && `width: ${svgWidth * 0.25}rem;`}
-    ${({ svgHeight }) => svgHeight && `height: ${svgHeight * 0.25}rem;`}
+    ${({ $svgWidth }) => $svgWidth && `width: ${$svgWidth * 0.25}rem;`}
+    ${({ $svgHeight }) => $svgHeight && `height: ${$svgHeight * 0.25}rem;`}
 
     path {
       fill: currentColor !important;
@@ -370,25 +375,25 @@ export const SvgBox = styled(FlexBox)<HTMLFlexBoxProps & { svgWidth?: number; sv
 
 export const GridContainer = styled(Box)<{
   columns?: number
-  columnGap?: number
-  rowGap?: number
-  gridGap?: number
-  gridTemplateColumns?: string
-  gridTemplateRows?: string
-  gridTemplateAreas?: string
+  $columnGap?: number
+  $rowGap?: number
+  $gridGap?: number
+  $gridTemplateColumns?: string
+  $gridTemplateRows?: string
+  $gridTemplateAreas?: string
 }>`
   display: grid;
   ${({ columns }) => columns && `grid-template-columns: repeat(${columns}, 1fr)`};
-  ${({ gridTemplateColumns }) => gridTemplateColumns && `grid-template-columns: ${gridTemplateColumns}`};
-  ${({ gridTemplateRows }) => gridTemplateRows && `grid-template-rows: ${gridTemplateRows}`};
-  ${({ gridTemplateAreas }) => gridTemplateAreas && `grid-template-areas: ${gridTemplateAreas}`};
-  ${({ columnGap }): string | undefined => (columnGap ? `column-gap: ${columnGap * 0.25}rem` : undefined)};
-  ${({ rowGap }): string | undefined => (rowGap ? `row-gap: ${rowGap * 0.25}rem` : undefined)};
-  ${({ gridGap }): string | undefined => (gridGap ? `grid-gap: ${gridGap * 0.25}rem` : undefined)};
+  ${({ $gridTemplateColumns }) => $gridTemplateColumns && `grid-template-columns: ${$gridTemplateColumns}`};
+  ${({ $gridTemplateRows }) => $gridTemplateRows && `grid-template-rows: ${$gridTemplateRows}`};
+  ${({ $gridTemplateAreas }) => $gridTemplateAreas && `grid-template-areas: ${$gridTemplateAreas}`};
+  ${({ $columnGap }): string | undefined => ($columnGap ? `column-gap: ${$columnGap * 0.25}rem` : undefined)};
+  ${({ $rowGap }): string | undefined => ($rowGap ? `row-gap: ${$rowGap * 0.25}rem` : undefined)};
+  ${({ $gridGap }): string | undefined => ($gridGap ? `grid-gap: ${$gridGap * 0.25}rem` : undefined)};
 `
-export const GridItem = styled(Box)<{ gridArea?: string; alignSelf?: string }>`
-  ${({ gridArea }) => gridArea && `grid-area: ${gridArea}`};
-  ${({ alignSelf }) => alignSelf && `align-self: ${alignSelf}`};
+export const GridItem = styled(Box)<{ $gridArea?: string; $alignSelf?: string }>`
+  ${({ $gridArea }) => $gridArea && `grid-area: ${$gridArea}`};
+  ${({ $alignSelf }) => $alignSelf && `align-self: ${$alignSelf}`};
 `
 
 export const TableContainer = styled.table<{ width?: string; borderCollapse?: string; borderSpacing: string }>`
@@ -400,7 +405,7 @@ export const TableHead = styled.thead``
 export const TableBody = styled.tbody``
 export const TableRow = styled.tr<HTMLDivProps>`
   ${htmlElementCss}
-  ${({ borderRadius }) => borderRadius && tableRowRoundCss};
+  ${({ $borderRadius }) => $borderRadius && tableRowRoundCss};
 `
 export const TableHeadItem = styled.th<HTMLDivProps>`
   ${htmlElementCss}

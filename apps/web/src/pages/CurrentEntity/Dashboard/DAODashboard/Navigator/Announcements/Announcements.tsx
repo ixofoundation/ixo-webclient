@@ -18,7 +18,7 @@ const Announcements: React.FC<Props> = ({ daoId, groupAddresses = [] }): JSX.Ele
 
   return (
     <Card icon={<BellIcon />} label='Announcements'>
-      <FlexBox gap={3}>
+      <FlexBox $gap={3}>
         <TabButton active={filterBy === 'newest'} onClick={() => setFilterBy('newest')}>
           Newest
         </TabButton>
@@ -30,16 +30,16 @@ const Announcements: React.FC<Props> = ({ daoId, groupAddresses = [] }): JSX.Ele
         </TabButton>
       </FlexBox>
 
-      <FlexBox width='100%' gap={7.5}>
+      <FlexBox width='100%' $gap={7.5}>
         {[].map((item: any, index: number) => (
-          <FlexBox key={index} borderRadius='4px' background='#012131' gap={4} p={4} direction='column'>
-            <FlexBox alignItems='center' gap={2.5}>
+          <FlexBox key={index} $borderRadius='4px' background='#012131' $gap={4} p={4} $direction='column'>
+            <FlexBox $alignItems='center' $gap={2.5}>
               <Box>
                 <FlexBox
-                  borderRadius='4px'
+                  $borderRadius='4px'
                   background='#033C50'
-                  justifyContent='center'
-                  alignItems='center'
+                  $justifyContent='center'
+                  $alignItems='center'
                   width='32px'
                   height='32px'
                 >
@@ -48,29 +48,29 @@ const Announcements: React.FC<Props> = ({ daoId, groupAddresses = [] }): JSX.Ele
                   </Typography>
                 </FlexBox>
               </Box>
-              <Typography color='blue' overflowLines={2} weight='bold' size='md'>
+              <Typography color='blue' $overflowLines={2} weight='bold' size='md'>
                 {item.title}
               </Typography>
             </FlexBox>
-            <FlexBox alignItems='flex-start' gap={2.5}>
+            <FlexBox $alignItems='flex-start' $gap={2.5}>
               <Box>
                 <Box
                   background={`url(${item.announcerAvatar}), ${theme.ixoGrey500}`}
                   width='32px'
                   height='32px'
-                  backgroundSize='contain'
-                  borderRadius='100%'
-                  borderColor='white'
-                  borderWidth='2px'
-                  borderStyle='solid'
+                  $backgroundSize='contain'
+                  $borderRadius='100%'
+                  $borderColor='white'
+                  $borderWidth='2px'
+                  $borderStyle='solid'
                 />
               </Box>
 
-              <FlexBox direction='column' gap={3}>
-                <Typography size='sm' overflowLines={4} color='white'>
+              <FlexBox $direction='column' $gap={3}>
+                <Typography size='sm' $overflowLines={4} color='white'>
                   {item.description}
                 </Typography>
-                <FlexBox justifyContent='space-between' width='100%'>
+                <FlexBox $justifyContent='space-between' width='100%'>
                   <Typography color='dark-blue' size='sm'>
                     {moment(item.updatedAt).format('DD MMM YYYY')}
                   </Typography>

@@ -119,7 +119,7 @@ const Validators: React.FC = () => {
         renderCell: (cell: any) => {
           const logo = cell.value
           return (
-            <FlexBox width='100%' justifyContent='center' p={4}>
+            <FlexBox width='100%' $justifyContent='center' p={4}>
               <img src={logo} alt='' width={48} />
             </FlexBox>
           )
@@ -134,7 +134,7 @@ const Validators: React.FC = () => {
         renderCell: (cell: any) => {
           const name = cell.value
           return (
-            <FlexBox direction='column' p={4}>
+            <FlexBox $direction='column' p={4}>
               <Typography size='base' weight='bold'>
                 {name}
               </Typography>
@@ -151,7 +151,7 @@ const Validators: React.FC = () => {
         renderCell: (cell: any) => {
           const description = cell.value
           return (
-            <FlexBox direction='column' p={4}>
+            <FlexBox $direction='column' p={4}>
               <Typography>{description}</Typography>
             </FlexBox>
           )
@@ -166,7 +166,7 @@ const Validators: React.FC = () => {
         renderCell: (cell: any) => {
           const votingPower = cell.value
           return (
-            <FlexBox direction='column' p={4}>
+            <FlexBox $direction='column' p={4}>
               <Typography>
                 <CurrencyFormat displayType='text' value={votingPower} thousandSeparator />
               </Typography>
@@ -183,7 +183,7 @@ const Validators: React.FC = () => {
         renderCell: (cell: any) => {
           const commission = cell.value
           return (
-            <FlexBox direction='column' p={4}>
+            <FlexBox $direction='column' p={4}>
               <Typography>{commission}%</Typography>
             </FlexBox>
           )
@@ -204,12 +204,12 @@ const Validators: React.FC = () => {
           const reward = convertToDenom(microReward)
 
           return (
-            <FlexBox justifyContent='flex-end' alignItems='stretch' width='250px' height='100%'>
+            <FlexBox $justifyContent='flex-end' $alignItems='stretch' width='250px' height='100%'>
               <FlexBox
                 height='100%'
-                direction='column'
-                justifyContent='center'
-                alignItems='center'
+                $direction='column'
+                $justifyContent='center'
+                $alignItems='center'
                 p={4}
                 background={theme.ixoNavyBlue}
                 style={{ flex: 1 }}
@@ -238,8 +238,8 @@ const Validators: React.FC = () => {
               <SvgBox
                 width='60px'
                 height='100%'
-                justifyContent='center'
-                alignItems='center'
+                $justifyContent='center'
+                $alignItems='center'
                 background={theme.ixoMediumBlue}
                 color='white'
                 hover={{ color: theme.ixoNewBlue }}
@@ -259,11 +259,11 @@ const Validators: React.FC = () => {
     <>
       <TableWrapper
         width='100%'
-        direction='column'
-        borderRadius='4px'
+        $direction='column'
+        $borderRadius='4px'
         border={`1px solid #0C3549`}
         background='linear-gradient(180deg, #012639 0%, #002D42 97.29%)'
-        boxShadow='0px 2px 10px 0px rgba(0, 0, 0, 0.18)'
+        $boxShadow='0px 2px 10px 0px rgba(0, 0, 0, 0.18)'
         p={4}
       >
         <Flex w={'100%'} justify={'flex-end'}>

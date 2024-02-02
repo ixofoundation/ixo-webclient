@@ -35,12 +35,12 @@ const ClaimItem: React.FC<Props> = ({ status, claimId }) => {
   return (
     <NavLink to={`${pathname}/${claimId}`} style={{ width: '100%' }}>
       <FlexBox
-        direction='column'
+        $direction='column'
         width='100%'
         height='70px'
-        borderRadius='4px'
+        $borderRadius='4px'
         background={theme.ixoGradientLight}
-        justifyContent='center'
+        $justifyContent='center'
         cursor='pointer'
         px={8}
         position='relative'
@@ -53,7 +53,7 @@ const ClaimItem: React.FC<Props> = ({ status, claimId }) => {
           width='8px'
           height='24px'
           background={Setting[status].color}
-          borderRadius='100px'
+          $borderRadius='100px'
         />
 
         <Typography color='black' size='lg' weight='bold'>

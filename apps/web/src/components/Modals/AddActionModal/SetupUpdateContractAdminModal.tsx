@@ -55,9 +55,9 @@ const SetupUpdateContractAdminModal: React.FC<Props> = ({ open, action, onClose,
         </Typography>
       </FlexBox>
 
-      <FlexBox direction='column' width='100%' gap={2}>
+      <FlexBox $direction='column' width='100%' $gap={2}>
         <Typography size='xl'>Transfer all Admin rights of the contract</Typography>
-        <FlexBox width='100%' gap={4}>
+        <FlexBox width='100%' $gap={4}>
           <Input
             name='contract_address'
             placeholder='Smart Contract Address'
@@ -68,9 +68,9 @@ const SetupUpdateContractAdminModal: React.FC<Props> = ({ open, action, onClose,
         </FlexBox>
       </FlexBox>
 
-      <FlexBox direction='column' width='100%' gap={2}>
+      <FlexBox $direction='column' width='100%' $gap={2}>
         <Typography size='xl'>to the Address</Typography>
-        <FlexBox width='100%' gap={4}>
+        <FlexBox width='100%' $gap={4}>
           <Input
             name='to_address'
             placeholder='Paste Address'

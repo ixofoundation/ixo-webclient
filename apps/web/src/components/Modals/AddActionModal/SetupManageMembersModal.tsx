@@ -107,14 +107,14 @@ const SetupManageMembersModal: React.FC<Props> = ({ open, action, onClose, onSub
       onSubmit={onSubmit && handleConfirm}
       validate={validate}
     >
-      <FlexBox direction='column' width='100%' gap={2}>
+      <FlexBox $direction='column' width='100%' $gap={2}>
         <TitleAndDescription
           title='Members to add/update'
           description='Set the voting power of each address individually. DAO DAO will calculate the voting weight percentage for you.'
         />
-        <FlexBox direction='column' width='100%' gap={4}>
+        <FlexBox $direction='column' width='100%' $gap={4}>
           {formData.add.map((member: any, index: number) => (
-            <FlexBox key={index} width='100%' gap={4} alignItems='center'>
+            <FlexBox key={index} width='100%' $gap={4} $alignItems='center'>
               <Input
                 name='voting_weight'
                 height={inputHeight}
@@ -137,7 +137,7 @@ const SetupManageMembersModal: React.FC<Props> = ({ open, action, onClose, onSub
             </FlexBox>
           ))}
 
-          <AddButton alignItems='center' gap={2.5} onClick={handleAddMemberToAdd}>
+          <AddButton $alignItems='center' $gap={2.5} onClick={handleAddMemberToAdd}>
             <SvgBox color='black'>
               <PlusIcon />
             </SvgBox>
@@ -148,11 +148,11 @@ const SetupManageMembersModal: React.FC<Props> = ({ open, action, onClose, onSub
         </FlexBox>
       </FlexBox>
 
-      <FlexBox direction='column' width='100%' gap={2}>
+      <FlexBox $direction='column' width='100%' $gap={2}>
         <TitleAndDescription title='Members to remove' description='These addresses will be removed from the DAO.' />
-        <FlexBox direction='column' width='100%' gap={4}>
+        <FlexBox $direction='column' width='100%' $gap={4}>
           {formData.remove.map((member: any, index: number) => (
-            <FlexBox key={index} width='100%' gap={4} alignItems='center'>
+            <FlexBox key={index} width='100%' $gap={4} $alignItems='center'>
               <Input
                 name='member_address'
                 height={inputHeight}
@@ -166,7 +166,7 @@ const SetupManageMembersModal: React.FC<Props> = ({ open, action, onClose, onSub
             </FlexBox>
           ))}
 
-          <AddButton alignItems='center' gap={2.5} onClick={handleAddMemberToRemove}>
+          <AddButton $alignItems='center' $gap={2.5} onClick={handleAddMemberToRemove}>
             <SvgBox color='black'>
               <PlusIcon />
             </SvgBox>

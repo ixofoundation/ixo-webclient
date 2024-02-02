@@ -13,12 +13,12 @@ const Avatar: React.FC<AvatarProps> = ({ url, size = 100, borderWidth = 2 }): JS
       background={`url(${url}), ${theme.ixoGrey500}`}
       width={size + 'px'}
       height={size + 'px'}
-      backgroundSize='contain'
-      backgroundRepeat='no-repeat'
-      borderRadius='100%'
-      borderColor='white'
-      borderWidth={`${borderWidth}px`}
-      borderStyle='solid'
+      $backgroundSize='contain'
+      $backgroundRepeat='no-repeat'
+      $borderRadius='100%'
+      $borderColor='white'
+      $borderWidth={`${borderWidth}px`}
+      $borderStyle='solid'
     />
   )
 }

@@ -39,7 +39,7 @@ interface Props {
 }
 
 const SetupInstantiateSmartContractModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
-  const { coreAddress = "" } = useParams<{ coreAddress: string }>()
+  const { coreAddress = '' } = useParams<{ coreAddress: string }>()
   const initialState: InstantiateData = {
     admin: coreAddress,
     codeId: 0,
@@ -92,8 +92,8 @@ const SetupInstantiateSmartContractModal: React.FC<Props> = ({ open, action, onC
       onSubmit={onSubmit && handleConfirm}
       validate={validate}
     >
-      <FlexBox direction='column' width='100%' gap={2}>
-        <FlexBox width='100%' gap={4}>
+      <FlexBox $direction='column' width='100%' $gap={2}>
+        <FlexBox width='100%' $gap={4}>
           <Input
             name='code_id'
             height={inputHeight}
@@ -111,20 +111,20 @@ const SetupInstantiateSmartContractModal: React.FC<Props> = ({ open, action, onC
         </FlexBox>
       </FlexBox>
 
-      <FlexBox direction='column' width='100%' gap={2}>
+      <FlexBox $direction='column' width='100%' $gap={2}>
         <Typography color='black' weight='medium' size='xl'>
           Message (json)
         </Typography>
         <CodeMirror value={formData.message} onChange={(value) => handleUpdateFormData('message', value)} />
       </FlexBox>
 
-      <FlexBox direction='column' width='100%' gap={2}>
+      <FlexBox $direction='column' width='100%' $gap={2}>
         <Typography color='black' weight='medium' size='xl'>
           Funds
         </Typography>
 
         {formData.funds.map((fund: Coin, index: number) => (
-          <FlexBox key={index} alignItems='center' gap={2} width='100%'>
+          <FlexBox key={index} $alignItems='center' $gap={2} width='100%'>
             <Box style={{ flex: '0 0 200px' }}>
               <NumberCounter
                 direction={'row-reverse'}
@@ -138,7 +138,7 @@ const SetupInstantiateSmartContractModal: React.FC<Props> = ({ open, action, onC
               name={'token'}
               value={fund.denom}
               options={[{ value: 'uixo', text: '$IXO' }]}
-              hasArrow={false}
+              $hasArrow={false}
               onChange={(e) => handleUpdateFund(index, { ...fund, denom: e.target.value })}
               style={{ textAlign: 'center', height: inputHeight }}
             />
@@ -149,7 +149,7 @@ const SetupInstantiateSmartContractModal: React.FC<Props> = ({ open, action, onC
           </FlexBox>
         ))}
 
-        <AddFundButton alignItems='center' gap={2.5} onClick={handleAddFund}>
+        <AddFundButton $alignItems='center' $gap={2.5} onClick={handleAddFund}>
           <SvgBox color='black'>
             <PlusIcon />
           </SvgBox>
@@ -159,7 +159,7 @@ const SetupInstantiateSmartContractModal: React.FC<Props> = ({ open, action, onC
         </AddFundButton>
       </FlexBox>
 
-      <FlexBox direction='column' width='100%' gap={2}>
+      <FlexBox $direction='column' width='100%' $gap={2}>
         <Typography color='black' weight='medium' size='xl'>
           Admin (optional)
         </Typography>

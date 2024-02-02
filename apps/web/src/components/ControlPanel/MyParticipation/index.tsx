@@ -14,25 +14,25 @@ const DAOGroupItem: React.FC<{ address: string }> = ({ address }) => {
   const { daoGroup, myVotingPower } = useCurrentEntityDAOGroup(address)
 
   return (
-    <FlexBox key={daoGroup.id} width='100%' alignItems='center' justifyContent='space-between'>
-      <FlexBox gap={2}>
+    <FlexBox key={daoGroup.id} width='100%' $alignItems='center' $justifyContent='space-between'>
+      <FlexBox $gap={2}>
         <Typography size='md'>{daoGroup.config.name}</Typography>
         <Typography size='md' color='blue'>
           {Intl.NumberFormat(undefined, { style: 'percent' }).format(myVotingPower)}
         </Typography>
       </FlexBox>
 
-      <FlexBox gap={2}>
+      <FlexBox $gap={2}>
         <SvgBox
           width='40px'
           height='40px'
           background='#F7F8F9'
-          borderRadius='8px'
-          svgWidth={5}
-          svgHeight={5}
+          $borderRadius='8px'
+          $svgWidth={5}
+          $svgHeight={5}
           color={theme.ixoNewBlue}
-          justifyContent='center'
-          alignItems='center'
+          $justifyContent='center'
+          $alignItems='center'
         >
           <StarIcon />
         </SvgBox>
@@ -40,12 +40,12 @@ const DAOGroupItem: React.FC<{ address: string }> = ({ address }) => {
           width='40px'
           height='40px'
           background='#F7F8F9'
-          borderRadius='8px'
-          svgWidth={5}
-          svgHeight={5}
+          $borderRadius='8px'
+          $svgWidth={5}
+          $svgHeight={5}
           color={theme.ixoNewBlue}
-          justifyContent='center'
-          alignItems='center'
+          $justifyContent='center'
+          $alignItems='center'
         >
           <ProfileIcon />
         </SvgBox>
@@ -67,20 +67,20 @@ const MyParticipationCard = () => {
       columns={1}
       items={
         <>
-          <FlexBox width='100%' alignItems='center' justifyContent='space-between'>
+          <FlexBox width='100%' $alignItems='center' $justifyContent='space-between'>
             <Typography size='md'>{name}</Typography>
 
-            <FlexBox gap={2}>
+            <FlexBox $gap={2}>
               <SvgBox
                 width='40px'
                 height='40px'
                 background='#F7F8F9'
-                borderRadius='8px'
-                svgWidth={5}
-                svgHeight={5}
+                $borderRadius='8px'
+                $svgWidth={5}
+                $svgHeight={5}
                 color={theme.ixoNewBlue}
-                justifyContent='center'
-                alignItems='center'
+                $justifyContent='center'
+                $alignItems='center'
               >
                 <ProfileIcon />
               </SvgBox>
@@ -88,12 +88,12 @@ const MyParticipationCard = () => {
                 width='40px'
                 height='40px'
                 background='#F7F8F9'
-                borderRadius='8px'
-                svgWidth={5}
-                svgHeight={5}
+                $borderRadius='8px'
+                $svgWidth={5}
+                $svgHeight={5}
                 color={theme.ixoNewBlue}
-                justifyContent='center'
-                alignItems='center'
+                $justifyContent='center'
+                $alignItems='center'
               >
                 <UserAstronautIcon />
               </SvgBox>
@@ -101,12 +101,12 @@ const MyParticipationCard = () => {
                 width='40px'
                 height='40px'
                 background='#F7F8F9'
-                borderRadius='8px'
-                svgWidth={5}
-                svgHeight={5}
+                $borderRadius='8px'
+                $svgWidth={5}
+                $svgHeight={5}
                 color={theme.ixoNewBlue}
-                justifyContent='center'
-                alignItems='center'
+                $justifyContent='center'
+                $alignItems='center'
               >
                 <UserNinjaIcon />
               </SvgBox>

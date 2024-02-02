@@ -54,7 +54,7 @@ const SetupManageTreasuryTokensModal: React.FC<Props> = ({ open, action, onClose
       onSubmit={onSubmit && handleConfirm}
       validate={validate}
     >
-      <FlexBox width='100%' gap={4}>
+      <FlexBox width='100%' $gap={4}>
         <Button
           variant={formData.adding ? 'primary' : 'secondary'}
           onClick={() => handleUpdateFormData('adding', true)}
@@ -72,12 +72,12 @@ const SetupManageTreasuryTokensModal: React.FC<Props> = ({ open, action, onClose
       </FlexBox>
 
       {!formData.adding && (
-        <FlexBox direction='column' width='100%' gap={2}>
+        <FlexBox $direction='column' width='100%' $gap={2}>
           <TitleAndDescription title={`Existing Tokens`} />
         </FlexBox>
       )}
 
-      <FlexBox direction='column' width='100%' gap={2}>
+      <FlexBox $direction='column' width='100%' $gap={2}>
         <TitleAndDescription
           title={`Token address`}
           description={
@@ -87,7 +87,7 @@ const SetupManageTreasuryTokensModal: React.FC<Props> = ({ open, action, onClose
           }
         />
 
-        <FlexBox width='100%' gap={4}>
+        <FlexBox width='100%' $gap={4}>
           <Input
             name='token_contract_address'
             placeholder='Token Contract Address'
@@ -99,7 +99,7 @@ const SetupManageTreasuryTokensModal: React.FC<Props> = ({ open, action, onClose
       </FlexBox>
 
       {isContractAddress(formData.address) && (
-        <FlexBox direction='column' width='100%' gap={2}>
+        <FlexBox $direction='column' width='100%' $gap={2}>
           <TitleAndDescription title={`Token info`} />
           <CodeMirror value={JSON.stringify(tokenInfo, null, 2)} readOnly />
         </FlexBox>

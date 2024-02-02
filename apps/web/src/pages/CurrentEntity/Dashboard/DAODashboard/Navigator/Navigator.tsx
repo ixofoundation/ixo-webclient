@@ -16,7 +16,7 @@ import useCurrentEntity from 'hooks/currentEntity'
 import { useQuery } from 'hooks/window'
 
 const Navigator: React.FC = (): JSX.Element => {
-  const { entityId: daoId = "" } = useParams<{ entityId: string }>()
+  const { entityId: daoId = '' } = useParams<{ entityId: string }>()
   const { getQuery } = useQuery()
   const selectedGroup = getQuery('selectedGroup')
   const { daoGroups } = useCurrentEntity()
@@ -57,12 +57,12 @@ const Navigator: React.FC = (): JSX.Element => {
   }
 
   return (
-    <FlexBox direction='column' gap={6}>
+    <FlexBox $direction='column' $gap={6}>
       <Groups />
 
       {selectedDAOGroup && (
         <>
-          <FlexBox width='100%' alignItems='center' justifyContent='space-between'>
+          <FlexBox width='100%' $alignItems='center' $justifyContent='space-between'>
             <Typography variant='secondary' color='white' size='5xl' transform='capitalize'>
               {selectedDAOGroup.config.name} group
             </Typography>
@@ -70,30 +70,30 @@ const Navigator: React.FC = (): JSX.Element => {
           </FlexBox>
 
           <GridContainer
-            gridTemplateAreas={`"a b b b" "c d d d" "e e e e" "f f g g"`}
-            gridTemplateColumns={'1fr 1fr 1fr 1fr'}
-            gridTemplateRows={'repeat(4, minmax(330px, auto))'}
-            gridGap={6}
+            $gridTemplateAreas={`"a b b b" "c d d d" "e e e e" "f f g g"`}
+            $gridTemplateColumns={'1fr 1fr 1fr 1fr'}
+            $gridTemplateRows={'repeat(4, minmax(330px, auto))'}
+            $gridGap={6}
           >
-            <GridItem gridArea='a'>
+            <GridItem $gridArea='a'>
               <Membership groupAddresses={[]} />
             </GridItem>
-            <GridItem gridArea='b'>
+            <GridItem $gridArea='b'>
               <Announcements daoId={daoId} groupAddresses={[]} />
             </GridItem>
-            <GridItem gridArea='c'>
+            <GridItem $gridArea='c'>
               <Governance daoId={daoId} groupAddresses={[]} />
             </GridItem>
-            <GridItem gridArea='d'>
+            <GridItem $gridArea='d'>
               <GovernanceActivity daoId={daoId} groupIds={[]} />
             </GridItem>
-            <GridItem gridArea='e'>
+            <GridItem $gridArea='e'>
               <Activity daoId={daoId} groupIds={[]} />
             </GridItem>
-            <GridItem gridArea='f'>
+            <GridItem $gridArea='f'>
               <FundingClaims daoId={daoId} groupIds={[]} />
             </GridItem>
-            <GridItem gridArea='g'>
+            <GridItem $gridArea='g'>
               <TreasuryPool daoId={daoId} groupAddresses={[]} />
             </GridItem>
           </GridContainer>

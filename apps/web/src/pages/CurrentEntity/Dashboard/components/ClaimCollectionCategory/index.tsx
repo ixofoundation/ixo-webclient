@@ -19,7 +19,7 @@ const ClaimCollectionCategory: React.FC<Props> = ({ claimCollection, selected = 
 
   return (
     <FlexBox
-      borderRadius='4px'
+      $borderRadius='4px'
       border={`1px solid ${selected ? theme.ixoNewBlue : theme.ixoGrey300}`}
       p={2}
       cursor='pointer'

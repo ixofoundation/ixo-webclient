@@ -31,13 +31,13 @@ const TransferEntityModal: React.FC<Props> = ({ open, recipientDid, onClose, onS
         <CloseIcon />
       </CloseButton>
 
-      <FlexBox direction='column' gap={8} width={'700px'}>
+      <FlexBox $direction='column' $gap={8} width={'700px'}>
         <Typography weight='medium' size='xl'>
           Transfer Entity
         </Typography>
 
-        <FlexBox width='100%' direction='column' gap={4}>
-          <FlexBox direction='column' width='100%' gap={4}>
+        <FlexBox width='100%' $direction='column' $gap={4}>
+          <FlexBox $direction='column' width='100%' $gap={4}>
             <Typography>Paste the recipient ixo DID</Typography>
             <InputWithLabel
               name='ixo_did'
@@ -50,7 +50,7 @@ const TransferEntityModal: React.FC<Props> = ({ open, recipientDid, onClose, onS
               }}
             />
             {did && !validateDid(did) && (
-              <FlexBox width='100%' justifyContent='flex-end' alignItems='center' gap={2}>
+              <FlexBox width='100%' $justifyContent='flex-end' $alignItems='center' $gap={2}>
                 <Typography size='xl'>Not a valid ixo DID</Typography>
                 <SvgBox color={theme.ixoRed}>
                   <TimesCircleIcon />
@@ -58,7 +58,7 @@ const TransferEntityModal: React.FC<Props> = ({ open, recipientDid, onClose, onS
               </FlexBox>
             )}
             {did && validateDid(did) && (
-              <FlexBox width='100%' justifyContent='flex-end' alignItems='center' gap={2}>
+              <FlexBox width='100%' $justifyContent='flex-end' $alignItems='center' $gap={2}>
                 <Typography size='xl'>Valid ixo DID</Typography>
                 <SvgBox color={theme.ixoGreen}>
                   <CheckCircleIcon />

@@ -20,15 +20,15 @@ const ClaimCollectionCreationSelectStep: React.FC<Props> = ({ hidden, onSubmit, 
   }
 
   return (
-    <FlexBox direction='column'>
-      <FlexBox direction='column' gap={9} width={deviceWidth.tablet + 'px'} mb={40}>
+    <FlexBox $direction='column'>
+      <FlexBox $direction='column' $gap={9} width={deviceWidth.tablet + 'px'} mb={40}>
         <Typography variant='secondary' size='base'>
           For which linked Claim do you wish to create the new Claim Collection for?
         </Typography>
 
-        <FlexBox gap={6} alignItems='center'>
+        <FlexBox $gap={6} $alignItems='center'>
           {Object.values(claims).map((claim) => (
-            <FlexBox key={claim.id} direction='column' alignItems='center' gap={4}>
+            <FlexBox key={claim.id} $direction='column' $alignItems='center' $gap={4}>
               <PropertyBox
                 icon={<ClaimIcon />}
                 required={true}
@@ -40,7 +40,7 @@ const ClaimCollectionCreationSelectStep: React.FC<Props> = ({ hidden, onSubmit, 
                 variant='primary'
                 size='md'
                 color={selected === claim.id ? 'blue' : 'black'}
-                overflowLines={2}
+                $overflowLines={2}
                 style={{ width: 100, textAlign: 'center' }}
               >
                 {claim.template?.title ?? ''}
@@ -54,7 +54,7 @@ const ClaimCollectionCreationSelectStep: React.FC<Props> = ({ hidden, onSubmit, 
         </Typography>
       </FlexBox>
 
-      <FlexBox gap={5}>
+      <FlexBox $gap={5}>
         <Button variant='secondary' onClick={onCancel}>
           Back
         </Button>

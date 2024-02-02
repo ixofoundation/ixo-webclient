@@ -107,13 +107,13 @@ export const ButtonInner = styled.div`
 `
 
 interface ButtonIconProps {
-  iconSize?: number
+  readonly $iconSize?: number
 }
 
 export const ButtonIcon = styled.i<ButtonIconProps>`
-  font-size: ${(props): string => `${props.iconSize || 22}px`};
-  width: ${(props): string => `${props.iconSize || 22}px`};
-  height: ${(props): string => `${props.iconSize || 22}px`};
+  font-size: ${(props): string => `${props.$iconSize || 22}px`};
+  width: ${(props): string => `${props.$iconSize || 22}px`};
+  height: ${(props): string => `${props.$iconSize || 22}px`};
   margin-right: 8px;
   // line-height: 16px;
 
@@ -123,8 +123,8 @@ export const ButtonIcon = styled.i<ButtonIconProps>`
 `
 
 export const ButtonImage = styled.img<ButtonIconProps>`
-  width: ${(props): string => `${props.iconSize || 22}px`};
-  height: ${(props): string => `${props.iconSize || 22}px`};
+  width: ${(props): string => `${props.$iconSize || 22}px`};
+  height: ${(props): string => `${props.$iconSize || 22}px`};
   margin-right: 8px;
 `
 

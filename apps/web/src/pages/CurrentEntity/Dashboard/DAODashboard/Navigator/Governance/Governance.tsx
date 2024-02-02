@@ -64,7 +64,7 @@ const Governance: React.FC<Props> = ({ daoId, groupAddresses }): JSX.Element => 
       label='Governance'
       onAction={() => navigate(`/entity/${entityId}/dashboard/governance`)}
     >
-      <FlexBox width='100%' direction='column' alignItems='center' gap={1}>
+      <FlexBox width='100%' $direction='column' $alignItems='center' $gap={1}>
         <Typography color='blue' size='5xl'>
           {proposals.length.toLocaleString()}
         </Typography>
@@ -72,16 +72,16 @@ const Governance: React.FC<Props> = ({ daoId, groupAddresses }): JSX.Element => 
       </FlexBox>
 
       {proposals.length > 0 && (
-        <FlexBox direction='column' alignItems='center' width='100%' gap={2}>
-          <FlexBox borderRadius='4px' background='#012131' gap={2} p={4} direction='column' width='100%'>
-            <FlexBox alignItems='center' gap={2.5}>
+        <FlexBox $direction='column' $alignItems='center' width='100%' $gap={2}>
+          <FlexBox $borderRadius='4px' background='#012131' $gap={2} p={4} $direction='column' width='100%'>
+            <FlexBox $alignItems='center' $gap={2.5}>
               <Box>
                 <FlexBox
-                  borderRadius='4px'
+                  $borderRadius='4px'
                   background='#033C50'
-                  justifyContent='center'
-                  alignItems='center'
-                  minWidth='32px'
+                  $justifyContent='center'
+                  $alignItems='center'
+                  $minWidth='32px'
                   height='32px'
                 >
                   <Typography color='blue' size='md'>
@@ -100,7 +100,7 @@ const Governance: React.FC<Props> = ({ daoId, groupAddresses }): JSX.Element => 
               </Typography>
             </Box>
 
-            <FlexBox width='100%' gap={3} alignItems='center'>
+            <FlexBox width='100%' $gap={3} $alignItems='center'>
               <SvgBox color={theme.ixoNewBlue}>
                 <SandClockIcon />
               </SvgBox>

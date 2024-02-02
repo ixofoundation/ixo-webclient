@@ -88,14 +88,14 @@ const Assets: React.FC<Props> = (props) => {
   }
 
   return (
-    <FlexBox direction='column' width='100%' gap={7.5}>
+    <FlexBox $direction='column' width='100%' $gap={7.5}>
       {/* Filter */}
-      <FlexBox width='100%' alignItems='center' justifyContent='space-between'>
-        <FlexBox gap={2.5} flexWrap='wrap'>
+      <FlexBox width='100%' $alignItems='center' $justifyContent='space-between'>
+        <FlexBox $gap={2.5} $flexWrap='wrap'>
           <FilterButton
             variant={filterBy === 'all' ? 'primary' : 'tertiary'}
             icon={
-              <SvgBox svgWidth={6} svgHeight={6} color={theme.ixoWhite}>
+              <SvgBox $svgWidth={6} $svgHeight={6} color={theme.ixoWhite}>
                 <GlobeIcon />
               </SvgBox>
             }
@@ -106,7 +106,7 @@ const Assets: React.FC<Props> = (props) => {
           <FilterButton
             variant={filterBy === 'on-sale' ? 'primary' : 'tertiary'}
             icon={
-              <SvgBox svgWidth={6} svgHeight={6} color={theme.ixoWhite}>
+              <SvgBox $svgWidth={6} $svgHeight={6} color={theme.ixoWhite}>
                 <DiamondIcon />
               </SvgBox>
             }
@@ -118,7 +118,7 @@ const Assets: React.FC<Props> = (props) => {
           <FilterButton
             variant={filterBy === 'owned' ? 'primary' : 'tertiary'}
             icon={
-              <SvgBox svgWidth={6} svgHeight={6} color={theme.ixoWhite}>
+              <SvgBox $svgWidth={6} $svgHeight={6} color={theme.ixoWhite}>
                 <WalletIcon />
               </SvgBox>
             }
@@ -128,12 +128,12 @@ const Assets: React.FC<Props> = (props) => {
           </FilterButton>
         </FlexBox>
         {/* TODO: remove actions for now */}
-        <FlexBox gap={2.5} style={{ display: 'none' }}>
+        <FlexBox $gap={2.5} style={{ display: 'none' }}>
           {!selecting ? (
             <FilterButton
               variant='primary'
               icon={
-                <SvgBox svgWidth={6} svgHeight={6} color={theme.ixoWhite}>
+                <SvgBox $svgWidth={6} $svgHeight={6} color={theme.ixoWhite}>
                   <PlusIcon />
                 </SvgBox>
               }
@@ -146,7 +146,7 @@ const Assets: React.FC<Props> = (props) => {
               <FilterButton
                 variant='primary'
                 icon={
-                  <SvgBox svgWidth={6} svgHeight={6} color={theme.ixoWhite}>
+                  <SvgBox $svgWidth={6} $svgHeight={6} color={theme.ixoWhite}>
                     <WalletIcon />
                   </SvgBox>
                 }
@@ -156,7 +156,7 @@ const Assets: React.FC<Props> = (props) => {
               <FilterButton
                 variant='tertiary'
                 icon={
-                  <SvgBox svgWidth={6} svgHeight={6} color={theme.ixoWhite}>
+                  <SvgBox $svgWidth={6} $svgHeight={6} color={theme.ixoWhite}>
                     <CloseIcon />
                   </SvgBox>
                 }
@@ -179,7 +179,7 @@ const Assets: React.FC<Props> = (props) => {
         }}
         hasMore={hasMore}
         columns={itemsPerScreen}
-        gridGap={7.5}
+        $gridGap={7.5}
       >
         {entities.map((asset, index) => (
           <AssetCardWrapper key={index} onClick={handleAssetCardClick(index)}>

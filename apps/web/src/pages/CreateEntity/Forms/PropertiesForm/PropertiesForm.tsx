@@ -123,11 +123,11 @@ const PropertiesForm: React.FC<Props> = ({
   }, [activeProperties])
 
   return (
-    <FlexBox direction='column' gap={7.5} width={'100%'}>
-      <FlexBox gap={2} flexWrap='wrap'>
+    <FlexBox $direction='column' $gap={7.5} width={'100%'}>
+      <FlexBox $gap={2} $flexWrap='wrap'>
         {activeProperties.map((key) => (
-          <Badge key={key} active={key === propertyView} onClick={(): void => setPropertyView(key)}>
-            <Typography size='lg' weight='medium' color='white' noWrap>
+          <Badge key={key} $active={key === propertyView} onClick={(): void => setPropertyView(key)}>
+            <Typography size='lg' weight='medium' color='white' $noWrap>
               {key}
             </Typography>
           </Badge>

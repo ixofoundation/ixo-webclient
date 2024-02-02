@@ -15,12 +15,12 @@ export const ActivityCard = ({ name, quantity, createdAt }: ActivityCardProps) =
       background='#002D42'
       width='100%'
       p={4}
-      borderRadius='4px'
+      $borderRadius='4px'
       position='relative'
-      justifyContent='space-between'
+      $justifyContent='space-between'
     >
       <ColorCode backgroundColor={colorCode} />
-      <FlexBox direction='column'>
+      <FlexBox $direction='column'>
         <Typography>{name}</Typography>
         <Typography>{quantity}</Typography>
       </FlexBox>

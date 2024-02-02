@@ -61,7 +61,7 @@ const TabsComponent: React.FunctionComponent<Props> = ({
   }
 
   return (
-    <TabsContainer activeTabColor={activeTabColor || ''} assistantActivated={assistant.active}>
+    <TabsContainer activetabcolor={activeTabColor || ''}>
       {buttons.map((button, index) => {
         switch (button.linkClass) {
           case 'in-active':
@@ -97,10 +97,7 @@ const TabsComponent: React.FunctionComponent<Props> = ({
             return (
               <Tooltip text='Requires Authorisation' key={index} position={TooltipPosition.Bottom}>
                 {/* Navlink strict */}
-                <NavLink
-                  className='in-active'
-                  to={{ pathname: button.path, search: button.search }}
-                >
+                <NavLink className='in-active' to={{ pathname: button.path, search: button.search }}>
                   {button.iconClass && <i className={button.iconClass} />}
                   {button.title && <p>{button.title}</p>}
                 </NavLink>
@@ -110,10 +107,7 @@ const TabsComponent: React.FunctionComponent<Props> = ({
             if (button.tooltip) {
               return (
                 <Tooltip text={button.tooltip} key={index} position={TooltipPosition.Bottom}>
-                  <NavLink
-                    className={button.linkClass}
-                    to={{ pathname: button.path, search: button.search }}
-                  >
+                  <NavLink className={button.linkClass} to={{ pathname: button.path, search: button.search }}>
                     {button.iconClass && <i className={button.iconClass} />}
                     {button.title && <p>{button.title}</p>}
                   </NavLink>
@@ -122,11 +116,7 @@ const TabsComponent: React.FunctionComponent<Props> = ({
             }
 
             return (
-              <NavLink
-                className={button.linkClass}
-                to={{ pathname: button.path, search: button.search }}
-                key={index}
-              >
+              <NavLink className={button.linkClass} to={{ pathname: button.path, search: button.search }} key={index}>
                 {button.iconClass && <i className={button.iconClass} />}
                 {button.title && <p>{button.title}</p>}
               </NavLink>

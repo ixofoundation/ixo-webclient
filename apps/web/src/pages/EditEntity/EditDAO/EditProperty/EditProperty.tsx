@@ -17,7 +17,7 @@ import { AccordedRight, LinkedEntity, LinkedResource } from '@ixo/impactxclient-
 
 const EditProperty: React.FC = (): JSX.Element => {
   const navigate = useNavigate()
-  const {search} = useLocation()
+  const { search } = useLocation()
   const { entityId } = useParams<{ entityId: string }>()
   const entity = useContext(EditEntityContext)
 
@@ -73,18 +73,16 @@ const EditProperty: React.FC = (): JSX.Element => {
   }
 
   return (
-    <FlexBox direction='column' gap={7.5} width={deviceWidth.tablet + 'px'}>
+    <FlexBox $direction='column' $gap={7.5} width={deviceWidth.tablet + 'px'}>
       <PropertiesForm {...PropertiesFormProps} />
 
-      <FlexBox id='setup-property-actions' gap={5}>
+      <FlexBox id='setup-property-actions' $gap={5}>
         <Button variant='secondary' onClick={(): void => navigate(-1)}>
           Back
         </Button>
         <Button
           variant='primary'
-          onClick={(): void =>
-            navigate({ pathname: `/edit/entity/${entityId}/review`, search })
-          }
+          onClick={(): void => navigate({ pathname: `/edit/entity/${entityId}/review`, search })}
         >
           Continue
         </Button>

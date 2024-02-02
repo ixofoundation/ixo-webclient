@@ -48,7 +48,7 @@ const BalanceCard: React.FC<Props> = ({ availableValue = '0', stakedValue = '0.0
   const totalValue = new BigNumber(availableValue).plus(new BigNumber(stakedValue)).toFixed(2)
 
   return (
-    <FlexBox direction='column' gap={4} p={8} background='#012D41' borderRadius='12px' color={theme.ixoWhite}>
+    <FlexBox $direction='column' $gap={4} p={8} background='#012D41' $borderRadius='12px' color={theme.ixoWhite}>
       {/* Total Value */}
       <FlexBox>
         <Typography variant='secondary' size='2xl'>
@@ -62,12 +62,12 @@ const BalanceCard: React.FC<Props> = ({ availableValue = '0', stakedValue = '0.0
         </Typography>
       </FlexBox>
 
-      <FlexBox width='100%' justifyContent='space-between' alignItems='end'>
+      <FlexBox width='100%' $justifyContent='space-between' $alignItems='end'>
         <Typography variant='secondary' size='4xl'>
           <CurrencyFormat prefix='$' displayType={'text'} value={totalValue} thousandSeparator decimalScale={2} />
         </Typography>
 
-        <FlexBox direction='column'>
+        <FlexBox $direction='column'>
           <Typography variant='secondary'>
             <CurrencyFormat prefix='$' displayType={'text'} value={availableValue} thousandSeparator decimalScale={2} />
           </Typography>
@@ -76,7 +76,7 @@ const BalanceCard: React.FC<Props> = ({ availableValue = '0', stakedValue = '0.0
           </Typography>
         </FlexBox>
 
-        <FlexBox direction='column'>
+        <FlexBox $direction='column'>
           <Typography variant='secondary'>
             <CurrencyFormat prefix='$' displayType={'text'} value={stakedValue} thousandSeparator decimalScale={2} />
           </Typography>
@@ -89,9 +89,9 @@ const BalanceCard: React.FC<Props> = ({ availableValue = '0', stakedValue = '0.0
       <FlexBox
         width='100%'
         height='270px'
-        direction='column'
-        justifyContent='center'
-        alignItems='center'
+        $direction='column'
+        $justifyContent='center'
+        $alignItems='center'
         color={theme.ixoDarkBlue}
       >
         {new BigNumber(totalValue).isGreaterThan(0) ? (
@@ -102,7 +102,7 @@ const BalanceCard: React.FC<Props> = ({ availableValue = '0', stakedValue = '0.0
           </ResponsiveContainer>
         ) : (
           <>
-            <SvgBox svgWidth={10} svgHeight={10} color={theme.ixoDarkBlue} mb={4}>
+            <SvgBox $svgWidth={10} $svgHeight={10} color={theme.ixoDarkBlue} mb={4}>
               <CoinsIcon />
             </SvgBox>
             <Typography variant='secondary' size='2xl'>

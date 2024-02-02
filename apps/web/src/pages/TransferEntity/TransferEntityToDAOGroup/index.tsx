@@ -31,35 +31,35 @@ const TransferEntityToDAOGroup: React.FC = (): JSX.Element => {
 
   return (
     <>
-      <FlexBox direction='column' gap={5}>
+      <FlexBox $direction='column' $gap={5}>
         <Box width={`${deviceWidth.mobile}px`}>
           <Typography variant='secondary'>Transfer ImpactsDAO to a dao group or another account</Typography>
         </Box>
 
-        <FlexBox gap={5}>
+        <FlexBox $gap={5}>
           {Object.entries(selectedEntity.daoGroups ?? {}).map(([key, value]) => {
             const Icon = DAOGroupConfig[value.type]?.icon
             const text = DAOGroupConfig[value.type]?.text
             return (
-              <FlexBox key={key} direction='column' alignItems='center' gap={4}>
+              <FlexBox key={key} $direction='column' $alignItems='center' $gap={4}>
                 <PropertyBox
                   icon={Icon && <Icon />}
                   label={text}
                   set={!!value.coreAddress}
                   handleClick={handleClick(key)}
                 />
-                <Typography variant='secondary' overflowLines={1} style={{ width: 100, textAlign: 'center' }}>
+                <Typography variant='secondary' $overflowLines={1} style={{ width: 100, textAlign: 'center' }}>
                   &nbsp;{selectedEntity.profile?.name || ''}&nbsp;
                 </Typography>
-                <Typography variant='secondary' overflowLines={1} style={{ width: 100, textAlign: 'center' }}>
+                <Typography variant='secondary' $overflowLines={1} style={{ width: 100, textAlign: 'center' }}>
                   &nbsp;{value.config.name} Group&nbsp;
                 </Typography>
               </FlexBox>
             )
           })}
-          <FlexBox direction='column' alignItems='center' gap={4}>
+          <FlexBox $direction='column' $alignItems='center' $gap={4}>
             <PropertyBox icon={<PlusIcon />} noData handleClick={handleClick('other')} />
-            <Typography variant='secondary' overflowLines={1} style={{ width: 100, textAlign: 'center' }}>
+            <Typography variant='secondary' $overflowLines={1} style={{ width: 100, textAlign: 'center' }}>
               Other Account
             </Typography>
           </FlexBox>

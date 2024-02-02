@@ -19,8 +19,8 @@ import EditProperty from '../../components/EditProperty'
 
 const EditEntity: React.FC = () => {
   const dispatch = useDispatch()
-  const navigate =useNavigate()
-  const { entityId = "" } = useParams<{ entityId: string }>()
+  const navigate = useNavigate()
+  const { entityId = '' } = useParams<{ entityId: string }>()
   const { cwClient } = useAccount()
   const { currentEntity, isOwner } = useCurrentEntity()
   const { setEditEntity, ExecuteEditEntity } = useEditEntity()
@@ -69,7 +69,7 @@ const EditEntity: React.FC = () => {
   }
 
   return (
-    <FlexBox width='100%' direction='column' alignItems='flex-start' gap={10} color='black' background='white'>
+    <FlexBox width='100%' $direction='column' $alignItems='flex-start' $gap={10} color='black' background='white'>
       <Typography variant='secondary' size='2xl'>
         Here you can update the DAO settings and submit the changes as a proposal.
       </Typography>
@@ -90,7 +90,7 @@ const EditEntity: React.FC = () => {
         )}
       </FlexBox>
 
-      <FlexBox width='100%' direction='column' gap={8}>
+      <FlexBox width='100%' $direction='column' $gap={8}>
         <Typography variant='secondary' size='4xl'>
           Profile
         </Typography>
@@ -98,7 +98,7 @@ const EditEntity: React.FC = () => {
         <EditProfile />
       </FlexBox>
 
-      <FlexBox width='100%' direction='column' gap={8}>
+      <FlexBox width='100%' $direction='column' $gap={8}>
         <Typography variant='secondary' size='4xl'>
           Groups
         </Typography>
@@ -106,7 +106,7 @@ const EditEntity: React.FC = () => {
         <EditGroups />
       </FlexBox>
 
-      <FlexBox width='100%' direction='column' gap={8}>
+      <FlexBox width='100%' $direction='column' $gap={8}>
         <Typography variant='secondary' size='4xl'>
           Settings
         </Typography>

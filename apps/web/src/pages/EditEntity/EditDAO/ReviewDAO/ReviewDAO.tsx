@@ -8,7 +8,7 @@ import DAOCard from 'pages/CreateEntity/Forms/ReviewCard/DAOCard'
 import { EditEntityContext } from 'pages/EditEntity/EditEntity'
 
 const ReviewDAO: React.FC = (): JSX.Element => {
-  const {search} = useLocation()
+  const { search } = useLocation()
   const navigate = useNavigate()
   const { entityId } = useParams<{ entityId: string }>()
   const entity = useContext(EditEntityContext)
@@ -30,32 +30,31 @@ const ReviewDAO: React.FC = (): JSX.Element => {
       const searchParams = new URLSearchParams(search)
       const redirectTo = searchParams.get('redirectTo')
       if (redirectTo) {
-        navigate({pathname: redirectTo}, {
-          state: { type: 'Edit Entity', data: { linkedEntity: entity.linkedEntity } },
-        })
+        navigate(
+          { pathname: redirectTo },
+          {
+            state: { type: 'Edit Entity', data: { linkedEntity: entity.linkedEntity } },
+          },
+        )
       }
     }
   }
 
   return (
-    <FlexBox width={`${deviceWidth.tablet}px`} gap={10} alignItems='stretch'>
+    <FlexBox width={`${deviceWidth.tablet}px`} $gap={10} $alignItems='stretch'>
       <DAOCard image={profile?.image ?? ''} name={profile?.name ?? ''} numberOfMembers={numOfMembers} />
-      <FlexBox direction='column' justifyContent='space-between' gap={4} width='100%' style={{ flex: 1 }}>
-        <FlexBox direction='column' width='100%' gap={4}>
+      <FlexBox $direction='column' $justifyContent='space-between' $gap={4} width='100%' style={{ flex: 1 }}>
+        <FlexBox $direction='column' width='100%' $gap={4}>
           <Typography variant='secondary'>
             This is the last step before creating this DAO on the ixo Blockchain.
           </Typography>
           <Typography variant='secondary'>
-            <NavLink to={{ pathname: `/edit/entity/${entityId}/metadata`, search }}>
-              Review the DAO details
-            </NavLink>{' '}
-            you have configured.
+            <NavLink to={{ pathname: `/edit/entity/${entityId}/metadata`, search }}>Review the DAO details</NavLink> you
+            have configured.
           </Typography>
           <Typography variant='secondary'>
-            <NavLink to={{ pathname: `/edit/entity/${entityId}/groups`, search }}>
-              View the DAO Groups
-            </NavLink>{' '}
-            you have added.
+            <NavLink to={{ pathname: `/edit/entity/${entityId}/groups`, search }}>View the DAO Groups</NavLink> you have
+            added.
           </Typography>
           <Typography variant='secondary'>
             When you are ready to commit, sign with your DID Account keys, or{' '}
@@ -65,7 +64,7 @@ const ReviewDAO: React.FC = (): JSX.Element => {
             as the DAO Creator.
           </Typography>
         </FlexBox>
-        <FlexBox width='100%' gap={4}>
+        <FlexBox width='100%' $gap={4}>
           <Button variant='secondary' onClick={(): void => navigate(-1)} style={{ width: '100%' }}>
             Back
           </Button>

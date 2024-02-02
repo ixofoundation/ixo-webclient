@@ -134,9 +134,9 @@ const AssetDashboard = () => {
       entityType={entityType}
       matchType={MatchType.strict}
     >
-      <FlexBox height='300px' width='100%' gap={5}>
+      <FlexBox height='300px' width='100%' $gap={5}>
         {entity && <AssetCard {...inputAssetCardData} accountTokens={carbonTokens} width='300px' height='100%' />}
-        <FlexBox flexGrow={1} height='100%' gap={5}>
+        <FlexBox $flexGrow={1} height='100%' $gap={5}>
           <AssetStatsCard
             title='Assets Stats'
             creator={profile?.name}
@@ -161,7 +161,7 @@ const AssetDashboard = () => {
           icon={<AssetPerformanceIcon transform='scale(1.4)' />}
         />
       </FlexBox>
-      <FlexBox height='250px' width={'100%'} gap={10} overflowY='hidden'>
+      <FlexBox height='250px' width={'100%'} $gap={10} $overflowY='hidden'>
         <Flex w='100%' align='flex-start' h='100%' pos={'relative'} style={{ overflow: 'hidden', borderRadius: '5px' }}>
           <Flex w='100%' h='auto' align='center' justify='flex-start' p={16} style={{ zIndex: 9 }}>
             <Flex color='white' align='center'>
@@ -180,7 +180,7 @@ const AssetDashboard = () => {
           </Flex>
         </Card>
       </FlexBox>
-      <FlexBox py={5} height='auto' width={'100%'} gap={10} overflowY='hidden'>
+      <FlexBox py={5} height='auto' width={'100%'} $gap={10} $overflowY='hidden'>
         <Card title='Asset Events' height='100%' width='100%' icon={<ClockIcon transform='scale(1.4)' />}>
           {messagesData?.messages?.nodes && <AssetEventsTable events={messagesData?.messages?.nodes as Message[]} />}
         </Card>

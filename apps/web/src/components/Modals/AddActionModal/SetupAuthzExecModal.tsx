@@ -138,11 +138,11 @@ const SetupAuthzExecModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
     }
     return (
       <>
-        <FlexBox direction='column' width='100%' gap={2}>
+        <FlexBox $direction='column' width='100%' $gap={2}>
           <Typography color='black' weight='medium' size='xl'>
             Delegator Address
           </Typography>
-          <FlexBox width='100%' gap={4}>
+          <FlexBox width='100%' $gap={4}>
             <Input
               name='delegator_address'
               height={inputHeight}
@@ -154,7 +154,7 @@ const SetupAuthzExecModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
           </FlexBox>
         </FlexBox>
 
-        <FlexBox direction='column' width='100%' gap={2}>
+        <FlexBox $direction='column' width='100%' $gap={2}>
           <Typography color='black' weight='medium' size='xl'>
             Validator
           </Typography>
@@ -171,13 +171,13 @@ const SetupAuthzExecModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
           />
         </FlexBox>
 
-        <FlexBox direction='column' width='100%' gap={2}>
+        <FlexBox $direction='column' width='100%' $gap={2}>
           <Typography color='black' weight='medium' size='xl'>
             Choose Token Amount
           </Typography>
 
           {delegate.amount && (
-            <FlexBox alignItems='center' gap={2} width='100%'>
+            <FlexBox $alignItems='center' $gap={2} width='100%'>
               <NumberCounter
                 direction={'row-reverse'}
                 height={inputHeight}
@@ -218,11 +218,11 @@ const SetupAuthzExecModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
     }
     return (
       <>
-        <FlexBox direction='column' width='100%' gap={2}>
+        <FlexBox $direction='column' width='100%' $gap={2}>
           <Typography color='black' weight='medium' size='xl'>
             Delegator Address
           </Typography>
-          <FlexBox width='100%' gap={4}>
+          <FlexBox width='100%' $gap={4}>
             <Input
               name='delegator_address'
               height={inputHeight}
@@ -234,7 +234,7 @@ const SetupAuthzExecModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
           </FlexBox>
         </FlexBox>
 
-        <FlexBox direction='column' width='100%' gap={2}>
+        <FlexBox $direction='column' width='100%' $gap={2}>
           <Typography color='black' weight='medium' size='xl'>
             Validator
           </Typography>
@@ -251,11 +251,11 @@ const SetupAuthzExecModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
           />
         </FlexBox>
 
-        <FlexBox direction='column' width='100%' gap={2}>
+        <FlexBox $direction='column' width='100%' $gap={2}>
           <Typography color='black' weight='medium' size='xl'>
             Choose Token Amount
           </Typography>
-          <FlexBox alignItems='center' gap={2} width='100%'>
+          <FlexBox $alignItems='center' $gap={2} width='100%'>
             <NumberCounter
               direction={'row-reverse'}
               height={inputHeight}
@@ -269,7 +269,7 @@ const SetupAuthzExecModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
               name={'token'}
               value={undelegate.amount?.denom}
               options={[{ value: undelegate.amount?.denom ?? '', text: '$IXO' }]}
-              hasArrow={false}
+              $hasArrow={false}
               onChange={(e) =>
                 handleUpdateUndelegateFormData('amount', { ...(undelegate.amount ?? {}), denom: e.target.value })
               }
@@ -288,11 +288,11 @@ const SetupAuthzExecModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
     }
     return (
       <>
-        <FlexBox direction='column' width='100%' gap={2}>
+        <FlexBox $direction='column' width='100%' $gap={2}>
           <Typography color='black' weight='medium' size='xl'>
             Delegator Address
           </Typography>
-          <FlexBox width='100%' gap={4}>
+          <FlexBox width='100%' $gap={4}>
             <Input
               name='delegator_address'
               height={inputHeight}
@@ -304,7 +304,7 @@ const SetupAuthzExecModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
           </FlexBox>
         </FlexBox>
 
-        <FlexBox direction='column' width='100%' gap={2}>
+        <FlexBox $direction='column' width='100%' $gap={2}>
           <Typography color='black' weight='medium' size='xl'>
             Source Validator
           </Typography>
@@ -321,7 +321,7 @@ const SetupAuthzExecModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
           />
         </FlexBox>
 
-        <FlexBox direction='column' width='100%' gap={2}>
+        <FlexBox $direction='column' width='100%' $gap={2}>
           <Typography color='black' weight='medium' size='xl'>
             Destination Validator
           </Typography>
@@ -338,11 +338,11 @@ const SetupAuthzExecModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
           />
         </FlexBox>
 
-        <FlexBox direction='column' width='100%' gap={2}>
+        <FlexBox $direction='column' width='100%' $gap={2}>
           <Typography color='black' weight='medium' size='xl'>
             Choose Token Amount
           </Typography>
-          <FlexBox alignItems='center' gap={2} width='100%'>
+          <FlexBox $alignItems='center' $gap={2} width='100%'>
             <NumberCounter
               direction={'row-reverse'}
               height={inputHeight}
@@ -356,7 +356,7 @@ const SetupAuthzExecModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
               name={'token'}
               value={redelegate.amount?.denom}
               options={[{ value: redelegate.amount?.denom ?? '', text: '$IXO' }]}
-              hasArrow={false}
+              $hasArrow={false}
               onChange={(e) =>
                 handleUpdateRedelegateFormData('amount', { ...(redelegate.amount ?? {}), denom: e.target.value })
               }
@@ -375,11 +375,11 @@ const SetupAuthzExecModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
     }
     return (
       <>
-        <FlexBox direction='column' width='100%' gap={2}>
+        <FlexBox $direction='column' width='100%' $gap={2}>
           <Typography color='black' weight='medium' size='xl'>
             Delegator Address
           </Typography>
-          <FlexBox width='100%' gap={4}>
+          <FlexBox width='100%' $gap={4}>
             <Input
               name='delegator_address'
               height={inputHeight}
@@ -391,7 +391,7 @@ const SetupAuthzExecModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
           </FlexBox>
         </FlexBox>
 
-        <FlexBox direction='column' width='100%' gap={2}>
+        <FlexBox $direction='column' width='100%' $gap={2}>
           <Typography color='black' weight='medium' size='xl'>
             Validator
           </Typography>
@@ -412,7 +412,7 @@ const SetupAuthzExecModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
   }
   const renderCustomForm = () => {
     return (
-      <FlexBox direction='column' width='100%' gap={2}>
+      <FlexBox $direction='column' width='100%' $gap={2}>
         <Typography color='black' weight='medium' size='xl'>
           List of encoded messages
         </Typography>
@@ -428,7 +428,7 @@ const SetupAuthzExecModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
       onSubmit={onSubmit && handleConfirm}
       validate={validate}
     >
-      <FlexBox direction='column' width='100%' gap={2}>
+      <FlexBox $direction='column' width='100%' $gap={2}>
         <TitleAndDescription
           title='Authz Exec Action Type'
           description='This is the type of action that will be executed on behalf of another account.'

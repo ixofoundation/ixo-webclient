@@ -31,8 +31,8 @@ const SetupActions: React.FC = () => {
   }
 
   return (
-    <FlexBox width={'100%'} justifyContent='center'>
-      <FlexBox direction='column' gap={15} width={deviceWidth.tablet + 'px'}>
+    <FlexBox width={'100%'} $justifyContent='center'>
+      <FlexBox $direction='column' $gap={15} width={deviceWidth.tablet + 'px'}>
         <FlexBox>
           <Typography variant='secondary' size='2xl'>
             The following {validActions.length} actions get executed when the proposal passes.
@@ -41,7 +41,7 @@ const SetupActions: React.FC = () => {
 
         <SetupActionsForm actions={actions} setActions={(actions) => updateProposal({ ...proposal, actions })} />
 
-        <FlexBox width='100%' justifyContent='flex-end' gap={4}>
+        <FlexBox width='100%' $justifyContent='flex-end' $gap={4}>
           <Button variant='secondary' onClick={handleBack}>
             Back
           </Button>

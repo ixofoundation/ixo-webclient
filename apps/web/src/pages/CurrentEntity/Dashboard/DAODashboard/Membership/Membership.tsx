@@ -112,16 +112,16 @@ const Membership: React.FC = (): JSX.Element | null => {
           </Flex>
 
           <GridContainer
-            gridTemplateAreas={`"a b"`}
-            gridTemplateColumns={'1fr 1fr'}
-            gridTemplateRows={'repeat(1, minmax(340px, auto))'}
-            gridGap={6}
+            $gridTemplateAreas={`"a b"`}
+            $gridTemplateColumns={'1fr 1fr'}
+            $gridTemplateRows={'repeat(1, minmax(340px, auto))'}
+            $gridGap={6}
             width='100%'
           >
-            <GridItem gridArea='a' alignSelf='center' height='100%'>
+            <GridItem $gridArea='a' $alignSelf='center' height='100%'>
               <GovernanceCard daoGroup={selectedDAOGroup} />
             </GridItem>
-            <GridItem gridArea='b' alignSelf='center' height='100%'>
+            <GridItem $gridArea='b' $alignSelf='center' height='100%'>
               {selectedDAOGroup.type === 'membership' ? (
                 <VotingPowerCard daoGroup={selectedDAOGroup} />
               ) : (

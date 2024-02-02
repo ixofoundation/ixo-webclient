@@ -185,7 +185,7 @@ const BondWithdrawReserveModal: React.FC<Props> = ({ open, bondDid, setOpen }) =
         </div>
 
         {currentStep < 3 && (
-          <FlexBox direction='column' width='100%' position='relative'>
+          <FlexBox $direction='column' width='100%' position='relative'>
             <CheckWrapper>
               <TokenSelector
                 selectedToken={asset!}

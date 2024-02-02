@@ -10,8 +10,11 @@ app_version: 1.15.0
 <br/>
 
 Form Card component used in creation flow (light mode)
+
 <!-- NOTE-swimm-snippet: the lines below link your snippet to Swimm -->
+
 ### 📄 src/components/Card/FormCard.tsx
+
 <!-- collapsed -->
 
 ```tsx
@@ -19,14 +22,14 @@ Form Card component used in creation flow (light mode)
 12       const theme: any = useTheme()
 13       return (
 14         <FlexBox
-15           direction='column'
-16           gap={5}
+15           $direction='column'
+16           $gap={5}
 17           border={`1px solid ${theme.ixoNewBlue}`}
-18           borderRadius='0.5rem'
+18           $borderRadius='0.5rem'
 19           width='100%'
 20           p={7}
 21         >
-22           <FlexBox alignItems='center' gap={2} width='100%'>
+22           <FlexBox $alignItems='center' $gap={2} width='100%'>
 23             {preIcon && preIcon}
 24             {typeof title === 'string' ? (
 25               <Typography size='xl' weight='medium'>

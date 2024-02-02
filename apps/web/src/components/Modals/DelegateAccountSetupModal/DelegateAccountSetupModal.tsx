@@ -51,9 +51,9 @@ const DelegateAccountSetupModal: React.FC<Props> = ({ open, onClose, onAdd }): J
 
         <ModalWrapper>
           <ModalTitle>Add a Delegate</ModalTitle>
-          <FlexBox direction='column' gap={4}>
+          <FlexBox $direction='column' $gap={4}>
             <Typography>Delegates represent DAO Entities in decentralised governance.</Typography>
-            <FlexBox width='100%' height='100%' gap={4}>
+            <FlexBox width='100%' height='100%' $gap={4}>
               <InputWithLabel
                 name='delegate_ixo_account'
                 inputValue={address}
@@ -72,7 +72,7 @@ const DelegateAccountSetupModal: React.FC<Props> = ({ open, onClose, onAdd }): J
                 }}
               />
             </FlexBox>
-            <FlexBox width='100%' justifyContent='flex-end'>
+            <FlexBox width='100%' $justifyContent='flex-end'>
               <Button variant='primary' disabled={!isAccountAddress(address)} onClick={handleAdd}>
                 Continue
               </Button>

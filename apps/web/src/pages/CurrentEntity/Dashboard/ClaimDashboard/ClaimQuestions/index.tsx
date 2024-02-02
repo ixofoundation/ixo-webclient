@@ -34,7 +34,7 @@ const ClaimQuestions: React.FC = () => {
   }, [JSON.stringify(claimSchemaLinkedResources), JSON.stringify(service)])
 
   return (
-    <FlexBox direction='column' gap={2}>
+    <FlexBox $direction='column' $gap={2}>
       {questionFormData.map((data, i) => {
         const survey = new Model(data)
         survey.applyTheme(themeJson)

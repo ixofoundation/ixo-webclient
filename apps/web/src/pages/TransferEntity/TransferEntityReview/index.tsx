@@ -257,7 +257,7 @@ const TransferEntityToAccountButton: React.FC<{
           })
         })
 
-      const response = await AddVerificationMethod(signingClient, signer, { did: entityId ?? "", verifications })
+      const response = await AddVerificationMethod(signingClient, signer, { did: entityId ?? '', verifications })
       if (response.code !== 0) {
         throw response.rawLog
       }
@@ -279,7 +279,7 @@ const TransferEntityToAccountButton: React.FC<{
       }
 
       const transactionData = await UpdateEntityMessage(signer, { id: entityId, entityStatus: 0 })
-      const response = await execute(transactionData) as unknown as DeliverTxResponse
+      const response = (await execute(transactionData)) as unknown as DeliverTxResponse
 
       if (response.code !== 0) {
         throw response.rawLog
@@ -354,8 +354,8 @@ const TransferEntityReview: React.FC = () => {
   }
 
   return (
-    <FlexBox width='100%' justifyContent='center'>
-      <FlexBox maxWidth='800px' width='100%' direction='column' gap={5}>
+    <FlexBox width='100%' $justifyContent='center'>
+      <FlexBox $maxWidth='800px' width='100%' $direction='column' $gap={5}>
         <Typography>The former owner of the entity created a document to re-enable verification keys.</Typography>
 
         {verificationMethods.map((vm: any, index) => {
@@ -363,7 +363,7 @@ const TransferEntityReview: React.FC = () => {
             <FormCard
               key={index}
               title={
-                <FlexBox width='100%' alignItems='center' justifyContent='space-between' gap={4}>
+                <FlexBox width='100%' $alignItems='center' $justifyContent='space-between' $gap={4}>
                   <Typography color='black'>KEY #{index + 1}</Typography>
                   <Switch
                     size='base'
@@ -375,19 +375,21 @@ const TransferEntityReview: React.FC = () => {
               }
             >
               <FlexBox
-                direction='column'
+                $direction='column'
                 width='100%'
                 background={theme.ixoGrey100}
-                borderRadius='8px'
-                gap={2}
+                $borderRadius='8px'
+                $gap={2}
                 p={4}
                 color='black'
               >
                 {Object.entries(vm)
                   .filter(([key]) => key !== 'description' && key !== 'reEnable')
                   .map(([key, value]) => (
-                    <Typography key={key} wordBreak={'break-all'}>
-                      <>{key}: {value}</>
+                    <Typography key={key} $wordBreak={'break-all'}>
+                      <>
+                        {key}: {value}
+                      </>
                     </Typography>
                   ))}
               </FlexBox>
@@ -401,7 +403,7 @@ const TransferEntityReview: React.FC = () => {
           )
         })}
 
-        <FlexBox alignItems='center' width='100%' gap={7}>
+        <FlexBox $alignItems='center' width='100%' $gap={7}>
           <Button variant='secondary' size='full' height={48} onClick={onBack}>
             Back
           </Button>

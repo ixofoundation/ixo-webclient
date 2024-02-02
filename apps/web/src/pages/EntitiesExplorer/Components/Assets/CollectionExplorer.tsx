@@ -22,7 +22,7 @@ const CollectionExplorer: React.FC<Props> = (props) => {
   const isTablet = useMediaQuery({ minWidth: deviceWidth.tablet, maxWidth: deviceWidth.desktop })
 
   const navigate = useNavigate()
-  const {pathname, search} = useLocation()
+  const { pathname, search } = useLocation()
   const { data: assetDevices } = useGetAssetDevicesByCollectionId(props.collection.id)
   const [collection, setCollection] = useState<TEntityModel>()
 
@@ -51,17 +51,17 @@ const CollectionExplorer: React.FC<Props> = (props) => {
   }
 
   return (
-    <FlexBox width='100%' direction='column' gap={8}>
+    <FlexBox width='100%' $direction='column' $gap={8}>
       {/* Collection overview */}
       <GridContainer
         width='100%'
         columns={!isMobile ? (!isTablet ? 4 : 2) : 1}
-        gridGap={7.5}
-        gridTemplateAreas={!isMobile ? (!isTablet ? `"a b b b""c d d d"` : `"a b""c d"`) : `"b""a""c""d"`}
+        $gridGap={7.5}
+        $gridTemplateAreas={!isMobile ? (!isTablet ? `"a b b b""c d d d"` : `"a b""c d"`) : `"b""a""c""d"`}
       >
-        <GridItem gridArea='a'>
-          <FlexBox alignItems='center' justifyContent='space-between'>
-            <FlexBox direction='column' style={{ flex: 1 }}>
+        <GridItem $gridArea='a'>
+          <FlexBox $alignItems='center' $justifyContent='space-between'>
+            <FlexBox $direction='column' style={{ flex: 1 }}>
               <Typography weight='bold' size='2xl'>
                 {name}
               </Typography>
@@ -70,17 +70,17 @@ const CollectionExplorer: React.FC<Props> = (props) => {
               </Typography>
             </FlexBox>
             <FlexBox
-              borderRadius='100%'
+              $borderRadius='100%'
               width='40px'
               height='40px'
               background={`url(${logo}), #ffffff`}
-              backgroundPosition='center center'
-              backgroundSize='100%'
+              $backgroundPosition='center center'
+              $backgroundSize='100%'
             />
           </FlexBox>
         </GridItem>
-        <GridItem gridArea='b'>
-          <FlexBox width='100%' justifyContent='flex-end'>
+        <GridItem $gridArea='b'>
+          <FlexBox width='100%' $justifyContent='flex-end'>
             <Button
               variant='white'
               onClick={onBack}
@@ -92,10 +92,10 @@ const CollectionExplorer: React.FC<Props> = (props) => {
             </Button>
           </FlexBox>
         </GridItem>
-        <GridItem gridArea='c'>
+        <GridItem $gridArea='c'>
           <CollectionCard {...props.collection} />
         </GridItem>
-        <GridItem gridArea='d'>{collection && <CollectionMetadata {...collection} />}</GridItem>
+        <GridItem $gridArea='d'>{collection && <CollectionMetadata {...collection} />}</GridItem>
       </GridContainer>
 
       {/* Assets */}

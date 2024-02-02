@@ -62,7 +62,7 @@ const EventsHistory: React.FC = () => {
           const date = moment(timestamp).format('DD MMM ‘YY')
           const time = moment(timestamp).format('hh:mm')
           return (
-            <FlexBox direction='column' gap={1} p={4}>
+            <FlexBox $direction='column' $gap={1} p={4}>
               <Typography size='lg'>{date}</Typography>
               <Typography size='sm' color='light-blue'>
                 {time}
@@ -89,7 +89,7 @@ const EventsHistory: React.FC = () => {
               break
           }
           return (
-            <FlexBox direction='column' p={4}>
+            <FlexBox $direction='column' p={4}>
               <Typography size='base' transform='capitalize' weight='bold' {...(color ? { color } : [])}>
                 {cell.value}
               </Typography>
@@ -108,11 +108,11 @@ const EventsHistory: React.FC = () => {
           }).format(Number(price?.amount || '0'))
 
           return (
-            <FlexBox justifyContent='flex-end' alignItems='stretch' width='250px' height='100%'>
+            <FlexBox $justifyContent='flex-end' $alignItems='stretch' width='250px' height='100%'>
               <FlexBox
                 height='100%'
-                justifyContent='center'
-                alignItems='center'
+                $justifyContent='center'
+                $alignItems='center'
                 p={4}
                 background={theme.ixoNavyBlue}
                 style={{ flex: 1 }}
@@ -124,8 +124,8 @@ const EventsHistory: React.FC = () => {
               <SvgBox
                 width='60px'
                 height='100%'
-                justifyContent='center'
-                alignItems='center'
+                $justifyContent='center'
+                $alignItems='center'
                 background={theme.ixoMediumBlue}
                 color='white'
                 hover={{ color: theme.ixoNewBlue }}
@@ -147,11 +147,11 @@ const EventsHistory: React.FC = () => {
   return (
     <TableWrapper
       width='100%'
-      direction='column'
-      borderRadius='4px'
+      $direction='column'
+      $borderRadius='4px'
       border={`1px solid #0C3549`}
       background='linear-gradient(180deg, #012639 0%, #002D42 97.29%)'
-      boxShadow='0px 2px 10px 0px rgba(0, 0, 0, 0.18)'
+      $boxShadow='0px 2px 10px 0px rgba(0, 0, 0, 0.18)'
       p={4}
     >
       <Table
@@ -167,9 +167,9 @@ const EventsHistory: React.FC = () => {
         <FlexBox
           width='100%'
           height='80px'
-          alignItems='center'
-          justifyContent='center'
-          borderRadius='8px'
+          $alignItems='center'
+          $justifyContent='center'
+          $borderRadius='8px'
           background='#053549'
         >
           <Typography variant='primary' size='lg' color='dark-blue'>

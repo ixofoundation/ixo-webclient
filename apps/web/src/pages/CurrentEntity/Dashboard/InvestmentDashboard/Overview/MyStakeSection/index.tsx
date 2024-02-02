@@ -13,12 +13,12 @@ const MyStakeSection: React.FC<Props> = ({ bondDid }) => {
   const { data: bondDetail } = useGetBondDid(bondDid)
 
   return (
-    <FlexBox width='100%' direction='column' gap={6}>
+    <FlexBox width='100%' $direction='column' $gap={6}>
       <Typography size='lg'>My {bondDetail?.token?.toUpperCase()} Stake</Typography>
 
       <MyStakeCharts bondDid={bondDid} />
 
-      <FlexBox width='100%' alignItems='center' justifyContent='space-between'>
+      <FlexBox width='100%' $alignItems='center' $justifyContent='space-between'>
         <Typography size='lg'>{bondDetail?.token?.toUpperCase()} Transactions</Typography>
       </FlexBox>
 

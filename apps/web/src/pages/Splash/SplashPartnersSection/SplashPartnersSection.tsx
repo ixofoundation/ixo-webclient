@@ -28,7 +28,7 @@ const SplashPartnersSection: FunctionComponent<Props> = () => {
                   href={sponsor.url!}
                   target='_blank'
                   rel='noopener noreferrer'
-                  backgroundColor={sponsor.color}
+                  backgroundcolor={sponsor.color}
                 >
                   <CardImage
                     src={

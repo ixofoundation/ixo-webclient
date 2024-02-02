@@ -7,18 +7,9 @@ interface Props {
   borderColor?: string
 }
 
-const PulseLoader = ({
-  children,
-  repeat,
-  style,
-  borderColor = '#dfe3e8',
-}: Props) => {
+const PulseLoader = ({ children, repeat, style, borderColor = '#dfe3e8' }: Props) => {
   return (
-    <PulseLoaderWrapper
-      className={`${repeat ? 'repeat' : ''}`}
-      style={style}
-      borderColor={borderColor}
-    >
+    <PulseLoaderWrapper className={`${repeat ? 'repeat' : ''}`} style={style} $borderColor={borderColor}>
       {children}
     </PulseLoaderWrapper>
   )

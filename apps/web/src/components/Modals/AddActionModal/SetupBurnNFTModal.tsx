@@ -53,7 +53,7 @@ const SetupBurnNFTModal: React.FC<Props> = ({ open, action, onClose, onSubmit })
       onSubmit={onSubmit && handleConfirm}
       validate={validate}
     >
-      <FlexBox direction='column' width='100%' gap={2}>
+      <FlexBox $direction='column' width='100%' $gap={2}>
         <Typography color='black' weight='medium' size='xl'>
           Select NFT to burn
         </Typography>
@@ -63,7 +63,7 @@ const SetupBurnNFTModal: React.FC<Props> = ({ open, action, onClose, onSubmit })
           name={'collections'}
           value={formData.tokenId}
           options={[]}
-          hasArrow={false}
+          $hasArrow={false}
           placeholder={`You don't have any NFTs`}
           onChange={(e) => {
             handleUpdateFormData('tokenId', e.target.value)

@@ -46,7 +46,7 @@ const AvatarUpload: React.FC<Props> = ({ value, onChange }): JSX.Element => {
       <Wrapper background={value} onClick={(): void => setOpenModal(true)}>
         {!value ? (
           <>
-            <SvgBox color={theme.ixoNewBlue} mb={2} svgWidth={6} svgHeight={6}>
+            <SvgBox color={theme.ixoNewBlue} mb={2} $svgWidth={6} $svgHeight={6}>
               <IconImage />
             </SvgBox>
             <Typography color='blue' size='md'>

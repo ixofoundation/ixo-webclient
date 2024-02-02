@@ -21,15 +21,15 @@ const ClaimCollectionCreationScopeStep: React.FC<Props> = ({ hidden, onSubmit, o
   }
 
   return (
-    <FlexBox direction='column'>
-      <FlexBox direction='column' gap={9} width={deviceWidth.tablet + 'px'} mb={40}>
+    <FlexBox $direction='column'>
+      <FlexBox $direction='column' $gap={9} width={deviceWidth.tablet + 'px'} mb={40}>
         <Typography variant='secondary' size='base'>
           Set up the scope of the Claim Collection
         </Typography>
 
-        <FlexBox direction='column' gap={6}>
+        <FlexBox $direction='column' $gap={6}>
           <Typography>Period</Typography>
-          <FlexBox gap={6}>
+          <FlexBox $gap={6}>
             <DateRangePicker
               id='protocol'
               startDate={period.startDate || ''}
@@ -45,9 +45,9 @@ const ClaimCollectionCreationScopeStep: React.FC<Props> = ({ hidden, onSubmit, o
 
         <FlexBox width='100%' height='1px' background={theme.ixoGrey300} />
 
-        <FlexBox direction='column' gap={6}>
+        <FlexBox $direction='column' $gap={6}>
           <Typography>Target</Typography>
-          <FlexBox gap={6}>
+          <FlexBox $gap={6}>
             <InputWithLabel
               name='quota'
               height={'48px'}
@@ -69,7 +69,7 @@ const ClaimCollectionCreationScopeStep: React.FC<Props> = ({ hidden, onSubmit, o
         <FlexBox width='100%' height='1px' background={theme.ixoGrey300} />
       </FlexBox>
 
-      <FlexBox gap={5}>
+      <FlexBox $gap={5}>
         <Button variant='secondary' onClick={onCancel}>
           Back
         </Button>

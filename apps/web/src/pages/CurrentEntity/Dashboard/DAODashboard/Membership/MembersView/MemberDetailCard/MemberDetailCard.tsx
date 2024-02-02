@@ -56,32 +56,32 @@ const MemberDetailCard: React.FC<Props> = ({ member, onClose }): JSX.Element => 
 
   return (
     <FlexBox
-      minWidth='240px'
+      $minWidth='240px'
       width='100%'
       height='320px'
       padding={5}
-      direction={'column'}
-      justifyContent={'space-between'}
-      gap={4.5}
+      $direction={'column'}
+      $justifyContent={'space-between'}
+      $gap={4.5}
       background='white'
-      borderRadius='12px'
-      borderWidth='2px'
-      borderStyle='solid'
-      borderColor='white'
+      $borderRadius='12px'
+      $borderWidth='2px'
+      $borderStyle='solid'
+      $borderColor='white'
       onClick={(event) => event.stopPropagation()}
     >
-      <FlexBox width='100%' alignItems='center' justifyContent='space-between'>
-        <SvgBox svgWidth={6} svgHeight={6} color={theme.ixoNewBlue}>
+      <FlexBox width='100%' $alignItems='center' $justifyContent='space-between'>
+        <SvgBox $svgWidth={6} $svgHeight={6} color={theme.ixoNewBlue}>
           <ProfileIcon />
         </SvgBox>
 
-        <SvgBox svgWidth={6} svgHeight={6} color={theme.ixoBlack} cursor='pointer' onClick={onClose}>
+        <SvgBox $svgWidth={6} $svgHeight={6} color={theme.ixoBlack} cursor='pointer' onClick={onClose}>
           <TimesIcon />
         </SvgBox>
       </FlexBox>
 
-      <FlexBox direction='column' gap={3} width='100%'>
-        <FlexBox width='100%' justifyContent='space-between' alignItems='center'>
+      <FlexBox $direction='column' $gap={3} width='100%'>
+        <FlexBox width='100%' $justifyContent='space-between' $alignItems='center'>
           <Typography size='md'>Approved</Typography>
           <Switch
             size='sm'
@@ -92,23 +92,23 @@ const MemberDetailCard: React.FC<Props> = ({ member, onClose }): JSX.Element => 
           />
         </FlexBox>
 
-        <FlexBox width='100%' justifyContent='space-between' alignItems='center'>
+        <FlexBox width='100%' $justifyContent='space-between' $alignItems='center'>
           <Typography size='md'>Verified</Typography>
           <Switch size='sm' value={verified!} onChange={setVerified} />
         </FlexBox>
 
-        <FlexBox width='100%' justifyContent='space-between' alignItems='center'>
+        <FlexBox width='100%' $justifyContent='space-between' $alignItems='center'>
           <Typography size='md'>Administrator</Typography>
           <Switch size='sm' value={administrator!} onChange={setAdministrator} />
         </FlexBox>
 
-        <FlexBox width='100%' justifyContent='space-between' alignItems='center'>
+        <FlexBox width='100%' $justifyContent='space-between' $alignItems='center'>
           <Typography size='md' color='blue'>
             Remove
           </Typography>
         </FlexBox>
 
-        <FlexBox width='100%' justifyContent='space-between' alignItems='center'>
+        <FlexBox width='100%' $justifyContent='space-between' $alignItems='center'>
           <Typography size='md'>Voting Power</Typography>
           <Typography size='md' weight='bold'>
             {new Intl.NumberFormat('en-us', {
@@ -119,9 +119,9 @@ const MemberDetailCard: React.FC<Props> = ({ member, onClose }): JSX.Element => 
           </Typography>
         </FlexBox>
 
-        <FlexBox width='100%' justifyContent='space-between' alignItems='center'>
+        <FlexBox width='100%' $justifyContent='space-between' $alignItems='center'>
           <Typography size='md'>Assigned Authority</Typography>
-          <Box borderRadius='6px' background={theme.ixoGrey300} paddingLeft={1.5} paddingRight={1.5}>
+          <Box $borderRadius='6px' background={theme.ixoGrey300} $paddingLeft={1.5} $paddingRight={1.5}>
             <Typography size='md' weight='bold' color='blue'>
               {assignedAuthority ?? 0}%
             </Typography>

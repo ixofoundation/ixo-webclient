@@ -79,7 +79,7 @@ const IconListFilterMobile: FC<MobileProps> = ({
                   className={utils.getItemClassName(items, itemName)}
                 >
                   <Typography weight='medium'>{itemName}</Typography>
-                  <SvgBox color='currentColor' svgWidth={12.5} svgHeight={12.5}>
+                  <SvgBox color='currentColor' $svgWidth={12.5} $svgHeight={12.5}>
                     <ReactSVG src={requireCheckDefault(require(`./assets/icons/${itemIcon}`))} />
                   </SvgBox>
                 </FilterSelectButton>

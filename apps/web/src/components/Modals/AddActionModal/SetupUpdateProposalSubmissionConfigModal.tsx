@@ -52,7 +52,7 @@ const SetupUpdateProposalSubmissionConfigModal: React.FC<Props> = ({
   onClose,
   onSubmit,
 }): JSX.Element => {
-  const { coreAddress = "" } = useParams<{ coreAddress: string }>()
+  const { coreAddress = '' } = useParams<{ coreAddress: string }>()
   const { daoGroup } = useCurrentEntityDAOGroup(coreAddress)
   const preProposeConfig = daoGroup?.proposalModule.preProposeConfig
   const [formData, setFormData] = useState<UpdatePreProposeConfigData>(initialPreProposeConfigState)
@@ -95,8 +95,8 @@ const SetupUpdateProposalSubmissionConfigModal: React.FC<Props> = ({
       'voting_module_token' in configDepositInfo.denom
         ? 'voting_module_token'
         : 'native' in configDepositInfo.denom.token.denom
-        ? 'native'
-        : 'cw20'
+          ? 'native'
+          : 'cw20'
 
     const depositInfo: UpdatePreProposeConfigData['depositInfo'] = {
       amount: configDepositInfo.amount,
@@ -157,14 +157,14 @@ const SetupUpdateProposalSubmissionConfigModal: React.FC<Props> = ({
         </Typography>
       </FlexBox>
 
-      <FlexBox width='100%' direction='column' gap={2}>
-        <FlexBox width='100%' justifyContent='space-between'>
+      <FlexBox width='100%' $direction='column' $gap={2}>
+        <FlexBox width='100%' $justifyContent='space-between'>
           <TitleAndDescription
             title={`Proposal deposit`}
             description='The number of tokens that must be deposited to create a proposal. Setting this may deter spam, but setting it too high may limit broad participation.'
           />
 
-          <FlexBox alignItems='center' gap={4}>
+          <FlexBox $alignItems='center' $gap={4}>
             <Typography size='xl'>Enabled</Typography>
             <Switch
               value={formData.depositRequired}
@@ -175,7 +175,7 @@ const SetupUpdateProposalSubmissionConfigModal: React.FC<Props> = ({
         </FlexBox>
 
         {formData.depositRequired && (
-          <FlexBox width='100%' gap={4}>
+          <FlexBox width='100%' $gap={4}>
             <Input
               inputValue={convertMicroDenomToDenomWithDecimals(formData.depositInfo.amount, NATIVE_DECIMAL)}
               handleChange={(value) =>
@@ -191,7 +191,7 @@ const SetupUpdateProposalSubmissionConfigModal: React.FC<Props> = ({
               name={'depositInfo'}
               value={formData.depositInfo.denomOrAddress}
               options={[{ value: formData.depositInfo.denomOrAddress, text: '$IXO' }]}
-              hasArrow={false}
+              $hasArrow={false}
               onChange={(e) =>
                 handleUpdateFormData('depositInfo', { ...formData.depositInfo, denomOrAddress: e.target.value })
               }
@@ -201,9 +201,9 @@ const SetupUpdateProposalSubmissionConfigModal: React.FC<Props> = ({
       </FlexBox>
 
       {formData.depositRequired && (
-        <FlexBox width='100%' direction='column' gap={2}>
+        <FlexBox width='100%' $direction='column' $gap={2}>
           <Typography size='xl'>When should the deposit be returned?</Typography>
-          <FlexBox width='100%' gap={4}>
+          <FlexBox width='100%' $gap={4}>
             <Button
               variant={formData.depositInfo.refundPolicy === DepositRefundPolicy.Always ? 'primary' : 'secondary'}
               onClick={() =>
@@ -244,9 +244,9 @@ const SetupUpdateProposalSubmissionConfigModal: React.FC<Props> = ({
         </FlexBox>
       )}
 
-      <FlexBox width='100%' direction='column' gap={2}>
+      <FlexBox width='100%' $direction='column' $gap={2}>
         <Typography size='xl'>Who can submit proposals?</Typography>
-        <FlexBox width='100%' gap={4}>
+        <FlexBox width='100%' $gap={4}>
           <Button
             variant={!formData.anyoneCanPropose ? 'primary' : 'secondary'}
             onClick={() => handleUpdateFormData('anyoneCanPropose', false)}

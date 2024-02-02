@@ -24,7 +24,7 @@ const MyParticipation: React.FC = () => {
   const tokenDetail: any = state
 
   return (
-    <FlexBox direction='column' gap={6} width='100%' color='white'>
+    <FlexBox $direction='column' $gap={6} width='100%' color='white'>
       <Groups />
 
       {selectedDAOGroup && (
@@ -75,13 +75,13 @@ const MyParticipation: React.FC = () => {
           {/* !expand && !token */}
           <GridContainer
             className={clxs({ 'd-none': expand || token })}
-            gridTemplateAreas={`"a a b b"`}
-            gridTemplateColumns={'1fr 1fr 1fr 1fr'}
-            gridTemplateRows={'repeat(1, minmax(330px, auto))'}
-            gridGap={6}
+            $gridTemplateAreas={`"a a b b"`}
+            $gridTemplateColumns={'1fr 1fr 1fr 1fr'}
+            $gridTemplateRows={'repeat(1, minmax(330px, auto))'}
+            $gridGap={6}
             width='100%'
           >
-            <GridItem gridArea='a'>
+            <GridItem $gridArea='a'>
               {selectedDAOGroup.type === 'staking' && (
                 <Card
                   icon={<StakesIcon />}
@@ -102,7 +102,7 @@ const MyParticipation: React.FC = () => {
                 </Card>
               )}
             </GridItem>
-            <GridItem gridArea='b'>
+            <GridItem $gridArea='b'>
               <Card
                 icon={<ProposalsIcon />}
                 label='My Proposals'
@@ -111,7 +111,7 @@ const MyParticipation: React.FC = () => {
                 <UserProposals show={!expand && !token} coreAddress={selectedDAOGroup.coreAddress} full={false} />
               </Card>
             </GridItem>
-            {/* <GridItem gridArea='c'>
+            {/* <GridItem $gridArea='c'>
               <UserActivity />
             </GridItem> */}
           </GridContainer>

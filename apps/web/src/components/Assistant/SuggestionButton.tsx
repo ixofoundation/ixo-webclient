@@ -34,7 +34,7 @@ export default function SuggestionButton({ onClick, ...props }: ButtonProps & { 
       variant='outline'
       fullWidth
       rightSection={
-        <SvgBox svgWidth={5} svgHeight={5} color={theme.ixoNewBlue}>
+        <SvgBox $svgWidth={5} $svgHeight={5} color={theme.ixoNewBlue}>
           <SendPlaneIcon />
         </SvgBox>
       }

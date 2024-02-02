@@ -12,7 +12,7 @@ import { DashboardThemeContext } from 'components/Dashboard/Dashboard'
 
 const DISPLAY_FORMAT = 'DD-MMM-YYYY'
 
-const Wrapper = styled.div<{ isDark: boolean }>`
+const Wrapper = styled.div<{ $isDark: boolean }>`
   .DateRangePickerInput {
     display: flex;
     justify-content: space-between;
@@ -33,10 +33,10 @@ const Wrapper = styled.div<{ isDark: boolean }>`
         border: 1px solid ${(props): string => props.theme.ixoNewBlue};
         border-radius: 8px;
         background: transparent;
-        color: ${(props) => (!props.isDark ? props.theme.ixoBlack : props.theme.ixoWhite)};
+        color: ${(props) => (!props.$isDark ? props.theme.ixoBlack : props.theme.ixoWhite)};
 
         &::placeholder {
-          color: ${(props) => (!props.isDark ? props.theme.ixoGrey500 : props.theme.ixoDarkBlue)};
+          color: ${(props) => (!props.$isDark ? props.theme.ixoGrey500 : props.theme.ixoDarkBlue)};
         }
       }
     }
@@ -101,7 +101,7 @@ const DateRangePickerComponent: React.FC<Props> = ({
   const [focusedInput, setFocusedInput] = useState<FocusedInputShape | null>(input ? null : 'startDate')
 
   return (
-    <Wrapper isDark={isDark}>
+    <Wrapper $isDark={isDark}>
       <DateRangePickerGlobalStyle />
       {input ? (
         <DateRangePicker

@@ -16,7 +16,7 @@ import { errorToast, successToast } from 'utils/toast'
 const AgentUserCard: React.FC<IAgent & { noAction?: boolean }> = ({ address, role, noAction }) => {
   const { getQuery } = useQuery()
   const collectionId = getQuery('collectionId')
-  const { entityId = "" } = useParams<{ entityId: string }>()
+  const { entityId = '' } = useParams<{ entityId: string }>()
   const { signingClient, signer } = useAccount()
   const adminAddress = useCurrentEntityAdminAccount()
   const [granting, setGranting] = useState(false)
@@ -67,16 +67,16 @@ const AgentUserCard: React.FC<IAgent & { noAction?: boolean }> = ({ address, rol
   return (
     <FlexBox
       width='300px'
-      direction='column'
-      gap={4}
+      $direction='column'
+      $gap={4}
       p={4}
-      borderRadius='4px'
+      $borderRadius='4px'
       border='1px solid #083347'
       background='#01273A'
     >
-      <FlexBox width='100%' gap={4} alignItems='center'>
+      <FlexBox width='100%' $gap={4} $alignItems='center'>
         <Avatar size={80} />
-        <FlexBox direction='column'>
+        <FlexBox $direction='column'>
           <Typography size='lg' weight='bold'>
             {truncateString(address, 16, 'middle')}
           </Typography>
@@ -100,18 +100,18 @@ interface Props {
 }
 const AgentUserSection: React.FC<Props> = ({ title, agents, noAction }) => {
   return (
-    <FlexBox width='100%' direction='column' gap={6}>
+    <FlexBox width='100%' $direction='column' $gap={6}>
       <FlexBox width='100%'>
         <Typography size='2xl'>{title}</Typography>
       </FlexBox>
       {agents.length > 0 ? (
-        <FlexBox width='100%' gap={6}>
+        <FlexBox width='100%' $gap={6}>
           {agents.map((agent) => (
             <AgentUserCard key={agent.address} {...agent} noAction={noAction} />
           ))}
         </FlexBox>
       ) : (
-        <FlexBox width='100%' height='100px' justifyContent='center' alignItems='center'>
+        <FlexBox width='100%' height='100px' $justifyContent='center' $alignItems='center'>
           No Agents
         </FlexBox>
       )}

@@ -17,7 +17,7 @@ const TreasuryPool: React.FC<Props> = ({ daoId, groupAddresses }): JSX.Element =
 
   return (
     <Card icon={<FundingIcon />} label='Treasury Pool'>
-      <FlexBox width='100%' alignItems='center' direction='column' gap={1}>
+      <FlexBox width='100%' $alignItems='center' $direction='column' $gap={1}>
         <Box position='relative'>
           <Typography color='blue' size='5xl'>
             {new Intl.NumberFormat(undefined, {
@@ -30,14 +30,14 @@ const TreasuryPool: React.FC<Props> = ({ daoId, groupAddresses }): JSX.Element =
               .format(totalCw20Balances)
               .replace(/\D00$/, '')}
           </Typography>
-          <FlexBox position='absolute' top='50%' left='100%' transform='translate(0.5rem, -50%)' alignItems='center'>
+          <FlexBox position='absolute' top='50%' left='100%' transform='translate(0.5rem, -50%)' $alignItems='center'>
             <Typography color='green'>
               {new Intl.NumberFormat('en-US', {
                 signDisplay: 'exceptZero',
               }).format(0)}
               %
             </Typography>
-            <SvgBox color={theme.ixoGreen} svgWidth={5} svgHeight={5}>
+            <SvgBox color={theme.ixoGreen} $svgWidth={5} $svgHeight={5}>
               <CaretUpIcon />
             </SvgBox>
           </FlexBox>
@@ -45,24 +45,24 @@ const TreasuryPool: React.FC<Props> = ({ daoId, groupAddresses }): JSX.Element =
         <Typography variant='secondary' color='white'>
           Treasury Assets
         </Typography>
-        <FlexBox gap={2.5} mt={2}>
+        <FlexBox $gap={2.5} mt={2}>
           {[].map((asset: any) => (
             <img key={asset.name} width={24} height={24} src={asset.logoUrl} alt={asset.name} />
           ))}
         </FlexBox>
       </FlexBox>
 
-      <FlexBox width='100%' direction='column' alignItems='center' gap={2}>
-        <GridContainer width='100%' columns={3} gridGap={5}>
+      <FlexBox width='100%' $direction='column' $alignItems='center' $gap={2}>
+        <GridContainer width='100%' columns={3} $gridGap={5}>
           <FlexBox
-            borderRadius='4px'
+            $borderRadius='4px'
             background='#012131'
             py={5}
             px={2}
-            direction='column'
-            alignItems='center'
-            justifyContent='center'
-            gap={1}
+            $direction='column'
+            $alignItems='center'
+            $justifyContent='center'
+            $gap={1}
           >
             <Typography size='md' color='blue' weight='bold'>
               Incoming
@@ -81,14 +81,14 @@ const TreasuryPool: React.FC<Props> = ({ daoId, groupAddresses }): JSX.Element =
           </FlexBox>
 
           <FlexBox
-            borderRadius='4px'
+            $borderRadius='4px'
             background='#012131'
             py={5}
             px={2}
-            direction='column'
-            alignItems='center'
-            justifyContent='center'
-            gap={1}
+            $direction='column'
+            $alignItems='center'
+            $justifyContent='center'
+            $gap={1}
           >
             <Typography size='md' color='blue' weight='bold'>
               Incoming
@@ -107,14 +107,14 @@ const TreasuryPool: React.FC<Props> = ({ daoId, groupAddresses }): JSX.Element =
           </FlexBox>
 
           <FlexBox
-            borderRadius='4px'
+            $borderRadius='4px'
             background='#012131'
             py={5}
             px={2}
-            direction='column'
-            alignItems='center'
-            justifyContent='center'
-            gap={1}
+            $direction='column'
+            $alignItems='center'
+            $justifyContent='center'
+            $gap={1}
           >
             <Typography size='md' color='blue' weight='bold'>
               Pending Approval

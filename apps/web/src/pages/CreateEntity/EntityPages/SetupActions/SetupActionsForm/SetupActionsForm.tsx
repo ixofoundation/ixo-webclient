@@ -36,7 +36,7 @@ const SetupActionsForm: React.FC<Props> = ({ actions, setActions, constant = fal
 
   return (
     <>
-      <FlexBox gap={5} flexWrap='wrap'>
+      <FlexBox $gap={5} $flexWrap='wrap'>
         {actions.map((item) => {
           const Icon = ProposalActionConfig[item.group].items[item.text]?.icon
           const disabled = ProposalActionConfig[item.group].items[item.text]?.disabled

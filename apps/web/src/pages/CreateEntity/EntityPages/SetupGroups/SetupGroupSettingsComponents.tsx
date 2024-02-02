@@ -54,9 +54,9 @@ type RenderActionsProps = {
 
 export const RenderActions = ({ errMsg, onBack, submitting, handleSubmit, valid }: RenderActionsProps): JSX.Element => {
   return (
-    <FlexBox direction='column' width='100%' marginTop={7} gap={2}>
+    <FlexBox $direction='column' width='100%' $marginTop={7} $gap={2}>
       {errMsg && <Typography color='red'>{errMsg}</Typography>}
-      <FlexBox alignItems='center' width='100%' gap={7}>
+      <FlexBox $alignItems='center' width='100%' $gap={7}>
         {onBack && (
           <Button variant='secondary' size='full' height={48} onClick={onBack}>
             Back
@@ -74,8 +74,8 @@ type RenderGroupIdentityProps = DataStateProps
 
 export const RenderGroupIdentity = ({ data, setData }: RenderGroupIdentityProps): JSX.Element => {
   return (
-    <CardWrapper direction='column' gap={5} marginBottom={7}>
-      <FlexBox gap={2} alignItems='center'>
+    <CardWrapper $direction='column' $gap={5} $marginBottom={7}>
+      <FlexBox $gap={2} $alignItems='center'>
         <InfoIcon />
         <Typography size='xl' weight='medium'>
           Group Identity
@@ -190,17 +190,17 @@ export const GroupMemberships = ({ setData, data }: RenderGroupIdentityProps): J
     }
   }
   return (
-    <FlexBox direction='column' width='100%' gap={7} marginBottom={7}>
+    <FlexBox $direction='column' width='100%' $gap={7} $marginBottom={7}>
       {data.memberships?.map((membership, membershipIdx) => (
-        <CardWrapper direction='column' gap={5} key={membershipIdx}>
-          <FlexBox justifyContent='space-between' alignItems='center'>
-            <FlexBox gap={2} alignItems='center'>
+        <CardWrapper $direction='column' $gap={5} key={membershipIdx}>
+          <FlexBox $justifyContent='space-between' $alignItems='center'>
+            <FlexBox $gap={2} $alignItems='center'>
               <ProfileIcon />
               <Typography size='xl' weight='medium'>
                 Group Membership
               </Typography>
             </FlexBox>
-            <FlexBox gap={4}>
+            <FlexBox $gap={4}>
               <input
                 style={{ display: 'none' }}
                 type={'file'}
@@ -224,8 +224,8 @@ export const GroupMemberships = ({ setData, data }: RenderGroupIdentityProps): J
               </Button>
             </FlexBox>
           </FlexBox>
-          <FlexBox direction='column' gap={5}>
-            <FlexBox gap={2} alignItems='center'>
+          <FlexBox $direction='column' $gap={5}>
+            <FlexBox $gap={2} $alignItems='center'>
               <Typography size='xl' weight='medium'>
                 Categories
               </Typography>
@@ -233,12 +233,12 @@ export const GroupMemberships = ({ setData, data }: RenderGroupIdentityProps): J
                 text={`The "class" of member. For example: "Core developers" or "friends and family." These names are only for your reference.`}
                 width='20rem'
               >
-                <SvgBox color='black' svgWidth={5} svgHeight={5} cursor='pointer'>
+                <SvgBox color='black' $svgWidth={5} $svgHeight={5} cursor='pointer'>
                   <InfoIcon />
                 </SvgBox>
               </Tooltip>
             </FlexBox>
-            <FlexBox width='100%' alignItems='center' gap={4}>
+            <FlexBox width='100%' $alignItems='center' $gap={4}>
               <InputWithLabel
                 height={inputHeight + 'px'}
                 label='Membership Category'
@@ -253,13 +253,13 @@ export const GroupMemberships = ({ setData, data }: RenderGroupIdentityProps): J
               />
             </FlexBox>
           </FlexBox>
-          <FlexBox direction='column' gap={5}>
+          <FlexBox $direction='column' $gap={5}>
             <Typography size='xl' weight='medium'>
               Members
             </Typography>
-            <FlexBox direction='column' gap={4} width='100%'>
+            <FlexBox $direction='column' $gap={4} width='100%'>
               {membership.members.map((member, memberIdx) => (
-                <FlexBox key={memberIdx} alignItems='center' gap={4} width='100%'>
+                <FlexBox key={memberIdx} $alignItems='center' $gap={4} width='100%'>
                   <InputWithLabel
                     height={inputHeight + 'px'}
                     label='Member Account Address or Name'
@@ -281,7 +281,7 @@ export const GroupMemberships = ({ setData, data }: RenderGroupIdentityProps): J
                 </FlexBox>
               ))}
               <Button size='flex' textTransform='none' height={48} onClick={(): void => handleAddMember(membershipIdx)}>
-                <FlexBox alignItems='center' gap={2}>
+                <FlexBox $alignItems='center' $gap={2}>
                   <PlusIcon color={theme.ixoWhite} />
                   Add a Member
                 </FlexBox>
@@ -290,7 +290,7 @@ export const GroupMemberships = ({ setData, data }: RenderGroupIdentityProps): J
           </FlexBox>
         </CardWrapper>
       ))}
-      <CardWrapper className='cursor-pointer' width='100%' alignItems='center' gap={2} onClick={handleAddMembership}>
+      <CardWrapper className='cursor-pointer' width='100%' $alignItems='center' $gap={2} onClick={handleAddMembership}>
         <PlusIcon />
         <Typography color='blue' size='xl' weight='medium'>
           Add a Membership Category
@@ -411,9 +411,9 @@ export const Staking = ({
     }
   }
   return (
-    <FlexBox direction='column' width='100%' gap={7} marginBottom={7}>
+    <FlexBox $direction='column' width='100%' $gap={7} $marginBottom={7}>
       {/* render buttons `Create a Token` & `Use an existing Token` */}
-      <FlexBox width='100%' gap={7}>
+      <FlexBox width='100%' $gap={7}>
         <Button
           variant={!useExistingToken ? 'primary' : 'grey500'}
           style={{ width: '100%' }}
@@ -446,14 +446,14 @@ export const Staking = ({
       {!useExistingToken ? (
         <>
           {/* Token Creation */}
-          <CardWrapper direction='column' gap={5}>
-            <FlexBox gap={2} alignItems='center'>
+          <CardWrapper $direction='column' $gap={5}>
+            <FlexBox $gap={2} $alignItems='center'>
               <TokenContractIcon />
               <Typography size='xl' weight='medium'>
                 Token Creation
               </Typography>
             </FlexBox>
-            <FlexBox width='100%' gap={5} alignItems='center'>
+            <FlexBox width='100%' $gap={5} $alignItems='center'>
               <IconUpload
                 icon={(data.token?.marketingInfo.logo as { url: string })?.url}
                 sizeInPX={120}
@@ -476,7 +476,7 @@ export const Staking = ({
                 }
               />
             </FlexBox>
-            <FlexBox gap={5}>
+            <FlexBox $gap={5}>
               <InputWithLabel
                 height={inputHeight + 'px'}
                 label='Token Symbol'
@@ -520,7 +520,7 @@ export const Staking = ({
                 }
               />
             </FlexBox>
-            <FlexBox gap={5}>
+            <FlexBox $gap={5}>
               <InputWithLabel
                 height={inputHeight + 'px'}
                 label='Token Supply'
@@ -548,7 +548,7 @@ export const Staking = ({
                   )
                 }
               />
-              <FlexBox alignItems='center' gap={4} width='100%'>
+              <FlexBox $alignItems='center' $gap={4} width='100%'>
                 <NumberCounter
                   height={inputHeight + 'px'}
                   label='Treasury Percent'
@@ -571,9 +571,9 @@ export const Staking = ({
 
           {/* Distribution Category */}
           {(data.memberships ?? []).map((distribution, distributionIdx) => (
-            <CardWrapper direction='column' gap={5} key={distributionIdx}>
-              <FlexBox justifyContent='space-between' alignItems='center'>
-                <FlexBox gap={2} alignItems='center'>
+            <CardWrapper $direction='column' $gap={5} key={distributionIdx}>
+              <FlexBox $justifyContent='space-between' $alignItems='center'>
+                <FlexBox $gap={2} $alignItems='center'>
                   <ProfileIcon />
                   <Typography size='xl' weight='medium'>
                     Distribution Category
@@ -589,15 +589,15 @@ export const Staking = ({
                   <TrashIcon />
                 </Button>
               </FlexBox>
-              <FlexBox direction='column' gap={5}>
-                <FlexBox width='100%' alignItems='center' gap={5}>
+              <FlexBox $direction='column' $gap={5}>
+                <FlexBox width='100%' $alignItems='center' $gap={5}>
                   <InputWithLabel
                     height={inputHeight + 'px'}
                     label='Category Name'
                     inputValue={distribution.category}
                     handleChange={(value): void => handleUpdateMembership(distributionIdx, 'category', value)}
                   />
-                  <FlexBox alignItems='center' gap={4} width='100%'>
+                  <FlexBox $alignItems='center' $gap={4} width='100%'>
                     <NumberCounter
                       height={inputHeight + 'px'}
                       label='Percent of total supply'
@@ -610,13 +610,13 @@ export const Staking = ({
                   </FlexBox>
                 </FlexBox>
               </FlexBox>
-              <FlexBox direction='column' gap={5}>
+              <FlexBox $direction='column' $gap={5}>
                 <Typography size='xl' weight='medium'>
                   Members
                 </Typography>
-                <FlexBox direction='column' gap={4} width='100%'>
+                <FlexBox $direction='column' $gap={4} width='100%'>
                   {distribution.members.map((member, memberIdx) => (
-                    <FlexBox key={memberIdx} alignItems='center' gap={4} width='100%'>
+                    <FlexBox key={memberIdx} $alignItems='center' $gap={4} width='100%'>
                       <InputWithLabel
                         height={inputHeight + 'px'}
                         label='Member Account'
@@ -642,7 +642,7 @@ export const Staking = ({
                     height={48}
                     onClick={(): void => handleAddMember(distributionIdx)}
                   >
-                    <FlexBox alignItems='center' gap={2}>
+                    <FlexBox $alignItems='center' $gap={2}>
                       <PlusIcon color={theme.ixoWhite} />
                       Add a Member
                     </FlexBox>
@@ -656,9 +656,9 @@ export const Staking = ({
           <CardWrapper
             className='cursor-pointer'
             width='100%'
-            alignItems='center'
-            gap={2}
-            marginBottom={7}
+            $alignItems='center'
+            $gap={2}
+            $marginBottom={7}
             onClick={handleAddMembership}
           >
             <PlusIcon />
@@ -668,14 +668,14 @@ export const Staking = ({
           </CardWrapper>
         </>
       ) : (
-        <CardWrapper direction='column' gap={5} marginBottom={7}>
-          <FlexBox gap={2} alignItems='center'>
+        <CardWrapper $direction='column' $gap={5} $marginBottom={7}>
+          <FlexBox $gap={2} $alignItems='center'>
             <TokenContractIcon />
             <Typography size='xl' weight='medium'>
               Validate the Token Contract Address
             </Typography>
           </FlexBox>
-          <FlexBox gap={4}>
+          <FlexBox $gap={4}>
             <InputWithLabel
               height={inputHeight + 'px'}
               label='Enter ixo Address'
@@ -745,22 +745,22 @@ export const RenderMultisigGroupMembership = ({ setData, data }: DataStateProps)
     }
   }
   return (
-    <FlexBox direction='column' gap={7} marginBottom={7} width={'100%'}>
+    <FlexBox $direction='column' $gap={7} $marginBottom={7} width={'100%'}>
       {/* Multisig Group Membership */}
-      <CardWrapper direction='column' gap={5}>
-        <FlexBox gap={2} alignItems='center'>
+      <CardWrapper $direction='column' $gap={5}>
+        <FlexBox $gap={2} $alignItems='center'>
           <ProfileIcon />
           <Typography size='xl' weight='medium'>
             Multisig Group Membership
           </Typography>
         </FlexBox>
-        <FlexBox direction='column' gap={5}>
+        <FlexBox $direction='column' $gap={5}>
           <Typography size='xl' weight='medium'>
             Members
           </Typography>
-          <FlexBox direction='column' gap={4} width='100%'>
+          <FlexBox $direction='column' $gap={4} width='100%'>
             {(data.memberships ?? [])[0]?.members.map((member, memberIdx) => (
-              <FlexBox key={memberIdx} alignItems='center' gap={4} width='100%'>
+              <FlexBox key={memberIdx} $alignItems='center' $gap={4} width='100%'>
                 <InputWithLabel
                   height={inputHeight + 'px'}
                   label='Member Account Address or Name'
@@ -781,7 +781,7 @@ export const RenderMultisigGroupMembership = ({ setData, data }: DataStateProps)
               </FlexBox>
             ))}
             <Button size='flex' textTransform='none' height={48} onClick={(): void => handleAddMember(0)}>
-              <FlexBox alignItems='center' gap={2}>
+              <FlexBox $alignItems='center' $gap={2}>
                 <PlusIcon color={theme.ixoWhite} />
                 Add a Member
               </FlexBox>
@@ -790,14 +790,14 @@ export const RenderMultisigGroupMembership = ({ setData, data }: DataStateProps)
         </FlexBox>
       </CardWrapper>
       {/* Passing Threshold */}
-      <CardWrapper direction='column' gap={5} marginBottom={7}>
-        <FlexBox alignItems='center' gap={2}>
+      <CardWrapper $direction='column' $gap={5} $marginBottom={7}>
+        <FlexBox $alignItems='center' $gap={2}>
           <ThresholdIcon />
           <Typography size='xl' weight='medium'>
             Passing Threshold
           </Typography>
         </FlexBox>
-        <FlexBox alignItems='center' gap={4}>
+        <FlexBox $alignItems='center' $gap={4}>
           <InputWithLabel
             label='Minimum Number of Signatories'
             height={inputHeight + 'px'}
@@ -865,8 +865,8 @@ export const UnstakingPeriod = ({ data, setData }: DataStateProps): JSX.Element 
   }, [unstakingDurationAmount, unstakingDurationUnits, setData])
 
   return (
-    <CardWrapper direction='column' gap={5} marginBottom={7}>
-      <FlexBox alignItems='center' gap={2}>
+    <CardWrapper $direction='column' $gap={5} $marginBottom={7}>
+      <FlexBox $alignItems='center' $gap={2}>
         <CalendarIcon />
         <Typography size='xl' weight='medium'>
           Unstaking Period
@@ -880,7 +880,7 @@ export const UnstakingPeriod = ({ data, setData }: DataStateProps): JSX.Element 
           you can be sure that people who register their tokens are keen to participate in your Group&apos;s governance.
         </Typography>
       </FlexBox>
-      <FlexBox alignItems='center' justifyContent='flex-end' gap={4}>
+      <FlexBox $alignItems='center' $justifyContent='flex-end' $gap={4}>
         <NumberCounter
           direction='row-reverse'
           width='200px'
@@ -932,8 +932,8 @@ export const VotingDuration = ({ data, setData }: DataStateProps): JSX.Element =
   }, [proposalDurationAmount, proposalDurationUnits, setData])
 
   return (
-    <CardWrapper direction='column' gap={5}>
-      <FlexBox alignItems='center' gap={2}>
+    <CardWrapper $direction='column' $gap={5}>
+      <FlexBox $alignItems='center' $gap={2}>
         <SandClockIcon />
         <Typography size='xl' weight='medium'>
           Voting Duration
@@ -946,7 +946,7 @@ export const VotingDuration = ({ data, setData }: DataStateProps): JSX.Element =
           voters will have limited time to vote. After this time elapses, the proposal will either pass or fail.
         </Typography>
       </FlexBox>
-      <FlexBox alignItems='center' justifyContent='flex-end' gap={4}>
+      <FlexBox $alignItems='center' $justifyContent='flex-end' $gap={4}>
         <NumberCounter
           direction='row-reverse'
           width='200px'
@@ -973,17 +973,17 @@ type RenderAdvancedSwitchProps = {
 }
 export const RenderAdvancedSwitch = ({ showAdvanced, setShowAdvanced }: RenderAdvancedSwitchProps): JSX.Element => {
   return (
-    <FlexBox marginTop={15} marginBottom={15}>
+    <FlexBox $marginTop={15} $marginBottom={15}>
       <Switch onLabel='Show Advanced Settings' value={showAdvanced} onChange={setShowAdvanced} />
     </FlexBox>
   )
 }
 export const RenderAdvancedSettings = ({ setData, data }: RenderGroupIdentityProps): JSX.Element => {
   return (
-    <FlexBox direction='column' gap={7}>
+    <FlexBox $direction='column' $gap={7}>
       {/* Allow Vote Switching */}
-      <CardWrapper direction='column' gap={5}>
-        <FlexBox alignItems='center' gap={2}>
+      <CardWrapper $direction='column' $gap={5}>
+        <FlexBox $alignItems='center' $gap={2}>
           <VoteSwitchingIcon />
           <Typography size='xl' weight='medium'>
             Allow Vote Switching
@@ -995,7 +995,7 @@ export const RenderAdvancedSettings = ({ setData, data }: RenderGroupIdentityPro
             proposals having to complete the full voting duration, even if consensus is reached early.
           </Typography>
         </FlexBox>
-        <FlexBox justifyContent='flex-end'>
+        <FlexBox $justifyContent='flex-end'>
           <Switch
             onLabel='YES'
             offLabel='NO'
@@ -1014,9 +1014,9 @@ export const RenderAdvancedSettings = ({ setData, data }: RenderGroupIdentityPro
       </CardWrapper>
 
       {/* Proposal Deposit */}
-      <CardWrapper direction='column' gap={5}>
-        <FlexBox alignItems='center' gap={2}>
-          <SvgBox svgWidth={8} svgHeight={8} color='black'>
+      <CardWrapper $direction='column' $gap={5}>
+        <FlexBox $alignItems='center' $gap={2}>
+          <SvgBox $svgWidth={8} $svgHeight={8} color='black'>
             <CoinsSolidIcon />
           </SvgBox>
           <Typography size='xl' weight='medium'>
@@ -1029,7 +1029,7 @@ export const RenderAdvancedSettings = ({ setData, data }: RenderGroupIdentityPro
             it too high may limit broad participation.
           </Typography>
         </FlexBox>
-        <FlexBox justifyContent='flex-end'>
+        <FlexBox $justifyContent='flex-end'>
           <Switch
             onLabel='ENABLED'
             offLabel='DISABLED'
@@ -1056,7 +1056,7 @@ export const RenderAdvancedSettings = ({ setData, data }: RenderGroupIdentityPro
         </FlexBox>
         {!!data.proposalModule.preProposeConfig.deposit_info && (
           <>
-            <FlexBox width='100%' justifyContent='flex-end' gap={2}>
+            <FlexBox width='100%' $justifyContent='flex-end' $gap={2}>
               <NumberCounter
                 direction='row-reverse'
                 width='200px'
@@ -1098,7 +1098,7 @@ export const RenderAdvancedSettings = ({ setData, data }: RenderGroupIdentityPro
                 />
               </Typography>
             </FlexBox>
-            <FlexBox width='100%' justifyContent='space-between' alignItems='center'>
+            <FlexBox width='100%' $justifyContent='space-between' $alignItems='center'>
               <Typography size='md'>Once a proposal completes, when should deposits be refunded?</Typography>
               <Dropdown
                 value={data.proposalModule.preProposeConfig.deposit_info.refund_policy}
@@ -1132,8 +1132,8 @@ export const RenderAdvancedSettings = ({ setData, data }: RenderGroupIdentityPro
 
       {/* Passing Threshold */}
       {data.type !== 'multisig' && (
-        <CardWrapper direction='column' gap={5}>
-          <FlexBox alignItems='center' gap={2}>
+        <CardWrapper $direction='column' $gap={5}>
+          <FlexBox $alignItems='center' $gap={2}>
             <ThresholdIcon />
             <Typography size='xl' weight='medium'>
               Passing Threshold
@@ -1146,8 +1146,8 @@ export const RenderAdvancedSettings = ({ setData, data }: RenderGroupIdentityPro
               threshold, as least 50% of the whole group must vote ‘yes’.
             </Typography>
           </FlexBox>
-          <FlexBox justifyContent='flex-end'>
-            <FlexBox gap={4}>
+          <FlexBox $justifyContent='flex-end'>
+            <FlexBox $gap={4}>
               {'threshold_quorum' in data.proposalModule.proposalConfig.threshold &&
                 'percent' in data.proposalModule.proposalConfig.threshold.threshold_quorum.threshold && (
                   <NumberCounter
@@ -1239,8 +1239,8 @@ export const RenderAdvancedSettings = ({ setData, data }: RenderGroupIdentityPro
 
       {/* Quorum */}
       {data.type !== 'multisig' && (
-        <CardWrapper direction='column' gap={5}>
-          <FlexBox alignItems='center' gap={2}>
+        <CardWrapper $direction='column' $gap={5}>
+          <FlexBox $alignItems='center' $gap={2}>
             <SandClockIcon />
             <Typography size='xl' weight='medium'>
               Quorum
@@ -1253,8 +1253,8 @@ export const RenderAdvancedSettings = ({ setData, data }: RenderGroupIdentityPro
               proposals.
             </Typography>
           </FlexBox>
-          <FlexBox alignItems='center' justifyContent='flex-end' gap={4}>
-            <FlexBox gap={4}>
+          <FlexBox $alignItems='center' $justifyContent='flex-end' $gap={4}>
+            <FlexBox $gap={4}>
               {'threshold_quorum' in data.proposalModule.proposalConfig.threshold &&
                 'percent' in data.proposalModule.proposalConfig.threshold.threshold_quorum.quorum && (
                   <NumberCounter
@@ -1343,8 +1343,8 @@ export const RenderAdvancedSettings = ({ setData, data }: RenderGroupIdentityPro
       )}
 
       {/* Proposal Submission Policy */}
-      <CardWrapper direction='column' gap={5}>
-        <FlexBox alignItems='center' gap={2}>
+      <CardWrapper $direction='column' $gap={5}>
+        <FlexBox $alignItems='center' $gap={2}>
           <VoteSwitchingIcon />
           <Typography size='xl' weight='medium'>
             Proposal Submission Policy
@@ -1353,7 +1353,7 @@ export const RenderAdvancedSettings = ({ setData, data }: RenderGroupIdentityPro
         <FlexBox>
           <Typography size='md'>Who is allowed to submit proposals to the Group?</Typography>
         </FlexBox>
-        <FlexBox justifyContent='flex-end'>
+        <FlexBox $justifyContent='flex-end'>
           <FlexBox>
             <Dropdown
               value={String(data.proposalModule.proposalConfig.only_members_execute)}

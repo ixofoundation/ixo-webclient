@@ -42,8 +42,8 @@ const HeadLine: React.FC = () => {
             <Typography>{truncateString(address, 20, 'middle')}</Typography>
             <CopyToClipboard text={address} onCopy={() => successToast(null, `Copied to clipboard`)}>
               <SvgBox
-                svgWidth={6}
-                svgHeight={6}
+                $svgWidth={6}
+                $svgHeight={6}
                 color={theme.ixoDarkBlue}
                 hover={{ color: theme.ixoNewBlue }}
                 cursor='pointer'

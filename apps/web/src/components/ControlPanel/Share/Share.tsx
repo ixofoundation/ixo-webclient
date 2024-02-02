@@ -17,9 +17,9 @@ const ShareCard: React.FC = () => {
   ]
 
   return (
-    <FlexBox direction='column' gap={5} background='#ffffff' borderRadius='12px' p={5}>
-      <FlexBox gap={2} alignItems='center'>
-        <SvgBox svgWidth={4} svgHeight={4} color={theme.ixoNewBlue}>
+    <FlexBox $direction='column' $gap={5} background='#ffffff' $borderRadius='12px' p={5}>
+      <FlexBox $gap={2} $alignItems='center'>
+        <SvgBox $svgWidth={4} $svgHeight={4} color={theme.ixoNewBlue}>
           <ShareIcon />
         </SvgBox>
         <Typography variant='secondary' size='lg'>
@@ -27,23 +27,23 @@ const ShareCard: React.FC = () => {
         </Typography>
       </FlexBox>
 
-      <FlexBox width='100%' gap={2} flexWrap='wrap'>
+      <FlexBox width='100%' $gap={2} $flexWrap='wrap'>
         {items.map((item, index) => (
           <FlexBox
             key={index}
-            borderRadius='8px'
+            $borderRadius='8px'
             background={theme.ixoGrey100}
             p={3}
-            gap={2}
-            alignItems='center'
-            borderColor={'transparent'}
-            borderWidth={'1px'}
-            borderStyle={'solid'}
-            hover={{ borderColor: theme.ixoNewBlue }}
+            $gap={2}
+            $alignItems='center'
+            $borderColor={'transparent'}
+            $borderWidth={'1px'}
+            $borderStyle={'solid'}
+            hover={{ $borderColor: theme.ixoNewBlue }}
             onClick={item.onClick}
             cursor='pointer'
           >
-            <SvgBox svgWidth={5} svgHeight={5} color={theme.ixoBlack}>
+            <SvgBox $svgWidth={5} $svgHeight={5} color={theme.ixoBlack}>
               {item.icon}
             </SvgBox>
           </FlexBox>

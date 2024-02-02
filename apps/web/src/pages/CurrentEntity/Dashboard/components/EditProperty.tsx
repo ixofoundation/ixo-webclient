@@ -80,7 +80,7 @@ const EditProperty: React.FC = (): JSX.Element => {
   }, [JSON.stringify(editEntity)])
 
   return (
-    <FlexBox direction='column' gap={7.5} width={deviceWidth.tablet + 'px'}>
+    <FlexBox $direction='column' $gap={7.5} width={deviceWidth.tablet + 'px'}>
       <PropertiesForm {...PropertiesFormProps} />
     </FlexBox>
   )

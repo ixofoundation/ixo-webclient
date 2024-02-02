@@ -86,7 +86,7 @@ const Transactions: React.FC<Props> = ({ address }) => {
         const renderSendTx = () => (
           <>
             <SentTransactionIcon />
-            <FlexBox direction='column'>
+            <FlexBox $direction='column'>
               <Typography size='lg'>5,200.234 IXO</Typography>
               <Typography size='md'>Sent to ixo13452...ghbvd (by ixo12345...12345)</Typography>
             </FlexBox>
@@ -97,7 +97,7 @@ const Transactions: React.FC<Props> = ({ address }) => {
             <SvgBox color={theme.ixoGreen}>
               <UserPlusSolidIcon />
             </SvgBox>
-            <FlexBox direction='column'>
+            <FlexBox $direction='column'>
               <Typography size='lg'>Authorisation granted</Typography>
               <Typography size='md'>ixo12345...12345</Typography>
             </FlexBox>
@@ -106,7 +106,7 @@ const Transactions: React.FC<Props> = ({ address }) => {
         const renderRevokeTx = () => (
           <>
             <UserMinusSolidIcon />
-            <FlexBox direction='column'>
+            <FlexBox $direction='column'>
               <Typography size='lg'>Authorisation revoked</Typography>
               <Typography size='md'>ixo12345...12345</Typography>
             </FlexBox>
@@ -115,7 +115,7 @@ const Transactions: React.FC<Props> = ({ address }) => {
         const renderReceiveTx = () => (
           <>
             <IncomingTransactionIcon />
-            <FlexBox direction='column'>
+            <FlexBox $direction='column'>
               <Typography size='lg'>1,200.234 CARBON</Typography>
               <Typography size='md'>Received from ixo13452...ghbcd</Typography>
             </FlexBox>
@@ -123,7 +123,7 @@ const Transactions: React.FC<Props> = ({ address }) => {
         )
 
         return (
-          <FlexBox alignItems='center' gap={2} p={4}>
+          <FlexBox $alignItems='center' $gap={2} p={4}>
             {type === 'send' && renderSendTx()}
             {type === 'grant' && renderGrantTx()}
             {type === 'revoke' && renderRevokeTx()}
@@ -139,7 +139,7 @@ const Transactions: React.FC<Props> = ({ address }) => {
         const timestamp = moment(cell.value).utc()
 
         return (
-          <FlexBox direction='column' alignItems='end' p={4}>
+          <FlexBox $direction='column' $alignItems='end' p={4}>
             <Typography size='lg'>{timestamp.format('DD MMM YY')}</Typography>
             <Typography size='md' color='dark-blue'>
               {timestamp.format('hh:mm [UTC]')}
@@ -155,7 +155,7 @@ const Transactions: React.FC<Props> = ({ address }) => {
   }
 
   return (
-    <FlexBox width='100%' direction='column' gap={3}>
+    <FlexBox width='100%' $direction='column' $gap={3}>
       <TableWrapper>
         <Table
           columns={columns}
@@ -170,9 +170,9 @@ const Transactions: React.FC<Props> = ({ address }) => {
           <FlexBox
             width='100%'
             height='80px'
-            alignItems='center'
-            justifyContent='center'
-            borderRadius='8px'
+            $alignItems='center'
+            $justifyContent='center'
+            $borderRadius='8px'
             background='#053549'
           >
             <Typography variant='primary' size='lg' color='dark-blue'>

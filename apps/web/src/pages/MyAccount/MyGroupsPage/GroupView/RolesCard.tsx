@@ -36,7 +36,7 @@ const RolesCard: React.FC<Props> = ({ daoGroup }) => {
   const MemberRoleItem = () => {
     return (
       <Flex w={'100%'} gap={12} align={'center'} py={16} px={24} bg={'#213E59'}>
-        <SvgBox svgWidth={6} svgHeight={6}>
+        <SvgBox $svgWidth={6} $svgHeight={6}>
           <UserCheckIcon />
         </SvgBox>
         <Typography variant='primary'>Member</Typography>
@@ -46,7 +46,7 @@ const RolesCard: React.FC<Props> = ({ daoGroup }) => {
   const DelegateRoleItem = () => {
     return (
       <Flex w={'100%'} gap={12} align={'center'} py={16} px={24} bg={'#213E59'}>
-        <SvgBox svgWidth={6} svgHeight={6}>
+        <SvgBox $svgWidth={6} $svgHeight={6}>
           <UserLockIcon />
         </SvgBox>
         <Typography variant='primary'>Delegate</Typography>

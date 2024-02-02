@@ -5,8 +5,8 @@ import Validators from './Validators'
 
 const EntityExchangeStake: React.FC = () => {
   return (
-    <FlexBox width='100%' direction='column' gap={4}>
-      <FlexBox width='100%' justifyContent='flex-end'>
+    <FlexBox width='100%' $direction='column' $gap={4}>
+      <FlexBox width='100%' $justifyContent='flex-end'>
         <Tokenomics />
       </FlexBox>
       <FlexBox width='100%'>
