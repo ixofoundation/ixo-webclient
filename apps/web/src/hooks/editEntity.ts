@@ -21,7 +21,7 @@ import {
 import { setEditedFieldAction, setEditEntityAction } from 'redux/editEntity/editEntity.actions'
 import { selectEditEntity } from 'redux/editEntity/editEntity.selectors'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
-import { LinkedResourceProofGenerator, LinkedResourceServiceEndpointGenerator } from 'utils/entities'
+import { LinkedResourceProofGenerator, LinkedResourceServiceEndpointGenerator, isCellnodePublicResource, isCellnodeWeb3Resource } from 'utils/entities'
 import { useAccount } from './account'
 import { useCreateEntity } from './createEntity'
 import useCurrentEntity from './currentEntity'
@@ -29,8 +29,9 @@ import { DeliverTxResponse } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/s
 import { ixo, utils } from '@ixo/impactxclient-sdk'
 import { TDAOGroupModel, TEntityModel } from 'types/entities'
 import { EntityLinkedResourceConfig } from 'constants/entity'
-import { CellnodeWeb3Resource } from '@ixo/impactxclient-sdk/types/custom_queries/cellnode'
 import { selectAllClaimProtocols } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { useWallet } from '@ixo-webclient/wallet-connector'
+import { CellnodeWeb3Resource } from '@ixo/impactxclient-sdk/types/custom_queries/cellnode'
 
 export default function useEditEntity(): {
   editEntity: TEntityModel
@@ -39,8 +40,9 @@ export default function useEditEntity(): {
   ExecuteEditEntity: () => Promise<DeliverTxResponse>
 } {
   const dispatch = useAppDispatch()
+  const { execute } = useWallet()
 
-  const { signer , signingClient } = useAccount()
+  const { signer } = useAccount()
   const editEntity: TEntityModel = useAppSelector(selectEditEntity)
   const { currentEntity } = useCurrentEntity()
   const { SaveProfile, SaveAdministrator, SavePage, SaveTags, SaveClaim } = useCreateEntity()
@@ -87,13 +89,22 @@ export default function useEditEntity(): {
       throw new Error('Save Profile failed!')
     }
 
+    let proof = ""
+    if (isCellnodePublicResource(res)) {
+      proof = res.key
+    } else if (isCellnodeWeb3Resource(res)) {
+      proof = res.cid
+    } else {
+      throw new Error("Save Profile failed")
+    }
+
     const newLinkedResource: LinkedResource = {
       id: '{id}#profile',
       type: 'Settings',
       description: 'Profile',
       mediaType: 'application/ld+json',
-      serviceEndpoint: LinkedResourceServiceEndpointGenerator(res, cellnodeService),
-      proof: LinkedResourceProofGenerator(res, cellnodeService),
+      serviceEndpoint: res.url,
+      proof: proof,
       encrypted: 'false',
       right: '',
     }
@@ -423,7 +434,11 @@ export default function useEditEntity(): {
     console.log('ExecuteEditEntity', { messages })
 
     const updatedFee = { ...fee, gas: new BigNumber(fee.gas).times(messages.length).toString() }
-    const response = await signingClient.signAndBroadcast(signer.address, messages, updatedFee)
+    const response = await execute({ messages: messages as any, fee: updatedFee })
+
+    if (typeof response === "string") {
+      throw Error("Connect your wallet")
+    }
 
     console.log('ExecuteEditEntity', { response })
 
