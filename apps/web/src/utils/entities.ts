@@ -339,6 +339,10 @@ export const LinkedResourceProofGenerator = (
   uploadResult: CellnodePublicResource | CellnodeWeb3Resource,
   cellnodeService?: Service,
 ): string => {
+  console.log({ cellnodeService })
+  console.log({ uploadResult })
+
+
   if (cellnodeService) {
     const serviceType = cellnodeService.type
     if (serviceType === NodeType.Ipfs) {
@@ -410,4 +414,12 @@ export default function getEntityAdmin(entity: TEntityModel) {
 
 export function getDAOGroupLinkedEntities(linkedEntity: LinkedEntity[]): LinkedEntity[] {
   return linkedEntity.filter((v) => v.type === 'Group' && v.relationship === 'subsidiary')
+}
+
+export function isCellnodePublicResource(object: any): object is CellnodePublicResource {
+  return 'key' in object && 'contentType' in object;
+}
+
+export function isCellnodeWeb3Resource(object: any): object is CellnodeWeb3Resource {
+  return 'cid' in object && 'name' in object;
 }
