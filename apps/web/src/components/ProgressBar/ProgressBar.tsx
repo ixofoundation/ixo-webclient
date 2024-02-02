@@ -31,11 +31,11 @@ export const ProgressBar: React.FunctionComponent<Props> = ({
   const disputedWidth = (disputed / total) * 100
 
   return (
-    <Bar height={height} barColor={barColor} borderRadius={radius}>
-      <Successful style={{ width: approvedWidth + '%' }} barColor={activeBarColor} borderRadius='none' />
-      <Pending style={{ width: pendingWidth + '%' }} borderRadius='none' />
-      <Rejected style={{ width: rejectedWidth + '%' }} borderRadius='none' />
-      <Disputed style={{ width: disputedWidth + '%' }} borderRadius='none' />
+    <Bar $height={height} $barColor={barColor} $borderRadius={radius}>
+      <Successful style={{ width: approvedWidth + '%' }} $barColor={activeBarColor} $borderRadius='none' />
+      <Pending style={{ width: pendingWidth + '%' }} $borderRadius='none' />
+      <Rejected style={{ width: rejectedWidth + '%' }} $borderRadius='none' />
+      <Disputed style={{ width: disputedWidth + '%' }} $borderRadius='none' />
       {rejected === 0 && (
         <small className='pl-2 justify-content-start align-items-center d-flex position-absolute w-100 h-100'>
           {closedText}

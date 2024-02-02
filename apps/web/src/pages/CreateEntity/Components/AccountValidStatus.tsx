@@ -15,11 +15,11 @@ const AccountValidStatus: React.FC<Props> = ({ address, ...rest }): JSX.Element 
 
   return (
     <FlexBox
-      alignItems='center'
-      justifyContent='center'
+      $alignItems='center'
+      $justifyContent='center'
       width='48px'
       height='48px'
-      borderRadius='8px'
+      $borderRadius='8px'
       background={address ? (isValidAddress ? theme.ixoGreen : theme.ixoRed) : 'transparent'}
       {...rest}
     >

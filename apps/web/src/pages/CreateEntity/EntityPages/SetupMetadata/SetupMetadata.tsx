@@ -43,7 +43,7 @@ const SetupMetadata: React.FC = (): JSX.Element => {
   }
 
   return (
-    <FlexBox justifyContent='stretch' gap={12.5}>
+    <FlexBox $justifyContent='stretch' $gap={12.5}>
       <Box className='d-flex flex-column'>
         {/* <Box className='d-flex align-items-center justify-content-between'>
           <Typography weight='medium' size='xl'>

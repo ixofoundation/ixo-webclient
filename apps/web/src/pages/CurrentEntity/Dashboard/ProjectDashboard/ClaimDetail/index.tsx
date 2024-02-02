@@ -17,7 +17,7 @@ import { serviceEndpointToUrl } from 'utils/entities'
 import { errorToast, successToast } from 'utils/toast'
 
 const ClaimDetail: React.FC = () => {
-  const { claimId = "" } = useParams<{ claimId: string }>()
+  const { claimId = '' } = useParams<{ claimId: string }>()
   const { data: claim } = useGetClaim(claimId)
   const collectionId = claim?.collection?.id ?? ''
   const evaluationStatus = (claim?.evaluationByClaimId?.status ?? 0) as EvaluationStatus
@@ -108,10 +108,10 @@ const ClaimDetail: React.FC = () => {
 
   return (
     <FlexBox width='100%'>
-      <FlexBox direction='column' width='100%' gap={7}>
+      <FlexBox $direction='column' width='100%' $gap={7}>
         {survey && <Survey model={survey} />}
         {evaluationStatus === ixo.claims.v1beta1.EvaluationStatus.PENDING && (
-          <FlexBox width='100%' gap={4} alignItems='center'>
+          <FlexBox width='100%' $gap={4} $alignItems='center'>
             <Button
               variant='secondary'
               textTransform='capitalize'

@@ -60,10 +60,10 @@ const NumberCounter: React.FC<Props> = ({
       position='relative'
       width={width}
       height={height}
-      borderWidth={'1px'}
-      borderColor={borderColor}
-      borderStyle={'solid'}
-      borderRadius={'0.5rem'}
+      $borderWidth={'1px'}
+      $borderColor={borderColor}
+      $borderStyle={'solid'}
+      $borderRadius={'0.5rem'}
       padding={2.5}
     >
       {label && (
@@ -75,8 +75,8 @@ const NumberCounter: React.FC<Props> = ({
           top={active ? '0' : '50%'}
           transition={'top .2s'}
           background={theme.ixoWhite}
-          zIndex={1}
-          pointerEvents='none'
+          $zIndex={1}
+          $pointerEvents='none'
         >
           <Typography
             size={active ? 'sm' : 'xl'}
@@ -114,8 +114,8 @@ const NumberCounter: React.FC<Props> = ({
         top={'50%'}
         left={direction === 'row' ? undefined : '10px'}
         right={direction === 'row' ? '10px' : undefined}
-        alignItems='center'
-        gap={2}
+        $alignItems='center'
+        $gap={2}
       >
         <ActionButton onClick={(): void => onChange(value + 1)}>
           <PlusIcon />

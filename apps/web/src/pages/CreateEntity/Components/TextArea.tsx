@@ -70,7 +70,7 @@ const TextArea: React.FC<Props> = ({
     <Box
       position='relative'
       width='100%'
-      lineHeight='0'
+      $lineHeight='0'
       style={{ color: rest.disabled ? theme.ixoGrey500 : theme.ixoNewBlue }}
     >
       {label && (
@@ -81,8 +81,8 @@ const TextArea: React.FC<Props> = ({
           top={active ? '0' : '26px'}
           transition={'top .2s'}
           background={theme.ixoWhite}
-          zIndex={1}
-          pointerEvents='none'
+          $zIndex={1}
+          $pointerEvents='none'
         >
           <Typography
             size={active ? 'sm' : 'xl'}

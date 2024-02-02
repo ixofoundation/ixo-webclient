@@ -34,7 +34,7 @@ interface Props {
 
 const SetupStakeToGroupModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
   const theme: any = useTheme()
-  const { coreAddress = "" } = useParams<{ coreAddress: string }>()
+  const { coreAddress = '' } = useParams<{ coreAddress: string }>()
   const { cwClient } = useAccount()
   const [formData, setFormData] = useState<StakeToGroupData>(initialState)
   const [tokenBalance, setTokenBalance] = useState<Coin>({ amount: '0', denom: '' })
@@ -124,18 +124,18 @@ const SetupStakeToGroupModal: React.FC<Props> = ({ open, action, onClose, onSubm
       onSubmit={onSubmit && handleConfirm}
       validate={validate}
     >
-      <FlexBox width='100%' gap={2} direction='column'>
+      <FlexBox width='100%' $gap={2} $direction='column'>
         <Typography size='xl' weight='medium'>
           Stake to
         </Typography>
         <Input inputValue={groupContract} handleChange={(value) => setGroupContract(value)} />
       </FlexBox>
 
-      <FlexBox width='100%' gap={2} direction='column'>
+      <FlexBox width='100%' $gap={2} $direction='column'>
         <Typography size='xl' weight='medium'>
           Amount
         </Typography>
-        <FlexBox width='100%' alignItems='center' gap={6} color={tokenBalance.denom ? 'black' : theme.ixoGrey500}>
+        <FlexBox width='100%' $alignItems='center' $gap={6} color={tokenBalance.denom ? 'black' : theme.ixoGrey500}>
           <FlexBox position='relative' width='100%'>
             <Input
               inputValue={
@@ -158,7 +158,7 @@ const SetupStakeToGroupModal: React.FC<Props> = ({ open, action, onClose, onSubm
               </FlexBox>
             )}
           </FlexBox>
-          <Typography size='xl' weight='medium' noWrap>
+          <Typography size='xl' weight='medium' $noWrap>
             {tokenBalance.denom ? '$' + tokenBalance.denom.toUpperCase() : 'group token'}
           </Typography>
         </FlexBox>

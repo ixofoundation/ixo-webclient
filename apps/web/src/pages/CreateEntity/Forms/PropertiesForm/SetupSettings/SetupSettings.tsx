@@ -178,7 +178,7 @@ const SetupSettings: React.FC<Props> = ({
   }
   return (
     <>
-      <FlexBox direction='column' style={hidden ? { display: 'none' } : {}}>
+      <FlexBox $direction='column' style={hidden ? { display: 'none' } : {}}>
         <Box className='d-flex flex-wrap' style={{ gap: 20 }}>
           {Object.entries(entitySettings)
             .filter(([, value]) => !!value.required || !!value.set)

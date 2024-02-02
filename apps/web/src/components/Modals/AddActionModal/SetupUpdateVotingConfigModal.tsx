@@ -49,7 +49,7 @@ interface Props {
 }
 
 const SetupUpdateVotingConfigModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
-  const { coreAddress = "" } = useParams<{ coreAddress: string }>()
+  const { coreAddress = '' } = useParams<{ coreAddress: string }>()
   const { daoGroup } = useCurrentEntityDAOGroup(coreAddress)
   const proposalConfig = daoGroup?.proposalModule.proposalConfig
   const [formData, setFormData] = useState<UpdateProposalConfigData>(initialProposalConfigState)
@@ -145,14 +145,14 @@ const SetupUpdateVotingConfigModal: React.FC<Props> = ({ open, action, onClose, 
         </Typography>
       </FlexBox>
 
-      <FlexBox direction='column' width='100%' gap={2}>
+      <FlexBox $direction='column' width='100%' $gap={2}>
         <TitleAndDescription
           title={`Voting Duration`}
           description='The amount of time proposals are open for voting. A low proposal duration may increase the speed at which
             your DAO can pass proposals. Setting the duration too low may make it diffcult for proposals to pass as
             voters will have limited time to vote. After this time elapses, the proposal will either pass or fail.'
         />
-        <FlexBox gap={4} width='100%'>
+        <FlexBox $gap={4} width='100%'>
           <NumberCounter
             direction='row-reverse'
             value={formData.proposalDuration}
@@ -174,7 +174,7 @@ const SetupUpdateVotingConfigModal: React.FC<Props> = ({ open, action, onClose, 
         </FlexBox>
       </FlexBox>
 
-      <FlexBox direction='column' width='100%' gap={2}>
+      <FlexBox $direction='column' width='100%' $gap={2}>
         <TitleAndDescription
           title={`Allow Vote Switching`}
           description='Members will be allowed to change their vote before the voting deadline has expired. This will result in all
@@ -188,14 +188,14 @@ const SetupUpdateVotingConfigModal: React.FC<Props> = ({ open, action, onClose, 
         />
       </FlexBox>
 
-      <FlexBox direction='column' width='100%' gap={2}>
+      <FlexBox $direction='column' width='100%' $gap={2}>
         <TitleAndDescription
           title={`Passing Threshold`}
           description='A majority passing threshold is recommended. Without a majority threshold, the quorum is set by those who
           voted. A proposal could therefore pass with only a minority of the group voting ‘yes’. With a majority
           threshold, as least 50% of the whole group must vote ‘yes’.'
         />
-        <FlexBox gap={4} width='100%'>
+        <FlexBox $gap={4} width='100%'>
           {formData.thresholdType === '%' && (
             <NumberCounter
               direction='row-reverse'
@@ -218,13 +218,13 @@ const SetupUpdateVotingConfigModal: React.FC<Props> = ({ open, action, onClose, 
         </FlexBox>
       </FlexBox>
 
-      <FlexBox direction='column' width='100%' gap={2}>
+      <FlexBox $direction='column' width='100%' $gap={2}>
         <TitleAndDescription
           title={`Quorum`}
           description='The minimum percentage of voting power that must vote on a proposal for it to be considered a valid vote. If
           the group has many inactive members, setting this value too high may make it difficult to pass proposals.'
         />
-        <FlexBox gap={4} width='100%'>
+        <FlexBox $gap={4} width='100%'>
           {formData.quorumType === '%' && (
             <NumberCounter
               direction='row-reverse'

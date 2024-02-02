@@ -73,7 +73,7 @@ const SetupAuthzGrantModal: React.FC<Props> = ({ open, action, onClose, onSubmit
       onSubmit={onSubmit && handleConfirm}
       validate={validate}
     >
-      <FlexBox direction='column' width='100%' gap={2}>
+      <FlexBox $direction='column' width='100%' $gap={2}>
         <Typography color='black' weight='medium' size='xl'>
           Grant or revoke authorization
         </Typography>
@@ -88,13 +88,13 @@ const SetupAuthzGrantModal: React.FC<Props> = ({ open, action, onClose, onSubmit
         />
       </FlexBox>
 
-      <FlexBox direction='column' width='100%' gap={2}>
+      <FlexBox $direction='column' width='100%' $gap={2}>
         <TitleAndDescription
           title='Grantee address'
           description='The address you are granting or revoking to execute a message on behalf of the DAO.'
         />
 
-        <FlexBox width='100%' gap={4}>
+        <FlexBox width='100%' $gap={4}>
           <Input
             name='grantee_address'
             height={inputHeight}
@@ -106,7 +106,7 @@ const SetupAuthzGrantModal: React.FC<Props> = ({ open, action, onClose, onSubmit
         </FlexBox>
       </FlexBox>
 
-      <FlexBox direction='column' width='100%' gap={2}>
+      <FlexBox $direction='column' width='100%' $gap={2}>
         <Typography color='black' weight='medium' size='xl'>
           Message type
         </Typography>
@@ -131,7 +131,7 @@ const SetupAuthzGrantModal: React.FC<Props> = ({ open, action, onClose, onSubmit
         )}
       </FlexBox>
 
-      <FlexBox gap={4} alignItems='center'>
+      <FlexBox $gap={4} $alignItems='center'>
         <Typography color='black' weight='medium' size='xl'>
           Use custom message type
         </Typography>

@@ -17,40 +17,40 @@ interface Props {
 
 const Tab: React.FC<Props> = ({ id, prefix, color, header, body, footer, onClick }) => {
   const theme: any = useTheme()
-  const {hash} =useLocation()
+  const { hash } = useLocation()
   const selected = hash === `#${id}`
 
   return (
     <FlexBox
       id={id}
-      alignItems='center'
-      gap={4}
+      $alignItems='center'
+      $gap={4}
       padding={6}
       color={color}
       background={theme.ixoGradientDark2}
-      borderWidth={'1px'}
-      borderStyle='solid'
-      borderColor={selected ? color : '#0C3549'}
-      borderRadius='4px'
+      $borderWidth={'1px'}
+      $borderStyle='solid'
+      $borderColor={selected ? color : '#0C3549'}
+      $borderRadius='4px'
       position='relative'
       width='100%'
-      minWidth='180px'
+      $minWidth='180px'
       cursor='pointer'
       transition='all .2s'
-      {...(selected ? { boxShadow: `0px 0px 10px 0px ${color}AA` } : {})}
+      {...(selected ? { $boxShadow: `0px 0px 10px 0px ${color}AA` } : {})}
       {...(onClick ? { onClick } : {})}
     >
       {prefix && (
         <FlexBox>
           {typeof prefix === 'string' ? (
-            <FlexBox borderRadius='6px' padding={2} background={color}>
+            <FlexBox $borderRadius='6px' padding={2} background={color}>
               <Typography
                 variant='secondary'
                 weight='bold'
                 size='md'
                 color='white'
-                wordBreak='break-all'
-                textAlign='center'
+                $wordBreak='break-all'
+                $textAlign='center'
                 style={{ inlineSize: '40px' }}
               >
                 {prefix}
@@ -62,7 +62,7 @@ const Tab: React.FC<Props> = ({ id, prefix, color, header, body, footer, onClick
         </FlexBox>
       )}
 
-      <FlexBox direction='column' gap={2}>
+      <FlexBox $direction='column' $gap={2}>
         <Typography variant='secondary' color='white' size='lg'>
           {header}
         </Typography>

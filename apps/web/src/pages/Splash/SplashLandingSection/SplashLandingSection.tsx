@@ -71,18 +71,18 @@ const SplashLandingSection: FC = () => {
             </AppLabel>
             <FlexWrapper>
               <GradientAppButton
-                marginRight={12}
-                href="https://play.google.com/store/apps/details?id=com.ixo.mobile"
-                target="_blank"
-                rel="noopener noreferrer"
+                marginright={12}
+                href='https://play.google.com/store/apps/details?id=com.ixo.mobile'
+                target='_blank'
+                rel='noopener noreferrer'
                 title='Download on Google Play'
               >
                 <AppImg src={googlePlay} alt='Get it on Google Play' />
               </GradientAppButton>
               <GradientAppButton
-                href="https://apps.apple.com/us/app/impacts-x/id6444948058?mt=8"
-                target="_blank"
-                rel="noopener noreferrer"
+                href='https://apps.apple.com/us/app/impacts-x/id6444948058?mt=8'
+                target='_blank'
+                rel='noopener noreferrer'
                 title='Download on the App Store'
               >
                 <AppImg src={appleStore} alt='Download on the App Store' />

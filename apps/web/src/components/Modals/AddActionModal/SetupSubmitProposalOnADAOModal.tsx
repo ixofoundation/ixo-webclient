@@ -51,7 +51,7 @@ const SetupSubmitProposalOnADAOModal: React.FC<Props> = ({ open, action, onClose
       onSubmit={onSubmit && handleConfirm}
       validate={validate}
     >
-      <FlexBox width='100%' direction='column' gap={2}>
+      <FlexBox width='100%' $direction='column' $gap={2}>
         <Typography size='xl' weight='medium'>
           Select DAO
         </Typography>
@@ -65,7 +65,7 @@ const SetupSubmitProposalOnADAOModal: React.FC<Props> = ({ open, action, onClose
       </FlexBox>
 
       {Object.keys(groups).length > 0 && (
-        <FlexBox width='100%' direction='column' gap={2}>
+        <FlexBox width='100%' $direction='column' $gap={2}>
           <Typography size='xl' weight='medium'>
             Select a group
           </Typography>

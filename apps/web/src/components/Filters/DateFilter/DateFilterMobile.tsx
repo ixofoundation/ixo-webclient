@@ -55,7 +55,7 @@ const DateFilterMobile: React.FunctionComponent<MobileProps> = ({
         onClick={handleFilterToggleShow}
       >
         <ButtonInner>
-          <ButtonIcon iconSize={16} className='icon-calendar-sort' />
+          <ButtonIcon $iconSize={16} className='icon-calendar-sort' />
           {dateSummary}
         </ButtonInner>
       </ButtonOuter>
@@ -102,7 +102,7 @@ const DateFilterMobile: React.FunctionComponent<MobileProps> = ({
                 orientation='vertical'
                 input={false}
               />
-              <FlexBox width='100%' alignItems='center' justifyContent='space-between'>
+              <FlexBox width='100%' $alignItems='center' $justifyContent='space-between'>
                 <Button variant='secondary' onClick={handleResetFilter}>
                   Reset
                 </Button>

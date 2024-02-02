@@ -8,7 +8,7 @@ export type RenderSettingsButtonProps = {
   setViewSettings: React.Dispatch<React.SetStateAction<boolean>>
 }
 const RenderSettingsButton: React.FC<RenderSettingsButtonProps> = ({ viewSettings, setViewSettings }): JSX.Element => (
-  <SvgBox onClick={(): void => setViewSettings(!viewSettings)} svgWidth={7} svgHeight={7} cursor='pointer'>
+  <SvgBox onClick={(): void => setViewSettings(!viewSettings)} $svgWidth={7} $svgHeight={7} cursor='pointer'>
     <SliderSettingsIcon />
   </SvgBox>
 )

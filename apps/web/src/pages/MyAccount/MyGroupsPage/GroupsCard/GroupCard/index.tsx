@@ -102,7 +102,7 @@ const GroupCard: React.FC<Props> = ({ daoGroup }) => {
       <Flex gap={12}>
         <Flex direction={'column'} gap={8} w={'100%'}>
           <Flex align='center' gap={8}>
-            <SvgBox svgWidth={6} svgHeight={6} color={theme.ixoLightBlue}>
+            <SvgBox $svgWidth={6} $svgHeight={6} color={theme.ixoLightBlue}>
               <PieIcon />
             </SvgBox>
             <Typography size='sm' color='white' weight='medium'>
@@ -115,7 +115,7 @@ const GroupCard: React.FC<Props> = ({ daoGroup }) => {
           </Flex>
 
           <Flex align='center' gap={8}>
-            <SvgBox svgWidth={6} svgHeight={6} color={theme.ixoLightBlue}>
+            <SvgBox $svgWidth={6} $svgHeight={6} color={theme.ixoLightBlue}>
               <MultisigIcon />
             </SvgBox>
             <Typography size='sm' color='white' weight='medium'>
@@ -128,7 +128,7 @@ const GroupCard: React.FC<Props> = ({ daoGroup }) => {
           <Flex align='center' gap={8}>
             {daoGroup.type === 'staking' && (
               <>
-                <SvgBox svgWidth={6} svgHeight={6} color={theme.ixoLightBlue}>
+                <SvgBox $svgWidth={6} $svgHeight={6} color={theme.ixoLightBlue}>
                   <ClaimIcon />
                 </SvgBox>
                 <Typography size='sm' color='white' weight='medium'>
@@ -138,7 +138,7 @@ const GroupCard: React.FC<Props> = ({ daoGroup }) => {
             )}
             {daoGroup.type !== 'staking' && (
               <>
-                <SvgBox svgWidth={6} svgHeight={6} color={theme.ixoDarkBlue}>
+                <SvgBox $svgWidth={6} $svgHeight={6} color={theme.ixoDarkBlue}>
                   <ClaimIcon />
                 </SvgBox>
                 <Typography size='sm' color='white' weight='medium'>
@@ -149,7 +149,7 @@ const GroupCard: React.FC<Props> = ({ daoGroup }) => {
           </Flex>
 
           <Flex align='center' gap={8}>
-            <SvgBox svgWidth={6} svgHeight={6} color={theme.ixoLightBlue}>
+            <SvgBox $svgWidth={6} $svgHeight={6} color={theme.ixoLightBlue}>
               <PaperIcon />
             </SvgBox>
             <Typography size='sm' color='white' weight='medium'>

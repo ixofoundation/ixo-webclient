@@ -7,9 +7,17 @@ import FailAnimation from 'assets/lottie/sign_fail.json'
 
 const successToast = (title?: ToastContent, content?: ToastContent, options?: ToastOptions): void => {
   toast.success(
-    <FlexBox direction='column' width='100%' gap={2}>
-      {title && <Typography size='xl'><>{title}</></Typography>}
-      {content && <Typography><>{content}</></Typography>}
+    <FlexBox $direction='column' width='100%' $gap={2}>
+      {title && (
+        <Typography size='xl'>
+          <>{title}</>
+        </Typography>
+      )}
+      {content && (
+        <Typography>
+          <>{content}</>
+        </Typography>
+      )}
     </FlexBox>,
     {
       icon: (
@@ -30,9 +38,17 @@ const successToast = (title?: ToastContent, content?: ToastContent, options?: To
 
 const errorToast = (title?: ToastContent, content?: ToastContent, options?: ToastOptions): void => {
   toast.error(
-    <FlexBox direction='column' width='100%' gap={2}>
-      {title && <Typography size='xl'><>{title}</></Typography>}
-      {content && <Typography><>{content}</></Typography>}
+    <FlexBox $direction='column' width='100%' $gap={2}>
+      {title && (
+        <Typography size='xl'>
+          <>{title}</>
+        </Typography>
+      )}
+      {content && (
+        <Typography>
+          <>{content}</>
+        </Typography>
+      )}
     </FlexBox>,
     {
       icon: (

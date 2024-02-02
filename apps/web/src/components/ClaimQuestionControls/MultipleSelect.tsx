@@ -15,7 +15,7 @@ const MultipleSelect: React.FC<TClaimQuestionControlProps> = ({
   ...rest
 }) => {
   return (
-    <StyledMultipleSelect direction='column' gap={2.5}>
+    <StyledMultipleSelect $direction='column' $gap={2.5}>
       {(itemValues ?? []).map((option, index) => (
         <CheckBox
           key={index}

@@ -45,10 +45,10 @@ const MyStakeCharts: React.FC<Props> = ({ bondDid }) => {
     <FlexBox
       width='100%'
       height='500px'
-      borderRadius='4px'
+      $borderRadius='4px'
       border={`1px solid #0C3549`}
       background='linear-gradient(180deg, #012639 0%, #002D42 97.29%)'
-      boxShadow='0px 2px 10px 0px rgba(0, 0, 0, 0.18)'
+      $boxShadow='0px 2px 10px 0px rgba(0, 0, 0, 0.18)'
       px={4}
       py={8}
     >

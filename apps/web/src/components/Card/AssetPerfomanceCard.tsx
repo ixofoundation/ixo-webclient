@@ -70,7 +70,7 @@ export const AssetPerformanceCard = ({
 
   return (
     <Card width={width} height={height} {...props} position='relative'>
-      <FlexBox gap={4} my={4}>
+      <FlexBox $gap={4} my={4}>
         {buttons.map((button) => (
           <Button
             key={button}

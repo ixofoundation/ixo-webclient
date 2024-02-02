@@ -20,12 +20,12 @@ const BondPriceSection: React.FC<Props> = ({ bondDid }) => {
   }
 
   return (
-    <FlexBox width='100%' direction='column' gap={6}>
+    <FlexBox width='100%' $direction='column' $gap={6}>
       <Typography size='lg'>Price of {bondDetail?.token?.toUpperCase()}</Typography>
 
       <BondPrices bondDid={bondDid} />
 
-      <FlexBox width='100%' alignItems='center' justifyContent='space-between'>
+      <FlexBox width='100%' $alignItems='center' $justifyContent='space-between'>
         <Typography size='lg'>{bondDetail?.token?.toUpperCase()} Orders</Typography>
         <Button variant='secondary' onClick={onBuyClick}>
           Buy

@@ -2,17 +2,17 @@ import { Typography } from 'components/Typography'
 import React, { ChangeEvent, useMemo, useRef, useState } from 'react'
 import styled, { useTheme } from 'styled-components'
 
-const InputLabel = styled.label<{ filled?: boolean }>`
+const InputLabel = styled.label<{ $filled?: boolean }>`
   position: absolute;
-  left: ${(props): string => (props.filled ? '7px' : '10px')};
+  left: ${(props): string => (props.$filled ? '7px' : '10px')};
   transform: translateY(-50%);
-  top: ${(props): string => (props.filled ? '0' : '50%')};
+  top: ${(props): string => (props.$filled ? '0' : '50%')};
   pointer-events: none;
   transition: all 0.2s;
   background: inherit;
 
   margin: 0;
-  padding: ${(props): string => (props.filled ? '0 3px' : '0')};
+  padding: ${(props): string => (props.$filled ? '0 3px' : '0')};
   line-height: 100%;
 `
 
@@ -121,7 +121,7 @@ const InputWithLabel: React.FC<Props> = ({
       style={{ color: !error ? theme.ixoNewBlue : theme.ixoRed, ...(wrapperStyle ?? {}) }}
     >
       {label && (
-        <InputLabel filled={filled}>
+        <InputLabel $filled={filled}>
           <Typography
             weight={filled ? 'bold' : 'medium'}
             size={filled ? 'sm' : 'xl'}

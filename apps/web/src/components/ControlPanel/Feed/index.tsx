@@ -12,31 +12,31 @@ import { useState } from 'react'
 const FeedItem = () => {
   const theme: any = useTheme()
   return (
-    <FlexBox width='100%' background='#F0F3F9' borderRadius='8px' p={2} gap={4} alignItems='center'>
+    <FlexBox width='100%' background='#F0F3F9' $borderRadius='8px' p={2} $gap={4} $alignItems='center'>
       <FlexBox style={{ flex: 1 }}>
         <Avatar size={32} borderWidth={0} />
       </FlexBox>
-      <FlexBox direction='column' width='100%' gap={2}>
-        <FlexBox gap={2} alignItems='center'>
+      <FlexBox $direction='column' width='100%' $gap={2}>
+        <FlexBox $gap={2} $alignItems='center'>
           <Typography size='sm' weight='semi-bold'>
             Clean Cooking Company
           </Typography>
-          <FlexBox width='8px' height='8px' borderRadius='100px' background={theme.ixoNewBlue} />
+          <FlexBox width='8px' height='8px' $borderRadius='100px' background={theme.ixoNewBlue} />
         </FlexBox>
         <FlexBox>
           <Typography size='md'>Your Stove NFT’s user has purchased 30kg of pellets.</Typography>
         </FlexBox>
-        <FlexBox gap={2}>
+        <FlexBox $gap={2}>
           <FlexBox
-            borderRadius='100px'
+            $borderRadius='100px'
             px={6}
             py={1}
             background='#F1F1F1'
-            alignItems='center'
-            gap={1.5}
+            $alignItems='center'
+            $gap={1.5}
             cursor='pointer'
           >
-            <SvgBox svgWidth={5} svgHeight={5}>
+            <SvgBox $svgWidth={5} $svgHeight={5}>
               <ThumbsUpIcon />
             </SvgBox>
             <Typography size='sm' color='grey500'>
@@ -44,15 +44,15 @@ const FeedItem = () => {
             </Typography>
           </FlexBox>
           <FlexBox
-            borderRadius='100px'
+            $borderRadius='100px'
             px={6}
             py={1}
             background='#F1F1F1'
-            alignItems='center'
-            gap={1.5}
+            $alignItems='center'
+            $gap={1.5}
             cursor='pointer'
           >
-            <SvgBox svgWidth={5} svgHeight={5}>
+            <SvgBox $svgWidth={5} $svgHeight={5}>
               <CommentIcon />
             </SvgBox>
             <Typography size='sm' color='grey500'>
@@ -73,17 +73,17 @@ const FeedCard = () => {
     <Card
       icon={<BellIcon />}
       title={
-        <FlexBox alignItems='center' gap={4}>
+        <FlexBox $alignItems='center' $gap={4}>
           <Typography variant='secondary' size='lg'>
             Feed
           </Typography>
-          <FlexBox gap={2} alignItems='center' color={theme.ixoWhite}>
+          <FlexBox $gap={2} $alignItems='center' color={theme.ixoWhite}>
             <FlexBox
-              borderRadius='100px'
+              $borderRadius='100px'
               width='24px'
               height='24px'
-              justifyContent='center'
-              alignItems='center'
+              $justifyContent='center'
+              $alignItems='center'
               background={tab === 'unread' ? theme.ixoNewBlue : `${theme.ixoNewBlue}66`}
               cursor='pointer'
               onClick={() => setTab('unread')}
@@ -93,14 +93,14 @@ const FeedCard = () => {
             <FlexBox
               height='24px'
               px={2}
-              justifyContent='center'
-              alignItems='center'
-              borderRadius='100px'
+              $justifyContent='center'
+              $alignItems='center'
+              $borderRadius='100px'
               background={tab === 'favourite' ? theme.ixoNewBlue : `${theme.ixoNewBlue}66`}
               cursor='pointer'
               onClick={() => setTab('favourite')}
             >
-              <SvgBox svgWidth={5} svgHeight={5} color={theme.ixoWhite}>
+              <SvgBox $svgWidth={5} $svgHeight={5} color={theme.ixoWhite}>
                 <BookMarkIcon />
               </SvgBox>
               <Typography size='sm'>32</Typography>

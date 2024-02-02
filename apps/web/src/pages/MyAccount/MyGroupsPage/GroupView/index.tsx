@@ -29,26 +29,26 @@ const GroupView: React.FC<Props> = ({ selectedGroup }) => {
       </Typography>
 
       <GridContainer
-        gridTemplateAreas={`"a b""c d"`}
-        gridTemplateColumns={'1fr 1fr'}
-        gridTemplateRows={'repeat(2, minmax(340px, auto))'}
-        gridGap={6}
+        $gridTemplateAreas={`"a b""c d"`}
+        $gridTemplateColumns={'1fr 1fr'}
+        $gridTemplateRows={'repeat(2, minmax(340px, auto))'}
+        $gridGap={6}
         width='100%'
       >
-        <GridItem gridArea='a' alignSelf='center' height='100%'>
+        <GridItem $gridArea='a' $alignSelf='center' height='100%'>
           <GovernanceCard daoGroup={daoGroup} />
         </GridItem>
-        <GridItem gridArea='b' alignSelf='center' height='100%'>
+        <GridItem $gridArea='b' $alignSelf='center' height='100%'>
           {daoGroup.type === 'membership' ? (
             <VotingPowerCard daoGroup={daoGroup} />
           ) : (
             <TokensCard daoGroup={daoGroup} />
           )}
         </GridItem>
-        <GridItem gridArea='c' alignSelf='center' height='100%'>
+        <GridItem $gridArea='c' $alignSelf='center' height='100%'>
           <RolesCard daoGroup={daoGroup} />
         </GridItem>
-        <GridItem gridArea='d' alignSelf='center' height='100%'>
+        <GridItem $gridArea='d' $alignSelf='center' height='100%'>
           <ProposalsCard daoGroup={daoGroup} />
         </GridItem>
       </GridContainer>

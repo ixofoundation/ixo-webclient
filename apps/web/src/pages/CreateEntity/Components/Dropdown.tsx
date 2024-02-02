@@ -13,7 +13,7 @@ const Wrapper = styled.div`
   position: relative;
   // background: white;
 `
-const Select = styled.select<{ color: string; hasArrow: boolean }>`
+const Select = styled.select<{ color: string; $hasArrow: boolean }>`
   border: 1px solid ${(props): string => props.theme.ixoNewBlue};
   border-radius: 8px;
   padding: 6px 10px;
@@ -22,10 +22,10 @@ const Select = styled.select<{ color: string; hasArrow: boolean }>`
   cursor: pointer;
   color: ${({ color }) => color};
 
-  ${({ hasArrow }) => !hasArrow && HideArrowCss};
+  ${({ $hasArrow }) => !$hasArrow && HideArrowCss};
 
   ::-ms-expand {
-    ${({ hasArrow }) => !hasArrow && 'display: none'};
+    ${({ $hasArrow }) => !$hasArrow && 'display: none'};
   }
 
   &:disabled {
@@ -56,7 +56,7 @@ const Option = styled.option``
 interface Props extends React.SelectHTMLAttributes<HTMLSelectElement> {
   options: { value: string; text: string }[]
   placeholder?: string
-  hasArrow?: boolean
+  $hasArrow?: boolean
   wrapperStyle?: React.CSSProperties
   label?: string
 }
@@ -64,7 +64,7 @@ interface Props extends React.SelectHTMLAttributes<HTMLSelectElement> {
 const Dropdown: React.FC<Props> = ({
   options,
   placeholder,
-  hasArrow = false,
+  $hasArrow = false,
   wrapperStyle = {},
   label = '',
   ...rest
@@ -80,7 +80,7 @@ const Dropdown: React.FC<Props> = ({
         </SelectLabel>
       )}
       <Typography size='xl' style={{ width: '100%' }}>
-        <Select {...rest} hasArrow={hasArrow} color={theme.ixoBlack}>
+        <Select {...rest} $hasArrow={$hasArrow} color={theme.ixoBlack}>
           {placeholder && <Option value={''}>{placeholder}</Option>}
           {options.map(({ value, text }) => (
             <Option key={value} value={value}>

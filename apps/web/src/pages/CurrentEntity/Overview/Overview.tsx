@@ -30,7 +30,7 @@ const Overview: React.FC = () => {
       <ScrollArea w='100%'>
         <Flex w='100%' direction='column' p={80} style={{ flex: 1 }}>
           <OverviewHero
-            onlyTitle={false}
+            $onlyTitle={false}
             assistantFixed={true}
             light
             startDate={startDate}

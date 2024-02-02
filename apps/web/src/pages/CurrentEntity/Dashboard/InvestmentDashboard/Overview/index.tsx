@@ -9,13 +9,13 @@ import BondStatistics from './BondStatistics'
 import MyStakeSection from './MyStakeSection'
 
 const Overview: React.FC = () => {
-  const {hash} = useLocation()
+  const { hash } = useLocation()
   const tab = hash.replace('#', '')
   const bondLinkedEntity = useCurrentEntityBondLinkedEntity()
   const bondDid = bondLinkedEntity?.id || ''
 
   return (
-    <FlexBox width='100%' direction='column' gap={8}>
+    <FlexBox width='100%' $direction='column' $gap={8}>
       <BondStatistics bondDid={bondDid} />
       {tab === 'price' && <BondPriceSection bondDid={bondDid} />}
       {tab === 'my_stake' && <MyStakeSection bondDid={bondDid} />}

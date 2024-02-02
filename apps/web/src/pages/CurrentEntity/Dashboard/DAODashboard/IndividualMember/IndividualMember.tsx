@@ -19,7 +19,7 @@ import useCurrentEntity from 'hooks/currentEntity'
 
 const IndividualMember: React.FC = () => {
   const theme: any = useTheme()
-  const { address = "" } = useParams<{ address: string }>()
+  const { address = '' } = useParams<{ address: string }>()
   const navigate = useNavigate()
   const { state, pathname } = useLocation()
   const { daoGroups } = useCurrentEntity()
@@ -31,7 +31,7 @@ const IndividualMember: React.FC = () => {
   const tokenDetail: any = state
 
   return (
-    <FlexBox direction='column' gap={6} width='100%' color='white'>
+    <FlexBox $direction='column' $gap={6} width='100%' color='white'>
       <Groups />
 
       {selectedDAOGroup && (
@@ -39,7 +39,7 @@ const IndividualMember: React.FC = () => {
           <Typography variant='secondary' size='4xl' weight='normal' color='white'>
             {selectedDAOGroup.config.name}
           </Typography>
-          <FlexBox alignItems='center' gap={2}>
+          <FlexBox $alignItems='center' $gap={2}>
             <Typography variant='secondary' size='2xl' weight='normal' color='dark-blue'>
               {truncateString(address, 20, 'middle')}
             </Typography>
@@ -99,13 +99,13 @@ const IndividualMember: React.FC = () => {
           {/* !expand && !token */}
           <GridContainer
             className={clxs({ 'd-none': expand || token })}
-            gridTemplateAreas={`"a a b b"`}
-            gridTemplateColumns={'1fr 1fr 1fr 1fr'}
-            gridTemplateRows={'repeat(1, minmax(330px, auto))'}
-            gridGap={6}
+            $gridTemplateAreas={`"a a b b"`}
+            $gridTemplateColumns={'1fr 1fr 1fr 1fr'}
+            $gridTemplateRows={'repeat(1, minmax(330px, auto))'}
+            $gridGap={6}
             width='100%'
           >
-            <GridItem gridArea='a'>
+            <GridItem $gridArea='a'>
               {selectedDAOGroup.type === 'staking' && (
                 <Card
                   icon={<StakesIcon />}
@@ -134,7 +134,7 @@ const IndividualMember: React.FC = () => {
                 </Card>
               )}
             </GridItem>
-            <GridItem gridArea='b'>
+            <GridItem $gridArea='b'>
               <Card
                 icon={<ProposalsIcon />}
                 label='Proposals'
@@ -148,7 +148,7 @@ const IndividualMember: React.FC = () => {
                 />
               </Card>
             </GridItem>
-            {/* <GridItem gridArea='c'>
+            {/* <GridItem $gridArea='c'>
               <UserActivity />
             </GridItem> */}
           </GridContainer>

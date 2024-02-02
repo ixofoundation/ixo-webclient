@@ -23,10 +23,10 @@ const Card = ({ children, ...rest }: HTMLFlexBoxProps) => {
       p={2}
       width='100%'
       height='48px'
-      alignItems='center'
-      justifyContent='center'
+      $alignItems='center'
+      $justifyContent='center'
       border={`1px solid ${theme.ixoNewBlue}`}
-      borderRadius={'8px'}
+      $borderRadius={'8px'}
       {...rest}
     >
       {children}
@@ -135,13 +135,13 @@ const GroupClaimModal: React.FunctionComponent<Props> = ({ daoGroup, open, setOp
       handleToggleModal={(): void => setOpen(false)}
     >
       <FlexBox width='600px'>
-        <FlexBox width='400px' gap={4} py={12} mx={'auto'} justifyContent='center'>
+        <FlexBox width='400px' $gap={4} py={12} mx={'auto'} $justifyContent='center'>
           {txStatus === TXStatus.UNDEFINED && (
-            <FlexBox direction='column' width='100%' gap={8}>
+            <FlexBox $direction='column' width='100%' $gap={8}>
               {/* body */}
-              <FlexBox direction='column' width='100%' alignItems='center' gap={4}>
+              <FlexBox $direction='column' width='100%' $alignItems='center' $gap={4}>
                 {/* DAO name & Group Name */}
-                <Card gap={2}>
+                <Card $gap={2}>
                   <Typography color={'dark-blue'} weight='medium'>
                     {daoName}
                   </Typography>
@@ -151,15 +151,15 @@ const GroupClaimModal: React.FunctionComponent<Props> = ({ daoGroup, open, setOp
                 </Card>
                 {/* Arrow Down icon */}
                 <FlexBox
-                  alignItems='center'
-                  justifyContent='center'
-                  borderRadius='100%'
+                  $alignItems='center'
+                  $justifyContent='center'
+                  $borderRadius='100%'
                   width='40px'
                   height='40px'
                   border={`1px solid ${theme.ixoDarkBlue}`}
-                  boxShadow={theme.ixoShadow2}
+                  $boxShadow={theme.ixoShadow2}
                 >
-                  <SvgBox color={theme.ixoNewBlue} svgHeight={8}>
+                  <SvgBox color={theme.ixoNewBlue} $svgHeight={8}>
                     <ArrowDownIcon />
                   </SvgBox>
                 </FlexBox>
@@ -172,7 +172,7 @@ const GroupClaimModal: React.FunctionComponent<Props> = ({ daoGroup, open, setOp
                 </Card>
               </FlexBox>
               {/* Unstaking Period & next button */}
-              <FlexBox width='100%' justifyContent='space-between' alignItems='center'>
+              <FlexBox width='100%' $justifyContent='space-between' $alignItems='center'>
                 <Typography>Claim now?</Typography>
                 <Box cursor='pointer' width='30px' height='30px' onClick={handleSigning}>
                   <img src={NextStepImage} alt='' />

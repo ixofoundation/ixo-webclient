@@ -18,7 +18,7 @@ const EditProfile: React.FC = (): JSX.Element => {
   }
 
   return (
-    <FlexBox justifyContent='stretch' gap={12.5}>
+    <FlexBox $justifyContent='stretch' $gap={12.5}>
       <Box className='d-flex flex-column'>
         <Box className='mb-2' />
         <DAOProfileForm

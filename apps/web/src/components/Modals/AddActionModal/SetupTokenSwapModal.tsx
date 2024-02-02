@@ -79,7 +79,7 @@ const SetupTokenSwapModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
     >
       {!reviewing ? (
         <>
-          <FlexBox width='100%' gap={4}>
+          <FlexBox width='100%' $gap={4}>
             <Button
               variant={formData.contractChosen === false ? 'primary' : 'secondary'}
               onClick={() => handleUpdateFormData('contractChosen', false)}
@@ -96,7 +96,7 @@ const SetupTokenSwapModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
             </Button>
           </FlexBox>
 
-          <FlexBox width='100%' direction='column'>
+          <FlexBox width='100%' $direction='column'>
             <Typography size='md'>
               To perform a token swap, one DAO must first create it, configuring the number of tokens each party must
               contribute. Then, both DAOs must add their funds. Once both DAOs have added their funds to the swap, the
@@ -109,12 +109,12 @@ const SetupTokenSwapModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
             </Typography>
           </FlexBox>
 
-          <FlexBox direction='column' width='100%' gap={2}>
+          <FlexBox $direction='column' width='100%' $gap={2}>
             <Typography color='black' weight='medium' size='xl'>
               {formData.contractChosen ? `Existing Token Swap to fund` : `Who is the Counterparty?`}
             </Typography>
 
-            <FlexBox width='100%' gap={4}>
+            <FlexBox width='100%' $gap={4}>
               <Input
                 name='token_swap_contract_address'
                 placeholder='Paste Address'
@@ -127,12 +127,12 @@ const SetupTokenSwapModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
 
           {!formData.contractChosen && (
             <>
-              <FlexBox direction='column' width='100%' gap={2}>
+              <FlexBox $direction='column' width='100%' $gap={2}>
                 <Typography color='black' weight='medium' size='xl'>
                   What do you need to receive?
                 </Typography>
 
-                <FlexBox width='100%' gap={4}>
+                <FlexBox width='100%' $gap={4}>
                   <Input
                     inputValue={formData.selfParty?.amount}
                     handleChange={(value) =>
@@ -151,12 +151,12 @@ const SetupTokenSwapModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
                 </FlexBox>
               </FlexBox>
 
-              <FlexBox direction='column' width='100%' gap={2}>
+              <FlexBox $direction='column' width='100%' $gap={2}>
                 <Typography color='black' weight='medium' size='xl'>
                   What do you need to send?
                 </Typography>
 
-                <FlexBox width='100%' gap={4}>
+                <FlexBox width='100%' $gap={4}>
                   <Input
                     inputValue={formData.selfParty?.amount}
                     handleChange={(value) =>
@@ -179,26 +179,26 @@ const SetupTokenSwapModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
         </>
       ) : (
         <>
-          <FlexBox width='100%' alignItems='center' justifyContent='space-between'>
+          <FlexBox width='100%' $alignItems='center' $justifyContent='space-between'>
             <FlexBox
               width='180px'
-              direction='column'
+              $direction='column'
               p={4}
-              justifyContent='space-between'
-              alignItems='center'
-              borderRadius='1rem'
+              $justifyContent='space-between'
+              $alignItems='center'
+              $borderRadius='1rem'
               background={theme.ixoGrey100}
-              gap={3}
+              $gap={3}
             >
-              <FlexBox alignItems='center' gap={3}>
-                <Box width='32px' height='32px' borderRadius='100%' background={theme.ixoGrey700} />
+              <FlexBox $alignItems='center' $gap={3}>
+                <Box width='32px' height='32px' $borderRadius='100%' background={theme.ixoGrey700} />
                 <Typography size='xl'>TestDAO</Typography>
               </FlexBox>
               <FlexBox>
                 <Typography size='xl'>1 $IXO</Typography>
               </FlexBox>
-              <FlexBox gap={1} alignItems='center' color={theme.ixoRed}>
-                <SvgBox color={theme.ixoRed} svgWidth={5} svgHeight={5}>
+              <FlexBox $gap={1} $alignItems='center' color={theme.ixoRed}>
+                <SvgBox color={theme.ixoRed} $svgWidth={5} $svgHeight={5}>
                   <TimesIcon />
                 </SvgBox>
                 <Typography>Unpaid</Typography>
@@ -211,23 +211,23 @@ const SetupTokenSwapModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
 
             <FlexBox
               width='180px'
-              direction='column'
+              $direction='column'
               p={4}
-              justifyContent='space-between'
-              alignItems='center'
-              borderRadius='1rem'
+              $justifyContent='space-between'
+              $alignItems='center'
+              $borderRadius='1rem'
               background={theme.ixoGrey100}
-              gap={3}
+              $gap={3}
             >
-              <FlexBox alignItems='center' gap={3}>
-                <Box width='32px' height='32px' borderRadius='100%' background={theme.ixoGrey700} />
+              <FlexBox $alignItems='center' $gap={3}>
+                <Box width='32px' height='32px' $borderRadius='100%' background={theme.ixoGrey700} />
                 <Typography size='xl'>OtherTestDAO</Typography>
               </FlexBox>
               <FlexBox>
                 <Typography size='xl'>2 $JUNO</Typography>
               </FlexBox>
-              <FlexBox gap={1} alignItems='center' color={theme.ixoRed}>
-                <SvgBox color={theme.ixoRed} svgWidth={5} svgHeight={5}>
+              <FlexBox $gap={1} $alignItems='center' color={theme.ixoRed}>
+                <SvgBox color={theme.ixoRed} $svgWidth={5} $svgHeight={5}>
                   <TimesIcon />
                 </SvgBox>
                 <Typography>Unpaid</Typography>
@@ -239,7 +239,7 @@ const SetupTokenSwapModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
             <Typography size='md'>This action sends 1$IXO to the token contract below.</Typography>
           </FlexBox>
 
-          <FlexBox alignItems='center' gap={4}>
+          <FlexBox $alignItems='center' $gap={4}>
             <Typography size='xl'>{formData.tokenSwapContractAddress}</Typography>
             <SvgBox color='black'>
               <CopyIcon />

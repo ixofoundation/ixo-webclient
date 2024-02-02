@@ -30,7 +30,7 @@ const RemainingBadge: React.FC<{ minutes: number }> = ({ minutes }) => {
   return (
     <Badge w={110} px={8} py={4} style={{ color: theme.ixoLightBlue, backgroundColor: theme.ixoDarkBlue }}>
       <Flex align={'center'} gap={4}>
-        <SvgBox svgWidth={4} svgHeight={4}>
+        <SvgBox $svgWidth={4} $svgHeight={4}>
           <SandClockIcon />
         </SvgBox>
         <Typography size='sm' transform='none'>
@@ -47,7 +47,7 @@ const PassedBadge: React.FC = () => {
   return (
     <Badge w={110} px={8} py={4} style={{ color: theme.ixoWhite, backgroundColor: theme.ixoNewBlue }}>
       <Flex align={'center'} gap={4}>
-        <SvgBox svgWidth={4} svgHeight={4}>
+        <SvgBox $svgWidth={4} $svgHeight={4}>
           <CheckCircleIcon />
         </SvgBox>
         <Typography size='sm' transform='none'>
@@ -63,7 +63,7 @@ const ExecutedBadge: React.FC = () => {
   return (
     <Badge w={110} px={8} py={4} style={{ color: theme.ixoWhite, backgroundColor: theme.ixoGreen }}>
       <Flex align={'center'} gap={4}>
-        <SvgBox svgWidth={4} svgHeight={4}>
+        <SvgBox $svgWidth={4} $svgHeight={4}>
           <CheckCircleIcon />
         </SvgBox>
         <Typography size='sm' transform='none'>
@@ -79,7 +79,7 @@ const RejectedBadge: React.FC = () => {
   return (
     <Badge w={110} px={8} py={4} style={{ color: theme.ixoWhite, backgroundColor: theme.ixoRed }}>
       <Flex align={'center'} gap={4}>
-        <SvgBox svgWidth={4} svgHeight={4}>
+        <SvgBox $svgWidth={4} $svgHeight={4}>
           <TimesCircleIcon />
         </SvgBox>
         <Typography size='sm' transform='none'>
@@ -95,7 +95,7 @@ const FailedBadge: React.FC = () => {
   return (
     <Badge w={110} px={8} py={4} style={{ color: theme.ixoOrange, backgroundColor: theme.ixoDarkBlue }}>
       <Flex align={'center'} gap={4}>
-        <SvgBox svgWidth={4} svgHeight={4}>
+        <SvgBox $svgWidth={4} $svgHeight={4}>
           <UnlinkIcon />
         </SvgBox>
         <Typography size='sm' transform='none'>
@@ -111,7 +111,7 @@ const ClosedBadge: React.FC = () => {
   return (
     <Badge w={110} px={8} py={4} style={{ color: theme.ixoWhite, backgroundColor: theme.ixoLightRed }}>
       <Flex align={'center'} gap={4}>
-        <SvgBox svgWidth={4} svgHeight={4}>
+        <SvgBox $svgWidth={4} $svgHeight={4}>
           <TimesCircleIcon />
         </SvgBox>
         <Typography size='sm' transform='none'>
@@ -249,7 +249,7 @@ const ProposalCard: React.FC<Props> = ({ coreAddress, proposalId, proposal }) =>
           variant='outline'
           color='ixo-blue'
           leftSection={
-            <SvgBox svgWidth={5} svgHeight={5}>
+            <SvgBox $svgWidth={5} $svgHeight={5}>
               <ThumbsUpIcon />
             </SvgBox>
           }
@@ -266,7 +266,7 @@ const ProposalCard: React.FC<Props> = ({ coreAddress, proposalId, proposal }) =>
           variant='outline'
           color='ixo-blue.8'
           leftSection={
-            <SvgBox svgWidth={5} svgHeight={5}>
+            <SvgBox $svgWidth={5} $svgHeight={5}>
               <ThumbsDownIcon />
             </SvgBox>
           }
@@ -363,7 +363,7 @@ const ProposalCard: React.FC<Props> = ({ coreAddress, proposalId, proposal }) =>
           </Flex>
           <Flex h='1px' w='200px' bg={'#213E59'} />
           <Flex h={48} gap='xs'>
-            <Typography size='md' overflowLines={3}>
+            <Typography size='md' $overflowLines={3}>
               {description}
             </Typography>
             <Typography size='md' color='blue' onClick={onViewMore} style={{ cursor: 'pointer' }}>

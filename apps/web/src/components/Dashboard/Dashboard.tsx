@@ -26,8 +26,8 @@ const Container = styled.div<{ color: string }>`
   }
 `
 
-const Board = styled.div<{ themeMode: string }>`
-  background: ${(props): string => (props.themeMode === 'light' ? '#ffffff' : '#023')};
+const Board = styled.div<{ $themeMode: string }>`
+  background: ${(props): string => (props.$themeMode === 'light' ? '#ffffff' : '#023')};
 
   padding: 2.5rem 0.75rem;
   display: flex;
@@ -134,7 +134,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
         <Flex w={'100%'} h='100%'>
           <StyledScrollArea w='100%' h='100%' viewportRef={viewport} onScrollPositionChange={onScrollPositionChange}>
             <Flex w='100%' h='100%' style={{ flex: 1 }}>
-              <Board themeMode={_theme}>
+              <Board $themeMode={_theme}>
                 {!noBreadcrumbs && <Breadcrumb subRoutes={subRoutes} baseRoutes={baseRoutes} />}
                 <Header title={title} />
                 <Break />

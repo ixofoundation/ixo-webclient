@@ -12,14 +12,14 @@ export const FormCard: React.FC<PropsWithChildren<FormCardProp>> = ({ preIcon, t
   const theme: any = useTheme()
   return (
     <FlexBox
-      direction='column'
-      gap={5}
+      $direction='column'
+      $gap={5}
       border={`1px solid ${theme.ixoNewBlue}`}
-      borderRadius='0.5rem'
+      $borderRadius='0.5rem'
       width='100%'
       p={7}
     >
-      <FlexBox alignItems='center' gap={2} width='100%'>
+      <FlexBox $alignItems='center' $gap={2} width='100%'>
         {preIcon && preIcon}
         {typeof title === 'string' ? (
           <Typography size='xl' weight='medium'>

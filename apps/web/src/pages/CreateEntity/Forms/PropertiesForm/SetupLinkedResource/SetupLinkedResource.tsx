@@ -45,7 +45,7 @@ const SetupLinkedResource: React.FC<Props> = ({ hidden, linkedResource, updateLi
 
   return (
     <>
-      <FlexBox direction='column' style={hidden ? { display: 'none' } : {}}>
+      <FlexBox $direction='column' style={hidden ? { display: 'none' } : {}}>
         <Box className='d-flex flex-wrap' style={{ gap: 20 }}>
           {Object.entries(linkedResource)
             .filter(([key, value]) => value)

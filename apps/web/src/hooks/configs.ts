@@ -20,6 +20,7 @@ import {
   getRelayersConfigAction,
 } from 'redux/configs/configs.actions'
 import { Schema, SchemaCategory } from 'pages/EntitiesExplorer/Components/EntitiesFilter/schema/types'
+import { getCustomTheme } from 'redux/theme/theme.actions'
 
 export const CHAIN_ID = process.env.REACT_APP_CHAIN_ID
 export const chainNetwork: ChainNetwork = CHAIN_ID?.startsWith('ixo')
@@ -47,6 +48,7 @@ interface IxoConfigsHookExports {
   fetchAssetListConfig: () => void
   fetchExchangeConfig: () => void
   fetchEntityConfig: () => void
+  fetchThemeConfig: () => void
 }
 
 export function useIxoConfigs(): IxoConfigsHookExports {
@@ -70,6 +72,10 @@ export function useIxoConfigs(): IxoConfigsHookExports {
 
   const fetchEntityConfig = useCallback(() => {
     dispatch(getEntityConfigAction())
+  }, [dispatch])
+
+  const fetchThemeConfig = useCallback(() => {
+    dispatch(getCustomTheme())
   }, [dispatch])
 
   const getAssetsByChainId = useCallback(
@@ -194,6 +200,7 @@ export function useIxoConfigs(): IxoConfigsHookExports {
     fetchAssetListConfig,
     fetchExchangeConfig,
     fetchEntityConfig,
+    fetchThemeConfig,
   }
 }
 

@@ -51,7 +51,7 @@ const ClaimTemplateCard: React.FC<ClaimTemplateProps> = ({ template, selected = 
             </Typography>
           </Box>
           <Box className='h-100'>
-            <Typography overflowLines={6} size='sm'>
+            <Typography $overflowLines={6} size='sm'>
               {template.description}
             </Typography>
           </Box>

@@ -67,7 +67,7 @@ const TreasuryPoolCard: React.FC = () => {
     <Card
       label='Treasury Pool'
       icon={
-        <SvgBox svgWidth={6} svgHeight={6}>
+        <SvgBox $svgWidth={6} $svgHeight={6}>
           <FundingIcon />
         </SvgBox>
       }
@@ -87,7 +87,7 @@ const TreasuryPoolCard: React.FC = () => {
           </Typography>
           <Flex align={'center'} gap={4} style={{ color: theme.ixoGreen }}>
             <Typography size='md'>+0.00%</Typography>
-            <SvgBox svgWidth={5} svgHeight={5}>
+            <SvgBox $svgWidth={5} $svgHeight={5}>
               <UpIcon />
             </SvgBox>
           </Flex>

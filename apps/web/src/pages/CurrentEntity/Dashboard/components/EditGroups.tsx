@@ -6,10 +6,7 @@ import { Typography } from 'components/Typography'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
 import { AddDAOGroupModal } from 'components/Modals'
 import { v4 as uuidv4 } from 'uuid'
-import {
-  initialMembershipGroup,
-  initialStakingGroup,
-} from 'pages/CreateEntity/EntityPages/SetupGroups/SetupGroups'
+import { initialMembershipGroup, initialStakingGroup } from 'pages/CreateEntity/EntityPages/SetupGroups/SetupGroups'
 import { omitKey } from 'utils/objects'
 import { LinkedEntity } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import SetupGroupSettings from 'pages/CreateEntity/EntityPages/SetupGroups/SetupGroupSettings'
@@ -118,14 +115,14 @@ const EditGroups: React.FC = (): JSX.Element => {
 
   return (
     <>
-      <FlexBox gap={5}>
+      <FlexBox $gap={5}>
         {Object.entries(daoGroups ?? {}).map(([key, value]) => {
           const Icon = DAOGroupConfig[value.type]?.icon
           const text = DAOGroupConfig[value.type]?.text
           const preFilled = Object.values(linkedEntity).some((v) => v.id.includes(key))
 
           return (
-            <FlexBox key={key} direction='column' alignItems='center' gap={4}>
+            <FlexBox key={key} $direction='column' $alignItems='center' $gap={4}>
               <PropertyBox
                 icon={Icon && <Icon />}
                 label={text}
@@ -133,7 +130,7 @@ const EditGroups: React.FC = (): JSX.Element => {
                 handleRemove={(): void => handleRemoveGroup(key)}
                 handleClick={(): any => !preFilled && setSelectedGroup(key)}
               />
-              <Typography variant='secondary' overflowLines={1} style={{ width: 100, textAlign: 'center' }}>
+              <Typography variant='secondary' $overflowLines={1} style={{ width: 100, textAlign: 'center' }}>
                 &nbsp;{value.config.name}&nbsp;
               </Typography>
               <CheckBox

@@ -71,7 +71,7 @@ const CateSelector: React.FC<Props> = ({
       onMouseLeave={onMouseLeave}
       className={cx({ active })}
     >
-      <SvgBox svgWidth={12} svgHeight={12} color={'white'}>
+      <SvgBox $svgWidth={12} $svgHeight={12} color={'white'}>
         <>{icon}</>
       </SvgBox>
       <Box className='text-center label'>

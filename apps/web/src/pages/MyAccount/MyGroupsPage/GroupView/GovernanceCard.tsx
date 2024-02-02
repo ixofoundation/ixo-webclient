@@ -31,7 +31,7 @@ const GovernanceCard: React.FC<Props> = ({ daoGroup }) => {
     <Card label='Governance' icon={<AgentIcon />}>
       <Flex w='100%' h='100%' direction={'column'} gap={24} align={'center'}>
         <Flex align={'center'} gap={4}>
-          <SvgBox svgWidth={5} svgHeight={5}>
+          <SvgBox $svgWidth={5} $svgHeight={5}>
             {daoGroup.type === 'membership' && <CoinsIcon />}
             {daoGroup.type === 'staking' && <CoinsIcon />}
           </SvgBox>
@@ -87,7 +87,7 @@ const GovernanceCard: React.FC<Props> = ({ daoGroup }) => {
           </Flex>
         ) : (
           <Flex w={'100%'} h='100%' align={'center'} justify={'center'}>
-            <Typography variant='secondary' size='sm' color='dark-blue' textAlign='center'>
+            <Typography variant='secondary' size='sm' color='dark-blue' $textAlign='center'>
               Participation in this group requires membership.
               <br />
               Ask an existing member to make a

@@ -217,7 +217,7 @@ const SetupDAOGroups = (): JSX.Element => {
 
     updateLinkedEntity(tempLinkedEntity)
 
-    if(nextStep?.number){
+    if (nextStep?.number) {
       navigate(nextStep)
     }
   }
@@ -234,7 +234,7 @@ const SetupDAOGroups = (): JSX.Element => {
 
   return (
     <>
-      <FlexBox direction='column' gap={5}>
+      <FlexBox $direction='column' $gap={5}>
         <Box width={`${deviceWidth.mobile}px`}>
           <Typography variant='secondary'>
             A DAO has one or more Groups. Each Group has its own membership and governance mechanism. A Group may even
@@ -243,12 +243,12 @@ const SetupDAOGroups = (): JSX.Element => {
           </Typography>
         </Box>
 
-        <FlexBox gap={5}>
+        <FlexBox $gap={5}>
           {Object.entries(daoGroups).map(([key, value]) => {
             const Icon = DAOGroupConfig[value.type]?.icon
             const text = DAOGroupConfig[value.type]?.text
             return (
-              <FlexBox key={key} direction='column' alignItems='center' gap={4}>
+              <FlexBox key={key} $direction='column' $alignItems='center' $gap={4}>
                 <PropertyBox
                   icon={Icon && <Icon />}
                   label={text}
@@ -256,7 +256,7 @@ const SetupDAOGroups = (): JSX.Element => {
                   handleRemove={(): void => handleRemoveGroup(key)}
                   handleClick={(): void => setSelectedGroup(key)}
                 />
-                <Typography variant='secondary' overflowLines={1} style={{ width: 100, textAlign: 'center' }}>
+                <Typography variant='secondary' $overflowLines={1} style={{ width: 100, textAlign: 'center' }}>
                   &nbsp;{value.config.name}&nbsp;
                 </Typography>
                 <CheckBox
@@ -276,10 +276,8 @@ const SetupDAOGroups = (): JSX.Element => {
           <PropertyBox icon={<PlusIcon />} noData handleClick={(): void => setOpenAddGroupModal(true)} />
         </FlexBox>
 
-        <FlexBox gap={5} marginTop={10}>
-          <Button variant='secondary'>
-            Back
-          </Button>
+        <FlexBox $gap={5} $marginTop={10}>
+          <Button variant='secondary'>Back</Button>
           <Button variant='primary' disabled={!canSubmit} onClick={handleContinue}>
             Continue
           </Button>

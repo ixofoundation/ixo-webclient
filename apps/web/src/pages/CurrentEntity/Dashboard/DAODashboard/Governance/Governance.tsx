@@ -63,18 +63,18 @@ const Governance: React.FC = () => {
   }, [selectedDAOGroup])
 
   return (
-    <FlexBox direction='column' gap={6} width='100%' color='white'>
+    <FlexBox $direction='column' $gap={6} width='100%' color='white'>
       <Groups />
 
       <GovernanceHeader selectedDAOGroup={selectedDAOGroup} />
 
       {selectedDAOGroup && (
-        <FlexBox width='100%' alignItems='center' justifyContent='space-between'>
+        <FlexBox width='100%' $alignItems='center' $justifyContent='space-between'>
           <Typography variant='secondary' size='2xl'>
             Current Governance Proposals
           </Typography>
 
-          <FlexBox alignItems='center' gap={4}>
+          <FlexBox $alignItems='center' $gap={4}>
             {entityStatus === 2 && hasVerificationKey && (
               <Button
                 variant='secondary'
@@ -122,19 +122,19 @@ const Governance: React.FC = () => {
         </FlexBox>
       )}
 
-      <FlexBox direction='column' gap={4} color='white' width='100%'>
+      <FlexBox $direction='column' $gap={4} color='white' width='100%'>
         {selectedDAOGroup &&
           selectedDAOGroup.proposalModule.proposals.length === 0 &&
           (isParticipating || anyoneCanPropose) && (
             <FlexBox
-              direction='column'
+              $direction='column'
               width='100%'
               height='380px'
-              justifyContent='center'
-              alignItems='center'
-              gap={6}
+              $justifyContent='center'
+              $alignItems='center'
+              $gap={6}
               background={theme.ixoGradientDark2}
-              borderRadius={'4px'}
+              $borderRadius={'4px'}
             >
               <EmptyIcon />
               <Typography variant='secondary' color='dark-blue' size='2xl'>
@@ -153,14 +153,14 @@ const Governance: React.FC = () => {
           !anyoneCanPropose &&
           selectedDAOGroup.type === 'membership' && (
             <FlexBox
-              direction='column'
+              $direction='column'
               width='100%'
               height='380px'
-              justifyContent='center'
-              alignItems='center'
-              gap={6}
+              $justifyContent='center'
+              $alignItems='center'
+              $gap={6}
               background={theme.ixoGradientDark2}
-              borderRadius={'4px'}
+              $borderRadius={'4px'}
             >
               <EmptyIcon />
               <Typography variant='secondary' color='dark-blue' size='2xl'>
@@ -177,20 +177,20 @@ const Governance: React.FC = () => {
           !anyoneCanPropose &&
           selectedDAOGroup.type === 'staking' && (
             <FlexBox
-              direction='column'
+              $direction='column'
               width='100%'
               height='380px'
-              justifyContent='center'
-              alignItems='center'
-              gap={6}
+              $justifyContent='center'
+              $alignItems='center'
+              $gap={6}
               background={theme.ixoGradientDark2}
-              borderRadius={'4px'}
+              $borderRadius={'4px'}
             >
               <EmptyIcon />
               <Typography variant='secondary' color='dark-blue' size='2xl'>
                 There are no active proposals.
               </Typography>
-              <FlexBox direction='column' alignItems='center'>
+              <FlexBox $direction='column' $alignItems='center'>
                 <Typography variant='secondary' color='dark-blue' size='2xl'>
                   Only members can submit proposals.
                 </Typography>

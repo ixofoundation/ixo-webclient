@@ -126,7 +126,7 @@ export const GetDelegation = async (
     const { delegationResponse } = await client.cosmos.staking.v1beta1.delegation({ validatorAddr, delegatorAddr })
     return delegationResponse
   } catch (e) {
-    console.error('GetDelegation', e)
+    // console.error('GetDelegation', e)
     return undefined
   }
 }

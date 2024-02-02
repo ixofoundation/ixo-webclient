@@ -186,11 +186,11 @@ const CreateBondModal: React.FC<Props> = ({ open, bondDid, onSubmit, onClose }):
 
       <ModalWrapper>
         <ModalTitle>{'Create an AlphaBond'}</ModalTitle>
-        <FlexBox direction='column' width='934px' gap={15}>
-          <FlexBox width='100%' gap={12.5}>
-            <FlexBox width='320px' height='320px' background={theme.ixoGrey100} borderRadius={'8px'}></FlexBox>
-            <FlexBox direction='column' gap={5} style={{ flex: '1' }}>
-              <FlexBox gap={3} width='100%'>
+        <FlexBox $direction='column' width='934px' $gap={15}>
+          <FlexBox width='100%' $gap={12.5}>
+            <FlexBox width='320px' height='320px' background={theme.ixoGrey100} $borderRadius={'8px'}></FlexBox>
+            <FlexBox $direction='column' $gap={5} style={{ flex: '1' }}>
+              <FlexBox $gap={3} width='100%'>
                 <InputWithLabel
                   name='name'
                   label='Bond Name'
@@ -205,7 +205,7 @@ const CreateBondModal: React.FC<Props> = ({ open, bondDid, onSubmit, onClose }):
                 />
               </FlexBox>
 
-              <FlexBox gap={3} width='100%'>
+              <FlexBox $gap={3} width='100%'>
                 <TextArea
                   name='description'
                   label='Description'
@@ -215,7 +215,7 @@ const CreateBondModal: React.FC<Props> = ({ open, bondDid, onSubmit, onClose }):
                 />
               </FlexBox>
 
-              <FlexBox gap={3} width='100%'>
+              <FlexBox $gap={3} width='100%'>
                 <InputWithLabel
                   name='targetRaise'
                   label='Target to Raise'
@@ -231,7 +231,7 @@ const CreateBondModal: React.FC<Props> = ({ open, bondDid, onSubmit, onClose }):
                 />
               </FlexBox>
 
-              <FlexBox gap={3} width='100%'>
+              <FlexBox $gap={3} width='100%'>
                 <InputWithLabel
                   name='minimumYield'
                   label='Minimum Yield'
@@ -246,7 +246,7 @@ const CreateBondModal: React.FC<Props> = ({ open, bondDid, onSubmit, onClose }):
                 />
               </FlexBox>
 
-              <FlexBox gap={3} width='100%'>
+              <FlexBox $gap={3} width='100%'>
                 <InputWithLabel
                   name='maxSupply'
                   label='Maximum Supply'
@@ -261,7 +261,7 @@ const CreateBondModal: React.FC<Props> = ({ open, bondDid, onSubmit, onClose }):
                 />
               </FlexBox>
 
-              <FlexBox gap={3} width='100%'>
+              <FlexBox $gap={3} width='100%'>
                 <InputWithLabel
                   name='initialPrice'
                   label={`Hatch Price`}
@@ -277,7 +277,7 @@ const CreateBondModal: React.FC<Props> = ({ open, bondDid, onSubmit, onClose }):
                 />
               </FlexBox>
 
-              <FlexBox gap={3} width='100%'>
+              <FlexBox $gap={3} width='100%'>
                 <InputWithLabel
                   name='outcomePayment'
                   label='Outcome Payment Amount'
@@ -295,7 +295,7 @@ const CreateBondModal: React.FC<Props> = ({ open, bondDid, onSubmit, onClose }):
             </FlexBox>
           </FlexBox>
 
-          <FlexBox width='100%' justifyContent='flex-end'>
+          <FlexBox width='100%' $justifyContent='flex-end'>
             <Button size={'flex'} onClick={handleSign} loading={submitting}>
               Sign to Continue
             </Button>

@@ -57,7 +57,7 @@ interface Props {
 
 const UserProposals: React.FC<Props> = ({ show, coreAddress, userAddress, full = true }) => {
   const theme: any = useTheme()
-  const navigate =useNavigate()
+  const navigate = useNavigate()
   const { entityId } = useParams<{ entityId: string }>()
   const { address } = useAccount()
   const { isImpactsDAO, isMemberOfImpactsDAO, isOwner, daoController } = useCurrentEntity()
@@ -119,10 +119,10 @@ const UserProposals: React.FC<Props> = ({ show, coreAddress, userAddress, full =
             passed: 'green',
           }
           return (
-            <FlexBox p={4} minWidth='200px'>
+            <FlexBox p={4} $minWidth='200px'>
               <FlexBox position='relative' width='100%'>
                 <ProgressBar data={data} totalValue={numOfMembers} />
-                <FlexBox position='absolute' bottom='-16px' width='100%' justifyContent='space-between'>
+                <FlexBox position='absolute' bottom='-16px' width='100%' $justifyContent='space-between'>
                   <Typography size='sm' color={statusColorMap[status]}>
                     {status}
                   </Typography>
@@ -164,7 +164,7 @@ const UserProposals: React.FC<Props> = ({ show, coreAddress, userAddress, full =
 
   if (isImpactsDAO && daoController === daoGroup.coreAddress && !isMemberOfImpactsDAO && !isOwner) {
     return (
-      <FlexBox height='100%' direction='column' justifyContent='space-between'>
+      <FlexBox height='100%' $direction='column' $justifyContent='space-between'>
         <Typography variant='secondary' size='2xl' color='dark-blue'>
           You are not yet a member of this DAO. To participate in governance stake at least 1 DAO governance token. To
           join as a member of the DAO submit a Membership Proposal (this may require a proposal deposit amount).
@@ -189,7 +189,7 @@ const UserProposals: React.FC<Props> = ({ show, coreAddress, userAddress, full =
   return (
     <>
       {sortedUserProposals.length > 0 ? (
-        <FlexBox width='100%' direction='column' gap={3}>
+        <FlexBox width='100%' $direction='column' $gap={3}>
           <TableWrapper>
             <Table
               columns={columns}

@@ -140,23 +140,23 @@ const CreatorSetupModal: React.FC<Props> = ({ creator, title, open, onClose, onC
           <CloseIcon />
         </CloseButton>
 
-        <FlexBox direction='column' gap={4} width='100%'>
+        <FlexBox $direction='column' $gap={4} width='100%'>
           <FlexBox>
             <Typography size='2xl'>{title}</Typography>
           </FlexBox>
 
-          <FlexBox width='100%' gap={12} alignItems='stretch'>
-            <FlexBox direction='column' gap={4}>
+          <FlexBox width='100%' $gap={12} $alignItems='stretch'>
+            <FlexBox $direction='column' $gap={4}>
               <FlexBox
                 width='400px'
                 height='400px'
                 background={theme.ixoGrey100}
-                borderRadius='8px'
-                direction='column'
-                justifyContent='center'
-                alignItems='center'
+                $borderRadius='8px'
+                $direction='column'
+                $justifyContent='center'
+                $alignItems='center'
                 overflow='hidden'
-                gap={4}
+                $gap={4}
                 {...getRootProps()}
               >
                 {loading ? (
@@ -187,14 +187,14 @@ const CreatorSetupModal: React.FC<Props> = ({ creator, title, open, onClose, onC
                     width='100%'
                     height='100%'
                     background={`url(${formData.logo}) center no-repeat`}
-                    backgroundSize='contain'
+                    $backgroundSize='contain'
                     cursor='pointer'
                     onClick={openDropZone}
                     title='Click to replace'
                   />
                 )}
               </FlexBox>
-              <FlexBox gap={4} alignItems='center' width='100%'>
+              <FlexBox $gap={4} $alignItems='center' width='100%'>
                 <Typography size='xl'>Web:</Typography>
                 <InputWithLabel
                   name='creator_logo'
@@ -208,7 +208,7 @@ const CreatorSetupModal: React.FC<Props> = ({ creator, title, open, onClose, onC
               </FlexBox>
             </FlexBox>
 
-            <FlexBox direction='column' gap={4} width='100%' height='100%'>
+            <FlexBox $direction='column' $gap={4} width='100%' height='100%'>
               {/* Display Name */}
               <InputWithLabel
                 name='creator_name'
@@ -271,7 +271,7 @@ const CreatorSetupModal: React.FC<Props> = ({ creator, title, open, onClose, onC
             </FlexBox>
           </FlexBox>
 
-          <FlexBox width='100%' justifyContent='flex-end' alignItems='center' gap={4}>
+          <FlexBox width='100%' $justifyContent='flex-end' $alignItems='center' $gap={4}>
             {onClone && (
               <Button variant='secondary' onClick={onClone}>
                 Clone

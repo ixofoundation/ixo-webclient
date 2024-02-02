@@ -40,7 +40,7 @@ const UserVotingPower: React.FC<Props> = ({ show, coreAddress, userAddress }) =>
               { name: 'My Voting Power', value: userVotingPower, color: theme.ixoNewBlue },
             ]}
             descriptor={
-              <FlexBox direction='column' alignItems='center'>
+              <FlexBox $direction='column' $alignItems='center'>
                 <Typography variant='secondary' size='3xl' weight='bold'>
                   {new Intl.NumberFormat('en-us', {
                     style: 'percent',

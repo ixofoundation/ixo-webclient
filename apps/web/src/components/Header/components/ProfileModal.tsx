@@ -99,37 +99,37 @@ const ProfileModal: React.FC = () => {
   }, [cw20Tokens])
 
   return (
-    <FlexBox direction='column' gap={8} width='100%' color={theme.ixoWhite}>
-      <FlexBox width='100%' direction='column' alignItems='center' gap={4}>
+    <FlexBox $direction='column' $gap={8} width='100%' color={theme.ixoWhite}>
+      <FlexBox width='100%' $direction='column' $alignItems='center' $gap={4}>
         <Avatar size={80} borderWidth={0} />
         <Typography size='2xl'>{name}</Typography>
       </FlexBox>
 
-      <FlexBox width='100%' direction='column' gap={3}>
-        <FlexBox alignItems='center' gap={2}>
-          <SvgBox color={theme.ixoDarkBlue} svgWidth={6} svgHeight={6}>
+      <FlexBox width='100%' $direction='column' $gap={3}>
+        <FlexBox $alignItems='center' $gap={2}>
+          <SvgBox color={theme.ixoDarkBlue} $svgWidth={6} $svgHeight={6}>
             <WalletIcon />
           </SvgBox>
           <Typography>Wallet</Typography>
         </FlexBox>
 
-        <FlexBox width='100%' gap={3}>
+        <FlexBox width='100%' $gap={3}>
           <FlexBox
-            flexGrow={1}
+            $flexGrow={1}
             height='56px'
-            borderRadius='8px'
+            $borderRadius='8px'
             border={`1px solid ${theme.ixoDarkBlue}`}
             p={3}
-            justifyContent='space-between'
-            alignItems='center'
+            $justifyContent='space-between'
+            $alignItems='center'
           >
-            <FlexBox gap={2} alignItems='center'>
-              <FlexBox width='32px' height='32px' borderRadius='8px'>
+            <FlexBox $gap={2} $alignItems='center'>
+              <FlexBox width='32px' height='32px' $borderRadius='8px'>
                 <img width={'100%'} height={'100%'} src={connectedWallet?.wallet.imageUrl} alt='' />
               </FlexBox>
               <Typography transform='capitalize'>{connectedWallet?.wallet.type}</Typography>
             </FlexBox>
-            <FlexBox alignItems='center' gap={2}>
+            <FlexBox $alignItems='center' $gap={2}>
               <Typography>{truncateString(address, 20, 'middle')}</Typography>
               <CopyToClipboard text={address} onCopy={() => successToast(null, `Copied to clipboard`)}>
                 <SvgBox color={theme.ixoDarkBlue} hover={{ color: theme.ixoNewBlue }} cursor='pointer'>
@@ -141,14 +141,14 @@ const ProfileModal: React.FC = () => {
           <SvgBox
             width='56px'
             height='56px'
-            alignItems='center'
-            justifyContent='center'
-            borderRadius='8px'
+            $alignItems='center'
+            $justifyContent='center'
+            $borderRadius='8px'
             border={`1px solid ${theme.ixoNewBlue}`}
             p={3}
             color={theme.ixoNewBlue}
-            svgWidth={6}
-            svgHeight={6}
+            $svgWidth={6}
+            $svgHeight={6}
             cursor='pointer'
             onClick={disconnect}
           >
@@ -157,8 +157,8 @@ const ProfileModal: React.FC = () => {
         </FlexBox>
       </FlexBox>
 
-      <FlexBox width='100%' direction='column' gap={4}>
-        <FlexBox gap={2}>
+      <FlexBox width='100%' $direction='column' $gap={4}>
+        <FlexBox $gap={2}>
           <TabButton
             preIcon={<CoinsIcon />}
             textSize='base'
@@ -179,7 +179,7 @@ const ProfileModal: React.FC = () => {
         </FlexBox>
 
         {showAssetType === 'Coins' && (
-          <ScrollBox direction='column' gap={2} width='100%' height='250px' overflowY='auto'>
+          <ScrollBox $direction='column' $gap={2} width='100%' height='250px' $overflowY='auto'>
             {Object.values(coinBalanceData)
               .filter((item) => new BigNumber(item.balance).isGreaterThan(new BigNumber(0)))
               .map((item, index) => (

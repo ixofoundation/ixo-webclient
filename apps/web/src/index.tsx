@@ -21,7 +21,6 @@ import { ThemeProvider } from 'styled-components'
 import { Spinner } from 'components/Spinner/Spinner'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { selectCustomTheme } from 'redux/theme/theme.selectors'
-import { getCustomTheme } from 'redux/theme/theme.actions'
 import mantineTheme from 'styles/mantine'
 // import { getCustomTheme } from 'redux/theme/theme.actions'
 
@@ -40,12 +39,12 @@ const client = new ApolloClient({
 })
 
 const App = () => {
-  const { fetchEntityConfig, entityConfig } = useIxoConfigs()
+  const { fetchEntityConfig, fetchThemeConfig, entityConfig } = useIxoConfigs()
   const dispatch = useAppDispatch()
 
   useEffect(() => {
     fetchEntityConfig()
-    dispatch(getCustomTheme())
+    fetchThemeConfig()
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -79,7 +78,6 @@ const App = () => {
     setCustomizedTheme(newCustomizedTheme)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [entityConfig, dispatch])
-
 
   return (
     <ThemeProvider theme={theme}>

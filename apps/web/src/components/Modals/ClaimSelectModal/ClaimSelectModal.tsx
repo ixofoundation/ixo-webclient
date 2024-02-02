@@ -60,11 +60,11 @@ const ClaimSelectModal: React.FC<Props> = ({ open, onClose, onSelect }): JSX.Ele
         <CloseIcon />
       </CloseButton>
 
-      <FlexBox direction='column' gap={8}>
-        <FlexBox justifyContent='space-between' alignItems='center'>
+      <FlexBox $direction='column' $gap={8}>
+        <FlexBox $justifyContent='space-between' $alignItems='center'>
           <Typography size='2xl'>Select a Verifiable Claim Protocol</Typography>
         </FlexBox>
-        <FlexBox alignItems='center' gap={4} px={2.5}>
+        <FlexBox $alignItems='center' $gap={4} px={2.5}>
           <Input
             width='270px'
             height='48px'
@@ -72,7 +72,7 @@ const ClaimSelectModal: React.FC<Props> = ({ open, onClose, onSelect }): JSX.Ele
             inputValue={keyword}
             handleChange={(value) => setKeyword(value)}
             preIcon={
-              <SvgBox color={theme.ixoGrey300} svgWidth={6}>
+              <SvgBox color={theme.ixoGrey300} $svgWidth={6}>
                 <SearchIcon />
               </SvgBox>
             }
@@ -85,15 +85,15 @@ const ClaimSelectModal: React.FC<Props> = ({ open, onClose, onSelect }): JSX.Ele
             height={48}
             onClick={() => setFilter((pre) => !pre)}
           >
-            <SvgBox svgWidth={6} color={filter ? theme.ixoWhite : theme.ixoGrey700}>
+            <SvgBox $svgWidth={6} color={filter ? theme.ixoWhite : theme.ixoGrey700}>
               <SlidersIcon />
             </SvgBox>
           </Button>
         </FlexBox>
         <ClaimProtocolList className='overflow-auto' p={2.5}>
-          <FlexBox direction='column' gap={6}>
+          <FlexBox $direction='column' $gap={6}>
             {_.chunk(claimProtocols, 3).map((row, rowIdx) => (
-              <FlexBox key={rowIdx} gap={6}>
+              <FlexBox key={rowIdx} $gap={6}>
                 {row
                   .map((v) => ({
                     id: `${v.id}#${v.profile?.name || ''}`,
@@ -115,7 +115,7 @@ const ClaimSelectModal: React.FC<Props> = ({ open, onClose, onSelect }): JSX.Ele
             ))}
           </FlexBox>
         </ClaimProtocolList>
-        <FlexBox className='w-100' justifyContent='flex-end' gap={5}>
+        <FlexBox className='w-100' $justifyContent='flex-end' $gap={5}>
           <Button size='custom' width={190} height={48} variant='secondary' onClick={handleCreate}>
             Create New
           </Button>

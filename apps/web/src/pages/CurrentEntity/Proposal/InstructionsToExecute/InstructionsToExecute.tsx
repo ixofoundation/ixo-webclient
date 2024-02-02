@@ -12,7 +12,7 @@ import { TProposalActionModel } from 'types/entities'
 import { ProposalActionConfigMap } from 'constants/entity'
 
 const InstructionsToExecute: React.FC = () => {
-  const { deedId = "" } = useParams<{ deedId: string }>()
+  const { deedId = '' } = useParams<{ deedId: string }>()
   const { cwClient, address } = useAccount()
   const entity = useAppSelector(selectEntityById(deedId))
   const linkedProposal = useMemo(() => (entity?.linkedEntity ?? []).find(({ type }) => type === 'deed'), [entity])
@@ -64,11 +64,11 @@ const InstructionsToExecute: React.FC = () => {
   }, [contractAddress, proposalId, cwClient, address])
 
   return (
-    <FlexBox width='100%' direction='column' gap={5} px={5} pt={5} pb={9} background='white' borderRadius='4px'>
+    <FlexBox width='100%' $direction='column' $gap={5} px={5} pt={5} pb={9} background='white' $borderRadius='4px'>
       <Typography variant='secondary' size='2xl'>
         Instructions to execute
       </Typography>
-      <FlexBox gap={4}>
+      <FlexBox $gap={4}>
         {actions.map((action, index) => {
           const Icon = ProposalActionConfigMap[action.type!]?.icon
           return (

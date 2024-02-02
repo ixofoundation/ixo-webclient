@@ -51,7 +51,7 @@ const SetupMintModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): J
       onSubmit={handleConfirm}
       validate={validate}
     >
-      <FlexBox width='100%' gap={4}>
+      <FlexBox width='100%' $gap={4}>
         <Input
           inputValue={formData.amount}
           handleChange={(value) => handleUpdateFormData('amount', value)}
@@ -76,7 +76,7 @@ const SetupMintModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): J
         </Typography>
       </FlexBox>
 
-      <FlexBox width='100%' gap={4}>
+      <FlexBox width='100%' $gap={4}>
         <Input
           name='to_address'
           placeholder='Paste Address'

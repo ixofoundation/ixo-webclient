@@ -25,7 +25,7 @@ interface Props {
 }
 
 const ClaimForm: React.FC<Props> = ({ claimId }) => {
-  const { entityId = "" } = useParams<{ entityId: string }>()
+  const { entityId = '' } = useParams<{ entityId: string }>()
   const signer = useSigner()
   const signingClient: SigningStargateClient = useAppSelector(selectAccountSigningClient)
   const claim: { [id: string]: TEntityClaimModel } = useAppSelector(selectEntityClaim)
@@ -134,7 +134,7 @@ const ClaimForm: React.FC<Props> = ({ claimId }) => {
 
   return (
     <FlexBox width='100%'>
-      <FlexBox direction='column' width='100%' gap={7}>
+      <FlexBox $direction='column' width='100%' $gap={7}>
         {survey && <Survey model={survey} />}
       </FlexBox>
     </FlexBox>

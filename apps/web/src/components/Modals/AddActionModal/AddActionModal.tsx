@@ -19,7 +19,7 @@ interface Props {
 }
 
 const AddActionModal: React.FC<Props> = ({ open, actionsToExclude = [], onClose, onAdd }): JSX.Element => {
-  const { coreAddress = "" } = useParams<{ coreAddress: string }>()
+  const { coreAddress = '' } = useParams<{ coreAddress: string }>()
   const { contractName } = useCurrentEntityDAOGroup(coreAddress)
 
   const options = Object.values(ProposalActionConfig).map((item) => item.text)
@@ -46,12 +46,12 @@ const AddActionModal: React.FC<Props> = ({ open, actionsToExclude = [], onClose,
         <CloseIcon />
       </CloseButton>
 
-      <FlexBox direction='column' gap={4}>
+      <FlexBox $direction='column' $gap={4}>
         <FlexBox width='100%'>
           <Dropdown
             style={{ height: '48px' }}
             options={options.map((v) => ({ text: v, value: v }))}
-            hasArrow={false}
+            $hasArrow={false}
             value={selectedGroup}
             onChange={(e) => setSelectedGroup(e.target.value)}
           />
@@ -63,7 +63,7 @@ const AddActionModal: React.FC<Props> = ({ open, actionsToExclude = [], onClose,
             </Typography>
           )}
         </FlexBox>
-        <GridContainer columns={4} width='100%' gridGap={4}>
+        <GridContainer columns={4} width='100%' $gridGap={4}>
           {groupItems
             .filter((item) => !contractName || item.in.includes(contractName))
             .map((item) => {

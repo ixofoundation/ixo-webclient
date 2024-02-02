@@ -22,7 +22,7 @@ const OfferBox: React.FC<OfferBoxProps> = ({ entity, selectedCollectionId, setSe
   const claimTemplateEntity = useGetClaimTemplateEntityByCollectionId(collectionId!)
 
   return (
-    <FlexBox direction='column' alignItems='center' gap={4}>
+    <FlexBox $direction='column' $alignItems='center' $gap={4}>
       <PropertyBox
         icon={<ClaimIcon />}
         required={true}
@@ -36,7 +36,7 @@ const OfferBox: React.FC<OfferBoxProps> = ({ entity, selectedCollectionId, setSe
         variant='primary'
         size='md'
         color={selectedCollectionId === collectionId ? 'blue' : 'black'}
-        overflowLines={2}
+        $overflowLines={2}
         style={{ width: 100, textAlign: 'center' }}
       >
         {claimTemplateEntity?.profile?.name}

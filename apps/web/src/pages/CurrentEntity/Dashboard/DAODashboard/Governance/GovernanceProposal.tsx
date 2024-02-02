@@ -129,7 +129,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
   deedDid,
   onUpdate,
 }) => {
-  const navigate =useNavigate()
+  const navigate = useNavigate()
   const theme: any = useTheme()
   const { entityId } = useParams<{ entityId: string }>()
   const { isDark } = useContext(DashboardThemeContext)
@@ -288,14 +288,14 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
       <div className='row pb-3'>
         <div className='col-12'>
           <div className='d-flex align-items-center justify-content-between'>
-            <FlexBox gap={2}>
+            <FlexBox $gap={2}>
               <NumberBadget isDark={!isDark}>#{proposalId}</NumberBadget>
               <NumberBadget isDark={isDark}>{groupName}</NumberBadget>
             </FlexBox>
             {deedDid && (
               <SvgBox
                 cursor='pointer'
-                svgWidth={6}
+                $svgWidth={6}
                 onClick={() => navigate(`/entity/${entityId}/overview/proposal/${deedDid}`)}
               >
                 <ExpandIcon />
@@ -305,7 +305,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
         </div>
       </div>
       <div className='row'>
-        <Box className='col-12 col-lg-6' borderRight={`1px solid ${theme.ixoGrey300}`}>
+        <Box className='col-12 col-lg-6' $borderRight={`1px solid ${theme.ixoGrey300}`}>
           <Title className='pb-3'>{title}</Title>
 
           <div className='d-flex align-items-center'>
@@ -365,7 +365,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
           </div>
 
           <div className='d-flex justify-content-between align-items-center pt-2'>
-            <FlexBox gap={4}>
+            <FlexBox $gap={4}>
               <Action
                 isDark={isDark}
                 className={clsx({ disable: status !== 'open' || !!myVoteStatus })}
@@ -402,7 +402,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
                 </Action>
               )}
             </FlexBox>
-            <FlexBox gap={3}>
+            <FlexBox $gap={3}>
               {/* {proposalActions.map((action, index) => {
                 const Icon = ProposalActionConfigMap[action.type!]?.icon
                 return (
@@ -410,12 +410,12 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
                     key={index}
                     width='35px'
                     height='35px'
-                    alignItems='center'
-                    justifyContent='center'
+                    $alignItems='center'
+                    $justifyContent='center'
                     border={`1px solid ${theme.ixoNewBlue}`}
-                    borderRadius='4px'
-                    svgWidth={5}
-                    svgHeight={5}
+                    $borderRadius='4px'
+                    $svgWidth={5}
+                    $svgHeight={5}
                     color={theme.ixoNewBlue}
                     cursor='pointer'
                     hover={{ background: theme.ixoNewBlue, color: theme.ixoWhite }}
@@ -435,12 +435,12 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
                     <SvgBox
                       width='35px'
                       height='35px'
-                      alignItems='center'
-                      justifyContent='center'
+                      $alignItems='center'
+                      $justifyContent='center'
                       border={`1px solid ${theme.ixoNewBlue}`}
-                      borderRadius='4px'
-                      svgWidth={5}
-                      svgHeight={5}
+                      $borderRadius='4px'
+                      $svgWidth={5}
+                      $svgHeight={5}
                       color={theme.ixoNewBlue}
                       cursor='pointer'
                       hover={{ background: theme.ixoNewBlue, color: theme.ixoWhite }}
@@ -460,12 +460,12 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
                       key={index}
                       width='35px'
                       height='35px'
-                      alignItems='center'
-                      justifyContent='center'
+                      $alignItems='center'
+                      $justifyContent='center'
                       border={`1px solid ${theme.ixoNewBlue}`}
-                      borderRadius='4px'
-                      svgWidth={5}
-                      svgHeight={5}
+                      $borderRadius='4px'
+                      $svgWidth={5}
+                      $svgHeight={5}
                       color={theme.ixoNewBlue}
                       cursor='pointer'
                       hover={{ background: theme.ixoNewBlue, color: theme.ixoWhite }}
@@ -484,15 +484,15 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
         </Box>
         <div className='col-12 col-lg-6'>
           <WidgetWrapper title='' gridHeight={gridSizes.standard} light={true} padding={false}>
-            <FlexBox className='p-0 m-0' justifyContent='space-between'>
-              <FlexBox direction='column' gap={5}>
-                <FlexBox direction='column'>
+            <FlexBox className='p-0 m-0' $justifyContent='space-between'>
+              <FlexBox $direction='column' $gap={5}>
+                <FlexBox $direction='column'>
                   <FlexBox mb={2}>
                     <Typography variant='secondary' weight='bold'>
                       Current status: Proposal Passes
                     </Typography>
                   </FlexBox>
-                  <FlexBox direction='column'>
+                  <FlexBox $direction='column'>
                     <Typography variant='secondary' weight='thin'>
                       <strong>{numOfYesVotes}</strong> Yes ({calcPercentage(numOfAvailableVotes, numOfYesVotes)}%)
                     </Typography>
@@ -513,7 +513,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
                     </Typography>
                   </FlexBox>
                 </FlexBox>
-                <FlexBox direction='column'>
+                <FlexBox $direction='column'>
                   <FlexBox mb={2}>
                     <Typography variant='secondary' weight='bold'>
                       Consensus thresholds
@@ -545,7 +545,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
                       % under the 33% required to veto
                     </div>
                   </div> */}
-                  <FlexBox direction='column'>
+                  <FlexBox $direction='column'>
                     {tqData?.quorumPercentage && (
                       <Typography variant='secondary' weight='thin'>
                         <strong>{getDifference(perOfYesVotes, tqData.quorumPercentage)}</strong>% more than the quorum

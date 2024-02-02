@@ -107,18 +107,18 @@ const AccountsCard: React.FC<Props> = ({ accounts, onSelect }) => {
         const Icon = AccountTypeToIconMap[type]
 
         return (
-          <FlexBox alignItems='center' gap={2} p={4}>
-            <FlexBox direction='column' gap={4}>
-              <FlexBox alignItems='center' gap={2}>
+          <FlexBox $alignItems='center' $gap={2} p={4}>
+            <FlexBox $direction='column' $gap={4}>
+              <FlexBox $alignItems='center' $gap={2}>
                 {Icon && (
                   <SvgBox
                     width='32px'
                     height='32px'
-                    alignItems='center'
-                    justifyContent='center'
-                    svgWidth={6}
-                    svgHeight={6}
-                    borderRadius='100%'
+                    $alignItems='center'
+                    $justifyContent='center'
+                    $svgWidth={6}
+                    $svgHeight={6}
+                    $borderRadius='100%'
                     background={theme.ixoDarkBlue}
                     style={{ flex: 1 }}
                   >
@@ -131,11 +131,11 @@ const AccountsCard: React.FC<Props> = ({ accounts, onSelect }) => {
               </FlexBox>
 
               <CopyToClipboard text={address} onCopy={() => successToast(`Copied to clipboard`)}>
-                <FlexBox alignItems='center' gap={2} onClick={(e) => e.stopPropagation()}>
+                <FlexBox $alignItems='center' $gap={2} onClick={(e) => e.stopPropagation()}>
                   <Typography variant='secondary' color='blue' hover={{ underline: true }}>
                     {truncateString(address, 20, 'middle')}
                   </Typography>
-                  <SvgBox color={theme.ixoNewBlue} svgWidth={6} svgHeight={6}>
+                  <SvgBox color={theme.ixoNewBlue} $svgWidth={6} $svgHeight={6}>
                     <CopyIcon />
                   </SvgBox>
                 </FlexBox>
@@ -155,7 +155,7 @@ const AccountsCard: React.FC<Props> = ({ accounts, onSelect }) => {
         )
         const network = cell.row.original?.network
         return (
-          <FlexBox height='100%' direction='column' justifyContent='space-between' alignItems='end' p={4}>
+          <FlexBox height='100%' $direction='column' $justifyContent='space-between' $alignItems='end' p={4}>
             <Typography size='2xl'>
               <CurrencyFormat prefix='$' displayType={'text'} value={balance} thousandSeparator decimalScale={2} />
             </Typography>
@@ -178,11 +178,11 @@ const AccountsCard: React.FC<Props> = ({ accounts, onSelect }) => {
   return (
     <FlexBox
       position='relative'
-      direction='column'
-      gap={8}
+      $direction='column'
+      $gap={8}
       p={8}
       background='#012D41'
-      borderRadius='12px'
+      $borderRadius='12px'
       color={theme.ixoWhite}
     >
       {/* Header */}
@@ -192,17 +192,17 @@ const AccountsCard: React.FC<Props> = ({ accounts, onSelect }) => {
         </Typography>
       </FlexBox>
 
-      <FlexBox position='absolute' top={'110px'} left={'0px'} width='100%' justifyContent='center' gap={2}>
+      <FlexBox position='absolute' top={'110px'} left={'0px'} width='100%' $justifyContent='center' $gap={2}>
         {Object.entries(AccountTypeToIconMap).map(([key, Icon]) => (
           <Tooltip key={key} text={capitalize(key) + ' accounts'}>
             <SvgBox
               width='32px'
               height='32px'
-              alignItems='center'
-              justifyContent='center'
-              svgWidth={6}
-              svgHeight={6}
-              borderRadius='100%'
+              $alignItems='center'
+              $justifyContent='center'
+              $svgWidth={6}
+              $svgHeight={6}
+              $borderRadius='100%'
               background={filter[key] ? theme.ixoNewBlue : theme.ixoDarkBlue}
               cursor='pointer'
               onClick={() => setFilter((filter) => ({ ...filter, [key]: !filter[key] }))}

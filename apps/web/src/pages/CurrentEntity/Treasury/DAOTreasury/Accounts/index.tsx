@@ -60,8 +60,8 @@ const Accounts: React.FC = () => {
   )
 
   return (
-    <FlexBox direction='column' gap={6} width='100%' color='white'>
-      <GridContainer columns={2} gridGap={6} width='100%'>
+    <FlexBox $direction='column' $gap={6} width='100%' color='white'>
+      <GridContainer columns={2} $gridGap={6} width='100%'>
         <BalanceCard availableValue={availableValue} stakedValue={'0.00'} />
 
         <AccountsCard
@@ -74,14 +74,14 @@ const Accounts: React.FC = () => {
 
       {selectedAccount ? (
         <>
-          <FlexBox width='100%' alignItems='center' justifyContent='space-between' gap={2}>
-            <FlexBox alignItems='center' gap={2}>
+          <FlexBox width='100%' $alignItems='center' $justifyContent='space-between' $gap={2}>
+            <FlexBox $alignItems='center' $gap={2}>
               <Typography variant='secondary' size='2xl' transform='capitalize'>
                 {selectedAccount.name} Account
               </Typography>
-              <FlexBox alignItems='center' gap={2} px={2} py={1} borderRadius='100px' background={theme.ixoDarkBlue}>
+              <FlexBox $alignItems='center' $gap={2} px={2} py={1} $borderRadius='100px' background={theme.ixoDarkBlue}>
                 {Icon && (
-                  <SvgBox svgWidth={6} svgHeight={6} color={theme.ixoWhite}>
+                  <SvgBox $svgWidth={6} $svgHeight={6} color={theme.ixoWhite}>
                     <Icon />
                   </SvgBox>
                 )}
@@ -103,18 +103,18 @@ const Accounts: React.FC = () => {
             )}
           </FlexBox>
           <CopyToClipboard text={selectedAccount.address} onCopy={() => successToast(`Copied to clipboard`)}>
-            <FlexBox alignItems='center' gap={2} onClick={(e) => e.stopPropagation()} cursor='pointer'>
+            <FlexBox $alignItems='center' $gap={2} onClick={(e) => e.stopPropagation()} cursor='pointer'>
               <Typography variant='secondary' color='blue' hover={{ underline: true }}>
                 {truncateString(selectedAccount.address, 20, 'middle')}
               </Typography>
-              <SvgBox color={theme.ixoNewBlue} svgWidth={6} svgHeight={6}>
+              <SvgBox color={theme.ixoNewBlue} $svgWidth={6} $svgHeight={6}>
                 <CopyIcon />
               </SvgBox>
             </FlexBox>
           </CopyToClipboard>
 
           {/* Grid Layout  */}
-          <GridContainer columns={2} gridGap={6} width='100%' style={expand ? { display: 'none' } : {}}>
+          <GridContainer columns={2} $gridGap={6} width='100%' style={expand ? { display: 'none' } : {}}>
             <FlexBox>
               <Card
                 label='Coins'
@@ -181,7 +181,7 @@ const Accounts: React.FC = () => {
           )}
         </>
       ) : (
-        <FlexBox width='100%' justifyContent='center' color={theme.ixoDarkBlue}>
+        <FlexBox width='100%' $justifyContent='center' color={theme.ixoDarkBlue}>
           <Typography variant='secondary' size='2xl'>
             Select Account to view details
           </Typography>

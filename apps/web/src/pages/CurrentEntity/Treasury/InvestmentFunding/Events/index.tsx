@@ -9,8 +9,8 @@ const Events: React.FC = () => {
   }
 
   return (
-    <FlexBox direction='column' gap={6} width='100%' color='white'>
-      <FlexBox width='100%' justifyContent='space-between' alignItems='center'>
+    <FlexBox $direction='column' $gap={6} width='100%' color='white'>
+      <FlexBox width='100%' $justifyContent='space-between' $alignItems='center'>
         <Typography variant='secondary' size='2xl'>
           Funding Events
         </Typography>

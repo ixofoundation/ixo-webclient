@@ -74,7 +74,7 @@ const SetupVoteOnADAOModal: React.FC<Props> = ({ open, action, onClose, onSubmit
       onSubmit={onSubmit && handleConfirm}
       validate={validate}
     >
-      <FlexBox width='100%' direction='column' gap={2}>
+      <FlexBox width='100%' $direction='column' $gap={2}>
         <Typography size='xl' weight='medium'>
           Select DAO
         </Typography>
@@ -88,7 +88,7 @@ const SetupVoteOnADAOModal: React.FC<Props> = ({ open, action, onClose, onSubmit
       </FlexBox>
 
       {Object.keys(groups).length > 0 && (
-        <FlexBox width='100%' direction='column' gap={2}>
+        <FlexBox width='100%' $direction='column' $gap={2}>
           <Typography size='xl' weight='medium'>
             Select a group
           </Typography>
@@ -106,7 +106,7 @@ const SetupVoteOnADAOModal: React.FC<Props> = ({ open, action, onClose, onSubmit
       )}
 
       {proposals.length > 0 && (
-        <FlexBox width='100%' direction='column' gap={2}>
+        <FlexBox width='100%' $direction='column' $gap={2}>
           <Typography size='xl' weight='medium'>
             Select proposal to vote on
           </Typography>
@@ -121,12 +121,12 @@ const SetupVoteOnADAOModal: React.FC<Props> = ({ open, action, onClose, onSubmit
       )}
 
       {selectedProposal && (
-        <FlexBox width='100%' direction='column' gap={4}>
+        <FlexBox width='100%' $direction='column' $gap={4}>
           <Typography size='xl' weight='medium'>
             {selectedProposal.name}
           </Typography>
 
-          <FlexBox width='100%' direction='column' gap={1}>
+          <FlexBox width='100%' $direction='column' $gap={1}>
             <FlexBox width='100%'>
               <Typography size='md' color='grey700' style={{ flex: '0 0 160px' }}>
                 Status
@@ -162,12 +162,12 @@ const SetupVoteOnADAOModal: React.FC<Props> = ({ open, action, onClose, onSubmit
       )}
 
       {selectedProposal && (
-        <FlexBox width='100%' direction='column' gap={2}>
+        <FlexBox width='100%' $direction='column' $gap={2}>
           <Typography size='xl' weight='medium'>
             Vote
           </Typography>
 
-          <GridContainer width='100%' columns={2} gridGap={2}>
+          <GridContainer width='100%' columns={2} $gridGap={2}>
             <Button
               variant={formData.vote === VoteOption.VOTE_OPTION_YES ? 'primary' : 'secondary'}
               onClick={() => handleUpdateFormData('vote', VoteOption.VOTE_OPTION_YES)}

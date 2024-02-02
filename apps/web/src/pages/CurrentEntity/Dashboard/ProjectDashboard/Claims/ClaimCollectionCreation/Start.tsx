@@ -8,7 +8,7 @@ interface Props {
 }
 const ClaimCollectionCreationStartStep: React.FC<Props> = ({ onSubmit }) => {
   return (
-    <FlexBox width='100%' gap={10} justifyContent='space-between' alignItems='center'>
+    <FlexBox width='100%' $gap={10} $justifyContent='space-between' $alignItems='center'>
       <Typography variant='secondary' size='2xl'>
         Create Claim Collection
       </Typography>
