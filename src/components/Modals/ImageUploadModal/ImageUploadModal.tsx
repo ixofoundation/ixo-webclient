@@ -15,6 +15,7 @@ import { Button } from 'pages/CreateEntity/Components'
 import { Typography } from 'components/Typography'
 import * as Toast from 'utils/toast'
 import { useTheme } from 'styled-components'
+import { useCreateEntity } from 'hooks/createEntity'
 
 const cellNodeEndpoint = PDS_URL
 
@@ -41,6 +42,8 @@ const ImageUploadModal: React.FC<Props> = ({
   const [canSubmit, setCanSubmit] = useState(false)
   const [loading, setLoading] = useState(false)
   const [cropModalOpen, setCropModalOpen] = useState(false)
+  const { uploadPublicDoc } = useCreateEntity()
+  const [imgContentType, setImgContentType] = useState('')
 
   const handleSave = (base64EncodedImage: any): void => {
     if (!base64EncodedImage) {
@@ -49,15 +52,14 @@ const ImageUploadModal: React.FC<Props> = ({
     setLoading(true)
     setTempValue('')
     setCanSubmit(false)
-    blocksyncApi.project
-      .createPublic(base64EncodedImage, cellNodeEndpoint!)
+    uploadPublicDoc(base64EncodedImage.split(',')[1], imgContentType)
       .then((response: any) => {
-        console.log('ImageUploadModal', response)
-        if (response?.result?.key) {
-          const url = new URL(`/public/${response.result.key}`, cellNodeEndpoint)
-          setTempValue(url.href)
-        } else {
-          throw new Error('Error uploading')
+        if (response?.key) {
+          if (response?.url) {
+            setTempValue(response.url)
+          } else {
+            setTempValue(process.env.REACT_APP_PDS_URL + '/' + response.key)
+          }
         }
       })
       .catch(() => {
@@ -81,7 +83,13 @@ const ImageUploadModal: React.FC<Props> = ({
 
       const reader = new FileReader()
       reader.onload = (e: any): void => {
-        setImgSrc(e.target.result)
+        const base64String = e.target.result
+        setImgSrc(base64String)
+
+        // Extract MIME type from the Base64 string
+        const mimeType = base64String.match(/data:([a-zA-Z0-9]+\/[a-zA-Z0-9-.+]+).*,.*/)[1]
+        setImgContentType(mimeType)
+
         setCropModalOpen(true)
       }
       reader.readAsDataURL(file)
