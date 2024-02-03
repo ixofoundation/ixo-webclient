@@ -211,7 +211,7 @@ jobs:
           args: deploy --dir=apps/web/build --prod --filter @ixo-webclient/web  
 
   notify-slack:
-    needs: [build-and-deploy-dev-ixo-earth, build-and-deploy-test-ixo-earth, build-and-deploy-yoma-ixo-earth, dbuild-and-deploy-idcc-ixo-earth]
+    needs: [build-and-deploy-dev-ixo-earth, build-and-deploy-test-ixo-earth, build-and-deploy-yoma-ixo-earth, build-and-deploy-idcc-ixo-earth]
     runs-on: ubuntu-latest
     steps:
       - name: Send URLs to Slack
