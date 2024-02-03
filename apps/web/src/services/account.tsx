@@ -64,12 +64,11 @@ const AccountUpdateService = (): JSX.Element | null => {
       intervalId = setInterval(() => {
         updateBalances()
       }, 1000 * 60) as unknown as number
+    }
 
-      return () => {
-        if (intervalId !== null) {
-          // Clear the interval using the id
-          clearInterval(intervalId)
-        }
+    return () => {
+      if (intervalId !== null) {
+        clearInterval(intervalId)
         intervalId = null
       }
     }
@@ -128,6 +127,10 @@ const AccountUpdateService = (): JSX.Element | null => {
       }
 
       update()
+    }
+
+    return () => {
+      updateNativeTokens({})
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [balances, address])
@@ -189,12 +192,14 @@ const AccountUpdateService = (): JSX.Element | null => {
       cw20BalanceTimer = setInterval(() => {
         update()
       }, 1000 * 60)
-      return () => {
-        if (cw20BalanceTimer !== null) {
-          clearInterval(cw20BalanceTimer)
-          cw20BalanceTimer = null
-        }
+    }
+
+    return () => {
+      if (cw20BalanceTimer !== null) {
+        clearInterval(cw20BalanceTimer)
+        cw20BalanceTimer = null
       }
+      updateCw20Tokens({})
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stakingGroups, address])

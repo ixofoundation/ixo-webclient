@@ -34,7 +34,7 @@ export function TimeLeft({
 export const ConnectModal = () => {
   const { connectWallet, mobile } = useWallet();
   const [qrCodeExpired, setQRCodeExpired] = useState(false);
-  
+
   // Set the initial timeout to be 2 minutes from now
   const twoMinutesInMilliseconds = 120000;
   const initialTimeout = new Date().getTime() + twoMinutesInMilliseconds;
@@ -63,10 +63,10 @@ export const ConnectModal = () => {
   }, [timeLeft]);
 
   const handleRegenerateQR = () => {
-    connectWallet(WalletType.ImpactXMobile)
-    setTimeLeft(twoMinutesInMilliseconds / 1000)
-    setQRCodeExpired(false)
-  }
+    connectWallet(WalletType.ImpactXMobile);
+    setTimeLeft(twoMinutesInMilliseconds / 1000);
+    setQRCodeExpired(false);
+  };
 
   // Conditional rendering based on timeLeft
   if (qrCodeExpired) {
@@ -78,10 +78,7 @@ export const ConnectModal = () => {
         h={"150px"}
       >
         <BrokenLink />
-        <Button
-          variant="outline"
-          onClick={handleRegenerateQR}
-        >
+        <Button variant="outline" onClick={handleRegenerateQR}>
           Regenerate QR
         </Button>
       </Flex>
@@ -102,7 +99,9 @@ export const ConnectModal = () => {
           Scan this QR code with your Impacts X Mobile app
         </Text>
       </Flex>
-      {mobile.timeout! > 0 && <TimeLeft percent={percent} timeLeft={timeLeft} />}
+      {mobile.timeout! > 0 && (
+        <TimeLeft percent={percent} timeLeft={timeLeft} />
+      )}
       {mobile.qr && (
         <QRCodeSVG
           value={mobile.qr}
