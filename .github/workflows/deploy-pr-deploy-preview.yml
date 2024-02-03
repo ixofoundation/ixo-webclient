@@ -57,6 +57,7 @@ jobs:
 
 
   build-and-deploy-dev-ixo-earth:
+    needs: [install-dependencies]
     runs-on: ubuntu-latest
     environment: dev
     outputs:
@@ -90,6 +91,7 @@ jobs:
           args: deploy --dir=apps/web/build --filter @ixo-webclient/web   # Update --dir with the directory of your build output
 
   build-and-deploy-test-ixo-earth:
+    needs: [install-dependencies]
     runs-on: ubuntu-latest
     environment: dev
     outputs:
@@ -132,6 +134,7 @@ jobs:
         args: deploy --dir=apps/web/build --filter @ixo-webclient/web   # Update --dir with the directory of your build output
 
   build-and-deploy-yoma-ixo-earth:
+    needs: [install-dependencies]
     runs-on: ubuntu-latest
     environment: dev
     outputs:
@@ -172,6 +175,7 @@ jobs:
           args: deploy --dir=apps/web/build --filter @ixo-webclient/web  
 
   build-and-deploy-idcc-ixo-earth:
+    needs: [install-dependencies]
     runs-on: ubuntu-latest
     environment: dev
     outputs:
