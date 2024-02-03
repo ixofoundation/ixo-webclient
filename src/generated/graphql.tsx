@@ -4520,13 +4520,8 @@ export function useEntitiesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<E
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<EntitiesQuery, EntitiesQueryVariables>(EntitiesDocument, options);
         }
-export function useEntitiesSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<EntitiesQuery, EntitiesQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<EntitiesQuery, EntitiesQueryVariables>(EntitiesDocument, options);
-        }
 export type EntitiesQueryHookResult = ReturnType<typeof useEntitiesQuery>;
 export type EntitiesLazyQueryHookResult = ReturnType<typeof useEntitiesLazyQuery>;
-export type EntitiesSuspenseQueryHookResult = ReturnType<typeof useEntitiesSuspenseQuery>;
 export type EntitiesQueryResult = Apollo.QueryResult<EntitiesQuery, EntitiesQueryVariables>;
 export const EntityDocument = gql`
     query entity($id: String!) {
@@ -4587,13 +4582,8 @@ export function useEntityLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Ent
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<EntityQuery, EntityQueryVariables>(EntityDocument, options);
         }
-export function useEntitySuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<EntityQuery, EntityQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<EntityQuery, EntityQueryVariables>(EntityDocument, options);
-        }
 export type EntityQueryHookResult = ReturnType<typeof useEntityQuery>;
 export type EntityLazyQueryHookResult = ReturnType<typeof useEntityLazyQuery>;
-export type EntitySuspenseQueryHookResult = ReturnType<typeof useEntitySuspenseQuery>;
 export type EntityQueryResult = Apollo.QueryResult<EntityQuery, EntityQueryVariables>;
 export const GetAccountTokensDocument = gql`
     query GetAccountTokens($address: String!, $name: String) {
@@ -4626,13 +4616,8 @@ export function useGetAccountTokensLazyQuery(baseOptions?: Apollo.LazyQueryHookO
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetAccountTokensQuery, GetAccountTokensQueryVariables>(GetAccountTokensDocument, options);
         }
-export function useGetAccountTokensSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetAccountTokensQuery, GetAccountTokensQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetAccountTokensQuery, GetAccountTokensQueryVariables>(GetAccountTokensDocument, options);
-        }
 export type GetAccountTokensQueryHookResult = ReturnType<typeof useGetAccountTokensQuery>;
 export type GetAccountTokensLazyQueryHookResult = ReturnType<typeof useGetAccountTokensLazyQuery>;
-export type GetAccountTokensSuspenseQueryHookResult = ReturnType<typeof useGetAccountTokensSuspenseQuery>;
 export type GetAccountTokensQueryResult = Apollo.QueryResult<GetAccountTokensQuery, GetAccountTokensQueryVariables>;
 export const MessagesDocument = gql`
     query Messages($first: Int, $filter: MessageFilter) {
@@ -4688,11 +4673,6 @@ export function useMessagesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<M
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<MessagesQuery, MessagesQueryVariables>(MessagesDocument, options);
         }
-export function useMessagesSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<MessagesQuery, MessagesQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<MessagesQuery, MessagesQueryVariables>(MessagesDocument, options);
-        }
 export type MessagesQueryHookResult = ReturnType<typeof useMessagesQuery>;
 export type MessagesLazyQueryHookResult = ReturnType<typeof useMessagesLazyQuery>;
-export type MessagesSuspenseQueryHookResult = ReturnType<typeof useMessagesSuspenseQuery>;
 export type MessagesQueryResult = Apollo.QueryResult<MessagesQuery, MessagesQueryVariables>;
