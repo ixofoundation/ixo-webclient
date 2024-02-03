@@ -1,4 +1,4 @@
-name: Build and Deploy to Netlify
+name: Build and deploy to development environments
 on:
   push:
     branches:
