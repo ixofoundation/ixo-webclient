@@ -35,28 +35,7 @@ env:
   NODE_ENV: ${{ vars.NODE_ENV }}
 
 jobs:
-  install-dependencies:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18.18.2'
-
-      - name: Install Dependencies
-        run: yarn
-
-      - name: Upload node_modules to Artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: node_modules
-          path: node_modules
-
-
   build-and-deploy-dev-ixo-earth:
-    needs: [install-dependencies]
     runs-on: ubuntu-latest
     environment: dev
     outputs:
@@ -69,11 +48,8 @@ jobs:
         with:
           node-version: '18.18.2'  # Node Version
 
-      - name: Download node_modules from Artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: node_modules
-          path: .
+      - name: Install Dependencies
+        run: yarn
 
       - name: Build
         run: |
@@ -90,7 +66,6 @@ jobs:
           args: deploy --dir=apps/web/build --prod --filter @ixo-webclient/web   # Update --dir with the directory of your build output
 
   build-and-deploy-test-ixo-earth:
-    needs: [install-dependencies]
     runs-on: ubuntu-latest
     environment: dev
     outputs:
@@ -103,11 +78,8 @@ jobs:
       with:
         node-version: '18.18.2'  # Node Version
 
-    - name: Download node_modules from Artifact
-      uses: actions/download-artifact@v3
-      with:
-        name: node_modules
-        path: .
+    - name: Install Dependencies
+      run: yarn
 
     - name: Build
       env:
@@ -133,7 +105,6 @@ jobs:
         args: deploy --dir=apps/web/build --prod --filter @ixo-webclient/web   # Update --dir with the directory of your build output
 
   build-and-deploy-yoma-ixo-earth:
-    needs: [install-dependencies]
     runs-on: ubuntu-latest
     environment: dev
     outputs:
@@ -146,11 +117,8 @@ jobs:
         with:
           node-version: '18.18.2'  # Node Version
 
-      - name: Download node_modules from Artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: node_modules
-          path: .
+      - name: Install Dependencies
+        run: yarn
 
       - name: Build
         env:
@@ -174,7 +142,6 @@ jobs:
           args: deploy --dir=apps/web/build --prod --filter @ixo-webclient/web  
 
   build-and-deploy-idcc-ixo-earth:
-    needs: [install-dependencies]
     runs-on: ubuntu-latest
     environment: dev
     outputs:
@@ -187,11 +154,8 @@ jobs:
         with:
           node-version: '18.18.2'  # Node Version
 
-      - name: Download node_modules from Artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: node_modules
-          path: .
+      - name: Install Dependencies
+        run: yarn
 
       - name: Build
         env:
