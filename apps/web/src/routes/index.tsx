@@ -23,7 +23,7 @@ const App: React.FunctionComponent = () => {
     if (splashIsRootRoute) {
       navigate('/')
     } else {
-      navigate('/explore?ThisIsNotHowWeDo=0')
+      navigate('/explore?type=dao')
     }
 
     // eslint-disable-next-line
