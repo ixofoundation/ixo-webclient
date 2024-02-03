@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import CircleTab from './components/CircleTab'
 import { ReactComponent as ProfileIcon } from 'assets/images/icon-profile.svg'
 import { ReactComponent as DAOIcon } from 'assets/images/icon-dao.svg'
@@ -18,6 +18,7 @@ import AssistantCard from './Assistant'
 import { useEntityConfig } from 'hooks/configs'
 import { Flex, ScrollArea } from '@mantine/core'
 import styled from 'styled-components'
+import { useAccount } from 'hooks/account'
 
 const StyledScrollArea = styled(ScrollArea)`
   & > div > div {
@@ -30,7 +31,16 @@ interface Props {
 }
 const ControlPanel: React.FC<Props> = ({ tab }) => {
   const { controlPanelSchema: schema } = useEntityConfig()
+  const { address } = useAccount()
   const [activeTab, setActiveTab] = useState<'profile' | 'detail' | 'feed' | 'message' | 'assistant'>(tab || 'profile')
+
+  useEffect(() => {
+    if (!address) {
+      setActiveTab('detail')
+    } else {
+      setActiveTab('profile')
+    }
+  }, [address])
 
   const renderProfile = () => (
     <>
@@ -79,7 +89,7 @@ const ControlPanel: React.FC<Props> = ({ tab }) => {
     >
       <StyledScrollArea h='100%'>
         <Flex w='100%' direction='column' gap={24} p={20} pt={32}>
-          {activeTab === 'profile' && renderProfile()}
+          {address && activeTab === 'profile' && renderProfile()}
           {activeTab === 'detail' && renderDetail()}
           {activeTab === 'feed' && renderFeed()}
           {activeTab === 'message' && renderMessages()}
@@ -87,7 +97,9 @@ const ControlPanel: React.FC<Props> = ({ tab }) => {
         </Flex>
       </StyledScrollArea>
       <Flex w='100%' bg='#D7DFED' p={20} justify='space-around' align='center' wrap='wrap' gap={16}>
-        <CircleTab icon={<ProfileIcon />} active={activeTab === 'profile'} onClick={() => setActiveTab('profile')} />
+        {address && (
+          <CircleTab icon={<ProfileIcon />} active={activeTab === 'profile'} onClick={() => setActiveTab('profile')} />
+        )}
         <CircleTab icon={<DAOIcon />} active={activeTab === 'detail'} onClick={() => setActiveTab('detail')} />
         <CircleTab icon={<BellIcon />} active={activeTab === 'feed'} onClick={() => setActiveTab('feed')} badge={12} />
         <CircleTab
