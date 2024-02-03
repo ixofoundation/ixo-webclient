@@ -40,7 +40,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: dev
     outputs:
-      url: ${{ steps.deploy_step.outputs.NETLIFY_URL }}
+      url: ${{ steps.dev_ixo_earth_dev_deploy.outputs.NETLIFY_URL }}
     steps:
       - uses: actions/checkout@v4
 
@@ -70,7 +70,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: dev
     outputs:
-      url: ${{ steps.deploy_step.outputs.NETLIFY_URL }}
+      url: ${{ steps.test_ixo_earth_dev_deploy.outputs.NETLIFY_URL }}
     steps:
     - uses: actions/checkout@v4
 
@@ -109,7 +109,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: dev
     outputs:
-      url: ${{ steps.deploy_step.outputs.NETLIFY_URL }}
+      url: ${{ steps.yoma_ixo_earth_dev_deploy.outputs.NETLIFY_URL }}
     steps:
       - uses: actions/checkout@v4
 
@@ -146,7 +146,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: dev
     outputs:
-      url: ${{ steps.deploy_step.outputs.NETLIFY_URL }}
+      url: ${{ steps.idcc_ixo_earth_dev_deploy.outputs.NETLIFY_URL }}
     steps:
       - uses: actions/checkout@v4
 
