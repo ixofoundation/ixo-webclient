@@ -13,7 +13,9 @@ import { Button } from 'pages/CreateEntity/Components'
 import { Typography } from 'components/Typography'
 import * as Toast from 'utils/toast'
 import { useTheme } from 'styled-components'
-import { useCreateEntity } from 'hooks/createEntity'
+import { customQueries } from '@ixo/impactxclient-sdk'
+import { CellnodePublicResource } from '@ixo/impactxclient-sdk/types/custom_queries/cellnode'
+import { chainNetwork } from 'hooks/configs'
 
 interface Props {
   open: boolean
@@ -34,12 +36,16 @@ const ImageUploadModal: React.FC<Props> = ({
 }): JSX.Element => {
   const theme: any = useTheme()
   const [imgSrc, setImgSrc] = useState(undefined)
+  const [imgContentType, setImgContentType] = useState('')
   const [tempValue, setTempValue] = useState(value)
   const [canSubmit, setCanSubmit] = useState(false)
   const [loading, setLoading] = useState(false)
   const [cropModalOpen, setCropModalOpen] = useState(false)
-  const { uploadPublicDoc } = useCreateEntity()
-  const [imgContentType, setImgContentType] = useState('')
+
+  const uploadPublicDoc = async (data: string, contentType: string): Promise<CellnodePublicResource | Error> => {
+    const response = await customQueries.cellnode.uploadPublicDoc(contentType, data, undefined, chainNetwork)
+    return response
+  }
 
   const handleSave = (base64EncodedImage: any): void => {
     if (!base64EncodedImage) {
@@ -48,6 +54,7 @@ const ImageUploadModal: React.FC<Props> = ({
     setLoading(true)
     setTempValue('')
     setCanSubmit(false)
+
     uploadPublicDoc(base64EncodedImage.split(',')[1], imgContentType)
       .then((response: any) => {
         if (response?.key) {

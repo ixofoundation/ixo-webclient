@@ -1098,6 +1098,6 @@ export function useCreateEntity(): TCreateEntityHookRes {
         CreateEntityBase,
         CreateDAOCoreByGroupId,
         UploadDataToService,
-        uploadPublicDoc
+        uploadPublicDoc,
     }
 }

@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import * as Modal from 'react-modal'
+import blocksyncApi from 'api/blocksync/blocksync'
 import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
 import { ModalStyles, CloseButton } from 'components/Modals/styles'
 import { TEntityCreatorModel, PDS_URL } from 'types/entities'
@@ -12,7 +13,6 @@ import ImageCropModal from '../ImageCropModal/ImageCropModal'
 import PulseLoader from 'components/Spinner/PulseLoader/PulseLoader'
 import { deviceWidth } from 'constants/device'
 import { useTheme } from 'styled-components'
-import { useCreateEntity } from 'hooks/createEntity'
 
 const cellNodeEndpoint = PDS_URL
 
@@ -31,9 +31,6 @@ const CreatorSetupModal: React.FC<Props> = ({ creator, title, open, onClose, onC
   const [cropModalOpen, setCropModalOpen] = useState(false)
   const [loading, setLoading] = useState(false)
   const [imgSrc, setImgSrc] = useState(undefined)
-  const [imgContentType, setImgContentType] = useState('')
-  const { uploadPublicDoc } = useCreateEntity()
-
   const disabled = useMemo(
     () =>
       !formData?.id ||
@@ -61,12 +58,7 @@ const CreatorSetupModal: React.FC<Props> = ({ creator, title, open, onClose, onC
 
       const reader = new FileReader()
       reader.onload = (e: any): void => {
-        const base64String = e.target.result
-        setImgSrc(base64String)
-
-        // Extract MIME type from the Base64 string
-        const mimeType = base64String.match(/data:([a-zA-Z0-9]+\/[a-zA-Z0-9-.+]+).*,.*/)[1]
-        setImgContentType(mimeType)
+        setImgSrc(e.target.result)
         setCropModalOpen(true)
       }
       reader.readAsDataURL(file)
@@ -109,15 +101,19 @@ const CreatorSetupModal: React.FC<Props> = ({ creator, title, open, onClose, onC
       return
     }
     setLoading(true)
-    uploadPublicDoc(base64EncodedImage.split(',')[1], imgContentType).then((response: any) => {
-      if (response?.key) {
-        if (response?.url) {
-          handleFormDataChange('logo', response.url)
+    blocksyncApi.project
+      .createPublic(base64EncodedImage, cellNodeEndpoint!)
+      .then((response: any) => {
+        if (response?.result?.key) {
+          const url = new URL(`/public/${response.result.key}`, cellNodeEndpoint)
+          handleFormDataChange('logo', url.href)
         } else {
-          handleFormDataChange('logo', process.env.REACT_APP_PDS_URL + '/' + response.key)
+          throw new Error('Error uploading')
         }
-      }
-    })
+      })
+      .catch(() => {
+        setLoading(false)
+      })
   }
 
   return (
