@@ -110,12 +110,15 @@ const ClaimCollectionCreation: React.FC = () => {
         },
       ]
       const createCollectionRes = await CreateCollection(signingClient, signer, payload)
-      if (createCollectionRes.code) {
-        throw createCollectionRes.rawLog
+
+      const response = (await execute(createCollectionRes)) as unknown as DeliverTxResponse
+
+      if (response.code) {
+        throw response.rawLog
       }
       successToast(null, 'Create Collection successfully!')
       const collectionId = utils.common.getValueFromEvents(
-        createCollectionRes,
+        response,
         'ixo.claims.v1beta1.CollectionCreatedEvent',
         'collection',
         (c) => c.id,
