@@ -83,7 +83,7 @@ jobs:
 
     - name: Build
       env:
-        REACT_APP_RELAYER_NODE: did:ixo:entity:2f22535f8b179a51d77a0e302e68d35d
+        REACT_APP_RELAYER_NODE: did:ixo:entity:3d079ebc0b332aad3305bb4a51c72edb
         REACT_APP_CONFIG_ASSETLIST_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/testzone/asset-list.json
         REACT_APP_CONFIG_EXCHANGE_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/testzone/exchange.json
         REACT_APP_CONFIG_RELAYER_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/testzone/app-config.json 
