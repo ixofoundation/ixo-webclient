@@ -1,0 +1,21 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "pipeline": {
+    "build": {
+      "outputs": ["build/**"],
+      "dependsOn": ["^build"]
+    },
+    "lint": {},
+    "dev": {},
+    "storybook": {},
+    "@ixo-webclient/web#dev": {
+      "dependsOn": ["@ixo-webclient/types#dev", "@ixo-webclient/wallet-connector#dev"]
+    },
+    "@ixo-webclient/web#build": {
+      "dependsOn": ["@ixo-webclient/wallet-connector#build"]
+    },
+    "@ixo-webclient/wallet-connector#build": {
+      "dependsOn": ["@ixo-webclient/types#build"]
+    }
+  }
+}

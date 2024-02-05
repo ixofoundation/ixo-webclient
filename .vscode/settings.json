@@ -1,15 +1,5 @@
 {
-  "workbench.colorCustomizations": {
-    "activityBar.background": "#436779"
-  },
-  "files.associations": {
-    "*.jsx": "javascriptreact"
-  },
-  "editor.insertSpaces": true,
-  "editor.detectIndentation": false,
-  "editor.formatOnSave": true,
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit"
-  },
-  "deepscan.enable": true
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": "explicit"
+    }
 }

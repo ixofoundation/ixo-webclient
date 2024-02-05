@@ -5,7 +5,7 @@ version: 2.1
 # --------------------------------
 
 orbs:
-  node: circleci/node@5.0.3
+  node: circleci/node@5.2.0
 
 # --------------------------------
 # env
@@ -45,7 +45,7 @@ jobs:
   test:
     executor:
       name: node/default
-      tag: '16.18.1'
+      tag: '18.18.2'
     parallelism: 5
     steps:
       - checkout
@@ -55,7 +55,7 @@ jobs:
       - run:
           command: |
             shopt -s globstar
-            TEST=$(ls src/*.test.ts | circleci tests split --split-by=name)
+            TEST=$(ls apps/web/src/*.test.ts | circleci tests split --split-by=name)
             yarn test $TEST
           name: Run tests
 
