@@ -61,7 +61,7 @@ export const reducer = (state = initialState, action: TCreateEntityActionTypes):
       return {
         stepNo: initialState.stepNo,
         entityType: action.payload,
-        service: [initialIpfsService],
+        service: [initialCellnodeService, initialIpfsService],
         ...savedState,
       }
     }

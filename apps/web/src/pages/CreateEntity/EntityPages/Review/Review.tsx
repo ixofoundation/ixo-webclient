@@ -18,11 +18,13 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { ReactComponent as CheckCircleIcon } from 'assets/images/icon-check-circle.svg'
 import { ReactComponent as ExclamationIcon } from 'assets/images/icon-exclamation-circle.svg'
 import { useTheme } from 'styled-components'
-import { CreationSuccessScreen } from './DaoCreationSuccessScreen'
+import { CreationSuccessScreen } from './CreationSuccessScreen'
 import { createEntityCard, withEntityData } from 'components'
 import { EntityType } from 'types/entities'
+import { Box } from '@mantine/core'
+import { toExternalEntityType } from 'utils/entities'
 
-const ReviewDAO: React.FC = (): JSX.Element => {
+const Review: React.FC = (): JSX.Element => {
   const theme: any = useTheme()
   const navigate = useNavigate()
   const createEntityState = useCreateEntityState()
@@ -91,7 +93,7 @@ const ReviewDAO: React.FC = (): JSX.Element => {
       controller = controller.concat([utils.did.generateWasmDid(daoControllerAddress)])
     }
 
-    // Create Protocol for dao
+    // Create Protocol for an entity
     const protocolDid = await CreateProtocol()
     if (!protocolDid) {
       setSubmitting(false)
@@ -99,7 +101,7 @@ const ReviewDAO: React.FC = (): JSX.Element => {
       return
     }
 
-    // Create DAO entity
+    // Create an entity
     const { did: entityDid } = await CreateEntityBase(entityType, protocolDid, {
       service,
       linkedResource,
@@ -123,7 +125,11 @@ const ReviewDAO: React.FC = (): JSX.Element => {
   const renderEntityCard = (type: string, entity: any) => {
     const EntityCard = createEntityCard(type as EntityType)
     const WrappedEntityCard = withEntityData(EntityCard)
-    return <WrappedEntityCard key={entity.id} {...entity} width='40%' $boxShadow='0px 4px 8px rgba(0, 0, 0, 0.1)' />
+    return (
+      <Box w='360px' style={{ boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)' }}>
+        <WrappedEntityCard {...entity} />
+      </Box>
+    )
   }
 
   return (
@@ -159,7 +165,7 @@ const ReviewDAO: React.FC = (): JSX.Element => {
               <Button
                 variant='primary'
                 onClick={() => {
-                  navigate(`/explore?type=${entityType}`)
+                  navigate(`/explore?type=${toExternalEntityType(entityType)}`)
                   clearEntity()
                 }}
                 style={{ width: '100%' }}
@@ -202,4 +208,4 @@ const ReviewDAO: React.FC = (): JSX.Element => {
   )
 }
 
-export default ReviewDAO
+export default Review

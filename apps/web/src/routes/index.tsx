@@ -40,7 +40,10 @@ const App: React.FunctionComponent = () => {
         path='*'
         element={
           <Flex h='100vh' w='100vw' justify='center' align='center'>
-            Nothing found in App maaaaan
+            <Flex w={500}>
+              We encountered an issue and a detailed error message has been sent to our team. For now, click the Explore
+              button to go back to the home page.
+            </Flex>
           </Flex>
         }
       />
