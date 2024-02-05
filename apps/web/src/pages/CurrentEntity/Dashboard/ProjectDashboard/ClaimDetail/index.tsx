@@ -1,3 +1,5 @@
+import { DeliverTxResponse } from '@cosmjs/stargate'
+import { useWallet } from '@ixo-webclient/wallet-connector'
 import { customQueries, ixo } from '@ixo/impactxclient-sdk'
 import { EvaluationStatus } from '@ixo/impactxclient-sdk/types/codegen/ixo/claims/v1beta1/claims'
 import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
@@ -22,12 +24,13 @@ const ClaimDetail: React.FC = () => {
   const collectionId = claim?.collection?.id ?? ''
   const evaluationStatus = (claim?.evaluationByClaimId?.status ?? 0) as EvaluationStatus
   const templateEntity = useGetClaimTemplateEntityByClaimId(claimId)
-  const { signingClient, signer } = useAccount()
+  const { signer } = useAccount()
   const adminAddress = useCurrentEntityAdminAccount()
 
   const [questionFormData, setQuestionFormData] = useState<any[]>([])
   const [answerData, setAnswerData] = useState<any>({})
   const [evaluating, setEvaluating] = useState(false)
+  const { execute } = useWallet()
 
   useEffect(() => {
     if (claimId) {
@@ -93,9 +96,12 @@ const ClaimDetail: React.FC = () => {
         throw new Error('Invalid args')
       }
       const payload = { claimId, collectionId, adminAddress, status }
-      const res = await MsgExecAgentEvaluate(signingClient, signer, payload)
-      if (res.code !== 0) {
-        throw res.rawLog
+      const execAgentEvaluatePayload = await MsgExecAgentEvaluate(signer, payload)
+
+      const response = (await execute(execAgentEvaluatePayload)) as unknown as DeliverTxResponse
+
+      if (response.code !== 0) {
+        throw response.rawLog
       }
       successToast('Evaluation succeed')
     } catch (e: any) {
