@@ -3896,27 +3896,7 @@
         "tags": [
           {
             "@type": "sector",
-            "name": "Test Launchpad",
-            "icon": "portfolio.svg"
-          },
-          {
-            "@type": "sector",
             "name": "IDCC",
-            "icon": "portfolio.svg"
-          },
-          {
-            "@type": "sector",
-            "name": "UBS Zone",
-            "icon": "portfolio.svg"
-          },
-          {
-            "@type": "sector",
-            "name": "Campaign",
-            "icon": "portfolio.svg"
-          },
-          {
-            "@type": "sector",
-            "name": "EdHeroes",
             "icon": "portfolio.svg"
           }
         ]
