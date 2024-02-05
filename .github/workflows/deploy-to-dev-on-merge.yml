@@ -174,7 +174,7 @@ jobs:
           export NODE_OPTIONS="--max_old_space_size=8192"
           yarn build  # Build Script
 
-      - name: Deploy to idcc.ixo.earth deploy preview
+      - name: Deploy to idcc.ixo.earth deploy
         uses: netlify/actions/cli@master
         id: idcc_ixo_earth_dev_deploy
         env:
