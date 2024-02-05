@@ -13,6 +13,10 @@ import { DashboardThemeContext } from 'components/Dashboard/Dashboard'
 const DISPLAY_FORMAT = 'DD-MMM-YYYY'
 
 const Wrapper = styled.div<{ $isDark: boolean }>`
+    .DateRangePicker_picker {
+      z-index: 9999999999 !important;  
+    }
+
   .DateRangePickerInput {
     display: flex;
     justify-content: space-between;

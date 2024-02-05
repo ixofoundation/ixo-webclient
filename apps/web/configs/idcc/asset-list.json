@@ -1,0 +1,79 @@
+[
+  {
+    "chainId": "devnet-1",
+    "assets": [
+      {
+        "symbol": "IXO",
+        "description": "The test token of the ixo Test Zone",
+        "display": "ixo",
+        "entityId": "did:ixo:2SQ8YLqmbPAkEyd42sKXaY",
+        "assetType": "coin",
+        "base": "uixo",
+        "denomUnits": [
+          {
+            "denom": "ixo",
+            "exponent": 6,
+            "aliases": []
+          }
+        ],
+        "logoURIs": {
+          "png": "https://raw.githubusercontent.com/cosmos/chain-registry/master/impacthub/images/ixo.png",
+          "svg": "https://raw.githubusercontent.com/cosmos/chain-registry/master/impacthub/images/ixo.svg",
+          "zlottie": ""
+        },
+        "isStakeCurrency": "true",
+        "isFeeCurrency": "true",
+        "isBondToken": "false",
+        "coingeckoId": "ixo"
+      },
+      {
+        "symbol": "USDC",
+        "description": "US Dollar Coin",
+        "display": "USDC",
+        "entityId": "did:ixo:usdc",
+        "assetType": "coin",
+        "base": "uusdc",
+        "denomUnits": [
+          {
+            "denom": "usdc",
+            "exponent": 6,
+            "aliases": []
+          }
+        ],
+        "logoURIs": {
+          "png": "https://raw.githubusercontent.com/cosmos/chain-registry/master/noble/images/USDCoin.png",
+          "svg": "https://raw.githubusercontent.com/cosmos/chain-registry/master/noble/images/USDCoin.svg",
+          "zlottie": ""
+        },
+        "isStakeCurrency": "false",
+        "isFeeCurrency": "true",
+        "isBondToken": "false",
+        "coingeckoId": "usdc"
+      },
+      {
+        "symbol": "IDCC",
+        "description": "The IDCC Community Currency",
+        "display": "idcc",
+        "entityId": "did:ixo:idcc",
+        "assetType": "token",
+        "base": "idcc",
+        "denomUnits": [
+          {
+            "denom": "idcc",
+            "exponent": 0,
+            "aliases": []
+          }
+        ],
+        "logoURIs": {
+          "png": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/impact/apps/web/src/assets/images/idcc.jpg",
+          "svg": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/impact/apps/web/src/assets/images/idcc-logo.svg",
+          "zlottie": ""
+        },
+        "isStakeCurrency": "false",
+        "isFeeCurrency": "true",
+        "isBondToken": "false",
+        "contractAddress": "YOUR_IMPACT_TOKEN_CONTRACT_ADDRESS"
+      }
+    ]
+  }
+]
