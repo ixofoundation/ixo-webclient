@@ -3,6 +3,7 @@
     "fontFamily": "Lato",
     "primaryColor": "#6587a4",
     "secondaryColor": "#FFFFFF",
+    "backgroundColor": "#F6F6F6",
     "highlight": {
       "light": "#6587A4",
       "dark": "#536B80"
@@ -12,6 +13,10 @@
     "logo": "idcc-logo",
     "explorer": {
       "defaultView": "project"
+    },
+    "head": {
+      "title": "IDCC",
+      "icon": "idcc.png"
     },
     "topMenu": [
       {
@@ -27,33 +32,23 @@
     "footer": {
       "mailTo": {
         "text": "Email",
-        "email": "info@ixo.world"
+        "email": "info@idcc.hk"
       },
-      "address": "ixo.world Herrengasse 30, 9490 Vaduz, Liechtenstein",
+      "address": "IDCC 505A 5/F 336 Kwun Tong Road Kwun Tong KL",
       "privacyPolicy": {
         "text": "Privacy policy",
         "href": "https://www.ixo.world/privacy-policy"
       },
       "socials": {
         "twitter": {
-          "title": "Twitter",
-          "href": "https://twitter.com/ixoworld?lang=en",
-          "iconClassName": "icon-twitter"
-        },
-        "github": {
-          "title": "Github",
-          "href": "https://github.com/ixofoundation",
-          "iconClassName": "icon-github"
+          "title": "Facebook",
+          "href": "https://www.facebook.com/idcchk/",
+          "iconClassName": "icon-facebook"
         },
         "medium": {
           "title": "Medium",
-          "href": "https://medium.com/ixo-blog",
+          "href": "https://idcchk.medium.com/",
           "iconClassName": "icon-medium"
-        },
-        "telegram": {
-          "title": "Telegram",
-          "href": "https://t.me/joinchat/Ejz5exAfFUzcBMRlaYLecQ",
-          "iconClassName": "icon-telegram"
         }
       }
     }
