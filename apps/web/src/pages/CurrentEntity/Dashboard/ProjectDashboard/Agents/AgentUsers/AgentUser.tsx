@@ -1,3 +1,5 @@
+import { DeliverTxResponse } from '@cosmjs/stargate'
+import { useWallet } from '@ixo-webclient/wallet-connector'
 import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { useAccount } from 'hooks/account'
@@ -20,6 +22,7 @@ const AgentUserCard: React.FC<IAgent & { noAction?: boolean }> = ({ address, rol
   const { signingClient, signer } = useAccount()
   const adminAddress = useCurrentEntityAdminAccount()
   const [granting, setGranting] = useState(false)
+  const { execute } = useWallet()
 
   const handleGrant = async () => {
     try {
@@ -35,7 +38,10 @@ const AgentUserCard: React.FC<IAgent & { noAction?: boolean }> = ({ address, rol
           agentQuota: 10,
           overrideCurretGrants: false,
         }
-        const response = await GrantEntityAccountClaimsSubmitAuthz(signingClient, signer, payload)
+        const grantEntityAccountClaimSubmitAuthZPayload = await GrantEntityAccountClaimsSubmitAuthz(signingClient, signer, payload)
+
+         const response = (await execute(grantEntityAccountClaimSubmitAuthZPayload)) as unknown as DeliverTxResponse
+
         if (response.code !== 0) {
           throw response.rawLog
         }
@@ -49,7 +55,10 @@ const AgentUserCard: React.FC<IAgent & { noAction?: boolean }> = ({ address, rol
           agentQuota: 10,
           overrideCurretGrants: false,
         }
-        const response = await GrantEntityAccountClaimsEvaluateAuthz(signingClient, signer, payload)
+        const grantEntityAccountClaimsEvaluateAuthZPayload = await GrantEntityAccountClaimsEvaluateAuthz(signingClient, signer, payload)
+
+        const response = (await execute(grantEntityAccountClaimsEvaluateAuthZPayload)) as unknown as DeliverTxResponse
+        
         if (response.code !== 0) {
           throw response.rawLog
         }

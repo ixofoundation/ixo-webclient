@@ -34,7 +34,7 @@ const ClaimCollectionCreationScopeStep: React.FC<Props> = ({ hidden, onSubmit, o
               id='protocol'
               startDate={period.startDate || ''}
               endDate={period.endDate || ''}
-              openDirection='up'
+              openDirection='down'
               onChange={(startDate, endDate) => {
                 setPeriod({ startDate, endDate })
               }}

@@ -12,13 +12,14 @@ import { errorToast, successToast } from 'utils/toast'
 import { Model } from 'survey-core'
 import { Survey } from 'survey-react-ui'
 import { themeJson } from 'styles/surveyTheme'
-import { selectAccountSigningClient } from 'redux/account/account.selectors'
-import { SigningStargateClient, customQueries } from '@ixo/impactxclient-sdk'
+import { customQueries } from '@ixo/impactxclient-sdk'
 import { selectEntityClaim } from 'redux/currentEntity/currentEntity.selectors'
 import { useGetClaimCollectionByEntityIdAndClaimTemplateId } from 'graphql/claims'
 import { useGetEntityById } from 'graphql/entities'
 import { CellnodePublicResource } from '@ixo/impactxclient-sdk/types/custom_queries/cellnode'
 import { chainNetwork } from 'hooks/configs'
+import { useWallet } from '@ixo-webclient/wallet-connector'
+import { DeliverTxResponse } from '@cosmjs/stargate'
 
 interface Props {
   claimId: string
@@ -27,9 +28,11 @@ interface Props {
 const ClaimForm: React.FC<Props> = ({ claimId }) => {
   const { entityId = '' } = useParams<{ entityId: string }>()
   const signer = useSigner()
-  const signingClient: SigningStargateClient = useAppSelector(selectAccountSigningClient)
+  
   const claim: { [id: string]: TEntityClaimModel } = useAppSelector(selectEntityClaim)
 
+  const { execute } = useWallet()
+ 
   const adminAddress = useCurrentEntityAdminAccount()
   const selectedClaim: TEntityClaimModel = claim[claimId]
 
@@ -79,12 +82,13 @@ const ClaimForm: React.FC<Props> = ({ claimId }) => {
         )
         const claimId = res.key
 
-        const response = await MsgExecAgentSubmit(signingClient, signer, {
+        const execAgentSubmitPayload = await MsgExecAgentSubmit(signer, {
           claimId,
           collectionId,
           adminAddress,
         })
 
+        const response = await execute(execAgentSubmitPayload) as unknown as DeliverTxResponse
         if (response.code !== 0) {
           throw response.rawLog
         }
@@ -97,7 +101,7 @@ const ClaimForm: React.FC<Props> = ({ claimId }) => {
         return false
       }
     },
-    [adminAddress, claimCollection?.id, signer, signingClient],
+    [adminAddress, claimCollection?.id, signer, execute],
   )
 
   const survey = useMemo(() => {
