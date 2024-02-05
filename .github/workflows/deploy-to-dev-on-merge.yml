@@ -144,7 +144,7 @@ jobs:
         id: yoma_ixo_earth_dev_deploy
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: 8095507c-1245-49e1-9f54-167b18c2de4b  # Replace with your Netlify Site ID
+          NETLIFY_SITE_ID: ffd81e41-b107-4846-a472-4a69bf1991d3  # Replace with your Netlify Site ID
         with:
           args: deploy --dir=apps/web/build --prod --filter @ixo-webclient/web  
 
