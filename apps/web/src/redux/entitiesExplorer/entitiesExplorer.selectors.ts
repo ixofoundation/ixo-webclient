@@ -12,6 +12,7 @@ const relayerNode = process.env.REACT_APP_RELAYER_NODE
 const formatDate = (date: string): string => moment(date).format("D MMM \\'YY")
 
 export const selectEntitiesState = (state: RootState): EntitiesExplorerState => state.entities
+const selectConfigsState = (state: RootState) => state.configs?.entityConfig
 
 export const selectAllEntities = createSelector(
   selectEntitiesState,
@@ -322,11 +323,11 @@ export const selectEntityConfig = createSelector(
   },
 )
 
-export const selectEntityUIConfig = createSelector(selectEntityConfig, (entityConfig: EntityConfig): any => {
+export const selectEntityUIConfig = createSelector(selectConfigsState, (entityConfig: any): any => {
   return entityConfig?.UI
 })
 
-export const selectEntityThemeConfig = createSelector(selectEntityConfig, (entityConfig: EntityConfig): any => {
+export const selectEntityThemeConfig = createSelector(selectConfigsState, (entityConfig: EntityConfig): any => {
   return entityConfig?.theme
 })
 
