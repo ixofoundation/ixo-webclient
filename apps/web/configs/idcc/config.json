@@ -12,7 +12,7 @@
   "UI": {
     "logo": "idcc-logo",
     "explorer": {
-      "defaultView": "project"
+      "defaultView": "dao"
     },
     "head": {
       "title": "IDCC",
@@ -3636,7 +3636,7 @@
       "ddoTags": [
         {
           "@type": "Category",
-          "hidden": false,
+          "hidden": true,
           "name": "Entity",
           "multiSelect": false,
           "tags": [
@@ -3792,7 +3792,7 @@
         },
         {
           "@type": "Category",
-          "hidden": false,
+          "hidden": true,
           "name": "Token Class",
           "multiSelect": true,
           "tags": [
@@ -3883,6 +3883,73 @@
               "@type": "Tag",
               "name": "Archived",
               "icon": "archived.svg"
+            }
+          ]
+        },
+        {
+          "@type": "Category",
+          "hidden": false,
+          "name": "Target Audience",
+          "multiSelect": true,
+          "tags": [
+            {
+              "@type": "Tag",
+              "name": "Security",
+              "icon": "tag.svg"
+            }
+          ]
+        },
+        {
+          "@type": "Category",
+          "hidden": false,
+          "name": "Metric Level",
+          "multiSelect": true,
+          "tags": [
+            {
+              "@type": "Tag",
+              "name": "Individual",
+              "icon": "tag.svg"
+            }
+          ]
+        },
+        {
+          "@type": "Category",
+          "hidden": false,
+          "name": "Impact Category",
+          "multiSelect": true,
+          "tags": [
+            {
+              "@type": "Tag",
+              "name": "Social",
+              "icon": "tag.svg"
+            },
+            {
+              "@type": "Tag",
+              "name": "Employment",
+              "icon": "tag.svg"
+            }
+          ]
+        },
+        {
+          "@type": "Category",
+          "hidden": false,
+          "name": "Impact Theme",
+          "multiSelect": true,
+          "tags": [
+            {
+              "@type": "Tag",
+              "name": "Poverty",
+              "icon": "tag.svg"
+            },
+            {
+              "@type": "Tag",
+              "name": "Social Disadvantage",
+              "icon": "tag.svg"
+            },
+            {
+              "@type": "Tag",
+              "name": "Social Protection",
+              "icon": "tag.svg"
             }
           ]
         }
