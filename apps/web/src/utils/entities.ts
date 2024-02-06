@@ -423,9 +423,12 @@ export function isCellnodeWeb3Resource(object: any): object is CellnodeWeb3Resou
   return 'cid' in object && 'name' in object
 }
 
-export function toExternalEntityType(entityType: string): string {
+export function toRootEntityType(entityType: string): string {
   if (entityType.startsWith('protocol/')) {
     return 'protocol'
+  }
+  if (entityType.startsWith('oracle/')) {
+    return 'oracle'
   }
   return entityType
 }

@@ -22,7 +22,7 @@ import { CreationSuccessScreen } from './CreationSuccessScreen'
 import { createEntityCard, withEntityData } from 'components'
 import { EntityType } from 'types/entities'
 import { Box } from '@mantine/core'
-import { toExternalEntityType } from 'utils/entities'
+import { toRootEntityType } from 'utils/entities'
 
 const Review: React.FC = (): JSX.Element => {
   const theme: any = useTheme()
@@ -165,7 +165,7 @@ const Review: React.FC = (): JSX.Element => {
               <Button
                 variant='primary'
                 onClick={() => {
-                  navigate(`/explore?type=${toExternalEntityType(entityType)}`)
+                  navigate(`/explore?type=${toRootEntityType(entityType)}`)
                   clearEntity()
                 }}
                 style={{ width: '100%' }}
