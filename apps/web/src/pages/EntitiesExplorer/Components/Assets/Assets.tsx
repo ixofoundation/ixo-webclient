@@ -50,7 +50,7 @@ const Assets: React.FC<Props> = (props) => {
   const isMobile = useMediaQuery({ maxWidth: deviceWidth.tablet })
   const isTablet = useMediaQuery({ minWidth: deviceWidth.tablet, maxWidth: deviceWidth.desktop })
   const itemsPerScreen = useMemo(() => (!isMobile ? (!isTablet ? 4 : 2) : 1), [isTablet, isMobile])
-  const [scrollOffset, setScrollOffest] = useState(1)
+  const [scrollOffset, setScrollOffset] = useState(1)
   const [selections, setSelections] = useState(new Array(props.entities.length).fill(false))
   const [selecting, setSelecting] = useState(false)
   const [filterBy, setFilterBy] = useState<'all' | 'on-sale' | 'owned'>('all')
@@ -173,7 +173,7 @@ const Assets: React.FC<Props> = (props) => {
         dataLength={entities.length} // This is important field to render the next data
         next={() => {
           timer = setTimeout(() => {
-            setScrollOffest((scrollOffset) => scrollOffset + 1)
+            setScrollOffset((scrollOffset) => scrollOffset + 1)
             clearTimeout(timer)
           }, 1000 * 3)
         }}

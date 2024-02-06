@@ -41,7 +41,7 @@ const options = [
   { value: 'custody', label: 'Custody' },
   { value: 'dispute', label: 'Dispute' },
   { value: 'invoice', label: 'Invoice' },
-  { value: 'offset', label: 'Offest' },
+  { value: 'offset', label: 'Offset' },
   { value: 'contribution', label: 'Contribution' },
 ]
 
