@@ -1,4 +1,7 @@
+import { TEntityModel } from 'types/entities'
 import { SelectType, FilterItem } from '../components/Filters/IconListFilter/types'
+
+const RELAYER_NODE = process.env.REACT_APP_RELAYER_NODE
 
 export const getTitle = (name: string, items: FilterItem[], selectType: SelectType): string => {
   const selectedItems = items.filter((item) => item.isSelected)
@@ -9,8 +12,8 @@ export const getTitle = (name: string, items: FilterItem[], selectType: SelectTy
         ? `${itemsSelectedCount} ${name}` + (itemsSelectedCount > 1 ? 's' : '')
         : name
       : selectedItems.length === 0
-      ? name
-      : `${selectedItems[0].name}`
+        ? name
+        : `${selectedItems[0].name}`
 
   return title
 }
@@ -44,4 +47,14 @@ export const isFilterTarget = (e: any): boolean => {
   }
 
   return false
+}
+
+export const filterEntitiesByRelayerNode = (entity: TEntityModel): boolean => {
+  // Condition 1
+  const condition1 = entity.relayerNode === RELAYER_NODE && entity.entityVerified === true
+
+  // Condition 2
+  const condition2 = entity.id === RELAYER_NODE && entity.entityVerified === true
+
+  return condition1 || condition2
 }
