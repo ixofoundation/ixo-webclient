@@ -3888,7 +3888,7 @@
         },
         {
           "@type": "Category",
-          "hidden": false,
+          "hidden": true,
           "name": "Target Audience",
           "multiSelect": true,
           "tags": [
