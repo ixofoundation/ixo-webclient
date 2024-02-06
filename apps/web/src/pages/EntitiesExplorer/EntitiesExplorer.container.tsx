@@ -32,6 +32,13 @@ import { useEntitiesQuery } from 'generated/graphql'
 import { selectAccountAddress, selectAccountCWClient } from 'redux/account/account.selectors'
 import { apiEntityToEntity } from 'utils/entities'
 import { ScrollArea } from '@mantine/core'
+import styled from 'styled-components'
+
+const StyledScrollArea = styled(ScrollArea)`
+  & > div > div {
+    height: 100%;
+  }
+`
 
 export interface Props {
   match: any
@@ -200,7 +207,7 @@ const EntitiesExplorer = ({
   }, [sector, handleChangeSector])
 
   return (
-    <ScrollArea w='100%' h={'calc(100vh - 74px)'}>
+    <StyledScrollArea w='100%' h={'calc(100vh - 74px)'}>
       <Container>
         <div className='d-flex w-100 h-100'>
           <div className='d-flex flex-column flex-grow-1 w-100 h-100'>
@@ -220,7 +227,7 @@ const EntitiesExplorer = ({
           </div>
         </div>
       </Container>
-    </ScrollArea>
+    </StyledScrollArea>
   )
 }
 
