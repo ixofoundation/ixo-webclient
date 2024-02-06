@@ -3996,7 +3996,7 @@ export const config = {
             },
             {
               '@type': 'Tag',
-              name: 'Theory of Change',
+              name: 'Invoice',
               icon: 'dispute.svg',
             },
             {
@@ -4007,6 +4007,16 @@ export const config = {
             {
               '@type': 'Tag',
               name: 'Impact',
+              icon: 'dispute.svg',
+            },
+            {
+              '@type': 'Tag',
+              name: 'Offset',
+              icon: 'dispute.svg',
+            },
+            {
+              '@type': 'Tag',
+              name: 'Contribution',
               icon: 'dispute.svg',
             },
           ],

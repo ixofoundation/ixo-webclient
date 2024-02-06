@@ -46,6 +46,7 @@ export const DaoCard: React.FC<Props> = ({
   return (
     <FlexBox
       onClick={() =>
+        id &&
         navigate({
           pathname: `/entity/${id}/overview`,
         })

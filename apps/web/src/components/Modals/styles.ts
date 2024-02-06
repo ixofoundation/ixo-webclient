@@ -88,8 +88,8 @@ export const SelectionButton = styled.div<{ selected?: boolean }>`
   text-align: center;
 
   font-weight: 500;
-  font-size: 20px;
-  line-height: 20px;
+  font-size: 16px;
+  line-height: 18px;
   color: ${(props): string => props.theme.ixoBlack};
   background: ${(props): string => props.theme.ixoWhite};
   transition: all 0.2s;

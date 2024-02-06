@@ -146,9 +146,11 @@ export enum EClaimType {
   Ownership = 'Ownership',
   Custody = 'Custody',
   Dispute = 'Dispute',
-  TheoryOfChange = 'Theory of Change',
+  Invoice = 'Invoice',
   Staking = 'Staking',
   Impact = 'Impact',
+  Offset = 'Offset',
+  Contribution = 'Contribution',
 }
 export enum EDeedType {
   Proposal = 'Proposal',

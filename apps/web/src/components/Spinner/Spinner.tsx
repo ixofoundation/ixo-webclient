@@ -5,7 +5,7 @@ import { selectEntityThemeConfig } from 'redux/entitiesExplorer/entitiesExplorer
 import { useAppSelector } from 'redux/hooks'
 import { LoaderContainer, Pulse } from './Spinner.styles'
 
-const Container = styled.div<{ backgroundColor: string; scale: number; transparentBg?: boolean }>`
+const Container = styled.div<{ $backgroundColor: string; scale: number; $transparentBg?: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -18,7 +18,7 @@ const Container = styled.div<{ backgroundColor: string; scale: number; transpare
   width: 100%;
   height: 100%;
   background-color: ${(props): string =>
-    props.transparentBg ? '' : props.backgroundColor ?? props.theme.ixoDarkestBlue};
+    props.$transparentBg ? '' : props.$backgroundColor ?? props.theme.ixoDarkestBlue};
   flex: 1 1 auto;
   p {
     color: ${(props) => props.theme.ixoNewBlue};
@@ -36,7 +36,7 @@ export const Spinner = ({ info, transparentBg, scale = 1 }: Props) => {
   const theme = useAppSelector(selectEntityThemeConfig)
 
   return (
-    <Container transparentBg={transparentBg} scale={scale} backgroundColor={theme?.backgroundColor}>
+    <Container $transparentBg={transparentBg} scale={scale} $backgroundColor={theme?.backgroundColor}>
       <LoaderContainer>
         <Pulse />
         {/* <LoaderWrapper>
