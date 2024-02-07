@@ -11,9 +11,7 @@ import { ReactComponent as OracleIcon } from 'assets/images/icon-oracle.svg'
 import { ReactComponent as DAOIcon } from 'assets/images/icon-dao.svg'
 import { ReactComponent as DeedIcon } from 'assets/images/icon-deed.svg'
 import { useCreateEntityState } from 'hooks/createEntity'
-import { useAppSelector } from 'redux/hooks'
-import { Step, selectNextStep } from 'redux/entityMultiStepCreation/slice'
-import useStepperNavigate from 'hooks/stepperNavigation'
+import { useCreateEntityStepState } from 'hooks/createEntityStepState'
 
 const SelectType: React.FC = (): JSX.Element => {
 
@@ -68,16 +66,14 @@ const SelectType: React.FC = (): JSX.Element => {
     },
   ]
 
-  const navigate = useStepperNavigate()
   const [hoveredItem, setHoveredItem] = useState<any>(undefined)
-  const nextStep = useAppSelector(selectNextStep) as Step
   const { updateEntityType } = useCreateEntityState()
+  const { navigateToNextStep } = useCreateEntityStepState()
+
 
   const handleClick = (item: any): void => {
     updateEntityType(item.type.toLowerCase())
-    if(nextStep?.number){
-      navigate(nextStep)
-    }
+    navigateToNextStep()
   }
 
   return (
