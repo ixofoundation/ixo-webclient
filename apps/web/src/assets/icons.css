@@ -1,8 +1,10 @@
 @font-face {
   font-family: 'icomoon';
   src: url('fonts/icomoon.eot?1dgwk0');
-  src: url('fonts/icomoon.eot?1dgwk0#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?1dgwk0') format('truetype'), url('fonts/icomoon.woff?1dgwk0') format('woff'),
+  src:
+    url('fonts/icomoon.eot?1dgwk0#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?1dgwk0') format('truetype'),
+    url('fonts/icomoon.woff?1dgwk0') format('woff'),
     url('fonts/icomoon.svg?1dgwk0#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
@@ -48,11 +50,7 @@
   content: '\e905';
 }
 
-.icon-claim:before {
-  content: '\e906';
-}
-
-.icon-deed:before {
+.icon-protocol:before {
   content: '\e906';
 }
 
@@ -449,9 +447,7 @@
 }
 
 .icon-ixo-logo-svg {
-    background-image: url('https://solarimpulse.com/files/companies/logo/2018-11-29-195846/logo_ixo_Foundation.jpg');
-    background-repeat: no-repeat;
-    background-size: contain; /* or 'cover' depending on your needs */
-  }
-
- 
+  background-image: url('https://solarimpulse.com/files/companies/logo/2018-11-29-195846/logo_ixo_Foundation.jpg');
+  background-repeat: no-repeat;
+  background-size: contain; /* or 'cover' depending on your needs */
+}

@@ -46,6 +46,7 @@ export const ProjectCard: React.FC<Props> = ({
   return (
     <FlexBox
       onClick={() =>
+        id &&
         navigate({
           pathname: `/entity/${id}/overview`,
         })

@@ -342,7 +342,6 @@ export const LinkedResourceProofGenerator = (
   console.log({ cellnodeService })
   console.log({ uploadResult })
 
-
   if (cellnodeService) {
     const serviceType = cellnodeService.type
     if (serviceType === NodeType.Ipfs) {
@@ -417,9 +416,19 @@ export function getDAOGroupLinkedEntities(linkedEntity: LinkedEntity[]): LinkedE
 }
 
 export function isCellnodePublicResource(object: any): object is CellnodePublicResource {
-  return 'key' in object && 'contentType' in object;
+  return 'key' in object && 'contentType' in object
 }
 
 export function isCellnodeWeb3Resource(object: any): object is CellnodeWeb3Resource {
-  return 'cid' in object && 'name' in object;
+  return 'cid' in object && 'name' in object
+}
+
+export function toRootEntityType(entityType: string): string {
+  if (entityType.startsWith('protocol/')) {
+    return 'protocol'
+  }
+  if (entityType.startsWith('oracle/')) {
+    return 'oracle'
+  }
+  return entityType
 }
