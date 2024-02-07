@@ -40,5 +40,13 @@ export const useCreateEntityStepState = () => {
         }
     }
 
-    return { entitySteps, setEntitySteps, navigateToNextStep, navigateToPreviousStep }
+    const navigateToStepUsingPath = (path: string) => {
+        const targetStep = steps.find(step => step.path === path)
+        if (targetStep) {
+            dispatch(goToStep(targetStep))
+            stepperNavigate(targetStep)
+        }
+    }
+
+    return { entitySteps, setEntitySteps, navigateToNextStep, navigateToPreviousStep, navigateToStepUsingPath }
 }
