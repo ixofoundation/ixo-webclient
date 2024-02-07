@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { Groups } from '../Components'
 import { Typography } from 'components/Typography'
 import { Button } from 'pages/CreateEntity/Components'
@@ -11,6 +11,8 @@ import { TDAOGroupModel } from 'types/entities'
 import { Flex, Button as MButton, UnstyledButton } from '@mantine/core'
 import ProposalCard from './ProposalCard'
 import { useQuery } from 'hooks/window'
+import { Status } from '@ixo/impactxclient-sdk/types/codegen/DaoMigrator.types'
+import { mantineThemeColors } from 'styles/mantine'
 
 const GovernanceHeader = React.memo(({ selectedDAOGroup }: { selectedDAOGroup?: TDAOGroupModel }) => (
   <>
@@ -40,6 +42,7 @@ const Governance: React.FC = () => {
       verificationMethod.some((v) => v.blockchainAccountID === selectedDAOGroup?.coreAddress),
     [verificationMethod, selectedDAOGroup?.coreAddress],
   )
+  const [proposalFilterBy, setProposalFilterBy] = useState<Status | 'all'>('open')
 
   const handleNewProposal = useCallback(() => {
     navigate(`/create/entity/deed/${entityId}/${selectedDAOGroup?.coreAddress}`)
@@ -54,12 +57,10 @@ const Governance: React.FC = () => {
   }, [navigate, entityId, selectedDAOGroup])
 
   const sortedProposals = useMemo(() => {
-    return selectedDAOGroup?.proposalModule.proposals.sort((a, b) => {
-      if (a.id > b.id) return -1
-      if (a.id < b.id) return 1
-      return 0
-    })
-  }, [selectedDAOGroup])
+    return (selectedDAOGroup?.proposalModule.proposals ?? [])
+      .sort((a, b) => b.id - a.id)
+      .filter((v) => proposalFilterBy === 'all' || v.proposal.status === proposalFilterBy)
+  }, [proposalFilterBy, selectedDAOGroup])
 
   return (
     <Flex direction='column' gap={'lg'} w={'100%'} color='white'>
@@ -216,17 +217,64 @@ const Governance: React.FC = () => {
               </Flex>
             )}
 
-          {selectedDAOGroup && (sortedProposals?.length ?? 0) > 0 && (
+          {selectedDAOGroup && (
             <Flex gap='lg'>
-              <UnstyledButton style={{ color: '#0089D7' }}>All</UnstyledButton>
-              <UnstyledButton style={{ color: '#213E59' }}>Active</UnstyledButton>
-              <UnstyledButton style={{ color: '#213E59' }}>Passed</UnstyledButton>
-              <UnstyledButton style={{ color: '#213E59' }}>Rejected</UnstyledButton>
+              <UnstyledButton
+                style={{
+                  color:
+                    proposalFilterBy === 'all' ? mantineThemeColors['ixo-blue'][6] : mantineThemeColors['ixo-blue'][8],
+                }}
+                onClick={() => setProposalFilterBy('all')}
+              >
+                All
+              </UnstyledButton>
+              <UnstyledButton
+                style={{
+                  color:
+                    proposalFilterBy === 'open' ? mantineThemeColors['ixo-blue'][6] : mantineThemeColors['ixo-blue'][8],
+                }}
+                onClick={() => setProposalFilterBy('open')}
+              >
+                Active
+              </UnstyledButton>
+              <UnstyledButton
+                style={{
+                  color:
+                    proposalFilterBy === 'passed'
+                      ? mantineThemeColors['ixo-blue'][6]
+                      : mantineThemeColors['ixo-blue'][8],
+                }}
+                onClick={() => setProposalFilterBy('passed')}
+              >
+                Passed
+              </UnstyledButton>
+              <UnstyledButton
+                style={{
+                  color:
+                    proposalFilterBy === 'rejected'
+                      ? mantineThemeColors['ixo-blue'][6]
+                      : mantineThemeColors['ixo-blue'][8],
+                }}
+                onClick={() => setProposalFilterBy('rejected')}
+              >
+                Rejected
+              </UnstyledButton>
+              <UnstyledButton
+                style={{
+                  color:
+                    proposalFilterBy === 'executed'
+                      ? mantineThemeColors['ixo-blue'][6]
+                      : mantineThemeColors['ixo-blue'][8],
+                }}
+                onClick={() => setProposalFilterBy('executed')}
+              >
+                Executed
+              </UnstyledButton>
             </Flex>
           )}
 
           {selectedDAOGroup &&
-            sortedProposals?.map((item: ProposalResponse, i) => {
+            sortedProposals.map((item: ProposalResponse, i) => {
               return (
                 <ProposalCard
                   key={i}
