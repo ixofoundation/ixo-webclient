@@ -6,11 +6,12 @@ import { Flex } from '@mantine/core'
 import { QRCodeSVG } from 'qrcode.react'
 
 const QrCode = ({ did }: { did: string }) => {
+  const stringifiedData = JSON.stringify({ type: "project", did })
   return (
     <Flex>
       {' '}
       <QRCodeSVG
-        value={did}
+        value={stringifiedData}
         size={200}
         bgColor={'#ffffff'}
         fgColor={'#000000'}
