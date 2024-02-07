@@ -8,9 +8,7 @@ import 'survey-creator-core/survey-creator-core.i18n.js'
 import 'survey-core/defaultV2.css'
 import 'survey-creator-core/survey-creator-core.css'
 import { useCreateEntityState } from 'hooks/createEntity'
-import useStepperNavigate from 'hooks/stepperNavigation'
-import { useAppSelector } from 'redux/hooks'
-import { selectNextStep, selectPreviousStep } from 'redux/entityMultiStepCreation/slice'
+import { useCreateEntityStepState } from 'hooks/createEntityStepState'
 
 const options: ICreatorOptions = {
   showLogicTab: true,
@@ -19,10 +17,7 @@ const options: ICreatorOptions = {
 }
 
 const SetupDataCollection = (): JSX.Element => {
-  const navigate = useStepperNavigate()
-  const previousStep = useAppSelector(selectPreviousStep)
-  const nextStep = useAppSelector(selectNextStep)
-
+  const { navigateToNextStep, navigateToPreviousStep } = useCreateEntityStepState()
   const { questionJSON, updateQuestionJSON } = useCreateEntityState()
 
 
@@ -30,16 +25,12 @@ const SetupDataCollection = (): JSX.Element => {
   creator.JSON = questionJSON
 
   const handlePrev = (): void => {
-    if (previousStep?.number) {
-      navigate(previousStep)
-    }
+    navigateToPreviousStep()
   }
   const handleNext = (): void => {
     updateQuestionJSON(creator.JSON)
 
-    if (nextStep?.number) {
-      navigate(nextStep)
-    }
+    navigateToNextStep()
   }
 
   return (
