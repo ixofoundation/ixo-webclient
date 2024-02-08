@@ -6,7 +6,6 @@ import { Button, TagSelector } from 'pages/CreateEntity/Components'
 import { useAppSelector } from 'redux/hooks'
 import { TEntityDDOTagModel } from 'types/entities'
 import { Typography } from 'components/Typography'
-import { useParams } from 'react-router-dom'
 import { toRootEntityType } from 'utils/entities'
 import { selectEntityConfig } from 'redux/configs/configs.selectors'
 
@@ -18,12 +17,11 @@ interface Props {
   onChange?: (ddoTags: TEntityDDOTagModel[]) => void
 }
 
-const DDOTagsSetupModal: React.FC<Props> = ({ ddoTags, open, onClose, onChange }): JSX.Element => {
+const DDOTagsSetupModal: React.FC<Props> = ({ ddoTags, entityType, open, onClose, onChange }): JSX.Element => {
   const [formData, setFormData] = useState<TEntityDDOTagModel[]>([])
   const entityConfig = useAppSelector(selectEntityConfig)
-  const { entityType } = useParams()
 
-  const ddoTagsConfig = entityConfig[toRootEntityType(entityType!)]?.filterSchema?.ddoTags ?? []
+  const ddoTagsConfig = entityType ? entityConfig[toRootEntityType(entityType)]?.filterSchema?.ddoTags ?? [] : []
 
   useEffect(() => {
     setFormData(ddoTags ?? [])

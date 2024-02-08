@@ -61,7 +61,7 @@ export const CreateEntityMessage = async (
     return {
       typeUrl: '/ixo.entity.v1beta1.MsgCreateEntity',
       value: ixo.entity.v1beta1.MsgCreateEntity.fromPartial({
-        entityType: entityType.toLowerCase(),
+        entityType: entityType?.toLowerCase(),
         context: customMessages.iid.createAgentIidContext(context as [{ key: string; val: string }]),
         verification: [
           ...customMessages.iid.createIidVerificationMethods({
@@ -149,10 +149,7 @@ export const GetUpdateStartAndEndDateMsgs = (payload: Partial<MsgUpdateEntity>):
   ]
 }
 
-export const TransferEntityMessage = async (
-  signer: TSigner,
-  payload: Partial<MsgTransferEntity>,
-) => {
+export const TransferEntityMessage = async (signer: TSigner, payload: Partial<MsgTransferEntity>) => {
   const { id, recipientDid } = payload
   const message = {
     typeUrl: '/ixo.entity.v1beta1.MsgTransferEntity',
@@ -168,10 +165,7 @@ export const TransferEntityMessage = async (
   return { messages: [message], fee }
 }
 
-export const UpdateEntityMessage = async (
-  signer: TSigner,
-  payload: Partial<MsgUpdateEntity>,
-) => {
+export const UpdateEntityMessage = async (signer: TSigner, payload: Partial<MsgUpdateEntity>) => {
   const queryClient = await createRPCQueryClient({ rpcEndpoint: RPC_ENDPOINT! })
   const entity = await queryClient.ixo.entity.v1beta1.entity({
     id: payload?.id || signer.address,
