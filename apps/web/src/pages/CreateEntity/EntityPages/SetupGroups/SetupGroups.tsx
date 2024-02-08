@@ -13,9 +13,7 @@ import { deviceWidth } from 'constants/device'
 import { ixo } from '@ixo/impactxclient-sdk'
 import BigNumber from 'bignumber.js'
 import { DAOGroupConfig } from 'constants/entity'
-import { useAppSelector } from 'redux/hooks'
-import { selectNextStep } from 'redux/entityMultiStepCreation/slice'
-import useStepperNavigate from 'hooks/stepperNavigation'
+import { useCreateEntityStepState } from 'hooks/createEntityStepState'
 
 export const initialGroupConfig: TDAOGroupModel['config'] = {
   automatically_add_cw20s: true,
@@ -138,8 +136,7 @@ const SetupDAOGroups = (): JSX.Element => {
     () => Object.values(daoGroups).length > 0 && !Object.values(daoGroups).some(({ coreAddress }) => !coreAddress),
     [daoGroups],
   )
-  const navigate = useStepperNavigate()
-  const nextStep = useAppSelector(selectNextStep)
+  const { navigateToNextStep, navigateToPreviousStep } = useCreateEntityStepState()
 
   const handleAddGroup = (type: string): void => {
     const id = uuidv4()
@@ -201,6 +198,10 @@ const SetupDAOGroups = (): JSX.Element => {
     // TODO: fetch DAO group from somewhere with given address
   }
 
+  const handleBack = () => {
+    navigateToPreviousStep()
+  }
+
   const handleContinue = (): void => {
     let tempLinkedEntity = {}
     Object.values(daoGroups).forEach(({ coreAddress }) => {
@@ -217,9 +218,7 @@ const SetupDAOGroups = (): JSX.Element => {
 
     updateLinkedEntity(tempLinkedEntity)
 
-    if (nextStep?.number) {
-      navigate(nextStep)
-    }
+    navigateToNextStep()
   }
 
   if (selectedGroup && daoGroups[selectedGroup]) {
@@ -277,7 +276,9 @@ const SetupDAOGroups = (): JSX.Element => {
         </FlexBox>
 
         <FlexBox $gap={5} $marginTop={10}>
-          <Button variant='secondary'>Back</Button>
+          <Button variant='secondary' onClick={handleBack}>
+            Back
+          </Button>
           <Button variant='primary' disabled={!canSubmit} onClick={handleContinue}>
             Continue
           </Button>

@@ -5,29 +5,21 @@ import { useCreateEntityState } from 'hooks/createEntity'
 import { Button } from 'pages/CreateEntity/Components'
 import React, { useMemo } from 'react'
 import { SetupActionsForm } from './SetupActionsForm'
-import useStepperNavigate from 'hooks/stepperNavigation'
-import { useAppSelector } from 'redux/hooks'
-import { selectNextStep, selectPreviousStep } from 'redux/entityMultiStepCreation/slice'
+import { useCreateEntityStepState } from 'hooks/createEntityStepState'
 
 const SetupActions: React.FC = () => {
   // const { entityId, coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
   const { proposal, updateProposal } = useCreateEntityState()
-  const navigate = useStepperNavigate()
-  const previousStep = useAppSelector(selectPreviousStep)
-  const nextStep = useAppSelector(selectNextStep)
+  const { navigateToNextStep, navigateToPreviousStep } = useCreateEntityStepState()
 
   const actions = useMemo(() => proposal?.actions ?? [], [proposal])
   const validActions = useMemo(() => actions.filter((item) => item.data), [actions])
 
   const handleBack = () => {
-    if (previousStep) {
-      navigate(previousStep)
-    }
+    navigateToPreviousStep()
   }
   const handleContinue = () => {
-    if (nextStep) {
-      navigate(nextStep)
-    }
+    navigateToNextStep()
   }
 
   return (
