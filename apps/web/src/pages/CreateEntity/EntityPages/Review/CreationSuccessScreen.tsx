@@ -1,94 +1,12 @@
-import { Flex, Text } from '@mantine/core'
+import { Flex } from '@mantine/core'
 import { useNavigate } from 'react-router-dom'
 import { Button } from 'pages/CreateEntity/Components'
-import { useCreateEntityStepState } from 'hooks/createEntityStepState'
-
-const ProjectCreationSuccess = () => {
-  const { navigateToStepUsingPath } = useCreateEntityStepState()
-
-  return (
-    <Flex direction={'column'} gap={16}>
-      <Text variant='secondary'>This is the last step before creating this Project on the ixo Blockchain.</Text>
-      <Text variant='secondary'>
-        <Text
-          component='span'
-          c='ixo-blue.6'
-          style={{ cursor: 'pointer' }}
-          onClick={() => navigateToStepUsingPath('/entity/create/project/profile')}
-        >
-          Review the Project details
-        </Text>{' '}
-        you have configured.
-      </Text>
-      <Text variant='secondary' display='inline'>
-        When you are ready to commit, sign with your DID Account keys, or connect a different account as the Project
-        Creator.
-      </Text>
-    </Flex>
-  )
-}
-
-const DaoCreationSuccess = () => {
-  const { navigateToStepUsingPath } = useCreateEntityStepState()
-  return (
-    <Flex direction={'column'} gap={16}>
-      <Text variant='secondary'>This is the last step before creating this DAO on the ixo Blockchain.</Text>
-      <Text variant='secondary'>
-        <Text
-          component='span'
-          c='ixo-blue.6'
-          style={{ cursor: 'pointer' }}
-          onClick={() => navigateToStepUsingPath('/entity/create/dao/profile')}
-        >
-          Review the DAO details
-        </Text>{' '}
-        you have configured.
-      </Text>
-      <Text variant='secondary'>
-        <Text
-          component='span'
-          c='ixo-blue.6'
-          style={{ cursor: 'pointer' }}
-          onClick={() => navigateToStepUsingPath('/entity/create/dao/groups')}
-        >
-          View the DAO Groups
-        </Text>{' '}
-        you have added.
-      </Text>
-      <Text variant='secondary' display='inline'>
-        When you are ready to commit, sign with your DID Account keys, or connect a different account as the DAO
-        Creator.
-      </Text>
-    </Flex>
-  )
-}
-
-const ClaimCreationSuccess = () => {
-  const { navigateToStepUsingPath } = useCreateEntityStepState()
-
-  return (
-    <Flex direction='column' gap={16}>
-      <Text variant='secondary'>
-        This is the last step before creating this Verifiable Claim on the ixo Blockchain.
-      </Text>
-      <Text variant='secondary'>
-        <Text
-          component='span'
-          c='ixo-blue.6'
-          style={{ cursor: 'pointer' }}
-          onClick={() => navigateToStepUsingPath('/entity/create/protocol/collection')}
-        >
-          Review the Verifiable Claim details
-        </Text>{' '}
-        you have configured.
-      </Text>
-      <Text variant='secondary' display='inline'>
-        When you are ready to commit, sign with your DID Account keys, or connect a different account as the Verifiable
-        Claim Creator.
-      </Text>
-    </Flex>
-  )
-}
+import { ProjectCreationSuccess } from './ProjectCreationSuccessDetails'
+import { DaoCreationSuccess } from './DaoCreationSuccessDetails'
+import { ClaimCreationSuccess } from './ClaimCreationSuccessDetails.tsx'
+import { DeedCreationSuccessScreen } from './DeedCreationSuccessDetails'
+import { OracleCreationSuccess } from './OracleCreationSuccessDetails'
+import { InvestmentCreationSuccess } from './InvestmentCreationSuccessDetails'
 
 type CreationSuccessScreenProps = {
   entityType: string
@@ -102,7 +20,10 @@ export const CreationSuccessScreen = ({ entityType, submitting, handleSignToCrea
     project: <ProjectCreationSuccess />,
     dao: <DaoCreationSuccess />,
     'protocol/claim': <ClaimCreationSuccess />,
+    'protocol/deed': <DeedCreationSuccessScreen />,
+    oracle: <OracleCreationSuccess />,
     protocol: <ClaimCreationSuccess />,
+    investment: <InvestmentCreationSuccess />,
   }
 
   return (
