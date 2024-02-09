@@ -20,6 +20,7 @@ import { fee, RPC_ENDPOINT, TSigner } from './common'
 import { Verification } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/tx'
 import { EncodeObject } from '@cosmjs/proto-signing'
 import { MsgTransferEntity, MsgUpdateEntity } from '@ixo/impactxclient-sdk/types/codegen/ixo/entity/v1beta1/tx'
+import { hexToUint8Array } from 'utils/encoding'
 
 const createRPCQueryClient = ixo.ClientFactory.createRPCQueryClient
 
@@ -42,6 +43,8 @@ export const CreateEntityMessage = async (
   }[],
 ) => {
   const { address, did, pubKey, keyType } = signer
+
+  const hexPubKey = hexToUint8Array(pubKey as any)
   const messages = payload.map((item) => {
     const {
       entityType,
@@ -66,7 +69,7 @@ export const CreateEntityMessage = async (
         verification: [
           ...customMessages.iid.createIidVerificationMethods({
             did,
-            pubkey: pubKey,
+            pubkey: hexPubKey,
             address: address,
             controller: did,
             type: keyType,
