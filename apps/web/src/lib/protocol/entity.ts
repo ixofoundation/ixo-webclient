@@ -44,7 +44,6 @@ export const CreateEntityMessage = async (
 ) => {
   const { address, did, pubKey, keyType } = signer
 
-  console.log("typeof pubkey", pubKey)
   const hexPubKey = hexToUint8Array(pubKey as any)
   const messages = payload.map((item) => {
     const {
