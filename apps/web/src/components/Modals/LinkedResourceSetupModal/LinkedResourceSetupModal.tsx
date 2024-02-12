@@ -68,9 +68,14 @@ const LinkedResourceSetupModal: React.FC<Props> = ({ linkedResource, open, onClo
             }
           })
           .catch((e) => {
-            console.error(e)
-            errorToast('Error uploading', e)
-            setUploading(false)
+            if (e.response && e.response.status === 413) {
+              // Handle the specific 413 error case
+              errorToast('File too large')
+              setUploading(false)
+            } else {
+              errorToast('Error uploading')
+              setUploading(false)
+            }
           })
       }
       reader.readAsDataURL(file)
