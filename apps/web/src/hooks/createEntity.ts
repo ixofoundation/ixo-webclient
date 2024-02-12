@@ -766,7 +766,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
     }
     if (saveQuestionJSONRes.status === 'fulfilled' && saveQuestionJSONRes.value) {
       linkedResource.push({
-        id: `{id}#${questionJSON.title || 'surveyTemplate'}`,
+        id: '{id}#surveyTemplate',
         type: 'surveyTemplate',
         description: questionJSON.description,
         mediaType: 'application/ld+json',
