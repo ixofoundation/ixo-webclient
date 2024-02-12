@@ -56,8 +56,6 @@ const ClaimCollectionCreation: React.FC = () => {
   const claim = useMemo(() => claims[data.claimId], [claims, data.claimId])
   const [loading, setLoading] = useState(false)
 
-  console.log({ protocolDeedId: data.protocolDeedId })
-
   async function CreateDeedOffer(collectionId: string | number) {
     if (!data.protocolDeedId || !collectionId) {
       // eslint-disable-next-line no-throw-literal
@@ -79,8 +77,6 @@ const ClaimCollectionCreation: React.FC = () => {
     ]
 
     if(!wallet) throw Error("Please connect wallet")
-
-    console.log({ wallet })
 
     const entityMessage = await CreateEntityMessage({ pubKey: wallet.pubKey, address: wallet.address, keyType: 'secp', did: wallet.did }, [
       {
