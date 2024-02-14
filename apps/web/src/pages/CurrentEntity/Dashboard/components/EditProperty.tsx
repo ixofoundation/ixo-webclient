@@ -51,7 +51,7 @@ const EditProperty: React.FC = (): JSX.Element => {
 
   const PropertiesFormProps = useMemo(() => {
     return {
-      entityType: editEntity.type!,
+      entityType: editEntity.type || '',
       creator: editEntity.creator!,
       administrator: editEntity.administrator!,
       ddoTags: editEntity.tags ?? [],

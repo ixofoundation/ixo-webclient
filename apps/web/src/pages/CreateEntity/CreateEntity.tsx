@@ -4,8 +4,8 @@ import { ActionFunctionArgs, LoaderFunctionArgs, Outlet, useLoaderData, useParam
 import CreateEntityLayout from './CreateEntityLayout/CreateEntityLayout'
 import { Step, resetEntityMultiStepCreation, selectCurrentStep, setSteps } from 'redux/entityMultiStepCreation/slice'
 import { useDispatch, useSelector } from 'react-redux'
-import useStepperNavigate from 'hooks/stepperNavigation'
 import { useCreateEntityState } from 'hooks/createEntity'
+import { useCreateEntityStepState } from 'hooks/createEntityStepState'
 
 type EntityLoaderData = {
   steps: Step[]
@@ -113,7 +113,7 @@ export const action = async (args: ActionFunctionArgs) => {
 }
 
 const CreateEntity = (): JSX.Element => {
-  const navigate = useStepperNavigate()
+  const { navigateToNextStep } = useCreateEntityStepState()
   const { entityType } = useParams()
   const currentStep = useSelector(selectCurrentStep)
   const dispatch = useDispatch()
@@ -129,16 +129,13 @@ const CreateEntity = (): JSX.Element => {
 
     if (entityType && shouldUpdateEntityType) {
       updateEntityType(entityType)
-      const firstStep = data.steps[0]
-      if (firstStep) {
-        navigate(firstStep)
-      }
+      navigateToNextStep(data.steps[0])
     }
 
     return () => {
       dispatch(resetEntityMultiStepCreation())
     }
-  }, [entityType, dispatch, data.steps, navigate, stateEntityType, updateEntityType, shouldUpdateEntityType])
+  }, [entityType, dispatch, data.steps, navigateToNextStep, stateEntityType, updateEntityType, shouldUpdateEntityType])
 
   return (
     <CreateEntityLayout title={loaderData.title} subtitle={currentStep.title} breadCrumbs={[]}>

@@ -2,17 +2,13 @@ import { Box, FlexBox } from 'components/App/App.styles'
 import React, { useMemo } from 'react'
 import { useCreateEntityState } from 'hooks/createEntity'
 import { Button } from '../../Components'
-import { useAppSelector } from 'redux/hooks'
-import { selectNextStep, selectPreviousStep } from 'redux/entityMultiStepCreation/slice'
-import useStepperNavigate from 'hooks/stepperNavigation'
 import { ProfileFormFactory } from './ProfileFormFactory'
 import { AdditionalEntityInformation } from './AdditionalEntityInformation'
+import { useCreateEntityStepState } from 'hooks/createEntityStepState'
 
 const SetupMetadata: React.FC = (): JSX.Element => {
   const { profile, entityType } = useCreateEntityState()
-  const navigate = useStepperNavigate()
-  const previousStep = useAppSelector(selectPreviousStep)
-  const nextStep = useAppSelector(selectNextStep)
+  const { navigateToNextStep, navigateToPreviousStep } = useCreateEntityStepState()
 
   const canSubmit: boolean = useMemo(() => {
     switch (entityType) {
@@ -31,15 +27,10 @@ const SetupMetadata: React.FC = (): JSX.Element => {
   }, [profile, entityType])
 
   const handlePrev = (): void => {
-    if (previousStep?.number) {
-      navigate(previousStep)
-    }
+    navigateToPreviousStep()
   }
   const handleNext = (): void => {
-    console.log({ nextStep })
-    if (nextStep?.number) {
-      navigate(nextStep)
-    }
+    navigateToNextStep()
   }
 
   return (

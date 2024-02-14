@@ -424,10 +424,10 @@ export function isCellnodeWeb3Resource(object: any): object is CellnodeWeb3Resou
 }
 
 export function toRootEntityType(entityType: string): string {
-  if (entityType.startsWith('protocol/')) {
+  if (entityType?.startsWith('protocol/')) {
     return 'protocol'
   }
-  if (entityType.startsWith('oracle/')) {
+  if (entityType?.startsWith('oracle/')) {
     return 'oracle'
   }
   return entityType

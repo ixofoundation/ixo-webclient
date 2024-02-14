@@ -6,18 +6,15 @@ import { Box } from 'components/App/App.styles'
 import { useCreateEntityState } from 'hooks/createEntity'
 import { InvestmentInstrumentsConfig } from 'constants/entity'
 import { ixo } from '@ixo/impactxclient-sdk'
-import { useAppSelector } from 'redux/hooks'
-import { selectNextStep, selectPreviousStep } from 'redux/entityMultiStepCreation/slice'
-import useStepperNavigate from 'hooks/stepperNavigation'
+import { useCreateEntityStepState } from 'hooks/createEntityStepState'
 
 const SetupInstrument: React.FC = (): JSX.Element => {
   const { linkedEntity, updateLinkedEntity } = useCreateEntityState()
   const [investmentInstrument, setInvestmentInstrument] = useState<Record<string, any>>({})
   const [openAddInstrumentModal, setOpenAddInstrumentModal] = useState(false)
   const bondDid = useMemo(() => Object.values(linkedEntity).find((v) => v.type === 'bond')?.id || '', [linkedEntity])
-  const previousStep = useAppSelector(selectPreviousStep)
-  const nextStep = useAppSelector(selectNextStep)
-  const navigate = useStepperNavigate()
+  const { navigateToNextStep, navigateToPreviousStep } = useCreateEntityStepState()
+
 
   const canSubmit = true
 
@@ -46,15 +43,11 @@ const SetupInstrument: React.FC = (): JSX.Element => {
   }
 
   const handleContinue = () => {
-    if(nextStep?.number){
-      navigate(nextStep)
-    }
+    navigateToNextStep()
   }
 
   const handleBack = () => {
-    if(previousStep?.number){
-      navigate(previousStep)
-    }
+    navigateToPreviousStep()
   }
 
   return (

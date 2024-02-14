@@ -185,6 +185,26 @@ export const GetAddLinkedResourceMsgs = (
   ]
 }
 
+export const GetAddLinkedResourcePayload = (
+  entityId: string,
+  signer: TSigner,
+  payload: LinkedResource,
+) => {
+  return {
+    messages: [
+      {
+        typeUrl: '/ixo.iid.v1beta1.MsgAddLinkedResource',
+        value: ixo.iid.v1beta1.MsgAddLinkedResource.fromPartial({
+          id: entityId,
+          linkedResource: ixo.iid.v1beta1.LinkedResource.fromPartial(payload),
+          signer: signer.address,
+        }),
+      },
+    ],
+    fee: fee
+  }
+}
+
 export const GetDeleteLinkedResourceMsgs = (
   entityId: string,
   signer: TSigner,

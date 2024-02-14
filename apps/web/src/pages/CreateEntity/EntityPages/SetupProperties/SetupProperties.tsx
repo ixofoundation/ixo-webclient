@@ -5,9 +5,7 @@ import { FlexBox } from 'components/App/App.styles'
 import { deviceWidth } from 'constants/device'
 import { PropertiesForm } from 'pages/CreateEntity/Forms'
 import { Typography } from 'components/Typography'
-import { useAppSelector } from 'redux/hooks'
-import { selectNextStep, selectPreviousStep } from 'redux/entityMultiStepCreation/slice'
-import useStepperNavigate from 'hooks/stepperNavigation'
+import { useCreateEntityStepState } from 'hooks/createEntityStepState'
 
 const SetupProperties: React.FC = (): JSX.Element => {
   const {
@@ -34,9 +32,7 @@ const SetupProperties: React.FC = (): JSX.Element => {
     validateRequiredProperties,
     profile,
   } = useCreateEntityState()
-  const previousStep = useAppSelector(selectPreviousStep)
-  const nextStep = useAppSelector(selectNextStep)
-  const navigate = useStepperNavigate()
+  const { navigateToNextStep, navigateToPreviousStep } = useCreateEntityStepState()
 
   const PropertiesFormProps = {
     entityType,
@@ -95,15 +91,11 @@ const SetupProperties: React.FC = (): JSX.Element => {
   }, [entityType])
 
   const handleContinue = () => {
-    if (nextStep?.number) {
-      navigate(nextStep)
-    }
+    navigateToNextStep()
   }
 
   const handleBack = () => {
-    if (previousStep?.number) {
-      navigate(previousStep)
-    }
+    navigateToPreviousStep()
   }
 
   return (
