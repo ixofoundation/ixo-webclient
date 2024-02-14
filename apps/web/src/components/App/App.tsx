@@ -37,7 +37,7 @@ const App: React.FC = () => {
         <ScrollToTop>
           <Container>
             <HeaderConnected />
-            <Flex mt={74} w='100%' h={'calc(100vh - 222px)'} style={{ flex: 1 }}>
+            <Flex mt={74} w='100%' h={'calc(100vh - 74px)'} style={{ flex: 1 }}>
               <ContentWrapper>
                 <Outlet />
               </ContentWrapper>
