@@ -13,11 +13,10 @@ import { TProposalActionModel } from 'types/entities'
 import { useAccount } from 'hooks/account'
 import { truncateString } from 'utils/formatters'
 import * as Toast from 'utils/toast'
-import { contracts, ixo } from '@ixo/impactxclient-sdk'
+import { contracts, ixo, utils } from '@ixo/impactxclient-sdk'
 import { CosmosMsgForEmpty } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
 import { useMakeProposalAction } from 'hooks/proposal'
-import { decodedMessagesString } from 'utils/messages'
-import { AddLinkedEntity, fee } from 'lib/protocol'
+import { TSigner, fee } from 'lib/protocol'
 import {
   AccordedRight,
   LinkedClaim,
@@ -28,16 +27,20 @@ import {
 import { useQuery } from 'hooks/window'
 import { ReactComponent as CheckCircleIcon } from 'assets/images/icon-check-circle.svg'
 import { ReactComponent as ExclamationIcon } from 'assets/images/icon-exclamation-circle.svg'
-import { getValueFromEvents } from 'utils/objects'
 import { LinkedResourceSetupModal } from 'components/Modals'
 import { useTheme } from 'styled-components'
 import { EntityLinkedResourceConfig, ProposalActionConfig } from 'constants/entity'
+import { useWallet } from '@ixo-webclient/wallet-connector'
+import { DaoPreProposeSingle } from 'lib/DaoProposalSingle'
+import { DeliverTxResponse } from '@cosmjs/stargate'
+import { AddLinkedEntityMessage } from 'lib/protocol/iid.messages'
+
 
 const ReviewProposal: React.FC = () => {
   const theme: any = useTheme()
   const navigate = useNavigate()
   const { entityId, coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
-  const { address, cosmWasmClient, cwClient, signingClient, signer } = useAccount()
+  const { cosmWasmClient, cwClient, signingClient } = useAccount()
   const { name: entityName } = useCurrentEntityProfile()
   const { updateDAOGroup, refetchAndUpdate } = useCurrentEntity()
   const { daoGroup, preProposalContractAddress, depositInfo, isParticipating, anyoneCanPropose } =
@@ -103,12 +106,18 @@ const ReviewProposal: React.FC = () => {
   const validActions = useMemo(() => (proposal?.actions ?? []).filter((item) => item.data), [proposal])
   const { getQuery } = useQuery()
   const success = getQuery('success')
+  const { execute, wallet } = useWallet()
+  const signer: TSigner = {
+    address: wallet?.address || '',
+    did: wallet?.did || '',
+    pubKey: wallet?.pubKey || new Uint8Array(),
+    keyType: wallet?.keyType as any ,
+  }
 
   const handlePropose = async (
     deedDid: string,
   ): Promise<{ proposalId: number; transactionHash: string } | undefined> => {
-    if (!address) {
-      console.error('validateSubmit', { address })
+    if (!wallet?.address) {
       return undefined
     }
 
@@ -205,41 +214,27 @@ const ReviewProposal: React.FC = () => {
         }
       })
       .filter(Boolean) as CosmosMsgForEmpty[]
+    const daoPreProposeSingleClient = new DaoPreProposeSingle(preProposalContractAddress, wallet.address)
 
-    console.log('wasmMessage', decodedMessagesString(wasmMessage))
-
-    const daoPreProposeSingleClient = new contracts.DaoPreProposeSingle.DaoPreProposeSingleClient(
-      cosmWasmClient,
-      address,
-      preProposalContractAddress,
+    const propose = daoPreProposeSingleClient.propose(
+      { description: profile?.description || '', msgs: wasmMessage, title: profile?.name || '', deedDid },
+      fee,
+      undefined,
+      depositInfo ? [depositInfo] : undefined,
     )
-    return await daoPreProposeSingleClient
-      .propose(
-        {
-          msg: {
-            propose: {
-              description: (profile?.description || '') + `#deed:${deedDid}`,
-              msgs: wasmMessage,
-              title: profile?.name || '',
-            },
-          },
-        },
-        fee,
-        undefined,
-        depositInfo ? [depositInfo] : undefined,
-      )
-      .then((res) => {
-        const { logs, transactionHash } = res
-        const proposalId = Number(getValueFromEvents(logs, 'wasm', 'proposal_id') || '0')
 
-        Toast.successToast(null, `Successfully published proposals`)
-        return { transactionHash, proposalId }
-      })
-      .catch((e) => {
-        console.error(e)
-        Toast.errorToast(null, e)
-        return undefined
-      })
+    try {
+      const proposeResponse = (await execute(propose)) as DeliverTxResponse
+
+      const proposalId = Number(utils.common.getValueFromEvents(proposeResponse, 'wasm', 'proposal_id') || '0')
+
+      Toast.successToast(null, `Successfully published proposals`)
+      return { transactionHash: proposeResponse.transactionHash, proposalId }
+    } catch (error) {
+      console.error(error)
+      Toast.errorToast(null, 'Proposal could not be published')
+      return undefined
+    }
   }
 
   const handleCreateDeed = async (): Promise<string> => {
@@ -295,7 +290,10 @@ const ReviewProposal: React.FC = () => {
       relationship: 'proposal',
       service: 'ixo',
     })
-    return !!(await AddLinkedEntity(signingClient, signer, { did: deedDid, linkedEntity }))
+
+    const linkedEntityInstruction = AddLinkedEntityMessage(signer, { did: deedDid, linkedEntity })
+    const response = await execute(linkedEntityInstruction) as DeliverTxResponse
+    return !!response
   }
 
   const handleBack = () => {
@@ -371,7 +369,7 @@ const ReviewProposal: React.FC = () => {
 
         <FlexBox $direction='column' $gap={1}>
           <Typography size='sm'>Proposed by</Typography>
-          <Typography weight='bold'>{truncateString(address, 20)}</Typography>
+          <Typography weight='bold'>{truncateString(signer.address, 20)}</Typography>
         </FlexBox>
 
         <FlexBox width='100%' $gap={4}>
