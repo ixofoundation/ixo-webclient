@@ -63,6 +63,16 @@ const buildEntitySteps = (entity: string, order: string[]): { title: string; ste
       path: 'review',
       number: 0,
     },
+    {
+      title: 'Proposal Info',
+      path: 'proposal_info',
+      number: 0,
+    },
+    {
+      title: 'Proposal Page',
+      path: 'proposal_page',
+      number: 0,
+    },
   ]
 
   // Sort the steps based on the order array
