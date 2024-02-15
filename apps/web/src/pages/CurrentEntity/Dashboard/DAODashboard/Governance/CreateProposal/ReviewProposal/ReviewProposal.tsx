@@ -40,7 +40,7 @@ const ReviewProposal: React.FC = () => {
   const theme: any = useTheme()
   const navigate = useNavigate()
   const { entityId, coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
-  const { cosmWasmClient, cwClient, signingClient } = useAccount()
+  const { cwClient } = useAccount()
   const { name: entityName } = useCurrentEntityProfile()
   const { updateDAOGroup, refetchAndUpdate } = useCurrentEntity()
   const { daoGroup, preProposalContractAddress, depositInfo, isParticipating, anyoneCanPropose } =
