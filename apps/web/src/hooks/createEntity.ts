@@ -385,12 +385,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
   const UploadDataToService = async (data: string): Promise<CellnodePublicResource | CellnodeWeb3Resource> => {
     let res: CellnodePublicResource | CellnodeWeb3Resource
     if (cellnodeService?.type === NodeType.CellNode && cellnodeService?.serviceEndpoint) {
-      res = await customQueries.cellnode.uploadPublicDoc(
-        'application/ld+json',
-        data,
-        undefined,
-        chainNetwork,
-      )
+      res = await customQueries.cellnode.uploadPublicDoc('application/ld+json', data, undefined, chainNetwork)
     } else {
       res = await customQueries.cellnode.uploadWeb3Doc(
         utils.common.generateId(12),
@@ -788,7 +783,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
 
         return {
           type: claimProtocol?.profile?.category || '',
-          id: item.id,
+          id: `{id}#${item.id}`,
           description: claimProtocol?.profile?.description || '',
           serviceEndpoint: LinkedResourceServiceEndpointGenerator(res!, cellnodeService),
           proof: LinkedResourceProofGenerator(res!, cellnodeService),
@@ -1039,12 +1034,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
   }
 
   const uploadPublicDoc = async (data: string, contentType: string): Promise<CellnodePublicResource | Error> => {
-    const response = await customQueries.cellnode.uploadPublicDoc(
-      contentType,
-      data,
-      undefined,
-      chainNetwork,
-    )
+    const response = await customQueries.cellnode.uploadPublicDoc(contentType, data, undefined, chainNetwork)
     return response
   }
 
