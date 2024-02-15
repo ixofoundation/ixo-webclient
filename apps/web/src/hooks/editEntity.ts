@@ -21,7 +21,12 @@ import {
 import { setEditedFieldAction, setEditEntityAction } from 'redux/editEntity/editEntity.actions'
 import { selectEditEntity } from 'redux/editEntity/editEntity.selectors'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
-import { LinkedResourceProofGenerator, LinkedResourceServiceEndpointGenerator, isCellnodePublicResource, isCellnodeWeb3Resource } from 'utils/entities'
+import {
+  LinkedResourceProofGenerator,
+  LinkedResourceServiceEndpointGenerator,
+  isCellnodePublicResource,
+  isCellnodeWeb3Resource,
+} from 'utils/entities'
 import { useAccount } from './account'
 import { useCreateEntity } from './createEntity'
 import useCurrentEntity from './currentEntity'
@@ -89,13 +94,47 @@ export default function useEditEntity(): {
       throw new Error('Save Profile failed!')
     }
 
-    let proof = ""
+    let proof = ''
     if (isCellnodePublicResource(res)) {
       proof = res.key
     } else if (isCellnodeWeb3Resource(res)) {
       proof = res.cid
     } else {
-      throw new Error("Save Profile failed")
+      throw new Error('Save Profile failed')
+    }
+
+    const newLinkedResource: LinkedResource = {
+      id: '{id}#profile',
+      type: 'Settings',
+      description: 'Profile',
+      mediaType: 'application/ld+json',
+      serviceEndpoint: res.url,
+      proof: proof,
+      encrypted: 'false',
+      right: '',
+    }
+
+    const messages: readonly EncodeObject[] = GetReplaceLinkedResourceMsgs(editEntity.id, signer, newLinkedResource)
+    return messages
+  }
+
+  const getEditedClaimCollectionMsgs = async (): Promise<readonly EncodeObject[]> => {
+    if (JSON.stringify(editEntity.profile) === JSON.stringify(currentEntity.profile)) {
+      return []
+    }
+
+    const res = await SaveProfile(editEntity.profile)
+    if (!res) {
+      throw new Error('Save Profile failed!')
+    }
+
+    let proof = ''
+    if (isCellnodePublicResource(res)) {
+      proof = res.key
+    } else if (isCellnodeWeb3Resource(res)) {
+      proof = res.cid
+    } else {
+      throw new Error('Save Profile failed')
     }
 
     const newLinkedResource: LinkedResource = {
@@ -436,8 +475,8 @@ export default function useEditEntity(): {
     const updatedFee = { ...fee, gas: new BigNumber(fee.gas).times(messages.length).toString() }
     const response = await execute({ messages: messages as any, fee: updatedFee })
 
-    if (typeof response === "string") {
-      throw Error("Connect your wallet")
+    if (typeof response === 'string') {
+      throw Error('Connect your wallet')
     }
 
     console.log('ExecuteEditEntity', { response })
