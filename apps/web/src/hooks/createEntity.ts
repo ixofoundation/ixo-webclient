@@ -68,8 +68,7 @@ import {
   selectCreateEntityQuestionJSON,
 } from 'redux/createEntity/createEntity.selectors'
 import { TCreateEntityModel } from 'redux/createEntity/createEntity.types'
-import { useAccount } from './account'
-import { CreateEntityMessage } from 'lib/protocol'
+import { CreateEntityMessage, TSigner } from 'lib/protocol'
 import { customQueries, utils } from '@ixo/impactxclient-sdk'
 import { CellnodePublicResource, CellnodeWeb3Resource } from '@ixo/impactxclient-sdk/types/custom_queries/cellnode'
 import {
@@ -355,7 +354,6 @@ interface TCreateEntityHookRes {
 }
 
 export function useCreateEntity(): TCreateEntityHookRes {
-  const { signer } = useAccount()
   const claimProtocols = useAppSelector(selectAllClaimProtocols)
 
   const createEntityState = useCreateEntityState()
@@ -373,7 +371,9 @@ export function useCreateEntity(): TCreateEntityHookRes {
   const cw20BaseContractCode = customQueries.contract.getContractCode(chainNetwork, 'cw20_base')
   const cw20StakeContractCode = customQueries.contract.getContractCode(chainNetwork, 'cw20_stake')
 
-  const { execute } = useWallet()
+  const { execute, wallet } = useWallet()
+
+  const signer: TSigner = { address: wallet?.address || "", did: wallet?.did || "", pubKey: wallet?.pubKey || new Uint8Array(), keyType: "secp"}
 
   /**
    * @description auto choose service for uploading data

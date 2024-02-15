@@ -65,7 +65,7 @@ export function base64ToJson(b64: string): any {
 export function hexToUint8Array(hexString: string): Uint8Array {
   const bytes = new Uint8Array(hexString.length / 2);
   for (let i = 0, c = 0; c < hexString.length; i++, c += 2) {
-    bytes[i] = parseInt(hexString.substr(c, 2), 16);
+    bytes[i] = parseInt(hexString.substring(c, c + 2), 16);
   }
   return bytes;
 }
