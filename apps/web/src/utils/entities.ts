@@ -272,6 +272,14 @@ export function apiEntityToEntity(
               updateCallback('claimQuestion', question)
             })
             .catch(() => undefined)
+        } else if (item.type === 'surveyTemplate') {
+          fetch(url)
+            .then((response) => response.json())
+            .then((response) => response.question)
+            .then((question) => {
+              updateCallback('surveyTemplate', question)
+            })
+            .catch(() => undefined)
         }
       }
     })
