@@ -1,15 +1,20 @@
 import Dashboard from 'components/Dashboard/Dashboard'
 import { HeaderTab, Path } from 'components/Dashboard/types'
-import { useCurrentEntityProfile } from 'hooks/currentEntity'
-import { Navigate, Routes, Route, useParams } from 'react-router-dom'
+import useCurrentEntity, { useCurrentEntityProfile } from 'hooks/currentEntity'
+import { Navigate, Routes, Route, useParams, useMatch } from 'react-router-dom'
 import { requireCheckDefault } from 'utils/images'
 import ClaimQuestions from './ClaimQuestions'
 import { toTitleCase } from 'utils/formatters'
+import { useAccount } from 'hooks/account'
+import EditEntity from './EditEntity'
 
 const ClaimDashboard: React.FC = (): JSX.Element => {
   const { entityId } = useParams<{ entityId: string }>()
+  const isEditEntityRoute = useMatch('/entity/:entityId/dashboard/edit')
   const entityType = 'protocol'
+  const { owner } = useCurrentEntity()
   const { name } = useCurrentEntityProfile()
+  const { registered, address } = useAccount()
 
   const routes: Path[] = [
     {
@@ -18,6 +23,13 @@ const ClaimDashboard: React.FC = (): JSX.Element => {
       sdg: 'Questions',
       tooltip: 'Questions',
       strict: true,
+    },
+    {
+      url: `/entity/${entityId}/dashboard/edit`,
+      icon: requireCheckDefault(require('assets/img/sidebar/gear.svg')),
+      sdg: 'Edit Entity',
+      tooltip: 'Edit Entity',
+      disabled: !registered || owner !== address,
     },
   ]
 
@@ -58,7 +70,7 @@ const ClaimDashboard: React.FC = (): JSX.Element => {
     },
   ]
 
-  const theme = 'dark'
+  const theme = isEditEntityRoute ? 'light' : 'dark'
 
   return (
     <Dashboard
@@ -72,6 +84,7 @@ const ClaimDashboard: React.FC = (): JSX.Element => {
       <Routes>
         <Route index element={<Navigate to={`questions`} />} />
         <Route path='questions' Component={ClaimQuestions} />
+        {registered && owner === address && <Route path='edit' Component={EditEntity} />}
       </Routes>
     </Dashboard>
   )
