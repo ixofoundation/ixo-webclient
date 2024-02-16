@@ -8,7 +8,6 @@ const EditEntityPage = lazy(() => import(/* webpackChunkName: "EditEntityPage" *
 const CurrentEntityPage = lazy(
   () => import(/* webpackChunkName: "EntityExchangeTradeBid" */ 'pages/CurrentEntity/CurrentEntity'),
 )
-const TransferEntityPage = lazy(() => import('pages/TransferEntity'))
 const EntityExchange = lazy(
   () => import(/* webpackChunkName: "EntityExchange" */ 'pages/EntityExchange/EntityExchange'),
 )
@@ -35,7 +34,6 @@ const App: React.FunctionComponent = () => {
       <Route path='exchange/*' element={<EntityExchange />} />
       <Route path='edit/entity/:entityId' element={<EditEntityPage />} />
       <Route path='entity/:entityId/*' element={<CurrentEntityPage />} />
-      <Route path='transfer/entity/:entityId' element={<TransferEntityPage />} />
       <Route
         path='*'
         element={

@@ -7,9 +7,14 @@ import React, { useEffect, useState } from 'react'
 import { errorToast, successToast } from 'utils/toast'
 import EditProfile from '../../components/EditProfile'
 import EditProperty from '../../components/EditProperty'
+import { useNavigate, useParams } from 'react-router-dom'
+import { FormCard } from 'components'
+import { ReactComponent as ExclamationIcon } from 'assets/images/icon-exclamation-circle.svg'
 
 const EditEntity: React.FC = () => {
-  const { currentEntity } = useCurrentEntity()
+  const navigate = useNavigate()
+  const { currentEntity, isOwner } = useCurrentEntity()
+  const { entityId = '' } = useParams<{ entityId: string }>()
   const { setEditEntity, ExecuteEditEntity } = useEditEntity()
   const [editing, setEditing] = useState(false)
 
@@ -35,11 +40,35 @@ const EditEntity: React.FC = () => {
     }
   }
 
+  const handleTransferEntity = async () => {
+    navigate(`/transfer/entity/${entityId}`)
+  }
+
+  const handleReEnableKeys = async () => {
+    navigate(`/transfer/entity/${entityId}/review`)
+  }
+
   return (
     <FlexBox width='100%' $direction='column' $alignItems='flex-start' $gap={10} color='black' background='white'>
       <Typography variant='secondary' size='2xl'>
         Here you can update the Project settings and submit the changes as a proposal.
       </Typography>
+      
+      <FlexBox>
+        {currentEntity.status === 0 && isOwner && (
+          <Button size='flex' width={240} onClick={handleTransferEntity} textTransform='uppercase'>
+            Transfer Entity
+          </Button>
+        )}
+        {currentEntity.status === 2 && isOwner && (
+          <FormCard title='Re-enable keys' preIcon={<ExclamationIcon />}>
+            <Typography>The former owner of the entity created a document to re-enable verification keys.</Typography>
+            <Button size='flex' onClick={handleReEnableKeys} textTransform='uppercase'>
+              Review
+            </Button>
+          </FormCard>
+        )}
+      </FlexBox>
 
       <FlexBox width='100%' $direction='column' $gap={8}>
         <Typography variant='secondary' size='4xl'>
