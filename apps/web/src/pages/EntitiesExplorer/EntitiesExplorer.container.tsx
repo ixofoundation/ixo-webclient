@@ -31,7 +31,19 @@ import { createEntityCard, withEntityData } from 'components'
 import { useEntitiesQuery } from 'generated/graphql'
 import { selectAccountAddress, selectAccountCWClient } from 'redux/account/account.selectors'
 import { apiEntityToEntity } from 'utils/entities'
-import { ScrollArea } from '@mantine/core'
+import { Flex, ScrollArea } from '@mantine/core'
+import styled from 'styled-components'
+import { Dropdown } from 'pages/CreateEntity/Components'
+import { useAppSelector } from 'redux/hooks'
+import { filterEntitiesByRelayerNode } from 'utils/filters'
+
+const RELAYER_NODE = process.env.REACT_APP_RELAYER_NODE
+
+const StyledScrollArea = styled(ScrollArea)`
+  & > div > div {
+    height: 100%;
+  }
+`
 
 export interface Props {
   match: any
@@ -134,6 +146,18 @@ const EntitiesExplorer = ({
 
   const hasMore = Boolean(data?.entities?.pageInfo.hasNextPage)
 
+  const daos = useAppSelector(entitiesSelectors.selectEntitiesByType('dao'))
+  const daoOptions = daos
+    .filter(filterEntitiesByRelayerNode)
+    .filter((dao) => dao.id !== RELAYER_NODE)
+    .map((dao) => ({ value: `${dao.id}#${dao.owner}`, text: dao.profile?.brand || '' }))
+
+  const [filterDAO, setFilterDAO] = React.useState('')
+
+  useEffect(() => {
+    setFilterDAO('')
+  }, [type])
+
   const renderEntities = (): JSX.Element => {
     if (type === EntityType.Asset) {
       return (
@@ -160,21 +184,37 @@ const EntitiesExplorer = ({
                 </NoEntitiesContainer>
               )}
               {filteredEntitiesCount > 0 && (
-                <InfiniteScroll
-                  dataLength={entities.length} //This is important field to render the next data
-                  //  TODO refetch next data
-                  next={() => refetch()}
-                  hasMore={hasMore}
-                  columns={columns}
-                >
-                  {entities
-                    .map((entity: TEntityModel) => {
-                      const EntityCard = createEntityCard(type as EntityType)
-                      const WrappedEntityCard = withEntityData(EntityCard)
-                      return <WrappedEntityCard key={entity.id} {...entity} />
-                    })
-                    .filter(Boolean)}
-                </InfiniteScroll>
+                <Flex direction={'column'} w='100%' gap={32}>
+                  {type !== 'dao' && (
+                    <Dropdown
+                      value={filterDAO}
+                      options={daoOptions}
+                      placeholder='Select a DAO'
+                      onChange={(e) => setFilterDAO(e.target.value)}
+                    />
+                  )}
+                  <InfiniteScroll
+                    dataLength={entities.length} //This is important field to render the next data
+                    //  TODO refetch next data
+                    next={() => refetch()}
+                    hasMore={hasMore}
+                    columns={columns}
+                  >
+                    {entities
+                      .filter((entity: TEntityModel) => {
+                        if (!filterDAO) {
+                          return true
+                        }
+                        return filterDAO.includes(entity.owner)
+                      })
+                      .map((entity: TEntityModel) => {
+                        const EntityCard = createEntityCard(type as EntityType)
+                        const WrappedEntityCard = withEntityData(EntityCard)
+                        return <WrappedEntityCard key={entity.id} {...entity} />
+                      })
+                      .filter(Boolean)}
+                  </InfiniteScroll>
+                </Flex>
               )}
             </EntitiesBody>
           </div>
@@ -200,7 +240,7 @@ const EntitiesExplorer = ({
   }, [sector, handleChangeSector])
 
   return (
-    <ScrollArea w='100%' h={'calc(100vh - 74px)'}>
+    <StyledScrollArea w='100%' h={'calc(100vh - 74px)'}>
       <Container>
         <div className='d-flex w-100 h-100'>
           <div className='d-flex flex-column flex-grow-1 w-100 h-100'>
@@ -220,7 +260,7 @@ const EntitiesExplorer = ({
           </div>
         </div>
       </Container>
-    </ScrollArea>
+    </StyledScrollArea>
   )
 }
 

@@ -13,10 +13,13 @@ import Overview from './Overview'
 import { useQuery } from 'hooks/window'
 import { getDAOGroupLinkedEntities } from 'utils/entities'
 import { Spinner } from 'components/Spinner/Spinner'
+import CreateProposal from './Governance/CreateProposal'
+import CreateEntityLayout from 'pages/CreateEntity/CreateEntityLayout/CreateEntityLayout'
 
 const DAODashboard: React.FC = (): JSX.Element => {
   const { entityId } = useParams<{ entityId: string }>()
   const isEditEntityRoute = useMatch('/entity/:entityId/dashboard/edit')
+  const isCreateProposalRoute = useMatch('/entity/:entityId/dashboard/governance/:coreAddress/*')
   const { entityType, owner, daoGroups, linkedEntity } = useCurrentEntity()
   const { name } = useCurrentEntityProfile()
   const { registered, address } = useAccount()
@@ -117,9 +120,19 @@ const DAODashboard: React.FC = (): JSX.Element => {
 
   const theme = isEditEntityRoute ? 'light' : 'dark'
 
-
   if (getDAOGroupLinkedEntities(linkedEntity).length > 0 && Object.keys(daoGroups).length === 0) {
     return <Spinner info='Loading DAO Groups...' />
+  }
+
+  if (isCreateProposalRoute) {
+    return (
+      <CreateEntityLayout title={'Create Proposal'} subtitle={''} breadCrumbs={[]}>
+        <Routes>
+          {/* <CreateProposal /> */}
+          <Route path='governance/:coreAddress/*' Component={CreateProposal} />
+        </Routes>
+      </CreateEntityLayout>
+    )
   }
 
   return (
@@ -137,6 +150,7 @@ const DAODashboard: React.FC = (): JSX.Element => {
         <Route path='membership' Component={Membership} />
         <Route path='membership/:address' Component={IndividualMember} />
         <Route path='governance' Component={Governance} />
+        {/* <Route path='governance/:coreAddress/*' Component={CreateProposal} /> */}
 
         {registered && <Route path='my-participation' Component={MyParticipation} />}
         {registered && owner === address && <Route path='edit' Component={EditEntity} />}

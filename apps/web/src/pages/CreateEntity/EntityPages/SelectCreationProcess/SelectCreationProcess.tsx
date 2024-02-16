@@ -9,10 +9,8 @@ import { apiEntityToEntity } from 'utils/entities'
 import { useTheme } from 'styled-components'
 import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { EntityLinkedResourceConfig } from 'constants/entity'
-import { useAppSelector } from 'redux/hooks'
 import { useGetEntityById } from 'graphql/entities'
-import { selectNextStep, selectSteps } from 'redux/entityMultiStepCreation/slice'
-import useStepperNavigate from 'hooks/stepperNavigation'
+import { useCreateEntityStepState } from 'hooks/createEntityStepState'
 
 
 
@@ -39,18 +37,13 @@ const SelectCreationProcess: React.FC = (): JSX.Element => {
   const [existingDid, setExistingDid] = useState('')
   const [chainId, setChainId] = useState(undefined)
   const { data: selectedEntity } = useGetEntityById(existingDid)
-  const steps = useAppSelector(selectSteps)
-  const nextStep = useAppSelector(selectNextStep)
-  const navigate = useStepperNavigate()
+  const { navigateToNextStep } = useCreateEntityStepState ()
+
 
   const canClone = useMemo(() => chainId && selectedEntity?.type === 'dao', [chainId, selectedEntity])
 
-  console.log({ steps })
-
   const handleCreate = (): void => {
-    if (nextStep?.number) {
-      navigate(nextStep)
-    }
+    navigateToNextStep()
   }
 
   const handleClone = (): void => {

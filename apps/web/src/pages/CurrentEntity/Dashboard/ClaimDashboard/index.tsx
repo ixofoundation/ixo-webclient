@@ -1,13 +1,14 @@
 import Dashboard from 'components/Dashboard/Dashboard'
 import { HeaderTab, Path } from 'components/Dashboard/types'
-import useCurrentEntity, { useCurrentEntityProfile } from 'hooks/currentEntity'
-import { Navigate, Route, useParams } from 'react-router-dom'
+import { useCurrentEntityProfile } from 'hooks/currentEntity'
+import { Navigate, Routes, Route, useParams } from 'react-router-dom'
 import { requireCheckDefault } from 'utils/images'
 import ClaimQuestions from './ClaimQuestions'
+import { toTitleCase } from 'utils/formatters'
 
 const ClaimDashboard: React.FC = (): JSX.Element => {
   const { entityId } = useParams<{ entityId: string }>()
-  const { entityType } = useCurrentEntity()
+  const entityType = 'protocol'
   const { name } = useCurrentEntityProfile()
 
   const routes: Path[] = [
@@ -43,17 +44,17 @@ const ClaimDashboard: React.FC = (): JSX.Element => {
 
   const tabs: HeaderTab[] = [
     {
-      iconClass: `icon-deed`,
-      linkClass: 'deed',
+      iconClass: `icon-${entityType}`,
+      linkClass: entityType,
       path: `/entity/${entityId}/overview`,
-      title: 'Deed',
-      tooltip: `Deed Overview`,
+      title: toTitleCase(entityType),
+      tooltip: `${toTitleCase(entityType)} Overview`,
     },
     {
       iconClass: `icon-dashboard`,
       path: `/entity/${entityId}/dashboard`,
       title: 'Dashboard',
-      tooltip: `Deed Management`,
+      tooltip: `${toTitleCase(entityType)} Management`,
     },
   ]
 
@@ -68,8 +69,10 @@ const ClaimDashboard: React.FC = (): JSX.Element => {
       tabs={tabs}
       entityType={entityType}
     >
-      <Route path='/entity/:entityId/dashboard/questions' Component={ClaimQuestions} />
-      <Route path='/entity/:entityId/dashboard' element={<Navigate to={`/entity/${entityId}/dashboard/questions`} />}/>
+      <Routes>
+        <Route index element={<Navigate to={`questions`} />} />
+        <Route path='questions' Component={ClaimQuestions} />
+      </Routes>
     </Dashboard>
   )
 }

@@ -4,10 +4,10 @@ import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
 import { ModalStyles, CloseButton, ModalBody, ModalWrapper, ModalRow, ModalTitle } from 'components/Modals/styles'
 import { Button, TagSelector } from 'pages/CreateEntity/Components'
 import { useAppSelector } from 'redux/hooks'
-import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { TEntityDDOTagModel } from 'types/entities'
 import { Typography } from 'components/Typography'
-import { useParams } from 'react-router-dom'
+import { toRootEntityType } from 'utils/entities'
+import { selectEntityConfig } from 'redux/configs/configs.selectors'
 
 interface Props {
   ddoTags: TEntityDDOTagModel[]
@@ -17,14 +17,11 @@ interface Props {
   onChange?: (ddoTags: TEntityDDOTagModel[]) => void
 }
 
-const DDOTagsSetupModal: React.FC<Props> = ({ ddoTags, open, onClose, onChange }): JSX.Element => {
+const DDOTagsSetupModal: React.FC<Props> = ({ ddoTags, entityType, open, onClose, onChange }): JSX.Element => {
   const [formData, setFormData] = useState<TEntityDDOTagModel[]>([])
   const entityConfig = useAppSelector(selectEntityConfig)
-  const { entityType } = useParams()
 
-  const ddoTagsConfig =
-    entityConfig[entityType && entityType.startsWith('protocol/') ? 'protocol' : entityType ?? ""]?.filterSchema?.ddoTags ??
-    []
+  const ddoTagsConfig = entityType ? entityConfig[toRootEntityType(entityType)]?.filterSchema?.ddoTags ?? [] : []
 
   useEffect(() => {
     setFormData(ddoTags ?? [])

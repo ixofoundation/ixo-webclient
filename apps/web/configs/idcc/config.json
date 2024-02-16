@@ -12,7 +12,7 @@
   "UI": {
     "logo": "idcc-logo",
     "explorer": {
-      "defaultView": "project"
+      "defaultView": "dao"
     },
     "head": {
       "title": "IDCC",
@@ -3765,7 +3765,7 @@
             },
             {
               "@type": "Tag",
-              "name": "Theory of Change",
+              "name": "Invoice",
               "icon": "dispute.svg"
             },
             {

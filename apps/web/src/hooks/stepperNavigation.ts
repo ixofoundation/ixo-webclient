@@ -1,8 +1,8 @@
-import { useNavigate } from 'react-router-dom';
+import { Location, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { Step, goToStep } from 'redux/entityMultiStepCreation/slice';
 
-const useStepperNavigate = () => {
+const useStepperNavigate = ({ location }: { location: Location }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
