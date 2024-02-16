@@ -45,8 +45,8 @@ const Governance: React.FC = () => {
   const [proposalFilterBy, setProposalFilterBy] = useState<Status | 'all'>('open')
 
   const handleNewProposal = useCallback(() => {
-    navigate(`/create/entity/deed/${entityId}/${selectedDAOGroup?.coreAddress}`)
-  }, [navigate, entityId, selectedDAOGroup])
+    navigate(`/entity/${entityId}/dashboard/governance/${selectedGroup}`)
+  }, [entityId, navigate, selectedGroup])
 
   const handleNewProposalForJoin = useCallback(() => {
     navigate(`/create/entity/deed/${entityId}/${selectedDAOGroup?.coreAddress}?join=true`)

@@ -5,21 +5,21 @@ import { useCreateEntityState } from 'hooks/createEntity'
 import { Button } from 'pages/CreateEntity/Components'
 import React, { useMemo } from 'react'
 import { SetupActionsForm } from './SetupActionsForm'
-import { useCreateEntityStepState } from 'hooks/createEntityStepState'
+import { useNavigate, useParams } from 'react-router-dom'
 
 const SetupActions: React.FC = () => {
-  // const { entityId, coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
+  const navigate = useNavigate()
+  const { entityId, coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
   const { proposal, updateProposal } = useCreateEntityState()
-  const { navigateToNextStep, navigateToPreviousStep } = useCreateEntityStepState()
 
   const actions = useMemo(() => proposal?.actions ?? [], [proposal])
   const validActions = useMemo(() => actions.filter((item) => item.data), [actions])
 
   const handleBack = () => {
-    navigateToPreviousStep()
+    navigate(`/entity/${entityId}/dashboard/governance/${coreAddress}/info`)
   }
   const handleContinue = () => {
-    navigateToNextStep()
+    navigate(`/entity/${entityId}/dashboard/governance/${coreAddress}/review`)
   }
 
   return (

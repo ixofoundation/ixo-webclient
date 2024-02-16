@@ -140,11 +140,11 @@ const UserProposals: React.FC<Props> = ({ show, coreAddress, userAddress, full =
   )
 
   const handleNewProposal = () => {
-    navigate(`/create/entity/deed/${entityId}/${coreAddress}`)
+    navigate(`/entity/create/deed/${entityId}/${coreAddress}`)
   }
 
   const handleNewProposalForJoin = () => {
-    navigate(`/create/entity/deed/${entityId}/${coreAddress}?join=true`)
+    navigate(`/entity/create/deed/${entityId}/${coreAddress}?join=true`)
   }
 
   const handleRowClick = (state: any) => () => {
