@@ -24,13 +24,13 @@ export const NavItem = styled(NavLink)`
     border-top: 0;
     border-left: 5px solid transparent;
 
-    :hover ${ToolTipSecondary} {
+    &:hover ${ToolTipSecondary} {
       opacity: 1;
       left: 100%;
     }
   }
 
-  :hover {
+  &:hover {
     text-decoration: none;
   }
 `
@@ -52,7 +52,7 @@ const DisabledNavItem = styled.div`
     border-top: 0;
     border-left: 5px solid transparent;
 
-    :hover ${ToolTipSecondary} {
+    &:hover ${ToolTipSecondary} {
       opacity: 1;
       left: 100%;
     }
@@ -70,7 +70,7 @@ export const Container = styled.div`
   z-index: 1;
   background: linear-gradient(180deg, #012639 0%, #002d42 97.29%);
 
-  .active {
+  &.active {
     border-top: 5px solid ${(props): string => props.theme.highlight.light};
   }
 
@@ -83,7 +83,7 @@ export const Container = styled.div`
     display: block;
     padding-top: 15px;
 
-    .active {
+    &.active {
       border-top: 0;
       border-left: 5px solid ${(props): string => props.theme.highlight.light};
     }
