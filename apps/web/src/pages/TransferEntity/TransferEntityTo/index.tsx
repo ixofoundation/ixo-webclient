@@ -254,7 +254,7 @@ const TransferEntityTo: React.FC = (): JSX.Element => {
                 width='100%'
                 height='48px'
                 label='Group Name'
-                inputValue={daoGroups[recipientDid.replace('did:ixo:wasm:', '')].config.name || ''}
+                inputValue={daoGroups[recipientDid.replace('did:ixo:wasm:', '')]?.config?.name || ''}
               />
               <InputWithLabel
                 name='entity_name'
