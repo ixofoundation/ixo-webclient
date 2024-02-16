@@ -13,7 +13,7 @@ import { useDispatch } from 'react-redux'
 import { updateEntityAction, updateEntityPropertyAction } from 'redux/entitiesExplorer/entitiesExplorer.actions'
 import EditProfile from '../../components/EditProfile'
 import EditProperty from '../../components/EditProperty'
-import EditClaimCollection from '../../components/EditClaimCollection'
+import EditSurveyTemplate from '../../components/EditSurveyTemplate'
 
 const EditEntity: React.FC = () => {
   const dispatch = useDispatch()
@@ -25,7 +25,6 @@ const EditEntity: React.FC = () => {
   const [editing, setEditing] = useState(false)
 
   useEffect(() => {
-    console.log(111111, currentEntity)
     setEditEntity(currentEntity)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(currentEntity)])
@@ -77,7 +76,7 @@ const EditEntity: React.FC = () => {
           Collection
         </Typography>
 
-        <EditClaimCollection />
+        <EditSurveyTemplate />
       </FlexBox>
 
       <FlexBox width='100%' $direction='column' $gap={8}>

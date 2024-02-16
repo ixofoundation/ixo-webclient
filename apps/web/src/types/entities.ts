@@ -620,4 +620,5 @@ export interface TEntityModel extends Omit<Entity, 'metadata'>, IidDocument {
   zlottie?: TZlottie
   daoGroups?: { [address: string]: TDAOGroupModel }
   claim?: { [id: string]: TEntityClaimModel }
+  surveyTemplate?: any
 }

@@ -50,7 +50,7 @@ export default function useEditEntity(): {
   const { signer } = useAccount()
   const editEntity: TEntityModel = useAppSelector(selectEditEntity)
   const { currentEntity } = useCurrentEntity()
-  const { SaveProfile, SaveAdministrator, SavePage, SaveTags, SaveClaim } = useCreateEntity()
+  const { SaveProfile, SaveAdministrator, SavePage, SaveTags, SaveClaim, SaveQuestionJSON } = useCreateEntity()
   const cellnodeService = editEntity?.service && editEntity?.service[0]
   const claimProtocols = useAppSelector(selectAllClaimProtocols)
 
@@ -118,14 +118,14 @@ export default function useEditEntity(): {
     return messages
   }
 
-  const getEditedClaimCollectionMsgs = async (): Promise<readonly EncodeObject[]> => {
-    if (JSON.stringify(editEntity.profile) === JSON.stringify(currentEntity.profile)) {
+  const getEditedSurveyTemplateMsgs = async (): Promise<readonly EncodeObject[]> => {
+    if (JSON.stringify(editEntity.surveyTemplate) === JSON.stringify(currentEntity.surveyTemplate)) {
       return []
     }
 
-    const res = await SaveProfile(editEntity.profile)
+    const res = await SaveQuestionJSON(editEntity.surveyTemplate)
     if (!res) {
-      throw new Error('Save Profile failed!')
+      throw new Error('Save Survey Template failed!')
     }
 
     let proof = ''
@@ -134,13 +134,13 @@ export default function useEditEntity(): {
     } else if (isCellnodeWeb3Resource(res)) {
       proof = res.cid
     } else {
-      throw new Error('Save Profile failed')
+      throw new Error('Save Survey Template failed')
     }
 
     const newLinkedResource: LinkedResource = {
-      id: '{id}#profile',
-      type: 'Settings',
-      description: 'Profile',
+      id: '{id}#surveyTemplate',
+      type: 'surveyTemplate',
+      description: '',
       mediaType: 'application/ld+json',
       serviceEndpoint: res.url,
       proof: proof,
@@ -460,6 +460,7 @@ export default function useEditEntity(): {
       ...(await getEditedLinkedEntityMsgs()),
       ...(await getEditedLinkedClaimMsgs()),
       ...(await getEditedVerificationMethodMsgs()),
+      ...(await getEditedSurveyTemplateMsgs()),
     ]
   }
 
