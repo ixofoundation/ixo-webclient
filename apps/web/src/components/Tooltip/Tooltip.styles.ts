@@ -59,7 +59,7 @@ export const TooltipInner = styled.div`
     transform-origin: top right;
   }
 
-  :after {
+  &:after {
     content: '';
     position: absolute;
   }
@@ -102,16 +102,16 @@ export const TooltipInner = styled.div`
 export const Hover = styled.div`
   position: relative;
 
-  > i {
+  & > i {
     font-size: 20px;
 
-    > :before {
+    & > :before {
       color: grey;
     }
   }
 
   @media (hover: hover) {
-    :hover {
+    &:hover {
       ${TooltipInner} {
         opacity: 1;
         transform: scale(1);
@@ -123,15 +123,15 @@ export const Hover = styled.div`
 export const AfterClick = styled.div<{ clicked: boolean }>`
   position: relative;
 
-  > i {
+  & > i {
     font-size: 20px;
 
-    > :before {
+    & > &:before {
       color: grey;
     }
   }
 
-  :hover {
+  &:hover {
     ${TooltipInner} {
       opacity: ${(props: any): any => (props.clicked === true ? '1' : '0')};
       transform: scale(1);
