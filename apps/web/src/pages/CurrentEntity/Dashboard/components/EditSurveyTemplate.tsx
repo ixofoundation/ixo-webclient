@@ -1,26 +1,36 @@
 import React, { useEffect } from 'react'
-import { FlexBox } from 'components/App/App.styles'
 import { SurveyCreator, SurveyCreatorComponent } from 'survey-creator-react'
 import useEditEntity from 'hooks/editEntity'
+import { Flex } from '@mantine/core';
+import styled from 'styled-components';
 
-const creator = new SurveyCreator()
+const Container = styled(Flex)`
+  & .svc-creator__banner {
+    display: none;
+  }
+`
 
+const creator = new SurveyCreator();
 const EditSurveyTemplate: React.FC = (): JSX.Element => {
   const { editEntity, setEditedField } = useEditEntity()
 
   useEffect(() => {
-    setEditedField('surveyTemplate', creator.JSON)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [JSON.stringify(creator.JSON)])
+    creator.isAutoSave = true;
+    creator.saveSurveyFunc = function (saveNo: any, callback: any) {
+      setEditedField('surveyTemplate', creator.JSON)
+      callback(saveNo, true);
+    }
+  }, [setEditedField])
 
   useEffect(() => {
     creator.JSON = editEntity.surveyTemplate
-  }, [editEntity.surveyTemplate])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [JSON.stringify(editEntity.surveyTemplate)])
 
   return (
-    <FlexBox $direction='column' $gap={7.5} width='100%'>
+    <Container direction='column' w='100%'>
       <SurveyCreatorComponent creator={creator} />
-    </FlexBox>
+    </Container>
   )
 }
 
