@@ -1,39 +1,19 @@
 import React, { lazy } from 'react'
-import { Route, Routes as ReactRouterRoutes, useNavigate } from 'react-router-dom'
+import { Route, Routes as ReactRouterRoutes, Navigate } from 'react-router-dom'
 import { useIxoConfigs } from 'hooks/configs'
 import { Flex } from '@mantine/core'
 
-const Splash = lazy(() => import(/* webpackChunkName: "Splash" */ 'pages/Splash/Splash'))
-const EditEntityPage = lazy(() => import(/* webpackChunkName: "EditEntityPage" */ 'pages/EditEntity/EditEntity'))
-const CurrentEntityPage = lazy(
-  () => import(/* webpackChunkName: "EntityExchangeTradeBid" */ 'pages/CurrentEntity/CurrentEntity'),
-)
-const EntityExchange = lazy(
-  () => import(/* webpackChunkName: "EntityExchange" */ 'pages/EntityExchange/EntityExchange'),
-)
+const Splash = lazy(() => import('pages/Splash/Splash'))
 
 const App: React.FunctionComponent = () => {
   const { entityConfig } = useIxoConfigs()
-  const navigate = useNavigate()
 
   const splashIsRootRoute = React.useMemo(() => !!entityConfig?.route?.splashIsRootRoute, [entityConfig])
 
-  React.useEffect(() => {
-    if (splashIsRootRoute) {
-      navigate('/')
-    } else {
-      navigate('/explore?type=dao')
-    }
-
-    // eslint-disable-next-line
-  }, [splashIsRootRoute])
-
   return (
     <ReactRouterRoutes>
+      {!splashIsRootRoute && <Route index element={<Navigate to={`/explore?type=dao`} />} />}
       <Route path='/' element={<Splash />} />
-      <Route path='exchange/*' element={<EntityExchange />} />
-      <Route path='edit/entity/:entityId' element={<EditEntityPage />} />
-      <Route path='entity/:entityId/*' element={<CurrentEntityPage />} />
       <Route
         path='*'
         element={
