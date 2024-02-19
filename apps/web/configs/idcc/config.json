@@ -448,7 +448,7 @@
       "sector": {
         "@type": "Category",
         "name": "Sector",
-        "hidden": true,
+        "hidden": false,
         "multiSelect": false,
         "selectedTag": "IDCC",
         "tags": [
@@ -1310,7 +1310,7 @@
       "sector": {
         "@type": "Category",
         "name": "Sector",
-        "hidden": true,
+        "hidden": false,
         "multiSelect": false,
         "selectedTag": "IDCC",
         "tags": [
@@ -2025,7 +2025,7 @@
       "sector": {
         "@type": "Category",
         "name": "Sector",
-        "hidden": true,
+        "hidden": false,
         "multiSelect": false,
         "selectedTag": "IDCC",
         "tags": [
@@ -3128,7 +3128,7 @@
       "sector": {
         "@type": "Category",
         "name": "Sector",
-        "hidden": true,
+        "hidden": false,
         "multiSelect": false,
         "selectedTag": "IDCC",
         "tags": [
@@ -3957,7 +3957,7 @@
       "sector": {
         "@type": "Category",
         "name": "Sector",
-        "hidden": true,
+        "hidden": false,
         "multiSelect": false,
         "selectedTag": "IDCC",
         "tags": [
@@ -4652,7 +4652,7 @@
       "sector": {
         "@type": "Category",
         "name": "Sector",
-        "hidden": true,
+        "hidden": false,
         "multiSelect": false,
         "selectedTag": "IDCC",
         "tags": [
