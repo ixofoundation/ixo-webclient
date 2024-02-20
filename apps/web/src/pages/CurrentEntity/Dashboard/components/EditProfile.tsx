@@ -2,6 +2,7 @@ import { Box, FlexBox } from 'components/App/App.styles'
 import React from 'react'
 import { ClaimProfileForm, DAOProfileForm, EntityAdditionalInfoForm } from 'pages/CreateEntity/Forms'
 import useEditEntity from 'hooks/editEntity'
+import { DeedProfileForm } from 'pages/CreateEntity/Forms/DeedProfileForm'
 
 const EditProfile: React.FC = (): JSX.Element => {
   const { editEntity, setEditedField } = useEditEntity()
@@ -33,8 +34,17 @@ const EditProfile: React.FC = (): JSX.Element => {
             setName={(name): void => handleUpdateProfile('name', name)}
           />
         )}
-        {editEntity.type?.startsWith('protocol') && (
+        {editEntity.type === 'protocol/claim' && (
           <ClaimProfileForm
+            type={editEntity.profile?.type || ''}
+            setType={(type): void => handleUpdateProfile('type', type)}
+            title={editEntity.profile?.name || ''}
+            setTitle={(name): void => handleUpdateProfile('name', name)}
+            description={editEntity.profile?.description || ''}
+          />
+        )}
+        {editEntity.type === 'protocol/deed' && (
+          <DeedProfileForm
             type={editEntity.profile?.type || ''}
             setType={(type): void => handleUpdateProfile('type', type)}
             title={editEntity.profile?.name || ''}

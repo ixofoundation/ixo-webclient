@@ -52,7 +52,7 @@ const SetupPageContent: React.FC<Props> = ({ page = {}, entityType, onChange, on
   const handleChange = (): void => {
     onChange && onChange(_.keyBy(value.blocks, 'id'))
   }
-  
+
   const handleInitialize = useCallback((instance: any) => {
     editorCore.current = instance
   }, [])
@@ -81,7 +81,7 @@ const SetupPageContent: React.FC<Props> = ({ page = {}, entityType, onChange, on
         </Box>
       </Row>
 
-      <Row style={{ display: 'block', pointerEvents: onChange ? 'auto' : 'none' }}>
+      <Row style={{ display: 'block', pointerEvents: onChange ? 'auto' : 'none', padding: 32 }}>
         <ReactEditorJS
           onInitialize={handleInitialize}
           onReady={handleReady}
