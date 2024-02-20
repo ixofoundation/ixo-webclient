@@ -9,7 +9,7 @@ import OracleDashboard from './OracleDashboard'
 
 const DashboardPage: React.FC = (): JSX.Element | null => {
   const currentEntity = useCurrentEntity()
-  const entityType = currentEntity.entityType.replace('protocol/', '')
+  const entityType = currentEntity.entityType
 
   const Component = useMemo(() => {
     switch (entityType) {
@@ -17,8 +17,8 @@ const DashboardPage: React.FC = (): JSX.Element | null => {
         return ProjectDashboard
       case 'dao':
         return DAODashboard
-      case 'deed':
-      case 'claim':
+      case 'protocol/deed':
+      case 'protocol/claim':
         return ClaimDashboard
       case 'investment':
         return InvestmentDashboard

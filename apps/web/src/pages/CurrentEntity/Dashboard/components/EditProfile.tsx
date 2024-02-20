@@ -1,7 +1,8 @@
 import { Box, FlexBox } from 'components/App/App.styles'
 import React from 'react'
-import { DAOProfileForm, EntityAdditionalInfoForm } from 'pages/CreateEntity/Forms'
+import { ClaimProfileForm, DAOProfileForm, EntityAdditionalInfoForm } from 'pages/CreateEntity/Forms'
 import useEditEntity from 'hooks/editEntity'
+import { DeedProfileForm } from 'pages/CreateEntity/Forms/DeedProfileForm'
 
 const EditProfile: React.FC = (): JSX.Element => {
   const { editEntity, setEditedField } = useEditEntity()
@@ -21,16 +22,36 @@ const EditProfile: React.FC = (): JSX.Element => {
     <FlexBox $justifyContent='stretch' $gap={12.5}>
       <Box className='d-flex flex-column'>
         <Box className='mb-2' />
-        <DAOProfileForm
-          image={editEntity.profile?.image}
-          setImage={(image): void => handleUpdateProfile('image', image)}
-          logo={editEntity.profile?.logo || ''}
-          setLogo={(logo): void => handleUpdateProfile('logo', logo)}
-          orgName={editEntity.profile?.orgName ?? ''}
-          setOrgName={(orgName): void => handleUpdateProfile('orgName', orgName)}
-          name={editEntity.profile?.name ?? ''}
-          setName={(name): void => handleUpdateProfile('name', name)}
-        />
+        {editEntity.type === 'dao' && (
+          <DAOProfileForm
+            image={editEntity.profile?.image}
+            setImage={(image): void => handleUpdateProfile('image', image)}
+            logo={editEntity.profile?.logo || ''}
+            setLogo={(logo): void => handleUpdateProfile('logo', logo)}
+            orgName={editEntity.profile?.orgName ?? ''}
+            setOrgName={(orgName): void => handleUpdateProfile('orgName', orgName)}
+            name={editEntity.profile?.name ?? ''}
+            setName={(name): void => handleUpdateProfile('name', name)}
+          />
+        )}
+        {editEntity.type === 'protocol/claim' && (
+          <ClaimProfileForm
+            type={editEntity.profile?.type || ''}
+            setType={(type): void => handleUpdateProfile('type', type)}
+            title={editEntity.profile?.name || ''}
+            setTitle={(name): void => handleUpdateProfile('name', name)}
+            description={editEntity.profile?.description || ''}
+          />
+        )}
+        {editEntity.type === 'protocol/deed' && (
+          <DeedProfileForm
+            type={editEntity.profile?.type || ''}
+            setType={(type): void => handleUpdateProfile('type', type)}
+            title={editEntity.profile?.name || ''}
+            setTitle={(name): void => handleUpdateProfile('name', name)}
+            description={editEntity.profile?.description || ''}
+          />
+        )}
       </Box>
       <Box className='d-flex flex-column justify-content-between' style={{ width: 400 }}>
         <Box>

@@ -1,7 +1,7 @@
 import { Card } from 'pages/CurrentEntity/Components'
 import React, { useMemo } from 'react'
 import { ReactComponent as AgentIcon } from 'assets/img/sidebar/agents.svg'
-import { Button, Flex } from '@mantine/core'
+import { Flex } from '@mantine/core'
 import { Typography } from 'components/Typography'
 import { TDAOGroupModel } from 'types/entities'
 import { useAccount } from 'hooks/account'
@@ -32,10 +32,6 @@ const VotingPowerCard: React.FC<Props> = ({ daoGroup }) => {
             <Typography>{userVotingPower}</Typography>
           </Flex>
         </Flex>
-
-        <Button w={'100%'} variant='outline' style={{ color: 'white' }}>
-          Propose Voting Power Change
-        </Button>
       </Flex>
     </Card>
   )

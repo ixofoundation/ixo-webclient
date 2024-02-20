@@ -5,7 +5,6 @@ import { Typography } from 'components/Typography'
 import { useTheme } from 'styled-components'
 import { thousandSeparator } from 'utils/formatters'
 import { HorizontalLine } from 'components/HorizontalLine'
-import { Tag } from 'components'
 import { getEntityIcon } from 'utils/getEntityIcon'
 import { useNavigate } from 'react-router'
 
@@ -138,11 +137,6 @@ export const DaoCard: React.FC<Props> = ({
                 {thousandSeparator(metrics?.activeProposals, ',')} active proposals
               </Typography>
             </FlexBox>
-          </FlexBox>
-
-          <FlexBox width='100%' $justifyContent='space-between' $alignItems='center'>
-            <Tag>{stage}</Tag>
-            <Tag>{stage}</Tag>
           </FlexBox>
         </FlexBox>
       </FlexBox>
