@@ -1,15 +1,20 @@
-import { customQueries, utils } from "@ixo/impactxclient-sdk"
-import { Service } from "@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types"
-import { CellnodePublicResource, CellnodeWeb3Resource } from "@ixo/impactxclient-sdk/types/custom_queries/cellnode"
-import { NodeType, TEntityClaimModel, TEntityCreatorModel, TEntityDDOTagModel, TEntityPageModel } from "types/entities"
-import { chainNetwork } from "./configs"
-import { TSigner } from "lib/protocol"
-import { useWallet } from "@ixo-webclient/wallet-connector"
+import { customQueries, utils } from '@ixo/impactxclient-sdk'
+import { Service } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
+import { CellnodePublicResource, CellnodeWeb3Resource } from '@ixo/impactxclient-sdk/types/custom_queries/cellnode'
+import { NodeType, TEntityClaimModel, TEntityCreatorModel, TEntityDDOTagModel, TEntityPageModel } from 'types/entities'
+import { chainNetwork } from './configs'
+import { TSigner } from 'lib/protocol'
+import { useWallet } from '@ixo-webclient/wallet-connector'
 
 export function useService(cellnodeService: Service) {
 	const { wallet } = useWallet()
 
-	const signer: TSigner = { address: wallet?.address || "", did: wallet?.did || "", pubKey: wallet?.pubKey || new Uint8Array(), keyType: "secp" }
+	const signer: TSigner = {
+		address: wallet?.address || '',
+		did: wallet?.did || '',
+		pubKey: wallet?.pubKey || new Uint8Array(),
+		keyType: 'secp',
+	}
 
 	/**
 	 * @description auto choose service for uploading data
