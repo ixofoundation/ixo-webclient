@@ -28,7 +28,6 @@ import {
   isCellnodeWeb3Resource,
 } from 'utils/entities'
 import { useAccount } from './account'
-import { useCreateEntity } from './createEntity'
 import useCurrentEntity from './currentEntity'
 import { DeliverTxResponse } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/stargate'
 import { ixo, utils } from '@ixo/impactxclient-sdk'
@@ -37,6 +36,7 @@ import { EntityLinkedResourceConfig } from 'constants/entity'
 import { selectAllClaimProtocols } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { useWallet } from '@ixo-webclient/wallet-connector'
 import { CellnodeWeb3Resource } from '@ixo/impactxclient-sdk/types/custom_queries/cellnode'
+import { useService } from './service'
 
 export default function useEditEntity(): {
   editEntity: TEntityModel
@@ -50,9 +50,17 @@ export default function useEditEntity(): {
   const { signer } = useAccount()
   const editEntity: TEntityModel = useAppSelector(selectEditEntity)
   const { currentEntity } = useCurrentEntity()
-  const { SaveProfile, SaveAdministrator, SavePage, SaveTags, SaveClaim, SaveQuestionJSON } = useCreateEntity()
   const cellnodeService = editEntity?.service && editEntity?.service[0]
   const claimProtocols = useAppSelector(selectAllClaimProtocols)
+
+  const {
+    SaveProfile,
+    SaveAdministrator,
+    SavePage,
+    SaveTags,
+    SaveQuestionJSON,
+    SaveClaim
+  } = useService(cellnodeService)
 
   const setEditedField = (key: string, value: any, merge = false) => {
     dispatch(setEditedFieldAction({ key, data: value, merge }))
