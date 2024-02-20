@@ -1,11 +1,11 @@
 import { pools, tokens } from 'constants/pools'
 import { TokenAmount, TokenSelect, TokenType } from 'types/swap'
 import { CURRENCY_TOKEN } from 'types/wallet'
-import { createQueryClient as createQueryClientImport } from '@ixo/impactxclient-sdk'
 import { Uint8ArrayToJS, getMicroAmount, strToArray } from './encoding'
-import { GetBalances, RPC_ENDPOINT } from 'lib/protocol'
+import { GetBalances } from 'lib/protocol'
 import { findDenomByMinimalDenom, minimalAmountToAmount } from 'redux/account/account.utils'
 import { SupportedDenoms, SupportedStandards } from 'hooks/exchange'
+import { getQueryClient } from 'lib/queryClient'
 
 export const getInputTokenAmount = (
   token: CURRENCY_TOKEN,
@@ -66,19 +66,12 @@ export const getTokenSelectByDenom = (denom: string): TokenSelect =>
 export const getTokenTypeByDenom = (denom: string): TokenType => tokens.get(denom)?.type as TokenType
 export const isCw1155Token = (denom: string) => getTokenTypeByDenom(denom) === TokenType.Cw1155
 
-export let queryClient: Awaited<ReturnType<typeof createQueryClientImport>>
-
-export const createQueryClient = async (setNewGlobal = true, rpcEndpoint?: string) => {
-  const newQueryClient = await createQueryClientImport(rpcEndpoint || (RPC_ENDPOINT as string))
-  if (setNewGlobal) queryClient = newQueryClient
-  return newQueryClient
-}
-
 export const queryOutputAmount = async (
   inputTokenType: TokenType,
   inputTokenAmount: TokenAmount,
   swapContractAddress: string,
 ) => {
+  const queryClient = await getQueryClient
   let query = {}
   if (inputTokenType === TokenType.Token1155) {
     query = {
@@ -94,7 +87,6 @@ export const queryOutputAmount = async (
     }
   }
 
-  await createQueryClient()
   const response = await queryClient.cosmwasm.wasm.v1.smartContractState({
     address: swapContractAddress,
     queryData: strToArray(JSON.stringify(query)),
@@ -160,7 +152,7 @@ export const formatOutputAmount = (
 }
 
 export const queryTokenBalances = async (
-  queryClientArg: typeof queryClient,
+  queryClientArg: Awaited<typeof getQueryClient>,
   chain: string,
   address: string,
 ): Promise<CURRENCY_TOKEN[]> => {
@@ -226,7 +218,7 @@ export const queryTokenBalances = async (
 
 export const getTokenBalances = async ({ accountAddress }: { accountAddress: string }) => {
   const bankBalances = await GetBalances(accountAddress)
-  await createQueryClient()
+  const queryClient = await getQueryClient
   const tokenBalances = await queryTokenBalances(queryClient, 'devnet-1', accountAddress).then((response) =>
     response ? response : [],
   )

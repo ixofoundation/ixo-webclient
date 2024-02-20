@@ -1,7 +1,7 @@
 import Dashboard from 'components/Dashboard/Dashboard'
 import { HeaderTab, Path } from 'components/Dashboard/types'
 import useCurrentEntity, { useCurrentEntityProfile } from 'hooks/currentEntity'
-import { Navigate, Routes, Route, useParams, useMatch } from 'react-router-dom'
+import { Navigate, Routes, Route, useParams } from 'react-router-dom'
 import { requireCheckDefault } from 'utils/images'
 import ClaimQuestions from './ClaimQuestions'
 import { toTitleCase } from 'utils/formatters'
@@ -10,7 +10,6 @@ import EditEntity from './EditEntity'
 
 const ClaimDashboard: React.FC = (): JSX.Element => {
   const { entityId } = useParams<{ entityId: string }>()
-  const isEditEntityRoute = useMatch('/entity/:entityId/dashboard/edit')
   const entityType = 'protocol'
   const { owner } = useCurrentEntity()
   const { name } = useCurrentEntityProfile()
@@ -70,7 +69,7 @@ const ClaimDashboard: React.FC = (): JSX.Element => {
     },
   ]
 
-  const theme = isEditEntityRoute ? 'light' : 'dark'
+  const theme = 'light'
 
   return (
     <Dashboard
