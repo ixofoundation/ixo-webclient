@@ -4,6 +4,7 @@ import IxoSwapAdapter from 'adapters/IxoSwapAdapter'
 import { useAccount } from 'hooks/account'
 
 import { useWallet } from '@ixo-webclient/wallet-connector'
+import { fee } from 'lib/protocol'
 
 type RenderSignStepProps = {
   inputAsset: any
@@ -26,9 +27,9 @@ const RenderSignStep = ({ inputAsset, outputAsset, setCurrentStep }: RenderSignS
           setCurrentStep((prevStep) => prevStep + 1)
         }
 
-        const swapMessage = approveTrx ? [approveTrx, swapTrx] : [swapTrx]
+        const swapMessage = approveTrx ? [approveTrx, swapTrx] : [swapTrx] as any
      
-        execute({messages: swapMessage, fee: undefined}).then(() => callback())
+        execute({messages: swapMessage, fee: fee, memo: undefined}).then(() => callback())
       })
     })
   }, [inputAsset, outputAsset, offlineSigner, setCurrentStep, address, execute])

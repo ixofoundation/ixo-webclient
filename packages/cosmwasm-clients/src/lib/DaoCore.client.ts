@@ -211,7 +211,7 @@ export class DaoCoreClient extends BaseClient {
     msgs
   }: {
     msgs: CosmosMsgForEmpty[];
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       execute_admin_msgs: {
         msgs
@@ -222,7 +222,7 @@ export class DaoCoreClient extends BaseClient {
     msgs
   }: {
     msgs: CosmosMsgForEmpty[];
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       execute_proposal_hook: {
         msgs
@@ -233,7 +233,7 @@ export class DaoCoreClient extends BaseClient {
     duration
   }: {
     duration: Duration;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       pause: {
         duration
@@ -248,7 +248,7 @@ export class DaoCoreClient extends BaseClient {
     amount: Uint128;
     msg: Binary;
     sender: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       receive: {
         amount,
@@ -265,7 +265,7 @@ export class DaoCoreClient extends BaseClient {
     msg: Binary;
     sender: string;
     tokenId: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       receive_nft: {
         msg,
@@ -278,7 +278,7 @@ export class DaoCoreClient extends BaseClient {
     key
   }: {
     key: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       remove_item: {
         key
@@ -291,7 +291,7 @@ export class DaoCoreClient extends BaseClient {
   }: {
     key: string;
     value: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       set_item: {
         key,
@@ -303,19 +303,19 @@ export class DaoCoreClient extends BaseClient {
     admin
   }: {
     admin?: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       nominate_admin: {
         admin
       }
     }, fee, memo, funds);
   };
-  acceptAdminNomination = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  acceptAdminNomination = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       accept_admin_nomination: {}
     }, fee, memo, funds);
   };
-  withdrawAdminNomination = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  withdrawAdminNomination = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       withdraw_admin_nomination: {}
     }, fee, memo, funds);
@@ -324,7 +324,7 @@ export class DaoCoreClient extends BaseClient {
     config
   }: {
     config: Config;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       update_config: {
         config
@@ -337,7 +337,7 @@ export class DaoCoreClient extends BaseClient {
   }: {
     toAdd: string[];
     toRemove: string[];
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       update_cw20_list: {
         to_add: toAdd,
@@ -351,7 +351,7 @@ export class DaoCoreClient extends BaseClient {
   }: {
     toAdd: string[];
     toRemove: string[];
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       update_cw721_list: {
         to_add: toAdd,
@@ -365,7 +365,7 @@ export class DaoCoreClient extends BaseClient {
   }: {
     toAdd: ModuleInstantiateInfo[];
     toDisable: string[];
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       update_proposal_modules: {
         to_add: toAdd,
@@ -377,7 +377,7 @@ export class DaoCoreClient extends BaseClient {
     module
   }: {
     module: ModuleInstantiateInfo;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       update_voting_module: {
         module
@@ -390,7 +390,7 @@ export class DaoCoreClient extends BaseClient {
   }: {
     toAdd: SubDao[];
     toRemove: string[];
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       update_sub_daos: {
         to_add: toAdd,

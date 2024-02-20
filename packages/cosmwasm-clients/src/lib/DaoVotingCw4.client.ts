@@ -50,7 +50,7 @@ export class DaoVotingCw4Client extends BaseClient {
     diffs
   }: {
     diffs: MemberDiff[];
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       member_changed_hook: {
         diffs

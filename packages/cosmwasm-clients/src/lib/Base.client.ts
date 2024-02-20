@@ -61,7 +61,7 @@ type SignXMessageProps = {
     memo: string | undefined;
 }
 
-type ExecuteFunctionProps = (data: SignXMessageProps) => Promise<DeliverTxResponse | string>;
+type ExecuteFunctionProps = (data: SignXMessageProps) => Promise<DeliverTxResponse>;
 
 export class BaseClient {
     private executeFunction: ExecuteFunctionProps
@@ -83,8 +83,7 @@ export class BaseClient {
 
         const instruction = { messages: [msgs], fee, memo }
 
-        if (this.executeFunction) {
-            return await this.executeFunction(instruction);
-        }
+
+        return await this.executeFunction(instruction);
     }
 }

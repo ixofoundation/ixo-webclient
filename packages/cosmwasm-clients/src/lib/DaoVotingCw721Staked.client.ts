@@ -101,7 +101,7 @@ export class DaoVotingCw721StakedClient extends BaseClient {
     msg: Binary;
     sender: string;
     tokenId: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       receive_nft: {
         msg,
@@ -114,14 +114,14 @@ export class DaoVotingCw721StakedClient extends BaseClient {
     tokenIds
   }: {
     tokenIds: string[];
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       unstake: {
         token_ids: tokenIds
       }
     }, fee, memo, funds);
   };
-  claimNfts = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  claimNfts = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       claim_nfts: {}
     }, fee, memo, funds);
@@ -132,7 +132,7 @@ export class DaoVotingCw721StakedClient extends BaseClient {
   }: {
     duration?: Duration;
     owner?: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       update_config: {
         duration,
@@ -144,7 +144,7 @@ export class DaoVotingCw721StakedClient extends BaseClient {
     addr
   }: {
     addr: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       add_hook: {
         addr
@@ -155,7 +155,7 @@ export class DaoVotingCw721StakedClient extends BaseClient {
     addr
   }: {
     addr: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       remove_hook: {
         addr

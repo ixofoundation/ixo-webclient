@@ -4,7 +4,7 @@
 * and run the @cosmwasm/ts-codegen generate command to regenerate this file.
 */
 
-import { CosmWasmClient, SigningCosmWasmClient, ExecuteResult } from "@cosmjs/cosmwasm-stargate";
+import { ExecuteResult } from "@cosmjs/cosmwasm-stargate";
 import { StdFee } from "@cosmjs/amino";
 import { Duration, PreProposeInfo, Threshold, CosmosMsgForEmpty, Uint64, Vote, Coin, Addr, Config, VoteResponse, InfoResponse, ProposalListResponse, ProposalResponse, VoteListResponse, ProposalCreationPolicy, HooksResponse } from "./DaoProposalSingle.types";
 import { BaseClient, DeliverTxResponse } from "./Base.client";
@@ -168,7 +168,7 @@ export class DaoProposalSingleClient extends BaseClient {
     msgs: CosmosMsgForEmpty[];
     proposer?: string;
     title: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       propose: {
         description,
@@ -186,7 +186,7 @@ export class DaoProposalSingleClient extends BaseClient {
     proposalId: number;
     rationale?: string;
     vote: Vote;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       vote: {
         proposal_id: proposalId,
@@ -201,7 +201,7 @@ export class DaoProposalSingleClient extends BaseClient {
   }: {
     proposalId: number;
     rationale?: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       update_rationale: {
         proposal_id: proposalId,
@@ -213,7 +213,7 @@ export class DaoProposalSingleClient extends BaseClient {
     proposalId
   }: {
     proposalId: number;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       execute: {
         proposal_id: proposalId
@@ -224,7 +224,7 @@ export class DaoProposalSingleClient extends BaseClient {
     proposalId
   }: {
     proposalId: number;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       close: {
         proposal_id: proposalId
@@ -247,7 +247,7 @@ export class DaoProposalSingleClient extends BaseClient {
     minVotingPeriod?: Duration;
     onlyMembersExecute: boolean;
     threshold: Threshold;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       update_config: {
         allow_revoting: allowRevoting,
@@ -264,7 +264,7 @@ export class DaoProposalSingleClient extends BaseClient {
     info
   }: {
     info: PreProposeInfo;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       update_pre_propose_info: {
         info
@@ -275,7 +275,7 @@ export class DaoProposalSingleClient extends BaseClient {
     address
   }: {
     address: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       add_proposal_hook: {
         address
@@ -286,7 +286,7 @@ export class DaoProposalSingleClient extends BaseClient {
     address
   }: {
     address: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       remove_proposal_hook: {
         address
@@ -297,7 +297,7 @@ export class DaoProposalSingleClient extends BaseClient {
     address
   }: {
     address: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       add_vote_hook: {
         address
@@ -308,7 +308,7 @@ export class DaoProposalSingleClient extends BaseClient {
     address
   }: {
     address: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       remove_vote_hook: {
         address

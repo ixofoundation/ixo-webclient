@@ -72,7 +72,7 @@ export class DaoVotingNativeStakedClient extends BaseClient {
     this.claim = this.claim.bind(this);
   }
 
-  stake = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  stake = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       stake: {}
     }, fee, memo, funds);
@@ -81,7 +81,7 @@ export class DaoVotingNativeStakedClient extends BaseClient {
     amount
   }: {
     amount: Uint128;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       unstake: {
         amount
@@ -96,7 +96,7 @@ export class DaoVotingNativeStakedClient extends BaseClient {
     duration?: Duration;
     manager?: string;
     owner?: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       update_config: {
         duration,
@@ -105,7 +105,7 @@ export class DaoVotingNativeStakedClient extends BaseClient {
       }
     }, fee, memo, funds);
   };
-  claim = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  claim = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       claim: {}
     }, fee, memo, funds);

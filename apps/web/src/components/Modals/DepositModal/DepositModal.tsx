@@ -20,6 +20,8 @@ import { isGreaterThanOrEqualTo } from 'utils/currency'
 import { selectGroupByCoreAddress } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { ReactComponent as NextStepImage } from 'assets/images/modal/nextstep.svg'
 import { contracts } from '@ixo/impactxclient-sdk'
+import { useWallet } from '@ixo-webclient/wallet-connector'
+import { Cw20BaseClient } from '@ixo-webclient/cosmwasm-clients'
 
 const StyledInput = styled(Input)`
   color: white;
@@ -65,7 +67,7 @@ const DepositModal: React.FunctionComponent<Props> = ({
   onSuccess,
 }) => {
   const theme: any = useTheme()
-  const { signingClient, signer, nativeTokens, cw20Tokens, cwClient, cosmWasmClient } = useAccount()
+  const { signingClient, signer, nativeTokens, cw20Tokens, cwClient } = useAccount()
   const [tokenOptions, setTokenOptions] = useState<{ text: string; value: string }[]>([
     { value: NATIVE_MICRODENOM, text: NATIVE_DENOM },
   ])
@@ -85,6 +87,8 @@ const DepositModal: React.FunctionComponent<Props> = ({
   const [amount, setAmount] = useState<string>('')
   const [txStatus, setTXStatus] = useState<TXStatus>(TXStatus.UNDEFINED)
   const [txHash, setTXHash] = useState<string>('')
+
+  const { execute } = useWallet()
 
   const validAmount = isGreaterThanOrEqualTo(balance, amount)
 
@@ -135,7 +139,7 @@ const DepositModal: React.FunctionComponent<Props> = ({
       )
       const stakingContract = await daoVotingCw20StakedClient.stakingContract()
       const tokenContract = await daoVotingCw20StakedClient.tokenContract()
-      const cw20BaseClient = new contracts.Cw20Base.Cw20BaseClient(cosmWasmClient, signer.address, tokenContract)
+      const cw20BaseClient = new Cw20BaseClient(execute, signer.address, tokenContract)
       const { transactionHash } = await cw20BaseClient.send(
         {
           amount: convertDenomToMicroDenomWithDecimals(amount, selectedToken.decimals).toString(),

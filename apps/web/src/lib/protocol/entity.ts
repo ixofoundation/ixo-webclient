@@ -93,7 +93,7 @@ export const CreateEntityMessage = async (
   })
   const updatedFee = { ...fee, gas: new BigNumber(fee.gas).times(messages.length).toString() }
   console.log('CreateEntity', { messages })
-  return { messages, fee: updatedFee }
+  return { messages, fee: updatedFee, memo: undefined }
 }
 
 export const EntityList = async (request: QueryEntityListRequest): Promise<QueryEntityListResponse> => {
@@ -165,7 +165,7 @@ export const TransferEntityMessage = async (signer: TSigner, payload: Partial<Ms
   }
 
   console.log('TransferEntity', { message })
-  return { messages: [message], fee }
+  return { messages: [message], fee, memo: undefined }
 }
 
 export const UpdateEntityMessage = async (signer: TSigner, payload: Partial<MsgUpdateEntity>) => {
@@ -191,5 +191,5 @@ export const UpdateEntityMessage = async (signer: TSigner, payload: Partial<MsgU
   }
 
   console.log('UpdateEntity', { message })
-  return { messages: [message], fee }
+  return { messages: [message], fee, memo: undefined }
 }

@@ -89,7 +89,7 @@ export class DaoPreProposeApprovalSingleClient extends BaseClient {
     msg
   }: {
     msg: ProposeMessage;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       propose: {
         msg
@@ -102,7 +102,7 @@ export class DaoPreProposeApprovalSingleClient extends BaseClient {
   }: {
     depositInfo?: UncheckedDepositInfo;
     openProposalSubmission: boolean;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       update_config: {
         deposit_info: depositInfo,
@@ -114,7 +114,7 @@ export class DaoPreProposeApprovalSingleClient extends BaseClient {
     denom
   }: {
     denom?: UncheckedDenom;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       withdraw: {
         denom
@@ -125,7 +125,7 @@ export class DaoPreProposeApprovalSingleClient extends BaseClient {
     msg
   }: {
     msg: ExecuteExt;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       extension: {
         msg
@@ -136,7 +136,7 @@ export class DaoPreProposeApprovalSingleClient extends BaseClient {
     address
   }: {
     address: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       add_proposal_submitted_hook: {
         address
@@ -147,7 +147,7 @@ export class DaoPreProposeApprovalSingleClient extends BaseClient {
     address
   }: {
     address: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       remove_proposal_submitted_hook: {
         address
@@ -160,7 +160,7 @@ export class DaoPreProposeApprovalSingleClient extends BaseClient {
   }: {
     newStatus: Status;
     proposalId: number;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       proposal_completed_hook: {
         new_status: newStatus,

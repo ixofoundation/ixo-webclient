@@ -36,6 +36,8 @@ import { TEntityModel, TProposalActionModel } from 'types/entities'
 import { EntityLinkedResourceConfig, ProposalActionConfigMap } from 'constants/entity'
 import { Typography } from 'components/Typography'
 import { getDisplayAmount } from 'utils/currency'
+import { useWallet } from '@ixo-webclient/wallet-connector'
+import { DaoProposalSingleClient } from '@ixo-webclient/cosmwasm-clients'
 
 const Container = styled.div<{ isDark: boolean }>`
   background: ${(props) =>
@@ -136,7 +138,8 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
   const { isImpactsDAO, isMemberOfImpactsDAO, isOwner, daoController, refetchAndUpdate } = useCurrentEntity()
   const { daoGroup, proposalModuleAddress, isParticipating, depositInfo, tqData } =
     useCurrentEntityDAOGroup(coreAddress)
-  const { cwClient, cosmWasmClient, address } = useAccount()
+  const { cwClient, address } = useAccount()
+  const { execute } = useWallet()
 
   const [myVoteStatus, setMyVoteStatus] = useState<VoteInfo | undefined>(undefined)
   const [votes, setVotes] = useState<VoteInfo[]>([])
@@ -202,8 +205,8 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
   }, [address, cwClient, proposalId, proposalModuleAddress])
 
   const handleVote = async (vote: Vote): Promise<string> => {
-    const daoProposalSingleClient = new contracts.DaoProposalSingle.DaoProposalSingleClient(
-      cosmWasmClient,
+    const daoProposalSingleClient = new DaoProposalSingleClient(
+      execute,
       address,
       proposalModuleAddress,
     )
@@ -221,15 +224,15 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
   }
 
   const handleExecuteProposal = () => {
-    const daoProposalSingleClient = new contracts.DaoProposalSingle.DaoProposalSingleClient(
-      cosmWasmClient,
+    const daoProposalSingleClient = new DaoProposalSingleClient(
+      execute,
       address,
       proposalModuleAddress,
     )
     daoProposalSingleClient
-      .execute({ proposalId }, fee, undefined, undefined)
-      .then(({ transactionHash, logs, events, gasUsed, gasWanted, height }) => {
-        console.log('handleExecuteProposal', { transactionHash, logs, events, gasUsed, gasWanted, height })
+      .executeProposal({ proposalId }, fee, undefined, undefined)
+      .then(({ transactionHash, rawLog, events, gasUsed, gasWanted, height }) => {
+        console.log('handleExecuteProposal', { transactionHash, rawLog, events, gasUsed, gasWanted, height })
         if (transactionHash) {
           onUpdate && onUpdate()
           Toast.successToast(null, 'Successfully executed proposal')
@@ -243,15 +246,15 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
   }
 
   const handleCloseProposal = () => {
-    const daoProposalSingleClient = new contracts.DaoProposalSingle.DaoProposalSingleClient(
-      cosmWasmClient,
+    const daoProposalSingleClient = new DaoProposalSingleClient(
+      execute,
       address,
       proposalModuleAddress,
     )
     daoProposalSingleClient
       .close({ proposalId }, fee, undefined, undefined)
-      .then(({ transactionHash, logs }) => {
-        console.log('handleCloseProposal', transactionHash, logs)
+      .then(({ transactionHash, rawLog }) => {
+        console.log('handleCloseProposal', transactionHash, rawLog)
         if (transactionHash) {
           onUpdate && onUpdate()
           Toast.successToast(null, 'Successfully closed proposal')

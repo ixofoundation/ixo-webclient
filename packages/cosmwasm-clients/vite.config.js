@@ -33,15 +33,6 @@ export default defineConfig({
       'crypto': 'crypto-browserify',
       'path': 'path-browserify',
       'process': 'process/browser',
-      "keplr": ["/src/keplr"],
-      "hooks": ["/src/hooks"],
-      "contexts": ["/src/contexts"],
-      "walletModal": ["/src/walletModal"],
-      "assets": ["/src/assets"],
-      "@constants": ["/src/constants"],
-      "utils": ["/src/utils"],
-      "impactsxmobile": ["/src/impactsxmobile"],
-      "components": ["./components"]
     }
   }
 });

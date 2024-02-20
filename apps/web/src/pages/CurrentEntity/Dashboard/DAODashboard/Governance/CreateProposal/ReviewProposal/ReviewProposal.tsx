@@ -31,9 +31,9 @@ import { LinkedResourceSetupModal } from 'components/Modals'
 import { useTheme } from 'styled-components'
 import { EntityLinkedResourceConfig, ProposalActionConfig } from 'constants/entity'
 import { useWallet } from '@ixo-webclient/wallet-connector'
-import { DaoPreProposeSingle } from 'lib/DaoProposalSingle'
 import { DeliverTxResponse } from '@cosmjs/stargate'
 import { AddLinkedEntityMessage } from 'lib/protocol/iid.messages'
+import { DaoPreProposeSingleClient } from '@ixo-webclient/cosmwasm-clients'
 
 
 const ReviewProposal: React.FC = () => {
@@ -214,27 +214,34 @@ const ReviewProposal: React.FC = () => {
         }
       })
       .filter(Boolean) as CosmosMsgForEmpty[]
-    const daoPreProposeSingleClient = new DaoPreProposeSingle(preProposalContractAddress, wallet.address, execute)
+    const daoPreProposeSingleClient = new DaoPreProposeSingleClient(execute, wallet.address, preProposalContractAddress)
 
-    const propose = daoPreProposeSingleClient.propose(
-      { description: profile?.description || '', msgs: wasmMessage, title: profile?.name || '', deedDid },
+    daoPreProposeSingleClient.propose(
+      {
+        msg: {
+          propose: {
+            description: (profile?.description || '') + `#deed:${deedDid}`,
+            msgs: wasmMessage,
+            title: profile?.name || '',
+          },
+        },
+      },
       fee,
       undefined,
       depositInfo ? [depositInfo] : undefined,
     )
-
-    try {
-      const proposeResponse = (await execute(propose)) as DeliverTxResponse
-
-      const proposalId = Number(utils.common.getValueFromEvents(proposeResponse, 'wasm', 'proposal_id') || '0')
+    .then((res) => {
+      const { transactionHash } = res
+      const proposalId = Number(utils.common.getValueFromEvents(res as unknown as DeliverTxResponse, 'wasm', 'proposal_id') || '0')
 
       Toast.successToast(null, `Successfully published proposals`)
-      return { transactionHash: proposeResponse.transactionHash, proposalId }
-    } catch (error) {
-      console.error(error)
-      Toast.errorToast(null, 'Proposal could not be published')
+      return { transactionHash, proposalId }
+    })
+    .catch((e) => {
+      console.error(e)
+      Toast.errorToast(null, e)
       return undefined
-    }
+    })
   }
 
   const handleCreateDeed = async (): Promise<string> => {
