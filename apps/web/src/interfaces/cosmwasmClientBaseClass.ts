@@ -1,5 +1,4 @@
-import { DeliverTxResponse } from "@cosmjs/stargate";
-import { StdFee } from "@cosmjs/stargate";
+import { DeliverTxResponse, StdFee } from "@cosmjs/stargate";
 import { MsgExecuteContract } from "@ixo/impactxclient-sdk/types/codegen/cosmwasm/wasm/v1/tx";
 
 export type SignXMessageProps = {

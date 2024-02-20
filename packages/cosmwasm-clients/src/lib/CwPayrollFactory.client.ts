@@ -111,7 +111,7 @@ export class CwPayrollFactoryClient extends BaseClient {
     amount: Uint128;
     msg: Binary;
     sender: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       receive: {
         amount,
@@ -126,7 +126,7 @@ export class CwPayrollFactoryClient extends BaseClient {
   }: {
     instantiateMsg: InstantiateMsg;
     label: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       instantiate_native_payroll_contract: {
         instantiate_msg: instantiateMsg,
@@ -138,14 +138,14 @@ export class CwPayrollFactoryClient extends BaseClient {
     vestingCodeId
   }: {
     vestingCodeId: number;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       update_code_id: {
         vesting_code_id: vestingCodeId
       }
     }, fee, memo, funds);
   };
-  updateOwnership = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  updateOwnership = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       update_ownership: {}
     }, fee, memo, funds);

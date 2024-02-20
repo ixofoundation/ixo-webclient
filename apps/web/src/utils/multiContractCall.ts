@@ -5,7 +5,7 @@ import { getQueryClient } from 'lib/queryClient'
 
 export const queryMultipleContracts = async (queries: any): Promise<any> => {
   try {
-    const queryClient = await getQueryClient
+    const queryClient = await getQueryClient()
 
     const msg = {
       aggregate: {

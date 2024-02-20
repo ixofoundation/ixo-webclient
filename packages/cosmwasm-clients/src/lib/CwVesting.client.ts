@@ -90,7 +90,7 @@ export class CwVestingClient extends BaseClient {
     amount: Uint128;
     msg: Binary;
     sender: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       receive: {
         amount,
@@ -99,12 +99,12 @@ export class CwVestingClient extends BaseClient {
       }
     }, fee, memo, funds);
   };
-  distribute = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  distribute = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       distribute: {}
     }, fee, memo, funds);
   };
-  cancel = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  cancel = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       cancel: {}
     }, fee, memo, funds);
@@ -115,7 +115,7 @@ export class CwVestingClient extends BaseClient {
   }: {
     amount: Uint128;
     validator: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       delegate: {
         amount,
@@ -131,7 +131,7 @@ export class CwVestingClient extends BaseClient {
     amount: Uint128;
     dstValidator: string;
     srcValidator: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       redelegate: {
         amount,
@@ -146,7 +146,7 @@ export class CwVestingClient extends BaseClient {
   }: {
     amount: Uint128;
     validator: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       undelegate: {
         amount,
@@ -158,7 +158,7 @@ export class CwVestingClient extends BaseClient {
     address
   }: {
     address: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       set_withdraw_address: {
         address
@@ -169,14 +169,14 @@ export class CwVestingClient extends BaseClient {
     validator
   }: {
     validator: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       withdraw_delegator_reward: {
         validator
       }
     }, fee, memo, funds);
   };
-  updateOwnership = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  updateOwnership = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       update_ownership: {}
     }, fee, memo, funds);

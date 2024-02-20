@@ -61,7 +61,7 @@ export const GetBalances = async (address: string, rpc = RPC_ENDPOINT): Promise<
   if (!address) {
     throw new Error('address is undefined')
   }
-  const client = await getQueryClient
+  const client = await getQueryClient()
   const res = await client.cosmos.bank.v1beta1.allBalances({
     address,
   })
@@ -76,7 +76,7 @@ export const GetTokenAsset = async (denom: string, rpc = RPC_ENDPOINT): Promise<
 
   const isIbc = /^ibc\//i.test(denom)
   if (isIbc) {
-    const client = await getQueryClient
+    const client = await getQueryClient()
     const ibcToken = await customQueries.currency.findIbcTokenFromHash(client, denom)
     if (!ibcToken.token) {
       // eslint-disable-next-line no-throw-literal
@@ -91,7 +91,7 @@ export const GetTokenAsset = async (denom: string, rpc = RPC_ENDPOINT): Promise<
 
 export const GetValidators = async (): Promise<Validator[]> => {
   try {
-    const client = await getQueryClient
+    const client = await getQueryClient()
 
     const { validators = [] } = await client.cosmos.staking.v1beta1.validators({ status: '' })
     return validators
@@ -106,7 +106,7 @@ export const GetValidatorByAddr = async (validatorAddr: string): Promise<Validat
     if (!validatorAddr) {
       throw new Error('validatorAddr is undefined')
     }
-    const client = await getQueryClient
+    const client = await getQueryClient()
 
     const { validator } = await client.cosmos.staking.v1beta1.validator({
       validatorAddr,
@@ -123,7 +123,7 @@ export const GetDelegation = async (
   delegatorAddr: string,
 ): Promise<DelegationResponse | undefined> => {
   try {
-    const client = await getQueryClient
+    const client = await getQueryClient()
 
     const { delegationResponse } = await client.cosmos.staking.v1beta1.delegation({ validatorAddr, delegatorAddr })
     return delegationResponse
@@ -135,7 +135,7 @@ export const GetDelegation = async (
 
 export const GetDelegatorValidators = async (delegatorAddr: string): Promise<Validator[]> => {
   try {
-    const client = await getQueryClient
+    const client = await getQueryClient()
 
     const { validators } = await client.cosmos.staking.v1beta1.delegatorValidators({ delegatorAddr })
     return validators
@@ -147,7 +147,7 @@ export const GetDelegatorValidators = async (delegatorAddr: string): Promise<Val
 
 export const GetDelegatorDelegations = async (delegatorAddr: string): Promise<DelegationResponse[]> => {
   try {
-    const client = await getQueryClient
+    const client = await getQueryClient()
 
     const { delegationResponses } = await client.cosmos.staking.v1beta1.delegatorDelegations({ delegatorAddr })
     return delegationResponses
@@ -159,7 +159,7 @@ export const GetDelegatorDelegations = async (delegatorAddr: string): Promise<De
 
 export const GetDelegatorUnbondingDelegations = async (delegatorAddr: string): Promise<UnbondingDelegation[]> => {
   try {
-    const client = await getQueryClient
+    const client = await getQueryClient()
 
     const { unbondingResponses } = await client.cosmos.staking.v1beta1.delegatorUnbondingDelegations({ delegatorAddr })
     return unbondingResponses
@@ -173,7 +173,7 @@ export const GetDelegationTotalRewards = async (
   delegatorAddress: string,
 ): Promise<QueryDelegationTotalRewardsResponse | undefined> => {
   try {
-    const client = await getQueryClient
+    const client = await getQueryClient()
 
     const totalRewardsResponse = await client.cosmos.distribution.v1beta1.delegationTotalRewards({ delegatorAddress })
     return totalRewardsResponse
@@ -286,7 +286,7 @@ export const GetWithdrawAddress = async (address: string): Promise<string> => {
     if (!address) {
       throw new Error('address is undefined')
     }
-    const client = await getQueryClient
+    const client = await getQueryClient()
 
     const { withdrawAddress } = await client.cosmos.distribution.v1beta1.delegatorWithdrawAddress({
       delegatorAddress: address,

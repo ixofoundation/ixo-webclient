@@ -35,7 +35,7 @@ export const CreateCollection = async (
   }))
   const updatedFee = { ...fee, gas: new BigNumber(fee.gas).times(messages.length).toString() }
 
-  return { messages, fee: updatedFee}
+  return { messages, fee: updatedFee, memo: undefined }
 }
 
 export const GrantEntityAccountClaimsSubmitAuthz = async (
@@ -101,7 +101,7 @@ export const GrantEntityAccountClaimsSubmitAuthz = async (
     }),
   }
 
-  return { messages: [message], fee}
+  return { messages: [message], fee, memo: undefined }
 }
 
 export const MsgExecAgentSubmit = async (
@@ -134,7 +134,7 @@ export const MsgExecAgentSubmit = async (
     }),
   }
 
-  return { messages: [message], fee}
+  return { messages: [message], fee, memo: undefined }
 }
 
 export const GrantEntityAccountClaimsEvaluateAuthz = async (
@@ -210,7 +210,7 @@ export const GrantEntityAccountClaimsEvaluateAuthz = async (
       }),
     }),
   }
-  return { messages: [message], fee}
+  return { messages: [message], fee, memo: undefined }
 }
 
 export const MsgExecAgentEvaluate = async (
@@ -255,7 +255,7 @@ export const MsgExecAgentEvaluate = async (
       ],
     }),
   }
-  return { messages: [message], fee }
+  return { messages: [message], fee, memo: undefined }
 }
 
 export const GetGranteeRole = async (payload: {

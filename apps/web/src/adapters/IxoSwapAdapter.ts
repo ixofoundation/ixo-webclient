@@ -107,7 +107,7 @@ class IxoSwapAdapter implements SwapAdapter {
   }
 
   async querySmartContract(msg: string) {
-    const queryClient = await getQueryClient
+    const queryClient = await getQueryClient()
     try {
       return await queryClient.cosmwasm.wasm.v1
         .smartContractState({
@@ -148,7 +148,7 @@ class IxoSwapAdapter implements SwapAdapter {
   }
 
   async getTokens() {
-    const queryClient = await getQueryClient
+    const queryClient = await getQueryClient()
     const tokenBalances = await queryTokenBalances(queryClient, 'devnet-1', this.walletAddress)
     return tokenBalances[0]
   }

@@ -52,7 +52,7 @@ export class Cw20StakeRewardDistributorClient extends BaseClient {
     rewardRate: Uint128;
     rewardToken: string;
     stakingAddr: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       update_config: {
         reward_rate: rewardRate,
@@ -61,17 +61,17 @@ export class Cw20StakeRewardDistributorClient extends BaseClient {
       }
     }, fee, memo, funds);
   };
-  distribute = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  distribute = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       distribute: {}
     }, fee, memo, funds);
   };
-  withdraw = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  withdraw = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       withdraw: {}
     }, fee, memo, funds);
   };
-  updateOwnership = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  updateOwnership = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       update_ownership: {}
     }, fee, memo, funds);

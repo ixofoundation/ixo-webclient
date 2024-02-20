@@ -12,10 +12,13 @@
       "dependsOn": ["@ixo-webclient/types#dev", "@ixo-webclient/wallet-connector#dev"]
     },
     "@ixo-webclient/web#build": {
-      "dependsOn": ["@ixo-webclient/wallet-connector#build"]
+      "dependsOn": ["@ixo-webclient/wallet-connector#build", "@ixo-webclient/cosmwasm-clients#build"]
     },
     "@ixo-webclient/wallet-connector#build": {
       "dependsOn": ["@ixo-webclient/types#build"]
+    },
+    "@ixo-webclient/cosmwasm-clients#build": {
+      "dependsOn": ["@ixo-webclient/types#build", "@ixo-webclient/utils#build"]
     }
   }
 }

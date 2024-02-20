@@ -1,4 +1,4 @@
-import { contracts, ixo, utils } from '@ixo/impactxclient-sdk'
+import { ixo, utils } from '@ixo/impactxclient-sdk'
 import { FlexBox } from 'components/App/App.styles'
 import { FormCard } from 'components'
 import { InputWithLabel } from 'components/Form/InputWithLabel'
@@ -15,11 +15,11 @@ import { serviceEndpointToUrl } from 'utils/entities'
 import { errorToast, successToast } from 'utils/toast'
 import { CosmosMsgForEmpty } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
 import { decodedMessagesString, makeStargateMessage } from 'utils/messages'
-import { getValueFromEvents } from 'utils/objects'
 import { depositInfoToCoin } from 'utils/conversions'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/DaoPreProposeSingle.types'
 import { useWallet } from '@ixo-webclient/wallet-connector'
 import { DeliverTxResponse } from '@cosmjs/stargate'
+import { DaoPreProposeSingleClient } from '@ixo-webclient/cosmwasm-clients'
 
 const TransferEntityToGroupButton: React.FC<{
   groupAddress: string
@@ -29,7 +29,8 @@ const TransferEntityToGroupButton: React.FC<{
   const navigate = useNavigate()
   const { entityId } = useParams<{ entityId: string }>()
 
-  const { cosmWasmClient, address } = useAccount()
+  const { address } = useAccount()
+  const { execute } = useWallet()
   const { selectedEntity } = useTransferEntityState()
   const daoGroups = useMemo(() => selectedEntity?.daoGroups ?? {}, [selectedEntity])
   const daoGroup = useMemo(() => daoGroups[groupAddress], [daoGroups, groupAddress])
@@ -143,8 +144,8 @@ const TransferEntityToGroupButton: React.FC<{
 
       console.log('handlePublishProposal wasmMessage', decodedMessagesString(wasmMessage))
 
-      const daoPreProposeSingleClient = new contracts.DaoPreProposeSingle.DaoPreProposeSingleClient(
-        cosmWasmClient,
+      const daoPreProposeSingleClient = new DaoPreProposeSingleClient(
+        execute,
         address,
         preProposalContractAddress,
       )
@@ -165,8 +166,8 @@ const TransferEntityToGroupButton: React.FC<{
           depositInfo ? [depositInfo] : undefined,
         )
         .then((res) => {
-          const { logs, transactionHash } = res
-          const proposalId = Number(getValueFromEvents(logs, 'wasm', 'proposal_id') || '0')
+          const { transactionHash } = res
+          const proposalId = Number(utils.common.getValueFromEvents(res as unknown as DeliverTxResponse, 'wasm', 'proposal_id') || '0')
 
           successToast(null, `Successfully published proposals`)
           return { transactionHash, proposalId }

@@ -53,7 +53,7 @@ export class DaoVotingCw20StakedClient extends BaseClient {
     newThreshold
   }: {
     newThreshold?: ActiveThreshold;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       update_active_threshold: {
         new_threshold: newThreshold

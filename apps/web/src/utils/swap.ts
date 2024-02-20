@@ -71,7 +71,7 @@ export const queryOutputAmount = async (
   inputTokenAmount: TokenAmount,
   swapContractAddress: string,
 ) => {
-  const queryClient = await getQueryClient
+  const queryClient = await getQueryClient()
   let query = {}
   if (inputTokenType === TokenType.Token1155) {
     query = {
@@ -152,7 +152,7 @@ export const formatOutputAmount = (
 }
 
 export const queryTokenBalances = async (
-  queryClientArg: Awaited<typeof getQueryClient>,
+  queryClientArg: Awaited<ReturnType<typeof getQueryClient>>,
   chain: string,
   address: string,
 ): Promise<CURRENCY_TOKEN[]> => {
@@ -218,7 +218,7 @@ export const queryTokenBalances = async (
 
 export const getTokenBalances = async ({ accountAddress }: { accountAddress: string }) => {
   const bankBalances = await GetBalances(accountAddress)
-  const queryClient = await getQueryClient
+  const queryClient = await getQueryClient()
   const tokenBalances = await queryTokenBalances(queryClient, 'devnet-1', accountAddress).then((response) =>
     response ? response : [],
   )

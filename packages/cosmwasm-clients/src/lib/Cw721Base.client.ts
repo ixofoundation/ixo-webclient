@@ -263,7 +263,7 @@ export class Cw721BaseClient extends BaseClient {
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
     funds?: Coin[]
-  ): Promise<string | DeliverTxResponse | undefined> => {
+  ): Promise<DeliverTxResponse> => {
     return await super.execute(
       this.sender,
       this.contractAddress,
@@ -291,7 +291,7 @@ export class Cw721BaseClient extends BaseClient {
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
     funds?: Coin[]
-  ): Promise<string | DeliverTxResponse | undefined> => {
+  ): Promise<DeliverTxResponse> => {
     return await super.execute(
       this.sender,
       this.contractAddress,
@@ -320,7 +320,7 @@ export class Cw721BaseClient extends BaseClient {
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
     funds?: Coin[]
-  ): Promise<string | DeliverTxResponse | undefined> => {
+  ): Promise<DeliverTxResponse> => {
     return await super.execute(
       this.sender,
       this.contractAddress,
@@ -347,7 +347,7 @@ export class Cw721BaseClient extends BaseClient {
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
     funds?: Coin[]
-  ): Promise<string | DeliverTxResponse | undefined> => {
+  ): Promise<DeliverTxResponse> => {
     return await super.execute(
       this.sender,
       this.contractAddress,
@@ -373,7 +373,7 @@ export class Cw721BaseClient extends BaseClient {
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
     funds?: Coin[]
-  ): Promise<string | DeliverTxResponse | undefined> => {
+  ): Promise<DeliverTxResponse> => {
     return await super.execute(
       this.sender,
       this.contractAddress,
@@ -397,7 +397,7 @@ export class Cw721BaseClient extends BaseClient {
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
     funds?: Coin[]
-  ): Promise<string | DeliverTxResponse | undefined> => {
+  ): Promise<DeliverTxResponse> => {
     return await super.execute(
       this.sender,
       this.contractAddress,
@@ -426,7 +426,7 @@ export class Cw721BaseClient extends BaseClient {
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
     funds?: Coin[]
-  ): Promise<string | DeliverTxResponse | undefined> => {
+  ): Promise<DeliverTxResponse> => {
     return await super.execute(
       this.sender,
       this.contractAddress,
@@ -452,7 +452,7 @@ export class Cw721BaseClient extends BaseClient {
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
     funds?: Coin[]
-  ): Promise<string | DeliverTxResponse | undefined> => {
+  ): Promise<DeliverTxResponse> => {
     return await super.execute(
       this.sender,
       this.contractAddress,
@@ -475,7 +475,7 @@ export class Cw721BaseClient extends BaseClient {
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
     funds?: Coin[]
-  ): Promise<string | DeliverTxResponse | undefined> => {
+  ): Promise<DeliverTxResponse> => {
     return await super.execute(
       this.sender,
       this.contractAddress,
@@ -493,7 +493,7 @@ export class Cw721BaseClient extends BaseClient {
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
     funds?: Coin[]
-  ): Promise<string | DeliverTxResponse | undefined> => {
+  ): Promise<DeliverTxResponse> => {
     return await super.execute(
       this.sender,
       this.contractAddress,

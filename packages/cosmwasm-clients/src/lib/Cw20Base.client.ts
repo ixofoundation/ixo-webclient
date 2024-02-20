@@ -172,7 +172,7 @@ export class Cw20BaseClient extends BaseClient {
   }: {
     amount: Uint128;
     recipient: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       transfer: {
         amount,
@@ -184,7 +184,7 @@ export class Cw20BaseClient extends BaseClient {
     amount
   }: {
     amount: Uint128;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       burn: {
         amount
@@ -199,7 +199,7 @@ export class Cw20BaseClient extends BaseClient {
     amount: Uint128;
     contract: string;
     msg: Binary;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       send: {
         amount,
@@ -216,7 +216,7 @@ export class Cw20BaseClient extends BaseClient {
     amount: Uint128;
     expires?: Expiration;
     spender: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       increase_allowance: {
         amount,
@@ -233,7 +233,7 @@ export class Cw20BaseClient extends BaseClient {
     amount: Uint128;
     expires?: Expiration;
     spender: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       decrease_allowance: {
         amount,
@@ -250,7 +250,7 @@ export class Cw20BaseClient extends BaseClient {
     amount: Uint128;
     owner: string;
     recipient: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       transfer_from: {
         amount,
@@ -269,7 +269,7 @@ export class Cw20BaseClient extends BaseClient {
     contract: string;
     msg: Binary;
     owner: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       send_from: {
         amount,
@@ -285,7 +285,7 @@ export class Cw20BaseClient extends BaseClient {
   }: {
     amount: Uint128;
     owner: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       burn_from: {
         amount,
@@ -299,7 +299,7 @@ export class Cw20BaseClient extends BaseClient {
   }: {
     amount: Uint128;
     recipient: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       mint: {
         amount,
@@ -311,7 +311,7 @@ export class Cw20BaseClient extends BaseClient {
     newMinter
   }: {
     newMinter?: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       update_minter: {
         new_minter: newMinter
@@ -326,7 +326,7 @@ export class Cw20BaseClient extends BaseClient {
     description?: string;
     marketing?: string;
     project?: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       update_marketing: {
         description,
@@ -335,7 +335,7 @@ export class Cw20BaseClient extends BaseClient {
       }
     }, fee, memo, funds);
   };
-  uploadLogo = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  uploadLogo = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       upload_logo: {}
     }, fee, memo, funds);

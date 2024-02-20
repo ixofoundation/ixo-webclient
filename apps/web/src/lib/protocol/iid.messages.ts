@@ -19,5 +19,5 @@ export const AddLinkedEntityMessage = (
         signer: signer.address,
       }),
     }
-    return { messages: [message], fee: fee}
+    return { messages: [message], fee: fee, memo: undefined}
   }

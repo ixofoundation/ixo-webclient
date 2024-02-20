@@ -7,12 +7,11 @@ import { StdFee } from "@ixo/impactxclient-sdk/node_modules/@cosmjs/amino";
 import { Keplr } from "keplr";
 import { CHAIN_ID } from "@constants";
 import * as store from "store";
-import { MsgExecuteContract } from "@ixo/impactxclient-sdk/types/codegen/cosmwasm/wasm/v1/tx";
 
 type ExecuteProps = {
   messages: {
     typeUrl: string;
-    value: MsgExecuteContract;
+    value: any;
   }[];
   fee: StdFee;
   memo: string | undefined;

@@ -77,7 +77,7 @@ export class DaoProposalCondorcetClient extends BaseClient {
     choices
   }: {
     choices: Choice[];
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       propose: {
         choices
@@ -90,7 +90,7 @@ export class DaoProposalCondorcetClient extends BaseClient {
   }: {
     proposalId: number;
     vote: number[];
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       vote: {
         proposal_id: proposalId,
@@ -102,7 +102,7 @@ export class DaoProposalCondorcetClient extends BaseClient {
     proposalId
   }: {
     proposalId: number;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       execute: {
         proposal_id: proposalId
@@ -113,7 +113,7 @@ export class DaoProposalCondorcetClient extends BaseClient {
     proposalId
   }: {
     proposalId: number;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       close: {
         proposal_id: proposalId
@@ -130,7 +130,7 @@ export class DaoProposalCondorcetClient extends BaseClient {
     minVotingPeriod?: Duration;
     quorum: PercentageThreshold;
     votingPeriod: Duration;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       set_config: {
         close_proposals_on_execution_failure: closeProposalsOnExecutionFailure,

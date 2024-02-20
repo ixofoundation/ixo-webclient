@@ -44,7 +44,7 @@ export class CwAdminFactoryClient extends BaseClient {
     codeId: number;
     instantiateMsg: Binary;
     label: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       instantiate_contract_with_self_admin: {
         code_id: codeId,

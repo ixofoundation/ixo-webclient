@@ -21,7 +21,7 @@ export const CreateBondMessage = async (
     typeUrl: '/ixo.bonds.v1beta1.MsgCreateBond',
     value: ixo.bonds.v1beta1.MsgCreateBond.fromPartial(payload),
   }
-  return { messages: [message], fee}
+  return { messages: [message], fee, memo: undefined }
 }
 
 export const Buy = async (

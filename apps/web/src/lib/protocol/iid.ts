@@ -201,7 +201,8 @@ export const GetAddLinkedResourcePayload = (
         }),
       },
     ],
-    fee: fee
+    fee: fee,
+    memo: undefined
   }
 }
 
