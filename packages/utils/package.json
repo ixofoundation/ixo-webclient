@@ -1,0 +1,41 @@
+{
+  "name": "@ixo-webclient/utils",
+  "version": "1.0.0",
+  "description": "Library of utility functions for impacts portal",
+  "author": "Zach",
+  "license": "MIT",
+  "private": true,
+  "main": "dist/utils.es.js",
+  "module": "dist/utils.es.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build:types": "tsc --emitDeclarationOnly && tsc-alias",
+    "build": "vite build && yarn build:types",
+    "build:dev": "vite build --watch && yarn build:types --watch",
+    "build:watch": "concurrently --kill-others \"yarn build:dev \""
+  },
+  "dependencies": {
+    "@ixo-webclient/types": "*",
+    "@ixo/impactxclient-sdk": "*",
+    "assert": "^2.1.0",
+    "bignumber.js": "^9.1.2",
+    "bs58": "5.0.0",
+    "crypto-browserify": "^3.12.0",
+    "https-browserify": "^1.0.0",
+    "os-browserify": "^0.3.0",
+    "path-browserify": "^1.0.1",
+    "process": "^0.11.10",
+    "readable-stream": "^4.4.2",
+    "store": "^2.0.12",
+    "stream-http": "^3.2.0",
+    "url": "^0.11.3"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.2.0",
+    "concurrently": "^8.2.2",
+    "react": "^18.2.0",
+    "react-dom": "18.2.0",
+    "tsc-alias": "^1.8.8",
+    "vite": "^5.0.2"
+  }
+}

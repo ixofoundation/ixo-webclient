@@ -2,6 +2,7 @@ import { Coin } from "@cosmjs/proto-signing"
 import { StdFee } from "@cosmjs/stargate"
 import { cosmwasm } from "@ixo/impactxclient-sdk"
 import { Vote } from "@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types"
+import { CosmwasmClientBase, ExecuteFunctionProps, SignXMessageProps } from "interfaces/cosmwasmClientBaseClass"
 import { CosmosMsgForEmpty } from "types/dao"
 import { strToArray } from "utils/encoding"
 
@@ -19,13 +20,17 @@ type DaoPreProposeSingleProposeProps = {
     title: string
 }
 
-export class DaoPreProposeSingle {
+export class DaoPreProposeSingle implements CosmwasmClientBase {
     contractAddress: string
     senderAddress: string
+    message: SignXMessageProps | null
+    private executeFunction: ExecuteFunctionProps
 
-    constructor(contractAddress: string, senderAddress: string) {
+    constructor(contractAddress: string, senderAddress: string, execute: ExecuteFunctionProps) {
         this.contractAddress = contractAddress
         this.senderAddress = senderAddress
+        this.message = null
+        this.executeFunction = execute;
     }
 
     private formatMessage(msg: string, fee: StdFee, memo: string | undefined, funds: Coin[] | undefined) {
@@ -62,5 +67,11 @@ export class DaoPreProposeSingle {
             }
         }
         return this.formatMessage(JSON.stringify(messageObject), fee, memo, funds)
+    }
+
+    private async execute(instruction: SignXMessageProps) {
+        if (this.executeFunction && this.message) {
+            return await this.executeFunction(instruction);
+        }
     }
 }
