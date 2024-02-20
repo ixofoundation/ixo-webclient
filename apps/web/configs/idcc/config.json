@@ -3042,7 +3042,61 @@
             }
           ]
         }
-      ]
+      ],
+      "sector": {
+        "@type": "Category",
+        "name": "Sector",
+        "hidden": true,
+        "multiSelect": false,
+        "selectedTag": "IDCC",
+        "tags": [
+          {
+            "@type": "sector",
+            "name": "Good Seed",
+            "icon": "portfolio.svg"
+          },
+          {
+            "@type": "sector",
+            "name": "Dream Impact",
+            "icon": "portfolio.svg"
+          },
+          {
+            "@type": "sector",
+            "name": "CCSG",
+            "icon": "portfolio.svg"
+          },
+          {
+            "@type": "sector",
+            "name": "BEHub",
+            "icon": "portfolio.svg"
+          },
+          {
+            "@type": "sector",
+            "name": "Gravity Capital Partners",
+            "icon": "portfolio.svg"
+          },
+          {
+            "@type": "sector",
+            "name": "CUHK Alumni",
+            "icon": "portfolio.svg"
+          },
+          {
+            "@type": "sector",
+            "name": "I-CARE",
+            "icon": "portfolio.svg"
+          },
+          {
+            "@type": "sector",
+            "name": "SEBC",
+            "icon": "portfolio.svg"
+          },
+          {
+            "@type": "sector",
+            "name": "IDCC",
+            "icon": "portfolio.svg"
+          }
+        ]
+      }
     },
     "controlPanelSchema": {
       "@context": "https://schema.ixo.foundation/controls",
@@ -3685,7 +3739,61 @@
             }
           ]
         }
-      ]
+      ],
+      "sector": {
+        "@type": "Category",
+        "name": "Sector",
+        "hidden": true,
+        "multiSelect": false,
+        "selectedTag": "IDCC",
+        "tags": [
+          {
+            "@type": "sector",
+            "name": "Good Seed",
+            "icon": "portfolio.svg"
+          },
+          {
+            "@type": "sector",
+            "name": "Dream Impact",
+            "icon": "portfolio.svg"
+          },
+          {
+            "@type": "sector",
+            "name": "CCSG",
+            "icon": "portfolio.svg"
+          },
+          {
+            "@type": "sector",
+            "name": "BEHub",
+            "icon": "portfolio.svg"
+          },
+          {
+            "@type": "sector",
+            "name": "Gravity Capital Partners",
+            "icon": "portfolio.svg"
+          },
+          {
+            "@type": "sector",
+            "name": "CUHK Alumni",
+            "icon": "portfolio.svg"
+          },
+          {
+            "@type": "sector",
+            "name": "I-CARE",
+            "icon": "portfolio.svg"
+          },
+          {
+            "@type": "sector",
+            "name": "SEBC",
+            "icon": "portfolio.svg"
+          },
+          {
+            "@type": "sector",
+            "name": "IDCC",
+            "icon": "portfolio.svg"
+          }
+        ]
+      }
     },
     "controlPanelSchema": {
       "@context": "https://schema.ixo.foundation/controls",
