@@ -82,7 +82,7 @@ const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <MantineProvider theme={mantineTheme}>
-        <Suspense fallback={<Spinner info='Connecting to the internet of impacts' />}>
+        <Suspense fallback={<Spinner info='Connecting to the Internet of Impacts' />}>
           {/* <WalletProvider
             chainNetwork={chainNetwork}
             customComponent={<RedirectToMyAccount />}
