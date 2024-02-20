@@ -36,7 +36,7 @@ const EditProfile: React.FC = (): JSX.Element => {
         )}
         {editEntity.type === 'protocol/claim' && (
           <ClaimProfileForm
-            type={editEntity.profile?.type || ''}
+            type={editEntity.profile?.category || ''}
             setType={(type): void => handleUpdateProfile('type', type)}
             title={editEntity.profile?.name || ''}
             setTitle={(name): void => handleUpdateProfile('name', name)}
@@ -45,7 +45,7 @@ const EditProfile: React.FC = (): JSX.Element => {
         )}
         {editEntity.type === 'protocol/deed' && (
           <DeedProfileForm
-            type={editEntity.profile?.type || ''}
+            type={editEntity.profile?.category || ''}
             setType={(type): void => handleUpdateProfile('type', type)}
             title={editEntity.profile?.name || ''}
             setTitle={(name): void => handleUpdateProfile('name', name)}
