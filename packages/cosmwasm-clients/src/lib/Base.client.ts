@@ -1,5 +1,6 @@
 import { MsgExecuteContract } from "@ixo/impactxclient-sdk/types/codegen/cosmwasm/wasm/v1/tx"
 import { cosmwasm } from "@ixo/impactxclient-sdk"
+import { strToArray } from "@ixo-webclient/utils";
 
 export interface Coin {
     readonly denom: string;
@@ -65,35 +66,22 @@ type ExecuteFunctionProps = (data: SignXMessageProps) => Promise<DeliverTxRespon
 export class BaseClient {
     private executeFunction: ExecuteFunctionProps
 
-    constructor(execute: ExecuteFunctionProps){
+    constructor(execute: ExecuteFunctionProps) {
         this.executeFunction = execute
     }
 
-    private formatMessage(senderAddress, contractAddress, msg, fee, memo = "", funds) {
-        const message = {
-            typeUrl: '/cosmwasm.wasm.v1.MsgExecuteContract',
-            value: cosmwasm.wasm.v1.MsgExecuteContract.fromPartial({
-                contract: contractAddress,
-                funds,
-                msg: strToArray(msg),
-                sender: this.senderAddress,
-            }),
-        }
-        return { messages: [message], fee, memo }
-    }
-
-    private async execute(senderAddress, instructions, fee, memo = "") {
-        const msgs = instructions.map((i) => ({
+    async execute(senderAddress: string, contractAddress: string, msg: Record<string, any>, fee: any, memo = "", funds: any) {
+        const msgs = {
             typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
             value: cosmwasm.wasm.v1.MsgExecuteContract.fromPartial({
                 sender: senderAddress,
-                contract: i.contractAddress,
-                msg: (0, encoding_1.toUtf8)(JSON.stringify(i.msg)),
-                funds: [...(i.funds || [])],
+                contract: contractAddress,
+                msg: strToArray(JSON.stringify(msg)),
+                funds: [...(funds || [])],
             }),
-        }));
+        };
 
-
+        const instruction = { messages: [msgs], fee, memo }
 
         if (this.executeFunction) {
             return await this.executeFunction(instruction);

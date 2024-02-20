@@ -6,34 +6,14 @@
 
 import { CosmWasmClient, SigningCosmWasmClient, ExecuteResult } from "@cosmjs/cosmwasm-stargate";
 import { Coin, StdFee } from "@cosmjs/amino";
-import { Uint128, InstantiateMsg, ExecuteMsg, Action, Expiration, Timestamp, Uint64, QueryMsg, MigrateMsg, Addr, InfoResponse, Config, OwnershipForAddr } from "./Cw20StakeRewardDistributor.types";
+import { Uint128, InfoResponse, OwnershipForAddr } from "./Cw20StakeRewardDistributor.types";
+import { BaseClient, DeliverTxResponse } from "./Base.client";
 export interface Cw20StakeRewardDistributorReadOnlyInterface {
   contractAddress: string;
   info: () => Promise<InfoResponse>;
   ownership: () => Promise<OwnershipForAddr>;
 }
-export class Cw20StakeRewardDistributorQueryClient implements Cw20StakeRewardDistributorReadOnlyInterface {
-  client: CosmWasmClient;
-  contractAddress: string;
 
-  constructor(client: CosmWasmClient, contractAddress: string) {
-    this.client = client;
-    this.contractAddress = contractAddress;
-    this.info = this.info.bind(this);
-    this.ownership = this.ownership.bind(this);
-  }
-
-  info = async (): Promise<InfoResponse> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      info: {}
-    });
-  };
-  ownership = async (): Promise<OwnershipForAddr> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      ownership: {}
-    });
-  };
-}
 export interface Cw20StakeRewardDistributorInterface extends Cw20StakeRewardDistributorReadOnlyInterface {
   contractAddress: string;
   sender: string;
@@ -50,14 +30,12 @@ export interface Cw20StakeRewardDistributorInterface extends Cw20StakeRewardDist
   withdraw: (fee?: number | StdFee | "auto", memo?: string, funds?: Coin[]) => Promise<ExecuteResult>;
   updateOwnership: (fee?: number | StdFee | "auto", memo?: string, funds?: Coin[]) => Promise<ExecuteResult>;
 }
-export class Cw20StakeRewardDistributorClient extends Cw20StakeRewardDistributorQueryClient implements Cw20StakeRewardDistributorInterface {
-  client: SigningCosmWasmClient;
+export class Cw20StakeRewardDistributorClient extends BaseClient {
   sender: string;
   contractAddress: string;
 
-  constructor(client: SigningCosmWasmClient, sender: string, contractAddress: string) {
-    super(client, contractAddress);
-    this.client = client;
+  constructor(execute: any, sender: string, contractAddress: string) {
+    super(execute);
     this.sender = sender;
     this.contractAddress = contractAddress;
     this.updateConfig = this.updateConfig.bind(this);
@@ -74,8 +52,8 @@ export class Cw20StakeRewardDistributorClient extends Cw20StakeRewardDistributor
     rewardRate: Uint128;
     rewardToken: string;
     stakingAddr: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(this.sender, this.contractAddress, {
       update_config: {
         reward_rate: rewardRate,
         reward_token: rewardToken,
@@ -83,18 +61,18 @@ export class Cw20StakeRewardDistributorClient extends Cw20StakeRewardDistributor
       }
     }, fee, memo, funds);
   };
-  distribute = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
+  distribute = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(this.sender, this.contractAddress, {
       distribute: {}
     }, fee, memo, funds);
   };
-  withdraw = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
+  withdraw = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(this.sender, this.contractAddress, {
       withdraw: {}
     }, fee, memo, funds);
   };
-  updateOwnership = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
+  updateOwnership = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(this.sender, this.contractAddress, {
       update_ownership: {}
     }, fee, memo, funds);
   };

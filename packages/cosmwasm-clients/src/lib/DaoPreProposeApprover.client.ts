@@ -6,7 +6,8 @@
 
 import { CosmWasmClient, SigningCosmWasmClient, ExecuteResult } from "@cosmjs/cosmwasm-stargate";
 import { Coin, StdFee } from "@cosmjs/amino";
-import { InstantiateMsg, ExecuteMsg, ApproverProposeMessage, Uint128, DepositToken, UncheckedDenom, DepositRefundPolicy, Status, UncheckedDepositInfo, Empty, QueryMsg, QueryExt, CheckedDenom, Addr, Config, CheckedDepositInfo, DepositInfoResponse, HooksResponse, Binary } from "./DaoPreProposeApprover.types";
+import {  ApproverProposeMessage, UncheckedDenom, Status, UncheckedDepositInfo, Empty, Addr, Config, DepositInfoResponse, HooksResponse, Binary, QueryExt } from "./DaoPreProposeApprover.types";
+import { BaseClient, DeliverTxResponse } from "./Base.client";
 export interface DaoPreProposeApproverReadOnlyInterface {
   contractAddress: string;
   proposalModule: () => Promise<Addr>;
@@ -24,64 +25,7 @@ export interface DaoPreProposeApproverReadOnlyInterface {
     msg: QueryExt;
   }) => Promise<Binary>;
 }
-export class DaoPreProposeApproverQueryClient implements DaoPreProposeApproverReadOnlyInterface {
-  client: CosmWasmClient;
-  contractAddress: string;
 
-  constructor(client: CosmWasmClient, contractAddress: string) {
-    this.client = client;
-    this.contractAddress = contractAddress;
-    this.proposalModule = this.proposalModule.bind(this);
-    this.dao = this.dao.bind(this);
-    this.config = this.config.bind(this);
-    this.depositInfo = this.depositInfo.bind(this);
-    this.proposalSubmittedHooks = this.proposalSubmittedHooks.bind(this);
-    this.queryExtension = this.queryExtension.bind(this);
-  }
-
-  proposalModule = async (): Promise<Addr> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      proposal_module: {}
-    });
-  };
-  dao = async (): Promise<Addr> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      dao: {}
-    });
-  };
-  config = async (): Promise<Config> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      config: {}
-    });
-  };
-  depositInfo = async ({
-    proposalId
-  }: {
-    proposalId: number;
-  }): Promise<DepositInfoResponse> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      deposit_info: {
-        proposal_id: proposalId
-      }
-    });
-  };
-  proposalSubmittedHooks = async (): Promise<HooksResponse> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      proposal_submitted_hooks: {}
-    });
-  };
-  queryExtension = async ({
-    msg
-  }: {
-    msg: QueryExt;
-  }): Promise<Binary> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      query_extension: {
-        msg
-      }
-    });
-  };
-}
 export interface DaoPreProposeApproverInterface extends DaoPreProposeApproverReadOnlyInterface {
   contractAddress: string;
   sender: string;
@@ -125,14 +69,12 @@ export interface DaoPreProposeApproverInterface extends DaoPreProposeApproverRea
     proposalId: number;
   }, fee?: number | StdFee | "auto", memo?: string, funds?: Coin[]) => Promise<ExecuteResult>;
 }
-export class DaoPreProposeApproverClient extends DaoPreProposeApproverQueryClient implements DaoPreProposeApproverInterface {
-  client: SigningCosmWasmClient;
+export class DaoPreProposeApproverClient extends BaseClient {
   sender: string;
   contractAddress: string;
 
-  constructor(client: SigningCosmWasmClient, sender: string, contractAddress: string) {
-    super(client, contractAddress);
-    this.client = client;
+  constructor(execute: any, sender: string, contractAddress: string) {
+    super(execute);
     this.sender = sender;
     this.contractAddress = contractAddress;
     this.propose = this.propose.bind(this);
@@ -148,8 +90,8 @@ export class DaoPreProposeApproverClient extends DaoPreProposeApproverQueryClien
     msg
   }: {
     msg: ApproverProposeMessage;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(this.sender, this.contractAddress, {
       propose: {
         msg
       }
@@ -161,8 +103,8 @@ export class DaoPreProposeApproverClient extends DaoPreProposeApproverQueryClien
   }: {
     depositInfo?: UncheckedDepositInfo;
     openProposalSubmission: boolean;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(this.sender, this.contractAddress, {
       update_config: {
         deposit_info: depositInfo,
         open_proposal_submission: openProposalSubmission
@@ -173,8 +115,8 @@ export class DaoPreProposeApproverClient extends DaoPreProposeApproverQueryClien
     denom
   }: {
     denom?: UncheckedDenom;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(this.sender, this.contractAddress, {
       withdraw: {
         denom
       }
@@ -184,8 +126,8 @@ export class DaoPreProposeApproverClient extends DaoPreProposeApproverQueryClien
     msg
   }: {
     msg: Empty;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(this.sender, this.contractAddress, {
       extension: {
         msg
       }
@@ -195,8 +137,8 @@ export class DaoPreProposeApproverClient extends DaoPreProposeApproverQueryClien
     address
   }: {
     address: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(this.sender, this.contractAddress, {
       add_proposal_submitted_hook: {
         address
       }
@@ -206,8 +148,8 @@ export class DaoPreProposeApproverClient extends DaoPreProposeApproverQueryClien
     address
   }: {
     address: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(this.sender, this.contractAddress, {
       remove_proposal_submitted_hook: {
         address
       }
@@ -219,8 +161,8 @@ export class DaoPreProposeApproverClient extends DaoPreProposeApproverQueryClien
   }: {
     newStatus: Status;
     proposalId: number;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(this.sender, this.contractAddress, {
       proposal_completed_hook: {
         new_status: newStatus,
         proposal_id: proposalId

@@ -7,6 +7,7 @@
 import { CosmWasmClient, SigningCosmWasmClient, ExecuteResult } from "@cosmjs/cosmwasm-stargate";
 import { Coin, StdFee } from "@cosmjs/amino";
 import { Duration, InstantiateMsg, ExecuteMsg, Uint128, Binary, Action, Expiration, Timestamp, Uint64, Cw20ReceiveMsg, QueryMsg, MigrateMsg, ClaimsResponse, Claim, Addr, Config, GetHooksResponse, ListStakersResponse, StakerBalanceResponse, OwnershipForAddr, StakedBalanceAtHeightResponse, StakedValueResponse, TotalStakedAtHeightResponse, TotalValueResponse } from "./Cw20Stake.types";
+import { BaseClient, DeliverTxResponse } from "./Base.client";
 export interface Cw20StakeReadOnlyInterface {
   contractAddress: string;
   stakedBalanceAtHeight: ({
@@ -43,106 +44,6 @@ export interface Cw20StakeReadOnlyInterface {
   }) => Promise<ListStakersResponse>;
   ownership: () => Promise<OwnershipForAddr>;
 }
-export class Cw20StakeQueryClient implements Cw20StakeReadOnlyInterface {
-  client: CosmWasmClient;
-  contractAddress: string;
-
-  constructor(client: CosmWasmClient, contractAddress: string) {
-    this.client = client;
-    this.contractAddress = contractAddress;
-    this.stakedBalanceAtHeight = this.stakedBalanceAtHeight.bind(this);
-    this.totalStakedAtHeight = this.totalStakedAtHeight.bind(this);
-    this.stakedValue = this.stakedValue.bind(this);
-    this.totalValue = this.totalValue.bind(this);
-    this.getConfig = this.getConfig.bind(this);
-    this.claims = this.claims.bind(this);
-    this.getHooks = this.getHooks.bind(this);
-    this.listStakers = this.listStakers.bind(this);
-    this.ownership = this.ownership.bind(this);
-  }
-
-  stakedBalanceAtHeight = async ({
-    address,
-    height
-  }: {
-    address: string;
-    height?: number;
-  }): Promise<StakedBalanceAtHeightResponse> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      staked_balance_at_height: {
-        address,
-        height
-      }
-    });
-  };
-  totalStakedAtHeight = async ({
-    height
-  }: {
-    height?: number;
-  }): Promise<TotalStakedAtHeightResponse> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      total_staked_at_height: {
-        height
-      }
-    });
-  };
-  stakedValue = async ({
-    address
-  }: {
-    address: string;
-  }): Promise<StakedValueResponse> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      staked_value: {
-        address
-      }
-    });
-  };
-  totalValue = async (): Promise<TotalValueResponse> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      total_value: {}
-    });
-  };
-  getConfig = async (): Promise<Config> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      get_config: {}
-    });
-  };
-  claims = async ({
-    address
-  }: {
-    address: string;
-  }): Promise<ClaimsResponse> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      claims: {
-        address
-      }
-    });
-  };
-  getHooks = async (): Promise<GetHooksResponse> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      get_hooks: {}
-    });
-  };
-  listStakers = async ({
-    limit,
-    startAfter
-  }: {
-    limit?: number;
-    startAfter?: string;
-  }): Promise<ListStakersResponse> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      list_stakers: {
-        limit,
-        start_after: startAfter
-      }
-    });
-  };
-  ownership = async (): Promise<OwnershipForAddr> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      ownership: {}
-    });
-  };
-}
 export interface Cw20StakeInterface extends Cw20StakeReadOnlyInterface {
   contractAddress: string;
   sender: string;
@@ -178,14 +79,12 @@ export interface Cw20StakeInterface extends Cw20StakeReadOnlyInterface {
   }, fee?: number | StdFee | "auto", memo?: string, funds?: Coin[]) => Promise<ExecuteResult>;
   updateOwnership: (fee?: number | StdFee | "auto", memo?: string, funds?: Coin[]) => Promise<ExecuteResult>;
 }
-export class Cw20StakeClient extends Cw20StakeQueryClient implements Cw20StakeInterface {
-  client: SigningCosmWasmClient;
+export class Cw20StakeClient extends BaseClient {
   sender: string;
   contractAddress: string;
 
-  constructor(client: SigningCosmWasmClient, sender: string, contractAddress: string) {
-    super(client, contractAddress);
-    this.client = client;
+  constructor(execute: any, sender: string, contractAddress: string) {
+    super(execute);
     this.sender = sender;
     this.contractAddress = contractAddress;
     this.receive = this.receive.bind(this);
@@ -205,8 +104,8 @@ export class Cw20StakeClient extends Cw20StakeQueryClient implements Cw20StakeIn
     amount: Uint128;
     msg: Binary;
     sender: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(this.sender, this.contractAddress, {
       receive: {
         amount,
         msg,
@@ -218,15 +117,15 @@ export class Cw20StakeClient extends Cw20StakeQueryClient implements Cw20StakeIn
     amount
   }: {
     amount: Uint128;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(this.sender, this.contractAddress, {
       unstake: {
         amount
       }
     }, fee, memo, funds);
   };
-  claim = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
+  claim = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(this.sender, this.contractAddress, {
       claim: {}
     }, fee, memo, funds);
   };
@@ -234,8 +133,8 @@ export class Cw20StakeClient extends Cw20StakeQueryClient implements Cw20StakeIn
     duration
   }: {
     duration?: Duration;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(this.sender, this.contractAddress, {
       update_config: {
         duration
       }
@@ -245,8 +144,8 @@ export class Cw20StakeClient extends Cw20StakeQueryClient implements Cw20StakeIn
     addr
   }: {
     addr: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(this.sender, this.contractAddress, {
       add_hook: {
         addr
       }
@@ -256,15 +155,15 @@ export class Cw20StakeClient extends Cw20StakeQueryClient implements Cw20StakeIn
     addr
   }: {
     addr: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(this.sender, this.contractAddress, {
       remove_hook: {
         addr
       }
     }, fee, memo, funds);
   };
-  updateOwnership = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
+  updateOwnership = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(this.sender, this.contractAddress, {
       update_ownership: {}
     }, fee, memo, funds);
   };

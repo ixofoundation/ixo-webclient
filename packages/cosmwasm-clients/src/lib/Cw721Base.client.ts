@@ -12,18 +12,11 @@ import {
 } from "@cosmjs/cosmwasm-stargate";
 import { Coin, StdFee } from "@cosmjs/amino";
 import {
-  InstantiateMsg,
-  ExecuteMsg,
   Binary,
   Expiration,
-  Timestamp,
-  Uint64,
-  Action,
   Empty,
-  QueryMsg,
   AllNftInfoResponseForEmpty,
   OwnerOfResponse,
-  Approval,
   NftInfoResponseForEmpty,
   OperatorsResponse,
   TokensResponse,
@@ -36,6 +29,7 @@ import {
   OperatorResponse,
   OwnershipForString,
 } from "./Cw721Base.types";
+import { BaseClient } from "./Base.client";
 export interface Cw721BaseReadOnlyInterface {
   contractAddress: string;
   ownerOf: ({
@@ -114,195 +108,6 @@ export interface Cw721BaseReadOnlyInterface {
   minter: () => Promise<MinterResponse>;
   extension: ({ msg }: { msg: Empty }) => Promise<Null>;
   ownership: () => Promise<OwnershipForString>;
-}
-export class Cw721BaseQueryClient implements Cw721BaseReadOnlyInterface {
-  client: CosmWasmClient;
-  contractAddress: string;
-
-  constructor(client: CosmWasmClient, contractAddress: string) {
-    this.client = client;
-    this.contractAddress = contractAddress;
-    this.ownerOf = this.ownerOf.bind(this);
-    this.approval = this.approval.bind(this);
-    this.approvals = this.approvals.bind(this);
-    this.operator = this.operator.bind(this);
-    this.allOperators = this.allOperators.bind(this);
-    this.numTokens = this.numTokens.bind(this);
-    this.contractInfo = this.contractInfo.bind(this);
-    this.nftInfo = this.nftInfo.bind(this);
-    this.allNftInfo = this.allNftInfo.bind(this);
-    this.tokens = this.tokens.bind(this);
-    this.allTokens = this.allTokens.bind(this);
-    this.minter = this.minter.bind(this);
-    this.extension = this.extension.bind(this);
-    this.ownership = this.ownership.bind(this);
-  }
-
-  ownerOf = async ({
-    includeExpired,
-    tokenId,
-  }: {
-    includeExpired?: boolean;
-    tokenId: string;
-  }): Promise<OwnerOfResponse> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      owner_of: {
-        include_expired: includeExpired,
-        token_id: tokenId,
-      },
-    });
-  };
-  approval = async ({
-    includeExpired,
-    spender,
-    tokenId,
-  }: {
-    includeExpired?: boolean;
-    spender: string;
-    tokenId: string;
-  }): Promise<ApprovalResponse> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      approval: {
-        include_expired: includeExpired,
-        spender,
-        token_id: tokenId,
-      },
-    });
-  };
-  approvals = async ({
-    includeExpired,
-    tokenId,
-  }: {
-    includeExpired?: boolean;
-    tokenId: string;
-  }): Promise<ApprovalsResponse> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      approvals: {
-        include_expired: includeExpired,
-        token_id: tokenId,
-      },
-    });
-  };
-  operator = async ({
-    includeExpired,
-    operator,
-    owner,
-  }: {
-    includeExpired?: boolean;
-    operator: string;
-    owner: string;
-  }): Promise<OperatorResponse> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      operator: {
-        include_expired: includeExpired,
-        operator,
-        owner,
-      },
-    });
-  };
-  allOperators = async ({
-    includeExpired,
-    limit,
-    owner,
-    startAfter,
-  }: {
-    includeExpired?: boolean;
-    limit?: number;
-    owner: string;
-    startAfter?: string;
-  }): Promise<OperatorsResponse> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      all_operators: {
-        include_expired: includeExpired,
-        limit,
-        owner,
-        start_after: startAfter,
-      },
-    });
-  };
-  numTokens = async (): Promise<NumTokensResponse> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      num_tokens: {},
-    });
-  };
-  contractInfo = async (): Promise<ContractInfoResponse> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      contract_info: {},
-    });
-  };
-  nftInfo = async ({
-    tokenId,
-  }: {
-    tokenId: string;
-  }): Promise<NftInfoResponseForEmpty> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      nft_info: {
-        token_id: tokenId,
-      },
-    });
-  };
-  allNftInfo = async ({
-    includeExpired,
-    tokenId,
-  }: {
-    includeExpired?: boolean;
-    tokenId: string;
-  }): Promise<AllNftInfoResponseForEmpty> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      all_nft_info: {
-        include_expired: includeExpired,
-        token_id: tokenId,
-      },
-    });
-  };
-  tokens = async ({
-    limit,
-    owner,
-    startAfter,
-  }: {
-    limit?: number;
-    owner: string;
-    startAfter?: string;
-  }): Promise<TokensResponse> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      tokens: {
-        limit,
-        owner,
-        start_after: startAfter,
-      },
-    });
-  };
-  allTokens = async ({
-    limit,
-    startAfter,
-  }: {
-    limit?: number;
-    startAfter?: string;
-  }): Promise<TokensResponse> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      all_tokens: {
-        limit,
-        start_after: startAfter,
-      },
-    });
-  };
-  minter = async (): Promise<MinterResponse> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      minter: {},
-    });
-  };
-  extension = async ({ msg }: { msg: Empty }): Promise<Null> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      extension: {
-        msg,
-      },
-    });
-  };
-  ownership = async (): Promise<OwnershipForString> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      ownership: {},
-    });
-  };
 }
 export interface Cw721BaseInterface extends Cw721BaseReadOnlyInterface {
   contractAddress: string;
@@ -423,21 +228,16 @@ export interface Cw721BaseInterface extends Cw721BaseReadOnlyInterface {
     funds?: Coin[]
   ) => Promise<ExecuteResult>;
 }
-export class Cw721BaseClient
-  extends Cw721BaseQueryClient
-  implements Cw721BaseInterface
-{
-  client: SigningCosmWasmClient;
+export class Cw721BaseClient extends BaseClient {
   sender: string;
   contractAddress: string;
 
   constructor(
-    client: SigningCosmWasmClient,
+    execute: any,
     sender: string,
     contractAddress: string
   ) {
-    super(client, contractAddress);
-    this.client = client;
+    super(execute);
     this.sender = sender;
     this.contractAddress = contractAddress;
     this.transferNft = this.transferNft.bind(this);
@@ -463,8 +263,8 @@ export class Cw721BaseClient
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
     funds?: Coin[]
-  ): Promise<ExecuteResult> => {
-    return await this.client.execute(
+  ): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(
       this.sender,
       this.contractAddress,
       {
@@ -491,8 +291,8 @@ export class Cw721BaseClient
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
     funds?: Coin[]
-  ): Promise<ExecuteResult> => {
-    return await this.client.execute(
+  ): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(
       this.sender,
       this.contractAddress,
       {
@@ -520,8 +320,8 @@ export class Cw721BaseClient
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
     funds?: Coin[]
-  ): Promise<ExecuteResult> => {
-    return await this.client.execute(
+  ): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(
       this.sender,
       this.contractAddress,
       {
@@ -547,8 +347,8 @@ export class Cw721BaseClient
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
     funds?: Coin[]
-  ): Promise<ExecuteResult> => {
-    return await this.client.execute(
+  ): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(
       this.sender,
       this.contractAddress,
       {
@@ -573,8 +373,8 @@ export class Cw721BaseClient
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
     funds?: Coin[]
-  ): Promise<ExecuteResult> => {
-    return await this.client.execute(
+  ): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(
       this.sender,
       this.contractAddress,
       {
@@ -597,8 +397,8 @@ export class Cw721BaseClient
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
     funds?: Coin[]
-  ): Promise<ExecuteResult> => {
-    return await this.client.execute(
+  ): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(
       this.sender,
       this.contractAddress,
       {
@@ -626,8 +426,8 @@ export class Cw721BaseClient
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
     funds?: Coin[]
-  ): Promise<ExecuteResult> => {
-    return await this.client.execute(
+  ): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(
       this.sender,
       this.contractAddress,
       {
@@ -652,8 +452,8 @@ export class Cw721BaseClient
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
     funds?: Coin[]
-  ): Promise<ExecuteResult> => {
-    return await this.client.execute(
+  ): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(
       this.sender,
       this.contractAddress,
       {
@@ -675,8 +475,8 @@ export class Cw721BaseClient
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
     funds?: Coin[]
-  ): Promise<ExecuteResult> => {
-    return await this.client.execute(
+  ): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(
       this.sender,
       this.contractAddress,
       {
@@ -693,8 +493,8 @@ export class Cw721BaseClient
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
     funds?: Coin[]
-  ): Promise<ExecuteResult> => {
-    return await this.client.execute(
+  ): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(
       this.sender,
       this.contractAddress,
       {

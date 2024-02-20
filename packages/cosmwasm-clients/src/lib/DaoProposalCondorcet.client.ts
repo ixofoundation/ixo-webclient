@@ -4,9 +4,10 @@
 * and run the @cosmwasm/ts-codegen generate command to regenerate this file.
 */
 
-import { CosmWasmClient, SigningCosmWasmClient, ExecuteResult } from "@cosmjs/cosmwasm-stargate";
+import { ExecuteResult } from "@cosmjs/cosmwasm-stargate";
 import { StdFee } from "@cosmjs/amino";
-import { Duration, PercentageThreshold, Decimal, InstantiateMsg, ExecuteMsg, CosmosMsgForEmpty, BankMsg, Uint128, StakingMsg, DistributionMsg, Binary, IbcMsg, Timestamp, Uint64, WasmMsg, GovMsg, VoteOption, Choice, Coin, Empty, IbcTimeout, IbcTimeoutBlock, UncheckedConfig, QueryMsg, Config, Addr, InfoResponse, ContractVersion, Status, Expiration, Cell, Winner, ProposalResponse, Proposal, Tally, M } from "./DaoProposalCondorcet.types";
+import { Duration, PercentageThreshold, Uint64,  Choice, Coin, Config, Addr, InfoResponse,  ProposalResponse, } from "./DaoProposalCondorcet.types";
+import { BaseClient, DeliverTxResponse } from "./Base.client";
 export interface DaoProposalCondorcetReadOnlyInterface {
   contractAddress: string;
   proposal: ({
@@ -19,52 +20,7 @@ export interface DaoProposalCondorcetReadOnlyInterface {
   info: () => Promise<InfoResponse>;
   nextProposalId: () => Promise<Uint64>;
 }
-export class DaoProposalCondorcetQueryClient implements DaoProposalCondorcetReadOnlyInterface {
-  client: CosmWasmClient;
-  contractAddress: string;
 
-  constructor(client: CosmWasmClient, contractAddress: string) {
-    this.client = client;
-    this.contractAddress = contractAddress;
-    this.proposal = this.proposal.bind(this);
-    this.config = this.config.bind(this);
-    this.dao = this.dao.bind(this);
-    this.info = this.info.bind(this);
-    this.nextProposalId = this.nextProposalId.bind(this);
-  }
-
-  proposal = async ({
-    id
-  }: {
-    id: number;
-  }): Promise<ProposalResponse> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      proposal: {
-        id
-      }
-    });
-  };
-  config = async (): Promise<Config> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      config: {}
-    });
-  };
-  dao = async (): Promise<Addr> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      dao: {}
-    });
-  };
-  info = async (): Promise<InfoResponse> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      info: {}
-    });
-  };
-  nextProposalId = async (): Promise<Uint64> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      next_proposal_id: {}
-    });
-  };
-}
 export interface DaoProposalCondorcetInterface extends DaoProposalCondorcetReadOnlyInterface {
   contractAddress: string;
   sender: string;
@@ -102,14 +58,12 @@ export interface DaoProposalCondorcetInterface extends DaoProposalCondorcetReadO
     votingPeriod: Duration;
   }, fee?: number | StdFee | "auto", memo?: string, funds?: Coin[]) => Promise<ExecuteResult>;
 }
-export class DaoProposalCondorcetClient extends DaoProposalCondorcetQueryClient implements DaoProposalCondorcetInterface {
-  client: SigningCosmWasmClient;
+export class DaoProposalCondorcetClient extends BaseClient {
   sender: string;
   contractAddress: string;
 
-  constructor(client: SigningCosmWasmClient, sender: string, contractAddress: string) {
-    super(client, contractAddress);
-    this.client = client;
+  constructor(execute: any, sender: string, contractAddress: string) {
+    super(execute);
     this.sender = sender;
     this.contractAddress = contractAddress;
     this.propose = this.propose.bind(this);
@@ -123,8 +77,8 @@ export class DaoProposalCondorcetClient extends DaoProposalCondorcetQueryClient 
     choices
   }: {
     choices: Choice[];
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(this.sender, this.contractAddress, {
       propose: {
         choices
       }
@@ -136,20 +90,20 @@ export class DaoProposalCondorcetClient extends DaoProposalCondorcetQueryClient 
   }: {
     proposalId: number;
     vote: number[];
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(this.sender, this.contractAddress, {
       vote: {
         proposal_id: proposalId,
         vote
       }
     }, fee, memo, funds);
   };
-  execute = async ({
+  executeProposal = async ({
     proposalId
   }: {
     proposalId: number;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(this.sender, this.contractAddress, {
       execute: {
         proposal_id: proposalId
       }
@@ -159,8 +113,8 @@ export class DaoProposalCondorcetClient extends DaoProposalCondorcetQueryClient 
     proposalId
   }: {
     proposalId: number;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(this.sender, this.contractAddress, {
       close: {
         proposal_id: proposalId
       }
@@ -176,8 +130,8 @@ export class DaoProposalCondorcetClient extends DaoProposalCondorcetQueryClient 
     minVotingPeriod?: Duration;
     quorum: PercentageThreshold;
     votingPeriod: Duration;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(this.sender, this.contractAddress, {
       set_config: {
         close_proposals_on_execution_failure: closeProposalsOnExecutionFailure,
         min_voting_period: minVotingPeriod,

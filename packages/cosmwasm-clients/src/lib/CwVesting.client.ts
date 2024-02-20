@@ -4,42 +4,15 @@
 * and run the @cosmwasm/ts-codegen generate command to regenerate this file.
 */
 
-import { CosmWasmClient, SigningCosmWasmClient, ExecuteResult } from "@cosmjs/cosmwasm-stargate";
+import { ExecuteResult } from "@cosmjs/cosmwasm-stargate";
 import { Coin, StdFee } from "@cosmjs/amino";
-import { Uint128, UncheckedDenom, Curve, InstantiateMsg, UncheckedVestingParams, SaturatingLinear, PiecewiseLinear, ExecuteMsg, Binary, Action, Expiration, Timestamp, Uint64, Cw20ReceiveMsg, QueryMsg, CheckedDenom, Addr, VestingPaymentStatus, VestingPayment, OwnershipForAddr } from "./CwVesting.types";
+import { Uint128, Binary, VestingPayment, OwnershipForAddr } from "./CwVesting.types";
+import { BaseClient, DeliverTxResponse } from "./Base.client";
 export interface CwVestingReadOnlyInterface {
   contractAddress: string;
   info: () => Promise<VestingPayment>;
   ownership: () => Promise<OwnershipForAddr>;
   vestedAmount: () => Promise<Uint128>;
-}
-export class CwVestingQueryClient implements CwVestingReadOnlyInterface {
-  client: CosmWasmClient;
-  contractAddress: string;
-
-  constructor(client: CosmWasmClient, contractAddress: string) {
-    this.client = client;
-    this.contractAddress = contractAddress;
-    this.info = this.info.bind(this);
-    this.ownership = this.ownership.bind(this);
-    this.vestedAmount = this.vestedAmount.bind(this);
-  }
-
-  info = async (): Promise<VestingPayment> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      info: {}
-    });
-  };
-  ownership = async (): Promise<OwnershipForAddr> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      ownership: {}
-    });
-  };
-  vestedAmount = async (): Promise<Uint128> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      vested_amount: {}
-    });
-  };
 }
 export interface CwVestingInterface extends CwVestingReadOnlyInterface {
   contractAddress: string;
@@ -90,14 +63,12 @@ export interface CwVestingInterface extends CwVestingReadOnlyInterface {
   }, fee?: number | StdFee | "auto", memo?: string, funds?: Coin[]) => Promise<ExecuteResult>;
   updateOwnership: (fee?: number | StdFee | "auto", memo?: string, funds?: Coin[]) => Promise<ExecuteResult>;
 }
-export class CwVestingClient extends CwVestingQueryClient implements CwVestingInterface {
-  client: SigningCosmWasmClient;
+export class CwVestingClient extends BaseClient {
   sender: string;
   contractAddress: string;
 
-  constructor(client: SigningCosmWasmClient, sender: string, contractAddress: string) {
-    super(client, contractAddress);
-    this.client = client;
+  constructor(execute: any, sender: string, contractAddress: string) {
+    super(execute);
     this.sender = sender;
     this.contractAddress = contractAddress;
     this.receive = this.receive.bind(this);
@@ -119,8 +90,8 @@ export class CwVestingClient extends CwVestingQueryClient implements CwVestingIn
     amount: Uint128;
     msg: Binary;
     sender: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(this.sender, this.contractAddress, {
       receive: {
         amount,
         msg,
@@ -128,13 +99,13 @@ export class CwVestingClient extends CwVestingQueryClient implements CwVestingIn
       }
     }, fee, memo, funds);
   };
-  distribute = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
+  distribute = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(this.sender, this.contractAddress, {
       distribute: {}
     }, fee, memo, funds);
   };
-  cancel = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
+  cancel = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(this.sender, this.contractAddress, {
       cancel: {}
     }, fee, memo, funds);
   };
@@ -144,8 +115,8 @@ export class CwVestingClient extends CwVestingQueryClient implements CwVestingIn
   }: {
     amount: Uint128;
     validator: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(this.sender, this.contractAddress, {
       delegate: {
         amount,
         validator
@@ -160,8 +131,8 @@ export class CwVestingClient extends CwVestingQueryClient implements CwVestingIn
     amount: Uint128;
     dstValidator: string;
     srcValidator: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(this.sender, this.contractAddress, {
       redelegate: {
         amount,
         dst_validator: dstValidator,
@@ -175,8 +146,8 @@ export class CwVestingClient extends CwVestingQueryClient implements CwVestingIn
   }: {
     amount: Uint128;
     validator: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(this.sender, this.contractAddress, {
       undelegate: {
         amount,
         validator
@@ -187,8 +158,8 @@ export class CwVestingClient extends CwVestingQueryClient implements CwVestingIn
     address
   }: {
     address: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(this.sender, this.contractAddress, {
       set_withdraw_address: {
         address
       }
@@ -198,15 +169,15 @@ export class CwVestingClient extends CwVestingQueryClient implements CwVestingIn
     validator
   }: {
     validator: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(this.sender, this.contractAddress, {
       withdraw_delegator_reward: {
         validator
       }
     }, fee, memo, funds);
   };
-  updateOwnership = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
+  updateOwnership = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(this.sender, this.contractAddress, {
       update_ownership: {}
     }, fee, memo, funds);
   };

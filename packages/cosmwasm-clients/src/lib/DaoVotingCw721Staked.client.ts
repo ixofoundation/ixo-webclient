@@ -4,9 +4,10 @@
 * and run the @cosmwasm/ts-codegen generate command to regenerate this file.
 */
 
-import { CosmWasmClient, SigningCosmWasmClient, ExecuteResult } from "@cosmjs/cosmwasm-stargate";
+import { ExecuteResult } from "@cosmjs/cosmwasm-stargate";
 import { Coin, StdFee } from "@cosmjs/amino";
-import { Admin, Duration, InstantiateMsg, ExecuteMsg, Binary, Cw721ReceiveMsg, QueryMsg, Addr, Config, HooksResponse, InfoResponse, ContractVersion, Expiration, Timestamp, Uint64, NftClaimsResponse, NftClaim, ArrayOfString, Uint128, TotalPowerAtHeightResponse, VotingPowerAtHeightResponse } from "./DaoVotingCw721Staked.types";
+import { Duration, Binary, Addr, Config, HooksResponse, InfoResponse, NftClaimsResponse, ArrayOfString, TotalPowerAtHeightResponse, VotingPowerAtHeightResponse } from "./DaoVotingCw721Staked.types";
+import { BaseClient, DeliverTxResponse } from "./Base.client";
 export interface DaoVotingCw721StakedReadOnlyInterface {
   contractAddress: string;
   config: () => Promise<Config>;
@@ -39,97 +40,6 @@ export interface DaoVotingCw721StakedReadOnlyInterface {
   }) => Promise<TotalPowerAtHeightResponse>;
   dao: () => Promise<Addr>;
   info: () => Promise<InfoResponse>;
-}
-export class DaoVotingCw721StakedQueryClient implements DaoVotingCw721StakedReadOnlyInterface {
-  client: CosmWasmClient;
-  contractAddress: string;
-
-  constructor(client: CosmWasmClient, contractAddress: string) {
-    this.client = client;
-    this.contractAddress = contractAddress;
-    this.config = this.config.bind(this);
-    this.nftClaims = this.nftClaims.bind(this);
-    this.hooks = this.hooks.bind(this);
-    this.stakedNfts = this.stakedNfts.bind(this);
-    this.votingPowerAtHeight = this.votingPowerAtHeight.bind(this);
-    this.totalPowerAtHeight = this.totalPowerAtHeight.bind(this);
-    this.dao = this.dao.bind(this);
-    this.info = this.info.bind(this);
-  }
-
-  config = async (): Promise<Config> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      config: {}
-    });
-  };
-  nftClaims = async ({
-    address
-  }: {
-    address: string;
-  }): Promise<NftClaimsResponse> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      nft_claims: {
-        address
-      }
-    });
-  };
-  hooks = async (): Promise<HooksResponse> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      hooks: {}
-    });
-  };
-  stakedNfts = async ({
-    address,
-    limit,
-    startAfter
-  }: {
-    address: string;
-    limit?: number;
-    startAfter?: string;
-  }): Promise<ArrayOfString> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      staked_nfts: {
-        address,
-        limit,
-        start_after: startAfter
-      }
-    });
-  };
-  votingPowerAtHeight = async ({
-    address,
-    height
-  }: {
-    address: string;
-    height?: number;
-  }): Promise<VotingPowerAtHeightResponse> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      voting_power_at_height: {
-        address,
-        height
-      }
-    });
-  };
-  totalPowerAtHeight = async ({
-    height
-  }: {
-    height?: number;
-  }): Promise<TotalPowerAtHeightResponse> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      total_power_at_height: {
-        height
-      }
-    });
-  };
-  dao = async (): Promise<Addr> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      dao: {}
-    });
-  };
-  info = async (): Promise<InfoResponse> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      info: {}
-    });
-  };
 }
 export interface DaoVotingCw721StakedInterface extends DaoVotingCw721StakedReadOnlyInterface {
   contractAddress: string;
@@ -167,14 +77,12 @@ export interface DaoVotingCw721StakedInterface extends DaoVotingCw721StakedReadO
     addr: string;
   }, fee?: number | StdFee | "auto", memo?: string, funds?: Coin[]) => Promise<ExecuteResult>;
 }
-export class DaoVotingCw721StakedClient extends DaoVotingCw721StakedQueryClient implements DaoVotingCw721StakedInterface {
-  client: SigningCosmWasmClient;
+export class DaoVotingCw721StakedClient extends BaseClient {
   sender: string;
   contractAddress: string;
 
-  constructor(client: SigningCosmWasmClient, sender: string, contractAddress: string) {
-    super(client, contractAddress);
-    this.client = client;
+  constructor(execute: any, sender: string, contractAddress: string) {
+    super(execute);
     this.sender = sender;
     this.contractAddress = contractAddress;
     this.receiveNft = this.receiveNft.bind(this);
@@ -193,8 +101,8 @@ export class DaoVotingCw721StakedClient extends DaoVotingCw721StakedQueryClient 
     msg: Binary;
     sender: string;
     tokenId: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(this.sender, this.contractAddress, {
       receive_nft: {
         msg,
         sender,
@@ -206,15 +114,15 @@ export class DaoVotingCw721StakedClient extends DaoVotingCw721StakedQueryClient 
     tokenIds
   }: {
     tokenIds: string[];
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(this.sender, this.contractAddress, {
       unstake: {
         token_ids: tokenIds
       }
     }, fee, memo, funds);
   };
-  claimNfts = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
+  claimNfts = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(this.sender, this.contractAddress, {
       claim_nfts: {}
     }, fee, memo, funds);
   };
@@ -224,8 +132,8 @@ export class DaoVotingCw721StakedClient extends DaoVotingCw721StakedQueryClient 
   }: {
     duration?: Duration;
     owner?: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(this.sender, this.contractAddress, {
       update_config: {
         duration,
         owner
@@ -236,8 +144,8 @@ export class DaoVotingCw721StakedClient extends DaoVotingCw721StakedQueryClient 
     addr
   }: {
     addr: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(this.sender, this.contractAddress, {
       add_hook: {
         addr
       }
@@ -247,8 +155,8 @@ export class DaoVotingCw721StakedClient extends DaoVotingCw721StakedQueryClient 
     addr
   }: {
     addr: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(this.sender, this.contractAddress, {
       remove_hook: {
         addr
       }

@@ -6,7 +6,8 @@
 
 import { CosmWasmClient, SigningCosmWasmClient, ExecuteResult } from "@cosmjs/cosmwasm-stargate";
 import { Coin, StdFee } from "@cosmjs/amino";
-import { InstantiateMsg, Member, ExecuteMsg, MemberDiff, QueryMsg, MigrateMsg, Addr, InfoResponse, ContractVersion, Uint128, TotalPowerAtHeightResponse, VotingPowerAtHeightResponse } from "./DaoVotingCw4.types";
+import { MemberDiff, Addr, InfoResponse,TotalPowerAtHeightResponse, VotingPowerAtHeightResponse } from "./DaoVotingCw4.types";
+import { BaseClient, DeliverTxResponse } from "./Base.client";
 export interface DaoVotingCw4ReadOnlyInterface {
   contractAddress: string;
   groupContract: () => Promise<Addr>;
@@ -25,61 +26,6 @@ export interface DaoVotingCw4ReadOnlyInterface {
   dao: () => Promise<Addr>;
   info: () => Promise<InfoResponse>;
 }
-export class DaoVotingCw4QueryClient implements DaoVotingCw4ReadOnlyInterface {
-  client: CosmWasmClient;
-  contractAddress: string;
-
-  constructor(client: CosmWasmClient, contractAddress: string) {
-    this.client = client;
-    this.contractAddress = contractAddress;
-    this.groupContract = this.groupContract.bind(this);
-    this.votingPowerAtHeight = this.votingPowerAtHeight.bind(this);
-    this.totalPowerAtHeight = this.totalPowerAtHeight.bind(this);
-    this.dao = this.dao.bind(this);
-    this.info = this.info.bind(this);
-  }
-
-  groupContract = async (): Promise<Addr> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      group_contract: {}
-    });
-  };
-  votingPowerAtHeight = async ({
-    address,
-    height
-  }: {
-    address: string;
-    height?: number;
-  }): Promise<VotingPowerAtHeightResponse> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      voting_power_at_height: {
-        address,
-        height
-      }
-    });
-  };
-  totalPowerAtHeight = async ({
-    height
-  }: {
-    height?: number;
-  }): Promise<TotalPowerAtHeightResponse> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      total_power_at_height: {
-        height
-      }
-    });
-  };
-  dao = async (): Promise<Addr> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      dao: {}
-    });
-  };
-  info = async (): Promise<InfoResponse> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      info: {}
-    });
-  };
-}
 export interface DaoVotingCw4Interface extends DaoVotingCw4ReadOnlyInterface {
   contractAddress: string;
   sender: string;
@@ -89,14 +35,12 @@ export interface DaoVotingCw4Interface extends DaoVotingCw4ReadOnlyInterface {
     diffs: MemberDiff[];
   }, fee?: number | StdFee | "auto", memo?: string, funds?: Coin[]) => Promise<ExecuteResult>;
 }
-export class DaoVotingCw4Client extends DaoVotingCw4QueryClient implements DaoVotingCw4Interface {
-  client: SigningCosmWasmClient;
+export class DaoVotingCw4Client extends BaseClient {
   sender: string;
   contractAddress: string;
 
-  constructor(client: SigningCosmWasmClient, sender: string, contractAddress: string) {
-    super(client, contractAddress);
-    this.client = client;
+  constructor(execute: any, sender: string, contractAddress: string) {
+    super(execute);
     this.sender = sender;
     this.contractAddress = contractAddress;
     this.memberChangedHook = this.memberChangedHook.bind(this);
@@ -106,8 +50,8 @@ export class DaoVotingCw4Client extends DaoVotingCw4QueryClient implements DaoVo
     diffs
   }: {
     diffs: MemberDiff[];
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(this.sender, this.contractAddress, {
       member_changed_hook: {
         diffs
       }

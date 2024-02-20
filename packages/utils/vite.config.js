@@ -7,8 +7,8 @@ export default defineConfig({
     // When building a library, you need to define the entry point
     lib: {
       entry: 'src/index.ts', // Adjust this path to your library's entry point
-      name: '@ixo-webclient/wallet-connector', // This is the name of your global variable
-      fileName: (format) => `wallet-connector.${format}.js`
+      name: '@ixo-webclient/utils', // This is the name of your global variable
+      fileName: (format) => `utils.${format}.js`
     },
     // Define external dependencies here. For example, React could be a peer dependency.
     rollupOptions: {

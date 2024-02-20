@@ -4,9 +4,10 @@
 * and run the @cosmwasm/ts-codegen generate command to regenerate this file.
 */
 
-import { CosmWasmClient, SigningCosmWasmClient, ExecuteResult } from "@cosmjs/cosmwasm-stargate";
+import { ExecuteResult } from "@cosmjs/cosmwasm-stargate";
 import { Coin, StdFee } from "@cosmjs/amino";
 import { Member, AdminResponse, HooksResponse, MemberListResponse, MemberResponse, TotalWeightResponse } from "./Cw4Group.types";
+import { BaseClient, DeliverTxResponse } from "./Base.client";
 export interface Cw4GroupReadOnlyInterface {
   contractAddress: string;
   admin: () => Promise<AdminResponse>;
@@ -31,70 +32,7 @@ export interface Cw4GroupReadOnlyInterface {
   }) => Promise<MemberResponse>;
   hooks: () => Promise<HooksResponse>;
 }
-export class Cw4GroupQueryClient implements Cw4GroupReadOnlyInterface {
-  client: any;
-  contractAddress: string;
 
-  constructor(client: any, contractAddress: string) {
-    this.client = client;
-    this.contractAddress = contractAddress;
-    this.admin = this.admin.bind(this);
-    this.totalWeight = this.totalWeight.bind(this);
-    this.listMembers = this.listMembers.bind(this);
-    this.member = this.member.bind(this);
-    this.hooks = this.hooks.bind(this);
-  }
-
-  admin = async (): Promise<AdminResponse> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      admin: {}
-    });
-  };
-  totalWeight = async ({
-    atHeight
-  }: {
-    atHeight?: number;
-  }): Promise<TotalWeightResponse> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      total_weight: {
-        at_height: atHeight
-      }
-    });
-  };
-  listMembers = async ({
-    limit,
-    startAfter
-  }: {
-    limit?: number;
-    startAfter?: string;
-  }): Promise<MemberListResponse> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      list_members: {
-        limit,
-        start_after: startAfter
-      }
-    });
-  };
-  member = async ({
-    addr,
-    atHeight
-  }: {
-    addr: string;
-    atHeight?: number;
-  }): Promise<MemberResponse> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      member: {
-        addr,
-        at_height: atHeight
-      }
-    });
-  };
-  hooks = async (): Promise<HooksResponse> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      hooks: {}
-    });
-  };
-}
 export interface Cw4GroupInterface extends Cw4GroupReadOnlyInterface {
   contractAddress: string;
   sender: string;
@@ -121,14 +59,12 @@ export interface Cw4GroupInterface extends Cw4GroupReadOnlyInterface {
     addr: string;
   }, fee?: number | StdFee | "auto", memo?: string, funds?: Coin[]) => Promise<ExecuteResult>;
 }
-export class Cw4GroupClient extends Cw4GroupQueryClient implements Cw4GroupInterface {
-  client: any;
+export class Cw4GroupClient extends BaseClient {
   sender: string;
   contractAddress: string;
 
   constructor(execute: any, sender: string, contractAddress: string) {
-    super(execute, contractAddress);
-    this.client.execute = execute;
+    super(execute)
     this.sender = sender;
     this.contractAddress = contractAddress;
     this.updateAdmin = this.updateAdmin.bind(this);
@@ -141,8 +77,8 @@ export class Cw4GroupClient extends Cw4GroupQueryClient implements Cw4GroupInter
     admin
   }: {
     admin?: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(this.sender, this.contractAddress, {
       update_admin: {
         admin
       }
@@ -154,8 +90,8 @@ export class Cw4GroupClient extends Cw4GroupQueryClient implements Cw4GroupInter
   }: {
     add: Member[];
     remove: string[];
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(this.sender, this.contractAddress, {
       update_members: {
         add,
         remove
@@ -166,8 +102,8 @@ export class Cw4GroupClient extends Cw4GroupQueryClient implements Cw4GroupInter
     addr
   }: {
     addr: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(this.sender, this.contractAddress, {
       add_hook: {
         addr
       }
@@ -177,8 +113,8 @@ export class Cw4GroupClient extends Cw4GroupQueryClient implements Cw4GroupInter
     addr
   }: {
     addr: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(this.sender, this.contractAddress, {
       remove_hook: {
         addr
       }

@@ -4,22 +4,14 @@
 * and run the @cosmwasm/ts-codegen generate command to regenerate this file.
 */
 
-import { CosmWasmClient, SigningCosmWasmClient, ExecuteResult } from "@cosmjs/cosmwasm-stargate";
+import { ExecuteResult } from "@cosmjs/cosmwasm-stargate";
 import { Coin, StdFee } from "@cosmjs/amino";
-import { InstantiateMsg, ExecuteMsg, Binary, QueryMsg, MigrateMsg } from "./CwAdminFactory.types";
+import { Binary } from "./CwAdminFactory.types";
+import { BaseClient, DeliverTxResponse } from "./Base.client";
 export interface CwAdminFactoryReadOnlyInterface {
   contractAddress: string;
 }
-export class CwAdminFactoryQueryClient implements CwAdminFactoryReadOnlyInterface {
-  client: CosmWasmClient;
-  contractAddress: string;
 
-  constructor(client: CosmWasmClient, contractAddress: string) {
-    this.client = client;
-    this.contractAddress = contractAddress;
-  }
-
-}
 export interface CwAdminFactoryInterface extends CwAdminFactoryReadOnlyInterface {
   contractAddress: string;
   sender: string;
@@ -33,14 +25,12 @@ export interface CwAdminFactoryInterface extends CwAdminFactoryReadOnlyInterface
     label: string;
   }, fee?: number | StdFee | "auto", memo?: string, funds?: Coin[]) => Promise<ExecuteResult>;
 }
-export class CwAdminFactoryClient extends CwAdminFactoryQueryClient implements CwAdminFactoryInterface {
-  client: SigningCosmWasmClient;
+export class CwAdminFactoryClient extends BaseClient {
   sender: string;
   contractAddress: string;
 
-  constructor(client: SigningCosmWasmClient, sender: string, contractAddress: string) {
-    super(client, contractAddress);
-    this.client = client;
+  constructor(execute: any, sender: string, contractAddress: string) {
+    super(execute);
     this.sender = sender;
     this.contractAddress = contractAddress;
     this.instantiateContractWithSelfAdmin = this.instantiateContractWithSelfAdmin.bind(this);
@@ -54,8 +44,8 @@ export class CwAdminFactoryClient extends CwAdminFactoryQueryClient implements C
     codeId: number;
     instantiateMsg: Binary;
     label: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(this.sender, this.contractAddress, {
       instantiate_contract_with_self_admin: {
         code_id: codeId,
         instantiate_msg: instantiateMsg,

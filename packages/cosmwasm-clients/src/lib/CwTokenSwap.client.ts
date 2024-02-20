@@ -4,29 +4,15 @@
 * and run the @cosmwasm/ts-codegen generate command to regenerate this file.
 */
 
-import { CosmWasmClient, SigningCosmWasmClient, ExecuteResult } from "@cosmjs/cosmwasm-stargate";
+import { ExecuteResult } from "@cosmjs/cosmwasm-stargate";
 import { Coin, StdFee } from "@cosmjs/amino";
-import { TokenInfo, Uint128, InstantiateMsg, Counterparty, ExecuteMsg, Binary, Cw20ReceiveMsg, QueryMsg, MigrateMsg, Addr, CheckedTokenInfo, StatusResponse, CheckedCounterparty } from "./CwTokenSwap.types";
+import { Uint128, StatusResponse, Binary } from "./CwTokenSwap.types";
+import { BaseClient, DeliverTxResponse } from "./Base.client";
 export interface CwTokenSwapReadOnlyInterface {
   contractAddress: string;
   status: () => Promise<StatusResponse>;
 }
-export class CwTokenSwapQueryClient implements CwTokenSwapReadOnlyInterface {
-  client: CosmWasmClient;
-  contractAddress: string;
 
-  constructor(client: CosmWasmClient, contractAddress: string) {
-    this.client = client;
-    this.contractAddress = contractAddress;
-    this.status = this.status.bind(this);
-  }
-
-  status = async (): Promise<StatusResponse> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      status: {}
-    });
-  };
-}
 export interface CwTokenSwapInterface extends CwTokenSwapReadOnlyInterface {
   contractAddress: string;
   sender: string;
@@ -42,14 +28,12 @@ export interface CwTokenSwapInterface extends CwTokenSwapReadOnlyInterface {
   fund: (fee?: number | StdFee | "auto", memo?: string, funds?: Coin[]) => Promise<ExecuteResult>;
   withdraw: (fee?: number | StdFee | "auto", memo?: string, funds?: Coin[]) => Promise<ExecuteResult>;
 }
-export class CwTokenSwapClient extends CwTokenSwapQueryClient implements CwTokenSwapInterface {
-  client: SigningCosmWasmClient;
+export class CwTokenSwapClient extends BaseClient {
   sender: string;
   contractAddress: string;
 
-  constructor(client: SigningCosmWasmClient, sender: string, contractAddress: string) {
-    super(client, contractAddress);
-    this.client = client;
+  constructor(execute: any, sender: string, contractAddress: string) {
+    super(execute);
     this.sender = sender;
     this.contractAddress = contractAddress;
     this.receive = this.receive.bind(this);
@@ -65,8 +49,8 @@ export class CwTokenSwapClient extends CwTokenSwapQueryClient implements CwToken
     amount: Uint128;
     msg: Binary;
     sender: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(this.sender, this.contractAddress, {
       receive: {
         amount,
         msg,
@@ -74,13 +58,13 @@ export class CwTokenSwapClient extends CwTokenSwapQueryClient implements CwToken
       }
     }, fee, memo, funds);
   };
-  fund = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
+  fund = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(this.sender, this.contractAddress, {
       fund: {}
     }, fee, memo, funds);
   };
-  withdraw = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
+  withdraw = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(this.sender, this.contractAddress, {
       withdraw: {}
     }, fee, memo, funds);
   };

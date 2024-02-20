@@ -4,9 +4,10 @@
 * and run the @cosmwasm/ts-codegen generate command to regenerate this file.
 */
 
-import { CosmWasmClient, SigningCosmWasmClient, ExecuteResult } from "@cosmjs/cosmwasm-stargate";
+import { ExecuteResult } from "@cosmjs/cosmwasm-stargate";
 import { StdFee } from "@cosmjs/amino";
-import { Admin, Binary, InstantiateMsg, InitialItem, ModuleInstantiateInfo, ExecuteMsg, CosmosMsgForEmpty, BankMsg, Uint128, StakingMsg, DistributionMsg, IbcMsg, Timestamp, Uint64, WasmMsg, GovMsg, VoteOption, Duration, Coin, Empty, IbcTimeout, IbcTimeoutBlock, Cw20ReceiveMsg, Cw721ReceiveMsg, Config, SubDao, QueryMsg, MigrateMsg, PreProposeInfo, MigrateParams, MigrateV1ToV2, MigrationModuleParams, V1CodeIds, V2CodeIds, Addr, ProposalModuleStatus, ArrayOfProposalModule, ProposalModule, AdminNominationResponse, Cw20BalanceResponse, ArrayOfAddr, DaoURIResponse, PauseInfoResponse, Expiration, DumpStateResponse, ContractVersion, GetItemResponse, InfoResponse, ArrayOfString, ArrayOfSubDao, ProposalModuleCountResponse, TotalPowerAtHeightResponse, VotingPowerAtHeightResponse } from "./DaoCore.types";
+import { Binary, ModuleInstantiateInfo, CosmosMsgForEmpty, Uint128, Duration, Coin, Config, SubDao, Addr, ArrayOfProposalModule, AdminNominationResponse, Cw20BalanceResponse, ArrayOfAddr, DaoURIResponse, PauseInfoResponse, DumpStateResponse, GetItemResponse, InfoResponse, ArrayOfString, ArrayOfSubDao, ProposalModuleCountResponse, TotalPowerAtHeightResponse, VotingPowerAtHeightResponse } from "./DaoCore.types";
+import { BaseClient, DeliverTxResponse } from "./Base.client";
 export interface DaoCoreReadOnlyInterface {
   contractAddress: string;
   admin: () => Promise<Addr>;
@@ -85,214 +86,7 @@ export interface DaoCoreReadOnlyInterface {
     height?: number;
   }) => Promise<TotalPowerAtHeightResponse>;
 }
-export class DaoCoreQueryClient implements DaoCoreReadOnlyInterface {
-  client: CosmWasmClient;
-  contractAddress: string;
 
-  constructor(client: CosmWasmClient, contractAddress: string) {
-    this.client = client;
-    this.contractAddress = contractAddress;
-    this.admin = this.admin.bind(this);
-    this.adminNomination = this.adminNomination.bind(this);
-    this.config = this.config.bind(this);
-    this.cw20Balances = this.cw20Balances.bind(this);
-    this.cw20TokenList = this.cw20TokenList.bind(this);
-    this.cw721TokenList = this.cw721TokenList.bind(this);
-    this.dumpState = this.dumpState.bind(this);
-    this.getItem = this.getItem.bind(this);
-    this.listItems = this.listItems.bind(this);
-    this.info = this.info.bind(this);
-    this.proposalModules = this.proposalModules.bind(this);
-    this.activeProposalModules = this.activeProposalModules.bind(this);
-    this.proposalModuleCount = this.proposalModuleCount.bind(this);
-    this.pauseInfo = this.pauseInfo.bind(this);
-    this.votingModule = this.votingModule.bind(this);
-    this.listSubDaos = this.listSubDaos.bind(this);
-    this.daoURI = this.daoURI.bind(this);
-    this.votingPowerAtHeight = this.votingPowerAtHeight.bind(this);
-    this.totalPowerAtHeight = this.totalPowerAtHeight.bind(this);
-  }
-
-  admin = async (): Promise<Addr> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      admin: {}
-    });
-  };
-  adminNomination = async (): Promise<AdminNominationResponse> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      admin_nomination: {}
-    });
-  };
-  config = async (): Promise<Config> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      config: {}
-    });
-  };
-  cw20Balances = async ({
-    limit,
-    startAfter
-  }: {
-    limit?: number;
-    startAfter?: string;
-  }): Promise<Cw20BalanceResponse> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      cw20_balances: {
-        limit,
-        start_after: startAfter
-      }
-    });
-  };
-  cw20TokenList = async ({
-    limit,
-    startAfter
-  }: {
-    limit?: number;
-    startAfter?: string;
-  }): Promise<ArrayOfAddr> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      cw20_token_list: {
-        limit,
-        start_after: startAfter
-      }
-    });
-  };
-  cw721TokenList = async ({
-    limit,
-    startAfter
-  }: {
-    limit?: number;
-    startAfter?: string;
-  }): Promise<ArrayOfAddr> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      cw721_token_list: {
-        limit,
-        start_after: startAfter
-      }
-    });
-  };
-  dumpState = async (): Promise<DumpStateResponse> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      dump_state: {}
-    });
-  };
-  getItem = async ({
-    key
-  }: {
-    key: string;
-  }): Promise<GetItemResponse> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      get_item: {
-        key
-      }
-    });
-  };
-  listItems = async ({
-    limit,
-    startAfter
-  }: {
-    limit?: number;
-    startAfter?: string;
-  }): Promise<ArrayOfString> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      list_items: {
-        limit,
-        start_after: startAfter
-      }
-    });
-  };
-  info = async (): Promise<InfoResponse> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      info: {}
-    });
-  };
-  proposalModules = async ({
-    limit,
-    startAfter
-  }: {
-    limit?: number;
-    startAfter?: string;
-  }): Promise<ArrayOfProposalModule> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      proposal_modules: {
-        limit,
-        start_after: startAfter
-      }
-    });
-  };
-  activeProposalModules = async ({
-    limit,
-    startAfter
-  }: {
-    limit?: number;
-    startAfter?: string;
-  }): Promise<ArrayOfProposalModule> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      active_proposal_modules: {
-        limit,
-        start_after: startAfter
-      }
-    });
-  };
-  proposalModuleCount = async (): Promise<ProposalModuleCountResponse> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      proposal_module_count: {}
-    });
-  };
-  pauseInfo = async (): Promise<PauseInfoResponse> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      pause_info: {}
-    });
-  };
-  votingModule = async (): Promise<Addr> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      voting_module: {}
-    });
-  };
-  listSubDaos = async ({
-    limit,
-    startAfter
-  }: {
-    limit?: number;
-    startAfter?: string;
-  }): Promise<ArrayOfSubDao> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      list_sub_daos: {
-        limit,
-        start_after: startAfter
-      }
-    });
-  };
-  daoURI = async (): Promise<DaoURIResponse> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      dao_u_r_i: {}
-    });
-  };
-  votingPowerAtHeight = async ({
-    address,
-    height
-  }: {
-    address: string;
-    height?: number;
-  }): Promise<VotingPowerAtHeightResponse> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      voting_power_at_height: {
-        address,
-        height
-      }
-    });
-  };
-  totalPowerAtHeight = async ({
-    height
-  }: {
-    height?: number;
-  }): Promise<TotalPowerAtHeightResponse> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      total_power_at_height: {
-        height
-      }
-    });
-  };
-}
 export interface DaoCoreInterface extends DaoCoreReadOnlyInterface {
   contractAddress: string;
   sender: string;
@@ -387,14 +181,12 @@ export interface DaoCoreInterface extends DaoCoreReadOnlyInterface {
     toRemove: string[];
   }, fee?: number | StdFee | "auto", memo?: string, funds?: Coin[]) => Promise<ExecuteResult>;
 }
-export class DaoCoreClient extends DaoCoreQueryClient implements DaoCoreInterface {
-  client: SigningCosmWasmClient;
+export class DaoCoreClient extends BaseClient {
   sender: string;
   contractAddress: string;
 
-  constructor(client: SigningCosmWasmClient, sender: string, contractAddress: string) {
-    super(client, contractAddress);
-    this.client = client;
+  constructor(execute: any, sender: string, contractAddress: string) {
+    super(execute);
     this.sender = sender;
     this.contractAddress = contractAddress;
     this.executeAdminMsgs = this.executeAdminMsgs.bind(this);
@@ -419,8 +211,8 @@ export class DaoCoreClient extends DaoCoreQueryClient implements DaoCoreInterfac
     msgs
   }: {
     msgs: CosmosMsgForEmpty[];
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(this.sender, this.contractAddress, {
       execute_admin_msgs: {
         msgs
       }
@@ -430,8 +222,8 @@ export class DaoCoreClient extends DaoCoreQueryClient implements DaoCoreInterfac
     msgs
   }: {
     msgs: CosmosMsgForEmpty[];
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(this.sender, this.contractAddress, {
       execute_proposal_hook: {
         msgs
       }
@@ -441,8 +233,8 @@ export class DaoCoreClient extends DaoCoreQueryClient implements DaoCoreInterfac
     duration
   }: {
     duration: Duration;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(this.sender, this.contractAddress, {
       pause: {
         duration
       }
@@ -456,8 +248,8 @@ export class DaoCoreClient extends DaoCoreQueryClient implements DaoCoreInterfac
     amount: Uint128;
     msg: Binary;
     sender: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(this.sender, this.contractAddress, {
       receive: {
         amount,
         msg,
@@ -473,8 +265,8 @@ export class DaoCoreClient extends DaoCoreQueryClient implements DaoCoreInterfac
     msg: Binary;
     sender: string;
     tokenId: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(this.sender, this.contractAddress, {
       receive_nft: {
         msg,
         sender,
@@ -486,8 +278,8 @@ export class DaoCoreClient extends DaoCoreQueryClient implements DaoCoreInterfac
     key
   }: {
     key: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(this.sender, this.contractAddress, {
       remove_item: {
         key
       }
@@ -499,8 +291,8 @@ export class DaoCoreClient extends DaoCoreQueryClient implements DaoCoreInterfac
   }: {
     key: string;
     value: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(this.sender, this.contractAddress, {
       set_item: {
         key,
         value
@@ -511,20 +303,20 @@ export class DaoCoreClient extends DaoCoreQueryClient implements DaoCoreInterfac
     admin
   }: {
     admin?: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(this.sender, this.contractAddress, {
       nominate_admin: {
         admin
       }
     }, fee, memo, funds);
   };
-  acceptAdminNomination = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
+  acceptAdminNomination = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(this.sender, this.contractAddress, {
       accept_admin_nomination: {}
     }, fee, memo, funds);
   };
-  withdrawAdminNomination = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
+  withdrawAdminNomination = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(this.sender, this.contractAddress, {
       withdraw_admin_nomination: {}
     }, fee, memo, funds);
   };
@@ -532,8 +324,8 @@ export class DaoCoreClient extends DaoCoreQueryClient implements DaoCoreInterfac
     config
   }: {
     config: Config;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(this.sender, this.contractAddress, {
       update_config: {
         config
       }
@@ -545,8 +337,8 @@ export class DaoCoreClient extends DaoCoreQueryClient implements DaoCoreInterfac
   }: {
     toAdd: string[];
     toRemove: string[];
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(this.sender, this.contractAddress, {
       update_cw20_list: {
         to_add: toAdd,
         to_remove: toRemove
@@ -559,8 +351,8 @@ export class DaoCoreClient extends DaoCoreQueryClient implements DaoCoreInterfac
   }: {
     toAdd: string[];
     toRemove: string[];
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(this.sender, this.contractAddress, {
       update_cw721_list: {
         to_add: toAdd,
         to_remove: toRemove
@@ -573,8 +365,8 @@ export class DaoCoreClient extends DaoCoreQueryClient implements DaoCoreInterfac
   }: {
     toAdd: ModuleInstantiateInfo[];
     toDisable: string[];
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(this.sender, this.contractAddress, {
       update_proposal_modules: {
         to_add: toAdd,
         to_disable: toDisable
@@ -585,8 +377,8 @@ export class DaoCoreClient extends DaoCoreQueryClient implements DaoCoreInterfac
     module
   }: {
     module: ModuleInstantiateInfo;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(this.sender, this.contractAddress, {
       update_voting_module: {
         module
       }
@@ -598,8 +390,8 @@ export class DaoCoreClient extends DaoCoreQueryClient implements DaoCoreInterfac
   }: {
     toAdd: SubDao[];
     toRemove: string[];
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<string | DeliverTxResponse | undefined> => {
+    return await super.execute(this.sender, this.contractAddress, {
       update_sub_daos: {
         to_add: toAdd,
         to_remove: toRemove
