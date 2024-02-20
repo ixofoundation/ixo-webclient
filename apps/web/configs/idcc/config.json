@@ -65,8 +65,8 @@
       "@type": "Header",
       "color": "#FFFFFF",
       "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/src/assets/images/header-overrides/idcc_hero.png",
-      "title": "",
-      "subTitle": "",
+      "title": "IDCC",
+      "subTitle": "Hong Kong",
       "indicators": [
         {
           "@type": "Indicator",
@@ -99,7 +99,7 @@
           "color": "#FFF",
           "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/src/assets/images/header-overrides/ixoworld_hero.png",
           "title": "Good Seed",
-          "subTitle": "Good Seed",
+          "subTitle": "Together, we create Impact",
           "indicators": [
             {
               "@type": "Indicator",
@@ -602,6 +602,11 @@
           {
             "@type": "sector",
             "name": "SEBC",
+            "icon": "portfolio.svg"
+          },
+          {
+            "@type": "sector",
+            "name": "IDCC",
             "icon": "portfolio.svg"
           }
         ]
@@ -2881,8 +2886,8 @@
       "@type": "Header",
       "color": "#FFFFFF",
       "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/src/assets/images/header-overrides/idcc_hero.png",
-      "title": "",
-      "subTitle": "",
+      "title": "IDCC",
+      "subTitle": "Hong Kong",
       "indicators": [
         {
           "@type": "Indicator",
@@ -2906,118 +2911,6 @@
         }
       ],
       "overrides": [
-        {
-          "@context": "https://schema.ixo.foundation/cell",
-          "id": "https://schema.ixo.foundation/cell/impactRelayer",
-          "@type": "HeaderOverride",
-          "ddoSector": "Sector",
-          "ddoTag": "Test Launchpad",
-          "color": "#FFF",
-          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/src/assets/images/header-overrides/ixoworld_hero.png",
-          "title": "Test Launchpad",
-          "subTitle": "Internet of Impact",
-          "indicators": [
-            {
-              "@type": "Indicator",
-              "indicatorLabel": "Candidates",
-              "indicatorSource": "https://metrics.ixo.foundation/relayer_candidates"
-            },
-            {
-              "@type": "Indicator",
-              "indicatorLabel": "Launched",
-              "indicatorSource": "https://metrics.ixo.foundation/relayers_launched"
-            },
-            {
-              "@type": "Indicator",
-              "indicatorLabel": "Total Votes",
-              "indicatorSource": "https://metrics.ixo.foundation/relayer_launchpad_votes"
-            }
-          ]
-        },
-        {
-          "@context": "https://schema.idcc.hk/sector",
-          "id": "https://schema.idcc.hk/sector",
-          "@type": "HeaderOverride",
-          "ddoSector": "Sector",
-          "ddoTag": "UBS Zone",
-          "color": "#fff",
-          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/src/assets/images/header-overrides/ubs_zone.png",
-          "title": "Alphabonds",
-          "subTitle": "Cell Explorer",
-          "indicators": [
-            {
-              "@type": "Indicator",
-              "indicatorLabel": "Candidates",
-              "indicatorSource": "https://metrics.ixo.foundation/relayer_candidates"
-            },
-            {
-              "@type": "Indicator",
-              "indicatorLabel": "Launched",
-              "indicatorSource": "https://metrics.ixo.foundation/relayers_launched"
-            },
-            {
-              "@type": "Indicator",
-              "indicatorLabel": "Total Votes",
-              "indicatorSource": "https://metrics.ixo.foundation/relayer_launchpad_votes"
-            }
-          ]
-        },
-        {
-          "@context": "https://schema.idcc.hk/sector",
-          "id": "https://schema.idcc.hk/sector",
-          "@type": "HeaderOverride",
-          "ddoSector": "Sector",
-          "ddoTag": "IDCC",
-          "color": "#FFFFFF",
-          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/src/assets/images/header-overrides/idcc_hero.png",
-          "title": "IDCC",
-          "subTitle": "Hong Kong",
-          "indicators": [
-            {
-              "@type": "Indicator",
-              "indicatorLabel": "Candidates",
-              "indicatorSource": "https://metrics.ixo.foundation/relayer_candidates"
-            },
-            {
-              "@type": "Indicator",
-              "indicatorLabel": "Launched",
-              "indicatorSource": "https://metrics.ixo.foundation/relayers_launched"
-            },
-            {
-              "@type": "Indicator",
-              "indicatorLabel": "Total Votes",
-              "indicatorSource": "https://metrics.ixo.foundation/relayer_launchpad_votes"
-            }
-          ]
-        },
-        {
-          "@context": "https://schema.idcc.hk/sector",
-          "id": "https://schema.idcc.hk/sector",
-          "@type": "HeaderOverride",
-          "ddoSector": "Sector",
-          "ddoTag": "EdHeroes",
-          "color": "#FFFFFF",
-          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/src/assets/images/header-overrides/edheroes.png",
-          "title": "",
-          "subTitle": "",
-          "indicators": [
-            {
-              "@type": "Indicator",
-              "indicatorLabel": "Candidates",
-              "indicatorSource": "https://metrics.ixo.foundation/relayer_candidates"
-            },
-            {
-              "@type": "Indicator",
-              "indicatorLabel": "Launched",
-              "indicatorSource": "https://metrics.ixo.foundation/relayers_launched"
-            },
-            {
-              "@type": "Indicator",
-              "indicatorLabel": "Total Votes",
-              "indicatorSource": "https://metrics.ixo.foundation/relayer_launchpad_votes"
-            }
-          ]
-        }
       ]
     },
     "filterSchema": {
@@ -3056,60 +2949,6 @@
         ]
       },
       "ddoTags": [
-        {
-          "@type": "Category",
-          "hidden": false,
-          "name": "DAO Type",
-          "multiSelect": false,
-          "selectedTags": [],
-          "tags": [
-            {
-              "@type": "Tag",
-              "name": "Candidate",
-              "icon": "voting.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Cooperative",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Marketplace",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Developer",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Hackathon",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Investment",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Funding",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Validator",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Enterprise",
-              "icon": "tag.svg"
-            }
-          ]
-        },
         {
           "@type": "Category",
           "hidden": false,
@@ -3202,86 +3041,58 @@
               "icon": "sdg17.svg"
             }
           ]
-        },
-        {
-          "@type": "Category",
-          "hidden": true,
-          "name": "Stage",
-          "multiSelect": false,
-          "tags": [
-            {
-              "@type": "Tag",
-              "name": "Forming",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Selection",
-              "icon": "archived.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Mobilising",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Performing",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Paused",
-              "icon": "paused.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Closing",
-              "icon": "closing.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Ended",
-              "icon": "ended.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Archived",
-              "icon": "archived.svg"
-            }
-          ]
         }
       ],
       "sector": {
         "@type": "Category",
         "name": "Sector",
-        "hidden": false,
+        "hidden": true,
         "multiSelect": false,
         "selectedTag": "IDCC",
         "tags": [
           {
             "@type": "sector",
-            "name": "Test Launchpad",
+            "name": "Good Seed",
+            "icon": "portfolio.svg"
+          },
+          {
+            "@type": "sector",
+            "name": "Dream Impact",
+            "icon": "portfolio.svg"
+          },
+          {
+            "@type": "sector",
+            "name": "CCSG",
+            "icon": "portfolio.svg"
+          },
+          {
+            "@type": "sector",
+            "name": "BEHub",
+            "icon": "portfolio.svg"
+          },
+          {
+            "@type": "sector",
+            "name": "Gravity Capital Partners",
+            "icon": "portfolio.svg"
+          },
+          {
+            "@type": "sector",
+            "name": "CUHK Alumni",
+            "icon": "portfolio.svg"
+          },
+          {
+            "@type": "sector",
+            "name": "I-CARE",
+            "icon": "portfolio.svg"
+          },
+          {
+            "@type": "sector",
+            "name": "SEBC",
             "icon": "portfolio.svg"
           },
           {
             "@type": "sector",
             "name": "IDCC",
-            "icon": "portfolio.svg"
-          },
-          {
-            "@type": "sector",
-            "name": "UBS Zone",
-            "icon": "portfolio.svg"
-          },
-          {
-            "@type": "sector",
-            "name": "Campaign",
-            "icon": "portfolio.svg"
-          },
-          {
-            "@type": "sector",
-            "name": "EdHeroes",
             "icon": "portfolio.svg"
           }
         ]
@@ -3586,8 +3397,8 @@
       "@type": "Header",
       "color": "#FFFFFF",
       "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/src/assets/images/header-overrides/idcc_hero.png",
-      "title": "",
-      "subTitle": "",
+      "title": "IDCC",
+      "subTitle": "Hong Kong",
       "indicators": [
         {
           "@type": "Indicator",
@@ -3611,118 +3422,6 @@
         }
       ],
       "overrides": [
-        {
-          "@context": "https://schema.ixo.foundation/cell",
-          "id": "https://schema.ixo.foundation/cell/impactRelayer",
-          "@type": "HeaderOverride",
-          "ddoSector": "Sector",
-          "ddoTag": "Test Launchpad",
-          "color": "#FFF",
-          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/src/assets/images/header-overrides/ixoworld_hero.png",
-          "title": "Test Launchpad",
-          "subTitle": "Internet of Impact",
-          "indicators": [
-            {
-              "@type": "Indicator",
-              "indicatorLabel": "Candidates",
-              "indicatorSource": "https://metrics.ixo.foundation/relayer_candidates"
-            },
-            {
-              "@type": "Indicator",
-              "indicatorLabel": "Launched",
-              "indicatorSource": "https://metrics.ixo.foundation/relayers_launched"
-            },
-            {
-              "@type": "Indicator",
-              "indicatorLabel": "Total Votes",
-              "indicatorSource": "https://metrics.ixo.foundation/relayer_launchpad_votes"
-            }
-          ]
-        },
-        {
-          "@context": "https://schema.idcc.hk/sector",
-          "id": "https://schema.idcc.hk/sector",
-          "@type": "HeaderOverride",
-          "ddoSector": "Sector",
-          "ddoTag": "UBS Zone",
-          "color": "#fff",
-          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/src/assets/images/header-overrides/ubs_zone.png",
-          "title": "Alphabonds",
-          "subTitle": "Protocols Explorer",
-          "indicators": [
-            {
-              "@type": "Indicator",
-              "indicatorLabel": "Candidates",
-              "indicatorSource": "https://metrics.ixo.foundation/relayer_candidates"
-            },
-            {
-              "@type": "Indicator",
-              "indicatorLabel": "Launched",
-              "indicatorSource": "https://metrics.ixo.foundation/relayers_launched"
-            },
-            {
-              "@type": "Indicator",
-              "indicatorLabel": "Total Votes",
-              "indicatorSource": "https://metrics.ixo.foundation/relayer_launchpad_votes"
-            }
-          ]
-        },
-        {
-          "@context": "https://schema.idcc.hk/sector",
-          "id": "https://schema.idcc.hk/sector",
-          "@type": "HeaderOverride",
-          "ddoSector": "Sector",
-          "ddoTag": "IDCC",
-          "color": "#FFFFFF",
-          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/src/assets/images/header-overrides/idcc_hero.png",
-          "title": "IDCC",
-          "subTitle": "Hong Kong",
-          "indicators": [
-            {
-              "@type": "Indicator",
-              "indicatorLabel": "Candidates",
-              "indicatorSource": "https://metrics.ixo.foundation/relayer_candidates"
-            },
-            {
-              "@type": "Indicator",
-              "indicatorLabel": "Launched",
-              "indicatorSource": "https://metrics.ixo.foundation/relayers_launched"
-            },
-            {
-              "@type": "Indicator",
-              "indicatorLabel": "Total Votes",
-              "indicatorSource": "https://metrics.ixo.foundation/relayer_launchpad_votes"
-            }
-          ]
-        },
-        {
-          "@context": "https://schema.idcc.hk/sector",
-          "id": "https://schema.idcc.hk/sector",
-          "@type": "HeaderOverride",
-          "ddoSector": "Sector",
-          "ddoTag": "EdHeroes",
-          "color": "#FFFFFF",
-          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/src/assets/images/header-overrides/edheroes.png",
-          "title": "",
-          "subTitle": "",
-          "indicators": [
-            {
-              "@type": "Indicator",
-              "indicatorLabel": "Candidates",
-              "indicatorSource": "https://metrics.ixo.foundation/relayer_candidates"
-            },
-            {
-              "@type": "Indicator",
-              "indicatorLabel": "Launched",
-              "indicatorSource": "https://metrics.ixo.foundation/relayers_launched"
-            },
-            {
-              "@type": "Indicator",
-              "indicatorLabel": "Total Votes",
-              "indicatorSource": "https://metrics.ixo.foundation/relayer_launchpad_votes"
-            }
-          ]
-        }
       ]
     },
     "filterSchema": {
@@ -3763,69 +3462,6 @@
       "ddoTags": [
         {
           "@type": "Category",
-          "hidden": true,
-          "name": "Entity",
-          "multiSelect": false,
-          "tags": [
-            {
-              "@type": "Tag",
-              "name": "Claim",
-              "icon": "claim.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Project",
-              "icon": "Project.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "DAO",
-              "icon": "cell.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Alphabond",
-              "icon": "alphabond.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Investment",
-              "icon": "investment.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Asset",
-              "icon": "asset.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Token",
-              "icon": "token.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Payment",
-              "icon": "payment.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Credential",
-              "icon": "credential.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Evaluation",
-              "icon": "evaluation.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Oracle",
-              "icon": "oracle.svg"
-            }
-          ]
-        },
-        {
-          "@type": "Category",
           "hidden": false,
           "name": "Claim Type",
           "multiSelect": true,
@@ -3842,174 +3478,26 @@
             },
             {
               "@type": "Tag",
-              "name": "Credential",
-              "icon": "credential.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Use of Funds",
-              "icon": "useoffunds.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Payment",
-              "icon": "payment.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Investment",
-              "icon": "investment.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Banking",
-              "icon": "banking.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Procurement",
-              "icon": "procurement.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Provenance",
-              "icon": "provenance.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Ownership",
-              "icon": "ownership.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Custody",
-              "icon": "custody.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Dispute",
-              "icon": "dispute.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Invoice",
-              "icon": "dispute.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Staking",
-              "icon": "dispute.svg"
-            },
-            {
-              "@type": "Tag",
               "name": "Impact",
               "icon": "dispute.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Offset",
-              "icon": "dispute.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Contribution",
-              "icon": "dispute.svg"
             }
           ]
         },
         {
           "@type": "Category",
-          "hidden": true,
-          "name": "Token Class",
-          "multiSelect": true,
-          "tags": [
-            {
-              "@type": "nft",
-              "name": "Non-Fungible Token",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "bearerCertificate",
-              "name": "Bearer Certificate",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "option",
-              "name": "Option",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "contract",
-              "name": "Contract",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "certificate",
-              "name": "Ownership Certificate",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "listing",
-              "name": "Exchange Listing",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "digitalGoods",
-              "name": "Digital Goods",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "wallet",
-              "name": "Crypto Wallet",
-              "icon": "tag.svg"
-            },
-            {
-              "@type": "unspecified",
-              "name": "Unspecified",
-              "icon": "tag.svg"
-            }
-          ]
-        },
-        {
-          "@type": "Category",
-          "hidden": true,
-          "name": "Stage",
+          "hidden": false,
+          "name": "Library",
           "multiSelect": true,
           "tags": [
             {
               "@type": "Tag",
-              "name": "Proposal",
-              "icon": "proposal.svg"
+              "name": "MEL Outcome Impact Indicator Bank",
+              "icon": "mel-logo.svg"
             },
             {
               "@type": "Tag",
-              "name": "Planning",
-              "icon": "planning.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Delivery",
-              "icon": "delivery.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Paused",
-              "icon": "paused.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Closing",
-              "icon": "closing.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Ended",
-              "icon": "ended.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Archived",
-              "icon": "archived.svg"
+              "name": "SEBC Question Bank",
+              "icon": "sebc-logo.svg"
             }
           ]
         },
@@ -4255,10 +3743,50 @@
       "sector": {
         "@type": "Category",
         "name": "Sector",
-        "hidden": false,
+        "hidden": true,
         "multiSelect": false,
         "selectedTag": "IDCC",
         "tags": [
+          {
+            "@type": "sector",
+            "name": "Good Seed",
+            "icon": "portfolio.svg"
+          },
+          {
+            "@type": "sector",
+            "name": "Dream Impact",
+            "icon": "portfolio.svg"
+          },
+          {
+            "@type": "sector",
+            "name": "CCSG",
+            "icon": "portfolio.svg"
+          },
+          {
+            "@type": "sector",
+            "name": "BEHub",
+            "icon": "portfolio.svg"
+          },
+          {
+            "@type": "sector",
+            "name": "Gravity Capital Partners",
+            "icon": "portfolio.svg"
+          },
+          {
+            "@type": "sector",
+            "name": "CUHK Alumni",
+            "icon": "portfolio.svg"
+          },
+          {
+            "@type": "sector",
+            "name": "I-CARE",
+            "icon": "portfolio.svg"
+          },
+          {
+            "@type": "sector",
+            "name": "SEBC",
+            "icon": "portfolio.svg"
+          },
           {
             "@type": "sector",
             "name": "IDCC",
