@@ -4,6 +4,7 @@ import { cosmwasm } from "@ixo/impactxclient-sdk"
 import { Uint128 } from "@ixo/impactxclient-sdk/types/codegen/DaoCore.types"
 import { Vote } from "@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types"
 import { MsgExecuteContract } from "@ixo/impactxclient-sdk/types/codegen/cosmwasm/wasm/v1/tx"
+import { CosmwasmClientBase } from "interfaces/cosmwasmClientBaseClass"
 import { strToArray } from "utils/encoding"
 
 type DaoPreProposeSingleVoteProps = {
@@ -23,7 +24,7 @@ type SignXMessageProps = {
 
 type ExecuteFunctionProps = (data: SignXMessageProps) => Promise<DeliverTxResponse | string>;
 
-export class Cw20Base {
+export class Cw20Base implements CosmwasmClientBase {
     contractAddress: string
     senderAddress: string
     message: SignXMessageProps | null
@@ -33,7 +34,7 @@ export class Cw20Base {
         this.contractAddress = contractAddress
         this.senderAddress = senderAddress
         this.message = null
-        this.executeFunction = execute; // Store the passed function for later use\
+        this.executeFunction = execute; 
     }
 
     private formatMessage(msg: string, fee: StdFee, memo: string | undefined, funds: Coin[] | undefined) {

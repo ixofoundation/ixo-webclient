@@ -7,10 +7,15 @@ import { StdFee } from "@ixo/impactxclient-sdk/node_modules/@cosmjs/amino";
 import { Keplr } from "keplr";
 import { CHAIN_ID } from "@constants";
 import * as store from "store";
+import { MsgExecuteContract } from "@ixo/impactxclient-sdk/types/codegen/cosmwasm/wasm/v1/tx";
 
 type ExecuteProps = {
-  messages: any[];
-  fee: StdFee | undefined;
+  messages: {
+    typeUrl: string;
+    value: MsgExecuteContract;
+  }[];
+  fee: StdFee;
+  memo: string | undefined;
 };
 
 type UseWalletProps = WalletContextType & {
@@ -124,7 +129,7 @@ export const useWallet = (): UseWalletProps => {
 
           console.log(context?.wallet?.address, data, data?.fee);
 
-          if(!context.wallet?.address) throw 'Please connect your wallet'
+          if (!context.wallet?.address) throw 'Please connect your wallet'
 
           return client.signAndBroadcast(
             context?.wallet?.address,
