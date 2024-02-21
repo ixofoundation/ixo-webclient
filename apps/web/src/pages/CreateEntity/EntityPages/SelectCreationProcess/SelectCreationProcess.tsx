@@ -31,6 +31,8 @@ const SelectCreationProcess: React.FC = (): JSX.Element => {
     updateLinkedEntity,
     updateLinkedResource,
     updateStartEndDate,
+    updateQuestionJSON,
+    updateClaim,
   } = useCreateEntityState()
   const [isClone, setIsClone] = useState(false)
   const [existingDid, setExistingDid] = useState('')
@@ -72,6 +74,12 @@ const SelectCreationProcess: React.FC = (): JSX.Element => {
           updateLinkedResource(
             value.filter((item: LinkedResource) => Object.keys(EntityLinkedResourceConfig).includes(item.type)),
           )
+          break
+        case 'surveyTemplate':
+          updateQuestionJSON(value)
+          break
+        case 'claim':
+          updateClaim(value)
           break
         default:
           break

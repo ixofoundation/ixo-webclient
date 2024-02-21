@@ -92,7 +92,7 @@ const ProjectDashboard: React.FC = (): JSX.Element => {
       entityType={entityType}
     >
       <Routes>
-      <Route index element={<Navigate to={`agents`} />} />
+        <Route index element={<Navigate to={`agents`} />} />
 
         {registered && owner === address && <Route path='agents' Component={Agents} />}
         {registered && (owner === address || signerRole === AgentRoles.evaluators) && (
@@ -102,7 +102,6 @@ const ProjectDashboard: React.FC = (): JSX.Element => {
           </>
         )}
         {registered && owner === address && <Route path='edit' Component={EditEntity} />}
-
       </Routes>
     </Dashboard>
   )
