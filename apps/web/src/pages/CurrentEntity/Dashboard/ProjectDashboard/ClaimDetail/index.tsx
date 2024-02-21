@@ -95,7 +95,7 @@ const ClaimDetail: React.FC = () => {
       if (!claimId || !collectionId || !adminAddress) {
         throw new Error('Invalid args')
       }
-      const payload = { claimId, collectionId, adminAddress, status }
+      const payload = { claimId, collectionId, adminAddress, status, verificationProof }
       const execAgentEvaluatePayload = await MsgExecAgentEvaluate(signer, payload)
 
       const response = (await execute(execAgentEvaluatePayload)) as unknown as DeliverTxResponse
