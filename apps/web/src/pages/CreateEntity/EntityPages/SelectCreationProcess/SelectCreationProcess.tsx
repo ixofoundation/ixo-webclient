@@ -12,8 +12,6 @@ import { EntityLinkedResourceConfig } from 'constants/entity'
 import { useGetEntityById } from 'graphql/entities'
 import { useCreateEntityStepState } from 'hooks/createEntityStepState'
 
-
-
 const SelectCreationProcess: React.FC = (): JSX.Element => {
   const theme: any = useTheme()
   const SearchInputStyles = {
@@ -37,8 +35,7 @@ const SelectCreationProcess: React.FC = (): JSX.Element => {
   const [existingDid, setExistingDid] = useState('')
   const [chainId, setChainId] = useState(undefined)
   const { data: selectedEntity } = useGetEntityById(existingDid)
-  const { navigateToNextStep } = useCreateEntityStepState ()
-
+  const { navigateToNextStep } = useCreateEntityStepState()
 
   const canClone = useMemo(() => chainId && selectedEntity?.type === 'dao', [chainId, selectedEntity])
 
@@ -81,7 +78,7 @@ const SelectCreationProcess: React.FC = (): JSX.Element => {
     })
     // additional
     updateStartEndDate({ startDate: selectedEntity.startDate, endDate: selectedEntity.endDate })
-    // TODO useStepperNavigate
+    navigateToNextStep()
   }
 
   return (
