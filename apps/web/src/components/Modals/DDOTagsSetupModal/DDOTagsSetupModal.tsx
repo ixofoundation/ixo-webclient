@@ -24,7 +24,7 @@ const DDOTagsSetupModal: React.FC<Props> = ({ ddoTags, entityType, open, onClose
   const ddoTagsConfig = entityType ? entityConfig[toRootEntityType(entityType)]?.filterSchema?.ddoTags ?? [] : []
 
   useEffect(() => {
-    setFormData(ddoTags ?? [])
+    setFormData((ddoTags ?? []).filter(Boolean))
     return () => {
       setFormData([])
     }
@@ -52,32 +52,34 @@ const DDOTagsSetupModal: React.FC<Props> = ({ ddoTags, entityType, open, onClose
       <ModalWrapper style={{ width: 600 }}>
         <ModalTitle>Tags</ModalTitle>
         <ModalBody>
-          {ddoTagsConfig.map((ddoTag: any, index: any) => (
-            <ModalRow key={index}>
-              {renderLabel(ddoTag.name)}
-              <TagSelector
-                name={ddoTag.name}
-                values={formData[index]?.tags ?? []}
-                options={ddoTag.tags.map(({ name }: any) => name)}
-                selectionType={ddoTag.multiSelect ? 'multiple' : 'single'}
-                label='Select'
-                width='420px'
-                height='48px'
-                edit={!!onChange && !formData[index]?.readonly}
-                handleChange={(values: string[]): void => {
-                  console.log({ formData })
-                  if (onChange) {
-                    const newFormData = [...formData]
-                    newFormData[index] = {
-                      category: ddoTag.name,
-                      tags: values,
+          {ddoTagsConfig.map((ddoTag: any, index: any) => {
+            const currentFormData = formData.find((v) => v.category === ddoTag.name)
+            return (
+              <ModalRow key={index}>
+                {renderLabel(ddoTag.name)}
+                <TagSelector
+                  name={ddoTag.name}
+                  values={currentFormData?.tags ?? []}
+                  options={ddoTag.tags.map(({ name }: any) => name)}
+                  selectionType={ddoTag.multiSelect ? 'multiple' : 'single'}
+                  label='Select'
+                  width='420px'
+                  height='48px'
+                  edit={!!onChange && !currentFormData?.readonly}
+                  handleChange={(values: string[]): void => {
+                    if (onChange) {
+                      const newFormData = Object.fromEntries(formData.map((v) => [v.category, v]))
+                      newFormData[ddoTag.name] = {
+                        category: ddoTag.name,
+                        tags: values,
+                      }
+                      setFormData(Object.entries(newFormData).map(([key, value]) => value))
                     }
-                    setFormData(newFormData)
-                  }
-                }}
-              />
-            </ModalRow>
-          ))}
+                  }}
+                />
+              </ModalRow>
+            )
+          })}
 
           <ModalRow style={{ justifyContent: 'flex-end' }}>
             <Button disabled={!formData} onClick={handleUpdateDDOTags}>

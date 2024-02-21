@@ -11,9 +11,16 @@ import { TEntityClaimTemplateModel } from 'types/entities'
 import styled, { useTheme } from 'styled-components'
 import { ReactComponent as SearchIcon } from 'assets/images/icon-search.svg'
 import { ReactComponent as SlidersIcon } from 'assets/images/icon-sliders-h-solid.svg'
-import { useAppSelector } from 'redux/hooks'
+import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { selectAllClaimProtocols } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { useNavigate } from 'react-router-dom'
+import { useEntitiesQuery } from 'generated/graphql'
+import {
+  getEntitiesFromGraphqlAction,
+  updateEntityPropertyAction,
+} from 'redux/entitiesExplorer/entitiesExplorer.actions'
+import { apiEntityToEntity } from 'utils/entities'
+import { useAccount } from 'hooks/account'
 
 const ClaimProtocolList = styled(FlexBox)`
   height: 290px;
@@ -37,16 +44,39 @@ interface Props {
 const ClaimSelectModal: React.FC<Props> = ({ open, onClose, onSelect }): JSX.Element => {
   const navigate = useNavigate()
   const theme: any = useTheme()
-  const claimProtocols = useAppSelector(selectAllClaimProtocols)
+  const dispatch = useAppDispatch()
+  const { cwClient } = useAccount()
 
+  const claimProtocols = useAppSelector(selectAllClaimProtocols)
   console.log({ claimProtocols })
+
+  useEntitiesQuery({
+    skip: claimProtocols.length > 0,
+    fetchPolicy: 'network-only',
+    variables: {
+      filter: {
+        type: { equalTo: 'protocol/claim' },
+      },
+    },
+    onCompleted: ({ entities }) => {
+      const nodes = entities?.nodes ?? []
+      if (nodes.length > 0) {
+        dispatch(getEntitiesFromGraphqlAction(nodes as any[]))
+        for (const entity of nodes) {
+          apiEntityToEntity({ entity, cwClient }, (key, data, merge = false) => {
+            dispatch(updateEntityPropertyAction(entity.id, key, data, merge))
+          })
+        }
+      }
+    },
+  })
 
   const [keyword, setKeyword] = useState('')
   const [filter, setFilter] = useState(false)
   const [template, setTemplate] = useState<TEntityClaimTemplateModel>()
 
   const handleCreate = (): void => {
-    navigate('/create/entity/protocol/claim')
+    navigate('/entity/create/protocol')
   }
   const handleContinue = (): void => {
     template && onSelect(template)

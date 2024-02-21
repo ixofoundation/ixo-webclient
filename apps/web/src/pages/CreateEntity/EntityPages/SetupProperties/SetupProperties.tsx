@@ -80,8 +80,8 @@ const SetupProperties: React.FC = (): JSX.Element => {
       } else {
         updateDDOTags(
           ddoTags?.map((tag) =>
-            tag.category === 'Entity' || tag.category === 'Claim Type' || tag.category === 'Token Class'
-              ? { ...tag, readOnly: true }
+            tag?.category === 'Entity' || tag?.category === 'Claim Type' || tag?.category === 'Token Class'
+              ? { ...tag, readonly: true }
               : tag,
           ),
         )

@@ -1,6 +1,11 @@
 import { Box, FlexBox } from 'components/App/App.styles'
 import React from 'react'
-import { ClaimProfileForm, DAOProfileForm, EntityAdditionalInfoForm } from 'pages/CreateEntity/Forms'
+import {
+  ClaimProfileForm,
+  DAOProfileForm,
+  EntityAdditionalInfoForm,
+  ProjectProfileForm,
+} from 'pages/CreateEntity/Forms'
 import useEditEntity from 'hooks/editEntity'
 import { DeedProfileForm } from 'pages/CreateEntity/Forms/DeedProfileForm'
 
@@ -24,6 +29,18 @@ const EditProfile: React.FC = (): JSX.Element => {
         <Box className='mb-2' />
         {editEntity.type === 'dao' && (
           <DAOProfileForm
+            image={editEntity.profile?.image}
+            setImage={(image): void => handleUpdateProfile('image', image)}
+            logo={editEntity.profile?.logo || ''}
+            setLogo={(logo): void => handleUpdateProfile('logo', logo)}
+            orgName={editEntity.profile?.orgName ?? ''}
+            setOrgName={(orgName): void => handleUpdateProfile('orgName', orgName)}
+            name={editEntity.profile?.name ?? ''}
+            setName={(name): void => handleUpdateProfile('name', name)}
+          />
+        )}
+        {editEntity.type === 'project' && (
+          <ProjectProfileForm
             image={editEntity.profile?.image}
             setImage={(image): void => handleUpdateProfile('image', image)}
             logo={editEntity.profile?.logo || ''}

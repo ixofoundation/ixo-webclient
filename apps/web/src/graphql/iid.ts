@@ -3,7 +3,7 @@ import { gql, useQuery } from '@apollo/client'
 // GET_USER_IIDS
 const GET_USER_IIDS = gql`
   query GetUserIids {
-    iids(filter: { alsoKnownAs: { equalTo: "user" } }) {
+    iids {
       nodes {
         id
         service
@@ -38,7 +38,12 @@ export function useGetJoiningAgentsByCollectionId(collectionId: string) {
   const { data: users } = useGetUserIids()
 
   return users.filter((user: any) =>
-    user.linkedResource.some((item: any) => item.description.split('#')[0] === collectionId),
+    user.linkedResource.some(
+      (item: any) =>
+        item.id === `{id}#offer#${collectionId}` &&
+        item.type === 'DeedOffer' &&
+        item.description.split('#')[0] === collectionId,
+    ),
   )
 }
 
