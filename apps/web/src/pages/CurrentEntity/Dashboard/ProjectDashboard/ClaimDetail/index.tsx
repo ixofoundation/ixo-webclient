@@ -95,7 +95,7 @@ const ClaimDetail: React.FC = () => {
       if (!claimId || !collectionId || !adminAddress) {
         throw new Error('Invalid args')
       }
-      const payload = { claimId, collectionId, adminAddress, status }
+      const payload = { claimId, collectionId, adminAddress, status, verificationProof: claimId }
       const execAgentEvaluatePayload = await MsgExecAgentEvaluate(signer, payload)
 
       const response = (await execute(execAgentEvaluatePayload)) as unknown as DeliverTxResponse
@@ -106,7 +106,7 @@ const ClaimDetail: React.FC = () => {
       successToast('Evaluation succeed')
     } catch (e: any) {
       console.error(e)
-      errorToast('Evaluation failed', typeof e === 'string' ? e : e.message)
+      errorToast('Evaluation failed', typeof e === 'string' ? e : JSON.stringify(e))
     } finally {
       setEvaluating(false)
     }
