@@ -216,7 +216,7 @@ const ReviewProposal: React.FC = () => {
       .filter(Boolean) as CosmosMsgForEmpty[]
     const daoPreProposeSingleClient = new DaoPreProposeSingleClient(execute, wallet.address, preProposalContractAddress)
 
-    daoPreProposeSingleClient.propose(
+    return await daoPreProposeSingleClient.propose(
       {
         msg: {
           propose: {
