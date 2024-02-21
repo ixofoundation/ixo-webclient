@@ -5,7 +5,7 @@
   "scripts": {
     "generate": "graphql-codegen --require dotenv/config --config codegen.ts",
     "predev": "yarn generate",
-    "dev": "craco start -h 0.0.0.0",
+    "dev": "craco --max_old_space_size=4096 start -h 0.0.0.0",
     "start": "yarn run build && serve -s build",
     "prebuild": "yarn generate",
     "build": "craco build",

@@ -106,7 +106,7 @@ const ClaimDetail: React.FC = () => {
       successToast('Evaluation succeed')
     } catch (e: any) {
       console.error(e)
-      errorToast('Evaluation failed', typeof e === 'string' ? e : e.message)
+      errorToast('Evaluation failed', typeof e === 'string' ? e : JSON.stringify(e))
     } finally {
       setEvaluating(false)
     }

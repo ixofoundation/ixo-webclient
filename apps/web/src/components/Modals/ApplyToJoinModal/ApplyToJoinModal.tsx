@@ -52,7 +52,7 @@ interface Props {
   onSubmit: (selectedCollectionId: string, agentRole: AgentRoles) => void
 }
 
-const ApplyToJoinModal: React.FC<Props> = ({ offers, open, onClose, onSubmit }): JSX.Element => {
+const ApplyToJoinModal: React.FC<Props> = ({ offers = [], open, onClose, onSubmit }): JSX.Element => {
   const [selectedCollectionId, setSelectedCollectionId] = useState('')
 
   const handleSubmit = (agentRole: AgentRoles) => (): void => {
