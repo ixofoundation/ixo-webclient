@@ -113,7 +113,7 @@ export function useAccount(): {
 
   useEffect(() => {
     if (wallet) {
-      dispatch(connectAction(wallet as ConnectedWallet))
+      dispatch(connectAction(wallet as unknown as ConnectedWallet))
       localStorage.setItem(WALLET_STORE_LOCAL_STORAGE_KEY, JSON.stringify(wallet))
     } else {
       // check if current wallet in state

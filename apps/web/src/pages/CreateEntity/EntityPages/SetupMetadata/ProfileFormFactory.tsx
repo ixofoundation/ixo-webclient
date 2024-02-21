@@ -52,7 +52,7 @@ const ProfileFormProtocolClaim = () => {
     [updateProfile, profile],
   )
 
-  const setType = useCallback((type: string) => handleUpdateProfile('type', type), [handleUpdateProfile])
+  const setType = useCallback((type: string) => handleUpdateProfile('category', type), [handleUpdateProfile])
   const setTitle = useCallback((name: string) => handleUpdateProfile('name', name), [handleUpdateProfile])
 
   const claimNameFound = useMemo(
@@ -62,7 +62,7 @@ const ProfileFormProtocolClaim = () => {
 
   return (
     <ClaimProfileForm
-      type={profile?.type || ''}
+      type={profile?.category || ''}
       setType={setType}
       title={profile?.name || ''}
       setTitle={setTitle}

@@ -3,6 +3,7 @@ import { DatePickerModal, ButtonWrapper, ButtonOuter, ButtonInner, ButtonIcon } 
 import { Button, DateRangePicker } from 'pages/CreateEntity/Components'
 import { FlexBox } from 'components/App/App.styles'
 import { useEffect, useState } from 'react'
+import { Typography } from 'components/Typography'
 
 const DateFilterDesktop: React.FunctionComponent<Props> = ({
   startDate,
@@ -38,7 +39,7 @@ const DateFilterDesktop: React.FunctionComponent<Props> = ({
       >
         <ButtonInner>
           <ButtonIcon $iconSize={16} className='icon-calendar-sort' />
-          {dateSummary}
+          <Typography size='md'>{dateSummary}</Typography>
         </ButtonInner>
       </ButtonOuter>
       {isActive && (

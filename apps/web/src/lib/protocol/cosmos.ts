@@ -1,6 +1,6 @@
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 import { DeliverTxResponse } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/stargate'
-import { cosmos, createQueryClient, customQueries, SigningStargateClient } from '@ixo/impactxclient-sdk'
+import { cosmos, customQueries, SigningStargateClient } from '@ixo/impactxclient-sdk'
 import { fee, RPC_ENDPOINT } from './common'
 import { VoteOption } from '@ixo/impactxclient-sdk/types/codegen/cosmos/gov/v1/gov'
 import {
@@ -11,8 +11,7 @@ import {
 import { Input, Output } from '@ixo/impactxclient-sdk/types/codegen/cosmos/bank/v1beta1/bank'
 import { QueryDelegationTotalRewardsResponse } from '@ixo/impactxclient-sdk/types/codegen/cosmos/distribution/v1beta1/query'
 import { TokenAsset } from '@ixo/impactxclient-sdk/types/custom_queries/currency.types'
-
-const { createRPCQueryClient } = cosmos.ClientFactory
+import { getQueryClient } from 'lib/queryClient'
 
 export const BankSendTrx = async (
   client: SigningStargateClient,
@@ -62,7 +61,7 @@ export const GetBalances = async (address: string, rpc = RPC_ENDPOINT): Promise<
   if (!address) {
     throw new Error('address is undefined')
   }
-  const client = await createRPCQueryClient({ rpcEndpoint: rpc! })
+  const client = await getQueryClient()
   const res = await client.cosmos.bank.v1beta1.allBalances({
     address,
   })
@@ -77,7 +76,7 @@ export const GetTokenAsset = async (denom: string, rpc = RPC_ENDPOINT): Promise<
 
   const isIbc = /^ibc\//i.test(denom)
   if (isIbc) {
-    const client = await createQueryClient(rpc!)
+    const client = await getQueryClient()
     const ibcToken = await customQueries.currency.findIbcTokenFromHash(client, denom)
     if (!ibcToken.token) {
       // eslint-disable-next-line no-throw-literal
@@ -92,7 +91,8 @@ export const GetTokenAsset = async (denom: string, rpc = RPC_ENDPOINT): Promise<
 
 export const GetValidators = async (): Promise<Validator[]> => {
   try {
-    const client = await createRPCQueryClient({ rpcEndpoint: RPC_ENDPOINT! })
+    const client = await getQueryClient()
+
     const { validators = [] } = await client.cosmos.staking.v1beta1.validators({ status: '' })
     return validators
   } catch (e) {
@@ -106,7 +106,8 @@ export const GetValidatorByAddr = async (validatorAddr: string): Promise<Validat
     if (!validatorAddr) {
       throw new Error('validatorAddr is undefined')
     }
-    const client = await createRPCQueryClient({ rpcEndpoint: RPC_ENDPOINT! })
+    const client = await getQueryClient()
+
     const { validator } = await client.cosmos.staking.v1beta1.validator({
       validatorAddr,
     })
@@ -122,7 +123,8 @@ export const GetDelegation = async (
   delegatorAddr: string,
 ): Promise<DelegationResponse | undefined> => {
   try {
-    const client = await createRPCQueryClient({ rpcEndpoint: RPC_ENDPOINT! })
+    const client = await getQueryClient()
+
     const { delegationResponse } = await client.cosmos.staking.v1beta1.delegation({ validatorAddr, delegatorAddr })
     return delegationResponse
   } catch (e) {
@@ -133,7 +135,8 @@ export const GetDelegation = async (
 
 export const GetDelegatorValidators = async (delegatorAddr: string): Promise<Validator[]> => {
   try {
-    const client = await createRPCQueryClient({ rpcEndpoint: RPC_ENDPOINT! })
+    const client = await getQueryClient()
+
     const { validators } = await client.cosmos.staking.v1beta1.delegatorValidators({ delegatorAddr })
     return validators
   } catch (e) {
@@ -144,7 +147,8 @@ export const GetDelegatorValidators = async (delegatorAddr: string): Promise<Val
 
 export const GetDelegatorDelegations = async (delegatorAddr: string): Promise<DelegationResponse[]> => {
   try {
-    const client = await createRPCQueryClient({ rpcEndpoint: RPC_ENDPOINT! })
+    const client = await getQueryClient()
+
     const { delegationResponses } = await client.cosmos.staking.v1beta1.delegatorDelegations({ delegatorAddr })
     return delegationResponses
   } catch (e) {
@@ -155,7 +159,8 @@ export const GetDelegatorDelegations = async (delegatorAddr: string): Promise<De
 
 export const GetDelegatorUnbondingDelegations = async (delegatorAddr: string): Promise<UnbondingDelegation[]> => {
   try {
-    const client = await createRPCQueryClient({ rpcEndpoint: RPC_ENDPOINT! })
+    const client = await getQueryClient()
+
     const { unbondingResponses } = await client.cosmos.staking.v1beta1.delegatorUnbondingDelegations({ delegatorAddr })
     return unbondingResponses
   } catch (e) {
@@ -168,7 +173,8 @@ export const GetDelegationTotalRewards = async (
   delegatorAddress: string,
 ): Promise<QueryDelegationTotalRewardsResponse | undefined> => {
   try {
-    const client = await createRPCQueryClient({ rpcEndpoint: RPC_ENDPOINT! })
+    const client = await getQueryClient()
+
     const totalRewardsResponse = await client.cosmos.distribution.v1beta1.delegationTotalRewards({ delegatorAddress })
     return totalRewardsResponse
   } catch (e) {
@@ -280,7 +286,8 @@ export const GetWithdrawAddress = async (address: string): Promise<string> => {
     if (!address) {
       throw new Error('address is undefined')
     }
-    const client = await createRPCQueryClient({ rpcEndpoint: RPC_ENDPOINT! })
+    const client = await getQueryClient()
+
     const { withdrawAddress } = await client.cosmos.distribution.v1beta1.delegatorWithdrawAddress({
       delegatorAddress: address,
     })

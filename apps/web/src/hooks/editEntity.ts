@@ -21,9 +21,13 @@ import {
 import { setEditedFieldAction, setEditEntityAction } from 'redux/editEntity/editEntity.actions'
 import { selectEditEntity } from 'redux/editEntity/editEntity.selectors'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
-import { LinkedResourceProofGenerator, LinkedResourceServiceEndpointGenerator, isCellnodePublicResource, isCellnodeWeb3Resource } from 'utils/entities'
+import {
+  LinkedResourceProofGenerator,
+  LinkedResourceServiceEndpointGenerator,
+  isCellnodePublicResource,
+  isCellnodeWeb3Resource,
+} from 'utils/entities'
 import { useAccount } from './account'
-import { useCreateEntity } from './createEntity'
 import useCurrentEntity from './currentEntity'
 import { DeliverTxResponse } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/stargate'
 import { ixo, utils } from '@ixo/impactxclient-sdk'
@@ -32,6 +36,7 @@ import { EntityLinkedResourceConfig } from 'constants/entity'
 import { selectAllClaimProtocols } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { useWallet } from '@ixo-webclient/wallet-connector'
 import { CellnodeWeb3Resource } from '@ixo/impactxclient-sdk/types/custom_queries/cellnode'
+import { useService } from './service'
 
 export default function useEditEntity(): {
   editEntity: TEntityModel
@@ -45,9 +50,17 @@ export default function useEditEntity(): {
   const { signer } = useAccount()
   const editEntity: TEntityModel = useAppSelector(selectEditEntity)
   const { currentEntity } = useCurrentEntity()
-  const { SaveProfile, SaveAdministrator, SavePage, SaveTags, SaveClaim } = useCreateEntity()
   const cellnodeService = editEntity?.service && editEntity?.service[0]
   const claimProtocols = useAppSelector(selectAllClaimProtocols)
+
+  const {
+    SaveProfile,
+    SaveAdministrator,
+    SavePage,
+    SaveTags,
+    SaveQuestionJSON,
+    SaveClaim
+  } = useService(cellnodeService)
 
   const setEditedField = (key: string, value: any, merge = false) => {
     dispatch(setEditedFieldAction({ key, data: value, merge }))
@@ -89,19 +102,53 @@ export default function useEditEntity(): {
       throw new Error('Save Profile failed!')
     }
 
-    let proof = ""
+    let proof = ''
     if (isCellnodePublicResource(res)) {
       proof = res.key
     } else if (isCellnodeWeb3Resource(res)) {
       proof = res.cid
     } else {
-      throw new Error("Save Profile failed")
+      throw new Error('Save Profile failed')
     }
 
     const newLinkedResource: LinkedResource = {
       id: '{id}#profile',
       type: 'Settings',
       description: 'Profile',
+      mediaType: 'application/ld+json',
+      serviceEndpoint: res.url,
+      proof: proof,
+      encrypted: 'false',
+      right: '',
+    }
+
+    const messages: readonly EncodeObject[] = GetReplaceLinkedResourceMsgs(editEntity.id, signer, newLinkedResource)
+    return messages
+  }
+
+  const getEditedSurveyTemplateMsgs = async (): Promise<readonly EncodeObject[]> => {
+    if (JSON.stringify(editEntity.surveyTemplate) === JSON.stringify(currentEntity.surveyTemplate)) {
+      return []
+    }
+
+    const res = await SaveQuestionJSON(editEntity.surveyTemplate)
+    if (!res) {
+      throw new Error('Save Survey Template failed!')
+    }
+
+    let proof = ''
+    if (isCellnodePublicResource(res)) {
+      proof = res.key
+    } else if (isCellnodeWeb3Resource(res)) {
+      proof = res.cid
+    } else {
+      throw new Error('Save Survey Template failed')
+    }
+
+    const newLinkedResource: LinkedResource = {
+      id: '{id}#surveyTemplate',
+      type: 'surveyTemplate',
+      description: '',
       mediaType: 'application/ld+json',
       serviceEndpoint: res.url,
       proof: proof,
@@ -421,6 +468,7 @@ export default function useEditEntity(): {
       ...(await getEditedLinkedEntityMsgs()),
       ...(await getEditedLinkedClaimMsgs()),
       ...(await getEditedVerificationMethodMsgs()),
+      ...(await getEditedSurveyTemplateMsgs()),
     ]
   }
 
@@ -434,10 +482,10 @@ export default function useEditEntity(): {
     console.log('ExecuteEditEntity', { messages })
 
     const updatedFee = { ...fee, gas: new BigNumber(fee.gas).times(messages.length).toString() }
-    const response = await execute({ messages: messages as any, fee: updatedFee })
+    const response = await execute({ messages: messages as any, fee: updatedFee, memo: undefined })
 
-    if (typeof response === "string") {
-      throw Error("Connect your wallet")
+    if (typeof response === 'string') {
+      throw Error('Connect your wallet')
     }
 
     console.log('ExecuteEditEntity', { response })

@@ -20,28 +20,24 @@ const TransferEntity: React.FC = (): JSX.Element => {
 
   const isEligible = useMemo(() => did && selectedEntity, [selectedEntity, did])
 
+  console.log({isEligible})
+
   useEffect(() => {
     if (selectedEntity) {
       updateSelectedEntity(selectedEntity)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedEntity])
-
+  
+  const pathToNavigateTo = selectedEntity?.type === "dao" ? "group" : "to"
   return (
     <TransferEntityLayout title={title} subtitle={subtitle} breadCrumbs={breadCrumbs}>
       {isEligible ? (
         <Routes>
-          <Route path={`/transfer/entity/:entityId/group`} element={<TransferEntityToDAOGroup/>} />
-          <Route path={`/transfer/entity/:entityId/to`} element={<TransferEntityTo/>} />
-          <Route path={`/transfer/entity/:entityId/review`} element={<TransferEntityReview/>} />
-
-          <Route path='/transfer/entity/:entityId'>
-            {selectedEntity?.type === 'dao' ? (
-              <Navigate to={`/transfer/entity/${entityId}/group`} />
-            ) : (
-              <Navigate to={`/transfer/entity/${entityId}/to`} />
-            )}
-          </Route>
+          <Route index element={<Navigate to={pathToNavigateTo} />} />
+          <Route path={'group'} element={<TransferEntityToDAOGroup/>} />
+          <Route path={'to'} element={<TransferEntityTo/>} />
+          <Route path={'review'} element={<TransferEntityReview/>} />
         </Routes>
       ) : (
         <FlexBox>Loading...</FlexBox>

@@ -20,6 +20,7 @@ import { HeaderTab } from 'components/Dashboard/types'
 import { useLocation, useParams } from 'react-router-dom'
 import useCurrentEntity from 'hooks/currentEntity'
 import { MatchType } from 'types/models'
+import { toRootEntityType } from 'utils/entities'
 
 interface Props {
   $onlyTitle: boolean
@@ -55,7 +56,7 @@ const OverviewHero: React.FunctionComponent<Props> = ({
   const currentEntity = useCurrentEntity()
   const { search } = useLocation()
 
-  const entityType = currentEntity.entityType.replace('protocol/', '').replace('oracle/evaluation', 'oracle')
+  const entityType = toRootEntityType(currentEntity.entityType)
   const title = entityConfig.title || toTitleCase(entityType)
   const themeColor = entityConfig.themeColor
 
@@ -93,18 +94,13 @@ const OverviewHero: React.FunctionComponent<Props> = ({
         title: 'TREASURY',
         tooltip: `${title} Treasury`,
       })
-    } else if (
-      entityType === 'investment' ||
-      entityType === 'project' ||
-      entityType === 'oracle' ||
-      entityType === 'dao'
-    ) {
-      buttons.push({
-        iconClass: `icon-funding`,
-        path: `/entity/${entityId}/treasury`,
-        title: 'FUNDING',
-        tooltip: `${title} Funding`,
-      })
+      // } else if (entityType === 'investment' || entityType === 'project' || entityType === 'oracle') {
+      //   buttons.push({
+      //     iconClass: `icon-funding`,
+      //     path: `/entity/${entityId}/treasury`,
+      //     title: 'FUNDING',
+      //     tooltip: `${title} Funding`,
+      //   })
     } else if (entityType === 'asset/device') {
       buttons.push({
         iconClass: 'icon-exchange',

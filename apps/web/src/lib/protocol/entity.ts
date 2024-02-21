@@ -20,6 +20,7 @@ import { fee, RPC_ENDPOINT, TSigner } from './common'
 import { Verification } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/tx'
 import { EncodeObject } from '@cosmjs/proto-signing'
 import { MsgTransferEntity, MsgUpdateEntity } from '@ixo/impactxclient-sdk/types/codegen/ixo/entity/v1beta1/tx'
+import { hexToUint8Array } from 'utils/encoding'
 
 const createRPCQueryClient = ixo.ClientFactory.createRPCQueryClient
 
@@ -42,6 +43,8 @@ export const CreateEntityMessage = async (
   }[],
 ) => {
   const { address, did, pubKey, keyType } = signer
+
+  const hexPubKey = hexToUint8Array(pubKey as any)
   const messages = payload.map((item) => {
     const {
       entityType,
@@ -61,12 +64,12 @@ export const CreateEntityMessage = async (
     return {
       typeUrl: '/ixo.entity.v1beta1.MsgCreateEntity',
       value: ixo.entity.v1beta1.MsgCreateEntity.fromPartial({
-        entityType: entityType.toLowerCase(),
+        entityType: entityType?.toLowerCase(),
         context: customMessages.iid.createAgentIidContext(context as [{ key: string; val: string }]),
         verification: [
           ...customMessages.iid.createIidVerificationMethods({
             did,
-            pubkey: pubKey,
+            pubkey: hexPubKey,
             address: address,
             controller: did,
             type: keyType,
@@ -90,7 +93,7 @@ export const CreateEntityMessage = async (
   })
   const updatedFee = { ...fee, gas: new BigNumber(fee.gas).times(messages.length).toString() }
   console.log('CreateEntity', { messages })
-  return { messages, fee: updatedFee }
+  return { messages, fee: updatedFee, memo: undefined }
 }
 
 export const EntityList = async (request: QueryEntityListRequest): Promise<QueryEntityListResponse> => {
@@ -149,10 +152,7 @@ export const GetUpdateStartAndEndDateMsgs = (payload: Partial<MsgUpdateEntity>):
   ]
 }
 
-export const TransferEntityMessage = async (
-  signer: TSigner,
-  payload: Partial<MsgTransferEntity>,
-) => {
+export const TransferEntityMessage = async (signer: TSigner, payload: Partial<MsgTransferEntity>) => {
   const { id, recipientDid } = payload
   const message = {
     typeUrl: '/ixo.entity.v1beta1.MsgTransferEntity',
@@ -165,13 +165,10 @@ export const TransferEntityMessage = async (
   }
 
   console.log('TransferEntity', { message })
-  return { messages: [message], fee }
+  return { messages: [message], fee, memo: undefined }
 }
 
-export const UpdateEntityMessage = async (
-  signer: TSigner,
-  payload: Partial<MsgUpdateEntity>,
-) => {
+export const UpdateEntityMessage = async (signer: TSigner, payload: Partial<MsgUpdateEntity>) => {
   const queryClient = await createRPCQueryClient({ rpcEndpoint: RPC_ENDPOINT! })
   const entity = await queryClient.ixo.entity.v1beta1.entity({
     id: payload?.id || signer.address,
@@ -194,5 +191,5 @@ export const UpdateEntityMessage = async (
   }
 
   console.log('UpdateEntity', { message })
-  return { messages: [message], fee }
+  return { messages: [message], fee, memo: undefined }
 }

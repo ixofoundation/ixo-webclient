@@ -1,12 +1,11 @@
 import { toBase64 } from '@cosmjs/encoding'
 import { Uint8ArrayToJS, base64ToJson, strToArray } from './encoding'
-import { createQueryClient } from '@ixo/impactxclient-sdk'
-import { RPC_ENDPOINT } from 'lib/protocol'
 import { MULTI_CALL_CONTRACT_ADDRESS } from 'constants/contracts'
+import { getQueryClient } from 'lib/queryClient'
 
 export const queryMultipleContracts = async (queries: any): Promise<any> => {
   try {
-    const queryClient = await createQueryClient(RPC_ENDPOINT as string)
+    const queryClient = await getQueryClient()
 
     const msg = {
       aggregate: {

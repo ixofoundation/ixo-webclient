@@ -32,7 +32,9 @@ export const getExchangeConfigAction =
   (dispatch: Dispatch): GetExchangeConfigAction => {
     return dispatch({
       type: ConfigsStateActions.GetExchangeConfig,
-      payload: Axios.get(ExchangeConfigUrl!).then((response) => response.data),
+      payload: Axios.get(ExchangeConfigUrl!)
+        .then((response) => response.data)
+        .catch((e) => console.error(e)),
     })
   }
 

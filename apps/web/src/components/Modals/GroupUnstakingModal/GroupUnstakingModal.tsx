@@ -21,6 +21,8 @@ import { fee } from 'lib/protocol'
 import styled, { useTheme } from 'styled-components'
 import { Avatar } from 'pages/CurrentEntity/Components'
 import { TDAOGroupModel } from 'types/entities'
+import { Cw20StakeClient } from '@ixo-webclient/cosmwasm-clients'
+import { useWallet } from '@ixo-webclient/wallet-connector'
 
 const StyledInput = styled(Input)`
   color: white;
@@ -59,7 +61,7 @@ interface Props {
 
 const GroupUnstakingModal: React.FunctionComponent<Props> = ({ daoGroup, open, setOpen, onSuccess }) => {
   const theme: any = useTheme()
-  const { cwClient, cosmWasmClient, address } = useAccount()
+  const { cwClient, address } = useAccount()
   const { name: daoName } = useCurrentEntityProfile()
   const { votingModuleAddress, depositInfo } = useCurrentEntityDAOGroup(daoGroup?.coreAddress)
   const [unstakingDuration, setUnstakingDuration] = useState<number>(0)
@@ -71,6 +73,7 @@ const GroupUnstakingModal: React.FunctionComponent<Props> = ({ daoGroup, open, s
   const [amount, setAmount] = useState<string>('')
   const [txStatus, setTXStatus] = useState<TXStatus>(TXStatus.UNDEFINED)
   const [txHash, setTXHash] = useState<string>('')
+  const { execute } = useWallet()
 
   /**
    * @get
@@ -135,7 +138,7 @@ const GroupUnstakingModal: React.FunctionComponent<Props> = ({ daoGroup, open, s
         votingModuleAddress,
       )
       const stakingContract = await daoVotingCw20StakedClient.stakingContract()
-      const cw20StakeClient = new contracts.Cw20Stake.Cw20StakeClient(cosmWasmClient, address, stakingContract)
+      const cw20StakeClient = new Cw20StakeClient(execute, address, stakingContract)
 
       const { transactionHash } = await cw20StakeClient.unstake(
         { amount: convertDenomToMicroDenomWithDecimals(amount, tokenInfo.decimals).toString() },

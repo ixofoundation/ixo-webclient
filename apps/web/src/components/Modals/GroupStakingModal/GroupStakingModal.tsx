@@ -24,6 +24,8 @@ import { errorToast } from 'utils/toast'
 import { useAppSelector } from 'redux/hooks'
 import { selectStakingGroupByCoreAddress } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { TDAOGroupModel } from 'types/entities'
+import { Cw20BaseClient } from '@ixo-webclient/cosmwasm-clients'
+import { useWallet } from '@ixo-webclient/wallet-connector'
 
 const StyledInput = styled(Input)`
   color: white;
@@ -62,7 +64,7 @@ interface Props {
 
 const GroupStakingModal: React.FunctionComponent<Props> = ({ daoGroup, open, setOpen, onSuccess }) => {
   const theme: any = useTheme()
-  const { cwClient, cosmWasmClient, address } = useAccount()
+  const { cwClient, address } = useAccount()
   const { name: daoName } = useCurrentEntityProfile()
   const {
     votingModule: { votingModuleAddress },
@@ -76,6 +78,7 @@ const GroupStakingModal: React.FunctionComponent<Props> = ({ daoGroup, open, set
   const [amount, setAmount] = useState<string>('')
   const [txStatus, setTXStatus] = useState<TXStatus>(TXStatus.UNDEFINED)
   const [txHash, setTXHash] = useState<string>('')
+  const { execute } = useWallet()
 
   /**
    * @get
@@ -134,7 +137,7 @@ const GroupStakingModal: React.FunctionComponent<Props> = ({ daoGroup, open, set
       )
       const stakingContract = await daoVotingCw20StakedClient.stakingContract()
       const tokenContract = await daoVotingCw20StakedClient.tokenContract()
-      const cw20BaseClient = new contracts.Cw20Base.Cw20BaseClient(cosmWasmClient, address, tokenContract)
+      const cw20BaseClient = new Cw20BaseClient(execute, address, tokenContract)
       const { transactionHash } = await cw20BaseClient.send(
         {
           amount: convertDenomToMicroDenomWithDecimals(amount, tokenInfo.decimals).toString(),

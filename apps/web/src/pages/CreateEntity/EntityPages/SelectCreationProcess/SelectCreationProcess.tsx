@@ -9,12 +9,8 @@ import { apiEntityToEntity } from 'utils/entities'
 import { useTheme } from 'styled-components'
 import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { EntityLinkedResourceConfig } from 'constants/entity'
-import { useAppSelector } from 'redux/hooks'
 import { useGetEntityById } from 'graphql/entities'
-import { selectNextStep, selectSteps } from 'redux/entityMultiStepCreation/slice'
-import useStepperNavigate from 'hooks/stepperNavigation'
-
-
+import { useCreateEntityStepState } from 'hooks/createEntityStepState'
 
 const SelectCreationProcess: React.FC = (): JSX.Element => {
   const theme: any = useTheme()
@@ -25,6 +21,7 @@ const SelectCreationProcess: React.FC = (): JSX.Element => {
     lineHeight: 28,
   }
   const {
+    entityType,
     updateProfile,
     updateCreator,
     updateAdministrator,
@@ -34,23 +31,19 @@ const SelectCreationProcess: React.FC = (): JSX.Element => {
     updateLinkedEntity,
     updateLinkedResource,
     updateStartEndDate,
+    updateQuestionJSON,
+    updateClaim,
   } = useCreateEntityState()
   const [isClone, setIsClone] = useState(false)
   const [existingDid, setExistingDid] = useState('')
   const [chainId, setChainId] = useState(undefined)
   const { data: selectedEntity } = useGetEntityById(existingDid)
-  const steps = useAppSelector(selectSteps)
-  const nextStep = useAppSelector(selectNextStep)
-  const navigate = useStepperNavigate()
+  const { navigateToNextStep } = useCreateEntityStepState()
 
-  const canClone = useMemo(() => chainId && selectedEntity?.type === 'dao', [chainId, selectedEntity])
-
-  console.log({ steps })
+  const canClone = useMemo(() => chainId && selectedEntity?.type === entityType, [chainId, selectedEntity, entityType])
 
   const handleCreate = (): void => {
-    if (nextStep?.number) {
-      navigate(nextStep)
-    }
+    navigateToNextStep()
   }
 
   const handleClone = (): void => {
@@ -82,13 +75,19 @@ const SelectCreationProcess: React.FC = (): JSX.Element => {
             value.filter((item: LinkedResource) => Object.keys(EntityLinkedResourceConfig).includes(item.type)),
           )
           break
+        case 'surveyTemplate':
+          updateQuestionJSON(value)
+          break
+        case 'claim':
+          updateClaim(value)
+          break
         default:
           break
       }
     })
     // additional
     updateStartEndDate({ startDate: selectedEntity.startDate, endDate: selectedEntity.endDate })
-    // TODO useStepperNavigate
+    navigateToNextStep()
   }
 
   return (

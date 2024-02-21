@@ -5,7 +5,6 @@ import { Typography } from 'components/Typography'
 import { useTheme } from 'styled-components'
 import { thousandSeparator } from 'utils/formatters'
 import { HorizontalLine } from 'components/HorizontalLine'
-import { Tag } from 'components'
 import { getEntityIcon } from 'utils/getEntityIcon'
 import { ProgressBar } from 'components/ProgressBar/ProgressBar'
 import { useNavigate } from 'react-router-dom'
@@ -46,6 +45,7 @@ export const ProjectCard: React.FC<Props> = ({
   return (
     <FlexBox
       onClick={() =>
+        id &&
         navigate({
           pathname: `/entity/${id}/overview`,
         })
@@ -149,11 +149,6 @@ export const ProjectCard: React.FC<Props> = ({
                 {metrics?.title}
               </Typography>
             </FlexBox>
-          </FlexBox>
-
-          <FlexBox width='100%' $justifyContent='space-between' $alignItems='center'>
-            <Tag>forming</Tag>
-            <Tag>forming</Tag>
           </FlexBox>
         </FlexBox>
       </FlexBox>

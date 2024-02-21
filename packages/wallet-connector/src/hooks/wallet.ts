@@ -9,15 +9,19 @@ import { CHAIN_ID } from "@constants";
 import * as store from "store";
 
 type ExecuteProps = {
-  messages: any[];
-  fee: StdFee | undefined;
+  messages: {
+    typeUrl: string;
+    value: any;
+  }[];
+  fee: StdFee;
+  memo: string | undefined;
 };
 
 type UseWalletProps = WalletContextType & {
   connectWallet: (type: WalletType) => Promise<void>;
   disconnectWallet: () => void;
   execute: (data: ExecuteProps) => Promise<DeliverTxResponse | string>;
-  setWallet: (wallet: Wallet | null) =>  void
+  setWallet: (wallet: Wallet | null) => void
 };
 
 const KeplrWallet = new Keplr();
@@ -29,12 +33,12 @@ export const useWallet = (): UseWalletProps => {
   }
 
   const connectWallet = async (type: WalletType): Promise<void> => {
-    if (type === WalletType.Keplr) {
-      const wallet = await KeplrWallet.connect();
-      if (wallet) {
-        context.setWallet(wallet);
-      }
-    }
+    // if (type === WalletType.Keplr) {
+    //   const wallet = await KeplrWallet.connect();
+    //   if (wallet) {
+    //     context.setWallet(wallet);
+    //   }
+    // }
 
     if (type === WalletType.ImpactXMobile) {
       try {
@@ -91,6 +95,8 @@ export const useWallet = (): UseWalletProps => {
             transacting: false,
           }));
           context.close();
+          console.log({ transaction });
+
           return transaction as DeliverTxResponse;
         }
       } catch (error) {
@@ -99,7 +105,7 @@ export const useWallet = (): UseWalletProps => {
           transacting: false,
         }));
 
-        console.error({ error });
+        console.log({ error });
       }
     }
     if (context?.wallet?.wallet?.type === WalletType.Keplr) {
@@ -121,6 +127,8 @@ export const useWallet = (): UseWalletProps => {
           console.log("client", client);
 
           console.log(context?.wallet?.address, data, data?.fee);
+
+          if (!context.wallet?.address) throw 'Please connect your wallet'
 
           return client.signAndBroadcast(
             context?.wallet?.address,

@@ -96,6 +96,11 @@ export const selectNextStep = createSelector([selectCurrentStep, selectSteps], (
   if (currentIndex >= 0 && currentIndex < steps.length - 1) {
     return steps[currentIndex + 1]
   }
+
+  if(currentStep.path.length > 0 && steps.length > 0){
+    // First step of the process
+    return steps[0]
+  }
   // Return null if there is no next step
   return null
 })

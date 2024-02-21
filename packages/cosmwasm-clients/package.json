@@ -1,0 +1,53 @@
+{
+  "name": "@ixo-webclient/cosmwasm-clients",
+  "version": "1.0.0",
+  "description": "Library of cosmwasm clients",
+  "author": "Zach",
+  "license": "MIT",
+  "private": true,
+  "main": "dist/cosmwasm-clients.es.js",
+  "module": "dist/cosmwasm-clients.es.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build:types": "tsc --emitDeclarationOnly && tsc-alias",
+    "build": "vite build && yarn build:types",
+    "build:dev": "vite build --watch && yarn build:types --watch",
+    "build:watch": "concurrently --kill-others \"yarn build:dev \""
+  },
+  "dependencies": {
+    "@cosmjs/amino": "^0.32.2",
+    "@cosmjs/encoding": "^0.31.3",
+    "@ixo-webclient/types": "*",
+    "@ixo-webclient/utils": "*",
+    "@ixo/cosmos-chain-resolver": "^0.0.5",
+    "@ixo/impactxclient-sdk": "*",
+    "@mantine/core": "^7.2.2",
+    "@mantine/hooks": "^7.2.2",
+    "@tabler/icons-react": "^2.46.0",
+    "assert": "^2.1.0",
+    "bs58": "5.0.0",
+    "crypto-browserify": "^3.12.0",
+    "https-browserify": "^1.0.0",
+    "os-browserify": "^0.3.0",
+    "path-browserify": "^1.0.1",
+    "process": "^0.11.10",
+    "qrcode.react": "^3.1.0",
+    "react-icons": "^5.0.1",
+    "readable-stream": "^4.4.2",
+    "store": "^2.0.12",
+    "stream-http": "^3.2.0",
+    "url": "^0.11.3"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.2.0",
+    "concurrently": "^8.2.2",
+    "react": "^18.2.0",
+    "react-dom": "18.2.0",
+    "tsc-alias": "^1.8.8",
+    "vite": "^5.0.2"
+  },
+  "peerDependencies": {
+    "@mantine/core": "^7.2.2",
+    "@mantine/hooks": "^7.2.2"
+  }
+}

@@ -19,6 +19,9 @@ import { useEntityConfig } from 'hooks/configs'
 import { Flex, ScrollArea } from '@mantine/core'
 import styled from 'styled-components'
 import { useAccount } from 'hooks/account'
+import { DidQRCode } from './DidQRCode'
+import useCurrentEntity from 'hooks/currentEntity'
+import { EntityType } from 'types/entities'
 
 const StyledScrollArea = styled(ScrollArea)`
   & > div > div {
@@ -31,6 +34,7 @@ interface Props {
 }
 const ControlPanel: React.FC<Props> = ({ tab }) => {
   const { controlPanelSchema: schema } = useEntityConfig()
+  const { entityType } = useCurrentEntity()
   const { address } = useAccount()
   const [activeTab, setActiveTab] = useState<'profile' | 'detail' | 'feed' | 'message' | 'assistant'>(tab || 'profile')
 
@@ -55,6 +59,7 @@ const ControlPanel: React.FC<Props> = ({ tab }) => {
       <PerformanceCard />
       <ActionsCard widget={schema.actions} />
       <ClaimsCard />
+      {entityType === EntityType.Project &&  <DidQRCode />}
       <ConnectCard widget={schema.connections} />
     </>
   )

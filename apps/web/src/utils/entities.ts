@@ -272,6 +272,14 @@ export function apiEntityToEntity(
               updateCallback('claimQuestion', question)
             })
             .catch(() => undefined)
+        } else if (item.type === 'surveyTemplate') {
+          fetch(url)
+            .then((response) => response.json())
+            .then((response) => response.question)
+            .then((question) => {
+              updateCallback('surveyTemplate', question)
+            })
+            .catch(() => undefined)
         }
       }
     })
@@ -341,7 +349,6 @@ export const LinkedResourceProofGenerator = (
 ): string => {
   console.log({ cellnodeService })
   console.log({ uploadResult })
-
 
   if (cellnodeService) {
     const serviceType = cellnodeService.type
@@ -417,9 +424,19 @@ export function getDAOGroupLinkedEntities(linkedEntity: LinkedEntity[]): LinkedE
 }
 
 export function isCellnodePublicResource(object: any): object is CellnodePublicResource {
-  return 'key' in object && 'contentType' in object;
+  return 'key' in object && 'contentType' in object
 }
 
 export function isCellnodeWeb3Resource(object: any): object is CellnodeWeb3Resource {
-  return 'cid' in object && 'name' in object;
+  return 'cid' in object && 'name' in object
+}
+
+export function toRootEntityType(entityType: string): string {
+  if (entityType?.startsWith('protocol/')) {
+    return 'protocol'
+  }
+  if (entityType?.startsWith('oracle/')) {
+    return 'oracle'
+  }
+  return entityType
 }

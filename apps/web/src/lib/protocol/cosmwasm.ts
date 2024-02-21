@@ -24,7 +24,7 @@ export const WasmInstantiateMessage = async (signer: TSigner, payload: { codeId:
     }))
 
     const updatedFee = { ...fee, gas: new BigNumber(fee.gas).times(messages.length).toString() }
-    return { messages, fee: updatedFee }
+    return { messages, fee: updatedFee, memo: undefined }
   } catch (e) {
     console.error('WasmInstantiateTrx', e)
     return undefined
@@ -53,7 +53,7 @@ export const WasmExecuteTrx = async (
       }),
     }
 
-    return { message: [message], fee }
+    return { message: [message], fee, memo: undefined }
   } catch (e) {
     console.error('WasmExecuteTrx', e)
     return undefined

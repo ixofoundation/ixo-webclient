@@ -9,11 +9,13 @@ import { CellnodePublicResource } from '@ixo/impactxclient-sdk/types/custom_quer
 import { customQueries, ixo } from '@ixo/impactxclient-sdk'
 import { chainNetwork } from 'hooks/configs'
 import { useAccount } from 'hooks/account'
-import { AddLinkedResource } from 'lib/protocol'
 import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { useGetIid } from 'graphql/iid'
 import { Typography } from 'components/Typography'
 import { AgentRoles } from 'types/models'
+import { useWallet } from '@ixo-webclient/wallet-connector'
+import { GetAddLinkedResourcePayload } from 'lib/protocol'
+import { DeliverTxResponse } from '@cosmjs/stargate'
 
 interface Props {
   claimCollectionId: string
@@ -21,13 +23,14 @@ interface Props {
 }
 
 const OfferForm: React.FC<Props> = ({ claimCollectionId, agentRole }) => {
-  const { signingClient, signer } = useAccount()
+  const { signer } = useAccount()
   const offerQuestionForm = useGetOfferFormByClaimCollectionId(claimCollectionId)
   const { data: iid } = useGetIid(signer.did)
   const offerSent = useMemo(() => {
     const linkedResource: LinkedResource[] = iid?.linkedResource ?? []
     return linkedResource.some((v) => v.description.split('#')[0] === claimCollectionId)
   }, [iid, claimCollectionId])
+  const { execute } = useWallet()
 
   const handleSubmit = useCallback(
     async (answer: any): Promise<boolean> => {
@@ -50,9 +53,12 @@ const OfferForm: React.FC<Props> = ({ claimCollectionId, agentRole }) => {
           description: `${claimCollectionId}#${agentRole}`,
           serviceEndpoint: uploadRes.url,
         })
-        const res = await AddLinkedResource(signingClient, signer, { entityId: signer.did, linkedResource })
-        if (res.code !== 0) {
-          throw res.rawLog
+        const addLinkedResourceMessagePayload = await GetAddLinkedResourcePayload(signer.did,signer, linkedResource )
+
+      const response = (await execute(addLinkedResourceMessagePayload)) as unknown as DeliverTxResponse
+
+        if (response.code !== 0) {
+          throw response.rawLog
         }
 
         successToast('Success', 'Submit successfully')
@@ -63,7 +69,7 @@ const OfferForm: React.FC<Props> = ({ claimCollectionId, agentRole }) => {
         return false
       }
     },
-    [agentRole, claimCollectionId, signer, signingClient],
+    [agentRole, claimCollectionId, signer, execute],
   )
 
   const survey = useMemo(() => {

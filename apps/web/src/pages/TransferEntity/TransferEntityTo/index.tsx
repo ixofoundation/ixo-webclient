@@ -13,9 +13,9 @@ import { ReactComponent as CheckCircleIcon } from 'assets/images/icon-check-circ
 import { ReactComponent as LockOpenIcon } from 'assets/images/icon-lock-open-solid.svg'
 import { ReactComponent as InfoIcon } from 'assets/images/icon-info.svg'
 import {
-  AddLinkedResource,
   CheckIidDoc,
   CreateIidDocForGroup,
+  GetAddLinkedResourcePayload,
   TransferEntityMessage,
   UpdateEntityMessage,
 } from 'lib/protocol'
@@ -118,11 +118,13 @@ const TransferEntityTo: React.FC = (): JSX.Element => {
         right: '',
       }
       console.log({ linkedResource })
+ 
+      const addLinkedResourceMessagePayload = await GetAddLinkedResourcePayload( entityId,  signer, linkedResource,  )
 
-      const addRes = await AddLinkedResource(signingClient, signer, { linkedResource, entityId })
-      console.log('AddLinkedResource', addRes)
-      if (addRes.code !== 0) {
-        throw addRes.rawLog
+      const response = (await execute(addLinkedResourceMessagePayload)) as unknown as DeliverTxResponse
+
+      if (response.code !== 0) {
+        throw response.rawLog
       }
       successToast('Success', 'Successfully created document!')
       return true
@@ -252,7 +254,7 @@ const TransferEntityTo: React.FC = (): JSX.Element => {
                 width='100%'
                 height='48px'
                 label='Group Name'
-                inputValue={daoGroups[recipientDid.replace('did:ixo:wasm:', '')].config.name || ''}
+                inputValue={daoGroups[recipientDid.replace('did:ixo:wasm:', '')]?.config?.name || ''}
               />
               <InputWithLabel
                 name='entity_name'

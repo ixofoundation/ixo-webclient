@@ -1,5 +1,12 @@
 import { AppConnected } from 'components/App/App'
-import { RouterProvider, createBrowserRouter } from 'react-router-dom'
+import {
+  Navigate,
+  Route,
+  RouterProvider,
+  createBrowserRouter,
+  Routes as ReactRouterRoutes,
+  Outlet,
+} from 'react-router-dom'
 import {
   SelectCreationProcess,
   SetupMetadata,
@@ -16,8 +23,15 @@ import * as CurrentEntity from 'pages/CurrentEntity/CurrentEntity.route'
 import * as Explore from 'pages/EntitiesExplorer/EntitiesExplorer.route'
 import * as EntityExchange from 'pages/EntityExchange/EntityExchange.route'
 import * as MyAccount from 'pages/MyAccount/MyAccount.route'
+import * as TransferEntity from 'pages/TransferEntity/TransferEntity.route'
 
 import { Routes } from 'routes'
+import { Flex } from '@mantine/core'
+import SetupProposalInfo from 'pages/CurrentEntity/Dashboard/DAODashboard/Governance/CreateProposal/SetupProposalInfo'
+import { SetupTargetGroup } from 'pages/CreateEntity/EntityPages/SetupTargetGroup'
+import SetupProposalPageContent from 'pages/CreateEntity/EntityPages/SetupProposalPageContent/SetupPageContent'
+import { SetupActions } from 'pages/CurrentEntity/Dashboard/DAODashboard/Governance/CreateProposal/SetupProposalActions'
+import { ReviewProposal } from 'pages/CurrentEntity/Dashboard/DAODashboard/Governance/CreateProposal/ReviewProposal'
 
 const router = createBrowserRouter([
   {
@@ -27,6 +41,10 @@ const router = createBrowserRouter([
       {
         path: '*',
         Component: Routes,
+      },
+      {
+        path: 'transfer/entity/:entityId/*',
+        Component: TransferEntity.Component
       },
       {
         path: 'explore',
@@ -84,6 +102,43 @@ const router = createBrowserRouter([
               {
                 path: 'collection',
                 element: <SetupDataCollection />,
+              },
+              {
+                path: ':entityId/:coreAddress/*',
+                element: (
+                  <Flex>
+                    <ReactRouterRoutes>
+                      <Route index element={<Navigate to='info' />} />
+                    </ReactRouterRoutes>
+                    <Outlet />
+                  </Flex>
+                ),
+                children: [
+                  {
+                    path: 'info',
+                    element: <SetupProposalInfo />,
+                  },
+                  {
+                    path: 'select',
+                    element: <SetupTargetGroup />,
+                  },
+                  {
+                    path: 'page',
+                    element: <SetupProposalPageContent />,
+                  },
+                  {
+                    path: 'property',
+                    element: <SetupProperties />,
+                  },
+                  {
+                    path: 'action',
+                    element: <SetupActions />,
+                  },
+                  {
+                    path: 'review',
+                    element: <ReviewProposal />,
+                  },
+                ],
               },
             ],
           },

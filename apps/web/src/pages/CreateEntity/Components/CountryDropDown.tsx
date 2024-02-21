@@ -11,8 +11,8 @@ const CountryDropDown = styled(DefCountryDropDown)`
     border-radius: 8px !important;
     font-family: ${(props) => props.theme.primaryFontFamily};
     font-size: 20px;
+    font-weight: 500;
     line-height: 100%;
-    padding: 8px;
     width: 100%;
     height: 48px;
 

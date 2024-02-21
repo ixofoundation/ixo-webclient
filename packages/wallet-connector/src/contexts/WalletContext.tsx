@@ -4,6 +4,10 @@ import { createContext, useState, ReactNode, useMemo, SetStateAction } from "rea
 
 interface Wallet {
   [key: string]: any
+  address: string
+  did: string
+  pubKey: Uint8Array
+  keyType: string
 }
 
 interface WalletContextType {

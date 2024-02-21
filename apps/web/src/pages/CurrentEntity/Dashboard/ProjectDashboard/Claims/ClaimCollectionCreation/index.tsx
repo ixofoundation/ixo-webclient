@@ -31,7 +31,7 @@ const ClaimCollectionCreation: React.FC = () => {
   const { isExist: isCollectionExist } = useGetClaimCollectionsByEntityId(entityId)
   const userRole = useGetUserGranteeRole()
   const { fetchEntityById } = useGetEntityByIdLazyQuery()
-  const { execute } = useWallet()
+  const { execute, wallet } = useWallet()
 
   const [step, setStep] = useState<'start' | 'select' | 'scope' | 'payment' | 'submission' | 'review' | 'success'>(
     'start',
@@ -76,7 +76,9 @@ const ClaimCollectionCreation: React.FC = () => {
       }),
     ]
 
-    const entityMessage = await CreateEntityMessage(signer, [
+    if(!wallet) throw Error("Please connect wallet")
+
+    const entityMessage = await CreateEntityMessage({ pubKey: wallet.pubKey, address: wallet.address, keyType: 'secp', did: wallet.did }, [
       {
         entityType: 'deed/offer',
         linkedEntity,
@@ -84,7 +86,7 @@ const ClaimCollectionCreation: React.FC = () => {
       },
     ])
 
-    const response = execute(entityMessage) as unknown as DeliverTxResponse
+    const response = await execute(entityMessage) as unknown as DeliverTxResponse
     if (response.code !== 0) {
       throw response.rawLog
     }
@@ -123,6 +125,8 @@ const ClaimCollectionCreation: React.FC = () => {
         'collection',
         (c) => c.id,
       )
+
+      console.log({ collectionId })
       const deedOfferDid = await CreateDeedOffer(collectionId)
       if (deedOfferDid) {
         fetchEntityById(deedOfferDid)

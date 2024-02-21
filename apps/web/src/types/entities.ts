@@ -388,6 +388,7 @@ export interface TAssetMetadataModel extends TBasicMetadataModel {
   maxSupply?: number | undefined
   decimals?: number
   autoGenerateZLottie?: boolean
+  category?: string
 }
 export type TEntityMetadataModel = TAssetMetadataModel
 export interface TEntityProfileModel {
@@ -472,13 +473,13 @@ export type TDAOGroupModel = {
     totalWeight: number
   }
   token:
-    | {
-        config: Cw20StakeConfig
-        tokenInfo: TokenInfoResponse
-        marketingInfo: MarketingInfoResponse
-        treasuryPercent?: number
-      }
-    | undefined
+  | {
+    config: Cw20StakeConfig
+    tokenInfo: TokenInfoResponse
+    marketingInfo: MarketingInfoResponse
+    treasuryPercent?: number
+  }
+  | undefined
   selected?: boolean
   memberships?: {
     category?: string
@@ -620,4 +621,5 @@ export interface TEntityModel extends Omit<Entity, 'metadata'>, IidDocument {
   zlottie?: TZlottie
   daoGroups?: { [address: string]: TDAOGroupModel }
   claim?: { [id: string]: TEntityClaimModel }
+  surveyTemplate?: any
 }

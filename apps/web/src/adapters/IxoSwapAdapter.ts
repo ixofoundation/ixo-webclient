@@ -7,7 +7,6 @@ import {
   cosmos,
   cosmwasm,
   createSigningClient,
-  createQueryClient as createQueryClientImport,
 } from '@ixo/impactxclient-sdk'
 import { TRX_MSG } from 'types/transactions'
 import { Uint8ArrayToJS, strToArray } from 'utils/encoding'
@@ -17,6 +16,7 @@ import { RPC_ENDPOINT, fee } from 'lib/protocol'
 import { StdFee } from '@cosmjs/stargate'
 import { ExchangeAsset } from 'redux/exchange/exchange.types'
 import * as store from 'store'
+import { getQueryClient } from 'lib/queryClient'
 
 enum IxoTokenSelect {
   Token2 = 'token2',
@@ -107,8 +107,8 @@ class IxoSwapAdapter implements SwapAdapter {
   }
 
   async querySmartContract(msg: string) {
+    const queryClient = await getQueryClient()
     try {
-      const queryClient = await createQueryClientImport(this.rpcEndpoint)
       return await queryClient.cosmwasm.wasm.v1
         .smartContractState({
           address: this.impactContractAddress,
@@ -148,7 +148,7 @@ class IxoSwapAdapter implements SwapAdapter {
   }
 
   async getTokens() {
-    const queryClient = await createQueryClientImport(this.rpcEndpoint)
+    const queryClient = await getQueryClient()
     const tokenBalances = await queryTokenBalances(queryClient, 'devnet-1', this.walletAddress)
     return tokenBalances[0]
   }

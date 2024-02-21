@@ -18,6 +18,10 @@ const SetupClaim: React.FC<Props> = ({ hidden, claim, updateClaim }): JSX.Elemen
   const [editModalOpen, setEditModalOpen] = useState(false)
 
   const handleUpdateEntityClaim = (id: string, newClaim: TEntityClaimModel): void => {
+    if (JSON.stringify(selectedClaim) === JSON.stringify(newClaim)) {
+      return
+    }
+
     if (Object.values(claim).some((item) => item.template?.id === newClaim.template?.id)) {
       handleRemoveEntityClaim(id)
       return

@@ -24,6 +24,8 @@ import { ReactComponent as ThumbsUpIcon } from 'assets/images/icon-thumbs-up.svg
 import { ReactComponent as ThumbsDownIcon } from 'assets/images/icon-thumbs-down.svg'
 import { ReactComponent as UnlinkIcon } from 'assets/images/icon-unlink-solid.svg'
 import { useTheme } from 'styled-components'
+import { DaoProposalSingleClient } from '@ixo-webclient/cosmwasm-clients'
+import { useWallet } from '@ixo-webclient/wallet-connector'
 
 const RemainingBadge: React.FC<{ minutes: number }> = ({ minutes }) => {
   const theme: any = useTheme()
@@ -135,8 +137,9 @@ const ProposalCard: React.FC<Props> = ({ coreAddress, proposalId, proposal }) =>
   const navigate = useNavigate()
   const theme: any = useTheme()
   const { entityId } = useParams<{ entityId: string }>()
-  const { cwClient, address, cosmWasmClient } = useAccount()
+  const { cwClient, address } = useAccount()
   const { daoGroup, proposalModuleAddress, isParticipating, anyoneCanPropose } = useCurrentEntityDAOGroup(coreAddress)
+  const { execute } = useWallet()
 
   const [votes, setVotes] = useState<VoteInfo[]>([])
   const [myVoteStatus, setMyVoteStatus] = useState<VoteInfo | undefined>(undefined)
@@ -183,8 +186,8 @@ const ProposalCard: React.FC<Props> = ({ coreAddress, proposalId, proposal }) =>
   }, [getVoteStatus])
 
   const onVote = (vote: Vote): Promise<string> => {
-    const daoProposalSingleClient = new contracts.DaoProposalSingle.DaoProposalSingleClient(
-      cosmWasmClient,
+    const daoProposalSingleClient = new DaoProposalSingleClient(
+      execute,
       address,
       proposalModuleAddress,
     )
@@ -203,15 +206,15 @@ const ProposalCard: React.FC<Props> = ({ coreAddress, proposalId, proposal }) =>
   }
 
   const onExecute = () => {
-    const daoProposalSingleClient = new contracts.DaoProposalSingle.DaoProposalSingleClient(
-      cosmWasmClient,
+    const daoProposalSingleClient = new DaoProposalSingleClient(
+      execute,
       address,
       proposalModuleAddress,
     )
     daoProposalSingleClient
-      .execute({ proposalId }, fee, undefined, undefined)
-      .then(({ transactionHash, logs, events, gasUsed, gasWanted, height }) => {
-        console.log('handleExecuteProposal', { transactionHash, logs, events, gasUsed, gasWanted, height })
+      .executeProposal({ proposalId }, fee, undefined, undefined)
+      .then(({ transactionHash, rawLog, events, gasUsed, gasWanted, height }) => {
+        console.log('handleExecuteProposal', { transactionHash, rawLog, events, gasUsed, gasWanted, height })
         if (transactionHash) {
           successToast(null, 'Successfully executed proposal')
         }
@@ -223,15 +226,15 @@ const ProposalCard: React.FC<Props> = ({ coreAddress, proposalId, proposal }) =>
   }
 
   const onClose = () => {
-    const daoProposalSingleClient = new contracts.DaoProposalSingle.DaoProposalSingleClient(
-      cosmWasmClient,
+    const daoProposalSingleClient = new DaoProposalSingleClient(
+      execute,
       address,
       proposalModuleAddress,
     )
     daoProposalSingleClient
       .close({ proposalId }, fee, undefined, undefined)
-      .then(({ transactionHash, logs }) => {
-        console.log('handleCloseProposal', transactionHash, logs)
+      .then(({ transactionHash, rawLog }) => {
+        console.log('handleCloseProposal', transactionHash, rawLog)
         if (transactionHash) {
           successToast(null, 'Successfully closed proposal')
         }

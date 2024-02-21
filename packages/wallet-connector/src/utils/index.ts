@@ -44,3 +44,11 @@ export const getConnectedWalletInfo = async (
     }
   }
   
+  export const friendlyWalletNames = (wallet: string) => {
+    switch(wallet){
+      case "impactx_mobile":
+        return "Impacts X"
+      default:
+        return wallet
+    }
+  }

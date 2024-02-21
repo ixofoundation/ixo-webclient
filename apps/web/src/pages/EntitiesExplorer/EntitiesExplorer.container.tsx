@@ -7,7 +7,6 @@ import {
   Container,
   EntitiesBody,
   EntitiesContainer,
-  ErrorContainer,
   NoEntitiesContainer,
 } from './EntitiesExplorer.container.styles'
 import {
@@ -31,7 +30,14 @@ import { createEntityCard, withEntityData } from 'components'
 import { useEntitiesQuery } from 'generated/graphql'
 import { selectAccountAddress, selectAccountCWClient } from 'redux/account/account.selectors'
 import { apiEntityToEntity } from 'utils/entities'
-import { ScrollArea } from '@mantine/core'
+import { Flex, ScrollArea } from '@mantine/core'
+import styled from 'styled-components'
+
+const StyledScrollArea = styled(ScrollArea)`
+  & > div > div {
+    height: 100%;
+  }
+`
 
 export interface Props {
   match: any
@@ -148,18 +154,19 @@ const EntitiesExplorer = ({
       )
     }
 
-    if (entities.length > 0) {
-      return (
-        <EntitiesContainer className='container-fluid'>
-          <div className='container'>
-            <EntitiesFilter filterSchema={filterSchema} />
-            <EntitiesBody>
-              {filteredEntitiesCount === 0 && (
-                <NoEntitiesContainer>
-                  <p>There are no results that match your search criteria</p>
-                </NoEntitiesContainer>
-              )}
-              {filteredEntitiesCount > 0 && (
+    // if (entities.length > 0) {
+    return (
+      <EntitiesContainer className='container-fluid'>
+        <div className='container'>
+          <EntitiesFilter filterSchema={filterSchema} />
+          <EntitiesBody>
+            {filteredEntitiesCount === 0 && (
+              <NoEntitiesContainer>
+                <p>There are no results that match your search criteria</p>
+              </NoEntitiesContainer>
+            )}
+            {filteredEntitiesCount > 0 && (
+              <Flex direction={'column'} w='100%' gap={32}>
                 <InfiniteScroll
                   dataLength={entities.length} //This is important field to render the next data
                   //  TODO refetch next data
@@ -175,18 +182,19 @@ const EntitiesExplorer = ({
                     })
                     .filter(Boolean)}
                 </InfiniteScroll>
-              )}
-            </EntitiesBody>
-          </div>
-        </EntitiesContainer>
-      )
-    } else {
-      return (
-        <ErrorContainer>
-          <p>No results were found</p>
-        </ErrorContainer>
-      )
-    }
+              </Flex>
+            )}
+          </EntitiesBody>
+        </div>
+      </EntitiesContainer>
+    )
+    // } else {
+    //   return (
+    //     <ErrorContainer>
+    //       <p>No results were found</p>
+    //     </ErrorContainer>
+    //   )
+    // }
   }
 
   useEffect(() => {
@@ -200,7 +208,7 @@ const EntitiesExplorer = ({
   }, [sector, handleChangeSector])
 
   return (
-    <ScrollArea w='100%' h={'calc(100vh - 74px)'}>
+    <StyledScrollArea w='100%' h={'calc(100vh - 74px)'}>
       <Container>
         <div className='d-flex w-100 h-100'>
           <div className='d-flex flex-column flex-grow-1 w-100 h-100'>
@@ -220,7 +228,7 @@ const EntitiesExplorer = ({
           </div>
         </div>
       </Container>
-    </ScrollArea>
+    </StyledScrollArea>
   )
 }
 
