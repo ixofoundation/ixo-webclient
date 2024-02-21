@@ -56,6 +56,7 @@ import { selectEntityConfig, selectEntityConfigByGivenType } from 'redux/configs
 import { Schema as FilterSchema } from 'pages/EntitiesExplorer/Components/EntitiesFilter/schema/types'
 import { useNavigate } from 'react-router-dom'
 import { useQuery } from 'hooks/window'
+import { Typography } from 'components/Typography'
 
 // TODO - make this 2 separate components - Desktop and Mobile
 
@@ -406,7 +407,7 @@ const EntitiesFilter: FC<Props> = () => {
           <ButtonOuter onClick={handleResetFilters} disabled={!resetIsActive()}>
             <ButtonInner>
               <ButtonIcon $iconSize={16} className='icon-reset' />
-              Reset
+              <Typography size='md'>Reset</Typography>
             </ButtonInner>
           </ButtonOuter>
         </div>
