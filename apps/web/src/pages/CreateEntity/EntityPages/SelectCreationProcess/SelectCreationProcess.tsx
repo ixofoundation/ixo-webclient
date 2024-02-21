@@ -12,8 +12,6 @@ import { EntityLinkedResourceConfig } from 'constants/entity'
 import { useGetEntityById } from 'graphql/entities'
 import { useCreateEntityStepState } from 'hooks/createEntityStepState'
 
-
-
 const SelectCreationProcess: React.FC = (): JSX.Element => {
   const theme: any = useTheme()
   const SearchInputStyles = {
@@ -23,6 +21,7 @@ const SelectCreationProcess: React.FC = (): JSX.Element => {
     lineHeight: 28,
   }
   const {
+    entityType,
     updateProfile,
     updateCreator,
     updateAdministrator,
@@ -32,15 +31,16 @@ const SelectCreationProcess: React.FC = (): JSX.Element => {
     updateLinkedEntity,
     updateLinkedResource,
     updateStartEndDate,
+    updateQuestionJSON,
+    updateClaim,
   } = useCreateEntityState()
   const [isClone, setIsClone] = useState(false)
   const [existingDid, setExistingDid] = useState('')
   const [chainId, setChainId] = useState(undefined)
   const { data: selectedEntity } = useGetEntityById(existingDid)
-  const { navigateToNextStep } = useCreateEntityStepState ()
+  const { navigateToNextStep } = useCreateEntityStepState()
 
-
-  const canClone = useMemo(() => chainId && selectedEntity?.type === 'dao', [chainId, selectedEntity])
+  const canClone = useMemo(() => chainId && selectedEntity?.type === entityType, [chainId, selectedEntity, entityType])
 
   const handleCreate = (): void => {
     navigateToNextStep()
@@ -75,13 +75,19 @@ const SelectCreationProcess: React.FC = (): JSX.Element => {
             value.filter((item: LinkedResource) => Object.keys(EntityLinkedResourceConfig).includes(item.type)),
           )
           break
+        case 'surveyTemplate':
+          updateQuestionJSON(value)
+          break
+        case 'claim':
+          updateClaim(value)
+          break
         default:
           break
       }
     })
     // additional
     updateStartEndDate({ startDate: selectedEntity.startDate, endDate: selectedEntity.endDate })
-    // TODO useStepperNavigate
+    navigateToNextStep()
   }
 
   return (

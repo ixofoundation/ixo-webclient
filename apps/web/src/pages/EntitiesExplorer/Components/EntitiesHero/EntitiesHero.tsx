@@ -29,7 +29,7 @@ export const EntitiesHero: React.FunctionComponent<Props> = ({
 }) => {
   const navigate = useNavigate()
   // const entityTypeMap = useAppSelector(selectEntityConfig)
-  const { entityConfig}  = useIxoConfigs()
+  const { entityConfig } = useIxoConfigs()
   const entityStrategyMap = entityConfig[type]
   const header = getHeaderSchema(filterSector, entityStrategyMap?.headerSchema)
   const headerTabButtons = getHeaderTabButtons(type, entityStrategyMap?.plural)
@@ -110,22 +110,23 @@ const getHeaderTabButtons = (entityType: EntityType, entityTitle: string): any =
   ]
 
   if (entityType === EntityType.Project || entityType === EntityType.Dao) {
-    tabButtons.push(
-      {
-        iconClass: 'icon-impacts',
-        linkClass: 'in-active',
-        path: '/impact',
-        title: 'IMPACT',
-        tooltip: `Impacts of ${entityType}s`,
-      },
-      {
-        iconClass: 'icon-economy',
-        linkClass: 'in-active',
-        path: '/economy',
-        title: 'ECONOMY',
-        tooltip: `The Impact Economy`,
-      },
-    )
+    // TODO: comment out tabs for now
+    // tabButtons.push(
+    //   {
+    //     iconClass: 'icon-impacts',
+    //     linkClass: 'in-active',
+    //     path: '/impact',
+    //     title: 'IMPACT',
+    //     tooltip: `Impacts of ${entityType}s`,
+    //   },
+    //   {
+    //     iconClass: 'icon-economy',
+    //     linkClass: 'in-active',
+    //     path: '/economy',
+    //     title: 'ECONOMY',
+    //     tooltip: `The Impact Economy`,
+    //   },
+    // )
   }
 
   if (entityType === EntityType.Asset) {

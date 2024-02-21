@@ -60,7 +60,7 @@ export function useService(cellnodeService: Service) {
 				attributes: profile?.attributes,
 				metrics: profile?.metrics,
 
-				category: profile?.type,
+				category: profile?.category,
 			}
 			const buff = Buffer.from(JSON.stringify(payload))
 			const res = await UploadDataToService(buff.toString('base64'))

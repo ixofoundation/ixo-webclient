@@ -69,10 +69,10 @@ const Review: React.FC = (): JSX.Element => {
     linkedResource = linkedResource.concat(Object.values(linkedResourceData))
     linkedResource = linkedResource.concat(await UploadLinkedResource())
 
-    if (entityType === 'dao') {
-      // LinkedClaim
-      linkedClaim = linkedClaim.concat(await UploadLinkedClaim())
+    // LinkedClaim
+    linkedClaim = linkedClaim.concat(await UploadLinkedClaim())
 
+    if (entityType === 'dao') {
       // Verification
       const daoControllerAddress = daoGroups[daoController]?.coreAddress
       if (daoControllerAddress) {

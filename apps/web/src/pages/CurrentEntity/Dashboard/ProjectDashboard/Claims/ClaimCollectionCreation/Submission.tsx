@@ -7,9 +7,16 @@ import { useTheme } from 'styled-components'
 import { ReactComponent as ClaimIcon } from 'assets/images/icon-claim.svg'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
 import { NavLink } from 'react-router-dom'
-import { useAppSelector } from 'redux/hooks'
+import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { selectAllDeedProtocols } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { TEntityModel } from 'types/entities'
+import { useAccount } from 'hooks/account'
+import { useEntitiesQuery } from 'generated/graphql'
+import {
+  getEntitiesFromGraphqlAction,
+  updateEntityPropertyAction,
+} from 'redux/entitiesExplorer/entitiesExplorer.actions'
+import { apiEntityToEntity } from 'utils/entities'
 
 interface Props {
   hidden?: boolean
@@ -18,7 +25,30 @@ interface Props {
 }
 const ClaimCollectionCreationSubmissionStep: React.FC<Props> = ({ hidden, onSubmit, onCancel }) => {
   const theme: any = useTheme()
+  const dispatch = useAppDispatch()
+  const { cwClient } = useAccount()
+
   const deedProtocols = useAppSelector(selectAllDeedProtocols)
+  useEntitiesQuery({
+    skip: deedProtocols.length > 0,
+    fetchPolicy: 'network-only',
+    variables: {
+      filter: {
+        type: { equalTo: 'protocol/deed' },
+      },
+    },
+    onCompleted: ({ entities }) => {
+      const nodes = entities?.nodes ?? []
+      if (nodes.length > 0) {
+        dispatch(getEntitiesFromGraphqlAction(nodes as any[]))
+        for (const entity of nodes) {
+          apiEntityToEntity({ entity, cwClient }, (key, data, merge = false) => {
+            dispatch(updateEntityPropertyAction(entity.id, key, data, merge))
+          })
+        }
+      }
+    },
+  })
 
   const [protocolDeedId, setProtocolDeedId] = useState('')
 

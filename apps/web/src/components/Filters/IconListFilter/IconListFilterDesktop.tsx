@@ -49,7 +49,7 @@ const IconListFilterDesktop: FC<Props> = ({
           {renderIcon && icon && (
             <ButtonImage alt={icon} src={requireCheckDefault(require(`./assets/icons/${icon}`))} />
           )}
-          {utils.getTitle(name, items, selectType)}
+          <Typography size='md'>{utils.getTitle(name, items, selectType)}</Typography>
         </ButtonInner>
       </ButtonOuter>
       <FilterModal

@@ -28,11 +28,11 @@ interface Props {
 const ClaimForm: React.FC<Props> = ({ claimId }) => {
   const { entityId = '' } = useParams<{ entityId: string }>()
   const signer = useSigner()
-  
+
   const claim: { [id: string]: TEntityClaimModel } = useAppSelector(selectEntityClaim)
 
   const { execute } = useWallet()
- 
+
   const adminAddress = useCurrentEntityAdminAccount()
   const selectedClaim: TEntityClaimModel = claim[claimId]
 
@@ -88,7 +88,7 @@ const ClaimForm: React.FC<Props> = ({ claimId }) => {
           adminAddress,
         })
 
-        const response = await execute(execAgentSubmitPayload) as unknown as DeliverTxResponse
+        const response = (await execute(execAgentSubmitPayload)) as unknown as DeliverTxResponse
         if (response.code !== 0) {
           throw response.rawLog
         }
@@ -97,7 +97,7 @@ const ClaimForm: React.FC<Props> = ({ claimId }) => {
         return true
       } catch (e: any) {
         console.error(e)
-        errorToast('Failed', typeof e === 'string' ? e : e.message)
+        errorToast('Failed', typeof e === 'string' ? e : JSON.stringify(e))
         return false
       }
     },
