@@ -21,6 +21,7 @@ const SelectCreationProcess: React.FC = (): JSX.Element => {
     lineHeight: 28,
   }
   const {
+    entityType,
     updateProfile,
     updateCreator,
     updateAdministrator,
@@ -37,7 +38,7 @@ const SelectCreationProcess: React.FC = (): JSX.Element => {
   const { data: selectedEntity } = useGetEntityById(existingDid)
   const { navigateToNextStep } = useCreateEntityStepState()
 
-  const canClone = useMemo(() => chainId && selectedEntity?.type === 'dao', [chainId, selectedEntity])
+  const canClone = useMemo(() => chainId && selectedEntity?.type === entityType, [chainId, selectedEntity, entityType])
 
   const handleCreate = (): void => {
     navigateToNextStep()
