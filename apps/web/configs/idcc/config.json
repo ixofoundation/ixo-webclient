@@ -150,7 +150,7 @@
           "@type": "HeaderOverride",
           "ddoSector": "Sector",
           "ddoTag": "CCSG",
-          "color": "#FDFFB6",
+          "color": "#BDB2FF",
           "title": "The Academy for Sustainable Communities, Centre for Civil Society and Governance",
           "subTitle": "Knowledge Exchange Platform",
           "indicators": [
@@ -177,8 +177,7 @@
           "@type": "HeaderOverride",
           "ddoSector": "Sector",
           "ddoTag": "BEHub",
-          "color": "#FFFFFF",
-          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/src/assets/images/header-overrides/edheroes.png",
+          "color": "#A0C4FF",
           "title": "BEHub",
           "subTitle": "啟發及培育弱勢社群及公眾人士成為社會創業家",
           "indicators": [
