@@ -220,9 +220,16 @@ export const MsgExecAgentEvaluate = async (
     collectionId: string
     adminAddress: string
     status?: number
+    verificationProof: string
   },
 ) => {
-  const { claimId, collectionId, adminAddress, status = ixo.claims.v1beta1.EvaluationStatus.APPROVED } = payload
+  const {
+    claimId,
+    collectionId,
+    adminAddress,
+    status = ixo.claims.v1beta1.EvaluationStatus.APPROVED,
+    verificationProof = 'cid',
+  } = payload
 
   const message = {
     typeUrl: '/cosmos.authz.v1beta1.MsgExec',
@@ -241,7 +248,7 @@ export const MsgExecAgentEvaluate = async (
               collectionId,
               status,
               reason: 1,
-              verificationProof: 'cid of verificationProof',
+              verificationProof,
               // if want to do custom amount, must be within allowed authz if through authz
               // amount: [
               //   cosmos.base.v1beta1.Coin.fromPartial({

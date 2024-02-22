@@ -1,6 +1,8 @@
 import { gql, useQuery } from '@apollo/client'
-import { selectEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
-import { useAppSelector } from 'redux/hooks'
+import { useEntityQuery } from 'generated/graphql'
+import { useState } from 'react'
+import { TEntityModel } from 'types/entities'
+import { apiEntityToEntity } from 'utils/entities'
 import { validateEntityDid } from 'utils/validation'
 
 // GET_CLAIM_COLLECTION
@@ -37,7 +39,19 @@ export function useGetClaimCollection(collectionId: string | number) {
 export function useGetClaimTemplateEntityByCollectionId(collectionId: string | number) {
   const { data: claimCollection } = useGetClaimCollection(collectionId)
   const claimTemplateId = claimCollection.protocol
-  const claimTemplateEntity = useAppSelector(selectEntityById(claimTemplateId))
+  const [claimTemplateEntity, setClaimTemplateEntity] = useState<TEntityModel | undefined>(undefined)
+
+  useEntityQuery({
+    variables: {
+      id: claimTemplateId,
+    },
+    onCompleted: (data) => {
+      setClaimTemplateEntity(data?.entity as any)
+      apiEntityToEntity({ entity: data?.entity }, (key, value) => {
+        setClaimTemplateEntity((entity: any) => ({ ...entity, [key]: value }))
+      })
+    },
+  })
   return claimTemplateEntity
 }
 
@@ -234,6 +248,17 @@ export function useGetClaimTemplateEntityByClaimId(claimId: string) {
   const collectionId = claim?.collection?.id || ''
   const { data: claimCollection } = useGetClaimCollection(collectionId)
   const claimTemplateId = claimCollection.protocol
-  const claimTemplateEntity = useAppSelector(selectEntityById(claimTemplateId))
+  const [claimTemplateEntity, setClaimTemplateEntity] = useState<TEntityModel | undefined>(undefined)
+  useEntityQuery({
+    variables: {
+      id: claimTemplateId,
+    },
+    onCompleted: (data) => {
+      setClaimTemplateEntity(data?.entity as any)
+      apiEntityToEntity({ entity: data?.entity }, (key, value) => {
+        setClaimTemplateEntity((entity: any) => ({ ...entity, [key]: value }))
+      })
+    },
+  })
   return claimTemplateEntity
 }
