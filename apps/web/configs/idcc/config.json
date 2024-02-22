@@ -96,10 +96,9 @@
           "@type": "HeaderOverride",
           "ddoSector": "Sector",
           "ddoTag": "Good Seed",
-          "color": "#FFF",
-          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/src/assets/images/header-overrides/ixoworld_hero.png",
+          "color": "#FFADAD",
           "title": "Good Seed",
-          "subTitle": "Together, we create Impact",
+          "subTitle": "Be the change you wish to see.",
           "indicators": [
             {
               "@type": "Indicator",
@@ -124,10 +123,9 @@
           "@type": "HeaderOverride",
           "ddoSector": "Sector",
           "ddoTag": "Dream Impact",
-          "color": "#fff",
-          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/src/assets/images/header-overrides/ubs_zone.png",
+          "color": "#FFD6A5",
           "title": "Dream Impact",
-          "subTitle": "Dream Impact",
+          "subTitle": "Dare to dream. Lead to change. Fuel for growth.",
           "indicators": [
             {
               "@type": "Indicator",
@@ -152,10 +150,9 @@
           "@type": "HeaderOverride",
           "ddoSector": "Sector",
           "ddoTag": "CCSG",
-          "color": "#FFFFFF",
-          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/src/assets/images/header-overrides/idcc_hero.png",
-          "title": "CCSG",
-          "subTitle": "The Academy for Sustainable Communities, Centre for Civil Society and Governance",
+          "color": "#FDFFB6",
+          "title": "The Academy for Sustainable Communities, Centre for Civil Society and Governance",
+          "subTitle": "Knowledge Exchange Platform",
           "indicators": [
             {
               "@type": "Indicator",
@@ -183,7 +180,7 @@
           "color": "#FFFFFF",
           "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/src/assets/images/header-overrides/edheroes.png",
           "title": "BEHub",
-          "subTitle": "BEHub",
+          "subTitle": "啟發及培育弱勢社群及公眾人士成為社會創業家",
           "indicators": [
             {
               "@type": "Indicator",
@@ -208,10 +205,9 @@
           "@type": "HeaderOverride",
           "ddoSector": "Sector",
           "ddoTag": "Gravity Capital Partners",
-          "color": "#FFFFFF",
-          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/src/assets/images/header-overrides/edheroes.png",
+          "color": "#CAFFBF",
           "title": "Gravity Capital Partners",
-          "subTitle": "Gravity Capital Partners",
+          "subTitle": "Invest with meaning",
           "indicators": [
             {
               "@type": "Indicator",
@@ -236,10 +232,9 @@
           "@type": "HeaderOverride",
           "ddoSector": "Sector",
           "ddoTag": "CUHK Alumni",
-          "color": "#FFFFFF",
-          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/src/assets/images/header-overrides/edheroes.png",
-          "title": "CUHK Alumni",
-          "subTitle": "CUHK Alumni Charity Foundation Limited",
+          "color": "#9BF6FF",
+          "title": "CUHK Alumni Charity Foundation Limited",
+          "subTitle": "Connecting Charity to Community",
           "indicators": [
             {
               "@type": "Indicator",
@@ -264,10 +259,9 @@
           "@type": "HeaderOverride",
           "ddoSector": "Sector",
           "ddoTag": "I-CARE",
-          "color": "#FFFFFF",
-          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/src/assets/images/header-overrides/edheroes.png",
-          "title": "I-CARE",
-          "subTitle": "I-CARE Centre for Whole-person Development",
+          "color": "#BDB2FF",
+          "title": "I-CARE Centre for Whole-person Development",
+          "subTitle": "立即把想法付諸實行",
           "indicators": [
             {
               "@type": "Indicator",
@@ -292,10 +286,9 @@
           "@type": "HeaderOverride",
           "ddoSector": "Sector",
           "ddoTag": "SEBC",
-          "color": "#FFFFFF",
-          "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/src/assets/images/header-overrides/edheroes.png",
-          "title": "SEBC",
-          "subTitle": "SEBC",
+          "color": "#FFC6FF",
+          "title": "Social Enterprise Business Center",
+          "subTitle": "Innovate. Invest. Incubate.",
           "indicators": [
             {
               "@type": "Indicator",
@@ -559,7 +552,7 @@
       ],
       "sector": {
         "@type": "Category",
-        "name": "Sector",
+        "name": "Intermediary",
         "hidden": false,
         "multiSelect": false,
         "selectedTag": "IDCC",
