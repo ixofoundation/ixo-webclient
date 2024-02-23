@@ -102,10 +102,10 @@ export const DaoCard: React.FC<Props> = ({
         <FlexBox $direction='column' $justifyContent='space-between' width='100%' height='100%' pt={2}>
           <FlexBox $justifyContent='space-between' width='100%'>
             <FlexBox $direction='column' $justifyContent='center'>
-              <Typography color='black' weight='bold' size='md' style={{ marginBottom: 4 }}>
+              <Typography color='color-2' weight='normal' size='sm' style={{ marginBottom: 4 }}>
                 {title}
               </Typography>
-              <Typography color='color-2' weight='normal' size='sm'>
+              <Typography color='black' weight='bold' size='md'>
                 {collectionName}
               </Typography>
             </FlexBox>
