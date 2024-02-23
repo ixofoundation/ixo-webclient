@@ -17,6 +17,7 @@ import {
   GetDeleteVerifcationMethodMsgs,
   GetReplaceLinkedResourceMsgs,
   GetUpdateStartAndEndDateMsgs,
+  TSigner,
 } from 'lib/protocol'
 import { setEditedFieldAction, setEditEntityAction } from 'redux/editEntity/editEntity.actions'
 import { selectEditEntity } from 'redux/editEntity/editEntity.selectors'
@@ -24,10 +25,10 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import {
   LinkedResourceProofGenerator,
   LinkedResourceServiceEndpointGenerator,
+  getCellNodeProof,
   isCellnodePublicResource,
   isCellnodeWeb3Resource,
 } from 'utils/entities'
-import { useAccount } from './account'
 import useCurrentEntity from './currentEntity'
 import { DeliverTxResponse } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/stargate'
 import { ixo, utils } from '@ixo/impactxclient-sdk'
@@ -45,13 +46,14 @@ export default function useEditEntity(): {
   ExecuteEditEntity: () => Promise<DeliverTxResponse>
 } {
   const dispatch = useAppDispatch()
-  const { execute } = useWallet()
+  const { execute, wallet } = useWallet()
 
-  const { signer } = useAccount()
   const editEntity: TEntityModel = useAppSelector(selectEditEntity)
   const { currentEntity } = useCurrentEntity()
   const cellnodeService = editEntity?.service && editEntity?.service[0]
   const claimProtocols = useAppSelector(selectAllClaimProtocols)
+
+  const signer: TSigner = { address: wallet?.address || "", did: wallet?.did || "", pubKey: wallet?.pubKey || new Uint8Array(), keyType: "secp" }
 
   const {
     SaveProfile,
@@ -374,13 +376,15 @@ export default function useEditEntity(): {
         if (!Object.values(currentEntity.claim ?? {}).some((v) => v.id === claim.id)) {
           // add
           const res: CellnodeWeb3Resource | undefined = await SaveClaim(claim)
+
+          const proof = getCellNodeProof(res)
           const claimProtocol = claimProtocols.find((protocol) => claim.template?.id.includes(protocol.id))
           const linkedClaim = {
             type: claimProtocol?.profile?.category || '',
             id: utils.common.generateId(10),
             description: claimProtocol?.profile?.description || '',
-            serviceEndpoint: LinkedResourceServiceEndpointGenerator(res!, cellnodeService),
-            proof: LinkedResourceProofGenerator(res!, cellnodeService),
+            serviceEndpoint: res?.url || "",
+            proof: proof,
             encrypted: 'false',
             right: '',
           }
