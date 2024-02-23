@@ -63,7 +63,8 @@ export const DaoCard: React.FC<Props> = ({
         background={`url(${cardImage})`}
         width='100%'
         height='200px'
-        $backgroundSize='100% 100%'
+        $backgroundSize='cover'
+        $backgroundPosition='center'
       >
         <FlexBox $gap={1} $alignItems='center' height='24px' margin='10px'>
           <FlexBox background={'#20798C'} $borderRadius={'100%'}>
@@ -102,10 +103,10 @@ export const DaoCard: React.FC<Props> = ({
         <FlexBox $direction='column' $justifyContent='space-between' width='100%' height='100%' pt={2}>
           <FlexBox $justifyContent='space-between' width='100%'>
             <FlexBox $direction='column' $justifyContent='center'>
-              <Typography color='black' weight='bold' size='md' style={{ marginBottom: 4 }}>
+              <Typography color='color-2' weight='normal' size='sm' style={{ marginBottom: 4 }}>
                 {title}
               </Typography>
-              <Typography color='color-2' weight='normal' size='sm'>
+              <Typography color='black' weight='bold' size='md'>
                 {collectionName}
               </Typography>
             </FlexBox>

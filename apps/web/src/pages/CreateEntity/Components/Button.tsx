@@ -121,7 +121,7 @@ const Button: React.FC<TButtonProps> = ({
   height,
   disabled = false,
   loading = false,
-  textSize = 'xl',
+  textSize = 'base',
   textVariant = 'primary',
   textTransform = 'uppercase',
   textWeight = 'medium',
