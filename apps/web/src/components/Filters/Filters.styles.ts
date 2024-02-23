@@ -132,7 +132,7 @@ export const ButtonWrapper = styled.div`
   position: relative;
   display: inline-block;
   z-index: 3;
-  :after {
+  &:after {
     position: fixed;
     top: 0;
     left: 0;
@@ -174,7 +174,7 @@ export const FilterModal = styled.div`
   left: 50%;
   transform: translateX(-50%);
 
-  :before {
+  &:before {
     content: '';
     position: absolute;
     top: -8px;
@@ -231,7 +231,7 @@ export const FilterSelectButton = styled.div`
 `
 
 export const FilterAmount = styled.div`
-  :before {
+  &:before {
     content: '·';
     margin: 0 0.25rem;
   }
@@ -272,7 +272,7 @@ export const DatePickerModal = styled.div`
   transform: translate(-50%);
   z-index: 3;
   padding: 2rem;
-  :after {
+  &:after {
     content: '';
     position: absolute;
     top: -0.5rem;
@@ -364,7 +364,7 @@ const HeaderLink = styled(NavLink)`
   margin: 0 10px 10px;
   font-size: 16px;
 
-  :first-child {
+  &:first-child {
     border: 1px solid ${(props): string => props.theme.ixoNewBlue};
     font-weight: 400;
   }
@@ -376,7 +376,7 @@ const HeaderLink = styled(NavLink)`
 
   transition: border 0.3s ease;
 
-  :hover {
+  &:hover {
     text-decoration: none;
     && {
       color: ${/* eslint-disable-line */ (props) => props.theme.ixoNewBlue};
