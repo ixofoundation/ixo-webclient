@@ -23,7 +23,7 @@ import { apiEntityToEntity } from 'utils/entities'
 import { useAccount } from 'hooks/account'
 
 const ClaimProtocolList = styled(FlexBox)`
-  height: 290px;
+  height: 350px;
 
   &::-webkit-scrollbar {
     width: 1em;

@@ -169,27 +169,27 @@ export function apiEntityToEntity(
                   if (image && !image.startsWith('http')) {
                     const [identifier] = image.split(':')
                     let endpoint = ''
-                    ;(Array.isArray(context)
-                      ? context
-                      : Object.entries(context).map(([key, value]) => ({ [key]: value }))
-                    ).forEach((item: any) => {
-                      if (typeof item === 'object' && identifier in item) {
-                        endpoint = item[identifier]
-                      }
-                    })
+                      ; (Array.isArray(context)
+                        ? context
+                        : Object.entries(context).map(([key, value]) => ({ [key]: value }))
+                      ).forEach((item: any) => {
+                        if (typeof item === 'object' && identifier in item) {
+                          endpoint = item[identifier]
+                        }
+                      })
                     image = image.replace(identifier + ':', endpoint)
                   }
                   if (logo && !logo.startsWith('http')) {
                     const [identifier] = logo.split(':')
                     let endpoint = ''
-                    ;(Array.isArray(context)
-                      ? context
-                      : Object.entries(context).map(([key, value]) => ({ [key]: value }))
-                    ).forEach((item: any) => {
-                      if (typeof item === 'object' && identifier in item) {
-                        endpoint = item[identifier]
-                      }
-                    })
+                      ; (Array.isArray(context)
+                        ? context
+                        : Object.entries(context).map(([key, value]) => ({ [key]: value }))
+                      ).forEach((item: any) => {
+                        if (typeof item === 'object' && identifier in item) {
+                          endpoint = item[identifier]
+                        }
+                      })
                     logo = logo.replace(identifier + ':', endpoint)
                   }
                   return { ...response, image, logo }
@@ -429,6 +429,18 @@ export function isCellnodePublicResource(object: any): object is CellnodePublicR
 
 export function isCellnodeWeb3Resource(object: any): object is CellnodeWeb3Resource {
   return 'cid' in object && 'name' in object
+}
+
+export const getCellNodeProof = (res: CellnodePublicResource | CellnodeWeb3Resource | undefined, customError?: string) => {
+  let proof = ''
+  if (isCellnodePublicResource(res)) {
+    proof = res.key
+  } else if (isCellnodeWeb3Resource(res)) {
+    proof = res.cid
+  } else {
+    throw new Error(customError ?? 'Upload to cellnode failed')
+  }
+  return proof
 }
 
 export function toRootEntityType(entityType: string): string {
