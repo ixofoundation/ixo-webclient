@@ -164,7 +164,7 @@ const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JS
     try {
       const daoCoreAddresss = await CreateDAOCoreByGroupId(data)
       if (daoCoreAddresss) {
-        Toast.successToast(null, `Create Group Succeed`)
+        Toast.successToast(null, `Group successfully created`)
         setSubmitting(false)
         console.log({ daoCoreAddresss })
         onSubmit({ ...data, coreAddress: daoCoreAddresss })
@@ -172,7 +172,7 @@ const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JS
         throw new Error('Not found an address')
       }
     } catch (e: any) {
-      Toast.errorToast('Create Group Failed', e.message)
+      Toast.errorToast('Group creation failed', e.message)
       setSubmitting(false)
     }
   }

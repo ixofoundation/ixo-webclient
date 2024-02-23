@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import CircleTab from './components/CircleTab'
 import { ReactComponent as ProfileIcon } from 'assets/images/icon-profile.svg'
-import { ReactComponent as DAOIcon } from 'assets/images/icon-dao.svg'
 import { ReactComponent as BellIcon } from 'assets/images/icon-bell.svg'
 import { ReactComponent as CommentIcon } from 'assets/images/icon-comment-alt.svg'
 import { ReactComponent as AssistantIcon } from 'assets/images/icon-assistant.svg'
@@ -22,6 +21,7 @@ import { useAccount } from 'hooks/account'
 import { DidQRCode } from './DidQRCode'
 import useCurrentEntity from 'hooks/currentEntity'
 import { EntityType } from 'types/entities'
+import { getEntityIcon } from 'utils/getEntityIcon'
 
 const StyledScrollArea = styled(ScrollArea)`
   & > div > div {
@@ -37,6 +37,8 @@ const ControlPanel: React.FC<Props> = ({ tab }) => {
   const { entityType } = useCurrentEntity()
   const { address } = useAccount()
   const [activeTab, setActiveTab] = useState<'profile' | 'detail' | 'feed' | 'message' | 'assistant'>(tab || 'profile')
+
+  const EntityIcon = getEntityIcon(entityType)
 
   useEffect(() => {
     if (!address) {
@@ -59,7 +61,7 @@ const ControlPanel: React.FC<Props> = ({ tab }) => {
       <PerformanceCard />
       <ActionsCard widget={schema.actions} />
       <ClaimsCard />
-      {entityType === EntityType.Project &&  <DidQRCode />}
+      {entityType === EntityType.Project && <DidQRCode />}
       <ConnectCard widget={schema.connections} />
     </>
   )
@@ -105,7 +107,13 @@ const ControlPanel: React.FC<Props> = ({ tab }) => {
         {address && (
           <CircleTab icon={<ProfileIcon />} active={activeTab === 'profile'} onClick={() => setActiveTab('profile')} />
         )}
-        <CircleTab icon={<DAOIcon />} active={activeTab === 'detail'} onClick={() => setActiveTab('detail')} />
+        {EntityIcon && (
+          <CircleTab
+            icon={EntityIcon as JSX.Element}
+            active={activeTab === 'detail'}
+            onClick={() => setActiveTab('detail')}
+          />
+        )}
         <CircleTab icon={<BellIcon />} active={activeTab === 'feed'} onClick={() => setActiveTab('feed')} badge={12} />
         <CircleTab
           icon={<CommentIcon />}
