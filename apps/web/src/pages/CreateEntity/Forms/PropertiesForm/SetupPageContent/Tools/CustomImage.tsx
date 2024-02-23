@@ -13,18 +13,18 @@ const CustomImage: ToolConstructable | ToolSettings = {
         // your own uploading logic here
         const base64EncodedImage = await convertFileToBase64(file)
 
-        return await customQueries.cellnode.uploadPublicDoc(
-          base64EncodedImage.match(/data:([a-zA-Z0-9]+\/[a-zA-Z0-9-.+]+).*,.*/)[1],
-          base64EncodedImage,
-          undefined,
-          chainNetwork,
-        ).then((response: any) => {
-          if (!response?.key) {
-            throw new Error(`Key doesn't exist`)
-          }
-          return { success: true, file: { url: response.url }}
-        })
-        .catch((e) => ({ success: false }))
+        try {
+          const image = await customQueries.cellnode.uploadPublicDoc(
+            base64EncodedImage.match(/data:([a-zA-Z0-9]+\/[a-zA-Z0-9-.+]+).*,.*/)[1],
+            base64EncodedImage.split(',')[1],
+            undefined,
+            chainNetwork,
+          )
+
+          return { success: 1, file: { url: image.url } }
+        } catch (error) {
+          return { success: 0, file: null }
+        }
       },
     },
   },

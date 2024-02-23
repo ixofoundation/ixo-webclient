@@ -295,7 +295,7 @@ export function useCurrentEntityAdminAccount(): string {
 export function useCurrentEntityLinkedFiles(): LinkedResource[] {
   const { linkedResource } = useCurrentEntity()
 
-  return linkedResource.filter((item: LinkedResource) => Object.keys(EntityLinkedResourceConfig).includes(item.type))
+  return linkedResource?.filter((item: LinkedResource) => Object.keys(EntityLinkedResourceConfig).includes(item.type))
 }
 
 export function useCurrentEntityClaimSchemas(): LinkedResource[] {
