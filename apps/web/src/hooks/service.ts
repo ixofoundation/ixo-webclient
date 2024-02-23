@@ -276,7 +276,7 @@ export function useService(cellnodeService: Service) {
 					id: '{id}#claims',
 					type: 'ixo:Claims',
 					entityClaims: [claim],
-					// headlineMetric: headLinMetricClaim?.id,
+					headlineMetric: claim.isHeadlineMetric
 				}),
 			)
 			const res = await customQueries.cellnode.uploadWeb3Doc(
