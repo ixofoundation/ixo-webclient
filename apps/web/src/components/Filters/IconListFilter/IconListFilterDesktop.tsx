@@ -68,7 +68,9 @@ const IconListFilterDesktop: FC<Props> = ({
                 onClick={handleFilterClick(itemName)}
                 className={utils.getItemClassName(items, itemName)}
               >
-                <Typography weight='medium'>{itemName}</Typography>
+                <Typography size='sm' weight='medium'>
+                  {itemName}
+                </Typography>
                 <SvgBox color='currentColor' $svgWidth={12.5} $svgHeight={12.5}>
                   <ReactSVG src={requireCheckDefault(require(`./assets/icons/${itemIcon}`))} />
                 </SvgBox>
