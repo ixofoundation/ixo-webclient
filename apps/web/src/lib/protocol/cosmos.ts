@@ -13,27 +13,16 @@ import { QueryDelegationTotalRewardsResponse } from '@ixo/impactxclient-sdk/type
 import { TokenAsset } from '@ixo/impactxclient-sdk/types/custom_queries/currency.types'
 import { getQueryClient } from 'lib/queryClient'
 
-export const BankSendTrx = async (
-  client: SigningStargateClient,
-  myAddress: string,
-  toAddress: string,
-  token: Coin,
-): Promise<DeliverTxResponse | undefined> => {
-  try {
-    const message = {
-      typeUrl: '/cosmos.bank.v1beta1.MsgSend',
-      value: cosmos.bank.v1beta1.MsgSend.fromPartial({
-        fromAddress: myAddress,
-        toAddress: toAddress,
-        amount: [cosmos.base.v1beta1.Coin.fromPartial(token)],
-      }),
-    }
-    const response = await client.signAndBroadcast(myAddress, [message], fee)
-    return response
-  } catch (e) {
-    console.error('BankSendTrx', e)
-    return undefined
+export const BankSendTrx = (myAddress: string, toAddress: string, token: Coin) => {
+  const message = {
+    typeUrl: '/cosmos.bank.v1beta1.MsgSend',
+    value: cosmos.bank.v1beta1.MsgSend.fromPartial({
+      fromAddress: myAddress,
+      toAddress: toAddress,
+      amount: [cosmos.base.v1beta1.Coin.fromPartial(token)],
+    }),
   }
+  return { messages: [message], fee, memo: undefined }
 }
 
 export const BankMultiSendTrx = async (

@@ -16,6 +16,8 @@ import { convertDenomToMicroDenomWithDecimals } from 'utils/conversions'
 import { WasmExecuteTrx } from 'lib/protocol/cosmwasm'
 import { BankSendTrx } from 'lib/protocol'
 import { errorToast, successToast } from 'utils/toast'
+import { useWallet } from '@ixo-webclient/wallet-connector'
+import { DeliverTxResponse } from '@cosmjs/stargate'
 
 const StyledInput = styled(Input)`
   color: white;
@@ -54,7 +56,8 @@ interface Props {
 
 const SendModal: React.FunctionComponent<Props> = ({ open, selectedDenomOrAddr, setOpen, onSuccess }) => {
   const theme: any = useTheme()
-  const { nativeTokens, cw20Tokens, signingClient, signer } = useAccount()
+  const { execute } = useWallet()
+  const { nativeTokens, cw20Tokens, signer } = useAccount()
   const selectedToken = useMemo(
     () =>
       isContractAddress(selectedDenomOrAddr)
@@ -81,7 +84,7 @@ const SendModal: React.FunctionComponent<Props> = ({ open, selectedDenomOrAddr, 
       return
     }
 
-    let response
+    let msgData
     if (isContractAddress(selectedDenomOrAddr)) {
       const msg = {
         transfer: {
@@ -90,16 +93,18 @@ const SendModal: React.FunctionComponent<Props> = ({ open, selectedDenomOrAddr, 
         },
       }
 
-      response = await WasmExecuteTrx(signingClient, signer, {
+      msgData = WasmExecuteTrx(signer, {
         contractAddress: selectedDenomOrAddr,
         msg: JSON.stringify(msg),
       })
     } else {
-      response = await BankSendTrx(signingClient, signer.address, recipient, {
+      msgData = BankSendTrx(signer.address, recipient, {
         denom: selectedDenomOrAddr,
         amount: convertDenomToMicroDenomWithDecimals(amount, selectedToken.decimals).toString(),
       })
     }
+
+    const response = (await execute(msgData as any)) as unknown as DeliverTxResponse
 
     if (response) {
       setTXStatus(TXStatus.SUCCESS)

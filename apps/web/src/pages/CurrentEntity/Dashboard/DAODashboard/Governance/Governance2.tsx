@@ -127,6 +127,7 @@ const Governance: React.FC = () => {
                     color: 'white',
                     pointerEvents: !isParticipating && !anyoneCanPropose ? 'none' : 'auto',
                     opacity: !isParticipating && !anyoneCanPropose ? 0.5 : 1,
+                    borderColor: mantineThemeColors['ixo-blue'][6],
                   }}
                 >
                   New Proposal
