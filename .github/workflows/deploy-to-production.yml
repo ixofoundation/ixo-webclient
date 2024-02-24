@@ -2,7 +2,7 @@ name: Build and deploy to development environments
 on:
   push:
     branches:
-      - impact 
+      - main 
 
 env: 
   NODE_OPTIONS: "--max_old_space_size=8192"
