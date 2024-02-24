@@ -22,6 +22,7 @@ import { ReactComponent as NextStepImage } from 'assets/images/modal/nextstep.sv
 import { contracts } from '@ixo/impactxclient-sdk'
 import { useWallet } from '@ixo-webclient/wallet-connector'
 import { Cw20BaseClient } from '@ixo-webclient/cosmwasm-clients'
+import { DeliverTxResponse } from '@cosmjs/stargate'
 
 const StyledInput = styled(Input)`
   color: white;
@@ -67,7 +68,7 @@ const DepositModal: React.FunctionComponent<Props> = ({
   onSuccess,
 }) => {
   const theme: any = useTheme()
-  const { signingClient, signer, nativeTokens, cw20Tokens, cwClient } = useAccount()
+  const { signer, nativeTokens, cw20Tokens, cwClient } = useAccount()
   const [tokenOptions, setTokenOptions] = useState<{ text: string; value: string }[]>([
     { value: NATIVE_MICRODENOM, text: NATIVE_DENOM },
   ])
@@ -159,10 +160,12 @@ const DepositModal: React.FunctionComponent<Props> = ({
         throw new Error()
       }
     } else {
-      const response = await BankSendTrx(signingClient, signer.address, recipient, {
+      const sendData = BankSendTrx(signer.address, recipient, {
         denom: selectedTokenDenom,
         amount: convertDenomToMicroDenomWithDecimals(amount, selectedToken.decimals).toString(),
       })
+      const response = (await execute(sendData)) as unknown as DeliverTxResponse
+
       if (response) {
         setTXStatus(TXStatus.SUCCESS)
         successToast('Sending', `Success! ${amount} ${selectedToken.symbol} have been successfully sent.`)

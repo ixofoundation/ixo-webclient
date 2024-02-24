@@ -1,3 +1,4 @@
+import { isPlainObject } from 'lodash'
 import { TEntityClaimModel, TEntityModel } from 'types/entities'
 import { isExpired } from 'utils/time'
 
@@ -37,8 +38,19 @@ export function transformEntityData(entity: TEntityModel): any {
       { members: 0, proposals: 0, activeProposals: 0 },
     )
 
-    const daoTypeTags = entity.tags?.find(({ category }: any) => category === 'DAO Type') ?? []
-    const stageTag = entity.tags?.find(({ category }: any) => category === 'Stage')?.tags[0] ?? 'TBA'
+    let daoTypeTags: any = []
+    let stageTag = 'TBA'
+
+    if (Array.isArray(entity.tags)) {
+      daoTypeTags = entity.tags?.find(({ category }: any) => category === 'DAO Type') ?? []
+      stageTag = entity.tags?.find(({ category }: any) => category === 'Stage')?.tags[0] ?? 'TBA'
+    }
+    if (isPlainObject(entity?.tags)) {
+      const tags = Object.values(entity.tags as any) as any
+
+      daoTypeTags = tags?.find(({ category }: any) => category === 'DAO Type') ?? []
+      stageTag = tags?.find(({ category }: any) => category === 'Stage')?.tags[0] ?? 'TBA'
+    }
 
     return {
       ...entity,

@@ -143,7 +143,7 @@ const LinkedResourceSetupModal: React.FC<Props> = ({ linkedResource, open, onClo
                   </Typography>
                   <Button onClick={onChange && openDropZone}>Upload</Button>
                   <Typography size='sm' weight='medium' color='grey700'>
-                    Media file, max size 5MB
+                    Media file, max size 1MB
                   </Typography>
                 </>
               ) : (
