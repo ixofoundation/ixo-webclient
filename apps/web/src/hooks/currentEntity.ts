@@ -282,14 +282,14 @@ export function useCurrentEntityPage(): OutputBlockData[] {
 
 export function useCurrentEntityClaims() {
   const claims: { [id: string]: TEntityClaimModel } = useAppSelector(selectEntityClaim)
-  const headlineClaim = Object.values(claims).find((v) => v.isHeadlineMetric)
+  const headlineClaim = Object.values(claims)?.find((v) => v?.isHeadlineMetric)
 
   return { claims, headlineClaim }
 }
 
 export function useCurrentEntityAdminAccount(): string {
-  const { accounts } = useCurrentEntity()
-  return accounts.find((account) => account.name === 'admin')?.address || ''
+  const { accounts = [] } = useCurrentEntity()
+  return accounts?.find((account) => account.name === 'admin')?.address || ''
 }
 
 export function useCurrentEntityLinkedFiles(): LinkedResource[] {
@@ -301,7 +301,7 @@ export function useCurrentEntityLinkedFiles(): LinkedResource[] {
 export function useCurrentEntityClaimSchemas(): LinkedResource[] {
   const { linkedResource } = useCurrentEntity()
 
-  return linkedResource.filter((item: LinkedResource) => item.type === 'surveyTemplate')
+  return linkedResource?.filter((item: LinkedResource) => item.type === 'surveyTemplate')
 }
 
 export function useCurrentEntityLinkedEntities(): LinkedEntity[] {
@@ -312,7 +312,7 @@ export function useCurrentEntityLinkedEntities(): LinkedEntity[] {
 
 export function useCurrentEntityBondLinkedEntity(): LinkedEntity | undefined {
   const linkedEntity = useCurrentEntityLinkedEntities()
-  return linkedEntity.find((v) => v.type === 'bond')
+  return linkedEntity?.find((v) => v.type === 'bond')
 }
 
 export function useCurrentEntityDAOGroup(coreAddress: string) {
