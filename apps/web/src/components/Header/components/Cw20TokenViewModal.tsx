@@ -10,28 +10,19 @@ import { selectStakingGroupsByTokenAddress } from 'redux/entitiesExplorer/entiti
 import { useAppSelector } from 'redux/hooks'
 import { plus } from 'utils/currency'
 import { GroupStakingModal, SendModal } from 'components/Modals'
-import { TokenType } from 'types/tokens'
+import { Cw20Token } from 'types/tokens'
 import { useTheme } from 'styled-components'
 import { TDAOGroupModel } from 'types/entities'
 
 interface Props {
   open: boolean
-  token: {
-    type: TokenType
-    balance: string
-    network: string
-    coinDenom: string
-    coinMinimalDenom: string
-    coinImageUrl: string
-    coinDecimals: number
-    lastPriceUsd: number
-  }
+  token: Cw20Token
   onClose: () => void
 }
 
 const Cw20TokenViewModal: React.FC<Props> = ({ open, token, onClose }) => {
   const theme: any = useTheme()
-  const stakingGroups: TDAOGroupModel[] = useAppSelector(selectStakingGroupsByTokenAddress(token.coinMinimalDenom))
+  const stakingGroups: TDAOGroupModel[] = useAppSelector(selectStakingGroupsByTokenAddress(token.denomOrAddress))
   const { cw20Tokens } = useAccount()
   const availableBalance = token.balance
   const [stakedBalances, setStakedBalances] = useState<{
@@ -52,7 +43,7 @@ const Cw20TokenViewModal: React.FC<Props> = ({ open, token, onClose }) => {
   const [isSending, setIsSending] = useState(false)
 
   const update = useCallback(() => {
-    const cw20Token = cw20Tokens.find((item) => item.denomOrAddress === token.coinMinimalDenom)
+    const cw20Token = cw20Tokens.find((item) => item.denomOrAddress === token.denomOrAddress)
     if (cw20Token) {
       setStakedBalances((pre) => ({
         ...pre,
@@ -66,7 +57,7 @@ const Cw20TokenViewModal: React.FC<Props> = ({ open, token, onClose }) => {
       }))
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cw20Tokens, token.coinMinimalDenom])
+  }, [cw20Tokens, token.denomOrAddress])
 
   useEffect(() => {
     update()
@@ -94,9 +85,9 @@ const Cw20TokenViewModal: React.FC<Props> = ({ open, token, onClose }) => {
         <FlexBox $direction='column' width='380px' $gap={6} color={theme.ixoWhite}>
           {/* Marketing Info */}
           <FlexBox width='100%' $direction='column' $alignItems='center' $gap={3}>
-            <Avatar size={38} url={token.coinImageUrl} />
+            <Avatar size={38} url={token.imageUrl} />
             <Typography size='lg' weight='medium'>
-              {token.coinDenom}
+              {token.symbol}
             </Typography>
           </FlexBox>
 
@@ -210,7 +201,7 @@ const Cw20TokenViewModal: React.FC<Props> = ({ open, token, onClose }) => {
         </FlexBox>
       </ModalWrapper>
       <GroupStakingModal open={isStaking} setOpen={setIsStaking} daoGroup={stakingGroups[0]} />
-      <SendModal open={isSending} setOpen={setIsSending} selectedDenomOrAddr={token.coinMinimalDenom} />
+      {isSending && <SendModal open={isSending} setOpen={setIsSending} selectedDenomOrAddr={token.denomOrAddress} />}
     </>
   )
 }
