@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js'
 import Long from 'long'
 import { fee, TSigner } from './common'
 
-export const WasmInstantiateMessage = async (signer: TSigner, payload: { codeId: number; msg: string }[]) => {
+export const WasmInstantiateMessage = (signer: TSigner, payload: { codeId: number; msg: string }[]) => {
   const { address, did } = signer
   const messages = payload.map(({ codeId, msg }) => ({
     typeUrl: '/cosmwasm.wasm.v1.MsgInstantiateContract',
@@ -26,7 +26,7 @@ export const WasmInstantiateMessage = async (signer: TSigner, payload: { codeId:
   return { messages, fee: updatedFee, memo: undefined }
 }
 
-export const WasmExecuteTrx = async (
+export const WasmExecuteTrx = (
   signer: TSigner,
   payload: { contractAddress: string; msg: string },
   funds = {
