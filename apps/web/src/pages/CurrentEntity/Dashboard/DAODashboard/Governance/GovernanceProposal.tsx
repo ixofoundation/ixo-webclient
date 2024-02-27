@@ -39,19 +39,19 @@ import { getDisplayAmount } from 'utils/currency'
 import { useWallet } from '@ixo-webclient/wallet-connector'
 import { DaoProposalSingleClient } from '@ixo-webclient/cosmwasm-clients'
 
-const Container = styled.div<{ isDark: boolean }>`
+const Container = styled.div<{ $isDark: boolean }>`
   background: ${(props) =>
-    props.isDark ? props.theme.ixoGradientDark2 : 'linear-gradient(180deg, #ffffff 0%, #f2f5fb 100%)'};
+    props.$isDark ? props.theme.ixoGradientDark2 : 'linear-gradient(180deg, #ffffff 0%, #f2f5fb 100%)'};
   box-shadow: ${(props) =>
-    props.isDark ? 'linear-gradient(180deg, #012639 0%, #002D42 97.29%);' : '0px 4px 25px #e1e5ec'};
-  border: ${(props) => (props.isDark ? '1px solid #0C3549' : 'unset')};
+    props.$isDark ? 'linear-gradient(180deg, #012639 0%, #002D42 97.29%);' : '0px 4px 25px #e1e5ec'};
+  border: ${(props) => (props.$isDark ? '1px solid #0C3549' : 'unset')};
   border-radius: 4px;
   padding: 20px;
   margin: 0px 0px 30px 0px;
 `
 
-const NumberBadget = styled.span<{ isDark: boolean }>`
-  background: ${(props) => (props.isDark ? '#033C50' : '#e9edf5')};
+const NumberBadget = styled.span<{ $isDark: boolean }>`
+  background: ${(props) => (props.$isDark ? '#033C50' : '#e9edf5')};
   border-radius: 9px;
   padding: 5px 10px;
   color: ${(props): string => props.theme.highlight.light};
@@ -81,7 +81,7 @@ const LabelLG = styled.span`
   letter-spacing: 0.3px;
   color: currentColor;
 `
-const Action = styled.button<{ isDark: boolean }>`
+const Action = styled.button<{ $isDark: boolean }>`
   border-radius: 4px;
   padding: 10px 30px;
   border: ${(props): string => props.theme.highlight.light} 1px solid;
@@ -96,8 +96,8 @@ const Action = styled.button<{ isDark: boolean }>`
   &:disabled {
     pointer-events: none;
     border: transparent 1px solid;
-    background-color: ${(props) => (props.isDark ? props.theme.ixoDarkBlue : props.theme.ixoGrey300)};
-    color: ${(props) => (props.isDark ? props.theme.ixoWhite : props.theme.ixoGrey700)};
+    background-color: ${(props) => (props.$isDark ? props.theme.ixoDarkBlue : props.theme.ixoGrey300)};
+    color: ${(props) => (props.$isDark ? props.theme.ixoWhite : props.theme.ixoGrey700)};
   }
 `
 
@@ -205,11 +205,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
   }, [address, cwClient, proposalId, proposalModuleAddress])
 
   const handleVote = async (vote: Vote): Promise<string> => {
-    const daoProposalSingleClient = new DaoProposalSingleClient(
-      execute,
-      address,
-      proposalModuleAddress,
-    )
+    const daoProposalSingleClient = new DaoProposalSingleClient(execute, address, proposalModuleAddress)
     return daoProposalSingleClient
       .vote({ proposalId, vote }, fee, undefined, undefined)
       .then(({ transactionHash }) => {
@@ -224,11 +220,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
   }
 
   const handleExecuteProposal = () => {
-    const daoProposalSingleClient = new DaoProposalSingleClient(
-      execute,
-      address,
-      proposalModuleAddress,
-    )
+    const daoProposalSingleClient = new DaoProposalSingleClient(execute, address, proposalModuleAddress)
     daoProposalSingleClient
       .executeProposal({ proposalId }, fee, undefined, undefined)
       .then(({ transactionHash, rawLog, events, gasUsed, gasWanted, height }) => {
@@ -246,11 +238,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
   }
 
   const handleCloseProposal = () => {
-    const daoProposalSingleClient = new DaoProposalSingleClient(
-      execute,
-      address,
-      proposalModuleAddress,
-    )
+    const daoProposalSingleClient = new DaoProposalSingleClient(execute, address, proposalModuleAddress)
     daoProposalSingleClient
       .close({ proposalId }, fee, undefined, undefined)
       .then(({ transactionHash, rawLog }) => {
@@ -287,13 +275,13 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
   }, [])
 
   return (
-    <Container className='container-fluid' isDark={isDark}>
+    <Container className='container-fluid' $isDark={isDark}>
       <div className='row pb-3'>
         <div className='col-12'>
           <div className='d-flex align-items-center justify-content-between'>
             <FlexBox $gap={2}>
-              <NumberBadget isDark={!isDark}>#{proposalId}</NumberBadget>
-              <NumberBadget isDark={isDark}>{groupName}</NumberBadget>
+              <NumberBadget $isDark={!isDark}>#{proposalId}</NumberBadget>
+              <NumberBadget $isDark={isDark}>{groupName}</NumberBadget>
             </FlexBox>
             {deedDid && (
               <SvgBox
@@ -370,7 +358,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
           <div className='d-flex justify-content-between align-items-center pt-2'>
             <FlexBox $gap={4}>
               <Action
-                isDark={isDark}
+                $isDark={isDark}
                 className={clsx({ disable: status !== 'open' || !!myVoteStatus })}
                 onClick={(): void => setVoteModalOpen(true)}
                 disabled={
@@ -382,7 +370,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
               </Action>
               {status === 'passed' && (!proposalConfig?.only_members_execute || isParticipating) && (
                 <Action
-                  isDark={isDark}
+                  $isDark={isDark}
                   onClick={handleExecuteProposal}
                   disabled={
                     !isParticipating ||
@@ -394,7 +382,7 @@ const GovernanceProposal: React.FunctionComponent<GovernanceProposalProps> = ({
               )}
               {status === 'rejected' && (
                 <Action
-                  isDark={isDark}
+                  $isDark={isDark}
                   onClick={handleCloseProposal}
                   disabled={
                     !isParticipating ||

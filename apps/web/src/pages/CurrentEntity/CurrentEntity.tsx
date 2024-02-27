@@ -12,10 +12,11 @@ import { selectEntityById } from 'redux/entitiesExplorer/entitiesExplorer.select
 import { useEntityQuery } from 'generated/graphql'
 import { apiEntityToEntity } from 'utils/entities'
 import { useAccount } from 'hooks/account'
+import TransferEntity from 'pages/TransferEntity'
 
 const CurrentEntityPage: React.FC = (): JSX.Element => {
   const { state } = useLocation()
-  const { entityId = "" } = useParams<{ entityId: string }>()
+  const { entityId = '' } = useParams<{ entityId: string }>()
   const { cwClient } = useAccount()
   const entity: TEntityModel | undefined = useAppSelector(selectEntityById(entityId))
   const { entityType, updateEntity, clearEntity } = useCurrentEntity()
@@ -53,14 +54,14 @@ const CurrentEntityPage: React.FC = (): JSX.Element => {
     return <Spinner info='Loading Entity...' />
   }
 
-
   return (
     <Routes>
-      <Route index element={<Navigate to={`overview?collection=${state?.collectionName}`}  />} />
+      <Route index element={<Navigate to={`overview?collection=${state?.collectionName}`} />} />
       <Route path='overview' element={<OverviewPage />} />
       <Route path='dashboard/*' element={<DashboardPage />} />
       <Route path='treasury/*' element={<TreasuryPage />} />
       <Route path='overview/proposal/:deedId' element={<ProposalOverviewPage />} />
+      <Route path='transfer/*' element={<TransferEntity />} />
       {/* Add other nested routes as needed */}
     </Routes>
     // <Routes>

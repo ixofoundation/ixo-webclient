@@ -23,7 +23,6 @@ import * as CurrentEntity from 'pages/CurrentEntity/CurrentEntity.route'
 import * as Explore from 'pages/EntitiesExplorer/EntitiesExplorer.route'
 import * as EntityExchange from 'pages/EntityExchange/EntityExchange.route'
 import * as MyAccount from 'pages/MyAccount/MyAccount.route'
-import * as TransferEntity from 'pages/TransferEntity/TransferEntity.route'
 
 import { Routes } from 'routes'
 import { Flex } from '@mantine/core'
@@ -41,10 +40,6 @@ const router = createBrowserRouter([
       {
         path: '*',
         Component: Routes,
-      },
-      {
-        path: 'transfer/entity/:entityId/*',
-        Component: TransferEntity.Component
       },
       {
         path: 'explore',

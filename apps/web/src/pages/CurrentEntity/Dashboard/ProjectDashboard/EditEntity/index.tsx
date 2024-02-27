@@ -41,11 +41,11 @@ const EditEntity: React.FC = () => {
   }
 
   const handleTransferEntity = async () => {
-    navigate(`/transfer/entity/${entityId}`)
+    navigate(`/entity/${entityId}/transfer`)
   }
 
   const handleReEnableKeys = async () => {
-    navigate(`/transfer/entity/${entityId}/review`)
+    navigate(`/entity/${entityId}/transfer/review`)
   }
 
   return (
@@ -53,7 +53,7 @@ const EditEntity: React.FC = () => {
       <Typography variant='secondary' size='2xl'>
         Here you can update the Project settings and submit the changes as a proposal.
       </Typography>
-      
+
       <FlexBox>
         {currentEntity.status === 0 && isOwner && (
           <Button size='flex' width={240} onClick={handleTransferEntity} textTransform='uppercase'>
