@@ -1,59 +1,48 @@
-import { ixo, SigningStargateClient, customMessages } from '@ixo/impactxclient-sdk'
+import { ixo, customMessages } from '@ixo/impactxclient-sdk'
 import { IidDocument } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/iid'
 import { LinkedClaim, LinkedEntity, LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { fee, RPC_ENDPOINT, TSigner } from './common'
-import { DeliverTxResponse } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/stargate'
 import { EncodeObject } from '@cosmjs/proto-signing'
 import { Verification } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/tx'
 
 const createRPCQueryClient = ixo.ClientFactory.createRPCQueryClient
 
-export const CreateIidDoc = async (
-  client: SigningStargateClient,
-  signer: TSigner,
-  userToAddToVerifications?: TSigner,
-) => {
-  try {
-    const { did, pubKey, address, keyType } = signer
-    const verifications = customMessages.iid.createIidVerificationMethods({
-      did,
-      pubkey: pubKey,
-      address: address,
-      controller: did,
-      type: keyType,
-    })
-    if (userToAddToVerifications) {
-      verifications.push(
-        ...customMessages.iid.createIidVerificationMethods({
-          did: userToAddToVerifications.did,
-          pubkey: userToAddToVerifications.pubKey,
-          address: userToAddToVerifications.address,
-          controller: userToAddToVerifications.did,
-          type: userToAddToVerifications.keyType,
-        }),
-      )
-    }
-    const message = {
-      typeUrl: '/ixo.iid.v1beta1.MsgCreateIidDocument',
-      value: ixo.iid.v1beta1.MsgCreateIidDocument.fromPartial({
-        context: customMessages.iid.createAgentIidContext(),
-        id: did,
-        alsoKnownAs: 'user',
-        verifications,
-        signer: address,
-        controllers: [did],
+export const CreateIidDoc = (signer: TSigner, userToAddToVerifications?: TSigner) => {
+  const { did, pubKey, address, keyType } = signer
+  const verifications = customMessages.iid.createIidVerificationMethods({
+    did,
+    pubkey: pubKey,
+    address: address,
+    controller: did,
+    type: keyType,
+  })
+  if (userToAddToVerifications) {
+    verifications.push(
+      ...customMessages.iid.createIidVerificationMethods({
+        did: userToAddToVerifications.did,
+        pubkey: userToAddToVerifications.pubKey,
+        address: userToAddToVerifications.address,
+        controller: userToAddToVerifications.did,
+        type: userToAddToVerifications.keyType,
       }),
-    }
-    const response = await client.signAndBroadcast(address, [message], fee)
-    console.log('CreateIidDoc', 'response', response)
-    return response
-  } catch (e) {
-    console.error('CreateIidDoc', e)
-    return undefined
+    )
   }
+  const message = {
+    typeUrl: '/ixo.iid.v1beta1.MsgCreateIidDocument',
+    value: ixo.iid.v1beta1.MsgCreateIidDocument.fromPartial({
+      context: customMessages.iid.createAgentIidContext(),
+      id: did,
+      alsoKnownAs: 'user',
+      verifications,
+      signer: address,
+      controllers: [did],
+    }),
+  }
+
+  return { messages: [message], fee, memo: undefined }
 }
 
-export const CreateIidDocForGroup = async (client: SigningStargateClient, signer: TSigner, did: string) => {
+export const CreateIidDocForGroup = (signer: TSigner, did: string) => {
   const address = did.replace('did:ixo:wasm:', '')
 
   const message = {
@@ -88,9 +77,7 @@ export const CreateIidDocForGroup = async (client: SigningStargateClient, signer
   }
 
   console.log('CreateIidDocForGroup', { message })
-  const response = await client.signAndBroadcast(signer.address, [message], fee)
-  console.log('CreateIidDocForGroup', { response })
-  return response
+  return { messages: [message], fee, memo: undefined }
 }
 
 export const CheckIidDoc = async (did: string): Promise<IidDocument> => {
@@ -107,8 +94,7 @@ export const CheckIidDoc = async (did: string): Promise<IidDocument> => {
   }
 }
 
-export const AddLinkedEntity = async (
-  client: SigningStargateClient,
+export const AddLinkedEntity = (
   signer: TSigner,
   payload: {
     did: string
@@ -124,48 +110,31 @@ export const AddLinkedEntity = async (
       signer: signer.address,
     }),
   }
-  const response: DeliverTxResponse = await client.signAndBroadcast(signer.address, [message], fee)
-  console.info('AddLinkedEntity', response)
-  return response
+  console.info('AddLinkedEntity', message)
+  return { messages: [message], fee, memo: undefined }
 }
 
-export const AddLinkedResource = async (
-  client: SigningStargateClient,
-  signer: TSigner,
-  payload: { entityId: string; linkedResource: LinkedResource },
-) => {
+export const AddLinkedResource = (signer: TSigner, payload: { entityId: string; linkedResource: LinkedResource }) => {
   const { entityId, linkedResource } = payload
   const msgs = GetAddLinkedResourceMsgs(entityId, signer, linkedResource)
 
-  const response = await client.signAndBroadcast(signer.address, msgs, fee)
-  return response
+  return { messages: msgs, fee, memo: undefined }
 }
 
-export const DeleteLinkedResource = async (
-  client: SigningStargateClient,
-  signer: TSigner,
-  payload: { entityId: string; resourceId: string },
-) => {
-  try {
-    const { entityId, resourceId } = payload
+export const DeleteLinkedResource = (signer: TSigner, payload: { entityId: string; resourceId: string }) => {
+  const { entityId, resourceId } = payload
 
-    const message = {
-      typeUrl: '/ixo.iid.v1beta1.MsgDeleteLinkedResource',
-      value: ixo.iid.v1beta1.MsgDeleteLinkedResource.fromPartial({
-        id: entityId,
-        resourceId: resourceId,
-        signer: signer.address,
-      }),
-    }
-
-    console.log('DeleteLinkedResource', { message })
-    const response = await client.signAndBroadcast(signer.address, [message], fee)
-    console.log('DeleteLinkedResource', { response })
-    return response
-  } catch (e) {
-    console.error('DeleteLinkedResource', e)
-    throw new Error(JSON.stringify(e))
+  const message = {
+    typeUrl: '/ixo.iid.v1beta1.MsgDeleteLinkedResource',
+    value: ixo.iid.v1beta1.MsgDeleteLinkedResource.fromPartial({
+      id: entityId,
+      resourceId: resourceId,
+      signer: signer.address,
+    }),
   }
+
+  console.log('DeleteLinkedResource', { message })
+  return { messages: [message], fee, memo: undefined }
 }
 
 export const GetAddLinkedResourceMsgs = (
@@ -185,24 +154,11 @@ export const GetAddLinkedResourceMsgs = (
   ]
 }
 
-export const GetAddLinkedResourcePayload = (
-  entityId: string,
-  signer: TSigner,
-  payload: LinkedResource,
-) => {
+export const GetAddLinkedResourcePayload = (entityId: string, signer: TSigner, payload: LinkedResource) => {
   return {
-    messages: [
-      {
-        typeUrl: '/ixo.iid.v1beta1.MsgAddLinkedResource',
-        value: ixo.iid.v1beta1.MsgAddLinkedResource.fromPartial({
-          id: entityId,
-          linkedResource: ixo.iid.v1beta1.LinkedResource.fromPartial(payload),
-          signer: signer.address,
-        }),
-      },
-    ],
-    fee: fee,
-    memo: undefined
+    messages: GetAddLinkedResourceMsgs(entityId, signer, payload),
+    fee,
+    memo: undefined,
   }
 }
 
@@ -221,6 +177,14 @@ export const GetDeleteLinkedResourceMsgs = (
       }),
     },
   ]
+}
+
+export const GetDeleteLinkedResourcePayload = (entityId: string, signer: TSigner, payload: LinkedResource) => {
+  return {
+    messages: GetDeleteLinkedResourceMsgs(entityId, signer, payload),
+    fee,
+    memo: undefined,
+  }
 }
 
 export const GetReplaceLinkedResourceMsgs = (
@@ -400,11 +364,7 @@ export const GetDeleteVerifcationMethodMsgs = (
   ]
 }
 
-export const AddVerificationMethod = async (
-  client: SigningStargateClient,
-  signer: TSigner,
-  payload: { did: string; verifications: Verification[] },
-) => {
+export const AddVerificationMethod = (signer: TSigner, payload: { did: string; verifications: Verification[] }) => {
   const { did, verifications } = payload
 
   const messages = verifications.map((verification) => ({
@@ -417,7 +377,5 @@ export const AddVerificationMethod = async (
   }))
 
   console.log('AddVerificationMethod', { messages })
-  const response: DeliverTxResponse = await client.signAndBroadcast(signer.address, messages, fee)
-  console.log('AddVerificationMethod', { response })
-  return response
+  return { messages, fee, memo: undefined }
 }

@@ -152,7 +152,7 @@ export const GetUpdateStartAndEndDateMsgs = (payload: Partial<MsgUpdateEntity>):
   ]
 }
 
-export const TransferEntityMessage = async (signer: TSigner, payload: Partial<MsgTransferEntity>) => {
+export const TransferEntityMessage = (signer: TSigner, payload: Partial<MsgTransferEntity>) => {
   const { id, recipientDid } = payload
   const message = {
     typeUrl: '/ixo.entity.v1beta1.MsgTransferEntity',

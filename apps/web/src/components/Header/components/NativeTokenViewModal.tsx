@@ -1,3 +1,5 @@
+import { DeliverTxResponse } from '@cosmjs/stargate'
+import { useWallet } from '@ixo-webclient/wallet-connector'
 import { cosmos } from '@ixo/impactxclient-sdk'
 import BigNumber from 'bignumber.js'
 import { FlexBox } from 'components/App/App.styles'
@@ -20,6 +22,7 @@ import { useTheme } from 'styled-components'
 import { TokenType } from 'types/tokens'
 import { convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
 import { convertDecCoinToCoin, plus } from 'utils/currency'
+import { errorToast, successToast } from 'utils/toast'
 
 interface Props {
   open: boolean
@@ -38,7 +41,8 @@ interface Props {
 
 const NativeTokenViewModal: React.FC<Props> = ({ open, token, onClose }) => {
   const theme: any = useTheme()
-  const { address, signingClient, updateBalances } = useAccount()
+  const { execute } = useWallet()
+  const { address, updateBalances } = useAccount()
   const availableBalance = token.balance
   const [stakedBalances, setStakedBalances] = useState<{
     [validatorAddr: string]: {
@@ -139,22 +143,36 @@ const NativeTokenViewModal: React.FC<Props> = ({ open, token, onClose }) => {
 
   const handleClaimRewards = async () => {
     setIsClaimingRewards(true)
-    const msgs = Object.keys(stakedBalances).map((validatorAddress) => ({
-      typeUrl: '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward',
-      value: cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward.fromPartial({
-        delegatorAddress: address,
-        validatorAddress,
-      }),
-    }))
-    const calculatedFee = {
-      ...fee,
-      gas: new BigNumber(fee.gas).times(msgs.length).toString(),
+
+    try {
+      const messages = Object.keys(stakedBalances).map((validatorAddress) => ({
+        typeUrl: '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward',
+        value: cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward.fromPartial({
+          delegatorAddress: address,
+          validatorAddress,
+        }),
+      }))
+      const calculatedFee = {
+        ...fee,
+        gas: new BigNumber(fee.gas).times(messages.length).toString(),
+      }
+      const response = (await execute({
+        messages,
+        fee: calculatedFee,
+        memo: undefined,
+      })) as unknown as DeliverTxResponse
+
+      if (response.code !== 0) {
+        throw response.rawLog
+      }
+      successToast('Success', 'Successfully updated status to transferred!')
+    } catch (e) {
+      console.error('handleAddVerificationMethods', e)
+      errorToast('Error at Signing', typeof e === 'string' && e)
     }
-    await signingClient.signAndBroadcast(address, msgs, calculatedFee)
 
     update()
     updateBalances()
-
     setIsClaimingRewards(false)
   }
 

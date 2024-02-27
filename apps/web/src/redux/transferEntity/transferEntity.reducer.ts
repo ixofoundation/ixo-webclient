@@ -5,7 +5,6 @@ export const initialState: TTransferEntityState = {
   title: 'Transfer entity',
   subtitle: '',
 
-  selectedEntity: undefined,
   recipientDid: '',
 }
 
@@ -17,8 +16,6 @@ export const reducer = (state = initialState, action: TTransferEntityActionTypes
       return { ...state, title: action.payload }
     case ETransferEntityActions.UpdateSubtitle:
       return { ...state, subtitle: action.payload }
-    case ETransferEntityActions.UpdateSelectedEntity:
-      return { ...state, selectedEntity: action.payload }
     case ETransferEntityActions.UpdateRecipientDid:
       return { ...state, recipientDid: action.payload }
     default:

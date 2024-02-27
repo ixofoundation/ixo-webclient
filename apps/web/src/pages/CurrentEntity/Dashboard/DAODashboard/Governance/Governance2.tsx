@@ -53,7 +53,7 @@ const Governance: React.FC = () => {
   }, [navigate, entityId, selectedDAOGroup])
 
   const handleReEnableKeys = useCallback(() => {
-    navigate(`/transfer/entity/${entityId}/review?groupAddress=${selectedDAOGroup?.coreAddress}`)
+    navigate(`/entity/${entityId}/transfer/review?groupAddress=${selectedDAOGroup?.coreAddress}`)
   }, [navigate, entityId, selectedDAOGroup])
 
   const sortedProposals = useMemo(() => {
@@ -77,18 +77,34 @@ const Governance: React.FC = () => {
 
             <Flex align='center' gap={'md'}>
               {entityStatus === 2 && hasVerificationKey && (
-                <Button
-                  variant='secondary'
-                  size='flex'
-                  height={36}
-                  textSize='base'
-                  textTransform='none'
-                  textWeight='medium'
+                // <Button
+                //   variant='secondary'
+                //   size='flex'
+                //   height={36}
+                //   textSize='base'
+                //   textTransform='none'
+                //   textWeight='medium'
+                //   onClick={handleReEnableKeys}
+                //   disabled={!isParticipating && !anyoneCanPropose}
+                // >
+                //   Re-enable keys for {entityName || 'DAO'}
+                // </Button>
+                <MButton
+                  variant='outline'
+                  radius='xs'
+                  size='md'
                   onClick={handleReEnableKeys}
                   disabled={!isParticipating && !anyoneCanPropose}
+                  style={{
+                    width: 'fit-content',
+                    color: 'white',
+                    pointerEvents: !isParticipating && !anyoneCanPropose ? 'none' : 'auto',
+                    opacity: !isParticipating && !anyoneCanPropose ? 0.5 : 1,
+                    borderColor: mantineThemeColors['ixo-blue'][6],
+                  }}
                 >
                   Re-enable keys for {entityName || 'DAO'}
-                </Button>
+                </MButton>
               )}
 
               {isImpactsDAO && daoController === selectedDAOGroup.coreAddress && !isMemberOfImpactsDAO && !isOwner ? (

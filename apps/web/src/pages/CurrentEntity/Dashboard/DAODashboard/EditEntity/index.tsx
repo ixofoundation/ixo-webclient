@@ -61,11 +61,11 @@ const EditEntity: React.FC = () => {
   }
 
   const handleTransferEntity = async () => {
-    navigate(`/transfer/entity/${entityId}`)
+    navigate(`/entity/${entityId}/transfer`)
   }
 
   const handleReEnableKeys = async () => {
-    navigate(`/transfer/entity/${entityId}/review`)
+    navigate(`/entity/${entityId}/transfer/review`)
   }
 
   return (

@@ -51,7 +51,7 @@ const Governance: React.FC = () => {
   }, [navigate, entityId, selectedDAOGroup])
 
   const handleReEnableKeys = useCallback(() => {
-    navigate(`/transfer/entity/${entityId}/review?groupAddress=${selectedDAOGroup?.coreAddress}`)
+    navigate(`/entity/${entityId}/transfer/review?groupAddress=${selectedDAOGroup?.coreAddress}`)
   }, [navigate, entityId, selectedDAOGroup])
 
   const sortedProposals = useMemo(() => {
