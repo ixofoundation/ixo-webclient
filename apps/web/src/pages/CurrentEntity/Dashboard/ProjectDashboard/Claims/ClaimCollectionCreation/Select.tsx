@@ -23,7 +23,7 @@ const ClaimCollectionCreationSelectStep: React.FC<Props> = ({ hidden, onSubmit, 
     <FlexBox $direction='column'>
       <FlexBox $direction='column' $gap={9} width={deviceWidth.tablet + 'px'} mb={40}>
         <Typography variant='secondary' size='base'>
-          For which linked Claim do you wish to create the new Claim Collection for?
+          Select the linked Claim for which you want to create a new Claim Collection?
         </Typography>
 
         <FlexBox $gap={6} $alignItems='center'>
@@ -50,7 +50,7 @@ const ClaimCollectionCreationSelectStep: React.FC<Props> = ({ hidden, onSubmit, 
         </FlexBox>
 
         <Typography variant='secondary' size='base'>
-          Alternatively you can add a new linked claim.
+          Alternatively you can add a new linked Claim.
         </Typography>
       </FlexBox>
 
