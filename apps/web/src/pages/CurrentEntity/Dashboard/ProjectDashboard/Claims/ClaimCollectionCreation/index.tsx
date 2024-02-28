@@ -24,10 +24,10 @@ import { useWallet } from '@ixo-webclient/wallet-connector'
 import { DeliverTxResponse } from '@cosmjs/stargate'
 
 const ClaimCollectionCreation: React.FC = () => {
-  const { entityId = "" } = useParams<{ entityId: string }>()
+  const { entityId = '' } = useParams<{ entityId: string }>()
   const { entityType } = useCurrentEntity()
   const { claims } = useCurrentEntityClaims()
-  const { signingClient, signer } = useAccount()
+  const { signer } = useAccount()
   const { isExist: isCollectionExist } = useGetClaimCollectionsByEntityId(entityId)
   const userRole = useGetUserGranteeRole()
   const { fetchEntityById } = useGetEntityByIdLazyQuery()
@@ -76,17 +76,20 @@ const ClaimCollectionCreation: React.FC = () => {
       }),
     ]
 
-    if(!wallet) throw Error("Please connect wallet")
+    if (!wallet) throw Error('Please connect wallet')
 
-    const entityMessage = await CreateEntityMessage({ pubKey: wallet.pubKey, address: wallet.address, keyType: 'secp', did: wallet.did }, [
-      {
-        entityType: 'deed/offer',
-        linkedEntity,
-        context: [{ key: 'class', val: data.protocolDeedId }],
-      },
-    ])
+    const entityMessage = await CreateEntityMessage(
+      { pubKey: wallet.pubKey, address: wallet.address, keyType: 'secp', did: wallet.did },
+      [
+        {
+          entityType: 'deed/offer',
+          linkedEntity,
+          context: [{ key: 'class', val: data.protocolDeedId }],
+        },
+      ],
+    )
 
-    const response = await execute(entityMessage) as unknown as DeliverTxResponse
+    const response = (await execute(entityMessage)) as unknown as DeliverTxResponse
     if (response.code !== 0) {
       throw response.rawLog
     }
@@ -107,11 +110,11 @@ const ClaimCollectionCreation: React.FC = () => {
           protocolDid: claim.template?.id.split('#')[0],
           startDate: data.startDate,
           endDate: data.endDate,
-          quota: data.quota,
+          quota: data.quota || '0',
           payments: data.payments,
         },
       ]
-      const createCollectionRes = await CreateCollection(signingClient, signer, payload)
+      const createCollectionRes = CreateCollection(signer, payload)
 
       const response = (await execute(createCollectionRes)) as unknown as DeliverTxResponse
 
@@ -126,7 +129,6 @@ const ClaimCollectionCreation: React.FC = () => {
         (c) => c.id,
       )
 
-      console.log({ collectionId })
       const deedOfferDid = await CreateDeedOffer(collectionId)
       if (deedOfferDid) {
         fetchEntityById(deedOfferDid)

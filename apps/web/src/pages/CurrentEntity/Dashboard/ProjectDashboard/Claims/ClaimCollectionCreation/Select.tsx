@@ -5,6 +5,7 @@ import { useCurrentEntityClaims } from 'hooks/currentEntity'
 import { Button, PropertyBox } from 'pages/CreateEntity/Components'
 import React, { useState } from 'react'
 import { ReactComponent as ClaimIcon } from 'assets/images/icon-claim.svg'
+import { Anchor } from '@mantine/core'
 
 interface Props {
   hidden?: boolean
@@ -28,7 +29,7 @@ const ClaimCollectionCreationSelectStep: React.FC<Props> = ({ hidden, onSubmit, 
 
         <FlexBox $gap={6} $alignItems='center'>
           {Object.values(claims).map((claim) => (
-            <FlexBox key={claim.id} $direction='column' $alignItems='center' $gap={4}>
+            <FlexBox key={claim.id} $direction='column' $alignItems='flex-start' $gap={4}>
               <PropertyBox
                 icon={<ClaimIcon />}
                 required={true}
@@ -50,7 +51,7 @@ const ClaimCollectionCreationSelectStep: React.FC<Props> = ({ hidden, onSubmit, 
         </FlexBox>
 
         <Typography variant='secondary' size='base'>
-          Alternatively you can add a new linked Claim.
+          Alternatively you can add a <Anchor href='/entity/create/protocol'>new linked Claim</Anchor>.
         </Typography>
       </FlexBox>
 
