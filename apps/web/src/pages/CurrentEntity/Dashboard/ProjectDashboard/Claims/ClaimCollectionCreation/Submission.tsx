@@ -5,8 +5,6 @@ import { Button, PropertyBox } from 'pages/CreateEntity/Components'
 import React, { useState } from 'react'
 import { useTheme } from 'styled-components'
 import { ReactComponent as ClaimIcon } from 'assets/images/icon-claim.svg'
-import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
-import { NavLink } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { selectAllDeedProtocols } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { TEntityModel } from 'types/entities'
@@ -35,6 +33,7 @@ const ClaimCollectionCreationSubmissionStep: React.FC<Props> = ({ hidden, onSubm
     variables: {
       filter: {
         type: { equalTo: 'protocol/deed' },
+        entityVerified: { equalTo: true },
       },
     },
     onCompleted: ({ entities }) => {
@@ -86,21 +85,6 @@ const ClaimCollectionCreationSubmissionStep: React.FC<Props> = ({ hidden, onSubm
                 </Typography>
               </FlexBox>
             ))}
-
-            <NavLink to={`/create/entity/protocol/deed/profile?type=offer`}>
-              <FlexBox $direction='column' $alignItems='center' $gap={4}>
-                <PropertyBox icon={<PlusIcon />} noData />
-                <Typography
-                  variant='primary'
-                  size='md'
-                  color={'black'}
-                  $overflowLines={2}
-                  style={{ width: 100, textAlign: 'center' }}
-                >
-                  Create Custom
-                </Typography>
-              </FlexBox>
-            </NavLink>
           </FlexBox>
         </FlexBox>
 

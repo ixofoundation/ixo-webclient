@@ -8,8 +8,7 @@ import { GrantAuthorization } from '@ixo/impactxclient-sdk/types/codegen/cosmos/
 
 const { createRPCQueryClient } = cosmos.ClientFactory
 
-export const CreateCollection = async (
-  client: SigningStargateClient,
+export const CreateCollection = (
   signer: TSigner,
   payload: {
     entityDid: string
