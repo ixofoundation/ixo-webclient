@@ -55,7 +55,7 @@ export const GrantEntityAccountClaimsSubmitAuthz = async (
     adminAddress,
     granteeAddress,
     collectionId,
-    agentQuota = 100,
+    agentQuota = 0,
     overrideCurretGrants = false,
   } = payload
 
@@ -154,7 +154,7 @@ export const GrantEntityAccountClaimsEvaluateAuthz = async (
     collectionId,
     granteeAddress,
     claimIds = [],
-    agentQuota = 100,
+    agentQuota = 0,
     overrideCurretGrants = false,
   } = payload
 
