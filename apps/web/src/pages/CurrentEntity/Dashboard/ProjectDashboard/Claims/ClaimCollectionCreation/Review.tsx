@@ -19,7 +19,6 @@ interface Props {
     startDate: string
     endDate: string
     quota: string
-    target: string
     protocolDeedId: string
     payments: Payments | undefined
   }
@@ -76,10 +75,6 @@ const ClaimCollectionCreationReviewStep: React.FC<Props> = ({ hidden, loading, d
           <FlexBox width='100%' $alignItems='center' $justifyContent='space-between'>
             <Typography>Max Submissions</Typography>
             <Typography>{data.quota}</Typography>
-          </FlexBox>
-          <FlexBox width='100%' $alignItems='center' $justifyContent='space-between'>
-            <Typography>Approval Target</Typography>
-            <Typography>{data.target}</Typography>
           </FlexBox>
         </FlexBox>
 
