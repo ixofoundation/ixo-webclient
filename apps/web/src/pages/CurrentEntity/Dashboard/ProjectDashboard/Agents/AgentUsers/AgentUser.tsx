@@ -19,7 +19,7 @@ const AgentUserCard: React.FC<IAgent & { noAction?: boolean }> = ({ address, rol
   const { getQuery } = useQuery()
   const collectionId = getQuery('collectionId')
   const { entityId = '' } = useParams<{ entityId: string }>()
-  const { signingClient, signer } = useAccount()
+  const { signer } = useAccount()
   const adminAddress = useCurrentEntityAdminAccount()
   const [granting, setGranting] = useState(false)
   const { execute } = useWallet()
@@ -38,9 +38,9 @@ const AgentUserCard: React.FC<IAgent & { noAction?: boolean }> = ({ address, rol
           agentQuota: 10,
           overrideCurretGrants: false,
         }
-        const grantEntityAccountClaimSubmitAuthZPayload = await GrantEntityAccountClaimsSubmitAuthz(signingClient, signer, payload)
+        const grantEntityAccountClaimSubmitAuthZPayload = await GrantEntityAccountClaimsSubmitAuthz(signer, payload)
 
-         const response = (await execute(grantEntityAccountClaimSubmitAuthZPayload)) as unknown as DeliverTxResponse
+        const response = (await execute(grantEntityAccountClaimSubmitAuthZPayload)) as unknown as DeliverTxResponse
 
         if (response.code !== 0) {
           throw response.rawLog
@@ -55,10 +55,13 @@ const AgentUserCard: React.FC<IAgent & { noAction?: boolean }> = ({ address, rol
           agentQuota: 10,
           overrideCurretGrants: false,
         }
-        const grantEntityAccountClaimsEvaluateAuthZPayload = await GrantEntityAccountClaimsEvaluateAuthz(signingClient, signer, payload)
+        const grantEntityAccountClaimsEvaluateAuthZPayload = await GrantEntityAccountClaimsEvaluateAuthz(
+          signer,
+          payload,
+        )
 
         const response = (await execute(grantEntityAccountClaimsEvaluateAuthZPayload)) as unknown as DeliverTxResponse
-        
+
         if (response.code !== 0) {
           throw response.rawLog
         }
@@ -66,8 +69,8 @@ const AgentUserCard: React.FC<IAgent & { noAction?: boolean }> = ({ address, rol
 
       successToast(null, 'Successfully Granted!')
     } catch (error: any) {
-      console.error(error)
-      errorToast(null, typeof error === 'string' ? error : error.message)
+      console.error('Granting User', error)
+      errorToast('Granting User', typeof error === 'string' && error)
     } finally {
       setGranting(false)
     }
