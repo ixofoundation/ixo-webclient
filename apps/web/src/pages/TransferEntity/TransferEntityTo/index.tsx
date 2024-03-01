@@ -5,7 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { ReactComponent as ArrowCircleRightIcon } from 'assets/images/icon-arrow-circle-right-solid.svg'
 import { Button, InputWithLabel, Switch } from 'pages/CreateEntity/Components'
 import { useTransferEntityState } from 'hooks/transferEntity'
-import { validateDid, validateIid, validateWasmDid } from 'utils/validation'
+import { validateDid, validateWasmDid } from 'utils/validation'
 import { useTheme } from 'styled-components'
 import { Typography } from 'components/Typography'
 import { ReactComponent as TimesCircleIcon } from 'assets/images/icon-times-circle.svg'
@@ -28,13 +28,16 @@ import { LinkedResourceProofGenerator, LinkedResourceServiceEndpointGenerator } 
 import { VMKeyMap } from 'constants/entity'
 import { useWallet } from '@ixo-webclient/wallet-connector'
 import { DeliverTxResponse } from '@cosmjs/stargate'
+import useCurrentEntity from 'hooks/currentEntity'
 
 const TransferEntityTo: React.FC = (): JSX.Element => {
   const theme: any = useTheme()
   const navigate = useNavigate()
   const { entityId = '' } = useParams<{ entityId: string }>()
-  const { signingClient, signer } = useAccount()
-  const { selectedEntity, recipientDid } = useTransferEntityState()
+  const { signer } = useAccount()
+  const { currentEntity } = useCurrentEntity()
+  const { recipientDid, updateRecipientDid } = useTransferEntityState()
+
   const { execute } = useWallet()
   const [
     daoGroups = {},
@@ -46,15 +49,15 @@ const TransferEntityTo: React.FC = (): JSX.Element => {
     capabilityDelegations = [],
   ] = useMemo(
     () => [
-      selectedEntity?.daoGroups,
-      selectedEntity?.verificationMethod,
-      selectedEntity?.authentication,
-      selectedEntity?.assertionMethod,
-      selectedEntity?.keyAgreement,
-      selectedEntity?.capabilityInvocation,
-      selectedEntity?.capabilityDelegation,
+      currentEntity?.daoGroups,
+      currentEntity?.verificationMethod,
+      currentEntity?.authentication,
+      currentEntity?.assertionMethod,
+      currentEntity?.keyAgreement,
+      currentEntity?.capabilityInvocation,
+      currentEntity?.capabilityDelegation,
     ],
-    [selectedEntity],
+    [currentEntity],
   )
 
   const [reEnableKeys, setReEnablekeys] = useState(true)
@@ -117,11 +120,9 @@ const TransferEntityTo: React.FC = (): JSX.Element => {
         encrypted: 'false',
         right: '',
       }
-      console.log({ linkedResource })
- 
-      const addLinkedResourceMessagePayload = await GetAddLinkedResourcePayload( entityId,  signer, linkedResource,  )
 
-      const response = (await execute(addLinkedResourceMessagePayload)) as unknown as DeliverTxResponse
+      const addLinkedResourceMessagePayload = GetAddLinkedResourcePayload(entityId, signer, linkedResource)
+      const response = (await execute(addLinkedResourceMessagePayload as any)) as unknown as DeliverTxResponse
 
       if (response.code !== 0) {
         throw response.rawLog
@@ -164,9 +165,10 @@ const TransferEntityTo: React.FC = (): JSX.Element => {
         throw 'EntityId or RecipientDid is invalid'
       }
       if (!(await CheckIidDoc(recipientDid))) {
-        await CreateIidDocForGroup(signingClient, signer, recipientDid)
+        const createIidDocForGroupPayload = CreateIidDocForGroup(signer, recipientDid)
+        await execute(createIidDocForGroupPayload)
       }
-      const transactionData = await TransferEntityMessage(signer, { id: entityId, recipientDid })
+      const transactionData = TransferEntityMessage(signer, { id: entityId, recipientDid })
       const response = (await execute(transactionData)) as unknown as DeliverTxResponse
 
       if (response.code !== 0) {
@@ -216,7 +218,24 @@ const TransferEntityTo: React.FC = (): JSX.Element => {
           }
           title='Transferring to'
         >
-          {validateIid(recipientDid) && (
+          {validateWasmDid(recipientDid) ? (
+            <FlexBox width='100%' $alignItems='center' $gap={4}>
+              <InputWithLabel
+                name='group_name'
+                width='100%'
+                height='48px'
+                label='Group Name'
+                inputValue={daoGroups[recipientDid.replace('did:ixo:wasm:', '')]?.config?.name || ''}
+              />
+              <InputWithLabel
+                name='entity_name'
+                width='100%'
+                height='48px'
+                label='DAO Entity'
+                inputValue={currentEntity?.profile?.name}
+              />
+            </FlexBox>
+          ) : (
             <FlexBox $direction='column' $gap={5} width='100%'>
               <InputWithLabel
                 name='ixo_did'
@@ -227,6 +246,7 @@ const TransferEntityTo: React.FC = (): JSX.Element => {
                 wrapperStyle={{
                   color: recipientDid ? (validateDid(recipientDid) ? theme.ixoGreen : theme.ixoRed) : theme.ixoNewBlue,
                 }}
+                handleChange={updateRecipientDid}
               />
 
               {recipientDid && !validateDid(recipientDid) && (
@@ -245,24 +265,6 @@ const TransferEntityTo: React.FC = (): JSX.Element => {
                   </SvgBox>
                 </FlexBox>
               )}
-            </FlexBox>
-          )}
-          {validateWasmDid(recipientDid) && (
-            <FlexBox width='100%' $alignItems='center' $gap={4}>
-              <InputWithLabel
-                name='group_name'
-                width='100%'
-                height='48px'
-                label='Group Name'
-                inputValue={daoGroups[recipientDid.replace('did:ixo:wasm:', '')]?.config?.name || ''}
-              />
-              <InputWithLabel
-                name='entity_name'
-                width='100%'
-                height='48px'
-                label='DAO Entity'
-                inputValue={selectedEntity?.profile?.name}
-              />
             </FlexBox>
           )}
         </FormCard>

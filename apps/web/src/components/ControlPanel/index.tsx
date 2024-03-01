@@ -104,15 +104,15 @@ const ControlPanel: React.FC<Props> = ({ tab }) => {
         </Flex>
       </StyledScrollArea>
       <Flex w='100%' bg='#D7DFED' p={20} justify='space-around' align='center' wrap='wrap' gap={16}>
-        {address && (
-          <CircleTab icon={<ProfileIcon />} active={activeTab === 'profile'} onClick={() => setActiveTab('profile')} />
-        )}
         {EntityIcon && (
           <CircleTab
             icon={EntityIcon as JSX.Element}
             active={activeTab === 'detail'}
             onClick={() => setActiveTab('detail')}
           />
+        )}
+        {address && (
+          <CircleTab icon={<ProfileIcon />} active={activeTab === 'profile'} onClick={() => setActiveTab('profile')} />
         )}
         <CircleTab icon={<BellIcon />} active={activeTab === 'feed'} onClick={() => setActiveTab('feed')} badge={12} />
         <CircleTab

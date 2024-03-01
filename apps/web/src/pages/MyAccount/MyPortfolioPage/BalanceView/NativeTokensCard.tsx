@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Avatar, Card } from 'pages/CurrentEntity/Components'
 import Table, { renderTableHeader } from 'components/Table/Table'
 import { Typography } from 'components/Typography'
@@ -7,8 +7,11 @@ import BigNumber from 'bignumber.js'
 import CurrencyFormat from 'react-currency-format'
 import styled from 'styled-components'
 import { useAccount } from 'hooks/account'
+import NativeTokenViewModal from 'components/Header/components/NativeTokenViewModal'
+import Cw20TokenViewModal from 'components/Header/components/Cw20TokenViewModal'
+import { Cw20Token, NativeToken, TokenType } from 'types/tokens'
 
-const TableWrapper = styled.div`
+export const TokensTableWrapper = styled.div`
   color: white;
   width: 100%;
 
@@ -45,7 +48,7 @@ const TableWrapper = styled.div`
   }
 `
 
-const columns = [
+export const TokensTableColumns = [
   {
     Header: renderTableHeader('Token'),
     accessor: 'symbol',
@@ -97,32 +100,51 @@ const columns = [
 const NativeTokensCard: React.FC = () => {
   const { nativeTokens, cw20Tokens } = useAccount()
   const tokens = [...nativeTokens, ...cw20Tokens.filter((v) => Number(v.balance) > 0)]
+  const [selectedToken, setSelectedToken] = useState<NativeToken | Cw20Token | undefined>(undefined)
 
   const handleRowClick = (state: any) => () => {
-    console.log('handleRowClick', { state })
+    const original: NativeToken | Cw20Token = state.original
+
+    setSelectedToken(original)
   }
 
   return (
-    <Card label='Coins'>
-      <TableWrapper>
-        <Table
-          columns={columns}
-          data={tokens}
-          getRowProps={(state) => ({
-            style: { height: 70, cursor: 'pointer' },
-            onClick: handleRowClick(state),
-          })}
-          getCellProps={() => ({ style: { background: '#023044' } })}
+    <>
+      <Card label='Coins'>
+        <TokensTableWrapper>
+          <Table
+            columns={TokensTableColumns}
+            data={tokens}
+            getRowProps={(state) => ({
+              style: { height: 70, cursor: 'pointer' },
+              onClick: handleRowClick(state),
+            })}
+            getCellProps={() => ({ style: { background: '#023044' } })}
+          />
+          {tokens.length === 0 && (
+            <Flex w='100%' h='80px' align='center' justify='center' bg='#053549' style={{ borderRadius: 8 }}>
+              <Typography variant='primary' size='lg' color='dark-blue'>
+                This account holds no Coins
+              </Typography>
+            </Flex>
+          )}
+        </TokensTableWrapper>
+      </Card>
+      {selectedToken?.type === TokenType.Native && (
+        <NativeTokenViewModal
+          open={!!selectedToken}
+          token={selectedToken}
+          onClose={() => setSelectedToken(undefined)}
         />
-        {tokens.length === 0 && (
-          <Flex w='100%' h='80px' align='center' justify='center' bg='#053549' style={{ borderRadius: 8 }}>
-            <Typography variant='primary' size='lg' color='dark-blue'>
-              This account holds no Coins
-            </Typography>
-          </Flex>
-        )}
-      </TableWrapper>
-    </Card>
+      )}
+      {selectedToken?.type === TokenType.Cw20 && (
+        <Cw20TokenViewModal
+          open={!!selectedToken}
+          token={selectedToken as Cw20Token}
+          onClose={() => setSelectedToken(undefined)}
+        />
+      )}
+    </>
   )
 }
 

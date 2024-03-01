@@ -9,11 +9,13 @@ import { useTransferEntityState } from 'hooks/transferEntity'
 import { utils } from '@ixo/impactxclient-sdk'
 import TransferEntityModal from 'components/Modals/TransferEntityModal'
 import { useNavigate, useParams } from 'react-router-dom'
+import useCurrentEntity from 'hooks/currentEntity'
 
 const TransferEntityToDAOGroup: React.FC = (): JSX.Element => {
   const navigate = useNavigate()
   const { entityId } = useParams<{ entityId: string }>()
-  const { selectedEntity, recipientDid, updateRecipientDid } = useTransferEntityState()
+  const { currentEntity } = useCurrentEntity()
+  const { recipientDid, updateRecipientDid } = useTransferEntityState()
   const [openTransferEntityModal, setOpenTransferEntityModal] = useState(false)
 
   const handleClick = (key: string) => () => {
@@ -21,11 +23,11 @@ const TransferEntityToDAOGroup: React.FC = (): JSX.Element => {
       setOpenTransferEntityModal(true)
     } else {
       updateRecipientDid(utils.did.generateWasmDid(key))
-      navigate(`/transfer/entity/${entityId}/to`)
+      navigate(`/entity/${entityId}/transfer/to`)
     }
   }
 
-  if (!selectedEntity) {
+  if (!currentEntity) {
     return <></>
   }
 
@@ -37,7 +39,7 @@ const TransferEntityToDAOGroup: React.FC = (): JSX.Element => {
         </Box>
 
         <FlexBox $gap={5}>
-          {Object.entries(selectedEntity.daoGroups ?? {}).map(([key, value]) => {
+          {Object.entries(currentEntity.daoGroups ?? {}).map(([key, value]) => {
             const Icon = DAOGroupConfig[value.type]?.icon
             const text = DAOGroupConfig[value.type]?.text
             return (
@@ -49,7 +51,7 @@ const TransferEntityToDAOGroup: React.FC = (): JSX.Element => {
                   handleClick={handleClick(key)}
                 />
                 <Typography variant='secondary' $overflowLines={1} style={{ width: 100, textAlign: 'center' }}>
-                  &nbsp;{selectedEntity.profile?.name || ''}&nbsp;
+                  &nbsp;{currentEntity.profile?.name || ''}&nbsp;
                 </Typography>
                 <Typography variant='secondary' $overflowLines={1} style={{ width: 100, textAlign: 'center' }}>
                   &nbsp;{value.config.name} Group&nbsp;
@@ -72,7 +74,7 @@ const TransferEntityToDAOGroup: React.FC = (): JSX.Element => {
         onSubmit={(value) => {
           updateRecipientDid(value)
           setOpenTransferEntityModal(false)
-          navigate(`/transfer/entity/${entityId}/to`)
+          navigate(`/entity/${entityId}/transfer/to`)
         }}
       />
     </>

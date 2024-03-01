@@ -1,7 +1,6 @@
 import { RootState } from 'redux/store'
 import { createSelector } from '@reduxjs/toolkit'
 import { TTransferEntityState } from './transferEntity.types'
-import { TEntityModel } from 'types/entities'
 
 export const selectTransferEntity = (state: RootState): TTransferEntityState => state.transferEntity
 
@@ -18,11 +17,6 @@ export const selectTransferEntityTitle = createSelector(
 export const selectTransferEntitySubtitle = createSelector(
   selectTransferEntity,
   (transferEntity: TTransferEntityState): string => transferEntity.subtitle ?? '',
-)
-
-export const selectTransferEntitySelectedEntity = createSelector(
-  selectTransferEntity,
-  (transferEntity: TTransferEntityState): TEntityModel | undefined => transferEntity.selectedEntity,
 )
 
 export const selectTransferEntityRecipientDid = createSelector(

@@ -5,6 +5,7 @@ import { useCurrentEntityClaims } from 'hooks/currentEntity'
 import { Button, PropertyBox } from 'pages/CreateEntity/Components'
 import React, { useState } from 'react'
 import { ReactComponent as ClaimIcon } from 'assets/images/icon-claim.svg'
+import { Anchor } from '@mantine/core'
 
 interface Props {
   hidden?: boolean
@@ -23,12 +24,12 @@ const ClaimCollectionCreationSelectStep: React.FC<Props> = ({ hidden, onSubmit, 
     <FlexBox $direction='column'>
       <FlexBox $direction='column' $gap={9} width={deviceWidth.tablet + 'px'} mb={40}>
         <Typography variant='secondary' size='base'>
-          For which linked Claim do you wish to create the new Claim Collection for?
+          Select the linked Claim for which you want to create a new Claim Collection.
         </Typography>
 
         <FlexBox $gap={6} $alignItems='center'>
           {Object.values(claims).map((claim) => (
-            <FlexBox key={claim.id} $direction='column' $alignItems='center' $gap={4}>
+            <FlexBox key={claim.id} $direction='column' $alignItems='flex-start' $gap={4}>
               <PropertyBox
                 icon={<ClaimIcon />}
                 required={true}
@@ -50,7 +51,7 @@ const ClaimCollectionCreationSelectStep: React.FC<Props> = ({ hidden, onSubmit, 
         </FlexBox>
 
         <Typography variant='secondary' size='base'>
-          Alternatively you can add a new linked claim.
+          Alternatively you can add a <Anchor href='/entity/create/protocol'>new linked Claim</Anchor>.
         </Typography>
       </FlexBox>
 

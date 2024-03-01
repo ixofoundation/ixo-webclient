@@ -1,9 +1,7 @@
-import { TEntityModel } from 'types/entities'
 import {
   ETransferEntityActions,
   TUpdateBreadCrumbsAction,
   TUpdateRecipientDidAction,
-  TUpdateSelectedEntityAction,
   TUpdateSubtitleAction,
   TUpdateTitleAction,
 } from './transferEntity.types'
@@ -21,11 +19,6 @@ export const updateTitleAction = (title: string): TUpdateTitleAction => ({
 export const updateSubtitleAction = (subtitle: string): TUpdateSubtitleAction => ({
   type: ETransferEntityActions.UpdateSubtitle,
   payload: subtitle,
-})
-
-export const updateSelectedEntityAction = (selectedEntity: TEntityModel): TUpdateSelectedEntityAction => ({
-  type: ETransferEntityActions.UpdateSelectedEntity,
-  payload: selectedEntity,
 })
 
 export const updateRecipientDidAction = (recipientDid: string): TUpdateRecipientDidAction => ({

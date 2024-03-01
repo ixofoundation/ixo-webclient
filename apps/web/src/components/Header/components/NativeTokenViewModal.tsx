@@ -1,3 +1,5 @@
+import { DeliverTxResponse } from '@cosmjs/stargate'
+import { useWallet } from '@ixo-webclient/wallet-connector'
 import { cosmos } from '@ixo/impactxclient-sdk'
 import BigNumber from 'bignumber.js'
 import { FlexBox } from 'components/App/App.styles'
@@ -17,28 +19,21 @@ import { Avatar } from 'pages/CurrentEntity/Components'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import CurrencyFormat from 'react-currency-format'
 import { useTheme } from 'styled-components'
-import { TokenType } from 'types/tokens'
+import { NativeToken } from 'types/tokens'
 import { convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
 import { convertDecCoinToCoin, plus } from 'utils/currency'
+import { errorToast, successToast } from 'utils/toast'
 
 interface Props {
   open: boolean
-  token: {
-    type: TokenType
-    balance: string
-    network: string
-    coinDenom: string
-    coinMinimalDenom: string
-    coinImageUrl: string
-    coinDecimals: number
-    lastPriceUsd: number
-  }
+  token: NativeToken
   onClose: () => void
 }
 
 const NativeTokenViewModal: React.FC<Props> = ({ open, token, onClose }) => {
   const theme: any = useTheme()
-  const { address, signingClient, updateBalances } = useAccount()
+  const { execute } = useWallet()
+  const { address, updateBalances } = useAccount()
   const availableBalance = token.balance
   const [stakedBalances, setStakedBalances] = useState<{
     [validatorAddr: string]: {
@@ -85,7 +80,7 @@ const NativeTokenViewModal: React.FC<Props> = ({ open, token, onClose }) => {
               ...pre,
               [validatorAddress]: {
                 ...(pre[validatorAddress] ?? {}),
-                delegation: convertMicroDenomToDenomWithDecimals(balance.amount, token.coinDecimals).toString(),
+                delegation: convertMicroDenomToDenomWithDecimals(balance.amount, token.decimals).toString(),
               },
             }))
           }
@@ -101,7 +96,7 @@ const NativeTokenViewModal: React.FC<Props> = ({ open, token, onClose }) => {
             ...pre,
             [validatorAddress]: {
               ...(pre[validatorAddress] ?? {}),
-              unbonding: convertMicroDenomToDenomWithDecimals(balance, token.coinDecimals).toString(),
+              unbonding: convertMicroDenomToDenomWithDecimals(balance, token.decimals).toString(),
             },
           }))
         }
@@ -112,14 +107,14 @@ const NativeTokenViewModal: React.FC<Props> = ({ open, token, onClose }) => {
         const { rewards } = response
         rewards.forEach((item) => {
           const { validatorAddress, reward } = item
-          const rewardDecCoin = reward.find(({ denom }) => denom === token.coinMinimalDenom)
+          const rewardDecCoin = reward.find(({ denom }) => denom === token.denomOrAddress)
           if (rewardDecCoin && validatorAddress) {
             const rewardCoin = convertDecCoinToCoin(rewardDecCoin)
             setStakedBalances((pre) => ({
               ...pre,
               [validatorAddress]: {
                 ...(pre[validatorAddress] ?? {}),
-                rewards: convertMicroDenomToDenomWithDecimals(rewardCoin.amount, token.coinDecimals).toString(),
+                rewards: convertMicroDenomToDenomWithDecimals(rewardCoin.amount, token.decimals).toString(),
               },
             }))
           }
@@ -139,22 +134,36 @@ const NativeTokenViewModal: React.FC<Props> = ({ open, token, onClose }) => {
 
   const handleClaimRewards = async () => {
     setIsClaimingRewards(true)
-    const msgs = Object.keys(stakedBalances).map((validatorAddress) => ({
-      typeUrl: '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward',
-      value: cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward.fromPartial({
-        delegatorAddress: address,
-        validatorAddress,
-      }),
-    }))
-    const calculatedFee = {
-      ...fee,
-      gas: new BigNumber(fee.gas).times(msgs.length).toString(),
+
+    try {
+      const messages = Object.keys(stakedBalances).map((validatorAddress) => ({
+        typeUrl: '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward',
+        value: cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward.fromPartial({
+          delegatorAddress: address,
+          validatorAddress,
+        }),
+      }))
+      const calculatedFee = {
+        ...fee,
+        gas: new BigNumber(fee.gas).times(messages.length).toString(),
+      }
+      const response = (await execute({
+        messages,
+        fee: calculatedFee,
+        memo: undefined,
+      })) as unknown as DeliverTxResponse
+
+      if (response.code !== 0) {
+        throw response.rawLog
+      }
+      successToast('Success', 'Successfully updated status to transferred!')
+    } catch (e) {
+      console.error('handleAddVerificationMethods', e)
+      errorToast('Error at Signing', typeof e === 'string' && e)
     }
-    await signingClient.signAndBroadcast(address, msgs, calculatedFee)
 
     update()
     updateBalances()
-
     setIsClaimingRewards(false)
   }
 
@@ -172,9 +181,9 @@ const NativeTokenViewModal: React.FC<Props> = ({ open, token, onClose }) => {
         <FlexBox $direction='column' width='380px' $gap={6} color={theme.ixoWhite}>
           {/* Marketing Info */}
           <FlexBox width='100%' $direction='column' $alignItems='center' $gap={3}>
-            <Avatar size={38} url={token.coinImageUrl} />
+            <Avatar size={38} url={token.imageUrl} />
             <Typography size='lg' weight='medium'>
-              {token.coinDenom}
+              {token.symbol}
             </Typography>
           </FlexBox>
 
@@ -300,7 +309,7 @@ const NativeTokenViewModal: React.FC<Props> = ({ open, token, onClose }) => {
           </FlexBox>
         </FlexBox>
       </ModalWrapper>
-      <SendModal open={isSending} setOpen={setIsSending} selectedDenomOrAddr={token.coinMinimalDenom} />
+      <SendModal open={isSending} setOpen={setIsSending} selectedDenomOrAddr={token.denomOrAddress} />
     </>
   )
 }

@@ -39,7 +39,7 @@ const OfferBox: React.FC<OfferBoxProps> = ({ entity, selectedCollectionId, setSe
         $overflowLines={2}
         style={{ width: 100, textAlign: 'center' }}
       >
-        {claimTemplateEntity?.profile?.name}
+        {claimTemplateEntity?.profile?.name} {collectionId}
       </Typography>
     </FlexBox>
   )
@@ -67,9 +67,9 @@ const ApplyToJoinModal: React.FC<Props> = ({ offers = [], open, onClose, onSubmi
       </CloseButton>
 
       <ModalWrapper style={{ width: 600 }}>
-        <ModalTitle>For which claim collection would you like to submit an offer?</ModalTitle>
+        <ModalTitle>Select a Claim Collection and register to be an Agent.</ModalTitle>
         <ModalBody>
-          <ModalRow style={{ justifyContent: 'left' }}>
+          <ModalRow style={{ justifyContent: 'left', alignItems: 'flex-start' }}>
             {offers.map((entity: TEntityModel) => (
               <OfferBox
                 key={entity.id}
@@ -87,7 +87,7 @@ const ApplyToJoinModal: React.FC<Props> = ({ offers = [], open, onClose, onSubmi
               size='flex'
               disabled={!selectedCollectionId}
             >
-              Continue as Service Agent
+              Continue as Data Agent
             </Button>
             <Button
               variant='primary'

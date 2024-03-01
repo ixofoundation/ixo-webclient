@@ -101,7 +101,7 @@ export function useIxoConfigs(): IxoConfigsHookExports {
         return assets
           .map((asset) => {
             const { base, denomUnits, display } = asset
-            const denomUnit = denomUnits.find((unit) => unit.denom === display)
+            const denomUnit = denomUnits.find((unit) => unit.denom.toLowerCase() === display.toLowerCase())
             if (!denomUnit) {
               return undefined
             }

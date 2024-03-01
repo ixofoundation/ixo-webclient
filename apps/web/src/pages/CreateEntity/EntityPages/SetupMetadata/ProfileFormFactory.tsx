@@ -88,7 +88,7 @@ const ProfileFormProtocolDeed = () => {
     [updateProfile, profile],
   )
 
-  const setType = useCallback((type: string) => handleUpdateProfile('type', type), [handleUpdateProfile])
+  const setType = useCallback((type: string) => handleUpdateProfile('category', type), [handleUpdateProfile])
   const setTitle = useCallback((name: string) => handleUpdateProfile('name', name), [handleUpdateProfile])
 
   const deedNameFound = useMemo(
@@ -98,7 +98,7 @@ const ProfileFormProtocolDeed = () => {
 
   return (
     <DeedProfileForm
-      type={profile?.type || ''}
+      type={profile?.category || ''}
       setType={setType}
       title={profile?.name || ''}
       setTitle={setTitle}
