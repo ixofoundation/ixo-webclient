@@ -43,6 +43,8 @@ const options = [
   { value: 'invoice', label: 'Invoice' },
   { value: 'offset', label: 'Offset' },
   { value: 'contribution', label: 'Contribution' },
+  { value: 'grant', label: 'Grant' },
+  { value: 'compensation', label: 'Compensation' },
 ]
 
 class EntitySelector extends React.Component<Props, State> {

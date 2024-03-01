@@ -67,7 +67,7 @@ const ApplyToJoinModal: React.FC<Props> = ({ offers = [], open, onClose, onSubmi
       </CloseButton>
 
       <ModalWrapper style={{ width: 600 }}>
-        <ModalTitle>Select the Claim Collection for which you want to register to be an agent</ModalTitle>
+        <ModalTitle>Select a Claim Collection and register to be an Agent.</ModalTitle>
         <ModalBody>
           <ModalRow style={{ justifyContent: 'left', alignItems: 'flex-start' }}>
             {offers.map((entity: TEntityModel) => (

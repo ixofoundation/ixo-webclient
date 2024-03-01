@@ -25,7 +25,7 @@ const GroupsCard: React.FC = () => {
       return (
         <Card label={`Groups`} icon={<AgentsIcon />}>
           <Flex w='100%' mih='300px' justify={'center'} align={'center'}>
-            You are not participating to any DAO
+            You are not participating in any DAO
           </Flex>
         </Card>
       )

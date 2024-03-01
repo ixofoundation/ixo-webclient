@@ -20,7 +20,7 @@ const AccountCard = () => {
   return (
     <Card
       icon={<ProfileIcon />}
-      title='Connected Account'
+      title='My Connected Account'
       columns={1}
       items={
         <>
