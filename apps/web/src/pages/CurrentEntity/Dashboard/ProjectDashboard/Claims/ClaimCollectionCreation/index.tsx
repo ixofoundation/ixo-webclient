@@ -76,7 +76,7 @@ const ClaimCollectionCreation: React.FC = () => {
       }),
     ]
 
-    if(!wallet) throw Error("Please connect wallet")
+    if (!wallet) throw Error("Please connect wallet")
 
     const entityMessage = await CreateEntityMessage({ pubKey: wallet.pubKey, address: wallet.address, keyType: 'secp', did: wallet.did }, [
       {
@@ -118,7 +118,7 @@ const ClaimCollectionCreation: React.FC = () => {
       if (response.code) {
         throw response.rawLog
       }
-      successToast(null, 'Create Collection successfully!')
+      successToast(null, 'Collection successfully created!')
       const collectionId = utils.common.getValueFromEvents(
         response,
         'ixo.claims.v1beta1.CollectionCreatedEvent',
@@ -132,7 +132,7 @@ const ClaimCollectionCreation: React.FC = () => {
         fetchEntityById(deedOfferDid)
       }
 
-      successToast(null, 'Create Deed Offer successfully!')
+      successToast(null, 'Offer successfully created!')
       setStep('success')
     } catch (e) {
       console.error(e)

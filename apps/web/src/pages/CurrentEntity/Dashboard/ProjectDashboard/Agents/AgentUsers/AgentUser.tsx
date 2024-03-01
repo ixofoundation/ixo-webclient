@@ -40,7 +40,7 @@ const AgentUserCard: React.FC<IAgent & { noAction?: boolean }> = ({ address, rol
         }
         const grantEntityAccountClaimSubmitAuthZPayload = await GrantEntityAccountClaimsSubmitAuthz(signingClient, signer, payload)
 
-         const response = (await execute(grantEntityAccountClaimSubmitAuthZPayload)) as unknown as DeliverTxResponse
+        const response = (await execute(grantEntityAccountClaimSubmitAuthZPayload)) as unknown as DeliverTxResponse
 
         if (response.code !== 0) {
           throw response.rawLog
@@ -58,13 +58,13 @@ const AgentUserCard: React.FC<IAgent & { noAction?: boolean }> = ({ address, rol
         const grantEntityAccountClaimsEvaluateAuthZPayload = await GrantEntityAccountClaimsEvaluateAuthz(signingClient, signer, payload)
 
         const response = (await execute(grantEntityAccountClaimsEvaluateAuthZPayload)) as unknown as DeliverTxResponse
-        
+
         if (response.code !== 0) {
           throw response.rawLog
         }
       }
 
-      successToast(null, 'Successfully Granted!')
+      successToast(null, 'Successfully granted!')
     } catch (error: any) {
       console.error(error)
       errorToast(null, typeof error === 'string' ? error : error.message)
