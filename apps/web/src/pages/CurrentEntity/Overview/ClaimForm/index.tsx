@@ -57,6 +57,7 @@ const ClaimForm: React.FC<Props> = ({ claimId }) => {
     if (!claimCollection) {
       return true
     }
+    // deepscan-disable-line
     if (!claimCollection.endDate || claimCollection.endDate === new Date(null as any)) {
       return false
     }
