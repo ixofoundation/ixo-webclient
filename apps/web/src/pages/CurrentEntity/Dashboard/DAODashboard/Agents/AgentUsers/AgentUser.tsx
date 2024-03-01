@@ -42,7 +42,6 @@ const AgentUserCard: React.FC<IAgent & { noAction?: boolean }> = ({ address, rol
           overrideCurretGrants: false,
         }
         const grantEntityAccountClaimSubmitAuthZPayload = await GrantEntityAccountClaimsSubmitAuthz(
-          signingClient,
           signer,
           payload,
         )
