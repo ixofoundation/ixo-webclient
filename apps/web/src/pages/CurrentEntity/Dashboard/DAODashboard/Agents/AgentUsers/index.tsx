@@ -37,11 +37,7 @@ const AgentUsers: React.FC = () => {
     const approvedAgents: IAgent[] = []
     for (const agent of joiningAgents) {
       try {
-        const { submitAuth, evaluateAuth } = await GetGranteeRole({
-          granteeAddress: agent.address,
-          adminAddress,
-          collectionId,
-        })
+        const { submitAuth, evaluateAuth } = await GetGranteeRole({ granteeAddress: agent.address, adminAddress })
         if (submitAuth || evaluateAuth) {
           approvedAgents.push(agent)
         } else {
@@ -56,7 +52,6 @@ const AgentUsers: React.FC = () => {
   }
 
   useEffect(() => {
-    getAgentsRole()
     interval = setInterval(() => {
       getAgentsRole()
     }, 5 * 1000)
@@ -67,7 +62,7 @@ const AgentUsers: React.FC = () => {
       clearInterval(interval)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [JSON.stringify(agents), collectionId])
+  }, [adminAddress, JSON.stringify(agents)])
 
   return (
     <FlexBox width='100%' $direction='column' $gap={6}>

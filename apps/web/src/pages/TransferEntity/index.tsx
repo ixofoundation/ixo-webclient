@@ -1,43 +1,31 @@
-import React, { useEffect, useMemo } from 'react'
-import { Navigate, Route, Routes, useParams } from 'react-router-dom'
+import React, { useMemo } from 'react'
+import { Navigate, Route, Routes } from 'react-router-dom'
 import TransferEntityLayout from './Components/TransferEntityLayout'
 import { useTransferEntityState } from 'hooks/transferEntity'
-import { useAppSelector } from 'redux/hooks'
-import { selectEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { useSigner } from 'hooks/account'
-import { TEntityModel } from 'types/entities'
 import { FlexBox } from 'components/App/App.styles'
 import TransferEntityToDAOGroup from './TransferEntityToDAOGroup'
 import TransferEntityTo from './TransferEntityTo'
 import TransferEntityReview from './TransferEntityReview'
+import useCurrentEntity from 'hooks/currentEntity'
 
 const TransferEntity: React.FC = (): JSX.Element => {
   const { did } = useSigner()
-  const { entityId } = useParams<{ entityId: string }>()
 
-  const selectedEntity: TEntityModel | undefined = useAppSelector(selectEntityById(entityId ?? ""))
-  const { breadCrumbs, title, subtitle, updateSelectedEntity } = useTransferEntityState()
+  const { currentEntity } = useCurrentEntity()
+  const { breadCrumbs, title, subtitle } = useTransferEntityState()
 
-  const isEligible = useMemo(() => did && selectedEntity, [selectedEntity, did])
+  const isEligible = useMemo(() => did && currentEntity, [currentEntity, did])
 
-  console.log({isEligible})
-
-  useEffect(() => {
-    if (selectedEntity) {
-      updateSelectedEntity(selectedEntity)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedEntity])
-  
-  const pathToNavigateTo = selectedEntity?.type === "dao" ? "group" : "to"
+  const pathToNavigateTo = currentEntity?.type === 'dao' ? 'group' : 'to'
   return (
     <TransferEntityLayout title={title} subtitle={subtitle} breadCrumbs={breadCrumbs}>
       {isEligible ? (
         <Routes>
           <Route index element={<Navigate to={pathToNavigateTo} />} />
-          <Route path={'group'} element={<TransferEntityToDAOGroup/>} />
-          <Route path={'to'} element={<TransferEntityTo/>} />
-          <Route path={'review'} element={<TransferEntityReview/>} />
+          <Route path={'group'} element={<TransferEntityToDAOGroup />} />
+          <Route path={'to'} element={<TransferEntityTo />} />
+          <Route path={'review'} element={<TransferEntityReview />} />
         </Routes>
       ) : (
         <FlexBox>Loading...</FlexBox>

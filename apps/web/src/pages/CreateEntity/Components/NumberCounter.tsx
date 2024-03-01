@@ -5,11 +5,11 @@ import { Typography } from 'components/Typography'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
 import { ReactComponent as MinusIcon } from 'assets/images/icon-minus.svg'
 
-const StyledInput = styled.input<{ textAlign: string }>`
+const StyledInput = styled.input<{ $textAlign: string }>`
   border: none;
   width: 100%;
   height: 100%;
-  text-align: ${(props): string => props.textAlign};
+  text-align: ${(props): string => props.$textAlign};
   font-weight: inherit;
   font-size: inherit;
   line-height: inherit;
@@ -104,7 +104,7 @@ const NumberCounter: React.FC<Props> = ({
           onChange={(event): void => onChange(Number(event.target.value || 0))}
           onFocus={(): void => setFocused(true)}
           onBlur={(): void => setFocused(false)}
-          textAlign={direction === 'row' ? 'left' : 'right'}
+          $textAlign={direction === 'row' ? 'left' : 'right'}
         />
       </Box>
 

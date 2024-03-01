@@ -5,12 +5,12 @@ import { TTypographyColor, TTypographySize, TTypographyVariant } from 'component
 import React, { useContext } from 'react'
 import styled from 'styled-components'
 
-const Check = styled.span<{ checked: boolean; isDark: boolean }>`
+const Check = styled.span<{ checked: boolean; $isDark: boolean }>`
   position: relative;
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  background: ${(props): string => (props.isDark ? props.theme.ixoDarkBlue : props.theme.ixoGrey500)};
+  background: ${(props): string => (props.$isDark ? props.theme.ixoDarkBlue : props.theme.ixoGrey500)};
 
   &::after {
     content: ' ';
@@ -56,7 +56,7 @@ const CheckBox: React.FC<Props> = ({
       {...rest}
       color={isDark ? 'white' : 'black'}
     >
-      <Check checked={value} isDark={isDark} />
+      <Check checked={value} $isDark={isDark} />
       <Typography variant={textVariant} size={textSize}>
         {label}
       </Typography>

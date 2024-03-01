@@ -53,9 +53,9 @@ const OfferForm: React.FC<Props> = ({ claimCollectionId, agentRole }) => {
           description: `${claimCollectionId}#${agentRole}`,
           serviceEndpoint: uploadRes.url,
         })
-        const addLinkedResourceMessagePayload = await GetAddLinkedResourcePayload(signer.did, signer, linkedResource)
+        const addLinkedResourcePayload = GetAddLinkedResourcePayload(signer.did, signer, linkedResource)
 
-        const response = (await execute(addLinkedResourceMessagePayload)) as unknown as DeliverTxResponse
+        const response = (await execute(addLinkedResourcePayload as any)) as unknown as DeliverTxResponse
 
         if (response.code !== 0) {
           throw response.rawLog

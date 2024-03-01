@@ -121,7 +121,7 @@ const ClaimCollectionCreation: React.FC = () => {
       if (response.code) {
         throw response.rawLog
       }
-      successToast(null, 'Collection successfully created!')
+      successToast(null, 'Create Collection successfully!')
       const collectionId = utils.common.getValueFromEvents(
         response,
         'ixo.claims.v1beta1.CollectionCreatedEvent',
@@ -134,7 +134,7 @@ const ClaimCollectionCreation: React.FC = () => {
         fetchEntityById(deedOfferDid)
       }
 
-      successToast(null, 'Offer successfully created!')
+      successToast(null, 'Create Deed Offer successfully!')
       setStep('success')
     } catch (e) {
       console.error(e)

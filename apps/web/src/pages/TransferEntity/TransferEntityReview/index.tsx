@@ -4,7 +4,6 @@ import { FormCard } from 'components'
 import { InputWithLabel } from 'components/Form/InputWithLabel'
 import { Typography } from 'components/Typography'
 import { useAccount } from 'hooks/account'
-import { useTransferEntityState } from 'hooks/transferEntity'
 import { useQuery } from 'hooks/window'
 import { AddVerificationMethod, DeleteLinkedResource, fee, UpdateEntityMessage } from 'lib/protocol'
 import { Button, Switch } from 'pages/CreateEntity/Components'
@@ -20,6 +19,7 @@ import { Coin } from '@ixo/impactxclient-sdk/types/codegen/DaoPreProposeSingle.t
 import { useWallet } from '@ixo-webclient/wallet-connector'
 import { DeliverTxResponse } from '@cosmjs/stargate'
 import { DaoPreProposeSingleClient } from '@ixo-webclient/cosmwasm-clients'
+import useCurrentEntity from 'hooks/currentEntity'
 
 const TransferEntityToGroupButton: React.FC<{
   groupAddress: string
@@ -31,8 +31,8 @@ const TransferEntityToGroupButton: React.FC<{
 
   const { address } = useAccount()
   const { execute } = useWallet()
-  const { selectedEntity } = useTransferEntityState()
-  const daoGroups = useMemo(() => selectedEntity?.daoGroups ?? {}, [selectedEntity])
+  const { currentEntity } = useCurrentEntity()
+  const daoGroups = useMemo(() => currentEntity?.daoGroups ?? {}, [currentEntity])
   const daoGroup = useMemo(() => daoGroups[groupAddress], [daoGroups, groupAddress])
   const preProposalContractAddress = useMemo(() => daoGroup?.proposalModule?.preProposalContractAddress, [daoGroup])
   const depositInfo: Coin | undefined = useMemo(
@@ -43,8 +43,8 @@ const TransferEntityToGroupButton: React.FC<{
   const [submitting, setSubmitting] = useState(false)
 
   const [service = [], transferDocument = undefined] = useMemo(
-    () => [selectedEntity?.service, selectedEntity?.linkedResource.find((v) => v.type === 'VerificationMethods')],
-    [selectedEntity],
+    () => [currentEntity?.service, currentEntity?.linkedResource.find((v) => v.type === 'VerificationMethods')],
+    [currentEntity],
   )
 
   const isEligible = useMemo(() => verificationMethods.some((v) => v.reEnable), [verificationMethods])
@@ -103,9 +103,9 @@ const TransferEntityToGroupButton: React.FC<{
             value: ixo.entity.v1beta1.MsgUpdateEntity.fromPartial({
               id: entityId,
               entityStatus: 0,
-              startDate: selectedEntity?.startDate,
-              endDate: selectedEntity?.startDate,
-              credentials: selectedEntity?.credentials,
+              startDate: currentEntity?.startDate,
+              endDate: currentEntity?.startDate,
+              credentials: currentEntity?.credentials,
               controllerDid: utils.did.generateWasmDid(groupAddress),
               controllerAddress: groupAddress,
             }),
@@ -144,11 +144,7 @@ const TransferEntityToGroupButton: React.FC<{
 
       console.log('handlePublishProposal wasmMessage', decodedMessagesString(wasmMessage))
 
-      const daoPreProposeSingleClient = new DaoPreProposeSingleClient(
-        execute,
-        address,
-        preProposalContractAddress,
-      )
+      const daoPreProposeSingleClient = new DaoPreProposeSingleClient(execute, address, preProposalContractAddress)
       const response = await daoPreProposeSingleClient
         .propose(
           {
@@ -167,7 +163,9 @@ const TransferEntityToGroupButton: React.FC<{
         )
         .then((res) => {
           const { transactionHash } = res
-          const proposalId = Number(utils.common.getValueFromEvents(res as unknown as DeliverTxResponse, 'wasm', 'proposal_id') || '0')
+          const proposalId = Number(
+            utils.common.getValueFromEvents(res as unknown as DeliverTxResponse, 'wasm', 'proposal_id') || '0',
+          )
 
           successToast(null, `Successfully published proposals`)
           return { transactionHash, proposalId }
@@ -212,13 +210,13 @@ const TransferEntityToAccountButton: React.FC<{
   const navigate = useNavigate()
   const { entityId } = useParams<{ entityId: string }>()
   const { execute } = useWallet()
-  const { signingClient, signer } = useAccount()
-  const { selectedEntity } = useTransferEntityState()
+  const { signer } = useAccount()
+  const { currentEntity } = useCurrentEntity()
   const [submitting, setSubmitting] = useState(false)
 
   const [service = [], transferDocument = undefined] = useMemo(
-    () => [selectedEntity?.service, selectedEntity?.linkedResource.find((v) => v.type === 'VerificationMethods')],
-    [selectedEntity],
+    () => [currentEntity?.service, currentEntity?.linkedResource.find((v) => v.type === 'VerificationMethods')],
+    [currentEntity],
   )
 
   const isEligible = useMemo(() => verificationMethods.some((v) => v.reEnable), [verificationMethods])
@@ -258,7 +256,9 @@ const TransferEntityToAccountButton: React.FC<{
           })
         })
 
-      const response = await AddVerificationMethod(signingClient, signer, { did: entityId ?? '', verifications })
+      const payload = AddVerificationMethod(signer, { did: entityId ?? '', verifications })
+      const response = (await execute(payload)) as unknown as DeliverTxResponse
+
       if (response.code !== 0) {
         throw response.rawLog
       }
@@ -301,9 +301,11 @@ const TransferEntityToAccountButton: React.FC<{
         // eslint-disable-next-line no-throw-literal
         throw 'EntityId or documentId is invalid'
       }
-      const addRes = await DeleteLinkedResource(signingClient, signer, { entityId, resourceId: transferDocument?.id })
-      if (addRes.code !== 0) {
-        throw addRes.rawLog
+      const deleteLinkedResourcePayload = DeleteLinkedResource(signer, { entityId, resourceId: transferDocument?.id })
+      const response = (await execute(deleteLinkedResourcePayload)) as unknown as DeliverTxResponse
+
+      if (response.code !== 0) {
+        throw response.rawLog
       }
       successToast('Success', 'Successfully removed document!')
       return true
