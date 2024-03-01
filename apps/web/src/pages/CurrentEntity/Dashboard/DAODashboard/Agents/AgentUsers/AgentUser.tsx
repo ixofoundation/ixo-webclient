@@ -21,7 +21,7 @@ const AgentUserCard: React.FC<IAgent & { noAction?: boolean }> = ({ address, rol
   const collectionId = getQuery('collectionId')
   const { data: claimCollection } = useGetClaimCollection(collectionId)
   const { entityId = '' } = useParams<{ entityId: string }>()
-  const { signingClient, signer } = useAccount()
+  const { signer } = useAccount()
   const adminAddress = useCurrentEntityAdminAccount()
   const [granting, setGranting] = useState(false)
   const { execute } = useWallet()
@@ -41,11 +41,7 @@ const AgentUserCard: React.FC<IAgent & { noAction?: boolean }> = ({ address, rol
           agentQuota,
           overrideCurretGrants: false,
         }
-        const grantEntityAccountClaimSubmitAuthZPayload = await GrantEntityAccountClaimsSubmitAuthz(
-          signingClient,
-          signer,
-          payload,
-        )
+        const grantEntityAccountClaimSubmitAuthZPayload = await GrantEntityAccountClaimsSubmitAuthz(signer, payload)
 
         const response = (await execute(grantEntityAccountClaimSubmitAuthZPayload)) as unknown as DeliverTxResponse
 
@@ -63,7 +59,6 @@ const AgentUserCard: React.FC<IAgent & { noAction?: boolean }> = ({ address, rol
           overrideCurretGrants: false,
         }
         const grantEntityAccountClaimsEvaluateAuthZPayload = await GrantEntityAccountClaimsEvaluateAuthz(
-          signingClient,
           signer,
           payload,
         )
