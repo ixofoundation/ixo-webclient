@@ -26,7 +26,7 @@ const ClaimCollectionCategory: React.FC<Props> = ({ claimCollection, selected = 
       onClick={onSelect && onSelect}
     >
       <Typography size='sm' weight='bold'>
-        {templateEntity?.profile?.name ?? claimCollection.id}
+        {templateEntity?.profile?.name || ''} {claimCollection.id}
       </Typography>
     </FlexBox>
   )

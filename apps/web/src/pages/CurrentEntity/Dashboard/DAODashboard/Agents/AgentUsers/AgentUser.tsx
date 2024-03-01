@@ -21,7 +21,7 @@ const AgentUserCard: React.FC<IAgent & { noAction?: boolean }> = ({ address, rol
   const collectionId = getQuery('collectionId')
   const { data: claimCollection } = useGetClaimCollection(collectionId)
   const { entityId = '' } = useParams<{ entityId: string }>()
-  const { signer } = useAccount()
+  const { signingClient, signer } = useAccount()
   const adminAddress = useCurrentEntityAdminAccount()
   const [granting, setGranting] = useState(false)
   const { execute } = useWallet()
@@ -41,7 +41,11 @@ const AgentUserCard: React.FC<IAgent & { noAction?: boolean }> = ({ address, rol
           agentQuota,
           overrideCurretGrants: false,
         }
-        const grantEntityAccountClaimSubmitAuthZPayload = await GrantEntityAccountClaimsSubmitAuthz(signer, payload)
+        const grantEntityAccountClaimSubmitAuthZPayload = await GrantEntityAccountClaimsSubmitAuthz(
+          signingClient,
+          signer,
+          payload,
+        )
 
         const response = (await execute(grantEntityAccountClaimSubmitAuthZPayload)) as unknown as DeliverTxResponse
 
@@ -59,6 +63,7 @@ const AgentUserCard: React.FC<IAgent & { noAction?: boolean }> = ({ address, rol
           overrideCurretGrants: false,
         }
         const grantEntityAccountClaimsEvaluateAuthZPayload = await GrantEntityAccountClaimsEvaluateAuthz(
+          signingClient,
           signer,
           payload,
         )
@@ -72,8 +77,8 @@ const AgentUserCard: React.FC<IAgent & { noAction?: boolean }> = ({ address, rol
 
       successToast(null, 'Successfully Granted!')
     } catch (error: any) {
-      console.error('Granting User', error)
-      errorToast('Granting User', typeof error === 'string' && error)
+      console.error(error)
+      errorToast(null, typeof error === 'string' ? error : error.message)
     } finally {
       setGranting(false)
     }

@@ -1,5 +1,5 @@
 import { fee, RPC_ENDPOINT, TSigner } from './common'
-import { ixo, SigningStargateClient, utils, cosmos } from '@ixo/impactxclient-sdk'
+import { ixo, utils, cosmos, createRegistry } from '@ixo/impactxclient-sdk'
 import { addDays } from 'utils/common'
 import Long from 'long'
 import BigNumber from 'bignumber.js'
@@ -38,7 +38,6 @@ export const CreateCollection = (
 }
 
 export const GrantEntityAccountClaimsSubmitAuthz = async (
-  client: SigningStargateClient,
   signer: TSigner,
   payload: {
     entityDid: string
@@ -67,10 +66,9 @@ export const GrantEntityAccountClaimsSubmitAuthz = async (
   const submitAuth = granteeGrants.grants.find(
     (g) => g.authorization?.typeUrl === '/ixo.claims.v1beta1.SubmitClaimAuthorization' && g.granter === adminAddress,
   )
+  const registry = createRegistry()
   const granteeCurrentAuthConstraints =
-    overrideCurretGrants || submitAuth === undefined
-      ? []
-      : client.registry.decode(submitAuth!.authorization!).constraints
+    overrideCurretGrants || submitAuth === undefined ? [] : registry.decode(submitAuth!.authorization!).constraints
 
   const message = {
     typeUrl: '/ixo.entity.v1beta1.MsgGrantEntityAccountAuthz',
@@ -137,7 +135,6 @@ export const MsgExecAgentSubmit = async (
 }
 
 export const GrantEntityAccountClaimsEvaluateAuthz = async (
-  client: SigningStargateClient,
   signer: TSigner,
   payload: {
     entityDid: string
@@ -168,10 +165,9 @@ export const GrantEntityAccountClaimsEvaluateAuthz = async (
   const evaluateAuth = granteeGrants.grants.find(
     (g) => g.authorization?.typeUrl === '/ixo.claims.v1beta1.EvaluateClaimAuthorization' && g.granter === adminAddress,
   )
+  const registry = createRegistry()
   const granteeCurrentAuthConstraints =
-    overrideCurretGrants || evaluateAuth === undefined
-      ? []
-      : client.registry.decode(evaluateAuth!.authorization!).constraints
+    overrideCurretGrants || evaluateAuth === undefined ? [] : registry.decode(evaluateAuth!.authorization!).constraints
 
   const message = {
     typeUrl: '/ixo.entity.v1beta1.MsgGrantEntityAccountAuthz',
@@ -267,8 +263,9 @@ export const MsgExecAgentEvaluate = async (
 export const GetGranteeRole = async (payload: {
   granteeAddress: string
   adminAddress: string
+  collectionId?: string
 }): Promise<{ submitAuth: GrantAuthorization | undefined; evaluateAuth: GrantAuthorization | undefined }> => {
-  const { granteeAddress, adminAddress } = payload
+  const { granteeAddress, adminAddress, collectionId } = payload
   const queryClient = await createRPCQueryClient({ rpcEndpoint: RPC_ENDPOINT! })
 
   const granteeGrants = await queryClient.cosmos.authz.v1beta1.granteeGrants({
@@ -276,10 +273,22 @@ export const GetGranteeRole = async (payload: {
   })
 
   const submitAuth = granteeGrants.grants.find(
-    (g) => g.authorization?.typeUrl === '/ixo.claims.v1beta1.SubmitClaimAuthorization' && g.granter === adminAddress,
+    (g) =>
+      g.authorization?.typeUrl === '/ixo.claims.v1beta1.SubmitClaimAuthorization' &&
+      g.granter === adminAddress &&
+      (!collectionId ||
+        ixo.claims.v1beta1.SubmitClaimAuthorization.decode(g.authorization.value).constraints.find(
+          (c) => c.collectionId === collectionId,
+        )),
   )
   const evaluateAuth = granteeGrants.grants.find(
-    (g) => g.authorization?.typeUrl === '/ixo.claims.v1beta1.EvaluateClaimAuthorization' && g.granter === adminAddress,
+    (g) =>
+      g.authorization?.typeUrl === '/ixo.claims.v1beta1.EvaluateClaimAuthorization' &&
+      g.granter === adminAddress &&
+      (!collectionId ||
+        ixo.claims.v1beta1.EvaluateClaimAuthorization.decode(g.authorization.value).constraints.find(
+          (c) => c.collectionId === collectionId,
+        )),
   )
   return { submitAuth, evaluateAuth }
 }
