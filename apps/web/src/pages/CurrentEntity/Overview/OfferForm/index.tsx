@@ -61,7 +61,7 @@ const OfferForm: React.FC<Props> = ({ claimCollectionId, agentRole }) => {
           throw response.rawLog
         }
 
-        successToast('Success', 'Submit successfully')
+        successToast('Success', 'Successfully submitted!')
         return true
       } catch (e: any) {
         console.error(e)

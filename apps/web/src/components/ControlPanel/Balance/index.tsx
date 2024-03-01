@@ -51,7 +51,7 @@ const BalanceCard = () => {
     <>
       <Card
         icon={<WalletIcon />}
-        title='Balance'
+        title='My Balance'
         columns={1}
         items={
           <>
