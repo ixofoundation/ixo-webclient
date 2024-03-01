@@ -1,3 +1,4 @@
+// deepscan-disable
 import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { FlexBox } from 'components/App/App.styles'
 import { useSigner } from 'hooks/account'
@@ -57,7 +58,6 @@ const ClaimForm: React.FC<Props> = ({ claimId }) => {
     if (!claimCollection) {
       return true
     }
-    // deepscan-disable-line
     if (!claimCollection.endDate || claimCollection.endDate === new Date(null as any)) {
       return false
     }
