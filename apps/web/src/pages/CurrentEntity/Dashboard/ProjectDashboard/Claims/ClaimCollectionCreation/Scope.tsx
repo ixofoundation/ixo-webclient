@@ -7,14 +7,13 @@ import { useTheme } from 'styled-components'
 
 interface Props {
   hidden?: boolean
-  onSubmit: (payload: { startDate: string; endDate: string; quota: string; target: string }) => void
+  onSubmit: (payload: { startDate: string; endDate: string; quota: string }) => void
   onCancel?: () => void
 }
 const ClaimCollectionCreationScopeStep: React.FC<Props> = ({ hidden, onSubmit, onCancel }) => {
   const theme: any = useTheme()
   const [period, setPeriod] = useState({ startDate: '', endDate: '' })
   const [quota, setQuota] = useState('')
-  const [target, setTarget] = useState('')
 
   if (hidden) {
     return null
@@ -55,14 +54,6 @@ const ClaimCollectionCreationScopeStep: React.FC<Props> = ({ hidden, onSubmit, o
               label={'Max Submission'}
               handleChange={(quota: string): void => setQuota(quota)}
             />
-
-            <InputWithLabel
-              name='target'
-              height={'48px'}
-              inputValue={target}
-              label={'Approval Target'}
-              handleChange={(target: string): void => setTarget(target)}
-            />
           </FlexBox>
         </FlexBox>
 
@@ -75,7 +66,7 @@ const ClaimCollectionCreationScopeStep: React.FC<Props> = ({ hidden, onSubmit, o
         </Button>
         <Button
           variant='primary'
-          onClick={() => onSubmit({ startDate: period.startDate, endDate: period.endDate, quota, target })}
+          onClick={() => onSubmit({ startDate: period.startDate, endDate: period.endDate, quota })}
         >
           Continue
         </Button>

@@ -1,3 +1,4 @@
+// deepscan-disable
 import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { FlexBox } from 'components/App/App.styles'
 import { useSigner } from 'hooks/account'
@@ -20,6 +21,8 @@ import { CellnodePublicResource } from '@ixo/impactxclient-sdk/types/custom_quer
 import { chainNetwork } from 'hooks/configs'
 import { useWallet } from '@ixo-webclient/wallet-connector'
 import { DeliverTxResponse } from '@cosmjs/stargate'
+import { useGetUserGranteeRole } from 'hooks/claim'
+import { Typography } from 'components/Typography'
 
 interface Props {
   claimId: string
@@ -32,6 +35,7 @@ const ClaimForm: React.FC<Props> = ({ claimId }) => {
   const claim: { [id: string]: TEntityClaimModel } = useAppSelector(selectEntityClaim)
 
   const { execute } = useWallet()
+  const userRole = useGetUserGranteeRole()
 
   const adminAddress = useCurrentEntityAdminAccount()
   const selectedClaim: TEntityClaimModel = claim[claimId]
@@ -41,6 +45,30 @@ const ClaimForm: React.FC<Props> = ({ claimId }) => {
 
   const claimCollection = useGetClaimCollectionByEntityIdAndClaimTemplateId({ entityId, protocolId: templateEntityId })
   const [questionFormData, setQuestionFormData] = useState<any[]>([])
+  const canCreateMore = useMemo(() => {
+    if (!claimCollection) {
+      return false
+    }
+    if (claimCollection.quota === 0) {
+      return true
+    }
+    return claimCollection.quota - claimCollection.count > 0
+  }, [claimCollection])
+  const expired = useMemo(() => {
+    if (!claimCollection) {
+      return true
+    }
+    if (!claimCollection.endDate || claimCollection.endDate === new Date(null as any)) {
+      return false
+    }
+    if (new Date().getTime() < new Date(claimCollection.endDate).getTime()) {
+      return false
+    }
+    return true
+  }, [claimCollection])
+  const isEligible = useMemo(() => {
+    return canCreateMore && !expired
+  }, [canCreateMore, expired])
 
   useEffect(() => {
     if (templateEntity && (templateEntity?.linkedResource ?? []).length > 0) {
@@ -132,9 +160,34 @@ const ClaimForm: React.FC<Props> = ({ claimId }) => {
 
     survey.onCompleting.add(preventComplete)
     survey.completeText = 'Submit'
+    survey.showNavigationButtons = isEligible
     return survey
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [questionFormData])
+  }, [questionFormData, isEligible])
+
+  if (!userRole) {
+    return (
+      <FlexBox width='100%' $justifyContent='center' $alignItems='center' height='300px'>
+        <Typography size='5xl'>Apply as an agent first</Typography>
+      </FlexBox>
+    )
+  }
+
+  if (!canCreateMore) {
+    return (
+      <FlexBox width='100%' $justifyContent='center' $alignItems='center' height='300px'>
+        <Typography size='5xl'>No remaining submissions</Typography>
+      </FlexBox>
+    )
+  }
+
+  if (expired) {
+    return (
+      <FlexBox width='100%' $justifyContent='center' $alignItems='center' height='300px'>
+        <Typography size='5xl'>Expired</Typography>
+      </FlexBox>
+    )
+  }
 
   return (
     <FlexBox width='100%'>

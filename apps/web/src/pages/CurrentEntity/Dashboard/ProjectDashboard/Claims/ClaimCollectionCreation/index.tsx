@@ -41,7 +41,6 @@ const ClaimCollectionCreation: React.FC = () => {
     startDate: string
     endDate: string
     quota: string
-    target: string
     protocolDeedId: string
     payments: Payments | undefined
   }>({
@@ -49,7 +48,6 @@ const ClaimCollectionCreation: React.FC = () => {
     startDate: '',
     endDate: '',
     quota: '',
-    target: '',
     protocolDeedId: '',
     payments: {},
   })

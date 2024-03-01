@@ -30,9 +30,13 @@ const ActionsCard: React.FC<Props> = () => {
   })
 
   const deedOffers: TEntityModel[] = useMemo(() => {
-    return data?.entities?.nodes.filter((v) =>
-      v.linkedEntity.some((item: LinkedEntity) => item.relationship === 'offers' && item.id === entityId),
-    ) as TEntityModel[]
+    return [
+      ...new Set(
+        data?.entities?.nodes.filter((v) =>
+          v.linkedEntity.some((item: LinkedEntity) => item.relationship === 'offers' && item.id === entityId),
+        ) as TEntityModel[],
+      ),
+    ]
   }, [data?.entities?.nodes, entityId])
 
   const handleSubmit = (collectionId: string, agentRole: AgentRoles) => {

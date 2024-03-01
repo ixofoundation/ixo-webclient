@@ -26,7 +26,7 @@ export const CreateCollection = (
       entity: entityDid,
       protocol: protocolDid,
       startDate: utils.proto.toTimestamp(new Date(startDate)),
-      endDate: utils.proto.toTimestamp(new Date(endDate)),
+      endDate: endDate ? utils.proto.toTimestamp(new Date(endDate)) : undefined,
       quota: Long.fromNumber(Number(quota)),
       state: ixo.claims.v1beta1.CollectionState.OPEN,
       payments,
