@@ -23,7 +23,7 @@ const EditEntity: React.FC = () => {
     try {
       const { transactionHash, code, rawLog } = await ExecuteEditEntity()
       if (transactionHash && code === 0) {
-        successToast('Updating', 'Successfully Updated')
+        successToast('Updating', 'Successfully updated!')
       } else {
         throw new Error(rawLog)
       }

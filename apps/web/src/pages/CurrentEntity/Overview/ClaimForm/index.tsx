@@ -76,19 +76,19 @@ const ClaimForm: React.FC<Props> = ({ claimId }) => {
         (item: LinkedResource) => item.type === 'surveyTemplate',
       )
 
-      ;(async () => {
-        const responses = await Promise.all(
-          claimSchemaLinkedResources.map((item) => {
-            const url = serviceEndpointToUrl(item.serviceEndpoint, templateEntity.service)
-            return fetch(url)
-              .then((response) => response.json())
-              .then((response) => {
-                return response
-              })
-          }),
-        )
-        setQuestionFormData(responses.map((response) => response.question))
-      })()
+        ; (async () => {
+          const responses = await Promise.all(
+            claimSchemaLinkedResources.map((item) => {
+              const url = serviceEndpointToUrl(item.serviceEndpoint, templateEntity.service)
+              return fetch(url)
+                .then((response) => response.json())
+                .then((response) => {
+                  return response
+                })
+            }),
+          )
+          setQuestionFormData(responses.map((response) => response.question))
+        })()
     }
     return () => {
       setQuestionFormData([])
@@ -121,7 +121,7 @@ const ClaimForm: React.FC<Props> = ({ claimId }) => {
           throw response.rawLog
         }
 
-        successToast('Success', 'Submit successfully')
+        successToast('Success', 'Successfully submitted')
         return true
       } catch (e: any) {
         console.error(e)

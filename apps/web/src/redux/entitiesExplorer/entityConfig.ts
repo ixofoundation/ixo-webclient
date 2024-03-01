@@ -4019,6 +4019,16 @@ export const config = {
               name: 'Contribution',
               icon: 'dispute.svg',
             },
+            {
+              '@type': 'Tag',
+              name: 'Grant',
+              icon: 'dispute.svg',
+            },
+            {
+              '@type': 'Tag',
+              name: 'Compensation',
+              icon: 'dispute.svg',
+            },
           ],
         },
         {

@@ -70,7 +70,7 @@ const AgentUserCard: React.FC<IAgent & { noAction?: boolean }> = ({ address, rol
         }
       }
 
-      successToast(null, 'Successfully Granted!')
+      successToast(null, 'Successfully granted!')
     } catch (error: any) {
       console.error('Granting User', error)
       errorToast('Granting User', typeof error === 'string' && error)
