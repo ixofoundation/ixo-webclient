@@ -15,14 +15,21 @@ import { getDAOGroupLinkedEntities } from 'utils/entities'
 import { Spinner } from 'components/Spinner/Spinner'
 import CreateProposal from './Governance/CreateProposal'
 import CreateEntityLayout from 'pages/CreateEntity/CreateEntityLayout/CreateEntityLayout'
+import { useGetUserGranteeRole } from 'hooks/claim'
+import { AgentRoles } from 'types/models'
+import Agents from './Agents'
+import Claims from './Claims'
+import ClaimDetail from './ClaimDetail'
 
 const DAODashboard: React.FC = (): JSX.Element => {
   const { entityId } = useParams<{ entityId: string }>()
   const isEditEntityRoute = useMatch('/entity/:entityId/dashboard/edit')
   const isCreateProposalRoute = useMatch('/entity/:entityId/dashboard/governance/:coreAddress/*')
+  const isClaimScreenRoute = useMatch('/entity/:entityId/dashboard/claims')
   const { entityType, owner, daoGroups, linkedEntity } = useCurrentEntity()
   const { name } = useCurrentEntityProfile()
   const { registered, address } = useAccount()
+  const signerRole = useGetUserGranteeRole()
 
   const { getQuery } = useQuery()
   const selectedGroup = getQuery('selectedGroup')
@@ -65,6 +72,21 @@ const DAODashboard: React.FC = (): JSX.Element => {
       sdg: 'My Participation',
       tooltip: 'My Participation',
       disabled: !registered,
+    },
+    {
+      url: `/entity/${entityId}/dashboard/agents`,
+      icon: requireCheckDefault(require('assets/img/sidebar/profile.svg')),
+      sdg: 'Agent',
+      tooltip: 'Agent',
+      disabled: !registered || owner !== address,
+    },
+    {
+      url: `/entity/${entityId}/dashboard/claims`,
+      icon: requireCheckDefault(require('assets/img/sidebar/check.svg')),
+      sdg: 'Claims',
+      tooltip: 'Claims',
+      strict: true,
+      disabled: !registered || (owner !== address && signerRole !== AgentRoles.evaluators),
     },
     {
       url: `/entity/${entityId}/dashboard/edit` + (selectedGroup ? '?' + searchParams.toString() : ''),
@@ -118,8 +140,6 @@ const DAODashboard: React.FC = (): JSX.Element => {
     },
   ]
 
-  const theme = isEditEntityRoute ? 'light' : 'dark'
-
   if (getDAOGroupLinkedEntities(linkedEntity).length > 0 && Object.keys(daoGroups).length === 0) {
     return <Spinner info='Loading DAO Groups...' />
   }
@@ -137,7 +157,7 @@ const DAODashboard: React.FC = (): JSX.Element => {
 
   return (
     <Dashboard
-      theme={theme}
+      theme={isEditEntityRoute || isClaimScreenRoute ? 'light' : 'dark'}
       title={name}
       subRoutes={routes}
       baseRoutes={breadcrumbs}
@@ -151,6 +171,14 @@ const DAODashboard: React.FC = (): JSX.Element => {
         <Route path='membership/:address' Component={IndividualMember} />
         <Route path='governance' Component={Governance} />
         {/* <Route path='governance/:coreAddress/*' Component={CreateProposal} /> */}
+
+        {registered && owner === address && <Route path='agents' Component={Agents} />}
+        {registered && (owner === address || signerRole === AgentRoles.evaluators) && (
+          <>
+            <Route path='claims' Component={Claims} />
+            <Route path='claims/:claimId' Component={ClaimDetail} />
+          </>
+        )}
 
         {registered && <Route path='my-participation' Component={MyParticipation} />}
         {registered && owner === address && <Route path='edit' Component={EditEntity} />}
