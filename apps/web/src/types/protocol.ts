@@ -151,6 +151,8 @@ export enum EClaimType {
   Impact = 'Impact',
   Offset = 'Offset',
   Contribution = 'Contribution',
+  Grant = 'Grant',
+  Compensation = 'Compensation',
 }
 export enum EDeedType {
   Proposal = 'Proposal',
@@ -1254,13 +1256,13 @@ export type TDAOGroupModel = {
     totalWeight: number
   }
   token:
-    | {
-        config: Cw20StakeConfig
-        tokenInfo: TokenInfoResponse
-        marketingInfo: MarketingInfoResponse
-        treasuryPercent?: number
-      }
-    | undefined
+  | {
+    config: Cw20StakeConfig
+    tokenInfo: TokenInfoResponse
+    marketingInfo: MarketingInfoResponse
+    treasuryPercent?: number
+  }
+  | undefined
   selected?: boolean
   memberships?: {
     category?: string
