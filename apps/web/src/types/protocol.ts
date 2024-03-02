@@ -141,16 +141,17 @@ export enum EClaimType {
   Payment = 'Payment',
   Investment = 'Investment',
   Banking = 'Banking',
+  Invoice = 'Invoice',
   Procurement = 'Procurement',
   Provenance = 'Provenance',
   Ownership = 'Ownership',
   Custody = 'Custody',
   Dispute = 'Dispute',
-  Invoice = 'Invoice',
-  Staking = 'Staking',
   Impact = 'Impact',
   Offset = 'Offset',
   Contribution = 'Contribution',
+  Grant = 'Grant',
+  Compensation = 'Compensation',
 }
 export enum EDeedType {
   Proposal = 'Proposal',
@@ -1254,13 +1255,13 @@ export type TDAOGroupModel = {
     totalWeight: number
   }
   token:
-    | {
-        config: Cw20StakeConfig
-        tokenInfo: TokenInfoResponse
-        marketingInfo: MarketingInfoResponse
-        treasuryPercent?: number
-      }
-    | undefined
+  | {
+    config: Cw20StakeConfig
+    tokenInfo: TokenInfoResponse
+    marketingInfo: MarketingInfoResponse
+    treasuryPercent?: number
+  }
+  | undefined
   selected?: boolean
   memberships?: {
     category?: string

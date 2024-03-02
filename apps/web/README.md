@@ -61,7 +61,7 @@ yarn start
 
 ### Akash
 
-[![Akash](https://raw.githubusercontent.com/ixofoundation/ixo-webclient/impact/akash%20button.svg)](https://github.com/ixofoundation/ixo-webclient/blob/impact/akash.deploy.yaml)
+[![Akash](https://raw.githubusercontent.com/ixofoundation/ixo-webclient/main/akash%20button.svg)](https://github.com/ixofoundation/ixo-webclient/blob/impact/akash.deploy.yaml)
 
 ### Docker
 

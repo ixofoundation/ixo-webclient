@@ -3933,102 +3933,97 @@ export const config = {
           hidden: false,
           name: 'Claim Type',
           multiSelect: true,
-          tags: [
+          "tags": [
             {
-              '@type': 'Tag',
-              name: 'Service',
-              icon: 'service.svg',
+              "@type": "Tag",
+              "name": "Service",
+              "icon": "service.svg"
             },
             {
-              '@type': 'Tag',
-              name: 'Outcome',
-              icon: 'outcome.svg',
+              "@type": "Tag",
+              "name": "Outcome",
+              "icon": "outcome.svg"
             },
             {
-              '@type': 'Tag',
-              name: 'Credential',
-              icon: 'credential.svg',
+              "@type": "Tag",
+              "name": "Credential",
+              "icon": "credential.svg"
             },
             {
-              '@type': 'Tag',
-              name: 'Use of Funds',
-              icon: 'useoffunds.svg',
+              "@type": "Tag",
+              "name": "Use of Funds",
+              "icon": "useoffunds.svg"
             },
             {
-              '@type': 'Tag',
-              name: 'Payment',
-              icon: 'payment.svg',
+              "@type": "Tag",
+              "name": "Payment",
+              "icon": "payment.svg"
             },
             {
-              '@type': 'Tag',
-              name: 'Investment',
-              icon: 'investment.svg',
+              "@type": "Tag",
+              "name": "Investment",
+              "icon": "investment.svg"
             },
             {
-              '@type': 'Tag',
-              name: 'Banking',
-              icon: 'banking.svg',
+              "@type": "Tag",
+              "name": "Banking",
+              "icon": "banking.svg"
             },
             {
-              '@type': 'Tag',
-              name: 'Procurement',
-              icon: 'procurement.svg',
+              "@type": "Tag",
+              "name": "Invoice",
+              "icon": "invoice.svg"
             },
             {
-              '@type': 'Tag',
-              name: 'Provenance',
-              icon: 'provenance.svg',
+              "@type": "Tag",
+              "name": "Procurement",
+              "icon": "procurement.svg"
             },
             {
-              '@type': 'Tag',
-              name: 'Ownership',
-              icon: 'ownership.svg',
+              "@type": "Tag",
+              "name": "Provenance",
+              "icon": "provenance.svg"
             },
             {
-              '@type': 'Tag',
-              name: 'Custody',
-              icon: 'custody.svg',
+              "@type": "Tag",
+              "name": "Ownership",
+              "icon": "ownership.svg"
             },
             {
-              '@type': 'Tag',
-              name: 'Dispute',
-              icon: 'dispute.svg',
+              "@type": "Tag",
+              "name": "Custody",
+              "icon": "custody.svg"
             },
             {
-              '@type': 'Tag',
-              name: 'Invoice',
-              icon: 'dispute.svg',
+              "@type": "Tag",
+              "name": "Dispute",
+              "icon": "dispute.svg"
             },
             {
-              '@type': 'Tag',
-              name: 'Staking',
-              icon: 'dispute.svg',
+              "@type": "Tag",
+              "name": "Impact",
+              "icon": "impact.svg"
             },
             {
-              '@type': 'Tag',
-              name: 'Impact',
-              icon: 'dispute.svg',
+              "@type": "Tag",
+              "name": "Offset",
+              "icon": "offset.svg"
             },
             {
-              '@type': 'Tag',
-              name: 'Offset',
-              icon: 'dispute.svg',
+              "@type": "Tag",
+              "name": "Contribution",
+              "icon": "contribution.svg"
             },
             {
-              '@type': 'Tag',
-              name: 'Contribution',
-              icon: 'dispute.svg',
+              "@type": "Tag",
+              "name": "Grant",
+              "icon": "grant.svg"
             },
             {
-              '@type': 'Tag',
-              name: 'Grant',
-              icon: 'dispute.svg',
-            },
-            {
-              '@type': 'Tag',
-              name: 'Compensation',
-              icon: 'dispute.svg',
-            },
+              "@type": "Tag",
+              "name": "Compensation",
+              "icon": "compensation.svg"
+            }
           ],
         },
         {
