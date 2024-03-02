@@ -2922,69 +2922,6 @@
         {
           "@type": "Category",
           "hidden": false,
-          "name": "Entity",
-          "multiSelect": false,
-          "tags": [
-            {
-              "@type": "Tag",
-              "name": "Claim",
-              "icon": "claim.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Project",
-              "icon": "Project.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "DAO",
-              "icon": "cell.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Alphabond",
-              "icon": "alphabond.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Investment",
-              "icon": "investment.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Asset",
-              "icon": "asset.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Token",
-              "icon": "token.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Payment",
-              "icon": "payment.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Credential",
-              "icon": "credential.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Evaluation",
-              "icon": "evaluation.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Oracle",
-              "icon": "oracle.svg"
-            }
-          ]
-        },
-        {
-          "@type": "Category",
-          "hidden": false,
           "name": "Claim Type",
           "multiSelect": true,
           "tags": [
@@ -3087,44 +3024,94 @@
         },
         {
           "@type": "Category",
-          "hidden": true,
-          "name": "Stage",
+          "hidden": false,
+          "name": "SDG",
           "multiSelect": true,
           "tags": [
             {
               "@type": "Tag",
-              "name": "Proposal",
-              "icon": "proposal.svg"
+              "name": "SDG1 – No Poverty",
+              "icon": "sdg1.svg"
             },
             {
               "@type": "Tag",
-              "name": "Planning",
-              "icon": "planning.svg"
+              "name": "SDG2 – Zero Hunger",
+              "icon": "sdg2.svg"
             },
             {
               "@type": "Tag",
-              "name": "Delivery",
-              "icon": "delivery.svg"
+              "name": "SDG3 – Good Health and Well-being",
+              "icon": "sdg3.svg"
             },
             {
               "@type": "Tag",
-              "name": "Paused",
-              "icon": "paused.svg"
+              "name": "SDG4 – Quality Education",
+              "icon": "sdg4.svg"
             },
             {
               "@type": "Tag",
-              "name": "Closing",
-              "icon": "closing.svg"
+              "name": "SDG5 – Gender Equality",
+              "icon": "sdg5.svg"
             },
             {
               "@type": "Tag",
-              "name": "Ended",
-              "icon": "ended.svg"
+              "name": "SDG6 – Clean Water and Sanitation",
+              "icon": "sdg6.svg"
             },
             {
               "@type": "Tag",
-              "name": "Archived",
-              "icon": "archived.svg"
+              "name": "SDG7 – Affordable and Clean Energy",
+              "icon": "sdg7.svg"
+            },
+            {
+              "@type": "Tag",
+              "name": "SDG8 – Decent Work and Economic Growth",
+              "icon": "sdg8.svg"
+            },
+            {
+              "@type": "Tag",
+              "name": "SDG9 – Industry, Innovation and Infrastructure",
+              "icon": "sdg9.svg"
+            },
+            {
+              "@type": "Tag",
+              "name": "SDG10 – Reduced Inequalities",
+              "icon": "sdg10.svg"
+            },
+            {
+              "@type": "Tag",
+              "name": "SDG11 – Sustainable Cities and Coummunities",
+              "icon": "sdg11.svg"
+            },
+            {
+              "@type": "Tag",
+              "name": "SDG12 – Responsible Consumption and Production",
+              "icon": "sdg12.svg"
+            },
+            {
+              "@type": "Tag",
+              "name": "SDG13 – Climate Action",
+              "icon": "sdg13.svg"
+            },
+            {
+              "@type": "Tag",
+              "name": "SDG14 – Life Below Water",
+              "icon": "sdg14.svg"
+            },
+            {
+              "@type": "Tag",
+              "name": "SDG15 – Life on Land",
+              "icon": "sdg15.svg"
+            },
+            {
+              "@type": "Tag",
+              "name": "SDG16 – Peace, Justice and Strong Institutions",
+              "icon": "sdg16.svg"
+            },
+            {
+              "@type": "Tag",
+              "name": "SDG17 – Partnerships for Goals",
+              "icon": "sdg17.svg"
             }
           ]
         }
@@ -3138,26 +3125,6 @@
           {
             "@type": "sector",
             "name": "Relayer Launchpad",
-            "icon": "portfolio.svg"
-          },
-          {
-            "@type": "sector",
-            "name": "IDCC",
-            "icon": "portfolio.svg"
-          },
-          {
-            "@type": "sector",
-            "name": "UBS Zone",
-            "icon": "portfolio.svg"
-          },
-          {
-            "@type": "sector",
-            "name": "Campaign",
-            "icon": "portfolio.svg"
-          },
-          {
-            "@type": "sector",
-            "name": "EdHeroes",
             "icon": "portfolio.svg"
           }
         ]

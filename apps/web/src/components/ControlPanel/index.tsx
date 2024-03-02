@@ -36,17 +36,9 @@ const ControlPanel: React.FC<Props> = ({ tab }) => {
   const { controlPanelSchema: schema } = useEntityConfig()
   const { entityType } = useCurrentEntity()
   const { address } = useAccount()
-  const [activeTab, setActiveTab] = useState<'profile' | 'detail' | 'feed' | 'message' | 'assistant'>(tab || 'profile')
+  const [activeTab, setActiveTab] = useState<'profile' | 'detail' | 'feed' | 'message' | 'assistant'>(tab || 'detail')
 
   const EntityIcon = getEntityIcon(entityType)
-
-  useEffect(() => {
-    if (!address) {
-      setActiveTab('detail')
-    } else {
-      setActiveTab('profile')
-    }
-  }, [address])
 
   const renderProfile = () => (
     <>
