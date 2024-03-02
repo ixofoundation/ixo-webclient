@@ -65,8 +65,8 @@
           }
         ],
         "logoURIs": {
-          "png": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/impact/apps/web/src/assets/images/idcc.jpg",
-          "svg": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/impact/apps/web/src/assets/images/idcc-logo.svg",
+          "png": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/main/apps/web/src/assets/images/idcc.jpg",
+          "svg": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/main/apps/web/src/assets/images/idcc-logo.svg",
           "zlottie": ""
         },
         "isStakeCurrency": "false",

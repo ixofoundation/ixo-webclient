@@ -53,7 +53,7 @@
       "@context": "https://schema.ixo.foundation/project",
       "@type": "Header",
       "color": "transparent",
-      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/impact/web/apps/src/assets/images/header-overrides/ImpactsAI_hero.png",
+      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/main/web/apps/src/assets/images/header-overrides/ImpactsAI_hero.png",
       "title": "Impacts AI",
       "subTitle": "Projects Explorer",
       "indicators": [
@@ -1179,7 +1179,7 @@
       "@context": "https://schema.ixo.foundation/oracle",
       "@type": "Header",
       "color": "transparent",
-      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/impact/web/apps/src/assets/images/header-overrides/ImpactsAI_hero.png",
+      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/main/web/apps/src/assets/images/header-overrides/ImpactsAI_hero.png",
       "title": "Impacts AI",
       "subTitle": "Oracles Explorer",
       "indicators": [
@@ -1845,7 +1845,7 @@
       "@context": "https://schema.ixo.foundation/investment",
       "@type": "Header",
       "color": "transparent",
-      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/impact/web/apps/src/assets/images/header-overrides/ImpactsAI_hero.png",
+      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/main/web/apps/src/assets/images/header-overrides/ImpactsAI_hero.png",
       "title": "Impacts AI",
       "subTitle": "Investment Explorer",
       "indicators": [
@@ -2647,7 +2647,7 @@
       "@context": "https://schema.ixo.foundation/cell",
       "@type": "Header",
       "color": "transparent",
-      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/impact/web/apps/src/assets/images/header-overrides/ImpactsAI_hero.png",
+      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/main/web/apps/src/assets/images/header-overrides/ImpactsAI_hero.png",
       "title": "Impacts AI",
       "subTitle": "DAO Explorer",
       "indicators": [
@@ -3248,7 +3248,7 @@
       "@context": "https://schema.ixo.foundation/protocol",
       "@type": "Header",
       "color": "transparent",
-      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/impact/web/apps/src/assets/images/header-overrides/ImpactsAI_hero.png",
+      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/main/web/apps/src/assets/images/header-overrides/ImpactsAI_hero.png",
       "title": "Impacts AI",
       "subTitle": "Protocol Explorer",
       "indicators": [
@@ -4206,7 +4206,7 @@
       "@context": "https://schema.ixo.foundation/data-asset",
       "@type": "Header",
       "color": "transparent",
-      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/impact/web/apps/src/assets/images/header-overrides/ImpactsAI_hero.png",
+      "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/main/web/apps/src/assets/images/header-overrides/ImpactsAI_hero.png",
       "title": "Impacts AI",
       "subTitle": "Asset Explorer",
       "indicators": [

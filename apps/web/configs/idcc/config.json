@@ -3455,7 +3455,7 @@
         {
           "@type": "Category",
           "hidden": false,
-          "name": "Claim Type",
+          "name": "Type",
           "multiSelect": true,
           "tags": [
             {
@@ -3471,7 +3471,22 @@
             {
               "@type": "Tag",
               "name": "Impact",
-              "icon": "dispute.svg"
+              "icon": "impact.svg"
+            },
+            {
+              "@type": "Tag",
+              "name": "Proposal",
+              "icon": "proposal.svg"
+            },
+            {
+              "@type": "Tag",
+              "name": "Offer",
+              "icon": "offer.svg"
+            },
+            {
+              "@type": "Tag",
+              "name": "Request",
+              "icon": "request.svg"
             }
           ]
         },
