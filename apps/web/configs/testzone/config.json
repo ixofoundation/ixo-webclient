@@ -3759,8 +3759,8 @@
         {
           "@type": "Category",
           "hidden": false,
-          "name": "Claim Type",
-          "multiSelect": true,
+          "name": "Type",
+          "multiSelect": false,
           "tags": [
             {
               "@type": "Tag",
@@ -3804,27 +3804,17 @@
             },
             {
               "@type": "Tag",
+              "name": "Invoice",
+              "icon": "dispute.svg"
+            },
+            {
+              "@type": "Tag",
               "name": "Provenance",
               "icon": "provenance.svg"
             },
             {
               "@type": "Tag",
-              "name": "Ownership",
-              "icon": "ownership.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Custody",
-              "icon": "custody.svg"
-            },
-            {
-              "@type": "Tag",
               "name": "Dispute",
-              "icon": "dispute.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Invoice",
               "icon": "dispute.svg"
             },
             {
@@ -3835,7 +3825,7 @@
             {
               "@type": "Tag",
               "name": "Impact",
-              "icon": "dispute.svg"
+              "icon": "impact.svg"
             },
             {
               "@type": "Tag",
@@ -3855,6 +3845,21 @@
             {
               "@type": "Tag",
               "name": "Compensation",
+              "icon": "dispute.svg"
+            },
+            {
+              "@type": "Tag",
+              "name": "Proposal",
+              "icon": "service.svg"
+            },
+            {
+              "@type": "Tag",
+              "name": "Offer",
+              "icon": "outcome.svg"
+            },
+            {
+              "@type": "Tag",
+              "name": "Request",
               "icon": "dispute.svg"
             }
           ]
