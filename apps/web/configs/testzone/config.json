@@ -3799,13 +3799,13 @@
             },
             {
               "@type": "Tag",
-              "name": "Procurement",
-              "icon": "procurement.svg"
+              "name": "Invoice",
+              "icon": "invoice.svg"
             },
             {
               "@type": "Tag",
-              "name": "Invoice",
-              "icon": "dispute.svg"
+              "name": "Procurement",
+              "icon": "procurement.svg"
             },
             {
               "@type": "Tag",
@@ -3814,12 +3814,17 @@
             },
             {
               "@type": "Tag",
-              "name": "Dispute",
-              "icon": "dispute.svg"
+              "name": "Ownership",
+              "icon": "ownership.svg"
             },
             {
               "@type": "Tag",
-              "name": "Staking",
+              "name": "Custody",
+              "icon": "custody.svg"
+            },
+            {
+              "@type": "Tag",
+              "name": "Dispute",
               "icon": "dispute.svg"
             },
             {
@@ -3830,37 +3835,37 @@
             {
               "@type": "Tag",
               "name": "Offset",
-              "icon": "dispute.svg"
+              "icon": "offset.svg"
             },
             {
               "@type": "Tag",
               "name": "Contribution",
-              "icon": "dispute.svg"
+              "icon": "contribution.svg"
             },
             {
               "@type": "Tag",
               "name": "Grant",
-              "icon": "dispute.svg"
+              "icon": "grant.svg"
             },
             {
               "@type": "Tag",
               "name": "Compensation",
-              "icon": "dispute.svg"
+              "icon": "compensation.svg"
             },
             {
               "@type": "Tag",
               "name": "Proposal",
-              "icon": "service.svg"
+              "icon": "proposal.svg"
             },
             {
               "@type": "Tag",
               "name": "Offer",
-              "icon": "outcome.svg"
+              "icon": "offer.svg"
             },
             {
               "@type": "Tag",
               "name": "Request",
-              "icon": "dispute.svg"
+              "icon": "request.svg"
             }
           ]
         },

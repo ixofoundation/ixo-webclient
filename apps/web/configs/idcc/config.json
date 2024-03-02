@@ -3476,17 +3476,17 @@
             {
               "@type": "Tag",
               "name": "Proposal",
-              "icon": "service.svg"
+              "icon": "proposal.svg"
             },
             {
               "@type": "Tag",
               "name": "Offer",
-              "icon": "outcome.svg"
+              "icon": "offer.svg"
             },
             {
               "@type": "Tag",
               "name": "Request",
-              "icon": "dispute.svg"
+              "icon": "request.svg"
             }
           ]
         },
