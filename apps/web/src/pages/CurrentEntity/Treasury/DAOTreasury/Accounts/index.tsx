@@ -183,7 +183,7 @@ const Accounts: React.FC = () => {
       ) : (
         <FlexBox width='100%' $justifyContent='center' color={theme.ixoDarkBlue}>
           <Typography variant='secondary' size='2xl'>
-            Select Account to view details
+            Select and Account to View
           </Typography>
         </FlexBox>
       )}

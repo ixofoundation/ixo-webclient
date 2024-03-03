@@ -65,7 +65,7 @@ const TreasuryPoolCard: React.FC = () => {
 
   return (
     <Card
-      label='Treasury Pool'
+      label='Treasury Accounts'
       icon={
         <SvgBox $svgWidth={6} $svgHeight={6}>
           <FundingIcon />

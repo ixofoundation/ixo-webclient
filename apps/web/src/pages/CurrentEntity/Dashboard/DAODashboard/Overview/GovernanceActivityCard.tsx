@@ -30,7 +30,7 @@ const GovernanceActivityCard: React.FC = (): JSX.Element => {
   const theme: any = useTheme()
 
   return (
-    <Card icon={<PieIcon />} label='Governance activity'>
+    <Card icon={<PieIcon />} label='Governance Activity'>
       <ResponsiveContainer width='100%' height='100%'>
         <BarChart width={500} height={300} data={[]}>
           <defs>

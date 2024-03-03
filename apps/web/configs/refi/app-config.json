@@ -1,7 +1,7 @@
 [
   {
     "name": "impacthub.ixo.world",
-    "displayName": "Impact Hub",
+    "displayName": "Impacts Hub",
     "blocksync": "https://blocksync.ixo.earth",
     "rpc": "https://rpc-impacthub.keplr.app",
     "rest": "https://lcd-impacthub.keplr.app",

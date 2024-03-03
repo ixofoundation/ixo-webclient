@@ -68,7 +68,7 @@ const BaseProfileForm = ({
         </FormRow>
         <FlexBox my={10}>
           <Typography size='xl' color='grey300'>
-            Nr of members
+            # Members
           </Typography>
         </FlexBox>
       </FormBody>
