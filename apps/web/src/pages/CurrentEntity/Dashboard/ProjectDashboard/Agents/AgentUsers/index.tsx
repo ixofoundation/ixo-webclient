@@ -3,11 +3,12 @@ import { useGetJoiningAgentsByCollectionId } from 'graphql/iid'
 import { useCurrentEntityAdminAccount } from 'hooks/currentEntity'
 import { useQuery } from 'hooks/window'
 import { GetGranteeRole } from 'lib/protocol'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useTheme } from 'styled-components'
 import AgentUserSection from './AgentUser'
 import { AgentRoles } from 'types/models'
 import { IAgent } from 'types/agent'
+import { Loader } from '@mantine/core'
 
 let interval: any = undefined
 
@@ -20,8 +21,9 @@ const AgentUsers: React.FC = () => {
   const agents = useGetJoiningAgentsByCollectionId(collectionId)
   const [pendingAgents, setPendingAgents] = useState<IAgent[]>([])
   const [approvedAgents, setApprovedAgents] = useState<IAgent[]>([])
+  const [loading, setLoading] = useState(true)
 
-  const getAgentsRole = async () => {
+  const getAgentsRole = useCallback(async () => {
     const joiningAgents: IAgent[] = agents
       .map((agent: any) => ({
         address:
@@ -53,7 +55,8 @@ const AgentUsers: React.FC = () => {
     }
     setPendingAgents(pendingAgents)
     setApprovedAgents(approvedAgents)
-  }
+    setLoading(false)
+  }, [adminAddress, agents, collectionId])
 
   useEffect(() => {
     getAgentsRole()
@@ -69,6 +72,13 @@ const AgentUsers: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(agents), collectionId])
 
+  if (loading) {
+    return (
+      <FlexBox width='100%' $direction='column' $justifyContent='center' $alignItems='center'>
+        <Loader color='ixo-blue.6' />
+      </FlexBox>
+    )
+  }
   return (
     <FlexBox width='100%' $direction='column' $gap={6}>
       <AgentUserSection title={'Authorized'} agents={approvedAgents} noAction />
