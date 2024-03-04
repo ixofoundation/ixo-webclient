@@ -72,7 +72,7 @@ const Accounts: React.FC = () => {
   // entityAccounts
   useEffect(() => {
     if (entityAccounts.length > 0) {
-      ;(async () => {
+      ; (async () => {
         await Promise.all(
           entityAccounts.map(async (account) => {
             setAccounts((accounts) => ({
@@ -99,7 +99,7 @@ const Accounts: React.FC = () => {
   // groupAccounts
   useEffect(() => {
     if (Object.keys(daoGroups).length > 0) {
-      ;(async () => {
+      ; (async () => {
         await Promise.all(
           Object.values(daoGroups).map(async (daoGroup: TDAOGroupModel) => {
             setAccounts((accounts) => ({
@@ -126,7 +126,7 @@ const Accounts: React.FC = () => {
   // linkedAccounts
   useEffect(() => {
     if (linkedAccounts.length > 0) {
-      ;(async () => {
+      ; (async () => {
         await Promise.all(
           linkedAccounts.map((account) => {
             setAccounts((accounts) => ({
@@ -295,7 +295,7 @@ const Accounts: React.FC = () => {
       ) : (
         <FlexBox width='100%' $justifyContent='center' color={theme.ixoDarkBlue}>
           <Typography variant='secondary' size='2xl'>
-            Select and Account to View
+            Select an Account to View
           </Typography>
         </FlexBox>
       )}

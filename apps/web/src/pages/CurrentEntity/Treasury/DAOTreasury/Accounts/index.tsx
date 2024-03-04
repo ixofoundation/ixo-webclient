@@ -118,7 +118,7 @@ const Accounts: React.FC = () => {
             <FlexBox>
               <Card
                 label='Coins'
-                // onAction={() => history.push({ pathname: history.location.pathname, search: `?expand=coins` })}
+              // onAction={() => history.push({ pathname: history.location.pathname, search: `?expand=coins` })}
               >
                 <Coins coins={selectedAccount.coins} />
               </Card>
@@ -126,7 +126,7 @@ const Accounts: React.FC = () => {
             <FlexBox>
               <Card
                 label='Impact Tokens'
-                // onAction={() => history.push({ pathname: history.location.pathname, search: `?expand=impact_tokens` })}
+              // onAction={() => history.push({ pathname: history.location.pathname, search: `?expand=impact_tokens` })}
               >
                 <ImpactTokens address={selectedAccount.address} />
               </Card>
@@ -134,7 +134,7 @@ const Accounts: React.FC = () => {
             <FlexBox>
               <Card
                 label='Collections'
-                // onAction={() => history.push({ pathname: history.location.pathname, search: `?expand=collections` })}
+              // onAction={() => history.push({ pathname: history.location.pathname, search: `?expand=collections` })}
               >
                 <Collections address={selectedAccount.address} />
               </Card>
@@ -142,7 +142,7 @@ const Accounts: React.FC = () => {
             <FlexBox>
               <Card
                 label='Transactions'
-                // onAction={() => history.push({ pathname: history.location.pathname, search: `?expand=transactions` })}
+              // onAction={() => history.push({ pathname: history.location.pathname, search: `?expand=transactions` })}
               >
                 <Transactions address={selectedAccount.address} />
               </Card>
@@ -183,7 +183,7 @@ const Accounts: React.FC = () => {
       ) : (
         <FlexBox width='100%' $justifyContent='center' color={theme.ixoDarkBlue}>
           <Typography variant='secondary' size='2xl'>
-            Select and Account to View
+            Select an Account to View
           </Typography>
         </FlexBox>
       )}
