@@ -961,8 +961,9 @@
                 "value": "stake_to_vote"
               }
             ]
-          },
-   
+          }
+        ]
+      },
       "connections": {
         "@type": "Connections",
         "title": "Connections",
