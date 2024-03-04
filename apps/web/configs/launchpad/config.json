@@ -2922,7 +2922,7 @@
         {
           "@type": "Category",
           "hidden": false,
-          "name": "Claim Type",
+          "name": "Type",
           "multiSelect": false,
           "tags": [
             {
