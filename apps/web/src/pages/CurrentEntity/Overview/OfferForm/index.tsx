@@ -57,12 +57,11 @@ const OfferForm: React.FC<Props> = ({ claimCollectionId, agentRole }) => {
 
         const response = (await execute(addLinkedResourcePayload as any)) as unknown as DeliverTxResponse
 
-        if (response.code !== 0) {
-          throw response.rawLog
+        if (response.code === 0) {
+          successToast('Success', 'Successfully submitted!')
+          return true
         }
-
-        successToast('Success', 'Successfully submitted!')
-        return true
+        return false
       } catch (e: any) {
         console.error(e)
         errorToast('Failed', typeof e === 'string' ? e : e.message)

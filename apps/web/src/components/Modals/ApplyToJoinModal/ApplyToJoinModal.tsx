@@ -3,22 +3,21 @@ import * as Modal from 'react-modal'
 import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
 import { ModalStyles, CloseButton, ModalBody, ModalWrapper, ModalRow, ModalTitle } from 'components/Modals/styles'
 import { Button, PropertyBox } from 'pages/CreateEntity/Components'
-import { TEntityModel } from 'types/entities'
 import { FlexBox } from 'components/App/App.styles'
 import { ReactComponent as ClaimIcon } from 'assets/images/icon-claim.svg'
 import { Typography } from 'components/Typography'
 import { useGetClaimTemplateEntityByCollectionId } from 'graphql/claims'
 import { AgentRoles } from 'types/models'
+import { ClaimCollection } from 'generated/graphql'
 
 interface OfferBoxProps {
-  entity: TEntityModel
+  collection: ClaimCollection
   selectedCollectionId: string
   setSelectedCollectionId: (selectedCollectionId: string) => void
 }
 
-const OfferBox: React.FC<OfferBoxProps> = ({ entity, selectedCollectionId, setSelectedCollectionId }) => {
-  const { linkedEntity } = entity
-  const collectionId = linkedEntity?.find((v) => v.type === 'ClaimCollection' && v.relationship === 'submission')?.id
+const OfferBox: React.FC<OfferBoxProps> = ({ collection, selectedCollectionId, setSelectedCollectionId }) => {
+  const collectionId = collection.id
   const claimTemplateEntity = useGetClaimTemplateEntityByCollectionId(collectionId!)
 
   return (
@@ -39,20 +38,20 @@ const OfferBox: React.FC<OfferBoxProps> = ({ entity, selectedCollectionId, setSe
         $overflowLines={2}
         style={{ width: 100, textAlign: 'center' }}
       >
-        {claimTemplateEntity?.profile?.name} {collectionId}
+        {claimTemplateEntity?.profile?.name}
       </Typography>
     </FlexBox>
   )
 }
 
 interface Props {
-  offers: TEntityModel[]
+  claimCollections: ClaimCollection[]
   open: boolean
   onClose: () => void
   onSubmit: (selectedCollectionId: string, agentRole: AgentRoles) => void
 }
 
-const ApplyToJoinModal: React.FC<Props> = ({ offers = [], open, onClose, onSubmit }): JSX.Element => {
+const ApplyToJoinModal: React.FC<Props> = ({ claimCollections = [], open, onClose, onSubmit }): JSX.Element => {
   const [selectedCollectionId, setSelectedCollectionId] = useState('')
 
   const handleSubmit = (agentRole: AgentRoles) => (): void => {
@@ -70,10 +69,10 @@ const ApplyToJoinModal: React.FC<Props> = ({ offers = [], open, onClose, onSubmi
         <ModalTitle>Select a Claim Collection and register to be an Agent.</ModalTitle>
         <ModalBody>
           <ModalRow style={{ justifyContent: 'left', alignItems: 'flex-start' }}>
-            {offers.map((entity: TEntityModel) => (
+            {claimCollections.map((collection: ClaimCollection) => (
               <OfferBox
-                key={entity.id}
-                entity={entity}
+                key={collection.id}
+                collection={collection}
                 selectedCollectionId={selectedCollectionId}
                 setSelectedCollectionId={setSelectedCollectionId}
               />

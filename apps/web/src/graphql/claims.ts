@@ -1,6 +1,7 @@
 import { gql, useQuery } from '@apollo/client'
 import { useEntityQuery } from 'generated/graphql'
-import { useState } from 'react'
+import useCurrentEntity from 'hooks/currentEntity'
+import { useMemo, useState } from 'react'
 import { TEntityModel } from 'types/entities'
 import { apiEntityToEntity } from 'utils/entities'
 import { validateEntityDid } from 'utils/validation'
@@ -95,7 +96,7 @@ export function useGetClaimCollectionByEntityIdAndClaimTemplateId(params: { enti
 // GET_CLAIM_COLLECTIONS_BY_ENTITYID
 const GET_CLAIM_COLLECTIONS_BY_ENTITYID = gql`
   query GetClaimCollectionsByEntityId($entityId: String) {
-    claimCollections(filter: { entity: { equalTo: $entityId } }) {
+    claimCollections(filter: { entity: { equalTo: $entityId } }, orderBy: ID_DESC) {
       nodes {
         id
         state
@@ -118,16 +119,36 @@ const GET_CLAIM_COLLECTIONS_BY_ENTITYID = gql`
   }
 `
 export function useGetClaimCollectionsByEntityId(entityId: string) {
+  const { claim } = useCurrentEntity()
   const { loading, error, data, refetch } = useQuery(GET_CLAIM_COLLECTIONS_BY_ENTITYID, {
     variables: { entityId },
     skip: !validateEntityDid(entityId),
     pollInterval: 5 * 1000,
   })
+
+  const claimProtocols = useMemo(
+    () =>
+      Object.values(claim)
+        .map((v) => v.template?.id.split('#')[0] ?? '')
+        .filter(Boolean),
+    [claim],
+  )
+  const collections = useMemo(() => {
+    const collections: any[] = []
+    claimProtocols.forEach((v) => {
+      const collectionCreated = (data?.claimCollections.nodes ?? []).find((node: any) => node.protocol === v)
+      if (collectionCreated) {
+        collections.push(collectionCreated)
+      }
+    })
+    return collections
+  }, [claimProtocols, data])
+
   return {
     loading,
     error,
-    data: data?.claimCollections.nodes ?? [],
-    isExist: !!data?.claimCollections.totalCount,
+    data: collections,
+    isExist: collections.length > 0,
     refetch,
   }
 }
