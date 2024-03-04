@@ -5138,7 +5138,7 @@ export const config = {
             },
             {
               '@type': 'impactdex',
-              name: 'Impact Exchange',
+              name: 'Impacts Exchange',
               icon: 'tag.svg',
             },
             {

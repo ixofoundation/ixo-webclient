@@ -16,7 +16,7 @@ const TreasuryPool: React.FC<Props> = ({ daoId, groupAddresses }): JSX.Element =
   const totalCw20Balances = 0
 
   return (
-    <Card icon={<FundingIcon />} label='Treasury Pool'>
+    <Card icon={<FundingIcon />} label='Treasury Accounts'>
       <FlexBox width='100%' $alignItems='center' $direction='column' $gap={1}>
         <Box position='relative'>
           <Typography color='blue' size='5xl'>

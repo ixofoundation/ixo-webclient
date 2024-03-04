@@ -143,7 +143,7 @@ const DataCard: React.FunctionComponent<Props> = ({
             </Title>
             {/* <div style={{ color: '#828E94', fontSize: 13, fontWeight: 400 }}>
               Internet of{' '}
-              {chainID.indexOf('impact') > 0 ? 'Impact Hub' : 'Pandora'}
+              {chainID.indexOf('impact') > 0 ? 'Impacts Hub' : 'Pandora'}
             </div> */}
           </MainContent>
           <div style={{ marginBottom: '0.5rem' }}>

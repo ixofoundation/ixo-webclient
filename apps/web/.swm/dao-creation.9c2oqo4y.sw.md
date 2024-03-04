@@ -5,7 +5,7 @@ file_version: 1.1.3
 app_version: 1.14.0
 ---
 
-When creating dao, add admin group's did as a controller
+When creating DAO, add the admin group's DID as the Controller
 <!-- NOTE-swimm-snippet: the lines below link your snippet to Swimm -->
 ### 📄 src/pages/CreateEntity/CreateDAO/Pages/ReviewDAO/ReviewDAO.tsx
 ```tsx

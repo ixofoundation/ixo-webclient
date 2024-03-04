@@ -139,7 +139,7 @@ const SetupValidatorActionsModal: React.FC<Props> = ({ open, action, onClose, on
         <FlexBox $direction='column' width='100%' $gap={2}>
           <TitleAndDescription
             title={`Create validator message`}
-            description={`Create a validator controlled by your DAO. Note: you will need to run a validator node (on a server for example). Be sure to use that node's public key (junod tendermint show-validator).`}
+            description={`Create a Validator controlled by your DAO. Note: you will need to run a validator node (on a server for example). Be sure to use that node's public key (junod tendermint show-validator).`}
           />
           <CodeMirror value={formData.createMsg} onChange={(value) => handleUpdateFormData('createMsg', value)} />
         </FlexBox>

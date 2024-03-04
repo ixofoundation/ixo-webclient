@@ -549,7 +549,7 @@ export const DAOGroupConfig: { [key: string]: any } = {
   staking: {
     text: 'Staking',
     description:
-      'Staking Governance assigns a weight to each Group member’s vote based on the how many governance tokens they have staked. Anyone can participate by acquiring and staking governance tokens.',
+      'Staking Governance assigns a weight to each Group member’s vote, based on how many governance tokens they have staked. Anyone can participate by acquiring and staking governance tokens.',
     icon: StakingIcon,
   },
   multisig: {
@@ -559,7 +559,7 @@ export const DAOGroupConfig: { [key: string]: any } = {
     icon: MultisigIcon,
   },
   new: {
-    text: 'Add existing group',
+    text: 'Add an existing group',
     description: 'Paste the group ID to add',
     icon: PlusIcon,
   },

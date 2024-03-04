@@ -64,7 +64,7 @@ Method for creating a document as a linked resource for existing verification me
 115          if (addRes.code !== 0) {
 116            throw addRes.rawLog
 117          }
-118          successToast('Success', 'Successfully created document!')
+118          successToast('Success', 'Successfully created the document!')
 119          return true
 120        } catch (e) {
 121          console.error('handleCreateDocument', e)
@@ -165,7 +165,7 @@ Method for adding verification methods based on user re-enabling action
 114            throw response.rawLog
 115          }
 116          console.info('handleAddVerificationMethods', { response })
-117          successToast('Success', 'Successfully updated status to transferred!')
+117          successToast('Success', 'Successfully updated the status to "transferred"!')
 118          return true
 119        } catch (e) {
 120          console.error('handleAddVerificationMethods', e)
@@ -193,7 +193,7 @@ Method for update entity status back to created from transferred (2 -> 0)
 135            throw response.rawLog
 136          }
 137          console.info('handleUpdateStatusToCreated', { response })
-138          successToast('Success', 'Successfully updated status to back to created!')
+138          successToast('Success', 'Successfully updated the status back to "created"!')
 139          return true
 140        } catch (e) {
 141          console.error('handleUpdateStatusToTransferred', e)
@@ -219,7 +219,7 @@ Method for remove linked resouce which is document for saving verification metho
 154          if (addRes.code !== 0) {
 155            throw addRes.rawLog
 156          }
-157          successToast('Success', 'Successfully removed document!')
+157          successToast('Success', 'Successfully removed the document!')
 158          return true
 159        } catch (e) {
 160          console.error('handleRemoveDocument', e)
