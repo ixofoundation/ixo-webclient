@@ -58,7 +58,7 @@ const BalanceCard: React.FC<Props> = ({ availableValue = '0', stakedValue = '0.0
 
       <FlexBox>
         <Typography variant='secondary' color='dark-blue'>
-          Includes estimated values of group and linked accounts
+          Includes the estimated current balance of Group and Linked accounts
         </Typography>
       </FlexBox>
 
@@ -106,7 +106,7 @@ const BalanceCard: React.FC<Props> = ({ availableValue = '0', stakedValue = '0.0
               <CoinsIcon />
             </SvgBox>
             <Typography variant='secondary' size='2xl'>
-              No Treasury Assets were found.
+              No Treasury Assets could be found
             </Typography>
           </>
         )}

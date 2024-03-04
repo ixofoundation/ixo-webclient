@@ -172,7 +172,7 @@ const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JS
         throw new Error('Not found an address')
       }
     } catch (e: any) {
-      Toast.errorToast('Group creation failed', e.message)
+      Toast.errorToast('Creating the Group failed', e.message)
       setSubmitting(false)
     }
   }

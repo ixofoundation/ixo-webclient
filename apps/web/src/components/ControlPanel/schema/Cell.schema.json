@@ -38,7 +38,7 @@
         "@type": "Join",
         "@id": "actionAgentJoin",
         "title": "Apply to Join",
-        "tooltip": "Help to deliver this cell node",
+        "tooltip": "Help to deliver this DAO",
         "icon": "AddPerson",
         "iconColor": "#49BFE0",
         "endpoint": "/assistant",
@@ -84,7 +84,7 @@
         "@type": "OracleService",
         "@id": "actionOfferOracleService",
         "title": "Offer Oracle service",
-        "tooltip": "Help evaluate this cell node",
+        "tooltip": "Help evaluate this DAO",
         "icon": "Target",
         "iconColor": "#49BFE0",
         "endpoint": "/assistant",
@@ -106,7 +106,7 @@
       {
         "@type": "Rate",
         "@id": "actionRateThisCellNode",
-        "title": "Rate this cell node",
+        "title": "Rate this DAO",
         "tooltip": "Give a star rating and review",
         "icon": "Star",
         "iconColor": "#49BFE0",
@@ -482,7 +482,7 @@
         "parameters": [
           {
             "name": "twitterShareText",
-            "value": "It's up to all of us to start making an impact for a positive future for humanity. Check out this venture that aims to achieve the global SDGs. If you think it's a worthy cause, then like or share this post to show your support."
+            "value": "Check out the IXO #Internet-of-Impacts"
           }
         ]
       },
@@ -490,7 +490,7 @@
         "@type": "Forum",
         "@id": "connectionForum",
         "title": "Forum",
-        "tooltip": "Share information about this cell node",
+        "tooltip": "Share information about this DAO",
         "icon": "Forum",
         "iconColor": "#49BFE0",
         "endpoint": "https://forum.ixo.world/entities/<DID>",

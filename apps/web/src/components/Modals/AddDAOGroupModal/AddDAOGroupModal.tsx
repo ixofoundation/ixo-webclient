@@ -34,7 +34,7 @@ const AddDAOGroupModal: React.FC<Props> = ({ open, onClose, onAdd, onClone }): J
 
       <ModalWrapper>
         <ModalTitle>
-          {selectedItem === 'new' ? 'Add existing group' : 'Select how this group will be governed'}
+          {selectedItem === 'new' ? 'Add an existing Group' : 'Select how this group will be governed'}
         </ModalTitle>
         <ModalBody>
           {selectedItem && (
