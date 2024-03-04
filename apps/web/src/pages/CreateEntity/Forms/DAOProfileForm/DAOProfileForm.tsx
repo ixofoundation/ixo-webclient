@@ -34,7 +34,7 @@ const DAOProfileForm: React.FC<Props> = ({
 
       <FormBody>
         <FlexBox $justifyContent='flex-end'>
-          <IconUpload icon={logo} placeholder='DAO Icon' handleChange={setLogo} />
+          <IconUpload icon={logo} placeholder='Logo' handleChange={setLogo} />
         </FlexBox>
 
         <FormRow>
@@ -57,7 +57,7 @@ const DAOProfileForm: React.FC<Props> = ({
         </FormRow>
         <FlexBox my={10}>
           <Typography size='xl' color='grey300'>
-            Nr of members
+            # Members
           </Typography>
         </FlexBox>
       </FormBody>

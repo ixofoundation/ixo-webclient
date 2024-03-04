@@ -96,7 +96,7 @@ export const ConnectModal = () => {
     >
       <Flex>
         <Text style={{ color: "white" }}>
-          Scan this QR code with your Impacts X Mobile app
+          Scan this QR code with your Impacts X mobile app
         </Text>
       </Flex>
       {mobile.timeout! > 0 && (

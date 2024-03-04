@@ -24,7 +24,7 @@ const buildEntitySteps = (entity: string, order: string[]): { title: string; ste
   // Define the original steps
   const steps: Step[] = [
     {
-      title: 'New or Clone',
+      title: 'Start with an Entity',
       path: 'process',
       number: 0,
     },

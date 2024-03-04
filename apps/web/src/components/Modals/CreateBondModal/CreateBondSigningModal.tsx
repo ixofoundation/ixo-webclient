@@ -156,7 +156,7 @@ const CreateBondSigningModal: React.FunctionComponent<Props> = ({ alphaBondInfo 
 
   const signInTransaction = (): void => {
     if (!did) {
-      Toast.errorToast(null, 'Please sign in first!')
+      Toast.errorToast(null, 'Please Sign-In to start!')
       return
     }
     if (!alphaBondInfo) {

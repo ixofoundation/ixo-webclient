@@ -7,7 +7,7 @@ The current configuration options include:
 - Default payment currencies to be used in your marketplace
 - Custom filters and tags
 - Custom logo, header image, font and colour scheme
-- Exchange settings for your market Impact Exchange
+- Exchange settings for your market Impacts Exchange
 
 ## How to configure your marketplace
 

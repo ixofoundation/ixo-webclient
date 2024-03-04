@@ -76,7 +76,7 @@ const EntityExchange = () => {
   ]
 
   if (location.pathname.indexOf('/exchange/trade') > -1) {
-    title = 'Impact Exchange' //  FIXME: hardcoded
+    title = 'Impacts Exchange' //  FIXME: hardcoded
     breadCrumbs.unshift({
       url: `/entity/${did}/overview`,
       icon: '',
@@ -100,7 +100,7 @@ const EntityExchange = () => {
       tooltip: '',
     })
   } else if (location.pathname.endsWith('/exchange/stake')) {
-    title = (process.env.REACT_APP_CHAIN_ID!.indexOf('pandora') > -1 ? 'Pandora' : 'Impact Hub') + ' Validators'
+    title = (process.env.REACT_APP_CHAIN_ID!.indexOf('pandora') > -1 ? 'Pandora' : 'Impacts Hub') + ' Validators'
     breadCrumbs.push({
       url: `#`,
       icon: '',

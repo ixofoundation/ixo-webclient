@@ -5,7 +5,7 @@ file_version: 1.1.3
 app_version: 1.14.0
 ---
 
-Show "Join" Button instead of "New Proposal" when you are not a member of the ImpactsDAO.
+Show "Join" Button instead of "New Proposal" when you are not a member of the Impacts DAO.
 
 <!-- NOTE-swimm-snippet: the lines below link your snippet to Swimm -->
 
