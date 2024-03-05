@@ -136,10 +136,10 @@ const DataCard: React.FunctionComponent<Props> = ({
                 textOverflow: 'ellipsis',
               }}
             >
-              {chainID!.indexOf('impact') > -1 ? 'Impact Hub' : 'Pandora'}
+              {chainID!.indexOf('impact') > -1 ? 'Impacts Hub' : 'Pandora'}
             </Title>
             <div style={{ color: '#828E94', fontSize: 13, fontWeight: 400 }}>
-              Internet of {chainID!.indexOf('impact') > -1 ? 'Impact Hub' : 'Pandora'}
+              Internet of {chainID!.indexOf('impact') > -1 ? 'Impacts Hub' : 'Pandora'}
             </div>
           </MainContent>
           <div style={{ marginBottom: '0.5rem' }}>

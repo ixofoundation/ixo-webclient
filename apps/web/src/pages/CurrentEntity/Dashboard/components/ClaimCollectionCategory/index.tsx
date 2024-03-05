@@ -1,22 +1,23 @@
 import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
+import { ClaimCollection } from 'generated/graphql'
+import { useGetClaimTemplateEntityByCollectionId } from 'graphql/claims'
 import React from 'react'
-import { selectEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
-import { useAppSelector } from 'redux/hooks'
 import { useTheme } from 'styled-components'
-import { TEntityModel } from 'types/entities'
 
 interface Props {
-  claimCollection: any
+  claimCollection: ClaimCollection
   selected?: boolean
   onSelect?: () => void
 }
 
 const ClaimCollectionCategory: React.FC<Props> = ({ claimCollection, selected = false, onSelect }) => {
   const theme: any = useTheme()
-  const templateId: string = claimCollection.protocol
-  const templateEntity: TEntityModel | undefined = useAppSelector(selectEntityById(templateId))
+  const templateEntity = useGetClaimTemplateEntityByCollectionId(claimCollection.id!)
 
+  if (!templateEntity) {
+    return null
+  }
   return (
     <FlexBox
       $borderRadius='4px'
@@ -26,7 +27,7 @@ const ClaimCollectionCategory: React.FC<Props> = ({ claimCollection, selected = 
       onClick={onSelect && onSelect}
     >
       <Typography size='sm' weight='bold'>
-        {templateEntity?.profile?.name || ''} {claimCollection.id}
+        {templateEntity.profile?.name || ''}
       </Typography>
     </FlexBox>
   )

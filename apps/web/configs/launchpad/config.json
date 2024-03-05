@@ -2922,7 +2922,7 @@
         {
           "@type": "Category",
           "hidden": false,
-          "name": "Claim Type",
+          "name": "Type",
           "multiSelect": false,
           "tags": [
             {
@@ -3734,7 +3734,7 @@
             },
             {
               "@type": "impactdex",
-              "name": "Impact Exchange",
+              "name": "Impacts Exchange",
               "icon": "tag.svg"
             },
             {

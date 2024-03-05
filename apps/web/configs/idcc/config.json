@@ -961,135 +961,6 @@
                 "value": "stake_to_vote"
               }
             ]
-          },
-          {
-            "@type": "CreatePaymentTemplate",
-            "@id": "createPaymentTemplate",
-            "title": "Create Payment Template",
-            "tooltip": "Create Payment Template",
-            "icon": "Triangle",
-            "iconColor": "#6587a4",
-            "endpoint": "#",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "create_payment_template"
-              }
-            ]
-          },
-          {
-            "@type": "CreatePaymentContract",
-            "@id": "createPaymentContract",
-            "title": "Create Payment Contract",
-            "tooltip": "Create Payment Contract",
-            "icon": "Triangle",
-            "iconColor": "#6587a4",
-            "endpoint": "#",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "create_payment_contract"
-              }
-            ]
-          },
-          {
-            "@type": "MakePayment",
-            "@id": "makePayment",
-            "title": "Make Payment",
-            "tooltip": "Make Payment",
-            "icon": "Triangle",
-            "iconColor": "#6587a4",
-            "endpoint": "#",
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": "user"
-              }
-            ],
-            "data": null,
-            "parameters": [
-              {
-                "name": "intent",
-                "value": "make_payment"
-              }
-            ]
-          }
-        ]
-      },
-      "apps": {
-        "@type": "Apps",
-        "title": "Plugins",
-        "controls": [
-          {
-            "@type": "RiotChat",
-            "@id": "appRiotchat",
-            "title": "Riot Chat",
-            "tooltip": "Encrypted chat-room",
-            "icon": "RiotChat",
-            "iconColor": null,
-            "endpoint": null,
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": null
-              }
-            ],
-            "data": null,
-            "parameters": null
-          },
-          {
-            "@type": "Gitcoin",
-            "@id": "appGitcoin",
-            "title": "Gitcoin",
-            "tooltip": "Coming soon",
-            "icon": "GitCoin",
-            "iconColor": null,
-            "endpoint": null,
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": null
-              }
-            ],
-            "data": null,
-            "parameters": null
-          },
-          {
-            "@type": "DaoStack",
-            "@id": "appDaoStack",
-            "title": "DAOStack",
-            "tooltip": "Coming soon",
-            "icon": "DaoStack",
-            "iconColor": null,
-            "endpoint": null,
-            "accessToken": null,
-            "permissions": [
-              {
-                "credential": null,
-                "role": null
-              }
-            ],
-            "data": null,
-            "parameters": null
           }
         ]
       },
@@ -4686,7 +4557,7 @@
             },
             {
               "@type": "impactdex",
-              "name": "Impact Exchange",
+              "name": "Impacts Exchange",
               "icon": "tag.svg"
             },
             {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import _ from 'lodash'
 import * as Modal from 'react-modal'
 import { ModalStyles, CloseButton } from 'components/Modals/styles'
@@ -21,6 +21,7 @@ import {
 } from 'redux/entitiesExplorer/entitiesExplorer.actions'
 import { apiEntityToEntity } from 'utils/entities'
 import { useAccount } from 'hooks/account'
+import { currentRelayerNode } from 'constants/common'
 
 const ClaimProtocolList = styled(FlexBox)`
   height: 350px;
@@ -45,10 +46,9 @@ const ClaimSelectModal: React.FC<Props> = ({ open, onClose, onSelect }): JSX.Ele
   const navigate = useNavigate()
   const theme: any = useTheme()
   const dispatch = useAppDispatch()
-  const { cwClient } = useAccount()
+  const { cwClient, address } = useAccount()
 
   const claimProtocols = useAppSelector(selectAllClaimProtocols)
-  console.log({ claimProtocols })
 
   useEntitiesQuery({
     skip: claimProtocols.length > 0,
@@ -82,6 +82,12 @@ const ClaimSelectModal: React.FC<Props> = ({ open, onClose, onSelect }): JSX.Ele
     template && onSelect(template)
     onClose()
   }
+
+  const searchableClaims = useMemo(() => {
+    const allowedProtocols = claimProtocols.filter(claimProtocols => claimProtocols.relayerNode === currentRelayerNode || claimProtocols.owner === address || claimProtocols.entityVerified)
+    const searchResults = keyword.length > 2 ? allowedProtocols.filter(protocol => protocol.profile?.name?.includes(keyword)) :  allowedProtocols
+    return searchResults
+  }, [keyword, claimProtocols, address])
 
   return (
     // @ts-ignore
@@ -122,7 +128,7 @@ const ClaimSelectModal: React.FC<Props> = ({ open, onClose, onSelect }): JSX.Ele
         </FlexBox>
         <ClaimProtocolList className='overflow-auto' p={2.5}>
           <FlexBox $direction='column' $gap={6}>
-            {_.chunk(claimProtocols, 3).map((row, rowIdx) => (
+            {_.chunk(searchableClaims, 3).map((row, rowIdx) => (
               <FlexBox key={rowIdx} $gap={6}>
                 {row
                   .map((v) => ({
