@@ -16,7 +16,12 @@ import { AgentRoles } from 'types/models'
 import { truncateString } from 'utils/formatters'
 import { errorToast, successToast } from 'utils/toast'
 
-const AgentUserCard: React.FC<IAgent & { noAction?: boolean }> = ({ address, role, noAction }) => {
+const AgentUserCard: React.FC<IAgent & { noAction?: boolean; onClick: () => void }> = ({
+  address,
+  role,
+  noAction,
+  onClick,
+}) => {
   const { getQuery } = useQuery()
   const collectionId = getQuery('collectionId')
   const { data: claimCollection } = useGetClaimCollection(collectionId)
@@ -88,6 +93,8 @@ const AgentUserCard: React.FC<IAgent & { noAction?: boolean }> = ({ address, rol
       $borderRadius='4px'
       border='1px solid #083347'
       background='#01273A'
+      cursor='pointer'
+      onClick={onClick}
     >
       <FlexBox width='100%' $gap={4} $alignItems='center'>
         <Avatar size={80} />
@@ -112,8 +119,9 @@ interface Props {
   title: string
   agents: IAgent[]
   noAction?: boolean
+  onClick: (agent: IAgent) => void
 }
-const AgentUserSection: React.FC<Props> = ({ title, agents, noAction }) => {
+const AgentUserSection: React.FC<Props> = ({ title, agents, noAction, onClick }) => {
   return (
     <FlexBox width='100%' $direction='column' $gap={6}>
       <FlexBox width='100%'>
@@ -122,7 +130,7 @@ const AgentUserSection: React.FC<Props> = ({ title, agents, noAction }) => {
       {agents.length > 0 ? (
         <FlexBox width='100%' $gap={6}>
           {agents.map((agent) => (
-            <AgentUserCard key={agent.address} {...agent} noAction={noAction} />
+            <AgentUserCard key={agent.address} {...agent} noAction={noAction} onClick={() => onClick(agent)} />
           ))}
         </FlexBox>
       ) : (

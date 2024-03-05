@@ -38,7 +38,7 @@ const OfferForm: React.FC<Props> = ({ claimCollectionId, agentRole }) => {
         const data = JSON.stringify(answer)
         const uploadRes: CellnodePublicResource = await customQueries.cellnode.uploadPublicDoc(
           'application/ld+json',
-          data,
+          Buffer.from(data).toString('base64'),
           undefined,
           chainNetwork,
         )
