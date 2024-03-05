@@ -23,6 +23,7 @@ import { useWallet } from '@ixo-webclient/wallet-connector'
 import { DeliverTxResponse } from '@cosmjs/stargate'
 import { useGetUserGranteeRole } from 'hooks/claim'
 import { Typography } from 'components/Typography'
+import { AgentRoles } from 'types/models'
 
 interface Props {
   claimId: string
@@ -76,19 +77,19 @@ const ClaimForm: React.FC<Props> = ({ claimId }) => {
         (item: LinkedResource) => item.type === 'surveyTemplate',
       )
 
-        ; (async () => {
-          const responses = await Promise.all(
-            claimSchemaLinkedResources.map((item) => {
-              const url = serviceEndpointToUrl(item.serviceEndpoint, templateEntity.service)
-              return fetch(url)
-                .then((response) => response.json())
-                .then((response) => {
-                  return response
-                })
-            }),
-          )
-          setQuestionFormData(responses.map((response) => response.question))
-        })()
+      ;(async () => {
+        const responses = await Promise.all(
+          claimSchemaLinkedResources.map((item) => {
+            const url = serviceEndpointToUrl(item.serviceEndpoint, templateEntity.service)
+            return fetch(url)
+              .then((response) => response.json())
+              .then((response) => {
+                return response
+              })
+          }),
+        )
+        setQuestionFormData(responses.map((response) => response.question))
+      })()
     }
     return () => {
       setQuestionFormData([])
@@ -165,10 +166,12 @@ const ClaimForm: React.FC<Props> = ({ claimId }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [questionFormData, isEligible])
 
-  if (!userRole) {
+  console.log(11111, { claimCollection })
+
+  if (userRole !== AgentRoles.serviceProviders) {
     return (
       <FlexBox width='100%' $justifyContent='center' $alignItems='center' height='300px'>
-        <Typography size='5xl'>Apply as an agent first</Typography>
+        <Typography size='5xl'>Apply as a data agent first</Typography>
       </FlexBox>
     )
   }
@@ -185,6 +188,22 @@ const ClaimForm: React.FC<Props> = ({ claimId }) => {
     return (
       <FlexBox width='100%' $justifyContent='center' $alignItems='center' height='300px'>
         <Typography size='5xl'>Expired</Typography>
+      </FlexBox>
+    )
+  }
+
+  if (!claimCollection) {
+    return (
+      <FlexBox width='100%' $justifyContent='center' $alignItems='center' height='300px'>
+        <Typography size='5xl'>Claim must have an active ClaimCollection</Typography>
+      </FlexBox>
+    )
+  }
+
+  if (claimCollection.status !== 0) {
+    return (
+      <FlexBox width='100%' $justifyContent='center' $alignItems='center' height='300px'>
+        <Typography size='5xl'>ClaimCollection Status must be OPEN</Typography>
       </FlexBox>
     )
   }
