@@ -107,7 +107,7 @@ export function useTransferEntityState() {
       }
     }
 
-    if (reEnableKeys) {
+    if (!reEnableKeys) {
       const signingTransferPayload = await getSigningTransferPayload({ entityId, recipientDid })
 
       const transferPayload = [...signingTransferPayload]
