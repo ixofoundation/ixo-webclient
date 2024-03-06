@@ -5,17 +5,32 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { useAccount } from 'hooks/account'
 import { contracts } from '@ixo/impactxclient-sdk'
 import { useParams } from 'react-router-dom'
-import { useAppSelector } from 'redux/hooks'
-import { selectEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { proposalMsgToActionConfig } from 'utils/dao'
-import { TProposalActionModel } from 'types/entities'
+import { TEntityModel, TProposalActionModel } from 'types/entities'
 import { ProposalActionConfigMap } from 'constants/entity'
+import { useEntityQuery } from 'generated/graphql'
+import { apiEntityToEntity } from 'utils/entities'
 
 const InstructionsToExecute: React.FC = () => {
   const { deedId = '' } = useParams<{ deedId: string }>()
   const { cwClient, address } = useAccount()
-  const entity = useAppSelector(selectEntityById(deedId))
-  const linkedProposal = useMemo(() => (entity?.linkedEntity ?? []).find(({ type }) => type === 'deed'), [entity])
+  const [fetchedEntity, setFetchedEntity] = useState<TEntityModel | null>(null)
+  useEntityQuery({
+    variables: {
+      id: deedId,
+    },
+    skip: Boolean(fetchedEntity),
+    onCompleted: (data) => {
+      setFetchedEntity(data?.entity as any)
+      apiEntityToEntity({ entity: data?.entity, cwClient }, (key, value) => {
+        setFetchedEntity((entity: any) => ({ ...entity, [key]: value }))
+      })
+    },
+  })
+  const linkedProposal = useMemo(
+    () => (fetchedEntity?.linkedEntity ?? []).find(({ type }) => type === 'deed'),
+    [fetchedEntity],
+  )
   const [actions, setActions] = useState<TProposalActionModel[]>([])
   const [selectedAction, setSelectedAction] = useState<TProposalActionModel | undefined>()
   const SetupModal = useMemo(() => {
@@ -28,8 +43,6 @@ const InstructionsToExecute: React.FC = () => {
       return undefined
     }
   }, [selectedAction])
-
-  console.log({ selectedAction })
 
   const [, contractAddress, proposalId] = useMemo(() => {
     if (!linkedProposal) {

@@ -1,8 +1,5 @@
 import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
-import { Box, FlexBox } from 'components/App/App.styles'
-import ControlPanel from 'components/ControlPanel/ControlPanel'
 import { EntityLinkedResourceConfig } from 'constants/entity'
-import { useEntityConfig } from 'hooks/configs'
 import { useParams } from 'react-router-dom'
 import { selectEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { useAppSelector } from 'redux/hooks'
@@ -10,16 +7,17 @@ import { OverviewHero } from '../Components'
 import { LinkedFiles } from '../Overview/LinkedFiles'
 import { PageContent } from '../Overview/PageContent'
 import { InstructionsToExecute } from './InstructionsToExecute'
+import { Flex, ScrollArea } from '@mantine/core'
+import ControlPanel from 'components/ControlPanel'
 
 const Overview: React.FC = () => {
-  const { entityId = '', deedId = '' } = useParams<{ entityId: string; deedId: string }>()
-  const { controlPanelSchema, entityType } = useEntityConfig()
+  const { deedId = '' } = useParams<{ entityId: string; deedId: string }>()
   const entity = useAppSelector(selectEntityById(deedId))
 
   return (
-    <div className='container-fluid h-100' style={{ background: '#F8F9FD' }}>
-      <div className='row h-100'>
-        <FlexBox className='col-lg-9' $direction='column' py={20} px={20} xs={{ px: 6 }}>
+    <Flex w='100%' h='100%' bg='#F8F9FD'>
+      <ScrollArea w='100%'>
+        <Flex w='100%' direction='column' p={80} style={{ flex: 1 }}>
           <OverviewHero
             $onlyTitle={false}
             assistantFixed={true}
@@ -37,12 +35,12 @@ const Overview: React.FC = () => {
               ) ?? []
             }
           />
-        </FlexBox>
-        <Box className='col-lg-3' background='#F0F3F9'>
-          <ControlPanel schema={controlPanelSchema} entityDid={entityId ?? ''} entityType={entityType} />
-        </Box>
-      </div>
-    </div>
+        </Flex>
+      </ScrollArea>
+      <Flex h='100%' bg='#F0F3F9'>
+        <ControlPanel />
+      </Flex>
+    </Flex>
   )
 }
 
