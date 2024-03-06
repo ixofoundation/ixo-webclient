@@ -179,9 +179,9 @@ export const UpdateEntityMessage = async (signer: TSigner, payload: Partial<MsgU
 
   const message = {
     typeUrl: '/ixo.entity.v1beta1.MsgUpdateEntity',
-    value: ixo.entity.v1beta1.MsgUpdateEntity.fromPartial({
+    value: (ixo.entity.v1beta1.MsgUpdateEntity.fromPartial as any)({
       id: payload?.id || signer.did,
-      entityStatus: payload?.entityStatus === undefined ? entity.entity.status : payload?.entityStatus,
+      status: payload?.entityStatus === undefined ? entity.entity.status : payload?.entityStatus,
       startDate: payload?.startDate || entity.entity.startDate,
       endDate: payload?.endDate || entity.entity.endDate,
       credentials: payload?.credentials || entity.entity.credentials,
