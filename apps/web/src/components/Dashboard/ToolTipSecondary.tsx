@@ -15,11 +15,11 @@ export default styled.div`
   white-space: nowrap;
   text-transform: lowercase;
 
-  :first-letter {
+  &:first-letter {
     text-transform: uppercase;
   }
 
-  :after {
+  &:after {
     content: '';
     width: 0;
     height: 0;
