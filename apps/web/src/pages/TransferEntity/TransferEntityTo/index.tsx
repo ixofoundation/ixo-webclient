@@ -12,33 +12,18 @@ import { ReactComponent as TimesCircleIcon } from 'assets/images/icon-times-circ
 import { ReactComponent as CheckCircleIcon } from 'assets/images/icon-check-circle.svg'
 import { ReactComponent as LockOpenIcon } from 'assets/images/icon-lock-open-solid.svg'
 import { ReactComponent as InfoIcon } from 'assets/images/icon-info.svg'
-import {
-  CheckIidDoc,
-  CreateIidDocForGroup,
-  GetAddLinkedResourcePayload,
-  TransferEntityMessage,
-  UpdateEntityMessage,
-} from 'lib/protocol'
-import { useAccount } from 'hooks/account'
 import { errorToast, successToast } from 'utils/toast'
-import { LinkedResource, VerificationMethod } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
-import { customQueries, utils } from '@ixo/impactxclient-sdk'
-import { chainNetwork } from 'hooks/configs'
-import { LinkedResourceProofGenerator, LinkedResourceServiceEndpointGenerator } from 'utils/entities'
+import { VerificationMethod } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { VMKeyMap } from 'constants/entity'
-import { useWallet } from '@ixo-webclient/wallet-connector'
-import { DeliverTxResponse } from '@cosmjs/stargate'
 import useCurrentEntity from 'hooks/currentEntity'
 
 const TransferEntityTo: React.FC = (): JSX.Element => {
   const theme: any = useTheme()
   const navigate = useNavigate()
   const { entityId = '' } = useParams<{ entityId: string }>()
-  const { signer } = useAccount()
   const { currentEntity } = useCurrentEntity()
-  const { recipientDid, updateRecipientDid } = useTransferEntityState()
+  const { recipientDid, updateRecipientDid, handleTransfer } = useTransferEntityState()
 
-  const { execute } = useWallet()
   const [
     daoGroups = {},
     verificationMethods = [],
@@ -95,116 +80,20 @@ const TransferEntityTo: React.FC = (): JSX.Element => {
     navigate(-1)
   }
 
-  const handleCreateDocument = async (): Promise<boolean> => {
-    try {
-      const payload = {
-        reEnableKeys,
-        keys,
-      }
-      const buff = Buffer.from(JSON.stringify(payload))
-      const res = await customQueries.cellnode.uploadWeb3Doc(
-        utils.common.generateId(12),
-        'application/ld+json',
-        buff.toString('base64'),
-        undefined,
-        chainNetwork,
-      )
-
-      const linkedResource: LinkedResource = {
-        id: '{id}#verificationMethods',
-        type: 'VerificationMethods',
-        description: 'Verification Methods',
-        mediaType: 'application/ld+json',
-        serviceEndpoint: LinkedResourceServiceEndpointGenerator(res),
-        proof: LinkedResourceProofGenerator(res),
-        encrypted: 'false',
-        right: '',
-      }
-
-      const addLinkedResourceMessagePayload = GetAddLinkedResourcePayload(entityId, signer, linkedResource)
-      const response = (await execute(addLinkedResourceMessagePayload as any)) as unknown as DeliverTxResponse
-
-      if (response.code !== 0) {
-        throw response.rawLog
-      }
-      successToast('Success', 'Successfully created document!')
-      return true
-    } catch (e) {
-      console.error('handleCreateDocument', e)
-      errorToast('Error at Signing', typeof e === 'string' && e)
-      return false
-    }
-  }
-
-  const handleUpdateStatusToTransferred = async (): Promise<boolean> => {
-    try {
-      if (!entityId) {
-        // eslint-disable-next-line no-throw-literal
-        throw 'EntityId or RecipientDid is invalid'
-      }
-
-      const transactionData = await UpdateEntityMessage(signer, { id: entityId, entityStatus: 2 })
-      const response = (await execute(transactionData)) as unknown as DeliverTxResponse
-
-      if (response.code !== 0) {
-        throw response.rawLog
-      }
-      successToast('Success', 'Successfully updated status to transferred!')
-      return true
-    } catch (e) {
-      console.error('handleUpdateStatusToTransferred', e)
-      errorToast('Error at Signing', typeof e === 'string' && e)
-      return false
-    }
-  }
-
-  const handleSigningTransfer = async (): Promise<boolean> => {
-    try {
-      if (!entityId || !recipientDid) {
-        // eslint-disable-next-line no-throw-literal
-        throw 'EntityId or RecipientDid is invalid'
-      }
-      if (!(await CheckIidDoc(recipientDid))) {
-        const createIidDocForGroupPayload = CreateIidDocForGroup(signer, recipientDid)
-        await execute(createIidDocForGroupPayload)
-      }
-      const transactionData = TransferEntityMessage(signer, { id: entityId, recipientDid })
-      const response = (await execute(transactionData)) as unknown as DeliverTxResponse
-
-      if (response.code !== 0) {
-        throw response.rawLog
-      }
-      successToast('Success', 'Successfully transferred!')
-      return true
-    } catch (e) {
-      console.error('handleSigningTransfer', e)
-      errorToast('Error at Signing', typeof e === 'string' && e)
-      return false
-    }
-  }
 
   const handleSubmit = async () => {
-    setSubmitting(true)
+    try {
+      setSubmitting(true)
+      await handleTransfer({ reEnableKeys, keys, entityId })
+      successToast('Success', 'Successfully transferred!')
+      setSubmitting(false)
 
-    if (!reEnableKeys) {
-      const signed = await handleSigningTransfer()
-      if (signed) {
-        navigate(`/entity/${entityId}/dashboard`)
-      }
-    } else {
-      const created = await handleCreateDocument()
-      if (created) {
-        const updateStatus = await handleUpdateStatusToTransferred()
-        if (updateStatus) {
-          const signed = await handleSigningTransfer()
-          if (signed) {
-            navigate(`/entity/${entityId}/dashboard`)
-          }
-        }
-      }
+      navigate(`/entity/${entityId}/dashboard`)
+    } catch (error) {
+      setSubmitting(false)
+
+      errorToast('Error at Signing', typeof error === 'string' && error)
     }
-
-    setSubmitting(false)
   }
 
   return (
