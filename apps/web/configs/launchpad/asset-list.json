@@ -5,7 +5,7 @@
       {
         "symbol": "IXO",
         "description": "The IXO Token",
-        "display": "IXO",
+        "display": "ixo",
         "entityId": "did:ixo:2SQ8YLqmbPAkEyd42sKXaY",
         "assetType": "coin",
         "base": "uixo",
