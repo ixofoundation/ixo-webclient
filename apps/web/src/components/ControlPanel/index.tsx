@@ -19,9 +19,11 @@ import { Flex, ScrollArea } from '@mantine/core'
 import styled from 'styled-components'
 import { useAccount } from 'hooks/account'
 import { DidQRCode } from './DidQRCode'
-import useCurrentEntity from 'hooks/currentEntity'
+import useCurrentEntity, { useCurrentEntityProfile } from 'hooks/currentEntity'
 import { EntityType } from 'types/entities'
 import { getEntityIcon } from 'utils/getEntityIcon'
+import Tooltip from 'components/Tooltip/Tooltip'
+import { toTitleCase } from 'utils/formatters'
 
 const StyledScrollArea = styled(ScrollArea)`
   & > div > div {
@@ -35,6 +37,7 @@ interface Props {
 const ControlPanel: React.FC<Props> = ({ tab }) => {
   const { controlPanelSchema: schema } = useEntityConfig()
   const { entityType } = useCurrentEntity()
+  const { name: entityName } = useCurrentEntityProfile()
   const { address } = useAccount()
   const [activeTab, setActiveTab] = useState<'profile' | 'detail' | 'feed' | 'message' | 'assistant'>(tab || 'detail')
 
@@ -97,27 +100,46 @@ const ControlPanel: React.FC<Props> = ({ tab }) => {
       </StyledScrollArea>
       <Flex w='100%' bg='#D7DFED' p={20} justify='space-around' align='center' wrap='wrap' gap={16}>
         {EntityIcon && (
-          <CircleTab
-            icon={EntityIcon as JSX.Element}
-            active={activeTab === 'detail'}
-            onClick={() => setActiveTab('detail')}
-          />
+          <Tooltip text={entityName || toTitleCase(entityType)}>
+            <CircleTab
+              icon={EntityIcon as JSX.Element}
+              active={activeTab === 'detail'}
+              onClick={() => setActiveTab('detail')}
+            />
+          </Tooltip>
         )}
         {address && (
-          <CircleTab icon={<ProfileIcon />} active={activeTab === 'profile'} onClick={() => setActiveTab('profile')} />
+          <Tooltip text={'My Profile'}>
+            <CircleTab
+              icon={<ProfileIcon />}
+              active={activeTab === 'profile'}
+              onClick={() => setActiveTab('profile')}
+            />
+          </Tooltip>
         )}
-        <CircleTab icon={<BellIcon />} active={activeTab === 'feed'} onClick={() => setActiveTab('feed')} badge={12} />
-        <CircleTab
-          icon={<CommentIcon />}
-          active={activeTab === 'message'}
-          onClick={() => setActiveTab('message')}
-          badge={8}
-        />
-        <CircleTab
-          icon={<AssistantIcon />}
-          active={activeTab === 'assistant'}
-          onClick={() => setActiveTab('assistant')}
-        />
+        <Tooltip text={'Notifications'}>
+          <CircleTab
+            icon={<BellIcon />}
+            active={activeTab === 'feed'}
+            onClick={() => setActiveTab('feed')}
+            badge={12}
+          />
+        </Tooltip>
+        <Tooltip text={'Messages'}>
+          <CircleTab
+            icon={<CommentIcon />}
+            active={activeTab === 'message'}
+            onClick={() => setActiveTab('message')}
+            badge={8}
+          />
+        </Tooltip>
+        <Tooltip text={'Oxi'}>
+          <CircleTab
+            icon={<AssistantIcon />}
+            active={activeTab === 'assistant'}
+            onClick={() => setActiveTab('assistant')}
+          />
+        </Tooltip>
       </Flex>
     </Flex>
   )

@@ -10,6 +10,8 @@ import { ReactComponent as CopyIcon } from 'assets/images/icon-copy.svg'
 import { ReactComponent as DisconnectIcon } from 'assets/images/icon-disconnect.svg'
 import { SvgBox } from 'components/App/App.styles'
 import { friendlyWalletNames } from '@ixo-webclient/wallet-connector'
+import { DisplayInDevelopmentMode } from 'components'
+import Tooltip from 'components/Tooltip/Tooltip'
 
 const HeadLine: React.FC = () => {
   const theme: any = useTheme()
@@ -20,6 +22,22 @@ const HeadLine: React.FC = () => {
       <Flex align={'center'} gap={16}>
         <Avatar src={null} alt='no image here' size={80} radius={100} />
         <Typography size='2xl'>{name}</Typography>
+        <DisplayInDevelopmentMode>
+          <CopyToClipboard text={connectedWallet?.did || ''}>
+            <Flex justify='center' align='center' gap={8}>
+              <Typography>{truncateString(connectedWallet?.did || '', 20, 'middle')}</Typography>
+              <SvgBox
+                $svgWidth={6}
+                $svgHeight={6}
+                color={theme.ixoDarkBlue}
+                hover={{ color: theme.ixoNewBlue }}
+                cursor='pointer'
+              >
+                <CopyIcon />
+              </SvgBox>
+            </Flex>
+          </CopyToClipboard>
+        </DisplayInDevelopmentMode>
       </Flex>
       <Flex align={'center'} gap={12}>
         <Flex
@@ -37,7 +55,7 @@ const HeadLine: React.FC = () => {
                 <img width={'100%'} height={'100%'} src={connectedWallet.wallet.imageUrl} alt='' />
               </Flex>
             )}
-            <Typography>{friendlyWalletNames(connectedWallet?.wallet.type || "")}</Typography>
+            <Typography>{friendlyWalletNames(connectedWallet?.wallet.type || '')}</Typography>
           </Flex>
           <Flex align={'center'} gap={8}>
             <Typography>{truncateString(address, 20, 'middle')}</Typography>
@@ -54,16 +72,18 @@ const HeadLine: React.FC = () => {
             </CopyToClipboard>
           </Flex>
         </Flex>
-        <ActionIcon
-          size={40}
-          variant='outline'
-          c={'blue'}
-          radius={0}
-          style={{ borderColor: theme.ixoNewBlue }}
-          onClick={disconnect}
-        >
-          <DisconnectIcon />
-        </ActionIcon>
+        <Tooltip text={'Disconnect'} width='100px'>
+          <ActionIcon
+            size={40}
+            variant='outline'
+            c={'blue'}
+            radius={0}
+            style={{ borderColor: theme.ixoNewBlue }}
+            onClick={disconnect}
+          >
+            <DisconnectIcon />
+          </ActionIcon>
+        </Tooltip>
       </Flex>
     </Flex>
   )

@@ -29,7 +29,7 @@ const MyAccountPage: React.FC = (): JSX.Element => {
 
   useEffect(() => {
     if (!address) {
-      navigate('/explore')
+      navigate('/explore?type=dao')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address])
