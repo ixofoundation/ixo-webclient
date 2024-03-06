@@ -3,10 +3,13 @@ import { Dropdown } from 'pages/CreateEntity/Components'
 import React, { useEffect, useMemo, useState } from 'react'
 import { selectUnverifiedEntities } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { useAppSelector } from 'redux/hooks'
-import { TProposalActionModel } from 'types/entities'
+import { TEntityModel, TProposalActionModel } from 'types/entities'
 import { validateEntityDid } from 'utils/validation'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 import { useParams } from 'react-router-dom'
+import { useEntityQuery } from 'generated/graphql'
+import { apiEntityToEntity } from 'utils/entities'
+import { Typography } from 'components/Typography'
 
 export interface AcceptToMarketplaceData {
   did: string
@@ -29,6 +32,19 @@ interface Props {
 const SetupAcceptToMarketplaceModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
   const { coreAddress } = useParams<{ coreAddress: string }>()
   const unverifiedEntities = useAppSelector(selectUnverifiedEntities)
+  const [fetchedEntity, setFetchedEntity] = useState<TEntityModel | null>(null)
+  useEntityQuery({
+    variables: {
+      id: action.data.id,
+    },
+    skip: !action.data.id || !!fetchedEntity,
+    onCompleted: (data) => {
+      setFetchedEntity(data?.entity as any)
+      apiEntityToEntity({ entity: data?.entity }, (key, value) => {
+        setFetchedEntity((entity: any) => ({ ...entity, [key]: value }))
+      })
+    },
+  })
 
   const [formData, setFormData] = useState<AcceptToMarketplaceData>(initialState)
   const validate = useMemo(() => validateEntityDid(formData.did), [formData.did])
@@ -42,7 +58,15 @@ const SetupAcceptToMarketplaceModal: React.FC<Props> = ({ open, action, onClose,
   )
 
   useEffect(() => {
-    setFormData(action?.data ?? initialState)
+    setFormData(
+      action.data
+        ? {
+            did: action.data?.did || action.data?.id,
+            relayerNodeAddress: action.data?.relayerNodeAddress,
+            relayerNodeDid: action.data?.relayerNodeDid,
+          }
+        : initialState,
+    )
   }, [action])
 
   useEffect(() => {
@@ -68,14 +92,18 @@ const SetupAcceptToMarketplaceModal: React.FC<Props> = ({ open, action, onClose,
       validate={validate}
     >
       <FlexBox $direction='column' width='100%' $gap={2}>
-        <Dropdown
-          name={'unverified_entities'}
-          options={dropdownOptions}
-          value={formData.did}
-          placeholder='Select Entity'
-          onChange={(e) => setFormData((v) => ({ ...v, did: e.target.value }))}
-          disabled={!onSubmit}
-        />
+        {action.data?.entityVerified ? (
+          <Typography>{fetchedEntity?.profile?.name}</Typography>
+        ) : (
+          <Dropdown
+            name={'unverified_entities'}
+            options={dropdownOptions}
+            value={formData.did}
+            placeholder='Select Entity'
+            onChange={(e) => setFormData((v) => ({ ...v, did: e.target.value }))}
+            disabled={!onSubmit}
+          />
+        )}
       </FlexBox>
     </SetupActionModalTemplate>
   )
