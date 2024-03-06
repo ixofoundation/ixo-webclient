@@ -11,6 +11,7 @@ import { ReactComponent as DisconnectIcon } from 'assets/images/icon-disconnect.
 import { SvgBox } from 'components/App/App.styles'
 import { friendlyWalletNames } from '@ixo-webclient/wallet-connector'
 import { DisplayInDevelopmentMode } from 'components'
+import Tooltip from 'components/Tooltip/Tooltip'
 
 const HeadLine: React.FC = () => {
   const theme: any = useTheme()
@@ -71,16 +72,18 @@ const HeadLine: React.FC = () => {
             </CopyToClipboard>
           </Flex>
         </Flex>
-        <ActionIcon
-          size={40}
-          variant='outline'
-          c={'blue'}
-          radius={0}
-          style={{ borderColor: theme.ixoNewBlue }}
-          onClick={disconnect}
-        >
-          <DisconnectIcon />
-        </ActionIcon>
+        <Tooltip text={'Disconnect'} width='100px'>
+          <ActionIcon
+            size={40}
+            variant='outline'
+            c={'blue'}
+            radius={0}
+            style={{ borderColor: theme.ixoNewBlue }}
+            onClick={disconnect}
+          >
+            <DisconnectIcon />
+          </ActionIcon>
+        </Tooltip>
       </Flex>
     </Flex>
   )

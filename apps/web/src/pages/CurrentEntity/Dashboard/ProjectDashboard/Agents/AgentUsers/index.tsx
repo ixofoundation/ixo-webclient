@@ -3,12 +3,13 @@ import { useGetJoiningAgentsByCollectionId } from 'graphql/iid'
 import { useCurrentEntityAdminAccount } from 'hooks/currentEntity'
 import { useQuery } from 'hooks/window'
 import { GetGranteeRole } from 'lib/protocol'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTheme } from 'styled-components'
 import AgentUserSection from './AgentUser'
 import { AgentRoles } from 'types/models'
 import { IAgent } from 'types/agent'
 import { Loader } from '@mantine/core'
+import DeedOfferForm from './DeedOfferForm'
 
 let interval: any = undefined
 
@@ -22,6 +23,15 @@ const AgentUsers: React.FC = () => {
   const [pendingAgents, setPendingAgents] = useState<IAgent[]>([])
   const [approvedAgents, setApprovedAgents] = useState<IAgent[]>([])
   const [loading, setLoading] = useState(true)
+  const [selectedAgent, setSelectedAgent] = useState<IAgent | undefined>(undefined)
+
+  const selectedAgentIid = useMemo(() => {
+    return agents.find((agent: any) =>
+      agent.verificationMethod.some(
+        (vm: any) => vm.type === 'CosmosAccountAddress' && vm.blockchainAccountID === selectedAgent?.address,
+      ),
+    )
+  }, [agents, selectedAgent])
 
   const getAgentsRole = useCallback(async () => {
     const joiningAgents: IAgent[] = agents
@@ -59,6 +69,8 @@ const AgentUsers: React.FC = () => {
   }, [adminAddress, agents, collectionId])
 
   useEffect(() => {
+    setLoading(true)
+
     getAgentsRole()
     interval = setInterval(() => {
       getAgentsRole()
@@ -81,10 +93,20 @@ const AgentUsers: React.FC = () => {
   }
   return (
     <FlexBox width='100%' $direction='column' $gap={6}>
-      <AgentUserSection title={'Authorized'} agents={approvedAgents} noAction />
+      <AgentUserSection
+        title={'Authorized'}
+        agents={approvedAgents}
+        noAction
+        onClick={(agent) => setSelectedAgent((v) => (agent === v ? undefined : agent))}
+      />
       <FlexBox width='100%' height='1px' background={theme.ixoDarkBlue} />
-      <AgentUserSection title={'Pending approval'} agents={pendingAgents} />
+      <AgentUserSection
+        title={'Pending approval'}
+        agents={pendingAgents}
+        onClick={(agent) => setSelectedAgent((v) => (agent === v ? undefined : agent))}
+      />
       <FlexBox width='100%' height='1px' background={theme.ixoDarkBlue} />
+      {selectedAgentIid && <DeedOfferForm collectionId={collectionId} agent={selectedAgentIid} />}
     </FlexBox>
   )
 }
