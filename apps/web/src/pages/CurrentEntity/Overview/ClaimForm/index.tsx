@@ -166,8 +166,6 @@ const ClaimForm: React.FC<Props> = ({ claimId }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [questionFormData, isEligible])
 
-  console.log(11111, { claimCollection })
-
   if (userRole !== AgentRoles.serviceProviders) {
     return (
       <FlexBox width='100%' $justifyContent='center' $alignItems='center' height='300px'>
