@@ -1,4 +1,4 @@
-import { ActionIcon, Anchor, Flex, Text } from '@mantine/core'
+import { ActionIcon, Anchor, Flex, Text, Tooltip } from '@mantine/core'
 import { SvgBox } from 'components/App/App.styles'
 import React, { useState } from 'react'
 import {
@@ -28,11 +28,13 @@ const Footer: React.FC = () => {
   return (
     <>
       <Flex pos={'fixed'} left={40} bottom={24} style={{ transform: 'translate(-50%, -50%)', zIndex: 10 }}>
-        <ActionIcon variant='filled' aria-label='Footer' radius={'100%'} onClick={() => setCollapse((v) => !v)}>
-          <SvgBox color='white' $svgWidth={6} $svgHeight={6}>
-            <InfoIcon />
-          </SvgBox>
-        </ActionIcon>
+        <Tooltip label='Toggle Footer' position='right'>
+          <ActionIcon variant='filled' aria-label='Footer' radius={'100%'} onClick={() => setCollapse((v) => !v)}>
+            <SvgBox color='white' $svgWidth={6} $svgHeight={6}>
+              <InfoIcon />
+            </SvgBox>
+          </ActionIcon>
+        </Tooltip>
       </Flex>
 
       <Flex
