@@ -17,7 +17,7 @@
   directory = "apps/web/functions"
 
 [images]
-  remote_images = ["https://cellnode-pandora.ixo.world/public/*]
+  remote_images = ["https://cellnode-pandora.ixo.world/public/*"]
 
 [[redirects]]
   from = "/public/*"
