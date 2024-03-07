@@ -198,8 +198,6 @@ const ClaimForm: React.FC<Props> = ({ claimId }) => {
     )
   }
 
-  console.log(11111, claimCollection)
-
   if (claimCollection.state !== 0) {
     return (
       <FlexBox width='100%' $justifyContent='center' $alignItems='center' height='300px'>
