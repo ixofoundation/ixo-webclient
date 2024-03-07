@@ -103,7 +103,7 @@ const getHeaderTabButtons = (entityType: EntityType, entityTitle: string): any =
     {
       iconClass: `icon-${entityType?.toLowerCase()}`,
       linkClass: entityType?.toLowerCase(),
-      path: '/explore?type=' + entityType?.toLowerCase(),
+      path: '/explore',
       title: entityTitle?.toUpperCase(),
       tooltip: `${entityTitle} Explorer`,
     },
