@@ -17,9 +17,9 @@ import CreateProposal from './Governance/CreateProposal'
 import CreateEntityLayout from 'pages/CreateEntity/CreateEntityLayout/CreateEntityLayout'
 import { useGetUserGranteeRole } from 'hooks/claim'
 import { AgentRoles } from 'types/models'
-import Agents from './Agents'
-import Claims from './Claims'
-import ClaimDetail from './ClaimDetail'
+import Agents from '../ProjectDashboard/Agents'
+import Claims from '../ProjectDashboard/Claims'
+import ClaimDetail from '../ProjectDashboard/ClaimDetail'
 
 const DAODashboard: React.FC = (): JSX.Element => {
   const { entityId } = useParams<{ entityId: string }>()
