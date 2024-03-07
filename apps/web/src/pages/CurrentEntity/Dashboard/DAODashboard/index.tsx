@@ -75,9 +75,9 @@ const DAODashboard: React.FC = (): JSX.Element => {
     },
     {
       url: `/entity/${entityId}/dashboard/agents`,
-      icon: requireCheckDefault(require('assets/img/sidebar/profile.svg')),
-      sdg: 'Agent',
-      tooltip: 'Agent',
+      icon: requireCheckDefault(require('assets/img/sidebar/agent.svg')),
+      sdg: 'Agents',
+      tooltip: 'Agents',
       disabled: !registered || owner !== address,
     },
     {

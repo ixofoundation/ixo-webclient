@@ -130,22 +130,22 @@ const getHeaderTabButtons = (entityType: EntityType, entityTitle: string): any =
   }
 
   if (entityType === EntityType.Asset) {
-    tabButtons.push(
-      {
-        iconClass: 'icon-impacts',
-        linkClass: 'in-active',
-        path: '/impact',
-        title: 'IMPACT',
-        tooltip: `Impacts of ${entityType}s`,
-      },
-      {
-        iconClass: 'icon-exchange',
-        linkClass: entityType.toLowerCase(),
-        path: '/exchange',
-        title: 'EXCHANGE',
-        tooltip: `Asset Exchange`,
-      },
-    )
+    // tabButtons.push(
+    //   {
+    //     iconClass: 'icon-impacts',
+    //     linkClass: 'in-active',
+    //     path: '/impact',
+    //     title: 'IMPACT',
+    //     tooltip: `Impacts of ${entityType}s`,
+    //   },
+    //   {
+    //     iconClass: 'icon-exchange',
+    //     linkClass: entityType.toLowerCase(),
+    //     path: '/exchange',
+    //     title: 'EXCHANGE',
+    //     tooltip: `Asset Exchange`,
+    //   },
+    // )
   }
 
   return tabButtons
