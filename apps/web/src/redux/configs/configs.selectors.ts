@@ -3,6 +3,7 @@ import { createSelector } from '@reduxjs/toolkit'
 import { AssetListConfig, ConfigsState, CurrencyInfo, ExchangeConfig, PaymentCoins, RelayerInfo } from './configs.types'
 import { selectEntityType } from 'redux/currentEntity/currentEntity.selectors'
 import { toRootEntityType } from 'utils/entities'
+import { EntityConfig } from 'types/entities'
 
 const chainId = process.env.REACT_APP_CHAIN_ID
 
@@ -45,7 +46,10 @@ export const selectTradingAllowed = createSelector(
 /**
  * @description EntityConfig selectors
  */
-export const selectEntityConfig = createSelector(selectConfigs, (configs: ConfigsState): any => configs.entityConfig)
+export const selectEntityConfig = createSelector(
+  selectConfigs,
+  (configs: ConfigsState): EntityConfig => configs.entityConfig,
+)
 
 export const selectEntityConfigByType = createSelector(
   selectEntityType,
