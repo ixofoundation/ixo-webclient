@@ -26,7 +26,7 @@ export class SignXWallet {
   constructor(network: keyof typeof SignXEndpoints) {
     this.signXClient = new SignX({
       endpoint: SignXEndpoints[network],
-      sitename: "ixo-webclient",
+      sitename: "Launchpad Portal",
       network: network,
     });
     this.timeout = this.signXClient.timeout;
