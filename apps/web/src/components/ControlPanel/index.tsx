@@ -54,10 +54,10 @@ const ControlPanel: React.FC<Props> = ({ tab }) => {
   const renderDetail = () => (
     <>
       <PerformanceCard />
-      <ActionsCard widget={schema.actions} />
+      <ActionsCard widget={schema?.actions} />
       <ClaimsCard />
       {entityType === EntityType.Project && <DidQRCode />}
-      <ConnectCard widget={schema.connections} />
+      <ConnectCard widget={schema?.connections} />
     </>
   )
 
