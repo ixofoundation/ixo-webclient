@@ -198,10 +198,12 @@ const ClaimForm: React.FC<Props> = ({ claimId }) => {
     )
   }
 
-  if (claimCollection.status !== 0) {
+  console.log(11111, claimCollection)
+
+  if (claimCollection.state !== 0) {
     return (
       <FlexBox width='100%' $justifyContent='center' $alignItems='center' height='300px'>
-        <Typography size='5xl'>ClaimCollection Status must be OPEN</Typography>
+        <Typography size='5xl'>ClaimCollection State must be OPEN</Typography>
       </FlexBox>
     )
   }
