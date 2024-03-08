@@ -703,6 +703,14 @@ export const ProposalActionConfigMap = {
     icon: PaperIcon,
     setupModal: SetupUpdateVotingConfigModal,
   },
+  '/ixo.entity.v1beta1.MsgUpdateEntityVerified': {
+    type: '/ixo.entity.v1beta1.MsgUpdateEntityVerified',
+    group: 'Entities',
+    text: 'Accept to Marketplace',
+    description: 'Every entity created on a marketplace has to be accepted by the DAO that runs the marketplace.',
+    icon: CheckSquareIcon,
+    setupModal: SetupAcceptToMarketplaceModal,
+  },
 }
 
 export const VMKeyMap = {

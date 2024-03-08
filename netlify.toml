@@ -15,3 +15,12 @@
 
 [functions]
   directory = "apps/web/functions"
+
+[images]
+  remote_images = ["https://cellnode-pandora.ixo.world/public/*"]
+
+[[redirects]]
+  from = "/public/*"
+  to = "https://cellnode-pandora.ixo.world/:splat"
+  status = 200
+  force = true

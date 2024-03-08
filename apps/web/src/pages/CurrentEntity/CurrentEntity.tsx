@@ -28,7 +28,6 @@ const CurrentEntityPage: React.FC = (): JSX.Element => {
     },
     skip: Boolean(entity),
     onCompleted: (data) => {
-      console.log({ data: data?.entity })
       setFetchedEntity(data?.entity as any)
       apiEntityToEntity({ entity: data?.entity, cwClient }, (key, value) => {
         setFetchedEntity((entity: any) => ({ ...entity, [key]: value }))

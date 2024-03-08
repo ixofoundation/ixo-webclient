@@ -1,4 +1,5 @@
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
+import { EntityConfig } from 'types/entities'
 
 export interface AssetType {
   symbol: string //  IXO
@@ -141,7 +142,7 @@ export interface ConfigsState {
   assetListConfig: AssetListConfig[]
   relayersConfig: RelayerInfo[]
   exchangeConfig: ExchangeConfig
-  entityConfig: any
+  entityConfig: EntityConfig
 }
 
 export enum ConfigsStateActions {
@@ -183,11 +184,11 @@ export interface GetExchangeSuccessAction {
 }
 export interface GetEntityConfigAction {
   type: typeof ConfigsStateActions.GetEntityConfig
-  payload: Promise<ExchangeConfig>
+  payload: Promise<EntityConfig>
 }
 export interface GetEntitySuccessAction {
   type: typeof ConfigsStateActions.GetEntityConfigSuccess
-  payload: ExchangeConfig
+  payload: EntityConfig
 }
 
 export type ConfigsStateActionTypes =

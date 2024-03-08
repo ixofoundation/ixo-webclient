@@ -53,9 +53,9 @@ const Breadcrumb: React.FunctionComponent<Props> = ({ subRoutes, baseRoutes }) =
         </span>
       ))}
       <Routes>
-      {subRoutes.map((subRoute, key) => (
-        <Route path={subRoute.url} key={`sdg-${key}`} element={<NavItem to={subRoute.url}>{subRoute.sdg}</NavItem>} />
-      ))}
+        {subRoutes.map((subRoute, key) => (
+          <Route path={subRoute.url} key={`sdg-${key}`} element={<NavItem to={subRoute.url}>{subRoute.sdg}</NavItem>} />
+        ))}
       </Routes>
     </Container>
   )

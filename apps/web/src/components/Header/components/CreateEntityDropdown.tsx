@@ -15,10 +15,8 @@ import Projects from 'assets/icons/Projects'
 import DataAssets from 'assets/icons/DataAssets'
 import { EntityType } from 'types/entities'
 import { useAppSelector } from 'redux/hooks'
-import {
-  selectEntityConfig,
-  selectEntityHeaderButtonColorUIConfig,
-} from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { selectEntityHeaderButtonColorUIConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { selectEntityConfig } from 'redux/configs/configs.selectors'
 
 interface Props {
   entityType?: EntityType
