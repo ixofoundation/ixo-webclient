@@ -12,6 +12,7 @@ import { Input, Output } from '@ixo/impactxclient-sdk/types/codegen/cosmos/bank/
 import { QueryDelegationTotalRewardsResponse } from '@ixo/impactxclient-sdk/types/codegen/cosmos/distribution/v1beta1/query'
 import { TokenAsset } from '@ixo/impactxclient-sdk/types/custom_queries/currency.types'
 import { getQueryClient } from 'lib/queryClient'
+import { StargateClient } from '@cosmjs/stargate'
 
 export const BankSendTrx = (myAddress: string, toAddress: string, token: Coin) => {
   const message = {
@@ -46,15 +47,15 @@ export const BankMultiSendTrx = async (
   }
 }
 
-export const GetBalances = async (address: string, rpc = RPC_ENDPOINT): Promise<Coin[]> => {
+export const GetBalances = async (address: string, rpc = RPC_ENDPOINT || ""): Promise<Coin[]> => {
   if (!address) {
     throw new Error('address is undefined')
   }
-  const client = await getQueryClient()
-  const res = await client.cosmos.bank.v1beta1.allBalances({
-    address,
-  })
-  return res.balances
+  const client = await StargateClient.connect(rpc)
+
+  const res = await client.getAllBalances(address)
+
+  return res as any
 }
 
 export const GetTokenAsset = async (denom: string, rpc = RPC_ENDPOINT): Promise<TokenAsset> => {
