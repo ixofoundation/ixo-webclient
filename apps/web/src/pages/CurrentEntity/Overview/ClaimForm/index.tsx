@@ -169,7 +169,7 @@ const ClaimForm: React.FC<Props> = ({ claimId }) => {
   if (userRole !== AgentRoles.serviceProviders) {
     return (
       <FlexBox width='100%' $justifyContent='center' $alignItems='center' height='300px'>
-        <Typography size='5xl'>First apply to be an Agent</Typography>
+        <Typography size='5xl'>First apply to Join</Typography>
       </FlexBox>
     )
   }
