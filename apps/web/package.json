@@ -53,6 +53,7 @@
     "@editorjs/table": "2.3.0",
     "@editorjs/warning": "1.4.0",
     "@ixo-webclient/cosmwasm-clients": "*",
+    "@ixo-webclient/utils": "*",
     "@ixo-webclient/wallet-connector": "*",
     "@ixo/assistant-sdk": "^0.0.2",
     "@ixo/cosmos-chain-resolver": "^0.0.6",

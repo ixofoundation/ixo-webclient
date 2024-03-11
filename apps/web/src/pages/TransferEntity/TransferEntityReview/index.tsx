@@ -13,7 +13,7 @@ import { useTheme } from 'styled-components'
 import { serviceEndpointToUrl } from 'utils/entities'
 import { errorToast, successToast } from 'utils/toast'
 import { CosmosMsgForEmpty } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
-import { decodedMessagesString, makeStargateMessage } from 'utils/messages'
+import { makeStargateMessage } from 'utils/messages'
 import { depositInfoToCoin } from 'utils/conversions'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/DaoPreProposeSingle.types'
 import { useWallet } from '@ixo-webclient/wallet-connector'
@@ -142,10 +142,8 @@ const TransferEntityToGroupButton: React.FC<{
         ),
       ]
 
-      console.log('handlePublishProposal wasmMessage', decodedMessagesString(wasmMessage))
-
       const daoPreProposeSingleClient = new DaoPreProposeSingleClient(execute, address, preProposalContractAddress)
-      const response = await daoPreProposeSingleClient
+      await daoPreProposeSingleClient
         .propose(
           {
             msg: {
@@ -175,8 +173,6 @@ const TransferEntityToGroupButton: React.FC<{
           errorToast(null, typeof e === 'string' && e)
           return undefined
         })
-
-      console.log('handlePublishProposal', { response })
 
       return true
     } catch (e) {
