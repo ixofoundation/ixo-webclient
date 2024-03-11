@@ -123,6 +123,9 @@ const EntitiesExplorer = ({
     variables: {
       filter: {
         not: { type: { startsWith: 'asset' } },
+        "type": {
+          "equalTo" : "dao"
+        }
       },
     },
     onCompleted: ({ entities }) => {

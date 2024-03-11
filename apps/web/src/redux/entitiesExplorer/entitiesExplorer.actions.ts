@@ -53,7 +53,6 @@ export const getEntityConfig =
     return dispatch({
       type: EntitiesExplorerActions.GetEntityConfig,
       payload: Axios.get(SchemaGitUrl!).then((response) => {
-        console.log("response of entity config", response.data)
         return response.data
       }),
     })
@@ -61,7 +60,6 @@ export const getEntityConfig =
 
 export const getAsyncEntityConfig = createAsyncThunk(EntitiesExplorerActions.GetEntityConfig, async () => {
   const response = await Axios.get(SchemaGitUrl!)
-  console.log({asyncConfig: response.data})
   return {}
 })
 

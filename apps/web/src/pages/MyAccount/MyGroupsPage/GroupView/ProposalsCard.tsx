@@ -35,8 +35,6 @@ const ProposalsCard: React.FC<Props> = ({ daoGroup }) => {
       ? daoGroup.proposalModule.proposals[daoGroup.proposalModule.proposals.length - 1]
       : undefined
 
-  console.log({ mostRecentProposal })
-
   const ProposalItem = () => {
     if (!mostRecentProposal) {
       return null

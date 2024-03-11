@@ -142,8 +142,6 @@ const TransferEntityToGroupButton: React.FC<{
         ),
       ]
 
-      console.log('handlePublishProposal wasmMessage', decodedMessagesString(wasmMessage))
-
       const daoPreProposeSingleClient = new DaoPreProposeSingleClient(execute, address, preProposalContractAddress)
       const response = await daoPreProposeSingleClient
         .propose(
@@ -175,8 +173,6 @@ const TransferEntityToGroupButton: React.FC<{
           errorToast(null, typeof e === 'string' && e)
           return undefined
         })
-
-      console.log('handlePublishProposal', { response })
 
       return true
     } catch (e) {

@@ -347,9 +347,6 @@ export const LinkedResourceProofGenerator = (
   uploadResult: CellnodePublicResource | CellnodeWeb3Resource,
   cellnodeService?: Service,
 ): string => {
-  console.log({ cellnodeService })
-  console.log({ uploadResult })
-
   if (cellnodeService) {
     const serviceType = cellnodeService.type
     if (serviceType === NodeType.Ipfs) {

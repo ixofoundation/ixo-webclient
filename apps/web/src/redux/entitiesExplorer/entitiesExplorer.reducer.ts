@@ -25,8 +25,6 @@ export const reducer = (
   state = initialState,
   action: EntitiesActionTypes | AccountActionTypes,
 ): EntitiesExplorerState => {
-  console.log("action type", action.type)
-
   switch (action.type) {
     case AccountActions.Connect:
       return {
@@ -57,7 +55,6 @@ export const reducer = (
       return { ...state, entities }
     }
     case EntitiesExplorerActions.GetEntityConfigSuccess: {
-      console.log({selectedEntitiesType: state.selectedEntitiesType})
       const entityConfig = action.payload
       const filterView = getDefaultSelectedViewCategory(entityConfig[state.selectedEntitiesType])
 

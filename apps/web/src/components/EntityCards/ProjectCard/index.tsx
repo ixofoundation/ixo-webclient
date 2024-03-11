@@ -8,6 +8,7 @@ import { HorizontalLine } from 'components/HorizontalLine'
 import { getEntityIcon } from 'utils/getEntityIcon'
 import { ProgressBar } from 'components/ProgressBar/ProgressBar'
 import { useNavigate } from 'react-router-dom'
+import { getCDNURL } from "@ixo-webclient/utils"
 
 interface Props extends HTMLFlexBoxProps {
   id: string
@@ -42,6 +43,9 @@ export const ProjectCard: React.FC<Props> = ({
   const theme: any = useTheme()
   const navigate = useNavigate()
 
+  console.log({cardImage})
+  console.log({cardImageCDN: getCDNURL(cardImage)})
+
   return (
     <FlexBox
       onClick={() =>
@@ -60,7 +64,7 @@ export const ProjectCard: React.FC<Props> = ({
     >
       <FlexBox
         position='relative'
-        background={`url(${cardImage})`}
+        background={`url(${getCDNURL(cardImage)})`}
         width='100%'
         height='200px'
         $backgroundSize='cover'

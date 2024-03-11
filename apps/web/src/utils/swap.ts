@@ -93,8 +93,6 @@ export const queryOutputAmount = async (
   })
   const parsedResponse = JSON.parse(Uint8ArrayToJS(response.data))
 
-  console.log({parsedResponse})
-
   return Number(parsedResponse.token2_amount ?? parsedResponse.token1155_amount)
 }
 export const splitAmountOnRandomParts = (amount: number, parts: number, min = 100): number[] => {
@@ -222,8 +220,6 @@ export const getTokenBalances = async ({ accountAddress }: { accountAddress: str
   const tokenBalances = await queryTokenBalances(queryClient, 'devnet-1', accountAddress).then((response) =>
     response ? response : [],
   )
-
-  console.log({ tokenBalances })
 
   const balances = [...bankBalances, ...tokenBalances].map(({ denom, amount, batches }: any) => ({
     denom: findDenomByMinimalDenom(denom),
