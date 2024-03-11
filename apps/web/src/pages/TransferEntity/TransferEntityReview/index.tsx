@@ -13,7 +13,7 @@ import { useTheme } from 'styled-components'
 import { serviceEndpointToUrl } from 'utils/entities'
 import { errorToast, successToast } from 'utils/toast'
 import { CosmosMsgForEmpty } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
-import { decodedMessagesString, makeStargateMessage } from 'utils/messages'
+import { makeStargateMessage } from 'utils/messages'
 import { depositInfoToCoin } from 'utils/conversions'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/DaoPreProposeSingle.types'
 import { useWallet } from '@ixo-webclient/wallet-connector'
@@ -143,7 +143,7 @@ const TransferEntityToGroupButton: React.FC<{
       ]
 
       const daoPreProposeSingleClient = new DaoPreProposeSingleClient(execute, address, preProposalContractAddress)
-      const response = await daoPreProposeSingleClient
+      await daoPreProposeSingleClient
         .propose(
           {
             msg: {
