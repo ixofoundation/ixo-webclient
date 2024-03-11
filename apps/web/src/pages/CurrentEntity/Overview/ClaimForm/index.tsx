@@ -77,19 +77,19 @@ const ClaimForm: React.FC<Props> = ({ claimId }) => {
         (item: LinkedResource) => item.type === 'surveyTemplate',
       )
 
-      ;(async () => {
-        const responses = await Promise.all(
-          claimSchemaLinkedResources.map((item) => {
-            const url = serviceEndpointToUrl(item.serviceEndpoint, templateEntity.service)
-            return fetch(url)
-              .then((response) => response.json())
-              .then((response) => {
-                return response
-              })
-          }),
-        )
-        setQuestionFormData(responses.map((response) => response.question))
-      })()
+        ; (async () => {
+          const responses = await Promise.all(
+            claimSchemaLinkedResources.map((item) => {
+              const url = serviceEndpointToUrl(item.serviceEndpoint, templateEntity.service)
+              return fetch(url)
+                .then((response) => response.json())
+                .then((response) => {
+                  return response
+                })
+            }),
+          )
+          setQuestionFormData(responses.map((response) => response.question))
+        })()
     }
     return () => {
       setQuestionFormData([])
@@ -169,7 +169,7 @@ const ClaimForm: React.FC<Props> = ({ claimId }) => {
   if (userRole !== AgentRoles.serviceProviders) {
     return (
       <FlexBox width='100%' $justifyContent='center' $alignItems='center' height='300px'>
-        <Typography size='5xl'>Apply as a data agent first</Typography>
+        <Typography size='5xl'>First apply to be an Agent</Typography>
       </FlexBox>
     )
   }
