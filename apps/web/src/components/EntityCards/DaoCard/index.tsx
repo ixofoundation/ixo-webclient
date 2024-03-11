@@ -7,7 +7,7 @@ import { thousandSeparator } from 'utils/formatters'
 import { HorizontalLine } from 'components/HorizontalLine'
 import { getEntityIcon } from 'utils/getEntityIcon'
 import { useNavigate } from 'react-router'
-import { getCDNURL } from '@ixo-webclient/utils'
+import { getMappedCDNURL } from '@ixo-webclient/utils'
 import { Skeleton } from '@mantine/core'
 
 interface Props extends HTMLFlexBoxProps {
@@ -63,7 +63,7 @@ export const DaoCard: React.FC<Props> = ({
       <Skeleton visible={!cardImage}>
         <FlexBox
           position='relative'
-          background={`url(${getCDNURL(cardImage)})`}
+          background={`url(${getMappedCDNURL(cardImage)})`}
           width='100%'
           height='200px'
           $backgroundSize='cover'

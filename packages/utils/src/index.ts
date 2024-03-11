@@ -1,2 +1,2 @@
 export * from './encoding'
-export * from './getCDNURL'
+export * from './getMappedURLs'
