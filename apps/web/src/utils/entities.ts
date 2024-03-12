@@ -21,6 +21,7 @@ import { CellnodePublicResource, CellnodeWeb3Resource } from '@ixo/impactxclient
 import Axios from 'axios'
 import { ApiListedEntityData } from 'api/blocksync/types/entities'
 import { get } from 'lodash'
+import { getMappedNewURL } from '@ixo-webclient/utils'
 
 export const getCountryCoordinates = (countryCodes: string[]): any[] => {
   const coordinates: any[] = []
@@ -133,7 +134,7 @@ export function serviceEndpointToUrl(serviceEndpoint: string, service: Service[]
   )
 
   if (usedService && usedService.type.toLocaleLowerCase() === NodeType.Ipfs.toLocaleLowerCase()) {
-    url = `https://${key}.ipfs.w3s.link`
+    url = new URL(key, usedService.serviceEndpoint).href
   } else if (usedService && usedService.type.toLocaleLowerCase() === NodeType.CellNode.toLocaleLowerCase()) {
     url = new URL(key, usedService.serviceEndpoint).href
   } else {
@@ -159,7 +160,7 @@ export function apiEntityToEntity(
         if (item.type === 'Settings' || item.type === 'VerifiableCredential') {
           switch (item.id) {
             case '{id}#profile': {
-              fetch(url)
+              fetch(getMappedNewURL(url))
                 .then((response) => response.json())
                 .then((response) => {
                   const context = response['@context']
@@ -169,27 +170,27 @@ export function apiEntityToEntity(
                   if (image && !image.startsWith('http')) {
                     const [identifier] = image.split(':')
                     let endpoint = ''
-                      ; (Array.isArray(context)
-                        ? context
-                        : Object.entries(context).map(([key, value]) => ({ [key]: value }))
-                      ).forEach((item: any) => {
-                        if (typeof item === 'object' && identifier in item) {
-                          endpoint = item[identifier]
-                        }
-                      })
+                    ;(Array.isArray(context)
+                      ? context
+                      : Object.entries(context).map(([key, value]) => ({ [key]: value }))
+                    ).forEach((item: any) => {
+                      if (typeof item === 'object' && identifier in item) {
+                        endpoint = item[identifier]
+                      }
+                    })
                     image = image.replace(identifier + ':', endpoint)
                   }
                   if (logo && !logo.startsWith('http')) {
                     const [identifier] = logo.split(':')
                     let endpoint = ''
-                      ; (Array.isArray(context)
-                        ? context
-                        : Object.entries(context).map(([key, value]) => ({ [key]: value }))
-                      ).forEach((item: any) => {
-                        if (typeof item === 'object' && identifier in item) {
-                          endpoint = item[identifier]
-                        }
-                      })
+                    ;(Array.isArray(context)
+                      ? context
+                      : Object.entries(context).map(([key, value]) => ({ [key]: value }))
+                    ).forEach((item: any) => {
+                      if (typeof item === 'object' && identifier in item) {
+                        endpoint = item[identifier]
+                      }
+                    })
                     logo = logo.replace(identifier + ':', endpoint)
                   }
                   return { ...response, image, logo }
@@ -204,7 +205,7 @@ export function apiEntityToEntity(
               break
             }
             case '{id}#creator': {
-              fetch(url)
+              fetch(getMappedNewURL(url))
                 .then((response) => response.json())
                 .then((response) => response.credentialSubject)
                 .then((creator) => {
@@ -214,7 +215,7 @@ export function apiEntityToEntity(
               break
             }
             case '{id}#administrator': {
-              fetch(url)
+              fetch(getMappedNewURL(url))
                 .then((response) => response.json())
                 .then((response) => response.credentialSubject)
                 .then((administrator) => {
@@ -224,7 +225,7 @@ export function apiEntityToEntity(
               break
             }
             case '{id}#page': {
-              fetch(url)
+              fetch(getMappedNewURL(url))
                 .then((response) => response.json())
                 .then((response) => {
                   if ('@context' in response && 'page' in response) {
@@ -238,7 +239,7 @@ export function apiEntityToEntity(
               break
             }
             case '{id}#tags': {
-              fetch(url)
+              fetch(getMappedNewURL(url))
                 .then((response) => response.json())
                 .then((response) => response.entityTags ?? response.ddoTags)
                 .then((tags) => {
@@ -251,21 +252,21 @@ export function apiEntityToEntity(
               break
           }
         } else if (item.type === 'Lottie') {
-          fetch(url)
+          fetch(getMappedNewURL(url))
             .then((response) => response.json())
             .then((token) => {
               updateCallback('zlottie', token)
             })
             .catch(() => undefined)
         } else if (item.type === 'TokenMetadata') {
-          fetch(url)
+          fetch(getMappedNewURL(url))
             .then((response) => response.json())
             .then((token) => {
               updateCallback('token', token)
             })
             .catch(() => undefined)
         } else if (item.type === 'ClaimSchema') {
-          fetch(url)
+          fetch(getMappedNewURL(url))
             .then((response) => response.json())
             .then((response) => response.question)
             .then((question) => {
@@ -273,7 +274,7 @@ export function apiEntityToEntity(
             })
             .catch(() => undefined)
         } else if (item.type === 'surveyTemplate') {
-          fetch(url)
+          fetch(getMappedNewURL(url))
             .then((response) => response.json())
             .then((response) => response.question)
             .then((question) => {
@@ -288,7 +289,7 @@ export function apiEntityToEntity(
       const url = serviceEndpointToUrl(item.serviceEndpoint, service)
 
       if (item.proof && url) {
-        fetch(url)
+        fetch(getMappedNewURL(url))
           .then((response) => response.json())
           .then((response) => {
             return response.entityClaims[0]
@@ -347,9 +348,6 @@ export const LinkedResourceProofGenerator = (
   uploadResult: CellnodePublicResource | CellnodeWeb3Resource,
   cellnodeService?: Service,
 ): string => {
-  console.log({ cellnodeService })
-  console.log({ uploadResult })
-
   if (cellnodeService) {
     const serviceType = cellnodeService.type
     if (serviceType === NodeType.Ipfs) {
@@ -431,7 +429,10 @@ export function isCellnodeWeb3Resource(object: any): object is CellnodeWeb3Resou
   return 'cid' in object && 'name' in object
 }
 
-export const getCellNodeProof = (res: CellnodePublicResource | CellnodeWeb3Resource | undefined, customError?: string) => {
+export const getCellNodeProof = (
+  res: CellnodePublicResource | CellnodeWeb3Resource | undefined,
+  customError?: string,
+) => {
   let proof = ''
   if (isCellnodePublicResource(res)) {
     proof = res.key
@@ -449,6 +450,9 @@ export function toRootEntityType(entityType: string): string {
   }
   if (entityType?.startsWith('oracle/')) {
     return 'oracle'
+  }
+  if (entityType?.startsWith('asset/')) {
+    return 'asset'
   }
   return entityType
 }
