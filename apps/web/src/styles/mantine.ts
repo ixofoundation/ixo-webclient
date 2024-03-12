@@ -13,6 +13,18 @@ export const mantineThemeColors: MantineThemeColorsOverride = {
     '#143F54', // 8 // ixoNavyBlue
     '#022739', // 9 // ixoDarkestBlue
   ],
+  'ixo-green': [
+    '#eaf8f0', // 0
+    '#cbeed9', // 1
+    '#a8e2c0', // 2
+    '#9fdfba', // 3
+    '#85d6a7', // 4
+    '#63cb8e', // 5
+    '#6FCF97', // 6 // ixoGreen
+    '#349c60', // 7
+    '#297a4a', // 8
+    '#1d5735', // 9
+  ],
 }
 
 const mantineTheme: MantineThemeOverride = {
