@@ -286,8 +286,6 @@ export const selectFilterSchema = createSelector(
   selectEntitiesState,
   (state: RootState) => state.configs.entityConfig,
   (entitiesState: EntitiesExplorerState, entityConfig): FilterSchema => {
-    console.log({ entitiesState })
-    console.log({ entityConfigSelector: entityConfig })
     return entityConfig ? entityConfig[entitiesState?.selectedEntitiesType]?.filterSchema : {}
   },
 )

@@ -25,7 +25,6 @@ const ReviewDAO: React.FC = (): JSX.Element => {
   }, [daoGroups, daoController])
 
   const handleSignToCreate = async (): Promise<void> => {
-    console.log('modified => ', { entity })
     if (search) {
       const searchParams = new URLSearchParams(search)
       const redirectTo = searchParams.get('redirectTo')

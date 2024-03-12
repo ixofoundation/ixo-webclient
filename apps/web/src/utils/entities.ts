@@ -21,6 +21,7 @@ import { CellnodePublicResource, CellnodeWeb3Resource } from '@ixo/impactxclient
 import Axios from 'axios'
 import { ApiListedEntityData } from 'api/blocksync/types/entities'
 import { get } from 'lodash'
+import { getMappedNewURL } from '@ixo-webclient/utils'
 
 export const getCountryCoordinates = (countryCodes: string[]): any[] => {
   const coordinates: any[] = []
@@ -159,7 +160,7 @@ export function apiEntityToEntity(
         if (item.type === 'Settings' || item.type === 'VerifiableCredential') {
           switch (item.id) {
             case '{id}#profile': {
-              fetch(url)
+              fetch(getMappedNewURL(url))
                 .then((response) => response.json())
                 .then((response) => {
                   const context = response['@context']
@@ -204,7 +205,7 @@ export function apiEntityToEntity(
               break
             }
             case '{id}#creator': {
-              fetch(url)
+              fetch(getMappedNewURL(url))
                 .then((response) => response.json())
                 .then((response) => response.credentialSubject)
                 .then((creator) => {
@@ -214,7 +215,7 @@ export function apiEntityToEntity(
               break
             }
             case '{id}#administrator': {
-              fetch(url)
+              fetch(getMappedNewURL(url))
                 .then((response) => response.json())
                 .then((response) => response.credentialSubject)
                 .then((administrator) => {
@@ -224,7 +225,7 @@ export function apiEntityToEntity(
               break
             }
             case '{id}#page': {
-              fetch(url)
+              fetch(getMappedNewURL(url))
                 .then((response) => response.json())
                 .then((response) => {
                   if ('@context' in response && 'page' in response) {
@@ -238,7 +239,7 @@ export function apiEntityToEntity(
               break
             }
             case '{id}#tags': {
-              fetch(url)
+              fetch(getMappedNewURL(url))
                 .then((response) => response.json())
                 .then((response) => response.entityTags ?? response.ddoTags)
                 .then((tags) => {
@@ -251,21 +252,21 @@ export function apiEntityToEntity(
               break
           }
         } else if (item.type === 'Lottie') {
-          fetch(url)
+          fetch(getMappedNewURL(url))
             .then((response) => response.json())
             .then((token) => {
               updateCallback('zlottie', token)
             })
             .catch(() => undefined)
         } else if (item.type === 'TokenMetadata') {
-          fetch(url)
+          fetch(getMappedNewURL(url))
             .then((response) => response.json())
             .then((token) => {
               updateCallback('token', token)
             })
             .catch(() => undefined)
         } else if (item.type === 'ClaimSchema') {
-          fetch(url)
+          fetch(getMappedNewURL(url))
             .then((response) => response.json())
             .then((response) => response.question)
             .then((question) => {
@@ -273,7 +274,7 @@ export function apiEntityToEntity(
             })
             .catch(() => undefined)
         } else if (item.type === 'surveyTemplate') {
-          fetch(url)
+          fetch(getMappedNewURL(url))
             .then((response) => response.json())
             .then((response) => response.question)
             .then((question) => {
@@ -288,7 +289,7 @@ export function apiEntityToEntity(
       const url = serviceEndpointToUrl(item.serviceEndpoint, service)
 
       if (item.proof && url) {
-        fetch(url)
+        fetch(getMappedNewURL(url))
           .then((response) => response.json())
           .then((response) => {
             return response.entityClaims[0]
@@ -347,9 +348,6 @@ export const LinkedResourceProofGenerator = (
   uploadResult: CellnodePublicResource | CellnodeWeb3Resource,
   cellnodeService?: Service,
 ): string => {
-  console.log({ cellnodeService })
-  console.log({ uploadResult })
-
   if (cellnodeService) {
     const serviceType = cellnodeService.type
     if (serviceType === NodeType.Ipfs) {
