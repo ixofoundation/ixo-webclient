@@ -93,7 +93,7 @@ jobs:
           # Testnet config
           REACT_APP_CHAIN_ID: pandora-8
           REACT_APP_BLOCK_SYNC_URL: https://testnet-blocksync.ixo.earth/
-          REACT_APP_BLOCK_SYNC_GRAPHQL: https://testnet-blocksync-graphql.ixo.earth/graphiql
+          REACT_APP_BLOCK_SYNC_GRAPHQL: https://testnet-blocksync-graphql.ixo.earth/graphql
           REACT_APP_BLOCK_SCAN_URL: https://blockscan.testnet.ixo.earth/ixo
           REACT_APP_GAIA_URL: https://testnet.ixo.earth/rest/
           REACT_APP_RPC_URL: https://testnet.ixo.earth/rpc/
