@@ -86,7 +86,7 @@ const ApplyToJoinModal: React.FC<Props> = ({ claimCollections = [], open, onClos
               size='flex'
               disabled={!selectedCollectionId}
             >
-              Continue as Data Agent
+              Continue as Agent
             </Button>
             <Button
               variant='primary'
@@ -95,7 +95,7 @@ const ApplyToJoinModal: React.FC<Props> = ({ claimCollections = [], open, onClos
               size='flex'
               disabled={!selectedCollectionId}
             >
-              Continue as Evaluation Agent
+              Continue as Evaluator
             </Button>
           </ModalRow>
         </ModalBody>
