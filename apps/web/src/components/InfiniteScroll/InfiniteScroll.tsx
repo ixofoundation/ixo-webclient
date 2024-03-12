@@ -17,11 +17,20 @@ interface Props {
   hasMore: boolean
   columns: number
   $gridGap?: number
+  $scrollableTarget?: any
   next: () => void
   children: React.ReactNode
 }
 
-const InfiniteScroll: React.FC<Props> = ({ dataLength, hasMore, next, columns, $gridGap = 7.5, children }) => {
+const InfiniteScroll: React.FC<Props> = ({
+  dataLength,
+  hasMore,
+  next,
+  columns,
+  $gridGap = 7.5,
+  $scrollableTarget = 'root',
+  children,
+}) => {
   return (
     <Wrapper columns={columns} $gridGap={$gridGap}>
       <ReactInfiniteScroll
@@ -34,7 +43,7 @@ const InfiniteScroll: React.FC<Props> = ({ dataLength, hasMore, next, columns, $
             <b>Done</b>
           </p>
         }
-        scrollableTarget='root'
+        scrollableTarget={$scrollableTarget}
       >
         {children}
       </ReactInfiniteScroll>

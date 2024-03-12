@@ -180,6 +180,7 @@ const Assets: React.FC<Props> = (props) => {
         hasMore={hasMore}
         columns={itemsPerScreen}
         $gridGap={7.5}
+        $scrollableTarget={document.querySelector('.mantine-ScrollArea-viewport')}
       >
         {entities.map((asset, index) => (
           <AssetCardWrapper key={index} onClick={handleAssetCardClick(index)}>

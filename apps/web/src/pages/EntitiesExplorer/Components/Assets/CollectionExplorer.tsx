@@ -102,12 +102,9 @@ const CollectionExplorer: React.FC<Props> = (props) => {
       <Assets
         collectionId={collectionId!}
         collectionName={collectionName!}
-        entities={[...assetDevices].sort((a: any, b: any) => {
-          if (Number(a.alsoKnownAs.replace('{id}#', '')) > Number(b.alsoKnownAs.replace('{id}#', ''))) {
-            return 1
-          }
-          return -1
-        })}
+        entities={[...assetDevices].sort(
+          (a: any, b: any) => Number(a.alsoKnownAs.replace('{id}#', '')) - Number(b.alsoKnownAs.replace('{id}#', '')),
+        )}
       />
     </FlexBox>
   )
