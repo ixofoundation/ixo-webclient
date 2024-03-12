@@ -1,7 +1,4 @@
-import React, { useCallback, useMemo } from 'react'
-import { FlexBox } from 'components/App/App.styles'
-import GovernanceProposal from './GovernanceProposal'
-import { durationToSeconds, expirationAtTimeToSecondsFromNow } from 'utils/conversions'
+import React, { useCallback, useMemo, useState } from 'react'
 import { Groups } from '../Components'
 import { Typography } from 'components/Typography'
 import { Button } from 'pages/CreateEntity/Components'
@@ -11,7 +8,11 @@ import { ReactComponent as EmptyIcon } from 'assets/images/icon-empty.svg'
 import { useTheme } from 'styled-components'
 import useCurrentEntity, { useCurrentEntityDAOGroup, useCurrentEntityProfile } from 'hooks/currentEntity'
 import { TDAOGroupModel } from 'types/entities'
+import { Flex, Button as MButton, UnstyledButton } from '@mantine/core'
+import ProposalCard from './ProposalCard'
 import { useQuery } from 'hooks/window'
+import { Status } from '@ixo/impactxclient-sdk/types/codegen/DaoMigrator.types'
+import { mantineThemeColors } from 'styles/mantine'
 
 const GovernanceHeader = React.memo(({ selectedDAOGroup }: { selectedDAOGroup?: TDAOGroupModel }) => (
   <>
@@ -41,10 +42,11 @@ const Governance: React.FC = () => {
       verificationMethod.some((v) => v.blockchainAccountID === selectedDAOGroup?.coreAddress),
     [verificationMethod, selectedDAOGroup?.coreAddress],
   )
+  const [proposalFilterBy, setProposalFilterBy] = useState<Status | 'all'>('open')
 
   const handleNewProposal = useCallback(() => {
-    navigate(`/create/entity/deed/${entityId}/${selectedDAOGroup?.coreAddress}`)
-  }, [navigate, entityId, selectedDAOGroup])
+    navigate(`/entity/${entityId}/dashboard/governance/${selectedGroup}`)
+  }, [entityId, navigate, selectedGroup])
 
   const handleNewProposalForJoin = useCallback(() => {
     navigate(`/create/entity/deed/${entityId}/${selectedDAOGroup?.coreAddress}?join=true`)
@@ -55,181 +57,253 @@ const Governance: React.FC = () => {
   }, [navigate, entityId, selectedDAOGroup])
 
   const sortedProposals = useMemo(() => {
-    return selectedDAOGroup?.proposalModule.proposals.sort((a, b) => {
-      if (a.id > b.id) return -1
-      if (a.id < b.id) return 1
-      return 0
-    })
-  }, [selectedDAOGroup])
+    return (selectedDAOGroup?.proposalModule.proposals ?? [])
+      .sort((a, b) => b.id - a.id)
+      .filter((v) => proposalFilterBy === 'all' || v.proposal.status === proposalFilterBy)
+  }, [proposalFilterBy, selectedDAOGroup])
 
   return (
-    <FlexBox $direction='column' $gap={6} width='100%' color='white'>
+    <Flex direction='column' gap={'lg'} w={'100%'} color='white'>
       <Groups />
 
       <GovernanceHeader selectedDAOGroup={selectedDAOGroup} />
 
-      {selectedDAOGroup && (
-        <FlexBox width='100%' $alignItems='center' $justifyContent='space-between'>
-          <Typography variant='secondary' size='2xl'>
-            Current Governance Proposals
-          </Typography>
+      <Flex direction={'column'} gap={'lg'} w='100%'>
+        {selectedDAOGroup && (
+          <Flex w='100%' align='center' justify='space-between'>
+            <Typography variant='secondary' size='2xl'>
+              Governance Proposals
+            </Typography>
 
-          <FlexBox $alignItems='center' $gap={4}>
-            {entityStatus === 2 && hasVerificationKey && (
-              <Button
-                variant='secondary'
-                size='flex'
-                height={36}
-                textSize='base'
-                textTransform='none'
-                textWeight='medium'
-                onClick={handleReEnableKeys}
-                disabled={!isParticipating && !anyoneCanPropose}
-              >
-                Re-enable keys for {entityName || 'DAO'}
-              </Button>
-            )}
+            <Flex align='center' gap={'md'}>
+              {entityStatus === 2 && hasVerificationKey && (
+                // <Button
+                //   variant='secondary'
+                //   size='flex'
+                //   height={36}
+                //   textSize='base'
+                //   textTransform='none'
+                //   textWeight='medium'
+                //   onClick={handleReEnableKeys}
+                //   disabled={!isParticipating && !anyoneCanPropose}
+                // >
+                //   Re-enable keys for {entityName || 'DAO'}
+                // </Button>
+                <MButton
+                  variant='outline'
+                  radius='xs'
+                  size='md'
+                  onClick={handleReEnableKeys}
+                  disabled={!isParticipating && !anyoneCanPropose}
+                  style={{
+                    width: 'fit-content',
+                    color: 'white',
+                    pointerEvents: !isParticipating && !anyoneCanPropose ? 'none' : 'auto',
+                    opacity: !isParticipating && !anyoneCanPropose ? 0.5 : 1,
+                    borderColor: mantineThemeColors['ixo-blue'][6],
+                  }}
+                >
+                  Re-enable keys for {entityName || 'DAO'}
+                </MButton>
+              )}
 
-            {isImpactsDAO && daoController === selectedDAOGroup.coreAddress && !isMemberOfImpactsDAO && !isOwner ? (
-              <Button
-                variant='secondary'
-                size='flex'
-                width={170}
-                height={40}
-                textSize='base'
-                textTransform='capitalize'
-                textWeight='medium'
-                onClick={handleNewProposalForJoin}
-                disabled={!isParticipating}
-              >
-                Join
-              </Button>
-            ) : (
-              <Button
-                variant='secondary'
-                size='flex'
-                height={36}
-                textSize='base'
-                textTransform='capitalize'
-                textWeight='medium'
-                onClick={handleNewProposal}
-                disabled={!isParticipating && !anyoneCanPropose}
-              >
-                New Proposal
-              </Button>
-            )}
-          </FlexBox>
-        </FlexBox>
-      )}
+              {isImpactsDAO && daoController === selectedDAOGroup.coreAddress && !isMemberOfImpactsDAO && !isOwner ? (
+                <Button
+                  variant='secondary'
+                  size='flex'
+                  width={170}
+                  height={40}
+                  textSize='base'
+                  textTransform='capitalize'
+                  textWeight='medium'
+                  onClick={handleNewProposalForJoin}
+                  disabled={!isParticipating}
+                >
+                  Join
+                </Button>
+              ) : (
+                // <Button
+                //   variant='secondary'
+                //   size='flex'
+                //   height={36}
+                //   textSize='base'
+                //   textTransform='capitalize'
+                //   textWeight='medium'
+                //   onClick={handleNewProposal}
+                //   disabled={!isParticipating && !anyoneCanPropose}
+                // >
+                //   New Proposal
+                // </Button>
+                <MButton
+                  variant='outline'
+                  radius='xs'
+                  size='md'
+                  onClick={handleNewProposal}
+                  style={{
+                    color: 'white',
+                    pointerEvents: !isParticipating && !anyoneCanPropose ? 'none' : 'auto',
+                    opacity: !isParticipating && !anyoneCanPropose ? 0.5 : 1,
+                    borderColor: mantineThemeColors['ixo-blue'][6],
+                  }}
+                >
+                  New Proposal
+                </MButton>
+              )}
+            </Flex>
+          </Flex>
+        )}
 
-      <FlexBox $direction='column' $gap={4} color='white' width='100%'>
-        {selectedDAOGroup &&
-          selectedDAOGroup.proposalModule.proposals.length === 0 &&
-          (isParticipating || anyoneCanPropose) && (
-            <FlexBox
-              $direction='column'
-              width='100%'
-              height='380px'
-              $justifyContent='center'
-              $alignItems='center'
-              $gap={6}
-              background={theme.ixoGradientDark2}
-              $borderRadius={'4px'}
-            >
-              <EmptyIcon />
-              <Typography variant='secondary' color='dark-blue' size='2xl'>
-                There are no active proposals.
-              </Typography>
-              <Link to={`/create/entity/deed/${entityId}/${selectedDAOGroup.coreAddress}`}>
-                <Typography variant='secondary' color='blue' size='2xl'>
-                  Submit a Proposal
+        <Flex direction='column' gap='lg' color='white' w='100%'>
+          {selectedDAOGroup &&
+            selectedDAOGroup.proposalModule.proposals.length === 0 &&
+            (isParticipating || anyoneCanPropose) && (
+              <Flex
+                direction='column'
+                w='100%'
+                h='380px'
+                justify='center'
+                align='center'
+                gap='lg'
+                bg={theme.ixoGradientDark2}
+                style={{ borderRadius: 4 }}
+              >
+                <EmptyIcon />
+                <Typography variant='secondary' color='dark-blue' size='2xl'>
+                  There are no active proposals.
                 </Typography>
-              </Link>
-            </FlexBox>
-          )}
-        {selectedDAOGroup &&
-          selectedDAOGroup.proposalModule.proposals.length === 0 &&
-          !isParticipating &&
-          !anyoneCanPropose &&
-          selectedDAOGroup.type === 'membership' && (
-            <FlexBox
-              $direction='column'
-              width='100%'
-              height='380px'
-              $justifyContent='center'
-              $alignItems='center'
-              $gap={6}
-              background={theme.ixoGradientDark2}
-              $borderRadius={'4px'}
-            >
-              <EmptyIcon />
-              <Typography variant='secondary' color='dark-blue' size='2xl'>
-                There are no active proposals.
-              </Typography>
-              <Typography variant='secondary' color='dark-blue' size='2xl'>
-                Only members can submit proposals.
-              </Typography>
-            </FlexBox>
-          )}
-        {selectedDAOGroup &&
-          selectedDAOGroup.proposalModule.proposals.length === 0 &&
-          !isParticipating &&
-          !anyoneCanPropose &&
-          selectedDAOGroup.type === 'staking' && (
-            <FlexBox
-              $direction='column'
-              width='100%'
-              height='380px'
-              $justifyContent='center'
-              $alignItems='center'
-              $gap={6}
-              background={theme.ixoGradientDark2}
-              $borderRadius={'4px'}
-            >
-              <EmptyIcon />
-              <Typography variant='secondary' color='dark-blue' size='2xl'>
-                There are no active proposals.
-              </Typography>
-              <FlexBox $direction='column' $alignItems='center'>
+                <Link to={`/create/entity/deed/${entityId}/${selectedDAOGroup.coreAddress}`}>
+                  <Typography variant='secondary' color='blue' size='2xl'>
+                    Submit a Proposal
+                  </Typography>
+                </Link>
+              </Flex>
+            )}
+          {selectedDAOGroup &&
+            selectedDAOGroup.proposalModule.proposals.length === 0 &&
+            !isParticipating &&
+            !anyoneCanPropose &&
+            selectedDAOGroup.type === 'membership' && (
+              <Flex
+                direction='column'
+                w='100%'
+                h='380px'
+                justify='center'
+                align='center'
+                gap='lg'
+                bg={theme.ixoGradientDark2}
+                style={{ borderRadius: 4 }}
+              >
+                <EmptyIcon />
+                <Typography variant='secondary' color='dark-blue' size='2xl'>
+                  There are no active proposals.
+                </Typography>
                 <Typography variant='secondary' color='dark-blue' size='2xl'>
                   Only members can submit proposals.
                 </Typography>
-                <Link to={`/entity/${entityId}/dashboard/my-participation`}>
-                  <Typography variant='secondary' color='blue' size='2xl'>
-                    Join by staking
+              </Flex>
+            )}
+          {selectedDAOGroup &&
+            selectedDAOGroup.proposalModule.proposals.length === 0 &&
+            !isParticipating &&
+            !anyoneCanPropose &&
+            selectedDAOGroup.type === 'staking' && (
+              <Flex
+                direction='column'
+                w='100%'
+                h='380px'
+                justify='center'
+                align='center'
+                gap='lg'
+                bg={theme.ixoGradientDark2}
+                style={{ borderRadius: 4 }}
+              >
+                <EmptyIcon />
+                <Typography variant='secondary' color='dark-blue' size='2xl'>
+                  There are no active proposals.
+                </Typography>
+                <Flex direction='column' align='center'>
+                  <Typography variant='secondary' color='dark-blue' size='2xl'>
+                    Only members can submit proposals.
                   </Typography>
-                </Link>
-              </FlexBox>
-            </FlexBox>
-          )}
-        {selectedDAOGroup &&
-          sortedProposals?.map((item: ProposalResponse, i) => {
-            const { id, proposal } = item
-            const { title, proposer, status, expiration, description } = proposal
-            const secondsFromNow = expirationAtTimeToSecondsFromNow(expiration) ?? 0
-            const secondsFromStart =
-              durationToSeconds(100, selectedDAOGroup.proposalModule.proposalConfig.max_voting_period) - secondsFromNow
-            const submissionDate = new Date(new Date().getTime() - secondsFromStart * 1000)
-            const closeDate = new Date(new Date().getTime() + secondsFromNow * 1000)
-            const [, deedDid] = description.split('#deed:')
+                  <Link to={`/entity/${entityId}/dashboard/my-participation?selectedGroup=${selectedGroup}`}>
+                    <Typography variant='secondary' color='blue' size='2xl'>
+                      Join by staking
+                    </Typography>
+                  </Link>
+                </Flex>
+              </Flex>
+            )}
 
-            return (
-              <GovernanceProposal
-                key={i}
-                coreAddress={selectedDAOGroup.coreAddress}
-                proposal={proposal}
-                proposalId={id}
-                title={title}
-                proposer={proposer}
-                submissionDate={submissionDate.toISOString()}
-                closeDate={closeDate.toISOString()}
-                status={status}
-                deedDid={deedDid}
-              />
-            )
-          })}
-      </FlexBox>
-    </FlexBox>
+          {selectedDAOGroup && (
+            <Flex gap='lg'>
+              <UnstyledButton
+                style={{
+                  color:
+                    proposalFilterBy === 'all' ? mantineThemeColors['ixo-blue'][6] : mantineThemeColors['ixo-blue'][8],
+                }}
+                onClick={() => setProposalFilterBy('all')}
+              >
+                All
+              </UnstyledButton>
+              <UnstyledButton
+                style={{
+                  color:
+                    proposalFilterBy === 'open' ? mantineThemeColors['ixo-blue'][6] : mantineThemeColors['ixo-blue'][8],
+                }}
+                onClick={() => setProposalFilterBy('open')}
+              >
+                Active
+              </UnstyledButton>
+              <UnstyledButton
+                style={{
+                  color:
+                    proposalFilterBy === 'passed'
+                      ? mantineThemeColors['ixo-blue'][6]
+                      : mantineThemeColors['ixo-blue'][8],
+                }}
+                onClick={() => setProposalFilterBy('passed')}
+              >
+                Passed
+              </UnstyledButton>
+              <UnstyledButton
+                style={{
+                  color:
+                    proposalFilterBy === 'rejected'
+                      ? mantineThemeColors['ixo-blue'][6]
+                      : mantineThemeColors['ixo-blue'][8],
+                }}
+                onClick={() => setProposalFilterBy('rejected')}
+              >
+                Rejected
+              </UnstyledButton>
+              <UnstyledButton
+                style={{
+                  color:
+                    proposalFilterBy === 'executed'
+                      ? mantineThemeColors['ixo-blue'][6]
+                      : mantineThemeColors['ixo-blue'][8],
+                }}
+                onClick={() => setProposalFilterBy('executed')}
+              >
+                Executed
+              </UnstyledButton>
+            </Flex>
+          )}
+
+          {selectedDAOGroup &&
+            sortedProposals.map((item: ProposalResponse, i) => {
+              return (
+                <ProposalCard
+                  key={i}
+                  coreAddress={selectedDAOGroup?.coreAddress}
+                  proposalId={item.id}
+                  proposal={item.proposal}
+                />
+              )
+            })}
+        </Flex>
+      </Flex>
+    </Flex>
   )
 }
 
