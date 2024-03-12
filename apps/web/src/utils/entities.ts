@@ -133,7 +133,7 @@ export function serviceEndpointToUrl(serviceEndpoint: string, service: Service[]
   )
 
   if (usedService && usedService.type.toLocaleLowerCase() === NodeType.Ipfs.toLocaleLowerCase()) {
-    url = `https://${key}.ipfs.w3s.link`
+    url = new URL(key, usedService.serviceEndpoint).href
   } else if (usedService && usedService.type.toLocaleLowerCase() === NodeType.CellNode.toLocaleLowerCase()) {
     url = new URL(key, usedService.serviceEndpoint).href
   } else {
@@ -169,27 +169,27 @@ export function apiEntityToEntity(
                   if (image && !image.startsWith('http')) {
                     const [identifier] = image.split(':')
                     let endpoint = ''
-                      ; (Array.isArray(context)
-                        ? context
-                        : Object.entries(context).map(([key, value]) => ({ [key]: value }))
-                      ).forEach((item: any) => {
-                        if (typeof item === 'object' && identifier in item) {
-                          endpoint = item[identifier]
-                        }
-                      })
+                    ;(Array.isArray(context)
+                      ? context
+                      : Object.entries(context).map(([key, value]) => ({ [key]: value }))
+                    ).forEach((item: any) => {
+                      if (typeof item === 'object' && identifier in item) {
+                        endpoint = item[identifier]
+                      }
+                    })
                     image = image.replace(identifier + ':', endpoint)
                   }
                   if (logo && !logo.startsWith('http')) {
                     const [identifier] = logo.split(':')
                     let endpoint = ''
-                      ; (Array.isArray(context)
-                        ? context
-                        : Object.entries(context).map(([key, value]) => ({ [key]: value }))
-                      ).forEach((item: any) => {
-                        if (typeof item === 'object' && identifier in item) {
-                          endpoint = item[identifier]
-                        }
-                      })
+                    ;(Array.isArray(context)
+                      ? context
+                      : Object.entries(context).map(([key, value]) => ({ [key]: value }))
+                    ).forEach((item: any) => {
+                      if (typeof item === 'object' && identifier in item) {
+                        endpoint = item[identifier]
+                      }
+                    })
                     logo = logo.replace(identifier + ':', endpoint)
                   }
                   return { ...response, image, logo }
@@ -431,7 +431,10 @@ export function isCellnodeWeb3Resource(object: any): object is CellnodeWeb3Resou
   return 'cid' in object && 'name' in object
 }
 
-export const getCellNodeProof = (res: CellnodePublicResource | CellnodeWeb3Resource | undefined, customError?: string) => {
+export const getCellNodeProof = (
+  res: CellnodePublicResource | CellnodeWeb3Resource | undefined,
+  customError?: string,
+) => {
   let proof = ''
   if (isCellnodePublicResource(res)) {
     proof = res.key
@@ -449,6 +452,9 @@ export function toRootEntityType(entityType: string): string {
   }
   if (entityType?.startsWith('oracle/')) {
     return 'oracle'
+  }
+  if (entityType?.startsWith('asset/')) {
+    return 'asset'
   }
   return entityType
 }
