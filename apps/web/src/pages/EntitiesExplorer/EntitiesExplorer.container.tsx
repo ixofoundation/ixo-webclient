@@ -1,14 +1,8 @@
-import * as React from 'react'
 import { EntitiesHero } from './Components/EntitiesHero/EntitiesHero'
 import { Spinner } from 'components/Spinner/Spinner'
 import { connect } from 'react-redux'
 import { RootState } from 'redux/store'
-import {
-  Container,
-  EntitiesBody,
-  EntitiesContainer,
-  NoEntitiesContainer,
-} from './EntitiesExplorer.container.styles'
+import { Container, EntitiesBody, EntitiesContainer, NoEntitiesContainer } from './EntitiesExplorer.container.styles'
 import {
   changeEntitiesType,
   filterEntitiesQuery,

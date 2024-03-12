@@ -2,8 +2,6 @@ import * as React from 'react'
 import { Tabs } from '../Tabs/Tabs'
 import { MatchType } from 'types/models'
 import { PositionController } from './HeaderTabs.styles'
-import { connect } from 'react-redux'
-import { EntityType } from 'types/entities'
 import { HeaderTab } from 'components/Dashboard/types'
 import { useEntityConfig } from 'hooks/configs'
 import useCurrentEntity, { useCurrentEntityCreator } from 'hooks/currentEntity'
@@ -11,6 +9,7 @@ import { useParams } from 'react-router-dom'
 import { useAccount } from 'hooks/account'
 import { useAppDispatch } from 'redux/hooks'
 import { togglePanel } from 'redux/assistant/assistant.slice'
+import { toRootEntityType } from 'utils/entities'
 
 interface Props {
   matchType?: any
@@ -31,7 +30,8 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
   const dispatch = useAppDispatch()
   const { entityId } = useParams<{ entityId: string }>()
   const { title } = useEntityConfig()
-  const { entityType } = useCurrentEntity()
+  const currentEntity = useCurrentEntity()
+  const entityType = toRootEntityType(currentEntity.entityType)
   const { id: creatorDid } = useCurrentEntityCreator()
   const { did: userDid, registered } = useAccount()
 
@@ -39,8 +39,6 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
     if (buttons) {
       return buttons
     }
-
-    const fundingPageUrl = `/entity/${entityId}/funding`
 
     const buttonArr: HeaderTab[] = [
       {
@@ -50,42 +48,6 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
         tooltip: `${title} Overview`,
       },
     ]
-
-    // const isLaunchPad = checkIsLaunchpadFromApiListedEntityData(ddoTags ?? [])
-
-    if (entityType === EntityType.Project) {
-      buttonArr.push({
-        iconClass: 'icon-dashboard',
-        path: `/entity/${entityId}/detail`,
-        title: 'DASHBOARD',
-        tooltip: `${title} Management`,
-      })
-    } else {
-      buttonArr.push({
-        iconClass: 'icon-dashboard',
-        linkClass: 'in-active',
-        path: '/performace',
-        title: 'DASHBOARD',
-        tooltip: `${title} Management`,
-      })
-    }
-
-    buttonArr.push({
-      iconClass: 'icon-exchange',
-      path: `/exchange/trade/${entityId}`,
-      title: 'EXCHANGE',
-      tooltip: `Asset Exchange`,
-    })
-
-    if (entityType === 'TODO: ') {
-      buttonArr.push({
-        iconClass: 'icon-funding',
-        linkClass: 'restricted',
-        path: fundingPageUrl,
-        title: 'FUNDING',
-        tooltip: `${title} Funding`,
-      })
-    }
 
     return buttonArr
     // eslint-disable-next-line
@@ -106,10 +68,4 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
   )
 }
 
-const mapDispatchToProps = (dispatch: any): any => ({
-  // toggleAssistant: (param: ToogleAssistantPayload): void => {
-  //   dispatch(toggleAssistant(param))
-  // },
-})
-
-export default connect(undefined, mapDispatchToProps)(HeaderTabs)
+export default HeaderTabs

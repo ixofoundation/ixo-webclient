@@ -1,6 +1,8 @@
 import axios from 'axios'
 import _ from 'lodash'
 import moment from 'moment'
+import { STOVE_PERIODS } from 'types/stove'
+import { datesFromPeriod } from 'utils/supamoto'
 
 // interface Session {
 //   startDateTime: string
@@ -14,29 +16,19 @@ interface AggregatedData {
   week: number
 }
 
-function formatDate(date: Date) {
-  const year = date.getFullYear()
-  const month = String(date.getMonth() + 1).padStart(2, '0')
-  const day = String(date.getDate()).padStart(2, '0')
-  return `${year}-${month}-${day}`
-}
 export const getFuelUsage = async (deviceId: number | string) => {
   try {
-    const startDate = new Date(new Date().getFullYear(), 0, 1)
-    const endDate = new Date(new Date().getFullYear(), 11, 31)
-
-    const formattedStartDate = formatDate(startDate)
-    const formattedEndDate = formatDate(endDate)
+    const { startDateISOString, endDateISOString } = datesFromPeriod(STOVE_PERIODS.all)
 
     const { data } = await axios.get('/.netlify/functions/getPelletPurchases', {
-      params: { startDate: formattedStartDate, endDate: formattedEndDate, deviceId },
+      params: { startDate: startDateISOString, endDate: endDateISOString, deviceId },
     })
 
     const aggregatedData = data.content
       .map((item: any) => {
         const week = moment(item.dateTime).week()
         const month = moment(item.dateTime).format('MMM')
-        const dateFormat = `${month}-${week}`
+        const dateFormat = moment(item.dateTime).format('YYYY-MM-DD')
         return { date: dateFormat, duration: item.pelletsAmount, month, week }
       })
       .reduce((acc: AggregatedData[], current: AggregatedData) => {

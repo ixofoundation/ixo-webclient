@@ -1,6 +1,6 @@
 import * as React from 'react'
 import moment from 'moment'
-import { getCountryName, toTitleCase } from 'utils/formatters'
+import { getCountryName } from 'utils/formatters'
 import HeaderTabs from 'components/HeaderTabs/HeaderTabs'
 import {
   HeroInner,
@@ -15,12 +15,8 @@ import CalendarSort from 'assets/icons/CalendarSort'
 import availableFlags from 'constants/availableFlags.json'
 import { requireCheckDefault } from 'utils/images'
 import { useEntityConfig } from 'hooks/configs'
-import { useMemo } from 'react'
-import { HeaderTab } from 'components/Dashboard/types'
-import { useLocation, useParams } from 'react-router-dom'
-import useCurrentEntity from 'hooks/currentEntity'
+import { useHeaderTabs } from 'hooks/headerTabs'
 import { MatchType } from 'types/models'
-import { toRootEntityType } from 'utils/entities'
 
 interface Props {
   $onlyTitle: boolean
@@ -51,67 +47,10 @@ const OverviewHero: React.FunctionComponent<Props> = ({
   creatorLogo,
   creatorName,
 }) => {
-  const { entityId } = useParams<{ entityId: string }>()
   const entityConfig = useEntityConfig()
-  const currentEntity = useCurrentEntity()
-  const { search } = useLocation()
-
-  const entityType = toRootEntityType(currentEntity.entityType)
-  const title = entityConfig.title || toTitleCase(entityType)
   const themeColor = entityConfig.themeColor
 
-  const headerTabs = useMemo(() => {
-    const buttons: HeaderTab[] = []
-
-    /**
-     * @description overview page
-     */
-    buttons.push({
-      iconClass: `icon-${entityType!.toLowerCase()}`,
-      path: `/entity/${entityId}/overview`,
-      title: title,
-      tooltip: `${title} Overview`,
-    })
-
-    /**
-     * @description dashboard page
-     */
-    buttons.push({
-      iconClass: `icon-dashboard`,
-      path: `/entity/${entityId}/dashboard`,
-      title: 'DASHBOARD',
-      tooltip: `${title} Management`,
-      search,
-    })
-
-    /**
-     * @description treasury page
-     */
-    if (entityType === 'dao') {
-      buttons.push({
-        iconClass: `icon-funding`,
-        path: `/entity/${entityId}/treasury`,
-        title: 'TREASURY',
-        tooltip: `${title} Treasury`,
-      })
-      // } else if (entityType === 'investment' || entityType === 'project' || entityType === 'oracle') {
-      //   buttons.push({
-      //     iconClass: `icon-funding`,
-      //     path: `/entity/${entityId}/treasury`,
-      //     title: 'FUNDING',
-      //     tooltip: `${title} Funding`,
-      //   })
-    } else if (entityType === 'asset/device') {
-      buttons.push({
-        iconClass: 'icon-exchange',
-        path: `/exchange/trade/${entityId}`,
-        title: 'EXCHANGE',
-        tooltip: `${title} Exchange`,
-      })
-    }
-
-    return buttons
-  }, [title, entityId, entityType, search])
+  const headerTabs = useHeaderTabs()
 
   const getFlagURL = (projectLocation: string): string => {
     if (location && availableFlags.availableFlags.includes(location)) {

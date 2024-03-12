@@ -170,7 +170,7 @@ const Assets: React.FC<Props> = (props) => {
       </FlexBox>
 
       <InfiniteScroll
-        dataLength={entities.length} // This is important field to render the next data
+        dataLength={props.entities.length} // This is important field to render the next data
         next={() => {
           timer = setTimeout(() => {
             setScrollOffset((scrollOffset) => scrollOffset + 1)
