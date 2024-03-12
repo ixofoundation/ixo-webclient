@@ -97,7 +97,7 @@ jobs:
           REACT_APP_BLOCK_SCAN_URL: https://blockscan.testnet.ixo.earth/ixo
           REACT_APP_GAIA_URL: https://testnet.ixo.earth/rest/
           REACT_APP_RPC_URL: https://testnet.ixo.earth/rpc/
-          REACT_APP_PDS_URL: https://testnet-cellnode.ixo.earth/
+          REACT_APP_PDS_URL: https://cellnode-pandora.ixo.earth/
         run: |
           export NODE_OPTIONS="--max_old_space_size=8192"
           yarn build  # Build Script
