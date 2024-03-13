@@ -8,6 +8,8 @@ import {
 } from 'pages/CreateEntity/Forms'
 import useEditEntity from 'hooks/editEntity'
 import { DeedProfileForm } from 'pages/CreateEntity/Forms/DeedProfileForm'
+import CollectionCard from 'pages/EntitiesExplorer/Components/Assets/CollectionCard'
+import { Flex } from '@mantine/core'
 
 const EditProfile: React.FC = (): JSX.Element => {
   const { editEntity, setEditedField } = useEditEntity()
@@ -68,6 +70,11 @@ const EditProfile: React.FC = (): JSX.Element => {
             setTitle={(name): void => handleUpdateProfile('name', name)}
             description={editEntity.profile?.description || ''}
           />
+        )}
+        {editEntity.type === 'asset/collection' && (
+          <Flex w={400}>
+            <CollectionCard {...editEntity} />
+          </Flex>
         )}
       </Box>
       <Box className='d-flex flex-column justify-content-between' style={{ width: 400 }}>
