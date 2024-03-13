@@ -145,17 +145,29 @@ const ProposalCard: React.FC<Props> = ({ coreAddress, proposalId, proposal }) =>
   const [myVoteStatus, setMyVoteStatus] = useState<VoteInfo | undefined>(undefined)
   const [voteModalOpen, setVoteModalOpen] = useState<boolean>(false)
 
-  const numOfAvailableVotes = useMemo(() => daoGroup.votingModule.members.length, [daoGroup])
+  const numOfAvailableVotes = useMemo(() => daoGroup.votingModule.totalWeight, [daoGroup])
   const {
     numOfYesVotes = 0,
     numOfNoVotes = 0,
     numOfNoWithVetoVotes = 0,
     numOfAbstainVotes = 0,
   } = useMemo(() => {
-    const numOfYesVotes = votes.filter(({ vote }) => vote === 'yes').length
-    const numOfNoVotes = votes.filter(({ vote, rationale }) => vote === 'no' && !rationale).length
-    const numOfNoWithVetoVotes = votes.filter(({ vote, rationale }) => vote === 'no' && rationale).length
-    const numOfAbstainVotes = votes.filter(({ vote }) => vote === 'abstain').length
+    const numOfYesVotes = votes
+      .filter(({ vote }) => vote === 'yes')
+      .map(({ power }) => Number(power))
+      .reduce((pre, cur) => pre + cur, 0)
+    const numOfNoVotes = votes
+      .filter(({ vote, rationale }) => vote === 'no' && !rationale)
+      .map(({ power }) => Number(power))
+      .reduce((pre, cur) => pre + cur, 0)
+    const numOfNoWithVetoVotes = votes
+      .filter(({ vote, rationale }) => vote === 'no' && rationale)
+      .map(({ power }) => Number(power))
+      .reduce((pre, cur) => pre + cur, 0)
+    const numOfAbstainVotes = votes
+      .filter(({ vote }) => vote === 'abstain')
+      .map(({ power }) => Number(power))
+      .reduce((pre, cur) => pre + cur, 0)
     return {
       numOfYesVotes,
       numOfNoVotes,
@@ -186,11 +198,7 @@ const ProposalCard: React.FC<Props> = ({ coreAddress, proposalId, proposal }) =>
   }, [getVoteStatus])
 
   const onVote = (vote: Vote): Promise<string> => {
-    const daoProposalSingleClient = new DaoProposalSingleClient(
-      execute,
-      address,
-      proposalModuleAddress,
-    )
+    const daoProposalSingleClient = new DaoProposalSingleClient(execute, address, proposalModuleAddress)
     return daoProposalSingleClient
       .vote({ proposalId, vote }, fee, undefined, undefined)
       .then(({ transactionHash }) => transactionHash)
@@ -206,11 +214,7 @@ const ProposalCard: React.FC<Props> = ({ coreAddress, proposalId, proposal }) =>
   }
 
   const onExecute = () => {
-    const daoProposalSingleClient = new DaoProposalSingleClient(
-      execute,
-      address,
-      proposalModuleAddress,
-    )
+    const daoProposalSingleClient = new DaoProposalSingleClient(execute, address, proposalModuleAddress)
     daoProposalSingleClient
       .executeProposal({ proposalId }, fee, undefined, undefined)
       .then(({ transactionHash, rawLog, events, gasUsed, gasWanted, height }) => {
@@ -226,11 +230,7 @@ const ProposalCard: React.FC<Props> = ({ coreAddress, proposalId, proposal }) =>
   }
 
   const onClose = () => {
-    const daoProposalSingleClient = new DaoProposalSingleClient(
-      execute,
-      address,
-      proposalModuleAddress,
-    )
+    const daoProposalSingleClient = new DaoProposalSingleClient(execute, address, proposalModuleAddress)
     daoProposalSingleClient
       .close({ proposalId }, fee, undefined, undefined)
       .then(({ transactionHash, rawLog }) => {

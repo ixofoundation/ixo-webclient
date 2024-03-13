@@ -1,3 +1,8 @@
+[dev]
+  command = "yarn dev"
+  framework = "#custom"
+  targetPort = 3000
+
 [build]
   NODE_VERSION = "18.18.2"
   base = "/"

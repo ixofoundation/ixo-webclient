@@ -170,7 +170,7 @@ const Assets: React.FC<Props> = (props) => {
       </FlexBox>
 
       <InfiniteScroll
-        dataLength={entities.length} // This is important field to render the next data
+        dataLength={props.entities.length} // This is important field to render the next data
         next={() => {
           timer = setTimeout(() => {
             setScrollOffset((scrollOffset) => scrollOffset + 1)
@@ -180,6 +180,7 @@ const Assets: React.FC<Props> = (props) => {
         hasMore={hasMore}
         columns={itemsPerScreen}
         $gridGap={7.5}
+        $scrollableTarget={document.querySelector('.mantine-ScrollArea-viewport')}
       >
         {entities.map((asset, index) => (
           <AssetCardWrapper key={index} onClick={handleAssetCardClick(index)}>

@@ -4,12 +4,13 @@ const MAPBOX_ACCESS_TOKEN =
   'pk.eyJ1Ijoic2VyaGlpLXBlcmVob25jaHVrLXNpZ21hIiwiYSI6ImNsazlyMnRpNjBzbmYzZnJ0MmxqaHJsb3gifQ.2u6dhz1Yd5JJznYzLYKDjg'
 
 export const MapImage = ({ latitude, longitude }: { latitude?: string | number; longitude?: string | number }) => {
-  if (!latitude && !longitude)
+  if (!latitude && !longitude) {
     return (
-      <Flex w={600} h={300} align='center' justify='center'>
+      <Flex w={'100%'} h={300} align='center' justify='center'>
         <Loader />
       </Flex>
     )
+  }
 
   const geoObj = JSON.stringify({
     type: 'Point',

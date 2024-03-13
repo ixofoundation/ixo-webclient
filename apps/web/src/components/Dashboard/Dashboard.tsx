@@ -107,13 +107,6 @@ const Dashboard: React.FunctionComponent<Props> = ({
   const [_theme, setTheme] = useState(theme)
 
   const viewport = useRef<HTMLDivElement>(null)
-  const [scrollPosition, onScrollPositionChange] = useState({ x: 0, y: 0 })
-
-  useEffect(() => {
-    if (viewport.current!.scrollHeight === scrollPosition.y) {
-      //
-    }
-  }, [scrollPosition])
 
   useEffect(() => {
     setTheme(theme)
@@ -132,7 +125,7 @@ const Dashboard: React.FunctionComponent<Props> = ({
         )}
         <Sidebar routes={subRoutes} />
         <Flex w={'100%'} h='100%'>
-          <StyledScrollArea w='100%' h='100%' viewportRef={viewport} onScrollPositionChange={onScrollPositionChange}>
+          <StyledScrollArea w='100%' h='100%' viewportRef={viewport}>
             <Flex w='100%' h='100%' style={{ flex: 1 }}>
               <Board $themeMode={_theme}>
                 {!noBreadcrumbs && <Breadcrumb subRoutes={subRoutes} baseRoutes={baseRoutes} />}
