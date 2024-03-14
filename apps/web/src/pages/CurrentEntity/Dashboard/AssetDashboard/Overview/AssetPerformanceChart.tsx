@@ -53,7 +53,7 @@ export const AssetPerformanceChart = ({ data, chart }: { data: any[] | null; cha
         </defs>
         <XAxis width={4} dataKey='date' stroke={'white'} />
         <YAxis
-          domain={[0, 'dataMax + 120']}
+          domain={[0, 'dataMax + 20']}
           stroke={'white'}
           tickFormatter={(number) => Number(number).toLocaleString()}
         />

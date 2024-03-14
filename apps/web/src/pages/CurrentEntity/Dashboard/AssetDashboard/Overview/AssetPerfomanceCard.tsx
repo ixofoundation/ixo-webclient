@@ -33,7 +33,7 @@ export const AssetPerformanceCard = ({ label, icon, did, externalId }: AssetPerf
             return setCookingSessions(data)
           }
           if (error) {
-            return logger.logError(error as unknown as Error, { fileName: 'AssetPerformanceCard.tsx', lineNumber: 40 })
+            return logger.logError(error as unknown as Error, { fileName: 'AssetPerformanceCard.tsx' })
           }
         })
         .catch(console.log)
@@ -44,7 +44,7 @@ export const AssetPerformanceCard = ({ label, icon, did, externalId }: AssetPerf
             setFuelUsageData(data)
           }
           if (error) {
-            return logger.logError(error as unknown as Error, { fileName: 'AssetPerformanceCard.tsx', lineNumber: 52 })
+            return logger.logError(error as unknown as Error, { fileName: 'AssetPerformanceCard.tsx' })
           }
         })
         .catch(console.log)
@@ -52,10 +52,10 @@ export const AssetPerformanceCard = ({ label, icon, did, externalId }: AssetPerf
       getCookingSessions(externalId)
         .then(({ data, error }) => {
           if (data) {
-            return setCookingTimeData(data.map((v) => ({ ...v, duration: v.duration * 15 })))
+            return setCookingTimeData(data.map((v) => ({ ...v, duration: (v.duration * 15) / 60 })))
           }
           if (error) {
-            return logger.logError(error as unknown as Error, { fileName: 'AssetPerformanceCard.tsx', lineNumber: 40 })
+            return logger.logError(error as unknown as Error, { fileName: 'AssetPerformanceCard.tsx' })
           }
         })
         .catch(console.log)
@@ -66,7 +66,7 @@ export const AssetPerformanceCard = ({ label, icon, did, externalId }: AssetPerf
             return setCostsData(data.map((v: any) => ({ ...v, duration: v.duration * 0.26 })))
           }
           if (error) {
-            return logger.logError(error as unknown as Error, { fileName: 'AssetPerformanceCard.tsx', lineNumber: 52 })
+            return logger.logError(error as unknown as Error, { fileName: 'AssetPerformanceCard.tsx' })
           }
         })
         .catch(console.log)

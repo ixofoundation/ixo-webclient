@@ -44,9 +44,11 @@ const Card: React.FC<Props> = ({
             {label}
           </Typography>
         </FlexBox>
-        <SvgBox color={theme.ixoDarkBlue} $svgWidth={6} cursor='pointer' onClick={onAction}>
-          {actionIcon}
-        </SvgBox>
+        {onAction && (
+          <SvgBox color={theme.ixoDarkBlue} $svgWidth={6} cursor='pointer' onClick={onAction}>
+            {actionIcon}
+          </SvgBox>
+        )}
       </FlexBox>
       {children}
     </FlexBox>
