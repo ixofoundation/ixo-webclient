@@ -75,11 +75,13 @@ const CollectionExplorer: React.FC<Props> = (props) => {
           </FlexBox>
         </GridItem>
         <GridItem $gridArea='b'>
-          <FlexBox width='100%' $justifyContent='flex-end'>
-            <Button bg={'white'} c={'black'} onClick={onEdit} disabled={!!address && address !== collection?.owner}>
-              Edit
-            </Button>
-          </FlexBox>
+          {!!address && address === collection?.owner && (
+            <FlexBox width='100%' $justifyContent='flex-end'>
+              <Button bg={'white'} c={'black'} onClick={onEdit}>
+                Edit
+              </Button>
+            </FlexBox>
+          )}
         </GridItem>
         <GridItem $gridArea='c'>
           <CollectionCard {...props.collection} />

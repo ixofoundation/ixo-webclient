@@ -78,6 +78,24 @@ export function useService() {
     }
   }
 
+  const SaveTokenMetadata = async (
+    token: any,
+    service: Service,
+  ): Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined> => {
+    try {
+      const payload = {
+        ...token,
+      }
+      const buff = Buffer.from(JSON.stringify(payload))
+      const res = await UploadDataToService(buff.toString('base64'), service)
+      console.log('SaveTokenMetadata', res)
+      return res
+    } catch (e) {
+      console.error('SaveTokenMetadata', e)
+      return undefined
+    }
+  }
+
   const SaveCreator = async (
     creator: TEntityCreatorModel,
     service: Service,
@@ -309,5 +327,6 @@ export function useService() {
     SaveTags,
     SaveQuestionJSON,
     SaveClaim,
+    SaveTokenMetadata,
   }
 }

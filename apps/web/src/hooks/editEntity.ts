@@ -54,7 +54,8 @@ export default function useEditEntity(): {
     keyType: 'secp',
   }
 
-  const { SaveProfile, SaveAdministrator, SavePage, SaveTags, SaveQuestionJSON, SaveClaim } = useService()
+  const { SaveProfile, SaveAdministrator, SavePage, SaveTags, SaveQuestionJSON, SaveClaim, SaveTokenMetadata } =
+    useService()
 
   const setEditedField = (key: string, value: any, merge = false) => {
     dispatch(setEditedFieldAction({ key, data: value, merge }))
@@ -123,6 +124,31 @@ export default function useEditEntity(): {
       id: '{id}#profile',
       type: 'Settings',
       description: 'Profile',
+      mediaType: 'application/ld+json',
+      serviceEndpoint: LinkedResourceServiceEndpointGenerator(res, service),
+      proof: LinkedResourceProofGenerator(res, service),
+      encrypted: 'false',
+      right: '',
+    }
+
+    const messages: readonly EncodeObject[] = GetReplaceLinkedResourceMsgs(editEntity.id, signer, newLinkedResource)
+    return messages
+  }
+
+  const getEditedTokenMsgs = async (): Promise<readonly EncodeObject[]> => {
+    if (JSON.stringify(editEntity.token ?? {}) === JSON.stringify(currentEntity.token ?? {})) {
+      return []
+    }
+    const service = getUsedService(editEntity.linkedResource.find((v) => v.type === 'TokenMetadata')?.serviceEndpoint)
+    const res = await SaveTokenMetadata(editEntity.token, service)
+    if (!res) {
+      throw new Error('Save TokenMetadata failed!')
+    }
+
+    const newLinkedResource: LinkedResource = {
+      id: '{id}#token',
+      type: 'TokenMetadata',
+      description: 'Impact Token',
       mediaType: 'application/ld+json',
       serviceEndpoint: LinkedResourceServiceEndpointGenerator(res, service),
       proof: LinkedResourceProofGenerator(res, service),
@@ -470,6 +496,7 @@ export default function useEditEntity(): {
     return [
       ...(await getEditedStartAndEndDateMsgs()),
       ...(await getEditedProfileMsgs()),
+      ...(await getEditedTokenMsgs()),
       ...(await getEditedAdministratorMsgs()),
       ...(await getEditedPageMsgs()),
       ...(await getEditedTagsMsgs()),
