@@ -45,8 +45,8 @@ const SetupProposalInfo: React.FC = (): JSX.Element => {
   }, [profile])
 
   return (
-    <Flex w={'100%'} justify='center'>
-      <Flex direction='column' gap={15} w={deviceWidth.tablet + 'px'}>
+    <Flex w={'100%'} justify='left'>
+      <Flex direction='column' gap={60} w={deviceWidth.tablet + 'px'}>
         <CardWrapper $direction='column' $gap={5}>
           <Flex gap={2} align='center'>
             <InfoIcon />
@@ -61,7 +61,7 @@ const SetupProposalInfo: React.FC = (): JSX.Element => {
             <TextArea height='100px' label='Short Description' inputValue={description} handleChange={setDescription} />
           </Flex>
         </CardWrapper>
-        <Flex w='100%' justify='flex-end' gap={16}>
+        <Flex w='100%' justify='flex-start' gap={16}>
           <Button variant='secondary' onClick={onBack}>
             Back
           </Button>
