@@ -67,7 +67,13 @@ const AssetOverview: React.FC = () => {
   })
 
   const { data: messagesData } = useMessagesQuery({
-    variables: { first: 10, filter: { value: { contains: { id: data?.entity?.id } } } },
+    variables: {
+      first: 10,
+      filter: {
+        typeUrl: { equalTo: '/ixo.entity.v1beta1.MsgTransferEntity' },
+        value: { contains: { id: data?.entity?.id } },
+      },
+    },
   })
 
   const carbonTokens = React.useMemo(() => {
