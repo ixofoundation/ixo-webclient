@@ -566,9 +566,9 @@ export function useCurrentEntityTreasury() {
         coins.forEach((coin) => {
           setAccounts((v) => ({
             ...v,
-            [coin.address]: {
-              ...v[coin.address],
-              coins: { ...(v[coin.address]?.coins ?? {}), [coin.coinDenom]: coin },
+            [coin?.address]: {
+              ...v[coin?.address],
+              coins: { ...(v[coin?.address]?.coins ?? {}), [coin?.coinDenom]: coin },
             },
           }))
         })
