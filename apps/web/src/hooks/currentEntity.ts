@@ -562,7 +562,7 @@ export function useCurrentEntityTreasury() {
 
   useEffect(() => {
     Object.values(accounts).forEach((account) => {
-      updateNativeTokenBalances(account.address).then((coins: TTreasuryCoinModel[]) => {
+      updateNativeTokenBalances(account?.address).then((coins: TTreasuryCoinModel[]) => {
         coins.forEach((coin) => {
           setAccounts((v) => ({
             ...v,
