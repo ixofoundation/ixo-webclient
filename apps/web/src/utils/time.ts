@@ -9,15 +9,20 @@ TimeAgo.addDefaultLocale(en)
 
 export const timeAgo = new TimeAgo('en-US')
 
-export const formatCookingTime = (duration: number): string => {
-  const hours = Math.floor(duration / 60)
-  const minutes = Math.floor((duration % 60) / 60)
-
-  return `${hours}h ${minutes}min cooking time`
+export const formatCookingSessions = (duration: number): string => {
+  return `${duration.toLocaleString()} cooking sessions`
 }
 
 export const formatFuelUsage = (duration: number): string => {
-  return `${duration}kg fuel used`
+  return `${duration}kg purchased`
+}
+
+export const formatCookingTime = (duration: number): string => {
+  return `${duration.toLocaleString()} hours saved`
+}
+
+export const formatFuelCosts = (duration: number): string => {
+  return `${duration.toFixed(2)} savings per fuel kg`
 }
 
 // Function to check if the expiration is of the 'at_time' type
