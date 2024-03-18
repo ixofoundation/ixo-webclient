@@ -9,7 +9,7 @@ import { Config } from '@ixo/impactxclient-sdk/types/codegen/DaoCore.types'
 import { Config as PreProposeConfig } from '@ixo/impactxclient-sdk/types/codegen/DaoPreProposeSingle.types'
 import { Config as ProposalConfig, VoteInfo } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
 import { Config as Cw20StakeConfig } from '@ixo/impactxclient-sdk/types/codegen/Cw20Stake.types'
-import { Service } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
+import { LinkedResource, Service } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { Member, Proposal } from 'types/dao'
 import { MarketingInfoResponse, TokenInfoResponse } from '@ixo/impactxclient-sdk/types/codegen/Cw20Base.types'
 
@@ -473,13 +473,13 @@ export type TDAOGroupModel = {
     totalWeight: number
   }
   token:
-  | {
-    config: Cw20StakeConfig
-    tokenInfo: TokenInfoResponse
-    marketingInfo: MarketingInfoResponse
-    treasuryPercent?: number
-  }
-  | undefined
+    | {
+        config: Cw20StakeConfig
+        tokenInfo: TokenInfoResponse
+        marketingInfo: MarketingInfoResponse
+        treasuryPercent?: number
+      }
+    | undefined
   selected?: boolean
   memberships?: {
     category?: string
@@ -610,6 +610,9 @@ export type TZlottie = any
 export interface TEntityModel extends Omit<Entity, 'metadata'>, IidDocument {
   owner: string
   publicKey?: string
+  settings: {
+    [key: string]: LinkedResource
+  }
 
   profile?: TEntityProfileModel
   creator?: TEntityCreatorModel

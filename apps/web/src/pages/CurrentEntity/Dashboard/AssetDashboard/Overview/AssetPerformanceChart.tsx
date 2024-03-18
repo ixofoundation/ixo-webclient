@@ -1,7 +1,7 @@
 import { Flex, Text, Loader } from '@mantine/core'
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, TooltipProps } from 'recharts'
 import { mantineThemeColors } from 'styles/mantine'
-import { formatCookingTime, formatFuelUsage } from 'utils/time'
+import { formatCookingSessions, formatFuelUsage, formatCookingTime, formatFuelCosts } from 'utils/time'
 
 interface CustomTooltipProps extends TooltipProps<any, any> {
   active?: boolean
@@ -14,8 +14,10 @@ const CustomTooltip = ({ active, payload, label, chart }: CustomTooltipProps) =>
     return (
       <Flex bg='#012131' p={10} direction='column'>
         <Text fw='bold'>
-          {chart === 'Usage' && formatCookingTime(payload[0].value)}
+          {chart === 'Usage' && formatCookingSessions(payload[0].value)}
           {chart === 'Fuel' && formatFuelUsage(payload[0].value)}
+          {chart === 'Time' && formatCookingTime(payload[0].value)}
+          {chart === 'Costs' && formatFuelCosts(payload[0].value)}
         </Text>
         <Text fw='bold'>{label}</Text>
       </Flex>
@@ -51,7 +53,7 @@ export const AssetPerformanceChart = ({ data, chart }: { data: any[] | null; cha
         </defs>
         <XAxis width={4} dataKey='date' stroke={'white'} />
         <YAxis
-          domain={[0, 'dataMax + 120']}
+          domain={[0, 'dataMax + 20']}
           stroke={'white'}
           tickFormatter={(number) => Number(number).toLocaleString()}
         />
