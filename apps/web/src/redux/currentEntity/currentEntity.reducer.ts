@@ -10,6 +10,7 @@ const initialState: TEntityModel = {
   credentials: [],
   entityVerified: false,
   metadata: undefined,
+  settings: {},
 
   // from iidDocument
   context: [],

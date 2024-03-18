@@ -1,4 +1,5 @@
 import { gql, useQuery } from '@apollo/client'
+import { IidDocument } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/iid'
 
 // GET_USER_IIDS
 const GET_USER_IIDS = gql`
@@ -78,5 +79,5 @@ export function useGetIid(id: string) {
     pollInterval: 1000 * 5,
   })
 
-  return { loading, error, data: data?.iid, refetch }
+  return { loading, error, data: data?.iid as IidDocument, refetch }
 }
