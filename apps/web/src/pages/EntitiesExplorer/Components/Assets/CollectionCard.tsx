@@ -55,7 +55,8 @@ const CollectionCard: React.FC<any> = (apiEntity) => {
         position='relative'
         background={`url(${image!})`}
         $backgroundPosition='center center'
-        $backgroundSize='100%'
+        $backgroundSize='cover'
+        $backgroundRepeat='no-repeat'
         width='100%'
         height='150px'
       >
