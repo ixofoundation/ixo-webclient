@@ -1,6 +1,6 @@
 import { Box } from 'components/App/App.styles'
 import React from 'react'
-import { ResponsiveContainer, PieChart, Pie, Cell } from 'recharts'
+import { ResponsiveContainer, PieChart as NativePieChart, Pie, Cell } from 'recharts'
 import { useTheme } from 'styled-components'
 
 interface Props {
@@ -13,7 +13,7 @@ interface Props {
   descriptor?: JSX.Element
 }
 
-const Component: React.FC<Props> = ({
+const PieChart: React.FC<Props> = ({
   data,
   backgroundColor,
   width = '100%',
@@ -26,7 +26,7 @@ const Component: React.FC<Props> = ({
   return (
     <Box position='relative' style={{ width, height }}>
       <ResponsiveContainer>
-        <PieChart>
+        <NativePieChart>
           <Pie
             data={[{ value: 100 }]}
             innerRadius={radius - thickness}
@@ -55,7 +55,7 @@ const Component: React.FC<Props> = ({
               <Cell key={`cell-${index}`} fill={entry.color || '#FFFFFF'} />
             ))}
           </Pie>
-        </PieChart>
+        </NativePieChart>
       </ResponsiveContainer>
       {descriptor && (
         <Box position='absolute' top='50%' left='50%' transform='translate(-50%, -50%)'>
@@ -66,4 +66,4 @@ const Component: React.FC<Props> = ({
   )
 }
 
-export default Component
+export default PieChart

@@ -12,7 +12,7 @@ import { convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
 import { useAccount } from 'hooks/account'
 import { Avatar } from 'pages/CurrentEntity/Components'
 import { GroupStakingModal } from 'components/Modals'
-import PieChart from 'components/Widgets/PieChart/PieChart'
+import PieChart from 'components/Widgets/PieChart'
 import useCurrentEntity, { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
 import { renderTableHeader } from 'components/Table/Table'
 
