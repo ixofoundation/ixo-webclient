@@ -117,6 +117,9 @@ const EntitiesExplorer = ({
     variables: {
       filter: {
         not: { type: { startsWith: 'asset' } },
+        type: {
+          equalTo: type
+        }
       },
     },
     onCompleted: ({ entities }) => {
