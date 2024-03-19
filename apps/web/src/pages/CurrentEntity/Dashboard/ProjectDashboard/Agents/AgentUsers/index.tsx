@@ -26,15 +26,10 @@ const AgentUsers: React.FC = () => {
   }, [agents, selectedAgent])
 
   useEffect(() => {
-    if (agents.length > 0) {
-      if (pendingAgents.length + approvedAgents.length !== agents.length) {
-        setLoading(true)
-      } else {
-        setLoading(false)
-      }
-    } else {
-      setLoading(false)
-    }
+    const agentsExist = agents.length > 0
+    const allAgentsLoaded = pendingAgents.length + approvedAgents.length === agents.length
+
+    setLoading(agentsExist && !allAgentsLoaded)
 
     return () => {
       setLoading(true)

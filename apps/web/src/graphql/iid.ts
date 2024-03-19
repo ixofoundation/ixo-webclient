@@ -110,15 +110,14 @@ export function useGetJoiningAgentsByCollectionId(collectionId: string) {
       setApprovedAgents([])
       clearInterval(interval)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [JSON.stringify(agents), collectionId])
+  }, [getAgentsRole])
 
   return { agents, pendingAgents, approvedAgents }
 }
 
 export function useGetJoiningAgentsByEntityId(entityId: string) {
   const { data: claimCollections } = useGetClaimCollectionsByEntityId(entityId)
-  const claimCollectionIds = claimCollections.map((v) => v.id)
+  const claimCollectionIds = useMemo(() => claimCollections.map((v) => v.id), [claimCollections])
   const adminAddress = useCurrentEntityAdminAccount()
   const { data: users } = useGetUserIids()
   const [pendingAgents, setPendingAgents] = useState<IAgent[]>([])
@@ -193,8 +192,7 @@ export function useGetJoiningAgentsByEntityId(entityId: string) {
       setApprovedAgents([])
       clearInterval(interval)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [JSON.stringify(agents)])
+  }, [getAgentsRole])
 
   return { agents, pendingAgents, approvedAgents }
 }
