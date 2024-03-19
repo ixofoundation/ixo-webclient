@@ -517,12 +517,8 @@ export default function useEditEntity(): {
       throw new Error('Nothing to update')
     }
 
-    console.log('ExecuteEditEntity', { messages })
-
     const updatedFee = { ...fee, gas: new BigNumber(fee.gas).times(messages.length).toString() }
     const response = await execute({ messages: messages as any, fee: updatedFee, memo: undefined })
-
-    console.log('ExecuteEditEntity', { response })
 
     if (typeof response === 'string') {
       throw Error('Connect your wallet')
