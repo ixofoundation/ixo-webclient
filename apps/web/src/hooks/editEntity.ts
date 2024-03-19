@@ -32,6 +32,7 @@ import { EntityLinkedResourceConfig } from 'constants/entity'
 import { selectAllClaimProtocols } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { useWallet } from '@ixo-webclient/wallet-connector'
 import { useService } from './service'
+import { v4 as uuidv4 } from 'uuid'
 
 export default function useEditEntity(): {
   editEntity: TEntityModel
@@ -402,7 +403,7 @@ export default function useEditEntity(): {
     await Promise.all(
       Object.values(editEntity.claim ?? {})
         .map(async (claim) => {
-          if (!Object.values(currentEntity.claim ?? {}).some((v) => v.id === claim.id)) {
+          if (!Object.values(currentEntity.claim ?? {}).some((v) => JSON.stringify(v) === JSON.stringify(claim))) {
             // add
             const res = await SaveClaim(claim, service)
             if (!res) {
@@ -412,7 +413,7 @@ export default function useEditEntity(): {
             const claimProtocol = claimProtocols.find((protocol) => claim.template?.id.includes(protocol.id))
             const linkedClaim = {
               type: claimProtocol?.profile?.category || '',
-              id: utils.common.generateId(10),
+              id: `{id}#${uuidv4()}`,
               description: claimProtocol?.profile?.description || '',
               serviceEndpoint: LinkedResourceServiceEndpointGenerator(res, service),
               proof: LinkedResourceProofGenerator(res, service),
@@ -428,9 +429,9 @@ export default function useEditEntity(): {
 
     await Promise.all(
       Object.values(currentEntity.claim ?? {}).map(async (claim) => {
-        if (!Object.values(editEntity.claim ?? {}).some((v) => v === claim)) {
+        if (!Object.values(editEntity.claim ?? {}).some((v) => JSON.stringify(v) === JSON.stringify(claim))) {
           // remove
-          messages = [...messages, ...GetDeleteLinkedClaimMsgs(editEntity.id, signer, claim.id)]
+          messages = [...messages, ...GetDeleteLinkedClaimMsgs(editEntity.id, signer, `{id}#${claim.id}`)]
         }
         return true
       }),
@@ -521,11 +522,11 @@ export default function useEditEntity(): {
     const updatedFee = { ...fee, gas: new BigNumber(fee.gas).times(messages.length).toString() }
     const response = await execute({ messages: messages as any, fee: updatedFee, memo: undefined })
 
+    console.log('ExecuteEditEntity', { response })
+
     if (typeof response === 'string') {
       throw Error('Connect your wallet')
     }
-
-    console.log('ExecuteEditEntity', { response })
 
     return response
   }

@@ -29,18 +29,23 @@ const CurrentEntityPage: React.FC = (): JSX.Element => {
     skip: Boolean(entity),
     onCompleted: (data) => {
       setFetchedEntity(data?.entity as any)
-      apiEntityToEntity({ entity: data?.entity, cwClient }, (key, value) => {
-        setFetchedEntity((entity: any) => ({ ...entity, [key]: value }))
+      apiEntityToEntity({ entity: data?.entity, cwClient }, (key, value, merge = false) => {
+        if (merge) {
+          setFetchedEntity((entity: any) => ({ ...entity, [key]: { ...entity[key], ...value } }))
+        } else {
+          setFetchedEntity((entity: any) => ({ ...entity, [key]: value }))
+        }
       })
     },
   })
 
   useEffect(() => {
-    if (fetchedEntity) {
-      updateEntity(fetchedEntity)
-    }
     if (entity) {
       updateEntity(entity)
+      return
+    }
+    if (fetchedEntity) {
+      updateEntity(fetchedEntity)
     }
 
     return () => {
