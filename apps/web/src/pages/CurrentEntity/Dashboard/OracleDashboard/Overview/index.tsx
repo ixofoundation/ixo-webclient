@@ -239,7 +239,7 @@ const Overview: React.FC = () => {
     <FlexBox $direction='column' width='100%' $gap={6}>
       <FlexBox width='100%' $alignItems='stretch' $gap={6}>
         <FlexBox height='100%' style={{ flex: '0 0 300px' }}>
-          <WrappedOracleCard {...currentEntity} />
+          <WrappedOracleCard entity={currentEntity} />
         </FlexBox>
         {renderOracleStats()}
         {renderCreditsVerified()}
