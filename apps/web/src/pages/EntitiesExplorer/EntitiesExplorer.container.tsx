@@ -219,11 +219,6 @@ const EntitiesExplorer = ({
               filterQuery={filterQuery}
               handleChangeQuery={handleChangeEntitiesQuery}
             />
-            {/* {entityTypeMap && (
-              <div style={{ height: '100%' }}>
-                <Spinner info={`Loading ${entityTypeMap[type as any]?.plural || ''}`} />
-              </div>
-            )} */}
             {renderEntities()}
           </div>
         </div>
