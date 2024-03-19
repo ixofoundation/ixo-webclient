@@ -361,29 +361,26 @@ export function useCreateEntity(): TCreateEntityHookRes {
   const cw20StakeContractCode = customQueries.contract.getContractCode(chainNetwork, 'cw20_stake')
 
   const { execute, wallet } = useWallet()
-  const {
-    SaveProfile,
-    SaveCreator,
-    SaveAdministrator,
-    SavePage,
-    SaveTags,
-    SaveQuestionJSON,
-    SaveClaim
-  } = useService(cellnodeService)
+  const { SaveProfile, SaveCreator, SaveAdministrator, SavePage, SaveTags, SaveQuestionJSON, SaveClaim } = useService()
 
-  const signer: TSigner = { address: wallet?.address || "", did: wallet?.did || "", pubKey: wallet?.pubKey || new Uint8Array(), keyType: "secp" }
+  const signer: TSigner = {
+    address: wallet?.address || '',
+    did: wallet?.did || '',
+    pubKey: wallet?.pubKey || new Uint8Array(),
+    keyType: 'secp',
+  }
 
   const UploadLinkedResource = async (): Promise<LinkedResource[]> => {
     const linkedResource: LinkedResource[] = []
 
     const [saveProfileRes, saveCreatorRes, saveAdministratorRes, savePageRes, saveTagsRes, saveQuestionJSONRes] =
       await Promise.allSettled([
-        await SaveProfile(profile),
-        await SaveCreator(creator),
-        await SaveAdministrator(administrator),
-        await SavePage(page),
-        await SaveTags(ddoTags),
-        await SaveQuestionJSON(questionJSON),
+        await SaveProfile(profile, cellnodeService),
+        await SaveCreator(creator, cellnodeService),
+        await SaveAdministrator(administrator, cellnodeService),
+        await SavePage(page, cellnodeService),
+        await SaveTags(ddoTags, cellnodeService),
+        await SaveQuestionJSON(questionJSON, cellnodeService),
       ])
 
     if (saveProfileRes.status === 'fulfilled' && saveProfileRes.value) {
@@ -465,7 +462,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
   const UploadLinkedClaim = async (): Promise<LinkedClaim[]> => {
     const linkedClaims: LinkedClaim[] = await Promise.all(
       Object.values(claim).map(async (item) => {
-        const res: CellnodeWeb3Resource | undefined = await SaveClaim(item)
+        const res: CellnodePublicResource | CellnodeWeb3Resource | undefined = await SaveClaim(item, cellnodeService)
         const claimProtocol = claimProtocols.find((protocol) => item.template?.id.includes(protocol.id))
 
         return {
@@ -589,13 +586,13 @@ export function useCreateEntity(): TCreateEntityHookRes {
                     // deposit_info: proposalModule.preProposeConfig.deposit_info,
                     deposit_info: proposalModule.preProposeConfig.deposit_info
                       ? {
-                        ...proposalModule.preProposeConfig.deposit_info,
-                        denom: {
-                          token: {
-                            denom: proposalModule.preProposeConfig.deposit_info.denom,
+                          ...proposalModule.preProposeConfig.deposit_info,
+                          denom: {
+                            token: {
+                              denom: proposalModule.preProposeConfig.deposit_info.denom,
+                            },
                           },
-                        },
-                      }
+                        }
                       : null,
                     extension: {},
                     open_proposal_submission: proposalModule.preProposeConfig.open_proposal_submission,

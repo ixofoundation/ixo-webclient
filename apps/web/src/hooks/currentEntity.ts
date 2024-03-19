@@ -56,7 +56,7 @@ import { Config as ProposalConfig } from '@ixo/impactxclient-sdk/types/codegen/D
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/DaoPreProposeSingle.types'
 import { convertMicroDenomToDenomWithDecimals, depositInfoToCoin } from 'utils/conversions'
 import { EntityLinkedResourceConfig } from 'constants/entity'
-import { IMPACTS_DAO_ID } from 'constants/chains'
+import { IMPACTS_DAO_ID, NATIVE_MICRODENOM } from 'constants/chains'
 import { OutputBlockData } from '@editorjs/editorjs'
 import { useEntityLazyQuery } from 'generated/graphql'
 import { apiEntityToEntity } from 'utils/entities'
@@ -64,11 +64,10 @@ import { updateEntityPropertyAction } from 'redux/entitiesExplorer/entitiesExplo
 import { TTreasuryAccountModel, TTreasuryCoinModel } from 'pages/CurrentEntity/Treasury/DAOTreasury/Accounts'
 import { truncateString } from 'utils/formatters'
 import { determineChainFromAddress } from 'utils/account'
-import { GetBalances, GetTokenAsset } from 'lib/protocol'
-import { contracts, customQueries } from '@ixo/impactxclient-sdk'
-import { IxoCoinCodexRelayerApi } from './configs'
-import { getDisplayAmount } from 'utils/currency'
+import { GetBalances } from 'lib/protocol'
+import { contracts } from '@ixo/impactxclient-sdk'
 import { selectStakingGroups } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { getTreasuryCoinByDenom } from 'utils/treasury'
 
 export default function useCurrentEntity(): {
   id: string
@@ -491,30 +490,12 @@ export function useCurrentEntityTreasury() {
 
     const balances = await GetBalances(address, chainInfo.rpc)
 
+    if (!balances.find((balance) => balance.denom === NATIVE_MICRODENOM)) {
+      balances.push({ amount: '0', denom: NATIVE_MICRODENOM })
+    }
+
     const coins: TTreasuryCoinModel[] = (await Promise.all(
-      await balances
-        .map(async ({ amount, denom }) => {
-          const token = await GetTokenAsset(denom)
-          const tokenInfo = await customQueries.currency.findTokenInfoFromDenom(
-            token.coinMinimalDenom,
-            true,
-            IxoCoinCodexRelayerApi,
-          )
-          if (!tokenInfo) {
-            return undefined
-          }
-          const { coinName, lastPriceUsd } = tokenInfo
-          const payload = {
-            address,
-            balance: getDisplayAmount(amount, token.coinDecimals),
-            network: `${coinName.toUpperCase()}`,
-            coinDenom: token.coinDenom,
-            coinImageUrl: token.coinImageUrl!,
-            lastPriceUsd,
-          }
-          return payload
-        })
-        .filter((v) => v !== undefined),
+      await balances.map((coin) => getTreasuryCoinByDenom(address, coin)).filter((v) => v !== undefined),
     )) as TTreasuryCoinModel[]
     return coins
   }, [])

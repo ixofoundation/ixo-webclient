@@ -6,6 +6,7 @@ import InvestmentDashboard from './InvestmentDashboard'
 import ProjectDashboard from './ProjectDashboard'
 import AssetDashboard from './AssetDashboard'
 import OracleDashboard from './OracleDashboard'
+import AssetCollectionDashboard from './AssetCollectionDashboard'
 
 const DashboardPage: React.FC = (): JSX.Element | null => {
   const currentEntity = useCurrentEntity()
@@ -22,6 +23,8 @@ const DashboardPage: React.FC = (): JSX.Element | null => {
         return ClaimDashboard
       case 'investment':
         return InvestmentDashboard
+      case 'asset/collection':
+        return AssetCollectionDashboard
       case 'asset/device':
       case 'asset/learnership':
         return AssetDashboard

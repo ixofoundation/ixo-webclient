@@ -67,7 +67,13 @@ const AssetOverview: React.FC = () => {
   })
 
   const { data: messagesData } = useMessagesQuery({
-    variables: { first: 10, filter: { value: { contains: { id: data?.entity?.id } } } },
+    variables: {
+      first: 10,
+      filter: {
+        typeUrl: { equalTo: '/ixo.entity.v1beta1.MsgTransferEntity' },
+        value: { contains: { id: data?.entity?.id } },
+      },
+    },
   })
 
   const carbonTokens = React.useMemo(() => {
@@ -162,7 +168,7 @@ const AssetOverview: React.FC = () => {
         <GridItem $gridArea='f' $alignSelf='stretch' height='400px'>
           <ClaimActivityCard icon={<AssetActivityIcon />} label='Claim Activity' />
         </GridItem>
-        <GridItem $gridArea='g' $alignSelf='stretch' height='400px'>
+        <GridItem $gridArea='g' $alignSelf='stretch' $minHeight='400px'>
           <AssetEventsCard
             label='Asset Events'
             icon={<ClockIcon />}
