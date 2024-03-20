@@ -47,6 +47,9 @@ const CurrentEntityPage: React.FC = (): JSX.Element => {
     if (fetchedEntity) {
       updateEntity(fetchedEntity)
     }
+    if (fetchedEntity) {
+      updateEntity(fetchedEntity)
+    }
 
     return () => {
       clearEntity()

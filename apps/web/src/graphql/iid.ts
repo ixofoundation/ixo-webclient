@@ -1,5 +1,11 @@
 import { gql, useQuery } from '@apollo/client'
 import { IidDocument } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/iid'
+import { useCurrentEntityAdminAccount } from 'hooks/currentEntity'
+import { GetGranteeRole } from 'lib/protocol'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import { IAgent } from 'types/agent'
+import { AgentRoles } from 'types/models'
+import { useGetClaimCollectionsByEntityId } from './claims'
 
 // GET_USER_IIDS
 const GET_USER_IIDS = gql`
@@ -36,16 +42,159 @@ export function useGetUserIids() {
 }
 
 export function useGetJoiningAgentsByCollectionId(collectionId: string) {
+  const adminAddress = useCurrentEntityAdminAccount()
   const { data: users } = useGetUserIids()
+  const [pendingAgents, setPendingAgents] = useState<IAgent[]>([])
+  const [approvedAgents, setApprovedAgents] = useState<IAgent[]>([])
 
-  return users.filter((user: any) =>
-    user.linkedResource.some(
-      (item: any) =>
-        item.id === `{id}#offer#${collectionId}` &&
-        item.type === 'DeedOffer' &&
-        item.description.split('#')[0] === collectionId,
-    ),
+  const agents = useMemo(
+    () =>
+      users.filter((user: any) =>
+        user.linkedResource.some(
+          (item: any) =>
+            item.id === `{id}#offer#${collectionId}` &&
+            item.type === 'DeedOffer' &&
+            item.description.split('#')[0] === collectionId,
+        ),
+      ),
+    [collectionId, users],
   )
+
+  const getAgentsRole = useCallback(async () => {
+    const joiningAgents: IAgent[] = agents
+      .map((agent: any) => ({
+        address:
+          agent.verificationMethod.find((vm: any) => vm.type === 'CosmosAccountAddress')?.blockchainAccountID || '',
+        role:
+          agent.linkedResource
+            .find(
+              (item: any) =>
+                item.id === `{id}#offer#${collectionId}` &&
+                item.type === 'DeedOffer' &&
+                item.description.split('#')[0] === collectionId,
+            )
+            ?.description.split('#')[1] ?? AgentRoles.serviceProviders,
+      }))
+      .filter(Boolean)
+
+    const pendingAgents: IAgent[] = []
+    const approvedAgents: IAgent[] = []
+    for (const agent of joiningAgents) {
+      try {
+        const { submitAuth, evaluateAuth } = await GetGranteeRole({
+          granteeAddress: agent.address,
+          adminAddress,
+          collectionId,
+        })
+        if (submitAuth || evaluateAuth) {
+          approvedAgents.push(agent)
+        } else {
+          pendingAgents.push(agent)
+        }
+      } catch (e) {
+        console.error(e)
+      }
+    }
+    setPendingAgents(pendingAgents)
+    setApprovedAgents(approvedAgents)
+  }, [adminAddress, agents, collectionId])
+
+  useEffect(() => {
+    getAgentsRole()
+    const interval = setInterval(() => {
+      getAgentsRole()
+    }, 5 * 1000)
+
+    return () => {
+      setPendingAgents([])
+      setApprovedAgents([])
+      clearInterval(interval)
+    }
+  }, [getAgentsRole])
+
+  return { agents, pendingAgents, approvedAgents }
+}
+
+export function useGetJoiningAgentsByEntityId(entityId: string) {
+  const { data: claimCollections } = useGetClaimCollectionsByEntityId(entityId)
+  const claimCollectionIds = useMemo(() => claimCollections.map((v) => v.id), [claimCollections])
+  const adminAddress = useCurrentEntityAdminAccount()
+  const { data: users } = useGetUserIids()
+  const [pendingAgents, setPendingAgents] = useState<IAgent[]>([])
+  const [approvedAgents, setApprovedAgents] = useState<IAgent[]>([])
+
+  const agents = useMemo(() => {
+    return users.filter((user: any) =>
+      user.linkedResource.some(
+        (item: any) =>
+          claimCollectionIds.some((id) => item.id === `{id}#offer#${id}`) &&
+          item.type === 'DeedOffer' &&
+          claimCollectionIds.some((id) => item.description.split('#')[0] === id),
+      ),
+    )
+  }, [claimCollectionIds, users])
+
+  const getAgentsRole = useCallback(async () => {
+    const joiningAgents: IAgent[] = agents
+      .map((agent: any) => ({
+        address:
+          agent.verificationMethod.find((vm: any) => vm.type === 'CosmosAccountAddress')?.blockchainAccountID || '',
+        role:
+          agent.linkedResource
+            .find(
+              (item: any) =>
+                claimCollectionIds.some((id) => item.id === `{id}#offer#${id}`) &&
+                item.type === 'DeedOffer' &&
+                claimCollectionIds.some((id) => item.description.split('#')[0] === id),
+            )
+            ?.description.split('#')[1] ?? AgentRoles.serviceProviders,
+        collectionId: agent.linkedResource
+          .find(
+            (item: any) =>
+              claimCollectionIds.some((id) => item.id === `{id}#offer#${id}`) &&
+              item.type === 'DeedOffer' &&
+              claimCollectionIds.some((id) => item.description.split('#')[0] === id),
+          )
+          ?.id?.replace('{id}#offer#', ''),
+      }))
+      .filter(Boolean)
+
+    const pendingAgents: IAgent[] = []
+    const approvedAgents: IAgent[] = []
+    for (const agent of joiningAgents) {
+      try {
+        const { submitAuth, evaluateAuth } = await GetGranteeRole({
+          granteeAddress: agent.address,
+          adminAddress,
+          collectionId: agent.collectionId,
+        })
+        if (submitAuth || evaluateAuth) {
+          approvedAgents.push(agent)
+        } else {
+          pendingAgents.push(agent)
+        }
+      } catch (e) {
+        console.error(e)
+      }
+    }
+    setPendingAgents(pendingAgents)
+    setApprovedAgents(approvedAgents)
+  }, [adminAddress, agents, claimCollectionIds])
+
+  useEffect(() => {
+    getAgentsRole()
+    const interval = setInterval(() => {
+      getAgentsRole()
+    }, 5 * 1000)
+
+    return () => {
+      setPendingAgents([])
+      setApprovedAgents([])
+      clearInterval(interval)
+    }
+  }, [getAgentsRole])
+
+  return { agents, pendingAgents, approvedAgents }
 }
 
 // GET_IID

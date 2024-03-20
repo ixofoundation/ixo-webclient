@@ -11,6 +11,7 @@ import EditEntity from './EditEntity'
 import { useGetUserGranteeRole } from 'hooks/claim'
 import { AgentRoles } from 'types/models'
 import ClaimDetail from './ClaimDetail'
+import Overview from './Overview'
 
 const ProjectDashboard: React.FC = (): JSX.Element => {
   const { entityId } = useParams<{ entityId: string }>()
@@ -22,6 +23,12 @@ const ProjectDashboard: React.FC = (): JSX.Element => {
   const signerRole = useGetUserGranteeRole()
 
   const routes: Path[] = [
+    {
+      url: `/entity/${entityId}/dashboard/overview`,
+      icon: requireCheckDefault(require('assets/img/sidebar/global.svg')),
+      sdg: 'Overview',
+      tooltip: 'Overview',
+    },
     {
       url: `/entity/${entityId}/dashboard/agents`,
       icon: requireCheckDefault(require('assets/img/sidebar/agent.svg')),
@@ -92,8 +99,9 @@ const ProjectDashboard: React.FC = (): JSX.Element => {
       entityType={entityType}
     >
       <Routes>
-        <Route index element={<Navigate to={`agents`} />} />
+        <Route index element={<Navigate to={`overview`} />} />
 
+        <Route path='overview' Component={Overview} />
         {registered && owner === address && <Route path='agents' Component={Agents} />}
         {registered && (owner === address || signerRole === AgentRoles.evaluators) && (
           <>

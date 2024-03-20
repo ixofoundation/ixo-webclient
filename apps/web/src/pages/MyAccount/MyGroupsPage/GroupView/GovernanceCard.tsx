@@ -3,7 +3,7 @@ import React, { useMemo } from 'react'
 import { TDAOGroupModel } from 'types/entities'
 import { Flex } from '@mantine/core'
 import { SvgBox } from 'components/App/App.styles'
-import PieChart from 'components/Widgets/PieChart/PieChart'
+import PieChart from 'components/Widgets/PieChart'
 import { Typography } from 'components/Typography'
 
 import { ReactComponent as AgentIcon } from 'assets/img/sidebar/agents.svg'
