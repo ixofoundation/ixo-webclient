@@ -1,5 +1,4 @@
 import { EntitiesHero } from './Components/EntitiesHero/EntitiesHero'
-import { Spinner } from 'components/Spinner/Spinner'
 import { connect } from 'react-redux'
 import { RootState } from 'redux/store'
 import { Container, EntitiesBody, EntitiesContainer, NoEntitiesContainer } from './EntitiesExplorer.container.styles'
@@ -20,7 +19,7 @@ import { useQuery } from 'hooks/window'
 import { InfiniteScroll } from 'components/InfiniteScroll'
 import { useMediaQuery } from 'react-responsive'
 import { deviceWidth } from 'constants/device'
-import { createEntityCard, withEntityData } from 'components'
+import { EntityOverviewSkeletonCard, createEntityCard, withEntityData } from 'components'
 import { useEntitiesQuery } from 'generated/graphql'
 import { selectAccountAddress, selectAccountCWClient } from 'redux/account/account.selectors'
 import { apiEntityToEntity } from 'utils/entities'
@@ -117,6 +116,9 @@ const EntitiesExplorer = ({
     variables: {
       filter: {
         not: { type: { startsWith: 'asset' } },
+        type: {
+          includesInsensitive: type,
+        },
       },
     },
     onCompleted: ({ entities }) => {
@@ -148,13 +150,24 @@ const EntitiesExplorer = ({
       )
     }
 
-    // if (entities.length > 0) {
     return (
       <EntitiesContainer className='container-fluid'>
         <div className='container'>
           <EntitiesFilter filterSchema={filterSchema} />
           <EntitiesBody>
-            {filteredEntitiesCount === 0 && (
+            {loading && (
+              <Flex direction={'row'} w='100%' gap={32}>
+                <InfiniteScroll dataLength={6} hasMore={false} next={() => refetch()} columns={3}>
+                  <EntityOverviewSkeletonCard />
+                  <EntityOverviewSkeletonCard />
+                  <EntityOverviewSkeletonCard />
+                  <EntityOverviewSkeletonCard />
+                  <EntityOverviewSkeletonCard />
+                  <EntityOverviewSkeletonCard />
+                </InfiniteScroll>
+              </Flex>
+            )}
+            {filteredEntitiesCount === 0 && !loading && (
               <NoEntitiesContainer>
                 <p>There are no results that match your search criteria</p>
               </NoEntitiesContainer>
@@ -172,7 +185,7 @@ const EntitiesExplorer = ({
                     .map((entity: TEntityModel) => {
                       const EntityCard = createEntityCard(type as EntityType)
                       const WrappedEntityCard = withEntityData(EntityCard)
-                      return <WrappedEntityCard key={entity.id} {...entity} />
+                      return <WrappedEntityCard key={entity.id} loading={loading} entity={entity} />
                     })
                     .filter(Boolean)}
                 </InfiniteScroll>
@@ -182,13 +195,6 @@ const EntitiesExplorer = ({
         </div>
       </EntitiesContainer>
     )
-    // } else {
-    //   return (
-    //     <ErrorContainer>
-    //       <p>No results were found</p>
-    //     </ErrorContainer>
-    //   )
-    // }
   }
 
   useEffect(() => {
@@ -213,11 +219,6 @@ const EntitiesExplorer = ({
               filterQuery={filterQuery}
               handleChangeQuery={handleChangeEntitiesQuery}
             />
-            {entityTypeMap && loading && (
-              <div style={{ height: '100%' }}>
-                <Spinner info={`Loading ${entityTypeMap[type as any]?.plural || ''}`} />
-              </div>
-            )}
             {renderEntities()}
           </div>
         </div>

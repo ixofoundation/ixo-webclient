@@ -23,6 +23,7 @@ interface Props extends HTMLFlexBoxProps {
   logo: string
   assetNumber: string | number
   maxSupply: string | number
+  loading?: boolean
 }
 
 export const DaoCard: React.FC<Props> = ({
@@ -39,6 +40,7 @@ export const DaoCard: React.FC<Props> = ({
   assetNumber,
   maxSupply,
   tags: { daoTypeTags = [], stage } = {},
+  loading,
   ...rest
 }): JSX.Element | null => {
   const theme: any = useTheme()
@@ -60,7 +62,7 @@ export const DaoCard: React.FC<Props> = ({
       cursor='pointer'
       hover={{ $boxShadow: '0px 10px 25px 0px rgba(0, 0, 0, 0.15)' }}
     >
-      <Skeleton visible={!cardImage}>
+      <Skeleton visible={!cardImage || loading}>
         <FlexBox
           position='relative'
           background={`url(${getMappedCDNURL(cardImage)})`}
