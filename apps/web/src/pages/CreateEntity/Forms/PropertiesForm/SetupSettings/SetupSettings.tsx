@@ -7,12 +7,10 @@ import {
   CreatorSetupModal,
   CreatorSetupModal as AdministratorSetupModal,
   ServiceSetupModal,
-  ClaimEvaluationMethodSetupModal,
   DDOTagsSetupModal,
 } from 'components/Modals'
 import { SetupPageContent } from '../SetupPageContent'
 import {
-  TEntityClaimEvaluationMethodModel,
   TEntityAdministratorModel,
   TEntityCreatorModel,
   TEntityDDOTagModel,
@@ -236,14 +234,6 @@ const SetupSettings: React.FC<Props> = ({
         open={entitySettings.ddoTags.openModal}
         onClose={(): void => handleOpenEntitySettingModal('ddoTags', false)}
         onChange={(ddoTags: TEntityDDOTagModel[]): void => handleUpdateEntitySetting('ddoTags', ddoTags)}
-      />
-      <ClaimEvaluationMethodSetupModal
-        claimEvaluationMethod={entitySettings.claimEvaluationMethod.data}
-        open={entitySettings.claimEvaluationMethod?.openModal}
-        onClose={(): void => handleOpenEntitySettingModal('claimEvaluationMethod', false)}
-        onChange={(claimEvaluationMethod: TEntityClaimEvaluationMethodModel): void =>
-          handleUpdateEntitySetting('claimEvaluationMethod', claimEvaluationMethod)
-        }
       />
     </>
   )
