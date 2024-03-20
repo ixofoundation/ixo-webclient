@@ -22,7 +22,7 @@ const SetupClaim: React.FC<Props> = ({ hidden, claim, updateClaim }): JSX.Elemen
       return
     }
 
-    if (Object.values(claim).some((item) => item.template?.id === newClaim.template?.id)) {
+    if (!selectedClaim?.template && Object.values(claim).some((item) => item.template?.id === newClaim.template?.id)) {
       handleRemoveEntityClaim(id)
       return
     }

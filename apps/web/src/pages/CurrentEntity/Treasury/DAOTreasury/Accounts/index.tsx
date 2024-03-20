@@ -53,7 +53,7 @@ const Accounts: React.FC = () => {
       Object.values(accounts)
         .flatMap((account) => (account.coins ? Object.values(account.coins) : []))
         .reduce(
-          (total, coin) => new BigNumber(total).plus(new BigNumber(coin.balance).times(coin.lastPriceUsd)).toFixed(2),
+          (total, coin) => new BigNumber(total).plus(new BigNumber(coin?.balance ?? '0').times(coin?.lastPriceUsd ?? '0')).toFixed(2),
           '0',
         ),
     [accounts],
@@ -118,7 +118,7 @@ const Accounts: React.FC = () => {
             <FlexBox>
               <Card
                 label='Coins'
-              // onAction={() => history.push({ pathname: history.location.pathname, search: `?expand=coins` })}
+                // onAction={() => history.push({ pathname: history.location.pathname, search: `?expand=coins` })}
               >
                 <Coins coins={selectedAccount.coins} />
               </Card>
@@ -126,7 +126,7 @@ const Accounts: React.FC = () => {
             <FlexBox>
               <Card
                 label='Impact Tokens'
-              // onAction={() => history.push({ pathname: history.location.pathname, search: `?expand=impact_tokens` })}
+                // onAction={() => history.push({ pathname: history.location.pathname, search: `?expand=impact_tokens` })}
               >
                 <ImpactTokens address={selectedAccount.address} />
               </Card>
@@ -134,7 +134,7 @@ const Accounts: React.FC = () => {
             <FlexBox>
               <Card
                 label='Collections'
-              // onAction={() => history.push({ pathname: history.location.pathname, search: `?expand=collections` })}
+                // onAction={() => history.push({ pathname: history.location.pathname, search: `?expand=collections` })}
               >
                 <Collections address={selectedAccount.address} />
               </Card>
@@ -142,7 +142,7 @@ const Accounts: React.FC = () => {
             <FlexBox>
               <Card
                 label='Transactions'
-              // onAction={() => history.push({ pathname: history.location.pathname, search: `?expand=transactions` })}
+                // onAction={() => history.push({ pathname: history.location.pathname, search: `?expand=transactions` })}
               >
                 <Transactions address={selectedAccount.address} />
               </Card>
