@@ -44,8 +44,3 @@ export const populateEntityProfile = async (profile: any, service: any) => {
       return undefined
     })
 }
-
-
-export const populateEntitySettings = async () => {
-    const profile = await populateEntityProfile({ id: ""}, {})
-}
