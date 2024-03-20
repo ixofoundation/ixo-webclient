@@ -25,6 +25,7 @@ import { selectAccountAddress, selectAccountCWClient } from 'redux/account/accou
 import { apiEntityToEntity } from 'utils/entities'
 import { Flex, ScrollArea } from '@mantine/core'
 import styled from 'styled-components'
+import { getGQLEntitiesQueryTypeFilter } from 'services/entities'
 
 const StyledScrollArea = styled(ScrollArea)`
   & > div > div {
@@ -117,7 +118,7 @@ const EntitiesExplorer = ({
       filter: {
         not: { type: { startsWith: 'asset' } },
         type: {
-          includesInsensitive: type,
+          ...(type && getGQLEntitiesQueryTypeFilter(type))
         },
       },
     },
