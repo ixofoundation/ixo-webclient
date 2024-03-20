@@ -13,6 +13,7 @@ const ProtocolCard: React.FC<TEntityModel & { to?: string }> = (entity) => {
   const protocolType = entity.type.replace('protocol/', '')
   const type = entity.profile?.category || ''
   const title = entity.profile?.name || ''
+  const image = entity.profile?.image || ''
   const description = entity.profile?.description || ''
   const createdAt = entity.metadata?.created as unknown as string
 
@@ -29,7 +30,14 @@ const ProtocolCard: React.FC<TEntityModel & { to?: string }> = (entity) => {
         transition='.2s box-shadow'
         hover={{ $boxShadow: '0px 10px 25px 0px rgba(0, 0, 0, 0.15)' }}
       >
-        <FlexBox background={theme.ixoGrey300} width='100%' height='180px' />
+        <FlexBox
+          width='100%'
+          height='180px'
+          background={image ? `url(${image})` : theme.ixoGrey300}
+          $backgroundRepeat='no-repeat'
+          $backgroundSize='cover'
+          $backgroundPosition='center center'
+        />
         <FlexBox p={4.5} $direction='column' $gap={2} width='100%'>
           <FlexBox $gap={2}>
             <FlexBox $justifyContent='space-between' $borderRadius='8px' background={'#B651B2'} py={1} px={2}>
