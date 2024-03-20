@@ -15,7 +15,7 @@ const SetupActions: React.FC = () => {
   const validActions = useMemo(() => actions.filter((item) => item.data), [actions])
 
   const handleBack = () => {
-    navigate(`/entity/${entityId}/dashboard/governance/${coreAddress}/info`)
+    navigate(`/entity/${entityId}/dashboard/governance/${coreAddress}/page`)
   }
   const handleContinue = () => {
     navigate(`/entity/${entityId}/dashboard/governance/${coreAddress}/review`)

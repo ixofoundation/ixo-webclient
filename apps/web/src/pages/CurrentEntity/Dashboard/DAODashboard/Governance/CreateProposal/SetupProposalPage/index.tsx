@@ -141,8 +141,8 @@ const SetupProposalPage: React.FC = (): JSX.Element => {
 
   return (
     <Wrapper direction={'column'} gap={50} w='100%'>
-      <Flex direction={'column'} gap={24}>
-        <Flex maw={720} py={30} px={60} style={{ border: `1px solid ${theme.ixoGrey300}` }}>
+      <Flex direction={'column'} gap={24} w='100%'>
+        <Flex w='100%' direction={'column'} py={30} px={60} style={{ border: `1px solid ${theme.ixoGrey300}` }}>
           <ReactEditorJS
             onInitialize={handleInitialize}
             onReady={handleReady}
