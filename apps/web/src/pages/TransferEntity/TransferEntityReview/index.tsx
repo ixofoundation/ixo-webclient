@@ -5,7 +5,7 @@ import { InputWithLabel } from 'components/Form/InputWithLabel'
 import { Typography } from 'components/Typography'
 import { useAccount } from 'hooks/account'
 import { useQuery } from 'hooks/window'
-import { AddVerificationMethod, DeleteLinkedResource, fee, UpdateEntityMessage } from 'lib/protocol'
+import { fee } from 'lib/protocol'
 import { Button, Switch } from 'pages/CreateEntity/Components'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -20,6 +20,7 @@ import { useWallet } from '@ixo-webclient/wallet-connector'
 import { DeliverTxResponse } from '@cosmjs/stargate'
 import { DaoPreProposeSingleClient } from '@ixo-webclient/cosmwasm-clients'
 import useCurrentEntity from 'hooks/currentEntity'
+import { useTransferEntityState } from 'hooks/transferEntity'
 
 const TransferEntityToGroupButton: React.FC<{
   groupAddress: string
@@ -204,11 +205,10 @@ const TransferEntityToAccountButton: React.FC<{
   setVerificationMethods: (verificationMethods: any) => void
 }> = ({ verificationMethods, setVerificationMethods }) => {
   const navigate = useNavigate()
-  const { entityId } = useParams<{ entityId: string }>()
-  const { execute } = useWallet()
-  const { signer } = useAccount()
+  const { entityId = '' } = useParams<{ entityId: string }>()
   const { currentEntity } = useCurrentEntity()
   const [submitting, setSubmitting] = useState(false)
+  const { handleReEnableKeys } = useTransferEntityState()
 
   const [service = [], transferDocument = undefined] = useMemo(
     () => [currentEntity?.service, currentEntity?.linkedResource.find((v) => v.type === 'VerificationMethods')],
@@ -233,100 +233,15 @@ const TransferEntityToAccountButton: React.FC<{
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [transferDocument])
 
-  const handleAddVerificationMethods = async (): Promise<boolean> => {
-    try {
-      const verifications = verificationMethods
-        .filter((v) => v.reEnable)
-        .map((v) => {
-          return ixo.iid.v1beta1.Verification.fromPartial({
-            relationships: ['authentication'],
-            method: ixo.iid.v1beta1.VerificationMethod.fromPartial({
-              id: v.id,
-              type: v.type,
-              controller: v.controller,
-              blockchainAccountID: v.blockchainAccountID,
-              publicKeyHex: v.publicKeyHex,
-              publicKeyMultibase: v.publicKeyMultibase,
-              publicKeyBase58: v.publicKeyBase58,
-            }),
-          })
-        })
-
-      const payload = AddVerificationMethod(signer, { did: entityId ?? '', verifications })
-      const response = (await execute(payload)) as unknown as DeliverTxResponse
-
-      if (response.code !== 0) {
-        throw response.rawLog
-      }
-      console.info('handleAddVerificationMethods', { response })
-      successToast('Success', 'Successfully updated status to transferred!')
-      return true
-    } catch (e) {
-      console.error('handleAddVerificationMethods', e)
-      errorToast('Error at Signing', typeof e === 'string' && e)
-      return false
-    }
-  }
-
-  const handleUpdateStatusToCreated = async (): Promise<boolean> => {
-    try {
-      if (!entityId) {
-        // eslint-disable-next-line no-throw-literal
-        throw 'EntityId is invalid'
-      }
-
-      const transactionData = await UpdateEntityMessage(signer, { id: entityId, entityStatus: 0 })
-      const response = (await execute(transactionData)) as unknown as DeliverTxResponse
-
-      if (response.code !== 0) {
-        throw response.rawLog
-      }
-      console.info('handleUpdateStatusToCreated', { response })
-      successToast('Success', 'Successfully updated status to back to created!')
-      return true
-    } catch (e) {
-      console.error('handleUpdateStatusToTransferred', e)
-      errorToast('Error at Signing', typeof e === 'string' && e)
-      return false
-    }
-  }
-
-  const handleRemoveDocument = async (): Promise<boolean> => {
-    try {
-      if (!transferDocument?.id || !entityId) {
-        // eslint-disable-next-line no-throw-literal
-        throw 'EntityId or documentId is invalid'
-      }
-      const deleteLinkedResourcePayload = DeleteLinkedResource(signer, { entityId, resourceId: transferDocument?.id })
-      const response = (await execute(deleteLinkedResourcePayload)) as unknown as DeliverTxResponse
-
-      if (response.code !== 0) {
-        throw response.rawLog
-      }
-      successToast('Success', 'Successfully removed document!')
-      return true
-    } catch (e) {
-      console.error('handleRemoveDocument', e)
-      errorToast('Error at Signing', typeof e === 'string' && e)
-      return false
-    }
-  }
-
   const onSubmit = async () => {
-    setSubmitting(true)
-
-    const removeStatus = await handleRemoveDocument()
-    if (removeStatus) {
-      const updateStatus = await handleUpdateStatusToCreated()
-      if (updateStatus) {
-        const addedVMs = await handleAddVerificationMethods()
-        if (addedVMs) {
-          navigate(`/entity/${entityId}/dashboard`)
-        }
-      }
+    try {
+      setSubmitting(true)
+      await handleReEnableKeys({ entityId, transferDocument, verificationMethods })
+      navigate(`/entity/${entityId}/dashboard`)
+      setSubmitting(false)
+    } catch (error) {
+      setSubmitting(false)
     }
-
-    setSubmitting(false)
   }
 
   return (
