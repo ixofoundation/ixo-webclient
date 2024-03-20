@@ -9,7 +9,7 @@ const MyPortfolioPage = () => {
 
   useEffect(() => {
     update()
-  }, [])
+  }, [update])
 
   return (
     <Flex direction={'column'} gap={40}>
