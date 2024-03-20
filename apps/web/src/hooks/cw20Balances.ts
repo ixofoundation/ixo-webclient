@@ -84,7 +84,7 @@ export function useUpdate20Balances() {
 
     const update = useCallback(async () => {
         await Promise.all(stakingGroups.map((stakingGroup) => processStakingGroup({ stakingGroup, cwClient, address, updateCw20Tokens })))
-    }, [])
+    }, [address, cwClient, stakingGroups, updateCw20Tokens])
 
     return { update }
 }

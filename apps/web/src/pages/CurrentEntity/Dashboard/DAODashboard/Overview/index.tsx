@@ -23,7 +23,7 @@ const DAOOverview: React.FC = () => {
         width='100%'
       >
         <GridItem $gridArea='a' $alignSelf='stretch' height='400px'>
-          <WrappedDAOCard {...currentEntity} />
+          <WrappedDAOCard entity={currentEntity} />
         </GridItem>
         <GridItem $gridArea='b' $alignSelf='stretch' height='400px'>
           <TreasuryPoolCard />
