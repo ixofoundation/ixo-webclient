@@ -3,7 +3,6 @@ import { serviceEndpointToUrl } from "utils/entities"
 
 export const populateEntityProfile = async (profile: any, service: any) => {
     if(!profile) return
-    console.log({...profile})
     const url = serviceEndpointToUrl(profile.serviceEndpoint, service)
     return await fetch(getMappedNewURL(url))
     .then((response) => response.json())
