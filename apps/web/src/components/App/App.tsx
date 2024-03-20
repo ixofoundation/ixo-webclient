@@ -19,6 +19,7 @@ import { WalletModal, WalletProvider } from '@ixo-webclient/wallet-connector'
 import RedirectToMyAccount from 'components/Header/components/RedirectToMyAccount'
 import { chainNetwork } from 'hooks/configs'
 import { RPC_ENDPOINT } from 'lib/protocol'
+import RootInit from 'utils/init/rootInit'
 
 ReactGA.initialize('UA-106630107-5')
 ReactGA.pageview(window.location.pathname + window.location.search)
@@ -33,6 +34,7 @@ const App: React.FC = () => {
       >
         <WalletModal />
         <ToastContainer theme='dark' hideProgressBar={true} position='top-right' />
+        <RootInit/>
         <Services />
         <ScrollToTop>
           <Container>
