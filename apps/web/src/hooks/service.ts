@@ -306,7 +306,6 @@ export function useService() {
           id: '{id}#claims',
           type: 'ixo:Claims',
           entityClaims: [claim],
-          headlineMetric: claim.isHeadlineMetric,
         }),
       )
 

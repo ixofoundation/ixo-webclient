@@ -42,6 +42,10 @@ const CurrentEntityPage: React.FC = (): JSX.Element => {
   useEffect(() => {
     if (entity) {
       updateEntity(entity)
+      return
+    }
+    if (fetchedEntity) {
+      updateEntity(fetchedEntity)
     }
     if (fetchedEntity) {
       updateEntity(fetchedEntity)
