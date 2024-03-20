@@ -35,7 +35,6 @@ import { ReactComponent as WebKeyManagementIcon } from 'assets/images/icon-web-k
 import { ReactComponent as SmartContract2Icon } from 'assets/images/icon-smart-contract2.svg'
 import { ReactComponent as JamboDAppIcon } from 'assets/images/icon-jambo-dapp.svg'
 import { ReactComponent as MatrixServerIcon } from 'assets/images/icon-matrix-server.svg'
-import { ReactComponent as EvaluationMethodologyIcon } from 'assets/images/icon-evaluation-methodology.svg'
 import { ReactComponent as HandshakeIcon } from 'assets/images/icon-handshake.svg'
 import { ReactComponent as StakingIcon } from 'assets/images/icon-staking.svg'
 import { ReactComponent as MultisigIcon } from 'assets/images/icon-multisig.svg'
@@ -135,10 +134,6 @@ export const EntitySettingsConfig: { [key: string]: any } = {
     text: 'Services',
     icon: GlobeIcon,
     required: true,
-  },
-  claimEvaluationMethod: {
-    text: 'Evaluation Methodology',
-    icon: EvaluationMethodologyIcon,
   },
 }
 
