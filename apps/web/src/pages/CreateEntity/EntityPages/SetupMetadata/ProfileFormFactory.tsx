@@ -52,6 +52,7 @@ const ProfileFormProtocolClaim = () => {
     [updateProfile, profile],
   )
 
+  const setImage = useCallback((name: string) => handleUpdateProfile('image', name), [handleUpdateProfile])
   const setType = useCallback((type: string) => handleUpdateProfile('category', type), [handleUpdateProfile])
   const setTitle = useCallback((name: string) => handleUpdateProfile('name', name), [handleUpdateProfile])
 
@@ -62,6 +63,8 @@ const ProfileFormProtocolClaim = () => {
 
   return (
     <ClaimProfileForm
+      image={profile?.image}
+      setImage={setImage}
       type={profile?.category || ''}
       setType={setType}
       title={profile?.name || ''}
