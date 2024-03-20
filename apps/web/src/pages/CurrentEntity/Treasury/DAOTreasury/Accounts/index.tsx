@@ -53,7 +53,7 @@ const Accounts: React.FC = () => {
       Object.values(accounts)
         .flatMap((account) => (account.coins ? Object.values(account.coins) : []))
         .reduce(
-          (total, coin) => new BigNumber(total).plus(new BigNumber(coin.balance).times(coin.lastPriceUsd)).toFixed(2),
+          (total, coin) => new BigNumber(total).plus(new BigNumber(coin?.balance ?? '0').times(coin?.lastPriceUsd ?? '0')).toFixed(2),
           '0',
         ),
     [accounts],
