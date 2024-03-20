@@ -204,18 +204,18 @@ export interface HTMLFlexBoxProps extends HTMLDivProps {
   readonly $direction?: 'row' | 'column' | 'row-reverse'
   $justifyContent?: 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around' | 'space-evenly' | 'stretch'
   $alignItems?:
-  | 'stretch'
-  | 'center'
-  | 'start'
-  | 'end'
-  | 'baseline'
-  | 'flex-start'
-  | 'flex-end'
-  | 'center'
-  | 'space-between'
-  | 'space-around'
-  | 'space-evenly'
-  | 'stretch'
+    | 'stretch'
+    | 'center'
+    | 'start'
+    | 'end'
+    | 'baseline'
+    | 'flex-start'
+    | 'flex-end'
+    | 'center'
+    | 'space-between'
+    | 'space-around'
+    | 'space-evenly'
+    | 'stretch'
   $gap?: number
   $flexWrap?: string
   $flexBasis?: string
@@ -337,7 +337,7 @@ export const Box = styled.div<HTMLDivProps>`
   ${htmlElementCss}
 `
 
-export const FlexBox = styled(Box) <HTMLFlexBoxProps>`
+export const FlexBox = styled(Box)<HTMLFlexBoxProps>`
   display: flex;
   flex-direction: ${({ $direction = 'row' }): string => $direction};
   justify-content: ${({ $justifyContent = 'flex-start' }): string => $justifyContent};
@@ -350,7 +350,7 @@ export const FlexBox = styled(Box) <HTMLFlexBoxProps>`
   ${({ $flexShrink }) => $flexShrink && `flex-shrink: ${$flexShrink};`}
 `
 
-export const SvgBox = styled(FlexBox) <
+export const SvgBox = styled(FlexBox)<
   HTMLFlexBoxProps & {
     readonly $svgWidth?: number
     readonly $svgHeight?: number
@@ -373,7 +373,7 @@ export const SvgBox = styled(FlexBox) <
   }
 `
 
-export const GridContainer = styled(Box) <{
+export const GridContainer = styled(Box)<{
   columns?: number
   $columnGap?: number
   $rowGap?: number
@@ -391,7 +391,7 @@ export const GridContainer = styled(Box) <{
   ${({ $rowGap }): string | undefined => ($rowGap ? `row-gap: ${$rowGap * 0.25}rem` : undefined)};
   ${({ $gridGap }): string | undefined => ($gridGap ? `grid-gap: ${$gridGap * 0.25}rem` : undefined)};
 `
-export const GridItem = styled(Box) <{ $gridArea?: string; $alignSelf?: string }>`
+export const GridItem = styled(Box)<{ $gridArea?: string; $alignSelf?: string }>`
   ${({ $gridArea }) => $gridArea && `grid-area: ${$gridArea}`};
   ${({ $alignSelf }) => $alignSelf && `align-self: ${$alignSelf}`};
 `

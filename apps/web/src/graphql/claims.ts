@@ -1,5 +1,5 @@
 import { gql, useQuery } from '@apollo/client'
-import { useEntityQuery } from 'generated/graphql'
+import { Claim, useEntityQuery } from 'generated/graphql'
 import useCurrentEntity from 'hooks/currentEntity'
 import { useMemo, useState } from 'react'
 import { TEntityModel } from 'types/entities'
@@ -207,6 +207,64 @@ export function useGetClaims(collectionId: string | number) {
   })
 
   return { loading, error, data: data?.claims?.nodes ?? [], refetch }
+}
+
+// GET_CLAIMS_BY_ENTITYID
+const GET_CLAIMS_BY_ENTITYID = gql`
+  query GetClaimsByEntityId($collectionIds: [String!]) {
+    claims(filter: { collectionId: { in: $collectionIds } }) {
+      nodes {
+        agentAddress
+        agentDid
+        claimId
+        collectionId
+        nodeId
+        paymentsStatus
+        schemaType
+        submissionDate
+        collection {
+          admin
+          approved
+          count
+          disputed
+          endDate
+          entity
+          evaluated
+          id
+          nodeId
+          payments
+          protocol
+          quota
+          rejected
+          startDate
+          state
+        }
+        evaluationByClaimId {
+          agentAddress
+          agentDid
+          amount
+          claimId
+          collectionId
+          evaluationDate
+          nodeId
+          oracle
+          reason
+          status
+          verificationProof
+        }
+      }
+    }
+  }
+`
+export function useGetClaimsByEntityId(entityId: string) {
+  const { data: claimCollections } = useGetClaimCollectionsByEntityId(entityId)
+
+  const { loading, error, data, refetch } = useQuery(GET_CLAIMS_BY_ENTITYID, {
+    variables: { collectionIds: claimCollections.map((v) => v.id) },
+    pollInterval: 5 * 1000,
+  })
+
+  return { loading, error, data: (data?.claims?.nodes ?? []) as Claim[], refetch }
 }
 
 // GET_CLAIM
