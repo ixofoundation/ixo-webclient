@@ -5,7 +5,7 @@ export const initialState: AccountState = {
   selectedWallet: WalletType,
   connectedWallet: undefined,
   name: undefined,
-  registered: undefined,
+  registered: true,
   pubKey: undefined,
   cwClient: undefined,
   signingClient: undefined,
