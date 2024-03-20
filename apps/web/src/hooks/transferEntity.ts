@@ -1,4 +1,4 @@
-import { customQueries, utils } from '@ixo/impactxclient-sdk'
+import { customQueries, utils, ixo } from '@ixo/impactxclient-sdk'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import {
   updateBreadCrumbsAction,
@@ -15,9 +15,10 @@ import {
 import { chainNetwork } from './configs'
 import { LinkedResource, VerificationMethod } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { LinkedResourceProofGenerator, LinkedResourceServiceEndpointGenerator } from 'utils/entities'
-import { CheckIidDoc, CreateIidDocForGroup, GetAddLinkedResourcePayload, TransferEntityMessage, UpdateEntityMessage, fee } from 'lib/protocol'
+import { AddVerificationMethod, CheckIidDoc, CreateIidDocForGroup, DeleteLinkedResource, GetAddLinkedResourcePayload, TransferEntityMessage, UpdateEntityMessage, fee } from 'lib/protocol'
 import { useAccount } from './account'
 import { useWallet } from '@ixo-webclient/wallet-connector'
+
 
 export function useTransferEntityState() {
   const dispatch = useAppDispatch()
@@ -122,6 +123,48 @@ export function useTransferEntityState() {
     return await execute({ messages: transferPayload, fee: fee, memo: undefined })
   }
 
+  const handleReEnableKeys = async ({ entityId, transferDocument, verificationMethods}: { entityId: string, transferDocument: any, verificationMethods: any[]}) => {
+    const getRemoveDocumentPayload = ({ entityId, transferDocument }: { entityId: string, transferDocument: any }) => {
+      const deleteLinkedResourcePayload = DeleteLinkedResource(signer, { entityId, resourceId: transferDocument?.id })
+      return deleteLinkedResourcePayload.messages
+    }
+
+    const getUpdateMessagePayload = async ({ entityId }: { entityId: string }) => {
+      const transactionData = await UpdateEntityMessage(signer, { id: entityId, entityStatus: 0 })
+      return transactionData.messages
+    }
+
+    const getVerificationsPayload = ({ verificationMethods, entityId }: { entityId: string, verificationMethods: any[] }) => {
+      const verifications = verificationMethods
+        .filter((v) => v.reEnable)
+        .map((v) => {
+          return ixo.iid.v1beta1.Verification.fromPartial({
+            relationships: ['authentication'],
+            method: ixo.iid.v1beta1.VerificationMethod.fromPartial({
+              id: v.id,
+              type: v.type,
+              controller: v.controller,
+              blockchainAccountID: v.blockchainAccountID,
+              publicKeyHex: v.publicKeyHex,
+              publicKeyMultibase: v.publicKeyMultibase,
+              publicKeyBase58: v.publicKeyBase58,
+            }),
+          })
+        })
+
+      const payload = AddVerificationMethod(signer, { did: entityId ?? '', verifications })
+      return payload.messages
+
+    }
+
+    const removeDocumentPayload =  getRemoveDocumentPayload({ entityId, transferDocument })
+    const updateMessagePayload = await getUpdateMessagePayload({ entityId })
+    const verificationsPayload =  getVerificationsPayload({ entityId, verificationMethods })
+
+    const reEnableKeysPayload = [...removeDocumentPayload, ...updateMessagePayload, ...verificationsPayload]
+    return await execute({ messages: reEnableKeysPayload, fee: fee, memo: undefined })
+  }
+
   return {
     breadCrumbs,
     title,
@@ -131,6 +174,7 @@ export function useTransferEntityState() {
     updateTitle,
     updateSubtitle,
     updateRecipientDid,
-    handleTransfer
+    handleTransfer,
+    handleReEnableKeys
   }
 }

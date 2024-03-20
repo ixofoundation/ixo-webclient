@@ -3,12 +3,12 @@ import { TEntityClaimModel, TEntityModel } from 'types/entities'
 import { isExpired } from 'utils/time'
 
 export function withEntityData(Component: React.ComponentType<any>) {
-  const WrappedComponent = (entity: TEntityModel): JSX.Element => {
+  const WrappedComponent = ({entity, loading}: {entity: TEntityModel, loading?: boolean}): JSX.Element => {
     // Transform the entity data based on its type or any other criteria
     const transformedData = transformEntityData(entity)
 
     // Pass the transformed data as props to the actual entity card component
-    return <Component {...transformedData} />
+    return <Component {...transformedData} loading={loading}/>
   }
 
   WrappedComponent.displayName = `WithEntityData(${getDisplayName(Component)})`
