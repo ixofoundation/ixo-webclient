@@ -20,12 +20,12 @@ import { InfiniteScroll } from 'components/InfiniteScroll'
 import { useMediaQuery } from 'react-responsive'
 import { deviceWidth } from 'constants/device'
 import { EntityOverviewSkeletonCard, createEntityCard, withEntityData } from 'components'
-import { useEntitiesQuery } from 'generated/graphql'
+import { Entity, useEntitiesQuery } from 'generated/graphql'
 import { selectAccountAddress, selectAccountCWClient } from 'redux/account/account.selectors'
-import { apiEntityToEntity } from 'utils/entities'
 import { Flex, ScrollArea } from '@mantine/core'
 import styled from 'styled-components'
 import { getGQLEntitiesQueryTypeFilter } from 'services/entities'
+import { populateEntitiesForEntityExplorer } from 'services/entities/populateEntitySettings'
 
 const StyledScrollArea = styled(ScrollArea)`
   & > div > div {
@@ -120,17 +120,14 @@ const EntitiesExplorer = ({
         type: {
           ...(type && getGQLEntitiesQueryTypeFilter(type))
         },
+
       },
     },
-    onCompleted: ({ entities }) => {
+    onCompleted: async ({ entities }) => {
       const nodes = entities?.nodes ?? []
       if (nodes.length > 0) {
-        updateEntities(nodes)
-        for (const entity of nodes) {
-          apiEntityToEntity({ entity, cwClient }, (key, data, merge = false) => {
-            updateEntityProperties(entity.id, key, data, merge)
-          })
-        }
+        const updatedNodes = await populateEntitiesForEntityExplorer(nodes as Entity[])
+        updateEntities(updatedNodes)
       }
     },
   })
@@ -156,7 +153,7 @@ const EntitiesExplorer = ({
         <div className='container'>
           <EntitiesFilter filterSchema={filterSchema} />
           <EntitiesBody>
-            {loading && (
+          {loading && (
               <Flex direction={'row'} w='100%' gap={32}>
                 <InfiniteScroll dataLength={6} hasMore={false} next={() => refetch()} columns={3}>
                   <EntityOverviewSkeletonCard />
@@ -168,7 +165,7 @@ const EntitiesExplorer = ({
                 </InfiniteScroll>
               </Flex>
             )}
-            {filteredEntitiesCount === 0 && !loading && (
+            {data?.entities?.nodes.length === 0 && !loading && (
               <NoEntitiesContainer>
                 <p>There are no results that match your search criteria</p>
               </NoEntitiesContainer>
