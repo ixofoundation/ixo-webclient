@@ -18,13 +18,14 @@ interface Props {
 }
 const TokensCard: React.FC<Props> = ({ daoGroup }) => {
   const token = daoGroup.token
-  const { cwClient, address } = useAccount()
+  const { cwClient } = useAccount()
   const { updateDAOGroup } = useCurrentEntity()
   const [stakedBalance, setStakedBalance] = useState('0')
   const [unstakingBalance, setUnstakingBalance] = useState('0')
   const [claimableBalance, setClaimableBalance] = useState('0')
   const [groupStakingModalOpen, setGroupStakingModalOpen] = useState(false)
   const [groupUnstakingModalOpen, setGroupUnstakingModalOpen] = useState(false)
+  const members = daoGroup.votingModule.members
 
   const getInfo = useCallback(async (): Promise<void> => {
     const daoVotingCw20StakedClient = new contracts.DaoVotingCw20Staked.DaoVotingCw20StakedQueryClient(
@@ -33,15 +34,26 @@ const TokensCard: React.FC<Props> = ({ daoGroup }) => {
     )
 
     const stakingContract = await daoVotingCw20StakedClient.stakingContract()
+
     const cw20StakeClient = new contracts.Cw20Stake.Cw20StakeQueryClient(cwClient, stakingContract)
-    const { value: microStakedValue } = await cw20StakeClient.stakedValue({ address })
-    const { claims } = await cw20StakeClient.claims({ address })
-    const microUnstakingValue = claims
-      .filter((claim) => !claimAvailable(claim, 0)) //  TODO: TBD blockHeight
-      .reduce((acc, cur) => plus(acc, cur.amount), '0')
-    const microClaimableValue = claims
-      .filter((claim) => claimAvailable(claim, 0)) //  TODO: TBD blockHeight
-      .reduce((acc, cur) => plus(acc, cur.amount), '0')
+
+    const unStakedTotals = await Promise.all(
+      members.map(async (member) => {
+        const { claims } = await cw20StakeClient.claims({ address: member.addr })
+        return claims.filter((claim) => !claimAvailable(claim, 0)).reduce((acc, cur) => plus(acc, cur.amount), '0')
+      }),
+    )
+    const claimableTotals = await Promise.all(
+      members.map(async (member) => {
+        const { claims } = await cw20StakeClient.claims({ address: member.addr })
+        return claims.filter((claim) => claimAvailable(claim, 0)).reduce((acc, cur) => plus(acc, cur.amount), '0')
+      }),
+    )
+
+    const microUnstakingValue = unStakedTotals.reduce((acc, amount) => plus(acc, amount), '0')
+    const microClaimableValue = claimableTotals.reduce((acc, amount) => plus(acc, amount), '0')
+
+    const microStakedValue = daoGroup.votingModule.totalWeight
 
     const tokenContract = await daoVotingCw20StakedClient.tokenContract()
     const cw20BaseClient = new contracts.Cw20Base.Cw20BaseQueryClient(cwClient, tokenContract)
@@ -54,7 +66,7 @@ const TokensCard: React.FC<Props> = ({ daoGroup }) => {
     setStakedBalance(stakedValue)
     setUnstakingBalance(unstakingValue)
     setClaimableBalance(claimableValue)
-  }, [address, cwClient, daoGroup.votingModule.votingModuleAddress])
+  }, [cwClient, daoGroup.votingModule.votingModuleAddress, daoGroup.votingModule.totalWeight, members])
 
   const handleUpdate = () => {
     daoGroup?.coreAddress && updateDAOGroup(daoGroup?.coreAddress)

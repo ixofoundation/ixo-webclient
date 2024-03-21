@@ -1,7 +1,7 @@
 import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import React, { useMemo } from 'react'
-import PieChart from 'components/Widgets/PieChart/PieChart'
+import PieChart from 'components/Widgets/PieChart'
 import { useAccount } from 'hooks/account'
 import { useTheme } from 'styled-components'
 import { useCurrentEntityDAOGroup } from 'hooks/currentEntity'

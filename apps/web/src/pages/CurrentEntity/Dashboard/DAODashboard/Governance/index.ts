@@ -1,1 +1,1 @@
-export { default as Governance } from './Governance2'
+export { default as Governance } from './Governance'

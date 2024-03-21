@@ -26,6 +26,10 @@ export function useClaimSetting() {
       text: 'Disputed',
       color: theme.ixoYellow,
     },
+    [ixo.claims.v1beta1.EvaluationStatus.UNRECOGNIZED]: {
+      text: 'Remaining',
+      color: theme.ixoDarkestBlue,
+    },
     [4]: {
       text: 'Saved',
       color: theme.ixoNewBlue,

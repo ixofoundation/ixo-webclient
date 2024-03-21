@@ -127,6 +127,9 @@ export function serviceEndpointToUrl(serviceEndpoint: string, service: Service[]
   if (service.length === 0) {
     return serviceEndpoint
   }
+  if (serviceEndpoint.includes('://')) {
+    return serviceEndpoint
+  }
   let url = ''
   const [identifier, key] = serviceEndpoint.replace('{id}#', '').split(':')
   const usedService: Service | undefined = service.find(

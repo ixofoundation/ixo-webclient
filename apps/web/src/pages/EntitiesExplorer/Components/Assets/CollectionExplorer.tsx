@@ -1,8 +1,6 @@
 import { FlexBox, GridContainer, GridItem } from 'components/App/App.styles'
-import { Button } from 'pages/CreateEntity/Components'
 import React, { useEffect, useState } from 'react'
 import { apiEntityToEntity } from 'utils/entities'
-import { ReactComponent as ArrowLeftIcon } from 'assets/images/icon-arrow-left.svg'
 import { Typography } from 'components/Typography'
 import CollectionMetadata from './CollectionMetadata'
 import Assets from './Assets'
@@ -10,8 +8,10 @@ import { useMediaQuery } from 'react-responsive'
 import { deviceWidth } from 'constants/device'
 import { TEntityModel } from 'types/entities'
 import CollectionCard from './CollectionCard'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useGetAssetDevicesByCollectionId } from 'graphql/entities'
+import { Button } from '@mantine/core'
+import { useAccount } from 'hooks/account'
 
 interface Props {
   collection: any
@@ -22,7 +22,7 @@ const CollectionExplorer: React.FC<Props> = (props) => {
   const isTablet = useMediaQuery({ minWidth: deviceWidth.tablet, maxWidth: deviceWidth.desktop })
 
   const navigate = useNavigate()
-  const { pathname, search } = useLocation()
+  const { address } = useAccount()
   const { data: assetDevices } = useGetAssetDevicesByCollectionId(props.collection.id)
   const [collection, setCollection] = useState<TEntityModel>()
 
@@ -41,13 +41,8 @@ const CollectionExplorer: React.FC<Props> = (props) => {
     }
   }, [props.collection])
 
-  const onBack = () => {
-    const searchParams = new URLSearchParams(search)
-    searchParams.delete('collectionId')
-    navigate({
-      pathname: pathname,
-      search: searchParams.toString(),
-    })
+  const onEdit = () => {
+    navigate(`/entity/${collectionId}/dashboard/edit`)
   }
 
   return (
@@ -80,17 +75,13 @@ const CollectionExplorer: React.FC<Props> = (props) => {
           </FlexBox>
         </GridItem>
         <GridItem $gridArea='b'>
-          <FlexBox width='100%' $justifyContent='flex-end'>
-            <Button
-              variant='white'
-              onClick={onBack}
-              textSize='base'
-              textTransform='capitalize'
-              icon={<ArrowLeftIcon />}
-            >
-              Back
-            </Button>
-          </FlexBox>
+          {!!address && address === collection?.owner && (
+            <FlexBox width='100%' $justifyContent='flex-end'>
+              <Button bg={'white'} c={'black'} onClick={onEdit}>
+                Edit
+              </Button>
+            </FlexBox>
+          )}
         </GridItem>
         <GridItem $gridArea='c'>
           <CollectionCard {...props.collection} />
@@ -102,12 +93,9 @@ const CollectionExplorer: React.FC<Props> = (props) => {
       <Assets
         collectionId={collectionId!}
         collectionName={collectionName!}
-        entities={[...assetDevices].sort((a: any, b: any) => {
-          if (Number(a.alsoKnownAs.replace('{id}#', '')) > Number(b.alsoKnownAs.replace('{id}#', ''))) {
-            return 1
-          }
-          return -1
-        })}
+        entities={[...assetDevices].sort(
+          (a: any, b: any) => Number(a.alsoKnownAs.replace('{id}#', '')) - Number(b.alsoKnownAs.replace('{id}#', '')),
+        )}
       />
     </FlexBox>
   )

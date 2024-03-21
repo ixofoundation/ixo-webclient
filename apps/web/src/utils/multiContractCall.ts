@@ -3,6 +3,11 @@ import { Uint8ArrayToJS, base64ToJson, strToArray } from './encoding'
 import { MULTI_CALL_CONTRACT_ADDRESS } from 'constants/contracts'
 import { getQueryClient } from 'lib/queryClient'
 
+export type QueryRequest = {
+  address: string
+  data: any
+}
+
 export const queryMultipleContracts = async (queries: any): Promise<any> => {
   try {
     const queryClient = await getQueryClient()
