@@ -13,6 +13,7 @@ import OfferForm from './OfferForm'
 import { AgentRoles } from 'types/models'
 import { Flex, ScrollArea } from '@mantine/core'
 import PageContentLegacy from './PageContentLegacy'
+import { useCurrentEntityPage } from 'hooks/entity/useCurrentEntityPage'
 
 const Overview: React.FC = () => {
   const { getQuery } = useQuery()
@@ -20,10 +21,12 @@ const Overview: React.FC = () => {
   const claimCollectionId = getQuery('collectionId')
   const agentRole: AgentRoles = getQuery('agentRole') as AgentRoles
 
-  const { startDate, page, pageLegacy } = useCurrentEntity()
+  const { startDate } = useCurrentEntity()
   const { name, description, location } = useCurrentEntityProfile()
   const { displayName: creatorName, logo: creatorLogo } = useCurrentEntityCreator()
   const linkedFiles = useCurrentEntityLinkedFiles()
+
+  const { page, pageLegacy} = useCurrentEntityPage()
 
   return (
     <Flex w='100%' h='100%' bg='#F8F9FD'>
