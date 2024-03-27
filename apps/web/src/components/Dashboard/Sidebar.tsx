@@ -28,6 +28,10 @@ export const NavItem = styled(NavLink)`
       opacity: 1;
       left: 100%;
     }
+
+    &.active {
+      border-left: 5px solid ${(props): string => props.theme.highlight.light};
+    }
   }
 
   &:hover {

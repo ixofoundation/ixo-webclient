@@ -64,10 +64,12 @@ export function useMapBondDetail(bondDetail: any) {
   )
 
   useEffect(() => {
-    customQueries.currency.findTokenInfoFromDenom(reserveToken, true, IxoCoinCodexRelayerApi).then((response) => {
-      const { lastPriceUsd = 0 } = response
-      setReserveTokenPriceUsd(lastPriceUsd)
-    })
+    if (reserveToken) {
+      customQueries.currency.findTokenInfoFromDenom(reserveToken, true, IxoCoinCodexRelayerApi).then((response) => {
+        const { lastPriceUsd = 0 } = response
+        setReserveTokenPriceUsd(lastPriceUsd)
+      })
+    }
   }, [reserveToken])
 
   useEffect(() => {

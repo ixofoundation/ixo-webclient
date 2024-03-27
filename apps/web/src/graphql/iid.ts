@@ -10,7 +10,7 @@ import { useGetClaimCollectionsByEntityId } from './claims'
 // GET_USER_IIDS
 const GET_USER_IIDS = gql`
   query GetUserIids {
-    iids {
+    iids(filter: { alsoKnownAs: { equalTo: "" } }) {
       nodes {
         id
         service
@@ -38,7 +38,7 @@ export function useGetUserIids() {
     pollInterval: 1000 * 5,
   })
 
-  return { loading, error, data: data?.iids?.nodes ?? [], refetch }
+  return { loading, error, data: (data?.iids?.nodes ?? []) as IidDocument[], refetch }
 }
 
 export function useGetJoiningAgentsByCollectionId(collectionId: string) {
