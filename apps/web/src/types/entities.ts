@@ -31,6 +31,8 @@ export enum EntityType {
   Investment = 'investment',
   Oracle = 'oracle',
   Protocol = 'protocol',
+  ProtocolClaim = 'protocol/claim',
+  ProtocolDeed = 'protocol/deed',
   Asset = 'asset',
 }
 
@@ -625,4 +627,6 @@ export interface TEntityModel extends Omit<Entity, 'metadata'>, IidDocument {
   daoGroups?: { [address: string]: TDAOGroupModel }
   claim?: { [id: string]: TEntityClaimModel }
   surveyTemplate?: any
+  type: string
+  entityType?: string
 }
