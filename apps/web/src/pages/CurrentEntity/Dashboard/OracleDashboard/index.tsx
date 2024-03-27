@@ -2,7 +2,7 @@ import Dashboard from 'components/Dashboard/Dashboard'
 import { HeaderTab, Path } from 'components/Dashboard/types'
 import { useAccount } from 'hooks/account'
 import useCurrentEntity, { useCurrentEntityProfile } from 'hooks/currentEntity'
-import { Navigate, Route, useParams, useMatch } from 'react-router-dom'
+import { Navigate, Route, Routes,useParams, useMatch } from 'react-router-dom'
 import { toTitleCase } from 'utils/formatters'
 import { requireCheckDefault } from 'utils/images'
 import EditEntity from './EditEntity'
@@ -82,13 +82,15 @@ const OracleDashboard: React.FC = (): JSX.Element => {
       tabs={tabs}
       entityType={entityType}
     >
-      <Route path='/entity/:entityId/dashboard/overview' Component={Overview} />
+     <Routes>
+      <Route path='overview' Component={Overview} />
 
       {registered && owner === address && (
-        <Route path='/entity/:entityId/dashboard/edit' Component={EditEntity} />
+        <Route path='edit' Component={EditEntity} />
       )}
 
-      <Route path='/entity/:entityId/dashboard' element={<Navigate to={`/entity/${entityId}/dashboard/overview`} />} />
+      <Route index element={<Navigate to={"overview"} />} />
+    </Routes>
     </Dashboard>
   )
 }

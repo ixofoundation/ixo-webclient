@@ -13,6 +13,8 @@ export const createEntityCard = (entityType: EntityType): React.ComponentType<an
     case EntityType.Dao:
       return DaoCard
     case EntityType.Protocol:
+    case EntityType.ProtocolClaim:
+    case EntityType.ProtocolDeed:
       return ProtocolCard
     case EntityType.Oracle:
       return OracleCard

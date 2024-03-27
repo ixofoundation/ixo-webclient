@@ -10,7 +10,7 @@ const ProtocolCard: React.FC<TEntityModel & { to?: string }> = (entity) => {
   const theme: any = useTheme()
 
   const id = entity.id
-  const protocolType = entity.type.replace('protocol/', '')
+  const protocolType = entity?.type?.replace('protocol/', '') ?? entity?.entityType?.replace('protocol/', '')
   const type = entity.profile?.category || ''
   const title = entity.profile?.name || ''
   const image = entity.profile?.image || ''
