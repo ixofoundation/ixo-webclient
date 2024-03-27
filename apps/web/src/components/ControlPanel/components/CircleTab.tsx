@@ -10,7 +10,7 @@ interface Props {
   onClick?: () => void
 }
 
-const CircleTab: React.FC<Props> = ({ active, icon, badge, onClick }) => {
+const CircleTab: React.FC<Props> = ({ active, icon, badge = 0, onClick }) => {
   const theme: any = useTheme()
   return (
     <SvgBox
@@ -28,7 +28,7 @@ const CircleTab: React.FC<Props> = ({ active, icon, badge, onClick }) => {
       cursor={'pointer'}
     >
       {icon}
-      {badge && (
+      {badge > 0 && (
         <FlexBox
           position='absolute'
           top={'0px'}
