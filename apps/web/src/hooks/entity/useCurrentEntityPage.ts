@@ -4,7 +4,7 @@ import { updateEntityResourceAction } from "redux/currentEntity/currentEntity.ac
 import { getPage } from "services/entities/populateEntitySettings"
 
 export function useCurrentEntityPage() {
-    const { page, pageLegacy, settings, service, } = useCurrentEntity()
+    const { page, pageLegacy, settings, service } = useCurrentEntity()
 
     useEffect(() => {
         if (!page && !pageLegacy) {
@@ -19,6 +19,10 @@ export function useCurrentEntityPage() {
             })
         }
     }, [page, pageLegacy, service, settings?.Page])
+
+    const updateEntityPage = () => {
+        
+    }
 
     return { page, pageLegacy }
 }
