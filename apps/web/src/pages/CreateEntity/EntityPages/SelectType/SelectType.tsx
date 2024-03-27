@@ -14,8 +14,6 @@ import { useCreateEntityState } from 'hooks/createEntity'
 import { useCreateEntityStepState } from 'hooks/createEntityStepState'
 
 const SelectType: React.FC = (): JSX.Element => {
-
-  console.log("running select type")
   const options = [
     {
       type: 'protocol/claim',
