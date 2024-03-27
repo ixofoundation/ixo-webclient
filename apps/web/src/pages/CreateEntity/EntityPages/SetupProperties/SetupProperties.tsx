@@ -72,6 +72,11 @@ const SetupProperties: React.FC = (): JSX.Element => {
             readonly: true,
           },
           {
+            category: 'Type',
+            tags: [profile?.category || ''],
+            readonly: true,
+          },
+          {
             category: 'Token Class',
             tags: ['Unspecified'],
             readonly: true,
