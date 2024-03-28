@@ -146,7 +146,7 @@ export function serviceEndpointToUrl(serviceEndpoint: string, service: Service[]
   return url
 }
 
-function replacePDSWithCellNode(page: any) {
+export function replacePDSWithCellNode(page: any) {
   return JSON.parse(JSON.stringify(page).replaceAll('pds_pandora.ixo.world', 'cellnode-pandora.ixo.earth'))
 }
 
