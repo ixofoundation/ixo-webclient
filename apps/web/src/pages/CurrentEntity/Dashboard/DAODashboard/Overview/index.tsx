@@ -1,6 +1,6 @@
 import { Flex } from '@mantine/core'
-import { withEntityData } from 'components'
-import React from 'react'
+import { EntityOverviewSkeletonCard, withEntityData } from 'components'
+import React, { useMemo } from 'react'
 import { DaoCard } from 'components/EntityCards/DaoCard'
 import { GridContainer, GridItem } from 'components/App/App.styles'
 import TreasuryPoolCard from './TreasuryPoolCard'
@@ -11,12 +11,16 @@ import { useAppSelector } from 'redux/hooks'
 import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { useParams } from 'react-router-dom'
 import { TEntityModel } from 'types/entities'
+import useCurrentEntity from 'hooks/currentEntity'
 
 const DAOOverview: React.FC = () => {
   const { entityId = "" } = useParams<{ entityId: string }>()
-  const currentEntity = useAppSelector(getEntityById(entityId)) as TEntityModel
+  const stateEntity = useAppSelector(getEntityById(entityId)) as TEntityModel
+  const {currentEntity: singleEntity} = useCurrentEntity()
 
   const WrappedDAOCard = withEntityData(DaoCard)
+
+  const currentEntity = useMemo(() => ({ ...stateEntity, ...singleEntity }), [stateEntity, singleEntity])
 
   return (
     <Flex w={'100%'} direction={'column'} gap={6}>
@@ -28,7 +32,7 @@ const DAOOverview: React.FC = () => {
         width='100%'
       >
         <GridItem $gridArea='a' $alignSelf='stretch' height='400px'>
-          <WrappedDAOCard entity={currentEntity} loading={false}/>
+          {currentEntity ? <WrappedDAOCard entity={currentEntity} loading={false}/> : <EntityOverviewSkeletonCard />}
         </GridItem>
         <GridItem $gridArea='b' $alignSelf='stretch' height='400px'>
           <TreasuryPoolCard />
