@@ -122,7 +122,7 @@ const ControlPanel: React.FC<Props> = ({ tab }) => {
             icon={<BellIcon />}
             active={activeTab === 'feed'}
             onClick={() => setActiveTab('feed')}
-            badge={12}
+            badge={0}
           />
         </Tooltip>
         <Tooltip text={'Messages'}>
@@ -130,7 +130,7 @@ const ControlPanel: React.FC<Props> = ({ tab }) => {
             icon={<CommentIcon />}
             active={activeTab === 'message'}
             onClick={() => setActiveTab('message')}
-            badge={8}
+            badge={0}
           />
         </Tooltip>
         <Tooltip text={'Oxi'}>

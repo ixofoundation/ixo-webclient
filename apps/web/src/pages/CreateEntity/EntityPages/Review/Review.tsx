@@ -127,7 +127,7 @@ const Review: React.FC = (): JSX.Element => {
     const WrappedEntityCard = withEntityData(EntityCard)
     return (
       <Box w='360px' style={{ boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)' }}>
-        <WrappedEntityCard {...entity} />
+        <WrappedEntityCard entity={entity} />
       </Box>
     )
   }
