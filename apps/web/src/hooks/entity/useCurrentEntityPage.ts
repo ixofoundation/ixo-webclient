@@ -20,9 +20,9 @@ export function useCurrentEntityPage() {
         }
     }, [page, pageLegacy, service, settings?.Page])
 
-    const updateEntityPage = () => {
+    // const updateEntityPage = () => {
         
-    }
+    // }
 
     return { page, pageLegacy }
 }
