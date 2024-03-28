@@ -15,8 +15,9 @@ import useCurrentEntity from 'hooks/currentEntity'
 
 interface Props {
   daoGroup: TDAOGroupModel
+  onAction?: () => void
 }
-const TokensCard: React.FC<Props> = ({ daoGroup }) => {
+const TokensCard: React.FC<Props> = ({ daoGroup, onAction }) => {
   const token = daoGroup.token
   const { cwClient } = useAccount()
   const { updateDAOGroup } = useCurrentEntity()
@@ -92,7 +93,16 @@ const TokensCard: React.FC<Props> = ({ daoGroup }) => {
   }
 
   return (
-    <Card label='Token' icon={<AgentIcon />}>
+    <Card
+      label='Token'
+      icon={<AgentIcon />}
+      actionIcon={
+        <Button size='xs' bg={'ixo-blue'} variant='filled'>
+          Shareholders
+        </Button>
+      }
+      {...(onAction ? { onAction: onAction } : {})}
+    >
       <Flex w={'100%'} h={'100%'} direction={'column'} justify={'space-between'}>
         <Flex direction={'column'} gap={16}>
           <Flex align={'center'} justify={'space-between'}>

@@ -1,18 +1,27 @@
 import React from 'react'
-import { useTable, useSortBy } from 'react-table'
+import { useTable, useSortBy, Column, RowPropGetter, TableCellProps, Cell, ColumnInstance, Row } from 'react-table'
 import { Flex, Table as MantineTable } from '@mantine/core'
 
 // Create a default prop getter
 const defaultPropGetter = () => ({})
 
-export const Table = ({
+export interface TableProps {
+  columns: Column<any>[]
+  data: any
+  getHeaderProps: (column: any) => void
+  getColumnProps: (column: ColumnInstance<object>) => Partial<TableCellProps>
+  getRowProps: (row: Row<object>) => RowPropGetter<object> | undefined
+  getCellProps: (cell: Cell<object, any>) => Partial<TableCellProps>
+}
+
+export const Table: React.FC<TableProps> = ({
   columns,
   data,
   getHeaderProps = defaultPropGetter,
   getColumnProps = defaultPropGetter,
   getRowProps = defaultPropGetter,
   getCellProps = defaultPropGetter,
-}: any): JSX.Element => {
+}): JSX.Element => {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable(
     {
       columns,

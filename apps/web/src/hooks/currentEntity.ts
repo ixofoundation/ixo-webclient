@@ -335,12 +335,12 @@ export function useCurrentEntityDAOGroup(coreAddress: string) {
     () => daoGroup && depositInfoToCoin(daoGroup.proposalModule.preProposeConfig.deposit_info!),
     [daoGroup],
   )
+  const totalWeight = useMemo(() => daoGroup?.votingModule.totalWeight, [daoGroup])
 
   const myVotingPower = useMemo(() => {
     const myWeight = daoGroup?.votingModule.members.find(({ addr }) => addr === address)?.weight ?? 0
-    const totalWeight = daoGroup?.votingModule.totalWeight
     return totalWeight ? myWeight / totalWeight : 0
-  }, [daoGroup, address])
+  }, [daoGroup, address, totalWeight])
 
   const proposals = useMemo(() => daoGroup?.proposalModule.proposals ?? [], [daoGroup])
 
@@ -381,6 +381,7 @@ export function useCurrentEntityDAOGroup(coreAddress: string) {
     depositInfo,
     proposals,
     votes,
+    totalWeight,
     myVotingPower,
     myProposals,
     members,
@@ -392,6 +393,22 @@ export function useCurrentEntityDAOGroup(coreAddress: string) {
     proposalModuleAddress,
     preProposalContractAddress,
     votingModuleAddress,
+  }
+}
+export function useCurrentEntityDAOGroupToken(coreAddress: string) {
+  const { daoGroups } = useCurrentEntity()
+  const daoGroup: TDAOGroupModel | undefined = daoGroups[coreAddress]
+
+  const token = useMemo(() => daoGroup?.token, [daoGroup])
+
+  const tokenTotalSupply = useMemo(() => token?.tokenInfo.total_supply, [token])
+  const tokenSymbol = useMemo(() => token?.tokenInfo.symbol, [token])
+  const tokenDecimals = useMemo(() => token?.tokenInfo.decimals || 0, [token])
+
+  return {
+    tokenTotalSupply,
+    tokenSymbol,
+    tokenDecimals,
   }
 }
 

@@ -2,21 +2,20 @@ import { SvgBox, theme } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import React from 'react'
 import { Flex } from '@mantine/core'
-import { useTable, Column, useSortBy } from 'react-table'
+import { useTable, Column, useSortBy, ColumnInstance, TableCellProps, Cell, Row, RowPropGetter } from 'react-table'
 import { ReactComponent as SortLtoGIcon } from 'assets/images/icon-sort-ltog.svg'
 import { ReactComponent as SortGtoLIcon } from 'assets/images/icon-sort-gtol.svg'
 
 // Create a default prop getter
 const defaultPropGetter = () => ({})
 
-export type TableColumnProp = any
 export interface TableProps {
-  columns: Column<TableColumnProp>[]
+  columns: Column<any>[]
   data: object[]
-  getHeaderProps?: (column: TableColumnProp) => any
-  getColumnProps?: (column: TableColumnProp) => any
-  getRowProps?: (column: TableColumnProp) => any
-  getCellProps?: (column: TableColumnProp) => any
+  getHeaderProps?: (column: any) => void
+  getColumnProps?: (column: ColumnInstance<object>) => Partial<TableCellProps>
+  getRowProps?: (row: Row<object>) => RowPropGetter<object>
+  getCellProps?: (cell: Cell<object, any>) => Partial<TableCellProps>
 }
 
 const Table: React.FC<TableProps> = ({
