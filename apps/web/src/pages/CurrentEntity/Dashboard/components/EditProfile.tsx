@@ -9,6 +9,7 @@ import {
   AssetCollectionProfileForm,
 } from 'pages/CreateEntity/Forms'
 import useEditEntity from 'hooks/editEntity'
+import { getMappedCDNURL } from '@ixo-webclient/utils'
 
 const EditProfile: React.FC = (): JSX.Element => {
   const { editEntity, setEditedField } = useEditEntity()
@@ -34,9 +35,9 @@ const EditProfile: React.FC = (): JSX.Element => {
         <Box className='mb-2' />
         {editEntity.type === 'dao' && (
           <DAOProfileForm
-            image={editEntity.profile?.image}
+            image={getMappedCDNURL(editEntity.profile?.image || '')}
             setImage={(image): void => handleUpdateProfile('image', image)}
-            logo={editEntity.profile?.logo || ''}
+            logo={getMappedCDNURL(editEntity.profile?.logo || '')}
             setLogo={(logo): void => handleUpdateProfile('logo', logo)}
             orgName={editEntity.profile?.orgName ?? ''}
             setOrgName={(orgName): void => handleUpdateProfile('orgName', orgName)}
