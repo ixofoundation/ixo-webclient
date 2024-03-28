@@ -14,8 +14,11 @@ import { GridContainer, GridItem } from 'components/App/App.styles'
 import GovernanceCard from 'pages/MyAccount/MyGroupsPage/GroupView/GovernanceCard'
 import VotingPowerCard from 'pages/MyAccount/MyGroupsPage/GroupView/VotingPowerCard'
 import TokensCard from 'pages/MyAccount/MyGroupsPage/GroupView/TokensCard'
+import { useNavigate, useParams } from 'react-router-dom'
 
 const Membership: React.FC = (): JSX.Element | null => {
+  const navigate = useNavigate()
+  const { entityId } = useParams<{ entityId: string }>()
   const { getQuery } = useQuery()
   const selectedGroup = getQuery('selectedGroup')
   const { isImpactsDAO, linkedEntity, daoController, daoGroups } = useCurrentEntity()
@@ -125,7 +128,10 @@ const Membership: React.FC = (): JSX.Element | null => {
               {selectedDAOGroup.type === 'membership' ? (
                 <VotingPowerCard daoGroup={selectedDAOGroup} />
               ) : (
-                <TokensCard daoGroup={selectedDAOGroup} />
+                <TokensCard
+                  daoGroup={selectedDAOGroup}
+                  onAction={() => navigate(`/entity/${entityId}/dashboard/shareholders?selectedGroup=${selectedGroup}`)}
+                />
               )}
             </GridItem>
           </GridContainer>

@@ -29,6 +29,7 @@ const DashboardPage: React.FC = (): JSX.Element | null => {
       case 'asset/learnership':
         return AssetDashboard
       case 'oracle/evaluation':
+      case 'oracle':
         return OracleDashboard
       default:
         return undefined
