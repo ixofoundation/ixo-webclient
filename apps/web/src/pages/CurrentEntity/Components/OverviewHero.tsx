@@ -17,6 +17,7 @@ import { requireCheckDefault } from 'utils/images'
 import { useEntityConfig } from 'hooks/configs'
 import { useHeaderTabs } from 'hooks/headerTabs'
 import { MatchType } from 'types/models'
+import { Skeleton } from '@mantine/core'
 
 interface Props {
   $onlyTitle: boolean
@@ -70,10 +71,10 @@ const OverviewHero: React.FunctionComponent<Props> = ({
         <HeroInner className='detailed'>
           <div className='row'>
             <div className='col-sm-12'>
-              {name && <Title light={light ? 1 : 0}>{name}</Title>}
+              {name ? <Title light={light ? 1 : 0}>{name}</Title> : <Skeleton h={40} w={400} my={4}/> }
               {!$onlyTitle && (
                 <>
-                  {description && <Description>{description}</Description>}
+                  {description ? <Description>{description}</Description> : <Skeleton h={10} w={300} my={4} />}
                   <HeroInfoItemsWrapper>
                     {startDate && (
                       <HeroInfoItem>

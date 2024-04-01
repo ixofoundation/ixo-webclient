@@ -112,7 +112,6 @@ const EntitiesExplorer = ({
   const columns = isMobile ? 1 : tabletColumns
 
   const { data, loading, refetch } = useEntitiesQuery({
-    skip: entities.length > 0,
     fetchPolicy: 'network-only',
     variables: {
       filter: {

@@ -60,8 +60,13 @@ export enum EntitiesExplorerActions {
   ResetSectorFilter = 'ixo/EntitiesExplorer/RESET_SECTOR_FILTER',
   ResetFilters = 'ixo/EntitiesExplorer/RESET_FILTERS',
   FilterQuery = 'ixo/EntitiesExplorer/FILTER_QUERY',
+  UpdateEntity = 'ixo/EntitiesExplorer/UPDATE_ENTITY',
 }
 
+export interface UpdateEntity {
+  type: typeof EntitiesExplorerActions.UpdateEntity
+  payload: TEntityModel
+}
 export interface GetEntitiesFromGraphqlAction {
   type: typeof EntitiesExplorerActions.GetEntitiesFromGraphql
   payload: TEntityModel[]
@@ -248,3 +253,4 @@ export type EntitiesActionTypes =
   | ResetFiltersAction
   | FilterQueryAction
   | FilterItemOffsetAction
+  | UpdateEntity

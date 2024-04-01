@@ -1,7 +1,7 @@
 import useCurrentEntity from "hooks/currentEntity"
 import { useEffect } from "react"
 import { updateEntityResourceAction } from "redux/currentEntity/currentEntity.actions"
-import { getPage } from "services/entities/populateEntitySettings"
+import { getPage } from "services/entities/getPage"
 
 export function useCurrentEntityPage() {
     const { page, pageLegacy, settings, service } = useCurrentEntity()

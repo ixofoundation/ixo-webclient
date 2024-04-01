@@ -1,9 +1,5 @@
 import ControlPanel from 'components/ControlPanel'
-import useCurrentEntity, {
-  useCurrentEntityCreator,
-  useCurrentEntityLinkedFiles,
-  useCurrentEntityProfile,
-} from 'hooks/currentEntity'
+import { useCurrentEntityLinkedFiles } from 'hooks/currentEntity'
 import { useQuery } from 'hooks/window'
 import ClaimForm from './ClaimForm'
 import { OverviewHero } from '../Components'
@@ -13,20 +9,36 @@ import OfferForm from './OfferForm'
 import { AgentRoles } from 'types/models'
 import { Flex, ScrollArea } from '@mantine/core'
 import PageContentLegacy from './PageContentLegacy'
-import { useCurrentEntityPage } from 'hooks/entity/useCurrentEntityPage'
+import { useEntityOverview } from 'hooks/entity/useEntityOverview'
+import { useParams } from 'react-router-dom'
+import { useEffect, useMemo } from 'react'
 
 const Overview: React.FC = () => {
   const { getQuery } = useQuery()
   const claimId = getQuery('claimId')
   const claimCollectionId = getQuery('collectionId')
   const agentRole: AgentRoles = getQuery('agentRole') as AgentRoles
+  const { entityId = '' } = useParams<{ entityId: string }>()
 
-  const { startDate } = useCurrentEntity()
-  const { name, description, location } = useCurrentEntityProfile()
-  const { displayName: creatorName, logo: creatorLogo } = useCurrentEntityCreator()
   const linkedFiles = useCurrentEntityLinkedFiles()
 
-  const { page, pageLegacy} = useCurrentEntityPage()
+  const { page, pageLegacy, creator, profile, startDate, refetch } = useEntityOverview(entityId)
+
+  const { logo, creatorName, name, description, location } = useMemo(() => {
+    return {
+      logo: creator?.logo ?? '',
+      creatorName: creator?.displayName ?? '',
+      name: profile?.name ?? '',
+      description: profile?.description ?? '',
+      location: profile?.location ?? '',
+    }
+  }, [creator])
+
+  useEffect(() => {
+    if (refetch && !page && !pageLegacy) {
+      refetch()
+    }
+  }, [refetch, page, pageLegacy])
 
   return (
     <Flex w='100%' h='100%' bg='#F8F9FD'>
@@ -36,12 +48,12 @@ const Overview: React.FC = () => {
             $onlyTitle={false}
             assistantFixed={true}
             light
-            startDate={startDate}
+            startDate={String(startDate)}
             name={name}
             description={description}
             location={location}
             creatorName={creatorName}
-            creatorLogo={creatorLogo}
+            creatorLogo={logo}
           />
           {!claimId && !claimCollectionId && (
             <>
