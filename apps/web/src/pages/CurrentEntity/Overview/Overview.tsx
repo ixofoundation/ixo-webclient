@@ -19,7 +19,7 @@ const Overview: React.FC = () => {
   const agentRole: AgentRoles = getQuery('agentRole') as AgentRoles
   const { entityId = '' } = useParams<{ entityId: string }>()
 
-  const { page, pageLegacy, creator, profile, startDate, refetch, linkedFiles, service } = useEntityOverview(entityId)
+  const { page, pageLegacy, creator, profile, startDate, refetch, linkedFiles, service, type = "" } = useEntityOverview(entityId)
 
   const { logo, creatorName, name, description, location } = useMemo(() => {
     return {
@@ -53,6 +53,7 @@ const Overview: React.FC = () => {
             location={location}
             creatorName={creatorName}
             creatorLogo={logo}
+            entityType={type}
           />
           {!claimId && !claimCollectionId && (
             <>
