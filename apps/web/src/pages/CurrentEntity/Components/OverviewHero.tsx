@@ -18,6 +18,7 @@ import { useEntityConfig } from 'hooks/configs'
 import { useHeaderTabs } from 'hooks/headerTabs'
 import { MatchType } from 'types/models'
 import { Skeleton } from '@mantine/core'
+import { isValidDate } from 'utils/date'
 
 interface Props {
   $onlyTitle: boolean
@@ -79,7 +80,7 @@ const OverviewHero: React.FunctionComponent<Props> = ({
                 <>
                   {description ? <Description>{description}</Description> : <Skeleton h={10} w={300} my={4} />}
                   <HeroInfoItemsWrapper>
-                    {startDate ? (
+                    {isValidDate(startDate) ? (
                       <HeroInfoItem>
                         <CalendarSort fill='#A5ADB0' />
                         <span>{moment(startDate).format('DD MMM ‘YY')}</span>
