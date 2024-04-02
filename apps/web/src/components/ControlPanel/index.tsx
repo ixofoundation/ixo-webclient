@@ -19,7 +19,6 @@ import { Flex, ScrollArea } from '@mantine/core'
 import styled from 'styled-components'
 import { useAccount } from 'hooks/account'
 import { DidQRCode } from './DidQRCode'
-import { useCurrentEntityProfile } from 'hooks/currentEntity'
 import { EntityType } from 'types/entities'
 import { getEntityIcon } from 'utils/getEntityIcon'
 import Tooltip from 'components/Tooltip/Tooltip'
@@ -33,11 +32,11 @@ const StyledScrollArea = styled(ScrollArea)`
 
 interface Props {
   tab?: 'profile' | 'detail' | 'feed' | 'message' | 'assistant'
-  entityType: string
+  entityType: string,
+  entityName?: string
 }
-const ControlPanel = ({ tab, entityType }: Props) => {
-  const { controlPanelSchema: schema } = useEntityConfig()
-  const { name: entityName } = useCurrentEntityProfile()
+const ControlPanel = ({ tab, entityType, entityName }: Props) => {
+  const { controlPanelSchema: schema } = useEntityConfig(entityType)
   const { address } = useAccount()
   const [activeTab, setActiveTab] = useState<'profile' | 'detail' | 'feed' | 'message' | 'assistant'>(tab || 'detail')
 
