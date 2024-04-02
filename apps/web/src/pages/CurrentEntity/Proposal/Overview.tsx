@@ -39,7 +39,7 @@ const Overview: React.FC = () => {
         </Flex>
       </ScrollArea>
       <Flex h='100%' bg='#F0F3F9'>
-        <ControlPanel entityType={entity?.type ?? ""} />
+        <ControlPanel entityType={entity?.type ?? ""} entityName={entity?.profile?.name ?? ""} />
       </Flex>
     </Flex>
   )
