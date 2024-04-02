@@ -19,7 +19,7 @@ import { Flex, ScrollArea } from '@mantine/core'
 import styled from 'styled-components'
 import { useAccount } from 'hooks/account'
 import { DidQRCode } from './DidQRCode'
-import useCurrentEntity, { useCurrentEntityProfile } from 'hooks/currentEntity'
+import { useCurrentEntityProfile } from 'hooks/currentEntity'
 import { EntityType } from 'types/entities'
 import { getEntityIcon } from 'utils/getEntityIcon'
 import Tooltip from 'components/Tooltip/Tooltip'
@@ -33,10 +33,10 @@ const StyledScrollArea = styled(ScrollArea)`
 
 interface Props {
   tab?: 'profile' | 'detail' | 'feed' | 'message' | 'assistant'
+  entityType: string
 }
-const ControlPanel: React.FC<Props> = ({ tab }) => {
+const ControlPanel = ({ tab, entityType }: Props) => {
   const { controlPanelSchema: schema } = useEntityConfig()
-  const { entityType } = useCurrentEntity()
   const { name: entityName } = useCurrentEntityProfile()
   const { address } = useAccount()
   const [activeTab, setActiveTab] = useState<'profile' | 'detail' | 'feed' | 'message' | 'assistant'>(tab || 'detail')
@@ -53,7 +53,7 @@ const ControlPanel: React.FC<Props> = ({ tab }) => {
 
   const renderDetail = () => (
     <>
-      <PerformanceCard />
+      <PerformanceCard entityType={entityType} />
       <ActionsCard widget={schema?.actions} />
       <ClaimsCard />
       {entityType === EntityType.Project && <DidQRCode />}

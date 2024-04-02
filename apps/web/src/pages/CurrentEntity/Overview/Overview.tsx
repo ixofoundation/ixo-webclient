@@ -67,7 +67,7 @@ const Overview: React.FC = () => {
         </Flex>
       </ScrollArea>
       <Flex h='100%' bg='#F0F3F9'>
-        <ControlPanel />
+        <ControlPanel entityType={type} />
       </Flex>
     </Flex>
   )
