@@ -1,5 +1,4 @@
 import ControlPanel from 'components/ControlPanel'
-import { useCurrentEntityLinkedFiles } from 'hooks/currentEntity'
 import { useQuery } from 'hooks/window'
 import ClaimForm from './ClaimForm'
 import { OverviewHero } from '../Components'
@@ -20,9 +19,7 @@ const Overview: React.FC = () => {
   const agentRole: AgentRoles = getQuery('agentRole') as AgentRoles
   const { entityId = '' } = useParams<{ entityId: string }>()
 
-  const linkedFiles = useCurrentEntityLinkedFiles()
-
-  const { page, pageLegacy, creator, profile, startDate, refetch } = useEntityOverview(entityId)
+  const { page, pageLegacy, creator, profile, startDate, refetch, linkedFiles, service } = useEntityOverview(entityId)
 
   const { logo, creatorName, name, description, location } = useMemo(() => {
     return {
@@ -32,7 +29,9 @@ const Overview: React.FC = () => {
       description: profile?.description ?? '',
       location: profile?.location ?? '',
     }
-  }, [creator])
+  }, [creator?.logo, creator?.displayName, profile?.location, profile?.name, profile?.description])
+
+
 
   useEffect(() => {
     if (refetch && !page && !pageLegacy) {
@@ -59,7 +58,7 @@ const Overview: React.FC = () => {
             <>
               {page && <PageContent page={page} />}
               {pageLegacy && <PageContentLegacy page={pageLegacy} />}
-              <LinkedFiles linkedFiles={linkedFiles} />
+              <LinkedFiles linkedFiles={linkedFiles} service={service} />
             </>
           )}
           {claimCollectionId && agentRole && <OfferForm claimCollectionId={claimCollectionId} agentRole={agentRole} />}
