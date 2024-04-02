@@ -25,6 +25,7 @@ const Overview: React.FC = () => {
             startDate={(entity?.startDate as never as string) || ''}
             creatorName={entity?.creator?.displayName || ''}
             creatorLogo={entity?.creator?.logo || ''}
+            entityType={entity?.type ?? ""}
           />
           <PageContent page={entity?.page ?? []} />
           <InstructionsToExecute />
