@@ -1,6 +1,10 @@
 import { Entity } from "generated/graphql"
 import { getTags } from "./getTags"
 import { getEntityProfile } from "./getEntityProfile"
+import { getDAOGroupLinkedEntities } from "utils/entities"
+import { LinkedEntity } from "@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types"
+import { getDaoContractInfo } from "utils/dao"
+import { getCosmwasmClient } from "lib/cosmWasmClient/cosmWasmClient"
 
 export const populateEntityForEntityExplorer = async (entity: Entity) => {
   const entityService = entity.service
@@ -8,7 +12,19 @@ export const populateEntityForEntityExplorer = async (entity: Entity) => {
   const tags = getTags({ setting: entity.settings?.Tags, service: entityService })
   const [profileResult, tagsResult] = await Promise.all([profile, tags])
 
-  return { profile: profileResult, tags: tagsResult }
+  const cwClient = await getCosmwasmClient()
+
+  const groups = await Promise.all(getDAOGroupLinkedEntities(entity.linkedEntity).map(async (item: LinkedEntity) => {
+    const { id } = item
+    const [, coreAddress] = id.split('#')
+    const daoContractInfo = await getDaoContractInfo({ coreAddress, cwClient })
+
+    return { [daoContractInfo.coreAddress]: daoContractInfo }
+  }))
+
+  const daoGroups = groups.reduce((acc, item) => ({ ...acc, ...item }), {}) as any
+
+  return { profile: profileResult, tags: tagsResult, daoGroups }
 }
 
 export const populateEntitiesForEntityExplorer = async (entities: Entity[]) => {
