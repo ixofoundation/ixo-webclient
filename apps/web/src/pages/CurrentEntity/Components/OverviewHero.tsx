@@ -32,6 +32,8 @@ interface Props {
   location?: string
   creatorName: string
   creatorLogo: string
+
+  entityType: string
 }
 
 const OverviewHero: React.FunctionComponent<Props> = ({
@@ -47,11 +49,12 @@ const OverviewHero: React.FunctionComponent<Props> = ({
   location,
   creatorLogo,
   creatorName,
+  entityType
 }) => {
   const entityConfig = useEntityConfig()
   const themeColor = entityConfig.themeColor
 
-  const headerTabs = useHeaderTabs()
+  const headerTabs = useHeaderTabs({ entityType })
 
   const getFlagURL = (projectLocation: string): string => {
     if (location && availableFlags.availableFlags.includes(location)) {
