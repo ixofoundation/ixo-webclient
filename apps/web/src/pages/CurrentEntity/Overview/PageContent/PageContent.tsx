@@ -1,21 +1,20 @@
-import React from 'react'
-import { EDITOR_JS_TOOLS } from 'pages/CreateEntity/Forms/PropertiesForm/SetupPageContent/SetupPageContent.constants'
-import { createReactEditorJS } from 'react-editor-js'
-import styled from 'styled-components'
-import { Box } from 'components/App/App.styles'
-import { TEntityPageSectionModel } from 'types/entities'
+import React from 'react';
+import { EDITOR_JS_TOOLS } from 'pages/CreateEntity/Forms/PropertiesForm/SetupPageContent/SetupPageContent.constants';
+import { createReactEditorJS } from 'react-editor-js';
+import styled from 'styled-components';
+import { Box } from 'components/App/App.styles';
+import { TEntityPageSectionModel } from 'types/entities';
+import { Skeleton } from '@mantine/core'; // Import Skeleton from Mantine
 
-const ReactEditorJS = createReactEditorJS()
+const ReactEditorJS = createReactEditorJS();
 
 const Wrapper = styled(Box)`
   width: 100%;
-
   .codex-editor {
     &__redactor {
       padding-bottom: 50px !important;
     }
   }
-
   .ce-block {
     &__content {
       max-width: unset;
@@ -29,26 +28,35 @@ const Wrapper = styled(Box)`
       display: none;
     }
   }
-`
+`;
 
 interface Props {
-  page: TEntityPageSectionModel[]
+  page: TEntityPageSectionModel[] | undefined;
 }
 
 const PageContent: React.FC<Props> = ({ page }): JSX.Element => {
-  const nonEmptyPage = (page ?? []).filter((content) => !!content.data)
+  const nonEmptyPage = (page ?? []).filter((content) => !!content.data);
+
+  // If there's no content yet, show skeleton loaders
+  if (nonEmptyPage.length === 0) {
+    return (
+      <Wrapper>
+        <Skeleton height={200} radius="md" />
+        <Skeleton height={200} radius="md" />
+        <Skeleton height={200} radius="md" />
+      </Wrapper>
+    );
+  }
 
   return (
     <Wrapper>
-      {nonEmptyPage?.length > 0 && (
-        <ReactEditorJS
-          tools={EDITOR_JS_TOOLS}
-          defaultValue={{ time: new Date().getTime(), blocks: nonEmptyPage }}
-          readOnly
-        />
-      )}
+      <ReactEditorJS
+        tools={EDITOR_JS_TOOLS}
+        defaultValue={{ time: new Date().getTime(), blocks: nonEmptyPage }}
+        readOnly
+      />
     </Wrapper>
-  )
-}
+  );
+};
 
-export default PageContent
+export default PageContent;

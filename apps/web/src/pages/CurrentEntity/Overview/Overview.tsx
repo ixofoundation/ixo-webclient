@@ -57,7 +57,7 @@ const Overview: React.FC = () => {
           />
           {!claimId && !claimCollectionId && (
             <>
-              {page && <PageContent page={page} />}
+              <PageContent page={page} />
               {pageLegacy && <PageContentLegacy page={pageLegacy} />}
               <LinkedFiles linkedFiles={linkedFiles} service={service} />
             </>
