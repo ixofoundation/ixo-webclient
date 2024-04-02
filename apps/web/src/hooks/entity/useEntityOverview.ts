@@ -1,10 +1,10 @@
-import { LinkedResource } from "@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types"
+import { LinkedClaim, LinkedResource } from "@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types"
 import { useEntityQuery } from "generated/graphql"
 import { useState } from "react"
 import { updateEntityAction } from "redux/entitiesExplorer/entitiesExplorer.actions"
 import { getEntityById } from "redux/entitiesExplorer/entitiesExplorer.selectors"
 import { useAppDispatch, useAppSelector } from "redux/hooks"
-import { getCredentialSubject, getEntityProfile, getPage } from "services/entities"
+import { getCredentialSubject, getEntityProfile, getLinkedClaim, getPage } from "services/entities"
 import { EntityLinkedResourceConfig } from "types/protocol"
 
 export const useEntityOverview = (did: string) => {
@@ -16,14 +16,18 @@ export const useEntityOverview = (did: string) => {
         variables: { id: did }, onCompleted: async (data) => {
             console.log({ entity: data.entity })
             if (data.entity?.service && data.entity.settings) {
-                const page = await getPage({ service: data.entity.service, setting: data.entity.settings["Page"] })
-                const profile = await getEntityProfile(data.entity.settings["Profile"], data.entity.service)
+                const service = data.entity.service
+                const page = await getPage({ service, setting: data.entity.settings["Page"] })
+                const profile = await getEntityProfile(data.entity.settings["Profile"], service)
                 const creatorResource = data.entity.linkedResource.find((resource: any) => resource.id === "{id}#creator")
-                const creator = await getCredentialSubject({resource: creatorResource, service: data.entity.service })
+                const creator = await getCredentialSubject({resource: creatorResource, service })
                 const files = data.entity?.linkedResource?.filter((item: LinkedResource) => Object.keys(EntityLinkedResourceConfig).includes(item.type))
+                const linkedClaims = await Promise.all(data.entity.linkedClaim.map((claim: LinkedClaim) => getLinkedClaim({claim, service})))
+                const claim = linkedClaims.reduce((acc, item) => ({...acc, ...item}), {})
+    
                 setLinkedFiles(files)
 
-                dispatch(updateEntityAction({ ...data.entity, ...entity, ...page, profile, creator }))
+                dispatch(updateEntityAction({ ...data.entity, ...entity, ...page, profile, creator, claim  }))
             }
         }
     })
