@@ -49,6 +49,8 @@ const ClaimDetail: React.FC = () => {
     }
   }, [claimId])
 
+  console.log({ templateEntity, questionFormData, claimId, answerData })
+
   useEffect(() => {
     if (templateEntity && (templateEntity?.linkedResource ?? []).length > 0) {
       const claimSchemaLinkedResources: LinkedResource[] = templateEntity.linkedResource.filter(
@@ -83,7 +85,6 @@ const ClaimDetail: React.FC = () => {
     survey.applyTheme(themeJson)
     survey.data = answerData
     survey.showNavigationButtons = false
-    survey.mode = 'display'
     return survey
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [questionFormData, answerData])
@@ -115,7 +116,11 @@ const ClaimDetail: React.FC = () => {
   return (
     <FlexBox width='100%'>
       <FlexBox $direction='column' width='100%' $gap={7}>
-        {survey && <Survey model={survey} />}
+        {survey && (
+          <FlexBox width='100%' height='100%' style={{ pointerEvents: 'none' }}>
+            <Survey model={survey} />
+          </FlexBox>
+        )}
         {evaluationStatus === ixo.claims.v1beta1.EvaluationStatus.PENDING && (
           <FlexBox width='100%' $gap={4} $alignItems='center'>
             <Button
