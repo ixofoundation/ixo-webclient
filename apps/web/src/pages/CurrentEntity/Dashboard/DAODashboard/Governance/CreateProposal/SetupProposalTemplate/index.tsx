@@ -4,11 +4,16 @@ import React, { useEffect, useState } from 'react'
 import { Button, PropertyBox } from 'pages/CreateEntity/Components'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Flex } from '@mantine/core'
-import { ReactComponent as UserCheckIcon } from 'assets/images/icon-user-check-solid.svg'
-import { ReactComponent as UserTimesIcon } from 'assets/images/icon-user-times-solid.svg'
-import { ReactComponent as HandHoldingUsdIcon } from 'assets/images/icon-hand-holding-usd-solid.svg'
-import { ReactComponent as UsersIcon } from 'assets/images/icon-users-solid.svg'
-import { ReactComponent as PenIcon } from 'assets/images/icon-pen-solid.svg'
+import { useEntitiesQuery } from 'generated/graphql'
+import { useAppDispatch, useAppSelector } from 'redux/hooks'
+import { selectAllDeedProtocolProposals } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import {
+  getEntitiesFromGraphqlAction,
+  updateEntityPropertyAction,
+} from 'redux/entitiesExplorer/entitiesExplorer.actions'
+import { useAccount } from 'hooks/account'
+import { apiEntityToEntity } from 'utils/entities'
+import { TEntityModel } from 'types/entities'
 
 export interface TProposalTemplate {
   id: string
@@ -16,54 +21,43 @@ export interface TProposalTemplate {
   description: string
   icon: React.FC
 }
-const ProposalTemplates: TProposalTemplate[] = [
-  {
-    id: 'elect_delegate',
-    label: 'Elect Delegate',
-    description:
-      'A delegate account or multisig can represent the DAO in decentralised cooperatives. It can be revoked at any time by a governance proposal.',
-    icon: UserCheckIcon,
-  },
-  {
-    id: 'revoke_delegate',
-    label: 'Revoke Delegate',
-    description:
-      'Lorem ipsum dolor sit amet pretium placerat laoreet aliquet justo habitant per ligula morbi lobortis faucibus ullamcorper fames montes massa sodales senectus suscipit accumsan letius dui consectetur',
-    icon: UserTimesIcon,
-  },
-  {
-    id: 'spend_funds',
-    label: 'Spend Funds',
-    description:
-      'Lorem ipsum dolor sit amet pretium placerat laoreet aliquet justo habitant per ligula morbi lobortis faucibus ullamcorper fames montes massa sodales senectus suscipit accumsan letius dui consectetur',
-    icon: HandHoldingUsdIcon,
-  },
-  {
-    id: 'manage_membership',
-    label: 'Manage Membership',
-    description:
-      'Lorem ipsum dolor sit amet pretium placerat laoreet aliquet justo habitant per ligula morbi lobortis faucibus ullamcorper fames montes massa sodales senectus suscipit accumsan letius dui consectetur',
-    icon: UsersIcon,
-  },
-  {
-    id: 'custom_proposal',
-    label: 'Custom Proposal',
-    description:
-      'Lorem ipsum dolor sit amet pretium placerat laoreet aliquet justo habitant per ligula morbi lobortis faucibus ullamcorper fames montes massa sodales senectus suscipit accumsan letius dui consectetur',
-    icon: PenIcon,
-  },
-]
 
 const SetupProposalTemplate: React.FC = (): JSX.Element => {
   const navigate = useNavigate()
+  const dispatch = useAppDispatch()
   const { entityId, coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
-  const [selectedTemplate, setSelectedTemplate] = useState<TProposalTemplate | undefined>()
+  const [selectedProposalTemplate, setSelectedProposalTemplate] = useState<TEntityModel | undefined>()
+  const { cwClient } = useAccount()
+
+  const deedProtocolProposals = useAppSelector(selectAllDeedProtocolProposals)
+  useEntitiesQuery({
+    skip: deedProtocolProposals.length > 0,
+    fetchPolicy: 'network-only',
+    variables: {
+      filter: {
+        type: { equalTo: 'protocol/deed' },
+      },
+    },
+    onCompleted: ({ entities }) => {
+      const nodes = entities?.nodes ?? []
+      if (nodes.length > 0) {
+        dispatch(getEntitiesFromGraphqlAction(nodes as any[]))
+        for (const entity of nodes) {
+          apiEntityToEntity({ entity, cwClient }, (key, data, merge = false) => {
+            dispatch(updateEntityPropertyAction(entity.id, key, data, merge))
+          })
+        }
+      }
+    },
+  })
 
   const onBack = () => {
     navigate(`/entity/${entityId}/dashboard/governance?selectedGroup=${coreAddress}`)
   }
   const onContinue = () => {
-    navigate(`/entity/${entityId}/dashboard/governance/${coreAddress}/page`)
+    navigate(
+      `/entity/${entityId}/dashboard/governance/${coreAddress}/detail?selectedTemplateEntityId=${selectedProposalTemplate?.id}`,
+    )
   }
 
   useEffect(() => {
@@ -79,16 +73,14 @@ const SetupProposalTemplate: React.FC = (): JSX.Element => {
           <Typography>Select one of the proposal templates, or create a custom proposal</Typography>
 
           <Flex gap={24}>
-            {ProposalTemplates.map((template) => {
-              const Icon = template.icon
-
+            {deedProtocolProposals.map((entity) => {
               return (
                 <PropertyBox
-                  key={template.id}
-                  icon={Icon && <Icon />}
-                  label={template.label}
-                  set={selectedTemplate?.id === template.id}
-                  handleClick={() => setSelectedTemplate(template)}
+                  key={entity.id}
+                  // icon={Icon && <Icon />}
+                  label={entity.profile?.name}
+                  set={selectedProposalTemplate?.id === entity.id}
+                  handleClick={() => setSelectedProposalTemplate(entity)}
                 />
               )
             })}

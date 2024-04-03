@@ -35,7 +35,6 @@ import { DeliverTxResponse } from '@cosmjs/stargate'
 import { AddLinkedEntityMessage } from 'lib/protocol/iid.messages'
 import { DaoPreProposeSingleClient } from '@ixo-webclient/cosmwasm-clients'
 
-
 const ReviewProposal: React.FC = () => {
   const theme: any = useTheme()
   const navigate = useNavigate()
@@ -111,7 +110,7 @@ const ReviewProposal: React.FC = () => {
     address: wallet?.address || '',
     did: wallet?.did || '',
     pubKey: wallet?.pubKey || new Uint8Array(),
-    keyType: wallet?.keyType as any ,
+    keyType: wallet?.keyType as any,
   }
 
   const handlePropose = async (
@@ -216,32 +215,35 @@ const ReviewProposal: React.FC = () => {
       .filter(Boolean) as CosmosMsgForEmpty[]
     const daoPreProposeSingleClient = new DaoPreProposeSingleClient(execute, wallet.address, preProposalContractAddress)
 
-    return await daoPreProposeSingleClient.propose(
-      {
-        msg: {
-          propose: {
-            description: (profile?.description || '') + `#deed:${deedDid}`,
-            msgs: wasmMessage,
-            title: profile?.name || '',
+    return await daoPreProposeSingleClient
+      .propose(
+        {
+          msg: {
+            propose: {
+              description: (profile?.description || '') + `#deed:${deedDid}`,
+              msgs: wasmMessage,
+              title: profile?.name || '',
+            },
           },
         },
-      },
-      fee,
-      undefined,
-      depositInfo ? [depositInfo] : undefined,
-    )
-    .then((res) => {
-      const { transactionHash } = res
-      const proposalId = Number(utils.common.getValueFromEvents(res as unknown as DeliverTxResponse, 'wasm', 'proposal_id') || '0')
+        fee,
+        undefined,
+        depositInfo ? [depositInfo] : undefined,
+      )
+      .then((res) => {
+        const { transactionHash } = res
+        const proposalId = Number(
+          utils.common.getValueFromEvents(res as unknown as DeliverTxResponse, 'wasm', 'proposal_id') || '0',
+        )
 
-      Toast.successToast(null, `Successfully published proposals`)
-      return { transactionHash, proposalId }
-    })
-    .catch((e) => {
-      console.error(e)
-      Toast.errorToast(null, e)
-      return undefined
-    })
+        Toast.successToast(null, `Successfully published proposals`)
+        return { transactionHash, proposalId }
+      })
+      .catch((e) => {
+        console.error(e)
+        Toast.errorToast(null, e)
+        return undefined
+      })
   }
 
   const handleCreateDeed = async (): Promise<string> => {
@@ -299,7 +301,7 @@ const ReviewProposal: React.FC = () => {
     })
 
     const linkedEntityInstruction = AddLinkedEntityMessage(signer, { did: deedDid, linkedEntity })
-    const response = await execute(linkedEntityInstruction) as DeliverTxResponse
+    const response = (await execute(linkedEntityInstruction)) as DeliverTxResponse
     return !!response
   }
 

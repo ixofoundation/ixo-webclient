@@ -16,6 +16,7 @@ import { useCreateEntityState } from 'hooks/createEntity'
 import { EDITOR_JS_TOOLS } from 'pages/CreateEntity/Forms/PropertiesForm/SetupPageContent/SetupPageContent.constants'
 import { Button } from 'pages/CreateEntity/Components'
 import { useNavigate, useParams } from 'react-router-dom'
+import { useQuery } from 'hooks/window'
 
 export const Wrapper = styled(Flex)`
   font-family: ${(props): string => props.theme.secondaryFontFamily};
@@ -47,6 +48,8 @@ const SetupProposalPage: React.FC = (): JSX.Element => {
   const navigate = useNavigate()
   const { entityId, coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
   const editorCore = useRef(null)
+  const { getQuery } = useQuery()
+  const selectedTemplateEntityId = getQuery('selectedTemplateEntityId')
 
   const {
     entityType,
@@ -70,11 +73,15 @@ const SetupProposalPage: React.FC = (): JSX.Element => {
   } = useCreateEntityState()
 
   const handleBack = (): void => {
-    navigate(`/entity/${entityId}/dashboard/governance/${coreAddress}/info`)
+    navigate(
+      `/entity/${entityId}/dashboard/governance/${coreAddress}/detail?selectedTemplateEntityId=${selectedTemplateEntityId}`,
+    )
   }
   const handleNext = (): void => {
     updatePage(_.keyBy(value.blocks, 'id'))
-    navigate(`/entity/${entityId}/dashboard/governance/${coreAddress}/action`)
+    navigate(
+      `/entity/${entityId}/dashboard/governance/${coreAddress}/review?selectedTemplateEntityId=${selectedTemplateEntityId}`,
+    )
   }
 
   const DefHeroImageData: OutputBlockData = {
