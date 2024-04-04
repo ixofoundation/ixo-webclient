@@ -5,7 +5,7 @@ import { Typography } from 'components/Typography'
 import { useGetBondDid } from 'graphql/bonds'
 import { useAccount } from 'hooks/account'
 import useCurrentEntity, { useCurrentEntityBondLinkedEntity, useCurrentEntityProfile } from 'hooks/currentEntity'
-import { Navigate, Route, useMatch, useParams } from 'react-router-dom'
+import { Navigate, Route, Routes, useMatch, useParams } from 'react-router-dom'
 import { useTheme } from 'styled-components'
 import { toTitleCase } from 'utils/formatters'
 import { requireCheckDefault } from 'utils/images'
@@ -79,12 +79,6 @@ const InvestmentDashboard: React.FC = (): JSX.Element => {
       title: 'Dashboard',
       tooltip: `${toTitleCase(entityType)} Management`,
     },
-    {
-      iconClass: `icon-funding`,
-      path: `/entity/${entityId}/treasury`,
-      title: 'Funding',
-      tooltip: `Investment Funding`,
-    },
   ]
 
   const bondLinkedEntity = useCurrentEntityBondLinkedEntity()
@@ -109,11 +103,14 @@ const InvestmentDashboard: React.FC = (): JSX.Element => {
       tabs={tabs}
       entityType={entityType}
     >
-      <Route path='/entity/:entityId/dashboard/overview' element={<Overview />} />
-      <Route path='/entity/:entityId/dashboard/outcomes' element={<Outcomes />} />
+      <Routes>
+        <Route index element={<Navigate to={`overview`} />} />
 
-      {registered && owner === address && <Route path='/entity/:entityId/dashboard/edit' element={<EditEntity />} />}
-      <Route path='/entity/:entityId/dashboard' element={<Navigate to={`/entity/${entityId}/dashboard/overview`} />} />
+        <Route path='overview' Component={Overview} />
+        <Route path='outcomes' Component={Outcomes} />
+
+        {registered && owner === address && <Route path='edit' Component={EditEntity} />}
+      </Routes>
     </Dashboard>
   )
 }

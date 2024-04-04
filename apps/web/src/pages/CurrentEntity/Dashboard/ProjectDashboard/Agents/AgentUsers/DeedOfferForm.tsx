@@ -3,14 +3,14 @@ import { useGetOfferFormByClaimCollectionId } from 'graphql/entities'
 import React, { useEffect, useMemo, useState } from 'react'
 import { Survey } from 'survey-react-ui'
 import { Model } from 'survey-core'
-import { TEntityModel } from 'types/entities'
 import { themeJson } from 'styles/surveyTheme'
 import { customQueries } from '@ixo/impactxclient-sdk'
 import { chainNetwork } from 'hooks/configs'
+import { IidDocument } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/iid'
 
 interface Props {
   collectionId: string
-  agent: TEntityModel
+  agent: IidDocument
 }
 
 const DeedOfferForm: React.FC<Props> = ({ collectionId, agent }) => {

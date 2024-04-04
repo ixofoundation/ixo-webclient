@@ -11,6 +11,7 @@ import { ReactComponent as CoinsIcon } from 'assets/images/icon-coins-solid.svg'
 import { useTheme } from 'styled-components'
 import { useAccount } from 'hooks/account'
 import CurrencyFormat from 'react-currency-format'
+import BigNumber from 'bignumber.js'
 
 interface Props {
   daoGroup: TDAOGroupModel
@@ -72,7 +73,9 @@ const GovernanceCard: React.FC<Props> = ({ daoGroup }) => {
                   <Typography>
                     <CurrencyFormat
                       displayType={'text'}
-                      value={token?.tokenInfo?.total_supply || '0'}
+                      value={new BigNumber(token?.tokenInfo?.total_supply || '0')
+                        .dividedBy(10 ** (token?.tokenInfo?.decimals || 0))
+                        .toString()}
                       thousandSeparator
                       decimalScale={2}
                     />

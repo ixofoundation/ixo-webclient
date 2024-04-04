@@ -26,7 +26,7 @@ const CurrentEntityPage: React.FC = (): JSX.Element => {
     variables: {
       id: entityId,
     },
-    skip: Boolean(entity),
+    // skip: Boolean(entity),
     onCompleted: (data) => {
       setFetchedEntity(data?.entity as any)
       apiEntityToEntity({ entity: data?.entity, cwClient }, (key, value, merge = false) => {
@@ -42,12 +42,8 @@ const CurrentEntityPage: React.FC = (): JSX.Element => {
   useEffect(() => {
     if (entity) {
       updateEntity(entity)
-      return
     }
-    if (fetchedEntity) {
-      updateEntity(fetchedEntity)
-    }
-    if (fetchedEntity) {
+    if (fetchedEntity && !entity) {
       updateEntity(fetchedEntity)
     }
 
@@ -63,7 +59,10 @@ const CurrentEntityPage: React.FC = (): JSX.Element => {
 
   return (
     <Routes>
-      <Route index element={<Navigate to={`overview?collection=${state?.collectionName}`} />} />
+      <Route
+        index
+        element={<Navigate to={state?.collectionName ? `overview?collection=${state.collectionName}` : 'overview'} />}
+      />
       <Route path='overview' element={<OverviewPage />} />
       <Route path='dashboard/*' element={<DashboardPage />} />
       <Route path='treasury/*' element={<TreasuryPage />} />

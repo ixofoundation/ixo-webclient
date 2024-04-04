@@ -1,7 +1,7 @@
 import Dashboard from 'components/Dashboard/Dashboard'
 import { HeaderTab, Path } from 'components/Dashboard/types'
 import { useAccount } from 'hooks/account'
-import useCurrentEntity, { useCurrentEntityProfile } from 'hooks/currentEntity'
+import useCurrentEntity, { useCurrentEntityDAOGroupToken, useCurrentEntityProfile } from 'hooks/currentEntity'
 import { Navigate, Route, Routes, useMatch, useParams } from 'react-router-dom'
 import { requireCheckDefault } from 'utils/images'
 import { MyParticipation } from './MyParticipation'
@@ -20,12 +20,15 @@ import { AgentRoles } from 'types/models'
 import Agents from '../ProjectDashboard/Agents'
 import Claims from '../ProjectDashboard/Claims'
 import ClaimDetail from '../ProjectDashboard/ClaimDetail'
+import Shareholders from './Shareholders'
+import { useMemo } from 'react'
 
 const DAODashboard: React.FC = (): JSX.Element => {
   const { entityId } = useParams<{ entityId: string }>()
   const isEditEntityRoute = useMatch('/entity/:entityId/dashboard/edit')
   const isCreateProposalRoute = useMatch('/entity/:entityId/dashboard/governance/:coreAddress/*')
   const isClaimScreenRoute = useMatch('/entity/:entityId/dashboard/claims')
+  const isShareholdersScreenRoute = useMatch('/entity/:entityId/dashboard/shareholders')
   const { entityType, owner, daoGroups, linkedEntity } = useCurrentEntity()
   const { name } = useCurrentEntityProfile()
   const { registered, address } = useAccount()
@@ -33,6 +36,8 @@ const DAODashboard: React.FC = (): JSX.Element => {
 
   const { getQuery } = useQuery()
   const selectedGroup = getQuery('selectedGroup')
+
+  const { tokenSymbol } = useCurrentEntityDAOGroupToken(selectedGroup)
 
   const searchParams = new URLSearchParams()
   searchParams.set('selectedGroup', selectedGroup)
@@ -140,6 +145,13 @@ const DAODashboard: React.FC = (): JSX.Element => {
     },
   ]
 
+  const title = useMemo(() => {
+    if (isShareholdersScreenRoute) {
+      return tokenSymbol?.toUpperCase() + ' Shares'
+    }
+    return name
+  }, [isShareholdersScreenRoute, name, tokenSymbol])
+
   if (getDAOGroupLinkedEntities(linkedEntity).length > 0 && Object.keys(daoGroups).length === 0) {
     return <Spinner info='Loading DAO Groups...' />
   }
@@ -158,7 +170,7 @@ const DAODashboard: React.FC = (): JSX.Element => {
   return (
     <Dashboard
       theme={isEditEntityRoute || isClaimScreenRoute ? 'light' : 'dark'}
-      title={name}
+      title={title}
       subRoutes={routes}
       baseRoutes={breadcrumbs}
       tabs={tabs}
@@ -171,6 +183,8 @@ const DAODashboard: React.FC = (): JSX.Element => {
         <Route path='membership/:address' Component={IndividualMember} />
         <Route path='governance' Component={Governance} />
         {/* <Route path='governance/:coreAddress/*' Component={CreateProposal} /> */}
+
+        <Route path='shareholders' Component={Shareholders} />
 
         {registered && owner === address && <Route path='agents' Component={Agents} />}
         {registered && (owner === address || signerRole === AgentRoles.evaluators) && (
