@@ -73,15 +73,26 @@ const SetupProposalPage: React.FC = (): JSX.Element => {
   } = useCreateEntityState()
 
   const handleBack = (): void => {
-    navigate(
-      `/entity/${entityId}/dashboard/governance/${coreAddress}/detail?selectedTemplateEntityId=${selectedTemplateEntityId}`,
-    )
+    const search = new URLSearchParams()
+    if (selectedTemplateEntityId) {
+      search.append('selectedTemplateEntityId', selectedTemplateEntityId)
+    }
+    navigate({
+      pathname: `/entity/${entityId}/dashboard/governance/${coreAddress}/detail`,
+      search: search.toString(),
+    })
   }
   const handleNext = (): void => {
     updatePage(_.keyBy(value.blocks, 'id'))
-    navigate(
-      `/entity/${entityId}/dashboard/governance/${coreAddress}/review?selectedTemplateEntityId=${selectedTemplateEntityId}`,
-    )
+
+    const search = new URLSearchParams()
+    if (selectedTemplateEntityId) {
+      search.append('selectedTemplateEntityId', selectedTemplateEntityId)
+    }
+    navigate({
+      pathname: `/entity/${entityId}/dashboard/governance/${coreAddress}/review`,
+      search: search.toString(),
+    })
   }
 
   const DefHeroImageData: OutputBlockData = {

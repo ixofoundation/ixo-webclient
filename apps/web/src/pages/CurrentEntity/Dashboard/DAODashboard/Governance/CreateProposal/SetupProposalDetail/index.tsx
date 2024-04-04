@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react'
-import { Flex } from '@mantine/core'
+import { Flex, Loader } from '@mantine/core'
 import styled from 'styled-components'
 import { useCreateEntityState } from 'hooks/createEntity'
 import { Button } from 'pages/CreateEntity/Components'
@@ -9,12 +9,12 @@ import { Survey } from 'survey-react-ui'
 import { themeJson } from 'styles/surveyTheme'
 import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { apiEntityToEntity, serviceEndpointToUrl } from 'utils/entities'
-import { useAppSelector } from 'redux/hooks'
-import { selectEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { useQuery } from 'hooks/window'
-import { TProposalActionModel } from 'types/entities'
+import { TEntityModel, TProposalActionModel } from 'types/entities'
 import { v4 as uuidv4 } from 'uuid'
 import { ProposalActionConfigMap } from 'constants/entity'
+import { mapProposalObj } from 'utils/objects'
+import { useEntityQuery } from 'generated/graphql'
 
 export const Wrapper = styled(Flex)`
   font-family: ${(props): string => props.theme.secondaryFontFamily};
@@ -48,8 +48,28 @@ const SetupProposalDetail: React.FC = (): JSX.Element => {
 
   const { updateProposal } = useCreateEntityState()
 
-  const templateEntity = useAppSelector(selectEntityById(selectedTemplateEntityId))
+  const [templateEntity, setTemplateEntity] = useState<TEntityModel>()
+  useEntityQuery({
+    variables: {
+      id: selectedTemplateEntityId,
+    },
+    onCompleted: (data) => {
+      setTemplateEntity(data?.entity as any)
+      apiEntityToEntity({ entity: data?.entity }, (key, value) => {
+        if (key === 'proposalAction') {
+          setProposalActionType(value)
+        }
+      })
+    },
+  })
   const [proposalActionType, setProposalActionType] = useState()
+  const [completed, setCompleted] = useState(false)
+
+  useEffect(() => {
+    if (!selectedTemplateEntityId) {
+      navigate(-1)
+    }
+  }, [navigate, selectedTemplateEntityId])
 
   useEffect(() => {
     if (templateEntity && (templateEntity?.linkedResource ?? []).length > 0) {
@@ -77,24 +97,6 @@ const SetupProposalDetail: React.FC = (): JSX.Element => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(templateEntity?.linkedResource ?? [])])
 
-  useEffect(() => {
-    apiEntityToEntity({ entity: templateEntity }, (key, value) => {
-      if (key === 'proposalAction') {
-        setProposalActionType(value)
-      }
-    })
-  }, [templateEntity])
-
-  const handleMakeProposalData = (data: Record<string, any>) => {
-    const pregeneratedProposal: TProposalActionModel = {
-      id: uuidv4(),
-      text: ProposalActionConfigMap[proposalActionType!]?.text,
-      group: ProposalActionConfigMap[proposalActionType!]?.group,
-      data: data,
-    }
-    updateProposal({ actions: [pregeneratedProposal] })
-  }
-
   const survey = useMemo(() => {
     if (!questionFormData[0]) {
       return undefined
@@ -104,14 +106,18 @@ const SetupProposalDetail: React.FC = (): JSX.Element => {
     survey.allowCompleteSurveyAutomatic = survey.pane
 
     survey.onCompleting.add((sender: any, options: any) => {
-      console.log(
-        111111111,
-        sender,
-        sender.data,
-        survey.getPlainData({ includeEmpty: true, includeValues: true, includeQuestionTypes: true }),
-        survey.toJSON(),
-      )
-      handleMakeProposalData(sender.data)
+      const pregeneratedProposal: TProposalActionModel = {
+        id: uuidv4(),
+        text: ProposalActionConfigMap[proposalActionType!]?.text,
+        group: ProposalActionConfigMap[proposalActionType!]?.group,
+        data: mapProposalObj(sender.data),
+      }
+      updateProposal({
+        name: sender.jsonObj.title,
+        description: sender.jsonObj.description,
+        actions: [pregeneratedProposal],
+      })
+      setCompleted(true)
     })
 
     survey.completeText = 'Submit'
@@ -120,27 +126,39 @@ const SetupProposalDetail: React.FC = (): JSX.Element => {
   }, [questionFormData])
 
   const handleBack = (): void => {
-    navigate(
-      `/entity/${entityId}/dashboard/governance/${coreAddress}/template?selectedTemplateEntityId=${selectedTemplateEntityId}`,
-    )
+    const search = new URLSearchParams()
+    if (selectedTemplateEntityId) {
+      search.append('selectedTemplateEntityId', selectedTemplateEntityId)
+    }
+    navigate({
+      pathname: `/entity/${entityId}/dashboard/governance/${coreAddress}/template`,
+      search: search.toString(),
+    })
   }
   const handleNext = (): void => {
-    navigate(
-      `/entity/${entityId}/dashboard/governance/${coreAddress}/page?selectedTemplateEntityId=${selectedTemplateEntityId}`,
-    )
+    const search = new URLSearchParams()
+    if (selectedTemplateEntityId) {
+      search.append('selectedTemplateEntityId', selectedTemplateEntityId)
+    }
+    navigate({
+      pathname: `/entity/${entityId}/dashboard/governance/${coreAddress}/page`,
+      search: search.toString(),
+    })
   }
 
   return (
     <Wrapper direction={'column'} gap={50} w='100%'>
       <Flex direction={'column'} gap={24} w='100%'>
-        {survey && <Survey model={survey} />}
+        {survey ? <Survey model={survey} /> : <Loader color='ixo-blue' />}
       </Flex>
       <Flex align={'center'}>
         <Flex gap={20}>
           <Button variant='secondary' onClick={handleBack}>
             Back
           </Button>
-          <Button onClick={handleNext}>Continue</Button>
+          <Button onClick={handleNext} disabled={!completed}>
+            Continue
+          </Button>
         </Flex>
       </Flex>
     </Wrapper>

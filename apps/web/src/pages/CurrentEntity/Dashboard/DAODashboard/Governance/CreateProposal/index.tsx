@@ -14,8 +14,8 @@ const CreateProposal: React.FC = () => {
       <Route path='template' Component={SetupProposalTemplate} />
       <Route path='detail' Component={SetupProposalDetail} />
       <Route path='info' Component={SetupProposalInfo} />
-      <Route path='page' Component={SetupProposalPage} />
       <Route path='action' Component={SetupActions} />
+      <Route path='page' Component={SetupProposalPage} />
       <Route path='review' Component={ReviewProposal} />
     </Routes>
   )

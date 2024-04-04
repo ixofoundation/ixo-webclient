@@ -13,7 +13,7 @@ import {
 } from 'redux/entitiesExplorer/entitiesExplorer.actions'
 import { useAccount } from 'hooks/account'
 import { apiEntityToEntity } from 'utils/entities'
-import { TEntityModel } from 'types/entities'
+import { useCreateEntityState } from 'hooks/createEntity'
 
 export interface TProposalTemplate {
   id: string
@@ -26,8 +26,9 @@ const SetupProposalTemplate: React.FC = (): JSX.Element => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
   const { entityId, coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
-  const [selectedProposalTemplate, setSelectedProposalTemplate] = useState<TEntityModel | undefined>()
+  const [selectedTemplateEntityId, setselectedTemplateEntityId] = useState<string>('')
   const { cwClient } = useAccount()
+  const { updateProposal } = useCreateEntityState()
 
   const deedProtocolProposals = useAppSelector(selectAllDeedProtocolProposals)
   useEntitiesQuery({
@@ -55,16 +56,25 @@ const SetupProposalTemplate: React.FC = (): JSX.Element => {
     navigate(`/entity/${entityId}/dashboard/governance?selectedGroup=${coreAddress}`)
   }
   const onContinue = () => {
-    navigate(
-      `/entity/${entityId}/dashboard/governance/${coreAddress}/detail?selectedTemplateEntityId=${selectedProposalTemplate?.id}`,
-    )
+    if (selectedTemplateEntityId === 'custom') {
+      navigate(`/entity/${entityId}/dashboard/governance/${coreAddress}/action`)
+    } else {
+      const search = new URLSearchParams()
+      search.append('selectedTemplateEntityId', selectedTemplateEntityId)
+      navigate({
+        pathname: `/entity/${entityId}/dashboard/governance/${coreAddress}/detail`,
+        search: search.toString(),
+      })
+    }
   }
 
   useEffect(() => {
-    if (!entityId) {
-      navigate(`/explore`)
-    }
-  }, [entityId, navigate])
+    updateProposal({
+      name: '',
+      description: '',
+      actions: [],
+    })
+  }, [updateProposal])
 
   return (
     <Flex w={'100%'} justify='left'>
@@ -72,18 +82,26 @@ const SetupProposalTemplate: React.FC = (): JSX.Element => {
         <Flex direction={'column'} gap={36}>
           <Typography>Select one of the proposal templates, or create a custom proposal</Typography>
 
-          <Flex gap={24}>
-            {deedProtocolProposals.map((entity) => {
-              return (
-                <PropertyBox
-                  key={entity.id}
-                  // icon={Icon && <Icon />}
-                  label={entity.profile?.name}
-                  set={selectedProposalTemplate?.id === entity.id}
-                  handleClick={() => setSelectedProposalTemplate(entity)}
-                />
-              )
-            })}
+          <Flex gap={24} wrap={'wrap'}>
+            {deedProtocolProposals
+              .sort((a, b) => (a.profile?.name || '').localeCompare(b.profile?.name || ''))
+              .map((entity) => {
+                return (
+                  <PropertyBox
+                    key={entity.id}
+                    // icon={Icon && <Icon />}
+                    label={entity.profile?.name}
+                    set={selectedTemplateEntityId === entity.id}
+                    handleClick={() => setselectedTemplateEntityId(entity.id)}
+                  />
+                )
+              })}
+            <PropertyBox
+              // icon={Icon && <Icon />}
+              label={'Custom Proposal'}
+              set={selectedTemplateEntityId === 'custom'}
+              handleClick={() => setselectedTemplateEntityId('custom')}
+            />
           </Flex>
         </Flex>
 
@@ -91,7 +109,9 @@ const SetupProposalTemplate: React.FC = (): JSX.Element => {
           <Button variant='secondary' onClick={onBack}>
             Back
           </Button>
-          <Button onClick={onContinue}>Continue</Button>
+          <Button onClick={onContinue} disabled={!selectedTemplateEntityId}>
+            Continue
+          </Button>
         </Flex>
       </Flex>
     </Flex>

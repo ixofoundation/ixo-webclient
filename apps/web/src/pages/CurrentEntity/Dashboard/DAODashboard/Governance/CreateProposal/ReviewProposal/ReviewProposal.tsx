@@ -105,6 +105,7 @@ const ReviewProposal: React.FC = () => {
   const validActions = useMemo(() => (proposal?.actions ?? []).filter((item) => item.data), [proposal])
   const { getQuery } = useQuery()
   const success = getQuery('success')
+  const selectedTemplateEntityId = getQuery('selectedTemplateEntityId')
   const { execute, wallet } = useWallet()
   const signer: TSigner = {
     address: wallet?.address || '',
@@ -306,7 +307,14 @@ const ReviewProposal: React.FC = () => {
   }
 
   const handleBack = () => {
-    navigate(`/entity/${entityId}/dashboard/governance/${coreAddress}/action`)
+    const search = new URLSearchParams()
+    if (selectedTemplateEntityId) {
+      search.append('selectedTemplateEntityId', selectedTemplateEntityId)
+    }
+    navigate({
+      pathname: `/entity/${entityId}/dashboard/governance/${coreAddress}/page`,
+      search: search.toString(),
+    })
   }
 
   const handleNext = () => {

@@ -5,7 +5,6 @@ import { Button } from 'pages/CreateEntity/Components'
 import React, { useMemo } from 'react'
 import { SetupActionsForm } from './SetupActionsForm'
 import { useNavigate, useParams } from 'react-router-dom'
-import { useQuery } from 'hooks/window'
 
 const SetupActions: React.FC = () => {
   const navigate = useNavigate()
@@ -15,18 +14,11 @@ const SetupActions: React.FC = () => {
   const actions = useMemo(() => proposal?.actions ?? [], [proposal])
   const validActions = useMemo(() => actions.filter((item) => item.data), [actions])
 
-  const { getQuery } = useQuery()
-  const selectedTemplateEntityId = getQuery('selectedTemplateEntityId')
-
   const handleBack = () => {
-    navigate(
-      `/entity/${entityId}/dashboard/governance/${coreAddress}/page?selectedTemplateEntityId=${selectedTemplateEntityId}`,
-    )
+    navigate(`/entity/${entityId}/dashboard/governance/${coreAddress}/template`)
   }
   const handleContinue = () => {
-    navigate(
-      `/entity/${entityId}/dashboard/governance/${coreAddress}/review?selectedTemplateEntityId=${selectedTemplateEntityId}`,
-    )
+    navigate(`/entity/${entityId}/dashboard/governance/${coreAddress}/page`)
   }
 
   return (
