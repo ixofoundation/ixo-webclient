@@ -49,8 +49,6 @@ const ClaimDetail: React.FC = () => {
     }
   }, [claimId])
 
-  console.log({ templateEntity, questionFormData, claimId, answerData })
-
   useEffect(() => {
     if (templateEntity && (templateEntity?.linkedResource ?? []).length > 0) {
       const claimSchemaLinkedResources: LinkedResource[] = templateEntity.linkedResource.filter(
