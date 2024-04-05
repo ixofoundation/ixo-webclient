@@ -5,6 +5,9 @@ import PieChart from 'components/Widgets/PieChart'
 import { useAccount } from 'hooks/account'
 import { useTheme } from 'styled-components'
 import { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
+import { useAppSelector } from 'redux/hooks'
+import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { useParams } from 'react-router-dom'
 
 interface Props {
   show?: boolean
@@ -15,7 +18,9 @@ interface Props {
 const UserVotingPower: React.FC<Props> = ({ show, coreAddress, userAddress }) => {
   const theme: any = useTheme()
   const { address } = useAccount()
-  const { daoGroup } = useCurrentEntityDAOGroup(coreAddress)
+  const { entityId = "" } = useParams<{ entityId: string}>()
+  const { daoGroups = {} } = useAppSelector(getEntityById(entityId))
+  const { daoGroup } = useCurrentEntityDAOGroup(coreAddress, daoGroups)
 
   const isParticipating = useMemo(() => {
     return daoGroup.votingModule.members.some(({ addr }) => addr === (userAddress || address))

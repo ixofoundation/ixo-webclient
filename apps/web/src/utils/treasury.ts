@@ -16,9 +16,9 @@ export function getTotalUSDvalueFromTreasuryCoins(coins: { [denom: string]: TTre
   )
 }
 
-export async function getTreasuryCoinByDenom(address: string, coin: Coin): Promise<TTreasuryCoinModel | undefined> {
+export async function getTreasuryCoinByDenom(address: string, coin: Coin, rpc: string): Promise<TTreasuryCoinModel | undefined> {
   const { denom, amount } = coin
-  const token = await GetTokenAsset(denom)
+  const token = await GetTokenAsset(denom, rpc)
   const tokenInfo = await customQueries.currency.findTokenInfoFromDenom(
     token.coinMinimalDenom,
     true,

@@ -1,7 +1,6 @@
 import { FlexBox } from 'components/App/App.styles'
 import { FormCard } from 'components'
 import { Typography } from 'components/Typography'
-import useCurrentEntity from 'hooks/currentEntity'
 import useEditEntity from 'hooks/editEntity'
 import { Button } from 'pages/CreateEntity/Components'
 import React, { useEffect, useState } from 'react'
@@ -16,13 +15,18 @@ import { useDispatch } from 'react-redux'
 import { updateEntityAction, updateEntityPropertyAction } from 'redux/entitiesExplorer/entitiesExplorer.actions'
 import EditProfile from '../../components/EditProfile'
 import EditProperty from '../../components/EditProperty'
+import { useAppSelector } from 'redux/hooks'
+import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { useWallet } from '@ixo-webclient/wallet-connector'
 
 const EditEntity: React.FC = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { entityId = '' } = useParams<{ entityId: string }>()
+  const currentEntity = useAppSelector(getEntityById(entityId))
   const { cwClient } = useAccount()
-  const { currentEntity, isOwner } = useCurrentEntity()
+  const { wallet } = useWallet()
+  const isOwner = wallet?.address === currentEntity.owner
   const { setEditEntity, ExecuteEditEntity } = useEditEntity()
   const { fetchEntityById, data } = useGetEntityByIdLazyQuery()
   const [editing, setEditing] = useState(false)

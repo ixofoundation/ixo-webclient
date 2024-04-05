@@ -10,6 +10,8 @@ import { convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
 import { thresholdToTQData } from 'utils/dao'
 import { TitleAndDescription } from './Component'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
+import { useAppSelector } from 'redux/hooks'
+import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 export interface UpdateProposalConfigData {
   onlyMembersExecute: boolean
@@ -49,8 +51,9 @@ interface Props {
 }
 
 const SetupUpdateVotingConfigModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
-  const { coreAddress = '' } = useParams<{ coreAddress: string }>()
-  const { daoGroup } = useCurrentEntityDAOGroup(coreAddress)
+  const { coreAddress = '', entityId = '' } = useParams<{ coreAddress: string, entityId: string }>()
+  const { daoGroups = {} } = useAppSelector(getEntityById(entityId))
+  const { daoGroup } = useCurrentEntityDAOGroup(coreAddress, daoGroups)
   const proposalConfig = daoGroup?.proposalModule.proposalConfig
   const [formData, setFormData] = useState<UpdateProposalConfigData>(initialProposalConfigState)
 

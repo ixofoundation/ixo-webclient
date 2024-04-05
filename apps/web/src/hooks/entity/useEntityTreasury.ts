@@ -6,12 +6,12 @@ import { useState } from "react"
 import { updateEntityAction } from "redux/entitiesExplorer/entitiesExplorer.actions"
 import { getEntityById } from "redux/entitiesExplorer/entitiesExplorer.selectors"
 import { useAppDispatch, useAppSelector } from "redux/hooks"
-import { getCredentialSubject, getEntityProfile, getLinkedClaim, getPage } from "services/entities"
+import { getCredentialSubject, getEntityProfile, getLinkedClaim, getPage, getTags } from "services/entities"
 import { EntityLinkedResourceConfig } from "types/protocol"
 import { getDaoContractInfo } from "utils/dao"
 import { getDAOGroupLinkedEntities } from "utils/entities"
 
-export const useEntityOverview = (did: string) => {
+export const useEntityTreasury = (did: string) => {
     const entity = useAppSelector(getEntityById(did))
     const [linkedFiles, setLinkedFiles] = useState([])
     const dispatch = useAppDispatch()
@@ -26,6 +26,7 @@ export const useEntityOverview = (did: string) => {
                 const creator = await getCredentialSubject({ resource: creatorResource, service })
                 const files = data.entity?.linkedResource?.filter((item: LinkedResource) => Object.keys(EntityLinkedResourceConfig).includes(item.type))
                 const linkedClaims = await Promise.all(data.entity.linkedClaim.map((claim: LinkedClaim) => getLinkedClaim({ claim, service })))
+                const tags = await getTags({ service, setting: data.entity.settings["Tags"]})
                 const claim = linkedClaims.reduce((acc, item) => ({ ...acc, ...item }), {})
 
                 const cwClient = await getCosmwasmClient(RPC_ENDPOINT ?? "")
@@ -43,7 +44,7 @@ export const useEntityOverview = (did: string) => {
 
                 setLinkedFiles(files)
 
-                dispatch(updateEntityAction({ ...data.entity, ...entity, ...page, profile, creator, claim, daoGroups }))
+                dispatch(updateEntityAction({ ...data.entity, ...entity, ...page, profile, creator, claim, daoGroups, tags}))
             }
         }
     })

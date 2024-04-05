@@ -1,15 +1,15 @@
 import Dashboard from 'components/Dashboard/Dashboard'
 import { HeaderTab, Path } from 'components/Dashboard/types'
-import useCurrentEntity, { useCurrentEntityProfile } from 'hooks/currentEntity'
 import { Navigate, Route, useParams } from 'react-router-dom'
 import { requireCheckDefault } from 'utils/images'
 import Accounts from './Accounts'
 import { toTitleCase } from 'utils/formatters'
+import { useAppSelector } from 'redux/hooks'
+import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 const ProjectFunding: React.FC = (): JSX.Element => {
-  const { entityId } = useParams<{ entityId: string }>()
-  const { entityType } = useCurrentEntity()
-  const { name } = useCurrentEntityProfile()
+  const { entityId = "" } = useParams<{ entityId: string }>()
+  const { type, profile } = useAppSelector(getEntityById(entityId))
 
   const routes: Path[] = [
     {
@@ -24,13 +24,13 @@ const ProjectFunding: React.FC = (): JSX.Element => {
     {
       url: `/explore`,
       icon: '',
-      sdg: `Explore ${toTitleCase(entityType)}s`,
+      sdg: `Explore ${toTitleCase(type)}s`,
       tooltip: '',
     },
     {
       url: `/entity/${entityId}/overview`,
       icon: '',
-      sdg: name,
+      sdg: profile?.name ?? "",
       tooltip: '',
     },
     {
@@ -43,23 +43,23 @@ const ProjectFunding: React.FC = (): JSX.Element => {
 
   const tabs: HeaderTab[] = [
     {
-      iconClass: `icon-${entityType}`,
-      linkClass: entityType,
+      iconClass: `icon-${type}`,
+      linkClass: type,
       path: `/entity/${entityId}/overview`,
-      title: toTitleCase(entityType),
-      tooltip: `${toTitleCase(entityType)} Overview`,
+      title: toTitleCase(type),
+      tooltip: `${toTitleCase(type)} Overview`,
     },
     {
       iconClass: `icon-dashboard`,
       path: `/entity/${entityId}/dashboard`,
       title: 'Dashboard',
-      tooltip: `${toTitleCase(entityType)} Management`,
+      tooltip: `${toTitleCase(type)} Management`,
     },
     {
       iconClass: `icon-funding`,
       path: `/entity/${entityId}/treasury`,
       title: 'Funding',
-      tooltip: `${toTitleCase(entityType)} Funding`,
+      tooltip: `${toTitleCase(type)} Funding`,
     },
   ]
 
@@ -68,11 +68,11 @@ const ProjectFunding: React.FC = (): JSX.Element => {
   return (
     <Dashboard
       theme={theme}
-      title={name}
+      title={profile?.name ?? ""}
       subRoutes={routes}
       baseRoutes={breadcrumbs}
       tabs={tabs}
-      entityType={entityType}
+      entityType={type}
     >
       <Route path='/entity/:entityId/treasury/accounts' Component={Accounts} />
       <Route path='/entity/:entityId/treasury' element={<Navigate to={`/entity/${entityId}/treasury/accounts`} />} />
