@@ -31,8 +31,6 @@ const SetupLinkedResource: React.FC<Props> = ({ hidden, linkedResource, updateLi
   const [openAddLinkedResourceModal, setOpenAddLinkedResourceModal] = useState(false)
   const [selectedId, setSelectedId] = useState('')
 
-  console.log(111111, linkedResource)
-
   const handleAddLinkedResource = (type: string): void => {
     if (
       type === 'proposalAction' &&
