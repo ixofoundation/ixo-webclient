@@ -1,4 +1,4 @@
-import { getMappedNewURL } from "@ixo-webclient/utils";
+import { getMappedCDNURL, getMappedNewURL } from "@ixo-webclient/utils";
 import { serviceEndpointToUrl } from "utils/entities";
 
 
@@ -36,7 +36,7 @@ export const getEntityProfile = async (profile: any, service: any) => {
         });
         logo = logo.replace(identifier + ':', endpoint);
       }
-      return { ...response, image, logo };
+      return { ...response, image: getMappedCDNURL(image), logo: getMappedCDNURL(logo) };
     })
     .catch((e) => {
       return undefined;
