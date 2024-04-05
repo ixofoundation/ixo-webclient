@@ -27,7 +27,7 @@ const ClaimCollectionCreationSelectStep: React.FC<Props> = ({ hidden, onSubmit, 
           Select the linked Claim for which you want to create a new Claim Collection.
         </Typography>
 
-        <FlexBox $gap={6} $alignItems='center'>
+        <FlexBox $gap={6} $alignItems='flex-start'>
           {Object.values(claims).map((claim) => (
             <FlexBox key={claim.id} $direction='column' $alignItems='flex-start' $gap={4}>
               <PropertyBox

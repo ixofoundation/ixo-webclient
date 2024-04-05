@@ -139,15 +139,6 @@ const ClaimDetail: React.FC = () => {
             >
               Reject
             </Button>
-            <Button
-              variant='secondary'
-              textTransform='capitalize'
-              size='flex'
-              onClick={handleEvaluate(ixo.claims.v1beta1.EvaluationStatus.DISPUTED)}
-              loading={evaluating}
-            >
-              Dispute
-            </Button>
           </FlexBox>
         )}
       </FlexBox>
