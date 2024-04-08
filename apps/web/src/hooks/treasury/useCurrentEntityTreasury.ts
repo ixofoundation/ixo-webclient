@@ -85,7 +85,6 @@ const getLinkedAccountBalances = async ({ linkedEntity }: { linkedEntity: Linked
 }
 
 const getStakingAccountBalances = async ({ daoGroups }: { daoGroups: TEntityModel["daoGroups"] }) => {
-    console.log({ daoGroups })
     return Object.values(daoGroups ?? {}).reduce(async (acc, group) => ({
         ...acc,
         [group.coreAddress]: { address: group.coreAddress, name: group.config.name, type: 'group', network: 'ixo Network', coins: await getStakingGroupBalance({ stakingGroup: group }) },
