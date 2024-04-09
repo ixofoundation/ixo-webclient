@@ -26,7 +26,6 @@ const updateNativeTokenBalances = async (address: string, chainInfo: KeplrChainI
 }
 
 const getStakingGroupBalance = async ({ stakingGroup }: { stakingGroup: TDAOGroupModel }) => {
-    console.log({ stakingGroup })
     const cwClient = await getCosmwasmClient(RPC_ENDPOINT ?? "")
     const {
         token,
@@ -44,7 +43,6 @@ const getStakingGroupBalance = async ({ stakingGroup }: { stakingGroup: TDAOGrou
     const cw20BaseClient = new contracts.Cw20Base.Cw20BaseQueryClient(cwClient, tokenContract)
     const { balance: microBalance } = await cw20BaseClient.balance({ address: stakingGroup.coreAddress })
 
-    console.log({ microBalance })
     const balance = convertMicroDenomToDenomWithDecimals(microBalance, token.tokenInfo.decimals)
     if (balance === 0) {
         return undefined
