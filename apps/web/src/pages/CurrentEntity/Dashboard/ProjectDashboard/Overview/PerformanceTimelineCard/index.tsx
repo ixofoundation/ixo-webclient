@@ -5,25 +5,23 @@ import { useParams } from 'react-router-dom'
 import { useGetClaimCollectionsByEntityId, useGetClaimsByEntityId } from 'graphql/claims'
 import { useMemo, useState } from 'react'
 import ClaimCollectionCategory from '../../../components/ClaimCollectionCategory'
-import { BarChart, Bar, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
+import { BarChart, Bar, YAxis, Tooltip, ResponsiveContainer, XAxis } from 'recharts'
 import { Typography } from 'components/Typography'
 import moment from 'moment'
 import { useTheme } from 'styled-components'
 import { ixo } from '@ixo/impactxclient-sdk'
 import { useClaimSetting } from 'hooks/claim'
+import { Claim } from '@ixo/impactxclient-sdk/types/codegen/ixo/claims/v1beta1/claims'
+import { toTitleCase } from 'utils/formatters'
 
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
-    const timestamp = payload[0].payload?.date
     const contents = payload.map((v: any) => ({ name: v.name, value: v.value }))
     return (
       <Flex direction='column' bg='#012131' px={16} py={12} gap={4} style={{ borderRadius: 4 }}>
-        <Typography color='white' weight='bold'>
-          {moment(timestamp).format('ddd, D MMM, YYYY')}
-        </Typography>
         {contents.map((content: any, index: number) => (
           <Typography color='white' size='md' key={index}>
-            {content.name}: {content.value}
+            {toTitleCase(content.name)}: {content.value}
           </Typography>
         ))}
       </Flex>
@@ -43,24 +41,30 @@ const PerformanceTimelineCard: React.FC = () => {
 
   const claimsChartData = useMemo(() => {
     const claimsStatData: {
-      [date: string]: { approved: number; rejected: number; disputed: number; pending: number }
+      [date: string]: { approved: number; rejected: number; pending: number }
     } = {}
 
-    claims.forEach((claim) => {
-      const date = moment(claim.submissionDate).set({ second: 0, millisecond: 0 }).toISOString()
-      const status = claim.evaluationByClaimId?.status
-      claimsStatData[date] = {
-        approved:
-          (claimsStatData[date]?.approved || 0) + Number(status === ixo.claims.v1beta1.EvaluationStatus.APPROVED),
-        rejected:
-          (claimsStatData[date]?.rejected || 0) + Number(status === ixo.claims.v1beta1.EvaluationStatus.REJECTED),
-        disputed:
-          (claimsStatData[date]?.disputed || 0) + Number(status === ixo.claims.v1beta1.EvaluationStatus.DISPUTED),
-        pending: (claimsStatData[date]?.pending || 0) + Number(status === ixo.claims.v1beta1.EvaluationStatus.PENDING),
-      }
-    })
-    return Object.entries(claimsStatData).map(([key, value]) => ({ date: key, ...value }))
-  }, [claims])
+    claims
+      .filter((claim: Claim) => !collectionId || collectionId === claim.collectionId)
+      .forEach((claim) => {
+        const date = moment(claim.submissionDate).set({ second: 0, millisecond: 0 }).toISOString()
+        const status = claim.evaluationByClaimId?.status
+        claimsStatData[date] = {
+          approved:
+            (claimsStatData[date]?.approved || 0) + Number(status === ixo.claims.v1beta1.EvaluationStatus.APPROVED),
+          rejected:
+            (claimsStatData[date]?.rejected || 0) + Number(status === ixo.claims.v1beta1.EvaluationStatus.REJECTED),
+          pending:
+            (claimsStatData[date]?.pending || 0) +
+            Number(status === ixo.claims.v1beta1.EvaluationStatus.PENDING || !status),
+        }
+      })
+    return Object.entries(claimsStatData)
+      .map(([key, value]) => ({ date: key, ...value }))
+      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+  }, [claims, collectionId])
+
+  console.log({ claims, claimsChartData })
 
   return (
     <Card label='Project performance timeline' icon={<PiePieceIcon />}>
@@ -71,7 +75,7 @@ const PerformanceTimelineCard: React.FC = () => {
               key={claimCollection.id}
               claimCollection={claimCollection}
               selected={claimCollection.id === collectionId}
-              onSelect={() => setCollectionId(claimCollection.id)}
+              onSelect={() => setCollectionId(claimCollection.id === collectionId ? '' : claimCollection.id)}
             />
           ))}
         </Flex>
@@ -92,10 +96,13 @@ const PerformanceTimelineCard: React.FC = () => {
             </defs>
             <YAxis
               stroke={theme.ixoNewBlue + 88}
-              axisLine={false}
-              tickLine={false}
-              domain={[0, 200]}
               tickFormatter={(value) => value.toLocaleString()}
+              allowDecimals={false}
+            />
+            <XAxis
+              stroke={theme.ixoNewBlue + 88}
+              dataKey='date'
+              tickFormatter={(value) => moment(value).format('ddd, D MMM, YYYY')}
             />
             <Tooltip content={<CustomTooltip />} cursor={{ fill: 'transparent' }} />
             <Bar
@@ -104,24 +111,21 @@ const PerformanceTimelineCard: React.FC = () => {
               barSize={8}
               radius={[100, 100, 100, 100]}
               background={{ fill: 'url(#background)', radius: 100 }}
+              stackId='a'
             />
             <Bar
               dataKey='pending'
               fill={ClaimSetting[ixo.claims.v1beta1.EvaluationStatus.PENDING].color}
               barSize={8}
               radius={[100, 100, 100, 100]}
+              stackId='a'
             />
             <Bar
               dataKey='rejected'
               fill={ClaimSetting[ixo.claims.v1beta1.EvaluationStatus.REJECTED].color}
               barSize={8}
               radius={[100, 100, 100, 100]}
-            />
-            <Bar
-              dataKey='disputed'
-              fill={ClaimSetting[ixo.claims.v1beta1.EvaluationStatus.DISPUTED].color}
-              barSize={8}
-              radius={[100, 100, 100, 100]}
+              stackId='a'
             />
           </BarChart>
         </ResponsiveContainer>
