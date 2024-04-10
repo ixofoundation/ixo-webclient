@@ -62,3 +62,7 @@ export const filterEntitiesByRelayerNode = (entity: TEntityModel): boolean => {
 export const filterProtocolDeedEntities = (entity: TEntityModel): boolean => {
   return entity.entityVerified && entity.profile?.category === 'Offer' && entity.relayerNode === RELAYER_NODE
 }
+
+export const filterProtocolDeedProposalEntities = (entity: TEntityModel): boolean => {
+  return entity.profile?.category === 'Proposal' && entity.relayerNode === RELAYER_NODE
+}

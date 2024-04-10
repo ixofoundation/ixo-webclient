@@ -360,3 +360,45 @@ export function useGetAssetDevicesByOwner(ownerAddress: string) {
 
   return assetDevices
 }
+
+// GET_ALL_PROPOSAL_TEMPLATES
+const GET_ALL_PROPOSAL_TEMPLATES = gql`
+  query GetAllProposalTemplates {
+    entities(filter: { type: { equalTo: "protocol/deed" } }) {
+      nodes {
+        id
+        accordedRight
+        accounts
+        alsoKnownAs
+        assertionMethod
+        authentication
+        capabilityInvocation
+        context
+        capabilityDelegation
+        controller
+        credentials
+        endDate
+        entityVerified
+        externalId
+        keyAgreement
+        linkedClaim
+        linkedResource
+        linkedEntity
+        nodeId
+        owner
+        metadata
+        service
+        relayerNode
+        startDate
+        settings
+        status
+        type
+        verificationMethod
+      }
+    }
+  }
+`
+export function useGetAllProposalTemplates() {
+  const { loading, error, data, refetch } = useQuery(GET_ALL_PROPOSAL_TEMPLATES, { pollInterval: 5 * 1000 })
+  return { loading, error, data: data?.entities?.nodes ?? [], refetch }
+}

@@ -3,10 +3,10 @@ import { RPC_ENDPOINT } from 'lib/protocol';
 
 let queryClientInstance: Awaited<ReturnType<typeof createQueryClient>>;
 
-export const getQueryClient = async () => {
+export const getQueryClient = async (rpc?: string) => {
   if (!queryClientInstance) {
 
-    queryClientInstance = await createQueryClient(RPC_ENDPOINT || "");
+    queryClientInstance = await createQueryClient(rpc ?? RPC_ENDPOINT ?? "");
   }
   return queryClientInstance;
 }

@@ -21,8 +21,8 @@ const GovernanceCard: React.FC<Props> = ({ daoGroup }) => {
   const theme: any = useTheme()
   const { address } = useAccount()
   const userVotingPower = useMemo(() => {
-    const totalWeight = daoGroup.votingModule.totalWeight
-    const userWeight = daoGroup.votingModule.members.find((member) => member.addr === address)?.weight ?? 0
+    const totalWeight = daoGroup?.votingModule.totalWeight
+    const userWeight = daoGroup?.votingModule.members.find((member) => member.addr === address)?.weight ?? 0
 
     const userVotingPower = userWeight / totalWeight
     return userVotingPower

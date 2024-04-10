@@ -1,6 +1,6 @@
 import { FlexBox, GridContainer, GridItem } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { Activity } from './Activity'
 import { Announcements } from './Announcements'
@@ -12,16 +12,25 @@ import { Membership } from './Membership'
 import { TreasuryPool } from './TreasuryPool'
 import { Button } from 'pages/CreateEntity/Components'
 import { GroupStakingModal } from 'components/Modals'
-import useCurrentEntity from 'hooks/currentEntity'
 import { useQuery } from 'hooks/window'
+import { useAppSelector } from 'redux/hooks'
+import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 const Navigator: React.FC = (): JSX.Element => {
-  const { entityId: daoId = '' } = useParams<{ entityId: string }>()
+  const { entityId = '' } = useParams<{ entityId: string }>()
   const { getQuery } = useQuery()
   const selectedGroup = getQuery('selectedGroup')
-  const { daoGroups } = useCurrentEntity()
+  const { daoGroups = {}, verificationMethod } = useAppSelector(getEntityById(entityId))
   const selectedDAOGroup = daoGroups[selectedGroup]
   const [groupStakingModalOpen, setGroupStakingModalOpen] = useState(false)
+
+  const daoController: string = useMemo(
+    () =>
+      Object.values(daoGroups)
+        .map((v) => v.coreAddress)
+        .find((addr) => verificationMethod.some((v) => v.id.includes(addr))) || '',
+    [daoGroups, verificationMethod],
+  )
 
   const renderAction = () => {
     if (selectedDAOGroup?.type === 'membership') {
@@ -58,7 +67,7 @@ const Navigator: React.FC = (): JSX.Element => {
 
   return (
     <FlexBox $direction='column' $gap={6}>
-      <Groups />
+      <Groups entityId={entityId} daoController={daoController} />
 
       {selectedDAOGroup && (
         <>
@@ -79,22 +88,22 @@ const Navigator: React.FC = (): JSX.Element => {
               <Membership groupAddresses={[]} />
             </GridItem>
             <GridItem $gridArea='b'>
-              <Announcements daoId={daoId} groupAddresses={[]} />
+              <Announcements daoId={entityId} groupAddresses={[]} />
             </GridItem>
             <GridItem $gridArea='c'>
-              <Governance daoId={daoId} groupAddresses={[]} />
+              <Governance daoId={entityId} groupAddresses={[]} />
             </GridItem>
             <GridItem $gridArea='d'>
-              <GovernanceActivity daoId={daoId} groupIds={[]} />
+              <GovernanceActivity daoId={entityId} groupIds={[]} />
             </GridItem>
             <GridItem $gridArea='e'>
-              <Activity daoId={daoId} groupIds={[]} />
+              <Activity daoId={entityId} groupIds={[]} />
             </GridItem>
             <GridItem $gridArea='f'>
-              <FundingClaims daoId={daoId} groupIds={[]} />
+              <FundingClaims daoId={entityId} groupIds={[]} />
             </GridItem>
             <GridItem $gridArea='g'>
-              <TreasuryPool daoId={daoId} groupAddresses={[]} />
+              <TreasuryPool daoId={entityId} groupAddresses={[]} />
             </GridItem>
           </GridContainer>
         </>
