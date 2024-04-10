@@ -37,7 +37,6 @@ import { DaoPreProposeSingleClient } from '@ixo-webclient/cosmwasm-clients'
 import { useAppSelector } from 'redux/hooks'
 import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
-
 const ReviewProposal: React.FC = () => {
   const theme: any = useTheme()
   const navigate = useNavigate()
@@ -108,12 +107,13 @@ const ReviewProposal: React.FC = () => {
   const validActions = useMemo(() => (proposal?.actions ?? []).filter((item) => item.data), [proposal])
   const { getQuery } = useQuery()
   const success = getQuery('success')
+  const selectedTemplateEntityId = getQuery('selectedTemplateEntityId')
   const { execute, wallet } = useWallet()
   const signer: TSigner = {
     address: wallet?.address || '',
     did: wallet?.did || '',
     pubKey: wallet?.pubKey || new Uint8Array(),
-    keyType: wallet?.keyType as any ,
+    keyType: wallet?.keyType as any,
   }
 
   const handlePropose = async (
@@ -218,32 +218,35 @@ const ReviewProposal: React.FC = () => {
       .filter(Boolean) as CosmosMsgForEmpty[]
     const daoPreProposeSingleClient = new DaoPreProposeSingleClient(execute, wallet.address, preProposalContractAddress)
 
-    return await daoPreProposeSingleClient.propose(
-      {
-        msg: {
-          propose: {
-            description: (profile?.description || '') + `#deed:${deedDid}`,
-            msgs: wasmMessage,
-            title: profile?.name || '',
+    return await daoPreProposeSingleClient
+      .propose(
+        {
+          msg: {
+            propose: {
+              description: (profile?.description || '') + `#deed:${deedDid}`,
+              msgs: wasmMessage,
+              title: profile?.name || '',
+            },
           },
         },
-      },
-      fee,
-      undefined,
-      depositInfo ? [depositInfo] : undefined,
-    )
-    .then((res) => {
-      const { transactionHash } = res
-      const proposalId = Number(utils.common.getValueFromEvents(res as unknown as DeliverTxResponse, 'wasm', 'proposal_id') || '0')
+        fee,
+        undefined,
+        depositInfo ? [depositInfo] : undefined,
+      )
+      .then((res) => {
+        const { transactionHash } = res
+        const proposalId = Number(
+          utils.common.getValueFromEvents(res as unknown as DeliverTxResponse, 'wasm', 'proposal_id') || '0',
+        )
 
-      Toast.successToast(null, `Successfully published proposals`)
-      return { transactionHash, proposalId }
-    })
-    .catch((e) => {
-      console.error(e)
-      Toast.errorToast(null, e)
-      return undefined
-    })
+        Toast.successToast(null, `Successfully published proposals`)
+        return { transactionHash, proposalId }
+      })
+      .catch((e) => {
+        console.error(e)
+        Toast.errorToast(null, e)
+        return undefined
+      })
   }
 
   const handleCreateDeed = async (): Promise<string> => {
@@ -301,12 +304,19 @@ const ReviewProposal: React.FC = () => {
     })
 
     const linkedEntityInstruction = AddLinkedEntityMessage(signer, { did: deedDid, linkedEntity })
-    const response = await execute(linkedEntityInstruction) as DeliverTxResponse
+    const response = (await execute(linkedEntityInstruction)) as DeliverTxResponse
     return !!response
   }
 
   const handleBack = () => {
-    navigate(`/entity/${entityId}/dashboard/governance/${coreAddress}/action`)
+    const search = new URLSearchParams()
+    if (selectedTemplateEntityId) {
+      search.append('selectedTemplateEntityId', selectedTemplateEntityId)
+    }
+    navigate({
+      pathname: `/entity/${entityId}/dashboard/governance/${coreAddress}/page`,
+      search: search.toString(),
+    })
   }
 
   const handleNext = () => {

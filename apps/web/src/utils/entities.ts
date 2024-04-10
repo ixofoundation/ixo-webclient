@@ -284,6 +284,14 @@ export function apiEntityToEntity(
               updateCallback('surveyTemplate', question)
             })
             .catch(() => undefined)
+        } else if (item.type === 'proposalAction') {
+          fetch(getMappedNewURL(url))
+            .then((response) => response.json())
+            .then((response) => response.proposalAction)
+            .then((response) => {
+              updateCallback('proposalAction', response)
+            })
+            .catch(() => undefined)
         }
       }
     })
