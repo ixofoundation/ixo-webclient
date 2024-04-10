@@ -18,6 +18,7 @@ import {
   TEntityServiceModel,
 } from 'types/entities'
 import { AccordedRight, LinkedEntity, LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
+import { useQuery } from 'hooks/window'
 
 const Properties = [
   // 'Services',
@@ -82,6 +83,8 @@ const PropertiesForm: React.FC<Props> = ({
     }
     return Properties
   }, [entityType])
+  const { getQuery } = useQuery()
+  const addClaim = getQuery('addClaim')
 
   const SettingsProps = {
     entityType,
@@ -121,6 +124,12 @@ const PropertiesForm: React.FC<Props> = ({
   useEffect(() => {
     setPropertyView(activeProperties[0])
   }, [activeProperties])
+
+  useEffect(() => {
+    if (addClaim === 'true') {
+      setPropertyView('Claims')
+    }
+  }, [addClaim])
 
   return (
     <FlexBox $direction='column' $gap={7.5} width={'100%'}>
