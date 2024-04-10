@@ -26,6 +26,8 @@ import { ReactComponent as UnlinkIcon } from 'assets/images/icon-unlink-solid.sv
 import { useTheme } from 'styled-components'
 import { DaoProposalSingleClient } from '@ixo-webclient/cosmwasm-clients'
 import { useWallet } from '@ixo-webclient/wallet-connector'
+import { useAppSelector } from 'redux/hooks'
+import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 const RemainingBadge: React.FC<{ minutes: number }> = ({ minutes }) => {
   const theme: any = useTheme()
@@ -136,9 +138,10 @@ const ProposalCard: React.FC<Props> = ({ coreAddress, proposalId, proposal }) =>
 
   const navigate = useNavigate()
   const theme: any = useTheme()
-  const { entityId } = useParams<{ entityId: string }>()
+  const { entityId = "" } = useParams<{ entityId: string }>()
   const { cwClient, address } = useAccount()
-  const { daoGroup, proposalModuleAddress, isParticipating, anyoneCanPropose } = useCurrentEntityDAOGroup(coreAddress)
+  const { daoGroups = {} } = useAppSelector(getEntityById(entityId))
+  const { daoGroup, proposalModuleAddress, isParticipating, anyoneCanPropose } = useCurrentEntityDAOGroup(coreAddress, daoGroups)
   const { execute } = useWallet()
 
   const [votes, setVotes] = useState<VoteInfo[]>([])

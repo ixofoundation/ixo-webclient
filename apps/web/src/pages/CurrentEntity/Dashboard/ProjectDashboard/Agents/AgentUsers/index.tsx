@@ -7,13 +7,15 @@ import { IAgent } from 'types/agent'
 import { Loader } from '@mantine/core'
 import DeedOfferForm from './DeedOfferForm'
 import { useTheme } from 'styled-components'
+import { useParams } from 'react-router-dom'
 
 const AgentUsers: React.FC = () => {
   const theme: any = useTheme()
   const { getQuery } = useQuery()
   const collectionId = getQuery('collectionId')
+  const { entityId = "" } = useParams<{entityId: string}>()
 
-  const { agents, pendingAgents, approvedAgents } = useGetJoiningAgentsByCollectionId(collectionId)
+  const { agents, pendingAgents, approvedAgents } = useGetJoiningAgentsByCollectionId(collectionId, entityId)
   const [loading, setLoading] = useState(true)
   const [selectedAgent, setSelectedAgent] = useState<IAgent | undefined>(undefined)
 

@@ -6,6 +6,8 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { IAgent } from 'types/agent'
 import { AgentRoles } from 'types/models'
 import { useGetClaimCollectionsByEntityId } from './claims'
+import { useAppSelector } from 'redux/hooks'
+import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 // GET_USER_IIDS
 const GET_USER_IIDS = gql`
@@ -41,8 +43,10 @@ export function useGetUserIids() {
   return { loading, error, data: (data?.iids?.nodes ?? []) as IidDocument[], refetch }
 }
 
-export function useGetJoiningAgentsByCollectionId(collectionId: string) {
-  const adminAddress = useCurrentEntityAdminAccount()
+export function useGetJoiningAgentsByCollectionId(collectionId: string, entityId: string) {
+  const { accounts } = useAppSelector(getEntityById(entityId))
+  const adminAddress = accounts?.find((account) => account.name === 'admin')?.address || ''
+
   const { data: users } = useGetUserIids()
   const [pendingAgents, setPendingAgents] = useState<IAgent[]>([])
   const [approvedAgents, setApprovedAgents] = useState<IAgent[]>([])
@@ -118,7 +122,8 @@ export function useGetJoiningAgentsByCollectionId(collectionId: string) {
 export function useGetJoiningAgentsByEntityId(entityId: string) {
   const { data: claimCollections } = useGetClaimCollectionsByEntityId(entityId)
   const claimCollectionIds = useMemo(() => claimCollections.map((v) => v.id), [claimCollections])
-  const adminAddress = useCurrentEntityAdminAccount()
+  const { accounts } = useAppSelector(getEntityById(entityId))
+  const adminAddress = useCurrentEntityAdminAccount(accounts)
   const { data: users } = useGetUserIids()
   const [pendingAgents, setPendingAgents] = useState<IAgent[]>([])
   const [approvedAgents, setApprovedAgents] = useState<IAgent[]>([])

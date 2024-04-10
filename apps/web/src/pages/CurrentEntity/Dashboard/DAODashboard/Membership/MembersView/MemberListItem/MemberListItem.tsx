@@ -5,14 +5,16 @@ import React, { useEffect, useState, useMemo } from 'react'
 import styled, { css, useTheme } from 'styled-components'
 import { truncateString } from 'utils/formatters'
 import { MemberDetailCard } from '../MemberDetailCard'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { Avatar } from '../../../../../Components'
 import { useAccount } from 'hooks/account'
 import { contracts } from '@ixo/impactxclient-sdk'
 import CurrencyFormat from 'react-currency-format'
 import { convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
-import useCurrentEntity, { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
+import { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
 import { useQuery } from 'hooks/window'
+import { useAppSelector } from 'redux/hooks'
+import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 const Wrapper = styled(TableRow)<{ focused: boolean }>`
   ${({ theme, focused }) =>
@@ -92,10 +94,12 @@ const MemberListItem: React.FC<Props> = ({ member, selected, onSelectMember }): 
   const { cwClient } = useAccount()
   const { getQuery } = useQuery()
   const selectedGroup = getQuery('selectedGroup')
-  const { daoGroups } = useCurrentEntity()
+  const { entityId = "" } = useParams<{ entityId: string}>()
+  const { daoGroups = {} } = useAppSelector(getEntityById(entityId))
+
   const selectedDAOGroup = daoGroups[selectedGroup]
   const { type, daoGroup, proposals, votes, votingModuleAddress } = useCurrentEntityDAOGroup(
-    selectedDAOGroup?.coreAddress || '',
+    selectedDAOGroup?.coreAddress || '', daoGroups
   )
   const { avatar, name, status, addr } = member
   const [detailView, setDetailView] = useState(false)

@@ -25,6 +25,7 @@ const Overview: React.FC = () => {
             startDate={(entity?.startDate as never as string) || ''}
             creatorName={entity?.creator?.displayName || ''}
             creatorLogo={entity?.creator?.logo || ''}
+            entityType={entity?.type ?? ""}
           />
           <PageContent page={entity?.page ?? []} />
           <InstructionsToExecute />
@@ -38,7 +39,7 @@ const Overview: React.FC = () => {
         </Flex>
       </ScrollArea>
       <Flex h='100%' bg='#F0F3F9'>
-        <ControlPanel />
+        <ControlPanel entityType={entity?.type ?? ""} entityName={entity?.profile?.name ?? ""} />
       </Flex>
     </Flex>
   )

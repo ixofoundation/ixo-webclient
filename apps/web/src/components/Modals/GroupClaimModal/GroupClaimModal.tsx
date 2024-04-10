@@ -8,7 +8,7 @@ import { contracts } from '@ixo/impactxclient-sdk'
 import { useAccount } from 'hooks/account'
 import { convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
 import { ReactComponent as ArrowDownIcon } from 'assets/images/icon-arrow-down.svg'
-import { useCurrentEntityDAOGroup, useCurrentEntityProfile } from 'hooks/currentEntity'
+import { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
 import { TokenInfoResponse } from '@ixo/impactxclient-sdk/types/codegen/Cw20Base.types'
 import { fee } from 'lib/protocol'
 import { claimAvailable } from 'utils/tokenClaim'
@@ -17,6 +17,9 @@ import { useTheme } from 'styled-components'
 import { TDAOGroupModel } from 'types/entities'
 import { Cw20StakeClient } from '@ixo-webclient/cosmwasm-clients'
 import { useWallet } from '@ixo-webclient/wallet-connector'
+import { useParams } from 'react-router-dom'
+import { useAppSelector } from 'redux/hooks'
+import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 const Card = ({ children, ...rest }: HTMLFlexBoxProps) => {
   const theme: any = useTheme()
@@ -46,8 +49,9 @@ interface Props {
 const GroupClaimModal: React.FunctionComponent<Props> = ({ daoGroup, open, setOpen, onSuccess }) => {
   const theme: any = useTheme()
   const { cwClient, address } = useAccount()
-  const { name: daoName } = useCurrentEntityProfile()
-  const { votingModuleAddress, depositInfo } = useCurrentEntityDAOGroup(daoGroup?.coreAddress)
+  const { entityId = "" } = useParams<{ entityId: string}>()
+  const { daoGroups = {}, profile } = useAppSelector(getEntityById(entityId))
+  const { votingModuleAddress, depositInfo } = useCurrentEntityDAOGroup(daoGroup?.coreAddress, daoGroups)
   const [tokenInfo, setTokenInfo] = useState<TokenInfoResponse | undefined>(undefined)
   const [claimableBalance, setClaimableBalance] = useState('0')
   const daoGroupName = daoGroup?.config.name
@@ -145,7 +149,7 @@ const GroupClaimModal: React.FunctionComponent<Props> = ({ daoGroup, open, setOp
                 {/* DAO name & Group Name */}
                 <Card $gap={2}>
                   <Typography color={'dark-blue'} weight='medium'>
-                    {daoName}
+                    {profile?.name}
                   </Typography>
                   <Typography color={'white'} weight='medium'>
                     {daoGroupName}
