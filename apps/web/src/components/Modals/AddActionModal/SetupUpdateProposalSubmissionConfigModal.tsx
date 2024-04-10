@@ -12,6 +12,8 @@ import { convertMicroDenomToDenomWithDecimals, convertDenomToMicroDenomWithDecim
 import { objectMatchesStructure } from 'utils/validation'
 import { TitleAndDescription } from './Component'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
+import { useAppSelector } from 'redux/hooks'
+import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 export interface UpdatePreProposeConfigData {
   depositRequired: boolean
@@ -52,8 +54,9 @@ const SetupUpdateProposalSubmissionConfigModal: React.FC<Props> = ({
   onClose,
   onSubmit,
 }): JSX.Element => {
-  const { coreAddress = '' } = useParams<{ coreAddress: string }>()
-  const { daoGroup } = useCurrentEntityDAOGroup(coreAddress)
+  const { coreAddress = '', entityId = "" } = useParams<{ coreAddress: string, entityId: string }>()
+  const { daoGroups = {} } = useAppSelector(getEntityById(entityId))
+  const { daoGroup } = useCurrentEntityDAOGroup(coreAddress, daoGroups)
   const preProposeConfig = daoGroup?.proposalModule.preProposeConfig
   const [formData, setFormData] = useState<UpdatePreProposeConfigData>(initialPreProposeConfigState)
 

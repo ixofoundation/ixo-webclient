@@ -6,13 +6,17 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { ProposalResponse } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
 import { ReactComponent as EmptyIcon } from 'assets/images/icon-empty.svg'
 import { useTheme } from 'styled-components'
-import useCurrentEntity, { useCurrentEntityDAOGroup, useCurrentEntityProfile } from 'hooks/currentEntity'
+import useCurrentEntity, { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
 import { TDAOGroupModel } from 'types/entities'
 import { Flex, Button as MButton, UnstyledButton } from '@mantine/core'
 import ProposalCard from './ProposalCard'
 import { useQuery } from 'hooks/window'
 import { Status } from '@ixo/impactxclient-sdk/types/codegen/DaoMigrator.types'
 import { mantineThemeColors } from 'styles/mantine'
+import { useAppSelector } from 'redux/hooks'
+import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { isImpactsDAO } from 'utils/application'
+import { useWallet } from '@ixo-webclient/wallet-connector'
 
 const GovernanceHeader = React.memo(({ selectedDAOGroup }: { selectedDAOGroup?: TDAOGroupModel }) => (
   <>
@@ -26,15 +30,30 @@ const GovernanceHeader = React.memo(({ selectedDAOGroup }: { selectedDAOGroup?: 
 
 const Governance: React.FC = () => {
   const theme: any = useTheme()
-  const { entityId } = useParams<{ entityId: string }>()
+  const { entityId = "" } = useParams<{ entityId: string }>()
   const navigate = useNavigate()
   const { getQuery } = useQuery()
   const selectedGroup = getQuery('selectedGroup')
-  const { entityStatus, verificationMethod, isImpactsDAO, isMemberOfImpactsDAO, isOwner, daoController, daoGroups } =
-    useCurrentEntity()
+  const { entityStatus } = useCurrentEntity()
+  const { wallet } = useWallet()
+  const { verificationMethod, daoGroups = {}, owner, linkedEntity, profile } = useAppSelector(getEntityById(entityId))
+  const isOwner = wallet?.address === owner
   const selectedDAOGroup = daoGroups[selectedGroup]
-  const { name: entityName } = useCurrentEntityProfile()
-  const { isParticipating, anyoneCanPropose } = useCurrentEntityDAOGroup(selectedDAOGroup?.coreAddress || '')
+  const { isParticipating, anyoneCanPropose } = useCurrentEntityDAOGroup(selectedDAOGroup?.coreAddress || '', daoGroups)
+
+  const isMemberOfImpactsDAO = useMemo(
+    () => !!isImpactsDAO(entityId) && linkedEntity.some(({ type, id }) => type === 'MemberDAO' && id.includes(wallet?.address ?? "")),
+    [wallet?.address, linkedEntity, entityId],
+  )
+
+  const daoController: string = useMemo(
+    () =>
+      Object.values(daoGroups)
+        .map((v) => v.coreAddress)
+        .find((addr) => verificationMethod.some((v) => v.id.includes(addr))) || '',
+    [daoGroups, verificationMethod],
+  )
+
 
   const hasVerificationKey = useMemo(
     () =>
@@ -64,7 +83,7 @@ const Governance: React.FC = () => {
 
   return (
     <Flex direction='column' gap={'lg'} w={'100%'} color='white'>
-      <Groups />
+      <Groups entityId={entityId} daoController={daoController} />
 
       <GovernanceHeader selectedDAOGroup={selectedDAOGroup} />
 
@@ -103,11 +122,11 @@ const Governance: React.FC = () => {
                     borderColor: mantineThemeColors['ixo-blue'][6],
                   }}
                 >
-                  Re-enable keys for {entityName || 'DAO'}
+                  Re-enable keys for {profile?.name || 'DAO'}
                 </MButton>
               )}
 
-              {isImpactsDAO && daoController === selectedDAOGroup.coreAddress && !isMemberOfImpactsDAO && !isOwner ? (
+              {isImpactsDAO(entityId) && daoController === selectedDAOGroup.coreAddress && !isMemberOfImpactsDAO && !isOwner ? (
                 <Button
                   variant='secondary'
                   size='flex'

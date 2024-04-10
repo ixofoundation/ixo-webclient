@@ -6,13 +6,19 @@ import { ReactComponent as SortGToLIcon } from 'assets/images/icon-sort-gtol.svg
 import { ReactComponent as SortLToGIcon } from 'assets/images/icon-sort-ltog.svg'
 import { SvgBox } from 'components/App/App.styles'
 import { useTheme } from 'styled-components'
-import useCurrentEntity from 'hooks/currentEntity'
 import GroupCard from './GroupCard'
+import { TDAOGroupModel } from 'types/entities'
 
-const Groups: React.FC = () => {
+type GroupProps = {
+  daoGroups:
+    | {
+        [address: string]: TDAOGroupModel
+      }
+    | undefined
+}
+const Groups = ({ daoGroups }: GroupProps) => {
   const theme: any = useTheme()
-  const { daoGroups } = useCurrentEntity()
-  const daoGroupsArr = Object.values(daoGroups)
+  const daoGroupsArr = Object.values(daoGroups ?? {})
 
   const [sortBy, setSortBy] = useState<'members' | 'treasury' | 'proposals' | 'type'>('members')
   const [sortDirection, setSortDirection] = useState(true)
@@ -88,7 +94,7 @@ const Groups: React.FC = () => {
   const renderGrouops = () => (
     <Flex w='100%' gap={16}>
       {daoGroupsArr.map((daoGroup, index) => (
-        <GroupCard key={index} daoGroup={daoGroup} />
+        <GroupCard key={index} daoGroup={daoGroup ?? {}} />
       ))}
     </Flex>
   )

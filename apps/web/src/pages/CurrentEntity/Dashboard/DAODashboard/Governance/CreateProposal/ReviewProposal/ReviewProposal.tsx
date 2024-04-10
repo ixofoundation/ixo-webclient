@@ -1,6 +1,6 @@
 import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
-import useCurrentEntity, { useCurrentEntityDAOGroup, useCurrentEntityProfile } from 'hooks/currentEntity'
+import useCurrentEntity, { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
 import { Button } from 'pages/CreateEntity/Components'
 import React, { useMemo, useState } from 'react'
 import { NavLink, useNavigate, useParams } from 'react-router-dom'
@@ -34,16 +34,18 @@ import { useWallet } from '@ixo-webclient/wallet-connector'
 import { DeliverTxResponse } from '@cosmjs/stargate'
 import { AddLinkedEntityMessage } from 'lib/protocol/iid.messages'
 import { DaoPreProposeSingleClient } from '@ixo-webclient/cosmwasm-clients'
+import { useAppSelector } from 'redux/hooks'
+import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 const ReviewProposal: React.FC = () => {
   const theme: any = useTheme()
   const navigate = useNavigate()
-  const { entityId, coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
+  const { entityId = "", coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
   const { cwClient } = useAccount()
-  const { name: entityName } = useCurrentEntityProfile()
   const { updateDAOGroup, refetchAndUpdate } = useCurrentEntity()
+  const { daoGroups = {} } = useAppSelector(getEntityById(entityId))
   const { daoGroup, preProposalContractAddress, depositInfo, isParticipating, anyoneCanPropose } =
-    useCurrentEntityDAOGroup(coreAddress!)
+    useCurrentEntityDAOGroup(coreAddress!, daoGroups)
   const createEntityState = useCreateEntityState()
   const {
     proposal,
@@ -84,7 +86,7 @@ const ReviewProposal: React.FC = () => {
     makeSendGroupTokenAction,
     makeJoinAction,
     makeAcceptToMarketplaceAction,
-  } = useMakeProposalAction(coreAddress!)
+  } = useMakeProposalAction(coreAddress!, daoGroups)
   const [selectedAction, setSelectedAction] = useState<TProposalActionModel | undefined>()
   const SetupActionModal = useMemo(() => {
     if (!selectedAction) {
@@ -468,7 +470,7 @@ const ReviewProposal: React.FC = () => {
           <>
             <FlexBox $direction='column' width='100%' $gap={4}>
               <Typography variant='secondary'>
-                This is the last step before submitting this governance proposal for {entityName}.
+                This is the last step before submitting this governance proposal for {profile.name}.
               </Typography>
               <Typography variant='secondary'>
                 <NavLink to={`/create/entity/deed/${entityId}/${coreAddress}/action`}>

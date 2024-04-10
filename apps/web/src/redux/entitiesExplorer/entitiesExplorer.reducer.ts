@@ -227,6 +227,17 @@ export const reducer = (
           itemOffset: action.payload,
         },
       }
+    case EntitiesExplorerActions.UpdateEntity: 
+      return {
+        ...state,
+        entities: {
+          ...state["entities"],
+          [action.payload.id]: {
+            ...state.entities[action.payload.id],
+            ...action.payload
+          }
+        }
+      }
   }
 
   return state
