@@ -235,6 +235,10 @@ export const EntityLinkedEntityConfig = {
     text: 'Delegate',
     icon: UserIcon,
   },
+  DeedRequest: {
+    text: 'Request',
+    icon: PaperIcon,
+  },
   // dao: {
   //   text: 'DAO',
   //   icon: DAOIcon,
