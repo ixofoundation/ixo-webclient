@@ -74,6 +74,7 @@
     "@rjsf/validator-ajv8": "^5.14.2",
     "@sentry/react": "7.80.1",
     "@sentry/tracing": "7.80.1",
+    "@tabler/icons-react": "^3.1.0",
     "@testing-library/jest-dom": "6.1.4",
     "@testing-library/react": "14.1.2",
     "@testing-library/user-event": "14.5.1",

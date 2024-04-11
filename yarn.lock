@@ -6531,10 +6531,22 @@
     "@tabler/icons" "2.46.0"
     prop-types "^15.7.2"
 
+"@tabler/icons-react@^3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@tabler/icons-react/-/icons-react-3.1.0.tgz#5202b5cc7c6e57dde75c41981b618dcfebd69b50"
+  integrity sha512-k/WTlax2vbj/LpxvaJ+BmaLAAhVUgyLj4Ftgaczz66tUSNzqrAZXCFdOU7cRMYPNVBqyqE2IdQd2rzzhDEJvkw==
+  dependencies:
+    "@tabler/icons" "3.1.0"
+
 "@tabler/icons@2.46.0":
   version "2.46.0"
   resolved "https://registry.yarnpkg.com/@tabler/icons/-/icons-2.46.0.tgz#e629df8901b799372914c694000cc2ea3d45bb6b"
   integrity sha512-Q5G8Pj5IO+Uhc6pszpu5/hGYY018JwEzzvmuqr+gKJtfIvAHA3umpwUilMRLEy89p+WCP+YsDhicMhfBCCv1qA==
+
+"@tabler/icons@3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@tabler/icons/-/icons-3.1.0.tgz#d69d184eae572db6adb452b511562442133cc26d"
+  integrity sha512-CpZGyS1IVJKFcv88yZ2sYZIpWWhQ6oy76BQKQ5SF0fGgOqgyqKdBGG/YGyyMW632on37MX7VqQIMTzN/uQqmFg==
 
 "@tanem/svg-injector@^10.1.68":
   version "10.1.68"
