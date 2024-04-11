@@ -10,13 +10,13 @@ interface Props {
 
 const EntityAttributesForm: React.FC<Props> = ({
   edit = false,
-  attributes = [{ key: '', value: '' }],
+  attributes = [{ key: '', value: '', id: '' }],
   setAttributes,
 }): JSX.Element => {
-  const handlAddAttribute = (): void => setAttributes([...attributes, { key: '', value: '' }])
+  const handlAddAttribute = (): void => setAttributes([...attributes, { id: '', key: '', value: '' }])
   const handleRemoveAttribute = (index: any): void => {
     if (attributes.length === 1) {
-      setAttributes([{ key: '', value: '' }])
+      setAttributes([{ id: '', key: '', value: '' }])
     } else {
       setAttributes(attributes.filter((_, i) => index !== i))
     }
@@ -34,20 +34,25 @@ const EntityAttributesForm: React.FC<Props> = ({
 
   return (
     <FormWrapper>
-      {attributes.map(({ key, value }, index) => (
+      {attributes.map(({ key, value, id }, index) => (
         <FormRow key={index} className='align-items-center'>
+          <AttributeInput
+            inputValue={id}
+            placeholder={'ID'}
+            handleChange={(id): void => handleUpdateAttribute(index, { id })}
+          />
           {edit ? (
             <span className='w-100'>{key}</span>
           ) : (
             <AttributeInput
               inputValue={key}
-              placeholder={'Attribute Key'}
+              placeholder={'Key'}
               handleChange={(key): void => handleUpdateAttribute(index, { key })}
             />
           )}
           <AttributeInput
             inputValue={value}
-            placeholder={'Attribute Value'}
+            placeholder={'Value'}
             handleChange={(value): void => handleUpdateAttribute(index, { value })}
           />
           {!edit && (
