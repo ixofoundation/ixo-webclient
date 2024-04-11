@@ -20,10 +20,10 @@ export function transformEntityData(entity: TEntityModel): any {
   if (entity?.type === 'dao') {
     const daoGroupsArr = Object.values(entity.daoGroups ?? {})
 
-    const { members, proposals, activeProposals } = daoGroupsArr.reduce(
+    const { membersSet, proposals, activeProposals } = daoGroupsArr.reduce(
       (acc, cur) => {
         // Add to the members count
-        acc.members += cur.votingModule.members.length
+        cur.votingModule.members.forEach(member => acc.membersSet.add(member));
 
         // Add to the proposals count
         acc.proposals += cur.proposalModule.proposals.length
@@ -35,8 +35,10 @@ export function transformEntityData(entity: TEntityModel): any {
 
         return acc
       },
-      { members: 0, proposals: 0, activeProposals: 0 },
+      { membersSet: new Set(), proposals: 0, activeProposals: 0 },
     )
+
+    const uniqueMembersCount = membersSet.size;
 
     let daoTypeTags: any = []
     let stageTag = 'TBA'
@@ -58,7 +60,7 @@ export function transformEntityData(entity: TEntityModel): any {
       collectionName: entity.profile?.name,
       cardImage: entity.profile?.image,
       metrics: {
-        members,
+        members: uniqueMembersCount,
         proposals,
         activeProposals,
       },
