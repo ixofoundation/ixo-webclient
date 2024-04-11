@@ -10,8 +10,8 @@ import { ReactComponent as ProjectIcon } from 'assets/images/icon-project.svg'
 import { ReactComponent as OracleIcon } from 'assets/images/icon-oracle.svg'
 import { ReactComponent as DAOIcon } from 'assets/images/icon-dao.svg'
 import { ReactComponent as DeedIcon } from 'assets/images/icon-deed.svg'
-import { useCreateEntityState } from 'hooks/createEntity'
-import { useCreateEntityStepState } from 'hooks/createEntityStepState'
+import { ReactComponent as RequestIcon } from 'assets/images/icon-star.svg'
+import { useNavigate } from 'react-router-dom'
 
 const SelectType: React.FC = (): JSX.Element => {
   const options = [
@@ -26,6 +26,13 @@ const SelectType: React.FC = (): JSX.Element => {
       label: 'Deed Class',
       icon: <DeedIcon />,
       description: `A <b>Deed</b> defines a request, a group proposal or an offer to provide service as a contribution or evaluation agent.`,
+    },
+    {
+      type: 'protocol/request',
+      label: 'Request Class',
+      icon: <RequestIcon />,
+      description: `A <b>Request</b> defines a request, a group proposal or an offer to provide service as a contribution or evaluation agent.`,
+      disabled: true
     },
     {
       type: 'protocol/asset',
@@ -65,13 +72,13 @@ const SelectType: React.FC = (): JSX.Element => {
   ]
 
   const [hoveredItem, setHoveredItem] = useState<any>(undefined)
-  const { updateEntityType } = useCreateEntityState()
-  const { navigateToNextStep } = useCreateEntityStepState()
+  const navigate = useNavigate()
 
 
   const handleClick = (item: any): void => {
-    updateEntityType(item.type.toLowerCase())
-    navigateToNextStep()
+    // updateEntityType(item.type.toLowerCase())
+    // navigateToNextStep()
+    navigate(item.type.replace("/", "-"))
   }
 
   return (
