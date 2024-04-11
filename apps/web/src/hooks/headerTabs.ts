@@ -1,15 +1,11 @@
 import { useMemo } from 'react'
 import { HeaderTab } from 'components/Dashboard/types'
-import useCurrentEntity from './currentEntity'
-import { toRootEntityType } from 'utils/entities'
 import { useLocation, useParams } from 'react-router-dom'
 import { chainNetwork, useEntityConfig } from './configs'
 import { toTitleCase } from 'utils/formatters'
 
-export function useHeaderTabs() {
+export function useHeaderTabs({ entityType }: { entityType: string}) {
   const { entityId } = useParams<{ entityId: string }>()
-  const currentEntity = useCurrentEntity()
-  const entityType = toRootEntityType(currentEntity.entityType)
   const entityConfig = useEntityConfig()
   const title = entityConfig.title || toTitleCase(entityType)
   const { search } = useLocation()

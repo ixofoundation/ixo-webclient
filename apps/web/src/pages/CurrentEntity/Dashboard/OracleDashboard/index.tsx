@@ -1,18 +1,18 @@
 import Dashboard from 'components/Dashboard/Dashboard'
 import { HeaderTab, Path } from 'components/Dashboard/types'
 import { useAccount } from 'hooks/account'
-import useCurrentEntity, { useCurrentEntityProfile } from 'hooks/currentEntity'
 import { Navigate, Route, Routes, useParams, useMatch } from 'react-router-dom'
 import { toTitleCase } from 'utils/formatters'
 import { requireCheckDefault } from 'utils/images'
 import EditEntity from './EditEntity'
 import Overview from './Overview'
+import { useAppSelector } from 'redux/hooks'
+import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 const OracleDashboard: React.FC = (): JSX.Element => {
-  const { entityId } = useParams<{ entityId: string }>()
+  const { entityId = "" } = useParams<{ entityId: string }>()
   const isEditEntityRoute = useMatch('/entity/:entityId/dashboard/edit')
-  const { entityType, owner } = useCurrentEntity()
-  const { name } = useCurrentEntityProfile()
+  const { type, owner, profile } = useAppSelector(getEntityById(entityId))
   const { registered, address } = useAccount()
 
   const routes: Path[] = [
@@ -35,13 +35,13 @@ const OracleDashboard: React.FC = (): JSX.Element => {
     {
       url: `/explore`,
       icon: '',
-      sdg: `Explore ${toTitleCase(entityType)}s`,
+      sdg: `Explore ${toTitleCase(type)}s`,
       tooltip: '',
     },
     {
       url: `/entity/${entityId}/overview`,
       icon: '',
-      sdg: name,
+      sdg: profile?.name ?? "",
       tooltip: '',
     },
     {
@@ -54,7 +54,7 @@ const OracleDashboard: React.FC = (): JSX.Element => {
 
   const tabs: HeaderTab[] = [
     {
-      iconClass: `icon-${entityType}`,
+      iconClass: `icon-${type}`,
       path: `/entity/${entityId}/overview`,
       title: toTitleCase('oracle'),
       tooltip: `${toTitleCase('oracle')} Overview`,
@@ -69,18 +69,18 @@ const OracleDashboard: React.FC = (): JSX.Element => {
       iconClass: `icon-funding`,
       path: `/entity/${entityId}/treasury`,
       title: 'Funding',
-      tooltip: `${toTitleCase(entityType)} Funding`,
+      tooltip: `${toTitleCase(type)} Funding`,
     },
   ]
 
   return (
     <Dashboard
       theme={isEditEntityRoute ? 'light' : 'dark'}
-      title={name}
+      title={profile?.name ?? ""}
       subRoutes={routes}
       baseRoutes={breadcrumbs}
       tabs={tabs}
-      entityType={entityType}
+      entityType={type}
     >
       <Routes>
         <Route index element={<Navigate to={'overview'} />} />

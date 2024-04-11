@@ -254,9 +254,12 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
   const updateDAOController = (controller: string): void => {
     dispatch(updateDAOControllerAction(controller))
   }
-  const updateProposal = (proposal: TProposalModel): void => {
-    dispatch(updateProposalAction(proposal))
-  }
+  const updateProposal = useCallback(
+    (proposal: TProposalModel): void => {
+      dispatch(updateProposalAction(proposal))
+    },
+    [dispatch],
+  )
   const updateClaimQuestions = (claimQuestions: { [id: string]: TQuestion }): void => {
     dispatch(updateClaimQuestionsAction(claimQuestions))
   }

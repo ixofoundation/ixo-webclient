@@ -11,9 +11,9 @@ interface Props {
 }
 const VotingPowerCard: React.FC<Props> = ({ daoGroup }) => {
   const { address } = useAccount()
-  const totalWeight = daoGroup.votingModule.totalWeight
+  const totalWeight = daoGroup?.votingModule.totalWeight
   const userVotingPower = useMemo(() => {
-    const userWeight = daoGroup.votingModule.members.find((member) => member.addr === address)?.weight ?? 0
+    const userWeight = daoGroup?.votingModule.members.find((member) => member.addr === address)?.weight ?? 0
 
     const userVotingPower = userWeight / totalWeight
     return userVotingPower

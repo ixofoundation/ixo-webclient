@@ -9,14 +9,16 @@ import { ReactComponent as PaperIcon } from 'assets/images/icon-paper.svg'
 import ThreeDot from 'assets/icons/ThreeDot'
 import { truncateString } from 'utils/formatters'
 import { MemberDetailCard } from '../MemberDetailCard'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { Avatar } from '../../../../../Components'
 import { contracts } from '@ixo/impactxclient-sdk'
 import { convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
 import { useAccount } from 'hooks/account'
 import CurrencyFormat from 'react-currency-format'
-import useCurrentEntity, { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
+import { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
 import { useQuery } from 'hooks/window'
+import { useAppSelector } from 'redux/hooks'
+import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 const Wrapper = styled(FlexBox)<HTMLFlexBoxProps & { focused: boolean }>`
   ${({ theme, focused }) => focused && `border-color: ${theme.ixoLightBlue};`}
@@ -55,6 +57,7 @@ const MemberCard: React.FC<Props> = ({ member, selected, onSelectMember }): JSX.
   const navigate = useNavigate()
   const { pathname } = useLocation()
   const { getQuery } = useQuery()
+  const { entityId = "" } = useParams<{ entityId: string}>()
   const selectedGroup = getQuery('selectedGroup')
   const STATUSES = {
     approved: {
@@ -79,10 +82,11 @@ const MemberCard: React.FC<Props> = ({ member, selected, onSelectMember }): JSX.
     },
   }
   const { cwClient } = useAccount()
-  const { daoGroups } = useCurrentEntity()
+  const  { daoGroups = {} } = useAppSelector(getEntityById(entityId))
   const selectedDAOGroup = daoGroups[selectedGroup]
+
   const { type, daoGroup, proposals, votes, votingModuleAddress } = useCurrentEntityDAOGroup(
-    selectedDAOGroup?.coreAddress || '',
+    selectedDAOGroup?.coreAddress || '', daoGroups
   )
   const { addr, role, status } = member
   const avatar = member.avatar

@@ -2,7 +2,7 @@ import clxs from 'classnames'
 import { FlexBox, GridContainer, GridItem, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { useQuery } from 'hooks/window'
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { AssetDetailCard, Card } from '../../../Components'
 import { Groups, UserStakes, UserVotingPower, UserProposals } from '../Components'
@@ -15,14 +15,15 @@ import CopyToClipboard from 'react-copy-to-clipboard'
 import { ReactComponent as CopyIcon } from 'assets/images/icon-copy.svg'
 import * as Toast from 'utils/toast'
 import { useTheme } from 'styled-components'
-import useCurrentEntity from 'hooks/currentEntity'
+import { useAppSelector } from 'redux/hooks'
+import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 const IndividualMember: React.FC = () => {
   const theme: any = useTheme()
-  const { address = '' } = useParams<{ address: string }>()
+  const { address = '', entityId = '' } = useParams<{ address: string, entityId: string }>()
   const navigate = useNavigate()
   const { state, pathname } = useLocation()
-  const { daoGroups } = useCurrentEntity()
+  const { daoGroups = {}, verificationMethod } = useAppSelector(getEntityById(entityId))
   const { getQuery } = useQuery()
   const token: string | undefined = getQuery('token')
   const expand: string | undefined = getQuery('expand')
@@ -30,9 +31,19 @@ const IndividualMember: React.FC = () => {
   const selectedDAOGroup = daoGroups[selectedGroup]
   const tokenDetail: any = state
 
+  
+  const daoController: string = useMemo(
+    () =>
+      Object.values(daoGroups)
+        .map((v) => v.coreAddress)
+        .find((addr) => verificationMethod.some((v) => v.id.includes(addr))) || '',
+    [daoGroups, verificationMethod],
+  )
+
+
   return (
     <FlexBox $direction='column' $gap={6} width='100%' color='white'>
-      <Groups />
+      <Groups daoController={daoController} entityId={entityId}/>
 
       {selectedDAOGroup && (
         <>

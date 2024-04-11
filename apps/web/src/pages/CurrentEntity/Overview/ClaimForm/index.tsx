@@ -24,6 +24,7 @@ import { DeliverTxResponse } from '@cosmjs/stargate'
 import { useGetUserGranteeRole } from 'hooks/claim'
 import { Typography } from 'components/Typography'
 import { AgentRoles } from 'types/models'
+import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 interface Props {
   claimId: string
@@ -34,11 +35,12 @@ const ClaimForm: React.FC<Props> = ({ claimId }) => {
   const signer = useSigner()
 
   const claim: { [id: string]: TEntityClaimModel } = useAppSelector(selectEntityClaim)
+  const entity = useAppSelector(getEntityById(entityId))
 
-  const { execute } = useWallet()
-  const userRole = useGetUserGranteeRole()
+  const { execute, wallet } = useWallet()
+  const userRole = useGetUserGranteeRole(wallet?.address ?? "", entity.owner, entity.accounts)
 
-  const adminAddress = useCurrentEntityAdminAccount()
+  const adminAddress = useCurrentEntityAdminAccount(entity.accounts)
   const selectedClaim: TEntityClaimModel = claim[claimId]
 
   const [templateEntityId] = (selectedClaim?.template?.id ?? '').split('#')

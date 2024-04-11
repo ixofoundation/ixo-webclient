@@ -41,6 +41,7 @@ import {
   GetDelegatorUnbondingDelegations,
   GetDelegatorValidators,
   KeyTypes,
+  RPC_ENDPOINT,
   TSigner,
 } from 'lib/protocol'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
@@ -149,7 +150,7 @@ export function useAccount(): {
       if (!address) {
         return
       }
-      const balances = await GetBalances(address)
+      const balances = await GetBalances(address, RPC_ENDPOINT)
       dispatch(updateBalancesAction(balances))
     } catch (e) {
       console.error('updateBalances:', e)

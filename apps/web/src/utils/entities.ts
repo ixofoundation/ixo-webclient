@@ -146,7 +146,7 @@ export function serviceEndpointToUrl(serviceEndpoint: string, service: Service[]
   return url
 }
 
-function replacePDSWithCellNode(page: any) {
+export function replacePDSWithCellNode(page: any) {
   return JSON.parse(JSON.stringify(page).replaceAll('pds_pandora.ixo.world', 'cellnode-pandora.ixo.earth'))
 }
 
@@ -282,6 +282,14 @@ export function apiEntityToEntity(
             .then((response) => response.question)
             .then((question) => {
               updateCallback('surveyTemplate', question)
+            })
+            .catch(() => undefined)
+        } else if (item.type === 'proposalAction') {
+          fetch(getMappedNewURL(url))
+            .then((response) => response.json())
+            .then((response) => response.proposalAction)
+            .then((response) => {
+              updateCallback('proposalAction', response)
             })
             .catch(() => undefined)
         }

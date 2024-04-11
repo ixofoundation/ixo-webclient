@@ -1,10 +1,10 @@
 import { Avatar, Flex } from '@mantine/core'
 import { Typography } from 'components/Typography'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useTheme } from 'styled-components'
 import { TDAOGroupModel } from 'types/entities'
 import { SvgBox } from 'components/App/App.styles'
-import useCurrentEntity, { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
+import  { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
 import CopyToClipboard from 'react-copy-to-clipboard'
 import { truncateString } from 'utils/formatters'
 import { successToast } from 'utils/toast'
@@ -20,15 +20,27 @@ import { customQueries } from '@ixo/impactxclient-sdk'
 import { IxoCoinCodexRelayerApi } from 'hooks/configs'
 import BigNumber from 'bignumber.js'
 import { convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
+import { useParams } from 'react-router-dom'
+import { useAppSelector } from 'redux/hooks'
+import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 interface Props {
   daoGroup: TDAOGroupModel
 }
 const GroupCard: React.FC<Props> = ({ daoGroup }) => {
   const theme: any = useTheme()
+  const { entityId = "" } = useParams<{ entityId: string }>()
 
-  const { currentEntity: dao, daoController } = useCurrentEntity()
-  const { isParticipating } = useCurrentEntityDAOGroup(daoGroup.coreAddress)
+  const entity = useAppSelector(getEntityById(entityId))
+  const { isParticipating } = useCurrentEntityDAOGroup(daoGroup.coreAddress, entity?.daoGroups ?? {})
+
+  const daoController: string = useMemo(
+    () =>
+      Object.values(entity?.daoGroups ?? {})
+        .map((v) => v.coreAddress)
+        .find((addr) => entity.verificationMethod.some((v) => v.id.includes(addr))) || '',
+    [entity.daoGroups, entity.verificationMethod],
+  )
 
   const [lockedValue, setLockedValue] = useState('0')
 
@@ -62,7 +74,7 @@ const GroupCard: React.FC<Props> = ({ daoGroup }) => {
     }
   }, [daoGroup.coreAddress])
 
-  if (!dao) {
+  if (!entity) {
     return null
   }
   return (
@@ -99,9 +111,9 @@ const GroupCard: React.FC<Props> = ({ daoGroup }) => {
       )}
 
       <Flex direction='column' justify={'center'} align={'center'} gap={8}>
-        <Avatar src={dao.profile?.logo} alt='' size={32} radius={100} />
+        <Avatar src={entity.profile?.logo} alt='' size={32} radius={100} />
         <Typography variant='primary' size='sm'>
-          {dao.profile?.name}
+          {entity.profile?.name}
         </Typography>
       </Flex>
 

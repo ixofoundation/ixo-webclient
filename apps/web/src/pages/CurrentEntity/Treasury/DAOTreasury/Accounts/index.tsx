@@ -4,7 +4,6 @@ import BigNumber from 'bignumber.js'
 import { FlexBox, GridContainer, SvgBox } from 'components/App/App.styles'
 import { DepositModal } from 'components/Modals'
 import { Typography } from 'components/Typography'
-import { useCurrentEntityTreasury } from 'hooks/currentEntity'
 import { useQuery } from 'hooks/window'
 import { Button } from 'pages/CreateEntity/Components'
 import { Card } from 'pages/CurrentEntity/Components'
@@ -19,6 +18,8 @@ import { ImpactTokens } from '../../Components/ImpactTokens'
 import { Transactions } from '../../Components/Transactions'
 import AccountsCard, { AccountTypeToIconMap } from '../../Components/AccountsCard'
 import BalanceCard from '../../Components/BalanceCard'
+import { useCurrentEntityTreasury } from 'hooks/treasury/useCurrentEntityTreasury'
+import { useParams } from 'react-router-dom'
 
 export interface TTreasuryCoinModel {
   coinDenom: string
@@ -40,8 +41,9 @@ const Accounts: React.FC = () => {
   const theme: any = useTheme()
   const { getQuery } = useQuery()
   const expand: string | undefined = getQuery('expand')
+  const { entityId = "" } = useParams<{ entityId: string}>()
 
-  const accounts = useCurrentEntityTreasury()
+  const accounts = useCurrentEntityTreasury({ entityId })
 
   const [selectedAccount, setSelectedAccount] = useState<TTreasuryAccountModel | undefined>(undefined)
   const [depositModalOpen, setDepositModalOpen] = useState(false)

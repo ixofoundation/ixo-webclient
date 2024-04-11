@@ -13,3 +13,13 @@ export const sleep = async (ms: number): Promise<boolean> => {
     }, ms)
   })
 }
+
+export function findKeyValuePairs(obj: Record<string, any>, propertyName: string, value: string) {
+  const result = {};
+  Object.keys(obj).forEach(key => {
+    if (obj[key][propertyName] === value) {
+      result[key] = obj[key];
+    }
+  });
+  return result;
+}

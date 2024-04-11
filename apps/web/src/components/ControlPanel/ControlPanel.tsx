@@ -104,7 +104,7 @@ class ControlPanel extends React.Component<Props, State> {
             className={this.state.showControlPanelMobile ? 'open' : ''}
             ref={(ref): HTMLDivElement => (this.panelRef = ref!)}
           >
-            <Performance />
+            <Performance entityType={entityType ?? ''} />
             <Actions widget={actions} />
             {!entityType?.startsWith('protocol') && <ClaimsCard />}
             <Share />

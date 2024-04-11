@@ -1,14 +1,16 @@
 import Dashboard from 'components/Dashboard/Dashboard'
 import { HeaderTab, Path } from 'components/Dashboard/types'
-import useCurrentEntity, { useCurrentEntityProfile } from 'hooks/currentEntity'
+import { useCurrentEntityProfile } from 'hooks/currentEntity'
 import { Navigate, Route, Routes, useParams } from 'react-router-dom'
 import { requireCheckDefault } from 'utils/images'
 import Accounts from './Accounts'
+import { useAppSelector } from 'redux/hooks'
+import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 const DAOTreasury: React.FC = (): JSX.Element => {
-  const { entityId } = useParams<{ entityId: string }>()
-  const { entityType } = useCurrentEntity()
-  const { name } = useCurrentEntityProfile()
+  const { entityId = '' } = useParams<{ entityId: string }>()
+  const { type, profile } = useAppSelector(getEntityById(entityId))
+  const { name } = useCurrentEntityProfile(profile)
 
   const routes: Path[] = [
     {
@@ -65,17 +67,10 @@ const DAOTreasury: React.FC = (): JSX.Element => {
   const theme = 'dark'
 
   return (
-    <Dashboard
-      theme={theme}
-      title={name}
-      subRoutes={routes}
-      baseRoutes={breadcrumbs}
-      tabs={tabs}
-      entityType={entityType}
-    >
+    <Dashboard theme={theme} title={name} subRoutes={routes} baseRoutes={breadcrumbs} tabs={tabs} entityType={type}>
       <Routes>
-        <Route path='accounts' element={<Accounts />} />
         <Route index element={<Navigate to={`accounts`} />} />
+        <Route path='accounts' element={<Accounts />} />
       </Routes>
     </Dashboard>
   )

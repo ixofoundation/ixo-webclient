@@ -13,7 +13,6 @@ import {
   secondsToWdhms,
 } from 'utils/conversions'
 import { ReactComponent as ArrowDownIcon } from 'assets/images/icon-arrow-down.svg'
-import { useCurrentEntityProfile } from 'hooks/currentEntity'
 import { Input } from 'pages/CreateEntity/Components'
 import { MarketingInfoResponse, TokenInfoResponse } from '@ixo/impactxclient-sdk/types/codegen/Cw20Base.types'
 import CurrencyFormat from 'react-currency-format'
@@ -22,10 +21,11 @@ import styled, { useTheme } from 'styled-components'
 import { Avatar } from 'pages/CurrentEntity/Components'
 import { errorToast } from 'utils/toast'
 import { useAppSelector } from 'redux/hooks'
-import { selectStakingGroupByCoreAddress } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { getEntityById, selectStakingGroupByCoreAddress } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { TDAOGroupModel } from 'types/entities'
 import { Cw20BaseClient } from '@ixo-webclient/cosmwasm-clients'
 import { useWallet } from '@ixo-webclient/wallet-connector'
+import { useParams } from 'react-router-dom'
 
 const StyledInput = styled(Input)`
   color: white;
@@ -65,7 +65,8 @@ interface Props {
 const GroupStakingModal: React.FunctionComponent<Props> = ({ daoGroup, open, setOpen, onSuccess }) => {
   const theme: any = useTheme()
   const { cwClient, address } = useAccount()
-  const { name: daoName } = useCurrentEntityProfile()
+  const { entityId = "" } = useParams<{ entityId: string}>()
+  const { profile } = useAppSelector(getEntityById(entityId))
   const {
     votingModule: { votingModuleAddress },
   } = useAppSelector(selectStakingGroupByCoreAddress(daoGroup?.coreAddress))!
@@ -227,7 +228,7 @@ const GroupStakingModal: React.FunctionComponent<Props> = ({ daoGroup, open, set
                 {/* DAO name & Group Name */}
                 <Card $gap={2}>
                   <Typography color={'dark-blue'} weight='medium'>
-                    {daoName}
+                    {profile?.name}
                   </Typography>
                   <Typography color={'white'} weight='medium'>
                     {daoGroupName}

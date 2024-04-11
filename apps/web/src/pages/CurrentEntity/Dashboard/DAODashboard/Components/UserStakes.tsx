@@ -7,7 +7,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import CurrencyFormat from 'react-currency-format'
 import styled, { useTheme } from 'styled-components'
 import { contracts } from '@ixo/impactxclient-sdk'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
 import { useAccount } from 'hooks/account'
 import { Avatar } from 'pages/CurrentEntity/Components'
@@ -15,6 +15,8 @@ import { GroupStakingModal } from 'components/Modals'
 import PieChart from 'components/Widgets/PieChart'
 import useCurrentEntity, { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
 import { renderTableHeader } from 'components/Table/Table'
+import { useAppSelector } from 'redux/hooks'
+import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 const TableWrapper = styled.div`
   color: white;
@@ -113,7 +115,9 @@ const UserStakes: React.FC<Props> = ({ show, coreAddress, userAddress }) => {
   const navigate = useNavigate()
   const { cwClient, address } = useAccount()
   const { updateDAOGroup } = useCurrentEntity()
-  const { daoGroup, votingModuleAddress } = useCurrentEntityDAOGroup(coreAddress)
+  const { entityId = "" } = useParams<{ entityId: string}>()
+  const { daoGroups = {} } = useAppSelector(getEntityById(entityId))
+  const { daoGroup, votingModuleAddress } = useCurrentEntityDAOGroup(coreAddress, daoGroups)
   const [data, setData] = useState<any[]>([])
   const [groupStakingModalOpen, setGroupStakingModalOpen] = useState(false)
 

@@ -10,6 +10,8 @@ import { v4 as uuidv4 } from 'uuid'
 import { useParams } from 'react-router-dom'
 import { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
 import { ProposalActionConfig } from 'constants/entity'
+import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { useAppSelector } from 'redux/hooks'
 
 interface Props {
   open: boolean
@@ -19,8 +21,10 @@ interface Props {
 }
 
 const AddActionModal: React.FC<Props> = ({ open, actionsToExclude = [], onClose, onAdd }): JSX.Element => {
-  const { coreAddress = '' } = useParams<{ coreAddress: string }>()
-  const { contractName } = useCurrentEntityDAOGroup(coreAddress)
+  const { coreAddress = '', entityId = '' } = useParams<{ coreAddress: string, entityId: string }>()
+  const { daoGroups = {} } = useAppSelector(getEntityById(entityId))
+
+  const { contractName } = useCurrentEntityDAOGroup(coreAddress, daoGroups)
 
   const options = Object.values(ProposalActionConfig).map((item) => item.text)
   const [selectedGroup, setSelectedGroup] = useState(options[0])

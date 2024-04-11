@@ -5,9 +5,8 @@ import { Groups } from '../Components'
 import { Typography } from 'components/Typography'
 import { Member } from 'types/dao'
 import { useAppSelector } from 'redux/hooks'
-import { selectEntitiesByType } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { getEntityById, selectEntitiesByType } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { findDAObyDelegateAccount } from 'utils/entities'
-import useCurrentEntity from 'hooks/currentEntity'
 import { useQuery } from 'hooks/window'
 import { Flex } from '@mantine/core'
 import { GridContainer, GridItem } from 'components/App/App.styles'
@@ -15,19 +14,29 @@ import GovernanceCard from 'pages/MyAccount/MyGroupsPage/GroupView/GovernanceCar
 import VotingPowerCard from 'pages/MyAccount/MyGroupsPage/GroupView/VotingPowerCard'
 import TokensCard from 'pages/MyAccount/MyGroupsPage/GroupView/TokensCard'
 import { useNavigate, useParams } from 'react-router-dom'
+import { isImpactsDAO } from 'utils/application'
 
 const Membership: React.FC = (): JSX.Element | null => {
   const navigate = useNavigate()
-  const { entityId } = useParams<{ entityId: string }>()
+  const { entityId = "" } = useParams<{ entityId: string }>()
   const { getQuery } = useQuery()
   const selectedGroup = getQuery('selectedGroup')
-  const { isImpactsDAO, linkedEntity, daoController, daoGroups } = useCurrentEntity()
-  const selectedDAOGroup = daoGroups[selectedGroup]
+  const  { linkedEntity, daoGroups = {}, verificationMethod } = useAppSelector(getEntityById(entityId))
+
+  const selectedDAOGroup = useMemo(() => daoGroups[selectedGroup], [daoGroups, selectedGroup])
+
+  const daoController: string = useMemo(
+    () =>
+      Object.values(daoGroups)
+        .map((v) => v.coreAddress)
+        .find((addr) => verificationMethod.some((v) => v.id.includes(addr))) || '',
+    [daoGroups, verificationMethod],
+  )
 
   const daos = useAppSelector(selectEntitiesByType('dao'))
   const members: Member[] = useMemo(
     () =>
-      isImpactsDAO && daoController === selectedDAOGroup?.coreAddress
+      isImpactsDAO(entityId) && daoController === selectedDAOGroup?.coreAddress
         ? (selectedDAOGroup?.votingModule.members ?? [])
             .filter((member: Member) =>
               linkedEntity.some(({ type, id }) => type === 'MemberDAO' && id.includes(member.addr)),
@@ -40,12 +49,12 @@ const Membership: React.FC = (): JSX.Element | null => {
             })
         : selectedDAOGroup?.votingModule.members ?? [],
     [
-      isImpactsDAO,
       daoController,
       selectedDAOGroup?.coreAddress,
       selectedDAOGroup?.votingModule.members,
       linkedEntity,
       daos,
+      entityId
     ],
   )
 
@@ -95,7 +104,7 @@ const Membership: React.FC = (): JSX.Element | null => {
 
   return (
     <Flex direction='column' gap={24} w='100%'>
-      <Groups />
+      <Groups entityId={entityId} daoController={daoController} />
 
       {selectedDAOGroup && (
         <Flex direction='column' gap={28} w='100%'>
