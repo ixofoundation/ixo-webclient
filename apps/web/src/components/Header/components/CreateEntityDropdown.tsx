@@ -140,6 +140,17 @@ const CreateEntityDropdown: React.FunctionComponent<Props> = ({ entityType }) =>
                 {entityTypeMap[EntityType.Asset].title}
               </ButtonContent>
             </LaunchEntityButton>
+            <LaunchEntityButton
+              end={true}
+              to={`/entity/create/deed-request`}
+              className={`request`}
+              onClick={handleToggleModal}
+            >
+              <ButtonContent>
+                <Template fill='#000' width='18' />
+                Request
+              </ButtonContent>
+            </LaunchEntityButton>
           </ButtonsWrapper>
         </DropdownModal>
       )}
