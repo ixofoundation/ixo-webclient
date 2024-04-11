@@ -153,6 +153,11 @@ export const EntityLinkedResourceConfig: { [key: string]: any } = {
     icon: TextIcon,
     accept: { 'text/plain': ['.txt'] },
   },
+  proposalAction: {
+    text: 'Proposal Action',
+    icon: TextIcon,
+    accept: { '*': [] },
+  },
   database: {
     text: 'Database',
     icon: DatabaseIcon,
@@ -669,7 +674,7 @@ export const ProposalActionConfig = {
   },
 }
 
-export const ProposalActionConfigMap = {
+export const ProposalActionConfigMap: Record<string, any> = {
   'wasm.execute.update_members': {
     type: 'wasm.execute.update_members',
     group: 'Groups',

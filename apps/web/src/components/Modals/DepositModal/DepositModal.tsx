@@ -6,7 +6,6 @@ import { Typography } from 'components/Typography'
 import { useAccount } from 'hooks/account'
 import { convertDenomToMicroDenomWithDecimals, depositInfoToCoin } from 'utils/conversions'
 import { ReactComponent as ArrowDownIcon } from 'assets/images/icon-arrow-down.svg'
-import { useCurrentEntityProfile } from 'hooks/currentEntity'
 import { Dropdown, Input } from 'pages/CreateEntity/Components'
 import CurrencyFormat from 'react-currency-format'
 import { BankSendTrx, fee } from 'lib/protocol'
@@ -17,12 +16,13 @@ import { NATIVE_DENOM, NATIVE_MICRODENOM } from 'constants/chains'
 import { isContractAddress } from 'utils/validation'
 import { useAppSelector } from 'redux/hooks'
 import { isGreaterThanOrEqualTo } from 'utils/currency'
-import { selectGroupByCoreAddress } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { getEntityById, selectGroupByCoreAddress } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { ReactComponent as NextStepImage } from 'assets/images/modal/nextstep.svg'
 import { contracts } from '@ixo/impactxclient-sdk'
 import { useWallet } from '@ixo-webclient/wallet-connector'
 import { Cw20BaseClient } from '@ixo-webclient/cosmwasm-clients'
 import { DeliverTxResponse } from '@cosmjs/stargate'
+import { useParams } from 'react-router-dom'
 
 const StyledInput = styled(Input)`
   color: white;
@@ -82,7 +82,8 @@ const DepositModal: React.FunctionComponent<Props> = ({
   )
   const balance = useMemo(() => (selectedToken ? selectedToken.balance : '0'), [selectedToken])
   const daoGroup = useAppSelector(selectGroupByCoreAddress(recipient))
-  const { name: daoName } = useCurrentEntityProfile()
+  const { entityId = "" } = useParams<{ entityId: string }>()
+  const { profile } = useAppSelector(getEntityById(entityId))
   const daoGroupName = daoGroup?.config.name
 
   const [amount, setAmount] = useState<string>('')
@@ -251,7 +252,7 @@ const DepositModal: React.FunctionComponent<Props> = ({
                 {/* DAO name & Group Name */}
                 <Card $gap={2}>
                   <Typography color={'dark-blue'} weight='medium'>
-                    {daoName}
+                    {profile?.name}
                   </Typography>
                   <Typography color={'white'} weight='medium'>
                     {daoGroupName}

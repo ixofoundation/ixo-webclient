@@ -1,15 +1,17 @@
-import useCurrentEntity from 'hooks/currentEntity'
 import React, { useMemo } from 'react'
 import DAOTreasury from './DAOTreasury'
 import InvestmentFunding from './InvestmentFunding'
 import ProjectFunding from './ProjectFunding'
 import OracleFunding from './OracleFunding'
+import { useParams } from 'react-router-dom'
+import { useEntityTreasury } from 'hooks/entity/useEntityTreasury'
 
 const TreasuryPage: React.FC = (): JSX.Element | null => {
-  const { entityType } = useCurrentEntity()
+  const { entityId = "" } = useParams<{ entityId: string }>()
+  const entity = useEntityTreasury(entityId)
 
   const Component = useMemo(() => {
-    switch (entityType) {
+    switch (entity.type) {
       case 'dao':
         return DAOTreasury
       case 'investment':
@@ -21,7 +23,7 @@ const TreasuryPage: React.FC = (): JSX.Element | null => {
       default:
         return undefined
     }
-  }, [entityType])
+  }, [entity.type])
 
   if (!Component) {
     return null

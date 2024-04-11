@@ -19,6 +19,8 @@ import { contracts } from '@ixo/impactxclient-sdk'
 import { queryMultipleContracts } from 'utils/multiContractCall'
 import { DaoVotingCw20StakedQueryClient } from 'adapters/DaoVotingCw20StakedAdapter'
 import { Member } from 'types/dao'
+import { useAppSelector } from 'redux/hooks'
+import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 const TableWrapper = styled.div`
   color: white;
@@ -55,10 +57,11 @@ const TableWrapper = styled.div`
 
 const Shareholders: React.FC = () => {
   const navigate = useNavigate()
-  const { entityId } = useParams<{ entityId: string }>()
+  const { entityId = "" } = useParams<{ entityId: string }>()
   const { getQuery } = useQuery()
   const selectedGroup: string = getQuery('selectedGroup')
-  const { members, totalWeight, daoGroup } = useCurrentEntityDAOGroup(selectedGroup)
+  const  { daoGroups = {} } = useAppSelector(getEntityById(entityId))
+  const { members, totalWeight, daoGroup } = useCurrentEntityDAOGroup(selectedGroup, daoGroups)
   const { tokenTotalSupply, tokenDecimals } = useCurrentEntityDAOGroupToken(selectedGroup)
   const { cwClient } = useAccount()
   const { data: users } = useGetUserIids()

@@ -9,7 +9,7 @@ const AssetDashboard = () => {
   const entityType = 'asset'
   const { currentEntity: entity } = useCurrentEntity()
 
-  const headerTabs = useHeaderTabs()
+  const headerTabs = useHeaderTabs({ entityType: entity.type})
 
   const assetNumber = entity?.alsoKnownAs?.replace('{id}#', '') || ''
   const title = entity?.profile?.name || ''

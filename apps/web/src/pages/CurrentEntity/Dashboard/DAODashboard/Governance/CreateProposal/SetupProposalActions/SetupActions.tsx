@@ -15,10 +15,10 @@ const SetupActions: React.FC = () => {
   const validActions = useMemo(() => actions.filter((item) => item.data), [actions])
 
   const handleBack = () => {
-    navigate(`/entity/${entityId}/dashboard/governance/${coreAddress}/page`)
+    navigate(`/entity/${entityId}/dashboard/governance/${coreAddress}/template`)
   }
   const handleContinue = () => {
-    navigate(`/entity/${entityId}/dashboard/governance/${coreAddress}/review`)
+    navigate(`/entity/${entityId}/dashboard/governance/${coreAddress}/page`)
   }
 
   return (

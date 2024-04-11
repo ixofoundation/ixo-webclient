@@ -1,19 +1,21 @@
 import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { deviceWidth } from 'constants/device'
-import { useCurrentEntityClaims } from 'hooks/currentEntity'
 import { Button, PropertyBox } from 'pages/CreateEntity/Components'
 import React, { useState } from 'react'
 import { ReactComponent as ClaimIcon } from 'assets/images/icon-claim.svg'
 import { Anchor } from '@mantine/core'
+import { TEntityClaimModel } from 'types/entities'
 
 interface Props {
   hidden?: boolean
   onSubmit: (claimId: string) => void
   onCancel?: () => void
+  claims: {
+    [id: string]: TEntityClaimModel;
 }
-const ClaimCollectionCreationSelectStep: React.FC<Props> = ({ hidden, onSubmit, onCancel }) => {
-  const { claims } = useCurrentEntityClaims()
+}
+const ClaimCollectionCreationSelectStep: React.FC<Props> = ({ hidden, onSubmit, onCancel, claims }) => {
   const [selected, setSelected] = useState('')
 
   if (hidden) {

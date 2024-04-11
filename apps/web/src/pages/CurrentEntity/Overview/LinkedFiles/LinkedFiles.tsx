@@ -1,7 +1,6 @@
 import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
-import useCurrentEntity from 'hooks/currentEntity'
 import React from 'react'
 import { ReactComponent as PdfIcon } from 'assets/images/linked-files/pdf.svg'
 import { ReactComponent as ImageIcon } from 'assets/images/linked-files/image.svg'
@@ -16,11 +15,10 @@ const MediaTypeToIconMap = {
   'text/plain': TextIcon,
 }
 
-const LinkedFileBox = (linkedFile: LinkedResource) => {
+const LinkedFileBox = (props: LinkedResource & {service: any}) => {
   const theme: any = useTheme()
-  const { service } = useCurrentEntity()
-  const Icon = MediaTypeToIconMap[linkedFile.mediaType]
-  const to = serviceEndpointToUrl(linkedFile.serviceEndpoint, service)
+  const Icon = MediaTypeToIconMap[props.mediaType]
+  const to = serviceEndpointToUrl(props.serviceEndpoint, props.service)
 
   return (
     <a href={to} target='_blank' rel='noreferrer'>
@@ -39,7 +37,7 @@ const LinkedFileBox = (linkedFile: LinkedResource) => {
         color={theme.ixoBlack}
       >
         {Icon && <Icon />}
-        <Typography weight='medium'>{linkedFile.description}</Typography>
+        <Typography weight='medium'>{props.description}</Typography>
       </FlexBox>
     </a>
   )
@@ -47,9 +45,10 @@ const LinkedFileBox = (linkedFile: LinkedResource) => {
 
 interface Props {
   linkedFiles: LinkedResource[]
+  service?: any
 }
 
-const LinkedFiles: React.FC<Props> = ({ linkedFiles }) => {
+const LinkedFiles: React.FC<Props> = ({ linkedFiles, service }) => {
   if (linkedFiles.length === 0) {
     return null
   }
@@ -60,7 +59,7 @@ const LinkedFiles: React.FC<Props> = ({ linkedFiles }) => {
       </Typography>
       <FlexBox $gap={4} $flexWrap='wrap'>
         {linkedFiles.map((linkedFile: LinkedResource, index: number) => (
-          <LinkedFileBox key={index} {...linkedFile} />
+          <LinkedFileBox key={index} {...linkedFile} service={service} />
         ))}
       </FlexBox>
     </FlexBox>
