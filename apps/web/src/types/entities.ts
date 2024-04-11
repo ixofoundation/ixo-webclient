@@ -34,6 +34,7 @@ export enum EntityType {
   ProtocolClaim = 'protocol/claim',
   ProtocolDeed = 'protocol/deed',
   Asset = 'asset',
+  DeedRequest = "deed/request"
 }
 
 export enum EntityStatus {
