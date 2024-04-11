@@ -22,6 +22,7 @@ import Claims from '../ProjectDashboard/Claims'
 import ClaimDetail from '../ProjectDashboard/ClaimDetail'
 import Shareholders from './Shareholders'
 import { useMemo } from 'react'
+import { Requests } from './Requests'
 
 const DAODashboard: React.FC = (): JSX.Element => {
   const { entityId } = useParams<{ entityId: string }>()
@@ -99,6 +100,12 @@ const DAODashboard: React.FC = (): JSX.Element => {
       sdg: 'Edit Entity',
       tooltip: 'Edit Entity',
       disabled: !registered || owner !== address,
+    },
+    {
+      url: `/entity/${entityId}/dashboard/requests`,
+      icon: requireCheckDefault(require('assets/img/sidebar/settings.svg')),
+      sdg: 'Requests',
+      tooltip: 'Requests',
     },
   ]
 
@@ -182,6 +189,7 @@ const DAODashboard: React.FC = (): JSX.Element => {
         <Route path='membership' Component={Membership} />
         <Route path='membership/:address' Component={IndividualMember} />
         <Route path='governance' Component={Governance} />
+        <Route path='requests' Component={Requests} />
         {/* <Route path='governance/:coreAddress/*' Component={CreateProposal} /> */}
 
         <Route path='shareholders' Component={Shareholders} />
