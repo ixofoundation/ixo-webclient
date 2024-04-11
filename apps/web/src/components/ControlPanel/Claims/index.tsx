@@ -1,7 +1,6 @@
 import React from 'react'
 import { Card } from '../Card'
 import { ReactComponent as ClaimIcon } from 'assets/images/icon-claim.svg'
-import useCurrentEntity from 'hooks/currentEntity'
 import { TEntityClaimModel } from 'types/entities'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { FlexBox, SvgBox } from 'components/App/App.styles'
@@ -9,6 +8,8 @@ import { Typography } from 'components/Typography'
 import { useTheme } from 'styled-components'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
 import { useGetClaimCollectionByEntityIdAndClaimTemplateId } from 'graphql/claims'
+import { useAppSelector } from 'redux/hooks'
+import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 /**
  * @deprecated
@@ -75,21 +76,24 @@ export const ClaimsItem: React.FC<TEntityClaimModel> = (item) => {
 const ClaimsCard: React.FC = () => {
   const navigate = useNavigate()
   const location = useLocation()
-  const { claim } = useCurrentEntity()
+  const { entityId = ""} = useParams<{ entityId: string }>()
+  const entity = useAppSelector(getEntityById(entityId))
+
+  const items = entity?.claim ? Object.values(entity?.claim).map((claim) => ({
+    content: claim.template?.title ?? '',
+    onClick: () => {
+      const search = new URLSearchParams()
+      search.append('claimId', claim.id)
+      navigate({ pathname: location.pathname, search: search.toString() })
+    },
+  })) : []
 
   return (
     <Card
       icon={<ClaimIcon />}
       title='Claims'
       columns={1}
-      items={Object.values(claim).map((claim) => ({
-        content: claim.template?.title ?? '',
-        onClick: () => {
-          const search = new URLSearchParams()
-          search.append('claimId', claim.id)
-          navigate({ pathname: location.pathname, search: search.toString() })
-        },
-      }))}
+      items={items}
     />
   )
 }

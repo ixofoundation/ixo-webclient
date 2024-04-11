@@ -5,11 +5,16 @@ import { ReactComponent as UserCircleIcon } from 'assets/images/icon-user-circle
 import { ReactComponent as ProposalsIcon } from 'assets/images/icon-proposals.svg'
 import { ReactComponent as ProjectIcon } from 'assets/images/icon-project.svg'
 import { ReactComponent as FundingIcon } from 'assets/images/icon-funding.svg'
-import useCurrentEntity from 'hooks/currentEntity'
+import { useParams } from 'react-router-dom'
+import { useAppSelector } from 'redux/hooks'
+import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 const DAOPerformance: React.FC = () => {
-  const { daoGroups } = useCurrentEntity()
-  const daoGroupsArr = useMemo(() => Object.values(daoGroups), [daoGroups])
+  const { entityId = "" } = useParams<{ entityId: string }>()
+  const entity = useAppSelector(getEntityById(entityId))
+  const daoGroups = entity?.daoGroups
+
+  const daoGroupsArr = useMemo(() => daoGroups ? Object.values(daoGroups) : [], [daoGroups])
 
   const members = useMemo(
     () => daoGroupsArr.reduce((pre, cur) => pre + cur.votingModule.members.length, 0),

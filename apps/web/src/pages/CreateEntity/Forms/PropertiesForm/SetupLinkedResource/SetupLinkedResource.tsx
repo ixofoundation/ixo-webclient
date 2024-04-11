@@ -8,6 +8,7 @@ import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
 import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { omitKey } from 'utils/objects'
 import { EntityLinkedResourceConfig } from 'constants/entity'
+import ProposalActionModal from 'components/Modals/ProposalActionModal/ProposalActionModal'
 
 const initialLinkedResource = {
   id: '',
@@ -31,6 +32,14 @@ const SetupLinkedResource: React.FC<Props> = ({ hidden, linkedResource, updateLi
   const [selectedId, setSelectedId] = useState('')
 
   const handleAddLinkedResource = (type: string): void => {
+    if (
+      type === 'proposalAction' &&
+      Object.values(linkedResource)
+        .map((v) => v.type)
+        .find((v) => v === 'proposalAction')
+    ) {
+      return
+    }
     const id = uuidv4()
     updateLinkedResource({ ...linkedResource, [id]: { ...initialLinkedResource, id, type } })
     setSelectedId(id)
@@ -39,7 +48,6 @@ const SetupLinkedResource: React.FC<Props> = ({ hidden, linkedResource, updateLi
     updateLinkedResource({ ...linkedResource, [id]: data })
   }
   const handleRemoveLinkedResource = (id: string): void => {
-    // updateLinkedResource({ ...linkedResource, [id]: undefined })
     updateLinkedResource(omitKey({ ...linkedResource }, id))
   }
 
@@ -73,14 +81,25 @@ const SetupLinkedResource: React.FC<Props> = ({ hidden, linkedResource, updateLi
         onAdd={handleAddLinkedResource}
       />
 
-      {selectedId && !!linkedResource[selectedId] && (
+      {selectedId && !!linkedResource[selectedId] && linkedResource[selectedId].type !== 'proposalAction' && (
         <LinkedResourceSetupModal
           linkedResource={linkedResource[selectedId] as any}
           open={!!selectedId}
           onClose={(): void => setSelectedId('')}
-          onChange={(linkedResource: any): void => handleUpdateLinkedResource(selectedId, linkedResource)}
+          onChange={(linkedResource: LinkedResource): void => handleUpdateLinkedResource(selectedId, linkedResource)}
         />
       )}
+      {selectedId &&
+        !!linkedResource[selectedId] &&
+        !linkedResource[selectedId].serviceEndpoint &&
+        linkedResource[selectedId].type === 'proposalAction' && (
+          <ProposalActionModal
+            linkedResource={linkedResource[selectedId] as any}
+            open={!!selectedId}
+            onClose={(): void => setSelectedId('')}
+            onChange={(linkedResource: LinkedResource): void => handleUpdateLinkedResource(selectedId, linkedResource)}
+          />
+        )}
     </>
   )
 }

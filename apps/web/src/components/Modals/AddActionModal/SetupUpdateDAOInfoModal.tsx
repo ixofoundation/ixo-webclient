@@ -6,6 +6,8 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { TProposalActionModel } from 'types/entities'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
+import { useAppSelector } from 'redux/hooks'
+import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 export interface UpdateInfoData {
   automatically_add_cw20s: boolean
@@ -32,8 +34,9 @@ interface Props {
 }
 
 const SetupUpdateDAOInfoModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
-  const { coreAddress = '' } = useParams<{ coreAddress: string }>()
-  const { daoGroup } = useCurrentEntityDAOGroup(coreAddress)
+  const { coreAddress = '', entityId = '' } = useParams<{ coreAddress: string, entityId: string }>()
+  const { daoGroups = {} } = useAppSelector(getEntityById(entityId))
+  const { daoGroup } = useCurrentEntityDAOGroup(coreAddress, daoGroups)
 
   const [formData, setFormData] = useState<UpdateInfoData>(initialState)
 

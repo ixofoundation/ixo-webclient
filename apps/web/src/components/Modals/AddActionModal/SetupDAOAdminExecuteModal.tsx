@@ -60,7 +60,8 @@ const SetupDAOAdminExecuteModal: React.FC<Props> = ({ open, action, onClose, onS
     makeUpdateVotingConfigAction,
     makeValidatorActions,
     makeWithdrawTokenSwapAction,
-  } = useMakeProposalAction('groupAddress')
+  } = useMakeProposalAction('groupAddress', {})
+  // TODO: check above params passed to useMakeProposalAction
   const [formData, setFormData] = useState<DaoAdminExecData>(initialState)
   const validActions = (formData._actions ?? []).filter((item) => item.data)
   const daoAddress = 'ixo1xc798xnhp7yy9mpp80v3tsxppw8qk0y9atm965'

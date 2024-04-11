@@ -66,7 +66,7 @@ export const GetTokenAsset = async (denom: string, rpc = RPC_ENDPOINT): Promise<
 
   const isIbc = /^ibc\//i.test(denom)
   if (isIbc) {
-    const client = await getQueryClient()
+    const client = await getQueryClient(rpc)
     const ibcToken = await customQueries.currency.findIbcTokenFromHash(client, denom)
     if (!ibcToken.token) {
       // eslint-disable-next-line no-throw-literal
