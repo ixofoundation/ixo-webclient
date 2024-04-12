@@ -61,12 +61,9 @@ const LatestClaimsCard: React.FC = () => {
   return (
     <Card label='Latest claims' icon={<CheckInCircleIcon />}>
       <Flex w='100%' direction={'column'} gap={8}>
-        {[...claims]
-          .sort((a, b) => new Date(b.submissionDate).getTime() - new Date(a.submissionDate).getTime())
-          .slice(0, 3)
-          .map((claim: Claim) => (
-            <ClaimItem key={claim.claimId} claim={claim} />
-          ))}
+        {claims.slice(0, 3).map((claim: Claim) => (
+          <ClaimItem key={claim.claimId} claim={claim} />
+        ))}
       </Flex>
     </Card>
   )

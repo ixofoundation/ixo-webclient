@@ -64,8 +64,6 @@ const PerformanceTimelineCard: React.FC = () => {
       .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
   }, [claims, collectionId])
 
-  console.log({ claims, claimsChartData })
-
   return (
     <Card label='Project performance timeline' icon={<PiePieceIcon />}>
       <Flex w={'100%'} direction={'column'} gap={16}>

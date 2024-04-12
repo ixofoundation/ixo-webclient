@@ -265,7 +265,14 @@ export function useGetClaimsByEntityId(entityId: string) {
     pollInterval: 5 * 1000,
   })
 
-  return { loading, error, data: (data?.claims?.nodes ?? []) as Claim[], refetch }
+  return {
+    loading,
+    error,
+    data: ((data?.claims?.nodes ?? []) as Claim[]).sort(
+      (a, b) => new Date(b.submissionDate).getTime() - new Date(a.submissionDate).getTime(),
+    ),
+    refetch,
+  }
 }
 
 // GET_CLAIM
