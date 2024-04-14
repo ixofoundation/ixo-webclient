@@ -20,19 +20,18 @@ const ClaimStatsCard: React.FC = () => {
     return claimCollections.reduce(
       (acc, cur) => ({
         approved: acc.approved + cur.approved,
-        disputed: acc.disputed + cur.disputed,
         rejected: acc.rejected + cur.rejected,
-        pending: acc.pending + (cur.count - cur.approved - cur.disputed - cur.rejected),
+        pending: acc.pending + (cur.count - cur.approved - cur.rejected),
         remaining: acc.remaining + (cur.quota - cur.count),
         total: acc.total + cur.quota,
       }),
-      { approved: 0, disputed: 0, rejected: 0, pending: 0, remaining: 0, total: 0 },
+      { approved: 0, rejected: 0, pending: 0, remaining: 0, total: 0 },
     )
   }, [claimCollections])
   const { agents, pendingAgents, approvedAgents } = useGetJoiningAgentsByEntityId(entityId)
 
   return (
-    <Card label='Headline claims' icon={<CheckInCircleIcon />}>
+    <Card label='Claims' icon={<CheckInCircleIcon />}>
       <Flex w='100%' h='100%' align={'center'} gap={4}>
         <Flex w='100%' direction={'column'} gap={16}>
           <Flex w='100%' direction={'column'} gap={16} ml={32}>
@@ -67,17 +66,6 @@ const ClaimStatsCard: React.FC = () => {
               />
               <Typography size='md'>
                 <strong>{claimStats.rejected}</strong> Rejected
-              </Typography>
-            </Flex>
-            <Flex gap={16} align={'center'}>
-              <Box
-                w={12}
-                h={12}
-                bg={ClaimSetting[ixo.claims.v1beta1.EvaluationStatus.DISPUTED].color}
-                style={{ borderRadius: 12 }}
-              />
-              <Typography size='md'>
-                <strong>{claimStats.disputed}</strong> Disputed
               </Typography>
             </Flex>
             <Flex gap={16} align={'center'}>
@@ -135,11 +123,6 @@ const ClaimStatsCard: React.FC = () => {
                 color: ClaimSetting[ixo.claims.v1beta1.EvaluationStatus.REJECTED].color,
               },
               {
-                name: 'Disputed',
-                value: claimStats.disputed,
-                color: ClaimSetting[ixo.claims.v1beta1.EvaluationStatus.DISPUTED].color,
-              },
-              {
                 name: 'Remaining',
                 value: claimStats.remaining,
                 color: ClaimSetting[ixo.claims.v1beta1.EvaluationStatus.UNRECOGNIZED].color,
@@ -151,7 +134,7 @@ const ClaimStatsCard: React.FC = () => {
                   <strong>{claimStats.approved}</strong> / {claimStats.total}
                 </Typography>
                 <Typography size='sm'>
-                  {approvedAgents.length} by {agents.length} <strong>Agents</strong>
+                  {approvedAgents.length} of {agents.length} <strong>Agents Authorized</strong>
                 </Typography>
               </Flex>
             }

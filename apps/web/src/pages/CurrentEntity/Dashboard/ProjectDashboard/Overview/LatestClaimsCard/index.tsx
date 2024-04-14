@@ -3,7 +3,7 @@ import { ReactComponent as CheckInCircleIcon } from 'assets/images/icon-check-in
 import { Flex } from '@mantine/core'
 import { useClaimSetting } from 'hooks/claim'
 import { Typography } from 'components/Typography'
-import { useGetClaimsByEntityId } from 'graphql/claims'
+import { useGetClaimTemplateEntityByClaimId, useGetClaimsByEntityId } from 'graphql/claims'
 import { useParams } from 'react-router-dom'
 import { Claim } from 'generated/graphql'
 import { timeAgo } from 'utils/time'
@@ -13,6 +13,8 @@ interface ClaimItemProps {
 }
 const ClaimItem: React.FC<ClaimItemProps> = ({ claim }) => {
   const Setting = useClaimSetting()
+  const claimTemplateEntity = useGetClaimTemplateEntityByClaimId(claim.claimId)
+
   return (
     <Flex
       w='100%'
@@ -30,13 +32,13 @@ const ClaimItem: React.FC<ClaimItemProps> = ({ claim }) => {
         left='0px'
         w='8px'
         h='24px'
-        bg={Setting[claim.evaluationByClaimId?.status || 0].color}
+        bg={Setting[claim.evaluationByClaimId?.status || 0]?.color}
         style={{ transform: 'translate(-50%, -50%)', borderRadius: 100 }}
       />
 
       <Flex direction={'column'}>
         <Typography color='white' size='base'>
-          {claim.schemaType}
+          {claimTemplateEntity?.profile?.name}
         </Typography>
         <Typography color='light-grey-blue' size='sm'>
           {claim.claimId}
@@ -59,7 +61,7 @@ const LatestClaimsCard: React.FC = () => {
   return (
     <Card label='Latest claims' icon={<CheckInCircleIcon />}>
       <Flex w='100%' direction={'column'} gap={8}>
-        {claims.slice(0, 3).map((claim) => (
+        {claims.slice(0, 3).map((claim: Claim) => (
           <ClaimItem key={claim.claimId} claim={claim} />
         ))}
       </Flex>

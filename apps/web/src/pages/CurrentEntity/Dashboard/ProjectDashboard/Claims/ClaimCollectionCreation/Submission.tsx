@@ -95,7 +95,7 @@ const ClaimCollectionCreationSubmissionStep: React.FC<Props> = ({ hidden, onSubm
         <Button variant='secondary' onClick={onCancel}>
           Back
         </Button>
-        <Button variant='primary' onClick={() => onSubmit(protocolDeedId)}>
+        <Button variant='primary' disabled={!protocolDeedId} onClick={() => onSubmit(protocolDeedId)}>
           Continue
         </Button>
       </FlexBox>

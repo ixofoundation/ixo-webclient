@@ -297,6 +297,7 @@ export function apiEntityToEntity(
     })
 
     linkedClaim.forEach((item: LinkedClaim) => {
+      const linkedClaimId = item.id.replace('{id}#', '')
       const url = serviceEndpointToUrl(item.serviceEndpoint, service)
 
       if (item.proof && url) {
@@ -306,7 +307,7 @@ export function apiEntityToEntity(
             return response.entityClaims[0]
           })
           .then((claim) => {
-            updateCallback('claim', { [claim.id]: claim }, true)
+            updateCallback('claim', { [linkedClaimId]: { ...claim, id: linkedClaimId } }, true)
           })
           .catch(() => undefined)
       }

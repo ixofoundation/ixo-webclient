@@ -2,7 +2,7 @@ import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { deviceWidth } from 'constants/device'
 import { Button, Dropdown, InputWithLabel } from 'pages/CreateEntity/Components'
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useTheme } from 'styled-components'
 import { ixo, cosmos, utils } from '@ixo/impactxclient-sdk'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
@@ -34,6 +34,16 @@ const ClaimCollectionCreationPaymentStep: React.FC<Props> = ({ hidden, onSubmit,
   const [submissionAmount, setSubmissionAmount] = useState<Coin>({ amount: '', denom: NATIVE_DENOM })
   const [evaluationAmount, setEvaluationAmount] = useState<Coin>({ amount: '', denom: NATIVE_DENOM })
   const [rejectionAmount, setRejectionAmount] = useState<Coin>({ amount: '', denom: NATIVE_DENOM })
+
+  const disabled = useMemo(
+    () =>
+      !approvalAmount.amount ||
+      !submissionAmount.amount ||
+      !evaluationAmount.amount ||
+      !rejectionAmount.amount ||
+      !timeouts,
+    [approvalAmount.amount, evaluationAmount.amount, rejectionAmount.amount, submissionAmount.amount, timeouts],
+  )
 
   const handleSubmit = () => {
     const seconds = convertDurationWithUnitsToSeconds({ units: timeoutUnits, value: timeouts })
@@ -182,7 +192,7 @@ const ClaimCollectionCreationPaymentStep: React.FC<Props> = ({ hidden, onSubmit,
         <Button variant='secondary' onClick={onCancel}>
           Back
         </Button>
-        <Button variant='primary' onClick={handleSubmit}>
+        <Button variant='primary' disabled={disabled} onClick={handleSubmit}>
           Continue
         </Button>
       </FlexBox>
