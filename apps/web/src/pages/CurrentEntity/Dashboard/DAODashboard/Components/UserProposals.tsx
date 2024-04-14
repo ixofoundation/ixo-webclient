@@ -8,6 +8,8 @@ import useCurrentEntity, { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
 import { Button } from 'pages/CreateEntity/Components'
 import React, { useMemo } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { useAppSelector } from 'redux/hooks'
 import styled, { useTheme } from 'styled-components'
 import { votingRemainingDateFormat } from 'utils/formatters'
 
@@ -58,10 +60,11 @@ interface Props {
 const UserProposals: React.FC<Props> = ({ show, coreAddress, userAddress, full = true }) => {
   const theme: any = useTheme()
   const navigate = useNavigate()
-  const { entityId } = useParams<{ entityId: string }>()
+  const { entityId = "" } = useParams<{ entityId: string }>()
   const { address } = useAccount()
   const { isImpactsDAO, isMemberOfImpactsDAO, isOwner, daoController } = useCurrentEntity()
-  const { daoGroup, proposals, numOfMembers } = useCurrentEntityDAOGroup(coreAddress)
+  const { daoGroups = {} } = useAppSelector(getEntityById(entityId))
+  const { daoGroup, proposals, numOfMembers } = useCurrentEntityDAOGroup(coreAddress, daoGroups)
 
   const isParticipating = useMemo(() => {
     return daoGroup.votingModule.members.some(({ addr }) => addr === (userAddress || address))

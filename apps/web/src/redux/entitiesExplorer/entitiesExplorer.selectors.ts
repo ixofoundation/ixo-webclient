@@ -7,7 +7,11 @@ import { RootState } from 'redux/store'
 import { Schema as FilterSchema } from 'pages/EntitiesExplorer/Components/EntitiesFilter/schema/types'
 import { theme } from 'components/App/App.styles'
 import { LinkedEntity } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
-import { filterEntitiesByRelayerNode, filterProtocolDeedEntities } from 'utils/filters'
+import {
+  filterEntitiesByRelayerNode,
+  filterProtocolDeedEntities,
+  filterProtocolDeedProposalEntities,
+} from 'utils/filters'
 
 const formatDate = (date: string): string => moment(date).format("D MMM \\'YY")
 
@@ -21,10 +25,10 @@ export const selectAllEntities = createSelector(
   },
 )
 
-export const getEntityById = (id: string) => createSelector(selectEntitiesState, (entitiesState: EntitiesExplorerState) => {
-  if(!id) return {}
-  return entitiesState.entities[id]
-})
+export const getEntityById = (id: string) =>
+  createSelector(selectEntitiesState, (entitiesState: EntitiesExplorerState) => {
+    return entitiesState.entities[id] ?? {}
+  })
 
 export const selectAllEntitiesByType = createSelector(
   selectEntitiesState,
@@ -60,6 +64,13 @@ export const selectAllDeedProtocols = createSelector(
   selectEntitiesByType('protocol/deed'),
   (entities: TEntityModel[]): TEntityModel[] => {
     return entities.filter(filterProtocolDeedEntities)
+  },
+)
+
+export const selectAllDeedProtocolProposals = createSelector(
+  selectEntitiesByType('protocol/deed'),
+  (entities: TEntityModel[]): TEntityModel[] => {
+    return entities.filter(filterProtocolDeedProposalEntities)
   },
 )
 
@@ -430,4 +441,3 @@ export const selectCollectionByCollectionId = (collectionId: string) =>
   createSelector(selectCollections, (collections: TCollection[]): TCollection | undefined => {
     return collections.find(({ collection }) => collection.id === collectionId)
   })
-

@@ -5,7 +5,7 @@ import { ReactComponent as ArrowLeftIcon } from 'assets/images/icon-arrow-left.s
 import { Typography } from 'components/Typography'
 import CurrencyFormat from 'react-currency-format'
 import BigNumber from 'bignumber.js'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { Area, AreaChart, YAxis, ResponsiveContainer } from 'recharts'
 import { Button } from 'pages/CreateEntity/Components'
 import Avatar from './Avatar'
@@ -19,6 +19,8 @@ import { CHAIN_ID } from 'hooks/configs'
 import { useTheme } from 'styled-components'
 import useCurrentEntity, { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
 import { useQuery } from 'hooks/window'
+import { useAppSelector } from 'redux/hooks'
+import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 const data = [
   {
@@ -75,11 +77,13 @@ const AssetDetailCard: React.FC<Props> = ({
   const theme: any = useTheme()
   const navigate = useNavigate()
   const { cwClient, address } = useAccount()
-  const { daoGroups, updateDAOGroup } = useCurrentEntity()
+  const { updateDAOGroup } = useCurrentEntity()
   const { getQuery } = useQuery()
+  const { entityId = "" } = useParams<{ entityId: string}>()
+  const { daoGroups = {} } = useAppSelector(getEntityById(entityId))
   const selectedGroup = getQuery('selectedGroup')
   const selectedDAOGroup = daoGroups[selectedGroup]
-  const { votingModuleAddress } = useCurrentEntityDAOGroup(selectedDAOGroup?.coreAddress || '')
+  const { votingModuleAddress } = useCurrentEntityDAOGroup(selectedDAOGroup?.coreAddress || '', daoGroups)
   const [groupStakingModalOpen, setGroupStakingModalOpen] = useState(false)
   const [groupUnstakingModalOpen, setGroupUnstakingModalOpen] = useState(false)
   const [groupClaimModalOpen, setGroupClaimModalOpen] = useState(false)

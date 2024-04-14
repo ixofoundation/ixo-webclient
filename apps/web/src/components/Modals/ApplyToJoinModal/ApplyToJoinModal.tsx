@@ -66,9 +66,9 @@ const ApplyToJoinModal: React.FC<Props> = ({ claimCollections = [], open, onClos
       </CloseButton>
 
       <ModalWrapper style={{ width: 600 }}>
-        <ModalTitle>Select a Claim Collection.</ModalTitle>
+        <ModalTitle>Select a Claim Collection</ModalTitle>
         <ModalBody>
-          <ModalRow style={{ justifyContent: 'left', alignItems: 'flex-start' }}>
+          <ModalRow style={{ justifyContent: 'left', alignItems: 'flex-start', flexWrap: 'wrap' }}>
             {claimCollections.map((collection: ClaimCollection) => (
               <OfferBox
                 key={collection.id}

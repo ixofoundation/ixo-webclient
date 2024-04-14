@@ -1,7 +1,8 @@
 import { gql, useQuery } from '@apollo/client'
 import { Claim, useEntityQuery } from 'generated/graphql'
-import useCurrentEntity from 'hooks/currentEntity'
 import { useMemo, useState } from 'react'
+import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { useAppSelector } from 'redux/hooks'
 import { TEntityModel } from 'types/entities'
 import { apiEntityToEntity } from 'utils/entities'
 import { validateEntityDid } from 'utils/validation'
@@ -119,7 +120,7 @@ const GET_CLAIM_COLLECTIONS_BY_ENTITYID = gql`
   }
 `
 export function useGetClaimCollectionsByEntityId(entityId: string) {
-  const { claim } = useCurrentEntity()
+  const { claim = {} } = useAppSelector(getEntityById(entityId))
   const { loading, error, data, refetch } = useQuery(GET_CLAIM_COLLECTIONS_BY_ENTITYID, {
     variables: { entityId },
     skip: !validateEntityDid(entityId),
@@ -264,7 +265,14 @@ export function useGetClaimsByEntityId(entityId: string) {
     pollInterval: 5 * 1000,
   })
 
-  return { loading, error, data: (data?.claims?.nodes ?? []) as Claim[], refetch }
+  return {
+    loading,
+    error,
+    data: ((data?.claims?.nodes ?? []) as Claim[]).sort(
+      (a, b) => new Date(b.submissionDate).getTime() - new Date(a.submissionDate).getTime(),
+    ),
+    refetch,
+  }
 }
 
 // GET_CLAIM

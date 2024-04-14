@@ -13,6 +13,9 @@ import { convertDenomToMicroDenomWithDecimals, convertMicroDenomToDenomWithDecim
 import { getContractNameByCodeId } from 'utils/dao'
 import { isAccountAddress, isContractAddress } from 'utils/validation'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
+import { useParams } from 'react-router-dom'
+import { useAppSelector } from 'redux/hooks'
+import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 export interface SendGroupTokenData {
   amount: string
@@ -35,7 +38,9 @@ interface Props {
 const SetupSendGroupTokenModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
   const theme: any = useTheme()
   const { cwClient } = useAccount()
-  const adminAccountAddress = useCurrentEntityAdminAccount()
+  const { entityId = "" } = useParams<{ entityId: string }>()
+  const { accounts } = useAppSelector(getEntityById(entityId))
+  const adminAccountAddress = useCurrentEntityAdminAccount(accounts)
   const [formData, setFormData] = useState<SendGroupTokenData>(initialState)
   const [tokenBalance, setTokenBalance] = useState<Coin>({ amount: '0', denom: '' })
   const [tokenDecimals, setTokenDecimals] = useState(0)

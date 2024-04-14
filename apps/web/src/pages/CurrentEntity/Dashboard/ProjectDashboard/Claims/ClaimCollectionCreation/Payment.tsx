@@ -2,7 +2,7 @@ import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { deviceWidth } from 'constants/device'
 import { Button, Dropdown, InputWithLabel } from 'pages/CreateEntity/Components'
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useTheme } from 'styled-components'
 import { ixo, cosmos, utils } from '@ixo/impactxclient-sdk'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
@@ -13,6 +13,9 @@ import { TokenSelector } from 'components/Modals/AddActionModal/Component'
 import { useIxoConfigs } from 'hooks/configs'
 import { DurationUnits } from 'types/dao'
 import { convertDurationWithUnitsToSeconds, convertSecondsToNanoSeconds } from 'utils/conversions'
+import { useParams } from 'react-router-dom'
+import { useAppSelector } from 'redux/hooks'
+import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 interface Props {
   hidden?: boolean
@@ -22,13 +25,25 @@ interface Props {
 const ClaimCollectionCreationPaymentStep: React.FC<Props> = ({ hidden, onSubmit, onCancel }) => {
   const theme: any = useTheme()
   const { convertToMinimalDenom } = useIxoConfigs()
-  const paymentsAccount = useCurrentEntityAdminAccount()
+  const { entityId = '' } = useParams<{ entityId: string }>()
+  const { accounts } = useAppSelector(getEntityById(entityId))
+  const paymentsAccount = useCurrentEntityAdminAccount(accounts)
   const [timeouts, setTimeouts] = useState(0)
   const [timeoutUnits, setTimeoutUnits] = useState<DurationUnits>(DurationUnits.Days)
   const [approvalAmount, setApprovalAmount] = useState<Coin>({ amount: '', denom: NATIVE_DENOM })
   const [submissionAmount, setSubmissionAmount] = useState<Coin>({ amount: '', denom: NATIVE_DENOM })
   const [evaluationAmount, setEvaluationAmount] = useState<Coin>({ amount: '', denom: NATIVE_DENOM })
   const [rejectionAmount, setRejectionAmount] = useState<Coin>({ amount: '', denom: NATIVE_DENOM })
+
+  const disabled = useMemo(
+    () =>
+      !approvalAmount.amount ||
+      !submissionAmount.amount ||
+      !evaluationAmount.amount ||
+      !rejectionAmount.amount ||
+      !timeouts,
+    [approvalAmount.amount, evaluationAmount.amount, rejectionAmount.amount, submissionAmount.amount, timeouts],
+  )
 
   const handleSubmit = () => {
     const seconds = convertDurationWithUnitsToSeconds({ units: timeoutUnits, value: timeouts })
@@ -177,7 +192,7 @@ const ClaimCollectionCreationPaymentStep: React.FC<Props> = ({ hidden, onSubmit,
         <Button variant='secondary' onClick={onCancel}>
           Back
         </Button>
-        <Button variant='primary' onClick={handleSubmit}>
+        <Button variant='primary' disabled={disabled} onClick={handleSubmit}>
           Continue
         </Button>
       </FlexBox>

@@ -1,16 +1,16 @@
 import Dashboard from 'components/Dashboard/Dashboard'
 import { HeaderTab, Path } from 'components/Dashboard/types'
-import useCurrentEntity, { useCurrentEntityProfile } from 'hooks/currentEntity'
 import { Navigate, Route, useMatch, useParams } from 'react-router-dom'
 import { requireCheckDefault } from 'utils/images'
 import Accounts from './Accounts'
 import Payments from './Payments'
 import Events from './Events'
+import { useAppSelector } from 'redux/hooks'
+import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 const InvestmentFunding: React.FC = (): JSX.Element => {
-  const { entityId } = useParams<{ entityId: string }>()
-  const { entityType } = useCurrentEntity()
-  const { name } = useCurrentEntityProfile()
+  const { entityId = "" } = useParams<{ entityId: string }>()
+  const { type, profile} = useAppSelector(getEntityById(entityId))
   const isClaimScreenRoute = useMatch('/entity/:entityId/treasury/claims')
 
   const routes: Path[] = [
@@ -50,7 +50,7 @@ const InvestmentFunding: React.FC = (): JSX.Element => {
     {
       url: `/entity/${entityId}/overview`,
       icon: '',
-      sdg: name,
+      sdg: profile?.name ?? "",
       tooltip: '',
     },
     {
@@ -88,11 +88,11 @@ const InvestmentFunding: React.FC = (): JSX.Element => {
   return (
     <Dashboard
       theme={theme}
-      title={name}
+      title={profile?.name ?? ""}
       subRoutes={routes}
       baseRoutes={breadcrumbs}
       tabs={tabs}
-      entityType={entityType}
+      entityType={type}
     >
       <Route path='/entity/:entityId/treasury/accounts' element={<Accounts />} />
       <Route path='/entity/:entityId/treasury/payments' element={<Payments />} />

@@ -40,3 +40,17 @@ export const getValueFromEvents = (logs: readonly logs.Log[], type: string, attr
     return ''
   }
 }
+
+export const mapProposalObj = (obj: { [key: string]: Record<string, any>[] | Record<string, any> }) => {
+  if (!obj || Object.keys(obj).length === 0) {
+    return obj
+  }
+
+  const hiKey = Object.keys(obj)[0]
+  const hiValue = Object.values(obj)[0]
+  if (Array.isArray(hiValue)) {
+    return { [hiKey]: hiValue[0] }
+  }
+
+  return obj
+}

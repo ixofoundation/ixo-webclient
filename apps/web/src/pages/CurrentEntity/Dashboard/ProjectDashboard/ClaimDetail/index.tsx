@@ -12,6 +12,8 @@ import { MsgExecAgentEvaluate } from 'lib/protocol'
 import { Button } from 'pages/CreateEntity/Components'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
+import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { useAppSelector } from 'redux/hooks'
 import { themeJson } from 'styles/surveyTheme'
 import { Model } from 'survey-core'
 import { Survey } from 'survey-react-ui'
@@ -19,13 +21,14 @@ import { serviceEndpointToUrl } from 'utils/entities'
 import { errorToast, successToast } from 'utils/toast'
 
 const ClaimDetail: React.FC = () => {
-  const { claimId = '' } = useParams<{ claimId: string }>()
+  const { claimId = '', entityId = "" } = useParams<{ claimId: string, entityId: string }>()
   const { data: claim } = useGetClaim(claimId)
   const collectionId = claim?.collection?.id ?? ''
   const evaluationStatus = (claim?.evaluationByClaimId?.status ?? 0) as EvaluationStatus
   const templateEntity = useGetClaimTemplateEntityByClaimId(claimId)
   const { signer } = useAccount()
-  const adminAddress = useCurrentEntityAdminAccount()
+  const { accounts } = useAppSelector(getEntityById(entityId))
+  const adminAddress = useCurrentEntityAdminAccount(accounts)
 
   const [questionFormData, setQuestionFormData] = useState<any[]>([])
   const [answerData, setAnswerData] = useState<any>({})
@@ -135,15 +138,6 @@ const ClaimDetail: React.FC = () => {
               loading={evaluating}
             >
               Reject
-            </Button>
-            <Button
-              variant='secondary'
-              textTransform='capitalize'
-              size='flex'
-              onClick={handleEvaluate(ixo.claims.v1beta1.EvaluationStatus.DISPUTED)}
-              loading={evaluating}
-            >
-              Dispute
             </Button>
           </FlexBox>
         )}

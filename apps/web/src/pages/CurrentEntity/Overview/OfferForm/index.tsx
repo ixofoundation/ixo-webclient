@@ -28,7 +28,12 @@ const OfferForm: React.FC<Props> = ({ claimCollectionId, agentRole }) => {
   const { data: iid } = useGetIid(signer.did)
   const offerSent = useMemo(() => {
     const linkedResource: LinkedResource[] = iid?.linkedResource ?? []
-    return linkedResource.some((v) => v.description.split('#')[0] === claimCollectionId)
+    return linkedResource.some(
+      (v) =>
+        v.id === `{id}#offer#${claimCollectionId}` &&
+        v.type === 'DeedOffer' &&
+        v.description.split('#')[0] === claimCollectionId,
+    )
   }, [iid, claimCollectionId])
   const { execute } = useWallet()
 

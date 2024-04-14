@@ -2,30 +2,41 @@ import clxs from 'classnames'
 import { FlexBox, GridContainer, GridItem } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { useQuery } from 'hooks/window'
-import React from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import React, { useMemo } from 'react'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { AssetDetailCard, Card } from '../../../Components'
 import { Groups, UserStakes, UserVotingPower, UserProposals } from '../Components'
 import { ReactComponent as ArrowLeftIcon } from 'assets/images/icon-arrow-left.svg'
 import { ReactComponent as StakesIcon } from 'assets/images/icon-stakes.svg'
 import { ReactComponent as ProposalsIcon } from 'assets/images/icon-proposals.svg'
 import { ReactComponent as PieIcon } from 'assets/images/icon-pie.svg'
-import useCurrentEntity from 'hooks/currentEntity'
+import { useAppSelector } from 'redux/hooks'
+import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 const MyParticipation: React.FC = () => {
+  const { entityId = '' } = useParams<{ entityId: string }>()
   const navigate = useNavigate()
   const { state, pathname } = useLocation()
-  const { daoGroups } = useCurrentEntity()
   const { getQuery } = useQuery()
   const token: string | undefined = getQuery('token')
   const expand: string | undefined = getQuery('expand')
   const selectedGroup = getQuery('selectedGroup')
-  const selectedDAOGroup = daoGroups[selectedGroup]
   const tokenDetail: any = state
+  const { daoGroups = {}, verificationMethod } = useAppSelector(getEntityById(entityId))
+  const selectedDAOGroup = daoGroups[selectedGroup]
+
+
+  const daoController: string = useMemo(
+    () =>
+      Object.values(daoGroups)
+        .map((v) => v.coreAddress)
+        .find((addr) => verificationMethod.some((v) => v.id.includes(addr))) || '',
+    [daoGroups, verificationMethod],
+  )
 
   return (
     <FlexBox $direction='column' $gap={6} width='100%' color='white'>
-      <Groups />
+      <Groups entityId={entityId} daoController={daoController} />
 
       {selectedDAOGroup && (
         <>
