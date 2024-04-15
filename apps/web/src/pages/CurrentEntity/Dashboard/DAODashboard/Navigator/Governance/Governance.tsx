@@ -8,8 +8,9 @@ import { ProgressBar } from 'components/ProgressBar/ProgressBar'
 import { expirationAtTimeToSecondsFromNow, secondsToWdhms } from 'utils/conversions'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useTheme } from 'styled-components'
-import useCurrentEntity from 'hooks/currentEntity'
 import { useQuery } from 'hooks/window'
+import { useAppSelector } from 'redux/hooks'
+import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 interface Props {
   daoId: string
@@ -19,11 +20,12 @@ interface Props {
 const Governance: React.FC<Props> = ({ daoId, groupAddresses }): JSX.Element => {
   const theme: any = useTheme()
   const navigate = useNavigate()
-  const { entityId } = useParams<{ entityId: string }>()
+  const { entityId = "" } = useParams<{ entityId: string }>()
   const { getQuery } = useQuery()
   const selectedGroup = getQuery('selectedGroup')
-  const { daoGroups } = useCurrentEntity()
-  const selectedDAOGroup = daoGroups[selectedGroup]
+  const  { daoGroups = {} } = useAppSelector(getEntityById(entityId))
+
+  const selectedDAOGroup =  daoGroups[selectedGroup]
   const proposals = selectedDAOGroup?.proposalModule.proposals ?? []
   const latestProposal = [...proposals].pop()
 

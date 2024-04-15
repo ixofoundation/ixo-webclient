@@ -48,7 +48,7 @@ const DAODashboard: React.FC = (): JSX.Element => {
   const { getQuery } = useQuery()
   const selectedGroup = getQuery('selectedGroup')
 
-  const { tokenSymbol } = useCurrentEntityDAOGroupToken(selectedGroup)
+  const { tokenSymbol } = useCurrentEntityDAOGroupToken(selectedGroup, entity?.daoGroups ?? {})
 
   const searchParams = new URLSearchParams()
   searchParams.set('selectedGroup', selectedGroup)

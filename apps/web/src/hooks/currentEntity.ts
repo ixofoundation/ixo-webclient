@@ -384,8 +384,9 @@ export function useCurrentEntityDAOGroup(coreAddress: string, daoGroups: { [addr
     votingModuleAddress,
   }
 }
-export function useCurrentEntityDAOGroupToken(coreAddress: string) {
-  const { daoGroups } = useCurrentEntity()
+export function useCurrentEntityDAOGroupToken(coreAddress: string, daoGroups: {
+  [address: string]: TDAOGroupModel;
+}) {
   const daoGroup: TDAOGroupModel | undefined = daoGroups[coreAddress]
 
   const token = useMemo(() => daoGroup?.token, [daoGroup])
