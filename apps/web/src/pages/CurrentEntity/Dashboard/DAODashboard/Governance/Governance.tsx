@@ -6,7 +6,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { ProposalResponse } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
 import { ReactComponent as EmptyIcon } from 'assets/images/icon-empty.svg'
 import { useTheme } from 'styled-components'
-import useCurrentEntity, { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
+import { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
 import { TDAOGroupModel } from 'types/entities'
 import { Flex, Button as MButton, UnstyledButton } from '@mantine/core'
 import ProposalCard from './ProposalCard'
@@ -34,9 +34,8 @@ const Governance: React.FC = () => {
   const navigate = useNavigate()
   const { getQuery } = useQuery()
   const selectedGroup = getQuery('selectedGroup')
-  const { entityStatus } = useCurrentEntity()
   const { wallet } = useWallet()
-  const { verificationMethod, daoGroups = {}, owner, linkedEntity, profile } = useAppSelector(getEntityById(entityId))
+  const { verificationMethod, daoGroups = {}, owner, linkedEntity, profile, status } = useAppSelector(getEntityById(entityId))
   const isOwner = wallet?.address === owner
   const selectedDAOGroup = daoGroups[selectedGroup]
   const { isParticipating, anyoneCanPropose } = useCurrentEntityDAOGroup(selectedDAOGroup?.coreAddress || '', daoGroups)
@@ -95,7 +94,7 @@ const Governance: React.FC = () => {
             </Typography>
 
             <Flex align='center' gap={'md'}>
-              {entityStatus === 2 && hasVerificationKey && (
+              {status === 2 && hasVerificationKey && (
                 // <Button
                 //   variant='secondary'
                 //   size='flex'
