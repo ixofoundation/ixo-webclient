@@ -629,4 +629,6 @@ export interface TEntityModel extends Omit<Entity, 'metadata'>, IidDocument {
   surveyTemplate?: any
   type: string
   entityType?: string
+  externalId?: string | null
+  alsoKnownAs: string
 }

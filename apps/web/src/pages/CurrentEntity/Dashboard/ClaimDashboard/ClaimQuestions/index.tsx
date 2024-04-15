@@ -1,17 +1,21 @@
 import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { FlexBox } from 'components/App/App.styles'
 import { FormData } from 'components/JsonForm/types'
-import useCurrentEntity, { useCurrentEntityClaimSchemas } from 'hooks/currentEntity'
 import React, { useEffect, useState } from 'react'
 import { serviceEndpointToUrl } from 'utils/entities'
 import { Model } from 'survey-core'
 import { Survey } from 'survey-react-ui'
 import { themeJson } from 'styles/surveyTheme'
+import { useParams } from 'react-router-dom'
+import { useAppSelector } from 'redux/hooks'
+import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 const ClaimQuestions: React.FC = () => {
-  const claimSchemaLinkedResources: LinkedResource[] = useCurrentEntityClaimSchemas()
-  const { service } = useCurrentEntity()
+  const { entityId = "" } = useParams<{ entityId: string }>()
+  const { service, linkedResource } = useAppSelector(getEntityById(entityId))
   const [questionFormData, setQuestionFormData] = useState<FormData[]>([])
+
+  const claimSchemaLinkedResources = linkedResource?.filter((item: LinkedResource) => item.type === 'surveyTemplate')
 
   useEffect(() => {
     if (claimSchemaLinkedResources) {

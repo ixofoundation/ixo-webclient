@@ -24,15 +24,15 @@ import { setEditedFieldAction, setEditEntityAction } from 'redux/editEntity/edit
 import { selectEditEntity } from 'redux/editEntity/editEntity.selectors'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { LinkedResourceProofGenerator, LinkedResourceServiceEndpointGenerator } from 'utils/entities'
-import useCurrentEntity from './currentEntity'
 import { DeliverTxResponse } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/stargate'
 import { ixo, utils } from '@ixo/impactxclient-sdk'
 import { NodeType, TDAOGroupModel, TEntityModel } from 'types/entities'
 import { EntityLinkedResourceConfig } from 'constants/entity'
-import { selectAllClaimProtocols } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { getEntityById, selectAllClaimProtocols } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { useWallet } from '@ixo-webclient/wallet-connector'
 import { useService } from './service'
 import { v4 as uuidv4 } from 'uuid'
+import { useParams } from 'react-router-dom'
 
 export default function useEditEntity(): {
   editEntity: TEntityModel
@@ -42,9 +42,10 @@ export default function useEditEntity(): {
 } {
   const dispatch = useAppDispatch()
   const { execute, wallet } = useWallet()
+  const { entityId = "" } = useParams<{ entityId: string}>()
 
   const editEntity: TEntityModel = useAppSelector(selectEditEntity)
-  const { currentEntity } = useCurrentEntity()
+  const currentEntity = useAppSelector(getEntityById(entityId))
   const claimProtocols = useAppSelector(selectAllClaimProtocols)
   const services: Service[] = currentEntity.service
 
