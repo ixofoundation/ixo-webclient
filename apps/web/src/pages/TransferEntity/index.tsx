@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import { Navigate, Route, Routes } from 'react-router-dom'
+import { Navigate, Route, Routes, useParams } from 'react-router-dom'
 import TransferEntityLayout from './Components/TransferEntityLayout'
 import { useTransferEntityState } from 'hooks/transferEntity'
 import { useSigner } from 'hooks/account'
@@ -7,12 +7,15 @@ import { FlexBox } from 'components/App/App.styles'
 import TransferEntityToDAOGroup from './TransferEntityToDAOGroup'
 import TransferEntityTo from './TransferEntityTo'
 import TransferEntityReview from './TransferEntityReview'
-import useCurrentEntity from 'hooks/currentEntity'
+import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { useAppSelector } from 'redux/hooks'
 
 const TransferEntity: React.FC = (): JSX.Element => {
   const { did } = useSigner()
 
-  const { currentEntity } = useCurrentEntity()
+  const { entityId = "" } = useParams()
+  const  currentEntity = useAppSelector(getEntityById(entityId))
+
   const { breadCrumbs, title, subtitle } = useTransferEntityState()
 
   const isEligible = useMemo(() => did && currentEntity, [currentEntity, did])
