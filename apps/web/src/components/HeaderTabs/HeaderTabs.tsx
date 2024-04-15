@@ -4,12 +4,13 @@ import { MatchType } from 'types/models'
 import { PositionController } from './HeaderTabs.styles'
 import { HeaderTab } from 'components/Dashboard/types'
 import { useEntityConfig } from 'hooks/configs'
-import useCurrentEntity, { useCurrentEntityCreator } from 'hooks/currentEntity'
+import { useCurrentEntityCreator } from 'hooks/currentEntity'
 import { useParams } from 'react-router-dom'
 import { useAccount } from 'hooks/account'
-import { useAppDispatch } from 'redux/hooks'
+import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { togglePanel } from 'redux/assistant/assistant.slice'
 import { toRootEntityType } from 'utils/entities'
+import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 interface Props {
   matchType?: any
@@ -28,10 +29,10 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
   buttons,
 }): JSX.Element => {
   const dispatch = useAppDispatch()
-  const { entityId } = useParams<{ entityId: string }>()
+  const { entityId = "" } = useParams<{ entityId: string }>()
   const { title } = useEntityConfig()
-  const currentEntity = useCurrentEntity()
-  const entityType = toRootEntityType(currentEntity.entityType)
+  const currentEntity = useAppSelector(getEntityById(entityId))
+  const entityType = toRootEntityType(currentEntity.type)
   const { id: creatorDid } = useCurrentEntityCreator()
   const { did: userDid, registered } = useAccount()
 
