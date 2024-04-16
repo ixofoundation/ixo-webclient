@@ -36,13 +36,15 @@ import { AddLinkedEntityMessage } from 'lib/protocol/iid.messages'
 import { DaoPreProposeSingleClient } from '@ixo-webclient/cosmwasm-clients'
 import { useAppSelector } from 'redux/hooks'
 import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { useEntity } from 'hooks/entity/useEntity'
 
 const ReviewProposal: React.FC = () => {
   const theme: any = useTheme()
   const navigate = useNavigate()
   const { entityId = "", coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
+  const { refetch } = useEntity(entityId)
   const { cwClient } = useAccount()
-  const { updateDAOGroup, refetchAndUpdate } = useCurrentEntity()
+  const { updateDAOGroup } = useCurrentEntity()
   const { daoGroups = {} } = useAppSelector(getEntityById(entityId))
   const { daoGroup, preProposalContractAddress, depositInfo, isParticipating, anyoneCanPropose } =
     useCurrentEntityDAOGroup(coreAddress!, daoGroups)
@@ -340,7 +342,7 @@ const ReviewProposal: React.FC = () => {
           if (await handleAddProposalInfoAsLinkedEntity(deedDid, proposalId)) {
             updateDAOGroup(coreAddress!)
             setSubmitting(false)
-            refetchAndUpdate()
+            refetch()
             navigate({ search: `?success=true` })
             return
           }
@@ -470,7 +472,7 @@ const ReviewProposal: React.FC = () => {
           <>
             <FlexBox $direction='column' width='100%' $gap={4}>
               <Typography variant='secondary'>
-                This is the last step before submitting this governance proposal for {profile.name}.
+                This is the last step before submitting this governance proposal for {profile?.name}.
               </Typography>
               <Typography variant='secondary'>
                 <NavLink to={`/create/entity/deed/${entityId}/${coreAddress}/action`}>
