@@ -19,6 +19,7 @@
     "@ixo-webclient/types": "*",
     "@ixo/cosmos-chain-resolver": "^0.0.5",
     "@ixo/impactxclient-sdk": "*",
+    "@ixo/signx-sdk": "1.0.0",
     "@mantine/core": "^7.2.2",
     "@mantine/hooks": "^7.2.2",
     "@tabler/icons-react": "^2.46.0",

@@ -31,7 +31,7 @@ const ClaimDetail: React.FC = () => {
   const [questionFormData, setQuestionFormData] = useState<any[]>([])
   const [answerData, setAnswerData] = useState<any>(null)
   const [evaluating, setEvaluating] = useState(false)
-  const { execute } = useWallet()
+  const { execute, close } = useWallet()
 
   useEffect(() => {
     if (claimId) {
@@ -86,11 +86,12 @@ const ClaimDetail: React.FC = () => {
       const payload = { claimId, collectionId, adminAddress, status, verificationProof: claimId }
       const execAgentEvaluatePayload = await MsgExecAgentEvaluate(signer, payload)
 
-      const response = (await execute(execAgentEvaluatePayload)) as unknown as DeliverTxResponse
+      const response = (await execute({ data: execAgentEvaluatePayload, transactionConfig: { sequence: 1 }})) as unknown as DeliverTxResponse
 
       if (response.code !== 0) {
         throw response.rawLog
       }
+      close()
       successToast('Evaluation succeed')
     } catch (e: any) {
       console.error(e)

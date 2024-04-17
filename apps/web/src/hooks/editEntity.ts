@@ -519,7 +519,7 @@ export default function useEditEntity(): {
     }
 
     const updatedFee = { ...fee, gas: new BigNumber(fee.gas).times(messages.length).toString() }
-    const response = await execute({ messages: messages as any, fee: updatedFee, memo: undefined })
+    const response = await execute({ data: { messages: messages as any, fee: updatedFee, memo: undefined }, transactionConfig: { sequence: 1 }})
 
     if (typeof response === 'string') {
       throw Error('Connect your wallet')

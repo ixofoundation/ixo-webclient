@@ -7,7 +7,7 @@
 import { CosmWasmClient, SigningCosmWasmClient, ExecuteResult } from "@cosmjs/cosmwasm-stargate";
 import { Coin, StdFee } from "@cosmjs/amino";
 import { Uint128, InfoResponse, OwnershipForAddr } from "./Cw20StakeRewardDistributor.types";
-import { BaseClient, DeliverTxResponse } from "./Base.client";
+import { BaseClient, DeliverTxResponse, ExecuteProps } from "./Base.client";
 export interface Cw20StakeRewardDistributorReadOnlyInterface {
   contractAddress: string;
   info: () => Promise<InfoResponse>;
@@ -47,11 +47,13 @@ export class Cw20StakeRewardDistributorClient extends BaseClient {
   updateConfig = async ({
     rewardRate,
     rewardToken,
-    stakingAddr
+    stakingAddr,
+    transactionConfig
   }: {
     rewardRate: Uint128;
     rewardToken: string;
     stakingAddr: string;
+    transactionConfig: ExecuteProps["transactionConfig"]
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       update_config: {
@@ -59,21 +61,21 @@ export class Cw20StakeRewardDistributorClient extends BaseClient {
         reward_token: rewardToken,
         staking_addr: stakingAddr
       }
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
-  distribute = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
+  distribute = async ({ transactionConfig }: { transactionConfig: ExecuteProps["transactionConfig"] }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       distribute: {}
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
-  withdraw = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
+  withdraw = async ({ transactionConfig }: { transactionConfig: ExecuteProps["transactionConfig"] }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       withdraw: {}
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
-  updateOwnership = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
+  updateOwnership = async ({ transactionConfig }: { transactionConfig: ExecuteProps["transactionConfig"] }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       update_ownership: {}
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
 }

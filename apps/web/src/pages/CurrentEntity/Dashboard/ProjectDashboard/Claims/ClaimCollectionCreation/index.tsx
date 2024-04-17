@@ -28,7 +28,7 @@ const ClaimCollectionCreation: React.FC = () => {
   const { entityId = '' } = useParams<{ entityId: string }>()
   const { type, claim: claims = {}, accounts, owner } = useAppSelector(getEntityById(entityId))
   const { signer } = useAccount()
-  const { execute, wallet } = useWallet()
+  const { execute, wallet, close, transaction } = useWallet()
   const { isExist: isCollectionExist } = useGetClaimCollectionsByEntityId(entityId)
   const userRole = useGetUserGranteeRole(wallet?.address ?? "", owner, accounts)
   const { fetchEntityById } = useGetEntityByIdLazyQuery()
@@ -87,7 +87,7 @@ const ClaimCollectionCreation: React.FC = () => {
       ],
     )
 
-    const response = (await execute(entityMessage)) as unknown as DeliverTxResponse
+    const response = (await execute({ data: entityMessage, transactionConfig: { sequence: 2, transactionSessionHash: transaction.transactionSessionHash }})) as unknown as DeliverTxResponse
     if (response.code !== 0) {
       throw response.rawLog
     }
@@ -114,7 +114,7 @@ const ClaimCollectionCreation: React.FC = () => {
       ]
       const createCollectionRes = CreateCollection(signer, payload)
 
-      const response = (await execute(createCollectionRes)) as unknown as DeliverTxResponse
+      const response = (await execute({ data: createCollectionRes, transactionConfig: { sequence: 1 }})) as unknown as DeliverTxResponse
 
       if (response.code) {
         throw response.rawLog
@@ -132,6 +132,7 @@ const ClaimCollectionCreation: React.FC = () => {
         fetchEntityById(deedOfferDid)
       }
 
+      close()
       successToast(null, 'Offer successfully created!')
       setStep('success')
     } catch (e) {

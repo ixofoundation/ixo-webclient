@@ -56,7 +56,7 @@ interface Props {
 
 const SendModal: React.FunctionComponent<Props> = ({ open, selectedDenomOrAddr, setOpen, onSuccess }) => {
   const theme: any = useTheme()
-  const { execute } = useWallet()
+  const { execute, close } = useWallet()
   const { nativeTokens, cw20Tokens, signer } = useAccount()
   const selectedToken = useMemo(
     () =>
@@ -107,6 +107,7 @@ const SendModal: React.FunctionComponent<Props> = ({ open, selectedDenomOrAddr, 
     const response = (await execute(msgData as any)) as unknown as DeliverTxResponse
 
     if (response) {
+      close()
       setTXStatus(TXStatus.SUCCESS)
       successToast('Sending', `Success! ${amount} ${selectedToken.symbol} have been successfully sent.`)
     } else {

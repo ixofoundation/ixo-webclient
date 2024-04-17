@@ -32,7 +32,7 @@ const TransferEntityToGroupButton: React.FC<{
   const { entityId = "" } = useParams<{ entityId: string }>()
 
   const { address } = useAccount()
-  const { execute } = useWallet()
+  const { execute, close } = useWallet()
   const  currentEntity = useAppSelector(getEntityById(entityId))
   const daoGroups = useMemo(() => currentEntity?.daoGroups ?? {}, [currentEntity])
   const daoGroup = useMemo(() => daoGroups[groupAddress], [daoGroups, groupAddress])
@@ -156,6 +156,7 @@ const TransferEntityToGroupButton: React.FC<{
                 msgs: wasmMessage,
               },
             },
+            transactionConfig: { sequence: 1 }
           },
           fee,
           undefined,
@@ -166,7 +167,7 @@ const TransferEntityToGroupButton: React.FC<{
           const proposalId = Number(
             utils.common.getValueFromEvents(res as unknown as DeliverTxResponse, 'wasm', 'proposal_id') || '0',
           )
-
+          close()
           successToast(null, `Successfully published proposals`)
           return { transactionHash, proposalId }
         })
@@ -210,6 +211,7 @@ const TransferEntityToAccountButton: React.FC<{
   const currentEntity = useAppSelector(getEntityById(entityId))
   const [submitting, setSubmitting] = useState(false)
   const { handleReEnableKeys } = useTransferEntityState()
+  const { close } = useWallet()
 
   const [service = [], transferDocument = undefined] = useMemo(
     () => [currentEntity?.service, currentEntity?.linkedResource.find((v) => v.type === 'VerificationMethods')],
@@ -238,6 +240,7 @@ const TransferEntityToAccountButton: React.FC<{
     try {
       setSubmitting(true)
       await handleReEnableKeys({ entityId, transferDocument, verificationMethods })
+      close()
       navigate(`/entity/${entityId}/dashboard`)
       setSubmitting(false)
     } catch (error) {
