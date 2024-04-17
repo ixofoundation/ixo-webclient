@@ -165,8 +165,8 @@
     "sovrin-did": "1.4.0",
     "store": "^2.0.12",
     "styled-components": "6.1.1",
-    "survey-creator-react": "^1.9.101",
-    "survey-react-ui": "^1.9.101",
+    "survey-creator-react": "^1.9.139",
+    "survey-react-ui": "^1.9.138",
     "uuid": "9.0.1",
     "web-vitals": "3.5.0"
   },
