@@ -52,16 +52,24 @@ export interface DeliverTxResponse {
     readonly gasWanted: number;
 }
 
-type SignXMessageProps = {
+export type ExecuteProps = {
+    data: MessageProps
+    transactionConfig: {
+        sequence: number
+        transactionSessionHash?: string
+    }
+};
+
+type MessageProps = {
     messages: {
         typeUrl: string;
-        value: MsgExecuteContract;
+        value: any;
     }[];
     fee: StdFee;
     memo: string | undefined;
 }
 
-type ExecuteFunctionProps = (data: SignXMessageProps) => Promise<DeliverTxResponse>;
+type ExecuteFunctionProps = (transaction: ExecuteProps) => Promise<DeliverTxResponse>;
 
 export class BaseClient {
     private executeFunction: ExecuteFunctionProps
@@ -70,7 +78,7 @@ export class BaseClient {
         this.executeFunction = execute
     }
 
-    async execute(senderAddress: string, contractAddress: string, msg: Record<string, any>, fee: any, memo = "", funds: any) {
+    async execute(senderAddress: string, contractAddress: string, msg: Record<string, any>, fee: any, memo = "", funds: any, transactionConfig: ExecuteProps["transactionConfig"]) {
         const msgs = {
             typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
             value: cosmwasm.wasm.v1.MsgExecuteContract.fromPartial({
@@ -84,6 +92,6 @@ export class BaseClient {
         const instruction = { messages: [msgs], fee, memo }
 
 
-        return await this.executeFunction(instruction);
+        return await this.executeFunction({ data: instruction, transactionConfig: { sequence: transactionConfig?.sequence ?? 1, transactionSessionHash: transactionConfig?.transactionSessionHash } });
     }
 }

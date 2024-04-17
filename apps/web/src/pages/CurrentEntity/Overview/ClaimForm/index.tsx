@@ -37,7 +37,7 @@ const ClaimForm: React.FC<Props> = ({ claimId }) => {
   const claim: { [id: string]: TEntityClaimModel } = useAppSelector(selectEntityClaim)
   const entity = useAppSelector(getEntityById(entityId))
 
-  const { execute, wallet } = useWallet()
+  const { execute, wallet, close } = useWallet()
   const userRole = useGetUserGranteeRole(wallet?.address ?? "", entity.owner, entity.accounts)
 
   const adminAddress = useCurrentEntityAdminAccount(entity.accounts)
@@ -119,11 +119,11 @@ const ClaimForm: React.FC<Props> = ({ claimId }) => {
           adminAddress,
         })
 
-        const response = (await execute(execAgentSubmitPayload)) as unknown as DeliverTxResponse
+        const response = (await execute({ data: execAgentSubmitPayload, transactionConfig: { sequence: 1 }})) as unknown as DeliverTxResponse
         if (response.code !== 0) {
           throw response.rawLog
         }
-
+        close()
         successToast('Success', 'Successfully submitted')
         return true
       } catch (e: any) {
@@ -132,7 +132,7 @@ const ClaimForm: React.FC<Props> = ({ claimId }) => {
         return false
       }
     },
-    [adminAddress, claimCollection?.id, signer, execute],
+    [adminAddress, claimCollection?.id, signer, execute, close],
   )
 
   const survey = useMemo(() => {

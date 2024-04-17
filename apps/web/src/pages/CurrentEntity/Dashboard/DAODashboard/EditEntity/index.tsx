@@ -25,7 +25,7 @@ const EditEntity: React.FC = () => {
   const { entityId = '' } = useParams<{ entityId: string }>()
   const currentEntity = useAppSelector(getEntityById(entityId))
   const { cwClient } = useAccount()
-  const { wallet } = useWallet()
+  const { wallet, close } = useWallet()
   const isOwner = wallet?.address === currentEntity.owner
   const { setEditEntity, ExecuteEditEntity } = useEditEntity()
   const { fetchEntityById, data } = useGetEntityByIdLazyQuery()
@@ -52,6 +52,7 @@ const EditEntity: React.FC = () => {
       const { transactionHash, code, rawLog } = await ExecuteEditEntity()
       if (transactionHash && code === 0) {
         successToast('Updating', 'Successfully Updated')
+        close()
         fetchEntityById(entityId)
       } else {
         throw new Error(rawLog)

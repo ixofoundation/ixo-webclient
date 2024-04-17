@@ -142,7 +142,7 @@ const ProposalCard: React.FC<Props> = ({ coreAddress, proposalId, proposal }) =>
   const { cwClient, address } = useAccount()
   const { daoGroups = {} } = useAppSelector(getEntityById(entityId))
   const { daoGroup, proposalModuleAddress, isParticipating, anyoneCanPropose } = useCurrentEntityDAOGroup(coreAddress, daoGroups)
-  const { execute } = useWallet()
+  const { execute, close } = useWallet()
 
   const [votes, setVotes] = useState<VoteInfo[]>([])
   const [myVoteStatus, setMyVoteStatus] = useState<VoteInfo | undefined>(undefined)
@@ -203,13 +203,16 @@ const ProposalCard: React.FC<Props> = ({ coreAddress, proposalId, proposal }) =>
   const onVote = (vote: Vote): Promise<string> => {
     const daoProposalSingleClient = new DaoProposalSingleClient(execute, address, proposalModuleAddress)
     return daoProposalSingleClient
-      .vote({ proposalId, vote }, fee, undefined, undefined)
+      .vote({ proposalId, vote, transactionConfig: { sequence: 1 } }, fee, undefined, undefined)
       .then(({ transactionHash }) => transactionHash)
       .catch((e) => {
         console.error('handleVote', e)
         return ''
       })
-      .finally(getVoteStatus)
+      .finally(() => {
+        close()
+        getVoteStatus()
+      })
   }
 
   const onViewMore = () => {
@@ -219,7 +222,7 @@ const ProposalCard: React.FC<Props> = ({ coreAddress, proposalId, proposal }) =>
   const onExecute = () => {
     const daoProposalSingleClient = new DaoProposalSingleClient(execute, address, proposalModuleAddress)
     daoProposalSingleClient
-      .executeProposal({ proposalId }, fee, undefined, undefined)
+      .executeProposal({ proposalId, transactionConfig: { sequence: 1 } }, fee, undefined, undefined)
       .then(({ transactionHash, rawLog, events, gasUsed, gasWanted, height }) => {
         console.log('handleExecuteProposal', { transactionHash, rawLog, events, gasUsed, gasWanted, height })
         if (transactionHash) {
@@ -229,13 +232,15 @@ const ProposalCard: React.FC<Props> = ({ coreAddress, proposalId, proposal }) =>
       .catch((e) => {
         console.error('handleExecuteProposal', e)
         errorToast(null, 'Transaction failed')
+      }).finally(() => {
+        close()
       })
   }
 
   const onClose = () => {
     const daoProposalSingleClient = new DaoProposalSingleClient(execute, address, proposalModuleAddress)
     daoProposalSingleClient
-      .close({ proposalId }, fee, undefined, undefined)
+      .close({ proposalId, transactionConfig: { sequence: 1 } }, fee, undefined, undefined)
       .then(({ transactionHash, rawLog }) => {
         console.log('handleCloseProposal', transactionHash, rawLog)
         if (transactionHash) {
@@ -245,6 +250,8 @@ const ProposalCard: React.FC<Props> = ({ coreAddress, proposalId, proposal }) =>
       .catch((e) => {
         console.error('handleCloseProposal', e)
         errorToast(null, 'Transaction failed')
+      }).finally(() => {
+        close()
       })
   }
 

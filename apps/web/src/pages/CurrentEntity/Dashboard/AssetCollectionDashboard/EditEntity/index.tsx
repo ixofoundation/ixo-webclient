@@ -10,6 +10,7 @@ import EditProperty from '../../components/EditProperty'
 import { useNavigate, useParams } from 'react-router-dom'
 import { FormCard } from 'components'
 import { ReactComponent as ExclamationIcon } from 'assets/images/icon-exclamation-circle.svg'
+import { useWallet } from '@ixo-webclient/wallet-connector'
 
 const EditEntity: React.FC = () => {
   const navigate = useNavigate()
@@ -17,6 +18,7 @@ const EditEntity: React.FC = () => {
   const { entityId = '' } = useParams<{ entityId: string }>()
   const { setEditEntity, ExecuteEditEntity } = useEditEntity()
   const [editing, setEditing] = useState(false)
+  const { close } = useWallet()
 
   useEffect(() => {
     setEditEntity(currentEntity)
@@ -28,6 +30,7 @@ const EditEntity: React.FC = () => {
     try {
       const { transactionHash, code, rawLog } = await ExecuteEditEntity()
       if (transactionHash && code === 0) {
+        close()
         successToast('Updating', 'Successfully updated!')
       } else {
         throw new Error(rawLog)

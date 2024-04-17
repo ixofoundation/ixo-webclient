@@ -7,7 +7,7 @@
 import { ExecuteResult } from "@cosmjs/cosmwasm-stargate";
 import { Coin, StdFee } from "@cosmjs/amino";
 import { ActiveThreshold, ActiveThresholdResponse, Addr, InfoResponse, Boolean, TotalPowerAtHeightResponse, VotingPowerAtHeightResponse } from "./CwFundDistributor.types";
-import { BaseClient, DeliverTxResponse } from "./Base.client";
+import { BaseClient, DeliverTxResponse, ExecuteProps } from "./Base.client";
 export interface CwFundDistributorReadOnlyInterface {
   contractAddress: string;
   stakingContract: () => Promise<Addr>;
@@ -50,14 +50,16 @@ export class CwFundDistributorClient extends BaseClient {
   }
 
   updateActiveThreshold = async ({
-    newThreshold
+    newThreshold,
+    transactionConfig
   }: {
     newThreshold?: ActiveThreshold;
+    transactionConfig: ExecuteProps["transactionConfig"]
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       update_active_threshold: {
         new_threshold: newThreshold
       }
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
 }

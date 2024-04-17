@@ -7,7 +7,7 @@
 import { ExecuteResult } from "@cosmjs/cosmwasm-stargate";
 import { StdFee } from "@cosmjs/amino";
 import { UncheckedDenom, UncheckedDepositInfo, Empty, ProposeMessage, Binary, Status, Coin, Addr, Config, DepositInfoResponse, HooksResponse } from "./DaoPreProposeSingle.types";
-import { BaseClient, DeliverTxResponse } from "./Base.client";
+import { BaseClient, DeliverTxResponse, ExecuteProps } from "./Base.client";
 export interface DaoPreProposeSingleReadOnlyInterface {
   contractAddress: string;
   proposalModule: () => Promise<Addr>;
@@ -86,86 +86,100 @@ export class DaoPreProposeSingleClient extends BaseClient {
   }
 
   propose = async ({
-    msg
+    msg,
+    transactionConfig
   }: {
     msg: ProposeMessage;
+    transactionConfig: ExecuteProps["transactionConfig"]
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       propose: {
         msg
       }
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
   updateConfig = async ({
     depositInfo,
-    openProposalSubmission
+    openProposalSubmission, 
+    transactionConfig
   }: {
     depositInfo?: UncheckedDepositInfo;
     openProposalSubmission: boolean;
+    transactionConfig: ExecuteProps["transactionConfig"]
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       update_config: {
         deposit_info: depositInfo,
         open_proposal_submission: openProposalSubmission
       }
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
   withdraw = async ({
-    denom
+    denom,
+    transactionConfig
   }: {
     denom?: UncheckedDenom;
+    transactionConfig: ExecuteProps["transactionConfig"]
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       withdraw: {
         denom
       }
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
   extension = async ({
-    msg
+    msg,
+    transactionConfig
   }: {
     msg: Empty;
+    transactionConfig: ExecuteProps["transactionConfig"]
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       extension: {
         msg
       }
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
   addProposalSubmittedHook = async ({
-    address
+    address,
+    transactionConfig
   }: {
     address: string;
+    transactionConfig: ExecuteProps["transactionConfig"]
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       add_proposal_submitted_hook: {
         address
       }
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
   removeProposalSubmittedHook = async ({
-    address
+    address,
+    transactionConfig
   }: {
     address: string;
+    transactionConfig: ExecuteProps["transactionConfig"]
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       remove_proposal_submitted_hook: {
         address
       }
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
   proposalCompletedHook = async ({
     newStatus,
-    proposalId
+    proposalId,
+    transactionConfig
   }: {
     newStatus: Status;
     proposalId: number;
+    transactionConfig: ExecuteProps["transactionConfig"]
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       proposal_completed_hook: {
         new_status: newStatus,
         proposal_id: proposalId
       }
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
 }

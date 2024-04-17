@@ -58,7 +58,7 @@ const GroupClaimModal: React.FunctionComponent<Props> = ({ daoGroup, open, setOp
 
   const [txStatus, setTXStatus] = useState<TXStatus>(TXStatus.UNDEFINED)
   const [txHash, setTXHash] = useState<string>('')
-  const { execute } = useWallet()
+  const { execute, close } = useWallet()
   /**
    * @get
    *  Token Address
@@ -117,9 +117,10 @@ const GroupClaimModal: React.FunctionComponent<Props> = ({ daoGroup, open, setOp
       const stakingContract = await daoVotingCw20StakedClient.stakingContract()
       const cw20StakeClient = new Cw20StakeClient(execute, address, stakingContract)
 
-      const { transactionHash } = await cw20StakeClient.claim(fee, undefined, depositInfo ? [depositInfo] : undefined)
+      const { transactionHash } = await cw20StakeClient.claim({transactionConfig: { sequence: 1 }},fee, undefined, depositInfo ? [depositInfo] : undefined)
 
       if (transactionHash) {
+        close()
         setTXStatus(TXStatus.SUCCESS)
         setTXHash(transactionHash)
       } else {

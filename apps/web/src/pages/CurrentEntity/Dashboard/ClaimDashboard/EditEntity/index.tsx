@@ -15,6 +15,7 @@ import EditProperty from '../../components/EditProperty'
 import EditSurveyTemplate from '../../components/EditSurveyTemplate'
 import { useAppSelector } from 'redux/hooks'
 import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { useWallet } from '@ixo-webclient/wallet-connector'
 
 const EditEntity: React.FC = () => {
   const dispatch = useDispatch()
@@ -24,6 +25,7 @@ const EditEntity: React.FC = () => {
   const { setEditEntity, ExecuteEditEntity } = useEditEntity()
   const { fetchEntityById, data } = useGetEntityByIdLazyQuery()
   const [editing, setEditing] = useState(false)
+  const { close } = useWallet()
 
   useEffect(() => {
     setEditEntity(currentEntity)
@@ -46,6 +48,7 @@ const EditEntity: React.FC = () => {
       const { transactionHash, code, rawLog } = await ExecuteEditEntity()
       if (transactionHash && code === 0) {
         successToast('Updating', 'Successfully Updated')
+        close()
         fetchEntityById(entityId)
       } else {
         throw new Error(rawLog)

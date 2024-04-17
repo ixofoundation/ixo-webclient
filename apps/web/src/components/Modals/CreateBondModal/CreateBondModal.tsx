@@ -31,7 +31,7 @@ const CreateBondModal: React.FC<Props> = ({ open, bondDid, onSubmit, onClose }):
   const { getAssetPairs, convertToMinimalDenom, convertToDenom } = useIxoConfigs()
   const { data: bondDetailFromApi } = useGetBondDid(bondDid)
   const coins = getAssetPairs()
-  const { execute } = useWallet()
+  const { execute, close } = useWallet()
   const [alphaBondInfo, setAlphaBondInfo] = useState<Partial<AlphaBondInfo>>({
     reserveToken: coins[0].display!,
   })
@@ -161,11 +161,15 @@ const CreateBondModal: React.FC<Props> = ({ open, bondDid, onSubmit, onClose }):
         oracleDid: did,
       }
       const createBondData = await CreateBondMessage(payload)
-      const response = (await execute(createBondData)) as unknown as DeliverTxResponse
+      const response = (await execute({
+        data: createBondData,
+        transactionConfig: { sequence: 1 },
+      })) as unknown as DeliverTxResponse
 
       if (response.code !== 0) {
         throw response.rawLog
       }
+      close()
       successToast('Bond', 'Successfully bond created')
       onSubmit(bondDid)
     } catch (e) {

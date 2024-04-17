@@ -7,7 +7,7 @@
 import { ExecuteResult } from "@cosmjs/cosmwasm-stargate";
 import { Coin, StdFee } from "@cosmjs/amino";
 import { Uint128, Binary, VestingPayment, OwnershipForAddr } from "./CwVesting.types";
-import { BaseClient, DeliverTxResponse } from "./Base.client";
+import { BaseClient, DeliverTxResponse, ExecuteProps } from "./Base.client";
 export interface CwVestingReadOnlyInterface {
   contractAddress: string;
   info: () => Promise<VestingPayment>;
@@ -85,11 +85,13 @@ export class CwVestingClient extends BaseClient {
   receive = async ({
     amount,
     msg,
-    sender
+    sender,
+    transactionConfig
   }: {
     amount: Uint128;
     msg: Binary;
     sender: string;
+    transactionConfig: ExecuteProps["transactionConfig"]
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       receive: {
@@ -97,40 +99,44 @@ export class CwVestingClient extends BaseClient {
         msg,
         sender
       }
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
-  distribute = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
+  distribute = async ({ transactionConfig }: { transactionConfig: ExecuteProps["transactionConfig"] }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       distribute: {}
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
-  cancel = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
+  cancel = async ({ transactionConfig }: { transactionConfig: ExecuteProps["transactionConfig"] }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       cancel: {}
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
   delegate = async ({
     amount,
-    validator
+    validator,
+    transactionConfig
   }: {
     amount: Uint128;
     validator: string;
+    transactionConfig: ExecuteProps["transactionConfig"]
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       delegate: {
         amount,
         validator
       }
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
   redelegate = async ({
     amount,
     dstValidator,
-    srcValidator
+    srcValidator,
+    transactionConfig
   }: {
     amount: Uint128;
     dstValidator: string;
     srcValidator: string;
+    transactionConfig: ExecuteProps["transactionConfig"]
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       redelegate: {
@@ -138,47 +144,53 @@ export class CwVestingClient extends BaseClient {
         dst_validator: dstValidator,
         src_validator: srcValidator
       }
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
   undelegate = async ({
     amount,
-    validator
+    validator,
+    transactionConfig
   }: {
     amount: Uint128;
     validator: string;
+    transactionConfig: ExecuteProps["transactionConfig"]
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       undelegate: {
         amount,
         validator
       }
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
   setWithdrawAddress = async ({
-    address
+    address,
+    transactionConfig
   }: {
     address: string;
+    transactionConfig: ExecuteProps["transactionConfig"]
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       set_withdraw_address: {
         address
       }
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
   withdrawDelegatorReward = async ({
-    validator
+    validator,
+    transactionConfig
   }: {
     validator: string;
+    transactionConfig: ExecuteProps["transactionConfig"]
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       withdraw_delegator_reward: {
         validator
       }
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
-  updateOwnership = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
+  updateOwnership = async ({ transactionConfig }: { transactionConfig: ExecuteProps["transactionConfig"] }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       update_ownership: {}
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
 }

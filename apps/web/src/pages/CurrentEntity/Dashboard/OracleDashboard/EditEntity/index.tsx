@@ -7,11 +7,13 @@ import React, { useEffect, useState } from 'react'
 import { errorToast, successToast } from 'utils/toast'
 import EditProfile from '../../components/EditProfile'
 import EditProperty from '../../components/EditProperty'
+import { useWallet } from '@ixo-webclient/wallet-connector'
 
 const EditEntity: React.FC = () => {
   const { currentEntity } = useCurrentEntity()
   const { setEditEntity, ExecuteEditEntity } = useEditEntity()
   const [editing, setEditing] = useState(false)
+  const { close } = useWallet()
 
   useEffect(() => {
     setEditEntity(currentEntity)
@@ -23,6 +25,7 @@ const EditEntity: React.FC = () => {
     try {
       const { transactionHash, code, rawLog } = await ExecuteEditEntity()
       if (transactionHash && code === 0) {
+        close()
         successToast('Updating', 'Successfully updated!')
       } else {
         throw new Error(rawLog)
