@@ -29,7 +29,7 @@ const SetupProposalInfo: React.FC = (): JSX.Element => {
   const onContinue = () => {
     if (name && description) {
       updateProfile({ name, description })
-      navigate(`/entity/${entityId}/dashboard/governance/${coreAddress}/page`)
+      navigate(`/entity/${entityId}/dashboard/governance/${coreAddress}/action`)
     }
   }
 

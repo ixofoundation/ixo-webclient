@@ -17,8 +17,6 @@ import { requireCheckDefault } from 'utils/images'
 import { useEntityConfig } from 'hooks/configs'
 import { useHeaderTabs } from 'hooks/headerTabs'
 import { MatchType } from 'types/models'
-import { Skeleton } from '@mantine/core'
-import { isValidDate } from 'utils/date'
 
 interface Props {
   $onlyTitle: boolean
@@ -75,18 +73,16 @@ const OverviewHero: React.FunctionComponent<Props> = ({
         <HeroInner className='detailed'>
           <div className='row'>
             <div className='col-sm-12'>
-              {name ? <Title light={light ? 1 : 0}>{name}</Title> : <Skeleton h={40} w={400} my={4} />}
+              {name && <Title light={light ? 1 : 0}>{name}</Title>}
               {!$onlyTitle && (
                 <>
-                  {description ? <Description>{description}</Description> : <Skeleton h={10} w={300} my={4} />}
+                  {description && <Description>{description}</Description>}
                   <HeroInfoItemsWrapper>
-                    {isValidDate(startDate) ? (
+                    {startDate && (
                       <HeroInfoItem>
                         <CalendarSort fill='#A5ADB0' />
                         <span>{moment(startDate).format('DD MMM ‘YY')}</span>
                       </HeroInfoItem>
-                    ) : (
-                      <Skeleton h={10} w={150} my={4} />
                     )}
                     <HeroInfoItem>
                       {creatorLogo && (
