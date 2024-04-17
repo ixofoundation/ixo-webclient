@@ -22562,31 +22562,31 @@ supports-preserve-symlinks-flag@^1.0.0:
   resolved "https://registry.yarnpkg.com/supports-preserve-symlinks-flag/-/supports-preserve-symlinks-flag-1.0.0.tgz#6eda4bd344a3c94aea376d4cc31bc77311039e09"
   integrity sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==
 
-survey-core@1.9.127:
-  version "1.9.127"
-  resolved "https://registry.yarnpkg.com/survey-core/-/survey-core-1.9.127.tgz#c1180dcbca657b03a3769c0f758ddb0c21d94318"
-  integrity sha512-B3lkB+//JLHgyth2WJ5UT5nVXQPesqMRn0YzV68LfiX4DlZyIBbE+EOBCSedv9T+ww2qpesZ8szjxf/o5TmdeQ==
+survey-core@1.9.139:
+  version "1.9.139"
+  resolved "https://registry.yarnpkg.com/survey-core/-/survey-core-1.9.139.tgz#6234cc04bfe4f5840da580f18b30f877f327ff13"
+  integrity sha512-4ETo41TQmhdJt9qtANstNiYjnSxyyvEOxbDXGG/xEtmRYrigYctnmhorsJV8JkRskeb50bOO7jrHjb9QwzvAiQ==
 
-survey-creator-core@1.9.127:
-  version "1.9.127"
-  resolved "https://registry.yarnpkg.com/survey-creator-core/-/survey-creator-core-1.9.127.tgz#b507497cbcc151381fe2d59b433e3be20f997db5"
-  integrity sha512-x83xfJBshwncQAxwQ8Pf5otCMcsn24WCvcPXjIfC2yje1EsuKwiIQF6fsH7cX5YoWAni+8n9wvci29pQatdX1w==
+survey-creator-core@1.9.139:
+  version "1.9.139"
+  resolved "https://registry.yarnpkg.com/survey-creator-core/-/survey-creator-core-1.9.139.tgz#6d85962ad6be9fad2aebb4a2485f1be41d41c059"
+  integrity sha512-ER6qc+sQtwXnn+XT8fTjh4+C1kaOTdeCr9F+5ze1/pGy7R00eUWFwMpap/kqtRZRfziXEHyyX/zsxAB0X6EjjA==
   dependencies:
-    survey-core "1.9.127"
+    survey-core "1.9.139"
 
-survey-creator-react@^1.9.101:
-  version "1.9.127"
-  resolved "https://registry.yarnpkg.com/survey-creator-react/-/survey-creator-react-1.9.127.tgz#d86dade3975768a352bf113bfde9f74c0d33f86e"
-  integrity sha512-V5aRjImS93xKAkbjM9QaA65abo8wesxop0Y6d/tloTTPcaCYxy37yORzCdrnHHa8Wyut2syi+RXeHYSkx5gj2A==
+survey-creator-react@^1.9.139:
+  version "1.9.139"
+  resolved "https://registry.yarnpkg.com/survey-creator-react/-/survey-creator-react-1.9.139.tgz#9c5b5e39b7dbf43b09fddd44b2af62b298e8e409"
+  integrity sha512-uhDXzHJ7KzSENRwr7hb27eDI9FN9XFWn5T8et4PAr7QQhYSaRxcRpluDTfc7m2Ip3UaV49cEAx9QCRSCF2zrCQ==
   dependencies:
-    survey-core "1.9.127"
-    survey-creator-core "1.9.127"
-    survey-react-ui "1.9.127"
+    survey-core "1.9.139"
+    survey-creator-core "1.9.139"
+    survey-react-ui "1.9.139"
 
-survey-react-ui@1.9.127, survey-react-ui@^1.9.101:
-  version "1.9.127"
-  resolved "https://registry.yarnpkg.com/survey-react-ui/-/survey-react-ui-1.9.127.tgz#13f6efe5497fe51970d2896a48acebd44c115d69"
-  integrity sha512-nCsKRPumUDBRIPhPa/MO+l36l6+zzbQg6TAf5dtdHUz1dP1/Sse/Ov2YmRVFSwaoRYtDtBzpSBLL1tmsf2awcQ==
+survey-react-ui@1.9.139, survey-react-ui@^1.9.138:
+  version "1.9.139"
+  resolved "https://registry.yarnpkg.com/survey-react-ui/-/survey-react-ui-1.9.139.tgz#894a3b3de5767ab1240898f59dd2dfb6d6a8d8ef"
+  integrity sha512-HKI3Zsxiti5AFDvXqS7Rc3mjOK9nPypHHMw3SjqHJ9j6qgp6KpV3mh+S86hHSiIYWAVcvatVv+AS8/wmBDo4+A==
 
 svg-parser@^2.0.2:
   version "2.0.4"

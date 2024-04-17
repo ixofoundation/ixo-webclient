@@ -4,19 +4,17 @@ import { customQueries, ixo } from '@ixo/impactxclient-sdk'
 import { EvaluationStatus } from '@ixo/impactxclient-sdk/types/codegen/ixo/claims/v1beta1/claims'
 import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { FlexBox } from 'components/App/App.styles'
+import { DisplaySurvey } from 'components/Survey'
 import { useGetClaim, useGetClaimTemplateEntityByClaimId } from 'graphql/claims'
 import { useAccount } from 'hooks/account'
 import { chainNetwork } from 'hooks/configs'
 import { useCurrentEntityAdminAccount } from 'hooks/currentEntity'
 import { MsgExecAgentEvaluate } from 'lib/protocol'
 import { Button } from 'pages/CreateEntity/Components'
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { useAppSelector } from 'redux/hooks'
-import { themeJson } from 'styles/surveyTheme'
-import { Model } from 'survey-core'
-import { Survey } from 'survey-react-ui'
 import { serviceEndpointToUrl } from 'utils/entities'
 import { errorToast, successToast } from 'utils/toast'
 
@@ -31,7 +29,7 @@ const ClaimDetail: React.FC = () => {
   const adminAddress = useCurrentEntityAdminAccount(accounts)
 
   const [questionFormData, setQuestionFormData] = useState<any[]>([])
-  const [answerData, setAnswerData] = useState<any>({})
+  const [answerData, setAnswerData] = useState<any>(null)
   const [evaluating, setEvaluating] = useState(false)
   const { execute } = useWallet()
 
@@ -75,21 +73,8 @@ const ClaimDetail: React.FC = () => {
     return () => {
       setQuestionFormData([])
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [JSON.stringify(templateEntity?.linkedResource ?? [])])
+  }, [templateEntity?.linkedResource, templateEntity])
 
-  const survey = useMemo(() => {
-    if (!questionFormData[0]) {
-      return undefined
-    }
-    const survey = new Model(questionFormData[0])
-    survey.applyTheme(themeJson)
-    survey.data = answerData
-    survey.showNavigationButtons = false
-    survey.mode = 'display'
-    return survey
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [questionFormData, answerData])
 
   const handleEvaluate = (status: EvaluationStatus) => async () => {
     try {
@@ -118,7 +103,7 @@ const ClaimDetail: React.FC = () => {
   return (
     <FlexBox width='100%'>
       <FlexBox $direction='column' width='100%' $gap={7}>
-        {survey && <Survey model={survey} />}
+        {questionFormData.length > 0 && answerData && <DisplaySurvey key="survey-display" surveyJson={questionFormData[0]} surveyData={answerData} />}
         {evaluationStatus === ixo.claims.v1beta1.EvaluationStatus.PENDING && (
           <FlexBox width='100%' $gap={4} $alignItems='center'>
             <Button
