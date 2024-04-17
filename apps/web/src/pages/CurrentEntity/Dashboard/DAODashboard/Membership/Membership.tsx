@@ -18,10 +18,10 @@ import { isImpactsDAO } from 'utils/application'
 
 const Membership: React.FC = (): JSX.Element | null => {
   const navigate = useNavigate()
-  const { entityId = "" } = useParams<{ entityId: string }>()
+  const { entityId = '' } = useParams<{ entityId: string }>()
   const { getQuery } = useQuery()
   const selectedGroup = getQuery('selectedGroup')
-  const  { linkedEntity, daoGroups = {}, verificationMethod } = useAppSelector(getEntityById(entityId))
+  const { linkedEntity, daoGroups = {}, verificationMethod } = useAppSelector(getEntityById(entityId))
 
   const selectedDAOGroup = useMemo(() => daoGroups[selectedGroup], [daoGroups, selectedGroup])
 
@@ -45,17 +45,17 @@ const Membership: React.FC = (): JSX.Element | null => {
               const subDAO = findDAObyDelegateAccount(daos, member.addr)[0]
               const avatar = subDAO?.profile?.logo || subDAO?.profile?.image
               const name = subDAO?.profile?.name || ''
-              return { ...member, avatar, name }
+              const votingPower =
+                (selectedDAOGroup.votingModule.members.find(({ addr }) => addr === member.addr)?.weight ?? 0) /
+                selectedDAOGroup.votingModule.totalWeight
+              const votes = selectedDAOGroup?.proposalModule.votes.filter((vote) => vote.voter === member.addr).length
+              const proposals = selectedDAOGroup.proposalModule.proposals.filter(
+                ({ proposal }) => proposal.proposer === member.addr,
+              ).length
+              return { ...member, avatar, name, proposals, votingPower, votes }
             })
         : selectedDAOGroup?.votingModule.members ?? [],
-    [
-      daoController,
-      selectedDAOGroup?.coreAddress,
-      selectedDAOGroup?.votingModule.members,
-      linkedEntity,
-      daos,
-      entityId
-    ],
+    [daoController, selectedDAOGroup, linkedEntity, daos, entityId],
   )
 
   const [selectedMembers, setSelectedMembers] = useState<{ [key: string]: boolean }>({})
@@ -145,14 +145,18 @@ const Membership: React.FC = (): JSX.Element | null => {
             </GridItem>
           </GridContainer>
 
-          <MembersView
-            view={filter.view}
-            members={filteredMembers}
-            sort={sort}
-            setSort={setSort}
-            selectedMembers={selectedMembers}
-            setSelectedMembers={setSelectedMembers}
-          />
+          {members.length > 0 ? (
+            <MembersView
+              view={filter.view}
+              members={filteredMembers}
+              sort={sort}
+              setSort={setSort}
+              selectedMembers={selectedMembers}
+              setSelectedMembers={setSelectedMembers}
+            />
+          ) : (
+            <Typography>No members yet</Typography>
+          )}
         </Flex>
       )}
     </Flex>

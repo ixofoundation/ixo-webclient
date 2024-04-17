@@ -180,9 +180,12 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
     return !!creator && !!administrator && Object.keys(page ?? {}).length > 0 && service?.length > 0
   }, [creator, administrator, page, service])
 
-  const updateEntityType = (entityType: string): void => {
-    dispatch(updateEntityTypeAction(entityType))
-  }
+  const updateEntityType = useCallback(
+    (entityType: string): void => {
+      dispatch(updateEntityTypeAction(entityType))
+    },
+    [dispatch],
+  )
   const clearEntity = (): void => {
     dispatch(clearEntityAction())
   }

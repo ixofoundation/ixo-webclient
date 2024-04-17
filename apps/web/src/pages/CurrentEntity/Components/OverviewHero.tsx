@@ -50,7 +50,7 @@ const OverviewHero: React.FunctionComponent<Props> = ({
   location,
   creatorLogo,
   creatorName,
-  entityType
+  entityType,
 }) => {
   const entityConfig = useEntityConfig()
   const themeColor = entityConfig.themeColor

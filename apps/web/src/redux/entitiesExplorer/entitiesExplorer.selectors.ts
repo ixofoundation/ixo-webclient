@@ -25,9 +25,10 @@ export const selectAllEntities = createSelector(
   },
 )
 
-export const getEntityById = (id: string) => createSelector(selectEntitiesState, (entitiesState: EntitiesExplorerState) => {
-  return entitiesState.entities[id]
-})
+export const getEntityById = (id: string) =>
+  createSelector(selectEntitiesState, (entitiesState: EntitiesExplorerState) => {
+    return entitiesState.entities[id] ?? {}
+  })
 
 export const selectAllEntitiesByType = createSelector(
   selectEntitiesState,
@@ -440,4 +441,3 @@ export const selectCollectionByCollectionId = (collectionId: string) =>
   createSelector(selectCollections, (collections: TCollection[]): TCollection | undefined => {
     return collections.find(({ collection }) => collection.id === collectionId)
   })
-

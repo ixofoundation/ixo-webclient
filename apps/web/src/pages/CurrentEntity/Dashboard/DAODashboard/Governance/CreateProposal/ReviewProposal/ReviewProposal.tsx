@@ -36,11 +36,12 @@ import { AddLinkedEntityMessage } from 'lib/protocol/iid.messages'
 import { DaoPreProposeSingleClient } from '@ixo-webclient/cosmwasm-clients'
 import { useAppSelector } from 'redux/hooks'
 import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { decodedMessagesString } from 'utils/messages'
 
 const ReviewProposal: React.FC = () => {
   const theme: any = useTheme()
   const navigate = useNavigate()
-  const { entityId = "", coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
+  const { entityId = '', coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
   const { cwClient } = useAccount()
   const { updateDAOGroup, refetchAndUpdate } = useCurrentEntity()
   const { daoGroups = {} } = useAppSelector(getEntityById(entityId))
@@ -129,7 +130,7 @@ const ReviewProposal: React.FC = () => {
       const daoVotingCw4Client = new contracts.DaoVotingCw4.DaoVotingCw4QueryClient(cwClient, votingModuleAddress)
       cw4GroupAddress = await daoVotingCw4Client.groupContract()
     }
-    const wasmMessage: CosmosMsgForEmpty[] = validActions
+    const wasmMessages: CosmosMsgForEmpty[] = validActions
       .map((validAction: TProposalActionModel) => {
         try {
           const { text, data } = validAction
@@ -216,6 +217,9 @@ const ReviewProposal: React.FC = () => {
         }
       })
       .filter(Boolean) as CosmosMsgForEmpty[]
+
+    console.log('wasmMessages', decodedMessagesString(wasmMessages))
+
     const daoPreProposeSingleClient = new DaoPreProposeSingleClient(execute, wallet.address, preProposalContractAddress)
 
     return await daoPreProposeSingleClient
@@ -224,7 +228,7 @@ const ReviewProposal: React.FC = () => {
           msg: {
             propose: {
               description: (profile?.description || '') + `#deed:${deedDid}`,
-              msgs: wasmMessage,
+              msgs: wasmMessages,
               title: profile?.name || '',
             },
           },
@@ -470,7 +474,7 @@ const ReviewProposal: React.FC = () => {
           <>
             <FlexBox $direction='column' width='100%' $gap={4}>
               <Typography variant='secondary'>
-                This is the last step before submitting this governance proposal for {profile.name}.
+                This is the last step before submitting this governance proposal for {profile?.name}.
               </Typography>
               <Typography variant='secondary'>
                 <NavLink to={`/create/entity/deed/${entityId}/${coreAddress}/action`}>
