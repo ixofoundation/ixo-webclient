@@ -57,7 +57,7 @@ const SetupProposalTemplate: React.FC = (): JSX.Element => {
   }
   const onContinue = () => {
     if (selectedTemplateEntityId === 'custom') {
-      navigate(`/entity/${entityId}/dashboard/governance/${coreAddress}/action`)
+      navigate(`/entity/${entityId}/dashboard/governance/${coreAddress}/info`)
     } else {
       const search = new URLSearchParams()
       search.append('selectedTemplateEntityId', selectedTemplateEntityId)
