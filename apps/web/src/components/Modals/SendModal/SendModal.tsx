@@ -104,7 +104,7 @@ const SendModal: React.FunctionComponent<Props> = ({ open, selectedDenomOrAddr, 
       })
     }
 
-    const response = (await execute(msgData as any)) as unknown as DeliverTxResponse
+    const response = (await execute({data: msgData, transactionConfig: { sequence: 1}})) as unknown as DeliverTxResponse
 
     if (response) {
       close()

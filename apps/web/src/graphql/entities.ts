@@ -87,7 +87,7 @@ export function useGetOfferFormByClaimCollectionId(collectionId: string) {
     [offerEntity?.linkedResource],
   )
   const service = useMemo(() => offerEntity?.service, [offerEntity?.service])
-  const [offerQuestion, setOfferQuestion] = useState({})
+  const [offerQuestion, setOfferQuestion] = useState(null)
 
   useEffect(() => {
     if (offerFormLinkedResource && service.length > 0) {
@@ -100,7 +100,7 @@ export function useGetOfferFormByClaimCollectionId(collectionId: string) {
         })
         .catch(() => undefined)
     } else {
-      setOfferQuestion({})
+      setOfferQuestion(null)
     }
   }, [offerFormLinkedResource, service])
 
