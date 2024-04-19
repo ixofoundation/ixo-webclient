@@ -13,6 +13,7 @@ import {
   filterProtocolDeedProposalEntities,
 } from 'utils/filters'
 
+const RELAYER_NODE = process.env.REACT_APP_RELAYER_NODE
 const formatDate = (date: string): string => moment(date).format("D MMM \\'YY")
 
 export const selectEntitiesState = (state: RootState): EntitiesExplorerState => state.entities
@@ -85,7 +86,7 @@ export const selectUnverifiedEntities = createSelector(
   selectAllEntities,
   (entities: TEntityModel[]): TEntityModel[] => {
     return entities
-      .filter((entity) => entity.entityVerified === false && entity.status === 0)
+      .filter((entity) => entity.entityVerified === false && entity.status === 0 && entity.relayerNode === RELAYER_NODE)
       .filter((entity) => entity.type !== 'deed')
   },
 )
