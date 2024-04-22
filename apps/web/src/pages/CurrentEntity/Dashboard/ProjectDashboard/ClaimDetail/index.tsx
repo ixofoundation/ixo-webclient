@@ -104,7 +104,7 @@ const ClaimDetail: React.FC = () => {
   return (
     <FlexBox width='100%'>
       <FlexBox $direction='column' width='100%' $gap={7}>
-        {questionFormData.length > 0 && answerData && <DisplaySurvey key="survey-display" surveyJson={questionFormData[0]} surveyData={answerData} />}
+        {questionFormData.length > 0 && claimId && answerData ? <DisplaySurvey surveyId={claimId} key="survey-display" surveyJson={questionFormData[0]} surveyData={answerData} /> : null}
         {evaluationStatus === ixo.claims.v1beta1.EvaluationStatus.PENDING && (
           <FlexBox width='100%' $gap={4} $alignItems='center'>
             <Button

@@ -44,7 +44,7 @@ const Review: React.FC = (): JSX.Element => {
   const [submitting, setSubmitting] = useState(false)
   const { getQuery } = useQuery()
   const success = getQuery('success')
-  const { transaction } = useWallet()
+  const { transaction, close } = useWallet()
 
   // Handle final entity type properties in handleSignToCreate
   // Need to refactor using best practises
@@ -123,6 +123,7 @@ const Review: React.FC = (): JSX.Element => {
       return
     }
 
+    close()
     setSubmitting(false)
     navigate({ pathname: pathname, search: `?success=true` })
   }
