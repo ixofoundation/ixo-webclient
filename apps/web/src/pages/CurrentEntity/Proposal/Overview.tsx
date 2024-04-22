@@ -11,6 +11,7 @@ import ControlPanel from 'components/ControlPanel'
 import HeaderTabs from 'components/HeaderTabs/HeaderTabs'
 import { MatchType } from 'types/models'
 import { useMemo } from 'react'
+import { useEntity } from 'hooks/entity/useEntity'
 
 const Overview: React.FC = () => {
   const { entityId = '', deedId = '' } = useParams<{ entityId: string; deedId: string }>()
@@ -33,6 +34,7 @@ const Overview: React.FC = () => {
     ],
     [entityId],
   )
+  useEntity(deedId)
 
   return (
     <Flex w='100%' h='100%' bg='#F8F9FD'>
@@ -47,6 +49,7 @@ const Overview: React.FC = () => {
                 Object.keys(EntityLinkedResourceConfig).includes(item.type),
               ) ?? []
             }
+            service={entity?.service}
           />
         </Flex>
       </ScrollArea>

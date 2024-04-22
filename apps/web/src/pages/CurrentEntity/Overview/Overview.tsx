@@ -11,6 +11,7 @@ import PageContentLegacy from './PageContentLegacy'
 import { useEntityOverview } from 'hooks/entity/useEntityOverview'
 import { useParams } from 'react-router-dom'
 import { useEffect, useMemo } from 'react'
+import { toRootEntityType } from 'utils/entities'
 
 const Overview: React.FC = () => {
   const { getQuery } = useQuery()
@@ -53,11 +54,11 @@ const Overview: React.FC = () => {
             location={location}
             creatorName={creatorName}
             creatorLogo={logo}
-            entityType={type}
+            entityType={toRootEntityType(type)}
           />
           {!claimId && !claimCollectionId && (
             <>
-              <PageContent page={page} />
+              {page && <PageContent page={page} />}
               {pageLegacy && <PageContentLegacy page={pageLegacy} />}
               <LinkedFiles linkedFiles={linkedFiles} service={service} />
             </>

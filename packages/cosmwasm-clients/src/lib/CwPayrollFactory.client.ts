@@ -6,8 +6,8 @@
 
 import { ExecuteResult } from "@cosmjs/cosmwasm-stargate";
 import { Coin, StdFee } from "@cosmjs/amino";
-import { InstantiateMsg, Uint128, Binary, Uint64, ArrayOfVestingContract,  OwnershipForAddr } from "./CwPayrollFactory.types";
-import { BaseClient, DeliverTxResponse } from "./Base.client";
+import { InstantiateMsg, Uint128, Binary, Uint64, ArrayOfVestingContract, OwnershipForAddr } from "./CwPayrollFactory.types";
+import { BaseClient, DeliverTxResponse, ExecuteProps } from "./Base.client";
 export interface CwPayrollFactoryReadOnlyInterface {
   contractAddress: string;
   listVestingContracts: ({
@@ -106,11 +106,13 @@ export class CwPayrollFactoryClient extends BaseClient {
   receive = async ({
     amount,
     msg,
-    sender
+    sender,
+    transactionConfig
   }: {
     amount: Uint128;
     msg: Binary;
     sender: string;
+    transactionConfig: ExecuteProps["transactionConfig"]
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       receive: {
@@ -118,36 +120,44 @@ export class CwPayrollFactoryClient extends BaseClient {
         msg,
         sender
       }
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
   instantiateNativePayrollContract = async ({
     instantiateMsg,
-    label
+    label,
+    transactionConfig
   }: {
     instantiateMsg: InstantiateMsg;
     label: string;
+    transactionConfig: ExecuteProps["transactionConfig"]
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       instantiate_native_payroll_contract: {
         instantiate_msg: instantiateMsg,
         label
       }
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
   updateCodeId = async ({
-    vestingCodeId
+    vestingCodeId,
+    transactionConfig
   }: {
     vestingCodeId: number;
+    transactionConfig: ExecuteProps["transactionConfig"]
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       update_code_id: {
         vesting_code_id: vestingCodeId
       }
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
-  updateOwnership = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
+  updateOwnership = async ({
+    transactionConfig
+  }: {
+    transactionConfig: ExecuteProps["transactionConfig"]
+  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       update_ownership: {}
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
 }

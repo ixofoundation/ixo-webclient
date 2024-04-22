@@ -7,7 +7,7 @@
 import { ExecuteResult } from "@cosmjs/cosmwasm-stargate";
 import { Coin, StdFee } from "@cosmjs/amino";
 import { Duration, Uint128, ClaimsResponse, Addr, Config, InfoResponse, ListStakersResponse, TotalPowerAtHeightResponse, VotingPowerAtHeightResponse } from "./DaoVotingNativeStaked.types";
-import { BaseClient, DeliverTxResponse } from "./Base.client";
+import { BaseClient, DeliverTxResponse, ExecuteProps } from "./Base.client";
 export interface DaoVotingNativeStakedReadOnlyInterface {
   contractAddress: string;
   getConfig: () => Promise<Config>;
@@ -72,30 +72,35 @@ export class DaoVotingNativeStakedClient extends BaseClient {
     this.claim = this.claim.bind(this);
   }
 
-  stake = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
+  stake = async ({ transactionConfig }: { transactionConfig: ExecuteProps["transactionConfig"] }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       stake: {}
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
   unstake = async ({
-    amount
+    amount,
+    transactionConfig
   }: {
     amount: Uint128;
+    transactionConfig: ExecuteProps["transactionConfig"]
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       unstake: {
         amount
       }
-    }, fee, memo, funds);
+    }, fee, memo, funds,
+      transactionConfig);
   };
   updateConfig = async ({
     duration,
     manager,
-    owner
+    owner,
+    transactionConfig
   }: {
     duration?: Duration;
     manager?: string;
     owner?: string;
+    transactionConfig: ExecuteProps["transactionConfig"]
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       update_config: {
@@ -103,11 +108,11 @@ export class DaoVotingNativeStakedClient extends BaseClient {
         manager,
         owner
       }
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
-  claim = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
+  claim = async ({ transactionConfig }: { transactionConfig: ExecuteProps["transactionConfig"] }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       claim: {}
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
 }

@@ -19,8 +19,9 @@ import { Coin } from '@ixo/impactxclient-sdk/types/codegen/DaoPreProposeSingle.t
 import { useWallet } from '@ixo-webclient/wallet-connector'
 import { DeliverTxResponse } from '@cosmjs/stargate'
 import { DaoPreProposeSingleClient } from '@ixo-webclient/cosmwasm-clients'
-import useCurrentEntity from 'hooks/currentEntity'
 import { useTransferEntityState } from 'hooks/transferEntity'
+import { useAppSelector } from 'redux/hooks'
+import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 const TransferEntityToGroupButton: React.FC<{
   groupAddress: string
@@ -28,11 +29,11 @@ const TransferEntityToGroupButton: React.FC<{
   setVerificationMethods: (verificationMethods: any) => void
 }> = ({ groupAddress, verificationMethods, setVerificationMethods }) => {
   const navigate = useNavigate()
-  const { entityId } = useParams<{ entityId: string }>()
+  const { entityId = "" } = useParams<{ entityId: string }>()
 
   const { address } = useAccount()
-  const { execute } = useWallet()
-  const { currentEntity } = useCurrentEntity()
+  const { execute, close } = useWallet()
+  const  currentEntity = useAppSelector(getEntityById(entityId))
   const daoGroups = useMemo(() => currentEntity?.daoGroups ?? {}, [currentEntity])
   const daoGroup = useMemo(() => daoGroups[groupAddress], [daoGroups, groupAddress])
   const preProposalContractAddress = useMemo(() => daoGroup?.proposalModule?.preProposalContractAddress, [daoGroup])
@@ -155,6 +156,7 @@ const TransferEntityToGroupButton: React.FC<{
                 msgs: wasmMessage,
               },
             },
+            transactionConfig: { sequence: 1 }
           },
           fee,
           undefined,
@@ -165,7 +167,7 @@ const TransferEntityToGroupButton: React.FC<{
           const proposalId = Number(
             utils.common.getValueFromEvents(res as unknown as DeliverTxResponse, 'wasm', 'proposal_id') || '0',
           )
-
+          close()
           successToast(null, `Successfully published proposals`)
           return { transactionHash, proposalId }
         })
@@ -206,9 +208,10 @@ const TransferEntityToAccountButton: React.FC<{
 }> = ({ verificationMethods, setVerificationMethods }) => {
   const navigate = useNavigate()
   const { entityId = '' } = useParams<{ entityId: string }>()
-  const { currentEntity } = useCurrentEntity()
+  const currentEntity = useAppSelector(getEntityById(entityId))
   const [submitting, setSubmitting] = useState(false)
   const { handleReEnableKeys } = useTransferEntityState()
+  const { close } = useWallet()
 
   const [service = [], transferDocument = undefined] = useMemo(
     () => [currentEntity?.service, currentEntity?.linkedResource.find((v) => v.type === 'VerificationMethods')],
@@ -237,6 +240,7 @@ const TransferEntityToAccountButton: React.FC<{
     try {
       setSubmitting(true)
       await handleReEnableKeys({ entityId, transferDocument, verificationMethods })
+      close()
       navigate(`/entity/${entityId}/dashboard`)
       setSubmitting(false)
     } catch (error) {

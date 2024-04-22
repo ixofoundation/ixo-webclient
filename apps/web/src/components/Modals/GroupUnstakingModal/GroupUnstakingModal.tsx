@@ -77,7 +77,7 @@ const GroupUnstakingModal: React.FunctionComponent<Props> = ({ daoGroup, open, s
   const [amount, setAmount] = useState<string>('')
   const [txStatus, setTXStatus] = useState<TXStatus>(TXStatus.UNDEFINED)
   const [txHash, setTXHash] = useState<string>('')
-  const { execute } = useWallet()
+  const { execute, close } = useWallet()
 
   /**
    * @get
@@ -145,13 +145,14 @@ const GroupUnstakingModal: React.FunctionComponent<Props> = ({ daoGroup, open, s
       const cw20StakeClient = new Cw20StakeClient(execute, address, stakingContract)
 
       const { transactionHash } = await cw20StakeClient.unstake(
-        { amount: convertDenomToMicroDenomWithDecimals(amount, tokenInfo.decimals).toString() },
+        { amount: convertDenomToMicroDenomWithDecimals(amount, tokenInfo.decimals).toString(), transactionConfig: { sequence: 1 } },
         fee,
         undefined,
         depositInfo ? [depositInfo] : undefined,
       )
 
       if (transactionHash) {
+        close()
         setTXStatus(TXStatus.SUCCESS)
         setTXHash(transactionHash)
       } else {

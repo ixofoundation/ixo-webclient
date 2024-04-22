@@ -10,7 +10,6 @@ import ClaimTemplateCard from '../ClaimSetupModal/ClaimTemplateCard'
 import { TEntityClaimTemplateModel } from 'types/entities'
 import styled, { useTheme } from 'styled-components'
 import { ReactComponent as SearchIcon } from 'assets/images/icon-search.svg'
-import { ReactComponent as SlidersIcon } from 'assets/images/icon-sliders-h-solid.svg'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { selectAllClaimProtocols } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { useNavigate } from 'react-router-dom'
@@ -56,6 +55,7 @@ const ClaimSelectModal: React.FC<Props> = ({ open, onClose, onSelect }): JSX.Ele
     variables: {
       filter: {
         type: { equalTo: 'protocol/claim' },
+        entityVerified: { equalTo: true },
       },
     },
     onCompleted: ({ entities }) => {
@@ -72,7 +72,6 @@ const ClaimSelectModal: React.FC<Props> = ({ open, onClose, onSelect }): JSX.Ele
   })
 
   const [keyword, setKeyword] = useState('')
-  const [filter, setFilter] = useState(false)
   const [template, setTemplate] = useState<TEntityClaimTemplateModel>()
 
   const handleCreate = (): void => {
@@ -84,8 +83,16 @@ const ClaimSelectModal: React.FC<Props> = ({ open, onClose, onSelect }): JSX.Ele
   }
 
   const searchableClaims = useMemo(() => {
-    const allowedProtocols = claimProtocols.filter(claimProtocols => claimProtocols.relayerNode === currentRelayerNode || claimProtocols.owner === address || claimProtocols.entityVerified)
-    const searchResults = keyword.length > 2 ? allowedProtocols.filter(protocol => protocol.profile?.name?.includes(keyword)) :  allowedProtocols
+    const allowedProtocols = claimProtocols.filter(
+      (claimProtocols) =>
+        claimProtocols.relayerNode === currentRelayerNode ||
+        claimProtocols.owner === address ||
+        claimProtocols.entityVerified,
+    )
+    const searchResults =
+      keyword.length > 2
+        ? allowedProtocols.filter((protocol) => protocol.profile?.name?.includes(keyword))
+        : allowedProtocols
     return searchResults
   }, [keyword, claimProtocols, address])
 
@@ -102,7 +109,7 @@ const ClaimSelectModal: React.FC<Props> = ({ open, onClose, onSelect }): JSX.Ele
         </FlexBox>
         <FlexBox $alignItems='center' $gap={4} px={2.5}>
           <Input
-            width='270px'
+            width='340px'
             height='48px'
             placeholder={'Search'}
             inputValue={keyword}
@@ -114,17 +121,6 @@ const ClaimSelectModal: React.FC<Props> = ({ open, onClose, onSelect }): JSX.Ele
             }
             style={{ fontWeight: 500 }}
           />
-          <Button
-            variant={filter ? 'primary' : 'secondary'}
-            size='custom'
-            width={48}
-            height={48}
-            onClick={() => setFilter((pre) => !pre)}
-          >
-            <SvgBox $svgWidth={6} color={filter ? theme.ixoWhite : theme.ixoGrey700}>
-              <SlidersIcon />
-            </SvgBox>
-          </Button>
         </FlexBox>
         <ClaimProtocolList className='overflow-auto' p={2.5}>
           <FlexBox $direction='column' $gap={6}>

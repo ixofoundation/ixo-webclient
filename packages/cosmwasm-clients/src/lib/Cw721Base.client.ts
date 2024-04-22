@@ -283,10 +283,12 @@ export class Cw721BaseClient extends BaseClient {
       contract,
       msg,
       tokenId,
+      transactionConfig
     }: {
       contract: string;
       msg: Binary;
       tokenId: string;
+      transactionConfig: ExecuteProps["transactionConfig"]
     },
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
@@ -304,7 +306,8 @@ export class Cw721BaseClient extends BaseClient {
       },
       fee,
       memo,
-      funds
+      funds, 
+      transactionConfig
     );
   };
   approve = async (
@@ -312,10 +315,12 @@ export class Cw721BaseClient extends BaseClient {
       expires,
       spender,
       tokenId,
+      transactionConfig
     }: {
       expires?: Expiration;
       spender: string;
       tokenId: string;
+      transactionConfig: ExecuteProps["transactionConfig"]
     },
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
@@ -333,16 +338,19 @@ export class Cw721BaseClient extends BaseClient {
       },
       fee,
       memo,
-      funds
+      funds,
+      transactionConfig
     );
   };
   revoke = async (
     {
       spender,
       tokenId,
+      transactionConfig
     }: {
       spender: string;
       tokenId: string;
+      transactionConfig: ExecuteProps["transactionConfig"]
     },
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
@@ -359,16 +367,19 @@ export class Cw721BaseClient extends BaseClient {
       },
       fee,
       memo,
-      funds
+      funds,
+      transactionConfig
     );
   };
   approveAll = async (
     {
       expires,
       operator,
+      transactionConfig
     }: {
       expires?: Expiration;
       operator: string;
+      transactionConfig: ExecuteProps["transactionConfig"]
     },
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
@@ -385,14 +396,17 @@ export class Cw721BaseClient extends BaseClient {
       },
       fee,
       memo,
-      funds
+      funds,
+      transactionConfig
     );
   };
   revokeAll = async (
     {
       operator,
+      transactionConfig
     }: {
       operator: string;
+      transactionConfig: ExecuteProps["transactionConfig"]
     },
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
@@ -408,7 +422,8 @@ export class Cw721BaseClient extends BaseClient {
       },
       fee,
       memo,
-      funds
+      funds,
+      transactionConfig
     );
   };
   mint = async (
@@ -417,11 +432,13 @@ export class Cw721BaseClient extends BaseClient {
       owner,
       tokenId,
       tokenUri,
+      transactionConfig
     }: {
       extension: Empty;
       owner: string;
       tokenId: string;
       tokenUri?: string;
+      transactionConfig: ExecuteProps["transactionConfig"]
     },
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
@@ -440,14 +457,17 @@ export class Cw721BaseClient extends BaseClient {
       },
       fee,
       memo,
-      funds
+      funds,
+      transactionConfig
     );
   };
   burn = async (
     {
       tokenId,
+      transactionConfig
     }: {
       tokenId: string;
+      transactionConfig: ExecuteProps["transactionConfig"]
     },
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
@@ -463,14 +483,17 @@ export class Cw721BaseClient extends BaseClient {
       },
       fee,
       memo,
-      funds
+      funds,
+      transactionConfig
     );
   };
   extension = async (
     {
       msg,
+      transactionConfig
     }: {
       msg: Empty;
+      transactionConfig: ExecuteProps["transactionConfig"]
     },
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
@@ -486,10 +509,12 @@ export class Cw721BaseClient extends BaseClient {
       },
       fee,
       memo,
-      funds
+      funds,
+      transactionConfig
     );
   };
   updateOwnership = async (
+    { transactionConfig }: { transactionConfig: ExecuteProps["transactionConfig"] },
     fee: number | StdFee | "auto" = "auto",
     memo?: string,
     funds?: Coin[]
@@ -502,7 +527,8 @@ export class Cw721BaseClient extends BaseClient {
       },
       fee,
       memo,
-      funds
+      funds,
+      transactionConfig
     );
   };
 }

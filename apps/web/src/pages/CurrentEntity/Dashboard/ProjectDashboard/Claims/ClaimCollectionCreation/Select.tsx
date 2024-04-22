@@ -4,18 +4,19 @@ import { deviceWidth } from 'constants/device'
 import { Button, PropertyBox } from 'pages/CreateEntity/Components'
 import React, { useState } from 'react'
 import { ReactComponent as ClaimIcon } from 'assets/images/icon-claim.svg'
-import { Anchor } from '@mantine/core'
 import { TEntityClaimModel } from 'types/entities'
+import { useParams, NavLink } from 'react-router-dom'
 
 interface Props {
   hidden?: boolean
   onSubmit: (claimId: string) => void
   onCancel?: () => void
   claims: {
-    [id: string]: TEntityClaimModel;
-}
+    [id: string]: TEntityClaimModel
+  }
 }
 const ClaimCollectionCreationSelectStep: React.FC<Props> = ({ hidden, onSubmit, onCancel, claims }) => {
+  const { entityId } = useParams<{ entityId: string }>()
   const [selected, setSelected] = useState('')
 
   if (hidden) {
@@ -29,7 +30,7 @@ const ClaimCollectionCreationSelectStep: React.FC<Props> = ({ hidden, onSubmit, 
           Select the linked Claim for which you want to create a new Claim Collection.
         </Typography>
 
-        <FlexBox $gap={6} $alignItems='center'>
+        <FlexBox $gap={6} $alignItems='flex-start'>
           {Object.values(claims).map((claim) => (
             <FlexBox key={claim.id} $direction='column' $alignItems='flex-start' $gap={4}>
               <PropertyBox
@@ -53,7 +54,8 @@ const ClaimCollectionCreationSelectStep: React.FC<Props> = ({ hidden, onSubmit, 
         </FlexBox>
 
         <Typography variant='secondary' size='base'>
-          Alternatively you can add a <Anchor href='/entity/create/protocol'>new linked Claim</Anchor>.
+          Alternatively you can add a{' '}
+          <NavLink to={`/entity/${entityId}/dashboard/edit?addClaim=true`}>new linked Claim</NavLink>.
         </Typography>
       </FlexBox>
 

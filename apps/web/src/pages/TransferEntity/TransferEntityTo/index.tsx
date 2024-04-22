@@ -15,14 +15,17 @@ import { ReactComponent as InfoIcon } from 'assets/images/icon-info.svg'
 import { errorToast, successToast } from 'utils/toast'
 import { VerificationMethod } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { VMKeyMap } from 'constants/entity'
-import useCurrentEntity from 'hooks/currentEntity'
+import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { useAppSelector } from 'redux/hooks'
+import { useWallet } from '@ixo-webclient/wallet-connector'
 
 const TransferEntityTo: React.FC = (): JSX.Element => {
   const theme: any = useTheme()
   const navigate = useNavigate()
   const { entityId = '' } = useParams<{ entityId: string }>()
-  const { currentEntity } = useCurrentEntity()
+  const  currentEntity = useAppSelector(getEntityById(entityId))
   const { recipientDid, updateRecipientDid, handleTransfer } = useTransferEntityState()
+  const { close } = useWallet()
 
   const [
     daoGroups = {},
@@ -87,7 +90,7 @@ const TransferEntityTo: React.FC = (): JSX.Element => {
       await handleTransfer({ reEnableKeys, keys, entityId })
       successToast('Success', 'Successfully transferred!')
       setSubmitting(false)
-
+      close()
       navigate(`/entity/${entityId}/dashboard`)
     } catch (error) {
       setSubmitting(false)

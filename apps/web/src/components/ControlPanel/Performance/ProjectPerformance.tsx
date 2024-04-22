@@ -3,12 +3,15 @@ import { Card } from '../Card'
 import { ReactComponent as ClockIcon } from 'assets/images/icon-clock-2.svg'
 import { ReactComponent as ProjectIcon } from 'assets/images/icon-project.svg'
 import { ReactComponent as ChartPieIcon } from 'assets/images/icon-chart-pie-solid.svg'
-import useCurrentEntity from 'hooks/currentEntity'
 import { toTitleCase } from 'utils/formatters'
 import { EntityStatusMap } from 'constants/entity'
+import { useParams } from 'react-router-dom'
+import { useAppSelector } from 'redux/hooks'
+import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 const ProjectPerformance: React.FC = () => {
-  const { entityStatus } = useCurrentEntity()
+  const { entityId = "" } = useParams<{ entityId: string }>()
+  const { status } = useAppSelector(getEntityById(entityId))
 
   return (
     <Card
@@ -18,7 +21,7 @@ const ProjectPerformance: React.FC = () => {
       items={[
         {
           icon: <ProjectIcon />,
-          content: `Status: ${toTitleCase(EntityStatusMap[entityStatus])}`,
+          content: `Status: ${toTitleCase(EntityStatusMap[status])}`,
         },
         {
           icon: <ChartPieIcon />,

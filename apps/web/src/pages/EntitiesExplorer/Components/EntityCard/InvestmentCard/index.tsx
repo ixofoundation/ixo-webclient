@@ -10,6 +10,7 @@ import { useGetBondDid } from 'graphql/bonds'
 import { useMapBondDetail } from 'hooks/bond'
 import BigNumber from 'bignumber.js'
 import { getMappedCDNURL } from '@ixo-webclient/utils'
+import { LinkedEntity } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 
 const InvestmentCard: React.FC<TEntityModel & { to?: string }> = (entity) => {
   const theme: any = useTheme()
@@ -18,7 +19,7 @@ const InvestmentCard: React.FC<TEntityModel & { to?: string }> = (entity) => {
   const image = entity.profile?.image || ''
   const logo = entity.profile?.logo || ''
   const title = entity.profile?.name || ''
-  const bondDid = entity.linkedEntity.find((v) => v.type === 'bond')?.id
+  const bondDid = Array.isArray(entity.linkedEntity) ? entity.linkedEntity?.find((v) => v.type === 'bond')?.id : (Object.values(entity.linkedEntity) as LinkedEntity[])?.find((v) => v.type === 'bond')?.id
   const { data: bondDetail } = useGetBondDid(bondDid)
   const { state, currentReserve, currentReserveUsd, initialRaised, initialRaisedUsd } = useMapBondDetail(bondDetail)
   const fundedPercentage = useMemo(

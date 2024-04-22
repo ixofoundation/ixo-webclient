@@ -83,7 +83,7 @@ const GroupStakingModal: React.FunctionComponent<Props> = ({ daoGroup, open, set
   const [amount, setAmount] = useState<string>('')
   const [txStatus, setTXStatus] = useState<TXStatus>(TXStatus.UNDEFINED)
   const [txHash, setTXHash] = useState<string>('')
-  const { execute } = useWallet()
+  const { execute, close } = useWallet()
 
   /**
    * @get
@@ -148,12 +148,14 @@ const GroupStakingModal: React.FunctionComponent<Props> = ({ daoGroup, open, set
           amount: convertDenomToMicroDenomWithDecimals(amount, tokenInfo.decimals).toString(),
           contract: stakingContract,
           msg: btoa('{"stake": {}}'),
+          transactionConfig: { sequence: 1 }
         },
         fee,
         undefined,
         undefined,
       )
       if (transactionHash) {
+        close()
         setTXStatus(TXStatus.SUCCESS)
         setTXHash(transactionHash)
         onSuccess && onSuccess(transactionHash)
