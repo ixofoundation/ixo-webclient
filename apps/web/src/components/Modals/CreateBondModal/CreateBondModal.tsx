@@ -160,7 +160,7 @@ const CreateBondModal: React.FC<Props> = ({ open, bondDid, onSubmit, onClose }):
         creatorAddress: signer.address,
         oracleDid: did,
       }
-      const createBondData = await CreateBondMessage(payload)
+      const createBondData = CreateBondMessage(payload)
       const response = (await execute({
         data: createBondData,
         transactionConfig: { sequence: 1 },
