@@ -34,8 +34,9 @@ const ClaimForm: React.FC<Props> = ({ claimId }) => {
   const { entityId = '' } = useParams<{ entityId: string }>()
   const signer = useSigner()
 
-  const claim: { [id: string]: TEntityClaimModel } = useAppSelector(selectEntityClaim)
   const entity = useAppSelector(getEntityById(entityId))
+
+  const claim: { [id: string]: TEntityClaimModel } = entity.claim ?? {}
 
   const { execute, wallet, close } = useWallet()
   const userRole = useGetUserGranteeRole(wallet?.address ?? "", entity.owner, entity.accounts)
@@ -48,6 +49,7 @@ const ClaimForm: React.FC<Props> = ({ claimId }) => {
 
   const claimCollection = useGetClaimCollectionByEntityIdAndClaimTemplateId({ entityId, protocolId: templateEntityId })
   const [questionFormData, setQuestionFormData] = useState<any[]>([])
+
   const canCreateMore = useMemo(() => {
     if (!claimCollection) {
       return false
