@@ -60,7 +60,6 @@ const InvestmentCard: React.FC<TEntityModel & { to?: string }> = (entity) => {
         <FlexBox p={4.5} $direction='column' $gap={4} width='100%'>
           <FlexBox width='100%'>
             <Typography size='sm' transform='uppercase'>
-              Emerging Cooking Solutions
             </Typography>
           </FlexBox>
 
@@ -73,7 +72,7 @@ const InvestmentCard: React.FC<TEntityModel & { to?: string }> = (entity) => {
 
           <FlexBox width='100%' height='1px' background='#EFEFEF' />
 
-          <FlexBox width='100%' $direction='column' $gap={2}>
+          {bondDid && <FlexBox width='100%' $direction='column' $gap={2}>
             <Typography size='xl' weight='semi-bold'>
               {Intl.NumberFormat(undefined, { style: 'currency', currency: 'USD' }).format(currentReserveUsd)} raised
             </Typography>
@@ -95,7 +94,7 @@ const InvestmentCard: React.FC<TEntityModel & { to?: string }> = (entity) => {
                 </Typography>
               </FlexBox>
             </FlexBox>
-          </FlexBox>
+          </FlexBox>}
         </FlexBox>
       </FlexBox>
     </NavLink>
