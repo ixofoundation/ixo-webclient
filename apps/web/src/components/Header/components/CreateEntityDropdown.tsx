@@ -131,7 +131,7 @@ const CreateEntityDropdown: React.FunctionComponent<Props> = ({ entityType }) =>
               end={true}
               to={`/entity/create/${EntityType.Asset.toLowerCase()}`}
               className={`
-                  ${EntityType.Asset.toLowerCase()} ${entityType === EntityType.Asset ? 'active' : ''} disabled
+                  ${EntityType.Asset.toLowerCase()} ${entityType === EntityType.Asset ? 'active' : ''}
                   `}
               onClick={handleToggleModal}
             >
