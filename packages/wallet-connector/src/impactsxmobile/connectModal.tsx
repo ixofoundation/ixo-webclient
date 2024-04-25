@@ -44,10 +44,6 @@ export const ConnectModal = () => {
   const percent = (timeLeft / (twoMinutesInMilliseconds / 1000)) * 100;
 
   useEffect(() => {
-    connectWallet(WalletType.ImpactXMobile);
-  }, []);
-
-  useEffect(() => {
     if (timeLeft > 0) {
       const interval = setInterval(() => {
         setTimeLeft((prevTime) => Math.max(prevTime - 1, 0));
@@ -57,13 +53,13 @@ export const ConnectModal = () => {
   }, [timeLeft]);
 
   useEffect(() => {
-    if (mobile.qr && timeLeft <= 0) {
+    if (timeLeft <= 0) {
       setQRCodeExpired(true);
     }
   }, [timeLeft]);
 
   const handleRegenerateQR = () => {
-    connectWallet(WalletType.ImpactXMobile);
+    connectWallet();
     setTimeLeft(twoMinutesInMilliseconds / 1000);
     setQRCodeExpired(false);
   };
@@ -102,9 +98,9 @@ export const ConnectModal = () => {
       {mobile.timeout! > 0 && (
         <TimeLeft percent={percent} timeLeft={timeLeft} />
       )}
-      {mobile.qr && (
+      {mobile.data && (
         <QRCodeSVG
-          value={mobile.qr}
+          value={JSON.stringify(mobile.data)}
           size={250}
           bgColor={"#ffffff"}
           fgColor={"#000000"}
