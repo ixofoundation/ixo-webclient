@@ -48,7 +48,7 @@ const Membership: React.FC = (): JSX.Element | null => {
               const votingPower =
                 (selectedDAOGroup.votingModule.members.find(({ addr }) => addr === member.addr)?.weight ?? 0) /
                 selectedDAOGroup.votingModule.totalWeight
-              const votes = selectedDAOGroup?.proposalModule.votes.filter((vote) => vote.voter === member.addr).length
+              const votes = selectedDAOGroup.proposalModule.votes.filter((vote) => vote.voter === member.addr).length
               const proposals = selectedDAOGroup.proposalModule.proposals.filter(
                 ({ proposal }) => proposal.proposer === member.addr,
               ).length
