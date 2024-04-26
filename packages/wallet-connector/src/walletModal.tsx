@@ -1,13 +1,11 @@
-import { useEffect, useState } from "react";
-import { Modal, MantineProvider, Flex, Text, Button, Loader } from "@mantine/core";
+import { Modal, MantineProvider, Flex, Text, Loader } from "@mantine/core";
 import { useWallet } from "hooks";
 import { QRCodeSVG } from "qrcode.react";
-import { upperFirst } from "@mantine/hooks";
 import { ConnectModal } from "components/connectModal";
+import { friendlyModalTitles } from "utils";
 
 const TransactModal = () => {
   const { mobile, transaction } = useWallet();
-  console.log({ transactionSessionHash: transaction.transactionSessionHash, sequence: transaction.sequence })
 
   return (
     <Flex
@@ -20,7 +18,7 @@ const TransactModal = () => {
     >
 
       {/* <TimeLeft timeout={mobile?.timeout || 0} /> */}
-      {mobile.qr && transaction.sequence === 1 && (
+      {mobile.data && (
         <>
           <Flex>
             <Text style={{ color: "white" }}>
@@ -28,7 +26,7 @@ const TransactModal = () => {
             </Text>
           </Flex>
           <QRCodeSVG
-            value={mobile.qr}
+            value={JSON.stringify(mobile.data)}
             size={250}
             bgColor={"#ffffff"}
             fgColor={"#000000"}
@@ -44,33 +42,37 @@ const TransactModal = () => {
             }}
           /></>
       )}
-      {transaction.sequence > 1 && <>
-        <Flex>
-          <Text style={{ color: "white" }}>
-            Keep the Impacts X mobile app open for additional transactions
-          </Text>
-        </Flex>
-        <Loader size={100} />
-      </>}
     </Flex>
   );
 };
 
+const SequenceTransactionModal = () => {
+  return <Flex
+    w="100%"
+    h="100%"
+    justify="center"
+    align="center"
+    direction="column"
+    gap="20px"
+  >
+
+    {/* <TimeLeft timeout={mobile?.timeout || 0} /> */}
+    <Flex>
+      <Text style={{ color: "white" }}>
+        Keep the Impacts X mobile app open for additional transactions
+      </Text>
+    </Flex>
+    <Loader size={100} />
+  </Flex>
+}
+
 export const WalletModal = () => {
-  const { opened, close, wallet, mobile } = useWallet();
+  const { opened, close, mobile } = useWallet();
 
-  const [step, setStep] = useState<"" | "transacting" | "profile" | "connect">(
-    ""
-  );
 
-  useEffect(() => {
-    if (wallet && mobile?.transacting) {
-      setStep("transacting");
-    }
-    if (!wallet) {
-      setStep("connect");
-    }
-  }, [wallet, mobile.transacting]);
+  const isConnectModal = mobile.data?.type === "SIGN_X_LOGIN"
+  const isTransactModal = mobile.data?.type === "SIGN_X_TRANSACT"
+  const isSequenceTransactionModal = mobile.data?.type === "SIGN_X_TRANSACT_SESSION"
 
   return (
     <MantineProvider>
@@ -91,10 +93,11 @@ export const WalletModal = () => {
         padding="xl"
         opened={opened}
         onClose={close}
-        title={upperFirst(step)}
+        title={friendlyModalTitles(mobile.data?.type ?? "")}
       >
-        {step === "connect" && <ConnectModal />}
-        {step === "transacting" && <TransactModal />}
+        {isConnectModal && <ConnectModal />}
+        {isTransactModal && <TransactModal />}
+        {isSequenceTransactionModal && <SequenceTransactionModal />}
       </Modal>
     </MantineProvider>
   );

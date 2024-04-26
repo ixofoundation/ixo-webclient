@@ -22,7 +22,7 @@ type MessageProps = {
 }
 
 type UseWalletProps = WalletContextType & {
-  connectWallet: (type: WalletType) => Promise<void>;
+  connectWallet: () => Promise<void>;
   disconnectWallet: () => void;
   execute: (transaction: ExecuteProps) => Promise<DeliverTxResponse | string>;
   setWallet: (wallet: Wallet | null) => void
@@ -34,29 +34,23 @@ export const useWallet = (): UseWalletProps => {
     throw new Error("useWallet must be used within a WalletProvider");
   }
 
-  const connectWallet = async (type: WalletType): Promise<void> => {
-    if (type === WalletType.ImpactXMobile) {
-      try {
-        const loginData = await context.signXWallet.init();
-        console.log({ loginData });
-        context.setMobile({
-          qr: JSON.stringify(loginData),
-          timeout: Number(new Date(loginData.timeout).getTime()),
-        });
-        const wallet: any = await context.signXWallet.connect();
-        console.log("typeof pubKey, ", wallet.pubKey);
-        if (wallet) {
-          context.setWallet({
-            ...wallet,
-            publicKey: wallet.pubKey,
-            wallet: { type: WalletType.ImpactXMobile },
-          });
-          context.close()
-        }
-      } catch (error) {
-        // TODO: send to logger
-        console.log({ error });
-      }
+  const connectWallet = async (): Promise<void> => {
+    context.open()
+    const loginData = await context.signXWallet.init();
+
+    context.setMobile({
+      timeout: Number(new Date(loginData.timeout).getTime()),
+      data: loginData
+    });
+    const wallet: any = await context.signXWallet.connect();
+
+    if (wallet) {
+      context.setWallet({
+        ...wallet,
+        publicKey: wallet.pubKey,
+        wallet: { type: WalletType.ImpactXMobile },
+      });
+      context.close()
     }
   };
 
@@ -64,31 +58,27 @@ export const useWallet = (): UseWalletProps => {
     data,
     transactionConfig
   }: ExecuteProps) => {
-    const { messages, fee } = data;
-    context.setMobile((prevState) => ({ ...prevState, transacting: true }));
-
     const transactData = await context.signXWallet.initTransaction(
-      transactionConfig.sequence,
-      messages,
+      1,
+      data.messages,
       context.wallet as any
     );
 
     context.setMobile((prevState) => ({
       ...prevState,
-      qr: JSON.stringify(transactData.data),
+      data: transactData.data,
       timeout: transactData.timeout,
     }));
 
-    context.setTransaction({ transactionSessionHash: transactData.data.sessionHash, sequence: transactionConfig.sequence })
-    console.log({ transactionSessionHash: transactData.data.sessionHash, sequence: transactionConfig.sequence })
-
-    if (transactionConfig.sequence === 1) {
-      context.open();
-    }
-
-    if (transactionConfig.sequence > 1) {
+    if (context.signXWallet.getSequenceNumber() > 1) {
+      context.setMobile((prevState) => ({
+        ...prevState,
+        data: { ...prevState.data, type: "SIGN_X_TRANSACT_SESSION" }
+      }))
       context.signXWallet.pollNextTransaction()
     }
+
+    context.open();
 
     const transaction =
       await context.signXWallet.waitOnTransactionExecution();
