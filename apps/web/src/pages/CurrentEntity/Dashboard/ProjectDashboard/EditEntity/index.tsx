@@ -17,7 +17,7 @@ const EditEntity: React.FC = () => {
   const navigate = useNavigate()
   const { entityId = '' } = useParams<{ entityId: string }>()
   const currentEntity = useAppSelector(getEntityById(entityId))
-  const { wallet } = useWallet()
+  const { wallet, close } = useWallet()
   const isOwner = wallet?.address === currentEntity.owner
   const { setEditEntity, ExecuteEditEntity } = useEditEntity()
   const [editing, setEditing] = useState(false)
@@ -32,6 +32,7 @@ const EditEntity: React.FC = () => {
     try {
       const { transactionHash, code, rawLog } = await ExecuteEditEntity()
       if (transactionHash && code === 0) {
+        close()
         successToast('Updating', 'Successfully updated!')
       } else {
         throw new Error(rawLog)

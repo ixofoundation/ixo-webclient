@@ -1,0 +1,21 @@
+query Claims($condition: ClaimCondition, $orderBy: [ClaimsOrderBy!]) {
+  claims(condition: $condition, orderBy: $orderBy) {
+    nodes {
+      agentAddress
+      agentDid
+      claimId
+      paymentsStatus
+      evaluationByClaimId {
+        amount
+        status
+        evaluationDate
+      }
+      submissionDate
+      collection {
+        payments
+        admin
+        protocol
+      }
+    }
+  }
+}

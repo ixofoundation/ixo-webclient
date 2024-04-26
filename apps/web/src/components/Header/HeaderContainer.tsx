@@ -19,7 +19,7 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ entityType, headerUIConfig }) => {
-  const { open } = useWallet()
+  const { connectWallet } = useWallet()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   const handleBurgerClick = () => {
@@ -44,7 +44,7 @@ const Header: React.FC<HeaderProps> = ({ entityType, headerUIConfig }) => {
       </ModalWrapper> */}
       <div className='row'>
         <HeaderLeft currentEntity={entityType} openMenu={isMobileMenuOpen} handleBurgerClick={handleBurgerClick} />
-        <HeaderRight toggleModal={open} />
+        <HeaderRight toggleModal={connectWallet} />
       </div>
     </TopBar>
   )

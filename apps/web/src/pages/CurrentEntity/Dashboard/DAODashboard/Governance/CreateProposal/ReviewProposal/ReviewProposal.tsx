@@ -36,13 +36,15 @@ import { AddLinkedEntityMessage } from 'lib/protocol/iid.messages'
 import { DaoPreProposeSingleClient } from '@ixo-webclient/cosmwasm-clients'
 import { useAppSelector } from 'redux/hooks'
 import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { useEntity } from 'hooks/entity/useEntity'
 
 const ReviewProposal: React.FC = () => {
   const theme: any = useTheme()
   const navigate = useNavigate()
   const { entityId = "", coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
+  const { refetch } = useEntity(entityId)
   const { cwClient } = useAccount()
-  const { updateDAOGroup, refetchAndUpdate } = useCurrentEntity()
+  const { updateDAOGroup } = useCurrentEntity()
   const { daoGroups = {} } = useAppSelector(getEntityById(entityId))
   const { daoGroup, preProposalContractAddress, depositInfo, isParticipating, anyoneCanPropose } =
     useCurrentEntityDAOGroup(coreAddress!, daoGroups)
@@ -108,7 +110,7 @@ const ReviewProposal: React.FC = () => {
   const { getQuery } = useQuery()
   const success = getQuery('success')
   const selectedTemplateEntityId = getQuery('selectedTemplateEntityId')
-  const { execute, wallet } = useWallet()
+  const { execute, wallet, transaction, close } = useWallet()
   const signer: TSigner = {
     address: wallet?.address || '',
     did: wallet?.did || '',
@@ -228,6 +230,10 @@ const ReviewProposal: React.FC = () => {
               title: profile?.name || '',
             },
           },
+          transactionConfig: {
+            sequence: 3,
+            transactionSessionHash: transaction.transactionSessionHash
+          }
         },
         fee,
         undefined,
@@ -272,7 +278,7 @@ const ReviewProposal: React.FC = () => {
     linkedClaim = linkedClaim.concat(await UploadLinkedClaim())
 
     // Create Protocol for deed
-    const protocolDid = await CreateProtocol()
+    const protocolDid = await CreateProtocol({ sequence: 1 })
     if (!protocolDid) {
       return ''
     }
@@ -285,7 +291,7 @@ const ReviewProposal: React.FC = () => {
       linkedEntity,
       linkedClaim,
       relayerNode: process.env.REACT_APP_RELAYER_NODE,
-    })
+    }, { sequence: 2, transactionSessionHash: transaction.transactionSessionHash})
     if (!entityDid) {
       return ''
     }
@@ -304,7 +310,12 @@ const ReviewProposal: React.FC = () => {
     })
 
     const linkedEntityInstruction = AddLinkedEntityMessage(signer, { did: deedDid, linkedEntity })
-    const response = (await execute(linkedEntityInstruction)) as DeliverTxResponse
+    const response = (await execute({
+      data: linkedEntityInstruction, transactionConfig: {
+        sequence: 4,
+        transactionSessionHash: transaction.transactionSessionHash
+      }
+    })) as DeliverTxResponse
     return !!response
   }
 
@@ -340,8 +351,9 @@ const ReviewProposal: React.FC = () => {
           if (await handleAddProposalInfoAsLinkedEntity(deedDid, proposalId)) {
             updateDAOGroup(coreAddress!)
             setSubmitting(false)
-            refetchAndUpdate()
+            refetch()
             navigate({ search: `?success=true` })
+            close()
             return
           }
         }
@@ -470,7 +482,7 @@ const ReviewProposal: React.FC = () => {
           <>
             <FlexBox $direction='column' width='100%' $gap={4}>
               <Typography variant='secondary'>
-                This is the last step before submitting this governance proposal for {profile.name}.
+                This is the last step before submitting this governance proposal for {profile?.name}.
               </Typography>
               <Typography variant='secondary'>
                 <NavLink to={`/create/entity/deed/${entityId}/${coreAddress}/action`}>

@@ -62,7 +62,7 @@ const Shareholders: React.FC = () => {
   const selectedGroup: string = getQuery('selectedGroup')
   const  { daoGroups = {} } = useAppSelector(getEntityById(entityId))
   const { members, totalWeight, daoGroup } = useCurrentEntityDAOGroup(selectedGroup, daoGroups)
-  const { tokenTotalSupply, tokenDecimals } = useCurrentEntityDAOGroupToken(selectedGroup)
+  const { tokenTotalSupply, tokenDecimals } = useCurrentEntityDAOGroupToken(selectedGroup, daoGroups)
   const { cwClient } = useAccount()
   const { data: users } = useGetUserIids()
 

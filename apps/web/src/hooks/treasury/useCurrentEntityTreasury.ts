@@ -57,7 +57,7 @@ const getStakingGroupBalance = async ({ stakingGroup }: { stakingGroup: TDAOGrou
         coinImageUrl: (token.marketingInfo?.logo !== 'embedded' && token.marketingInfo.logo?.url) || '',
         lastPriceUsd: 0,
     }
-    return payload
+    return [payload]
 }
 
 const getEntityAccountBalances = async ({ accounts }: { accounts: EntityAccount[] }) => {
@@ -114,6 +114,7 @@ export function useCurrentEntityTreasury({ entityId = "" }) {
 
     useEffect(() => {
         getStakingAccountBalances({ daoGroups: findKeyValuePairs(entity?.daoGroups ?? {}, "type", "staking") }).then(response => {
+            console.log({response})
             return response
         }).then(response => setAccounts(prev => ({ ...prev, ...response })))
     }, [entity.daoGroups])

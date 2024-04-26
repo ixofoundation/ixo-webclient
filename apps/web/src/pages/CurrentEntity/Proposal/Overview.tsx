@@ -9,10 +9,13 @@ import { PageContent } from '../Overview/PageContent'
 import { InstructionsToExecute } from './InstructionsToExecute'
 import { Flex, ScrollArea } from '@mantine/core'
 import ControlPanel from 'components/ControlPanel'
+import { useEntity } from 'hooks/entity/useEntity'
 
 const Overview: React.FC = () => {
   const { deedId = '' } = useParams<{ entityId: string; deedId: string }>()
   const entity = useAppSelector(selectEntityById(deedId))
+
+  useEntity(deedId)
 
   return (
     <Flex w='100%' h='100%' bg='#F8F9FD'>
@@ -35,6 +38,7 @@ const Overview: React.FC = () => {
                 Object.keys(EntityLinkedResourceConfig).includes(item.type),
               ) ?? []
             }
+            service={entity?.service}
           />
         </Flex>
       </ScrollArea>

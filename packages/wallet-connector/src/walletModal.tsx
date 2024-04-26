@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
-import { Modal, MantineProvider, Flex, Text, Button } from "@mantine/core";
+import { Modal, MantineProvider, Flex, Text, Loader } from "@mantine/core";
 import { useWallet } from "hooks";
 import { QRCodeSVG } from "qrcode.react";
-import { upperFirst } from "@mantine/hooks";
 import { ConnectModal } from "components/connectModal";
+import { friendlyModalTitles } from "utils";
 
 const TransactModal = () => {
-  const { mobile } = useWallet();
+  const { mobile, transaction } = useWallet();
+
   return (
     <Flex
       w="100%"
@@ -16,49 +16,63 @@ const TransactModal = () => {
       direction="column"
       gap="20px"
     >
-      <Flex>
-        <Text style={{ color: "white" }}>
-          Scan this QR code with your Impacts X mobile app
-        </Text>
-      </Flex>
+
       {/* <TimeLeft timeout={mobile?.timeout || 0} /> */}
-      {mobile.qr && (
-        <QRCodeSVG
-          value={mobile.qr}
-          size={250}
-          bgColor={"#ffffff"}
-          fgColor={"#000000"}
-          level={"Q"}
-          style={{ padding: "20px", background: "white", borderRadius: "20px" }}
-          imageSettings={{
-            src: "/assets/oval-x-icon.png",
-            x: undefined,
-            y: undefined,
-            height: 30,
-            width: 30,
-            excavate: true,
-          }}
-        />
+      {mobile.data && (
+        <>
+          <Flex>
+            <Text style={{ color: "white" }}>
+              Scan this QR code with your Impacts X mobile app
+            </Text>
+          </Flex>
+          <QRCodeSVG
+            value={JSON.stringify(mobile.data)}
+            size={250}
+            bgColor={"#ffffff"}
+            fgColor={"#000000"}
+            level={"Q"}
+            style={{ padding: "20px", background: "white", borderRadius: "20px" }}
+            imageSettings={{
+              src: "/assets/oval-x-icon.png",
+              x: undefined,
+              y: undefined,
+              height: 30,
+              width: 30,
+              excavate: true,
+            }}
+          /></>
       )}
     </Flex>
   );
 };
 
+const SequenceTransactionModal = () => {
+  return <Flex
+    w="100%"
+    h="100%"
+    justify="center"
+    align="center"
+    direction="column"
+    gap="20px"
+  >
+
+    {/* <TimeLeft timeout={mobile?.timeout || 0} /> */}
+    <Flex>
+      <Text style={{ color: "white" }}>
+        Keep the Impacts X mobile app open for additional transactions
+      </Text>
+    </Flex>
+    <Loader size={100} />
+  </Flex>
+}
+
 export const WalletModal = () => {
-  const { opened, close, wallet, mobile } = useWallet();
+  const { opened, close, mobile } = useWallet();
 
-  const [step, setStep] = useState<"" | "transacting" | "profile" | "connect">(
-    ""
-  );
 
-  useEffect(() => {
-    if (wallet && mobile?.transacting) {
-      setStep("transacting");
-    }
-    if (!wallet) {
-      setStep("connect");
-    }
-  }, [wallet, mobile.transacting]);
+  const isConnectModal = mobile.data?.type === "SIGN_X_LOGIN"
+  const isTransactModal = mobile.data?.type === "SIGN_X_TRANSACT"
+  const isSequenceTransactionModal = mobile.data?.type === "SIGN_X_TRANSACT_SESSION"
 
   return (
     <MantineProvider>
@@ -79,10 +93,11 @@ export const WalletModal = () => {
         padding="xl"
         opened={opened}
         onClose={close}
-        title={upperFirst(step)}
+        title={friendlyModalTitles(mobile.data?.type ?? "")}
       >
-        {step === "connect" && <ConnectModal />}
-        {step === "transacting" && <TransactModal />}
+        {isConnectModal && <ConnectModal />}
+        {isTransactModal && <TransactModal />}
+        {isSequenceTransactionModal && <SequenceTransactionModal />}
       </Modal>
     </MantineProvider>
   );
