@@ -5,13 +5,14 @@ import { Navigate, Route, Routes, useParams } from 'react-router-dom'
 import AssetOverview from './Overview'
 import { useAppSelector } from 'redux/hooks'
 import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { toRootEntityType } from 'utils/entities'
 
 const AssetDashboard = () => {
   const entityType = 'asset'
-  const { entityId = "" } = useParams()
+  const { entityId = '' } = useParams()
   const entity = useAppSelector(getEntityById(entityId))
 
-  const headerTabs = useHeaderTabs({ entityType: entity.type})
+  const headerTabs = useHeaderTabs({ entityType: toRootEntityType(entity.type) })
 
   const assetNumber = entity?.alsoKnownAs?.replace('{id}#', '') || ''
   const title = entity?.profile?.name || ''

@@ -10,6 +10,7 @@ import { useTheme } from 'styled-components'
 import { TEntityModel } from 'types/entities'
 import { thousandSeparator } from 'utils/formatters'
 import { useGetAccountTokens } from 'graphql/tokens'
+import { getMappedCDNURL } from '@ixo-webclient/utils'
 
 interface Props {
   collectionName: string
@@ -84,7 +85,7 @@ const AssetCard: React.FC<Props> = ({
       <FlexBox $direction='column' width='100%' $borderRadius={'10px'} overflow='hidden'>
         <FlexBox
           position='relative'
-          background={`url(${image!})`}
+          background={`url(${getMappedCDNURL(image!)})`}
           width='100%'
           $minHeight='170px'
           $backgroundSize='100% 100%'
@@ -179,7 +180,7 @@ const AssetCard: React.FC<Props> = ({
               width='32px'
               height='32px'
               $borderRadius='100%'
-              background={`url(${logo}), ${theme.ixoGrey100}`}
+              background={`url(${getMappedCDNURL(logo!)}), ${theme.ixoGrey100}`}
               $backgroundSize='100%'
             />
           </FlexBox>

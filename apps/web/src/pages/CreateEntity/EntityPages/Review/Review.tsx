@@ -24,6 +24,7 @@ import { EntityType } from 'types/entities'
 import { Box } from '@mantine/core'
 import { toRootEntityType } from 'utils/entities'
 import { useWallet } from '@ixo-webclient/wallet-connector'
+import { currentRelayerNode } from 'constants/common'
 
 const Review: React.FC = (): JSX.Element => {
   const theme: any = useTheme()
@@ -107,16 +108,21 @@ const Review: React.FC = (): JSX.Element => {
     }
 
     // Create an entity
-    const { did: entityDid } = await CreateEntityBase(entityType, protocolDid, {
-      service,
-      linkedResource,
-      accordedRight,
-      linkedEntity,
-      linkedClaim,
-      verification,
-      relayerNode: process.env.REACT_APP_RELAYER_NODE,
-      ...(controller?.length > 0 && { controller }),
-    },  { sequence: 2, transactionSessionHash: transaction.transactionSessionHash })
+    const { did: entityDid } = await CreateEntityBase(
+      entityType,
+      protocolDid,
+      {
+        service,
+        linkedResource,
+        accordedRight,
+        linkedEntity,
+        linkedClaim,
+        verification,
+        relayerNode: currentRelayerNode,
+        ...(controller?.length > 0 && { controller }),
+      },
+      { sequence: 2, transactionSessionHash: transaction.transactionSessionHash },
+    )
     if (!entityDid) {
       setSubmitting(false)
       navigate({ pathname: pathname, search: `?success=false` })

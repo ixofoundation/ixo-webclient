@@ -7,22 +7,22 @@ export const TabsContainer = styled.div<{ activetabcolor: string }>`
   justify-content: flex-start;
   width: 100%;
 
-  > div:first-child a,
-  > a:first-child {
+  & > div:first-child a,
+  & > a:first-child {
     border-top-left-radius: 4px;
     border-bottom-left-radius: 4px;
   }
 
-  > div:last-child a,
-  > a:last-child {
+  & > div:last-child a,
+  & > a:last-child {
     border-top-right-radius: 4px;
     border-bottom-right-radius: 4px;
   }
-  > div a {
+  & > div a {
     height: 100%;
   }
 
-  > div button {
+  & > div button {
     height: 100%;
   }
 

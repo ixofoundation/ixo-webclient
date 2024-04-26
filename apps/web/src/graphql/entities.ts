@@ -7,6 +7,7 @@ import { updateEntityAction, updateEntityPropertyAction } from 'redux/entitiesEx
 import { useAccount } from 'hooks/account'
 import { TEntityModel } from 'types/entities'
 import { LinkedEntity } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
+import { currentRelayerNode } from 'constants/common'
 
 // GET_ALL_ENTITIES
 const GET_ALL_ENTITIES = gql`
@@ -48,7 +49,7 @@ const GET_ALL_ENTITIES = gql`
 `
 export function useGetAllEntities(connectedAccount?: string) {
   const { loading, error, data, refetch } = useQuery(GET_ALL_ENTITIES, {
-    variables: { relayerNode: process.env.REACT_APP_RELAYER_NODE, owner: connectedAccount },
+    variables: { relayerNode: currentRelayerNode, owner: connectedAccount },
   })
   return { loading, error, data: data?.entities?.nodes ?? [], refetch }
 }

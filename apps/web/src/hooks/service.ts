@@ -5,6 +5,7 @@ import { NodeType, TEntityClaimModel, TEntityCreatorModel, TEntityDDOTagModel, T
 import { chainNetwork } from './configs'
 import { TSigner } from 'lib/protocol'
 import { useWallet } from '@ixo-webclient/wallet-connector'
+import { currentRelayerNode } from 'constants/common'
 
 export function useService() {
   const { wallet } = useWallet()
@@ -123,7 +124,7 @@ export function useService() {
         validFrom: new Date().toISOString(), // TODO: new Date(now) ?
         expirationDate: '', //  TODO: always empty ?
         credentialSubject: {
-          id: process.env.REACT_APP_RELAYER_NODE,
+          id: currentRelayerNode,
           type: 'creator',
           displayName: creator.displayName,
           location: creator.location,
@@ -177,7 +178,7 @@ export function useService() {
         validFrom: new Date().toISOString(), // TODO: new Date(now)?
         expirationDate: '', //  TODO:
         credentialSubject: {
-          id: process.env.REACT_APP_RELAYER_NODE,
+          id: currentRelayerNode,
           type: 'administrator',
           displayName: administrator.displayName,
           location: administrator.location,
