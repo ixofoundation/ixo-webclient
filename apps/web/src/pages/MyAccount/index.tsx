@@ -6,6 +6,7 @@ import Dashboard from 'components/Dashboard/Dashboard'
 import { Path } from 'components/Dashboard/types'
 import { requireCheckDefault } from 'utils/images'
 import MyGroupsPage from './MyGroupsPage'
+import MyclaimsPage from './MyClaimsPage'
 
 const MyAccountPage: React.FC = (): JSX.Element => {
   const navigate = useNavigate()
@@ -25,6 +26,12 @@ const MyAccountPage: React.FC = (): JSX.Element => {
       sdg: 'My Groups',
       tooltip: 'My Groups',
     },
+    {
+      url: `/myaccount/claims`,
+      icon: requireCheckDefault(require('assets/img/sidebar/check.svg')),
+      sdg: 'Claims',
+      tooltip: 'Claims',
+    },
   ]
 
   useEffect(() => {
@@ -40,6 +47,7 @@ const MyAccountPage: React.FC = (): JSX.Element => {
         <Route index element={<Navigate to={`portfolio`} />} />
         <Route path='portfolio' Component={MyPortfolioPage} />
         <Route path='groups' Component={MyGroupsPage} />
+        <Route path='claims' Component={MyclaimsPage} />
       </Routes>
     </Dashboard>
   )

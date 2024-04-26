@@ -47,10 +47,20 @@ export const WalletContext = createContext<WalletContextType | undefined>(
   undefined
 );
 
+type MobileWalletDataProps = {
+  hash?: string
+  network?: string
+  sessionHash?: string
+  sitename?: string
+  type?: string
+  message?: string
+}
+
 type MobileStateProps = {
-  qr: null | string;
+  qr?: null | string;
   timeout?: number;
   transacting?: boolean;
+  data: null | MobileWalletDataProps
 };
 
 let signXWallet: SignXWallet;
@@ -66,6 +76,7 @@ export const WalletProvider = ({
   const [mobile, setMobile] = useState<MobileStateProps>({
     qr: null,
     timeout: 0,
+    data: null,
   });
   const [transaction, setTransaction] = useState<Transaction>({
     transactionSessionHash: undefined,
@@ -75,9 +86,7 @@ export const WalletProvider = ({
   // Add methods to handle wallet connection, disconnection, etc.
 
   if (chainNetwork && !signXWallet) {
-    console.log("initialise sign x", chainNetwork);
     signXWallet = new SignXWallet(chainNetwork as keyof typeof SignXEndpoints);
-    setMobile((prevState) => ({ ...prevState }));
   }
 
   const providerValue = useMemo(
