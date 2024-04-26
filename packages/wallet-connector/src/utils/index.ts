@@ -52,3 +52,14 @@ export const getConnectedWalletInfo = async (
         return wallet
     }
   }
+
+  export const friendlyModalTitles = (type: string) => {
+    switch(type){
+      case "SIGN_X_LOGIN":
+        return "Login"
+      case "SIGN_X_TRANSACT":
+        return "Transacting"
+      default:
+        return "Impacts X"
+    }
+  }
