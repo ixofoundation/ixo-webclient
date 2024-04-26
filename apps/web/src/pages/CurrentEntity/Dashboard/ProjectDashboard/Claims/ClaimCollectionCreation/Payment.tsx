@@ -1,7 +1,7 @@
 import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { deviceWidth } from 'constants/device'
-import { Button, Dropdown, InputWithLabel } from 'pages/CreateEntity/Components'
+import { Button, InputWithLabel } from 'pages/CreateEntity/Components'
 import React, { useMemo, useState } from 'react'
 import { useTheme } from 'styled-components'
 import { ixo, cosmos, utils } from '@ixo/impactxclient-sdk'
@@ -28,8 +28,8 @@ const ClaimCollectionCreationPaymentStep: React.FC<Props> = ({ hidden, onSubmit,
   const { entityId = '' } = useParams<{ entityId: string }>()
   const { accounts } = useAppSelector(getEntityById(entityId))
   const paymentsAccount = useCurrentEntityAdminAccount(accounts)
-  const [timeouts, setTimeouts] = useState(0)
-  const [timeoutUnits, setTimeoutUnits] = useState<DurationUnits>(DurationUnits.Days)
+  const [timeouts] = useState(0)
+  const [timeoutUnits] = useState<DurationUnits>(DurationUnits.Days)
   const [approvalAmount, setApprovalAmount] = useState<Coin>({ amount: '', denom: NATIVE_DENOM })
   const [submissionAmount, setSubmissionAmount] = useState<Coin>({ amount: '', denom: NATIVE_DENOM })
   const [evaluationAmount, setEvaluationAmount] = useState<Coin>({ amount: '', denom: NATIVE_DENOM })
@@ -40,9 +40,8 @@ const ClaimCollectionCreationPaymentStep: React.FC<Props> = ({ hidden, onSubmit,
       !approvalAmount.amount ||
       !submissionAmount.amount ||
       !evaluationAmount.amount ||
-      !rejectionAmount.amount ||
-      !timeouts,
-    [approvalAmount.amount, evaluationAmount.amount, rejectionAmount.amount, submissionAmount.amount, timeouts],
+      !rejectionAmount.amount,
+    [approvalAmount.amount, evaluationAmount.amount, rejectionAmount.amount, submissionAmount.amount],
   )
 
   const handleSubmit = () => {
@@ -164,7 +163,7 @@ const ClaimCollectionCreationPaymentStep: React.FC<Props> = ({ hidden, onSubmit,
 
         <FlexBox width='100%' height='1px' background={theme.ixoGrey300} />
 
-        <FlexBox $direction='column' $gap={6} width='100%'>
+        {/* <FlexBox $direction='column' $gap={6} width='100%'>
           <Typography>Payout time delay</Typography>
           <FlexBox $gap={6} width='100%' $alignItems='center'>
             <InputWithLabel
@@ -183,7 +182,7 @@ const ClaimCollectionCreationPaymentStep: React.FC<Props> = ({ hidden, onSubmit,
               />
             </FlexBox>
           </FlexBox>
-        </FlexBox>
+        </FlexBox> */}
 
         <FlexBox width='100%' height='1px' background={theme.ixoGrey300} />
       </FlexBox>

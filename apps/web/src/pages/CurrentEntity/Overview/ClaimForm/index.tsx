@@ -14,7 +14,6 @@ import { Model } from 'survey-core'
 import { Survey } from 'survey-react-ui'
 import { themeJson } from 'styles/surveyTheme'
 import { customQueries } from '@ixo/impactxclient-sdk'
-import { selectEntityClaim } from 'redux/currentEntity/currentEntity.selectors'
 import { useGetClaimCollectionByEntityIdAndClaimTemplateId } from 'graphql/claims'
 import { useGetEntityById } from 'graphql/entities'
 import { CellnodePublicResource } from '@ixo/impactxclient-sdk/types/custom_queries/cellnode'
@@ -34,8 +33,9 @@ const ClaimForm: React.FC<Props> = ({ claimId }) => {
   const { entityId = '' } = useParams<{ entityId: string }>()
   const signer = useSigner()
 
-  const claim: { [id: string]: TEntityClaimModel } = useAppSelector(selectEntityClaim)
   const entity = useAppSelector(getEntityById(entityId))
+
+  const claim: { [id: string]: TEntityClaimModel } = entity.claim ?? {}
 
   const { execute, wallet, close } = useWallet()
   const userRole = useGetUserGranteeRole(wallet?.address ?? "", entity.owner, entity.accounts)
@@ -48,6 +48,7 @@ const ClaimForm: React.FC<Props> = ({ claimId }) => {
 
   const claimCollection = useGetClaimCollectionByEntityIdAndClaimTemplateId({ entityId, protocolId: templateEntityId })
   const [questionFormData, setQuestionFormData] = useState<any[]>([])
+
   const canCreateMore = useMemo(() => {
     if (!claimCollection) {
       return false
