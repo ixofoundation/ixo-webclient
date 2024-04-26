@@ -29,7 +29,7 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
   buttons,
 }): JSX.Element => {
   const dispatch = useAppDispatch()
-  const { entityId = "" } = useParams<{ entityId: string }>()
+  const { entityId = '' } = useParams<{ entityId: string }>()
   const { title } = useEntityConfig()
   const currentEntity = useAppSelector(getEntityById(entityId))
   const entityType = toRootEntityType(currentEntity.type)
@@ -43,7 +43,7 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
 
     const buttonArr: HeaderTab[] = [
       {
-        iconClass: `icon-${entityType!.split('/')[0].toLowerCase()}`,
+        iconClass: `icon-${entityType.toLowerCase()}`,
         path: `/entity/${entityId}/overview`,
         title: entityType,
         tooltip: `${title} Overview`,

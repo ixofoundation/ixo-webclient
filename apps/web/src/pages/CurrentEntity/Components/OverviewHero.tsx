@@ -14,9 +14,10 @@ import {
 import CalendarSort from 'assets/icons/CalendarSort'
 import availableFlags from 'constants/availableFlags.json'
 import { requireCheckDefault } from 'utils/images'
-import { useEntityConfig } from 'hooks/configs'
 import { useHeaderTabs } from 'hooks/headerTabs'
 import { MatchType } from 'types/models'
+import { useAppSelector } from 'redux/hooks'
+import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 interface Props {
   $onlyTitle: boolean
@@ -50,8 +51,8 @@ const OverviewHero: React.FunctionComponent<Props> = ({
   creatorName,
   entityType,
 }) => {
-  const entityConfig = useEntityConfig()
-  const themeColor = entityConfig.themeColor
+  const entityTypeMap = useAppSelector(selectEntityConfig)
+  const themeColor = entityTypeMap![entityType!]?.themeColor
 
   const headerTabs = useHeaderTabs({ entityType })
 

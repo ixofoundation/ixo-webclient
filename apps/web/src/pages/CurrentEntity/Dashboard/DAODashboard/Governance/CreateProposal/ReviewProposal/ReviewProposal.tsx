@@ -38,6 +38,7 @@ import { useAppSelector } from 'redux/hooks'
 import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { decodedMessagesString } from 'utils/messages'
 import { useEntity } from 'hooks/entity/useEntity'
+import { currentRelayerNode } from 'constants/common'
 
 const ReviewProposal: React.FC = () => {
   const theme: any = useTheme()
@@ -297,7 +298,7 @@ const ReviewProposal: React.FC = () => {
         accordedRight,
         linkedEntity,
         linkedClaim,
-        relayerNode: process.env.REACT_APP_RELAYER_NODE,
+        relayerNode: currentRelayerNode,
       },
       { sequence: 2, transactionSessionHash: transaction.transactionSessionHash },
     )
