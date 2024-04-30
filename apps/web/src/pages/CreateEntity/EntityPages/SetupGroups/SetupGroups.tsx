@@ -127,7 +127,7 @@ export const initialMultisigGroup: TDAOGroupModel = {
   memberships: initialMemberships,
 }
 
-const SetupDAOGroups = (): JSX.Element => {
+const SetupDAOGroups = ({ showNavigation = true }: { showNavigation?: boolean }): JSX.Element => {
   const { daoGroups, daoController, linkedEntity, updateDAOGroups, updateLinkedEntity, updateDAOController } =
     useCreateEntityState()
   const [openAddGroupModal, setOpenAddGroupModal] = useState(false)

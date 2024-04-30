@@ -8,13 +8,12 @@ import { InvestmentInstrumentsConfig } from 'constants/entity'
 import { ixo } from '@ixo/impactxclient-sdk'
 import { useCreateEntityStepState } from 'hooks/createEntityStepState'
 
-const SetupInstrument: React.FC = (): JSX.Element => {
+const SetupInstrument = ({ showNavigation = true }: { showNavigation?: boolean }): JSX.Element => {
   const { linkedEntity, updateLinkedEntity } = useCreateEntityState()
   const [investmentInstrument, setInvestmentInstrument] = useState<Record<string, any>>({})
   const [openAddInstrumentModal, setOpenAddInstrumentModal] = useState(false)
   const bondDid = useMemo(() => Object.values(linkedEntity).find((v) => v.type === 'bond')?.id || '', [linkedEntity])
   const { navigateToNextStep, navigateToPreviousStep } = useCreateEntityStepState()
-
 
   const canSubmit = true
 
@@ -65,14 +64,16 @@ const SetupInstrument: React.FC = (): JSX.Element => {
         <PropertyBox icon={<PlusIcon />} noData handleClick={(): void => setOpenAddInstrumentModal(true)} />
       </Box>
 
-      <Box className='d-flex' style={{ gap: 20 }}>
-        <Button variant='secondary' onClick={handleBack}>
-          Back
-        </Button>
-        <Button variant='primary' disabled={!canSubmit} onClick={handleContinue}>
-          Continue
-        </Button>
-      </Box>
+      {showNavigation && (
+        <Box className='d-flex' style={{ gap: 20 }}>
+          <Button variant='secondary' onClick={handleBack}>
+            Back
+          </Button>
+          <Button variant='primary' disabled={!canSubmit} onClick={handleContinue}>
+            Continue
+          </Button>
+        </Box>
+      )}
 
       <AddInvestmentInstrumentModal
         open={openAddInstrumentModal}

@@ -30,41 +30,29 @@ const EntityExchange = () => {
 
   let title = name ?? ''
 
-  const generateRoutes = (): Path[] => {
-    const { pathname } = location
-    const routes = []
-
-    routes.push({
+  const routes = [{
       url: `/exchange/portfolio`,
       icon: requireCheckDefault(require('assets/img/sidebar/portfolio.svg')),
       sdg: portfolioAsset ?? 'No Asset',
       tooltip: 'My Portfolio',
-    })
-    if (pathname.includes('/trade/swap')) {
-      routes.push({
+    },
+    {
         url: `/exchange/trade/swap`,
         icon: requireCheckDefault(require('assets/img/sidebar/trade.svg')),
         sdg: 'Swap',
         tooltip: 'Swap',
         strict: true,
-      })
-    } else {
-      routes.push({
-        url: tradingAllowed ? `/exchange/trade` : '#',
+      },{
+        url: tradingAllowed ? `/exchange/swap` : '#',
         icon: requireCheckDefault(require('assets/img/sidebar/trade.svg')),
         sdg: 'Trade',
         tooltip: tradingAllowed ? 'Trade' : 'Trading disabled',
-      })
-    }
-    routes.push({
+      },{
       url: `/exchange/stake`,
       icon: requireCheckDefault(require('assets/img/sidebar/stake.svg')),
       sdg: stakeCellEntity ?? (process.env.REACT_APP_CHAIN_ID!.indexOf('pandora') > -1 ? 'pandora' : 'impact-hub'),
       tooltip: 'Stake',
-    })
-
-    return routes
-  }
+    }]
 
   const breadCrumbs = [
     {
@@ -153,8 +141,6 @@ const EntityExchange = () => {
 
   const theme = 'dark'
 
-  const routes = generateRoutes()
-
   return (
     <Dashboard
       theme={theme}
@@ -167,8 +153,8 @@ const EntityExchange = () => {
     >
       {/* These routes are nested under '/exchange' */}
       <Routes>
-        <Route index element={<Navigate to={`trade/swap`} />} />
-        <Route path='trade/swap' Component={EntityExchangeTradeSwap} />
+        <Route index element={<Navigate to={`swap`} />} />
+        <Route path='swap' Component={EntityExchangeTradeSwap} />
         {/* <Route path='/exchange/trade/swap' element={<EntityExchangeTradeSwap/>} /> */}
         {/* <Route exact path='/exchange/trade/:id' component={EntityExchangeTrade} /> */}
       </Routes>

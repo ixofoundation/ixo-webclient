@@ -12,9 +12,15 @@ type CreationSuccessScreenProps = {
   entityType: string
   submitting: boolean
   handleSignToCreate: () => void
+  showNavigation?: boolean
 }
 
-export const CreationSuccessScreen = ({ entityType, submitting, handleSignToCreate }: CreationSuccessScreenProps) => {
+export const CreationSuccessScreen = ({
+  entityType,
+  submitting,
+  handleSignToCreate,
+  showNavigation = true,
+}: CreationSuccessScreenProps) => {
   const navigate = useNavigate()
   const CreationSuccessMap = {
     project: <ProjectCreationSuccess />,
@@ -31,8 +37,9 @@ export const CreationSuccessScreen = ({ entityType, submitting, handleSignToCrea
       <Flex direction='column' gap={4} style={{ width: '100%' }}>
         {CreationSuccessMap[entityType]}
       </Flex>
-      <Flex gap={4} style={{ width: '100%' }}>
-        {/* <Button
+      {showNavigation && (
+        <Flex gap={4} style={{ width: '100%' }}>
+          {/* <Button
           variant='outline'
           bg='white'
           c={'black'}
@@ -44,13 +51,14 @@ export const CreationSuccessScreen = ({ entityType, submitting, handleSignToCrea
         <Button bg='ixo-blue.6' variant='primary' onClick={handleSignToCreate} loading={submitting}>
           Sign To Create
         </Button> */}
-        <Button variant='secondary' onClick={() => navigate(-1)} style={{ width: '100%' }}>
-          Back
-        </Button>
-        <Button variant='primary' onClick={handleSignToCreate} style={{ width: '100%' }} loading={submitting}>
-          Sign To Create
-        </Button>
-      </Flex>
+          <Button variant='secondary' onClick={() => navigate(-1)} style={{ width: '100%' }}>
+            Back
+          </Button>
+          <Button variant='primary' onClick={handleSignToCreate} style={{ width: '100%' }} loading={submitting}>
+            Sign To Create
+          </Button>
+        </Flex>
+      )}
     </Flex>
   )
 }

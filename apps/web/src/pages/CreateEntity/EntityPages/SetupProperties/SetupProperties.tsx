@@ -7,7 +7,7 @@ import { PropertiesForm } from 'pages/CreateEntity/Forms'
 import { Typography } from 'components/Typography'
 import { useCreateEntityStepState } from 'hooks/createEntityStepState'
 
-const SetupProperties: React.FC = (): JSX.Element => {
+const SetupProperties = ({ showNavigation = true }: { showNavigation?: boolean }): JSX.Element => {
   const {
     entityType,
     creator,
@@ -111,14 +111,16 @@ const SetupProperties: React.FC = (): JSX.Element => {
 
       <PropertiesForm {...PropertiesFormProps} />
 
-      <FlexBox id='setup-property-actions' $gap={5}>
-        <Button variant='secondary' onClick={handleBack}>
-          Back
-        </Button>
-        <Button variant='primary' disabled={!validateRequiredProperties} onClick={handleContinue}>
-          Continue
-        </Button>
-      </FlexBox>
+      {showNavigation && (
+        <FlexBox id='setup-property-actions' $gap={5}>
+          <Button variant='secondary' onClick={handleBack}>
+            Back
+          </Button>
+          <Button variant='primary' disabled={!validateRequiredProperties} onClick={handleContinue}>
+            Continue
+          </Button>
+        </FlexBox>
+      )}
     </FlexBox>
   )
 }

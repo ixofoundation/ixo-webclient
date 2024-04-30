@@ -88,6 +88,7 @@ const ReviewProposal: React.FC = () => {
     makeSendGroupTokenAction,
     makeJoinAction,
     makeAcceptToMarketplaceAction,
+    makeCreateEntityAction
   } = useMakeProposalAction(coreAddress!, daoGroups)
   const [selectedAction, setSelectedAction] = useState<TProposalActionModel | undefined>()
   const SetupActionModal = useMemo(() => {
@@ -141,6 +142,8 @@ const ReviewProposal: React.FC = () => {
               return makeAuthzExecAction(data)
             case 'AuthZ Grant / Revoke':
               return makeAuthzAuthorizationAction(data)
+            case 'Create Entity':
+              return makeCreateEntityAction(data)
             case 'Change Group Membership':
               return makeManageMembersAction(data, cw4GroupAddress)
             case 'Manage Subgroups':
@@ -218,6 +221,7 @@ const ReviewProposal: React.FC = () => {
         }
       })
       .filter(Boolean) as CosmosMsgForEmpty[]
+    console.log({ wasmMessage })
     const daoPreProposeSingleClient = new DaoPreProposeSingleClient(execute, wallet.address, preProposalContractAddress)
 
     return await daoPreProposeSingleClient
