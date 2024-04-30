@@ -34,7 +34,6 @@ const EditEntity: React.FC = () => {
         throw new Error(rawLog)
       }
     } catch (e: any) {
-      console.error('handleEditEntity', e)
       errorToast('Updating', e.message ? JSON.stringify(e.message) : JSON.stringify(e))
     } finally {
       setEditing(false)
