@@ -19,7 +19,7 @@ const Overview: React.FC = () => {
 
   return (
     <FlexBox width='100%' $direction='column' $gap={8}>
-      <BondStatistics bondDid={bondDid} />
+      {bondDid && <BondStatistics bondDid={bondDid} />}
       {tab === 'price' && <BondPriceSection bondDid={bondDid} />}
       {tab === 'my_stake' && <MyStakeSection bondDid={bondDid} />}
       {tab === 'reserve_funds' && <BondReserveFundsSection bondDid={bondDid} />}
