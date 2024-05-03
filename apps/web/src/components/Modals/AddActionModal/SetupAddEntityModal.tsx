@@ -1,9 +1,7 @@
 import React from 'react'
 import { TProposalActionModel } from 'types/entities'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
-import { Accordion, Flex, TextInput, Textarea } from '@mantine/core'
-import { TbChartInfographic, TbUserCircle } from 'react-icons/tb'
-import { useForm } from 'react-hook-form'
+import { Accordion } from '@mantine/core'
 import {
   SelectCreationProcess,
   SetupMetadata,
@@ -13,10 +11,10 @@ import {
   SelectType,
   SetupInstrument,
   SetupDataCollection,
-} from 'pages/CreateEntity/EntityPages'
+} from 'components/Entities/CreateEntityFlow'
 import { SelectEntityType } from 'components/SelectEntityType'
 import { upperFirst } from 'lodash'
-import { useCreateEntity, useCreateEntityState } from 'hooks/createEntity'
+import { useCreateEntity } from 'hooks/createEntity'
 import {
   AccordedRight,
   LinkedClaim,
@@ -25,12 +23,13 @@ import {
   Service,
 } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { Verification } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/tx'
-import { utils } from '@ixo/impactxclient-sdk'
-import { useQuery } from 'hooks/window'
+import { customMessages, ixo, utils } from '@ixo/impactxclient-sdk'
 import { currentRelayerNode } from 'constants/common'
-import { CreateEntityMessage } from 'lib/protocol'
+import { CheckIidDoc, CreateIidDocForGroup, TSigner } from 'lib/protocol'
 import { useWallet } from '@ixo-webclient/wallet-connector'
 import { useParams } from 'react-router-dom'
+import { hexToUint8Array } from 'utils/encoding'
+import { useCreateEntityStateAsActionState } from 'hooks/entity/useCreateEntityStateAsAction'
 
 interface Props {
   open: boolean
@@ -83,19 +82,91 @@ const stepMap = new Map<EntityTypes, string[]>([
   ['asset', ['process', 'profile', 'settings', 'review', 'create-token']],
 ])
 
+const getCreateEntityMessageForProposal = ({
+  signer,
+  daoDaoGroup,
+  service,
+  linkedResource,
+  accordedRight,
+  linkedClaim,
+  linkedEntity,
+  startDate,
+  endDate,
+}: {
+  signer: TSigner
+  daoDaoGroup: { address: string; did: string }
+  service: Service[]
+  linkedResource: LinkedResource[]
+  accordedRight: AccordedRight[]
+  linkedClaim: LinkedClaim[]
+  linkedEntity: LinkedEntity[] 
+  startDate: string
+  endDate: string
+}) => {
+  const hexPubKey = hexToUint8Array(signer.pubKey as any)
+  return {
+    typeUrl: '/ixo.entity.v1beta1.MsgCreateEntity',
+    value: ixo.entity.v1beta1.MsgCreateEntity.fromPartial({
+      entityType: 'investment',
+      context: customMessages.iid.createAgentIidContext([
+        { key: 'class', val: 'did:ixo:entity:f3ef757bc0404e8b6849ee7d9cf66d4e' },
+      ]),
+      verification: [
+        ...customMessages.iid.createIidVerificationMethods({
+          did: signer.did,
+          pubkey: hexPubKey,
+          address: signer.address,
+          controller: signer.did,
+          type: signer.keyType,
+        }),
+        ixo.iid.v1beta1.Verification.fromPartial({
+          relationships: ['authentication'],
+          method: ixo.iid.v1beta1.VerificationMethod.fromPartial({
+            id: daoDaoGroup.did,
+            type: 'CosmosAccountAddress',
+            blockchainAccountID: daoDaoGroup.address,
+            controller: '{id}',
+          }),
+        }),
+        ixo.iid.v1beta1.Verification.fromPartial({
+          relationships: ['authentication'],
+          method: ixo.iid.v1beta1.VerificationMethod.fromPartial({
+            id: daoDaoGroup.did + '#' + daoDaoGroup.address,
+            type: 'CosmosAccountAddress',
+            blockchainAccountID: daoDaoGroup.address,
+            controller: '{id}',
+          }),
+        }),
+      ],
+      controller: [daoDaoGroup.did, signer.did],
+      ownerDid: daoDaoGroup.did,
+      ownerAddress: daoDaoGroup.address,
+      relayerNode: currentRelayerNode,
+      service: service,
+      linkedResource: linkedResource,
+      accordedRight: accordedRight,
+      linkedEntity: linkedEntity,
+      linkedClaim: linkedClaim,
+      entityStatus: 0,
+      startDate: startDate ? utils.proto.toTimestamp(new Date(startDate)) : undefined,
+      endDate: endDate ? utils.proto.toTimestamp(new Date(endDate)) : undefined,
+    }),
+  }
+}
+
 const SetupAddEntityModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
   const [entityType, setEntityType] = React.useState<EntityTypes | null>(null)
-  const { UploadLinkedResource, UploadLinkedClaim, CreateProtocol, CreateEntityBase } = useCreateEntity()
-  const createEntityState = useCreateEntityState()
+  const { UploadLinkedResource, UploadLinkedClaim } = useCreateEntity()
+  const createEntityState = useCreateEntityStateAsActionState()
   const { coreAddress } = useParams()
+  const { wallet, execute, close } = useWallet()
 
-  const { wallet } = useWallet()
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm()
+  const signer = {
+    address: wallet?.address as string,
+    keyType: wallet?.keyType as any,
+    pubKey: wallet?.pubKey as any,
+    did: wallet?.did as string,
+  }
 
   const getEntityCreateMessage = async () => {
     const accordedRight: AccordedRight[] = []
@@ -104,8 +175,6 @@ const SetupAddEntityModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
     let linkedEntity: LinkedEntity[] = []
     let linkedResource: LinkedResource[] = []
     let linkedClaim: LinkedClaim[] = []
-    let controller: string[] = []
-
     // AccordedRight TODO:
 
     // Service
@@ -123,40 +192,52 @@ const SetupAddEntityModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
 
     // const protocolDid = utils.common.getValueFromEvents(protocolResponse, 'wasm', 'token_id')
 
-    controller = controller.concat([utils.did.generateWasmDid(coreAddress as string)])
+    const daoDaoGroupDid = utils.did.generateWasmDid(coreAddress as string)
 
-    // Create an entity
-    const createEntityMessagePayload = await CreateEntityMessage(
-      {
-        address: wallet?.address as string,
-        keyType: wallet?.keyType as any,
-        pubKey: wallet?.pubKey as any,
-        did: wallet?.did as string,
-      },
-      [
-        {
-          entityType: entityType as string,
-          entityStatus: 0,
-          context: [{ key: 'class', val: 'did:ixo:entity:f3ef757bc0404e8b6849ee7d9cf66d4e' }],
-          service,
-          linkedResource,
-          linkedClaim,
-          accordedRight,
-          linkedEntity,
-          verification,
-          relayerNode: currentRelayerNode,
-          controller,
-          startDate: createEntityState.startDate,
-          endDate: createEntityState.endDate,
-        },
-      ],
-    )
+    if (!(await CheckIidDoc(daoDaoGroupDid))) {
+      const createIidDocForGroupPayload = CreateIidDocForGroup(signer, daoDaoGroupDid)
+      await execute({ data: createIidDocForGroupPayload, transactionConfig: { sequence: 1 } })
+      close()
+    }
+
+    verification.concat([
+      ixo.iid.v1beta1.Verification.fromPartial({
+        relationships: ['authentication'],
+        method: ixo.iid.v1beta1.VerificationMethod.fromPartial({
+          id: daoDaoGroupDid,
+          type: 'CosmosAccountAddress',
+          blockchainAccountID: coreAddress,
+          controller: '{id}',
+        }),
+      }),
+      ixo.iid.v1beta1.Verification.fromPartial({
+        relationships: ['authentication'],
+        method: ixo.iid.v1beta1.VerificationMethod.fromPartial({
+          id: daoDaoGroupDid + '#' + coreAddress,
+          type: 'CosmosAccountAddress',
+          blockchainAccountID: coreAddress,
+          controller: '{id}',
+        }),
+      }),
+    ])
+
+    const createEntityMessagePayload = getCreateEntityMessageForProposal({
+      signer,
+      daoDaoGroup: { did: daoDaoGroupDid, address: coreAddress ?? '' },
+      service,
+      linkedResource,
+      accordedRight,
+      linkedClaim,
+      linkedEntity,
+      startDate: createEntityState.startDate,
+      endDate: createEntityState.endDate,
+    })
 
     return createEntityMessagePayload
   }
 
   const handleConfirm = async () => {
-    onSubmit && onSubmit({ ...action, data: (await getEntityCreateMessage()).messages[0] })
+    onSubmit && onSubmit({ ...action, data: await getEntityCreateMessage() })
     onClose()
   }
 

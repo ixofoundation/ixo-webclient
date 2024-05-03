@@ -4,6 +4,7 @@ import { reducer as accountReducer } from 'redux/account/account.reducer'
 import { reducer as configsReducer } from 'redux/configs/configs.reducer'
 import { reducer as entitiesReducer } from 'redux/entitiesExplorer/entitiesExplorer.reducer'
 import { reducer as newEntityReducer } from 'redux/createEntity/createEntity.reducer'
+import { reducer as newEntityAsActionReducer } from 'redux/createEntityAsAction/createEntityAsAction.reducer'
 import { reducer as transferEntityReducer } from 'redux/transferEntity/transferEntity.reducer'
 import { reducer as currentEntityReducer } from 'redux/currentEntity/currentEntity.reducer'
 import { reducer as editEntityReducer } from 'redux/editEntity/editEntity.reducer'
@@ -25,6 +26,7 @@ export const rootReducer = (history: any) =>
     entities: entitiesReducer,
     configs: configsReducer,
     newEntity: newEntityReducer,
+    newEntityAsAction: newEntityAsActionReducer,
     editEntity: editEntityReducer,
     currentEntity: currentEntityReducer,
     transferEntity: transferEntityReducer,

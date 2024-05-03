@@ -106,6 +106,8 @@ const ReviewProposal: React.FC = () => {
         : 0,
     [daoGroup],
   )
+
+  console.log({ proposalActions: proposal?.actions})
   const votingModuleAddress = useMemo(() => daoGroup?.votingModule.votingModuleAddress, [daoGroup])
   const validActions = useMemo(() => (proposal?.actions ?? []).filter((item) => item.data), [proposal])
   const { getQuery } = useQuery()
@@ -132,10 +134,13 @@ const ReviewProposal: React.FC = () => {
       const daoVotingCw4Client = new contracts.DaoVotingCw4.DaoVotingCw4QueryClient(cwClient, votingModuleAddress)
       cw4GroupAddress = await daoVotingCw4Client.groupContract()
     }
+
+    console.log({validActions})
     const wasmMessage: CosmosMsgForEmpty[] = validActions
       .map((validAction: TProposalActionModel) => {
         try {
           const { text, data } = validAction
+          console.log({ text, data })
           switch (text) {
             // Group Category
             case 'AuthZ Exec':

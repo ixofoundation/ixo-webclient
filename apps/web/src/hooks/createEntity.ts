@@ -553,6 +553,9 @@ export function useCreateEntity(): TCreateEntityHookRes {
         },
       ])
 
+    console.log('createEntityMessagePayload', createEntityMessagePayload)
+
+
       const response = (await execute({ data: createEntityMessagePayload, transactionConfig })) as unknown as DeliverTxResponse
       const did = utils.common.getValueFromEvents(response, 'wasm', 'token_id')
       const adminAccount = utils.common.getValueFromEvents(
