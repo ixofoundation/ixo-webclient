@@ -1,7 +1,6 @@
 import { TEntityModel } from 'types/entities'
 import { SelectType, FilterItem } from '../components/Filters/IconListFilter/types'
-
-const RELAYER_NODE = process.env.REACT_APP_RELAYER_NODE
+import { currentRelayerNode } from 'constants/common'
 
 export const getTitle = (name: string, items: FilterItem[], selectType: SelectType): string => {
   const selectedItems = items.filter((item) => item.isSelected)
@@ -51,18 +50,18 @@ export const isFilterTarget = (e: any): boolean => {
 
 export const filterEntitiesByRelayerNode = (entity: TEntityModel): boolean => {
   // Condition 1
-  const condition1 = entity.relayerNode === RELAYER_NODE && entity.entityVerified === true
+  const condition1 = entity.relayerNode === currentRelayerNode && entity.entityVerified === true
 
   // Condition 2
-  const condition2 = entity.id === RELAYER_NODE && entity.entityVerified === true
+  const condition2 = entity.id === currentRelayerNode && entity.entityVerified === true
 
   return condition1 || condition2
 }
 
 export const filterProtocolDeedEntities = (entity: TEntityModel): boolean => {
-  return entity.entityVerified && entity.profile?.category === 'Offer' && entity.relayerNode === RELAYER_NODE
+  return entity.entityVerified && entity.profile?.category === 'Offer' && entity.relayerNode === currentRelayerNode
 }
 
 export const filterProtocolDeedProposalEntities = (entity: TEntityModel): boolean => {
-  return entity.profile?.category === 'Proposal' && entity.relayerNode === RELAYER_NODE
+  return entity.profile?.category === 'Proposal' && entity.relayerNode === currentRelayerNode
 }

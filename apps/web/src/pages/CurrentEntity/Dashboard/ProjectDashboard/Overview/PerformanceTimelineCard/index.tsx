@@ -47,7 +47,7 @@ const PerformanceTimelineCard: React.FC = () => {
     claims
       .filter((claim: Claim) => !collectionId || collectionId === claim.collectionId)
       .forEach((claim) => {
-        const date = moment(claim.submissionDate).set({ second: 0, millisecond: 0 }).toISOString()
+        const date = moment(claim.submissionDate).set({ hour: 0, minute: 0, second: 0, millisecond: 0 }).toISOString()
         const status = claim.evaluationByClaimId?.status
         claimsStatData[date] = {
           approved:
@@ -107,7 +107,6 @@ const PerformanceTimelineCard: React.FC = () => {
               dataKey='approved'
               fill={ClaimSetting[ixo.claims.v1beta1.EvaluationStatus.APPROVED].color}
               barSize={8}
-              radius={[100, 100, 100, 100]}
               background={{ fill: 'url(#background)', radius: 100 }}
               stackId='a'
             />
@@ -115,14 +114,12 @@ const PerformanceTimelineCard: React.FC = () => {
               dataKey='pending'
               fill={ClaimSetting[ixo.claims.v1beta1.EvaluationStatus.PENDING].color}
               barSize={8}
-              radius={[100, 100, 100, 100]}
               stackId='a'
             />
             <Bar
               dataKey='rejected'
               fill={ClaimSetting[ixo.claims.v1beta1.EvaluationStatus.REJECTED].color}
               barSize={8}
-              radius={[100, 100, 100, 100]}
               stackId='a'
             />
           </BarChart>

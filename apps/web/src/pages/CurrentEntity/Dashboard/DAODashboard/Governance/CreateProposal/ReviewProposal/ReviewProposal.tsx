@@ -37,11 +37,12 @@ import { DaoPreProposeSingleClient } from '@ixo-webclient/cosmwasm-clients'
 import { useAppSelector } from 'redux/hooks'
 import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { useEntity } from 'hooks/entity/useEntity'
+import { currentRelayerNode } from 'constants/common'
 
 const ReviewProposal: React.FC = () => {
   const theme: any = useTheme()
   const navigate = useNavigate()
-  const { entityId = "", coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
+  const { entityId = '', coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
   const { refetch } = useEntity(entityId)
   const { cwClient } = useAccount()
   const { updateDAOGroup } = useCurrentEntity()
@@ -241,8 +242,8 @@ const ReviewProposal: React.FC = () => {
           },
           transactionConfig: {
             sequence: 3,
-            transactionSessionHash: transaction.transactionSessionHash
-          }
+            transactionSessionHash: transaction.transactionSessionHash,
+          },
         },
         fee,
         undefined,
@@ -293,14 +294,19 @@ const ReviewProposal: React.FC = () => {
     }
 
     // Create Deed entity
-    const { did: entityDid } = await CreateEntityBase('deed', protocolDid, {
-      service,
-      linkedResource,
-      accordedRight,
-      linkedEntity,
-      linkedClaim,
-      relayerNode: process.env.REACT_APP_RELAYER_NODE,
-    }, { sequence: 2, transactionSessionHash: transaction.transactionSessionHash})
+    const { did: entityDid } = await CreateEntityBase(
+      'deed',
+      protocolDid,
+      {
+        service,
+        linkedResource,
+        accordedRight,
+        linkedEntity,
+        linkedClaim,
+        relayerNode: currentRelayerNode,
+      },
+      { sequence: 2, transactionSessionHash: transaction.transactionSessionHash },
+    )
     if (!entityDid) {
       return ''
     }
@@ -320,10 +326,11 @@ const ReviewProposal: React.FC = () => {
 
     const linkedEntityInstruction = AddLinkedEntityMessage(signer, { did: deedDid, linkedEntity })
     const response = (await execute({
-      data: linkedEntityInstruction, transactionConfig: {
+      data: linkedEntityInstruction,
+      transactionConfig: {
         sequence: 4,
-        transactionSessionHash: transaction.transactionSessionHash
-      }
+        transactionSessionHash: transaction.transactionSessionHash,
+      },
     })) as DeliverTxResponse
     return !!response
   }

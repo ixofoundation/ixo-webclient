@@ -24,6 +24,7 @@ import { EntityType } from 'types/entities'
 import { Box } from '@mantine/core'
 import { toRootEntityType } from 'utils/entities'
 import { useWallet } from '@ixo-webclient/wallet-connector'
+import { currentRelayerNode } from 'constants/common'
 
 const Review = ({ showNavigation = true }: { showNavigation?: boolean }): JSX.Element => {
   const theme: any = useTheme()
@@ -117,7 +118,7 @@ const Review = ({ showNavigation = true }: { showNavigation?: boolean }): JSX.El
         linkedEntity,
         linkedClaim,
         verification,
-        relayerNode: process.env.REACT_APP_RELAYER_NODE,
+        relayerNode: currentRelayerNode,
         ...(controller?.length > 0 && { controller }),
       },
       { sequence: 2, transactionSessionHash: transaction.transactionSessionHash },
