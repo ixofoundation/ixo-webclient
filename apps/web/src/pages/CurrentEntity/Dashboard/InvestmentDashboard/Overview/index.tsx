@@ -1,17 +1,20 @@
 import { FlexBox } from 'components/App/App.styles'
-import { useCurrentEntityBondLinkedEntity } from 'hooks/currentEntity'
 import React from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom'
 import BondAlphaSection from './BondAlphaSection'
 import BondPriceSection from './BondPriceSection'
 import BondReserveFundsSection from './BondReserveFundsSection'
 import BondStatistics from './BondStatistics'
 import MyStakeSection from './MyStakeSection'
+import { useAppSelector } from 'redux/hooks'
+import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 const Overview: React.FC = () => {
+  const { entityId = "" } = useParams()
   const { hash } = useLocation()
   const tab = hash.replace('#', '')
-  const bondLinkedEntity = useCurrentEntityBondLinkedEntity()
+  const { linkedEntity } = useAppSelector(getEntityById(entityId))
+  const bondLinkedEntity = linkedEntity?.find((v) => v.type === 'bond')
   const bondDid = bondLinkedEntity?.id || ''
 
   return (
