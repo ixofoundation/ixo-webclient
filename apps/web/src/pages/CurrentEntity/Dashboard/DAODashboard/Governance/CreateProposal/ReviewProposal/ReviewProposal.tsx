@@ -236,7 +236,7 @@ const ReviewProposal: React.FC = () => {
           msg: {
             propose: {
               description: (profile?.description || '') + `#deed:${deedDid}`,
-              msgs: wasmMessages,
+              msgs: wasmMessage,
               title: profile?.name || '',
             },
           },
