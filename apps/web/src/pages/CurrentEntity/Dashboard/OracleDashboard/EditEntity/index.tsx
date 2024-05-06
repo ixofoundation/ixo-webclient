@@ -8,9 +8,13 @@ import { errorToast, successToast } from 'utils/toast'
 import EditProfile from '../../components/EditProfile'
 import EditProperty from '../../components/EditProperty'
 import { useWallet } from '@ixo-webclient/wallet-connector'
+import { useAppSelector } from 'redux/hooks'
+import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { useParams } from 'react-router-dom'
 
 const EditEntity: React.FC = () => {
-  const { currentEntity } = useCurrentEntity()
+  const { entityId = "" } = useParams()
+  const currentEntity = useAppSelector(getEntityById(entityId))
   const { setEditEntity, ExecuteEditEntity } = useEditEntity()
   const [editing, setEditing] = useState(false)
   const { close } = useWallet()
