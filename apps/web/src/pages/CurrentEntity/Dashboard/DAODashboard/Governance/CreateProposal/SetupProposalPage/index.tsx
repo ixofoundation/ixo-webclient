@@ -76,11 +76,13 @@ const SetupProposalPage: React.FC = (): JSX.Element => {
     const search = new URLSearchParams()
     if (selectedTemplateEntityId) {
       search.append('selectedTemplateEntityId', selectedTemplateEntityId)
+      navigate({
+        pathname: `/entity/${entityId}/dashboard/governance/${coreAddress}/detail`,
+        search: search.toString(),
+      })
+    } else {
+      navigate(`/entity/${entityId}/dashboard/governance/${coreAddress}/action`)
     }
-    navigate({
-      pathname: `/entity/${entityId}/dashboard/governance/${coreAddress}/detail`,
-      search: search.toString(),
-    })
   }
   const handleNext = (): void => {
     updatePage(_.keyBy(value.blocks, 'id'))
