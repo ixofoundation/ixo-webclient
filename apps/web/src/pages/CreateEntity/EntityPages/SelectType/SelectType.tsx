@@ -14,7 +14,7 @@ import { ReactComponent as StarIcon } from 'assets/images/icon-star.svg'
 import { useCreateEntityState } from 'hooks/createEntity'
 import { useCreateEntityStepState } from 'hooks/createEntityStepState'
 
-const SelectType: React.FC = (): JSX.Element => {
+const SelectType= ({ showNavigation = true }: { showNavigation?: boolean }): JSX.Element => {
   const options = [
     {
       type: 'protocol/claim',

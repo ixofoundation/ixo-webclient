@@ -26,7 +26,7 @@ import { toRootEntityType } from 'utils/entities'
 import { useWallet } from '@ixo-webclient/wallet-connector'
 import { currentRelayerNode } from 'constants/common'
 
-const Review: React.FC = (): JSX.Element => {
+const Review = ({ showNavigation = true }: { showNavigation?: boolean }): JSX.Element => {
   const theme: any = useTheme()
   const navigate = useNavigate()
   const createEntityState = useCreateEntityState()
@@ -153,6 +153,7 @@ const Review: React.FC = (): JSX.Element => {
             entityType={entityType}
             handleSignToCreate={handleSignToCreate}
             submitting={submitting}
+            showNavigation={showNavigation}
           />
         )}
         {success === 'true' && (
@@ -205,14 +206,16 @@ const Review: React.FC = (): JSX.Element => {
                 Something went wrong. Please try again.
               </Typography>
             </FlexBox>
-            <FlexBox width='100%' $gap={4}>
-              <Button variant='secondary' onClick={() => navigate(-1)} style={{ width: '100%' }}>
-                Back
-              </Button>
-              <Button variant='primary' onClick={handleSignToCreate} style={{ width: '100%' }} loading={submitting}>
-                Sign To Create
-              </Button>
-            </FlexBox>
+            {showNavigation && (
+              <FlexBox width='100%' $gap={4}>
+                <Button variant='secondary' onClick={() => navigate(-1)} style={{ width: '100%' }}>
+                  Back
+                </Button>
+                <Button variant='primary' onClick={handleSignToCreate} style={{ width: '100%' }} loading={submitting}>
+                  Sign To Create
+                </Button>
+              </FlexBox>
+            )}
           </>
         )}
       </FlexBox>

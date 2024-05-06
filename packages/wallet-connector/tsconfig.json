@@ -26,7 +26,8 @@
       "module": "commonjs",
       "moduleResolution": "node",
       "rootDir": "src",
-      "jsx": "react-jsx"
+      "jsx": "react-jsx",
+      "resolveJsonModule": true,
     },
     "include": ["src/**/*"]
   }
