@@ -705,6 +705,14 @@ export const ProposalActionConfigMap: Record<string, any> = {
     icon: PaperIcon,
     setupModal: SetupUpdateVotingConfigModal,
   },
+  'bank.send': {
+    type: 'bank.send',
+    group: 'Tokens',
+    text: 'Spend',
+    description: 'Spend native or CW20 tokens from the treasury.',
+    icon: HandHoldingUsdIcon,
+    setupModal: SetupSpendModal,
+  },
   '/ixo.entity.v1beta1.MsgUpdateEntityVerified': {
     type: '/ixo.entity.v1beta1.MsgUpdateEntityVerified',
     group: 'Entities',

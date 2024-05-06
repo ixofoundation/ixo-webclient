@@ -36,6 +36,7 @@ import { AddLinkedEntityMessage } from 'lib/protocol/iid.messages'
 import { DaoPreProposeSingleClient } from '@ixo-webclient/cosmwasm-clients'
 import { useAppSelector } from 'redux/hooks'
 import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { decodedMessagesString } from 'utils/messages'
 import { useEntity } from 'hooks/entity/useEntity'
 import { currentRelayerNode } from 'constants/common'
 
@@ -226,7 +227,7 @@ const ReviewProposal: React.FC = () => {
         }
       })
       .filter(Boolean) as CosmosMsgForEmpty[]
-    console.log({ wasmMessage })
+
     const daoPreProposeSingleClient = new DaoPreProposeSingleClient(execute, wallet.address, preProposalContractAddress)
 
     return await daoPreProposeSingleClient
@@ -235,7 +236,7 @@ const ReviewProposal: React.FC = () => {
           msg: {
             propose: {
               description: (profile?.description || '') + `#deed:${deedDid}`,
-              msgs: wasmMessage,
+              msgs: wasmMessages,
               title: profile?.name || '',
             },
           },

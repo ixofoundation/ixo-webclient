@@ -36,6 +36,16 @@ export const proposalMsgToActionConfig = (msg: CosmosMsgForEmpty) => {
         data: value,
         type: typeUrl,
       }
+    } else if ('bank' in msg) {
+      const key: string = Object.keys(msg.bank)[0]
+      const value: any = Object.values(msg.bank)[0]
+
+      const proposalActionDetail = ProposalActionConfigMap[`bank.${key}`] ?? {}
+      return {
+        ...proposalActionDetail,
+        data: value,
+        type: `bank.${key}`,
+      }
     }
   } catch (e) {
     console.error('proposalMsgToActionConfig', e)
