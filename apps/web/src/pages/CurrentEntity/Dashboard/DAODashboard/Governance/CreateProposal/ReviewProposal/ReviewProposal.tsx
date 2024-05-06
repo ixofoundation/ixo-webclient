@@ -136,7 +136,6 @@ const ReviewProposal: React.FC = () => {
       cw4GroupAddress = await daoVotingCw4Client.groupContract()
     }
 
-    console.log({validActions})
     const wasmMessage: CosmosMsgForEmpty[] = validActions
       .map((validAction: TProposalActionModel) => {
         try {
