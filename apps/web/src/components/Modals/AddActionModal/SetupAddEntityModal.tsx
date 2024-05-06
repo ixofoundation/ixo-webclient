@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { TProposalActionModel } from 'types/entities'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 import { Accordion } from '@mantine/core'
@@ -167,6 +167,12 @@ const SetupAddEntityModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
     pubKey: wallet?.pubKey as any,
     did: wallet?.did as string,
   }
+
+  useEffect(() => {
+    if(entityType){
+      createEntityState.updateEntityType(entityType)
+    }
+  }, [entityType, createEntityState])
 
   const getEntityCreateMessage = async () => {
     const accordedRight: AccordedRight[] = []
