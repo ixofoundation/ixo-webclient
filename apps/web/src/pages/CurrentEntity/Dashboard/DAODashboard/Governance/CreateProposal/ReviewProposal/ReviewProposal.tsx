@@ -36,7 +36,6 @@ import { AddLinkedEntityMessage } from 'lib/protocol/iid.messages'
 import { DaoPreProposeSingleClient } from '@ixo-webclient/cosmwasm-clients'
 import { useAppSelector } from 'redux/hooks'
 import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
-import { decodedMessagesString } from 'utils/messages'
 import { useEntity } from 'hooks/entity/useEntity'
 import { currentRelayerNode } from 'constants/common'
 

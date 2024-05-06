@@ -12,7 +12,6 @@ import {
   selectSelectedAccountAddress,
   selectStakeCellEntity,
 } from 'redux/selectedEntityExchange/entityExchange.selectors'
-import { Path } from 'components/Dashboard/types'
 import { MatchType } from 'types/models'
 import { selectTradingAllowed } from 'redux/configs/configs.selectors'
 import { requireCheckDefault } from 'utils/images'
