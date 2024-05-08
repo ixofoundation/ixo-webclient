@@ -30,7 +30,7 @@ export const initialProposalModule: TDAOGroupModel['proposalModule'] = {
     deposit_info: null,
   },
   proposalConfig: {
-    allow_revoting: true,
+    allow_revoting: false,
     close_proposal_on_execution_failure: true,
     dao: '',
     max_voting_period: { time: 604800 },
