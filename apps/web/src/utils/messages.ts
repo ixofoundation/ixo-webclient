@@ -153,6 +153,7 @@ export const typesRegistry = new Registry([
     ['/ixo.iid.v1beta1.MsgAddVerification', ixo.iid.v1beta1.MsgAddVerification],
     ['/ixo.iid.v1beta1.MsgDeleteLinkedResource', ixo.iid.v1beta1.MsgDeleteLinkedResource],
     ['/ixo.entity.v1beta1.MsgUpdateEntity', ixo.entity.v1beta1.MsgUpdateEntity],
+    ['/ixo.entity.v1beta1.MsgCreateEntity', ixo.entity.v1beta1.MsgCreateEntity],
   ] as ReadonlyArray<[string, GeneratedType]>),
 ])
 

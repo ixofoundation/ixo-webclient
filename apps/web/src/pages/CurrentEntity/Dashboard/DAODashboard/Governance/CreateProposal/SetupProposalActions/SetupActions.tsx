@@ -15,7 +15,7 @@ const SetupActions: React.FC = () => {
   const validActions = useMemo(() => actions.filter((item) => item.data), [actions])
 
   const handleBack = () => {
-    navigate(`/entity/${entityId}/dashboard/governance/${coreAddress}/template`)
+    navigate(`/entity/${entityId}/dashboard/governance/${coreAddress}/info`)
   }
   const handleContinue = () => {
     navigate(`/entity/${entityId}/dashboard/governance/${coreAddress}/page`)
@@ -33,7 +33,9 @@ const SetupActions: React.FC = () => {
         <Button variant='secondary' onClick={handleBack}>
           Back
         </Button>
-        <Button onClick={handleContinue}>Continue</Button>
+        <Button onClick={handleContinue} disabled={validActions.length === 0}>
+          Continue
+        </Button>
       </FlexBox>
     </FlexBox>
   )

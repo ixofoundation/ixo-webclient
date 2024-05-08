@@ -17,7 +17,7 @@ const options: ICreatorOptions = {
   isAutoSave: true,
 }
 
-const SetupDataCollection = (): JSX.Element => {
+const SetupDataCollection = ({ showNavigation = true }: { showNavigation?: boolean }): JSX.Element => {
   const { navigateToNextStep, navigateToPreviousStep } = useCreateEntityStepState()
   const { questionJSON, updateQuestionJSON } = useCreateEntityState()
 
@@ -39,14 +39,16 @@ const SetupDataCollection = (): JSX.Element => {
         <SurveyCreatorComponent creator={creator} />
       </Flex>
 
-      <Row className='d-flex mt-4' style={{ gap: 16 }}>
-        <Button variant='secondary' onClick={handlePrev}>
-          Back
-        </Button>
-        <Button variant='primary' onClick={handleNext}>
-          Continue
-        </Button>
-      </Row>
+      {showNavigation && (
+        <Row className='d-flex mt-4' style={{ gap: 16 }}>
+          <Button variant='secondary' onClick={handlePrev}>
+            Back
+          </Button>
+          <Button variant='primary' onClick={handleNext}>
+            Continue
+          </Button>
+        </Row>
+      )}
     </Wrapper>
   )
 }

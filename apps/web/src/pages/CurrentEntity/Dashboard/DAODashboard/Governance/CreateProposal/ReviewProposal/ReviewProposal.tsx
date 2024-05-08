@@ -89,6 +89,7 @@ const ReviewProposal: React.FC = () => {
     makeSendGroupTokenAction,
     makeJoinAction,
     makeAcceptToMarketplaceAction,
+    makeCreateEntityAction
   } = useMakeProposalAction(coreAddress!, daoGroups)
   const [selectedAction, setSelectedAction] = useState<TProposalActionModel | undefined>()
   const SetupActionModal = useMemo(() => {
@@ -106,6 +107,8 @@ const ReviewProposal: React.FC = () => {
         : 0,
     [daoGroup],
   )
+
+  console.log({ proposalActions: proposal?.actions})
   const votingModuleAddress = useMemo(() => daoGroup?.votingModule.votingModuleAddress, [daoGroup])
   const validActions = useMemo(() => (proposal?.actions ?? []).filter((item) => item.data), [proposal])
   const { getQuery } = useQuery()
@@ -132,16 +135,20 @@ const ReviewProposal: React.FC = () => {
       const daoVotingCw4Client = new contracts.DaoVotingCw4.DaoVotingCw4QueryClient(cwClient, votingModuleAddress)
       cw4GroupAddress = await daoVotingCw4Client.groupContract()
     }
+
     const wasmMessage: CosmosMsgForEmpty[] = validActions
       .map((validAction: TProposalActionModel) => {
         try {
           const { text, data } = validAction
+          console.log({ text, data })
           switch (text) {
             // Group Category
             case 'AuthZ Exec':
               return makeAuthzExecAction(data)
             case 'AuthZ Grant / Revoke':
               return makeAuthzAuthorizationAction(data)
+            case 'Create Entity':
+              return makeCreateEntityAction(data)
             case 'Change Group Membership':
               return makeManageMembersAction(data, cw4GroupAddress)
             case 'Manage Subgroups':
@@ -219,6 +226,7 @@ const ReviewProposal: React.FC = () => {
         }
       })
       .filter(Boolean) as CosmosMsgForEmpty[]
+
     const daoPreProposeSingleClient = new DaoPreProposeSingleClient(execute, wallet.address, preProposalContractAddress)
 
     return await daoPreProposeSingleClient

@@ -3,6 +3,8 @@ import { useWallet } from "hooks";
 import { QRCodeSVG } from "qrcode.react";
 import { ConnectModal } from "components/connectModal";
 import { friendlyModalTitles } from "utils";
+import Lottie from 'react-lottie'
+import pendingAnimation from 'assets/animations/pending.json'
 
 const TransactModal = () => {
   const { mobile, transaction } = useWallet();
@@ -62,7 +64,15 @@ const SequenceTransactionModal = () => {
         Keep the Impacts X mobile app open for additional transactions
       </Text>
     </Flex>
-    <Loader size={100} />
+    <Lottie
+        height={120}
+        width={120}
+        options={{
+          loop: true,
+          autoplay: true,
+          animationData: pendingAnimation,
+        }}
+      />
   </Flex>
 }
 

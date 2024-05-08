@@ -61,7 +61,6 @@ const ClaimLocation = () => {
         }}
         minZoom={1}
         maxZoom={5}
-        mapStyle='mapbox://styles/gregoryixo45/clpk7w1qm00ff01p8a9p9b3tq'
         mapboxAccessToken={MAPBOX_TOKEN}
         interactiveLayerIds={[clusterLayer.id || '']}
         onClick={onClick}

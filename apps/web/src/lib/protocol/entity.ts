@@ -40,6 +40,8 @@ export const CreateEntityMessage = async (
     relayerNode?: string
     startDate?: string
     endDate?: string
+    ownerDid?: string
+    ownerAddress?: string
   }[],
 ) => {
   const { address, did, pubKey, keyType } = signer
@@ -60,6 +62,8 @@ export const CreateEntityMessage = async (
       relayerNode = did,
       startDate = '',
       endDate = '',
+      ownerDid = did,
+      ownerAddress = address
     } = item
     return {
       typeUrl: '/ixo.entity.v1beta1.MsgCreateEntity',
@@ -77,8 +81,8 @@ export const CreateEntityMessage = async (
           ...verification,
         ],
         controller: [did, ...controller],
-        ownerDid: did,
-        ownerAddress: address,
+        ownerDid: ownerDid,
+        ownerAddress: ownerAddress,
         relayerNode: relayerNode,
         service: service.map((item: Service) => ixo.iid.v1beta1.Service.fromPartial(item)),
         linkedResource: linkedResource.map((item: LinkedResource) => ixo.iid.v1beta1.LinkedResource.fromPartial(item)),
