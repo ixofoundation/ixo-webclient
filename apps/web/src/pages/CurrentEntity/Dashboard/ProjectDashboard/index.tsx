@@ -18,9 +18,9 @@ const ProjectDashboard: React.FC = (): JSX.Element => {
   const { entityId = "" } = useParams<{ entityId: string }>()
   const isEditEntityRoute = useMatch('/entity/:entityId/dashboard/edit')
   const isClaimScreenRoute = useMatch('/entity/:entityId/dashboard/claims')
-  const { accounts, owner, type, profile } = useAppSelector(getEntityById(entityId))
+  const { accounts, owner, type, profile, verificationMethod } = useAppSelector(getEntityById(entityId))
   const { registered, address } = useAccount()
-  const signerRole = useGetUserGranteeRole(address, owner, accounts)
+  const signerRole = useGetUserGranteeRole(address, owner, accounts, verificationMethod)
 
   const routes: Path[] = [
     {

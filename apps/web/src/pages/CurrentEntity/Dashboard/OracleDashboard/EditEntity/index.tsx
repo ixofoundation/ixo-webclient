@@ -10,6 +10,7 @@ import { useWallet } from '@ixo-webclient/wallet-connector'
 import { useAppSelector } from 'redux/hooks'
 import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { useParams } from 'react-router-dom'
+import { useEntity } from 'hooks/entity/useEntity'
 
 const EditEntity: React.FC = () => {
   const { entityId = "" } = useParams()
@@ -17,6 +18,7 @@ const EditEntity: React.FC = () => {
   const { setEditEntity, ExecuteEditEntity } = useEditEntity()
   const [editing, setEditing] = useState(false)
   const { close } = useWallet()
+  const { refetch } = useEntity(entityId)
 
   useEffect(() => {
     setEditEntity(currentEntity)
@@ -30,6 +32,7 @@ const EditEntity: React.FC = () => {
       if (transactionHash && code === 0) {
         close()
         successToast('Updating', 'Successfully updated!')
+        await refetch()
       } else {
         throw new Error(rawLog)
       }

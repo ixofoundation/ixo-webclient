@@ -30,7 +30,7 @@ const InvestmentDashboard: React.FC = (): JSX.Element => {
   const { registered, address } = useAccount()
   const { wallet } = useWallet()
 
-  const signerRole = useGetUserGranteeRole(wallet?.address ?? '', owner, accounts)
+  const signerRole = useGetUserGranteeRole(wallet?.address ?? '', owner, accounts, verificationMethod)
 
   const isVerifiedOnEntity =  verificationMethod.some((verification) => verification?.blockchainAccountID === address)
 

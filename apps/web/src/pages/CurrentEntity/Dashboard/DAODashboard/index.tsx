@@ -1,7 +1,7 @@
 import Dashboard from 'components/Dashboard/Dashboard'
 import { HeaderTab, Path } from 'components/Dashboard/types'
 import { useAccount } from 'hooks/account'
-import useCurrentEntity, { useCurrentEntityDAOGroupToken } from 'hooks/currentEntity'
+import { useCurrentEntityDAOGroupToken } from 'hooks/currentEntity'
 import { Navigate, Route, Routes, useMatch, useParams } from 'react-router-dom'
 import { requireCheckDefault } from 'utils/images'
 import { MyParticipation } from './MyParticipation'
@@ -40,10 +40,9 @@ const DAODashboard: React.FC = (): JSX.Element => {
   const name = entity.profile?.name ?? ''
   const type = entity.type
 
-  const { linkedEntity } = useCurrentEntity()
   // const { name } = useCurrentEntityProfile()
   const { registered, address } = useAccount()
-  const signerRole = useGetUserGranteeRole(wallet?.address ?? '', entity.owner, entity.accounts)
+  const signerRole = useGetUserGranteeRole(wallet?.address ?? '', entity.owner, entity.accounts, entity.verificationMethod)
 
   const { getQuery } = useQuery()
   const selectedGroup = getQuery('selectedGroup')
@@ -163,7 +162,7 @@ const DAODashboard: React.FC = (): JSX.Element => {
     return name
   }, [isShareholdersScreenRoute, name, tokenSymbol])
 
-  if (getDAOGroupLinkedEntities(linkedEntity).length > 0 && Object.keys(daoGroups).length === 0) {
+  if (getDAOGroupLinkedEntities(entity.linkedEntity).length > 0 && Object.keys(daoGroups).length === 0) {
     return <Spinner info='Loading DAO Groups...' />
   }
 
