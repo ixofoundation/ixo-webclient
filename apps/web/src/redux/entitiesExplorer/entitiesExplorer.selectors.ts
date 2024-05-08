@@ -213,7 +213,10 @@ export const selectedFilteredEntities = createSelector(
     })
 
     filteredEntities = filteredEntities.filter(
-      (entity) => filterEntitiesByRelayerNode(entity) || entity.owner === accountAddress,
+      (entity) =>
+        filterEntitiesByRelayerNode(entity) ||
+        entity.owner === accountAddress ||
+        entity.verificationMethod.some((verification) => verification?.blockchainAccountID === accountAddress),
     )
 
     return filteredEntities

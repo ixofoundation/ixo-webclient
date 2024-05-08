@@ -26,11 +26,17 @@ const InvestmentDashboard: React.FC = (): JSX.Element => {
   const isEditEntityRoute = useMatch('/entity/:entityId/dashboard/edit')
   const isClaimScreenRoute = useMatch('/entity/:entityId/dashboard/claims')
 
-  const { owner, type, profile, accounts } = useAppSelector(getEntityById(entityId))
+  const { owner, type, profile, accounts, verificationMethod } = useAppSelector(getEntityById(entityId))
   const { registered, address } = useAccount()
   const { wallet } = useWallet()
 
   const signerRole = useGetUserGranteeRole(wallet?.address ?? '', owner, accounts)
+
+  const isVerifiedOnEntity =  verificationMethod.some((verification) => verification?.blockchainAccountID === address)
+
+  const showAgentsRoute = owner === address || isVerifiedOnEntity
+  const ShowClaimsRoute = (owner === address && signerRole === AgentRoles.evaluators) || isVerifiedOnEntity
+  const showEditEntityRoute = (registered && owner === address )|| isVerifiedOnEntity
 
 
   const routes: Path[] = [
@@ -53,7 +59,7 @@ const InvestmentDashboard: React.FC = (): JSX.Element => {
       icon: requireCheckDefault(require('assets/img/sidebar/agent.svg')),
       sdg: 'Agents',
       tooltip: 'Agents',
-      disabled: !registered || owner !== address,
+      disabled:  !showAgentsRoute,
     },
     {
       url: `/entity/${entityId}/dashboard/claims`,
@@ -61,14 +67,14 @@ const InvestmentDashboard: React.FC = (): JSX.Element => {
       sdg: 'Claims',
       tooltip: 'Claims',
       strict: true,
-      disabled: !registered || (owner !== address && signerRole !== AgentRoles.evaluators),
+      disabled: !ShowClaimsRoute,
     },
     {
       url: `/entity/${entityId}/dashboard/edit`,
       icon: requireCheckDefault(require('assets/img/sidebar/gear.svg')),
       sdg: 'Edit Entity',
       tooltip: 'Edit Entity',
-      disabled: !registered || owner !== address,
+      disabled: !showEditEntityRoute,
     },
   ]
 
@@ -136,8 +142,8 @@ const InvestmentDashboard: React.FC = (): JSX.Element => {
         <Route path='overview' Component={Overview} />
         <Route path='outcomes' Component={Outcomes} />
 
-        {registered && owner === address && <Route path='edit' Component={EditEntity} />}
-        {registered && (owner === address || signerRole === AgentRoles.evaluators) && (
+        {showEditEntityRoute && <Route path='edit' Component={EditEntity} />}
+        {showAgentsRoute && (
           <>
             <Route path='claims' Component={Claims} />
             <Route path='claims/:claimId' Component={ClaimDetail} />
