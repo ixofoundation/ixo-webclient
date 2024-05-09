@@ -14,13 +14,30 @@ import Outcomes from './Outcomes'
 import Overview from './Overview'
 import { useAppSelector } from 'redux/hooks'
 import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { useWallet } from '@ixo-webclient/wallet-connector'
+import { useGetUserGranteeRole } from 'hooks/claim'
+import Claims from '../ProjectDashboard/Claims'
+import ClaimDetail from '../ProjectDashboard/ClaimDetail'
+import { AgentRoles } from 'types/models'
 
 const InvestmentDashboard: React.FC = (): JSX.Element => {
   const theme: any = useTheme()
   const { entityId = "" } = useParams<{ entityId: string }>()
   const isEditEntityRoute = useMatch('/entity/:entityId/dashboard/edit')
-  const { owner, type, profile} = useAppSelector(getEntityById(entityId))
+  const isClaimScreenRoute = useMatch('/entity/:entityId/dashboard/claims')
+
+  const { owner, type, profile, accounts, verificationMethod } = useAppSelector(getEntityById(entityId))
   const { registered, address } = useAccount()
+  const { wallet } = useWallet()
+
+  const signerRole = useGetUserGranteeRole(wallet?.address ?? '', owner, accounts, verificationMethod)
+
+  const isVerifiedOnEntity =  verificationMethod.some((verification) => verification?.blockchainAccountID === address)
+
+  const showAgentsRoute = owner === address || isVerifiedOnEntity
+  const ShowClaimsRoute = (owner === address && signerRole === AgentRoles.evaluators) || isVerifiedOnEntity
+  const showEditEntityRoute = (registered && owner === address )|| isVerifiedOnEntity
+
 
   const routes: Path[] = [
     {
@@ -38,11 +55,26 @@ const InvestmentDashboard: React.FC = (): JSX.Element => {
       strict: true,
     },
     {
+      url: `/entity/${entityId}/dashboard/agents`,
+      icon: requireCheckDefault(require('assets/img/sidebar/agent.svg')),
+      sdg: 'Agents',
+      tooltip: 'Agents',
+      disabled:  !showAgentsRoute,
+    },
+    {
+      url: `/entity/${entityId}/dashboard/claims`,
+      icon: requireCheckDefault(require('assets/img/sidebar/check.svg')),
+      sdg: 'Claims',
+      tooltip: 'Claims',
+      strict: true,
+      disabled: !ShowClaimsRoute,
+    },
+    {
       url: `/entity/${entityId}/dashboard/edit`,
       icon: requireCheckDefault(require('assets/img/sidebar/gear.svg')),
       sdg: 'Edit Entity',
       tooltip: 'Edit Entity',
-      disabled: !registered || owner !== address,
+      disabled: !showEditEntityRoute,
     },
   ]
 
@@ -88,7 +120,7 @@ const InvestmentDashboard: React.FC = (): JSX.Element => {
 
   return (
     <Dashboard
-      theme={isEditEntityRoute ? 'light' : 'dark'}
+      theme={isEditEntityRoute || isClaimScreenRoute ? 'light' : 'dark'}
       title={
         <FlexBox $alignItems='center' $gap={6}>
           {profile?.name}
@@ -110,7 +142,13 @@ const InvestmentDashboard: React.FC = (): JSX.Element => {
         <Route path='overview' Component={Overview} />
         <Route path='outcomes' Component={Outcomes} />
 
-        {registered && owner === address && <Route path='edit' Component={EditEntity} />}
+        {showEditEntityRoute && <Route path='edit' Component={EditEntity} />}
+        {showAgentsRoute && (
+          <>
+            <Route path='claims' Component={Claims} />
+            <Route path='claims/:claimId' Component={ClaimDetail} />
+          </>
+        )}
       </Routes>
     </Dashboard>
   )

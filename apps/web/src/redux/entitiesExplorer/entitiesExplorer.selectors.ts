@@ -12,6 +12,7 @@ import {
   filterProtocolDeedEntities,
   filterProtocolDeedProposalEntities,
 } from 'utils/filters'
+import { currentRelayerNode } from 'constants/common'
 
 const formatDate = (date: string): string => moment(date).format("D MMM \\'YY")
 
@@ -85,7 +86,9 @@ export const selectUnverifiedEntities = createSelector(
   selectAllEntities,
   (entities: TEntityModel[]): TEntityModel[] => {
     return entities
-      .filter((entity) => entity.entityVerified === false && entity.status === 0)
+      .filter(
+        (entity) => entity.entityVerified === false && entity.status === 0 && entity.relayerNode === currentRelayerNode,
+      )
       .filter((entity) => entity.type !== 'deed')
   },
 )
@@ -210,7 +213,10 @@ export const selectedFilteredEntities = createSelector(
     })
 
     filteredEntities = filteredEntities.filter(
-      (entity) => filterEntitiesByRelayerNode(entity) || entity.owner === accountAddress,
+      (entity) =>
+        filterEntitiesByRelayerNode(entity) ||
+        entity.owner === accountAddress ||
+        entity.verificationMethod.some((verification) => verification?.blockchainAccountID === accountAddress),
     )
 
     return filteredEntities

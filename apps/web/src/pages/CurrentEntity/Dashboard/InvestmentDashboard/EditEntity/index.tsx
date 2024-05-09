@@ -1,6 +1,5 @@
 import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
-import useCurrentEntity from 'hooks/currentEntity'
 import useEditEntity from 'hooks/editEntity'
 import { Button } from 'pages/CreateEntity/Components'
 import React, { useEffect, useState } from 'react'
@@ -8,12 +7,18 @@ import { errorToast, successToast } from 'utils/toast'
 import EditProfile from '../../components/EditProfile'
 import EditProperty from '../../components/EditProperty'
 import { useWallet } from '@ixo-webclient/wallet-connector'
+import { useAppSelector } from 'redux/hooks'
+import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { useParams } from 'react-router-dom'
+import { useEntity } from 'hooks/entity/useEntity'
 
 const EditEntity: React.FC = () => {
-  const { currentEntity } = useCurrentEntity()
+  const { entityId = "" } = useParams<{ entityId: string }>()
+  const currentEntity = useAppSelector(getEntityById(entityId))
   const { setEditEntity, ExecuteEditEntity } = useEditEntity()
   const [editing, setEditing] = useState(false)
   const { close } = useWallet()
+  const { refetch } = useEntity(entityId)
 
   useEffect(() => {
     setEditEntity(currentEntity)
@@ -27,11 +32,11 @@ const EditEntity: React.FC = () => {
       if (transactionHash && code === 0) {
         close()
         successToast('Updating', 'Successfully Updated')
+        await refetch()
       } else {
         throw new Error(rawLog)
       }
     } catch (e: any) {
-      console.error('handleEditEntity', e)
       errorToast('Updating', e.message ? JSON.stringify(e.message) : JSON.stringify(e))
     } finally {
       setEditing(false)

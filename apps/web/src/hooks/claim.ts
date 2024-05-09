@@ -5,6 +5,7 @@ import { AgentRoles } from 'types/models'
 import { useEffect, useState } from 'react'
 import { GetGranteeRole } from 'lib/protocol'
 import { EntityAccount } from '@ixo/impactxclient-sdk/types/codegen/ixo/entity/v1beta1/entity'
+import { VerificationMethod } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 
 export function useClaimSetting() {
   const theme: any = useTheme()
@@ -37,7 +38,7 @@ export function useClaimSetting() {
   }
 }
 
-export function useGetUserGranteeRole(userAddress: string, entityOwnerAddress: string, accounts: EntityAccount[]) {
+export function useGetUserGranteeRole(userAddress: string, entityOwnerAddress: string, accounts: EntityAccount[], verificationMethod: VerificationMethod[]) {
   const adminAddress = useCurrentEntityAdminAccount(accounts)
   const [role, setRole] = useState<AgentRoles | undefined>(undefined)
 
@@ -61,6 +62,10 @@ export function useGetUserGranteeRole(userAddress: string, entityOwnerAddress: s
   }, [userAddress, adminAddress])
 
   if ((userAddress) === entityOwnerAddress) {
+    return AgentRoles.owners
+  }
+
+  if(verificationMethod.some((verification) => verification?.blockchainAccountID === userAddress)){
     return AgentRoles.owners
   }
 

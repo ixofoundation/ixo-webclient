@@ -2,7 +2,7 @@
 import Image from '@editorjs/image'
 import { ToolConstructable, ToolSettings } from '@editorjs/editorjs'
 import { convertFileToBase64 } from 'utils/images'
-import { customQueries } from '@ixo/impactxclient-sdk'
+import { customQueries, utils } from '@ixo/impactxclient-sdk'
 import { chainNetwork } from 'hooks/configs'
 
 const CustomImage: ToolConstructable | ToolSettings = {
@@ -14,8 +14,9 @@ const CustomImage: ToolConstructable | ToolSettings = {
         const base64EncodedImage = await convertFileToBase64(file)
 
         try {
-          const image = await customQueries.cellnode.uploadPublicDoc(
-            base64EncodedImage.match(/data:([a-zA-Z0-9]+\/[a-zA-Z0-9-.+]+).*,.*/)[1],
+          const image = await customQueries.cellnode.uploadWeb3Doc(
+            utils.common.generateId(12),
+            `application/${base64EncodedImage.match(/data:([a-zA-Z0-9]+\/[a-zA-Z0-9-.+]+).*,.*/)[1]}`,
             base64EncodedImage.split(',')[1],
             undefined,
             chainNetwork,

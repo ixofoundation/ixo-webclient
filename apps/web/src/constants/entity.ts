@@ -100,6 +100,7 @@ import {
   SetupUpdateVotingConfigModal,
   SetupAcceptToMarketplaceModal,
 } from 'components/Modals/AddActionModal'
+import SetupAddEntityModal from 'components/Modals/AddActionModal/SetupAddEntityModal'
 
 export const EntityStatusMap = {
   null: 'undefined',
@@ -613,10 +614,11 @@ export const ProposalActionConfig = {
     items: {
       'Create Entity': {
         text: 'Create Entity',
-        description: 'Create Entity',
+        description: 'Create an Entity of type DAO, Project, Asset, Protocol, Oracle, Investment.',
         icon: CreatorIcon,
         in: ['dao_voting_cw20_staked', 'dao_voting_cw4'],
-        disabled: true,
+        setupModal: SetupAddEntityModal,
+        disabled: false,
       },
       'Edit Entity': {
         text: 'Edit Entity',
@@ -702,6 +704,14 @@ export const ProposalActionConfigMap: Record<string, any> = {
     description: 'Update the voting parameters for your DAO.',
     icon: PaperIcon,
     setupModal: SetupUpdateVotingConfigModal,
+  },
+  'bank.send': {
+    type: 'bank.send',
+    group: 'Tokens',
+    text: 'Spend',
+    description: 'Spend native or CW20 tokens from the treasury.',
+    icon: HandHoldingUsdIcon,
+    setupModal: SetupSpendModal,
   },
   '/ixo.entity.v1beta1.MsgUpdateEntityVerified': {
     type: '/ixo.entity.v1beta1.MsgUpdateEntityVerified',

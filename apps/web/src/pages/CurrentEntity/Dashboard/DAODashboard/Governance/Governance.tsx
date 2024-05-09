@@ -30,7 +30,7 @@ const GovernanceHeader = React.memo(({ selectedDAOGroup }: { selectedDAOGroup?: 
 
 const Governance: React.FC = () => {
   const theme: any = useTheme()
-  const { entityId = "" } = useParams<{ entityId: string }>()
+  const { entityId = '' } = useParams<{ entityId: string }>()
   const navigate = useNavigate()
   const { getQuery } = useQuery()
   const selectedGroup = getQuery('selectedGroup')
@@ -41,7 +41,9 @@ const Governance: React.FC = () => {
   const { isParticipating, anyoneCanPropose } = useCurrentEntityDAOGroup(selectedDAOGroup?.coreAddress || '', daoGroups)
 
   const isMemberOfImpactsDAO = useMemo(
-    () => !!isImpactsDAO(entityId) && linkedEntity.some(({ type, id }) => type === 'MemberDAO' && id.includes(wallet?.address ?? "")),
+    () =>
+      !!isImpactsDAO(entityId) &&
+      linkedEntity.some(({ type, id }) => type === 'MemberDAO' && id.includes(wallet?.address ?? '')),
     [wallet?.address, linkedEntity, entityId],
   )
 
@@ -52,7 +54,6 @@ const Governance: React.FC = () => {
         .find((addr) => verificationMethod.some((v) => v.id.includes(addr))) || '',
     [daoGroups, verificationMethod],
   )
-
 
   const hasVerificationKey = useMemo(
     () =>
@@ -125,7 +126,10 @@ const Governance: React.FC = () => {
                 </MButton>
               )}
 
-              {isImpactsDAO(entityId) && daoController === selectedDAOGroup.coreAddress && !isMemberOfImpactsDAO && !isOwner ? (
+              {isImpactsDAO(entityId) &&
+              daoController === selectedDAOGroup.coreAddress &&
+              !isMemberOfImpactsDAO &&
+              !isOwner ? (
                 <Button
                   variant='secondary'
                   size='flex'
@@ -255,52 +259,36 @@ const Governance: React.FC = () => {
           {selectedDAOGroup && (
             <Flex gap='lg'>
               <UnstyledButton
-                style={{
-                  color:
-                    proposalFilterBy === 'all' ? mantineThemeColors['ixo-blue'][6] : mantineThemeColors['ixo-blue'][8],
-                }}
+                c={proposalFilterBy === 'all' ? 'ixo-blue.6' : '#436779'}
+                fz={18}
                 onClick={() => setProposalFilterBy('all')}
               >
                 All
               </UnstyledButton>
               <UnstyledButton
-                style={{
-                  color:
-                    proposalFilterBy === 'open' ? mantineThemeColors['ixo-blue'][6] : mantineThemeColors['ixo-blue'][8],
-                }}
+                c={proposalFilterBy === 'open' ? 'ixo-blue.6' : '#436779'}
+                fz={18}
                 onClick={() => setProposalFilterBy('open')}
               >
                 Active
               </UnstyledButton>
               <UnstyledButton
-                style={{
-                  color:
-                    proposalFilterBy === 'passed'
-                      ? mantineThemeColors['ixo-blue'][6]
-                      : mantineThemeColors['ixo-blue'][8],
-                }}
+                c={proposalFilterBy === 'passed' ? 'ixo-blue.6' : '#436779'}
+                fz={18}
                 onClick={() => setProposalFilterBy('passed')}
               >
                 Passed
               </UnstyledButton>
               <UnstyledButton
-                style={{
-                  color:
-                    proposalFilterBy === 'rejected'
-                      ? mantineThemeColors['ixo-blue'][6]
-                      : mantineThemeColors['ixo-blue'][8],
-                }}
+                c={proposalFilterBy === 'rejected' ? 'ixo-blue.6' : '#436779'}
+                fz={18}
                 onClick={() => setProposalFilterBy('rejected')}
               >
                 Rejected
               </UnstyledButton>
               <UnstyledButton
-                style={{
-                  color:
-                    proposalFilterBy === 'executed'
-                      ? mantineThemeColors['ixo-blue'][6]
-                      : mantineThemeColors['ixo-blue'][8],
-                }}
+                c={proposalFilterBy === 'executed' ? 'ixo-blue.6' : '#436779'}
+                fz={18}
                 onClick={() => setProposalFilterBy('executed')}
               >
                 Executed

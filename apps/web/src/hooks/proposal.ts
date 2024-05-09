@@ -715,6 +715,12 @@ export function useMakeProposalAction(coreAddress: string, daoGroups: { [address
     })
   }
 
+  const makeCreateEntityAction = (data: any): any => {
+    return makeStargateMessage({
+      stargate: data,
+    })
+  }
+
   return {
     makeSpendAction,
     makeAuthzExecAction,
@@ -745,5 +751,6 @@ export function useMakeProposalAction(coreAddress: string, daoGroups: { [address
     makeSendGroupTokenAction,
     makeJoinAction,
     makeAcceptToMarketplaceAction,
+    makeCreateEntityAction
   }
 }

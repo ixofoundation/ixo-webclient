@@ -30,12 +30,12 @@ Thumbs.db
 .vscode/
 
 # Environment variables
-.env
+*.env
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
-
+*.env
 # Misc
 .cache/
 coverage/

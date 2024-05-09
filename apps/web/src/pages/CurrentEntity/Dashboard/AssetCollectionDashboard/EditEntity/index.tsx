@@ -1,6 +1,5 @@
 import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
-import useCurrentEntity from 'hooks/currentEntity'
 import useEditEntity from 'hooks/editEntity'
 import { Button } from 'pages/CreateEntity/Components'
 import React, { useEffect, useState } from 'react'
@@ -11,14 +10,19 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { FormCard } from 'components'
 import { ReactComponent as ExclamationIcon } from 'assets/images/icon-exclamation-circle.svg'
 import { useWallet } from '@ixo-webclient/wallet-connector'
+import { useAppSelector } from 'redux/hooks'
+import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { useEntity } from 'hooks/entity/useEntity'
 
 const EditEntity: React.FC = () => {
   const navigate = useNavigate()
-  const { currentEntity, isOwner } = useCurrentEntity()
   const { entityId = '' } = useParams<{ entityId: string }>()
+  const currentEntity = useAppSelector(getEntityById(entityId))
+  const { wallet, close } = useWallet()
+  const isOwner = wallet?.address === currentEntity.owner
   const { setEditEntity, ExecuteEditEntity } = useEditEntity()
   const [editing, setEditing] = useState(false)
-  const { close } = useWallet()
+  const { refetch } = useEntity(entityId)
 
   useEffect(() => {
     setEditEntity(currentEntity)
@@ -32,6 +36,7 @@ const EditEntity: React.FC = () => {
       if (transactionHash && code === 0) {
         close()
         successToast('Updating', 'Successfully updated!')
+        await refetch()
       } else {
         throw new Error(rawLog)
       }

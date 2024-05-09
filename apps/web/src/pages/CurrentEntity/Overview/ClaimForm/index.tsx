@@ -38,7 +38,7 @@ const ClaimForm: React.FC<Props> = ({ claimId }) => {
   const claim: { [id: string]: TEntityClaimModel } = entity.claim ?? {}
 
   const { execute, wallet, close } = useWallet()
-  const userRole = useGetUserGranteeRole(wallet?.address ?? "", entity.owner, entity.accounts)
+  const userRole = useGetUserGranteeRole(wallet?.address ?? "", entity.owner, entity.accounts, entity.verificationMethod)
 
   const adminAddress = useCurrentEntityAdminAccount(entity.accounts)
   const selectedClaim: TEntityClaimModel = claim[claimId]
