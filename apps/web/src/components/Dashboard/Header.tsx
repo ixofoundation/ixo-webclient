@@ -2,18 +2,6 @@ import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { deviceWidth } from 'constants/device'
 import { DashboardThemeContext, ThemeContext } from './Dashboard'
-import { ActionIcon } from '@mantine/core'
-import { TbReload } from "react-icons/tb";
-import { useEntity } from 'hooks/entity/useEntity'
-import { useParams } from 'react-router-dom'
-
-const ReloadButton = () => {
-  const { entityId = "" } = useParams<{ entityId: string }>()
-  const { loading, refetch } = useEntity(entityId)
-  return <ActionIcon variant='outline' color='blue' size="lg" radius="sm" loading={loading} onClick={refetch}>
-      <TbReload />
-  </ActionIcon>
-}
 
 const Container = styled.div<{ theme: ThemeContext }>`
   display: flex;
@@ -38,7 +26,7 @@ interface Props {
 const Header: React.FunctionComponent<Props> = ({ title }) => {
   const theme = useContext(DashboardThemeContext)
 
-  return <Container theme={theme}>{title}<ReloadButton/></Container>
+  return <Container theme={theme}>{title}</Container>
 }
 
 export default Header
