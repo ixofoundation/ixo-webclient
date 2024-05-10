@@ -3462,10 +3462,10 @@
     stream "0.0.2"
     tls "0.0.1"
 
-"@ixo/signx-sdk@^0.0.3":
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/@ixo/signx-sdk/-/signx-sdk-0.0.3.tgz#bc35668688e8768f9451a445e0e153ac9e89205b"
-  integrity sha512-DRrwWYS/cZYmePr01EJf5ZOIMn8NOa4sTROm3iIx5Oyq92o7UGDiZECKUlhX7PMR6SOH2ud+8n8tVYMRtaiQBg==
+"@ixo/signx-sdk@1.0.0", "@ixo/signx-sdk@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@ixo/signx-sdk/-/signx-sdk-1.0.0.tgz#47b507e412e9e41dba87edccca37ae871fb2e863"
+  integrity sha512-4ZVNccHpS9pqFkpG8rdooF0oZAhU831FNruNseWdLYsG637ScCN+MNKCpzYr6C5BDQRtLROYj89P1I9BBdOYJQ==
   dependencies:
     "@babel/runtime" "7.19.4"
     axios "1.3.4"

@@ -119,7 +119,7 @@ const ClaimForm: React.FC<Props> = ({ claimId }) => {
           adminAddress,
         })
 
-        const response = (await execute(execAgentSubmitPayload)) as unknown as DeliverTxResponse
+        const response = (await execute({ data: execAgentSubmitPayload, transactionConfig: { sequence: 1 }})) as unknown as DeliverTxResponse
         if (response.code !== 0) {
           throw response.rawLog
         }

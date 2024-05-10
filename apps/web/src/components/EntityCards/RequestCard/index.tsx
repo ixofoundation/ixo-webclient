@@ -1,25 +1,31 @@
-import { Card, Image, Text, Badge, Button, Group, Flex, Divider } from '@mantine/core'
-import { IconDotsVertical, IconGlobe } from '@tabler/icons-react'
-import { trim, truncate } from 'lodash'
+import { Card, Image, Text, Badge, Group, Flex, Divider } from '@mantine/core'
+import { IconDotsVertical } from '@tabler/icons-react'
+import { truncate } from 'lodash'
 import { getEntityIcon } from 'utils/getEntityIcon'
 import { ReactComponent as IconIxoToken } from 'assets/tokens/ixo.svg'
 import { thousandSeparator } from 'utils/formatters'
 import EarthIcon from 'assets/icons/EarthIcon'
 
-const RequestCard = () => {
+type RequestCardProps = {
+  entityName: string
+  requestName: string
+  requestDescription: string
+  requestImage: string
+}
+const RequestCard = ({ entityName, requestName, requestImage, requestDescription }: RequestCardProps) => {
   return (
     <Card shadow='sm' padding='lg' radius='md' withBorder bg={'#103449'} style={{ borderColor: '#103449' }}>
       <Card.Section>
         <Image
-          src='https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-8.png'
+          src={requestImage}
           height={160}
-          alt='Norway'
+          alt={requestName}
         />
       </Card.Section>
 
       <Flex justify='space-between' mt='md' mb='xs' align='center'>
-        <Text fz={'lg'} fw={500} c={'white'}>
-          This is a very long request title that spans across two rows
+        <Text fz={'lg'} fw={500} c={'white'} h="50px">
+          {requestName}
         </Text>
         <IconDotsVertical color={'white'} />
       </Flex>
@@ -28,7 +34,7 @@ const RequestCard = () => {
         <Flex align='center'>
           {getEntityIcon('dao', { fill: 'black', stroke: 'black', color: '#407390' })}
           <Text ml={4} c='#407390' fz='sm'>
-            Dao Name
+            {entityName}
           </Text>
         </Flex>
         <Flex align='center'>
@@ -41,9 +47,9 @@ const RequestCard = () => {
 
       <Divider color='#213E59' />
 
-      <Text size='sm' my={'md'} c='white'>
+      <Text size='sm' my={'md'} c='white' h="50px">
         {truncate(
-          'With Fjord Tours you can explore more of the magical fjord landscapes with tours and activities on and around the fjords of Norway',
+          requestDescription,
           { length: 90 },
         )}
       </Text>

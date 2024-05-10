@@ -112,7 +112,7 @@ export function useTransferEntityState() {
       const signingTransferPayload = await getSigningTransferPayload({ entityId, recipientDid })
 
       const transferPayload = [...signingTransferPayload]
-      return await execute({ messages: transferPayload, fee: fee, memo: undefined })
+      return await execute({ data: { messages: transferPayload, fee: fee, memo: undefined }, transactionConfig: { sequence: 1 }})
     }
 
     const createDocumentPayload = await getDocumentPayload({ reEnableKeys, keys, entityId })
@@ -120,7 +120,7 @@ export function useTransferEntityState() {
     const signingTransferPayload = await getSigningTransferPayload({ entityId, recipientDid })
 
     const transferPayload = [...createDocumentPayload, ...updateStatusToTransferredPayload, ...signingTransferPayload]
-    return await execute({ messages: transferPayload, fee: fee, memo: undefined })
+    return await execute({ data: { messages: transferPayload, fee: fee, memo: undefined }, transactionConfig: { sequence: 1 }})
   }
 
   const handleReEnableKeys = async ({ entityId, transferDocument, verificationMethods}: { entityId: string, transferDocument: any, verificationMethods: any[]}) => {
@@ -162,7 +162,7 @@ export function useTransferEntityState() {
     const verificationsPayload =  getVerificationsPayload({ entityId, verificationMethods })
 
     const reEnableKeysPayload = [...removeDocumentPayload, ...updateMessagePayload, ...verificationsPayload]
-    return await execute({ messages: reEnableKeysPayload, fee: fee, memo: undefined })
+    return await execute({ data: { messages: reEnableKeysPayload, fee: fee, memo: undefined }, transactionConfig: { sequence: 1 }})
   }
 
   return {

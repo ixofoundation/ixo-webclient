@@ -82,7 +82,7 @@ const DepositModal: React.FunctionComponent<Props> = ({
   )
   const balance = useMemo(() => (selectedToken ? selectedToken.balance : '0'), [selectedToken])
   const daoGroup = useAppSelector(selectGroupByCoreAddress(recipient))
-  const { entityId = "" } = useParams<{ entityId: string }>()
+  const { entityId = '' } = useParams<{ entityId: string }>()
   const { profile } = useAppSelector(getEntityById(entityId))
   const daoGroupName = daoGroup?.config.name
 
@@ -165,7 +165,10 @@ const DepositModal: React.FunctionComponent<Props> = ({
         denom: selectedTokenDenom,
         amount: convertDenomToMicroDenomWithDecimals(amount, selectedToken.decimals).toString(),
       })
-      const response = (await execute(sendData)) as unknown as DeliverTxResponse
+      const response = (await execute({
+        data: sendData,
+        transactionConfig: { sequence: 1 },
+      })) as unknown as DeliverTxResponse
 
       if (response) {
         setTXStatus(TXStatus.SUCCESS)

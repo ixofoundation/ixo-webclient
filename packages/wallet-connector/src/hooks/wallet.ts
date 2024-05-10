@@ -1,30 +1,32 @@
 import { WalletType } from "@ixo-webclient/types";
 import { useContext } from "react";
 import { WalletContextType, WalletContext, Wallet } from "contexts";
-import { createSigningClient } from "@ixo/impactxclient-sdk";
 import { DeliverTxResponse } from "@cosmjs/stargate";
 import { StdFee } from "@ixo/impactxclient-sdk/node_modules/@cosmjs/amino";
-import { Keplr } from "keplr";
-import { CHAIN_ID } from "@constants";
-import * as store from "store";
 
 type ExecuteProps = {
+  data: MessageProps
+  transactionConfig: {
+    sequence: number
+    transactionSessionHash?: string
+  }
+};
+
+type MessageProps = {
   messages: {
     typeUrl: string;
     value: any;
   }[];
   fee: StdFee;
   memo: string | undefined;
-};
+}
 
 type UseWalletProps = WalletContextType & {
   connectWallet: (type: WalletType) => Promise<void>;
   disconnectWallet: () => void;
-  execute: (data: ExecuteProps) => Promise<DeliverTxResponse | string>;
+  execute: (transaction: ExecuteProps) => Promise<DeliverTxResponse>;
   setWallet: (wallet: Wallet | null) => void
 };
-
-const KeplrWallet = new Keplr();
 
 export const useWallet = (): UseWalletProps => {
   const context = useContext(WalletContext);
@@ -33,13 +35,6 @@ export const useWallet = (): UseWalletProps => {
   }
 
   const connectWallet = async (type: WalletType): Promise<void> => {
-    // if (type === WalletType.Keplr) {
-    //   const wallet = await KeplrWallet.connect();
-    //   if (wallet) {
-    //     context.setWallet(wallet);
-    //   }
-    // }
-
     if (type === WalletType.ImpactXMobile) {
       try {
         const loginData = await context.signXWallet.init();
@@ -65,90 +60,49 @@ export const useWallet = (): UseWalletProps => {
     }
   };
 
-  const execute = async (
-    data: ExecuteProps
-  ): Promise<DeliverTxResponse | string> => {
+  const execute = async ({
+    data,
+    transactionConfig
+  }: ExecuteProps) => {
+    console.log({ transactionConfig })
     const { messages, fee } = data;
-    if (context?.wallet?.wallet?.type === WalletType.ImpactXMobile) {
-      try {
-        context.setMobile((prevState) => ({ ...prevState, transacting: true }));
+    context.setMobile((prevState) => ({ ...prevState, transacting: true }));
 
-        const transactData = await context.signXWallet.initTransaction(
-          messages,
-          context.wallet
-        );
+    const transactData = await context.signXWallet.initTransaction(
+      transactionConfig.sequence,
+      messages,
+      context.wallet as any
+    );
 
-        context.setMobile((prevState) => ({
-          ...prevState,
-          qr: JSON.stringify(transactData.data),
-          timeout: transactData.timeout,
-        }));
+    console.log({ transactData })
 
-        context.open();
+    context.setMobile((prevState) => ({
+      ...prevState,
+      qr: JSON.stringify(transactData.data),
+      timeout: transactData.timeout,
+    }));
 
-        const transaction =
-          await context.signXWallet.waitOnTransactionExecution();
+    context.setTransaction({ transactionSessionHash: transactData.data.sessionHash })
 
-        if (transaction) {
-          context.setMobile((prevState) => ({
-            ...prevState,
-            transacting: false,
-          }));
-          context.close();
-          console.log({ transaction });
-
-          return transaction as DeliverTxResponse;
-        }
-      } catch (error) {
-        context.setMobile((prevState) => ({
-          ...prevState,
-          transacting: false,
-        }));
-
-        console.log({ error });
-      }
+    if (transactionConfig.sequence === 1) {
+      context.open();
     }
-    if (context?.wallet?.wallet?.type === WalletType.Keplr) {
-      try {
-        console.log("keplr wallet running");
-        const offlineSigner = (window as any).getOfflineSigner(CHAIN_ID);
-        console.log("offline signer", offlineSigner);
 
-        return await createSigningClient(
-          context.rpcEndpoint,
-          offlineSigner,
-          false,
-          {},
-          {
-            getLocalData: (k) => store.get(k),
-            setLocalData: (k, d) => store.set(k, d),
-          }
-        ).then((client) => {
-          console.log("client", client);
-
-          console.log(context?.wallet?.address, data, data?.fee);
-
-          if (!context.wallet?.address) throw 'Please connect your wallet'
-
-          return client.signAndBroadcast(
-            context?.wallet?.address,
-            messages as any,
-            fee ?? {
-              amount: [
-                {
-                  denom: "uixo",
-                  amount: "100000",
-                },
-              ],
-              gas: "3000000",
-            }
-          ) as unknown as DeliverTxResponse;
-        });
-      } catch (error) {
-        console.error({ error });
-      }
+    if (transactionConfig.sequence > 1) {
+      context.signXWallet.pollNextTransaction()
     }
-    return String("Wallet not found");
+
+    const transaction =
+      await context.signXWallet.waitOnTransactionExecution();
+
+
+    context.setMobile((prevState) => ({
+      ...prevState,
+      transacting: false,
+    }));
+    context.close();
+
+    return transaction as DeliverTxResponse;
   };
 
   const disconnectWallet = (): void => {

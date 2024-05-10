@@ -23,6 +23,7 @@ import { createEntityCard, withEntityData } from 'components'
 import { EntityType } from 'types/entities'
 import { Box } from '@mantine/core'
 import { toRootEntityType } from 'utils/entities'
+import { useWallet } from '@ixo-webclient/wallet-connector'
 
 const Review: React.FC = (): JSX.Element => {
   const theme: any = useTheme()
@@ -43,7 +44,9 @@ const Review: React.FC = (): JSX.Element => {
   const [submitting, setSubmitting] = useState(false)
   const { getQuery } = useQuery()
   const success = getQuery('success')
+  const { transaction } = useWallet()
 
+  console.log({reviewTransaction: transaction})
   // Handle final entity type properties in handleSignToCreate
   // Need to refactor using best practises
   const handleSignToCreate = async (): Promise<void> => {
@@ -94,7 +97,10 @@ const Review: React.FC = (): JSX.Element => {
     }
 
     // Create Protocol for an entity
-    const protocolDid = await CreateProtocol()
+    const protocolResponse = await CreateProtocol({ sequence: 1 })
+
+    const protocolDid = utils.common.getValueFromEvents(protocolResponse, 'wasm', 'token_id')
+
     if (!protocolDid) {
       setSubmitting(false)
       navigate({ pathname: pathname, search: `?success=false` })
@@ -111,7 +117,7 @@ const Review: React.FC = (): JSX.Element => {
       verification,
       relayerNode: process.env.REACT_APP_RELAYER_NODE,
       ...(controller?.length > 0 && { controller }),
-    })
+    }, { sequence: 2, transactionSessionHash: transaction.transactionSessionHash })
     if (!entityDid) {
       setSubmitting(false)
       navigate({ pathname: pathname, search: `?success=false` })

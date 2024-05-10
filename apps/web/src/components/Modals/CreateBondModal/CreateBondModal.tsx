@@ -161,7 +161,10 @@ const CreateBondModal: React.FC<Props> = ({ open, bondDid, onSubmit, onClose }):
         oracleDid: did,
       }
       const createBondData = await CreateBondMessage(payload)
-      const response = (await execute(createBondData)) as unknown as DeliverTxResponse
+      const response = (await execute({
+        data: createBondData,
+        transactionConfig: { sequence: 1 },
+      })) as unknown as DeliverTxResponse
 
       if (response.code !== 0) {
         throw response.rawLog

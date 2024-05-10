@@ -12,8 +12,38 @@ import { ReactComponent as AssistantIcon } from 'assets/images/icon-assistant.sv
 import { useTheme } from 'styled-components'
 import RequestCard from 'components/EntityCards/RequestCard'
 import TabsWrapper from 'components/Wrappers/TabsWrapper'
+import { useAppSelector } from 'redux/hooks'
+import { useParams } from 'react-router-dom'
+import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { Entity, useEntitiesQuery } from 'generated/graphql'
+import { useState } from 'react'
+import { populateEntitiesForEntityExplorer } from 'services/entities'
+import { TEntityModel } from 'types/entities'
 
 const Requests = () => {
+  const [requests, setRequests] = useState<TEntityModel[]>([])
+  const { entityId = '' } = useParams<{ entityId: string }>()
+  const entity = useAppSelector(getEntityById(entityId))
+
+  useEntitiesQuery({
+    variables: {
+      filter: {
+        id: {
+          in: entity?.linkedEntity?.map(({ id }) => id),
+        },
+      },
+    },
+    onCompleted: async (data) => {
+      const nodes = data.entities?.nodes ?? []
+      if (nodes.length > 0) {
+        const updatedNodes = (await populateEntitiesForEntityExplorer(nodes as Entity[])) as TEntityModel[]
+        setRequests(updatedNodes)
+      }
+    },
+  })
+
+  console.log({requests})
+
   const theme = useTheme()
   const iconStyle = { width: rem(12), height: rem(12) }
 
@@ -34,32 +64,17 @@ const Requests = () => {
       title: 'governance',
       icon: <IconThumbUp style={iconStyle} />,
     },
-  ]
-
-  const requests = [
-    {
-      id: 'one',
-      title: 'Some request',
-    },
-    {
-      id: 'two',
-      title: 'Some request',
-    },
-    {
-      id: 'three',
-      title: 'Some request',
-    },
-    {
-      id: 'four',
-      title: 'Some request',
-    },
-  ]
-
+  ] 
+  
   return (
     <Flex w='100%' h='100%'>
-      <TabsWrapper>
-        <Tabs w='100%' defaultValue='development' styles={{ list: { borderBottom: 'none' }, tab: { paddingBottom: "3px"} }}>
-          <Tabs.List >
+      <TabsWrapper style={{ width: '100%' }}>
+        <Tabs
+          w='100%'
+          defaultValue='development'
+          styles={{ list: { borderBottom: 'none' }, tab: { paddingBottom: '3px' } }}
+        >
+          <Tabs.List>
             {categories.map((category) => (
               <Tabs.Tab
                 key={category.title}
@@ -89,7 +104,12 @@ const Requests = () => {
                   <Grid w='100%'>
                     {requests.map((request) => (
                       <Grid.Col key={request.id} span={4}>
-                        <RequestCard />
+                        <RequestCard
+                          entityName={entity.profile?.name ?? ''}
+                          requestName={request.profile?.name ?? ''}
+                          requestDescription={request.profile?.description ?? ''}
+                          requestImage={request.profile?.image ?? ''}
+                        />
                       </Grid.Col>
                     ))}
                   </Grid>

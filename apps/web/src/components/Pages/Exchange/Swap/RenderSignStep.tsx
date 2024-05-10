@@ -27,9 +27,9 @@ const RenderSignStep = ({ inputAsset, outputAsset, setCurrentStep }: RenderSignS
           setCurrentStep((prevStep) => prevStep + 1)
         }
 
-        const swapMessage = approveTrx ? [approveTrx, swapTrx] : [swapTrx] as any
+        const swapMessage = approveTrx !== null ? [approveTrx, swapTrx] : [swapTrx] as any
      
-        execute({messages: swapMessage, fee: fee, memo: undefined}).then(() => callback())
+        execute({data: {messages: swapMessage, fee: fee, memo: undefined}, transactionConfig: { sequence: 1 }}).then(() => callback())
       })
     })
   }, [inputAsset, outputAsset, offlineSigner, setCurrentStep, address, execute])

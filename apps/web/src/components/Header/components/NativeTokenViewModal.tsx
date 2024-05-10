@@ -148,9 +148,12 @@ const NativeTokenViewModal: React.FC<Props> = ({ open, token, onClose }) => {
         gas: new BigNumber(fee.gas).times(messages.length).toString(),
       }
       const response = (await execute({
-        messages,
-        fee: calculatedFee,
-        memo: undefined,
+        data: {
+          messages,
+          fee: calculatedFee,
+          memo: undefined,
+        },
+        transactionConfig: { sequence: 1 },
       })) as unknown as DeliverTxResponse
 
       if (response.code !== 0) {

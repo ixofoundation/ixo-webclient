@@ -100,7 +100,7 @@ const ClaimDetail: React.FC = () => {
       const payload = { claimId, collectionId, adminAddress, status, verificationProof: claimId }
       const execAgentEvaluatePayload = await MsgExecAgentEvaluate(signer, payload)
 
-      const response = (await execute(execAgentEvaluatePayload)) as unknown as DeliverTxResponse
+      const response = (await execute({ data: execAgentEvaluatePayload, transactionConfig: { sequence: 1 }})) as unknown as DeliverTxResponse
 
       if (response.code !== 0) {
         throw response.rawLog

@@ -51,7 +51,7 @@ const AgentUserCard: React.FC<IAgent & { noAction?: boolean; onClick: () => void
         }
         const grantEntityAccountClaimSubmitAuthZPayload = await GrantEntityAccountClaimsSubmitAuthz(signer, payload)
 
-        const response = (await execute(grantEntityAccountClaimSubmitAuthZPayload)) as unknown as DeliverTxResponse
+        const response = (await execute({ data: grantEntityAccountClaimSubmitAuthZPayload, transactionConfig: { sequence: 1 }})) as unknown as DeliverTxResponse
 
         if (response.code !== 0) {
           throw response.rawLog
@@ -71,7 +71,7 @@ const AgentUserCard: React.FC<IAgent & { noAction?: boolean; onClick: () => void
           payload,
         )
 
-        const response = (await execute(grantEntityAccountClaimsEvaluateAuthZPayload)) as unknown as DeliverTxResponse
+        const response = (await execute({ data: grantEntityAccountClaimsEvaluateAuthZPayload, transactionConfig: { sequence: 1 }})) as unknown as DeliverTxResponse
 
         if (response.code !== 0) {
           throw response.rawLog

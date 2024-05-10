@@ -87,7 +87,7 @@ const ClaimCollectionCreation: React.FC = () => {
       ],
     )
 
-    const response = (await execute(entityMessage)) as unknown as DeliverTxResponse
+    const response = (await execute({ data: entityMessage, transactionConfig: { sequence: 1 }})) as unknown as DeliverTxResponse
     if (response.code !== 0) {
       throw response.rawLog
     }
@@ -114,7 +114,7 @@ const ClaimCollectionCreation: React.FC = () => {
       ]
       const createCollectionRes = CreateCollection(signer, payload)
 
-      const response = (await execute(createCollectionRes)) as unknown as DeliverTxResponse
+      const response = (await execute({ data: createCollectionRes, transactionConfig: { sequence: 1 }})) as unknown as DeliverTxResponse
 
       if (response.code) {
         throw response.rawLog
