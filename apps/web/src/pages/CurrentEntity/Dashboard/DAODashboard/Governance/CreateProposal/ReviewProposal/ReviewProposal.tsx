@@ -37,7 +37,6 @@ import { DaoPreProposeSingleClient } from '@ixo-webclient/cosmwasm-clients'
 import { useAppSelector } from 'redux/hooks'
 import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { useEntity } from 'hooks/entity/useEntity'
-import { currentRelayerNode } from 'constants/common'
 
 const ReviewProposal: React.FC = () => {
   const theme: any = useTheme()
@@ -140,7 +139,6 @@ const ReviewProposal: React.FC = () => {
       .map((validAction: TProposalActionModel) => {
         try {
           const { text, data } = validAction
-          console.log({ text, data })
           switch (text) {
             // Group Category
             case 'AuthZ Exec':

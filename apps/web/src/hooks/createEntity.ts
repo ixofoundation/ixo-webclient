@@ -373,7 +373,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
   const cw20BaseContractCode = customQueries.contract.getContractCode(chainNetwork, 'cw20_base')
   const cw20StakeContractCode = customQueries.contract.getContractCode(chainNetwork, 'cw20_stake')
 
-  const { execute, wallet, mobile } = useWallet()
+  const { execute, wallet } = useWallet()
   const { SaveProfile, SaveCreator, SaveAdministrator, SavePage, SaveTags, SaveQuestionJSON, SaveClaim } = useService()
 
   const signer: TSigner = {

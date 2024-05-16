@@ -23,6 +23,9 @@ export const getEntityIcon = (type: string | undefined, style?: Style): React.Re
       return <InvestmentIcon transform='scale(.8)' {...svgStyle} />
     case 'oracle':
       return <OracleIcon transform='scale(.8)' {...svgStyle} />
+    case 'deed/request':
+      // TODO: Add deed icon
+      return <ProjectIcon transform='scale(.8)' {...svgStyle} />
     default:
       return null
   }

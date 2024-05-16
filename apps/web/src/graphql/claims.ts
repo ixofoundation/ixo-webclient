@@ -120,7 +120,9 @@ const GET_CLAIM_COLLECTIONS_BY_ENTITYID = gql`
   }
 `
 export function useGetClaimCollectionsByEntityId(entityId: string) {
-  const { claim = {} } = useAppSelector(getEntityById(entityId))
+  console.log("trying some shit")
+  const entity = useAppSelector(getEntityById(entityId))
+  console.log({entity})
   const { loading, error, data, refetch } = useQuery(GET_CLAIM_COLLECTIONS_BY_ENTITYID, {
     variables: { entityId },
     skip: !validateEntityDid(entityId),
@@ -129,10 +131,10 @@ export function useGetClaimCollectionsByEntityId(entityId: string) {
 
   const claimProtocols = useMemo(
     () =>
-      Object.values(claim)
+      Object.values(entity?.claim ?? {})
         .map((v) => v.template?.id.split('#')[0] ?? '')
         .filter(Boolean),
-    [claim],
+    [entity?.claim],
   )
   const collections = useMemo(() => {
     const collections: any[] = []

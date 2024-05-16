@@ -105,6 +105,7 @@ const Requests = () => {
                     {requests.map((request) => (
                       <Grid.Col key={request.id} span={4}>
                         <RequestCard
+                          did={request.id}
                           entityName={entity.profile?.name ?? ''}
                           requestName={request.profile?.name ?? ''}
                           requestDescription={request.profile?.description ?? ''}

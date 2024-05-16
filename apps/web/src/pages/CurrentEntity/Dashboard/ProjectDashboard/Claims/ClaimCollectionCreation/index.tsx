@@ -28,7 +28,7 @@ const ClaimCollectionCreation: React.FC = () => {
   const { entityId = '' } = useParams<{ entityId: string }>()
   const { type, claim: claims = {}, accounts, owner, verificationMethod } = useAppSelector(getEntityById(entityId))
   const { signer } = useAccount()
-  const { execute, wallet, close, transaction } = useWallet()
+  const { execute, wallet, close } = useWallet()
   const { isExist: isCollectionExist } = useGetClaimCollectionsByEntityId(entityId)
   const userRole = useGetUserGranteeRole(wallet?.address ?? "", owner, accounts, verificationMethod)
   const { fetchEntityById } = useGetEntityByIdLazyQuery()

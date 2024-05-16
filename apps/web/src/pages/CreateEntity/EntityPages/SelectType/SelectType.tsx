@@ -12,9 +12,6 @@ import { ReactComponent as DAOIcon } from 'assets/images/icon-dao.svg'
 import { ReactComponent as DeedIcon } from 'assets/images/icon-deed.svg'
 import { ReactComponent as RequestIcon } from 'assets/images/icon-star.svg'
 import { useNavigate } from 'react-router-dom'
-import { ReactComponent as StarIcon } from 'assets/images/icon-star.svg'
-import { useCreateEntityState } from 'hooks/createEntity'
-import { useCreateEntityStepState } from 'hooks/createEntityStepState'
 
 const SelectType= ({ showNavigation = true }: { showNavigation?: boolean }): JSX.Element => {
   const options = [
@@ -29,13 +26,6 @@ const SelectType= ({ showNavigation = true }: { showNavigation?: boolean }): JSX
       label: 'Proposal',
       icon: <DeedIcon />,
       description: `A <b>Proposal</b> defines a request, a group proposal or an offer to provide service as a contribution or evaluation agent.`,
-    },
-    {
-      type: 'protocol/request',
-      label: 'Request',
-      icon: <StarIcon />,
-      description: ``,
-      disabled: true,
     },
     {
       type: 'protocol/request',
