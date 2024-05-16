@@ -1,10 +1,13 @@
 import { gql, useLazyQuery, useQuery } from '@apollo/client'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useAppDispatch } from 'redux/hooks'
 import { apiEntityToEntity, serviceEndpointToUrl } from 'utils/entities'
 import { validateEntityDid } from 'utils/validation'
 import { updateEntityAction, updateEntityPropertyAction } from 'redux/entitiesExplorer/entitiesExplorer.actions'
 import { useAccount } from 'hooks/account'
+import { TEntityModel } from 'types/entities'
+import { LinkedEntity } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
+import { currentRelayerNode } from 'constants/common'
 
 // GET_ALL_ENTITIES
 const GET_ALL_ENTITIES = gql`
@@ -46,7 +49,7 @@ const GET_ALL_ENTITIES = gql`
 `
 export function useGetAllEntities(connectedAccount?: string) {
   const { loading, error, data, refetch } = useQuery(GET_ALL_ENTITIES, {
-    variables: { relayerNode: process.env.REACT_APP_RELAYER_NODE, owner: connectedAccount },
+    variables: { relayerNode: currentRelayerNode, owner: connectedAccount },
   })
   return { loading, error, data: data?.entities?.nodes ?? [], refetch }
 }
@@ -72,15 +75,20 @@ export function useGetAllDeedOfferEntities() {
 
 export function useGetOfferFormByClaimCollectionId(collectionId: string) {
   const { data: offerEntities } = useGetAllDeedOfferEntities()
-  const offerEntity = offerEntities.find((entity: any) =>
-    entity.linkedEntity.some((linkedEntity: any) => linkedEntity.id === collectionId),
+  const offerEntity = useMemo(
+    () =>
+      offerEntities.find((entity: TEntityModel) =>
+        entity.linkedEntity.some((linkedEntity: LinkedEntity) => linkedEntity.id === collectionId),
+      ),
+    [collectionId, offerEntities],
   )
 
-  const offerFormLinkedResource = offerEntity?.linkedResource.find(
-    (linkedResource: any) => linkedResource.type === 'surveyTemplate',
+  const offerFormLinkedResource = useMemo(
+    () => offerEntity?.linkedResource.find((linkedResource: any) => linkedResource.type === 'surveyTemplate'),
+    [offerEntity?.linkedResource],
   )
-  const service = offerEntity?.service
-  const [offerQuestion, setOfferQuestion] = useState({})
+  const service = useMemo(() => offerEntity?.service, [offerEntity?.service])
+  const [offerQuestion, setOfferQuestion] = useState(null)
 
   useEffect(() => {
     if (offerFormLinkedResource && service.length > 0) {
@@ -92,8 +100,9 @@ export function useGetOfferFormByClaimCollectionId(collectionId: string) {
           setOfferQuestion(question)
         })
         .catch(() => undefined)
+    } else {
+      setOfferQuestion(null)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [offerFormLinkedResource, service])
 
   return offerQuestion

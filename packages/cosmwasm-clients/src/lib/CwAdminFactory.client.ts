@@ -7,7 +7,7 @@
 import { ExecuteResult } from "@cosmjs/cosmwasm-stargate";
 import { Coin, StdFee } from "@cosmjs/amino";
 import { Binary } from "./CwAdminFactory.types";
-import { BaseClient, DeliverTxResponse } from "./Base.client";
+import { BaseClient, DeliverTxResponse, ExecuteProps } from "./Base.client";
 export interface CwAdminFactoryReadOnlyInterface {
   contractAddress: string;
 }
@@ -39,11 +39,13 @@ export class CwAdminFactoryClient extends BaseClient {
   instantiateContractWithSelfAdmin = async ({
     codeId,
     instantiateMsg,
-    label
+    label,
+    transactionConfig
   }: {
     codeId: number;
     instantiateMsg: Binary;
     label: string;
+    transactionConfig: ExecuteProps["transactionConfig"] 
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       instantiate_contract_with_self_admin: {
@@ -51,6 +53,6 @@ export class CwAdminFactoryClient extends BaseClient {
         instantiate_msg: instantiateMsg,
         label
       }
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
 }

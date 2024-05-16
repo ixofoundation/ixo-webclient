@@ -1,7 +1,6 @@
 import React from 'react'
 import { Card } from '../Card'
 import { ReactComponent as MobileIcon } from 'assets/images/icon-mobile.svg'
-import useCurrentEntity from 'hooks/currentEntity'
 import { Button, Flex } from '@mantine/core'
 import { QRCodeSVG } from 'qrcode.react'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
@@ -10,7 +9,7 @@ import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { useTheme } from 'styled-components'
 import { Typography } from 'components/Typography'
 import { useDisclosure } from '@mantine/hooks'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useParams } from 'react-router-dom'
 
 const QrCode = ({ did }: { did: string }) => {
   const stringifiedData = JSON.stringify({ type: 'project', did })
@@ -69,9 +68,8 @@ const QrCode = ({ did }: { did: string }) => {
 }
 
 const DidQrCode: React.FC = () => {
-  const { id } = useCurrentEntity()
-
-  return <Card icon={<MobileIcon />} title={'Mobile'} columns={1} items={<QrCode did={id} />} />
+  const { entityId = "" } = useParams<{ entityId: string }>()
+  return <Card icon={<MobileIcon />} title={'Mobile'} columns={1} items={<QrCode did={entityId} />} />
 }
 
 export default DidQrCode

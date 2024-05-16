@@ -7,7 +7,7 @@
 import { ExecuteResult } from "@cosmjs/cosmwasm-stargate";
 import { Coin, StdFee } from "@cosmjs/amino";
 import { Duration, Binary, Addr, Config, HooksResponse, InfoResponse, NftClaimsResponse, ArrayOfString, TotalPowerAtHeightResponse, VotingPowerAtHeightResponse } from "./DaoVotingCw721Staked.types";
-import { BaseClient, DeliverTxResponse } from "./Base.client";
+import { BaseClient, DeliverTxResponse, ExecuteProps } from "./Base.client";
 export interface DaoVotingCw721StakedReadOnlyInterface {
   contractAddress: string;
   config: () => Promise<Config>;
@@ -96,11 +96,13 @@ export class DaoVotingCw721StakedClient extends BaseClient {
   receiveNft = async ({
     msg,
     sender,
-    tokenId
+    tokenId,
+    transactionConfig
   }: {
     msg: Binary;
     sender: string;
     tokenId: string;
+    transactionConfig: ExecuteProps["transactionConfig"]
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       receive_nft: {
@@ -108,58 +110,66 @@ export class DaoVotingCw721StakedClient extends BaseClient {
         sender,
         token_id: tokenId
       }
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
   unstake = async ({
-    tokenIds
+    tokenIds,
+    transactionConfig
   }: {
     tokenIds: string[];
+    transactionConfig: ExecuteProps["transactionConfig"]
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       unstake: {
         token_ids: tokenIds
       }
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
-  claimNfts = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
+  claimNfts = async ({ transactionConfig }: { transactionConfig: ExecuteProps["transactionConfig"] }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       claim_nfts: {}
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
   updateConfig = async ({
     duration,
-    owner
+    owner,
+    transactionConfig
   }: {
     duration?: Duration;
     owner?: string;
+    transactionConfig: ExecuteProps["transactionConfig"]
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       update_config: {
         duration,
         owner
       }
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
   addHook = async ({
-    addr
+    addr,
+    transactionConfig
   }: {
     addr: string;
+    transactionConfig: ExecuteProps["transactionConfig"]
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       add_hook: {
         addr
       }
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
   removeHook = async ({
-    addr
+    addr,
+    transactionConfig
   }: {
     addr: string;
+    transactionConfig: ExecuteProps["transactionConfig"]
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       remove_hook: {
         addr
       }
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
 }

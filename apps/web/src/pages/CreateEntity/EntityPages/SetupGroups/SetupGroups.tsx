@@ -30,7 +30,7 @@ export const initialProposalModule: TDAOGroupModel['proposalModule'] = {
     deposit_info: null,
   },
   proposalConfig: {
-    allow_revoting: true,
+    allow_revoting: false,
     close_proposal_on_execution_failure: true,
     dao: '',
     max_voting_period: { time: 604800 },
@@ -127,7 +127,7 @@ export const initialMultisigGroup: TDAOGroupModel = {
   memberships: initialMemberships,
 }
 
-const SetupDAOGroups = (): JSX.Element => {
+const SetupDAOGroups = ({ showNavigation = true }: { showNavigation?: boolean }): JSX.Element => {
   const { daoGroups, daoController, linkedEntity, updateDAOGroups, updateLinkedEntity, updateDAOController } =
     useCreateEntityState()
   const [openAddGroupModal, setOpenAddGroupModal] = useState(false)

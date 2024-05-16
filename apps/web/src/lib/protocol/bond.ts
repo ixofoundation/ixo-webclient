@@ -14,7 +14,7 @@ import { BondStateType } from 'redux/bond/bond.types'
 
 const createRPCQueryClient = ixo.ClientFactory.createRPCQueryClient
 
-export const CreateBondMessage = async (
+export const CreateBondMessage = (
   payload: MsgCreateBond,
 ) => {
   const message = {

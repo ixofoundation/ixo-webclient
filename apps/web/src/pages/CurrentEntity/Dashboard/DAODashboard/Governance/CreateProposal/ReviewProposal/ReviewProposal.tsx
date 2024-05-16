@@ -36,13 +36,16 @@ import { AddLinkedEntityMessage } from 'lib/protocol/iid.messages'
 import { DaoPreProposeSingleClient } from '@ixo-webclient/cosmwasm-clients'
 import { useAppSelector } from 'redux/hooks'
 import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { useEntity } from 'hooks/entity/useEntity'
+import { currentRelayerNode } from 'constants/common'
 
 const ReviewProposal: React.FC = () => {
   const theme: any = useTheme()
   const navigate = useNavigate()
-  const { entityId = "", coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
+  const { entityId = '', coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
+  const { refetch } = useEntity(entityId)
   const { cwClient } = useAccount()
-  const { updateDAOGroup, refetchAndUpdate } = useCurrentEntity()
+  const { updateDAOGroup } = useCurrentEntity()
   const { daoGroups = {} } = useAppSelector(getEntityById(entityId))
   const { daoGroup, preProposalContractAddress, depositInfo, isParticipating, anyoneCanPropose } =
     useCurrentEntityDAOGroup(coreAddress!, daoGroups)
@@ -86,6 +89,7 @@ const ReviewProposal: React.FC = () => {
     makeSendGroupTokenAction,
     makeJoinAction,
     makeAcceptToMarketplaceAction,
+    makeCreateEntityAction
   } = useMakeProposalAction(coreAddress!, daoGroups)
   const [selectedAction, setSelectedAction] = useState<TProposalActionModel | undefined>()
   const SetupActionModal = useMemo(() => {
@@ -103,12 +107,14 @@ const ReviewProposal: React.FC = () => {
         : 0,
     [daoGroup],
   )
+
+  console.log({ proposalActions: proposal?.actions})
   const votingModuleAddress = useMemo(() => daoGroup?.votingModule.votingModuleAddress, [daoGroup])
   const validActions = useMemo(() => (proposal?.actions ?? []).filter((item) => item.data), [proposal])
   const { getQuery } = useQuery()
   const success = getQuery('success')
   const selectedTemplateEntityId = getQuery('selectedTemplateEntityId')
-  const { execute, wallet } = useWallet()
+  const { execute, wallet, transaction, close } = useWallet()
   const signer: TSigner = {
     address: wallet?.address || '',
     did: wallet?.did || '',
@@ -129,16 +135,20 @@ const ReviewProposal: React.FC = () => {
       const daoVotingCw4Client = new contracts.DaoVotingCw4.DaoVotingCw4QueryClient(cwClient, votingModuleAddress)
       cw4GroupAddress = await daoVotingCw4Client.groupContract()
     }
+
     const wasmMessage: CosmosMsgForEmpty[] = validActions
       .map((validAction: TProposalActionModel) => {
         try {
           const { text, data } = validAction
+          console.log({ text, data })
           switch (text) {
             // Group Category
             case 'AuthZ Exec':
               return makeAuthzExecAction(data)
             case 'AuthZ Grant / Revoke':
               return makeAuthzAuthorizationAction(data)
+            case 'Create Entity':
+              return makeCreateEntityAction(data)
             case 'Change Group Membership':
               return makeManageMembersAction(data, cw4GroupAddress)
             case 'Manage Subgroups':
@@ -216,6 +226,7 @@ const ReviewProposal: React.FC = () => {
         }
       })
       .filter(Boolean) as CosmosMsgForEmpty[]
+
     const daoPreProposeSingleClient = new DaoPreProposeSingleClient(execute, wallet.address, preProposalContractAddress)
 
     return await daoPreProposeSingleClient
@@ -227,6 +238,10 @@ const ReviewProposal: React.FC = () => {
               msgs: wasmMessage,
               title: profile?.name || '',
             },
+          },
+          transactionConfig: {
+            sequence: 3,
+            transactionSessionHash: transaction.transactionSessionHash,
           },
         },
         fee,
@@ -340,8 +355,9 @@ const ReviewProposal: React.FC = () => {
           if (await handleAddProposalInfoAsLinkedEntity(deedDid, proposalId)) {
             updateDAOGroup(coreAddress!)
             setSubmitting(false)
-            refetchAndUpdate()
+            refetch()
             navigate({ search: `?success=true` })
+            close()
             return
           }
         }
@@ -470,7 +486,7 @@ const ReviewProposal: React.FC = () => {
           <>
             <FlexBox $direction='column' width='100%' $gap={4}>
               <Typography variant='secondary'>
-                This is the last step before submitting this governance proposal for {profile.name}.
+                This is the last step before submitting this governance proposal for {profile?.name}.
               </Typography>
               <Typography variant='secondary'>
                 <NavLink to={`/create/entity/deed/${entityId}/${coreAddress}/action`}>

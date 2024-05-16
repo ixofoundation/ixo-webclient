@@ -1,7 +1,6 @@
 import { Flex } from '@mantine/core'
 import React from 'react'
 import { AssetCard } from 'components/EntityCards/AssetCard'
-import useCurrentEntity from 'hooks/currentEntity'
 import { GridContainer, GridItem } from 'components/App/App.styles'
 import {
   AssetActivityIcon,
@@ -11,12 +10,10 @@ import {
   ClockIcon,
   ImpactsCreditIcon,
 } from 'components/Icons'
-import { transformEntity } from 'utils/transformEntity'
-import { Entity, Message, useEntityQuery, useMessagesQuery } from 'generated/graphql'
+import { Message, useMessagesQuery } from 'generated/graphql'
 import { useGetCreatorProfileWithVerifiableCredential } from 'utils/asset'
 import { useGetAccountTokens } from 'graphql/tokens'
-import _ from 'lodash'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom'
 import { AssetStatsCard } from './AssetStatsCard'
 import { AssetCreditsCard } from './AssetCreditsCard'
 import { AssetPerformanceCard } from './AssetPerfomanceCard'
@@ -24,6 +21,8 @@ import AssetLocationCard from './AssetLocationCard'
 import { getCookStove } from 'api/netlify/getCookStove'
 import ClaimActivityCard from './ClaimActivityCard'
 import AssetEventsCard from './AssetEventsCard'
+import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { useAppSelector } from 'redux/hooks'
 
 const EmptyAssetCardData = {
   type: '',
@@ -43,27 +42,20 @@ const AssetOverview: React.FC = () => {
   const location = useLocation()
   const searchParams = new URLSearchParams(location.search)
   const collection = searchParams.get('collection')
-  const currentEntity = useCurrentEntity()
-  const [entity, setEntity] = React.useState<any>()
-  const { data } = useEntityQuery({
-    variables: { id: currentEntity.id },
-    onCompleted: (data) => {
-      setEntity(data?.entity)
-      currentEntity.updateEntity(data?.entity as any)
-      transformEntity(data?.entity as Entity).then((entity) => setEntity(entity))
-    },
-  })
+  const { entityId = "" } = useParams()
+  const { id, accounts, externalId, alsoKnownAs, linkedResource, service, profile: entityProfile, tags, zlottie, metadata } = useAppSelector(getEntityById(entityId))
+
   const adminAccount = React.useMemo(
-    () => data?.entity?.accounts?.find((v: any) => v.name === 'admin')?.address || '',
-    [data],
+    () => accounts?.find((v: any) => v.name === 'admin')?.address || '',
+    [accounts],
   )
   const { data: accountTokens } = useGetAccountTokens(adminAccount)
-  const did = _.get(currentEntity, 'id')
+
   const [cookStove, setCookStove] = React.useState<any>()
 
   const { profile } = useGetCreatorProfileWithVerifiableCredential({
-    endpoint: entity?.linkedResource?.find((item: any) => item.type === 'VerifiableCredential')?.serviceEndpoint || '',
-    service: entity?.service || [],
+    endpoint: linkedResource?.find((item: any) => item.type === 'VerifiableCredential')?.serviceEndpoint || '',
+    service: service || [],
   })
 
   const { data: messagesData } = useMessagesQuery({
@@ -71,7 +63,7 @@ const AssetOverview: React.FC = () => {
       first: 10,
       filter: {
         typeUrl: { equalTo: '/ixo.entity.v1beta1.MsgTransferEntity' },
-        value: { contains: { id: data?.entity?.id } },
+        value: { contains: { id } },
       },
     },
   })
@@ -88,40 +80,34 @@ const AssetOverview: React.FC = () => {
     return { retired: 0, produced: 0, claimable: 0 }
   }, [accountTokens])
 
-  const assetNumber = _.get(currentEntity, 'currentEntity.alsoKnownAs').replace('{id}#', '')
+  const assetNumber = alsoKnownAs?.replace('{id}#', '') ?? ""
 
   const inputAssetCardData = React.useMemo(() => {
-    if (entity) {
-      const {
-        settings: { Profile, Tags },
-        linkedResource,
-      } = entity
-      const zLottie = linkedResource?.find((resource: any) => resource.type === 'Lottie')?.data
-
+    if (entityProfile) {
       return {
-        logo: Profile?.data?.logo,
-        type: Profile?.type.split(':')[1] ?? '',
+        logo: entityProfile?.logo,
+        type: entityProfile?.type.split(':')[1] ?? '',
         collectionName: collection,
-        title: Profile?.data?.brand,
-        cardImage: Profile?.data?.image,
-        creator: Profile?.data?.name,
-        tags: Tags?.data?.entityTags ?? [],
-        animation: zLottie,
+        title: entityProfile?.brand,
+        cardImage: entityProfile?.image,
+        creator: entityProfile?.name,
+        tags: tags ?? [] as any,
+        animation: zlottie,
         assetNumber: assetNumber,
         maxSupply: '',
         accountTokens: {},
       }
     }
     return EmptyAssetCardData
-  }, [entity, collection, assetNumber])
+  }, [entityProfile, collection, assetNumber, zlottie, tags])
 
   React.useEffect(() => {
-    if (data?.entity?.externalId) {
-      getCookStove(data?.entity?.externalId)
+    if (externalId) {
+      getCookStove(externalId)
         .then(({ data }) => setCookStove(data))
         .catch(console.log)
     }
-  }, [data?.entity?.externalId])
+  }, [externalId])
 
   return (
     <Flex w={'100%'} direction={'column'} gap={6}>
@@ -133,14 +119,14 @@ const AssetOverview: React.FC = () => {
         width='100%'
       >
         <GridItem $gridArea='a' $alignSelf='stretch' height='400px'>
-          {entity && <AssetCard {...inputAssetCardData} accountTokens={carbonTokens} width='300px' height='100%' />}
+          <AssetCard {...inputAssetCardData} accountTokens={carbonTokens} width='300px' height='100%' />
         </GridItem>
         <GridItem $gridArea='b' $alignSelf='stretch' height='400px'>
           <AssetStatsCard
             creator={profile?.name}
-            created={entity?.metadata?.created}
+            created={metadata?.created}
             project={profile?.brand}
-            did={did}
+            did={id}
             carbonProduced={carbonTokens.produced}
             label='Asset Stats'
             icon={<AssetStatsIcon />}
@@ -157,7 +143,7 @@ const AssetOverview: React.FC = () => {
         </GridItem>
         <GridItem $gridArea='d' $alignSelf='stretch' height='400px'>
           <AssetPerformanceCard
-            externalId={data?.entity?.externalId ?? ''}
+            externalId={externalId ?? ''}
             label='Asset Performance'
             icon={<AssetPerformanceIcon />}
           />

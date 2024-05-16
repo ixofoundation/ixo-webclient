@@ -32,7 +32,7 @@ const AgentUserCard: React.FC<IAgent & { noAction?: boolean; onClick: () => void
   const { accounts } = useAppSelector(getEntityById(entityId))
   const adminAddress = useCurrentEntityAdminAccount(accounts)
   const [granting, setGranting] = useState(false)
-  const { execute } = useWallet()
+  const { execute, close } = useWallet()
   const agentQuota = useMemo(() => claimCollection?.quota ?? 0, [claimCollection])
 
   const handleGrant = async () => {
@@ -77,7 +77,7 @@ const AgentUserCard: React.FC<IAgent & { noAction?: boolean; onClick: () => void
           throw response.rawLog
         }
       }
-
+      close()
       successToast(null, 'Successfully granted!')
     } catch (error: any) {
       console.error('Granting User', error)

@@ -2,7 +2,7 @@ import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { deviceWidth } from 'constants/device'
 import { Button, DateRangePicker, InputWithLabel } from 'pages/CreateEntity/Components'
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useTheme } from 'styled-components'
 
 interface Props {
@@ -14,6 +14,7 @@ const ClaimCollectionCreationScopeStep: React.FC<Props> = ({ hidden, onSubmit, o
   const theme: any = useTheme()
   const [period, setPeriod] = useState({ startDate: '', endDate: '' })
   const [quota, setQuota] = useState('')
+  const disabled = useMemo(() => !period.startDate || !quota, [period, quota])
 
   if (hidden) {
     return null
@@ -66,6 +67,7 @@ const ClaimCollectionCreationScopeStep: React.FC<Props> = ({ hidden, onSubmit, o
         </Button>
         <Button
           variant='primary'
+          disabled={disabled}
           onClick={() => onSubmit({ startDate: period.startDate, endDate: period.endDate, quota })}
         >
           Continue

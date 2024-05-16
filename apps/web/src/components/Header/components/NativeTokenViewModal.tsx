@@ -32,7 +32,7 @@ interface Props {
 
 const NativeTokenViewModal: React.FC<Props> = ({ open, token, onClose }) => {
   const theme: any = useTheme()
-  const { execute } = useWallet()
+  const { execute, close } = useWallet()
   const { address, updateBalances } = useAccount()
   const availableBalance = token.balance
   const [stakedBalances, setStakedBalances] = useState<{
@@ -160,6 +160,7 @@ const NativeTokenViewModal: React.FC<Props> = ({ open, token, onClose }) => {
         throw response.rawLog
       }
       successToast('Success', 'Successfully updated status to transferred!')
+      close()
     } catch (e) {
       console.error('handleAddVerificationMethods', e)
       errorToast('Error at Signing', typeof e === 'string' && e)

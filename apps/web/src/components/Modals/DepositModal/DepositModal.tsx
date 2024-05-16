@@ -90,7 +90,7 @@ const DepositModal: React.FunctionComponent<Props> = ({
   const [txStatus, setTXStatus] = useState<TXStatus>(TXStatus.UNDEFINED)
   const [txHash, setTXHash] = useState<string>('')
 
-  const { execute } = useWallet()
+  const { execute, close } = useWallet()
 
   const validAmount = isGreaterThanOrEqualTo(balance, amount)
 
@@ -147,6 +147,7 @@ const DepositModal: React.FunctionComponent<Props> = ({
           amount: convertDenomToMicroDenomWithDecimals(amount, selectedToken.decimals).toString(),
           contract: stakingContract,
           msg: btoa('{"stake": {}}'),
+          transactionConfig: { sequence: 1 }
         },
         fee,
         undefined,
@@ -154,6 +155,7 @@ const DepositModal: React.FunctionComponent<Props> = ({
       )
 
       if (transactionHash) {
+        close()
         setTXStatus(TXStatus.SUCCESS)
         setTXHash(transactionHash)
         successToast('Sending', `Success! ${amount} ${selectedToken.symbol} have been successfully sent.`)
@@ -172,6 +174,7 @@ const DepositModal: React.FunctionComponent<Props> = ({
 
       if (response) {
         setTXStatus(TXStatus.SUCCESS)
+        close()
         successToast('Sending', `Success! ${amount} ${selectedToken.symbol} have been successfully sent.`)
       } else {
         setTXStatus(TXStatus.ERROR)

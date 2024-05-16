@@ -42,7 +42,8 @@ export default function useEditEntity(): {
 } {
   const dispatch = useAppDispatch()
   const { execute, wallet } = useWallet()
-  const { entityId = "" } = useParams<{ entityId: string }>()
+  const { entityId = "" } = useParams<{ entityId: string}>()
+
   const editEntity: TEntityModel = useAppSelector(selectEditEntity)
   const currentEntity = useAppSelector(getEntityById(entityId))
   const claimProtocols = useAppSelector(selectAllClaimProtocols)

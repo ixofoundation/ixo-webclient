@@ -7,7 +7,7 @@
 import { ExecuteResult } from "@cosmjs/cosmwasm-stargate";
 import { Coin, StdFee } from "@cosmjs/amino";
 import { Member, AdminResponse, HooksResponse, MemberListResponse, MemberResponse, TotalWeightResponse } from "./Cw4Group.types";
-import { BaseClient, DeliverTxResponse } from "./Base.client";
+import { BaseClient, DeliverTxResponse, ExecuteProps } from "./Base.client";
 export interface Cw4GroupReadOnlyInterface {
   contractAddress: string;
   admin: () => Promise<AdminResponse>;
@@ -74,50 +74,58 @@ export class Cw4GroupClient extends BaseClient {
   }
 
   updateAdmin = async ({
-    admin
+    admin, 
+    transactionConfig
   }: {
     admin?: string;
+    transactionConfig: ExecuteProps["transactionConfig"]
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       update_admin: {
         admin
       }
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
   updateMembers = async ({
     add,
-    remove
+    remove,
+    transactionConfig
   }: {
     add: Member[];
     remove: string[];
+    transactionConfig: ExecuteProps["transactionConfig"]
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       update_members: {
         add,
         remove
       }
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
   addHook = async ({
-    addr
+    addr,
+    transactionConfig
   }: {
     addr: string;
+    transactionConfig: ExecuteProps["transactionConfig"]
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       add_hook: {
         addr
       }
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
   removeHook = async ({
-    addr
+    addr,
+    transactionConfig
   }: {
     addr: string;
+    transactionConfig: ExecuteProps["transactionConfig"]
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       remove_hook: {
         addr
       }
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
 }

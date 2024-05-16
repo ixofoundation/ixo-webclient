@@ -26,11 +26,11 @@ import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors
 
 const ClaimCollectionCreation: React.FC = () => {
   const { entityId = '' } = useParams<{ entityId: string }>()
-  const { type, claim: claims = {}, accounts, owner } = useAppSelector(getEntityById(entityId))
+  const { type, claim: claims = {}, accounts, owner, verificationMethod } = useAppSelector(getEntityById(entityId))
   const { signer } = useAccount()
-  const { execute, wallet } = useWallet()
+  const { execute, wallet, close, transaction } = useWallet()
   const { isExist: isCollectionExist } = useGetClaimCollectionsByEntityId(entityId)
-  const userRole = useGetUserGranteeRole(wallet?.address ?? "", owner, accounts)
+  const userRole = useGetUserGranteeRole(wallet?.address ?? "", owner, accounts, verificationMethod)
   const { fetchEntityById } = useGetEntityByIdLazyQuery()
 
   const [step, setStep] = useState<'start' | 'select' | 'scope' | 'payment' | 'submission' | 'review' | 'success'>(
@@ -132,6 +132,7 @@ const ClaimCollectionCreation: React.FC = () => {
         fetchEntityById(deedOfferDid)
       }
 
+      close()
       successToast(null, 'Offer successfully created!')
       setStep('success')
     } catch (e) {

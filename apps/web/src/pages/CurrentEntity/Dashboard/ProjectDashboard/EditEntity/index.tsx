@@ -12,15 +12,17 @@ import { ReactComponent as ExclamationIcon } from 'assets/images/icon-exclamatio
 import { useAppSelector } from 'redux/hooks'
 import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { useWallet } from '@ixo-webclient/wallet-connector'
+import { useEntity } from 'hooks/entity/useEntity'
 
 const EditEntity: React.FC = () => {
   const navigate = useNavigate()
   const { entityId = '' } = useParams<{ entityId: string }>()
   const currentEntity = useAppSelector(getEntityById(entityId))
-  const { wallet } = useWallet()
+  const { wallet, close } = useWallet()
   const isOwner = wallet?.address === currentEntity.owner
   const { setEditEntity, ExecuteEditEntity } = useEditEntity()
   const [editing, setEditing] = useState(false)
+  const { refetch } = useEntity(entityId)
 
   useEffect(() => {
     setEditEntity(currentEntity)
@@ -32,7 +34,9 @@ const EditEntity: React.FC = () => {
     try {
       const { transactionHash, code, rawLog } = await ExecuteEditEntity()
       if (transactionHash && code === 0) {
+        close()
         successToast('Updating', 'Successfully updated!')
+        await refetch()
       } else {
         throw new Error(rawLog)
       }

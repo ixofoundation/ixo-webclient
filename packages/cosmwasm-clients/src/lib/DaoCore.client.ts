@@ -7,7 +7,7 @@
 import { ExecuteResult } from "@cosmjs/cosmwasm-stargate";
 import { StdFee } from "@cosmjs/amino";
 import { Binary, ModuleInstantiateInfo, CosmosMsgForEmpty, Uint128, Duration, Coin, Config, SubDao, Addr, ArrayOfProposalModule, AdminNominationResponse, Cw20BalanceResponse, ArrayOfAddr, DaoURIResponse, PauseInfoResponse, DumpStateResponse, GetItemResponse, InfoResponse, ArrayOfString, ArrayOfSubDao, ProposalModuleCountResponse, TotalPowerAtHeightResponse, VotingPowerAtHeightResponse } from "./DaoCore.types";
-import { BaseClient, DeliverTxResponse } from "./Base.client";
+import { BaseClient, DeliverTxResponse, ExecuteProps } from "./Base.client";
 export interface DaoCoreReadOnlyInterface {
   contractAddress: string;
   admin: () => Promise<Addr>;
@@ -208,46 +208,54 @@ export class DaoCoreClient extends BaseClient {
   }
 
   executeAdminMsgs = async ({
-    msgs
+    msgs,
+    transactionConfig
   }: {
     msgs: CosmosMsgForEmpty[];
+    transactionConfig: ExecuteProps["transactionConfig"]
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       execute_admin_msgs: {
         msgs
       }
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
   executeProposalHook = async ({
-    msgs
+    msgs,
+    transactionConfig
   }: {
     msgs: CosmosMsgForEmpty[];
+    transactionConfig: ExecuteProps["transactionConfig"]
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       execute_proposal_hook: {
         msgs
       }
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
   pause = async ({
-    duration
+    duration,
+    transactionConfig
   }: {
     duration: Duration;
+    transactionConfig: ExecuteProps["transactionConfig"]
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       pause: {
         duration
       }
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
   receive = async ({
     amount,
     msg,
-    sender
+    sender,
+    transactionConfig
   }: {
     amount: Uint128;
     msg: Binary;
     sender: string;
+    transactionConfig: ExecuteProps["transactionConfig"]
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       receive: {
@@ -255,16 +263,18 @@ export class DaoCoreClient extends BaseClient {
         msg,
         sender
       }
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
   receiveNft = async ({
     msg,
     sender,
-    tokenId
+    tokenId,
+    transactionConfig
   }: {
     msg: Binary;
     sender: string;
     tokenId: string;
+    transactionConfig: ExecuteProps["transactionConfig"]
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       receive_nft: {
@@ -272,130 +282,148 @@ export class DaoCoreClient extends BaseClient {
         sender,
         token_id: tokenId
       }
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
   removeItem = async ({
-    key
+    key,
+    transactionConfig
   }: {
     key: string;
+    transactionConfig: ExecuteProps["transactionConfig"]
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       remove_item: {
         key
       }
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
   setItem = async ({
     key,
-    value
+    value, 
+    transactionConfig
   }: {
     key: string;
     value: string;
+    transactionConfig: ExecuteProps["transactionConfig"]
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       set_item: {
         key,
         value
       }
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
   nominateAdmin = async ({
-    admin
+    admin,
+    transactionConfig
   }: {
     admin?: string;
+    transactionConfig: ExecuteProps["transactionConfig"]
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       nominate_admin: {
         admin
       }
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
-  acceptAdminNomination = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
+  acceptAdminNomination = async ({ transactionConfig }: { transactionConfig: ExecuteProps["transactionConfig"] },fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       accept_admin_nomination: {}
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
-  withdrawAdminNomination = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
+  withdrawAdminNomination = async ({ transactionConfig }: {transactionConfig: ExecuteProps["transactionConfig"]},fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       withdraw_admin_nomination: {}
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
   updateConfig = async ({
-    config
+    config,
+    transactionConfig
   }: {
     config: Config;
+    transactionConfig: ExecuteProps["transactionConfig"]
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       update_config: {
         config
       }
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
   updateCw20List = async ({
     toAdd,
-    toRemove
+    toRemove,
+    transactionConfig
   }: {
     toAdd: string[];
     toRemove: string[];
+    transactionConfig: ExecuteProps["transactionConfig"]
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       update_cw20_list: {
         to_add: toAdd,
         to_remove: toRemove
       }
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
   updateCw721List = async ({
     toAdd,
-    toRemove
+    toRemove,
+    transactionConfig
   }: {
     toAdd: string[];
     toRemove: string[];
+    transactionConfig: ExecuteProps["transactionConfig"]
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       update_cw721_list: {
         to_add: toAdd,
         to_remove: toRemove
       }
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
   updateProposalModules = async ({
     toAdd,
-    toDisable
+    toDisable,
+    transactionConfig
   }: {
     toAdd: ModuleInstantiateInfo[];
     toDisable: string[];
+    transactionConfig: ExecuteProps["transactionConfig"]
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       update_proposal_modules: {
         to_add: toAdd,
         to_disable: toDisable
       }
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
   updateVotingModule = async ({
-    module
+    module,
+    transactionConfig
   }: {
     module: ModuleInstantiateInfo;
+    transactionConfig: ExecuteProps["transactionConfig"]
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       update_voting_module: {
         module
       }
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
   updateSubDaos = async ({
     toAdd,
-    toRemove
+    toRemove,
+    transactionConfig
   }: {
     toAdd: SubDao[];
     toRemove: string[];
+    transactionConfig: ExecuteProps["transactionConfig"]
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       update_sub_daos: {
         to_add: toAdd,
         to_remove: toRemove
       }
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
 }

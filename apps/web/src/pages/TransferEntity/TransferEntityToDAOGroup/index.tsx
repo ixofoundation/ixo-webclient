@@ -9,12 +9,13 @@ import { useTransferEntityState } from 'hooks/transferEntity'
 import { utils } from '@ixo/impactxclient-sdk'
 import TransferEntityModal from 'components/Modals/TransferEntityModal'
 import { useNavigate, useParams } from 'react-router-dom'
-import useCurrentEntity from 'hooks/currentEntity'
+import { useAppSelector } from 'redux/hooks'
+import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 const TransferEntityToDAOGroup: React.FC = (): JSX.Element => {
   const navigate = useNavigate()
-  const { entityId } = useParams<{ entityId: string }>()
-  const { currentEntity } = useCurrentEntity()
+  const { entityId = "" } = useParams<{ entityId: string }>()
+  const  currentEntity = useAppSelector(getEntityById(entityId))
   const { recipientDid, updateRecipientDid } = useTransferEntityState()
   const [openTransferEntityModal, setOpenTransferEntityModal] = useState(false)
 

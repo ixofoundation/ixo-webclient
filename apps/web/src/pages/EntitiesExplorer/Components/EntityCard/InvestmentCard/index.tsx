@@ -10,6 +10,7 @@ import { useGetBondDid } from 'graphql/bonds'
 import { useMapBondDetail } from 'hooks/bond'
 import BigNumber from 'bignumber.js'
 import { getMappedCDNURL } from '@ixo-webclient/utils'
+import { LinkedEntity } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 
 const InvestmentCard: React.FC<TEntityModel & { to?: string }> = (entity) => {
   const theme: any = useTheme()
@@ -18,7 +19,7 @@ const InvestmentCard: React.FC<TEntityModel & { to?: string }> = (entity) => {
   const image = entity.profile?.image || ''
   const logo = entity.profile?.logo || ''
   const title = entity.profile?.name || ''
-  const bondDid = entity.linkedEntity.find((v) => v.type === 'bond')?.id
+  const bondDid = Array.isArray(entity.linkedEntity) ? entity.linkedEntity?.find((v) => v.type === 'bond')?.id : (Object.values(entity.linkedEntity) as LinkedEntity[])?.find((v) => v.type === 'bond')?.id
   const { data: bondDetail } = useGetBondDid(bondDid)
   const { state, currentReserve, currentReserveUsd, initialRaised, initialRaisedUsd } = useMapBondDetail(bondDetail)
   const fundedPercentage = useMemo(
@@ -59,7 +60,6 @@ const InvestmentCard: React.FC<TEntityModel & { to?: string }> = (entity) => {
         <FlexBox p={4.5} $direction='column' $gap={4} width='100%'>
           <FlexBox width='100%'>
             <Typography size='sm' transform='uppercase'>
-              Emerging Cooking Solutions
             </Typography>
           </FlexBox>
 
@@ -72,7 +72,7 @@ const InvestmentCard: React.FC<TEntityModel & { to?: string }> = (entity) => {
 
           <FlexBox width='100%' height='1px' background='#EFEFEF' />
 
-          <FlexBox width='100%' $direction='column' $gap={2}>
+          {bondDid && <FlexBox width='100%' $direction='column' $gap={2}>
             <Typography size='xl' weight='semi-bold'>
               {Intl.NumberFormat(undefined, { style: 'currency', currency: 'USD' }).format(currentReserveUsd)} raised
             </Typography>
@@ -94,7 +94,7 @@ const InvestmentCard: React.FC<TEntityModel & { to?: string }> = (entity) => {
                 </Typography>
               </FlexBox>
             </FlexBox>
-          </FlexBox>
+          </FlexBox>}
         </FlexBox>
       </FlexBox>
     </NavLink>
