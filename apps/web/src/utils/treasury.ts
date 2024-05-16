@@ -38,3 +38,20 @@ export async function getTreasuryCoinByDenom(address: string, coin: Coin, rpc: s
   }
   return payload
 }
+
+export function mergeBalances(data: TTreasuryCoinModel[]) {
+  if(data.length === 0) return data;
+
+  const merged = {};
+
+  data.forEach(item => {
+      if (!merged[item.coinDenom]) {
+          merged[item.coinDenom] = { ...item, balance: parseFloat(item.balance) };
+      } else {
+          merged[item.coinDenom].balance += parseFloat(item.balance);
+      }
+  });
+
+  return Object.values(merged);
+}
+

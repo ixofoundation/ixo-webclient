@@ -5,13 +5,13 @@ import { Avatar } from 'pages/CurrentEntity/Components'
 import CopyToClipboard from 'react-copy-to-clipboard'
 import { ReactComponent as ProfileIcon } from 'assets/images/icon-profile.svg'
 import { ReactComponent as CopyIcon } from 'assets/images/icon-copy.svg'
-import { ReactComponent as StarIcon } from 'assets/images/icon-star.svg'
-import { ReactComponent as UserAstronautIcon } from 'assets/images/icon-user-astronaut-solid.svg'
-import { ReactComponent as UserNinjaIcon } from 'assets/images/icon-user-ninja-solid.svg'
+// import { ReactComponent as StarIcon } from 'assets/images/icon-star.svg'
+// import { ReactComponent as UserAstronautIcon } from 'assets/images/icon-user-astronaut-solid.svg'
+// import { ReactComponent as UserNinjaIcon } from 'assets/images/icon-user-ninja-solid.svg'
 import { Card } from '../Card'
 import { useAccount } from 'hooks/account'
 import { successToast } from 'utils/toast'
-import PropoverButton from 'components/Button/PopoverButton'
+// import PropoverButton from 'components/Button/PopoverButton'
 
 const AccountCard = () => {
   const theme: any = useTheme()
@@ -45,8 +45,8 @@ const AccountCard = () => {
             </FlexBox>
           </FlexBox>
 
-          <FlexBox width='100%' height='1px' background={'#EAEAEA'} />
-
+          {/* <FlexBox width='100%' height='1px' background={'#EAEAEA'} /> */}
+{/* 
           <FlexBox width='100%' $alignItems='center' $justifyContent='space-between'>
             <Typography size='md'>Credentials</Typography>
 
@@ -84,7 +84,7 @@ const AccountCard = () => {
                 <UserNinjaIcon />
               </SvgBox>
             </FlexBox>
-          </FlexBox>
+          </FlexBox> */}
         </>
       }
     />

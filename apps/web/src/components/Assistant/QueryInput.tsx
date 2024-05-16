@@ -70,7 +70,7 @@ export default function QueryInput() {
           setTypedMessage(e.target.value)
         }}
       />
-      <SendIcon sendMessage={() => sendMessage()} typedMessage={typedMessage} />
+      <SendIcon sendMessage={() => sendMessage(typedMessage)} typedMessage={typedMessage} />
     </Flex>
   )
 }
