@@ -104,11 +104,11 @@ jobs:
       with:
         args: deploy --dir=apps/web/build --prod --filter @ixo-webclient/web   # Update --dir with the directory of your build output
 
-  build-and-deploy-impactsai-ixo-earth:
+  build-and-deploy-platform-impacts-ai:
     runs-on: ubuntu-latest
     environment: prod
     outputs:
-      url: ${{ steps.impactsai_ixo_earth_prod_deploy.outputs.NETLIFY_LIVE_URL }}
+      url: ${{ steps.platform_impacts_ai_prod_deploy.outputs.NETLIFY_LIVE_URL }}
     steps:
     - uses: actions/checkout@v4
 
@@ -123,27 +123,27 @@ jobs:
     - name: Build
       env:
         REACT_APP_RELAYER_NODE: did:ixo:entity:8abd3503cbf6717393478117b8df4e6e
-        REACT_APP_CONFIG_ASSETLIST_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/refi/asset-list.json
-        REACT_APP_CONFIG_EXCHANGE_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/refi/exchange.json
-        REACT_APP_CONFIG_RELAYER_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/refi/app-config.json 
-        REACT_APP_CONFIG_SCHEMA_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/refi/config.json
-        REACT_APP_CUSTOM_THEME_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/refi/theme.json
+        REACT_APP_CONFIG_ASSETLIST_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/impacts-ai/asset-list.json
+        REACT_APP_CONFIG_EXCHANGE_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/impacts-ai/exchange.json
+        REACT_APP_CONFIG_RELAYER_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/impacts-ai/app-config.json 
+        REACT_APP_CONFIG_SCHEMA_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/impacts-ai/config.json
+        REACT_APP_CUSTOM_THEME_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/impacts-ai/theme.json
       run: |
         export NODE_OPTIONS="--max_old_space_size=8192"
         yarn build  # Build Script
 
-    - name: Deploy to impactsai.ixo.earth
+    - name: Deploy to platform.impacts.ai
       uses: netlify/actions/cli@master
-      id: impactsai_ixo_earth_prod_deploy
+      id: platform_impacts_ai_prod_deploy
       env:
         NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-        NETLIFY_SITE_ID: d100df65-bfb2-4a73-8d17-694fa6c01394  # Replace with your Netlify Site ID
+        NETLIFY_SITE_ID: 1f5e8c66-5e62-42ed-9a55-1650bbb1fe43  # Replace with your Netlify Site ID
 
       with:
         args: deploy --dir=apps/web/build --prod --filter @ixo-webclient/web   # Update --dir with the directory of your build output
 
   notify-slack:
-    needs: [build-and-deploy-launchpad-ixo-world, build-and-deploy-refi-ixo-earth]
+    needs: [build-and-deploy-launchpad-ixo-world, build-and-deploy-refi-ixo-earth, build-and-deploy-platform-impacts-ai]
     runs-on: ubuntu-latest
     steps:
       - name: Send URLs to Slack
@@ -152,8 +152,8 @@ jobs:
         run: |
           URL1=${{ needs.build-and-deploy-launchpad-ixo-world.outputs.url }}
           URL2=${{ needs.build-and-deploy-refi-ixo-earth.outputs.url }}
-          URL3=${{ needs.build-and-deploy-impactsai-ixo-earth.outputs.url }}
+          URL3=${{ needs.build-and-deploy-platform-impacts-ai.outputs.url }}
 
-          MESSAGE="Deployment to production environment for launchpad.ixo.world: $URL1\nDeployment to production environment for refi.ixo.earth: $URL2\nDeployment to production environment for impactsai.ixo.earth: $URL3\n"
+          MESSAGE="Deployment to production environment for launchpad.ixo.world: $URL1\nDeployment to production environment for refi.ixo.earth: $URL2\nDeployment to production environment for platform.impacts.ai: $URL3\n"
 
           curl -X POST -H 'Content-type: application/json' --data "{\"text\":\"$MESSAGE\"}" $SLACK_WEBHOOK_URL
