@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import CircleTab from './components/CircleTab'
 import { ReactComponent as ProfileIcon } from 'assets/images/icon-profile.svg'
-import { ReactComponent as BellIcon } from 'assets/images/icon-bell.svg'
-import { ReactComponent as CommentIcon } from 'assets/images/icon-comment-alt.svg'
+// import { ReactComponent as BellIcon } from 'assets/images/icon-bell.svg'
+// import { ReactComponent as CommentIcon } from 'assets/images/icon-comment-alt.svg'
 import { ReactComponent as AssistantIcon } from 'assets/images/icon-assistant.svg'
 import AccountCard from './Account'
 import MyParticipationCard from './MyParticipation'
@@ -72,11 +72,8 @@ const ControlPanel = ({ tab, entityType, entityName }: Props) => {
     </>
   )
 
-  const renderAssistant = () => (
-    <>
-      <AssistantCard />
-    </>
-  )
+  const renderAssistant = () => <AssistantCard />
+
 
   return (
     <Flex
@@ -89,7 +86,7 @@ const ControlPanel = ({ tab, entityType, entityName }: Props) => {
       style={{ color: 'black' }}
     >
       <StyledScrollArea h='100%'>
-        <Flex w='100%' direction='column' gap={24} p={20} pt={32}>
+        <Flex w='100%' direction='column' h="100%" gap={24} p={20} pt={32}>
           {address && activeTab === 'profile' && renderProfile()}
           {activeTab === 'detail' && renderDetail()}
           {activeTab === 'feed' && renderFeed()}
@@ -116,7 +113,7 @@ const ControlPanel = ({ tab, entityType, entityName }: Props) => {
             />
           </Tooltip>
         )}
-        <Tooltip text={'Notifications'}>
+        {/* <Tooltip text={'Notifications'}>
           <CircleTab
             icon={<BellIcon />}
             active={activeTab === 'feed'}
@@ -131,7 +128,7 @@ const ControlPanel = ({ tab, entityType, entityName }: Props) => {
             onClick={() => setActiveTab('message')}
             badge={0}
           />
-        </Tooltip>
+        </Tooltip> */}
         <Tooltip text={'Oxi'}>
           <CircleTab
             icon={<AssistantIcon />}

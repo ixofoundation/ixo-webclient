@@ -11,6 +11,7 @@ import { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
 import { useParams } from 'react-router-dom'
 import { useAppSelector } from 'redux/hooks'
 import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { truncate } from 'lodash'
 
 const DAOGroupItem: React.FC<{ address: string }> = ({ address }) => {
   const theme: any = useTheme()
@@ -22,7 +23,7 @@ const DAOGroupItem: React.FC<{ address: string }> = ({ address }) => {
   return (
     <FlexBox key={daoGroup.id} width='100%' $alignItems='center' $justifyContent='space-between'>
       <FlexBox $gap={2}>
-        <Typography size='md'>{daoGroup.config.name}</Typography>
+        <Typography size='md'>{truncate(daoGroup.config.name, {length: 20})}</Typography>
         <Typography size='md' color='blue'>
           {Intl.NumberFormat(undefined, { style: 'percent' }).format(myVotingPower)}
         </Typography>

@@ -34,7 +34,7 @@ const GroupsCard: React.FC = () => {
 
   return (
     <Card label={`Member of ${participatingDAOGroups.length} Groups`} icon={<AgentsIcon />}>
-      <Flex gap={12} w={'100%'} style={{ overflowX: 'auto' }}>
+      <Flex gap={12} w={'100%'} style={{ overflowX: 'auto' }} wrap={"wrap"}>
         {participatingDAOGroups.map((daoGroup: TDAOGroupModel, index: number) => (
           <GroupCard key={index} daoGroup={daoGroup} />
         ))}

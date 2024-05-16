@@ -63,7 +63,7 @@ const Footer: React.FC = () => {
       </div>
       <div className='row align-items-center justify-content-center mt-4' style={{ gap: 8 }}>
         <Typography color='dark-blue'>Powered by</Typography>
-        <SvgBox $svgWidth={7} color='#00D2FF'>
+        <SvgBox $svgWidth={7} color='#00D2FF' onClick={() => window.open("https://ixo.world", '_blank', 'noopener')}>
           <IXOLogo />
         </SvgBox>
       </div>

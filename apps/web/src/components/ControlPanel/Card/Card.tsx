@@ -22,7 +22,7 @@ const Card: React.FC<Props> = ({ icon, title, columns, items }) => {
   const theme: any = useTheme()
 
   return (
-    <FlexBox width='100%' $direction='column' $gap={5} background='#ffffff' $borderRadius='12px' p={5}>
+    <FlexBox width='100%' height='100%' $direction='column' $gap={5} background='#ffffff' $borderRadius='12px' p={5}>
       <FlexBox width='100%' $alignItems='center' $justifyContent='space-between'>
         <FlexBox $gap={2} $alignItems='center'>
           <SvgBox $svgWidth={5} $svgHeight={5} color={theme.ixoNewBlue}>
@@ -37,7 +37,7 @@ const Card: React.FC<Props> = ({ icon, title, columns, items }) => {
         </SvgBox>
       </FlexBox>
 
-      <GridContainer width='100%' columns={columns} $gridGap={2}>
+      <GridContainer width='100%' height="100%" columns={columns} $gridGap={2}>
         {Array.isArray(items)
           ? items.map((item, index) => (
               <FlexBox
