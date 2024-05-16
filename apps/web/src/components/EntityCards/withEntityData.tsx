@@ -30,7 +30,7 @@ export function transformEntityData(entity: TEntityModel): any {
 
         // Add to the active proposals count
         acc.activeProposals += cur.proposalModule.proposals.filter((proposal) =>
-          isExpired(proposal.proposal.expiration),
+          !isExpired(proposal.proposal.expiration),
         ).length
 
         return acc

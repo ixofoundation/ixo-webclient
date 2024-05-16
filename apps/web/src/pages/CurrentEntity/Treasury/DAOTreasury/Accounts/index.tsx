@@ -82,7 +82,7 @@ const Accounts: React.FC = () => {
           <FlexBox width='100%' $alignItems='center' $justifyContent='space-between' $gap={2}>
             <FlexBox $alignItems='center' $gap={2}>
               <Typography variant='secondary' size='2xl' transform='capitalize'>
-                {selectedAccount.name} Account
+                {selectedAccount.name}
               </Typography>
               <FlexBox $alignItems='center' $gap={2} px={2} py={1} $borderRadius='100px' background={theme.ixoDarkBlue}>
                 {Icon && (

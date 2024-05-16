@@ -13,7 +13,7 @@ import { determineChainFromAddress } from 'utils/account'
 import { findKeyValuePairs } from 'utils/common'
 import { convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
 import { truncateString } from 'utils/formatters'
-import { getTreasuryCoinByDenom } from 'utils/treasury'
+import { getTreasuryCoinByDenom, mergeBalances } from 'utils/treasury'
 
 const updateNativeTokenBalances = async (address: string, chainInfo: KeplrChainInfo) => {
   if (!chainInfo) return []
@@ -23,7 +23,7 @@ const updateNativeTokenBalances = async (address: string, chainInfo: KeplrChainI
     balances.map((coin) => getTreasuryCoinByDenom(address, coin, chainInfo.rpc)).filter((v) => v !== undefined),
   )) as TTreasuryCoinModel[]
 
-  return coins
+  return mergeBalances(coins)
 }
 
 const getStakingGroupBalance = async ({ stakingGroup }: { stakingGroup: TDAOGroupModel }) => {

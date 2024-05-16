@@ -64,7 +64,12 @@ const Footer: React.FC = () => {
 
         <Flex align={'center'} gap={4}>
           <Text fw={'bold'}>Powered by</Text>
-          <Text c='ixo-blue' fw={'bold'}>
+          <Text
+            c='ixo-blue'
+            fw={'bold'}
+            onClick={() => window.open('https://ixo.world', '_blank', 'noopener')}
+            style={{ cursor: 'pointer' }}
+          >
             ixo
           </Text>
         </Flex>
