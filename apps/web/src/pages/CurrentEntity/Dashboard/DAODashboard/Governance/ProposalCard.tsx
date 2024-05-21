@@ -28,6 +28,7 @@ import { DaoProposalSingleClient } from '@ixo-webclient/cosmwasm-clients'
 import { useWallet } from '@ixo-webclient/wallet-connector'
 import { useAppSelector } from 'redux/hooks'
 import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { useEntity } from 'hooks/entity/useEntity'
 
 const RemainingBadge: React.FC<{ minutes: number }> = ({ minutes }) => {
   const theme: any = useTheme()
@@ -143,6 +144,7 @@ const ProposalCard: React.FC<Props> = ({ coreAddress, proposalId, proposal }) =>
   const { daoGroups = {} } = useAppSelector(getEntityById(entityId))
   const { daoGroup, proposalModuleAddress, isParticipating, anyoneCanPropose } = useCurrentEntityDAOGroup(coreAddress, daoGroups)
   const { execute, close } = useWallet()
+  const { refetch } = useEntity(entityId)
 
   const [votes, setVotes] = useState<VoteInfo[]>([])
   const [myVoteStatus, setMyVoteStatus] = useState<VoteInfo | undefined>(undefined)
@@ -200,9 +202,9 @@ const ProposalCard: React.FC<Props> = ({ coreAddress, proposalId, proposal }) =>
     }
   }, [getVoteStatus])
 
-  const onVote = (vote: Vote): Promise<string> => {
+  const onVote = async (vote: Vote): Promise<string> => {
     const daoProposalSingleClient = new DaoProposalSingleClient(execute, address, proposalModuleAddress)
-    return daoProposalSingleClient
+    return await daoProposalSingleClient
       .vote({ proposalId, vote, transactionConfig: { sequence: 1 } }, fee, undefined, undefined)
       .then(({ transactionHash }) => transactionHash)
       .catch((e) => {
@@ -210,6 +212,7 @@ const ProposalCard: React.FC<Props> = ({ coreAddress, proposalId, proposal }) =>
         return ''
       })
       .finally(() => {
+        refetch()
         close()
         getVoteStatus()
       })
@@ -219,9 +222,9 @@ const ProposalCard: React.FC<Props> = ({ coreAddress, proposalId, proposal }) =>
     navigate(`/entity/${entityId}/overview/proposal/${deedDid}`)
   }
 
-  const onExecute = () => {
+  const onExecute = async () => {
     const daoProposalSingleClient = new DaoProposalSingleClient(execute, address, proposalModuleAddress)
-    daoProposalSingleClient
+    return await daoProposalSingleClient
       .executeProposal({ proposalId, transactionConfig: { sequence: 1 } }, fee, undefined, undefined)
       .then(({ transactionHash, rawLog, events, gasUsed, gasWanted, height }) => {
         console.log('handleExecuteProposal', { transactionHash, rawLog, events, gasUsed, gasWanted, height })
@@ -233,13 +236,14 @@ const ProposalCard: React.FC<Props> = ({ coreAddress, proposalId, proposal }) =>
         console.error('handleExecuteProposal', e)
         errorToast(null, 'Transaction failed')
       }).finally(() => {
+        refetch()
         close()
       })
   }
 
-  const onClose = () => {
+  const onClose = async () => {
     const daoProposalSingleClient = new DaoProposalSingleClient(execute, address, proposalModuleAddress)
-    daoProposalSingleClient
+    return await daoProposalSingleClient
       .close({ proposalId, transactionConfig: { sequence: 1 } }, fee, undefined, undefined)
       .then(({ transactionHash, rawLog }) => {
         console.log('handleCloseProposal', transactionHash, rawLog)
@@ -251,6 +255,7 @@ const ProposalCard: React.FC<Props> = ({ coreAddress, proposalId, proposal }) =>
         console.error('handleCloseProposal', e)
         errorToast(null, 'Transaction failed')
       }).finally(() => {
+        refetch()
         close()
       })
   }
