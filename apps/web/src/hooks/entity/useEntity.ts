@@ -71,6 +71,8 @@ export const useEntity = (did: string) => {
 
   const { refetch: refetchEntityQuery } = useEntityQuery({
     variables: { id: did },
+    //  set a poll interval for every 30 seconds
+    pollInterval: 30000,
     onCompleted: async (data) => {
       await updateOnCompleted(data)
     },

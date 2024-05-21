@@ -21,16 +21,18 @@ export const CreateCollection = (
 ) => {
   const messages = payload.map(({ entityDid, protocolDid, payments, startDate, endDate, quota }) => ({
     typeUrl: '/ixo.claims.v1beta1.MsgCreateCollection',
-    value: ixo.claims.v1beta1.MsgCreateCollection.fromPartial({
-      signer: signer.address,
-      entity: entityDid,
-      protocol: protocolDid,
-      startDate: utils.proto.toTimestamp(new Date(startDate)),
-      endDate: endDate ? utils.proto.toTimestamp(new Date(endDate)) : undefined,
-      quota: Long.fromNumber(Number(quota)),
-      state: ixo.claims.v1beta1.CollectionState.OPEN,
-      payments,
-    }),
+    value: ixo.claims.v1beta1.MsgCreateCollection.encode(
+      ixo.claims.v1beta1.MsgCreateCollection.fromPartial({
+        signer: signer.address,
+        entity: entityDid,
+        protocol: protocolDid,
+        startDate: utils.proto.toTimestamp(new Date(startDate)),
+        endDate: endDate ? utils.proto.toTimestamp(new Date(endDate)) : undefined,
+        quota: Long.fromNumber(Number(quota)),
+        state: ixo.claims.v1beta1.CollectionState.OPEN,
+        payments,
+      }),
+    ).finish(),
   }))
   const updatedFee = { ...fee, gas: new BigNumber(fee.gas).times(messages.length).toString() }
 
@@ -38,7 +40,7 @@ export const CreateCollection = (
 }
 
 export const GrantEntityAccountClaimsSubmitAuthz = async (
-  signer: TSigner,
+  signer: any,
   payload: {
     entityDid: string
     name: string
@@ -48,57 +50,66 @@ export const GrantEntityAccountClaimsSubmitAuthz = async (
     agentQuota?: number
     overrideCurretGrants?: boolean
   },
-) => {
-  const {
-    entityDid,
-    name,
-    adminAddress,
-    granteeAddress,
-    collectionId,
-    agentQuota = 0,
-    overrideCurretGrants = false,
-  } = payload
-
-  const queryClient = await createRPCQueryClient({ rpcEndpoint: RPC_ENDPOINT! })
-  const granteeGrants = await queryClient.cosmos.authz.v1beta1.granteeGrants({
-    grantee: granteeAddress,
-  })
-  const submitAuth = granteeGrants.grants.find(
-    (g) => g.authorization?.typeUrl === '/ixo.claims.v1beta1.SubmitClaimAuthorization' && g.granter === adminAddress,
-  )
-  const registry = createRegistry()
-  const granteeCurrentAuthConstraints =
-    overrideCurretGrants || submitAuth === undefined ? [] : registry.decode(submitAuth!.authorization!).constraints
-
-  const message = {
-    typeUrl: '/ixo.entity.v1beta1.MsgGrantEntityAccountAuthz',
-    value: ixo.entity.v1beta1.MsgGrantEntityAccountAuthz.fromPartial({
-      id: entityDid,
-      ownerAddress: signer.address,
+): Promise<any> => {
+  try {
+    const {
+      entityDid,
       name,
+      adminAddress,
       granteeAddress,
-      grant: cosmos.authz.v1beta1.Grant.fromPartial({
-        authorization: {
-          typeUrl: '/ixo.claims.v1beta1.SubmitClaimAuthorization',
-          value: ixo.claims.v1beta1.SubmitClaimAuthorization.encode(
-            ixo.claims.v1beta1.SubmitClaimAuthorization.fromPartial({
-              admin: adminAddress,
-              constraints: [
-                ixo.claims.v1beta1.SubmitClaimConstraints.fromPartial({
-                  collectionId,
-                  agentQuota: Long.fromNumber(agentQuota),
-                }),
-                ...granteeCurrentAuthConstraints,
-              ],
-            }),
-          ).finish(),
-        },
-        expiration: utils.proto.toTimestamp(addDays(new Date(), 365 * 3)),
-      }),
-    }),
-  }
+      collectionId,
+      agentQuota = 0,
+      overrideCurretGrants = false,
+    } = payload
 
-  return { messages: [message], fee, memo: undefined }
+    const queryClient = await createRPCQueryClient({ rpcEndpoint: RPC_ENDPOINT! })
+    const granteeGrants = await queryClient.cosmos.authz.v1beta1.granteeGrants({
+      grantee: granteeAddress,
+    })
+    const submitAuth = granteeGrants.grants.find(
+      (g) => g.authorization?.typeUrl === '/ixo.claims.v1beta1.SubmitClaimAuthorization' && g.granter === adminAddress,
+    )
+    const registry = createRegistry()
+    const granteeCurrentAuthConstraints =
+      overrideCurretGrants || submitAuth === undefined ? [] : registry.decode(submitAuth!.authorization!).constraints
+
+    console.log({ granteeCurrentAuthConstraints, adminAddress, granteeAddress, owner: signer.owner, entityDid })
+
+    const message = {
+      typeUrl: '/ixo.entity.v1beta1.MsgGrantEntityAccountAuthz',
+      value: ixo.entity.v1beta1.MsgGrantEntityAccountAuthz.encode(
+        ixo.entity.v1beta1.MsgGrantEntityAccountAuthz.fromPartial({
+          id: entityDid,
+          ownerAddress: signer.owner,
+          name,
+          granteeAddress: granteeAddress,
+          grant: cosmos.authz.v1beta1.Grant.fromPartial({
+            authorization: {
+              typeUrl: '/ixo.claims.v1beta1.SubmitClaimAuthorization',
+              value: ixo.claims.v1beta1.SubmitClaimAuthorization.encode(
+                ixo.claims.v1beta1.SubmitClaimAuthorization.fromPartial({
+                  admin: adminAddress,
+                  constraints: [
+                    ixo.claims.v1beta1.SubmitClaimConstraints.fromPartial({
+                      collectionId,
+                      agentQuota: Long.fromNumber(agentQuota),
+                    }),
+                    ...granteeCurrentAuthConstraints,
+                  ],
+                }),
+              ).finish(),
+            },
+            expiration: utils.proto.toTimestamp(addDays(new Date(), 365 * 3)),
+          }),
+        }),
+      ).finish(),
+    }
+
+    return { messages: [message], fee, memo: undefined }
+  } catch (error) {
+    console.log({ error })
+    return error
+  }
 }
 
 export const MsgExecAgentSubmit = async (
@@ -109,6 +120,7 @@ export const MsgExecAgentSubmit = async (
     adminAddress: string
   },
 ) => {
+  console.log({ ...payload, signer })
   const { claimId, collectionId, adminAddress } = payload
   const message = {
     typeUrl: '/cosmos.authz.v1beta1.MsgExec',

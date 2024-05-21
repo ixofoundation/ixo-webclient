@@ -19,6 +19,7 @@ import { useGetUserGranteeRole } from 'hooks/claim'
 import Claims from '../ProjectDashboard/Claims'
 import ClaimDetail from '../ProjectDashboard/ClaimDetail'
 import { AgentRoles } from 'types/models'
+import Agents from '../ProjectDashboard/Agents'
 
 const InvestmentDashboard: React.FC = (): JSX.Element => {
   const theme: any = useTheme()
@@ -145,6 +146,7 @@ const InvestmentDashboard: React.FC = (): JSX.Element => {
         {showEditEntityRoute && <Route path='edit' Component={EditEntity} />}
         {showAgentsRoute && (
           <>
+            <Route path='agents' Component={Agents} />
             <Route path='claims' Component={Claims} />
             <Route path='claims/:claimId' Component={ClaimDetail} />
           </>

@@ -169,7 +169,7 @@ const SetupAddEntityModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
   }
 
   useEffect(() => {
-    if(entityType){
+    if(entityType && createEntityState.entityType !== entityType){
       createEntityState.updateEntityType(entityType)
     }
   }, [entityType, createEntityState])

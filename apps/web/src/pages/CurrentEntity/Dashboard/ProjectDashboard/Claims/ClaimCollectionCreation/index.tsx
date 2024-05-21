@@ -2,7 +2,7 @@ import { ixo, utils } from '@ixo/impactxclient-sdk'
 import { Payments } from '@ixo/impactxclient-sdk/types/codegen/ixo/claims/v1beta1/claims'
 import { LinkedEntity } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { useAccount } from 'hooks/account'
-import { CreateEntityMessage } from 'lib/protocol'
+import { CreateEntityMessage, fee } from 'lib/protocol'
 import { CreateCollection } from 'lib/protocol/claim'
 import React, { useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
@@ -23,6 +23,8 @@ import { useWallet } from '@ixo-webclient/wallet-connector'
 import { DeliverTxResponse } from '@cosmjs/stargate'
 import { useAppSelector } from 'redux/hooks'
 import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { useHasAuthZ } from 'hooks/authZ/useHasAuthZ'
+import { useAuthZ } from 'hooks/authZ/useAuthZ'
 
 const ClaimCollectionCreation: React.FC = () => {
   const { entityId = '' } = useParams<{ entityId: string }>()
@@ -32,6 +34,8 @@ const ClaimCollectionCreation: React.FC = () => {
   const { isExist: isCollectionExist } = useGetClaimCollectionsByEntityId(entityId)
   const userRole = useGetUserGranteeRole(wallet?.address ?? "", owner, accounts, verificationMethod)
   const { fetchEntityById } = useGetEntityByIdLazyQuery()
+  const hasAuthZ = useHasAuthZ({ admin: owner })
+  const { wrapInAuthZ } = useAuthZ()
 
   const [step, setStep] = useState<'start' | 'select' | 'scope' | 'payment' | 'submission' | 'review' | 'success'>(
     'start',
@@ -112,8 +116,9 @@ const ClaimCollectionCreation: React.FC = () => {
           payments: data.payments,
         },
       ]
-      const createCollectionRes = CreateCollection(signer, payload)
+      const createCollectionRes = hasAuthZ ? { messages: wrapInAuthZ({ address: wallet?.address ?? "", msgs: CreateCollection({...signer, address: owner}, payload).messages }), fee, memo: undefined } : CreateCollection(signer, payload)
 
+      console.log({ hasAuthZ, createCollectionRes })
       const response = (await execute({ data: createCollectionRes, transactionConfig: { sequence: 1 }})) as unknown as DeliverTxResponse
 
       if (response.code) {

@@ -4,8 +4,11 @@ import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { useGetClaimCollection } from 'graphql/claims'
 import { useAccount } from 'hooks/account'
+import { useAuthZ } from 'hooks/authZ/useAuthZ'
+import { useHasAuthZ } from 'hooks/authZ/useHasAuthZ'
 import { useCurrentEntityAdminAccount } from 'hooks/currentEntity'
 import { useQuery } from 'hooks/window'
+import { fee } from 'lib/protocol'
 import { GrantEntityAccountClaimsEvaluateAuthz, GrantEntityAccountClaimsSubmitAuthz } from 'lib/protocol/claim'
 import { Button } from 'pages/CreateEntity/Components'
 import { Avatar } from 'pages/CurrentEntity/Components'
@@ -29,17 +32,20 @@ const AgentUserCard: React.FC<IAgent & { noAction?: boolean; onClick: () => void
   const { data: claimCollection } = useGetClaimCollection(collectionId)
   const { entityId = '' } = useParams<{ entityId: string }>()
   const { signer } = useAccount()
-  const { accounts } = useAppSelector(getEntityById(entityId))
+  const { accounts, owner } = useAppSelector(getEntityById(entityId))
   const adminAddress = useCurrentEntityAdminAccount(accounts)
   const [granting, setGranting] = useState(false)
-  const { execute, close } = useWallet()
+  const { execute, close, wallet } = useWallet()
   const agentQuota = useMemo(() => claimCollection?.quota ?? 0, [claimCollection])
+  const { wrapInAuthZ } = useAuthZ()
+  const hasAuthZ = useHasAuthZ({ admin: owner })
 
   const handleGrant = async () => {
     try {
       setGranting(true)
 
       if (role === AgentRoles.serviceProviders) {
+       try {
         const payload = {
           entityDid: entityId,
           name: 'admin',
@@ -49,13 +55,32 @@ const AgentUserCard: React.FC<IAgent & { noAction?: boolean; onClick: () => void
           agentQuota,
           overrideCurretGrants: false,
         }
-        const grantEntityAccountClaimSubmitAuthZPayload = await GrantEntityAccountClaimsSubmitAuthz(signer, payload)
+        console.log({ owner, adminAddress })
+        const grantEntityAccountClaimSubmitAuthZPayload = hasAuthZ
+          ? {
+              messages: wrapInAuthZ({
+                address: wallet?.address ?? '',
+                msgs: (await GrantEntityAccountClaimsSubmitAuthz({ ...signer, owner: owner }, payload)).messages,
+              }),
+              fee,
+              memo: undefined,
+            }
+          : await GrantEntityAccountClaimsSubmitAuthz(signer, payload)
 
-        const response = (await execute({ data: grantEntityAccountClaimSubmitAuthZPayload, transactionConfig: { sequence: 1 }})) as unknown as DeliverTxResponse
+        console.log({ grantEntityAccountClaimSubmitAuthZPayload, hasAuthZ })
+
+
+        const response = (await execute({
+          data: grantEntityAccountClaimSubmitAuthZPayload,
+          transactionConfig: { sequence: 1 },
+        })) as unknown as DeliverTxResponse
 
         if (response.code !== 0) {
           throw response.rawLog
         }
+       } catch (error) {
+        return error
+       }
       } else if (role === AgentRoles.evaluators) {
         const payload = {
           entityDid: entityId,
@@ -71,7 +96,10 @@ const AgentUserCard: React.FC<IAgent & { noAction?: boolean; onClick: () => void
           payload,
         )
 
-        const response = (await execute({ data: grantEntityAccountClaimsEvaluateAuthZPayload, transactionConfig: { sequence: 1 }})) as unknown as DeliverTxResponse
+        const response = (await execute({
+          data: grantEntityAccountClaimsEvaluateAuthZPayload,
+          transactionConfig: { sequence: 1 },
+        })) as unknown as DeliverTxResponse
 
         if (response.code !== 0) {
           throw response.rawLog

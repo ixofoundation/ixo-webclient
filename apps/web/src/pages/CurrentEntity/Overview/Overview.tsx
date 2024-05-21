@@ -20,7 +20,7 @@ const Overview: React.FC = () => {
   const agentRole: AgentRoles = getQuery('agentRole') as AgentRoles
   const { entityId = '' } = useParams<{ entityId: string }>()
 
-  const { page, pageLegacy, creator, profile, startDate, refetch, linkedFiles, service, type = "" } = useEntityOverview(entityId)
+  const { page, pageLegacy, creator, profile, startDate, refetch, linkedFiles, service, type = "", claim } = useEntityOverview(entityId)
 
   const { logo, creatorName, name, description, location } = useMemo(() => {
     return {
@@ -64,7 +64,7 @@ const Overview: React.FC = () => {
             </>
           )}
           {claimCollectionId && agentRole && <OfferForm claimCollectionId={claimCollectionId} agentRole={agentRole} />}
-          {claimId && <ClaimForm claimId={claimId} />}
+          {claim && claimId && <ClaimForm claimId={claimId} />}
         </Flex>
       </ScrollArea>
       <Flex h='100%' bg='#F0F3F9'>

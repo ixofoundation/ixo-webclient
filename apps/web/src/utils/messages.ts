@@ -195,12 +195,15 @@ export const decodeRawProtobufMsg = ({ typeUrl, value }: Any): DecodedStargateMs
 
 // Encodes a protobuf message from its JSON representation into a `StargateMsg`
 // that `CosmWasm` understands.
-export const makeStargateMessage = ({ stargate: { typeUrl, value } }: DecodedStargateMsg): StargateMsg => ({
-  stargate: {
-    type_url: typeUrl,
-    value: toBase64(encodeProtobufValue(typeUrl, value)),
-  },
-})
+export const makeStargateMessage = ({ stargate: { typeUrl, value } }: DecodedStargateMsg): StargateMsg => {
+  console.log({typeUrl, value})
+  return {
+    stargate: {
+      type_url: typeUrl,
+      value: toBase64(encodeProtobufValue(typeUrl, value)),
+    },
+  }
+}
 
 // Decodes an encoded protobuf message from CosmWasm's `StargateMsg` into its
 // JSON representation.

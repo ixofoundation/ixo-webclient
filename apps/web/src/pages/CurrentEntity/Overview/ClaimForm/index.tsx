@@ -117,7 +117,7 @@ const ClaimForm: React.FC<Props> = ({ claimId }) => {
         const execAgentSubmitPayload = await MsgExecAgentSubmit(signer, {
           claimId,
           collectionId,
-          adminAddress,
+          adminAddress
         })
 
         const response = (await execute({ data: execAgentSubmitPayload, transactionConfig: { sequence: 1 }})) as unknown as DeliverTxResponse
