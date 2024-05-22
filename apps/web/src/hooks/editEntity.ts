@@ -429,10 +429,10 @@ export default function useEditEntity(): {
     )
 
     await Promise.all(
-      Object.values(currentEntity.claim ?? {}).map(async (claim) => {
+      Object.values(currentEntity.claim ?? {}).map(async (claim: any) => {
         if (!Object.values(editEntity.claim ?? {}).some((v) => JSON.stringify(v) === JSON.stringify(claim))) {
           // remove
-          messages = [...messages, ...GetDeleteLinkedClaimMsgs(editEntity.id, signer, `{id}#${claim.id}`)]
+          messages = [...messages, ...GetDeleteLinkedClaimMsgs(editEntity.id, signer, claim.linkedClaimId)]
         }
         return true
       }),
