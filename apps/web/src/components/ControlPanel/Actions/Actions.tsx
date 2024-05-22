@@ -27,19 +27,25 @@ const ActionsCard: React.FC<Props> = () => {
     navigate({ pathname: pathname, search: search.toString() })
   }
 
+  const showActions = claimCollections?.length > 0
+
   return (
     <>
       <Card
         icon={<HandPaperIcon />}
         title='Actions'
         columns={2}
-        items={[
-          {
-            icon: <PlusIcon />,
-            content: 'Offer',
-            onClick: () => setApplyToJoinModalOpen(true),
-          },
-        ]}
+        items={
+          showActions
+            ? [
+                {
+                  icon: <PlusIcon />,
+                  content: 'Offer',
+                  onClick: () => setApplyToJoinModalOpen(true),
+                },
+              ]
+            : []
+        }
       />
       {applyToJoinModalOpen && (
         <ApplyToJoinModal

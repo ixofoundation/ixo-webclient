@@ -2,12 +2,12 @@ import { useMemo } from 'react'
 import { HeaderTab } from 'components/Dashboard/types'
 import { useLocation, useParams } from 'react-router-dom'
 import { chainNetwork, useEntityConfig } from './configs'
-import { toTitleCase } from 'utils/formatters'
+import { upperCase } from 'lodash'
 
 export function useHeaderTabs({ entityType }: { entityType: string}) {
   const { entityId } = useParams<{ entityId: string }>()
   const entityConfig = useEntityConfig()
-  const title = entityConfig.title || toTitleCase(entityType)
+  const title = entityConfig.title || upperCase(entityType)
   const { search } = useLocation()
 
   const headerTabs = useMemo(() => {

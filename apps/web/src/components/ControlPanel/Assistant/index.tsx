@@ -10,7 +10,7 @@ const AssistantCard = () => {
       title={'Assistant'}
       columns={1}
       items={
-        <Flex direction='column' gap={16} w='100%' h='100%'>
+        <Flex direction='column'  w='100%' h='100%'>
           <Assistant />
         </Flex>
       }

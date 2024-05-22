@@ -19,6 +19,8 @@ import { Cw20Token, NativeToken, TokenType } from 'types/tokens'
 import { useTheme } from 'styled-components'
 import { TokensTableColumns, TokensTableWrapper } from 'pages/MyAccount/MyPortfolioPage/BalanceView/NativeTokensCard'
 import { Table } from 'components/Table'
+import { friendlyWalletNames } from '@ixo-webclient/wallet-connector'
+import XIcon from 'assets/images/x-icon.svg'
 
 const ProfileModal: React.FC = () => {
   const theme: any = useTheme()
@@ -59,10 +61,10 @@ const ProfileModal: React.FC = () => {
             $alignItems='center'
           >
             <FlexBox $gap={2} $alignItems='center'>
-              <FlexBox width='32px' height='32px' $borderRadius='8px'>
-                <img width={'100%'} height={'100%'} src={connectedWallet?.wallet.imageUrl} alt='' />
+              <FlexBox width='32px' height='32px' $borderRadius='100%'>
+                <img width={'100%'} height={'100%'} src={connectedWallet?.wallet.imageUrl ?? XIcon} alt='' />
               </FlexBox>
-              <Typography transform='capitalize'>{connectedWallet?.wallet.type}</Typography>
+              <Typography transform='capitalize'>{friendlyWalletNames(connectedWallet?.wallet.type ?? "")}</Typography>
             </FlexBox>
             <FlexBox $alignItems='center' $gap={2}>
               <Typography>{truncateString(address, 20, 'middle')}</Typography>

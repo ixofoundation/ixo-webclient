@@ -11,6 +11,7 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { togglePanel } from 'redux/assistant/assistant.slice'
 import { toRootEntityType } from 'utils/entities'
 import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { upperCase } from 'lodash'
 
 interface Props {
   matchType?: any
@@ -46,7 +47,7 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
         iconClass: `icon-${entityType.toLowerCase()}`,
         path: `/entity/${entityId}/overview`,
         title: entityType,
-        tooltip: `${title} Overview`,
+        tooltip: `${upperCase(title)} Overview`,
       },
     ]
 

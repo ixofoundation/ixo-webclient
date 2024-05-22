@@ -19,7 +19,8 @@
       }
     ],
     "head": {
-      "title": "Impacts DAO Cooperative"
+      "title": "Impacts DAO Cooperative",
+      "icon": "launchpad.png"
     },
     "header": {
       "background": "#000000",

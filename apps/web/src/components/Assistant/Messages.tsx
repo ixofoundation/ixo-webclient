@@ -16,12 +16,15 @@ export function UserMessage({ message }: Props) {
 }
 
 export function AssistantErrorMessage({ error }: { error: Error }) {
-  const theme: any = useTheme()
   return (
-    <Flex direction='column' align='flex-end' bg={theme.ixoRed} justify='space-between'>
-      <Text color='red' fw={900}>
-        {error.name}
-      </Text>
+    <Flex
+      direction='column'
+      align='flex-end'
+      bg={'rgba(255, 99, 71, .1)'}
+      justify='space-between'
+      style={{ border: 'red 1px solid', borderRadius: '8px', padding: '8px'}}
+      my={4}
+    >
       <Text>{error.message}</Text>
     </Flex>
   )
