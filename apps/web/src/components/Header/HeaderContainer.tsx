@@ -7,6 +7,7 @@ import { TopBar } from './HeaderContainer.styles'
 import { HeaderLeft } from './HeaderLeft/HeaderLeft'
 import HeaderRight from './HeaderRight/HeaderRight'
 import { useWallet } from '@ixo-webclient/wallet-connector'
+import { NavigationTabs } from 'components/NavigationTabs'
 
 // interface Props {
 //   entityType?: EntityType
@@ -37,6 +38,7 @@ const Header: React.FC<HeaderProps> = ({ entityType, headerUIConfig }) => {
     <TopBar
       className={`container-fluid ${isMobileMenuOpen ? 'openMenu' : ''}`}
       color={headerUIConfig?.buttonColor || '#FFFFFF'}
+      borderColor={headerUIConfig?.borderColor || '#FFFFFF'}
       background={customBackground}
     >
       {/* <ModalWrapper isModalOpen={opened} handleToggleModal={handlers.toggle}>
@@ -46,6 +48,7 @@ const Header: React.FC<HeaderProps> = ({ entityType, headerUIConfig }) => {
         <HeaderLeft currentEntity={entityType} openMenu={isMobileMenuOpen} handleBurgerClick={handleBurgerClick} />
         <HeaderRight toggleModal={connectWallet} />
       </div>
+      <NavigationTabs />
     </TopBar>
   )
 }

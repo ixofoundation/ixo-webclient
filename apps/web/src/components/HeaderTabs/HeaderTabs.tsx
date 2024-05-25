@@ -16,6 +16,7 @@ import { upperCase } from 'lodash'
 interface Props {
   matchType?: any
   activeTabColor?: string
+  tabBgcolor?: string
   assistantPanelToggle?: () => void
   enableAssistantButton?: boolean
   assistantFixed?: boolean
@@ -25,6 +26,7 @@ interface Props {
 const HeaderTabs: React.FunctionComponent<Props> = ({
   matchType,
   activeTabColor,
+  tabBgcolor,
   enableAssistantButton,
   assistantFixed = false,
   buttons,
@@ -57,15 +59,16 @@ const HeaderTabs: React.FunctionComponent<Props> = ({
 
   return (
     <PositionController>
-      <Tabs
+      {/* <Tabs
         activeTabColor={activeTabColor}
+        tabBgcolor={tabBgcolor}
         buttons={buttonsArray}
         matchType={matchType || MatchType.exact}
         assistantPanelToggle={(): void => {
           dispatch(togglePanel())
         }}
         enableAssistantButton={enableAssistantButton!}
-      />
+      /> */}
     </PositionController>
   )
 }

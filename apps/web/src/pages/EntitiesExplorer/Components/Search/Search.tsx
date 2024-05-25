@@ -22,9 +22,10 @@ import SearchIcon from 'assets/icons/Search'
 import SquareGrid from 'assets/icons/SquareGrid'
 import Projects from 'assets/icons/Projects'
 import DataAssets from 'assets/icons/DataAssets'
-import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+
 import Tooltip from 'components/Tooltip/Tooltip'
 import { EntityType } from 'types/entities'
+import { selectEntityConfig } from 'redux/configs/configs.selectors'
 
 // TODO - search submitted
 

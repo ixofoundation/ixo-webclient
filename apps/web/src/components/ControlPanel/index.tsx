@@ -15,7 +15,7 @@ import FeedCard from './Feed'
 import MessagesCard from './Messages'
 import AssistantCard from './Assistant'
 import { useEntityConfig } from 'hooks/configs'
-import { Flex, ScrollArea } from '@mantine/core'
+import { Box, Flex, ScrollArea, Text, Card } from '@mantine/core'
 import styled from 'styled-components'
 import { useAccount } from 'hooks/account'
 import { DidQRCode } from './DidQRCode'
@@ -23,6 +23,8 @@ import { EntityType } from 'types/entities'
 import { getEntityIcon } from 'utils/getEntityIcon'
 import Tooltip from 'components/Tooltip/Tooltip'
 import { toTitleCase } from 'utils/formatters'
+import { useKeyValueViewerContext } from 'contexts/KeyValueViewerContext'
+import { startCase } from 'lodash'
 
 const StyledScrollArea = styled(ScrollArea)`
   & > div > div {
@@ -32,13 +34,14 @@ const StyledScrollArea = styled(ScrollArea)`
 
 interface Props {
   tab?: 'profile' | 'detail' | 'feed' | 'message' | 'assistant'
-  entityType: string,
+  entityType: string
   entityName?: string
 }
 const ControlPanel = ({ tab, entityType, entityName }: Props) => {
   const { controlPanelSchema: schema } = useEntityConfig(entityType)
   const { address } = useAccount()
   const [activeTab, setActiveTab] = useState<'profile' | 'detail' | 'feed' | 'message' | 'assistant'>(tab || 'detail')
+  const { keyValue } = useKeyValueViewerContext()
 
   const EntityIcon = getEntityIcon(entityType)
 
@@ -74,6 +77,26 @@ const ControlPanel = ({ tab, entityType, entityName }: Props) => {
 
   const renderAssistant = () => <AssistantCard />
 
+  const renderKeyValues = () => {
+    return (
+      <Card>
+        <Box w='100%'>
+          {Object.keys(keyValue).map((key) => (
+            <Box key={key} w='100%'>
+              <Flex p={10}>
+                <Text ml={25} w='100%' size='sm'>
+                  {startCase(key)}
+                </Text>
+              </Flex>
+              <Flex w='100%' bg='#E8E8E9' p={10} style={{ borderRadius: 50 }}>
+                <Text ml={25} size="sm">{keyValue[key]}</Text>
+              </Flex>
+            </Box>
+          ))}
+        </Box>
+      </Card>
+    )
+  }
 
   return (
     <Flex
@@ -86,12 +109,13 @@ const ControlPanel = ({ tab, entityType, entityName }: Props) => {
       style={{ color: 'black' }}
     >
       <StyledScrollArea h='100%'>
-        <Flex w='100%' direction='column' h="100%" gap={24} p={20} pt={32}>
-          {address && activeTab === 'profile' && renderProfile()}
-          {activeTab === 'detail' && renderDetail()}
-          {activeTab === 'feed' && renderFeed()}
-          {activeTab === 'message' && renderMessages()}
-          {activeTab === 'assistant' && renderAssistant()}
+        <Flex w='100%' direction='column' h='100%' gap={24} p={20} pt={32}>
+          {!keyValue && address && activeTab === 'profile' && renderProfile()}
+          {!keyValue && activeTab === 'detail' && renderDetail()}
+          {!keyValue && activeTab === 'feed' && renderFeed()}
+          {!keyValue && activeTab === 'message' && renderMessages()}
+          {!keyValue && activeTab === 'assistant' && renderAssistant()}
+          {keyValue && renderKeyValues()}
         </Flex>
       </StyledScrollArea>
       <Flex w='100%' bg='#D7DFED' p={20} justify='space-around' align='center' wrap='wrap' gap={16}>

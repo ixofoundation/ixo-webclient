@@ -6,12 +6,13 @@ import { LinkedFiles } from './LinkedFiles'
 import { PageContent } from './PageContent'
 import OfferForm from './OfferForm'
 import { AgentRoles } from 'types/models'
-import { Flex, ScrollArea } from '@mantine/core'
+import { Flex, ScrollArea, Table, Tabs, rem } from '@mantine/core'
 import PageContentLegacy from './PageContentLegacy'
 import { useEntityOverview } from 'hooks/entity/useEntityOverview'
 import { useParams } from 'react-router-dom'
 import { useEffect, useMemo } from 'react'
 import { toRootEntityType } from 'utils/entities'
+import { useKeyValueViewerContext } from 'contexts/KeyValueViewerContext'
 
 const Overview: React.FC = () => {
   const { getQuery } = useQuery()
@@ -19,8 +20,19 @@ const Overview: React.FC = () => {
   const claimCollectionId = getQuery('collectionId')
   const agentRole: AgentRoles = getQuery('agentRole') as AgentRoles
   const { entityId = '' } = useParams<{ entityId: string }>()
+  const { setKeyValue } = useKeyValueViewerContext()
 
-  const { page, pageLegacy, creator, profile, startDate, refetch, linkedFiles, service, type = "" } = useEntityOverview(entityId)
+  const {
+    page,
+    pageLegacy,
+    creator,
+    profile,
+    startDate,
+    refetch,
+    linkedFiles,
+    service,
+    type = '',
+  } = useEntityOverview(entityId)
 
   const { logo, creatorName, name, description, location } = useMemo(() => {
     return {
@@ -31,8 +43,6 @@ const Overview: React.FC = () => {
       location: profile?.location ?? '',
     }
   }, [creator?.logo, creator?.displayName, profile?.location, profile?.name, profile?.description])
-
-
 
   useEffect(() => {
     if (refetch && !page && !pageLegacy) {
@@ -56,15 +66,61 @@ const Overview: React.FC = () => {
             creatorLogo={logo}
             entityType={toRootEntityType(type)}
           />
-          {!claimId && !claimCollectionId && (
-            <>
-              {page && <PageContent page={page} />}
-              {pageLegacy && <PageContentLegacy page={pageLegacy} />}
-              <LinkedFiles linkedFiles={linkedFiles} service={service} />
-            </>
-          )}
-          {claimCollectionId && agentRole && <OfferForm claimCollectionId={claimCollectionId} agentRole={agentRole} />}
-          {claimId && <ClaimForm claimId={claimId} />}
+          <Tabs defaultValue='overview' mt={20}>
+            <Tabs.List>
+              <Tabs.Tab value='overview'>Overview</Tabs.Tab>
+              <Tabs.Tab value='services'>Services</Tabs.Tab>
+              <Tabs.Tab value='rights'>Rights</Tabs.Tab>
+              <Tabs.Tab value='resources'>Resources</Tabs.Tab>
+            </Tabs.List>
+
+            <Tabs.Panel value='overview'>
+              {!claimId && !claimCollectionId && (
+                <>
+                  {page && <PageContent page={page} />}
+                  {pageLegacy && <PageContentLegacy page={pageLegacy} />}
+                </>
+              )}
+              {claimCollectionId && agentRole && (
+                <OfferForm claimCollectionId={claimCollectionId} agentRole={agentRole} />
+              )}
+              {claimId && <ClaimForm claimId={claimId} />}
+            </Tabs.Panel>
+
+            <Tabs.Panel value='services'>
+              <Flex w='100%' justify={'center'} align={'center'}>
+                <Table
+                  verticalSpacing='lg'
+                  mt={20}
+                  w='70%'
+                  withRowBorders={false}
+                  style={{ borderCollapse: 'separate', borderSpacing: `0 ${rem(5)}` }}
+                >
+                  <Table.Thead>
+                    <Table.Tr>
+                      <Table.Th>Type</Table.Th>
+                      <Table.Th>Name</Table.Th>
+                    </Table.Tr>
+                  </Table.Thead>
+                  <Table.Tbody>
+                    {service?.map((service) => (
+                      <Table.Tr key={service.id} p={10} bg='#EBEBEB' onClick={() => setKeyValue(service)}>
+                        <Table.Td>{service.type}</Table.Td>
+                        <Table.Td>{service.serviceEndpoint}</Table.Td>
+                      </Table.Tr>
+                    ))}
+                  </Table.Tbody>
+                </Table>
+              </Flex>
+            </Tabs.Panel>
+
+            <Tabs.Panel value='rights'>Rights tab content</Tabs.Panel>
+            <Tabs.Panel value='resources'>
+              <Flex w='100%' justify={'center'} align={'center'}>
+                <LinkedFiles linkedFiles={linkedFiles} service={service} />
+              </Flex>
+            </Tabs.Panel>
+          </Tabs>
         </Flex>
       </ScrollArea>
       <Flex h='100%' bg='#F0F3F9'>

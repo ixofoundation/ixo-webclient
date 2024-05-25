@@ -225,6 +225,17 @@ export interface EntityConfig extends EntityTypeStrategyMap {
     header?: {
       background: string
       buttonColor: string
+      borderColor: string
+      link: string
+      tabs: {
+        background: string
+        borderColor: string
+        color: string
+        active: {
+          background: string
+          color: string
+        }
+      }
     }
     footer?: {
       mailTo?: {
