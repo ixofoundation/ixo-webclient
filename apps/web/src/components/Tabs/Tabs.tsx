@@ -12,7 +12,7 @@ import { HeaderTab } from 'components/Dashboard/types'
 import { useAppSelector } from 'redux/hooks'
 import { selectEntityConfig } from 'redux/configs/configs.selectors'
 import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
-import { toRootEntityType } from 'utils/entities'
+// import { toRootEntityType } from 'utils/entities's
 
 export interface Props {
   buttons: HeaderTab[]
@@ -37,7 +37,7 @@ const TabsComponent: React.FunctionComponent<Props> = ({
   const location = useLocation()
   const { entityId = '' } = useParams<{ entityId: string }>()
   const currentEntity = useAppSelector(getEntityById(entityId))
-  const entityType = toRootEntityType(currentEntity.type)
+  // const entityType = toRootEntityType(currentEntity.type)
   const config = useAppSelector(selectEntityConfig)
   const tabConfig = config.UI?.header?.tabs
 

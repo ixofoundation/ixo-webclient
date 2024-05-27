@@ -1,4 +1,4 @@
-import { Box, Flex } from '@mantine/core'
+import { Flex } from '@mantine/core'
 import { useCompanion } from 'hooks/useCompanion'
 import { Toolbar } from './Toolbar'
 import ChatHistory from './ChatHistory'
@@ -18,7 +18,6 @@ const Companion = () => {
         </Flex>
         <Toolbar/>
       </Flex>
-      {/* <Toolbar /> */}
     </Flex>
   )
 }

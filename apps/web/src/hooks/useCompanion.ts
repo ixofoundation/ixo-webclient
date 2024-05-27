@@ -10,8 +10,6 @@ import { useCompanionContext } from 'contexts/CompanionContext'
 
 const ASSISTANT_API_KEY = process.env.REACT_APP_ASSISTANT_API_KEY
 
-const registry = createRegistry()
-
 let assistant: Assistant | undefined
 
 export const decodeTransactionBody = (txBody: Uint8Array) => {
@@ -77,7 +75,7 @@ export const useCompanion = () => {
     return () => {
       assistant?.unsubscribe(observer)
     }
-  }, [executeTxBody])
+  }, [executeTxBody, close, execute])
 
   const sendMessage = useCallback(async (message: string) => {
     if (!assistant) {

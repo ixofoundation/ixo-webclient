@@ -10,7 +10,7 @@ const Conversation = () => {
 
   useEffect(() => {
     newChat()
-  }, [])
+  }, [newChat])
 
   return (
     <Flex bg='black' h='100%' w='100%' align={'center'} direction={'column'}>
