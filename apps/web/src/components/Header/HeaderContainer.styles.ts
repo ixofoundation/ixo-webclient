@@ -7,7 +7,7 @@ export const TopBar = styled.header<{ background: string; color: string, borderC
   padding: 0 15px;
   z-index: 9;
   background: ${(props): string => props.background};
-  border: 1px solid ${(props): string => props.borderColor};
+  ${(props) => props.borderColor && `border-bottom: 1px solid ${props.borderColor};`}
   color: ${(props) => props.color};
   && {
     width: 100%;

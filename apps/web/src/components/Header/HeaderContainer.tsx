@@ -38,7 +38,7 @@ const Header: React.FC<HeaderProps> = ({ entityType, headerUIConfig }) => {
     <TopBar
       className={`container-fluid ${isMobileMenuOpen ? 'openMenu' : ''}`}
       color={headerUIConfig?.buttonColor || '#FFFFFF'}
-      borderColor={headerUIConfig?.borderColor || '#FFFFFF'}
+      borderColor={headerUIConfig?.borderColor}
       background={customBackground}
     >
       {/* <ModalWrapper isModalOpen={opened} handleToggleModal={handlers.toggle}>

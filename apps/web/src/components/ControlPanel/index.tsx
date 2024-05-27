@@ -26,6 +26,7 @@ import { toTitleCase } from 'utils/formatters'
 import { useKeyValueViewerContext } from 'contexts/KeyValueViewerContext'
 import { startCase } from 'lodash'
 import { LiaArrowLeftSolid, LiaPlaySolid } from 'react-icons/lia'
+import { useCompanionContext } from 'contexts/CompanionContext'
 
 const StyledScrollArea = styled(ScrollArea)`
   & > div > div {
@@ -41,7 +42,7 @@ interface Props {
 const ControlPanel = ({ tab, entityType, entityName }: Props) => {
   const { controlPanelSchema: schema } = useEntityConfig(entityType)
   const { address } = useAccount()
-  const [activeTab, setActiveTab] = useState<'profile' | 'detail' | 'feed' | 'message' | 'assistant'>(tab || 'detail')
+  const { activeTab, setActiveTab } = useCompanionContext()
   const { keyValue, goBackToPrevKeyValue } = useKeyValueViewerContext()
 
   const EntityIcon = getEntityIcon(entityType)
@@ -130,7 +131,7 @@ const ControlPanel = ({ tab, entityType, entityName }: Props) => {
         {EntityIcon && (
           <Tooltip text={entityName || toTitleCase(entityType)}>
             <CircleTab
-              icon={<LiaPlaySolid/> as JSX.Element}
+              icon={(<LiaPlaySolid />) as JSX.Element}
               active={activeTab === 'detail'}
               onClick={() => setActiveTab('detail')}
             />

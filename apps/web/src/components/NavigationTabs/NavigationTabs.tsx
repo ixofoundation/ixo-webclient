@@ -6,11 +6,11 @@ import { useLocation, useParams, NavLink } from 'react-router-dom'
 import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { useAppSelector } from 'redux/hooks'
 import { useCompanion } from 'hooks/useCompanion'
-import { selectEntityConfig } from 'redux/configs/configs.selectors'
 import { ReactComponent as AssistantIcon } from 'assets/images/icon-assistant.svg'
 import { tabs } from './tabs'
+import { useTabDesignConfig } from 'hooks/userInterface/useTabDesignConfig'
 
-const NavigationTabsContainer = ({ children }: { children: ReactNode }) => {
+const NavigationTabsContainer = ({ children, border }: { children: ReactNode; border?: string }) => {
   return (
     <Flex
       bg='blue'
@@ -22,7 +22,7 @@ const NavigationTabsContainer = ({ children }: { children: ReactNode }) => {
         transform: 'translate(-50%, -50%)',
         borderRadius: 5,
         overflow: 'hidden',
-        border: '1px solid black',
+        ...(border && { border }),
       }}
     >
       {children}
@@ -41,10 +41,18 @@ const NavigationTabs = () => {
   const exploreType: string | undefined = getQuery('type')
   const entity = useAppSelector(getEntityById(params.entityId ?? ''))
   const { isCompanionOpen, toggleChat, toggleCompanion } = useCompanion()
-  const config = useAppSelector(selectEntityConfig)
-  const tabConfig = config.UI?.header?.tabs
 
-  console.log({ params, after: params['*'] })
+  const {
+    tabActiveBackground,
+    tabActiveColor,
+    tabBackground,
+    tabColor,
+    tabBorderColor,
+    assistantActiveBackground,
+    assistantBackground,
+    assistantColor,
+    assistantActiveColor,
+  } = useTabDesignConfig()
 
   const type = lowerCase(exploreType ?? entity?.type ?? '')
   const { pathname } = useLocation()
@@ -60,20 +68,26 @@ const NavigationTabs = () => {
 
   const currentTabs = tabs[pathname.split('/')[1] as keyof typeof tabs].getTabs(type, pathname, params as any)
   return (
-    <NavigationTabsContainer>
+    <NavigationTabsContainer border={tabBorderColor && `1px solid ${tabBorderColor}`}>
       {currentTabs.map(({ label, icon: Icon, isActive, path }) => (
         <NavLink key={`${path}`} to={`${path}`}>
           <Button
             key={label}
-            leftSection={<Icon size={20} fill={isActive && !isCompanionOpen ? 'white' : 'black'} stroke={isActive && !isCompanionOpen ? 'white' : 'black'} />}
+            leftSection={
+              <Icon
+                size={20}
+                fill={isActive && !isCompanionOpen ? tabActiveColor : tabColor}
+                stroke={isActive && !isCompanionOpen ? tabActiveColor : tabColor}
+              />
+            }
             variant='filled'
-            bg={isActive && !isCompanionOpen ? tabConfig?.active.background : tabConfig?.background}
+            bg={isActive && !isCompanionOpen ? tabActiveBackground : tabBackground}
             radius='0'
             h='42px'
             p='sm'
-            style={{ borderRight: '1px solid black' }}
+            style={{ ...(tabBorderColor && { borderRight: `1px solid ${tabBorderColor}` }), outline: "none" }}
           >
-            <Text c={isActive && !isCompanionOpen ? tabConfig?.active.color : tabConfig?.color} fz='sm'>
+            <Text c={isActive && !isCompanionOpen ? tabActiveColor : tabColor} fz='sm'>
               {label}
             </Text>
           </Button>
@@ -85,12 +99,13 @@ const NavigationTabs = () => {
           aria-label='Settings'
           h={'100%'}
           w='50px'
-          bg={isCompanionOpen ? tabConfig?.active.background : 'currentColor'}
+          radius={0}
+          bg={isCompanionOpen ? assistantActiveBackground : assistantBackground}
           onClick={handleAssistantClick}
         >
           <AssistantIcon
-            stroke={isCompanionOpen ? tabConfig?.background : 'black'}
-            fill={isCompanionOpen ? tabConfig?.background : 'black'}
+            stroke={isCompanionOpen ? assistantActiveColor : assistantColor}
+            fill={isCompanionOpen ? assistantActiveColor : assistantColor}
           />
         </ActionIcon>
       </Flex>

@@ -241,6 +241,26 @@ export interface EntityConfig extends EntityTypeStrategyMap {
           background: string
           color: string
         }
+        assistant: {
+          to: string
+          right: string
+          color: string
+          active: {
+            to: string
+            right: string
+            color: string
+          }
+        }
+      }
+    }
+    companion: {
+      toolbar: {
+        background: string
+        color: string
+        active: {
+          background: string
+          color: string
+        }
       }
     }
     footer?: {

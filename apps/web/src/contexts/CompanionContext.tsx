@@ -1,7 +1,9 @@
 import { useDisclosure } from '@mantine/hooks'
-import React, { createContext, useContext, ReactNode } from 'react'
+import React, { createContext, useContext, ReactNode, useState } from 'react'
 
 interface CompanionContextType {
+  activeTab: 'profile' | 'detail' | 'feed' | 'message' | 'assistant'
+  setActiveTab: (tab: 'profile' | 'detail' | 'feed' | 'message' | 'assistant') => void
   isCompanionOpen: boolean
   openCompanion: () => void
   closeCompanion: () => void
@@ -18,10 +20,11 @@ export const CompanionProvider = ({ children }: { children: ReactNode }) => {
   const [isCompanionOpen, { open: openCompanion, close: closeCompanion, toggle: toggleCompanion }] =
     useDisclosure(false)
   const [isChatOpen, { open: openChat, close: closeChat, toggle: toggleChat }] = useDisclosure(false)
+  const [activeTab, setActiveTab] = useState<'profile' | 'detail' | 'feed' | 'message' | 'assistant'>('detail')
 
   return (
     <CompanionContext.Provider
-      value={{ isCompanionOpen, isChatOpen, openCompanion, closeCompanion, openChat, closeChat, toggleChat, toggleCompanion }}
+      value={{ isCompanionOpen, isChatOpen, openCompanion, closeCompanion, openChat, closeChat, toggleChat, toggleCompanion, activeTab, setActiveTab}}
     >
       {children}
     </CompanionContext.Provider>
