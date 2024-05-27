@@ -1,5 +1,5 @@
 import React from 'react'
-import { NavLink, useLocation, useNavigate, useParams } from 'react-router-dom'
+import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { MatchType } from '../../types/models'
 import { TabsContainer } from './Tabs.styles'
 import Tooltip, { TooltipPosition } from '../Tooltip/Tooltip'
@@ -11,7 +11,6 @@ import AssistantContext from 'contexts/assistant'
 import { HeaderTab } from 'components/Dashboard/types'
 import { useAppSelector } from 'redux/hooks'
 import { selectEntityConfig } from 'redux/configs/configs.selectors'
-import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 // import { toRootEntityType } from 'utils/entities's
 
 export interface Props {
@@ -35,8 +34,6 @@ const TabsComponent: React.FunctionComponent<Props> = ({
   const assistant = React.useContext(AssistantContext)
   const navigate = useNavigate()
   const location = useLocation()
-  const { entityId = '' } = useParams<{ entityId: string }>()
-  const currentEntity = useAppSelector(getEntityById(entityId))
   // const entityType = toRootEntityType(currentEntity.type)
   const config = useAppSelector(selectEntityConfig)
   const tabConfig = config.UI?.header?.tabs

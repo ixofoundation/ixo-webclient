@@ -1,14 +1,10 @@
-import { ActionIcon, Box, Button, Flex, Text } from '@mantine/core'
+import { ActionIcon, Button, Flex, Text } from '@mantine/core'
 import { useQuery } from 'hooks/window'
-import { capitalize, lowerCase } from 'lodash'
-import { ReactNode, useEffect, useState } from 'react'
-import { useLocation, useNavigate, useParams, NavLink } from 'react-router-dom'
+import { lowerCase } from 'lodash'
+import { ReactNode } from 'react'
+import { useLocation, useParams, NavLink } from 'react-router-dom'
 import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { useAppSelector } from 'redux/hooks'
-import * as activeAnimation from 'assets/animations/assistant/active.json'
-import * as inactiveAnimation from 'assets/animations/assistant/inactive.json'
-import Lottie from 'react-lottie'
-import { useDisclosure } from '@mantine/hooks'
 import { useCompanion } from 'hooks/useCompanion'
 import { selectEntityConfig } from 'redux/configs/configs.selectors'
 import { ReactComponent as AssistantIcon } from 'assets/images/icon-assistant.svg'
@@ -44,9 +40,7 @@ const NavigationTabs = () => {
   const params = useParams()
   const exploreType: string | undefined = getQuery('type')
   const entity = useAppSelector(getEntityById(params.entityId ?? ''))
-  const [animationData, setAnimationData] = useState(inactiveAnimation)
-  const { isChatOpen, isCompanionOpen, toggleChat, toggleCompanion } = useCompanion()
-  const navigate = useNavigate()
+  const { isCompanionOpen, toggleChat, toggleCompanion } = useCompanion()
   const config = useAppSelector(selectEntityConfig)
   const tabConfig = config.UI?.header?.tabs
 
