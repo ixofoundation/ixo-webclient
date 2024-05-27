@@ -24,15 +24,6 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      "keplr": ["/src/keplr"],
-      "hooks": ["/src/hooks"],
-      "contexts": ["/src/contexts"],
-      "walletModal": ["/src/walletModal"],
-      "assets": ["/src/assets"],
-      "@constants": ["/src/constants"],
-      "utils": ["/src/utils"],
-      "impactsxmobile": ["/src/impactsxmobile"],
-      "components": ["./components"],
       'stream': 'readable-stream',
       'assert': 'assert',
       'http': 'stream-http',

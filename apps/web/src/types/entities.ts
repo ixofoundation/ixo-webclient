@@ -217,6 +217,12 @@ export interface EntityConfig extends EntityTypeStrategyMap {
     }[]
     explorer?: {
       defaultView: string
+      design?: {
+        card: {
+          borderRadius?: number | string
+          border?: string
+        }
+      }
     }
     head?: {
       title?: string

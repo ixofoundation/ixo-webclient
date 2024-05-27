@@ -9,7 +9,7 @@ import { RPC_ENDPOINT } from "lib/protocol"
 
 export const populateEntityForEntityExplorer = async (entity: Entity) => {
   const entityService = entity.service
-  const profile = getEntityProfile(entity.settings?.Profile, entityService)
+  const profile = getEntityProfile(entity.settings?.Profile, entityService, entity)
   const tags = getTags({ setting: entity.settings?.Tags, service: entityService })
   const [profileResult, tagsResult] = await Promise.all([profile, tags])
 

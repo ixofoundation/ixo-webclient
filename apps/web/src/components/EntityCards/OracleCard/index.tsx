@@ -8,7 +8,9 @@ import { HorizontalLine } from 'components/HorizontalLine'
 import { Tag } from 'components'
 import { getEntityIcon } from 'utils/getEntityIcon'
 import { useNavigate } from 'react-router-dom'
-import { getMappedCDNURL } from '@ixo-webclient/utils'
+import { selectEntityConfig } from 'redux/configs/configs.selectors'
+import { useAppSelector } from 'redux/hooks'
+import oracleDefault from 'assets/entities/oracleDefault.jpg'
 
 interface Props extends HTMLFlexBoxProps {
   id: string
@@ -43,6 +45,8 @@ export const OracleCard: React.FC<Props> = ({
 }): JSX.Element | null => {
   const theme: any = useTheme()
   const navigate = useNavigate()
+  const config = useAppSelector(selectEntityConfig)
+  const design = config.UI?.explorer?.design
 
   return (
     <FlexBox
@@ -53,15 +57,16 @@ export const OracleCard: React.FC<Props> = ({
       }
       $direction='column'
       width='100%'
-      $borderRadius={'10px'}
+      $borderRadius={design?.card?.borderRadius ?? '10px'}
       height='100%'
       overflow='hidden'
       cursor='pointer'
       hover={{ $boxShadow: '0px 10px 25px 0px rgba(0, 0, 0, 0.15)' }}
+      border={design?.card?.border}
     >
       <FlexBox
         position='relative'
-        background={`url(${getMappedCDNURL(cardImage)})`}
+        background={`url(${cardImage ?? oracleDefault})`}
         width='100%'
         height='200px'
         $backgroundSize='cover'

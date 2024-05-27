@@ -151,7 +151,7 @@ export interface HTMLElementProps {
   $borderWidth?: string
   $borderColor?: string
   $borderStyle?: string
-  $borderRadius?: string
+  $borderRadius?: string | number
   $borderRight?: string
   $borderRightStyle?: string
   $borderRightWidth?: string
@@ -343,11 +343,12 @@ export const FlexBox = styled(Box)<HTMLFlexBoxProps>`
   justify-content: ${({ $justifyContent = 'flex-start' }): string => $justifyContent};
   align-items: ${({ $alignItems = 'flex-start' }): string => $alignItems};
   gap: ${({ $gap = 0 }): string => $gap * 0.25 + 'rem'};
-  ${({ $borderRadius }): string | undefined => ($borderRadius ? `border-radius: ${$borderRadius};` : undefined)}
+  ${({ $borderRadius }): string | number | undefined => ($borderRadius ? `border-radius: ${$borderRadius};` : undefined)}
   ${({ $flexWrap }): string | undefined => ($flexWrap ? `flex-wrap: ${$flexWrap}` : undefined)};
   ${({ $flexBasis }): string | undefined => ($flexBasis ? `flex-basis: ${$flexBasis}` : undefined)};
   ${({ $flexGrow }) => $flexGrow && `flex-grow: ${$flexGrow};`}
   ${({ $flexShrink }) => $flexShrink && `flex-shrink: ${$flexShrink};`}
+  border: ${({ border }) => border};
 `
 
 export const SvgBox = styled(FlexBox)<

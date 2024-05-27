@@ -13,6 +13,9 @@ import { useParams } from 'react-router-dom'
 import { useEffect, useMemo } from 'react'
 import { toRootEntityType } from 'utils/entities'
 import { useKeyValueViewerContext } from 'contexts/KeyValueViewerContext'
+import { selectEntityConfig } from 'redux/configs/configs.selectors'
+import { useAppSelector } from 'redux/hooks'
+import { useTheme } from 'styled-components'
 
 const Overview: React.FC = () => {
   const { getQuery } = useQuery()
@@ -21,6 +24,9 @@ const Overview: React.FC = () => {
   const agentRole: AgentRoles = getQuery('agentRole') as AgentRoles
   const { entityId = '' } = useParams<{ entityId: string }>()
   const { setKeyValue } = useKeyValueViewerContext()
+  const theme: any = useTheme()
+  const config = useAppSelector(selectEntityConfig)
+  const primaryColor = config.theme.primaryColor ?? theme.ixoNewBlue
 
   const {
     page,
@@ -66,12 +72,25 @@ const Overview: React.FC = () => {
             creatorLogo={logo}
             entityType={toRootEntityType(type)}
           />
-          <Tabs defaultValue='overview' mt={20}>
-            <Tabs.List>
-              <Tabs.Tab value='overview'>Overview</Tabs.Tab>
-              <Tabs.Tab value='services'>Services</Tabs.Tab>
-              <Tabs.Tab value='rights'>Rights</Tabs.Tab>
-              <Tabs.Tab value='resources'>Resources</Tabs.Tab>
+          <Tabs
+            color={primaryColor}
+            defaultValue='overview'
+            mt={20}
+            styles={{ tabLabel: { fontWeight: 'bold', color: '#A8ADAE', fontSize: 16 } }}
+          >
+            <Tabs.List pb={20}>
+              <Tabs.Tab value='overview' pb={2} px={0} mr={10}>
+                Overview
+              </Tabs.Tab>
+              <Tabs.Tab value='services' pb={2} px={0} mx={10}>
+                Services
+              </Tabs.Tab>
+              <Tabs.Tab value='rights' pb={2} px={0} mx={10}>
+                Rights
+              </Tabs.Tab>
+              <Tabs.Tab value='resources' pb={2} px={0} ml={10}>
+                Resources
+              </Tabs.Tab>
             </Tabs.List>
 
             <Tabs.Panel value='overview'>

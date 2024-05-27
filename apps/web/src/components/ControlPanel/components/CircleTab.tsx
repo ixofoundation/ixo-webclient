@@ -1,6 +1,8 @@
 import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import React from 'react'
+import { selectEntityConfig } from 'redux/configs/configs.selectors'
+import { useAppSelector } from 'redux/hooks'
 import { useTheme } from 'styled-components'
 
 interface Props {
@@ -12,11 +14,14 @@ interface Props {
 
 const CircleTab: React.FC<Props> = ({ active, icon, badge = 0, onClick }) => {
   const theme: any = useTheme()
+  const config = useAppSelector(selectEntityConfig)
+  const tabConfig = config.UI?.header?.tabs
+
   return (
     <SvgBox
       position='relative'
-      background={active ? theme.ixoNewBlue : theme.ixoWhite}
-      color={active ? theme.ixoWhite : theme.ixoNewBlue}
+      background={active ? tabConfig?.active.background : tabConfig?.background}
+      color={active ? tabConfig?.active.color : tabConfig?.active.background}
       $borderRadius='100%'
       width='46px'
       height='46px'

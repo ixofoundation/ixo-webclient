@@ -108,7 +108,7 @@ const EntitiesExplorer = ({
   const type: string | undefined = getQuery('type')
   const sector: string | undefined = getQuery('sector')
 
-  const tabletColumns = isTablet ? 2 : 3
+  const tabletColumns = isTablet ? 2 : 4
   const columns = isMobile ? 1 : tabletColumns
 
   const { data, loading, refetch } = useEntitiesQuery({

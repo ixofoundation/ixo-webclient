@@ -25,6 +25,7 @@ import Tooltip from 'components/Tooltip/Tooltip'
 import { toTitleCase } from 'utils/formatters'
 import { useKeyValueViewerContext } from 'contexts/KeyValueViewerContext'
 import { startCase } from 'lodash'
+import { LiaArrowLeftSolid, LiaPlaySolid } from 'react-icons/lia'
 
 const StyledScrollArea = styled(ScrollArea)`
   & > div > div {
@@ -41,7 +42,7 @@ const ControlPanel = ({ tab, entityType, entityName }: Props) => {
   const { controlPanelSchema: schema } = useEntityConfig(entityType)
   const { address } = useAccount()
   const [activeTab, setActiveTab] = useState<'profile' | 'detail' | 'feed' | 'message' | 'assistant'>(tab || 'detail')
-  const { keyValue } = useKeyValueViewerContext()
+  const { keyValue, goBackToPrevKeyValue } = useKeyValueViewerContext()
 
   const EntityIcon = getEntityIcon(entityType)
 
@@ -79,22 +80,29 @@ const ControlPanel = ({ tab, entityType, entityName }: Props) => {
 
   const renderKeyValues = () => {
     return (
-      <Card>
-        <Box w='100%'>
-          {Object.keys(keyValue).map((key) => (
-            <Box key={key} w='100%'>
-              <Flex p={10}>
-                <Text ml={25} w='100%' size='sm'>
-                  {startCase(key)}
-                </Text>
-              </Flex>
-              <Flex w='100%' bg='#E8E8E9' p={10} style={{ borderRadius: 50 }}>
-                <Text ml={25} size="sm">{keyValue[key]}</Text>
-              </Flex>
-            </Box>
-          ))}
-        </Box>
-      </Card>
+      <Box>
+        <Flex py={8} style={{ cursor: 'pointer' }} onClick={goBackToPrevKeyValue}>
+          <LiaArrowLeftSolid size={24} />
+        </Flex>
+        <Card>
+          <Box w='100%'>
+            {Object.keys(keyValue).map((key) => (
+              <Box key={key} w='100%'>
+                <Flex p={10}>
+                  <Text ml={25} w='100%' size='sm'>
+                    {startCase(key)}
+                  </Text>
+                </Flex>
+                <Flex w='100%' bg='#E8E8E9' p={10} style={{ borderRadius: 50 }}>
+                  <Text ml={25} size='sm'>
+                    {keyValue[key]}
+                  </Text>
+                </Flex>
+              </Box>
+            ))}
+          </Box>
+        </Card>
+      </Box>
     )
   }
 
@@ -122,7 +130,7 @@ const ControlPanel = ({ tab, entityType, entityName }: Props) => {
         {EntityIcon && (
           <Tooltip text={entityName || toTitleCase(entityType)}>
             <CircleTab
-              icon={EntityIcon as JSX.Element}
+              icon={<LiaPlaySolid/> as JSX.Element}
               active={activeTab === 'detail'}
               onClick={() => setActiveTab('detail')}
             />

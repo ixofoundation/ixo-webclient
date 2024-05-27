@@ -71,7 +71,7 @@ const NavigationTabs = () => {
         <NavLink key={`${path}`} to={`${path}`}>
           <Button
             key={label}
-            leftSection={<Icon size={20} fill={isActive ? 'white' : 'black'} stroke={isActive ? 'white' : 'black'} />}
+            leftSection={<Icon size={20} fill={isActive && !isCompanionOpen ? 'white' : 'black'} stroke={isActive && !isCompanionOpen ? 'white' : 'black'} />}
             variant='filled'
             bg={isActive && !isCompanionOpen ? tabConfig?.active.background : tabConfig?.background}
             radius='0'

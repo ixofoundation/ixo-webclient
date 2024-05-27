@@ -47,8 +47,7 @@ const App = () => {
     fetchEntityConfig()
     fetchThemeConfig()
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [fetchEntityConfig, fetchThemeConfig])
 
   const [customizedTheme, setCustomizedTheme] = useState<any>(theme)
   const customTheme = useAppSelector(selectCustomTheme)

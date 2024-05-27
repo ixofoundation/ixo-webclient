@@ -26,7 +26,7 @@ export const MessageBox = () => {
         radius='md'
         w='800px'
         size='xl'
-        placeholder='Talk to your Assistant'
+        placeholder='Ask or Search'
         rightSectionWidth={42}
         onChange={(event) => setMessage(event.currentTarget.value)}
         onKeyUp={(event) => event.key === 'Enter' && handleSubmit(message)}
