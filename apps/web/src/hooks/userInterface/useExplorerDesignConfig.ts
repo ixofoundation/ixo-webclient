@@ -1,4 +1,4 @@
-import { selectEntityConfig } from "redux/entitiesExplorer/entitiesExplorer.selectors"
+import { selectEntityConfig } from "redux/configs/configs.selectors"
 import { useAppSelector } from "redux/hooks"
 
 export const useExplorerDesignConfig = () => {

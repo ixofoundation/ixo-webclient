@@ -11,8 +11,25 @@
   },
   "UI": {
     "logo": "impactsai_logo_full",
+    "companion": {
+      "toolbar": {
+        "color": "#20798C",
+        "background": "#FFFFFF",
+        "active": {
+          "color": "#FFFFFF",
+          "background": "#20798C"
+        }
+      }
+    },
     "explorer": {
-      "defaultView": "dao"
+      "defaultView": "oracle",
+      "defaultColumnCount": 4,
+      "design": {
+        "card": {
+          "borderRadius": 0,
+          "border": "1px solid #000000"
+        }
+      }
     },
     "head": {
       "title": "Impacts AI",
@@ -36,6 +53,16 @@
         "active": {
           "background": "#20798C",
           "color": "#FFFFFF"
+        },
+        "assistant": {
+          "to": "#FFFFFF",
+          "right": "#FFFFFF",
+          "color": "#000000",
+          "active": {
+            "to": "#20798C",
+            "right": "#20798C",
+            "color": "#FFFFFF"
+          }
         }
       }
     },
