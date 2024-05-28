@@ -133,7 +133,7 @@ const Overview: React.FC = () => {
               </Flex>
             </Tabs.Panel>
 
-            <Tabs.Panel value='rights'>Rights tab content</Tabs.Panel>
+            <Tabs.Panel value='rights'></Tabs.Panel>
             <Tabs.Panel value='resources'>
               <Flex w='100%' justify={'center'} align={'center'}>
                 <LinkedFiles linkedFiles={linkedFiles} service={service} />
