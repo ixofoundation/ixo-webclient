@@ -137,7 +137,7 @@ const Overview: React.FC = () => {
 
             <Tabs.Panel value='rights' h="100%" w="100%">
               <Flex justify={'center'} align={'center'} w='100%' h='100%'>
-                {accordedRight.length === 0 && <Text c="#A8ADAE'">No rights found</Text>}
+                {accordedRight?.length === 0 && <Text c="#A8ADAE'">No rights found</Text>}
               </Flex>
             </Tabs.Panel>
             <Tabs.Panel value='resources'>
