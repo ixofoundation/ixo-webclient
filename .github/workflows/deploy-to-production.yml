@@ -122,7 +122,7 @@ jobs:
 
     - name: Build
       env:
-        REACT_APP_RELAYER_NODE: did:ixo:entity:8abd3503cbf6717393478117b8df4e6e
+        REACT_APP_RELAYER_NODE: did:ixo:entity:72a27013b1d2f9c3561145e4a424778a
         REACT_APP_CONFIG_ASSETLIST_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/impacts-ai/asset-list.json
         REACT_APP_CONFIG_EXCHANGE_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/impacts-ai/exchange.json
         REACT_APP_CONFIG_RELAYER_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/impacts-ai/app-config.json 
