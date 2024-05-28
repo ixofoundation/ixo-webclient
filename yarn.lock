@@ -20699,10 +20699,10 @@ react-paginate@8.2.0:
   dependencies:
     prop-types "^15"
 
-react-pdf@*:
-  version "7.7.0"
-  resolved "https://registry.yarnpkg.com/react-pdf/-/react-pdf-7.7.0.tgz#9e6859bc431243eca80d7159f3115fddcfe261d8"
-  integrity sha512-704ObLnRDm5lixL4e6NXNLaincBHGNLo+NGdbO3rEXE963NlNzwLxFpmKcbdXHAMQL4rYJQWb1L0w5IL6y8Osw==
+react-pdf@*, react-pdf@7.7.3:
+  version "7.7.3"
+  resolved "https://registry.yarnpkg.com/react-pdf/-/react-pdf-7.7.3.tgz#eea8104cd165dfec7ae0fa54259cfe7de12b5e81"
+  integrity sha512-a2VfDl8hiGjugpqezBTUzJHYLNB7IS7a2t7GD52xMI9xHg8LdVaTMsnM9ZlNmKadnStT/tvX5IfV0yLn+JvYmw==
   dependencies:
     clsx "^2.0.0"
     dequal "^2.0.3"
@@ -20713,20 +20713,6 @@ react-pdf@*:
     prop-types "^15.6.2"
     tiny-invariant "^1.0.0"
     warning "^4.0.0"
-
-react-pdf@7.5.1:
-  version "7.5.1"
-  resolved "https://registry.yarnpkg.com/react-pdf/-/react-pdf-7.5.1.tgz#ef6e3f72d0bc02aee16b77b54196825068ef23b7"
-  integrity sha512-NVno97L3wfX3RLGB3C+QtroOiQrgCKPHLMFKMSQaRqDlH3gkq2CB2NyXJ+IDQNLrT/gSMPPgtZQL8cOUySc/3w==
-  dependencies:
-    clsx "^2.0.0"
-    make-cancellable-promise "^1.3.1"
-    make-event-props "^1.6.0"
-    merge-refs "^1.2.1"
-    pdfjs-dist "3.11.174"
-    prop-types "^15.6.2"
-    tiny-invariant "^1.0.0"
-    tiny-warning "^1.0.0"
 
 react-popper@^2.2.3:
   version "2.3.0"
@@ -23539,11 +23525,6 @@ tiny-secp256k1@^1.1.3:
     create-hmac "^1.1.7"
     elliptic "^6.4.0"
     nan "^2.13.2"
-
-tiny-warning@^1.0.0:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/tiny-warning/-/tiny-warning-1.0.3.tgz#94a30db453df4c643d0fd566060d60a875d84754"
-  integrity sha512-lBN9zLN/oAf68o3zNXYrdCt1kP8WsiGW8Oo2ka41b2IM5JL/S1CTyX1rW0mb/zSuJun0ZUrDxx4sqvYS2FWzPA==
 
 tinyqueue@^2.0.3:
   version "2.0.3"
