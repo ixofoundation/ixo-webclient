@@ -7,7 +7,7 @@ export const ClaimCreationSuccess = () => {
   return (
     <Flex direction='column' gap={16}>
       <Text variant='secondary'>
-        This is the last step before creating this Verifiable Claim on the ixo Blockchain.
+        This is the last step before creating this Verifiable Claim Protocol on the ixo Blockchain.
       </Text>
       <Text variant='secondary'>
         <Text
@@ -16,13 +16,13 @@ export const ClaimCreationSuccess = () => {
           style={{ cursor: 'pointer' }}
           onClick={() => navigateToStepUsingPath('/entity/create/protocol/collection')}
         >
-          Review the Verifiable Claim details
+          Review the Verifiable Claim Protocol details
         </Text>{' '}
         you have configured.
       </Text>
       <Text variant='secondary' display='inline'>
         When you are ready to commit, sign with your DID Account keys, or connect a different account as the Verifiable
-        Claim Creator.
+        Claim Protocol Creator.
       </Text>
     </Flex>
   )
