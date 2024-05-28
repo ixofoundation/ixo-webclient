@@ -1,7 +1,28 @@
 {
+  "theme": {
+    "fontFamily": "Roboto Condensed",
+    "primaryColor": "#20798C",
+    "secondaryColor": "#112121",
+    "backgroundColor": "#000000",
+    "highlight": {
+      "light": "#26EBBC",
+      "dark": "#2B8973"
+    }
+  },
   "UI": {
+    "companion": {
+      "toolbar": {
+        "color": "#00D2FF",
+        "background": "#FFFFFF",
+        "active": {
+          "color": "#FFFFFF",
+          "background": "#00D2FF"
+        }
+      }
+    },
     "explorer": {
-      "defaultView": "project"
+      "defaultView": "project",
+      "defaultColumnCount": 3
     },
     "topMenu": [
       {
@@ -11,6 +32,26 @@
     ],
     "head": {
       "title": "Test Zone"
+    },
+    "header": {
+      "tabs": {
+        "background": "#01273A",
+        "color": "white",
+        "active": {
+          "background": "#20798C",
+          "color": "#FFFFFF"
+        },
+        "assistant": {
+          "to": "#0C5173",
+          "right": "#002A3F",
+          "color": "#FFFFFF",
+          "active": {
+            "to": "#20798C",
+            "right": "#20798C",
+            "color": "#FFFFFF"
+          }
+        }
+      }
     },
     "footer": {
       "mailTo": {

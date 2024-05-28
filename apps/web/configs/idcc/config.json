@@ -10,6 +10,16 @@
     }
   },
   "UI": {
+    "companion": {
+      "toolbar": {
+        "color": "#00D2FF",
+        "background": "#FFFFFF",
+        "active": {
+          "color": "#FFFFFF",
+          "background": "#00D2FF"
+        }
+      }
+    },
     "logo": "idcc-logo",
     "explorer": {
       "defaultView": "dao"
@@ -27,7 +37,25 @@
     "header": {
       "background": "#6587a4",
       "buttonColor": "#C7FCF2",
-      "link": "https://idcc.hk/"
+      "link": "https://idcc.hk/",
+      "tabs": {
+        "background": "#01273A",
+        "color": "white",
+        "active": {
+          "background": "#20798C",
+          "color": "#FFFFFF"
+        },
+        "assistant": {
+          "to": "#0C5173",
+          "right": "#002A3F",
+          "color": "#FFFFFF",
+          "active": {
+            "to": "#20798C",
+            "right": "#20798C",
+            "color": "#FFFFFF"
+          }
+        }
+      }
     },
     "footer": {
       "mailTo": {
@@ -2743,7 +2771,7 @@
   "dao": {
     "title": "DAO",
     "plural": "DAOs",
-    "themeColor": "#6587a4",
+    "themeColor": "#85AD5C",
     "headerSchema": {
       "@context": "https://schema.ixo.foundation/cell",
       "@type": "Header",

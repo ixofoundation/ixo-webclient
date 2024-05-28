@@ -432,6 +432,7 @@
   background: url(img/tabs/dashboard.svg);
   background-repeat: no-repeat;
   background-size: contain;
+  fill: blue;
 }
 
 .icon-exchange {

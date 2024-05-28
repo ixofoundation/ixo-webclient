@@ -7,7 +7,7 @@ import { EntityConfig } from 'types/entities'
 
 const chainId = process.env.REACT_APP_CHAIN_ID
 
-export const selectConfigs = (state: RootState): ConfigsState => state.configs
+export const selectConfigs = (state: RootState): ConfigsState => state?.configs
 
 export const selectAssetListConfig = createSelector(
   selectConfigs,
@@ -48,7 +48,7 @@ export const selectTradingAllowed = createSelector(
  */
 export const selectEntityConfig = createSelector(
   selectConfigs,
-  (configs: ConfigsState): EntityConfig => configs.entityConfig,
+  (configs: ConfigsState): EntityConfig => configs?.entityConfig,
 )
 
 export const selectEntityConfigByType = createSelector(

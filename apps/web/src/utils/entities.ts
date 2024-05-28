@@ -21,7 +21,7 @@ import { CellnodePublicResource, CellnodeWeb3Resource } from '@ixo/impactxclient
 import Axios from 'axios'
 import { ApiListedEntityData } from 'api/blocksync/types/entities'
 import { get } from 'lodash'
-import { getMappedNewURL } from '@ixo-webclient/utils'
+import { fileStorage, getMappedNewURL } from '@ixo-webclient/utils'
 
 export const getCountryCoordinates = (countryCodes: string[]): any[] => {
   const coordinates: any[] = []
@@ -135,9 +135,9 @@ export function serviceEndpointToUrl(serviceEndpoint: string, service: Service[]
   const usedService: Service | undefined = service.find(
     (item: any) => item.id.replace('{id}#', '') === identifier.replace('{id}#', ''),
   )
-
+  // console.log({ identifier, key })
   if (usedService && usedService.type.toLocaleLowerCase() === NodeType.Ipfs.toLocaleLowerCase()) {
-    url = new URL(key, usedService.serviceEndpoint).href
+    url = fileStorage.ipfs.generateEndpoint(key)
   } else if (usedService && usedService.type.toLocaleLowerCase() === NodeType.CellNode.toLocaleLowerCase()) {
     url = new URL(key, usedService.serviceEndpoint).href
   } else {

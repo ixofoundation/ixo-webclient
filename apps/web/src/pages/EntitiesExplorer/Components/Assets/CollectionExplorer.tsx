@@ -12,7 +12,6 @@ import { useNavigate } from 'react-router-dom'
 import { useGetAssetDevicesByCollectionId } from 'graphql/entities'
 import { Button } from '@mantine/core'
 import { useAccount } from 'hooks/account'
-import { getMappedCDNURL } from '@ixo-webclient/utils'
 
 interface Props {
   collection: any
@@ -69,7 +68,7 @@ const CollectionExplorer: React.FC<Props> = (props) => {
               $borderRadius='100%'
               width='40px'
               height='40px'
-              background={`url(${getMappedCDNURL(logo!)}), #ffffff`}
+              background={`url(${logo!}), #ffffff`}
               $backgroundPosition='center center'
               $backgroundSize='100%'
             />

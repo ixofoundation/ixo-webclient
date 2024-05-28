@@ -10,9 +10,26 @@
     }
   },
   "UI": {
-    "logo": "impactsAI-logo",
+    "logo": "impactsai_logo_full",
+    "companion": {
+      "toolbar": {
+        "color": "#20798C",
+        "background": "#FFFFFF",
+        "active": {
+          "color": "#FFFFFF",
+          "background": "#20798C"
+        }
+      }
+    },
     "explorer": {
-      "defaultView": "dao"
+      "defaultView": "oracle",
+      "defaultColumnCount": 4,
+      "design": {
+        "card": {
+          "borderRadius": 0,
+          "border": "1px solid #000000"
+        }
+      }
     },
     "head": {
       "title": "Impacts AI",
@@ -21,13 +38,33 @@
     "topMenu": [
       {
         "item": "create",
-        "visible": false
+        "visible": true
       }
     ],
     "header": {
-      "background": "#000000",
-      "buttonColor": "#00D2A0",
-      "link": "https://marketplace.impacts.ai/explore?type=dao"
+      "background": "#F9F9F9",
+      "buttonColor": "#000000",
+      "borderColor": "#000000",
+      "link": "https://marketplace.impacts.ai/explore?type=dao",
+      "tabs": {
+        "background": "#FFFFFF",
+        "borderColor": "#000000",
+        "color": "black",
+        "active": {
+          "background": "#20798C",
+          "color": "#FFFFFF"
+        },
+        "assistant": {
+          "to": "#FFFFFF",
+          "right": "#FFFFFF",
+          "color": "#000000",
+          "active": {
+            "to": "#20798C",
+            "right": "#20798C",
+            "color": "#FFFFFF"
+          }
+        }
+      }
     },
     "footer": {
       "mailTo": {
@@ -2735,7 +2772,8 @@
   "dao": {
     "title": "DAO",
     "plural": "DAOs",
-    "themeColor": "#85AD5C",
+    "themeColor": "#20798C",
+    "tabBgcolor": "#FFFFFF",
     "headerSchema": {
       "@context": "https://schema.ixo.foundation/cell",
       "@type": "Header",

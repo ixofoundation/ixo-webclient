@@ -22,9 +22,10 @@ import SearchIcon from 'assets/icons/Search'
 import SquareGrid from 'assets/icons/SquareGrid'
 import Projects from 'assets/icons/Projects'
 import DataAssets from 'assets/icons/DataAssets'
-import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+
 import Tooltip from 'components/Tooltip/Tooltip'
 import { EntityType } from 'types/entities'
+import { selectEntityConfig } from 'redux/configs/configs.selectors'
 
 // TODO - search submitted
 
@@ -38,15 +39,18 @@ interface Props {
 
 const Search: React.FunctionComponent<Props> = ({ type, entityColor, filterQuery, filterChanged, queryChanged }) => {
   const entityTypeMap = useAppSelector(selectEntityConfig)
-  const [search, setSearch] = React.useState('')
-  const [isModalOpen, setIsModalOpen] = React.useState(false)
+  const [search, setSearch] = React.useState<string | undefined>('')
+  const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false)
 
-  const handleChange = (event: any): void => {
-    setSearch(event.target.value)
-    queryChanged(event.target.value)
+  const pluralizedEntity = entityTypeMap?.[type]?.plural ?? ""
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    const value = event?.target?.value ?? ''
+    setSearch(value)
+    queryChanged(value)
   }
 
-  const handleSubmit = (e: any): void => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLDivElement>): void => {
     e.preventDefault()
     // alert(`Search for: ${search}`)
   }
@@ -67,20 +71,22 @@ const Search: React.FunctionComponent<Props> = ({ type, entityColor, filterQuery
     // eslint-disable-next-line
   }, [filterQuery])
 
+  if (!entityTypeMap) return null
+
   return (
     <div className='container'>
       <div className='row'>
         <div className='col-xs-12 col-lg-8 offset-lg-2'>
           <SearchWrapper>
             <Tooltip text={'Select to Explore'}>
-              <ModalButton onClick={(): void => handleToggleModal()} className={isModalOpen ? 'modal-open' : ''}>
+              <ModalButton onClick={handleToggleModal} className={isModalOpen ? 'modal-open' : ''}>
                 {type === EntityType.Project && <Projects fill='#000' width='26' />}
                 {type === EntityType.Oracle && <Oracle fill='#000' width='26' />}
                 {type === EntityType.Investment && <Investments fill='#000' width='26' />}
                 {type === EntityType.Dao && <Cells fill='#000' width='26' />}
                 {type === EntityType.Protocol && <Template fill='#000' width='26' />}
                 {type === EntityType.Asset && <DataAssets fill='#000' width='26' />}
-                <span className='modal-text'>{entityTypeMap[type].plural}</span>
+                <span className='modal-text'>{pluralizedEntity}</span>
                 <MediaQuery minWidth={`${deviceWidth.mobile + 1}px`}>
                   <span className='down-icon d-flex'>
                     <SquareGrid fill='#000' />
@@ -88,15 +94,15 @@ const Search: React.FunctionComponent<Props> = ({ type, entityColor, filterQuery
                 </MediaQuery>
               </ModalButton>
             </Tooltip>
-            <form onSubmit={(e): void => handleSubmit(e)} className='search-input-wrapper'>
+            <form onSubmit={handleSubmit} className='search-input-wrapper'>
               <InputText
                 formStyle={FormStyles.search}
                 id='name'
                 type='text'
-                text={`Search all ${entityTypeMap[type].plural}`}
+                text={`Search all ${pluralizedEntity}`}
                 key='search'
-                value={search}
-                onChange={(event): void => handleChange(event)}
+                value={search || ''}
+                onChange={handleChange}
               />
             </form>
             <SearchIconWrapper onClick={handleSubmit}>
@@ -106,75 +112,75 @@ const Search: React.FunctionComponent<Props> = ({ type, entityColor, filterQuery
               <SearchHeading>Explore</SearchHeading>
               <SearchButtonsWrapper>
                 <SearchFilterButton
-                  onClick={(): void => handleSearchFilter(EntityType.Project)}
+                  onClick={() => handleSearchFilter(EntityType.Project)}
                   className={`
                     ${EntityType.Project.toLowerCase()} ${type === EntityType.Project ? 'active' : ''}
                     `}
-                  color={entityTypeMap[EntityType.Project].themeColor}
+                  color={entityTypeMap?.[EntityType.Project]?.themeColor}
                 >
                   <ButtonContent>
                     <Projects fill='#000' width='26' />
-                    {entityTypeMap[EntityType.Project].plural}
+                    {entityTypeMap?.[EntityType.Project]?.plural}
                   </ButtonContent>
                 </SearchFilterButton>
                 <SearchFilterButton
-                  onClick={(): void => handleSearchFilter(EntityType.Oracle)}
+                  onClick={() => handleSearchFilter(EntityType.Oracle)}
                   className={`
                     ${EntityType.Oracle.toLowerCase()} ${type === EntityType.Oracle ? 'active' : ''}
                     `}
-                  color={entityTypeMap[EntityType.Oracle].themeColor}
+                  color={entityTypeMap?.[EntityType.Oracle]?.themeColor}
                 >
                   <ButtonContent>
                     <Oracle fill='#000' width='26' />
-                    {entityTypeMap[EntityType.Oracle].plural}
+                    {entityTypeMap?.[EntityType.Oracle]?.plural}
                   </ButtonContent>
                 </SearchFilterButton>
                 <SearchFilterButton
-                  onClick={(): void => handleSearchFilter(EntityType.Investment)}
+                  onClick={() => handleSearchFilter(EntityType.Investment)}
                   className={`
                     ${EntityType.Investment.toLowerCase()} ${type === EntityType.Investment ? 'active' : ''}
                     `}
-                  color={entityTypeMap[EntityType.Investment].themeColor}
+                  color={entityTypeMap?.[EntityType.Investment]?.themeColor}
                 >
                   <ButtonContent>
                     <Investments fill='#000' width='26' />
-                    {entityTypeMap[EntityType.Investment].plural}
+                    {entityTypeMap?.[EntityType.Investment]?.plural}
                   </ButtonContent>
                 </SearchFilterButton>
                 <SearchFilterButton
-                  onClick={(): void => handleSearchFilter(EntityType.Dao)}
+                  onClick={() => handleSearchFilter(EntityType.Dao)}
                   className={`
                     ${EntityType.Dao.toLowerCase()} ${type === EntityType.Dao ? 'active' : ''}
                     `}
-                  color={entityTypeMap[EntityType.Dao].themeColor}
+                  color={entityTypeMap?.[EntityType.Dao]?.themeColor}
                 >
                   <ButtonContent>
                     <Cells fill='#000' width='26' />
-                    {entityTypeMap[EntityType.Dao].plural}
+                    {entityTypeMap?.[EntityType.Dao]?.plural}
                   </ButtonContent>
                 </SearchFilterButton>
                 <SearchFilterButton
-                  onClick={(): void => handleSearchFilter(EntityType.Protocol)}
+                  onClick={() => handleSearchFilter(EntityType.Protocol)}
                   className={`
                     ${EntityType.Protocol.toLowerCase()} ${type === EntityType.Protocol ? 'active' : ''}
                     `}
-                  color={entityTypeMap[EntityType.Protocol].themeColor}
+                  color={entityTypeMap?.[EntityType.Protocol]?.themeColor}
                 >
                   <ButtonContent>
                     <Template fill='#000' width='26' />
-                    {entityTypeMap[EntityType.Protocol].plural}
+                    {entityTypeMap?.[EntityType.Protocol]?.plural}
                   </ButtonContent>
                 </SearchFilterButton>
                 <SearchFilterButton
-                  onClick={(): void => handleSearchFilter(EntityType.Asset)}
+                  onClick={() => handleSearchFilter(EntityType.Asset)}
                   className={`
                     ${EntityType.Asset.toLowerCase()} ${type === EntityType.Asset ? 'active' : ''}
                     `}
-                  color={entityTypeMap[EntityType.Asset].themeColor}
+                  color={entityTypeMap?.[EntityType.Asset]?.themeColor}
                 >
                   <ButtonContent>
                     <DataAssets fill='#000' width='26' />
-                    {entityTypeMap[EntityType.Asset].plural}
+                    {entityTypeMap?.[EntityType.Asset]?.plural}
                   </ButtonContent>
                 </SearchFilterButton>
               </SearchButtonsWrapper>
