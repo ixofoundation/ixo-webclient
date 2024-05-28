@@ -187,7 +187,7 @@ jobs:
   
   build-and-deploy-platform-impacts-ai:
     runs-on: ubuntu-latest
-    environment: prod
+    environment: dev
     outputs:
       url: ${{ steps.platform_impacts_ai_prod_deploy.outputs.NETLIFY_URL }}
     steps:
@@ -224,7 +224,7 @@ jobs:
         args: deploy --dir=apps/web/build --filter @ixo-webclient/web   # Update --dir with the directory of your build output
 
   notify-slack:
-    needs: [build-and-deploy-dev-ixo-earth, build-and-deploy-test-ixo-earth, build-and-deploy-yoma-ixo-earth, build-and-deploy-idcc-ixo-earth]
+    needs: [build-and-deploy-dev-ixo-earth, build-and-deploy-test-ixo-earth, build-and-deploy-yoma-ixo-earth, build-and-deploy-idcc-ixo-earth, build-and-deploy-platform-impacts-ai]
     runs-on: ubuntu-latest
     steps:
       - name: Send URLs to Slack
