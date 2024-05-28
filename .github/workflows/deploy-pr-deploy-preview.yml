@@ -189,7 +189,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: prod
     outputs:
-      url: ${{ steps.platform_impacts_ai_prod_deploy.outputs.NETLIFY_LIVE_URL }}
+      url: ${{ steps.platform_impacts_ai_prod_deploy.outputs.NETLIFY_URL }}
     steps:
     - uses: actions/checkout@v4
 
@@ -237,6 +237,6 @@ jobs:
           URL4=${{ needs.build-and-deploy-yoma-ixo-earth.outputs.url }}
           URL5=${{ needs.build-and-deploy-platform-impacts-ai.outputs.url }}
 
-          MESSAGE="Deployment to development environment for dev.ixo.earth: $URL1\nDeployment to development environment for test.ixo.earth: $URL2\nDeployment development environment for idcc.ixo.earth: $URL3\nDeployment to development environment for yoma.ixo.earth: $URL4\n Deployment to production environment for platform.impacts.ai: $URL5\n"
+          MESSAGE="Deployment to development environment for dev.ixo.earth: $URL1\nDeployment to development environment for test.ixo.earth: $URL2\nDeployment development environment for idcc.ixo.earth: $URL3\nDeployment to development environment for yoma.ixo.earth: $URL4\n Deployment to development environment for platform.impacts.ai: $URL5\n"
 
           curl -X POST -H 'Content-type: application/json' --data "{\"text\":\"$MESSAGE\"}" $SLACK_WEBHOOK_URL
