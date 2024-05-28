@@ -6,7 +6,7 @@ import { LinkedFiles } from './LinkedFiles'
 import { PageContent } from './PageContent'
 import OfferForm from './OfferForm'
 import { AgentRoles } from 'types/models'
-import { Flex, ScrollArea, Table, Tabs, rem } from '@mantine/core'
+import { Flex, ScrollArea, Table, Tabs, Text, rem } from '@mantine/core'
 import PageContentLegacy from './PageContentLegacy'
 import { useEntityOverview } from 'hooks/entity/useEntityOverview'
 import { useParams } from 'react-router-dom'
@@ -36,6 +36,7 @@ const Overview: React.FC = () => {
     startDate,
     refetch,
     linkedFiles,
+    accordedRight,
     service,
     type = '',
   } = useEntityOverview(entityId)
@@ -76,6 +77,7 @@ const Overview: React.FC = () => {
             color={primaryColor}
             defaultValue='overview'
             mt={20}
+            h="100%"
             styles={{ tabLabel: { fontWeight: 'bold', color: '#A8ADAE', fontSize: 16 } }}
           >
             <Tabs.List pb={20}>
@@ -133,7 +135,11 @@ const Overview: React.FC = () => {
               </Flex>
             </Tabs.Panel>
 
-            <Tabs.Panel value='rights'></Tabs.Panel>
+            <Tabs.Panel value='rights' h="100%" w="100%">
+              <Flex justify={'center'} align={'center'} w='100%' h='100%'>
+                {accordedRight.length === 0 && <Text c="#A8ADAE'">No rights found</Text>}
+              </Flex>
+            </Tabs.Panel>
             <Tabs.Panel value='resources'>
               <Flex w='100%' justify={'center'} align={'center'}>
                 <LinkedFiles linkedFiles={linkedFiles} service={service} />
