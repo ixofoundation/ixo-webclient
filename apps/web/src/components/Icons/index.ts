@@ -7,6 +7,9 @@ import { ReactComponent as ImpactsCreditIcon } from 'assets/images/icon-impact-c
 import { ReactComponent as ClockIcon } from 'assets/images/icon-clock.svg'
 import { ReactComponent as EyeIcon } from 'assets/images/icon-eye.svg'
 
+export * from './DaoIcon'
+export * from './DashboardIcon'
+
 export {
   CopyIcon,
   AssetActivityIcon,

@@ -15,7 +15,6 @@ import { ReactComponent as CopyIcon } from 'assets/images/icon-copy.svg'
 import { successToast } from 'utils/toast'
 import { useAppSelector } from 'redux/hooks'
 import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
-import { getMappedCDNURL } from '@ixo-webclient/utils'
 
 type GroupCardProps = {
   daoGroup: TDAOGroupModel
@@ -62,7 +61,7 @@ const GroupCard= ({ daoGroup, dao }: GroupCardProps) => {
       )}
 
       <Flex direction='column' justify={'center'} align={'center'} gap={8}>
-        <Avatar src={getMappedCDNURL(dao.profile?.logo ?? "")} alt='' size={32} radius={100} />
+        <Avatar src={dao.profile?.logo ?? ""} alt='' size={32} radius={100} />
         <Typography variant='primary' size='sm'>
           {dao.profile?.name}
         </Typography>

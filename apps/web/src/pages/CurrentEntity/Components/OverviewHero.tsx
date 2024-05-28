@@ -53,6 +53,7 @@ const OverviewHero: React.FunctionComponent<Props> = ({
 }) => {
   const entityTypeMap = useAppSelector(selectEntityConfig)
   const themeColor = entityTypeMap![entityType!]?.themeColor
+  const tabBgcolor = entityTypeMap![entityType!]?.tabBgcolor
 
   const headerTabs = useHeaderTabs({ entityType })
 
@@ -114,6 +115,7 @@ const OverviewHero: React.FunctionComponent<Props> = ({
           assistantPanelToggle={assistantPanelToggle}
           enableAssistantButton={enableAssistantButton}
           activeTabColor={themeColor}
+          tabBgcolor={tabBgcolor}
           assistantFixed={assistantFixed}
           buttons={headerTabs}
         />

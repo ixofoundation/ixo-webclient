@@ -9,8 +9,19 @@
   },
   "UI": {
     "logo": "ImpactsDAO_icon_only",
+    "companion": {
+      "toolbar": {
+        "color": "#00D2FF",
+        "background": "#FFFFFF",
+        "active": {
+          "color": "#FFFFFF",
+          "background": "#00D2FF"
+        }
+      }
+    },
     "explorer": {
-      "defaultView": "dao"
+      "defaultView": "dao",
+      "defaultColumnCount": 3
     },
     "topMenu": [
       {
@@ -25,7 +36,25 @@
     "header": {
       "background": "#000000",
       "buttonColor": "#45B4F2",
-      "link": "https://ixo.world/"
+      "link": "https://ixo.world/",
+      "tabs": {
+        "background": "#01273A",
+        "color": "white",
+        "active": {
+          "background": "#20798C",
+          "color": "#FFFFFF"
+        },
+        "assistant": {
+          "to": "#0C5173",
+          "right": "#002A3F",
+          "color": "#FFFFFF",
+          "active": {
+            "to": "#20798C",
+            "right": "#20798C",
+            "color": "#FFFFFF"
+          }
+        }
+      }
     },
     "footer": {
       "mailTo": {

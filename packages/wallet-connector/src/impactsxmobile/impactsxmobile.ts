@@ -40,6 +40,21 @@ export class SignXWallet {
     return this.signXClient.transactSequence
   }
 
+  async initTransactionWithTxBody(sequence: number, txBody: Uint8Array, wallet: Wallet) {
+    return {
+      timeout: this.timeout,
+      data: await this.signXClient.transact({
+        address: wallet.address,
+        did: wallet.did!,
+        pubkey: toHex(wallet.pubKey),
+        timestamp: new Date().toISOString(),
+        transactions: [{
+          sequence: sequence, txBodyHex: toHex(txBody)
+        }],
+      }),
+    };
+  }
+
   async initTransaction(sequence: number, data: any, wallet: Wallet) {
     const registry = createRegistry();
     return {

@@ -7,7 +7,6 @@ import { useAccount } from 'hooks/account'
 import { TEntityModel } from 'types/entities'
 import { FlexBox } from 'components/App/App.styles'
 import { useGetAssetDevicesByCollectionIdAndOwner } from 'graphql/entities'
-import { getMappedCDNURL } from '@ixo-webclient/utils'
 
 const CollectionCard: React.FC<any> = (apiEntity) => {
   const theme: any = useTheme()
@@ -54,7 +53,7 @@ const CollectionCard: React.FC<any> = (apiEntity) => {
     >
       <FlexBox
         position='relative'
-        background={`url(${getMappedCDNURL(image!)})`}
+        background={`url(${image!})`}
         $backgroundPosition='center center'
         $backgroundSize='cover'
         $backgroundRepeat='no-repeat'
@@ -77,7 +76,7 @@ const CollectionCard: React.FC<any> = (apiEntity) => {
           transform='translateY(-50%)'
           width='32px'
           height='32px'
-          background={`url(${getMappedCDNURL(logo!)}), white`}
+          background={`url(${logo!}), white`}
           $backgroundPosition='center center'
           $backgroundSize='100% 100%'
           $borderRadius='100%'

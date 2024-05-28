@@ -109,7 +109,7 @@ const DataCard: React.FunctionComponent<Props> = ({
         <CardTop>
           <CardTopContainer
             style={{
-              backgroundImage: `url(https://ipfs.io/ipfs/${image.replace('web3:', '')}),url(${
+              backgroundImage: `url(${image}),url(${
                 requireCheckDefault(require('assets/images/ixo-placeholder-large.jpg')).default
               })`,
             }}
@@ -129,7 +129,7 @@ const DataCard: React.FunctionComponent<Props> = ({
               </SDG>
             </div>
             <div className='col-6 text-right'>
-              <Logo src={`https://ipfs.io/ipfs/${logo.replace('web3:', '')}`} />
+              <Logo src={`${logo}`} />
             </div>
           </div>
           <MainContent style={{ margin: '0.5rem 0' }}>
