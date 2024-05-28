@@ -10,7 +10,7 @@ const Companion = () => {
   if (!isCompanionOpen) return null
 
   return (
-    <Flex pos='absolute' h='100%' w='100%' bg='transparent' c='white' top={76} style={{ zIndex: 5 }}>
+    <Flex pos='absolute' h='100%' w='100%' bg='transparent' c='white' top={75} style={{ zIndex: 5 }}>
       <Flex w='100%' h='100%'>
         <Flex flex={1}>
           <ChatHistory />
