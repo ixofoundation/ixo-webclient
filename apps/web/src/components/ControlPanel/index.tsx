@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import CircleTab from './components/CircleTab'
 import { ReactComponent as ProfileIcon } from 'assets/images/icon-profile.svg'
 // import { ReactComponent as BellIcon } from 'assets/images/icon-bell.svg'

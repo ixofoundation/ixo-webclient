@@ -217,6 +217,7 @@ export interface EntityConfig extends EntityTypeStrategyMap {
     }[]
     explorer?: {
       defaultView: string
+      defaultColumnCount: number
       design?: {
         card: {
           borderRadius?: number | string
