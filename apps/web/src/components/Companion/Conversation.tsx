@@ -6,11 +6,14 @@ import { useEffect } from 'react';
 import { MessageBox } from './MessageBox';
 
 const Conversation = () => {
-  const { messages, newChat } = useCompanion();
+  const { messages, newChat, assistant, sendMessage } = useCompanion();
 
   useEffect(() => {
-    newChat();
-  }, [newChat]);
+    if(assistant){
+      newChat();
+    }
+  }, [assistant, newChat]);
+
 
   return (
     <Flex bg="black" h="100%" w="100%" align="center" direction="column">
@@ -39,7 +42,7 @@ const Conversation = () => {
           </Flex>
         </Flex>
       </ScrollArea>
-      <MessageBox />
+      <MessageBox sendMessage={sendMessage}/>
     </Flex>
   );
 };

@@ -1211,7 +1211,7 @@
   "oracle": {
     "title": "Oracle",
     "plural": "Oracles",
-    "themeColor": "#AD245C",
+    "themeColor": "#20798C",
     "headerSchema": {
       "@context": "https://schema.ixo.foundation/oracle",
       "@type": "Header",
