@@ -1,4 +1,3 @@
-import { DaoIcon } from 'components/Icons'
 import { BsBarChart } from 'react-icons/bs'
 import { ImDroplet } from 'react-icons/im'
 import { LuCircleDashed } from 'react-icons/lu'
@@ -60,7 +59,7 @@ export const tabs = {
           oracle: [
             {
               label: 'ORACLE',
-              icon: DaoIcon,
+              icon: LuCircleDashed,
               isActive: isActivePath(path, `/entity/${params.entityId}/overview`),
               path: `/entity/${params.entityId}/overview`,
             },
@@ -71,6 +70,34 @@ export const tabs = {
               path: `/entity/${params.entityId}/dashboard`,
             },
           ],
+          protocol: [
+            {
+              label: 'PROTOCOL',
+              icon: LuCircleDashed,
+              isActive: isActivePath(path, `/entity/${params.entityId}/overview`),
+              path: `/entity/${params.entityId}/overview`,
+            },
+            {
+              label: 'DASHBOARD',
+              icon: BsBarChart,
+              isActive: isActivePath(path, `/entity/${params.entityId}/dashboard`),
+              path: `/entity/${params.entityId}/dashboard`,
+            },
+          ],
+          asset: [
+            {
+              label: 'ASSET',
+              icon: LuCircleDashed,
+              isActive: isActivePath(path, `/entity/${params.entityId}/overview`),
+              path: `/entity/${params.entityId}/overview`,
+            },
+            {
+              label: 'DASHBOARD',
+              icon: BsBarChart,
+              isActive: isActivePath(path, `/entity/${params.entityId}/dashboard`),
+              path: `/entity/${params.entityId}/dashboard`,
+            },
+          ]
         }[entity] ?? []
       )
     },
