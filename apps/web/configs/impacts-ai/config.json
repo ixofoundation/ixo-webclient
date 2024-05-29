@@ -38,14 +38,14 @@
     "topMenu": [
       {
         "item": "create",
-        "visible": true
+        "visible": false
       }
     ],
     "header": {
       "background": "#F9F9F9",
       "buttonColor": "#000000",
       "borderColor": "#000000",
-      "link": "https://marketplace.impacts.ai/explore?type=dao",
+      "link": "https://www.impacts.ai/",
       "tabs": {
         "background": "#FFFFFF",
         "borderColor": "#000000",
@@ -74,7 +74,7 @@
       "address": "68 Circular Road, #02-01, 049422, Singapore",
       "privacyPolicy": {
         "text": "Privacy policy",
-        "href": "https://www.ixo.world/privacy-policy"
+        "href": "https://www.impacts.ai/privacy-policy"
       },
       "socials": {}
     }
