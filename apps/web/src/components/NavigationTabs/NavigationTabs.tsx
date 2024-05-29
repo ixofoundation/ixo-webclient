@@ -9,6 +9,7 @@ import { useCompanion } from 'hooks/useCompanion'
 import { ReactComponent as AssistantIcon } from 'assets/images/icon-assistant.svg'
 import { tabs } from './tabs'
 import { useTabDesignConfig } from 'hooks/userInterface/useTabDesignConfig'
+import { toRootEntityType } from 'utils/entities'
 
 const NavigationTabsContainer = ({ children, border }: { children: ReactNode; border?: string }) => {
   return (
@@ -54,7 +55,8 @@ const NavigationTabs = () => {
     assistantActiveColor,
   } = useTabDesignConfig()
 
-  const type = lowerCase(exploreType ?? entity?.type ?? '')
+  const type = lowerCase(exploreType ?? toRootEntityType(entity?.type) ?? '')
+
   const { pathname } = useLocation()
 
   if (!isWhiteListed(pathname)) {

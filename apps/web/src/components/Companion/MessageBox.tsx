@@ -1,10 +1,8 @@
 import { ActionIcon, Box, Flex, TextInput } from '@mantine/core'
-import { useCompanion } from 'hooks/useCompanion'
 import { useState } from 'react'
 import { LiaArrowRightSolid, LiaBroomSolid, LiaHeadphonesAltSolid, LiaUndoAltSolid } from 'react-icons/lia'
 
-export const MessageBox = () => {
-  const { sendMessage } = useCompanion()
+export const MessageBox = ({ sendMessage }: { sendMessage: (message: string) => Promise<void>}) => {
   const [message, setMessage] = useState('')
   const [loading, setLoading] = useState(false)
 
