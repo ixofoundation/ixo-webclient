@@ -10,8 +10,6 @@ import { useCompanionContext } from 'contexts/CompanionContext'
 
 const ASSISTANT_API_KEY = process.env.REACT_APP_ASSISTANT_API_KEY
 
-let assistant: Assistant | undefined
-
 export const decodeTransactionBody = (txBody: Uint8Array) => {
   const registry = createRegistry()
   const decodedTxBody = cosmos.tx.v1beta1.TxBody.decode(txBody)
@@ -25,6 +23,7 @@ export const decodeTransactionBody = (txBody: Uint8Array) => {
 
 export const useCompanion = () => {
   const { wallet, executeTxBody, execute, close } = useWallet()
+  const [assistant, setAssistant] = React.useState<Assistant | null>(null)
   const [messages, setMessages] = React.useState<ChatMessage[]>([])
   const {
     isCompanionOpen,
@@ -38,8 +37,8 @@ export const useCompanion = () => {
   } = useCompanionContext()
 
   useEffect(() => {
-    if (ASSISTANT_API_KEY && wallet?.address && wallet?.did && chainNetwork) {
-      assistant = new Assistant({
+    if (ASSISTANT_API_KEY && wallet?.address && wallet?.did && chainNetwork && !assistant) {
+      const assistant = new Assistant({
         apiKey: ASSISTANT_API_KEY ?? '',
         address: wallet?.address ?? '',
         did: wallet?.did ?? '',
@@ -47,10 +46,11 @@ export const useCompanion = () => {
         // Optional: assistantUrl
       })
       console.log('Assistant initialized:', assistant)
+      setAssistant(assistant)
     } else {
       console.warn('Assistant could not be initialized:', { ASSISTANT_API_KEY, wallet, chainNetwork })
     }
-  }, [wallet])
+  }, [wallet, assistant, setAssistant])
 
   useEffect(() => {
     if (!assistant) return
@@ -75,7 +75,7 @@ export const useCompanion = () => {
     return () => {
       assistant?.unsubscribe(observer)
     }
-  }, [executeTxBody, close, execute])
+  }, [executeTxBody, close, execute, assistant])
 
   const sendMessage = useCallback(async (message: string) => {
     if (!assistant) {
@@ -85,10 +85,10 @@ export const useCompanion = () => {
     try {
       const newMessages = await assistant.chat(false, message)
       setMessages([...newMessages])
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error sending message:', error)
     }
-  }, [])
+  }, [assistant])
 
   const newChat = useCallback(async () => {
     if (!assistant) {
@@ -101,7 +101,7 @@ export const useCompanion = () => {
     } catch (error) {
       console.error('Error starting new chat:', error)
     }
-  }, [])
+  }, [assistant])
 
   return {
     messages,
