@@ -1,4 +1,4 @@
-import { ActionIcon, Button, Flex, Text } from '@mantine/core'
+import { ActionIcon, Button, Flex, Text, Tooltip } from '@mantine/core'
 import { useQuery } from 'hooks/window'
 import { lowerCase } from 'lodash'
 import { ReactNode } from 'react'
@@ -87,7 +87,7 @@ const NavigationTabs = () => {
             radius='0'
             h='42px'
             p='sm'
-            style={{ ...(tabBorderColor && { borderRight: `1px solid ${tabBorderColor}` }), outline: "none" }}
+            style={{ ...(tabBorderColor && { borderRight: `1px solid ${tabBorderColor}` }), outline: 'none' }}
           >
             <Text c={isActive && !isCompanionOpen ? tabActiveColor : tabColor} fz='sm'>
               {label}
@@ -96,20 +96,34 @@ const NavigationTabs = () => {
         </NavLink>
       ))}
       <Flex justify={'center'} align={'center'}>
-        <ActionIcon
-          variant='filled'
-          aria-label='Settings'
-          h={'100%'}
-          w='50px'
-          radius={0}
-          bg={isCompanionOpen ? assistantActiveBackground : assistantBackground}
-          onClick={handleAssistantClick}
+        <Tooltip
+          label='Companion'
+          color='white'
+          c='black'
+          position='bottom'
+          offset={10}
+          withArrow
+          arrowSize={5}
+          radius={5}
+          fz='lg'
+          p={10}
+          style={{ boxShadow: '0px 0px 20px rgba(0, 0, 0, 0.2)' }}
         >
-          <AssistantIcon
-            stroke={isCompanionOpen ? assistantActiveColor : assistantColor}
-            fill={isCompanionOpen ? assistantActiveColor : assistantColor}
-          />
-        </ActionIcon>
+          <ActionIcon
+            variant='filled'
+            aria-label='Settings'
+            h={'100%'}
+            w='50px'
+            radius={0}
+            bg={isCompanionOpen ? assistantActiveBackground : assistantBackground}
+            onClick={handleAssistantClick}
+          >
+            <AssistantIcon
+              stroke={isCompanionOpen ? assistantActiveColor : assistantColor}
+              fill={isCompanionOpen ? assistantActiveColor : assistantColor}
+            />
+          </ActionIcon>
+        </Tooltip>
       </Flex>
     </NavigationTabsContainer>
   )
