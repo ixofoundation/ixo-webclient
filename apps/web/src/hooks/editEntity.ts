@@ -196,6 +196,33 @@ export default function useEditEntity(): {
     return messages
   }
 
+  const getEditedCreatorMsgs = async (): Promise<readonly EncodeObject[]> => {
+    if (JSON.stringify(editEntity.creator) === JSON.stringify(currentEntity.creator)) {
+      return []
+    }
+    const service = getUsedService(
+      editEntity.linkedResource.find((v) => v.id === `{id}#creator`)?.serviceEndpoint,
+    )
+    const res = await SaveProfile(editEntity.creator, service)
+    if (!res) {
+      throw new Error('Save Creator failed!')
+    }
+
+    const newLinkedResource: LinkedResource = {
+      id: '{id}#creator',
+      type: 'VerifiableCredential',
+      description: 'Creator',
+      mediaType: 'application/ld+json',
+      serviceEndpoint: LinkedResourceServiceEndpointGenerator(res, service),
+      proof: LinkedResourceProofGenerator(res, service),
+      encrypted: 'false',
+      right: '',
+    }
+
+    const messages: readonly EncodeObject[] = GetReplaceLinkedResourceMsgs(editEntity.id, signer, newLinkedResource)
+    return messages
+  }
+
   const getEditedAdministratorMsgs = async (): Promise<readonly EncodeObject[]> => {
     if (JSON.stringify(editEntity.administrator) === JSON.stringify(currentEntity.administrator)) {
       return []
@@ -559,6 +586,7 @@ export default function useEditEntity(): {
       ...(await getEditedVerificationMethodMsgs()),
       ...(await getEditedSurveyTemplateMsgs()),
       ...(await getEditedServiceMsgs()),
+      ...(await getEditedCreatorMsgs()),  
     ]
   }
 
