@@ -2,20 +2,22 @@ import ControlPanel from 'components/ControlPanel'
 import { useQuery } from 'hooks/window'
 import ClaimForm from './ClaimForm'
 import { OverviewHero } from '../Components'
-import { LinkedFiles } from './LinkedFiles'
 import { PageContent } from './PageContent'
 import OfferForm from './OfferForm'
 import { AgentRoles } from 'types/models'
-import { Flex, ScrollArea, Table, Tabs, Text, rem } from '@mantine/core'
+import { Flex, ScrollArea, Tabs, Text, rem } from '@mantine/core'
 import PageContentLegacy from './PageContentLegacy'
 import { useEntityOverview } from 'hooks/entity/useEntityOverview'
 import { useParams } from 'react-router-dom'
 import { useEffect, useMemo } from 'react'
 import { toRootEntityType } from 'utils/entities'
-import { useKeyValueViewerContext } from 'contexts/KeyValueViewerContext'
 import { selectEntityConfig } from 'redux/configs/configs.selectors'
 import { useAppSelector } from 'redux/hooks'
 import { useTheme } from 'styled-components'
+import KeyValueTable, { friendlyLinkedResourceNames, getLinkedResourceIcons } from 'components/KeyValueTable'
+import { upperFirst } from 'lodash'
+import { Column } from 'components/KeyValueTable/KeyValueTable'
+import { LiaHddSolid } from 'react-icons/lia'
 
 const Overview: React.FC = () => {
   const { getQuery } = useQuery()
@@ -23,7 +25,6 @@ const Overview: React.FC = () => {
   const claimCollectionId = getQuery('collectionId')
   const agentRole: AgentRoles = getQuery('agentRole') as AgentRoles
   const { entityId = '' } = useParams<{ entityId: string }>()
-  const { setKeyValue } = useKeyValueViewerContext()
   const theme: any = useTheme()
   const config = useAppSelector(selectEntityConfig)
   const primaryColor = config.theme.primaryColor ?? theme.ixoNewBlue
@@ -35,10 +36,10 @@ const Overview: React.FC = () => {
     profile,
     startDate,
     refetch,
-    linkedFiles,
     accordedRight,
     service,
     type = '',
+    linkedResource = []
   } = useEntityOverview(entityId)
 
   const { logo, creatorName, name, description, location } = useMemo(() => {
@@ -56,6 +57,30 @@ const Overview: React.FC = () => {
       refetch()
     }
   }, [refetch, page, pageLegacy])
+
+  const servicesColumns: Column[] = [{
+    title: '',
+    render: (row: any) => <LiaHddSolid size={24} color={primaryColor} />,
+    style: { style: { width: rem(40) } }
+  }, {
+    title: 'type',
+    render: (row: any) => row.type,
+  }, {
+    title: 'Name',
+    render: (row: any) => upperFirst(row?.id.split("#")[1]),
+  }]
+
+  const linkedResourceColumns: Column[] = [{
+    title: '',
+    render: (row: any) => getLinkedResourceIcons(row.mediaType, { color: primaryColor}),
+    style: { style: { width: rem(40) } }
+  }, {
+    title: 'Type',
+    render: (row: any) => friendlyLinkedResourceNames(row.mediaType),
+  }, {
+    title: 'Name',
+    render: (row: any) => upperFirst(row?.id.split("#")[1]),
+  }]
 
   return (
     <Flex w='100%' h='100%' bg='#F8F9FD'>
@@ -110,28 +135,7 @@ const Overview: React.FC = () => {
 
             <Tabs.Panel value='services'>
               <Flex w='100%' justify={'center'} align={'center'}>
-                <Table
-                  verticalSpacing='lg'
-                  mt={20}
-                  w='70%'
-                  withRowBorders={false}
-                  style={{ borderCollapse: 'separate', borderSpacing: `0 ${rem(5)}` }}
-                >
-                  <Table.Thead>
-                    <Table.Tr>
-                      <Table.Th>Type</Table.Th>
-                      <Table.Th>Name</Table.Th>
-                    </Table.Tr>
-                  </Table.Thead>
-                  <Table.Tbody>
-                    {service?.map((service) => (
-                      <Table.Tr key={service.id} p={10} bg='#EBEBEB' onClick={() => setKeyValue(service)}>
-                        <Table.Td>{service.type}</Table.Td>
-                        <Table.Td>{service.serviceEndpoint}</Table.Td>
-                      </Table.Tr>
-                    ))}
-                  </Table.Tbody>
-                </Table>
+                <KeyValueTable columns={servicesColumns} data={service} />
               </Flex>
             </Tabs.Panel>
 
@@ -142,7 +146,7 @@ const Overview: React.FC = () => {
             </Tabs.Panel>
             <Tabs.Panel value='resources'>
               <Flex w='100%' justify={'center'} align={'center'}>
-                <LinkedFiles linkedFiles={linkedFiles} service={service} />
+                <KeyValueTable columns={linkedResourceColumns} data={linkedResource} />
               </Flex>
             </Tabs.Panel>
           </Tabs>
