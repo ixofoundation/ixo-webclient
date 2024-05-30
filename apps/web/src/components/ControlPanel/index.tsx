@@ -1,6 +1,4 @@
 import React from 'react'
-import CircleTab from './components/CircleTab'
-import { ReactComponent as ProfileIcon } from 'assets/images/icon-profile.svg'
 // import { ReactComponent as BellIcon } from 'assets/images/icon-bell.svg'
 // import { ReactComponent as CommentIcon } from 'assets/images/icon-comment-alt.svg'
 import { ReactComponent as AssistantIcon } from 'assets/images/icon-assistant.svg'
@@ -28,7 +26,6 @@ import { startCase, truncate } from 'lodash'
 import { LiaArrowLeftSolid, LiaBoltSolid, LiaPlaySolid } from 'react-icons/lia'
 import { useCompanionContext } from 'contexts/CompanionContext'
 import { useCompanionDesignConfig } from 'hooks/userInterface/useCompanionDesignConfig'
-import { Document, Page } from 'react-pdf'
 
 const StyledScrollArea = styled(ScrollArea)`
   & > div > div {
