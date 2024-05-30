@@ -16,6 +16,9 @@ import CopyToClipboard from 'react-copy-to-clipboard'
 import { successToast } from 'utils/toast'
 import LatestClaims from './LatestClaims'
 import EvaluatedClaims from './EvaluatedClaims'
+import { useParams } from 'react-router-dom'
+import { useAppSelector } from 'redux/hooks'
+import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
@@ -38,7 +41,8 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 
 const Overview: React.FC = () => {
   const theme: any = useTheme()
-  const { currentEntity } = useCurrentEntity()
+  const { entityId = "" } = useParams<{ entityId: string }>()
+  const currentEntity = useAppSelector(getEntityById(entityId))
 
   const claimEvaluationData = [
     { claims: 1 },

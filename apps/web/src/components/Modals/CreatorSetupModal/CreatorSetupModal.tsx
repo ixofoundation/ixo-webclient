@@ -109,6 +109,7 @@ const CreatorSetupModal: React.FC<Props> = ({ creator, title, open, onClose, onC
     if (!base64EncodedImage || !cellNodeEndpoint) {
       return
     }
+
     setLoading(true)
 
     uploadPublicDoc(base64EncodedImage.split(',')[1], imgContentType)
@@ -121,7 +122,7 @@ const CreatorSetupModal: React.FC<Props> = ({ creator, title, open, onClose, onC
           }
         }
       })
-      .catch(() => {
+      .catch((error) => {
         setLoading(false)
       })
   }
