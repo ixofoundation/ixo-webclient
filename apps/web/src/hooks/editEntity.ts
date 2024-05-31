@@ -7,6 +7,8 @@ import {
 } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import BigNumber from 'bignumber.js'
 import {
+  AddService,
+  DeleteService,
   fee,
   GetAddLinkedClaimMsgs,
   GetAddLinkedEntityMsgs,
@@ -116,7 +118,13 @@ export default function useEditEntity(): {
     if (JSON.stringify(editEntity.profile) === JSON.stringify(currentEntity.profile)) {
       return []
     }
-    const service = getUsedService(editEntity.settings.Profile.serviceEndpoint)
+    console.log(editEntity.settings?.Profile?.serviceEndpoint)
+    const service = editEntity?.settings?.Profile?.serviceEndpoint ? getUsedService(editEntity.settings.Profile?.serviceEndpoint) : {
+      id: '{id}#ipfs',
+      type: NodeType.Ipfs,
+      serviceEndpoint: 'https://ipfs.io/ipfs',
+    }
+
     const res = await SaveProfile(editEntity.profile, service)
     if (!res) {
       throw new Error('Save Profile failed!')
@@ -133,7 +141,7 @@ export default function useEditEntity(): {
       right: '',
     }
 
-    const messages: readonly EncodeObject[] = GetReplaceLinkedResourceMsgs(editEntity.id, signer, newLinkedResource)
+    const messages: readonly EncodeObject[] = GetReplaceLinkedResourceMsgs(editEntity.id, signer, newLinkedResource, editEntity.settings?.Profile)
     return messages
   }
 
@@ -177,6 +185,33 @@ export default function useEditEntity(): {
       id: '{id}#surveyTemplate',
       type: 'surveyTemplate',
       description: '',
+      mediaType: 'application/ld+json',
+      serviceEndpoint: LinkedResourceServiceEndpointGenerator(res, service),
+      proof: LinkedResourceProofGenerator(res, service),
+      encrypted: 'false',
+      right: '',
+    }
+
+    const messages: readonly EncodeObject[] = GetReplaceLinkedResourceMsgs(editEntity.id, signer, newLinkedResource)
+    return messages
+  }
+
+  const getEditedCreatorMsgs = async (): Promise<readonly EncodeObject[]> => {
+    if (JSON.stringify(editEntity.creator) === JSON.stringify(currentEntity.creator)) {
+      return []
+    }
+    const service = getUsedService(
+      editEntity.linkedResource.find((v) => v.id === `{id}#creator`)?.serviceEndpoint,
+    )
+    const res = await SaveProfile(editEntity.creator, service)
+    if (!res) {
+      throw new Error('Save Creator failed!')
+    }
+
+    const newLinkedResource: LinkedResource = {
+      id: '{id}#creator',
+      type: 'VerifiableCredential',
+      description: 'Creator',
       mediaType: 'application/ld+json',
       serviceEndpoint: LinkedResourceServiceEndpointGenerator(res, service),
       proof: LinkedResourceProofGenerator(res, service),
@@ -397,6 +432,12 @@ export default function useEditEntity(): {
   }
 
   const getEditedLinkedClaimMsgs = async (): Promise<readonly EncodeObject[]> => {
+    const editedLinkedClaim = editEntity.linkedClaim
+    const currentLinkedClaim = currentEntity.linkedClaim
+    if (JSON.stringify(editedLinkedClaim) === JSON.stringify(currentLinkedClaim)) {
+      return []
+    }
+
     let messages: readonly EncodeObject[] = []
 
     const service = getUsedService(editEntity.linkedClaim[0]?.serviceEndpoint)
@@ -494,6 +535,42 @@ export default function useEditEntity(): {
     return messages
   }
 
+  const getEditedServiceMsgs = async (): Promise<readonly EncodeObject[]> => {
+    const editedServices = editEntity.service
+    const currentServices = currentEntity.service
+    if (JSON.stringify(editedServices) === JSON.stringify(currentServices)) {
+      return []
+    }
+
+    const addedServices = editedServices.filter(
+      (item: Service) => !currentServices.map((item: Service) => JSON.stringify(item)).includes(JSON.stringify(item)),
+    )
+
+    const deletedServices = currentServices.filter(
+      (item: Service) => !editedServices.map((item: Service) => JSON.stringify(item)).includes(JSON.stringify(item)),
+    )
+
+    const messages = [
+      ...addedServices.reduce(
+        (acc: EncodeObject[], cur: Service) => [
+          ...acc,
+          ...AddService(signer, { entityId: editEntity.id, service: cur }),
+        ],
+        [],
+      ),
+      ...deletedServices.reduce(
+        (acc: EncodeObject[], cur: Service) => [
+          ...acc,
+          ...DeleteService(signer, { entityId: editEntity.id, serviceId: cur.id }),
+        ],
+        [],
+      ),
+    ]
+
+    return messages
+  }
+
+
   const getEditedMsgs = async (): Promise<readonly EncodeObject[]> => {
     return [
       ...(await getEditedStartAndEndDateMsgs()),
@@ -508,6 +585,8 @@ export default function useEditEntity(): {
       ...(await getEditedLinkedClaimMsgs()),
       ...(await getEditedVerificationMethodMsgs()),
       ...(await getEditedSurveyTemplateMsgs()),
+      ...(await getEditedServiceMsgs()),
+      ...(await getEditedCreatorMsgs()),  
     ]
   }
 

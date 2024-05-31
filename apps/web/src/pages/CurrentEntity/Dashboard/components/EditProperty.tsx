@@ -5,6 +5,7 @@ import { PropertiesForm } from 'pages/CreateEntity/Forms'
 import {
   TEntityAdministratorModel,
   TEntityClaimModel,
+  TEntityCreatorModel,
   TEntityDDOTagModel,
   TEntityPageModel,
   TEntityServiceModel,
@@ -18,6 +19,11 @@ const EditProperty: React.FC = (): JSX.Element => {
 
   const updateAdministrator = useCallback((administrator: TEntityAdministratorModel) => {
     setEditedField('administrator', administrator)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const updateCreator = useCallback((creator: TEntityCreatorModel) => {
+    setEditedField('creator', creator)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   const updateDDOTags = useCallback((ddoTags: TEntityDDOTagModel[]) => {
@@ -67,6 +73,7 @@ const EditProperty: React.FC = (): JSX.Element => {
       linkedEntity: Object.fromEntries(
         (editEntity.linkedEntity ?? []).map((item) => [item.id.replace('{id}#', ''), item]),
       ),
+      updateCreator,
       updateAdministrator,
       updateDDOTags,
       updatePage,
