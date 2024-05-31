@@ -1,5 +1,4 @@
 import { FlexBox, SvgBox } from 'components/App/App.styles'
-import useCurrentEntity from 'hooks/currentEntity'
 import { Card } from 'pages/CurrentEntity/Components'
 import { OracleCard } from 'components/EntityCards/OracleCard'
 import React from 'react'
