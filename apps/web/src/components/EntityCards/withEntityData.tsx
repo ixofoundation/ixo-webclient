@@ -1,5 +1,6 @@
 import { isPlainObject } from 'lodash'
 import { TEntityClaimModel, TEntityModel } from 'types/entities'
+import { toRootEntityType } from 'utils/entities';
 import { isExpired } from 'utils/time'
 
 export function withEntityData(Component: React.ComponentType<any>) {
@@ -97,6 +98,28 @@ export function transformEntityData(entity: TEntityModel): any {
       logo: entity.profile?.logo,
       tags: entity.tags?.slice(0, 2),
       type: '',
+      assetNumber: '',
+      maxSupply: 0,
+    }
+  }
+
+  if(toRootEntityType(entity?.type) === 'oracle') {
+    return {
+      ...entity,
+      id: entity.id,
+      collectionName: entity.profile?.name,
+      cardImage: entity.profile?.image,
+      metrics: {
+        minted: entity?.metrics?.minted,
+        totalEvaluatedClaims: entity?.metrics?.totalEvaluatedClaims,
+        approvedPercentage: entity?.metrics?.approvedPercentage,
+      },
+      creator: entity.creator?.displayName,
+      animation: entity.zlottie,
+      title: entity.profile?.brand,
+      logo: entity.profile?.logo,
+      tags: entity.tags?.slice(0, 2),
+      type: entity.type,
       assetNumber: '',
       maxSupply: 0,
     }

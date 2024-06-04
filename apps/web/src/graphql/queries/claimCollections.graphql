@@ -1,0 +1,11 @@
+query ClaimCollections($filter: ClaimCollectionFilter) {
+  claimCollections(filter: $filter) {
+    nodes {
+      rejected
+      approved
+      count
+      evaluated
+      entity
+    }
+  }
+}
