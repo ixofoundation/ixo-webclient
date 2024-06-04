@@ -1,7 +1,7 @@
 import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { Card } from 'pages/CurrentEntity/Components'
 import { OracleCard } from 'components/EntityCards/OracleCard'
-import React, { useEffect, useMemo } from 'react'
+import React from 'react'
 import { ReactComponent as PiePieceIcon } from 'assets/images/icon-pie-piece.svg'
 import { Typography } from 'components/Typography'
 import { useTheme } from 'styled-components'
@@ -17,91 +17,25 @@ import EvaluatedClaims from './EvaluatedClaims'
 import { useParams } from 'react-router-dom'
 import { useAppSelector } from 'redux/hooks'
 import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
-import {
-  useClaimCollectionsQuery,
-  useEvaluationsQuery,
-  useGetTokensTotalForCollectionAmountsLazyQuery,
-} from 'generated/graphql'
 import CountUp from 'react-countup'
 import OracleClaimEvaluation from 'components/Graphs/OracleClaimEvaluation'
-
-
+import { useCarbonOracleClaimAggregate } from 'hooks/oracle/useCarbonOracleClaimAggregate'
 
 const Overview: React.FC = () => {
   const theme: any = useTheme()
   const { entityId = '' } = useParams<{ entityId: string }>()
   const currentEntity = useAppSelector(getEntityById(entityId))
-  const [{ minted }, setEvaluationMetrics] = React.useState<{ minted: number; retired: number }>({
-    minted: 0,
-    retired: 0,
+
+  const { minted, totalEvaluatedClaims, approvedPercentage, evaluationsData } = useCarbonOracleClaimAggregate({
+    entityIds: [entityId],
   })
-
-  const { data: evaluationsData } = useEvaluationsQuery({
-    variables: {
-      filter: {
-        oracle: {
-          equalTo: entityId,
-        },
-      },
-    },
-  })
-
-  const { data: claimCollectionData } = useClaimCollectionsQuery({
-    variables: {
-      filter: {
-        id: {
-          in: evaluationsData?.evaluations?.nodes.map((evaluation) => evaluation?.collectionId),
-        },
-      },
-    },
-  })
-
-  const [getTotalTokens] = useGetTokensTotalForCollectionAmountsLazyQuery()
-
-  const oracleCollectionIds = useMemo(() => {
-    return claimCollectionData?.claimCollections?.nodes.map((collection) => collection.entity) ?? []
-  }, [claimCollectionData?.claimCollections?.nodes])
-
-  useEffect(() => {
-    if (oracleCollectionIds.length > 0) {
-      oracleCollectionIds.forEach(async (collectionId) => {
-        const results = await getTotalTokens({ variables: { did: collectionId } })
-        setEvaluationMetrics((prev) => {
-          return {
-            minted: prev.minted + (results.data?.getTokensTotalForCollectionAmounts?.CARBON?.minted ?? 0),
-            retired: prev.retired + (results.data?.getTokensTotalForCollectionAmounts?.CARBON?.retired ?? 0),
-          }
-        })
-      })
-    }
-  }, [oracleCollectionIds, getTotalTokens])
-
-  const totalEvaluatedClaims = useMemo(() => {
-    return (
-      claimCollectionData?.claimCollections?.nodes.reduce((acc, collection) => {
-        return acc + collection.evaluated
-      }, 0) ?? 0
-    )
-  }, [claimCollectionData?.claimCollections?.nodes])
-
-  const claimsApproved = useMemo(() => {
-    return (
-      claimCollectionData?.claimCollections?.nodes.reduce((acc, collection) => {
-        return acc + collection.approved
-      }, 0) ?? 0
-    )
-  }, [claimCollectionData?.claimCollections?.nodes])
-
-  const approvedPercentage = useMemo(() => {
-    return (claimsApproved / (totalEvaluatedClaims ?? 0)) * 100
-  }, [claimsApproved, totalEvaluatedClaims])
 
   const model = currentEntity.profile?.attributes.find((attr) => attr.key === 'Mechanism')?.value
   const creator = currentEntity.profile?.brand
   const startDate = currentEntity.startDate
   const endDate = currentEntity.endDate
 
-  const oracleEntity = {...currentEntity, metrics: { minted, totalEvaluatedClaims, approvedPercentage  }}
+  const oracleEntity = { ...currentEntity, metrics: { minted, totalEvaluatedClaims, approvedPercentage } }
 
   const renderOracleStats = () => (
     <Card icon={<PiePieceIcon />} label='Oracle Stats'>
@@ -131,9 +65,7 @@ const Overview: React.FC = () => {
       {endDate && (
         <FlexBox width='100%' $justifyContent='space-between'>
           <Typography size='md'>Expires</Typography>
-          <Typography size='md'>
-            {moment(endDate as any).format('DD MMM YYYY')}
-          </Typography>
+          <Typography size='md'>{moment(endDate as any).format('DD MMM YYYY')}</Typography>
         </FlexBox>
       )}
 
