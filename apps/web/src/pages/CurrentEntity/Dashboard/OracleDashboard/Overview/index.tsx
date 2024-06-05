@@ -6,7 +6,6 @@ import { ReactComponent as PiePieceIcon } from 'assets/images/icon-pie-piece.svg
 import { Typography } from 'components/Typography'
 import { useTheme } from 'styled-components'
 import { ReactComponent as CopyIcon } from 'assets/images/icon-copy.svg'
-import { Bar, BarChart, ResponsiveContainer, Tooltip, YAxis } from 'recharts'
 import moment from 'moment'
 import { ReactComponent as ClockIcon } from 'assets/images/icon-clock.svg'
 import ClaimLocation from './ClaimLocation'
@@ -18,40 +17,25 @@ import EvaluatedClaims from './EvaluatedClaims'
 import { useParams } from 'react-router-dom'
 import { useAppSelector } from 'redux/hooks'
 import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
-
-const CustomTooltip = ({ active, payload, label }: any) => {
-  if (active && payload && payload.length) {
-    const timestamp = payload[0].payload?.timestamp
-    const claims = payload[0].payload?.claims
-    return (
-      <FlexBox $direction='column' background='#012131' $borderRadius='4px' px={4} py={3} $gap={1}>
-        <Typography color='white' size='md' weight='bold'>
-          {claims} verified
-        </Typography>
-        <Typography color='white' size='md' weight='bold'>
-          {moment(timestamp).format('D MMM YYYY')}
-        </Typography>
-      </FlexBox>
-    )
-  }
-
-  return null
-}
+import CountUp from 'react-countup'
+import OracleClaimEvaluation from 'components/Graphs/OracleClaimEvaluation'
+import { useCarbonOracleClaimAggregate } from 'hooks/oracle/useCarbonOracleClaimAggregate'
 
 const Overview: React.FC = () => {
   const theme: any = useTheme()
-  const { entityId = "" } = useParams<{ entityId: string }>()
+  const { entityId = '' } = useParams<{ entityId: string }>()
   const currentEntity = useAppSelector(getEntityById(entityId))
 
-  const claimEvaluationData = [
-    { claims: 1 },
-    { claims: 2 },
-    { claims: 3 },
-    { claims: 4 },
-    { claims: 5 },
-    { claims: 6 },
-    { claims: 7 },
-  ]
+  const { minted, totalEvaluatedClaims, approvedPercentage, evaluationsData } = useCarbonOracleClaimAggregate({
+    entityIds: [entityId],
+  })
+
+  const model = currentEntity.profile?.attributes.find((attr) => attr.key === 'Mechanism')?.value
+  const creator = currentEntity.profile?.brand
+  const startDate = currentEntity.startDate
+  const endDate = currentEntity.endDate
+
+  const oracleEntity = { ...currentEntity, metrics: { minted, totalEvaluatedClaims, approvedPercentage } }
 
   const renderOracleStats = () => (
     <Card icon={<PiePieceIcon />} label='Oracle Stats'>
@@ -69,46 +53,48 @@ const Overview: React.FC = () => {
       <FlexBox width='100%' $justifyContent='space-between'>
         <Typography size='md'>Creator</Typography>
         <Typography size='md' color='blue'>
-          Emerging Cooking Solutions
+          {creator}
         </Typography>
       </FlexBox>
 
       <FlexBox width='100%' $justifyContent='space-between'>
         <Typography size='md'>Created</Typography>
-        <Typography size='md'>
-          {moment(currentEntity.metadata?.created as unknown as string).format('DD MMM YYYY')}
-        </Typography>
+        <Typography size='md'>{moment(startDate as any).format('DD MMM YYYY')}</Typography>
       </FlexBox>
 
-      <FlexBox width='100%' $justifyContent='space-between'>
-        <Typography size='md'>Expires</Typography>
-        <Typography size='md'>
-          {moment(currentEntity.metadata?.created as unknown as string)
-            .add(1, 'y')
-            .format('DD MMM YYYY')}
-        </Typography>
-      </FlexBox>
+      {endDate && (
+        <FlexBox width='100%' $justifyContent='space-between'>
+          <Typography size='md'>Expires</Typography>
+          <Typography size='md'>{moment(endDate as any).format('DD MMM YYYY')}</Typography>
+        </FlexBox>
+      )}
 
       <FlexBox width='100%' background={theme.ixoWhite} height='1px' />
 
-      <FlexBox width='100%' $justifyContent='space-between'>
-        <Typography size='md'>Model</Typography>
-        <Typography size='md'>Casual AI 01</Typography>
-      </FlexBox>
+      {model && (
+        <FlexBox width='100%' $justifyContent='space-between'>
+          <Typography size='md'>Model</Typography>
+          <Typography size='md'>{model}</Typography>
+        </FlexBox>
+      )}
 
       <FlexBox width='100%' $justifyContent='space-between'>
         <Typography size='md'>Claims Evaluated</Typography>
-        <Typography size='md'>0</Typography>
+        <Typography size='md'>{totalEvaluatedClaims}</Typography>
       </FlexBox>
 
       <FlexBox width='100%' $justifyContent='space-between'>
         <Typography size='md'>Impact Verified</Typography>
-        <Typography size='md'>0 kg CO2</Typography>
+        <Typography size='md'>
+          <CountUp end={minted} duration={2} /> kg CO2
+        </Typography>
       </FlexBox>
 
       <FlexBox width='100%' $justifyContent='space-between'>
         <Typography size='md'>CARBON generated</Typography>
-        <Typography size='md'>0 CARBON</Typography>
+        <Typography size='md'>
+          <CountUp end={minted} duration={2} /> CARBON
+        </Typography>
       </FlexBox>
     </Card>
   )
@@ -127,14 +113,16 @@ const Overview: React.FC = () => {
         <FlexBox $direction='column' $justifyContent='center' $alignItems='center' $gap={4}>
           <FlexBox $gap={2} $alignItems='baseline'>
             <Typography size='5xl' color='blue'>
-              0
+              <CountUp end={minted} duration={2} />
             </Typography>
             <Typography size='xl' color='blue'>
               CARBON
             </Typography>
           </FlexBox>
           <FlexBox $gap={2}>
-            <Typography size='xl'>= 0 kg CO2 e verified</Typography>
+            <Typography size='xl'>
+              = <CountUp end={minted} duration={2} /> kg CO2 e verified
+            </Typography>
           </FlexBox>
         </FlexBox>
 
@@ -152,7 +140,7 @@ const Overview: React.FC = () => {
               Evaluated Claims
             </Typography>
             <Typography weight='bold' size='md'>
-              0
+              {totalEvaluatedClaims}
             </Typography>
           </FlexBox>
           <FlexBox $direction='column' $gap={2} $alignItems='center' p={4} width='100%' background='#012131'>
@@ -160,7 +148,7 @@ const Overview: React.FC = () => {
               Approved
             </Typography>
             <Typography weight='bold' size='md'>
-              0%
+              {approvedPercentage.toFixed(2)}%
             </Typography>
           </FlexBox>
         </FlexBox>
@@ -184,37 +172,7 @@ const Overview: React.FC = () => {
           </FlexBox>
         </FlexBox>
       </FlexBox>
-      <ResponsiveContainer width='100%' height='100%'>
-        <BarChart width={500} height={300} data={claimEvaluationData as any[]}>
-          <defs>
-            <linearGradient id='color' x1='0.5' y1='0' x2='0.5' y2='1'>
-              <stop offset='0%' stopColor='#03d0fb' />
-              <stop offset='100%' stopColor='#016480' />
-            </linearGradient>
-          </defs>
-          <defs>
-            <linearGradient id='background' x1='0.5' y1='0' x2='0.5' y2='1'>
-              <stop offset='0%' stopColor='#01293C' />
-              <stop offset='66%' stopColor='#033C50' />
-            </linearGradient>
-          </defs>
-          <YAxis
-            stroke={theme.ixoNewBlue + 88}
-            axisLine={false}
-            tickLine={false}
-            // domain={[0, 20000]}
-            tickFormatter={(value) => value.toLocaleString()}
-          />
-          <Tooltip content={<CustomTooltip />} cursor={{ fill: 'transparent' }} />
-          <Bar
-            dataKey='claims'
-            fill='url(#color)'
-            barSize={8}
-            radius={[100, 100, 100, 100]}
-            background={{ fill: 'url(#background)', radius: 100 }}
-          />
-        </BarChart>
-      </ResponsiveContainer>
+      <OracleClaimEvaluation evaluations={evaluationsData?.evaluations?.nodes ?? []} />
     </Card>
   )
 
@@ -242,7 +200,7 @@ const Overview: React.FC = () => {
     <FlexBox $direction='column' width='100%' $gap={6}>
       <FlexBox width='100%' $alignItems='stretch' $gap={6}>
         <FlexBox height='100%' style={{ flex: '0 0 300px' }}>
-          <WrappedOracleCard entity={currentEntity} />
+          <WrappedOracleCard entity={oracleEntity} />
         </FlexBox>
         {renderOracleStats()}
         {renderCreditsVerified()}

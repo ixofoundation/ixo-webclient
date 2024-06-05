@@ -654,6 +654,7 @@ export interface TEntityModel extends Omit<Entity, 'metadata'>, IidDocument {
     [key: string]: LinkedResource
   }
 
+  metrics?: Record<string, string | number>
   profile?: TEntityProfileModel
   creator?: TEntityCreatorModel
   administrator?: TEntityAdministratorModel

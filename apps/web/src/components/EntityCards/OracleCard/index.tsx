@@ -126,7 +126,7 @@ export const OracleCard: React.FC<Props> = ({
           <FlexBox $direction='column' $gap={1} width='100%' mb={2}>
             <FlexBox $gap={1} $alignItems='baseline'>
               <Typography size='md' color='black' transform='uppercase' weight='bold'>
-                {thousandSeparator('1200000', ',')}
+                {thousandSeparator(metrics?.minted, ',') ?? "N/A"}
               </Typography>
               <Typography size='md' color='black' weight='bold'>
                 kgCO2
@@ -135,17 +135,17 @@ export const OracleCard: React.FC<Props> = ({
 
             <FlexBox $gap={1} $alignItems='baseline'>
               <Typography size='sm' color='grey700'>
-                {thousandSeparator('1200000', ',')} claims
+                {thousandSeparator(metrics?.totalEvaluatedClaims, ',') ?? "N/A"} claims
               </Typography>
               <Typography size='sm' color='green'>
-                {thousandSeparator('1200000', ',')} CARBON
+                {thousandSeparator(metrics?.minted, ',') ?? "N/A"} CARBON
               </Typography>
             </FlexBox>
           </FlexBox>
 
           <FlexBox width='100%' $justifyContent='space-between' $alignItems='center'>
             <Tag>Carbon</Tag>
-            <Tag>92.1%</Tag>
+            <Tag>{metrics?.approvedPercentage?.toFixed(2) ?? "N/A"}%</Tag>
           </FlexBox>
         </FlexBox>
       </FlexBox>
