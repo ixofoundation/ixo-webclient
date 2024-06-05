@@ -8,12 +8,7 @@ import { HeaderLeft } from './HeaderLeft/HeaderLeft'
 import HeaderRight from './HeaderRight/HeaderRight'
 import { useWallet } from '@ixo-webclient/wallet-connector'
 import { NavigationTabs } from 'components/NavigationTabs'
-
-// interface Props {
-//   entityType?: EntityType
-//   headerUIConfig?: any
-// }
-
+import { Flex } from '@mantine/core'
 interface HeaderProps {
   entityType?: EntityType
   headerUIConfig?: any
@@ -41,13 +36,10 @@ const Header: React.FC<HeaderProps> = ({ entityType, headerUIConfig }) => {
       borderColor={headerUIConfig?.borderColor}
       background={customBackground}
     >
-      {/* <ModalWrapper isModalOpen={opened} handleToggleModal={handlers.toggle}>
-        <WalletConnector />
-      </ModalWrapper> */}
-      <div className='row'>
+      <Flex>
         <HeaderLeft currentEntity={entityType} openMenu={isMobileMenuOpen} handleBurgerClick={handleBurgerClick} />
         <HeaderRight toggleModal={connectWallet} />
-      </div>
+      </Flex>
       <NavigationTabs />
     </TopBar>
   )
