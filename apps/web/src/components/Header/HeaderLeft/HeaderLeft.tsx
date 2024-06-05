@@ -15,7 +15,6 @@ import {
   // MenuHeaderAnchor,
   MenuHeaderContainer,
   MenuHeaderLink,
-  MobileMenu,
   NavItems,
   // HeaderAnchor,
 } from './HeaderLeft.styles'
