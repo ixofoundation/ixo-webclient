@@ -145,7 +145,7 @@ export const OracleCard: React.FC<Props> = ({
 
           <FlexBox width='100%' $justifyContent='space-between' $alignItems='center'>
             <Tag>Carbon</Tag>
-            <Tag>{metrics?.approvedPercentage?.toFixed(2) ?? "N/A"}%</Tag>
+            <Tag>{(metrics?.approvedPercentage ?? 0).toFixed(2) ?? "N/A"}%</Tag>
           </FlexBox>
         </FlexBox>
       </FlexBox>
