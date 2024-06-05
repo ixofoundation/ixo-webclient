@@ -57,6 +57,8 @@ import { Schema as FilterSchema } from 'pages/EntitiesExplorer/Components/Entiti
 import { useNavigate } from 'react-router-dom'
 import { useQuery } from 'hooks/window'
 import { Typography } from 'components/Typography'
+import { Flex } from '@mantine/core'
+import { ExplorerEntityMenu } from 'components/ExplorerEntityMenu/ExplorerEntityMenu'
 
 // TODO - make this 2 separate components - Desktop and Mobile
 
@@ -230,7 +232,7 @@ const EntitiesFilter: FC<Props> = () => {
   return (
     <div data-testid='EntitiesFilter'>
       <FiltersWrap>
-        <FilterInfo>{title}</FilterInfo>
+        <Flex w="100%" align="center" justify={"space-between"}><FilterInfo>{title}</FilterInfo> <ExplorerEntityMenu/></Flex>
         <div className='filters'>
           {/* Desktop */}
           <MediaQuery minWidth={`${deviceWidth.desktop}px`}>
