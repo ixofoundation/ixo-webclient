@@ -8,8 +8,7 @@ import { useTheme } from 'styled-components'
 import { useWallet } from '@ixo-webclient/wallet-connector'
 import { useNavigate, NavLink } from 'react-router-dom'
 import { useDisclosure, useMediaQuery } from '@mantine/hooks'
-import { ActionIcon, Flex, Modal, Text, em } from '@mantine/core'
-import { IoMdMenu } from 'react-icons/io'
+import { Burger, Flex, Modal, Text, em } from '@mantine/core'
 import CreateEntityDropdown from '../components/CreateEntityDropdown'
 interface HeaderRightProps {
   toggleModal: () => void
@@ -51,15 +50,14 @@ const HeaderRight: React.FC<HeaderRightProps> = ({ toggleModal }): JSX.Element =
   if (isMobile) {
     return (
       <Flex justify={'center'} align={'center'}>
-        <ActionIcon variant="transparent" onClick={toggleMobileMenu}>
-          <IoMdMenu size={36} color='black' />
-        </ActionIcon>
+        <Burger opened={isMobileMenuOpen} onClick={toggleMobileMenu} aria-label="Toggle navigation" />
 
         <Modal
           opened={isMobileMenuOpen}
           onClose={toggleMobileMenu}
           fullScreen
           padding="xl"
+          yOffset="1vh"
           >
             <Flex direction={"column"} align={"center"} justify={"center"} gap={10}>
             <NavLink onClick={toggleMobileMenu} to="/explore?type=dao"><Text fz="24px" c="black">EXPLORE</Text></NavLink> 
