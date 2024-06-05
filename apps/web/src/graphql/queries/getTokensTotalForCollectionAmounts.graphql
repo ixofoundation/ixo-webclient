@@ -1,0 +1,3 @@
+query getTokensTotalForCollectionAmounts($did: String!, $name: String) {
+  getTokensTotalForCollectionAmounts(did: $did, name: $name)
+}
