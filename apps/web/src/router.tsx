@@ -31,11 +31,17 @@ import { SetupTargetGroup } from 'pages/CreateEntity/EntityPages/SetupTargetGrou
 import SetupProposalPageContent from 'pages/CreateEntity/EntityPages/SetupProposalPageContent/SetupPageContent'
 import { SetupActions } from 'pages/CurrentEntity/Dashboard/DAODashboard/Governance/CreateProposal/SetupProposalActions'
 import { ReviewProposal } from 'pages/CurrentEntity/Dashboard/DAODashboard/Governance/CreateProposal/ReviewProposal'
+import { Suspense } from 'react'
+import { Spinner } from 'components/Spinner/Spinner'
 
 const router = createBrowserRouter([
   {
     path: '*',
-    element: <AppConnected />,
+    element: (
+      <Suspense fallback={<Spinner info='Connecting to the Internet of Impacts' />}>
+        <AppConnected />
+      </Suspense>
+    ),
     children: [
       {
         path: '*',
