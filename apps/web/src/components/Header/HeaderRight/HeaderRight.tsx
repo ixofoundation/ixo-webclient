@@ -6,8 +6,11 @@ import { Light, LightLoading, LightReady, Ping } from '../HeaderContainer.styles
 import WalletConnectButton from 'components/Button/WalletConnectButton'
 import { useTheme } from 'styled-components'
 import { useWallet } from '@ixo-webclient/wallet-connector'
-import { useNavigate } from 'react-router-dom'
-
+import { useNavigate, NavLink } from 'react-router-dom'
+import { useDisclosure, useMediaQuery } from '@mantine/hooks'
+import { ActionIcon, Flex, Modal, Text, em } from '@mantine/core'
+import { IoMdMenu } from 'react-icons/io'
+import CreateEntityDropdown from '../components/CreateEntityDropdown'
 interface HeaderRightProps {
   toggleModal: () => void
 }
@@ -18,6 +21,8 @@ const HeaderRight: React.FC<HeaderRightProps> = ({ toggleModal }): JSX.Element =
   const { address, registered } = useAccount()
   const { wallet, mobile } = useWallet()
   const navigate = useNavigate()
+  const isMobile = useMediaQuery(`(max-width: ${em(710)})`)
+  const [isMobileMenuOpen, { toggle: toggleMobileMenu }] = useDisclosure()
 
   const onClickConnectInfo = () => {
     if (wallet && !mobile.transacting) {
@@ -41,6 +46,29 @@ const HeaderRight: React.FC<HeaderRightProps> = ({ toggleModal }): JSX.Element =
 
   const renderStatusIndicator = (): JSX.Element => {
     return <Ping>{renderLightIndicator()}</Ping>
+  }
+
+  if (isMobile) {
+    return (
+      <Flex justify={'center'} align={'center'}>
+        <ActionIcon variant="transparent" onClick={toggleMobileMenu}>
+          <IoMdMenu size={36} color='black' />
+        </ActionIcon>
+
+        <Modal
+          opened={isMobileMenuOpen}
+          onClose={toggleMobileMenu}
+          fullScreen
+          padding="xl"
+          >
+            <Flex direction={"column"} align={"center"} justify={"center"} gap={10}>
+            <NavLink onClick={toggleMobileMenu} to="/explore?type=dao"><Text fz="24px" c="black">EXPLORE</Text></NavLink> 
+            <CreateEntityDropdown />
+            </Flex>
+
+          </Modal>
+      </Flex>
+    )
   }
 
   return (
