@@ -81,7 +81,7 @@
     "@walletconnect/jsonrpc-utils": "^1.0.8",
     "@walletconnect/utils": "2.10.5",
     "apexcharts": "3.44.0",
-    "axios": "1.6.2",
+    "axios": "1.6.3",
     "bignumber.js": "9.1.2",
     "bs58": "5.0.0",
     "canvas": "^2.11.2",
