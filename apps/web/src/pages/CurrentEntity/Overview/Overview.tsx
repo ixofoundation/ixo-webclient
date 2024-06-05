@@ -95,7 +95,7 @@ const Overview: React.FC = () => {
   return (
     <Flex w='100%' h='100%' bg='#F8F9FD' direction={isMobile ? 'column' : 'row'}>
       {isMobile ? (
-        <Flex w='100%' direction='column' p={isMobile ? 10 : 80} pt={isMobile ? 80 : 0} style={{ flex: 1 }}>
+        <Flex w='100%' direction='column' p={isMobile ? 10 : 80} pt={80} style={{ flex: 1 }}>
           <OverviewHero
             $onlyTitle={false}
             assistantFixed={true}
