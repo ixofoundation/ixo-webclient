@@ -83,7 +83,7 @@ export const getCarbonOracleAggregate = async ({ entityId }: { entityId: string 
       return acc + collection.approved
     }, 0) ?? 0
 
-  const approvedPercentage = (claimsApproved / (totalEvaluatedClaims ?? 0)) * 100
+  const approvedPercentage = (claimsApproved / (totalEvaluatedClaims)) * 100
 
   return { minted, totalEvaluatedClaims, approvedPercentage}
 }
