@@ -10,11 +10,14 @@ import { useNavigate, NavLink } from 'react-router-dom'
 import { useDisclosure, useMediaQuery } from '@mantine/hooks'
 import { Burger, Flex, Modal, Text, em } from '@mantine/core'
 import CreateEntityDropdown from '../components/CreateEntityDropdown'
+import { useIxoConfigs } from 'hooks/configs'
 interface HeaderRightProps {
   toggleModal: () => void
 }
 
 const HeaderRight: React.FC<HeaderRightProps> = ({ toggleModal }): JSX.Element => {
+  const { entityConfig } = useIxoConfigs()
+
   const buttonColor: string = useAppSelector(selectEntityHeaderButtonColorUIConfig)
   const theme: any = useTheme()
   const { address, registered } = useAccount()
@@ -60,7 +63,7 @@ const HeaderRight: React.FC<HeaderRightProps> = ({ toggleModal }): JSX.Element =
           yOffset="1vh"
           >
             <Flex direction={"column"} align={"center"} justify={"center"} gap={10}>
-            <NavLink onClick={toggleMobileMenu} to="/explore?type=dao"><Text fz="24px" c="black">EXPLORE</Text></NavLink> 
+            <NavLink onClick={toggleMobileMenu} to={`/explore?type=${entityConfig?.UI?.explorer?.defaultView}`}><Text fz="24px" c="black">EXPLORE</Text></NavLink> 
             <CreateEntityDropdown />
             </Flex>
 
