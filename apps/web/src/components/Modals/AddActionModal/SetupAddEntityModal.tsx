@@ -14,7 +14,6 @@ import {
 } from 'components/Entities/CreateEntityFlow'
 import { SelectEntityType } from 'components/SelectEntityType'
 import { upperFirst } from 'lodash'
-import { useCreateEntity } from 'hooks/createEntity'
 import {
   AccordedRight,
   LinkedClaim,
@@ -30,6 +29,10 @@ import { useWallet } from '@ixo-webclient/wallet-connector'
 import { useParams } from 'react-router-dom'
 import { hexToUint8Array } from 'utils/encoding'
 import { useCreateEntityStateAsActionState } from 'hooks/entity/useCreateEntityStateAsAction'
+import { transformEntityStateToLinkedResources } from 'services/entities/transformEntityStateToLinkedResources'
+import { transformEntityStateToLinkedClaims } from 'services/entities/transformEntityStateToLinkedClaims'
+import { useAppSelector } from 'redux/hooks'
+import { selectAllClaimProtocols } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 interface Props {
   open: boolean
@@ -83,6 +86,7 @@ const stepMap = new Map<EntityTypes, string[]>([
 ])
 
 const getCreateEntityMessageForProposal = ({
+  entityType,
   signer,
   daoDaoGroup,
   service,
@@ -102,12 +106,13 @@ const getCreateEntityMessageForProposal = ({
   linkedEntity: LinkedEntity[] 
   startDate: string
   endDate: string
+  entityType: string
 }) => {
   const hexPubKey = hexToUint8Array(signer.pubKey as any)
   return {
     typeUrl: '/ixo.entity.v1beta1.MsgCreateEntity',
     value: ixo.entity.v1beta1.MsgCreateEntity.fromPartial({
-      entityType: 'investment',
+      entityType: entityType,
       context: customMessages.iid.createAgentIidContext([
         { key: 'class', val: 'did:ixo:entity:f3ef757bc0404e8b6849ee7d9cf66d4e' },
       ]),
@@ -156,10 +161,12 @@ const getCreateEntityMessageForProposal = ({
 
 const SetupAddEntityModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
   const [entityType, setEntityType] = React.useState<EntityTypes | null>(null)
-  const { UploadLinkedResource, UploadLinkedClaim } = useCreateEntity()
   const createEntityState = useCreateEntityStateAsActionState()
+  const claimProtocols = useAppSelector(selectAllClaimProtocols)
   const { coreAddress } = useParams()
   const { wallet, execute, close } = useWallet()
+
+  console.log({createEntityState})
 
   const signer = {
     address: wallet?.address as string,
@@ -169,7 +176,7 @@ const SetupAddEntityModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
   }
 
   useEffect(() => {
-    if(entityType){
+    if(entityType && createEntityState.entityType !== entityType){
       createEntityState.updateEntityType(entityType)
     }
   }, [entityType, createEntityState])
@@ -191,10 +198,18 @@ const SetupAddEntityModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
 
     // LinkedResource
     linkedResource = linkedResource.concat(Object.values(createEntityState.linkedResource))
-    linkedResource = linkedResource.concat(await UploadLinkedResource())
+    linkedResource = linkedResource.concat(await transformEntityStateToLinkedResources({
+      profile: createEntityState.profile,
+      creator: createEntityState.creator,
+      administrator: createEntityState.administrator,
+      page: createEntityState.page,
+      ddoTags: createEntityState.ddoTags,
+      questionJSON: createEntityState.questionJSON,
+      signerDid: signer.did,
+    }))
 
     // LinkedClaim
-    linkedClaim = linkedClaim.concat(await UploadLinkedClaim())
+    linkedClaim = linkedClaim.concat(await transformEntityStateToLinkedClaims({claimProtocols, claim: createEntityState.claim}))
 
     // const protocolDid = utils.common.getValueFromEvents(protocolResponse, 'wasm', 'token_id')
 
@@ -237,6 +252,7 @@ const SetupAddEntityModal: React.FC<Props> = ({ open, action, onClose, onSubmit 
       linkedEntity,
       startDate: createEntityState.startDate,
       endDate: createEntityState.endDate,
+      entityType: createEntityState.entityType,
     })
 
     return createEntityMessagePayload
