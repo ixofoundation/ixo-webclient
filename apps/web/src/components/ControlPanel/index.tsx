@@ -23,9 +23,10 @@ import Tooltip from 'components/Tooltip/Tooltip'
 import { toTitleCase } from 'utils/formatters'
 import { useKeyValueViewerContext } from 'contexts/KeyValueViewerContext'
 import { startCase, truncate } from 'lodash'
-import { LiaArrowLeftSolid, LiaBoltSolid, LiaPlaySolid } from 'react-icons/lia'
+import { LiaArrowLeftSolid, LiaBoltSolid, LiaExternalLinkAltSolid, LiaPlaySolid } from 'react-icons/lia'
 import { useCompanionContext } from 'contexts/CompanionContext'
 import { useCompanionDesignConfig } from 'hooks/userInterface/useCompanionDesignConfig'
+import { serviceEndpointToUrl } from 'utils/entities'
 
 const StyledScrollArea = styled(ScrollArea)`
   & > div > div {
@@ -37,8 +38,9 @@ interface Props {
   tab?: 'profile' | 'detail' | 'feed' | 'message' | 'assistant'
   entityType: string
   entityName?: string
+  service?: any
 }
-const ControlPanel = ({ tab, entityType, entityName }: Props) => {
+const ControlPanel = ({ tab, entityType, entityName, service }: Props) => {
   const { controlPanelSchema: schema } = useEntityConfig(entityType)
   const { address } = useAccount()
   const { activeTab, setActiveTab } = useCompanionContext()
@@ -80,15 +82,13 @@ const ControlPanel = ({ tab, entityType, entityName }: Props) => {
   const renderAssistant = () => <AssistantCard />
 
   const renderValue = (data: any, key: string) => {
-    if (key === 'file') {
-      return (
-        <Flex w='100%' bg='#E8E8E9' p={10} style={{ borderRadius: 5 }}>
-          <object className='pdfIframe' data={ data[key] }>
-            
-          </object>
-        </Flex>
-      )
-    }
+    // if (key === 'file') {
+    //   return (
+    //     <Flex w='100%' bg='#E8E8E9' p={10} style={{ borderRadius: 5 }}>
+    //       <object className='pdfIframe' data={serviceEndpointToUrl(data[key], service)}></object>
+    //     </Flex>
+    //   )
+    // }
 
     if (data[key] === undefined || data[key]?.length <= 0)
       return (
@@ -122,6 +122,15 @@ const ControlPanel = ({ tab, entityType, entityName }: Props) => {
                   <Text ml={25} w='100%' size='sm'>
                     {startCase(key)}
                   </Text>
+                  {key === 'serviceEndpoint' && (
+                    <a
+                      target='_blank'
+                      rel='noopener noreferrer'
+                      href={serviceEndpointToUrl(getKeyValue()[key], service)}
+                    >
+                      <LiaExternalLinkAltSolid />
+                    </a>
+                  )}
                 </Flex>
                 {renderValue(getKeyValue(), key)}
               </Box>
