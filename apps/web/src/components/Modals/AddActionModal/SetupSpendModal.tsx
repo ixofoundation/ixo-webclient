@@ -38,20 +38,35 @@ const SetupSpendModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): 
   const validate = useMemo(() => !!formData.to && !!formData.amount && !!formData.denom, [formData])
 
   useEffect(() => {
-    if (action?.data && cw20Token) {
-      let decimals = 0
-      if (action.data.denom === NATIVE_MICRODENOM) {
-        decimals = NATIVE_DECIMAL
+    if (action?.data) {
+      if (action?.type === 'bank.send') {
+        const denom = action.data.amount[0].denom
+        let decimals = 0
+        if (denom === NATIVE_MICRODENOM) {
+          decimals = NATIVE_DECIMAL
+        } else if (cw20Token) {
+          decimals = cw20Token.tokenInfo.decimals
+        }
+        const amount = convertMicroDenomToDenomWithDecimals(action.data.amount[0].amount, decimals).toString()
+        setFormData({
+          denom: denom,
+          amount: amount,
+          to: action.data.to_address,
+        })
       } else {
-        decimals = cw20Token.tokenInfo.decimals
+        let decimals = 0
+        if (action.data.denom === NATIVE_MICRODENOM) {
+          decimals = NATIVE_DECIMAL
+        } else if (cw20Token) {
+          decimals = cw20Token.tokenInfo.decimals
+        }
+        const amount = convertMicroDenomToDenomWithDecimals(action.data.amount, decimals).toString()
+        setFormData({
+          denom: action.data.denom,
+          amount: amount,
+          to: action.data.to,
+        })
       }
-
-      const amount = convertMicroDenomToDenomWithDecimals(action.data.amount, decimals).toString()
-      setFormData({
-        denom: action.data.denom,
-        amount: amount,
-        to: action.data.to,
-      })
     } else {
       setFormData(initialState)
     }

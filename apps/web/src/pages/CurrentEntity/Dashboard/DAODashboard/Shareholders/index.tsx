@@ -19,6 +19,9 @@ import { contracts } from '@ixo/impactxclient-sdk'
 import { queryMultipleContracts } from 'utils/multiContractCall'
 import { DaoVotingCw20StakedQueryClient } from 'adapters/DaoVotingCw20StakedAdapter'
 import { Member } from 'types/dao'
+import { useAppSelector } from 'redux/hooks'
+import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { CSVLink } from 'react-csv'
 
 const TableWrapper = styled.div`
   color: white;
@@ -55,11 +58,12 @@ const TableWrapper = styled.div`
 
 const Shareholders: React.FC = () => {
   const navigate = useNavigate()
-  const { entityId } = useParams<{ entityId: string }>()
+  const { entityId = '' } = useParams<{ entityId: string }>()
   const { getQuery } = useQuery()
   const selectedGroup: string = getQuery('selectedGroup')
-  const { members, totalWeight, daoGroup } = useCurrentEntityDAOGroup(selectedGroup)
-  const { tokenTotalSupply, tokenDecimals } = useCurrentEntityDAOGroupToken(selectedGroup)
+  const { daoGroups = {} } = useAppSelector(getEntityById(entityId))
+  const { members, totalWeight, daoGroup } = useCurrentEntityDAOGroup(selectedGroup, daoGroups)
+  const { tokenTotalSupply, tokenDecimals } = useCurrentEntityDAOGroupToken(selectedGroup, daoGroups)
   const { cwClient } = useAccount()
   const { data: users } = useGetUserIids()
 
@@ -232,12 +236,23 @@ const Shareholders: React.FC = () => {
           ownership: tokenTotalSupply
             ? new BigNumber(new BigNumber(weight).plus(bonded)).dividedBy(tokenTotalSupply).toFixed()
             : 0,
-          votingPower: new BigNumber(bonded).dividedBy(totalWeight).toString(),
+          votingPower: totalWeight ? new BigNumber(bonded).dividedBy(totalWeight).toString() : 0,
           bonded: bonded,
         }
       })
       .sort((a, b) => new BigNumber(b.weight).minus(a.weight).toNumber())
   }, [usersWithTokenBalances, members, totalWeight, tokenTotalSupply])
+
+  const csvHeaders = useMemo(
+    () => [
+      { label: 'Owner', key: 'addr' },
+      { label: 'Shares', key: 'weight' },
+      { label: 'Ownership', key: 'ownership' },
+      { label: 'Bonded', key: 'bonded' },
+      { label: 'Voting Power', key: 'votingPower' },
+    ],
+    [],
+  )
 
   const { unallocatedShares, bondedShares } = useMemo(() => {
     const allocatedShares = shareholders.reduce((pre, cur) => new BigNumber(pre).plus(cur.weight).toString(), '0')
@@ -308,9 +323,11 @@ const Shareholders: React.FC = () => {
         <Typography variant='secondary' size='2xl'>
           Shareholder List
         </Typography>
-        <Button variant='outline' c={'white'} style={{ borderColor: mantineThemeColors['ixo-blue'][6] }}>
-          Download CSV
-        </Button>
+        <CSVLink data={shareholders} headers={csvHeaders} filename={`${daoGroup.config.name} shareholders`}>
+          <Button variant='outline' c={'white'} style={{ borderColor: mantineThemeColors['ixo-blue'][6] }}>
+            Download CSV
+          </Button>
+        </CSVLink>
       </Flex>
 
       <TableWrapper>

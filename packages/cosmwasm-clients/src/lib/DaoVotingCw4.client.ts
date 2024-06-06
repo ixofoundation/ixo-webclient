@@ -7,7 +7,7 @@
 import { CosmWasmClient, SigningCosmWasmClient, ExecuteResult } from "@cosmjs/cosmwasm-stargate";
 import { Coin, StdFee } from "@cosmjs/amino";
 import { MemberDiff, Addr, InfoResponse,TotalPowerAtHeightResponse, VotingPowerAtHeightResponse } from "./DaoVotingCw4.types";
-import { BaseClient, DeliverTxResponse } from "./Base.client";
+import { BaseClient, DeliverTxResponse, ExecuteProps } from "./Base.client";
 export interface DaoVotingCw4ReadOnlyInterface {
   contractAddress: string;
   groupContract: () => Promise<Addr>;
@@ -47,14 +47,16 @@ export class DaoVotingCw4Client extends BaseClient {
   }
 
   memberChangedHook = async ({
-    diffs
+    diffs,
+    transactionConfig
   }: {
     diffs: MemberDiff[];
+    transactionConfig: ExecuteProps["transactionConfig"]
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       member_changed_hook: {
         diffs
       }
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
 }

@@ -4,6 +4,8 @@ import { deviceWidth } from 'constants/device'
 import { DashboardThemeContext, ThemeContext } from './Dashboard'
 
 const Container = styled.div<{ theme: ThemeContext }>`
+  display: flex;
+  justify-content: space-between;
   font-weight: 400;
   font-size: 28px;
   padding: 0 0.25rem;

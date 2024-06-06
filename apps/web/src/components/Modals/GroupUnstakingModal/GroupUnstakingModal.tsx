@@ -13,7 +13,7 @@ import {
   secondsToWdhms,
 } from 'utils/conversions'
 import { ReactComponent as ArrowDownIcon } from 'assets/images/icon-arrow-down.svg'
-import { useCurrentEntityDAOGroup, useCurrentEntityProfile } from 'hooks/currentEntity'
+import { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
 import { Input } from 'pages/CreateEntity/Components'
 import { MarketingInfoResponse, TokenInfoResponse } from '@ixo/impactxclient-sdk/types/codegen/Cw20Base.types'
 import CurrencyFormat from 'react-currency-format'
@@ -23,6 +23,9 @@ import { Avatar } from 'pages/CurrentEntity/Components'
 import { TDAOGroupModel } from 'types/entities'
 import { Cw20StakeClient } from '@ixo-webclient/cosmwasm-clients'
 import { useWallet } from '@ixo-webclient/wallet-connector'
+import { useAppSelector } from 'redux/hooks'
+import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { useParams } from 'react-router-dom'
 
 const StyledInput = styled(Input)`
   color: white;
@@ -62,8 +65,9 @@ interface Props {
 const GroupUnstakingModal: React.FunctionComponent<Props> = ({ daoGroup, open, setOpen, onSuccess }) => {
   const theme: any = useTheme()
   const { cwClient, address } = useAccount()
-  const { name: daoName } = useCurrentEntityProfile()
-  const { votingModuleAddress, depositInfo } = useCurrentEntityDAOGroup(daoGroup?.coreAddress)
+  const { entityId = "" } = useParams<{ entityId: string}>()
+  const { daoGroups = {}, profile } = useAppSelector(getEntityById(entityId))
+  const { votingModuleAddress, depositInfo } = useCurrentEntityDAOGroup(daoGroup?.coreAddress, daoGroups)
   const [unstakingDuration, setUnstakingDuration] = useState<number>(0)
   const [tokenInfo, setTokenInfo] = useState<TokenInfoResponse | undefined>(undefined)
   const [marketingInfo, setMarketingInfo] = useState<MarketingInfoResponse | undefined>(undefined)
@@ -73,7 +77,7 @@ const GroupUnstakingModal: React.FunctionComponent<Props> = ({ daoGroup, open, s
   const [amount, setAmount] = useState<string>('')
   const [txStatus, setTXStatus] = useState<TXStatus>(TXStatus.UNDEFINED)
   const [txHash, setTXHash] = useState<string>('')
-  const { execute } = useWallet()
+  const { execute, close } = useWallet()
 
   /**
    * @get
@@ -141,13 +145,14 @@ const GroupUnstakingModal: React.FunctionComponent<Props> = ({ daoGroup, open, s
       const cw20StakeClient = new Cw20StakeClient(execute, address, stakingContract)
 
       const { transactionHash } = await cw20StakeClient.unstake(
-        { amount: convertDenomToMicroDenomWithDecimals(amount, tokenInfo.decimals).toString() },
+        { amount: convertDenomToMicroDenomWithDecimals(amount, tokenInfo.decimals).toString(), transactionConfig: { sequence: 1 } },
         fee,
         undefined,
         depositInfo ? [depositInfo] : undefined,
       )
 
       if (transactionHash) {
+        close()
         setTXStatus(TXStatus.SUCCESS)
         setTXHash(transactionHash)
       } else {
@@ -177,7 +182,7 @@ const GroupUnstakingModal: React.FunctionComponent<Props> = ({ daoGroup, open, s
                 {/* DAO name & Group Name */}
                 <Card $gap={2}>
                   <Typography color={'dark-blue'} weight='medium'>
-                    {daoName}
+                    {profile?.name}
                   </Typography>
                   <Typography color={'white'} weight='medium'>
                     {daoGroupName}

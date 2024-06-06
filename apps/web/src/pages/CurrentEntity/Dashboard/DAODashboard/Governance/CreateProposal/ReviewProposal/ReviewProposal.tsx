@@ -1,6 +1,6 @@
 import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
-import useCurrentEntity, { useCurrentEntityDAOGroup, useCurrentEntityProfile } from 'hooks/currentEntity'
+import useCurrentEntity, { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
 import { Button } from 'pages/CreateEntity/Components'
 import React, { useMemo, useState } from 'react'
 import { NavLink, useNavigate, useParams } from 'react-router-dom'
@@ -34,17 +34,21 @@ import { useWallet } from '@ixo-webclient/wallet-connector'
 import { DeliverTxResponse } from '@cosmjs/stargate'
 import { AddLinkedEntityMessage } from 'lib/protocol/iid.messages'
 import { DaoPreProposeSingleClient } from '@ixo-webclient/cosmwasm-clients'
-
+import { useAppSelector } from 'redux/hooks'
+import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { useEntity } from 'hooks/entity/useEntity'
+import { currentRelayerNode } from 'constants/common'
 
 const ReviewProposal: React.FC = () => {
   const theme: any = useTheme()
   const navigate = useNavigate()
-  const { entityId, coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
+  const { entityId = '', coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
+  const { refetch } = useEntity(entityId)
   const { cwClient } = useAccount()
-  const { name: entityName } = useCurrentEntityProfile()
-  const { updateDAOGroup, refetchAndUpdate } = useCurrentEntity()
+  const { updateDAOGroup } = useCurrentEntity()
+  const { daoGroups = {} } = useAppSelector(getEntityById(entityId))
   const { daoGroup, preProposalContractAddress, depositInfo, isParticipating, anyoneCanPropose } =
-    useCurrentEntityDAOGroup(coreAddress!)
+    useCurrentEntityDAOGroup(coreAddress!, daoGroups)
   const createEntityState = useCreateEntityState()
   const {
     proposal,
@@ -85,7 +89,8 @@ const ReviewProposal: React.FC = () => {
     makeSendGroupTokenAction,
     makeJoinAction,
     makeAcceptToMarketplaceAction,
-  } = useMakeProposalAction(coreAddress!)
+    makeCreateEntityAction
+  } = useMakeProposalAction(coreAddress!, daoGroups)
   const [selectedAction, setSelectedAction] = useState<TProposalActionModel | undefined>()
   const SetupActionModal = useMemo(() => {
     if (!selectedAction) {
@@ -102,16 +107,19 @@ const ReviewProposal: React.FC = () => {
         : 0,
     [daoGroup],
   )
+
+  console.log({ proposalActions: proposal?.actions})
   const votingModuleAddress = useMemo(() => daoGroup?.votingModule.votingModuleAddress, [daoGroup])
   const validActions = useMemo(() => (proposal?.actions ?? []).filter((item) => item.data), [proposal])
   const { getQuery } = useQuery()
   const success = getQuery('success')
-  const { execute, wallet } = useWallet()
+  const selectedTemplateEntityId = getQuery('selectedTemplateEntityId')
+  const { execute, wallet, transaction, close } = useWallet()
   const signer: TSigner = {
     address: wallet?.address || '',
     did: wallet?.did || '',
     pubKey: wallet?.pubKey || new Uint8Array(),
-    keyType: wallet?.keyType as any ,
+    keyType: wallet?.keyType as any,
   }
 
   const handlePropose = async (
@@ -127,16 +135,20 @@ const ReviewProposal: React.FC = () => {
       const daoVotingCw4Client = new contracts.DaoVotingCw4.DaoVotingCw4QueryClient(cwClient, votingModuleAddress)
       cw4GroupAddress = await daoVotingCw4Client.groupContract()
     }
+
     const wasmMessage: CosmosMsgForEmpty[] = validActions
       .map((validAction: TProposalActionModel) => {
         try {
           const { text, data } = validAction
+          console.log({ text, data })
           switch (text) {
             // Group Category
             case 'AuthZ Exec':
               return makeAuthzExecAction(data)
             case 'AuthZ Grant / Revoke':
               return makeAuthzAuthorizationAction(data)
+            case 'Create Entity':
+              return makeCreateEntityAction(data)
             case 'Change Group Membership':
               return makeManageMembersAction(data, cw4GroupAddress)
             case 'Manage Subgroups':
@@ -214,34 +226,42 @@ const ReviewProposal: React.FC = () => {
         }
       })
       .filter(Boolean) as CosmosMsgForEmpty[]
+
     const daoPreProposeSingleClient = new DaoPreProposeSingleClient(execute, wallet.address, preProposalContractAddress)
 
-    return await daoPreProposeSingleClient.propose(
-      {
-        msg: {
-          propose: {
-            description: (profile?.description || '') + `#deed:${deedDid}`,
-            msgs: wasmMessage,
-            title: profile?.name || '',
+    return await daoPreProposeSingleClient
+      .propose(
+        {
+          msg: {
+            propose: {
+              description: (profile?.description || '') + `#deed:${deedDid}`,
+              msgs: wasmMessage,
+              title: profile?.name || '',
+            },
+          },
+          transactionConfig: {
+            sequence: 3,
+            transactionSessionHash: transaction.transactionSessionHash,
           },
         },
-      },
-      fee,
-      undefined,
-      depositInfo ? [depositInfo] : undefined,
-    )
-    .then((res) => {
-      const { transactionHash } = res
-      const proposalId = Number(utils.common.getValueFromEvents(res as unknown as DeliverTxResponse, 'wasm', 'proposal_id') || '0')
+        fee,
+        undefined,
+        depositInfo ? [depositInfo] : undefined,
+      )
+      .then((res) => {
+        const { transactionHash } = res
+        const proposalId = Number(
+          utils.common.getValueFromEvents(res as unknown as DeliverTxResponse, 'wasm', 'proposal_id') || '0',
+        )
 
-      Toast.successToast(null, `Successfully published proposals`)
-      return { transactionHash, proposalId }
-    })
-    .catch((e) => {
-      console.error(e)
-      Toast.errorToast(null, e)
-      return undefined
-    })
+        Toast.successToast(null, `Successfully published proposals`)
+        return { transactionHash, proposalId }
+      })
+      .catch((e) => {
+        console.error(e)
+        Toast.errorToast(null, e)
+        return undefined
+      })
   }
 
   const handleCreateDeed = async (): Promise<string> => {
@@ -267,20 +287,25 @@ const ReviewProposal: React.FC = () => {
     linkedClaim = linkedClaim.concat(await UploadLinkedClaim())
 
     // Create Protocol for deed
-    const protocolDid = await CreateProtocol()
+    const protocolDid = await CreateProtocol({ sequence: 1 })
     if (!protocolDid) {
       return ''
     }
 
     // Create Deed entity
-    const { did: entityDid } = await CreateEntityBase('deed', protocolDid, {
-      service,
-      linkedResource,
-      accordedRight,
-      linkedEntity,
-      linkedClaim,
-      relayerNode: process.env.REACT_APP_RELAYER_NODE,
-    })
+    const { did: entityDid } = await CreateEntityBase(
+      'deed',
+      protocolDid,
+      {
+        service,
+        linkedResource,
+        accordedRight,
+        linkedEntity,
+        linkedClaim,
+        relayerNode: currentRelayerNode,
+      },
+      { sequence: 2, transactionSessionHash: transaction.transactionSessionHash },
+    )
     if (!entityDid) {
       return ''
     }
@@ -299,12 +324,25 @@ const ReviewProposal: React.FC = () => {
     })
 
     const linkedEntityInstruction = AddLinkedEntityMessage(signer, { did: deedDid, linkedEntity })
-    const response = await execute(linkedEntityInstruction) as DeliverTxResponse
+    const response = (await execute({
+      data: linkedEntityInstruction,
+      transactionConfig: {
+        sequence: 4,
+        transactionSessionHash: transaction.transactionSessionHash,
+      },
+    })) as DeliverTxResponse
     return !!response
   }
 
   const handleBack = () => {
-    navigate(`/entity/${entityId}/dashboard/governance/${coreAddress}/action`)
+    const search = new URLSearchParams()
+    if (selectedTemplateEntityId) {
+      search.append('selectedTemplateEntityId', selectedTemplateEntityId)
+    }
+    navigate({
+      pathname: `/entity/${entityId}/dashboard/governance/${coreAddress}/page`,
+      search: search.toString(),
+    })
   }
 
   const handleNext = () => {
@@ -328,8 +366,9 @@ const ReviewProposal: React.FC = () => {
           if (await handleAddProposalInfoAsLinkedEntity(deedDid, proposalId)) {
             updateDAOGroup(coreAddress!)
             setSubmitting(false)
-            refetchAndUpdate()
+            refetch()
             navigate({ search: `?success=true` })
+            close()
             return
           }
         }
@@ -458,7 +497,7 @@ const ReviewProposal: React.FC = () => {
           <>
             <FlexBox $direction='column' width='100%' $gap={4}>
               <Typography variant='secondary'>
-                This is the last step before submitting this governance proposal for {entityName}.
+                This is the last step before submitting this governance proposal for {profile?.name}.
               </Typography>
               <Typography variant='secondary'>
                 <NavLink to={`/create/entity/deed/${entityId}/${coreAddress}/action`}>

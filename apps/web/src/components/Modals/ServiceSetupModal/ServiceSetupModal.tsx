@@ -122,12 +122,8 @@ const ServiceSetupModal: React.FC<Props> = ({ service, open, onClose, onChange }
               key={index}
               index={index}
               service={service}
-              {...(index < 2
-                ? []
-                : {
-                    onUpdate: (service) => handleUpdateService(index, service),
-                    onRemove: () => handleRemoveService(index),
-                  })}
+              onUpdate={(service) => handleUpdateService(index, service)}
+              onRemove={() => handleRemoveService(index)}
             />
           ))}
           <FlexBox>

@@ -7,18 +7,19 @@ import { useTheme } from 'styled-components'
 
 import { ReactComponent as FundingIcon } from 'assets/images/icon-funding.svg'
 import { ReactComponent as UpIcon } from 'assets/images/icon-up-full.svg'
-import { useCurrentEntityTreasury } from 'hooks/currentEntity'
+
 import { AccountTypeToIconMap } from 'pages/CurrentEntity/Treasury/Components/AccountsCard'
 import { getTotalUSDvalueFromTreasuryCoins } from 'utils/treasury'
 import CurrencyFormat from 'react-currency-format'
 import BigNumber from 'bignumber.js'
 import { useNavigate, useParams } from 'react-router-dom'
+import { useCurrentEntityTreasury } from 'hooks/treasury/useCurrentEntityTreasury'
 
 const TreasuryPoolCard: React.FC = () => {
   const theme: any = useTheme()
   const navigate = useNavigate()
-  const { entityId } = useParams<{ entityId: string }>()
-  const accounts = useCurrentEntityTreasury()
+  const { entityId = "" } = useParams<{ entityId: string }>()
+  const accounts = useCurrentEntityTreasury({ entityId })
 
   const treasuryAccounts = useMemo(() => {
     const arr: any[] = []
@@ -33,7 +34,7 @@ const TreasuryPoolCard: React.FC = () => {
 
     return [
       {
-        label: 'Entity Account',
+        label: 'Entity Accounts',
         type: 'entity',
         value: entityAccounts.reduce(
           (pre, cur) => new BigNumber(pre).plus(new BigNumber(cur.totalBalance)).toFixed(),
@@ -41,7 +42,7 @@ const TreasuryPoolCard: React.FC = () => {
         ),
       },
       {
-        label: 'Group Account',
+        label: 'Group Accounts',
         type: 'group',
         value: groupAccounts.reduce(
           (pre, cur) => new BigNumber(pre).plus(new BigNumber(cur.totalBalance)).toFixed(),
@@ -49,7 +50,7 @@ const TreasuryPoolCard: React.FC = () => {
         ),
       },
       {
-        label: 'Linked Account',
+        label: 'Linked Accounts',
         type: 'linked',
         value: linkedAccounts.reduce(
           (pre, cur) => new BigNumber(pre).plus(new BigNumber(cur.totalBalance)).toFixed(),
@@ -67,7 +68,7 @@ const TreasuryPoolCard: React.FC = () => {
     <Card
       label='Treasury Accounts'
       icon={
-        <SvgBox $svgWidth={6} $svgHeight={6}>
+        <SvgBox $svgWidth={6.25} $svgHeight={6.25}>
           <FundingIcon />
         </SvgBox>
       }

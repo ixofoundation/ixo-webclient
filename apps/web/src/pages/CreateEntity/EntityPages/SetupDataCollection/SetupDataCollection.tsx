@@ -9,6 +9,7 @@ import 'survey-core/defaultV2.css'
 import 'survey-creator-core/survey-creator-core.css'
 import { useCreateEntityState } from 'hooks/createEntity'
 import { useCreateEntityStepState } from 'hooks/createEntityStepState'
+import { Flex } from '@mantine/core'
 
 const options: ICreatorOptions = {
   showLogicTab: true,
@@ -16,10 +17,9 @@ const options: ICreatorOptions = {
   isAutoSave: true,
 }
 
-const SetupDataCollection = (): JSX.Element => {
+const SetupDataCollection = ({ showNavigation = true }: { showNavigation?: boolean }): JSX.Element => {
   const { navigateToNextStep, navigateToPreviousStep } = useCreateEntityStepState()
   const { questionJSON, updateQuestionJSON } = useCreateEntityState()
-
 
   const creator = new SurveyCreator({ options })
   creator.JSON = questionJSON
@@ -35,16 +35,20 @@ const SetupDataCollection = (): JSX.Element => {
 
   return (
     <Wrapper style={{ zIndex: 8 }}>
-      <SurveyCreatorComponent creator={creator} />
+      <Flex w={'100%'} mih={400}>
+        <SurveyCreatorComponent creator={creator} />
+      </Flex>
 
-      <Row className='d-flex mt-4' style={{ gap: 16 }}>
-        <Button variant='secondary' onClick={handlePrev}>
-          Back
-        </Button>
-        <Button variant='primary' onClick={handleNext}>
-          Continue
-        </Button>
-      </Row>
+      {showNavigation && (
+        <Row className='d-flex mt-4' style={{ gap: 16 }}>
+          <Button variant='secondary' onClick={handlePrev}>
+            Back
+          </Button>
+          <Button variant='primary' onClick={handleNext}>
+            Continue
+          </Button>
+        </Row>
+      )}
     </Wrapper>
   )
 }

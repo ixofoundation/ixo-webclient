@@ -14,9 +14,10 @@ import {
 import CalendarSort from 'assets/icons/CalendarSort'
 import availableFlags from 'constants/availableFlags.json'
 import { requireCheckDefault } from 'utils/images'
-import { useEntityConfig } from 'hooks/configs'
 import { useHeaderTabs } from 'hooks/headerTabs'
 import { MatchType } from 'types/models'
+import { useAppSelector } from 'redux/hooks'
+import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 interface Props {
   $onlyTitle: boolean
@@ -31,6 +32,8 @@ interface Props {
   location?: string
   creatorName: string
   creatorLogo: string
+
+  entityType: string
 }
 
 const OverviewHero: React.FunctionComponent<Props> = ({
@@ -46,11 +49,13 @@ const OverviewHero: React.FunctionComponent<Props> = ({
   location,
   creatorLogo,
   creatorName,
+  entityType,
 }) => {
-  const entityConfig = useEntityConfig()
-  const themeColor = entityConfig.themeColor
+  const entityTypeMap = useAppSelector(selectEntityConfig)
+  const themeColor = entityTypeMap![entityType!]?.themeColor
+  const tabBgcolor = entityTypeMap![entityType!]?.tabBgcolor
 
-  const headerTabs = useHeaderTabs()
+  const headerTabs = useHeaderTabs({ entityType })
 
   const getFlagURL = (projectLocation: string): string => {
     if (location && availableFlags.availableFlags.includes(location)) {
@@ -110,6 +115,7 @@ const OverviewHero: React.FunctionComponent<Props> = ({
           assistantPanelToggle={assistantPanelToggle}
           enableAssistantButton={enableAssistantButton}
           activeTabColor={themeColor}
+          tabBgcolor={tabBgcolor}
           assistantFixed={assistantFixed}
           buttons={headerTabs}
         />

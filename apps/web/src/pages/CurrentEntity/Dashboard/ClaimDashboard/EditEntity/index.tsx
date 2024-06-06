@@ -1,6 +1,5 @@
 import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
-import useCurrentEntity from 'hooks/currentEntity'
 import useEditEntity from 'hooks/editEntity'
 import { Button } from 'pages/CreateEntity/Components'
 import React, { useEffect, useState } from 'react'
@@ -14,15 +13,22 @@ import { updateEntityAction, updateEntityPropertyAction } from 'redux/entitiesEx
 import EditProfile from '../../components/EditProfile'
 import EditProperty from '../../components/EditProperty'
 import EditSurveyTemplate from '../../components/EditSurveyTemplate'
+import { useAppSelector } from 'redux/hooks'
+import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { useWallet } from '@ixo-webclient/wallet-connector'
+import { useEntity } from 'hooks/entity/useEntity'
 
 const EditEntity: React.FC = () => {
   const dispatch = useDispatch()
   const { entityId = '' } = useParams<{ entityId: string }>()
   const { cwClient } = useAccount()
-  const { currentEntity } = useCurrentEntity()
+  const currentEntity = useAppSelector(getEntityById(entityId))
   const { setEditEntity, ExecuteEditEntity } = useEditEntity()
   const { fetchEntityById, data } = useGetEntityByIdLazyQuery()
   const [editing, setEditing] = useState(false)
+  const { close } = useWallet()
+  const { refetch } = useEntity(entityId)
+
 
   useEffect(() => {
     setEditEntity(currentEntity)
@@ -45,6 +51,8 @@ const EditEntity: React.FC = () => {
       const { transactionHash, code, rawLog } = await ExecuteEditEntity()
       if (transactionHash && code === 0) {
         successToast('Updating', 'Successfully Updated')
+        await refetch()
+        close()
         fetchEntityById(entityId)
       } else {
         throw new Error(rawLog)

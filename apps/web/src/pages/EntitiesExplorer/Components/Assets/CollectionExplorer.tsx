@@ -68,7 +68,7 @@ const CollectionExplorer: React.FC<Props> = (props) => {
               $borderRadius='100%'
               width='40px'
               height='40px'
-              background={`url(${logo}), #ffffff`}
+              background={`url(${logo!}), #ffffff`}
               $backgroundPosition='center center'
               $backgroundSize='100%'
             />

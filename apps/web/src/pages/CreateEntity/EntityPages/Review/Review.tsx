@@ -23,8 +23,10 @@ import { createEntityCard, withEntityData } from 'components'
 import { EntityType } from 'types/entities'
 import { Box } from '@mantine/core'
 import { toRootEntityType } from 'utils/entities'
+import { useWallet } from '@ixo-webclient/wallet-connector'
+import { currentRelayerNode } from 'constants/common'
 
-const Review: React.FC = (): JSX.Element => {
+const Review = ({ showNavigation = true }: { showNavigation?: boolean }): JSX.Element => {
   const theme: any = useTheme()
   const navigate = useNavigate()
   const createEntityState = useCreateEntityState()
@@ -43,6 +45,7 @@ const Review: React.FC = (): JSX.Element => {
   const [submitting, setSubmitting] = useState(false)
   const { getQuery } = useQuery()
   const success = getQuery('success')
+  const { transaction, close } = useWallet()
 
   // Handle final entity type properties in handleSignToCreate
   // Need to refactor using best practises
@@ -94,7 +97,10 @@ const Review: React.FC = (): JSX.Element => {
     }
 
     // Create Protocol for an entity
-    const protocolDid = await CreateProtocol()
+    const protocolResponse = await CreateProtocol({ sequence: 1 })
+
+    const protocolDid = utils.common.getValueFromEvents(protocolResponse, 'wasm', 'token_id')
+
     if (!protocolDid) {
       setSubmitting(false)
       navigate({ pathname: pathname, search: `?success=false` })
@@ -102,22 +108,28 @@ const Review: React.FC = (): JSX.Element => {
     }
 
     // Create an entity
-    const { did: entityDid } = await CreateEntityBase(entityType, protocolDid, {
-      service,
-      linkedResource,
-      accordedRight,
-      linkedEntity,
-      linkedClaim,
-      verification,
-      relayerNode: process.env.REACT_APP_RELAYER_NODE,
-      ...(controller?.length > 0 && { controller }),
-    })
+    const { did: entityDid } = await CreateEntityBase(
+      entityType,
+      protocolDid,
+      {
+        service,
+        linkedResource,
+        accordedRight,
+        linkedEntity,
+        linkedClaim,
+        verification,
+        relayerNode: currentRelayerNode,
+        ...(controller?.length > 0 && { controller }),
+      },
+      { sequence: 2, transactionSessionHash: transaction.transactionSessionHash },
+    )
     if (!entityDid) {
       setSubmitting(false)
       navigate({ pathname: pathname, search: `?success=false` })
       return
     }
 
+    close()
     setSubmitting(false)
     navigate({ pathname: pathname, search: `?success=true` })
   }
@@ -141,6 +153,7 @@ const Review: React.FC = (): JSX.Element => {
             entityType={entityType}
             handleSignToCreate={handleSignToCreate}
             submitting={submitting}
+            showNavigation={showNavigation}
           />
         )}
         {success === 'true' && (
@@ -193,14 +206,16 @@ const Review: React.FC = (): JSX.Element => {
                 Something went wrong. Please try again.
               </Typography>
             </FlexBox>
-            <FlexBox width='100%' $gap={4}>
-              <Button variant='secondary' onClick={() => navigate(-1)} style={{ width: '100%' }}>
-                Back
-              </Button>
-              <Button variant='primary' onClick={handleSignToCreate} style={{ width: '100%' }} loading={submitting}>
-                Sign To Create
-              </Button>
-            </FlexBox>
+            {showNavigation && (
+              <FlexBox width='100%' $gap={4}>
+                <Button variant='secondary' onClick={() => navigate(-1)} style={{ width: '100%' }}>
+                  Back
+                </Button>
+                <Button variant='primary' onClick={handleSignToCreate} style={{ width: '100%' }} loading={submitting}>
+                  Sign To Create
+                </Button>
+              </FlexBox>
+            )}
           </>
         )}
       </FlexBox>

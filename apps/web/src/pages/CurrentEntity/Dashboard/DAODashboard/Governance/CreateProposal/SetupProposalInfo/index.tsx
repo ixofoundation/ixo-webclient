@@ -19,17 +19,12 @@ const SetupProposalInfo: React.FC = (): JSX.Element => {
   const canContinue = name && description
 
   const onBack = () => {
-    // if (join) {
-    //   navigate(`/create/entity/deed/${entityId}/${coreAddress}/select${history.location.search}`)
-    // } else {
-    //   navigate(`/entity/${entityId}/dashboard/governance`)
-    // }
-    navigate(`/entity/${entityId}/dashboard/governance?selectedGroup=${coreAddress}`)
+    navigate(`/entity/${entityId}/dashboard/governance/${coreAddress}/template`)
   }
   const onContinue = () => {
     if (name && description) {
       updateProfile({ name, description })
-      navigate(`/entity/${entityId}/dashboard/governance/${coreAddress}/page`)
+      navigate(`/entity/${entityId}/dashboard/governance/${coreAddress}/action`)
     }
   }
 

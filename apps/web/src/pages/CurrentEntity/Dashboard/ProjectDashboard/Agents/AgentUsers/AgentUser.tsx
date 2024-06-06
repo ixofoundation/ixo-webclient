@@ -11,6 +11,8 @@ import { Button } from 'pages/CreateEntity/Components'
 import { Avatar } from 'pages/CurrentEntity/Components'
 import React, { useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
+import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { useAppSelector } from 'redux/hooks'
 import { IAgent } from 'types/agent'
 import { AgentRoles } from 'types/models'
 import { truncateString } from 'utils/formatters'
@@ -27,9 +29,10 @@ const AgentUserCard: React.FC<IAgent & { noAction?: boolean; onClick: () => void
   const { data: claimCollection } = useGetClaimCollection(collectionId)
   const { entityId = '' } = useParams<{ entityId: string }>()
   const { signer } = useAccount()
-  const adminAddress = useCurrentEntityAdminAccount()
+  const { accounts } = useAppSelector(getEntityById(entityId))
+  const adminAddress = useCurrentEntityAdminAccount(accounts)
   const [granting, setGranting] = useState(false)
-  const { execute } = useWallet()
+  const { execute, close } = useWallet()
   const agentQuota = useMemo(() => claimCollection?.quota ?? 0, [claimCollection])
 
   const handleGrant = async () => {
@@ -48,7 +51,7 @@ const AgentUserCard: React.FC<IAgent & { noAction?: boolean; onClick: () => void
         }
         const grantEntityAccountClaimSubmitAuthZPayload = await GrantEntityAccountClaimsSubmitAuthz(signer, payload)
 
-        const response = (await execute(grantEntityAccountClaimSubmitAuthZPayload)) as unknown as DeliverTxResponse
+        const response = (await execute({ data: grantEntityAccountClaimSubmitAuthZPayload, transactionConfig: { sequence: 1 }})) as unknown as DeliverTxResponse
 
         if (response.code !== 0) {
           throw response.rawLog
@@ -68,13 +71,13 @@ const AgentUserCard: React.FC<IAgent & { noAction?: boolean; onClick: () => void
           payload,
         )
 
-        const response = (await execute(grantEntityAccountClaimsEvaluateAuthZPayload)) as unknown as DeliverTxResponse
+        const response = (await execute({ data: grantEntityAccountClaimsEvaluateAuthZPayload, transactionConfig: { sequence: 1 }})) as unknown as DeliverTxResponse
 
         if (response.code !== 0) {
           throw response.rawLog
         }
       }
-
+      close()
       successToast(null, 'Successfully granted!')
     } catch (error: any) {
       console.error('Granting User', error)

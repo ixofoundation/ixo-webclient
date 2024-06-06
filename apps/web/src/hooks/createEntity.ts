@@ -180,9 +180,12 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
     return !!creator && !!administrator && Object.keys(page ?? {}).length > 0 && service?.length > 0
   }, [creator, administrator, page, service])
 
-  const updateEntityType = (entityType: string): void => {
-    dispatch(updateEntityTypeAction(entityType))
-  }
+  const updateEntityType = useCallback(
+    (entityType: string): void => {
+      dispatch(updateEntityTypeAction(entityType))
+    },
+    [dispatch],
+  )
   const clearEntity = (): void => {
     dispatch(clearEntityAction())
   }
@@ -254,9 +257,12 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
   const updateDAOController = (controller: string): void => {
     dispatch(updateDAOControllerAction(controller))
   }
-  const updateProposal = (proposal: TProposalModel): void => {
-    dispatch(updateProposalAction(proposal))
-  }
+  const updateProposal = useCallback(
+    (proposal: TProposalModel): void => {
+      dispatch(updateProposalAction(proposal))
+    },
+    [dispatch],
+  )
   const updateClaimQuestions = (claimQuestions: { [id: string]: TQuestion }): void => {
     dispatch(updateClaimQuestionsAction(claimQuestions))
   }
@@ -323,7 +329,10 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
 interface TCreateEntityHookRes {
   UploadLinkedResource: () => Promise<LinkedResource[]>
   UploadLinkedClaim: () => Promise<LinkedClaim[]>
-  CreateProtocol: () => Promise<string>
+  CreateProtocol: (transactionConfig: {
+    sequence: number
+    transactionSessionHash?: string
+  }) => Promise<any>
   CreateEntityBase: (
     entityType: string,
     protocolDid: string,
@@ -337,6 +346,10 @@ interface TCreateEntityHookRes {
       controller?: string[]
       relayerNode?: string
     },
+    transactionConfig: {
+      sequence: number
+      transactionSessionHash?: string
+    }
   ) => Promise<{ did?: string; adminAccount?: string }>
   CreateDAOCoreByGroupId: (daoGroup: TDAOGroupModel) => Promise<string>
   uploadPublicDoc: (data: string, contentType: string) => Promise<CellnodePublicResource | Error>
@@ -480,14 +493,15 @@ export function useCreateEntity(): TCreateEntityHookRes {
     return linkedClaims
   }
 
-  const CreateProtocol = async (): Promise<string> => {
+  const CreateProtocol = async (transactionConfig: {
+    sequence: number
+    transactionSessionHash?: string
+  }): Promise<any> => {
     try {
       const createEntityMessagePayload = await CreateEntityMessage(signer, [{ entityType: 'protocol' }])
 
-      const response = (await execute(createEntityMessagePayload)) as unknown as DeliverTxResponse
-      const protocolDid = utils.common.getValueFromEvents(response!, 'wasm', 'token_id')
-      console.log('CreateProtocol', { protocolDid })
-      return protocolDid
+      const response = (await execute({ data: createEntityMessagePayload, transactionConfig })) as any
+      return response
     } catch (e) {
       console.error('CreateProtocol', e)
       return ''
@@ -507,6 +521,10 @@ export function useCreateEntity(): TCreateEntityHookRes {
       controller?: string[]
       relayerNode?: string
     },
+    transactionConfig: {
+      sequence: number
+      transactionSessionHash?: string
+    }
   ): Promise<{ did?: string; adminAccount?: string }> => {
     try {
       const {
@@ -538,7 +556,10 @@ export function useCreateEntity(): TCreateEntityHookRes {
         },
       ])
 
-      const response = (await execute(createEntityMessagePayload)) as unknown as DeliverTxResponse
+    console.log('createEntityMessagePayload', createEntityMessagePayload)
+
+
+      const response = (await execute({ data: createEntityMessagePayload, transactionConfig })) as unknown as DeliverTxResponse
       const did = utils.common.getValueFromEvents(response, 'wasm', 'token_id')
       const adminAccount = utils.common.getValueFromEvents(
         response,
@@ -705,7 +726,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
     const instantiateWasmPayload = await WasmInstantiateMessage(signer, [message])
 
     if (instantiateWasmPayload) {
-      const response = (await execute(instantiateWasmPayload)) as unknown as DeliverTxResponse
+      const response = (await execute({ data: instantiateWasmPayload, transactionConfig: { sequence: 1 } })) as unknown as DeliverTxResponse
       console.log('CreateDAOCoreByGroupId', response)
       const contractAddress = utils.common.getValueFromEvents(response!, 'instantiate', '_contract_address')
       if (!contractAddress) {

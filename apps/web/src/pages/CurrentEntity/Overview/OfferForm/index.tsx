@@ -28,9 +28,14 @@ const OfferForm: React.FC<Props> = ({ claimCollectionId, agentRole }) => {
   const { data: iid } = useGetIid(signer.did)
   const offerSent = useMemo(() => {
     const linkedResource: LinkedResource[] = iid?.linkedResource ?? []
-    return linkedResource.some((v) => v.description.split('#')[0] === claimCollectionId)
+    return linkedResource.some(
+      (v) =>
+        v.id === `{id}#offer#${claimCollectionId}` &&
+        v.type === 'DeedOffer' &&
+        v.description.split('#')[0] === claimCollectionId,
+    )
   }, [iid, claimCollectionId])
-  const { execute } = useWallet()
+  const { execute, close } = useWallet()
 
   const handleSubmit = useCallback(
     async (answer: any): Promise<boolean> => {
@@ -55,9 +60,10 @@ const OfferForm: React.FC<Props> = ({ claimCollectionId, agentRole }) => {
         })
         const addLinkedResourcePayload = GetAddLinkedResourcePayload(signer.did, signer, linkedResource)
 
-        const response = (await execute(addLinkedResourcePayload as any)) as unknown as DeliverTxResponse
+        const response = (await execute({ data: addLinkedResourcePayload as any, transactionConfig: { sequence: 1 }})) as unknown as DeliverTxResponse
 
         if (response.code === 0) {
+          close()
           successToast('Success', 'Successfully submitted!')
           return true
         }
@@ -68,7 +74,7 @@ const OfferForm: React.FC<Props> = ({ claimCollectionId, agentRole }) => {
         return false
       }
     },
-    [agentRole, claimCollectionId, signer, execute],
+    [agentRole, claimCollectionId, signer, execute, close],
   )
 
   const survey = useMemo(() => {

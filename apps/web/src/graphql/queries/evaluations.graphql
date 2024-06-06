@@ -1,0 +1,11 @@
+query Evaluations($filter: EvaluationFilter) {
+  evaluations(filter: $filter) {
+    totalCount
+    nodes {
+      collectionId
+      claim {
+        submissionDate
+      }
+    }
+  }
+}

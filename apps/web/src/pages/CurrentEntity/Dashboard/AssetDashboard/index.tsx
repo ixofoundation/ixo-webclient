@@ -1,15 +1,18 @@
 import Dashboard from 'components/Dashboard/Dashboard'
 import { MatchType } from 'types/models'
 import { useHeaderTabs } from 'hooks/headerTabs'
-import { Navigate, Route, Routes } from 'react-router-dom'
+import { Navigate, Route, Routes, useParams } from 'react-router-dom'
 import AssetOverview from './Overview'
-import useCurrentEntity from 'hooks/currentEntity'
+import { useAppSelector } from 'redux/hooks'
+import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { toRootEntityType } from 'utils/entities'
 
 const AssetDashboard = () => {
   const entityType = 'asset'
-  const { currentEntity: entity } = useCurrentEntity()
+  const { entityId = '' } = useParams()
+  const entity = useAppSelector(getEntityById(entityId))
 
-  const headerTabs = useHeaderTabs()
+  const headerTabs = useHeaderTabs({ entityType: toRootEntityType(entity.type) })
 
   const assetNumber = entity?.alsoKnownAs?.replace('{id}#', '') || ''
   const title = entity?.profile?.name || ''

@@ -1,5 +1,6 @@
 import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
+import { useCompanionDesignConfig } from 'hooks/userInterface/useCompanionDesignConfig'
 import React from 'react'
 import { useTheme } from 'styled-components'
 
@@ -12,11 +13,13 @@ interface Props {
 
 const CircleTab: React.FC<Props> = ({ active, icon, badge = 0, onClick }) => {
   const theme: any = useTheme()
+  const { toolbarActiveBackground, toolbarActiveColor, toolbarBackground, toolbarColor} = useCompanionDesignConfig()
+
   return (
     <SvgBox
       position='relative'
-      background={active ? theme.ixoNewBlue : theme.ixoWhite}
-      color={active ? theme.ixoWhite : theme.ixoNewBlue}
+      background={active ? toolbarActiveBackground : toolbarBackground}
+      color={active ? toolbarActiveColor : toolbarColor}
       $borderRadius='100%'
       width='46px'
       height='46px'

@@ -6,7 +6,7 @@ import { ProfileFormFactory } from './ProfileFormFactory'
 import { AdditionalEntityInformation } from './AdditionalEntityInformation'
 import { useCreateEntityStepState } from 'hooks/createEntityStepState'
 
-const SetupMetadata: React.FC = (): JSX.Element => {
+const SetupMetadata = ({ showNavigation = true }: { showNavigation?: boolean }): JSX.Element => {
   const { profile, entityType } = useCreateEntityState()
   const { navigateToNextStep, navigateToPreviousStep } = useCreateEntityStepState()
 
@@ -50,14 +50,14 @@ const SetupMetadata: React.FC = (): JSX.Element => {
           <AdditionalEntityInformation />
         </Box>
 
-        <Box className='d-flex justify-content-end w-100 mt-4' style={{ gap: 20 }}>
+        {showNavigation && <Box className='d-flex justify-content-end w-100 mt-4' style={{ gap: 20 }}>
           <Button size='full' height={48} variant='secondary' onClick={handlePrev}>
             Back
           </Button>
           <Button size='full' height={48} variant={'primary'} disabled={!canSubmit} onClick={handleNext}>
             Continue
           </Button>
-        </Box>
+        </Box>}
       </Box>
     </FlexBox>
   )

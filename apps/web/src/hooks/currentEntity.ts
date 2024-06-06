@@ -6,7 +6,7 @@ import {
   Service,
   VerificationMethod,
 } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import {
   clearEntityAction,
   updateEntityAction,
@@ -54,21 +54,13 @@ import { getDaoContractInfo, thresholdToTQData } from 'utils/dao'
 import { useAccount } from './account'
 import { Config as ProposalConfig } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/DaoPreProposeSingle.types'
-import { convertMicroDenomToDenomWithDecimals, depositInfoToCoin } from 'utils/conversions'
+import { depositInfoToCoin } from 'utils/conversions'
 import { EntityLinkedResourceConfig } from 'constants/entity'
-import { IMPACTS_DAO_ID, NATIVE_MICRODENOM } from 'constants/chains'
+import { IMPACTS_DAO_ID } from 'constants/chains'
 import { OutputBlockData } from '@editorjs/editorjs'
 import { useEntityLazyQuery } from 'generated/graphql'
 import { apiEntityToEntity } from 'utils/entities'
 import { updateEntityPropertyAction } from 'redux/entitiesExplorer/entitiesExplorer.actions'
-import { TTreasuryAccountModel, TTreasuryCoinModel } from 'pages/CurrentEntity/Treasury/DAOTreasury/Accounts'
-import { truncateString } from 'utils/formatters'
-import { determineChainFromAddress } from 'utils/account'
-import { GetBalances } from 'lib/protocol'
-import { contracts } from '@ixo/impactxclient-sdk'
-import { selectStakingGroups } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
-import { getTreasuryCoinByDenom } from 'utils/treasury'
-
 export default function useCurrentEntity(): {
   id: string
   settings: any
@@ -233,8 +225,7 @@ export function useCurrentEntityMetadata(): {
   return { createdAt }
 }
 
-export function useCurrentEntityProfile(): Omit<TEntityProfileModel, '@context' | 'id'> {
-  const { profile } = useCurrentEntity()
+export function useCurrentEntityProfile(profile: TEntityModel["profile"]): Omit<TEntityProfileModel, '@context' | 'id'> {
   const type = profile?.type ?? ''
   const name = profile?.name ?? ''
   const orgName = profile?.orgName ?? ''
@@ -286,8 +277,7 @@ export function useCurrentEntityClaims() {
   return { claims, headlineClaim }
 }
 
-export function useCurrentEntityAdminAccount(): string {
-  const { accounts = [] } = useCurrentEntity()
+export function useCurrentEntityAdminAccount(accounts: EntityAccount[]): string {
   return accounts?.find((account) => account.name === 'admin')?.address || ''
 }
 
@@ -314,8 +304,7 @@ export function useCurrentEntityBondLinkedEntity(): LinkedEntity | undefined {
   return linkedEntity?.find((v) => v.type === 'bond')
 }
 
-export function useCurrentEntityDAOGroup(coreAddress: string) {
-  const { daoGroups } = useCurrentEntity()
+export function useCurrentEntityDAOGroup(coreAddress: string, daoGroups: { [address: string] : TDAOGroupModel} ) {
   const daoGroup: TDAOGroupModel | undefined = daoGroups[coreAddress]
   const { address } = useAccount()
 
@@ -395,8 +384,9 @@ export function useCurrentEntityDAOGroup(coreAddress: string) {
     votingModuleAddress,
   }
 }
-export function useCurrentEntityDAOGroupToken(coreAddress: string) {
-  const { daoGroups } = useCurrentEntity()
+export function useCurrentEntityDAOGroupToken(coreAddress: string, daoGroups: {
+  [address: string]: TDAOGroupModel;
+}) {
   const daoGroup: TDAOGroupModel | undefined = daoGroups[coreAddress]
 
   const token = useMemo(() => daoGroup?.token, [daoGroup])
@@ -410,184 +400,4 @@ export function useCurrentEntityDAOGroupToken(coreAddress: string) {
     tokenSymbol,
     tokenDecimals,
   }
-}
-
-export function useCurrentEntityTreasury() {
-  const { cwClient } = useAccount()
-  const { accounts: entityAccounts, linkedAccounts, daoGroups } = useCurrentEntity()
-  const stakingGroups = useAppSelector(selectStakingGroups)
-  const [accounts, setAccounts] = useState<{
-    [address: string]: TTreasuryAccountModel
-  }>({})
-
-  // entityAccounts
-  useEffect(() => {
-    if (entityAccounts.length > 0) {
-      const newAccounts = entityAccounts.reduce(
-        (acc, account) => ({
-          ...acc,
-          [account.address]: {
-            address: account.address,
-            name: account.name,
-            type: 'entity',
-            network: 'ixo Network',
-            coins: {},
-          },
-        }),
-        {},
-      )
-      setAccounts((accounts) => ({ ...accounts, ...newAccounts }))
-    }
-    return () => {
-      setAccounts((accounts) =>
-        Object.fromEntries(Object.entries(accounts).filter(([key, value]) => value.type !== 'entity')),
-      )
-    }
-  }, [entityAccounts])
-
-  // groupAccounts
-  useEffect(() => {
-    if (Object.keys(daoGroups).length > 0) {
-      const newAccounts = Object.values(daoGroups).reduce(
-        (acc, daoGroup) => ({
-          ...acc,
-          [daoGroup.coreAddress]: {
-            address: daoGroup.coreAddress,
-            name: daoGroup.config.name,
-            type: 'group',
-            network: 'ixo Network',
-            coins: {},
-          },
-        }),
-        {},
-      )
-      setAccounts((accounts) => ({ ...accounts, ...newAccounts }))
-    }
-    return () => {
-      setAccounts((accounts) =>
-        Object.fromEntries(Object.entries(accounts).filter(([key, value]) => value.type !== 'group')),
-      )
-    }
-  }, [daoGroups])
-
-  // linkedAccounts
-  useEffect(() => {
-    if (linkedAccounts.length > 0) {
-      const newAccounts = linkedAccounts.reduce(
-        (acc, account) => ({
-          ...acc,
-          [account.id]: {
-            address: account.id,
-            name: truncateString(account.id, 15),
-            type: 'linked',
-            network: account.relationship,
-            coins: {},
-          },
-        }),
-        {},
-      )
-      setAccounts((accounts) => ({ ...accounts, ...newAccounts }))
-
-      return () => {
-        setAccounts((accounts) =>
-          Object.fromEntries(Object.entries(accounts).filter(([key, value]) => value.type !== 'linked')),
-        )
-      }
-    }
-  }, [linkedAccounts])
-
-  const updateNativeTokenBalances = useCallback(async (address: string): Promise<TTreasuryCoinModel[]> => {
-    if (!address) {
-      return []
-    }
-    const chainInfo = await determineChainFromAddress(address)
-    if (!chainInfo) {
-      return []
-    }
-
-    const balances = await GetBalances(address, chainInfo.rpc)
-
-    if (!balances.find((balance) => balance.denom === NATIVE_MICRODENOM)) {
-      balances.push({ amount: '0', denom: NATIVE_MICRODENOM })
-    }
-
-    const coins: TTreasuryCoinModel[] = (await Promise.all(
-      await balances.map((coin) => getTreasuryCoinByDenom(address, coin)).filter((v) => v !== undefined),
-    )) as TTreasuryCoinModel[]
-    return coins
-  }, [])
-
-  const updateCw20TokenBalances = useCallback(
-    async (address: string): Promise<TTreasuryCoinModel[]> => {
-      const coins: TTreasuryCoinModel[] = (await Promise.all(
-        stakingGroups.map(async (stakingGroup: TDAOGroupModel) => {
-          const {
-            token,
-            votingModule: { votingModuleAddress },
-          } = stakingGroup
-
-          if (token) {
-            const daoVotingCw20StakedClient = new contracts.DaoVotingCw20Staked.DaoVotingCw20StakedQueryClient(
-              cwClient,
-              votingModuleAddress,
-            )
-            const tokenContract = await daoVotingCw20StakedClient.tokenContract()
-
-            const cw20BaseClient = new contracts.Cw20Base.Cw20BaseQueryClient(cwClient, tokenContract)
-            const { balance: microBalance } = await cw20BaseClient.balance({ address })
-            const balance = convertMicroDenomToDenomWithDecimals(microBalance, token.tokenInfo.decimals)
-            if (balance === 0) {
-              return undefined
-            }
-
-            const payload: TTreasuryCoinModel = {
-              address,
-              coinDenom: token.tokenInfo.symbol,
-              network: 'IXO',
-              balance: balance.toString(),
-              coinImageUrl: (token.marketingInfo?.logo !== 'embedded' && token.marketingInfo.logo?.url) || '',
-              lastPriceUsd: 0,
-            }
-            return payload
-          }
-          return undefined
-        }),
-      )) as TTreasuryCoinModel[]
-      return coins.filter(Boolean)
-    },
-    [cwClient, stakingGroups],
-  )
-
-  useEffect(() => {
-    Object.values(accounts).forEach((account) => {
-      updateNativeTokenBalances(account?.address).then((coins: TTreasuryCoinModel[]) => {
-        coins.forEach((coin) => {
-          setAccounts((v) => ({
-            ...v,
-            [coin?.address]: {
-              ...v[coin?.address],
-              coins: { ...(v[coin?.address]?.coins ?? {}), [coin?.coinDenom]: coin },
-            },
-          }))
-        })
-      })
-      updateCw20TokenBalances(account.address).then((coins: TTreasuryCoinModel[]) => {
-        coins.forEach((coin) => {
-          setAccounts((v) => ({
-            ...v,
-            [coin.address]: {
-              ...v[coin.address],
-              coins: { ...(v[coin.address]?.coins ?? {}), [coin.coinDenom]: coin },
-            },
-          }))
-        })
-      })
-    })
-    return () => {
-      //
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [JSON.stringify(Object.keys(accounts))])
-
-  return accounts
 }

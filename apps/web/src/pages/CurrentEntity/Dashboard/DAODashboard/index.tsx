@@ -1,7 +1,7 @@
 import Dashboard from 'components/Dashboard/Dashboard'
 import { HeaderTab, Path } from 'components/Dashboard/types'
 import { useAccount } from 'hooks/account'
-import useCurrentEntity, { useCurrentEntityDAOGroupToken, useCurrentEntityProfile } from 'hooks/currentEntity'
+import { useCurrentEntityDAOGroupToken } from 'hooks/currentEntity'
 import { Navigate, Route, Routes, useMatch, useParams } from 'react-router-dom'
 import { requireCheckDefault } from 'utils/images'
 import { MyParticipation } from './MyParticipation'
@@ -22,22 +22,32 @@ import Claims from '../ProjectDashboard/Claims'
 import ClaimDetail from '../ProjectDashboard/ClaimDetail'
 import Shareholders from './Shareholders'
 import { useMemo } from 'react'
+import { useAppSelector } from 'redux/hooks'
+import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { useWallet } from '@ixo-webclient/wallet-connector'
 
 const DAODashboard: React.FC = (): JSX.Element => {
-  const { entityId } = useParams<{ entityId: string }>()
+  const { entityId = '' } = useParams<{ entityId: string }>()
   const isEditEntityRoute = useMatch('/entity/:entityId/dashboard/edit')
   const isCreateProposalRoute = useMatch('/entity/:entityId/dashboard/governance/:coreAddress/*')
   const isClaimScreenRoute = useMatch('/entity/:entityId/dashboard/claims')
   const isShareholdersScreenRoute = useMatch('/entity/:entityId/dashboard/shareholders')
-  const { entityType, owner, daoGroups, linkedEntity } = useCurrentEntity()
-  const { name } = useCurrentEntityProfile()
+  const { wallet } = useWallet()
+  const entity = useAppSelector(getEntityById(entityId))
+
+  const owner = entity?.owner
+  const daoGroups = entity?.daoGroups ?? {}
+  const name = entity.profile?.name ?? ''
+  const type = entity.type
+
+  // const { name } = useCurrentEntityProfile()
   const { registered, address } = useAccount()
-  const signerRole = useGetUserGranteeRole()
+  const signerRole = useGetUserGranteeRole(wallet?.address ?? '', entity.owner, entity.accounts, entity.verificationMethod)
 
   const { getQuery } = useQuery()
   const selectedGroup = getQuery('selectedGroup')
 
-  const { tokenSymbol } = useCurrentEntityDAOGroupToken(selectedGroup)
+  const { tokenSymbol } = useCurrentEntityDAOGroupToken(selectedGroup, entity?.daoGroups ?? {})
 
   const searchParams = new URLSearchParams()
   searchParams.set('selectedGroup', selectedGroup)
@@ -152,7 +162,7 @@ const DAODashboard: React.FC = (): JSX.Element => {
     return name
   }, [isShareholdersScreenRoute, name, tokenSymbol])
 
-  if (getDAOGroupLinkedEntities(linkedEntity).length > 0 && Object.keys(daoGroups).length === 0) {
+  if (getDAOGroupLinkedEntities(entity.linkedEntity).length > 0 && Object.keys(daoGroups).length === 0) {
     return <Spinner info='Loading DAO Groups...' />
   }
 
@@ -174,7 +184,7 @@ const DAODashboard: React.FC = (): JSX.Element => {
       subRoutes={routes}
       baseRoutes={breadcrumbs}
       tabs={tabs}
-      entityType={entityType}
+      entityType={type}
     >
       <Routes>
         <Route index element={<Navigate to={`overview`} />} />

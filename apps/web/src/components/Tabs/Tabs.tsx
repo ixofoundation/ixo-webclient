@@ -9,11 +9,15 @@ import inactiveAnimation from 'assets/animations/assistant/inactive.json'
 import hoverAnimation from 'assets/animations/assistant/hover.json'
 import AssistantContext from 'contexts/assistant'
 import { HeaderTab } from 'components/Dashboard/types'
+import { useAppSelector } from 'redux/hooks'
+import { selectEntityConfig } from 'redux/configs/configs.selectors'
+// import { toRootEntityType } from 'utils/entities's
 
 export interface Props {
   buttons: HeaderTab[]
   matchType: MatchType
   activeTabColor: string | undefined
+  tabBgcolor?: string
   assistantPanelToggle?: () => void
   enableAssistantButton: boolean
 }
@@ -22,6 +26,7 @@ const TabsComponent: React.FunctionComponent<Props> = ({
   buttons,
   matchType,
   activeTabColor,
+  tabBgcolor,
   assistantPanelToggle,
   // enableAssistantButton,
 }) => {
@@ -29,6 +34,9 @@ const TabsComponent: React.FunctionComponent<Props> = ({
   const assistant = React.useContext(AssistantContext)
   const navigate = useNavigate()
   const location = useLocation()
+  // const entityType = toRootEntityType(currentEntity.type)
+  const config = useAppSelector(selectEntityConfig)
+  const tabConfig = config.UI?.header?.tabs
 
   const assistantButtonClicked = (): void => {
     const isActive = assistant.active
@@ -61,7 +69,7 @@ const TabsComponent: React.FunctionComponent<Props> = ({
   }
 
   return (
-    <TabsContainer activetabcolor={activeTabColor || ''}>
+    <TabsContainer activetabcolor={activeTabColor || ''} tabBgColor={tabBgcolor} {...tabConfig}>
       {buttons.map((button, index) => {
         switch (button.linkClass) {
           case 'in-active':
@@ -108,7 +116,7 @@ const TabsComponent: React.FunctionComponent<Props> = ({
               return (
                 <Tooltip text={button.tooltip} key={index} position={TooltipPosition.Bottom}>
                   <NavLink className={button.linkClass} to={{ pathname: button.path, search: button.search }}>
-                    {button.iconClass && <i className={button.iconClass} />}
+                    {button.iconClass && <i className={button.iconClass} style={{ fill: tabConfig?.color, color: tabConfig?.color }}/>}
                     {button.title && <p>{button.title}</p>}
                   </NavLink>
                 </Tooltip>

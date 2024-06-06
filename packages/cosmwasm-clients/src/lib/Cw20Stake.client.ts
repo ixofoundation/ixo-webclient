@@ -7,7 +7,7 @@
 import { CosmWasmClient, SigningCosmWasmClient, ExecuteResult } from "@cosmjs/cosmwasm-stargate";
 import { Coin, StdFee } from "@cosmjs/amino";
 import { Duration, InstantiateMsg, ExecuteMsg, Uint128, Binary, Action, Expiration, Timestamp, Uint64, Cw20ReceiveMsg, QueryMsg, MigrateMsg, ClaimsResponse, Claim, Addr, Config, GetHooksResponse, ListStakersResponse, StakerBalanceResponse, OwnershipForAddr, StakedBalanceAtHeightResponse, StakedValueResponse, TotalStakedAtHeightResponse, TotalValueResponse } from "./Cw20Stake.types";
-import { BaseClient, DeliverTxResponse } from "./Base.client";
+import { BaseClient, DeliverTxResponse, ExecuteProps } from "./Base.client";
 export interface Cw20StakeReadOnlyInterface {
   contractAddress: string;
   stakedBalanceAtHeight: ({
@@ -99,11 +99,13 @@ export class Cw20StakeClient extends BaseClient {
   receive = async ({
     amount,
     msg,
-    sender
+    sender,
+    transactionConfig
   }: {
     amount: Uint128;
     msg: Binary;
     sender: string;
+    transactionConfig: ExecuteProps["transactionConfig"]
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       receive: {
@@ -111,60 +113,68 @@ export class Cw20StakeClient extends BaseClient {
         msg,
         sender
       }
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
   unstake = async ({
-    amount
+    amount,
+    transactionConfig
   }: {
     amount: Uint128;
+    transactionConfig: ExecuteProps["transactionConfig"]
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       unstake: {
         amount
       }
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
-  claim = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
+  claim = async ({ transactionConfig }: { transactionConfig: ExecuteProps["transactionConfig"] }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       claim: {}
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
   updateConfig = async ({
-    duration
+    duration,
+    transactionConfig
   }: {
     duration?: Duration;
+    transactionConfig: ExecuteProps["transactionConfig"]
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       update_config: {
         duration
       }
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
   addHook = async ({
-    addr
+    addr,
+    transactionConfig
   }: {
     addr: string;
+    transactionConfig: ExecuteProps["transactionConfig"]
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       add_hook: {
         addr
       }
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
   removeHook = async ({
-    addr
+    addr,
+    transactionConfig
   }: {
     addr: string;
+    transactionConfig: ExecuteProps["transactionConfig"]
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       remove_hook: {
         addr
       }
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
-  updateOwnership = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
+  updateOwnership = async ({ transactionConfig }: { transactionConfig: ExecuteProps["transactionConfig"] }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       update_ownership: {}
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
 }

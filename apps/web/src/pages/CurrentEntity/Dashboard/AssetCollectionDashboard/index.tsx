@@ -1,15 +1,16 @@
 import Dashboard from 'components/Dashboard/Dashboard'
 import { HeaderTab, Path } from 'components/Dashboard/types'
 import { useAccount } from 'hooks/account'
-import useCurrentEntity, { useCurrentEntityProfile } from 'hooks/currentEntity'
 import { Navigate, Route, useParams, Routes } from 'react-router-dom'
 import { requireCheckDefault } from 'utils/images'
 import EditEntity from './EditEntity'
+import { useAppSelector } from 'redux/hooks'
+import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 const AssetCollectionDashboard: React.FC = (): JSX.Element => {
-  const { entityId } = useParams<{ entityId: string }>()
-  const { entityType, owner } = useCurrentEntity()
-  const { name } = useCurrentEntityProfile()
+  const { entityId = "" } = useParams<{ entityId: string }>()
+  const { type, owner, profile } = useAppSelector(getEntityById(entityId))
+
   const { registered, address } = useAccount()
 
   const routes: Path[] = [
@@ -28,12 +29,12 @@ const AssetCollectionDashboard: React.FC = (): JSX.Element => {
   return (
     <Dashboard
       theme={'light'}
-      title={name}
+      title={profile?.name ?? ""}
       subRoutes={routes}
       baseRoutes={breadcrumbs}
       tabs={tabs}
       noTabs
-      entityType={entityType}
+      entityType={type}
     >
       <Routes>
         <Route index element={<Navigate to={`edit`} />} />

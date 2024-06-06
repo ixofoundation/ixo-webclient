@@ -7,16 +7,23 @@ import { ReactComponent as UserAstronautIcon } from 'assets/images/icon-user-ast
 import { ReactComponent as UserNinjaIcon } from 'assets/images/icon-user-ninja-solid.svg'
 import { ReactComponent as UserCheckIcon } from 'assets/images/icon-user-check-solid.svg'
 import { Card } from '../Card'
-import useCurrentEntity, { useCurrentEntityDAOGroup, useCurrentEntityProfile } from 'hooks/currentEntity'
+import { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
+import { useParams } from 'react-router-dom'
+import { useAppSelector } from 'redux/hooks'
+import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { truncate } from 'lodash'
 
 const DAOGroupItem: React.FC<{ address: string }> = ({ address }) => {
   const theme: any = useTheme()
-  const { daoGroup, myVotingPower } = useCurrentEntityDAOGroup(address)
+  const { entityId = '' } = useParams<{ entityId: string }>()
+  const { daoGroups = {} } = useAppSelector(getEntityById(entityId))
+
+  const { daoGroup, myVotingPower } = useCurrentEntityDAOGroup(address, daoGroups)
 
   return (
     <FlexBox key={daoGroup.id} width='100%' $alignItems='center' $justifyContent='space-between'>
       <FlexBox $gap={2}>
-        <Typography size='md'>{daoGroup.config.name}</Typography>
+        <Typography size='md'>{truncate(daoGroup.config.name, {length: 20})}</Typography>
         <Typography size='md' color='blue'>
           {Intl.NumberFormat(undefined, { style: 'percent' }).format(myVotingPower)}
         </Typography>
@@ -56,9 +63,9 @@ const DAOGroupItem: React.FC<{ address: string }> = ({ address }) => {
 
 const MyParticipationCard = () => {
   const theme: any = useTheme()
-  const { name } = useCurrentEntityProfile()
-  const { daoGroups } = useCurrentEntity()
-  const daoGroupsArr = Object.values(daoGroups)
+  const { entityId = "" } = useParams<{entityId: string}>()
+  const { profile, daoGroups } = useAppSelector(getEntityById(entityId))
+  const daoGroupsArr = Object.values(daoGroups ?? {})
 
   return (
     <Card
@@ -68,7 +75,7 @@ const MyParticipationCard = () => {
       items={
         <>
           <FlexBox width='100%' $alignItems='center' $justifyContent='space-between'>
-            <Typography size='md'>{name}</Typography>
+            <Typography size='md'>{profile?.name}</Typography>
 
             <FlexBox $gap={2}>
               <SvgBox

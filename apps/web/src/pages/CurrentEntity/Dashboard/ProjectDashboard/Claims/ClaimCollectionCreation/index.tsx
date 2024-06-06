@@ -2,7 +2,6 @@ import { ixo, utils } from '@ixo/impactxclient-sdk'
 import { Payments } from '@ixo/impactxclient-sdk/types/codegen/ixo/claims/v1beta1/claims'
 import { LinkedEntity } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { useAccount } from 'hooks/account'
-import useCurrentEntity, { useCurrentEntityClaims } from 'hooks/currentEntity'
 import { CreateEntityMessage } from 'lib/protocol'
 import { CreateCollection } from 'lib/protocol/claim'
 import React, { useMemo, useState } from 'react'
@@ -22,16 +21,17 @@ import { AgentRoles } from 'types/models'
 import { useGetEntityByIdLazyQuery } from 'graphql/entities'
 import { useWallet } from '@ixo-webclient/wallet-connector'
 import { DeliverTxResponse } from '@cosmjs/stargate'
+import { useAppSelector } from 'redux/hooks'
+import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 const ClaimCollectionCreation: React.FC = () => {
   const { entityId = '' } = useParams<{ entityId: string }>()
-  const { entityType } = useCurrentEntity()
-  const { claims } = useCurrentEntityClaims()
+  const { type, claim: claims = {}, accounts, owner, verificationMethod } = useAppSelector(getEntityById(entityId))
   const { signer } = useAccount()
+  const { execute, wallet, close, transaction } = useWallet()
   const { isExist: isCollectionExist } = useGetClaimCollectionsByEntityId(entityId)
-  const userRole = useGetUserGranteeRole()
+  const userRole = useGetUserGranteeRole(wallet?.address ?? "", owner, accounts, verificationMethod)
   const { fetchEntityById } = useGetEntityByIdLazyQuery()
-  const { execute, wallet } = useWallet()
 
   const [step, setStep] = useState<'start' | 'select' | 'scope' | 'payment' | 'submission' | 'review' | 'success'>(
     'start',
@@ -68,7 +68,7 @@ const ClaimCollectionCreation: React.FC = () => {
       }),
       ixo.iid.v1beta1.LinkedEntity.fromPartial({
         id: entityId,
-        type: entityType,
+        type: type,
         service: 'ixo',
         relationship: 'offers',
       }),
@@ -87,7 +87,7 @@ const ClaimCollectionCreation: React.FC = () => {
       ],
     )
 
-    const response = (await execute(entityMessage)) as unknown as DeliverTxResponse
+    const response = (await execute({ data: entityMessage, transactionConfig: { sequence: 2, transactionSessionHash: transaction.transactionSessionHash }})) as unknown as DeliverTxResponse
     if (response.code !== 0) {
       throw response.rawLog
     }
@@ -114,7 +114,7 @@ const ClaimCollectionCreation: React.FC = () => {
       ]
       const createCollectionRes = CreateCollection(signer, payload)
 
-      const response = (await execute(createCollectionRes)) as unknown as DeliverTxResponse
+      const response = (await execute({ data: createCollectionRes, transactionConfig: { sequence: 1 }})) as unknown as DeliverTxResponse
 
       if (response.code) {
         throw response.rawLog
@@ -132,6 +132,7 @@ const ClaimCollectionCreation: React.FC = () => {
         fetchEntityById(deedOfferDid)
       }
 
+      close()
       successToast(null, 'Offer successfully created!')
       setStep('success')
     } catch (e) {
@@ -159,6 +160,7 @@ const ClaimCollectionCreation: React.FC = () => {
           setStep('scope')
         }}
         onCancel={() => setStep('start')}
+        claims={claims}
       />
       <ClaimCollectionCreationScopeStep
         hidden={step !== 'scope'}

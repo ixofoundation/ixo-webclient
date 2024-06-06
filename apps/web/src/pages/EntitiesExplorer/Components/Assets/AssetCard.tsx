@@ -179,7 +179,7 @@ const AssetCard: React.FC<Props> = ({
               width='32px'
               height='32px'
               $borderRadius='100%'
-              background={`url(${logo}), ${theme.ixoGrey100}`}
+              background={`url(${logo!}), ${theme.ixoGrey100}`}
               $backgroundSize='100%'
             />
           </FlexBox>

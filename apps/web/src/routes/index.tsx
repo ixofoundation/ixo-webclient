@@ -12,7 +12,7 @@ const App: React.FunctionComponent = () => {
 
   return (
     <ReactRouterRoutes>
-      {!splashIsRootRoute && <Route index element={<Navigate to={`/explore?type=dao`} />} />}
+      {!splashIsRootRoute && <Route index element={<Navigate to={`/explore?type=${entityConfig?.UI?.explorer?.defaultView}`} />} />}
       <Route path='/' element={<Splash />} />
       <Route
         path='*'

@@ -30,6 +30,7 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
   open: boolean
   action: TProposalActionModel
   validate?: boolean
+  noTitle?: boolean
   onClose: () => void
   onSubmit?: () => void
 }
@@ -42,6 +43,7 @@ const SetupActionModalTemplate: React.FC<Props> = ({
   onClose,
   onSubmit,
   children,
+  noTitle,
 }): JSX.Element => {
   const theme: any = useTheme()
   const Icon = ProposalActionConfig[action.group].items[action.text].icon
@@ -60,7 +62,7 @@ const SetupActionModalTemplate: React.FC<Props> = ({
             <Icon />
           </SvgBox>
           <Typography weight='medium' size='xl'>
-            {action.text}
+            {!noTitle && action.text}
           </Typography>
         </FlexBox>
 

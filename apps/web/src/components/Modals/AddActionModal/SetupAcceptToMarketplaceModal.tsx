@@ -35,9 +35,9 @@ const SetupAcceptToMarketplaceModal: React.FC<Props> = ({ open, action, onClose,
   const [fetchedEntity, setFetchedEntity] = useState<TEntityModel | null>(null)
   useEntityQuery({
     variables: {
-      id: action.data.id,
+      id: action.data?.id,
     },
-    skip: !action.data.id || !!fetchedEntity,
+    skip: !action.data?.id || !!fetchedEntity,
     onCompleted: (data) => {
       setFetchedEntity(data?.entity as any)
       apiEntityToEntity({ entity: data?.entity }, (key, value) => {

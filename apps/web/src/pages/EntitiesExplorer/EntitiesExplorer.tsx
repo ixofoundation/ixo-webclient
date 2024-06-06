@@ -13,6 +13,7 @@ import { ErrorContainer } from './EntitiesExplorer.container.styles'
 import { RootState } from 'redux/store'
 import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { Navigate } from 'react-router-dom'
+import { useIxoConfigs } from 'hooks/configs'
 
 interface Props {
   location: any
@@ -33,6 +34,8 @@ const EntitiesSelect: React.FunctionComponent<Props> = ({
 }) => {
   const params = queryString.parse(search)
   const entityTypes = Object.values(EntityType)
+  const { entityConfig } = useIxoConfigs()
+
 
   if (entityTypes.find((e) => e === params.type)) {
     const entityType = params.type as EntityType
@@ -69,7 +72,7 @@ const EntitiesSelect: React.FunctionComponent<Props> = ({
     )
   }
 
-  return <Navigate to='/explore?type=dao' />
+  return <Navigate to={`/explore?type=${entityConfig?.UI?.explorer?.defaultView}`} />
 }
 
 const mapStateToProps = (state: RootState): Record<string, any> => ({

@@ -1,5 +1,4 @@
-import useCurrentEntity from 'hooks/currentEntity'
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import ClaimDashboard from './ClaimDashboard'
 import DAODashboard from './DAODashboard'
 import InvestmentDashboard from './InvestmentDashboard'
@@ -7,10 +6,23 @@ import ProjectDashboard from './ProjectDashboard'
 import AssetDashboard from './AssetDashboard'
 import OracleDashboard from './OracleDashboard'
 import AssetCollectionDashboard from './AssetCollectionDashboard'
+import { useParams } from 'react-router-dom'
+import { useAppSelector } from 'redux/hooks'
+import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { useEntityDashboard } from 'hooks/entity/useEntityDashboard'
 
 const DashboardPage: React.FC = (): JSX.Element | null => {
-  const currentEntity = useCurrentEntity()
-  const entityType = currentEntity.entityType
+  const { entityId = "" } = useParams<{entityId: string}>()
+  const entity = useAppSelector(getEntityById(entityId))
+  const entityType = entity?.type
+
+  const { refetch, type } = useEntityDashboard(entityId)
+
+  useEffect(() => {
+    if (refetch && !type) {
+      refetch()
+    }
+  }, [refetch, type])
 
   const Component = useMemo(() => {
     switch (entityType) {

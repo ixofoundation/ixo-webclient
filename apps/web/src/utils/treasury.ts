@@ -16,9 +16,9 @@ export function getTotalUSDvalueFromTreasuryCoins(coins: { [denom: string]: TTre
   )
 }
 
-export async function getTreasuryCoinByDenom(address: string, coin: Coin): Promise<TTreasuryCoinModel | undefined> {
+export async function getTreasuryCoinByDenom(address: string, coin: Coin, rpc: string): Promise<TTreasuryCoinModel | undefined> {
   const { denom, amount } = coin
-  const token = await GetTokenAsset(denom)
+  const token = await GetTokenAsset(denom, rpc)
   const tokenInfo = await customQueries.currency.findTokenInfoFromDenom(
     token.coinMinimalDenom,
     true,
@@ -38,3 +38,20 @@ export async function getTreasuryCoinByDenom(address: string, coin: Coin): Promi
   }
   return payload
 }
+
+export function mergeBalances(data: TTreasuryCoinModel[]) {
+  if(data.length === 0) return data;
+
+  const merged = {};
+
+  data.forEach(item => {
+      if (!merged[item.coinDenom]) {
+          merged[item.coinDenom] = { ...item, balance: parseFloat(item.balance) };
+      } else {
+          merged[item.coinDenom].balance += parseFloat(item.balance);
+      }
+  });
+
+  return Object.values(merged);
+}
+

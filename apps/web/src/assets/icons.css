@@ -54,6 +54,10 @@
   content: '\e906';
 }
 
+.icon-deed:before {
+  content: '\e906';
+}
+
 .icon-close:before {
   content: '\e907';
 }
@@ -428,6 +432,7 @@
   background: url(img/tabs/dashboard.svg);
   background-repeat: no-repeat;
   background-size: contain;
+  fill: blue;
 }
 
 .icon-exchange {

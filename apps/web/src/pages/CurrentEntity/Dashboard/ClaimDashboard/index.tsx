@@ -1,18 +1,18 @@
 import Dashboard from 'components/Dashboard/Dashboard'
 import { HeaderTab, Path } from 'components/Dashboard/types'
-import useCurrentEntity, { useCurrentEntityProfile } from 'hooks/currentEntity'
 import { Navigate, Routes, Route, useParams } from 'react-router-dom'
 import { requireCheckDefault } from 'utils/images'
 import ClaimQuestions from './ClaimQuestions'
 import { toTitleCase } from 'utils/formatters'
 import { useAccount } from 'hooks/account'
 import EditEntity from './EditEntity'
+import { useAppSelector } from 'redux/hooks'
+import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 const ClaimDashboard: React.FC = (): JSX.Element => {
-  const { entityId } = useParams<{ entityId: string }>()
+  const { entityId = "" } = useParams<{ entityId: string }>()
   const entityType = 'protocol'
-  const { owner } = useCurrentEntity()
-  const { name } = useCurrentEntityProfile()
+  const { owner, profile} = useAppSelector(getEntityById(entityId))
   const { registered, address } = useAccount()
 
   const routes: Path[] = [
@@ -42,7 +42,7 @@ const ClaimDashboard: React.FC = (): JSX.Element => {
     {
       url: `/entity/${entityId}/overview`,
       icon: '',
-      sdg: name,
+      sdg: profile?.name ?? "",
       tooltip: '',
     },
     {
@@ -74,7 +74,7 @@ const ClaimDashboard: React.FC = (): JSX.Element => {
   return (
     <Dashboard
       theme={theme}
-      title={name}
+      title={profile?.name ?? ""}
       subRoutes={routes}
       baseRoutes={breadcrumbs}
       tabs={tabs}

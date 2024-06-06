@@ -6,8 +6,8 @@
 
 import { ExecuteResult } from "@cosmjs/cosmwasm-stargate";
 import { StdFee } from "@cosmjs/amino";
-import { Duration, PercentageThreshold, Uint64,  Choice, Coin, Config, Addr, InfoResponse,  ProposalResponse, } from "./DaoProposalCondorcet.types";
-import { BaseClient, DeliverTxResponse } from "./Base.client";
+import { Duration, PercentageThreshold, Uint64, Choice, Coin, Config, Addr, InfoResponse, ProposalResponse, } from "./DaoProposalCondorcet.types";
+import { BaseClient, DeliverTxResponse, ExecuteProps } from "./Base.client";
 export interface DaoProposalCondorcetReadOnlyInterface {
   contractAddress: string;
   proposal: ({
@@ -74,62 +74,72 @@ export class DaoProposalCondorcetClient extends BaseClient {
   }
 
   propose = async ({
-    choices
+    choices,
+    transactionConfig
   }: {
     choices: Choice[];
+    transactionConfig: ExecuteProps["transactionConfig"]
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       propose: {
         choices
       }
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
   vote = async ({
     proposalId,
-    vote
+    vote,
+    transactionConfig
   }: {
     proposalId: number;
     vote: number[];
+    transactionConfig: ExecuteProps["transactionConfig"]
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       vote: {
         proposal_id: proposalId,
         vote
       }
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
   executeProposal = async ({
-    proposalId
+    proposalId,
+    transactionConfig
   }: {
     proposalId: number;
+    transactionConfig: ExecuteProps["transactionConfig"]
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       execute: {
         proposal_id: proposalId
       }
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
   close = async ({
-    proposalId
+    proposalId,
+    transactionConfig
   }: {
     proposalId: number;
+    transactionConfig: ExecuteProps["transactionConfig"]
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       close: {
         proposal_id: proposalId
       }
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
   setConfig = async ({
     closeProposalsOnExecutionFailure,
     minVotingPeriod,
     quorum,
-    votingPeriod
+    votingPeriod,
+    transactionConfig
   }: {
     closeProposalsOnExecutionFailure: boolean;
     minVotingPeriod?: Duration;
     quorum: PercentageThreshold;
     votingPeriod: Duration;
+    transactionConfig: ExecuteProps["transactionConfig"]
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       set_config: {
@@ -138,6 +148,6 @@ export class DaoProposalCondorcetClient extends BaseClient {
         quorum,
         voting_period: votingPeriod
       }
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
 }

@@ -4,7 +4,6 @@ import BigNumber from 'bignumber.js'
 import { FlexBox, GridContainer, SvgBox } from 'components/App/App.styles'
 import { DepositModal } from 'components/Modals'
 import { Typography } from 'components/Typography'
-import { useCurrentEntityTreasury } from 'hooks/currentEntity'
 import { useQuery } from 'hooks/window'
 import { Button } from 'pages/CreateEntity/Components'
 import { Card } from 'pages/CurrentEntity/Components'
@@ -19,6 +18,8 @@ import { ImpactTokens } from '../../Components/ImpactTokens'
 import { Transactions } from '../../Components/Transactions'
 import AccountsCard, { AccountTypeToIconMap } from '../../Components/AccountsCard'
 import BalanceCard from '../../Components/BalanceCard'
+import { useCurrentEntityTreasury } from 'hooks/treasury/useCurrentEntityTreasury'
+import { useParams } from 'react-router-dom'
 
 export interface TTreasuryCoinModel {
   coinDenom: string
@@ -40,11 +41,14 @@ const Accounts: React.FC = () => {
   const theme: any = useTheme()
   const { getQuery } = useQuery()
   const expand: string | undefined = getQuery('expand')
+  const { entityId = '' } = useParams<{ entityId: string }>()
 
-  const accounts = useCurrentEntityTreasury()
+  const accounts = useCurrentEntityTreasury({ entityId })
 
   const [selectedAccount, setSelectedAccount] = useState<TTreasuryAccountModel | undefined>(undefined)
   const [depositModalOpen, setDepositModalOpen] = useState(false)
+
+  console.log({ accounts, selectedAccount })
 
   const Icon = useMemo(() => AccountTypeToIconMap[selectedAccount?.type || ''], [selectedAccount])
 
@@ -53,7 +57,8 @@ const Accounts: React.FC = () => {
       Object.values(accounts)
         .flatMap((account) => (account.coins ? Object.values(account.coins) : []))
         .reduce(
-          (total, coin) => new BigNumber(total).plus(new BigNumber(coin?.balance ?? '0').times(coin?.lastPriceUsd ?? '0')).toFixed(2),
+          (total, coin) =>
+            new BigNumber(total).plus(new BigNumber(coin?.balance ?? '0').times(coin?.lastPriceUsd ?? '0')).toFixed(2),
           '0',
         ),
     [accounts],
@@ -77,7 +82,7 @@ const Accounts: React.FC = () => {
           <FlexBox width='100%' $alignItems='center' $justifyContent='space-between' $gap={2}>
             <FlexBox $alignItems='center' $gap={2}>
               <Typography variant='secondary' size='2xl' transform='capitalize'>
-                {selectedAccount.name} Account
+                {selectedAccount.name}
               </Typography>
               <FlexBox $alignItems='center' $gap={2} px={2} py={1} $borderRadius='100px' background={theme.ixoDarkBlue}>
                 {Icon && (

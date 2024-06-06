@@ -25,8 +25,6 @@ export function useValidators(): {
   const getValidators = useCallback(async () => {
     const validators: Validator[] = await GetValidators()
 
-    console.log({ validators })
-
     const totalTokens = validators
       .map((validator) => validator.tokens)
       .reduce((acc, cur) => new BigNumber(acc).plus(new BigNumber(cur)), new BigNumber(0))

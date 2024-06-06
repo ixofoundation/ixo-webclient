@@ -57,7 +57,7 @@ const ClaimCollectionCreationReviewStep: React.FC<Props> = ({ hidden, loading, d
 
         <FlexBox width='100%' $alignItems='center' $justifyContent='space-between'>
           <Typography>Claim Protocol</Typography>
-          <Typography color='blue'>{claim.template?.title ?? ''}</Typography>
+          <Typography color='blue'>{claim?.template?.title ?? ''}</Typography>
         </FlexBox>
 
         <FlexBox width='100%' height='1px' background={theme.ixoGrey300} />

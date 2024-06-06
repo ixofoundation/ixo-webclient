@@ -4,7 +4,7 @@ import { HeaderTab, Path } from 'components/Dashboard/types'
 import { Typography } from 'components/Typography'
 import { useGetBondDid } from 'graphql/bonds'
 import { useAccount } from 'hooks/account'
-import useCurrentEntity, { useCurrentEntityBondLinkedEntity, useCurrentEntityProfile } from 'hooks/currentEntity'
+import { useCurrentEntityBondLinkedEntity } from 'hooks/currentEntity'
 import { Navigate, Route, Routes, useMatch, useParams } from 'react-router-dom'
 import { useTheme } from 'styled-components'
 import { toTitleCase } from 'utils/formatters'
@@ -12,14 +12,32 @@ import { requireCheckDefault } from 'utils/images'
 import EditEntity from './EditEntity'
 import Outcomes from './Outcomes'
 import Overview from './Overview'
+import { useAppSelector } from 'redux/hooks'
+import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { useWallet } from '@ixo-webclient/wallet-connector'
+import { useGetUserGranteeRole } from 'hooks/claim'
+import Claims from '../ProjectDashboard/Claims'
+import ClaimDetail from '../ProjectDashboard/ClaimDetail'
+import { AgentRoles } from 'types/models'
 
 const InvestmentDashboard: React.FC = (): JSX.Element => {
   const theme: any = useTheme()
-  const { entityId } = useParams<{ entityId: string }>()
+  const { entityId = "" } = useParams<{ entityId: string }>()
   const isEditEntityRoute = useMatch('/entity/:entityId/dashboard/edit')
-  const { entityType, owner } = useCurrentEntity()
-  const { name } = useCurrentEntityProfile()
+  const isClaimScreenRoute = useMatch('/entity/:entityId/dashboard/claims')
+
+  const { owner, type, profile, accounts, verificationMethod } = useAppSelector(getEntityById(entityId))
   const { registered, address } = useAccount()
+  const { wallet } = useWallet()
+
+  const signerRole = useGetUserGranteeRole(wallet?.address ?? '', owner, accounts, verificationMethod)
+
+  const isVerifiedOnEntity =  verificationMethod.some((verification) => verification?.blockchainAccountID === address)
+
+  const showAgentsRoute = owner === address || isVerifiedOnEntity
+  const ShowClaimsRoute = (owner === address && signerRole === AgentRoles.evaluators) || isVerifiedOnEntity
+  const showEditEntityRoute = (registered && owner === address )|| isVerifiedOnEntity
+
 
   const routes: Path[] = [
     {
@@ -37,11 +55,26 @@ const InvestmentDashboard: React.FC = (): JSX.Element => {
       strict: true,
     },
     {
+      url: `/entity/${entityId}/dashboard/agents`,
+      icon: requireCheckDefault(require('assets/img/sidebar/agent.svg')),
+      sdg: 'Agents',
+      tooltip: 'Agents',
+      disabled:  !showAgentsRoute,
+    },
+    {
+      url: `/entity/${entityId}/dashboard/claims`,
+      icon: requireCheckDefault(require('assets/img/sidebar/check.svg')),
+      sdg: 'Claims',
+      tooltip: 'Claims',
+      strict: true,
+      disabled: !ShowClaimsRoute,
+    },
+    {
       url: `/entity/${entityId}/dashboard/edit`,
       icon: requireCheckDefault(require('assets/img/sidebar/gear.svg')),
       sdg: 'Edit Entity',
       tooltip: 'Edit Entity',
-      disabled: !registered || owner !== address,
+      disabled: !showEditEntityRoute,
     },
   ]
 
@@ -49,13 +82,13 @@ const InvestmentDashboard: React.FC = (): JSX.Element => {
     {
       url: `/explore`,
       icon: '',
-      sdg: `Explore ${toTitleCase(entityType)}s`,
+      sdg: `Explore ${toTitleCase(type)}s`,
       tooltip: '',
     },
     {
       url: `/entity/${entityId}/overview`,
       icon: '',
-      sdg: name,
+      sdg: profile?.name ?? "",
       tooltip: '',
     },
     {
@@ -70,14 +103,14 @@ const InvestmentDashboard: React.FC = (): JSX.Element => {
     {
       iconClass: `icon-investment`,
       path: `/entity/${entityId}/overview`,
-      title: toTitleCase(entityType),
-      tooltip: `${toTitleCase(entityType)} Overview`,
+      title: toTitleCase(type),
+      tooltip: `${toTitleCase(type)} Overview`,
     },
     {
       iconClass: `icon-dashboard`,
       path: `/entity/${entityId}/dashboard`,
       title: 'Dashboard',
-      tooltip: `${toTitleCase(entityType)} Management`,
+      tooltip: `${toTitleCase(type)} Management`,
     },
   ]
 
@@ -87,10 +120,10 @@ const InvestmentDashboard: React.FC = (): JSX.Element => {
 
   return (
     <Dashboard
-      theme={isEditEntityRoute ? 'light' : 'dark'}
+      theme={isEditEntityRoute || isClaimScreenRoute ? 'light' : 'dark'}
       title={
         <FlexBox $alignItems='center' $gap={6}>
-          {name}
+          {profile?.name}
           <FlexBox background={theme.ixoNewBlue} p={2} $borderRadius={'8px'}>
             <Typography size='base' color='white'>
               {bondDetail?.state}
@@ -101,7 +134,7 @@ const InvestmentDashboard: React.FC = (): JSX.Element => {
       subRoutes={routes}
       baseRoutes={breadcrumbs}
       tabs={tabs}
-      entityType={entityType}
+      entityType={type}
     >
       <Routes>
         <Route index element={<Navigate to={`overview`} />} />
@@ -109,7 +142,13 @@ const InvestmentDashboard: React.FC = (): JSX.Element => {
         <Route path='overview' Component={Overview} />
         <Route path='outcomes' Component={Outcomes} />
 
-        {registered && owner === address && <Route path='edit' Component={EditEntity} />}
+        {showEditEntityRoute && <Route path='edit' Component={EditEntity} />}
+        {showAgentsRoute && (
+          <>
+            <Route path='claims' Component={Claims} />
+            <Route path='claims/:claimId' Component={ClaimDetail} />
+          </>
+        )}
       </Routes>
     </Dashboard>
   )

@@ -7,9 +7,10 @@ import {
   ProjectProfileForm,
   DeedProfileForm,
   AssetCollectionProfileForm,
+  OracleProfileForm,
 } from 'pages/CreateEntity/Forms'
 import useEditEntity from 'hooks/editEntity'
-import { getMappedCDNURL } from '@ixo-webclient/utils'
+import { toRootEntityType } from 'utils/entities'
 
 const EditProfile: React.FC = (): JSX.Element => {
   const { editEntity, setEditedField } = useEditEntity()
@@ -35,9 +36,9 @@ const EditProfile: React.FC = (): JSX.Element => {
         <Box className='mb-2' />
         {editEntity.type === 'dao' && (
           <DAOProfileForm
-            image={getMappedCDNURL(editEntity.profile?.image || '')}
+            image={editEntity.profile?.image || ''}
             setImage={(image): void => handleUpdateProfile('image', image)}
-            logo={getMappedCDNURL(editEntity.profile?.logo || '')}
+            logo={editEntity.profile?.logo || ''}
             setLogo={(logo): void => handleUpdateProfile('logo', logo)}
             orgName={editEntity.profile?.orgName ?? ''}
             setOrgName={(orgName): void => handleUpdateProfile('orgName', orgName)}
@@ -57,6 +58,19 @@ const EditProfile: React.FC = (): JSX.Element => {
             setName={(name): void => handleUpdateProfile('name', name)}
           />
         )}
+        {toRootEntityType(editEntity.type) === 'oracle' && (
+          <OracleProfileForm
+            image={editEntity.profile?.image}
+            setImage={(image): void => handleUpdateProfile('image', image)}
+            logo={editEntity.profile?.logo || ''}
+            setLogo={(logo): void => handleUpdateProfile('logo', logo)}
+            orgName={editEntity.profile?.orgName ?? ''}
+            setOrgName={(orgName): void => handleUpdateProfile('orgName', orgName)}
+            name={editEntity.profile?.name ?? ''}
+            setName={(name): void => handleUpdateProfile('name', name)}
+          />
+        )}
+
         {editEntity.type === 'protocol/claim' && (
           <ClaimProfileForm
             image={editEntity.profile?.image}

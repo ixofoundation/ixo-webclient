@@ -7,7 +7,7 @@
 import { ExecuteResult } from "@cosmjs/cosmwasm-stargate";
 import { Coin, StdFee } from "@cosmjs/amino";
 import { Uint128, Binary, MinterResponse, Expiration, AllAccountsResponse, AllAllowancesResponse, AllSpenderAllowancesResponse, AllowanceResponse, BalanceResponse, DownloadLogoResponse, MarketingInfoResponse, TokenInfoResponse } from "./Cw20Base.types";
-import { BaseClient, DeliverTxResponse } from "./Base.client";
+import { BaseClient, DeliverTxResponse, ExecuteProps } from "./Base.client";
 export interface Cw20BaseReadOnlyInterface {
   contractAddress: string;
   balance: ({
@@ -168,37 +168,43 @@ export class Cw20BaseClient extends BaseClient {
 
   transfer = async ({
     amount,
-    recipient
+    recipient,
+    transactionConfig
   }: {
     amount: Uint128;
     recipient: string;
+    transactionConfig: ExecuteProps["transactionConfig"]
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       transfer: {
         amount,
         recipient
       }
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
   burn = async ({
-    amount
+    amount,
+    transactionConfig
   }: {
     amount: Uint128;
+    transactionConfig: ExecuteProps["transactionConfig"]
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       burn: {
         amount
       }
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
   send = async ({
     amount,
     contract,
-    msg
+    msg,
+    transactionConfig
   }: {
     amount: Uint128;
     contract: string;
     msg: Binary;
+    transactionConfig: ExecuteProps["transactionConfig"]
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       send: {
@@ -206,33 +212,37 @@ export class Cw20BaseClient extends BaseClient {
         contract,
         msg
       }
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
   increaseAllowance = async ({
     amount,
     expires,
-    spender
+    spender,
+    transactionConfig
   }: {
     amount: Uint128;
     expires?: Expiration;
     spender: string;
+    transactionConfig: ExecuteProps["transactionConfig"]
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       increase_allowance: {
         amount,
         expires,
-        spender
+        spender,
       }
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
   decreaseAllowance = async ({
     amount,
     expires,
-    spender
+    spender,
+    transactionConfig
   }: {
     amount: Uint128;
     expires?: Expiration;
     spender: string;
+    transactionConfig: ExecuteProps["transactionConfig"]
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       decrease_allowance: {
@@ -240,16 +250,18 @@ export class Cw20BaseClient extends BaseClient {
         expires,
         spender
       }
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
   transferFrom = async ({
     amount,
     owner,
-    recipient
+    recipient,
+    transactionConfig
   }: {
     amount: Uint128;
     owner: string;
     recipient: string;
+    transactionConfig: ExecuteProps["transactionConfig"]
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       transfer_from: {
@@ -257,18 +269,20 @@ export class Cw20BaseClient extends BaseClient {
         owner,
         recipient
       }
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
   sendFrom = async ({
     amount,
     contract,
     msg,
-    owner
+    owner,
+    transactionConfig
   }: {
     amount: Uint128;
     contract: string;
     msg: Binary;
     owner: string;
+    transactionConfig: ExecuteProps["transactionConfig"]
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       send_from: {
@@ -277,55 +291,62 @@ export class Cw20BaseClient extends BaseClient {
         msg,
         owner
       }
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
   burnFrom = async ({
     amount,
-    owner
+    owner,
+    transactionConfig
   }: {
     amount: Uint128;
     owner: string;
+    transactionConfig: ExecuteProps["transactionConfig"]
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       burn_from: {
         amount,
         owner
       }
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
   mint = async ({
     amount,
-    recipient
+    recipient,
+    transactionConfig
   }: {
     amount: Uint128;
     recipient: string;
+    transactionConfig: ExecuteProps["transactionConfig"]
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       mint: {
         amount,
         recipient
       }
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
   updateMinter = async ({
-    newMinter
+    newMinter, transactionConfig
   }: {
     newMinter?: string;
+    transactionConfig: ExecuteProps["transactionConfig"]
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       update_minter: {
         new_minter: newMinter
       }
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
   updateMarketing = async ({
     description,
     marketing,
-    project
+    project,
+    transactionConfig
   }: {
     description?: string;
     marketing?: string;
     project?: string;
+    transactionConfig: ExecuteProps["transactionConfig"]
   }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       update_marketing: {
@@ -333,11 +354,11 @@ export class Cw20BaseClient extends BaseClient {
         marketing,
         project
       }
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
-  uploadLogo = async (fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
+  uploadLogo = async ({ transactionConfig }: { transactionConfig: ExecuteProps["transactionConfig"] }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: Coin[]): Promise<DeliverTxResponse> => {
     return await super.execute(this.sender, this.contractAddress, {
       upload_logo: {}
-    }, fee, memo, funds);
+    }, fee, memo, funds, transactionConfig);
   };
 }

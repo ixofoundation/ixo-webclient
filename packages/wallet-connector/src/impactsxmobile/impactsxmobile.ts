@@ -36,7 +36,26 @@ export class SignXWallet {
     return await this.signXClient.login({ pollingInterval: 2000 });
   }
 
-  async initTransaction(data: any, wallet: Wallet) {
+  getSequenceNumber(){
+    return this.signXClient.transactSequence
+  }
+
+  async initTransactionWithTxBody(sequence: number, txBody: Uint8Array, wallet: Wallet) {
+    return {
+      timeout: this.timeout,
+      data: await this.signXClient.transact({
+        address: wallet.address,
+        did: wallet.did!,
+        pubkey: toHex(wallet.pubKey),
+        timestamp: new Date().toISOString(),
+        transactions: [{
+          sequence: sequence, txBodyHex: toHex(txBody)
+        }],
+      }),
+    };
+  }
+
+  async initTransaction(sequence: number, data: any, wallet: Wallet) {
     const registry = createRegistry();
     return {
       timeout: this.timeout,
@@ -45,12 +64,19 @@ export class SignXWallet {
         did: wallet.did!,
         pubkey: toHex(wallet.pubKey),
         timestamp: new Date().toISOString(),
-        txBodyHex: toHex(
-          registry.encodeTxBody({ messages: data as any, memo: undefined })
-        ),
+        transactions: [{
+          sequence: sequence, txBodyHex: toHex(
+            registry.encodeTxBody({ messages: data as any, memo: undefined })
+          )
+        }],
       }),
     };
   }
+
+  pollNextTransaction(){
+    this.signXClient.pollNextTransaction()
+  }
+
 
   async connect() {
     return new Promise((resolve, reject) => {
@@ -77,15 +103,12 @@ export class SignXWallet {
     return new Promise((resolve, reject) => {
       try {
         this.signXClient.on(SIGN_X_TRANSACT_SUCCESS, (result) => {
-          console.log("Transaction success:", result);
           resolve(result.data); // Resolve the promise with the login success data
         });
 
         this.signXClient.on(SIGN_X_TRANSACT_ERROR, (error) => {
-          console.error("Transaction Error:", error);
           reject(error); // Reject the promise with the login error
         });
-
         // Use loginRequest data to show QR code to user for scanning by mobile app
       } catch (error) {
         console.error("Error in connecting:", error);

@@ -3,29 +3,33 @@ import { useTheme } from 'styled-components'
 import { Card } from '../../../Components'
 import { Box, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
-import useCurrentEntity, { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
-import { TDAOGroupModel } from 'types/entities'
+import { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
+import { TDAOGroupModel, TEntityModel } from 'types/entities'
 import { Avatar, Flex } from '@mantine/core'
 import { ReactComponent as AgentsIcon } from 'assets/img/sidebar/agents.svg'
 import { useQuery } from 'hooks/window'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import CopyToClipboard from 'react-copy-to-clipboard'
 import { truncateString } from 'utils/formatters'
 import { ReactComponent as CopyIcon } from 'assets/images/icon-copy.svg'
 import { successToast } from 'utils/toast'
+import { useAppSelector } from 'redux/hooks'
+import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
-interface IGroupCardProps {
+type GroupCardProps = {
   daoGroup: TDAOGroupModel
+  dao: TEntityModel
 }
 
-const GroupCard: React.FC<IGroupCardProps> = ({ daoGroup }) => {
+const GroupCard= ({ daoGroup, dao }: GroupCardProps) => {
   const theme: any = useTheme()
   const navigate = useNavigate()
   const { pathname } = useLocation()
   const { getQuery } = useQuery()
   const selectedGroup = getQuery('selectedGroup')
-  const { currentEntity: dao } = useCurrentEntity()
-  const { isParticipating } = useCurrentEntityDAOGroup(daoGroup.coreAddress)
+  const { entityId = "" } = useParams<{ entityId: string}>()
+  const { daoGroups = {} } = useAppSelector(getEntityById(entityId))
+  const { isParticipating } = useCurrentEntityDAOGroup(daoGroup.coreAddress, daoGroups)
   const members = daoGroup.votingModule.members
 
   if (!dao) {
@@ -57,7 +61,7 @@ const GroupCard: React.FC<IGroupCardProps> = ({ daoGroup }) => {
       )}
 
       <Flex direction='column' justify={'center'} align={'center'} gap={8}>
-        <Avatar src={dao.profile?.logo} alt='' size={32} radius={100} />
+        <Avatar src={dao.profile?.logo ?? ""} alt='' size={32} radius={100} />
         <Typography variant='primary' size='sm'>
           {dao.profile?.name}
         </Typography>
@@ -103,9 +107,9 @@ const GroupCard: React.FC<IGroupCardProps> = ({ daoGroup }) => {
   )
 }
 
-const Groups: React.FC = (): JSX.Element | null => {
-  const { daoGroups, daoController } = useCurrentEntity()
-
+const Groups = ({ entityId, daoController }: { entityId: string, daoController: string }): JSX.Element | null => {
+  const entity = useAppSelector(getEntityById(entityId))
+  const daoGroups = entity.daoGroups ?? {}
   if (Object.values(daoGroups).length === 0) {
     return null
   }
@@ -127,7 +131,7 @@ const Groups: React.FC = (): JSX.Element | null => {
       <Card label={`Groups`} icon={<AgentsIcon />}>
         <Flex gap={12} w={'100%'} style={{ overflowX: 'auto' }}>
           {sortedGroups.map((daoGroup: TDAOGroupModel, index: number) => (
-            <GroupCard key={index} daoGroup={daoGroup} />
+            <GroupCard key={index} daoGroup={daoGroup} dao={entity} />
           ))}
         </Flex>
       </Card>

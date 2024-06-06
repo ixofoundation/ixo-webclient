@@ -1,35 +1,47 @@
 import styled from 'styled-components'
 import { deviceWidth } from 'constants/device'
 
-export const TabsContainer = styled.div<{ activetabcolor: string }>`
+type TabsContainerProps = {
+  background?: string
+  color?: string
+  borderColor?: string
+  active?: {
+    background?: string
+    color?: string
+  }
+}
+
+export const TabsContainer = styled.div<{ activetabcolor: string, tabBgColor?: string } & TabsContainerProps>`
   display: flex;
   flex-flow: row nowrap;
   justify-content: flex-start;
   width: 100%;
+  border: 1px solid ${(props): string => props.borderColor ?? props.theme.ixoMediumBlue};
+  border-radius: 4px;
 
-  > div:first-child a,
-  > a:first-child {
+  & > div:first-child a,
+  & > a:first-child {
     border-top-left-radius: 4px;
     border-bottom-left-radius: 4px;
   }
 
-  > div:last-child a,
-  > a:last-child {
+  & > div:last-child a,
+  & > a:last-child {
     border-top-right-radius: 4px;
     border-bottom-right-radius: 4px;
   }
-  > div a {
+  & > div a {
     height: 100%;
   }
 
-  > div button {
+  & > div button {
     height: 100%;
   }
 
   a {
-    background: ${(props: any): string => props.theme.ixoGradientDark2};
-    font-family: ${(props: any): string => props.theme.primaryFontFamily};
-    color: white;
+    background: ${(props): string => props.background ?? props.theme.ixoGradientDark2};
+    font-family: ${(props): string => props.theme.primaryFontFamily};
+    color: ${(props): string => props.color ?? props.theme.ixoWhite};
     text-transform: uppercase;
     font-weight: 400;
     font-size: 14px;
@@ -40,7 +52,8 @@ export const TabsContainer = styled.div<{ activetabcolor: string }>`
     justify-content: center;
     text-decoration: none;
     transition: all 0.3s ease;
-
+    border-right: 1px solid ${(props): string => props.borderColor ?? props.theme.ixoMediumBlue};
+    
     i {
       margin-right: 10px;
       font-size: 22px;
@@ -60,8 +73,8 @@ export const TabsContainer = styled.div<{ activetabcolor: string }>`
     }
 
     &.active {
-      background: ${(props: any): string => props.activetabcolor || props.theme.ixoMediumBlue};
-      color: white;
+      background: ${(props): string => props.active?.background || props.theme.ixoMediumBlue};
+      color: ${(props): string => props.active?.color || props.theme.ixoWhite};
       font-weight: bold;
     }
 

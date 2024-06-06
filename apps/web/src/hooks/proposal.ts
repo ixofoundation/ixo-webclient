@@ -52,9 +52,10 @@ import { SendGroupTokenData } from 'components/Modals/AddActionModal/SetupSendGr
 import { ixo } from '@ixo/impactxclient-sdk'
 import { useCurrentEntityDAOGroup } from './currentEntity'
 import { AcceptToMarketplaceData } from 'components/Modals/AddActionModal/SetupAcceptToMarketplaceModal'
+import { TDAOGroupModel } from 'types/entities'
 
-export function useMakeProposalAction(coreAddress: string) {
-  const { daoGroup } = useCurrentEntityDAOGroup(coreAddress)
+export function useMakeProposalAction(coreAddress: string, daoGroups: { [address: string]: TDAOGroupModel}) {
+  const { daoGroup } = useCurrentEntityDAOGroup(coreAddress, daoGroups)
 
   const makeSpendAction = (data: SpendData): any => {
     const { denom, amount, to } = data
@@ -714,6 +715,12 @@ export function useMakeProposalAction(coreAddress: string) {
     })
   }
 
+  const makeCreateEntityAction = (data: any): any => {
+    return makeStargateMessage({
+      stargate: data,
+    })
+  }
+
   return {
     makeSpendAction,
     makeAuthzExecAction,
@@ -744,5 +751,6 @@ export function useMakeProposalAction(coreAddress: string) {
     makeSendGroupTokenAction,
     makeJoinAction,
     makeAcceptToMarketplaceAction,
+    makeCreateEntityAction
   }
 }

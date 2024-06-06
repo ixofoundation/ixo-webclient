@@ -1,7 +1,6 @@
 import Dashboard from 'components/Dashboard/Dashboard'
 import { HeaderTab, Path } from 'components/Dashboard/types'
 import { useAccount } from 'hooks/account'
-import useCurrentEntity, { useCurrentEntityProfile } from 'hooks/currentEntity'
 import { Navigate, Route, useMatch, useParams, Routes } from 'react-router-dom'
 import { toTitleCase } from 'utils/formatters'
 import { requireCheckDefault } from 'utils/images'
@@ -12,15 +11,16 @@ import { useGetUserGranteeRole } from 'hooks/claim'
 import { AgentRoles } from 'types/models'
 import ClaimDetail from './ClaimDetail'
 import Overview from './Overview'
+import { useAppSelector } from 'redux/hooks'
+import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 const ProjectDashboard: React.FC = (): JSX.Element => {
-  const { entityId } = useParams<{ entityId: string }>()
+  const { entityId = "" } = useParams<{ entityId: string }>()
   const isEditEntityRoute = useMatch('/entity/:entityId/dashboard/edit')
   const isClaimScreenRoute = useMatch('/entity/:entityId/dashboard/claims')
-  const { entityType, owner } = useCurrentEntity()
-  const { name } = useCurrentEntityProfile()
+  const { accounts, owner, type, profile, verificationMethod } = useAppSelector(getEntityById(entityId))
   const { registered, address } = useAccount()
-  const signerRole = useGetUserGranteeRole()
+  const signerRole = useGetUserGranteeRole(address, owner, accounts, verificationMethod)
 
   const routes: Path[] = [
     {
@@ -57,13 +57,13 @@ const ProjectDashboard: React.FC = (): JSX.Element => {
     {
       url: `/explore`,
       icon: '',
-      sdg: `Explore ${toTitleCase(entityType)}s`,
+      sdg: `Explore ${toTitleCase(type)}s`,
       tooltip: '',
     },
     {
       url: `/entity/${entityId}/overview`,
       icon: '',
-      sdg: name,
+      sdg: profile?.name ?? "",
       tooltip: '',
     },
     {
@@ -78,25 +78,25 @@ const ProjectDashboard: React.FC = (): JSX.Element => {
     {
       iconClass: `icon-project`,
       path: `/entity/${entityId}/overview`,
-      title: toTitleCase(entityType),
-      tooltip: `${toTitleCase(entityType)} Overview`,
+      title: toTitleCase(type),
+      tooltip: `${toTitleCase(type)} Overview`,
     },
     {
       iconClass: `icon-dashboard`,
       path: `/entity/${entityId}/dashboard`,
       title: 'Dashboard',
-      tooltip: `${toTitleCase(entityType)} Management`,
+      tooltip: `${toTitleCase(type)} Management`,
     },
   ]
 
   return (
     <Dashboard
       theme={isEditEntityRoute || isClaimScreenRoute ? 'light' : 'dark'}
-      title={name}
+      title={profile?.name ?? ""}
       subRoutes={routes}
       baseRoutes={breadcrumbs}
       tabs={tabs}
-      entityType={entityType}
+      entityType={type}
     >
       <Routes>
         <Route index element={<Navigate to={`overview`} />} />

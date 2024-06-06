@@ -26,6 +26,9 @@ import { ReactComponent as UnlinkIcon } from 'assets/images/icon-unlink-solid.sv
 import { useTheme } from 'styled-components'
 import { DaoProposalSingleClient } from '@ixo-webclient/cosmwasm-clients'
 import { useWallet } from '@ixo-webclient/wallet-connector'
+import { useAppSelector } from 'redux/hooks'
+import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { useEntity } from 'hooks/entity/useEntity'
 
 const RemainingBadge: React.FC<{ minutes: number }> = ({ minutes }) => {
   const theme: any = useTheme()
@@ -136,10 +139,12 @@ const ProposalCard: React.FC<Props> = ({ coreAddress, proposalId, proposal }) =>
 
   const navigate = useNavigate()
   const theme: any = useTheme()
-  const { entityId } = useParams<{ entityId: string }>()
+  const { entityId = "" } = useParams<{ entityId: string }>()
   const { cwClient, address } = useAccount()
-  const { daoGroup, proposalModuleAddress, isParticipating, anyoneCanPropose } = useCurrentEntityDAOGroup(coreAddress)
-  const { execute } = useWallet()
+  const { daoGroups = {} } = useAppSelector(getEntityById(entityId))
+  const { daoGroup, proposalModuleAddress, isParticipating, anyoneCanPropose } = useCurrentEntityDAOGroup(coreAddress, daoGroups)
+  const { execute, close } = useWallet()
+  const { refetch } = useEntity(entityId)
 
   const [votes, setVotes] = useState<VoteInfo[]>([])
   const [myVoteStatus, setMyVoteStatus] = useState<VoteInfo | undefined>(undefined)
@@ -197,26 +202,30 @@ const ProposalCard: React.FC<Props> = ({ coreAddress, proposalId, proposal }) =>
     }
   }, [getVoteStatus])
 
-  const onVote = (vote: Vote): Promise<string> => {
+  const onVote = async (vote: Vote): Promise<string> => {
     const daoProposalSingleClient = new DaoProposalSingleClient(execute, address, proposalModuleAddress)
-    return daoProposalSingleClient
-      .vote({ proposalId, vote }, fee, undefined, undefined)
+    return await daoProposalSingleClient
+      .vote({ proposalId, vote, transactionConfig: { sequence: 1 } }, fee, undefined, undefined)
       .then(({ transactionHash }) => transactionHash)
       .catch((e) => {
         console.error('handleVote', e)
         return ''
       })
-      .finally(getVoteStatus)
+      .finally(() => {
+        refetch()
+        close()
+        getVoteStatus()
+      })
   }
 
   const onViewMore = () => {
     navigate(`/entity/${entityId}/overview/proposal/${deedDid}`)
   }
 
-  const onExecute = () => {
+  const onExecute = async () => {
     const daoProposalSingleClient = new DaoProposalSingleClient(execute, address, proposalModuleAddress)
-    daoProposalSingleClient
-      .executeProposal({ proposalId }, fee, undefined, undefined)
+    return await daoProposalSingleClient
+      .executeProposal({ proposalId, transactionConfig: { sequence: 1 } }, fee, undefined, undefined)
       .then(({ transactionHash, rawLog, events, gasUsed, gasWanted, height }) => {
         console.log('handleExecuteProposal', { transactionHash, rawLog, events, gasUsed, gasWanted, height })
         if (transactionHash) {
@@ -226,13 +235,16 @@ const ProposalCard: React.FC<Props> = ({ coreAddress, proposalId, proposal }) =>
       .catch((e) => {
         console.error('handleExecuteProposal', e)
         errorToast(null, 'Transaction failed')
+      }).finally(() => {
+        refetch()
+        close()
       })
   }
 
-  const onClose = () => {
+  const onClose = async () => {
     const daoProposalSingleClient = new DaoProposalSingleClient(execute, address, proposalModuleAddress)
-    daoProposalSingleClient
-      .close({ proposalId }, fee, undefined, undefined)
+    return await daoProposalSingleClient
+      .close({ proposalId, transactionConfig: { sequence: 1 } }, fee, undefined, undefined)
       .then(({ transactionHash, rawLog }) => {
         console.log('handleCloseProposal', transactionHash, rawLog)
         if (transactionHash) {
@@ -242,6 +254,9 @@ const ProposalCard: React.FC<Props> = ({ coreAddress, proposalId, proposal }) =>
       .catch((e) => {
         console.error('handleCloseProposal', e)
         errorToast(null, 'Transaction failed')
+      }).finally(() => {
+        refetch()
+        close()
       })
   }
 
