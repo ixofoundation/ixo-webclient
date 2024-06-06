@@ -15,7 +15,6 @@ import {
   // MenuHeaderAnchor,
   MenuHeaderContainer,
   MenuHeaderLink,
-  MobileMenu,
   NavItems,
   // HeaderAnchor,
 } from './HeaderLeft.styles'
@@ -26,9 +25,10 @@ import {
   selectEntityHeaderUIConfig,
   selectEntityLogoConfig,
 } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
-import { FlexBox } from 'components/App/App.styles'
 import CreateEntityDropdown from '../components/CreateEntityDropdown'
 import { selectEntityConfig } from 'redux/configs/configs.selectors'
+import { useMediaQuery } from '@mantine/hooks'
+import { em } from '@mantine/core'
 
 export interface ParentProps {
   currentEntity: EntityType
@@ -42,6 +42,7 @@ export const HeaderLeft: React.FC<ParentProps> = (props) => {
   const logoConfig = useAppSelector(selectEntityLogoConfig)
   const buttonColor: string = useAppSelector(selectEntityHeaderButtonColorUIConfig)
   const defaultEntity = entityTypeMap?.UI?.explorer?.defaultView ?? "dao"
+  const isMobile = useMediaQuery(`(max-width: ${em(710)})`)
 
   const logoLink = React.useMemo(() => {
     if (!headerUIConfig || !headerUIConfig.link) {
@@ -102,7 +103,7 @@ export const HeaderLeft: React.FC<ParentProps> = (props) => {
   return (
     <Fragment>
       <Main className='col-md-12 col-lg-8 d-flex align-items-center'>
-        <div>
+        <div className='d-flex align-items' style={{marginTop: isMobile ? 15 : 0}}>
           <a href={logoLink}>
             <AppLogo alt='Logo' src={requireCheckDefault(require(`../../../assets/images/${logoConfig}.svg`))} />
           </a>
@@ -120,13 +121,6 @@ export const HeaderLeft: React.FC<ParentProps> = (props) => {
           </MediaQuery>
         </NavItems>
       </Main>
-      <MediaQuery maxWidth={`${deviceWidth.desktop - 1}px`}>
-        <MobileMenu className={props.openMenu === true ? 'openMenu' : ''}>
-          <FlexBox width='100%' $alignItems='center' $justifyContent='space-around'>
-            {getMenuItems(false)}
-          </FlexBox>
-        </MobileMenu>
-      </MediaQuery>
     </Fragment>
   )
 }

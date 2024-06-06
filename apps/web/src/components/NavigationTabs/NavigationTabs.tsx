@@ -1,4 +1,4 @@
-import { ActionIcon, Button, Flex, Text, Tooltip } from '@mantine/core'
+import { ActionIcon, Button, Flex, Text, Tooltip, em } from '@mantine/core'
 import { useQuery } from 'hooks/window'
 import { lowerCase } from 'lodash'
 import { ReactNode } from 'react'
@@ -10,15 +10,19 @@ import { ReactComponent as AssistantIcon } from 'assets/images/icon-assistant.sv
 import { tabs } from './tabs'
 import { useTabDesignConfig } from 'hooks/userInterface/useTabDesignConfig'
 import { toRootEntityType } from 'utils/entities'
+import { useMediaQuery } from '@mantine/hooks'
 
 const NavigationTabsContainer = ({ children, border }: { children: ReactNode; border?: string }) => {
+  const isTablet = useMediaQuery(`(max-width: ${em(810)})`);
+
   return (
     <Flex
+      visibleFrom='sm'
       bg='blue'
       pos={'fixed'}
       style={{
         zIndex: 12,
-        left: '75%',
+        left: isTablet ? '50%' : '75%',
         top: 78,
         transform: 'translate(-50%, -50%)',
         borderRadius: 5,

@@ -156,7 +156,7 @@ const EntitiesExplorer = ({
           <EntitiesBody>
           {filteredEntitiesCount === 0 && data?.entities?.nodes.length !== 0 && (
               <Flex direction={'row'} w='100%' gap={32}>
-                <InfiniteScroll dataLength={6} hasMore={false} next={() => refetch()} columns={3}>
+                <InfiniteScroll dataLength={6} hasMore={false} next={() => refetch()} columns={columns}>
                   <EntityOverviewSkeletonCard />
                   <EntityOverviewSkeletonCard />
                   <EntityOverviewSkeletonCard />
