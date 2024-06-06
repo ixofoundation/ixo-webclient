@@ -132,7 +132,7 @@ export function serviceEndpointToUrl(serviceEndpoint: string, service: Service[]
   }
   let url = ''
   const [identifier, key] = serviceEndpoint.replace('{id}#', '').split(':')
-  const usedService: Service | undefined = service.find(
+  const usedService: Service | undefined = service?.find(
     (item: any) => item.id.replace('{id}#', '') === identifier.replace('{id}#', ''),
   )
   // console.log({ identifier, key })
