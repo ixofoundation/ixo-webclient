@@ -8,7 +8,7 @@ import AssistantContext from 'contexts/assistant'
 import React from 'react'
 import * as ReactGA from 'react-ga'
 import { ToastContainer } from 'react-toastify'
-import Services from 'services'
+import { ServicesInitialisation } from 'components'
 import Footer from '../Footer'
 import { HeaderConnected } from '../Header/HeaderContainer'
 import ScrollToTop from '../ScrollToTop/ScrollToTop'
@@ -38,7 +38,7 @@ const App: React.FC = () => {
         <WalletModal />
         <ToastContainer theme='dark' hideProgressBar={true} position='top-right' />
         <RootInit />
-        <Services />
+        <ServicesInitialisation />
         <ScrollToTop>
           <CompanionProvider>
             <KeyValueViewerProvider>
