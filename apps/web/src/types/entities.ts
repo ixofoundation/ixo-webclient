@@ -386,6 +386,7 @@ export interface TEntityMetricModel {
   source: string
 }
 export interface TEntityAttributeModel {
+  id: string
   key: string
   value: string
 }
