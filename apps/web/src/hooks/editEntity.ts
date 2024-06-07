@@ -432,8 +432,8 @@ export default function useEditEntity(): {
   }
 
   const getEditedLinkedClaimMsgs = async (): Promise<readonly EncodeObject[]> => {
-    const editedLinkedClaim = editEntity.linkedClaim
-    const currentLinkedClaim = currentEntity.linkedClaim
+    const editedLinkedClaim = editEntity.claim
+    const currentLinkedClaim = currentEntity.claim
     if (JSON.stringify(editedLinkedClaim) === JSON.stringify(currentLinkedClaim)) {
       return []
     }
