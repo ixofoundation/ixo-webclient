@@ -219,7 +219,7 @@ export default function useEditEntity(): {
       right: '',
     }
 
-    const messages: readonly EncodeObject[] = GetReplaceLinkedResourceMsgs(editEntity.id, signer, newLinkedResource, editEntity?.linkedResource?.find((v) => v.id === '{id}#creator')
+    const messages: readonly EncodeObject[] = GetReplaceLinkedResourceMsgs(editEntity.id, signer, newLinkedResource, editEntity?.linkedResource?.find((v) => v.id === '{id}#creator'))
     return messages
   }
 
@@ -246,7 +246,7 @@ export default function useEditEntity(): {
       right: '',
     }
 
-    const messages: readonly EncodeObject[] = GetReplaceLinkedResourceMsgs(editEntity.id, signer, newLinkedResource, editEntity?.linkedResource?.find((v) => v.id === '{id}#administrator')
+    const messages: readonly EncodeObject[] = GetReplaceLinkedResourceMsgs(editEntity.id, signer, newLinkedResource, editEntity?.linkedResource?.find((v) => v.id === '{id}#administrator'))
     return messages
   }
 
