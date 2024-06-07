@@ -166,7 +166,7 @@ export default function useEditEntity(): {
       right: '',
     }
 
-    const messages: readonly EncodeObject[] = GetReplaceLinkedResourceMsgs(editEntity.id, signer, newLinkedResource)
+    const messages: readonly EncodeObject[] = GetReplaceLinkedResourceMsgs(editEntity.id, signer, newLinkedResource, currentEntity.linkedResource.find((v) => v.type === 'TokenMetadata')
     return messages
   }
 
@@ -192,7 +192,7 @@ export default function useEditEntity(): {
       right: '',
     }
 
-    const messages: readonly EncodeObject[] = GetReplaceLinkedResourceMsgs(editEntity.id, signer, newLinkedResource)
+    const messages: readonly EncodeObject[] = GetReplaceLinkedResourceMsgs(editEntity.id, signer, newLinkedResource, currentEntity?.linkedResource?.find((v) => v.type === 'surveyTemplate'))
     return messages
   }
 
@@ -219,7 +219,7 @@ export default function useEditEntity(): {
       right: '',
     }
 
-    const messages: readonly EncodeObject[] = GetReplaceLinkedResourceMsgs(editEntity.id, signer, newLinkedResource)
+    const messages: readonly EncodeObject[] = GetReplaceLinkedResourceMsgs(editEntity.id, signer, newLinkedResource, editEntity?.linkedResource?.find((v) => v.id === '{id}#creator')
     return messages
   }
 
@@ -246,7 +246,7 @@ export default function useEditEntity(): {
       right: '',
     }
 
-    const messages: readonly EncodeObject[] = GetReplaceLinkedResourceMsgs(editEntity.id, signer, newLinkedResource)
+    const messages: readonly EncodeObject[] = GetReplaceLinkedResourceMsgs(editEntity.id, signer, newLinkedResource, editEntity?.linkedResource?.find((v) => v.id === '{id}#administrator')
     return messages
   }
 
@@ -271,7 +271,7 @@ export default function useEditEntity(): {
       right: '',
     }
 
-    const messages: readonly EncodeObject[] = GetReplaceLinkedResourceMsgs(editEntity.id, signer, newLinkedResource)
+    const messages: readonly EncodeObject[] = GetReplaceLinkedResourceMsgs(editEntity.id, signer, newLinkedResource, editEntity.settings.Page)
     return messages
   }
 
@@ -296,7 +296,7 @@ export default function useEditEntity(): {
       right: '',
     }
 
-    const messages: readonly EncodeObject[] = GetReplaceLinkedResourceMsgs(editEntity.id, signer, newLinkedResource)
+    const messages: readonly EncodeObject[] = GetReplaceLinkedResourceMsgs(editEntity.id, signer, newLinkedResource, editEntity.settings.Tags)
     return messages
   }
 
@@ -329,7 +329,7 @@ export default function useEditEntity(): {
         ...acc,
         ...(currentLinkedFiles.some((item: LinkedResource) => item.id === cur.id)
           ? editedLinkedFiles.some((item: LinkedResource) => item.id === cur.id)
-            ? GetReplaceLinkedResourceMsgs(editEntity.id, signer, cur)
+            ? GetReplaceLinkedResourceMsgs(editEntity.id, signer, cur, editEntity?.linkedResource?.find((v) => v.id === cur.id))
             : GetDeleteLinkedResourceMsgs(editEntity.id, signer, cur)
           : GetAddLinkedResourceMsgs(editEntity.id, signer, cur)),
       ],

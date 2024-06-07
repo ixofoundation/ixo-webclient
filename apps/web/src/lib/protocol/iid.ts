@@ -194,7 +194,6 @@ export const GetReplaceLinkedResourceMsgs = (
   oldPayload?: LinkedResource,
 ): readonly EncodeObject[] => {
   const messages: EncodeObject[] = [];
-
   if (oldPayload && oldPayload.id) {
     messages.push({
       typeUrl: '/ixo.iid.v1beta1.MsgDeleteLinkedResource',
