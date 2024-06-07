@@ -118,8 +118,8 @@ export default function useEditEntity(): {
     if (JSON.stringify(editEntity.profile) === JSON.stringify(currentEntity.profile)) {
       return []
     }
-    console.log(editEntity.settings?.Profile?.serviceEndpoint)
-    const service = editEntity?.settings?.Profile?.serviceEndpoint ? getUsedService(editEntity.settings.Profile?.serviceEndpoint) : {
+
+    const service = editEntity.settings?.Profile?.serviceEndpoint ? getUsedService(editEntity.settings.Profile?.serviceEndpoint) : {
       id: '{id}#ipfs',
       type: NodeType.Ipfs,
       serviceEndpoint: 'https://ipfs.io/ipfs',
@@ -166,7 +166,7 @@ export default function useEditEntity(): {
       right: '',
     }
 
-    const messages: readonly EncodeObject[] = GetReplaceLinkedResourceMsgs(editEntity.id, signer, newLinkedResource, currentEntity.linkedResource.find((v) => v.type === 'TokenMetadata')
+    const messages: readonly EncodeObject[] = GetReplaceLinkedResourceMsgs(editEntity.id, signer, newLinkedResource, currentEntity.linkedResource.find((v) => v.type === 'TokenMetadata'))
     return messages
   }
 
