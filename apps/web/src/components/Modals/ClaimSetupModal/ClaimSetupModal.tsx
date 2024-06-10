@@ -43,7 +43,6 @@ const ClaimSetupModal: React.FC<Props> = ({ claim, open, onClose, onChange }): J
     }))
   }
   const handleSubmit = (): void => {
-    console.log({formData})
     onChange(formData as TEntityClaimModel)
     onClose()
   }

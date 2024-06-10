@@ -18,26 +18,22 @@ const SetupClaim: React.FC<Props> = ({ hidden, claim, updateClaim }): JSX.Elemen
   const [editModalOpen, setEditModalOpen] = useState(false)
 
   const handleUpdateEntityClaim = (id: string, newClaim: TEntityClaimModel): void => {
-    console.log("before checking equality")
     if (JSON.stringify(selectedClaim) === JSON.stringify(newClaim)) {
       return
     }
-
-    console.log("before template checking")
 
     if (!selectedClaim?.template && Object.values(claim).some((item) => item.template?.id === newClaim.template?.id)) {
       handleRemoveEntityClaim(id)
       return
     }
 
-    console.log("before headline metric checking")
     let _claim = claim
     if (newClaim.isHeadlineMetric) {
       _claim = Object.fromEntries(
         Object.entries(_claim).map(([key, value]) => [key, { ...value, isHeadlineMetric: false }]),
       )
     }
-    console.log("before updating claim")
+
     updateClaim({ ..._claim, [id]: newClaim })
   }
   const handleRemoveEntityClaim = (id: string): void => {

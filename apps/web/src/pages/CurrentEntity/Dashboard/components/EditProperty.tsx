@@ -43,7 +43,6 @@ const EditProperty: React.FC = (): JSX.Element => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   const updateClaim = useCallback((claim: { [id: string]: TEntityClaimModel }) => {
-    console.log("update claim ran", claim)
     setEditedField('claim', claim)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])

@@ -14,8 +14,6 @@ const creator = new SurveyCreator();
 const EditSurveyTemplate: React.FC = (): JSX.Element => {
   const { editEntity, setEditedField } = useEditEntity()
 
-  console.log({editEntity})
-
   useEffect(() => {
     creator.isAutoSave = true;
     creator.saveSurveyFunc = function (saveNo: any, callback: any) {

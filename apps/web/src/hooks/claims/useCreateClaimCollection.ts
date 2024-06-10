@@ -29,8 +29,6 @@ export const useCreateClaimCollection = () => {
       grantee: wallet?.address ?? '',
     })
 
-    console.log({granteeGrants})
-
     const evaluateAuth = granteeGrants.grants.find(
       (g) => g.authorization?.typeUrl === '/cosmos.authz.v1beta1.GenericAuthorization' && g.granter === owner,
     )
@@ -86,12 +84,9 @@ export const useCreateClaimCollection = () => {
     payload: { protocol, startDate, endDate, quota, payments },
   }: CreateClaimCollectionProps) => {
     if (wallet?.address === undefined) throw new Error('Sign into wallet')
-    console.log({entity, protocol, startDate, endDate, quota, payments})
 
     const isOwner = isSignerEntityOwner(entity.owner)
-    console.log({isOwner})
     if (isOwner) {
-      console.log('isSignerEntityOwner')
       const message = prepareMessageForOwner({
         signer: wallet?.address,
         entity: entity.id,
@@ -105,9 +100,7 @@ export const useCreateClaimCollection = () => {
       return await execute({ data: { messages: [message], fee, memo: undefined } })
     }
     const authZGranted = await hasAuthZ(entity.owner)
-    console.log({authZGranted})
     if (authZGranted) {
-      console.log('hasAuthZ')
       const message = prepareMessageForAuthZExecution({
         signer: entity.owner,
         entity: entity.id,
@@ -121,9 +114,6 @@ export const useCreateClaimCollection = () => {
 
       return await execute({ data: { messages: [message], fee, memo: undefined } })
     }
-
-    console.log('done')
-
   }
 
   return createClaimCollection
