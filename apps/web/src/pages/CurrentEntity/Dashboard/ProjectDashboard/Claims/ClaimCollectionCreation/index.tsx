@@ -1,9 +1,7 @@
 import { ixo, utils } from '@ixo/impactxclient-sdk'
 import { Payments } from '@ixo/impactxclient-sdk/types/codegen/ixo/claims/v1beta1/claims'
 import { LinkedEntity } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
-import { useAccount } from 'hooks/account'
 import { CreateEntityMessage } from 'lib/protocol'
-import { CreateCollection } from 'lib/protocol/claim'
 import React, { useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { successToast } from 'utils/toast'
@@ -23,15 +21,16 @@ import { useWallet } from '@ixo-webclient/wallet-connector'
 import { DeliverTxResponse } from '@cosmjs/stargate'
 import { useAppSelector } from 'redux/hooks'
 import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { useCreateClaimCollection } from 'hooks/claims/useCreateClaimCollection'
 
 const ClaimCollectionCreation: React.FC = () => {
   const { entityId = '' } = useParams<{ entityId: string }>()
   const { type, claim: claims = {}, accounts, owner, verificationMethod } = useAppSelector(getEntityById(entityId))
-  const { signer } = useAccount()
   const { execute, wallet, close, transaction } = useWallet()
   const { isExist: isCollectionExist } = useGetClaimCollectionsByEntityId(entityId)
-  const userRole = useGetUserGranteeRole(wallet?.address ?? "", owner, accounts, verificationMethod)
+  const userRole = useGetUserGranteeRole(wallet?.address ?? '', owner, accounts, verificationMethod)
   const { fetchEntityById } = useGetEntityByIdLazyQuery()
+  const createCollection = useCreateClaimCollection()
 
   const [step, setStep] = useState<'start' | 'select' | 'scope' | 'payment' | 'submission' | 'review' | 'success'>(
     'start',
@@ -87,7 +86,10 @@ const ClaimCollectionCreation: React.FC = () => {
       ],
     )
 
-    const response = (await execute({ data: entityMessage, transactionConfig: { sequence: 2, transactionSessionHash: transaction.transactionSessionHash }})) as unknown as DeliverTxResponse
+    const response = (await execute({
+      data: entityMessage,
+      transactionConfig: { sequence: 2, transactionSessionHash: transaction.transactionSessionHash },
+    })) as unknown as DeliverTxResponse
     if (response.code !== 0) {
       throw response.rawLog
     }
@@ -102,19 +104,21 @@ const ClaimCollectionCreation: React.FC = () => {
         // eslint-disable-next-line no-throw-literal
         throw 'Invalid Property'
       }
-      const payload = [
-        {
-          entityDid: entityId,
-          protocolDid: claim.template?.id.split('#')[0],
-          startDate: data.startDate,
-          endDate: data.endDate,
-          quota: data.quota || '0',
-          payments: data.payments,
-        },
-      ]
-      const createCollectionRes = CreateCollection(signer, payload)
+      const payload = {
+          entity: {
+            id: entityId,
+            owner: owner,
+          },
+          payload: {
+            protocol: claim.template?.id.split('#')[0],
+            startDate: data.startDate,
+            endDate: data.endDate,
+            quota: data.quota || '0',
+            payments: data.payments,
+          },
+        }
 
-      const response = (await execute({ data: createCollectionRes, transactionConfig: { sequence: 1 }})) as unknown as DeliverTxResponse
+      const response = (await createCollection(payload)) as unknown as DeliverTxResponse
 
       if (response.code) {
         throw response.rawLog

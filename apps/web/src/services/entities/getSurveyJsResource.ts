@@ -6,7 +6,9 @@ export const getSurveyJsResource = async ({ resource, service }: { resource: any
   if (!resource) return;
   const url = serviceEndpointToUrl(resource.serviceEndpoint, service);
 
-  return fetch(getMappedNewURL(url))
+  const newUrl = getMappedNewURL(url)
+
+  return fetch(newUrl)
     .then((response) => response.json())
     .then((response) => response.question);
 };
