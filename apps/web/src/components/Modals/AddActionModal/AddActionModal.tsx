@@ -72,7 +72,7 @@ const AddActionModal: React.FC<Props> = ({ open, actionsToExclude = [], onClose,
             .filter((item) => !contractName || item.in.includes(contractName))
             .map((item) => {
               const Icon = item.icon
-              const disabled = item.disabled || actionsToExclude.some(({ text }) => text === item.text)
+              const disabled = item.disabled 
               const hidden = item.hidden
 
               if (hidden) {
