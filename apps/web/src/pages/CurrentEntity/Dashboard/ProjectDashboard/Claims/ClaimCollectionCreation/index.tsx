@@ -1,9 +1,7 @@
 import { ixo, utils } from '@ixo/impactxclient-sdk'
 import { Payments } from '@ixo/impactxclient-sdk/types/codegen/ixo/claims/v1beta1/claims'
 import { LinkedEntity } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
-import { useAccount } from 'hooks/account'
 import { CreateEntityMessage } from 'lib/protocol'
-import { CreateCollection } from 'lib/protocol/claim'
 import React, { useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { successToast } from 'utils/toast'
@@ -28,7 +26,6 @@ import { useCreateClaimCollection } from 'hooks/claims/useCreateClaimCollection'
 const ClaimCollectionCreation: React.FC = () => {
   const { entityId = '' } = useParams<{ entityId: string }>()
   const { type, claim: claims = {}, accounts, owner, verificationMethod } = useAppSelector(getEntityById(entityId))
-  const { signer } = useAccount()
   const { execute, wallet, close, transaction } = useWallet()
   const { isExist: isCollectionExist } = useGetClaimCollectionsByEntityId(entityId)
   const userRole = useGetUserGranteeRole(wallet?.address ?? '', owner, accounts, verificationMethod)

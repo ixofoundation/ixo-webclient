@@ -15,7 +15,7 @@ export const useCreateClaimCollection = () => {
 
   const isSignerEntityOwner = (owner: string) => {
     if (!wallet?.address || !owner) {
-      throw 'Invalid parameters'
+      throw Error('Invalid parameters')
     }
     if (wallet.address === owner) {
       return true
