@@ -68,7 +68,7 @@ const Governance: React.FC = () => {
   }, [entityId, navigate, selectedGroup])
 
   const handleNewProposalForJoin = useCallback(() => {
-    navigate(`/create/entity/deed/${entityId}/${selectedDAOGroup?.coreAddress}?join=true`)
+    navigate(`/entity/create/deed/${entityId}/${selectedDAOGroup?.coreAddress}?join=true`)
   }, [navigate, entityId, selectedDAOGroup])
 
   const handleReEnableKeys = useCallback(() => {
@@ -193,7 +193,7 @@ const Governance: React.FC = () => {
                 <Typography variant='secondary' color='dark-blue' size='2xl'>
                   There are no active proposals.
                 </Typography>
-                <Link to={`/create/entity/deed/${entityId}/${selectedDAOGroup.coreAddress}`}>
+                <Link to={`/entity/create/deed/${entityId}/${selectedDAOGroup.coreAddress}`}>
                   <Typography variant='secondary' color='blue' size='2xl'>
                     Submit a Proposal
                   </Typography>
