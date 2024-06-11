@@ -18,14 +18,14 @@ const OracleDashboard: React.FC = (): JSX.Element => {
   const { entityId = "" } = useParams<{ entityId: string }>()
   const isEditEntityRoute = useMatch('/entity/:entityId/dashboard/edit')
   const { type, owner, profile, verificationMethod, accounts } = useAppSelector(getEntityById(entityId))
-  const { registered, address } = useAccount()
+  const { address } = useAccount()
   const signerRole = useGetUserGranteeRole(address, owner, accounts, verificationMethod)
 
   const isVerifiedOnEntity = verificationMethod.some((verification) => verification?.blockchainAccountID === address)
 
   const showAgentsRoute = owner === address || isVerifiedOnEntity
   const ShowClaimsRoute = (owner === address && signerRole === AgentRoles.evaluators) || isVerifiedOnEntity
-  const showEditEntityRoute = (registered && owner === address) || isVerifiedOnEntity
+  const showEditEntityRoute = (owner === address) || isVerifiedOnEntity
 
   const routes: Path[] = [
     {
@@ -54,7 +54,7 @@ const OracleDashboard: React.FC = (): JSX.Element => {
       icon: requireCheckDefault(require('assets/img/sidebar/gear.svg')),
       sdg: 'Edit Entity',
       tooltip: 'Edit Entity',
-      disabled: showEditEntityRoute
+      disabled: !showEditEntityRoute
     },
   ]
 
