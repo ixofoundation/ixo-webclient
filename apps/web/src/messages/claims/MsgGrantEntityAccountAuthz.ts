@@ -11,7 +11,6 @@ export type MsgGrantEntityAccountAuthzProps = {
   grant: Grant
 }
 
-
 export const MsgGrantEntityAccountAuthz = ({
   ownerAddress,
   entityDid,
@@ -22,12 +21,12 @@ export const MsgGrantEntityAccountAuthz = ({
   return {
     typeUrl: '/ixo.entity.v1beta1.MsgGrantEntityAccountAuthz',
     value: ixo.entity.v1beta1.MsgGrantEntityAccountAuthz.fromPartial({
-      id: entityDid,
-      ownerAddress,
-      name,
-      granteeAddress,
-      grant,
-    }),
+        id: entityDid,
+        ownerAddress,
+        name,
+        granteeAddress,
+        grant,
+      })
   }
 }
 
