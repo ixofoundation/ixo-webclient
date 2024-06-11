@@ -373,7 +373,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
   const cw20BaseContractCode = customQueries.contract.getContractCode(chainNetwork, 'cw20_base')
   const cw20StakeContractCode = customQueries.contract.getContractCode(chainNetwork, 'cw20_stake')
 
-  const { execute, wallet } = useWallet()
+  const { execute, wallet, close } = useWallet()
   const { SaveProfile, SaveCreator, SaveAdministrator, SavePage, SaveTags, SaveQuestionJSON, SaveClaim } = useService()
 
   const signer: TSigner = {
@@ -727,11 +727,11 @@ export function useCreateEntity(): TCreateEntityHookRes {
 
     if (instantiateWasmPayload) {
       const response = (await execute({ data: instantiateWasmPayload, transactionConfig: { sequence: 1 } })) as unknown as DeliverTxResponse
-      console.log('CreateDAOCoreByGroupId', response)
       const contractAddress = utils.common.getValueFromEvents(response!, 'instantiate', '_contract_address')
       if (!contractAddress) {
         throw new Error(response?.rawLog)
       }
+      close()
       return contractAddress
     }
 

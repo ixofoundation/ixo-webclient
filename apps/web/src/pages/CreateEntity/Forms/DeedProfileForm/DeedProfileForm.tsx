@@ -1,13 +1,14 @@
 import React from 'react'
 import { FormWrapper, FormBody, FormRow, FormHeader } from './DeedProfileForm.styles'
-import { InputWithLabel, SelectWithModal } from '../../Components'
+import { ImageUpload, InputWithLabel, SelectWithModal } from '../../Components'
 import { Typography } from 'components/Typography'
 import { EDeedType } from 'types/protocol'
-import { Box, FlexBox } from 'components/App/App.styles'
-import { useTheme } from 'styled-components'
+import { FlexBox } from 'components/App/App.styles'
 import moment from 'moment'
 
 interface Props {
+  image: string | undefined
+  setImage: (image: string) => void
   type: string
   setType: (type: string) => void
   title: string
@@ -17,6 +18,8 @@ interface Props {
 }
 
 const DeedProfileForm: React.FC<Props> = ({
+  setImage,
+  image,
   type,
   setType,
   title,
@@ -25,11 +28,10 @@ const DeedProfileForm: React.FC<Props> = ({
   error = {},
   ...rest
 }): JSX.Element => {
-  const theme: any = useTheme()
   return (
     <FormWrapper {...rest}>
       <FormHeader>
-        <Box height='240px' background={theme.ixoGrey300}></Box>
+      <ImageUpload image={image} handleChange={setImage} />
       </FormHeader>
 
       <FormBody>
