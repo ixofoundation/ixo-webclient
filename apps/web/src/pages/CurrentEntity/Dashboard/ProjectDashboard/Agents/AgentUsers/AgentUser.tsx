@@ -3,10 +3,9 @@ import { useWallet } from '@ixo-webclient/wallet-connector'
 import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { useGetClaimCollection } from 'graphql/claims'
-import { useAccount } from 'hooks/account'
+import { useGrantEntityAccountAuthZ } from 'hooks/claims/useGrantEntityAccountAuthZ'
 import { useCurrentEntityAdminAccount } from 'hooks/currentEntity'
 import { useQuery } from 'hooks/window'
-import { GrantEntityAccountClaimsEvaluateAuthz, GrantEntityAccountClaimsSubmitAuthz } from 'lib/protocol/claim'
 import { Button } from 'pages/CreateEntity/Components'
 import { Avatar } from 'pages/CurrentEntity/Components'
 import React, { useMemo, useState } from 'react'
@@ -28,50 +27,40 @@ const AgentUserCard: React.FC<IAgent & { noAction?: boolean; onClick: () => void
   const collectionId = getQuery('collectionId')
   const { data: claimCollection } = useGetClaimCollection(collectionId)
   const { entityId = '' } = useParams<{ entityId: string }>()
-  const { signer } = useAccount()
-  const { accounts } = useAppSelector(getEntityById(entityId))
+  const { accounts, owner } = useAppSelector(getEntityById(entityId))
   const adminAddress = useCurrentEntityAdminAccount(accounts)
   const [granting, setGranting] = useState(false)
-  const { execute, close } = useWallet()
+  const { close } = useWallet()
   const agentQuota = useMemo(() => claimCollection?.quota ?? 0, [claimCollection])
+  const { grantAgentAuthZ, grantEvaluatorAuthZ } = useGrantEntityAccountAuthZ()
 
   const handleGrant = async () => {
     try {
       setGranting(true)
 
       if (role === AgentRoles.serviceProviders) {
-        const payload = {
-          entityDid: entityId,
-          name: 'admin',
-          adminAddress: adminAddress,
+        const response = (await grantAgentAuthZ({
+          admin: adminAddress,
           collectionId,
-          granteeAddress: address,
           agentQuota,
-          overrideCurretGrants: false,
-        }
-        const grantEntityAccountClaimSubmitAuthZPayload = await GrantEntityAccountClaimsSubmitAuthz(signer, payload)
-
-        const response = (await execute({ data: grantEntityAccountClaimSubmitAuthZPayload, transactionConfig: { sequence: 1 }})) as unknown as DeliverTxResponse
+          ownerAddress: owner,
+          granteeAddress: address,
+          entityDid: entityId,
+        })) as unknown as DeliverTxResponse
 
         if (response.code !== 0) {
           throw response.rawLog
         }
       } else if (role === AgentRoles.evaluators) {
-        const payload = {
-          entityDid: entityId,
-          name: 'admin',
-          adminAddress: adminAddress,
+        const response = (await grantEvaluatorAuthZ({
+          admin: adminAddress,
           collectionId,
-          granteeAddress: address,
           agentQuota,
-          overrideCurretGrants: false,
-        }
-        const grantEntityAccountClaimsEvaluateAuthZPayload = await GrantEntityAccountClaimsEvaluateAuthz(
-          signer,
-          payload,
-        )
-
-        const response = (await execute({ data: grantEntityAccountClaimsEvaluateAuthZPayload, transactionConfig: { sequence: 1 }})) as unknown as DeliverTxResponse
+          ownerAddress: owner,
+          granteeAddress: address,
+          entityDid: entityId,
+          claimIds: [],
+        })) as unknown as DeliverTxResponse
 
         if (response.code !== 0) {
           throw response.rawLog

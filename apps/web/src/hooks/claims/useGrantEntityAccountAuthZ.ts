@@ -1,5 +1,5 @@
 import { useWallet } from '@ixo-webclient/wallet-connector'
-import { createRegistry } from '@ixo/impactxclient-sdk'
+import { createRegistry, ixo } from '@ixo/impactxclient-sdk'
 import { RPC_ENDPOINT, fee } from 'lib/protocol'
 import { getQueryClient } from 'lib/queryClient'
 import { MsgExecAuthZ } from 'messages/authz/authz'
@@ -12,20 +12,29 @@ import {
 export const useGrantEntityAccountAuthZ = () => {
   const { wallet, execute } = useWallet()
 
-  const hasAuthZ = async ({owner, messageTypeUrl} :{owner: string, messageTypeUrl: string}) => {
+  const getGranteeAuthConstraints = async ({
+    admin,
+    grantee,
+    messageTypeUrl,
+  }: {
+    admin: string
+    grantee: string
+    messageTypeUrl: string
+  }) => {
     const queryClient = await getQueryClient(RPC_ENDPOINT)
     const granteeGrants = await queryClient.cosmos.authz.v1beta1.granteeGrants({
-      grantee: wallet?.address ?? '',
+      grantee: grantee,
     })
 
     const evaluateAuth = granteeGrants.grants.find(
-      (g) => g.authorization?.typeUrl === messageTypeUrl && g.granter === owner,
+      (g) => g.authorization?.typeUrl === messageTypeUrl && g.granter === admin,
     )
 
     const registry = createRegistry()
-    const currentAuthConstraints = evaluateAuth === undefined ? [] : registry.decode(evaluateAuth!.authorization!).constraints
+    const currentAuthConstraints =
+      evaluateAuth === undefined ? [] : registry.decode(evaluateAuth!.authorization!).constraints
 
-    return { hasAuthZ: evaluateAuth , currentAuthConstraints }
+    return { hasAuthZ: evaluateAuth, currentAuthConstraints }
   }
 
   const grantEvaluatorAuthZ = async ({
@@ -33,7 +42,6 @@ export const useGrantEntityAccountAuthZ = () => {
     admin,
     claimIds,
     collectionId,
-    currentAuthConstraints,
     ownerAddress,
     entityDid,
     granteeAddress,
@@ -42,16 +50,21 @@ export const useGrantEntityAccountAuthZ = () => {
     admin: string
     claimIds: string[]
     collectionId: string
-    currentAuthConstraints: any
     ownerAddress: string
     entityDid: string
     granteeAddress: string
   }) => {
+    const currentAuthZ = await getGranteeAuthConstraints({
+      admin: admin,
+      grantee: granteeAddress,
+      messageTypeUrl: '/ixo.claims.v1beta1.EvaluateClaimAuthorization',
+    })
+
     const evaluatorGrant = EvaluateClaimAuthorizationGrant({
       admin,
       collectionId,
       agentQuota,
-      currentAuthConstraints,
+      currentAuthConstraints: currentAuthZ.currentAuthConstraints,
       claimIds,
     })
 
@@ -62,29 +75,25 @@ export const useGrantEntityAccountAuthZ = () => {
       grant: evaluatorGrant,
     })
 
-    if(ownerAddress === wallet?.address){
-      return execute({ data: { messages: [grantEvaluatorAuthZMessage], fee: fee, memo: undefined }})
+    if (ownerAddress === wallet?.address) {
+      return execute({ data: { messages: [grantEvaluatorAuthZMessage], fee: fee, memo: undefined } })
     }
 
-    const currentAuthZ = await hasAuthZ({owner: ownerAddress, messageTypeUrl: '/ixo.claims.v1beta1.EvaluateClaimAuthorization' })
+    const grantEvaluatorAuthZMessageWithAuthZExec = MsgExecAuthZ({
+      grantee: wallet?.address ?? '',
+      msgs: [    {
+        ...grantEvaluatorAuthZMessage,
+        value: ixo.entity.v1beta1.MsgGrantEntityAccountAuthz.encode(grantEvaluatorAuthZMessage.value).finish(),
+      },],
+    })
 
-    if(currentAuthZ.hasAuthZ){
-      const grantEvaluatorAuthZMessageWithAuthZExec = MsgExecAuthZ({
-        grantee: granteeAddress,
-        msgs: [grantEvaluatorAuthZMessage],
-      })
-
-      return execute({ data: { messages: [grantEvaluatorAuthZMessageWithAuthZExec], fee: fee, memo: undefined }})
-    }
-
-    return undefined
+    return execute({ data: { messages: [grantEvaluatorAuthZMessageWithAuthZExec], fee: fee, memo: undefined } })
   }
 
   const grantAgentAuthZ = async ({
     admin,
     collectionId,
     agentQuota,
-    currentAuthConstraints,
     ownerAddress,
     entityDid,
     granteeAddress,
@@ -92,16 +101,21 @@ export const useGrantEntityAccountAuthZ = () => {
     admin: string
     collectionId: string
     agentQuota: number
-    currentAuthConstraints: any
     ownerAddress: string
     entityDid: string
     granteeAddress: string
   }) => {
+    const currentAuthZ = await getGranteeAuthConstraints({
+      admin,
+      grantee: granteeAddress,
+      messageTypeUrl: '/ixo.claims.v1beta1.SubmitClaimAuthorization',
+    })
+
     const agentGrant = SubmitClaimAuthorizationGrant({
       admin,
       collectionId,
       agentQuota,
-      currentAuthConstraints,
+      currentAuthConstraints: currentAuthZ.currentAuthConstraints,
     })
 
     const grantAgentAuthZMessage = MsgGrantEntityAccountAuthz({
@@ -111,22 +125,21 @@ export const useGrantEntityAccountAuthZ = () => {
       grant: agentGrant,
     })
 
-    if(ownerAddress === wallet?.address){
-      return execute({ data: { messages: [grantAgentAuthZMessage], fee: fee, memo: undefined }})
+    if (ownerAddress === wallet?.address) {
+      return execute({ data: { messages: [grantAgentAuthZMessage], fee: fee, memo: undefined } })
     }
 
-    const currentAuthZ = await hasAuthZ({owner: ownerAddress, messageTypeUrl: '/ixo.claims.v1beta1.SubmitClaimAuthorization'})
+    const grantAgentAuthZMessageWithAuthZExec = MsgExecAuthZ({
+      grantee: wallet?.address ?? '',
+      msgs: [
+        {
+          ...grantAgentAuthZMessage,
+          value: ixo.entity.v1beta1.MsgGrantEntityAccountAuthz.encode(grantAgentAuthZMessage.value).finish(),
+        },
+      ],
+    })
 
-    if(currentAuthZ.hasAuthZ){
-      const grantAgentAuthZMessageWithAuthZExec = MsgExecAuthZ({
-        grantee: granteeAddress,
-        msgs: [grantAgentAuthZMessage],
-      })
-
-      return execute({ data: { messages: [grantAgentAuthZMessageWithAuthZExec], fee: fee, memo: undefined }})
-    }
-
-    return undefined
+    return execute({ data: { messages: [grantAgentAuthZMessageWithAuthZExec], fee: fee, memo: undefined } })
   }
 
   return { grantEvaluatorAuthZ, grantAgentAuthZ }
