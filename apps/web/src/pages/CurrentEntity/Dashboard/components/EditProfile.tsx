@@ -97,6 +97,8 @@ const EditProfile: React.FC = (): JSX.Element => {
         )}
         {editEntity.type === 'protocol/deed' && (
           <DeedProfileForm
+            image={editEntity.profile?.image}
+            setImage={(image): void => handleUpdateProfile('image', image)}
             type={editEntity.profile?.category || ''}
             setType={(type): void => handleUpdateProfile('type', type)}
             title={editEntity.profile?.name || ''}
