@@ -5,13 +5,9 @@ import { addDays } from 'utils/common'
 
 export type MsgGrantEntityAccountAuthzProps = {
   ownerAddress: string
-  adminAddress: string
-  currentAuthConstraints: any
   entityDid: string
-  name: string
+  name?: string
   granteeAddress: string
-  collectionId: string
-  agentQuota: number
   grant: Grant
 }
 
