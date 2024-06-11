@@ -30,6 +30,9 @@
   },
   "dependencies": {
     "@apollo/client": "^3.7.7",
+    "@blocknote/core": "^0.14.0",
+    "@blocknote/mantine": "^0.14.0",
+    "@blocknote/react": "^0.14.0",
     "@cosmjs/cosmwasm-stargate": "^0.31.3",
     "@cosmjs/encoding": "^0.31.3",
     "@cosmjs/launchpad": "^0.27.1",
