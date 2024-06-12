@@ -30,7 +30,7 @@ const Overview: React.FC = () => {
     entityIds: [entityId],
   })
 
-  const model = currentEntity.profile?.attributes.find((attr) => attr.key === 'Mechanism')?.value
+  const model = currentEntity.profile?.attributes?.find((attr) => attr.key === 'Mechanism')?.value
   const creator = currentEntity.profile?.brand
   const startDate = currentEntity.startDate
   const endDate = currentEntity.endDate

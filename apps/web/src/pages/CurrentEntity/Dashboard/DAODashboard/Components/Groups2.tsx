@@ -69,7 +69,7 @@ const GroupCard= ({ daoGroup, dao }: GroupCardProps) => {
 
       <Flex align={'center'} direction={'column'} justify={'center'} gap={4}>
         <Typography variant='primary' size='lg'>
-          {daoGroup.config.name}
+          {truncateString(daoGroup.config.name, 20, 'middle')}
         </Typography>
         <CopyToClipboard text={daoGroup.coreAddress} onCopy={() => successToast(null, `Copied to clipboard`)}>
           <Flex align='center' gap={4} onClick={(e) => e.stopPropagation()}>

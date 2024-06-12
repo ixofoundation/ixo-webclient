@@ -96,7 +96,21 @@ export const tabs = {
               icon: BsBarChart,
               isActive: isActivePath(path, `/entity/${params.entityId}/dashboard`),
               path: `/entity/${params.entityId}/dashboard`,
+            }
+          ],
+          investment: [
+            {
+              label: 'INVESTMENT',
+              icon: LuCircleDashed,
+              isActive: isActivePath(path, `/entity/${params.entityId}/overview`),
+              path: `/entity/${params.entityId}/overview`,
             },
+            {
+              label: 'DASHBOARD',
+              icon: BsBarChart,
+              isActive: isActivePath(path, `/entity/${params.entityId}/dashboard`),
+              path: `/entity/${params.entityId}/dashboard`,
+            }
           ]
         }[entity] ?? []
       )

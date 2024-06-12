@@ -15,12 +15,18 @@ import { useAppSelector } from 'redux/hooks'
 import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 
 const ProjectDashboard: React.FC = (): JSX.Element => {
-  const { entityId = "" } = useParams<{ entityId: string }>()
+  const { entityId = '' } = useParams<{ entityId: string }>()
   const isEditEntityRoute = useMatch('/entity/:entityId/dashboard/edit')
   const isClaimScreenRoute = useMatch('/entity/:entityId/dashboard/claims')
   const { accounts, owner, type, profile, verificationMethod } = useAppSelector(getEntityById(entityId))
   const { registered, address } = useAccount()
   const signerRole = useGetUserGranteeRole(address, owner, accounts, verificationMethod)
+
+  const isVerifiedOnEntity = verificationMethod.some((verification) => verification?.blockchainAccountID === address)
+
+  const showAgentsRoute = owner === address || isVerifiedOnEntity
+  const ShowClaimsRoute = (owner === address && signerRole === AgentRoles.evaluators) || isVerifiedOnEntity
+  const showEditEntityRoute = (registered && owner === address) || isVerifiedOnEntity
 
   const routes: Path[] = [
     {
@@ -34,7 +40,7 @@ const ProjectDashboard: React.FC = (): JSX.Element => {
       icon: requireCheckDefault(require('assets/img/sidebar/agent.svg')),
       sdg: 'Agents',
       tooltip: 'Agents',
-      disabled: !registered || owner !== address,
+      disabled: !showAgentsRoute,
     },
     {
       url: `/entity/${entityId}/dashboard/claims`,
@@ -42,14 +48,14 @@ const ProjectDashboard: React.FC = (): JSX.Element => {
       sdg: 'Claims',
       tooltip: 'Claims',
       strict: true,
-      disabled: !registered || (owner !== address && signerRole !== AgentRoles.evaluators),
+      disabled: !ShowClaimsRoute,
     },
     {
       url: `/entity/${entityId}/dashboard/edit`,
       icon: requireCheckDefault(require('assets/img/sidebar/gear.svg')),
       sdg: 'Edit Entity',
       tooltip: 'Edit Entity',
-      disabled: !registered || owner !== address,
+      disabled: !showEditEntityRoute,
     },
   ]
 
@@ -63,7 +69,7 @@ const ProjectDashboard: React.FC = (): JSX.Element => {
     {
       url: `/entity/${entityId}/overview`,
       icon: '',
-      sdg: profile?.name ?? "",
+      sdg: profile?.name ?? '',
       tooltip: '',
     },
     {
@@ -92,7 +98,7 @@ const ProjectDashboard: React.FC = (): JSX.Element => {
   return (
     <Dashboard
       theme={isEditEntityRoute || isClaimScreenRoute ? 'light' : 'dark'}
-      title={profile?.name ?? ""}
+      title={profile?.name ?? ''}
       subRoutes={routes}
       baseRoutes={breadcrumbs}
       tabs={tabs}
@@ -102,14 +108,16 @@ const ProjectDashboard: React.FC = (): JSX.Element => {
         <Route index element={<Navigate to={`overview`} />} />
 
         <Route path='overview' Component={Overview} />
-        {registered && owner === address && <Route path='agents' Component={Agents} />}
-        {registered && (owner === address || signerRole === AgentRoles.evaluators) && (
+
+        {showAgentsRoute && <Route path='agents' Component={Agents} />}
+
+        {ShowClaimsRoute && (
           <>
             <Route path='claims' Component={Claims} />
             <Route path='claims/:claimId' Component={ClaimDetail} />
           </>
         )}
-        {registered && owner === address && <Route path='edit' Component={EditEntity} />}
+     {showEditEntityRoute && <Route path='edit' Component={EditEntity} />}
       </Routes>
     </Dashboard>
   )

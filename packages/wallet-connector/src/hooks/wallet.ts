@@ -6,7 +6,7 @@ import { StdFee } from "@ixo/impactxclient-sdk/node_modules/@cosmjs/amino";
 
 type ExecuteProps = {
   data: MessageProps;
-  transactionConfig: {
+  transactionConfig?: {
     sequence: number;
     transactionSessionHash?: string;
   };
