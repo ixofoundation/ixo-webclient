@@ -2,6 +2,7 @@ import { Flex, Text } from '@mantine/core'
 import { ColorCode } from 'components/ActivityCard/ActivityCard.styles'
 import { EyeIcon } from 'components/Icons'
 import Table, { renderTableHeader } from 'components/Table/Table'
+import { blockExplorerTransactionEndpoint } from 'constants/blockExplorers'
 import { Message } from 'generated/graphql'
 import { useGetIid } from 'graphql/iid'
 import React, { useMemo } from 'react'
@@ -105,7 +106,7 @@ export const AssetEventsTable = ({ events = [] }: AssetEventsTableProps) => {
               style={{ cursor: 'pointer' }}
               onClick={() =>
                 window
-                  .open(`${process.env.REACT_APP_BLOCK_SCAN_URL}/transactions/${transactionHash}`, '_blank')!
+                  .open(`${blockExplorerTransactionEndpoint}${transactionHash}`, '_blank')!
                   .focus()
               }
             >

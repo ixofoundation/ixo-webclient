@@ -25,6 +25,7 @@ import { WithdrawReserve } from 'lib/protocol'
 import { useAccount } from 'hooks/account'
 import { cosmos } from '@ixo/impactxclient-sdk'
 import { useIxoConfigs } from 'hooks/configs'
+import { blockExplorerTransactionEndpoint } from 'constants/blockExplorers'
 
 const AmountInputLabel = styled.div<{ error: boolean }>`
   font-family: ${(props): string => props.theme.primaryFontFamily};
@@ -77,7 +78,7 @@ const BondWithdrawReserveModal: React.FC<Props> = ({ open, bondDid, setOpen }) =
   }
 
   const handleViewTransaction = (): void => {
-    window.open(`${process.env.REACT_APP_BLOCK_SCAN_URL}/transactions/${signTXhash}`, '_blank')!.focus()
+    window.open(`${blockExplorerTransactionEndpoint}${signTXhash}`, '_blank')!.focus()
   }
 
   const showNext = useMemo(() => {

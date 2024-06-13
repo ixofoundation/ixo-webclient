@@ -8,6 +8,7 @@ import successAnimation from 'assets/animations/transaction/success.json'
 import errorAnimation from 'assets/animations/transaction/fail.json'
 import { TXStatus } from './types'
 import { Typography } from 'components/Typography'
+import { blockExplorerTransactionEndpoint } from 'constants/blockExplorers'
 
 const TXStatusBoard = styled.div`
   & > .lottie {
@@ -91,7 +92,7 @@ const SignStep: React.FC<Props> = ({ status, hash, customDesc, message }) => {
       <a
         className={clsx({ invisible: status !== TXStatus.SUCCESS || !hash })}
         rel='noreferrer'
-        href={new URL(`/transactions/${hash}`, process.env.REACT_APP_BLOCK_SCAN_URL).href}
+        href={`${blockExplorerTransactionEndpoint}${hash}`}
         target='_blank'
       >
         <Typography variant='secondary' color='blue' size='sm'>
