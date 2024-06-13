@@ -18,6 +18,7 @@ import { unset } from 'lodash'
 import { AlphaBondInfo } from 'types/bond'
 import { Container, NextStep, PrevStep, TXStatusBoard } from '../styles'
 import { useAccount } from 'hooks/account'
+import { blockExplorerTransactionEndpoint } from 'constants/blockExplorers'
 
 const InfoBox = styled.div`
   background: #03324a;
@@ -104,7 +105,7 @@ const CreateBondSigningModal: React.FunctionComponent<Props> = ({ alphaBondInfo 
   }
 
   const handleViewTransaction = (): void => {
-    window.open(`${process.env.REACT_APP_BLOCK_SCAN_URL}/transactions/${signTXhash}`, '_blank')!.focus()
+    window.open(`${blockExplorerTransactionEndpoint}${signTXhash}`, '_blank')!.focus()
   }
 
   const enableNextStep = (): boolean => {
