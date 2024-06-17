@@ -26,7 +26,7 @@ import { useCreateClaimCollection } from 'hooks/claims/useCreateClaimCollection'
 const ClaimCollectionCreation: React.FC = () => {
   const { entityId = '' } = useParams<{ entityId: string }>()
   const { type, claim: claims = {}, accounts, owner, verificationMethod } = useAppSelector(getEntityById(entityId))
-  const { execute, wallet, close, transaction } = useWallet()
+  const { execute, wallet, close } = useWallet()
   const { isExist: isCollectionExist } = useGetClaimCollectionsByEntityId(entityId)
   const userRole = useGetUserGranteeRole(wallet?.address ?? '', owner, accounts, verificationMethod)
   const { fetchEntityById } = useGetEntityByIdLazyQuery()
@@ -86,10 +86,7 @@ const ClaimCollectionCreation: React.FC = () => {
       ],
     )
 
-    const response = (await execute({
-      data: entityMessage,
-      transactionConfig: { sequence: 2, transactionSessionHash: transaction.transactionSessionHash },
-    })) as unknown as DeliverTxResponse
+    const response = (await execute({ data: entityMessage, transactionConfig: { sequence: 1 }})) as unknown as DeliverTxResponse
     if (response.code !== 0) {
       throw response.rawLog
     }

@@ -556,9 +556,6 @@ export function useCreateEntity(): TCreateEntityHookRes {
         },
       ])
 
-    console.log('createEntityMessagePayload', createEntityMessagePayload)
-
-
       const response = (await execute({ data: createEntityMessagePayload, transactionConfig })) as unknown as DeliverTxResponse
       const did = utils.common.getValueFromEvents(response, 'wasm', 'token_id')
       const adminAccount = utils.common.getValueFromEvents(
@@ -607,13 +604,13 @@ export function useCreateEntity(): TCreateEntityHookRes {
                     // deposit_info: proposalModule.preProposeConfig.deposit_info,
                     deposit_info: proposalModule.preProposeConfig.deposit_info
                       ? {
-                          ...proposalModule.preProposeConfig.deposit_info,
-                          denom: {
-                            token: {
-                              denom: proposalModule.preProposeConfig.deposit_info.denom,
-                            },
+                        ...proposalModule.preProposeConfig.deposit_info,
+                        denom: {
+                          token: {
+                            denom: proposalModule.preProposeConfig.deposit_info.denom,
                           },
-                        }
+                        },
+                      }
                       : null,
                     extension: {},
                     open_proposal_submission: proposalModule.preProposeConfig.open_proposal_submission,

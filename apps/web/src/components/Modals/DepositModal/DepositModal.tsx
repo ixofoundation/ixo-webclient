@@ -82,7 +82,7 @@ const DepositModal: React.FunctionComponent<Props> = ({
   )
   const balance = useMemo(() => (selectedToken ? selectedToken.balance : '0'), [selectedToken])
   const daoGroup = useAppSelector(selectGroupByCoreAddress(recipient))
-  const { entityId = "" } = useParams<{ entityId: string }>()
+  const { entityId = '' } = useParams<{ entityId: string }>()
   const { profile } = useAppSelector(getEntityById(entityId))
   const daoGroupName = daoGroup?.config.name
 

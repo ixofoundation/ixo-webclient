@@ -47,6 +47,7 @@ const Review = ({ showNavigation = true }: { showNavigation?: boolean }): JSX.El
   const success = getQuery('success')
   const { transaction, close } = useWallet()
 
+  console.log({reviewTransaction: transaction})
   // Handle final entity type properties in handleSignToCreate
   // Need to refactor using best practises
   const handleSignToCreate = async (): Promise<void> => {

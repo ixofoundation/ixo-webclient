@@ -14,6 +14,7 @@ import LinkedAccountSetupModal from 'components/Modals/LinkedAccountSetupModal/L
 import DelegateAccountSetupModal from 'components/Modals/DelegateAccountSetupModal/DelegateAccountSetupModal'
 import { errorToast } from 'utils/toast'
 import { DAOGroupConfig, EntityLinkedEntityConfig } from 'constants/entity'
+import RequestEntitySetupModal from 'components/Modals/RequestEntitySetupModal/RequestEntitySetupModal'
 
 const LinkedEntityPropertyBox = (props: PropertyBoxProps & { id: string; type: string }) => {
   const [name, setName] = useState('')
@@ -52,6 +53,7 @@ const SetupLinkedEntity: React.FC<Props> = ({ hidden, linkedEntity, daoGroups, u
   const [openImpactEntitySetupModal, setOpenImpactEntitySetupModal] = useState(false)
   const [openLinkedAccountSetupModal, setOpenLinkedAccountSetupModal] = useState(false)
   const [openDelegateAccountSetupModal, setOpenDelegateAccountSetupModal] = useState(false)
+  const [openRequestSetupModel, setOpenRequestSetupModel] = useState(false)
   const hasDelegateAccount = useMemo(
     () => Object.values(linkedEntity).some(({ relationship }) => relationship === 'delegate'),
     [linkedEntity],
@@ -65,6 +67,9 @@ const SetupLinkedEntity: React.FC<Props> = ({ hidden, linkedEntity, daoGroups, u
       case 'ImpactEntity':
         setOpenImpactEntitySetupModal(true)
         break
+      case 'DeedRequest':
+        setOpenRequestSetupModel(true)
+          break
       case 'IndividualAccount': {
         if (hasDelegateAccount) {
           errorToast('Not Allowed', 'Already linked a delegate account')
@@ -142,6 +147,11 @@ const SetupLinkedEntity: React.FC<Props> = ({ hidden, linkedEntity, daoGroups, u
       <ImpactEntitySetupModal
         open={openImpactEntitySetupModal}
         onClose={(): void => setOpenImpactEntitySetupModal(false)}
+        onAdd={handleAddLinkedEntity}
+      />
+       <RequestEntitySetupModal
+        open={openRequestSetupModel}
+        onClose={(): void => setOpenRequestSetupModel(false)}
         onAdd={handleAddLinkedEntity}
       />
       <LinkedAccountSetupModal

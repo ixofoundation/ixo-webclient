@@ -24,13 +24,8 @@ type MessageProps = {
 type UseWalletProps = WalletContextType & {
   connectWallet: () => Promise<void>;
   disconnectWallet: () => void;
-  execute: (transaction: ExecuteProps) => Promise<DeliverTxResponse | string>;
-  executeTxBody: ({
-    txBody,
-  }: {
-    txBody: Uint8Array;
-  }) => Promise<DeliverTxResponse | string>;
-  setWallet: (wallet: Wallet | null) => void;
+  execute: (transaction: ExecuteProps) => Promise<DeliverTxResponse>;
+  setWallet: (wallet: Wallet | null) => void
 };
 
 export const useWallet = (): UseWalletProps => {
