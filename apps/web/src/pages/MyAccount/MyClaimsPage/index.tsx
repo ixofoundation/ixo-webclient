@@ -14,8 +14,7 @@ import { GasPrice } from '@cosmjs/stargate'
 import { OfflineSigner } from '@cosmjs/proto-signing'
 import { useEffect, useState } from 'react'
 import { TEntityProfileModel } from 'types/entities'
-import { serviceEndpointToUrl } from 'utils/entities'
-import { getMappedCDNURL } from '@ixo-webclient/utils'
+import { fileStorage } from '@ixo-webclient/utils'
 
 const getClaimAmount = (claim: Partial<Claim>) => {
   if (claim.evaluationByClaimId?.amount?.length > 0) {
@@ -172,8 +171,8 @@ const MyclaimsPage = () => {
         .then(async (response: { data?: any }) => {
           const entityProfilePromises = await Promise.all(
             (response.data?.entities?.nodes ?? []).map(async (entity: any) => {
-              const url = serviceEndpointToUrl(entity.settings['Profile'].serviceEndpoint, entity.service)
-              const response = await fetch(getMappedCDNURL(url)).then((response) => response.json())
+              const [service, cid] = entity.settings['Profile']?.serviceEndpoint.split(":") ?? [null, null]
+              const response = await fetch(fileStorage[service].generateEndpoint(cid)).then((response) => response.json())
               return { ...response, did: entity.id }
             }),
           )

@@ -17,6 +17,8 @@ import { EntityType } from 'types/entities'
 import { useAppSelector } from 'redux/hooks'
 import { selectEntityHeaderButtonColorUIConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
 import { selectEntityConfig } from 'redux/configs/configs.selectors'
+import { useMediaQuery } from '@mantine/hooks'
+import { em } from '@mantine/core'
 
 interface Props {
   entityType?: EntityType
@@ -26,6 +28,8 @@ const CreateEntityDropdown: React.FunctionComponent<Props> = ({ entityType }) =>
   const entityTypeMap = useAppSelector(selectEntityConfig)
   const buttonColor: string = useAppSelector(selectEntityHeaderButtonColorUIConfig)
   const [isModalOpen, setIsModalOpen] = React.useState(false)
+  const isMobile = useMediaQuery(`(max-width: ${em(710)})`)
+
 
   const isVisible = React.useMemo(() => {
     const isViewedFromApp = !!window.MobileContext
@@ -58,7 +62,7 @@ const CreateEntityDropdown: React.FunctionComponent<Props> = ({ entityType }) =>
   return isVisible ? (
     <DropdownWrapper>
       <ModalButton onClick={handleToggleModal} className={isModalOpen ? 'modal-open' : ''} color={buttonColor}>
-        <span className='modal-text'>CREATE</span>
+        <span className={`modal-text`} style={{ fontSize: isMobile ? "24px" : "inherit"}}>CREATE</span>
       </ModalButton>
 
       {entityTypeMap && (

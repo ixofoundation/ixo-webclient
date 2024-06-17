@@ -9,7 +9,7 @@ export const Container = styled.div`
 `
 
 export const EntitiesContainer = styled.div`
-  background: ${/* eslint-disable-line */ (props) => props.theme.ixoGrey100};
+  background: white;
   flex: 1 1 auto;
   min-height: 480px;
 

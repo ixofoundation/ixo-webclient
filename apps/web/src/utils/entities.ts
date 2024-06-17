@@ -21,7 +21,7 @@ import { CellnodePublicResource, CellnodeWeb3Resource } from '@ixo/impactxclient
 import Axios from 'axios'
 import { ApiListedEntityData } from 'api/blocksync/types/entities'
 import { get } from 'lodash'
-import { getMappedNewURL } from '@ixo-webclient/utils'
+import { fileStorage, getMappedNewURL } from '@ixo-webclient/utils'
 
 export const getCountryCoordinates = (countryCodes: string[]): any[] => {
   const coordinates: any[] = []
@@ -124,7 +124,7 @@ export const getTags = (entityConfig: any, ddoTagName: string): any[] => {
 }
 
 export function serviceEndpointToUrl(serviceEndpoint: string, service: Service[]): string {
-  if (service.length === 0) {
+  if (service?.length === 0) {
     return serviceEndpoint
   }
   if (serviceEndpoint.includes('://')) {
@@ -132,12 +132,12 @@ export function serviceEndpointToUrl(serviceEndpoint: string, service: Service[]
   }
   let url = ''
   const [identifier, key] = serviceEndpoint.replace('{id}#', '').split(':')
-  const usedService: Service | undefined = service.find(
+  const usedService: Service | undefined = service?.find(
     (item: any) => item.id.replace('{id}#', '') === identifier.replace('{id}#', ''),
   )
-
+  // console.log({ identifier, key })
   if (usedService && usedService.type.toLocaleLowerCase() === NodeType.Ipfs.toLocaleLowerCase()) {
-    url = new URL(key, usedService.serviceEndpoint).href
+    url = fileStorage.ipfs.generateEndpoint(key)
   } else if (usedService && usedService.type.toLocaleLowerCase() === NodeType.CellNode.toLocaleLowerCase()) {
     url = new URL(key, usedService.serviceEndpoint).href
   } else {
@@ -173,27 +173,27 @@ export function apiEntityToEntity(
                   if (image && !image.startsWith('http')) {
                     const [identifier] = image.split(':')
                     let endpoint = ''
-                    ;(Array.isArray(context)
-                      ? context
-                      : Object.entries(context).map(([key, value]) => ({ [key]: value }))
-                    ).forEach((item: any) => {
-                      if (typeof item === 'object' && identifier in item) {
-                        endpoint = item[identifier]
-                      }
-                    })
+                      ; (Array.isArray(context)
+                        ? context
+                        : Object.entries(context).map(([key, value]) => ({ [key]: value }))
+                      ).forEach((item: any) => {
+                        if (typeof item === 'object' && identifier in item) {
+                          endpoint = item[identifier]
+                        }
+                      })
                     image = image.replace(identifier + ':', endpoint)
                   }
                   if (logo && !logo.startsWith('http')) {
                     const [identifier] = logo.split(':')
                     let endpoint = ''
-                    ;(Array.isArray(context)
-                      ? context
-                      : Object.entries(context).map(([key, value]) => ({ [key]: value }))
-                    ).forEach((item: any) => {
-                      if (typeof item === 'object' && identifier in item) {
-                        endpoint = item[identifier]
-                      }
-                    })
+                      ; (Array.isArray(context)
+                        ? context
+                        : Object.entries(context).map(([key, value]) => ({ [key]: value }))
+                      ).forEach((item: any) => {
+                        if (typeof item === 'object' && identifier in item) {
+                          endpoint = item[identifier]
+                        }
+                      })
                     logo = logo.replace(identifier + ':', endpoint)
                   }
                   return { ...response, image, logo }

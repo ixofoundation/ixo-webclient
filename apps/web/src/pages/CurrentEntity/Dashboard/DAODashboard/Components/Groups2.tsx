@@ -15,7 +15,6 @@ import { ReactComponent as CopyIcon } from 'assets/images/icon-copy.svg'
 import { successToast } from 'utils/toast'
 import { useAppSelector } from 'redux/hooks'
 import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
-import { getMappedCDNURL } from '@ixo-webclient/utils'
 
 type GroupCardProps = {
   daoGroup: TDAOGroupModel
@@ -62,7 +61,7 @@ const GroupCard= ({ daoGroup, dao }: GroupCardProps) => {
       )}
 
       <Flex direction='column' justify={'center'} align={'center'} gap={8}>
-        <Avatar src={getMappedCDNURL(dao.profile?.logo ?? "")} alt='' size={32} radius={100} />
+        <Avatar src={dao.profile?.logo ?? ""} alt='' size={32} radius={100} />
         <Typography variant='primary' size='sm'>
           {dao.profile?.name}
         </Typography>
@@ -70,7 +69,7 @@ const GroupCard= ({ daoGroup, dao }: GroupCardProps) => {
 
       <Flex align={'center'} direction={'column'} justify={'center'} gap={4}>
         <Typography variant='primary' size='lg'>
-          {daoGroup.config.name}
+          {truncateString(daoGroup.config.name, 20, 'middle')}
         </Typography>
         <CopyToClipboard text={daoGroup.coreAddress} onCopy={() => successToast(null, `Copied to clipboard`)}>
           <Flex align='center' gap={4} onClick={(e) => e.stopPropagation()}>

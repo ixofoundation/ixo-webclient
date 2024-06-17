@@ -6,6 +6,7 @@ import pendingAnimation from 'assets/animations/transaction/pending.json'
 import successAnimation from 'assets/animations/transaction/success.json'
 import errorAnimation from 'assets/animations/transaction/fail.json'
 import { ReactNode } from 'react'
+import { blockExplorerTransactionEndpoint } from 'constants/blockExplorers'
 
 const TXStatusBoard = styled.div`
   & > .lottie {
@@ -80,7 +81,7 @@ const SignStep = ({ status, hash, customDesc, noLottie, children }: Props) => {
     }
   }
   function handleViewTransaction(): void {
-    hash && window.open(`${process.env.REACT_APP_BLOCK_SCAN_URL}/transactions/${hash}`, '_blank')!.focus()
+    hash && window.open(`${blockExplorerTransactionEndpoint}${hash}`, '_blank')!.focus()
   }
   return (
     <TXStatusBoard className='mx-4 d-flex align-items-center flex-column'>

@@ -91,7 +91,7 @@ export function useGetOfferFormByClaimCollectionId(collectionId: string) {
   const [offerQuestion, setOfferQuestion] = useState(null)
 
   useEffect(() => {
-    if (offerFormLinkedResource && service.length > 0) {
+    if (offerFormLinkedResource && service?.length > 0) {
       const url = serviceEndpointToUrl(offerFormLinkedResource.serviceEndpoint, service)
       fetch(url)
         .then((response) => response.json())
@@ -337,7 +337,7 @@ export function useGetAssetDevicesByOwner(ownerAddress: string) {
   const [assetDevices, setAssetDevices] = useState<any[]>([])
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       let _assetDevices: any[] = []
       for (const id of ids) {
         const {

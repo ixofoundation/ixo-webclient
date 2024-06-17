@@ -218,6 +218,13 @@ export interface EntityConfig extends EntityTypeStrategyMap {
     }[]
     explorer?: {
       defaultView: string
+      defaultColumnCount: number
+      design?: {
+        card: {
+          borderRadius?: number | string
+          border?: string
+        }
+      }
     }
     head?: {
       title?: string
@@ -226,6 +233,37 @@ export interface EntityConfig extends EntityTypeStrategyMap {
     header?: {
       background: string
       buttonColor: string
+      borderColor: string
+      link: string
+      tabs: {
+        background: string
+        borderColor: string
+        color: string
+        active: {
+          background: string
+          color: string
+        }
+        assistant: {
+          to: string
+          right: string
+          color: string
+          active: {
+            to: string
+            right: string
+            color: string
+          }
+        }
+      }
+    }
+    companion: {
+      toolbar: {
+        background: string
+        color: string
+        active: {
+          background: string
+          color: string
+        }
+      }
     }
     footer?: {
       mailTo?: {
@@ -349,6 +387,7 @@ export interface TEntityMetricModel {
   source: string
 }
 export interface TEntityAttributeModel {
+  id: string
   key: string
   value: string
 }
@@ -617,6 +656,7 @@ export interface TEntityModel extends Omit<Entity, 'metadata'>, IidDocument {
     [key: string]: LinkedResource
   }
 
+  metrics?: Record<string, string | number>
   profile?: TEntityProfileModel
   creator?: TEntityCreatorModel
   administrator?: TEntityAdministratorModel

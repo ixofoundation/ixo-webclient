@@ -9,7 +9,6 @@ import { ReactComponent as InvestmentIcon } from 'assets/images/icon-investment.
 import { useGetBondDid } from 'graphql/bonds'
 import { useMapBondDetail } from 'hooks/bond'
 import BigNumber from 'bignumber.js'
-import { getMappedCDNURL } from '@ixo-webclient/utils'
 import { LinkedEntity } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 
 const InvestmentCard: React.FC<TEntityModel & { to?: string }> = (entity) => {
@@ -40,7 +39,7 @@ const InvestmentCard: React.FC<TEntityModel & { to?: string }> = (entity) => {
         transition='.2s box-shadow'
         hover={{ $boxShadow: '0px 10px 25px 0px rgba(0, 0, 0, 0.15)' }}
       >
-        <FlexBox background={`url(${getMappedCDNURL(image)})`} $backgroundSize='cover' width='100%' height='200px' position='relative'>
+        <FlexBox background={`url(${image})`} $backgroundSize='cover' width='100%' height='200px' position='relative'>
           <FlexBox position='absolute' top='16px' left='16px' $alignItems='center' $gap={1}>
             <SvgBox $borderRadius='100%' p={1} $svgWidth={4} $svgHeight={4} background={'#20798C'} color={'white'}>
               <InvestmentIcon />

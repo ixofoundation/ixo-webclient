@@ -191,26 +191,32 @@ export const GetReplaceLinkedResourceMsgs = (
   entityId: string,
   signer: TSigner,
   payload: LinkedResource,
+  oldPayload?: LinkedResource,
 ): readonly EncodeObject[] => {
-  return [
-    {
+  const messages: EncodeObject[] = [];
+  if (oldPayload && oldPayload.id) {
+    messages.push({
       typeUrl: '/ixo.iid.v1beta1.MsgDeleteLinkedResource',
       value: ixo.iid.v1beta1.MsgDeleteLinkedResource.fromPartial({
         id: entityId,
-        resourceId: payload.id,
+        resourceId: oldPayload.id,
         signer: signer.address,
       }),
-    },
-    {
-      typeUrl: '/ixo.iid.v1beta1.MsgAddLinkedResource',
-      value: ixo.iid.v1beta1.MsgAddLinkedResource.fromPartial({
-        id: entityId,
-        linkedResource: ixo.iid.v1beta1.LinkedResource.fromPartial(payload),
-        signer: signer.address,
-      }),
-    },
-  ]
+    });
+  }
+
+  messages.push({
+    typeUrl: '/ixo.iid.v1beta1.MsgAddLinkedResource',
+    value: ixo.iid.v1beta1.MsgAddLinkedResource.fromPartial({
+      id: entityId,
+      linkedResource: ixo.iid.v1beta1.LinkedResource.fromPartial(payload),
+      signer: signer.address,
+    }),
+  });
+
+  return messages;
 }
+
 
 export const GetAddLinkedEntityMsgs = (
   entityId: string,
@@ -378,4 +384,32 @@ export const AddVerificationMethod = (signer: TSigner, payload: { did: string; v
 
   console.log('AddVerificationMethod', { messages })
   return { messages, fee, memo: undefined }
+}
+
+export const AddService = (signer: TSigner, payload: { entityId: string; service: any }) => {
+  const { entityId, service } = payload
+  const message = {
+    typeUrl: '/ixo.iid.v1beta1.MsgAddService',
+    value: ixo.iid.v1beta1.MsgAddService.fromPartial({
+      id: entityId,
+      serviceData: service,
+      signer: signer.address,
+    }),
+  }
+
+  return [message]
+}
+
+export const DeleteService = (signer: TSigner, payload: { entityId: string; serviceId: string }) => {
+  const { entityId, serviceId } = payload
+  const message = {
+    typeUrl: '/ixo.iid.v1beta1.MsgDeleteService',
+    value: ixo.iid.v1beta1.MsgDeleteService.fromPartial({
+      id: entityId,
+      serviceId: serviceId,
+      signer: signer.address,
+    }),
+  }
+
+  return [message]
 }

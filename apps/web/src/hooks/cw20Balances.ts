@@ -71,10 +71,12 @@ const getStakingAndTokenContracts = async (stakingGroups: TDAOGroupModel[], cwCl
 
     const balancesResponse = await queryMultipleContracts(balances.flat())
 
-    const balancesResult = balancesResponse.reduce((acc: string[][], curr: string, index: number, array: string[]) => {
+    const balancesResult = balancesResponse?.reduce((acc: string[][], curr: string, index: number, array: string[]) => {
         if (index % 3 === 0) acc.push(array.slice(index, index + 3));
         return acc;
-    }, []);
+    }, []) ?? [];
+
+    if(balancesResult.length === 0) return {}
 
     const utimateResult = stakingGroups.map((stakingGroup, index: any) => {
         const {

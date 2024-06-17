@@ -57,6 +57,9 @@ import { Schema as FilterSchema } from 'pages/EntitiesExplorer/Components/Entiti
 import { useNavigate } from 'react-router-dom'
 import { useQuery } from 'hooks/window'
 import { Typography } from 'components/Typography'
+import { Flex, em } from '@mantine/core'
+import { ExplorerEntityMenu } from 'components/ExplorerEntityMenu/ExplorerEntityMenu'
+import { useMediaQuery } from '@mantine/hooks'
 
 // TODO - make this 2 separate components - Desktop and Mobile
 
@@ -83,6 +86,8 @@ const EntitiesFilter: FC<Props> = () => {
   const entityTypeMap = useAppSelector(selectEntityConfig)
   const type = useAppSelector(selectSelectedEntitiesType)
   const filterSchema: FilterSchema | undefined = useAppSelector(selectEntityConfigByGivenType(type))?.filterSchema
+  const isMobile = useMediaQuery(`(max-width: ${em(750)})`)
+
 
   const [activeFilter, setActiveFilter] = useState<string>('')
   const [mobileFilterActiveMenu, setMobileFilterActiveMenu] = useState<string>('')
@@ -230,7 +235,7 @@ const EntitiesFilter: FC<Props> = () => {
   return (
     <div data-testid='EntitiesFilter'>
       <FiltersWrap>
-        <FilterInfo>{title}</FilterInfo>
+        <Flex w="100%" align="center" justify={"space-between"} py={isMobile ? 10 : 0}><FilterInfo>{title}</FilterInfo> <ExplorerEntityMenu/></Flex>
         <div className='filters'>
           {/* Desktop */}
           <MediaQuery minWidth={`${deviceWidth.desktop}px`}>

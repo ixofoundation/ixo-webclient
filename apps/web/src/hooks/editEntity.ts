@@ -7,6 +7,8 @@ import {
 } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import BigNumber from 'bignumber.js'
 import {
+  AddService,
+  DeleteService,
   fee,
   GetAddLinkedClaimMsgs,
   GetAddLinkedEntityMsgs,
@@ -118,8 +120,13 @@ export default function useEditEntity(): {
     if (JSON.stringify(editEntity.profile) === JSON.stringify(currentEntity.profile)) {
       return []
     }
-    console.log({serviceEdit:editEntity.settings.Profile.serviceEndpoint})
-    const service = getUsedService(editEntity.settings.Profile.serviceEndpoint)
+
+    const service = editEntity.settings?.Profile?.serviceEndpoint ? getUsedService(editEntity.settings.Profile?.serviceEndpoint) : {
+      id: '{id}#ipfs',
+      type: NodeType.Ipfs,
+      serviceEndpoint: 'https://ipfs.io/ipfs',
+    }
+
     const res = await SaveProfile(editEntity.profile, service)
     if (!res) {
       throw new Error('Save Profile failed!')
@@ -136,7 +143,7 @@ export default function useEditEntity(): {
       right: '',
     }
 
-    const messages: readonly EncodeObject[] = GetReplaceLinkedResourceMsgs(editEntity.id, signer, newLinkedResource)
+    const messages: readonly EncodeObject[] = GetReplaceLinkedResourceMsgs(editEntity.id, signer, newLinkedResource, editEntity.settings?.Profile)
     return messages
   }
 
@@ -161,7 +168,7 @@ export default function useEditEntity(): {
       right: '',
     }
 
-    const messages: readonly EncodeObject[] = GetReplaceLinkedResourceMsgs(editEntity.id, signer, newLinkedResource)
+    const messages: readonly EncodeObject[] = GetReplaceLinkedResourceMsgs(editEntity.id, signer, newLinkedResource, currentEntity.linkedResource.find((v) => v.type === 'TokenMetadata'))
     return messages
   }
 
@@ -187,7 +194,34 @@ export default function useEditEntity(): {
       right: '',
     }
 
-    const messages: readonly EncodeObject[] = GetReplaceLinkedResourceMsgs(editEntity.id, signer, newLinkedResource)
+    const messages: readonly EncodeObject[] = GetReplaceLinkedResourceMsgs(editEntity.id, signer, newLinkedResource, currentEntity?.linkedResource?.find((v) => v.type === 'surveyTemplate'))
+    return messages
+  }
+
+  const getEditedCreatorMsgs = async (): Promise<readonly EncodeObject[]> => {
+    if (JSON.stringify(editEntity.creator) === JSON.stringify(currentEntity.creator)) {
+      return []
+    }
+    const service = getUsedService(
+      editEntity.linkedResource.find((v) => v.id === `{id}#creator`)?.serviceEndpoint,
+    )
+    const res = await SaveProfile(editEntity.creator, service)
+    if (!res) {
+      throw new Error('Save Creator failed!')
+    }
+
+    const newLinkedResource: LinkedResource = {
+      id: '{id}#creator',
+      type: 'VerifiableCredential',
+      description: 'Creator',
+      mediaType: 'application/ld+json',
+      serviceEndpoint: LinkedResourceServiceEndpointGenerator(res, service),
+      proof: LinkedResourceProofGenerator(res, service),
+      encrypted: 'false',
+      right: '',
+    }
+
+    const messages: readonly EncodeObject[] = GetReplaceLinkedResourceMsgs(editEntity.id, signer, newLinkedResource, editEntity?.linkedResource?.find((v) => v.id === '{id}#creator'))
     return messages
   }
 
@@ -214,7 +248,7 @@ export default function useEditEntity(): {
       right: '',
     }
 
-    const messages: readonly EncodeObject[] = GetReplaceLinkedResourceMsgs(editEntity.id, signer, newLinkedResource)
+    const messages: readonly EncodeObject[] = GetReplaceLinkedResourceMsgs(editEntity.id, signer, newLinkedResource, editEntity?.linkedResource?.find((v) => v.id === '{id}#administrator'))
     return messages
   }
 
@@ -239,7 +273,7 @@ export default function useEditEntity(): {
       right: '',
     }
 
-    const messages: readonly EncodeObject[] = GetReplaceLinkedResourceMsgs(editEntity.id, signer, newLinkedResource)
+    const messages: readonly EncodeObject[] = GetReplaceLinkedResourceMsgs(editEntity.id, signer, newLinkedResource, editEntity.settings.Page)
     return messages
   }
 
@@ -264,7 +298,7 @@ export default function useEditEntity(): {
       right: '',
     }
 
-    const messages: readonly EncodeObject[] = GetReplaceLinkedResourceMsgs(editEntity.id, signer, newLinkedResource)
+    const messages: readonly EncodeObject[] = GetReplaceLinkedResourceMsgs(editEntity.id, signer, newLinkedResource, editEntity.settings.Tags)
     return messages
   }
 
@@ -297,7 +331,7 @@ export default function useEditEntity(): {
         ...acc,
         ...(currentLinkedFiles.some((item: LinkedResource) => item.id === cur.id)
           ? editedLinkedFiles.some((item: LinkedResource) => item.id === cur.id)
-            ? GetReplaceLinkedResourceMsgs(editEntity.id, signer, cur)
+            ? GetReplaceLinkedResourceMsgs(editEntity.id, signer, cur, editEntity?.linkedResource?.find((v) => v.id === cur.id))
             : GetDeleteLinkedResourceMsgs(editEntity.id, signer, cur)
           : GetAddLinkedResourceMsgs(editEntity.id, signer, cur)),
       ],
@@ -400,6 +434,12 @@ export default function useEditEntity(): {
   }
 
   const getEditedLinkedClaimMsgs = async (): Promise<readonly EncodeObject[]> => {
+    const editedLinkedClaim = editEntity.claim
+    const currentLinkedClaim = currentEntity.claim
+    if (JSON.stringify(editedLinkedClaim) === JSON.stringify(currentLinkedClaim)) {
+      return []
+    }
+
     let messages: readonly EncodeObject[] = []
 
     const service = getUsedService(editEntity.linkedClaim[0]?.serviceEndpoint)
@@ -432,10 +472,10 @@ export default function useEditEntity(): {
     )
 
     await Promise.all(
-      Object.values(currentEntity.claim ?? {}).map(async (claim) => {
+      Object.values(currentEntity.claim ?? {}).map(async (claim: any) => {
         if (!Object.values(editEntity.claim ?? {}).some((v) => JSON.stringify(v) === JSON.stringify(claim))) {
           // remove
-          messages = [...messages, ...GetDeleteLinkedClaimMsgs(editEntity.id, signer, `{id}#${claim.id}`)]
+          messages = [...messages, ...GetDeleteLinkedClaimMsgs(editEntity.id, signer, claim.linkedClaimId)]
         }
         return true
       }),
@@ -497,6 +537,42 @@ export default function useEditEntity(): {
     return messages
   }
 
+  const getEditedServiceMsgs = async (): Promise<readonly EncodeObject[]> => {
+    const editedServices = editEntity.service
+    const currentServices = currentEntity.service
+    if (JSON.stringify(editedServices) === JSON.stringify(currentServices)) {
+      return []
+    }
+
+    const addedServices = editedServices.filter(
+      (item: Service) => !currentServices.map((item: Service) => JSON.stringify(item)).includes(JSON.stringify(item)),
+    )
+
+    const deletedServices = currentServices.filter(
+      (item: Service) => !editedServices.map((item: Service) => JSON.stringify(item)).includes(JSON.stringify(item)),
+    )
+
+    const messages = [
+      ...addedServices.reduce(
+        (acc: EncodeObject[], cur: Service) => [
+          ...acc,
+          ...AddService(signer, { entityId: editEntity.id, service: cur }),
+        ],
+        [],
+      ),
+      ...deletedServices.reduce(
+        (acc: EncodeObject[], cur: Service) => [
+          ...acc,
+          ...DeleteService(signer, { entityId: editEntity.id, serviceId: cur.id }),
+        ],
+        [],
+      ),
+    ]
+
+    return messages
+  }
+
+
   const getEditedMsgs = async (): Promise<readonly EncodeObject[]> => {
     return [
       ...(await getEditedStartAndEndDateMsgs()),
@@ -511,6 +587,8 @@ export default function useEditEntity(): {
       ...(await getEditedLinkedClaimMsgs()),
       ...(await getEditedVerificationMethodMsgs()),
       ...(await getEditedSurveyTemplateMsgs()),
+      ...(await getEditedServiceMsgs()),
+      ...(await getEditedCreatorMsgs()),  
     ]
   }
 

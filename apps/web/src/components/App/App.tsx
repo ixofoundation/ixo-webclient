@@ -8,7 +8,7 @@ import AssistantContext from 'contexts/assistant'
 import React from 'react'
 import * as ReactGA from 'react-ga'
 import { ToastContainer } from 'react-toastify'
-import Services from 'services'
+import { ServicesInitialisation } from 'components'
 import Footer from '../Footer'
 import { HeaderConnected } from '../Header/HeaderContainer'
 import ScrollToTop from '../ScrollToTop/ScrollToTop'
@@ -20,6 +20,9 @@ import RedirectToMyAccount from 'components/Header/components/RedirectToMyAccoun
 import { chainNetwork } from 'hooks/configs'
 import { RPC_ENDPOINT } from 'lib/protocol'
 import RootInit from 'utils/init/rootInit'
+import { Companion } from 'components/Companion'
+import { CompanionProvider } from 'contexts/CompanionContext'
+import { KeyValueViewerProvider } from 'contexts/KeyValueViewerContext'
 
 ReactGA.initialize('UA-106630107-5')
 ReactGA.pageview(window.location.pathname + window.location.search)
@@ -34,18 +37,24 @@ const App: React.FC = () => {
       >
         <WalletModal />
         <ToastContainer theme='dark' hideProgressBar={true} position='top-right' />
-        <RootInit/>
-        <Services />
+        <RootInit />
+        <ServicesInitialisation />
         <ScrollToTop>
-          <Container>
-            <HeaderConnected />
-            <Flex mt={74} w='100%' h={'calc(100vh - 74px)'} style={{ flex: 1 }}>
-              <ContentWrapper>
-                <Outlet />
-              </ContentWrapper>
-            </Flex>
-            <Footer />
-          </Container>
+          <CompanionProvider>
+            <KeyValueViewerProvider>
+              {' '}
+              <Container>
+                <HeaderConnected />
+                <Companion />
+                <Flex mt={74} w='100%' h={'calc(100vh - 74px)'} style={{ flex: 1 }}>
+                  <ContentWrapper>
+                    <Outlet />
+                  </ContentWrapper>
+                </Flex>
+                <Footer />
+              </Container>
+            </KeyValueViewerProvider>
+          </CompanionProvider>
         </ScrollToTop>
       </WalletProvider>
     </AssistantContext.Provider>

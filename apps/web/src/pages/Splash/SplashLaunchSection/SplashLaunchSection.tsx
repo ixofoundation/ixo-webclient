@@ -71,7 +71,7 @@ export const SplashLaunchSection: FC = () => {
           <ColumnContainer md={6}>
             <div>
               <SectionHeading>Launch a Marketplace</SectionHeading>
-              <SectionSubheading>Grow you Impact ecosystem</SectionSubheading>
+              <SectionSubheading>Grow your Impact ecosystem</SectionSubheading>
               <Paragraph>
                 Host the Earth Portal web application platform and mobile wallet customised for your sector and target
                 market.

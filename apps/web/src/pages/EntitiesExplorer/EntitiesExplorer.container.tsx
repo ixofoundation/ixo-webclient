@@ -26,6 +26,7 @@ import { Flex, ScrollArea } from '@mantine/core'
 import styled from 'styled-components'
 import { getGQLEntitiesQueryTypeFilter } from 'services/entities'
 import { populateEntitiesForEntityExplorer } from 'services/entities/populateEntitySettings'
+import { useExplorerDesignConfig } from 'hooks/userInterface/useExplorerDesignConfig'
 
 const StyledScrollArea = styled(ScrollArea)`
   & > div > div {
@@ -107,8 +108,9 @@ const EntitiesExplorer = ({
   const { getQuery } = useQuery()
   const type: string | undefined = getQuery('type')
   const sector: string | undefined = getQuery('sector')
+  const { defaultColumnCount } = useExplorerDesignConfig()
 
-  const tabletColumns = isTablet ? 2 : 3
+  const tabletColumns = isTablet ? 2 : defaultColumnCount
   const columns = isMobile ? 1 : tabletColumns
 
   const { data, loading, refetch } = useEntitiesQuery({
@@ -154,7 +156,7 @@ const EntitiesExplorer = ({
           <EntitiesBody>
           {filteredEntitiesCount === 0 && data?.entities?.nodes.length !== 0 && (
               <Flex direction={'row'} w='100%' gap={32}>
-                <InfiniteScroll dataLength={6} hasMore={false} next={() => refetch()} columns={3}>
+                <InfiniteScroll dataLength={6} hasMore={false} next={() => refetch()} columns={columns}>
                   <EntityOverviewSkeletonCard />
                   <EntityOverviewSkeletonCard />
                   <EntityOverviewSkeletonCard />

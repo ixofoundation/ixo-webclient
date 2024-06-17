@@ -52,7 +52,7 @@ export const config = {
   project: {
     title: 'Project',
     plural: 'Projects',
-    themeColor: '#49BFE0',
+    themeColor: '#20798C',
     headerSchema: {
       '@context': 'https://schema.ixo.foundation/project',
       '@type': 'Header',
@@ -1286,7 +1286,7 @@ export const config = {
   oracle: {
     title: 'Oracle',
     plural: 'Oracles',
-    themeColor: '#AD245C',
+    themeColor: '#20798C',
     headerSchema: {
       '@context': 'https://schema.ixo.foundation/oracle',
       '@type': 'Header',
@@ -2060,7 +2060,7 @@ export const config = {
   investment: {
     title: 'Investment',
     plural: 'Investments',
-    themeColor: '#E4BC3D',
+    themeColor: '#20798C',
     headerSchema: {
       '@context': 'https://schema.ixo.foundation/investment',
       '@type': 'Header',
@@ -2970,7 +2970,8 @@ export const config = {
   dao: {
     title: 'DAO',
     plural: 'DAOs',
-    themeColor: '#85AD5C',
+    themeColor: '#20798C',
+    tabBgcolor: "#FFFFFF",
     headerSchema: {
       '@context': 'https://schema.ixo.foundation/cell',
       '@type': 'Header',
@@ -3679,7 +3680,7 @@ export const config = {
   protocol: {
     title: 'Protocol',
     plural: 'Protocols',
-    themeColor: '#7c2740',
+    themeColor: '#20798C',
     headerSchema: {
       '@context': 'https://schema.ixo.foundation/protocol',
       '@type': 'Header',
@@ -4750,7 +4751,7 @@ export const config = {
   asset: {
     title: 'Asset',
     plural: 'Assets',
-    themeColor: '#ED9526',
+    themeColor: '#20798C',
     headerSchema: {
       '@context': 'https://schema.ixo.foundation/data-asset',
       '@type': 'Header',

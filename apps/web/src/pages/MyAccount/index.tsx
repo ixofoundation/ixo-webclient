@@ -7,11 +7,14 @@ import { Path } from 'components/Dashboard/types'
 import { requireCheckDefault } from 'utils/images'
 import MyGroupsPage from './MyGroupsPage'
 import MyclaimsPage from './MyClaimsPage'
+import { useIxoConfigs } from 'hooks/configs'
 
 const MyAccountPage: React.FC = (): JSX.Element => {
   const navigate = useNavigate()
   const { address } = useAccount()
   const title = 'My Portfolio'
+  const { entityConfig } = useIxoConfigs()
+
 
   const routes: Path[] = [
     {
@@ -36,7 +39,7 @@ const MyAccountPage: React.FC = (): JSX.Element => {
 
   useEffect(() => {
     if (!address) {
-      navigate('/explore?type=dao')
+      navigate(`/explore?type=${entityConfig?.UI?.explorer?.defaultView}`)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address])

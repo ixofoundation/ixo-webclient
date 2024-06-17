@@ -5,6 +5,7 @@ import { Flex } from '@mantine/core'
 import { Typography } from 'components/Typography'
 import { TDAOGroupModel } from 'types/entities'
 import { useAccount } from 'hooks/account'
+import { decimalToPercentage } from 'utils/conversions'
 
 interface Props {
   daoGroup: TDAOGroupModel
@@ -29,7 +30,7 @@ const VotingPowerCard: React.FC<Props> = ({ daoGroup }) => {
           </Flex>
           <Flex align={'center'} justify={'space-between'}>
             <Typography>My Voting Power</Typography>
-            <Typography>{userVotingPower}</Typography>
+            <Typography>{decimalToPercentage(userVotingPower)}</Typography>
           </Flex>
         </Flex>
       </Flex>

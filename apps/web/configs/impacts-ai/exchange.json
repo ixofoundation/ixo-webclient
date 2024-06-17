@@ -1,0 +1,43 @@
+{
+  "tradingAllowed": true,
+  "liquidityPools": [
+    {
+      "chainId": "pandora-8",
+      "pools": [
+        {
+          "entityID": "did:ixo:Aeco8zLqkhFHZMkFzosrA9",
+          "poolID": "did:ixo:Pa9DmfutkxCvFNXrYPmbEz",
+          "poolCurrency": {
+            "coinDenom": "IXO",
+            "coinMinimalDenom": "uixo",
+            "coinDecimals": 6,
+            "coinGeckoId": "pool:uixo",
+            "coinImageUrl": "ixo.svg"
+          }
+        },
+        {
+          "entityID": "did:ixo:K75zMgXZqSUqWPYfHjWciw",
+          "poolID": "did:ixo:5FGziqkRGmaxkoNvAYCmyW",
+          "poolCurrency": {
+            "coinDenom": "IXO",
+            "coinMinimalDenom": "uixo",
+            "coinDecimals": 6,
+            "coinGeckoId": "pool:uixo",
+            "coinImageUrl": "ixo.svg"
+          }
+        },
+        {
+          "entityID": "did:ixo:abcxyz...",
+          "poolID": "did:ixo:QFhUtLwzdxFHry4DjopjHt",
+          "poolCurrency": {
+            "coinDenom": "IXO",
+            "coinMinimalDenom": "uixo",
+            "coinDecimals": 6,
+            "coinGeckoId": "pool:uixo",
+            "coinImageUrl": "ixo.svg"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -10,6 +10,16 @@
     }
   },
   "UI": {
+    "companion": {
+      "toolbar": {
+        "color": "#00D2FF",
+        "background": "#FFFFFF",
+        "active": {
+          "color": "#FFFFFF",
+          "background": "#00D2FF"
+        }
+      }
+    },
     "logo": "yoma-logo",
     "explorer": {
       "defaultView": "project"
@@ -27,7 +37,25 @@
     "header": {
       "background": "#FFFFFF",
       "buttonColor": "#162A42",
-      "link": "https://yoma.africa/"
+      "link": "https://yoma.africa/",
+      "tabs": {
+        "background": "#01273A",
+        "color": "white",
+        "active": {
+          "background": "#20798C",
+          "color": "#FFFFFF"
+        },
+        "assistant": {
+          "to": "#0C5173",
+          "right": "#002A3F",
+          "color": "#FFFFFF",
+          "active": {
+            "to": "#20798C",
+            "right": "#20798C",
+            "color": "#FFFFFF"
+          }
+        }
+      }
     },
     "footer": {
       "mailTo": {

@@ -34,7 +34,7 @@ process.env.NODE_ENV === 'production' &&
     tracesSampleRate: 0.0,
   })
 
-const client = new ApolloClient({
+export const gqlClient = new ApolloClient({
   uri: process.env.REACT_APP_BLOCK_SYNC_GRAPHQL,
   cache: new InMemoryCache({ addTypename: false }),
 })
@@ -47,8 +47,7 @@ const App = () => {
     fetchEntityConfig()
     fetchThemeConfig()
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [fetchEntityConfig, fetchThemeConfig])
 
   const [customizedTheme, setCustomizedTheme] = useState<any>(theme)
   const customTheme = useAppSelector(selectCustomTheme)
@@ -91,7 +90,7 @@ const App = () => {
           >
             <WalletModal /> */}
           <GlobalStyle />
-          <ApolloProvider client={client}>{entityConfig && <Router />}</ApolloProvider>
+          <ApolloProvider client={gqlClient}>{entityConfig && <Router />}</ApolloProvider>
           {/* </WalletProvider> */}
         </Suspense>
       </MantineProvider>
