@@ -1,0 +1,18 @@
+/* Base theme */
+.bn-block-content.ProseMirror-selectednode>*, .ProseMirror-selectednode>.bn-block-content>* {
+    border-radius: 0px;
+    outline: none;
+}
+
+.bn-container[data-color-scheme] {
+    --bn-colors-editor-text: #222222;
+    --bn-colors-editor-background: transparent;
+  }
+   
+  /* Changes for dark mode */
+  .bn-container[data-color-scheme="dark"] {
+    --bn-colors-editor-text: #ffffff;
+    --bn-colors-editor-background: transparent;
+    --bn-colors-side-menu: #ffffff;
+  }
+   

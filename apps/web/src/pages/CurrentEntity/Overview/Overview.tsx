@@ -19,6 +19,7 @@ import { upperFirst } from 'lodash'
 import { Column } from 'components/KeyValueTable/KeyValueTable'
 import { LiaHddSolid } from 'react-icons/lia'
 import { useMediaQuery } from '@mantine/hooks'
+import Editor from 'components/Editor/Editor'
 
 const Overview: React.FC = () => {
   const { getQuery } = useQuery()
@@ -201,6 +202,7 @@ const Overview: React.FC = () => {
               <Tabs.Panel value='overview'>
                 {!claimId && !claimCollectionId && (
                   <>
+                    {page && <Editor editable={false} initialBlocks={page as any} />}
                     {page && <PageContent page={page} />}
                     {pageLegacy && <PageContentLegacy page={pageLegacy} />}
                   </>

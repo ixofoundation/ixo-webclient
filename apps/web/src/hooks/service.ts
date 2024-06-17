@@ -210,9 +210,6 @@ export function useService() {
     service: Service,
   ): Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined> => {
     try {
-      if (Object.values(page).filter(({ data }) => data).length === 0) {
-        throw new Error('Payload is empty')
-      }
       const payload = {
         '@context': {
           ixo: 'https://w3id.org/ixo/ns/protocol/',
@@ -221,7 +218,7 @@ export function useService() {
           '@protected': true,
         },
         type: 'ixo:entity#page',
-        page: Object.values(page),
+        page: page,
       }
       const buff = Buffer.from(JSON.stringify(payload))
       const res = await UploadDataToService(buff.toString('base64'), service)

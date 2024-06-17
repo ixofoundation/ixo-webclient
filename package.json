@@ -7,6 +7,7 @@
     ]
   },
   "name": "ixo-webclient",
+  "packageManager": "yarn@1.22.10",
   "scripts": {
     "build": "turbo build --concurrency=1",
     "clean": "turbo clean",
