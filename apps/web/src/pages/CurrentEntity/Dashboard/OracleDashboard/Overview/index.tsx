@@ -26,7 +26,7 @@ const Overview: React.FC = () => {
   const { entityId = '' } = useParams<{ entityId: string }>()
   const currentEntity = useAppSelector(getEntityById(entityId))
 
-  const { minted, totalEvaluatedClaims, approvedPercentage, evaluationsData } = useCarbonOracleClaimAggregate({
+  const { minted, totalEvaluatedClaims, approvedPercentage, evaluationsData, evaluatedClaims } = useCarbonOracleClaimAggregate({
     entityIds: [entityId],
   })
 
@@ -190,7 +190,7 @@ const Overview: React.FC = () => {
 
   const renderEvaluatedClaims = () => (
     <Card label='Evaluated Claims' icon={<ClockIcon />}>
-      <EvaluatedClaims />
+      <EvaluatedClaims evaluatedClaims={(evaluatedClaims ?? []) as any} />
     </Card>
   )
 

@@ -3,6 +3,8 @@ query Evaluations($filter: EvaluationFilter) {
     totalCount
     nodes {
       collectionId
+      status
+      verificationProof
       claim {
         submissionDate
       }
