@@ -231,3 +231,7 @@ export function convertSecondsToNanoSeconds(seconds: string | number): string {
 export function convertNanoSecondsToSeconds(ns: string | number): string {
   return new BigNumber(ns).dividedBy(1000000000).toString()
 }
+
+export const decimalToPercentage = (decimal: number, precision = 2) => {
+  return `${(decimal * 100).toFixed(precision)}%`
+}

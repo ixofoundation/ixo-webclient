@@ -1970,7 +1970,7 @@
   "investment": {
     "title": "Investment",
     "plural": "Investments",
-    "themeColor": "#E4BC3D",
+    "themeColor": "#20798C",
     "headerSchema": {
       "@context": "https://schema.ixo.foundation/investment",
       "@type": "Header",

@@ -8,6 +8,7 @@ import {
   DeedProfileForm,
   AssetCollectionProfileForm,
   OracleProfileForm,
+  InvestmentProfileForm,
 } from 'pages/CreateEntity/Forms'
 import useEditEntity from 'hooks/editEntity'
 import { toRootEntityType } from 'utils/entities'
@@ -58,6 +59,18 @@ const EditProfile: React.FC = (): JSX.Element => {
             setName={(name): void => handleUpdateProfile('name', name)}
           />
         )}
+        {toRootEntityType(editEntity.type) === 'investment' && (
+          <InvestmentProfileForm
+            image={editEntity.profile?.image}
+            setImage={(image): void => handleUpdateProfile('image', image)}
+            logo={editEntity.profile?.logo || ''}
+            setLogo={(logo): void => handleUpdateProfile('logo', logo)}
+            orgName={editEntity.profile?.orgName ?? ''}
+            setOrgName={(orgName): void => handleUpdateProfile('orgName', orgName)}
+            name={editEntity.profile?.name ?? ''}
+            setName={(name): void => handleUpdateProfile('name', name)}
+          />
+        )}
         {toRootEntityType(editEntity.type) === 'oracle' && (
           <OracleProfileForm
             image={editEntity.profile?.image}
@@ -84,6 +97,8 @@ const EditProfile: React.FC = (): JSX.Element => {
         )}
         {editEntity.type === 'protocol/deed' && (
           <DeedProfileForm
+            image={editEntity.profile?.image}
+            setImage={(image): void => handleUpdateProfile('image', image)}
             type={editEntity.profile?.category || ''}
             setType={(type): void => handleUpdateProfile('type', type)}
             title={editEntity.profile?.name || ''}

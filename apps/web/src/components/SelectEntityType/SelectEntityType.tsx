@@ -19,6 +19,13 @@ const SelectEntityType = ({ setEntityType }: { setEntityType: (type: string) => 
       disabled: false,
     },
     {
+      type: 'project',
+      label: 'Project',
+      icon: <ProjectIcon />,
+      description: `A <b>Project Class</b> defines a data schema, data collection format, and evaluation methodology for any type of verifiable claim.`,
+      disabled: false,
+    },
+    {
       type: 'dao',
       label: 'Dao',
       icon: <DAOIcon />,
@@ -37,13 +44,6 @@ const SelectEntityType = ({ setEntityType }: { setEntityType: (type: string) => 
       label: 'Oracle',
       icon: <OracleIcon />,
       description: `A <b>Asset Class</b> defines a data schema, data collection format, and evaluation methodology for any type of verifiable claim.`,
-      disabled: true,
-    },
-    {
-      type: 'project',
-      label: 'Project',
-      icon: <ProjectIcon />,
-      description: `A <b>Project Class</b> defines a data schema, data collection format, and evaluation methodology for any type of verifiable claim.`,
       disabled: true,
     },
   ]

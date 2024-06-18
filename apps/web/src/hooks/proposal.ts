@@ -49,7 +49,7 @@ import { PerformTokenSwapData } from 'components/Modals/AddActionModal/SetupToke
 import { coins } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/amino'
 import { DaoAdminExecData } from 'components/Modals/AddActionModal/SetupDAOAdminExecuteModal'
 import { SendGroupTokenData } from 'components/Modals/AddActionModal/SetupSendGroupTokenModal'
-import { ixo } from '@ixo/impactxclient-sdk'
+import { ixo, utils } from '@ixo/impactxclient-sdk'
 import { useCurrentEntityDAOGroup } from './currentEntity'
 import { AcceptToMarketplaceData } from 'components/Modals/AddActionModal/SetupAcceptToMarketplaceModal'
 import { TDAOGroupModel } from 'types/entities'
@@ -126,6 +126,7 @@ export function useMakeProposalAction(coreAddress: string, daoGroups: { [address
                       msg: data.value.msgTypeUrl,
                     },
                   }),
+                  expiration: utils.proto.toTimestamp(new Date(Date.now() + 1000 * 60 * 60 * 24 * 365)),
                 },
               }
             : {

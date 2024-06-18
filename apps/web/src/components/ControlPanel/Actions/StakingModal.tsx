@@ -42,6 +42,7 @@ import {
 } from 'lib/protocol'
 import { useIxoConfigs } from 'hooks/configs'
 import { Coin } from '@cosmjs/proto-signing'
+import { blockExplorerTransactionEndpoint } from 'constants/blockExplorers'
 
 enum StakingMethod {
   UNSET = 'UNSET',
@@ -134,7 +135,7 @@ const StakingModal: React.FunctionComponent<Props> = ({ accountAddress, defaultV
   }
 
   const handleViewTransaction = (): void => {
-    window.open(`${process.env.REACT_APP_BLOCK_SCAN_URL}/transactions/${signTXhash}`, '_blank')!.focus()
+    window.open(`${blockExplorerTransactionEndpoint}${signTXhash}`, '_blank')!.focus()
   }
 
   const enableNextStep = (): boolean => {

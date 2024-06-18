@@ -55,7 +55,7 @@ export const reducer = (state = initialState, action: TCreateEntityActionTypes):
   switch (action.type) {
     case ECreateEntityAsActionActions.UpdateEntityType: {
       const entityType = action.payload
-      const ls = localStorage.getItem(`ixo.create.entity.${entityType}`)
+      const ls = localStorage.getItem(`ixo.create.entityAsAction.${entityType}`)
       const savedState = JSON.parse(ls!)
 
       return {
@@ -167,7 +167,7 @@ export const reducer = (state = initialState, action: TCreateEntityActionTypes):
   }
 
   if (state.entityType) {
-    localStorage.setItem(`ixo.create.entity.${state.entityType}`, JSON.stringify(updatedState))
+    localStorage.setItem(`ixo.create.entityAsAction.${state.entityType}`, JSON.stringify(updatedState))
   }
 
   return updatedState

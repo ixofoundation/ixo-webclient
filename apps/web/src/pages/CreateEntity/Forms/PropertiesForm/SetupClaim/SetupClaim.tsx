@@ -33,6 +33,7 @@ const SetupClaim: React.FC<Props> = ({ hidden, claim, updateClaim }): JSX.Elemen
         Object.entries(_claim).map(([key, value]) => [key, { ...value, isHeadlineMetric: false }]),
       )
     }
+
     updateClaim({ ..._claim, [id]: newClaim })
   }
   const handleRemoveEntityClaim = (id: string): void => {
