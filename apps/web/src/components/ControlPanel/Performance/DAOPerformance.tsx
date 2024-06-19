@@ -7,7 +7,7 @@ import { ReactComponent as ProjectIcon } from 'assets/images/icon-project.svg'
 import { ReactComponent as FundingIcon } from 'assets/images/icon-funding.svg'
 import { useParams } from 'react-router-dom'
 import { useAppSelector } from 'redux/hooks'
-import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { getEntityById } from 'redux/entities/entities.selectors'
 
 const DAOPerformance: React.FC = () => {
   const { entityId = "" } = useParams<{ entityId: string }>()

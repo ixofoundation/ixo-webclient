@@ -1,6 +1,6 @@
 import moment from 'moment'
 import { createSelector } from '@reduxjs/toolkit'
-import { EntitiesExplorerState, Filter, TCollection } from './entitiesExplorer.types'
+import { EntitiesExplorerState, Filter, TCollection } from './entities.types'
 import { EntityConfig, TEntityModel, TEntityDDOTagModel, TDAOGroupModel } from 'types/entities'
 import * as accountSelectors from 'redux/account/account.selectors'
 import { RootState } from 'redux/store'

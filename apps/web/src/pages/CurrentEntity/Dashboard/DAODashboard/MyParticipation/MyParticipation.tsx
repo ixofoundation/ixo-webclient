@@ -11,7 +11,7 @@ import { ReactComponent as StakesIcon } from 'assets/images/icon-stakes.svg'
 import { ReactComponent as ProposalsIcon } from 'assets/images/icon-proposals.svg'
 import { ReactComponent as PieIcon } from 'assets/images/icon-pie.svg'
 import { useAppSelector } from 'redux/hooks'
-import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { getEntityById } from 'redux/entities/entities.selectors'
 
 const MyParticipation: React.FC = () => {
   const { entityId = '' } = useParams<{ entityId: string }>()

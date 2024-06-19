@@ -11,13 +11,13 @@ import { TEntityClaimTemplateModel } from 'types/entities'
 import styled, { useTheme } from 'styled-components'
 import { ReactComponent as SearchIcon } from 'assets/images/icon-search.svg'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
-import { selectAllClaimProtocols } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { selectAllClaimProtocols } from 'redux/entities/entities.selectors'
 import { useNavigate } from 'react-router-dom'
 import { useEntitiesQuery } from 'generated/graphql'
 import {
   getEntitiesFromGraphqlAction,
   updateEntityPropertyAction,
-} from 'redux/entitiesExplorer/entitiesExplorer.actions'
+} from 'redux/entities/entities.actions'
 import { apiEntityToEntity } from 'utils/entities'
 import { useAccount } from 'hooks/account'
 import { currentRelayerNode } from 'constants/common'

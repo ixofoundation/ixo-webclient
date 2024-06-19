@@ -9,7 +9,7 @@ import { useTheme } from 'styled-components'
 import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
 import { useGetClaimCollectionByEntityIdAndClaimTemplateId } from 'graphql/claims'
 import { useAppSelector } from 'redux/hooks'
-import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { getEntityById } from 'redux/entities/entities.selectors'
 
 /**
  * @deprecated

@@ -5,7 +5,7 @@ import { Navigate, Route, Routes, useParams } from 'react-router-dom'
 import { requireCheckDefault } from 'utils/images'
 import Accounts from './Accounts'
 import { useAppSelector } from 'redux/hooks'
-import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { getEntityById } from 'redux/entities/entities.selectors'
 
 const DAOTreasury: React.FC = (): JSX.Element => {
   const { entityId = '' } = useParams<{ entityId: string }>()

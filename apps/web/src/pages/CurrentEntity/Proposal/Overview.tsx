@@ -1,7 +1,7 @@
 import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { EntityLinkedResourceConfig } from 'constants/entity'
 import { useParams } from 'react-router-dom'
-import { selectEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { selectEntityById } from 'redux/entities/entities.selectors'
 import { useAppSelector } from 'redux/hooks'
 import { LinkedFiles } from '../Overview/LinkedFiles'
 import { PageContent } from '../Overview/PageContent'
@@ -12,6 +12,7 @@ import HeaderTabs from 'components/HeaderTabs/HeaderTabs'
 import { MatchType } from 'types/models'
 import { useMemo } from 'react'
 import { useEntity } from 'hooks/entity/useEntity'
+import Editor from 'components/Editor/Editor'
 
 const Overview: React.FC = () => {
   const { entityId = '', deedId = '' } = useParams<{ entityId: string; deedId: string }>()
@@ -41,7 +42,7 @@ const Overview: React.FC = () => {
       <ScrollArea w='100%'>
         <Flex w='100%' direction='column' p={80} style={{ flex: 1 }}>
           <HeaderTabs matchType={MatchType.strict} buttons={headerTabs} />
-          <PageContent page={entity?.page ?? []} />
+          <Editor initialPage={entity?.page} editable={false} />
           <InstructionsToExecute />
           <LinkedFiles
             linkedFiles={

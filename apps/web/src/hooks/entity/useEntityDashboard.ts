@@ -3,8 +3,8 @@ import { useEntityQuery } from 'generated/graphql'
 import { getCosmwasmClient } from 'lib/cosmWasmClient/cosmWasmClient'
 import { RPC_ENDPOINT } from 'lib/protocol'
 import { useState } from 'react'
-import { updateEntityAction } from 'redux/entitiesExplorer/entitiesExplorer.actions'
-import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { updateEntityAction } from 'redux/entities/entities.actions'
+import { getEntityById } from 'redux/entities/entities.selectors'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import {
   getCredentialSubject,

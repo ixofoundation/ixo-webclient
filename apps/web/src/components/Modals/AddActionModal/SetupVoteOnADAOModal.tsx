@@ -6,7 +6,7 @@ import { TProposalActionModel } from 'types/entities'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 import { VoteOption } from 'cosmjs-types/cosmos/gov/v1beta1/gov'
 import { useAppSelector } from 'redux/hooks'
-import { selectDAOEntities } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { selectDAOEntities } from 'redux/entities/entities.selectors'
 import { Proposal } from 'types/dao'
 
 export interface DAOVoteData {

@@ -142,6 +142,14 @@ const SetupSettings: React.FC<Props> = ({
     } // eslint-disable-next-line
   }, [JSON.stringify(entitySettings.service?.data)])
 
+  useEffect(() => {
+    if(page && !entitySettings.page.data){
+      handleAddEntitySetting('page')
+      handleUpdateEntitySetting('page', page)
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[])
+
   const persistPageToStore = (page: any): void => {
     updatePage(page)
   }
@@ -153,7 +161,7 @@ const SetupSettings: React.FC<Props> = ({
     return (
       <SetupPageContent
         entityType={entityType}
-        page={entitySettings.page.data}
+        page={page as any}
         onChange={(page: any): void => {
           handleUpdateEntitySetting('page', page)
           handleOpenEntitySettingModal('page', false)

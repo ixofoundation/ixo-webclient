@@ -59,8 +59,8 @@ const ControlPanel = ({ tab, entityType, entityName, service }: Props) => {
 
   const renderDetail = () => (
     <>
-      <PerformanceCard entityType={entityType} />
-      <ActionsCard widget={schema?.actions} />
+      {/* <PerformanceCard entityType={entityType} /> */}
+      {/* <ActionsCard widget={schema?.actions} /> */}
       <ClaimsCard />
       {entityType === EntityType.Project && <DidQRCode />}
       <ConnectCard widget={schema?.connections} />

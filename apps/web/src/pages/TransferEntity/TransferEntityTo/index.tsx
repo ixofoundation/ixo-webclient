@@ -15,7 +15,7 @@ import { ReactComponent as InfoIcon } from 'assets/images/icon-info.svg'
 import { errorToast, successToast } from 'utils/toast'
 import { VerificationMethod } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { VMKeyMap } from 'constants/entity'
-import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { getEntityById } from 'redux/entities/entities.selectors'
 import { useAppSelector } from 'redux/hooks'
 import { useWallet } from '@ixo-webclient/wallet-connector'
 

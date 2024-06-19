@@ -34,7 +34,7 @@ const initialState: TEntityModel = {
   profile: undefined,
   creator: undefined,
   administrator: undefined,
-  page: [],
+  page: undefined,
   tags: [],
 }
 

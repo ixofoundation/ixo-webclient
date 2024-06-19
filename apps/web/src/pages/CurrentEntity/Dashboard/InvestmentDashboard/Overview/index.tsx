@@ -7,7 +7,7 @@ import BondReserveFundsSection from './BondReserveFundsSection'
 import BondStatistics from './BondStatistics'
 import MyStakeSection from './MyStakeSection'
 import { useAppSelector } from 'redux/hooks'
-import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { getEntityById } from 'redux/entities/entities.selectors'
 
 const Overview: React.FC = () => {
   const { entityId = "" } = useParams()

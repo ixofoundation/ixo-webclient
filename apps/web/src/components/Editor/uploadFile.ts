@@ -7,7 +7,7 @@ interface UploadWeb3DocResponse {
   url: string;
 }
 
-export async function uploadFile(file: File): Promise<string> {
+export const uploadFile = async (file: File): Promise<string>  =>  {
   const base64EncodedImage = await convertFileToBase64(file);
 
   const mimeTypeMatch = base64EncodedImage.match(/data:([a-zA-Z0-9]+\/[a-zA-Z0-9-.+]+).*,.*/);

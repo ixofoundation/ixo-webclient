@@ -6,7 +6,7 @@ import { useAccount } from 'hooks/account'
 import { useTheme } from 'styled-components'
 import { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
 import { useAppSelector } from 'redux/hooks'
-import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { getEntityById } from 'redux/entities/entities.selectors'
 import { useParams } from 'react-router-dom'
 
 interface Props {

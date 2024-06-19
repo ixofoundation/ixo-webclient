@@ -1,4 +1,4 @@
-import { EntitiesExplorerState, EntitiesExplorerActions, EntitiesActionTypes } from './entitiesExplorer.types'
+import { EntitiesExplorerState, EntitiesExplorerActions, EntitiesActionTypes } from './entities.types'
 import { getDefaultSelectedViewCategory, getInitialSelectedCategories, getInitialSelectedSectors } from 'utils/entities'
 import { AccountActions, AccountActionTypes } from 'redux/account/account.types'
 import { config } from './entityConfig'

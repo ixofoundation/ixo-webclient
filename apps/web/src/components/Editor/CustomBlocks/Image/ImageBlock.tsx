@@ -71,7 +71,7 @@ export const imageRender = (
     const addImageButton = createAddFileButton(
       block,
       editor,
-      "Add a Hero Image",
+      "Add a Hero Image (Recommended size 2880 x 480)",
       fileBlockImageIcon.firstElementChild as HTMLElement
     );
     wrapper.appendChild(addImageButton.dom);

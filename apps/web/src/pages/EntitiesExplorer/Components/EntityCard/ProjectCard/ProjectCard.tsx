@@ -20,7 +20,7 @@ import SDGIcons from '../SDGIcons/SDGIcons'
 import Shield, { ShieldColor } from '../Shield/Shield'
 import flagged from 'assets/images/flagged.svg'
 import { useAppSelector } from 'redux/hooks'
-import { selectEntityPrimaryColor } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { selectEntityPrimaryColor } from 'redux/entities/entities.selectors'
 import { requireCheckDefault } from 'utils/images'
 import { TEntityClaimModel, TEntityDDOTagModel, TEntityProfileModel } from 'types/entities'
 

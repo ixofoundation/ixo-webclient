@@ -16,3 +16,17 @@
     --bn-colors-side-menu: #ffffff;
   }
    
+
+  .bn-block-outer[data-prev-type="pageTitle"] > .bn-block > .bn-block-content {
+    font-size: var(--prev-level);
+    font-weight: bold;
+    font-style: normal !important;
+  }
+  
+  .bn-block-outer:not([data-prev-type])
+    > .bn-block
+    > .bn-block-content[data-content-type="pageTitle"] {
+    font-size: var(--level);
+    font-weight: bold;
+    font-style: normal !important;
+  }

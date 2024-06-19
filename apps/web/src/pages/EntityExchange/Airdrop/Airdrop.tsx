@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useAppSelector } from 'redux/hooks'
 import DataCard from 'components/Entities/EntitiesExplorer/Components/EntityCard/AirdropCard/AirdropCard'
 import { TermsOfUseType } from 'types/entities'
-import { ExplorerEntity } from 'redux/entitiesExplorer/entitiesExplorer.types'
+import { ExplorerEntity } from 'redux/entities/entities.types'
 
 const Airdrop: React.FunctionComponent = () => {
   const { entities } = useAppSelector((state) => state.entities)

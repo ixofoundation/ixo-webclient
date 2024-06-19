@@ -12,6 +12,7 @@ import { Config as Cw20StakeConfig } from '@ixo/impactxclient-sdk/types/codegen/
 import { LinkedResource, Service } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { Member, Proposal } from 'types/dao'
 import { MarketingInfoResponse, TokenInfoResponse } from '@ixo/impactxclient-sdk/types/codegen/Cw20Base.types'
+import { Block } from '@blocknote/core'
 
 export const PDS_URL =
   process.env.REACT_APP_USE_LOCAL_CELLNODE === 'true'
@@ -463,7 +464,6 @@ export interface TEntityCreatorModel {
   mission: string
 }
 export type TEntityAdministratorModel = TEntityCreatorModel
-export type TEntityPageSectionModel = OutputBlockData
 export interface TEntityPageSectionLegacyModel {
   header: any
   body: any[]
@@ -472,7 +472,11 @@ export interface TEntityPageSectionLegacyModel {
   social: any
   embedded: any
 }
-export type TEntityPageModel = { [id: string]: TEntityPageSectionModel }
+export type TEntityPageModel = {
+  featuredImage: string
+  pageTitle: string
+  content: Block[]
+}
 export interface TEntityDDOTagModel {
   category: string
   tags: string[]
@@ -659,7 +663,7 @@ export interface TEntityModel extends Omit<Entity, 'metadata'>, IidDocument {
   profile?: TEntityProfileModel
   creator?: TEntityCreatorModel
   administrator?: TEntityAdministratorModel
-  page?: TEntityPageSectionModel[]
+  page?: TEntityPageModel
   pageLegacy?: TEntityPageSectionLegacyModel
   tags?: TEntityDDOTagModel[]
   token?: TTokenMetadataModel

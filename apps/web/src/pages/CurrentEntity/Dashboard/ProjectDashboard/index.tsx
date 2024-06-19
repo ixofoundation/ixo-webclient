@@ -12,7 +12,7 @@ import { AgentRoles } from 'types/models'
 import ClaimDetail from './ClaimDetail'
 import Overview from './Overview'
 import { useAppSelector } from 'redux/hooks'
-import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { getEntityById } from 'redux/entities/entities.selectors'
 
 const ProjectDashboard: React.FC = (): JSX.Element => {
   const { entityId = '' } = useParams<{ entityId: string }>()

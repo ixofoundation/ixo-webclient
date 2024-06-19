@@ -33,16 +33,6 @@ const themeOverride: MantineThemeOverride = createTheme({
   primaryColor: 'ixo-blue',
   defaultRadius: 'xs',
   colors: mantineThemeColors,
-  components: {
-    Button: {
-      defaultProps: {
-        size: 'md',
-        w: 160,
-        color: 'white',
-        radius: 'sm',
-      },
-    },
-  },
 })
 
 const mantineTheme = mergeMantineTheme(DEFAULT_THEME, themeOverride)

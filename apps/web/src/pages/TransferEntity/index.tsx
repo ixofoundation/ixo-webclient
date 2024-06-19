@@ -7,7 +7,7 @@ import { FlexBox } from 'components/App/App.styles'
 import TransferEntityToDAOGroup from './TransferEntityToDAOGroup'
 import TransferEntityTo from './TransferEntityTo'
 import TransferEntityReview from './TransferEntityReview'
-import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { getEntityById } from 'redux/entities/entities.selectors'
 import { useAppSelector } from 'redux/hooks'
 
 const TransferEntity: React.FC = (): JSX.Element => {

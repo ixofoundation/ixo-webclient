@@ -1,7 +1,7 @@
 import { Inner, NoPadLeft, StatusBox, StatusText, UserBox } from './HeaderRight.styles'
 import { useAccount } from 'hooks/account'
 import { useAppSelector } from 'redux/hooks'
-import { selectEntityHeaderButtonColorUIConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { selectEntityHeaderButtonColorUIConfig } from 'redux/entities/entities.selectors'
 import { Light, LightLoading, LightReady, Ping } from '../HeaderContainer.styles'
 import WalletConnectButton from 'components/Button/WalletConnectButton'
 import { useTheme } from 'styled-components'

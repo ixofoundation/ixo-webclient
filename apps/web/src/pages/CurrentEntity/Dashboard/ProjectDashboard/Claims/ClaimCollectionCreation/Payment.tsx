@@ -15,7 +15,7 @@ import { DurationUnits } from 'types/dao'
 import { convertDurationWithUnitsToSeconds, convertSecondsToNanoSeconds } from 'utils/conversions'
 import { useParams } from 'react-router-dom'
 import { useAppSelector } from 'redux/hooks'
-import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { getEntityById } from 'redux/entities/entities.selectors'
 
 interface Props {
   hidden?: boolean

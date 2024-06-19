@@ -20,7 +20,7 @@ import {
   GetEntitiesFromGraphqlAction,
   GetIndividualEntityAction,
   GetSpecificEntityAction,
-} from './entitiesExplorer.types'
+} from './entities.types'
 import { RootState } from 'redux/store'
 import { SchemaGitUrl } from 'constants/chains'
 import Axios from 'axios'

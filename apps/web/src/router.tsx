@@ -18,11 +18,16 @@ import {
   SetupDataCollection,
 } from 'pages/CreateEntity/EntityPages'
 
+// Pages
 import * as CreateEntity from 'pages/CreateEntity/CreateEntity.route'
 import * as CurrentEntity from 'pages/CurrentEntity/CurrentEntity.route'
+import * as Overview from 'pages/CurrentEntity/Overview/Overview.route'
 import * as Explore from 'pages/EntitiesExplorer/EntitiesExplorer.route'
 import * as EntityExchange from 'pages/EntityExchange/EntityExchange.route'
 import * as MyAccount from 'pages/MyAccount/MyAccount.route'
+
+// Layouts
+import * as EntityOverviewLayout from 'components/Layout/EntityOverviewLayout/EntityOverviewLayout.route'
 
 import { Routes } from 'routes'
 import { Flex } from '@mantine/core'
@@ -64,7 +69,17 @@ const router = createBrowserRouter([
         children: [
           {
             path: ':entityId/*',
-            Component: CurrentEntity.Component,
+            Component: EntityOverviewLayout.Component,
+            children: [
+              {
+                path: 'overview/:tab',
+                Component: Overview.Component,
+              },
+              {
+                path: "*",
+                Component: CurrentEntity.Component,
+              }
+            ]
           },
           {
             path: 'create/:entityType',
@@ -148,7 +163,7 @@ const router = createBrowserRouter([
       // {
       //   path: 'create/entity/:entityType',
 
-      // },
+      // },CurrentEntity.Component
     ],
   },
 ])

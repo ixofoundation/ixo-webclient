@@ -18,7 +18,7 @@ import { DAOGroupConfig } from 'constants/entity'
 import { Member } from 'types/dao'
 import { findDAObyDelegateAccount } from 'utils/entities'
 import { useAppSelector } from 'redux/hooks'
-import { selectEntitiesByType } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { selectEntitiesByType } from 'redux/entities/entities.selectors'
 
 const StyledSlider = styled(Slider)`
   .slick-track {

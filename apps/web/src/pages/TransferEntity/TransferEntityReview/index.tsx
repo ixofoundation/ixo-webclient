@@ -21,7 +21,7 @@ import { DeliverTxResponse } from '@cosmjs/stargate'
 import { DaoPreProposeSingleClient } from '@ixo-webclient/cosmwasm-clients'
 import { useTransferEntityState } from 'hooks/transferEntity'
 import { useAppSelector } from 'redux/hooks'
-import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { getEntityById } from 'redux/entities/entities.selectors'
 
 const TransferEntityToGroupButton: React.FC<{
   groupAddress: string

@@ -1,0 +1,53 @@
+.featuredImage {
+  width: 100%;
+  cursor: pointer;
+  color: "#a8adae";
+}
+
+.featuredImage:hover {
+  opacity: 0.8;
+}
+
+.featuredImage:hover .icon {
+  fill: #00d2ff;
+}
+
+.featuredImage:hover .text {
+  color: #00d2ff;
+}
+
+.icon {
+  fill: #a8adae;
+}
+
+.text {
+  color: #a8adae;
+}
+
+.imageContainer {
+  position: relative;
+  width: 100%;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.imageContainer:hover .overlay {
+  opacity: 1;
+}
+
+.overlay button {
+  color: white;
+  font-size: 18px;
+}

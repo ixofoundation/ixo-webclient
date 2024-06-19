@@ -20,7 +20,7 @@ import { queryMultipleContracts } from 'utils/multiContractCall'
 import { DaoVotingCw20StakedQueryClient } from 'adapters/DaoVotingCw20StakedAdapter'
 import { Member } from 'types/dao'
 import { useAppSelector } from 'redux/hooks'
-import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { getEntityById } from 'redux/entities/entities.selectors'
 import { CSVLink } from 'react-csv'
 
 const TableWrapper = styled.div`

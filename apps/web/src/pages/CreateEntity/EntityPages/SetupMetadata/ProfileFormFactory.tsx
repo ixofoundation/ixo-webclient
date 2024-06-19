@@ -1,7 +1,7 @@
 import { useCreateEntityState } from 'hooks/createEntity'
 import { ClaimProfileForm } from 'pages/CreateEntity/Forms'
 import { useCallback, useMemo } from 'react'
-import { selectAllClaimProtocols, selectAllDeedProtocols } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { selectAllClaimProtocols, selectAllDeedProtocols } from 'redux/entities/entities.selectors'
 import { useAppSelector } from 'redux/hooks'
 import BaseProfileForm from './BaseProfileForm'
 import { DeedProfileForm } from 'pages/CreateEntity/Forms/DeedProfileForm'

@@ -30,8 +30,8 @@ const EditProperty: React.FC = (): JSX.Element => {
     setEditedField('tags', ddoTags)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-  const updatePage = useCallback((page: TEntityPageModel) => {
-    setEditedField('page', Object.values(page))
+  const updatePage = useCallback((page: any) => {
+    setEditedField('page', page)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   const updateService = useCallback((service: TEntityServiceModel[]) => {
@@ -62,7 +62,7 @@ const EditProperty: React.FC = (): JSX.Element => {
       administrator: editEntity.administrator!,
       ddoTags: editEntity.tags ?? [],
       service: editEntity.service ?? [],
-      page: Object.fromEntries((editEntity.page ?? []).map((item) => [item.id, item])),
+      page: (editEntity.page ?? []) as any,
       linkedResource: Object.fromEntries(
         (editEntity.linkedResource ?? [])
           .filter((v) => v && Object.keys(EntityLinkedResourceConfig).includes(v.type))
