@@ -14,6 +14,7 @@ import {
   getSurveyJsResource,
   getTags,
 } from 'services/entities'
+import { getTokenMetadata } from 'services/entities/getTokenMetadata'
 import { EntityLinkedResourceConfig } from 'types/protocol'
 import { getDaoContractInfo } from 'utils/dao'
 import { getDAOGroupLinkedEntities } from 'utils/entities'
@@ -49,6 +50,11 @@ export const useEntityDashboard = (did: string) => {
           service,
         })
 
+        const tokenResource = data.entity.linkedResource.find(
+          (resource: any) => resource.id === '{id}#token',
+        )
+        const token = await getTokenMetadata({ resource: tokenResource, service})
+
         const cwClient = await getCosmwasmClient(RPC_ENDPOINT ?? '')
 
         const groups = await Promise.all(
@@ -77,6 +83,7 @@ export const useEntityDashboard = (did: string) => {
             tags,
             administrator,
             surveyTemplate,
+            token
           }),
         )
       }

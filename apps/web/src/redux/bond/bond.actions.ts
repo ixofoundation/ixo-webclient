@@ -14,7 +14,6 @@ import { formatCurrency, minimalDenomToDenom } from '../account/account.utils'
 import moment from 'moment'
 
 const BLOCKSYNC_API = process.env.REACT_APP_BLOCK_SYNC_URL
-// const BLOCKSCAN_API = process.env.REACT_APP_BLOCK_SCAN_URL
 
 export const getBondDid = (bondDid: string): GetBondDidAction => {
   return {

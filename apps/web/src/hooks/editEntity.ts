@@ -149,6 +149,7 @@ export default function useEditEntity(): {
     if (JSON.stringify(editEntity.token ?? {}) === JSON.stringify(currentEntity.token ?? {})) {
       return []
     }
+    
     const service = getUsedService(editEntity.linkedResource.find((v) => v.type === 'TokenMetadata')?.serviceEndpoint)
     const res = await SaveTokenMetadata(editEntity.token, service)
     if (!res) {
