@@ -1,3 +1,3 @@
 import React from 'react'
 
-export const Component = React.lazy(() => import('./EntityOverviewLayout'));
+export const Component = React.lazy(() => import('./EntityDashboardLayout'));
