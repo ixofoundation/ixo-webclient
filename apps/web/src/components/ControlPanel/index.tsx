@@ -63,7 +63,7 @@ const ControlPanel = ({ tab, entityType, entityName, service }: Props) => {
       {/* <ActionsCard widget={schema?.actions} /> */}
       <ClaimsCard />
       {entityType === EntityType.Project && <DidQRCode />}
-      <ConnectCard widget={schema?.connections} />
+      {/* <ConnectCard widget={schema?.connections} /> */}
     </>
   )
 

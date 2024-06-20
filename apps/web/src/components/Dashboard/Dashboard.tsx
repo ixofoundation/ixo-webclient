@@ -12,36 +12,37 @@ import { selectEntityConfig } from 'redux/entities/entities.selectors'
 import { selectAssistantToggle } from 'redux/assistant/assistant.selectors'
 import { Flex, ScrollArea } from '@mantine/core'
 import ControlPanel from 'components/ControlPanel'
-// import { entityTypeMap } from 'modules/Entities/strategy-map'
 
 const Container = styled.div<{ color: string }>`
-  display: block;
-  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
   font-family: ${(props): string => props.theme.secondaryFontFamily};
   color: ${(props): string => props.color};
-  height: 100%;
+  height: calc(-74px + 100vh); /* Ensure the container fills the entire viewport height */
 
   @media (min-width: ${deviceWidth.mobile}px) {
-    display: flex;
+    flex-direction: row;
   }
 `
 
 const Board = styled.div<{ $themeMode: string }>`
   background: ${(props): string => (props.$themeMode === 'light' ? '#ffffff' : '#023')};
-
   padding: 2.5rem 0.75rem;
   display: flex;
   flex-direction: column;
   width: 100%;
+  height: 100%; /* Ensure Board fills the entire height */
 
   @media (min-width: ${deviceWidth.mobile}px) {
     padding: 2rem 2.25rem;
   }
 `
+
 const Content = styled.div`
   padding: 0.5rem 0rem;
   width: 100%;
-  height: 100%;
+  height: 100%; /* Ensure Content fills the entire height */
 `
 
 const Break = styled.div`

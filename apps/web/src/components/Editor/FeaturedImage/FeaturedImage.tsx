@@ -3,7 +3,7 @@ import { LiaImage } from 'react-icons/lia'
 import classes from './FeaturedImage.module.css'
 import { ImageUploadModal } from 'components/Modals'
 import { useDisclosure } from '@mantine/hooks'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 type FeaturedImageProps = {
   onChange: (image: string) => void
@@ -14,6 +14,11 @@ type FeaturedImageProps = {
 const FeaturedImage = ({ onChange, initialImage, editable = true }: FeaturedImageProps) => {
   const [image, setImage] = useState<string>(initialImage ?? '')
   const [isOpen, { close, open }] = useDisclosure()
+
+
+  useEffect(() =>{
+    setImage(initialImage ?? '')
+  }, [initialImage])
 
   const handleSettingImage = (image: string) => {
     setImage(image)

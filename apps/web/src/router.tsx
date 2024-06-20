@@ -21,13 +21,15 @@ import {
 // Pages
 import * as CreateEntity from 'pages/CreateEntity/CreateEntity.route'
 import * as CurrentEntity from 'pages/CurrentEntity/CurrentEntity.route'
-import * as Overview from 'pages/CurrentEntity/Overview/Overview.route'
+import * as EntityOverview from 'pages/CurrentEntity/Overview/Overview.route'
+import * as EntityDashboard from 'pages/CurrentEntity/Dashboard/Dashboard.route'
 import * as Explore from 'pages/EntitiesExplorer/EntitiesExplorer.route'
 import * as EntityExchange from 'pages/EntityExchange/EntityExchange.route'
 import * as MyAccount from 'pages/MyAccount/MyAccount.route'
 
 // Layouts
 import * as EntityOverviewLayout from 'components/Layout/EntityOverviewLayout/EntityOverviewLayout.route'
+import * as EntityDashboardLayout from 'components/Layout/EntityDashboardLayout/EntityDashboardLayout.route'
 
 import { Routes } from 'routes'
 import { Flex } from '@mantine/core'
@@ -69,17 +71,37 @@ const router = createBrowserRouter([
         children: [
           {
             path: ':entityId/*',
-            Component: EntityOverviewLayout.Component,
+            element: <Outlet/>,
             children: [
               {
-                path: 'overview/:tab',
-                Component: Overview.Component,
+                path: 'overview/*',
+                Component: EntityOverviewLayout.Component,
+                children: [
+                  {
+                    path: "*",
+                    Component: EntityOverview.Component,
+                  },
+                  {
+                    path: ":tab",
+                    Component: EntityOverview.Component,
+                  }
+                ]
               },
               {
-                path: "*",
+                path: 'dashboard/*',
+                Component: EntityDashboardLayout.Component,
+                children: [
+                  {
+                    path: '*',
+                    Component: EntityDashboard.Component,
+                  },
+                ],
+              },
+              {
+                path: '*',
                 Component: CurrentEntity.Component,
-              }
-            ]
+              },
+            ],
           },
           {
             path: 'create/:entityType',

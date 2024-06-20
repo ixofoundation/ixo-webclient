@@ -27,14 +27,22 @@ type Props = {
   onChange?: (page: TEntityPageModel) => void;
 };
 
+const EMPTY_PAGE: TEntityPageModel = {
+  featuredImage: '',
+  pageTitle: '',
+  content: [],
+};
+
 const Editor = ({ editable = false, initialPage, onChange }: Props) => {
-  const [page, setPage] = useState<TEntityPageModel>(
-    initialPage ?? { featuredImage: '', pageTitle: '', content: [] }
-  );
+  const [page, setPage] = useState<TEntityPageModel>(initialPage || EMPTY_PAGE);
+
+  useEffect(() => {
+    setPage(initialPage || EMPTY_PAGE);
+  }, [initialPage]);
 
   const editor = useCreateBlockNote({
     schema,
-    ...(page?.content?.length > 0 && { initialContent: page.content }),
+    initialContent: page?.content,
     uploadFile,
     dictionary: en,
   });

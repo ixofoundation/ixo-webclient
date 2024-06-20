@@ -11,8 +11,8 @@ const EntityOverviewLayout = () => {
 
   return (
     <Flex w='100%' h='calc(-74px + 100vh)'>
-      <Flex flex={1}>
-        <ScrollArea>
+      <Flex w="100%">
+        <ScrollArea w={"100%"}>
           <Outlet />
         </ScrollArea>
       </Flex>

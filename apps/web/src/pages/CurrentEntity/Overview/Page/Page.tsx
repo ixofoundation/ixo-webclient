@@ -11,7 +11,7 @@ const Page = () => {
   return (
     <Flex>
       {/* {page?.featuredImage && <Image src={page?.featuredImage} />} */}
-      <Editor initialPage={page} editable={false} />
+      {page && <Editor initialPage={page} editable={false} />}
     </Flex>
   )
 }

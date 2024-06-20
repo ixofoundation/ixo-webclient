@@ -34,7 +34,7 @@ const EntityOverviewHero = () => {
   const { profile, startDate, creator } = useAppSelector(getEntityById(entityId))
 
   return (
-    <Box w='100%'>
+    <Flex w='100%' direction={"column"}>
       <Flex
         w='100%'
         h='125px'
@@ -62,7 +62,7 @@ const EntityOverviewHero = () => {
           <EntityOverviewHeroAttribute text={getCountryName(profile?.location)} image={getFlagURL(profile?.location)} />
         </Flex>
       </Box>
-    </Box>
+    </Flex>
   )
 }
 
