@@ -7,7 +7,6 @@ import {
   TEntityClaimModel,
   TEntityCreatorModel,
   TEntityDDOTagModel,
-  TEntityPageModel,
   TEntityServiceModel,
 } from 'types/entities'
 import useEditEntity from 'hooks/editEntity'

@@ -1,4 +1,4 @@
-import { Flex, Image } from '@mantine/core'
+import { Flex } from '@mantine/core'
 import Editor from 'components/Editor/Editor'
 import { useParams } from 'react-router-dom'
 import { getEntityById } from 'redux/entities/entities.selectors'
