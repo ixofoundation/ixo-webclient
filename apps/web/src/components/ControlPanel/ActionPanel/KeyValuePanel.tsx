@@ -6,6 +6,7 @@ import { ReactComponent as AssistantIcon } from 'assets/images/icon-assistant.sv
 import { useTheme } from 'styled-components'
 import { useAppSelector } from 'redux/hooks'
 import { selectEntityConfig } from 'redux/configs/configs.selectors'
+import { transformStorageEndpoint } from '@ixo-webclient/utils'
 
 const KeyValuePanel = ({ data }: { data: any }) => {
   const theme = useTheme()
@@ -36,7 +37,7 @@ const KeyValuePanel = ({ data }: { data: any }) => {
             {truncate(data[key], { length: 30 })}{' '}
           </Text>
           {key === 'serviceEndpoint' && (
-            <a target='_blank' rel='noopener noreferrer' href={''} style={{ display: 'inline-flex', alignItems: 'center' }}>
+            <a target='_blank' rel='noopener noreferrer' href={transformStorageEndpoint(data[key])} style={{ display: 'inline-flex', alignItems: 'center' }}>
               <LiaExternalLinkAltSolid size={24} style={{ verticalAlign: 'middle' }} />
             </a>
           )}

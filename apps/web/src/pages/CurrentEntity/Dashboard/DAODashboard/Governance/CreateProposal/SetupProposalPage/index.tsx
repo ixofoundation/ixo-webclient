@@ -1,11 +1,5 @@
-import React, { useState, useCallback, useRef } from 'react'
-import { createReactEditorJS } from 'react-editor-js'
-import _ from 'lodash'
-// @ts-ignore
-import DragDrop from 'editorjs-drag-drop'
-// @ts-ignore
-import Undo from 'editorjs-undo'
-import { OutputBlockData, OutputData } from '@editorjs/editorjs'
+import React, { useState, useCallback } from 'react'
+
 import { Flex } from '@mantine/core'
 import styled, { useTheme } from 'styled-components'
 import { ReactComponent as PlusCircleIcon } from 'assets/images/icon-plus-circle-solid.svg'
@@ -13,12 +7,10 @@ import { SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { PropertiesForm } from 'pages/CreateEntity/Forms'
 import { useCreateEntityState } from 'hooks/createEntity'
-import { EDITOR_JS_TOOLS } from 'pages/CreateEntity/Forms/PropertiesForm/SetupPageContent/SetupPageContent.constants'
 import { Button } from 'pages/CreateEntity/Components'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useQuery } from 'hooks/window'
 import { TEntityPageModel } from 'types/entities'
-import { Block } from '@blocknote/core'
 import Editor from 'components/Editor/Editor'
 
 export const Wrapper = styled(Flex)`
@@ -44,13 +36,10 @@ export const Wrapper = styled(Flex)`
   }
 `
 
-const ReactEditorJS = createReactEditorJS()
-
 const SetupProposalPage: React.FC = (): JSX.Element => {
   const theme: any = useTheme()
   const navigate = useNavigate()
   const { entityId, coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
-  const editorCore = useRef(null)
   const { getQuery } = useQuery()
   const selectedTemplateEntityId = getQuery('selectedTemplateEntityId')
 
@@ -109,9 +98,8 @@ const SetupProposalPage: React.FC = (): JSX.Element => {
 
   const [addLinked, setAddLinked] = useState(false)
 
-  const handleSave = useCallback(async () => {
-    const data = await (editorCore.current as any).save()
-    setValue(data)
+  const handleSave = useCallback((page: TEntityPageModel) => {
+    setValue(page)
   }, [])
 
   const PropertiesFormProps = {

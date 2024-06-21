@@ -13,7 +13,7 @@ export const ServiceTable = () => {
   const theme = useTheme()
   const config = useAppSelector(selectEntityConfig)
   const { entityId = '' } = useParams<{ entityId: string }>()
-  const { linkedResource } = useAppSelector(getEntityById(entityId))
+  const { service } = useAppSelector(getEntityById(entityId))
   const primaryColor = config.theme.primaryColor ?? theme.ixoNewBlue
 
   const servicecolumns: Column[] = [
@@ -28,14 +28,14 @@ export const ServiceTable = () => {
     },
     {
       title: 'Name',
-      render: (row: any) => upperFirst(row?.id.split('#')[1]),
+      render: (row: any) => upperFirst(row.description),
     },
   ]
 
   return (
     <Flex w='100%' justify={'center'}>
       <Box w='70%'>
-        <KeyValueTable valueType={'service'} columns={servicecolumns} data={linkedResource} themeColor={primaryColor} />
+        <KeyValueTable valueType={'service'} columns={servicecolumns} data={service} themeColor={primaryColor} />
       </Box>
     </Flex>
   )

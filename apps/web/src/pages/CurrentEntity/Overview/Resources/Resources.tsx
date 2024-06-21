@@ -27,7 +27,7 @@ export const ResourceTable = () => {
     },
     {
       title: 'Name',
-      render: (row: any) => upperFirst(row?.id.split('#')[1]),
+      render: (row: any) => upperFirst(row?.description),
     },
   ]
 
