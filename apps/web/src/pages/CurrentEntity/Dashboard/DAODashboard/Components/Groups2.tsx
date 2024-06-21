@@ -14,7 +14,7 @@ import { truncateString } from 'utils/formatters'
 import { ReactComponent as CopyIcon } from 'assets/images/icon-copy.svg'
 import { successToast } from 'utils/toast'
 import { useAppSelector } from 'redux/hooks'
-import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { getEntityById } from 'redux/entities/entities.selectors'
 
 type GroupCardProps = {
   daoGroup: TDAOGroupModel

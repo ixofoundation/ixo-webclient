@@ -46,8 +46,8 @@ import {
   TEntityCreatorModel,
   TEntityDDOTagModel,
   TEntityModel,
+  TEntityPageModel,
   TEntityPageSectionLegacyModel,
-  TEntityPageSectionModel,
   TEntityProfileModel,
 } from 'types/entities'
 import { getDaoContractInfo, thresholdToTQData } from 'utils/dao'
@@ -60,7 +60,7 @@ import { IMPACTS_DAO_ID } from 'constants/chains'
 import { OutputBlockData } from '@editorjs/editorjs'
 import { useEntityLazyQuery } from 'generated/graphql'
 import { apiEntityToEntity } from 'utils/entities'
-import { updateEntityPropertyAction } from 'redux/entitiesExplorer/entitiesExplorer.actions'
+import { updateEntityPropertyAction } from 'redux/entities/entities.actions'
 export default function useCurrentEntity(): {
   id: string
   settings: any
@@ -72,7 +72,7 @@ export default function useCurrentEntity(): {
   profile: TEntityProfileModel
   creator: TEntityCreatorModel
   administrator: TEntityAdministratorModel
-  page: TEntityPageSectionModel[]
+  page: TEntityPageModel
   pageLegacy: TEntityPageSectionLegacyModel
   tags: TEntityDDOTagModel[]
   metadata: IidMetadata | undefined
@@ -106,7 +106,7 @@ export default function useCurrentEntity(): {
   const profile: TEntityProfileModel = useAppSelector(selectEntityProfile)!
   const creator: TEntityCreatorModel = useAppSelector(selectEntityCreator)!
   const administrator: TEntityAdministratorModel = useAppSelector(selectEntityAdministrator)!
-  const page: TEntityPageSectionModel[] = useAppSelector(selectEntityPage)!
+  const page = useAppSelector(selectEntityPage)!
   const pageLegacy: TEntityPageSectionLegacyModel = useAppSelector(selectEntityPageLegacy)!
   const tags: TEntityDDOTagModel[] = useAppSelector(selectEntityTags)!
   const metadata: IidMetadata | undefined = useAppSelector(selectEntityMetadata)

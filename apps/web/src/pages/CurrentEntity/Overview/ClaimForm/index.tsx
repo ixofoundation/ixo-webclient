@@ -23,7 +23,7 @@ import { DeliverTxResponse } from '@cosmjs/stargate'
 import { useGetUserGranteeRole } from 'hooks/claim'
 import { Typography } from 'components/Typography'
 import { AgentRoles } from 'types/models'
-import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { getEntityById } from 'redux/entities/entities.selectors'
 
 interface Props {
   claimId: string

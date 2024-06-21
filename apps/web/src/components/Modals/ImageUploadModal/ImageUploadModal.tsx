@@ -49,6 +49,9 @@ const ImageUploadModal: React.FC<Props> = ({
     setTempValue('')
     setCanSubmit(false)
 
+    console.log('base64EncodedImage', base64EncodedImage.split(',')[1])
+    console.log('imgContentType', imgContentType)
+
     uploadPublicDoc(base64EncodedImage.split(',')[1], imgContentType)
       .then((response: any) => {
         if (response?.key) {

@@ -7,7 +7,7 @@ import { toTitleCase } from 'utils/formatters'
 import { useAccount } from 'hooks/account'
 import EditEntity from './EditEntity'
 import { useAppSelector } from 'redux/hooks'
-import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { getEntityById } from 'redux/entities/entities.selectors'
 
 const ClaimDashboard: React.FC = (): JSX.Element => {
   const { entityId = "" } = useParams<{ entityId: string }>()

@@ -83,7 +83,7 @@ import { Verification } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1bet
 import { Cw20Coin } from '@ixo/impactxclient-sdk/types/codegen/Cw20Base.types'
 import BigNumber from 'bignumber.js'
 import { LinkedResourceProofGenerator, LinkedResourceServiceEndpointGenerator } from 'utils/entities'
-import { selectAllClaimProtocols } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { selectAllClaimProtocols } from 'redux/entities/entities.selectors'
 import { ELocalisation, TQuestion } from 'types/protocol'
 import { useWallet } from '@ixo-webclient/wallet-connector'
 import { DeliverTxResponse } from '@cosmjs/stargate'

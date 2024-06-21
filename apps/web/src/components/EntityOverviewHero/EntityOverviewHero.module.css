@@ -1,0 +1,34 @@
+.entityOverviewHero {
+    position: relative;
+    background-color: lightgray; /* default background color */
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover; /* Ensures the image covers the entire container */
+  }
+  
+  .entityOverviewHero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5); /* semi-transparent overlay */
+    z-index: 1;
+  }
+  
+  .overlay {
+    position: relative;
+    z-index: 2; /* Ensures that the text is above the overlay */
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+  }
+  
+  .title {
+    color: white; /* Text color */
+    z-index: 3;
+  }
+  

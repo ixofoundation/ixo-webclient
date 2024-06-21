@@ -24,7 +24,7 @@ import {
   selectEntityHeaderButtonColorUIConfig,
   selectEntityHeaderUIConfig,
   selectEntityLogoConfig,
-} from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+} from 'redux/entities/entities.selectors'
 import CreateEntityDropdown from '../components/CreateEntityDropdown'
 import { selectEntityConfig } from 'redux/configs/configs.selectors'
 import { useMediaQuery } from '@mantine/hooks'

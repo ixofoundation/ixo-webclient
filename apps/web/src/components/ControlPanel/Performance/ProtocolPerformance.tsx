@@ -6,7 +6,7 @@ import { ReactComponent as CopyIcon } from 'assets/images/icon-copy.svg'
 import { toTitleCase } from 'utils/formatters'
 import { useParams } from 'react-router-dom'
 import { useAppSelector } from 'redux/hooks'
-import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { getEntityById } from 'redux/entities/entities.selectors'
 
 const ProtocolPerformance: React.FC = () => {
   const { entityId = "" } = useParams<{ entityId: string }>()

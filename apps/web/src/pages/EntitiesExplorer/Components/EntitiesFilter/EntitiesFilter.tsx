@@ -40,7 +40,7 @@ import {
   selectFilterSector,
   selectFilterUserEntities,
   selectSelectedEntitiesType,
-} from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+} from 'redux/entities/entities.selectors'
 import {
   filterAddCategoryTag,
   filterCategoryTag,
@@ -51,7 +51,7 @@ import {
   resetCategoryFilter,
   resetDatesFilter,
   resetFilters,
-} from 'redux/entitiesExplorer/entitiesExplorer.actions'
+} from 'redux/entities/entities.actions'
 import { selectEntityConfig, selectEntityConfigByGivenType } from 'redux/configs/configs.selectors'
 import { Schema as FilterSchema } from 'pages/EntitiesExplorer/Components/EntitiesFilter/schema/types'
 import { useNavigate } from 'react-router-dom'

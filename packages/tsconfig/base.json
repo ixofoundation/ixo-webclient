@@ -2,7 +2,10 @@
     "$schema": "https://json.schemastore.org/tsconfig",
     "display": "Default",
     "compilerOptions": {
-      "strict": true
+      "strict": true,
+      "target": "es2018",   
+      "module": "esnext",
+      "moduleResolution": "node",
     },
     "exclude": ["node_modules"]
   }

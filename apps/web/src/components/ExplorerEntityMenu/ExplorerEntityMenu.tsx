@@ -1,6 +1,6 @@
 import { Button, Menu, em, rem, useMantineTheme } from '@mantine/core'
 import { useMediaQuery } from '@mantine/hooks'
-import { IconChevronDown } from '@tabler/icons-react'
+import { LiaChevronDownSolid } from 'react-icons/lia'
 import { useQuery } from 'hooks/window'
 import { upperFirst } from 'lodash'
 import { selectEntityConfig } from 'redux/configs/configs.selectors'
@@ -60,7 +60,7 @@ export function ExplorerEntityMenu() {
           variant='outline'
           color={primaryColor}
           leftSection={getEntityIcon(type ?? '', { size: '18'})}
-          rightSection={<IconChevronDown style={{ width: rem(18), height: rem(18) }} stroke={1.5} />}
+          rightSection={<LiaChevronDownSolid style={{ width: rem(18), height: rem(18) }} />}
         >
           {upperFirst(toRootEntityType(type ?? ''))}
         </Button>
