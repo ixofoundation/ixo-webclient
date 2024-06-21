@@ -4,6 +4,7 @@ import { EyeIcon } from 'components/Icons'
 import Table, { renderTableHeader } from 'components/Table/Table'
 import { Typography } from 'components/Typography'
 import { TTypographyColor } from 'components/Typography/Typography'
+import { blockExplorerTransactionEndpoint } from 'constants/blockExplorers'
 import { useMessagesQuery } from 'generated/graphql'
 import { useIxoConfigs } from 'hooks/configs'
 import moment from 'moment'
@@ -206,7 +207,7 @@ const AssetTransactionTable: React.FC<AssetTransactionTableProps> = ({ address, 
                 background={theme.ixoMediumBlue}
                 color='white'
                 hover={{ color: theme.ixoNewBlue }}
-                onClick={() => window.open(`${process.env.REACT_APP_BLOCK_SCAN_URL}/transactions/${hash}`, '_blank')}
+                onClick={() => window.open(`${blockExplorerTransactionEndpoint}${hash}`, '_blank')}
               >
                 <EyeIcon />
               </SvgBox>

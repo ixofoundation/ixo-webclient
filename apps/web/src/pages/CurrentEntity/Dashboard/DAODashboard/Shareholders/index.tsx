@@ -22,6 +22,7 @@ import { Member } from 'types/dao'
 import { useAppSelector } from 'redux/hooks'
 import { getEntityById } from 'redux/entities/entities.selectors'
 import { CSVLink } from 'react-csv'
+import { blockExplorerAccountEndpoint } from 'constants/blockExplorers'
 
 const TableWrapper = styled.div`
   color: white;
@@ -206,7 +207,7 @@ const Shareholders: React.FC = () => {
           const addr = cell.row.original?.addr
           return (
             <Flex p={16} direction={'column'} gap={4}>
-              <Anchor href={`${process.env.REACT_APP_BLOCK_SCAN_URL}/accounts/${addr}`} target='_blank'>
+              <Anchor href={`${blockExplorerAccountEndpoint}${addr}`} target='_blank'>
                 <SvgBox $svgWidth={6} $svgHeight={6} color={mantineThemeColors['ixo-blue'][6]} cursor='pointer'>
                   <ExternalLinkIcon />
                 </SvgBox>
