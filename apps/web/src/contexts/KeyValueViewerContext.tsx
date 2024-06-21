@@ -1,48 +1,41 @@
-import { fileStorage } from '@ixo-webclient/utils'
+// import { fileStorage } from '@ixo-webclient/utils'
 import React, { createContext, useContext, ReactNode, useState } from 'react'
 
+
+export type KeyValueProps = {
+  type: 'resource' | 'service' | 'claim'
+  data: any
+}
 interface KeyValueViewerContextType {
-  keyValue: any
+  keyValue: KeyValueProps | null
   setKeyValue: React.Dispatch<React.SetStateAction<any>>
-  goBackToPrevKeyValue: () => void
-  getKeyValue: () => any
+  resetKeyValue: () => void
 }
 
 const KeyValueViewerContext = createContext<KeyValueViewerContextType | undefined>(undefined)
 
-export const KeyValueViewerProvider = ({ children }: { children: ReactNode }) => {
-  const [keyValue, setCurrentKeyValue] = useState<any[]>([]);
 
-  const getServiceEndpointToUrl = (serviceEndpoint: string) => {
-    if(serviceEndpoint.includes('ipfs')){
-      return fileStorage.ipfs.generateEndpoint(serviceEndpoint.split(":")[1])
-    }
-    return serviceEndpoint
-  }
+export const KeyValueViewerProvider = ({ children }: { children: ReactNode }) => {
+  const [keyValue, setCurrentKeyValue] = useState<KeyValueProps | null>(null);
+
+  // const getServiceEndpointToUrl = (serviceEndpoint: string) => {
+  //   if(serviceEndpoint.includes('ipfs')){
+  //     return fileStorage.ipfs.generateEndpoint(serviceEndpoint.split(":")[1])
+  //   }
+  //   return serviceEndpoint
+  // }
 
   const setKeyValue = (value: any) => {
-    const passedValue = {...value};
-    if(value?.mediaType){
-      if(value.mediaType === 'application/pdf' && value?.serviceEndpoint.length > 0){
-        passedValue.file = getServiceEndpointToUrl(value?.serviceEndpoint)
-      }
-    }
-    const newKeyValues = [...keyValue, passedValue]
-    setCurrentKeyValue(newKeyValues); 
+    setCurrentKeyValue(value); 
   }
 
-  const goBackToPrevKeyValue = () => {
-    const newKeyValues = keyValue.slice(0, keyValue.length - 1)
-    setCurrentKeyValue(newKeyValues)
-  }
-
-  const getKeyValue = () => {
-    return keyValue[keyValue.length - 1]
+  const resetKeyValue = () => {
+    setCurrentKeyValue(null)
   }
 
   return (
     <KeyValueViewerContext.Provider
-      value={{ keyValue, setKeyValue, goBackToPrevKeyValue, getKeyValue }}
+      value={{ keyValue, setKeyValue, resetKeyValue }}
     >
       {children}
     </KeyValueViewerContext.Provider>

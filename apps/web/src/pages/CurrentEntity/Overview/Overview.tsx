@@ -1,24 +1,18 @@
-import { useQuery } from 'hooks/window'
-import { AgentRoles } from 'types/models'
-import { Box, Flex, Tabs, em } from '@mantine/core'
+import { Box, Flex, Tabs } from '@mantine/core'
 
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import {  useNavigate, useParams } from 'react-router-dom'
 import { selectEntityConfig } from 'redux/configs/configs.selectors'
 import { useAppSelector } from 'redux/hooks'
 import { useTheme } from 'styled-components'
-import { useMediaQuery } from '@mantine/hooks'
 import EntityOverviewHero from 'components/EntityOverviewHero/EntityOverviewHero'
 import { useEntityOverview } from 'hooks/entity/useEntityOverview'
 import Page from './Page/Page'
-import KeyValueTable from 'components/KeyValueTable'
 import { ResourceTable } from './Resources/Resources'
+import Claims from './Claims/Claims'
+import { ServiceTable } from './Services/Services'
 
 const Overview: React.FC = () => {
-  const { getQuery } = useQuery()
-  const claimId = getQuery('claimId')
-  const claimCollectionId = getQuery('collectionId')
-  const agentRole: AgentRoles = getQuery('agentRole') as AgentRoles
-  const { entityId = '', tab = 'page' } = useParams<{ entityId: string, tab: string }>()
+  const { entityId = '', tab = 'page' } = useParams<{ entityId: string; tab: string }>()
   const theme: any = useTheme()
   const config = useAppSelector(selectEntityConfig)
   const primaryColor = config.theme.primaryColor ?? theme.ixoNewBlue
@@ -26,9 +20,8 @@ const Overview: React.FC = () => {
 
   useEntityOverview(entityId)
 
-
   const handleTabChange = (value: string | null) => {
-    if(value === tab) return
+    if (value === tab) return
     navigate(`/entity/${entityId}/overview/${value}`)
   }
 
@@ -60,34 +53,23 @@ const Overview: React.FC = () => {
               Resources
             </Tabs.Tab>
             <Tabs.Tab value='claims' pb={2} px={0} ml={10}>
-              My Claims
+              Claims
             </Tabs.Tab>
           </Tabs.List>
 
           <Tabs.Panel value='page'>
             <Page />
-            {/* {!claimId && !claimCollectionId && ( */}
-              <>
-                {/* {blocks && <Editor editable={false} initialBlocks={blocks as any} />} */}
-                {/* {page && <PageContent page={page} />}
-                    {pageLegacy && <PageContentLegacy page={pageLegacy} />} */}
-              </>
-            {/* )} */}
-            {/* {claimCollectionId && agentRole && (
-                  // <OfferForm claimCollectionId={claimCollectionId} agentRole={agentRole} />
-                )} */}
-            {/* {claimId && <ClaimForm claimId={claimId} />} */}
           </Tabs.Panel>
 
           <Tabs.Panel value='services'>
             <Flex w='100%' justify={'center'} align={'center'}>
-              {/* <KeyValueTable columns={servicesColumns} data={service} /> */}
+              <ServiceTable />
             </Flex>
           </Tabs.Panel>
 
           <Tabs.Panel value='rights' h='100%' w='100%'>
             <Flex justify={'center'} align={'center'} w='100%' h='100%'>
-              {/* {accordedRight?.length === 0 && <Text c="#A8ADAE'">No rights found</Text>} */}
+            
             </Flex>
           </Tabs.Panel>
           <Tabs.Panel value='resources'>
@@ -97,7 +79,7 @@ const Overview: React.FC = () => {
           </Tabs.Panel>
           <Tabs.Panel value='claims'>
             <Flex w='100%' justify={'center'} align={'center'}>
-              {/* <KeyValueTable columns={linkedResourceColumns} data={linkedResource} /> */}
+              <Claims />
             </Flex>
           </Tabs.Panel>
         </Tabs>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Table, TableThProps, rem } from '@mantine/core'
-import { useKeyValueViewerContext } from 'contexts/KeyValueViewerContext'
+import { useDisclosure } from '@mantine/hooks'
+import { KeyValueProps, useKeyValueViewerContext } from 'contexts/KeyValueViewerContext'
 
 export type Column = {
   title: string
@@ -12,6 +13,8 @@ type KeyValueTableProps = {
   data: any[]
   columns: Column[]
   themeColor?: string
+  collapsible?: (props: { opened: boolean }) => JSX.Element
+  valueType: KeyValueProps['type']
 }
 
 function getBorderStyles(isActive: boolean, index: number, totalColumns: number, themeColor?: string) {
@@ -41,56 +44,79 @@ function getBorderStyles(isActive: boolean, index: number, totalColumns: number,
   }
 }
 
-const KeyValueTable = ({ data, columns, themeColor }: KeyValueTableProps) => {
-  const { setKeyValue } = useKeyValueViewerContext()
+const KeyValueTable = ({ data, columns, themeColor, collapsible: Collapsible, valueType }: KeyValueTableProps) => {
+  const { setKeyValue, keyValue } = useKeyValueViewerContext()
   const [selectedId, setSelectedId] = useState<string | null>(null)
+  const [opened, { toggle }] = useDisclosure(false)
 
   const handleRowClick = (entry: any) => {
-    setKeyValue(entry)
-    setSelectedId(entry.id)
+    if (Collapsible) {
+      toggle()
+    } else {
+      setKeyValue({ type: valueType, data: entry })
+    }
+
+    if (selectedId === entry.id) {
+      setSelectedId(null)
+    } else {
+      setSelectedId(entry.id)
+    }
   }
 
   return (
-    <Table
-      verticalSpacing='lg'
-      mt={20}
-      w='70%'
-      withRowBorders={false}
-      style={{ borderCollapse: 'separate', borderSpacing: `0 ${rem(5)}` }}
-    >
-      <Table.Thead>
-        <Table.Tr style={{ padding: 0}}>
-          {columns.map((column, index) => (
-            <Table.Th key={index} style={{ color: "#9A9A9A" }} {...column.style} >
-              {column.title}
-            </Table.Th>
-          ))}
-        </Table.Tr>
-      </Table.Thead>
-      <Table.Tbody>
-        {data
-          ?.filter((entry) => entry?.type && entry?.serviceEndpoint)
-          .map((entry: any) => (
-            <Table.Tr
-              key={entry.id}
-              style={{
-                cursor: 'pointer',
-                backgroundColor: '#F8F8F8',
-              }}
-              onClick={() => handleRowClick(entry)}
-            >
-              {columns.map((column, colIndex) => {
-                const borderStyles = getBorderStyles(entry.id === selectedId, colIndex, columns.length, themeColor)
-                return (
-                  <Table.Td style={{ ...borderStyles, fontWeight: 'bolder' }} key={colIndex}>
-                    {column.render(entry)}
+    <div style={{ width: '100%' }}>
+      <Table
+        verticalSpacing='lg'
+        mt={20}
+        w='100%'
+        withRowBorders={false}
+        style={{ borderCollapse: 'separate', borderSpacing: `0 ${rem(5)}`, width: '100%' }}
+      >
+        <Table.Thead>
+          <Table.Tr style={{ padding: 0 }}>
+            {columns.map((column, index) => (
+              <Table.Th key={index} style={{ color: '#9A9A9A', ...column.style?.style }} {...column.style}>
+                {column.title}
+              </Table.Th>
+            ))}
+          </Table.Tr>
+        </Table.Thead>
+        <Table.Tbody>
+          {data?.map((entry: any) => (
+            <React.Fragment key={entry.id}>
+              <Table.Tr
+                style={{
+                  cursor: 'pointer',
+                  backgroundColor: '#F8F8F8',
+                }}
+                onClick={() => handleRowClick(entry)}
+              >
+                {columns.map((column, colIndex) => {
+                  const borderStyles = getBorderStyles(
+                    entry.id === selectedId && Boolean(keyValue),
+                    colIndex,
+                    columns.length,
+                    themeColor,
+                  )
+                  return (
+                    <Table.Td style={{ ...borderStyles, ...column.style?.style, fontWeight: 'bolder' }} key={colIndex}>
+                      {column.render(entry)}
+                    </Table.Td>
+                  )
+                })}
+              </Table.Tr>
+              {Collapsible && (
+                <Table.Tr style={{ width: '100%' }}>
+                  <Table.Td colSpan={columns.length} style={{ padding: 0, width: '100%' }}>
+                    <Collapsible opened={opened} />
                   </Table.Td>
-                )
-              })}
-            </Table.Tr>
+                </Table.Tr>
+              )}
+            </React.Fragment>
           ))}
-      </Table.Tbody>
-    </Table>
+        </Table.Tbody>
+      </Table>
+    </div>
   )
 }
 
