@@ -42,7 +42,7 @@ const Editor = ({ editable = false, initialPage, onChange }: Props) => {
 
   const editor = useCreateBlockNote({
     schema,
-    ...(page.content && { initialBlocks: page.content }),
+    initialContent: page?.content as Block[] ?? [{ type: 'paragraph'}],
     uploadFile,
     dictionary: en,
   });
