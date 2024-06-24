@@ -15,6 +15,7 @@ import { ClaimCollection } from 'generated/graphql'
 import { PropertyBox } from 'pages/CreateEntity/Components'
 import { useQuery } from 'hooks/window'
 import OfferForm from 'pages/CurrentEntity/Overview/OfferForm'
+import { toRootEntityType } from 'utils/entities'
 
 interface OfferBoxProps {
   collection: ClaimCollection
@@ -98,15 +99,15 @@ const ClaimPanel = ({ data }: { data: any }) => {
   }
 
   return (
-    <Flex style={{ borderRadius: 12 }} bg='#fff' p={20} direction={'column'}>
+    <Flex style={{ borderRadius: 12 }}  direction={'column'}>
       <Flex align={'center'}>
         <SvgBox $svgWidth={5} $svgHeight={5} color={primaryColor}>
           <ClaimIcon />
         </SvgBox>
-        <Text ml={10}>{data.template?.title}</Text>
+        <Text ml={10} fw="bold">{data.template?.title}</Text>
       </Flex>
       {applicationRequired && (
-        <Box mt={15}>
+        <Box mt={15} bg='#fff' p={20}>
           {claimCollections.map((collection: ClaimCollection) => (
             <OfferBox
               key={collection.id}
@@ -115,13 +116,16 @@ const ClaimPanel = ({ data }: { data: any }) => {
               setSelectedCollectionId={setSelectedCollectionId}
             />
           ))}
-          <Text fw='bold'>Apply as:</Text>
-          <Flex gap={5} mt={5}>
-            <Button size='compact-md' onClick={handleApply(AgentRoles.serviceProviders)}>
-              Apply as agent
+          <Text fw='bolder'>Contribute to this {toRootEntityType(entity.type)}</Text>
+          <Flex gap={10} mt={10} direction={"column"}>
+            <Button radius={4} size='md' onClick={handleApply(AgentRoles.serviceProviders)}>
+              Apply as a Service Agent
             </Button>
-            <Button size='compact-md' onClick={handleApply(AgentRoles.evaluators)}>
-              Apply as evaluator
+            <Button radius={4} size='md' onClick={handleApply(AgentRoles.evaluators)}>
+              Offer Oracle Services
+            </Button>
+            <Button radius={4} size='md'>
+              Make a Financial Contribution 
             </Button>
           </Flex>
         </Box>

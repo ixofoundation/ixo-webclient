@@ -5,7 +5,6 @@ import BalanceCard from './Balance'
 import ClaimsCard from './Claims'
 import FeedCard from './Feed'
 import MessagesCard from './Messages'
-import AssistantCard from './Assistant'
 import { Flex, ScrollArea, ActionIcon } from '@mantine/core'
 import styled from 'styled-components'
 import { useAccount } from 'hooks/account'
@@ -19,6 +18,7 @@ import { useCompanionDesignConfig } from 'hooks/userInterface/useCompanionDesign
 import ActionPanel from './ActionPanel/ActionPanel'
 import { GoArrowLeft } from 'react-icons/go'
 import { useLocation, useNavigate } from 'react-router-dom'
+import Assistant from 'components/Assistant'
 
 const StyledScrollArea = styled(ScrollArea)`
   & > div > div {
@@ -79,12 +79,12 @@ const ControlPanel = ({ entityType }: Props) => {
       style={{ color: 'black' }}
     >
       <StyledScrollArea h='100%'>
-        <Flex w='100%' direction='column' h='100%' gap={24} p={20} pt={32}>
+        <Flex w='100%' direction='column' h='100%' p={20} pt={32}>
           {!keyValue && address && activeTab === 'profile' && renderProfile()}
           {!keyValue && activeTab === 'detail' && renderDetail()}
           {!keyValue && activeTab === 'feed' && <FeedCard />}
           {!keyValue && activeTab === 'message' && <MessagesCard />}
-          {!keyValue && activeTab === 'assistant' && <AssistantCard />}
+          {!keyValue && activeTab === 'assistant' && <Assistant/>}
           {keyValue && <ActionPanel type={keyValue.type} data={keyValue.data} />}
         </Flex>
       </StyledScrollArea>

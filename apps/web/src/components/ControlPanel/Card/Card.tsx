@@ -27,7 +27,7 @@ const Card: React.FC<Props> = ({ icon, title, columns, items }) => {
 
 
   return (
-    <FlexBox width='100%' height='auto' $direction='column' $gap={5} background='#ffffff' $borderRadius='12px' p={5}>
+    <FlexBox width='100%' height='auto' $direction='column' $gap={5} background='#ffffff' $borderRadius='12px' p={5} mt={4}>
       <FlexBox width='100%' $alignItems='center' $justifyContent='space-between'>
         <FlexBox $gap={2} $alignItems='center'>
           <SvgBox $svgWidth={5} $svgHeight={5} color={primaryColor}>
