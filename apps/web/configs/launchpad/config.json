@@ -2962,6 +2962,11 @@
             },
             {
               "@type": "Tag",
+              "name": "Identity",
+              "icon": "tag.svg"
+            },
+            {
+              "@type": "Tag",
               "name": "Outcome",
               "icon": "outcome.svg"
             },
