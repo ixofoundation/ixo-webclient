@@ -77,7 +77,7 @@ const SubmitClaim = ({ data }: { data: any }) => {
       approved = 0,
       disputed = 0,
       rejected = 0
-    data.collection?.claimsByCollectionId?.nodes?.map((claim: any) => {
+    data.collection?.claimsByCollectionId?.nodes?.forEach((claim: any) => {
       if (claim?.paymentsStatus?.approval === 'PAID') {
         approved++
       }
