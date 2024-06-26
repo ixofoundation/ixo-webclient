@@ -1,12 +1,11 @@
-import { useState, KeyboardEvent } from 'react'
+import { useState } from 'react'
 import { Textarea, Flex } from '@mantine/core'
 
-import fetchInstantAssistantMessage from 'redux/assistant/thunks/fetchAssistantMessage'
 
 import Suggestions from './Suggestions'
 import ResetMessagesButton from './ResetMessagesButton'
 import SendIcon from './SendIcon'
-import { useAppDispatch, useAppSelector } from 'redux/hooks'
+import { useAppSelector } from 'redux/hooks'
 import {
   selectAssistantIsThinking,
   selectAssistantMessages,
@@ -15,7 +14,6 @@ import {
 import { useTheme } from 'styled-components'
 
 export default function QueryInput({ sendMessage }: { sendMessage: (message: string) => void}) {
-  const dispatch = useAppDispatch()
   const theme: any = useTheme()
   const [typedMessage, setTypedMessage] = useState('')
   const [isFocused, setIsFocused] = useState(false)

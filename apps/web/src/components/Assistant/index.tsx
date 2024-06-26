@@ -12,7 +12,7 @@ export default function Assistant() {
     if(messages.length === 0 && assistant){
       newChat()
     }
-  }, [newChat, assistant])
+  }, [newChat, assistant, messages.length])
   
   return (
     <Flex

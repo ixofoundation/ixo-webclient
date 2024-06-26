@@ -2,19 +2,16 @@ import { useEffect, useRef } from 'react'
 import { Flex, ScrollArea } from '@mantine/core'
 
 import {
-  selectAssistantMessages,
   selectAssistantIsThinking,
-  selectAssistantError,
 } from 'redux/assistant/assistant.selectors'
 
-import { UserMessage, AssistantMessage, AssistantThinkingMessage, AssistantErrorMessage } from './Messages'
+import { UserMessage, AssistantMessage, AssistantThinkingMessage } from './Messages'
 import { useAppSelector } from 'redux/hooks'
 
 export default function Conversation({ messages }: { messages: any[] }) {
   const viewport = useRef<HTMLDivElement>(null)
   // const messages = useAppSelector(selectAssistantMessages)
   const isThinking = useAppSelector(selectAssistantIsThinking)
-  const assistantError = useAppSelector(selectAssistantError)
 
   const scrollToBottom = () =>
     viewport.current?.scrollTo({

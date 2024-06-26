@@ -91,7 +91,7 @@ const ApplicationSubmissionCard = ({ data }: { data: any }) => {
   const { wallet } = useWallet()
   const { data: iid } = useGetIid(wallet?.did ?? '')
   const { entityId = '' } = useParams<{ entityId: string }>()
-  const { type, owner, accounts, verificationMethod } = useAppSelector(getEntityById(entityId))
+  const { owner, accounts, verificationMethod } = useAppSelector(getEntityById(entityId))
   const userRole = useGetUserGranteeRole(wallet?.address ?? '', owner, accounts, verificationMethod)
 
   const applicationSent = useMemo(() => {
