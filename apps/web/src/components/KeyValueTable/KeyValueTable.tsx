@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Table, TableThProps, rem } from '@mantine/core'
-import { useDisclosure } from '@mantine/hooks'
 import { KeyValueProps, useKeyValueViewerContext } from 'contexts/KeyValueViewerContext'
+import { get } from 'lodash'
 
 export type Column = {
   title: string
@@ -13,8 +13,9 @@ type KeyValueTableProps = {
   data: any[]
   columns: Column[]
   themeColor?: string
-  collapsible?: (props: { opened: boolean }) => JSX.Element
+  collapsible?: (props: { row: any, selectedId: string }) => JSX.Element
   valueType: KeyValueProps['type']
+  primaryId?: string
 }
 
 function getBorderStyles(isActive: boolean, index: number, totalColumns: number, themeColor?: string) {
@@ -44,22 +45,17 @@ function getBorderStyles(isActive: boolean, index: number, totalColumns: number,
   }
 }
 
-const KeyValueTable = ({ data, columns, themeColor, collapsible: Collapsible, valueType }: KeyValueTableProps) => {
+const KeyValueTable = ({ data, columns, themeColor, collapsible: Collapsible, valueType, primaryId }: KeyValueTableProps) => {
   const { setKeyValue, keyValue } = useKeyValueViewerContext()
   const [selectedId, setSelectedId] = useState<string | null>(null)
-  const [opened, { toggle }] = useDisclosure(false)
 
   const handleRowClick = (entry: any) => {
-    if (Collapsible) {
-      toggle()
-    } else {
-      setKeyValue({ type: valueType, data: entry })
-    }
+    setKeyValue({ type: valueType, data: entry })
 
-    if (selectedId === entry.id) {
+    if (selectedId === get(entry, primaryId ?? 'id')) {
       setSelectedId(null)
     } else {
-      setSelectedId(entry.id)
+      setSelectedId(get(entry, primaryId ?? 'id'))
     }
   }
 
@@ -83,7 +79,7 @@ const KeyValueTable = ({ data, columns, themeColor, collapsible: Collapsible, va
         </Table.Thead>
         <Table.Tbody>
           {data?.map((entry: any) => (
-            <React.Fragment key={entry.id}>
+            <React.Fragment key={get(entry, primaryId ?? 'id')}>
               <Table.Tr
                 style={{
                   cursor: 'pointer',
@@ -93,7 +89,7 @@ const KeyValueTable = ({ data, columns, themeColor, collapsible: Collapsible, va
               >
                 {columns.map((column, colIndex) => {
                   const borderStyles = getBorderStyles(
-                    entry.id === selectedId && Boolean(keyValue),
+                    get(entry, primaryId ?? 'id') === selectedId && Boolean(keyValue),
                     colIndex,
                     columns.length,
                     themeColor,
@@ -108,7 +104,7 @@ const KeyValueTable = ({ data, columns, themeColor, collapsible: Collapsible, va
               {Collapsible && (
                 <Table.Tr style={{ width: '100%' }}>
                   <Table.Td colSpan={columns.length} style={{ padding: 0, width: '100%' }}>
-                    <Collapsible opened={opened} />
+                    <Collapsible row={entry} selectedId={selectedId ?? ""} />
                   </Table.Td>
                 </Table.Tr>
               )}
