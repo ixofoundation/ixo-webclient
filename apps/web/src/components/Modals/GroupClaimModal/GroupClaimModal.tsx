@@ -19,7 +19,7 @@ import { Cw20StakeClient } from '@ixo-webclient/cosmwasm-clients'
 import { useWallet } from '@ixo-webclient/wallet-connector'
 import { useParams } from 'react-router-dom'
 import { useAppSelector } from 'redux/hooks'
-import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { getEntityById } from 'redux/entities/entities.selectors'
 
 const Card = ({ children, ...rest }: HTMLFlexBoxProps) => {
   const theme: any = useTheme()

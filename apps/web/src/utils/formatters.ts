@@ -28,7 +28,8 @@ export function excerptText(theText: string, words = 20): string {
   }
 }
 
-export function getCountryName(countryCode: string): string {
+export function getCountryName(countryCode?: string) {
+  if(!countryCode) return undefined
   if (countryCode === 'AA') {
     return 'Global'
   } else if (Object.hasOwnProperty.call(isoCountries, countryCode)) {

@@ -11,7 +11,7 @@ import { thresholdToTQData } from 'utils/dao'
 import { TitleAndDescription } from './Component'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 import { useAppSelector } from 'redux/hooks'
-import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { getEntityById } from 'redux/entities/entities.selectors'
 
 export interface UpdateProposalConfigData {
   onlyMembersExecute: boolean

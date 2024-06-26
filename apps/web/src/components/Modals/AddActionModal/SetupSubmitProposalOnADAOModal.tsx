@@ -5,7 +5,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { TProposalActionModel } from 'types/entities'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 import { useAppSelector } from 'redux/hooks'
-import { selectDAOEntities } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { selectDAOEntities } from 'redux/entities/entities.selectors'
 
 export interface DAOVoteData {
   dao: string

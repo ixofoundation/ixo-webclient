@@ -7,7 +7,7 @@ import {
   selectEntityHeaderUIConfig,
   selectEntityHeadTitleUIConfig,
   selectEntityLogoConfig,
-} from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+} from 'redux/entities/entities.selectors'
 import { useAppSelector } from 'redux/hooks'
 import { AppLogo } from 'components/Header/HeaderLeft/HeaderLeft.styles'
 import { requireCheckDefault } from 'utils/images'

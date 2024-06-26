@@ -24,7 +24,7 @@ import { TDAOGroupModel } from 'types/entities'
 import { Cw20StakeClient } from '@ixo-webclient/cosmwasm-clients'
 import { useWallet } from '@ixo-webclient/wallet-connector'
 import { useAppSelector } from 'redux/hooks'
-import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { getEntityById } from 'redux/entities/entities.selectors'
 import { useParams } from 'react-router-dom'
 
 const StyledInput = styled(Input)`

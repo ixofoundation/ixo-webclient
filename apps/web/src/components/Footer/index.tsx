@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import {
   selectEntityFooterUIConfig,
   selectEntityHeadTitleUIConfig,
-} from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+} from 'redux/entities/entities.selectors'
 import { useAppSelector } from 'redux/hooks'
 import styled from 'styled-components'
 import { ReactComponent as InfoIcon } from 'assets/images/icon-info.svg'

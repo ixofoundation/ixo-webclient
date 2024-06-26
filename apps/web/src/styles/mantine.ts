@@ -1,4 +1,4 @@
-import { MantineThemeColorsOverride, MantineThemeOverride } from '@mantine/core'
+import { MantineThemeColorsOverride, MantineThemeOverride, createTheme, DEFAULT_THEME, mergeMantineTheme } from '@mantine/core'
 
 export const mantineThemeColors: MantineThemeColorsOverride = {
   'ixo-blue': [
@@ -27,22 +27,14 @@ export const mantineThemeColors: MantineThemeColorsOverride = {
   ],
 }
 
-const mantineTheme: MantineThemeOverride = {
+const themeOverride: MantineThemeOverride = createTheme({
   fontFamily: 'Roboto, sans-serif',
   fontFamilyMonospace: 'Roboto Condensed, sans-serif',
   primaryColor: 'ixo-blue',
   defaultRadius: 'xs',
   colors: mantineThemeColors,
-  components: {
-    Button: {
-      defaultProps: {
-        size: 'md',
-        w: 160,
-        color: 'white',
-        radius: 'sm',
-      },
-    },
-  },
-}
+})
+
+const mantineTheme = mergeMantineTheme(DEFAULT_THEME, themeOverride)
 
 export default mantineTheme

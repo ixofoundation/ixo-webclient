@@ -35,7 +35,7 @@ import { DeliverTxResponse } from '@cosmjs/stargate'
 import { AddLinkedEntityMessage } from 'lib/protocol/iid.messages'
 import { DaoPreProposeSingleClient } from '@ixo-webclient/cosmwasm-clients'
 import { useAppSelector } from 'redux/hooks'
-import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { getEntityById } from 'redux/entities/entities.selectors'
 import { useEntity } from 'hooks/entity/useEntity'
 import { currentRelayerNode } from 'constants/common'
 

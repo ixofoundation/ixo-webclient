@@ -8,7 +8,7 @@ import { Survey } from 'survey-react-ui'
 import { themeJson } from 'styles/surveyTheme'
 import { useParams } from 'react-router-dom'
 import { useAppSelector } from 'redux/hooks'
-import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { getEntityById } from 'redux/entities/entities.selectors'
 
 const ClaimQuestions: React.FC = () => {
   const { entityId = "" } = useParams<{ entityId: string }>()

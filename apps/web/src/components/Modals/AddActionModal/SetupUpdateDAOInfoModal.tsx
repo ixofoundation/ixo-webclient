@@ -7,7 +7,7 @@ import { useParams } from 'react-router-dom'
 import { TProposalActionModel } from 'types/entities'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 import { useAppSelector } from 'redux/hooks'
-import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { getEntityById } from 'redux/entities/entities.selectors'
 
 export interface UpdateInfoData {
   automatically_add_cw20s: boolean

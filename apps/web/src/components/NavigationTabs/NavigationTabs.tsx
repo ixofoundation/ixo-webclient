@@ -3,7 +3,7 @@ import { useQuery } from 'hooks/window'
 import { lowerCase } from 'lodash'
 import { ReactNode } from 'react'
 import { useLocation, useParams, NavLink } from 'react-router-dom'
-import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { getEntityById } from 'redux/entities/entities.selectors'
 import { useAppSelector } from 'redux/hooks'
 import { useCompanion } from 'hooks/useCompanion'
 import { ReactComponent as AssistantIcon } from 'assets/images/icon-assistant.svg'
@@ -78,6 +78,7 @@ const NavigationTabs = () => {
       {currentTabs.map(({ label, icon: Icon, isActive, path }) => (
         <NavLink key={`${path}`} to={`${path}`}>
           <Button
+            w={150}
             key={label}
             leftSection={
               <Icon

@@ -28,9 +28,9 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { LinkedResourceProofGenerator, LinkedResourceServiceEndpointGenerator } from 'utils/entities'
 import { DeliverTxResponse } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/stargate'
 import { ixo, utils } from '@ixo/impactxclient-sdk'
-import { NodeType, TDAOGroupModel, TEntityModel } from 'types/entities'
+import { NodeType, TDAOGroupModel, TEntityModel, TEntityPageModel } from 'types/entities'
 import { EntityLinkedResourceConfig } from 'constants/entity'
-import { getEntityById, selectAllClaimProtocols } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { getEntityById, selectAllClaimProtocols } from 'redux/entities/entities.selectors'
 import { useWallet } from '@ixo-webclient/wallet-connector'
 import { useService } from './service'
 import { v4 as uuidv4 } from 'uuid'
@@ -149,6 +149,7 @@ export default function useEditEntity(): {
     if (JSON.stringify(editEntity.token ?? {}) === JSON.stringify(currentEntity.token ?? {})) {
       return []
     }
+    
     const service = getUsedService(editEntity.linkedResource.find((v) => v.type === 'TokenMetadata')?.serviceEndpoint)
     const res = await SaveTokenMetadata(editEntity.token, service)
     if (!res) {
@@ -255,7 +256,7 @@ export default function useEditEntity(): {
       return []
     }
     const service = getUsedService(editEntity.settings.Page.serviceEndpoint)
-    const res = await SavePage(Object.fromEntries((editEntity.page ?? []).map((v) => [v.id, v])), service)
+    const res = await SavePage((editEntity.page ?? {}) as TEntityPageModel, service)
     if (!res) {
       throw new Error('Save Page Content failed!')
     }

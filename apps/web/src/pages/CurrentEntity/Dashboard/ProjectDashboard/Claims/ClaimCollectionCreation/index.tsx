@@ -20,7 +20,7 @@ import { useGetEntityByIdLazyQuery } from 'graphql/entities'
 import { useWallet } from '@ixo-webclient/wallet-connector'
 import { DeliverTxResponse } from '@cosmjs/stargate'
 import { useAppSelector } from 'redux/hooks'
-import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { getEntityById } from 'redux/entities/entities.selectors'
 import { useCreateClaimCollection } from 'hooks/claims/useCreateClaimCollection'
 
 const ClaimCollectionCreation: React.FC = () => {

@@ -5,7 +5,6 @@ import { serviceEndpointToUrl } from "utils/entities";
 export const getEntityProfile = async (profile: any, service: any, entity?: any) => {
   if (!profile) return;
   const url = serviceEndpointToUrl(profile.serviceEndpoint, service);
-  console.log({ url, entity })
   return await fetch(getMappedNewURL(url))
     .then((response) => response.json())
     .then((response) => {

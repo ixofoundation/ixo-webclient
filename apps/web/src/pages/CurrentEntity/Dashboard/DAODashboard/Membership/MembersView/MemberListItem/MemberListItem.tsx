@@ -14,7 +14,7 @@ import { convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
 import { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
 import { useQuery } from 'hooks/window'
 import { useAppSelector } from 'redux/hooks'
-import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { getEntityById } from 'redux/entities/entities.selectors'
 
 const Wrapper = styled(TableRow)<{ focused: boolean }>`
   ${({ theme, focused }) =>

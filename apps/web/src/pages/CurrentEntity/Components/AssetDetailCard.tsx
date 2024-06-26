@@ -15,12 +15,11 @@ import { contracts } from '@ixo/impactxclient-sdk'
 import { convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
 import { plus } from 'utils/currency'
 import { claimAvailable } from 'utils/tokenClaim'
-import { CHAIN_ID } from 'hooks/configs'
 import { useTheme } from 'styled-components'
 import useCurrentEntity, { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
 import { useQuery } from 'hooks/window'
 import { useAppSelector } from 'redux/hooks'
-import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { getEntityById } from 'redux/entities/entities.selectors'
 
 const data = [
   {
@@ -91,7 +90,6 @@ const AssetDetailCard: React.FC<Props> = ({
   const [stakedBalance, setStakedBalance] = useState('0')
   const [unstakingBalance, setUnstakingBalance] = useState('0')
   const [claimableBalance, setClaimableBalance] = useState('0')
-  const [tokenAddress, setTokenAddress] = useState('')
   const balanceUsd: string = useMemo(
     () => new BigNumber(balance).times(lastPriceUsd ?? 0).toString(),
     [balance, lastPriceUsd],
@@ -143,7 +141,6 @@ const AssetDetailCard: React.FC<Props> = ({
     setUnstakingBalance(unstakingValue)
     setClaimableBalance(claimableValue)
     setBalance(balance)
-    setTokenAddress(tokenContract)
   }, [address, userAddress, cwClient, votingModuleAddress])
 
   useEffect(() => {
@@ -153,16 +150,15 @@ const AssetDetailCard: React.FC<Props> = ({
       setUnstakingBalance('0')
       setClaimableBalance('0')
       setBalance('0')
-      setTokenAddress('')
     }
   }, [getInfo, show])
 
-  const handleAddTokenToKeplr = async () => {
-    const keplr = await (await import('@keplr-wallet/stores')).getKeplrFromWindow()
-    if (keplr && tokenAddress) {
-      await keplr.suggestToken(CHAIN_ID!, tokenAddress)
-    }
-  }
+  // const handleAddTokenToKeplr = async () => {
+  //   const keplr = await (await import('@keplr-wallet/stores')).getKeplrFromWindow()
+  //   if (keplr && tokenAddress) {
+  //     await keplr.suggestToken(CHAIN_ID!, tokenAddress)
+  //   }
+  // }
 
   const handleUpdate = () => {
     selectedDAOGroup?.coreAddress && updateDAOGroup(selectedDAOGroup?.coreAddress)
@@ -327,7 +323,7 @@ const AssetDetailCard: React.FC<Props> = ({
             </FlexBox>
             {/* Manage action */}
             <FlexBox $gap={3} width='100%' $justifyContent='flex-end'>
-              <Button
+              {/* <Button
                 variant='secondary'
                 size='flex'
                 height={40}
@@ -337,7 +333,7 @@ const AssetDetailCard: React.FC<Props> = ({
                 onClick={handleAddTokenToKeplr}
               >
                 Add token to Keplr
-              </Button>
+              </Button> */}
               <Button
                 variant='secondary'
                 size='flex'

@@ -16,7 +16,7 @@ import { ReactComponent as CopyIcon } from 'assets/images/icon-copy.svg'
 import * as Toast from 'utils/toast'
 import { useTheme } from 'styled-components'
 import { useAppSelector } from 'redux/hooks'
-import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { getEntityById } from 'redux/entities/entities.selectors'
 
 const IndividualMember: React.FC = () => {
   const theme: any = useTheme()

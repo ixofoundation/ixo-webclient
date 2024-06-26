@@ -15,7 +15,7 @@ import { isAccountAddress, isContractAddress } from 'utils/validation'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 import { useParams } from 'react-router-dom'
 import { useAppSelector } from 'redux/hooks'
-import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { getEntityById } from 'redux/entities/entities.selectors'
 
 export interface SendGroupTokenData {
   amount: string

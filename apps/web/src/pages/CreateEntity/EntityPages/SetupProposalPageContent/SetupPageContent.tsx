@@ -19,7 +19,7 @@ const SetupProposalPageContent: React.FC = () => {
   return (
     <SetupPageContent
       entityType={entityType}
-      page={page}
+      page={page as any}
       onChange={(page: any) => {
         updatePage(page)
         handleNext()

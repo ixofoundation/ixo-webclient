@@ -1,5 +1,5 @@
 import { useCallback } from 'react'
-import { selectStakingGroups } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { selectStakingGroups } from 'redux/entities/entities.selectors'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { claimAvailable } from 'utils/tokenClaim';
 import { plus } from 'utils/currency';
