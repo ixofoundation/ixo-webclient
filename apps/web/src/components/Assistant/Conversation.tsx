@@ -10,9 +10,9 @@ import {
 import { UserMessage, AssistantMessage, AssistantThinkingMessage, AssistantErrorMessage } from './Messages'
 import { useAppSelector } from 'redux/hooks'
 
-export default function Conversation() {
+export default function Conversation({ messages }: { messages: any[] }) {
   const viewport = useRef<HTMLDivElement>(null)
-  const messages = useAppSelector(selectAssistantMessages)
+  // const messages = useAppSelector(selectAssistantMessages)
   const isThinking = useAppSelector(selectAssistantIsThinking)
   const assistantError = useAppSelector(selectAssistantError)
 
@@ -29,12 +29,12 @@ export default function Conversation() {
   return (
     <ScrollArea viewportRef={viewport} p={0} h='100%' mah='450px'>
       <Flex id='Container' direction='column' justify='flex-end' style={{ flexGrow: 1 }} pt={0} mih='450px'>
-        {messages.map((message) => {
+        {messages?.map((message) => {
           if (message.role === 'user') return <UserMessage message={message.content} key={message.content} />
           if (message.role === 'assistant') return <AssistantMessage message={message.content} key={message.content} />
           return null
         })}
-        {assistantError && <AssistantErrorMessage error={assistantError} />}
+        {/* {assistantError && <AssistantErrorMessage error={assistantError} />} */}
         {isThinking && <AssistantThinkingMessage />}
       </Flex>
     </ScrollArea>

@@ -1,45 +1,42 @@
+import React from 'react'
 import { Button, ButtonProps } from '@mantine/core'
 import { useTheme } from 'styled-components'
 import { ReactComponent as SendPlaneIcon } from 'assets/images/icon-send-plane.svg'
 import { SvgBox } from 'components/App/App.styles'
 
-export default function SuggestionButton({ onClick, ...props }: ButtonProps & { onClick: () => void }) {
+type Props = ButtonProps & {
+  onClick: () => void
+}
+
+const SuggestionButton: React.FC<Props> = ({ onClick, ...props }) => {
   const theme: any = useTheme()
 
   return (
     <Button
-      style={{
-        inner: {
-          justifyContent: 'space-between',
-          '>span:last-child': { display: 'none' },
-          ':hover': {
-            '>span:last-child': { display: 'flex' },
-          },
-        },
+      styles={{
         root: {
           borderColor: theme.ixoNewBlue,
           color: theme.ixoNewBlue,
-          backgroundColor: theme.ixoWhite,
           ':hover': {
             backgroundColor: theme.ixoLightBlue,
           },
         },
       }}
-      py='3.5px'
-      pl='20px'
-      lh='20px'
-      h='28px'
-      fw={300}
-      radius='0'
-      variant='outline'
-      fullWidth
+      justify='space-between'
+      size='md'
+      w='100%'
+      radius={8}
       rightSection={
-        <SvgBox $svgWidth={5} $svgHeight={5} color={theme.ixoNewBlue}>
+        <SvgBox $svgWidth={5} $svgHeight={5}>
           <SendPlaneIcon />
         </SvgBox>
       }
-      onMouseDown={onClick}
-      {...props}
-    />
+      onClick={onClick}
+      style={{ background: theme.ixoNewBlue, color: theme.white }}
+    >
+      {props.children}
+    </Button>
   )
 }
+
+export default SuggestionButton

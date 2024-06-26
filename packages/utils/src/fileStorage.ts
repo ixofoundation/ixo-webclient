@@ -38,6 +38,9 @@ export const transformStorageEndpoint = (endpoint: string) => {
 
   if(endpoint.includes("cellnode")) {
     if(endpoint.includes("cellnode:")){
+      if(endpoint.includes("cellnode:/public/")){
+        return endpoint.replace("cellnode:/public/", fileStorage.cellnode.endpoint);
+      }
       return endpoint.replace("cellnode:/", fileStorage.cellnode.endpoint);
     }
   }

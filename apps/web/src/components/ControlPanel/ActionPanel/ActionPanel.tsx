@@ -1,4 +1,4 @@
-import ClaimPanel from "./ClaimPanel"
+import ClaimPanel from "./ClaimPanel/ClaimPanel"
 import KeyValuePanel from "./KeyValuePanel"
 
 type ActionPanelProps = {

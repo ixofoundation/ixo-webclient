@@ -14,7 +14,7 @@ import {
 } from 'redux/assistant/assistant.selectors'
 import { useTheme } from 'styled-components'
 
-export default function QueryInput() {
+export default function QueryInput({ sendMessage }: { sendMessage: (message: string) => void}) {
   const dispatch = useAppDispatch()
   const theme: any = useTheme()
   const [typedMessage, setTypedMessage] = useState('')
@@ -24,17 +24,17 @@ export default function QueryInput() {
   const isThinking = useAppSelector(selectAssistantIsThinking)
   const isUserSentMessages = useAppSelector(selectIsUserSentMessages)
 
-  function sendMessage(message?: string) {
-    dispatch(fetchInstantAssistantMessage(message || typedMessage))
-    setTypedMessage('')
-  }
+  // function sendMessage(message?: string) {
+  //   dispatch(fetchInstantAssistantMessage(message || typedMessage))
+  //   setTypedMessage('')
+  // }
 
-  function handleKeyDown(event: KeyboardEvent<HTMLTextAreaElement>) {
-    if (event.key === 'Enter') {
-      event.preventDefault()
-      sendMessage()
-    }
-  }
+  // function handleKeyDown(event: KeyboardEvent<HTMLTextAreaElement>) {
+  //   if (event.key === 'Enter') {
+  //     event.preventDefault()
+  //     sendMessage(typedMessage)
+  //   }
+  // }
 
   const isSuggestionsOpen = typedMessage === '' && isFocused && !isUserSentMessages && !isThinking
 
@@ -52,7 +52,7 @@ export default function QueryInput() {
       {(messages.length || null) && <ResetMessagesButton />}
       <Suggestions
         messages={['What is Ixo?', 'Analyse my Asset Performance', 'Explain my Impact Certificate']}
-        sendMessage={(m) => sendMessage(m)}
+        sendMessage={(m: string) => sendMessage(m)}
         isOpen={isSuggestionsOpen}
       />
       <Textarea
@@ -65,7 +65,7 @@ export default function QueryInput() {
         value={typedMessage}
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
-        onKeyDown={(e) => handleKeyDown(e)}
+        // onKeyDown={(e) => handleKeyDown(e)}
         onChange={(e) => {
           setTypedMessage(e.target.value)
         }}
