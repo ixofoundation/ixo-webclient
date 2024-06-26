@@ -11,6 +11,7 @@ import { tabs } from './tabs'
 import { useTabDesignConfig } from 'hooks/userInterface/useTabDesignConfig'
 import { toRootEntityType } from 'utils/entities'
 import { useMediaQuery } from '@mantine/hooks'
+import AssistantActiveLottie from 'components/Zlotties/AssistantActiveLottie'
 
 const NavigationTabsContainer = ({ children, border }: { children: ReactNode; border?: string }) => {
   const isTablet = useMediaQuery(`(max-width: ${em(810)})`);
@@ -123,10 +124,7 @@ const NavigationTabs = () => {
             bg={isCompanionOpen ? assistantActiveBackground : assistantBackground}
             onClick={handleAssistantClick}
           >
-            <AssistantIcon
-              stroke={isCompanionOpen ? assistantActiveColor : assistantColor}
-              fill={isCompanionOpen ? assistantActiveColor : assistantColor}
-            />
+            <AssistantActiveLottie />
           </ActionIcon>
         </Tooltip>
       </Flex>
