@@ -24,6 +24,7 @@ query ClaimCollectionsWithClaims($filter: ClaimCollectionFilter, $claimsByCollec
       quota
       evaluated
       entity
+      payments
       claimsByCollectionId(filter: $claimsByCollectionIdFilter) {
         nodes {
           claimId

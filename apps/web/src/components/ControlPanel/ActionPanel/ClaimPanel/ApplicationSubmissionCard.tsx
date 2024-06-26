@@ -1,5 +1,5 @@
 import { useWallet } from '@ixo-webclient/wallet-connector'
-import { Box, Flex, Text, Button, Badge } from '@mantine/core'
+import { Box, Flex, Text, Button, Badge, Grid } from '@mantine/core'
 import { useGetIid } from 'graphql/iid'
 import { useGetUserGranteeRole } from 'hooks/claim'
 import { useMemo } from 'react'
@@ -47,7 +47,7 @@ const ApplicationUnderReview = () => {
   return (
     <Box w='100%'>
       <Text>You have to be approved as an Agent to submit claims.</Text>
-      <Button w="100%" radius={4} size='md' disabled mt="md">
+      <Button w='100%' radius={4} size='md' disabled mt='md'>
         Application under review
       </Button>
     </Box>
@@ -67,11 +67,38 @@ const SubmitClaim = ({ data }: { data: any }) => {
   }, [claim, collectionProtocol])
 
   const openClaimForm = () => {
-      const currentSearchParams = new URLSearchParams(window.location.search)
-      currentSearchParams.append('claimId', claimWithProtocol?.id ?? '')
-      navigate({ pathname: pathname, search: currentSearchParams.toString() })
-    
+    const currentSearchParams = new URLSearchParams(window.location.search)
+    currentSearchParams.append('claimId', claimWithProtocol?.id ?? '')
+    navigate({ pathname: pathname, search: currentSearchParams.toString() })
   }
+
+  const { pending, approved, disputed, rejected } = useMemo(() => {
+    let pending = 0,
+      approved = 0,
+      disputed = 0,
+      rejected = 0
+    data.collection?.claimsByCollectionId?.nodes?.forEach((claim: any) => {
+      if (claim?.paymentsStatus?.approval === 'PAID') {
+        approved++
+      }
+      if (claim?.paymentsStatus?.rejection === 'AUTHORIZED') {
+        rejected++
+      }
+      if (
+        claim?.paymentsStatus?.approval === 'NO_PAYMENT' &&
+        claim?.paymentsStatus?.rejection === 'NO_PAYMENT' &&
+        claim?.paymentsStatus?.submission === 'PAID'
+      ) {
+        pending++
+      }
+      if (claim?.paymentsStatus?.approval === 'DISPUTED') {
+        disputed++
+      }
+    })
+    return { pending, approved, disputed, rejected }
+  }, [data.collection?.claimsByCollectionId?.nodes])
+
+
   return (
     <Box w='100%'>
       <Flex justify={'space-between'} align='center'>
@@ -80,6 +107,52 @@ const SubmitClaim = ({ data }: { data: any }) => {
           Agent
         </Badge>
       </Flex>
+      <Grid mt={'md'}>
+        <Grid.Col span={6}>
+          <Badge
+            c='black'
+            leftSection={<Box bg='blue' h='12' w='12' style={{ borderRadius: '100%' }} />}
+            color='gray.2'
+            size='lg'
+            w='100%'
+          >
+            {pending} pending
+          </Badge>
+        </Grid.Col>
+        <Grid.Col span={6}>
+          <Badge
+            c='black'
+            leftSection={<Box bg='green' h='12' w='12' style={{ borderRadius: '100%' }} />}
+            color='gray.2'
+            size='lg'
+            w='100%'
+          >
+            {approved} approved
+          </Badge>
+        </Grid.Col>
+        <Grid.Col span={6}>
+          <Badge
+            c='black'
+            leftSection={<Box bg='orange' h='12' w='12' style={{ borderRadius: '100%' }} />}
+            color='gray.2'
+            size='lg'
+            w='100%'
+          >
+            {disputed} disputed
+          </Badge>
+        </Grid.Col>
+        <Grid.Col span={6}>
+          <Badge
+            c='black'
+            leftSection={<Box bg='red' h='12' w='12' style={{ borderRadius: '100%' }} />}
+            color='gray.2'
+            size='lg'
+            w='100%'
+          >
+            {rejected} rejected
+          </Badge>
+        </Grid.Col>
+      </Grid>
       <Button w='100%' radius={4} size='md' mt='md' onClick={openClaimForm}>
         Submit new Claim
       </Button>

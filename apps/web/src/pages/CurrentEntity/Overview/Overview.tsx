@@ -10,6 +10,8 @@ import Page from './Page/Page'
 import { ResourceTable } from './Resources/Resources'
 import Claims from './Claims/Claims'
 import { ServiceTable } from './Services/Services'
+import { useKeyValueViewerContext } from 'contexts/KeyValueViewerContext'
+import { useEffect } from 'react'
 
 const Overview: React.FC = () => {
   const { entityId = '', tab = 'page' } = useParams<{ entityId: string; tab: string }>()
@@ -17,10 +19,19 @@ const Overview: React.FC = () => {
   const config = useAppSelector(selectEntityConfig)
   const primaryColor = config.theme.primaryColor ?? theme.ixoNewBlue
   const navigate = useNavigate()
+  const { resetKeyValue } = useKeyValueViewerContext()
 
   useEntityOverview(entityId)
 
+  useEffect(() => {
+    return () => {
+      resetKeyValue()
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[])
+
   const handleTabChange = (value: string | null) => {
+    resetKeyValue()
     if (value === tab) return
     navigate(`/entity/${entityId}/overview/${value}`)
   }
