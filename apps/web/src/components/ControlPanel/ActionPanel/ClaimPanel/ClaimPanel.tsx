@@ -5,6 +5,7 @@ import { useAppSelector } from 'redux/hooks'
 import { useTheme } from 'styled-components'
 import { ReactComponent as ClaimIcon } from 'assets/images/icon-claim.svg'
 import ApplicationSubmissionCard from './ApplicationSubmissionCard'
+import WithdrawEarningsCard from './WithdrawEarningsCard'
 
 const ClaimPanel = ({ data }: { data: any }) => {
   const theme = useTheme()
@@ -22,6 +23,7 @@ const ClaimPanel = ({ data }: { data: any }) => {
         </Text>
       </Flex>
       <ApplicationSubmissionCard data={data}/>
+      <WithdrawEarningsCard data={data} />
     </Flex>
   )
 }
