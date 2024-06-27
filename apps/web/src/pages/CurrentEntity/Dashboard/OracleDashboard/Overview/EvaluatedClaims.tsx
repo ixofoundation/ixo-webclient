@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react';
 import Table, { renderTableHeader } from 'components/Table/Table';
-import { truncateString } from 'utils/formatters';
 import { ReactComponent as IXOIcon } from 'assets/images/icon-ixo.svg';
 import { ReactComponent as EyeIcon } from 'assets/images/icon-eye.svg';
 import styled, { useTheme } from 'styled-components';
