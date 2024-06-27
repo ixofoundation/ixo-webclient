@@ -1,7 +1,7 @@
 export const EditorJsToBlockNote = (page: any[]) => {
   return page.reduce(
     (acc, block) => {
-      if (block.type === 'heroImage') {
+      if (block.type === 'heroImage' || block.type === 'image') {
         return {
           ...acc,
           featuredImage: block?.data?.file?.url ?? '',
