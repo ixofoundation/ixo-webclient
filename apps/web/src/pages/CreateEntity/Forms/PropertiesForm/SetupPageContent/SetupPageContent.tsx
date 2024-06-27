@@ -1,94 +1,50 @@
-import { Box } from 'components/App/App.styles'
-import { Button } from 'pages/CreateEntity/Components'
-import React, { useState, useCallback, useRef } from 'react'
-import { createReactEditorJS } from 'react-editor-js'
-import _ from 'lodash'
-// @ts-ignore
-import DragDrop from 'editorjs-drag-drop'
-// @ts-ignore
-import Undo from 'editorjs-undo'
-import { TEntityPageModel } from 'types/entities'
+import React, { useMemo, useState } from 'react'
 import { Wrapper, Row } from './SetupPageContent.styles'
-import { EDITOR_JS_TOOLS } from './SetupPageContent.constants'
-import { OutputBlockData, OutputData } from '@editorjs/editorjs'
-
-const ReactEditorJS = createReactEditorJS()
+import { Box, Button } from '@mantine/core'
+import Editor from 'components/Editor/Editor'
+import { TEntityPageModel } from 'types/entities'
+import { EditorJsToBlockNote } from 'components/Editor/utils/editorJsToBlockNote'
 
 interface Props {
   entityType: string
   page: TEntityPageModel
-  onChange?: (page: TEntityPageModel) => void
+  onChange?: (page: any) => void
   onClose: () => void
 }
 
-const SetupPageContent: React.FC<Props> = ({ page = {}, entityType, onChange, onClose }): JSX.Element => {
-  const editorCore = useRef(null)
+const SetupPageContent: React.FC<Props> = ({ page, entityType, onChange, onClose }): JSX.Element => {
+  const [pageObject, setPageObject] = useState<TEntityPageModel>()
 
-  const DefHeroImageData: OutputBlockData = {
-    id: 'page-hero-image',
-    type: 'heroImage',
-    data: undefined,
-  }
-
-  const DefPageTitleData: OutputBlockData = {
-    id: 'page-title',
-    type: 'pageTitle',
-    data: undefined,
-  }
-
-  const DefPageContentData: OutputBlockData = {
-    id: 'page-content',
-    type: 'pageContent',
-    data: undefined,
-  }
-
-  const [value, setValue] = useState<OutputData>({
-    time: new Date().getTime(),
-    blocks: [
-      ...(Object.keys(page).length > 0 ? _.values(page) : [DefHeroImageData, DefPageTitleData, DefPageContentData]),
-    ],
-  })
+  const initialPage = useMemo(() => {
+    if(Array.isArray(page)){
+      return EditorJsToBlockNote(page)
+    }
+    return {
+      featuredImage: page?.featuredImage ?? '',
+      pageTitle: page?.pageTitle ?? '',
+      content: page?.content
+    }
+  }, [page])
 
   const handleChange = (): void => {
-    onChange && onChange(_.keyBy(value.blocks, 'id'))
+    onChange && onChange(pageObject)
   }
-
-  const handleInitialize = useCallback((instance: any) => {
-    editorCore.current = instance
-  }, [])
-
-  const handleReady = useCallback(() => {
-    const editor = (editorCore.current as any)._editorJS
-    new Undo({ editor })
-    new DragDrop(editor)
-  }, [])
-
-  const handleSave = useCallback(async () => {
-    const data = await (editorCore.current as any).save()
-    setValue(data)
-  }, [])
 
   return (
     <Wrapper>
       <Row className='align-items-center justify-content-end'>
         <Box className='d-flex' style={{ gap: 20 }}>
-          <Button variant='secondary' onClick={onClose}>
+          <Button size='md' w='160' radius={'sm'} variant='outline' onClick={onClose}>
             Back
           </Button>
-          <Button variant='primary' onClick={handleChange}>
+          <Button size='md' w='160' radius={'sm'} variant='primary' onClick={handleChange}>
             Continue
           </Button>
         </Box>
       </Row>
 
       <Row style={{ display: 'block', pointerEvents: onChange ? 'auto' : 'none', padding: 32 }}>
-        <ReactEditorJS
-          onInitialize={handleInitialize}
-          onReady={handleReady}
-          tools={EDITOR_JS_TOOLS}
-          defaultValue={value}
-          onChange={handleSave}
-        />
+        <Editor editable={true} onChange={setPageObject} initialPage={initialPage} />
       </Row>
     </Wrapper>
   )

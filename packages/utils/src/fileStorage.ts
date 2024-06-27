@@ -4,6 +4,11 @@ export const fileStorage = {
     name: "W3S",
     generateEndpoint: (cid: string) => `https://${cid}.ipfs.w3s.link/`,
   },
+  cellnode: {
+    endpoint: "https://devnet-cellnode.ixo.earth/",
+    name: "Cellnode",
+    generateEndpoint: (cid: string) => `${process.env.REACT_APP_PDS_URL}public/${cid}`,
+  }
 };
 
 const getIPFSDotIOProof = (endpoint: string) => {
@@ -25,6 +30,18 @@ export const transformStorageEndpoint = (endpoint: string) => {
       if (cid) {
         return fileStorage.ipfs.generateEndpoint(cid);
       }
+    }
+    if(endpoint.includes("ipfs:")){
+      return fileStorage.ipfs.generateEndpoint(endpoint.replace("ipfs:", ""));
+    }
+  }
+
+  if(endpoint.includes("cellnode")) {
+    if(endpoint.includes("cellnode:")){
+      if(endpoint.includes("cellnode:/public/")){
+        return endpoint.replace("cellnode:/public/", fileStorage.cellnode.endpoint);
+      }
+      return endpoint.replace("cellnode:/", fileStorage.cellnode.endpoint);
     }
   }
 

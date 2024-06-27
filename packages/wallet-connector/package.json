@@ -20,8 +20,8 @@
     "@ixo/cosmos-chain-resolver": "^0.0.5",
     "@ixo/impactxclient-sdk": "*",
     "@ixo/signx-sdk": "1.0.0",
-    "@mantine/core": "^7.2.2",
-    "@mantine/hooks": "^7.2.2",
+    "@mantine/core": "^7.10.1",
+    "@mantine/hooks": "^7.10.1",
     "@tabler/icons-react": "^2.46.0",
     "assert": "^2.1.0",
     "bs58": "5.0.0",
@@ -41,8 +41,8 @@
   "devDependencies": {
     "@vitejs/plugin-react": "^4.2.0",
     "concurrently": "^8.2.2",
-    "react": "^18.2.0",
-    "react-dom": "18.2.0",
+    "react": "^18.3.1",
+    "react-dom": "18.3.1",
     "tsc-alias": "^1.8.8",
     "vite": "^5.0.2"
   },

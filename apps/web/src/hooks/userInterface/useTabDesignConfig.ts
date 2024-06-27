@@ -2,7 +2,7 @@ import { useQuery } from 'hooks/window'
 import { lowerCase } from 'lodash'
 import { useParams } from 'react-router-dom'
 import { selectEntityConfig } from 'redux/configs/configs.selectors'
-import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { getEntityById } from 'redux/entities/entities.selectors'
 import { useAppSelector } from 'redux/hooks'
 
 export const useTabDesignConfig = () => {

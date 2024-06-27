@@ -4,7 +4,7 @@ import { useHeaderTabs } from 'hooks/headerTabs'
 import { Navigate, Route, Routes, useParams } from 'react-router-dom'
 import AssetOverview from './Overview'
 import { useAppSelector } from 'redux/hooks'
-import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { getEntityById } from 'redux/entities/entities.selectors'
 import { toRootEntityType } from 'utils/entities'
 
 const AssetDashboard = () => {

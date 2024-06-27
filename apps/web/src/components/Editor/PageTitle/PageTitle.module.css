@@ -1,0 +1,7 @@
+.pageTitleInput {
+    font-size: 60px !important; /* Sets the size of the text inside the input field */
+}
+
+.pageTitleInput::placeholder {
+    font-size: 60px !important; /* Sets the size of the placeholder text */
+}

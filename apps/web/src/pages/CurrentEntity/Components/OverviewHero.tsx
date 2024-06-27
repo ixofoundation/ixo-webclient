@@ -17,7 +17,7 @@ import { requireCheckDefault } from 'utils/images'
 import { useHeaderTabs } from 'hooks/headerTabs'
 import { MatchType } from 'types/models'
 import { useAppSelector } from 'redux/hooks'
-import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { selectEntityConfig } from 'redux/entities/entities.selectors'
 
 interface Props {
   $onlyTitle: boolean
@@ -32,6 +32,7 @@ interface Props {
   location?: string
   creatorName: string
   creatorLogo: string
+  image?: string
 
   entityType: string
 }
@@ -42,7 +43,7 @@ const OverviewHero: React.FunctionComponent<Props> = ({
   light = false,
   assistantFixed = false,
   assistantPanelToggle,
-
+  image,
   startDate,
   name,
   description,
@@ -71,7 +72,7 @@ const OverviewHero: React.FunctionComponent<Props> = ({
 
   return (
     <>
-      <HeroContainer $onlyTitle={$onlyTitle} light={light ? 1 : 0}>
+      <HeroContainer $onlyTitle={$onlyTitle} light={light ? 1 : 0} imageUrl={image}>
         <HeroInner className='detailed'>
           <div className='row'>
             <div className='col-sm-12'>

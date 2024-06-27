@@ -2,7 +2,7 @@ import { connectRouter } from 'connected-react-router'
 import { combineReducers } from 'redux'
 import { reducer as accountReducer } from 'redux/account/account.reducer'
 import { reducer as configsReducer } from 'redux/configs/configs.reducer'
-import { reducer as entitiesReducer } from 'redux/entitiesExplorer/entitiesExplorer.reducer'
+import { reducer as entities } from 'redux/entities/entities.reducer'
 import { reducer as newEntityReducer } from 'redux/createEntity/createEntity.reducer'
 import { reducer as newEntityAsActionReducer } from 'redux/createEntityAsAction/createEntityAsAction.reducer'
 import { reducer as transferEntityReducer } from 'redux/transferEntity/transferEntity.reducer'
@@ -21,9 +21,9 @@ import { multiStepReducer } from './entityMultiStepCreation/slice'
 
 export const rootReducer = (history: any) =>
   combineReducers({
+    entities,
     activeBond: bondReducer,
     account: accountReducer,
-    entities: entitiesReducer,
     configs: configsReducer,
     newEntity: newEntityReducer,
     newEntityAsAction: newEntityAsActionReducer,

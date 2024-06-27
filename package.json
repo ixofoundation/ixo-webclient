@@ -7,8 +7,9 @@
     ]
   },
   "name": "ixo-webclient",
+  "packageManager": "yarn@1.22.10",
   "scripts": {
-    "build": "turbo build --concurrency=1",
+    "build": "turbo build --concurrency=1 --no-cache --force",
     "clean": "turbo clean",
     "dev": "turbo dev --no-cache --force",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
@@ -21,6 +22,6 @@
     "@ixo-webclient/tsconfig": "*",
     "postinstall-postinstall": "^2.1.0",
     "prettier": "^3.1.0",
-    "turbo": "latest"
+    "turbo": "1.11.3"
   }
 }

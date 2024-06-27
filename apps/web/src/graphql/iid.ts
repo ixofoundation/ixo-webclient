@@ -8,7 +8,7 @@ import { AgentRoles } from 'types/models'
 import { useGetClaimCollectionsByEntityId } from './claims'
 import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { useAppSelector } from 'redux/hooks'
-import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { getEntityById } from 'redux/entities/entities.selectors'
 
 // GET_USER_IIDS
 const GET_USER_IIDS = gql`

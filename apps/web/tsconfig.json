@@ -1,7 +1,7 @@
 {
   "extends": "@ixo-webclient/tsconfig/base.json",
   "compilerOptions": {
-    "target": "es6",
+    "target": "es2018",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,

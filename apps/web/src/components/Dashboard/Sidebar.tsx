@@ -70,7 +70,7 @@ export const Container = styled.div`
   top: auto;
   display: none;
   justify-content: space-evenly;
-  height: auto;
+  height: 100%; /* Ensure the sidebar container fills the height */
   z-index: 1;
   background: linear-gradient(180deg, #012639 0%, #002d42 97.29%);
 

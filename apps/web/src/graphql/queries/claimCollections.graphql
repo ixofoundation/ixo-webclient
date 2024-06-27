@@ -1,11 +1,40 @@
 query ClaimCollections($filter: ClaimCollectionFilter) {
   claimCollections(filter: $filter) {
     nodes {
+      id
+      protocol
       rejected
       approved
       count
+      quota
       evaluated
       entity
+    }
+  }
+}
+
+query ClaimCollectionsWithClaims($filter: ClaimCollectionFilter, $claimsByCollectionIdFilter: ClaimFilter) {
+  claimCollections(filter: $filter) {
+    nodes {
+      id
+      protocol
+      rejected
+      approved
+      count
+      quota
+      evaluated
+      entity
+      payments
+      claimsByCollectionId(filter: $claimsByCollectionIdFilter) {
+        nodes {
+          claimId
+          paymentsStatus
+          submissionDate
+          evaluationByClaimId {
+            status
+          }
+        }
+      }
     }
   }
 }

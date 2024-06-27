@@ -1,11 +1,8 @@
 import React from 'react';
-import { EDITOR_JS_TOOLS } from 'pages/CreateEntity/Forms/PropertiesForm/SetupPageContent/SetupPageContent.constants';
-import { createReactEditorJS } from 'react-editor-js';
 import styled from 'styled-components';
 import { Box } from 'components/App/App.styles';
-import { TEntityPageSectionModel } from 'types/entities';
-
-const ReactEditorJS = createReactEditorJS();
+import { TEntityPageModel } from 'types/entities';
+import Editor from 'components/Editor/Editor';
 
 const Wrapper = styled(Box)`
   width: 100%;
@@ -30,24 +27,13 @@ const Wrapper = styled(Box)`
 `;
 
 interface Props {
-  page: TEntityPageSectionModel[] | undefined;
+  page: TEntityPageModel
 }
 
 const PageContent: React.FC<Props> = ({ page }) => {
-  const nonEmptyPage = (page ?? []).filter((content) => !!content.data);
-
-  // If there's no content yet, show skeleton loaders
-  if (nonEmptyPage.length === 0) {
-    return null
-  }
-
   return (
     <Wrapper>
-      <ReactEditorJS
-        tools={EDITOR_JS_TOOLS}
-        defaultValue={{ time: new Date().getTime(), blocks: nonEmptyPage }}
-        readOnly
-      />
+      <Editor initialPage={page} editable={false} />
     </Wrapper>
   );
 };

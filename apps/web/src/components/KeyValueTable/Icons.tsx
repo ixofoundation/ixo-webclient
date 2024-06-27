@@ -1,7 +1,7 @@
 import { LiaCodeSolid, LiaExternalLinkAltSolid, LiaFile, LiaFilePdf } from 'react-icons/lia'
 
 const iconStyles = {
-  size: 24,
+  size: 30,
 }
 
 export const getLinkedResourceIcons = (mediaType: string, styles?: { color: string }) => {

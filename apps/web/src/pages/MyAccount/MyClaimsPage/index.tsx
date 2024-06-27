@@ -14,7 +14,7 @@ import { GasPrice } from '@cosmjs/stargate'
 import { OfflineSigner } from '@cosmjs/proto-signing'
 import { useEffect, useState } from 'react'
 import { TEntityProfileModel } from 'types/entities'
-import { fileStorage } from '@ixo-webclient/utils'
+import { transformStorageEndpoint } from '@ixo-webclient/utils'
 
 const getClaimAmount = (claim: Partial<Claim>) => {
   if (claim.evaluationByClaimId?.amount?.length > 0) {
@@ -29,7 +29,7 @@ const ClaimButton = ({
   admin,
   claimId,
   paymentType,
-  refetch
+  refetch,
 }: {
   submission: string
   admin: string
@@ -119,7 +119,15 @@ const ClaimButton = ({
   )
 }
 
-const ClaimLine = ({ claim, profile, refetch }: { claim: Partial<Claim>; profile: TEntityProfileModel, refetch: () => void }) => {
+const ClaimLine = ({
+  claim,
+  profile,
+  refetch,
+}: {
+  claim: Partial<Claim>
+  profile: TEntityProfileModel
+  refetch: () => void
+}) => {
   const theme = useTheme()
   return (
     <Flex w='100%' direction={'column'} p={10} bg={theme.ixoDarkBlue} style={{ cursor: 'pointer', borderRadius: 10 }}>
@@ -155,7 +163,7 @@ const MyclaimsPage = () => {
     condition: {
       agentAddress: wallet?.address,
     },
-    orderBy: [ClaimsOrderBy.SubmissionDateDesc]
+    orderBy: [ClaimsOrderBy.SubmissionDateDesc],
   }
   const { data, refetch, loading } = useClaimsQuery({
     variables: queryVariables,
@@ -171,8 +179,9 @@ const MyclaimsPage = () => {
         .then(async (response: { data?: any }) => {
           const entityProfilePromises = await Promise.all(
             (response.data?.entities?.nodes ?? []).map(async (entity: any) => {
-              const [service, cid] = entity.settings['Profile']?.serviceEndpoint.split(":") ?? [null, null]
-              const response = await fetch(fileStorage[service].generateEndpoint(cid)).then((response) => response.json())
+              const response = await fetch(transformStorageEndpoint(entity.settings['Profile']?.serviceEndpoint)).then(
+                (response) => response.json(),
+              )
               return { ...response, did: entity.id }
             }),
           )
@@ -194,9 +203,14 @@ const MyclaimsPage = () => {
   return (
     <Flex direction={'column'} gap={40}>
       <Flex direction={'column'} gap={10}>
-        {loading && <Skeleton h={100} radius={"md"}/>}
+        {loading && <Skeleton h={100} radius={'md'} />}
         {claimsWithCollectionInformation.map(({ claim, profile }) => (
-          <ClaimLine key={claim.claimId} claim={claim as Claim} profile={profile} refetch={() => refetch(queryVariables)}/>
+          <ClaimLine
+            key={claim.claimId}
+            claim={claim as Claim}
+            profile={profile}
+            refetch={() => refetch(queryVariables)}
+          />
         ))}
       </Flex>
     </Flex>

@@ -10,7 +10,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { useParams } from 'react-router-dom'
 import { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
 import { ProposalActionConfig } from 'constants/entity'
-import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { getEntityById } from 'redux/entities/entities.selectors'
 import { useAppSelector } from 'redux/hooks'
 
 interface Props {

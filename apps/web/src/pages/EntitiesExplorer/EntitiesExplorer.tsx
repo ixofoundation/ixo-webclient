@@ -5,13 +5,13 @@ import {
   filterSector,
   changeEntitiesType,
   resetSectorFilter,
-} from 'redux/entitiesExplorer/entitiesExplorer.actions'
+} from 'redux/entities/entities.actions'
 import { EntityType, EntityTypeStrategyMap, TEntityDDOTagModel } from 'types/entities'
 import * as entitiesUtils from 'utils/entities'
 import queryString from 'query-string'
 import { ErrorContainer } from './EntitiesExplorer.container.styles'
 import { RootState } from 'redux/store'
-import { selectEntityConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { selectEntityConfig } from 'redux/entities/entities.selectors'
 import { Navigate } from 'react-router-dom'
 import { useIxoConfigs } from 'hooks/configs'
 

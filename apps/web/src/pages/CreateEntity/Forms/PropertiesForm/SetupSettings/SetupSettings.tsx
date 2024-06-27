@@ -129,19 +129,6 @@ const SetupSettings: React.FC<Props> = ({
     } // eslint-disable-next-line
   }, [JSON.stringify(entitySettings.ddoTags?.data)])
 
-  // hooks - page
-  useEffect(() => {
-    if (page) {
-      handleUpdateEntitySetting('page', page)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [JSON.stringify(page)])
-  useEffect(() => {
-    if (Object.keys(entitySettings.page?.data ?? {}).length > 0) {
-      updatePage(entitySettings.page.data)
-    } // eslint-disable-next-line
-  }, [JSON.stringify(entitySettings.page?.data)])
-
   // hooks - service
   useEffect(() => {
     if (service) {
@@ -155,6 +142,18 @@ const SetupSettings: React.FC<Props> = ({
     } // eslint-disable-next-line
   }, [JSON.stringify(entitySettings.service?.data)])
 
+  useEffect(() => {
+    if(page && !entitySettings.page.data){
+      handleAddEntitySetting('page')
+      handleUpdateEntitySetting('page', page)
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[])
+
+  const persistPageToStore = (page: any): void => {
+    updatePage(page)
+  }
+
   if (entitySettings.page.openModal) {
     document.querySelector('#setup-property-tabs')?.setAttribute('style', 'display: none;')
     document.querySelector('#setup-property-actions')?.setAttribute('style', 'display: none;')
@@ -162,10 +161,11 @@ const SetupSettings: React.FC<Props> = ({
     return (
       <SetupPageContent
         entityType={entityType}
-        page={entitySettings.page.data}
-        onChange={(page: TEntityPageModel): void => {
+        page={page as any}
+        onChange={(page: any): void => {
           handleUpdateEntitySetting('page', page)
           handleOpenEntitySettingModal('page', false)
+          persistPageToStore(page)
         }}
         onClose={(): void => handleOpenEntitySettingModal('page', false)}
       />

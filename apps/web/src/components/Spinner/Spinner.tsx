@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 
-import { selectEntityThemeConfig } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { selectEntityThemeConfig } from 'redux/entities/entities.selectors'
 import { useAppSelector } from 'redux/hooks'
 import { LoaderContainer, Pulse } from './Spinner.styles'
 
