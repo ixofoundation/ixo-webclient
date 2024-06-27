@@ -38,7 +38,7 @@ const FeaturedImage = ({ onChange, initialImage, editable = true }: FeaturedImag
       )}
       {image && (
         <Flex className={classes.imageContainer}>
-          <Image w={'100%'} src={image} />
+          <Image w={'100%'} src={image} mx="auto"/>
           {editable && (
             <div className={classes.overlay}>
               <Button onClick={open}>Replace Image</Button>
