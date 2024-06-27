@@ -8,11 +8,11 @@ import { useTheme } from 'styled-components'
 import { ReactComponent as CopyIcon } from 'assets/images/icon-copy.svg'
 import moment from 'moment'
 import { ReactComponent as ClockIcon } from 'assets/images/icon-clock.svg'
-import ClaimLocation from './ClaimLocation'
+// import ClaimLocation from './ClaimLocation'
 import { withEntityData } from 'components'
 import CopyToClipboard from 'react-copy-to-clipboard'
 import { successToast } from 'utils/toast'
-import LatestClaims from './LatestClaims'
+// import LatestClaims from './LatestClaims'
 import EvaluatedClaims from './EvaluatedClaims'
 import { useParams } from 'react-router-dom'
 import { useAppSelector } from 'redux/hooks'
@@ -176,17 +176,17 @@ const Overview: React.FC = () => {
     </Card>
   )
 
-  const renderClaimLocations = () => (
-    <Card icon={<PiePieceIcon />} label='Claim Locations'>
-      <ClaimLocation />
-    </Card>
-  )
+  // const renderClaimLocations = () => (
+  //   <Card icon={<PiePieceIcon />} label='Claim Locations'>
+  //     <ClaimLocation />
+  //   </Card>
+  // )
 
-  const renderLatestClaims = () => (
-    <Card icon={<PiePieceIcon />} label='Latest Claims'>
-      <LatestClaims />
-    </Card>
-  )
+  // const renderLatestClaims = () => (
+  //   <Card icon={<PiePieceIcon />} label='Latest Claims'>
+  //     <LatestClaims />
+  //   </Card>
+  // )
 
   const renderEvaluatedClaims = () => (
     <Card label='Evaluated Claims' icon={<ClockIcon />}>
@@ -208,10 +208,10 @@ const Overview: React.FC = () => {
       <FlexBox width='100%' height='320px'>
         {renderClaimEvaluation()}
       </FlexBox>
-      <FlexBox width='100%' height='400px' $gap={6}>
+      {/* <FlexBox width='100%' height='400px' $gap={6}>
         {renderClaimLocations()}
         {renderLatestClaims()}
-      </FlexBox>
+      </FlexBox> */}
       <FlexBox width='100%'>{renderEvaluatedClaims()}</FlexBox>
     </FlexBox>
   )

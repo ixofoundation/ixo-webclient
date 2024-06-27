@@ -94,24 +94,6 @@ const EvaluatedClaims = ({ evaluatedClaims }: EvaluatedClaimsProps) => {
         ),
       },
       {
-        Header: renderTableHeader('Impact'),
-        accessor: 'impact',
-        Cell: ({ cell }) => (
-          <FlexBox p={5}>
-            <Typography>235 kgCO2e</Typography>
-          </FlexBox>
-        ),
-      },
-      {
-        Header: renderTableHeader('Proof'),
-        accessor: 'proof',
-        Cell: ({ cell }) => (
-          <FlexBox p={5}>
-            <Typography color='blue'>{truncateString(cell.value, 10)}</Typography>
-          </FlexBox>
-        ),
-      },
-      {
         Header: renderTableHeader('Value'),
         accessor: 'value',
         Cell: ({ cell }) => (
