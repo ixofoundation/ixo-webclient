@@ -10,7 +10,7 @@ export const getPage = async ({ setting, service }: { setting: any; service: any
     .then((response) => response.json())
     .then((response) => {
       if ('@context' in response && 'page' in response) {
-        return { 'page': response.page };
+        return { 'page':  response.page };
       }
 
       return { 'pageLegacy': replacePDSWithCellNode(response) };
