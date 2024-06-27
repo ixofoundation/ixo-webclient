@@ -6,6 +6,7 @@ import {
 import { useEffect, useMemo, useState } from 'react'
 
 export const useCarbonOracleClaimAggregate = ({ entityIds }: { entityIds: string[] }) => {
+  const [evaluatedClaims, setEvaluatedClaims] = useState()
   const [{ minted }, setEvaluationMetrics] = useState<{ minted: number; retired: number }>({
     minted: 0,
     retired: 0,
@@ -19,6 +20,10 @@ export const useCarbonOracleClaimAggregate = ({ entityIds }: { entityIds: string
         },
       },
     },
+    onCompleted: async (data) => {
+      // const evaluations = await gatherEvaluatedClaimProofs(data?.evaluations?.nodes as any, 10)
+      setEvaluatedClaims(data?.evaluations?.nodes as any)
+    }
   })
 
   const { data: claimCollectionData } = useClaimCollectionsQuery({
@@ -79,5 +84,6 @@ export const useCarbonOracleClaimAggregate = ({ entityIds }: { entityIds: string
     claimsApproved,
     approvedPercentage,
     minted,
+    evaluatedClaims
   }
 }

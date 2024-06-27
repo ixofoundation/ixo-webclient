@@ -4,8 +4,15 @@ import { ReactComponent as ClockIcon } from 'assets/images/icon-clock-2.svg'
 import { ReactComponent as ClaimIcon } from 'assets/images/icon-claim.svg'
 import { ReactComponent as ImpactTokenIcon } from 'assets/images/icon-impact-token2.svg'
 import { ReactComponent as CheckCircleIcon } from 'assets/images/icon-check-circle.svg'
+import { useCarbonOracleClaimAggregate } from 'hooks/oracle/useCarbonOracleClaimAggregate'
+import { useParams } from 'react-router-dom'
 
 const OraclePerformance: React.FC = () => {
+  const { entityId = '' } = useParams<{ entityId: string }>()
+  const { minted, totalEvaluatedClaims, approvedPercentage } = useCarbonOracleClaimAggregate({
+    entityIds: [entityId],
+  })
+
   return (
     <Card
       icon={<ClockIcon />}
@@ -14,15 +21,15 @@ const OraclePerformance: React.FC = () => {
       items={[
         {
           icon: <ClaimIcon />,
-          content: `${(1290).toLocaleString()} Claims processed`, // TODO:
+          content: `${(totalEvaluatedClaims).toLocaleString()} Claims processed`,
         },
         {
           icon: <ImpactTokenIcon />,
-          content: `${(10250).toLocaleString()} Impact Tokens Issued`, // TODO:
+          content: `${(minted).toLocaleString()} Impact Tokens Issued`, 
         },
         {
           icon: <CheckCircleIcon />,
-          content: '91.3% Approval Rate', // TODO:
+          content: `${approvedPercentage.toFixed(2)} Approval Rate`,
         },
       ]}
     />
