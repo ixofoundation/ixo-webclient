@@ -255,6 +255,10 @@ export interface EntityConfig extends EntityTypeStrategyMap {
       }
     }
     companion: {
+      lottie: {
+        idle: string
+        active: string
+      },
       toolbar: {
         background: string
         color: string

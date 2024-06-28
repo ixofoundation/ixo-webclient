@@ -19,6 +19,7 @@ import ActionPanel from './ActionPanel/ActionPanel'
 import { GoArrowLeft } from 'react-icons/go'
 import { useLocation, useNavigate } from 'react-router-dom'
 import Assistant from 'components/Assistant'
+import AssistantActiveLottie from 'components/Zlotties/AssistantActiveLottie'
 
 const StyledScrollArea = styled(ScrollArea)`
   & > div > div {
@@ -136,7 +137,7 @@ const ControlPanel = ({ entityType }: Props) => {
                 bg={activeTab === 'assistant' ? toolbarActiveBackground : toolbarBackground}
                 onClick={() => setActiveTab('assistant')}
               >
-                <AssistantIcon color={activeTab === 'assistant' ? toolbarActiveColor : toolbarColor} />
+                {activeTab === 'assistant' ? <AssistantActiveLottie /> : <AssistantIcon />}
               </ActionIcon>
             </Tooltip>
           )}

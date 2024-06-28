@@ -10,6 +10,10 @@
   "UI": {
     "logo": "ImpactsDAO_icon_only",
     "companion": {
+      "lottie": {
+        "idle": "white",
+        "active": "white"
+      },
       "toolbar": {
         "color": "#00D2FF",
         "background": "#FFFFFF",
