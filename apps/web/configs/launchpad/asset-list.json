@@ -27,9 +27,9 @@
         "coingeckoId": "ixo"
       },
       {
-        "symbol": "USDC",
+        "symbol": "ibc/6BBE9BD4246F8E04948D5A4EEE7164B2630263B9EBB5E7DC5F0A46C62A2FF97B",
         "description": "US Dollar Coin",
-        "display": "USDC",
+        "display": "USDC (Noble)",
         "entityId": "did:ixo:usdc",
         "assetType": "coin",
         "base": "uusdc",
