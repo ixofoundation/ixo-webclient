@@ -9,10 +9,8 @@ import ClaimCollectionCreationPaymentStep from './Payment'
 import ClaimCollectionCreationReviewStep from './Review'
 import ClaimCollectionCreationScopeStep from './Scope'
 import ClaimCollectionCreationSelectStep from './Select'
-import ClaimCollectionCreationStartStep from './Start'
 import ClaimCollectionCreationSubmissionStep from './Submission'
 import ClaimCollections from '../ClaimCollections'
-import { useGetClaimCollectionsByEntityId } from 'graphql/claims'
 import ClaimCollectionCreationSuccessStep from './Success'
 import { useGetUserGranteeRole } from 'hooks/claim'
 import { AgentRoles } from 'types/models'
@@ -27,7 +25,6 @@ const ClaimCollectionCreation: React.FC = () => {
   const { entityId = '' } = useParams<{ entityId: string }>()
   const { type, claim: claims = {}, accounts, owner, verificationMethod } = useAppSelector(getEntityById(entityId))
   const { execute, wallet, close, transaction } = useWallet()
-  const { isExist: isCollectionExist } = useGetClaimCollectionsByEntityId(entityId)
   const userRole = useGetUserGranteeRole(wallet?.address ?? '', owner, accounts, verificationMethod)
   const { fetchEntityById } = useGetEntityByIdLazyQuery()
   const createCollection = useCreateClaimCollection()
@@ -105,18 +102,18 @@ const ClaimCollectionCreation: React.FC = () => {
         throw 'Invalid Property'
       }
       const payload = {
-          entity: {
-            id: entityId,
-            owner: owner,
-          },
-          payload: {
-            protocol: claim.template?.id.split('#')[0],
-            startDate: data.startDate,
-            endDate: data.endDate,
-            quota: data.quota || '0',
-            payments: data.payments,
-          },
-        }
+        entity: {
+          id: entityId,
+          owner: owner,
+        },
+        payload: {
+          protocol: claim.template?.id.split('#')[0],
+          startDate: data.startDate,
+          endDate: data.endDate,
+          quota: data.quota || '0',
+          payments: data.payments,
+        },
+      }
 
       const response = (await createCollection(payload)) as unknown as DeliverTxResponse
 
@@ -148,13 +145,9 @@ const ClaimCollectionCreation: React.FC = () => {
   }
 
   if (step === 'start') {
-    return (
-      <>
-        {userRole === AgentRoles.owners && <ClaimCollectionCreationStartStep onSubmit={() => setStep('select')} />}
-        {isCollectionExist && <ClaimCollections />}
-      </>
-    )
+    return <ClaimCollections canCreate={userRole === AgentRoles.owners} onCreate={() => setStep('select')} />
   }
+
   return (
     <>
       <ClaimCollectionCreationSelectStep

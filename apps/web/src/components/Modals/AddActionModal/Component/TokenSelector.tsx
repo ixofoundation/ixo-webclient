@@ -11,13 +11,18 @@ const TokenSelector: React.FC<Props> = ({ denom, onChange }): JSX.Element => {
   const { getAssetPairs } = useIxoConfigs()
   const assetPairs = getAssetPairs()
 
+  const handleChange = (value: any) => {
+    console.log({value})
+    onChange(value)
+  }
+
   return (
     <Dropdown
       name={'token'}
       value={denom}
-      options={assetPairs.map((asset) => ({ value: asset.display, text: `$${asset.display.toUpperCase()}` }))}
+      options={assetPairs.map((asset) => ({ value: asset.denom, text: `$${asset.display.toUpperCase()}` }))}
       $hasArrow={false}
-      onChange={(e) => onChange(e.target.value)}
+      onChange={(e) => handleChange(e.target.value)}
       style={{ textAlign: 'center' }}
     />
   )
