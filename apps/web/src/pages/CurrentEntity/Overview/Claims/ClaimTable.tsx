@@ -149,8 +149,6 @@ const ClaimTable = () => {
     )
   }
 
-  console.log({ claimTableData })
-
   return (
     <KeyValueTable
       valueType={'claim'}

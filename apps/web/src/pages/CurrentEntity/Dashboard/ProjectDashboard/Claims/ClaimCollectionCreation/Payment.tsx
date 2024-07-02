@@ -36,18 +36,13 @@ const ClaimCollectionCreationPaymentStep: React.FC<Props> = ({ hidden, onSubmit,
   const [rejectionAmount, setRejectionAmount] = useState<Coin>({ amount: '', denom: NATIVE_DENOM })
 
   const disabled = useMemo(
-    () =>
-      !approvalAmount.amount ||
-      !submissionAmount.amount ||
-      !evaluationAmount.amount ||
-      !rejectionAmount.amount,
+    () => !approvalAmount.amount || !submissionAmount.amount || !evaluationAmount.amount || !rejectionAmount.amount,
     [approvalAmount.amount, evaluationAmount.amount, rejectionAmount.amount, submissionAmount.amount],
   )
 
   const handleSubmit = () => {
     const seconds = convertDurationWithUnitsToSeconds({ units: timeoutUnits, value: timeouts })
     const timeoutNs = utils.proto.toDuration(convertSecondsToNanoSeconds(seconds)) // ns * seconds * minutes * hours * days
-    console.log({ approvalAmount, submissionAmount, evaluationAmount, rejectionAmount })
     const payments: Payments = ixo.claims.v1beta1.Payments.fromPartial({
       approval: ixo.claims.v1beta1.Payment.fromPartial({
         account: paymentsAccount,
@@ -70,8 +65,7 @@ const ClaimCollectionCreationPaymentStep: React.FC<Props> = ({ hidden, onSubmit,
         timeoutNs,
       }),
     })
-    console.log({payments})
-    // onSubmit(payments)
+    onSubmit(payments)
   }
 
   if (hidden) {

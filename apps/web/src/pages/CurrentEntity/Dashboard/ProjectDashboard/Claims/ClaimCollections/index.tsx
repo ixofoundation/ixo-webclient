@@ -129,8 +129,6 @@ const ClaimCollections = ({ onCreate, canCreate }: { onCreate: () => void; canCr
   const [collectionId, setCollectionId] = useState('')
   const [options, setOptions] = useState<any[]>([])
 
-  console.log({ options })
-
   useEffect(() => {
     claimCollectionSelectOptions(claimCollections).then((options) => {
       setOptions(options)
