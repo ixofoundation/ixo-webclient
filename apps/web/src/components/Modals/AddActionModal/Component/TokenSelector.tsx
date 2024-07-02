@@ -12,7 +12,6 @@ const TokenSelector: React.FC<Props> = ({ denom, onChange }): JSX.Element => {
   const assetPairs = getAssetPairs()
 
   const handleChange = (value: any) => {
-    console.log({value})
     onChange(value)
   }
 
