@@ -14,6 +14,9 @@ export const useClaimTableData = ({ entityId }: { entityId: string }) => {
         entity: {
           equalTo: entityId,
         },
+        state: {
+          equalTo: 0
+        }
       },
       claimsByCollectionIdFilter: {
         agentDid: {
@@ -44,9 +47,16 @@ export const useClaimTableData = ({ entityId }: { entityId: string }) => {
           )
 
           setClaimTableData(
-            collections.map((collection) => ({
+            Object.values(collections.reduce((acc, collection) => {
+              // Check if this protocol already exists in the accumulator
+              if (!acc[collection.protocol] || acc[collection.protocol].id < collection.id) {
+                // If it doesn't exist or the current collection has a higher ID, update the accumulator
+                acc[collection.protocol] = collection;
+              }
+              return acc;
+            }, {})).map((collection: any) => ({
               collection,
-              profile: entityProfilePromises.find((profile) => profile.did === collection.protocol),
+              profile: entityProfilePromises.find(profile => profile.did === collection.protocol),
               lastClaim: collection.claimsByCollectionId.nodes?.length > 0 ? collection.claimsByCollectionId.nodes[0] : null
             })) as any[],
           )

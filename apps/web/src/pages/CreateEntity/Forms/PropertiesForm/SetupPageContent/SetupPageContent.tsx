@@ -3,6 +3,7 @@ import { Wrapper, Row } from './SetupPageContent.styles'
 import { Box, Button } from '@mantine/core'
 import Editor from 'components/Editor/Editor'
 import { TEntityPageModel } from 'types/entities'
+import { EditorJsToBlockNote } from 'components/Editor/utils/editorJsToBlockNote'
 
 interface Props {
   entityType: string
@@ -15,6 +16,9 @@ const SetupPageContent: React.FC<Props> = ({ page, entityType, onChange, onClose
   const [pageObject, setPageObject] = useState<TEntityPageModel>()
 
   const initialPage = useMemo(() => {
+    if(Array.isArray(page)){
+      return EditorJsToBlockNote(page)
+    }
     return {
       featuredImage: page?.featuredImage ?? '',
       pageTitle: page?.pageTitle ?? '',

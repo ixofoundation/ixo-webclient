@@ -36,11 +36,7 @@ const ClaimCollectionCreationPaymentStep: React.FC<Props> = ({ hidden, onSubmit,
   const [rejectionAmount, setRejectionAmount] = useState<Coin>({ amount: '', denom: NATIVE_DENOM })
 
   const disabled = useMemo(
-    () =>
-      !approvalAmount.amount ||
-      !submissionAmount.amount ||
-      !evaluationAmount.amount ||
-      !rejectionAmount.amount,
+    () => !approvalAmount.amount || !submissionAmount.amount || !evaluationAmount.amount || !rejectionAmount.amount,
     [approvalAmount.amount, evaluationAmount.amount, rejectionAmount.amount, submissionAmount.amount],
   )
 
@@ -69,7 +65,6 @@ const ClaimCollectionCreationPaymentStep: React.FC<Props> = ({ hidden, onSubmit,
         timeoutNs,
       }),
     })
-
     onSubmit(payments)
   }
 
