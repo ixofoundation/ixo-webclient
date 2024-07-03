@@ -100,12 +100,15 @@ export function useIxoConfigs(): IxoConfigsHookExports {
         const assets = getAssetsByChainId(chainId)
         return assets
           .map((asset) => {
-            const { base, denomUnits, display } = asset
-            const denomUnit = denomUnits.find((unit) => unit.denom.toLowerCase() === display.toLowerCase())
+            const { base, denomUnits, display, symbol } = asset
+            const denomUnit = denomUnits.find(
+              (unit) =>
+                unit.denom.toLowerCase() === display.toLowerCase() || unit.aliases?.includes(display.toLowerCase()),
+            )
             if (!denomUnit) {
               return undefined
             }
-            return { base, display, exponent: denomUnit.exponent }
+            return { base, display, exponent: denomUnit.exponent, symbol, denom: denomUnit.denom }
           })
           .filter((item) => !!item)
       } catch {
@@ -139,7 +142,7 @@ export function useIxoConfigs(): IxoConfigsHookExports {
       }
       const pair = getAssetPairs().find((item: any) => item.display === coin.denom)
       if (!pair) {
-        return undefined
+        return { denom: coin.denom, amount: coin.amount }
       }
       const amount = new BigNumber(coin.amount).times(Math.pow(10, pair.exponent)).toString()
       return { denom: pair.base, amount }

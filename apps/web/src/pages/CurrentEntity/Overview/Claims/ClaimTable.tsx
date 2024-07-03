@@ -125,11 +125,12 @@ const ClaimTable = () => {
       },
       {
         title: 'Name',
-        render: (row: any) => row.template?.title,
+        render: (row: any) => row.profile?.name,
       },
       {
         title: 'Total Claims',
-        render: () => '1,400/5,000',
+        render: (row) =>
+          `${(row?.collection?.count as number).toLocaleString()}/${(row?.collection?.quota as number).toLocaleString()}`,
       },
     ]
 

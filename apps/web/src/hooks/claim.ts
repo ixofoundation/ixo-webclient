@@ -38,7 +38,7 @@ export function useClaimSetting() {
   }
 }
 
-export function useGetUserGranteeRole(userAddress: string, entityOwnerAddress: string, accounts: EntityAccount[], verificationMethod: VerificationMethod[]) {
+export function useGetUserGranteeRole(userAddress: string, entityOwnerAddress: string, accounts: EntityAccount[], verificationMethod: VerificationMethod[], collectionId?: string) {
   const adminAddress = useCurrentEntityAdminAccount(accounts)
   const [role, setRole] = useState<AgentRoles | undefined>(undefined)
 
@@ -48,6 +48,7 @@ export function useGetUserGranteeRole(userAddress: string, entityOwnerAddress: s
         const { submitAuth, evaluateAuth } = await GetGranteeRole({
           granteeAddress: userAddress,
           adminAddress,
+          collectionId
         })
         if (submitAuth) {
           setRole(AgentRoles.serviceProviders)
@@ -59,7 +60,7 @@ export function useGetUserGranteeRole(userAddress: string, entityOwnerAddress: s
     return () => {
       setRole(undefined)
     }
-  }, [userAddress, adminAddress])
+  }, [userAddress, adminAddress, collectionId])
 
   if ((userAddress) === entityOwnerAddress) {
     return AgentRoles.owners

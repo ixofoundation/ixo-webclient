@@ -11,6 +11,15 @@ interface Props {
   onSelect?: () => void
 }
 
+export const ClaimCollectionCategoryTitle = ({ claimCollection }: Partial<Props>) => {
+  const templateEntity = useGetClaimTemplateEntityByCollectionId(claimCollection?.id ?? '')
+  if(!templateEntity) {
+    return null
+  }
+
+  return `${templateEntity?.profile?.name || ''}`
+}
+
 const ClaimCollectionCategory: React.FC<Props> = ({ claimCollection, selected = false, onSelect }) => {
   const theme: any = useTheme()
   const templateEntity = useGetClaimTemplateEntityByCollectionId(claimCollection.id!)
