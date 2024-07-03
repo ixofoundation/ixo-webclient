@@ -9,11 +9,15 @@ export const useCompanionDesignConfig = () => {
   const toolbarActiveBackground = companionConfig?.toolbar?.active?.background
   const toolbarColor = companionConfig?.toolbar.color
   const toolbarBackground = companionConfig?.toolbar.background
+  const idleLottie = companionConfig?.lottie.idle
+  const activeLottie = companionConfig?.lottie.active
 
   return {
     toolbarActiveColor,
     toolbarActiveBackground,
     toolbarColor,
     toolbarBackground,
+    idleLottie,
+    activeLottie,
   }
 }

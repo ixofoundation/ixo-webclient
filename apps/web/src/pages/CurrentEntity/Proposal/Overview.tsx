@@ -6,7 +6,6 @@ import { useAppSelector } from 'redux/hooks'
 import { LinkedFiles } from '../Overview/LinkedFiles'
 import { InstructionsToExecute } from './InstructionsToExecute'
 import { Flex, ScrollArea } from '@mantine/core'
-import ControlPanel from 'components/ControlPanel'
 import HeaderTabs from 'components/HeaderTabs/HeaderTabs'
 import { MatchType } from 'types/models'
 import { useMemo } from 'react'
@@ -53,9 +52,6 @@ const Overview: React.FC = () => {
           />
         </Flex>
       </ScrollArea>
-      <Flex h='100%' bg='#F0F3F9'>
-        <ControlPanel entityType={entity?.type ?? ''} entityName={entity?.profile?.name ?? ''} />
-      </Flex>
     </Flex>
   )
 }

@@ -11,6 +11,10 @@
   },
   "UI": {
     "companion": {
+      "lottie": {
+        "idle": "white",
+        "active": "white"
+      },
       "toolbar": {
         "color": "#00D2FF",
         "background": "#FFFFFF",

@@ -26,6 +26,7 @@ import * as EntityDashboard from 'pages/CurrentEntity/Dashboard/Dashboard.route'
 import * as Explore from 'pages/EntitiesExplorer/EntitiesExplorer.route'
 import * as EntityExchange from 'pages/EntityExchange/EntityExchange.route'
 import * as MyAccount from 'pages/MyAccount/MyAccount.route'
+import * as ProposalOverview from 'pages/CurrentEntity/Proposal/ProposalOverview.route'
 
 // Layouts
 import * as EntityOverviewLayout from 'components/Layout/EntityOverviewLayout/EntityOverviewLayout.route'
@@ -80,6 +81,10 @@ const router = createBrowserRouter([
                   {
                     path: "*",
                     Component: EntityOverview.Component,
+                  },
+                  {
+                    path: "proposal/:deedId",
+                    Component: ProposalOverview.Component,
                   },
                   {
                     path: ":tab",
