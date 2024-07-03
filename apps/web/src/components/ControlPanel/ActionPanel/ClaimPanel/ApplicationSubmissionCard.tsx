@@ -165,7 +165,7 @@ const ApplicationSubmissionCard = ({ data }: { data: any }) => {
   const { data: iid } = useGetIid(wallet?.did ?? '')
   const { entityId = '' } = useParams<{ entityId: string }>()
   const { owner, accounts, verificationMethod } = useAppSelector(getEntityById(entityId))
-  const userRole = useGetUserGranteeRole(wallet?.address ?? '', owner, accounts, verificationMethod)
+  const userRole = useGetUserGranteeRole(wallet?.address ?? '', owner, accounts, verificationMethod, data?.collection?.id)
 
   const applicationSent = useMemo(() => {
     return iid?.linkedResource.some(

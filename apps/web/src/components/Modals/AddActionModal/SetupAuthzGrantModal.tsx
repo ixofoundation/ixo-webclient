@@ -17,6 +17,7 @@ export enum AuthzGrantActionTypes {
   Redelegate = '/cosmos.staking.v1beta1.MsgBeginRedelegate',
   ClaimRewards = '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward',
   CreateCollection = '/ixo.claims.v1beta1.MsgCreateCollection',
+  UpdateCollectionState = '/ixo.claims.v1beta1.MsgUpdateCollectionState'
 }
 
 const inputHeight = '48px'
@@ -126,6 +127,7 @@ const SetupAuthzGrantModal: React.FC<Props> = ({ open, action, onClose, onSubmit
               { value: AuthzGrantActionTypes.Redelegate, text: 'Restake' },
               { value: AuthzGrantActionTypes.ClaimRewards, text: 'Claim Rewards' },
               { value: AuthzGrantActionTypes.CreateCollection, text: 'Create Collection' },
+              { value: AuthzGrantActionTypes.UpdateCollectionState, text: 'Update Collection State' },
             ]}
             value={formData.value.msgTypeUrl}
             onChange={(e) => handleUpdateFormData('value', { ...formData.value, msgTypeUrl: e.target.value })}
