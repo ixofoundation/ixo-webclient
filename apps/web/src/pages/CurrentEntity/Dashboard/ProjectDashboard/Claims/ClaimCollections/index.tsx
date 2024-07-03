@@ -2,11 +2,12 @@ import { ixo } from '@ixo/impactxclient-sdk'
 import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { useGetClaimCollection, useGetClaimCollectionsByEntityId, useGetClaims } from 'graphql/claims'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import ClaimCollectionCategory from '../../../components/ClaimCollectionCategory'
 import ClaimItem from './ClaimItem'
 import ClaimTab from './ClaimTab'
+import { Flex, Select, Text } from '@mantine/core'
+import { claimCollectionSelectOptions } from 'services/claims/getClaimTemplate'
 
 interface Props {
   collectionId: string
@@ -122,22 +123,42 @@ const ClaimCollection: React.FC<Props> = ({ collectionId }) => {
   )
 }
 
-const ClaimCollections: React.FC = () => {
+const ClaimCollections = ({ onCreate, canCreate }: { onCreate: () => void; canCreate: boolean }) => {
   const { entityId = '' } = useParams<{ entityId: string }>()
-  const { data: claimCollections } = useGetClaimCollectionsByEntityId(entityId)
+  const { data: claimCollections, loading } = useGetClaimCollectionsByEntityId(entityId)
   const [collectionId, setCollectionId] = useState('')
+  const [options, setOptions] = useState<any[]>([])
+
+  useEffect(() => {
+    claimCollectionSelectOptions(claimCollections).then((options) => {
+      setOptions(options)
+    })
+  }, [claimCollections, setOptions])
 
   return (
     <FlexBox $direction='column' $gap={6} width='100%' color='black'>
       <FlexBox width='100%' $gap={2} color='black' $flexWrap='wrap'>
-        {claimCollections.map((claimCollection: any) => (
-          <ClaimCollectionCategory
-            key={claimCollection.id}
-            claimCollection={claimCollection}
-            selected={claimCollection.id === collectionId}
-            onSelect={() => setCollectionId(claimCollection.id)}
+        <Flex align={'center'}>
+          <Select
+            disabled={loading}
+            nothingFoundMessage='No claims collecion found'
+            placeholder={options.length ? 'Select a claim collection' : 'No claims collection found'}
+            data={options}
+            onChange={(value) => setCollectionId(value ?? '')}
+            value={collectionId}
           />
-        ))}
+          {canCreate && (
+            <Text
+              size='md'
+              c='blue'
+              style={{ marginLeft: 20 }}
+              onClick={onCreate}
+              styles={{ root: { cursor: 'pointer' } }}
+            >
+              + Create New
+            </Text>
+          )}
+        </Flex>
       </FlexBox>
 
       {collectionId && <ClaimCollection collectionId={collectionId} />}
