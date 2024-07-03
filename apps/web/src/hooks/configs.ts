@@ -140,12 +140,12 @@ export function useIxoConfigs(): IxoConfigsHookExports {
       if (!coin) {
         return undefined
       }
-      const pair = getAssetPairs().find((item: any) => item.denom === coin.denom)
+      const pair = getAssetPairs().find((item: any) => item.display === coin.denom)
       if (!pair) {
-        return undefined
+        return { denom: coin.denom, amount: coin.amount }
       }
       const amount = new BigNumber(coin.amount).times(Math.pow(10, pair.exponent)).toString()
-      return { denom: coin.denom, amount }
+      return { denom: pair.base, amount }
     },
     // eslint-disable-next-line
     [assetListConfig],
