@@ -12,6 +12,10 @@
   "UI": {
     "logo": "impactsai_logo_full",
     "companion": {
+      "lottie": {
+        "idle": "black",
+        "active": "white"
+      },
       "toolbar": {
         "color": "#20798C",
         "background": "#FFFFFF",
