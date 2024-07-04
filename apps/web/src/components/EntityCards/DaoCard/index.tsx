@@ -1,16 +1,15 @@
-import React from 'react'
-import Lottie from 'react-lottie'
+import { Skeleton } from '@mantine/core'
+import oracleDefault from 'assets/entities/oracleDefault.jpg'
 import { FlexBox, HTMLFlexBoxProps } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
-import { useTheme } from 'styled-components'
-import { thousandSeparator } from 'utils/formatters'
-import { HorizontalLine } from 'components/HorizontalLine'
-import { getEntityIcon } from 'utils/getEntityIcon'
+import React from 'react'
+import Lottie from 'react-lottie'
 import { useNavigate } from 'react-router'
-import { Skeleton } from '@mantine/core'
 import { selectEntityConfig } from 'redux/configs/configs.selectors'
 import { useAppSelector } from 'redux/hooks'
-import oracleDefault from 'assets/entities/oracleDefault.jpg'
+import { useTheme } from 'styled-components'
+import { thousandSeparator } from 'utils/formatters'
+import { getEntityIcon } from 'utils/getEntityIcon'
 
 interface Props extends HTMLFlexBoxProps {
   id: string
@@ -112,17 +111,12 @@ export const DaoCard: React.FC<Props> = ({
       </Skeleton>
       <FlexBox width='100%' $direction='column' background={theme.ixoWhite} p={2} style={{ flex: 1 }}>
         <FlexBox $direction='column' $justifyContent='space-between' width='100%' height='100%' pt={2}>
-          <FlexBox $justifyContent='space-between' width='100%'>
+          <FlexBox $justifyContent='space-between' $alignItems='center' width='100%'>
             <FlexBox $direction='column' $justifyContent='center'>
-              <Skeleton visible={!title}>
-              <Typography color='color-2' weight='normal' size='sm' style={{ marginBottom: 4 }}>
-                {title}
-              </Typography>
-              </Skeleton>
               <Skeleton visible={!collectionName}>
-              <Typography color='black' weight='bold' size='md'>
-                {collectionName}
-              </Typography>
+                <Typography color='black' weight='bold' size='lg'>
+                  {collectionName}
+                </Typography>
               </Skeleton>
             </FlexBox>
             <FlexBox
@@ -133,26 +127,14 @@ export const DaoCard: React.FC<Props> = ({
               $backgroundSize='100%'
             />
           </FlexBox>
-          <HorizontalLine color={theme.ixoGrey100} margin='0' />
 
-          <FlexBox $direction='column' $gap={1} width='100%' mb={2}>
-            <FlexBox $gap={1} $alignItems='baseline'>
-              <Typography size='md' color='black' transform='uppercase' weight='bold'>
-                {thousandSeparator(metrics?.members, ',')}
-              </Typography>
-              <Typography size='md' color='black' weight='bold'>
-                members
-              </Typography>
-            </FlexBox>
-
-            <FlexBox $gap={1} $alignItems='baseline'>
-              <Typography size='sm' color='green'>
-                {thousandSeparator(metrics?.proposals, ',')}
-              </Typography>
-              <Typography size='sm' color='grey700'>
-                {thousandSeparator(metrics?.activeProposals, ',')} active proposals
-              </Typography>
-            </FlexBox>
+          <FlexBox $gap={1} $alignItems='baseline' margin='0 0 32px 0'>
+            <Typography size='md' color='black' transform='uppercase' weight='bold'>
+              {thousandSeparator(metrics?.members, ',')}
+            </Typography>
+            <Typography size='md' color='black' weight='bold'>
+              members
+            </Typography>
           </FlexBox>
         </FlexBox>
       </FlexBox>
