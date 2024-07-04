@@ -5,7 +5,7 @@ export const fileStorage = {
     generateEndpoint: (cid: string) => `https://${cid}.ipfs.w3s.link/`,
   },
   cellnode: {
-    endpoint: "https://devnet-cellnode.ixo.earth/",
+    endpoint: `${process.env.REACT_APP_PDS_URL}`,
     name: "Cellnode",
     generateEndpoint: (cid: string) => `${process.env.REACT_APP_PDS_URL}public/${cid}`,
   }
@@ -23,8 +23,8 @@ const getIPFSDotIOProof = (endpoint: string) => {
   }
 };
 
-export const transformStorageEndpoint = (endpoint: string) => {
-  if (endpoint.includes("ipfs")) {
+export const transformStorageEndpoint = (endpoint?: string) => {
+  if (endpoint?.includes("ipfs")) {
     if (endpoint.includes("https://ipfs.io/ipfs/")) {
       const cid = getIPFSDotIOProof(endpoint);
       if (cid) {
@@ -36,7 +36,7 @@ export const transformStorageEndpoint = (endpoint: string) => {
     }
   }
 
-  if(endpoint.includes("cellnode")) {
+  if(endpoint?.includes("cellnode")) {
     if(endpoint.includes("cellnode:")){
       if(endpoint.includes("cellnode:/public/")){
         return endpoint.replace("cellnode:/public/", fileStorage.cellnode.endpoint);
