@@ -13,6 +13,7 @@ import { useClaimTableData } from 'hooks/claims/useClaimTableData'
 import { timeAgo } from 'utils/time'
 import { useGetIid } from 'graphql/iid'
 import { LiaUserCircleSolid } from 'react-icons/lia'
+import { isDevelopment } from 'constants/common'
 
 const getClaimsMetric = (claims: any[]) => {
   const totalClaims = Number(claims.length ?? 0)
@@ -54,6 +55,8 @@ const RoleBadge = ({ role }: { role: 'SA' | 'EA' | 'IA' | 'RA' | 'PA' }) => {
   )
 }
 
+const DEV_COLUMNS = isDevelopment ? [{ title: 'ID', render: (row: any) => row.collection.id }] : []
+
 const ClaimTable = () => {
   const { entityId = '' } = useParams<{ entityId: string }>()
   const { claimTableData, loading } = useClaimTableData({ entityId })
@@ -86,12 +89,14 @@ const ClaimTable = () => {
       },
       {
         title: 'Role',
-        render: (row) =>
-          row.lastClaim ? (
-            <RoleBadge role={getUserRole(iid?.linkedResource ?? [], row.collection.id)} />
+        render: (row) => {
+          const role = getUserRole(iid?.linkedResource, row.collection.id)
+          return role ? (
+            <RoleBadge role={role} />
           ) : (
             <Text c='dimmed' size="sm">No Role</Text>
-          ),
+          )
+        }
       },
       {
         title: 'Claims',
@@ -134,7 +139,7 @@ const ClaimTable = () => {
       },
     ]
 
-    return wallet ? authColumns : unAuthColumns
+    return DEV_COLUMNS.concat(wallet ? authColumns : unAuthColumns)
   }, [wallet, primaryColor, iid?.linkedResource])
 
   if (loading) {
