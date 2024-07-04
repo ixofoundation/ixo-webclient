@@ -222,6 +222,7 @@ export interface EntityConfig extends EntityTypeStrategyMap {
         card: {
           borderRadius?: number | string
           border?: string
+          boxShadow?: string
         }
       }
     }
@@ -255,6 +256,10 @@ export interface EntityConfig extends EntityTypeStrategyMap {
       }
     }
     companion: {
+      lottie: {
+        idle: string
+        active: string
+      },
       toolbar: {
         background: string
         color: string
@@ -474,7 +479,7 @@ export interface TEntityPageSectionLegacyModel {
 export type TEntityPageModel = {
   featuredImage: string
   pageTitle: string
-  content: Block[]
+  content?: Block[]
 }
 export interface TEntityDDOTagModel {
   category: string

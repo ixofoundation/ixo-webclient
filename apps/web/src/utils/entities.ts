@@ -22,6 +22,7 @@ import Axios from 'axios'
 import { ApiListedEntityData } from 'api/blocksync/types/entities'
 import { get } from 'lodash'
 import { fileStorage, getMappedNewURL } from '@ixo-webclient/utils'
+import { getEntityProfile } from 'services'
 
 export const getCountryCoordinates = (countryCodes: string[]): any[] => {
   const coordinates: any[] = []
@@ -127,7 +128,7 @@ export function serviceEndpointToUrl(serviceEndpoint: string, service: Service[]
   if (service?.length === 0) {
     return serviceEndpoint
   }
-  if (serviceEndpoint.includes('://')) {
+  if (serviceEndpoint?.includes('://')) {
     return serviceEndpoint
   }
   let url = ''
@@ -163,41 +164,7 @@ export function apiEntityToEntity(
         if (item.type === 'Settings' || item.type === 'VerifiableCredential') {
           switch (item.id) {
             case '{id}#profile': {
-              fetch(getMappedNewURL(url))
-                .then((response) => response.json())
-                .then((response) => {
-                  const context = response['@context']
-                  let image: string = response.image
-                  let logo: string = response.logo
-
-                  if (image && !image.startsWith('http')) {
-                    const [identifier] = image.split(':')
-                    let endpoint = ''
-                      ; (Array.isArray(context)
-                        ? context
-                        : Object.entries(context).map(([key, value]) => ({ [key]: value }))
-                      ).forEach((item: any) => {
-                        if (typeof item === 'object' && identifier in item) {
-                          endpoint = item[identifier]
-                        }
-                      })
-                    image = image.replace(identifier + ':', endpoint)
-                  }
-                  if (logo && !logo.startsWith('http')) {
-                    const [identifier] = logo.split(':')
-                    let endpoint = ''
-                      ; (Array.isArray(context)
-                        ? context
-                        : Object.entries(context).map(([key, value]) => ({ [key]: value }))
-                      ).forEach((item: any) => {
-                        if (typeof item === 'object' && identifier in item) {
-                          endpoint = item[identifier]
-                        }
-                      })
-                    logo = logo.replace(identifier + ':', endpoint)
-                  }
-                  return { ...response, image, logo }
-                })
+              getEntityProfile(item, service)
                 .then((profile) => {
                   updateCallback('profile', profile)
                 })

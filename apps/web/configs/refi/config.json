@@ -11,6 +11,20 @@
   },
   "UI": {
     "logo": "ReFi DAO_Logo_White",
+    "companion": {
+      "lottie": {
+        "idle": "black",
+        "active": "white"
+      },
+      "toolbar": {
+        "color": "#20798C",
+        "background": "#FFFFFF",
+        "active": {
+          "color": "#FFFFFF",
+          "background": "#20798C"
+        }
+      }
+    },
     "explorer": {
       "defaultView": "dao"
     },

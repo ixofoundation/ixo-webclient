@@ -3,11 +3,15 @@ import { Typography } from 'components/Typography'
 import moment from 'moment'
 import React from 'react'
 import { NavLink } from 'react-router-dom'
+import { selectEntityConfig } from 'redux/configs/configs.selectors'
+import { useAppSelector } from 'redux/hooks'
 import { useTheme } from 'styled-components'
 import { TEntityModel } from 'types/entities'
 
 const ProtocolCard: React.FC<TEntityModel & { to?: string }> = (entity) => {
   const theme: any = useTheme()
+  const config = useAppSelector(selectEntityConfig)
+  const design = config.UI?.explorer?.design
 
   const id = entity.id
   const protocolType = entity?.type?.replace('protocol/', '') ?? entity?.entityType?.replace('protocol/', '')
@@ -29,6 +33,8 @@ const ProtocolCard: React.FC<TEntityModel & { to?: string }> = (entity) => {
         cursor='pointer'
         transition='.2s box-shadow'
         hover={{ $boxShadow: '0px 10px 25px 0px rgba(0, 0, 0, 0.15)' }}
+        border={design?.card?.border}
+        {...(design?.card?.boxShadow && { $boxShadow: design?.card?.boxShadow })}
       >
         <FlexBox
           width='100%'

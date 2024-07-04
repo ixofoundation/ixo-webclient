@@ -21,7 +21,7 @@ export const getMappedCDNURL = (src: string): string => {
 };
 
 const uriMappingsNewURL: URIMappings = {
-  "https://testnet-cellnode.ixo.earth/": "https://cellnode-pandora.ixo.world/",
+  "https://testnet-cellnode.ixo.earth/": "https://cellnode-pandora.ixo.earth/",
 };
 
 export const getMappedNewURL = (src: string) => {

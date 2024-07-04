@@ -25,7 +25,7 @@ const ProjectDashboard: React.FC = (): JSX.Element => {
   const isVerifiedOnEntity = verificationMethod.some((verification) => verification?.blockchainAccountID === address)
 
   const showAgentsRoute = owner === address || isVerifiedOnEntity
-  const ShowClaimsRoute = (owner === address && signerRole === AgentRoles.evaluators) || isVerifiedOnEntity
+  const ShowClaimsRoute = owner === address || signerRole === AgentRoles.evaluators || isVerifiedOnEntity
   const showEditEntityRoute = (registered && owner === address) || isVerifiedOnEntity
 
   const routes: Path[] = [

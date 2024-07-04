@@ -13,6 +13,31 @@ export const EditorJsToBlockNote = (page: any[]) => {
           pageTitle: block.data.text,
         }
       }
+      if(block.type === 'header'){
+        return {
+          ...acc,
+          content: [
+            ...(acc?.content ?? []),
+            {
+              id: block.id,
+              type: 'heading',
+              props: {
+                textColor: 'default',
+                backgroundColor: 'default',
+                textAlignment: 'left',
+                level: block.data.level,
+              },
+              content: [
+                {
+                  type: 'text',
+                  text: block.data.text,
+                  styles: {},
+                },
+              ],
+            },
+          ],
+        }
+      }
       if (block.type === 'paragraph') {
         return {
           ...acc,

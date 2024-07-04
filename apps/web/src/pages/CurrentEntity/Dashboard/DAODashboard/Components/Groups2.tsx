@@ -83,22 +83,7 @@ const GroupCard= ({ daoGroup, dao }: GroupCardProps) => {
         </CopyToClipboard>
       </Flex>
 
-      <Flex direction={'column'} justify={'center'} align={'center'} gap={8}>
-        <Flex align='center' gap={16} h='36px'>
-          <Flex ml={-2}>
-            {members.slice(0, 4).map((member, index) => (
-              <Box key={index} width='24px'>
-                <Avatar size={32} src={undefined} radius={999} />
-              </Box>
-            ))}
-          </Flex>
-          {members.length > 4 && (
-            <Typography color='white' size='4xl'>
-              ⋯
-            </Typography>
-          )}
-        </Flex>
-
+      <Flex direction={'column'} justify={'center'} align={'center'} gap={8} mt={15}>
         <Typography weight='medium' size='md'>
           {members.length} member{members.length > 1 && 's'}
         </Typography>

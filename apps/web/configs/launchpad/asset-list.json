@@ -32,10 +32,10 @@
         "display": "USDC (Noble)",
         "entityId": "did:ixo:usdc",
         "assetType": "coin",
-        "base": "uusdc",
+        "base": "ibc/6BBE9BD4246F8E04948D5A4EEE7164B2630263B9EBB5E7DC5F0A46C62AB9EBB5",
         "denomUnits": [
           {
-            "denom": "usdc",
+            "denom": "ibc/6BBE9BD4246F8E04948D5A4EEE7164B2630263B9EBB5E7DC5F0A46C62AB9EBB5",
             "exponent": 6,
             "aliases": []
           }

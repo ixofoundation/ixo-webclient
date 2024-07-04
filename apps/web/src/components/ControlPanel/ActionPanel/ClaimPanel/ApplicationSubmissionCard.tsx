@@ -4,7 +4,7 @@ import { useGetIid } from 'graphql/iid'
 import { useGetUserGranteeRole } from 'hooks/claim'
 import { useMemo } from 'react'
 import { LiaUserCircleSolid } from 'react-icons/lia'
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams, NavLink } from 'react-router-dom'
 import { getEntityById } from 'redux/entities/entities.selectors'
 import { useAppSelector } from 'redux/hooks'
 import { AgentRoles } from 'types/models'
@@ -98,7 +98,6 @@ const SubmitClaim = ({ data }: { data: any }) => {
     return { pending, approved, disputed, rejected }
   }, [data.collection?.claimsByCollectionId?.nodes])
 
-
   return (
     <Box w='100%'>
       <Flex justify={'space-between'} align='center'>
@@ -160,12 +159,46 @@ const SubmitClaim = ({ data }: { data: any }) => {
   )
 }
 
+const EvaluateClaim = () => {
+  const { entityId } = useParams()
+  return (
+    <Box w='100%'>
+      <Flex justify={'space-between'}>
+        <Text>Role</Text>
+        <Badge size='lg' c='black' leftSection={<LiaUserCircleSolid size={15} />}>
+          Evaluator
+        </Badge>
+      </Flex>
+      <Button component={NavLink} to={`/entity/${entityId}/dashboard/claims`} w='100%' radius={4} size='md' mt='md'>
+        Go to Claims Dashboard
+      </Button>
+    </Box>
+  )
+}
+
+const ActionCard = ({ role, data }: { role: AgentRoles; data: any }) => {
+  switch (role) {
+    case AgentRoles.serviceProviders:
+      return <SubmitClaim data={data} />
+    case AgentRoles.evaluators:
+      return <EvaluateClaim />
+    default:
+      return <SubmitClaim data={data} />
+  }
+}
+
 const ApplicationSubmissionCard = ({ data }: { data: any }) => {
   const { wallet } = useWallet()
   const { data: iid } = useGetIid(wallet?.did ?? '')
   const { entityId = '' } = useParams<{ entityId: string }>()
   const { owner, accounts, verificationMethod } = useAppSelector(getEntityById(entityId))
-  const userRole = useGetUserGranteeRole(wallet?.address ?? '', owner, accounts, verificationMethod)
+  const userRole = useGetUserGranteeRole(
+    wallet?.address ?? '',
+    owner,
+    accounts,
+    verificationMethod,
+    data?.collection?.id,
+  )
 
   const applicationSent = useMemo(() => {
     return iid?.linkedResource.some(
@@ -180,7 +213,7 @@ const ApplicationSubmissionCard = ({ data }: { data: any }) => {
     <Box mt={15} bg='#fff' p={20} style={{ borderRadius: 12 }}>
       {!applicationSent && <Apply collectionId={data?.collection?.id} />}
       {applicationSent && !userRole && <ApplicationUnderReview />}
-      {applicationSent && userRole && <SubmitClaim data={data} />}
+      {applicationSent && userRole && <ActionCard role={userRole} data={data} />}
     </Box>
   )
 }

@@ -10,9 +10,13 @@ import { useGetBondDid } from 'graphql/bonds'
 import { useMapBondDetail } from 'hooks/bond'
 import BigNumber from 'bignumber.js'
 import { LinkedEntity } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
+import { selectEntityConfig } from 'redux/configs/configs.selectors'
+import { useAppSelector } from 'redux/hooks'
 
 const InvestmentCard: React.FC<TEntityModel & { to?: string }> = (entity) => {
   const theme: any = useTheme()
+  const config = useAppSelector(selectEntityConfig)
+  const design = config.UI?.explorer?.design
 
   const id = entity.id
   const image = entity.profile?.image || ''
@@ -38,6 +42,8 @@ const InvestmentCard: React.FC<TEntityModel & { to?: string }> = (entity) => {
         cursor='pointer'
         transition='.2s box-shadow'
         hover={{ $boxShadow: '0px 10px 25px 0px rgba(0, 0, 0, 0.15)' }}
+        border={design?.card?.border}
+        {...(design?.card?.boxShadow && { $boxShadow: design?.card?.boxShadow })}
       >
         <FlexBox background={`url(${image})`} $backgroundSize='cover' width='100%' height='200px' position='relative'>
           <FlexBox position='absolute' top='16px' left='16px' $alignItems='center' $gap={1}>
