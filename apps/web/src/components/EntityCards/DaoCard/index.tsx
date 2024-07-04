@@ -65,6 +65,7 @@ export const DaoCard: React.FC<Props> = ({
       cursor='pointer'
       hover={{ $boxShadow: '0px 10px 25px 0px rgba(0, 0, 0, 0.15)' }}
       border={design?.card?.border}
+      {...(design?.card?.boxShadow && { $boxShadow: design?.card?.boxShadow })}
     >
       <Skeleton visible={!cardImage || loading}>
         <FlexBox

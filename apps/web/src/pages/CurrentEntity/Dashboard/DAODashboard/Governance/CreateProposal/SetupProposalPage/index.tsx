@@ -67,7 +67,7 @@ const SetupProposalPage: React.FC = (): JSX.Element => {
   const [value, setValue] = useState<TEntityPageModel>({
     pageTitle: "",
     featuredImage: "",
-    content: []
+    content: undefined
   })
 
   const handleBack = (): void => {
