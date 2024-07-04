@@ -8,6 +8,8 @@ import { HorizontalLine } from 'components/HorizontalLine'
 import { getEntityIcon } from 'utils/getEntityIcon'
 import { ProgressBar } from 'components/ProgressBar/ProgressBar'
 import { useNavigate } from 'react-router-dom'
+import { useAppSelector } from 'redux/hooks'
+import { selectEntityConfig } from 'redux/configs/configs.selectors'
 
 interface Props extends HTMLFlexBoxProps {
   id: string
@@ -41,6 +43,8 @@ export const ProjectCard: React.FC<Props> = ({
 }): JSX.Element | null => {
   const theme: any = useTheme()
   const navigate = useNavigate()
+  const config = useAppSelector(selectEntityConfig)
+  const design = config.UI?.explorer?.design
 
   return (
     <FlexBox
@@ -57,6 +61,8 @@ export const ProjectCard: React.FC<Props> = ({
       overflow='hidden'
       cursor='pointer'
       hover={{ $boxShadow: '0px 10px 25px 0px rgba(0, 0, 0, 0.15)' }}
+      border={design?.card?.border}
+      {...(design?.card?.boxShadow && { $boxShadow: design?.card?.boxShadow })}
     >
       <FlexBox
         position='relative'
