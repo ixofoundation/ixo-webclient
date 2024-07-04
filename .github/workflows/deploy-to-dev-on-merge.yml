@@ -207,7 +207,7 @@ jobs:
         REACT_APP_CONFIG_RELAYER_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/launchpad/app-config.json 
         REACT_APP_CONFIG_SCHEMA_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/launchpad/config.json
         REACT_APP_CUSTOM_THEME_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/launchpad/theme.json
-        REACT_APP_RPC_URL: https://devnet.ixo.earth/rpc/
+        REACT_APP_RPC_URL: https://impacthub.ixo.world/rpc/
       run: |
         export NODE_OPTIONS="--max_old_space_size=8192"
         yarn build  # Build Script
