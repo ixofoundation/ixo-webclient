@@ -6,6 +6,7 @@ import { useTheme } from 'styled-components'
 
 interface Props extends HTMLFlexBoxProps {
   icon?: JSX.Element
+  iconNode?: JSX.Element
   label: string
   actionIcon?: JSX.Element
   onAction?: () => void
@@ -18,6 +19,7 @@ const Card: React.FC<Props> = ({
   actionIcon = <ExpandIcon />,
   onAction,
   children,
+  iconNode,
   ...rest
 }): JSX.Element => {
   const theme: any = useTheme()
@@ -40,6 +42,7 @@ const Card: React.FC<Props> = ({
               {icon}
             </SvgBox>
           )}
+          {iconNode && iconNode}
           <Typography variant='secondary' color='white' size='lg'>
             {label}
           </Typography>

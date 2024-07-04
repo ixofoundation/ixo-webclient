@@ -5,13 +5,12 @@ import { Flex } from '@mantine/core'
 import { SvgBox } from 'components/App/App.styles'
 import PieChart from 'components/Widgets/PieChart'
 import { Typography } from 'components/Typography'
-
-import { ReactComponent as AgentIcon } from 'assets/img/sidebar/agents.svg'
 import { ReactComponent as CoinsIcon } from 'assets/images/icon-coins-solid.svg'
 import { useTheme } from 'styled-components'
 import { useAccount } from 'hooks/account'
 import CurrencyFormat from 'react-currency-format'
 import BigNumber from 'bignumber.js'
+import { LiaAdjustSolid } from 'react-icons/lia'
 
 interface Props {
   daoGroup: TDAOGroupModel
@@ -29,7 +28,7 @@ const GovernanceCard: React.FC<Props> = ({ daoGroup }) => {
   }, [address, daoGroup])
 
   return (
-    <Card label='Governance' icon={<AgentIcon />}>
+    <Card label='Governance' iconNode={<LiaAdjustSolid size={24} style={{ transform: 'rotate(180deg)'}}/>}>
       <Flex w='100%' h='100%' direction={'column'} gap={24} align={'center'}>
         <Flex align={'center'} gap={4}>
           <SvgBox $svgWidth={5} $svgHeight={5}>
