@@ -11,6 +11,7 @@ import { MatchType } from 'types/models'
 import { useMemo } from 'react'
 import { useEntity } from 'hooks/entity/useEntity'
 import Editor from 'components/Editor/Editor'
+import { EditorJsToBlockNote } from 'components/Editor/utils/editorJsToBlockNote'
 
 const Overview: React.FC = () => {
   const { entityId = '', deedId = '' } = useParams<{ entityId: string; deedId: string }>()
@@ -40,7 +41,12 @@ const Overview: React.FC = () => {
       <ScrollArea w='100%'>
         <Flex w='100%' direction='column' p={80} style={{ flex: 1 }}>
           <HeaderTabs matchType={MatchType.strict} buttons={headerTabs} />
-          <Editor initialPage={entity?.page} editable={false} />
+          {entity?.page &&
+            (Array.isArray(entity?.page) ? (
+              <Editor initialPage={EditorJsToBlockNote(entity?.page as any) as any} />
+            ) : (
+              <Editor initialPage={entity?.page} editable={false} />
+            ))}
           <InstructionsToExecute />
           <LinkedFiles
             linkedFiles={

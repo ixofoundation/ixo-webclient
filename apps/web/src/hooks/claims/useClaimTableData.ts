@@ -39,10 +39,12 @@ export const useClaimTableData = ({ entityId }: { entityId: string }) => {
         .then(async (response) => {
           const entityProfilePromises = await Promise.all(
             (response.data?.entities?.nodes ?? []).map(async (entity: any) => {
-              const response = await fetch(transformStorageEndpoint(entity.settings['Profile']?.serviceEndpoint)).then(
-                (response) => response.json(),
-              )
-              return { ...response, did: entity.id }
+              const serviceEndpoint = transformStorageEndpoint(entity.settings['Profile']?.serviceEndpoint)
+              if (serviceEndpoint) {
+                const response = await fetch(serviceEndpoint).then((response) => response.json())
+                return { ...response, did: entity.id }
+              }
+              return null
             }),
           )
 
@@ -51,12 +53,12 @@ export const useClaimTableData = ({ entityId }: { entityId: string }) => {
               // Check if this protocol already exists in the accumulator
               if (!acc[collection.protocol] || acc[collection.protocol].id < collection.id) {
                 // If it doesn't exist or the current collection has a higher ID, update the accumulator
-                acc[collection.protocol] = collection;
+                acc[collection.protocol] = collection
               }
-              return acc;
+              return acc
             }, {})).map((collection: any) => ({
               collection,
-              profile: entityProfilePromises.find(profile => profile.did === collection.protocol),
+              profile: entityProfilePromises.find(profile => profile?.did === collection.protocol),
               lastClaim: collection.claimsByCollectionId.nodes?.length > 0 ? collection.claimsByCollectionId.nodes[0] : null
             })) as any[],
           )

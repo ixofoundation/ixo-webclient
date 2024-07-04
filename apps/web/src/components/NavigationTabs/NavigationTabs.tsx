@@ -44,7 +44,7 @@ const NavigationTabs = () => {
   const { getQuery } = useQuery()
   const params = useParams()
   const exploreType: string | undefined = getQuery('type')
-  const entity = useAppSelector(getEntityById(params.entityId ?? ''))
+  const entity = useAppSelector(getEntityById((params?.deedId ?? params.entityId) ?? ""))
   const { isCompanionOpen, toggleChat, toggleCompanion } = useCompanion()
 
   const {
@@ -57,7 +57,6 @@ const NavigationTabs = () => {
     assistantBackground,
   } = useTabDesignConfig()
 
-  const type = lowerCase(exploreType ?? toRootEntityType(entity?.type) ?? '')
 
   const { pathname } = useLocation()
 
@@ -69,6 +68,11 @@ const NavigationTabs = () => {
     toggleChat()
     toggleCompanion()
   }
+
+  if(!entity) return null 
+
+  const type = lowerCase((exploreType?.length ?? 0) > 0 ? exploreType : toRootEntityType(entity?.type) ?? '')
+
 
   const currentTabs = tabs[pathname.split('/')[1] as keyof typeof tabs].getTabs(type, pathname, params as any)
   return (
