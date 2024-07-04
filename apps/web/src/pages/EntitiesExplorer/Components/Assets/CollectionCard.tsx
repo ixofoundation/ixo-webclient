@@ -7,6 +7,7 @@ import { useAccount } from 'hooks/account'
 import { TEntityModel } from 'types/entities'
 import { FlexBox } from 'components/App/App.styles'
 import { useGetAssetDevicesByCollectionIdAndOwner } from 'graphql/entities'
+import { transformStorageEndpoint } from '@ixo-webclient/utils'
 
 const CollectionCard: React.FC<any> = (apiEntity) => {
   const theme: any = useTheme()
@@ -14,7 +15,7 @@ const CollectionCard: React.FC<any> = (apiEntity) => {
   const [collection, setCollection] = useState<TEntityModel>()
 
   const collectionId = apiEntity.id
-  const logo = collection?.token?.properties?.icon
+  const logo = transformStorageEndpoint(collection?.token?.properties?.icon ?? "")
   const image = collection?.profile?.image
   const collectionName = collection?.token?.name
   const name = collection?.profile?.name

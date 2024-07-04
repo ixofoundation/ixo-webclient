@@ -73,7 +73,7 @@ const ClaimButton = ({
     const withdrawContraints = (
       signingClient.registry.decode(evaluateAuth!.authorization!).constraints as WithdrawPaymentConstraints[]
     ).find((c) => c.paymentType === paymentType && c.claimId === claimId)
-    if (withdrawContraints === undefined) throw Error('wiithdrawal constraints for claimId and paymentType not found')
+    if (withdrawContraints === undefined) throw Error('withdrawal constraints for claimId and paymentType not found')
 
     const message = {
       typeUrl: '/cosmos.authz.v1beta1.MsgExec',
@@ -179,9 +179,11 @@ const MyclaimsPage = () => {
         .then(async (response: { data?: any }) => {
           const entityProfilePromises = await Promise.all(
             (response.data?.entities?.nodes ?? []).map(async (entity: any) => {
-              const response = await fetch(transformStorageEndpoint(entity.settings['Profile']?.serviceEndpoint)).then(
-                (response) => response.json(),
-              )
+              const endpoint = transformStorageEndpoint(entity.settings['Profile']?.serviceEndpoint)
+              if (!endpoint) {
+                return null
+              }
+              const response = await fetch(endpoint).then((response) => response.json())
               return { ...response, did: entity.id }
             }),
           )
@@ -189,7 +191,7 @@ const MyclaimsPage = () => {
           setClaimsWithCollectionInformation(
             data?.claims?.nodes.map((claim, index) => ({
               claim,
-              profile: entityProfilePromises.find((profile) => profile.did === claim.collection?.protocol),
+              profile: entityProfilePromises.find((profile) => profile?.did === claim.collection?.protocol),
             })) as any[],
           )
         })

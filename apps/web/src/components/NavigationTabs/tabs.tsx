@@ -84,6 +84,20 @@ export const tabs = {
               path: `/entity/${params.entityId}/dashboard`,
             },
           ],
+          deed: [
+            {
+              label: 'DEED',
+              icon: LuCircleDashed,
+              isActive: isActivePath(path, `/entity/${params.entityId}/overview/proposal/${params.deedId}`),
+              path: `/entity/${params.entityId}/overview`,
+            },
+            {
+              label: 'DASHBOARD',
+              icon: BsBarChart,
+              isActive: isActivePath(path, `/entity/${params.entityId}/dashboard`),
+              path: `/entity/${params.entityId}/dashboard`,
+            },
+          ],
           asset: [
             {
               label: 'ASSET',
