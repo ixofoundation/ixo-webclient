@@ -140,7 +140,7 @@ export function useIxoConfigs(): IxoConfigsHookExports {
       if (!coin) {
         return undefined
       }
-      const pair = getAssetPairs().find((item: any) => item.display === coin.denom)
+      const pair = getAssetPairs().find((item: any) => item.display === coin.denom || item.base === coin.denom)
       if (!pair) {
         return { denom: coin.denom, amount: coin.amount }
       }
