@@ -1,0 +1,21 @@
+query ClaimCollection($claimCollectionId: String!) {
+  claimCollection(id: $claimCollectionId) {
+    nodeId
+    id
+    entity
+    admin
+    protocol
+    startDate
+    endDate
+    quota
+    count
+    evaluated
+    approved
+    rejected
+    disputed
+    invalidated
+    state
+    payments
+    claimSchemaTypesLoaded
+  }
+}

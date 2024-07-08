@@ -3,7 +3,6 @@ import React, { useCallback, useMemo } from 'react'
 import { Model } from 'survey-core'
 import { Survey } from 'survey-react-ui'
 import { themeJson } from 'styles/surveyTheme'
-import { useGetOfferFormByClaimCollectionId } from 'graphql/entities'
 import { errorToast, successToast } from 'utils/toast'
 import { CellnodePublicResource } from '@ixo/impactxclient-sdk/types/custom_queries/cellnode'
 import { customQueries, ixo } from '@ixo/impactxclient-sdk'
@@ -16,6 +15,7 @@ import { AgentRoles } from 'types/models'
 import { useWallet } from '@ixo-webclient/wallet-connector'
 import { GetAddLinkedResourcePayload } from 'lib/protocol'
 import { DeliverTxResponse } from '@cosmjs/stargate'
+import { useSurveyTemplate } from 'hooks/claims/useSurveyTemplate'
 
 interface Props {
   claimCollectionId: string
@@ -24,7 +24,7 @@ interface Props {
 
 const OfferForm: React.FC<Props> = ({ claimCollectionId, agentRole }) => {
   const { signer } = useAccount()
-  const offerQuestionForm = useGetOfferFormByClaimCollectionId(claimCollectionId)
+  const offerQuestionForm = useSurveyTemplate({ claimCollectionId })
   const { data: iid } = useGetIid(signer.did)
   const offerSent = useMemo(() => {
     const linkedResource: LinkedResource[] = iid?.linkedResource ?? []
