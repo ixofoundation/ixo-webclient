@@ -24,7 +24,7 @@ interface Props {
 
 const OfferForm: React.FC<Props> = ({ claimCollectionId, agentRole }) => {
   const { signer } = useAccount()
-  const offerQuestionForm = useSurveyTemplate({ claimCollectionId })
+  const { surveyTemplate: offerQuestionForm } = useSurveyTemplate({ claimCollectionId })
   const { data: iid } = useGetIid(signer.did)
   const offerSent = useMemo(() => {
     const linkedResource: LinkedResource[] = iid?.linkedResource ?? []
@@ -60,7 +60,10 @@ const OfferForm: React.FC<Props> = ({ claimCollectionId, agentRole }) => {
         })
         const addLinkedResourcePayload = GetAddLinkedResourcePayload(signer.did, signer, linkedResource)
 
-        const response = (await execute({ data: addLinkedResourcePayload as any, transactionConfig: { sequence: 1 }})) as unknown as DeliverTxResponse
+        const response = (await execute({
+          data: addLinkedResourcePayload as any,
+          transactionConfig: { sequence: 1 },
+        })) as unknown as DeliverTxResponse
 
         if (response.code === 0) {
           close()

@@ -5,6 +5,7 @@ import { getSurveyJsResource } from 'services'
 
 export const useSurveyTemplate = ({ claimCollectionId }: { claimCollectionId: string }) => {
   const [surveyTemplate, setSurveyTemplate] = useState<any>(undefined)
+  const [surveyError, setSurveyError] = useState<any>(undefined)
 
   const { data: collection } = useClaimCollectionQuery({
     variables: {
@@ -23,11 +24,11 @@ export const useSurveyTemplate = ({ claimCollectionId }: { claimCollectionId: st
         if (survey) {
           getSurveyJsResource({ resource: survey, service: data?.entity?.service }).then((response) => {
             setSurveyTemplate(response)
-          })
+          }).catch((error) => setSurveyError(error))
         }
-      })
+      }).catch((error) => setSurveyError(error))
     }
   }, [collection, getProtocol])
 
-  return surveyTemplate
+  return {surveyTemplate, surveyError }
 }
