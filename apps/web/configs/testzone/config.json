@@ -4797,54 +4797,6 @@
           ]
         },
         {
-          "@type": "Category",
-          "hidden": true,
-          "name": "Stage",
-          "multiSelect": true,
-          "tags": [
-            {
-              "@type": "Tag",
-              "name": "Proposal",
-              "icon": "proposal.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Planning",
-              "icon": "planning.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Delivery",
-              "icon": "delivery.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Paused",
-              "icon": "paused.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Closing",
-              "icon": "closing.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Ended",
-              "icon": "ended.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Archived",
-              "icon": "archived.svg"
-            },
-            {
-              "@type": "Tag",
-              "name": "Selection",
-              "icon": "archived.svg"
-            }
-          ]
-        },
-        {
           "@type": "SDG",
           "hidden": false,
           "name": "SDG",
