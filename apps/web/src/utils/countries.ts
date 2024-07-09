@@ -2,7 +2,6 @@ import availableFlags from 'constants/availableFlags.json';
 import globalFlag from 'assets/images/country-flags/global.svg';
 
 export const getFlagURL = (location?: string): string | undefined => {
-    console.log({ location })
   if (!location) {
     return undefined;
   }
@@ -12,7 +11,6 @@ export const getFlagURL = (location?: string): string | undefined => {
     try {
       // Use static import instead of dynamic import
       const flag = require(`assets/images/country-flags/${location.toLowerCase()}.svg`);
-      console.log({ flag })
       return flag;
     } catch (error) {
       console.error(`Flag for location ${location} not found`, error);
