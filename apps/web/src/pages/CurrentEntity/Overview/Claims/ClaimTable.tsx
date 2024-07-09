@@ -30,7 +30,7 @@ const getClaimsMetric = (claims: any[]) => {
 }
 
 const getUserRole = (userLinkedResources: any[], collectionId: string) => {
-  const claim = userLinkedResources.find(
+  const claim = userLinkedResources?.find(
     (v) =>
       v.id === `{id}#offer#${collectionId}` && v.type === 'DeedOffer' && v.description.split('#')[0] === collectionId,
   )
