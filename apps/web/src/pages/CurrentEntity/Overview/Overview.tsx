@@ -1,6 +1,6 @@
 import { Box, Flex, Tabs } from '@mantine/core'
 
-import {  useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { selectEntityConfig } from 'redux/configs/configs.selectors'
 import { useAppSelector } from 'redux/hooks'
 import { useTheme } from 'styled-components'
@@ -27,8 +27,8 @@ const Overview: React.FC = () => {
     return () => {
       resetKeyValue()
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const handleTabChange = (value: string | null) => {
     resetKeyValue()
@@ -46,7 +46,7 @@ const Overview: React.FC = () => {
           mt={20}
           w='100%'
           h='100%'
-          styles={{ tabLabel: { fontWeight: 'bold', color: '#A8ADAE', fontSize: 16 } }}
+          styles={{ tab: { outline: "none" }, tabLabel: { fontWeight: 'bold', color: '#A8ADAE', fontSize: 16 } }}
           value={tab}
           onChange={handleTabChange}
         >
@@ -79,9 +79,7 @@ const Overview: React.FC = () => {
           </Tabs.Panel>
 
           <Tabs.Panel value='rights' h='100%' w='100%'>
-            <Flex justify={'center'} align={'center'} w='100%' h='100%'>
-            
-            </Flex>
+            <Flex justify={'center'} align={'center'} w='100%' h='100%'></Flex>
           </Tabs.Panel>
           <Tabs.Panel value='resources'>
             <Flex w='100%' justify={'center'} align={'center'}>
