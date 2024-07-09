@@ -19,7 +19,7 @@ const PageTitle = ({ onChange, initialTitle, editable }: PageTitleProps) => {
         />
       )}
       {!editable && (
-        <Text fz={60} mx='auto' maw='700px' style={{ textWrap: 'wrap' }}>
+        <Text fz={60} mx='auto' maw='750px' style={{ textWrap: 'wrap' }}>
           {initialTitle}
         </Text>
       )}
