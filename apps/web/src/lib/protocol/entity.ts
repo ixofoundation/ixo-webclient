@@ -61,9 +61,9 @@ export const CreateEntityMessage = async (
       controller = [],
       relayerNode = did,
       startDate = '',
-      endDate = '',
+      endDate = '2099',
       ownerDid = did,
-      ownerAddress = address
+      ownerAddress = address,
     } = item
     return {
       typeUrl: '/ixo.entity.v1beta1.MsgCreateEntity',
