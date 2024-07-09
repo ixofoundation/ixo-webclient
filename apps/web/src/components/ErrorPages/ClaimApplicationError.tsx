@@ -18,7 +18,7 @@ const ClaimApplicationError = () => {
 
   return (
     <Flex w='100%' h='500px' justify={'center'} align='center' gap={30} direction={'column'}>
-      <Text fz={'xl'} fw='bold'>
+      <Text fz={'xl'} fw='bold' c='#9A9A9A'>
         Application form closed, check back soon
       </Text>
       <Button radius={4} size='md' onClick={handleBack} leftSection={<LiaArrowLeftSolid />}>
