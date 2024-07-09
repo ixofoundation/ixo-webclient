@@ -15,7 +15,8 @@ import { AgentRoles } from 'types/models'
 import { useWallet } from '@ixo-webclient/wallet-connector'
 import { GetAddLinkedResourcePayload } from 'lib/protocol'
 import { DeliverTxResponse } from '@cosmjs/stargate'
-import { useSurveyTemplate } from 'hooks/claims/useSurveyTemplate'
+import { useClaimApplicationForm } from 'hooks/claims/useClaimApplicationForm'
+import ClaimApplicationError from 'components/ErrorPages/ClaimApplicationError'
 
 interface Props {
   claimCollectionId: string
@@ -24,7 +25,7 @@ interface Props {
 
 const OfferForm: React.FC<Props> = ({ claimCollectionId, agentRole }) => {
   const { signer } = useAccount()
-  const { surveyTemplate: offerQuestionForm } = useSurveyTemplate({ claimCollectionId })
+  const { claimApplicationForm, claimApplicationError } = useClaimApplicationForm({ collectionId: claimCollectionId })
   const { data: iid } = useGetIid(signer.did)
   const offerSent = useMemo(() => {
     const linkedResource: LinkedResource[] = iid?.linkedResource ?? []
@@ -81,10 +82,10 @@ const OfferForm: React.FC<Props> = ({ claimCollectionId, agentRole }) => {
   )
 
   const survey = useMemo(() => {
-    if (!offerQuestionForm) {
+    if (!claimApplicationForm) {
       return undefined
     }
-    const survey = new Model(offerQuestionForm)
+    const survey = new Model(claimApplicationForm)
     survey.applyTheme(themeJson)
     survey.allowCompleteSurveyAutomatic = false
 
@@ -110,7 +111,7 @@ const OfferForm: React.FC<Props> = ({ claimCollectionId, agentRole }) => {
     survey.completeText = 'Submit'
     return survey
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [offerQuestionForm])
+  }, [claimApplicationForm])
 
   if (offerSent) {
     return (
@@ -119,6 +120,8 @@ const OfferForm: React.FC<Props> = ({ claimCollectionId, agentRole }) => {
       </FlexBox>
     )
   }
+
+  if (claimApplicationError) return <ClaimApplicationError />
 
   return (
     <FlexBox $direction='column' width='100%' $gap={7}>
