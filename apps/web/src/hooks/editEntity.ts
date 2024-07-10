@@ -49,7 +49,7 @@ export default function useEditEntity(): {
   const editEntity: TEntityModel = useAppSelector(selectEditEntity)
 
   const defaultEndDate: TEntityModel['endDate'] = utils.proto.toTimestamp(new Date(2099))
-  const hasEndDate = editEntity?.endDate
+  const hasEndDate = editEntity && editEntity?.endDate
   editEntity['endDate'] = hasEndDate ? editEntity.endDate : defaultEndDate
   const currentEntity = useAppSelector(getEntityById(entityId))
   const claimProtocols = useAppSelector(selectAllClaimProtocols)
@@ -99,7 +99,10 @@ export default function useEditEntity(): {
   const getEditedStartAndEndDateMsgs = async (): Promise<readonly EncodeObject[]> => {
     if (
       JSON.stringify({ startDate: editEntity.startDate, endDate: editEntity.endDate }) ===
-      JSON.stringify({ startDate: currentEntity.startDate, endDate: currentEntity?.endDate })
+      JSON.stringify({
+        startDate: currentEntity.startDate,
+        endDate: currentEntity ? currentEntity?.endDate : undefined,
+      })
     ) {
       return []
     }
@@ -213,7 +216,7 @@ export default function useEditEntity(): {
       editEntity.id,
       signer,
       newLinkedResource,
-      currentEntity?.linkedResource?.find((v) => v.type === 'surveyTemplate'),
+      currentEntity ? currentEntity.linkedResource?.find((v) => v.type === 'surveyTemplate') : undefined,
     )
     return messages
   }
@@ -243,7 +246,7 @@ export default function useEditEntity(): {
       editEntity.id,
       signer,
       newLinkedResource,
-      editEntity?.linkedResource?.find((v) => v.id === '{id}#creator'),
+      editEntity ? editEntity.linkedResource?.find((v) => v.id === '{id}#creator') : undefined,
     )
     return messages
   }
@@ -275,7 +278,7 @@ export default function useEditEntity(): {
       editEntity.id,
       signer,
       newLinkedResource,
-      editEntity?.linkedResource?.find((v) => v.id === '{id}#administrator'),
+      editEntity ? editEntity.linkedResource?.find((v) => v.id === '{id}#administrator') : undefined,
     )
     return messages
   }
@@ -373,7 +376,7 @@ export default function useEditEntity(): {
                 editEntity.id,
                 signer,
                 cur,
-                editEntity?.linkedResource?.find((v) => v.id === cur.id),
+                editEntity ? editEntity.linkedResource?.find((v) => v.id === cur.id) : undefined,
               )
             : GetDeleteLinkedResourceMsgs(editEntity.id, signer, cur)
           : GetAddLinkedResourceMsgs(editEntity.id, signer, cur)),
