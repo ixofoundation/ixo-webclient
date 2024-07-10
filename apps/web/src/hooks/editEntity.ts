@@ -49,8 +49,10 @@ export default function useEditEntity(): {
   const editEntity: TEntityModel = useAppSelector(selectEditEntity)
 
   const defaultEndDate: TEntityModel['endDate'] = utils.proto.toTimestamp(new Date(2099))
-  const hasEndDate = editEntity && editEntity?.endDate
-  editEntity['endDate'] = hasEndDate ? editEntity.endDate : defaultEndDate
+
+  if (editEntity) {
+    editEntity['endDate'] = editEntity.endDate || defaultEndDate
+  }
   const currentEntity = useAppSelector(getEntityById(entityId))
   const claimProtocols = useAppSelector(selectAllClaimProtocols)
   const services: Service[] = currentEntity.service
@@ -97,11 +99,14 @@ export default function useEditEntity(): {
   }
 
   const getEditedStartAndEndDateMsgs = async (): Promise<readonly EncodeObject[]> => {
+    if (!currentEntity) {
+      return []
+    }
     if (
       JSON.stringify({ startDate: editEntity.startDate, endDate: editEntity.endDate }) ===
       JSON.stringify({
         startDate: currentEntity.startDate,
-        endDate: currentEntity ? currentEntity?.endDate : undefined,
+        endDate: currentEntity.endDate,
       })
     ) {
       return []
@@ -216,7 +221,7 @@ export default function useEditEntity(): {
       editEntity.id,
       signer,
       newLinkedResource,
-      currentEntity ? currentEntity.linkedResource?.find((v) => v.type === 'surveyTemplate') : undefined,
+      currentEntity.linkedResource.find((v) => v.type === 'surveyTemplate'),
     )
     return messages
   }
@@ -246,7 +251,7 @@ export default function useEditEntity(): {
       editEntity.id,
       signer,
       newLinkedResource,
-      editEntity ? editEntity.linkedResource?.find((v) => v.id === '{id}#creator') : undefined,
+      editEntity.linkedResource?.find((v) => v.id === '{id}#creator'),
     )
     return messages
   }
@@ -256,7 +261,7 @@ export default function useEditEntity(): {
       return []
     }
     const service = getUsedService(
-      editEntity.linkedResource.find((v) => v.id === `{id}#administrator`)?.serviceEndpoint,
+      editEntity.linkedResource?.find((v) => v.id === `{id}#administrator`)?.serviceEndpoint,
     )
     const res = await SaveAdministrator(editEntity.administrator!, service)
     if (!res) {
@@ -278,7 +283,7 @@ export default function useEditEntity(): {
       editEntity.id,
       signer,
       newLinkedResource,
-      editEntity ? editEntity.linkedResource?.find((v) => v.id === '{id}#administrator') : undefined,
+      editEntity.linkedResource?.find((v) => v.id === '{id}#administrator'),
     )
     return messages
   }
@@ -376,7 +381,7 @@ export default function useEditEntity(): {
                 editEntity.id,
                 signer,
                 cur,
-                editEntity ? editEntity.linkedResource?.find((v) => v.id === cur.id) : undefined,
+                editEntity.linkedResource?.find((v) => v.id === cur.id),
               )
             : GetDeleteLinkedResourceMsgs(editEntity.id, signer, cur)
           : GetAddLinkedResourceMsgs(editEntity.id, signer, cur)),
