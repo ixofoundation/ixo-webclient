@@ -8,6 +8,7 @@ import {
   Service,
   VerificationMethod,
 } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
+import { CellnodePublicResource, CellnodeWeb3Resource } from '@ixo/impactxclient-sdk/types/custom_queries/cellnode'
 import BigNumber from 'bignumber.js'
 import { EntityLinkedResourceConfig } from 'constants/entity'
 import {
@@ -126,6 +127,36 @@ export default function useEditEntity(): {
     return messages
   }
 
+  const handleMessageCreation = async (
+    service: Service,
+    resPromise: Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined>,
+    linkedResource: Omit<LinkedResource, 'serviceEndpoint' | 'proof'>,
+  ): Promise<readonly EncodeObject[]> => {
+    const res = await resPromise
+    if (!res) {
+      throw new Error(`Save ${linkedResource.type} failed!`)
+    }
+
+    const newLinkedResource: LinkedResource = {
+      id: linkedResource.id,
+      type: linkedResource.type,
+      description: linkedResource.description,
+      mediaType: linkedResource.mediaType,
+      serviceEndpoint: LinkedResourceServiceEndpointGenerator(res, service),
+      proof: LinkedResourceProofGenerator(res, service),
+      encrypted: 'false',
+      right: '',
+    }
+
+    const messages: readonly EncodeObject[] = GetReplaceLinkedResourceMsgs(
+      editEntity.id,
+      signer,
+      newLinkedResource,
+      editEntity.settings?.Profile,
+    )
+
+    return messages
+  }
   const getEditedProfileMsgs = async (): Promise<readonly EncodeObject[]> => {
     if (JSON.stringify(editEntity.profile) === JSON.stringify(currentEntity.profile)) {
       return []
@@ -139,29 +170,14 @@ export default function useEditEntity(): {
           serviceEndpoint: 'https://ipfs.io/ipfs',
         }
 
-    const res = await SaveProfile(editEntity.profile, service)
-    if (!res) {
-      throw new Error('Save Profile failed!')
-    }
-
-    const newLinkedResource: LinkedResource = {
+    return handleMessageCreation(service, SaveProfile(editEntity.profile, service), {
       id: '{id}#profile',
       type: 'Settings',
       description: 'Profile',
       mediaType: 'application/ld+json',
-      serviceEndpoint: LinkedResourceServiceEndpointGenerator(res, service),
-      proof: LinkedResourceProofGenerator(res, service),
-      encrypted: 'false',
       right: '',
-    }
-
-    const messages: readonly EncodeObject[] = GetReplaceLinkedResourceMsgs(
-      editEntity.id,
-      signer,
-      newLinkedResource,
-      editEntity.settings?.Profile,
-    )
-    return messages
+      encrypted: 'false',
+    })
   }
 
   const getEditedTokenMsgs = async (): Promise<readonly EncodeObject[]> => {
@@ -170,29 +186,15 @@ export default function useEditEntity(): {
     }
 
     const service = getUsedService(editEntity.linkedResource.find((v) => v.type === 'TokenMetadata')?.serviceEndpoint)
-    const res = await SaveTokenMetadata(editEntity.token, service)
-    if (!res) {
-      throw new Error('Save TokenMetadata failed!')
-    }
 
-    const newLinkedResource: LinkedResource = {
+    return handleMessageCreation(service, SaveTokenMetadata(editEntity.token, service), {
       id: '{id}#token',
       type: 'TokenMetadata',
       description: 'Impact Token',
       mediaType: 'application/ld+json',
-      serviceEndpoint: LinkedResourceServiceEndpointGenerator(res, service),
-      proof: LinkedResourceProofGenerator(res, service),
-      encrypted: 'false',
       right: '',
-    }
-
-    const messages: readonly EncodeObject[] = GetReplaceLinkedResourceMsgs(
-      editEntity.id,
-      signer,
-      newLinkedResource,
-      currentEntity.linkedResource.find((v) => v.type === 'TokenMetadata'),
-    )
-    return messages
+      encrypted: 'false',
+    })
   }
 
   const getEditedSurveyTemplateMsgs = async (): Promise<readonly EncodeObject[]> => {
@@ -201,29 +203,15 @@ export default function useEditEntity(): {
     }
 
     const service = getUsedService(editEntity.linkedResource.find((v) => v.type === 'surveyTemplate')?.serviceEndpoint)
-    const res = await SaveQuestionJSON(editEntity.surveyTemplate, service)
-    if (!res) {
-      throw new Error('Save Survey Template failed!')
-    }
 
-    const newLinkedResource: LinkedResource = {
+    return handleMessageCreation(service, SaveQuestionJSON(editEntity.surveyTemplate, service), {
       id: '{id}#surveyTemplate',
       type: 'surveyTemplate',
       description: '',
       mediaType: 'application/ld+json',
-      serviceEndpoint: LinkedResourceServiceEndpointGenerator(res, service),
-      proof: LinkedResourceProofGenerator(res, service),
-      encrypted: 'false',
       right: '',
-    }
-
-    const messages: readonly EncodeObject[] = GetReplaceLinkedResourceMsgs(
-      editEntity.id,
-      signer,
-      newLinkedResource,
-      currentEntity.linkedResource.find((v) => v.type === 'surveyTemplate'),
-    )
-    return messages
+      encrypted: 'false',
+    })
   }
 
   const getEditedCreatorMsgs = async (): Promise<readonly EncodeObject[]> => {
@@ -231,29 +219,15 @@ export default function useEditEntity(): {
       return []
     }
     const service = getUsedService(editEntity.linkedResource.find((v) => v.id === `{id}#creator`)?.serviceEndpoint)
-    const res = await SaveProfile(editEntity.creator, service)
-    if (!res) {
-      throw new Error('Save Creator failed!')
-    }
 
-    const newLinkedResource: LinkedResource = {
+    return handleMessageCreation(service, SaveProfile(editEntity.creator, service), {
       id: '{id}#creator',
       type: 'VerifiableCredential',
       description: 'Creator',
       mediaType: 'application/ld+json',
-      serviceEndpoint: LinkedResourceServiceEndpointGenerator(res, service),
-      proof: LinkedResourceProofGenerator(res, service),
-      encrypted: 'false',
       right: '',
-    }
-
-    const messages: readonly EncodeObject[] = GetReplaceLinkedResourceMsgs(
-      editEntity.id,
-      signer,
-      newLinkedResource,
-      editEntity.linkedResource?.find((v) => v.id === '{id}#creator'),
-    )
-    return messages
+      encrypted: 'false',
+    })
   }
 
   const getEditedAdministratorMsgs = async (): Promise<readonly EncodeObject[]> => {
@@ -263,29 +237,15 @@ export default function useEditEntity(): {
     const service = getUsedService(
       editEntity.linkedResource?.find((v) => v.id === `{id}#administrator`)?.serviceEndpoint,
     )
-    const res = await SaveAdministrator(editEntity.administrator!, service)
-    if (!res) {
-      throw new Error('Save Administrator failed!')
-    }
 
-    const newLinkedResource: LinkedResource = {
+    return handleMessageCreation(service, SaveAdministrator(editEntity.administrator!, service), {
       id: '{id}#administrator',
       type: 'VerifiableCredential',
       description: 'Administrator',
       mediaType: 'application/ld+json',
-      serviceEndpoint: LinkedResourceServiceEndpointGenerator(res, service),
-      proof: LinkedResourceProofGenerator(res, service),
-      encrypted: 'false',
       right: '',
-    }
-
-    const messages: readonly EncodeObject[] = GetReplaceLinkedResourceMsgs(
-      editEntity.id,
-      signer,
-      newLinkedResource,
-      editEntity.linkedResource?.find((v) => v.id === '{id}#administrator'),
-    )
-    return messages
+      encrypted: 'false',
+    })
   }
 
   const getEditedPageMsgs = async (): Promise<readonly EncodeObject[]> => {
@@ -293,29 +253,15 @@ export default function useEditEntity(): {
       return []
     }
     const service = getUsedService(editEntity.settings.Page.serviceEndpoint)
-    const res = await SavePage((editEntity.page ?? {}) as TEntityPageModel, service)
-    if (!res) {
-      throw new Error('Save Page Content failed!')
-    }
 
-    const newLinkedResource: LinkedResource = {
+    return handleMessageCreation(service, SavePage((editEntity.page ?? {}) as TEntityPageModel, service), {
       id: '{id}#page',
       type: 'Settings',
       description: 'Page',
       mediaType: 'application/ld+json',
-      serviceEndpoint: LinkedResourceServiceEndpointGenerator(res, service),
-      proof: LinkedResourceProofGenerator(res, service),
-      encrypted: 'false',
       right: '',
-    }
-
-    const messages: readonly EncodeObject[] = GetReplaceLinkedResourceMsgs(
-      editEntity.id,
-      signer,
-      newLinkedResource,
-      editEntity.settings.Page,
-    )
-    return messages
+      encrypted: 'false',
+    })
   }
 
   const getEditedTagsMsgs = async (): Promise<readonly EncodeObject[]> => {
@@ -323,29 +269,15 @@ export default function useEditEntity(): {
       return []
     }
     const service = getUsedService(editEntity.settings.Tags.serviceEndpoint)
-    const res = await SaveTags(editEntity.tags ?? [], service)
-    if (!res) {
-      throw new Error('Save Tags failed!')
-    }
 
-    const newLinkedResource: LinkedResource = {
+    return handleMessageCreation(service, SaveTags(editEntity.tags ?? [], service), {
       id: '{id}#tags',
       type: 'Settings',
       description: 'Tags',
       mediaType: 'application/ld+json',
-      serviceEndpoint: LinkedResourceServiceEndpointGenerator(res, service),
-      proof: LinkedResourceProofGenerator(res, service),
-      encrypted: 'false',
       right: '',
-    }
-
-    const messages: readonly EncodeObject[] = GetReplaceLinkedResourceMsgs(
-      editEntity.id,
-      signer,
-      newLinkedResource,
-      editEntity.settings.Tags,
-    )
-    return messages
+      encrypted: 'false',
+    })
   }
 
   const getEditedLinkedFilesMsgs = async (): Promise<readonly EncodeObject[]> => {
