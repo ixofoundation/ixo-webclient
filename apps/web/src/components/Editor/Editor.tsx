@@ -42,7 +42,7 @@ const Editor = ({ editable = false, initialPage, onChange }: Props) => {
 
   const editor = useCreateBlockNote({
     schema,
-    initialContent: page?.content as Block[],
+    initialContent: page.content?.length ? page.content : undefined,
     uploadFile,
     dictionary: en,
   })
@@ -66,7 +66,7 @@ const Editor = ({ editable = false, initialPage, onChange }: Props) => {
   }
 
   return (
-    <Box>
+    <Box w="100%">
       <FeaturedImage editable={editable} onChange={handleFeaturedImageChange} initialImage={page.featuredImage} />
       <PageTitle editable={editable} onChange={handlePageTitleChange} initialTitle={page.pageTitle} />
       <BlockNoteView editable={editable} editor={editor} onChange={handleContentChange} />

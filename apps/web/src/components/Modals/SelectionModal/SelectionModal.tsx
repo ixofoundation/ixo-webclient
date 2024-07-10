@@ -98,7 +98,13 @@ const SelectionModal: React.FC<Props> = ({
             _.chunk(options, 5).map((row, rowIdx) => (
               <ModalRow key={rowIdx} style={{ justifyContent: 'flex-start', alignItems: 'stretch' }}>
                 {row.map((value) => {
+                  if (!value) {
+                    return null
+                  }
                   const sdgIcon = getSDGIcon(value)
+                  if (!sdgIcon) {
+                    return null
+                  }
                   return (
                     <SDGSelectionButton
                       key={value}

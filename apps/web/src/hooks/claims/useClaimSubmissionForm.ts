@@ -3,7 +3,7 @@ import { useClaimCollectionQuery, useEntityLazyQuery } from 'generated/graphql'
 import { useEffect, useState } from 'react'
 import { getSurveyJsResource } from 'services'
 
-export const useSurveyTemplate = ({ claimCollectionId }: { claimCollectionId: string }) => {
+export const useClaimSubmissionForm = ({ claimCollectionId }: { claimCollectionId: string }) => {
   const [surveyTemplate, setSurveyTemplate] = useState<any>(undefined)
   const [surveyError, setSurveyError] = useState<any>(undefined)
 

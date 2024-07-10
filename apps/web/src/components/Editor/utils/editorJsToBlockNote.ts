@@ -93,7 +93,7 @@ export const EditorJsToBlockNote = (page: any[]) => {
     {
       featuredImage: '',
       pageTitle: '',
-      content: [],
+      content: undefined,
     },
   )
 }
