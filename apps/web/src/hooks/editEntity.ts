@@ -49,10 +49,13 @@ export default function useEditEntity(): {
 
   const editEntity: TEntityModel = useAppSelector(selectEditEntity)
 
-  const defaultEndDate: TEntityModel['endDate'] = utils.proto.toTimestamp(new Date(2099))
+  const futureDate = new Date()
+  futureDate.setFullYear(2100)
 
   if (editEntity) {
-    editEntity['endDate'] = editEntity.endDate || defaultEndDate
+    const defaultEndDate =
+      typeof editEntity.endDate === 'string' ? futureDate.toISOString() : utils.proto.toTimestamp(futureDate)
+    editEntity['endDate'] = editEntity.endDate || (defaultEndDate as unknown as typeof editEntity.endDate)
   }
   const currentEntity = useAppSelector(getEntityById(entityId))
   const claimProtocols = useAppSelector(selectAllClaimProtocols)
