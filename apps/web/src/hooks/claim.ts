@@ -16,7 +16,7 @@ export function useClaimSetting() {
   return {
     [ixo.claims.v1beta1.EvaluationStatus.PENDING]: {
       text: 'Pending',
-      color: theme.ixoOrange,
+      color: theme.ixoNewBlue,
     },
     [ixo.claims.v1beta1.EvaluationStatus.REJECTED]: {
       text: 'Rejected',
@@ -28,15 +28,15 @@ export function useClaimSetting() {
     },
     [ixo.claims.v1beta1.EvaluationStatus.DISPUTED]: {
       text: 'Disputed',
-      color: theme.ixoYellow,
+      color: theme.ixoDarkOrange,
     },
     [ixo.claims.v1beta1.EvaluationStatus.UNRECOGNIZED]: {
       text: 'Remaining',
-      color: theme.ixoDarkestBlue,
+      color: theme.ixoDarkBlue,
     },
     [4]: {
       text: 'Saved',
-      color: theme.ixoNewBlue,
+      color: theme.fontSkyBlue,
     },
   }
 }
