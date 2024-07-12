@@ -1,16 +1,41 @@
-import { SvgBox } from 'components/App/App.styles'
-import { Card } from 'pages/CurrentEntity/Components'
+import { ixo } from '@ixo/impactxclient-sdk'
 import { Box, Flex } from '@mantine/core'
-import { Typography } from 'components/Typography'
 import { ReactComponent as CheckInCircleIcon } from 'assets/images/icon-check-in-circle.svg'
 import { ReactComponent as ProfileIcon } from 'assets/images/icon-profile.svg'
-import { useGetClaimCollectionsByEntityId } from 'graphql/claims'
-import { useParams } from 'react-router-dom'
-import { useMemo } from 'react'
-import { useGetJoiningAgentsByEntityId } from 'graphql/iid'
+import { SvgBox } from 'components/App/App.styles'
+import { Typography } from 'components/Typography'
 import PieChart from 'components/Widgets/PieChart'
+import { useGetClaimCollectionsByEntityId } from 'graphql/claims'
+import { useGetJoiningAgentsByEntityId } from 'graphql/iid'
 import { useClaimSetting } from 'hooks/claim'
-import { ixo } from '@ixo/impactxclient-sdk'
+import { Card } from 'pages/CurrentEntity/Components'
+import { useMemo } from 'react'
+import { useParams } from 'react-router-dom'
+
+interface StatCardProps {
+  evaluationStatus: keyof typeof statCardLabel
+  value: number
+}
+
+const statCardLabel = {
+  [ixo.claims.v1beta1.EvaluationStatus.APPROVED]: 'Approved',
+  [ixo.claims.v1beta1.EvaluationStatus.PENDING]: 'Pending Approval',
+  [ixo.claims.v1beta1.EvaluationStatus.REJECTED]: 'Rejected',
+  [ixo.claims.v1beta1.EvaluationStatus.UNRECOGNIZED]: 'Remaining',
+  [ixo.claims.v1beta1.EvaluationStatus.DISPUTED]: 'Disputed',
+} as const
+
+const StatCard: React.FC<StatCardProps> = ({ evaluationStatus, value }) => {
+  const ClaimSetting = useClaimSetting()
+  return (
+    <Flex gap={16} align={'center'}>
+      <Box w={12} h={12} bg={ClaimSetting[evaluationStatus].color} style={{ borderRadius: 12 }} />
+      <Typography size='md'>
+        <strong>{value}</strong> {statCardLabel[evaluationStatus]}
+      </Typography>
+    </Flex>
+  )
+}
 
 const ClaimStatsCard: React.FC = () => {
   const ClaimSetting = useClaimSetting()
@@ -23,9 +48,10 @@ const ClaimStatsCard: React.FC = () => {
         rejected: acc.rejected + cur.rejected,
         pending: acc.pending + (cur.count - cur.approved - cur.rejected),
         remaining: acc.remaining + (cur.quota - cur.count),
+        disputed: acc.disputed + cur.disputed,
         total: acc.total + cur.quota,
       }),
-      { approved: 0, rejected: 0, pending: 0, remaining: 0, total: 0 },
+      { approved: 0, rejected: 0, pending: 0, remaining: 0, total: 0, disputed: 0 },
     )
   }, [claimCollections])
   const { agents, pendingAgents, approvedAgents } = useGetJoiningAgentsByEntityId(entityId)
@@ -35,50 +61,14 @@ const ClaimStatsCard: React.FC = () => {
       <Flex w='100%' h='100%' align={'center'} gap={4}>
         <Flex w='100%' direction={'column'} gap={16}>
           <Flex w='100%' direction={'column'} gap={16} ml={32}>
-            <Flex gap={16} align={'center'}>
-              <Box
-                w={12}
-                h={12}
-                bg={ClaimSetting[ixo.claims.v1beta1.EvaluationStatus.APPROVED].color}
-                style={{ borderRadius: 12 }}
-              />
-              <Typography size='md'>
-                <strong>{claimStats.approved}</strong> Approved
-              </Typography>
-            </Flex>
-            <Flex gap={16} align={'center'}>
-              <Box
-                w={12}
-                h={12}
-                bg={ClaimSetting[ixo.claims.v1beta1.EvaluationStatus.PENDING].color}
-                style={{ borderRadius: 12 }}
-              />
-              <Typography size='md'>
-                <strong>{claimStats.pending}</strong> Pending Approval
-              </Typography>
-            </Flex>
-            <Flex gap={16} align={'center'}>
-              <Box
-                w={12}
-                h={12}
-                bg={ClaimSetting[ixo.claims.v1beta1.EvaluationStatus.REJECTED].color}
-                style={{ borderRadius: 12 }}
-              />
-              <Typography size='md'>
-                <strong>{claimStats.rejected}</strong> Rejected
-              </Typography>
-            </Flex>
-            <Flex gap={16} align={'center'}>
-              <Box
-                w={12}
-                h={12}
-                bg={ClaimSetting[ixo.claims.v1beta1.EvaluationStatus.UNRECOGNIZED].color}
-                style={{ borderRadius: 12 }}
-              />
-              <Typography size='md'>
-                <strong>{claimStats.remaining}</strong> Remaining
-              </Typography>
-            </Flex>
+            <StatCard evaluationStatus={ixo.claims.v1beta1.EvaluationStatus.APPROVED} value={claimStats.approved} />
+            <StatCard evaluationStatus={ixo.claims.v1beta1.EvaluationStatus.PENDING} value={claimStats.pending} />
+            <StatCard evaluationStatus={ixo.claims.v1beta1.EvaluationStatus.REJECTED} value={claimStats.rejected} />
+            <StatCard
+              evaluationStatus={ixo.claims.v1beta1.EvaluationStatus.UNRECOGNIZED}
+              value={claimStats.remaining}
+            />
+            <StatCard evaluationStatus={ixo.claims.v1beta1.EvaluationStatus.DISPUTED} value={claimStats.disputed} />
           </Flex>
           <Flex w='100%' direction={'column'} gap={16}>
             <Flex gap={8} align={'center'}>
