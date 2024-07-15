@@ -10,12 +10,9 @@ const Page = () => {
   const { page } = useAppSelector(getEntityById(entityId))
 
   if(!page) return null
-
-  console.log({page})
-
+  
   return (
     <Flex>
-      {/* {page?.featuredImage && <Image src={page?.featuredImage} />} */}
       {Array.isArray(page) ? <Editor initialPage={EditorJsToBlockNote(page)} /> : <Editor initialPage={page} editable={false} />}
     </Flex>
   )
