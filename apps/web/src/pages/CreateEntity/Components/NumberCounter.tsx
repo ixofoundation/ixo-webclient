@@ -37,6 +37,7 @@ interface Props {
   label?: string
   width?: string
   height?: string
+  disabled?: boolean
   value: number
   onChange: (value: number) => void
 }
@@ -47,6 +48,7 @@ const NumberCounter: React.FC<Props> = ({
   direction = 'row',
   label,
   value,
+  disabled,
   onChange,
 }): JSX.Element => {
   const theme: any = useTheme()
@@ -105,6 +107,7 @@ const NumberCounter: React.FC<Props> = ({
           onFocus={(): void => setFocused(true)}
           onBlur={(): void => setFocused(false)}
           $textAlign={direction === 'row' ? 'left' : 'right'}
+          disabled={disabled}
         />
       </Box>
 
