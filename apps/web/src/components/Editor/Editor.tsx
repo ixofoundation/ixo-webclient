@@ -1,15 +1,15 @@
+import { Block, BlockNoteSchema, defaultBlockSpecs } from '@blocknote/core'
 import '@blocknote/core/fonts/inter.css'
-import { useCreateBlockNote } from '@blocknote/react'
 import { BlockNoteView } from '@blocknote/mantine'
 import '@blocknote/mantine/style.css'
+import { useCreateBlockNote } from '@blocknote/react'
+import { Box } from '@mantine/core'
 import { uploadFile } from 'components/Editor/uploadFile'
-import { Block, BlockNoteSchema, defaultBlockSpecs } from '@blocknote/core'
 import { useEffect, useState } from 'react'
-import './Editor.css'
+import { TEntityPageModel } from 'types/entities'
 import { ImageBlock } from './CustomBlocks/Image/ImageBlock'
 import { en } from './customDictionary'
-import { Box } from '@mantine/core'
-import { TEntityPageModel } from 'types/entities'
+import './Editor.css'
 import FeaturedImage from './FeaturedImage/FeaturedImage'
 import PageTitle from './PageTitle/PageTitle'
 
@@ -42,7 +42,7 @@ const Editor = ({ editable = false, initialPage, onChange }: Props) => {
 
   const editor = useCreateBlockNote({
     schema,
-    initialContent: page?.content as Block[],
+    initialContent: page.content?.length ? page.content : undefined,
     uploadFile,
     dictionary: en,
   })
@@ -66,10 +66,10 @@ const Editor = ({ editable = false, initialPage, onChange }: Props) => {
   }
 
   return (
-    <Box w="100%">
+    <Box w='100%'>
       <FeaturedImage editable={editable} onChange={handleFeaturedImageChange} initialImage={page.featuredImage} />
       <PageTitle editable={editable} onChange={handlePageTitleChange} initialTitle={page.pageTitle} />
-      <BlockNoteView editable={editable} editor={editor} onChange={handleContentChange} />
+      <BlockNoteView editable={editable} editor={editor} onChange={handleContentChange} theme={'light'} />
     </Box>
   )
 }
