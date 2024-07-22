@@ -259,7 +259,7 @@ const ReviewProposal: React.FC = () => {
       })
       .catch((e) => {
         console.error(e)
-        Toast.errorToast(null, e)
+        Toast.errorToast(null, "Could not publish proposals")
         return undefined
       })
   }
