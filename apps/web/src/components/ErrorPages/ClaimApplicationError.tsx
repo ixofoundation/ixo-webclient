@@ -3,7 +3,11 @@ import { useKeyValueViewerContext } from 'contexts/KeyValueViewerContext'
 import { LiaArrowLeftSolid } from 'react-icons/lia'
 import { useLocation, useNavigate } from 'react-router-dom'
 
-const ClaimApplicationError = () => {
+type ClaimApplicationErrorProps = {
+  error?: string
+}
+
+const ClaimApplicationError = ({ error = 'Application form closed, check back soon' }: ClaimApplicationErrorProps) => {
   const navigate = useNavigate()
   const { pathname } = useLocation()
   const { resetKeyValue } = useKeyValueViewerContext()
@@ -19,7 +23,7 @@ const ClaimApplicationError = () => {
   return (
     <Flex w='100%' h='500px' justify={'center'} align='center' gap={30} direction={'column'}>
       <Text fz={'xl'} fw='bold' c='#9A9A9A'>
-        Application form closed, check back soon
+        {error}
       </Text>
       <Button radius={4} size='md' onClick={handleBack} leftSection={<LiaArrowLeftSolid />}>
         Back
