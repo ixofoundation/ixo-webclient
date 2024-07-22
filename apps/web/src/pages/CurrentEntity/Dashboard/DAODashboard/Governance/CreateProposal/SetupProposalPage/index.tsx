@@ -1,11 +1,5 @@
-import React, { useState, useCallback, useRef } from 'react'
-import { createReactEditorJS } from 'react-editor-js'
-import _ from 'lodash'
-// @ts-ignore
-import DragDrop from 'editorjs-drag-drop'
-// @ts-ignore
-import Undo from 'editorjs-undo'
-import { OutputBlockData, OutputData } from '@editorjs/editorjs'
+import React, { useState, useCallback } from 'react'
+
 import { Flex } from '@mantine/core'
 import styled, { useTheme } from 'styled-components'
 import { ReactComponent as PlusCircleIcon } from 'assets/images/icon-plus-circle-solid.svg'
@@ -13,10 +7,11 @@ import { SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { PropertiesForm } from 'pages/CreateEntity/Forms'
 import { useCreateEntityState } from 'hooks/createEntity'
-import { EDITOR_JS_TOOLS } from 'pages/CreateEntity/Forms/PropertiesForm/SetupPageContent/SetupPageContent.constants'
 import { Button } from 'pages/CreateEntity/Components'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useQuery } from 'hooks/window'
+import { TEntityPageModel } from 'types/entities'
+import Editor from 'components/Editor/Editor'
 
 export const Wrapper = styled(Flex)`
   font-family: ${(props): string => props.theme.secondaryFontFamily};
@@ -41,13 +36,10 @@ export const Wrapper = styled(Flex)`
   }
 `
 
-const ReactEditorJS = createReactEditorJS()
-
 const SetupProposalPage: React.FC = (): JSX.Element => {
   const theme: any = useTheme()
   const navigate = useNavigate()
   const { entityId, coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
-  const editorCore = useRef(null)
   const { getQuery } = useQuery()
   const selectedTemplateEntityId = getQuery('selectedTemplateEntityId')
 
@@ -55,7 +47,7 @@ const SetupProposalPage: React.FC = (): JSX.Element => {
     entityType,
     creator,
     administrator,
-    page = {},
+    page,
     service,
     linkedResource,
     claim,
@@ -72,6 +64,12 @@ const SetupProposalPage: React.FC = (): JSX.Element => {
     updateLinkedEntity,
   } = useCreateEntityState()
 
+  const [value, setValue] = useState<TEntityPageModel>({
+    pageTitle: "",
+    featuredImage: "",
+    content: undefined
+  })
+
   const handleBack = (): void => {
     const search = new URLSearchParams()
     if (selectedTemplateEntityId) {
@@ -85,7 +83,7 @@ const SetupProposalPage: React.FC = (): JSX.Element => {
     }
   }
   const handleNext = (): void => {
-    updatePage(_.keyBy(value.blocks, 'id'))
+    updatePage(value)
 
     const search = new URLSearchParams()
     if (selectedTemplateEntityId) {
@@ -97,45 +95,11 @@ const SetupProposalPage: React.FC = (): JSX.Element => {
     })
   }
 
-  const DefHeroImageData: OutputBlockData = {
-    id: 'page-hero-image',
-    type: 'heroImage',
-    data: undefined,
-  }
 
-  const DefPageTitleData: OutputBlockData = {
-    id: 'page-title',
-    type: 'pageTitle',
-    data: undefined,
-  }
-
-  const DefPageContentData: OutputBlockData = {
-    id: 'page-content',
-    type: 'pageContent',
-    data: undefined,
-  }
-
-  const [value, setValue] = useState<OutputData>({
-    time: new Date().getTime(),
-    blocks: [
-      ...(Object.keys(page).length > 0 ? _.values(page) : [DefHeroImageData, DefPageTitleData, DefPageContentData]),
-    ],
-  })
   const [addLinked, setAddLinked] = useState(false)
 
-  const handleInitialize = useCallback((instance: any) => {
-    editorCore.current = instance
-  }, [])
-
-  const handleReady = useCallback(() => {
-    const editor = (editorCore.current as any)._editorJS
-    new Undo({ editor })
-    new DragDrop(editor)
-  }, [])
-
-  const handleSave = useCallback(async () => {
-    const data = await (editorCore.current as any).save()
-    setValue(data)
+  const handleSave = useCallback((page: TEntityPageModel) => {
+    setValue(page)
   }, [])
 
   const PropertiesFormProps = {
@@ -163,13 +127,7 @@ const SetupProposalPage: React.FC = (): JSX.Element => {
     <Wrapper direction={'column'} gap={50} w='100%'>
       <Flex direction={'column'} gap={24} w='100%'>
         <Flex w='100%' direction={'column'} py={30} px={60} style={{ border: `1px solid ${theme.ixoGrey300}` }}>
-          <ReactEditorJS
-            onInitialize={handleInitialize}
-            onReady={handleReady}
-            tools={EDITOR_JS_TOOLS}
-            defaultValue={value}
-            onChange={handleSave}
-          />
+        <Editor editable={true} onChange={handleSave} initialPage={value}/>
         </Flex>
 
         {!addLinked ? (

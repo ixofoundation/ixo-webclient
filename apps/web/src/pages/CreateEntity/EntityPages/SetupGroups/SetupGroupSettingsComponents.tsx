@@ -70,9 +70,11 @@ export const RenderActions = ({ errMsg, onBack, submitting, handleSubmit, valid 
   )
 }
 
-type RenderGroupIdentityProps = DataStateProps
+type RenderGroupIdentityProps = DataStateProps & {
+  isLedgeredGroup?: boolean
+}
 
-export const RenderGroupIdentity = ({ data, setData }: RenderGroupIdentityProps): JSX.Element => {
+export const RenderGroupIdentity = ({ data, setData, isLedgeredGroup }: RenderGroupIdentityProps): JSX.Element => {
   return (
     <CardWrapper $direction='column' $gap={5} $marginBottom={7}>
       <FlexBox $gap={2} $alignItems='center'>
@@ -87,6 +89,7 @@ export const RenderGroupIdentity = ({ data, setData }: RenderGroupIdentityProps)
           label='Group Name'
           inputValue={data.config.name || ''}
           handleChange={(value): void => setData((pre) => ({ ...pre, config: { ...pre.config, name: value } }))}
+          disabled={isLedgeredGroup} 
         />
       </FlexBox>
       <FlexBox>
@@ -95,6 +98,7 @@ export const RenderGroupIdentity = ({ data, setData }: RenderGroupIdentityProps)
           label='Short Description'
           inputValue={data.config.description || ''}
           handleChange={(value): void => setData((pre) => ({ ...pre, config: { ...pre.config, description: value } }))}
+          disabled={isLedgeredGroup}
         />
       </FlexBox>
     </CardWrapper>
@@ -108,9 +112,10 @@ export const RenderGroupIdentity = ({ data, setData }: RenderGroupIdentityProps)
 type DataStateProps = {
   setData: React.Dispatch<React.SetStateAction<TDAOGroupModel>>
   data: TDAOGroupModel
+  isLedgeredGroup?: boolean
 }
 
-export const GroupMemberships = ({ setData, data }: RenderGroupIdentityProps): JSX.Element => {
+export const GroupMemberships = ({ setData, data, isLedgeredGroup }: RenderGroupIdentityProps): JSX.Element => {
   const initialMembership = { category: '', weight: 1, members: [] }
   // TODO: properly type theme
   const theme: any = useTheme()
@@ -244,12 +249,14 @@ export const GroupMemberships = ({ setData, data }: RenderGroupIdentityProps): J
                 label='Membership Category'
                 inputValue={membership.category}
                 handleChange={(value): void => handleUpdateMembership(membershipIdx, 'category', value)}
+                disabled={isLedgeredGroup}
               />
               <NumberCounter
                 label='Voting Weight per Member'
                 height={inputHeight + 'px'}
                 value={membership.weight ?? 0}
                 onChange={(value): void => handleUpdateMembership(membershipIdx, 'weight', value)}
+                disabled={isLedgeredGroup}
               />
             </FlexBox>
           </FlexBox>
@@ -280,7 +287,7 @@ export const GroupMemberships = ({ setData, data }: RenderGroupIdentityProps): J
                   </Button>
                 </FlexBox>
               ))}
-              <Button size='flex' textTransform='none' height={48} onClick={(): void => handleAddMember(membershipIdx)}>
+              <Button size='flex' textTransform='none' height={48} onClick={(): void => handleAddMember(membershipIdx)} disabled={isLedgeredGroup}>
                 <FlexBox $alignItems='center' $gap={2}>
                   <PlusIcon color={theme.ixoWhite} />
                   Add a Member

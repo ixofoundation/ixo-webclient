@@ -14,7 +14,7 @@ import { useQuery } from 'hooks/window'
 import { Status } from '@ixo/impactxclient-sdk/types/codegen/DaoMigrator.types'
 import { mantineThemeColors } from 'styles/mantine'
 import { useAppSelector } from 'redux/hooks'
-import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { getEntityById } from 'redux/entities/entities.selectors'
 import { isImpactsDAO } from 'utils/application'
 import { useWallet } from '@ixo-webclient/wallet-connector'
 

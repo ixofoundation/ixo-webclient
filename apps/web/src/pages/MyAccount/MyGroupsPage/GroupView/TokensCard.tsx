@@ -1,6 +1,5 @@
 import { Avatar, Card } from 'pages/CurrentEntity/Components'
 import React, { useCallback, useEffect, useState } from 'react'
-import { ReactComponent as AgentIcon } from 'assets/img/sidebar/agents.svg'
 import { Button, Flex } from '@mantine/core'
 import { Typography } from 'components/Typography'
 import { TDAOGroupModel } from 'types/entities'
@@ -12,6 +11,7 @@ import { plus } from 'utils/currency'
 import CurrencyFormat from 'react-currency-format'
 import { GroupStakingModal, GroupUnstakingModal } from 'components/Modals'
 import useCurrentEntity from 'hooks/currentEntity'
+import { LiaCoinsSolid } from 'react-icons/lia'
 
 interface Props {
   daoGroup: TDAOGroupModel
@@ -95,7 +95,7 @@ const TokensCard: React.FC<Props> = ({ daoGroup, onAction }) => {
   return (
     <Card
       label='Token'
-      icon={<AgentIcon />}
+      iconNode={<LiaCoinsSolid size={24} />}
       actionIcon={
         <Button size='xs' bg={'ixo-blue'} variant='filled'>
           Shareholders

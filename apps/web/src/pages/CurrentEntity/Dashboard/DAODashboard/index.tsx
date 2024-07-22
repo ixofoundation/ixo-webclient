@@ -24,7 +24,7 @@ import Shareholders from './Shareholders'
 import { useMemo } from 'react'
 import { Requests } from './Requests'
 import { useAppSelector } from 'redux/hooks'
-import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { getEntityById } from 'redux/entities/entities.selectors'
 import { useWallet } from '@ixo-webclient/wallet-connector'
 
 const DAODashboard: React.FC = (): JSX.Element => {

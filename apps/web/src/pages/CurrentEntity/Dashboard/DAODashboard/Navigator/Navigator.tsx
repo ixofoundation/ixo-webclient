@@ -14,7 +14,7 @@ import { Button } from 'pages/CreateEntity/Components'
 import { GroupStakingModal } from 'components/Modals'
 import { useQuery } from 'hooks/window'
 import { useAppSelector } from 'redux/hooks'
-import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { getEntityById } from 'redux/entities/entities.selectors'
 
 const Navigator: React.FC = (): JSX.Element => {
   const { entityId = '' } = useParams<{ entityId: string }>()

@@ -9,6 +9,8 @@ import { HorizontalLine } from 'components/HorizontalLine'
 import { Tag } from 'components'
 import { getEntityIcon } from 'utils/getEntityIcon'
 import { useNavigate } from 'react-router-dom'
+import { selectEntityConfig } from 'redux/configs/configs.selectors'
+import { useAppSelector } from 'redux/hooks'
 
 interface Props extends HTMLFlexBoxProps {
   id?: string
@@ -42,6 +44,8 @@ export const AssetCard: React.FC<Props> = ({
 }): JSX.Element | null => {
   const theme: any = useTheme()
   const navigate = useNavigate()
+  const config = useAppSelector(selectEntityConfig)
+  const design = config.UI?.explorer?.design
 
   return (
     <FlexBox
@@ -51,6 +55,8 @@ export const AssetCard: React.FC<Props> = ({
       $borderRadius={'10px'}
       overflow='hidden'
       hover={{ $boxShadow: '0px 10px 25px 0px rgba(0, 0, 0, 0.15)' }}
+      border={design?.card?.border}
+      {...(design?.card?.boxShadow && { $boxShadow: design?.card?.boxShadow })}
       onClick={() =>
         navigate({
           pathname: `/entity/${id}/overview`,

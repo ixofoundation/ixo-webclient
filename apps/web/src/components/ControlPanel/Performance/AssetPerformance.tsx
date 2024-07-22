@@ -6,7 +6,7 @@ import { useCurrentEntityAdminAccount } from 'hooks/currentEntity'
 import { useGetAccountTokens } from 'graphql/tokens'
 import { useParams } from 'react-router-dom'
 import { useAppSelector } from 'redux/hooks'
-import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { getEntityById } from 'redux/entities/entities.selectors'
 
 const AssetPerformance: React.FC = () => {
   const { entityId = "" } = useParams<{ entityId: string }>()

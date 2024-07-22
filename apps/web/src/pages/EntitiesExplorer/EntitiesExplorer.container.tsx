@@ -8,11 +8,11 @@ import {
   filterSector,
   getEntitiesFromGraphqlAction,
   updateEntityPropertyAction,
-} from 'redux/entitiesExplorer/entitiesExplorer.actions'
+} from 'redux/entities/entities.actions'
 import EntitiesFilter from './Components/EntitiesFilter/EntitiesFilter'
 import { EntityType, EntityTypeStrategyMap, TEntityDDOTagModel, TEntityModel } from 'types/entities'
 import { Schema as FilterSchema } from './Components/EntitiesFilter/schema/types'
-import * as entitiesSelectors from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import * as entitiesSelectors from 'redux/entities/entities.selectors'
 import { useEffect } from 'react'
 import AssetCollections from './Components/Assets/Collections'
 import { useQuery } from 'hooks/window'

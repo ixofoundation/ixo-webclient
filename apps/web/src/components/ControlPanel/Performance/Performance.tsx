@@ -17,6 +17,7 @@ const PerformanceCard = ({ entityType }: { entityType: string }) => {
     case 'asset/device':
       return <AssetPerformance />
     case 'oracle':
+    case 'oracle/evaluation':
       return <OraclePerformance />
     case 'investment':
       return <InvestmentPerformance />

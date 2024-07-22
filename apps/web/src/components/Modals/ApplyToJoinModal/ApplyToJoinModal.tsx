@@ -16,7 +16,7 @@ interface OfferBoxProps {
   setSelectedCollectionId: (selectedCollectionId: string) => void
 }
 
-const OfferBox: React.FC<OfferBoxProps> = ({ collection, selectedCollectionId, setSelectedCollectionId }) => {
+export const OfferBox: React.FC<OfferBoxProps> = ({ collection, selectedCollectionId, setSelectedCollectionId }) => {
   const collectionId = collection.id
   const claimTemplateEntity = useGetClaimTemplateEntityByCollectionId(collectionId!)
 

@@ -1,12 +1,11 @@
-import { getMappedNewURL } from "@ixo-webclient/utils";
+import { getMappedNewURL, transformStorageEndpoint } from "@ixo-webclient/utils";
 import { serviceEndpointToUrl } from "utils/entities";
 
 
 export const getEntityProfile = async (profile: any, service: any, entity?: any) => {
   if (!profile) return;
   const url = serviceEndpointToUrl(profile.serviceEndpoint, service);
-  console.log({ url, entity })
-  return await fetch(getMappedNewURL(url))
+    return await fetch(getMappedNewURL(url))
     .then((response) => response.json())
     .then((response) => {
       const context = response['@context'];
@@ -37,7 +36,9 @@ export const getEntityProfile = async (profile: any, service: any, entity?: any)
         });
         logo = logo.replace(identifier + ':', endpoint);
       }
-      return { ...response, image: image, logo: logo };
+      const imageEndpoint = transformStorageEndpoint(image);
+      const logoEndpoint = transformStorageEndpoint(logo);
+      return { ...response, image: imageEndpoint, logo: logoEndpoint};
     })
     .catch((e) => {
       return undefined;

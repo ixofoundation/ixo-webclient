@@ -8,7 +8,7 @@ import OracleDashboard from './OracleDashboard'
 import AssetCollectionDashboard from './AssetCollectionDashboard'
 import { useParams } from 'react-router-dom'
 import { useAppSelector } from 'redux/hooks'
-import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { getEntityById } from 'redux/entities/entities.selectors'
 import { useEntityDashboard } from 'hooks/entity/useEntityDashboard'
 
 const DashboardPage: React.FC = (): JSX.Element | null => {
@@ -32,6 +32,7 @@ const DashboardPage: React.FC = (): JSX.Element | null => {
         return DAODashboard
       case 'protocol/deed':
       case 'protocol/claim':
+      case 'protocol/impact':
         return ClaimDashboard
       case 'investment':
         return InvestmentDashboard

@@ -10,7 +10,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useTheme } from 'styled-components'
 import { useQuery } from 'hooks/window'
 import { useAppSelector } from 'redux/hooks'
-import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { getEntityById } from 'redux/entities/entities.selectors'
 
 interface Props {
   daoId: string

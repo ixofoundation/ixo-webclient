@@ -97,6 +97,7 @@ export const reducer = (state = initialState, action: TCreateEntityActionTypes):
       updatedState = { ...state, ddoTags: action.payload }
       break
     case ECreateEntityActions.UpdatePage:
+      console.log('action.payload page', action.payload)
       updatedState = { ...state, page: action.payload }
       break
     case ECreateEntityActions.UpdateService:

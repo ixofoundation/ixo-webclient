@@ -121,7 +121,7 @@ export const AssetEventsTable = ({ events = [] }: AssetEventsTableProps) => {
 
   return (
     <TableWrapper>
-      <Table columns={columns} data={data} />
+      <Table columns={columns as any} data={data} />
     </TableWrapper>
   )
 }

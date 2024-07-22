@@ -21,7 +21,7 @@ import AssetLocationCard from './AssetLocationCard'
 import { getCookStove } from 'api/netlify/getCookStove'
 import ClaimActivityCard from './ClaimActivityCard'
 import AssetEventsCard from './AssetEventsCard'
-import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { getEntityById } from 'redux/entities/entities.selectors'
 import { useAppSelector } from 'redux/hooks'
 
 const EmptyAssetCardData = {

@@ -10,6 +10,10 @@
   "UI": {
     "logo": "ImpactsDAO_icon_only",
     "companion": {
+      "lottie": {
+        "idle": "white",
+        "active": "white"
+      },
       "toolbar": {
         "color": "#00D2FF",
         "background": "#FFFFFF",
@@ -21,7 +25,13 @@
     },
     "explorer": {
       "defaultView": "dao",
-      "defaultColumnCount": 3
+      "defaultColumnCount": 3,
+      "design": {
+        "card": {
+          "borderRadius": "10px",
+          "boxShadow": "0px 10px 25px 0px rgba(0, 0, 0, 0.2)"
+        }
+      }
     },
     "topMenu": [
       {
@@ -2959,6 +2969,11 @@
               "@type": "Tag",
               "name": "Service",
               "icon": "service.svg"
+            },
+            {
+              "@type": "Tag",
+              "name": "Identity",
+              "icon": "tag.svg"
             },
             {
               "@type": "Tag",

@@ -1,7 +1,7 @@
 import { MarketingInfoResponse, TokenInfoResponse } from '@ixo/impactxclient-sdk/types/codegen/Cw20Base.types'
 import { Config as Cw20StakeConfig } from '@ixo/impactxclient-sdk/types/codegen/Cw20Stake.types'
 import { useMemo } from 'react'
-import { selectDAOEntities } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { selectDAOEntities } from 'redux/entities/entities.selectors'
 import { useAppSelector } from 'redux/hooks'
 import { Member } from 'types/dao'
 import { TEntityModel, TDAOGroupModel } from 'types/entities'

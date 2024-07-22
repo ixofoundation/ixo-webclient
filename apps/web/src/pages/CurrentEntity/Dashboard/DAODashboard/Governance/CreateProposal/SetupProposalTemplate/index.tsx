@@ -6,11 +6,11 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { Flex } from '@mantine/core'
 import { useEntitiesQuery } from 'generated/graphql'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
-import { selectAllDeedProtocolProposals } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { selectAllDeedProtocolProposals } from 'redux/entities/entities.selectors'
 import {
   getEntitiesFromGraphqlAction,
   updateEntityPropertyAction,
-} from 'redux/entitiesExplorer/entitiesExplorer.actions'
+} from 'redux/entities/entities.actions'
 import { useAccount } from 'hooks/account'
 import { apiEntityToEntity } from 'utils/entities'
 import { useCreateEntityState } from 'hooks/createEntity'

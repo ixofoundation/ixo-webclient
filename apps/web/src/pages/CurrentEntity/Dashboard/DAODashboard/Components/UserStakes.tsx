@@ -16,7 +16,7 @@ import PieChart from 'components/Widgets/PieChart'
 import useCurrentEntity, { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
 import { renderTableHeader } from 'components/Table/Table'
 import { useAppSelector } from 'redux/hooks'
-import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { getEntityById } from 'redux/entities/entities.selectors'
 
 const TableWrapper = styled.div`
   color: white;

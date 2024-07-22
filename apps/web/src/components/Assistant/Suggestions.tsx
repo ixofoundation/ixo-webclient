@@ -1,28 +1,28 @@
-import { Flex } from '@mantine/core'
-
-import SuggestionButton from './SuggestionButton'
+import React from 'react';
+import { Flex } from '@mantine/core';
+import SuggestionButton from './SuggestionButton';
 
 type Props = {
-  sendMessage: (message?: string) => void
-  messages: string[]
-  isOpen: boolean
-}
+  sendMessage: (message: string) => void;
+  messages: string[];
+  isOpen: boolean;
+};
 
-export default function Suggestions({ sendMessage, messages, isOpen }: Props) {
+const Suggestions: React.FC<Props> = ({ sendMessage, messages, isOpen }) => {
   return (
     <Flex
-      direction='column'
-      align='flex-start'
-      gap='4px'
-      my='xs'
-      pos='absolute'
-      top='calc(-100% - 58px)'
-      pb='20px'
-      h='100%'
-      w='100%'
+      direction="column"
+      align="flex-start"
+      gap="4px"
+
+      pos="absolute"
+      top="calc(-100% - 50px)"
+      h="100px"
+      w="100%"
       style={{
         opacity: isOpen ? 1 : 0,
         zIndex: isOpen ? 1 : -1,
+        transition: 'opacity 0.3s ease',
       }}
     >
       {messages.map((message) => (
@@ -31,5 +31,7 @@ export default function Suggestions({ sendMessage, messages, isOpen }: Props) {
         </SuggestionButton>
       ))}
     </Flex>
-  )
-}
+  );
+};
+
+export default Suggestions;

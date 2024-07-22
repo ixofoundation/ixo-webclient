@@ -1,7 +1,7 @@
 import { gql, useQuery } from '@apollo/client'
 import { useEntityQuery } from 'generated/graphql'
 import { useMemo, useState } from 'react'
-import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { getEntityById } from 'redux/entities/entities.selectors'
 import { useAppSelector } from 'redux/hooks'
 import { TEntityModel } from 'types/entities'
 import { apiEntityToEntity } from 'utils/entities'

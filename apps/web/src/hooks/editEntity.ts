@@ -1,11 +1,16 @@
 import { EncodeObject } from '@cosmjs/proto-signing'
+import { useWallet } from '@ixo-webclient/wallet-connector'
+import { ixo, utils } from '@ixo/impactxclient-sdk'
+import { DeliverTxResponse } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/stargate'
 import {
-  Service,
   LinkedEntity,
   LinkedResource,
+  Service,
   VerificationMethod,
 } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
+import { CellnodePublicResource, CellnodeWeb3Resource } from '@ixo/impactxclient-sdk/types/custom_queries/cellnode'
 import BigNumber from 'bignumber.js'
+import { EntityLinkedResourceConfig } from 'constants/entity'
 import {
   AddService,
   DeleteService,
@@ -22,19 +27,15 @@ import {
   GetUpdateStartAndEndDateMsgs,
   TSigner,
 } from 'lib/protocol'
+import { useParams } from 'react-router-dom'
 import { setEditedFieldAction, setEditEntityAction } from 'redux/editEntity/editEntity.actions'
 import { selectEditEntity } from 'redux/editEntity/editEntity.selectors'
+import { getEntityById, selectAllClaimProtocols } from 'redux/entities/entities.selectors'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
+import { NodeType, TDAOGroupModel, TEntityModel, TEntityPageModel } from 'types/entities'
 import { LinkedResourceProofGenerator, LinkedResourceServiceEndpointGenerator } from 'utils/entities'
-import { DeliverTxResponse } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/stargate'
-import { ixo, utils } from '@ixo/impactxclient-sdk'
-import { NodeType, TDAOGroupModel, TEntityModel } from 'types/entities'
-import { EntityLinkedResourceConfig } from 'constants/entity'
-import { getEntityById, selectAllClaimProtocols } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
-import { useWallet } from '@ixo-webclient/wallet-connector'
-import { useService } from './service'
 import { v4 as uuidv4 } from 'uuid'
-import { useParams } from 'react-router-dom'
+import { useService } from './service'
 
 export default function useEditEntity(): {
   editEntity: TEntityModel
@@ -44,9 +45,16 @@ export default function useEditEntity(): {
 } {
   const dispatch = useAppDispatch()
   const { execute, wallet } = useWallet()
-  const { entityId = "" } = useParams<{ entityId: string}>()
+  const { entityId = '' } = useParams<{ entityId: string }>()
 
   const editEntity: TEntityModel = useAppSelector(selectEditEntity)
+
+  const futureDate = new Date()
+  futureDate.setFullYear(2100)
+  const defaultEndDate = futureDate.toISOString() as any
+  if (editEntity) {
+    editEntity['endDate'] = editEntity.endDate || defaultEndDate
+  }
   const currentEntity = useAppSelector(getEntityById(entityId))
   const claimProtocols = useAppSelector(selectAllClaimProtocols)
   const services: Service[] = currentEntity.service
@@ -95,9 +103,15 @@ export default function useEditEntity(): {
   }
 
   const getEditedStartAndEndDateMsgs = async (): Promise<readonly EncodeObject[]> => {
+    if (!currentEntity) {
+      return []
+    }
     if (
       JSON.stringify({ startDate: editEntity.startDate, endDate: editEntity.endDate }) ===
-      JSON.stringify({ startDate: currentEntity.startDate, endDate: currentEntity.endDate })
+      JSON.stringify({
+        startDate: currentEntity.startDate,
+        endDate: currentEntity.endDate,
+      })
     ) {
       return []
     }
@@ -116,60 +130,74 @@ export default function useEditEntity(): {
     return messages
   }
 
-  const getEditedProfileMsgs = async (): Promise<readonly EncodeObject[]> => {
-    if (JSON.stringify(editEntity.profile) === JSON.stringify(currentEntity.profile)) {
-      return []
-    }
-
-    const service = editEntity.settings?.Profile?.serviceEndpoint ? getUsedService(editEntity.settings.Profile?.serviceEndpoint) : {
-      id: '{id}#ipfs',
-      type: NodeType.Ipfs,
-      serviceEndpoint: 'https://ipfs.io/ipfs',
-    }
-
-    const res = await SaveProfile(editEntity.profile, service)
+  const handleMessageCreation = async (
+    service: Service,
+    resPromise: Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined>,
+    linkedResource: Omit<LinkedResource, 'serviceEndpoint' | 'proof'>,
+  ): Promise<readonly EncodeObject[]> => {
+    const res = await resPromise
     if (!res) {
-      throw new Error('Save Profile failed!')
+      throw new Error(`Save ${linkedResource.type} failed!`)
     }
 
     const newLinkedResource: LinkedResource = {
-      id: '{id}#profile',
-      type: 'Settings',
-      description: 'Profile',
-      mediaType: 'application/ld+json',
+      id: linkedResource.id,
+      type: linkedResource.type,
+      description: linkedResource.description,
+      mediaType: linkedResource.mediaType,
       serviceEndpoint: LinkedResourceServiceEndpointGenerator(res, service),
       proof: LinkedResourceProofGenerator(res, service),
       encrypted: 'false',
       right: '',
     }
 
-    const messages: readonly EncodeObject[] = GetReplaceLinkedResourceMsgs(editEntity.id, signer, newLinkedResource, editEntity.settings?.Profile)
+    const messages: readonly EncodeObject[] = GetReplaceLinkedResourceMsgs(
+      editEntity.id,
+      signer,
+      newLinkedResource,
+      editEntity.settings?.Profile,
+    )
+
     return messages
+  }
+  const getEditedProfileMsgs = async (): Promise<readonly EncodeObject[]> => {
+    if (JSON.stringify(editEntity.profile) === JSON.stringify(currentEntity.profile)) {
+      return []
+    }
+
+    const service = editEntity.settings?.Profile?.serviceEndpoint
+      ? getUsedService(editEntity.settings.Profile?.serviceEndpoint)
+      : {
+          id: '{id}#ipfs',
+          type: NodeType.Ipfs,
+          serviceEndpoint: 'https://ipfs.io/ipfs',
+        }
+
+    return handleMessageCreation(service, SaveProfile(editEntity.profile, service), {
+      id: '{id}#profile',
+      type: 'Settings',
+      description: 'Profile',
+      mediaType: 'application/ld+json',
+      right: '',
+      encrypted: 'false',
+    })
   }
 
   const getEditedTokenMsgs = async (): Promise<readonly EncodeObject[]> => {
     if (JSON.stringify(editEntity.token ?? {}) === JSON.stringify(currentEntity.token ?? {})) {
       return []
     }
-    const service = getUsedService(editEntity.linkedResource.find((v) => v.type === 'TokenMetadata')?.serviceEndpoint)
-    const res = await SaveTokenMetadata(editEntity.token, service)
-    if (!res) {
-      throw new Error('Save TokenMetadata failed!')
-    }
 
-    const newLinkedResource: LinkedResource = {
+    const service = getUsedService(editEntity.linkedResource.find((v) => v.type === 'TokenMetadata')?.serviceEndpoint)
+
+    return handleMessageCreation(service, SaveTokenMetadata(editEntity.token, service), {
       id: '{id}#token',
       type: 'TokenMetadata',
       description: 'Impact Token',
       mediaType: 'application/ld+json',
-      serviceEndpoint: LinkedResourceServiceEndpointGenerator(res, service),
-      proof: LinkedResourceProofGenerator(res, service),
-      encrypted: 'false',
       right: '',
-    }
-
-    const messages: readonly EncodeObject[] = GetReplaceLinkedResourceMsgs(editEntity.id, signer, newLinkedResource, currentEntity.linkedResource.find((v) => v.type === 'TokenMetadata'))
-    return messages
+      encrypted: 'false',
+    })
   }
 
   const getEditedSurveyTemplateMsgs = async (): Promise<readonly EncodeObject[]> => {
@@ -178,51 +206,31 @@ export default function useEditEntity(): {
     }
 
     const service = getUsedService(editEntity.linkedResource.find((v) => v.type === 'surveyTemplate')?.serviceEndpoint)
-    const res = await SaveQuestionJSON(editEntity.surveyTemplate, service)
-    if (!res) {
-      throw new Error('Save Survey Template failed!')
-    }
 
-    const newLinkedResource: LinkedResource = {
+    return handleMessageCreation(service, SaveQuestionJSON(editEntity.surveyTemplate, service), {
       id: '{id}#surveyTemplate',
       type: 'surveyTemplate',
       description: '',
       mediaType: 'application/ld+json',
-      serviceEndpoint: LinkedResourceServiceEndpointGenerator(res, service),
-      proof: LinkedResourceProofGenerator(res, service),
-      encrypted: 'false',
       right: '',
-    }
-
-    const messages: readonly EncodeObject[] = GetReplaceLinkedResourceMsgs(editEntity.id, signer, newLinkedResource, currentEntity?.linkedResource?.find((v) => v.type === 'surveyTemplate'))
-    return messages
+      encrypted: 'false',
+    })
   }
 
   const getEditedCreatorMsgs = async (): Promise<readonly EncodeObject[]> => {
     if (JSON.stringify(editEntity.creator) === JSON.stringify(currentEntity.creator)) {
       return []
     }
-    const service = getUsedService(
-      editEntity.linkedResource.find((v) => v.id === `{id}#creator`)?.serviceEndpoint,
-    )
-    const res = await SaveProfile(editEntity.creator, service)
-    if (!res) {
-      throw new Error('Save Creator failed!')
-    }
+    const service = getUsedService(editEntity.linkedResource.find((v) => v.id === `{id}#creator`)?.serviceEndpoint)
 
-    const newLinkedResource: LinkedResource = {
+    return handleMessageCreation(service, SaveProfile(editEntity.creator, service), {
       id: '{id}#creator',
       type: 'VerifiableCredential',
       description: 'Creator',
       mediaType: 'application/ld+json',
-      serviceEndpoint: LinkedResourceServiceEndpointGenerator(res, service),
-      proof: LinkedResourceProofGenerator(res, service),
-      encrypted: 'false',
       right: '',
-    }
-
-    const messages: readonly EncodeObject[] = GetReplaceLinkedResourceMsgs(editEntity.id, signer, newLinkedResource, editEntity?.linkedResource?.find((v) => v.id === '{id}#creator'))
-    return messages
+      encrypted: 'false',
+    })
   }
 
   const getEditedAdministratorMsgs = async (): Promise<readonly EncodeObject[]> => {
@@ -230,26 +238,17 @@ export default function useEditEntity(): {
       return []
     }
     const service = getUsedService(
-      editEntity.linkedResource.find((v) => v.id === `{id}#administrator`)?.serviceEndpoint,
+      editEntity.linkedResource?.find((v) => v.id === `{id}#administrator`)?.serviceEndpoint,
     )
-    const res = await SaveAdministrator(editEntity.administrator!, service)
-    if (!res) {
-      throw new Error('Save Administrator failed!')
-    }
 
-    const newLinkedResource: LinkedResource = {
+    return handleMessageCreation(service, SaveAdministrator(editEntity.administrator!, service), {
       id: '{id}#administrator',
       type: 'VerifiableCredential',
       description: 'Administrator',
       mediaType: 'application/ld+json',
-      serviceEndpoint: LinkedResourceServiceEndpointGenerator(res, service),
-      proof: LinkedResourceProofGenerator(res, service),
-      encrypted: 'false',
       right: '',
-    }
-
-    const messages: readonly EncodeObject[] = GetReplaceLinkedResourceMsgs(editEntity.id, signer, newLinkedResource, editEntity?.linkedResource?.find((v) => v.id === '{id}#administrator'))
-    return messages
+      encrypted: 'false',
+    })
   }
 
   const getEditedPageMsgs = async (): Promise<readonly EncodeObject[]> => {
@@ -257,24 +256,15 @@ export default function useEditEntity(): {
       return []
     }
     const service = getUsedService(editEntity.settings.Page.serviceEndpoint)
-    const res = await SavePage(Object.fromEntries((editEntity.page ?? []).map((v) => [v.id, v])), service)
-    if (!res) {
-      throw new Error('Save Page Content failed!')
-    }
 
-    const newLinkedResource: LinkedResource = {
+    return handleMessageCreation(service, SavePage((editEntity.page ?? {}) as TEntityPageModel, service), {
       id: '{id}#page',
       type: 'Settings',
       description: 'Page',
       mediaType: 'application/ld+json',
-      serviceEndpoint: LinkedResourceServiceEndpointGenerator(res, service),
-      proof: LinkedResourceProofGenerator(res, service),
-      encrypted: 'false',
       right: '',
-    }
-
-    const messages: readonly EncodeObject[] = GetReplaceLinkedResourceMsgs(editEntity.id, signer, newLinkedResource, editEntity.settings.Page)
-    return messages
+      encrypted: 'false',
+    })
   }
 
   const getEditedTagsMsgs = async (): Promise<readonly EncodeObject[]> => {
@@ -282,24 +272,15 @@ export default function useEditEntity(): {
       return []
     }
     const service = getUsedService(editEntity.settings.Tags.serviceEndpoint)
-    const res = await SaveTags(editEntity.tags ?? [], service)
-    if (!res) {
-      throw new Error('Save Tags failed!')
-    }
 
-    const newLinkedResource: LinkedResource = {
+    return handleMessageCreation(service, SaveTags(editEntity.tags ?? [], service), {
       id: '{id}#tags',
       type: 'Settings',
       description: 'Tags',
       mediaType: 'application/ld+json',
-      serviceEndpoint: LinkedResourceServiceEndpointGenerator(res, service),
-      proof: LinkedResourceProofGenerator(res, service),
-      encrypted: 'false',
       right: '',
-    }
-
-    const messages: readonly EncodeObject[] = GetReplaceLinkedResourceMsgs(editEntity.id, signer, newLinkedResource, editEntity.settings.Tags)
-    return messages
+      encrypted: 'false',
+    })
   }
 
   const getEditedLinkedFilesMsgs = async (): Promise<readonly EncodeObject[]> => {
@@ -331,7 +312,12 @@ export default function useEditEntity(): {
         ...acc,
         ...(currentLinkedFiles.some((item: LinkedResource) => item.id === cur.id)
           ? editedLinkedFiles.some((item: LinkedResource) => item.id === cur.id)
-            ? GetReplaceLinkedResourceMsgs(editEntity.id, signer, cur, editEntity?.linkedResource?.find((v) => v.id === cur.id))
+            ? GetReplaceLinkedResourceMsgs(
+                editEntity.id,
+                signer,
+                cur,
+                editEntity.linkedResource?.find((v) => v.id === cur.id),
+              )
             : GetDeleteLinkedResourceMsgs(editEntity.id, signer, cur)
           : GetAddLinkedResourceMsgs(editEntity.id, signer, cur)),
       ],
@@ -572,7 +558,6 @@ export default function useEditEntity(): {
     return messages
   }
 
-
   const getEditedMsgs = async (): Promise<readonly EncodeObject[]> => {
     return [
       ...(await getEditedStartAndEndDateMsgs()),
@@ -588,7 +573,7 @@ export default function useEditEntity(): {
       ...(await getEditedVerificationMethodMsgs()),
       ...(await getEditedSurveyTemplateMsgs()),
       ...(await getEditedServiceMsgs()),
-      ...(await getEditedCreatorMsgs()),  
+      ...(await getEditedCreatorMsgs()),
     ]
   }
 
@@ -600,7 +585,10 @@ export default function useEditEntity(): {
     }
 
     const updatedFee = { ...fee, gas: new BigNumber(fee.gas).times(messages.length).toString() }
-    const response = await execute({ data: { messages: messages as any, fee: updatedFee, memo: undefined }, transactionConfig: { sequence: 1 }})
+    const response = await execute({
+      data: { messages: messages as any, fee: updatedFee, memo: undefined },
+      transactionConfig: { sequence: 1 },
+    })
 
     if (typeof response === 'string') {
       throw Error('Connect your wallet')

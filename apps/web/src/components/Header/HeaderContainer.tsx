@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
-import * as entitiesSelectors from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import * as entitiesSelectors from 'redux/entities/entities.selectors'
 import { RootState } from 'redux/store'
 import { EntityType } from 'types/entities'
 import { TopBar } from './HeaderContainer.styles'

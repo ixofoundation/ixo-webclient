@@ -6,14 +6,14 @@ import React, { useState } from 'react'
 import { useTheme } from 'styled-components'
 import { ReactComponent as ClaimIcon } from 'assets/images/icon-claim.svg'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
-import { selectAllDeedProtocols } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { selectAllDeedProtocols } from 'redux/entities/entities.selectors'
 import { TEntityModel } from 'types/entities'
 import { useAccount } from 'hooks/account'
 import { useEntitiesQuery } from 'generated/graphql'
 import {
   getEntitiesFromGraphqlAction,
   updateEntityPropertyAction,
-} from 'redux/entitiesExplorer/entitiesExplorer.actions'
+} from 'redux/entities/entities.actions'
 import { apiEntityToEntity } from 'utils/entities'
 
 interface Props {

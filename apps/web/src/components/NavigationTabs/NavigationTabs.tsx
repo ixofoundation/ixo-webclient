@@ -3,22 +3,22 @@ import { useQuery } from 'hooks/window'
 import { lowerCase } from 'lodash'
 import { ReactNode } from 'react'
 import { useLocation, useParams, NavLink } from 'react-router-dom'
-import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { getEntityById } from 'redux/entities/entities.selectors'
 import { useAppSelector } from 'redux/hooks'
 import { useCompanion } from 'hooks/useCompanion'
-import { ReactComponent as AssistantIcon } from 'assets/images/icon-assistant.svg'
 import { tabs } from './tabs'
 import { useTabDesignConfig } from 'hooks/userInterface/useTabDesignConfig'
 import { toRootEntityType } from 'utils/entities'
 import { useMediaQuery } from '@mantine/hooks'
+import AssistantActiveLottie from 'components/Zlotties/AssistantActiveLottie'
 
 const NavigationTabsContainer = ({ children, border }: { children: ReactNode; border?: string }) => {
-  const isTablet = useMediaQuery(`(max-width: ${em(810)})`);
+  const isTablet = useMediaQuery(`(max-width: ${em(810)})`)
 
   return (
     <Flex
       visibleFrom='sm'
-      bg='blue'
+      bg='transparent'
       pos={'fixed'}
       style={{
         zIndex: 12,
@@ -44,7 +44,7 @@ const NavigationTabs = () => {
   const { getQuery } = useQuery()
   const params = useParams()
   const exploreType: string | undefined = getQuery('type')
-  const entity = useAppSelector(getEntityById(params.entityId ?? ''))
+  const entity = useAppSelector(getEntityById((params?.deedId ?? params.entityId) ?? ""))
   const { isCompanionOpen, toggleChat, toggleCompanion } = useCompanion()
 
   const {
@@ -55,11 +55,8 @@ const NavigationTabs = () => {
     tabBorderColor,
     assistantActiveBackground,
     assistantBackground,
-    assistantColor,
-    assistantActiveColor,
   } = useTabDesignConfig()
 
-  const type = lowerCase(exploreType ?? toRootEntityType(entity?.type) ?? '')
 
   const { pathname } = useLocation()
 
@@ -72,12 +69,18 @@ const NavigationTabs = () => {
     toggleCompanion()
   }
 
+  if(!entity) return null 
+
+  const type = lowerCase((exploreType?.length ?? 0) > 0 ? exploreType : toRootEntityType(entity?.type) ?? '')
+
+
   const currentTabs = tabs[pathname.split('/')[1] as keyof typeof tabs].getTabs(type, pathname, params as any)
   return (
     <NavigationTabsContainer border={tabBorderColor && `1px solid ${tabBorderColor}`}>
       {currentTabs.map(({ label, icon: Icon, isActive, path }) => (
         <NavLink key={`${path}`} to={`${path}`}>
           <Button
+            w={150}
             key={label}
             leftSection={
               <Icon
@@ -116,16 +119,21 @@ const NavigationTabs = () => {
           <ActionIcon
             variant='filled'
             aria-label='Settings'
-            h={'100%'}
+            h={'42px'}
             w='50px'
             radius={0}
             bg={isCompanionOpen ? assistantActiveBackground : assistantBackground}
             onClick={handleAssistantClick}
+            styles={{
+              root: {
+                ":focus": {
+                  outline: 'none'
+                },
+                outline: 'none'
+              }
+            }}
           >
-            <AssistantIcon
-              stroke={isCompanionOpen ? assistantActiveColor : assistantColor}
-              fill={isCompanionOpen ? assistantActiveColor : assistantColor}
-            />
+          <AssistantActiveLottie />
           </ActionIcon>
         </Tooltip>
       </Flex>

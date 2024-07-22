@@ -1,6 +1,6 @@
-import styled from 'styled-components'
-import { NavLink } from 'react-router-dom'
 import { deviceWidth } from 'constants/device'
+import { NavLink } from 'react-router-dom'
+import styled from 'styled-components'
 
 export const DropdownWrapper = styled.div`
   position: relative;
@@ -97,12 +97,12 @@ export const ButtonsWrapper = styled.div`
   flex-flow: row wrap;
   justify-content: center;
   margin: 0;
+  color: black;
 `
 
 export const LaunchEntityButton = styled(NavLink)`
   width: 100px;
   padding: 10px 0;
-
   outline: none !important;
   background: none;
   text-align: center;
@@ -147,5 +147,13 @@ export const ButtonContent = styled.div`
   padding-left: 0.5rem;
   svg {
     margin-right: 0.25rem;
+  }
+  color: black;
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    color: ${(props) => props.theme.ixoBlue};
+    svg * {
+      fill: ${(props) => props.theme.ixoBlue};
+    }
   }
 `

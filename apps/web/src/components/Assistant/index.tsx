@@ -1,24 +1,29 @@
-import { Flex, Text } from '@mantine/core'
+import { Flex } from '@mantine/core'
 
 import Conversation from './Conversation'
 import QueryInput from './QueryInput'
-import { useTheme } from 'styled-components'
+import { useCompanion } from 'hooks/useCompanion'
+import { useEffect } from 'react'
 
 export default function Assistant() {
-  const theme: any = useTheme()
+  const { messages, sendMessage, newChat, assistant } = useCompanion()
+
+  useEffect(() => {
+    if(messages.length === 0 && assistant){
+      newChat()
+    }
+  }, [newChat, assistant, messages.length])
+  
   return (
     <Flex
       direction='column'
       justify='space-between'
       h='100%'
-      style={{ borderRadius: '16px', backgroundColor: theme.ixoWhite }}
+      style={{ borderRadius: '16px' }}
     >
-      <Text pb='lg'>
-        Impact Assistant <b>Oxi</b>
-      </Text>
       <Flex direction='column' justify='flex-end' style={{ flexGrow: 1 }}>
-        <Conversation />
-        <QueryInput />
+        <Conversation messages={messages} />
+        <QueryInput sendMessage={sendMessage}/>
       </Flex>
     </Flex>
   )

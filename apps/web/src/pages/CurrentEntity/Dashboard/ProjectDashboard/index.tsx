@@ -12,7 +12,7 @@ import { AgentRoles } from 'types/models'
 import ClaimDetail from './ClaimDetail'
 import Overview from './Overview'
 import { useAppSelector } from 'redux/hooks'
-import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { getEntityById } from 'redux/entities/entities.selectors'
 
 const ProjectDashboard: React.FC = (): JSX.Element => {
   const { entityId = '' } = useParams<{ entityId: string }>()
@@ -25,7 +25,7 @@ const ProjectDashboard: React.FC = (): JSX.Element => {
   const isVerifiedOnEntity = verificationMethod.some((verification) => verification?.blockchainAccountID === address)
 
   const showAgentsRoute = owner === address || isVerifiedOnEntity
-  const ShowClaimsRoute = (owner === address && signerRole === AgentRoles.evaluators) || isVerifiedOnEntity
+  const ShowClaimsRoute = owner === address || signerRole === AgentRoles.evaluators || isVerifiedOnEntity
   const showEditEntityRoute = (registered && owner === address) || isVerifiedOnEntity
 
   const routes: Path[] = [

@@ -32,7 +32,7 @@ import { useCreateEntityStateAsActionState } from 'hooks/entity/useCreateEntityS
 import { transformEntityStateToLinkedResources } from 'services/entities/transformEntityStateToLinkedResources'
 import { transformEntityStateToLinkedClaims } from 'services/entities/transformEntityStateToLinkedClaims'
 import { useAppSelector } from 'redux/hooks'
-import { selectAllClaimProtocols } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { selectAllClaimProtocols } from 'redux/entities/entities.selectors'
 
 interface Props {
   open: boolean

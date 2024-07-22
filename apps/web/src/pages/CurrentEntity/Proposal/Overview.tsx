@@ -1,17 +1,17 @@
 import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { EntityLinkedResourceConfig } from 'constants/entity'
 import { useParams } from 'react-router-dom'
-import { selectEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { selectEntityById } from 'redux/entities/entities.selectors'
 import { useAppSelector } from 'redux/hooks'
 import { LinkedFiles } from '../Overview/LinkedFiles'
-import { PageContent } from '../Overview/PageContent'
 import { InstructionsToExecute } from './InstructionsToExecute'
 import { Flex, ScrollArea } from '@mantine/core'
-import ControlPanel from 'components/ControlPanel'
 import HeaderTabs from 'components/HeaderTabs/HeaderTabs'
 import { MatchType } from 'types/models'
 import { useMemo } from 'react'
 import { useEntity } from 'hooks/entity/useEntity'
+import Editor from 'components/Editor/Editor'
+import { EditorJsToBlockNote } from 'components/Editor/utils/editorJsToBlockNote'
 
 const Overview: React.FC = () => {
   const { entityId = '', deedId = '' } = useParams<{ entityId: string; deedId: string }>()
@@ -41,7 +41,12 @@ const Overview: React.FC = () => {
       <ScrollArea w='100%'>
         <Flex w='100%' direction='column' p={80} style={{ flex: 1 }}>
           <HeaderTabs matchType={MatchType.strict} buttons={headerTabs} />
-          <PageContent page={entity?.page ?? []} />
+          {entity?.page &&
+            (Array.isArray(entity?.page) ? (
+              <Editor initialPage={EditorJsToBlockNote(entity?.page as any) as any} />
+            ) : (
+              <Editor initialPage={entity?.page} editable={false} />
+            ))}
           <InstructionsToExecute />
           <LinkedFiles
             linkedFiles={
@@ -53,9 +58,6 @@ const Overview: React.FC = () => {
           />
         </Flex>
       </ScrollArea>
-      <Flex h='100%' bg='#F0F3F9'>
-        <ControlPanel entityType={entity?.type ?? ''} entityName={entity?.profile?.name ?? ''} />
-      </Flex>
     </Flex>
   )
 }

@@ -11,6 +11,10 @@
   },
   "UI": {
     "companion": {
+      "lottie": {
+        "idle": "black",
+        "active": "white"
+      },
       "toolbar": {
         "color": "#00D2FF",
         "background": "#FFFFFF",
@@ -22,7 +26,14 @@
     },
     "logo": "idcc-logo",
     "explorer": {
-      "defaultView": "dao"
+      "defaultView": "dao",
+      "defaultColumnCount": 3,
+      "design": {
+        "card": {
+          "borderRadius": "10px",
+          "boxShadow": "0px 10px 25px 0px rgba(0, 0, 0, 0.2)"
+        }
+      }
     },
     "head": {
       "title": "IDCC",

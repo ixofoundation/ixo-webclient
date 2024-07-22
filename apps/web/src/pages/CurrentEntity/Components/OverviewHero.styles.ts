@@ -5,14 +5,24 @@ import { deviceWidth } from 'constants/device'
 interface HeroContainerProps {
   readonly $onlyTitle: boolean
   light?: boolean | number
+  imageUrl?: string
 }
 
 export const HeroContainer = styled.div<HeroContainerProps>`
   margin: 0;
   position: relative;
-  background: ${(props: any): string => (props.light ? 'transparent' : props.theme.ixoDarkestBlue)};
+  background: ${(props: any): string => {
+    if (props.imageUrl) {
+      return `url(${props.imageUrl}) no-repeat center`;
+    } else {
+      return props.light ? 'transparent' : props.theme.ixoDarkestBlue;
+    }
+  }};
+  background-size: cover;
   color: ${(props: any): string => (props.$onlyTitle ? 'white' : 'black')};
+  padding: 4.5rem
 `
+
 
 export const HeroInner = styled.div`
   font-family: ${(props): string => props.theme.primaryFontFamily};
