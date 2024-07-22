@@ -186,13 +186,14 @@ export function useMakeProposalAction(coreAddress: string, daoGroups: { [address
     return makeStargateMessage({
       stargate: {
         typeUrl: '/cosmwasm.wasm.v1.MsgInstantiateContract',
-        value: cosmwasm.wasm.v1.MsgInstantiateContract.fromPartial({
+        value: cosmwasm.wasm.v1.MsgInstantiateContract.encode({
           admin: data.admin,
           codeId: Long.fromNumber(data.codeId),
           funds: data.funds,
           label: data.label,
           msg: message,
-        })
+          sender: data.admin
+        }).finish()
       },
     })
   }
