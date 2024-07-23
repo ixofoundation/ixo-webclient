@@ -1,22 +1,23 @@
+import { DeliverTxResponse } from '@cosmjs/stargate'
+import { useWallet } from '@ixo-webclient/wallet-connector'
+import { customQueries, ixo } from '@ixo/impactxclient-sdk'
+import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
+import { CellnodePublicResource } from '@ixo/impactxclient-sdk/types/custom_queries/cellnode'
+import { Skeleton } from '@mantine/core'
 import { FlexBox } from 'components/App/App.styles'
+import ClaimApplicationError from 'components/ErrorPages/ClaimApplicationError'
+import { Typography } from 'components/Typography'
+import { useGetIid } from 'graphql/iid'
+import { useAccount } from 'hooks/account'
+import { useClaimApplicationForm } from 'hooks/claims/useClaimApplicationForm'
+import { chainNetwork } from 'hooks/configs'
+import { GetAddLinkedResourcePayload } from 'lib/protocol'
 import React, { useCallback, useMemo } from 'react'
+import { themeJson } from 'styles/surveyTheme'
 import { Model } from 'survey-core'
 import { Survey } from 'survey-react-ui'
-import { themeJson } from 'styles/surveyTheme'
-import { errorToast, successToast } from 'utils/toast'
-import { CellnodePublicResource } from '@ixo/impactxclient-sdk/types/custom_queries/cellnode'
-import { customQueries, ixo } from '@ixo/impactxclient-sdk'
-import { chainNetwork } from 'hooks/configs'
-import { useAccount } from 'hooks/account'
-import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
-import { useGetIid } from 'graphql/iid'
-import { Typography } from 'components/Typography'
 import { AgentRoles } from 'types/models'
-import { useWallet } from '@ixo-webclient/wallet-connector'
-import { GetAddLinkedResourcePayload } from 'lib/protocol'
-import { DeliverTxResponse } from '@cosmjs/stargate'
-import { useClaimApplicationForm } from 'hooks/claims/useClaimApplicationForm'
-import ClaimApplicationError from 'components/ErrorPages/ClaimApplicationError'
+import { errorToast, successToast } from 'utils/toast'
 
 interface Props {
   claimCollectionId: string
@@ -25,7 +26,7 @@ interface Props {
 
 const OfferForm: React.FC<Props> = ({ claimCollectionId, agentRole }) => {
   const { signer } = useAccount()
-  const { claimApplicationForm, claimApplicationError } = useClaimApplicationForm({ collectionId: claimCollectionId })
+  const { status, claimApplicationForm, error } = useClaimApplicationForm({ collectionId: claimCollectionId })
   const { data: iid } = useGetIid(signer.did)
   const offerSent = useMemo(() => {
     const linkedResource: LinkedResource[] = iid?.linkedResource ?? []
@@ -110,8 +111,7 @@ const OfferForm: React.FC<Props> = ({ claimCollectionId, agentRole }) => {
     survey.onCompleting.add(preventComplete)
     survey.completeText = 'Submit'
     return survey
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [claimApplicationForm])
+  }, [claimApplicationForm, handleSubmit])
 
   if (offerSent) {
     return (
@@ -121,7 +121,9 @@ const OfferForm: React.FC<Props> = ({ claimCollectionId, agentRole }) => {
     )
   }
 
-  if (claimApplicationError) return <ClaimApplicationError />
+  if (status === 'loading') return <Skeleton visible w={'100%'} height={200} />
+
+  if (status === 'error') return <ClaimApplicationError error={error} />
 
   return (
     <FlexBox $direction='column' width='100%' $gap={7}>

@@ -192,6 +192,7 @@ export function useMakeProposalAction(coreAddress: string, daoGroups: { [address
           funds: data.funds,
           label: data.label,
           msg: message,
+          sender: data.admin
         })
       },
     })
