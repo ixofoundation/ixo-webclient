@@ -3,8 +3,6 @@ import AccountCard from './Account'
 import MyParticipationCard from './MyParticipation'
 import BalanceCard from './Balance'
 import ClaimsCard from './Claims'
-import FeedCard from './Feed'
-import MessagesCard from './Messages'
 import { Flex, ScrollArea, ActionIcon } from '@mantine/core'
 import styled from 'styled-components'
 import { useAccount } from 'hooks/account'
@@ -20,6 +18,7 @@ import { GoArrowLeft } from 'react-icons/go'
 import { useLocation, useNavigate } from 'react-router-dom'
 import Assistant from 'components/Assistant'
 import AssistantActiveLottie from 'components/Zlotties/AssistantActiveLottie'
+import ActionsScreen from './Actions/ActionsScreen'
 
 const StyledScrollArea = styled(ScrollArea)`
   & > div > div {
@@ -28,7 +27,7 @@ const StyledScrollArea = styled(ScrollArea)`
 `
 
 interface Props {
-  tab?: 'profile' | 'detail' | 'feed' | 'message' | 'assistant'
+  tab?: 'profile' | 'actions' | 'feed' | 'message' | 'assistant'
   entityType: string
   entityName?: string
   service?: any
@@ -51,11 +50,8 @@ const ControlPanel = ({ entityType }: Props) => {
 
   const renderDetail = () => (
     <>
-      {/* <PerformanceCard entityType={entityType} /> */}
-      {/* <ActionsCard widget={schema?.actions} /> */}
       <ClaimsCard />
       {entityType === EntityType.Project && <DidQRCode />}
-      {/* <ConnectCard widget={schema?.connections} /> */}
     </>
   )
 
@@ -76,15 +72,13 @@ const ControlPanel = ({ entityType }: Props) => {
       bg='#F0F3F9'
       direction='column'
       justify='space-between'
-      gap={24}
+      gap={0}
       style={{ color: 'black' }}
     >
       <StyledScrollArea h='100%'>
         <Flex w='100%' direction='column' h='100%' p={20} pt={32}>
           {!keyValue && address && activeTab === 'profile' && renderProfile()}
-          {!keyValue && activeTab === 'detail' && renderDetail()}
-          {!keyValue && activeTab === 'feed' && <FeedCard />}
-          {!keyValue && activeTab === 'message' && <MessagesCard />}
+          {!keyValue && activeTab === 'actions' && <ActionsScreen />}
           {!keyValue && activeTab === 'assistant' && <Assistant/>}
           {keyValue && <ActionPanel type={keyValue.type} data={keyValue.data} />}
         </Flex>
@@ -96,10 +90,10 @@ const ControlPanel = ({ entityType }: Props) => {
               <ActionIcon
                 size={46}
                 radius='xl'
-                bg={activeTab === 'detail' ? toolbarActiveBackground : toolbarBackground}
-                onClick={() => setActiveTab('detail')}
+                bg={activeTab === 'actions' ? toolbarActiveBackground : toolbarBackground}
+                onClick={() => setActiveTab('actions')}
               >
-                <LiaPlaySolid size='24' color={activeTab === 'detail' ? toolbarActiveColor : toolbarColor} />
+                <LiaPlaySolid size='24' color={activeTab === 'actions' ? toolbarActiveColor : toolbarColor} />
               </ActionIcon>
             </Tooltip>
           )}

@@ -88,6 +88,8 @@ const ClaimsCard: React.FC = () => {
     },
   })) : []
 
+  if(items.length === 0) return null
+
   return (
     <Card
       icon={<ClaimIcon />}

@@ -1,4 +1,4 @@
-import { Flex, Grid, Tabs, Title, rem } from '@mantine/core'
+import { Flex, Grid, Tabs, Title, rem, ScrollArea } from '@mantine/core'
 import {
   IconCode,
   IconSpeakerphone,
@@ -23,13 +23,12 @@ import { TEntityModel } from 'types/entities'
 const Requests = () => {
   const [requests, setRequests] = useState<TEntityModel[]>([])
   const { entityId = '' } = useParams<{ entityId: string }>()
-  const entity = useAppSelector(getEntityById(entityId))
 
   useEntitiesQuery({
     variables: {
       filter: {
-        id: {
-          in: entity?.linkedEntity?.map(({ id }) => id),
+        type: {
+          equalTo: "deed/request"
         },
       },
     },
@@ -67,9 +66,10 @@ const Requests = () => {
   ] 
   
   return (
-    <Flex w='100%' h='100%'>
+    <Flex w='100%' h='100%' >
       <TabsWrapper style={{ width: '100%' }}>
         <Tabs
+     
           w='100%'
           defaultValue='development'
           styles={{ list: { borderBottom: 'none' }, tab: { paddingBottom: '3px' } }}
@@ -89,7 +89,7 @@ const Requests = () => {
 
           {categories.map((category) => (
             <Tabs.Panel w='100%' key={category.title} value={category.title}>
-              <Flex direction={'column'} justify={'center'} w='100%'>
+              <Flex direction={'column'} justify={'center'} w='100%' px={20}>
                 <Flex w='100%' justify={'space-between'} py={10}>
                   <Title fw='bolder' mb='md'>
                     Open Requests for {category.title}
@@ -101,12 +101,13 @@ const Requests = () => {
                   </Flex>
                 </Flex>
                 <Flex w='100%'>
+                  <ScrollArea>
                   <Grid w='100%'>
                     {requests.map((request) => (
-                      <Grid.Col key={request.id} span={4}>
+                      <Grid.Col key={request.id} span={3}>
                         <RequestCard
                           did={request.id}
-                          entityName={entity.profile?.name ?? ''}
+                          entityName={request.profile?.name ?? ''}
                           requestName={request.profile?.name ?? ''}
                           requestDescription={request.profile?.description ?? ''}
                           requestImage={request.profile?.image ?? ''}
@@ -114,6 +115,7 @@ const Requests = () => {
                       </Grid.Col>
                     ))}
                   </Grid>
+                  </ScrollArea>
                 </Flex>
               </Flex>
             </Tabs.Panel>

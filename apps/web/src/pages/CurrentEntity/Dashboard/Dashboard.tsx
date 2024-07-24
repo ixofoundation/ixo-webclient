@@ -10,6 +10,7 @@ import { useParams } from 'react-router-dom'
 import { useAppSelector } from 'redux/hooks'
 import { getEntityById } from 'redux/entities/entities.selectors'
 import { useEntityDashboard } from 'hooks/entity/useEntityDashboard'
+import RequestDashboard from './RequestDashboard'
 
 const DashboardPage: React.FC = (): JSX.Element | null => {
   const { entityId = "" } = useParams<{entityId: string}>()
@@ -44,6 +45,8 @@ const DashboardPage: React.FC = (): JSX.Element | null => {
       case 'oracle/evaluation':
       case 'oracle':
         return OracleDashboard
+      case 'deed/request':
+        return RequestDashboard
       default:
         return undefined
     }

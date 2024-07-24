@@ -6,6 +6,7 @@ import { ReactComponent as IconIxoToken } from 'assets/tokens/ixo.svg'
 import { thousandSeparator } from 'utils/formatters'
 import EarthIcon from 'assets/icons/EarthIcon'
 import { NavLink } from 'react-router-dom'
+import { truncateString } from '@ixo-webclient/utils'
 
 type RequestCardProps = {
   did: string
@@ -33,7 +34,7 @@ const RequestCard = ({ entityName, requestName, requestImage, requestDescription
           <Flex align='center'>
             {getEntityIcon('dao', { fill: 'black', stroke: 'black', color: '#407390' })}
             <Text ml={4} c='#407390' fz='sm'>
-              {entityName}
+              {truncateString(entityName, 30, { ellipsisPos: 'center' })}
             </Text>
           </Flex>
           <Flex align='center'>

@@ -73,7 +73,6 @@ const NavigationTabs = () => {
 
   const type = lowerCase((exploreType?.length ?? 0) > 0 ? exploreType : toRootEntityType(entity?.type) ?? '')
 
-
   const currentTabs = tabs[pathname.split('/')[1] as keyof typeof tabs].getTabs(type, pathname, params as any)
   return (
     <NavigationTabsContainer border={tabBorderColor && `1px solid ${tabBorderColor}`}>

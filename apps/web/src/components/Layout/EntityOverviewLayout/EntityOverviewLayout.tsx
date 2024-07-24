@@ -1,5 +1,6 @@
 import { Flex, ScrollArea } from '@mantine/core'
 import ControlPanel from 'components/ControlPanel'
+import EntityOverviewHero from 'components/EntityOverviewHero/EntityOverviewHero'
 import { Outlet, useParams } from 'react-router-dom'
 import { getEntityById } from 'redux/entities/entities.selectors'
 import { useAppSelector } from 'redux/hooks'

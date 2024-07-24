@@ -27,6 +27,9 @@ import * as Explore from 'pages/EntitiesExplorer/EntitiesExplorer.route'
 import * as EntityExchange from 'pages/EntityExchange/EntityExchange.route'
 import * as MyAccount from 'pages/MyAccount/MyAccount.route'
 import * as ProposalOverview from 'pages/CurrentEntity/Proposal/ProposalOverview.route'
+import * as Requests from 'pages/Requests/Requests.route'
+import * as OverviewTabs from 'pages/CurrentEntity/Overview/OverviewTabs/OverviewTabs.route'
+import * as SelectedTabItem from 'pages/CurrentEntity/Overview/OverviewTabs/SelectedTabItem/SelectedTabItem.route'
 
 // Layouts
 import * as EntityOverviewLayout from 'components/Layout/EntityOverviewLayout/EntityOverviewLayout.route'
@@ -81,15 +84,21 @@ const router = createBrowserRouter([
                   {
                     path: "*",
                     Component: EntityOverview.Component,
+                    children: [
+                      {
+                        path: ":tab",
+                        Component: OverviewTabs.Component,    
+                      },
+                      {
+                        path: ":tab/:id",
+                        Component: SelectedTabItem.Component,
+                      }
+                    ]
                   },
                   {
                     path: "proposal/:deedId",
                     Component: ProposalOverview.Component,
                   },
-                  {
-                    path: ":tab",
-                    Component: EntityOverview.Component,
-                  }
                 ]
               },
               {
@@ -186,6 +195,10 @@ const router = createBrowserRouter([
             ],
           },
         ],
+      },
+      {
+        path: 'requests',
+        Component: Requests.Component,
       },
       // {
       //   path: 'create/entity/:entityType',

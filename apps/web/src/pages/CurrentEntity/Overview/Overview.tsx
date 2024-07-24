@@ -1,40 +1,35 @@
-import { Box, Flex, Tabs } from '@mantine/core'
-
+import { Outlet } from 'react-router-dom'
+import EntityOverviewHero from 'components/EntityOverviewHero/EntityOverviewHero'
+import { Box, Tabs, Flex } from '@mantine/core'
 import { useNavigate, useParams } from 'react-router-dom'
 import { selectEntityConfig } from 'redux/configs/configs.selectors'
 import { useAppSelector } from 'redux/hooks'
 import { useTheme } from 'styled-components'
-import EntityOverviewHero from 'components/EntityOverviewHero/EntityOverviewHero'
 import { useEntityOverview } from 'hooks/entity/useEntityOverview'
-import Page from './Page/Page'
-import { ResourceTable } from './Resources/Resources'
-import Claims from './Claims/Claims'
-import { ServiceTable } from './Services/Services'
-import { useKeyValueViewerContext } from 'contexts/KeyValueViewerContext'
-import { useEffect } from 'react'
+import { upperFirst } from 'lodash'
+
+const ClaimsTab = ({ type }: { type: string }) => {
+  const claimsKey = type === 'deed/request' ? 'tasks' : 'claims'
+
+  return (
+    <Tabs.Tab value={claimsKey} pb={2} px={0} ml={10}>
+      {upperFirst(claimsKey)}
+    </Tabs.Tab>
+  )
+}
 
 const Overview: React.FC = () => {
-  const { entityId = '', tab = 'page' } = useParams<{ entityId: string; tab: string }>()
   const theme: any = useTheme()
+  const { entityId = '', tab = 'page' } = useParams<{ entityId: string; tab: string }>()
+
   const config = useAppSelector(selectEntityConfig)
   const primaryColor = config.theme.primaryColor ?? theme.ixoNewBlue
   const navigate = useNavigate()
-  const { resetKeyValue } = useKeyValueViewerContext()
-
-  useEntityOverview(entityId)
-
-  useEffect(() => {
-    return () => {
-      resetKeyValue()
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
   const handleTabChange = (value: string | null) => {
-    resetKeyValue()
     if (value === tab) return
     navigate(`/entity/${entityId}/overview/${value}`)
   }
+  const { type } = useEntityOverview(entityId)
 
   return (
     <Box w='100%' h='100%'>
@@ -46,7 +41,7 @@ const Overview: React.FC = () => {
           mt={20}
           w='100%'
           h='100%'
-          styles={{ tab: { outline: "none" }, tabLabel: { fontWeight: 'bold', color: '#A8ADAE', fontSize: 16 } }}
+          styles={{ tab: { outline: 'none' }, tabLabel: { fontWeight: 'bold', color: '#A8ADAE', fontSize: 16 } }}
           value={tab}
           onChange={handleTabChange}
         >
@@ -63,34 +58,9 @@ const Overview: React.FC = () => {
             <Tabs.Tab value='resources' pb={2} px={0} ml={10}>
               Resources
             </Tabs.Tab>
-            <Tabs.Tab value='claims' pb={2} px={0} ml={10}>
-              Claims
-            </Tabs.Tab>
+            <ClaimsTab type={type} />
           </Tabs.List>
-
-          <Tabs.Panel value='page'>
-            <Page />
-          </Tabs.Panel>
-
-          <Tabs.Panel value='services'>
-            <Flex w='100%' justify={'center'} align={'center'}>
-              <ServiceTable />
-            </Flex>
-          </Tabs.Panel>
-
-          <Tabs.Panel value='rights' h='100%' w='100%'>
-            <Flex justify={'center'} align={'center'} w='100%' h='100%'></Flex>
-          </Tabs.Panel>
-          <Tabs.Panel value='resources'>
-            <Flex w='100%' justify={'center'} align={'center'}>
-              <ResourceTable />
-            </Flex>
-          </Tabs.Panel>
-          <Tabs.Panel value='claims'>
-            <Flex w='100%' justify={'center'} align={'center'}>
-              <Claims />
-            </Flex>
-          </Tabs.Panel>
+          <Outlet />
         </Tabs>
       </Flex>
     </Box>

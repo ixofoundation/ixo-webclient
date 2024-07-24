@@ -13,7 +13,7 @@ const CurrentEntityPage: React.FC = (): JSX.Element => {
     <Routes>
       <Route
         index
-        element={<Navigate to={state?.collectionName ? `overview?collection=${state.collectionName}` : 'overview'} />}
+        element={<Navigate to={state?.collectionName ? `overview?collection=${state.collectionName}` : 'overview/page'} />}
       />
       <Route path='overview/*' element={<OverviewPage />} />
       <Route path='dashboard/*' element={<DashboardPage />} />

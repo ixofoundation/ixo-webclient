@@ -8,7 +8,7 @@ import { useNavigate, useLocation, useParams } from 'react-router-dom'
 import { AgentRoles } from 'types/models'
 import { useGetClaimCollectionsByEntityId } from 'graphql/claims'
 import { useAppSelector } from 'redux/hooks'
-import { getEntityById } from 'redux/entitiesExplorer/entitiesExplorer.selectors'
+import { getEntityById } from 'redux/entities/entities.selectors'
 
 interface Props {
   widget: Widget
