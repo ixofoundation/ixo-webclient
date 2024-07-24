@@ -1,17 +1,16 @@
-import { ActionIcon, Avatar, Flex } from '@mantine/core'
-import { Typography } from 'components/Typography'
-import { useAccount } from 'hooks/account'
-import React from 'react'
-import { useTheme } from 'styled-components'
-import { truncateString } from 'utils/formatters'
-import CopyToClipboard from 'react-copy-to-clipboard'
-import { successToast } from 'utils/toast'
+import { friendlyWalletNames } from '@ixo-webclient/wallet-connector'
+import { ActionIcon, Avatar, Flex, Stack } from '@mantine/core'
 import { ReactComponent as CopyIcon } from 'assets/images/icon-copy.svg'
 import { ReactComponent as DisconnectIcon } from 'assets/images/icon-disconnect.svg'
 import { SvgBox } from 'components/App/App.styles'
-import { friendlyWalletNames } from '@ixo-webclient/wallet-connector'
-import { DisplayInDevelopmentMode } from 'components'
 import Tooltip from 'components/Tooltip/Tooltip'
+import { Typography } from 'components/Typography'
+import { useAccount } from 'hooks/account'
+import React from 'react'
+import CopyToClipboard from 'react-copy-to-clipboard'
+import { useTheme } from 'styled-components'
+import { truncateString } from 'utils/formatters'
+import { successToast } from 'utils/toast'
 
 const HeadLine: React.FC = () => {
   const theme: any = useTheme()
@@ -21,9 +20,9 @@ const HeadLine: React.FC = () => {
     <Flex gap={16} align={'center'} justify={'space-between'}>
       <Flex align={'center'} gap={16}>
         <Avatar src={null} alt='no image here' size={80} radius={100} />
-        <Typography size='2xl'>{name}</Typography>
-        <DisplayInDevelopmentMode>
-          <CopyToClipboard text={connectedWallet?.did || ''}>
+        <Stack gap={4}>
+          <Typography size='2xl'>{name}</Typography>
+          <CopyToClipboard onCopy={() => successToast(null, `Copied to clipboard`)} text={connectedWallet?.did || ''}>
             <Flex justify='center' align='center' gap={8}>
               <Typography>{truncateString(connectedWallet?.did || '', 20, 'middle')}</Typography>
               <SvgBox
@@ -37,7 +36,7 @@ const HeadLine: React.FC = () => {
               </SvgBox>
             </Flex>
           </CopyToClipboard>
-        </DisplayInDevelopmentMode>
+        </Stack>
       </Flex>
       <Flex align={'center'} gap={12}>
         <Flex
