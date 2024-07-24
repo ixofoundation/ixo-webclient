@@ -144,3 +144,8 @@ export const selectCreateEntityQuestionJSON = createSelector(
   selectCreateEntity,
   (createEntity: TCreateEntityState): any => createEntity.questionJSON ?? { pages: [] },
 )
+
+export const selectCreateEntityProtocolId = createSelector(
+  selectCreateEntity,
+  (createEntity: TCreateEntityState): string => createEntity.protocolId ?? '',
+)
