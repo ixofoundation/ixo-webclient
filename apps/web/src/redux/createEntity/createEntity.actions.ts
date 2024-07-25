@@ -40,6 +40,7 @@ import {
   TUpdateClaimQuestionsAction,
   TUpdateStartEndDateAction,
   TUpdateQuestionJSONAction,
+  TUpdateProtocolIdAction,
 } from './createEntity.types'
 
 export const updateEntityTypeAction = (entityType: string): TUpdateEntityTypeAction => ({
@@ -176,4 +177,9 @@ export const updateClaimQuestionsAction = (claimQuestions: {
 export const updateQuestionJSONAction = (questionJSON: any): TUpdateQuestionJSONAction => ({
   type: ECreateEntityActions.UpdateQuestionJSON,
   payload: questionJSON,
+})
+
+export const updateProtocolIdAction = (protocolId: string): TUpdateProtocolIdAction => ({
+  type: ECreateEntityActions.UpdateProtocolId,
+  payload: protocolId,
 })
