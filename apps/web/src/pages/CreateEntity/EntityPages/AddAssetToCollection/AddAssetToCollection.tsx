@@ -50,6 +50,7 @@ const AddAssetToCollection = ({ showNavigation = true }: { showNavigation?: bool
       <Flex gap='md'>
         {data.map((collection) => (
           <Card
+            key={collection.id}
             shadow='md'
             radius={'md'}
             bg={protocolId === collection.id ? '#00D2FF' : 'white'}
