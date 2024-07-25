@@ -18,8 +18,8 @@ const stepMap = new Map<string, string[]>([
   ['project', ['process', 'profile', 'settings', 'review']],
   ['investment', ['process', 'profile', 'instrument', 'settings', 'review']],
   ['asset', ['asset-type']],
-  ['asset-device', ['process', 'profile', 'settings', 'add-asset-to-collection', 'review']],
-  ['asset-learnership', ['process', 'profile', 'settings', 'add-asset-to-collection', 'review']],
+  ['asset-device', ['process', 'add-asset-to-collection', 'profile', 'settings', 'review']],
+  ['asset-learnership', ['process', 'add-asset-to-collection', 'profile', 'settings', 'review']],
   ['asset-collection', ['process', 'profile', 'settings', 'review']],
 ])
 

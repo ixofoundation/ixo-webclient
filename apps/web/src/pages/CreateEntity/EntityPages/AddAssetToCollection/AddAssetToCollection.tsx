@@ -7,11 +7,28 @@ import { useState } from 'react'
 import { populateEntitiesForEntityExplorer } from 'services'
 import { TEntityModel } from 'types/entities'
 import { useCreateEntityState } from 'hooks/createEntity'
+import { apiEntityToEntity } from 'utils/entities'
+import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
+import { EntityLinkedResourceConfig } from 'constants/entity'
 
 const AddAssetToCollection = ({ showNavigation = true }: { showNavigation?: boolean }) => {
   const { wallet } = useWallet()
   const { navigateToNextStep, navigateToPreviousStep } = useCreateEntityStepState()
-  const { protocolId, updateProtocolId } = useCreateEntityState()
+  const {
+    protocolId,
+    updateProtocolId,
+    updateProfile,
+    updateCreator,
+    updateAdministrator,
+    updateDDOTags,
+    updatePage,
+    updateService,
+    updateLinkedEntity,
+    updateLinkedResource,
+    updateStartEndDate,
+    updateQuestionJSON,
+    updateClaim,
+  } = useCreateEntityState()
   const [{ data, loading }, setCollections] = useState<{ data: TEntityModel[]; loading: boolean }>({
     data: [],
     loading: false,
@@ -39,7 +56,52 @@ const AddAssetToCollection = ({ showNavigation = true }: { showNavigation?: bool
   const handlePrev = (): void => {
     navigateToPreviousStep()
   }
-  const handleNext = (): void => {
+
+  const handleNext = async (protocolId?: string): Promise<void> => {
+    const entity = data.find((collection) => collection.id === protocolId) as any
+    await new Promise((resolve) => {  
+      apiEntityToEntity({ entity: entity }, (key: string, value: any, merge) => {
+        switch (key) {
+          case 'profile':
+            updateProfile(value)
+            break
+          case 'creator':
+            updateCreator(value)
+            break
+          case 'administrator':
+            updateAdministrator(value)
+            break
+          case 'page':
+            updatePage(value)
+            break
+          case 'tags':
+            updateDDOTags(value)
+            break
+          case 'service':
+            updateService(value)
+            break
+          case 'linkedEntity':
+            updateLinkedEntity(value)
+            break
+          case 'linkedResource':
+            updateLinkedResource(
+              value.filter((item: LinkedResource) => Object.keys(EntityLinkedResourceConfig).includes(item.type)),
+            )
+            break
+          case 'surveyTemplate':
+            updateQuestionJSON(value)
+            break
+          case 'claim':
+            updateClaim(value)
+            break
+          default:
+            break
+        }
+      })
+      return resolve(true)
+    })
+    // additional
+    updateStartEndDate({ startDate: entity.startDate, endDate: entity.endDate })
     navigateToNextStep()
   }
 
@@ -72,7 +134,7 @@ const AddAssetToCollection = ({ showNavigation = true }: { showNavigation?: bool
             <Button size='full' height={48} variant='secondary' onClick={handlePrev}>
               Back
             </Button>
-            <Button size='full' height={48} variant={'primary'} disabled={!protocolId} onClick={handleNext}>
+            <Button size='full' height={48} variant={'primary'} disabled={!protocolId} onClick={() => handleNext(protocolId)}>
               Continue
             </Button>
           </Box>
