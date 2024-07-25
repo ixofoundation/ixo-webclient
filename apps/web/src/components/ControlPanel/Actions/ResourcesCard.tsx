@@ -1,9 +1,9 @@
-import { Flex, Box, Text, Avatar, ActionIcon } from '@mantine/core'
+import { Service } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
+import { ActionIcon, Avatar, Box, Flex, Text } from '@mantine/core'
 import ActionCard from 'components/ActionCard/ActionCard'
-import { LiaLinkSolid, LiaFilePdfSolid, LiaFileImageSolid, LiaExternalLinkSquareAltSolid } from 'react-icons/lia'
+import { LiaExternalLinkSquareAltSolid, LiaFileImageSolid, LiaFilePdfSolid, LiaLinkSolid } from 'react-icons/lia'
 import { TEntityModel } from 'types/entities'
 import { serviceEndpointToUrl } from 'utils/entities'
-import { Service } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 type ResourcesCardProps = {
   entity: TEntityModel
 }
@@ -74,6 +74,7 @@ const ResourcesCard = ({ entity }: ResourcesCardProps) => {
     <ActionCard title='Resources' icon={<LiaLinkSolid />}>
       {entity.linkedResource.map((resource) => (
         <ResourceItem
+          key={resource.id}
           mediaType={resource.mediaType}
           description={resource.description}
           id={resource.id}

@@ -1,7 +1,7 @@
-import { Card, Image, Flex, Box, Text, Avatar } from '@mantine/core'
-import { getUserRole } from 'utils/claims/getRole'
 import { IidDocument } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/iid'
+import { Box, Card, Flex, Text } from '@mantine/core'
 import { useNavigate } from 'react-router-dom'
+import { getUserRole } from 'utils/claims/getRole'
 
 type TaskCardProps = {
   task: any
@@ -11,7 +11,6 @@ const TaskCard = ({ task, iid }: TaskCardProps) => {
   const navigate = useNavigate()
   const role = getUserRole({ userLinkedResources: iid.linkedResource, collectionId: task.id })
 
-  console.log({ task })
   return (
     <Card
       shadow='md'
@@ -21,13 +20,13 @@ const TaskCard = ({ task, iid }: TaskCardProps) => {
           cursor: 'pointer',
           ':hover': {
             boxShadow: '150px 150px 100px 100px rgba(0, 0, 0, 1)',
-            backgroundColor: "red",
+            backgroundColor: 'red',
           },
         },
         section: {
           ':hover': {
             boxShadow: '150px 150px 100px 100px rgba(0, 0, 0, 1)',
-            backgroundColor: "red",
+            backgroundColor: 'red',
             padding: 10,
           },
         },

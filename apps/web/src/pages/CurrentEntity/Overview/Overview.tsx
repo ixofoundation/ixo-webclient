@@ -1,7 +1,6 @@
-import { Outlet } from 'react-router-dom'
 import EntityOverviewHero from 'components/EntityOverviewHero/EntityOverviewHero'
 import { Box, Tabs, Flex } from '@mantine/core'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams, Outlet } from 'react-router-dom'
 import { selectEntityConfig } from 'redux/configs/configs.selectors'
 import { useAppSelector } from 'redux/hooks'
 import { useTheme } from 'styled-components'

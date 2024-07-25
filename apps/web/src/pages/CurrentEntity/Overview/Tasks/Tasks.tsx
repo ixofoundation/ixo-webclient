@@ -1,14 +1,14 @@
+import { useWallet } from '@ixo-webclient/wallet-connector'
 import { Box, Flex } from '@mantine/core'
+import TaskCard from 'components/TaskCard/TaskCard'
+import { useGetIid } from 'graphql/iid'
+import { useClaimTableData } from 'hooks/claims/useClaimTableData'
+import { useQuery } from 'hooks/window'
 import { useParams } from 'react-router-dom'
 import { getEntityById } from 'redux/entities/entities.selectors'
 import { useAppSelector } from 'redux/hooks'
-import { useQuery } from 'hooks/window'
 import ClaimForm from '../ClaimForm'
 import OfferForm from '../OfferForm'
-import TaskCard from 'components/TaskCard/TaskCard'
-import { useClaimTableData } from 'hooks/claims/useClaimTableData'
-import { useGetIid } from 'graphql/iid'
-import { useWallet } from '@ixo-webclient/wallet-connector'
 
 const Tasks = () => {
   const { entityId = '' } = useParams<{ entityId: string }>()
@@ -17,10 +17,13 @@ const Tasks = () => {
   const claimId = getQuery('claimId')
   const collectionId = getQuery('collectionId')
   const agentRole = getQuery('agentRole')
-  const {wallet} = useWallet()
+  const { wallet } = useWallet()
   const { data: iid } = useGetIid(wallet?.did ?? '')
   const { claimTableData: tasks, loading } = useClaimTableData({ entityId })
 
+  if (loading) {
+    return <Box>Loading...</Box>
+  }
 
   if (claimId && claim) {
     return <ClaimForm claimId={claimId} />
