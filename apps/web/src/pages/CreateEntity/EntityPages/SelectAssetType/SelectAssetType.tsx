@@ -1,17 +1,9 @@
 import { Typography } from 'components/Typography'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Wrapper } from './SelectAssetType.styles'
 import { CateSelector } from '../../Components'
 import { ReactComponent as ClaimIcon } from 'assets/images/icon-claim.svg'
-import { ReactComponent as ImpactTokenIcon } from 'assets/images/icon-impact-token.svg'
-import { ReactComponent as InvestmentIcon } from 'assets/images/icon-investment.svg'
-import { ReactComponent as ProjectIcon } from 'assets/images/icon-project.svg'
-import { ReactComponent as OracleIcon } from 'assets/images/icon-oracle.svg'
-import { ReactComponent as DAOIcon } from 'assets/images/icon-dao.svg'
 import { ReactComponent as DeedIcon } from 'assets/images/icon-deed.svg'
-import { ReactComponent as StarIcon } from 'assets/images/icon-star.svg'
-import { useCreateEntityState } from 'hooks/createEntity'
-import { useCreateEntityStepState } from 'hooks/createEntityStepState'
 import { Flex } from '@mantine/core'
 import { useNavigate } from 'react-router-dom'
 
@@ -34,13 +26,9 @@ const SelectType= ({ showNavigation = true }: { showNavigation?: boolean }): JSX
   ]
 
   const [hoveredItem, setHoveredItem] = useState<any>(undefined)
-  const { updateEntityType } = useCreateEntityState()
-  const { navigateToNextStep } = useCreateEntityStepState()
   const navigate = useNavigate()
 
   const handleClick = (item: any): void => {
-    // updateEntityType(item.type.toLowerCase())
-    // navigateToNextStep()
     navigate(`/entity/create/${item.type.toLowerCase()}`)
   }
 
