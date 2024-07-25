@@ -4,7 +4,7 @@ import TaskCard from 'components/TaskCard/TaskCard'
 import { useGetIid } from 'graphql/iid'
 import { useClaimTableData } from 'hooks/claims/useClaimTableData'
 import { useQuery } from 'hooks/window'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { getEntityById } from 'redux/entities/entities.selectors'
 import { useAppSelector } from 'redux/hooks'
 import ClaimForm from '../ClaimForm'
@@ -36,7 +36,9 @@ const Tasks = () => {
   return (
     <Flex w='100%' justify={'flex-start'} gap='md' p='md'>
       {tasks.map((task) => (
-        <TaskCard key={task.id} task={task} iid={iid} />
+        <Link to={task.collection.id} key={task.id}>
+          <TaskCard key={task.id} task={task} iid={iid} />
+        </Link>
       ))}
     </Flex>
   )

@@ -26,6 +26,8 @@ const ClaimCard = ({ status, count }: { status: keyof typeof colors; count: numb
     leftSection={<Box bg={colors[status]} h='12' w='12' style={{ borderRadius: '100%' }} />}
     color='#F9F9F9'
     p={'sm'}
+    fw={400}
+    fs={'14px'}
     size='lg'
     w='100%'
     style={{ justifyContent: 'start' }}

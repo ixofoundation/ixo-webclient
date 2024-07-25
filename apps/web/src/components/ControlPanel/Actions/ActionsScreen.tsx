@@ -1,14 +1,19 @@
-import { useParams } from 'react-router-dom'
 import { Flex } from '@mantine/core'
+import { useParams } from 'react-router-dom'
 import { getEntityById } from 'redux/entities/entities.selectors'
 import { useAppSelector } from 'redux/hooks'
-import CreatorCard from './CreatorCard'
 import { TEntityModel } from 'types/entities'
-import TimeSpanCard from './TimeSpanCard'
+import CreatorCard from './CreatorCard'
 import LocationCard from './LocationCard'
 import ResourcesCard from './ResourcesCard'
+import TaskDetailsCard from './TaskDetailsCard'
+import TimeSpanCard from './TimeSpanCard'
 
 const ActionsFactory = ({ entity }: { entity: TEntityModel }) => {
+  const { tab, id } = useParams<{
+    tab: string
+    id: string
+  }>()
   switch (entity.type) {
     case 'dao':
       return (
@@ -35,12 +40,15 @@ const ActionsFactory = ({ entity }: { entity: TEntityModel }) => {
         </Flex>
       )
     case 'deed/request':
+      if (tab === 'tasks' && id) {
+        return <TaskDetailsCard />
+      }
       return (
-        <Flex direction={'column'} gap="md">
-          <CreatorCard entity={entity}/>
-          <TimeSpanCard entity={entity}/>
-          <LocationCard entity={entity}/>
-          <ResourcesCard entity={entity}/>
+        <Flex direction={'column'} gap='md'>
+          <CreatorCard entity={entity} />
+          <TimeSpanCard entity={entity} />
+          <LocationCard entity={entity} />
+          <ResourcesCard entity={entity} />
         </Flex>
       )
     default:

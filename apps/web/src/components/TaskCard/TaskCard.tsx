@@ -1,20 +1,20 @@
 import { IidDocument } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/iid'
-import { Box, Card, Flex, Text } from '@mantine/core'
-import { useNavigate } from 'react-router-dom'
+import { Box, Button, ButtonProps, Card, Flex, MantineStyleProps, Text } from '@mantine/core'
 import { getUserRole } from 'utils/claims/getRole'
 
 type TaskCardProps = {
   task: any
   iid: IidDocument
+  buttonProps?: ButtonProps
+  w?: MantineStyleProps['w']
 }
-const TaskCard = ({ task, iid }: TaskCardProps) => {
-  const navigate = useNavigate()
+const TaskCard = ({ task, iid, buttonProps, w = 400 }: TaskCardProps) => {
   const role = getUserRole({ userLinkedResources: iid.linkedResource, collectionId: task.id })
-
   return (
     <Card
       shadow='md'
       radius='md'
+      w={w}
       styles={{
         root: {
           cursor: 'pointer',
@@ -31,10 +31,9 @@ const TaskCard = ({ task, iid }: TaskCardProps) => {
           },
         },
       }}
-      onClick={() => navigate(`${task.collection.id}`)}
     >
       <Card.Section px='md' pt='md' pos='relative'>
-        <Flex style={{ borderRadius: '10px' }} h={250} w={400} bg='linear-gradient(135deg, #56BBBB 0%, #275555 100%)' />
+        <Flex style={{ borderRadius: '10px' }} h={250} w={"100%"} bg='linear-gradient(135deg, #56BBBB 0%, #275555 100%)' />
         <Box pos='absolute' bottom='0' left='0' right='0' bg='rgba(255,255,255,0.5)' mx='md' p='md'>
           <Text c='white'>Apply to Submit Claims</Text>
         </Box>
@@ -47,6 +46,11 @@ const TaskCard = ({ task, iid }: TaskCardProps) => {
           </Box>
         </Flex>
       </Card.Section>
+      {buttonProps && (
+        <Card.Section p='md'>
+          <Button {...buttonProps} />
+        </Card.Section>
+      )}
     </Card>
   )
 }

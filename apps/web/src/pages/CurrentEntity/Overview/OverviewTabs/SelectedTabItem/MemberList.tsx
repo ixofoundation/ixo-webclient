@@ -1,6 +1,7 @@
-import { Avatar, Box, Flex, Stack, Text } from '@mantine/core'
+import { Avatar, Box, Stack, Text } from '@mantine/core'
 import ActionCard from 'components/ActionCard/ActionCard'
 import { LiaUser } from 'react-icons/lia'
+import GrayCard from './GrayCard'
 
 interface MemberProps {
   id: string
@@ -11,13 +12,13 @@ interface MemberProps {
 
 function Member({ name, role, avatarUrl }: MemberProps) {
   return (
-    <Flex w='100%' align='center' bg='#F9F9F9' p='sm' style={{ borderRadius: '10px' }} gap={"md"}>
+    <GrayCard>
       <Avatar src={avatarUrl} />
       <Box>
         <Text>{name}</Text>
         <Text>{role}</Text>
       </Box>
-    </Flex>
+    </GrayCard>
   )
 }
 
@@ -31,12 +32,12 @@ function MembersList({ members }: MembersListProps) {
         {members.map((member) => (
           <Member key={member.id} {...member} />
         ))}
-        <Flex w='100%' align='center' gap={"md"} bg='#F9F9F9' p='sm' style={{ borderRadius: '10px' }} mt='md'>
+        <GrayCard>
           <Avatar />
           <Box>
             <Text>Apply for a role</Text>
           </Box>
-        </Flex>
+        </GrayCard>
       </Stack>
     </ActionCard>
   )
