@@ -5,6 +5,7 @@ import Long from 'long'
 import BigNumber from 'bignumber.js'
 import { Payments } from '@ixo/impactxclient-sdk/types/codegen/ixo/claims/v1beta1/claims'
 import { GrantAuthorization } from '@ixo/impactxclient-sdk/types/codegen/cosmos/authz/v1beta1/authz'
+import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 
 const { createRPCQueryClient } = cosmos.ClientFactory
 
@@ -216,6 +217,7 @@ export const MsgExecAgentEvaluate = async (
     adminAddress: string
     status?: number
     verificationProof: string
+    amount?: Coin
   },
 ) => {
   const {
@@ -224,6 +226,7 @@ export const MsgExecAgentEvaluate = async (
     adminAddress,
     status = ixo.claims.v1beta1.EvaluationStatus.APPROVED,
     verificationProof = 'cid',
+    amount,
   } = payload
 
   const message = {
@@ -244,13 +247,14 @@ export const MsgExecAgentEvaluate = async (
               status,
               reason: 1,
               verificationProof,
-              // if want to do custom amount, must be within allowed authz if through authz
-              // amount: [
-              //   cosmos.base.v1beta1.Coin.fromPartial({
-              //     amount: "1500000",
-              //     denom: "uixo",
-              //   }),
-              // ],
+              ...(amount && {
+                amount: [
+                  cosmos.base.v1beta1.Coin.fromPartial({
+                    amount: amount.amount,
+                    denom: amount.denom,
+                  }),
+                ],
+              }),
             }),
           ).finish(),
         },
