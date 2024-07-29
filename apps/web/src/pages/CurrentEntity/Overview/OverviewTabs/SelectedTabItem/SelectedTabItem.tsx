@@ -1,20 +1,22 @@
 import { ActionIcon, Flex, Text } from '@mantine/core'
 import ActionCard from 'components/ActionCard/ActionCard'
-import { LiaArrowCircleLeftSolid } from 'react-icons/lia'
+import { LiaArrowLeftSolid } from 'react-icons/lia'
 import ClaimRequirementsList from './ClaimRequirementsList'
 import ClaimsList from './ClaimsList'
 import { MembersList } from './MemberList'
 import RewardsList from './RewardsList'
+import { useNavigate } from 'react-router-dom'
 
 const SelectedTabItem = () => {
+  const navigate = useNavigate()
   const description = 'This is a description of the collection'
   return (
     <Flex direction='column' w='100%' gap='lg' mt='lg'>
-      <Flex>
-        <ActionIcon variant='transparent'>
-          <LiaArrowCircleLeftSolid />
+      <Flex align='center' gap='sm'>
+        <ActionIcon size='lg' radius={'xl'} bg='#F9F9F9' onClick={() => navigate(-1)}>
+          <LiaArrowLeftSolid color='#000000' />
         </ActionIcon>
-        <Text>Claim Collection Title</Text>
+        <Text fz='lg'>Claim Collection Title</Text>
       </Flex>
       <Flex w='100%' gap='lg'>
         <MembersList members={[]} />

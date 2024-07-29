@@ -78,7 +78,7 @@ const ControlPanel = ({ entityType }: Props) => {
       <StyledScrollArea h='100%'>
         <Flex w='100%' direction='column' h='100%' p={20} pt={32}>
           {!keyValue && address && activeTab === 'profile' && renderProfile()}
-          {!keyValue && activeTab === 'actions' && <ActionsScreen />}
+          {/* {!keyValue && activeTab === 'actions' && <ActionsScreen />} */}
           {!keyValue && activeTab === 'assistant' && <Assistant/>}
           {keyValue && <ActionPanel type={keyValue.type} data={keyValue.data} />}
         </Flex>
