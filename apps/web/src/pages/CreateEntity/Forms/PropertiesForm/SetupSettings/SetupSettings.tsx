@@ -148,7 +148,7 @@ const SetupSettings: React.FC<Props> = ({
       handleUpdateEntitySetting('page', page)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[])
+  },[JSON.stringify(page)])
 
   const persistPageToStore = (page: any): void => {
     updatePage(page)

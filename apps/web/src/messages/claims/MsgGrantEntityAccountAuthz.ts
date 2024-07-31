@@ -1,3 +1,4 @@
+import { Coin } from '@cosmjs/proto-signing'
 import { cosmos, ixo, utils } from '@ixo/impactxclient-sdk'
 import { Grant } from '@ixo/impactxclient-sdk/types/codegen/cosmos/authz/v1beta1/authz'
 import Long from 'long'
@@ -69,6 +70,7 @@ export type EvaluateClaimAuthorizationGrantProps = {
   agentQuota: number
   currentAuthConstraints: any
   claimIds: string[]
+  maxAmounts?: Coin[]
 }
 
 export const EvaluateClaimAuthorizationGrant = ({
@@ -77,6 +79,7 @@ export const EvaluateClaimAuthorizationGrant = ({
   agentQuota,
   currentAuthConstraints,
   claimIds,
+  maxAmounts
 }: EvaluateClaimAuthorizationGrantProps) => {
   return cosmos.authz.v1beta1.Grant.fromPartial({
     authorization: {
@@ -91,12 +94,7 @@ export const EvaluateClaimAuthorizationGrant = ({
               agentQuota: Long.fromNumber(agentQuota),
               beforeDate: utils.proto.toTimestamp(addDays(new Date(), 365)),
               // if want to do custom amount, must be within allowed authz if through authz
-              maxCustomAmount: [
-                cosmos.base.v1beta1.Coin.fromPartial({
-                  amount: '2000000',
-                  denom: 'uixo',
-                }),
-              ],
+              maxCustomAmount: maxAmounts
             }),
             ...currentAuthConstraints,
           ],

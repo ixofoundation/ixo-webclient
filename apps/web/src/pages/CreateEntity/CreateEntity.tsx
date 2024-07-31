@@ -17,7 +17,10 @@ const stepMap = new Map<string, string[]>([
   ['oracle', ['process', 'profile', 'settings', 'review']],
   ['project', ['process', 'profile', 'settings', 'review']],
   ['investment', ['process', 'profile', 'instrument', 'settings', 'review']],
-  ['asset', ['process', 'profile', 'settings', 'review', 'create-token']],
+  ['asset', ['asset-type']],
+  ['asset-device', ['process', 'add-asset-to-collection', 'profile', 'settings', 'review']],
+  ['asset-learnership', ['process', 'add-asset-to-collection', 'profile', 'settings', 'review']],
+  ['asset-collection', ['process', 'profile', 'settings', 'review']],
 ])
 
 const buildEntitySteps = (entity: string, order: string[]): { title: string; steps: Step[] } => {
@@ -31,6 +34,16 @@ const buildEntitySteps = (entity: string, order: string[]): { title: string; ste
     {
       title: 'Select Type of Protocol',
       path: 'type',
+      number: 0,
+    },
+    {
+      title: 'Select Type of Asset',
+      path: 'asset-type',
+      number: 0,
+    },
+    {
+      title: 'Add Asset to Collection',
+      path: 'add-asset-to-collection',
       number: 0,
     },
     {
@@ -126,7 +139,7 @@ const CreateEntity = (): JSX.Element => {
 
   useEffect(() => {
     dispatch(setSteps(data.steps))
-
+    console.log({ entityType, shouldUpdateEntityType, stateEntityType })
     if (entityType && shouldUpdateEntityType) {
       updateEntityType(entityType)
       navigateToNextStep(data.steps[0])

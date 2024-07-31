@@ -16,6 +16,8 @@ import {
   SelectType,
   SetupInstrument,
   SetupDataCollection,
+  SelectAssetType,
+  AddAssetToCollection
 } from 'pages/CreateEntity/EntityPages'
 
 // Pages
@@ -137,6 +139,14 @@ const router = createBrowserRouter([
               {
                 path: 'type',
                 element: <SelectType />,
+              },
+              {
+                path: 'asset-type',
+                element: <SelectAssetType />,
+              },
+              {
+                path: 'add-asset-to-collection',
+                element: <AddAssetToCollection />,
               },
               {
                 path: 'instrument',
