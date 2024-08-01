@@ -1,6 +1,6 @@
 import { Card } from 'pages/CurrentEntity/Components'
 import React from 'react'
-import { ReactComponent as AgentsIcon } from 'assets/img/sidebar/agents.svg'
+import AgentsIcon from 'assets/img/sidebar/agents.svg'
 import { Flex, Loader } from '@mantine/core'
 import { useDAO, useParticipatingDAO } from 'hooks/dao'
 import { useAccount } from 'hooks/account'

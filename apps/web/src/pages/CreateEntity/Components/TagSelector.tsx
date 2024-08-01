@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { ReactComponent as IconChevDown } from 'assets/images/icon-chev-down.svg'
+import IconChevDown from 'assets/images/icon-chev-down.svg'
 import { SelectionModal } from 'components/Modals'
 
 const Label = styled.label`

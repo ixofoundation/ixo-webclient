@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react'
 import styled, { useTheme } from 'styled-components'
-import { ReactComponent as IconChevDown } from 'assets/images/icon-chev-down.svg'
+import IconChevDown from 'assets/images/icon-chev-down.svg'
 import { TypeSelectionModal } from 'components/Modals'
 import { Typography } from 'components/Typography'
 import { SvgBox } from 'components/App/App.styles'

@@ -5,9 +5,9 @@ import ArrowLeftIcon from 'assets/images/icon-arrow-left.svg'
 import CirclePayLogo from 'assets/images/exchange/circle-pay-logo.png'
 import MasterCardLogo from 'assets/images/exchange/mastercard.svg'
 import VisaCardLogo from 'assets/images/exchange/visa.svg'
-import { ReactComponent as CheckIcon } from 'assets/images/icon-check.svg'
-import { ReactComponent as ChevDownIcon } from 'assets/images/icon-chev-down.svg'
-import { ReactComponent as ClockIcon } from 'assets/images/exchange/clock.svg'
+import CheckIcon from 'assets/images/icon-check.svg'
+import ChevDownIcon from 'assets/images/icon-chev-down.svg'
+import ClockIcon from 'assets/images/exchange/clock.svg'
 import {
   CirclePayInput,
   CirclePaySubmitButton,

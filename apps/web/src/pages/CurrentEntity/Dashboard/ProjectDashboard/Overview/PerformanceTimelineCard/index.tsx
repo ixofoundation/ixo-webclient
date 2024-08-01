@@ -1,5 +1,5 @@
 import { Card } from 'pages/CurrentEntity/Components'
-import { ReactComponent as PiePieceIcon } from 'assets/images/icon-pie-piece.svg'
+import PiePieceIcon from 'assets/images/icon-pie-piece.svg'
 import { Flex } from '@mantine/core'
 import { useParams } from 'react-router-dom'
 import { useGetClaimCollectionsByEntityId, useGetClaimsByEntityId } from 'graphql/claims'

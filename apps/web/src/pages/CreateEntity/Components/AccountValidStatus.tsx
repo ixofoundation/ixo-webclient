@@ -1,8 +1,8 @@
 import { FlexBox } from 'components/App/App.styles'
 import React from 'react'
 import { isAccountAddress, isContractAddress } from 'utils/validation'
-import { ReactComponent as CheckIcon } from 'assets/images/icon-check-big.svg'
-import { ReactComponent as TimesIcon } from 'assets/images/icon-times.svg'
+import CheckIcon from 'assets/images/icon-check-big.svg'
+import TimesIcon from 'assets/images/icon-times.svg'
 import { useTheme } from 'styled-components'
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {

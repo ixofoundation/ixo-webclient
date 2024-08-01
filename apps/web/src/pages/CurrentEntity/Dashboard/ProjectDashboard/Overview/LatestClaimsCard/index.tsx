@@ -1,5 +1,5 @@
 import { Card } from 'pages/CurrentEntity/Components'
-import { ReactComponent as CheckInCircleIcon } from 'assets/images/icon-check-in-circle.svg'
+import CheckInCircleIcon from 'assets/images/icon-check-in-circle.svg'
 import { Flex } from '@mantine/core'
 import { useClaimSetting } from 'hooks/claim'
 import { Typography } from 'components/Typography'

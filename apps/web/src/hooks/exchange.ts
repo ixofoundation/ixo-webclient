@@ -36,7 +36,7 @@ function useExchange({ address }: UseExchangeProps) {
   const dispatch: any = useAppDispatch()
   const slippage = useAppSelector(selectSlippage)
   const [balances, setBalances] = useState<Dictionary<string>>({})
-  const [chainId, setChainId] = useState(process.env.REACT_APP_CHAIN_ID)
+  const [chainId, setChainId] = useState(import.meta.env.VITE_APP_CHAIN_ID)
   const [tokenBalances, setTokenBalances] = useState<any>([])
 
   const inputAsset = useAppSelector(selectInputAsset)

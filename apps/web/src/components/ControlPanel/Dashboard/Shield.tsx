@@ -16,7 +16,7 @@ export const Image = styled.img`
 const Shield: React.FunctionComponent<Props> = ({ entityDid, control: { title, iconColor, parameters } }) => {
   const field = parameters?.find((param) => param?.name === 'field')?.value
   const shieldUrl = encodeURIComponent(
-    `${process.env.REACT_APP_BLOCK_SYNC_URL}/api/project/shields/${field}/${entityDid}`,
+    `${import.meta.env.VITE_APP_BLOCK_SYNC_URL}/api/project/shields/${field}/${entityDid}`,
   )
 
   return (

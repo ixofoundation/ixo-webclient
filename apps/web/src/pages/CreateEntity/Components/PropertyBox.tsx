@@ -2,8 +2,8 @@ import { Box, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import React, { useMemo } from 'react'
 import styled from 'styled-components'
-import { ReactComponent as LockIcon } from 'assets/images/icon-lock.svg'
-import { ReactComponent as BinIcon } from 'assets/images/icon-trash-can.svg'
+import LockIcon from 'assets/images/icon-lock.svg'
+import BinIcon from 'assets/images/icon-trash-can.svg'
 
 const Wrapper = styled.div`
   position: relative;

@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import * as Modal from 'react-modal'
-import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
+import CloseIcon from 'assets/images/icon-close.svg'
 import { ModalStyles, CloseButton } from 'components/Modals/styles'
 import { TEntityServiceModel, NodeType } from 'types/entities'
 import { Button, Dropdown, InputWithLabel } from 'pages/CreateEntity/Components'
 import { Typography } from 'components/Typography'
 import { FlexBox, SvgBox } from 'components/App/App.styles'
-import { ReactComponent as MinusBoxIcon } from 'assets/images/icon-minus-box.svg'
+import MinusBoxIcon from 'assets/images/icon-minus-box.svg'
 import { useTheme } from 'styled-components'
 
 interface ServiceFormProps {

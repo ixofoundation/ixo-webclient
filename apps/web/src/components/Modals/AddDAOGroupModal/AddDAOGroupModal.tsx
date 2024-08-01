@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import _ from 'lodash'
 import * as Modal from 'react-modal'
-import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
+import CloseIcon from 'assets/images/icon-close.svg'
 import { ModalStyles, CloseButton, ModalBody, ModalWrapper, ModalRow, ModalTitle } from 'components/Modals/styles'
 import { AccountValidStatus, Button, InputWithLabel, PropertyBox } from 'pages/CreateEntity/Components'
 import { Typography } from 'components/Typography'

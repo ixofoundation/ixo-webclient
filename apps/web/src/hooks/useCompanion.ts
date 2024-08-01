@@ -8,7 +8,7 @@ import { cosmos, createRegistry } from '@ixo/impactxclient-sdk'
 import { fee } from 'lib/protocol'
 import { useCompanionContext } from 'contexts/CompanionContext'
 
-const ASSISTANT_API_KEY = process.env.REACT_APP_ASSISTANT_API_KEY
+const ASSISTANT_API_KEY = import.meta.env.VITE_APP_ASSISTANT_API_KEY
 
 export const decodeTransactionBody = (txBody: Uint8Array) => {
   const registry = createRegistry()

@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react'
 
 import { Flex } from '@mantine/core'
 import styled, { useTheme } from 'styled-components'
-import { ReactComponent as PlusCircleIcon } from 'assets/images/icon-plus-circle-solid.svg'
+import PlusCircleIcon from 'assets/images/icon-plus-circle-solid.svg'
 import { SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { PropertiesForm } from 'pages/CreateEntity/Forms'

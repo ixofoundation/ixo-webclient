@@ -15,8 +15,8 @@ import { useQuery } from 'hooks/window'
 import { Button } from 'pages/CreateEntity/Components'
 import React, { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { ReactComponent as CheckCircleIcon } from 'assets/images/icon-check-circle.svg'
-import { ReactComponent as ExclamationIcon } from 'assets/images/icon-exclamation-circle.svg'
+import CheckCircleIcon from 'assets/images/icon-check-circle.svg'
+import ExclamationIcon from 'assets/images/icon-exclamation-circle.svg'
 import { useTheme } from 'styled-components'
 import { CreationSuccessScreen } from './CreationSuccessScreen'
 import { createEntityCard, withEntityData } from 'components'
@@ -118,7 +118,7 @@ const Review = ({ showNavigation = true }: { showNavigation?: boolean }): JSX.El
         linkedEntity,
         linkedClaim,
         verification,
-        relayerNode: process.env.REACT_APP_RELAYER_NODE,
+        relayerNode: import.meta.env.VITE_APP_RELAYER_NODE,
         ...(controller?.length > 0 && { controller }),
       },
       { sequence: 2, transactionSessionHash: transaction.transactionSessionHash },

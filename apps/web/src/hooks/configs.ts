@@ -22,7 +22,7 @@ import {
 import { Schema, SchemaCategory } from 'pages/EntitiesExplorer/Components/EntitiesFilter/schema/types'
 import { getCustomTheme } from 'redux/theme/theme.actions'
 
-export const CHAIN_ID = process.env.REACT_APP_CHAIN_ID
+export const CHAIN_ID = import.meta.env.VITE_APP_CHAIN_ID
 export const chainNetwork: ChainNetwork = CHAIN_ID?.startsWith('ixo')
   ? 'mainnet'
   : CHAIN_ID?.startsWith('pandora')

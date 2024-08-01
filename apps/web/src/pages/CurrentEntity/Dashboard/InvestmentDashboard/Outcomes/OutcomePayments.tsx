@@ -6,7 +6,7 @@ import styled, { useTheme } from 'styled-components'
 import { Table } from 'components/Table'
 import { useGetBondOutcomePayments } from 'graphql/bonds'
 import { useIxoConfigs } from 'hooks/configs'
-import { ReactComponent as EyeIcon } from 'assets/images/icon-eye.svg'
+import EyeIcon from 'assets/images/icon-eye.svg'
 import { truncateString } from 'utils/formatters'
 import { renderTableHeader } from 'components/Table/Table'
 

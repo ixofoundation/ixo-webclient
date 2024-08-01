@@ -2,7 +2,7 @@
     "$schema": "https://json.schemastore.org/tsconfig",
     "display": "Default",
     "compilerOptions": {
-      "strict": true,
+      "strict": false,
       "target": "es2018",   
       "module": "esnext",
       "moduleResolution": "node",

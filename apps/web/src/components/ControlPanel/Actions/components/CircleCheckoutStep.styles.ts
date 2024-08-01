@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { ReactComponent as EnvelopeIcon } from 'assets/images/exchange/envelope.svg'
+import EnvelopeIcon from 'assets/images/exchange/envelope.svg'
 
 export const Container = styled.div`
   position: relative;

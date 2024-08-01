@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react'
 import * as Modal from 'react-modal'
-import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
+import CloseIcon from 'assets/images/icon-close.svg'
 import { ModalStyles, CloseButton } from 'components/Modals/styles'
 import { Button, Dropdown } from 'pages/CreateEntity/Components'
 import { deviceWidth } from 'constants/device'

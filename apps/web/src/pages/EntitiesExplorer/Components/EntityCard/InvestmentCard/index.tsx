@@ -1,5 +1,5 @@
 import { LinkedEntity } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
-import { ReactComponent as InvestmentIcon } from 'assets/images/icon-investment.svg'
+import InvestmentIcon from 'assets/images/icon-investment.svg'
 import BigNumber from 'bignumber.js'
 import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'

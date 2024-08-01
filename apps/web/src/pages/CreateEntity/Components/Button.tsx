@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
-import { ReactComponent as AssistantIcon } from 'assets/images/icon-assistant.svg'
+import AssistantIcon from 'assets/images/icon-assistant.svg'
 import { DashboardThemeContext } from 'components/Dashboard/Dashboard'
 import { TTypographySize, TTypographyVariant, TTypographyWeight } from 'components/Typography/Typography'
 

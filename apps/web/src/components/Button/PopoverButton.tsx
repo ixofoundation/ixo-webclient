@@ -2,7 +2,7 @@ import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import React, { useState } from 'react'
 import { useTheme } from 'styled-components'
-import { ReactComponent as ArrowRightIcon } from 'assets/images/icon-arrow-right.svg'
+import ArrowRightIcon from 'assets/images/icon-arrow-right.svg'
 
 interface Props {
   icon: JSX.Element

@@ -12,7 +12,7 @@ import {
   durationToSeconds,
   secondsToWdhms,
 } from 'utils/conversions'
-import { ReactComponent as ArrowDownIcon } from 'assets/images/icon-arrow-down.svg'
+import ArrowDownIcon from 'assets/images/icon-arrow-down.svg'
 import { MarketingInfoResponse, TokenInfoResponse } from '@ixo/impactxclient-sdk/types/codegen/Cw20Base.types'
 import CurrencyFormat from 'react-currency-format'
 import { fee } from 'lib/protocol'

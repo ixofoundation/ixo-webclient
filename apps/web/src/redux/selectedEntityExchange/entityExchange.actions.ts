@@ -50,7 +50,7 @@ export const getInflation =
   (dispatch: Dispatch): GetInflationAction => {
     return dispatch({
       type: EntityExchangeActions.GetInflation,
-      payload: Axios.get(`${process.env.REACT_APP_GAIA_URL}/minting/inflation`)
+      payload: Axios.get(`${import.meta.env.VITE_APP_GAIA_URL}/minting/inflation`)
         .then((response) => response.data)
         .then(({ result }) => Number(result))
         .catch(() => 0),
@@ -63,7 +63,7 @@ export const getTotalSupply =
     // convert denom
     return dispatch({
       type: EntityExchangeActions.GetTotalSupply,
-      payload: Axios.get(`${process.env.REACT_APP_GAIA_URL}/cosmos/bank/v1beta1/supply/${denom}`)
+      payload: Axios.get(`${import.meta.env.VITE_APP_GAIA_URL}/cosmos/bank/v1beta1/supply/${denom}`)
         .then((response) => response.data)
         .then((response) => response.amount)
         .then((response) => response.amount)
@@ -77,7 +77,7 @@ export const getTotalStaked =
     // convert denom
     return dispatch({
       type: EntityExchangeActions.GetTotalStaked,
-      payload: Axios.get(`${process.env.REACT_APP_GAIA_URL}/cosmos/staking/v1beta1/pool`)
+      payload: Axios.get(`${import.meta.env.VITE_APP_GAIA_URL}/cosmos/staking/v1beta1/pool`)
         .then((response) => response.data)
         .then((response) => response.pool)
         .then((response) => ({
@@ -96,7 +96,7 @@ export const getValidators =
   (dispatch: Dispatch): GetValidatorsAction => {
     return dispatch({
       type: EntityExchangeActions.GetValidators,
-      payload: Axios.get(`${process.env.REACT_APP_GAIA_URL}/staking/validators`)
+      payload: Axios.get(`${import.meta.env.VITE_APP_GAIA_URL}/staking/validators`)
         .then((response) => response.data)
         .then(({ result }) => {
           return result.map((validator: any) => {
@@ -136,7 +136,7 @@ export const getValidators =
             }
 
             Axios.get(
-              `${process.env.REACT_APP_GAIA_URL}/cosmos/staking/v1beta1/validators/${address}/delegations/${accountAddress}`,
+              `${import.meta.env.VITE_APP_GAIA_URL}/cosmos/staking/v1beta1/validators/${address}/delegations/${accountAddress}`,
             )
               .then((response) => response.data)
               .then((response) => response.delegation_response)
@@ -158,7 +158,7 @@ export const getValidators =
               })
 
             Axios.get(
-              `${process.env.REACT_APP_GAIA_URL}/cosmos/distribution/v1beta1/delegators/${accountAddress}/rewards/${address}`,
+              `${import.meta.env.VITE_APP_GAIA_URL}/cosmos/distribution/v1beta1/delegators/${accountAddress}/rewards/${address}`,
             )
               .then((response) => response.data)
               .then(({ rewards }) => {
@@ -197,8 +197,8 @@ export const getValidators =
 export const getLiquidityPools =
   () =>
   (dispatch: Dispatch): GetLiquidityPoolsAction => {
-    const chainId = process.env.REACT_APP_CHAIN_ID
-    const request = Axios.get(process.env.REACT_APP_CONFIG_EXCHANGE_URL!)
+    const chainId = import.meta.env.VITE_APP_CHAIN_ID
+    const request = Axios.get(import.meta.env.VITE_APP_CONFIG_EXCHANGE_URL!)
 
     return dispatch({
       type: EntityExchangeActions.GetLiquidityPools,
@@ -209,7 +209,7 @@ export const getLiquidityPools =
         .then((pools) => {
           const requests = pools.map((pool: any) => {
             const { poolID } = pool
-            return Axios.get(`${process.env.REACT_APP_GAIA_URL}/ixo/bonds/${poolID}`, {
+            return Axios.get(`${import.meta.env.VITE_APP_GAIA_URL}/ixo/bonds/${poolID}`, {
               transformResponse: [
                 (response: string): any => {
                   const parsedResponse = JSON.parse(response)

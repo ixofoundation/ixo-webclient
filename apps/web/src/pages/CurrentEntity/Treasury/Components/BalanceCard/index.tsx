@@ -3,7 +3,7 @@ import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import React from 'react'
 import CurrencyFormat from 'react-currency-format'
-import { ReactComponent as CoinsIcon } from 'assets/images/icon-coins-solid.svg'
+import CoinsIcon from 'assets/images/icon-coins-solid.svg'
 import { useTheme } from 'styled-components'
 import BigNumber from 'bignumber.js'
 

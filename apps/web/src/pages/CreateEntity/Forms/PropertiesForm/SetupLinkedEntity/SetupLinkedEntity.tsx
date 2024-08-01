@@ -6,7 +6,7 @@ import { Props as PropertyBoxProps } from 'pages/CreateEntity/Components/Propert
 import React, { useEffect, useMemo, useState } from 'react'
 import { TDAOGroupModel } from 'types/entities'
 import { omitKey } from 'utils/objects'
-import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
+import PlusIcon from 'assets/images/icon-plus.svg'
 import { toTitleCase, truncateString } from 'utils/formatters'
 import { LinkedEntity } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import ImpactEntitySetupModal from 'components/Modals/ImpactEntitySetupModal/ImpactEntitySetupModal'

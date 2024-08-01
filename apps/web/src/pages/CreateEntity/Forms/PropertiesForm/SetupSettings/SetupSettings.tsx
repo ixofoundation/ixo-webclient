@@ -1,7 +1,7 @@
 import { Box, FlexBox } from 'components/App/App.styles'
 import { PropertyBox } from 'pages/CreateEntity/Components'
 import React, { useEffect, useState } from 'react'
-import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
+import PlusIcon from 'assets/images/icon-plus.svg'
 import {
   AddSettingsModal,
   CreatorSetupModal,

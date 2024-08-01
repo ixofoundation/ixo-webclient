@@ -13,7 +13,7 @@ import { get } from 'lodash'
 import { formatCurrency, minimalDenomToDenom } from '../account/account.utils'
 import moment from 'moment'
 
-const BLOCKSYNC_API = process.env.REACT_APP_BLOCK_SYNC_URL
+const BLOCKSYNC_API = import.meta.env.VITE_APP_BLOCK_SYNC_URL
 
 export const getBondDid = (bondDid: string): GetBondDidAction => {
   return {
@@ -32,7 +32,7 @@ export const getBondDetail =
     if (!bondDid) {
       return undefined!
     }
-    const bondRequest = Axios.get(`${process.env.REACT_APP_GAIA_URL}/bonds/${bondDid}`, {
+    const bondRequest = Axios.get(`${import.meta.env.VITE_APP_GAIA_URL}/bonds/${bondDid}`, {
       transformResponse: [
         (response: string): any => {
           const parsedResponse = JSON.parse(response)
@@ -93,7 +93,7 @@ export const getPriceHistory =
   (dispatch: Dispatch): GetPriceHistoryAction => {
     return dispatch({
       type: BondActions.GetPriceHistory,
-      payload: Axios.get(`${process.env.REACT_APP_BLOCK_SYNC_URL}/api/bonds/getPriceHistoryByBondDid/${bondDid}`)
+      payload: Axios.get(`${import.meta.env.VITE_APP_BLOCK_SYNC_URL}/api/bonds/getPriceHistoryByBondDid/${bondDid}`)
         .then((res) => res.data)
         .then((res) => res.priceHistory)
         .then((res) =>

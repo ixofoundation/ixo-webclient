@@ -2,7 +2,7 @@
 import * as ReactDOMServer from 'react-dom/server'
 import { ToolConstructable, ToolSettings } from '@editorjs/editorjs'
 import { Typography } from 'components/Typography'
-import { ReactComponent as ImageOutlineIcon } from 'assets/images/icon-image-outline.svg'
+import ImageOutlineIcon from 'assets/images/icon-image-outline.svg'
 import CustomImage from './CustomImage'
 
 const HeroImage: ToolConstructable | ToolSettings = {

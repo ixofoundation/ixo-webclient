@@ -1,7 +1,7 @@
 import { Typography } from 'components/Typography'
 import { deviceWidth } from 'constants/device'
 import React, { useEffect, useState } from 'react'
-import { ReactComponent as InfoIcon } from 'assets/images/icon-info.svg'
+import InfoIcon from 'assets/images/icon-info.svg'
 import { Button, InputWithLabel, TextArea } from 'pages/CreateEntity/Components'
 import { useCreateEntityState } from 'hooks/createEntity'
 import { useNavigate, useParams } from 'react-router-dom'

@@ -5,9 +5,9 @@ import { Avatar } from 'pages/CurrentEntity/Components'
 import { Typography } from 'components/Typography'
 import { useState } from 'react'
 import { Input, TextArea } from 'pages/CreateEntity/Components'
-import { ReactComponent as CommentIcon } from 'assets/images/icon-bell.svg'
-import { ReactComponent as SearchIcon } from 'assets/images/icon-search.svg'
-import { ReactComponent as ArrowUpIcon } from 'assets/images/icon-arrow-up.svg'
+import CommentIcon from 'assets/images/icon-bell.svg'
+import SearchIcon from 'assets/images/icon-search.svg'
+import ArrowUpIcon from 'assets/images/icon-arrow-up.svg'
 
 const SearchBox = () => {
   const theme: any = useTheme()

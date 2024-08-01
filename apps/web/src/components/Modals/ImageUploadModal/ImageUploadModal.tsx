@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react'
 import 'react-image-crop/dist/ReactCrop.css'
 import * as Modal from 'react-modal'
 import { useDropzone } from 'react-dropzone'
-import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
-import { ReactComponent as ImageIcon } from 'assets/images/icon-image-fill.svg'
+import CloseIcon from 'assets/images/icon-close.svg'
+import ImageIcon from 'assets/images/icon-image-fill.svg'
 import { UploadBox, SelectImage, DisplayImage } from './ImageUploadModal.styles'
 import { ModalStyles, CloseButton, ModalBody, ModalRow, ModalWrapper, ModalInput } from 'components/Modals/styles'
 import { Box } from 'components/App/App.styles'
@@ -58,7 +58,7 @@ const ImageUploadModal: React.FC<Props> = ({
           if (response?.url) {
             setTempValue(response.url)
           } else {
-            setTempValue(process.env.REACT_APP_PDS_URL + '/' + response.key)
+            setTempValue(import.meta.env.VITE_APP_PDS_URL + '/' + response.key)
           }
         }
       })

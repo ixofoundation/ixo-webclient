@@ -1,7 +1,7 @@
 import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import React from 'react'
-import { ReactComponent as InfoIcon } from 'assets/images/icon-info.svg'
+import InfoIcon from 'assets/images/icon-info.svg'
 import Tooltip from 'components/Tooltip/Tooltip'
 
 interface Props {

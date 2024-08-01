@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import * as Modal from 'react-modal'
-import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
+import CloseIcon from 'assets/images/icon-close.svg'
 import { ModalStyles, CloseButton } from 'components/Modals/styles'
 import { TEntityCreatorModel, PDS_URL } from 'types/entities'
 import { Box, FlexBox } from 'components/App/App.styles'
@@ -118,7 +118,7 @@ const CreatorSetupModal: React.FC<Props> = ({ creator, title, open, onClose, onC
           if (response?.url) {
             handleFormDataChange('logo', response.url)
           } else {
-            handleFormDataChange('logo', process.env.REACT_APP_PDS_URL + '/' + response.key)
+            handleFormDataChange('logo', import.meta.env.VITE_APP_PDS_URL + '/' + response.key)
           }
         }
       })

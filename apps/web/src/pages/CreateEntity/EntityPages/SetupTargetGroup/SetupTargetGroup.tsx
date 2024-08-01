@@ -12,8 +12,8 @@ import { useTheme } from 'styled-components'
 import { Avatar } from 'pages/CurrentEntity/Components'
 import { v4 as uuidv4 } from 'uuid'
 import { TProposalActionModel } from 'types/entities'
-import { ReactComponent as TimesCircleIcon } from 'assets/images/icon-times-circle.svg'
-import { ReactComponent as CheckCircleIcon } from 'assets/images/icon-check-circle.svg'
+import TimesCircleIcon from 'assets/images/icon-times-circle.svg'
+import CheckCircleIcon from 'assets/images/icon-check-circle.svg'
 import { useCreateEntityState } from 'hooks/createEntity'
 
 const SetupTargetGroup: React.FC = (): JSX.Element => {

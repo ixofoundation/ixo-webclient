@@ -1,7 +1,6 @@
 import { ChainNetwork } from "@ixo/cosmos-chain-resolver/types/types/chain"
-import { Wallet, WalletType } from '@ixo-webclient/types'
 
-export const CHAIN_ID = process.env.REACT_APP_CHAIN_ID
+export const CHAIN_ID = import.meta.env.VITE_APP_CHAIN_ID
 
 const testnetOrDevnet = CHAIN_ID?.startsWith('pandora')
 ? 'testnet'

@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import styled, { useTheme } from 'styled-components'
 import { Box, FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
-import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
-import { ReactComponent as MinusIcon } from 'assets/images/icon-minus.svg'
+import PlusIcon from 'assets/images/icon-plus.svg'
+import MinusIcon from 'assets/images/icon-minus.svg'
 
 const StyledInput = styled.input<{ $textAlign: string }>`
   border: none;

@@ -3,7 +3,7 @@ import { Typography } from 'components/Typography'
 import { deviceWidth } from 'constants/device'
 import { Button, PropertyBox } from 'pages/CreateEntity/Components'
 import React, { useState } from 'react'
-import { ReactComponent as ClaimIcon } from 'assets/images/icon-claim.svg'
+import ClaimIcon from 'assets/images/icon-claim.svg'
 import { TEntityClaimModel } from 'types/entities'
 import { useParams, NavLink } from 'react-router-dom'
 

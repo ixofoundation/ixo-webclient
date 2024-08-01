@@ -35,7 +35,7 @@ process.env.NODE_ENV === 'production' &&
   })
 
 export const gqlClient = new ApolloClient({
-  uri: process.env.REACT_APP_BLOCK_SYNC_GRAPHQL,
+  uri: import.meta.env.VITE_APP_BLOCK_SYNC_GRAPHQL,
   cache: new InMemoryCache({ addTypename: false }),
 })
 

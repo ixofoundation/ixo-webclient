@@ -2,8 +2,8 @@ import React from 'react'
 import { Card } from '../../../../Components'
 import { Box, FlexBox, GridContainer, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
-import { ReactComponent as FundingIcon } from 'assets/images/icon-funding.svg'
-import { ReactComponent as CaretUpIcon } from 'assets/images/icon-caret-up.svg'
+import FundingIcon from 'assets/images/icon-funding.svg'
+import CaretUpIcon from 'assets/images/icon-caret-up.svg'
 import { useTheme } from 'styled-components'
 
 interface Props {

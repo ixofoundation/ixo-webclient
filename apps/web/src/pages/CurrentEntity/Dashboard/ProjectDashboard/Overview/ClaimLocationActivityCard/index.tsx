@@ -1,5 +1,5 @@
 import { Card } from 'pages/CurrentEntity/Components'
-import { ReactComponent as ClaimLocationIcon } from 'assets/images/icon-claim-location.svg'
+import ClaimLocationIcon from 'assets/images/icon-claim-location.svg'
 import { Flex } from '@mantine/core'
 import { useParams } from 'react-router-dom'
 import { useGetClaimCollectionsByEntityId } from 'graphql/claims'

@@ -12,7 +12,7 @@ import {
   durationToSeconds,
   secondsToWdhms,
 } from 'utils/conversions'
-import { ReactComponent as ArrowDownIcon } from 'assets/images/icon-arrow-down.svg'
+import ArrowDownIcon from 'assets/images/icon-arrow-down.svg'
 import { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
 import { Input } from 'pages/CreateEntity/Components'
 import { MarketingInfoResponse, TokenInfoResponse } from '@ixo/impactxclient-sdk/types/codegen/Cw20Base.types'

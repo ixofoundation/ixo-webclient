@@ -5,9 +5,9 @@ import { Button, InputWithLabel } from 'pages/CreateEntity/Components'
 import { ModalStyles, CloseButton } from 'components/Modals/styles'
 import { Typography } from 'components/Typography'
 import { useTheme } from 'styled-components'
-import { ReactComponent as TimesCircleIcon } from 'assets/images/icon-times-circle.svg'
-import { ReactComponent as CheckCircleIcon } from 'assets/images/icon-check-circle.svg'
-import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
+import TimesCircleIcon from 'assets/images/icon-times-circle.svg'
+import CheckCircleIcon from 'assets/images/icon-check-circle.svg'
+import CloseIcon from 'assets/images/icon-close.svg'
 import { validateDid } from 'utils/validation'
 
 interface Props {

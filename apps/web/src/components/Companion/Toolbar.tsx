@@ -1,7 +1,7 @@
 import { ActionIcon, Box, Card, Flex, Text } from '@mantine/core'
 import { LiaBoltSolid, LiaPlaySolid } from 'react-icons/lia'
 import { useCompanion } from 'hooks/useCompanion'
-import { ReactComponent as AssistantIcon } from 'assets/images/icon-assistant.svg'
+import AssistantIcon from 'assets/images/icon-assistant.svg'
 import { useMatch } from 'react-router-dom'
 
 export const ToolbarNavigation = () => {

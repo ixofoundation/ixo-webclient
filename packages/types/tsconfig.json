@@ -1,20 +1,21 @@
 {
-    "extends": "@ixo-webclient/tsconfig/base.json",
-    "compilerOptions": {
-      "target": "es2018",
-      "lib": ["dom", "dom.iterable", "esnext"],
-      "allowJs": true,
-      "skipLibCheck": true,
-      "esModuleInterop": true,
-      "allowSyntheticDefaultImports": true,
-      "strict": true,
-      "forceConsistentCasingInFileNames": true,
-      "baseUrl": "src",
-      "outDir": "./dist",
-      "module": "commonjs",
-      "moduleResolution": "node",
-      "declaration": true,
-      "rootDir": "src"
-    },
-    "include": ["src/**/*"]
-  }
+  "extends": "@ixo-webclient/tsconfig/base.json",
+  "compilerOptions": {
+    "target": "es2018",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": false,
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": "src",
+    "outDir": "./dist",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "declaration": true,
+    "rootDir": "src",
+    "types": ["vite/client"]
+  },
+  "include": ["src/**/*"]
+}

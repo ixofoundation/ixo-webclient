@@ -1,6 +1,6 @@
 import { Button, PropertyBox } from 'pages/CreateEntity/Components'
 import React, { useMemo, useState } from 'react'
-import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
+import PlusIcon from 'assets/images/icon-plus.svg'
 import { AddInvestmentInstrumentModal, CreateBondModal } from 'components/Modals'
 import { Box } from 'components/App/App.styles'
 import { useCreateEntityState } from 'hooks/createEntity'

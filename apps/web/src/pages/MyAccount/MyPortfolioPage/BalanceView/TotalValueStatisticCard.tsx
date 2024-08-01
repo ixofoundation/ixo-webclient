@@ -7,7 +7,7 @@ import CurrencyFormat from 'react-currency-format'
 import { useTheme } from 'styled-components'
 import { ResponsiveContainer, Line, LineChart } from 'recharts'
 import { SvgBox } from 'components/App/App.styles'
-import { ReactComponent as CoinsIcon } from 'assets/images/icon-coins-solid.svg'
+import CoinsIcon from 'assets/images/icon-coins-solid.svg'
 import { useAccountStakedBalances, useAccountUSDBalances } from 'hooks/account'
 
 const data = [

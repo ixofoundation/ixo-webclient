@@ -5,7 +5,7 @@ import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { useTheme } from 'styled-components'
 import { Card } from 'pages/CurrentEntity/Components'
-import { ReactComponent as PieIcon } from 'assets/images/icon-pie.svg'
+import PieIcon from 'assets/images/icon-pie.svg'
 
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {

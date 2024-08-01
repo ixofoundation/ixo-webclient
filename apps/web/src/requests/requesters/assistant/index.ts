@@ -2,7 +2,7 @@ import Assistant from '@ixo/assistant-sdk'
 import { ChatMessage } from '@ixo/assistant-sdk/types/types/assistant'
 import { chainNetwork } from 'hooks/configs'
 
-const ASSISTANT_API_KEY = process.env.REACT_APP_ASSISTANT_API_KEY
+const ASSISTANT_API_KEY = import.meta.env.VITE_APP_ASSISTANT_API_KEY
 const CHAIN_NETWORK = chainNetwork
 
 let assistant: Assistant | undefined

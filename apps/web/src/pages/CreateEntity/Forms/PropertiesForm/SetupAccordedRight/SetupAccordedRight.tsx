@@ -4,7 +4,7 @@ import { PropertyBox } from 'pages/CreateEntity/Components'
 import React, { useEffect, useState } from 'react'
 import { TEntityPaymentModel } from 'types/entities'
 import { omitKey } from 'utils/objects'
-import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
+import PlusIcon from 'assets/images/icon-plus.svg'
 import { AccordedRight } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { EntityAccordedRightConfig } from 'constants/entity'
 

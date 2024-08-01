@@ -23,7 +23,7 @@ import { getInflation, getTotalStaked, getTotalSupply } from 'redux/selectedEnti
 import { requireCheckDefault } from 'utils/images'
 // import { minimalDenomToDenom } from 'redux/account/account.utils'
 
-const chainID = process.env.REACT_APP_CHAIN_ID
+const chainID = import.meta.env.VITE_APP_CHAIN_ID
 
 const SDG = styled.div`
   border-radius: 0.25rem;

@@ -1,6 +1,6 @@
 import React from 'react'
 import * as Modal from 'react-modal'
-import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
+import CloseIcon from 'assets/images/icon-close.svg'
 import { ModalStyles, CloseButton } from 'components/Modals/styles'
 import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { Button } from 'pages/CreateEntity/Components'

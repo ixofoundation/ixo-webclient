@@ -10,8 +10,8 @@ import { useAccount } from 'hooks/account'
 import { useAppSelector } from 'redux/hooks'
 import { selectEntitiesByType } from 'redux/entities/entities.selectors'
 import { Avatar } from 'pages/CurrentEntity/Components'
-import { ReactComponent as TimesCircleIcon } from 'assets/images/icon-times-circle.svg'
-import { ReactComponent as CheckCircleIcon } from 'assets/images/icon-check-circle.svg'
+import TimesCircleIcon from 'assets/images/icon-times-circle.svg'
+import CheckCircleIcon from 'assets/images/icon-check-circle.svg'
 
 export interface JoinData {
   id: string

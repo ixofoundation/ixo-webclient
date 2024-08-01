@@ -40,7 +40,7 @@ export function getCountryName(countryCode?: string) {
 }
 
 export function getIxoWorldRoute(path: string): string {
-  const origin = process.env.REACT_APP_IXO_WORLD_ORIGIN || 'https://ixo.world'
+  const origin = import.meta.env.VITE_APP_IXO_WORLD_ORIGIN || 'https://ixo.world'
   return origin + path
 }
 

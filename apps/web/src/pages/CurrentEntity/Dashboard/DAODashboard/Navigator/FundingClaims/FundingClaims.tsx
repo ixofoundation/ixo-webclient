@@ -3,8 +3,8 @@ import { Card } from '../../../../Components'
 import { Box, FlexBox, SvgBox } from 'components/App/App.styles'
 import { CircleProgressbar } from 'components/Widgets/CircleProgressbar/CircleProgressbar'
 import { Typography } from 'components/Typography'
-import { ReactComponent as CheckIcon } from 'assets/images/icon-check-in-circle.svg'
-import { ReactComponent as ExpandIcon } from 'assets/images/icon-expand-alt.svg'
+import CheckIcon from 'assets/images/icon-check-in-circle.svg'
+import ExpandIcon from 'assets/images/icon-expand-alt.svg'
 import { useTheme } from 'styled-components'
 
 interface Props {

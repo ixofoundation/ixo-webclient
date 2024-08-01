@@ -1,7 +1,7 @@
 import { TokenAssetInfo } from '@ixo/impactxclient-sdk/types/custom_queries/currency.types'
 import { FlexBox, GridContainer, GridItem, SvgBox } from 'components/App/App.styles'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { ReactComponent as ArrowLeftIcon } from 'assets/images/icon-arrow-left.svg'
+import ArrowLeftIcon from 'assets/images/icon-arrow-left.svg'
 import { Typography } from 'components/Typography'
 import CurrencyFormat from 'react-currency-format'
 import BigNumber from 'bignumber.js'

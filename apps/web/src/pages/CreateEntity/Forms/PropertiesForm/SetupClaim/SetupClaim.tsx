@@ -5,7 +5,7 @@ import React, { useState } from 'react'
 import { TEntityClaimModel } from 'types/entities'
 import { omitKey } from 'utils/objects'
 import { v4 as uuidv4 } from 'uuid'
-import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
+import PlusIcon from 'assets/images/icon-plus.svg'
 
 interface Props {
   hidden: boolean

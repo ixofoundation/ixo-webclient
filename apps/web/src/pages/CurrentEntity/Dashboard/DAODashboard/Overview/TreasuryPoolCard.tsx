@@ -5,8 +5,8 @@ import { Flex } from '@mantine/core'
 import { Typography } from 'components/Typography'
 import { useTheme } from 'styled-components'
 
-import { ReactComponent as FundingIcon } from 'assets/images/icon-funding.svg'
-import { ReactComponent as UpIcon } from 'assets/images/icon-up-full.svg'
+import FundingIcon from 'assets/images/icon-funding.svg'
+import UpIcon from 'assets/images/icon-up-full.svg'
 
 import { AccountTypeToIconMap } from 'pages/CurrentEntity/Treasury/Components/AccountsCard'
 import { getTotalUSDvalueFromTreasuryCoins } from 'utils/treasury'

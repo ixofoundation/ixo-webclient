@@ -2,9 +2,9 @@ import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1b
 import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import React from 'react'
-import { ReactComponent as PdfIcon } from 'assets/images/linked-files/pdf.svg'
-import { ReactComponent as ImageIcon } from 'assets/images/linked-files/image.svg'
-import { ReactComponent as TextIcon } from 'assets/images/linked-files/text.svg'
+import PdfIcon from 'assets/images/linked-files/pdf.svg'
+import ImageIcon from 'assets/images/linked-files/image.svg'
+import TextIcon from 'assets/images/linked-files/text.svg'
 import { useTheme } from 'styled-components'
 import { serviceEndpointToUrl } from 'utils/entities'
 

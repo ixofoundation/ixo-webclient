@@ -12,7 +12,7 @@ const Embedly: React.FunctionComponent<Props> = ({ url }) => {
       href={url}
       className='embedly-card'
       data-card-recommend='0'
-      // data-card-key={process.env.REACT_APP_EMBEDLY_KEY}
+      // data-card-key={import.meta.env.VITE_APP_EMBEDLY_KEY}
       data-card-controls='0'
       data-card-width='100%'
     />

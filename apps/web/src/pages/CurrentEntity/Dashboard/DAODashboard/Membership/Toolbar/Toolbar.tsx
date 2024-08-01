@@ -3,8 +3,8 @@ import React, { ChangeEvent, useState } from 'react'
 import styled, { useTheme } from 'styled-components'
 import PanelsIcon from 'assets/images/icon-panels.svg'
 import ListIcon from 'assets/images/icon-list.svg'
-import { ReactComponent as ProfileIcon } from 'assets/images/icon-profile.svg'
-import { ReactComponent as SearchIcon } from 'assets/images/icon-search.svg'
+import ProfileIcon from 'assets/images/icon-profile.svg'
+import SearchIcon from 'assets/images/icon-search.svg'
 
 const Button = styled(FlexBox)`
   border-radius: 8px;

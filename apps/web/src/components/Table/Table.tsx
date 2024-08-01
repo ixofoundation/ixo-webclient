@@ -15,8 +15,8 @@ import {
 import { Flex, Pagination, Select } from '@mantine/core'
 import { SvgBox, theme } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
-import { ReactComponent as SortLtoGIcon } from 'assets/images/icon-sort-ltog.svg'
-import { ReactComponent as SortGtoLIcon } from 'assets/images/icon-sort-gtol.svg'
+import SortLtoGIcon from 'assets/images/icon-sort-ltog.svg'
+import SortGtoLIcon from 'assets/images/icon-sort-gtol.svg'
 
 // Create a default prop getter
 const defaultPropGetter = () => ({})

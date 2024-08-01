@@ -1,7 +1,7 @@
 import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import React from 'react'
-import { ReactComponent as ThreeDotIcon } from 'assets/images/icon-threedot.svg'
+import ThreeDotIcon from 'assets/images/icon-threedot.svg'
 import { useTheme } from 'styled-components'
 import { useLocation } from 'react-router-dom'
 

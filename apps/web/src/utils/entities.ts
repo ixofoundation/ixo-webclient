@@ -373,7 +373,7 @@ export const getBondDidFromApiListedEntityData = async (data: ApiListedEntityDat
 
   return Promise.all(
     alphaBonds.map((alphaBond) => {
-      return Axios.get(`${process.env.REACT_APP_GAIA_URL}/bonds/${alphaBond.id}`, {
+      return Axios.get(`${import.meta.env.VITE_APP_GAIA_URL}/bonds/${alphaBond.id}`, {
         transformResponse: [
           (response: string): any => {
             const parsedResponse = JSON.parse(response)

@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import * as Modal from 'react-modal'
-import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
+import CloseIcon from 'assets/images/icon-close.svg'
 import { ModalStyles, CloseButton } from 'components/Modals/styles'
 import { TProposalActionModel } from 'types/entities'
 import { FlexBox, GridContainer, GridItem } from 'components/App/App.styles'

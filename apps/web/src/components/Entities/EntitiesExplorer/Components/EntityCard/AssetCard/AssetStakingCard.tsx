@@ -20,7 +20,7 @@ import { getInflation, getTotalStaked, getTotalSupply } from 'redux/selectedEnti
 import { selectAPR } from 'redux/selectedEntityExchange/entityExchange.selectors'
 import { requireCheckDefault } from 'utils/images'
 
-const chainID = process.env.REACT_APP_CHAIN_ID
+const chainID = import.meta.env.VITE_APP_CHAIN_ID
 
 interface Props {
   did: string

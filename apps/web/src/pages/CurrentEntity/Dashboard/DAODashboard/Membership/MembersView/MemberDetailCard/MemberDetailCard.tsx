@@ -1,8 +1,8 @@
 import { Box, FlexBox, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import React, { useEffect, useState } from 'react'
-import { ReactComponent as ProfileIcon } from 'assets/images/icon-profile.svg'
-import { ReactComponent as TimesIcon } from 'assets/images/icon-times.svg'
+import ProfileIcon from 'assets/images/icon-profile.svg'
+import TimesIcon from 'assets/images/icon-times.svg'
 import { Button, RangeInput, Switch } from 'pages/CreateEntity/Components'
 import { useTheme } from 'styled-components'
 

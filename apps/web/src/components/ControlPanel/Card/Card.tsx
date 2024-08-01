@@ -2,7 +2,7 @@ import { FlexBox, GridContainer, SvgBox } from 'components/App/App.styles'
 import React from 'react'
 import { Typography } from 'components/Typography'
 import { useTheme } from 'styled-components'
-import { ReactComponent as AssistantIcon } from 'assets/images/icon-assistant.svg'
+import AssistantIcon from 'assets/images/icon-assistant.svg'
 import { selectEntityConfig } from 'redux/configs/configs.selectors'
 import { useAppSelector } from 'redux/hooks'
 

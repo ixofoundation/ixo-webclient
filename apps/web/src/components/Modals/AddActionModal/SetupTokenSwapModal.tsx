@@ -6,9 +6,9 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { TProposalActionModel } from 'types/entities'
 import { isAccountAddress } from 'utils/validation'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
-import { ReactComponent as CopyIcon } from 'assets/images/icon-copy.svg'
-import { ReactComponent as SyncIcon } from 'assets/images/icon-sync-alt-solid.svg'
-import { ReactComponent as TimesIcon } from 'assets/images/icon-times.svg'
+import CopyIcon from 'assets/images/icon-copy.svg'
+import SyncIcon from 'assets/images/icon-sync-alt-solid.svg'
+import TimesIcon from 'assets/images/icon-times.svg'
 import { useTheme } from 'styled-components'
 
 export interface Counterparty {

@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import * as Modal from 'react-modal'
-import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
+import CloseIcon from 'assets/images/icon-close.svg'
 import { CloseButton, ModalStyles, ModalTitle, ModalWrapper } from '../styles'
 import { AlphaBondInfo } from 'types/bond'
 import { FlexBox } from 'components/App/App.styles'

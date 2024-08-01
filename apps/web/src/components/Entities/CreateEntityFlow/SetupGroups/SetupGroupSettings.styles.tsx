@@ -1,6 +1,6 @@
 import { FlexBox } from 'components/App/App.styles'
 import styled from 'styled-components'
-import { ReactComponent as PlusIconSvg } from 'assets/images/icon-plus.svg'
+import PlusIconSvg from 'assets/images/icon-plus.svg'
 
 export const CardWrapper = styled(FlexBox)`
   padding: 1.75rem;

@@ -49,7 +49,7 @@ const EntityExchange = () => {
       },{
       url: `/exchange/stake`,
       icon: requireCheckDefault(require('assets/img/sidebar/stake.svg')),
-      sdg: stakeCellEntity ?? (process.env.REACT_APP_CHAIN_ID!.indexOf('pandora') > -1 ? 'pandora' : 'impact-hub'),
+      sdg: stakeCellEntity ?? (import.meta.env.VITE_APP_CHAIN_ID!.indexOf('pandora') > -1 ? 'pandora' : 'impact-hub'),
       tooltip: 'Stake',
     }]
 
@@ -87,7 +87,7 @@ const EntityExchange = () => {
       tooltip: '',
     })
   } else if (location.pathname.endsWith('/exchange/stake')) {
-    title = (process.env.REACT_APP_CHAIN_ID!.indexOf('pandora') > -1 ? 'Pandora' : 'Impacts Hub') + ' Validators'
+    title = (import.meta.env.VITE_APP_CHAIN_ID!.indexOf('pandora') > -1 ? 'Pandora' : 'Impacts Hub') + ' Validators'
     breadCrumbs.push({
       url: `#`,
       icon: '',
@@ -98,7 +98,7 @@ const EntityExchange = () => {
       breadCrumbs.push({
         url: `#`,
         icon: '',
-        sdg: process.env.REACT_APP_CHAIN_ID!.indexOf('pandora') > -1 ? 'pandora' : 'impact-hub',
+        sdg: import.meta.env.VITE_APP_CHAIN_ID!.indexOf('pandora') > -1 ? 'pandora' : 'impact-hub',
         tooltip: '',
       })
     }

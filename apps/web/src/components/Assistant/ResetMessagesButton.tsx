@@ -1,4 +1,4 @@
-import { ReactComponent as BroomIcon } from 'assets/images/icon-broom.svg'
+import BroomIcon from 'assets/images/icon-broom.svg'
 import { SvgBox } from 'components/App/App.styles'
 
 import { resetMessages } from 'redux/assistant/assistant.slice'

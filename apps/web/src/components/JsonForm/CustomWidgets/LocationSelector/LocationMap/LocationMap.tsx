@@ -8,7 +8,7 @@ import { GoogleMapWrapper, InputWrapper } from './LocationMap.styles'
 
 
 setDefaults({
-  key: process.env.REACT_APP_GOOGLE_API_KEY!
+  key: import.meta.env.VITE_APP_GOOGLE_API_KEY!
 })
 
 interface Props {
@@ -165,7 +165,7 @@ class LocationMap extends React.Component<Props, State> {
     return (
       <GoogleMapWrapper>
         <AsyncMap
-          googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_API_KEY}&libraries=places`}
+          googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${import.meta.env.VITE_APP_GOOGLE_API_KEY}&libraries=places`}
           loadingElement={<div style={{ height: '100%' }} />}
           containerElement={<div style={{ height: `${this.props.height}px` }} />}
           mapElement={<div style={{ height: '100%' }} />}

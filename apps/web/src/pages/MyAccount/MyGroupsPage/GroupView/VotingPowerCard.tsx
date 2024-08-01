@@ -1,6 +1,6 @@
 import { Card } from 'pages/CurrentEntity/Components'
 import React, { useMemo } from 'react'
-import { ReactComponent as AgentIcon } from 'assets/img/sidebar/agents.svg'
+import AgentIcon from 'assets/img/sidebar/agents.svg'
 import { Flex } from '@mantine/core'
 import { Typography } from 'components/Typography'
 import { TDAOGroupModel } from 'types/entities'

@@ -1,5 +1,5 @@
 import { Flex, Text } from '@mantine/core'
-import { ReactComponent as ClaimIcon } from 'assets/images/icon-claim.svg'
+import ClaimIcon from 'assets/images/icon-claim.svg'
 import { SvgBox } from 'components/App/App.styles'
 import { selectEntityConfig } from 'redux/configs/configs.selectors'
 import { useAppSelector } from 'redux/hooks'

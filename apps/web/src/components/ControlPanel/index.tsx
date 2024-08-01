@@ -1,4 +1,4 @@
-import { ReactComponent as AssistantIcon } from 'assets/images/icon-assistant.svg'
+import AssistantIcon from 'assets/images/icon-assistant.svg'
 import AccountCard from './Account'
 import MyParticipationCard from './MyParticipation'
 import BalanceCard from './Balance'

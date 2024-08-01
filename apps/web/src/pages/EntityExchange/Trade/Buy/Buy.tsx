@@ -66,7 +66,7 @@ const Buy: React.FunctionComponent = () => {
   const [isCreditCard, setIsCreditCard] = useState<boolean>(false)
 
   // for settings
-  const [chainId, setChainId] = useState(process.env.REACT_APP_CHAIN_ID)
+  const [chainId, setChainId] = useState(import.meta.env.VITE_APP_CHAIN_ID)
   const networkName = useMemo(() => getRelayerNameByChainId(chainId!), [getRelayerNameByChainId, chainId])
   const [viewPairList, setViewPairList] = useState<'none' | 'from' | 'to'>('none')
 
@@ -95,7 +95,7 @@ const Buy: React.FunctionComponent = () => {
   // TODO: maybe this API calling should be processed in Redux in the future
   useEffect(() => {
     if (selectedAccountAddress) {
-      Axios.get(`${process.env.REACT_APP_GAIA_URL}/bank/balances/${selectedAccountAddress}`)
+      Axios.get(`${import.meta.env.VITE_APP_GAIA_URL}/bank/balances/${selectedAccountAddress}`)
         .then((response) => response.data)
         .then((response) => response.result)
         .then((response) =>

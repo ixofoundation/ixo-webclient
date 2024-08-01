@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import styled, { useTheme } from 'styled-components'
-import { ReactComponent as IconDocument } from 'assets/images/icon-document.svg'
+import IconDocument from 'assets/images/icon-document.svg'
 import { LinkedResourceSetupModal } from 'components/Modals'
 import { Typography } from 'components/Typography'
 import { SvgBox } from 'components/App/App.styles'
-import { ReactComponent as TrashIcon } from 'assets/images/icon-trash.svg'
+import TrashIcon from 'assets/images/icon-trash.svg'
 import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { ixo } from '@ixo/impactxclient-sdk'
 

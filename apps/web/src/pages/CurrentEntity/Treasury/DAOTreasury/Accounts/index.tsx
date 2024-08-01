@@ -1,5 +1,5 @@
-// import { ReactComponent as ArrowLeftIcon } from 'assets/images/icon-arrow-left.svg'
-import { ReactComponent as CopyIcon } from 'assets/images/icon-copy.svg'
+// import ArrowLeftIcon from 'assets/images/icon-arrow-left.svg'
+import CopyIcon from 'assets/images/icon-copy.svg'
 import BigNumber from 'bignumber.js'
 import { FlexBox, GridContainer, SvgBox } from 'components/App/App.styles'
 import { DepositModal } from 'components/Modals'

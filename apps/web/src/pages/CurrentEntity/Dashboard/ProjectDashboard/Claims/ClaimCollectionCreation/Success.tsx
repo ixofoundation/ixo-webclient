@@ -2,7 +2,7 @@ import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { deviceWidth } from 'constants/device'
 import { Button } from 'pages/CreateEntity/Components'
 import React from 'react'
-import { ReactComponent as CheckCircleIcon } from 'assets/images/icon-check-circle.svg'
+import CheckCircleIcon from 'assets/images/icon-check-circle.svg'
 import { useTheme } from 'styled-components'
 import { Typography } from 'components/Typography'
 

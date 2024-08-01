@@ -1,7 +1,7 @@
 import { FlexBox, HTMLFlexBoxProps, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import React, { ReactNode } from 'react'
-import { ReactComponent as ExpandIcon } from 'assets/images/icon-expand-alt.svg'
+import ExpandIcon from 'assets/images/icon-expand-alt.svg'
 import { useTheme } from 'styled-components'
 
 interface Props extends HTMLFlexBoxProps {
