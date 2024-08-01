@@ -1,5 +1,4 @@
-import { EncodeObject } from '@cosmjs/proto-signing'
-import { customMessages, ixo, utils } from '@ixo/impactxclient-sdk'
+import { ixo, customMessages, utils } from '@ixo/impactxclient-sdk'
 import {
   QueryEntityIidDocumentRequest,
   QueryEntityListRequest,
@@ -7,20 +6,21 @@ import {
   QueryEntityRequest,
   QueryEntityResponse,
 } from '@ixo/impactxclient-sdk/types/codegen/ixo/entity/v1beta1/query'
-import { MsgTransferEntity, MsgUpdateEntity } from '@ixo/impactxclient-sdk/types/codegen/ixo/entity/v1beta1/tx'
 import { IidDocument } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/iid'
-import { Verification } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/tx'
 import {
   AccordedRight,
-  Context,
-  LinkedClaim,
   LinkedEntity,
   LinkedResource,
   Service,
+  Context,
+  LinkedClaim,
 } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import BigNumber from 'bignumber.js'
-import { hexToUint8Array } from 'utils/encoding'
 import { fee, RPC_ENDPOINT, TSigner } from './common'
+import { Verification } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/tx'
+import { EncodeObject } from '@cosmjs/proto-signing'
+import { MsgTransferEntity, MsgUpdateEntity } from '@ixo/impactxclient-sdk/types/codegen/ixo/entity/v1beta1/tx'
+import { hexToUint8Array } from 'utils/encoding'
 
 const createRPCQueryClient = ixo.ClientFactory.createRPCQueryClient
 
@@ -61,9 +61,9 @@ export const CreateEntityMessage = async (
       controller = [],
       relayerNode = did,
       startDate = '',
-      endDate = '01/01/2100',
+      endDate = '',
       ownerDid = did,
-      ownerAddress = address,
+      ownerAddress = address
     } = item
     return {
       typeUrl: '/ixo.entity.v1beta1.MsgCreateEntity',

@@ -1,5 +1,6 @@
 import { useWallet } from '@ixo-webclient/wallet-connector'
 import { createRegistry, ixo } from '@ixo/impactxclient-sdk'
+import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 import { RPC_ENDPOINT, fee } from 'lib/protocol'
 import { getQueryClient } from 'lib/queryClient'
 import { MsgExecAuthZ } from 'messages/authz/authz'
@@ -45,6 +46,7 @@ export const useGrantEntityAccountAuthZ = () => {
     ownerAddress,
     entityDid,
     granteeAddress,
+    maxAmounts
   }: {
     agentQuota: number
     admin: string
@@ -53,6 +55,7 @@ export const useGrantEntityAccountAuthZ = () => {
     ownerAddress: string
     entityDid: string
     granteeAddress: string
+    maxAmounts?: Coin[]
   }) => {
     const currentAuthZ = await getGranteeAuthConstraints({
       admin: admin,
@@ -66,6 +69,7 @@ export const useGrantEntityAccountAuthZ = () => {
       agentQuota,
       currentAuthConstraints: currentAuthZ.currentAuthConstraints,
       claimIds,
+      maxAmounts
     })
 
     const grantEvaluatorAuthZMessage = MsgGrantEntityAccountAuthz({

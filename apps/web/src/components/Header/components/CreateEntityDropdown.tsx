@@ -146,13 +146,15 @@ const CreateEntityDropdown: React.FunctionComponent<Props> = ({ entityType }) =>
             </LaunchEntityButton>
             <LaunchEntityButton
               end={true}
-              to={`/entity/create/deed-request`}
-              className={`request`}
+              to={`/entity/create/${EntityType.AssetCollection.toLowerCase()}`}
+              className={`
+                  ${EntityType.AssetCollection.toLowerCase()} ${entityType === EntityType.AssetCollection ? 'active' : ''}
+                  `}
               onClick={handleToggleModal}
             >
               <ButtonContent>
-                <Template fill='#000' width='18' />
-                Request
+                <DataAssets fill='#000' width='18' />
+                {"Collection"}
               </ButtonContent>
             </LaunchEntityButton>
           </ButtonsWrapper>

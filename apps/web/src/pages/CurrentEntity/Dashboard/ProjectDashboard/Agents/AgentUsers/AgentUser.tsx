@@ -16,6 +16,18 @@ import { IAgent } from 'types/agent'
 import { AgentRoles } from 'types/models'
 import { truncateString } from 'utils/formatters'
 import { errorToast, successToast } from 'utils/toast'
+import { Modal, Button as MantineButton, Flex, TextInput } from '@mantine/core'
+import { useDisclosure } from '@mantine/hooks'
+import { useForm, SubmitHandler } from 'react-hook-form'
+import { cosmos } from '@ixo/impactxclient-sdk'
+import { useIxoConfigs } from 'hooks/configs'
+import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
+
+type Inputs = {
+  usdc: string
+  ixo: string
+  carbon: string
+}
 
 const AgentUserCard: React.FC<IAgent & { noAction?: boolean; onClick: () => void }> = ({
   address,
@@ -33,12 +45,21 @@ const AgentUserCard: React.FC<IAgent & { noAction?: boolean; onClick: () => void
   const { close } = useWallet()
   const agentQuota = useMemo(() => claimCollection?.quota ?? 0, [claimCollection])
   const { grantAgentAuthZ, grantEvaluatorAuthZ } = useGrantEntityAccountAuthZ()
+  const [opened, { open, close: closeModal }] = useDisclosure(false)
+  const { convertToMinimalDenom } = useIxoConfigs()
+  const isServiceAgent = role === AgentRoles.serviceProviders
+  const isEvaluationAgent = role === AgentRoles.evaluators
 
-  const handleGrant = async () => {
+  const {
+    register,
+    handleSubmit,
+  } = useForm<Inputs>()
+
+  const handleGrant = async (coinTuple?: Coin[]) => {
     try {
       setGranting(true)
 
-      if (role === AgentRoles.serviceProviders) {
+      if (isServiceAgent) {
         const response = (await grantAgentAuthZ({
           admin: adminAddress,
           collectionId,
@@ -51,7 +72,7 @@ const AgentUserCard: React.FC<IAgent & { noAction?: boolean; onClick: () => void
         if (response.code !== 0) {
           throw response.rawLog
         }
-      } else if (role === AgentRoles.evaluators) {
+      } else if (isEvaluationAgent) {
         const response = (await grantEvaluatorAuthZ({
           admin: adminAddress,
           collectionId,
@@ -60,6 +81,7 @@ const AgentUserCard: React.FC<IAgent & { noAction?: boolean; onClick: () => void
           granteeAddress: address,
           entityDid: entityId,
           claimIds: [],
+          maxAmounts: coinTuple,
         })) as unknown as DeliverTxResponse
 
         if (response.code !== 0) {
@@ -67,6 +89,7 @@ const AgentUserCard: React.FC<IAgent & { noAction?: boolean; onClick: () => void
         }
       }
       close()
+
       successToast(null, 'Successfully granted!')
     } catch (error: any) {
       console.error('Granting User', error)
@@ -74,6 +97,26 @@ const AgentUserCard: React.FC<IAgent & { noAction?: boolean; onClick: () => void
     } finally {
       setGranting(false)
     }
+  }
+
+  const onSubmit: SubmitHandler<Inputs> = (data) => {
+    const ixo = cosmos.base.v1beta1.Coin.fromPartial(convertToMinimalDenom({ amount: data.ixo, denom: 'ixo' })!)
+    const carbon = cosmos.base.v1beta1.Coin.fromPartial(convertToMinimalDenom({ amount: data.ixo, denom: 'carbon' })!)
+    const usdc = cosmos.base.v1beta1.Coin.fromPartial(
+      convertToMinimalDenom({
+        amount: data.ixo,
+        denom: 'ibc/6BBE9BD4246F8E04948D5A4EEE7164B2630263B9EBB5E7DC5F0A46C62A2FF97B',
+      })!,
+    )
+    closeModal()
+
+    const coinTuple = [
+      parseInt(ixo.amount) > 0 && ixo,
+      parseInt(carbon.amount) > 0 && carbon,
+      parseInt(usdc.amount) > 0 && usdc,
+    ].filter(Boolean) as Coin[]
+
+    handleGrant(coinTuple)
   }
 
   return (
@@ -97,9 +140,34 @@ const AgentUserCard: React.FC<IAgent & { noAction?: boolean; onClick: () => void
           <Typography size='md'>{role}</Typography>
         </FlexBox>
       </FlexBox>
-
+      <Modal opened={opened} onClose={closeModal} title='Agent Evaluation'>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <TextInput label='IXO Max Amount' placeholder='IXO' prefix='' defaultValue={0} mb='md' {...register('ixo')} />
+          <TextInput
+            label='USDC Max Amount'
+            placeholder='USDC'
+            prefix=''
+            defaultValue={0}
+            mb='md'
+            {...register('usdc')}
+          />
+          <TextInput
+            label='CARBON Max Amount'
+            placeholder='CARBON'
+            prefix=''
+            defaultValue={0}
+            mb='md'
+            {...register('carbon')}
+          />
+          <Flex w='100%' justify={'flex-end'}>
+            <MantineButton type='submit' size='md'>
+              Approve
+            </MantineButton>
+          </Flex>
+        </form>
+      </Modal>
       {!noAction && (
-        <Button variant='secondary' size='md' textTransform='capitalize' onClick={handleGrant} loading={granting}>
+        <Button variant='secondary' size='md' textTransform='capitalize' onClick={isServiceAgent ? handleGrant : open} loading={granting}>
           Grant
         </Button>
       )}
