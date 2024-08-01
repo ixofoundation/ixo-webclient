@@ -24,6 +24,8 @@ import { selectCustomTheme } from 'redux/theme/theme.selectors'
 import mantineTheme from 'styles/mantine'
 // import { getCustomTheme } from 'redux/theme/theme.actions'
 import 'mapbox-gl/dist/mapbox-gl.css';
+import '@mantine/dates/styles.css';
+
 
 process.env.NODE_ENV === 'production' &&
   Sentry.init({

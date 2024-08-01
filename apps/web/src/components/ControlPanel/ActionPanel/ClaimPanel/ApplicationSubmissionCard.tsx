@@ -9,12 +9,14 @@ import { getEntityById } from 'redux/entities/entities.selectors'
 import { useAppSelector } from 'redux/hooks'
 import { AgentRoles } from 'types/models'
 import { toRootEntityType } from 'utils/entities'
+import RequestApplyCard from './RequestApplyCard'
 
-const Apply = ({ collectionId }: { collectionId: string }) => {
+const Apply = ({ collectionId, userRole, applicationSent }: { collectionId: string, userRole?: AgentRoles, applicationSent: boolean }) => {
   const { entityId = '' } = useParams<{ entityId: string }>()
   const { type } = useAppSelector(getEntityById(entityId))
   const { pathname } = useLocation()
   const navigate = useNavigate()
+  const isRequestsTask = pathname.includes('tasks')
 
   const openForm = (role: AgentRoles) => {
     return () => {
@@ -24,6 +26,10 @@ const Apply = ({ collectionId }: { collectionId: string }) => {
       navigate({ pathname: pathname, search: currentSearchParams.toString() })
     }
   }
+
+  if (isRequestsTask) return <RequestApplyCard userRole={userRole} openForm={openForm} />
+
+  if(applicationSent && userRole) return null
 
   return (
     <Box>
@@ -210,11 +216,15 @@ const ApplicationSubmissionCard = ({ data }: { data: any }) => {
   }, [iid?.linkedResource, data.collection?.id])
 
   return (
-    <Box mt={15} bg='#fff' p={20} style={{ borderRadius: 12 }}>
-      {!applicationSent && <Apply collectionId={data?.collection?.id} />}
-      {applicationSent && !userRole && <ApplicationUnderReview />}
-      {applicationSent && userRole && <ActionCard role={userRole} data={data} />}
-    </Box>
+    <>
+      <Apply collectionId={data?.collection?.id} userRole={userRole} applicationSent={applicationSent} />
+      {applicationSent && (
+        <Box mt={15} bg='#fff' p={20} style={{ borderRadius: 12 }}>
+          {applicationSent && !userRole && <ApplicationUnderReview />}
+          {applicationSent && userRole && <ActionCard role={userRole} data={data} />}
+        </Box>
+      )}
+    </>
   )
 }
 

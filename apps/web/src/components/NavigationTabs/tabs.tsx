@@ -102,7 +102,7 @@ export const tabs = {
             {
               label: 'OVERVIEW',
               icon: LuCircleDashed,
-              isActive: isActivePath(path, `/entity/${params.entityId}/overview/proposal/${params.deedId}`),
+              isActive: isActivePath(path, `/entity/${params.entityId}/overview`),
               path: `/entity/${params.entityId}/overview`,
             },
             {

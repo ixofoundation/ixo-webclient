@@ -1,7 +1,6 @@
 import { Flex, Avatar, Box, Text } from '@mantine/core'
 import ActionCard from 'components/ActionCard/ActionCard'
 import { LiaPlusCircleSolid } from 'react-icons/lia'
-import { NavLink } from 'react-router-dom'
 import { TEntityModel } from 'types/entities'
 import { DateFormat, formatDate } from 'utils/date'
 
@@ -15,16 +14,15 @@ const CreatorCard = ({ entity }: CreatorCardProps) => {
     format: DateFormat.DD_MM_YYYY,
   })
   return (
-    <ActionCard title='Creator' icon={<LiaPlusCircleSolid />}>
+    <ActionCard title='Requester' icon={<LiaPlusCircleSolid />}>
       <Flex w='100%' align='center' bg='#F9F9F9' p='sm' style={{ borderRadius: '10px' }}>
         <Avatar src={entity?.creator?.logo} alt='Avatar' />
         <Box w='100%' px='md'>
-          <Flex justify={'center'}>
-            <Text mx='auto'>{entity?.creator?.displayName}</Text>
+          <Flex justify={'flex-start'}>
+            <Text>{entity?.creator?.displayName}</Text>
           </Flex>
-          <Flex justify={'space-between'}>
+          <Flex justify={'flex-start'}>
             <Text c="dimmed" size="sm">{date}</Text>
-            <NavLink to={''}><Text size="sm">See Profile</Text></NavLink>
           </Flex>
         </Box>
       </Flex>

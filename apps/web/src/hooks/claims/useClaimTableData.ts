@@ -1,7 +1,8 @@
 import { transformStorageEndpoint } from '@ixo-webclient/utils'
 import { useWallet } from '@ixo-webclient/wallet-connector'
 import { useClaimCollectionsWithClaimsQuery, useEntitiesLazyQuery } from 'generated/graphql'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
+import { coinsToUsd } from 'services/currency'
 
 export const useClaimTableData = ({ entityId }: { entityId: string }) => {
   const { wallet } = useWallet()
@@ -70,5 +71,31 @@ export const useClaimTableData = ({ entityId }: { entityId: string }) => {
     }
   }, [collections, fetchEntities])
 
-  return { claimTableData, loading }
+  const totals = useMemo(async () => {
+    const totals = await claimTableData.reduce(
+      async (accPromise, curr) => {
+        const acc = await accPromise;
+        const quota = curr.collection.quota;
+        const amountPerQuota = await coinsToUsd(curr.collection.payments.approval.amount); // Divide by 1,000,000
+        const claimed = curr.collection.count;
+
+        acc.total.count += quota;
+        acc.total.reward += quota * amountPerQuota;
+        acc.available.count += quota - claimed;
+        acc.available.reward += (quota - claimed) * amountPerQuota;
+
+        return acc;
+      },
+      Promise.resolve({ total: { count: 0, reward: 0 }, available: { count: 0, reward: 0 } })
+    );
+    return totals;
+  }, [claimTableData]);
+
+  const [computedTotals, setComputedTotals] = useState({ total: { count: 0, reward: 0 }, available: { count: 0, reward: 0 } });
+
+  useEffect(() => {
+    totals.then(setComputedTotals);
+  }, [totals]);
+
+  return { claimTableData, loading, totals: computedTotals }
 }

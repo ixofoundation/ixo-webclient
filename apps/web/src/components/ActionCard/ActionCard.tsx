@@ -5,9 +5,11 @@ type ActionCardProps = {
   title: string
   icon: ReactNode
   children: ReactNode
+  noPadding?: boolean
 }
 
-const ActionCard = ({ title, icon, children }: ActionCardProps) => {
+const ActionCard = ({ title, icon, children, noPadding }: ActionCardProps) => {
+  const childrenProps = { ...(!noPadding && { p: 'md', pt: 4 }) }
   return (
     <Card shadow='md' radius='md' w='100%'>
       <Card.Section px='md' pt='md'>
@@ -15,9 +17,7 @@ const ActionCard = ({ title, icon, children }: ActionCardProps) => {
           {title}
         </Badge>
       </Card.Section>
-      <Card.Section p='md' pt={0}>
-        {children}
-      </Card.Section>
+      <Card.Section {...childrenProps}>{children}</Card.Section>
     </Card>
   )
 }

@@ -4,10 +4,10 @@ import { getEntityById } from 'redux/entities/entities.selectors'
 import { useAppSelector } from 'redux/hooks'
 import { TEntityModel } from 'types/entities'
 import CreatorCard from './CreatorCard'
-import LocationCard from './LocationCard'
-import ResourcesCard from './ResourcesCard'
 import TaskDetailsCard from './TaskDetailsCard'
 import TimeSpanCard from './TimeSpanCard'
+import FundingCard from './FundingCard'
+import { DidQRCode } from '../DidQRCode'
 
 const ActionsFactory = ({ entity }: { entity: TEntityModel }) => {
   const { tab, id } = useParams<{
@@ -18,25 +18,25 @@ const ActionsFactory = ({ entity }: { entity: TEntityModel }) => {
     case 'dao':
       return (
         <Flex direction={'column'}>
-          <div>dao actions</div>
+    
         </Flex>
       )
     case 'oracle':
       return (
         <Flex direction={'column'}>
-          <div>oracle actions</div>
+        
         </Flex>
       )
     case 'project':
       return (
         <Flex direction={'column'}>
-          <div>project actions</div>
+          <DidQRCode />
         </Flex>
       )
     case 'protocol':
       return (
         <Flex direction={'column'}>
-          <div>protocol actions</div>
+
         </Flex>
       )
     case 'deed/request':
@@ -46,13 +46,12 @@ const ActionsFactory = ({ entity }: { entity: TEntityModel }) => {
       return (
         <Flex direction={'column'} gap='md'>
           <CreatorCard entity={entity} />
+          <FundingCard entity={entity} />
           <TimeSpanCard entity={entity} />
-          <LocationCard entity={entity} />
-          <ResourcesCard entity={entity} />
         </Flex>
       )
     default:
-      return <Flex>Hi</Flex>
+      return <Flex></Flex>
   }
 }
 

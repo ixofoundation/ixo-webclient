@@ -34,6 +34,7 @@ import * as SelectedTabItem from 'pages/CurrentEntity/Overview/OverviewTabs/Sele
 // Layouts
 import * as EntityOverviewLayout from 'components/Layout/EntityOverviewLayout/EntityOverviewLayout.route'
 import * as EntityDashboardLayout from 'components/Layout/EntityDashboardLayout/EntityDashboardLayout.route'
+import * as ExploreLayout from 'components/Layout/ExploreLayout/ExploreLayout.route'
 
 import { Routes } from 'routes'
 import { Flex } from '@mantine/core'
@@ -198,7 +199,13 @@ const router = createBrowserRouter([
       },
       {
         path: 'requests',
-        Component: Requests.Component,
+        Component: ExploreLayout.Component,
+        children: [
+          {
+            index: true,
+            Component: Requests.Component
+          }
+        ]
       },
       // {
       //   path: 'create/entity/:entityType',
