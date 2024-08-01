@@ -1,5 +1,4 @@
-import { Flex, Grid, rem, ScrollArea } from '@mantine/core'
-import { useTheme } from 'styled-components'
+import { Flex, Grid } from '@mantine/core'
 import { Entity, useEntitiesQuery } from 'generated/graphql'
 import { useState } from 'react'
 import { populateEntitiesForEntityExplorer } from 'services/entities'
@@ -27,9 +26,6 @@ const Requests = () => {
       }
     },
   })
-
-  const theme = useTheme()
-  const iconStyle = { width: rem(12), height: rem(12) }
 
   return (
     <Flex w='100%' h='100%' justify={'center'}>

@@ -1,7 +1,6 @@
 import { Flex, Box, Text, Progress } from '@mantine/core';
 import ActionCard from 'components/ActionCard/ActionCard';
 import { useClaimTableData } from 'hooks/claims/useClaimTableData';
-import { useMemo } from 'react';
 import { LiaPlusCircleSolid } from 'react-icons/lia';
 import { TEntityModel } from 'types/entities';
 import { displayFiatAmount } from 'utils/currency';

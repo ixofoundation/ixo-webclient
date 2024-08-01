@@ -1,5 +1,4 @@
 import moment from 'moment';
-import { Timestamp } from './time';
 
 export function isValidDate(dateString: string) {
     const date = new Date(dateString);

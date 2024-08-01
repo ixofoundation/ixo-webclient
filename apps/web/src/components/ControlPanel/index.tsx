@@ -48,13 +48,6 @@ const ControlPanel = ({ entityType }: Props) => {
     </>
   )
 
-  const renderDetail = () => (
-    <>
-      <ClaimsCard />
-      {entityType === EntityType.Project && <DidQRCode />}
-    </>
-  )
-
   const goBack = () => {
     resetKeyValue()
     if(keyValue?.type === 'claim'){
