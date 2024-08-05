@@ -64,7 +64,7 @@ const TokenProfileForm: React.FC<Props> = ({
                 height='36px'
                 label='DENOM'
                 inputValue={denom}
-                wrapperStyle={{ color: denom === 'CSTOVE' && 'Not available' ? theme.ixoRed : theme.ixoNewBlue }}
+                wrapperStyle={{ color: denom === 'CSTOVE' && 'Not available' ? theme.ixoRed : theme.colors.blue[5] }}
                 handleChange={(value): void => setDenom(String(value).toUpperCase())}
               />
             ) : (

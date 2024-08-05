@@ -23,10 +23,10 @@ const QrCode = ({ did }: { did: string }) => {
         p={3}
         $gap={2}
         $alignItems='center'
-        $borderColor={opened ? theme.ixoNewBlue : 'transparent'}
+        $borderColor={opened ? theme.colors.blue[5] : 'transparent'}
         $borderWidth={'1px'}
         $borderStyle={'solid'}
-        hover={{ $borderColor: theme.ixoNewBlue }}
+        hover={{ $borderColor: theme.colors.blue[5] }}
         onClick={handlers.toggle}
         cursor={'pointer'}
         width='100%'

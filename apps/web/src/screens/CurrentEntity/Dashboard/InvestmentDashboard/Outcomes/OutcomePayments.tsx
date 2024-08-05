@@ -43,7 +43,7 @@ const TableWrapper = styled(FlexBox)`
       }
 
       &:hover {
-        outline-color: ${(props) => props.theme.ixoNewBlue};
+        outline-color: ${(props) => props.theme.colors.blue[5]};
       }
     }
   }
@@ -153,7 +153,7 @@ const OutcomePayments: React.FC<Props> = ({ bondDid }) => {
                 $alignItems='center'
                 background={theme.ixoMediumBlue}
                 color='white'
-                hover={{ color: theme.ixoNewBlue }}
+                hover={{ color: theme.colors.blue[5] }}
               >
                 <EyeIcon />
               </SvgBox>

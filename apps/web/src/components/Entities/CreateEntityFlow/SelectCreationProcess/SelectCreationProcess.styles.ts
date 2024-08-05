@@ -39,9 +39,9 @@ export const OptionBox = styled.div<{ filled?: boolean }>`
 
   &:hover,
   &.active {
-    border-color: ${(props): string => props.theme.ixoNewBlue};
-    ${(props): string => (props.filled && `background: ${props.theme.ixoNewBlue};`) || ''}
-    ${(props): string => (!props.filled && `svg path { fill: ${props.theme.ixoNewBlue}; }`) || ''}
+    border-color: ${(props): string => props.theme.colors.blue[5]};
+    ${(props): string => (props.filled && `background: ${props.theme.colors.blue[5]};`) || ''}
+    ${(props): string => (!props.filled && `svg path { fill: ${props.theme.colors.blue[5]}; }`) || ''}
   }
 
   & > .label {

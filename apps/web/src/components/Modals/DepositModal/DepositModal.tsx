@@ -43,7 +43,7 @@ const Card = ({ children, ...rest }: HTMLFlexBoxProps) => {
       height='48px'
       $alignItems='center'
       $justifyContent='center'
-      border={`1px solid ${theme.ixoNewBlue}`}
+      border={`1px solid ${theme.colors.blue[5]}`}
       $borderRadius={'8px'}
       {...rest}
     >
@@ -251,7 +251,7 @@ const DepositModal: React.FunctionComponent<Props> = ({
                   border={`1px solid ${theme.ixoDarkBlue}`}
                   $boxShadow={theme.ixoShadow2}
                 >
-                  <SvgBox color={theme.ixoNewBlue} $svgHeight={8}>
+                  <SvgBox color={theme.colors.blue[5]} $svgHeight={8}>
                     <ArrowDownIcon />
                   </SvgBox>
                 </FlexBox>
@@ -270,7 +270,7 @@ const DepositModal: React.FunctionComponent<Props> = ({
                 <SvgBox
                   cursor='pointer'
                   onClick={() => validAmount && handleSigning()}
-                  color={validAmount ? theme.ixoNewBlue : theme.ixoDarkBlue}
+                  color={validAmount ? theme.colors.blue[5] : theme.ixoDarkBlue}
                 >
                   <NextStepImage />
                 </SvgBox>

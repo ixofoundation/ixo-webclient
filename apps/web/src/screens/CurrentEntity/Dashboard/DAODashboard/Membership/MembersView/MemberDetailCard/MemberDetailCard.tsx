@@ -71,7 +71,7 @@ const MemberDetailCard: React.FC<Props> = ({ member, onClose }): JSX.Element => 
       onClick={(event) => event.stopPropagation()}
     >
       <FlexBox width='100%' $alignItems='center' $justifyContent='space-between'>
-        <SvgBox $svgWidth={6} $svgHeight={6} color={theme.ixoNewBlue}>
+        <SvgBox $svgWidth={6} $svgHeight={6} color={theme.colors.blue[5]}>
           <ProfileIcon />
         </SvgBox>
 

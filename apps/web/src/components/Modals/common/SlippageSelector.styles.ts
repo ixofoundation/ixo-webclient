@@ -29,7 +29,7 @@ export const SlippageOptionWrapper = styled.div`
     cursor: pointer;
 
     &.active {
-      background: ${(props) => props.theme.ixoNewBlue};
+      background: ${(props) => props.theme.colors.blue[5]};
     }
   }
 `

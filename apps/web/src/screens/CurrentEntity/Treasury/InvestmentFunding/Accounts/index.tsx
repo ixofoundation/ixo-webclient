@@ -258,7 +258,7 @@ const Accounts: React.FC = () => {
               <Typography variant='secondary' color='blue' hover={{ underline: true }}>
                 {truncateString(selectedAccount.address, 20, 'middle')}
               </Typography>
-              <SvgBox color={theme.ixoNewBlue} $svgWidth={6} $svgHeight={6}>
+              <SvgBox color={theme.colors.blue[5]} $svgWidth={6} $svgHeight={6}>
                 <CopyIcon />
               </SvgBox>
             </FlexBox>

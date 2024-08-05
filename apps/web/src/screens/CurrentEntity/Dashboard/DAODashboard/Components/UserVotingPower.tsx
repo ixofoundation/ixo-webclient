@@ -42,7 +42,7 @@ const UserVotingPower: React.FC<Props> = ({ show, coreAddress, userAddress }) =>
           <PieChart
             data={[
               { name: 'Rest Voting Power', value: 1 - userVotingPower, color: theme.ixoDarkBlue },
-              { name: 'My Voting Power', value: userVotingPower, color: theme.ixoNewBlue },
+              { name: 'My Voting Power', value: userVotingPower, color: theme.colors.blue[5] },
             ]}
             descriptor={
               <FlexBox $direction='column' $alignItems='center'>

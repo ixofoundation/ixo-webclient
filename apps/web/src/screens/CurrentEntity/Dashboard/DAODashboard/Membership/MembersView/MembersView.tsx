@@ -70,7 +70,7 @@ const MembersView: React.FC<Props> = ({
       <Typography color={sort ? 'blue' : 'dark-blue'} size='lg'>
         {label}
       </Typography>
-      <SvgBox color={sort ? theme.ixoNewBlue : theme.ixoDarkBlue}>
+      <SvgBox color={sort ? theme.colors.blue[5] : theme.ixoDarkBlue}>
         {varType === 'string' && sort === 'desc' && <SortZtoAIcon />}
         {varType === 'string' && sort !== 'desc' && <SortAtoZIcon />}
         {varType === 'number' && sort === 'desc' && <SortGtoLIcon />}

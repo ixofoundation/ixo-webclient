@@ -11,7 +11,7 @@ import { transformStorageEndpoint } from '@ixo-webclient/utils'
 const KeyValuePanel = ({ data }: { data: any }) => {
   const theme = useTheme()
   const config = useAppSelector(selectEntityConfig)
-  const primaryColor = config.theme.primaryColor ?? theme.ixoNewBlue
+  const primaryColor = config.theme.primaryColor ?? theme.colors.blue[5]
 
   const renderValue = (data: any, key: string) => {
     // if (key === 'file') {

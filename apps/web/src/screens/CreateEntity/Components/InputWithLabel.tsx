@@ -118,7 +118,7 @@ const InputWithLabel: React.FC<Props> = ({
       width={width}
       height={height}
       disabled={disabled}
-      style={{ color: !error ? theme.ixoNewBlue : theme.ixoRed, ...(wrapperStyle ?? {}) }}
+      style={{ color: !error ? theme.colors.blue[5] : theme.ixoRed, ...(wrapperStyle ?? {}) }}
     >
       {label && (
         <InputLabel $filled={filled}>

@@ -4,7 +4,7 @@ export const TypeButton = styled.div`
   width: 140px;
   height: 48px;
   padding: 5px;
-  border: 1px solid ${(props): string => props.theme.ixoNewBlue};
+  border: 1px solid ${(props): string => props.theme.colors.blue[5]};
   border-radius: 8px;
   text-align: center;
 
@@ -21,7 +21,7 @@ export const TypeButton = styled.div`
   align-items: center;
 
   &:hover {
-    background: ${(props): string => props.theme.ixoNewBlue};
+    background: ${(props): string => props.theme.colors.blue[5]};
     color: ${(props): string => props.theme.ixoWhite};
   }
 `

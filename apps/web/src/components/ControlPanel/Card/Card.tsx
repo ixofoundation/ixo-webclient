@@ -23,7 +23,7 @@ interface Props {
 const Card: React.FC<Props> = ({ icon, title, columns, items }) => {
   const theme = useMantineTheme()
   const config = useAppSelector(selectEntityConfig)
-  const primaryColor = config.theme.primaryColor ?? theme.ixoNewBlue
+  const primaryColor = config.theme.primaryColor ?? theme.colors.blue[5]
 
   return (
     <FlexBox
@@ -60,10 +60,10 @@ const Card: React.FC<Props> = ({ icon, title, columns, items }) => {
                 p={3}
                 $gap={2}
                 $alignItems='center'
-                $borderColor={item.active ? theme.ixoNewBlue : 'transparent'}
+                $borderColor={item.active ? theme.colors.blue[5] : 'transparent'}
                 $borderWidth={'1px'}
                 $borderStyle={'solid'}
-                hover={item.onClick ? { $borderColor: theme.ixoNewBlue } : {}}
+                hover={item.onClick ? { $borderColor: theme.colors.blue[5] } : {}}
                 onClick={item.onClick && item.onClick}
                 cursor={item.onClick && 'pointer'}
               >

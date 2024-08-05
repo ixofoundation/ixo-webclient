@@ -40,7 +40,7 @@ const StyledValue = styled(Typography)`
 const SelectWrapper = styled.div<{ width: string; height: string }>`
   position: relative;
   border-radius: 8px;
-  border: 1px solid ${(props): string => props.theme.ixoNewBlue};
+  border: 1px solid ${(props): string => props.theme.colors.blue[5]};
   width: ${(props): string => props.width};
   height: ${(props): string => props.height};
   transition: all 0.2s;

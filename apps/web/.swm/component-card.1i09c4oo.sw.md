@@ -24,7 +24,7 @@ Form Card component used in creation flow (light mode)
 14         <FlexBox
 15           $direction='column'
 16           $gap={5}
-17           border={`1px solid ${theme.ixoNewBlue}`}
+17           border={`1px solid ${ theme.colors.blue[5]}`}
 18           $borderRadius='0.5rem'
 19           width='100%'
 20           p={7}

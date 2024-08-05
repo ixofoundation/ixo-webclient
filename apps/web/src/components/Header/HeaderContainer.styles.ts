@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { deviceWidth } from 'constants/device'
 
-export const TopBar = styled.header<{ background: string; color: string, borderColor: string }>`
+export const TopBar = styled.header<{ background: string; color: string; borderColor: string }>`
   position: fixed;
   top: 0;
   padding: 0 15px;
@@ -109,7 +109,7 @@ export const ModalData = styled.div`
     font-size: 64px;
 
     :before {
-      color: ${(props: any): string => props.theme.ixoNewBlue};
+      color: ${(props: any): string => props.theme.colors.blue[5]};
     }
   }
 
@@ -124,7 +124,7 @@ export const ModalData = styled.div`
     font-weight: 300;
 
     span {
-      color: ${(props: any): string => props.theme.ixoNewBlue};
+      color: ${(props: any): string => props.theme.colors.blue[5]};
     }
   }
 `
@@ -135,6 +135,6 @@ export const InfoLink = styled.a`
   text-decoration: underline;
 
   :hover {
-    color: ${(props: any): string => props.theme.ixoNewBlue};
+    color: ${(props: any): string => props.theme.colors.blue[5]};
   }
 `

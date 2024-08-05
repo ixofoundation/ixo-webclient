@@ -20,12 +20,12 @@ const Wrapper = styled(TableRow)<{ focused: boolean }>`
   ${({ theme, focused }) =>
     focused &&
     css`
-      outline-color: ${theme.ixoNewBlue};
+      outline-color: ${theme.colors.blue[5]};
       background: linear-gradient(180deg, #01273a 0%, #002d42 100%);
       box-shadow: ${theme.ixoShadow1};
     `}
   &:hover {
-    outline-color: ${(props) => props.theme.ixoNewBlue};
+    outline-color: ${(props) => props.theme.colors.blue[5]};
     background: linear-gradient(180deg, #01273a 0%, #002d42 100%);
     box-shadow: ${(props) => props.theme.ixoShadow1};
 
@@ -86,7 +86,7 @@ const MemberListItem: React.FC<Props> = ({ member, selected, onSelectMember }): 
     all: {
       status: undefined,
       text: 'All',
-      color: theme.ixoNewBlue,
+      color: theme.colors.blue[5],
     },
   }
   const navigate = useNavigate()

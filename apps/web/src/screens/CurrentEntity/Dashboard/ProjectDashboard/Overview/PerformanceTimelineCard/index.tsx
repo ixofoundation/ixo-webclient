@@ -93,12 +93,12 @@ const PerformanceTimelineCard: React.FC = () => {
               </linearGradient>
             </defs>
             <YAxis
-              stroke={theme.ixoNewBlue + 88}
+              stroke={theme.colors.blue[5] + 88}
               tickFormatter={(value) => value.toLocaleString()}
               allowDecimals={false}
             />
             <XAxis
-              stroke={theme.ixoNewBlue + 88}
+              stroke={theme.colors.blue[5] + 88}
               dataKey='date'
               tickFormatter={(value) => moment(value).format('ddd, D MMM, YYYY')}
             />

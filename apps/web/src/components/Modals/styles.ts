@@ -4,7 +4,7 @@ import { Typography } from 'components/App/App.styles'
 import { deviceWidth } from 'constants/device'
 
 const activeButtonCSS = css`
-  background: ${(props): string => props.theme.ixoNewBlue};
+  background: ${(props): string => props.theme.colors.blue[5]};
   color: ${(props): string => props.theme.ixoWhite};
 `
 
@@ -80,7 +80,7 @@ export const SelectionButton = styled.div<{ selected?: boolean }>`
   width: 140px;
   min-height: 48px;
   padding: 5px;
-  border: 1px solid ${(props): string => props.theme.ixoNewBlue};
+  border: 1px solid ${(props): string => props.theme.colors.blue[5]};
   border-radius: 8px;
   display: flex;
   align-items: center;
@@ -208,7 +208,7 @@ export const ButtonWrapper = styled.div`
       color: #537b8e;
     }
     &.active {
-      border: 1px solid ${(props) => props.theme.ixoNewBlue};
+      border: 1px solid ${(props) => props.theme.colors.blue[5]};
     }
   }
 `
@@ -293,7 +293,7 @@ export const OverlayDiv = styled.div`
   top: 50%;
   transform: translate(-50%, -50%);
   background: linear-gradient(180deg, #01283b 0%, #012d41 100%);
-  color: ${(props): string => props.theme.ixoNewBlue};
+  color: ${(props): string => props.theme.colors.blue[5]};
   border: 1px solid #436779;
   box-sizing: border-box;
   box-shadow: 0px 4px 9px rgba(0, 0, 0, 0.18);

@@ -13,7 +13,7 @@ export const ResourceTable = () => {
   const config = useAppSelector(selectEntityConfig)
   const { entityId = '' } = useParams<{ entityId: string }>()
   const { linkedResource } = useAppSelector(getEntityById(entityId))
-  const primaryColor = config.theme.primaryColor ?? theme.ixoNewBlue
+  const primaryColor = config.theme.primaryColor ?? theme.colors.blue[5]
 
   const linkedResourceColumns: Column[] = [
     {

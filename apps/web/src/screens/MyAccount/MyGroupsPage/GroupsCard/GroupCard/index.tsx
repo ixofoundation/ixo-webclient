@@ -81,7 +81,7 @@ const GroupCard: React.FC<Props> = ({ daoGroup }) => {
       align={'center'}
       gap={32}
       style={{
-        border: `1px solid ${selectedGroup === daoGroup.coreAddress ? theme.ixoNewBlue : 'transparent'}`,
+        border: `1px solid ${selectedGroup === daoGroup.coreAddress ? theme.colors.blue[5] : 'transparent'}`,
         flex: '0 0 240px',
         cursor: 'pointer',
         background: selectedGroup === daoGroup.coreAddress ? '#184761' : '#213E59',

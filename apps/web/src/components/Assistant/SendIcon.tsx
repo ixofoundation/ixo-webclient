@@ -1,9 +1,7 @@
 import { Flex, UnstyledButton } from '@mantine/core'
-
-import { ReactComponent as AssistantIcon } from '/public/assets/images/icon-assistant.svg'
-import { ReactComponent as SendPlaneIcon } from '/public/assets/images/icon-send-plane.svg'
-import { SvgBox } from 'components/App/App.styles'
 import { useMantineTheme } from '@mantine/core'
+import { IconSendPlane, IconAssistant } from 'components/IconPaths'
+import Image from 'next/image'
 
 export default function SendIcon({ typedMessage, sendMessage }: { typedMessage: string; sendMessage: () => void }) {
   const theme = useMantineTheme()
@@ -12,16 +10,12 @@ export default function SendIcon({ typedMessage, sendMessage }: { typedMessage: 
     return (
       // @ts-expect-error
       <UnstyledButton component={Flex} p='20px' h={60} onClick={sendMessage}>
-        <SvgBox $svgWidth={5} $svgHeight={5} color={theme.ixoNewBlue}>
-          <SendPlaneIcon />
-        </SvgBox>
+        <Image src={IconSendPlane} alt='Send' width={5} height={5} color={theme.colors.blue[5]} />
       </UnstyledButton>
     )
   return (
     <Flex p='20px' h={60}>
-      <SvgBox $svgWidth={5} $svgHeight={5} color={theme.ixoNewBlue}>
-        <AssistantIcon />
-      </SvgBox>
+      <Image src={IconAssistant} alt='Send' width={5} height={5} color={theme.colors.blue[5]} />
     </Flex>
   )
 }

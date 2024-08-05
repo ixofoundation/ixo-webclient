@@ -16,7 +16,7 @@ export function useClaimSetting() {
   return {
     [ixo.claims.v1beta1.EvaluationStatus.PENDING]: {
       text: 'Pending',
-      color: theme.ixoNewBlue,
+      color: theme.colors.blue[5],
     },
     [ixo.claims.v1beta1.EvaluationStatus.REJECTED]: {
       text: 'Rejected',

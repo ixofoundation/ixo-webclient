@@ -113,7 +113,7 @@ const TreasuryPoolCard: React.FC = () => {
                 style={{ borderRadius: 4 }}
               >
                 <Flex direction={'column'} gap={16} justify={'center'} align={'center'}>
-                  <Flex direction={'column'} align={'center'} gap={4} style={{ color: theme.ixoNewBlue }}>
+                  <Flex direction={'column'} align={'center'} gap={4} style={{ color: theme.colors.blue[5] }}>
                     {Icon && (
                       <SvgBox>
                         <Icon />

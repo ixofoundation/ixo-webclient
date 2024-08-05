@@ -85,7 +85,7 @@ const LinkedAccountSetupModal: React.FC<Props> = ({ open, onClose, onAdd }): JSX
                   fontSize: 20,
                   lineHeight: 28,
                 }}
-                wrapperStyle={{ color: address ? (chainInfo ? theme.ixoGreen : theme.ixoRed) : theme.ixoNewBlue }}
+                wrapperStyle={{ color: address ? (chainInfo ? theme.ixoGreen : theme.ixoRed) : theme.colors.blue[5] }}
               />
               <FlexBox
                 $justifyContent='center'
@@ -95,7 +95,7 @@ const LinkedAccountSetupModal: React.FC<Props> = ({ open, onClose, onAdd }): JSX
                 height='48px'
                 $borderWidth='1px'
                 $borderStyle='solid'
-                $borderColor={address ? (chainInfo ? theme.ixoGreen : theme.ixoRed) : theme.ixoNewBlue}
+                $borderColor={address ? (chainInfo ? theme.ixoGreen : theme.ixoRed) : theme.colors.blue[5]}
                 $borderRadius='8px'
               >
                 {address ? (

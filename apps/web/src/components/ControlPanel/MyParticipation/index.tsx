@@ -37,7 +37,7 @@ const DAOGroupItem: React.FC<{ address: string }> = ({ address }) => {
           $borderRadius='8px'
           $svgWidth={5}
           $svgHeight={5}
-          color={theme.ixoNewBlue}
+          color={theme.colors.blue[5]}
           $justifyContent='center'
           $alignItems='center'
         >
@@ -50,7 +50,7 @@ const DAOGroupItem: React.FC<{ address: string }> = ({ address }) => {
           $borderRadius='8px'
           $svgWidth={5}
           $svgHeight={5}
-          color={theme.ixoNewBlue}
+          color={theme.colors.blue[5]}
           $justifyContent='center'
           $alignItems='center'
         >
@@ -85,7 +85,7 @@ const MyParticipationCard = () => {
                 $borderRadius='8px'
                 $svgWidth={5}
                 $svgHeight={5}
-                color={theme.ixoNewBlue}
+                color={theme.colors.blue[5]}
                 $justifyContent='center'
                 $alignItems='center'
               >
@@ -98,7 +98,7 @@ const MyParticipationCard = () => {
                 $borderRadius='8px'
                 $svgWidth={5}
                 $svgHeight={5}
-                color={theme.ixoNewBlue}
+                color={theme.colors.blue[5]}
                 $justifyContent='center'
                 $alignItems='center'
               >
@@ -111,7 +111,7 @@ const MyParticipationCard = () => {
                 $borderRadius='8px'
                 $svgWidth={5}
                 $svgHeight={5}
-                color={theme.ixoNewBlue}
+                color={theme.colors.blue[5]}
                 $justifyContent='center'
                 $alignItems='center'
               >

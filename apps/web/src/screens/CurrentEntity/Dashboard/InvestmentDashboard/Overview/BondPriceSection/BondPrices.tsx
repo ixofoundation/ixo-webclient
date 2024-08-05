@@ -66,7 +66,7 @@ const BondPrices: React.FC<Props> = ({ bondDid }) => {
         >
           <defs>
             <linearGradient id='color' x1='0.5' y1='0' x2='0.5' y2='1'>
-              <stop offset='0%' stopColor={theme.ixoNewBlue} />
+              <stop offset='0%' stopColor={theme.colors.blue[5]} />
               <stop offset='100%' stopColor={theme.ixoMediumBlue} />
             </linearGradient>
           </defs>

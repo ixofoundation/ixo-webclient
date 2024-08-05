@@ -78,7 +78,7 @@ const MemberCard: React.FC<Props> = ({ member, selected, onSelectMember }): JSX.
     all: {
       status: undefined,
       text: 'All',
-      color: theme.ixoNewBlue,
+      color: theme.colors.blue[5],
     },
   }
   const { cwClient } = useAccount()

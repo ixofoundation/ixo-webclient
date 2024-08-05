@@ -14,7 +14,7 @@ export const FormCard: React.FC<PropsWithChildren<FormCardProp>> = ({ preIcon, t
     <FlexBox
       $direction='column'
       $gap={5}
-      border={`1px solid ${theme.ixoNewBlue}`}
+      border={`1px solid ${theme.colors.blue[5]}`}
       $borderRadius='0.5rem'
       width='100%'
       p={7}

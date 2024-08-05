@@ -31,8 +31,8 @@ const Wrapper = styled.div<{ disabled: boolean }>`
 
   &:hover,
   &.active {
-    border-color: ${(props): string => props.theme.ixoNewBlue};
-    background: ${(props): string => props.theme.ixoNewBlue};
+    border-color: ${(props): string => props.theme.colors.blue[5]};
+    background: ${(props): string => props.theme.colors.blue[5]};
   }
 
   & > .label {

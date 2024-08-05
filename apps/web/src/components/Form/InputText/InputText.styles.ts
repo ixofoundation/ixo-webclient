@@ -74,7 +74,10 @@ export const InputContainer = styled.div`
       color: ${/* eslint-disable */ (props) => props.theme.darkGrey};
       padding-left: 15px;
 
-      transition: padding-left 0.2s ease, bottom 0.2s ease, font-size 0.2s ease;
+      transition:
+        padding-left 0.2s ease,
+        bottom 0.2s ease,
+        font-size 0.2s ease;
     }
   }
 
@@ -84,7 +87,7 @@ export const InputContainer = styled.div`
 
     input {
       color: white;
-      border-bottom: 1px solid ${/* eslint-disable */ (props) => props.theme.ixoNewBlue};
+      border-bottom: 1px solid ${/* eslint-disable */ (props) => props.theme.colors.blue[5]};
     }
 
     input::-webkit-input-placeholder {
@@ -114,7 +117,9 @@ export const InputContainer = styled.div`
     p {
       bottom: 23px;
       color: #83d9f2;
-      transition: font-size 0.2s ease, bottom 0.2s ease;
+      transition:
+        font-size 0.2s ease,
+        bottom 0.2s ease;
     }
   }
 
@@ -162,7 +167,10 @@ export const InputContainer = styled.div`
       color: ${/* eslint-disable */ (props) => props.theme.darkGrey};
       padding-left: 15px;
 
-      transition: padding-left 0.2s ease, bottom 0.2s ease, font-size 0.2s ease;
+      transition:
+        padding-left 0.2s ease,
+        bottom 0.2s ease,
+        font-size 0.2s ease;
     }
   }
 

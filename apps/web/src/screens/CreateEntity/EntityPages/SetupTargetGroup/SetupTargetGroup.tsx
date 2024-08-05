@@ -91,7 +91,7 @@ const SetupTargetGroup: React.FC = (): JSX.Element => {
             inputValue={daoId}
             handleChange={(value) => setDAOId(value)}
             wrapperStyle={{
-              color: daoId ? (isDelegating ? theme.ixoGreen : theme.ixoRed) : theme.ixoNewBlue,
+              color: daoId ? (isDelegating ? theme.ixoGreen : theme.ixoRed) : theme.colors.blue[5],
             }}
           />
           {daoId && !daoEntity && (

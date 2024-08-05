@@ -26,5 +26,5 @@ export const SelectContainer = styled.select`
 `
 export const SelectLabelWrapper = styled.div`
   background: white;
-  color: ${(props): string => props.theme.ixoNewBlue};
+  color: ${(props): string => props.theme.colors.blue[5]};
 `

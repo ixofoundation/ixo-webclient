@@ -30,7 +30,7 @@ export const LoaderWrapper = styled.div`
     font-size: 1rem;
     line-height: 1.5;
     color: #ffffff;
-    background: ${(props): string => props.theme.ixoNewBlue};
+    background: ${(props): string => props.theme.colors.blue[5]};
     border-radius: 4px;
     border: none;
     box-shadow: none;

@@ -50,7 +50,7 @@ const RemainingBadge: React.FC<{ minutes: number }> = ({ minutes }) => {
 const PassedBadge: React.FC = () => {
   const theme = useMantineTheme()
   return (
-    <Badge w={110} px={8} py={4} style={{ color: theme.ixoWhite, backgroundColor: theme.ixoNewBlue }}>
+    <Badge w={110} px={8} py={4} style={{ color: theme.ixoWhite, backgroundColor: theme.colors.blue[5] }}>
       <Flex align={'center'} gap={4}>
         <SvgBox $svgWidth={4} $svgHeight={4}>
           <CheckCircleIcon />

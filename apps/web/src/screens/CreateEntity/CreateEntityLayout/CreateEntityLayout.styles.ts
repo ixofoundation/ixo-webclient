@@ -5,7 +5,7 @@ export const LayoutWrapper = styled.div`
   flex-direction: column;
   width: 100%;
   a {
-    color: ${(props): string => props.theme.ixoNewBlue};
+    color: ${(props): string => props.theme.colors.blue[5]};
   }
 `
 

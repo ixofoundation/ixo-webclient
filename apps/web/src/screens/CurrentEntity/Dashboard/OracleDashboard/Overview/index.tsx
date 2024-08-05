@@ -43,7 +43,7 @@ const Overview: React.FC = () => {
       <FlexBox $alignItems='center' $gap={2}>
         <Typography size='md'>{currentEntity.id}</Typography>
         <CopyToClipboard text={currentEntity.id} onCopy={() => successToast(`Copied to clipboard`)}>
-          <SvgBox cursor='pointer' $svgWidth={4} $svgHeight={4} color={theme.ixoNewBlue}>
+          <SvgBox cursor='pointer' $svgWidth={4} $svgHeight={4} color={theme.colors.blue[5]}>
             <CopyIcon />
           </SvgBox>
         </CopyToClipboard>
@@ -161,12 +161,12 @@ const Overview: React.FC = () => {
     <Card icon={<PiePieceIcon />} label='Claim Evaluation'>
       <FlexBox width='100%' $justifyContent='flex-start'>
         <FlexBox $gap={4}>
-          <FlexBox border={`1px solid ${theme.ixoNewBlue}`} $borderRadius='4px' py={1} px={4} cursor='pointer'>
+          <FlexBox border={`1px solid ${theme.colors.blue[5]}`} $borderRadius='4px' py={1} px={4} cursor='pointer'>
             <Typography color='blue' size='md'>
               Impact Verified
             </Typography>
           </FlexBox>
-          <FlexBox border={`1px solid ${theme.ixoNewBlue}`} $borderRadius='4px' py={1} px={4} cursor='pointer'>
+          <FlexBox border={`1px solid ${theme.colors.blue[5]}`} $borderRadius='4px' py={1} px={4} cursor='pointer'>
             <Typography color='blue' size='md'>
               Claims Evaluated
             </Typography>

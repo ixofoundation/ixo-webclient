@@ -3,7 +3,7 @@ import styled from 'styled-components'
 export const ModalTextAreaWrapper = styled.div`
   position: relative;
   background: #03324a;
-  border: 1px solid ${(props) => props.theme.ixoNewBlue};
+  border: 1px solid ${(props) => props.theme.colors.blue[5]};
   border-radius: 4px;
   padding: 25px;
   &.disabled {

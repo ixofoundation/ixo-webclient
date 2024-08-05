@@ -37,12 +37,12 @@ const ChainSelector: React.FC<Props> = ({ chainId, onChange }): JSX.Element => {
       ...provided,
       width: 200,
       height: 48,
-      borderColor: theme.ixoNewBlue,
+      borderColor: theme.colors.blue[5],
       borderRadius: 8,
       boxShadow: 'none',
 
       [`&:hover`]: {
-        borderColor: theme.ixoNewBlue,
+        borderColor: theme.colors.blue[5],
         borderWidth: 1,
       },
     }),

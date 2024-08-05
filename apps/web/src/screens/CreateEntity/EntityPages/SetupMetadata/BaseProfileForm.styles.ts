@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export const FormWrapper = styled.div`
   background: ${(props): string => props.theme.ixoWhite};
-  border: 1px solid ${(props): string => props.theme.ixoNewBlue};
+  border: 1px solid ${(props): string => props.theme.colors.blue[5]};
   box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
   overflow: hidden;

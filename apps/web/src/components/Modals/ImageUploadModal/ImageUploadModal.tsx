@@ -134,7 +134,7 @@ const ImageUploadModal: React.FC<Props> = ({
                   <Box style={{ width: 150, height: 150 }}>
                     <PulseLoader
                       repeat={true}
-                      borderColor={theme.ixoNewBlue}
+                      borderColor={theme.colors.blue[5]}
                       style={{ width: 'inherit', height: 'inherit' }}
                     >
                       <Typography color='blue' weight='semi-bold' size='2xl'>

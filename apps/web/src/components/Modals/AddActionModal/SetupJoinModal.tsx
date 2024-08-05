@@ -87,7 +87,7 @@ const SetupJoinModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): J
           inputValue={daoId}
           handleChange={(value) => handleUpdateDAOId(value)}
           wrapperStyle={{
-            color: daoId ? (isDelegating ? theme.ixoGreen : theme.ixoRed) : theme.ixoNewBlue,
+            color: daoId ? (isDelegating ? theme.ixoGreen : theme.ixoRed) : theme.colors.blue[5],
           }}
         />
         {daoId && !daoEntity && (

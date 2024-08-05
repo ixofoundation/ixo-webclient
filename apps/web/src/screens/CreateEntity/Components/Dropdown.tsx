@@ -14,7 +14,7 @@ const Wrapper = styled.div`
   // background: white;
 `
 const Select = styled.select<{ color: string; $hasArrow: boolean }>`
-  border: 1px solid ${(props): string => props.theme.ixoNewBlue};
+  border: 1px solid ${(props): string => props.theme.colors.blue[5]};
   border-radius: 8px;
   padding: 6px 10px;
   width: 100%;
@@ -71,7 +71,7 @@ const Dropdown: React.FC<Props> = ({
 }): JSX.Element => {
   const theme = useMantineTheme()
   return (
-    <Wrapper style={{ color: rest.disabled ? theme.ixoGrey500 : theme.ixoNewBlue, ...(wrapperStyle ?? {}) }}>
+    <Wrapper style={{ color: rest.disabled ? theme.ixoGrey500 : theme.colors.blue[5], ...(wrapperStyle ?? {}) }}>
       {label && (
         <SelectLabel>
           <Typography weight={'bold'} size={'sm'} style={{ background: 'white' }}>

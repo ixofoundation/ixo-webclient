@@ -103,7 +103,7 @@ const EvaluatedClaims = ({ evaluatedClaims }: EvaluatedClaimsProps) => {
                 width='60px'
                 $alignItems='center'
                 $justifyContent='center'
-                color={theme.ixoNewBlue}
+                color={theme.colors.blue[5]}
                 $svgWidth={5.5}
               >
                 <EyeIcon />

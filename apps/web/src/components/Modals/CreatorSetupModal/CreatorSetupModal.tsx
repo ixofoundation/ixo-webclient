@@ -164,7 +164,7 @@ const CreatorSetupModal: React.FC<Props> = ({ creator, title, open, onClose, onC
                   <Box width='150px' height='150px'>
                     <PulseLoader
                       repeat={true}
-                      borderColor={theme.ixoNewBlue}
+                      borderColor={theme.colors.blue[5]}
                       style={{ width: 'inherit', height: 'inherit' }}
                     >
                       <Typography color='blue' weight='semi-bold' size='2xl'>

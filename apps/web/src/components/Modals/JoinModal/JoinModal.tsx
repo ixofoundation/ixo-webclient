@@ -58,7 +58,7 @@ const AgentRoleWrapper = styled.div`
       color: #537b8e;
     }
     &.active {
-      border: 1px solid ${(props) => props.theme.ixoNewBlue};
+      border: 1px solid ${(props) => props.theme.colors.blue[5]};
     }
   }
 `

@@ -62,7 +62,7 @@ const App = () => {
       }
       if (primaryColor) {
         newCustomizedTheme.ixoBlue = primaryColor
-        newCustomizedTheme.ixoNewBlue = primaryColor
+        newCustomized theme.colors.blue[5] = primaryColor
       }
       if (highlight) {
         newCustomizedTheme.highlight = highlight

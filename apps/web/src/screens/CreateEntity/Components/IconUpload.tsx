@@ -7,7 +7,7 @@ const Wrapper = styled.div<{ size: number; background?: string }>`
   ${(props): string =>
     props.background
       ? `background: url(${props.background}) center center no-repeat;`
-      : `background: ${props.theme.ixoNewBlue};`}
+      : `background: ${props.theme.colors.blue[5]};`}
   background-size: contain;
 
   display: flex;

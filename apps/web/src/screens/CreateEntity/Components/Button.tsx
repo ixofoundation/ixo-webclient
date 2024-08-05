@@ -24,7 +24,7 @@ const buttonBgColor = (variant: TButtonVariant, disabled: boolean, theme: any): 
   switch (variant) {
     case 'primary':
     default:
-      return !disabled ? theme.ixoNewBlue : theme.ixoGrey300
+      return !disabled ? theme.colors.blue[5] : theme.ixoGrey300
     case 'secondary':
       return 'transparent'
     case 'tertiary':
@@ -66,7 +66,7 @@ const StyledButton = styled.button<{
   disabled: boolean
 }>`
   border: none;
-  ${(props): string => (props.variant === 'secondary' && `border: 1px solid ${props.theme.ixoNewBlue}`) || ''};
+  ${(props): string => (props.variant === 'secondary' && `border: 1px solid ${props.theme.colors.blue[5]}`) || ''};
   outline: none;
   cursor: pointer;
   border-radius: 8px;

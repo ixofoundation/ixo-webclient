@@ -39,7 +39,7 @@ export default function QueryInput({ sendMessage }: { sendMessage: (message: str
       align='center'
       justify='space-between'
       style={{
-        border: `1px solid ${theme.ixoNewBlue}`,
+        border: `1px solid ${theme.colors.blue[5]}`,
         borderRadius: '16px',
       }}
       id='QueryInput'

@@ -15,8 +15,8 @@ const SuggestionButton: React.FC<Props> = ({ onClick, ...props }) => {
     <Button
       styles={{
         root: {
-          borderColor: theme.ixoNewBlue,
-          color: theme.ixoNewBlue,
+          borderColor: theme.colors.blue[5],
+          color: theme.colors.blue[5],
           ':hover': {
             backgroundColor: theme.ixoLightBlue,
           },
@@ -32,7 +32,7 @@ const SuggestionButton: React.FC<Props> = ({ onClick, ...props }) => {
         </SvgBox>
       }
       onClick={onClick}
-      style={{ background: theme.ixoNewBlue, color: theme.white }}
+      style={{ background: theme.colors.blue[5], color: theme.white }}
     >
       {props.children}
     </Button>

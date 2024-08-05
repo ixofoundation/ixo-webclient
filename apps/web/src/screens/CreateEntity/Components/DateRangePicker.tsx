@@ -13,9 +13,9 @@ import { DashboardThemeContext } from 'components/Dashboard/Dashboard'
 const DISPLAY_FORMAT = 'DD-MMM-YYYY'
 
 const Wrapper = styled.div<{ $isDark: boolean }>`
-    .DateRangePicker_picker {
-      z-index: 9999999999 !important;  
-    }
+  .DateRangePicker_picker {
+    z-index: 9999999999 !important;
+  }
 
   .DateRangePickerInput {
     display: flex;
@@ -34,7 +34,7 @@ const Wrapper = styled.div<{ $isDark: boolean }>`
         line-height: 28px;
         height: 48px;
         padding: 6px 10px;
-        border: 1px solid ${(props): string => props.theme.ixoNewBlue};
+        border: 1px solid ${(props): string => props.theme.colors.blue[5]};
         border-radius: 8px;
         background: transparent;
         color: ${(props) => (!props.$isDark ? props.theme.ixoBlack : props.theme.ixoWhite)};
@@ -59,9 +59,9 @@ const Wrapper = styled.div<{ $isDark: boolean }>`
 
   // Will edit selected date or the endpoints of a range of dates
   .CalendarDay__selected {
-    background: ${(props) => props.theme.ixoNewBlue};
+    background: ${(props) => props.theme.colors.blue[5]};
     color: white;
-    border: 1px solid ${(props) => props.theme.ixoNewBlue};
+    border: 1px solid ${(props) => props.theme.colors.blue[5]};
   }
 
   // Will edit when the second date (end date) in a range of dates

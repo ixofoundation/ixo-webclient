@@ -107,7 +107,13 @@ const UserActivity: React.FC = (): JSX.Element => {
             <Typography weight='bold'>{Intl.NumberFormat().format(cell.value)}</Typography>
           </FlexBox>
           <FlexBox height='100%' $alignItems='center' background={theme.ixoMediumBlue}>
-            <SvgBox width='60px' $alignItems='center' $justifyContent='center' color={theme.ixoNewBlue} $svgWidth={5.5}>
+            <SvgBox
+              width='60px'
+              $alignItems='center'
+              $justifyContent='center'
+              color={theme.colors.blue[5]}
+              $svgWidth={5.5}
+            >
               <EyeIcon />
             </SvgBox>
           </FlexBox>

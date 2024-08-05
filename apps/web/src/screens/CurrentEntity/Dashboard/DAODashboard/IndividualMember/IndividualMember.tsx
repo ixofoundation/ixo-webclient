@@ -53,7 +53,7 @@ const IndividualMember: React.FC = () => {
               {truncateString(address, 20, 'middle')}
             </Typography>
             <CopyToClipboard text={address} onCopy={() => Toast.successToast(null, `Copied to clipboard`)}>
-              <SvgBox color={theme.ixoDarkBlue} cursor='pointer' hover={{ color: theme.ixoNewBlue }}>
+              <SvgBox color={theme.ixoDarkBlue} cursor='pointer' hover={{ color: theme.colors.blue[5] }}>
                 <CopyIcon />
               </SvgBox>
             </CopyToClipboard>

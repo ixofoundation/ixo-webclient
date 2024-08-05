@@ -95,7 +95,7 @@ const GroupCard: React.FC<Props> = ({ daoGroup }) => {
       }}
     >
       {daoController === daoGroup.coreAddress && (
-        <Flex pos={'absolute'} top={10} left={10} py={2} px={6} style={{ borderRadius: 999 }} bg={theme.ixoNewBlue}>
+        <Flex pos={'absolute'} top={10} left={10} py={2} px={6} style={{ borderRadius: 999 }} bg={theme.colors.blue[5]}>
           <Typography variant='secondary' size='xs' transform='uppercase'>
             Controller
           </Typography>
@@ -103,7 +103,15 @@ const GroupCard: React.FC<Props> = ({ daoGroup }) => {
       )}
 
       {isParticipating && (
-        <Flex pos={'absolute'} top={10} right={10} py={2} px={6} style={{ borderRadius: 999 }} bg={theme.ixoNewBlue}>
+        <Flex
+          pos={'absolute'}
+          top={10}
+          right={10}
+          py={2}
+          px={6}
+          style={{ borderRadius: 999 }}
+          bg={theme.colors.blue[5]}
+        >
           <Typography variant='secondary' size='xs' transform='uppercase'>
             Member
           </Typography>
@@ -128,7 +136,7 @@ const GroupCard: React.FC<Props> = ({ daoGroup }) => {
             <Typography color='blue' weight='medium' size='sm' hover={{ underline: true }}>
               {truncateString(daoGroup.coreAddress, 20, 'middle')}
             </Typography>
-            <SvgBox color={theme.ixoNewBlue} $svgWidth={5} $svgHeight={5}>
+            <SvgBox color={theme.colors.blue[5]} $svgWidth={5} $svgHeight={5}>
               <CopyIcon />
             </SvgBox>
           </Flex>
@@ -138,7 +146,7 @@ const GroupCard: React.FC<Props> = ({ daoGroup }) => {
       <Flex gap={12}>
         <Flex direction={'column'} gap={8} w={'100%'}>
           <Flex align='center' gap={8} miw={80}>
-            <SvgBox $svgWidth={6} $svgHeight={6} color={theme.ixoNewBlue}>
+            <SvgBox $svgWidth={6} $svgHeight={6} color={theme.colors.blue[5]}>
               <ProfileIcon />
             </SvgBox>
             <Typography size='sm' color='white' weight='medium'>
@@ -149,7 +157,7 @@ const GroupCard: React.FC<Props> = ({ daoGroup }) => {
           <Flex align='center' gap={8} miw={80}>
             {daoGroup.type === 'staking' && (
               <>
-                <SvgBox $svgWidth={6} $svgHeight={6} color={theme.ixoNewBlue}>
+                <SvgBox $svgWidth={6} $svgHeight={6} color={theme.colors.blue[5]}>
                   <CoinsIcon />
                 </SvgBox>
                 <Typography size='sm' color='white' weight='medium'>
@@ -159,7 +167,7 @@ const GroupCard: React.FC<Props> = ({ daoGroup }) => {
             )}
             {daoGroup.type !== 'staking' && (
               <>
-                <SvgBox $svgWidth={6} $svgHeight={6} color={theme.ixoNewBlue}>
+                <SvgBox $svgWidth={6} $svgHeight={6} color={theme.colors.blue[5]}>
                   <HandshakeIcon />
                 </SvgBox>
                 <Typography size='sm' color='white' weight='medium'>
@@ -172,7 +180,7 @@ const GroupCard: React.FC<Props> = ({ daoGroup }) => {
 
         <Flex direction={'column'} gap={8} w={'100%'}>
           <Flex align='center' gap={8} miw={80}>
-            <SvgBox $svgWidth={6} $svgHeight={6} color={theme.ixoNewBlue}>
+            <SvgBox $svgWidth={6} $svgHeight={6} color={theme.colors.blue[5]}>
               <FundingIcon />
             </SvgBox>
             <Typography size='sm' color='white' weight='medium'>
@@ -186,7 +194,7 @@ const GroupCard: React.FC<Props> = ({ daoGroup }) => {
           </Flex>
 
           <Flex align='center' gap={8} miw={80}>
-            <SvgBox $svgWidth={6} $svgHeight={6} color={theme.ixoNewBlue}>
+            <SvgBox $svgWidth={6} $svgHeight={6} color={theme.colors.blue[5]}>
               <PaperIcon />
             </SvgBox>
             <Typography size='sm' color='white' weight='medium'>

@@ -51,7 +51,7 @@ export function ExplorerEntityMenu() {
     navigate({ search: query.toString() })
   }
 
-  const primaryColor = config.theme.primaryColor ?? theme.ixoNewBlue
+  const primaryColor = config.theme.primaryColor ?? theme.colors.blue[5]
   return (
     <Menu transitionProps={{ transition: 'pop-top-right' }} position='top-end' width={150} withinPortal>
       <Menu.Target>

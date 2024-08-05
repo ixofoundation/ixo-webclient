@@ -40,7 +40,7 @@ const TableWrapper = styled(FlexBox)`
       }
 
       &:hover {
-        outline-color: ${(props) => props.theme.ixoNewBlue};
+        outline-color: ${(props) => props.theme.colors.blue[5]};
       }
     }
   }

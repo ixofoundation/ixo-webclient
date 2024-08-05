@@ -14,7 +14,7 @@ export const ServiceTable = () => {
   const config = useAppSelector(selectEntityConfig)
   const { entityId = '' } = useParams<{ entityId: string }>()
   const { service } = useAppSelector(getEntityById(entityId))
-  const primaryColor = config.theme.primaryColor ?? theme.ixoNewBlue
+  const primaryColor = config.theme.primaryColor ?? theme.colors.blue[5]
 
   const servicecolumns: Column[] = [
     {

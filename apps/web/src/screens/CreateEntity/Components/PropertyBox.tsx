@@ -26,7 +26,7 @@ const Wrapper = styled.div`
     transition: all 0.2s;
 
     &:hover {
-      background: ${(props): string => props.theme.ixoNewBlue};
+      background: ${(props): string => props.theme.colors.blue[5]};
     }
   }
 
@@ -45,7 +45,7 @@ const Body = styled.div<{ disabled: boolean; size: number; status: 'hover' | 'fu
   background-color: ${({ status = 'init', theme }): string => {
     switch (status) {
       case 'hover':
-        return theme.ixoNewBlue
+        return theme.colors.blue[5]
       case 'full':
         return theme.ixoDarkBlue
       case 'req':
@@ -81,7 +81,7 @@ const Body = styled.div<{ disabled: boolean; size: number; status: 'hover' | 'fu
   }
 
   &:hover {
-    background: ${(props): string => props.theme.ixoNewBlue};
+    background: ${(props): string => props.theme.colors.blue[5]};
   }
 `
 

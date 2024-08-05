@@ -29,7 +29,7 @@ const HeadLine: React.FC = () => {
                 $svgWidth={6}
                 $svgHeight={6}
                 color={theme.ixoDarkBlue}
-                hover={{ color: theme.ixoNewBlue }}
+                hover={{ color: theme.colors.blue[5] }}
                 cursor='pointer'
               >
                 <CopyIcon />
@@ -46,7 +46,7 @@ const HeadLine: React.FC = () => {
           px={12}
           justify={'space-between'}
           align={'center'}
-          style={{ border: `1px solid ${theme.ixoNewBlue}` }}
+          style={{ border: `1px solid ${theme.colors.blue[5]}` }}
         >
           <Flex align={'center'} gap={8}>
             {connectedWallet?.wallet.imageUrl && (
@@ -63,7 +63,7 @@ const HeadLine: React.FC = () => {
                 $svgWidth={6}
                 $svgHeight={6}
                 color={theme.ixoDarkBlue}
-                hover={{ color: theme.ixoNewBlue }}
+                hover={{ color: theme.colors.blue[5] }}
                 cursor='pointer'
               >
                 <CopyIcon />
@@ -77,7 +77,7 @@ const HeadLine: React.FC = () => {
             variant='outline'
             c={'blue'}
             radius={0}
-            style={{ borderColor: theme.ixoNewBlue }}
+            style={{ borderColor: theme.colors.blue[5] }}
             onClick={disconnect}
           >
             <DisconnectIcon />

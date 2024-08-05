@@ -249,8 +249,8 @@ const AssetDetailCard: React.FC<Props> = ({
             <AreaChart data={data}>
               <defs>
                 <linearGradient id='colorUv' x1='0' y1='0' x2='0' y2='1'>
-                  <stop offset='5%' stopColor={theme.ixoNewBlue} stopOpacity={0.4} />
-                  <stop offset='95%' stopColor={theme.ixoNewBlue} stopOpacity={0} />
+                  <stop offset='5%' stopColor={theme.colors.blue[5]} stopOpacity={0.4} />
+                  <stop offset='95%' stopColor={theme.colors.blue[5]} stopOpacity={0} />
                 </linearGradient>
               </defs>
               <YAxis
@@ -259,7 +259,7 @@ const AssetDetailCard: React.FC<Props> = ({
                 tickLine={false}
                 tickFormatter={(value) => value.toLocaleString()}
               />
-              <Area dataKey='uv' stroke={theme.ixoNewBlue} fillOpacity={1} fill='url(#colorUv)' strokeWidth={3} />
+              <Area dataKey='uv' stroke={theme.colors.blue[5]} fillOpacity={1} fill='url(#colorUv)' strokeWidth={3} />
             </AreaChart>
           </ResponsiveContainer>
         </GridItem>

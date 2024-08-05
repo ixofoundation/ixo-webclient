@@ -388,7 +388,7 @@ const ReviewProposal: React.FC = () => {
         width='100%'
         $gap={4}
         p={6}
-        border={`1px solid ${theme.ixoNewBlue}`}
+        border={`1px solid ${theme.colors.blue[5]}`}
         $borderRadius='8px'
       >
         {/* Header */}
@@ -447,11 +447,11 @@ const ReviewProposal: React.FC = () => {
                       height='35px'
                       $alignItems='center'
                       $justifyContent='center'
-                      border={`1px solid ${theme.ixoNewBlue}`}
+                      border={`1px solid ${theme.colors.blue[5]}`}
                       $borderRadius='4px'
                       $svgWidth={5}
                       $svgHeight={5}
-                      color={theme.ixoNewBlue}
+                      color={theme.colors.blue[5]}
                       cursor='pointer'
                       onClick={() => setSelectedLinkedResource(item)}
                     >
@@ -475,11 +475,11 @@ const ReviewProposal: React.FC = () => {
                       height='35px'
                       $alignItems='center'
                       $justifyContent='center'
-                      border={`1px solid ${theme.ixoNewBlue}`}
+                      border={`1px solid ${theme.colors.blue[5]}`}
                       $borderRadius='4px'
                       $svgWidth={5}
                       $svgHeight={5}
-                      color={theme.ixoNewBlue}
+                      color={theme.colors.blue[5]}
                       cursor='pointer'
                       onClick={() => setSelectedAction(action)}
                     >

@@ -50,7 +50,7 @@ export const ClaimsItem: React.FC<TEntityClaimModel> = (item) => {
         $borderColor={'transparent'}
         $borderWidth={'1px'}
         $borderStyle={'solid'}
-        hover={{ $borderColor: theme.ixoNewBlue }}
+        hover={{ $borderColor: theme.colors.blue[5] }}
         cursor={'pointer'}
       >
         <SvgBox $svgWidth={5} $svgHeight={5} color={theme.ixoBlack}>

@@ -36,7 +36,7 @@ export const FormMetricRow = styled.div`
     font-weight: 500;
 
     &:hover {
-      background: ${(props): string => props.theme.ixoNewBlue};
+      background: ${(props): string => props.theme.colors.blue[5]};
     }
   }
 `

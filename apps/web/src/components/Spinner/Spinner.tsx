@@ -21,7 +21,7 @@ const Container = styled.div<{ $backgroundColor: string; scale: number; $transpa
     props.$transparentBg ? '' : props.$backgroundColor ?? props.theme.ixoDarkestBlue};
   flex: 1 1 auto;
   p {
-    color: ${(props) => props.theme.ixoNewBlue};
+    color: ${(props) => props.theme.colors.blue[5]};
     margin-top: 10px;
   }
 `
@@ -64,13 +64,13 @@ export const ProjectLoadingError: React.FC<ProjectLoadingErrorProps> = ({ error 
     background-color: ${(props): string => theme?.backgroundColor ?? props.theme.ixoDarkestBlue};
     flex: 1 1 auto;
     p {
-      color: ${(props): string => props.theme.ixoNewBlue};
+      color: ${(props): string => props.theme.colors.blue[5]};
       margin-top: 10px;
       font-size: 32px;
       font-weight: 900;
     }
     a {
-      color: ${(props): string => props.theme.ixoNewBlue};
+      color: ${(props): string => props.theme.colors.blue[5]};
     }
   `
   return (

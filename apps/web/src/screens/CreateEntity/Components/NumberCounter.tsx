@@ -27,7 +27,7 @@ const ActionButton = styled.div<{ borderColor?: string }>`
     height: 30px;
 
     path {
-      fill: ${(props): string => props.borderColor ?? props.theme.ixoNewBlue};
+      fill: ${(props): string => props.borderColor ?? props.theme.colors.blue[5]};
     }
   }
 `
@@ -52,7 +52,7 @@ const NumberCounter: React.FC<Props> = ({
   onChange,
 }): JSX.Element => {
   const theme = useMantineTheme()
-  const borderColor = theme.ixoNewBlue
+  const borderColor = theme.colors.blue[5]
   const [focused, setFocused] = useState(false)
   const active = value > 0 || focused
 

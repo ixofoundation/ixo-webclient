@@ -68,7 +68,7 @@ const DelegateAccountSetupModal: React.FC<Props> = ({ open, onClose, onAdd }): J
                   lineHeight: 28,
                 }}
                 wrapperStyle={{
-                  color: address ? (isAccountAddress(address) ? theme.ixoGreen : theme.ixoRed) : theme.ixoNewBlue,
+                  color: address ? (isAccountAddress(address) ? theme.ixoGreen : theme.ixoRed) : theme.colors.blue[5],
                 }}
               />
             </FlexBox>

@@ -38,7 +38,7 @@ const Card = ({ children, ...rest }: HTMLFlexBoxProps) => {
       height='48px'
       $alignItems='center'
       $justifyContent='center'
-      border={`1px solid ${theme.ixoNewBlue}`}
+      border={`1px solid ${theme.colors.blue[5]}`}
       $borderRadius={'8px'}
       {...rest}
     >
@@ -177,7 +177,7 @@ const SendModal: React.FunctionComponent<Props> = ({ open, selectedDenomOrAddr, 
                   border={`1px solid ${theme.ixoDarkBlue}`}
                   $boxShadow={theme.ixoShadow2}
                 >
-                  <SvgBox color={theme.ixoNewBlue} $svgHeight={8}>
+                  <SvgBox color={theme.colors.blue[5]} $svgHeight={8}>
                     <ArrowDownIcon />
                   </SvgBox>
                 </FlexBox>
@@ -198,7 +198,7 @@ const SendModal: React.FunctionComponent<Props> = ({ open, selectedDenomOrAddr, 
                   <SvgBox
                     cursor='pointer'
                     onClick={() => validSend && handleSigning()}
-                    color={validSend ? theme.ixoNewBlue : theme.ixoDarkBlue}
+                    color={validSend ? theme.colors.blue[5] : theme.ixoDarkBlue}
                   >
                     <NextStepImage />
                   </SvgBox>

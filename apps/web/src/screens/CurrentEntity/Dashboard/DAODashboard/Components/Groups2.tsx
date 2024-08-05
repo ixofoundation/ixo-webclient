@@ -45,7 +45,7 @@ const GroupCard = ({ daoGroup, dao }: GroupCardProps) => {
       align={'center'}
       gap={16}
       style={{
-        border: `1px solid ${selectedGroup === daoGroup.coreAddress ? theme.ixoNewBlue : 'transparent'}`,
+        border: `1px solid ${selectedGroup === daoGroup.coreAddress ? theme.colors.blue[5] : 'transparent'}`,
         flex: '0 0 240px',
         cursor: 'pointer',
         background: selectedGroup === daoGroup.coreAddress ? '#184761' : '#213E59',
@@ -53,7 +53,15 @@ const GroupCard = ({ daoGroup, dao }: GroupCardProps) => {
       onClick={() => navigate(`${pathname}?selectedGroup=${daoGroup.coreAddress}`)}
     >
       {isParticipating && (
-        <Flex pos={'absolute'} top={10} right={10} py={2} px={6} style={{ borderRadius: 999 }} bg={theme.ixoNewBlue}>
+        <Flex
+          pos={'absolute'}
+          top={10}
+          right={10}
+          py={2}
+          px={6}
+          style={{ borderRadius: 999 }}
+          bg={theme.colors.blue[5]}
+        >
           <Typography variant='secondary' size='xs' transform='uppercase'>
             Member
           </Typography>
@@ -76,7 +84,7 @@ const GroupCard = ({ daoGroup, dao }: GroupCardProps) => {
             <Typography color='blue' weight='medium' size='sm' hover={{ underline: true }}>
               {truncateString(daoGroup.coreAddress, 20, 'middle')}
             </Typography>
-            <SvgBox color={theme.ixoNewBlue} $svgWidth={5} $svgHeight={5}>
+            <SvgBox color={theme.colors.blue[5]} $svgWidth={5} $svgHeight={5}>
               <CopyIcon />
             </SvgBox>
           </Flex>

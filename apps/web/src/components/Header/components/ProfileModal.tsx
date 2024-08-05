@@ -69,7 +69,7 @@ const ProfileModal: React.FC = () => {
             <FlexBox $alignItems='center' $gap={2}>
               <Typography>{truncateString(address, 20, 'middle')}</Typography>
               <CopyToClipboard text={address} onCopy={() => successToast(null, `Copied to clipboard`)}>
-                <SvgBox color={theme.ixoDarkBlue} hover={{ color: theme.ixoNewBlue }} cursor='pointer'>
+                <SvgBox color={theme.ixoDarkBlue} hover={{ color: theme.colors.blue[5] }} cursor='pointer'>
                   <CopyIcon />
                 </SvgBox>
               </CopyToClipboard>
@@ -81,9 +81,9 @@ const ProfileModal: React.FC = () => {
             $alignItems='center'
             $justifyContent='center'
             $borderRadius='8px'
-            border={`1px solid ${theme.ixoNewBlue}`}
+            border={`1px solid ${theme.colors.blue[5]}`}
             p={3}
-            color={theme.ixoNewBlue}
+            color={theme.colors.blue[5]}
             $svgWidth={6}
             $svgHeight={6}
             cursor='pointer'

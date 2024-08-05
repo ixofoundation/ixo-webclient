@@ -122,7 +122,7 @@ A modal used when transferring entity with toDid input field and validation chec
 46                   inputValue={did}
 47                   handleChange={(value) => setDid(value)}
 48                   wrapperStyle={{
-49                     color: did ? (validateDid(did) ? theme.ixoGreen : theme.ixoRed) : theme.ixoNewBlue,
+49                     color: did ? (validateDid(did) ? theme.ixoGreen : theme.ixoRed) :  theme.colors.blue[5],
 50                   }}
 51                 />
 52                 {did && !validateDid(did) && (

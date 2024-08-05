@@ -39,7 +39,7 @@ export const BalanceCard: React.FC<BalanceCardProps> = ({
       color={theme.ixoWhite}
       cursor='pointer'
       transition='all .2s'
-      hover={{ $borderColor: theme.ixoNewBlue }}
+      hover={{ $borderColor: theme.colors.blue[5] }}
       onClick={onClick && onClick}
     >
       <Avatar size={38} url={coinImageUrl} />

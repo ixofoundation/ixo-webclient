@@ -23,7 +23,7 @@ const ServiceForm: React.FC<ServiceFormProps> = ({ index, service, onUpdate, onR
       <FlexBox $gap={4} $alignItems='center'>
         <Typography size='xl'>Service {index + 1}</Typography>
         {onRemove && (
-          <SvgBox color={theme.ixoNewBlue} cursor='pointer' onClick={() => onRemove()}>
+          <SvgBox color={theme.colors.blue[5]} cursor='pointer' onClick={() => onRemove()}>
             <MinusBoxIcon />
           </SvgBox>
         )}

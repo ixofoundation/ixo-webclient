@@ -38,7 +38,7 @@ const AccountCard = () => {
             >
               <Typography size='md'>{name}</Typography>
               <CopyToClipboard text={address} onCopy={() => successToast(`Copied to clipboard`)}>
-                <SvgBox color={theme.ixoNewBlue} cursor='pointer' $svgWidth={6} $svgHeight={6}>
+                <SvgBox color={theme.colors.blue[5]} cursor='pointer' $svgWidth={6} $svgHeight={6}>
                   <CopyIcon />
                 </SvgBox>
               </CopyToClipboard>
@@ -64,7 +64,7 @@ const AccountCard = () => {
                 $borderRadius='8px'
                 $svgWidth={5}
                 $svgHeight={5}
-                color={theme.ixoNewBlue}
+                color={ theme.colors.blue[5]}
                 $justifyContent='center'
                 $alignItems='center'
               >
@@ -77,7 +77,7 @@ const AccountCard = () => {
                 $borderRadius='8px'
                 $svgWidth={5}
                 $svgHeight={5}
-                color={theme.ixoNewBlue}
+                color={ theme.colors.blue[5]}
                 $justifyContent='center'
                 $alignItems='center'
               >

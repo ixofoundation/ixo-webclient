@@ -6,7 +6,7 @@ export const AssetCardWrapper = styled.div<{ active?: boolean }>`
     props.active
       ? `drop-shadow(0px 0px 20px rgba(0, 210, 255, 0.5))`
       : `drop-shadow(0px 4.64px 4.64px rgba(0, 0, 0, 0.25))`};
-  border: 4px solid ${(props): string => (props.active ? props.theme.ixoNewBlue : 'transparent')};
+  border: 4px solid ${(props): string => (props.active ? props.theme.colors.blue[5] : 'transparent')};
 
   border-radius: 8px;
   overflow: hidden;
@@ -27,7 +27,7 @@ export const AssetCardSelection = styled.div<{ selected: boolean }>`
   justify-content: center;
   z-index: 10;
 
-  background: ${(props): string => (props.selected ? props.theme.ixoNewBlue : props.theme.ixoGrey700)};
+  background: ${(props): string => (props.selected ? props.theme.colors.blue[5] : props.theme.ixoGrey700)};
 `
 
 export const AssetCardHeader = styled.div<{ background: string }>`

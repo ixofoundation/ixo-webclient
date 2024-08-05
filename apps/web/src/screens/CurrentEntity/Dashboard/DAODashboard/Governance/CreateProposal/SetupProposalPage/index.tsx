@@ -133,7 +133,7 @@ const SetupProposalPage: React.FC = (): JSX.Element => {
           <Flex
             align={'center'}
             gap={4}
-            style={{ color: theme.ixoNewBlue, cursor: 'pointer' }}
+            style={{ color: theme.colors.blue[5], cursor: 'pointer' }}
             onClick={() => setAddLinked(true)}
           >
             <SvgBox $svgWidth={6} $svgHeight={6}>

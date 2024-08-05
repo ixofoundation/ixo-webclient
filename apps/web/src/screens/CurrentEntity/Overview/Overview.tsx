@@ -17,7 +17,7 @@ const Overview: React.FC = () => {
   const { entityId = '', tab = 'page' } = useParams<{ entityId: string; tab: string }>()
   const theme = useMantineTheme()
   const config = useAppSelector(selectEntityConfig)
-  const primaryColor = config.theme.primaryColor ?? theme.ixoNewBlue
+  const primaryColor = config.theme.primaryColor ?? theme.colors.blue[5]
   const navigate = useNavigate()
   const { resetKeyValue } = useKeyValueViewerContext()
 

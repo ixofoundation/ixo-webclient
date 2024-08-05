@@ -9,7 +9,7 @@ const Wrapper = styled.div<{ selected?: boolean }>`
   width: 340px;
   height: 270px;
   padding: 20px;
-  border: 1px solid ${(props): string => props.theme.ixoNewBlue};
+  border: 1px solid ${(props): string => props.theme.colors.blue[5]};
   ${(props): string =>
     props.selected
       ? 'box-shadow: 0px 0px 20px rgba(0, 210, 255, 0.5);'

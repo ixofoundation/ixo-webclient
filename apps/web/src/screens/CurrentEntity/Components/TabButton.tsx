@@ -24,8 +24,8 @@ const TabButton: React.FC<TabButtonProps> = ({
       px={2}
       py={1}
       color={theme.ixoWhite}
-      background={active ? theme.ixoNewBlue : theme.ixoDarkBlue}
-      hover={{ background: theme.ixoNewBlue }}
+      background={active ? theme.colors.blue[5] : theme.ixoDarkBlue}
+      hover={{ background: theme.colors.blue[5] }}
       cursor='pointer'
       transition='all .2s'
       {...rest}

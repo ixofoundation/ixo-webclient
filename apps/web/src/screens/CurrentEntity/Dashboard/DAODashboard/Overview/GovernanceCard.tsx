@@ -96,7 +96,7 @@ const GovernanceCard: React.FC = (): JSX.Element => {
             </Box>
 
             <FlexBox width='100%' $gap={3} $alignItems='center'>
-              <SvgBox color={theme.ixoNewBlue}>
+              <SvgBox color={theme.colors.blue[5]}>
                 <SandClockIcon />
               </SvgBox>
               <ProgressBar
@@ -104,7 +104,7 @@ const GovernanceCard: React.FC = (): JSX.Element => {
                 total={votingPeriod}
                 approved={secondsFromNow}
                 rejected={0}
-                activeBarColor={theme.ixoNewBlue}
+                activeBarColor={theme.colors.blue[5]}
                 barColor={theme.ixoDarkBlue}
               />
             </FlexBox>

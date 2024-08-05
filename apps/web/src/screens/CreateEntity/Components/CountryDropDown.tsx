@@ -7,7 +7,7 @@ const CountryDropDown = styled(DefCountryDropDown)`
 
   select {
     background: white;
-    border: 1px solid ${(props) => props.theme.ixoNewBlue};
+    border: 1px solid ${(props) => props.theme.colors.blue[5]};
     border-radius: 8px !important;
     font-family: ${(props) => props.theme.primaryFontFamily};
     font-size: 20px;

@@ -127,7 +127,7 @@ const LinkedResourceSetupModal: React.FC<Props> = ({ linkedResource, open, onClo
                 <Box width='150px' height='150px'>
                   <PulseLoader
                     repeat={true}
-                    borderColor={theme.ixoNewBlue}
+                    borderColor={theme.colors.blue[5]}
                     style={{ width: 'inherit', height: 'inherit' }}
                   >
                     <Typography color='blue' weight='semi-bold' size='2xl'>

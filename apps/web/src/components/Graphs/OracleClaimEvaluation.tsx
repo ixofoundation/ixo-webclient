@@ -59,7 +59,7 @@ const OracleClaimEvaluation = ({ evaluations }: { evaluations: any[] }) => {
           </linearGradient>
         </defs>
         <YAxis
-          stroke={theme.ixoNewBlue + 88}
+          stroke={theme.colors.blue[5] + 88}
           axisLine={false}
           tickLine={false}
           // domain={[0, 20000]}

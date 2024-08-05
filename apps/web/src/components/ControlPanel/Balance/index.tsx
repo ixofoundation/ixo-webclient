@@ -65,7 +65,7 @@ const BalanceCard = () => {
                 $borderRadius='8px'
                 width='40px'
                 height='40px'
-                background={theme.ixoNewBlue}
+                background={theme.colors.blue[5]}
                 $justifyContent='center'
                 $alignItems='center'
                 $svgWidth={5}

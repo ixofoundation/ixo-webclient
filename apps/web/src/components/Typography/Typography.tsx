@@ -144,7 +144,7 @@ const lightGreyBlueColorCss = css`
   color: ${(props) => props.theme.ixoLightGreyBlue};
 `
 const blueColorCss = css`
-  color: ${(props) => props.theme.ixoNewBlue};
+  color: ${(props) => props.theme.colors.blue[5]};
 `
 const darkBlueColorCss = css`
   color: ${(props) => props.theme.ixoDarkBlue};

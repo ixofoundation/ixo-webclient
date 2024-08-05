@@ -3,7 +3,7 @@ import styled from 'styled-components'
 export const ModalInputWrapper = styled.div`
   position: relative;
   background: #03324a;
-  border: 1px solid ${(props) => props.theme.ixoNewBlue};
+  border: 1px solid ${(props) => props.theme.colors.blue[5]};
   border-radius: 4px;
   padding: 15px;
   width: 100%;
@@ -32,9 +32,9 @@ export const IconWrapper = styled.div<{ error?: boolean }>`
   transform: translateY(-50%);
 
   svg {
-    fill: ${(props): string => (props.error ? props.theme.ixoRed : props.theme.ixoNewBlue)};
+    fill: ${(props): string => (props.error ? props.theme.ixoRed : props.theme.colors.blue[5])};
     path {
-      fill: ${(props): string => (props.error ? props.theme.ixoRed : props.theme.ixoNewBlue)};
+      fill: ${(props): string => (props.error ? props.theme.ixoRed : props.theme.colors.blue[5])};
     }
   }
 `

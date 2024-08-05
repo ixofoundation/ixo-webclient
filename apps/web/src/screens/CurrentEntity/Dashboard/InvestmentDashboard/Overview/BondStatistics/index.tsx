@@ -51,7 +51,7 @@ const BondStatistics: React.FC<Props> = ({ bondDid }) => {
       <Tab
         id='price'
         prefix={reserveToken.toUpperCase()}
-        color={theme.ixoNewBlue}
+        color={theme.colors.blue[5]}
         header={'Last Price'}
         body={new BigNumber(currentPrice?.amount || 0).toFormat(2)}
         footer={`${reserveToken.toUpperCase()} per ${token.toUpperCase()}`}
@@ -70,7 +70,7 @@ const BondStatistics: React.FC<Props> = ({ bondDid }) => {
         <Tab
           id='capital_raised'
           prefix={reserveToken.toUpperCase()}
-          color={theme.ixoNewBlue}
+          color={theme.colors.blue[5]}
           header={'Capital Raised'}
           body={new BigNumber(currentReserve).toFormat()}
           footer={`${percentFormat(currentReserve, initialRaised, 2)} of Funding Target`}
@@ -79,7 +79,7 @@ const BondStatistics: React.FC<Props> = ({ bondDid }) => {
         <Tab
           id='capital_raised'
           prefix={reserveToken.toUpperCase()}
-          color={theme.ixoNewBlue}
+          color={theme.colors.blue[5]}
           header={'Payout'}
           body={new BigNumber(outcomePayment).toFormat()}
           footer={`${percentFormat(0, outcomePayment ?? 0, 0)} of Expected Payout`}
@@ -88,7 +88,7 @@ const BondStatistics: React.FC<Props> = ({ bondDid }) => {
       <Tab
         id='reserve_funds'
         prefix={reserveToken.toUpperCase()}
-        color={theme.ixoNewBlue}
+        color={theme.colors.blue[5]}
         header={'Reserve Funds'}
         body={new BigNumber(availableReserve).toFormat()}
         footer={`${percentFormat(availableReserve, currentReserve, 2)} of Capital raise`}
@@ -98,11 +98,11 @@ const BondStatistics: React.FC<Props> = ({ bondDid }) => {
         <Tab
           id='alpha'
           prefix={
-            <SvgBox color={theme.ixoNewBlue} $svgWidth={8} $svgHeight={8}>
+            <SvgBox color={theme.colors.blue[5]} $svgWidth={8} $svgHeight={8}>
               <AlphqbondIcon />
             </SvgBox>
           }
-          color={theme.ixoNewBlue}
+          color={theme.colors.blue[5]}
           header={'Required Hatch'}
           body={currentSupply}
           footer={`${percentFormat(currentSupply, initialRaised, 2)} of ${initialRaised}`}
@@ -112,11 +112,11 @@ const BondStatistics: React.FC<Props> = ({ bondDid }) => {
         <Tab
           id='alpha'
           prefix={
-            <SvgBox color={theme.ixoNewBlue} $svgWidth={8} $svgHeight={8}>
+            <SvgBox color={theme.colors.blue[5]} $svgWidth={8} $svgHeight={8}>
               <AlphqbondIcon />
             </SvgBox>
           }
-          color={theme.ixoNewBlue}
+          color={theme.colors.blue[5]}
           header={'Alpha'}
           body={new BigNumber(publicAlpha).toFormat(2)}
           footer={' '}

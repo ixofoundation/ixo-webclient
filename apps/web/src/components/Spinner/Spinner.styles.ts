@@ -12,7 +12,7 @@ export const Pulse = styled.div`
   border-radius: 50%;
   width: 40px;
   height: 40px;
-  background: ${(props) => props.theme.ixoNewBlue};
+  background: ${(props) => props.theme.colors.blue[5]};
   position: absolute;
   margin: 0;
   padding: 1px;
@@ -21,7 +21,7 @@ export const Pulse = styled.div`
     0% {
       width: 40px;
       height: 40px;
-      background: ${(props): string => props.theme.ixoNewBlue};
+      background: ${(props): string => props.theme.colors.blue[5]};
     }
     100% {
       width: 80px;

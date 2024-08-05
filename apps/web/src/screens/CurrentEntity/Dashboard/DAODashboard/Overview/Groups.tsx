@@ -32,7 +32,7 @@ const Groups = ({ daoGroups }: GroupProps) => {
       <Flex
         gap={4}
         align={'center'}
-        style={{ color: sortBy === 'members' ? theme.ixoNewBlue : theme.ixoDarkBlue, cursor: 'pointer' }}
+        style={{ color: sortBy === 'members' ? theme.colors.blue[5] : theme.ixoDarkBlue, cursor: 'pointer' }}
         onClick={() => (sortBy === 'members' ? setSortDirection((v) => !v) : setSortBy('members'))}
       >
         <Typography size='lg'>Members</Typography>
@@ -47,7 +47,7 @@ const Groups = ({ daoGroups }: GroupProps) => {
       <Flex
         gap={4}
         align={'center'}
-        style={{ color: sortBy === 'treasury' ? theme.ixoNewBlue : theme.ixoDarkBlue, cursor: 'pointer' }}
+        style={{ color: sortBy === 'treasury' ? theme.colors.blue[5] : theme.ixoDarkBlue, cursor: 'pointer' }}
         onClick={() => (sortBy === 'treasury' ? setSortDirection((v) => !v) : setSortBy('treasury'))}
       >
         <Typography size='lg'>Treasury</Typography>
@@ -62,7 +62,7 @@ const Groups = ({ daoGroups }: GroupProps) => {
       <Flex
         gap={4}
         align={'center'}
-        style={{ color: sortBy === 'proposals' ? theme.ixoNewBlue : theme.ixoDarkBlue, cursor: 'pointer' }}
+        style={{ color: sortBy === 'proposals' ? theme.colors.blue[5] : theme.ixoDarkBlue, cursor: 'pointer' }}
         onClick={() => (sortBy === 'proposals' ? setSortDirection((v) => !v) : setSortBy('proposals'))}
       >
         <Typography size='lg'>Proposals</Typography>
@@ -77,7 +77,7 @@ const Groups = ({ daoGroups }: GroupProps) => {
       <Flex
         gap={4}
         align={'center'}
-        style={{ color: sortBy === 'type' ? theme.ixoNewBlue : theme.ixoDarkBlue, cursor: 'pointer' }}
+        style={{ color: sortBy === 'type' ? theme.colors.blue[5] : theme.ixoDarkBlue, cursor: 'pointer' }}
         onClick={() => (sortBy === 'type' ? setSortDirection((v) => !v) : setSortBy('type'))}
       >
         <Typography size='lg'>Type</Typography>

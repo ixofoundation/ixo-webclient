@@ -21,7 +21,7 @@ const FeedItem = () => {
           <Typography size='sm' weight='semi-bold'>
             Clean Cooking Company
           </Typography>
-          <FlexBox width='8px' height='8px' $borderRadius='100px' background={theme.ixoNewBlue} />
+          <FlexBox width='8px' height='8px' $borderRadius='100px' background={theme.colors.blue[5]} />
         </FlexBox>
         <FlexBox>
           <Typography size='md'>Your Stove NFT’s user has purchased 30kg of pellets.</Typography>
@@ -84,7 +84,7 @@ const FeedCard = () => {
               height='24px'
               $justifyContent='center'
               $alignItems='center'
-              background={tab === 'unread' ? theme.ixoNewBlue : `${theme.ixoNewBlue}66`}
+              background={tab === 'unread' ? theme.colors.blue[5] : `${theme.colors.blue[5]}66`}
               cursor='pointer'
               onClick={() => setTab('unread')}
             >
@@ -96,7 +96,7 @@ const FeedCard = () => {
               $justifyContent='center'
               $alignItems='center'
               $borderRadius='100px'
-              background={tab === 'favourite' ? theme.ixoNewBlue : `${theme.ixoNewBlue}66`}
+              background={tab === 'favourite' ? theme.colors.blue[5] : `${theme.colors.blue[5]}66`}
               cursor='pointer'
               onClick={() => setTab('favourite')}
             >

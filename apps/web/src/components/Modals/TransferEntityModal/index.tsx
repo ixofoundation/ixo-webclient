@@ -46,7 +46,7 @@ const TransferEntityModal: React.FC<Props> = ({ open, recipientDid, onClose, onS
               inputValue={did}
               handleChange={(value) => setDid(value)}
               wrapperStyle={{
-                color: did ? (validateDid(did) ? theme.ixoGreen : theme.ixoRed) : theme.ixoNewBlue,
+                color: did ? (validateDid(did) ? theme.ixoGreen : theme.ixoRed) : theme.colors.blue[5],
               }}
             />
             {did && !validateDid(did) && (

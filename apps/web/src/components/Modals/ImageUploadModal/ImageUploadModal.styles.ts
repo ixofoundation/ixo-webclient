@@ -18,7 +18,7 @@ export const SelectImage = styled.div`
   gap: 20px;
 
   & svg > path {
-    fill: ${(props): string => props.theme.ixoNewBlue};
+    fill: ${(props): string => props.theme.colors.blue[5]};
   }
 `
 

@@ -13,16 +13,15 @@ export const HeroContainer = styled.div<HeroContainerProps>`
   position: relative;
   background: ${(props: any): string => {
     if (props.imageUrl) {
-      return `url(${props.imageUrl}) no-repeat center`;
+      return `url(${props.imageUrl}) no-repeat center`
     } else {
-      return props.light ? 'transparent' : props.theme.ixoDarkestBlue;
+      return props.light ? 'transparent' : props.theme.ixoDarkestBlue
     }
   }};
   background-size: cover;
   color: ${(props: any): string => (props.$onlyTitle ? 'white' : 'black')};
-  padding: 4.5rem
+  padding: 4.5rem;
 `
-
 
 export const HeroInner = styled.div`
   font-family: ${(props): string => props.theme.primaryFontFamily};
@@ -182,7 +181,7 @@ export const AddClaim = styled(Link)`
 `
 
 export const SubNavItem = styled(NavLink).attrs({})`
-  color: ${(props: any): string => props.theme.ixoNewBlue};
+  color: ${(props: any): string => props.theme.colors.blue[5]};
   font-family: ${(props: any): string => props.theme.secondaryFontFamily};
   font-weight: 300;
   font-size: 14px;
@@ -190,12 +189,12 @@ export const SubNavItem = styled(NavLink).attrs({})`
 
   &.active,
   :hover {
-    color: ${(props: any): string => props.theme.ixoNewBlue};
+    color: ${(props: any): string => props.theme.colors.blue[5]};
     text-decoration: underline;
   }
 
   + span {
-    color: ${(props: any): string => props.theme.ixoNewBlue};
+    color: ${(props: any): string => props.theme.colors.blue[5]};
     margin: 0 10px;
   }
 `

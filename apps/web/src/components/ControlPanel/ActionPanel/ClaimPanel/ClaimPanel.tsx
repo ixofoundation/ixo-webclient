@@ -13,7 +13,7 @@ import { useParams } from 'react-router-dom'
 const ClaimPanel = ({ data }: { data: any }) => {
   const theme = useTheme()
   const config = useAppSelector(selectEntityConfig)
-  const primaryColor = config.theme.primaryColor ?? theme.ixoNewBlue
+  const primaryColor = config.theme.primaryColor ?? theme.colors.blue[5]
   const { entityId = '' } = useParams<{ entityId: string }>()
 
   const isEntityOwner = useIsEntityOwner({

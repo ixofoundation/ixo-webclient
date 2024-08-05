@@ -80,7 +80,7 @@ const TokenSelector: React.FunctionComponent<Props> = ({
       ...provided,
       background: '#03324A',
       borderRadius: '4px',
-      border: `0.5px solid ${disable ? 'transparent' : theme.ixoNewBlue}`,
+      border: `0.5px solid ${disable ? 'transparent' : theme.colors.blue[5]}`,
       display: 'flex',
       flexGrow: 1,
       padding: 15,
@@ -140,7 +140,7 @@ const TokenSelector: React.FunctionComponent<Props> = ({
             fillRule='evenodd'
             clipRule='evenodd'
             d='M16.2922 0.361711C15.8015 -0.122188 15.006 -0.122188 14.5153 0.361711L8.33002 6.46167L2.14475 0.361711C1.65408 -0.122188 0.858551 -0.122188 0.367884 0.361711C-0.122784 0.84561 -0.122784 1.63017 0.367884 2.11406L7.44159 9.0902C7.93226 9.5741 8.72778 9.5741 9.21845 9.0902L16.2922 2.11406C16.7828 1.63017 16.7828 0.84561 16.2922 0.361711Z'
-            fill={props.isFocused ? theme.ixoNewBlue : '#436779'}
+            fill={props.isFocused ? theme.colors.blue[5] : '#436779'}
           />
         </svg>
       </components.DropdownIndicator>

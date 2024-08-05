@@ -109,7 +109,7 @@ const ClaimButton = ({
       variant='primary'
       onClick={assembleMessageAndExecute}
       disabled={claimStatus === 'Paid'}
-      bg={claimStatus === 'Paid' ? theme.ixoGreen : theme.ixoNewBlue}
+      bg={claimStatus === 'Paid' ? theme.ixoGreen : theme.colors.blue[5]}
       style={{
         color: 'white',
       }}

@@ -54,7 +54,7 @@ const TableWrapper = styled.div`
       }
 
       &:hover {
-        outline-color: ${(props) => props.theme.ixoNewBlue};
+        outline-color: ${(props) => props.theme.colors.blue[5]};
       }
     }
   }
@@ -135,7 +135,7 @@ const AccountsCard: React.FC<Props> = ({ accounts, onSelect }) => {
                   <Typography variant='secondary' color='blue' hover={{ underline: true }}>
                     {truncateString(address, 20, 'middle')}
                   </Typography>
-                  <SvgBox color={theme.ixoNewBlue} $svgWidth={6} $svgHeight={6}>
+                  <SvgBox color={theme.colors.blue[5]} $svgWidth={6} $svgHeight={6}>
                     <CopyIcon />
                   </SvgBox>
                 </FlexBox>
@@ -203,7 +203,7 @@ const AccountsCard: React.FC<Props> = ({ accounts, onSelect }) => {
               $svgWidth={6}
               $svgHeight={6}
               $borderRadius='100%'
-              background={filter[key] ? theme.ixoNewBlue : theme.ixoDarkBlue}
+              background={filter[key] ? theme.colors.blue[5] : theme.ixoDarkBlue}
               cursor='pointer'
               onClick={() => setFilter((filter) => ({ ...filter, [key]: !filter[key] }))}
             >

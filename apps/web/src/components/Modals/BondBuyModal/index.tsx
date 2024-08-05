@@ -151,7 +151,7 @@ const BondBuyModal: React.FC<Props> = ({ open, bondDid, setOpen }): JSX.Element 
                 selectedToken={bondToken!}
                 tokens={[bondToken!]}
                 disabled
-                icon={<Ring fill={theme.ixoNewBlue} />}
+                icon={<Ring fill={theme.colors.blue[5]} />}
                 customLabel={`MAX Available ${availableAmount}`}
               />
               {currentStep === 2 && <img className='check-icon' src={CheckIcon} alt='check-icon' />}

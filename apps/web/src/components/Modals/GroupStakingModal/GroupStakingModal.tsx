@@ -33,7 +33,7 @@ const StyledCurrencyFormat = styled(CurrencyFormat)`
   color: white;
   font-weight: 500;
   text-align: center;
-  border: 1px solid ${(props) => props.theme.ixoNewBlue};
+  border: 1px solid ${(props) => props.theme.colors.blue[5]};
   border-radius: 8px;
 
   &::placeholder {
@@ -50,7 +50,7 @@ const Card = ({ children, ...rest }: HTMLFlexBoxProps) => {
       height='48px'
       $alignItems='center'
       $justifyContent='center'
-      border={`1px solid ${theme.ixoNewBlue}`}
+      border={`1px solid ${theme.colors.blue[5]}`}
       $borderRadius={'8px'}
       {...rest}
     >
@@ -235,7 +235,7 @@ const GroupStakingModal: React.FunctionComponent<Props> = ({ daoGroup, open, set
                   border={`1px solid ${theme.ixoDarkBlue}`}
                   $boxShadow={theme.ixoShadow2}
                 >
-                  <SvgBox color={theme.ixoNewBlue} $svgHeight={8}>
+                  <SvgBox color={theme.colors.blue[5]} $svgHeight={8}>
                     <ArrowDownIcon />
                   </SvgBox>
                 </FlexBox>

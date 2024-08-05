@@ -22,7 +22,7 @@ export const DiscountsOptionWrapper = styled.div`
     cursor: pointer;
     &.active {
       color: #ffffff;
-      background: ${(props) => props.theme.ixoNewBlue};
+      background: ${(props) => props.theme.colors.blue[5]};
     }
     & > div > input {
       width: 32px;

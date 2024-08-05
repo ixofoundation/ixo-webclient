@@ -52,7 +52,7 @@ const UserItem: React.FC<UserItemProps> = ({ onClick }) => {
           <Typography size='sm' weight='semi-bold'>
             Jane Doe
           </Typography>
-          <FlexBox width='8px' height='8px' $borderRadius='100px' background={theme.ixoNewBlue} />
+          <FlexBox width='8px' height='8px' $borderRadius='100px' background={theme.colors.blue[5]} />
         </FlexBox>
         <FlexBox>
           <Typography size='md'>How’s it going? Your Stove NFT’s user has purchased 30kg of pellets.</Typography>
@@ -89,7 +89,7 @@ const MessageBox = () => {
       <FlexBox
         position='relative'
         width='100%'
-        border={`1px solid ${theme.ixoNewBlue}`}
+        border={`1px solid ${theme.colors.blue[5]}`}
         $borderRadius='16px'
         py={5}
         px={3}
@@ -100,7 +100,7 @@ const MessageBox = () => {
           right={'0px'}
           top='50%'
           transform='translate(-50%, -50%)'
-          color={theme.ixoNewBlue}
+          color={theme.colors.blue[5]}
           $svgWidth={8}
           $svgHeight={8}
           cursor='pointer'
@@ -146,7 +146,7 @@ const MessagesCard = () => {
                 height='24px'
                 $justifyContent='center'
                 $alignItems='center'
-                background={tab === 'unread' ? theme.ixoNewBlue : `${theme.ixoNewBlue}66`}
+                background={tab === 'unread' ? theme.colors.blue[5] : `${theme.colors.blue[5]}66`}
                 cursor='pointer'
                 onClick={() => setTab('unread')}
               >

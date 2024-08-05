@@ -4,7 +4,7 @@ import { ReactComponent as PlusIconSvg } from '/public/assets/images/icon-plus.s
 
 export const CardWrapper = styled(FlexBox)`
   padding: 1.75rem;
-  border: 1px solid ${(props): string => props.theme.ixoNewBlue};
+  border: 1px solid ${(props): string => props.theme.colors.blue[5]};
   border-radius: 0.5rem;
   width: 100%;
 
@@ -24,9 +24,9 @@ export const PlusIcon = styled(PlusIconSvg)<{ color?: string }>`
   width: 1.5rem;
   height: 1.5rem;
 
-  color: ${(props): string => props.color ?? props.theme.ixoNewBlue};
+  color: ${(props): string => props.color ?? props.theme.colors.blue[5]};
 
   path {
-    fill: ${(props): string => props.color ?? props.theme.ixoNewBlue};
+    fill: ${(props): string => props.color ?? props.theme.colors.blue[5]};
   }
 `

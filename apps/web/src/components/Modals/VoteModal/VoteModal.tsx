@@ -76,7 +76,7 @@ const VoteModal: React.FunctionComponent<Props> = ({ open, setOpen, onVote }) =>
               $gap={2}
               color={'white'}
               cursor='pointer'
-              hover={{ color: theme.ixoNewBlue }}
+              hover={{ color: theme.colors.blue[5] }}
             >
               <FlexBox
                 width='120px'
@@ -84,7 +84,7 @@ const VoteModal: React.FunctionComponent<Props> = ({ open, setOpen, onVote }) =>
                 $borderRadius='8px'
                 $justifyContent='center'
                 $alignItems='center'
-                $borderColor={theme.ixoNewBlue}
+                $borderColor={theme.colors.blue[5]}
                 $borderWidth={'1px'}
                 $borderStyle='solid'
                 color='currentColor'

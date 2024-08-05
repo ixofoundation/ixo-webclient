@@ -22,7 +22,7 @@ const Check = styled.span<{ checked: boolean; $isDark: boolean }>`
     width: 16px;
     height: 16px;
     border-radius: 50%;
-    background: ${(props): string => props.theme.ixoNewBlue};
+    background: ${(props): string => props.theme.colors.blue[5]};
     transition: opacity 0.2s;
   }
 `

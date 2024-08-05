@@ -135,7 +135,11 @@ const TransferEntityTo: React.FC = (): JSX.Element => {
                 label='Recipient ixo did'
                 inputValue={recipientDid}
                 wrapperStyle={{
-                  color: recipientDid ? (validateDid(recipientDid) ? theme.ixoGreen : theme.ixoRed) : theme.ixoNewBlue,
+                  color: recipientDid
+                    ? validateDid(recipientDid)
+                      ? theme.ixoGreen
+                      : theme.ixoRed
+                    : theme.colors.blue[5],
                 }}
                 handleChange={updateRecipientDid}
               />

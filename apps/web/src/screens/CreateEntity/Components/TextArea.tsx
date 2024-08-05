@@ -5,7 +5,7 @@ import styled, { useTheme } from 'styled-components'
 
 const StyledTextArea = styled.textarea<{ width: string; height: string }>`
   border-radius: 8px;
-  border: 1px solid ${(props): string => props.theme.ixoNewBlue};
+  border: 1px solid ${(props): string => props.theme.colors.blue[5]};
   width: ${(props): string => props.width};
   height: ${(props): string => props.height};
 
@@ -71,7 +71,7 @@ const TextArea: React.FC<Props> = ({
       position='relative'
       width='100%'
       $lineHeight='0'
-      style={{ color: rest.disabled ? theme.ixoGrey500 : theme.ixoNewBlue }}
+      style={{ color: rest.disabled ? theme.ixoGrey500 : theme.colors.blue[5] }}
     >
       {label && (
         <Box
