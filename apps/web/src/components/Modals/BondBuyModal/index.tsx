@@ -15,7 +15,7 @@ import { GetBuyPrice, Buy, SetNextAlpha } from 'lib/protocol'
 import { isLessThan, subtract, toFixed } from 'utils/currency'
 import { useIxoConfigs } from 'hooks/configs'
 import { useGetBondDid } from 'graphql/bonds'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import { NATIVE_DENOM } from 'constants/chains'
 import BigNumber from 'bignumber.js'
 import { useMapBondDetail } from 'hooks/bond'
@@ -27,7 +27,7 @@ interface Props {
 }
 
 const BondBuyModal: React.FC<Props> = ({ open, bondDid, setOpen }): JSX.Element => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const { convertToDenom, convertToMinimalDenom } = useIxoConfigs()
   const { displayBalances: balances, signingClient, did, address, updateBalances } = useAccount()
   const { data: bondDetail } = useGetBondDid(bondDid)

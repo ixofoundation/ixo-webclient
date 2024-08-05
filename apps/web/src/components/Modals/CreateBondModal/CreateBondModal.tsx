@@ -6,7 +6,7 @@ import { AlphaBondInfo } from 'types/bond'
 import { FlexBox } from 'components/App/App.styles'
 import { Button, Dropdown, TextArea } from 'screens/CreateEntity/Components'
 import { InputWithLabel } from 'components/Form/InputWithLabel'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import { generateBondDid } from 'utils/bond'
 import { CreateBondMessage } from 'lib/protocol'
 import { useAccount } from 'hooks/account'
@@ -26,7 +26,7 @@ interface Props {
 }
 
 const CreateBondModal: React.FC<Props> = ({ open, bondDid, onSubmit, onClose }): JSX.Element => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const { signer } = useAccount()
   const { getAssetPairs, convertToMinimalDenom, convertToDenom } = useIxoConfigs()
   const { data: bondDetailFromApi } = useGetBondDid(bondDid)

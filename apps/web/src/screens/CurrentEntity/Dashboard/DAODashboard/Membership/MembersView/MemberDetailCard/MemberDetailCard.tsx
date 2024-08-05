@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { ReactComponent as ProfileIcon } from '/public/assets/images/icon-profile.svg'
 import { ReactComponent as TimesIcon } from '/public/assets/images/icon-times.svg'
 import { Button, RangeInput, Switch } from 'screens/CreateEntity/Components'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 
 interface Props {
   member: {
@@ -27,7 +27,7 @@ interface Props {
 }
 
 const MemberDetailCard: React.FC<Props> = ({ member, onClose }): JSX.Element => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const [status, setStatus] = useState(member.status)
   const [verified, setVerified] = useState(member.verified)
   const [administrator, setAdministrator] = useState(member.administrator)

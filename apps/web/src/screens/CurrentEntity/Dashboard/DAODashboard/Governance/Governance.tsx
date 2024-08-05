@@ -5,7 +5,7 @@ import { Button } from 'screens/CreateEntity/Components'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { ProposalResponse } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
 import { ReactComponent as EmptyIcon } from '/public/assets/images/icon-empty.svg'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
 import { TDAOGroupModel } from 'types/entities'
 import { Flex, Button as MButton, UnstyledButton } from '@mantine/core'
@@ -29,7 +29,7 @@ const GovernanceHeader = React.memo(({ selectedDAOGroup }: { selectedDAOGroup?: 
 ))
 
 const Governance: React.FC = () => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const { entityId = '' } = useParams<{ entityId: string }>()
   const navigate = useNavigate()
   const { getQuery } = useQuery()

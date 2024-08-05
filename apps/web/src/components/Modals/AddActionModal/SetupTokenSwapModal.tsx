@@ -9,7 +9,7 @@ import SetupActionModalTemplate from './SetupActionModalTemplate'
 import { ReactComponent as CopyIcon } from '/public/assets/images/icon-copy.svg'
 import { ReactComponent as SyncIcon } from '/public/assets/images/icon-sync-alt-solid.svg'
 import { ReactComponent as TimesIcon } from '/public/assets/images/icon-times.svg'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 
 export interface Counterparty {
   address: string
@@ -45,7 +45,7 @@ interface Props {
 }
 
 const SetupTokenSwapModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const [formData, setFormData] = useState<PerformTokenSwapData>(initialState)
   const [reviewing, setReviewing] = useState(false)
 

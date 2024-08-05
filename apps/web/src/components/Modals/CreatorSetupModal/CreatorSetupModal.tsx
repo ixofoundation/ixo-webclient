@@ -11,7 +11,7 @@ import { useDropzone } from 'react-dropzone'
 import ImageCropModal from '../ImageCropModal/ImageCropModal'
 import PulseLoader from 'components/Spinner/PulseLoader/PulseLoader'
 import { deviceWidth } from 'constants/device'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import { useCreateEntity } from 'hooks/createEntity'
 
 const cellNodeEndpoint = PDS_URL
@@ -26,7 +26,7 @@ interface Props {
 }
 
 const CreatorSetupModal: React.FC<Props> = ({ creator, title, open, onClose, onChange, onClone }): JSX.Element => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const [formData, setFormData] = useState<FormData | undefined>(undefined)
   const [cropModalOpen, setCropModalOpen] = useState(false)
   const [loading, setLoading] = useState(false)

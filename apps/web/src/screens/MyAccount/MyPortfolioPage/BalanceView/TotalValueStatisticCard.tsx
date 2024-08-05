@@ -4,7 +4,7 @@ import { Typography } from 'components/Typography'
 import { Card } from 'screens/CurrentEntity/Components'
 import React from 'react'
 import CurrencyFormat from 'react-currency-format'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import { ResponsiveContainer, Line, LineChart } from 'recharts'
 import { SvgBox } from 'components/App/App.styles'
 import { ReactComponent as CoinsIcon } from '/public/assets/images/icon-coins-solid.svg'
@@ -42,7 +42,7 @@ const data = [
 ]
 
 const TotalValueStatisticCard: React.FC = () => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const availableValue = useAccountUSDBalances()
   const { totalStakedBalance: stakedValue } = useAccountStakedBalances()
 

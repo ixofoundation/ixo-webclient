@@ -110,7 +110,7 @@ interface Props {
 }
 
 const UserStakes: React.FC<Props> = ({ show, coreAddress, userAddress }) => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const { pathname } = useLocation()
   const navigate = useNavigate()
   const { cwClient, address } = useAccount()

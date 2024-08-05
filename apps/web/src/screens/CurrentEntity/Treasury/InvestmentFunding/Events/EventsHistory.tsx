@@ -48,7 +48,7 @@ const TableWrapper = styled(FlexBox)`
 `
 
 const EventsHistory: React.FC = () => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const { convertToDenom } = useIxoConfigs()
   const tableData: any[] = []
 

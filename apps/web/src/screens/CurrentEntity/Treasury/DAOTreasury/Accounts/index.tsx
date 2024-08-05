@@ -9,7 +9,7 @@ import { Button } from 'screens/CreateEntity/Components'
 import { Card } from 'screens/CurrentEntity/Components'
 import React, { useMemo, useState } from 'react'
 import CopyToClipboard from 'react-copy-to-clipboard'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import { truncateString } from 'utils/formatters'
 import { successToast } from 'utils/toast'
 import { Coins } from '../../Components/Coins'
@@ -38,7 +38,7 @@ export interface TTreasuryAccountModel {
 }
 
 const Accounts: React.FC = () => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const { getQuery } = useQuery()
   const expand: string | undefined = getQuery('expand')
   const { entityId = '' } = useParams<{ entityId: string }>()

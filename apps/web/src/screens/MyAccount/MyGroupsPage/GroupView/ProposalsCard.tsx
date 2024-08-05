@@ -3,7 +3,7 @@ import React, { useMemo } from 'react'
 import { TDAOGroupModel } from 'types/entities'
 import { Badge, Button, Flex } from '@mantine/core'
 import { Typography } from 'components/Typography'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import { SvgBox } from 'components/App/App.styles'
 
 import { ReactComponent as AgentIcon } from '/public/assets/img/sidebar/agents.svg'
@@ -18,7 +18,7 @@ interface Props {
 }
 const ProposalsCard: React.FC<Props> = ({ daoGroup }) => {
   const navigate = useNavigate()
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
 
   const dao = useGetDAOByGroupAddress(daoGroup.coreAddress)
 

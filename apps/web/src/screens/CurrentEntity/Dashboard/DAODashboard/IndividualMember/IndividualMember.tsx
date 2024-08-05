@@ -14,12 +14,12 @@ import { truncateString } from 'utils/formatters'
 import CopyToClipboard from 'react-copy-to-clipboard'
 import { ReactComponent as CopyIcon } from '/public/assets/images/icon-copy.svg'
 import * as Toast from 'utils/toast'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import { useAppSelector } from 'redux/hooks'
 import { getEntityById } from 'redux/entities/entities.selectors'
 
 const IndividualMember: React.FC = () => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const { address = '', entityId = '' } = useParams<{ address: string; entityId: string }>()
   const navigate = useNavigate()
   const { state, pathname } = useLocation()

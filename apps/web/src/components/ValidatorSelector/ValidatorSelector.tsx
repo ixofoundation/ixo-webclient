@@ -71,7 +71,7 @@ const ValidatorSelector: React.FunctionComponent<Props> = ({
   selectedValidator,
   handleChange,
 }) => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const customStyles = {
     indicatorsContainer: (provided: any): any => ({
       ...provided,

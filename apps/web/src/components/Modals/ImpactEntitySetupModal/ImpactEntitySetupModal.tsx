@@ -5,7 +5,7 @@ import { ModalStyles, CloseButton, ModalWrapper, ModalTitle } from 'components/M
 import { Button, ChainSelector, Input } from 'screens/CreateEntity/Components'
 import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { ReactComponent as SearchIcon } from '/public/assets/images/icon-search.svg'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import { LinkedEntity } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { useGetEntityById } from 'graphql/entities'
 
@@ -16,7 +16,7 @@ interface Props {
 }
 
 const ImpactEntitySetupModal: React.FC<Props> = ({ open, onClose, onAdd }): JSX.Element => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const SearchInputStyles = {
     fontFamily: theme.secondaryFontFamily,
     fontWeight: 500,

@@ -6,7 +6,7 @@ import { apiEntityToEntity } from 'utils/entities'
 import { Typography } from 'components/Typography'
 import { NavLink } from 'react-router-dom'
 import { useAccount } from 'hooks/account'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import { TEntityModel } from 'types/entities'
 import { thousandSeparator } from 'utils/formatters'
 import { useGetAccountTokens } from 'graphql/tokens'
@@ -24,7 +24,7 @@ const AssetCard: React.FC<Props> = ({
   selected = false,
   isSelecting = false,
 }): JSX.Element => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const { cwClient } = useAccount()
   const [entity, setEntity] = useState<TEntityModel>()
 

@@ -22,7 +22,7 @@ interface Props {
 }
 
 const SetupEditEntityModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const SearchInputStyles = {
     fontFamily: theme.secondaryFontFamily,
     fontWeight: 500,

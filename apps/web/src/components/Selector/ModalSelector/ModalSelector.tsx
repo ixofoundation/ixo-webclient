@@ -37,7 +37,7 @@ const ModalSelector: React.FunctionComponent<Props> = ({
   icon,
   handleChange,
 }) => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const customStyles: StylesConfig<any, false> = {
     indicatorsContainer: (provided): any => ({
       ...provided,

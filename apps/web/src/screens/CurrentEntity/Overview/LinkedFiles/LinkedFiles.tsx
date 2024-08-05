@@ -5,7 +5,7 @@ import React from 'react'
 import { ReactComponent as PdfIcon } from '/public/assets/images/linked-files/pdf.svg'
 import { ReactComponent as ImageIcon } from '/public/assets/images/linked-files/image.svg'
 import { ReactComponent as TextIcon } from '/public/assets/images/linked-files/text.svg'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import { serviceEndpointToUrl } from 'utils/entities'
 
 const MediaTypeToIconMap = {
@@ -16,7 +16,7 @@ const MediaTypeToIconMap = {
 }
 
 const LinkedFileBox = (props: LinkedResource & { service: any }) => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const Icon = MediaTypeToIconMap[props.mediaType]
   const to = serviceEndpointToUrl(props.serviceEndpoint, props.service)
 

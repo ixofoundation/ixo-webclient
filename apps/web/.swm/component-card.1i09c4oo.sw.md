@@ -19,7 +19,7 @@ Form Card component used in creation flow (light mode)
 
 ```tsx
 11     export const FormCard: React.FC<PropsWithChildren<FormCardProp>> = ({ preIcon, title, children }) => {
-12       const theme: any = useTheme()
+12       const theme = useMantineTheme()
 13       return (
 14         <FlexBox
 15           $direction='column'

@@ -35,7 +35,7 @@ const StyledInput = styled(Input)`
 `
 
 const Card = ({ children, ...rest }: HTMLFlexBoxProps) => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   return (
     <FlexBox
       p={2}
@@ -67,7 +67,7 @@ const DepositModal: React.FunctionComponent<Props> = ({
   setOpen,
   onSuccess,
 }) => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const { signer, nativeTokens, cw20Tokens, cwClient } = useAccount()
   const [tokenOptions, setTokenOptions] = useState<{ text: string; value: string }[]>([
     { value: NATIVE_MICRODENOM, text: NATIVE_DENOM },

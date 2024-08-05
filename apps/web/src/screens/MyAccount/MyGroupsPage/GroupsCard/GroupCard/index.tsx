@@ -2,7 +2,7 @@ import { Avatar, Flex } from '@mantine/core'
 import { Typography } from 'components/Typography'
 import { useGetDAOByGroupAddress } from 'hooks/dao'
 import React, { useEffect, useMemo, useState } from 'react'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import { TEntityModel, TDAOGroupModel } from 'types/entities'
 import { useAccount } from 'hooks/account'
 import { SvgBox } from 'components/App/App.styles'
@@ -21,7 +21,7 @@ interface Props {
   daoGroup: TDAOGroupModel
 }
 const GroupCard: React.FC<Props> = ({ daoGroup }) => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const { getQuery } = useQuery()
   const selectedGroup = getQuery('selectedGroup')
   const navigate = useNavigate()

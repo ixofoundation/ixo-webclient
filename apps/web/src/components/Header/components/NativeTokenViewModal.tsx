@@ -18,7 +18,7 @@ import { Button } from 'screens/CreateEntity/Components'
 import { Avatar } from 'screens/CurrentEntity/Components'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import CurrencyFormat from 'react-currency-format'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import { NativeToken } from 'types/tokens'
 import { convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
 import { convertDecCoinToCoin, plus } from 'utils/currency'
@@ -31,7 +31,7 @@ interface Props {
 }
 
 const NativeTokenViewModal: React.FC<Props> = ({ open, token, onClose }) => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const { execute, close } = useWallet()
   const { address, updateBalances } = useAccount()
   const availableBalance = token.balance

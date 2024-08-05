@@ -69,7 +69,7 @@ const Dropdown: React.FC<Props> = ({
   label = '',
   ...rest
 }): JSX.Element => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   return (
     <Wrapper style={{ color: rest.disabled ? theme.ixoGrey500 : theme.ixoNewBlue, ...(wrapperStyle ?? {}) }}>
       {label && (

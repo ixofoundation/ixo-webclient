@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom'
 import { selectEntityConfig } from 'redux/configs/configs.selectors'
 import { getEntityById } from 'redux/entities/entities.selectors'
 import { useAppSelector } from 'redux/hooks'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 
 export const ResourceTable = () => {
   const theme = useTheme()
@@ -34,7 +34,12 @@ export const ResourceTable = () => {
   return (
     <Flex w='100%' justify={'center'}>
       <Box w='70%'>
-        <KeyValueTable valueType={"resource"} columns={linkedResourceColumns} data={linkedResource} themeColor={primaryColor} />
+        <KeyValueTable
+          valueType={'resource'}
+          columns={linkedResourceColumns}
+          data={linkedResource}
+          themeColor={primaryColor}
+        />
       </Box>
     </Flex>
   )

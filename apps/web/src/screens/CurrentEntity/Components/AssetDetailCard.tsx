@@ -15,7 +15,7 @@ import { contracts } from '@ixo/impactxclient-sdk'
 import { convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
 import { plus } from 'utils/currency'
 import { claimAvailable } from 'utils/tokenClaim'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import useCurrentEntity, { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
 import { useQuery } from 'hooks/window'
 import { useAppSelector } from 'redux/hooks'
@@ -73,7 +73,7 @@ const AssetDetailCard: React.FC<Props> = ({
   userAddress,
   ...rest
 }) => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const navigate = useNavigate()
   const { cwClient, address } = useAccount()
   const { updateDAOGroup } = useCurrentEntity()

@@ -12,7 +12,7 @@ import { default as ImageCropModal } from '../ImageCropModal/ImageCropModal'
 import { Button } from 'screens/CreateEntity/Components'
 import { Typography } from 'components/Typography'
 import * as Toast from 'utils/toast'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import { useCreateEntity } from 'hooks/createEntity'
 
 interface Props {
@@ -32,7 +32,7 @@ const ImageUploadModal: React.FC<Props> = ({
   circularCrop,
   handleChange,
 }): JSX.Element => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const [imgSrc, setImgSrc] = useState(undefined)
   const [imgContentType, setImgContentType] = useState('')
   const [tempValue, setTempValue] = useState(value)

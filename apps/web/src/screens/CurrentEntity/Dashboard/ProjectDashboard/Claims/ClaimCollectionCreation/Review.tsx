@@ -9,7 +9,7 @@ import { Button } from 'screens/CreateEntity/Components'
 import React, { useMemo } from 'react'
 import { selectEntityById } from 'redux/entities/entities.selectors'
 import { useAppSelector } from 'redux/hooks'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import { DurationUnits, DurationWithUnits } from 'types/dao'
 import { convertNanoSecondsToSeconds, convertSecondsToDurationWithUnits } from 'utils/conversions'
 
@@ -28,7 +28,7 @@ interface Props {
   loading: boolean
 }
 const ClaimCollectionCreationReviewStep: React.FC<Props> = ({ hidden, loading, data, onSubmit, onCancel }) => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const { convertToDenom } = useIxoConfigs()
   const { claims } = useCurrentEntityClaims()
   const claim = claims[data.claimId]

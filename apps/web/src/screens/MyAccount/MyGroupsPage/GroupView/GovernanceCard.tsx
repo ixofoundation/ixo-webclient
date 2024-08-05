@@ -6,7 +6,7 @@ import { SvgBox } from 'components/App/App.styles'
 import PieChart from 'components/Widgets/PieChart'
 import { Typography } from 'components/Typography'
 import { ReactComponent as CoinsIcon } from '/public/assets/images/icon-coins-solid.svg'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import { useAccount } from 'hooks/account'
 import CurrencyFormat from 'react-currency-format'
 import BigNumber from 'bignumber.js'
@@ -17,7 +17,7 @@ interface Props {
 }
 const GovernanceCard: React.FC<Props> = ({ daoGroup }) => {
   const token = daoGroup.token
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const { address } = useAccount()
   const userVotingPower = useMemo(() => {
     const totalWeight = daoGroup?.votingModule.totalWeight

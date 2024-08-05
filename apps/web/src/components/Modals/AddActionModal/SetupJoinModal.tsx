@@ -5,7 +5,7 @@ import { TProposalActionModel } from 'types/protocol'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 import { validateEntityDid } from 'utils/validation'
 import { Typography } from 'components/Typography'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import { useAccount } from 'hooks/account'
 import { useAppSelector } from 'redux/hooks'
 import { selectEntitiesByType } from 'redux/entities/entities.selectors'
@@ -26,7 +26,7 @@ interface Props {
 }
 
 const SetupJoinModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const daos = useAppSelector(selectEntitiesByType('dao'))
   const { address } = useAccount()
   const [daoId, setDAOId] = useState('')

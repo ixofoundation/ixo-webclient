@@ -7,7 +7,7 @@ import Lottie from 'react-lottie'
 import { useNavigate } from 'react-router'
 import { selectEntityConfig } from 'redux/configs/configs.selectors'
 import { useAppSelector } from 'redux/hooks'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import { thousandSeparator } from 'utils/formatters'
 import { getEntityIcon } from 'utils/getEntityIcon'
 
@@ -44,7 +44,7 @@ export const DaoCard: React.FC<Props> = ({
   loading,
   ...rest
 }): JSX.Element | null => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const navigate = useNavigate()
   const config = useAppSelector(selectEntityConfig)
   const design = config.UI?.explorer?.design

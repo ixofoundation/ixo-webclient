@@ -2,7 +2,7 @@ import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { useGetBondDid } from 'graphql/bonds'
 import React, { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import Tab from './Tab'
 import { ReactComponent as AlphqbondIcon } from '/public/assets/images/icon-alphabond.svg'
 import { Spinner } from 'components/Spinner/Spinner'
@@ -17,7 +17,7 @@ interface Props {
 }
 
 const BondStatistics: React.FC<Props> = ({ bondDid }) => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const navigate = useNavigate()
   const { data: bondDetail } = useGetBondDid(bondDid)
   const {

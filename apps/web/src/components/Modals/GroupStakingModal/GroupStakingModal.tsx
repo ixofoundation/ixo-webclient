@@ -42,7 +42,7 @@ const StyledCurrencyFormat = styled(CurrencyFormat)`
 `
 
 const Card = ({ children, ...rest }: HTMLFlexBoxProps) => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   return (
     <FlexBox
       p={2}
@@ -67,7 +67,7 @@ interface Props {
 }
 
 const GroupStakingModal: React.FunctionComponent<Props> = ({ daoGroup, open, setOpen, onSuccess }) => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const { cwClient, address } = useAccount()
   const { entityId = '' } = useParams<{ entityId: string }>()
   const { profile } = useAppSelector(getEntityById(entityId))

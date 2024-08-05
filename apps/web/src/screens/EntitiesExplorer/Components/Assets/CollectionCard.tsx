@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { apiEntityToEntity } from 'utils/entities'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import { Typography } from 'components/Typography'
 import { getSDGIcon } from 'components/Modals/SelectionModal/SelectionModal'
 import { useAccount } from 'hooks/account'
@@ -10,12 +10,12 @@ import { useGetAssetDevicesByCollectionIdAndOwner } from 'graphql/entities'
 import { transformStorageEndpoint } from '@ixo-webclient/utils'
 
 const CollectionCard: React.FC<any> = (apiEntity) => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const { address } = useAccount()
   const [collection, setCollection] = useState<TEntityModel>()
 
   const collectionId = apiEntity.id
-  const logo = transformStorageEndpoint(collection?.token?.properties?.icon ?? "")
+  const logo = transformStorageEndpoint(collection?.token?.properties?.icon ?? '')
   const image = collection?.profile?.image
   const collectionName = collection?.token?.name
   const name = collection?.profile?.name

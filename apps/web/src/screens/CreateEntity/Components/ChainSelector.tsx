@@ -16,7 +16,7 @@ interface Props {
 }
 
 const ChainSelector: React.FC<Props> = ({ chainId, onChange }): JSX.Element => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const { getRelayerNameByChainId, getRelayerNameAndChainIdList } = useIxoConfigs()
   const Chains = getRelayerNameAndChainIdList()
 

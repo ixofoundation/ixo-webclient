@@ -1,7 +1,7 @@
 import { Avatar, Box, Flex } from '@mantine/core'
 import { Typography } from 'components/Typography'
 import React, { useEffect, useMemo, useState } from 'react'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import { TDAOGroupModel } from 'types/entities'
 import { SvgBox } from 'components/App/App.styles'
 import { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
@@ -28,7 +28,7 @@ interface Props {
   daoGroup: TDAOGroupModel
 }
 const GroupCard: React.FC<Props> = ({ daoGroup }) => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const { entityId = '' } = useParams<{ entityId: string }>()
 
   const entity = useAppSelector(getEntityById(entityId))

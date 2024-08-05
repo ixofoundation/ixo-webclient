@@ -1,5 +1,5 @@
 import { FlexBox, SvgBox } from 'components/App/App.styles'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import { Typography } from 'components/Typography'
 // import { ReactComponent as ArrowRightIcon } from '/public/assets/images/icon-arrow-right.svg'
 import { ReactComponent as WalletIcon } from '/public/assets/images/icon-wallet-solid.svg'
@@ -12,7 +12,7 @@ import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 import { truncateString } from 'utils/formatters'
 
 const BalanceCard = () => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const { name, nativeTokens } = useAccount()
   const [isModalOpen, setIsModalOpen] = useState(false)
 

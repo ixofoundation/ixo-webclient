@@ -28,7 +28,7 @@ import { useQuery } from 'hooks/window'
 import { ReactComponent as CheckCircleIcon } from '/public/assets/images/icon-check-circle.svg'
 import { ReactComponent as ExclamationIcon } from '/public/assets/images/icon-exclamation-circle.svg'
 import { LinkedResourceSetupModal } from 'components/Modals'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import { EntityLinkedResourceConfig, ProposalActionConfig } from 'constants/entity'
 import { useWallet } from '@ixo-webclient/wallet-connector'
 import { DeliverTxResponse } from '@cosmjs/stargate'
@@ -40,7 +40,7 @@ import { useEntity } from 'hooks/entity/useEntity'
 import { currentRelayerNode } from 'constants/common'
 
 const ReviewProposal: React.FC = () => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const navigate = useNavigate()
   const { entityId = '', coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
   const { refetch } = useEntity(entityId)

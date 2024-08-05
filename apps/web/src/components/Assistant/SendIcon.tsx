@@ -3,10 +3,10 @@ import { Flex, UnstyledButton } from '@mantine/core'
 import { ReactComponent as AssistantIcon } from '/public/assets/images/icon-assistant.svg'
 import { ReactComponent as SendPlaneIcon } from '/public/assets/images/icon-send-plane.svg'
 import { SvgBox } from 'components/App/App.styles'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 
 export default function SendIcon({ typedMessage, sendMessage }: { typedMessage: string; sendMessage: () => void }) {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
 
   if (typedMessage?.length > 0)
     return (

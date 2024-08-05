@@ -56,7 +56,7 @@ const TokenSelector: React.FunctionComponent<Props> = ({
   handleChange,
   className = '',
 }) => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
 
   const customStyles = {
     indicatorsContainer: (provided: any): any => ({

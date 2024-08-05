@@ -1,12 +1,12 @@
 import { Flex, Text } from '@mantine/core'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 
 type Props = {
   message: string
 }
 
 export function UserMessage({ message }: Props) {
-  const theme: any = useTheme()
+  const theme: any = useMantineTheme()
   if (!message) return null
   return (
     <Text p='lg' style={{ backgroundColor: theme.ixoGrey300, borderRadius: '16px' }} fw={300}>
@@ -22,7 +22,7 @@ export function AssistantErrorMessage({ error }: { error: Error }) {
       align='flex-end'
       bg={'rgba(255, 99, 71, .1)'}
       justify='space-between'
-      style={{ border: 'red 1px solid', borderRadius: '8px', padding: '8px'}}
+      style={{ border: 'red 1px solid', borderRadius: '8px', padding: '8px' }}
       my={4}
     >
       <Text>{error.message}</Text>
@@ -39,7 +39,7 @@ export function AssistantMessage({ message }: Props) {
 }
 
 export function AssistantThinkingMessage() {
-  const theme: any = useTheme()
+  const theme: any = useMantineTheme()
   return (
     <Text p='lg' fw={300} color={theme.ixoGrey900}>
       Thinking...

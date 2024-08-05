@@ -101,7 +101,7 @@ export const InputWithLabel: React.FC<Props> = ({
   error,
   ...rest
 }): JSX.Element => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const inputRef = useRef(undefined)
   const [focused, setFocused] = useState(false)
   const filled = useMemo(() => focused || !!inputValue, [focused, inputValue])

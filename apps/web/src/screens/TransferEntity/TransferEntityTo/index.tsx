@@ -6,7 +6,7 @@ import { ReactComponent as ArrowCircleRightIcon } from '/public/assets/images/ic
 import { Button, InputWithLabel, Switch } from 'screens/CreateEntity/Components'
 import { useTransferEntityState } from 'hooks/transferEntity'
 import { validateDid, validateWasmDid } from 'utils/validation'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import { Typography } from 'components/Typography'
 import { ReactComponent as TimesCircleIcon } from '/public/assets/images/icon-times-circle.svg'
 import { ReactComponent as CheckCircleIcon } from '/public/assets/images/icon-check-circle.svg'
@@ -20,7 +20,7 @@ import { useAppSelector } from 'redux/hooks'
 import { useWallet } from '@ixo-webclient/wallet-connector'
 
 const TransferEntityTo: React.FC = (): JSX.Element => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const navigate = useNavigate()
   const { entityId = '' } = useParams<{ entityId: string }>()
   const currentEntity = useAppSelector(getEntityById(entityId))

@@ -26,7 +26,6 @@ import * as CurrentEntity from 'screens/CurrentEntity/CurrentEntity.route'
 import * as EntityOverview from 'screens/CurrentEntity/Overview/Overview.route'
 import * as EntityDashboard from 'screens/CurrentEntity/Dashboard/Dashboard.route'
 import * as Explore from 'screens/EntitiesExplorer/EntitiesExplorer.route'
-import * as EntityExchange from 'screens/EntityExchange/EntityExchange.route'
 import * as MyAccount from 'screens/MyAccount/MyAccount.route'
 import * as ProposalOverview from 'screens/CurrentEntity/Proposal/ProposalOverview.route'
 
@@ -60,10 +59,6 @@ const router = createBrowserRouter([
       {
         path: 'explore',
         element: <Explore.Component />,
-      },
-      {
-        path: 'exchange/*',
-        Component: EntityExchange.Component,
       },
       {
         path: 'myaccount/*',

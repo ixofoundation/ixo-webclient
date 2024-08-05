@@ -6,12 +6,12 @@ import { GetGranteeRole } from 'lib/protocol'
 import { useEffect, useState } from 'react'
 import { getEntityById } from 'redux/entities/entities.selectors'
 import { useAppSelector } from 'redux/hooks'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import { AgentRoles } from 'types/models'
 import { useCurrentEntityAdminAccount } from './currentEntity'
 
 export function useClaimSetting() {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
 
   return {
     [ixo.claims.v1beta1.EvaluationStatus.PENDING]: {

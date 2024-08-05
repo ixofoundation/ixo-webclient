@@ -1,4 +1,4 @@
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import { Card } from '../Card'
 import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { Avatar } from 'screens/CurrentEntity/Components'
@@ -10,7 +10,7 @@ import { ReactComponent as SearchIcon } from '/public/assets/images/icon-search.
 import { ReactComponent as ArrowUpIcon } from '/public/assets/images/icon-arrow-up.svg'
 
 const SearchBox = () => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const [keyword, setKeyword] = useState('')
 
   return (
@@ -32,7 +32,7 @@ interface UserItemProps {
   onClick: () => void
 }
 const UserItem: React.FC<UserItemProps> = ({ onClick }) => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   return (
     <FlexBox
       width='100%'
@@ -63,7 +63,7 @@ const UserItem: React.FC<UserItemProps> = ({ onClick }) => {
 }
 
 const MessageBox = () => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const [message, setMessage] = useState('')
 
   return (
@@ -113,7 +113,7 @@ const MessageBox = () => {
 }
 
 const MessagesCard = () => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const [tab, setTab] = useState<'unread' | 'favourite'>('unread')
   const [selected, setSelected] = useState('')
 

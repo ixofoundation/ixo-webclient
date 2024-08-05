@@ -3,7 +3,7 @@ import { Box, Flex, Tabs } from '@mantine/core'
 import { useNavigate, useParams } from 'react-router-dom'
 import { selectEntityConfig } from 'redux/configs/configs.selectors'
 import { useAppSelector } from 'redux/hooks'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import EntityOverviewHero from 'components/EntityOverviewHero/EntityOverviewHero'
 import { useEntityOverview } from 'hooks/entity/useEntityOverview'
 import Page from './Page/Page'
@@ -15,7 +15,7 @@ import { useEffect } from 'react'
 
 const Overview: React.FC = () => {
   const { entityId = '', tab = 'page' } = useParams<{ entityId: string; tab: string }>()
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const config = useAppSelector(selectEntityConfig)
   const primaryColor = config.theme.primaryColor ?? theme.ixoNewBlue
   const navigate = useNavigate()
@@ -46,7 +46,7 @@ const Overview: React.FC = () => {
           mt={20}
           w='100%'
           h='100%'
-          styles={{ tab: { outline: "none" }, tabLabel: { fontWeight: 'bold', color: '#A8ADAE', fontSize: 16 } }}
+          styles={{ tab: { outline: 'none' }, tabLabel: { fontWeight: 'bold', color: '#A8ADAE', fontSize: 16 } }}
           value={tab}
           onChange={handleTabChange}
         >

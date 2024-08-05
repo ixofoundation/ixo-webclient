@@ -3,14 +3,14 @@ import React from 'react'
 import { isAccountAddress, isContractAddress } from 'utils/validation'
 import { ReactComponent as CheckIcon } from '/public/assets/images/icon-check-big.svg'
 import { ReactComponent as TimesIcon } from '/public/assets/images/icon-times.svg'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   address: string
 }
 
 const AccountValidStatus: React.FC<Props> = ({ address, ...rest }): JSX.Element => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const isValidAddress: boolean = isAccountAddress(address) || isContractAddress(address)
 
   return (

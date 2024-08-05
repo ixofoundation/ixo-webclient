@@ -3,7 +3,7 @@ import { Typography } from 'components/Typography'
 import { ClaimCollection } from 'generated/graphql'
 import { useGetClaimTemplateEntityByCollectionId } from 'graphql/claims'
 import React from 'react'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 
 interface Props {
   claimCollection: ClaimCollection
@@ -13,7 +13,7 @@ interface Props {
 
 export const ClaimCollectionCategoryTitle = ({ claimCollection }: Partial<Props>) => {
   const templateEntity = useGetClaimTemplateEntityByCollectionId(claimCollection?.id ?? '')
-  if(!templateEntity) {
+  if (!templateEntity) {
     return null
   }
 
@@ -21,7 +21,7 @@ export const ClaimCollectionCategoryTitle = ({ claimCollection }: Partial<Props>
 }
 
 const ClaimCollectionCategory: React.FC<Props> = ({ claimCollection, selected = false, onSelect }) => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const templateEntity = useGetClaimTemplateEntityByCollectionId(claimCollection.id!)
 
   if (!templateEntity) {

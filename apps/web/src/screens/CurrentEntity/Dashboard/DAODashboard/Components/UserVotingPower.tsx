@@ -3,7 +3,7 @@ import { Typography } from 'components/Typography'
 import React, { useMemo } from 'react'
 import PieChart from 'components/Widgets/PieChart'
 import { useAccount } from 'hooks/account'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
 import { useAppSelector } from 'redux/hooks'
 import { getEntityById } from 'redux/entities/entities.selectors'
@@ -16,9 +16,9 @@ interface Props {
 }
 
 const UserVotingPower: React.FC<Props> = ({ show, coreAddress, userAddress }) => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const { address } = useAccount()
-  const { entityId = "" } = useParams<{ entityId: string}>()
+  const { entityId = '' } = useParams<{ entityId: string }>()
   const { daoGroups = {} } = useAppSelector(getEntityById(entityId))
   const { daoGroup } = useCurrentEntityDAOGroup(coreAddress, daoGroups)
 

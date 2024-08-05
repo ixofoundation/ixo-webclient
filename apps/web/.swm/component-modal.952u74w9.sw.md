@@ -93,7 +93,7 @@ A modal used when transferring entity with toDid input field and validation chec
 
 ```tsx
 19     const TransferEntityModal: React.FC<Props> = ({ open, recipientDid, onClose, onSubmit }): JSX.Element => {
-20       const theme: any = useTheme()
+20       const theme = useMantineTheme()
 21       const [did, setDid] = useState('')
 22
 23       useEffect(() => {

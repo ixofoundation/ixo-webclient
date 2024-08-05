@@ -58,7 +58,7 @@ interface Props {
 }
 
 const UserProposals: React.FC<Props> = ({ show, coreAddress, userAddress, full = true }) => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const navigate = useNavigate()
   const { entityId = '' } = useParams<{ entityId: string }>()
   const { address } = useAccount()

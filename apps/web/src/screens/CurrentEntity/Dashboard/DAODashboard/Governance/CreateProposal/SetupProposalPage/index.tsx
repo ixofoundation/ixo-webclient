@@ -37,7 +37,7 @@ export const Wrapper = styled(Flex)`
 `
 
 const SetupProposalPage: React.FC = (): JSX.Element => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const navigate = useNavigate()
   const { entityId, coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
   const { getQuery } = useQuery()

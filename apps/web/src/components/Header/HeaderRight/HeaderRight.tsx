@@ -4,7 +4,7 @@ import { useAppSelector } from 'redux/hooks'
 import { selectEntityHeaderButtonColorUIConfig } from 'redux/entities/entities.selectors'
 import { Light, LightLoading, LightReady, Ping } from '../HeaderContainer.styles'
 import WalletConnectButton from 'components/Button/WalletConnectButton'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import { useWallet } from '@ixo-webclient/wallet-connector'
 import { useNavigate, NavLink } from 'react-router-dom'
 import { useDisclosure, useMediaQuery } from '@mantine/hooks'
@@ -19,7 +19,7 @@ const HeaderRight: React.FC<HeaderRightProps> = ({ toggleModal }): JSX.Element =
   const { entityConfig } = useIxoConfigs()
 
   const buttonColor: string = useAppSelector(selectEntityHeaderButtonColorUIConfig)
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const { address, registered } = useAccount()
   const { wallet, mobile } = useWallet()
   const navigate = useNavigate()
@@ -53,21 +53,18 @@ const HeaderRight: React.FC<HeaderRightProps> = ({ toggleModal }): JSX.Element =
   if (isMobile) {
     return (
       <Flex justify={'center'} align={'center'}>
-        <Burger opened={isMobileMenuOpen} onClick={toggleMobileMenu} aria-label="Toggle navigation" />
+        <Burger opened={isMobileMenuOpen} onClick={toggleMobileMenu} aria-label='Toggle navigation' />
 
-        <Modal
-          opened={isMobileMenuOpen}
-          onClose={toggleMobileMenu}
-          fullScreen
-          padding="xl"
-          yOffset="1vh"
-          >
-            <Flex direction={"column"} align={"center"} justify={"center"} gap={10}>
-            <NavLink onClick={toggleMobileMenu} to={`/explore?type=${entityConfig?.UI?.explorer?.defaultView}`}><Text fz="24px" c="black">EXPLORE</Text></NavLink> 
+        <Modal opened={isMobileMenuOpen} onClose={toggleMobileMenu} fullScreen padding='xl' yOffset='1vh'>
+          <Flex direction={'column'} align={'center'} justify={'center'} gap={10}>
+            <NavLink onClick={toggleMobileMenu} to={`/explore?type=${entityConfig?.UI?.explorer?.defaultView}`}>
+              <Text fz='24px' c='black'>
+                EXPLORE
+              </Text>
+            </NavLink>
             <CreateEntityDropdown />
-            </Flex>
-
-          </Modal>
+          </Flex>
+        </Modal>
       </Flex>
     )
   }

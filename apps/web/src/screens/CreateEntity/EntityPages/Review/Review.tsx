@@ -17,7 +17,7 @@ import React, { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { ReactComponent as CheckCircleIcon } from '/public/assets/images/icon-check-circle.svg'
 import { ReactComponent as ExclamationIcon } from '/public/assets/images/icon-exclamation-circle.svg'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import { CreationSuccessScreen } from './CreationSuccessScreen'
 import { createEntityCard, withEntityData } from 'components'
 import { EntityType } from 'types/entities'
@@ -27,7 +27,7 @@ import { useWallet } from '@ixo-webclient/wallet-connector'
 import { currentRelayerNode } from 'constants/common'
 
 const Review = ({ showNavigation = true }: { showNavigation?: boolean }): JSX.Element => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const navigate = useNavigate()
   const createEntityState = useCreateEntityState()
   const profile = createEntityState.profile

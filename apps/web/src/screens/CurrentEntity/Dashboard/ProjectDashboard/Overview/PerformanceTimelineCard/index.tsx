@@ -8,7 +8,7 @@ import ClaimCollectionCategory from '../../../components/ClaimCollectionCategory
 import { BarChart, Bar, YAxis, Tooltip, ResponsiveContainer, XAxis } from 'recharts'
 import { Typography } from 'components/Typography'
 import moment from 'moment'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import { ixo } from '@ixo/impactxclient-sdk'
 import { useClaimSetting } from 'hooks/claim'
 import { Claim } from '@ixo/impactxclient-sdk/types/codegen/ixo/claims/v1beta1/claims'
@@ -32,7 +32,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 }
 
 const PerformanceTimelineCard: React.FC = () => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const ClaimSetting = useClaimSetting()
   const { entityId = '' } = useParams<{ entityId: string }>()
   const { data: claimCollections } = useGetClaimCollectionsByEntityId(entityId)

@@ -38,7 +38,7 @@ const renderTableHeader = (name: string) => (
 )
 
 const UserActivity: React.FC = (): JSX.Element => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const [tab, setTab] = useState('Transactions')
 
   const columns = [

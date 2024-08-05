@@ -2,7 +2,7 @@ import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { useClaimSetting } from 'hooks/claim'
 import React, { useEffect, useState } from 'react'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import { EvaluationStatus } from '@ixo/impactxclient-sdk/types/codegen/ixo/claims/v1beta1/claims'
 import { chainNetwork } from 'hooks/configs'
 import { customQueries } from '@ixo/impactxclient-sdk'
@@ -15,7 +15,7 @@ interface Props {
 
 const ClaimItem: React.FC<Props> = ({ status, claimId }) => {
   const { pathname } = useLocation()
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const Setting = useClaimSetting()
   const [name, setName] = useState('')
 

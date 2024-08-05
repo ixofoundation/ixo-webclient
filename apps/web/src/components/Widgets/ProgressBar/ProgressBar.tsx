@@ -1,6 +1,6 @@
 import { Box } from 'components/App/App.styles'
 import React from 'react'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 
 interface Props {
   data: {
@@ -15,7 +15,7 @@ interface Props {
 }
 
 const ProgressBar: React.FC<Props> = ({ data, totalValue, width = '100%', height = '16px', background }) => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   return (
     <Box
       width={width}

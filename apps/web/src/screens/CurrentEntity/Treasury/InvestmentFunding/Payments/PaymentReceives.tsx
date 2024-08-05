@@ -50,7 +50,7 @@ const TableWrapper = styled(FlexBox)`
 `
 
 const PaymentReceives: React.FC = () => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const { convertToDenom } = useIxoConfigs()
   const paymentReceives: any[] = []
 

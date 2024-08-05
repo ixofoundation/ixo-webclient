@@ -7,7 +7,7 @@ import { useAccount } from 'hooks/account'
 import { useCurrentEntityAdminAccount } from 'hooks/currentEntity'
 import { Input } from 'screens/CreateEntity/Components'
 import React, { useEffect, useMemo, useState } from 'react'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import { TProposalActionModel } from 'types/entities'
 import { convertDenomToMicroDenomWithDecimals, convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
 import { getContractNameByCodeId } from 'utils/dao'
@@ -36,7 +36,7 @@ interface Props {
 }
 
 const SetupSendGroupTokenModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const { cwClient } = useAccount()
   const { entityId = '' } = useParams<{ entityId: string }>()
   const { accounts } = useAppSelector(getEntityById(entityId))

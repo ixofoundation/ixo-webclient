@@ -53,7 +53,7 @@ const TokenSelector: React.FunctionComponent<Props> = ({
   icon = <Wallet />,
   handleChange,
 }) => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const customStyles = {
     indicatorsContainer: (provided: any): any => ({
       ...provided,

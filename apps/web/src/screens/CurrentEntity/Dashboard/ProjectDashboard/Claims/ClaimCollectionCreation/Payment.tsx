@@ -3,7 +3,7 @@ import { Typography } from 'components/Typography'
 import { deviceWidth } from 'constants/device'
 import { Button, InputWithLabel } from 'screens/CreateEntity/Components'
 import React, { useMemo, useState } from 'react'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import { ixo, cosmos, utils } from '@ixo/impactxclient-sdk'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 import { Payments } from '@ixo/impactxclient-sdk/types/codegen/ixo/claims/v1beta1/claims'
@@ -23,7 +23,7 @@ interface Props {
   onCancel?: () => void
 }
 const ClaimCollectionCreationPaymentStep: React.FC<Props> = ({ hidden, onSubmit, onCancel }) => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const { convertToMinimalDenom } = useIxoConfigs()
   const { entityId = '' } = useParams<{ entityId: string }>()
   const { accounts } = useAppSelector(getEntityById(entityId))

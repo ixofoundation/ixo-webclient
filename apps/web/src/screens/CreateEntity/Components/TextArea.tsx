@@ -58,7 +58,7 @@ const TextArea: React.FC<Props> = ({
   handleChange,
   ...rest
 }): JSX.Element => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const [focused, setFocused] = useState(false)
   const active = focused || inputValue?.length > 0
 

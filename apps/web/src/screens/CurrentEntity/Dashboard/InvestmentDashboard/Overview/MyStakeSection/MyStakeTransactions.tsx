@@ -56,7 +56,7 @@ interface Props {
 }
 
 const MyStakeTransactions: React.FC<Props> = ({ bondDid }) => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const { convertToDenom } = useIxoConfigs()
   const { did: accountDid } = useAccount()
   const { data: bondTransactions } = useGetBondTransactions(bondDid, accountDid)

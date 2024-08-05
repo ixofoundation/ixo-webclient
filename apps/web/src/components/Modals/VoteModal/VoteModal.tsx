@@ -8,7 +8,7 @@ import { ReactComponent as ThumbsDownIcon } from '/public/assets/images/icon-thu
 import { ReactComponent as HandPaperIcon } from '/public/assets/images/icon-hand-paper.svg'
 import { ReactComponent as QuestionCircleIcon } from '/public/assets/images/icon-question-circle.svg'
 import { SignStep, TXStatus } from '../common'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 
 const VoteOptions = [
   {
@@ -40,7 +40,7 @@ interface Props {
 }
 
 const VoteModal: React.FunctionComponent<Props> = ({ open, setOpen, onVote }) => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const [txStatus, setTxStatus] = useState<TXStatus>(TXStatus.UNDEFINED)
   const [txHash, setTxHash] = useState<string>('')
 

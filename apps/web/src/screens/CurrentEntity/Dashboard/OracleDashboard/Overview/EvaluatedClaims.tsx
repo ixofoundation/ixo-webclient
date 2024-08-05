@@ -44,7 +44,7 @@ type EvaluatedClaimsProps = {
 }
 
 const EvaluatedClaims = ({ evaluatedClaims }: EvaluatedClaimsProps) => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
 
   const columns: Column<Evaluation>[] = useMemo(() => {
     return [

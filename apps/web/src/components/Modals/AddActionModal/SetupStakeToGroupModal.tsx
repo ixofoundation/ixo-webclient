@@ -7,7 +7,7 @@ import { useAccount } from 'hooks/account'
 import { Input } from 'screens/CreateEntity/Components'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import { TProposalActionModel } from 'types/entities'
 import { convertDenomToMicroDenomWithDecimals, convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
 import { getContractNameByCodeId } from 'utils/dao'
@@ -33,7 +33,7 @@ interface Props {
 }
 
 const SetupStakeToGroupModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const { coreAddress = '' } = useParams<{ coreAddress: string }>()
   const { cwClient } = useAccount()
   const [formData, setFormData] = useState<StakeToGroupData>(initialState)

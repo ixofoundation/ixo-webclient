@@ -8,7 +8,7 @@ import { useAppSelector } from 'redux/hooks'
 import { selectEntitiesByType } from 'redux/entities/entities.selectors'
 import { validateEntityDid } from 'utils/validation'
 import { useAccount } from 'hooks/account'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import { Avatar } from 'screens/CurrentEntity/Components'
 import { v4 as uuidv4 } from 'uuid'
 import { TProposalActionModel } from 'types/entities'
@@ -17,7 +17,7 @@ import { ReactComponent as CheckCircleIcon } from '/public/assets/images/icon-ch
 import { useCreateEntityState } from 'hooks/createEntity'
 
 const SetupTargetGroup: React.FC = (): JSX.Element => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const navigate = useNavigate()
   const { search } = useLocation()
   const { entityId = '', coreAddress } = useParams<{ entityId: string; coreAddress: string }>()

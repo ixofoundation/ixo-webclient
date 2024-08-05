@@ -54,7 +54,7 @@ interface Props {
 }
 
 const OutcomePayments: React.FC<Props> = ({ bondDid }) => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const { convertToDenom } = useIxoConfigs()
   const { data: outcomePayments } = useGetBondOutcomePayments(bondDid)
 

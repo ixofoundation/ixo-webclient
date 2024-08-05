@@ -5,14 +5,14 @@ import CopyToClipboard from 'react-copy-to-clipboard'
 import { truncateString } from 'utils/formatters'
 import { successToast } from 'utils/toast'
 import { ConnectButton } from './WalletConnectButton.styles'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 
 interface Props {
   onClick: () => void
 }
 
 const WalletConnectButton: React.FC<Props> = ({ onClick }) => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const { address, name, connect, connectedWallet } = useAccount()
   const [isConnecting, setIsConnecting] = useState(false)
 

@@ -23,7 +23,7 @@ import { ReactComponent as TimesCircleIcon } from '/public/assets/images/icon-ti
 import { ReactComponent as ThumbsUpIcon } from '/public/assets/images/icon-thumbs-up.svg'
 import { ReactComponent as ThumbsDownIcon } from '/public/assets/images/icon-thumbs-down.svg'
 import { ReactComponent as UnlinkIcon } from '/public/assets/images/icon-unlink-solid.svg'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import { DaoProposalSingleClient } from '@ixo-webclient/cosmwasm-clients'
 import { useWallet } from '@ixo-webclient/wallet-connector'
 import { useAppSelector } from 'redux/hooks'
@@ -31,7 +31,7 @@ import { getEntityById } from 'redux/entities/entities.selectors'
 import { useEntity } from 'hooks/entity/useEntity'
 
 const RemainingBadge: React.FC<{ minutes: number }> = ({ minutes }) => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   return (
     <Badge w={110} px={8} py={4} style={{ color: theme.ixoLightBlue, backgroundColor: theme.ixoDarkBlue }}>
       <Flex align={'center'} gap={4}>
@@ -48,7 +48,7 @@ const RemainingBadge: React.FC<{ minutes: number }> = ({ minutes }) => {
 }
 
 const PassedBadge: React.FC = () => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   return (
     <Badge w={110} px={8} py={4} style={{ color: theme.ixoWhite, backgroundColor: theme.ixoNewBlue }}>
       <Flex align={'center'} gap={4}>
@@ -64,7 +64,7 @@ const PassedBadge: React.FC = () => {
 }
 
 const ExecutedBadge: React.FC = () => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   return (
     <Badge w={110} px={8} py={4} style={{ color: theme.ixoWhite, backgroundColor: theme.ixoGreen }}>
       <Flex align={'center'} gap={4}>
@@ -80,7 +80,7 @@ const ExecutedBadge: React.FC = () => {
 }
 
 const RejectedBadge: React.FC = () => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   return (
     <Badge w={110} px={8} py={4} style={{ color: theme.ixoWhite, backgroundColor: theme.ixoRed }}>
       <Flex align={'center'} gap={4}>
@@ -96,7 +96,7 @@ const RejectedBadge: React.FC = () => {
 }
 
 const FailedBadge: React.FC = () => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   return (
     <Badge w={110} px={8} py={4} style={{ color: theme.ixoOrange, backgroundColor: theme.ixoDarkBlue }}>
       <Flex align={'center'} gap={4}>
@@ -112,7 +112,7 @@ const FailedBadge: React.FC = () => {
 }
 
 const ClosedBadge: React.FC = () => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   return (
     <Badge w={110} px={8} py={4} style={{ color: theme.ixoWhite, backgroundColor: theme.ixoLightRed }}>
       <Flex align={'center'} gap={4}>
@@ -138,7 +138,7 @@ const ProposalCard: React.FC<Props> = ({ coreAddress, proposalId, proposal }) =>
   const [description, deedDid] = description_origin.split('#deed:')
 
   const navigate = useNavigate()
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const { entityId = '' } = useParams<{ entityId: string }>()
   const { cwClient, address } = useAccount()
   const { daoGroups = {} } = useAppSelector(getEntityById(entityId))

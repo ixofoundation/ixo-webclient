@@ -1,7 +1,7 @@
 import { useWallet } from '@ixo-webclient/wallet-connector'
 import { Button, Flex, Image, Skeleton, Text } from '@mantine/core'
 import { Claim, ClaimsOrderBy, useClaimsQuery, useEntitiesLazyQuery } from 'generated/graphql'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import { getDisplayAmount } from 'utils/currency'
 import IxoCoin from '/public/assets/tokens/ixo.svg'
 import { cosmos, createSigningClient, ixo } from '@ixo/impactxclient-sdk'

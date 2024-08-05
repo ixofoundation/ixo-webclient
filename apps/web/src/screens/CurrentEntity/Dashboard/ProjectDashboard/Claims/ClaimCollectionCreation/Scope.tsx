@@ -3,7 +3,7 @@ import { Typography } from 'components/Typography'
 import { deviceWidth } from 'constants/device'
 import { Button, DateRangePicker, InputWithLabel } from 'screens/CreateEntity/Components'
 import React, { useMemo, useState } from 'react'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 
 interface Props {
   hidden?: boolean
@@ -11,7 +11,7 @@ interface Props {
   onCancel?: () => void
 }
 const ClaimCollectionCreationScopeStep: React.FC<Props> = ({ hidden, onSubmit, onCancel }) => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const [period, setPeriod] = useState({ startDate: '', endDate: '' })
   const [quota, setQuota] = useState('')
   const disabled = useMemo(() => !period.startDate || !quota, [period, quota])

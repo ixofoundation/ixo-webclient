@@ -4,7 +4,7 @@ import { Typography } from 'components/Typography'
 import { Avatar } from 'screens/CurrentEntity/Components'
 import React from 'react'
 import CurrencyFormat from 'react-currency-format'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 
 export interface BalanceCardProps {
   balance: string
@@ -23,7 +23,7 @@ export const BalanceCard: React.FC<BalanceCardProps> = ({
   lastPriceUsd,
   onClick,
 }) => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const balanceUsd = new BigNumber(balance).times(lastPriceUsd).toFormat(6)
   return (
     <FlexBox

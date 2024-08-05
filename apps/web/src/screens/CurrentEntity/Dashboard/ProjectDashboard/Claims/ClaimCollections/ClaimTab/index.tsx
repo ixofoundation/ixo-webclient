@@ -3,7 +3,7 @@ import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { useClaimSetting } from 'hooks/claim'
 import React from 'react'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 
 interface Props {
   status: EvaluationStatus
@@ -11,7 +11,7 @@ interface Props {
 }
 
 const ClaimTab: React.FC<Props> = ({ status, value }) => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const Setting = useClaimSetting()
 
   return (

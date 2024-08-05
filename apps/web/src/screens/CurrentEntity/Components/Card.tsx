@@ -2,7 +2,7 @@ import { FlexBox, HTMLFlexBoxProps, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import React, { ReactNode } from 'react'
 import { ReactComponent as ExpandIcon } from '/public/assets/images/icon-expand-alt.svg'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 
 interface Props extends HTMLFlexBoxProps {
   icon?: JSX.Element
@@ -22,7 +22,7 @@ const Card: React.FC<Props> = ({
   iconNode,
   ...rest
 }): JSX.Element => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   return (
     <FlexBox
       $direction='column'

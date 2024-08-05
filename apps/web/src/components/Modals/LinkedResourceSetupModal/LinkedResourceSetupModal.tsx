@@ -11,7 +11,7 @@ import { Typography } from 'components/Typography'
 import PulseLoader from 'components/Spinner/PulseLoader/PulseLoader'
 import { toTitleCase } from 'utils/formatters'
 import { errorToast } from 'utils/toast'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import { customQueries, utils } from '@ixo/impactxclient-sdk'
 import { chainNetwork } from 'hooks/configs'
 import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
@@ -25,7 +25,7 @@ interface Props {
 }
 
 const LinkedResourceSetupModal: React.FC<Props> = ({ linkedResource, open, onClose, onChange }): JSX.Element => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const [formData, setFormData] = useState<FormData>(linkedResource!)
   const [uploading, setUploading] = useState(false)
 

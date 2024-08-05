@@ -13,7 +13,7 @@ import { TokenInfoResponse } from '@ixo/impactxclient-sdk/types/codegen/Cw20Base
 import { fee } from 'lib/protocol'
 import { claimAvailable } from 'utils/tokenClaim'
 import { plus } from 'utils/currency'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import { TDAOGroupModel } from 'types/entities'
 import { Cw20StakeClient } from '@ixo-webclient/cosmwasm-clients'
 import { useWallet } from '@ixo-webclient/wallet-connector'
@@ -22,7 +22,7 @@ import { useAppSelector } from 'redux/hooks'
 import { getEntityById } from 'redux/entities/entities.selectors'
 
 const Card = ({ children, ...rest }: HTMLFlexBoxProps) => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   return (
     <FlexBox
       p={2}
@@ -47,7 +47,7 @@ interface Props {
 }
 
 const GroupClaimModal: React.FunctionComponent<Props> = ({ daoGroup, open, setOpen, onSuccess }) => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const { cwClient, address } = useAccount()
   const { entityId = '' } = useParams<{ entityId: string }>()
   const { daoGroups = {}, profile } = useAppSelector(getEntityById(entityId))

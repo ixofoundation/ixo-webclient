@@ -66,7 +66,7 @@ const SelectWithModal: React.FC<Props> = ({
   options,
   ...rest
 }): JSX.Element => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const [openModal, setOpenModal] = useState(false)
   const filled = useMemo(() => !!value, [value])
 

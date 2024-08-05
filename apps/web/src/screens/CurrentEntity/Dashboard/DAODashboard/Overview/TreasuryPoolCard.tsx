@@ -3,7 +3,7 @@ import { Card } from 'screens/CurrentEntity/Components'
 import React, { useMemo } from 'react'
 import { Flex } from '@mantine/core'
 import { Typography } from 'components/Typography'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 
 import { ReactComponent as FundingIcon } from '/public/assets/images/icon-funding.svg'
 import { ReactComponent as UpIcon } from '/public/assets/images/icon-up-full.svg'
@@ -16,7 +16,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useCurrentEntityTreasury } from 'hooks/treasury/useCurrentEntityTreasury'
 
 const TreasuryPoolCard: React.FC = () => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const navigate = useNavigate()
   const { entityId = '' } = useParams<{ entityId: string }>()
   const accounts = useCurrentEntityTreasury({ entityId })

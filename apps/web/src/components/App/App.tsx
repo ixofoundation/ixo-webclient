@@ -2,7 +2,6 @@ import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import 'react-dates/lib/css/_datepicker.css'
 import '/public/assets/icons.css'
-import '/public/assets/toasts.scss'
 
 import AssistantContext from 'contexts/assistant'
 import React from 'react'
@@ -12,7 +11,6 @@ import { ServicesInitialisation } from 'components'
 import Footer from '../Footer'
 import { HeaderConnected } from '../Header/HeaderContainer'
 import ScrollToTop from '../ScrollToTop/ScrollToTop'
-import { Container, ContentWrapper } from './App.styles'
 import { Outlet } from 'react-router-dom'
 import { Flex } from '@mantine/core'
 import { WalletModal, WalletProvider } from '@ixo-webclient/wallet-connector'
@@ -43,16 +41,16 @@ const App: React.FC = () => {
           <CompanionProvider>
             <KeyValueViewerProvider>
               {' '}
-              <Container>
+              <Flex direction='column' h='100vh' w='100%'>
                 <HeaderConnected />
                 <Companion />
                 <Flex mt={74} w='100%' h={'calc(100vh - 74px)'} style={{ flex: 1 }}>
-                  <ContentWrapper>
+                  <Flex direction={'column'} flex={1}>
                     <Outlet />
-                  </ContentWrapper>
+                  </Flex>
                 </Flex>
                 <Footer />
-              </Container>
+              </Flex>
             </KeyValueViewerProvider>
           </CompanionProvider>
         </ScrollToTop>

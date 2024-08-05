@@ -1,5 +1,5 @@
 import { Box } from 'components/App/App.styles'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 
 interface AvatarProps {
   url?: string
@@ -7,7 +7,7 @@ interface AvatarProps {
   borderWidth?: number
 }
 const Avatar: React.FC<AvatarProps> = ({ url, size = 100, borderWidth = 2 }): JSX.Element => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   return (
     <Box
       background={`url(${url}), ${theme.ixoGrey500}`}

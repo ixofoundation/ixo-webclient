@@ -34,7 +34,7 @@ import {
   convertSecondsToDurationWithUnits,
 } from 'utils/conversions'
 import { NATIVE_DECIMAL, NATIVE_DENOM, NATIVE_MICRODENOM } from 'constants/chains'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import BigNumber from 'bignumber.js'
 import type {
   CheckedDepositInfo,
@@ -118,7 +118,7 @@ type DataStateProps = {
 export const GroupMemberships = ({ setData, data, isLedgeredGroup }: RenderGroupIdentityProps): JSX.Element => {
   const initialMembership = { category: '', weight: 1, members: [] }
   // TODO: properly type theme
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const handleAddMembership = (): void => {
     setData((pre) => ({ ...pre, memberships: [...(pre.memberships ?? []), initialMembership] }))
   }
@@ -327,7 +327,7 @@ export const Staking = ({
   useExistingToken,
   setUseExistingToken,
 }: DataStateProps & UseExistingTokenProps): JSX.Element => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
 
   if (!data.token) {
     return <></>
@@ -716,7 +716,7 @@ export const Staking = ({
 //  * @returns
 //  */
 export const RenderMultisigGroupMembership = ({ setData, data }: DataStateProps): JSX.Element => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const handleUpdateMembership = (membershipIdx: number, key: string, value: any): void => {
     setData((pre) => ({
       ...pre,

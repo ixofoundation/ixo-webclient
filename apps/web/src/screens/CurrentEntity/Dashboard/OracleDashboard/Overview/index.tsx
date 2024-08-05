@@ -4,7 +4,7 @@ import { OracleCard } from 'components/EntityCards/OracleCard'
 import React from 'react'
 import { ReactComponent as PiePieceIcon } from '/public/assets/images/icon-pie-piece.svg'
 import { Typography } from 'components/Typography'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import { ReactComponent as CopyIcon } from '/public/assets/images/icon-copy.svg'
 import moment from 'moment'
 import { ReactComponent as ClockIcon } from '/public/assets/images/icon-clock.svg'
@@ -22,7 +22,7 @@ import OracleClaimEvaluation from 'components/Graphs/OracleClaimEvaluation'
 import { useCarbonOracleClaimAggregate } from 'hooks/oracle/useCarbonOracleClaimAggregate'
 
 const Overview: React.FC = () => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const { entityId = '' } = useParams<{ entityId: string }>()
   const currentEntity = useAppSelector(getEntityById(entityId))
 

@@ -4,7 +4,7 @@ import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { Button, InputWithLabel } from 'screens/CreateEntity/Components'
 import { ModalStyles, CloseButton } from 'components/Modals/styles'
 import { Typography } from 'components/Typography'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import { ReactComponent as TimesCircleIcon } from '/public/assets/images/icon-times-circle.svg'
 import { ReactComponent as CheckCircleIcon } from '/public/assets/images/icon-check-circle.svg'
 import { ReactComponent as CloseIcon } from '/public/assets/images/icon-close.svg'
@@ -17,7 +17,7 @@ interface Props {
   onSubmit?: (recipientDid: string) => void
 }
 const TransferEntityModal: React.FC<Props> = ({ open, recipientDid, onClose, onSubmit }): JSX.Element => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const [did, setDid] = useState('')
 
   useEffect(() => {

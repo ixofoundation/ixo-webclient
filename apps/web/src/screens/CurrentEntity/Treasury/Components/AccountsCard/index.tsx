@@ -95,7 +95,7 @@ interface Props {
 }
 
 const AccountsCard: React.FC<Props> = ({ accounts, onSelect }) => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const columns = [
     {
       Header: renderTableHeader('Name'),

@@ -1,14 +1,14 @@
 import { FlexBox } from 'components/App/App.styles'
 import React from 'react'
 import { ResponsiveContainer, AreaChart, Area, YAxis, CartesianGrid, XAxis, Tooltip } from 'recharts'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 
 interface Props {
   bondDid: string
 }
 
 const BondPrices: React.FC<Props> = ({ bondDid }) => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
 
   const data = [
     {

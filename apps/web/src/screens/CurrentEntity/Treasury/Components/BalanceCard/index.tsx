@@ -4,7 +4,7 @@ import { Typography } from 'components/Typography'
 import React from 'react'
 import CurrencyFormat from 'react-currency-format'
 import { ReactComponent as CoinsIcon } from '/public/assets/images/icon-coins-solid.svg'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import BigNumber from 'bignumber.js'
 
 const data = [
@@ -44,7 +44,7 @@ interface Props {
 }
 
 const BalanceCard: React.FC<Props> = ({ availableValue = '0', stakedValue = '0.00' }) => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const totalValue = new BigNumber(availableValue).plus(new BigNumber(stakedValue)).toFixed(2)
 
   return (

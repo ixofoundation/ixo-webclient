@@ -3,7 +3,7 @@ import { BarChart, Bar, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
 import moment from 'moment'
 import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import { Card } from 'screens/CurrentEntity/Components'
 import { ReactComponent as PieIcon } from '/public/assets/images/icon-pie.svg'
 
@@ -27,7 +27,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 }
 
 const GovernanceActivityCard: React.FC = (): JSX.Element => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
 
   return (
     <Card icon={<PieIcon />} label='Governance Activity'>

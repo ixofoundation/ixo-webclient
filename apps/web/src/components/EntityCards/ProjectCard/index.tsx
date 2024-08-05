@@ -2,7 +2,7 @@ import React from 'react'
 import Lottie from 'react-lottie'
 import { FlexBox, HTMLFlexBoxProps } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import { thousandSeparator } from 'utils/formatters'
 import { HorizontalLine } from 'components/HorizontalLine'
 import { getEntityIcon } from 'utils/getEntityIcon'
@@ -41,7 +41,7 @@ export const ProjectCard: React.FC<Props> = ({
   maxSupply,
   ...rest
 }): JSX.Element | null => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const navigate = useNavigate()
   const config = useAppSelector(selectEntityConfig)
   const design = config.UI?.explorer?.design

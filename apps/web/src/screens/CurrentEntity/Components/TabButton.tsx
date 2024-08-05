@@ -1,7 +1,7 @@
 import { FlexBox, HTMLDivProps, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { ITypographyProps } from 'components/Typography/Typography'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 
 interface TabButtonProps extends HTMLDivProps {
   active?: boolean
@@ -15,7 +15,7 @@ const TabButton: React.FC<TabButtonProps> = ({
   children,
   ...rest
 }): JSX.Element => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   return (
     <FlexBox
       $alignItems='center'

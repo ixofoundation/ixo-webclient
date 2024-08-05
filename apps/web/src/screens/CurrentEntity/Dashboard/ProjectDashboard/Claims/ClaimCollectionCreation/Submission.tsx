@@ -3,7 +3,7 @@ import { Typography } from 'components/Typography'
 import { deviceWidth } from 'constants/device'
 import { Button, PropertyBox } from 'screens/CreateEntity/Components'
 import React, { useState } from 'react'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import { ReactComponent as ClaimIcon } from '/public/assets/images/icon-claim.svg'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { selectAllDeedProtocols } from 'redux/entities/entities.selectors'
@@ -19,7 +19,7 @@ interface Props {
   onCancel?: () => void
 }
 const ClaimCollectionCreationSubmissionStep: React.FC<Props> = ({ hidden, onSubmit, onCancel }) => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const dispatch = useAppDispatch()
   const { cwClient } = useAccount()
 

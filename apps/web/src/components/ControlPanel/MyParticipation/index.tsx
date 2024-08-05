@@ -1,5 +1,5 @@
 import { FlexBox, SvgBox } from 'components/App/App.styles'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import { Typography } from 'components/Typography'
 import { ReactComponent as ProfileIcon } from '/public/assets/images/icon-profile.svg'
 import { ReactComponent as StarIcon } from '/public/assets/images/icon-star.svg'
@@ -14,7 +14,7 @@ import { getEntityById } from 'redux/entities/entities.selectors'
 import { truncate } from 'lodash'
 
 const DAOGroupItem: React.FC<{ address: string }> = ({ address }) => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const { entityId = '' } = useParams<{ entityId: string }>()
   const { daoGroups = {} } = useAppSelector(getEntityById(entityId))
 
@@ -62,7 +62,7 @@ const DAOGroupItem: React.FC<{ address: string }> = ({ address }) => {
 }
 
 const MyParticipationCard = () => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const { entityId = '' } = useParams<{ entityId: string }>()
   const { profile, daoGroups } = useAppSelector(getEntityById(entityId))
   const daoGroupsArr = Object.values(daoGroups ?? {})

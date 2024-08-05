@@ -1,5 +1,5 @@
 import React from 'react'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import { Card } from '../../../Components'
 import { Box, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
@@ -22,7 +22,7 @@ type GroupCardProps = {
 }
 
 const GroupCard = ({ daoGroup, dao }: GroupCardProps) => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const navigate = useNavigate()
   const { pathname } = useLocation()
   const { getQuery } = useQuery()

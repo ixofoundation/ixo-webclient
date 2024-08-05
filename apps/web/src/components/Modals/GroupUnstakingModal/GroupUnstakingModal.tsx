@@ -38,7 +38,7 @@ const StyledInput = styled(Input)`
 `
 
 const Card = ({ children, ...rest }: HTMLFlexBoxProps) => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   return (
     <FlexBox
       p={2}
@@ -63,7 +63,7 @@ interface Props {
 }
 
 const GroupUnstakingModal: React.FunctionComponent<Props> = ({ daoGroup, open, setOpen, onSuccess }) => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const { cwClient, address } = useAccount()
   const { entityId = '' } = useParams<{ entityId: string }>()
   const { daoGroups = {}, profile } = useAppSelector(getEntityById(entityId))

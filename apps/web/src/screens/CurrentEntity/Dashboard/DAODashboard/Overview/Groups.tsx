@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react'
 import { ReactComponent as SortGToLIcon } from '/public/assets/images/icon-sort-gtol.svg'
 import { ReactComponent as SortLToGIcon } from '/public/assets/images/icon-sort-ltog.svg'
 import { SvgBox } from 'components/App/App.styles'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import GroupCard from './GroupCard'
 import { TDAOGroupModel } from 'types/entities'
 
@@ -17,7 +17,7 @@ type GroupProps = {
     | undefined
 }
 const Groups = ({ daoGroups }: GroupProps) => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const daoGroupsArr = Object.values(daoGroups ?? {})
 
   const [sortBy, setSortBy] = useState<'members' | 'treasury' | 'proposals' | 'type'>('members')

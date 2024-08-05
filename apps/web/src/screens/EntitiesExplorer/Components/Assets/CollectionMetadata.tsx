@@ -1,11 +1,11 @@
 import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import React, { useState } from 'react'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import { TEntityModel } from 'types/entities'
 
 const CollectionMetadata: React.FC<TEntityModel> = (collection) => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const [selected, setSelected] = useState<'context' | 'metrics' | 'attributes'>('context')
 
   return (

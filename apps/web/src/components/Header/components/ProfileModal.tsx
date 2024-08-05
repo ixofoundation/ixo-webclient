@@ -16,14 +16,14 @@ import { successToast } from 'utils/toast'
 import NativeTokenViewModal from './NativeTokenViewModal'
 import Cw20TokenViewModal from './Cw20TokenViewModal'
 import { Cw20Token, NativeToken, TokenType } from 'types/tokens'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import { TokensTableColumns, TokensTableWrapper } from 'screens/MyAccount/MyPortfolioPage/BalanceView/NativeTokensCard'
 import { Table } from 'components/Table'
 import { friendlyWalletNames } from '@ixo-webclient/wallet-connector'
 import XIcon from '/public/assets/images/x-icon.svg'
 
 const ProfileModal: React.FC = () => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const { address, name, cw20Tokens, nativeTokens, connectedWallet, disconnect } = useAccount()
   const tokens = [...nativeTokens, ...cw20Tokens.filter((v) => Number(v.balance) > 0)]
   const [showAssetType, setShowAssetType] = useState('Coins')

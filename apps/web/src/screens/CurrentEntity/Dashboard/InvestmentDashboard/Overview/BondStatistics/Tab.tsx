@@ -2,7 +2,7 @@ import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import React from 'react'
 import { ReactComponent as ThreeDotIcon } from '/public/assets/images/icon-threedot.svg'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import { useLocation } from 'react-router-dom'
 
 interface Props {
@@ -16,7 +16,7 @@ interface Props {
 }
 
 const Tab: React.FC<Props> = ({ id, prefix, color, header, body, footer, onClick }) => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const { hash } = useLocation()
   const selected = hash === `#${id}`
 

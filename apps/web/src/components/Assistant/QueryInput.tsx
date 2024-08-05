@@ -9,10 +9,10 @@ import {
   selectAssistantMessages,
   selectIsUserSentMessages,
 } from 'redux/assistant/assistant.selectors'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 
 export default function QueryInput({ sendMessage }: { sendMessage: (message: string) => void }) {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const [typedMessage, setTypedMessage] = useState('')
   const [isFocused, setIsFocused] = useState(false)
 

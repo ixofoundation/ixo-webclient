@@ -1,4 +1,4 @@
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import { Card } from '../Card'
 import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { Avatar } from 'screens/CurrentEntity/Components'
@@ -10,7 +10,7 @@ import { ReactComponent as BookMarkIcon } from '/public/assets/images/icon-bookm
 import { useState } from 'react'
 
 const FeedItem = () => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   return (
     <FlexBox width='100%' background='#F0F3F9' $borderRadius='8px' p={2} $gap={4} $alignItems='center'>
       <FlexBox style={{ flex: 1 }}>
@@ -66,7 +66,7 @@ const FeedItem = () => {
 }
 
 const FeedCard = () => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const [tab, setTab] = useState<'unread' | 'favourite'>('unread')
 
   return (

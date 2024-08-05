@@ -9,7 +9,7 @@ import { fee } from 'lib/protocol'
 import { Button, Switch } from 'screens/CreateEntity/Components'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import { serviceEndpointToUrl } from 'utils/entities'
 import { errorToast, successToast } from 'utils/toast'
 import { CosmosMsgForEmpty } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
@@ -256,7 +256,7 @@ const TransferEntityToAccountButton: React.FC<{
 }
 
 const TransferEntityReview: React.FC = () => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const navigate = useNavigate()
   const { getQuery } = useQuery()
   const groupAddress = getQuery('groupAddress')

@@ -1,7 +1,7 @@
 import { Box } from 'components/App/App.styles'
 import React from 'react'
 import { ResponsiveContainer, PieChart as NativePieChart, Pie, Cell } from 'recharts'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 
 interface Props {
   data: { name: string; value: number; color?: string }[]
@@ -22,7 +22,7 @@ const PieChart: React.FC<Props> = ({
   thickness = 10,
   descriptor,
 }) => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   return (
     <Box position='relative' style={{ width, height }}>
       <ResponsiveContainer>

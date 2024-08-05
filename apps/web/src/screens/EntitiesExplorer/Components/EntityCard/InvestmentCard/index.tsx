@@ -10,14 +10,14 @@ import React, { useMemo } from 'react'
 import { NavLink } from 'react-router-dom'
 import { selectEntityConfig } from 'redux/configs/configs.selectors'
 import { useAppSelector } from 'redux/hooks'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import { TEntityModel } from 'types/entities'
 
 const formatCurrency = (value: number) =>
   Intl.NumberFormat(undefined, { style: 'currency', currency: 'USD' }).format(value)
 
 const InvestmentCard: React.FC<TEntityModel & { to?: string }> = (entity) => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const config = useAppSelector(selectEntityConfig)
   const design = config.UI?.explorer?.design
 

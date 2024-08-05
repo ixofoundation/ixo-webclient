@@ -11,7 +11,7 @@ import { useAppSelector } from 'redux/hooks'
 import { plus } from 'utils/currency'
 import { GroupStakingModal, SendModal } from 'components/Modals'
 import { Cw20Token } from 'types/tokens'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import { TDAOGroupModel } from 'types/entities'
 
 interface Props {
@@ -21,7 +21,7 @@ interface Props {
 }
 
 const Cw20TokenViewModal: React.FC<Props> = ({ open, token, onClose }) => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const stakingGroups: TDAOGroupModel[] = useAppSelector(selectStakingGroupsByTokenAddress(token.denomOrAddress))
   const { cw20Tokens } = useAccount()
   const availableBalance = token.balance

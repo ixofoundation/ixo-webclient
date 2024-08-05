@@ -5,7 +5,7 @@ import { PageWrapper, Selections, SearchIcon } from './SelectCreationProcess.sty
 import { Button, CateSelector, ChainSelector, Input } from 'screens/CreateEntity/Components'
 import { useCreateEntityState } from 'hooks/createEntity'
 import { apiEntityToEntity } from 'utils/entities'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { EntityLinkedResourceConfig } from 'constants/entity'
 import { useGetEntityById } from 'graphql/entities'
@@ -13,7 +13,7 @@ import { useCreateEntityStepState } from 'hooks/createEntityStepState'
 import { Flex } from '@mantine/core'
 
 const SelectCreationProcess: React.FC = (): JSX.Element => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const SearchInputStyles = {
     fontFamily: theme.secondaryFontFamily,
     fontWeight: 500,

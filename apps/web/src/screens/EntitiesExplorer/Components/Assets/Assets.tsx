@@ -14,7 +14,7 @@ import { ReactComponent as DiamondIcon } from '/public/assets/images/icon-diamon
 import { InfiniteScroll } from 'components/InfiniteScroll'
 import { deviceWidth } from 'constants/device'
 import { useMediaQuery } from 'react-responsive'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import { useAccount } from 'hooks/account'
 import { useGetAssetDevicesByCollectionIdAndOwner } from 'graphql/entities'
 
@@ -44,7 +44,7 @@ interface Props {
 }
 
 const Assets: React.FC<Props> = (props) => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const { address } = useAccount()
   const { data: myEntities } = useGetAssetDevicesByCollectionIdAndOwner(props.collectionId, address)
   const isMobile = useMediaQuery({ maxWidth: deviceWidth.tablet })

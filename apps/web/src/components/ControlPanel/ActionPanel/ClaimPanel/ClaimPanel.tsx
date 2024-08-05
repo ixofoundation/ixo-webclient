@@ -3,7 +3,7 @@ import { ReactComponent as ClaimIcon } from '/public/assets/images/icon-claim.sv
 import { SvgBox } from 'components/App/App.styles'
 import { selectEntityConfig } from 'redux/configs/configs.selectors'
 import { useAppSelector } from 'redux/hooks'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import ApplicationSubmissionCard from './ApplicationSubmissionCard'
 import ClaimActions from './ClaimActions'
 import WithdrawEarningsCard from './WithdrawEarningsCard'

@@ -8,12 +8,12 @@ import { Typography } from 'components/Typography'
 import { useAccount } from 'hooks/account'
 import React from 'react'
 import CopyToClipboard from 'react-copy-to-clipboard'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import { truncateString } from 'utils/formatters'
 import { successToast } from 'utils/toast'
 
 const HeadLine: React.FC = () => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const { address, name, connectedWallet, disconnect } = useAccount()
 
   return (

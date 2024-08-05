@@ -52,7 +52,7 @@ interface Props {
 }
 
 const Transactions: React.FC<Props> = ({ address }) => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const [data] = useState<any[]>([
     // {
     //   type: 'send',

@@ -4,7 +4,7 @@ import { ReactComponent as CloseIcon } from '/public/assets/images/icon-close.sv
 import { ModalStyles, CloseButton, ModalWrapper, ModalTitle } from 'components/Modals/styles'
 import { Button, InputWithLabel } from 'screens/CreateEntity/Components'
 import { FlexBox } from 'components/App/App.styles'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import { LinkedEntity } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { Typography } from 'components/Typography'
 import { ixo } from '@ixo/impactxclient-sdk'
@@ -17,7 +17,7 @@ interface Props {
 }
 
 const DelegateAccountSetupModal: React.FC<Props> = ({ open, onClose, onAdd }): JSX.Element => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const [address, setAddress] = useState('')
 
   /**

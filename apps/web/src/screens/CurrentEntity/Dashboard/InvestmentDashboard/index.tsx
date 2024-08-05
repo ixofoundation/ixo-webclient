@@ -6,7 +6,7 @@ import { useGetBondDid } from 'graphql/bonds'
 import { useAccount } from 'hooks/account'
 import { useCurrentEntityBondLinkedEntity } from 'hooks/currentEntity'
 import { Navigate, Route, Routes, useMatch, useParams } from 'react-router-dom'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import { toTitleCase } from 'utils/formatters'
 import { requireCheckDefault } from 'utils/images'
 import EditEntity from './EditEntity'
@@ -21,7 +21,7 @@ import ClaimDetail from '../ProjectDashboard/ClaimDetail'
 import { AgentRoles } from 'types/models'
 
 const InvestmentDashboard: React.FC = (): JSX.Element => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const { entityId = '' } = useParams<{ entityId: string }>()
   const isEditEntityRoute = useMatch('/entity/:entityId/dashboard/edit')
   const isClaimScreenRoute = useMatch('/entity/:entityId/dashboard/claims')

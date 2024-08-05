@@ -66,7 +66,7 @@ interface Props {
 }
 
 const MemberListItem: React.FC<Props> = ({ member, selected, onSelectMember }): JSX.Element => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const STATUSES = {
     approved: {
       status: 'approved',

@@ -17,7 +17,7 @@ import { ReactComponent as SortAtoZIcon } from '/public/assets/images/icon-sort-
 import { ReactComponent as SortZtoAIcon } from '/public/assets/images/icon-sort-ztoa.svg'
 import { ReactComponent as SortLtoGIcon } from '/public/assets/images/icon-sort-ltog.svg'
 import { ReactComponent as SortGtoLIcon } from '/public/assets/images/icon-sort-gtol.svg'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import useCurrentEntity from 'hooks/currentEntity'
 import { useQuery } from 'hooks/window'
 // import { ReactComponent as ChevDownIcon } from '/public/assets/images/icon-chev-down.svg'
@@ -38,7 +38,7 @@ const MembersView: React.FC<Props> = ({
   selectedMembers,
   setSelectedMembers,
 }): JSX.Element => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const { getQuery } = useQuery()
   const selectedGroup = getQuery('selectedGroup')
   const { daoGroups } = useCurrentEntity()

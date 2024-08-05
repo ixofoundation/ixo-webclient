@@ -3,7 +3,7 @@ import { deviceWidth } from 'constants/device'
 import { Button } from 'screens/CreateEntity/Components'
 import React from 'react'
 import { ReactComponent as CheckCircleIcon } from '/public/assets/images/icon-check-circle.svg'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import { Typography } from 'components/Typography'
 
 interface Props {
@@ -12,7 +12,7 @@ interface Props {
 }
 
 const ClaimCollectionCreationSuccessStep: React.FC<Props> = ({ hidden, onSubmit }) => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
 
   if (hidden) {
     return null

@@ -6,13 +6,13 @@ import { ReactComponent as SandClockIcon } from '/public/assets/images/icon-sand
 import { ProgressBar } from 'components/ProgressBar/ProgressBar'
 import { expirationAtTimeToSecondsFromNow, secondsToWdhms } from 'utils/conversions'
 import { useNavigate, useParams } from 'react-router-dom'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import useCurrentEntity from 'hooks/currentEntity'
 import { useQuery } from 'hooks/window'
 import { Card } from 'screens/CurrentEntity/Components'
 
 const GovernanceCard: React.FC = (): JSX.Element => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const navigate = useNavigate()
   const { entityId } = useParams<{ entityId: string }>()
   const { getQuery } = useQuery()

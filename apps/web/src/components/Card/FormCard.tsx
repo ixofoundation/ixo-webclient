@@ -1,7 +1,7 @@
 import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import React, { PropsWithChildren } from 'react'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 
 export interface FormCardProp {
   preIcon?: JSX.Element
@@ -9,7 +9,7 @@ export interface FormCardProp {
 }
 
 export const FormCard: React.FC<PropsWithChildren<FormCardProp>> = ({ preIcon, title, children }) => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   return (
     <FlexBox
       $direction='column'

@@ -51,7 +51,7 @@ const NumberCounter: React.FC<Props> = ({
   disabled,
   onChange,
 }): JSX.Element => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const borderColor = theme.ixoNewBlue
   const [focused, setFocused] = useState(false)
   const active = value > 0 || focused

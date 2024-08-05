@@ -1,7 +1,7 @@
 import { FlexBox, GridContainer, SvgBox } from 'components/App/App.styles'
 import React from 'react'
 import { Typography } from 'components/Typography'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import { ReactComponent as AssistantIcon } from '/public/assets/images/icon-assistant.svg'
 import { selectEntityConfig } from 'redux/configs/configs.selectors'
 import { useAppSelector } from 'redux/hooks'
@@ -21,7 +21,7 @@ interface Props {
 }
 
 const Card: React.FC<Props> = ({ icon, title, columns, items }) => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const config = useAppSelector(selectEntityConfig)
   const primaryColor = config.theme.primaryColor ?? theme.ixoNewBlue
 

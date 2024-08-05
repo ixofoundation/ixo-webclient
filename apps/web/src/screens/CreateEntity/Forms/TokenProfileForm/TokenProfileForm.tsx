@@ -6,7 +6,7 @@ import { thousandSeparator } from 'utils/formatters'
 import { Box } from 'components/App/App.styles'
 import { EAssetType } from 'types/entities'
 import { Typography } from 'components/Typography'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 
 interface Props {
   image: string | undefined
@@ -48,7 +48,7 @@ const TokenProfileForm: React.FC<Props> = ({
   SN,
   ...rest
 }): JSX.Element => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   return (
     <FormWrapper {...rest}>
       <FormHeader>

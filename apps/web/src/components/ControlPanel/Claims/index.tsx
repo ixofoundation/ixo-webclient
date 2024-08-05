@@ -5,7 +5,7 @@ import { TEntityClaimModel } from 'types/entities'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import { ReactComponent as PlusIcon } from '/public/assets/images/icon-plus.svg'
 import { useGetClaimCollectionByEntityIdAndClaimTemplateId } from 'graphql/claims'
 import { useAppSelector } from 'redux/hooks'
@@ -17,7 +17,7 @@ import { getEntityById } from 'redux/entities/entities.selectors'
  * @returns
  */
 export const ClaimsItem: React.FC<TEntityClaimModel> = (item) => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const navigate = useNavigate()
   const location = useLocation()
   const { entityId = '' } = useParams<{ entityId: string }>()

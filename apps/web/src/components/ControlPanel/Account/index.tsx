@@ -1,5 +1,5 @@
 import { FlexBox, SvgBox } from 'components/App/App.styles'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import { Typography } from 'components/Typography'
 import { Avatar } from 'screens/CurrentEntity/Components'
 import CopyToClipboard from 'react-copy-to-clipboard'
@@ -14,7 +14,7 @@ import { successToast } from 'utils/toast'
 // import PropoverButton from 'components/Button/PopoverButton'
 
 const AccountCard = () => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const { name, address } = useAccount()
 
   return (

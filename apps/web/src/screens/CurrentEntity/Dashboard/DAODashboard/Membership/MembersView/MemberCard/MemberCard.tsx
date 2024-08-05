@@ -53,7 +53,7 @@ interface Props {
 }
 
 const MemberCard: React.FC<Props> = ({ member, selected, onSelectMember }): JSX.Element => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const navigate = useNavigate()
   const { pathname } = useLocation()
   const { getQuery } = useQuery()

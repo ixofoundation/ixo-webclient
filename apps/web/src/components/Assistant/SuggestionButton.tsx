@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button, ButtonProps } from '@mantine/core'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import { ReactComponent as SendPlaneIcon } from '/public/assets/images/icon-send-plane.svg'
 import { SvgBox } from 'components/App/App.styles'
 
@@ -9,7 +9,7 @@ type Props = ButtonProps & {
 }
 
 const SuggestionButton: React.FC<Props> = ({ onClick, ...props }) => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
 
   return (
     <Button

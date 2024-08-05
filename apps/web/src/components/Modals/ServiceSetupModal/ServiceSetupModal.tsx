@@ -7,7 +7,7 @@ import { Button, Dropdown, InputWithLabel } from 'screens/CreateEntity/Component
 import { Typography } from 'components/Typography'
 import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { ReactComponent as MinusBoxIcon } from '/public/assets/images/icon-minus-box.svg'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 
 interface ServiceFormProps {
   index: number
@@ -17,7 +17,7 @@ interface ServiceFormProps {
 }
 
 const ServiceForm: React.FC<ServiceFormProps> = ({ index, service, onUpdate, onRemove }) => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   return (
     <FlexBox $direction='column' $gap={4} width='100%'>
       <FlexBox $gap={4} $alignItems='center'>

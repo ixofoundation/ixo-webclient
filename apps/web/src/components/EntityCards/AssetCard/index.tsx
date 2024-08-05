@@ -3,7 +3,7 @@ import Lottie from 'react-lottie'
 import { FlexBox, HTMLFlexBoxProps } from 'components/App/App.styles'
 import { ProgressBar } from 'components/ProgressBar/ProgressBar'
 import { Typography } from 'components/Typography'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import { thousandSeparator } from 'utils/formatters'
 import { HorizontalLine } from 'components/HorizontalLine'
 import { Tag } from 'components'
@@ -42,7 +42,7 @@ export const AssetCard: React.FC<Props> = ({
   id,
   ...rest
 }): JSX.Element | null => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const navigate = useNavigate()
   const config = useAppSelector(selectEntityConfig)
   const design = config.UI?.explorer?.design

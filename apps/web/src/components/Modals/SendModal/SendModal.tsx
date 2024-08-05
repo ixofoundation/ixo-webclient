@@ -30,7 +30,7 @@ const StyledInput = styled(Input)`
 `
 
 const Card = ({ children, ...rest }: HTMLFlexBoxProps) => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   return (
     <FlexBox
       p={2}
@@ -55,7 +55,7 @@ interface Props {
 }
 
 const SendModal: React.FunctionComponent<Props> = ({ open, selectedDenomOrAddr, setOpen, onSuccess }) => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const { execute, close } = useWallet()
   const { nativeTokens, cw20Tokens, signer } = useAccount()
   const selectedToken = useMemo(

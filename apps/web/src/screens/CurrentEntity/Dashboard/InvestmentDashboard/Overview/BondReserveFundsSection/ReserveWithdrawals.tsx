@@ -54,7 +54,7 @@ interface Props {
 }
 
 const ReserveWithdrawals: React.FC<Props> = ({ bondDid }) => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const { convertToDenom } = useIxoConfigs()
   const { did: accountDid } = useAccount()
   const { data: withdrawals } = useGetBondWithdrawals(bondDid, accountDid)

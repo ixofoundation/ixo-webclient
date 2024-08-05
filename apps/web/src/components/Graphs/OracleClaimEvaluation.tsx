@@ -1,12 +1,12 @@
 import { Flex, Text } from '@mantine/core'
 import { Bar, BarChart, ResponsiveContainer, Tooltip, YAxis } from 'recharts'
 import moment from 'moment'
-import { useTheme } from 'styled-components'
+import { useMantineTheme } from '@mantine/core'
 import { useMemo } from 'react'
 
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
-    console.log({payload})
+    console.log({ payload })
     const timestamp = payload[0].payload?.timestamp
     const claims = payload[0].payload?.claims
     return (
@@ -30,9 +30,9 @@ const OracleClaimEvaluation = ({ evaluations }: { evaluations: any[] }) => {
     const timestampMap = new Map()
 
     evaluations.forEach((evaluation) => {
-      console.log({evaluation})
+      console.log({ evaluation })
       const timestamp = moment(evaluation.claim?.submissionDate).format('D MMM YYYY')
-      console.log({timestamp})
+      console.log({ timestamp })
       if (timestampMap.has(timestamp)) {
         timestampMap.set(timestamp, timestampMap.get(timestamp) + 1)
       } else {

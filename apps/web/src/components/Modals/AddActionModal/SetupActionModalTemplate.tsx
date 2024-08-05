@@ -45,7 +45,7 @@ const SetupActionModalTemplate: React.FC<Props> = ({
   children,
   noTitle,
 }): JSX.Element => {
-  const theme: any = useTheme()
+  const theme = useMantineTheme()
   const Icon = ProposalActionConfig[action.group].items[action.text].icon
   const description = ProposalActionConfig[action.group].items[action.text].description
 
