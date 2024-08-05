@@ -1,9 +1,7 @@
 import { useState } from 'react'
 import { Textarea, Flex } from '@mantine/core'
 
-
 import Suggestions from './Suggestions'
-import ResetMessagesButton from './ResetMessagesButton'
 import SendIcon from './SendIcon'
 import { useAppSelector } from 'redux/hooks'
 import {
@@ -13,7 +11,7 @@ import {
 } from 'redux/assistant/assistant.selectors'
 import { useTheme } from 'styled-components'
 
-export default function QueryInput({ sendMessage }: { sendMessage: (message: string) => void}) {
+export default function QueryInput({ sendMessage }: { sendMessage: (message: string) => void }) {
   const theme: any = useTheme()
   const [typedMessage, setTypedMessage] = useState('')
   const [isFocused, setIsFocused] = useState(false)
@@ -47,7 +45,6 @@ export default function QueryInput({ sendMessage }: { sendMessage: (message: str
       id='QueryInput'
       pos='relative'
     >
-      {(messages.length || null) && <ResetMessagesButton />}
       <Suggestions
         messages={['What is Ixo?', 'Analyse my Asset Performance', 'Explain my Impact Certificate']}
         sendMessage={(m: string) => sendMessage(m)}
