@@ -9,10 +9,10 @@ import {
   Skeleton,
 } from "@mantine/core";
 import { QRCodeSVG } from "qrcode.react";
-import { XIcon } from "assets/x-icon";
+import { XIcon } from "/public/assets/x-icon";
 import { useWallet } from "hooks";
 import { WalletType } from "@ixo-webclient/types";
-import { BrokenLink } from "assets/brokenLink";
+import { BrokenLink } from "/public/assets/brokenLink";
 
 export function TimeLeft({
   percent,

@@ -12,7 +12,7 @@ import { useAppSelector } from 'redux/hooks'
 import { AppLogo } from 'components/Header/HeaderLeft/HeaderLeft.styles'
 import { requireCheckDefault } from 'utils/images'
 import { Typography } from 'components/Typography'
-import { ReactComponent as IXOLogo } from 'assets/images/ixo-logo.svg'
+import { ReactComponent as IXOLogo } from '/public/assets/images/ixo-logo.svg'
 import { SvgBox } from 'components/App/App.styles'
 import { useMemo } from 'react'
 import { getIxoWorldRoute } from 'utils/formatters'
@@ -63,7 +63,7 @@ const Footer: React.FC = () => {
       </div>
       <div className='row align-items-center justify-content-center mt-4' style={{ gap: 8 }}>
         <Typography color='dark-blue'>Powered by</Typography>
-        <SvgBox $svgWidth={7} color='#00D2FF' onClick={() => window.open("https://ixo.world", '_blank', 'noopener')}>
+        <SvgBox $svgWidth={7} color='#00D2FF' onClick={() => window.open('https://ixo.world', '_blank', 'noopener')}>
           <IXOLogo />
         </SvgBox>
       </div>

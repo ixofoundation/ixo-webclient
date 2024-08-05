@@ -1,5 +1,5 @@
-import blackAnimation from 'assets/lottie/assistant-active-black.json'
-import whiteAnimation from 'assets/lottie/assistant-active-white.json'
+import blackAnimation from '/public/assets/lottie/assistant-active-black.json'
+import whiteAnimation from '/public/assets/lottie/assistant-active-white.json'
 import { useCompanion } from 'hooks/useCompanion'
 import { useCompanionDesignConfig } from 'hooks/userInterface/useCompanionDesignConfig'
 import { useLottie } from 'lottie-react'

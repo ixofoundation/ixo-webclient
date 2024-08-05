@@ -4,9 +4,9 @@ import { MatchType } from '../../types/models'
 import { TabsContainer } from './Tabs.styles'
 import Tooltip, { TooltipPosition } from '../Tooltip/Tooltip'
 import Lottie from 'react-lottie'
-import activeAnimation from 'assets/animations/assistant/active.json'
-import inactiveAnimation from 'assets/animations/assistant/inactive.json'
-import hoverAnimation from 'assets/animations/assistant/hover.json'
+import activeAnimation from '/public/assets/animations/assistant/active.json'
+import inactiveAnimation from '/public/assets/animations/assistant/inactive.json'
+import hoverAnimation from '/public/assets/animations/assistant/hover.json'
 import AssistantContext from 'contexts/assistant'
 import { HeaderTab } from 'components/Dashboard/types'
 import { useAppSelector } from 'redux/hooks'
@@ -116,7 +116,9 @@ const TabsComponent: React.FunctionComponent<Props> = ({
               return (
                 <Tooltip text={button.tooltip} key={index} position={TooltipPosition.Bottom}>
                   <NavLink className={button.linkClass} to={{ pathname: button.path, search: button.search }}>
-                    {button.iconClass && <i className={button.iconClass} style={{ fill: tabConfig?.color, color: tabConfig?.color }}/>}
+                    {button.iconClass && (
+                      <i className={button.iconClass} style={{ fill: tabConfig?.color, color: tabConfig?.color }} />
+                    )}
                     {button.title && <p>{button.title}</p>}
                   </NavLink>
                 </Tooltip>

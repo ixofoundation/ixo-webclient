@@ -1,6 +1,6 @@
-import { Button, PropertyBox } from 'pages/CreateEntity/Components'
+import { Button, PropertyBox } from 'screens/CreateEntity/Components'
 import React, { useMemo, useState } from 'react'
-import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
+import { ReactComponent as PlusIcon } from '/public/assets/images/icon-plus.svg'
 import { AddInvestmentInstrumentModal, CreateBondModal } from 'components/Modals'
 import { Box } from 'components/App/App.styles'
 import { InvestmentInstrumentsConfig } from 'constants/entity'

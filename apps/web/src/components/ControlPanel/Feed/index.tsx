@@ -1,12 +1,12 @@
 import { useTheme } from 'styled-components'
 import { Card } from '../Card'
 import { FlexBox, SvgBox } from 'components/App/App.styles'
-import { Avatar } from 'pages/CurrentEntity/Components'
+import { Avatar } from 'screens/CurrentEntity/Components'
 import { Typography } from 'components/Typography'
-import { ReactComponent as BellIcon } from 'assets/images/icon-bell.svg'
-import { ReactComponent as ThumbsUpIcon } from 'assets/images/icon-thumbs-up.svg'
-import { ReactComponent as CommentIcon } from 'assets/images/icon-comment-alt.svg'
-import { ReactComponent as BookMarkIcon } from 'assets/images/icon-bookmark.svg'
+import { ReactComponent as BellIcon } from '/public/assets/images/icon-bell.svg'
+import { ReactComponent as ThumbsUpIcon } from '/public/assets/images/icon-thumbs-up.svg'
+import { ReactComponent as CommentIcon } from '/public/assets/images/icon-comment-alt.svg'
+import { ReactComponent as BookMarkIcon } from '/public/assets/images/icon-bookmark.svg'
 import { useState } from 'react'
 
 const FeedItem = () => {

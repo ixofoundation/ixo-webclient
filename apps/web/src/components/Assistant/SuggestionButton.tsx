@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button, ButtonProps } from '@mantine/core'
 import { useTheme } from 'styled-components'
-import { ReactComponent as SendPlaneIcon } from 'assets/images/icon-send-plane.svg'
+import { ReactComponent as SendPlaneIcon } from '/public/assets/images/icon-send-plane.svg'
 import { SvgBox } from 'components/App/App.styles'
 
 type Props = ButtonProps & {

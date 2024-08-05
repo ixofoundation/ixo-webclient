@@ -20,7 +20,7 @@ import { getInflation, getTotalStaked, getTotalSupply } from 'redux/selectedEnti
 import { selectAPR } from 'redux/selectedEntityExchange/entityExchange.selectors'
 import { requireCheckDefault } from 'utils/images'
 
-const chainID = process.env.REACT_APP_CHAIN_ID
+const chainID = process.env.NEXT_PUBLIC_CHAIN_ID
 
 interface Props {
   did: string
@@ -100,9 +100,9 @@ const DataCard: React.FunctionComponent<Props> = ({
         <CardTop>
           <CardTopContainer
             style={{
-              background: ` url(${requireCheckDefault(require('assets/tokens/ixo.svg'))}) 10px 10px no-repeat,
+              background: ` url(${'/public/assets/tokens/ixo.svg'}) 10px 10px no-repeat,
                             url(${image}),
-                            url(${requireCheckDefault(require('assets/images/ixo-placeholder-large.jpg'))})`,
+                            url(${'/public/assets/images/ixo-placeholder-large.jpg'})`,
               backgroundSize: `auto, cover`,
               height: '10.5rem',
             }}
@@ -122,7 +122,7 @@ const DataCard: React.FunctionComponent<Props> = ({
               </SDG>
             </div>
             <div className='col-6 text-right'>
-              <Logo src={requireCheckDefault(require('assets/images/exchange/impact-internet.svg'))} />
+              <Logo src={'/public/assets/images/exchange/impact-internet.svg'} />
             </div>
           </div>
           <MainContent style={{ margin: '0.5rem 0' }}>

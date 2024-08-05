@@ -1,11 +1,11 @@
 import BigNumber from 'bignumber.js'
 import cx from 'classnames'
-import ChevDownIcon from 'assets/images/icon-chev-down.svg'
+import ChevDownIcon from '/public/assets/images/icon-chev-down.svg'
 import { displayTokenAmount } from 'utils/currency'
 import { Typography } from 'components/App/App.styles'
 import React from 'react'
 import { AssetType } from 'redux/configs/configs.types'
-import CashIcon from 'assets/images/assets/cash.svg'
+import CashIcon from '/public/assets/images/assets/cash.svg'
 import {
   AmountInputBoxWrapper as TokenSelectBoxWrapper,
   AmountInputBoxBody as TokenSelectBoxBody,

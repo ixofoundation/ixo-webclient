@@ -15,22 +15,22 @@ import DataAssets from 'assets/icons/DataAssets'
 import { EntityType } from 'types/entities'
 import { useNavigate } from 'react-router-dom'
 
-const getEntityIcon = (type: string, styles?: { color?: string, size?: string }) => {
+const getEntityIcon = (type: string, styles?: { color?: string; size?: string }) => {
   switch (type) {
     case 'project':
-      return <Projects fill={styles?.color ?? "#000"} width={styles?.size ?? '24'}  />
+      return <Projects fill={styles?.color ?? '#000'} width={styles?.size ?? '24'} />
     case 'oracle':
-      return <Oracle fill={styles?.color ?? "#000"} width={styles?.size ?? '24'} />
+      return <Oracle fill={styles?.color ?? '#000'} width={styles?.size ?? '24'} />
     case 'investment':
-      return <Investments fill={styles?.color ?? "#000"} width={styles?.size ?? '24'} />
+      return <Investments fill={styles?.color ?? '#000'} width={styles?.size ?? '24'} />
     case 'asset':
-      return <DataAssets fill={styles?.color ?? "#000"} width={styles?.size ?? '24'} />
+      return <DataAssets fill={styles?.color ?? '#000'} width={styles?.size ?? '24'} />
     case 'protocol':
-      return <Template fill={styles?.color ?? "#000"} width={styles?.size ?? '24'} />
+      return <Template fill={styles?.color ?? '#000'} width={styles?.size ?? '24'} />
     case 'dao':
-      return <Cells fill={styles?.color ?? "#000"} width={styles?.size ?? '24'} />
+      return <Cells fill={styles?.color ?? '#000'} width={styles?.size ?? '24'} />
     default:
-      return <Template fill={styles?.color ?? "#000"} width={styles?.size ?? '24'} />
+      return <Template fill={styles?.color ?? '#000'} width={styles?.size ?? '24'} />
   }
 }
 
@@ -59,7 +59,7 @@ export function ExplorerEntityMenu() {
           size='compact-lg'
           variant='outline'
           color={primaryColor}
-          leftSection={getEntityIcon(type ?? '', { size: '18'})}
+          leftSection={getEntityIcon(type ?? '', { size: '18' })}
           rightSection={<LiaChevronDownSolid style={{ width: rem(18), height: rem(18) }} />}
         >
           {upperFirst(toRootEntityType(type ?? ''))}
@@ -67,7 +67,11 @@ export function ExplorerEntityMenu() {
       </Menu.Target>
       <Menu.Dropdown>
         {entities.map((entity: string) => (
-          <Menu.Item key={entity} onClick={() => handleMenuItemChange(entity)} leftSection={getEntityIcon(entity, { color: config?.[EntityType.Oracle]?.themeColor })}>
+          <Menu.Item
+            key={entity}
+            onClick={() => handleMenuItemChange(entity)}
+            leftSection={getEntityIcon(entity, { color: config?.[EntityType.Oracle]?.themeColor })}
+          >
             {upperFirst(entity)}
           </Menu.Item>
         ))}

@@ -1,8 +1,8 @@
 import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { useTheme } from 'styled-components'
 import { Typography } from 'components/Typography'
-// import { ReactComponent as ArrowRightIcon } from 'assets/images/icon-arrow-right.svg'
-import { ReactComponent as WalletIcon } from 'assets/images/icon-wallet-solid.svg'
+// import { ReactComponent as ArrowRightIcon } from '/public/assets/images/icon-arrow-right.svg'
+import { ReactComponent as WalletIcon } from '/public/assets/images/icon-wallet-solid.svg'
 import { Card } from '../Card'
 import { useAccount } from 'hooks/account'
 import { useMemo, useState } from 'react'
@@ -77,7 +77,7 @@ const BalanceCard = () => {
                 <WalletIcon />
               </SvgBox>
             </FlexBox>
-{/* 
+            {/* 
             <FlexBox width='100%' $gap={2}>
               <FlexBox
                 p={3}

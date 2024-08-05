@@ -4,16 +4,16 @@ import Lottie from 'react-lottie'
 import TokenSelector from 'components/TokenSelector/TokenSelector'
 import { StepsTransactions } from 'components/StepsTransactions/StepsTransactions'
 import AmountInput from 'components/AmountInput/AmountInput'
-import OverlayButtonDownIcon from 'assets/images/modal/overlaybutton-down.svg'
-import OverlayButtonUpIcon from 'assets/images/modal/overlaybutton-up.svg'
-import NextStepIcon from 'assets/images/modal/nextstep.svg'
-import EyeIcon from 'assets/images/icon-eye.svg'
-import CheckIcon from 'assets/images/icon-check.svg'
+import OverlayButtonDownIcon from '/public/assets/images/modal/overlaybutton-down.svg'
+import OverlayButtonUpIcon from '/public/assets/images/modal/overlaybutton-up.svg'
+import NextStepIcon from '/public/assets/images/modal/nextstep.svg'
+import EyeIcon from '/public/assets/images/icon-eye.svg'
+import CheckIcon from '/public/assets/images/icon-check.svg'
 import { convertDecCoinToCoin, getDisplayAmount } from 'utils/currency'
 import { BigNumber } from 'bignumber.js'
-import pendingAnimation from 'assets/animations/transaction/pending.json'
-import successAnimation from 'assets/animations/transaction/success.json'
-import errorAnimation from 'assets/animations/transaction/fail.json'
+import pendingAnimation from '/public/assets/animations/transaction/pending.json'
+import successAnimation from '/public/assets/animations/transaction/success.json'
+import errorAnimation from '/public/assets/animations/transaction/fail.json'
 import ValidatorSelector from 'components/ValidatorSelector/ValidatorSelector'
 import { thousandSeparator } from 'utils/formatters'
 import AllValidator from 'components/ValidatorSelector/AllValidator'
@@ -346,9 +346,7 @@ const StakingModal: React.FunctionComponent<Props> = ({ accountAddress, defaultV
                   !defaultValidator ? sumOfRewards : new BigNumber(defaultValidator.reward?.amount ?? 0).toFixed(2),
                   ',',
                 )} IXO Available`}
-                logo={
-                  !defaultValidator ? requireCheckDefault(require('assets/img/relayer.png')) : defaultValidator.logo
-                }
+                logo={!defaultValidator ? '/public/assets/img/relayer.png' : defaultValidator.logo}
               />
               <div className='mt-3' />
             </>

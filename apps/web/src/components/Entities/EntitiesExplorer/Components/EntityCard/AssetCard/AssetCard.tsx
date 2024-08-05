@@ -23,7 +23,7 @@ import { getInflation, getTotalStaked, getTotalSupply } from 'redux/selectedEnti
 import { requireCheckDefault } from 'utils/images'
 // import { minimalDenomToDenom } from 'redux/account/account.utils'
 
-const chainID = process.env.REACT_APP_CHAIN_ID
+const chainID = process.env.NEXT_PUBLIC_CHAIN_ID
 
 const SDG = styled.div`
   border-radius: 0.25rem;
@@ -109,9 +109,7 @@ const DataCard: React.FunctionComponent<Props> = ({
         <CardTop>
           <CardTopContainer
             style={{
-              backgroundImage: `url(${image}),url(${
-                requireCheckDefault(require('assets/images/ixo-placeholder-large.jpg')).default
-              })`,
+              backgroundImage: `url(${image}),url(${'/public/assets/images/ixo-placeholder-large.jpg'.default})`,
             }}
           >
             <SDGIcons sdgs={sdgs} />

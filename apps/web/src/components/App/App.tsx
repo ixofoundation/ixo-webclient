@@ -1,8 +1,8 @@
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import 'react-dates/lib/css/_datepicker.css'
-import 'assets/icons.css'
-import 'assets/toasts.scss'
+import '/public/assets/icons.css'
+import '/public/assets/toasts.scss'
 
 import AssistantContext from 'contexts/assistant'
 import React from 'react'

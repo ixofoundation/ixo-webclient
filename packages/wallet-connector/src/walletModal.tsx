@@ -3,8 +3,8 @@ import { useWallet } from "hooks";
 import { QRCodeSVG } from "qrcode.react";
 import { ConnectModal } from "components/connectModal";
 import { friendlyModalTitles } from "utils";
-import Lottie from 'react-lottie'
-import pendingAnimation from 'assets/animations/pending.json'
+import Lottie from "react-lottie";
+import pendingAnimation from "/public/assets/animations/pending.json";
 
 const TransactModal = () => {
   const { mobile, transaction } = useWallet();
@@ -18,7 +18,6 @@ const TransactModal = () => {
       direction="column"
       gap="20px"
     >
-
       {/* <TimeLeft timeout={mobile?.timeout || 0} /> */}
       {mobile.data && (
         <>
@@ -33,7 +32,11 @@ const TransactModal = () => {
             bgColor={"#ffffff"}
             fgColor={"#000000"}
             level={"Q"}
-            style={{ padding: "20px", background: "white", borderRadius: "20px" }}
+            style={{
+              padding: "20px",
+              background: "white",
+              borderRadius: "20px",
+            }}
             imageSettings={{
               src: "/assets/oval-x-icon.png",
               x: undefined,
@@ -42,29 +45,30 @@ const TransactModal = () => {
               width: 30,
               excavate: true,
             }}
-          /></>
+          />
+        </>
       )}
     </Flex>
   );
 };
 
 const SequenceTransactionModal = () => {
-  return <Flex
-    w="100%"
-    h="100%"
-    justify="center"
-    align="center"
-    direction="column"
-    gap="20px"
-  >
-
-    {/* <TimeLeft timeout={mobile?.timeout || 0} /> */}
-    <Flex>
-      <Text style={{ color: "white" }}>
-        Keep the Impacts X mobile app open for additional transactions
-      </Text>
-    </Flex>
-    <Lottie
+  return (
+    <Flex
+      w="100%"
+      h="100%"
+      justify="center"
+      align="center"
+      direction="column"
+      gap="20px"
+    >
+      {/* <TimeLeft timeout={mobile?.timeout || 0} /> */}
+      <Flex>
+        <Text style={{ color: "white" }}>
+          Keep the Impacts X mobile app open for additional transactions
+        </Text>
+      </Flex>
+      <Lottie
         height={120}
         width={120}
         options={{
@@ -73,16 +77,17 @@ const SequenceTransactionModal = () => {
           animationData: pendingAnimation,
         }}
       />
-  </Flex>
-}
+    </Flex>
+  );
+};
 
 export const WalletModal = () => {
   const { opened, close, mobile } = useWallet();
 
-
-  const isConnectModal = mobile.data?.type === "SIGN_X_LOGIN"
-  const isTransactModal = mobile.data?.type === "SIGN_X_TRANSACT"
-  const isSequenceTransactionModal = mobile.data?.type === "SIGN_X_TRANSACT_SESSION"
+  const isConnectModal = mobile.data?.type === "SIGN_X_LOGIN";
+  const isTransactModal = mobile.data?.type === "SIGN_X_TRANSACT";
+  const isSequenceTransactionModal =
+    mobile.data?.type === "SIGN_X_TRANSACT_SESSION";
 
   return (
     <MantineProvider>

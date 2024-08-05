@@ -12,11 +12,11 @@ import { Typography } from 'components/Typography'
 import { deviceWidth } from 'constants/device'
 import { useCreateEntity } from 'hooks/createEntity'
 import { useQuery } from 'hooks/window'
-import { Button } from 'pages/CreateEntity/Components'
+import { Button } from 'screens/CreateEntity/Components'
 import React, { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { ReactComponent as CheckCircleIcon } from 'assets/images/icon-check-circle.svg'
-import { ReactComponent as ExclamationIcon } from 'assets/images/icon-exclamation-circle.svg'
+import { ReactComponent as CheckCircleIcon } from '/public/assets/images/icon-check-circle.svg'
+import { ReactComponent as ExclamationIcon } from '/public/assets/images/icon-exclamation-circle.svg'
 import { useTheme } from 'styled-components'
 import { CreationSuccessScreen } from './CreationSuccessScreen'
 import { createEntityCard, withEntityData } from 'components'
@@ -118,7 +118,7 @@ const Review = ({ showNavigation = true }: { showNavigation?: boolean }): JSX.El
         linkedEntity,
         linkedClaim,
         verification,
-        relayerNode: process.env.REACT_APP_RELAYER_NODE,
+        relayerNode: process.env.NEXT_PUBLIC_RELAYER_NODE,
         ...(controller?.length > 0 && { controller }),
       },
       { sequence: 2, transactionSessionHash: transaction.transactionSessionHash },

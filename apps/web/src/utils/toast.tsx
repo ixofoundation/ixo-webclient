@@ -2,8 +2,8 @@ import Lottie from 'react-lottie'
 import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { toast, ToastContent, ToastOptions } from 'react-toastify'
-import SuccessAnimation from 'assets/lottie/sign_success.json'
-import FailAnimation from 'assets/lottie/sign_fail.json'
+import SuccessAnimation from '/public/assets/lottie/sign_success.json'
+import FailAnimation from '/public/assets/lottie/sign_fail.json'
 
 const successToast = (title?: ToastContent, content?: ToastContent, options?: ToastOptions): void => {
   toast.success(

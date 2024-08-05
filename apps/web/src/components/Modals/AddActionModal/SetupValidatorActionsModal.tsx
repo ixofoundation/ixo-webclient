@@ -1,6 +1,6 @@
 import { FlexBox } from 'components/App/App.styles'
 import { NATIVE_MICRODENOM } from 'constants/chains'
-import { CodeMirror, Dropdown } from 'pages/CreateEntity/Components'
+import { CodeMirror, Dropdown } from 'screens/CreateEntity/Components'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { TProposalActionModel } from 'types/entities'

@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components'
-import { Input } from 'pages/CreateEntity/Components'
+import { Input } from 'screens/CreateEntity/Components'
 import { Typography } from 'components/App/App.styles'
 import { deviceWidth } from 'constants/device'
 

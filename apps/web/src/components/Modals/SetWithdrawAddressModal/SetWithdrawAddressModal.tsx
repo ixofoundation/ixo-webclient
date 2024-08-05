@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useState, useEffect } from 'react'
 import styled from 'styled-components'
-import { ReactComponent as QRCodeIcon } from 'assets/images/icon-qrcode.svg'
+import { ReactComponent as QRCodeIcon } from '/public/assets/images/icon-qrcode.svg'
 
 import { checkValidAddress } from 'redux/account/account.utils'
 import { ModalWrapper } from 'components/Wrappers/ModalWrapper'

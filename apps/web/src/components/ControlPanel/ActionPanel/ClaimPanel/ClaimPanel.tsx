@@ -1,5 +1,5 @@
 import { Flex, Text } from '@mantine/core'
-import { ReactComponent as ClaimIcon } from 'assets/images/icon-claim.svg'
+import { ReactComponent as ClaimIcon } from '/public/assets/images/icon-claim.svg'
 import { SvgBox } from 'components/App/App.styles'
 import { selectEntityConfig } from 'redux/configs/configs.selectors'
 import { useAppSelector } from 'redux/hooks'
@@ -14,12 +14,12 @@ const ClaimPanel = ({ data }: { data: any }) => {
   const theme = useTheme()
   const config = useAppSelector(selectEntityConfig)
   const primaryColor = config.theme.primaryColor ?? theme.ixoNewBlue
-   const { entityId = '' } = useParams<{ entityId: string }>()
+  const { entityId = '' } = useParams<{ entityId: string }>()
 
   const isEntityOwner = useIsEntityOwner({
-   collectionId:data?.collection?.id ,
-   entityId,
- })
+    collectionId: data?.collection?.id,
+    entityId,
+  })
   return (
     <Flex style={{ borderRadius: 12 }} direction={'column'}>
       <Flex align={'center'}>

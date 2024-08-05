@@ -1,13 +1,10 @@
 import { ActionIcon, Anchor, Flex, Text, Tooltip } from '@mantine/core'
 import { SvgBox } from 'components/App/App.styles'
 import React, { useState } from 'react'
-import {
-  selectEntityFooterUIConfig,
-  selectEntityHeadTitleUIConfig,
-} from 'redux/entities/entities.selectors'
+import { selectEntityFooterUIConfig, selectEntityHeadTitleUIConfig } from 'redux/entities/entities.selectors'
 import { useAppSelector } from 'redux/hooks'
 import styled from 'styled-components'
-import { ReactComponent as InfoIcon } from 'assets/images/icon-info.svg'
+import { ReactComponent as InfoIcon } from '/public/assets/images/icon-info.svg'
 
 const StyledAnchor = styled(Anchor)`
   color: var(--mantine-color-white);

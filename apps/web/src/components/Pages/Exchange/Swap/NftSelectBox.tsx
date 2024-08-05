@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js'
 import cx from 'classnames'
-import ChevDownIcon from 'assets/images/icon-chev-down.svg'
+import ChevDownIcon from '/public/assets/images/icon-chev-down.svg'
 import { displayTokenAmount } from 'utils/currency'
 import { Typography } from 'components/App/App.styles'
 import React from 'react'

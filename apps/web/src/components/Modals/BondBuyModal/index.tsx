@@ -1,9 +1,9 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { StepsTransactions } from 'components/StepsTransactions/StepsTransactions'
 
-import OverlayButtonDownIcon from 'assets/images/modal/overlaybutton-down.svg'
-import NextStepIcon from 'assets/images/modal/nextstep.svg'
-import CheckIcon from 'assets/images/icon-check.svg'
+import OverlayButtonDownIcon from '/public/assets/images/modal/overlaybutton-down.svg'
+import NextStepIcon from '/public/assets/images/modal/nextstep.svg'
+import CheckIcon from '/public/assets/images/icon-check.svg'
 import Ring from 'assets/icons/ring'
 
 import { Container, NextStep, PrevStep, CheckWrapper, OverlayWrapper, Divider, LabelWrapper, Label } from '../styles'

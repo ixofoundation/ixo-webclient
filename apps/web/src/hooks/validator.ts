@@ -12,7 +12,7 @@ import BigNumber from 'bignumber.js'
 import { convertDecCoinToCoin } from 'utils/currency'
 import { Coin } from '@cosmjs/proto-signing'
 
-const RelayerLogo = requireCheckDefault(require('assets/img/relayer.png'))
+const RelayerLogo = '/public/assets/img/relayer.png'
 
 export function useValidators(): {
   validators: TValidatorModel[]

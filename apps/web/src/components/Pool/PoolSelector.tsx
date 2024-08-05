@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-// import ImpactHubIcon from 'assets/img/relayer.png'
+// import ImpactHubIcon from '/public/assets/img/relayer.png'
 
 const PoolSelectorWrapper = styled.div<{ border?: boolean }>`
   position: relative;

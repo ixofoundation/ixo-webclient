@@ -1,10 +1,10 @@
+// AmountInput.tsx
 import React from 'react'
-import cx from 'classnames'
-import { AmountInputWrapper, IconWrapper, InputWrapper, MemoInputWrapper, DisplayWrapper } from './AmountInput.styles'
-
-import MemoEditIcon from 'assets/images/modal/memoedit.svg'
-import MemoCheckIcon from 'assets/images/modal/memocheck.svg'
-import MemoDoneIcon from 'assets/images/modal/memodone.svg'
+import { Box, TextInput, NumberInput } from '@mantine/core'
+import { useAmountInputStyles } from './AmountInput.styles'
+import MemoEditIcon from '/public/assets/images/modal/memoedit.svg'
+import MemoCheckIcon from '/public/assets/images/modal/memocheck.svg'
+import MemoDoneIcon from '/public/assets/images/modal/memodone.svg'
 
 interface Props {
   amount: number
@@ -15,12 +15,12 @@ interface Props {
   suffix: string
   step?: number
   error?: boolean
-  handleAmountChange: (event: any) => void
-  handleMemoChange?: (event: any) => void
-  handleMemoStatus?: (event: string) => void
+  handleAmountChange: (value: number | '') => void
+  handleMemoChange?: (event: React.ChangeEvent<HTMLInputElement>) => void
+  handleMemoStatus?: (status: string) => void
 }
 
-const AmountInput: React.FunctionComponent<Props> = ({
+const AmountInput: React.FC<Props> = ({
   amount,
   memo = null,
   memoStatus = 'nomemo',
@@ -33,6 +33,8 @@ const AmountInput: React.FunctionComponent<Props> = ({
   handleMemoChange,
   handleMemoStatus,
 }) => {
+  const { classes, cx } = useAmountInputStyles({ disabled: disable, error })
+
   const handleAction = (): void => {
     if (!handleMemoStatus) return
     switch (memoStatus) {
@@ -53,55 +55,56 @@ const AmountInput: React.FunctionComponent<Props> = ({
     }
   }
 
-  return (
-    <AmountInputWrapper className={cx({ disable: disable, error: error })}>
-      {!disable && memo !== null && amount > 0 && (
-        <IconWrapper onClick={handleAction}>
+  const renderIcon = () => {
+    if (!disable && memo !== null && amount > 0) {
+      return (
+        <Box className={classes.iconWrapper} onClick={handleAction}>
           <img
             src={memoStatus === 'memodone' ? MemoDoneIcon : memoStatus === 'memowith' ? MemoCheckIcon : MemoEditIcon}
             alt='memo icon'
           />
-        </IconWrapper>
-      )}
+        </Box>
+      )
+    }
+    return null
+  }
 
-      {!disable && (memoStatus === 'nomemo' || memoStatus === 'memodone') && (
-        <InputWrapper>
-          <input
-            type='number'
-            value={amount || 0}
+  const renderInput = () => {
+    if (!disable) {
+      if (memoStatus === 'nomemo' || memoStatus === 'memodone') {
+        return (
+          <NumberInput
+            value={amount}
             onChange={handleAmountChange}
             placeholder={placeholder}
             step={step}
             min={0}
+            classNames={{ input: classes.input }}
+            rightSection={renderIcon()}
           />
-        </InputWrapper>
-      )}
-
-      {!disable && (memoStatus === 'memoedit' || memoStatus === 'memowith') && (
-        <MemoInputWrapper>
-          <input
+        )
+      } else if (memoStatus === 'memoedit' || memoStatus === 'memowith') {
+        return (
+          <TextInput
             value={memo || ''}
             onChange={handleMemoChange}
             placeholder={'(Optional) Start typing a public Tx Memo...'}
+            classNames={{ input: classes.memoInput }}
+            rightSection={renderIcon()}
           />
-        </MemoInputWrapper>
-      )}
+        )
+      }
+    } else {
+      return (
+        <Box className={classes.displayWrapper} style={{ pointerEvents: 'none' }}>
+          {amount + ' ' + suffix}
+          {memo && <span>&nbsp;&nbsp;({memo})</span>}
+        </Box>
+      )
+    }
+  }
 
-      {disable && (
-        <>
-          {memo && (
-            <IconWrapper style={{ opacity: '50%' }}>
-              <img src={MemoDoneIcon} alt='memo icon' />
-            </IconWrapper>
-          )}
-          <DisplayWrapper style={{ pointerEvents: 'none' }}>
-            {amount + ' ' + suffix}
-            {memo && <span>&nbsp;&nbsp;({memo})</span>}
-          </DisplayWrapper>
-        </>
-      )}
-    </AmountInputWrapper>
-  )
+  return <Box className={cx(classes.amountInputWrapper, { disable, error })}>{renderInput()}</Box>
 }
 
 export default AmountInput

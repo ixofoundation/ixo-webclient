@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { FlexBox } from 'components/App/App.styles'
-import { AccountValidStatus, Dropdown, Input, Switch } from 'pages/CreateEntity/Components'
+import { AccountValidStatus, Dropdown, Input, Switch } from 'screens/CreateEntity/Components'
 import { Typography } from 'components/Typography'
 import { TProposalActionModel } from 'types/entities'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
@@ -17,7 +17,7 @@ export enum AuthzGrantActionTypes {
   Redelegate = '/cosmos.staking.v1beta1.MsgBeginRedelegate',
   ClaimRewards = '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward',
   CreateCollection = '/ixo.claims.v1beta1.MsgCreateCollection',
-  UpdateCollectionState = '/ixo.claims.v1beta1.MsgUpdateCollectionState'
+  UpdateCollectionState = '/ixo.claims.v1beta1.MsgUpdateCollectionState',
 }
 
 const inputHeight = '48px'

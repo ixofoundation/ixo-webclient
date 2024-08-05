@@ -1,4 +1,4 @@
-import { ReactComponent as AssistantIcon } from 'assets/images/icon-assistant.svg'
+import { ReactComponent as AssistantIcon } from '/public/assets/images/icon-assistant.svg'
 import AccountCard from './Account'
 import MyParticipationCard from './MyParticipation'
 import BalanceCard from './Balance'
@@ -61,7 +61,7 @@ const ControlPanel = ({ entityType }: Props) => {
 
   const goBack = () => {
     resetKeyValue()
-    if(keyValue?.type === 'claim'){
+    if (keyValue?.type === 'claim') {
       const search = new URLSearchParams()
       search.delete('collectionId')
       search.delete('agentRole')
@@ -85,7 +85,7 @@ const ControlPanel = ({ entityType }: Props) => {
           {!keyValue && activeTab === 'detail' && renderDetail()}
           {!keyValue && activeTab === 'feed' && <FeedCard />}
           {!keyValue && activeTab === 'message' && <MessagesCard />}
-          {!keyValue && activeTab === 'assistant' && <Assistant/>}
+          {!keyValue && activeTab === 'assistant' && <Assistant />}
           {keyValue && <ActionPanel type={keyValue.type} data={keyValue.data} />}
         </Flex>
       </StyledScrollArea>

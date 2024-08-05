@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import styled, { useTheme } from 'styled-components'
 import Select, { components } from 'react-select'
-import DefaultValidatorLogo from 'assets/img/relayer.png'
+import DefaultValidatorLogo from '/public/assets/img/relayer.png'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 import { TValidatorModel } from 'redux/validator/validator.types'
 

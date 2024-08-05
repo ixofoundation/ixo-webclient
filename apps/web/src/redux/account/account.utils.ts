@@ -36,31 +36,31 @@ export const Currencies: CurrencyType[] = [
     denom: 'ixo',
     minimalDenom: 'uixo',
     decimals: 6,
-    imageUrl: requireCheckDefault(require('assets/tokens/ixo.svg')),
+    imageUrl: '/public/assets/tokens/ixo.svg',
   },
   {
     denom: 'xusd',
     minimalDenom: 'xusd',
     decimals: 0,
-    imageUrl: requireCheckDefault(require('assets/tokens/osmo.svg')),
+    imageUrl: '/public/assets/tokens/osmo.svg',
   },
   {
     denom: 'xeur',
     minimalDenom: 'xeur',
     decimals: 0,
-    imageUrl: requireCheckDefault(require('assets/tokens/osmo.svg')),
+    imageUrl: '/public/assets/tokens/osmo.svg',
   },
   {
     denom: 'edutest',
     minimalDenom: 'edutest',
     decimals: 0,
-    imageUrl: requireCheckDefault(require('assets/tokens/osmo.svg')),
+    imageUrl: '/public/assets/tokens/osmo.svg',
   },
   {
     denom: 'earthday',
     minimalDenom: 'earthday',
     decimals: 0,
-    imageUrl: requireCheckDefault(require('assets/tokens/osmo.svg')),
+    imageUrl: '/public/assets/tokens/osmo.svg',
   },
 ]
 

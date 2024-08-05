@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Lottie from 'react-lottie'
-import assistanceAnimation from 'assets/animations/assistant/hover.json'
-import { StyledAssistantButton } from './AssistantButton.styles'
+import assistanceAnimation from '/public/assets/animations/assistant/hover.json'
+import { AssistantButton as StyledAssistantButton } from './AssistantButton.styles'
 
 interface Props {
   handleClick?: () => void

@@ -1,9 +1,8 @@
-import { Box } from 'components/App/App.styles'
 import React, { useMemo, useState } from 'react'
-import { ReactComponent as EntityIcon } from 'assets/images/icon-entity.svg'
-import { ReactComponent as CreatorIcon } from 'assets/images/icon-creator.svg'
+import { ReactComponent as EntityIcon } from '/public/assets/images/icon-entity.svg'
+import { ReactComponent as CreatorIcon } from '/public/assets/images/icon-creator.svg'
 import { PageWrapper, Selections, SearchIcon } from './SelectCreationProcess.styles'
-import { Button, CateSelector, ChainSelector, Input } from 'pages/CreateEntity/Components'
+import { Button, CateSelector, ChainSelector, Input } from 'screens/CreateEntity/Components'
 import { useCreateEntityState } from 'hooks/createEntity'
 import { apiEntityToEntity } from 'utils/entities'
 import { useTheme } from 'styled-components'
@@ -11,6 +10,7 @@ import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1b
 import { EntityLinkedResourceConfig } from 'constants/entity'
 import { useGetEntityById } from 'graphql/entities'
 import { useCreateEntityStepState } from 'hooks/createEntityStepState'
+import { Flex } from '@mantine/core'
 
 const SelectCreationProcess: React.FC = (): JSX.Element => {
   const theme: any = useTheme()
@@ -103,7 +103,7 @@ const SelectCreationProcess: React.FC = (): JSX.Element => {
       </Selections>
 
       {isClone && (
-        <Box className='d-flex align-items-center' style={{ gap: 16 }}>
+        <Flex gap={16} align='center'>
           <ChainSelector chainId={chainId!} onChange={setChainId as any} />
           <Input
             inputValue={existingDid}
@@ -117,7 +117,7 @@ const SelectCreationProcess: React.FC = (): JSX.Element => {
           <Button onClick={handleClone} disabled={!canClone}>
             Continue
           </Button>
-        </Box>
+        </Flex>
       )}
     </PageWrapper>
   )

@@ -1,8 +1,8 @@
 import { Box, FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { useMemo, useState } from 'react'
-import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
-import { Button, CheckBox, PropertyBox } from 'pages/CreateEntity/Components'
+import { ReactComponent as PlusIcon } from '/public/assets/images/icon-plus.svg'
+import { Button, CheckBox, PropertyBox } from 'screens/CreateEntity/Components'
 import { AddDAOGroupModal } from 'components/Modals'
 import { v4 as uuidv4 } from 'uuid'
 import { TDAOGroupModel } from 'types/entities'
@@ -129,7 +129,7 @@ export const initialMultisigGroup: TDAOGroupModel = {
 
 const SetupDAOGroups = ({ showNavigation = true }: { showNavigation?: boolean }): JSX.Element => {
   const { daoGroups, daoController, linkedEntity, updateDAOGroups, updateLinkedEntity, updateDAOController } =
-  useCreateEntityStateAsActionState()
+    useCreateEntityStateAsActionState()
   const [openAddGroupModal, setOpenAddGroupModal] = useState(false)
   const [selectedGroup, setSelectedGroup] = useState('')
   const canSubmit = useMemo(

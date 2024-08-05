@@ -23,7 +23,7 @@ export const FooterLeft = () => {
       <div className='row'>
         <MediaQuery minWidth={`${deviceWidth.tablet}px`}>
           <Link style={{ position: 'relative', top: '45px', left: '42px' }} to={getIxoWorldRoute('')}>
-            <IXOLogo alt='IXO Logo' src={requireCheckDefault(require('assets/images/ixo-logo.svg'))} />
+            <IXOLogo alt='IXO Logo' src={'/public/assets/images/ixo-logo.svg'} />
           </Link>
         </MediaQuery>
         <FooterMenuPosition>

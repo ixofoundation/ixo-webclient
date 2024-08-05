@@ -1,13 +1,13 @@
 import React, { ChangeEvent, HTMLAttributes, KeyboardEvent, useEffect, useMemo, useState } from 'react'
 import Select, { components } from 'react-select'
-import LockIcon from 'assets/images/icon-lock.svg'
-import ArrowLeftIcon from 'assets/images/icon-arrow-left.svg'
-import CirclePayLogo from 'assets/images/exchange/circle-pay-logo.png'
-import MasterCardLogo from 'assets/images/exchange/mastercard.svg'
-import VisaCardLogo from 'assets/images/exchange/visa.svg'
-import { ReactComponent as CheckIcon } from 'assets/images/icon-check.svg'
-import { ReactComponent as ChevDownIcon } from 'assets/images/icon-chev-down.svg'
-import { ReactComponent as ClockIcon } from 'assets/images/exchange/clock.svg'
+import LockIcon from '/public/assets/images/icon-lock.svg'
+import ArrowLeftIcon from '/public/assets/images/icon-arrow-left.svg'
+import CirclePayLogo from '/public/assets/images/exchange/circle-pay-logo.png'
+import MasterCardLogo from '/public/assets/images/exchange/mastercard.svg'
+import VisaCardLogo from '/public/assets/images/exchange/visa.svg'
+import { ReactComponent as CheckIcon } from '/public/assets/images/icon-check.svg'
+import { ReactComponent as ChevDownIcon } from '/public/assets/images/icon-chev-down.svg'
+import { ReactComponent as ClockIcon } from '/public/assets/images/exchange/clock.svg'
 import {
   CirclePayInput,
   CirclePaySubmitButton,

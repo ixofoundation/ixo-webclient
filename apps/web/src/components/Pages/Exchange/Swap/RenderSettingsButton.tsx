@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { SvgBox } from 'components/App/App.styles'
-import { ReactComponent as SliderSettingsIcon } from 'assets/images/icon-sliders-h-solid.svg'
+import { ReactComponent as SliderSettingsIcon } from '/public/assets/images/icon-sliders-h-solid.svg'
 
 export type RenderSettingsButtonProps = {
   viewSettings: boolean

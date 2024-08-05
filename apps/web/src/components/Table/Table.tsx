@@ -15,8 +15,8 @@ import {
 import { Flex, Pagination, Select } from '@mantine/core'
 import { SvgBox, theme } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
-import { ReactComponent as SortLtoGIcon } from 'assets/images/icon-sort-ltog.svg'
-import { ReactComponent as SortGtoLIcon } from 'assets/images/icon-sort-gtol.svg'
+import { ReactComponent as SortLtoGIcon } from '/public/assets/images/icon-sort-ltog.svg'
+import { ReactComponent as SortGtoLIcon } from '/public/assets/images/icon-sort-gtol.svg'
 
 // Create a default prop getter
 const defaultPropGetter = () => ({})
@@ -137,7 +137,7 @@ const Table: React.FC<TableProps> = ({
           })}
         </tbody>
       </table>
-      <Flex className='pagination' justify={'center'} align="center" w='100%' pt={10}>
+      <Flex className='pagination' justify={'center'} align='center' w='100%' pt={10}>
         <Pagination total={pageCount} onChange={(page) => gotoPage(page - 1)} />
 
         <Select

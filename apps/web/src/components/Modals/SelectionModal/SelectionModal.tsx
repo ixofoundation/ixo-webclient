@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import * as Modal from 'react-modal'
 import _ from 'lodash'
-import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
+import { ReactComponent as CloseIcon } from '/public/assets/images/icon-close.svg'
 import {
   ModalStyles,
   CloseButton,
@@ -12,8 +12,8 @@ import {
   SelectionButton,
   SDGSelectionButton,
 } from 'components/Modals/styles'
-import { Button } from 'pages/CreateEntity/Components'
-import sdgIcons from 'pages/Splash/splash-config.json'
+import { Button } from 'screens/CreateEntity/Components'
+import sdgIcons from 'screens/Splash/splash-config.json'
 import { Typography } from 'components/Typography'
 const SDG_ICONS = sdgIcons.sdgIcons
 

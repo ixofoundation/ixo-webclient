@@ -44,3 +44,8 @@ coverage/
 .netlify
 
 .storybook/
+
+# ...
+.next
+next-env.d.ts
+dist

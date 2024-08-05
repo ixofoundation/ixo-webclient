@@ -1,8 +1,8 @@
-import { ReactComponent as DAOIcon } from 'assets/images/icon-dao.svg'
-import { ReactComponent as ProjectIcon } from 'assets/images/icon-project.svg'
-import { ReactComponent as InvestmentIcon } from 'assets/images/icon-investment.svg'
-import { ReactComponent as OracleIcon } from 'assets/images/icon-oracle.svg'
-import { ReactComponent as AssetIcon } from 'assets/images/icon-asset.svg'
+import { ReactComponent as DAOIcon } from '/public/assets/images/icon-dao.svg'
+import { ReactComponent as ProjectIcon } from '/public/assets/images/icon-project.svg'
+import { ReactComponent as InvestmentIcon } from '/public/assets/images/icon-investment.svg'
+import { ReactComponent as OracleIcon } from '/public/assets/images/icon-oracle.svg'
+import { ReactComponent as AssetIcon } from '/public/assets/images/icon-asset.svg'
 
 export const getEntityIcon = (type: string | undefined): React.ReactNode | JSX.Element | null => {
   switch (type) {

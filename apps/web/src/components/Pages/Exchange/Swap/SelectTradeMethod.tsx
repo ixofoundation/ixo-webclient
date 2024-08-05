@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react'
 import { SelectTradeMethodWrapper, SelectTradeMethodText, PopoverList, PopoverItem } from './SelectTradeMethod.styles'
 import { TradeMethodType } from 'redux/selectedEntityExchange/entityExchange.types'
-import ChevDownIcon from 'assets/images/icon-chev-down.svg'
+import ChevDownIcon from '/public/assets/images/icon-chev-down.svg'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { setSelectedTradeMethod } from 'redux/selectedEntityExchange/entityExchange.actions'
@@ -9,7 +9,7 @@ import { selectSelectedTradeMethod } from 'redux/selectedEntityExchange/entityEx
 
 const SelectTradeMethod: React.FunctionComponent = () => {
   const dispatch = useAppDispatch()
-  const navigate =useNavigate()
+  const navigate = useNavigate()
   const [isShowList, setIsShowList] = useState<boolean>(false)
   const selectedTradeMethod = useAppSelector(selectSelectedTradeMethod)
   const { pathname } = useLocation()
@@ -24,7 +24,6 @@ const SelectTradeMethod: React.FunctionComponent = () => {
   }, [selectedTradeMethod])
 
   const handleMethodChange = (type: TradeMethodType): void => {
-    
     const chunks = pathname.split('/')
     chunks.pop()
     navigate(`${chunks.join('/')}/${type.toLowerCase()}`)

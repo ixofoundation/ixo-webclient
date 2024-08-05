@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { FlexBox } from 'components/App/App.styles'
-import { AccountValidStatus, CodeMirror, Dropdown, Input, NumberCounter } from 'pages/CreateEntity/Components'
+import { AccountValidStatus, CodeMirror, Dropdown, Input, NumberCounter } from 'screens/CreateEntity/Components'
 import { Typography } from 'components/Typography'
 import { TProposalActionModel } from 'types/entities'
 import SetupActionModalTemplate from './SetupActionModalTemplate'

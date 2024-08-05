@@ -4,7 +4,7 @@ import BigNumber from 'bignumber.js'
 
 const initialState: ExchangeState = {
   balances: {},
-  chainId: process.env.REACT_APP_CHAIN_ID,
+  chainId: process.env.NEXT_PUBLIC_CHAIN_ID,
   tokenBalances: [],
   inputAsset: {
     amount: BigNumber(0),

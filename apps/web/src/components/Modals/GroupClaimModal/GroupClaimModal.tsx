@@ -3,11 +3,11 @@ import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 import { Box, FlexBox, HTMLFlexBoxProps, SvgBox } from 'components/App/App.styles'
 import { SignStep, TXStatus } from '../common'
 import { Typography } from 'components/Typography'
-import NextStepImage from 'assets/images/modal/nextstep.svg'
+import NextStepImage from '/public/assets/images/modal/nextstep.svg'
 import { contracts } from '@ixo/impactxclient-sdk'
 import { useAccount } from 'hooks/account'
 import { convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
-import { ReactComponent as ArrowDownIcon } from 'assets/images/icon-arrow-down.svg'
+import { ReactComponent as ArrowDownIcon } from '/public/assets/images/icon-arrow-down.svg'
 import { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
 import { TokenInfoResponse } from '@ixo/impactxclient-sdk/types/codegen/Cw20Base.types'
 import { fee } from 'lib/protocol'
@@ -49,7 +49,7 @@ interface Props {
 const GroupClaimModal: React.FunctionComponent<Props> = ({ daoGroup, open, setOpen, onSuccess }) => {
   const theme: any = useTheme()
   const { cwClient, address } = useAccount()
-  const { entityId = "" } = useParams<{ entityId: string}>()
+  const { entityId = '' } = useParams<{ entityId: string }>()
   const { daoGroups = {}, profile } = useAppSelector(getEntityById(entityId))
   const { votingModuleAddress, depositInfo } = useCurrentEntityDAOGroup(daoGroup?.coreAddress, daoGroups)
   const [tokenInfo, setTokenInfo] = useState<TokenInfoResponse | undefined>(undefined)
@@ -117,7 +117,12 @@ const GroupClaimModal: React.FunctionComponent<Props> = ({ daoGroup, open, setOp
       const stakingContract = await daoVotingCw20StakedClient.stakingContract()
       const cw20StakeClient = new Cw20StakeClient(execute, address, stakingContract)
 
-      const { transactionHash } = await cw20StakeClient.claim({transactionConfig: { sequence: 1 }},fee, undefined, depositInfo ? [depositInfo] : undefined)
+      const { transactionHash } = await cw20StakeClient.claim(
+        { transactionConfig: { sequence: 1 } },
+        fee,
+        undefined,
+        depositInfo ? [depositInfo] : undefined,
+      )
 
       if (transactionHash) {
         close()

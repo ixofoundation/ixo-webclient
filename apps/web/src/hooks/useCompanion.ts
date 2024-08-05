@@ -8,7 +8,7 @@ import { cosmos, createRegistry } from '@ixo/impactxclient-sdk'
 import { fee } from 'lib/protocol'
 import { useCompanionContext } from 'contexts/CompanionContext'
 
-const ASSISTANT_API_KEY = process.env.REACT_APP_ASSISTANT_API_KEY
+const ASSISTANT_API_KEY = process.env.NEXT_PUBLIC_ASSISTANT_API_KEY
 
 export const decodeTransactionBody = (txBody: Uint8Array) => {
   const registry = createRegistry()
@@ -77,18 +77,21 @@ export const useCompanion = () => {
     }
   }, [executeTxBody, close, execute, assistant])
 
-  const sendMessage = useCallback(async (message: string) => {
-    if (!assistant) {
-      console.error('Assistant not connected.')
-      throw new Error('Assistant not connected.')
-    }
-    try {
-      const newMessages = await assistant.chat(false, message)
-      setMessages([...newMessages])
-    } catch (error: any) {
-      console.error('Error sending message:', error)
-    }
-  }, [assistant])
+  const sendMessage = useCallback(
+    async (message: string) => {
+      if (!assistant) {
+        console.error('Assistant not connected.')
+        throw new Error('Assistant not connected.')
+      }
+      try {
+        const newMessages = await assistant.chat(false, message)
+        setMessages([...newMessages])
+      } catch (error: any) {
+        console.error('Error sending message:', error)
+      }
+    },
+    [assistant],
+  )
 
   const newChat = useCallback(async () => {
     if (!assistant) {

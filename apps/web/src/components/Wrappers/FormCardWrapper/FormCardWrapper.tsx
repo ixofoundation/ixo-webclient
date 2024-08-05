@@ -5,7 +5,7 @@ import { Collapse } from 'react-collapse'
 import { Container, AddSectionButton, Header, AssistanceButton } from './FormCardWrapper.styles'
 import Down from 'assets/icons/Down'
 import Tooltip, { TooltipPosition } from 'components/Tooltip/Tooltip'
-import assistanceAnimation from 'assets/animations/transaction/blue_pending.json'
+import assistanceAnimation from '/public/assets/animations/transaction/blue_pending.json'
 
 interface Props {
   title: string

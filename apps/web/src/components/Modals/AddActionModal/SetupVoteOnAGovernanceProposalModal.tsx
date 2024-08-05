@@ -1,6 +1,6 @@
 import { FlexBox, GridContainer } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
-import { Button, Dropdown } from 'pages/CreateEntity/Components'
+import { Button, Dropdown } from 'screens/CreateEntity/Components'
 import React, { useEffect, useMemo, useState } from 'react'
 import { TProposalActionModel } from 'types/entities'
 import SetupActionModalTemplate from './SetupActionModalTemplate'

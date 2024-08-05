@@ -1,7 +1,7 @@
 import { Flex, UnstyledButton } from '@mantine/core'
 
-import { ReactComponent as AssistantIcon } from 'assets/images/icon-assistant.svg'
-import { ReactComponent as SendPlaneIcon } from 'assets/images/icon-send-plane.svg'
+import { ReactComponent as AssistantIcon } from '/public/assets/images/icon-assistant.svg'
+import { ReactComponent as SendPlaneIcon } from '/public/assets/images/icon-send-plane.svg'
 import { SvgBox } from 'components/App/App.styles'
 import { useTheme } from 'styled-components'
 

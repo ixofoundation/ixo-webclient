@@ -1,25 +1,25 @@
-import availableFlags from 'constants/availableFlags.json';
-import globalFlag from 'assets/images/country-flags/global.svg';
+import availableFlags from 'constants/availableFlags.json'
+import globalFlag from '/public/assets/images/country-flags/global.svg'
 
 export const getFlagURL = (location?: string): string | undefined => {
   if (!location) {
-    return undefined;
+    return undefined
   }
 
   // Ensure the location is available in the flags list
   if (availableFlags.availableFlags.includes(location)) {
     try {
       // Use static import instead of dynamic import
-      const flag = require(`assets/images/country-flags/${location.toLowerCase()}.svg`);
-      return flag;
+      const flag = require(`assets/images/country-flags/${location.toLowerCase()}.svg`)
+      return flag
     } catch (error) {
-      console.error(`Flag for location ${location} not found`, error);
-      return undefined;
+      console.error(`Flag for location ${location} not found`, error)
+      return undefined
     }
   } else if (location === 'AA') {
-    return globalFlag;
+    return globalFlag
   }
 
   console.log(`Flag for location ${location} not found`)
-  return undefined;
-};
+  return undefined
+}

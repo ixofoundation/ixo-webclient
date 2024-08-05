@@ -30,7 +30,6 @@ const CreateEntityDropdown: React.FunctionComponent<Props> = ({ entityType }) =>
   const [isModalOpen, setIsModalOpen] = React.useState(false)
   const isMobile = useMediaQuery(`(max-width: ${em(710)})`)
 
-
   const isVisible = React.useMemo(() => {
     const isViewedFromApp = !!window.MobileContext
     if (isViewedFromApp) {
@@ -62,7 +61,9 @@ const CreateEntityDropdown: React.FunctionComponent<Props> = ({ entityType }) =>
   return isVisible ? (
     <DropdownWrapper>
       <ModalButton onClick={handleToggleModal} className={isModalOpen ? 'modal-open' : ''} color={buttonColor}>
-        <span className={`modal-text`} style={{ fontSize: isMobile ? "24px" : "inherit"}}>CREATE</span>
+        <span className={`modal-text`} style={{ fontSize: isMobile ? '24px' : 'inherit' }}>
+          CREATE
+        </span>
       </ModalButton>
 
       {entityTypeMap && (
@@ -154,7 +155,7 @@ const CreateEntityDropdown: React.FunctionComponent<Props> = ({ entityType }) =>
             >
               <ButtonContent>
                 <DataAssets fill='#000' width='18' />
-                {"Collection"}
+                {'Collection'}
               </ButtonContent>
             </LaunchEntityButton>
           </ButtonsWrapper>

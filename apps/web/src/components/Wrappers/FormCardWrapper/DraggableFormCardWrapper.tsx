@@ -11,7 +11,7 @@ import {
 } from './FormCardWrapper.styles'
 import Down from 'assets/icons/Down'
 import Tooltip, { TooltipPosition } from 'components/Tooltip/Tooltip'
-import assistanceAnimation from 'assets/animations/transaction/blue_pending.json'
+import assistanceAnimation from '/public/assets/animations/transaction/blue_pending.json'
 
 function NaF(): void {
   return

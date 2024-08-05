@@ -1,8 +1,8 @@
 import React from 'react'
 import * as Modal from 'react-modal'
-import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
+import { ReactComponent as CloseIcon } from '/public/assets/images/icon-close.svg'
 import { ModalStyles, CloseButton, ModalWrapper, ModalTitle, ModalBody, ModalRow } from 'components/Modals/styles'
-import { PropertyBox } from 'pages/CreateEntity/Components'
+import { PropertyBox } from 'screens/CreateEntity/Components'
 import _ from 'lodash'
 import { EntityLinkedEntityConfig } from 'constants/entity'
 

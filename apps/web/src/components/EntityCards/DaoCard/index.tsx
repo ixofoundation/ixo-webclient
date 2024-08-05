@@ -1,5 +1,5 @@
 import { Skeleton } from '@mantine/core'
-import oracleDefault from 'assets/entities/oracleDefault.jpg'
+import oracleDefault from '/public/assets/entities/oracleDefault.jpg'
 import { FlexBox, HTMLFlexBoxProps } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import React from 'react'

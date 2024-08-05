@@ -2,9 +2,9 @@ import React from 'react'
 import cx from 'classnames'
 import { AmountInputWrapper, IconWrapper, InputWrapper, MemoInputWrapper, DisplayWrapper } from './index.styles'
 
-import MemoEditIcon from 'assets/images/modal/memoedit.svg'
-import MemoCheckIcon from 'assets/images/modal/memocheck.svg'
-import MemoDoneIcon from 'assets/images/modal/memodone.svg'
+import MemoEditIcon from '/public/assets/images/modal/memoedit.svg'
+import MemoCheckIcon from '/public/assets/images/modal/memocheck.svg'
+import MemoDoneIcon from '/public/assets/images/modal/memodone.svg'
 
 interface Props {
   amount: number

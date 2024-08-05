@@ -1,7 +1,7 @@
 import React from 'react'
 import { Card } from '../Card'
-import { ReactComponent as ClockIcon } from 'assets/images/icon-clock-2.svg'
-import { ReactComponent as FireIcon } from 'assets/images/icon-fire.svg'
+import { ReactComponent as ClockIcon } from '/public/assets/images/icon-clock-2.svg'
+import { ReactComponent as FireIcon } from '/public/assets/images/icon-fire.svg'
 import { useCurrentEntityAdminAccount } from 'hooks/currentEntity'
 import { useGetAccountTokens } from 'graphql/tokens'
 import { useParams } from 'react-router-dom'
@@ -9,7 +9,7 @@ import { useAppSelector } from 'redux/hooks'
 import { getEntityById } from 'redux/entities/entities.selectors'
 
 const AssetPerformance: React.FC = () => {
-  const { entityId = "" } = useParams<{ entityId: string }>()
+  const { entityId = '' } = useParams<{ entityId: string }>()
   const { accounts } = useAppSelector(getEntityById(entityId))
   const adminAccount = useCurrentEntityAdminAccount(accounts)
 

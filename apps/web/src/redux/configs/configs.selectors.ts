@@ -5,7 +5,7 @@ import { selectEntityType } from 'redux/currentEntity/currentEntity.selectors'
 import { toRootEntityType } from 'utils/entities'
 import { EntityConfig } from 'types/entities'
 
-const chainId = process.env.REACT_APP_CHAIN_ID
+const chainId = process.env.NEXT_PUBLIC_CHAIN_ID
 
 export const selectConfigs = (state: RootState): ConfigsState => state?.configs
 

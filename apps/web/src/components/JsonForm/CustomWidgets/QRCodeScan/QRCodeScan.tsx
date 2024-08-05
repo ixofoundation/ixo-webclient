@@ -28,10 +28,10 @@ const QRCodeScan: React.FunctionComponent<Props> = ({ id, value, placeholder, on
   }
 
   const handleResult: OnResultFunction = (result, error) => {
-    if(result){
+    if (result) {
       handleScan(result)
     }
-    if(error){
+    if (error) {
       handleError(error)
     }
   }
@@ -39,7 +39,12 @@ const QRCodeScan: React.FunctionComponent<Props> = ({ id, value, placeholder, on
   return (
     <QRWrapper className='row'>
       <div className='col-12 col-md-6'>
-        <QrReader constraints={{ facingMode: "user" }} scanDelay={300} onResult={handleResult} containerStyle={{ width: '100%' }} />
+        <QrReader
+          constraints={{ facingMode: 'user' }}
+          scanDelay={300}
+          onResult={handleResult}
+          containerStyle={{ width: '100%' }}
+        />
         <input
           value={value}
           placeholder={placeholder}

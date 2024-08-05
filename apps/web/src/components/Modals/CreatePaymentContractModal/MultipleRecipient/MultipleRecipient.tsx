@@ -1,4 +1,4 @@
-import QRCodeIcon from 'assets/images/icon-qrcode.svg'
+import QRCodeIcon from '/public/assets/images/icon-qrcode.svg'
 import ModalInput from 'components/Modal/ModalInput/ModalInput'
 import { isFloat } from 'utils/validation'
 import { checkValidAddress } from 'redux/account/account.utils'

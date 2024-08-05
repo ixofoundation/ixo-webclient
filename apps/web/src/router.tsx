@@ -17,18 +17,18 @@ import {
   SetupInstrument,
   SetupDataCollection,
   SelectAssetType,
-  AddAssetToCollection
-} from 'pages/CreateEntity/EntityPages'
+  AddAssetToCollection,
+} from 'screens/CreateEntity/EntityPages'
 
 // Pages
-import * as CreateEntity from 'pages/CreateEntity/CreateEntity.route'
-import * as CurrentEntity from 'pages/CurrentEntity/CurrentEntity.route'
-import * as EntityOverview from 'pages/CurrentEntity/Overview/Overview.route'
-import * as EntityDashboard from 'pages/CurrentEntity/Dashboard/Dashboard.route'
-import * as Explore from 'pages/EntitiesExplorer/EntitiesExplorer.route'
-import * as EntityExchange from 'pages/EntityExchange/EntityExchange.route'
-import * as MyAccount from 'pages/MyAccount/MyAccount.route'
-import * as ProposalOverview from 'pages/CurrentEntity/Proposal/ProposalOverview.route'
+import * as CreateEntity from 'screens/CreateEntity/CreateEntity.route'
+import * as CurrentEntity from 'screens/CurrentEntity/CurrentEntity.route'
+import * as EntityOverview from 'screens/CurrentEntity/Overview/Overview.route'
+import * as EntityDashboard from 'screens/CurrentEntity/Dashboard/Dashboard.route'
+import * as Explore from 'screens/EntitiesExplorer/EntitiesExplorer.route'
+import * as EntityExchange from 'screens/EntityExchange/EntityExchange.route'
+import * as MyAccount from 'screens/MyAccount/MyAccount.route'
+import * as ProposalOverview from 'screens/CurrentEntity/Proposal/ProposalOverview.route'
 
 // Layouts
 import * as EntityOverviewLayout from 'components/Layout/EntityOverviewLayout/EntityOverviewLayout.route'
@@ -36,11 +36,11 @@ import * as EntityDashboardLayout from 'components/Layout/EntityDashboardLayout/
 
 import { Routes } from 'routes'
 import { Flex } from '@mantine/core'
-import SetupProposalInfo from 'pages/CurrentEntity/Dashboard/DAODashboard/Governance/CreateProposal/SetupProposalInfo'
-import { SetupTargetGroup } from 'pages/CreateEntity/EntityPages/SetupTargetGroup'
-import SetupProposalPageContent from 'pages/CreateEntity/EntityPages/SetupProposalPageContent/SetupPageContent'
-import { SetupActions } from 'pages/CurrentEntity/Dashboard/DAODashboard/Governance/CreateProposal/SetupProposalActions'
-import { ReviewProposal } from 'pages/CurrentEntity/Dashboard/DAODashboard/Governance/CreateProposal/ReviewProposal'
+import SetupProposalInfo from 'screens/CurrentEntity/Dashboard/DAODashboard/Governance/CreateProposal/SetupProposalInfo'
+import { SetupTargetGroup } from 'screens/CreateEntity/EntityPages/SetupTargetGroup'
+import SetupProposalPageContent from 'screens/CreateEntity/EntityPages/SetupProposalPageContent/SetupPageContent'
+import { SetupActions } from 'screens/CurrentEntity/Dashboard/DAODashboard/Governance/CreateProposal/SetupProposalActions'
+import { ReviewProposal } from 'screens/CurrentEntity/Dashboard/DAODashboard/Governance/CreateProposal/ReviewProposal'
 import { Suspense } from 'react'
 import { Spinner } from 'components/Spinner/Spinner'
 
@@ -74,25 +74,25 @@ const router = createBrowserRouter([
         children: [
           {
             path: ':entityId/*',
-            element: <Outlet/>,
+            element: <Outlet />,
             children: [
               {
                 path: 'overview/*',
                 Component: EntityOverviewLayout.Component,
                 children: [
                   {
-                    path: "*",
+                    path: '*',
                     Component: EntityOverview.Component,
                   },
                   {
-                    path: "proposal/:deedId",
+                    path: 'proposal/:deedId',
                     Component: ProposalOverview.Component,
                   },
                   {
-                    path: ":tab",
+                    path: ':tab',
                     Component: EntityOverview.Component,
-                  }
-                ]
+                  },
+                ],
               },
               {
                 path: 'dashboard/*',

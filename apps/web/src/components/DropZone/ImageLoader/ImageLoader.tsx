@@ -50,7 +50,7 @@ const CroppingModal: React.FC<CroppingModalProps> = ({
           crop={crop}
           keepSelection={keepCropSelection}
         >
-          <img src={imgSrc} alt="Modal upload" />
+          <img src={imgSrc} alt='Modal upload' />
         </ReactCrop>
       </BackdropModal>
     </Portal>
