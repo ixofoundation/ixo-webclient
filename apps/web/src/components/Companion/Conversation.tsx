@@ -1,5 +1,4 @@
 import { Box, Flex, ScrollArea } from '@mantine/core'
-import { ReactComponent as AssistantIcon } from '/public/assets/images/icon-assistant.svg'
 import { useCompanion } from 'hooks/useCompanion'
 import { useEffect } from 'react'
 import Markdown from 'react-markdown'

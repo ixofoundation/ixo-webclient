@@ -1,4 +1,4 @@
-import { ReactComponent as AssistantIcon } from '/public/assets/images/icon-assistant.svg'
+import Image from 'next/image'
 import AccountCard from './Account'
 import MyParticipationCard from './MyParticipation'
 import BalanceCard from './Balance'
@@ -20,6 +20,8 @@ import { GoArrowLeft } from 'react-icons/go'
 import { useLocation, useNavigate } from 'react-router-dom'
 import Assistant from 'components/Assistant'
 import AssistantActiveLottie from 'components/Zlotties/AssistantActiveLottie'
+import { IconAssistant } from 'components/IconPaths'
+
 
 const StyledScrollArea = styled(ScrollArea)`
   & > div > div {
@@ -137,7 +139,7 @@ const ControlPanel = ({ entityType }: Props) => {
                 bg={activeTab === 'assistant' ? toolbarActiveBackground : toolbarBackground}
                 onClick={() => setActiveTab('assistant')}
               >
-                {activeTab === 'assistant' ? <AssistantActiveLottie /> : <AssistantIcon />}
+                {activeTab === 'assistant' ? <AssistantActiveLottie /> : <Image src={IconAssistant} alt='Assistant' width={5} height={5} color={theme.colors.blue[5]} />}
               </ActionIcon>
             </Tooltip>
           )}

@@ -1,13 +1,15 @@
+import Image from 'next/image'
 import React, { useEffect, useMemo, useState } from 'react'
 import * as Modal from 'react-modal'
-import { ReactComponent as CloseIcon } from '/public/assets/images/icon-close.svg'
 import { ModalStyles, CloseButton, ModalWrapper, ModalTitle } from 'components/Modals/styles'
 import { Button, ChainSelector, Input } from 'screens/CreateEntity/Components'
 import { FlexBox, SvgBox } from 'components/App/App.styles'
-import { ReactComponent as SearchIcon } from '/public/assets/images/icon-search.svg'
 import { useMantineTheme } from '@mantine/core'
 import { LinkedEntity } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { useGetEntityById } from 'graphql/entities'
+import { IconSearch } from 'components/IconPaths'
+import { IconClose } from 'components/IconPaths'
+
 
 interface Props {
   open: boolean
@@ -55,7 +57,7 @@ const ImpactEntitySetupModal: React.FC<Props> = ({ open, onClose, onAdd }): JSX.
       {/* @ts-ignore */}
       <Modal style={ModalStyles} isOpen={open} onRequestClose={onClose} contentLabel='Modal' ariaHideApp={false}>
         <CloseButton onClick={onClose}>
-          <CloseIcon />
+          <Image src={IconClose} alt='Close' width={5} height={5} color={theme.colors.blue[5]} />
         </CloseButton>
 
         <ModalWrapper>
@@ -70,7 +72,7 @@ const ImpactEntitySetupModal: React.FC<Props> = ({ open, onClose, onAdd }): JSX.
                 placeholder='Type to Search or enter a DID'
                 preIcon={
                   <SvgBox color={theme.ixoGrey700}>
-                    <SearchIcon />
+                    <Image src={IconSearch} alt='Search' width={5} height={5} color={theme.colors.blue[5]} />
                   </SvgBox>
                 }
                 width='400px'

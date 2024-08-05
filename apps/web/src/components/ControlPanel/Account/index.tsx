@@ -1,16 +1,18 @@
+import Image from 'next/image'
 import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { useMantineTheme } from '@mantine/core'
 import { Typography } from 'components/Typography'
 import { Avatar } from 'screens/CurrentEntity/Components'
 import CopyToClipboard from 'react-copy-to-clipboard'
-import { ReactComponent as ProfileIcon } from '/public/assets/images/icon-profile.svg'
-import { ReactComponent as CopyIcon } from '/public/assets/images/icon-copy.svg'
-// import { ReactComponent as StarIcon } from '/public/assets/images/icon-star.svg'
-// import { ReactComponent as UserAstronautIcon } from '/public/assets/images/icon-user-astronaut-solid.svg'
-// import { ReactComponent as UserNinjaIcon } from '/public/assets/images/icon-user-ninja-solid.svg'
-import { Card } from '../Card'
+// // // import { Card } from '../Card'
 import { useAccount } from 'hooks/account'
 import { successToast } from 'utils/toast'
+import { IconProfile } from 'components/IconPaths'
+import { IconCopy } from 'components/IconPaths'
+import { IconUserNinja } from 'components/IconPaths'
+import { IconUserAstronaut } from 'components/IconPaths'
+import { IconStar } from 'components/IconPaths'
+
 // import PropoverButton from 'components/Button/PopoverButton'
 
 const AccountCard = () => {
@@ -19,7 +21,7 @@ const AccountCard = () => {
 
   return (
     <Card
-      icon={<ProfileIcon />}
+      icon={<Image src={IconProfile} alt='Profile' width={5} height={5} color={theme.colors.blue[5]} />}
       title='My Connected Account'
       columns={1}
       items={
@@ -39,7 +41,7 @@ const AccountCard = () => {
               <Typography size='md'>{name}</Typography>
               <CopyToClipboard text={address} onCopy={() => successToast(`Copied to clipboard`)}>
                 <SvgBox color={theme.colors.blue[5]} cursor='pointer' $svgWidth={6} $svgHeight={6}>
-                  <CopyIcon />
+                  <Image src={IconCopy} alt='Copy' width={5} height={5} color={theme.colors.blue[5]} />
                 </SvgBox>
               </CopyToClipboard>
             </FlexBox>
@@ -52,7 +54,7 @@ const AccountCard = () => {
 
             <FlexBox $gap={2}>
               <PropoverButton
-                icon={<StarIcon />}
+                icon={<Image src={IconStar} alt='Star' width={5} height={5} color={theme.colors.blue[5]} />}
                 title={'KYC Credential'}
                 description='This is a description of the Credential. It can say something about why the Credential is needed.'
               />
@@ -68,7 +70,7 @@ const AccountCard = () => {
                 $justifyContent='center'
                 $alignItems='center'
               >
-                <UserAstronautIcon />
+                <Image src={IconUserAstronaut} alt='UserAstronaut' width={5} height={5} color={theme.colors.blue[5]} />
               </SvgBox>
               <SvgBox
                 width='40px'
@@ -81,7 +83,7 @@ const AccountCard = () => {
                 $justifyContent='center'
                 $alignItems='center'
               >
-                <UserNinjaIcon />
+                <Image src={IconUserNinja} alt='UserNinja' width={5} height={5} color={theme.colors.blue[5]} />
               </SvgBox>
             </FlexBox>
           </FlexBox> */}

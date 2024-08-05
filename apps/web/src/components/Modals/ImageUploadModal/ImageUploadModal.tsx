@@ -1,9 +1,8 @@
+import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import 'react-image-crop/dist/ReactCrop.css'
 import * as Modal from 'react-modal'
 import { useDropzone } from 'react-dropzone'
-import { ReactComponent as CloseIcon } from '/public/assets/images/icon-close.svg'
-import { ReactComponent as ImageIcon } from '/public/assets/images/icon-image-fill.svg'
 import { UploadBox, SelectImage, DisplayImage } from './ImageUploadModal.styles'
 import { ModalStyles, CloseButton, ModalBody, ModalRow, ModalWrapper, ModalInput } from 'components/Modals/styles'
 import { Box } from 'components/App/App.styles'
@@ -14,6 +13,9 @@ import { Typography } from 'components/Typography'
 import * as Toast from 'utils/toast'
 import { useMantineTheme } from '@mantine/core'
 import { useCreateEntity } from 'hooks/createEntity'
+import { IconImage } from 'components/IconPaths'
+import { IconClose } from 'components/IconPaths'
+
 
 interface Props {
   open: boolean
@@ -123,7 +125,7 @@ const ImageUploadModal: React.FC<Props> = ({
       {/* @ts-ignore */}
       <Modal style={ModalStyles} isOpen={open} onRequestClose={onClose} contentLabel='Modal' ariaHideApp={false}>
         <CloseButton onClick={onClose}>
-          <CloseIcon />
+          <Image src={IconClose} alt='Close' width={5} height={5} color={theme.colors.blue[5]} />
         </CloseButton>
 
         <ModalWrapper>
@@ -147,7 +149,7 @@ const ImageUploadModal: React.FC<Props> = ({
                 <UploadBox {...getRootProps()}>
                   <SelectImage>
                     <input {...getInputProps()} />
-                    <ImageIcon />
+                    <Image src={IconImage} alt='Image' width={5} height={5} color={theme.colors.blue[5]} />
                     <Typography color='blue' weight='semi-bold' size='2xl'>
                       Drop file or
                     </Typography>

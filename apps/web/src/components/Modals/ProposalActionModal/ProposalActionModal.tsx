@@ -1,6 +1,6 @@
+import Image from 'next/image'
 import React, { useMemo, useState } from 'react'
 import * as Modal from 'react-modal'
-import { ReactComponent as CloseIcon } from '/public/assets/images/icon-close.svg'
 import { ModalStyles, CloseButton } from 'components/Modals/styles'
 import { Button, Dropdown } from 'screens/CreateEntity/Components'
 import { deviceWidth } from 'constants/device'
@@ -11,6 +11,8 @@ import { customQueries, utils } from '@ixo/impactxclient-sdk'
 import { chainNetwork } from 'hooks/configs'
 import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { ProposalActionConfigMap } from 'constants/entity'
+import { IconClose } from 'components/IconPaths'
+
 
 interface Props {
   linkedResource: LinkedResource
@@ -82,7 +84,7 @@ const ProposalActionModal: React.FC<Props> = ({ linkedResource, open, onClose, o
       ariaHideApp={false}
     >
       <CloseButton onClick={onClose}>
-        <CloseIcon />
+        <Image src={IconClose} alt='Close' width={5} height={5} color={theme.colors.blue[5]} />
       </CloseButton>
 
       <FlexBox $direction='column' $gap={4} width='100%'>

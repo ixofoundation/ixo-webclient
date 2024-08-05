@@ -1,7 +1,7 @@
+import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import * as Modal from 'react-modal'
 import { ModalStyles, CloseButton } from 'components/Modals/styles'
-import { ReactComponent as CloseIcon } from '/public/assets/images/icon-close.svg'
 import { Box, FlexBox } from 'components/App/App.styles'
 import { Button } from 'screens/CreateEntity/Components'
 import { Typography } from 'components/Typography'
@@ -17,6 +17,8 @@ import { omitKey } from 'utils/objects'
 import EvaluationCard from './EvaluationCard'
 import ApprovalCriterionCard from './ApprovalCriterionCard'
 import EnrichmentCard from './EnrichmentCard'
+import { IconClose } from 'components/IconPaths'
+
 
 interface Props {
   open: boolean
@@ -209,7 +211,7 @@ const ClaimEvaluationMethodSetupModal: React.FC<Props> = ({
     // @ts-ignore
     <Modal style={ModalStyles} isOpen={open} onRequestClose={onClose} contentLabel='Modal' ariaHideApp={false}>
       <CloseButton onClick={onClose}>
-        <CloseIcon />
+        <Image src={IconClose} alt='Close' width={5} height={5} color={theme.colors.blue[5]} />
       </CloseButton>
 
       <FlexBox $direction='column' $gap={8} width='700px'>

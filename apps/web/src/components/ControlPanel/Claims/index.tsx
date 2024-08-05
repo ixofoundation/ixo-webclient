@@ -1,15 +1,17 @@
+import Image from 'next/image'
 import React from 'react'
 import { Card } from '../Card'
-import { ReactComponent as ClaimIcon } from '/public/assets/images/icon-claim.svg'
 import { TEntityClaimModel } from 'types/entities'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { useMantineTheme } from '@mantine/core'
-import { ReactComponent as PlusIcon } from '/public/assets/images/icon-plus.svg'
 import { useGetClaimCollectionByEntityIdAndClaimTemplateId } from 'graphql/claims'
 import { useAppSelector } from 'redux/hooks'
 import { getEntityById } from 'redux/entities/entities.selectors'
+import { IconPlus } from 'components/IconPaths'
+import { IconClaim } from 'components/IconPaths'
+
 
 /**
  * @deprecated
@@ -54,7 +56,7 @@ export const ClaimsItem: React.FC<TEntityClaimModel> = (item) => {
         cursor={'pointer'}
       >
         <SvgBox $svgWidth={5} $svgHeight={5} color={theme.ixoBlack}>
-          <PlusIcon />
+          <Image src={IconPlus} alt='Plus' width={5} height={5} color={theme.colors.blue[5]} />
         </SvgBox>
         <Typography
           size='sm'
@@ -90,7 +92,7 @@ const ClaimsCard: React.FC = () => {
       }))
     : []
 
-  return <Card icon={<ClaimIcon />} title='Claims' columns={1} items={items} />
+  return <Card icon={<Image src={IconClaim} alt='Claim' width={5} height={5} color={theme.colors.blue[5]} />} title='Claims' columns={1} items={items} />
 }
 
 export default ClaimsCard

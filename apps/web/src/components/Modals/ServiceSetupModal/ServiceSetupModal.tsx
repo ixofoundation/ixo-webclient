@@ -1,13 +1,15 @@
+import Image from 'next/image'
 import React, { useState, useEffect, useMemo } from 'react'
 import * as Modal from 'react-modal'
-import { ReactComponent as CloseIcon } from '/public/assets/images/icon-close.svg'
 import { ModalStyles, CloseButton } from 'components/Modals/styles'
 import { TEntityServiceModel, NodeType } from 'types/entities'
 import { Button, Dropdown, InputWithLabel } from 'screens/CreateEntity/Components'
 import { Typography } from 'components/Typography'
 import { FlexBox, SvgBox } from 'components/App/App.styles'
-import { ReactComponent as MinusBoxIcon } from '/public/assets/images/icon-minus-box.svg'
 import { useMantineTheme } from '@mantine/core'
+import { IconMinusBox } from 'components/IconPaths'
+import { IconClose } from 'components/IconPaths'
+
 
 interface ServiceFormProps {
   index: number
@@ -24,7 +26,7 @@ const ServiceForm: React.FC<ServiceFormProps> = ({ index, service, onUpdate, onR
         <Typography size='xl'>Service {index + 1}</Typography>
         {onRemove && (
           <SvgBox color={theme.colors.blue[5]} cursor='pointer' onClick={() => onRemove()}>
-            <MinusBoxIcon />
+            <Image src={IconMinusBox} alt='MinusBox' width={5} height={5} color={theme.colors.blue[5]} />
           </SvgBox>
         )}
       </FlexBox>
@@ -111,7 +113,7 @@ const ServiceSetupModal: React.FC<Props> = ({ service, open, onClose, onChange }
     // @ts-ignore
     <Modal style={ModalStyles} isOpen={open} onRequestClose={onClose} contentLabel='Modal' ariaHideApp={false}>
       <CloseButton onClick={onClose}>
-        <CloseIcon />
+        <Image src={IconClose} alt='Close' width={5} height={5} color={theme.colors.blue[5]} />
       </CloseButton>
 
       <FlexBox $direction='column' width='600px' $gap={4}>

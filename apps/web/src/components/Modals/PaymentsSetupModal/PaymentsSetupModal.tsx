@@ -1,11 +1,13 @@
+import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import * as Modal from 'react-modal'
-import { ReactComponent as CloseIcon } from '/public/assets/images/icon-close.svg'
 import { ModalStyles, CloseButton, ModalBody, ModalWrapper, ModalRow, ModalTitle } from 'components/Modals/styles'
 import { Button } from 'screens/CreateEntity/Components'
 import { FormData } from 'components/JsonForm/types'
 import { TEntityPaymentModel } from 'types/entities'
 import { Typography } from 'components/Typography'
+import { IconClose } from 'components/IconPaths'
+
 
 interface Props {
   payments: TEntityPaymentModel[]
@@ -39,7 +41,7 @@ const PaymentsSetupModal: React.FC<Props> = ({ payments, open, onClose, handleCh
     // @ts-ignore
     <Modal style={ModalStyles} isOpen={open} onRequestClose={onClose} contentLabel='Modal' ariaHideApp={false}>
       <CloseButton onClick={onClose}>
-        <CloseIcon />
+        <Image src={IconClose} alt='Close' width={5} height={5} color={theme.colors.blue[5]} />
       </CloseButton>
 
       <ModalWrapper style={{ width: 600 }}>

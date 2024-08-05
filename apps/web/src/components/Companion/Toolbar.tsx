@@ -1,8 +1,10 @@
+import Image from 'next/image'
 import { ActionIcon, Box, Card, Flex, Text } from '@mantine/core'
 import { LiaBoltSolid, LiaPlaySolid } from 'react-icons/lia'
 import { useCompanion } from 'hooks/useCompanion'
-import { ReactComponent as AssistantIcon } from '/public/assets/images/icon-assistant.svg'
 import { useMatch } from 'react-router-dom'
+import { IconAssistant } from 'components/IconPaths'
+
 
 export const ToolbarNavigation = () => {
   const { closeChat, toggleChat, toggleCompanion } = useCompanion()
@@ -54,7 +56,7 @@ export const Toolbar = () => {
           <Text>Talking to</Text>
           <Card mt={8} bg='rgb(60,60,60)' radius={'sm'}>
             <Flex>
-              <AssistantIcon />{' '}
+              <Image src={IconAssistant} alt='Assistant' width={5} height={5} color={theme.colors.blue[5]} />{' '}
               <Text ml={8} c='white'>
                 Oxi
               </Text>

@@ -1,6 +1,9 @@
+import Image from 'next/image'
 import styled from 'styled-components'
 
 import SearchIcon from 'assets/icons/Search'
+import { IconSearch } from 'components/IconPaths'
+
 
 const StyledInput = styled.input`
   background: #ffffff;
@@ -42,7 +45,7 @@ const SearchInput: React.FunctionComponent<SearchInputProps> = ({ value, onChang
     <StyledInputWrapper>
       <StyledInput onChange={onChange} value={value} />
       <StyledSearchIconWrapper>
-        <SearchIcon />
+        <Image src={IconSearch} alt='Search' width={5} height={5} color={theme.colors.blue[5]} />
       </StyledSearchIconWrapper>
     </StyledInputWrapper>
   )

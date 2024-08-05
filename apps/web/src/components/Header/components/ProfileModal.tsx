@@ -1,10 +1,4 @@
-import { ReactComponent as AssetIcon } from '/public/assets/images/icon-asset.svg'
-import { ReactComponent as BondIcon } from '/public/assets/images/icon-bond.svg'
-import { ReactComponent as CoinsIcon } from '/public/assets/images/icon-coins-solid.svg'
-import { ReactComponent as CopyIcon } from '/public/assets/images/icon-copy.svg'
-import { ReactComponent as DisconnectIcon } from '/public/assets/images/icon-disconnect.svg'
-import { ReactComponent as ImpactTokenIcon } from '/public/assets/images/icon-impact-token2.svg'
-import { ReactComponent as WalletIcon } from '/public/assets/images/icon-wallet-solid.svg'
+import Image from 'next/image'
 import { FlexBox, ScrollBox, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { useAccount } from 'hooks/account'
@@ -21,6 +15,14 @@ import { TokensTableColumns, TokensTableWrapper } from 'screens/MyAccount/MyPort
 import { Table } from 'components/Table'
 import { friendlyWalletNames } from '@ixo-webclient/wallet-connector'
 import XIcon from '/public/assets/images/x-icon.svg'
+import { IconAsset } from 'components/IconPaths'
+import { IconCoins } from 'components/IconPaths'
+import { IconCopy } from 'components/IconPaths'
+import { IconImpactToken } from 'components/IconPaths'
+import { IconBond } from 'components/IconPaths'
+import { IconWallet } from 'components/IconPaths'
+import { IconDisconnect } from 'components/IconPaths'
+
 
 const ProfileModal: React.FC = () => {
   const theme = useMantineTheme()
@@ -45,7 +47,7 @@ const ProfileModal: React.FC = () => {
       <FlexBox width='100%' $direction='column' $gap={3}>
         <FlexBox $alignItems='center' $gap={2}>
           <SvgBox color={theme.ixoDarkBlue} $svgWidth={6} $svgHeight={6}>
-            <WalletIcon />
+            <Image src={IconWallet} alt='Wallet' width={5} height={5} color={theme.colors.blue[5]} />
           </SvgBox>
           <Typography>Wallet</Typography>
         </FlexBox>
@@ -70,7 +72,7 @@ const ProfileModal: React.FC = () => {
               <Typography>{truncateString(address, 20, 'middle')}</Typography>
               <CopyToClipboard text={address} onCopy={() => successToast(null, `Copied to clipboard`)}>
                 <SvgBox color={theme.ixoDarkBlue} hover={{ color: theme.colors.blue[5] }} cursor='pointer'>
-                  <CopyIcon />
+                  <Image src={IconCopy} alt='Copy' width={5} height={5} color={theme.colors.blue[5]} />
                 </SvgBox>
               </CopyToClipboard>
             </FlexBox>
@@ -89,7 +91,7 @@ const ProfileModal: React.FC = () => {
             cursor='pointer'
             onClick={disconnect}
           >
-            <DisconnectIcon />
+            <Image src={IconDisconnect} alt='Disconnect' width={5} height={5} color={theme.colors.blue[5]} />
           </SvgBox>
         </FlexBox>
       </FlexBox>
@@ -97,20 +99,20 @@ const ProfileModal: React.FC = () => {
       <FlexBox width='100%' $direction='column' $gap={4}>
         <FlexBox $gap={2}>
           <TabButton
-            preIcon={<CoinsIcon />}
+            preIcon={<Image src={IconCoins} alt='Coins' width={5} height={5} color={theme.colors.blue[5]} />}
             textSize='base'
             active={showAssetType === 'Coins'}
             onClick={() => setShowAssetType('Coins')}
           >
             Coins
           </TabButton>
-          <TabButton preIcon={<ImpactTokenIcon />} textSize='base'>
+          <TabButton preIcon={<Image src={IconImpactToken} alt='ImpactToken' width={5} height={5} color={theme.colors.blue[5]} />} textSize='base'>
             Impact Tokens
           </TabButton>
-          <TabButton preIcon={<AssetIcon />} textSize='base'>
+          <TabButton preIcon={<Image src={IconAsset} alt='Asset' width={5} height={5} color={theme.colors.blue[5]} />} textSize='base'>
             Assets
           </TabButton>
-          <TabButton preIcon={<BondIcon />} textSize='base'>
+          <TabButton preIcon={<Image src={IconBond} alt='Bond' width={5} height={5} color={theme.colors.blue[5]} />} textSize='base'>
             Bonds
           </TabButton>
         </FlexBox>

@@ -1,6 +1,6 @@
+import Image from 'next/image'
 import React from 'react'
 import * as Modal from 'react-modal'
-import { ReactComponent as CloseIcon } from '/public/assets/images/icon-close.svg'
 import { ModalStyles, CloseButton } from 'components/Modals/styles'
 import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { Button } from 'screens/CreateEntity/Components'
@@ -8,6 +8,8 @@ import { Typography } from 'components/Typography'
 import { TProposalActionModel } from 'types/entities'
 import styled, { useTheme } from 'styled-components'
 import { ProposalActionConfig } from 'constants/entity'
+import { IconClose } from 'components/IconPaths'
+
 
 const inputHeight = '48px'
 const BodyWrapper = styled(FlexBox)`
@@ -53,7 +55,7 @@ const SetupActionModalTemplate: React.FC<Props> = ({
     // @ts-ignore
     <Modal style={ModalStyles} isOpen={open} onRequestClose={onClose} contentLabel='Modal' ariaHideApp={false}>
       <CloseButton onClick={onClose}>
-        <CloseIcon />
+        <Image src={IconClose} alt='Close' width={5} height={5} color={theme.colors.blue[5]} />
       </CloseButton>
 
       <FlexBox $direction='column' $gap={8} width={width}>

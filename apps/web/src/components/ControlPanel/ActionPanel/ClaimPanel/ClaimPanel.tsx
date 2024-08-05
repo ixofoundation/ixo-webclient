@@ -1,6 +1,5 @@
+import Image from 'next/image'
 import { Flex, Text } from '@mantine/core'
-import { ReactComponent as ClaimIcon } from '/public/assets/images/icon-claim.svg'
-import { SvgBox } from 'components/App/App.styles'
 import { selectEntityConfig } from 'redux/configs/configs.selectors'
 import { useAppSelector } from 'redux/hooks'
 import { useMantineTheme } from '@mantine/core'
@@ -9,6 +8,8 @@ import ClaimActions from './ClaimActions'
 import WithdrawEarningsCard from './WithdrawEarningsCard'
 import { useIsEntityOwner } from 'hooks/claim'
 import { useParams } from 'react-router-dom'
+import { IconClaim } from 'components/IconPaths'
+
 
 const ClaimPanel = ({ data }: { data: any }) => {
   const theme = useTheme()
@@ -24,7 +25,7 @@ const ClaimPanel = ({ data }: { data: any }) => {
     <Flex style={{ borderRadius: 12 }} direction={'column'}>
       <Flex align={'center'}>
         <SvgBox $svgWidth={5} $svgHeight={5} color={primaryColor}>
-          <ClaimIcon />
+          <Image src={IconClaim} alt='Claim' width={5} height={5} color={theme.colors.blue[5]} />
         </SvgBox>
         <Text ml={10} fw='bold'>
           {data.profile?.name}

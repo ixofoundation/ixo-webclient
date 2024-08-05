@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import React, { useEffect, useMemo, useState } from 'react'
 import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { InputWithLabel } from 'screens/CreateEntity/Components'
@@ -10,8 +11,9 @@ import { useAccount } from 'hooks/account'
 import { useAppSelector } from 'redux/hooks'
 import { selectEntitiesByType } from 'redux/entities/entities.selectors'
 import { Avatar } from 'screens/CurrentEntity/Components'
-import { ReactComponent as TimesCircleIcon } from '/public/assets/images/icon-times-circle.svg'
-import { ReactComponent as CheckCircleIcon } from '/public/assets/images/icon-check-circle.svg'
+import { IconCheckCircle } from 'components/IconPaths'
+import { IconTimesCircle } from 'components/IconPaths'
+
 
 export interface JoinData {
   id: string
@@ -94,7 +96,7 @@ const SetupJoinModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): J
           <FlexBox width='100%' $justifyContent='flex-end' $alignItems='center' $gap={2}>
             <Typography size='xl'>Not a valid did</Typography>
             <SvgBox color={theme.ixoRed}>
-              <TimesCircleIcon />
+              <Image src={IconTimesCircle} alt='TimesCircle' width={5} height={5} color={theme.colors.blue[5]} />
             </SvgBox>
           </FlexBox>
         )}
@@ -107,7 +109,7 @@ const SetupJoinModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): J
             <FlexBox $alignItems='center' $gap={2}>
               <Typography size='xl'>You are not a delegate on this entity</Typography>
               <SvgBox color={theme.ixoRed}>
-                <TimesCircleIcon />
+                <Image src={IconTimesCircle} alt='TimesCircle' width={5} height={5} color={theme.colors.blue[5]} />
               </SvgBox>
             </FlexBox>
           </FlexBox>
@@ -121,7 +123,7 @@ const SetupJoinModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): J
             <FlexBox $alignItems='center' $gap={2}>
               <Typography size='xl'>You are a delegate on this entity</Typography>
               <SvgBox color={theme.ixoGreen}>
-                <CheckCircleIcon />
+                <Image src={IconCheckCircle} alt='CheckCircle' width={5} height={5} color={theme.colors.blue[5]} />
               </SvgBox>
             </FlexBox>
           </FlexBox>

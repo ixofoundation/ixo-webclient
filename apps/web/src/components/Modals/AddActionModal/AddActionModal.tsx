@@ -1,9 +1,8 @@
+import Image from 'next/image'
 import React, { useEffect, useMemo, useState } from 'react'
 import * as Modal from 'react-modal'
-import { ReactComponent as CloseIcon } from '/public/assets/images/icon-close.svg'
 import { ModalStyles, CloseButton } from 'components/Modals/styles'
 import { TProposalActionModel } from 'types/entities'
-import { FlexBox, GridContainer, GridItem } from 'components/App/App.styles'
 import { Button, Dropdown, PropertyBox } from 'screens/CreateEntity/Components'
 import { Typography } from 'components/Typography'
 import { v4 as uuidv4 } from 'uuid'
@@ -12,6 +11,8 @@ import { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
 import { ProposalActionConfig } from 'constants/entity'
 import { getEntityById } from 'redux/entities/entities.selectors'
 import { useAppSelector } from 'redux/hooks'
+import { IconClose } from 'components/IconPaths'
+import { Flex, Grid, useMantineTheme } from '@mantine/core'
 
 interface Props {
   open: boolean
@@ -21,6 +22,7 @@ interface Props {
 }
 
 const AddActionModal: React.FC<Props> = ({ open, actionsToExclude = [], onClose, onAdd }): JSX.Element => {
+  const theme = useMantineTheme()
   const { coreAddress = '', entityId = '' } = useParams<{ coreAddress: string; entityId: string }>()
   const { daoGroups = {} } = useAppSelector(getEntityById(entityId))
 
@@ -47,11 +49,11 @@ const AddActionModal: React.FC<Props> = ({ open, actionsToExclude = [], onClose,
     // @ts-ignore
     <Modal style={ModalStyles} isOpen={open} onRequestClose={onClose} contentLabel='Modal' ariaHideApp={false}>
       <CloseButton onClick={onClose}>
-        <CloseIcon />
+        <Image src={IconClose} alt='Close' width={5} height={5} color={theme.colors.blue[5]} />
       </CloseButton>
 
-      <FlexBox $direction='column' $gap={4}>
-        <FlexBox width='100%'>
+      <Flex direction='column' gap={4}>
+        <Flex w='100%'>
           <Dropdown
             style={{ height: '48px' }}
             options={options.map((v) => ({ text: v, value: v }))}
@@ -59,15 +61,15 @@ const AddActionModal: React.FC<Props> = ({ open, actionsToExclude = [], onClose,
             value={selectedGroup}
             onChange={(e) => setSelectedGroup(e.target.value)}
           />
-        </FlexBox>
-        <FlexBox width='100%' height='50px'>
+        </Flex>
+        <Flex w='100%' h='50px'>
           {selectedAction?.description && (
             <Typography size='md' style={{ width: 0, flexGrow: 1 }}>
               {selectedAction.description}
             </Typography>
           )}
-        </FlexBox>
-        <GridContainer columns={4} width='100%' $gridGap={4}>
+        </Flex>
+        <Grid columns={4} w='100%'>
           {groupItems
             .filter((item) => !contractName || item.in.includes(contractName))
             .map((item) => {
@@ -80,7 +82,7 @@ const AddActionModal: React.FC<Props> = ({ open, actionsToExclude = [], onClose,
               }
 
               return (
-                <GridItem key={item.text}>
+                <Grid.Col span={4} key={item.text}>
                   <PropertyBox
                     icon={<Icon />}
                     label={item.text}
@@ -89,17 +91,17 @@ const AddActionModal: React.FC<Props> = ({ open, actionsToExclude = [], onClose,
                     hovered={item.text === selectedAction?.text}
                     handleClick={(): void => setSelectedAction(item)}
                   />
-                </GridItem>
+                </Grid.Col>
               )
             })
             .filter(Boolean)}
-        </GridContainer>
-        <FlexBox width='100%'>
+        </Grid>
+        <Flex w='100%'>
           <Button variant='primary' disabled={!selectedAction} onClick={handleContinue} style={{ width: '100%' }}>
             Continue
           </Button>
-        </FlexBox>
-      </FlexBox>
+        </Flex>
+      </Flex>
     </Modal>
   )
 }

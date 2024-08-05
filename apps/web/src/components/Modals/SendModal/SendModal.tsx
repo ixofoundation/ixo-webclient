@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import React, { useMemo, useState } from 'react'
 import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 import { Box, FlexBox, HTMLFlexBoxProps, SvgBox } from 'components/App/App.styles'
@@ -5,7 +6,6 @@ import { SignStep, TXStatus } from '../common'
 import { Typography } from 'components/Typography'
 import { ReactComponent as NextStepImage } from '/public/assets/images/modal/nextstep.svg'
 import { useAccount } from 'hooks/account'
-import { ReactComponent as ArrowDownIcon } from '/public/assets/images/icon-arrow-down.svg'
 import { Input } from 'screens/CreateEntity/Components'
 import CurrencyFormat from 'react-currency-format'
 import styled, { useTheme } from 'styled-components'
@@ -18,6 +18,8 @@ import { BankSendTrx } from 'lib/protocol'
 import { errorToast, successToast } from 'utils/toast'
 import { useWallet } from '@ixo-webclient/wallet-connector'
 import { DeliverTxResponse } from '@cosmjs/stargate'
+import { IconArrowDown } from 'components/IconPaths'
+
 
 const StyledInput = styled(Input)`
   color: white;
@@ -178,7 +180,7 @@ const SendModal: React.FunctionComponent<Props> = ({ open, selectedDenomOrAddr, 
                   $boxShadow={theme.ixoShadow2}
                 >
                   <SvgBox color={theme.colors.blue[5]} $svgHeight={8}>
-                    <ArrowDownIcon />
+                    <Image src={IconArrowDown} alt='ArrowDown' width={5} height={5} color={theme.colors.blue[5]} />
                   </SvgBox>
                 </FlexBox>
                 {/* Recipient Address */}

@@ -1,15 +1,17 @@
+import Image from 'next/image'
 import React from 'react'
 import { Card } from '../Card'
-import { ReactComponent as MobileIcon } from '/public/assets/images/icon-mobile.svg'
 import { Button, Flex } from '@mantine/core'
 import { QRCodeSVG } from 'qrcode.react'
-import { ReactComponent as PlusIcon } from '/public/assets/images/icon-plus.svg'
 import './DidQRCode.css'
 import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { useMantineTheme } from '@mantine/core'
 import { Typography } from 'components/Typography'
 import { useDisclosure } from '@mantine/hooks'
 import { NavLink, useParams } from 'react-router-dom'
+import { IconMobile } from 'components/IconPaths'
+import { IconPlus } from 'components/IconPaths'
+
 
 const QrCode = ({ did }: { did: string }) => {
   const stringifiedData = JSON.stringify({ type: 'project', did })
@@ -32,7 +34,7 @@ const QrCode = ({ did }: { did: string }) => {
         width='100%'
       >
         <SvgBox $svgWidth={5} $svgHeight={5} color={theme.ixoBlack}>
-          <PlusIcon />
+          <Image src={IconPlus} alt='Plus' width={5} height={5} color={theme.colors.blue[5]} />
         </SvgBox>
         <Typography size='sm' color='black'>
           Add to Impacts X
@@ -69,7 +71,7 @@ const QrCode = ({ did }: { did: string }) => {
 
 const DidQrCode: React.FC = () => {
   const { entityId = '' } = useParams<{ entityId: string }>()
-  return <Card icon={<MobileIcon />} title={'Mobile'} columns={1} items={<QrCode did={entityId} />} />
+  return <Card icon={<Image src={IconMobile} alt='Mobile' width={5} height={5} color={theme.colors.blue[5]} />} title={'Mobile'} columns={1} items={<QrCode did={entityId} />} />
 }
 
 export default DidQrCode

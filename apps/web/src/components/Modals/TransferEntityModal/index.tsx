@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import * as Modal from 'react-modal'
 import { FlexBox, SvgBox } from 'components/App/App.styles'
@@ -5,10 +6,11 @@ import { Button, InputWithLabel } from 'screens/CreateEntity/Components'
 import { ModalStyles, CloseButton } from 'components/Modals/styles'
 import { Typography } from 'components/Typography'
 import { useMantineTheme } from '@mantine/core'
-import { ReactComponent as TimesCircleIcon } from '/public/assets/images/icon-times-circle.svg'
-import { ReactComponent as CheckCircleIcon } from '/public/assets/images/icon-check-circle.svg'
-import { ReactComponent as CloseIcon } from '/public/assets/images/icon-close.svg'
 import { validateDid } from 'utils/validation'
+import { IconCheckCircle } from 'components/IconPaths'
+import { IconTimesCircle } from 'components/IconPaths'
+import { IconClose } from 'components/IconPaths'
+
 
 interface Props {
   open: boolean
@@ -28,7 +30,7 @@ const TransferEntityModal: React.FC<Props> = ({ open, recipientDid, onClose, onS
     // @ts-ignore
     <Modal style={ModalStyles} isOpen={open} onRequestClose={onClose} contentLabel='Modal' ariaHideApp={false}>
       <CloseButton onClick={onClose}>
-        <CloseIcon />
+        <Image src={IconClose} alt='Close' width={5} height={5} color={theme.colors.blue[5]} />
       </CloseButton>
 
       <FlexBox $direction='column' $gap={8} width={'700px'}>
@@ -53,7 +55,7 @@ const TransferEntityModal: React.FC<Props> = ({ open, recipientDid, onClose, onS
               <FlexBox width='100%' $justifyContent='flex-end' $alignItems='center' $gap={2}>
                 <Typography size='xl'>Not a valid ixo DID</Typography>
                 <SvgBox color={theme.ixoRed}>
-                  <TimesCircleIcon />
+                  <Image src={IconTimesCircle} alt='TimesCircle' width={5} height={5} color={theme.colors.blue[5]} />
                 </SvgBox>
               </FlexBox>
             )}
@@ -61,7 +63,7 @@ const TransferEntityModal: React.FC<Props> = ({ open, recipientDid, onClose, onS
               <FlexBox width='100%' $justifyContent='flex-end' $alignItems='center' $gap={2}>
                 <Typography size='xl'>Valid ixo DID</Typography>
                 <SvgBox color={theme.ixoGreen}>
-                  <CheckCircleIcon />
+                  <Image src={IconCheckCircle} alt='CheckCircle' width={5} height={5} color={theme.colors.blue[5]} />
                 </SvgBox>
               </FlexBox>
             )}

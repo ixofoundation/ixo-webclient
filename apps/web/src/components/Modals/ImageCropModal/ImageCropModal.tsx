@@ -1,12 +1,14 @@
+import Image from 'next/image'
 import { Button } from 'screens/CreateEntity/Components'
 import React, { useState, useCallback } from 'react'
 import Cropper from 'react-easy-crop'
 import { Point } from 'react-easy-crop/types'
 import * as Modal from 'react-modal'
-import { ReactComponent as CloseIcon } from '/public/assets/images/icon-close.svg'
 import getCroppedImg from './helpers'
 import { ImageBox } from './ImageCropModal.styles'
 import { ModalStyles, ModalWrapper, ModalBody, ModalRow, CloseButton } from 'components/Modals/styles'
+import { IconClose } from 'components/IconPaths'
+
 
 interface Props {
   open: boolean
@@ -50,7 +52,7 @@ const ImageCropModal: React.FC<Props> = ({
     // @ts-ignore
     <Modal style={ModalStyles} isOpen={open} onRequestClose={onClose} contentLabel='Modal' ariaHideApp={false}>
       <CloseButton onClick={onClose}>
-        <CloseIcon />
+        <Image src={IconClose} alt='Close' width={5} height={5} color={theme.colors.blue[5]} />
       </CloseButton>
       {imgSrc && open && (
         <ModalWrapper>

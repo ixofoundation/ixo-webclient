@@ -1,6 +1,6 @@
+import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import * as Modal from 'react-modal'
-import { ReactComponent as CloseIcon } from '/public/assets/images/icon-close.svg'
 import { ModalStyles, CloseButton, ModalWrapper, ModalTitle } from 'components/Modals/styles'
 import { Button, InputWithLabel } from 'screens/CreateEntity/Components'
 import { FlexBox } from 'components/App/App.styles'
@@ -11,6 +11,8 @@ import { determineChainFromAddress } from 'utils/account'
 import { Typography } from 'components/Typography'
 import { Avatar } from 'screens/CurrentEntity/Components'
 import { ixo } from '@ixo/impactxclient-sdk'
+import { IconClose } from 'components/IconPaths'
+
 
 interface Props {
   open: boolean
@@ -65,7 +67,7 @@ const LinkedAccountSetupModal: React.FC<Props> = ({ open, onClose, onAdd }): JSX
       {/* @ts-ignore */}
       <Modal style={ModalStyles} isOpen={open} onRequestClose={onClose} contentLabel='Modal' ariaHideApp={false}>
         <CloseButton onClick={onClose}>
-          <CloseIcon />
+          <Image src={IconClose} alt='Close' width={5} height={5} color={theme.colors.blue[5]} />
         </CloseButton>
 
         <ModalWrapper>

@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 import { Box, FlexBox, HTMLFlexBoxProps, SvgBox } from 'components/App/App.styles'
@@ -12,7 +13,6 @@ import {
   durationToSeconds,
   secondsToWdhms,
 } from 'utils/conversions'
-import { ReactComponent as ArrowDownIcon } from '/public/assets/images/icon-arrow-down.svg'
 import { MarketingInfoResponse, TokenInfoResponse } from '@ixo/impactxclient-sdk/types/codegen/Cw20Base.types'
 import CurrencyFormat from 'react-currency-format'
 import { fee } from 'lib/protocol'
@@ -25,6 +25,8 @@ import { TDAOGroupModel } from 'types/entities'
 import { Cw20BaseClient } from '@ixo-webclient/cosmwasm-clients'
 import { useWallet } from '@ixo-webclient/wallet-connector'
 import { useParams } from 'react-router-dom'
+import { IconArrowDown } from 'components/IconPaths'
+
 
 const StyledCurrencyFormat = styled(CurrencyFormat)`
   width: 100%;
@@ -236,7 +238,7 @@ const GroupStakingModal: React.FunctionComponent<Props> = ({ daoGroup, open, set
                   $boxShadow={theme.ixoShadow2}
                 >
                   <SvgBox color={theme.colors.blue[5]} $svgHeight={8}>
-                    <ArrowDownIcon />
+                    <Image src={IconArrowDown} alt='ArrowDown' width={5} height={5} color={theme.colors.blue[5]} />
                   </SvgBox>
                 </FlexBox>
                 {/* DAO name & Group Name */}

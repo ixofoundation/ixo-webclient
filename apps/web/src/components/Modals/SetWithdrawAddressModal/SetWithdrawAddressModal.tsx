@@ -1,12 +1,14 @@
+import Image from 'next/image'
 import React, { FunctionComponent, useState, useEffect } from 'react'
 import styled from 'styled-components'
-import { ReactComponent as QRCodeIcon } from '/public/assets/images/icon-qrcode.svg'
 
 import { checkValidAddress } from 'redux/account/account.utils'
 import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 import { useAccount } from 'hooks/account'
 import { ModalInput } from '../common'
 import { GetWithdrawAddress, SetWithdrawAddress } from 'lib/protocol'
+import { IconQRCode } from 'components/IconPaths'
+
 
 const Container = styled.div`
   padding: 3rem 1rem 1rem;
@@ -77,7 +79,7 @@ const SetWithdrawAddressModal: FunctionComponent<Props> = ({ open, setOpen }) =>
             error={
               inputAddress.length > 0 && !checkValidAddress(inputAddress) ? 'This is not a valid account address' : ''
             }
-            preIcon={<QRCodeIcon />}
+            preIcon={<Image src={IconQRCode} alt='QRCode' width={5} height={5} color={theme.colors.blue[5]} />}
             placeholder='New Withdraw Address'
             value={inputAddress}
             onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setInputAddress(e.target.value)}

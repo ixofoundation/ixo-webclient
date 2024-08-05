@@ -1,8 +1,9 @@
+import Image from 'next/image'
 import React from 'react'
 import { Button, ButtonProps } from '@mantine/core'
 import { useMantineTheme } from '@mantine/core'
-import { ReactComponent as SendPlaneIcon } from '/public/assets/images/icon-send-plane.svg'
-import { SvgBox } from 'components/App/App.styles'
+import { IconSendPlane } from 'components/IconPaths'
+
 
 type Props = ButtonProps & {
   onClick: () => void
@@ -28,7 +29,7 @@ const SuggestionButton: React.FC<Props> = ({ onClick, ...props }) => {
       radius={8}
       rightSection={
         <SvgBox $svgWidth={5} $svgHeight={5}>
-          <SendPlaneIcon />
+          <Image src={IconSendPlane} alt='SendPlane' width={5} height={5} color={theme.colors.blue[5]} />
         </SvgBox>
       }
       onClick={onClick}

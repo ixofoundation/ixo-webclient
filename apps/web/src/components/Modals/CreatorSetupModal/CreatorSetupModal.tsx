@@ -1,6 +1,6 @@
+import Image from 'next/image'
 import React, { useEffect, useMemo, useState } from 'react'
 import * as Modal from 'react-modal'
-import { ReactComponent as CloseIcon } from '/public/assets/images/icon-close.svg'
 import { ModalStyles, CloseButton } from 'components/Modals/styles'
 import { TEntityCreatorModel, PDS_URL } from 'types/entities'
 import { Box, FlexBox } from 'components/App/App.styles'
@@ -13,6 +13,8 @@ import PulseLoader from 'components/Spinner/PulseLoader/PulseLoader'
 import { deviceWidth } from 'constants/device'
 import { useMantineTheme } from '@mantine/core'
 import { useCreateEntity } from 'hooks/createEntity'
+import { IconClose } from 'components/IconPaths'
+
 
 const cellNodeEndpoint = PDS_URL
 
@@ -138,7 +140,7 @@ const CreatorSetupModal: React.FC<Props> = ({ creator, title, open, onClose, onC
         ariaHideApp={false}
       >
         <CloseButton onClick={onClose}>
-          <CloseIcon />
+          <Image src={IconClose} alt='Close' width={5} height={5} color={theme.colors.blue[5]} />
         </CloseButton>
 
         <FlexBox $direction='column' $gap={4} width='100%'>

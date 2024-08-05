@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import React, { useEffect, useMemo, useState } from 'react'
 import Lottie from 'react-lottie'
 import styled from 'styled-components'
@@ -5,7 +6,6 @@ import TokenSelector from 'components/TokenSelector/TokenSelector'
 import { StepsTransactions } from 'components/StepsTransactions/StepsTransactions'
 import AmountInput from 'components/AmountInput/AmountInput'
 import OverlayButtonIcon from '/public/assets/images/modal/overlaybutton-down.svg'
-import { ReactComponent as QRCodeIcon } from '/public/assets/images/icon-qrcode.svg'
 import NextStepIcon from '/public/assets/images/modal/nextstep.svg'
 import EyeIcon from '/public/assets/images/icon-eye.svg'
 import CheckIcon from '/public/assets/images/icon-check.svg'
@@ -26,6 +26,8 @@ import { useAccount } from 'hooks/account'
 import { cosmos } from '@ixo/impactxclient-sdk'
 import { useIxoConfigs } from 'hooks/configs'
 import { blockExplorerTransactionEndpoint } from 'constants/blockExplorers'
+import { IconQRCode } from 'components/IconPaths'
+
 
 const AmountInputLabel = styled.div<{ error: boolean }>`
   font-family: ${(props): string => props.theme.primaryFontFamily};
@@ -202,7 +204,7 @@ const BondWithdrawReserveModal: React.FC<Props> = ({ open, bondDid, setOpen }) =
             </CheckWrapper>
             <CheckWrapper>
               <div className='mt-3' />
-              <ModalInput disabled={true} preIcon={<QRCodeIcon />} placeholder={accountAddress} value={''} />
+              <ModalInput disabled={true} preIcon={<Image src={IconQRCode} alt='QRCode' width={5} height={5} color={theme.colors.blue[5]} />} placeholder={accountAddress} value={''} />
               {currentStep === 2 && <img className='check-icon' src={CheckIcon} alt='check-icon' />}
             </CheckWrapper>
             <OverlayWrapper>

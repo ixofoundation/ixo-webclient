@@ -1,7 +1,7 @@
+import Image from 'next/image'
 import { Box, FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { useMemo, useState } from 'react'
-import { ReactComponent as PlusIcon } from '/public/assets/images/icon-plus.svg'
 import { Button, CheckBox, PropertyBox } from 'screens/CreateEntity/Components'
 import { AddDAOGroupModal } from 'components/Modals'
 import { v4 as uuidv4 } from 'uuid'
@@ -14,6 +14,8 @@ import BigNumber from 'bignumber.js'
 import { DAOGroupConfig } from 'constants/entity'
 import { useCreateEntityStepState } from 'hooks/createEntityStepState'
 import { useCreateEntityStateAsActionState } from 'hooks/entity/useCreateEntityStateAsAction'
+import { IconPlus } from 'components/IconPaths'
+
 
 export const initialGroupConfig: TDAOGroupModel['config'] = {
   automatically_add_cw20s: true,
@@ -272,7 +274,7 @@ const SetupDAOGroups = ({ showNavigation = true }: { showNavigation?: boolean })
               </FlexBox>
             )
           })}
-          <PropertyBox icon={<PlusIcon />} noData handleClick={(): void => setOpenAddGroupModal(true)} />
+          <PropertyBox icon={<Image src={IconPlus} alt='Plus' width={5} height={5} color={theme.colors.blue[5]} />} noData handleClick={(): void => setOpenAddGroupModal(true)} />
         </FlexBox>
 
         <FlexBox $gap={5} $marginTop={10}>

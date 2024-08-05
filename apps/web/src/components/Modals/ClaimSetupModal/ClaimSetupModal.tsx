@@ -1,6 +1,6 @@
+import Image from 'next/image'
 import React, { useState, useMemo, useEffect } from 'react'
 import * as Modal from 'react-modal'
-import { ReactComponent as CloseIcon } from '/public/assets/images/icon-close.svg'
 import { ModalStyles, CloseButton, ModalWrapper } from 'components/Modals/styles'
 import { Button, InputWithLabel, Switch, TextArea } from 'screens/CreateEntity/Components'
 import { TEntityClaimModel, TEntityClaimTemplateModel } from 'types/entities'
@@ -9,6 +9,8 @@ import ClaimTemplateCard from './ClaimTemplateCard'
 import ClaimSelectModal from '../ClaimSelectModal/ClaimSelectModal'
 import { Typography } from 'components/Typography'
 import styled from 'styled-components'
+import { IconClose } from 'components/IconPaths'
+
 
 const StyledModalWrapper = styled(ModalWrapper)`
   width: 870px;
@@ -52,7 +54,7 @@ const ClaimSetupModal: React.FC<Props> = ({ claim, open, onClose, onChange }): J
       {/* @ts-ignore */}
       <Modal style={ModalStyles} isOpen={open} onRequestClose={onClose} contentLabel='Modal' ariaHideApp={false}>
         <CloseButton onClick={onClose}>
-          <CloseIcon />
+          <Image src={IconClose} alt='Close' width={5} height={5} color={theme.colors.blue[5]} />
         </CloseButton>
 
         <StyledModalWrapper style={{ width: 870 }}>

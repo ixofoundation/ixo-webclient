@@ -19,7 +19,6 @@ import {
 } from '../Filters.styles'
 import { requireCheckDefault } from 'utils/images'
 import { Typography } from 'components/Typography'
-import { SvgBox } from 'components/App/App.styles'
 import { ReactSVG } from 'react-svg'
 
 interface MobileProps extends Props {

@@ -1,14 +1,16 @@
+import Image from 'next/image'
 import React, { useEffect, useMemo, useState } from 'react'
 import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { Input } from 'screens/CreateEntity/Components'
 import { Typography } from 'components/Typography'
 import { TProposalActionModel } from 'types/entities'
 import styled from 'styled-components'
-import { ReactComponent as PlusIcon } from '/public/assets/images/icon-plus.svg'
-import { ReactComponent as TimesIcon } from '/public/assets/images/icon-times.svg'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 import { isAccountAddress } from 'utils/validation'
 import { SubDao } from 'types/dao'
+import { IconTimes } from 'components/IconPaths'
+import { IconPlus } from 'components/IconPaths'
+
 
 const inputHeight = '48px'
 
@@ -126,14 +128,14 @@ const SetupManageSubDAOsModal: React.FC<Props> = ({ open, action, onClose, onSub
                 handleChange={(value) => handleUpdateMemberToAdd(index, { ...member, addr: value })}
               />
               <SvgBox color='black' onClick={() => handleRemoveMemberToAdd(index)} cursor='pointer'>
-                <TimesIcon />
+                <Image src={IconTimes} alt='Times' width={5} height={5} color={theme.colors.blue[5]} />
               </SvgBox>
             </FlexBox>
           ))}
 
           <AddButton $alignItems='center' $gap={2.5} onClick={handleAddMemberToAdd}>
             <SvgBox color='black'>
-              <PlusIcon />
+              <Image src={IconPlus} alt='Plus' width={5} height={5} color={theme.colors.blue[5]} />
             </SvgBox>
             <Typography size='xl' weight='medium'>
               Add
@@ -157,14 +159,14 @@ const SetupManageSubDAOsModal: React.FC<Props> = ({ open, action, onClose, onSub
                 handleChange={(value) => handleUpdateMemberToRemove(index, { ...member, address: value })}
               />
               <SvgBox color='black' onClick={() => handleRemoveMemberToRemove(index)} cursor='pointer'>
-                <TimesIcon />
+                <Image src={IconTimes} alt='Times' width={5} height={5} color={theme.colors.blue[5]} />
               </SvgBox>
             </FlexBox>
           ))}
 
           <AddButton $alignItems='center' $gap={2.5} onClick={handleAddMemberToRemove}>
             <SvgBox color='black'>
-              <PlusIcon />
+              <Image src={IconPlus} alt='Plus' width={5} height={5} color={theme.colors.blue[5]} />
             </SvgBox>
             <Typography size='xl' weight='medium'>
               Add

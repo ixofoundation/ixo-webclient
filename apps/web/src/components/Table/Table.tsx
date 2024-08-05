@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import React from 'react'
 import {
   useTable,
@@ -15,8 +16,9 @@ import {
 import { Flex, Pagination, Select } from '@mantine/core'
 import { SvgBox, theme } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
-import { ReactComponent as SortLtoGIcon } from '/public/assets/images/icon-sort-ltog.svg'
-import { ReactComponent as SortGtoLIcon } from '/public/assets/images/icon-sort-gtol.svg'
+import { IconSortGtoL } from 'components/IconPaths'
+import { IconSortLtoG } from 'components/IconPaths'
+
 
 // Create a default prop getter
 const defaultPropGetter = () => ({})
@@ -180,8 +182,8 @@ export const renderTableHeader = (
     </Typography>
     {sort && (
       <SvgBox color={theme.ixoDarkBlue}>
-        {sort.direction !== 'desc' && <SortLtoGIcon />}
-        {sort.direction === 'desc' && <SortGtoLIcon />}
+        {sort.direction !== 'desc' && <Image src={IconSortLtoG} alt='SortLtoG' width={5} height={5} color={theme.colors.blue[5]} />}
+        {sort.direction === 'desc' && <Image src={IconSortGtoL} alt='SortGtoL' width={5} height={5} color={theme.colors.blue[5]} />}
       </SvgBox>
     )}
   </Flex>

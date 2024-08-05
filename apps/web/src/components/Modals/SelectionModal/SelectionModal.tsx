@@ -1,7 +1,7 @@
+import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import * as Modal from 'react-modal'
 import _ from 'lodash'
-import { ReactComponent as CloseIcon } from '/public/assets/images/icon-close.svg'
 import {
   ModalStyles,
   CloseButton,
@@ -15,6 +15,8 @@ import {
 import { Button } from 'screens/CreateEntity/Components'
 import sdgIcons from 'screens/Splash/splash-config.json'
 import { Typography } from 'components/Typography'
+import { IconClose } from 'components/IconPaths'
+
 const SDG_ICONS = sdgIcons.sdgIcons
 
 export const getSDGIcon = (sdg: string): any => {
@@ -72,7 +74,7 @@ const SelectionModal: React.FC<Props> = ({
     // @ts-ignore
     <Modal style={ModalStyles} isOpen={open} onRequestClose={onClose} contentLabel='Modal' ariaHideApp={false}>
       <CloseButton onClick={onClose}>
-        <CloseIcon />
+        <Image src={IconClose} alt='Close' width={5} height={5} color={theme.colors.blue[5]} />
       </CloseButton>
 
       <ModalWrapper>

@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 import { Box, FlexBox, HTMLFlexBoxProps, SvgBox } from 'components/App/App.styles'
@@ -7,7 +8,6 @@ import NextStepImage from '/public/assets/images/modal/nextstep.svg'
 import { contracts } from '@ixo/impactxclient-sdk'
 import { useAccount } from 'hooks/account'
 import { convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
-import { ReactComponent as ArrowDownIcon } from '/public/assets/images/icon-arrow-down.svg'
 import { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
 import { TokenInfoResponse } from '@ixo/impactxclient-sdk/types/codegen/Cw20Base.types'
 import { fee } from 'lib/protocol'
@@ -20,6 +20,8 @@ import { useWallet } from '@ixo-webclient/wallet-connector'
 import { useParams } from 'react-router-dom'
 import { useAppSelector } from 'redux/hooks'
 import { getEntityById } from 'redux/entities/entities.selectors'
+import { IconArrowDown } from 'components/IconPaths'
+
 
 const Card = ({ children, ...rest }: HTMLFlexBoxProps) => {
   const theme = useMantineTheme()
@@ -172,7 +174,7 @@ const GroupClaimModal: React.FunctionComponent<Props> = ({ daoGroup, open, setOp
                   $boxShadow={theme.ixoShadow2}
                 >
                   <SvgBox color={theme.colors.blue[5]} $svgHeight={8}>
-                    <ArrowDownIcon />
+                    <Image src={IconArrowDown} alt='ArrowDown' width={5} height={5} color={theme.colors.blue[5]} />
                   </SvgBox>
                 </FlexBox>
                 {/* Amount of tokens claimable */}

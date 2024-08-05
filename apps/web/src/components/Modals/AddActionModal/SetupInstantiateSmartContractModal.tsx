@@ -1,15 +1,17 @@
+import Image from 'next/image'
 import React, { useEffect, useMemo, useState } from 'react'
 import { Box, FlexBox, SvgBox } from 'components/App/App.styles'
 import { CodeMirror, Dropdown, Input, NumberCounter } from 'screens/CreateEntity/Components'
 import { Typography } from 'components/Typography'
 import { TProposalActionModel } from 'types/entities'
 import styled from 'styled-components'
-import { ReactComponent as PlusIcon } from '/public/assets/images/icon-plus.svg'
-import { ReactComponent as TimesIcon } from '/public/assets/images/icon-times.svg'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 import { validateJSON } from 'utils/validation'
 import { useParams } from 'react-router-dom'
+import { IconTimes } from 'components/IconPaths'
+import { IconPlus } from 'components/IconPaths'
+
 
 const inputHeight = '48px'
 
@@ -144,14 +146,14 @@ const SetupInstantiateSmartContractModal: React.FC<Props> = ({ open, action, onC
             />
 
             <SvgBox color='black' onClick={() => handleRemoveFund(index)} cursor='pointer'>
-              <TimesIcon />
+              <Image src={IconTimes} alt='Times' width={5} height={5} color={theme.colors.blue[5]} />
             </SvgBox>
           </FlexBox>
         ))}
 
         <AddFundButton $alignItems='center' $gap={2.5} onClick={handleAddFund}>
           <SvgBox color='black'>
-            <PlusIcon />
+            <Image src={IconPlus} alt='Plus' width={5} height={5} color={theme.colors.blue[5]} />
           </SvgBox>
           <Typography size='xl' weight='medium'>
             Add Payment

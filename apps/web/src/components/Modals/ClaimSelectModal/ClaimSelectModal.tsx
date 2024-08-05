@@ -1,15 +1,14 @@
+import Image from 'next/image'
 import React, { useMemo, useState } from 'react'
 import _ from 'lodash'
 import * as Modal from 'react-modal'
 import { ModalStyles, CloseButton } from 'components/Modals/styles'
-import { ReactComponent as CloseIcon } from '/public/assets/images/icon-close.svg'
 import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { Button, Input } from 'screens/CreateEntity/Components'
 import { Typography } from 'components/Typography'
 import ClaimTemplateCard from '../ClaimSetupModal/ClaimTemplateCard'
 import { TEntityClaimTemplateModel } from 'types/entities'
 import styled, { useTheme } from 'styled-components'
-import { ReactComponent as SearchIcon } from '/public/assets/images/icon-search.svg'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { selectAllClaimProtocols } from 'redux/entities/entities.selectors'
 import { useNavigate } from 'react-router-dom'
@@ -18,6 +17,9 @@ import { getEntitiesFromGraphqlAction, updateEntityPropertyAction } from 'redux/
 import { apiEntityToEntity } from 'utils/entities'
 import { useAccount } from 'hooks/account'
 import { currentRelayerNode } from 'constants/common'
+import { IconSearch } from 'components/IconPaths'
+import { IconClose } from 'components/IconPaths'
+
 
 const ClaimProtocolList = styled(FlexBox)`
   height: 350px;
@@ -97,7 +99,7 @@ const ClaimSelectModal: React.FC<Props> = ({ open, onClose, onSelect }): JSX.Ele
     // @ts-ignore
     <Modal style={ModalStyles} isOpen={open} onRequestClose={onClose} contentLabel='Modal' ariaHideApp={false}>
       <CloseButton onClick={onClose}>
-        <CloseIcon />
+        <Image src={IconClose} alt='Close' width={5} height={5} color={theme.colors.blue[5]} />
       </CloseButton>
 
       <FlexBox $direction='column' $gap={8}>
@@ -113,7 +115,7 @@ const ClaimSelectModal: React.FC<Props> = ({ open, onClose, onSelect }): JSX.Ele
             handleChange={(value) => setKeyword(value)}
             preIcon={
               <SvgBox color={theme.ixoGrey300} $svgWidth={6}>
-                <SearchIcon />
+                <Image src={IconSearch} alt='Search' width={5} height={5} color={theme.colors.blue[5]} />
               </SvgBox>
             }
             style={{ fontWeight: 500 }}

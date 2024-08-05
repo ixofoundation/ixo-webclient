@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { ixo, utils } from '@ixo/impactxclient-sdk'
 import { Verification } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/tx'
 import {
@@ -15,8 +16,6 @@ import { useQuery } from 'hooks/window'
 import { Button } from 'screens/CreateEntity/Components'
 import React, { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { ReactComponent as CheckCircleIcon } from '/public/assets/images/icon-check-circle.svg'
-import { ReactComponent as ExclamationIcon } from '/public/assets/images/icon-exclamation-circle.svg'
 import { useMantineTheme } from '@mantine/core'
 import { CreationSuccessScreen } from './CreationSuccessScreen'
 import { createEntityCard, withEntityData } from 'components'
@@ -25,6 +24,9 @@ import { Box } from '@mantine/core'
 import { toRootEntityType } from 'utils/entities'
 import { useWallet } from '@ixo-webclient/wallet-connector'
 import { useCreateEntityStateAsActionState } from 'hooks/entity/useCreateEntityStateAsAction'
+import { IconExclamation } from 'components/IconPaths'
+import { IconCheckCircle } from 'components/IconPaths'
+
 
 const Review = ({ showNavigation = true }: { showNavigation?: boolean }): JSX.Element => {
   const theme = useMantineTheme()
@@ -168,7 +170,7 @@ const Review = ({ showNavigation = true }: { showNavigation?: boolean }): JSX.El
               $textAlign='center'
             >
               <SvgBox color={theme.ixoLightGreen} $svgWidth={30} $svgHeight={30}>
-                <CheckCircleIcon />
+                <Image src={IconCheckCircle} alt='CheckCircle' width={5} height={5} color={theme.colors.blue[5]} />
               </SvgBox>
               <Typography variant='secondary' size='2xl'>
                 {profile?.name} Successfully created!
@@ -200,7 +202,7 @@ const Review = ({ showNavigation = true }: { showNavigation?: boolean }): JSX.El
               $textAlign='center'
             >
               <SvgBox color={theme.ixoDarkOrange} $svgWidth={30} $svgHeight={30}>
-                <ExclamationIcon />
+                <Image src={IconExclamation} alt='Exclamation' width={5} height={5} color={theme.colors.blue[5]} />
               </SvgBox>
               <Typography variant='secondary' size='2xl'>
                 Something went wrong. Please try again.

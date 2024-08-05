@@ -1,14 +1,16 @@
+import Image from 'next/image'
 import React, { useState } from 'react'
 import * as Modal from 'react-modal'
-import { ReactComponent as CloseIcon } from '/public/assets/images/icon-close.svg'
 import { ModalStyles, CloseButton, ModalBody, ModalWrapper, ModalRow, ModalTitle } from 'components/Modals/styles'
 import { Button, PropertyBox } from 'screens/CreateEntity/Components'
 import { FlexBox } from 'components/App/App.styles'
-import { ReactComponent as ClaimIcon } from '/public/assets/images/icon-claim.svg'
 import { Typography } from 'components/Typography'
 import { useGetClaimTemplateEntityByCollectionId } from 'graphql/claims'
 import { AgentRoles } from 'types/models'
 import { ClaimCollection } from 'generated/graphql'
+import { IconClose } from 'components/IconPaths'
+import { IconClaim } from 'components/IconPaths'
+
 
 interface OfferBoxProps {
   collection: ClaimCollection
@@ -23,7 +25,7 @@ export const OfferBox: React.FC<OfferBoxProps> = ({ collection, selectedCollecti
   return (
     <FlexBox $direction='column' $alignItems='center' $gap={4}>
       <PropertyBox
-        icon={<ClaimIcon />}
+        icon={<Image src={IconClaim} alt='Claim' width={5} height={5} color={theme.colors.blue[5]} />}
         required={true}
         set={true}
         hovered={!!collectionId && selectedCollectionId === collectionId}
@@ -62,7 +64,7 @@ const ApplyToJoinModal: React.FC<Props> = ({ claimCollections = [], open, onClos
     // @ts-ignore
     <Modal style={ModalStyles} isOpen={open} onRequestClose={onClose} contentLabel='Modal' ariaHideApp={false}>
       <CloseButton onClick={onClose}>
-        <CloseIcon />
+        <Image src={IconClose} alt='Close' width={5} height={5} color={theme.colors.blue[5]} />
       </CloseButton>
 
       <ModalWrapper style={{ width: 600 }}>

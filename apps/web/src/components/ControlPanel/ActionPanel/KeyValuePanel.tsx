@@ -1,12 +1,13 @@
+import Image from 'next/image'
 import { Box, Card, Flex, Text } from '@mantine/core'
-import { SvgBox } from 'components/App/App.styles'
 import { startCase, truncate, upperFirst } from 'lodash'
 import { LiaExternalLinkAltSolid } from 'react-icons/lia'
-import { ReactComponent as AssistantIcon } from '/public/assets/images/icon-assistant.svg'
 import { useMantineTheme } from '@mantine/core'
 import { useAppSelector } from 'redux/hooks'
 import { selectEntityConfig } from 'redux/configs/configs.selectors'
 import { transformStorageEndpoint } from '@ixo-webclient/utils'
+import { IconAssistant } from 'components/IconPaths'
+
 
 const KeyValuePanel = ({ data }: { data: any }) => {
   const theme = useTheme()
@@ -56,7 +57,7 @@ const KeyValuePanel = ({ data }: { data: any }) => {
         <Flex align={'center'} justify={'space-between'}>
           <Text ml={10}>{upperFirst(data?.id.split('#')[1])}</Text>
           <SvgBox $svgWidth={6} $svgHeight={6} color={primaryColor}>
-            <AssistantIcon />
+            <Image src={IconAssistant} alt='Assistant' width={5} height={5} color={theme.colors.blue[5]} />
           </SvgBox>
         </Flex>
         <Box w='100%' mt={15}>

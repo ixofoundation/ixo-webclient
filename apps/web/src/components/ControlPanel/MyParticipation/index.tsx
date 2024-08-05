@@ -1,17 +1,19 @@
+import Image from 'next/image'
 import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { useMantineTheme } from '@mantine/core'
 import { Typography } from 'components/Typography'
-import { ReactComponent as ProfileIcon } from '/public/assets/images/icon-profile.svg'
-import { ReactComponent as StarIcon } from '/public/assets/images/icon-star.svg'
-import { ReactComponent as UserAstronautIcon } from '/public/assets/images/icon-user-astronaut-solid.svg'
-import { ReactComponent as UserNinjaIcon } from '/public/assets/images/icon-user-ninja-solid.svg'
-import { ReactComponent as UserCheckIcon } from '/public/assets/images/icon-user-check-solid.svg'
 import { Card } from '../Card'
 import { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
 import { useParams } from 'react-router-dom'
 import { useAppSelector } from 'redux/hooks'
 import { getEntityById } from 'redux/entities/entities.selectors'
 import { truncate } from 'lodash'
+import { IconProfile } from 'components/IconPaths'
+import { IconUserCheck } from 'components/IconPaths'
+import { IconUserNinja } from 'components/IconPaths'
+import { IconUserAstronaut } from 'components/IconPaths'
+import { IconStar } from 'components/IconPaths'
+
 
 const DAOGroupItem: React.FC<{ address: string }> = ({ address }) => {
   const theme = useMantineTheme()
@@ -41,7 +43,7 @@ const DAOGroupItem: React.FC<{ address: string }> = ({ address }) => {
           $justifyContent='center'
           $alignItems='center'
         >
-          <StarIcon />
+          <Image src={IconStar} alt='Star' width={5} height={5} color={theme.colors.blue[5]} />
         </SvgBox>
         <SvgBox
           width='40px'
@@ -54,7 +56,7 @@ const DAOGroupItem: React.FC<{ address: string }> = ({ address }) => {
           $justifyContent='center'
           $alignItems='center'
         >
-          <ProfileIcon />
+          <Image src={IconProfile} alt='Profile' width={5} height={5} color={theme.colors.blue[5]} />
         </SvgBox>
       </FlexBox>
     </FlexBox>
@@ -69,7 +71,7 @@ const MyParticipationCard = () => {
 
   return (
     <Card
-      icon={<UserCheckIcon />}
+      icon={<Image src={IconUserCheck} alt='UserCheck' width={5} height={5} color={theme.colors.blue[5]} />}
       title='My Participation'
       columns={1}
       items={
@@ -89,7 +91,7 @@ const MyParticipationCard = () => {
                 $justifyContent='center'
                 $alignItems='center'
               >
-                <ProfileIcon />
+                <Image src={IconProfile} alt='Profile' width={5} height={5} color={theme.colors.blue[5]} />
               </SvgBox>
               <SvgBox
                 width='40px'
@@ -102,7 +104,7 @@ const MyParticipationCard = () => {
                 $justifyContent='center'
                 $alignItems='center'
               >
-                <UserAstronautIcon />
+                <Image src={IconUserAstronaut} alt='UserAstronaut' width={5} height={5} color={theme.colors.blue[5]} />
               </SvgBox>
               <SvgBox
                 width='40px'
@@ -115,7 +117,7 @@ const MyParticipationCard = () => {
                 $justifyContent='center'
                 $alignItems='center'
               >
-                <UserNinjaIcon />
+                <Image src={IconUserNinja} alt='UserNinja' width={5} height={5} color={theme.colors.blue[5]} />
               </SvgBox>
             </FlexBox>
           </FlexBox>

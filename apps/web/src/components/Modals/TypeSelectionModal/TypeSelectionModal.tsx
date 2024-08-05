@@ -1,9 +1,11 @@
+import Image from 'next/image'
 import React from 'react'
 import * as Modal from 'react-modal'
 import _ from 'lodash'
-import { ReactComponent as CloseIcon } from '/public/assets/images/icon-close.svg'
 import { ModalStyles, CloseButton, ModalBody, ModalWrapper, ModalRow, ModalTitle } from 'components/Modals/styles'
 import { TypeButton } from './TypeSelectionModal.styles'
+import { IconClose } from 'components/IconPaths'
+
 
 interface Props {
   open: boolean
@@ -18,7 +20,7 @@ const TypeSelectionModal: React.FC<Props> = ({ open, onClose, title, options, ha
     // @ts-ignore
     <Modal style={ModalStyles} isOpen={open} onRequestClose={onClose} contentLabel='Modal' ariaHideApp={false}>
       <CloseButton onClick={onClose}>
-        <CloseIcon />
+        <Image src={IconClose} alt='Close' width={5} height={5} color={theme.colors.blue[5]} />
       </CloseButton>
 
       <ModalWrapper>

@@ -1,13 +1,15 @@
+import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import _ from 'lodash'
 import * as Modal from 'react-modal'
-import { ReactComponent as CloseIcon } from '/public/assets/images/icon-close.svg'
 import { ModalStyles, CloseButton, ModalBody, ModalWrapper, ModalRow, ModalTitle } from 'components/Modals/styles'
 import { AccountValidStatus, Button, InputWithLabel, PropertyBox } from 'screens/CreateEntity/Components'
 import { Typography } from 'components/Typography'
 import { FlexBox } from 'components/App/App.styles'
 import { isAccountAddress } from 'utils/validation'
 import { DAOGroupConfig } from 'constants/entity'
+import { IconClose } from 'components/IconPaths'
+
 
 interface Props {
   open: boolean
@@ -29,7 +31,7 @@ const AddDAOGroupModal: React.FC<Props> = ({ open, onClose, onAdd, onClone }): J
     // @ts-ignore
     <Modal style={ModalStyles} isOpen={open} onRequestClose={onClose} contentLabel='Modal' ariaHideApp={false}>
       <CloseButton onClick={onClose}>
-        <CloseIcon />
+        <Image src={IconClose} alt='Close' width={5} height={5} color={theme.colors.blue[5]} />
       </CloseButton>
 
       <ModalWrapper>

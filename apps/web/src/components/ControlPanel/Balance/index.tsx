@@ -1,15 +1,17 @@
+import Image from 'next/image'
 import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { useMantineTheme } from '@mantine/core'
 import { Typography } from 'components/Typography'
-// import { ReactComponent as ArrowRightIcon } from '/public/assets/images/icon-arrow-right.svg'
-import { ReactComponent as WalletIcon } from '/public/assets/images/icon-wallet-solid.svg'
-import { Card } from '../Card'
+// import { Card } from '../Card'
 import { useAccount } from 'hooks/account'
 import { useMemo, useState } from 'react'
 import BigNumber from 'bignumber.js'
 import ProfileModal from 'components/Header/components/ProfileModal'
 import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 import { truncateString } from 'utils/formatters'
+import { IconWallet } from 'components/IconPaths'
+import { IconArrowRight } from 'components/IconPaths'
+
 
 const BalanceCard = () => {
   const theme = useMantineTheme()
@@ -50,7 +52,7 @@ const BalanceCard = () => {
   return (
     <>
       <Card
-        icon={<WalletIcon />}
+        icon={<Image src={IconWallet} alt='Wallet' width={5} height={5} color={theme.colors.blue[5]} />}
         title='My Balance'
         columns={1}
         items={
@@ -74,7 +76,7 @@ const BalanceCard = () => {
                 cursor='pointer'
                 onClick={onButtonClick}
               >
-                <WalletIcon />
+                <Image src={IconWallet} alt='Wallet' width={5} height={5} color={theme.colors.blue[5]} />
               </SvgBox>
             </FlexBox>
             {/* 
@@ -89,7 +91,7 @@ const BalanceCard = () => {
                 cursor='pointer'
               >
                 <SvgBox $svgWidth={5} $svgHeight={5} transform='rotateZ(-45deg)'>
-                  <ArrowRightIcon />
+                  <Image src={IconArrowRight} alt='ArrowRight' width={5} height={5} color={theme.colors.blue[5]} />
                 </SvgBox>
                 <Typography size='sm'>Send</Typography>
               </FlexBox>
@@ -103,7 +105,7 @@ const BalanceCard = () => {
                 cursor='pointer'
               >
                 <SvgBox $svgWidth={5} $svgHeight={5} transform='rotateZ(135deg)'>
-                  <ArrowRightIcon />
+                  <Image src={IconArrowRight} alt='ArrowRight' width={5} height={5} color={theme.colors.blue[5]} />
                 </SvgBox>
                 <Typography size='sm'>Receive</Typography>
               </FlexBox>

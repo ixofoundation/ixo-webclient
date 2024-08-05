@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { useMantineTheme } from '@mantine/core'
 import { Card } from '../Card'
 import { FlexBox, SvgBox } from 'components/App/App.styles'
@@ -5,9 +6,10 @@ import { Avatar } from 'screens/CurrentEntity/Components'
 import { Typography } from 'components/Typography'
 import { useState } from 'react'
 import { Input, TextArea } from 'screens/CreateEntity/Components'
-import { ReactComponent as CommentIcon } from '/public/assets/images/icon-bell.svg'
-import { ReactComponent as SearchIcon } from '/public/assets/images/icon-search.svg'
-import { ReactComponent as ArrowUpIcon } from '/public/assets/images/icon-arrow-up.svg'
+import { IconArrowUp } from 'components/IconPaths'
+import { IconComment } from 'components/IconPaths'
+import { IconSearch } from 'components/IconPaths'
+
 
 const SearchBox = () => {
   const theme = useMantineTheme()
@@ -16,7 +18,7 @@ const SearchBox = () => {
   return (
     <FlexBox width='100%' height='40px' $borderRadius='8px' px={3} $gap={1.5} $alignItems='center' background='#F0F3F9'>
       <SvgBox $svgWidth={5} $svgHeight={5} color={theme.ixoBlack}>
-        <SearchIcon />
+        <Image src={IconSearch} alt='Search' width={5} height={5} color={theme.colors.blue[5]} />
       </SvgBox>
       <Input
         placeholder='Type to Search'
@@ -105,7 +107,7 @@ const MessageBox = () => {
           $svgHeight={8}
           cursor='pointer'
         >
-          <ArrowUpIcon />
+          <Image src={IconArrowUp} alt='ArrowUp' width={5} height={5} color={theme.colors.blue[5]} />
         </SvgBox>
       </FlexBox>
     </FlexBox>
@@ -124,7 +126,7 @@ const MessagesCard = () => {
 
   return (
     <Card
-      icon={<CommentIcon />}
+      icon={<Image src={IconComment} alt='Comment' width={5} height={5} color={theme.colors.blue[5]} />}
       title={
         <FlexBox $alignItems='center' $gap={4}>
           <FlexBox cursor='pointer' onClick={() => setSelected('')}>

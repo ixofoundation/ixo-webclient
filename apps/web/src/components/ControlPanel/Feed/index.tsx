@@ -1,13 +1,15 @@
+import Image from 'next/image'
 import { useMantineTheme } from '@mantine/core'
 import { Card } from '../Card'
 import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { Avatar } from 'screens/CurrentEntity/Components'
 import { Typography } from 'components/Typography'
-import { ReactComponent as BellIcon } from '/public/assets/images/icon-bell.svg'
-import { ReactComponent as ThumbsUpIcon } from '/public/assets/images/icon-thumbs-up.svg'
-import { ReactComponent as CommentIcon } from '/public/assets/images/icon-comment-alt.svg'
-import { ReactComponent as BookMarkIcon } from '/public/assets/images/icon-bookmark.svg'
 import { useState } from 'react'
+import { IconBookMark } from 'components/IconPaths'
+import { IconBell } from 'components/IconPaths'
+import { IconComment } from 'components/IconPaths'
+import { IconThumbsUp } from 'components/IconPaths'
+
 
 const FeedItem = () => {
   const theme = useMantineTheme()
@@ -37,7 +39,7 @@ const FeedItem = () => {
             cursor='pointer'
           >
             <SvgBox $svgWidth={5} $svgHeight={5}>
-              <ThumbsUpIcon />
+              <Image src={IconThumbsUp} alt='ThumbsUp' width={5} height={5} color={theme.colors.blue[5]} />
             </SvgBox>
             <Typography size='sm' color='grey500'>
               32
@@ -53,7 +55,7 @@ const FeedItem = () => {
             cursor='pointer'
           >
             <SvgBox $svgWidth={5} $svgHeight={5}>
-              <CommentIcon />
+              <Image src={IconComment} alt='Comment' width={5} height={5} color={theme.colors.blue[5]} />
             </SvgBox>
             <Typography size='sm' color='grey500'>
               123
@@ -71,7 +73,7 @@ const FeedCard = () => {
 
   return (
     <Card
-      icon={<BellIcon />}
+      icon={<Image src={IconBell} alt='Bell' width={5} height={5} color={theme.colors.blue[5]} />}
       title={
         <FlexBox $alignItems='center' $gap={4}>
           <Typography variant='secondary' size='lg'>
@@ -101,7 +103,7 @@ const FeedCard = () => {
               onClick={() => setTab('favourite')}
             >
               <SvgBox $svgWidth={5} $svgHeight={5} color={theme.ixoWhite}>
-                <BookMarkIcon />
+                <Image src={IconBookMark} alt='BookMark' width={5} height={5} color={theme.colors.blue[5]} />
               </SvgBox>
               <Typography size='sm'>32</Typography>
             </FlexBox>

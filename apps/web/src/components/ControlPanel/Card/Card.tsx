@@ -1,10 +1,12 @@
+import Image from 'next/image'
 import { FlexBox, GridContainer, SvgBox } from 'components/App/App.styles'
 import React from 'react'
 import { Typography } from 'components/Typography'
 import { useMantineTheme } from '@mantine/core'
-import { ReactComponent as AssistantIcon } from '/public/assets/images/icon-assistant.svg'
 import { selectEntityConfig } from 'redux/configs/configs.selectors'
 import { useAppSelector } from 'redux/hooks'
+import { IconAssistant } from 'components/IconPaths'
+
 
 export interface ICardItems {
   icon?: React.ReactNode
@@ -46,7 +48,7 @@ const Card: React.FC<Props> = ({ icon, title, columns, items }) => {
           </Typography>
         </FlexBox>
         <SvgBox $svgWidth={6} $svgHeight={6} color={primaryColor}>
-          <AssistantIcon />
+          <Image src={IconAssistant} alt='Assistant' width={5} height={5} color={theme.colors.blue[5]} />
         </SvgBox>
       </FlexBox>
 

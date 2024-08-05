@@ -1,7 +1,6 @@
+import Image from 'next/image'
 import CheckIcon from '/public/assets/images/icon-check.svg'
-import { ReactComponent as EmailIcon } from '/public/assets/images/icon-email.svg'
 import NextStepIcon from '/public/assets/images/modal/nextstep.svg'
-import { ReactComponent as UserNameIcon } from '/public/assets/images/modal/username.svg'
 import cx from 'classnames'
 import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 import ModalTextArea from 'components/Modal/ModalTextArea/ModalTextArea'
@@ -13,6 +12,9 @@ import { Container, NextStep, PrevStep, CheckWrapper } from 'components/Modals/s
 import { ModalInput, SignStep, TXStatus } from '../common'
 // import { CreateAgent } from 'lib/protocol'
 import { useAccount } from 'hooks/account'
+import { IconEmail } from 'components/IconPaths'
+import { IconUserName } from 'components/IconPaths'
+
 // import { useSelectedEntity } from 'hooks/entity'
 // import { AgentRole } from 'redux/account/account.types'
 
@@ -225,7 +227,7 @@ const JoinModal: React.FunctionComponent<Props> = ({ open, setOpen }) => {
           <CheckWrapper>
             <ModalInput
               name='agent_name'
-              preIcon={<UserNameIcon />}
+              preIcon={<Image src={IconUserName} alt='UserName' width={5} height={5} color={theme.colors.blue[5]} />}
               placeholder='Agent Name'
               value={agentName!}
               onChange={(e): void => {
@@ -238,7 +240,7 @@ const JoinModal: React.FunctionComponent<Props> = ({ open, setOpen }) => {
               error={
                 agentEmail.length > 0 && !validationUtils.isEmail(agentEmail) ? 'This is not a valid Email address' : ''
               }
-              preIcon={<EmailIcon />}
+              preIcon={<Image src={IconEmail} alt='Email' width={5} height={5} color={theme.colors.blue[5]} />}
               placeholder='Agent Email'
               value={agentEmail}
               onChange={(e): void => {
@@ -265,11 +267,11 @@ const JoinModal: React.FunctionComponent<Props> = ({ open, setOpen }) => {
         {currentStep === 3 && (
           <>
             <CheckWrapper className='mb-2'>
-              <ModalInput name='agent_name' preIcon={<UserNameIcon />} value={agentName!} readOnly />
+              <ModalInput name='agent_name' preIcon={<Image src={IconUserName} alt='UserName' width={5} height={5} color={theme.colors.blue[5]} />} value={agentName!} readOnly />
               <img className='check-icon' src={CheckIcon} alt='check-icon' />
             </CheckWrapper>
             <CheckWrapper className='mb-2'>
-              <ModalInput name='agent_email' preIcon={<EmailIcon />} value={agentEmail} readOnly />
+              <ModalInput name='agent_email' preIcon={<Image src={IconEmail} alt='Email' width={5} height={5} color={theme.colors.blue[5]} />} value={agentEmail} readOnly />
               <img className='check-icon' src={CheckIcon} alt='check-icon' />
             </CheckWrapper>
             <CheckWrapper className='mb-2'>

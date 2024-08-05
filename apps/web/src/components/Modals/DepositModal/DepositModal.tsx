@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import React, { useEffect, useMemo, useState } from 'react'
 import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 import { Box, FlexBox, HTMLFlexBoxProps, SvgBox } from 'components/App/App.styles'
@@ -5,7 +6,6 @@ import { SignStep, TXStatus } from '../common'
 import { Typography } from 'components/Typography'
 import { useAccount } from 'hooks/account'
 import { convertDenomToMicroDenomWithDecimals, depositInfoToCoin } from 'utils/conversions'
-import { ReactComponent as ArrowDownIcon } from '/public/assets/images/icon-arrow-down.svg'
 import { Dropdown, Input } from 'screens/CreateEntity/Components'
 import CurrencyFormat from 'react-currency-format'
 import { BankSendTrx, fee } from 'lib/protocol'
@@ -23,6 +23,8 @@ import { useWallet } from '@ixo-webclient/wallet-connector'
 import { Cw20BaseClient } from '@ixo-webclient/cosmwasm-clients'
 import { DeliverTxResponse } from '@cosmjs/stargate'
 import { useParams } from 'react-router-dom'
+import { IconArrowDown } from 'components/IconPaths'
+
 
 const StyledInput = styled(Input)`
   color: white;
@@ -252,7 +254,7 @@ const DepositModal: React.FunctionComponent<Props> = ({
                   $boxShadow={theme.ixoShadow2}
                 >
                   <SvgBox color={theme.colors.blue[5]} $svgHeight={8}>
-                    <ArrowDownIcon />
+                    <Image src={IconArrowDown} alt='ArrowDown' width={5} height={5} color={theme.colors.blue[5]} />
                   </SvgBox>
                 </FlexBox>
                 {/* DAO name & Group Name */}
