@@ -1,5 +1,3 @@
-import { theme } from 'components/App/App.styles'
-
 export interface EntityClaim {
   date: Date
   location: {
@@ -22,4 +20,10 @@ export enum EntityClaimStatus {
   Saved = '4',
 }
 
-export const EntityClaimColorSchema = [theme.pending, theme.approved, theme.rejected, theme.saved, theme.disputed]
+export const EntityClaimColorSchema = [
+  'theme.colors.orange[5]',
+  'theme.colors.green[5]',
+  'theme.colors.red[5]',
+  'theme.colors.gray[5]',
+  'theme.colors.yellow[5]',
+]

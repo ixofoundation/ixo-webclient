@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { ReactComponent as IconImage } from '/public/assets/images/icon-image-fill.svg'
+import IconImage from '/public/assets/images/icon-image-fill.svg'
 import { ImageUploadModal } from 'components/Modals'
 import { Typography } from 'components/Typography'
 

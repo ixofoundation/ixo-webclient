@@ -1,6 +1,6 @@
-import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { ColorCode } from './ActivityCard.styles'
+import { Flex } from '@mantine/core'
 
 export type ActivityCardProps = {
   name: string
@@ -11,22 +11,15 @@ export type ActivityCardProps = {
 export const ActivityCard = ({ name, quantity, createdAt }: ActivityCardProps) => {
   const colorCode = '#00D2FF'
   return (
-    <FlexBox
-      background='#002D42'
-      width='100%'
-      p={4}
-      $borderRadius='4px'
-      position='relative'
-      $justifyContent='space-between'
-    >
+    <Flex bg='#002D42' w='100%' p={4} style={{ borderRadius: '4px' }} pos='relative' justify='space-between'>
       <ColorCode backgroundColor={colorCode} />
-      <FlexBox $direction='column'>
+      <Flex direction='column'>
         <Typography>{name}</Typography>
         <Typography>{quantity}</Typography>
-      </FlexBox>
-      <FlexBox>
+      </Flex>
+      <Flex>
         <Typography>{createdAt}</Typography>
-      </FlexBox>
-    </FlexBox>
+      </Flex>
+    </Flex>
   )
 }

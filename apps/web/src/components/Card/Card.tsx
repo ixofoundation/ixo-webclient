@@ -1,34 +1,38 @@
-// Card.tsx
-import { Flex, Text } from '@mantine/core'
-import { HTMLDivProps } from 'components/App/App.styles'
 import React, { ReactNode } from 'react'
-import styled from 'styled-components'
+import { Box, Flex, Text } from '@mantine/core'
+import { createStyles } from '@mantine/emotion'
 
-export interface CardProps extends HTMLDivProps {
+export interface CardProps {
   title?: string
   children: ReactNode
   backgroundImage?: string
   icon?: ReactNode
+  width?: string
+  height?: string
+  backgroundColor?: string
 }
 
-const CardWrapper = styled.div<CardProps>`
-  ${({ width }) => width && `width: ${width}`};
-  ${({ height }) => height && `height: ${height}`};
-  background-color: ${({ $backgroundColor }) => $backgroundColor || '#152B3F'};
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  border-radius: 3px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.01);
-  padding: 16px;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-`
+const useStyles = createStyles((theme, { width, height, backgroundColor }: Partial<CardProps>) => ({
+  cardWrapper: {
+    width,
+    height,
+    backgroundColor: backgroundColor || theme.colors.blue[9],
+    border: `1px solid rgba(${theme.black}, 0.1)`,
+    borderRadius: theme.radius.sm,
+    boxShadow: `0 4px 6px rgba(${theme.black}, 0.01)`,
+    padding: theme.spacing.md,
+    display: 'flex',
+    flexDirection: 'column',
+  },
+}))
 
 export const Card: React.FC<CardProps> = ({ children, title, icon, ...props }) => {
+  const { classes } = useStyles(props)
+
   return (
-    <CardWrapper {...props}>
+    <Box className={classes.cardWrapper}>
       <Flex align='center'>
-        <Text h='100%' c='white' size='24px'>
+        <Text c='white' size='24px'>
           {icon}
         </Text>
         <Text fw='bolder' size='24px' c='white' ml={6}>
@@ -36,6 +40,6 @@ export const Card: React.FC<CardProps> = ({ children, title, icon, ...props }) =
         </Text>
       </Flex>
       {children}
-    </CardWrapper>
+    </Box>
   )
 }

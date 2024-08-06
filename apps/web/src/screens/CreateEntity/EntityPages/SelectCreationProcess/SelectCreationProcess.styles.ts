@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { ReactComponent as SearchBlueIcon } from '/public/assets/images/icon-search.svg'
+import SearchBlueIcon from '/public/assets/images/icon-search.svg'
 
 export const PageWrapper = styled.div`
   display: flex;

@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import React from 'react'
 import { Box, useMantineTheme } from '@mantine/core'
-import { Card } from '../../../Components
+import { Card } from '../../../Components'
 import { Typography } from 'components/Typography'
 import { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
 import { TDAOGroupModel, TEntityModel } from 'types/entities'
@@ -14,7 +14,6 @@ import { successToast } from 'utils/toast'
 import { useAppSelector } from 'redux/hooks'
 import { getEntityById } from 'redux/entities/entities.selectors'
 import { IconCopy, IconAgentCapability } from 'components/IconPaths'
-
 
 type GroupCardProps = {
   daoGroup: TDAOGroupModel
@@ -84,7 +83,7 @@ const GroupCard = ({ daoGroup, dao }: GroupCardProps) => {
             <Typography color='blue' weight='medium' size='sm' hover={{ underline: true }}>
               {truncateString(daoGroup.coreAddress, 20, 'middle')}
             </Typography>
-              <Image src={IconCopy} alt='Copy' width={5} height={5} color={theme.colors.blue[5]} />
+            <Image src={IconCopy} alt='Copy' width={5} height={5} color={theme.colors.blue[5]} />
           </Flex>
         </CopyToClipboard>
       </Flex>

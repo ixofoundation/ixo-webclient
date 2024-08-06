@@ -1,30 +1,28 @@
 import Image from 'next/image'
-import { Button } from 'screens/CreateEntity/Components'
 import React, { useMemo, useState } from 'react'
-import { TButtonProps } from 'screens/CreateEntity/Components/Button'
 import AssetCard from './AssetCard'
 import { AssetCardSelection, AssetCardWrapper } from './AssetCard.styles'
 
-import { ReactComponent as IconCheck } from '/public/assets/images/icon-check-big.svg'
+import IconCheck from '/public/assets/images/icon-check-big.svg'
 import { InfiniteScroll } from 'components/InfiniteScroll'
 import { deviceWidth } from 'constants/device'
 import { useMediaQuery } from 'react-responsive'
-import { Flex, useMantineTheme } from '@mantine/core'
+import { Button, Flex, useMantineTheme } from '@mantine/core'
 import { useAccount } from 'hooks/account'
 import { useGetAssetDevicesByCollectionIdAndOwner } from 'graphql/entities'
 import { IconDiamond, IconPlus, IconWalletSolid, IconClose, IconGlobe } from 'components/IconPaths'
 
 let timer: any = null
 
-const FilterButton: React.FC<TButtonProps> = ({ children, ...rest }) => {
+const FilterButton = ({ children, ...rest }) => {
   return (
     <Button
       size='custom'
-      width={150}
-      height={40}
-      textSize='xl'
-      textTransform='capitalize'
-      textWeight='normal'
+      w={150}
+      h={40}
+      fz='xl'
+      tt='capitalize'
+      fw='normal'
       style={{ padding: '0.5rem 0rem' }}
       {...rest}
     >

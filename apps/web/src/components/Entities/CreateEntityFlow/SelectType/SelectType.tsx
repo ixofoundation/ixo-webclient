@@ -2,20 +2,22 @@ import Image from 'next/image'
 import { Typography } from 'components/Typography'
 import React, { useState } from 'react'
 import { Wrapper } from './SelectType.styles'
-import { Box } from 'components/App/App.styles'
 import { CateSelector } from 'screens/CreateEntity/Components'
 import { useCreateEntityStepState } from 'hooks/createEntityStepState'
 import { useCreateEntityStateAsActionState } from 'hooks/entity/useCreateEntityStateAsAction'
-import { IconDAO } from 'components/IconPaths'
-import { IconInvestment } from 'components/IconPaths'
-import { IconDeed } from 'components/IconPaths'
-import { IconImpactToken } from 'components/IconPaths'
-import { IconOracle } from 'components/IconPaths'
-import { IconProject } from 'components/IconPaths'
-import { IconClaim } from 'components/IconPaths'
-
+import {
+  IconDao,
+  IconClaim,
+  IconDeed,
+  IconImpactToken,
+  IconInvestment,
+  IconOracle,
+  IconProject,
+} from 'components/IconPaths'
+import { Box, useMantineTheme } from '@mantine/core'
 
 const SelectType = ({ showNavigation = true }: { showNavigation?: boolean }): JSX.Element => {
+  const theme = useMantineTheme()
   const options = [
     {
       type: 'protocol/claim',
@@ -60,7 +62,7 @@ const SelectType = ({ showNavigation = true }: { showNavigation?: boolean }): JS
     {
       type: 'protocol/dao',
       label: 'DAO Class',
-      icon: <Image src={IconDAO} alt='DAO' width={5} height={5} color={theme.colors.blue[5]} />,
+      icon: <Image src={IconDao} alt='DAO' width={5} height={5} color={theme.colors.blue[5]} />,
       description: `A <b>DAO Class</b> defines a data schema, data collection format, and evaluation methodology for any type of verifiable claim.`,
       disabled: true,
     },

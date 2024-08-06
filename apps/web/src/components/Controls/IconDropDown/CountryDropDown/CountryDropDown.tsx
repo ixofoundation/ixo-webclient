@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import countries from 'constants/maps/countryLatLng.json'
 import { DropDownOption } from '../types'
 import IconDropDownSelect from '../IconDropDownSelect'
-import { Container } from './CountryDropDown.styles'
+import { Box } from '@mantine/core'
 
 interface Props {
   value: string
@@ -35,7 +35,7 @@ const CountryDropDown: React.FunctionComponent<Props> = ({ value, onChange, onBl
   )
 
   return (
-    <Container {...rest}>
+    <Box {...rest}>
       <IconDropDownSelect
         options={options}
         value={value}
@@ -45,7 +45,7 @@ const CountryDropDown: React.FunctionComponent<Props> = ({ value, onChange, onBl
         selectText={'Select Country'}
         label={'Select Country'}
       />
-    </Container>
+    </Box>
   )
 }
 

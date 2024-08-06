@@ -4,7 +4,7 @@ import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 import { Box, FlexBox, HTMLFlexBoxProps, SvgBox } from 'components/App/App.styles'
 import { SignStep, TXStatus } from '../common'
 import { Typography } from 'components/Typography'
-import { ReactComponent as NextStepImage } from '/public/assets/images/modal/nextstep.svg'
+import NextStepImage from '/public/assets/images/modal/nextstep.svg'
 import { useAccount } from 'hooks/account'
 import { Input } from 'screens/CreateEntity/Components'
 import CurrencyFormat from 'react-currency-format'
@@ -19,7 +19,6 @@ import { errorToast, successToast } from 'utils/toast'
 import { useWallet } from '@ixo-webclient/wallet-connector'
 import { DeliverTxResponse } from '@cosmjs/stargate'
 import { IconArrowDown } from 'components/IconPaths'
-
 
 const StyledInput = styled(Input)`
   color: white;

@@ -1,8 +1,7 @@
 import React from 'react'
 import Lottie from 'react-lottie'
-import { FlexBox, HTMLFlexBoxProps } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
-import { useMantineTheme } from '@mantine/core'
+import { FlexProps, useMantineTheme } from '@mantine/core'
 import { thousandSeparator } from 'utils/formatters'
 import { HorizontalLine } from 'components/HorizontalLine'
 import { Tag } from 'components'
@@ -12,7 +11,7 @@ import { selectEntityConfig } from 'redux/configs/configs.selectors'
 import { useAppSelector } from 'redux/hooks'
 import oracleDefault from '/public/assets/entities/oracleDefault.jpg'
 
-interface Props extends HTMLFlexBoxProps {
+interface Props extends FlexProps {
   id: string
   collectionName?: string | null
   cardImage: string

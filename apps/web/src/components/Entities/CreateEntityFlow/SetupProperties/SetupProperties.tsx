@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react'
 import { Button } from 'screens/CreateEntity/Components'
-import { FlexBox } from 'components/App/App.styles'
 import { deviceWidth } from 'constants/device'
 import { PropertiesForm } from 'screens/CreateEntity/Forms'
 import { Typography } from 'components/Typography'
 import { useCreateEntityStepState } from 'hooks/createEntityStepState'
 import { useCreateEntityStateAsActionState } from 'hooks/entity/useCreateEntityStateAsAction'
+import { Flex } from '@mantine/core'
 
 const SetupProperties = ({ showNavigation = true }: { showNavigation?: boolean }): JSX.Element => {
   const {
@@ -104,7 +104,7 @@ const SetupProperties = ({ showNavigation = true }: { showNavigation?: boolean }
   }
 
   return (
-    <FlexBox $direction='column' $gap={7.5} width={deviceWidth.tablet + 'px'}>
+    <Flex direction='column' gap={7.5} width={deviceWidth.tablet + 'px'}>
       <Typography variant='secondary' size='xl'>
         Configure the properties
       </Typography>
@@ -112,16 +112,16 @@ const SetupProperties = ({ showNavigation = true }: { showNavigation?: boolean }
       <PropertiesForm {...PropertiesFormProps} />
 
       {showNavigation && (
-        <FlexBox id='setup-property-actions' $gap={5}>
+        <Flex id='setup-property-actions' gap={5}>
           <Button variant='secondary' onClick={handleBack}>
             Back
           </Button>
           <Button variant='primary' disabled={!validateRequiredProperties} onClick={handleContinue}>
             Continue
           </Button>
-        </FlexBox>
+        </Flex>
       )}
-    </FlexBox>
+    </Flex>
   )
 }
 

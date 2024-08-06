@@ -8,7 +8,6 @@ import {
   LinkedResource,
   Service,
 } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
-import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { deviceWidth } from 'constants/device'
 import { useCreateEntity } from 'hooks/createEntity'
@@ -16,7 +15,7 @@ import { useQuery } from 'hooks/window'
 import { Button } from 'screens/CreateEntity/Components'
 import React, { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { useMantineTheme } from '@mantine/core'
+import { Flex, useMantineTheme } from '@mantine/core'
 import { CreationSuccessScreen } from './CreationSuccessScreen'
 import { createEntityCard, withEntityData } from 'components'
 import { EntityType } from 'types/entities'
@@ -24,9 +23,7 @@ import { Box } from '@mantine/core'
 import { toRootEntityType } from 'utils/entities'
 import { useWallet } from '@ixo-webclient/wallet-connector'
 import { useCreateEntityStateAsActionState } from 'hooks/entity/useCreateEntityStateAsAction'
-import { IconExclamation } from 'components/IconPaths'
-import { IconCheckCircle } from 'components/IconPaths'
-
+import { IconExclamationCircle, IconCheckCircle } from 'components/IconPaths'
 
 const Review = ({ showNavigation = true }: { showNavigation?: boolean }): JSX.Element => {
   const theme = useMantineTheme()
@@ -147,9 +144,9 @@ const Review = ({ showNavigation = true }: { showNavigation?: boolean }): JSX.El
   }
 
   return (
-    <FlexBox width={`${deviceWidth.tablet}px`} $gap={10} $alignItems='stretch'>
+    <Flex w={`${deviceWidth.tablet}px`} gap={10} align='stretch'>
       {renderEntityCard(entityType, { ...createEntityState })}
-      <FlexBox $direction='column' $justifyContent='space-between' $gap={4} width='100%' style={{ flex: 1 }}>
+      <Flex direction='column' justify='space-between' gap={4} w='100%' style={{ flex: 1 }}>
         {!success && (
           <CreationSuccessScreen
             entityType={entityType}
@@ -160,23 +157,13 @@ const Review = ({ showNavigation = true }: { showNavigation?: boolean }): JSX.El
         )}
         {success === 'true' && (
           <>
-            <FlexBox
-              $direction='column'
-              $justifyContent='center'
-              $alignItems='center'
-              width='100%'
-              height='100%'
-              $gap={4}
-              $textAlign='center'
-            >
-              <SvgBox color={theme.ixoLightGreen} $svgWidth={30} $svgHeight={30}>
-                <Image src={IconCheckCircle} alt='CheckCircle' width={5} height={5} color={theme.colors.blue[5]} />
-              </SvgBox>
+            <Flex direction='column' justify='center' align='center' w='100%' h='100%' gap={4}>
+              <Image src={IconCheckCircle} alt='CheckCircle' width={5} height={5} color={theme.colors.blue[5]} />
               <Typography variant='secondary' size='2xl'>
                 {profile?.name} Successfully created!
               </Typography>
-            </FlexBox>
-            <FlexBox width='100%' $gap={4}>
+            </Flex>
+            <Flex w='100%' gap={4}>
               <Button
                 variant='primary'
                 onClick={() => {
@@ -187,41 +174,31 @@ const Review = ({ showNavigation = true }: { showNavigation?: boolean }): JSX.El
               >
                 View in the Explorer
               </Button>
-            </FlexBox>
+            </Flex>
           </>
         )}
         {success === 'false' && (
           <>
-            <FlexBox
-              $direction='column'
-              $justifyContent='center'
-              $alignItems='center'
-              width='100%'
-              height='100%'
-              $gap={4}
-              $textAlign='center'
-            >
-              <SvgBox color={theme.ixoDarkOrange} $svgWidth={30} $svgHeight={30}>
-                <Image src={IconExclamation} alt='Exclamation' width={5} height={5} color={theme.colors.blue[5]} />
-              </SvgBox>
+            <Flex direction='column' justify='center' align='center' w='100%' h='100%' gap={4}>
+              <Image src={IconExclamationCircle} alt='Exclamation' width={5} height={5} color={theme.colors.blue[5]} />
               <Typography variant='secondary' size='2xl'>
                 Something went wrong. Please try again.
               </Typography>
-            </FlexBox>
+            </Flex>
             {showNavigation && (
-              <FlexBox width='100%' $gap={4}>
+              <Flex w='100%' gap={4}>
                 <Button variant='secondary' onClick={() => navigate(-1)} style={{ width: '100%' }}>
                   Back
                 </Button>
                 <Button variant='primary' onClick={handleSignToCreate} style={{ width: '100%' }} loading={submitting}>
                   Sign To Create
                 </Button>
-              </FlexBox>
+              </Flex>
             )}
           </>
         )}
-      </FlexBox>
-    </FlexBox>
+      </Flex>
+    </Flex>
   )
 }
 

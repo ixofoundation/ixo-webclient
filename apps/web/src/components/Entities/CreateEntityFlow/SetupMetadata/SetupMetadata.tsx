@@ -1,10 +1,10 @@
-import { Box, FlexBox } from 'components/App/App.styles'
 import React, { useMemo } from 'react'
 import { ProfileFormFactory } from './ProfileFormFactory'
 import { AdditionalEntityInformation } from './AdditionalEntityInformation'
 import { useCreateEntityStepState } from 'hooks/createEntityStepState'
 import { Button } from 'screens/CreateEntity/Components'
 import { useCreateEntityStateAsActionState } from 'hooks/entity/useCreateEntityStateAsAction'
+import { Box, Flex } from '@mantine/core'
 
 const SetupMetadata = ({ showNavigation = true }: { showNavigation?: boolean }): JSX.Element => {
   const { profile, entityType } = useCreateEntityStateAsActionState()
@@ -34,21 +34,21 @@ const SetupMetadata = ({ showNavigation = true }: { showNavigation?: boolean }):
   }
 
   return (
-    <FlexBox $justifyContent='stretch' $gap={12.5}>
-      <Box className='d-flex flex-column'>
+    <Flex justify='stretch' gap={12.5}>
+      <Flex className='d-flex flex-column'>
         {/* <Box className='d-flex align-items-center justify-content-between'>
           <Typography weight='medium' size='xl'>
             Localisation:
           </Typography>
           <LocalisationForm localisation={localisation} setLocalisation={updateLocalisation} />
         </Box> */}
-        <Box className='mb-2' />
+        <Box mb={2} />
         <ProfileFormFactory />
-      </Box>
-      <Box className='d-flex flex-column justify-content-between' style={{ width: 400 }}>
-        <Box>
+      </Flex>
+      <Flex className='d-flex flex-column justify-content-between' style={{ width: 400 }}>
+        <Flex>
           <AdditionalEntityInformation />
-        </Box>
+        </Flex>
 
         {showNavigation && (
           <Box className='d-flex justify-content-end w-100 mt-4' style={{ gap: 20 }}>
@@ -60,8 +60,8 @@ const SetupMetadata = ({ showNavigation = true }: { showNavigation?: boolean }):
             </Button>
           </Box>
         )}
-      </Box>
-    </FlexBox>
+      </Flex>
+    </Flex>
   )
 }
 

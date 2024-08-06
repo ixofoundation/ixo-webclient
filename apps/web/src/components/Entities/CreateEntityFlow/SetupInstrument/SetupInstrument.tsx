@@ -2,13 +2,12 @@ import Image from 'next/image'
 import { Button, PropertyBox } from 'screens/CreateEntity/Components'
 import React, { useMemo, useState } from 'react'
 import { AddInvestmentInstrumentModal, CreateBondModal } from 'components/Modals'
-import { Box } from 'components/App/App.styles'
 import { InvestmentInstrumentsConfig } from 'constants/entity'
 import { ixo } from '@ixo/impactxclient-sdk'
 import { useCreateEntityStepState } from 'hooks/createEntityStepState'
 import { useCreateEntityStateAsActionState } from 'hooks/entity/useCreateEntityStateAsAction'
 import { IconPlus } from 'components/IconPaths'
-
+import { Box, useMantineTheme } from '@mantine/core'
 
 const SetupInstrument = ({ showNavigation = true }: { showNavigation?: boolean }): JSX.Element => {
   const { linkedEntity, updateLinkedEntity } = useCreateEntityStateAsActionState()
@@ -16,6 +15,7 @@ const SetupInstrument = ({ showNavigation = true }: { showNavigation?: boolean }
   const [openAddInstrumentModal, setOpenAddInstrumentModal] = useState(false)
   const bondDid = useMemo(() => Object.values(linkedEntity).find((v) => v.type === 'bond')?.id || '', [linkedEntity])
   const { navigateToNextStep, navigateToPreviousStep } = useCreateEntityStepState()
+  const theme = useMantineTheme()
 
   const canSubmit = true
 
@@ -63,7 +63,11 @@ const SetupInstrument = ({ showNavigation = true }: { showNavigation?: boolean }
             handleClick={(): void => handleOpenAddInstrumentModal(key, true)}
           />
         ))}
-        <PropertyBox icon={<Image src={IconPlus} alt='Plus' width={5} height={5} color={theme.colors.blue[5]} />} noData handleClick={(): void => setOpenAddInstrumentModal(true)} />
+        <PropertyBox
+          icon={<Image src={IconPlus} alt='Plus' width={5} height={5} color={theme.colors.blue[5]} />}
+          noData
+          handleClick={(): void => setOpenAddInstrumentModal(true)}
+        />
       </Box>
 
       {showNavigation && (

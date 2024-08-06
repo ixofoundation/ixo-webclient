@@ -5,26 +5,27 @@ import { Typography } from 'components/Typography'
 import { Vote } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
 import { SignStep, TXStatus } from '../common'
 import { useMantineTheme } from '@mantine/core'
+import { IconThumbsUp, IconThumbsDown, IconHandPaper, IconQuestionCircle } from 'components/IconPaths'
 
 const VoteOptions = [
   {
     value: 'yes',
-    icon: ThumbsUpIcon,
+    icon: IconThumbsUp,
     text: 'Yes',
   },
   {
     value: 'no',
-    icon: ThumbsDownIcon,
+    icon: IconThumbsDown,
     text: 'No',
   },
   {
     value: 'no',
-    icon: HandPaperIcon,
+    icon: IconHandPaper,
     text: 'No with veto',
   },
   {
     value: 'abstain',
-    icon: QuestionCircleIcon,
+    icon: IconQuestionCircle,
     text: 'Abstain',
   },
 ]

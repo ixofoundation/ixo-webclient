@@ -1,17 +1,14 @@
 import Image from 'next/image'
-import { FlexBox, SvgBox } from 'components/App/App.styles'
-import { useMantineTheme } from '@mantine/core'
+import { Flex, useMantineTheme } from '@mantine/core'
 import { Typography } from 'components/Typography'
-// import { Card } from '../Card'
+import { Card } from '../Card'
 import { useAccount } from 'hooks/account'
 import { useMemo, useState } from 'react'
 import BigNumber from 'bignumber.js'
 import ProfileModal from 'components/Header/components/ProfileModal'
 import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 import { truncateString } from 'utils/formatters'
-import { IconWallet } from 'components/IconPaths'
-import { IconArrowRight } from 'components/IconPaths'
-
+import { IconArrowRight, IconWalletSolid } from 'components/IconPaths'
 
 const BalanceCard = () => {
   const theme = useMantineTheme()
@@ -52,33 +49,19 @@ const BalanceCard = () => {
   return (
     <>
       <Card
-        icon={<Image src={IconWallet} alt='Wallet' width={5} height={5} color={theme.colors.blue[5]} />}
+        icon={IconWalletSolid}
         title='My Balance'
         columns={1}
         items={
           <>
-            <FlexBox width='100%' $gap={3} $alignItems='center' $justifyContent='space-between'>
+            <Flex w='100%' gap={3} align='center' justify='space-between'>
               <Typography size='xl'>
                 {Intl.NumberFormat(undefined, { style: 'currency', currency: 'USD', maximumFractionDigits: 2 }).format(
                   Number(totalBalance),
                 )}
               </Typography>
-              <SvgBox
-                $borderRadius='8px'
-                width='40px'
-                height='40px'
-                background={theme.colors.blue[5]}
-                $justifyContent='center'
-                $alignItems='center'
-                $svgWidth={5}
-                $svgHeight={5}
-                color={theme.ixoWhite}
-                cursor='pointer'
-                onClick={onButtonClick}
-              >
-                <Image src={IconWallet} alt='Wallet' width={5} height={5} color={theme.colors.blue[5]} />
-              </SvgBox>
-            </FlexBox>
+              <Image src={IconWalletSolid} alt='Wallet' width={5} height={5} color={theme.colors.blue[5]} />
+            </Flex>
             {/* 
             <FlexBox width='100%' $gap={2}>
               <FlexBox

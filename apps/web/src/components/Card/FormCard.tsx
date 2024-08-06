@@ -1,7 +1,6 @@
-import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import React, { PropsWithChildren } from 'react'
-import { useMantineTheme } from '@mantine/core'
+import { Flex, useMantineTheme } from '@mantine/core'
 
 export interface FormCardProp {
   preIcon?: JSX.Element
@@ -11,15 +10,14 @@ export interface FormCardProp {
 export const FormCard: React.FC<PropsWithChildren<FormCardProp>> = ({ preIcon, title, children }) => {
   const theme = useMantineTheme()
   return (
-    <FlexBox
-      $direction='column'
-      $gap={5}
-      border={`1px solid ${theme.colors.blue[5]}`}
-      $borderRadius='0.5rem'
-      width='100%'
+    <Flex
+      direction='column'
+      gap={5}
+      style={{ border: `1px solid ${theme.colors.blue[5]}`, borderRadius: '0.5rem', width: '100%', padding: '7px' }}
+      w='100%'
       p={7}
     >
-      <FlexBox $alignItems='center' $gap={2} width='100%'>
+      <Flex align='center' gap={2} w='100%'>
         {preIcon && preIcon}
         {typeof title === 'string' ? (
           <Typography size='xl' weight='medium'>
@@ -28,8 +26,8 @@ export const FormCard: React.FC<PropsWithChildren<FormCardProp>> = ({ preIcon, t
         ) : (
           title
         )}
-      </FlexBox>
+      </Flex>
       {children}
-    </FlexBox>
+    </Flex>
   )
 }

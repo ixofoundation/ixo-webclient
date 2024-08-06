@@ -1,61 +1,43 @@
-// Button.tsx
-import React, { ReactNode } from 'react'
-import styled from 'styled-components'
+import { Button as MantineButton, ButtonProps as MantineButtonProps } from '@mantine/core'
+import { createStyles } from '@mantine/emotion'
 
-interface ButtonProps {
+interface ButtonProps extends MantineButtonProps {
   textColor?: string
   borderColor?: string
   buttonBackground?: string
-  size?: 'xs' | 'sm' | 'md' | 'l' | 'xl'
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
   active?: boolean
-  children?: ReactNode
 }
 
-const getButtonSize = (size: string) => {
-  switch (size) {
-    case 'xs':
-      return {
-        padding: '0.15em 0.3em',
-        fontSize: '0.15em',
-      }
-    case 'sm':
-      return {
-        padding: '0.5em 0.5em',
-        fontSize: '0.5em',
-      }
-    case 'md':
-      return {
-        padding: '0.5em 1em',
-        fontSize: '0.5em',
-      }
-    case 'l':
-      return {
-        padding: '1em 2.5em',
-        fontSize: '1em',
-      }
-    case 'xl':
-      return {
-        padding: '2.5em 3em',
-        fontSize: '2.5em',
-      }
-    default:
-      return {
-        padding: '1em 1.5em',
-        fontSize: '1em',
-      }
+const useStyles = createStyles((theme, props: ButtonProps) => {
+  const getButtonSize = (size: string) => {
+    const sizes = {
+      xs: { padding: '0.15rem 0.3rem', fontSize: '0.15rem' },
+      sm: { padding: '0.5rem 0.5rem', fontSize: '0.5rem' },
+      md: { padding: '0.5rem 1rem', fontSize: '0.5rem' },
+      lg: { padding: '1rem 2.5rem', fontSize: '1rem' },
+      xl: { padding: '2.5rem 3rem', fontSize: '2.5rem' },
+    }
+    return sizes[size as keyof typeof sizes] || sizes.md
   }
-}
 
-export const StyledButton = styled.button<ButtonProps>`
-  font-size: ${(props) => getButtonSize(props.size || 'md').fontSize};
-  padding: ${(props) => getButtonSize(props.size || 'md').padding};
-  border: 2px solid
-    ${({ borderColor, buttonBackground, active }) => (active && borderColor ? borderColor : buttonBackground)};
-  border-radius: 3px;
-  color: ${({ textColor = 'white' }) => textColor};
-  background: ${({ buttonBackground, theme }) => buttonBackground || theme.ixoBlue};
-`
+  return {
+    button: {
+      ...getButtonSize(props.size || 'md'),
+      border: `2px solid ${props.active && props.borderColor ? props.borderColor : props.buttonBackground}`,
+      borderRadius: '3px',
+      color: props.textColor || 'white',
+      background: props.buttonBackground || theme.colors.blue[6],
+    },
+  }
+})
 
-export const Button = ({ children, ...rest }: ButtonProps) => {
-  return <StyledButton {...rest}>{children}</StyledButton>
+export function Button({ children, ...props }: ButtonProps) {
+  const { classes } = useStyles(props)
+
+  return (
+    <MantineButton className={classes.button} {...props}>
+      {children}
+    </MantineButton>
+  )
 }

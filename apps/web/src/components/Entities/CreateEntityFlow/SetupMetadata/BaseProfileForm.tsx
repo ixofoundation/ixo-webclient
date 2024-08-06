@@ -1,10 +1,10 @@
 import React from 'react'
 import { FormWrapper, FormHeader, FormBody, FormRow } from './BaseProfileForm.styles'
 import { IconUpload, ImageUpload, InputWithLabel } from 'screens/CreateEntity/Components'
-import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import _ from 'lodash'
 import { useCreateEntityStateAsActionState } from 'hooks/entity/useCreateEntityStateAsAction'
+import { Flex } from '@mantine/core'
 
 interface Props {
   image: string | undefined
@@ -39,9 +39,9 @@ const BaseProfileForm = ({
       </FormHeader>
 
       <FormBody>
-        <FlexBox $justifyContent='flex-end'>
+        <Flex justify='flex-end'>
           <IconUpload icon={logo} placeholder={`${upperFirstEntityType} Icon`} handleChange={setLogo} />
-        </FlexBox>
+        </Flex>
 
         <FormRow>
           {setOrgName ? (
@@ -66,11 +66,11 @@ const BaseProfileForm = ({
             </Typography>
           )}
         </FormRow>
-        <FlexBox my={10}>
+        <Flex my={10}>
           <Typography size='xl' color='grey300'>
             # Members
           </Typography>
-        </FlexBox>
+        </Flex>
       </FormBody>
     </FormWrapper>
   )

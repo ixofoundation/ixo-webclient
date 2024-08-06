@@ -5,8 +5,7 @@ import BalanceCard from './Balance'
 import ClaimsCard from './Claims'
 import FeedCard from './Feed'
 import MessagesCard from './Messages'
-import { Flex, ScrollArea, ActionIcon } from '@mantine/core'
-import styled from 'styled-components'
+import { Flex, ScrollArea, ActionIcon, useMantineTheme } from '@mantine/core'
 import { useAccount } from 'hooks/account'
 import { DidQRCode } from './DidQRCode'
 import { EntityType } from 'types/entities'
@@ -21,14 +20,6 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import Assistant from 'components/Assistant'
 import AssistantActiveLottie from 'components/Zlotties/AssistantActiveLottie'
 import { IconAssistant } from 'components/IconPaths'
-
-
-const StyledScrollArea = styled(ScrollArea)`
-  & > div > div {
-    height: 100%;
-  }
-`
-
 interface Props {
   tab?: 'profile' | 'detail' | 'feed' | 'message' | 'assistant'
   entityType: string
@@ -41,6 +32,7 @@ const ControlPanel = ({ entityType }: Props) => {
   const { keyValue, resetKeyValue } = useKeyValueViewerContext()
   const { toolbarActiveBackground, toolbarActiveColor, toolbarBackground, toolbarColor } = useCompanionDesignConfig()
   const navigate = useNavigate()
+  const theme = useMantineTheme()
   const { pathname } = useLocation()
 
   const renderProfile = () => (
@@ -81,7 +73,7 @@ const ControlPanel = ({ entityType }: Props) => {
       gap={24}
       style={{ color: 'black' }}
     >
-      <StyledScrollArea h='100%'>
+      <ScrollArea h='100%'>
         <Flex w='100%' direction='column' h='100%' p={20} pt={32}>
           {!keyValue && address && activeTab === 'profile' && renderProfile()}
           {!keyValue && activeTab === 'detail' && renderDetail()}
@@ -90,7 +82,7 @@ const ControlPanel = ({ entityType }: Props) => {
           {!keyValue && activeTab === 'assistant' && <Assistant />}
           {keyValue && <ActionPanel type={keyValue.type} data={keyValue.data} />}
         </Flex>
-      </StyledScrollArea>
+      </ScrollArea>
       <Flex w='100%' bg='#EBEBEB' p={21} justify='space-around' align='center'>
         <Flex gap={40}>
           {!keyValue && (
@@ -139,7 +131,11 @@ const ControlPanel = ({ entityType }: Props) => {
                 bg={activeTab === 'assistant' ? toolbarActiveBackground : toolbarBackground}
                 onClick={() => setActiveTab('assistant')}
               >
-                {activeTab === 'assistant' ? <AssistantActiveLottie /> : <Image src={IconAssistant} alt='Assistant' width={5} height={5} color={theme.colors.blue[5]} />}
+                {activeTab === 'assistant' ? (
+                  <AssistantActiveLottie />
+                ) : (
+                  <Image src={IconAssistant} alt='Assistant' width={5} height={5} color={theme.colors.blue[5]} />
+                )}
               </ActionIcon>
             </Tooltip>
           )}

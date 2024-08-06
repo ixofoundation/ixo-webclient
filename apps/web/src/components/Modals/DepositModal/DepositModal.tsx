@@ -17,14 +17,13 @@ import { isContractAddress } from 'utils/validation'
 import { useAppSelector } from 'redux/hooks'
 import { isGreaterThanOrEqualTo } from 'utils/currency'
 import { getEntityById, selectGroupByCoreAddress } from 'redux/entities/entities.selectors'
-import { ReactComponent as NextStepImage } from '/public/assets/images/modal/nextstep.svg'
+import NextStepImage from '/public/assets/images/modal/nextstep.svg'
 import { contracts } from '@ixo/impactxclient-sdk'
 import { useWallet } from '@ixo-webclient/wallet-connector'
 import { Cw20BaseClient } from '@ixo-webclient/cosmwasm-clients'
 import { DeliverTxResponse } from '@cosmjs/stargate'
 import { useParams } from 'react-router-dom'
 import { IconArrowDown } from 'components/IconPaths'
-
 
 const StyledInput = styled(Input)`
   color: white;

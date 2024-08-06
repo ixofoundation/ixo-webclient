@@ -1,4 +1,3 @@
-import { FlexBox } from 'components/App/App.styles'
 import React, { useEffect, useMemo, useState } from 'react'
 import { TDAOGroupModel } from 'types/entities'
 import { useCreateEntity } from 'hooks/createEntity'
@@ -18,6 +17,7 @@ import {
   RenderAdvancedSettings,
   RenderActions,
 } from './SetupGroupSettingsComponents'
+import { Flex } from '@mantine/core'
 
 interface Props {
   daoGroup: TDAOGroupModel
@@ -178,8 +178,8 @@ const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JS
   }
 
   return (
-    <FlexBox width={'100%'} $justifyContent='center'>
-      <FlexBox $direction='column' width={deviceWidth.tablet + 'px'}>
+    <Flex w={'100%'} justify='center'>
+      <Flex direction='column' w={deviceWidth.tablet + 'px'}>
         <RenderGroupIdentity setData={setData} data={data} />
         {data.type === 'multisig' ? (
           <RenderMultisigGroupMembership setData={setData} data={data} />
@@ -209,8 +209,8 @@ const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JS
             valid={valid}
           />
         }
-      </FlexBox>
-    </FlexBox>
+      </Flex>
+    </Flex>
   )
 }
 
