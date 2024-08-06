@@ -1,7 +1,6 @@
-import { Box, FlexBox } from 'components/App/App.styles'
+import Image from 'next/image'
 import { Typography } from 'components/Typography'
 import { useMemo, useState } from 'react'
-import { ReactComponent as PlusIcon } from '/public/assets/images/icon-plus.svg'
 import { Button, CheckBox, PropertyBox } from 'screens/CreateEntity/Components'
 import { AddDAOGroupModal } from 'components/Modals'
 import { useCreateEntityState } from 'hooks/createEntity'
@@ -14,6 +13,8 @@ import { ixo } from '@ixo/impactxclient-sdk'
 import BigNumber from 'bignumber.js'
 import { DAOGroupConfig } from 'constants/entity'
 import { useCreateEntityStepState } from 'hooks/createEntityStepState'
+import { IconPlus } from 'components/IconPaths'
+import { Box, Flex, useMantineTheme } from '@mantine/core'
 
 export const initialGroupConfig: TDAOGroupModel['config'] = {
   automatically_add_cw20s: true,
@@ -136,6 +137,7 @@ const SetupDAOGroups = ({ showNavigation = true }: { showNavigation?: boolean })
     () => Object.values(daoGroups).length > 0 && !Object.values(daoGroups).some(({ coreAddress }) => !coreAddress),
     [daoGroups],
   )
+  const theme = useMantineTheme()
   const { navigateToNextStep, navigateToPreviousStep } = useCreateEntityStepState()
 
   const handleAddGroup = (type: string): void => {
@@ -233,8 +235,8 @@ const SetupDAOGroups = ({ showNavigation = true }: { showNavigation?: boolean })
 
   return (
     <>
-      <FlexBox $direction='column' $gap={5}>
-        <Box width={`${deviceWidth.mobile}px`}>
+      <Flex direction='column' gap={5}>
+        <Box w={`${deviceWidth.mobile}px`}>
           <Typography variant='secondary'>
             A DAO has one or more Groups. Each Group has its own membership and governance mechanism. A Group may even
             be a member of another Group. One of these groups is nominated to control the DAO and will have the
@@ -242,12 +244,12 @@ const SetupDAOGroups = ({ showNavigation = true }: { showNavigation?: boolean })
           </Typography>
         </Box>
 
-        <FlexBox $gap={5}>
+        <Flex gap={5}>
           {Object.entries(daoGroups).map(([key, value]) => {
             const Icon = DAOGroupConfig[value.type]?.icon
             const text = DAOGroupConfig[value.type]?.text
             return (
-              <FlexBox key={key} $direction='column' $alignItems='center' $gap={4}>
+              <Flex key={key} direction='column' align='center' gap={4}>
                 <PropertyBox
                   icon={Icon && <Icon />}
                   label={text}
@@ -269,21 +271,25 @@ const SetupDAOGroups = ({ showNavigation = true }: { showNavigation?: boolean })
                   }
                   style={{ flexDirection: 'column' }}
                 />
-              </FlexBox>
+              </Flex>
             )
           })}
-          <PropertyBox icon={<PlusIcon />} noData handleClick={(): void => setOpenAddGroupModal(true)} />
-        </FlexBox>
+          <PropertyBox
+            icon={<Image src={IconPlus} alt='Plus' width={5} height={5} color={theme.colors.blue[5]} />}
+            noData
+            handleClick={(): void => setOpenAddGroupModal(true)}
+          />
+        </Flex>
 
-        <FlexBox $gap={5} $marginTop={10}>
+        <Flex gap={5} mt={10}>
           <Button variant='secondary' onClick={handleBack}>
             Back
           </Button>
           <Button variant='primary' disabled={!canSubmit} onClick={handleContinue}>
             Continue
           </Button>
-        </FlexBox>
-      </FlexBox>
+        </Flex>
+      </Flex>
 
       <AddDAOGroupModal
         open={openAddGroupModal}

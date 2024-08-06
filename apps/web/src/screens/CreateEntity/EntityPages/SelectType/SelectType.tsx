@@ -1,79 +1,84 @@
+import Image from 'next/image'
 import { Typography } from 'components/Typography'
 import React, { useState } from 'react'
 import { Wrapper } from './SelectType.styles'
-import { Box } from 'components/App/App.styles'
 import { CateSelector } from '../../Components'
-import { ReactComponent as ClaimIcon } from '/public/assets/images/icon-claim.svg'
-import { ReactComponent as ImpactTokenIcon } from '/public/assets/images/icon-impact-token.svg'
-import { ReactComponent as InvestmentIcon } from '/public/assets/images/icon-investment.svg'
-import { ReactComponent as ProjectIcon } from '/public/assets/images/icon-project.svg'
-import { ReactComponent as OracleIcon } from '/public/assets/images/icon-oracle.svg'
-import { ReactComponent as DAOIcon } from '/public/assets/images/icon-dao.svg'
-import { ReactComponent as DeedIcon } from '/public/assets/images/icon-deed.svg'
-import { ReactComponent as StarIcon } from '/public/assets/images/icon-star.svg'
 import { useCreateEntityState } from 'hooks/createEntity'
 import { useCreateEntityStepState } from 'hooks/createEntityStepState'
+import {
+  IconProject,
+  IconClaim,
+  IconDeed,
+  IconImpactToken,
+  IconStar,
+  IconInvestment,
+  IconOracle,
+  IconDao,
+} from 'components/IconPaths'
+import { Box, useMantineTheme } from '@mantine/core'
 
 const SelectType = ({ showNavigation = true }: { showNavigation?: boolean }): JSX.Element => {
+  const theme = useMantineTheme()
+
   const options = [
     {
       type: 'protocol/claim',
       label: 'Verifiable Claim',
-      icon: <ClaimIcon />,
+      icon: <Image src={IconClaim} alt='Claim' width={5} height={5} color={theme.colors.blue[5]} />,
       description: `A <b>Verifiable Claim</b> defines a data schema, data collection format, and evaluation methodology for any type of verifiable claim.`,
     },
     {
       type: 'protocol/deed',
       label: 'Proposal',
-      icon: <DeedIcon />,
+      icon: <Image src={IconDeed} alt='Deed' width={5} height={5} color={theme.colors.blue[5]} />,
       description: `A <b>Proposal</b> defines a request, a group proposal or an offer to provide service as a contribution or evaluation agent.`,
     },
     {
       type: 'protocol/request',
       label: 'Request',
-      icon: <StarIcon />,
+      icon: <Image src={IconStar} alt='Star' width={5} height={5} color={theme.colors.blue[5]} />,
       description: ``,
       disabled: true,
     },
     {
       type: 'protocol/request',
       label: 'Credentials',
-      icon: <DeedIcon />,
+      icon: <Image src={IconDeed} alt='Deed' width={5} height={5} color={theme.colors.blue[5]} />,
       description: ``,
       disabled: true,
     },
     {
       type: 'protocol/asset',
       label: 'Asset',
-      icon: <ImpactTokenIcon />,
+      icon: <Image src={IconImpactToken} alt='ImpactToken' width={5} height={5} color={theme.colors.blue[5]} />,
       description: `A <b>Asset</b> defines a data schema, data collection format, and evaluation methodology for any type of verifiable claim.`,
       disabled: true,
     },
     {
       type: 'protocol/investment',
       label: 'Investment',
-      icon: <InvestmentIcon />,
+      icon: <Image src={IconInvestment} alt='Investment' width={5} height={5} color={theme.colors.blue[5]} />,
       description: `A <b>Investment</b> defines a data schema, data collection format, and evaluation methodology for any type of verifiable claim.`,
       disabled: true,
     },
     {
       type: 'protocol/project',
       label: 'Project',
-      icon: <ProjectIcon />,
+      icon: <Image src={IconProject} alt='Project' width={5} height={5} color={theme.colors.blue[5]} />,
       description: `A <b>Project</b> defines a data schema, data collection format, and evaluation methodology for any type of verifiable claim.`,
       disabled: true,
     },
     {
       type: 'protocol/oracle',
       label: 'Oracle',
-      icon: <OracleIcon />,
+      icon: <Image src={IconOracle} alt='Oracle' width={5} height={5} color={theme.colors.blue[5]} />,
       description: `A <b>Oracle</b> defines a data schema, data collection format, and evaluation methodology for any type of verifiable claim.`,
       disabled: true,
     },
     {
       type: 'protocol/dao',
       label: 'DAO',
-      icon: <DAOIcon />,
+      icon: <Image src={IconDao} alt='DAO' width={5} height={5} color={theme.colors.blue[5]} />,
       description: `A <b>DAO</b> defines a data schema, data collection format, and evaluation methodology for any type of verifiable claim.`,
       disabled: true,
     },

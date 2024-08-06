@@ -1,7 +1,6 @@
-import { Box, FlexBox } from 'components/App/App.styles'
+import Image from 'next/image'
 import { Typography } from 'components/Typography'
 import React, { useState } from 'react'
-import { ReactComponent as PlusIcon } from '/public/assets/images/icon-plus.svg'
 import { PropertyBox } from 'screens/CreateEntity/Components'
 import { deviceWidth } from 'constants/device'
 import { DAOGroupConfig } from 'constants/entity'
@@ -11,6 +10,8 @@ import TransferEntityModal from 'components/Modals/TransferEntityModal'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useAppSelector } from 'redux/hooks'
 import { getEntityById } from 'redux/entities/entities.selectors'
+import { IconPlus } from 'components/IconPaths'
+import { Box, Flex, useMantineTheme } from '@mantine/core'
 
 const TransferEntityToDAOGroup: React.FC = (): JSX.Element => {
   const navigate = useNavigate()
@@ -18,6 +19,7 @@ const TransferEntityToDAOGroup: React.FC = (): JSX.Element => {
   const currentEntity = useAppSelector(getEntityById(entityId))
   const { recipientDid, updateRecipientDid } = useTransferEntityState()
   const [openTransferEntityModal, setOpenTransferEntityModal] = useState(false)
+  const theme = useMantineTheme()
 
   const handleClick = (key: string) => () => {
     if (key === 'other') {
@@ -34,17 +36,17 @@ const TransferEntityToDAOGroup: React.FC = (): JSX.Element => {
 
   return (
     <>
-      <FlexBox $direction='column' $gap={5}>
-        <Box width={`${deviceWidth.mobile}px`}>
+      <Flex direction='column' gap={5}>
+        <Box w={`${deviceWidth.mobile}px`}>
           <Typography variant='secondary'>Transfer ImpactsDAO to a dao group or another account</Typography>
         </Box>
 
-        <FlexBox $gap={5}>
+        <Flex gap={5}>
           {Object.entries(currentEntity.daoGroups ?? {}).map(([key, value]) => {
             const Icon = DAOGroupConfig[value.type]?.icon
             const text = DAOGroupConfig[value.type]?.text
             return (
-              <FlexBox key={key} $direction='column' $alignItems='center' $gap={4}>
+              <Flex key={key} direction='column' align='center' gap={4}>
                 <PropertyBox
                   icon={Icon && <Icon />}
                   label={text}
@@ -57,17 +59,21 @@ const TransferEntityToDAOGroup: React.FC = (): JSX.Element => {
                 <Typography variant='secondary' $overflowLines={1} style={{ width: 100, textAlign: 'center' }}>
                   &nbsp;{value.config.name} Group&nbsp;
                 </Typography>
-              </FlexBox>
+              </Flex>
             )
           })}
-          <FlexBox $direction='column' $alignItems='center' $gap={4}>
-            <PropertyBox icon={<PlusIcon />} noData handleClick={handleClick('other')} />
+          <Flex direction='column' align='center' gap={4}>
+            <PropertyBox
+              icon={<Image src={IconPlus} alt='Plus' width={5} height={5} color={theme.colors.blue[5]} />}
+              noData
+              handleClick={handleClick('other')}
+            />
             <Typography variant='secondary' $overflowLines={1} style={{ width: 100, textAlign: 'center' }}>
               Other Account
             </Typography>
-          </FlexBox>
-        </FlexBox>
-      </FlexBox>
+          </Flex>
+        </Flex>
+      </Flex>
       <TransferEntityModal
         open={openTransferEntityModal}
         recipientDid={recipientDid}

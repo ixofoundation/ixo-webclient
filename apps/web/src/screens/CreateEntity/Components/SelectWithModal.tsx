@@ -1,52 +1,48 @@
 import React, { useMemo, useState } from 'react'
-import styled, { useTheme } from 'styled-components'
-import { ReactComponent as IconChevDown } from '/public/assets/images/icon-chev-down.svg'
+import { IconChevronDown } from '@tabler/icons-react'
 import { TypeSelectionModal } from 'components/Modals'
 import { Typography } from 'components/Typography'
-import { SvgBox } from 'components/App/App.styles'
+import { Box, useMantineTheme } from '@mantine/core'
+import { createStyles } from '@mantine/emotion'
 
-const Label = styled.label<{ $filled?: boolean }>`
-  position: absolute;
-  left: ${(props): string => (props.$filled ? '7px' : '10px')};
-  transform: translateY(-50%);
-  top: ${(props): string => (props.$filled ? '0' : '50%')};
-  pointer-events: none;
-  transition: all 0.2s;
-
-  white-space: nowrap;
-
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  margin: 0;
-  padding: ${(props): string => (props.$filled ? '0 3px' : '0')};
-  line-height: 100%;
-  background: inherit;
-
-  & > svg > path {
-    fill: ${(props): string => props.theme.ixoGrey700};
-  }
-`
-
-const StyledValue = styled(Typography)`
-  padding: 6px 10px;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-`
-
-const SelectWrapper = styled.div<{ width: string; height: string }>`
-  position: relative;
-  border-radius: 8px;
-  border: 1px solid ${(props): string => props.theme.colors.blue[5]};
-  width: ${(props): string => props.width};
-  height: ${(props): string => props.height};
-  transition: all 0.2s;
-  cursor: pointer;
-  background: white;
-`
+const useStyles = createStyles(
+  (theme, { filled, width, height }: { filled: boolean; width: string; height: string }) => ({
+    selectWrapper: {
+      position: 'relative',
+      borderRadius: theme.radius.md,
+      border: `1px solid ${theme.colors.blue[5]}`,
+      width,
+      height,
+      transition: 'all 0.2s',
+      cursor: 'pointer',
+      background: theme.white,
+    },
+    label: {
+      position: 'absolute',
+      left: filled ? 7 : 10,
+      transform: 'translateY(-50%)',
+      top: filled ? 0 : '50%',
+      pointerEvents: 'none',
+      transition: 'all 0.2s',
+      whiteSpace: 'nowrap',
+      display: 'flex',
+      alignItems: 'center',
+      gap: 5,
+      margin: 0,
+      padding: filled ? '0 3px' : 0,
+      lineHeight: 1,
+      background: 'inherit',
+    },
+    value: {
+      padding: '6px 10px',
+      width: '100%',
+      height: '100%',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'flex-start',
+    },
+  }),
+)
 
 interface Props {
   value: any
@@ -69,28 +65,27 @@ const SelectWithModal: React.FC<Props> = ({
   const theme = useMantineTheme()
   const [openModal, setOpenModal] = useState(false)
   const filled = useMemo(() => !!value, [value])
+  const { classes } = useStyles({ filled, width, height })
 
   return (
     <>
-      <SelectWrapper width={width} height={height} onClick={(): void => setOpenModal(true)} {...rest}>
-        <Label $filled={filled}>
+      <Box className={classes.selectWrapper} onClick={(): void => setOpenModal(true)} {...rest}>
+        <Box className={classes.label}>
           <Typography
             weight={filled ? 'bold' : 'medium'}
             size={filled ? 'sm' : 'xl'}
-            color={filled ? 'blue' : 'grey500'}
+            color={filled ? 'blue' : 'gray.5'}
           >
             {label}
           </Typography>
-          {!value && (
-            <SvgBox color={theme.ixoGrey500}>
-              <IconChevDown />
-            </SvgBox>
-          )}
-        </Label>
-        <StyledValue size='xl' weight='medium'>
-          {value}
-        </StyledValue>
-      </SelectWrapper>
+          {!value && <IconChevronDown size={16} color={theme.colors.gray[5]} />}
+        </Box>
+        <Box className={classes.value}>
+          <Typography size='xl' weight='medium'>
+            {value}
+          </Typography>
+        </Box>
+      </Box>
       <TypeSelectionModal
         open={openModal}
         onClose={(): void => setOpenModal(false)}

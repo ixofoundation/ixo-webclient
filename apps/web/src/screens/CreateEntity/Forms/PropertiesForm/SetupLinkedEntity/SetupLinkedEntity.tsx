@@ -1,4 +1,4 @@
-import { Box, FlexBox } from 'components/App/App.styles'
+import Image from 'next/image'
 import { AddLinkedEntityModal } from 'components/Modals'
 import { Typography } from 'components/Typography'
 import { PropertyBox } from 'screens/CreateEntity/Components'
@@ -6,7 +6,6 @@ import { Props as PropertyBoxProps } from 'screens/CreateEntity/Components/Prope
 import React, { useEffect, useMemo, useState } from 'react'
 import { TDAOGroupModel } from 'types/entities'
 import { omitKey } from 'utils/objects'
-import { ReactComponent as PlusIcon } from '/public/assets/images/icon-plus.svg'
 import { toTitleCase, truncateString } from 'utils/formatters'
 import { LinkedEntity } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import ImpactEntitySetupModal from 'components/Modals/ImpactEntitySetupModal/ImpactEntitySetupModal'
@@ -14,6 +13,8 @@ import LinkedAccountSetupModal from 'components/Modals/LinkedAccountSetupModal/L
 import DelegateAccountSetupModal from 'components/Modals/DelegateAccountSetupModal/DelegateAccountSetupModal'
 import { errorToast } from 'utils/toast'
 import { DAOGroupConfig, EntityLinkedEntityConfig } from 'constants/entity'
+import { IconPlus } from 'components/IconPaths'
+import { Box, Flex, useMantineTheme } from '@mantine/core'
 
 const LinkedEntityPropertyBox = (props: PropertyBoxProps & { id: string; type: string }) => {
   const [name, setName] = useState('')
@@ -31,12 +32,12 @@ const LinkedEntityPropertyBox = (props: PropertyBoxProps & { id: string; type: s
   }, [props])
 
   return (
-    <FlexBox $direction='column' $alignItems='center' $gap={4}>
+    <Flex direction='column' align='center' gap={4}>
       <PropertyBox icon={props.icon} label={props.label} set={true} handleRemove={props.handleRemove} />
       <Typography variant='secondary' $overflowLines={1} style={{ width: 100, textAlign: 'center' }}>
         {name}
       </Typography>
-    </FlexBox>
+    </Flex>
   )
 }
 
@@ -52,6 +53,7 @@ const SetupLinkedEntity: React.FC<Props> = ({ hidden, linkedEntity, daoGroups, u
   const [openImpactEntitySetupModal, setOpenImpactEntitySetupModal] = useState(false)
   const [openLinkedAccountSetupModal, setOpenLinkedAccountSetupModal] = useState(false)
   const [openDelegateAccountSetupModal, setOpenDelegateAccountSetupModal] = useState(false)
+  const theme = useMantineTheme()
   const hasDelegateAccount = useMemo(
     () => Object.values(linkedEntity).some(({ relationship }) => relationship === 'delegate'),
     [linkedEntity],
@@ -89,7 +91,7 @@ const SetupLinkedEntity: React.FC<Props> = ({ hidden, linkedEntity, daoGroups, u
 
   return (
     <>
-      <FlexBox $direction='column' style={hidden ? { display: 'none' } : {}}>
+      <Flex direction='column' style={hidden ? { display: 'none' } : {}}>
         <Box className='d-flex flex-wrap' style={{ gap: 20 }}>
           {Object.entries(linkedEntity)
             .map(([key, value]) => {
@@ -107,12 +109,12 @@ const SetupLinkedEntity: React.FC<Props> = ({ hidden, linkedEntity, daoGroups, u
                   return null
                 }
                 return (
-                  <FlexBox key={key} $direction='column' $alignItems='center' $gap={4}>
+                  <Flex key={key} direction='column' align='center' gap={4}>
                     <PropertyBox icon={Icon && <Icon />} label={toTitleCase(label)} set={true} />
                     <Typography variant='secondary' $overflowLines={1} style={{ width: 100, textAlign: 'center' }}>
                       {name}
                     </Typography>
-                  </FlexBox>
+                  </Flex>
                 )
               } else {
                 const Icon = EntityLinkedEntityConfig[type]?.icon
@@ -131,9 +133,13 @@ const SetupLinkedEntity: React.FC<Props> = ({ hidden, linkedEntity, daoGroups, u
               }
             })
             .filter((v) => !!v)}
-          <PropertyBox icon={<PlusIcon />} noData handleClick={(): void => setOpenAddLinkedEntityModal(true)} />
+          <PropertyBox
+            icon={<Image src={IconPlus} alt='Plus' width={5} height={5} color={theme.colors.blue[5]} />}
+            noData
+            handleClick={(): void => setOpenAddLinkedEntityModal(true)}
+          />
         </Box>
-      </FlexBox>
+      </Flex>
       <AddLinkedEntityModal
         open={openAddLinkedEntityModal}
         onClose={(): void => setOpenAddLinkedEntityModal(false)}

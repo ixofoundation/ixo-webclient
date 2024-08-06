@@ -1,10 +1,9 @@
-import { FlexBox } from 'components/App/App.styles'
+import Image from 'next/image'
 import { Typography } from 'components/Typography'
 import { deviceWidth } from 'constants/device'
 import { Button, PropertyBox } from 'screens/CreateEntity/Components'
 import React, { useState } from 'react'
-import { useMantineTheme } from '@mantine/core'
-import { ReactComponent as ClaimIcon } from '/public/assets/images/icon-claim.svg'
+import { Flex, useMantineTheme } from '@mantine/core'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { selectAllDeedProtocols } from 'redux/entities/entities.selectors'
 import { TEntityModel } from 'types/entities'
@@ -12,6 +11,7 @@ import { useAccount } from 'hooks/account'
 import { useEntitiesQuery } from 'generated/graphql'
 import { getEntitiesFromGraphqlAction, updateEntityPropertyAction } from 'redux/entities/entities.actions'
 import { apiEntityToEntity } from 'utils/entities'
+import { IconClaim } from 'components/IconPaths'
 
 interface Props {
   hidden?: boolean
@@ -53,19 +53,19 @@ const ClaimCollectionCreationSubmissionStep: React.FC<Props> = ({ hidden, onSubm
   }
 
   return (
-    <FlexBox $direction='column'>
-      <FlexBox $direction='column' $gap={9} width={deviceWidth.tablet + 'px'} mb={40}>
+    <Flex direction='column'>
+      <Flex direction='column' gap={9} w={deviceWidth.tablet + 'px'} mb={40}>
         <Typography variant='secondary' size='base'>
           Set up the claim submission process
         </Typography>
 
-        <FlexBox $direction='column' $gap={6}>
+        <Flex direction='column' gap={6}>
           <Typography>Offer application form</Typography>
-          <FlexBox $gap={6}>
+          <Flex gap={6}>
             {deedProtocols.map((entity: TEntityModel) => (
-              <FlexBox key={entity.id} $direction='column' $alignItems='center' $gap={4}>
+              <Flex key={entity.id} direction='column' align='center' gap={4}>
                 <PropertyBox
-                  icon={<ClaimIcon />}
+                  icon={<Image src={IconClaim} alt='Claim' width={5} height={5} color={theme.colors.blue[5]} />}
                   required={true}
                   set={true}
                   hovered={protocolDeedId === entity.id}
@@ -80,23 +80,23 @@ const ClaimCollectionCreationSubmissionStep: React.FC<Props> = ({ hidden, onSubm
                 >
                   {entity.profile?.name || entity.id}
                 </Typography>
-              </FlexBox>
+              </Flex>
             ))}
-          </FlexBox>
-        </FlexBox>
+          </Flex>
+        </Flex>
 
-        <FlexBox width='100%' height='1px' background={theme.ixoGrey300} />
-      </FlexBox>
+        <Flex w='100%' h='1px' bg={theme.colors.grey[300]} />
+      </Flex>
 
-      <FlexBox $gap={5}>
+      <Flex gap={5}>
         <Button variant='secondary' onClick={onCancel}>
           Back
         </Button>
         <Button variant='primary' disabled={!protocolDeedId} onClick={() => onSubmit(protocolDeedId)}>
           Continue
         </Button>
-      </FlexBox>
-    </FlexBox>
+      </Flex>
+    </Flex>
   )
 }
 

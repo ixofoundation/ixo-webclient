@@ -1,11 +1,12 @@
-import { FlexBox } from 'components/App/App.styles'
+import Image from 'next/image'
 import { Typography } from 'components/Typography'
 import { deviceWidth } from 'constants/device'
 import { Button, PropertyBox } from 'screens/CreateEntity/Components'
 import React, { useState } from 'react'
-import { ReactComponent as ClaimIcon } from '/public/assets/images/icon-claim.svg'
 import { TEntityClaimModel } from 'types/entities'
 import { useParams, NavLink } from 'react-router-dom'
+import { IconClaim } from 'components/IconPaths'
+import { Flex, useMantineTheme } from '@mantine/core'
 
 interface Props {
   hidden?: boolean
@@ -18,23 +19,24 @@ interface Props {
 const ClaimCollectionCreationSelectStep: React.FC<Props> = ({ hidden, onSubmit, onCancel, claims }) => {
   const { entityId } = useParams<{ entityId: string }>()
   const [selected, setSelected] = useState('')
+  const theme = useMantineTheme()
 
   if (hidden) {
     return null
   }
 
   return (
-    <FlexBox $direction='column'>
-      <FlexBox $direction='column' $gap={9} width={deviceWidth.tablet + 'px'} mb={40}>
+    <Flex direction='column'>
+      <Flex direction='column' gap={9} w={deviceWidth.tablet + 'px'} mb={40}>
         <Typography variant='secondary' size='base'>
           Select the linked Claim for which you want to create a new Claim Collection.
         </Typography>
 
-        <FlexBox $gap={6} $alignItems='flex-start'>
+        <Flex gap={6} align='flex-start'>
           {Object.values(claims).map((claim) => (
-            <FlexBox key={claim.id} $direction='column' $alignItems='flex-start' $gap={4}>
+            <Flex key={claim.id} direction='column' align='flex-start' gap={4}>
               <PropertyBox
-                icon={<ClaimIcon />}
+                icon={<Image src={IconClaim} alt='Claim' width={5} height={5} color={theme.colors.blue[5]} />}
                 required={true}
                 set={true}
                 hovered={selected === claim.id}
@@ -49,25 +51,25 @@ const ClaimCollectionCreationSelectStep: React.FC<Props> = ({ hidden, onSubmit, 
               >
                 {claim.template?.title ?? ''}
               </Typography>
-            </FlexBox>
+            </Flex>
           ))}
-        </FlexBox>
+        </Flex>
 
         <Typography variant='secondary' size='base'>
           Alternatively you can add a{' '}
           <NavLink to={`/entity/${entityId}/dashboard/edit?addClaim=true`}>new linked Claim</NavLink>.
         </Typography>
-      </FlexBox>
+      </Flex>
 
-      <FlexBox $gap={5}>
+      <Flex gap={5}>
         <Button variant='secondary' onClick={onCancel}>
           Back
         </Button>
         <Button variant='primary' disabled={!selected} onClick={() => onSubmit(selected)}>
           Continue
         </Button>
-      </FlexBox>
-    </FlexBox>
+      </Flex>
+    </Flex>
   )
 }
 

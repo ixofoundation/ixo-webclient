@@ -1,10 +1,9 @@
-import { FlexBox, SvgBox } from 'components/App/App.styles'
+import Image from 'next/image'
 import { Typography } from 'components/Typography'
 import useCurrentEntity, { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
 import { Button } from 'screens/CreateEntity/Components'
 import React, { useMemo, useState } from 'react'
 import { NavLink, useNavigate, useParams } from 'react-router-dom'
-import { ReactComponent as WaitIcon } from '/public/assets/images/eco/wait.svg'
 import { ProgressBar } from 'components/ProgressBar/ProgressBar'
 import { useCreateEntity, useCreateEntityState } from 'hooks/createEntity'
 import moment from 'moment'
@@ -25,10 +24,8 @@ import {
   Service,
 } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { useQuery } from 'hooks/window'
-import { ReactComponent as CheckCircleIcon } from '/public/assets/images/icon-check-circle.svg'
-import { ReactComponent as ExclamationIcon } from '/public/assets/images/icon-exclamation-circle.svg'
 import { LinkedResourceSetupModal } from 'components/Modals'
-import { useMantineTheme } from '@mantine/core'
+import { Box, Flex, useMantineTheme } from '@mantine/core'
 import { EntityLinkedResourceConfig, ProposalActionConfig } from 'constants/entity'
 import { useWallet } from '@ixo-webclient/wallet-connector'
 import { DeliverTxResponse } from '@cosmjs/stargate'
@@ -38,6 +35,8 @@ import { useAppSelector } from 'redux/hooks'
 import { getEntityById } from 'redux/entities/entities.selectors'
 import { useEntity } from 'hooks/entity/useEntity'
 import { currentRelayerNode } from 'constants/common'
+import { IconCheckCircle } from 'components/IconPaths'
+import { IconExclamationCircle, IconSandclockFill } from 'components/IconPaths'
 
 const ReviewProposal: React.FC = () => {
   const theme = useMantineTheme()
@@ -381,121 +380,114 @@ const ReviewProposal: React.FC = () => {
   }
 
   return (
-    <FlexBox width='100%' $gap={10} $alignItems='stretch'>
+    <Flex w='100%' gap={10} align='stretch'>
       {/* Card */}
-      <FlexBox
-        $direction='column'
-        width='100%'
-        $gap={4}
+      <Flex
+        direction='column'
+        w='100%'
+        gap={4}
         p={6}
-        border={`1px solid ${theme.colors.blue[5]}`}
-        $borderRadius='8px'
+        style={{ border: `1px solid ${theme.colors.blue[5]}`, borderRadius: '8px' }}
       >
         {/* Header */}
         {daoGroup?.type && (
-          <FlexBox border={`1px solid ${theme.ixoDarkBlue}`} $borderRadius='100px' p={1.5}>
+          <Flex style={{ border: `1px solid ${theme.colors.blue[5]}`, borderRadius: '100px', padding: '1.5px' }}>
             <Typography color='blue' size='md' transform='capitalize'>
               {daoGroup.type}
             </Typography>
-          </FlexBox>
+          </Flex>
         )}
 
-        <FlexBox>
+        <Flex>
           <Typography variant='secondary' size='2xl'>
             {profile?.name}
           </Typography>
-        </FlexBox>
+        </Flex>
 
-        <FlexBox width='100%' $gap={3.5} $alignItems='center' mb={4}>
-          <SvgBox $svgHeight={5} color={theme.ixoDarkestBlue}>
-            <WaitIcon />
-          </SvgBox>
+        <Flex w='100%' gap={3.5} align='center' mb={4}>
+          <Image src={IconSandclockFill} alt='Wait' width={5} height={5} color={theme.colors.blue[5]} />
           <ProgressBar total={0} approved={0} rejected={0} height={20} />
-        </FlexBox>
+        </Flex>
 
-        <FlexBox $direction='column' $gap={1}>
+        <Flex direction='column' gap={1}>
           <Typography size='sm'>Proposed by</Typography>
           <Typography weight='bold'>{truncateString(signer.address, 20)}</Typography>
-        </FlexBox>
+        </Flex>
 
-        <FlexBox width='100%' $gap={4}>
-          <FlexBox $direction='column' $flexBasis='50%' $gap={1}>
+        <Flex w='100%' gap={4}>
+          <Flex direction='column' gap={1} style={{ flexBasis: '50%' }}>
             <Typography size='sm'>Submission Date</Typography>
             <Typography weight='bold'>{moment.utc(new Date()).format('YYYY-MM-DD [at] HH:mm [UTC]')}</Typography>
-          </FlexBox>
-          <FlexBox $direction='column' $flexBasis='50%' $gap={1}>
+          </Flex>
+          <Flex direction='column' gap={1} style={{ flexBasis: '50%' }}>
             <Typography size='sm'>Closes</Typography>
             <Typography weight='bold'>
               {moment.utc(new Date().getTime() + votingPeriod * 1000).format('YYYY-MM-DD [at] HH:mm [UTC]')}
             </Typography>
-          </FlexBox>
-        </FlexBox>
+          </Flex>
+        </Flex>
 
-        <FlexBox width='100%' $gap={4}>
-          <FlexBox $direction='column' $flexBasis='50%' $gap={1}>
+        <Flex w='100%' gap={4}>
+          <Flex direction='column' gap={1} style={{ flexBasis: '50%' }}>
             <Typography size='sm'>Linked Resources</Typography>
-            <FlexBox $gap={3}>
+            <Flex gap={3}>
               {Object.values(linkedResourceData)
                 .filter((item) => !!item)
                 .map((item: any) => {
                   const { id, type } = item
                   const Icon = EntityLinkedResourceConfig[type].icon
                   return (
-                    <SvgBox
+                    <Box
                       key={id}
-                      width='35px'
-                      height='35px'
-                      $alignItems='center'
-                      $justifyContent='center'
-                      border={`1px solid ${theme.colors.blue[5]}`}
-                      $borderRadius='4px'
-                      $svgWidth={5}
-                      $svgHeight={5}
-                      color={theme.colors.blue[5]}
-                      cursor='pointer'
+                      w='35px'
+                      h='35px'
+                      style={{
+                        border: `1px solid ${theme.colors.blue[5]}`,
+                        borderRadius: '4px',
+                        color: theme.colors.blue[5],
+                        cursor: 'pointer',
+                      }}
                       onClick={() => setSelectedLinkedResource(item)}
                     >
                       <Icon />
-                    </SvgBox>
+                    </Box>
                   )
                 })}
-            </FlexBox>
-          </FlexBox>
-          <FlexBox $direction='column' $flexBasis='50%' $gap={1}>
+            </Flex>
+          </Flex>
+          <Flex direction='column' gap={1} style={{ flexBasis: '50%' }}>
             <Typography size='sm'>Actions</Typography>
-            <FlexBox $gap={3}>
+            <Flex gap={3}>
               {validActions
                 .filter((action) => ProposalActionConfig[action.group].items[action.text])
                 .map((action) => {
                   const Icon = ProposalActionConfig[action.group].items[action.text].icon
                   return (
-                    <SvgBox
+                    <Box
                       key={action.id}
-                      width='35px'
-                      height='35px'
-                      $alignItems='center'
-                      $justifyContent='center'
-                      border={`1px solid ${theme.colors.blue[5]}`}
-                      $borderRadius='4px'
-                      $svgWidth={5}
-                      $svgHeight={5}
-                      color={theme.colors.blue[5]}
-                      cursor='pointer'
+                      w='35px'
+                      h='35px'
+                      style={{
+                        border: `1px solid ${theme.colors.blue[5]}`,
+                        borderRadius: '4px',
+                        color: theme.colors.blue[5],
+                        cursor: 'pointer',
+                      }}
                       onClick={() => setSelectedAction(action)}
                     >
                       <Icon />
-                    </SvgBox>
+                    </Box>
                   )
                 })}
-            </FlexBox>
-          </FlexBox>
-        </FlexBox>
-      </FlexBox>
+            </Flex>
+          </Flex>
+        </Flex>
+      </Flex>
       {/* Text */}
-      <FlexBox $direction='column' height='100%' $justifyContent='space-between' $gap={4} style={{ flex: '0 0 400px' }}>
+      <Flex direction='column' h='100%' justify='space-between' gap={4} style={{ flex: '0 0 400px' }}>
         {!success && (
           <>
-            <FlexBox $direction='column' width='100%' $gap={4}>
+            <Flex direction='column' w='100%' gap={4}>
               <Typography variant='secondary'>
                 This is the last step before submitting this governance proposal for {profile?.name}.
               </Typography>
@@ -507,71 +499,52 @@ const ReviewProposal: React.FC = () => {
               <Typography variant='secondary'>
                 When you are ready to commit, sign with your DID Account keys.
               </Typography>
-            </FlexBox>
+            </Flex>
             {/* Actions */}
-            <FlexBox width='100%' $gap={4}>
+            <Flex w='100%' gap={4}>
               <Button variant='secondary' onClick={handleBack} style={{ width: '100%' }}>
                 Back
               </Button>
               <Button variant='primary' onClick={handleSubmit} style={{ width: '100%' }} loading={submitting}>
                 Sign To Submit
               </Button>
-            </FlexBox>
+            </Flex>
           </>
         )}
         {success === 'true' && (
           <>
-            <FlexBox
-              $direction='column'
-              $justifyContent='center'
-              $alignItems='center'
-              width='100%'
-              height='100%'
-              $gap={4}
-              $textAlign='center'
-            >
-              <SvgBox color={theme.ixoLightGreen} $svgWidth={30} $svgHeight={30}>
-                <CheckCircleIcon />
-              </SvgBox>
+            <Flex direction='column' justify='center' align='center' w='100%' h='100%' gap={4}>
+              <Image src={IconCheckCircle} alt='CheckCircle' width={5} height={5} color={theme.colors.green[5]} />
               <Typography variant='secondary' size='2xl'>
                 {profile?.name} Successfully created!
               </Typography>
-            </FlexBox>
-            <FlexBox width='100%' $gap={4}>
+            </Flex>
+            <Flex w='100%' gap={4}>
               <Button variant='primary' onClick={handleNext} style={{ width: '100%' }}>
                 View in the Dashboard
               </Button>
-            </FlexBox>
+            </Flex>
           </>
         )}
         {success === 'false' && (
           <>
-            <FlexBox
-              $direction='column'
-              $justifyContent='center'
-              $alignItems='center'
-              width='100%'
-              height='100%'
-              $gap={4}
-            >
-              <SvgBox color={theme.ixoDarkOrange} $svgWidth={30} $svgHeight={30}>
-                <ExclamationIcon />
-              </SvgBox>
+            <Flex direction='column' justify='center' align='center' w='100%' h='100%' gap={4}>
+              <Image src={IconExclamationCircle} alt='Exclamation' width={5} height={5} color={theme.colors.blue[5]} />
               <Typography variant='secondary' size='2xl'>
                 Something went wrong. Please try again.
               </Typography>
-            </FlexBox>
-            <FlexBox width='100%' $gap={4}>
+            </Flex>
+            <Flex w='100%' gap={4}>
               <Button variant='secondary' onClick={() => navigate(-1)} style={{ width: '100%' }}>
                 Back
               </Button>
               <Button variant='primary' onClick={handleSubmit} style={{ width: '100%' }} loading={submitting}>
                 Sign To Submit
               </Button>
-            </FlexBox>
+            </Flex>
           </>
         )}
-      </FlexBox>
+      </Flex>
 
       {SetupActionModal && (
         <SetupActionModal
@@ -588,7 +561,7 @@ const ReviewProposal: React.FC = () => {
           onClose={(): void => setSelectedLinkedResource(undefined)}
         />
       )}
-    </FlexBox>
+    </Flex>
   )
 }
 

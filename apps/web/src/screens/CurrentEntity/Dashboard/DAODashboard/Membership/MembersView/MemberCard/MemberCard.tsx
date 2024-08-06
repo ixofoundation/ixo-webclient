@@ -1,11 +1,6 @@
-import { Box, FlexBox, GridContainer, HTMLFlexBoxProps, SvgBox } from 'components/App/App.styles'
+import Image from 'next/image'
 import { Typography } from 'components/Typography'
 import React, { useEffect, useMemo, useState } from 'react'
-import styled, { useTheme } from 'styled-components'
-import { ReactComponent as PieIcon } from '/public/assets/images/icon-pie.svg'
-import { ReactComponent as ClaimIcon } from '/public/assets/images/icon-claim.svg'
-import { ReactComponent as MultisigIcon } from '/public/assets/images/icon-multisig.svg'
-import { ReactComponent as PaperIcon } from '/public/assets/images/icon-paper.svg'
 import ThreeDot from 'assets/icons/ThreeDot'
 import { truncateString } from 'utils/formatters'
 import { MemberDetailCard } from '../MemberDetailCard'
@@ -19,17 +14,52 @@ import { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
 import { useQuery } from 'hooks/window'
 import { useAppSelector } from 'redux/hooks'
 import { getEntityById } from 'redux/entities/entities.selectors'
+import { IconPie, IconClaim, IconMultisig, IconPaper } from 'components/IconPaths'
+import { Box, Flex, Grid, useMantineTheme } from '@mantine/core'
+import { createStyles } from '@mantine/emotion'
 
-const Wrapper = styled(FlexBox)<HTMLFlexBoxProps & { focused: boolean }>`
-  ${({ theme, focused }) => focused && `border-color: ${theme.ixoLightBlue};`}
-  &:hover {
-    border-color: ${(props) => props.theme.ixoLightBlue};
+const useStyles = createStyles((theme, { focused }: { focused: boolean }) => ({
+  wrapper: {
+    minWidth: '240px',
+    width: '100%',
+    height: '320px',
+    borderRadius: '12px',
+    padding: theme.spacing.md,
+    background: 'linear-gradient(180deg, #01273A 0%, #002D42 100%)',
+    cursor: 'pointer',
+    border: `2px solid ${focused ? theme.colors.blue[5] : theme.colors.dark[7]}`,
+    transition: 'all .2s',
+    position: 'relative',
 
-    & > #three_dot {
-      visibility: visible;
-    }
-  }
-`
+    '&:hover': {
+      borderColor: theme.colors.blue[5],
+
+      '& #three_dot': {
+        visibility: 'visible',
+      },
+    },
+  },
+  statusDot: {
+    position: 'absolute',
+    top: '20px',
+    left: '20px',
+    borderRadius: '100%',
+    width: '12px',
+    height: '12px',
+  },
+  threeDot: {
+    visibility: 'hidden',
+    position: 'absolute',
+    top: '16px',
+    right: '16px',
+    transition: 'all .2s',
+  },
+  icon: {
+    width: 24,
+    height: 24,
+    color: theme.colors.blue[5],
+  },
+}))
 
 interface Props {
   member: {
@@ -43,7 +73,6 @@ interface Props {
     verified?: boolean
     administrator?: boolean
     assignedAuthority?: number
-
     addr: string
     weight: number
     votingPower?: number
@@ -54,32 +83,17 @@ interface Props {
 
 const MemberCard: React.FC<Props> = ({ member, selected, onSelectMember }): JSX.Element => {
   const theme = useMantineTheme()
+  const { classes } = useStyles({ focused: selected })
   const navigate = useNavigate()
   const { pathname } = useLocation()
   const { getQuery } = useQuery()
   const { entityId = '' } = useParams<{ entityId: string }>()
   const selectedGroup = getQuery('selectedGroup')
   const STATUSES = {
-    approved: {
-      status: 'approved',
-      text: 'Members',
-      color: theme.ixoGreen,
-    },
-    pending: {
-      status: 'pending',
-      text: 'Awaiting approval',
-      color: theme.ixoDarkOrange,
-    },
-    rejected: {
-      status: 'rejected',
-      text: 'Restricted',
-      color: theme.ixoRed,
-    },
-    all: {
-      status: undefined,
-      text: 'All',
-      color: theme.colors.blue[5],
-    },
+    approved: { status: 'approved', text: 'Members', color: theme.colors.green[6] },
+    pending: { status: 'pending', text: 'Awaiting approval', color: theme.colors.orange[6] },
+    rejected: { status: 'rejected', text: 'Restricted', color: theme.colors.red[6] },
+    all: { status: undefined, text: 'All', color: theme.colors.blue[5] },
   }
   const { cwClient } = useAccount()
   const { daoGroups = {} } = useAppSelector(getEntityById(entityId))
@@ -104,7 +118,6 @@ const MemberCard: React.FC<Props> = ({ member, selected, onSelectMember }): JSX.
     const userVotes = votes.filter((vote) => vote.voter === addr).length
 
     return { userVotingPower, userProposals, userVotes }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [daoGroup, addr, proposals, votes])
 
   useEffect(() => {
@@ -128,127 +141,94 @@ const MemberCard: React.FC<Props> = ({ member, selected, onSelectMember }): JSX.
     return () => {
       setUserStakings('0')
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [votingModuleAddress, cwClient, type])
+  }, [votingModuleAddress, cwClient, type, addr])
 
   const handleMemberView = () => {
     navigate(`${pathname}/${addr}`)
   }
 
-  return !detailView ? (
-    <Wrapper
-      $minWidth='240px'
-      width='100%'
-      height={'320px'}
-      $direction='column'
-      $alignItems='center'
-      $justifyContent='space-between'
-      $borderRadius='12px'
-      padding={6}
-      background={'linear-gradient(180deg, #01273A 0%, #002D42 100%)'}
-      cursor='pointer'
-      $borderWidth='2px'
-      $borderStyle='solid'
-      $borderColor={theme.ixoDarkBlue}
-      transition='all .2s'
-      position='relative'
-      focused={selected}
-      onClick={() => onSelectMember(addr)}
-    >
-      <Box
-        position='absolute'
-        top='20px'
-        left='20px'
-        $borderRadius='100%'
-        width='12px'
-        height='12px'
-        background={STATUSES[status!]?.color}
-      />
+  if (detailView) {
+    return <MemberDetailCard member={member} onClose={() => setDetailView(false)} />
+  }
+
+  return (
+    <Box className={classes.wrapper} onClick={() => onSelectMember(addr)}>
+      <Box className={classes.statusDot} style={{ background: STATUSES[status!]?.color }} />
       <Box
         id='three_dot'
-        visibility='hidden'
-        position='absolute'
-        top={'16px'}
-        right={'16px'}
-        transition='all .2s'
+        className={classes.threeDot}
         onClick={(event) => {
           setDetailView(true)
           event.stopPropagation()
         }}
-        display='none'
       >
         <ThreeDot />
       </Box>
 
-      <Avatar url={avatar} size={100} />
+      <Flex direction='column' align='center' justify='space-between' h='100%'>
+        <Avatar url={avatar} size={100} />
 
-      <FlexBox $direction='column' $gap={2} width='100%' $alignItems='center'>
-        <Typography size='lg' color='white' weight='medium' hover={{ underline: true }} onClick={handleMemberView}>
-          {truncateString(name ?? addr, 20)}
-        </Typography>
-        <Typography size='sm' color='light-blue' weight='medium'>
-          {role}
-        </Typography>
-      </FlexBox>
-
-      <GridContainer columns={2} $columnGap={2} $rowGap={2} width='100%'>
-        <FlexBox $alignItems='center' $gap={2} $lineHeight='0px'>
-          <SvgBox $svgWidth={6} $svgHeight={6} color={theme.ixoLightBlue}>
-            <PieIcon />
-          </SvgBox>
-          <Typography size='sm' color='white' weight='medium'>
-            {new Intl.NumberFormat('en-us', {
-              style: 'percent',
-              minimumFractionDigits: 0,
-              maximumFractionDigits: 2,
-            }).format(userVotingPower ?? 0)}
+        <Flex direction='column' align='center' gap='xs' w='100%'>
+          <Typography size='lg' color='white' weight='medium' hover={{ underline: true }} onClick={handleMemberView}>
+            {truncateString(name ?? addr, 20)}
           </Typography>
-        </FlexBox>
+          <Typography size='sm' color='light-blue' weight='medium'>
+            {role}
+          </Typography>
+        </Flex>
 
-        <FlexBox $alignItems='center' $gap={2} $lineHeight='0px'>
-          {type === 'staking' && (
-            <>
-              <SvgBox $svgWidth={6} $svgHeight={6} color={theme.ixoLightBlue}>
-                <ClaimIcon />
-              </SvgBox>
+        <Grid columns={2} gutter='xs' w='100%'>
+          <Grid.Col span={1}>
+            <Flex align='center' gap='xs'>
+              <Image src={IconPie} alt='Pie' className={classes.icon} />
               <Typography size='sm' color='white' weight='medium'>
-                <CurrencyFormat displayType={'text'} value={userStakings} thousandSeparator />
+                {new Intl.NumberFormat('en-us', {
+                  style: 'percent',
+                  minimumFractionDigits: 0,
+                  maximumFractionDigits: 2,
+                }).format(userVotingPower ?? 0)}
               </Typography>
-            </>
-          )}
-          {type !== 'staking' && (
-            <>
-              <SvgBox $svgWidth={6} $svgHeight={6} color={theme.ixoDarkBlue}>
-                <ClaimIcon />
-              </SvgBox>
+            </Flex>
+          </Grid.Col>
+
+          <Grid.Col span={1}>
+            <Flex align='center' gap='xs'>
+              <Image
+                src={IconClaim}
+                alt='Claim'
+                className={classes.icon}
+                style={{ color: type === 'staking' ? theme.colors.blue[5] : theme.colors.dark[5] }}
+              />
               <Typography size='sm' color='white' weight='medium'>
-                n/a
+                {type === 'staking' ? (
+                  <CurrencyFormat displayType={'text'} value={userStakings} thousandSeparator />
+                ) : (
+                  'n/a'
+                )}
               </Typography>
-            </>
-          )}
-        </FlexBox>
+            </Flex>
+          </Grid.Col>
 
-        <FlexBox $alignItems='center' $gap={2} $lineHeight='0px'>
-          <SvgBox $svgWidth={6} $svgHeight={6} color={theme.ixoLightBlue}>
-            <MultisigIcon />
-          </SvgBox>
-          <Typography size='sm' color='white' weight='medium'>
-            {userVotes ?? 0}
-          </Typography>
-        </FlexBox>
+          <Grid.Col span={1}>
+            <Flex align='center' gap='xs'>
+              <Image src={IconMultisig} alt='Multisig' className={classes.icon} />
+              <Typography size='sm' color='white' weight='medium'>
+                {userVotes ?? 0}
+              </Typography>
+            </Flex>
+          </Grid.Col>
 
-        <FlexBox $alignItems='center' $gap={2} $lineHeight='0px'>
-          <SvgBox $svgWidth={6} $svgHeight={6} color={theme.ixoLightBlue}>
-            <PaperIcon />
-          </SvgBox>
-          <Typography size='sm' color='white' weight='medium'>
-            {userProposals ?? 0}
-          </Typography>
-        </FlexBox>
-      </GridContainer>
-    </Wrapper>
-  ) : (
-    <MemberDetailCard member={member} onClose={() => setDetailView(false)} />
+          <Grid.Col span={1}>
+            <Flex align='center' gap='xs'>
+              <Image src={IconPaper} alt='Paper' className={classes.icon} />
+              <Typography size='sm' color='white' weight='medium'>
+                {userProposals ?? 0}
+              </Typography>
+            </Flex>
+          </Grid.Col>
+        </Grid>
+      </Flex>
+    </Box>
   )
 }
 

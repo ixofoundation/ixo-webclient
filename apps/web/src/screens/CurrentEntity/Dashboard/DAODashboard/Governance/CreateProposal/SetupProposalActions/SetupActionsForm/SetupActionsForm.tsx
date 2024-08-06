@@ -1,11 +1,12 @@
-import { FlexBox } from 'components/App/App.styles'
+import Image from 'next/image'
 import { PropertyBox } from 'screens/CreateEntity/Components'
 import React, { useMemo, useState } from 'react'
 import { TProposalActionModel } from 'types/entities'
-import { ReactComponent as PlusIcon } from '/public/assets/images/icon-plus.svg'
 
 import { AddActionModal } from 'components/Modals'
 import { ProposalActionConfig } from 'constants/entity'
+import { IconPlus } from 'components/IconPaths'
+import { Flex, useMantineTheme } from '@mantine/core'
 
 interface Props {
   actions: TProposalActionModel[]
@@ -16,6 +17,7 @@ interface Props {
 const SetupActionsForm: React.FC<Props> = ({ actions, setActions, constant = false }): JSX.Element => {
   const [openAddActionModal, setOpenAddActionModal] = useState(false)
   const [selectedAction, setSelectedAction] = useState<TProposalActionModel | undefined>()
+  const theme = useMantineTheme()
   const SetupModal = useMemo(() => {
     if (!selectedAction) {
       return undefined
@@ -36,7 +38,7 @@ const SetupActionsForm: React.FC<Props> = ({ actions, setActions, constant = fal
 
   return (
     <>
-      <FlexBox $gap={5} $flexWrap='wrap'>
+      <Flex gap={5} wrap='wrap'>
         {actions.map((item) => {
           const Icon = ProposalActionConfig[item.group].items[item.text]?.icon
           const disabled = ProposalActionConfig[item.group].items[item.text]?.disabled
@@ -53,8 +55,14 @@ const SetupActionsForm: React.FC<Props> = ({ actions, setActions, constant = fal
             />
           )
         })}
-        {!constant && <PropertyBox icon={<PlusIcon />} noData handleClick={(): void => setOpenAddActionModal(true)} />}
-      </FlexBox>
+        {!constant && (
+          <PropertyBox
+            icon={<Image src={IconPlus} alt='Plus' width={5} height={5} color={theme.colors.blue[5]} />}
+            noData
+            handleClick={(): void => setOpenAddActionModal(true)}
+          />
+        )}
+      </Flex>
 
       <AddActionModal
         actionsToExclude={actions}

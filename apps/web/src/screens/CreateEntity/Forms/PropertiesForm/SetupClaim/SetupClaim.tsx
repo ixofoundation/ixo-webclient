@@ -1,11 +1,12 @@
-import { Box, FlexBox } from 'components/App/App.styles'
+import Image from 'next/image'
 import { ClaimSetupModal } from 'components/Modals'
 import { PropertyBox } from 'screens/CreateEntity/Components'
 import React, { useState } from 'react'
 import { TEntityClaimModel } from 'types/entities'
 import { omitKey } from 'utils/objects'
 import { v4 as uuidv4 } from 'uuid'
-import { ReactComponent as PlusIcon } from '/public/assets/images/icon-plus.svg'
+import { IconPlus } from 'components/IconPaths'
+import { Box, Flex, useMantineTheme } from '@mantine/core'
 
 interface Props {
   hidden: boolean
@@ -16,6 +17,7 @@ interface Props {
 const SetupClaim: React.FC<Props> = ({ hidden, claim, updateClaim }): JSX.Element => {
   const [selectedClaim, setSelectedClaim] = useState<TEntityClaimModel | undefined>()
   const [editModalOpen, setEditModalOpen] = useState(false)
+  const theme = useMantineTheme()
 
   const handleUpdateEntityClaim = (id: string, newClaim: TEntityClaimModel): void => {
     if (JSON.stringify(selectedClaim) === JSON.stringify(newClaim)) {
@@ -49,7 +51,7 @@ const SetupClaim: React.FC<Props> = ({ hidden, claim, updateClaim }): JSX.Elemen
 
   return (
     <>
-      <FlexBox $direction='column' style={hidden ? { display: 'none' } : {}}>
+      <Flex direction='column' style={hidden ? { display: 'none' } : {}}>
         <Box className='d-flex flex-wrap' style={{ gap: 20 }}>
           {Object.entries(claim).map(([key, value]) => (
             <PropertyBox
@@ -64,7 +66,7 @@ const SetupClaim: React.FC<Props> = ({ hidden, claim, updateClaim }): JSX.Elemen
             />
           ))}
           <PropertyBox
-            icon={<PlusIcon />}
+            icon={<Image src={IconPlus} alt='Plus' width={5} height={5} color={theme.colors.blue[5]} />}
             noData
             handleClick={(): void => {
               setEditModalOpen(true)
@@ -77,7 +79,7 @@ const SetupClaim: React.FC<Props> = ({ hidden, claim, updateClaim }): JSX.Elemen
             }}
           />
         </Box>
-      </FlexBox>
+      </Flex>
       {selectedClaim && (
         <ClaimSetupModal
           claim={selectedClaim}

@@ -1,23 +1,21 @@
-import { FlexBox, SvgBox } from 'components/App/App.styles'
+import Image from 'next/image'
 import { FormCard } from 'components'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { ReactComponent as ArrowCircleRightIcon } from '/public/assets/images/icon-arrow-circle-right-solid.svg'
 import { Button, InputWithLabel, Switch } from 'screens/CreateEntity/Components'
 import { useTransferEntityState } from 'hooks/transferEntity'
 import { validateDid, validateWasmDid } from 'utils/validation'
-import { useMantineTheme } from '@mantine/core'
+import { Flex, useMantineTheme } from '@mantine/core'
 import { Typography } from 'components/Typography'
-import { ReactComponent as TimesCircleIcon } from '/public/assets/images/icon-times-circle.svg'
-import { ReactComponent as CheckCircleIcon } from '/public/assets/images/icon-check-circle.svg'
-import { ReactComponent as LockOpenIcon } from '/public/assets/images/icon-lock-open-solid.svg'
-import { ReactComponent as InfoIcon } from '/public/assets/images/icon-info.svg'
 import { errorToast, successToast } from 'utils/toast'
 import { VerificationMethod } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { VMKeyMap } from 'constants/entity'
 import { getEntityById } from 'redux/entities/entities.selectors'
 import { useAppSelector } from 'redux/hooks'
 import { useWallet } from '@ixo-webclient/wallet-connector'
+import { IconInfo } from 'components/IconPaths'
+import { IconTimesCircle } from 'components/IconPaths'
+import { IconArrowCircleRightSolid, IconLockOpenSolid, IconCheckCircle } from 'components/IconPaths'
 
 const TransferEntityTo: React.FC = (): JSX.Element => {
   const theme = useMantineTheme()
@@ -99,18 +97,22 @@ const TransferEntityTo: React.FC = (): JSX.Element => {
   }
 
   return (
-    <FlexBox width='100%' $justifyContent='center'>
-      <FlexBox $maxWidth='800px' width='100%' $direction='column' $gap={5}>
+    <Flex w='100%' justify='center'>
+      <Flex maw='800px' w='100%' direction='column' gap={5}>
         <FormCard
           preIcon={
-            <SvgBox $svgWidth={8} $svgHeight={8} color='black'>
-              <ArrowCircleRightIcon />
-            </SvgBox>
+            <Image
+              src={IconArrowCircleRightSolid}
+              alt='ArrowCircleRight'
+              width={5}
+              height={5}
+              color={theme.colors.blue[5]}
+            />
           }
           title='Transferring to'
         >
           {validateWasmDid(recipientDid) ? (
-            <FlexBox width='100%' $alignItems='center' $gap={4}>
+            <Flex w='100%' align='center' gap={4}>
               <InputWithLabel
                 name='group_name'
                 width='100%'
@@ -125,9 +127,9 @@ const TransferEntityTo: React.FC = (): JSX.Element => {
                 label='DAO Entity'
                 inputValue={currentEntity?.profile?.name}
               />
-            </FlexBox>
+            </Flex>
           ) : (
-            <FlexBox $direction='column' $gap={5} width='100%'>
+            <Flex direction='column' gap={5} w='100%'>
               <InputWithLabel
                 name='ixo_did'
                 width='100%'
@@ -137,39 +139,31 @@ const TransferEntityTo: React.FC = (): JSX.Element => {
                 wrapperStyle={{
                   color: recipientDid
                     ? validateDid(recipientDid)
-                      ? theme.ixoGreen
-                      : theme.ixoRed
+                      ? theme.colors.green[5]
+                      : theme.colors.red[5]
                     : theme.colors.blue[5],
                 }}
                 handleChange={updateRecipientDid}
               />
 
               {recipientDid && !validateDid(recipientDid) && (
-                <FlexBox width='100%' $justifyContent='flex-end' $alignItems='center' $gap={2}>
+                <Flex w='100%' justify='flex-end' align='center' gap={2}>
                   <Typography size='xl'>Not a valid ixo DID</Typography>
-                  <SvgBox color={theme.ixoRed}>
-                    <TimesCircleIcon />
-                  </SvgBox>
-                </FlexBox>
+                  <Image src={IconTimesCircle} alt='TimesCircle' width={5} height={5} color={theme.colors.blue[5]} />
+                </Flex>
               )}
               {recipientDid && validateDid(recipientDid) && (
-                <FlexBox width='100%' $justifyContent='flex-end' $alignItems='center' $gap={2}>
+                <Flex w='100%' justify='flex-end' align='center' gap={2}>
                   <Typography size='xl'>Valid ixo DID</Typography>
-                  <SvgBox color={theme.ixoGreen}>
-                    <CheckCircleIcon />
-                  </SvgBox>
-                </FlexBox>
+                  <Image src={IconCheckCircle} alt='CheckCircle' width={5} height={5} color={theme.colors.blue[5]} />
+                </Flex>
               )}
-            </FlexBox>
+            </Flex>
           )}
         </FormCard>
 
         <FormCard
-          preIcon={
-            <SvgBox $svgWidth={8} $svgHeight={8} color='black'>
-              <LockOpenIcon />
-            </SvgBox>
-          }
+          preIcon={<Image src={IconLockOpenSolid} alt='LockOpen' width={5} height={5} color={theme.colors.blue[5]} />}
           title='Keys'
         >
           <Typography size='xl'>
@@ -177,34 +171,31 @@ const TransferEntityTo: React.FC = (): JSX.Element => {
             document with which the new owner can re-enable the keys. The document will be transferred along with the
             entity.
           </Typography>
-          <FlexBox width='100%' $justifyContent='space-between' $alignItems='center'>
+          <Flex w='100%' justify='space-between' align='center'>
             <Typography size='xl'>Create document to re-enable keys</Typography>
             <Switch size='md' onLabel='YES' offLabel='NO' value={reEnableKeys} onChange={setReEnablekeys} />
-          </FlexBox>
+          </Flex>
 
           {!reEnableKeys && (
-            <FlexBox
-              width='100%'
-              $direction='column'
-              $alignItems='center'
-              $justifyContent='center'
-              $textAlign='center'
-              $borderRadius='8px'
-              $gap={5}
+            <Flex
+              w='100%'
+              direction='column'
+              align='center'
+              justify='center'
+              gap={5}
               p={3}
-              background={`${theme.ixoDarkOrange}22`}
+              bg={`${theme.colors.orange[5]}22`}
             >
-              <FlexBox $alignItems='center' color={theme.ixoDarkOrange} $gap={1}>
-                <SvgBox color='inherit' $svgWidth={6} $svgHeight={6}>
-                  <InfoIcon />
-                </SvgBox>
-                <Typography size='xl'>Warning</Typography>
-              </FlexBox>
+              <Flex align='center' color={theme.colors.orange[5]} gap={1}>
+                <Image src={IconInfo} alt='Info' width={5} height={5} color={theme.colors.blue[5]} />
 
-              <Typography size='xl' color={theme.ixoBlack}>
+                <Typography size='xl'>Warning</Typography>
+              </Flex>
+
+              <Typography size='xl' color={theme.colors.blue[5]}>
                 Are you sure you don’t want to create a document to re-enable keys?
               </Typography>
-            </FlexBox>
+            </Flex>
           )}
         </FormCard>
 
@@ -219,23 +210,15 @@ const TransferEntityTo: React.FC = (): JSX.Element => {
               <FormCard
                 key={index}
                 title={
-                  <FlexBox $alignItems='center' $gap={4}>
+                  <Flex align='center' gap={4}>
                     <Typography color='black'>KEY #{index + 1}</Typography>
-                    <FlexBox p={2} $borderRadius={'8px'} background={'#A1E393'}>
+                    <Flex p={2} bg={`${theme.colors.green[5]}22`}>
                       <Typography color='black'>{VMKeyMap[vmKeyType]}</Typography>
-                    </FlexBox>
-                  </FlexBox>
+                    </Flex>
+                  </Flex>
                 }
               >
-                <FlexBox
-                  $direction='column'
-                  width='100%'
-                  background={theme.ixoGrey100}
-                  $borderRadius='8px'
-                  $gap={2}
-                  p={4}
-                  color='black'
-                >
+                <Flex direction='column' w='100%' bg={theme.colors.gray[1]} gap={2} p={4} color='black'>
                   {Object.entries(vm)
                     .filter(([key]) => key !== 'description')
                     .map(([key, value]) => (
@@ -243,7 +226,7 @@ const TransferEntityTo: React.FC = (): JSX.Element => {
                         {key}: {value}
                       </Typography>
                     ))}
-                </FlexBox>
+                </Flex>
                 <InputWithLabel
                   width='100%'
                   height='48px'
@@ -255,16 +238,16 @@ const TransferEntityTo: React.FC = (): JSX.Element => {
             )
           })}
 
-        <FlexBox $alignItems='center' width='100%' $gap={7}>
+        <Flex align='center' w='100%' gap={7}>
           <Button variant='secondary' size='full' height={48} onClick={onBack}>
             Back
           </Button>
           <Button disabled={!recipientDid} size='full' height={48} loading={submitting} onClick={handleSubmit}>
             Transfer Entity
           </Button>
-        </FlexBox>
-      </FlexBox>
-    </FlexBox>
+        </Flex>
+      </Flex>
+    </Flex>
   )
 }
 

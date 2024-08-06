@@ -1,33 +1,12 @@
+import Image from 'next/image'
 import React, { useState } from 'react'
-import styled, { useTheme } from 'styled-components'
 import { Card, TabButton } from '../../../Components'
 import { Table } from 'components/Table'
-import { Box, FlexBox, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
-import { ReactComponent as ClockIcon } from '/public/assets/images/icon-clock.svg'
-import { ReactComponent as SwapIcon } from '/public/assets/images/icon-swap.svg'
-import { ReactComponent as PaperIcon } from '/public/assets/images/icon-paper.svg'
-import { ReactComponent as ClaimIcon } from '/public/assets/images/icon-claim.svg'
-import { ReactComponent as ProfileIcon } from '/public/assets/images/icon-profile.svg'
-import { ReactComponent as EyeIcon } from '/public/assets/images/icon-eye.svg'
-import { ReactComponent as IXOIcon } from '/public/assets/images/icon-ixo.svg'
 import { truncateString } from 'utils/formatters'
-
-const TableWrapper = styled.div`
-  color: white;
-  width: 100%;
-
-  table {
-    width: 100%;
-    border-spacing: 0 4px;
-    border-collapse: separate;
-
-    th,
-    td {
-      height: inherit;
-    }
-  }
-`
+import { IconClaim, IconPaper, IconClock, IconEye, IconSwap, IconIxo, IconProfile } from 'components/IconPaths'
+import { Box, Button, Flex, useMantineTheme } from '@mantine/core'
+import { TableWrapper } from 'components'
 
 const renderTableHeader = (name: string) => (
   <Box p={5}>
@@ -49,16 +28,15 @@ const UserActivity: React.FC = (): JSX.Element => {
       renderCell: (cell: any) => {
         const status = cell.row.original?.status
         return (
-          <FlexBox p={5} position={'relative'}>
+          <Flex p={5} pos={'relative'}>
             <Box
-              position='absolute'
+              pos='absolute'
               top={'50%'}
               left={'0px'}
-              transform='translate(-50%, -50%)'
-              width='12px'
-              height='40px'
-              $borderRadius='100px'
-              background={theme[status] ?? theme.rejected}
+              style={{ transform: 'translate(-50%, -50%)', borderRadius: '100px' }}
+              w='12px'
+              h='40px'
+              bg={theme[status] ?? theme.colors.red[5]}
             />
             <Typography color='white'>
               {cell.value}{' '}
@@ -66,7 +44,7 @@ const UserActivity: React.FC = (): JSX.Element => {
                 ago
               </Typography>
             </Typography>
-          </FlexBox>
+          </Flex>
         )
       },
     },
@@ -74,73 +52,85 @@ const UserActivity: React.FC = (): JSX.Element => {
       Header: renderTableHeader('Type'),
       accessor: 'type',
       renderCell: (cell: any) => (
-        <FlexBox p={5}>
+        <Flex p={5}>
           <Typography>{cell.value}</Typography>
-        </FlexBox>
+        </Flex>
       ),
     },
     {
       Header: renderTableHeader('Purpose'),
       accessor: 'purpose',
       renderCell: (cell: any) => (
-        <FlexBox p={5}>
+        <Flex p={5}>
           <Typography>{cell.value}</Typography>
-        </FlexBox>
+        </Flex>
       ),
     },
     {
       Header: renderTableHeader('Description'),
       accessor: 'description',
       renderCell: (cell: any) => (
-        <FlexBox p={5}>
+        <Flex p={5}>
           <Typography>{truncateString(cell.value, 50)}</Typography>
-        </FlexBox>
+        </Flex>
       ),
     },
     {
       Header: renderTableHeader('Value'),
       accessor: 'value',
       renderCell: (cell: any) => (
-        <FlexBox height='100%'>
-          <FlexBox width='100%' height='100%' p={5} $alignItems='center' background={theme.ixoNavyBlue} $gap={2.5}>
-            <IXOIcon />
+        <Flex h='100%'>
+          <Flex w='100%' h='100%' p={5} align='center' bg={theme.colors.blue[5]} gap={2.5}>
+            <Image src={IconIxo} alt='IXO' width={5} height={5} color={theme.colors.blue[5]} />
             <Typography weight='bold'>{Intl.NumberFormat().format(cell.value)}</Typography>
-          </FlexBox>
-          <FlexBox height='100%' $alignItems='center' background={theme.ixoMediumBlue}>
-            <SvgBox
-              width='60px'
-              $alignItems='center'
-              $justifyContent='center'
-              color={theme.colors.blue[5]}
-              $svgWidth={5.5}
-            >
-              <EyeIcon />
-            </SvgBox>
-          </FlexBox>
-        </FlexBox>
+          </Flex>
+          <Flex h='100%' align='center' bg={theme.colors.blue[5]}>
+            <Image src={IconEye} alt='Eye' width={5} height={5} color={theme.colors.blue[5]} />
+          </Flex>
+        </Flex>
       ),
     },
   ]
 
   return (
-    <Card icon={<ClockIcon />} label='Activity'>
-      <FlexBox width='100%' $gap={3}>
-        <TabButton active={tab === 'Transactions'} preIcon={<SwapIcon />} onClick={() => setTab('Transactions')}>
+    <Card icon={IconClock} label='Activity'>
+      <Flex w='100%' gap={3}>
+        <Button
+          style={{ border: tab === 'Transactions' ? `1px solid ${theme.colors.blue[5]}` : 'none' }}
+          leftSection={<Image src={IconSwap} alt='Swap' width={5} height={5} color={theme.colors.blue[5]} />}
+          onClick={() => setTab('Transactions')}
+        >
           Transactions
-        </TabButton>
-        <TabButton active={tab === 'Proposals'} preIcon={<PaperIcon />} onClick={() => setTab('Proposals')}>
+        </Button>
+        <Button
+          style={{ border: tab === 'Proposals' ? `1px solid ${theme.colors.blue[5]}` : 'none' }}
+          leftSection={<Image src={IconPaper} alt='Paper' width={5} height={5} color={theme.colors.blue[5]} />}
+          onClick={() => setTab('Proposals')}
+        >
           Proposals
-        </TabButton>
-        <TabButton active={tab === 'Claims'} preIcon={<ClaimIcon />} onClick={() => setTab('Claims')}>
+        </Button>
+        <Button
+          style={{ border: tab === 'Claims' ? `1px solid ${theme.colors.blue[5]}` : 'none' }}
+          leftSection={<Image src={IconClaim} alt='Claim' width={5} height={5} color={theme.colors.blue[5]} />}
+          onClick={() => setTab('Claims')}
+        >
           Claims
-        </TabButton>
-        <TabButton active={tab === 'Members'} preIcon={<ProfileIcon />} onClick={() => setTab('Members')}>
+        </Button>
+        <Button
+          style={{ border: tab === 'Members' ? `1px solid ${theme.colors.blue[5]}` : 'none' }}
+          leftSection={<Image src={IconProfile} alt='Profile' width={5} height={5} color={theme.colors.blue[5]} />}
+          onClick={() => setTab('Members')}
+        >
           Members
-        </TabButton>
-        <TabButton active={tab === 'Policies'} preIcon={<ProfileIcon />} onClick={() => setTab('Policies')}>
+        </Button>
+        <Button
+          style={{ border: tab === 'Policies' ? `1px solid ${theme.colors.blue[5]}` : 'none' }}
+          leftSection={<Image src={IconProfile} alt='Profile' width={5} height={5} color={theme.colors.blue[5]} />}
+          onClick={() => setTab('Policies')}
+        >
           Policies
-        </TabButton>
-      </FlexBox>
+        </Button>
+      </Flex>
 
       <TableWrapper>
         <Table

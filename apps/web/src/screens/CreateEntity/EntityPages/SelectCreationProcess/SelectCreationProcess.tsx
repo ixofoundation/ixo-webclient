@@ -1,21 +1,22 @@
-import { Box } from 'components/App/App.styles'
+import Image from 'next/image'
 import React, { useMemo, useState } from 'react'
-import { ReactComponent as EntityIcon } from '/public/assets/images/icon-entity.svg'
-import { ReactComponent as CreatorIcon } from '/public/assets/images/icon-creator.svg'
 import { PageWrapper, Selections, SearchIcon } from './SelectCreationProcess.styles'
 import { Button, CateSelector, ChainSelector, Input } from 'screens/CreateEntity/Components'
 import { useCreateEntityState } from 'hooks/createEntity'
 import { apiEntityToEntity } from 'utils/entities'
-import { useMantineTheme } from '@mantine/core'
+import { Box, useMantineTheme } from '@mantine/core'
 import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { EntityLinkedResourceConfig } from 'constants/entity'
 import { useGetEntityById } from 'graphql/entities'
 import { useCreateEntityStepState } from 'hooks/createEntityStepState'
+import { IconCreator } from 'components/IconPaths'
+import { IconEntity } from 'components/IconPaths'
+import { IconSearch } from 'components/IconPaths'
 
 const SelectCreationProcess: React.FC = (): JSX.Element => {
   const theme = useMantineTheme()
   const SearchInputStyles = {
-    fontFamily: theme.secondaryFontFamily,
+    fontFamily: theme.fontFamily,
     fontWeight: 500,
     fontSize: 20,
     lineHeight: 28,
@@ -93,9 +94,13 @@ const SelectCreationProcess: React.FC = (): JSX.Element => {
   return (
     <PageWrapper>
       <Selections>
-        <CateSelector icon={<CreatorIcon />} label='Create a New Entity' onClick={handleCreate} />
         <CateSelector
-          icon={<EntityIcon />}
+          icon={<Image src={IconCreator} alt='Creator' width={5} height={5} color={theme.colors.blue[5]} />}
+          label='Create a New Entity'
+          onClick={handleCreate}
+        />
+        <CateSelector
+          icon={<Image src={IconEntity} alt='Entity' width={5} height={5} color={theme.colors.blue[5]} />}
           label='Clone an Existing Entity'
           active={isClone}
           onClick={(): void => setIsClone((pre) => !pre)}
@@ -109,7 +114,7 @@ const SelectCreationProcess: React.FC = (): JSX.Element => {
             inputValue={existingDid}
             handleChange={setExistingDid}
             placeholder='Type to Search or enter a DID'
-            preIcon={<SearchIcon />}
+            preIcon={<Image src={IconSearch} alt='Search' width={5} height={5} color={theme.colors.blue[5]} />}
             width='400px'
             height='48px'
             style={SearchInputStyles}

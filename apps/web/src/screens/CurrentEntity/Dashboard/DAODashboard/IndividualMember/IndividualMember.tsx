@@ -1,22 +1,22 @@
+import Image from 'next/image'
 import clxs from 'classnames'
-import { FlexBox, GridContainer, GridItem, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { useQuery } from 'hooks/window'
 import React, { useMemo } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { AssetDetailCard, Card } from '../../../Components'
 import { Groups, UserStakes, UserVotingPower, UserProposals } from '../Components'
-import { ReactComponent as ArrowLeftIcon } from '/public/assets/images/icon-arrow-left.svg'
-import { ReactComponent as StakesIcon } from '/public/assets/images/icon-stakes.svg'
-import { ReactComponent as ProposalsIcon } from '/public/assets/images/icon-proposals.svg'
-import { ReactComponent as PieIcon } from '/public/assets/images/icon-pie.svg'
 import { truncateString } from 'utils/formatters'
 import CopyToClipboard from 'react-copy-to-clipboard'
-import { ReactComponent as CopyIcon } from '/public/assets/images/icon-copy.svg'
 import * as Toast from 'utils/toast'
-import { useMantineTheme } from '@mantine/core'
+import { Flex, Grid, useMantineTheme } from '@mantine/core'
 import { useAppSelector } from 'redux/hooks'
 import { getEntityById } from 'redux/entities/entities.selectors'
+import { IconPie } from 'components/IconPaths'
+import { IconStakes } from 'components/IconPaths'
+import { IconArrowLeft } from 'components/IconPaths'
+import { IconProposals } from 'components/IconPaths'
+import { IconCopy } from 'components/IconPaths'
 
 const IndividualMember: React.FC = () => {
   const theme = useMantineTheme()
@@ -40,7 +40,7 @@ const IndividualMember: React.FC = () => {
   )
 
   return (
-    <FlexBox $direction='column' $gap={6} width='100%' color='white'>
+    <Flex direction='column' gap={6} w='100%' color='white'>
       <Groups daoController={daoController} entityId={entityId} />
 
       {selectedDAOGroup && (
@@ -48,24 +48,24 @@ const IndividualMember: React.FC = () => {
           <Typography variant='secondary' size='4xl' weight='normal' color='white'>
             {selectedDAOGroup.config.name}
           </Typography>
-          <FlexBox $alignItems='center' $gap={2}>
+          <Flex align='center' gap={2}>
             <Typography variant='secondary' size='2xl' weight='normal' color='dark-blue'>
               {truncateString(address, 20, 'middle')}
             </Typography>
             <CopyToClipboard text={address} onCopy={() => Toast.successToast(null, `Copied to clipboard`)}>
-              <SvgBox color={theme.ixoDarkBlue} cursor='pointer' hover={{ color: theme.colors.blue[5] }}>
-                <CopyIcon />
-              </SvgBox>
+              <Image src={IconCopy} alt='Copy' width={5} height={5} color={theme.colors.blue[5]} />
             </CopyToClipboard>
-          </FlexBox>
+          </Flex>
 
           {/* expand === 'token' */}
           {selectedDAOGroup.type === 'staking' && (
             <Card
               className={clxs({ 'd-none': expand !== 'token' })}
-              icon={<StakesIcon />}
+              icon={IconStakes}
               label='Stakes'
-              actionIcon={<ArrowLeftIcon />}
+              actionIcon={
+                <Image src={IconArrowLeft} alt='ArrowLeft' width={5} height={5} color={theme.colors.blue[5]} />
+              }
               onAction={() => navigate(-1)}
             >
               <UserStakes show={expand === 'token'} coreAddress={selectedDAOGroup.coreAddress} userAddress={address} />
@@ -75,9 +75,11 @@ const IndividualMember: React.FC = () => {
           {selectedDAOGroup.type === 'membership' && (
             <Card
               className={clxs({ 'd-none': expand !== 'votingPower' })}
-              icon={<PieIcon />}
+              icon={IconPie}
               label='Voting Power'
-              actionIcon={<ArrowLeftIcon />}
+              actionIcon={
+                <Image src={IconArrowLeft} alt='ArrowLeft' width={5} height={5} color={theme.colors.blue[5]} />
+              }
               onAction={() => navigate(-1)}
             >
               <UserVotingPower
@@ -90,9 +92,9 @@ const IndividualMember: React.FC = () => {
           {/* expand === 'proposal' */}
           <Card
             className={clxs({ 'd-none': expand !== 'proposal' })}
-            icon={<ProposalsIcon />}
+            icon={IconProposals}
             label='Proposals'
-            actionIcon={<ArrowLeftIcon />}
+            actionIcon={<Image src={IconArrowLeft} alt='ArrowLeft' width={5} height={5} color={theme.colors.blue[5]} />}
             onAction={() => navigate(-1)}
           >
             <UserProposals
@@ -106,18 +108,11 @@ const IndividualMember: React.FC = () => {
             <AssetDetailCard show={token && tokenDetail} {...tokenDetail} userAddress={address} />
           )}
           {/* !expand && !token */}
-          <GridContainer
-            className={clxs({ 'd-none': expand || token })}
-            $gridTemplateAreas={`"a a b b"`}
-            $gridTemplateColumns={'1fr 1fr 1fr 1fr'}
-            $gridTemplateRows={'repeat(1, minmax(330px, auto))'}
-            $gridGap={6}
-            width='100%'
-          >
-            <GridItem $gridArea='a'>
+          <Grid className={clxs({ 'd-none': expand || token })} columns={4} gutter={6} w='100%'>
+            <Grid.Col span={6}>
               {selectedDAOGroup.type === 'staking' && (
                 <Card
-                  icon={<StakesIcon />}
+                  icon={IconStakes}
                   label='Stakes'
                   onAction={() => navigate({ pathname: pathname, search: `?expand=token` })}
                 >
@@ -131,7 +126,7 @@ const IndividualMember: React.FC = () => {
 
               {selectedDAOGroup.type === 'membership' && (
                 <Card
-                  icon={<PieIcon />}
+                  icon={IconPie}
                   label='Voting Power'
                   onAction={() => navigate({ pathname: pathname, search: `?expand=votingPower` })}
                 >
@@ -142,10 +137,10 @@ const IndividualMember: React.FC = () => {
                   />
                 </Card>
               )}
-            </GridItem>
-            <GridItem $gridArea='b'>
+            </Grid.Col>
+            <Grid.Col span={6}>
               <Card
-                icon={<ProposalsIcon />}
+                icon={IconProposals}
                 label='Proposals'
                 onAction={() => navigate({ pathname: pathname, search: `?expand=proposal` })}
               >
@@ -156,14 +151,14 @@ const IndividualMember: React.FC = () => {
                   full={false}
                 />
               </Card>
-            </GridItem>
+            </Grid.Col>
             {/* <GridItem $gridArea='c'>
               <UserActivity />
-            </GridItem> */}
-          </GridContainer>
+            </Grid.Col> */}
+          </Grid>
         </>
       )}
-    </FlexBox>
+    </Flex>
   )
 }
 

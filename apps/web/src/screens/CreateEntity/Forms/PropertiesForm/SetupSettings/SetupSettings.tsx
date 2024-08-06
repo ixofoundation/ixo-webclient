@@ -1,7 +1,6 @@
-import { Box, FlexBox } from 'components/App/App.styles'
+import Image from 'next/image'
 import { PropertyBox } from 'screens/CreateEntity/Components'
 import React, { useEffect, useState } from 'react'
-import { ReactComponent as PlusIcon } from '/public/assets/images/icon-plus.svg'
 import {
   AddSettingsModal,
   CreatorSetupModal,
@@ -18,6 +17,8 @@ import {
   TEntityServiceModel,
 } from 'types/entities'
 import { EntitySettingsConfig } from 'constants/entity'
+import { IconPlus } from 'components/IconPaths'
+import { Box, Flex, useMantineTheme } from '@mantine/core'
 
 interface Props {
   hidden: boolean
@@ -50,6 +51,7 @@ const SetupSettings: React.FC<Props> = ({
 }): JSX.Element => {
   const [entitySettings, setEntitySettings] = useState<{ [key: string]: any }>(EntitySettingsConfig)
   const [openAddSettingsModal, setOpenAddSettingsModal] = useState(false)
+  const theme = useMantineTheme()
 
   const handleOpenEntitySettingModal = (key: string, open: boolean): void => {
     setEntitySettings((pre: any) => ({
@@ -176,7 +178,7 @@ const SetupSettings: React.FC<Props> = ({
   }
   return (
     <>
-      <FlexBox $direction='column' style={hidden ? { display: 'none' } : {}}>
+      <Flex direction='column' style={hidden ? { display: 'none' } : {}}>
         <Box className='d-flex flex-wrap' style={{ gap: 20 }}>
           {Object.entries(entitySettings)
             .filter(([, value]) => !!value.required || !!value.set)
@@ -192,9 +194,13 @@ const SetupSettings: React.FC<Props> = ({
               />
             ))}
 
-          <PropertyBox icon={<PlusIcon />} noData handleClick={(): void => setOpenAddSettingsModal(true)} />
+          <PropertyBox
+            icon={<Image src={IconPlus} alt='Plus' width={5} height={5} color={theme.colors.blue[5]} />}
+            noData
+            handleClick={(): void => setOpenAddSettingsModal(true)}
+          />
         </Box>
-      </FlexBox>
+      </Flex>
       <AddSettingsModal
         open={openAddSettingsModal}
         onClose={(): void => setOpenAddSettingsModal(false)}

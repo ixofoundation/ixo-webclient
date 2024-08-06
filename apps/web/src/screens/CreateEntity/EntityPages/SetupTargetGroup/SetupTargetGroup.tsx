@@ -1,4 +1,4 @@
-import { FlexBox, SvgBox } from 'components/App/App.styles'
+import Image from 'next/image'
 import { Typography } from 'components/Typography'
 import { deviceWidth } from 'constants/device'
 import React, { useMemo, useState } from 'react'
@@ -8,13 +8,13 @@ import { useAppSelector } from 'redux/hooks'
 import { selectEntitiesByType } from 'redux/entities/entities.selectors'
 import { validateEntityDid } from 'utils/validation'
 import { useAccount } from 'hooks/account'
-import { useMantineTheme } from '@mantine/core'
+import { Flex, useMantineTheme } from '@mantine/core'
 import { Avatar } from 'screens/CurrentEntity/Components'
 import { v4 as uuidv4 } from 'uuid'
 import { TProposalActionModel } from 'types/entities'
-import { ReactComponent as TimesCircleIcon } from '/public/assets/images/icon-times-circle.svg'
-import { ReactComponent as CheckCircleIcon } from '/public/assets/images/icon-check-circle.svg'
 import { useCreateEntityState } from 'hooks/createEntity'
+import { IconCheckCircle } from 'components/IconPaths'
+import { IconTimesCircle } from 'components/IconPaths'
 
 const SetupTargetGroup: React.FC = (): JSX.Element => {
   const theme = useMantineTheme()
@@ -77,9 +77,9 @@ const SetupTargetGroup: React.FC = (): JSX.Element => {
   }
 
   return (
-    <FlexBox width={'100%'} $justifyContent='center'>
-      <FlexBox $direction='column' $gap={15} width={deviceWidth.tablet + 'px'}>
-        <FlexBox $direction='column' width='100%' $gap={4}>
+    <Flex w={'100%'} justify='center'>
+      <Flex direction='column' gap={15} w={deviceWidth.tablet + 'px'}>
+        <Flex direction='column' w='100%' gap={4}>
           <Typography>
             ImpactsDAO is a cooperative of DAOs. If you’re a delegate of a DAO entity that wants to join ImpactsDAO,
             submit a proposal for your DAO to be added.
@@ -91,57 +91,51 @@ const SetupTargetGroup: React.FC = (): JSX.Element => {
             inputValue={daoId}
             handleChange={(value) => setDAOId(value)}
             wrapperStyle={{
-              color: daoId ? (isDelegating ? theme.ixoGreen : theme.ixoRed) : theme.colors.blue[5],
+              color: daoId ? (isDelegating ? theme.colors.green[5] : theme.colors.red[5]) : theme.colors.blue[5],
             }}
           />
           {daoId && !daoEntity && (
-            <FlexBox width='100%' $justifyContent='flex-end' $alignItems='center' $gap={2}>
+            <Flex justify='flex-end' align='center' gap={2}>
               <Typography size='xl'>Not a valid did</Typography>
-              <SvgBox color={theme.ixoRed}>
-                <TimesCircleIcon />
-              </SvgBox>
-            </FlexBox>
+              <Image src={IconTimesCircle} alt='TimesCircle' width={5} height={5} color={theme.colors.blue[5]} />
+            </Flex>
           )}
           {daoId && daoEntity && !isDelegating && (
-            <FlexBox width='100%' $justifyContent='space-between' $alignItems='center'>
-              <FlexBox $alignItems='center' $gap={2}>
+            <Flex justify='space-between' align='center' gap={2}>
+              <Flex align='center' gap={2}>
                 <Avatar url={daoEntity?.profile?.logo} size={60} borderWidth={0} />
                 <Typography size='xl'>{daoEntity?.profile?.name}</Typography>
-              </FlexBox>
-              <FlexBox $alignItems='center' $gap={2}>
+              </Flex>
+              <Flex align='center' gap={2}>
                 <Typography size='xl'>You are not a delegate on this entity</Typography>
-                <SvgBox color={theme.ixoRed}>
-                  <TimesCircleIcon />
-                </SvgBox>
-              </FlexBox>
-            </FlexBox>
+                <Image src={IconTimesCircle} alt='TimesCircle' width={5} height={5} color={theme.colors.red[5]} />
+              </Flex>
+            </Flex>
           )}
           {daoId && daoEntity && isDelegating && (
-            <FlexBox width='100%' $justifyContent='space-between' $alignItems='center'>
-              <FlexBox $alignItems='center' $gap={2}>
+            <Flex justify='space-between' align='center' gap={2}>
+              <Flex align='center' gap={2}>
                 <Avatar url={daoEntity?.profile?.logo} size={60} borderWidth={0} />
                 <Typography size='xl'>{daoEntity?.profile?.name}</Typography>
-              </FlexBox>
-              <FlexBox $alignItems='center' $gap={2}>
+              </Flex>
+              <Flex align='center' gap={2}>
                 <Typography size='xl'>You are a delegate on this entity</Typography>
-                <SvgBox color={theme.ixoGreen}>
-                  <CheckCircleIcon />
-                </SvgBox>
-              </FlexBox>
-            </FlexBox>
+                <Image src={IconCheckCircle} alt='CheckCircle' width={5} height={5} color={theme.colors.green[5]} />
+              </Flex>
+            </Flex>
           )}
-        </FlexBox>
+        </Flex>
 
-        <FlexBox width='100%' $justifyContent='flex-end' $gap={4}>
+        <Flex justify='flex-end' gap={4}>
           <Button variant='secondary' onClick={onBack}>
             Back
           </Button>
           <Button onClick={onContinue} disabled={!isDelegating}>
             Continue
           </Button>
-        </FlexBox>
-      </FlexBox>
-    </FlexBox>
+        </Flex>
+      </Flex>
+    </Flex>
   )
 }
 

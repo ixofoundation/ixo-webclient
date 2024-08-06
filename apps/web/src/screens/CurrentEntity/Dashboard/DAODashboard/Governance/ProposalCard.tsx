@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { contracts } from '@ixo/impactxclient-sdk'
 import { Vote, VoteInfo } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
 import { Badge, Button, Flex, Text } from '@mantine/core'
@@ -7,7 +8,6 @@ import { useAccount } from 'hooks/account'
 import { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { truncateString } from 'utils/formatters'
-import { SvgBox } from 'components/App/App.styles'
 import { SingleChoiceProposal } from '@ixo/impactxclient-sdk/types/codegen/DaoMigrator.types'
 import { VoteModal } from 'components/Modals'
 import { fee } from 'lib/protocol'
@@ -17,27 +17,24 @@ import moment from 'moment'
 import { errorToast, successToast } from 'utils/toast'
 import { formatMinutes } from 'utils/conversions'
 
-import { ReactComponent as SandClockIcon } from '/public/assets/images/icon-sandclock.svg'
-import { ReactComponent as CheckCircleIcon } from '/public/assets/images/icon-check-circle.svg'
-import { ReactComponent as TimesCircleIcon } from '/public/assets/images/icon-times-circle.svg'
-import { ReactComponent as ThumbsUpIcon } from '/public/assets/images/icon-thumbs-up.svg'
-import { ReactComponent as ThumbsDownIcon } from '/public/assets/images/icon-thumbs-down.svg'
-import { ReactComponent as UnlinkIcon } from '/public/assets/images/icon-unlink-solid.svg'
 import { useMantineTheme } from '@mantine/core'
 import { DaoProposalSingleClient } from '@ixo-webclient/cosmwasm-clients'
 import { useWallet } from '@ixo-webclient/wallet-connector'
 import { useAppSelector } from 'redux/hooks'
 import { getEntityById } from 'redux/entities/entities.selectors'
 import { useEntity } from 'hooks/entity/useEntity'
+import { IconTimesCircle } from 'components/IconPaths'
+import { IconThumbsUp } from 'components/IconPaths'
+import { IconThumbsDown } from 'components/IconPaths'
+import { IconCheckCircle } from 'components/IconPaths'
+import { IconUnlinkSolid, IconSandclock } from 'components/IconPaths'
 
 const RemainingBadge: React.FC<{ minutes: number }> = ({ minutes }) => {
   const theme = useMantineTheme()
   return (
-    <Badge w={110} px={8} py={4} style={{ color: theme.ixoLightBlue, backgroundColor: theme.ixoDarkBlue }}>
+    <Badge w={110} px={8} py={4} style={{ color: theme.colors.blue[5], backgroundColor: theme.colors.blue[8] }}>
       <Flex align={'center'} gap={4}>
-        <SvgBox $svgWidth={4} $svgHeight={4}>
-          <SandClockIcon />
-        </SvgBox>
+        <Image src={IconSandclock} alt='SandClock' width={5} height={5} color={theme.colors.blue[5]} />
         <Typography size='sm' transform='none'>
           {/* 3d 4h 12min {moment(4000).format('d h m')} */}
           {formatMinutes(Math.floor(minutes))}
@@ -50,11 +47,9 @@ const RemainingBadge: React.FC<{ minutes: number }> = ({ minutes }) => {
 const PassedBadge: React.FC = () => {
   const theme = useMantineTheme()
   return (
-    <Badge w={110} px={8} py={4} style={{ color: theme.ixoWhite, backgroundColor: theme.colors.blue[5] }}>
+    <Badge w={110} px={8} py={4} color={theme.colors.white[5]} bg={theme.colors.blue[5]}>
       <Flex align={'center'} gap={4}>
-        <SvgBox $svgWidth={4} $svgHeight={4}>
-          <CheckCircleIcon />
-        </SvgBox>
+        <Image src={IconCheckCircle} alt='CheckCircle' width={5} height={5} color={theme.colors.blue[5]} />
         <Typography size='sm' transform='none'>
           Passed
         </Typography>
@@ -66,11 +61,9 @@ const PassedBadge: React.FC = () => {
 const ExecutedBadge: React.FC = () => {
   const theme = useMantineTheme()
   return (
-    <Badge w={110} px={8} py={4} style={{ color: theme.ixoWhite, backgroundColor: theme.ixoGreen }}>
+    <Badge w={110} px={8} py={4} color={theme.colors.white[5]} bg={theme.colors.green[5]}>
       <Flex align={'center'} gap={4}>
-        <SvgBox $svgWidth={4} $svgHeight={4}>
-          <CheckCircleIcon />
-        </SvgBox>
+        <Image src={IconCheckCircle} alt='CheckCircle' width={5} height={5} color={theme.colors.blue[5]} />
         <Typography size='sm' transform='none'>
           Executed
         </Typography>
@@ -82,11 +75,9 @@ const ExecutedBadge: React.FC = () => {
 const RejectedBadge: React.FC = () => {
   const theme = useMantineTheme()
   return (
-    <Badge w={110} px={8} py={4} style={{ color: theme.ixoWhite, backgroundColor: theme.ixoRed }}>
+    <Badge w={110} px={8} py={4} color={theme.colors.white[5]} bg={theme.colors.red[5]}>
       <Flex align={'center'} gap={4}>
-        <SvgBox $svgWidth={4} $svgHeight={4}>
-          <TimesCircleIcon />
-        </SvgBox>
+        <Image src={IconTimesCircle} alt='TimesCircle' width={5} height={5} color={theme.colors.blue[5]} />
         <Typography size='sm' transform='none'>
           Rejected
         </Typography>
@@ -98,11 +89,9 @@ const RejectedBadge: React.FC = () => {
 const FailedBadge: React.FC = () => {
   const theme = useMantineTheme()
   return (
-    <Badge w={110} px={8} py={4} style={{ color: theme.ixoOrange, backgroundColor: theme.ixoDarkBlue }}>
+    <Badge w={110} px={8} py={4} color={theme.colors.orange[5]} bg={theme.colors.blue[8]}>
       <Flex align={'center'} gap={4}>
-        <SvgBox $svgWidth={4} $svgHeight={4}>
-          <UnlinkIcon />
-        </SvgBox>
+        <Image src={IconUnlinkSolid} alt='Unlink' width={5} height={5} color={theme.colors.blue[5]} />
         <Typography size='sm' transform='none'>
           Failed
         </Typography>
@@ -114,11 +103,9 @@ const FailedBadge: React.FC = () => {
 const ClosedBadge: React.FC = () => {
   const theme = useMantineTheme()
   return (
-    <Badge w={110} px={8} py={4} style={{ color: theme.ixoWhite, backgroundColor: theme.ixoLightRed }}>
+    <Badge w={110} px={8} py={4} color={theme.colors.white[5]} bg={theme.colors.red[5]}>
       <Flex align={'center'} gap={4}>
-        <SvgBox $svgWidth={4} $svgHeight={4}>
-          <TimesCircleIcon />
-        </SvgBox>
+        <Image src={IconTimesCircle} alt='TimesCircle' width={5} height={5} color={theme.colors.blue[5]} />
         <Typography size='sm' transform='none'>
           Closed
         </Typography>
@@ -271,13 +258,9 @@ const ProposalCard: React.FC<Props> = ({ coreAddress, proposalId, proposal }) =>
         <Button
           variant='outline'
           color='ixo-blue'
-          leftSection={
-            <SvgBox $svgWidth={5} $svgHeight={5}>
-              <ThumbsUpIcon />
-            </SvgBox>
-          }
+          leftSection={<Image src={IconThumbsUp} alt='ThumbsUp' width={5} height={5} color={theme.colors.blue[5]} />}
           {...(allow_revoting && !isExpired(expiration) ? { onClick: () => setVoteModalOpen(true) } : [])}
-          style={{ color: theme.ixoLightGreen }}
+          style={{ color: theme.colors.green[5] }}
         >
           Yes
         </Button>
@@ -289,12 +272,10 @@ const ProposalCard: React.FC<Props> = ({ coreAddress, proposalId, proposal }) =>
           variant='outline'
           color='ixo-blue.8'
           leftSection={
-            <SvgBox $svgWidth={5} $svgHeight={5}>
-              <ThumbsDownIcon />
-            </SvgBox>
+            <Image src={IconThumbsDown} alt='ThumbsDown' width={5} height={5} color={theme.colors.blue[5]} />
           }
           {...(allow_revoting && !isExpired(expiration) ? { onClick: () => setVoteModalOpen(true) } : [])}
-          style={{ color: theme.ixoLightRed }}
+          style={{ color: theme.colors.red[5] }}
         >
           No
         </Button>

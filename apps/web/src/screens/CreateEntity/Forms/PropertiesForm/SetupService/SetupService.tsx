@@ -1,15 +1,17 @@
-import { Box, FlexBox } from 'components/App/App.styles'
+import Image from 'next/image'
 import { Typography } from 'components/Typography'
 import { PropertyBox } from 'screens/CreateEntity/Components'
 import React, { useState } from 'react'
-import { ReactComponent as PlusIcon } from '/public/assets/images/icon-plus.svg'
 import { AddServiceModal } from 'components/Modals'
+import { IconPlus } from 'components/IconPaths'
+import { Box, Flex, useMantineTheme } from '@mantine/core'
 
 interface Props {
   hidden: boolean
 }
 const SetupService: React.FC<Props> = ({ hidden }): JSX.Element => {
   const [openAddServiceModal, setOpenAddServiceModal] = useState(false)
+  const theme = useMantineTheme()
 
   const handleAddEntityService = (type: string): void => {
     //
@@ -17,7 +19,7 @@ const SetupService: React.FC<Props> = ({ hidden }): JSX.Element => {
 
   return (
     <>
-      <FlexBox $direction='column' style={hidden ? { display: 'none' } : {}}>
+      <Flex direction='column' style={hidden ? { display: 'none' } : {}}>
         <Typography className='mb-3' variant='secondary' size='2xl'>
           Add a Service
         </Typography>
@@ -35,9 +37,13 @@ const SetupService: React.FC<Props> = ({ hidden }): JSX.Element => {
               />
             )
           })} */}
-          <PropertyBox icon={<PlusIcon />} noData handleClick={(): void => setOpenAddServiceModal(true)} />
+          <PropertyBox
+            icon={<Image src={IconPlus} alt='Plus' width={5} height={5} color={theme.colors.blue[5]} />}
+            noData
+            handleClick={(): void => setOpenAddServiceModal(true)}
+          />
         </Box>
-      </FlexBox>
+      </Flex>
 
       <AddServiceModal
         open={openAddServiceModal}

@@ -1,25 +1,27 @@
+import Image from 'next/image'
 import { Typography } from 'components/Typography'
 import { useState } from 'react'
 import { Wrapper } from './SelectAssetType.styles'
 import { CateSelector } from '../../Components'
-import { ReactComponent as ClaimIcon } from '/public/assets/images/icon-claim.svg'
-import { ReactComponent as DeedIcon } from '/public/assets/images/icon-deed.svg'
-import { Flex } from '@mantine/core'
+import { Flex, useMantineTheme } from '@mantine/core'
 import { useNavigate } from 'react-router-dom'
+import { IconClaim } from 'components/IconPaths'
+import { IconDeed } from 'components/IconPaths'
 
 const SelectType = ({ showNavigation = true }: { showNavigation?: boolean }): JSX.Element => {
+  const theme = useMantineTheme()
   const options = [
     {
       type: 'asset-device',
       label: 'Device',
-      icon: <ClaimIcon />,
+      icon: <Image src={IconClaim} alt='Claim' width={5} height={5} color={theme.colors.blue[5]} />,
       description: `A <b>Device</b> is a physical device that can be used to collect data from the user.`,
       disabled: false,
     },
     {
       type: 'asset-learnership',
       label: 'Learnership',
-      icon: <DeedIcon />,
+      icon: <Image src={IconDeed} alt='Deed' width={5} height={5} color={theme.colors.blue[5]} />,
       description: `A <b>Learnership</b> is a type of asset that can be used to collect data from the user.`,
       disabled: false,
     },

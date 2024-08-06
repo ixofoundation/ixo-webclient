@@ -1,17 +1,16 @@
+import Image from 'next/image'
 import { Card } from 'screens/CurrentEntity/Components'
 import React, { useMemo } from 'react'
 import { TDAOGroupModel } from 'types/entities'
 import { Badge, Button, Flex } from '@mantine/core'
 import { Typography } from 'components/Typography'
 import { useMantineTheme } from '@mantine/core'
-import { SvgBox } from 'components/App/App.styles'
 
-import { ReactComponent as AgentIcon } from '/public/assets/img/sidebar/agents.svg'
-import { ReactComponent as SandClockIcon } from '/public/assets/images/icon-sandclock.svg'
 import { expirationAtTimeToSecondsFromNow, formatMinutes } from 'utils/conversions'
 import { diffMinsFromNow } from 'utils/time'
 import { useNavigate } from 'react-router-dom'
 import { useGetDAOByGroupAddress } from 'hooks/dao'
+import { IconSandclock, IconAgentCapability } from 'components/IconPaths'
 
 interface Props {
   daoGroup: TDAOGroupModel
@@ -51,9 +50,7 @@ const ProposalsCard: React.FC<Props> = ({ daoGroup }) => {
         </Flex>
         <Badge bg={'#213E59'} color={theme.colors.blue[5]}>
           <Flex align={'center'} gap={4}>
-            <SvgBox $svgWidth={4} $svgHeight={4}>
-              <SandClockIcon />
-            </SvgBox>
+            <Image src={IconSandclock} alt='SandClock' width={5} height={5} color={theme.colors.blue[5]} />
             <Typography size='sm'>
               {formatMinutes(Math.floor(diffMinsFromNow(mostRecentProposal.proposal.expiration)))}
             </Typography>
@@ -63,7 +60,7 @@ const ProposalsCard: React.FC<Props> = ({ daoGroup }) => {
     )
   }
   return (
-    <Card label='Proposals' icon={<AgentIcon />}>
+    <Card label='Proposals' icon={IconAgentCapability}>
       <Flex w='100%' h={'100%'} direction={'column'} justify={'space-between'}>
         <Flex w={'100%'} />
 

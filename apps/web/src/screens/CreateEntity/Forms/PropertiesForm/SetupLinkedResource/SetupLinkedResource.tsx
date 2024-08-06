@@ -1,14 +1,15 @@
-import { Box, FlexBox } from 'components/App/App.styles'
+import Image from 'next/image'
 import { AddLinkedResourceModal, LinkedResourceSetupModal } from 'components/Modals'
 import { PropertyBox } from 'screens/CreateEntity/Components'
 import React, { useState } from 'react'
 // import { omitKey } from 'utils/objects'
 import { v4 as uuidv4 } from 'uuid'
-import { ReactComponent as PlusIcon } from '/public/assets/images/icon-plus.svg'
 import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { omitKey } from 'utils/objects'
 import { EntityLinkedResourceConfig } from 'constants/entity'
 import ProposalActionModal from 'components/Modals/ProposalActionModal/ProposalActionModal'
+import { IconPlus } from 'components/IconPaths'
+import { Box, Flex, useMantineTheme } from '@mantine/core'
 
 const initialLinkedResource = {
   id: '',
@@ -30,6 +31,7 @@ interface Props {
 const SetupLinkedResource: React.FC<Props> = ({ hidden, linkedResource, updateLinkedResource }): JSX.Element => {
   const [openAddLinkedResourceModal, setOpenAddLinkedResourceModal] = useState(false)
   const [selectedId, setSelectedId] = useState('')
+  const theme = useMantineTheme()
 
   const handleAddLinkedResource = (type: string): void => {
     if (
@@ -53,7 +55,7 @@ const SetupLinkedResource: React.FC<Props> = ({ hidden, linkedResource, updateLi
 
   return (
     <>
-      <FlexBox $direction='column' style={hidden ? { display: 'none' } : {}}>
+      <Flex direction='column' style={hidden ? { display: 'none' } : {}}>
         <Box className='d-flex flex-wrap' style={{ gap: 20 }}>
           {Object.entries(linkedResource)
             .filter(([key, value]) => value)
@@ -72,9 +74,13 @@ const SetupLinkedResource: React.FC<Props> = ({ hidden, linkedResource, updateLi
                 />
               )
             })}
-          <PropertyBox icon={<PlusIcon />} noData handleClick={(): void => setOpenAddLinkedResourceModal(true)} />
+          <PropertyBox
+            icon={<Image src={IconPlus} alt='Plus' width={5} height={5} color={theme.colors.blue[5]} />}
+            noData
+            handleClick={(): void => setOpenAddLinkedResourceModal(true)}
+          />
         </Box>
-      </FlexBox>
+      </Flex>
       <AddLinkedResourceModal
         open={openAddLinkedResourceModal}
         onClose={(): void => setOpenAddLinkedResourceModal(false)}

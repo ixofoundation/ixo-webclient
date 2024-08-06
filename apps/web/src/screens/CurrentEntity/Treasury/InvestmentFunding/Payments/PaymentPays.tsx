@@ -1,55 +1,69 @@
+import Image from 'next/image'
 import React, { useMemo } from 'react'
-import styled, { useTheme } from 'styled-components'
 import { Table } from 'components/Table'
 import { Coin } from '@cosmjs/proto-signing'
 import { useIxoConfigs } from 'hooks/configs'
 import BigNumber from 'bignumber.js'
 import moment from 'moment'
-import { ReactComponent as EyeIcon } from '/public/assets/images/icon-eye.svg'
-import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { renderTableHeader } from 'components/Table/Table'
+import { IconEye } from 'components/IconPaths'
+import { Box, Flex, useMantineTheme } from '@mantine/core'
+import { createStyles } from '@mantine/emotion'
 
-const TableWrapper = styled(FlexBox)`
-  color: white;
-  width: 100%;
+const useStyles = createStyles((theme) => ({
+  tableWrapper: {
+    color: theme.white,
+    width: '100%',
+    borderRadius: theme.radius.md,
+    border: `1px solid ${theme.colors.blue[9]}`,
+    background: 'linear-gradient(180deg, #012639 0%, #002D42 97.29%)',
+    boxShadow: '0px 2px 10px 0px rgba(0, 0, 0, 0.18)',
+    padding: theme.spacing.md,
 
-  table {
-    width: 100%;
-    border-spacing: 0 8px;
-    border-collapse: separate;
+    '& table': {
+      width: '100%',
+      borderSpacing: '0 8px',
+      borderCollapse: 'separate',
 
-    th,
-    td {
-      height: inherit;
-      overflow: hidden;
-    }
+      '& th, & td': {
+        height: 'inherit',
+        overflow: 'hidden',
+      },
 
-    tbody > tr {
-      border-radius: 8px;
-      outline-style: solid;
-      outline-width: 1px;
-      outline-color: transparent;
-      transition: all 0.2s;
+      '& tbody > tr': {
+        borderRadius: theme.radius.md,
+        outlineStyle: 'solid',
+        outlineWidth: 1,
+        outlineColor: 'transparent',
+        transition: 'all 0.2s',
 
-      & > td:first-child {
-        border-top-left-radius: 8px;
-        border-bottom-left-radius: 8px;
-      }
-      & > td:last-child {
-        border-top-right-radius: 8px;
-        border-bottom-right-radius: 8px;
-        width: 250px;
-      }
+        '& > td:first-child': {
+          borderTopLeftRadius: theme.radius.md,
+          borderBottomLeftRadius: theme.radius.md,
+        },
+        '& > td:last-child': {
+          borderTopRightRadius: theme.radius.md,
+          borderBottomRightRadius: theme.radius.md,
+          width: 250,
+        },
 
-      &:hover {
-        outline-color: ${(props) => props.theme.colors.blue[5]};
-      }
-    }
-  }
-`
+        '&:hover': {
+          outlineColor: theme.colors.blue[5],
+        },
+      },
+    },
+  },
+  noTransactions: {
+    width: '100%',
+    height: 80,
+    borderRadius: theme.radius.md,
+    background: theme.colors.blue[9],
+  },
+}))
 
 const PaymentPays: React.FC = () => {
+  const { classes } = useStyles()
   const theme = useMantineTheme()
   const { convertToDenom } = useIxoConfigs()
   const paymentPays: any[] = []
@@ -61,15 +75,15 @@ const PaymentPays: React.FC = () => {
         accessor: 'timestamp',
         renderCell: (cell: any) => {
           const timestamp = cell.value
-          const date = moment(timestamp).format('DD MMM ‘YY')
+          const date = moment(timestamp).format('DD MMM YY')
           const time = moment(timestamp).format('hh:mm')
           return (
-            <FlexBox $direction='column' $gap={1} p={4}>
+            <Flex direction='column' gap='xs' p='xs'>
               <Typography size='lg'>{date}</Typography>
-              <Typography size='sm' color='light-blue'>
+              <Typography size='sm' color='blue.3'>
                 {time}
               </Typography>
-            </FlexBox>
+            </Flex>
           )
         },
       },
@@ -78,7 +92,7 @@ const PaymentPays: React.FC = () => {
         accessor: 'type',
         renderCell: (cell: any) => {
           const type = cell.value
-          let color: any = undefined
+          let color: string | undefined = undefined
 
           switch (type) {
             case 'buy':
@@ -91,11 +105,11 @@ const PaymentPays: React.FC = () => {
               break
           }
           return (
-            <FlexBox $direction='column' p={4}>
-              <Typography size='base' transform='capitalize' weight='bold' {...(color ? { color } : [])}>
+            <Box p='xs'>
+              <Typography size='base' transform='capitalize' weight='bold' color={color}>
                 {cell.value}
               </Typography>
-            </FlexBox>
+            </Box>
           )
         },
       },
@@ -105,9 +119,9 @@ const PaymentPays: React.FC = () => {
         renderCell: (cell: any) => {
           const amount = (cell.value as Coin)?.amount || 0
           return (
-            <FlexBox $direction='column' p={4}>
+            <Box p='xs'>
               <Typography size='lg'>{amount}</Typography>
-            </FlexBox>
+            </Box>
           )
         },
       },
@@ -124,9 +138,9 @@ const PaymentPays: React.FC = () => {
           }).format(Number(pricePerToken))
 
           return (
-            <FlexBox $direction='column' p={4}>
+            <Box p='xs'>
               <Typography size='lg'>{formattedPricePerToken}</Typography>
-            </FlexBox>
+            </Box>
           )
         },
       },
@@ -141,36 +155,30 @@ const PaymentPays: React.FC = () => {
           }).format(Number(price?.amount || '0'))
 
           return (
-            <FlexBox $justifyContent='flex-end' $alignItems='stretch' width='250px' height='100%'>
-              <FlexBox
-                height='100%'
-                $justifyContent='center'
-                $alignItems='center'
-                p={4}
-                background={theme.ixoNavyBlue}
-                style={{ flex: 1 }}
-              >
+            <Flex justify='flex-end' align='stretch' style={{ width: 250, height: '100%' }}>
+              <Flex justify='center' align='center' p='xs' style={{ flex: 1, background: theme.colors.blue[9] }}>
                 <Typography weight='bold'>
                   {formattedPriceAmount} {price?.denom.toUpperCase()}
                 </Typography>
-              </FlexBox>
-              <SvgBox
-                width='60px'
-                height='100%'
-                $justifyContent='center'
-                $alignItems='center'
-                background={theme.ixoMediumBlue}
-                color='white'
-                hover={{ color: theme.colors.blue[5] }}
+              </Flex>
+              <Flex
+                justify='center'
+                align='center'
+                w={60}
+                style={{
+                  background: theme.colors.blue[7],
+                  color: theme.white,
+                  '&:hover': { color: theme.colors.blue[5] },
+                }}
               >
-                <EyeIcon />
-              </SvgBox>
-            </FlexBox>
+                <Image src={IconEye} alt='Eye' width={20} height={20} />
+              </Flex>
+            </Flex>
           )
         },
       },
     ],
-    [convertToDenom, theme],
+    [convertToDenom, theme.colors],
   )
 
   const onRowClick = (state: any) => () => {
@@ -178,15 +186,7 @@ const PaymentPays: React.FC = () => {
   }
 
   return (
-    <TableWrapper
-      width='100%'
-      $direction='column'
-      $borderRadius='4px'
-      border={`1px solid #0C3549`}
-      background='linear-gradient(180deg, #012639 0%, #002D42 97.29%)'
-      $boxShadow='0px 2px 10px 0px rgba(0, 0, 0, 0.18)'
-      p={4}
-    >
+    <Box className={classes.tableWrapper}>
       <Table
         columns={columns}
         data={paymentPays}
@@ -194,23 +194,16 @@ const PaymentPays: React.FC = () => {
           style: { height: 70, cursor: 'pointer' },
           onClick: onRowClick(state),
         })}
-        getCellProps={() => ({ style: { background: '#023044' } })}
+        getCellProps={() => ({ style: { background: theme.colors.blue[8] } })}
       />
       {paymentPays.length === 0 && (
-        <FlexBox
-          width='100%'
-          height='80px'
-          $alignItems='center'
-          $justifyContent='center'
-          $borderRadius='8px'
-          background='#053549'
-        >
-          <Typography variant='primary' size='lg' color='dark-blue'>
+        <Flex className={classes.noTransactions} align='center' justify='center'>
+          <Typography variant='primary' size='lg' color='blue.3'>
             No Transactions
           </Typography>
-        </FlexBox>
+        </Flex>
       )}
-    </TableWrapper>
+    </Box>
   )
 }
 

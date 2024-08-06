@@ -1,92 +1,95 @@
-import { Box, SvgBox } from 'components/App/App.styles'
+import Image from 'next/image'
 import { Typography } from 'components/Typography'
-import React, { useMemo } from 'react'
-import styled from 'styled-components'
-import { ReactComponent as LockIcon } from '/public/assets/images/icon-lock.svg'
-import { ReactComponent as BinIcon } from '/public/assets/images/icon-trash-can.svg'
+import React, { ReactNode, useMemo } from 'react'
+import { IconLock, IconTrash } from 'components/IconPaths'
+import { Box, useMantineTheme } from '@mantine/core'
+import { createStyles } from '@mantine/emotion'
 
-const Wrapper = styled.div`
-  position: relative;
+interface StyleProps {
+  disabled: boolean
+  size: number
+  status: 'hover' | 'full' | 'init' | 'req'
+}
 
-  & .action {
-    position: absolute;
-    top: 6px;
-    right: 6px;
-    padding: 5px;
-    transform: translate(50%, -50%);
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    background: #bcbfc0;
+const useStyles = createStyles((theme, { disabled, size, status }: StyleProps) => ({
+  wrapper: {
+    position: 'relative',
 
-    display: none;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    transition: all 0.2s;
+    '& .action': {
+      position: 'absolute',
+      top: 6,
+      right: 6,
+      padding: 5,
+      transform: 'translate(50%, -50%)',
+      width: 24,
+      height: 24,
+      borderRadius: '50%',
+      background: '#bcbfc0',
 
-    &:hover {
-      background: ${(props): string => props.theme.colors.blue[5]};
-    }
-  }
+      display: 'none',
+      justifyContent: 'center',
+      alignItems: 'center',
+      cursor: 'pointer',
+      transition: 'all 0.2s',
 
-  &:hover .action {
-    display: flex;
-  }
-`
+      '&:hover': {
+        background: theme.colors.blue[5],
+      },
+    },
 
-const Body = styled.div<{ disabled: boolean; size: number; status: 'hover' | 'full' | 'init' | 'req' }>`
-  border-radius: 8px;
-  width: ${(props): number => props.size}px;
-  height: ${(props): number => props.size}px;
-  pointer-events: ${(props): string => (props.disabled ? 'none' : 'auto')};
-  padding: 0.5rem;
+    '&:hover .action': {
+      display: 'flex',
+    },
+  },
 
-  background-color: ${({ status = 'init', theme }): string => {
-    switch (status) {
-      case 'hover':
-        return theme.colors.blue[5]
-      case 'full':
-        return theme.ixoDarkBlue
-      case 'req':
-        return theme.ixoGrey700
-      case 'init':
-      default:
-        return theme.ixoGrey300
-    }
-  }};
+  body: {
+    borderRadius: 8,
+    width: size,
+    height: size,
+    pointerEvents: disabled ? 'none' : 'auto',
+    padding: '0.5rem',
 
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  gap: 10px;
-  transition: all 0.2s;
-  cursor: pointer;
+    backgroundColor:
+      status === 'hover'
+        ? theme.colors.blue[5]
+        : status === 'full'
+          ? theme.colors.dark[7]
+          : status === 'req'
+            ? theme.colors.gray[7]
+            : theme.colors.gray[3],
 
-  & > svg {
-    width: 42px;
-    height: 42px;
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlign: 'center',
+    gap: 10,
+    transition: 'all 0.2s',
+    cursor: 'pointer',
 
-    path {
-      fill: ${(props): string => props.theme.ixoWhite};
-    }
-  }
+    '& > svg': {
+      width: 42,
+      height: 42,
 
-  & > span {
-    text-overflow: ellipsis;
-    max-width: 80%;
-    overflow: hidden;
-  }
+      '& path': {
+        fill: theme.white,
+      },
+    },
 
-  &:hover {
-    background: ${(props): string => props.theme.colors.blue[5]};
-  }
-`
+    '& > span': {
+      textOverflow: 'ellipsis',
+      maxWidth: '80%',
+      overflow: 'hidden',
+    },
+
+    '&:hover': {
+      background: theme.colors.blue[5],
+    },
+  },
+}))
 
 export interface Props {
-  icon?: JSX.Element
+  icon?: ReactNode
   required?: boolean
   inherited?: boolean
   set?: boolean
@@ -112,53 +115,40 @@ const PropertyBox: React.FC<Props> = ({
   handleClick,
   handleRemove,
 }): JSX.Element => {
+  const theme = useMantineTheme()
   const status: 'hover' | 'full' | 'init' | 'req' = useMemo(() => {
-    if (hovered) {
-      return 'hover'
-    }
-    if (inherited) {
-      return 'full'
-    }
-    if (disabled) {
-      return 'init'
-    }
-    if (set) {
-      return 'full'
-    }
-    if (required) {
-      return 'req'
-    }
-    if (noData) {
-      return 'init'
-    }
+    if (hovered) return 'hover'
+    if (inherited) return 'full'
+    if (disabled) return 'init'
+    if (set) return 'full'
+    if (required) return 'req'
+    if (noData) return 'init'
     return 'req'
   }, [disabled, inherited, required, set, hovered, noData])
 
+  const { classes } = useStyles({ disabled, size, status })
+
   return (
-    <Wrapper>
+    <Box className={classes.wrapper}>
       {!inherited && !required && handleRemove && (
         <Box className='action' onClick={handleRemove}>
-          <SvgBox $svgWidth={6} $svgHeight={6} color='transparent'>
-            <BinIcon />
-          </SvgBox>
+          <Image src={IconTrash} alt='Bin' width={5} height={5} color={theme.colors.blue[5]} />
         </Box>
       )}
       {inherited && (
         <Box className='action'>
-          <SvgBox $svgWidth={4} $svgHeight={4} color='white'>
-            <LockIcon />
-          </SvgBox>
+          <Image src={IconLock} alt='Lock' width={5} height={5} color={theme.colors.blue[5]} />
         </Box>
       )}
-      <Body disabled={disabled} size={size} status={status} onClick={handleClick && handleClick}>
+      <Box className={classes.body} onClick={handleClick}>
         {icon && icon}
         {label && (
           <Typography size='md' weight='bold' color='white'>
             {label}
           </Typography>
         )}
-      </Body>
-    </Wrapper>
+      </Box>
+    </Box>
   )
 }
 

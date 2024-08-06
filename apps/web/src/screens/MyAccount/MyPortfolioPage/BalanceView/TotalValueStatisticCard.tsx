@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { Flex } from '@mantine/core'
 import BigNumber from 'bignumber.js'
 import { Typography } from 'components/Typography'
@@ -6,9 +7,8 @@ import React from 'react'
 import CurrencyFormat from 'react-currency-format'
 import { useMantineTheme } from '@mantine/core'
 import { ResponsiveContainer, Line, LineChart } from 'recharts'
-import { SvgBox } from 'components/App/App.styles'
-import { ReactComponent as CoinsIcon } from '/public/assets/images/icon-coins-solid.svg'
 import { useAccountStakedBalances, useAccountUSDBalances } from 'hooks/account'
+import { IconCoinsSolid } from 'components/IconPaths'
 
 const data = [
   {
@@ -87,7 +87,7 @@ const TotalValueStatisticCard: React.FC = () => {
         </Flex>
       </Flex>
 
-      <Flex w='100%' h='270px' direction='column' justify='center' align='center' color={theme.ixoDarkBlue}>
+      <Flex w='100%' h='270px' direction='column' justify='center' align='center' color={theme.colors.blue[8]}>
         {new BigNumber(totalValue).isGreaterThan(0) ? (
           <ResponsiveContainer width='100%' height='100%'>
             <LineChart data={data}>
@@ -96,9 +96,7 @@ const TotalValueStatisticCard: React.FC = () => {
           </ResponsiveContainer>
         ) : (
           <>
-            <SvgBox $svgWidth={10} $svgHeight={10} color={theme.ixoDarkBlue} mb={4}>
-              <CoinsIcon />
-            </SvgBox>
+            <Image src={IconCoinsSolid} alt='Coins' width={5} height={5} color={theme.colors.blue[8]} />
             <Typography variant='secondary' size='2xl'>
               No Assets were found.
             </Typography>

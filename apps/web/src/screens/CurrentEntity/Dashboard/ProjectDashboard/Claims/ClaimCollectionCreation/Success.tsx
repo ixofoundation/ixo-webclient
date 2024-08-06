@@ -1,10 +1,10 @@
-import { FlexBox, SvgBox } from 'components/App/App.styles'
+import Image from 'next/image'
 import { deviceWidth } from 'constants/device'
 import { Button } from 'screens/CreateEntity/Components'
 import React from 'react'
-import { ReactComponent as CheckCircleIcon } from '/public/assets/images/icon-check-circle.svg'
-import { useMantineTheme } from '@mantine/core'
+import { Flex, useMantineTheme } from '@mantine/core'
 import { Typography } from 'components/Typography'
+import { IconCheckCircle } from 'components/IconPaths'
 
 interface Props {
   hidden?: boolean
@@ -19,23 +19,21 @@ const ClaimCollectionCreationSuccessStep: React.FC<Props> = ({ hidden, onSubmit 
   }
 
   return (
-    <FlexBox $direction='column'>
-      <FlexBox $direction='column' $gap={9} width={deviceWidth.tablet + 'px'} mb={40}>
-        <SvgBox $svgWidth={30} $svgHeight={30} color={theme.ixoLightGreen}>
-          <CheckCircleIcon />
-        </SvgBox>
+    <Flex direction='column'>
+      <Flex direction='column' gap={9} w={deviceWidth.tablet + 'px'} mb={40}>
+        <Image src={IconCheckCircle} alt='CheckCircle' width={5} height={5} color={theme.colors.green[3]} />
 
         <Typography color='green'>Claim Collection successfully created!</Typography>
 
-        <FlexBox width='100%' height='1px' background={theme.ixoGrey300} />
-      </FlexBox>
+        <Flex w='100%' h='1px' bg={theme.colors.grey[3]} />
+      </Flex>
 
-      <FlexBox $gap={5}>
+      <Flex gap={5}>
         <Button variant='primary' size='flex' width={300} onClick={onSubmit}>
           Back to Dashboard
         </Button>
-      </FlexBox>
-    </FlexBox>
+      </Flex>
+    </Flex>
   )
 }
 

@@ -1,12 +1,13 @@
-import { Box, FlexBox } from 'components/App/App.styles'
+import Image from 'next/image'
 import { AddAccordedRightModal, PaymentsSetupModal } from 'components/Modals'
 import { PropertyBox } from 'screens/CreateEntity/Components'
 import React, { useEffect, useState } from 'react'
 import { TEntityPaymentModel } from 'types/entities'
 import { omitKey } from 'utils/objects'
-import { ReactComponent as PlusIcon } from '/public/assets/images/icon-plus.svg'
 import { AccordedRight } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { EntityAccordedRightConfig } from 'constants/entity'
+import { IconPlus } from 'components/IconPaths'
+import { Box, Flex, useMantineTheme } from '@mantine/core'
 
 interface Props {
   hidden: boolean
@@ -17,6 +18,7 @@ interface Props {
 const SetupAccordedRight: React.FC<Props> = ({ hidden, accordedRight, updateAccordedRight }): JSX.Element => {
   const [entityAccordedRight, setEntityAccordedRight] = useState<{ [key: string]: any }>({})
   const [openAddAccordedRightModal, setOpenAddAccordedRightModal] = useState(false)
+  const theme = useMantineTheme()
 
   // popups - accorded rights modal
   const handleOpenEntityAccordedRightModal = (key: string, open: boolean): void => {
@@ -59,7 +61,7 @@ const SetupAccordedRight: React.FC<Props> = ({ hidden, accordedRight, updateAcco
 
   return (
     <>
-      <FlexBox $direction='column' style={hidden ? { display: 'none' } : {}}>
+      <Flex direction='column' style={hidden ? { display: 'none' } : {}}>
         <Box className='d-flex flex-wrap' style={{ gap: 20 }}>
           {Object.entries(accordedRight).map(([key, value]) => {
             const Icon = EntityAccordedRightConfig[key]?.icon
@@ -75,9 +77,13 @@ const SetupAccordedRight: React.FC<Props> = ({ hidden, accordedRight, updateAcco
               />
             )
           })}
-          <PropertyBox icon={<PlusIcon />} noData handleClick={(): void => setOpenAddAccordedRightModal(true)} />
+          <PropertyBox
+            icon={<Image src={IconPlus} alt='Plus' width={5} height={5} color={theme.colors.blue[5]} />}
+            noData
+            handleClick={(): void => setOpenAddAccordedRightModal(true)}
+          />
         </Box>
-      </FlexBox>
+      </Flex>
       <AddAccordedRightModal
         open={openAddAccordedRightModal}
         onClose={(): void => setOpenAddAccordedRightModal(false)}

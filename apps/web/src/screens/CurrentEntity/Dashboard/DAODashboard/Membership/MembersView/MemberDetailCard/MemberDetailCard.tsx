@@ -1,10 +1,10 @@
-import { Box, FlexBox, SvgBox } from 'components/App/App.styles'
+import Image from 'next/image'
 import { Typography } from 'components/Typography'
 import React, { useEffect, useState } from 'react'
-import { ReactComponent as ProfileIcon } from '/public/assets/images/icon-profile.svg'
-import { ReactComponent as TimesIcon } from '/public/assets/images/icon-times.svg'
 import { Button, RangeInput, Switch } from 'screens/CreateEntity/Components'
-import { useMantineTheme } from '@mantine/core'
+import { Box, Flex, useMantineTheme } from '@mantine/core'
+import { IconTimes } from 'components/IconPaths'
+import { IconProfile } from 'components/IconPaths'
 
 interface Props {
   member: {
@@ -55,33 +55,25 @@ const MemberDetailCard: React.FC<Props> = ({ member, onClose }): JSX.Element => 
   }
 
   return (
-    <FlexBox
-      $minWidth='240px'
-      width='100%'
-      height='320px'
-      padding={5}
-      $direction={'column'}
-      $justifyContent={'space-between'}
-      $gap={4.5}
-      background='white'
-      $borderRadius='12px'
-      $borderWidth='2px'
-      $borderStyle='solid'
-      $borderColor='white'
+    <Flex
+      miw='240px'
+      w='100%'
+      h='320px'
+      p={5}
+      direction={'column'}
+      justify={'space-between'}
+      gap={4.5}
+      bg='white'
+      style={{ borderRadius: '12px', borderWidth: '2px', borderStyle: 'solid', borderColor: 'white' }}
       onClick={(event) => event.stopPropagation()}
     >
-      <FlexBox width='100%' $alignItems='center' $justifyContent='space-between'>
-        <SvgBox $svgWidth={6} $svgHeight={6} color={theme.colors.blue[5]}>
-          <ProfileIcon />
-        </SvgBox>
+      <Flex w='100%' align='center' justify='space-between'>
+        <Image src={IconProfile} alt='Profile' width={5} height={5} color={theme.colors.blue[5]} />
+        <Image src={IconTimes} alt='Times' width={5} height={5} color={theme.colors.blue[5]} />
+      </Flex>
 
-        <SvgBox $svgWidth={6} $svgHeight={6} color={theme.ixoBlack} cursor='pointer' onClick={onClose}>
-          <TimesIcon />
-        </SvgBox>
-      </FlexBox>
-
-      <FlexBox $direction='column' $gap={3} width='100%'>
-        <FlexBox width='100%' $justifyContent='space-between' $alignItems='center'>
+      <Flex direction='column' gap={3} w='100%'>
+        <Flex w='100%' justify='space-between' align='center'>
           <Typography size='md'>Approved</Typography>
           <Switch
             size='sm'
@@ -90,25 +82,25 @@ const MemberDetailCard: React.FC<Props> = ({ member, onClose }): JSX.Element => 
               setStatus((status) => (status === 'rejected' ? 'approved' : status === 'approved' ? 'rejected' : status))
             }
           />
-        </FlexBox>
+        </Flex>
 
-        <FlexBox width='100%' $justifyContent='space-between' $alignItems='center'>
+        <Flex w='100%' justify='space-between' align='center'>
           <Typography size='md'>Verified</Typography>
           <Switch size='sm' value={verified!} onChange={setVerified} />
-        </FlexBox>
+        </Flex>
 
-        <FlexBox width='100%' $justifyContent='space-between' $alignItems='center'>
+        <Flex w='100%' justify='space-between' align='center'>
           <Typography size='md'>Administrator</Typography>
           <Switch size='sm' value={administrator!} onChange={setAdministrator} />
-        </FlexBox>
+        </Flex>
 
-        <FlexBox width='100%' $justifyContent='space-between' $alignItems='center'>
+        <Flex w='100%' justify='space-between' align='center'>
           <Typography size='md' color='blue'>
             Remove
           </Typography>
-        </FlexBox>
+        </Flex>
 
-        <FlexBox width='100%' $justifyContent='space-between' $alignItems='center'>
+        <Flex w='100%' justify='space-between' align='center'>
           <Typography size='md'>Voting Power</Typography>
           <Typography size='md' weight='bold'>
             {new Intl.NumberFormat('en-us', {
@@ -117,30 +109,37 @@ const MemberDetailCard: React.FC<Props> = ({ member, onClose }): JSX.Element => 
               maximumFractionDigits: 2,
             }).format(votingPower ?? 0)}
           </Typography>
-        </FlexBox>
+        </Flex>
 
-        <FlexBox width='100%' $justifyContent='space-between' $alignItems='center'>
+        <Flex w='100%' justify='space-between' align='center'>
           <Typography size='md'>Assigned Authority</Typography>
-          <Box $borderRadius='6px' background={theme.ixoGrey300} $paddingLeft={1.5} $paddingRight={1.5}>
+          <Box
+            style={{
+              borderRadius: '6px',
+              background: theme.colors.gray[3],
+              paddingLeft: '1.5px',
+              paddingRight: '1.5px',
+            }}
+          >
             <Typography size='md' weight='bold' color='blue'>
               {assignedAuthority ?? 0}%
             </Typography>
           </Box>
-        </FlexBox>
+        </Flex>
 
-        <FlexBox width='100%'>
+        <Flex w='100%'>
           <RangeInput value={assignedAuthority ?? 0} onChange={setAssignedAuthority} />
-        </FlexBox>
-      </FlexBox>
+        </Flex>
+      </Flex>
 
-      <FlexBox width='100%'>
+      <Flex w='100%'>
         <Button size='sm' onClick={handleSign} style={{ width: '100%' }}>
           <Typography weight='bold' color='white' transform='none'>
             Sign and apply
           </Typography>
         </Button>
-      </FlexBox>
-    </FlexBox>
+      </Flex>
+    </Flex>
   )
 }
 
