@@ -1,11 +1,11 @@
+import Image from 'next/image'
 import { ResponsiveContainer, Line, LineChart } from 'recharts'
-import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import React from 'react'
 import CurrencyFormat from 'react-currency-format'
-import { ReactComponent as CoinsIcon } from '/public/assets/images/icon-coins-solid.svg'
-import { useMantineTheme } from '@mantine/core'
+import { Flex, useMantineTheme } from '@mantine/core'
 import BigNumber from 'bignumber.js'
+import { IconCoinsSolid } from 'components/IconPaths'
 
 const data = [
   {
@@ -48,52 +48,45 @@ const BalanceCard: React.FC<Props> = ({ availableValue = '0', stakedValue = '0.0
   const totalValue = new BigNumber(availableValue).plus(new BigNumber(stakedValue)).toFixed(2)
 
   return (
-    <FlexBox $direction='column' $gap={4} p={8} background='#012D41' $borderRadius='12px' color={theme.ixoWhite}>
+    <Flex direction='column' gap={4} p={8} bg='#012D41' style={{ borderRadius: '12px' }} color={theme.colors.white[5]}>
       {/* Total Value */}
-      <FlexBox>
+      <Flex>
         <Typography variant='secondary' size='2xl'>
           Total Value
         </Typography>
-      </FlexBox>
+      </Flex>
 
-      <FlexBox>
+      <Flex>
         <Typography variant='secondary' color='dark-blue'>
           Includes the estimated current balance of Group and Linked accounts
         </Typography>
-      </FlexBox>
+      </Flex>
 
-      <FlexBox width='100%' $justifyContent='space-between' $alignItems='end'>
+      <Flex w='100%' justify='space-between' align='end'>
         <Typography variant='secondary' size='4xl'>
           <CurrencyFormat prefix='$' displayType={'text'} value={totalValue} thousandSeparator decimalScale={2} />
         </Typography>
 
-        <FlexBox $direction='column'>
+        <Flex direction='column'>
           <Typography variant='secondary'>
             <CurrencyFormat prefix='$' displayType={'text'} value={availableValue} thousandSeparator decimalScale={2} />
           </Typography>
           <Typography variant='secondary' size='md' color='dark-blue'>
             Available
           </Typography>
-        </FlexBox>
+        </Flex>
 
-        <FlexBox $direction='column'>
+        <Flex direction='column'>
           <Typography variant='secondary'>
             <CurrencyFormat prefix='$' displayType={'text'} value={stakedValue} thousandSeparator decimalScale={2} />
           </Typography>
           <Typography variant='secondary' size='md' color='dark-blue'>
             Staked
           </Typography>
-        </FlexBox>
-      </FlexBox>
+        </Flex>
+      </Flex>
 
-      <FlexBox
-        width='100%'
-        height='270px'
-        $direction='column'
-        $justifyContent='center'
-        $alignItems='center'
-        color={theme.ixoDarkBlue}
-      >
+      <Flex w='100%' h='270px' direction='column' justify='center' align='center' color={theme.colors.blue[5]}>
         {new BigNumber(totalValue).isGreaterThan(0) ? (
           <ResponsiveContainer width='99%' height='270px'>
             <LineChart data={data}>
@@ -102,16 +95,14 @@ const BalanceCard: React.FC<Props> = ({ availableValue = '0', stakedValue = '0.0
           </ResponsiveContainer>
         ) : (
           <>
-            <SvgBox $svgWidth={10} $svgHeight={10} color={theme.ixoDarkBlue} mb={4}>
-              <CoinsIcon />
-            </SvgBox>
+            <Image src={IconCoinsSolid} alt='Coins' width={5} height={5} color={theme.colors.blue[5]} />
             <Typography variant='secondary' size='2xl'>
               No Treasury Assets could be found
             </Typography>
           </>
         )}
-      </FlexBox>
-    </FlexBox>
+      </Flex>
+    </Flex>
   )
 }
 

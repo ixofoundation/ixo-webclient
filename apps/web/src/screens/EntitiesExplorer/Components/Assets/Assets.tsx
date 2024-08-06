@@ -1,22 +1,18 @@
-import { FlexBox, SvgBox } from 'components/App/App.styles'
+import Image from 'next/image'
 import { Button } from 'screens/CreateEntity/Components'
 import React, { useMemo, useState } from 'react'
 import { TButtonProps } from 'screens/CreateEntity/Components/Button'
 import AssetCard from './AssetCard'
 import { AssetCardSelection, AssetCardWrapper } from './AssetCard.styles'
 
-import { ReactComponent as PlusIcon } from '/public/assets/images/icon-plus.svg'
-import { ReactComponent as WalletIcon } from '/public/assets/images/icon-wallet-solid.svg'
-import { ReactComponent as CloseIcon } from '/public/assets/images/icon-close.svg'
-import { ReactComponent as GlobeIcon } from '/public/assets/images/icon-globe.svg'
 import { ReactComponent as IconCheck } from '/public/assets/images/icon-check-big.svg'
-import { ReactComponent as DiamondIcon } from '/public/assets/images/icon-diamond.svg'
 import { InfiniteScroll } from 'components/InfiniteScroll'
 import { deviceWidth } from 'constants/device'
 import { useMediaQuery } from 'react-responsive'
-import { useMantineTheme } from '@mantine/core'
+import { Flex, useMantineTheme } from '@mantine/core'
 import { useAccount } from 'hooks/account'
 import { useGetAssetDevicesByCollectionIdAndOwner } from 'graphql/entities'
+import { IconDiamond, IconPlus, IconWalletSolid, IconClose, IconGlobe } from 'components/IconPaths'
 
 let timer: any = null
 
@@ -88,28 +84,20 @@ const Assets: React.FC<Props> = (props) => {
   }
 
   return (
-    <FlexBox $direction='column' width='100%' $gap={7.5}>
+    <Flex direction='column' w='100%' gap={7.5}>
       {/* Filter */}
-      <FlexBox width='100%' $alignItems='center' $justifyContent='space-between'>
-        <FlexBox $gap={2.5} $flexWrap='wrap'>
+      <Flex w='100%' align='center' justify='space-between'>
+        <Flex gap={2.5} wrap='wrap'>
           <FilterButton
             variant={filterBy === 'all' ? 'primary' : 'tertiary'}
-            icon={
-              <SvgBox $svgWidth={6} $svgHeight={6} color={theme.ixoWhite}>
-                <GlobeIcon />
-              </SvgBox>
-            }
+            icon={<Image src={IconGlobe} alt='Globe' width={5} height={5} color={theme.colors.blue[5]} />}
             onClick={() => setFilterBy('all')}
           >
             All Tokens
           </FilterButton>
           <FilterButton
             variant={filterBy === 'on-sale' ? 'primary' : 'tertiary'}
-            icon={
-              <SvgBox $svgWidth={6} $svgHeight={6} color={theme.ixoWhite}>
-                <DiamondIcon />
-              </SvgBox>
-            }
+            icon={<Image src={IconDiamond} alt='Diamond' width={5} height={5} color={theme.colors.blue[5]} />}
             onClick={() => setFilterBy('on-sale')}
             disabled
           >
@@ -117,26 +105,18 @@ const Assets: React.FC<Props> = (props) => {
           </FilterButton>
           <FilterButton
             variant={filterBy === 'owned' ? 'primary' : 'tertiary'}
-            icon={
-              <SvgBox $svgWidth={6} $svgHeight={6} color={theme.ixoWhite}>
-                <WalletIcon />
-              </SvgBox>
-            }
+            icon={<Image src={IconWalletSolid} alt='Wallet' width={5} height={5} color={theme.colors.blue[5]} />}
             onClick={() => setFilterBy('owned')}
           >
             My Tokens
           </FilterButton>
-        </FlexBox>
+        </Flex>
         {/* TODO: remove actions for now */}
-        <FlexBox $gap={2.5} style={{ display: 'none' }}>
+        <Flex gap={2.5} style={{ display: 'none' }}>
           {!selecting ? (
             <FilterButton
               variant='primary'
-              icon={
-                <SvgBox $svgWidth={6} $svgHeight={6} color={theme.ixoWhite}>
-                  <PlusIcon />
-                </SvgBox>
-              }
+              icon={<Image src={IconPlus} alt='Plus' width={5} height={5} color={theme.colors.blue[5]} />}
               onClick={handleSelecting}
             >
               Select
@@ -145,29 +125,21 @@ const Assets: React.FC<Props> = (props) => {
             <>
               <FilterButton
                 variant='primary'
-                icon={
-                  <SvgBox $svgWidth={6} $svgHeight={6} color={theme.ixoWhite}>
-                    <WalletIcon />
-                  </SvgBox>
-                }
+                icon={<Image src={IconWalletSolid} alt='Wallet' width={5} height={5} color={theme.colors.blue[5]} />}
               >
                 Buy
               </FilterButton>
               <FilterButton
                 variant='tertiary'
-                icon={
-                  <SvgBox $svgWidth={6} $svgHeight={6} color={theme.ixoWhite}>
-                    <CloseIcon />
-                  </SvgBox>
-                }
+                icon={<Image src={IconClose} alt='Close' width={5} height={5} color={theme.colors.blue[5]} />}
                 onClick={handleSelecting}
               >
                 Cancel
               </FilterButton>
             </>
           )}
-        </FlexBox>
-      </FlexBox>
+        </Flex>
+      </Flex>
 
       <InfiniteScroll
         dataLength={props.entities.length} // This is important field to render the next data
@@ -191,7 +163,7 @@ const Assets: React.FC<Props> = (props) => {
           </AssetCardWrapper>
         ))}
       </InfiniteScroll>
-    </FlexBox>
+    </Flex>
   )
 }
 

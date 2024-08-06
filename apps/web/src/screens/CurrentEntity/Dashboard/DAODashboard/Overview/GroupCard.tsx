@@ -1,20 +1,13 @@
+import Image from 'next/image'
 import { Avatar, Box, Flex } from '@mantine/core'
 import { Typography } from 'components/Typography'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useMantineTheme } from '@mantine/core'
 import { TDAOGroupModel } from 'types/entities'
-import { SvgBox } from 'components/App/App.styles'
 import { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
 import CopyToClipboard from 'react-copy-to-clipboard'
 import { truncateString } from 'utils/formatters'
 import { successToast } from 'utils/toast'
-
-import { ReactComponent as CopyIcon } from '/public/assets/images/icon-copy.svg'
-import { ReactComponent as ProfileIcon } from '/public/assets/images/icon-profile.svg'
-import { ReactComponent as FundingIcon } from '/public/assets/images/icon-funding.svg'
-import { ReactComponent as CoinsIcon } from '/public/assets/images/icon-coins-solid.svg'
-import { ReactComponent as PaperIcon } from '/public/assets/images/icon-paper.svg'
-import { ReactComponent as HandshakeIcon } from '/public/assets/images/icon-handshake.svg'
 import { GetBalances, GetTokenAsset } from 'lib/protocol'
 import { customQueries } from '@ixo/impactxclient-sdk'
 import { IxoCoinCodexRelayerApi } from 'hooks/configs'
@@ -23,6 +16,8 @@ import { convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
 import { useParams } from 'react-router-dom'
 import { useAppSelector } from 'redux/hooks'
 import { getEntityById } from 'redux/entities/entities.selectors'
+import { IconHandshake } from 'components/IconPaths'
+import { IconPaper, IconCoinsSolid, IconProfile, IconFunding, IconCopy } from 'components/IconPaths'
 
 interface Props {
   daoGroup: TDAOGroupModel
@@ -136,9 +131,7 @@ const GroupCard: React.FC<Props> = ({ daoGroup }) => {
             <Typography color='blue' weight='medium' size='sm' hover={{ underline: true }}>
               {truncateString(daoGroup.coreAddress, 20, 'middle')}
             </Typography>
-            <SvgBox color={theme.colors.blue[5]} $svgWidth={5} $svgHeight={5}>
-              <CopyIcon />
-            </SvgBox>
+            <Image src={IconCopy} alt='Copy' width={5} height={5} color={theme.colors.blue[5]} />
           </Flex>
         </CopyToClipboard>
       </Flex>
@@ -146,9 +139,7 @@ const GroupCard: React.FC<Props> = ({ daoGroup }) => {
       <Flex gap={12}>
         <Flex direction={'column'} gap={8} w={'100%'}>
           <Flex align='center' gap={8} miw={80}>
-            <SvgBox $svgWidth={6} $svgHeight={6} color={theme.colors.blue[5]}>
-              <ProfileIcon />
-            </SvgBox>
+            <Image src={IconProfile} alt='Profile' width={5} height={5} color={theme.colors.blue[5]} />
             <Typography size='sm' color='white' weight='medium'>
               {daoGroup.votingModule.members.length}
             </Typography>
@@ -157,9 +148,7 @@ const GroupCard: React.FC<Props> = ({ daoGroup }) => {
           <Flex align='center' gap={8} miw={80}>
             {daoGroup.type === 'staking' && (
               <>
-                <SvgBox $svgWidth={6} $svgHeight={6} color={theme.colors.blue[5]}>
-                  <CoinsIcon />
-                </SvgBox>
+                <Image src={IconCoinsSolid} alt='Coins' width={5} height={5} color={theme.colors.blue[5]} />
                 <Typography size='sm' color='white' weight='medium'>
                   Stake
                 </Typography>
@@ -167,9 +156,7 @@ const GroupCard: React.FC<Props> = ({ daoGroup }) => {
             )}
             {daoGroup.type !== 'staking' && (
               <>
-                <SvgBox $svgWidth={6} $svgHeight={6} color={theme.colors.blue[5]}>
-                  <HandshakeIcon />
-                </SvgBox>
+                <Image src={IconHandshake} alt='Handshake' width={5} height={5} color={theme.colors.blue[5]} />
                 <Typography size='sm' color='white' weight='medium'>
                   Votes
                 </Typography>
@@ -180,9 +167,7 @@ const GroupCard: React.FC<Props> = ({ daoGroup }) => {
 
         <Flex direction={'column'} gap={8} w={'100%'}>
           <Flex align='center' gap={8} miw={80}>
-            <SvgBox $svgWidth={6} $svgHeight={6} color={theme.colors.blue[5]}>
-              <FundingIcon />
-            </SvgBox>
+            <Image src={IconFunding} alt='Funding' width={5} height={5} color={theme.colors.blue[5]} />
             <Typography size='sm' color='white' weight='medium'>
               {Intl.NumberFormat(undefined, {
                 currency: 'USD',
@@ -194,9 +179,7 @@ const GroupCard: React.FC<Props> = ({ daoGroup }) => {
           </Flex>
 
           <Flex align='center' gap={8} miw={80}>
-            <SvgBox $svgWidth={6} $svgHeight={6} color={theme.colors.blue[5]}>
-              <PaperIcon />
-            </SvgBox>
+            <Image src={IconPaper} alt='Paper' width={5} height={5} color={theme.colors.blue[5]} />
             <Typography size='sm' color='white' weight='medium'>
               {daoGroup.proposalModule.proposals.length}
             </Typography>

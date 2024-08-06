@@ -1,11 +1,10 @@
-import { Anchor, Avatar, Button, Flex, NumberFormatter } from '@mantine/core'
-import { SvgBox } from 'components/App/App.styles'
+import Image from 'next/image'
+import { Anchor, Avatar, Button, Flex, NumberFormatter, useMantineTheme } from '@mantine/core'
 import Table, { renderTableHeader } from 'components/Table/Table'
 import { Typography } from 'components/Typography'
 import React, { useEffect, useMemo, useState } from 'react'
 import styled from 'styled-components'
 import { mantineThemeColors } from 'styles/mantine'
-import { ReactComponent as ExternalLinkIcon } from '/public/assets/images/icon-external-link-alt-solid.svg'
 import { useQuery } from 'hooks/window'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useCurrentEntityDAOGroup, useCurrentEntityDAOGroupToken } from 'hooks/currentEntity'
@@ -23,39 +22,8 @@ import { useAppSelector } from 'redux/hooks'
 import { getEntityById } from 'redux/entities/entities.selectors'
 import { CSVLink } from 'react-csv'
 import { blockExplorerAccountEndpoint } from 'constants/blockExplorers'
-
-const TableWrapper = styled.div`
-  color: white;
-  width: 100%;
-
-  table {
-    width: 100%;
-    border-spacing: 0 8px;
-    border-collapse: separate;
-
-    th,
-    td {
-      height: inherit;
-    }
-
-    tbody > tr {
-      border-radius: 8px;
-      outline-style: solid;
-      outline-width: 1px;
-      outline-color: transparent;
-      transition: all 0.2s;
-
-      & > td:first-child {
-        border-top-left-radius: 8px;
-        border-bottom-left-radius: 8px;
-      }
-      & > td:last-child {
-        border-top-right-radius: 8px;
-        border-bottom-right-radius: 8px;
-      }
-    }
-  }
-`
+import { IconExternalLinkAltSolid } from 'components/IconPaths'
+import { TableWrapper } from 'components'
 
 const Shareholders: React.FC = () => {
   const navigate = useNavigate()
@@ -67,6 +35,7 @@ const Shareholders: React.FC = () => {
   const { tokenTotalSupply, tokenDecimals } = useCurrentEntityDAOGroupToken(selectedGroup, daoGroups)
   const { cwClient } = useAccount()
   const { data: users } = useGetUserIids()
+  const theme = useMantineTheme()
 
   const userAddresses: string[] = useMemo(() => {
     const mp = new Map()
@@ -77,7 +46,7 @@ const Shareholders: React.FC = () => {
     ).forEach((user: string) => {
       mp.set(user, user)
     })
-    return [...mp.values()]
+    return Array.from(mp.values())
   }, [users])
 
   const [usersWithTokenBalances, setUsersWithTokenBalances] = useState<Member[]>([])
@@ -208,9 +177,13 @@ const Shareholders: React.FC = () => {
           return (
             <Flex p={16} direction={'column'} gap={4}>
               <Anchor href={`${blockExplorerAccountEndpoint}${addr}`} target='_blank'>
-                <SvgBox $svgWidth={6} $svgHeight={6} color={mantineThemeColors['ixo-blue'][6]} cursor='pointer'>
-                  <ExternalLinkIcon />
-                </SvgBox>
+                <Image
+                  src={IconExternalLinkAltSolid}
+                  alt='ExternalLink'
+                  width={5}
+                  height={5}
+                  color={theme.colors.blue[5]}
+                />
               </Anchor>
             </Flex>
           )
@@ -228,7 +201,7 @@ const Shareholders: React.FC = () => {
     members.forEach((member) => {
       mp.set(member.addr, { ...(mp.get(member.addr) ?? { addr: member.addr }), bonded: member.weight })
     })
-    return [...mp.values()]
+    return Array.from(mp.values())
       .map((user) => {
         const { addr, weight = 0, bonded = 0 } = user
         return {

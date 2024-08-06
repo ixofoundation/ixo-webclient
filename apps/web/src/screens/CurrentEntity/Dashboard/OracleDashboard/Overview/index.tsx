@@ -1,13 +1,10 @@
-import { FlexBox, SvgBox } from 'components/App/App.styles'
+import Image from 'next/image'
 import { Card } from 'screens/CurrentEntity/Components'
 import { OracleCard } from 'components/EntityCards/OracleCard'
 import React from 'react'
-import { ReactComponent as PiePieceIcon } from '/public/assets/images/icon-pie-piece.svg'
 import { Typography } from 'components/Typography'
-import { useMantineTheme } from '@mantine/core'
-import { ReactComponent as CopyIcon } from '/public/assets/images/icon-copy.svg'
+import { Flex, useMantineTheme } from '@mantine/core'
 import moment from 'moment'
-import { ReactComponent as ClockIcon } from '/public/assets/images/icon-clock.svg'
 // import ClaimLocation from './ClaimLocation'
 import { withEntityData } from 'components'
 import CopyToClipboard from 'react-copy-to-clipboard'
@@ -20,6 +17,9 @@ import { getEntityById } from 'redux/entities/entities.selectors'
 import CountUp from 'react-countup'
 import OracleClaimEvaluation from 'components/Graphs/OracleClaimEvaluation'
 import { useCarbonOracleClaimAggregate } from 'hooks/oracle/useCarbonOracleClaimAggregate'
+import { IconPiePiece } from 'components/IconPaths'
+import { IconClock } from 'components/IconPaths'
+import { IconCopy } from 'components/IconPaths'
 
 const Overview: React.FC = () => {
   const theme = useMantineTheme()
@@ -39,158 +39,154 @@ const Overview: React.FC = () => {
   const oracleEntity = { ...currentEntity, metrics: { minted, totalEvaluatedClaims, approvedPercentage } }
 
   const renderOracleStats = () => (
-    <Card icon={<PiePieceIcon />} label='Oracle Stats'>
-      <FlexBox $alignItems='center' $gap={2}>
+    <Card icon={IconPiePiece} label='Oracle Stats'>
+      <Flex align='center' gap={2}>
         <Typography size='md'>{currentEntity.id}</Typography>
         <CopyToClipboard text={currentEntity.id} onCopy={() => successToast(`Copied to clipboard`)}>
-          <SvgBox cursor='pointer' $svgWidth={4} $svgHeight={4} color={theme.colors.blue[5]}>
-            <CopyIcon />
-          </SvgBox>
+          <Image src={IconCopy} alt='Copy' width={5} height={5} color={theme.colors.blue[5]} />
         </CopyToClipboard>
-      </FlexBox>
+      </Flex>
 
-      <FlexBox width='100%' background={theme.ixoWhite} height='1px' />
+      <Flex w='100%' bg={theme.colors.gray[0]} h='1px' />
 
-      <FlexBox width='100%' $justifyContent='space-between'>
+      <Flex w='100%' justify='space-between'>
         <Typography size='md'>Creator</Typography>
         <Typography size='md' color='blue'>
           {creator}
         </Typography>
-      </FlexBox>
+      </Flex>
 
-      <FlexBox width='100%' $justifyContent='space-between'>
+      <Flex w='100%' justify='space-between'>
         <Typography size='md'>Created</Typography>
         <Typography size='md'>{moment(startDate as any).format('DD MMM YYYY')}</Typography>
-      </FlexBox>
+      </Flex>
 
       {endDate && (
-        <FlexBox width='100%' $justifyContent='space-between'>
+        <Flex w='100%' justify='space-between'>
           <Typography size='md'>Expires</Typography>
           <Typography size='md'>{moment(endDate as any).format('DD MMM YYYY')}</Typography>
-        </FlexBox>
+        </Flex>
       )}
 
-      <FlexBox width='100%' background={theme.ixoWhite} height='1px' />
+      <Flex w='100%' bg={theme.colors.gray[0]} h='1px' />
 
       {model && (
-        <FlexBox width='100%' $justifyContent='space-between'>
+        <Flex w='100%' justify='space-between'>
           <Typography size='md'>Model</Typography>
           <Typography size='md'>{model}</Typography>
-        </FlexBox>
+        </Flex>
       )}
 
-      <FlexBox width='100%' $justifyContent='space-between'>
+      <Flex w='100%' justify='space-between'>
         <Typography size='md'>Claims Evaluated</Typography>
         <Typography size='md'>{totalEvaluatedClaims}</Typography>
-      </FlexBox>
+      </Flex>
 
-      <FlexBox width='100%' $justifyContent='space-between'>
+      <Flex w='100%' justify='space-between'>
         <Typography size='md'>Impact Verified</Typography>
         <Typography size='md'>
           <CountUp end={minted} duration={2} /> kg CO2
         </Typography>
-      </FlexBox>
+      </Flex>
 
-      <FlexBox width='100%' $justifyContent='space-between'>
+      <Flex w='100%' justify='space-between'>
         <Typography size='md'>CARBON generated</Typography>
         <Typography size='md'>
           <CountUp end={minted} duration={2} /> CARBON
         </Typography>
-      </FlexBox>
+      </Flex>
     </Card>
   )
 
   const renderCreditsVerified = () => (
-    <Card icon={<PiePieceIcon />} label='Impact Credits Verified'>
-      <FlexBox
-        $direction='column'
-        $alignItems='center'
-        $justifyContent='space-around'
-        p={6}
-        $gap={8}
-        width='100%'
-        height='100%'
-      >
-        <FlexBox $direction='column' $justifyContent='center' $alignItems='center' $gap={4}>
-          <FlexBox $gap={2} $alignItems='baseline'>
+    <Card icon={IconPiePiece} label='Impact Credits Verified'>
+      <Flex direction='column' align='center' justify='space-around' p={6} gap={8} w='100%' h='100%'>
+        <Flex direction='column' justify='center' align='center' gap={4}>
+          <Flex gap={2} align='baseline'>
             <Typography size='5xl' color='blue'>
               <CountUp end={minted} duration={2} />
             </Typography>
             <Typography size='xl' color='blue'>
               CARBON
             </Typography>
-          </FlexBox>
-          <FlexBox $gap={2}>
+          </Flex>
+          <Flex gap={2}>
             <Typography size='xl'>
               = <CountUp end={minted} duration={2} /> kg CO2 e verified
             </Typography>
-          </FlexBox>
-        </FlexBox>
+          </Flex>
+        </Flex>
 
-        <FlexBox width='100%' $gap={4}>
-          <FlexBox
-            $direction='column'
-            $gap={2}
-            $alignItems='center'
-            $justifyContent='flex-end'
-            p={4}
-            width='100%'
-            background='#012131'
-          >
+        <Flex w='100%' gap={4}>
+          <Flex direction='column' gap={2} align='center' justify='flex-end' p={4} w='100%' bg='#012131'>
             <Typography color='blue' weight='bold' size='md'>
               Evaluated Claims
             </Typography>
             <Typography weight='bold' size='md'>
               {totalEvaluatedClaims}
             </Typography>
-          </FlexBox>
-          <FlexBox $direction='column' $gap={2} $alignItems='center' p={4} width='100%' background='#012131'>
+          </Flex>
+          <Flex direction='column' gap={2} align='center' p={4} w='100%' bg='#012131'>
             <Typography color='blue' weight='bold' size='md'>
               Approved
             </Typography>
             <Typography weight='bold' size='md'>
               {approvedPercentage.toFixed(2)}%
             </Typography>
-          </FlexBox>
-        </FlexBox>
-      </FlexBox>
+          </Flex>
+        </Flex>
+      </Flex>
     </Card>
   )
 
   const renderClaimEvaluation = () => (
-    <Card icon={<PiePieceIcon />} label='Claim Evaluation'>
-      <FlexBox width='100%' $justifyContent='flex-start'>
-        <FlexBox $gap={4}>
-          <FlexBox border={`1px solid ${theme.colors.blue[5]}`} $borderRadius='4px' py={1} px={4} cursor='pointer'>
+    <Card icon={IconPiePiece} label='Claim Evaluation'>
+      <Flex w='100%' justify='flex-start'>
+        <Flex gap={4}>
+          <Flex
+            style={{
+              border: `1px solid ${theme.colors.blue[5]}`,
+              borderRadius: '4px',
+              padding: '1px 4px',
+              cursor: 'pointer',
+            }}
+          >
             <Typography color='blue' size='md'>
               Impact Verified
             </Typography>
-          </FlexBox>
-          <FlexBox border={`1px solid ${theme.colors.blue[5]}`} $borderRadius='4px' py={1} px={4} cursor='pointer'>
+          </Flex>
+          <Flex
+            style={{
+              border: `1px solid ${theme.colors.blue[5]}`,
+              borderRadius: '4px',
+              padding: '1px 4px',
+              cursor: 'pointer',
+            }}
+          >
             <Typography color='blue' size='md'>
               Claims Evaluated
             </Typography>
-          </FlexBox>
-        </FlexBox>
-      </FlexBox>
+          </Flex>
+        </Flex>
+      </Flex>
       <OracleClaimEvaluation evaluations={evaluationsData?.evaluations?.nodes ?? []} />
     </Card>
   )
 
   // const renderClaimLocations = () => (
-  //   <Card icon={<PiePieceIcon />} label='Claim Locations'>
+  //   <Card icon={<Image src={IconPiePiece} alt='PiePiece' width={5} height={5} color={theme.colors.blue[5]} />} label='Claim Locations'>
   //     <ClaimLocation />
   //   </Card>
   // )
 
   // const renderLatestClaims = () => (
-  //   <Card icon={<PiePieceIcon />} label='Latest Claims'>
+  //   <Card icon={<Image src={IconPiePiece} alt='PiePiece' width={5} height={5} color={theme.colors.blue[5]} />} label='Latest Claims'>
   //     <LatestClaims />
   //   </Card>
   // )
 
   const renderEvaluatedClaims = () => (
-    <Card label='Evaluated Claims' icon={<ClockIcon />}>
+    <Card label='Evaluated Claims' icon={IconClock}>
       <EvaluatedClaims evaluatedClaims={(evaluatedClaims ?? []) as any} />
     </Card>
   )
@@ -198,23 +194,23 @@ const Overview: React.FC = () => {
   const WrappedOracleCard = withEntityData(OracleCard)
 
   return (
-    <FlexBox $direction='column' width='100%' $gap={6}>
-      <FlexBox width='100%' $alignItems='stretch' $gap={6}>
-        <FlexBox height='100%' style={{ flex: '0 0 300px' }}>
+    <Flex direction='column' w='100%' gap={6}>
+      <Flex w='100%' align='stretch' gap={6}>
+        <Flex h='100%' style={{ flex: '0 0 300px' }}>
           <WrappedOracleCard entity={oracleEntity} />
-        </FlexBox>
+        </Flex>
         {renderOracleStats()}
         {renderCreditsVerified()}
-      </FlexBox>
-      <FlexBox width='100%' height='320px'>
+      </Flex>
+      <Flex w='100%' h='320px'>
         {renderClaimEvaluation()}
-      </FlexBox>
-      {/* <FlexBox width='100%' height='400px' $gap={6}>
+      </Flex>
+      {/* <Flex width='100%' height='400px' $gap={6}>
         {renderClaimLocations()}
         {renderLatestClaims()}
-      </FlexBox> */}
-      <FlexBox width='100%'>{renderEvaluatedClaims()}</FlexBox>
-    </FlexBox>
+      </Flex> */}
+      <Flex w='100%'>{renderEvaluatedClaims()}</Flex>
+    </Flex>
   )
 }
 

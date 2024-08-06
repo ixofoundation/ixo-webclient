@@ -1,4 +1,4 @@
-import { FlexBox } from 'components/App/App.styles'
+import Image from 'next/image'
 import { Typography } from 'components/Typography'
 import useEditEntity from 'hooks/editEntity'
 import { Button } from 'screens/CreateEntity/Components'
@@ -8,11 +8,12 @@ import EditProfile from '../../components/EditProfile'
 import EditProperty from '../../components/EditProperty'
 import { useNavigate, useParams } from 'react-router-dom'
 import { FormCard } from 'components'
-import { ReactComponent as ExclamationIcon } from '/public/assets/images/icon-exclamation-circle.svg'
 import { useWallet } from '@ixo-webclient/wallet-connector'
 import { useAppSelector } from 'redux/hooks'
 import { getEntityById } from 'redux/entities/entities.selectors'
 import { useEntity } from 'hooks/entity/useEntity'
+import { IconExclamationCircle } from 'components/IconPaths'
+import { Flex, useMantineTheme } from '@mantine/core'
 
 const EditEntity: React.FC = () => {
   const navigate = useNavigate()
@@ -23,6 +24,7 @@ const EditEntity: React.FC = () => {
   const { setEditEntity, ExecuteEditEntity } = useEditEntity()
   const [editing, setEditing] = useState(false)
   const { refetch } = useEntity(entityId)
+  const theme = useMantineTheme()
 
   useEffect(() => {
     setEditEntity(currentEntity)
@@ -57,49 +59,54 @@ const EditEntity: React.FC = () => {
   }
 
   return (
-    <FlexBox width='100%' $direction='column' $alignItems='flex-start' $gap={10} color='black' background='white'>
+    <Flex w='100%' direction='column' align='flex-start' gap={10} color='black' bg='white'>
       <Typography variant='secondary' size='2xl'>
         Here you can update the Asset settings.
       </Typography>
 
-      <FlexBox>
+      <Flex>
         {currentEntity.status === 0 && isOwner && (
           <Button size='flex' width={240} onClick={handleTransferEntity} textTransform='uppercase'>
             Transfer Entity
           </Button>
         )}
         {currentEntity.status === 2 && isOwner && (
-          <FormCard title='Re-enable keys' preIcon={<ExclamationIcon />}>
+          <FormCard
+            title='Re-enable keys'
+            preIcon={
+              <Image src={IconExclamationCircle} alt='Exclamation' width={5} height={5} color={theme.colors.blue[5]} />
+            }
+          >
             <Typography>The former owner of the entity created a document to re-enable verification keys.</Typography>
             <Button size='flex' onClick={handleReEnableKeys} textTransform='uppercase'>
               Review
             </Button>
           </FormCard>
         )}
-      </FlexBox>
+      </Flex>
 
-      <FlexBox width='100%' $direction='column' $gap={8}>
+      <Flex w='100%' direction='column' gap={8}>
         <Typography variant='secondary' size='4xl'>
           Profile
         </Typography>
 
         <EditProfile />
-      </FlexBox>
+      </Flex>
 
-      <FlexBox width='100%' $direction='column' $gap={8}>
+      <Flex w='100%' direction='column' gap={8}>
         <Typography variant='secondary' size='4xl'>
           Settings
         </Typography>
 
         <EditProperty />
-      </FlexBox>
+      </Flex>
 
-      <FlexBox>
+      <Flex>
         <Button size='flex' width={180} onClick={handleEditEntity} loading={editing} textTransform='capitalize'>
           Update Entity
         </Button>
-      </FlexBox>
-    </FlexBox>
+      </Flex>
+    </Flex>
   )
 }
 

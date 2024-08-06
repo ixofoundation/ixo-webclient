@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { Badge, Flex, Skeleton, Text, rem } from '@mantine/core'
 import KeyValueTable from 'components/KeyValueTable'
 import { Column } from 'components/KeyValueTable/KeyValueTable'
@@ -5,8 +6,6 @@ import { useParams } from 'react-router-dom'
 import { selectEntityConfig } from 'redux/configs/configs.selectors'
 import { useAppSelector } from 'redux/hooks'
 import { useMantineTheme } from '@mantine/core'
-import { ReactComponent as ClaimIcon } from '/public/assets/images/icon-claim.svg'
-import { SvgBox } from 'components/App/App.styles'
 import { useMemo } from 'react'
 import { useWallet } from '@ixo-webclient/wallet-connector'
 import { useClaimTableData } from 'hooks/claims/useClaimTableData'
@@ -14,6 +13,7 @@ import { timeAgo } from 'utils/time'
 import { useGetIid } from 'graphql/iid'
 import { LiaUserCircleSolid } from 'react-icons/lia'
 import { isDevelopment } from 'constants/common'
+import { IconClaim } from 'components/IconPaths'
 
 const getClaimsMetric = (claims: any[]) => {
   const totalClaims = Number(claims.length ?? 0)
@@ -63,7 +63,7 @@ const ClaimTable = () => {
   const { wallet } = useWallet()
   const { data: iid } = useGetIid(wallet?.did ?? '')
 
-  const theme = useTheme()
+  const theme = useMantineTheme()
   const config = useAppSelector(selectEntityConfig)
   const primaryColor = config.theme.primaryColor ?? theme.colors.blue[5]
 
@@ -71,11 +71,7 @@ const ClaimTable = () => {
     const authColumns: Column[] = [
       {
         title: '',
-        render: () => (
-          <SvgBox $svgWidth={8} $svgHeight={8} color={primaryColor}>
-            <ClaimIcon />
-          </SvgBox>
-        ),
+        render: () => <Image src={IconClaim} alt='Claim' width={5} height={5} color={theme.colors.blue[5]} />,
         style: { style: { width: rem(30) } },
       },
       {
@@ -127,11 +123,7 @@ const ClaimTable = () => {
     const unAuthColumns: Column[] = [
       {
         title: '',
-        render: () => (
-          <SvgBox $svgWidth={8} $svgHeight={8} color={primaryColor}>
-            <ClaimIcon />
-          </SvgBox>
-        ),
+        render: () => <Image src={IconClaim} alt='Claim' width={5} height={5} color={theme.colors.blue[5]} />,
         style: { style: { width: rem(30) } },
       },
       {

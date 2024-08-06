@@ -1,7 +1,7 @@
+import Image from 'next/image'
 import { TokenAssetInfo } from '@ixo/impactxclient-sdk/types/custom_queries/currency.types'
 import { FlexBox, GridContainer, GridItem, SvgBox } from 'components/App/App.styles'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { ReactComponent as ArrowLeftIcon } from '/public/assets/images/icon-arrow-left.svg'
 import { Typography } from 'components/Typography'
 import CurrencyFormat from 'react-currency-format'
 import BigNumber from 'bignumber.js'
@@ -20,6 +20,7 @@ import useCurrentEntity, { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
 import { useQuery } from 'hooks/window'
 import { useAppSelector } from 'redux/hooks'
 import { getEntityById } from 'redux/entities/entities.selectors'
+import { IconArrowLeft } from 'components/IconPaths'
 
 const data = [
   {
@@ -170,7 +171,7 @@ const AssetDetailCard: React.FC<Props> = ({
       $direction='column'
       width={'100%'}
       height='100%'
-      background={theme.ixoGradientDark2}
+      background={theme.colors.dark[5]}
       $borderRadius={'4px'}
       p={5}
       border={'1px solid #083347'}
@@ -232,7 +233,7 @@ const AssetDetailCard: React.FC<Props> = ({
           </FlexBox>
         </FlexBox>
         <SvgBox color='white' cursor='pointer' onClick={() => navigate(-1)}>
-          <ArrowLeftIcon />
+          <Image src={IconArrowLeft} alt='ArrowLeft' width={5} height={5} color={theme.colors.blue[5]} />
         </SvgBox>
       </FlexBox>
       {/* Card Body */}
@@ -254,7 +255,7 @@ const AssetDetailCard: React.FC<Props> = ({
                 </linearGradient>
               </defs>
               <YAxis
-                stroke={theme.ixoWhite}
+                stroke={theme.colors.white[5]}
                 axisLine={false}
                 tickLine={false}
                 tickFormatter={(value) => value.toLocaleString()}

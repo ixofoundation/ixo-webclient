@@ -1,5 +1,5 @@
+import Image from 'next/image'
 import { Card } from 'screens/CurrentEntity/Components'
-import { ReactComponent as CheckInCircleIcon } from '/public/assets/images/icon-check-in-circle.svg'
 import { Flex } from '@mantine/core'
 import { useClaimSetting } from 'hooks/claim'
 import { Typography } from 'components/Typography'
@@ -7,6 +7,7 @@ import { useGetClaimTemplateEntityByClaimId, useGetClaimsByEntityId } from 'grap
 import { useParams } from 'react-router-dom'
 import { Claim } from 'generated/graphql'
 import { timeAgo } from 'utils/time'
+import { IconCheckInCircle } from 'components/IconPaths'
 
 interface ClaimItemProps {
   claim: Claim
@@ -59,7 +60,7 @@ const LatestClaimsCard: React.FC = () => {
   const { data: claims } = useGetClaimsByEntityId(entityId!)
 
   return (
-    <Card label='Latest claims' icon={<CheckInCircleIcon />}>
+    <Card label='Latest claims' icon={IconCheckInCircle}>
       <Flex w='100%' direction={'column'} gap={8}>
         {claims.slice(0, 3).map((claim: Claim) => (
           <ClaimItem key={claim.claimId} claim={claim} />

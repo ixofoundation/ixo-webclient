@@ -1,10 +1,10 @@
+import Image from 'next/image'
 import React, { useCallback, useMemo, useState } from 'react'
 import { Groups } from '../Components'
 import { Typography } from 'components/Typography'
 import { Button } from 'screens/CreateEntity/Components'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { ProposalResponse } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
-import { ReactComponent as EmptyIcon } from '/public/assets/images/icon-empty.svg'
 import { useMantineTheme } from '@mantine/core'
 import { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
 import { TDAOGroupModel } from 'types/entities'
@@ -17,6 +17,7 @@ import { useAppSelector } from 'redux/hooks'
 import { getEntityById } from 'redux/entities/entities.selectors'
 import { isImpactsDAO } from 'utils/application'
 import { useWallet } from '@ixo-webclient/wallet-connector'
+import { IconEmpty } from 'components/IconPaths'
 
 const GovernanceHeader = React.memo(({ selectedDAOGroup }: { selectedDAOGroup?: TDAOGroupModel }) => (
   <>
@@ -193,10 +194,10 @@ const Governance: React.FC = () => {
                 justify='center'
                 align='center'
                 gap='lg'
-                bg={theme.ixoGradientDark2}
+                bg={theme.colors.gray[7]}
                 style={{ borderRadius: 4 }}
               >
-                <EmptyIcon />
+                <Image src={IconEmpty} alt='Empty' width={5} height={5} color={theme.colors.blue[5]} />
                 <Typography variant='secondary' color='dark-blue' size='2xl'>
                   There are no active proposals.
                 </Typography>
@@ -219,10 +220,10 @@ const Governance: React.FC = () => {
                 justify='center'
                 align='center'
                 gap='lg'
-                bg={theme.ixoGradientDark2}
+                bg={theme.colors.gray[7]}
                 style={{ borderRadius: 4 }}
               >
-                <EmptyIcon />
+                <Image src={IconEmpty} alt='Empty' width={5} height={5} color={theme.colors.blue[5]} />
                 <Typography variant='secondary' color='dark-blue' size='2xl'>
                   There are no active proposals.
                 </Typography>
@@ -243,10 +244,10 @@ const Governance: React.FC = () => {
                 justify='center'
                 align='center'
                 gap='lg'
-                bg={theme.ixoGradientDark2}
+                bg={theme.colors.gray[7]}
                 style={{ borderRadius: 4 }}
               >
-                <EmptyIcon />
+                <Image src={IconEmpty} alt='Empty' width={5} height={5} color={theme.colors.blue[5]} />
                 <Typography variant='secondary' color='dark-blue' size='2xl'>
                   There are no active proposals.
                 </Typography>

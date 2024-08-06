@@ -1,8 +1,6 @@
-// import { ReactComponent as ArrowLeftIcon } from '/public/assets/images/icon-arrow-left.svg'
+import Image from 'next/image'
 import { customQueries } from '@ixo/impactxclient-sdk'
-import { ReactComponent as CopyIcon } from '/public/assets/images/icon-copy.svg'
 import BigNumber from 'bignumber.js'
-import { FlexBox, GridContainer, SvgBox } from 'components/App/App.styles'
 import { DepositModal } from 'components/Modals'
 import { Typography } from 'components/Typography'
 import { IxoCoinCodexRelayerApi } from 'hooks/configs'
@@ -13,7 +11,7 @@ import { Button } from 'screens/CreateEntity/Components'
 import { Card } from 'screens/CurrentEntity/Components'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import CopyToClipboard from 'react-copy-to-clipboard'
-import { useMantineTheme } from '@mantine/core'
+import { Flex, Grid, useMantineTheme } from '@mantine/core'
 import { TDAOGroupModel } from 'types/entities'
 import { determineChainFromAddress } from 'utils/account'
 import { getDisplayAmount } from 'utils/currency'
@@ -25,6 +23,7 @@ import { ImpactTokens } from '../../Components/ImpactTokens'
 import { Transactions } from '../../Components/Transactions'
 import AccountsCard, { AccountTypeToIconMap } from '../../Components/AccountsCard'
 import BalanceCard from '../../Components/BalanceCard'
+import { IconCopy } from 'components/IconPaths'
 
 export interface TTreasuryCoinModel {
   coinDenom: string
@@ -211,8 +210,8 @@ const Accounts: React.FC = () => {
   }, [JSON.stringify(Object.keys(accounts))])
 
   return (
-    <FlexBox $direction='column' $gap={6} width='100%' color='white'>
-      <GridContainer columns={2} $gridGap={6} width='100%'>
+    <Flex direction='column' gap={6} w='100%' color='white'>
+      <Grid columns={2} gutter={6} w='100%'>
         <BalanceCard availableValue={availableValue} stakedValue={'0.00'} />
 
         <AccountsCard
@@ -221,24 +220,20 @@ const Accounts: React.FC = () => {
             setSelectedAccount(accounts[address])
           }}
         />
-      </GridContainer>
+      </Grid>
 
       {selectedAccount ? (
         <>
-          <FlexBox width='100%' $alignItems='center' $justifyContent='space-between' $gap={2}>
-            <FlexBox $alignItems='center' $gap={2}>
+          <Flex w='100%' align='center' justify='space-between' gap={2}>
+            <Flex align='center' gap={2}>
               <Typography variant='secondary' size='2xl' transform='capitalize'>
                 {selectedAccount.name} Account
               </Typography>
-              <FlexBox $alignItems='center' $gap={2} px={2} py={1} $borderRadius='100px' background={theme.ixoDarkBlue}>
-                {Icon && (
-                  <SvgBox $svgWidth={6} $svgHeight={6} color={theme.ixoWhite}>
-                    <Icon />
-                  </SvgBox>
-                )}
+              <Flex align='center' gap={2} px={2} py={1} bg={theme.colors.blue[5]} style={{ borderRadius: '100px' }}>
+                {Icon && <Icon />}
                 <Typography>{selectedAccount.type} account</Typography>
-              </FlexBox>
-            </FlexBox>
+              </Flex>
+            </Flex>
             {selectedAccount.type !== 'linked' && (
               <Button
                 variant='secondary'
@@ -252,54 +247,53 @@ const Accounts: React.FC = () => {
                 Deposit
               </Button>
             )}
-          </FlexBox>
+          </Flex>
           <CopyToClipboard text={selectedAccount.address} onCopy={() => successToast(`Copied to clipboard`)}>
-            <FlexBox $alignItems='center' $gap={2} onClick={(e) => e.stopPropagation()} cursor='pointer'>
+            <Flex align='center' gap={2} onClick={(e) => e.stopPropagation()} style={{ cursor: 'pointer' }}>
               <Typography variant='secondary' color='blue' hover={{ underline: true }}>
                 {truncateString(selectedAccount.address, 20, 'middle')}
               </Typography>
-              <SvgBox color={theme.colors.blue[5]} $svgWidth={6} $svgHeight={6}>
-                <CopyIcon />
-              </SvgBox>
-            </FlexBox>
+
+              <Image src={IconCopy} alt='Copy' width={5} height={5} color={theme.colors.blue[5]} />
+            </Flex>
           </CopyToClipboard>
 
           {/* Grid Layout  */}
-          <GridContainer columns={2} $gridGap={6} width='100%' style={expand ? { display: 'none' } : {}}>
-            <FlexBox>
+          <Grid columns={2} gutter={6} w='100%' style={expand ? { display: 'none' } : {}}>
+            <Flex>
               <Card label='Coins'>
                 <Coins coins={selectedAccount.coins} />
               </Card>
-            </FlexBox>
-            <FlexBox>
+            </Flex>
+            <Flex>
               <Card label='Impact Tokens'>
                 <ImpactTokens address={selectedAccount.address} />
               </Card>
-            </FlexBox>
-            <FlexBox>
+            </Flex>
+            <Flex>
               <Card label='Collections'>
                 <Collections address={selectedAccount.address} />
               </Card>
-            </FlexBox>
-            <FlexBox>
+            </Flex>
+            <Flex>
               <Card label='Transactions'>
                 <Transactions address={selectedAccount.address} />
               </Card>
-            </FlexBox>
-          </GridContainer>
+            </Flex>
+          </Grid>
 
           {selectedAccount.address && depositModalOpen && (
             <DepositModal recipient={selectedAccount.address} open={depositModalOpen} setOpen={setDepositModalOpen} />
           )}
         </>
       ) : (
-        <FlexBox width='100%' $justifyContent='center' color={theme.ixoDarkBlue}>
+        <Flex w='100%' justify='center' color={theme.colors.blue[5]}>
           <Typography variant='secondary' size='2xl'>
             Select an Account to View
           </Typography>
-        </FlexBox>
+        </Flex>
       )}
-    </FlexBox>
+    </Flex>
   )
 }
 

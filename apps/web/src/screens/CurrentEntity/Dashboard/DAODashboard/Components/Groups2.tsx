@@ -1,20 +1,20 @@
+import Image from 'next/image'
 import React from 'react'
-import { useMantineTheme } from '@mantine/core'
-import { Card } from '../../../Components'
-import { Box, SvgBox } from 'components/App/App.styles'
+import { Box, useMantineTheme } from '@mantine/core'
+import { Card } from '../../../Components
 import { Typography } from 'components/Typography'
 import { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
 import { TDAOGroupModel, TEntityModel } from 'types/entities'
 import { Avatar, Flex } from '@mantine/core'
-import { ReactComponent as AgentsIcon } from '/public/assets/img/sidebar/agents.svg'
 import { useQuery } from 'hooks/window'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import CopyToClipboard from 'react-copy-to-clipboard'
 import { truncateString } from 'utils/formatters'
-import { ReactComponent as CopyIcon } from '/public/assets/images/icon-copy.svg'
 import { successToast } from 'utils/toast'
 import { useAppSelector } from 'redux/hooks'
 import { getEntityById } from 'redux/entities/entities.selectors'
+import { IconCopy, IconAgentCapability } from 'components/IconPaths'
+
 
 type GroupCardProps = {
   daoGroup: TDAOGroupModel
@@ -84,9 +84,7 @@ const GroupCard = ({ daoGroup, dao }: GroupCardProps) => {
             <Typography color='blue' weight='medium' size='sm' hover={{ underline: true }}>
               {truncateString(daoGroup.coreAddress, 20, 'middle')}
             </Typography>
-            <SvgBox color={theme.colors.blue[5]} $svgWidth={5} $svgHeight={5}>
-              <CopyIcon />
-            </SvgBox>
+              <Image src={IconCopy} alt='Copy' width={5} height={5} color={theme.colors.blue[5]} />
           </Flex>
         </CopyToClipboard>
       </Flex>
@@ -120,8 +118,8 @@ const Groups = ({ entityId, daoController }: { entityId: string; daoController: 
   })
 
   return (
-    <Box mb={4} width='100%'>
-      <Card label={`Groups`} icon={<AgentsIcon />}>
+    <Box mb={4} w='100%'>
+      <Card label={`Groups`} icon={IconAgentCapability}>
         <Flex gap={12} w={'100%'} style={{ overflowX: 'auto' }}>
           {sortedGroups.map((daoGroup: TDAOGroupModel, index: number) => (
             <GroupCard key={index} daoGroup={daoGroup} dao={entity} />

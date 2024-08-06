@@ -1,8 +1,6 @@
+import Image from 'next/image'
 import { friendlyWalletNames } from '@ixo-webclient/wallet-connector'
 import { ActionIcon, Avatar, Flex, Stack } from '@mantine/core'
-import { ReactComponent as CopyIcon } from '/public/assets/images/icon-copy.svg'
-import { ReactComponent as DisconnectIcon } from '/public/assets/images/icon-disconnect.svg'
-import { SvgBox } from 'components/App/App.styles'
 import Tooltip from 'components/Tooltip/Tooltip'
 import { Typography } from 'components/Typography'
 import { useAccount } from 'hooks/account'
@@ -11,6 +9,8 @@ import CopyToClipboard from 'react-copy-to-clipboard'
 import { useMantineTheme } from '@mantine/core'
 import { truncateString } from 'utils/formatters'
 import { successToast } from 'utils/toast'
+import { IconDisconnect } from 'components/IconPaths'
+import { IconCopy } from 'components/IconPaths'
 
 const HeadLine: React.FC = () => {
   const theme = useMantineTheme()
@@ -25,15 +25,7 @@ const HeadLine: React.FC = () => {
           <CopyToClipboard onCopy={() => successToast(null, `Copied to clipboard`)} text={connectedWallet?.did || ''}>
             <Flex justify='center' align='center' gap={8}>
               <Typography>{truncateString(connectedWallet?.did || '', 20, 'middle')}</Typography>
-              <SvgBox
-                $svgWidth={6}
-                $svgHeight={6}
-                color={theme.ixoDarkBlue}
-                hover={{ color: theme.colors.blue[5] }}
-                cursor='pointer'
-              >
-                <CopyIcon />
-              </SvgBox>
+              <Image src={IconCopy} alt='Copy' width={5} height={5} color={theme.colors.blue[5]} />
             </Flex>
           </CopyToClipboard>
         </Stack>
@@ -59,15 +51,7 @@ const HeadLine: React.FC = () => {
           <Flex align={'center'} gap={8}>
             <Typography>{truncateString(address, 20, 'middle')}</Typography>
             <CopyToClipboard text={address} onCopy={() => successToast(null, `Copied to clipboard`)}>
-              <SvgBox
-                $svgWidth={6}
-                $svgHeight={6}
-                color={theme.ixoDarkBlue}
-                hover={{ color: theme.colors.blue[5] }}
-                cursor='pointer'
-              >
-                <CopyIcon />
-              </SvgBox>
+              <Image src={IconCopy} alt='Copy' width={5} height={5} color={theme.colors.blue[5]} />
             </CopyToClipboard>
           </Flex>
         </Flex>
@@ -80,7 +64,7 @@ const HeadLine: React.FC = () => {
             style={{ borderColor: theme.colors.blue[5] }}
             onClick={disconnect}
           >
-            <DisconnectIcon />
+            <Image src={IconDisconnect} alt='Disconnect' width={5} height={5} color={theme.colors.blue[5]} />
           </ActionIcon>
         </Tooltip>
       </Flex>

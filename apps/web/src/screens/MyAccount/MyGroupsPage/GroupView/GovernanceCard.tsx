@@ -1,16 +1,16 @@
+import Image from 'next/image'
 import { Avatar, Card } from 'screens/CurrentEntity/Components'
 import React, { useMemo } from 'react'
 import { TDAOGroupModel } from 'types/entities'
 import { Flex } from '@mantine/core'
-import { SvgBox } from 'components/App/App.styles'
 import PieChart from 'components/Widgets/PieChart'
 import { Typography } from 'components/Typography'
-import { ReactComponent as CoinsIcon } from '/public/assets/images/icon-coins-solid.svg'
 import { useMantineTheme } from '@mantine/core'
 import { useAccount } from 'hooks/account'
 import CurrencyFormat from 'react-currency-format'
 import BigNumber from 'bignumber.js'
 import { LiaAdjustSolid } from 'react-icons/lia'
+import { IconCoinsSolid } from 'components/IconPaths'
 
 interface Props {
   daoGroup: TDAOGroupModel
@@ -31,10 +31,12 @@ const GovernanceCard: React.FC<Props> = ({ daoGroup }) => {
     <Card label='Governance' iconNode={<LiaAdjustSolid size={24} style={{ transform: 'rotate(180deg)' }} />}>
       <Flex w='100%' h='100%' direction={'column'} gap={24} align={'center'}>
         <Flex align={'center'} gap={4}>
-          <SvgBox $svgWidth={5} $svgHeight={5}>
-            {daoGroup.type === 'membership' && <CoinsIcon />}
-            {daoGroup.type === 'staking' && <CoinsIcon />}
-          </SvgBox>
+          {daoGroup.type === 'membership' && (
+            <Image src={IconCoinsSolid} alt='Coins' width={5} height={5} color={theme.colors.blue[5]} />
+          )}
+          {daoGroup.type === 'staking' && (
+            <Image src={IconCoinsSolid} alt='Coins' width={5} height={5} color={theme.colors.blue[5]} />
+          )}
           <Typography size='sm' transform='capitalize'>
             {daoGroup.type} based
           </Typography>
@@ -44,7 +46,7 @@ const GovernanceCard: React.FC<Props> = ({ daoGroup }) => {
           <Flex w={'100%'} h='100%' direction={'column'} align={'center'} justify={'space-between'}>
             <PieChart
               data={[
-                { name: 'Rest Voting Power', value: 1 - userVotingPower, color: theme.ixoDarkBlue },
+                { name: 'Rest Voting Power', value: 1 - userVotingPower, color: theme.colors.blue[8] },
                 { name: 'My Voting Power', value: userVotingPower, color: theme.colors.blue[5] },
               ]}
               descriptor={

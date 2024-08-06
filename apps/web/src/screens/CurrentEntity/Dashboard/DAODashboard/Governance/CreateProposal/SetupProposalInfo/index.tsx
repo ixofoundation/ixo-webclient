@@ -1,16 +1,18 @@
+import Image from 'next/image'
 import { Typography } from 'components/Typography'
 import { deviceWidth } from 'constants/device'
 import React, { useEffect, useState } from 'react'
-import { ReactComponent as InfoIcon } from '/public/assets/images/icon-info.svg'
 import { Button, InputWithLabel, TextArea } from 'screens/CreateEntity/Components'
 import { useCreateEntityState } from 'hooks/createEntity'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Flex } from '@mantine/core'
+import { Flex, useMantineTheme } from '@mantine/core'
 import { CardWrapper } from 'screens/CreateEntity/EntityPages/SetupGroups/SetupGroupSettings.styles'
+import { IconInfo } from 'components/IconPaths'
 
 const SetupProposalInfo: React.FC = (): JSX.Element => {
   const navigate = useNavigate()
   const { entityId, coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
+  const theme = useMantineTheme()
 
   const { profile, updateProfile } = useCreateEntityState()
 
@@ -44,7 +46,7 @@ const SetupProposalInfo: React.FC = (): JSX.Element => {
       <Flex direction='column' gap={60} w={deviceWidth.tablet + 'px'}>
         <CardWrapper $direction='column' $gap={5}>
           <Flex gap={2} align='center'>
-            <InfoIcon />
+            <Image src={IconInfo} alt='Info' width={5} height={5} color={theme.colors.blue[5]} />
             <Typography size='xl' weight='medium'>
               Proposal Info
             </Typography>

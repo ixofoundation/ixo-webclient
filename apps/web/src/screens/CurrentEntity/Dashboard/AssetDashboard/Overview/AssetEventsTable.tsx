@@ -1,32 +1,39 @@
-import { Flex, Text } from '@mantine/core'
+import Image from 'next/image'
+import { Box, Flex, Text, useMantineTheme } from '@mantine/core'
 import { ColorCode } from 'components/ActivityCard/ActivityCard.styles'
-import { EyeIcon } from 'components/Icons'
 import Table, { renderTableHeader } from 'components/Table/Table'
 import { blockExplorerTransactionEndpoint } from 'constants/blockExplorers'
 import { Message } from 'generated/graphql'
 import { useGetIid } from 'graphql/iid'
 import React, { useMemo } from 'react'
 import CopyToClipboard from 'react-copy-to-clipboard'
-import styled from 'styled-components'
 import { truncateString } from 'utils/formatters'
 import { timeAgo } from 'utils/time'
 import { successToast } from 'utils/toast'
+import { IconEye } from 'components/IconPaths'
+import { createStyles } from '@mantine/emotion'
 
-const TableWrapper = styled.div`
-  color: white;
-  width: 100%;
+const useStyles = createStyles((theme) => ({
+  tableWrapper: {
+    color: 'white',
+    width: '100%',
 
-  table {
-    width: 100%;
-    border-spacing: 0 4px;
-    border-collapse: separate;
+    '& table': {
+      width: '100%',
+      borderSpacing: '0 4px',
+      borderCollapse: 'separate',
 
-    th,
-    td {
-      height: inherit;
-    }
-  }
-`
+      '& th, & td': {
+        height: 'inherit',
+      },
+    },
+  },
+}))
+
+const TableWrapper = ({ children }: { children: React.ReactNode }) => {
+  const { classes } = useStyles()
+  return <Box className={classes.tableWrapper}>{children}</Box>
+}
 
 const DidToAddress = ({ did }: { did: string }) => {
   const { data: iid } = useGetIid(did)
@@ -47,6 +54,7 @@ export type AssetEventsTableProps = {
   events?: Message[]
 }
 export const AssetEventsTable = ({ events = [] }: AssetEventsTableProps) => {
+  const theme = useMantineTheme()
   const data = React.useMemo(() => events, [events])
   const columns = React.useMemo(
     () => [
@@ -104,13 +112,9 @@ export const AssetEventsTable = ({ events = [] }: AssetEventsTableProps) => {
               bg='#107591'
               p={16}
               style={{ cursor: 'pointer' }}
-              onClick={() =>
-                window
-                  .open(`${blockExplorerTransactionEndpoint}${transactionHash}`, '_blank')!
-                  .focus()
-              }
+              onClick={() => window.open(`${blockExplorerTransactionEndpoint}${transactionHash}`, '_blank')!.focus()}
             >
-              <EyeIcon />
+              <Image src={IconEye} alt='Eye' width={5} height={5} color={theme.colors.blue[5]} />
             </Flex>
           )
         },

@@ -1,16 +1,16 @@
-import { FlexBox, SvgBox } from 'components/App/App.styles'
+import Image from 'next/image'
 import { useGetBondDid } from 'graphql/bonds'
 import React, { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useMantineTheme } from '@mantine/core'
+import { Flex, useMantineTheme } from '@mantine/core'
 import Tab from './Tab'
-import { ReactComponent as AlphqbondIcon } from '/public/assets/images/icon-alphabond.svg'
 import { Spinner } from 'components/Spinner/Spinner'
 import BigNumber from 'bignumber.js'
 import { useAccount } from 'hooks/account'
 import { percentFormat, toFixed } from 'utils/currency'
 import { BondStateType } from 'redux/bond/bond.types'
 import { useMapBondDetail } from 'hooks/bond'
+import { IconAlphabond } from 'components/IconPaths'
 
 interface Props {
   bondDid: string
@@ -47,7 +47,7 @@ const BondStatistics: React.FC<Props> = ({ bondDid }) => {
   }
 
   return (
-    <FlexBox width='100%' $gap={4} $alignItems='stretch'>
+    <Flex w='100%' gap={4} align='stretch'>
       <Tab
         id='price'
         prefix={reserveToken.toUpperCase()}
@@ -60,7 +60,7 @@ const BondStatistics: React.FC<Props> = ({ bondDid }) => {
       <Tab
         id='my_stake'
         prefix={token.toUpperCase()}
-        color={theme.ixoGreen}
+        color={theme.colors.green[5]}
         header={'My Stake'}
         body={userTokenBalance}
         footer={`${percentFormat(userTokenBalance, currentSupply, 2)} of ${toFixed(currentSupply, 2)}`}
@@ -97,11 +97,7 @@ const BondStatistics: React.FC<Props> = ({ bondDid }) => {
       {bondDetail.state === BondStateType.HATCH ? (
         <Tab
           id='alpha'
-          prefix={
-            <SvgBox color={theme.colors.blue[5]} $svgWidth={8} $svgHeight={8}>
-              <AlphqbondIcon />
-            </SvgBox>
-          }
+          prefix={<Image src={IconAlphabond} alt='Alphabond' width={5} height={5} color={theme.colors.blue[5]} />}
           color={theme.colors.blue[5]}
           header={'Required Hatch'}
           body={currentSupply}
@@ -111,11 +107,7 @@ const BondStatistics: React.FC<Props> = ({ bondDid }) => {
       ) : (
         <Tab
           id='alpha'
-          prefix={
-            <SvgBox color={theme.colors.blue[5]} $svgWidth={8} $svgHeight={8}>
-              <AlphqbondIcon />
-            </SvgBox>
-          }
+          prefix={<Image src={IconAlphabond} alt='Alphabond' width={5} height={5} color={theme.colors.blue[5]} />}
           color={theme.colors.blue[5]}
           header={'Alpha'}
           body={new BigNumber(publicAlpha).toFormat(2)}
@@ -123,7 +115,7 @@ const BondStatistics: React.FC<Props> = ({ bondDid }) => {
           onClick={onTabClick('alpha')}
         />
       )}
-    </FlexBox>
+    </Flex>
   )
 }
 

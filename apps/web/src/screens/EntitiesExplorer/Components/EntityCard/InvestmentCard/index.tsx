@@ -1,7 +1,6 @@
+import Image from 'next/image'
 import { LinkedEntity } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
-import { ReactComponent as InvestmentIcon } from '/public/assets/images/icon-investment.svg'
 import BigNumber from 'bignumber.js'
-import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { useGetBondDid } from 'graphql/bonds'
 import { useMapBondDetail } from 'hooks/bond'
@@ -10,8 +9,9 @@ import React, { useMemo } from 'react'
 import { NavLink } from 'react-router-dom'
 import { selectEntityConfig } from 'redux/configs/configs.selectors'
 import { useAppSelector } from 'redux/hooks'
-import { useMantineTheme } from '@mantine/core'
+import { Flex, useMantineTheme } from '@mantine/core'
 import { TEntityModel } from 'types/entities'
+import { IconInvestment } from 'components/IconPaths'
 
 const formatCurrency = (value: number) =>
   Intl.NumberFormat(undefined, { style: 'currency', currency: 'USD' }).format(value)
@@ -37,53 +37,64 @@ const InvestmentCard: React.FC<TEntityModel & { to?: string }> = (entity) => {
 
   return (
     <NavLink to={{ pathname: entity.to || `/entity/${id}/overview` }} style={{ textDecoration: 'none' }}>
-      <FlexBox
-        $direction='column'
-        $borderRadius='12px'
-        background='white'
-        $boxShadow='0px 4px 4px 0px rgba(0, 0, 0, 0.25);'
-        color={theme.ixoBlack}
-        overflow='hidden'
-        cursor='pointer'
-        height='100%'
-        transition='.2s box-shadow'
-        hover={{ $boxShadow: '0px 10px 25px 0px rgba(0, 0, 0, 0.15)' }}
-        border={design?.card?.border}
-        {...(design?.card?.boxShadow && { $boxShadow: design?.card?.boxShadow })}
+      <Flex
+        direction='column'
+        style={{
+          boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
+          color: theme.colors.blue[5],
+          overflow: 'hidden',
+          cursor: 'pointer',
+          borderRadius: '12px',
+          transition: '.2s box-shadow',
+          '&:hover': {
+            boxShadow: '0px 10px 25px 0px rgba(0, 0, 0, 0.15)',
+          },
+          border: design?.card?.border,
+          ...(design?.card?.boxShadow && { boxShadow: design?.card?.boxShadow }),
+          ...(design?.card?.border && { border: design?.card?.border }),
+        }}
+        bg='white'
+        h='100%'
       >
-        <FlexBox background={`url(${image})`} $backgroundSize='cover' width='100%' height='200px' position='relative'>
-          <FlexBox position='absolute' top='16px' left='16px' $alignItems='center' $gap={1}>
-            <SvgBox $borderRadius='100%' p={1} $svgWidth={4} $svgHeight={4} background={'#20798C'} color={'white'}>
-              <InvestmentIcon />
-            </SvgBox>
-            <FlexBox $borderRadius='100px' px={2} py={1} background={'#20798C'}>
+        <Flex
+          style={{
+            backgroundImage: `url(${image})`,
+            backgroundSize: 'cover',
+            width: '100%',
+            height: '200px',
+            position: 'relative',
+          }}
+        >
+          <Flex pos='absolute' top='16px' left='16px' align='center' gap={1}>
+            <Image src={IconInvestment} alt='Investment' width={5} height={5} color={theme.colors.blue[5]} />
+            <Flex px={2} py={1} bg={'#20798C'} style={{ borderRadius: '100px' }}>
               <Typography color='white' size='sm'>
                 Alphabond
               </Typography>
-            </FlexBox>
-          </FlexBox>
-        </FlexBox>
+            </Flex>
+          </Flex>
+        </Flex>
 
-        <FlexBox background={'#ECECEC'} width='100%' height='8px'>
-          <FlexBox background={'#4C9F38'} width={`${fundedPercentage}%`} height='8px' />
-        </FlexBox>
+        <Flex bg={'#ECECEC'} w='100%' h='8px'>
+          <Flex bg={'#4C9F38'} w={`${fundedPercentage}%`} h='8px' />
+        </Flex>
 
-        <FlexBox p={4.5} $direction='column' $gap={4} width='100%'>
-          <FlexBox width='100%'>
+        <Flex p={4.5} direction='column' gap={4} w='100%'>
+          <Flex w='100%'>
             <Typography size='sm' transform='uppercase'></Typography>
-          </FlexBox>
+          </Flex>
 
-          <FlexBox width='100%' $alignItems='center' $justifyContent='space-between'>
+          <Flex w='100%' align='center' justify='space-between'>
             <Typography size='xl' weight='semi-bold' $overflowLines={2}>
               {title}
             </Typography>
             <Avatar url={logo} size={32} borderWidth={0} />
-          </FlexBox>
+          </Flex>
 
-          <FlexBox width='100%' height='1px' background='#EFEFEF' />
+          <Flex w='100%' h='1px' bg='#EFEFEF' />
 
           {bondDid && (
-            <FlexBox width='100%' $direction='column' $gap={2}>
+            <Flex w='100%' direction='column' gap={2}>
               <Typography size='xl' weight='semi-bold'>
                 {formatCurrency(currentReserveUsd)} raised
               </Typography>
@@ -92,23 +103,23 @@ const InvestmentCard: React.FC<TEntityModel & { to?: string }> = (entity) => {
                 {fundedPercentage}% funded
               </Typography>
 
-              <FlexBox width='100%' $justifyContent='space-between' $alignItems='center'>
-                <FlexBox color='#949494' background='#EFEFEF' $borderRadius='12px' px={2} py={1}>
+              <Flex w='100%' justify='space-between' align='center'>
+                <Flex color='#949494' bg='#EFEFEF' style={{ borderRadius: '12px' }} px={2} py={1}>
                   <Typography size='sm' weight='semi-bold'>
                     {formatCurrency(initialRaisedUsd)} target
                   </Typography>
-                </FlexBox>
+                </Flex>
 
-                <FlexBox color='#949494' background='#EFEFEF' $borderRadius='12px' px={2} py={1}>
+                <Flex color='#949494' bg='#EFEFEF' style={{ borderRadius: '12px' }} px={2} py={1}>
                   <Typography size='sm' weight='semi-bold'>
                     {state}
                   </Typography>
-                </FlexBox>
-              </FlexBox>
-            </FlexBox>
+                </Flex>
+              </Flex>
+            </Flex>
           )}
-        </FlexBox>
-      </FlexBox>
+        </Flex>
+      </Flex>
     </NavLink>
   )
 }

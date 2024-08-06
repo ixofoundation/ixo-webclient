@@ -1,54 +1,74 @@
+import Image from 'next/image'
 import React, { useMemo } from 'react'
-import styled, { useTheme } from 'styled-components'
 import { Table } from 'components/Table'
 import { useIxoConfigs } from 'hooks/configs'
 import moment from 'moment'
-import { ReactComponent as EyeIcon } from '/public/assets/images/icon-eye.svg'
-import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { renderTableHeader } from 'components/Table/Table'
+import { IconEye } from 'components/IconPaths'
+import { Box, Flex, useMantineTheme } from '@mantine/core'
+import { createStyles } from '@mantine/emotion'
 
-const TableWrapper = styled(FlexBox)`
-  color: white;
-  width: 100%;
+const useStyles = createStyles((theme) => ({
+  tableWrapper: {
+    color: 'white',
+    width: '100%',
+    borderRadius: '4px',
+    border: `1px solid #0C3549`,
+    background: 'linear-gradient(180deg, #012639 0%, #002D42 97.29%)',
+    boxShadow: '0px 2px 10px 0px rgba(0, 0, 0, 0.18)',
+    padding: theme.spacing.md,
 
-  table {
-    width: 100%;
-    border-spacing: 0 8px;
-    border-collapse: separate;
+    '& table': {
+      width: '100%',
+      borderSpacing: '0 8px',
+      borderCollapse: 'separate',
 
-    th,
-    td {
-      height: inherit;
-      overflow: hidden;
-    }
+      '& th, & td': {
+        height: 'inherit',
+        overflow: 'hidden',
+      },
 
-    tbody > tr {
-      border-radius: 8px;
-      outline-style: solid;
-      outline-width: 1px;
-      outline-color: transparent;
-      transition: all 0.2s;
+      '& tbody > tr': {
+        borderRadius: 8,
+        outlineStyle: 'solid',
+        outlineWidth: 1,
+        outlineColor: 'transparent',
+        transition: 'all 0.2s',
 
-      & > td:first-child {
-        border-top-left-radius: 8px;
-        border-bottom-left-radius: 8px;
-      }
-      & > td:last-child {
-        border-top-right-radius: 8px;
-        border-bottom-right-radius: 8px;
-        width: 250px;
-      }
+        '& > td:first-child': {
+          borderTopLeftRadius: 8,
+          borderBottomLeftRadius: 8,
+        },
+        '& > td:last-child': {
+          borderTopRightRadius: 8,
+          borderBottomRightRadius: 8,
+          width: 250,
+        },
 
-      &:hover {
-        outline-color: ${(props) => props.theme.colors.blue[5]};
-      }
-    }
-  }
-`
+        '&:hover': {
+          outlineColor: theme.colors.blue[5],
+        },
+      },
+    },
+  },
+  svgBox: {
+    width: '60px',
+    height: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    background: theme.colors.blue[7],
+    color: 'white',
+    '&:hover': {
+      color: theme.colors.blue[5],
+    },
+  },
+}))
 
 const EventsHistory: React.FC = () => {
   const theme = useMantineTheme()
+  const { classes } = useStyles()
   const { convertToDenom } = useIxoConfigs()
   const tableData: any[] = []
 
@@ -59,15 +79,15 @@ const EventsHistory: React.FC = () => {
         accessor: 'timestamp',
         renderCell: (cell: any) => {
           const timestamp = cell.value
-          const date = moment(timestamp).format('DD MMM ‘YY')
+          const date = moment(timestamp).format("DD MMM 'YY")
           const time = moment(timestamp).format('hh:mm')
           return (
-            <FlexBox $direction='column' $gap={1} p={4}>
+            <Flex direction='column' gap={1} p={4}>
               <Typography size='lg'>{date}</Typography>
               <Typography size='sm' color='light-blue'>
                 {time}
               </Typography>
-            </FlexBox>
+            </Flex>
           )
         },
       },
@@ -76,7 +96,7 @@ const EventsHistory: React.FC = () => {
         accessor: 'type',
         renderCell: (cell: any) => {
           const type = cell.value
-          let color: any = undefined
+          let color: string | undefined = undefined
 
           switch (type) {
             case 'buy':
@@ -89,11 +109,11 @@ const EventsHistory: React.FC = () => {
               break
           }
           return (
-            <FlexBox $direction='column' p={4}>
-              <Typography size='base' transform='capitalize' weight='bold' {...(color ? { color } : [])}>
+            <Flex direction='column' p={4}>
+              <Typography size='base' transform='capitalize' weight='bold' color={color}>
                 {cell.value}
               </Typography>
-            </FlexBox>
+            </Flex>
           )
         },
       },
@@ -108,36 +128,21 @@ const EventsHistory: React.FC = () => {
           }).format(Number(price?.amount || '0'))
 
           return (
-            <FlexBox $justifyContent='flex-end' $alignItems='stretch' width='250px' height='100%'>
-              <FlexBox
-                height='100%'
-                $justifyContent='center'
-                $alignItems='center'
-                p={4}
-                background={theme.ixoNavyBlue}
-                style={{ flex: 1 }}
-              >
+            <Flex justify='flex-end' align='stretch' style={{ width: '250px', height: '100%' }}>
+              <Flex justify='center' align='center' p={4} style={{ flex: 1, background: theme.colors.dark[7] }}>
                 <Typography weight='bold'>
                   {formattedPriceAmount} {price?.denom.toUpperCase()}
                 </Typography>
-              </FlexBox>
-              <SvgBox
-                width='60px'
-                height='100%'
-                $justifyContent='center'
-                $alignItems='center'
-                background={theme.ixoMediumBlue}
-                color='white'
-                hover={{ color: theme.colors.blue[5] }}
-              >
-                <EyeIcon />
-              </SvgBox>
-            </FlexBox>
+              </Flex>
+              <Box className={classes.svgBox}>
+                <Image src={IconEye} alt='Eye' width={5} height={5} color={theme.colors.blue[5]} />
+              </Box>
+            </Flex>
           )
         },
       },
     ],
-    [convertToDenom, theme],
+    [convertToDenom, theme, classes],
   )
 
   const onRowClick = (state: any) => () => {
@@ -145,15 +150,7 @@ const EventsHistory: React.FC = () => {
   }
 
   return (
-    <TableWrapper
-      width='100%'
-      $direction='column'
-      $borderRadius='4px'
-      border={`1px solid #0C3549`}
-      background='linear-gradient(180deg, #012639 0%, #002D42 97.29%)'
-      $boxShadow='0px 2px 10px 0px rgba(0, 0, 0, 0.18)'
-      p={4}
-    >
+    <Box className={classes.tableWrapper}>
       <Table
         columns={columns}
         data={tableData}
@@ -164,20 +161,22 @@ const EventsHistory: React.FC = () => {
         getCellProps={() => ({ style: { background: '#023044' } })}
       />
       {tableData.length === 0 && (
-        <FlexBox
-          width='100%'
-          height='80px'
-          $alignItems='center'
-          $justifyContent='center'
-          $borderRadius='8px'
-          background='#053549'
+        <Flex
+          style={{
+            width: '100%',
+            height: '80px',
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderRadius: '8px',
+            background: '#053549',
+          }}
         >
           <Typography variant='primary' size='lg' color='dark-blue'>
             No Transactions
           </Typography>
-        </FlexBox>
+        </Flex>
       )}
-    </TableWrapper>
+    </Box>
   )
 }
 

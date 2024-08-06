@@ -1,9 +1,9 @@
-import { FlexBox } from 'components/App/App.styles'
+import Image from 'next/image'
 import React from 'react'
 import { isAccountAddress, isContractAddress } from 'utils/validation'
-import { ReactComponent as CheckIcon } from '/public/assets/images/icon-check-big.svg'
-import { ReactComponent as TimesIcon } from '/public/assets/images/icon-times.svg'
-import { useMantineTheme } from '@mantine/core'
+import { Flex, useMantineTheme } from '@mantine/core'
+import { IconTimes } from 'components/IconPaths'
+import { IconCheck } from 'components/IconPaths'
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   address: string
@@ -14,18 +14,24 @@ const AccountValidStatus: React.FC<Props> = ({ address, ...rest }): JSX.Element 
   const isValidAddress: boolean = isAccountAddress(address) || isContractAddress(address)
 
   return (
-    <FlexBox
-      $alignItems='center'
-      $justifyContent='center'
-      width='48px'
-      height='48px'
-      $borderRadius='8px'
-      background={address ? (isValidAddress ? theme.ixoGreen : theme.ixoRed) : 'transparent'}
+    <Flex
+      align='center'
+      justify='center'
+      w='48px'
+      h='48px'
+      style={{
+        borderRadius: '8px',
+        background: address ? (isValidAddress ? theme.colors.green[5] : theme.colors.red[5]) : 'transparent',
+      }}
       {...rest}
     >
-      {address && isValidAddress && <CheckIcon />}
-      {address && !isValidAddress && <TimesIcon />}
-    </FlexBox>
+      {address && isValidAddress && (
+        <Image src={IconCheck} alt='Check' width={5} height={5} color={theme.colors.blue[5]} />
+      )}
+      {address && !isValidAddress && (
+        <Image src={IconTimes} alt='Times' width={5} height={5} color={theme.colors.blue[5]} />
+      )}
+    </Flex>
   )
 }
 

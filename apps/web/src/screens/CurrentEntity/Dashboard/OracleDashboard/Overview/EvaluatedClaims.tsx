@@ -1,30 +1,14 @@
+import Image from 'next/image'
 import React, { useMemo } from 'react'
 import Table, { renderTableHeader } from 'components/Table/Table'
-import { ReactComponent as IXOIcon } from '/public/assets/images/icon-ixo.svg'
-import { ReactComponent as EyeIcon } from '/public/assets/images/icon-eye.svg'
-import styled, { useTheme } from 'styled-components'
-import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { timeAgo } from 'utils/time'
 import { Column } from 'react-table'
 import { evaluationStatusMap } from 'utils/claims/evaluationStatusMap'
 import { capitalize } from 'lodash'
-
-const TableWrapper = styled.div`
-  color: white;
-  width: 100%;
-
-  table {
-    width: 100%;
-    border-spacing: 0 4px;
-    border-collapse: separate;
-
-    th,
-    td {
-      height: inherit;
-    }
-  }
-`
+import { IconEye, IconIxo } from 'components/IconPaths'
+import { Flex, useMantineTheme } from '@mantine/core'
+import { TableWrapper } from 'components'
 
 type Evaluation = {
   timestamp: string
@@ -55,19 +39,21 @@ const EvaluatedClaims = ({ evaluatedClaims }: EvaluatedClaimsProps) => {
         Cell: ({ cell }) => {
           const status = cell.row.original.status
           return (
-            <FlexBox p={5} position={'relative'}>
-              <FlexBox
-                position='absolute'
+            <Flex p={5} pos={'relative'}>
+              <Flex
+                pos='absolute'
                 top={'50%'}
                 left={'0px'}
-                transform='translate(-50%, -50%)'
-                width='12px'
-                height='40px'
-                $borderRadius='100px'
-                background={theme[evaluationStatusMap.get(status)?.toLowerCase() as any] ?? theme.rejected}
+                style={{
+                  transform: 'translate(-50%, -50%)',
+                  borderRadius: '100px',
+                }}
+                w='12px'
+                h='40px'
+                bg={theme[evaluationStatusMap.get(status)?.toLowerCase() as any] ?? theme.colors.red[3]}
               />
               <Typography color='white'>{timeAgo.format(new Date(cell.value.submissionDate))}</Typography>
-            </FlexBox>
+            </Flex>
           )
         },
       },
@@ -75,41 +61,33 @@ const EvaluatedClaims = ({ evaluatedClaims }: EvaluatedClaimsProps) => {
         Header: renderTableHeader('Action'),
         accessor: 'status',
         Cell: ({ cell }) => (
-          <FlexBox p={5}>
+          <Flex p={5}>
             <Typography>Claim {capitalize(evaluationStatusMap.get(cell.value))}</Typography>
-          </FlexBox>
+          </Flex>
         ),
       },
       {
         Header: renderTableHeader('Asset'),
         accessor: 'asset',
         Cell: ({ cell }) => (
-          <FlexBox p={5}>
+          <Flex p={5}>
             <Typography>Supamoto #123</Typography>
-          </FlexBox>
+          </Flex>
         ),
       },
       {
         Header: renderTableHeader('Value'),
         accessor: 'value',
         Cell: ({ cell }) => (
-          <FlexBox height='100%'>
-            <FlexBox width='100%' height='100%' p={5} $alignItems='center' background={theme.ixoNavyBlue} $gap={2.5}>
-              <IXOIcon />
+          <Flex h='100%'>
+            <Flex w='100%' h='100%' p={5} align='center' bg={theme.colors.blue[7]} gap={2.5}>
+              <Image src={IconIxo} alt='IXO' width={5} height={5} color={theme.colors.blue[5]} />
               <Typography weight='bold'>235 CARBON</Typography>
-            </FlexBox>
-            <FlexBox height='100%' $alignItems='center' background={theme.ixoMediumBlue}>
-              <SvgBox
-                width='60px'
-                $alignItems='center'
-                $justifyContent='center'
-                color={theme.colors.blue[5]}
-                $svgWidth={5.5}
-              >
-                <EyeIcon />
-              </SvgBox>
-            </FlexBox>
-          </FlexBox>
+            </Flex>
+            <Flex h='100%' align='center' bg={theme.colors.blue[3]}>
+              <Image src={IconEye} alt='Eye' width={5} height={5} color={theme.colors.blue[5]} />
+            </Flex>
+          </Flex>
         ),
       },
     ]

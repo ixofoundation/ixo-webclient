@@ -1,11 +1,12 @@
+import Image from 'next/image'
 import { Card } from 'screens/CurrentEntity/Components'
-import { ReactComponent as ClaimLocationIcon } from '/public/assets/images/icon-claim-location.svg'
 import { Flex } from '@mantine/core'
 import { useParams } from 'react-router-dom'
 import { useGetClaimCollectionsByEntityId } from 'graphql/claims'
 import { useMemo, useState } from 'react'
 import { useEntitiesQuery } from 'generated/graphql'
 import { TEntityModel } from 'types/entities'
+import { IconClaimLocation } from 'components/IconPaths'
 
 const ClaimLocationActivityCard: React.FC = () => {
   const { entityId = '' } = useParams<{ entityId: string }>()
@@ -31,7 +32,7 @@ const ClaimLocationActivityCard: React.FC = () => {
   })
 
   return (
-    <Card label='Claim location activity' icon={<ClaimLocationIcon />}>
+    <Card label='Claim location activity' icon={IconClaimLocation}>
       <Flex pos={'relative'} w={'100%'} h={'100%'}>
         {/* <MapImage longitude={cookStove?.longitude} latitude={cookStove?.latitude} /> */}
       </Flex>

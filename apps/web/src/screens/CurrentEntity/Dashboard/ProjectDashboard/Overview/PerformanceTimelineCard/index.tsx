@@ -1,5 +1,5 @@
+import Image from 'next/image'
 import { Card } from 'screens/CurrentEntity/Components'
-import { ReactComponent as PiePieceIcon } from '/public/assets/images/icon-pie-piece.svg'
 import { Flex } from '@mantine/core'
 import { useParams } from 'react-router-dom'
 import { useGetClaimCollectionsByEntityId, useGetClaimsByEntityId } from 'graphql/claims'
@@ -13,6 +13,7 @@ import { ixo } from '@ixo/impactxclient-sdk'
 import { useClaimSetting } from 'hooks/claim'
 import { Claim } from '@ixo/impactxclient-sdk/types/codegen/ixo/claims/v1beta1/claims'
 import { toTitleCase } from 'utils/formatters'
+import { IconPiePiece } from 'components/IconPaths'
 
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
@@ -65,7 +66,7 @@ const PerformanceTimelineCard: React.FC = () => {
   }, [claims, collectionId])
 
   return (
-    <Card label='Project performance timeline' icon={<PiePieceIcon />}>
+    <Card label='Project performance timeline' icon={IconPiePiece}>
       <Flex w={'100%'} direction={'column'} gap={16}>
         <Flex w={'100%'} gap={8}>
           {claimCollections.map((claimCollection: any) => (

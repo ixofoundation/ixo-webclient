@@ -1,15 +1,14 @@
+import Image from 'next/image'
 import React, { useMemo } from 'react'
-import { Box, FlexBox, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
-import { ReactComponent as GovernanceIcon } from '/public/assets/images/icon-governance.svg'
-import { ReactComponent as SandClockIcon } from '/public/assets/images/icon-sandclock-fill.svg'
 import { ProgressBar } from 'components/ProgressBar/ProgressBar'
 import { expirationAtTimeToSecondsFromNow, secondsToWdhms } from 'utils/conversions'
 import { useNavigate, useParams } from 'react-router-dom'
-import { useMantineTheme } from '@mantine/core'
+import { Box, Flex, useMantineTheme } from '@mantine/core'
 import useCurrentEntity from 'hooks/currentEntity'
 import { useQuery } from 'hooks/window'
 import { Card } from 'screens/CurrentEntity/Components'
+import { IconGovernance, IconSandclock } from 'components/IconPaths'
 
 const GovernanceCard: React.FC = (): JSX.Element => {
   const theme = useMantineTheme()
@@ -55,39 +54,32 @@ const GovernanceCard: React.FC = (): JSX.Element => {
 
   return (
     <Card
-      icon={<GovernanceIcon />}
+      icon={IconGovernance}
       label='Governance'
       onAction={() => navigate(`/entity/${entityId}/dashboard/governance`)}
     >
-      <FlexBox width='100%' $direction='column' $alignItems='center' $gap={1}>
+      <Flex w='100%' direction='column' align='center' gap={1}>
         <Typography color='blue' size='5xl'>
           {proposals.length.toLocaleString()}
         </Typography>
         <Typography color='white'>Open Proposals</Typography>
-      </FlexBox>
+      </Flex>
 
       {proposals.length > 0 && (
-        <FlexBox $direction='column' $alignItems='center' width='100%' $gap={2}>
-          <FlexBox $borderRadius='4px' background='#012131' $gap={2} p={4} $direction='column' width='100%'>
-            <FlexBox $alignItems='center' $gap={2.5}>
+        <Flex direction='column' align='center' w='100%' gap={2}>
+          <Flex style={{ borderRadius: '4px' }} bg='#012131' gap={2} p={4} direction='column' w='100%'>
+            <Flex align='center' gap={2.5}>
               <Box>
-                <FlexBox
-                  $borderRadius='4px'
-                  background='#033C50'
-                  $justifyContent='center'
-                  $alignItems='center'
-                  $minWidth='32px'
-                  height='32px'
-                >
+                <Flex bg='#033C50' justify='center' align='center' miw='32px' h='32px' style={{ borderRadius: '4px' }}>
                   <Typography color='blue' size='md'>
                     #{id}
                   </Typography>
-                </FlexBox>
+                </Flex>
               </Box>
               <Typography color='blue' weight='bold' size='md'>
                 {title}
               </Typography>
-            </FlexBox>
+            </Flex>
 
             <Box mb={3}>
               <Typography size='sm' color='white'>
@@ -95,29 +87,28 @@ const GovernanceCard: React.FC = (): JSX.Element => {
               </Typography>
             </Box>
 
-            <FlexBox width='100%' $gap={3} $alignItems='center'>
-              <SvgBox color={theme.colors.blue[5]}>
-                <SandClockIcon />
-              </SvgBox>
+            <Flex w='100%' gap={3} align='center'>
+              <Image src={IconSandclock} alt='SandClock' width={5} height={5} color={theme.colors.blue[5]} />
+
               <ProgressBar
                 height={8}
                 total={votingPeriod}
                 approved={secondsFromNow}
                 rejected={0}
                 activeBarColor={theme.colors.blue[5]}
-                barColor={theme.ixoDarkBlue}
+                barColor={theme.colors.blue[8]}
               />
-            </FlexBox>
-          </FlexBox>
-          <FlexBox>
+            </Flex>
+          </Flex>
+          <Flex>
             <Typography size='sm' color='dark-blue'>
               <Typography size='sm' weight='bold' color='blue'>
                 {proposalEndString}
               </Typography>{' '}
               before voting closes
             </Typography>
-          </FlexBox>
-        </FlexBox>
+          </Flex>
+        </Flex>
       )}
     </Card>
   )

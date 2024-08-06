@@ -1,13 +1,12 @@
+import Image from 'next/image'
 import { Flex } from '@mantine/core'
 import { Typography } from 'components/Typography'
 import React, { useEffect, useState } from 'react'
 
-import { ReactComponent as SortGToLIcon } from '/public/assets/images/icon-sort-gtol.svg'
-import { ReactComponent as SortLToGIcon } from '/public/assets/images/icon-sort-ltog.svg'
-import { SvgBox } from 'components/App/App.styles'
 import { useMantineTheme } from '@mantine/core'
 import GroupCard from './GroupCard'
 import { TDAOGroupModel } from 'types/entities'
+import { IconSortGtol, IconSortLtog } from 'components/IconPaths'
 
 type GroupProps = {
   daoGroups:
@@ -16,6 +15,16 @@ type GroupProps = {
       }
     | undefined
 }
+
+const SortDirections = ({ direction }: { direction: boolean }) => {
+  const theme = useMantineTheme()
+  return direction ? (
+    <Image src={IconSortGtol} alt='SortGToL' width={5} height={5} color={theme.colors.blue[5]} />
+  ) : (
+    <Image src={IconSortLtog} alt='SortLToG' width={5} height={5} color={theme.colors.blue[5]} />
+  )
+}
+
 const Groups = ({ daoGroups }: GroupProps) => {
   const theme = useMantineTheme()
   const daoGroupsArr = Object.values(daoGroups ?? {})
@@ -32,61 +41,41 @@ const Groups = ({ daoGroups }: GroupProps) => {
       <Flex
         gap={4}
         align={'center'}
-        style={{ color: sortBy === 'members' ? theme.colors.blue[5] : theme.ixoDarkBlue, cursor: 'pointer' }}
+        style={{ color: sortBy === 'members' ? theme.colors.blue[5] : theme.colors.gray[5], cursor: 'pointer' }}
         onClick={() => (sortBy === 'members' ? setSortDirection((v) => !v) : setSortBy('members'))}
       >
         <Typography size='lg'>Members</Typography>
-        {sortBy === 'members' && (
-          <SvgBox $svgWidth={4.5} $svgHeight={4.5}>
-            {sortDirection && <SortGToLIcon />}
-            {!sortDirection && <SortLToGIcon />}
-          </SvgBox>
-        )}
+        {sortBy === 'members' && <SortDirections direction={sortDirection} />}
       </Flex>
 
       <Flex
         gap={4}
         align={'center'}
-        style={{ color: sortBy === 'treasury' ? theme.colors.blue[5] : theme.ixoDarkBlue, cursor: 'pointer' }}
+        style={{ color: sortBy === 'treasury' ? theme.colors.blue[5] : theme.colors.gray[5], cursor: 'pointer' }}
         onClick={() => (sortBy === 'treasury' ? setSortDirection((v) => !v) : setSortBy('treasury'))}
       >
         <Typography size='lg'>Treasury</Typography>
-        {sortBy === 'treasury' && (
-          <SvgBox $svgWidth={4.5} $svgHeight={4.5}>
-            {sortDirection && <SortGToLIcon />}
-            {!sortDirection && <SortLToGIcon />}
-          </SvgBox>
-        )}
+        {sortBy === 'treasury' && <SortDirections direction={sortDirection} />}
       </Flex>
 
       <Flex
         gap={4}
         align={'center'}
-        style={{ color: sortBy === 'proposals' ? theme.colors.blue[5] : theme.ixoDarkBlue, cursor: 'pointer' }}
+        style={{ color: sortBy === 'proposals' ? theme.colors.blue[5] : theme.colors.gray[5], cursor: 'pointer' }}
         onClick={() => (sortBy === 'proposals' ? setSortDirection((v) => !v) : setSortBy('proposals'))}
       >
         <Typography size='lg'>Proposals</Typography>
-        {sortBy === 'proposals' && (
-          <SvgBox $svgWidth={4.5} $svgHeight={4.5}>
-            {sortDirection && <SortGToLIcon />}
-            {!sortDirection && <SortLToGIcon />}
-          </SvgBox>
-        )}
+        {sortBy === 'proposals' && <SortDirections direction={sortDirection} />}
       </Flex>
 
       <Flex
         gap={4}
         align={'center'}
-        style={{ color: sortBy === 'type' ? theme.colors.blue[5] : theme.ixoDarkBlue, cursor: 'pointer' }}
+        style={{ color: sortBy === 'type' ? theme.colors.blue[5] : theme.colors.gray[5], cursor: 'pointer' }}
         onClick={() => (sortBy === 'type' ? setSortDirection((v) => !v) : setSortBy('type'))}
       >
         <Typography size='lg'>Type</Typography>
-        {sortBy === 'type' && (
-          <SvgBox $svgWidth={4.5} $svgHeight={4.5}>
-            {sortDirection && <SortGToLIcon />}
-            {!sortDirection && <SortLToGIcon />}
-          </SvgBox>
-        )}
+        {sortBy === 'type' && <SortDirections direction={sortDirection} />}
       </Flex>
     </Flex>
   )

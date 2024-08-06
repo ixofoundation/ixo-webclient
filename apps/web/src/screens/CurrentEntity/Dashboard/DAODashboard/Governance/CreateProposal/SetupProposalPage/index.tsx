@@ -1,42 +1,48 @@
+import Image from 'next/image'
 import React, { useState, useCallback } from 'react'
-
-import { Flex } from '@mantine/core'
-import styled, { useTheme } from 'styled-components'
-import { ReactComponent as PlusCircleIcon } from '/public/assets/images/icon-plus-circle-solid.svg'
-import { SvgBox } from 'components/App/App.styles'
+import { Flex, Box, Button, useMantineTheme } from '@mantine/core'
 import { Typography } from 'components/Typography'
 import { PropertiesForm } from 'screens/CreateEntity/Forms'
 import { useCreateEntityState } from 'hooks/createEntity'
-import { Button } from 'screens/CreateEntity/Components'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useQuery } from 'hooks/window'
 import { TEntityPageModel } from 'types/entities'
 import Editor from 'components/Editor/Editor'
+import { IconPlusCircleSolid } from 'components/IconPaths'
+import { createStyles } from '@mantine/emotion'
 
-export const Wrapper = styled(Flex)`
-  font-family: ${(props): string => props.theme.secondaryFontFamily};
+const useStyles = createStyles((theme) => ({
+  wrapper: {
+    fontFamily: theme.fontFamily,
 
-  .ce-block,
-  .ce-toolbar {
-    &__content {
-      max-width: 100%;
-      margin: 0;
-    }
-  }
+    '& .ce-block, & .ce-toolbar': {
+      '&__content': {
+        maxWidth: '100%',
+        margin: 0,
+      },
+    },
 
-  .cdx-button,
-  .ce-header[contentEditable='true'][data-placeholder]::before {
-    color: ${(props) => props.theme.ixoGrey700};
-  }
+    '& .cdx-button, & .ce-header[contentEditable="true"][data-placeholder]::before': {
+      color: theme.colors.gray[7],
+    },
 
-  .cdx-button {
-    border: none;
-    box-shadow: none;
-    padding: 0;
-  }
-`
+    '& .cdx-button': {
+      border: 'none',
+      boxShadow: 'none',
+      padding: 0,
+    },
+  },
+  editorWrapper: {
+    border: `1px solid ${theme.colors.gray[3]}`,
+  },
+  addFileButton: {
+    color: theme.colors.blue[5],
+    cursor: 'pointer',
+  },
+}))
 
 const SetupProposalPage: React.FC = (): JSX.Element => {
+  const { classes } = useStyles()
   const theme = useMantineTheme()
   const navigate = useNavigate()
   const { entityId, coreAddress } = useParams<{ entityId: string; coreAddress: string }>()
@@ -82,6 +88,7 @@ const SetupProposalPage: React.FC = (): JSX.Element => {
       navigate(`/entity/${entityId}/dashboard/governance/${coreAddress}/action`)
     }
   }
+
   const handleNext = (): void => {
     updatePage(value)
 
@@ -123,37 +130,32 @@ const SetupProposalPage: React.FC = (): JSX.Element => {
   }
 
   return (
-    <Wrapper direction={'column'} gap={50} w='100%'>
-      <Flex direction={'column'} gap={24} w='100%'>
-        <Flex w='100%' direction={'column'} py={30} px={60} style={{ border: `1px solid ${theme.ixoGrey300}` }}>
+    <Flex direction='column' gap={50} w='100%' className={classes.wrapper}>
+      <Flex direction='column' gap={24} w='100%'>
+        <Box className={classes.editorWrapper} py={30} px={60}>
           <Editor editable={true} onChange={handleSave} initialPage={value} />
-        </Flex>
+        </Box>
 
         {!addLinked ? (
-          <Flex
-            align={'center'}
-            gap={4}
-            style={{ color: theme.colors.blue[5], cursor: 'pointer' }}
-            onClick={() => setAddLinked(true)}
-          >
-            <SvgBox $svgWidth={6} $svgHeight={6}>
-              <PlusCircleIcon />
-            </SvgBox>
+          <Flex align='center' gap={4} className={classes.addFileButton} onClick={() => setAddLinked(true)}>
+            <Box w={6} h={6}>
+              <Image src={IconPlusCircleSolid} alt='PlusCircle' width={5} height={5} />
+            </Box>
             <Typography>Add File</Typography>
           </Flex>
         ) : (
           <PropertiesForm {...PropertiesFormProps} />
         )}
       </Flex>
-      <Flex align={'center'}>
+      <Flex align='center'>
         <Flex gap={20}>
-          <Button variant='secondary' onClick={handleBack}>
+          <Button variant='outline' onClick={handleBack}>
             Back
           </Button>
           <Button onClick={handleNext}>Continue</Button>
         </Flex>
       </Flex>
-    </Wrapper>
+    </Flex>
   )
 }
 

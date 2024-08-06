@@ -1,9 +1,7 @@
-import { FlexBox } from 'components/App/App.styles'
 import React, { useState } from 'react'
 import useEditEntity from 'hooks/editEntity'
 import { CheckBox, PropertyBox } from 'screens/CreateEntity/Components'
 import { Typography } from 'components/Typography'
-import { ReactComponent as PlusIcon } from '/public/assets/images/icon-plus.svg'
 import { AddDAOGroupModal } from 'components/Modals'
 import { v4 as uuidv4 } from 'uuid'
 import { initialMembershipGroup, initialStakingGroup } from 'screens/CreateEntity/EntityPages/SetupGroups/SetupGroups'
@@ -12,8 +10,12 @@ import { LinkedEntity } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1bet
 import SetupGroupSettings from 'screens/CreateEntity/EntityPages/SetupGroups/SetupGroupSettings'
 import { TDAOGroupModel } from 'types/entities'
 import { DAOGroupConfig } from 'constants/entity'
+import { IconPlus } from 'components/IconPaths'
+import { Flex, useMantineTheme } from '@mantine/core'
+import Image from 'next/image'
 
 const EditGroups: React.FC = (): JSX.Element => {
+  const theme = useMantineTheme()
   const { editEntity, setEditedField } = useEditEntity()
   const [openAddGroupModal, setOpenAddGroupModal] = useState(false)
   const daoGroups: { [address: string]: TDAOGroupModel } = editEntity.daoGroups ?? {}
@@ -115,14 +117,14 @@ const EditGroups: React.FC = (): JSX.Element => {
 
   return (
     <>
-      <FlexBox $gap={5}>
+      <Flex gap={5}>
         {Object.entries(daoGroups ?? {}).map(([key, value]) => {
           const Icon = DAOGroupConfig[value.type]?.icon
           const text = DAOGroupConfig[value.type]?.text
           const preFilled = Object.values(linkedEntity).some((v) => v.id.includes(key))
 
           return (
-            <FlexBox key={key} $direction='column' $alignItems='center' $gap={4}>
+            <Flex key={key} direction='column' align='center' gap={4}>
               <PropertyBox
                 icon={Icon && <Icon />}
                 label={text}
@@ -142,11 +144,15 @@ const EditGroups: React.FC = (): JSX.Element => {
                 handleChange={() => daoController !== value.coreAddress && updateDAOController(value.coreAddress || '')}
                 style={{ flexDirection: 'column' }}
               />
-            </FlexBox>
+            </Flex>
           )
         })}
-        <PropertyBox icon={<PlusIcon />} noData handleClick={(): void => setOpenAddGroupModal(true)} />
-      </FlexBox>
+        <PropertyBox
+          icon={<Image src={IconPlus} alt='Plus' width={5} height={5} color={theme.colors.blue[5]} />}
+          noData
+          handleClick={(): void => setOpenAddGroupModal(true)}
+        />
+      </Flex>
       <AddDAOGroupModal
         open={openAddGroupModal}
         onClose={(): void => setOpenAddGroupModal(false)}

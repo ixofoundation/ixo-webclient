@@ -1,25 +1,27 @@
+import Image from 'next/image'
 import React from 'react'
 import { BarChart, Bar, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
 import moment from 'moment'
-import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
-import { useMantineTheme } from '@mantine/core'
+import { Flex, useMantineTheme } from '@mantine/core'
 import { Card } from 'screens/CurrentEntity/Components'
-import { ReactComponent as PieIcon } from '/public/assets/images/icon-pie.svg'
+import { IconPie } from 'components/IconPaths'
 
 const CustomTooltip = ({ active, payload, label }: any) => {
+  const theme = useMantineTheme()
+
   if (active && payload && payload.length) {
     const timestamp = payload[0].payload?.timestamp
     const votes = payload[0].payload?.votes
     return (
-      <FlexBox $direction='column' background='#012131' $borderRadius='4px' px={4} py={3} $gap={1}>
+      <Flex direction='column' bg={theme.colors.gray[7]} style={{ borderRadius: 4 }} px={4} py={3} gap={1}>
         <Typography color='white' size='md' weight='bold'>
           {moment(timestamp).format('ddd, D MMM, YYYY')}
         </Typography>
         <Typography color='white' size='md' weight='bold'>
           {votes} Votes Submitted
         </Typography>
-      </FlexBox>
+      </Flex>
     )
   }
 
@@ -30,7 +32,7 @@ const GovernanceActivityCard: React.FC = (): JSX.Element => {
   const theme = useMantineTheme()
 
   return (
-    <Card icon={<PieIcon />} label='Governance Activity'>
+    <Card icon={IconPie} label='Governance Activity'>
       <ResponsiveContainer width='100%' height='100%'>
         <BarChart width={500} height={300} data={[]}>
           <defs>
@@ -62,8 +64,8 @@ const GovernanceActivityCard: React.FC = (): JSX.Element => {
           />
         </BarChart>
       </ResponsiveContainer>
-      <FlexBox width='100%' $justifyContent='flex-end'>
-        <FlexBox mr={2} $gap={4}>
+      <Flex w='100%' justify='flex-end'>
+        <Flex mr={2} gap={4}>
           <Typography color='dark-blue' size='md'>
             Day
           </Typography>
@@ -79,8 +81,8 @@ const GovernanceActivityCard: React.FC = (): JSX.Element => {
           <Typography color='dark-blue' size='md'>
             All
           </Typography>
-        </FlexBox>
-      </FlexBox>
+        </Flex>
+      </Flex>
     </Card>
   )
 }

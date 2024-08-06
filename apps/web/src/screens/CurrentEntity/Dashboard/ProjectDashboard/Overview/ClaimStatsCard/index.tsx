@@ -1,8 +1,6 @@
+import Image from 'next/image'
 import { ixo } from '@ixo/impactxclient-sdk'
-import { Box, Flex } from '@mantine/core'
-import { ReactComponent as CheckInCircleIcon } from '/public/assets/images/icon-check-in-circle.svg'
-import { ReactComponent as ProfileIcon } from '/public/assets/images/icon-profile.svg'
-import { SvgBox } from 'components/App/App.styles'
+import { Box, Flex, useMantineTheme } from '@mantine/core'
 import { Typography } from 'components/Typography'
 import PieChart from 'components/Widgets/PieChart'
 import { useGetClaimCollectionsByEntityId } from 'graphql/claims'
@@ -11,6 +9,8 @@ import { useClaimSetting } from 'hooks/claim'
 import { Card } from 'screens/CurrentEntity/Components'
 import { useMemo } from 'react'
 import { useParams } from 'react-router-dom'
+import { IconCheckInCircle } from 'components/IconPaths'
+import { IconProfile } from 'components/IconPaths'
 
 interface StatCardProps {
   evaluationStatus: keyof typeof statCardLabel
@@ -41,6 +41,7 @@ const ClaimStatsCard: React.FC = () => {
   const ClaimSetting = useClaimSetting()
   const { entityId = '' } = useParams<{ entityId: string }>()
   const { data: claimCollections } = useGetClaimCollectionsByEntityId(entityId)
+  const theme = useMantineTheme()
   const claimStats = useMemo(() => {
     return claimCollections.reduce(
       (acc, cur) => ({
@@ -57,7 +58,7 @@ const ClaimStatsCard: React.FC = () => {
   const { agents, pendingAgents, approvedAgents } = useGetJoiningAgentsByEntityId(entityId)
 
   return (
-    <Card label='Claims' icon={<CheckInCircleIcon />}>
+    <Card label='Claims' icon={IconCheckInCircle}>
       <Flex w='100%' h='100%' align={'center'} gap={4}>
         <Flex w='100%' direction={'column'} gap={16}>
           <Flex w='100%' direction={'column'} gap={16} ml={32}>
@@ -72,9 +73,7 @@ const ClaimStatsCard: React.FC = () => {
           </Flex>
           <Flex w='100%' direction={'column'} gap={16}>
             <Flex gap={8} align={'center'}>
-              <SvgBox color='white' $svgWidth={4.5} $svgHeight={4.5}>
-                <ProfileIcon />
-              </SvgBox>
+              <Image src={IconProfile} alt='Profile' width={5} height={5} color={theme.colors.blue[5]} />
               <Typography variant='secondary' color='white' size='lg'>
                 Agents
               </Typography>

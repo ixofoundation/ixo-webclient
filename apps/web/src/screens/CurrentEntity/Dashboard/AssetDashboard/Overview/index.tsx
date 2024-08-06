@@ -1,15 +1,7 @@
-import { Flex } from '@mantine/core'
+import Image from 'next/image'
+import { Flex, Grid, Box, useMantineTheme } from '@mantine/core'
 import React from 'react'
 import { AssetCard } from 'components/EntityCards/AssetCard'
-import { GridContainer, GridItem } from 'components/App/App.styles'
-import {
-  AssetActivityIcon,
-  AssetLocationIcon,
-  AssetPerformanceIcon,
-  AssetStatsIcon,
-  ClockIcon,
-  ImpactsCreditIcon,
-} from 'components/Icons'
 import { Message, useMessagesQuery } from 'generated/graphql'
 import { useGetCreatorProfileWithVerifiableCredential } from 'utils/asset'
 import { useGetAccountTokens } from 'graphql/tokens'
@@ -23,6 +15,15 @@ import ClaimActivityCard from './ClaimActivityCard'
 import AssetEventsCard from './AssetEventsCard'
 import { getEntityById } from 'redux/entities/entities.selectors'
 import { useAppSelector } from 'redux/hooks'
+
+import {
+  IconAssetPerformance,
+  IconAssetLocation,
+  IconAssetStats,
+  IconClock,
+  IconAssetActivity,
+  IconImpactCredits,
+} from 'components/IconPaths'
 
 const EmptyAssetCardData = {
   type: '',
@@ -39,16 +40,25 @@ const EmptyAssetCardData = {
 }
 
 const AssetOverview: React.FC = () => {
+  const theme = useMantineTheme()
   const location = useLocation()
   const searchParams = new URLSearchParams(location.search)
   const collection = searchParams.get('collection')
-  const { entityId = "" } = useParams()
-  const { id, accounts, externalId, alsoKnownAs, linkedResource, service, profile: entityProfile, tags, zlottie, metadata } = useAppSelector(getEntityById(entityId))
+  const { entityId = '' } = useParams()
+  const {
+    id,
+    accounts,
+    externalId,
+    alsoKnownAs,
+    linkedResource,
+    service,
+    profile: entityProfile,
+    tags,
+    zlottie,
+    metadata,
+  } = useAppSelector(getEntityById(entityId))
 
-  const adminAccount = React.useMemo(
-    () => accounts?.find((v: any) => v.name === 'admin')?.address || '',
-    [accounts],
-  )
+  const adminAccount = React.useMemo(() => accounts?.find((v: any) => v.name === 'admin')?.address || '', [accounts])
   const { data: accountTokens } = useGetAccountTokens(adminAccount)
 
   const [cookStove, setCookStove] = React.useState<any>()
@@ -80,7 +90,7 @@ const AssetOverview: React.FC = () => {
     return { retired: 0, produced: 0, claimable: 0 }
   }, [accountTokens])
 
-  const assetNumber = alsoKnownAs?.replace('{id}#', '') ?? ""
+  const assetNumber = alsoKnownAs?.replace('{id}#', '') ?? ''
 
   const inputAssetCardData = React.useMemo(() => {
     if (entityProfile) {
@@ -91,7 +101,7 @@ const AssetOverview: React.FC = () => {
         title: entityProfile?.brand,
         cardImage: entityProfile?.image,
         creator: entityProfile?.name,
-        tags: tags ?? [] as any,
+        tags: tags ?? ([] as any),
         animation: zlottie,
         assetNumber: assetNumber,
         maxSupply: '',
@@ -110,58 +120,73 @@ const AssetOverview: React.FC = () => {
   }, [externalId])
 
   return (
-    <Flex w={'100%'} direction={'column'} gap={6}>
-      <GridContainer
-        $gridTemplateAreas={`"a a b b c c""d d d d d d""e e e f f f""g g g g g g"`}
-        $gridTemplateColumns={'1fr 1fr 1fr 1fr 1fr 1fr'}
-        $gridTemplateRows={'repeat(3, minmax(400px, auto))'}
-        $gridGap={6}
-        width='100%'
-      >
-        <GridItem $gridArea='a' $alignSelf='stretch' height='400px'>
-          <AssetCard {...inputAssetCardData} accountTokens={carbonTokens} width='300px' height='100%' />
-        </GridItem>
-        <GridItem $gridArea='b' $alignSelf='stretch' height='400px'>
-          <AssetStatsCard
-            creator={profile?.name}
-            created={metadata?.created}
-            project={profile?.brand}
-            did={id}
-            carbonProduced={carbonTokens.produced}
-            label='Asset Stats'
-            icon={<AssetStatsIcon />}
-          />
-        </GridItem>
-        <GridItem $gridArea='c' $alignSelf='stretch' height='400px'>
-          <AssetCreditsCard
-            label='Impact Credits'
-            icon={<ImpactsCreditIcon />}
-            carbonAmountClaimable={carbonTokens.claimable}
-            carbonAmountProduced={carbonTokens.produced}
-            carbonAmountRetired={carbonTokens.retired}
-          />
-        </GridItem>
-        <GridItem $gridArea='d' $alignSelf='stretch' height='400px'>
-          <AssetPerformanceCard
-            externalId={externalId ?? ''}
-            label='Asset Performance'
-            icon={<AssetPerformanceIcon />}
-          />
-        </GridItem>
-        <GridItem $gridArea='e' $alignSelf='stretch' height='400px'>
-          <AssetLocationCard icon={<AssetLocationIcon />} label={'Asset Location'} cookStove={cookStove} />
-        </GridItem>
-        <GridItem $gridArea='f' $alignSelf='stretch' height='400px'>
-          <ClaimActivityCard icon={<AssetActivityIcon />} label='Claim Activity' />
-        </GridItem>
-        <GridItem $gridArea='g' $alignSelf='stretch' $minHeight='400px'>
-          <AssetEventsCard
-            label='Asset Events'
-            icon={<ClockIcon />}
-            messages={(messagesData?.messages?.nodes ?? []) as Message[]}
-          />
-        </GridItem>
-      </GridContainer>
+    <Flex w='100%' direction='column' gap={theme.spacing.md}>
+      <Grid gutter={theme.spacing.md}>
+        <Grid.Col span={4}>
+          <Box h={400}>
+            <AssetCard {...inputAssetCardData} accountTokens={carbonTokens} w={300} h='100%' />
+          </Box>
+        </Grid.Col>
+        <Grid.Col span={4}>
+          <Box h={400}>
+            <AssetStatsCard
+              creator={profile?.name}
+              created={metadata?.created}
+              project={profile?.brand}
+              did={id}
+              carbonProduced={carbonTokens.produced as number}
+              label='Asset Stats'
+              icon={<Image src={IconAssetStats} alt='AssetStats' width={5} height={5} />}
+            />
+          </Box>
+        </Grid.Col>
+        <Grid.Col span={4}>
+          <Box h={400}>
+            <AssetCreditsCard
+              label='Impact Credits'
+              icon={<Image src={IconImpactCredits} alt='ImpactsCredit' width={5} height={5} />}
+              carbonAmountClaimable={carbonTokens.claimable as number}
+              carbonAmountProduced={carbonTokens.produced as number}
+              carbonAmountRetired={carbonTokens.retired as number}
+            />
+          </Box>
+        </Grid.Col>
+        <Grid.Col span={12}>
+          <Box h={400}>
+            <AssetPerformanceCard
+              externalId={externalId ?? ''}
+              label='Asset Performance'
+              icon={<Image src={IconAssetPerformance} alt='AssetPerformance' width={5} height={5} />}
+            />
+          </Box>
+        </Grid.Col>
+        <Grid.Col span={6}>
+          <Box h={400}>
+            <AssetLocationCard
+              icon={<Image src={IconAssetLocation} alt='AssetLocation' width={5} height={5} />}
+              label='Asset Location'
+              cookStove={cookStove}
+            />
+          </Box>
+        </Grid.Col>
+        <Grid.Col span={6}>
+          <Box h={400}>
+            <ClaimActivityCard
+              icon={<Image src={IconAssetActivity} alt='AssetActivity' width={5} height={5} />}
+              label='Claim Activity'
+            />
+          </Box>
+        </Grid.Col>
+        <Grid.Col span={12}>
+          <Box mih={400}>
+            <AssetEventsCard
+              label='Asset Events'
+              icon={<Image src={IconClock} alt='Clock' width={5} height={5} />}
+              messages={(messagesData?.messages?.nodes ?? []) as Message[]}
+            />
+          </Box>
+        </Grid.Col>
+      </Grid>
     </Flex>
   )
 }
