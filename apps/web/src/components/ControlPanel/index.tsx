@@ -1,4 +1,3 @@
-import { ReactComponent as AssistantIcon } from 'assets/images/icon-assistant.svg'
 import AccountCard from './Account'
 import MyParticipationCard from './MyParticipation'
 import BalanceCard from './Balance'
@@ -10,11 +9,10 @@ import { useKeyValueViewerContext } from 'contexts/KeyValueViewerContext'
 import { LiaBoltSolid, LiaPlaySolid } from 'react-icons/lia'
 import { useCompanionContext } from 'contexts/CompanionContext'
 import { useCompanionDesignConfig } from 'hooks/userInterface/useCompanionDesignConfig'
-import ActionPanel from './ActionPanel/ActionPanel'
+import { KeyValueActionPanel } from './ActionPanel/ActionPanel'
 import { GoArrowLeft } from 'react-icons/go'
 import { useLocation, useNavigate } from 'react-router-dom'
 import Assistant from 'components/Assistant'
-import AssistantActiveLottie from 'components/Zlotties/AssistantActiveLottie'
 import ActionsScreen from './Actions/ActionsScreen'
 
 const StyledScrollArea = styled(ScrollArea)`
@@ -23,13 +21,7 @@ const StyledScrollArea = styled(ScrollArea)`
   }
 `
 
-interface Props {
-  tab?: 'profile' | 'actions' | 'feed' | 'message' | 'assistant'
-  entityType: string
-  entityName?: string
-  service?: any
-}
-const ControlPanel = ({ entityType }: Props) => {
+const ControlPanel = () => {
   const { address } = useAccount()
   const { activeTab, setActiveTab } = useCompanionContext()
   const { keyValue, resetKeyValue } = useKeyValueViewerContext()
@@ -37,17 +29,9 @@ const ControlPanel = ({ entityType }: Props) => {
   const navigate = useNavigate()
   const { pathname } = useLocation()
 
-  const renderProfile = () => (
-    <>
-      <AccountCard />
-      <MyParticipationCard />
-      <BalanceCard />
-    </>
-  )
-
   const goBack = () => {
     resetKeyValue()
-    if(keyValue?.type === 'claim'){
+    if (keyValue?.type === 'claim') {
       const search = new URLSearchParams()
       search.delete('collectionId')
       search.delete('agentRole')
@@ -56,46 +40,37 @@ const ControlPanel = ({ entityType }: Props) => {
   }
 
   return (
-    <Flex
-      w='360px'
-      h='100%'
-      bg='#F0F3F9'
-      direction='column'
-      justify='space-between'
-      gap={0}
-      style={{ color: 'black' }}
-    >
+    <Flex w='360px' h='100%' bg='#F0F3F9' direction='column' justify='space-between' gap={0} style={{ color: 'black' }}>
       <StyledScrollArea h='100%'>
         <Flex w='100%' direction='column' h='100%' p={20} pt={32}>
-          {!keyValue && address && activeTab === 'profile' && renderProfile()}
-          {!keyValue && activeTab === 'actions' && <ActionsScreen />}
-          {!keyValue && activeTab === 'assistant' && <Assistant/>}
-          {keyValue && <ActionPanel type={keyValue.type} data={keyValue.data} />}
+          {!keyValue && activeTab === 'user' && <ActionsScreen />}
+          {!keyValue && activeTab === 'entity' && <Assistant />}
+          {keyValue && <KeyValueActionPanel type={keyValue.type} data={keyValue.data} />}
         </Flex>
       </StyledScrollArea>
       <Flex w='100%' bg='#EBEBEB' p={21} justify='space-around' align='center'>
         <Flex gap={40}>
           {!keyValue && (
-            <Tooltip text={'Actions'}>
+            <Tooltip text={'user'}>
               <ActionIcon
                 size={46}
                 radius='xl'
-                bg={activeTab === 'actions' ? toolbarActiveBackground : toolbarBackground}
-                onClick={() => setActiveTab('actions')}
+                bg={activeTab === 'user' ? toolbarActiveBackground : toolbarBackground}
+                onClick={() => setActiveTab('user')}
               >
-                <LiaPlaySolid size='24' color={activeTab === 'actions' ? toolbarActiveColor : toolbarColor} />
+                <LiaPlaySolid size='24' color={activeTab === 'user' ? toolbarActiveColor : toolbarColor} />
               </ActionIcon>
             </Tooltip>
           )}
           {address && !keyValue && (
-            <Tooltip text={'Notifications'}>
+            <Tooltip text={'entity'}>
               <ActionIcon
                 size={46}
                 radius='xl'
-                bg={activeTab === 'profile' ? toolbarActiveBackground : toolbarBackground}
-                onClick={() => setActiveTab('profile')}
+                bg={activeTab === 'entity' ? toolbarActiveBackground : toolbarBackground}
+                onClick={() => setActiveTab('entity')}
               >
-                <LiaBoltSolid size='24' color={activeTab === 'profile' ? toolbarActiveColor : toolbarColor} />
+                <LiaBoltSolid size='24' color={activeTab === 'entity' ? toolbarActiveColor : toolbarColor} />
               </ActionIcon>
             </Tooltip>
           )}
@@ -105,23 +80,10 @@ const ControlPanel = ({ entityType }: Props) => {
                 size={46}
                 radius='xl'
                 color='#20798C'
-                bg={activeTab === 'assistant' ? toolbarActiveBackground : toolbarBackground}
+                bg={activeTab === 'entity' ? toolbarActiveBackground : toolbarBackground}
                 onClick={goBack}
               >
-                <GoArrowLeft size={24} color={activeTab === 'assistant' ? toolbarActiveColor : toolbarColor} />
-              </ActionIcon>
-            </Tooltip>
-          )}
-          {!keyValue && (
-            <Tooltip text={'Oxi'}>
-              <ActionIcon
-                size={46}
-                radius='xl'
-                color='#20798C'
-                bg={activeTab === 'assistant' ? toolbarActiveBackground : toolbarBackground}
-                onClick={() => setActiveTab('assistant')}
-              >
-                {activeTab === 'assistant' ? <AssistantActiveLottie /> : <AssistantIcon />}
+                <GoArrowLeft size={24} color={activeTab === 'entity' ? toolbarActiveColor : toolbarColor} />
               </ActionIcon>
             </Tooltip>
           )}

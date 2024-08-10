@@ -1,4 +1,4 @@
-import { Box, Flex, rem } from '@mantine/core'
+import { Box, Flex, Text, rem } from '@mantine/core'
 import KeyValueTable from 'components/KeyValueTable'
 import { Column } from 'components/KeyValueTable/KeyValueTable'
 import { upperFirst } from 'lodash'
@@ -9,7 +9,7 @@ import { getEntityById } from 'redux/entities/entities.selectors'
 import { useAppSelector } from 'redux/hooks'
 import { useTheme } from 'styled-components'
 
-export const ServiceTable = () => {
+export const ServiceTable = ({ title }: { title?: string }) => {
   const theme = useTheme()
   const config = useAppSelector(selectEntityConfig)
   const { entityId = '' } = useParams<{ entityId: string }>()
@@ -23,18 +23,26 @@ export const ServiceTable = () => {
       style: { style: { width: rem(30) } },
     },
     {
-      title: 'Type',
+      title: 'Service',
       render: (row: any) => row.type,
+      style: { style: { width: '100%' } },
     },
     {
-      title: 'Name',
-      render: (row: any) => upperFirst(row.description),
+      title: 'Type',
+      render: (row: any) => <Text>Storage</Text>,
+      style: { style: { width: rem(40) } },
+    },
+    {
+      title: 'Active',
+      render: (row: any) => (row.type.includes('display') ? 'No' : 'Yes'),
+      style: { style: { width: rem(30) } },
     },
   ]
 
   return (
     <Flex w='100%' justify={'center'}>
       <Box w='70%'>
+        <Text fz={'lg'}>{title}</Text>
         <KeyValueTable valueType={'service'} columns={servicecolumns} data={service} themeColor={primaryColor} />
       </Box>
     </Flex>

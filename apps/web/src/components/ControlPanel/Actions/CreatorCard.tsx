@@ -1,14 +1,16 @@
 import { Flex, Avatar, Box, Text } from '@mantine/core'
 import ActionCard from 'components/ActionCard/ActionCard'
 import { LiaPlusCircleSolid } from 'react-icons/lia'
+import { useParams } from 'react-router-dom'
+import { getEntityById } from 'redux/entities/entities.selectors'
+import { useAppSelector } from 'redux/hooks'
 import { TEntityModel } from 'types/entities'
 import { DateFormat, formatDate } from 'utils/date'
 
-type CreatorCardProps = {
-  entity: TEntityModel
-}
+const CreatorCard = () => {
+  const { entityId = '' } = useParams()
+  const entity = useAppSelector(getEntityById(entityId))
 
-const CreatorCard = ({ entity }: CreatorCardProps) => {
   const date = formatDate({
     dateString: new Date(entity?.startDate as unknown as string).toString(),
     format: DateFormat.DD_MM_YYYY,
@@ -22,7 +24,9 @@ const CreatorCard = ({ entity }: CreatorCardProps) => {
             <Text>{entity?.creator?.displayName}</Text>
           </Flex>
           <Flex justify={'flex-start'}>
-            <Text c="dimmed" size="sm">{date}</Text>
+            <Text c='dimmed' size='sm'>
+              {date}
+            </Text>
           </Flex>
         </Box>
       </Flex>

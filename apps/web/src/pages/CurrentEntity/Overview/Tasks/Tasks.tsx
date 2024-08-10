@@ -26,6 +26,8 @@ const Tasks = () => {
   const { setKeyValue, resetKeyValue } = useKeyValueViewerContext()
   const [selectedId, setSelectedId] = useState<string | null>(null)
 
+  console.log({ entityId })
+
   if (loading) {
     return <Box>Loading...</Box>
   }
@@ -59,6 +61,7 @@ const Tasks = () => {
           onClick={() => handleRowClick(task)}
           active={selectedId === task?.collection?.id}
           entity={entity}
+          w={350}
         />
       ))}
     </Flex>

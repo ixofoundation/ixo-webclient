@@ -6,7 +6,6 @@ import { ServiceTable } from '../Services/Services'
 import Tasks from '../Tasks/Tasks'
 
 const OverviewTabs = () => {
-
   return (
     <Flex w='100%'>
       <Tabs.Panel value='page' w='100%'>
@@ -17,20 +16,14 @@ const OverviewTabs = () => {
           <Tasks />
         </Flex>
       </Tabs.Panel>
-      <Tabs.Panel value='services' w='100%'>
-        <Flex w='100%' justify={'center'} align={'center'}>
-          <ServiceTable />
+
+      <Tabs.Panel value='resources' w={'100%'}>
+        <Flex w='100%' justify={'center'} align={'center'} direction={'column'} gap={25}>
+          <ResourceTable title='Resources' />
+          <ServiceTable title='Services' />
         </Flex>
       </Tabs.Panel>
 
-      <Tabs.Panel value='rights' h='100%' w='100%'>
-        <Flex justify={'center'} align={'center'} w='100%' h='100%'></Flex>
-      </Tabs.Panel>
-      <Tabs.Panel value='resources' w={'100%'}>
-        <Flex w='100%' justify={'center'} align={'center'}>
-          <ResourceTable />
-        </Flex>
-      </Tabs.Panel>
       <Tabs.Panel value='claims' w='100%'>
         <Flex w='100%' justify={'center'} align={'center'}>
           <Claims />

@@ -1,5 +1,5 @@
-import { Image, Stack, Text } from '@mantine/core'
-import React from 'react'
+import { Avatar, Stack, Text } from '@mantine/core'
+import React, { ReactNode } from 'react'
 import GrayCard from './GrayCard'
 
 const CardWithTitleAndAvatar = ({
@@ -9,22 +9,13 @@ const CardWithTitleAndAvatar = ({
 }: {
   title: React.ReactNode
   description: React.ReactNode
-  icon?: string
+  icon?: ReactNode
 }) => (
   <GrayCard align={'start'}>
-    <Image
-      src={icon}
-      alt={title?.toString()}
-      h={24}
-      w={24}
-      mt={'0.5rem'}
-      style={{
-        objectFit: 'contain',
-      }}
-    />
+    <Avatar alt={title?.toString()}>{icon}</Avatar>
     <Stack gap={0}>
-      <Text fs={'16px'}>{title}</Text>
-      <Text c={'#9A9A9A'} fs={'12px'}>
+      <Text fz={'md'}>{title}</Text>
+      <Text c={'#9A9A9A'} fz={'xs'}>
         {description}
       </Text>
     </Stack>

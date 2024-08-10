@@ -10,7 +10,7 @@ import { TEntityPageModel } from 'types/entities'
 import { ImageBlock } from './CustomBlocks/Image/ImageBlock'
 import { en } from './customDictionary'
 import './Editor.css'
-import FeaturedImage from './FeaturedImage/FeaturedImage'
+// import FeaturedImage from './FeaturedImage/FeaturedImage'
 import PageTitle from './PageTitle/PageTitle'
 
 const schema = BlockNoteSchema.create({
@@ -53,9 +53,9 @@ const Editor = ({ editable = false, initialPage, onChange }: Props) => {
     }
   }, [page, initialPage, onChange])
 
-  const handleFeaturedImageChange = (image: string) => {
-    setPage((prev) => ({ ...prev, featuredImage: image }))
-  }
+  // const handleFeaturedImageChange = (image: string) => {
+  //   setPage((prev) => ({ ...prev, featuredImage: image }))
+  // }
 
   const handleContentChange = () => {
     setPage((prev) => ({ ...prev, content: editor?.document as Block[] }))
@@ -67,7 +67,7 @@ const Editor = ({ editable = false, initialPage, onChange }: Props) => {
 
   return (
     <Box w='100%'>
-      <FeaturedImage editable={editable} onChange={handleFeaturedImageChange} initialImage={page.featuredImage} />
+      {/* <FeaturedImage editable={editable} onChange={handleFeaturedImageChange} initialImage={page.featuredImage} /> */}
       <PageTitle editable={editable} onChange={handlePageTitleChange} initialTitle={page.pageTitle} />
       <BlockNoteView editable={editable} editor={editor} onChange={handleContentChange} theme={'light'} />
     </Box>

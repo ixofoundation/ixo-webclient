@@ -11,7 +11,15 @@ import { AgentRoles } from 'types/models'
 import { toRootEntityType } from 'utils/entities'
 import RequestApplyCard from './RequestApplyCard'
 
-const Apply = ({ collectionId, userRole, applicationSent }: { collectionId: string, userRole?: AgentRoles, applicationSent: boolean }) => {
+const Apply = ({
+  collectionId,
+  userRole,
+  applicationSent,
+}: {
+  collectionId: string
+  userRole?: AgentRoles
+  applicationSent: boolean
+}) => {
   const { entityId = '' } = useParams<{ entityId: string }>()
   const { type } = useAppSelector(getEntityById(entityId))
   const { pathname } = useLocation()
@@ -29,7 +37,7 @@ const Apply = ({ collectionId, userRole, applicationSent }: { collectionId: stri
 
   if (isRequestsTask) return <RequestApplyCard userRole={userRole} openForm={openForm} />
 
-  if(applicationSent && userRole) return null
+  if (applicationSent && userRole) return null
 
   return (
     <Box>
@@ -60,7 +68,7 @@ const ApplicationUnderReview = () => {
   )
 }
 
-const SubmitClaim = ({ data }: { data: any }) => {
+export const SubmitClaim = ({ data }: { data: any }) => {
   const { entityId = '' } = useParams()
   const { claim } = useAppSelector(getEntityById(entityId))
   const { pathname } = useLocation()
@@ -106,12 +114,6 @@ const SubmitClaim = ({ data }: { data: any }) => {
 
   return (
     <Box w='100%'>
-      <Flex justify={'space-between'} align='center'>
-        <Text>Role</Text>{' '}
-        <Badge size='lg' c='black' leftSection={<LiaUserCircleSolid size={15} />}>
-          Agent
-        </Badge>
-      </Flex>
       <Grid mt={'md'}>
         <Grid.Col span={6}>
           <Badge
@@ -159,7 +161,7 @@ const SubmitClaim = ({ data }: { data: any }) => {
         </Grid.Col>
       </Grid>
       <Button w='100%' radius={4} size='md' mt='md' onClick={openClaimForm}>
-        Submit new Claim
+        Submit Claim
       </Button>
     </Box>
   )

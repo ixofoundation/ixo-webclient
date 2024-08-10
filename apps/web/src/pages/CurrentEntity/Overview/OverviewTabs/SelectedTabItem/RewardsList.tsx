@@ -2,6 +2,7 @@ import { Text } from '@mantine/core'
 import ActionCard from 'components/ActionCard/ActionCard'
 import { theme } from 'components/App/App.styles'
 import CardWithTitleAndAvatar from './CardWithTitleAndAvatar'
+import { ReactNode } from 'react'
 
 interface Reward {
   amount: {
@@ -9,7 +10,7 @@ interface Reward {
     currency: string
   }
   claimStatus: 'approved' | 'rejected' | 'pending' | 'disputed' | 'submitted'
-  icon?: string
+  icon?: ReactNode
 }
 interface RewardsListProps {
   rewards: Reward[]
@@ -18,12 +19,24 @@ interface RewardsListProps {
 const RewardDescription = ({ claimStatus }: { claimStatus: Reward['claimStatus'] }) => {
   switch (claimStatus) {
     case 'approved':
-      return <Text fs={"12px"} c={theme.ixoGreen}>Approved Claims</Text>
+      return (
+        <Text fz={'xs'} c={theme.ixoGreen} mt={-4}>
+          Approved Claims
+        </Text>
+      )
     case 'submitted':
-      return <Text fs={"12px"} c={theme.ixoNewBlue}>Submitted Claims</Text>
+      return (
+        <Text fz={'xs'} c={theme.ixoNewBlue} mt={-4}>
+          Submitted Claims
+        </Text>
+      )
 
     default:
-      return <Text fs={"12px"} c={'#9A9A9A'}>Rejected Claims</Text>
+      return (
+        <Text fz={'xs'} c={'#9A9A9A'} mt={-4}>
+          Rejected Claims
+        </Text>
+      )
   }
 }
 
@@ -33,7 +46,7 @@ const shouldRenderAmount = (claimStatus: Reward['claimStatus']) => {
 
 function RewardsList({ rewards }: RewardsListProps) {
   return (
-    <ActionCard title='Rewards' icon={<RewardsIcon />}>
+    <ActionCard title='Payments' icon={<RewardsIcon />}>
       {rewards.map((reward, i) => (
         <CardWithTitleAndAvatar
           key={reward.amount.value + i + reward.claimStatus + reward?.icon}

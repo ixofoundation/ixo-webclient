@@ -1,5 +1,5 @@
 import EntityOverviewHero from 'components/EntityOverviewHero/EntityOverviewHero'
-import { Box, Tabs, Flex, Indicator } from '@mantine/core'
+import { Box, Tabs, Flex } from '@mantine/core'
 import { useNavigate, useParams, Outlet } from 'react-router-dom'
 import { selectEntityConfig } from 'redux/configs/configs.selectors'
 import { useAppSelector } from 'redux/hooks'
@@ -7,15 +7,14 @@ import { useTheme } from 'styled-components'
 import { useEntityOverview } from 'hooks/entity/useEntityOverview'
 import { upperFirst } from 'lodash'
 import { useKeyValueViewerContext } from 'contexts/KeyValueViewerContext'
+import styles from './Overview.module.css'
 
-const ClaimsTab = ({ type, claimItemsCount }: { type: string, claimItemsCount: number }) => {
+const ClaimsTab = ({ type }: { type: string }) => {
   const claimsKey = type === 'deed/request' ? 'tasks' : 'claims'
 
   return (
-    <Tabs.Tab value={claimsKey} pb={2} px={2} mr={10}>
-      <Indicator label={claimItemsCount} size={16} position="middle-end" offset={-10}>
-        {upperFirst(claimsKey)}
-      </Indicator>
+    <Tabs.Tab value={claimsKey} pb={2} px={2} mx={10}>
+      {upperFirst(claimsKey)}
     </Tabs.Tab>
   )
 }
@@ -33,7 +32,7 @@ const Overview: React.FC = () => {
     if (value === tab) return
     navigate(`/entity/${entityId}/overview/${value}`)
   }
-  const { type, claim } = useEntityOverview(entityId)
+  const { type } = useEntityOverview(entityId)
 
   return (
     <Box w='100%' h='100%'>
@@ -45,22 +44,34 @@ const Overview: React.FC = () => {
           mt={20}
           w='100%'
           h='100%'
-          styles={{ tab: { outline: 'none' }, tabLabel: { fontWeight: 'bold', color: '#A8ADAE', fontSize: 16 } }}
+          classNames={{
+            tab: styles.tab,
+            tabLabel: styles.tabLabel,
+            root: styles.tabsRoot,
+            list: styles.tabsList,
+          }}
           value={tab}
           onChange={handleTabChange}
         >
-          <Tabs.List pb={20}>
+          <Tabs.List
+            pb={20}
+            styles={{
+              list: {
+                borderBottom: 'none',
+                '&::before': {
+                  display: 'none',
+                },
+                '&::after': {
+                  display: 'none',
+                },
+              },
+            }}
+          >
             <Tabs.Tab value='page' pb={2} px={2} mr={10}>
               Overview
             </Tabs.Tab>
-            <ClaimsTab type={type} claimItemsCount={Object.values(claim ?? {}).length} />
-            <Tabs.Tab value='services' pb={2} px={2} mx={10}>
-              Services
-            </Tabs.Tab>
-            <Tabs.Tab value='rights' pb={2} px={2} mx={10}>
-              Rights
-            </Tabs.Tab>
-            <Tabs.Tab value='resources' pb={2} px={2} ml={10}>
+            <ClaimsTab type={type} />
+            <Tabs.Tab value='resources' pb={2} px={2} mx={10}>
               Resources
             </Tabs.Tab>
           </Tabs.List>

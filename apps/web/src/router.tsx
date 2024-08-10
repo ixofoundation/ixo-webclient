@@ -17,7 +17,7 @@ import {
   SetupInstrument,
   SetupDataCollection,
   SelectAssetType,
-  AddAssetToCollection
+  AddAssetToCollection,
 } from 'pages/CreateEntity/EntityPages'
 
 // Pages
@@ -32,11 +32,17 @@ import * as ProposalOverview from 'pages/CurrentEntity/Proposal/ProposalOverview
 import * as Requests from 'pages/Requests/Requests.route'
 import * as OverviewTabs from 'pages/CurrentEntity/Overview/OverviewTabs/OverviewTabs.route'
 import * as SelectedTabItem from 'pages/CurrentEntity/Overview/OverviewTabs/SelectedTabItem/SelectedTabItem.route'
+import * as SelectProtocol from 'pages/CreateFlow/SelectProtocol/SelectProtocol.route'
+import * as Overview from 'pages/CreateFlow/Overview/Overview.route'
+import * as OverviewTab from 'pages/CreateFlow/OverviewTab/OverviewTab.route'
 
 // Layouts
 import * as EntityOverviewLayout from 'components/Layout/EntityOverviewLayout/EntityOverviewLayout.route'
 import * as EntityDashboardLayout from 'components/Layout/EntityDashboardLayout/EntityDashboardLayout.route'
 import * as ExploreLayout from 'components/Layout/ExploreLayout/ExploreLayout.route'
+import * as SelectProtocolLayout from 'components/Layout/SelectProtocolLayout/SelectProtocolLayout.route'
+import * as CreateFlowLayout from 'components/Layout/CreateFlowLayout/CreateFlowLayout.route'
+import * as CreateTabsLayout from 'components/Layout/CreateTabsLayout/CreateTabsLayout.route'
 
 import { Routes } from 'routes'
 import { Flex } from '@mantine/core'
@@ -78,31 +84,31 @@ const router = createBrowserRouter([
         children: [
           {
             path: ':entityId/*',
-            element: <Outlet/>,
+            element: <Outlet />,
             children: [
               {
                 path: 'overview/*',
                 Component: EntityOverviewLayout.Component,
                 children: [
                   {
-                    path: "*",
+                    path: '*',
                     Component: EntityOverview.Component,
                     children: [
                       {
-                        path: ":tab",
-                        Component: OverviewTabs.Component,    
+                        path: ':tab',
+                        Component: OverviewTabs.Component,
                       },
                       {
-                        path: ":tab/:id",
+                        path: ':tab/:id',
                         Component: SelectedTabItem.Component,
-                      }
-                    ]
+                      },
+                    ],
                   },
                   {
-                    path: "proposal/:deedId",
+                    path: 'proposal/:deedId',
                     Component: ProposalOverview.Component,
                   },
-                ]
+                ],
               },
               {
                 path: 'dashboard/*',
@@ -117,6 +123,32 @@ const router = createBrowserRouter([
               {
                 path: '*',
                 Component: CurrentEntity.Component,
+              },
+            ],
+          },
+          {
+            path: 'select-or-create',
+            Component: SelectProtocolLayout.Component,
+            children: [
+              {
+                index: true,
+                Component: SelectProtocol.Component,
+              },
+            ],
+          },
+          {
+            path: 'create-new',
+            Component: CreateFlowLayout.Component,
+            children: [
+              {
+                path: ':protocolId',
+                Component: Overview.Component,
+                children: [
+                  {
+                    path: ':tab',
+                    Component: OverviewTab.Component,
+                  },
+                ],
               },
             ],
           },
@@ -213,9 +245,9 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            Component: Requests.Component
-          }
-        ]
+            Component: Requests.Component,
+          },
+        ],
       },
       // {
       //   path: 'create/entity/:entityType',

@@ -16,17 +16,9 @@ const ActionsFactory = ({ entity }: { entity: TEntityModel }) => {
   }>()
   switch (entity.type) {
     case 'dao':
-      return (
-        <Flex direction={'column'}>
-    
-        </Flex>
-      )
+      return <Flex direction={'column'}></Flex>
     case 'oracle':
-      return (
-        <Flex direction={'column'}>
-        
-        </Flex>
-      )
+      return <Flex direction={'column'}></Flex>
     case 'project':
       return (
         <Flex direction={'column'}>
@@ -34,20 +26,16 @@ const ActionsFactory = ({ entity }: { entity: TEntityModel }) => {
         </Flex>
       )
     case 'protocol':
-      return (
-        <Flex direction={'column'}>
-
-        </Flex>
-      )
+      return <Flex direction={'column'}></Flex>
     case 'deed/request':
       if (tab === 'tasks' && id) {
         return <TaskDetailsCard />
       }
       return (
         <Flex direction={'column'} gap='md'>
-          <CreatorCard entity={entity} />
-          <FundingCard entity={entity} />
-          <TimeSpanCard entity={entity} />
+          <CreatorCard />
+          <FundingCard />
+          <TimeSpanCard />
         </Flex>
       )
     default:

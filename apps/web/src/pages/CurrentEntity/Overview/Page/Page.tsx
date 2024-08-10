@@ -9,11 +9,15 @@ const Page = () => {
   const { entityId = '' } = useParams<{ entityId: string }>()
   const { page } = useAppSelector(getEntityById(entityId))
 
-  if(!page) return null
-  
+  if (!page) return null
+
   return (
     <Flex>
-      {Array.isArray(page) ? <Editor initialPage={EditorJsToBlockNote(page)} /> : <Editor initialPage={page} editable={false} />}
+      {Array.isArray(page) ? (
+        <Editor initialPage={EditorJsToBlockNote(page)} />
+      ) : (
+        <Editor initialPage={page} editable={false} />
+      )}
     </Flex>
   )
 }
