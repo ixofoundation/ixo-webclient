@@ -40,13 +40,11 @@ const FundingAccountCard = () => {
     }
   }, [entity.accounts])
 
-  console.log({ balances })
-
   return (
     <ActionCard title='Funding' icon={<LiaPlusCircleSolid />}>
       <Flex gap={10}>
         {balances.map((balance) => (
-          <CoinCard denom={balance.denom} amount={balance.amount} />
+          <CoinCard key={balance.denom} denom={balance.denom} amount={balance.amount} />
         ))}
       </Flex>
     </ActionCard>

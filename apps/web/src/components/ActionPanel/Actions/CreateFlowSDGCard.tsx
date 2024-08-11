@@ -67,7 +67,7 @@ export const CreateFlowSDGCard: React.FC = () => {
       <Flex gap={5}>
         {sdgTags.map((tag: any) => {
           const sdgIcon = getSDGIcon(tag)
-          return <SDGIconHolder selected bgColor={sdgIcon.bgColor} icon={<i className={sdgIcon.class} />} />
+          return <SDGIconHolder key={tag} selected bgColor={sdgIcon.bgColor} icon={<i className={sdgIcon.class} />} />
         })}
         <ActionIcon
           onClick={open}

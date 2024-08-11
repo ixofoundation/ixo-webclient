@@ -65,7 +65,7 @@ export const CreateFlowTypeCard: React.FC = () => {
       <Flex gap={5} wrap={'wrap'}>
         {typeTags.map((tag: any) => {
           return (
-            <Text p={10} w='auto' bg='#F9F9F9' style={{ borderRadius: 10 }}>
+            <Text key={tag} p={10} w='auto' bg='#F9F9F9' style={{ borderRadius: 10 }}>
               {tag}
             </Text>
           )

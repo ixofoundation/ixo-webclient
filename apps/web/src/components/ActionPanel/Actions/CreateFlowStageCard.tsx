@@ -65,7 +65,7 @@ export const CreateFlowStageCard: React.FC = () => {
       <Flex gap={5}>
         {stageTags.map((tag: any) => {
           return (
-            <Text p={10} bg='#F9F9F9' style={{ borderRadius: 10 }}>
+            <Text key={tag} p={10} bg='#F9F9F9' style={{ borderRadius: 10 }}>
               {tag}
             </Text>
           )
