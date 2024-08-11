@@ -1,8 +1,6 @@
 import { Flex } from '@mantine/core'
 import ApplicationSubmissionCard, { SubmitClaim } from './ApplicationSubmissionCard'
 import WithdrawEarningsCard from './WithdrawEarningsCard'
-import { ActionCard } from 'components/ActionCard'
-import { LiaDotCircle } from 'react-icons/lia'
 import FundingAccountCard from 'components/ControlPanel/Actions/FundingAccountCard'
 import RewardsList from 'pages/CurrentEntity/Overview/OverviewTabs/SelectedTabItem/RewardsList'
 import { ReactComponent as IXOIcon } from 'assets/images/icon-ixo.svg'
@@ -12,9 +10,9 @@ const ClaimPanel = ({ data }: { data: any }) => {
     <Flex style={{ borderRadius: 12 }} direction={'column'} gap={10}>
       <ApplicationSubmissionCard data={data} />
       <WithdrawEarningsCard data={data} />
-      <ActionCard title='Claims' icon={<LiaDotCircle />}>
-        <SubmitClaim data={data} />
-      </ActionCard>
+
+      <SubmitClaim data={data} />
+
       <FundingAccountCard />
       <RewardsList
         rewards={[
