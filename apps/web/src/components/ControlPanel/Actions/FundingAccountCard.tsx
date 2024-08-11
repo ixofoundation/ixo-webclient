@@ -41,7 +41,7 @@ const FundingAccountCard = () => {
   }, [entity.accounts])
 
   return (
-    <ActionCard title='Funding' icon={<LiaPlusCircleSolid />}>
+    <ActionCard title='Funding' icon={<LiaPlusCircleSolid />} editable={false}>
       <Flex gap={10}>
         {balances.map((balance) => (
           <CoinCard key={balance.denom} denom={balance.denom} amount={balance.amount} />

@@ -46,7 +46,7 @@ const shouldRenderAmount = (claimStatus: Reward['claimStatus']) => {
 
 function RewardsList({ rewards }: RewardsListProps) {
   return (
-    <ActionCard title='Payments' icon={<RewardsIcon />}>
+    <ActionCard title='Payments' icon={<RewardsIcon />} editable={false}>
       {rewards.map((reward, i) => (
         <CardWithTitleAndAvatar
           key={reward.amount.value + i + reward.claimStatus + reward?.icon}
