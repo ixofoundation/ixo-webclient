@@ -45,7 +45,7 @@ const Overview: React.FC = () => {
             (Array.isArray(entity?.page) ? (
               <Editor initialPage={EditorJsToBlockNote(entity?.page as any) as any} />
             ) : (
-              <Editor initialPage={entity?.page} editable={false} />
+              <Editor initialPage={entity?.page.content} editable={false} />
             ))}
           <InstructionsToExecute />
           <LinkedFiles
