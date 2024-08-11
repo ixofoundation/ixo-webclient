@@ -14,6 +14,12 @@ const ControlPanel = () => {
         </>
       )
     }
+    // Check for the specific 'select-or-create' route first
+    if (location.pathname === '/entity/select-or-create') {
+      // Handle the select-or-create case
+      return null // or return a specific component for this route
+    }
+
     if (matchPath('/entity/:entityId/*', location.pathname)) {
       return (
         <>

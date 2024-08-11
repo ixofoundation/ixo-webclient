@@ -27,7 +27,7 @@ const FundingCard = () => {
   const progressValue = (totals.available.count / totals.total.count) * 100
 
   return (
-    <ActionCard title='Funding' icon={<LiaPlusCircleSolid />}>
+    <ActionCard title='Funding' icon={<LiaPlusCircleSolid />} editable={false}>
       <Progress value={progressValue} mt={4} radius={'lg'} size={'xl'} />
       <Flex w='100%' gap={10} align='center' style={{ borderRadius: '10px' }} mt={8}>
         <ItemCard

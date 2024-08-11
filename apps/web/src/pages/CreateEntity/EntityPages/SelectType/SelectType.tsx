@@ -13,7 +13,7 @@ import { ReactComponent as DeedIcon } from 'assets/images/icon-deed.svg'
 import { ReactComponent as RequestIcon } from 'assets/images/icon-star.svg'
 import { useNavigate } from 'react-router-dom'
 
-const SelectType= ({ showNavigation = true }: { showNavigation?: boolean }): JSX.Element => {
+const SelectType = ({ showNavigation = true }: { showNavigation?: boolean }): JSX.Element => {
   const options = [
     {
       type: 'protocol/claim',
@@ -39,7 +39,7 @@ const SelectType= ({ showNavigation = true }: { showNavigation?: boolean }): JSX
       label: 'Request Class',
       icon: <RequestIcon />,
       description: `A <b>Request</b> defines a request, a group proposal or an offer to provide service as a contribution or evaluation agent.`,
-      disabled: true
+      disabled: true,
     },
     {
       type: 'protocol/asset',
@@ -82,9 +82,7 @@ const SelectType= ({ showNavigation = true }: { showNavigation?: boolean }): JSX
   const navigate = useNavigate()
 
   const handleClick = (item: any): void => {
-    // updateEntityType(item.type.toLowerCase())
-    // navigateToNextStep()
-    navigate(item.type.replace("/", "-"))
+    navigate(`/entity/create/${item.type.toLowerCase().replace('/', '-')}`)
   }
 
   return (
