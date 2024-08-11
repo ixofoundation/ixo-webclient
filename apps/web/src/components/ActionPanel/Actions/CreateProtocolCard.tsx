@@ -7,7 +7,7 @@ export const CreateProtocolCard = () => {
   return (
     <ActionCard title='Protocol' icon={<IconCircleDashed size={24} />}>
       <Flex direction='column'>
-        <Text mt={5}>Can't find a suitable Protocol?</Text>
+        <Text mt={5}>Can&apos;t find a suitable Protocol?</Text>
         <Button component={Link} to='create-new' mt={15} radius={'md'}>
           Create Protocol
         </Button>

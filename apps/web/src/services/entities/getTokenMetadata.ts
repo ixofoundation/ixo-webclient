@@ -7,7 +7,7 @@ export const getTokenMetadata = async ({ resource, service }: { resource: any; s
 
   return fetch(getMappedNewURL(url))
     .then((response) => response.json())
-    .catch((e) => {
+    .catch(() => {
       return undefined
     })
 }

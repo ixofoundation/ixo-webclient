@@ -42,7 +42,6 @@ import * as EntityDashboardLayout from 'components/Layout/EntityDashboardLayout/
 import * as ExploreLayout from 'components/Layout/ExploreLayout/ExploreLayout.route'
 import * as SelectProtocolLayout from 'components/Layout/SelectProtocolLayout/SelectProtocolLayout.route'
 import * as CreateFlowLayout from 'components/Layout/CreateFlowLayout/CreateFlowLayout.route'
-import * as CreateTabsLayout from 'components/Layout/CreateTabsLayout/CreateTabsLayout.route'
 
 import { Routes } from 'routes'
 import { Flex } from '@mantine/core'

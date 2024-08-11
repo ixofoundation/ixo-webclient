@@ -1,6 +1,3 @@
-import AccountCard from './Account'
-import MyParticipationCard from './MyParticipation'
-import BalanceCard from './Balance'
 import { Flex, ScrollArea, ActionIcon } from '@mantine/core'
 import styled from 'styled-components'
 import { useAccount } from 'hooks/account'
