@@ -30,12 +30,12 @@ export const ServiceTable = ({ title }: { title?: string }) => {
     {
       title: 'Type',
       render: (row: any) => <Text>Storage</Text>,
-      style: { style: { width: rem(40) } },
+      style: { style: { width: rem(50) } },
     },
     {
-      title: 'Active',
+      title: 'Visible',
       render: (row: any) => (row.type.includes('display') ? 'No' : 'Yes'),
-      style: { style: { width: rem(30) } },
+      style: { style: { width: rem(50) } },
     },
   ]
 

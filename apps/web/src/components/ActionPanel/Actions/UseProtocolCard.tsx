@@ -17,7 +17,7 @@ export const UseProtocolCard = () => {
   }
 
   return (
-    <ActionCard title='Protocol' icon={<IconCircleDashed size={24} />}>
+    <ActionCard title='Protocol' icon={<IconCircleDashed size={24} />} editable={false}>
       <Flex direction='column'>
         <Text mt={5}>Do you want to create a {friendlyEntityTypes(type)} using this Project Protocol?</Text>
         <Button component={Link} to={`/entity/create-new/${entityId}/overview`} mt={15} radius={'md'}>
