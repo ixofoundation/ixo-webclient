@@ -2,7 +2,6 @@ import { WalletType } from "@ixo-webclient/types";
 import { useContext } from "react";
 import { WalletContextType, WalletContext, Wallet } from "contexts";
 import { DeliverTxResponse } from "@cosmjs/stargate";
-import { StdFee } from "@ixo/impactxclient-sdk/node_modules/@cosmjs/amino";
 
 type ExecuteProps = {
   data: MessageProps;
@@ -17,7 +16,7 @@ type MessageProps = {
     typeUrl: string;
     value: any;
   }[];
-  fee: StdFee;
+  fee: any;
   memo: string | undefined;
 };
 
@@ -25,8 +24,12 @@ type UseWalletProps = WalletContextType & {
   connectWallet: () => Promise<void>;
   disconnectWallet: () => void;
   execute: (transaction: ExecuteProps) => Promise<DeliverTxResponse>;
-  executeTxBody: ({ txBody }: { txBody: Uint8Array }) => Promise<DeliverTxResponse>;
-  setWallet: (wallet: Wallet | null) => void
+  executeTxBody: ({
+    txBody,
+  }: {
+    txBody: Uint8Array;
+  }) => Promise<DeliverTxResponse>;
+  setWallet: (wallet: Wallet | null) => void;
 };
 
 export const useWallet = (): UseWalletProps => {
