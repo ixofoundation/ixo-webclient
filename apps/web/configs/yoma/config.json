@@ -29,7 +29,7 @@
       "defaultView": "project"
     },
     "head": {
-      "title": "Yoma",
+      "title": "Yoma Impacts",
       "icon": "yoma.png"
     },
     "topMenu": [
@@ -39,7 +39,7 @@
       }
     ],
     "header": {
-      "background": "#FFFFFF",
+      "background": "#EDAE54",
       "buttonColor": "#162A42",
       "link": "https://yoma.africa/",
       "tabs": {
