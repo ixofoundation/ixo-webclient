@@ -63,7 +63,7 @@ export const CreateEntityMessage = async (
       startDate = '',
       endDate = '',
       ownerDid = did,
-      ownerAddress = address
+      ownerAddress = address,
     } = item
     return {
       typeUrl: '/ixo.entity.v1beta1.MsgCreateEntity',

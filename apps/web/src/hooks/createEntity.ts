@@ -38,6 +38,7 @@ import {
   updateClaimQuestionsAction,
   updateStartEndDateAction,
   updateQuestionJSONAction,
+  updateProtocolIdAction,
 } from 'redux/createEntity/createEntity.actions'
 import {
   selectCreateEntityAccordedRight,
@@ -65,6 +66,7 @@ import {
   selectCreateEntityEndDate,
   selectCreateEntityHeadlineClaim,
   selectCreateEntityQuestionJSON,
+  selectCreateEntityProtocolId,
 } from 'redux/createEntity/createEntity.selectors'
 import { TCreateEntityModel } from 'redux/createEntity/createEntity.types'
 import { CreateEntityMessage, TSigner } from 'lib/protocol'
@@ -116,6 +118,7 @@ interface TCreateEntityStateHookRes {
   claimQuestions: { [id: string]: TQuestion }
   questionJSON: any
   validateRequiredProperties: boolean
+  protocolId: string
   updateEntityType: (entityType: string) => void
   clearEntity: () => void
   gotoStepByNo: (no: number) => void
@@ -142,6 +145,7 @@ interface TCreateEntityStateHookRes {
   updateProposal: (proposal: TProposalModel) => void
   updateClaimQuestions: (claimQuestions: { [id: string]: TQuestion }) => void
   updateQuestionJSON: (claimQuestionJSON: any) => void
+  updateProtocolId: (protocolId: string) => void
 }
 
 export function useCreateEntityState(): TCreateEntityStateHookRes {
@@ -176,6 +180,7 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
   // for Claim
   const claimQuestions: { [id: string]: TQuestion } = useAppSelector(selectCreateEntityClaimQuestions)
   const questionJSON: any = useAppSelector(selectCreateEntityQuestionJSON)
+  const protocolId: string = useAppSelector(selectCreateEntityProtocolId)
   const validateRequiredProperties = useMemo(() => {
     return !!creator && !!administrator && Object.keys(page ?? {}).length > 0 && service?.length > 0
   }, [creator, administrator, page, service])
@@ -269,6 +274,9 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
   const updateQuestionJSON = (claimQuestionJSON: any): void => {
     dispatch(updateQuestionJSONAction(claimQuestionJSON))
   }
+  const updateProtocolId = (protocolId: string): void => {
+    dispatch(updateProtocolIdAction(protocolId))
+  }
 
   return {
     entityType,
@@ -297,6 +305,7 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
     claimQuestions,
     questionJSON,
     validateRequiredProperties,
+    protocolId,
     updateEntityType,
     clearEntity,
     gotoStepByNo,
@@ -323,16 +332,14 @@ export function useCreateEntityState(): TCreateEntityStateHookRes {
     updateProposal,
     updateClaimQuestions,
     updateQuestionJSON,
+    updateProtocolId,
   }
 }
 
 interface TCreateEntityHookRes {
   UploadLinkedResource: () => Promise<LinkedResource[]>
   UploadLinkedClaim: () => Promise<LinkedClaim[]>
-  CreateProtocol: (transactionConfig: {
-    sequence: number
-    transactionSessionHash?: string
-  }) => Promise<any>
+  CreateProtocol: (transactionConfig: { sequence: number; transactionSessionHash?: string }) => Promise<any>
   CreateEntityBase: (
     entityType: string,
     protocolDid: string,
@@ -349,7 +356,7 @@ interface TCreateEntityHookRes {
     transactionConfig: {
       sequence: number
       transactionSessionHash?: string
-    }
+    },
   ) => Promise<{ did?: string; adminAccount?: string }>
   CreateDAOCoreByGroupId: (daoGroup: TDAOGroupModel) => Promise<string>
   uploadPublicDoc: (data: string, contentType: string) => Promise<CellnodePublicResource | Error>
@@ -524,7 +531,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
     transactionConfig: {
       sequence: number
       transactionSessionHash?: string
-    }
+    },
   ): Promise<{ did?: string; adminAccount?: string }> => {
     try {
       const {
@@ -556,10 +563,10 @@ export function useCreateEntity(): TCreateEntityHookRes {
         },
       ])
 
-    console.log('createEntityMessagePayload', createEntityMessagePayload)
-
-
-      const response = (await execute({ data: createEntityMessagePayload, transactionConfig })) as unknown as DeliverTxResponse
+      const response = (await execute({
+        data: createEntityMessagePayload,
+        transactionConfig,
+      })) as unknown as DeliverTxResponse
       const did = utils.common.getValueFromEvents(response, 'wasm', 'token_id')
       const adminAccount = utils.common.getValueFromEvents(
         response,
@@ -726,7 +733,10 @@ export function useCreateEntity(): TCreateEntityHookRes {
     const instantiateWasmPayload = await WasmInstantiateMessage(signer, [message])
 
     if (instantiateWasmPayload) {
-      const response = (await execute({ data: instantiateWasmPayload, transactionConfig: { sequence: 1 } })) as unknown as DeliverTxResponse
+      const response = (await execute({
+        data: instantiateWasmPayload,
+        transactionConfig: { sequence: 1 },
+      })) as unknown as DeliverTxResponse
       const contractAddress = utils.common.getValueFromEvents(response!, 'instantiate', '_contract_address')
       if (!contractAddress) {
         throw new Error(response?.rawLog)

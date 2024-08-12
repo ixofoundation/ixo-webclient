@@ -76,6 +76,8 @@ export default function useEditEntity(): {
   }
 
   const getUsedService = (serviceEndpoint = ''): Service => {
+    console.log({serviceEndpoint})
+    console.log({services})
     let service: Service | undefined = undefined
     if (serviceEndpoint) {
       const currentServiceType = extractServiceTypeFromEndpoint(serviceEndpoint)

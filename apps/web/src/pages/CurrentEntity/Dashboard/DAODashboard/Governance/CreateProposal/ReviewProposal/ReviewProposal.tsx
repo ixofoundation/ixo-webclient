@@ -37,7 +37,6 @@ import { DaoPreProposeSingleClient } from '@ixo-webclient/cosmwasm-clients'
 import { useAppSelector } from 'redux/hooks'
 import { getEntityById } from 'redux/entities/entities.selectors'
 import { useEntity } from 'hooks/entity/useEntity'
-import { currentRelayerNode } from 'constants/common'
 
 const ReviewProposal: React.FC = () => {
   const theme: any = useTheme()
@@ -140,7 +139,6 @@ const ReviewProposal: React.FC = () => {
       .map((validAction: TProposalActionModel) => {
         try {
           const { text, data } = validAction
-          console.log({ text, data })
           switch (text) {
             // Group Category
             case 'AuthZ Exec':
@@ -259,7 +257,7 @@ const ReviewProposal: React.FC = () => {
       })
       .catch((e) => {
         console.error(e)
-        Toast.errorToast(null, e)
+        Toast.errorToast(null, 'Failed to publish proposals')
         return undefined
       })
   }
@@ -293,19 +291,14 @@ const ReviewProposal: React.FC = () => {
     }
 
     // Create Deed entity
-    const { did: entityDid } = await CreateEntityBase(
-      'deed',
-      protocolDid,
-      {
-        service,
-        linkedResource,
-        accordedRight,
-        linkedEntity,
-        linkedClaim,
-        relayerNode: currentRelayerNode,
-      },
-      { sequence: 2, transactionSessionHash: transaction.transactionSessionHash },
-    )
+    const { did: entityDid } = await CreateEntityBase('deed', protocolDid, {
+      service,
+      linkedResource,
+      accordedRight,
+      linkedEntity,
+      linkedClaim,
+      relayerNode: process.env.REACT_APP_RELAYER_NODE,
+    }, { sequence: 1 })
     if (!entityDid) {
       return ''
     }
@@ -324,13 +317,7 @@ const ReviewProposal: React.FC = () => {
     })
 
     const linkedEntityInstruction = AddLinkedEntityMessage(signer, { did: deedDid, linkedEntity })
-    const response = (await execute({
-      data: linkedEntityInstruction,
-      transactionConfig: {
-        sequence: 4,
-        transactionSessionHash: transaction.transactionSessionHash,
-      },
-    })) as DeliverTxResponse
+    const response = (await execute({ data: linkedEntityInstruction, transactionConfig: { sequence: 1 }})) as DeliverTxResponse
     return !!response
   }
 

@@ -1,10 +1,10 @@
-import { Avatar, Flex } from '@mantine/core'
+import { Avatar, Box, Flex } from '@mantine/core'
 import { Typography } from 'components/Typography'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTheme } from 'styled-components'
 import { TDAOGroupModel } from 'types/entities'
 import { SvgBox } from 'components/App/App.styles'
-import  { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
+import { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
 import CopyToClipboard from 'react-copy-to-clipboard'
 import { truncateString } from 'utils/formatters'
 import { successToast } from 'utils/toast'
@@ -29,7 +29,7 @@ interface Props {
 }
 const GroupCard: React.FC<Props> = ({ daoGroup }) => {
   const theme: any = useTheme()
-  const { entityId = "" } = useParams<{ entityId: string }>()
+  const { entityId = '' } = useParams<{ entityId: string }>()
 
   const entity = useAppSelector(getEntityById(entityId))
   const { isParticipating } = useCurrentEntityDAOGroup(daoGroup.coreAddress, entity?.daoGroups ?? {})
@@ -117,10 +117,12 @@ const GroupCard: React.FC<Props> = ({ daoGroup }) => {
         </Typography>
       </Flex>
 
-      <Flex direction='column' justify={'center'} align={'center'} gap={4}>
-        <Typography variant='primary' size='lg'>
-          {daoGroup.config.name}
-        </Typography>
+      <Flex mih={80} direction='column' align={'center'} justify={'space-between'} gap={4}>
+        <Box w='95%' ta={'center'}>
+          <Typography variant='primary' size='lg'> 
+            {truncateString(daoGroup.config.name, 40, 'middle')}
+          </Typography>
+        </Box>
         <CopyToClipboard text={daoGroup.coreAddress} onCopy={() => successToast(null, `Copied to clipboard`)}>
           <Flex align='center' gap={4} onClick={(e) => e.stopPropagation()}>
             <Typography color='blue' weight='medium' size='sm' hover={{ underline: true }}>

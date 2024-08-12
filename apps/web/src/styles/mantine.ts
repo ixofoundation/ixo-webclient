@@ -1,4 +1,10 @@
-import { MantineThemeColorsOverride, MantineThemeOverride, createTheme, DEFAULT_THEME, mergeMantineTheme } from '@mantine/core'
+import {
+  MantineThemeColorsOverride,
+  MantineThemeOverride,
+  createTheme,
+  DEFAULT_THEME,
+  mergeMantineTheme,
+} from '@mantine/core'
 
 export const mantineThemeColors: MantineThemeColorsOverride = {
   'ixo-blue': [
@@ -33,6 +39,59 @@ const themeOverride: MantineThemeOverride = createTheme({
   primaryColor: 'ixo-blue',
   defaultRadius: 'xs',
   colors: mantineThemeColors,
+  components: {
+    ActionIcon: {
+      styles: {
+        input: {
+          '&:focus': {
+            outline: 'none',
+            borderColor: 'transparent',
+          },
+          '&:focus-within': {
+            outline: 'none',
+            borderColor: 'transparent',
+          },
+        },
+      },
+    },
+    Input: {
+      styles: {
+        input: {
+          '&:focus': {
+            outline: 'none',
+            borderColor: 'transparent',
+          },
+          '&:focus-within': {
+            outline: 'none',
+            borderColor: 'transparent',
+          },
+        },
+      },
+    },
+    InputWrapper: {
+      styles: {
+        input: {
+          '&:focus': {
+            outline: 'none',
+            borderColor: 'transparent',
+          },
+          '&:focus-within': {
+            outline: 'none',
+            borderColor: 'transparent',
+          },
+        },
+      },
+    },
+    Button: {
+      styles: {
+        root: {
+          '&:focus': {
+            outline: 'none',
+          },
+        },
+      },
+    },
+  },
 })
 
 const mantineTheme = mergeMantineTheme(DEFAULT_THEME, themeOverride)

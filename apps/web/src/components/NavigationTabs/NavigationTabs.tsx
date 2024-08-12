@@ -45,7 +45,7 @@ const NavigationTabs = () => {
   const params = useParams()
   const exploreType: string | undefined = getQuery('type')
   const entity = useAppSelector(getEntityById((params?.deedId ?? params.entityId) ?? ""))
-  const { isCompanionOpen, toggleChat, toggleCompanion } = useCompanion()
+  const { isCompanionOpen, toggleChat, toggleCompanion ,closeCompanion } = useCompanion()
 
   const {
     tabActiveBackground,
@@ -73,12 +73,11 @@ const NavigationTabs = () => {
 
   const type = lowerCase((exploreType?.length ?? 0) > 0 ? exploreType : toRootEntityType(entity?.type) ?? '')
 
-
   const currentTabs = tabs[pathname.split('/')[1] as keyof typeof tabs].getTabs(type, pathname, params as any)
   return (
     <NavigationTabsContainer border={tabBorderColor && `1px solid ${tabBorderColor}`}>
       {currentTabs.map(({ label, icon: Icon, isActive, path }) => (
-        <NavLink key={`${path}`} to={`${path}`}>
+        <NavLink onClick={closeCompanion} key={`${path}`} to={`${path}`}>
           <Button
             w={150}
             key={label}
@@ -126,14 +125,14 @@ const NavigationTabs = () => {
             onClick={handleAssistantClick}
             styles={{
               root: {
-                ":focus": {
-                  outline: 'none'
+                ':focus': {
+                  outline: 'none',
                 },
-                outline: 'none'
-              }
+                outline: 'none',
+              },
             }}
           >
-          <AssistantActiveLottie />
+            <AssistantActiveLottie />
           </ActionIcon>
         </Tooltip>
       </Flex>

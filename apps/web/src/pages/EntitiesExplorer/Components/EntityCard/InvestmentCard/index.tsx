@@ -1,17 +1,20 @@
+import { LinkedEntity } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
+import { ReactComponent as InvestmentIcon } from 'assets/images/icon-investment.svg'
+import BigNumber from 'bignumber.js'
 import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
+import { useGetBondDid } from 'graphql/bonds'
+import { useMapBondDetail } from 'hooks/bond'
 import { Avatar } from 'pages/CurrentEntity/Components'
 import React, { useMemo } from 'react'
 import { NavLink } from 'react-router-dom'
-import { useTheme } from 'styled-components'
-import { TEntityModel } from 'types/entities'
-import { ReactComponent as InvestmentIcon } from 'assets/images/icon-investment.svg'
-import { useGetBondDid } from 'graphql/bonds'
-import { useMapBondDetail } from 'hooks/bond'
-import BigNumber from 'bignumber.js'
-import { LinkedEntity } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { selectEntityConfig } from 'redux/configs/configs.selectors'
 import { useAppSelector } from 'redux/hooks'
+import { useTheme } from 'styled-components'
+import { TEntityModel } from 'types/entities'
+
+const formatCurrency = (value: number) =>
+  Intl.NumberFormat(undefined, { style: 'currency', currency: 'USD' }).format(value)
 
 const InvestmentCard: React.FC<TEntityModel & { to?: string }> = (entity) => {
   const theme: any = useTheme()
@@ -22,7 +25,9 @@ const InvestmentCard: React.FC<TEntityModel & { to?: string }> = (entity) => {
   const image = entity.profile?.image || ''
   const logo = entity.profile?.logo || ''
   const title = entity.profile?.name || ''
-  const bondDid = Array.isArray(entity.linkedEntity) ? entity.linkedEntity?.find((v) => v.type === 'bond')?.id : (Object.values(entity.linkedEntity) as LinkedEntity[])?.find((v) => v.type === 'bond')?.id
+  const bondDid = Array.isArray(entity.linkedEntity)
+    ? entity.linkedEntity?.find((v) => v.type === 'bond')?.id
+    : (Object.values(entity.linkedEntity) as LinkedEntity[])?.find((v) => v.type === 'bond')?.id
   const { data: bondDetail } = useGetBondDid(bondDid)
   const { state, currentReserve, currentReserveUsd, initialRaised, initialRaisedUsd } = useMapBondDetail(bondDetail)
   const fundedPercentage = useMemo(
@@ -40,6 +45,7 @@ const InvestmentCard: React.FC<TEntityModel & { to?: string }> = (entity) => {
         color={theme.ixoBlack}
         overflow='hidden'
         cursor='pointer'
+        height='100%'
         transition='.2s box-shadow'
         hover={{ $boxShadow: '0px 10px 25px 0px rgba(0, 0, 0, 0.15)' }}
         border={design?.card?.border}
@@ -64,8 +70,7 @@ const InvestmentCard: React.FC<TEntityModel & { to?: string }> = (entity) => {
 
         <FlexBox p={4.5} $direction='column' $gap={4} width='100%'>
           <FlexBox width='100%'>
-            <Typography size='sm' transform='uppercase'>
-            </Typography>
+            <Typography size='sm' transform='uppercase'></Typography>
           </FlexBox>
 
           <FlexBox width='100%' $alignItems='center' $justifyContent='space-between'>
@@ -77,29 +82,31 @@ const InvestmentCard: React.FC<TEntityModel & { to?: string }> = (entity) => {
 
           <FlexBox width='100%' height='1px' background='#EFEFEF' />
 
-          {bondDid && <FlexBox width='100%' $direction='column' $gap={2}>
-            <Typography size='xl' weight='semi-bold'>
-              {Intl.NumberFormat(undefined, { style: 'currency', currency: 'USD' }).format(currentReserveUsd)} raised
-            </Typography>
+          {bondDid && (
+            <FlexBox width='100%' $direction='column' $gap={2}>
+              <Typography size='xl' weight='semi-bold'>
+                {formatCurrency(currentReserveUsd)} raised
+              </Typography>
 
-            <Typography color='green' size='md'>
-              {fundedPercentage}% funded
-            </Typography>
+              <Typography color='green' size='md'>
+                {fundedPercentage}% funded
+              </Typography>
 
-            <FlexBox width='100%' $justifyContent='space-between' $alignItems='center'>
-              <FlexBox color='#949494' background='#EFEFEF' $borderRadius='12px' px={2} py={1}>
-                <Typography size='sm' weight='semi-bold'>
-                  {Intl.NumberFormat(undefined, { style: 'currency', currency: 'USD' }).format(initialRaisedUsd)} target
-                </Typography>
-              </FlexBox>
+              <FlexBox width='100%' $justifyContent='space-between' $alignItems='center'>
+                <FlexBox color='#949494' background='#EFEFEF' $borderRadius='12px' px={2} py={1}>
+                  <Typography size='sm' weight='semi-bold'>
+                    {formatCurrency(initialRaisedUsd)} target
+                  </Typography>
+                </FlexBox>
 
-              <FlexBox color='#949494' background='#EFEFEF' $borderRadius='12px' px={2} py={1}>
-                <Typography size='sm' weight='semi-bold'>
-                  {state}
-                </Typography>
+                <FlexBox color='#949494' background='#EFEFEF' $borderRadius='12px' px={2} py={1}>
+                  <Typography size='sm' weight='semi-bold'>
+                    {state}
+                  </Typography>
+                </FlexBox>
               </FlexBox>
             </FlexBox>
-          </FlexBox>}
+          )}
         </FlexBox>
       </FlexBox>
     </NavLink>

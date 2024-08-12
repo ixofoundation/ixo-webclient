@@ -29,6 +29,7 @@ import CreateEntityDropdown from '../components/CreateEntityDropdown'
 import { selectEntityConfig } from 'redux/configs/configs.selectors'
 import { useMediaQuery } from '@mantine/hooks'
 import { em } from '@mantine/core'
+import { DisplayInDevelopmentMode } from 'components/DisplayInDevelopmentMode'
 
 export interface ParentProps {
   currentEntity: EntityType
@@ -41,7 +42,7 @@ export const HeaderLeft: React.FC<ParentProps> = (props) => {
   const headerUIConfig: any = useAppSelector(selectEntityHeaderUIConfig)
   const logoConfig = useAppSelector(selectEntityLogoConfig)
   const buttonColor: string = useAppSelector(selectEntityHeaderButtonColorUIConfig)
-  const defaultEntity = entityTypeMap?.UI?.explorer?.defaultView ?? "dao"
+  const defaultEntity = entityTypeMap?.UI?.explorer?.defaultView ?? 'dao'
   const isMobile = useMediaQuery(`(max-width: ${em(710)})`)
 
   const logoLink = React.useMemo(() => {
@@ -63,9 +64,16 @@ export const HeaderLeft: React.FC<ParentProps> = (props) => {
           <MediaQuery minWidth={`${deviceWidth.desktop}px`}>
             <CreateEntityDropdown />
           </MediaQuery>
-          {/* <HeaderLink exact={false} strict to={`/exchange`} color={buttonColor}>
-            Exchange
-          </HeaderLink> */}
+          <DisplayInDevelopmentMode>
+            <HeaderLink to={`/requests`} color={buttonColor}>
+              Requests
+            </HeaderLink>
+          </DisplayInDevelopmentMode>
+          <DisplayInDevelopmentMode>
+            <HeaderLink to={`/entity/select-or-create`} color={buttonColor}>
+              Protocols
+            </HeaderLink>
+          </DisplayInDevelopmentMode>
         </Fragment>
       )
     } else {
@@ -103,7 +111,7 @@ export const HeaderLeft: React.FC<ParentProps> = (props) => {
   return (
     <Fragment>
       <Main className='col-md-12 col-lg-8 d-flex align-items-center'>
-        <div className='d-flex align-items' style={{marginTop: isMobile ? 15 : 0}}>
+        <div className='d-flex align-items' style={{ marginTop: isMobile ? 15 : 0 }}>
           <a href={logoLink}>
             <AppLogo alt='Logo' src={requireCheckDefault(require(`../../../assets/images/${logoConfig}.svg`))} />
           </a>

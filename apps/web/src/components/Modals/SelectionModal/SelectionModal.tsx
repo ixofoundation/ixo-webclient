@@ -46,6 +46,8 @@ const SelectionModal: React.FC<Props> = ({
   const [selections, setSelections] = useState<string[]>([])
   const isSDG = name === 'SDG'
 
+  console.log({ values })
+
   useEffect(() => {
     setSelections(values)
   }, [values])
@@ -98,7 +100,14 @@ const SelectionModal: React.FC<Props> = ({
             _.chunk(options, 5).map((row, rowIdx) => (
               <ModalRow key={rowIdx} style={{ justifyContent: 'flex-start', alignItems: 'stretch' }}>
                 {row.map((value) => {
+                  if (!value) {
+                    return null
+                  }
+                  console.log({ value })
                   const sdgIcon = getSDGIcon(value)
+                  if (!sdgIcon) {
+                    return null
+                  }
                   return (
                     <SDGSelectionButton
                       key={value}

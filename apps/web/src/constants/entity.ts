@@ -159,15 +159,21 @@ export const EntityLinkedResourceConfig: { [key: string]: any } = {
     icon: TextIcon,
     accept: { '*': [] },
   },
+  verifiableCredential: {
+    text: 'Credential Schema',
+    icon: CredentialIcon,
+    accept: { '*': [] },
+    disabled: false,
+  },
+  claims: {
+    text: 'Claims Schema',
+    icon: ClaimIcon,
+    accept: { '*': [] },
+    disabled: false,
+  },
   database: {
     text: 'Database',
     icon: DatabaseIcon,
-    accept: { '*': [] },
-    disabled: true,
-  },
-  verifiableCredential: {
-    text: 'Verifiable Credential',
-    icon: CredentialIcon,
     accept: { '*': [] },
     disabled: true,
   },
@@ -192,12 +198,6 @@ export const EntityLinkedResourceConfig: { [key: string]: any } = {
   smartContract: {
     text: 'Smart Contract',
     icon: SmartContractIcon,
-    accept: { '*': [] },
-    disabled: true,
-  },
-  claims: {
-    text: 'Claims',
-    icon: ClaimIcon,
     accept: { '*': [] },
     disabled: true,
   },
@@ -240,6 +240,10 @@ export const EntityLinkedEntityConfig = {
   IndividualAccount: {
     text: 'Delegate',
     icon: UserIcon,
+  },
+  DeedRequest: {
+    text: 'Request',
+    icon: PaperIcon,
   },
   // dao: {
   //   text: 'DAO',

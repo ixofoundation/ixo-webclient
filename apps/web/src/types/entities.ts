@@ -34,6 +34,8 @@ export enum EntityType {
   ProtocolClaim = 'protocol/claim',
   ProtocolDeed = 'protocol/deed',
   Asset = 'asset',
+  DeedRequest = 'deed/request',
+  AssetCollection = 'asset-collection',
 }
 
 export enum EntityStatus {
@@ -259,7 +261,7 @@ export interface EntityConfig extends EntityTypeStrategyMap {
       lottie: {
         idle: string
         active: string
-      },
+      }
       toolbar: {
         background: string
         color: string
@@ -477,8 +479,8 @@ export interface TEntityPageSectionLegacyModel {
   embedded: any
 }
 export type TEntityPageModel = {
-  featuredImage: string
-  pageTitle: string
+  featuredImage?: string
+  pageTitle?: string
   content?: Block[]
 }
 export interface TEntityDDOTagModel {

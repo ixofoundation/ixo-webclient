@@ -18,7 +18,7 @@ export function withEntityData(Component: React.ComponentType<any>) {
 }
 
 export function transformEntityData(entity: TEntityModel): any {
-  if (entity?.type === 'dao') {
+  if (entity?.type === 'dao' || entity.entityType === 'dao') {
     const daoGroupsArr = Object.values(entity.daoGroups ?? {})
 
     const { membersSet, proposals, activeProposals } = daoGroupsArr.reduce(

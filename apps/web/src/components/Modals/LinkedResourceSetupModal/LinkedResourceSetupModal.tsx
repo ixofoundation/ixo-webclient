@@ -184,6 +184,16 @@ const LinkedResourceSetupModal: React.FC<Props> = ({ linkedResource, open, onClo
           </FlexBox>
 
           <FlexBox $direction='column' $gap={4} width='100%' height='100%'>
+            {/* Resource ID */}
+            <InputWithLabel
+              name='linked_resource_id'
+              height='48px'
+              label='ID'
+              inputValue={toTitleCase(formData?.id)}
+              handleChange={(value) => handleFormDataChange('id', value)}
+              style={{ fontWeight: 500 }}
+            />
+
             {/* Type of Resource */}
             <InputWithLabel
               name='linked_resource_type'

@@ -26,7 +26,9 @@ interface Props {
 }
 
 const DAOCard: React.FunctionComponent<Props> = ({ id, profile, tags, daoGroups = {} }) => {
-  const sdgs = tags ? tags.find((item) => item && item.category === 'SDG' && Array.isArray(item.tags))?.tags ?? [] : []
+  const sdgs = tags
+    ? (tags.find((item) => item && item.category === 'SDG' && Array.isArray(item.tags))?.tags ?? [])
+    : []
 
   const [numOfMembers, setNumOfMembers] = useState(0)
 
@@ -45,7 +47,7 @@ const DAOCard: React.FunctionComponent<Props> = ({ id, profile, tags, daoGroups 
     <CardContainer>
       <CardLink
         to={{
-          pathname: `/entity/${id}/overview`,
+          pathname: `/entity/${id}/overview/page`,
         }}
       >
         <CardTop>

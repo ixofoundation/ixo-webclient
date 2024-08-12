@@ -6,6 +6,7 @@ import { Step, resetEntityMultiStepCreation, selectCurrentStep, setSteps } from 
 import { useDispatch, useSelector } from 'react-redux'
 import { useCreateEntityState } from 'hooks/createEntity'
 import { useCreateEntityStepState } from 'hooks/createEntityStepState'
+import { getEntityTypeFromURLParam } from 'utils/entities'
 
 type EntityLoaderData = {
   steps: Step[]
@@ -13,11 +14,17 @@ type EntityLoaderData = {
 
 const stepMap = new Map<string, string[]>([
   ['dao', ['process', 'profile', 'groups', 'settings', 'review']],
-  ['protocol', ['type', 'process', 'profile', 'collection', 'settings', 'review']],
+  ['protocol', ["type"]],
+  ['protocol-claim', ['process', 'profile', 'collection', 'settings', 'review']],
+  ['protocol-deed', ['process', 'profile', 'collection', 'settings', 'review']],
+  ['deed-request', ['process', 'profile', 'settings', 'review']],
   ['oracle', ['process', 'profile', 'settings', 'review']],
   ['project', ['process', 'profile', 'settings', 'review']],
   ['investment', ['process', 'profile', 'instrument', 'settings', 'review']],
-  ['asset', ['process', 'profile', 'settings', 'review', 'create-token']],
+  ['asset', ['asset-type']],
+  ['asset-device', ['process', 'add-asset-to-collection', 'profile', 'settings', 'review']],
+  ['asset-learnership', ['process', 'add-asset-to-collection', 'profile', 'settings', 'review']],
+  ['asset-collection', ['process', 'profile', 'settings', 'review']],
 ])
 
 const buildEntitySteps = (entity: string, order: string[]): { title: string; steps: Step[] } => {
@@ -31,6 +38,16 @@ const buildEntitySteps = (entity: string, order: string[]): { title: string; ste
     {
       title: 'Select Type of Protocol',
       path: 'type',
+      number: 0,
+    },
+    {
+      title: 'Select Type of Asset',
+      path: 'asset-type',
+      number: 0,
+    },
+    {
+      title: 'Add Asset to Collection',
+      path: 'add-asset-to-collection',
       number: 0,
     },
     {
@@ -114,21 +131,20 @@ export const action = async (args: ActionFunctionArgs) => {
 
 const CreateEntity = (): JSX.Element => {
   const { navigateToNextStep } = useCreateEntityStepState()
-  const { entityType } = useParams()
+  const { entityType = "" } = useParams()
   const currentStep = useSelector(selectCurrentStep)
   const dispatch = useDispatch()
   const data = useLoaderData() as EntityLoaderData
   const { updateEntityType, entityType: stateEntityType } = useCreateEntityState()
   const loaderData = useLoaderData() as any
 
-  const shouldUpdateEntityType =
-    entityType !== stateEntityType && !(entityType === 'protocol' && stateEntityType?.includes('protocol'))
+  const shouldUpdateEntityType = getEntityTypeFromURLParam(entityType) !== stateEntityType
 
   useEffect(() => {
     dispatch(setSteps(data.steps))
-
+    console.log({ entityType, shouldUpdateEntityType, stateEntityType })
     if (entityType && shouldUpdateEntityType) {
-      updateEntityType(entityType)
+      updateEntityType(getEntityTypeFromURLParam(entityType))
       navigateToNextStep(data.steps[0])
     }
 

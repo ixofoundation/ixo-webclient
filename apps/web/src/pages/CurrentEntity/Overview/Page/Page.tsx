@@ -1,6 +1,7 @@
 import { Flex } from '@mantine/core'
-import Editor from 'components/Editor/Editor'
 import { EditorJsToBlockNote } from 'components/Editor/utils/editorJsToBlockNote'
+import EntityPageDisplay from 'components/EntityPageDisplay/EntityPageDisplay'
+import { useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 import { getEntityById } from 'redux/entities/entities.selectors'
 import { useAppSelector } from 'redux/hooks'
@@ -9,14 +10,18 @@ const Page = () => {
   const { entityId = '' } = useParams<{ entityId: string }>()
   const { page } = useAppSelector(getEntityById(entityId))
 
-  if(!page) return null
+  const { pageTitle, content } = useMemo(() => {
+    return {
+      pageTitle: page?.pageTitle ?? '',
+      content: EditorJsToBlockNote(page),
+    }
+  }, [page])
 
-  console.log({page})
+  if (!page) return null
 
   return (
     <Flex>
-      {/* {page?.featuredImage && <Image src={page?.featuredImage} />} */}
-      {Array.isArray(page) ? <Editor initialPage={EditorJsToBlockNote(page)} /> : <Editor initialPage={page} editable={false} />}
+      <EntityPageDisplay pageTitle={pageTitle} content={content} />
     </Flex>
   )
 }

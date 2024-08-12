@@ -435,3 +435,10 @@ export function toRootEntityType(entityType: string): string {
   }
   return entityType
 }
+
+export function getEntityTypeFromURLParam(type: string){
+  if(type.includes("-")){
+    return `${type.split("-")[0]}/${type.split("-")[1]}`
+  }
+  return type
+}

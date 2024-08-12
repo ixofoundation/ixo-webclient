@@ -1,7 +1,7 @@
 import { FlexBox } from 'components/App/App.styles'
 import React, { useEffect, useMemo, useState } from 'react'
 import { TDAOGroupModel } from 'types/entities'
-import { useCreateEntity } from 'hooks/createEntity'
+import { useCreateEntity, useCreateEntityState } from 'hooks/createEntity'
 import { deviceWidth } from 'constants/device'
 import { Member } from 'types/dao'
 import * as Toast from 'utils/toast'
@@ -26,6 +26,7 @@ interface Props {
 }
 
 const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JSX.Element => {
+  const { daoGroups } = useCreateEntityState()
   const { CreateDAOCoreByGroupId } = useCreateEntity()
   const [data, setData] = useState<TDAOGroupModel>(daoGroup)
   const [useExistingToken, setUseExistingToken] = useState(false)
@@ -33,6 +34,8 @@ const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JS
   const [submitting, setSubmitting] = useState(false)
   const [errMsg, setErrMsg] = useState('')
 
+  const isLedgeredGroup = Boolean(data?.id && Object.values(daoGroups).some((group) => group.coreAddress.includes("ixo") && group.id === data.id))
+  
   useEffect(() => {
     setData(daoGroup)
   }, [daoGroup, setData])
@@ -180,7 +183,7 @@ const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JS
   return (
     <FlexBox width={'100%'} $justifyContent='center'>
       <FlexBox $direction='column' width={deviceWidth.tablet + 'px'}>
-        <RenderGroupIdentity setData={setData} data={data} />
+        <RenderGroupIdentity setData={setData} data={data} isLedgeredGroup={isLedgeredGroup} />
         {data.type === 'multisig' ? (
           <RenderMultisigGroupMembership setData={setData} data={data} />
         ) : (
@@ -206,7 +209,7 @@ const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JS
             onBack={onBack}
             submitting={submitting}
             handleSubmit={handleSubmit}
-            valid={valid}
+            valid={valid && !isLedgeredGroup}
           />
         }
       </FlexBox>

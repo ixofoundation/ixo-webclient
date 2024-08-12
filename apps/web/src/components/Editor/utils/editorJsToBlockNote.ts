@@ -1,99 +1,109 @@
-export const EditorJsToBlockNote = (page: any[]) => {
-  return page.reduce(
-    (acc, block) => {
+export const EditorJsToBlockNote = (page: any) => {
+  if (!page) return undefined
+
+  if (Array.isArray(page)) {
+    return page.reduce((acc, block) => {
       if (block.type === 'heroImage' || block.type === 'image') {
-        return {
+        return [
           ...acc,
-          featuredImage: block?.data?.file?.url ?? '',
-        }
+          {
+            id: block.id,
+            type: 'image',
+            props: {
+              textColor: 'default',
+              backgroundColor: 'default',
+              textAlignment: 'left',
+              showPreview: true,
+              url: block.data.file.url,
+            },
+          },
+        ]
       }
       if (block.type === 'pageTitle') {
-        return {
+        return [
           ...acc,
-          pageTitle: block.data.text,
-        }
-      }
-      if(block.type === 'header'){
-        return {
-          ...acc,
-          content: [
-            ...(acc?.content ?? []),
-            {
-              id: block.id,
-              type: 'heading',
-              props: {
-                textColor: 'default',
-                backgroundColor: 'default',
-                textAlignment: 'left',
-                level: block.data.level,
-              },
-              content: [
-                {
-                  type: 'text',
-                  text: block.data.text,
-                  styles: {},
-                },
-              ],
+          {
+            id: block.id,
+            type: 'heading',
+            props: {
+              textColor: 'default',
+              backgroundColor: 'default',
+              textAlignment: 'left',
+              level: 1,
             },
-          ],
-        }
+            content: [{ type: 'text', text: block.data.text, styles: {} }],
+          },
+        ]
+      }
+      if (block.type === 'header') {
+        return [
+          ...acc,
+          {
+            id: block.id,
+            type: 'heading',
+            props: {
+              textColor: 'default',
+              backgroundColor: 'default',
+              textAlignment: 'left',
+              level: block.data.level,
+            },
+            content: [
+              {
+                type: 'text',
+                text: block.data.text,
+                styles: {},
+              },
+            ],
+          },
+        ]
       }
       if (block.type === 'paragraph') {
-        return {
+        return [
           ...acc,
-          content: [
-            ...(acc?.content ?? []),
-            {
-              id: block.id,
-              type: 'paragraph',
-              props: {
-                textColor: 'default',
-                backgroundColor: 'default',
-                textAlignment: 'left',
-              },
-              content: [
-                {
-                  type: 'text',
-                  text: block.data.text,
-                  styles: {},
-                },
-              ],
+          {
+            id: block.id,
+            type: 'paragraph',
+            props: {
+              textColor: 'default',
+              backgroundColor: 'default',
+              textAlignment: 'left',
             },
-          ],
-        }
+            content: [
+              {
+                type: 'text',
+                text: block.data.text,
+                styles: {},
+              },
+            ],
+          },
+        ]
       }
 
       if (block.type === 'list') {
-        return {
+        return [
           ...acc,
-          content: [
-            ...(acc?.content ?? []),
-            ...block.data.items.map((item: any) => ({
-              id: block.id,
-              type: 'bulletListItem',
-              props: {
-                textColor: 'default',
-                backgroundColor: 'default',
-                textAlignment: 'left',
+          ...block.data.items.map((item: any) => ({
+            id: block.id,
+            type: 'bulletListItem',
+            props: {
+              textColor: 'default',
+              backgroundColor: 'default',
+              textAlignment: 'left',
+            },
+            content: [
+              {
+                type: 'text',
+                text: item,
+                styles: {},
               },
-              content: [
-                {
-                  type: 'text',
-                  text: item,
-                  styles: {},
-                },
-              ],
-            })),
-          ],
-        }
+            ],
+          })),
+        ]
       }
 
       return acc
-    },
-    {
-      featuredImage: '',
-      pageTitle: '',
-      content: [],
-    },
-  )
+    }, [])
+  }
+
+  return page.content
 }

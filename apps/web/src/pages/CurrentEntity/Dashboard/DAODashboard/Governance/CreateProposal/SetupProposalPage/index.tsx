@@ -65,9 +65,9 @@ const SetupProposalPage: React.FC = (): JSX.Element => {
   } = useCreateEntityState()
 
   const [value, setValue] = useState<TEntityPageModel>({
-    pageTitle: "",
-    featuredImage: "",
-    content: undefined
+    pageTitle: '',
+    featuredImage: '',
+    content: undefined,
   })
 
   const handleBack = (): void => {
@@ -94,7 +94,6 @@ const SetupProposalPage: React.FC = (): JSX.Element => {
       search: search.toString(),
     })
   }
-
 
   const [addLinked, setAddLinked] = useState(false)
 
@@ -127,7 +126,7 @@ const SetupProposalPage: React.FC = (): JSX.Element => {
     <Wrapper direction={'column'} gap={50} w='100%'>
       <Flex direction={'column'} gap={24} w='100%'>
         <Flex w='100%' direction={'column'} py={30} px={60} style={{ border: `1px solid ${theme.ixoGrey300}` }}>
-        <Editor editable={true} onChange={handleSave} initialPage={value}/>
+          <Editor editable={true} />
         </Flex>
 
         {!addLinked ? (

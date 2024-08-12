@@ -46,15 +46,15 @@ import { StakeToGroupData } from 'components/Modals/AddActionModal/SetupStakeToG
 import { MsgWithdrawValidatorCommission } from '@ixo/impactxclient-sdk/types/codegen/cosmos/distribution/v1beta1/tx'
 import { MsgUnjail } from '@ixo/impactxclient-sdk/types/codegen/cosmos/slashing/v1beta1/tx'
 import { PerformTokenSwapData } from 'components/Modals/AddActionModal/SetupTokenSwapModal'
-import { coins } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/amino'
+import { coins } from '@cosmjs/amino'
 import { DaoAdminExecData } from 'components/Modals/AddActionModal/SetupDAOAdminExecuteModal'
 import { SendGroupTokenData } from 'components/Modals/AddActionModal/SetupSendGroupTokenModal'
-import { ixo, utils } from '@ixo/impactxclient-sdk'
+import { cosmwasm, ixo, utils } from '@ixo/impactxclient-sdk'
 import { useCurrentEntityDAOGroup } from './currentEntity'
 import { AcceptToMarketplaceData } from 'components/Modals/AddActionModal/SetupAcceptToMarketplaceModal'
 import { TDAOGroupModel } from 'types/entities'
 
-export function useMakeProposalAction(coreAddress: string, daoGroups: { [address: string]: TDAOGroupModel}) {
+export function useMakeProposalAction(coreAddress: string, daoGroups: { [address: string]: TDAOGroupModel }) {
   const { daoGroup } = useCurrentEntityDAOGroup(coreAddress, daoGroups)
 
   const makeSpendAction = (data: SpendData): any => {
@@ -99,12 +99,12 @@ export function useMakeProposalAction(coreAddress: string, daoGroups: { [address
                       data.authzExecActionType === AuthzExecActionTypes.Delegate
                         ? data.delegate
                         : data.authzExecActionType === AuthzExecActionTypes.Undelegate
-                        ? data.undelegate
-                        : data.authzExecActionType === AuthzExecActionTypes.Redelegate
-                        ? data.redelegate
-                        : data.authzExecActionType === AuthzExecActionTypes.ClaimRewards
-                        ? data.claimRewards
-                        : undefined,
+                          ? data.undelegate
+                          : data.authzExecActionType === AuthzExecActionTypes.Redelegate
+                            ? data.redelegate
+                            : data.authzExecActionType === AuthzExecActionTypes.ClaimRewards
+                              ? data.claimRewards
+                              : undefined,
                   }),
                 ],
         },
@@ -181,23 +181,19 @@ export function useMakeProposalAction(coreAddress: string, daoGroups: { [address
   }
 
   const makeInstantiateAction = (data: InstantiateData): any => {
-    let msg
-    try {
-      msg = JSON5.parse(data.message)
-    } catch (err) {
-      console.error(`internal error. unparsable message: (${data.message})`, err)
-      return
-    }
+    const message = utils.conversions.JsonToArray(data.message)
 
-    return makeWasmMessage({
-      wasm: {
-        instantiate: {
-          admin: data.admin || null,
-          code_id: data.codeId,
+    return makeStargateMessage({
+      stargate: {
+        typeUrl: '/cosmwasm.wasm.v1.MsgInstantiateContract',
+        value: cosmwasm.wasm.v1.MsgInstantiateContract.fromPartial({
+          admin: data.admin,
+          codeId: Long.fromNumber(data.codeId),
           funds: data.funds,
           label: data.label,
-          msg,
-        },
+          msg: message,
+          sender: data.admin,
+        }),
       },
     })
   }
@@ -752,6 +748,6 @@ export function useMakeProposalAction(coreAddress: string, daoGroups: { [address
     makeSendGroupTokenAction,
     makeJoinAction,
     makeAcceptToMarketplaceAction,
-    makeCreateEntityAction
+    makeCreateEntityAction,
   }
 }

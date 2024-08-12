@@ -38,6 +38,7 @@ const Review = ({ showNavigation = true }: { showNavigation?: boolean }): JSX.El
     daoGroups,
     daoController,
     linkedResource: linkedResourceData,
+    protocolId,
     clearEntity,
   } = createEntityState
   const { UploadLinkedResource, UploadLinkedClaim, CreateProtocol, CreateEntityBase } = useCreateEntity()
@@ -97,10 +98,13 @@ const Review = ({ showNavigation = true }: { showNavigation?: boolean }): JSX.El
     }
 
     // Create Protocol for an entity
-    const protocolResponse = await CreateProtocol({ sequence: 1 })
+    let protocolDid = protocolId
+    if (!protocolDid) {
+      const protocolResponse = await CreateProtocol({ sequence: 1 })
+      protocolDid = utils.common.getValueFromEvents(protocolResponse, 'wasm', 'token_id')
+    }
 
-    const protocolDid = utils.common.getValueFromEvents(protocolResponse, 'wasm', 'token_id')
-
+    
     if (!protocolDid) {
       setSubmitting(false)
       navigate({ pathname: pathname, search: `?success=false` })
@@ -109,7 +113,7 @@ const Review = ({ showNavigation = true }: { showNavigation?: boolean }): JSX.El
 
     // Create an entity
     const { did: entityDid } = await CreateEntityBase(
-      entityType,
+      entityType.replace('-', '/'),
       protocolDid,
       {
         service,

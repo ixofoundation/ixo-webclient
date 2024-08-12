@@ -87,7 +87,7 @@ interface Props {
   openDirection?: OpenDirectionShape
   numberOfMonths?: number
   orientation?: OrientationShape
-  onChange: (startDate: string, endDate: string) => void
+  onChange?: (startDate: string, endDate: string) => void
 }
 
 const DateRangePickerComponent: React.FC<Props> = ({
@@ -115,7 +115,7 @@ const DateRangePickerComponent: React.FC<Props> = ({
           endDateId={`end_${id}`}
           displayFormat={DISPLAY_FORMAT}
           onDatesChange={({ startDate, endDate }): void => {
-            onChange(startDate?.format(DISPLAY_FORMAT) ?? '', endDate?.format(DISPLAY_FORMAT) ?? '')
+            onChange && onChange(startDate?.format(DISPLAY_FORMAT) ?? '', endDate?.format(DISPLAY_FORMAT) ?? '')
           }}
           focusedInput={focusedInput}
           onFocusChange={setFocusedInput}
@@ -132,7 +132,7 @@ const DateRangePickerComponent: React.FC<Props> = ({
           startDate={startDate ? moment(startDate) : null}
           endDate={endDate ? moment(endDate) : null}
           onDatesChange={({ startDate, endDate }): void => {
-            onChange(startDate?.format(DISPLAY_FORMAT) ?? '', endDate?.format(DISPLAY_FORMAT) ?? '')
+            onChange && onChange(startDate?.format(DISPLAY_FORMAT) ?? '', endDate?.format(DISPLAY_FORMAT) ?? '')
           }}
           focusedInput={focusedInput}
           onFocusChange={setFocusedInput}
