@@ -1,4 +1,4 @@
-import { Flex, Grid } from '@mantine/core'
+import { Box, Flex } from '@mantine/core'
 import { Entity, useEntitiesQuery } from 'generated/graphql'
 import { useMemo, useState } from 'react'
 import { populateEntitiesForEntityExplorer } from 'services/entities'
@@ -13,7 +13,7 @@ const Requests = () => {
   const [requests, setRequests] = useState<TEntityModel[]>([])
 
   const filteredRequests = useMemo(() => {
-    return searchString.length > 0 ? requests.filter(entity => entity.profile?.name.includes(searchString)) : requests
+    return searchString.length > 0 ? requests.filter((entity) => entity.profile?.name.includes(searchString)) : requests
   }, [searchString, requests])
 
   useEntitiesQuery({
@@ -34,17 +34,15 @@ const Requests = () => {
   })
 
   return (
-    <Flex w='100%' h='100%' justify={'center'}>
-      <Flex w='90%' mt={40}>
-        <Grid w='100%'>
-          {filteredRequests.map((request) => (
-            <Grid.Col key={request.id} span={3}>
-              <Link to={`/entity/${request.id}`}>
-                <RequestOverviewCard entity={request} />
-              </Link>
-            </Grid.Col>
-          ))}
-        </Grid>
+    <Flex w='100%' h='100%' justify='center'>
+      <Flex w='90%' mt={40} wrap='wrap' gap='md'>
+        {filteredRequests.map((request) => (
+          <Box key={request.id} mb={3}>
+            <Link to={`/entity/${request.id}`}>
+              <RequestOverviewCard entity={request} />
+            </Link>
+          </Box>
+        ))}
       </Flex>
     </Flex>
   )
