@@ -69,6 +69,11 @@ export const HeaderLeft: React.FC<ParentProps> = (props) => {
               Requests
             </HeaderLink>
           </DisplayInDevelopmentMode>
+          <DisplayInDevelopmentMode>
+            <HeaderLink to={`/entity/select-or-create`} color={buttonColor}>
+              Protocols
+            </HeaderLink>
+          </DisplayInDevelopmentMode>
         </Fragment>
       )
     } else {
