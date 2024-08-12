@@ -51,7 +51,7 @@ export const ProjectCard: React.FC<Props> = ({
       onClick={() =>
         id &&
         navigate({
-          pathname: `/entity/${id}/overview`,
+          pathname: `/entity/${id}/overview/page`,
         })
       }
       $direction='column'

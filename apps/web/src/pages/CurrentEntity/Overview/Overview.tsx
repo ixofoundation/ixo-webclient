@@ -32,6 +32,7 @@ const Overview: React.FC = () => {
     if (value === tab) return
     navigate(`/entity/${entityId}/overview/${value}`)
   }
+
   const { type } = useEntityOverview(entityId)
 
   return (
