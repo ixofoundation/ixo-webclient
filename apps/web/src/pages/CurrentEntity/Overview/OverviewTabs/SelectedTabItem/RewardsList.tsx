@@ -33,8 +33,6 @@ const PaymentItem = ({ coin, description, color }: { coin: Coin; description: st
 }
 
 function RewardsList({ data }: { data: any }) {
-  console.log({ data })
-
   const payments = useMemo(() => {
     return data?.collection.payments
   }, [data])

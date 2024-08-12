@@ -45,19 +45,6 @@ const SelectedTabItem = () => {
             },
           ]}
         />
-        {/* Reward List */}
-        <RewardsList
-          rewards={[
-            {
-              amount: {
-                currency: 'IXO',
-                value: '1000',
-              },
-              claimStatus: 'approved',
-              icon: 'https://via.placeholder.com/150',
-            },
-          ]}
-        />
       </Flex>
     </Flex>
   )
