@@ -23,7 +23,7 @@ const Tasks = () => {
   const { wallet } = useWallet()
   const { data: iid } = useGetIid(wallet?.did ?? '')
   const { claimTableData: tasks, loading } = useClaimTableData({ entityId })
-  const { setKeyValue, resetKeyValue } = useKeyValueViewerContext()
+  const { setKeyValue, resetKeyValue, keyValue } = useKeyValueViewerContext()
   const [selectedId, setSelectedId] = useState<string | null>(null)
 
   console.log({ entityId })
@@ -59,7 +59,7 @@ const Tasks = () => {
           task={task}
           iid={iid}
           onClick={() => handleRowClick(task)}
-          active={selectedId === task?.collection?.id}
+          active={Boolean(selectedId === task?.collection?.id && keyValue)}
           entity={entity}
           w={350}
         />

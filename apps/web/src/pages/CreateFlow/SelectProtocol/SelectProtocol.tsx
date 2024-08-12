@@ -21,7 +21,7 @@ const Requests = () => {
     variables: {
       filter: {
         type: {
-          in: ['protocol/project'],
+          in: ['protocol/project', 'protocol/request', 'protocol/dao'],
         },
       },
     },

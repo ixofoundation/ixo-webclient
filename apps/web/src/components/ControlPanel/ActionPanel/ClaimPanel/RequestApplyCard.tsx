@@ -5,7 +5,7 @@ import { AgentRoles } from 'types/models'
 
 const roleNames = {
   SA: 'Agent',
-  EA: 'Evaluator'
+  EA: 'Evaluator',
 }
 
 type RequestApplyCardProps = {
@@ -13,7 +13,7 @@ type RequestApplyCardProps = {
   userRole?: AgentRoles
 }
 const RequestApplyCard = ({ openForm, userRole }: RequestApplyCardProps) => {
-  const roleMessage = userRole === "SA" ? "You can submit claims" : "You can evaluate claims"
+  const roleMessage = userRole === 'SA' ? 'You can submit claims' : 'You can evaluate claims'
   return (
     <ActionCard title='Role' icon={<LiaUserSolid />} noPadding>
       <Box w='100%' p='md' pt={4}>
@@ -28,9 +28,12 @@ const RequestApplyCard = ({ openForm, userRole }: RequestApplyCardProps) => {
         </Flex>
       </Box>
       {!userRole && (
-        <Flex w='100%' bg='#F2FEFF' p='md'>
+        <Flex w='100%' bg='#F2FEFF' p='md' gap={'md'} direction='column'>
           <Button w='100%' radius={'md'} onClick={openForm(AgentRoles.serviceProviders)}>
             Apply as agent
+          </Button>
+          <Button w='100%' radius={'md'} onClick={openForm(AgentRoles.evaluators)}>
+            Apply as evaluator
           </Button>
         </Flex>
       )}

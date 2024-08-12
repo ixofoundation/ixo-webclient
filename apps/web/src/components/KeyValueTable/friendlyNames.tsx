@@ -24,6 +24,8 @@ const friendlyEntityTypes = (type: string) => {
       return 'service'
     case 'protocol/investment':
       return 'investment'
+    case 'protocol/request':
+      return 'request'
     default:
       return type
   }

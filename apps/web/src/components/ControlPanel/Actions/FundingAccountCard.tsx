@@ -2,7 +2,7 @@ import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/c
 import { Flex, Box, Text, Avatar } from '@mantine/core'
 import ActionCard from 'components/ActionCard/ActionCard'
 import { GetBalances } from 'lib/protocol'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { LiaPlusCircleSolid } from 'react-icons/lia'
 import { useParams } from 'react-router-dom'
 import { getEntityById } from 'redux/entities/entities.selectors'
@@ -39,6 +39,14 @@ const FundingAccountCard = () => {
       GetBalances(address).then((balance) => setBalances(balance))
     }
   }, [entity.accounts])
+
+  const balanceTotal = useMemo(() => {
+    return balances.reduce((acc, curr) => acc + parseInt(curr.amount), 0)
+  }, [balances])
+
+  if (balanceTotal === 0) {
+    return null
+  }
 
   return (
     <ActionCard title='Funding' icon={<LiaPlusCircleSolid />} editable={false}>

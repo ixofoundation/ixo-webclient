@@ -1,60 +1,51 @@
-import { Text } from '@mantine/core'
 import ActionCard from 'components/ActionCard/ActionCard'
-import { theme } from 'components/App/App.styles'
-import CardWithTitleAndAvatar from './CardWithTitleAndAvatar'
-import { ReactNode } from 'react'
+import { Avatar, Box, Flex, Text } from '@mantine/core'
+import { useMemo } from 'react'
+import { UsdcIcon } from 'components/Icons/UsdcIcon'
+import { IxoCoinIcon } from 'components/Icons/IxoCoinIcon'
+import { Coin } from '@cosmjs/proto-signing'
+import { findDenomByMinimalDenom, minimalDenomToDenom } from 'redux/account/account.utils'
 
-interface Reward {
-  amount: {
-    value: string
-    currency: string
+const PaymentIconForDenom = ({ denom }: { denom: string }) => {
+  if (denom === 'usdc') {
+    return <UsdcIcon />
   }
-  claimStatus: 'approved' | 'rejected' | 'pending' | 'disputed' | 'submitted'
-  icon?: ReactNode
-}
-interface RewardsListProps {
-  rewards: Reward[]
+
+  return <IxoCoinIcon />
 }
 
-const RewardDescription = ({ claimStatus }: { claimStatus: Reward['claimStatus'] }) => {
-  switch (claimStatus) {
-    case 'approved':
-      return (
-        <Text fz={'xs'} c={theme.ixoGreen} mt={-4}>
-          Approved Claims
+const PaymentItem = ({ coin, description, color }: { coin: Coin; description: string; color: string }) => {
+  return (
+    <Flex p={4} bg='#F9F9F9' style={{ borderRadius: 10 }}>
+      <Avatar mr={5}>
+        <PaymentIconForDenom denom={coin.denom} />
+      </Avatar>
+      <Box>
+        <Text tt='uppercase' mb={-2}>
+          {minimalDenomToDenom(coin.denom, coin.amount)} {findDenomByMinimalDenom(coin.denom)}
         </Text>
-      )
-    case 'submitted':
-      return (
-        <Text fz={'xs'} c={theme.ixoNewBlue} mt={-4}>
-          Submitted Claims
+        <Text c={color} size='xs' mt={-3}>
+          {description}
         </Text>
-      )
-
-    default:
-      return (
-        <Text fz={'xs'} c={'#9A9A9A'} mt={-4}>
-          Rejected Claims
-        </Text>
-      )
-  }
+      </Box>
+    </Flex>
+  )
 }
 
-const shouldRenderAmount = (claimStatus: Reward['claimStatus']) => {
-  return claimStatus === 'approved' || claimStatus === 'submitted'
-}
+function RewardsList({ data }: { data: any }) {
+  console.log({ data })
 
-function RewardsList({ rewards }: RewardsListProps) {
+  const payments = useMemo(() => {
+    return data?.collection.payments
+  }, [data])
+
   return (
     <ActionCard title='Payments' icon={<RewardsIcon />} editable={false}>
-      {rewards.map((reward, i) => (
-        <CardWithTitleAndAvatar
-          key={reward.amount.value + i + reward.claimStatus + reward?.icon}
-          title={shouldRenderAmount(reward.claimStatus) ? formatCurrency(reward.amount) : ''}
-          description={<RewardDescription claimStatus={reward.claimStatus} />}
-          icon={reward?.icon}
-        />
-      ))}
+      <Flex gap={10} direction='column'>
+        <PaymentItem color='#5AB946' description='Approved Claims' coin={payments?.approval.amount[0]} />
+        <PaymentItem color='#00D2FF' description='Submitted Claims' coin={payments?.submission.amount[0]} />
+        <PaymentItem color='red' description='Rejected Claims' coin={payments?.rejection.amount[0]} />
+      </Flex>
     </ActionCard>
   )
 }
@@ -69,10 +60,3 @@ const RewardsIcon = () => (
 )
 
 export default RewardsList
-
-const formatCurrency = (amount: Reward['amount']) => {
-  return Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: amount.currency,
-  }).format(Number(amount.value))
-}

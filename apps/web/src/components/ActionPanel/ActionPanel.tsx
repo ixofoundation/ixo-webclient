@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { useAccount } from 'hooks/account'
 import Tooltip from 'components/Tooltip/Tooltip'
 import { useKeyValueViewerContext } from 'contexts/KeyValueViewerContext'
-import { LiaBoltSolid, LiaPlaySolid } from 'react-icons/lia'
+import { LiaUserSolid } from 'react-icons/lia'
 import { useCompanionContext } from 'contexts/CompanionContext'
 import { useCompanionDesignConfig } from 'hooks/userInterface/useCompanionDesignConfig'
 import { GoArrowLeft } from 'react-icons/go'
@@ -11,6 +11,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import UserActions from './UserActions'
 import EntityActions from './EntityActions'
 import { KeyValueActionPanel } from 'components/ControlPanel/ActionPanel/ActionPanel'
+import { EntityIcon } from 'components/Icons/EntityIcon'
 
 const StyledScrollArea = styled(ScrollArea)`
   & > div > div {
@@ -55,7 +56,7 @@ const ActionPanel = () => {
                 bg={activeTab === 'user' ? toolbarActiveBackground : toolbarBackground}
                 onClick={() => setActiveTab('user')}
               >
-                <LiaPlaySolid size='24' color={activeTab === 'user' ? toolbarActiveColor : toolbarColor} />
+                <LiaUserSolid size='24' color={activeTab === 'user' ? toolbarActiveColor : toolbarColor} />
               </ActionIcon>
             </Tooltip>
           )}
@@ -67,7 +68,7 @@ const ActionPanel = () => {
                 bg={activeTab === 'entity' ? toolbarActiveBackground : toolbarBackground}
                 onClick={() => setActiveTab('entity')}
               >
-                <LiaBoltSolid size='24' color={activeTab === 'entity' ? toolbarActiveColor : toolbarColor} />
+                <EntityIcon size={24} color={activeTab === 'entity' ? toolbarActiveColor : toolbarColor} />
               </ActionIcon>
             </Tooltip>
           )}
@@ -80,7 +81,7 @@ const ActionPanel = () => {
                 bg={activeTab === 'entity' ? toolbarActiveBackground : toolbarBackground}
                 onClick={goBack}
               >
-                <GoArrowLeft size={24} color={activeTab === 'entity' ? toolbarActiveColor : toolbarColor} />
+                <GoArrowLeft size='24' color={activeTab === 'entity' ? toolbarActiveColor : toolbarColor} />
               </ActionIcon>
             </Tooltip>
           )}

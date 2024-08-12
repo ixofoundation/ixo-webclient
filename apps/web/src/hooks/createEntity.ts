@@ -549,7 +549,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
         {
           entityType,
           entityStatus: 0,
-          context: [],
+          context: [{ key: 'class', val: protocolDid }],
           service,
           linkedResource,
           linkedClaim,

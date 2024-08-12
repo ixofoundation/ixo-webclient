@@ -3,6 +3,7 @@ import { customMessages, utils } from '@ixo/impactxclient-sdk'
 import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { fee } from 'lib/protocol'
 import { useState } from 'react'
+import { useParams } from 'react-router-dom'
 import { initialCellnodeService, initialIpfsService } from 'redux/createEntity/createEntity.reducer'
 import { useAppSelector } from 'redux/hooks'
 import { uploadToService } from 'services'
@@ -14,6 +15,7 @@ export const useCreateEntityWithCreateFlow = () => {
   const entity = useAppSelector((state) => state.createFlow)
   const [isLoading, setIsLoading] = useState(false)
   const [completedDid, setCompletedDid] = useState<string | null>(null)
+  const { protocolId } = useParams()
 
   const uploadLinkedResources = async (linkedResources: (LinkedResource & { data?: any })[]) => {
     const linkedResourcesToUpload = linkedResources.filter(
@@ -61,6 +63,10 @@ export const useCreateEntityWithCreateFlow = () => {
       return type.split('/').pop()
     }
 
+    if (type === 'protocol/request') {
+      return 'deed/request'
+    }
+
     return type
   }
 
@@ -70,10 +76,6 @@ export const useCreateEntityWithCreateFlow = () => {
       if (!wallet) {
         throw new Error('Wallet is not connected')
       }
-      console.log({ resources: entity.linkedResource })
-
-      console.log({ entityOnSign: { ...entity, linkedResource: await uploadLinkedResources(entity.linkedResource) } })
-      console.log(wallet)
 
       const hexPubKey = hexToUint8Array(wallet.pubKey as unknown as string)
 
@@ -90,6 +92,7 @@ export const useCreateEntityWithCreateFlow = () => {
               type: 'secp',
             }),
           ],
+          context: [{ key: 'class', val: protocolId }],
           ownerDid: wallet.did,
           controller: [wallet.did],
           startDate: entity.startDate ? utils.proto.toTimestamp(new Date(entity.startDate)) : undefined,
