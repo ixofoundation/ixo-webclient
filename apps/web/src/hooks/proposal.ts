@@ -46,7 +46,7 @@ import { StakeToGroupData } from 'components/Modals/AddActionModal/SetupStakeToG
 import { MsgWithdrawValidatorCommission } from '@ixo/impactxclient-sdk/types/codegen/cosmos/distribution/v1beta1/tx'
 import { MsgUnjail } from '@ixo/impactxclient-sdk/types/codegen/cosmos/slashing/v1beta1/tx'
 import { PerformTokenSwapData } from 'components/Modals/AddActionModal/SetupTokenSwapModal'
-import { coins } from '@ixo/impactxclient-sdk/node_modules/@cosmjs/amino'
+import { coins } from '@cosmjs/amino'
 import { DaoAdminExecData } from 'components/Modals/AddActionModal/SetupDAOAdminExecuteModal'
 import { SendGroupTokenData } from 'components/Modals/AddActionModal/SetupSendGroupTokenModal'
 import { cosmwasm, ixo, utils } from '@ixo/impactxclient-sdk'
@@ -192,8 +192,8 @@ export function useMakeProposalAction(coreAddress: string, daoGroups: { [address
           funds: data.funds,
           label: data.label,
           msg: message,
-          sender: data.admin
-        })
+          sender: data.admin,
+        }),
       },
     })
   }

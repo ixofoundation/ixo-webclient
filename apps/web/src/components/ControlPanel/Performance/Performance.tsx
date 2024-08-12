@@ -6,8 +6,9 @@ import InvestmentPerformance from './InvestmentPerformance'
 import ProtocolPerformance from './ProtocolPerformance'
 import ProjectPerformance from './ProjectPerformance'
 import AssetPerformance from './AssetPerformance'
+import RequestPerfomance from './RequestPerformance'
 
-const PerformanceCard = ({ entityType }: { entityType: string}) => {
+const PerformanceCard = ({ entityType }: { entityType: string }) => {
   switch (entityType) {
     case 'dao':
       return <DAOPerformance />
@@ -22,6 +23,8 @@ const PerformanceCard = ({ entityType }: { entityType: string}) => {
       return <InvestmentPerformance />
     case 'protocol/claim':
       return <ProtocolPerformance />
+    case 'deed/request':
+      return <RequestPerfomance />
     default:
       return null
   }

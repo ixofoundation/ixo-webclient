@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useMemo } from 'react'
 import { Wrapper, Row } from './SetupPageContent.styles'
 import { Box, Button } from '@mantine/core'
 import Editor from 'components/Editor/Editor'
@@ -13,22 +13,16 @@ interface Props {
 }
 
 const SetupPageContent: React.FC<Props> = ({ page, entityType, onChange, onClose }): JSX.Element => {
-  const [pageObject, setPageObject] = useState<TEntityPageModel>()
-
   const initialPage = useMemo(() => {
-    if(Array.isArray(page)){
+    if (Array.isArray(page)) {
       return EditorJsToBlockNote(page)
     }
     return {
       featuredImage: page?.featuredImage ?? '',
       pageTitle: page?.pageTitle ?? '',
-      content: page?.content
+      content: page?.content,
     }
   }, [page])
-
-  const handleChange = (): void => {
-    onChange && onChange(pageObject)
-  }
 
   return (
     <Wrapper>
@@ -37,14 +31,14 @@ const SetupPageContent: React.FC<Props> = ({ page, entityType, onChange, onClose
           <Button size='md' w='160' radius={'sm'} variant='outline' onClick={onClose}>
             Back
           </Button>
-          <Button size='md' w='160' radius={'sm'} variant='primary' onClick={handleChange}>
+          <Button size='md' w='160' radius={'sm'} variant='primary'>
             Continue
           </Button>
         </Box>
       </Row>
 
       <Row style={{ display: 'block', pointerEvents: onChange ? 'auto' : 'none', padding: 32 }}>
-        <Editor editable={true} onChange={setPageObject} initialPage={initialPage} />
+        <Editor editable={true} initialPage={initialPage} />
       </Row>
     </Wrapper>
   )

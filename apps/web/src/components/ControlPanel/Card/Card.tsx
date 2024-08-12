@@ -10,6 +10,7 @@ export interface ICardItems {
   icon?: React.ReactNode
   content: string | JSX.Element
   active?: boolean
+  withoutSvgBox?: boolean
   onClick?: () => void
 }
 
@@ -42,7 +43,7 @@ const Card: React.FC<Props> = ({ icon, title, columns, items }) => {
         </SvgBox>
       </FlexBox>
 
-      <GridContainer width='100%' height="100%" columns={columns} $gridGap={2}>
+      <GridContainer width='100%' height='100%' columns={columns} $gridGap={2}>
         {Array.isArray(items)
           ? items.map((item, index) => (
               <FlexBox
@@ -59,11 +60,14 @@ const Card: React.FC<Props> = ({ icon, title, columns, items }) => {
                 onClick={item.onClick && item.onClick}
                 cursor={item.onClick && 'pointer'}
               >
-                {item.icon && (
-                  <SvgBox $svgWidth={5} $svgHeight={5} color={theme.ixoBlack}>
-                    {item.icon}
-                  </SvgBox>
-                )}
+                {item.icon &&
+                  (item.withoutSvgBox ? (
+                    item.icon
+                  ) : (
+                    <SvgBox $svgWidth={5} $svgHeight={5}>
+                      {item.icon}
+                    </SvgBox>
+                  ))}
                 <Typography size='sm' color='black'>
                   {item.content}
                 </Typography>

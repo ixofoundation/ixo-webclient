@@ -45,7 +45,7 @@ const ClaimLocation = () => {
 
       mapRef.current?.easeTo({
         center: feature.geometry.coordinates,
-        zoom,
+        zoom: zoom ?? 1,
         duration: 500,
       })
     })

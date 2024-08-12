@@ -39,13 +39,20 @@ const Overlay = styled.div`
 interface Props {
   image: string | undefined
   handleChange: (value: string) => void
+  allowEdit?: boolean
 }
 
-const ImageUpload: React.FC<Props> = ({ image, handleChange }): JSX.Element => {
+const ImageUpload: React.FC<Props> = ({ image, handleChange, allowEdit = true }): JSX.Element => {
   const [openModal, setOpenModal] = useState(false)
+
+  const handleClick = () => {
+    if (allowEdit) {
+      setOpenModal(true)
+    }
+  }
   return (
     <>
-      <Wrapper background={image} onClick={(): void => setOpenModal(true)}>
+      <Wrapper background={image} onClick={handleClick}>
         {!image ? (
           <>
             <IconImage className='mb-3' />
@@ -57,12 +64,14 @@ const ImageUpload: React.FC<Props> = ({ image, handleChange }): JSX.Element => {
             </Typography>
           </>
         ) : (
-          <Overlay>
-            <IconImage className='mb-3' />
-            <Typography color='white' size='xl'>
-              Click to replace
-            </Typography>
-          </Overlay>
+          allowEdit && (
+            <Overlay>
+              <IconImage className='mb-3' />
+              <Typography color='white' size='xl'>
+                Click to replace
+              </Typography>
+            </Overlay>
+          )
         )}
       </Wrapper>
       <ImageUploadModal

@@ -25,7 +25,7 @@ const statCardLabel = {
   [ixo.claims.v1beta1.EvaluationStatus.DISPUTED]: 'Disputed',
 } as const
 
-const StatCard: React.FC<StatCardProps> = ({ evaluationStatus, value }) => {
+export const StatCard: React.FC<StatCardProps> = ({ evaluationStatus, value }) => {
   const ClaimSetting = useClaimSetting()
   return (
     <Flex gap={16} align={'center'}>

@@ -31,13 +31,13 @@ interface Props {
 
 const OracleCard: React.FunctionComponent<Props> = ({ id, profile, tags = [] }) => {
   const theme: any = useTheme()
-  const sdgs = Array.isArray(tags) ? tags.find(({ category }) => category === 'SDG')?.tags ?? [] : []
+  const sdgs = Array.isArray(tags) ? (tags.find(({ category }) => category === 'SDG')?.tags ?? []) : []
 
   return (
     <CardContainer>
       <CardLink
         to={{
-          pathname: `/entity/${id}/overview`,
+          pathname: `/entity/${id}/overview/page`,
         }}
       >
         <CardTop>

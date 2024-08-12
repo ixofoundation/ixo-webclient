@@ -1,8 +1,8 @@
-import React from 'react';
-import styled from 'styled-components';
-import { Box } from 'components/App/App.styles';
-import { TEntityPageModel } from 'types/entities';
-import Editor from 'components/Editor/Editor';
+import React from 'react'
+import styled from 'styled-components'
+import { Box } from 'components/App/App.styles'
+import { TEntityPageModel } from 'types/entities'
+import Editor from 'components/Editor/Editor'
 
 const Wrapper = styled(Box)`
   width: 100%;
@@ -24,7 +24,7 @@ const Wrapper = styled(Box)`
       display: none;
     }
   }
-`;
+`
 
 interface Props {
   page: TEntityPageModel
@@ -33,9 +33,9 @@ interface Props {
 const PageContent: React.FC<Props> = ({ page }) => {
   return (
     <Wrapper>
-      <Editor initialPage={page} editable={false} />
+      <Editor initialPage={page.content} editable={false} />
     </Wrapper>
-  );
-};
+  )
+}
 
-export default PageContent;
+export default PageContent

@@ -18,6 +18,7 @@ import { reducer as economyReducer } from 'redux/entityEconomy/entityEconomy.red
 import assistantReducer from 'redux/assistant/assistant.slice'
 import exchangeReducer from 'redux/exchange/exchange.reducer'
 import { multiStepReducer } from './entityMultiStepCreation/slice'
+import createFlowReducer from 'redux/createFlow/slice'
 
 export const rootReducer = (history: any) =>
   combineReducers({
@@ -39,5 +40,6 @@ export const rootReducer = (history: any) =>
     economy: economyReducer,
     assistant: assistantReducer,
     multiStepCreation: multiStepReducer,
+    createFlow: createFlowReducer,
     router: connectRouter(history),
   })

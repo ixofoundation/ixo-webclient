@@ -75,7 +75,7 @@ export function useGetUserGranteeRole(
     return AgentRoles.owners
   }
 
-  if (verificationMethod.some((verification) => verification?.blockchainAccountID === userAddress)) {
+  if (verificationMethod?.some((verification) => verification?.blockchainAccountID === userAddress)) {
     return AgentRoles.owners
   }
 

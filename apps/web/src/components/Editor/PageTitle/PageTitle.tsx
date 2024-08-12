@@ -1,30 +1,31 @@
+import { forwardRef } from 'react'
 import { Flex, Text, TextInput } from '@mantine/core'
 
 type PageTitleProps = {
-  onChange: (title: string) => void
   initialTitle?: string
   editable?: boolean
 }
 
-const PageTitle = ({ onChange, initialTitle, editable }: PageTitleProps) => {
+const PageTitle = forwardRef<HTMLInputElement, PageTitleProps>(({ initialTitle, editable }, ref) => {
   return (
-    <Flex align='center' gap={6} py={10}>
-      {editable && (
+    <Flex align='center' gap={6} py={10} mx={50}>
+      {editable ? (
         <TextInput
-          value={initialTitle}
-          styles={{ input: { fontSize: 60, lineHeight: '80px', padding: '0.9em 0' } }}
+          ref={ref}
+          defaultValue={initialTitle}
+          styles={{ input: { fontSize: 32, lineHeight: '80px', padding: '0.9em 0' } }}
           variant='unstyled'
-          placeholder='Page Title'
-          onChange={(event) => onChange(event.currentTarget.value)}
+          placeholder='Add Page Title'
         />
-      )}
-      {!editable && (
-        <Text fz={60} mx='auto' maw='750px' style={{ textWrap: 'wrap' }}>
+      ) : (
+        <Text fz={32} maw='750px' style={{ textWrap: 'wrap' }}>
           {initialTitle}
         </Text>
       )}
     </Flex>
   )
-}
+})
+
+PageTitle.displayName = 'PageTitle'
 
 export default PageTitle

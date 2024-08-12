@@ -1,4 +1,5 @@
-/* eslint-disable @typescript-eslint/no-empty-interface */
+/* eslint-disable @typescript-eslint/no-empty-interface */ 
+// @ts-nocheck
 import { AgentRole } from 'redux/account/account.types'
 
 export enum AgentStatus {
