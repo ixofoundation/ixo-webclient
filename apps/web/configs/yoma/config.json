@@ -39,7 +39,7 @@
       }
     ],
     "header": {
-      "background": "#EDAE54",
+      "background": "##FBAC3A",
       "buttonColor": "#162A42",
       "link": "https://yoma.africa/",
       "tabs": {
@@ -102,7 +102,7 @@
       "@type": "Header",
       "color": "transparent",
       "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/src/assets/images/header-overrides/yoma_market_hero_img.png",
-      "title": "Yoma",
+      "title": "Yoma Impacts",
       "subTitle": "Projects Explorer",
       "indicators": [
         {
@@ -135,7 +135,7 @@
           "ddoTag": "Yoma",
           "color": "#FFFFFF",
           "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/src/assets/images/header-overrides/yoma_market_hero_img.png",
-          "title": "Yoma",
+          "title": "Yoma Impacts",
           "subTitle": "Youth Marketplace",
           "indicators": [
             {
@@ -1228,7 +1228,7 @@
       "@type": "Header",
       "color": "transparent",
       "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/src/assets/images/header-overrides/yoma_market_hero_img.png",
-      "title": "Yoma",
+      "title": "Yoma Impacts",
       "subTitle": "Oracles Explorer",
       "indicators": [
         {
@@ -1261,7 +1261,7 @@
           "ddoTag": "Yoma",
           "color": "#FFFFFF",
           "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/src/assets/images/header-overrides/yoma_market_hero_img.png",
-          "title": "Yoma",
+          "title": "Yoma Impacts",
           "subTitle": "Youth Marketplace",
           "indicators": [
             {
@@ -1894,7 +1894,7 @@
       "@type": "Header",
       "color": "transparent",
       "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/src/assets/images/header-overrides/yoma_market_hero_img.png",
-      "title": "Yoma",
+      "title": "Yoma Impacts",
       "subTitle": "Youth Marketplace",
       "indicators": [
         {
@@ -1927,7 +1927,7 @@
           "ddoTag": "Yoma",
           "color": "#FFFFFF",
           "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/src/assets/images/header-overrides/yoma_market_hero_img.png",
-          "title": "Yoma",
+          "title": "Yoma Impacts",
           "subTitle": "Youth Marketplace",
           "indicators": [
             {
@@ -2696,7 +2696,7 @@
       "@type": "Header",
       "color": "transparent",
       "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/src/assets/images/header-overrides/yoma_market_hero_img.png",
-      "title": "Yoma",
+      "title": "Yoma Impacts",
       "subTitle": "Youth Marketplace",
       "indicators": [
         {
@@ -2729,7 +2729,7 @@
           "ddoTag": "Yoma",
           "color": "#FFFFFF",
           "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/src/assets/images/header-overrides/yoma_market_hero_img.png",
-          "title": "Yoma",
+          "title": "Yoma Impacts",
           "subTitle": "Youth Marketplace",
           "indicators": [
             {
@@ -3297,7 +3297,7 @@
       "@type": "Header",
       "color": "transparent",
       "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/src/assets/images/header-overrides/yoma_market_hero_img.png",
-      "title": "Yoma",
+      "title": "Yoma Impacts",
       "subTitle": "Youth Marketplace",
       "indicators": [
         {
@@ -3330,7 +3330,7 @@
           "ddoTag": "Yoma",
           "color": "#FFFFFF",
           "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/src/assets/images/header-overrides/yoma_market_hero_img.png",
-          "title": "Yoma",
+          "title": "Yoma Impacts",
           "subTitle": "Youth Marketplace",
           "indicators": [
             {
@@ -4255,7 +4255,7 @@
       "@type": "Header",
       "color": "transparent",
       "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/src/assets/images/header-overrides/yoma_market_hero_img.png",
-      "title": "Yoma",
+      "title": "Yoma Impacts",
       "subTitle": "Youth Marketplace",
       "indicators": [
         {
@@ -4288,7 +4288,7 @@
           "ddoTag": "Yoma",
           "color": "#FFFFFF",
           "image": "https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/src/assets/images/header-overrides/yoma_market_hero_img.png",
-          "title": "Yoma",
+          "title": "Yoma Impacts",
           "subTitle": "Youth Marketplace",
           "indicators": [
             {
