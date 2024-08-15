@@ -1,14 +1,11 @@
 import { Block, BlockNoteSchema, defaultBlockSpecs } from '@blocknote/core'
 import '@blocknote/core/fonts/inter.css'
 import { BlockNoteView } from '@blocknote/mantine'
-import '@blocknote/mantine/style.css'
 import { useCreateBlockNote } from '@blocknote/react'
 import { Box } from '@mantine/core'
 import { uploadFile } from 'components/Editor/uploadFile'
 import { ImageBlock } from './CustomBlocks/Image/ImageBlock'
 import { en } from './customDictionary'
-import './Editor.css'
-// import FeaturedImage from './FeaturedImage/FeaturedImage'
 
 const schema = BlockNoteSchema.create({
   blockSpecs: {
