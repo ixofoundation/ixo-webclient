@@ -24,6 +24,7 @@ import { Companion } from 'components/Companion'
 import { CompanionProvider } from 'contexts/CompanionContext'
 import { KeyValueViewerProvider } from 'contexts/KeyValueViewerContext'
 import { RequestsProvider } from 'contexts/RequestsContext'
+import { ExplorerProvider } from 'contexts/ExplorerContext'
 
 ReactGA.initialize('UA-106630107-5')
 ReactGA.pageview(window.location.pathname + window.location.search)
@@ -42,20 +43,22 @@ const App: React.FC = () => {
         <ServicesInitialisation />
         <ScrollToTop>
           <CompanionProvider>
-            <RequestsProvider>
-              <KeyValueViewerProvider>
-                <Container>
-                  <HeaderConnected />
-                  <Companion />
-                  <Flex mt={74} w='100%' h={'calc(100vh - 74px)'} style={{ flex: 1 }}>
-                    <ContentWrapper>
-                      <Outlet />
-                    </ContentWrapper>
-                  </Flex>
-                  <Footer />
-                </Container>
-              </KeyValueViewerProvider>
-            </RequestsProvider>
+            <ExplorerProvider>
+              <RequestsProvider>
+                <KeyValueViewerProvider>
+                  <Container>
+                    <HeaderConnected />
+                    <Companion />
+                    <Flex mt={74} w='100%' h={'calc(100vh - 74px)'} style={{ flex: 1 }}>
+                      <ContentWrapper>
+                        <Outlet />
+                      </ContentWrapper>
+                    </Flex>
+                    <Footer />
+                  </Container>
+                </KeyValueViewerProvider>
+              </RequestsProvider>
+            </ExplorerProvider>
           </CompanionProvider>
         </ScrollToTop>
       </WalletProvider>

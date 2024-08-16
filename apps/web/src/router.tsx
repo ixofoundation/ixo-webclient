@@ -35,6 +35,7 @@ import * as SelectedTabItem from 'pages/CurrentEntity/Overview/OverviewTabs/Sele
 import * as SelectProtocol from 'pages/CreateFlow/SelectProtocol/SelectProtocol.route'
 import * as Overview from 'pages/CreateFlow/Overview/Overview.route'
 import * as OverviewTab from 'pages/CreateFlow/OverviewTab/OverviewTab.route'
+import * as ExploreNew from 'pages/ExploreNew/ExploreNew.route'
 
 // Layouts
 import * as EntityOverviewLayout from 'components/Layout/EntityOverviewLayout/EntityOverviewLayout.route'
@@ -62,6 +63,16 @@ const router = createBrowserRouter([
       </Suspense>
     ),
     children: [
+      {
+        path: 'explore-new',
+        Component: ExploreLayout.Component,
+        children: [
+          {
+            index: true,
+            Component: ExploreNew.Component,
+          },
+        ],
+      },
       {
         path: '*',
         Component: Routes,
@@ -248,6 +259,7 @@ const router = createBrowserRouter([
           },
         ],
       },
+
       // {
       //   path: 'create/entity/:entityType',
 
