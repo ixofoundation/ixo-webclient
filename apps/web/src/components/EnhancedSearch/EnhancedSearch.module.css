@@ -1,0 +1,20 @@
+.entityItem {
+  cursor: pointer;
+  text-decoration: none;
+  border-radius: var(--mantine-radius-md);
+  &:hover {
+    background-color: #f6f6f6;
+  }
+
+  > * {
+    text-decoration: none;
+  }
+}
+
+.accordionItem {
+  border-bottom: none !important;
+}
+
+.accordionItem[data-active] {
+  border-bottom: 1px solid #dee2e6 !important;
+}
