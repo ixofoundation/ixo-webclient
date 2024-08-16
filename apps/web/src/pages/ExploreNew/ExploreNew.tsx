@@ -7,6 +7,7 @@ import { TEntityModel } from 'types/entities'
 import { RequestOverviewCard } from 'components/RequestOverviewCard'
 import { Link } from 'react-router-dom'
 import { useExplorerContext } from 'contexts/ExplorerContext'
+import { currentRelayerNode } from 'constants/common'
 
 const ExploreNew = () => {
   const [requests, setRequests] = useState<TEntityModel[]>([])
@@ -20,6 +21,9 @@ const ExploreNew = () => {
     variables: {
       filter: {
         not: { type: { startsWith: 'asset' } },
+        relayerNode: {
+          equalTo: currentRelayerNode,
+        },
       },
     },
     onCompleted: async (data) => {
