@@ -2,6 +2,7 @@ import { useLocation, matchPath } from 'react-router-dom'
 import { Flex } from '@mantine/core'
 import { CreateEntityCard } from './Actions/CreateEntityCard'
 import { UseProtocolCard } from './Actions/UseProtocolCard'
+import { DidQRCode } from 'components/ControlPanel/DidQRCode'
 
 const ControlPanel = () => {
   const location = useLocation()
@@ -24,6 +25,7 @@ const ControlPanel = () => {
       return (
         <>
           <UseProtocolCard />
+          <DidQRCode />
         </>
       )
     }
