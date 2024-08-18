@@ -22,6 +22,7 @@ import Claims from '../ProjectDashboard/Claims'
 import ClaimDetail from '../ProjectDashboard/ClaimDetail'
 import Shareholders from './Shareholders'
 import { useMemo } from 'react'
+import { Requests } from './Requests'
 import { useAppSelector } from 'redux/hooks'
 import { getEntityById } from 'redux/entities/entities.selectors'
 import { useWallet } from '@ixo-webclient/wallet-connector'
@@ -110,6 +111,12 @@ const DAODashboard: React.FC = (): JSX.Element => {
       tooltip: 'Edit Entity',
       disabled: !registered || owner !== address,
     },
+    {
+      url: `/entity/${entityId}/dashboard/requests`,
+      icon: requireCheckDefault(require('assets/img/sidebar/settings.svg')),
+      sdg: 'Requests',
+      tooltip: 'Requests',
+    },
   ]
 
   const breadcrumbs = [
@@ -192,6 +199,7 @@ const DAODashboard: React.FC = (): JSX.Element => {
         <Route path='membership' Component={Membership} />
         <Route path='membership/:address' Component={IndividualMember} />
         <Route path='governance' Component={Governance} />
+        <Route path='requests' Component={Requests} />
         {/* <Route path='governance/:coreAddress/*' Component={CreateProposal} /> */}
 
         <Route path='shareholders' Component={Shareholders} />

@@ -13,7 +13,7 @@ type KeyValueTableProps = {
   data: any[]
   columns: Column[]
   themeColor?: string
-  collapsible?: (props: { row: any, selectedId: string }) => JSX.Element
+  collapsible?: (props: { row: any; selectedId: string }) => JSX.Element
   valueType: KeyValueProps['type']
   primaryId?: string
 }
@@ -45,7 +45,14 @@ function getBorderStyles(isActive: boolean, index: number, totalColumns: number,
   }
 }
 
-const KeyValueTable = ({ data, columns, themeColor, collapsible: Collapsible, valueType, primaryId }: KeyValueTableProps) => {
+const KeyValueTable = ({
+  data,
+  columns,
+  themeColor,
+  collapsible: Collapsible,
+  valueType,
+  primaryId,
+}: KeyValueTableProps) => {
   const { setKeyValue, keyValue } = useKeyValueViewerContext()
   const [selectedId, setSelectedId] = useState<string | null>(null)
 
@@ -63,7 +70,6 @@ const KeyValueTable = ({ data, columns, themeColor, collapsible: Collapsible, va
     <div style={{ width: '100%' }}>
       <Table
         verticalSpacing='lg'
-        mt={20}
         w='100%'
         withRowBorders={false}
         style={{ borderCollapse: 'separate', borderSpacing: `0 ${rem(5)}`, width: '100%' }}
@@ -104,7 +110,7 @@ const KeyValueTable = ({ data, columns, themeColor, collapsible: Collapsible, va
               {Collapsible && (
                 <Table.Tr style={{ width: '100%' }}>
                   <Table.Td colSpan={columns.length} style={{ padding: 0, width: '100%' }}>
-                    <Collapsible row={entry} selectedId={selectedId ?? ""} />
+                    <Collapsible row={entry} selectedId={selectedId ?? ''} />
                   </Table.Td>
                 </Table.Tr>
               )}

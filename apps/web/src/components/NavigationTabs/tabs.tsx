@@ -18,6 +18,16 @@ export const tabs = {
       },
     ],
   },
+  'explore-new': {
+    getTabs: (type: string, path: string, params: Record<string, string>) => [
+      {
+        label: upperCase(type),
+        icon: LuCircleDashed,
+        isActive: isActivePath(path, '/explore-new'),
+        path: '/explore-new',
+      },
+    ],
+  },
   entity: {
     getTabs: (entity: string, path: string, params: Record<string, string>) => {
       return (
@@ -27,7 +37,7 @@ export const tabs = {
               label: 'DAO',
               icon: LuCircleDashed,
               isActive: isActivePath(path, `/entity/${params.entityId}/overview`),
-              path: `/entity/${params.entityId}/overview`,
+              path: `/entity/${params.entityId}/overview/page`,
             },
             {
               label: 'DASHBOARD',
@@ -47,7 +57,7 @@ export const tabs = {
               label: 'PROJECT',
               icon: LuCircleDashed,
               isActive: isActivePath(path, `/entity/${params.entityId}/overview`),
-              path: `/entity/${params.entityId}/overview`,
+              path: `/entity/${params.entityId}/overview/page`,
             },
             {
               label: 'DASHBOARD',
@@ -61,7 +71,7 @@ export const tabs = {
               label: 'ORACLE',
               icon: LuCircleDashed,
               isActive: isActivePath(path, `/entity/${params.entityId}/overview`),
-              path: `/entity/${params.entityId}/overview`,
+              path: `/entity/${params.entityId}/overview/page`,
             },
             {
               label: 'DASHBOARD',
@@ -75,7 +85,7 @@ export const tabs = {
               label: 'PROTOCOL',
               icon: LuCircleDashed,
               isActive: isActivePath(path, `/entity/${params.entityId}/overview`),
-              path: `/entity/${params.entityId}/overview`,
+              path: `/entity/${params.entityId}/overview/page`,
             },
             {
               label: 'DASHBOARD',
@@ -89,7 +99,21 @@ export const tabs = {
               label: 'DEED',
               icon: LuCircleDashed,
               isActive: isActivePath(path, `/entity/${params.entityId}/overview/proposal/${params.deedId}`),
-              path: `/entity/${params.entityId}/overview`,
+              path: `/entity/${params.entityId}/overview/page`,
+            },
+            {
+              label: 'DASHBOARD',
+              icon: BsBarChart,
+              isActive: isActivePath(path, `/entity/${params.entityId}/dashboard`),
+              path: `/entity/${params.entityId}/dashboard`,
+            },
+          ],
+          'deed request': [
+            {
+              label: 'OVERVIEW',
+              icon: LuCircleDashed,
+              isActive: isActivePath(path, `/entity/${params.entityId}/overview`),
+              path: `/entity/${params.entityId}/overview/page`,
             },
             {
               label: 'DASHBOARD',
@@ -103,29 +127,29 @@ export const tabs = {
               label: 'ASSET',
               icon: LuCircleDashed,
               isActive: isActivePath(path, `/entity/${params.entityId}/overview`),
-              path: `/entity/${params.entityId}/overview`,
+              path: `/entity/${params.entityId}/overview/page`,
             },
             {
               label: 'DASHBOARD',
               icon: BsBarChart,
               isActive: isActivePath(path, `/entity/${params.entityId}/dashboard`),
               path: `/entity/${params.entityId}/dashboard`,
-            }
+            },
           ],
           investment: [
             {
               label: 'INVESTMENT',
               icon: LuCircleDashed,
               isActive: isActivePath(path, `/entity/${params.entityId}/overview`),
-              path: `/entity/${params.entityId}/overview`,
+              path: `/entity/${params.entityId}/overview/page`,
             },
             {
               label: 'DASHBOARD',
               icon: BsBarChart,
               isActive: isActivePath(path, `/entity/${params.entityId}/dashboard`),
               path: `/entity/${params.entityId}/dashboard`,
-            }
-          ]
+            },
+          ],
         }[entity] ?? []
       )
     },

@@ -12,4 +12,23 @@ const friendlyLinkedResourceNames = (name: string) => {
   }
 }
 
-export { friendlyLinkedResourceNames }
+const friendlyEntityTypes = (type: string) => {
+  switch (type) {
+    case 'protocol/project':
+      return 'project'
+    case 'protocol/oracle':
+      return 'oracle'
+    case 'protocol/dao':
+      return 'dao'
+    case 'protocol/asset':
+      return 'service'
+    case 'protocol/investment':
+      return 'investment'
+    case 'protocol/request':
+      return 'request'
+    default:
+      return type
+  }
+}
+
+export { friendlyLinkedResourceNames, friendlyEntityTypes }

@@ -10,11 +10,10 @@ import { ReactComponent as ProjectIcon } from 'assets/images/icon-project.svg'
 import { ReactComponent as OracleIcon } from 'assets/images/icon-oracle.svg'
 import { ReactComponent as DAOIcon } from 'assets/images/icon-dao.svg'
 import { ReactComponent as DeedIcon } from 'assets/images/icon-deed.svg'
-import { ReactComponent as StarIcon } from 'assets/images/icon-star.svg'
-import { useCreateEntityState } from 'hooks/createEntity'
-import { useCreateEntityStepState } from 'hooks/createEntityStepState'
+import { ReactComponent as RequestIcon } from 'assets/images/icon-star.svg'
+import { useNavigate } from 'react-router-dom'
 
-const SelectType= ({ showNavigation = true }: { showNavigation?: boolean }): JSX.Element => {
+const SelectType = ({ showNavigation = true }: { showNavigation?: boolean }): JSX.Element => {
   const options = [
     {
       type: 'protocol/claim',
@@ -30,16 +29,16 @@ const SelectType= ({ showNavigation = true }: { showNavigation?: boolean }): JSX
     },
     {
       type: 'protocol/request',
-      label: 'Request',
-      icon: <StarIcon />,
+      label: 'Credentials',
+      icon: <DeedIcon />,
       description: ``,
       disabled: true,
     },
     {
       type: 'protocol/request',
-      label: 'Credentials',
-      icon: <DeedIcon />,
-      description: ``,
+      label: 'Request Class',
+      icon: <RequestIcon />,
+      description: `A <b>Request</b> defines a request, a group proposal or an offer to provide service as a contribution or evaluation agent.`,
       disabled: true,
     },
     {
@@ -80,12 +79,10 @@ const SelectType= ({ showNavigation = true }: { showNavigation?: boolean }): JSX
   ]
 
   const [hoveredItem, setHoveredItem] = useState<any>(undefined)
-  const { updateEntityType } = useCreateEntityState()
-  const { navigateToNextStep } = useCreateEntityStepState()
+  const navigate = useNavigate()
 
   const handleClick = (item: any): void => {
-    updateEntityType(item.type.toLowerCase())
-    navigateToNextStep()
+    navigate(`/entity/create/${item.type.toLowerCase().replace('/', '-')}`)
   }
 
   return (

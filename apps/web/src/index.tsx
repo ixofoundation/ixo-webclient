@@ -23,7 +23,9 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { selectCustomTheme } from 'redux/theme/theme.selectors'
 import mantineTheme from 'styles/mantine'
 // import { getCustomTheme } from 'redux/theme/theme.actions'
-import 'mapbox-gl/dist/mapbox-gl.css';
+import 'mapbox-gl/dist/mapbox-gl.css'
+import '@mantine/dates/styles.css'
+import '@blocknote/mantine/style.css'
 
 process.env.NODE_ENV === 'production' &&
   Sentry.init({
@@ -46,7 +48,6 @@ const App = () => {
   useEffect(() => {
     fetchEntityConfig()
     fetchThemeConfig()
-
   }, [fetchEntityConfig, fetchThemeConfig])
 
   const [customizedTheme, setCustomizedTheme] = useState<any>(theme)

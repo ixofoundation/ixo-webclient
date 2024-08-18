@@ -10,9 +10,10 @@ import { useParams } from 'react-router-dom'
 import { useAppSelector } from 'redux/hooks'
 import { getEntityById } from 'redux/entities/entities.selectors'
 import { useEntityDashboard } from 'hooks/entity/useEntityDashboard'
+import RequestDashboard from './RequestDashboard'
 
 const DashboardPage: React.FC = (): JSX.Element | null => {
-  const { entityId = "" } = useParams<{entityId: string}>()
+  const { entityId = '' } = useParams<{ entityId: string }>()
   const entity = useAppSelector(getEntityById(entityId))
   const entityType = entity?.type
 
@@ -27,6 +28,8 @@ const DashboardPage: React.FC = (): JSX.Element | null => {
   const Component = useMemo(() => {
     switch (entityType) {
       case 'project':
+      case 'protocol/request':
+      case 'protocol/project':
         return ProjectDashboard
       case 'dao':
         return DAODashboard
@@ -44,6 +47,8 @@ const DashboardPage: React.FC = (): JSX.Element | null => {
       case 'oracle/evaluation':
       case 'oracle':
         return OracleDashboard
+      case 'deed/request':
+        return RequestDashboard
       default:
         return undefined
     }

@@ -42,23 +42,38 @@ interface Props {
   sizeInPX?: number
   placeholder?: string
   handleChange: (value: string) => void
+  allowEdit?: boolean
 }
 
-const IconUpload: React.FC<Props> = ({ icon, sizeInPX = 60, placeholder = 'Icon', handleChange }): JSX.Element => {
+const IconUpload: React.FC<Props> = ({
+  icon,
+  sizeInPX = 60,
+  placeholder = 'Icon',
+  handleChange,
+  allowEdit = true,
+}): JSX.Element => {
   const [openModal, setOpenModal] = useState(false)
+
+  const handleClick = () => {
+    if (allowEdit) {
+      setOpenModal(true)
+    }
+  }
   return (
     <>
-      <Wrapper size={sizeInPX} background={icon} onClick={(): void => setOpenModal(true)}>
+      <Wrapper size={sizeInPX} background={icon} onClick={handleClick}>
         {!icon ? (
           <Typography weight='semi-bold' size='md' color='white'>
             {placeholder}
           </Typography>
         ) : (
-          <Overlay>
-            <Typography weight='semi-bold' size='md' color='white'>
-              Replace
-            </Typography>
-          </Overlay>
+          allowEdit && (
+            <Overlay>
+              <Typography weight='semi-bold' size='md' color='white'>
+                Replace
+              </Typography>
+            </Overlay>
+          )
         )}
       </Wrapper>
       <ImageUploadModal
