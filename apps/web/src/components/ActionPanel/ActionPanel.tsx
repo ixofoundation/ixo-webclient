@@ -1,6 +1,5 @@
 import { Flex, ScrollArea, ActionIcon } from '@mantine/core'
 import styled from 'styled-components'
-import { useAccount } from 'hooks/account'
 import Tooltip from 'components/Tooltip/Tooltip'
 import { useKeyValueViewerContext } from 'contexts/KeyValueViewerContext'
 import { LiaUserSolid } from 'react-icons/lia'
@@ -20,7 +19,6 @@ const StyledScrollArea = styled(ScrollArea)`
 `
 
 const ActionPanel = () => {
-  const { address } = useAccount()
   const { activeTab, setActiveTab } = useCompanionContext()
   const { keyValue, resetKeyValue } = useKeyValueViewerContext()
   const { toolbarActiveBackground, toolbarActiveColor, toolbarBackground, toolbarColor } = useCompanionDesignConfig()
@@ -60,7 +58,7 @@ const ActionPanel = () => {
               </ActionIcon>
             </Tooltip>
           )}
-          {address && !keyValue && (
+          {!keyValue && (
             <Tooltip text={'entity'}>
               <ActionIcon
                 size={46}

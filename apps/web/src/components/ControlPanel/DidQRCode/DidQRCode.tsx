@@ -1,5 +1,4 @@
 import React from 'react'
-import { Card } from '../Card'
 import { ReactComponent as MobileIcon } from 'assets/images/icon-mobile.svg'
 import { Button, Flex } from '@mantine/core'
 import { QRCodeSVG } from 'qrcode.react'
@@ -10,6 +9,9 @@ import { useTheme } from 'styled-components'
 import { Typography } from 'components/Typography'
 import { useDisclosure } from '@mantine/hooks'
 import { NavLink, useParams } from 'react-router-dom'
+import { ActionCard } from 'components/ActionCard'
+import { useAppSelector } from 'redux/hooks'
+import { getEntityById } from 'redux/entities/entities.selectors'
 
 const QrCode = ({ did }: { did: string }) => {
   const stringifiedData = JSON.stringify({ type: 'project', did })
@@ -57,7 +59,7 @@ const QrCode = ({ did }: { did: string }) => {
             radius={6}
             bg={'blue'}
             fw={400}
-            fz={"sm"}
+            fz={'sm'}
           >
             Download Impacts X
           </Button>
@@ -68,8 +70,15 @@ const QrCode = ({ did }: { did: string }) => {
 }
 
 const DidQrCode: React.FC = () => {
-  const { entityId = "" } = useParams<{ entityId: string }>()
-  return <Card icon={<MobileIcon />} title={'Mobile'} columns={1} items={<QrCode did={entityId} />} />
+  const { entityId = '' } = useParams<{ entityId: string }>()
+  const { type } = useAppSelector(getEntityById(entityId))
+
+  if (type !== 'project') return null
+  return (
+    <ActionCard title='Mobile' icon={<MobileIcon />} editable={false}>
+      <QrCode did={entityId} />
+    </ActionCard>
+  )
 }
 
 export default DidQrCode
