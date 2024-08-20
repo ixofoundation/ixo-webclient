@@ -3,11 +3,10 @@ import { Entity, useEntitiesQuery } from 'generated/graphql'
 import { useMemo, useState } from 'react'
 import { populateEntitiesForEntityExplorer } from 'services/entities'
 import { TEntityModel } from 'types/entities'
-
-import { RequestOverviewCard } from 'components/RequestOverviewCard'
-import { Link } from 'react-router-dom'
 import { useExplorerContext } from 'contexts/ExplorerContext'
 import { currentRelayerNode } from 'constants/common'
+import { FeaturedEntities } from 'components/FeaturedEntities/FeaturedEntities'
+import { EntitiesTable } from 'components/EntitiesTable/EntitiesTable'
 
 const ExploreNew = () => {
   const [requests, setRequests] = useState<TEntityModel[]>([])
@@ -37,15 +36,12 @@ const ExploreNew = () => {
   })
 
   return (
-    <Flex w='100%' h='100%' justify='center'>
-      <Flex w='90%' mt={40} wrap='wrap' gap='md'>
-        {filteredRequests.map((request) => (
-          <Box key={request.id} mb={3}>
-            <Link to={`/entity/${request.id}`}>
-              <RequestOverviewCard entity={request} />
-            </Link>
-          </Box>
-        ))}
+    <Flex direction='column' w='100%' maw='100vw' h='100%' align='center'>
+      <Box w='90%' mt={40} mx='auto'>
+        <FeaturedEntities entities={filteredRequests.slice(0, 8)} />
+      </Box>
+      <Flex w='90%' mt={40} wrap='wrap' gap='md' mx='auto'>
+        <EntitiesTable entities={filteredRequests.slice(8)} />
       </Flex>
     </Flex>
   )

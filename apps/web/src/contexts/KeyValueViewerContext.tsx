@@ -1,9 +1,8 @@
 // import { fileStorage } from '@ixo-webclient/utils'
 import React, { createContext, useContext, ReactNode, useState } from 'react'
 
-
 export type KeyValueProps = {
-  type: 'resource' | 'service' | 'claim'
+  type: 'resource' | 'service' | 'claim' | 'entity'
   data: any
 }
 interface KeyValueViewerContextType {
@@ -14,9 +13,8 @@ interface KeyValueViewerContextType {
 
 const KeyValueViewerContext = createContext<KeyValueViewerContextType | undefined>(undefined)
 
-
 export const KeyValueViewerProvider = ({ children }: { children: ReactNode }) => {
-  const [keyValue, setCurrentKeyValue] = useState<KeyValueProps | null>(null);
+  const [keyValue, setCurrentKeyValue] = useState<KeyValueProps | null>(null)
 
   // const getServiceEndpointToUrl = (serviceEndpoint: string) => {
   //   if(serviceEndpoint.includes('ipfs')){
@@ -26,7 +24,7 @@ export const KeyValueViewerProvider = ({ children }: { children: ReactNode }) =>
   // }
 
   const setKeyValue = (value: any) => {
-    setCurrentKeyValue(value); 
+    setCurrentKeyValue(value)
   }
 
   const resetKeyValue = () => {
@@ -34,9 +32,7 @@ export const KeyValueViewerProvider = ({ children }: { children: ReactNode }) =>
   }
 
   return (
-    <KeyValueViewerContext.Provider
-      value={{ keyValue, setKeyValue, resetKeyValue }}
-    >
+    <KeyValueViewerContext.Provider value={{ keyValue, setKeyValue, resetKeyValue }}>
       {children}
     </KeyValueViewerContext.Provider>
   )

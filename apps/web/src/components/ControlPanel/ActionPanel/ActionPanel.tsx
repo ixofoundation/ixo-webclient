@@ -2,7 +2,7 @@ import ClaimPanel from './ClaimPanel/ClaimPanel'
 import KeyValuePanel from './KeyValuePanel'
 
 type ActionPanelProps = {
-  type: 'resource' | 'service' | 'claim'
+  type: 'resource' | 'service' | 'claim' | 'entity'
   data: any
 }
 
