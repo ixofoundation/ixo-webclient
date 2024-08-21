@@ -20,18 +20,19 @@ export const FeaturedEntities = ({ entities }: { entities: any[] }) => {
 
   return (
     <Carousel
-      slideSize={{ base: '100%', sm: '25%' }}
+      slideSize={{ base: '100%', sm: '33.333333%' }}
       slideGap={{ base: 'md', sm: 'xl' }}
       align='start'
-      slidesToScroll={mobile ? 1 : 4}
+      slidesToScroll={mobile ? 1 : 3}
       withControls
       containScroll='keepSnaps'
       loop
-      styles={{
-        container: {
-          width: '100%',
-        },
-      }}
+      // styles={{
+      //   container: {
+      //     width: '100%',
+      //   },
+      // }}
+      controlsOffset='-300px'
     >
       {slides}
     </Carousel>

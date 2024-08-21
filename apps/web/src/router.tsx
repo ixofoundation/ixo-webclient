@@ -36,6 +36,7 @@ import * as SelectProtocol from 'pages/CreateFlow/SelectProtocol/SelectProtocol.
 import * as Overview from 'pages/CreateFlow/Overview/Overview.route'
 import * as OverviewTab from 'pages/CreateFlow/OverviewTab/OverviewTab.route'
 import * as ExploreNew from 'pages/ExploreNew/ExploreNew.route'
+import * as Search from 'pages/ExploreNew/Search.route'
 
 // Layouts
 import * as EntityOverviewLayout from 'components/Layout/EntityOverviewLayout/EntityOverviewLayout.route'
@@ -70,6 +71,10 @@ const router = createBrowserRouter([
           {
             index: true,
             Component: ExploreNew.Component,
+          },
+          {
+            path: 'search',
+            Component: Search.Component,
           },
         ],
       },

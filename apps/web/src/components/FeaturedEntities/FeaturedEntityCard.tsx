@@ -1,7 +1,7 @@
 import { truncateString } from '@ixo-webclient/utils'
 import { Avatar, Box, Button, ButtonProps, Card, Flex, MantineStyleProps, Text } from '@mantine/core'
 import { friendlyEntityTypes } from 'components/KeyValueTable'
-import { TEntityModel } from 'types/entities'
+import { EntityInterface } from 'redux/entitiesState/slice'
 
 type ProtocolCardProps = {
   buttonProps?: ButtonProps
@@ -9,7 +9,7 @@ type ProtocolCardProps = {
   h?: MantineStyleProps['h']
   active?: boolean
   onClick?: () => void
-  entity: TEntityModel
+  entity: EntityInterface
 }
 const FeaturedEntityCard = ({ buttonProps, w = 400, h = 320, active, onClick, entity }: ProtocolCardProps) => {
   return (
@@ -39,8 +39,8 @@ const FeaturedEntityCard = ({ buttonProps, w = 400, h = 320, active, onClick, en
         <Flex
           style={{
             borderRadius: '10px',
-            backgroundImage: entity.profile?.image
-              ? `url(${entity.profile.image})`
+            backgroundImage: entity.settings?.Profile?.data?.image
+              ? `url(${entity.settings?.Profile?.data?.image})`
               : 'linear-gradient(135deg, #56BBBB 0%, #275555 100%)',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
@@ -70,10 +70,12 @@ const FeaturedEntityCard = ({ buttonProps, w = 400, h = 320, active, onClick, en
       <Card.Section p='md'>
         <Flex w='100%' bg='#F9F9F9' p='sm' style={{ borderRadius: '10px' }} justify={'space-between'} align={'center'}>
           <Box>
-            <Text>{truncateString(entity?.profile?.name ?? '', 30, { ellipsisPos: 'center' })}</Text>
-            <Text c='dimmed'>{truncateString(entity.profile?.brand ?? '', 20, { ellipsisPos: 'center' })}</Text>
+            <Text>{truncateString(entity?.settings?.Profile?.data?.name ?? '', 30, { ellipsisPos: 'center' })}</Text>
+            <Text c='dimmed'>
+              {truncateString(entity?.settings?.Profile?.data?.brand ?? '', 20, { ellipsisPos: 'center' })}
+            </Text>
           </Box>
-          <Avatar src={entity.profile?.logo} />
+          <Avatar src={entity?.settings?.Profile?.data?.logo} />
         </Flex>
       </Card.Section>
       {buttonProps && (
