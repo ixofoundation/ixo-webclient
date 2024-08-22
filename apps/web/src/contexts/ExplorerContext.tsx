@@ -1,6 +1,7 @@
 import { useDebouncedValue } from '@mantine/hooks'
 import { currentRelayerNode } from 'constants/common'
 import { useEntitiesQuery } from 'generated/graphql'
+import { useQuery } from 'hooks/window'
 import React, { createContext, useContext, ReactNode, useState, useEffect, useCallback } from 'react'
 import { EntityInterface, setEntitiesLoading, setEntitiesState, setEntitiesStore } from 'redux/entitiesState/slice'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
@@ -12,6 +13,7 @@ interface ExplorerContextType {
   entities: EntityInterface[]
   setEntities: (entities: EntityInterface[]) => void
   entitiesLoading: boolean
+  entitiesQueryLoading: boolean
 }
 
 const ExplorerContext = createContext<ExplorerContextType | undefined>(undefined)
@@ -23,17 +25,25 @@ export const ExplorerProvider = ({ children }: { children: ReactNode }) => {
   const entitiesStore = useAppSelector((state) => state.entitiesState.entitiesStore)
   const entitiesLoading = useAppSelector((state) => state.entitiesState.entitiesLoading)
   const dispatch = useAppDispatch()
+  const { getQuery } = useQuery()
+  const searchQuery = getQuery('query')
 
-  useEntitiesQuery({
-    skip: entities.length > 0,
+  const searchQueryArray = searchQuery
+    ? searchQuery.includes(',')
+      ? searchQuery.split(',').map((item: string) => item.trim())
+      : [searchQuery]
+    : ['project', 'dao', 'oracle']
+
+  const { loading: entitiesQueryLoading } = useEntitiesQuery({
+    skip: entities.length > 0 && !searchQuery,
     variables: {
       filter: {
-        not: { type: { startsWith: 'asset' } },
+        not: { type: { in: ['asset', 'asset/device'] } },
         relayerNode: {
           equalTo: currentRelayerNode,
         },
         type: {
-          in: ['project', 'dao', 'oracle'],
+          in: searchQueryArray,
         },
       },
     },
@@ -85,7 +95,9 @@ export const ExplorerProvider = ({ children }: { children: ReactNode }) => {
   }, [debouncedSearchString, entitiesStore, entities, dispatch, setLoading])
 
   return (
-    <ExplorerContext.Provider value={{ searchString, setSearchString, entities, setEntities, entitiesLoading }}>
+    <ExplorerContext.Provider
+      value={{ searchString, setSearchString, entities, setEntities, entitiesLoading, entitiesQueryLoading }}
+    >
       {children}
     </ExplorerContext.Provider>
   )

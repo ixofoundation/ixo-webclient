@@ -1,5 +1,5 @@
 import { truncateString } from '@ixo-webclient/utils'
-import { Avatar, Box, Button, ButtonProps, Card, Flex, MantineStyleProps, Text } from '@mantine/core'
+import { Avatar, Box, Button, ButtonProps, Card, Flex, MantineStyleProps, Skeleton, Text } from '@mantine/core'
 import { friendlyEntityTypes } from 'components/KeyValueTable'
 import { EntityInterface } from 'redux/entitiesState/slice'
 
@@ -10,8 +10,12 @@ type ProtocolCardProps = {
   active?: boolean
   onClick?: () => void
   entity: EntityInterface
+  loading?: boolean
 }
-const FeaturedEntityCard = ({ buttonProps, w = 400, h = 320, active, onClick, entity }: ProtocolCardProps) => {
+const FeaturedEntityCard = ({ buttonProps, w = 400, h = 320, active, onClick, entity, loading }: ProtocolCardProps) => {
+  if (loading) {
+    return <Skeleton h={h} w={w} radius='md' />
+  }
   return (
     <Card
       shadow='md'
