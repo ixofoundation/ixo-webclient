@@ -1,6 +1,6 @@
 export const EditorJsToBlockNote = (page: any) => {
-  if (!page) return undefined
-
+  if (!page || (Array.isArray(page) && page.length === 0)) return undefined
+  
   if (Array.isArray(page)) {
     return page.reduce((acc, block) => {
       if (block.type === 'heroImage' || block.type === 'image') {
