@@ -1,51 +1,33 @@
-import { Box, Flex } from '@mantine/core'
-import { Entity, useEntitiesQuery } from 'generated/graphql'
-import { useMemo, useState } from 'react'
-import { populateEntitiesForEntityExplorer } from 'services/entities'
-import { TEntityModel } from 'types/entities'
-
-import { RequestOverviewCard } from 'components/RequestOverviewCard'
-import { Link } from 'react-router-dom'
-import { useExplorerContext } from 'contexts/ExplorerContext'
-import { currentRelayerNode } from 'constants/common'
+import { Flex } from '@mantine/core'
+import { SearchSuggestion } from 'components/SearchSuggestion/SearchSuggestion'
+import { useNavigate } from 'react-router-dom'
 
 const ExploreNew = () => {
-  const [requests, setRequests] = useState<TEntityModel[]>([])
-  const { setEntities } = useExplorerContext()
+  const navigate = useNavigate()
 
-  const filteredRequests = useMemo(() => {
-    return requests
-  }, [requests])
-
-  useEntitiesQuery({
-    variables: {
-      filter: {
-        not: { type: { startsWith: 'asset' } },
-        relayerNode: {
-          equalTo: currentRelayerNode,
-        },
-      },
-    },
-    onCompleted: async (data) => {
-      const nodes = data.entities?.nodes ?? []
-      if (nodes.length > 0) {
-        const updatedNodes = (await populateEntitiesForEntityExplorer(nodes as Entity[])) as TEntityModel[]
-        setRequests(updatedNodes)
-        setEntities(updatedNodes)
-      }
-    },
-  })
+  const handleNavigate = (path: string) => {
+    const encodedPath = encodeURIComponent(path)
+    navigate(`/explore-new/search?query=${encodedPath}`)
+  }
 
   return (
-    <Flex w='100%' h='100%' justify='center'>
-      <Flex w='90%' mt={40} wrap='wrap' gap='md'>
-        {filteredRequests.map((request) => (
-          <Box key={request.id} mb={3}>
-            <Link to={`/entity/${request.id}`}>
-              <RequestOverviewCard entity={request} />
-            </Link>
-          </Box>
-        ))}
+    <Flex direction='column' w='100%' maw='100vw' h='100%' align='center' mt={80}>
+      <Flex w={'600px'} gap='lg'>
+        <SearchSuggestion
+          description='Create an entity'
+          information='4 Protocols to get you started'
+          onClick={() => handleNavigate('protocol/project,protocol/dao,protocol/request,protocol/oracle')}
+        />
+        <SearchSuggestion
+          description='Interesting oracles'
+          information='5 oracles'
+          onClick={() => handleNavigate('oracle')}
+        />
+        <SearchSuggestion
+          description='New requests available'
+          information='Complete tasks and get paid'
+          onClick={() => handleNavigate('deed/request')}
+        />
       </Flex>
     </Flex>
   )

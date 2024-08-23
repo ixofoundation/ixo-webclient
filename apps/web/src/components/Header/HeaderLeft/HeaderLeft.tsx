@@ -58,7 +58,7 @@ export const HeaderLeft: React.FC<ParentProps> = (props) => {
     if (inHeader) {
       return (
         <Fragment>
-          <HeaderLink color={buttonColor} to={`explore?type=${defaultEntity}`}>
+          {/* <HeaderLink color={buttonColor} to={`explore?type=${defaultEntity}`}>
             Explore
           </HeaderLink>
           <MediaQuery minWidth={`${deviceWidth.desktop}px`}>
@@ -73,10 +73,10 @@ export const HeaderLeft: React.FC<ParentProps> = (props) => {
             <HeaderLink to={`/entity/select-or-create`} color={buttonColor}>
               Protocols
             </HeaderLink>
-          </DisplayInDevelopmentMode>
+          </DisplayInDevelopmentMode> */}
           <DisplayInDevelopmentMode>
             <HeaderLink to={`/explore-new`} color={buttonColor}>
-              Explore New
+              Explore
             </HeaderLink>
           </DisplayInDevelopmentMode>
         </Fragment>

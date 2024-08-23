@@ -19,14 +19,7 @@ export const tabs = {
     ],
   },
   'explore-new': {
-    getTabs: (type: string, path: string, params: Record<string, string>) => [
-      {
-        label: upperCase(type),
-        icon: LuCircleDashed,
-        isActive: isActivePath(path, '/explore-new'),
-        path: '/explore-new',
-      },
-    ],
+    getTabs: (type: string, path: string, params: Record<string, string>) => [],
   },
   entity: {
     getTabs: (entity: string, path: string, params: Record<string, string>) => {
