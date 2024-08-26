@@ -9,10 +9,10 @@ export const useTabDesignConfig = () => {
   const { getQuery } = useQuery()
   const params = useParams()
   const exploreType: string | undefined = getQuery('type')
-  const entity = useAppSelector(getEntityById(params.entityId ?? ''))
+  const entity = useAppSelector(getEntityById(params?.entityId ?? ''))
   const config = useAppSelector(selectEntityConfig)
 
-  const tabConfig = config.UI?.header?.tabs
+  const tabConfig = config?.UI?.header?.tabs
   const tabActiveColor = tabConfig?.active?.color
   let tabActiveBackground = tabConfig?.active?.background
   const tabColor = tabConfig?.color

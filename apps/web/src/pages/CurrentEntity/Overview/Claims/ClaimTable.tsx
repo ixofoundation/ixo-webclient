@@ -76,7 +76,7 @@ const ClaimTable = () => {
             <ClaimIcon />
           </SvgBox>
         ),
-        style: { style: { width: rem(30) } },
+        style: { th: { width: rem(30) } },
       },
       {
         title: 'Name',
@@ -94,9 +94,11 @@ const ClaimTable = () => {
           return role ? (
             <RoleBadge role={role} />
           ) : (
-            <Text c='dimmed' size="sm">No Role</Text>
+            <Text c='dimmed' size='sm'>
+              No Role
+            </Text>
           )
-        }
+        },
       },
       {
         title: 'Claims',
@@ -104,7 +106,9 @@ const ClaimTable = () => {
           row.lastClaim ? (
             `${getClaimsMetric(row?.collection?.claimsByCollectionId?.nodes)}`
           ) : (
-            <Text c='dimmed' size="sm">No Claims Submitted</Text>
+            <Text c='dimmed' size='sm'>
+              No Claims Submitted
+            </Text>
           ),
       },
       {
@@ -113,7 +117,9 @@ const ClaimTable = () => {
           row.lastClaim ? (
             timeAgo.format(new Date(row.lastClaim.submissionDate))
           ) : (
-            <Text c='dimmed' size="sm">No Claims Submitted</Text>
+            <Text c='dimmed' size='sm'>
+              No Claims Submitted
+            </Text>
           ),
       },
     ]
@@ -126,7 +132,7 @@ const ClaimTable = () => {
             <ClaimIcon />
           </SvgBox>
         ),
-        style: { style: { width: rem(30) } },
+        style: { th: { width: rem(30) } },
       },
       {
         title: 'Name',

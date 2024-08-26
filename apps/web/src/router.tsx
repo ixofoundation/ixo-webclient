@@ -58,11 +58,7 @@ import { Spinner } from 'components/Spinner/Spinner'
 const router = createBrowserRouter([
   {
     path: '*',
-    element: (
-      <Suspense fallback={<Spinner info='Connecting to the Internet of Impacts' />}>
-        <AppConnected />
-      </Suspense>
-    ),
+    element: <AppConnected />,
     children: [
       {
         path: 'explore-new',

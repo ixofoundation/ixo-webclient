@@ -1,8 +1,6 @@
 import { Box, Flex, Text, rem } from '@mantine/core'
-import KeyValueTable from 'components/KeyValueTable'
+import KeyValueTable, { getServicesIcon } from 'components/KeyValueTable'
 import { Column } from 'components/KeyValueTable/KeyValueTable'
-import { upperFirst } from 'lodash'
-import { LiaHddSolid } from 'react-icons/lia'
 import { useParams } from 'react-router-dom'
 import { selectEntityConfig } from 'redux/configs/configs.selectors'
 import { getEntityById } from 'redux/entities/entities.selectors'
@@ -19,23 +17,23 @@ export const ServiceTable = ({ title }: { title?: string }) => {
   const servicecolumns: Column[] = [
     {
       title: '',
-      render: (row: any) => <LiaHddSolid size={24} color={primaryColor} />,
-      style: { style: { width: rem(30) } },
+      render: (row: any) => getServicesIcon({ color: primaryColor }),
+      style: { th: { width: rem(30) } },
     },
     {
       title: 'Service',
       render: (row: any) => row.type,
-      style: { style: { width: '100%' } },
+      style: { th: { width: '100%' } },
     },
     {
       title: 'Type',
       render: (row: any) => <Text>Storage</Text>,
-      style: { style: { width: rem(50) } },
+      style: { th: { width: rem(50) } },
     },
     {
       title: 'Visible',
       render: (row: any) => (row.type.includes('display') ? 'No' : 'Yes'),
-      style: { style: { width: rem(50) } },
+      style: { th: { width: rem(50) } },
     },
   ]
 

@@ -1,4 +1,4 @@
-import { Avatar, Box, Flex, Text, rem } from '@mantine/core'
+import { Avatar, Box, Flex, Text } from '@mantine/core'
 import KeyValueTable from 'components/KeyValueTable'
 import { Column } from 'components/KeyValueTable/KeyValueTable'
 import { upperFirst } from 'lodash'
@@ -6,6 +6,7 @@ import { selectEntityConfig } from 'redux/configs/configs.selectors'
 import { useAppSelector } from 'redux/hooks'
 import { useTheme } from 'styled-components'
 import countries from 'constants/maps/countryLatLng.json'
+import { truncateString } from '@ixo-webclient/utils'
 
 export const EntitiesTable = ({ entities }: { entities: any[] }) => {
   const theme = useTheme()
@@ -18,20 +19,20 @@ export const EntitiesTable = ({ entities }: { entities: any[] }) => {
       render: (row: any) => (
         <Flex align='center'>
           <Avatar size='md' src={row?.settings?.Profile?.data?.logo} />
-          <Text ml={10}>{row?.settings?.Profile?.data?.name}</Text>
+          <Text ml={10}>{truncateString(row?.settings?.Profile?.data?.name ?? '', 40, { ellipsisPos: 'right' })}</Text>
         </Flex>
       ),
-      style: { style: { width: '20%' } },
+      style: { th: { width: '20%' } },
     },
     {
       title: 'Type',
       render: (row: any) => upperFirst(row?.type),
-      style: { style: { width: '20%' } },
+      style: { th: { width: '20%' } },
     },
     {
       title: 'Metrics',
       render: (row: any) => 'N/A',
-      style: { style: { width: '20%' } },
+      style: { th: { width: '20%' } },
     },
     {
       title: 'Location',
@@ -40,7 +41,7 @@ export const EntitiesTable = ({ entities }: { entities: any[] }) => {
           ? 'Global'
           : (countries.find((country) => country.alpha2 === row?.settings?.Profile?.data?.location)?.country ?? '')
       },
-      style: { style: { width: '20%' } },
+      style: { th: { width: '20%' } },
     },
   ]
 

@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
-import { Table, TableThProps, rem } from '@mantine/core'
+import { CSSProperties, Table, rem } from '@mantine/core'
 import { KeyValueProps, useKeyValueViewerContext } from 'contexts/KeyValueViewerContext'
 import { get } from 'lodash'
 
 export type Column = {
   title: string
   render: (row: any) => string | JSX.Element
-  style?: TableThProps
+  style?: Partial<Record<'th' | 'td', CSSProperties>>
 }
 
 type KeyValueTableProps = {
@@ -53,13 +53,15 @@ const KeyValueTable = ({
   valueType,
   primaryId,
 }: KeyValueTableProps) => {
-  const { setKeyValue, keyValue } = useKeyValueViewerContext()
-  const [selectedId, setSelectedId] = useState<string | null>(null)
+  const { setKeyValue, keyValue, selectedId, setSelectedId } = useKeyValueViewerContext()
 
   const handleRowClick = (entry: any) => {
+    console.log({ type: valueType, data: entry })
     setKeyValue({ type: valueType, data: entry })
+    const entityId = get(entry, primaryId ?? 'id')
+    console.log({ entityId })
 
-    if (selectedId === get(entry, primaryId ?? 'id')) {
+    if (selectedId === entityId) {
       setSelectedId(null)
     } else {
       setSelectedId(get(entry, primaryId ?? 'id'))
@@ -77,7 +79,7 @@ const KeyValueTable = ({
         <Table.Thead>
           <Table.Tr style={{ padding: 0 }}>
             {columns.map((column, index) => (
-              <Table.Th key={index} style={{ color: '#9A9A9A', ...column.style?.style }} {...column.style}>
+              <Table.Th key={index} c='gray.5' styles={{ th: { color: '#9A9A9A', ...column.style?.th } }}>
                 {column.title}
               </Table.Th>
             ))}
@@ -101,7 +103,7 @@ const KeyValueTable = ({
                     themeColor,
                   )
                   return (
-                    <Table.Td style={{ ...borderStyles, ...column.style?.style, fontWeight: 'bolder' }} key={colIndex}>
+                    <Table.Td style={{ ...borderStyles, ...column.style?.td, fontWeight: 'bolder' }} key={colIndex}>
                       {column.render(entry)}
                     </Table.Td>
                   )

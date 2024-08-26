@@ -74,11 +74,9 @@ export const HeaderLeft: React.FC<ParentProps> = (props) => {
               Protocols
             </HeaderLink>
           </DisplayInDevelopmentMode> */}
-          <DisplayInDevelopmentMode>
-            <HeaderLink to={`/explore-new`} color={buttonColor}>
-              Explore
-            </HeaderLink>
-          </DisplayInDevelopmentMode>
+          <HeaderLink to={`/explore-new`} color={buttonColor}>
+            Explore
+          </HeaderLink>
         </Fragment>
       )
     } else {
