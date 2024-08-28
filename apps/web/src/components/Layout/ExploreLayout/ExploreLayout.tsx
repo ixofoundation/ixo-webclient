@@ -1,11 +1,21 @@
-import { Box, Flex, ScrollArea, Text, rem } from '@mantine/core'
+import { Box, Flex, ScrollArea } from '@mantine/core'
 import { Outlet, useLocation } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { selectEntityHeadUIConfig } from 'redux/entities/entities.selectors'
-import { EnhancedSearch } from 'components/EnhancedSearch/EnhancedSearch'
 import { useEffect, useState } from 'react'
+import { Search } from 'components/Search/Search'
+import { InstantSearch } from 'react-instantsearch'
+import { liteClient as algoliasearch } from 'algoliasearch/lite'
 
-const ExploreLayout = () => {
+const searchClient = algoliasearch('G8B11WMIG2', 'a1f3d28f495f0871fd446f1ff62361eb')
+
+interface SearchResult {
+  objectID: string
+  title: string
+  // Add other properties based on your Algolia index structure
+}
+
+const ExploreLayout: React.FC = () => {
   const headConfig = useSelector(selectEntityHeadUIConfig)
   const title = headConfig?.title
 
@@ -13,7 +23,17 @@ const ExploreLayout = () => {
 
   const { pathname } = useLocation()
 
-  console.log({ pathname })
+  const [searchResults, setSearchResults] = useState<SearchResult[]>([])
+  const [searchQuery, setSearchQuery] = useState('')
+
+  const handleSearchStateChange = (query: string, results: SearchResult[]) => {
+    setSearchQuery(query)
+    setSearchResults(results)
+  }
+
+  const updateSearchQuery = (query: string) => {
+    setSearchQuery(query)
+  }
 
   useEffect(() => {
     if (pathname === '/explore-new/search') {
@@ -25,29 +45,26 @@ const ExploreLayout = () => {
 
   return (
     <Flex w='100%' h='calc(-74px + 100vh)' direction={'column'}>
-      <Flex
-        w='100%'
-        h={heroHeight}
-        align={'center'}
-        bg='linear-gradient(135deg, #05324C 0%, #149FBD 100%)'
-        pos='relative'
-      >
-        <Box w='90%' mx='auto'>
-          {/* <Text size={rem(30)} c='white'>
-            {title}
-          </Text>
-          <Text size={rem(20)} c='white' mt={10}>
-            Requests
-          </Text> */}
-        </Box>
+      <InstantSearch searchClient={searchClient} indexName='entities'>
+        <Flex
+          w='100%'
+          h={heroHeight}
+          align={'center'}
+          bg='linear-gradient(135deg, #05324C 0%, #149FBD 100%)'
+          pos='relative'
+        >
+          <Box w='90%' mx='auto'>
+            {/* Commented out title and subtitle */}
+          </Box>
 
-        <Flex pos={'absolute'} bottom={0} left={0} right={0} mb={-20}>
-          <EnhancedSearch />
+          <Flex pos={'absolute'} bottom={0} left={0} right={0} mb={-20} justify='center' style={{ zIndex: 10 }}>
+            <Search onSearchStateChange={handleSearchStateChange} searchQuery={searchQuery} />
+          </Flex>
         </Flex>
-      </Flex>
-      <ScrollArea w='100%' h='100%' bg='gray.2'>
-        <Outlet />
-      </ScrollArea>
+        <ScrollArea w='100%' h='100%' bg='gray.2'>
+          <Outlet context={{ searchQuery, searchResults, updateSearchQuery }} />
+        </ScrollArea>
+      </InstantSearch>
     </Flex>
   )
 }
