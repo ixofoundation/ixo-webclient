@@ -1,6 +1,7 @@
 import { truncateString } from '@ixo-webclient/utils'
 import { Avatar, Box, Button, ButtonProps, Card, Flex, MantineStyleProps, Text } from '@mantine/core'
 import { friendlyEntityTypes } from 'components/KeyValueTable'
+import { upperCase } from 'lodash'
 import { TEntityModel } from 'types/entities'
 
 type ExploreCardProps = {
@@ -76,7 +77,7 @@ const ExploreCard = ({
           }}
         >
           <Text c='white' tt='capitalize' style={{ textShadow: '0 1px 2px rgba(0, 0, 0, 0.3)' }}>
-            {friendlyEntityTypes(type)}
+            {upperCase(type)}
           </Text>
         </Box>
       </Card.Section>
