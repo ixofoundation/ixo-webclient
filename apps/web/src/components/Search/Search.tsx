@@ -11,10 +11,11 @@ interface SearchProps {
 
 export const Search: React.FC<SearchProps> = ({ onSearchStateChange, searchQuery }) => {
   const { results, uiState, setUiState } = useInstantSearch()
+  const algoliaQuery = uiState[algoliaIndexName]?.query || ''
 
   useEffect(() => {
-    onSearchStateChange(uiState[algoliaIndexName].query || '', results?.hits || [])
-  }, [results, uiState[algoliaIndexName].query, onSearchStateChange])
+    onSearchStateChange(algoliaQuery, results?.hits || [])
+  }, [results, algoliaQuery, onSearchStateChange])
 
   const queryHook = useCallback(
     (query: string, search: (q: string) => void) => {
