@@ -1,8 +1,6 @@
 import { truncateString } from '@ixo-webclient/utils'
 import { Avatar, Box, Button, ButtonProps, Card, Flex, MantineStyleProps, Text } from '@mantine/core'
-import { friendlyEntityTypes } from 'components/KeyValueTable'
 import { upperCase } from 'lodash'
-import { TEntityModel } from 'types/entities'
 
 type ExploreCardProps = {
   buttonProps?: ButtonProps
