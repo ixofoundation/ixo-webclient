@@ -29,11 +29,11 @@ const ExploreNew: React.FC = () => {
         {searchResults.map((result: any) => (
           <ExploreCard
             key={result.objectID}
-            image={result?.settings?.Profile?.data?.image}
+            image={result?.image}
             type={result?.type}
-            name={result?.settings?.Profile?.data?.name}
-            brand={result?.settings?.Profile?.data?.brand}
-            logo={result?.settings?.Profile?.data?.logo}
+            name={result?.name}
+            brand={result?.brand}
+            logo={result?.logo}
             onClick={() => navigate(`/entity/${result.id}`)}
           />
         ))}

@@ -1,13 +1,14 @@
 import { Box, Flex, ScrollArea } from '@mantine/core'
-import { Outlet, useLocation } from 'react-router-dom'
+import { Outlet } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { selectEntityHeadUIConfig } from 'redux/entities/entities.selectors'
 import { useEffect, useState } from 'react'
 import { Search } from 'components/Search/Search'
 import { InstantSearch } from 'react-instantsearch'
 import { liteClient as algoliasearch } from 'algoliasearch/lite'
+import { algoliaAppId, algoliaIndexName, algoliaSearchKey } from 'constants/common'
 
-const searchClient = algoliasearch('G8B11WMIG2', 'a1f3d28f495f0871fd446f1ff62361eb')
+const searchClient = algoliasearch(algoliaAppId, algoliaSearchKey)
 
 interface SearchResult {
   objectID: string
@@ -20,8 +21,6 @@ const ExploreLayout: React.FC = () => {
   const title = headConfig?.title
 
   const [heroHeight, setHeroHeight] = useState(200)
-
-  const { pathname } = useLocation()
 
   const [searchResults, setSearchResults] = useState<SearchResult[]>([])
   const [searchQuery, setSearchQuery] = useState('')
@@ -36,22 +35,23 @@ const ExploreLayout: React.FC = () => {
   }
 
   useEffect(() => {
-    if (pathname === '/explore-new/search') {
+    if (searchQuery) {
       setHeroHeight(200)
-    } else if (pathname === '/explore-new') {
+    } else {
       setHeroHeight(500)
     }
-  }, [pathname])
+  }, [searchQuery])
 
   return (
     <Flex w='100%' h='calc(-74px + 100vh)' direction={'column'}>
-      <InstantSearch searchClient={searchClient} indexName='entities'>
+      <InstantSearch searchClient={searchClient} indexName={algoliaIndexName}>
         <Flex
           w='100%'
           h={heroHeight}
           align={'center'}
           bg='linear-gradient(135deg, #05324C 0%, #149FBD 100%)'
           pos='relative'
+          style={{ transition: 'height 0.5s ease-in-out' }}
         >
           <Box w='90%' mx='auto'>
             {/* Commented out title and subtitle */}

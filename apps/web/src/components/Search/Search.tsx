@@ -2,6 +2,7 @@ import { SearchBox, useInstantSearch } from 'react-instantsearch'
 import './theme.css'
 import { Box } from '@mantine/core'
 import { useEffect, useCallback } from 'react'
+import { algoliaIndexName } from 'constants/common'
 
 interface SearchProps {
   onSearchStateChange: (query: string, results: any[]) => void
@@ -12,14 +13,14 @@ export const Search: React.FC<SearchProps> = ({ onSearchStateChange, searchQuery
   const { results, uiState, setUiState } = useInstantSearch()
 
   useEffect(() => {
-    onSearchStateChange(uiState.entities.query || '', results?.hits || [])
-  }, [results, uiState.entities.query, onSearchStateChange])
+    onSearchStateChange(uiState[algoliaIndexName].query || '', results?.hits || [])
+  }, [results, uiState[algoliaIndexName].query, onSearchStateChange])
 
   const queryHook = useCallback(
     (query: string, search: (q: string) => void) => {
       setUiState((state) => ({
         ...state,
-        entities: { ...state.entities, query },
+        [algoliaIndexName]: { ...state[algoliaIndexName], query },
       }))
       search(query)
     },
@@ -30,7 +31,7 @@ export const Search: React.FC<SearchProps> = ({ onSearchStateChange, searchQuery
     if (searchQuery) {
       setUiState((state) => ({
         ...state,
-        entities: { ...state.entities, query: searchQuery },
+        [algoliaIndexName]: { ...state[algoliaIndexName], query: searchQuery },
       }))
     }
   }, [searchQuery, setUiState])
