@@ -1,26 +1,57 @@
 import { Flex } from '@mantine/core'
+import ExploreCard from 'components/ExploreCard/ExploreCard'
 import { SearchSuggestion } from 'components/SearchSuggestion/SearchSuggestion'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useOutletContext } from 'react-router-dom'
 
-const ExploreNew = () => {
+interface SearchResult {
+  objectID: string
+  title: string
+  // Add other properties based on your Algolia index structure
+}
+
+interface OutletContext {
+  searchQuery: string
+  searchResults: SearchResult[]
+  updateSearchQuery: (query: string) => void
+}
+
+const ExploreNew: React.FC = () => {
   const navigate = useNavigate()
+  const { searchQuery, searchResults, updateSearchQuery } = useOutletContext<OutletContext>()
 
   const handleNavigate = (path: string) => {
-    const encodedPath = encodeURIComponent(path)
-    navigate(`/explore-new/search?query=${encodedPath}`)
+    updateSearchQuery(path)
   }
 
-  return (
-    <Flex direction='column' w='100%' maw='100vw' h='100%' align='center' mt={80}>
+  const renderSearchResults = () => (
+    <Flex direction='column' w='100%' h='100%' align='center' mt={80}>
+      <Flex gap='lg' wrap='wrap' justify='center'>
+        {searchResults.map((result: any) => (
+          <ExploreCard
+            key={result.objectID}
+            image={result?.image}
+            type={result?.type}
+            name={result?.name}
+            brand={result?.brand}
+            logo={result?.logo}
+            onClick={() => navigate(`/entity/${result.id}`)}
+          />
+        ))}
+      </Flex>
+    </Flex>
+  )
+
+  const renderSuggestions = () => (
+    <Flex direction='column' w='100%' h='100%' align='center' mt={80}>
       <Flex w={'600px'} gap='lg'>
         <SearchSuggestion
           description='Create an entity'
-          information='4 Protocols to get you started'
-          onClick={() => handleNavigate('protocol/project,protocol/dao,protocol/request,protocol/oracle')}
+          information='Use protcols to help you get start easier'
+          onClick={() => handleNavigate('protocol')}
         />
         <SearchSuggestion
           description='Interesting oracles'
-          information='5 oracles'
+          information='Explore oracles that evaluate and verify data'
           onClick={() => handleNavigate('oracle')}
         />
         <SearchSuggestion
@@ -31,6 +62,8 @@ const ExploreNew = () => {
       </Flex>
     </Flex>
   )
+
+  return searchQuery && searchResults.length > 0 ? renderSearchResults() : renderSuggestions()
 }
 
 export default ExploreNew
