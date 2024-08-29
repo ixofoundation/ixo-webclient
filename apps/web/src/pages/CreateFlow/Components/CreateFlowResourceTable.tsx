@@ -30,27 +30,27 @@ export const CreateFlowResourceTable = ({ title }: { title?: string }) => {
     {
       title: '',
       render: (row: any) => getLinkedResourceIcons(row.mediaType, { color: primaryColor }),
-      style: { style: { width: rem(30) } },
+      style: { th: { width: rem(30) } },
     },
     {
       title: 'Resource',
       render: (row: any) => friendlyLinkedResourceNames(row.mediaType),
-      style: { style: { width: '100%' } },
+      style: { th: { width: '100%' } },
     },
     {
       title: 'File',
       render: (row: any) => upperFirst(row?.description),
-      style: { style: { width: rem(30) } },
+      style: { th: { width: rem(30) } },
     },
     {
       title: 'Type',
       render: (row: any) => upperFirst(row?.type),
-      style: { style: { width: rem(40) } },
+      style: { th: { width: rem(40) } },
     },
     {
       title: 'Access',
       render: (row: any) => <Text>Yes</Text>,
-      style: { style: { width: rem(30) } },
+      style: { th: { width: rem(30) } },
     },
   ]
 

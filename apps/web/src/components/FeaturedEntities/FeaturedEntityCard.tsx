@@ -10,12 +10,9 @@ type ProtocolCardProps = {
   active?: boolean
   onClick?: () => void
   entity: EntityInterface
-  loading?: boolean
 }
-const FeaturedEntityCard = ({ buttonProps, w = 400, h = 320, active, onClick, entity, loading }: ProtocolCardProps) => {
-  if (loading) {
-    return <Skeleton h={h} w={w} radius='md' />
-  }
+
+const FeaturedEntityCard = ({ buttonProps, w = 400, h = 320, active, onClick, entity }: ProtocolCardProps) => {
   return (
     <Card
       shadow='md'
@@ -89,6 +86,10 @@ const FeaturedEntityCard = ({ buttonProps, w = 400, h = 320, active, onClick, en
       )}
     </Card>
   )
+}
+
+FeaturedEntityCard.Loading = () => {
+  return <Skeleton h={320} w={400} radius='md' />
 }
 
 export default FeaturedEntityCard

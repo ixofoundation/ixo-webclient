@@ -8,6 +8,6 @@ export interface InitialEntitiesState {
 
 export const initialEntitiesState: InitialEntitiesState = {
   entities: [],
-  entitiesLoading: false,
+  entitiesLoading: true,
   entitiesStore: [],
 }

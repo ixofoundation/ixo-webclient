@@ -24,22 +24,22 @@ export const CreateFlowServiceTable = ({ title }: { title?: string }) => {
     {
       title: '',
       render: (row: any) => <LiaHddSolid size={24} color={primaryColor} />,
-      style: { style: { width: rem(30) } },
+      style: { th: { width: rem(30) } },
     },
     {
       title: 'Service',
       render: (row: any) => row.type,
-      style: { style: { width: '100%' } },
+      style: { th: { width: '100%' } },
     },
     {
       title: 'Type',
       render: (row: any) => <Text>Storage</Text>,
-      style: { style: { width: rem(40) } },
+      style: { th: { width: rem(40) } },
     },
     {
       title: 'Active',
       render: (row: any) => (row.type.includes('display') ? 'No' : 'Yes'),
-      style: { style: { width: rem(30) } },
+      style: { th: { width: rem(30) } },
     },
   ]
 

@@ -1,5 +1,19 @@
 import { EntityInterface } from 'redux/entitiesState/slice'
 import { getLinkedResource } from './getLinkedResource'
+import { LinkedResource, Service } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
+import { transformStorageEndpoint } from '@ixo-webclient/utils'
+
+const getAndTransformProfileData = async ({ resource, service }: { resource: LinkedResource; service: Service[] }) => {
+  const fetchedResource = await getLinkedResource({ resource, service })
+
+  if (!fetchedResource) return null
+
+  return {
+    ...fetchedResource,
+    image: transformStorageEndpoint(fetchedResource.image),
+    logo: transformStorageEndpoint(fetchedResource.logo),
+  }
+}
 
 const getEntityData = async (entity: EntityInterface) => {
   return {
@@ -15,7 +29,9 @@ const getEntityData = async (entity: EntityInterface) => {
         ? {
             Profile: {
               ...entity.settings.Profile,
-              data: (await getLinkedResource({ resource: entity.settings?.Profile, service: entity.service })) ?? null,
+              data:
+                (await getAndTransformProfileData({ resource: entity.settings?.Profile, service: entity.service })) ??
+                null,
             },
           }
         : {}),

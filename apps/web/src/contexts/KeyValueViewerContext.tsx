@@ -9,12 +9,15 @@ interface KeyValueViewerContextType {
   keyValue: KeyValueProps | null
   setKeyValue: React.Dispatch<React.SetStateAction<any>>
   resetKeyValue: () => void
+  selectedId: string | null
+  setSelectedId: React.Dispatch<React.SetStateAction<string | null>>
 }
 
 const KeyValueViewerContext = createContext<KeyValueViewerContextType | undefined>(undefined)
 
 export const KeyValueViewerProvider = ({ children }: { children: ReactNode }) => {
   const [keyValue, setCurrentKeyValue] = useState<KeyValueProps | null>(null)
+  const [selectedId, setSelectedId] = useState<string | null>(null)
 
   // const getServiceEndpointToUrl = (serviceEndpoint: string) => {
   //   if(serviceEndpoint.includes('ipfs')){
@@ -32,7 +35,7 @@ export const KeyValueViewerProvider = ({ children }: { children: ReactNode }) =>
   }
 
   return (
-    <KeyValueViewerContext.Provider value={{ keyValue, setKeyValue, resetKeyValue }}>
+    <KeyValueViewerContext.Provider value={{ keyValue, setKeyValue, resetKeyValue, selectedId, setSelectedId }}>
       {children}
     </KeyValueViewerContext.Provider>
   )

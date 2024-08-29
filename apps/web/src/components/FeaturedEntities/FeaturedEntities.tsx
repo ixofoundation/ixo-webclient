@@ -5,9 +5,9 @@ import '@mantine/carousel/styles.css'
 import FeaturedEntityCard from './FeaturedEntityCard'
 import { useNavigate } from 'react-router-dom'
 
-function Card({ entity, loading }: { entity: any; loading?: boolean }) {
+function Card({ entity }: { entity: any }) {
   const navigate = useNavigate()
-  return <FeaturedEntityCard entity={entity} loading={loading} onClick={() => navigate(`/entity/${entity.id}`)} />
+  return <FeaturedEntityCard entity={entity} onClick={() => navigate(`/entity/${entity.id}`)} />
 }
 
 export const FeaturedEntities = ({ entities, loading }: { entities: any[]; loading?: boolean }) => {
@@ -18,9 +18,15 @@ export const FeaturedEntities = ({ entities, loading }: { entities: any[]; loadi
   const smPercentage = mobile ? 100 : largerThan1440 ? 25 : 33.333333
   const slidesToScroll = mobile ? 1 : largerThan1440 ? 4 : 3
 
+  const loadingSlides = Array.from({ length: 4 }, () => (
+    <Carousel.Slide key={`${Math.random()}`}>
+      <FeaturedEntityCard.Loading />
+    </Carousel.Slide>
+  ))
+
   const slides = entities.map((entity: any) => (
     <Carousel.Slide key={entity.id}>
-      <Card entity={entity} loading={loading} />
+      <Card entity={entity} />
     </Carousel.Slide>
   ))
 
@@ -35,7 +41,7 @@ export const FeaturedEntities = ({ entities, loading }: { entities: any[]; loadi
       controlsOffset='-300px'
       controlSize={40}
     >
-      {slides}
+      {loading ? loadingSlides : slides}
     </Carousel>
   )
 }

@@ -26,27 +26,27 @@ export const ResourceTable = ({ title }: { title?: string }) => {
     {
       title: '',
       render: (row: any) => getLinkedResourceIcons(row.mediaType, { color: primaryColor }),
-      style: { style: { width: rem(30) } },
+      style: { th: { w: rem(30) } },
     },
     {
       title: 'Resource',
       render: (row: any) => friendlyLinkedResourceNames(row.mediaType),
-      style: { style: { width: '100%' } },
+      style: { th: { width: rem(750) } },
     },
     {
       title: 'File',
       render: (row: any) => upperFirst(row?.description),
-      style: { style: { width: rem(50) } },
+      style: { th: { width: rem(350) } },
     },
     {
       title: 'Type',
       render: (row: any) => upperFirst(row?.type),
-      style: { style: { width: rem(50) } },
+      style: { th: { w: rem(50) } },
     },
     {
       title: 'Visible',
       render: (row: any) => <Text>Yes</Text>,
-      style: { style: { width: rem(50) } },
+      style: { th: { w: rem(50) } },
     },
   ]
 
