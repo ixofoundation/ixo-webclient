@@ -21,7 +21,7 @@ const ClaimsTab = ({ type }: { type: string }) => {
 
 const Overview: React.FC = () => {
   const theme: any = useTheme()
-  const { entityId = '', tab = 'page' } = useParams<{ entityId: string; tab: string }>()
+  const { entityId = '', tab = 'sadasda' } = useParams<{ entityId: string; tab: string }>()
   const { resetKeyValue } = useKeyValueViewerContext()
 
   const config = useAppSelector(selectEntityConfig)
