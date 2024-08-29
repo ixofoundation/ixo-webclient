@@ -33,6 +33,8 @@ env:
   REACT_APP_CONFIG_SCHEMA_URL: ${{ vars.REACT_APP_CONFIG_SCHEMA_URL }}
   REACT_APP_CUSTOM_THEME_URL: ${{ vars.REACT_APP_CUSTOM_THEME_URL }}
   REACT_APP_ASSISTANT_API_KEY: ${{ vars.REACT_APP_ASSISTANT_API_KEY }}
+  REACT_APP_ALGOLIA_APP_ID: ${{ vars.REACT_APP_ALGOLIA_APP_ID }}
+  REACT_APP_ALGOLIA_SEARCH_KEY: ${{ vars.REACT_APP_ALGOLIA_SEARCH_KEY }}
   NODE_ENV: ${{ vars.NODE_ENV }}
 
 jobs:
@@ -189,38 +191,38 @@ jobs:
     runs-on: ubuntu-latest
     environment: prod
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '18.18.2'  # Node Version
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18.18.2" # Node Version
 
-    - name: Install Dependencies
-      run: yarn
+      - name: Install Dependencies
+        run: yarn
 
-    - name: Build
-      env:
-        REACT_APP_RELAYER_NODE: did:ixo:entity:1690d5f6ae9749191cc84c504fbaf448
-        REACT_APP_CONFIG_ASSETLIST_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/launchpad/asset-list.json
-        REACT_APP_CONFIG_EXCHANGE_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/launchpad/exchange.json
-        REACT_APP_CONFIG_RELAYER_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/launchpad/app-config.json 
-        REACT_APP_CONFIG_SCHEMA_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/launchpad/config.json
-        REACT_APP_CUSTOM_THEME_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/launchpad/theme.json
-        REACT_APP_RPC_URL: https://impacthub.ixo.world/rpc/
-      run: |
-        export NODE_OPTIONS="--max_old_space_size=8192"
-        yarn build  # Build Script
+      - name: Build
+        env:
+          REACT_APP_RELAYER_NODE: did:ixo:entity:1690d5f6ae9749191cc84c504fbaf448
+          REACT_APP_CONFIG_ASSETLIST_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/launchpad/asset-list.json
+          REACT_APP_CONFIG_EXCHANGE_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/launchpad/exchange.json
+          REACT_APP_CONFIG_RELAYER_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/launchpad/app-config.json
+          REACT_APP_CONFIG_SCHEMA_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/launchpad/config.json
+          REACT_APP_CUSTOM_THEME_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/launchpad/theme.json
+          REACT_APP_RPC_URL: https://impacthub.ixo.world/rpc/
+        run: |
+          export NODE_OPTIONS="--max_old_space_size=8192"
+          yarn build  # Build Script
 
-    - name: Deploy to stackworth
-      uses: netlify/actions/cli@master
-      id: stackworthdao_prod_deploy
-      env:
-        NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_STACKWORTH_AUTH_TOKEN }}
-        NETLIFY_SITE_ID: b320fbd1-e447-41e4-b6ce-cbe4a7533cbc  # Replace with your Netlify Site ID
+      - name: Deploy to stackworth
+        uses: netlify/actions/cli@master
+        id: stackworthdao_prod_deploy
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_STACKWORTH_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: b320fbd1-e447-41e4-b6ce-cbe4a7533cbc # Replace with your Netlify Site ID
 
-      with:
-        args: deploy --dir=apps/web/build --prod --filter @ixo-webclient/web   # Update --dir with the directory of your build output
+        with:
+          args: deploy --dir=apps/web/build --prod --filter @ixo-webclient/web # Update --dir with the directory of your build output
 
   notify-slack:
     needs:
