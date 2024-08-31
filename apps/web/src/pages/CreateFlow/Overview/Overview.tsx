@@ -65,6 +65,9 @@ const Overview: React.FC = () => {
               Overview
             </Tabs.Tab>
             <ClaimsTab type={type} />
+            <Tabs.Tab value='groups' pb={2} px={2} mx={10}>
+              Groups
+            </Tabs.Tab>
             <Tabs.Tab value='resources' pb={2} px={2} mx={10}>
               Resources
             </Tabs.Tab>

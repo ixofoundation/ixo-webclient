@@ -3,14 +3,12 @@ import { EditorJsToBlockNote } from 'components/Editor/utils/editorJsToBlockNote
 import EntityPageDisplay from 'components/EntityPageDisplay/EntityPageDisplay'
 import { useMemo } from 'react'
 import { useParams } from 'react-router-dom'
-import { getEntityFromStoreById } from 'redux/entitiesState/entitiesState.selectors'
+import { getEntityById } from 'redux/entities/entities.selectors'
 import { useAppSelector } from 'redux/hooks'
 
 const Page = () => {
   const { entityId = '' } = useParams<{ entityId: string }>()
-  const entity = useAppSelector(getEntityFromStoreById(entityId))
-  const pageData = entity?.settings?.Page.data
-  const page = pageData?.page
+  const { page } = useAppSelector(getEntityById(entityId))
 
   const { pageTitle, content } = useMemo(() => {
     return {

@@ -25,7 +25,7 @@ const Overview: React.FC = () => {
   const { resetKeyValue } = useKeyValueViewerContext()
 
   const config = useAppSelector(selectEntityConfig)
-  const primaryColor = config.theme.primaryColor ?? theme.ixoNewBlue
+  const primaryColor = config?.theme?.primaryColor ?? theme.ixoNewBlue
   const navigate = useNavigate()
   const handleTabChange = (value: string | null) => {
     resetKeyValue()

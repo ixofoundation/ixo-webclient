@@ -1,6 +1,7 @@
 import { truncateString } from '@ixo-webclient/utils'
 import { Avatar, Box, Button, ButtonProps, Card, Flex, MantineStyleProps, Text } from '@mantine/core'
 import { upperCase } from 'lodash'
+import { customCapitalize } from 'utils/formatters'
 
 type ExploreCardProps = {
   buttonProps?: ButtonProps
@@ -74,8 +75,8 @@ const ExploreCard = ({
             borderRadius: '0 0',
           }}
         >
-          <Text c='white' tt='capitalize' style={{ textShadow: '0 1px 2px rgba(0, 0, 0, 0.3)' }}>
-            {upperCase(type)}
+          <Text c='white' style={{ textShadow: '0 1px 2px rgba(0, 0, 0, 0.3)' }}>
+            {customCapitalize(type)}
           </Text>
         </Box>
       </Card.Section>

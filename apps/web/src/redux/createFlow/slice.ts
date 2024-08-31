@@ -38,6 +38,9 @@ const createFlowSlice = createSlice({
     addLinkedEntity: (state, action: PayloadAction<LinkedEntity>) => {
       state.linkedEntity.push(action.payload)
     },
+    removeLinkedEntity: (state, action: PayloadAction<string>) => {
+      state.linkedEntity = state.linkedEntity.filter((entity) => entity.id !== action.payload)
+    },
     addService: (state, action: PayloadAction<Service>) => {
       state.service.push(action.payload)
     },
@@ -95,5 +98,6 @@ export const {
   addContext,
   updateLinkedResource,
   cloneProtocol,
+  removeLinkedEntity,
 } = createFlowSlice.actions
 export default createFlowSlice.reducer

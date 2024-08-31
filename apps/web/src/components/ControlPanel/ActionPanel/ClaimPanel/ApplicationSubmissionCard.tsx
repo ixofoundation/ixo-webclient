@@ -236,12 +236,8 @@ const ApplicationSubmissionCard = ({ data }: { data: any }) => {
   return (
     <>
       <Apply collectionId={data?.collection?.id} userRole={userRole} applicationSent={applicationSent} />
-      {applicationSent && (
-        <Box mt={15} bg='#fff' p={20} style={{ borderRadius: 12 }}>
-          {applicationSent && !userRole && <ApplicationUnderReview />}
-          {applicationSent && userRole && <EvaluationOrSubmissionCard role={userRole} data={data} />}
-        </Box>
-      )}
+      {applicationSent && !userRole && <ApplicationUnderReview />}
+      {applicationSent && userRole && <EvaluationOrSubmissionCard role={userRole} data={data} />}
     </>
   )
 }

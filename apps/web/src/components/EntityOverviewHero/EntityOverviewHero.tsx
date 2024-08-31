@@ -3,15 +3,13 @@ import { useParams } from 'react-router-dom'
 // import { getEntityById } from 'redux/entities/entities.selectors'
 import { useAppSelector } from 'redux/hooks'
 import classes from './EntityOverviewHero.module.css'
-import { getEntityFromStoreById } from 'redux/entitiesState/entitiesState.selectors'
+import { getEntityById } from 'redux/entities/entities.selectors'
 
 const EntityOverviewHero = () => {
   const { entityId = '' } = useParams()
-  const entity = useAppSelector(getEntityFromStoreById(entityId))
-
-  const profile = entity?.settings?.Profile?.data
-  const image = profile?.image
-  const name = profile?.name
+  const entity = useAppSelector(getEntityById(entityId))
+  const image = entity?.profile?.image
+  const name = entity?.profile?.name
 
   return (
     <Flex w='100%' direction={'column'}>
