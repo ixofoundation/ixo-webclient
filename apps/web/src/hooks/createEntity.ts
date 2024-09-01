@@ -547,7 +547,7 @@ export function useCreateEntity(): TCreateEntityHookRes {
       const { startDate, endDate } = createEntityState
       const createEntityMessagePayload = await CreateEntityMessage(signer, [
         {
-          entityType: 'protocol/dao',
+          entityType,
           entityStatus: 0,
           context: [{ key: 'class', val: protocolDid }],
           service,

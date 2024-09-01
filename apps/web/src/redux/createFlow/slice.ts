@@ -74,6 +74,9 @@ const createFlowSlice = createSlice({
         }
       }
     },
+    updateDAOController: (state, action: PayloadAction<string>) => {
+      state.daoController = action.payload
+    },
     cloneProtocol: (state, action: PayloadAction<InitialEntityFlowState>) => {
       Object.assign(state, action.payload)
     },
@@ -97,6 +100,7 @@ export const {
   addVerification,
   addContext,
   updateLinkedResource,
+  updateDAOController,
   cloneProtocol,
   removeLinkedEntity,
 } = createFlowSlice.actions

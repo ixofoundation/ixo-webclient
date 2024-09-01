@@ -21,6 +21,15 @@ const ClaimsTab = ({ type }: { type: string }) => {
   )
 }
 
+const GroupsTab = ({ type }: { type: string }) => {
+  if (type !== 'protocol/dao') return null
+
+  return (
+    <Tabs.Tab value='groups' pb={2} px={2} mx={10}>
+      Groups
+    </Tabs.Tab>
+  )
+}
 const Overview: React.FC = () => {
   const theme: any = useTheme()
   const { protocolId = '', tab = 'page' } = useParams<{ protocolId: string; tab: string }>()
@@ -65,9 +74,7 @@ const Overview: React.FC = () => {
               Overview
             </Tabs.Tab>
             <ClaimsTab type={type} />
-            <Tabs.Tab value='groups' pb={2} px={2} mx={10}>
-              Groups
-            </Tabs.Tab>
+            <GroupsTab type={type} />
             <Tabs.Tab value='resources' pb={2} px={2} mx={10}>
               Resources
             </Tabs.Tab>

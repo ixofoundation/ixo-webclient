@@ -29,6 +29,7 @@ export interface InitialEntityFlowState {
   startDate: string
   endDate: string
   entityStatus: number
+  daoController: string
 }
 
 export const initialEntityFlowState: InitialEntityFlowState = {
@@ -47,4 +48,5 @@ export const initialEntityFlowState: InitialEntityFlowState = {
   controller: [],
   verification: [],
   context: [],
+  daoController: '',
 }

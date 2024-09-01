@@ -14,8 +14,12 @@ import { ixo } from '@ixo/impactxclient-sdk'
 import BigNumber from 'bignumber.js'
 import { DAOGroupConfig } from 'constants/entity'
 import { Box, Button, Flex } from '@mantine/core'
-import { useAppDispatch } from 'redux/hooks'
-import { addLinkedEntity, removeLinkedEntity } from 'redux/createFlow/slice'
+import { useAppDispatch, useAppSelector } from 'redux/hooks'
+import {
+  addLinkedEntity,
+  removeLinkedEntity,
+  updateDAOController as updateDAOControllerAction,
+} from 'redux/createFlow/slice'
 
 export const initialGroupConfig: TDAOGroupModel['config'] = {
   automatically_add_cw20s: true,
@@ -134,8 +138,12 @@ const SetupDAOGroups = ({ showNavigation = true }: { showNavigation?: boolean })
   const [openAddGroupModal, setOpenAddGroupModal] = useState(false)
   const [selectedGroup, setSelectedGroup] = useState('')
   const [daoGroups, updateDAOGroups] = useState<{ [id: string]: TDAOGroupModel }>({})
-  const [daoController, updateDAOController] = useState('')
+  const daoController = useAppSelector((state) => state.createFlow.daoController)
   const dispatch = useAppDispatch()
+
+  const updateDAOController = (address: string): void => {
+    dispatch(updateDAOControllerAction(address))
+  }
 
   const handleAddGroup = (type: string): void => {
     const id = uuidv4()
@@ -185,7 +193,7 @@ const SetupDAOGroups = ({ showNavigation = true }: { showNavigation?: boolean })
             id: `{id}#${data.coreAddress}`,
             type: 'Group',
             relationship: 'subsidiary',
-            service: daoController === data.coreAddress ? 'controller' : '',
+            service: '',
           }),
         ),
       )

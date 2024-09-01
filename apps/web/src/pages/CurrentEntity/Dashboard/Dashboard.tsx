@@ -36,6 +36,7 @@ const DashboardPage: React.FC = (): JSX.Element | null => {
       case 'protocol/deed':
       case 'protocol/claim':
       case 'protocol/impact':
+      case 'protocol/dao':
         return ClaimDashboard
       case 'investment':
         return InvestmentDashboard

@@ -60,11 +60,9 @@ export const CreateFlowSDGCard: React.FC = () => {
     return ddoTagsConfig?.tags?.map(({ name }: any) => name) ?? []
   }, [ddoTagsConfig])
 
-  console.log({ sdgTags })
-
   return (
     <ActionCard title='SDGs' icon={<LiaStar />}>
-      <Flex gap={5}>
+      <Flex gap={5} wrap='wrap'>
         {sdgTags.map((tag: any) => {
           const sdgIcon = getSDGIcon(tag)
           return <SDGIconHolder key={tag} selected bgColor={sdgIcon.bgColor} icon={<i className={sdgIcon.class} />} />

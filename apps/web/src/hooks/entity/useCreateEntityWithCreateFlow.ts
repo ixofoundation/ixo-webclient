@@ -1,5 +1,5 @@
 import { useWallet } from '@ixo-webclient/wallet-connector'
-import { customMessages, utils } from '@ixo/impactxclient-sdk'
+import { customMessages, ixo, utils } from '@ixo/impactxclient-sdk'
 import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { fee } from 'lib/protocol'
 import { useState } from 'react'
@@ -77,27 +77,51 @@ export const useCreateEntityWithCreateFlow = () => {
         throw new Error('Wallet is not connected')
       }
 
+      const { daoController, ...rest } = entity
+      const entityType = determineEntityType(rest.type)
       const hexPubKey = hexToUint8Array(wallet.pubKey as unknown as string)
+      const verification = [
+        ...customMessages.iid.createIidVerificationMethods({
+          did: wallet.did,
+          pubkey: hexPubKey,
+          address: wallet.address,
+          controller: wallet.did,
+          type: 'secp',
+        }),
+      ]
+      const controller = [wallet.did]
+
+      if (entityType === 'dao') {
+        // Verification
+        if (daoController) {
+          verification.push(
+            ixo.iid.v1beta1.Verification.fromPartial({
+              relationships: ['authentication'],
+              method: ixo.iid.v1beta1.VerificationMethod.fromPartial({
+                id: `{id}#${daoController}`,
+                type: 'CosmosAccountAddress',
+                controller: '{id}',
+                blockchainAccountID: daoController,
+              }),
+            }),
+          )
+        }
+
+        // controller
+        controller.push(utils.did.generateWasmDid(daoController))
+      }
 
       const message = {
         typeUrl: '/ixo.entity.v1beta1.MsgCreateEntity',
         value: {
-          ...entity,
-          verification: [
-            ...customMessages.iid.createIidVerificationMethods({
-              did: wallet.did,
-              pubkey: hexPubKey,
-              address: wallet.address,
-              controller: wallet.did,
-              type: 'secp',
-            }),
-          ],
+          ...rest,
+          verification,
           context: [{ key: 'class', val: protocolId }],
           ownerDid: wallet.did,
-          controller: [wallet.did],
+          controller,
           startDate: entity.startDate ? utils.proto.toTimestamp(new Date(entity.startDate)) : undefined,
           endDate: entity.endDate ? utils.proto.toTimestamp(new Date(entity.endDate)) : undefined,
-          entityType: determineEntityType(entity.type),
+          entityType,
           linkedResource: await uploadLinkedResources(entity.linkedResource),
         },
       }
