@@ -34,7 +34,7 @@ const FundingAccountCard = () => {
   const entity = useAppSelector(getEntityById(entityId))
 
   useEffect(() => {
-    const address = entity.accounts.find((account) => account.name === 'admin')?.address
+    const address = entity.accounts?.find((account) => account.name === 'admin')?.address
     if (address) {
       GetBalances(address).then((balance) => setBalances(balance))
     }

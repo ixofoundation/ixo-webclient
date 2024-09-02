@@ -31,9 +31,9 @@ const AssetCard: React.FC<Props> = ({
   const no = entity?.alsoKnownAs.replace('{id}#', '')
   const id = entity?.id
   const image = entity?.profile?.image
-  const logo = entity?.token?.properties.icon
+  const logo = entity?.token?.properties?.icon
   const name = entity?.profile?.name
-  const maxSupply = entity?.token?.properties.maxSupply
+  const maxSupply = entity?.token?.properties?.maxSupply
   const zlottie = entity?.zlottie
   const tags = entity?.tags?.find(({ category }) => category === 'Asset Type')?.tags ?? []
 

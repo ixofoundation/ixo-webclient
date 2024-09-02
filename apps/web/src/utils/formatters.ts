@@ -29,7 +29,7 @@ export function excerptText(theText: string, words = 20): string {
 }
 
 export function getCountryName(countryCode?: string) {
-  if(!countryCode) return undefined
+  if (!countryCode) return undefined
   if (countryCode === 'AA') {
     return 'Global'
   } else if (Object.hasOwnProperty.call(isoCountries, countryCode)) {
@@ -112,4 +112,11 @@ export function getDifference(a: number, b: number) {
   } else {
     return '- ' + Math.abs(difference)
   }
+}
+
+export const customCapitalize = (str: string) => {
+  return str
+    .split(/([/-])/)
+    .map((part) => (part === '/' || part === '-' ? part : part.charAt(0).toUpperCase() + part.slice(1)))
+    .join('')
 }

@@ -10,8 +10,6 @@ const ClaimPanel = ({ data }: { data: any }) => {
       <ApplicationSubmissionCard data={data} />
       <WithdrawEarningsCard data={data} />
 
-      <SubmitClaim data={data} />
-
       <FundingAccountCard />
       <RewardsList data={data} />
     </Flex>

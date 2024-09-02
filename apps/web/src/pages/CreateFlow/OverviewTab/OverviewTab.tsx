@@ -3,6 +3,7 @@ import Claims from 'assets/icons/Claims'
 import Tasks from 'pages/CurrentEntity/Overview/Tasks/Tasks'
 import CreateFlowPage from './Components/CreateFlowPage'
 import CreateFlowResources from './Components/CreateFlowResources'
+import { SetupGroups } from '../Components/SetupGroups'
 
 const OverviewTab = () => {
   return (
@@ -13,6 +14,12 @@ const OverviewTab = () => {
       <Tabs.Panel value='tasks' w='100%'>
         <Flex w='100%' justify={'center'} align={'center'}>
           <Tasks />
+        </Flex>
+      </Tabs.Panel>
+
+      <Tabs.Panel value='groups' w='100%'>
+        <Flex w='100%' justify={'center'} align={'center'}>
+          <SetupGroups />
         </Flex>
       </Tabs.Panel>
 
