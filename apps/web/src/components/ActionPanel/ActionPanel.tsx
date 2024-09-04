@@ -1,16 +1,16 @@
-import { ActionIcon, Flex, ScrollArea } from '@mantine/core'
-import { KeyValueActionPanel } from 'components/ControlPanel/ActionPanel/ActionPanel'
-import { EntityIcon } from 'components/Icons/EntityIcon'
+import { Flex, ScrollArea, ActionIcon } from '@mantine/core'
+import styled from 'styled-components'
 import Tooltip from 'components/Tooltip/Tooltip'
-import { useCompanionContext } from 'contexts/CompanionContext'
 import { useKeyValueViewerContext } from 'contexts/KeyValueViewerContext'
+import { LiaUserSolid } from 'react-icons/lia'
+import { useCompanionContext } from 'contexts/CompanionContext'
 import { useCompanionDesignConfig } from 'hooks/userInterface/useCompanionDesignConfig'
 import { GoArrowLeft } from 'react-icons/go'
-import { LiaUserSolid } from 'react-icons/lia'
 import { useLocation, useNavigate } from 'react-router-dom'
-import styled from 'styled-components'
-import EntityActions from './EntityActions'
 import UserActions from './UserActions'
+import EntityActions from './EntityActions'
+import { KeyValueActionPanel } from 'components/ControlPanel/ActionPanel/ActionPanel'
+import { EntityIcon } from 'components/Icons/EntityIcon'
 
 const StyledScrollArea = styled(ScrollArea)`
   & > div > div {
