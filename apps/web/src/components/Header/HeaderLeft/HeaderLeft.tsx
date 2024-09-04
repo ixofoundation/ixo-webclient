@@ -30,6 +30,7 @@ import { selectEntityConfig } from 'redux/configs/configs.selectors'
 import { useMediaQuery } from '@mantine/hooks'
 import { em } from '@mantine/core'
 import { DisplayInDevelopmentMode } from 'components/DisplayInDevelopmentMode'
+import { useKeyValueViewerContext } from 'contexts/KeyValueViewerContext'
 
 export interface ParentProps {
   currentEntity: EntityType
@@ -53,6 +54,7 @@ export const HeaderLeft: React.FC<ParentProps> = (props) => {
   }, [headerUIConfig])
 
   const splashIsRootRoute = React.useMemo(() => !!entityTypeMap?.route?.splashIsRootRoute, [entityTypeMap])
+  const {  resetKeyValue } = useKeyValueViewerContext()
 
   const getMenuItems = (inHeader: boolean): JSX.Element => {
     if (inHeader) {
@@ -74,7 +76,7 @@ export const HeaderLeft: React.FC<ParentProps> = (props) => {
               Protocols
             </HeaderLink>
           </DisplayInDevelopmentMode> */}
-          <HeaderLink to={`/explore-new`} color={buttonColor}>
+          <HeaderLink to={`/explore-new`} color={buttonColor} onClick={resetKeyValue}>
             Explore
           </HeaderLink>
         </Fragment>

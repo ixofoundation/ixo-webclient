@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
 import { CSSProperties, Table, rem } from '@mantine/core'
 import { KeyValueProps, useKeyValueViewerContext } from 'contexts/KeyValueViewerContext'
 import { get } from 'lodash'
+import React from 'react'
 
 export type Column = {
   title: string
@@ -13,6 +13,7 @@ type KeyValueTableProps = {
   data: any[]
   columns: Column[]
   themeColor?: string
+  disabled?: boolean
   collapsible?: (props: { row: any; selectedId: string }) => JSX.Element
   valueType: KeyValueProps['type']
   primaryId?: string
@@ -51,15 +52,14 @@ const KeyValueTable = ({
   themeColor,
   collapsible: Collapsible,
   valueType,
+  disabled,
   primaryId,
 }: KeyValueTableProps) => {
   const { setKeyValue, keyValue, selectedId, setSelectedId } = useKeyValueViewerContext()
 
   const handleRowClick = (entry: any) => {
-    console.log({ type: valueType, data: entry })
     setKeyValue({ type: valueType, data: entry })
     const entityId = get(entry, primaryId ?? 'id')
-    console.log({ entityId })
 
     if (selectedId === entityId) {
       setSelectedId(null)
@@ -93,7 +93,7 @@ const KeyValueTable = ({
                   cursor: 'pointer',
                   backgroundColor: '#F8F8F8',
                 }}
-                onClick={() => handleRowClick(entry)}
+                onClick={disabled ? undefined : () => handleRowClick(entry)}
               >
                 {columns.map((column, colIndex) => {
                   const borderStyles = getBorderStyles(

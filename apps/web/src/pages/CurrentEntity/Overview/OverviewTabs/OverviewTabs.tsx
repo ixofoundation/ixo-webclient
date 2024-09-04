@@ -1,11 +1,16 @@
 import { Flex, Tabs } from '@mantine/core'
+import { useParams } from 'react-router-dom'
+import Claims from '../Claims/Claims'
 import Page from '../Page/Page'
 import { ResourceTable } from '../Resources/Resources'
-import Claims from '../Claims/Claims'
 import { ServiceTable } from '../Services/Services'
 import Tasks from '../Tasks/Tasks'
 
 const OverviewTabs = () => {
+  const { entityId = '' } = useParams<{ entityId: string }>()
+
+  if (!entityId) return null
+
   return (
     <Flex w='100%'>
       <Tabs.Panel value='page' w='100%'>

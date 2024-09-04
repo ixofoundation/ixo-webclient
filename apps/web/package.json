@@ -115,7 +115,7 @@
     "node-polyfill-webpack-plugin": "^2.0.1",
     "os-browserify": "^0.3.0",
     "patch-package": "^8.0.0",
-    "pdfjs-dist": "^3.4.120",
+    "pdfjs-dist": "3.4.120",
     "qrcode": "1.5.3",
     "qrcode.react": "^3.1.0",
     "query-string": "8.1.0",
