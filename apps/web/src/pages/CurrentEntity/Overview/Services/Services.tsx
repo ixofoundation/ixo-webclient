@@ -41,7 +41,7 @@ export const ServiceTable = ({ title }: { title?: string }) => {
     <Flex w='100%' justify={'center'}>
       <Box w='70%'>
         <Text fz={'lg'}>{title}</Text>
-        <KeyValueTable valueType={'service'} columns={servicecolumns} data={service} themeColor={primaryColor} />
+        <KeyValueTable valueType={'service'} columns={servicecolumns} data={service} themeColor={primaryColor} disabled />
       </Box>
     </Flex>
   )
