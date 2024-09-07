@@ -75,4 +75,17 @@ export const GlobalStyle = createGlobalStyle`
     color: currentColor;
     text-decoration: none;
   }
+
+  .mantine-DatePicker-day:where([data-in-range]) {
+    background-color: var(--mantine-primary-color-light-hover) !important;
+    border-radius: 0 !important;
+}
+
+.mantine-DatePicker-day:where([data-selected]) {
+    background-color: var(--mantine-primary-color-filled) !important;
+    color: var(--mantine-primary-color-contrast) !important;
+}
+	.mantine-DatePicker-day:where([data-weekend]) {
+    color: var(--mantine-color-red-6);
+}
 `

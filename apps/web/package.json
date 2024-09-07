@@ -88,7 +88,7 @@
     "@walletconnect/utils": "2.10.5",
     "algoliasearch": "v5",
     "apexcharts": "3.44.0",
-    "axios": "1.6.2",
+    "axios": "^1.7.7",
     "bignumber.js": "9.1.2",
     "bs58": "5.0.0",
     "canvas": "^2.11.2",

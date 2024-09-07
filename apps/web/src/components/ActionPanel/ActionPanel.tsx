@@ -47,7 +47,7 @@ const ActionPanel = () => {
       <Flex w='100%' bg='#EBEBEB' p={21} justify='space-around' align='center'>
         <Flex gap={40}>
           {!keyValue && (
-            <Tooltip text={'user'}>
+            <Tooltip text={'User'}>
               <ActionIcon
                 size={46}
                 radius='xl'
@@ -59,7 +59,7 @@ const ActionPanel = () => {
             </Tooltip>
           )}
           {!keyValue && (
-            <Tooltip text={'entity'}>
+            <Tooltip text={'Entity'}>
               <ActionIcon
                 size={46}
                 radius='xl'

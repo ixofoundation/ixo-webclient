@@ -51,7 +51,7 @@ export const CreateFlowStageCard: React.FC = () => {
   }
 
   const stageTags = useMemo(() => {
-    return data?.entityTags?.find((tag: any) => tag.category === 'Stage').tags ?? []
+    return data?.entityTags?.find((tag: any) => tag?.category === 'Stage')?.tags ?? []
   }, [data?.entityTags])
 
   const stageOptions = useMemo(() => {

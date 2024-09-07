@@ -1,20 +1,38 @@
 import { useWallet } from '@ixo-webclient/wallet-connector'
 import { customMessages, ixo, utils } from '@ixo/impactxclient-sdk'
 import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
+import { insertToAlgoliaIndex } from 'hooks/algolia/insert-to-algolia-index'
 import { fee } from 'lib/protocol'
-import { useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { initialCellnodeService, initialIpfsService } from 'redux/createEntity/createEntity.reducer'
 import { useAppSelector } from 'redux/hooks'
 import { uploadToService } from 'services'
 import { hexToUint8Array } from 'utils/encoding'
 import { LinkedResourceProofGenerator, LinkedResourceServiceEndpointGenerator } from 'utils/entities'
+import { useEntityOverview } from './useEntityOverview'
 
 export const useCreateEntityWithCreateFlow = () => {
   const { execute, wallet, close } = useWallet()
   const entity = useAppSelector((state) => state.createFlow)
   const [isLoading, setIsLoading] = useState(false)
   const [completedDid, setCompletedDid] = useState<string | null>(null)
+  const [did, setDid] = useState<string | undefined>()
+  const entityOverview = useEntityOverview(did)
+
+  useEffect(() => {
+    if (entityOverview.id && did) {
+      console.log('Inserting to Algolia index') // eslint-disable-line no-console
+      ;(async () => {
+        await insertToAlgoliaIndex(entityOverview)
+        console.log('🚀 ~ ; ~ entityOverview:', entityOverview)
+        close()
+        setIsLoading(false)
+        setCompletedDid(did)
+      })()
+    }
+  }, [close, did, entityOverview])
+
   const { protocolId } = useParams()
 
   const uploadLinkedResources = async (linkedResources: (LinkedResource & { data?: any })[]) => {
@@ -70,7 +88,7 @@ export const useCreateEntityWithCreateFlow = () => {
     return type
   }
 
-  const signCreateEntityTransaction = async () => {
+  const signCreateEntityTransaction = useCallback(async () => {
     try {
       setIsLoading(true)
       if (!wallet) {
@@ -123,23 +141,24 @@ export const useCreateEntityWithCreateFlow = () => {
           endDate: entity.endDate ? utils.proto.toTimestamp(new Date(entity.endDate)) : undefined,
           entityType,
           linkedResource: await uploadLinkedResources(entity.linkedResource),
+          ownerAddress: wallet.address,
         },
       }
+      console.log("🚀 ~ signCreateEntityTransaction ~ message:", message)
 
       const transactionResponse = await execute({
         data: { messages: [message], fee: fee, memo: '' },
       })
 
-      close()
-      setIsLoading(false)
       const did = utils.common.getValueFromEvents(transactionResponse, 'wasm', 'token_id')
-      setCompletedDid(did)
+
+      setDid(did)
 
       return transactionResponse
     } catch (error) {
       setIsLoading(false)
     }
-  }
+  }, [entity, execute, wallet, protocolId])
 
   return { signCreateEntityTransaction, isLoading, completedDid }
 }

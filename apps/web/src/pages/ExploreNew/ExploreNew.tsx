@@ -3,10 +3,22 @@ import ExploreCard from 'components/ExploreCard/ExploreCard'
 import { SearchSuggestion } from 'components/SearchSuggestion/SearchSuggestion'
 import { useNavigate, useOutletContext } from 'react-router-dom'
 
-interface SearchResult {
+export interface SearchResult {
+  id: string
+  name: string
+  image: string
+  logo: string
+  description: string
+  filter: string
+  type: string
+  entityVerified: boolean
+  startDate: string
+  endDate: string
+  owner: string
+  relayerNode: string
+  alsoKnownAs: string
   objectID: string
-  title: string
-  // Add other properties based on your Algolia index structure
+  brand: string
 }
 
 interface OutletContext {
@@ -26,7 +38,7 @@ const ExploreNew: React.FC = () => {
   const renderSearchResults = () => (
     <Flex direction='column' w='100%' h='100%' align='center' mt={80}>
       <Flex gap='lg' wrap='wrap' justify='center'>
-        {searchResults.map((result: any) => (
+        {searchResults.map((result) => (
           <ExploreCard
             key={result.objectID}
             image={result?.image}
