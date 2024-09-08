@@ -70,23 +70,6 @@ export const useCreateEntityWithCreateFlow = () => {
     return updatedLinkedResources.map(({ data, ...rest }) => rest)
   }
 
-  const determineEntityType = (type: string) => {
-    if (
-      type === 'protocol/project' ||
-      type === 'protocol/oracle' ||
-      type === 'protocol/dao' ||
-      type === 'protocol/investment' ||
-      type === 'protocol/asset'
-    ) {
-      return type.split('/').pop()
-    }
-
-    if (type === 'protocol/request') {
-      return 'deed/request'
-    }
-
-    return type
-  }
 
   const signCreateEntityTransaction = useCallback(async () => {
     try {
@@ -144,7 +127,7 @@ export const useCreateEntityWithCreateFlow = () => {
           ownerAddress: wallet.address,
         },
       }
-      console.log("🚀 ~ signCreateEntityTransaction ~ message:", message)
+      console.log('🚀 ~ signCreateEntityTransaction ~ message:', message)
 
       const transactionResponse = await execute({
         data: { messages: [message], fee: fee, memo: '' },
@@ -162,3 +145,21 @@ export const useCreateEntityWithCreateFlow = () => {
 
   return { signCreateEntityTransaction, isLoading, completedDid }
 }
+
+  const determineEntityType = (type: string) => {
+    switch (type) {
+      case 'protocol/project':
+      case 'protocol/oracle':
+      case 'protocol/dao':
+      case 'protocol/investment':
+      case 'protocol/asset':
+        return type.split('/').pop() // project, oracle, dao, investment, asset
+
+      case 'protocol/request':
+      case 'protocol/deed':
+        return 'deed/request'
+
+      default:
+        return type
+    }
+  }
