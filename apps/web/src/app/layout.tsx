@@ -6,6 +6,7 @@ import { store, persistor } from 'redux/store'
 import { PersistGate } from 'redux-persist/integration/react'
 import { ThemeProvider } from 'styled-components'
 import { theme } from 'components/App/App.styles'
+import { RouterProvider } from 'react-router-dom'
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -37,7 +38,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>
             <ThemeProvider theme={theme}>
-              <MantineProvider>{children}</MantineProvider>
+              <MantineProvider>
+                {/* Add header */}
+                {/* <RouterProvider router={router} /> */}
+                {children}
+              </MantineProvider>
             </ThemeProvider>
           </PersistGate>
         </Provider>

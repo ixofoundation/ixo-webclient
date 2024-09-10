@@ -12,7 +12,7 @@ import {
   NetworkSettingBody,
   NetworkSettingOption,
 } from './SettingsCard.styles'
-import ChevDownIcon from 'assets/images/icon-chev-down.svg'
+import ChevDownIcon from 'assets/images/icon-chev-down.svg?url'
 import { useIxoConfigs } from 'hooks/configs'
 import { useAppSelector } from 'redux/hooks'
 import { selectSlippage } from 'redux/exchange/exchange.selectors'

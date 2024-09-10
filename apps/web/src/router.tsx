@@ -60,20 +60,20 @@ const router = createBrowserRouter([
     path: '*',
     element: <AppConnected />,
     children: [
-      {
-        path: 'explore-new',
-        Component: ExploreLayout.Component,
-        children: [
-          {
-            index: true,
-            Component: ExploreNew.Component,
-          },
-          {
-            path: 'search',
-            Component: Search.Component,
-          },
-        ],
-      },
+      // {
+      //   path: 'explore-new',
+      //   Component: ExploreLayout.Component,
+      //   children: [
+      //     {
+      //       index: true,
+      //       Component: ExploreNew.Component,
+      //     },
+      //     {
+      //       path: 'search',
+      //       Component: Search.Component,
+      //     },
+      //   ],
+      // },
       {
         path: '*',
         Component: Routes,
@@ -250,16 +250,16 @@ const router = createBrowserRouter([
           },
         ],
       },
-      {
-        path: 'requests',
-        Component: ExploreLayout.Component,
-        children: [
-          {
-            index: true,
-            Component: Requests.Component,
-          },
-        ],
-      },
+      // {
+      //   path: 'requests',
+      //   Component: ExploreLayout.Component,
+      //   children: [
+      //     {
+      //       index: true,
+      //       Component: Requests.Component,
+      //     },
+      //   ],
+      // },
 
       // {
       //   path: 'create/entity/:entityType',

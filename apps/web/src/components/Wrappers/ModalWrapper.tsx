@@ -3,7 +3,7 @@ import Modal from 'react-modal'
 import styled from 'styled-components'
 import { Header } from 'types/models'
 import { deviceWidth } from 'constants/device'
-import CloseIcon from 'assets/images/icon-close.svg'
+import CloseIcon from 'assets/images/icon-close.svg?url'
 
 const defModalStyles = {
   overlay: {

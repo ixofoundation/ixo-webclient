@@ -48,8 +48,8 @@ const DocumentUpload: React.FC<Props> = ({ value, onChange }): JSX.Element => {
       <Wrapper onClick={(): void => setOpenModal(true)}>
         {!value ? (
           <>
-            <SvgBox color={theme.ixoNewBlue}>
-              <IconDocument className='mb-3' />
+            <SvgBox className='mb-3' color={theme.ixoNewBlue}>
+              <IconDocument />
             </SvgBox>
             <Typography color='blue' size='xl'>
               Upload a Document

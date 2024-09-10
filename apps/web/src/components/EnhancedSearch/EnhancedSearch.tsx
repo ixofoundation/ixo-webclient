@@ -51,8 +51,9 @@ const AccordionEntityItem = ({ entity, isLoading }: { entity?: EntityInterface; 
         </Flex>
         <Text w={180} size='sm' c='dimmed'>
           {
-            entity?.settings?.Tags?.data?.tags?.find((tag: any) => tag?.category === entityTypeTagMap[entity.type])
-              ?.tags[0]
+            entity?.settings?.Tags?.data?.tags?.find(
+              (tag: any) => tag?.category === entityTypeTagMap[entity.type as keyof typeof entityTypeTagMap],
+            )?.tags[0]
           }
         </Text>
         <Text w={100} size='sm' c='dimmed'>
@@ -78,7 +79,15 @@ const AccordionItem = ({ type, entities, isLoading }: AccordionItemProps & { isL
     <Accordion.Item key={type} value={type} className={styles.accordionItem}>
       <Accordion.Control styles={{ control: { outline: 'none' } }}>
         <Flex justify={'space-between'} align='center'>
-          <Badge size='xl' fz={14} leftSection={typeToIconMap[type]} c='#00D2FF' bg='#F9F9F9' tt='capitalize' fw={500}>
+          <Badge
+            size='xl'
+            fz={14}
+            leftSection={typeToIconMap[type as keyof typeof typeToIconMap]}
+            c='#00D2FF'
+            bg='#F9F9F9'
+            tt='capitalize'
+            fw={500}
+          >
             {type}s
           </Badge>
           <Text c='dimmed' mr={4} fz={14}>

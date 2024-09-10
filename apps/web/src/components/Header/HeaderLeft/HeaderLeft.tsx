@@ -54,7 +54,7 @@ export const HeaderLeft: React.FC<ParentProps> = (props) => {
   }, [headerUIConfig])
 
   const splashIsRootRoute = React.useMemo(() => !!entityTypeMap?.route?.splashIsRootRoute, [entityTypeMap])
-  const {  resetKeyValue } = useKeyValueViewerContext()
+  const { resetKeyValue } = useKeyValueViewerContext()
 
   const getMenuItems = (inHeader: boolean): JSX.Element => {
     if (inHeader) {
@@ -118,7 +118,7 @@ export const HeaderLeft: React.FC<ParentProps> = (props) => {
       <Main className='col-md-12 col-lg-8 d-flex align-items-center'>
         <div className='d-flex align-items' style={{ marginTop: isMobile ? 15 : 0 }}>
           <a href={logoLink}>
-            <AppLogo alt='Logo' src={requireCheckDefault(require(`../../../assets/images/${logoConfig}.svg`))} />
+            <AppLogo alt='Logo' src={`/assets/images/${logoConfig}.svg`} />
           </a>
         </div>
         <NavItems>

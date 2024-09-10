@@ -32,7 +32,7 @@ const AddActionModal: React.FC<Props> = ({ open, actionsToExclude = [], onClose,
   const [selectedAction, setSelectedAction] = useState<any>()
 
   const groupItems: any[] = useMemo(() => {
-    return Object.values(ProposalActionConfig[selectedGroup].items)
+    return Object.values(ProposalActionConfig[selectedGroup as keyof typeof ProposalActionConfig].items)
   }, [selectedGroup])
 
   const handleContinue = () => {

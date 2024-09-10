@@ -1,7 +1,7 @@
 import { FunctionComponent, useContext } from 'react'
 import styled from 'styled-components'
-import XIcon from 'assets/images/x-icon.svg'
-import EyeIcon from 'assets/images/icon-eye.svg'
+import XIcon from 'assets/images/x-icon.svg?url'
+import EyeIcon from 'assets/images/icon-eye.svg?url'
 import { DashboardThemeContext, ThemeContext } from './Dashboard'
 
 interface ValueProps {

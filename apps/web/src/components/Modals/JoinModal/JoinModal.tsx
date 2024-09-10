@@ -1,9 +1,9 @@
-import CheckIcon from 'assets/images/icon-check.svg'
+import CheckIcon from 'assets/images/icon-check.svg?url'
 
-import EmailIcon from 'assets/images/icon-email.svg'
-import NextStepIcon from 'assets/images/modal/nextstep.svg'
+import EmailIcon from 'assets/images/icon-email.svg?url'
+import NextStepIcon from 'assets/images/modal/nextstep.svg?url'
 
-import UserNameIcon from 'assets/images/modal/username.svg'
+import UserNameIcon from 'assets/images/modal/username.svg?url'
 import cx from 'classnames'
 import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 import ModalTextArea from 'components/Modal/ModalTextArea/ModalTextArea'

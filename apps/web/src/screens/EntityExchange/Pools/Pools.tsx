@@ -6,8 +6,8 @@ import { TermsOfUseType } from 'types/entities'
 import { ExplorerEntity } from 'redux/entities/entities.types'
 import { FilterWrapper, InputWrapper } from './Pools.styles'
 import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
-import ResetIcon from 'assets/images/exchange/reset.svg'
-import SearchIcon from 'assets/images/exchange/search.svg'
+import ResetIcon from 'assets/images/exchange/reset.svg?url'
+import SearchIcon from 'assets/images/exchange/search.svg?url'
 import SupplyLiquidityModal from 'components/ControlPanel/Actions/SupplyLiquidityModal'
 
 enum PoolFilterTypes {

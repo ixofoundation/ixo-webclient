@@ -1,12 +1,12 @@
 import { FlexBox, SvgBox } from 'components/App/App.styles'
 import React, { ChangeEvent, useState } from 'react'
 import styled, { useTheme } from 'styled-components'
-import PanelsIcon from 'assets/images/icon-panels.svg'
-import ListIcon from 'assets/images/icon-list.svg'
+import PanelsIcon from 'assets/images/icon-panels.svg?url'
+import ListIcon from 'assets/images/icon-list.svg?url'
 
-import ProfileIcon from 'assets/images/icon-profile.svg'
+import ProfileIcon from 'assets/images/icon-profile.svg?url'
 
-import SearchIcon from 'assets/images/icon-search.svg'
+import SearchIcon from 'assets/images/icon-search.svg?url'
 
 const Button = styled(FlexBox)`
   border-radius: 8px;
@@ -105,7 +105,7 @@ const Toolbar: React.FC<Props> = ({
                   onStatusChange(item.status as 'approved' | 'pending' | 'rejected' | undefined)
                 }}
               >
-                {STATUSES[item.status ?? 'all'].text}
+                {STATUSES[(item.status as keyof typeof STATUSES) ?? 'all'].text}
               </Button>
             ))}
         </>

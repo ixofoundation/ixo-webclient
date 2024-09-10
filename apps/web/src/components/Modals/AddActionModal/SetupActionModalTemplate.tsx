@@ -47,8 +47,11 @@ const SetupActionModalTemplate: React.FC<Props> = ({
   noTitle,
 }): JSX.Element => {
   const theme: any = useTheme()
-  const Icon = ProposalActionConfig[action.group].items[action.text].icon
-  const description = ProposalActionConfig[action.group].items[action.text].description
+  // @ts-expect-error
+  const Icon = ProposalActionConfig[action.group as keyof typeof ProposalActionConfig].items[action.text].icon
+  const description =
+    // @ts-expect-error
+    ProposalActionConfig[action.group as keyof typeof ProposalActionConfig].items[action.text].description
 
   return (
     // @ts-ignore

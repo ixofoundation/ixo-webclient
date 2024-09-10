@@ -2,7 +2,7 @@ import React from 'react'
 
 import { SwapButton } from './Swap.styles'
 
-import SwapIcon from 'assets/images/exchange/swap.svg'
+import SwapIcon from 'assets/images/exchange/swap.svg?url'
 
 export type RenderSwapButtonProps = {
   handleSwapClick: () => void

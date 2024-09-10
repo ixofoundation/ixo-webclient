@@ -47,7 +47,7 @@ const ImageUpload: React.FC<Props> = ({ value, onChange }): JSX.Element => {
         {!value ? (
           <>
             <SvgBox color={theme.ixoNewBlue}>
-              <IconImage className='mb-3' />
+              <IconImage />
             </SvgBox>
             <Typography color='blue' size='xl'>
               Upload an Image

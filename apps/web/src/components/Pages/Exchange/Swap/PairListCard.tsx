@@ -14,7 +14,7 @@ import { GrayText, WhiteText } from './AmountInputBox.styles'
 import { getUSDRateByCoingeckoId } from 'utils/coingecko'
 import { AssetType } from 'redux/configs/configs.types'
 import AssistantButton from 'components/AssistantButton/AssistantButton'
-import CashIcon from 'assets/images/assets/cash.svg'
+import CashIcon from 'assets/images/assets/cash.svg?url'
 import { FlexBox } from 'components/App/App.styles'
 
 const decimals = 2

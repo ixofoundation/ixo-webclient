@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
-import OverlayButtonIcon from 'assets/images/modal/overlaybutton-down.svg'
+import OverlayButtonIcon from 'assets/images/modal/overlaybutton-down.svg?url'
 import { StepsTransactions } from 'components/StepsTransactions/StepsTransactions'
 import { Container, NextStep, Overlay } from './Modal.styles'
 import { AssetType } from 'redux/configs/configs.types'
-import NextStepIcon from 'assets/images/modal/nextstep.svg'
+import NextStepIcon from 'assets/images/modal/nextstep.svg?url'
 import { getUSDRateByCoingeckoId } from 'utils/coingecko'
 import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 import BigNumber from 'bignumber.js'

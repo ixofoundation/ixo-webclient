@@ -26,6 +26,7 @@ const nextConfig = {
 
     return config
   },
+  transpilePackages: ['@ixo-webclient/wallet-connector'],
 }
 
 export default nextConfig

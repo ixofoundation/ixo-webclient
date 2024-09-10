@@ -56,7 +56,7 @@ const ImageUpload: React.FC<Props> = ({ image, handleChange, allowEdit = true })
       <Wrapper background={image} onClick={handleClick}>
         {!image ? (
           <>
-            <IconImage className='mb-3' />
+            <IconImage />
             <Typography color='white' size='xl'>
               Upload an Image
             </Typography>
@@ -67,7 +67,7 @@ const ImageUpload: React.FC<Props> = ({ image, handleChange, allowEdit = true })
         ) : (
           allowEdit && (
             <Overlay>
-              <IconImage className='mb-3' />
+              <IconImage />
               <Typography color='white' size='xl'>
                 Click to replace
               </Typography>

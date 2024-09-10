@@ -53,7 +53,10 @@ const SelectCreationProcess: React.FC = (): JSX.Element => {
 
   const handleClone = async (): Promise<void> => {
     if (!chainId) return
-    const entity = await getEntity({ id: existingDid, gqlClient: gqlClientByChain[chainId] })
+    const entity = await getEntity({
+      id: existingDid,
+      gqlClient: gqlClientByChain[chainId as keyof typeof gqlClientByChain],
+    })
     apiEntityToEntity({ entity: entity }, (key: string, value: any, merge) => {
       switch (key) {
         case 'profile':
