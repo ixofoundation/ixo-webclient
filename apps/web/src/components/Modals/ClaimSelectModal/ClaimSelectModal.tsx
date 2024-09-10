@@ -2,22 +2,21 @@ import React, { useMemo, useState } from 'react'
 import _ from 'lodash'
 import * as Modal from 'react-modal'
 import { ModalStyles, CloseButton } from 'components/Modals/styles'
-import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
+
+import CloseIcon from 'assets/images/icon-close.svg'
 import { FlexBox, SvgBox } from 'components/App/App.styles'
-import { Button, Input } from 'pages/CreateEntity/Components'
+import { Button, Input } from 'screens/CreateEntity/Components'
 import { Typography } from 'components/Typography'
 import ClaimTemplateCard from '../ClaimSetupModal/ClaimTemplateCard'
 import { TEntityClaimTemplateModel } from 'types/entities'
 import styled, { useTheme } from 'styled-components'
-import { ReactComponent as SearchIcon } from 'assets/images/icon-search.svg'
+
+import SearchIcon from 'assets/images/icon-search.svg'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { selectAllClaimProtocols } from 'redux/entities/entities.selectors'
 import { useNavigate } from 'react-router-dom'
 import { useEntitiesQuery } from 'generated/graphql'
-import {
-  getEntitiesFromGraphqlAction,
-  updateEntityPropertyAction,
-} from 'redux/entities/entities.actions'
+import { getEntitiesFromGraphqlAction, updateEntityPropertyAction } from 'redux/entities/entities.actions'
 import { apiEntityToEntity } from 'utils/entities'
 import { useAccount } from 'hooks/account'
 import { currentRelayerNode } from 'constants/common'

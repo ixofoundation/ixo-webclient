@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { FlexBox } from 'components/App/App.styles'
-import { CodeMirror } from 'pages/CreateEntity/Components'
+import { CodeMirror } from 'screens/CreateEntity/Components'
 import { TProposalActionModel } from 'types/entities'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 import { validateCustomMessage } from 'utils/validation'

@@ -14,8 +14,8 @@ import {
   GetDelegatorUnbondingDelegations,
   GetDelegatorValidators,
 } from 'lib/protocol'
-import { Button } from 'pages/CreateEntity/Components'
-import { Avatar } from 'pages/CurrentEntity/Components'
+import { Button } from 'screens/CreateEntity/Components'
+import { Avatar } from 'screens/CurrentEntity/Components'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import CurrencyFormat from 'react-currency-format'
 import { useTheme } from 'styled-components'

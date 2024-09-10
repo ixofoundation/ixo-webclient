@@ -2,12 +2,17 @@ import { Typography } from 'components/Typography'
 import React, { useState } from 'react'
 import { Wrapper } from './SelectEntityType.styles'
 import { Box } from 'components/App/App.styles'
-import { ReactComponent as InvestmentIcon } from 'assets/images/icon-investment.svg'
-import { ReactComponent as ProjectIcon } from 'assets/images/icon-project.svg'
-import { ReactComponent as OracleIcon } from 'assets/images/icon-oracle.svg'
-import { ReactComponent as DAOIcon } from 'assets/images/icon-dao.svg'
-import { ReactComponent as DeedIcon } from 'assets/images/icon-deed.svg'
-import { CateSelector } from 'pages/CreateEntity/Components'
+
+import InvestmentIcon from 'assets/images/icon-investment.svg'
+
+import ProjectIcon from 'assets/images/icon-project.svg'
+
+import OracleIcon from 'assets/images/icon-oracle.svg'
+
+import DAOIcon from 'assets/images/icon-dao.svg'
+
+import DeedIcon from 'assets/images/icon-deed.svg'
+import { CateSelector } from 'screens/CreateEntity/Components'
 
 const SelectEntityType = ({ setEntityType }: { setEntityType: (type: string) => void }): JSX.Element => {
   const options = [
@@ -30,14 +35,14 @@ const SelectEntityType = ({ setEntityType }: { setEntityType: (type: string) => 
       label: 'Dao',
       icon: <DAOIcon />,
       description: `A <b>Verifiable Claim</b> defines a data schema, data collection format, and evaluation methodology for any type of verifiable claim.`,
-      disabled: true
+      disabled: true,
     },
     {
       type: 'protocol',
       label: 'protocol',
       icon: <DeedIcon />,
       description: `A <b>Deed</b> defines a request, a group proposal or an offer to provide service as a contribution or evaluation agent.`,
-      disabled: true
+      disabled: true,
     },
     {
       type: 'oracle',

@@ -1,6 +1,6 @@
 import { Props } from './types'
 import { DatePickerModal, ButtonWrapper, ButtonOuter, ButtonInner, ButtonIcon } from '../Filters.styles'
-import { Button, DateRangePicker } from 'pages/CreateEntity/Components'
+import { Button, DateRangePicker } from 'screens/CreateEntity/Components'
 import { FlexBox } from 'components/App/App.styles'
 import { useEffect, useState } from 'react'
 import { Typography } from 'components/Typography'

@@ -3,13 +3,15 @@ import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 import { Box, FlexBox, HTMLFlexBoxProps, SvgBox } from 'components/App/App.styles'
 import { SignStep, TXStatus } from '../common'
 import { Typography } from 'components/Typography'
-import { ReactComponent as NextStepImage } from 'assets/images/modal/nextstep.svg'
+
+import NextStepImage from 'assets/images/modal/nextstep.svg'
 import { useAccount } from 'hooks/account'
-import { ReactComponent as ArrowDownIcon } from 'assets/images/icon-arrow-down.svg'
-import { Input } from 'pages/CreateEntity/Components'
+
+import ArrowDownIcon from 'assets/images/icon-arrow-down.svg'
+import { Input } from 'screens/CreateEntity/Components'
 import CurrencyFormat from 'react-currency-format'
 import styled, { useTheme } from 'styled-components'
-import { Avatar } from 'pages/CurrentEntity/Components'
+import { Avatar } from 'screens/CurrentEntity/Components'
 import { isAccountAddress, isContractAddress } from 'utils/validation'
 import { isGreaterThanOrEqualTo } from 'utils/currency'
 import { convertDenomToMicroDenomWithDecimals } from 'utils/conversions'
@@ -104,7 +106,10 @@ const SendModal: React.FunctionComponent<Props> = ({ open, selectedDenomOrAddr, 
       })
     }
 
-    const response = (await execute({data: msgData, transactionConfig: { sequence: 1}})) as unknown as DeliverTxResponse
+    const response = (await execute({
+      data: msgData,
+      transactionConfig: { sequence: 1 },
+    })) as unknown as DeliverTxResponse
 
     if (response) {
       close()

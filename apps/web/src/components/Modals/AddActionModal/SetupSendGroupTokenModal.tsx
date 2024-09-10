@@ -5,7 +5,7 @@ import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { useAccount } from 'hooks/account'
 import { useCurrentEntityAdminAccount } from 'hooks/currentEntity'
-import { Input } from 'pages/CreateEntity/Components'
+import { Input } from 'screens/CreateEntity/Components'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTheme } from 'styled-components'
 import { TProposalActionModel } from 'types/entities'
@@ -38,7 +38,7 @@ interface Props {
 const SetupSendGroupTokenModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): JSX.Element => {
   const theme: any = useTheme()
   const { cwClient } = useAccount()
-  const { entityId = "" } = useParams<{ entityId: string }>()
+  const { entityId = '' } = useParams<{ entityId: string }>()
   const { accounts } = useAppSelector(getEntityById(entityId))
   const adminAccountAddress = useCurrentEntityAdminAccount(accounts)
   const [formData, setFormData] = useState<SendGroupTokenData>(initialState)

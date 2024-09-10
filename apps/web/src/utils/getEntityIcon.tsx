@@ -1,7 +1,10 @@
-import { ReactComponent as ProjectIcon } from 'assets/images/icon-project.svg'
-import { ReactComponent as InvestmentIcon } from 'assets/images/icon-investment.svg'
-import { ReactComponent as OracleIcon } from 'assets/images/icon-oracle.svg'
-import { ReactComponent as AssetIcon } from 'assets/images/icon-asset.svg'
+import ProjectIcon from 'assets/images/icon-project.svg'
+
+import InvestmentIcon from 'assets/images/icon-investment.svg'
+
+import OracleIcon from 'assets/images/icon-oracle.svg'
+
+import AssetIcon from 'assets/images/icon-asset.svg'
 import DaoIcon from 'assets/icons/DaoIcon'
 
 interface Style {
@@ -16,7 +19,7 @@ export const getEntityIcon = (type: string | undefined, style?: Style): React.Re
     case 'asset/device':
       return <AssetIcon transform='scale(.8)' {...svgStyle} />
     case 'dao':
-      return <DaoIcon transform='scale(.8)'  {...svgStyle} />
+      return <DaoIcon transform='scale(.8)' {...svgStyle} />
     case 'project':
       return <ProjectIcon transform='scale(.8)' {...svgStyle} />
     case 'investment':

@@ -1,9 +1,11 @@
 import { Box } from 'components/App/App.styles'
 import React, { useMemo, useState } from 'react'
-import { ReactComponent as EntityIcon } from 'assets/images/icon-entity.svg'
-import { ReactComponent as CreatorIcon } from 'assets/images/icon-creator.svg'
+
+import EntityIcon from 'assets/images/icon-entity.svg'
+
+import CreatorIcon from 'assets/images/icon-creator.svg'
 import { PageWrapper, Selections, SearchIcon } from './SelectCreationProcess.styles'
-import { Button, CateSelector, ChainSelector, Input } from 'pages/CreateEntity/Components'
+import { Button, CateSelector, ChainSelector, Input } from 'screens/CreateEntity/Components'
 import { useCreateEntityState } from 'hooks/createEntity'
 import { apiEntityToEntity } from 'utils/entities'
 import { useTheme } from 'styled-components'

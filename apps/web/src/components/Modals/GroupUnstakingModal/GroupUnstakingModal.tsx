@@ -12,14 +12,15 @@ import {
   durationToSeconds,
   secondsToWdhms,
 } from 'utils/conversions'
-import { ReactComponent as ArrowDownIcon } from 'assets/images/icon-arrow-down.svg'
+
+import ArrowDownIcon from 'assets/images/icon-arrow-down.svg'
 import { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
-import { Input } from 'pages/CreateEntity/Components'
+import { Input } from 'screens/CreateEntity/Components'
 import { MarketingInfoResponse, TokenInfoResponse } from '@ixo/impactxclient-sdk/types/codegen/Cw20Base.types'
 import CurrencyFormat from 'react-currency-format'
 import { fee } from 'lib/protocol'
 import styled, { useTheme } from 'styled-components'
-import { Avatar } from 'pages/CurrentEntity/Components'
+import { Avatar } from 'screens/CurrentEntity/Components'
 import { TDAOGroupModel } from 'types/entities'
 import { Cw20StakeClient } from '@ixo-webclient/cosmwasm-clients'
 import { useWallet } from '@ixo-webclient/wallet-connector'
@@ -65,7 +66,7 @@ interface Props {
 const GroupUnstakingModal: React.FunctionComponent<Props> = ({ daoGroup, open, setOpen, onSuccess }) => {
   const theme: any = useTheme()
   const { cwClient, address } = useAccount()
-  const { entityId = "" } = useParams<{ entityId: string}>()
+  const { entityId = '' } = useParams<{ entityId: string }>()
   const { daoGroups = {}, profile } = useAppSelector(getEntityById(entityId))
   const { votingModuleAddress, depositInfo } = useCurrentEntityDAOGroup(daoGroup?.coreAddress, daoGroups)
   const [unstakingDuration, setUnstakingDuration] = useState<number>(0)
@@ -145,7 +146,10 @@ const GroupUnstakingModal: React.FunctionComponent<Props> = ({ daoGroup, open, s
       const cw20StakeClient = new Cw20StakeClient(execute, address, stakingContract)
 
       const { transactionHash } = await cw20StakeClient.unstake(
-        { amount: convertDenomToMicroDenomWithDecimals(amount, tokenInfo.decimals).toString(), transactionConfig: { sequence: 1 } },
+        {
+          amount: convertDenomToMicroDenomWithDecimals(amount, tokenInfo.decimals).toString(),
+          transactionConfig: { sequence: 1 },
+        },
         fee,
         undefined,
         depositInfo ? [depositInfo] : undefined,

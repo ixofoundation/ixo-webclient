@@ -1,13 +1,18 @@
 import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { useTheme } from 'styled-components'
 import { Typography } from 'components/Typography'
-import { Avatar } from 'pages/CurrentEntity/Components'
+import { Avatar } from 'screens/CurrentEntity/Components'
 import CopyToClipboard from 'react-copy-to-clipboard'
-import { ReactComponent as ProfileIcon } from 'assets/images/icon-profile.svg'
-import { ReactComponent as CopyIcon } from 'assets/images/icon-copy.svg'
-// import { ReactComponent as StarIcon } from 'assets/images/icon-star.svg'
-// import { ReactComponent as UserAstronautIcon } from 'assets/images/icon-user-astronaut-solid.svg'
-// import { ReactComponent as UserNinjaIcon } from 'assets/images/icon-user-ninja-solid.svg'
+
+import ProfileIcon from 'assets/images/icon-profile.svg'
+
+import CopyIcon from 'assets/images/icon-copy.svg'
+//
+import StarIcon from 'assets/images/icon-star.svg'
+//
+import UserAstronautIcon from 'assets/images/icon-user-astronaut-solid.svg'
+//
+import UserNinjaIcon from 'assets/images/icon-user-ninja-solid.svg'
 import { Card } from '../Card'
 import { useAccount } from 'hooks/account'
 import { successToast } from 'utils/toast'
@@ -46,7 +51,7 @@ const AccountCard = () => {
           </FlexBox>
 
           {/* <FlexBox width='100%' height='1px' background={'#EAEAEA'} /> */}
-{/* 
+          {/* 
           <FlexBox width='100%' $alignItems='center' $justifyContent='space-between'>
             <Typography size='md'>Credentials</Typography>
 

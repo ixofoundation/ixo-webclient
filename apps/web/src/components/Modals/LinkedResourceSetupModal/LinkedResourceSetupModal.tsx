@@ -1,9 +1,10 @@
 import React, { useMemo, useState } from 'react'
 import * as Modal from 'react-modal'
-import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
+
+import CloseIcon from 'assets/images/icon-close.svg'
 import { useDropzone } from 'react-dropzone'
 import { ModalStyles, CloseButton } from 'components/Modals/styles'
-import { Button, InputWithLabel } from 'pages/CreateEntity/Components'
+import { Button, InputWithLabel } from 'screens/CreateEntity/Components'
 import { FormData } from 'components/JsonForm/types'
 import { deviceWidth } from 'constants/device'
 import { Box, FlexBox } from 'components/App/App.styles'

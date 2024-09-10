@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
 import styled, { useTheme } from 'styled-components'
-import { ReactComponent as IconImage } from 'assets/images/icon-image-fill.svg'
+
+import IconImage from 'assets/images/icon-image-fill.svg'
 import { ImageUploadModal } from 'components/Modals'
 import { Typography } from 'components/Typography'
 import { SvgBox } from 'components/App/App.styles'
-import { ReactComponent as TrashIcon } from 'assets/images/icon-trash.svg'
+
+import TrashIcon from 'assets/images/icon-trash.svg'
 
 const Wrapper = styled.div<{ background?: string }>`
   background: ${(props) => (props.background ? `url(${props.background}) center center no-repeat` : `transparent`)};

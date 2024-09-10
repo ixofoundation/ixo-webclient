@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import * as Modal from 'react-modal'
-import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
+
+import CloseIcon from 'assets/images/icon-close.svg'
 import { ModalStyles, CloseButton, ModalBody, ModalWrapper, ModalRow, ModalTitle } from 'components/Modals/styles'
-import { Button, TagSelector } from 'pages/CreateEntity/Components'
+import { Button, TagSelector } from 'screens/CreateEntity/Components'
 import { useAppSelector } from 'redux/hooks'
 import { TEntityDDOTagModel } from 'types/entities'
 import { Typography } from 'components/Typography'
@@ -21,7 +22,7 @@ const DDOTagsSetupModal: React.FC<Props> = ({ ddoTags, entityType, open, onClose
   const [formData, setFormData] = useState<TEntityDDOTagModel[]>([])
   const entityConfig = useAppSelector(selectEntityConfig)
 
-  const ddoTagsConfig = entityType ? entityConfig[toRootEntityType(entityType)]?.filterSchema?.ddoTags ?? [] : []
+  const ddoTagsConfig = entityType ? (entityConfig[toRootEntityType(entityType)]?.filterSchema?.ddoTags ?? []) : []
 
   useEffect(() => {
     setFormData((ddoTags ?? []).filter(Boolean))

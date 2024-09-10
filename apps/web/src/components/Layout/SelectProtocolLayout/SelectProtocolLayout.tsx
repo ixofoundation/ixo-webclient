@@ -1,6 +1,7 @@
 import { Box, Flex, ScrollArea, Text, TextInput, rem } from '@mantine/core'
 import { Outlet } from 'react-router-dom'
-import { ReactComponent as AssistantIcon } from 'assets/images/icon-assistant.svg'
+
+import AssistantIcon from 'assets/images/icon-assistant.svg'
 import { useRequestsContext } from 'contexts/RequestsContext'
 import ActionPanel from 'components/ActionPanel/ActionPanel'
 

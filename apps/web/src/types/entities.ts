@@ -14,9 +14,9 @@ import { MarketingInfoResponse, TokenInfoResponse } from '@ixo/impactxclient-sdk
 import { Block } from '@blocknote/core'
 
 export const PDS_URL =
-  process.env.REACT_APP_USE_LOCAL_CELLNODE === 'true'
-    ? process.env.REACT_APP_PDS_LOCAL_URL
-    : process.env.REACT_APP_PDS_URL
+  process.env.NEXT_PUBLIC_USE_LOCAL_CELLNODE === 'true'
+    ? process.env.NEXT_PUBLIC_PDS_LOCAL_URL
+    : process.env.NEXT_PUBLIC_PDS_URL
 
 export interface Agent {
   status: string

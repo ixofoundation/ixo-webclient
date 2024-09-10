@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { FlexBox } from 'components/App/App.styles'
-import { AccountValidStatus, Button, CodeMirror, Input } from 'pages/CreateEntity/Components'
+import { AccountValidStatus, Button, CodeMirror, Input } from 'screens/CreateEntity/Components'
 import { TProposalActionModel } from 'types/entities'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 import { isContractAddress } from 'utils/validation'

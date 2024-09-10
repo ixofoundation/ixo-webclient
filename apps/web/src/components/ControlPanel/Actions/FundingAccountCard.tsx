@@ -7,7 +7,8 @@ import { LiaPlusCircleSolid } from 'react-icons/lia'
 import { useParams } from 'react-router-dom'
 import { getEntityById } from 'redux/entities/entities.selectors'
 import { useAppSelector } from 'redux/hooks'
-import { ReactComponent as IXOIcon } from 'assets/images/icon-ixo.svg'
+
+import IXOIcon from 'assets/images/icon-ixo.svg'
 import { convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
 
 const CoinCard = ({ denom, amount }: { denom: string; amount: string }) => {

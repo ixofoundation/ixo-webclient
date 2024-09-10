@@ -1,7 +1,8 @@
 import React from 'react'
 import { Card } from '../Card'
 import { Widget } from '../types'
-import { ReactComponent as ShareIcon } from 'assets/images/icon-share-alt-square-solid.svg'
+
+import ShareIcon from 'assets/images/icon-share-alt-square-solid.svg'
 import { ReactSVG } from 'react-svg'
 import { requireCheckDefault } from 'utils/images'
 

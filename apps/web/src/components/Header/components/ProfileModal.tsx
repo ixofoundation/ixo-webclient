@@ -1,14 +1,20 @@
-import { ReactComponent as AssetIcon } from 'assets/images/icon-asset.svg'
-import { ReactComponent as BondIcon } from 'assets/images/icon-bond.svg'
-import { ReactComponent as CoinsIcon } from 'assets/images/icon-coins-solid.svg'
-import { ReactComponent as CopyIcon } from 'assets/images/icon-copy.svg'
-import { ReactComponent as DisconnectIcon } from 'assets/images/icon-disconnect.svg'
-import { ReactComponent as ImpactTokenIcon } from 'assets/images/icon-impact-token2.svg'
-import { ReactComponent as WalletIcon } from 'assets/images/icon-wallet-solid.svg'
+import AssetIcon from 'assets/images/icon-asset.svg'
+
+import BondIcon from 'assets/images/icon-bond.svg'
+
+import CoinsIcon from 'assets/images/icon-coins-solid.svg'
+
+import CopyIcon from 'assets/images/icon-copy.svg'
+
+import DisconnectIcon from 'assets/images/icon-disconnect.svg'
+
+import ImpactTokenIcon from 'assets/images/icon-impact-token2.svg'
+
+import WalletIcon from 'assets/images/icon-wallet-solid.svg'
 import { FlexBox, ScrollBox, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { useAccount } from 'hooks/account'
-import { Avatar, TabButton } from 'pages/CurrentEntity/Components'
+import { Avatar, TabButton } from 'screens/CurrentEntity/Components'
 import React, { useState } from 'react'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { truncateString } from 'utils/formatters'
@@ -17,7 +23,7 @@ import NativeTokenViewModal from './NativeTokenViewModal'
 import Cw20TokenViewModal from './Cw20TokenViewModal'
 import { Cw20Token, NativeToken, TokenType } from 'types/tokens'
 import { useTheme } from 'styled-components'
-import { TokensTableColumns, TokensTableWrapper } from 'pages/MyAccount/MyPortfolioPage/BalanceView/NativeTokensCard'
+import { TokensTableColumns, TokensTableWrapper } from 'screens/MyAccount/MyPortfolioPage/BalanceView/NativeTokensCard'
 import { Table } from 'components/Table'
 import { friendlyWalletNames } from '@ixo-webclient/wallet-connector'
 import XIcon from 'assets/images/x-icon.svg'
@@ -64,7 +70,7 @@ const ProfileModal: React.FC = () => {
               <FlexBox width='32px' height='32px' $borderRadius='100%'>
                 <img width={'100%'} height={'100%'} src={connectedWallet?.wallet.imageUrl ?? XIcon} alt='' />
               </FlexBox>
-              <Typography transform='capitalize'>{friendlyWalletNames(connectedWallet?.wallet.type ?? "")}</Typography>
+              <Typography transform='capitalize'>{friendlyWalletNames(connectedWallet?.wallet.type ?? '')}</Typography>
             </FlexBox>
             <FlexBox $alignItems='center' $gap={2}>
               <Typography>{truncateString(address, 20, 'middle')}</Typography>

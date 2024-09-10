@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormWrapper, FormHeader, FormBody, FormRow } from './BaseProfileForm.styles'
-import { IconUpload, ImageUpload, InputWithLabel } from 'pages/CreateEntity/Components'
+import { IconUpload, ImageUpload, InputWithLabel } from 'screens/CreateEntity/Components'
 import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import _ from 'lodash'

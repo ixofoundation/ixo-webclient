@@ -1,8 +1,11 @@
 import React from 'react'
 import { Card } from '../Card'
-import { ReactComponent as ClockIcon } from 'assets/images/icon-clock-2.svg'
-import { ReactComponent as ProjectIcon } from 'assets/images/icon-project.svg'
-import { ReactComponent as ChartPieIcon } from 'assets/images/icon-chart-pie-solid.svg'
+
+import ClockIcon from 'assets/images/icon-clock-2.svg'
+
+import ProjectIcon from 'assets/images/icon-project.svg'
+
+import ChartPieIcon from 'assets/images/icon-chart-pie-solid.svg'
 import { toTitleCase } from 'utils/formatters'
 import { EntityStatusMap } from 'constants/entity'
 import { useParams } from 'react-router-dom'
@@ -10,7 +13,7 @@ import { useAppSelector } from 'redux/hooks'
 import { getEntityById } from 'redux/entities/entities.selectors'
 
 const ProjectPerformance: React.FC = () => {
-  const { entityId = "" } = useParams<{ entityId: string }>()
+  const { entityId = '' } = useParams<{ entityId: string }>()
   const { status } = useAppSelector(getEntityById(entityId))
 
   return (

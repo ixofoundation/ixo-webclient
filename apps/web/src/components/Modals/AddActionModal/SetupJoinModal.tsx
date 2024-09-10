@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { FlexBox, SvgBox } from 'components/App/App.styles'
-import { InputWithLabel } from 'pages/CreateEntity/Components'
+import { InputWithLabel } from 'screens/CreateEntity/Components'
 import { TProposalActionModel } from 'types/protocol'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 import { validateEntityDid } from 'utils/validation'
@@ -9,9 +9,11 @@ import { useTheme } from 'styled-components'
 import { useAccount } from 'hooks/account'
 import { useAppSelector } from 'redux/hooks'
 import { selectEntitiesByType } from 'redux/entities/entities.selectors'
-import { Avatar } from 'pages/CurrentEntity/Components'
-import { ReactComponent as TimesCircleIcon } from 'assets/images/icon-times-circle.svg'
-import { ReactComponent as CheckCircleIcon } from 'assets/images/icon-check-circle.svg'
+import { Avatar } from 'screens/CurrentEntity/Components'
+
+import TimesCircleIcon from 'assets/images/icon-times-circle.svg'
+
+import CheckCircleIcon from 'assets/images/icon-check-circle.svg'
 
 export interface JoinData {
   id: string

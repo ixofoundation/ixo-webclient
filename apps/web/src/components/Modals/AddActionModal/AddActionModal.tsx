@@ -1,10 +1,11 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import * as Modal from 'react-modal'
-import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
+
+import CloseIcon from 'assets/images/icon-close.svg'
 import { ModalStyles, CloseButton } from 'components/Modals/styles'
 import { TProposalActionModel } from 'types/entities'
 import { FlexBox, GridContainer, GridItem } from 'components/App/App.styles'
-import { Button, Dropdown, PropertyBox } from 'pages/CreateEntity/Components'
+import { Button, Dropdown, PropertyBox } from 'screens/CreateEntity/Components'
 import { Typography } from 'components/Typography'
 import { v4 as uuidv4 } from 'uuid'
 import { useParams } from 'react-router-dom'
@@ -21,7 +22,7 @@ interface Props {
 }
 
 const AddActionModal: React.FC<Props> = ({ open, actionsToExclude = [], onClose, onAdd }): JSX.Element => {
-  const { coreAddress = '', entityId = '' } = useParams<{ coreAddress: string, entityId: string }>()
+  const { coreAddress = '', entityId = '' } = useParams<{ coreAddress: string; entityId: string }>()
   const { daoGroups = {} } = useAppSelector(getEntityById(entityId))
 
   const { contractName } = useCurrentEntityDAOGroup(coreAddress, daoGroups)
@@ -72,7 +73,7 @@ const AddActionModal: React.FC<Props> = ({ open, actionsToExclude = [], onClose,
             .filter((item) => !contractName || item.in.includes(contractName))
             .map((item) => {
               const Icon = item.icon
-              const disabled = item.disabled 
+              const disabled = item.disabled
               const hidden = item.hidden
 
               if (hidden) {

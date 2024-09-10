@@ -12,12 +12,13 @@ import {
   durationToSeconds,
   secondsToWdhms,
 } from 'utils/conversions'
-import { ReactComponent as ArrowDownIcon } from 'assets/images/icon-arrow-down.svg'
+
+import ArrowDownIcon from 'assets/images/icon-arrow-down.svg'
 import { MarketingInfoResponse, TokenInfoResponse } from '@ixo/impactxclient-sdk/types/codegen/Cw20Base.types'
 import CurrencyFormat from 'react-currency-format'
 import { fee } from 'lib/protocol'
 import styled, { useTheme } from 'styled-components'
-import { Avatar } from 'pages/CurrentEntity/Components'
+import { Avatar } from 'screens/CurrentEntity/Components'
 import { errorToast } from 'utils/toast'
 import { useAppSelector } from 'redux/hooks'
 import { getEntityById, selectStakingGroupByCoreAddress } from 'redux/entities/entities.selectors'
@@ -148,7 +149,7 @@ const GroupStakingModal: React.FunctionComponent<Props> = ({ daoGroup, open, set
           amount: convertDenomToMicroDenomWithDecimals(amount, tokenInfo.decimals).toString(),
           contract: stakingContract,
           msg: btoa('{"stake": {}}'),
-          transactionConfig: { sequence: 1 }
+          transactionConfig: { sequence: 1 },
         },
         fee,
         undefined,

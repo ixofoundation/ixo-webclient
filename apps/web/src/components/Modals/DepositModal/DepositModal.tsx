@@ -5,19 +5,21 @@ import { SignStep, TXStatus } from '../common'
 import { Typography } from 'components/Typography'
 import { useAccount } from 'hooks/account'
 import { convertDenomToMicroDenomWithDecimals, depositInfoToCoin } from 'utils/conversions'
-import { ReactComponent as ArrowDownIcon } from 'assets/images/icon-arrow-down.svg'
-import { Dropdown, Input } from 'pages/CreateEntity/Components'
+
+import ArrowDownIcon from 'assets/images/icon-arrow-down.svg'
+import { Dropdown, Input } from 'screens/CreateEntity/Components'
 import CurrencyFormat from 'react-currency-format'
 import { BankSendTrx, fee } from 'lib/protocol'
 import styled, { useTheme } from 'styled-components'
-import { Avatar } from 'pages/CurrentEntity/Components'
+import { Avatar } from 'screens/CurrentEntity/Components'
 import { errorToast, successToast } from 'utils/toast'
 import { NATIVE_DENOM, NATIVE_MICRODENOM } from 'constants/chains'
 import { isContractAddress } from 'utils/validation'
 import { useAppSelector } from 'redux/hooks'
 import { isGreaterThanOrEqualTo } from 'utils/currency'
 import { getEntityById, selectGroupByCoreAddress } from 'redux/entities/entities.selectors'
-import { ReactComponent as NextStepImage } from 'assets/images/modal/nextstep.svg'
+
+import NextStepImage from 'assets/images/modal/nextstep.svg'
 import { contracts } from '@ixo/impactxclient-sdk'
 import { useWallet } from '@ixo-webclient/wallet-connector'
 import { Cw20BaseClient } from '@ixo-webclient/cosmwasm-clients'
@@ -147,7 +149,7 @@ const DepositModal: React.FunctionComponent<Props> = ({
           amount: convertDenomToMicroDenomWithDecimals(amount, selectedToken.decimals).toString(),
           contract: stakingContract,
           msg: btoa('{"stake": {}}'),
-          transactionConfig: { sequence: 1 }
+          transactionConfig: { sequence: 1 },
         },
         fee,
         undefined,

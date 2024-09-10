@@ -1,6 +1,8 @@
 import React from 'react'
-import { ReactComponent as ShareIcon } from 'assets/images/icon-share-alt-square-solid.svg'
-import { ReactComponent as TelegramIcon } from 'assets/images/icon-telegram.svg'
+
+import ShareIcon from 'assets/images/icon-share-alt-square-solid.svg'
+
+import TelegramIcon from 'assets/images/icon-telegram.svg'
 import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { useTheme } from 'styled-components'

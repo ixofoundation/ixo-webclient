@@ -2,18 +2,25 @@ import { Typography } from 'components/Typography'
 import React, { useState } from 'react'
 import { Wrapper } from './SelectType.styles'
 import { Box } from 'components/App/App.styles'
-import { CateSelector } from 'pages/CreateEntity/Components'
-import { ReactComponent as ClaimIcon } from 'assets/images/icon-claim.svg'
-import { ReactComponent as ImpactTokenIcon } from 'assets/images/icon-impact-token.svg'
-import { ReactComponent as InvestmentIcon } from 'assets/images/icon-investment.svg'
-import { ReactComponent as ProjectIcon } from 'assets/images/icon-project.svg'
-import { ReactComponent as OracleIcon } from 'assets/images/icon-oracle.svg'
-import { ReactComponent as DAOIcon } from 'assets/images/icon-dao.svg'
-import { ReactComponent as DeedIcon } from 'assets/images/icon-deed.svg'
+import { CateSelector } from 'screens/CreateEntity/Components'
+
+import ClaimIcon from 'assets/images/icon-claim.svg'
+
+import ImpactTokenIcon from 'assets/images/icon-impact-token.svg'
+
+import InvestmentIcon from 'assets/images/icon-investment.svg'
+
+import ProjectIcon from 'assets/images/icon-project.svg'
+
+import OracleIcon from 'assets/images/icon-oracle.svg'
+
+import DAOIcon from 'assets/images/icon-dao.svg'
+
+import DeedIcon from 'assets/images/icon-deed.svg'
 import { useCreateEntityStepState } from 'hooks/createEntityStepState'
 import { useCreateEntityStateAsActionState } from 'hooks/entity/useCreateEntityStateAsAction'
 
-const SelectType= ({ showNavigation = true }: { showNavigation?: boolean }): JSX.Element => {
+const SelectType = ({ showNavigation = true }: { showNavigation?: boolean }): JSX.Element => {
   const options = [
     {
       type: 'protocol/claim',
@@ -67,7 +74,6 @@ const SelectType= ({ showNavigation = true }: { showNavigation?: boolean }): JSX
   const [hoveredItem, setHoveredItem] = useState<any>(undefined)
   const { updateEntityType } = useCreateEntityStateAsActionState()
   const { navigateToNextStep } = useCreateEntityStepState()
-
 
   const handleClick = (item: any): void => {
     updateEntityType(item.type.toLowerCase())

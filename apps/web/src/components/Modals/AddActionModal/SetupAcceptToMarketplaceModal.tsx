@@ -1,5 +1,5 @@
 import { FlexBox } from 'components/App/App.styles'
-import { Dropdown } from 'pages/CreateEntity/Components'
+import { Dropdown } from 'screens/CreateEntity/Components'
 import React, { useEffect, useMemo, useState } from 'react'
 import { selectUnverifiedEntities } from 'redux/entities/entities.selectors'
 import { useAppSelector } from 'redux/hooks'

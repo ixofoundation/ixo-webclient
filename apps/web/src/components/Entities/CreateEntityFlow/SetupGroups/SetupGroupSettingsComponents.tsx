@@ -12,18 +12,28 @@ import {
   NumberCounter,
   Switch,
   TextArea,
-} from 'pages/CreateEntity/Components'
+} from 'screens/CreateEntity/Components'
 import { union } from 'lodash'
-import { ReactComponent as InfoIcon } from 'assets/images/icon-info.svg'
-import { ReactComponent as ProfileIcon } from 'assets/images/icon-profile.svg'
-import { ReactComponent as TrashIcon } from 'assets/images/icon-trash.svg'
-import { ReactComponent as FileUploadIcon } from 'assets/images/icon-file-upload-solid.svg'
-import { ReactComponent as SandClockIcon } from 'assets/images/icon-sandclock.svg'
-import { ReactComponent as VoteSwitchingIcon } from 'assets/images/icon-vote-switching.svg'
-import { ReactComponent as CoinsSolidIcon } from 'assets/images/icon-coins-solid.svg'
-import { ReactComponent as ThresholdIcon } from 'assets/images/icon-threshold.svg'
-import { ReactComponent as TokenContractIcon } from 'assets/images/icon-token-contract.svg'
-import { ReactComponent as CalendarIcon } from 'assets/images/icon-calendar.svg'
+
+import InfoIcon from 'assets/images/icon-info.svg'
+
+import ProfileIcon from 'assets/images/icon-profile.svg'
+
+import TrashIcon from 'assets/images/icon-trash.svg'
+
+import FileUploadIcon from 'assets/images/icon-file-upload-solid.svg'
+
+import SandClockIcon from 'assets/images/icon-sandclock.svg'
+
+import VoteSwitchingIcon from 'assets/images/icon-vote-switching.svg'
+
+import CoinsSolidIcon from 'assets/images/icon-coins-solid.svg'
+
+import ThresholdIcon from 'assets/images/icon-threshold.svg'
+
+import TokenContractIcon from 'assets/images/icon-token-contract.svg'
+
+import CalendarIcon from 'assets/images/icon-calendar.svg'
 import { DurationUnits } from 'types/dao'
 import Tooltip from 'components/Tooltip/Tooltip'
 import { validateTokenSymbol } from 'utils/validation'

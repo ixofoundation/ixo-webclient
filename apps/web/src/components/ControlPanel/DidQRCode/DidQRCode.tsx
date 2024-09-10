@@ -1,8 +1,10 @@
 import React from 'react'
-import { ReactComponent as MobileIcon } from 'assets/images/icon-mobile.svg'
+
+import MobileIcon from 'assets/images/icon-mobile.svg'
 import { Button, Flex } from '@mantine/core'
 import { QRCodeSVG } from 'qrcode.react'
-import { ReactComponent as PlusIcon } from 'assets/images/icon-plus.svg'
+
+import PlusIcon from 'assets/images/icon-plus.svg'
 import './DidQRCode.css'
 import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { useTheme } from 'styled-components'

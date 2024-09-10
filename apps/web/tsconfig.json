@@ -16,9 +16,25 @@
     "isolatedModules": true,
     "suppressImplicitAnyIndexErrors": true,
     "noEmit": true,
-    "jsx": "react-jsx",
-    "baseUrl": "src"
+    "jsx": "preserve",
+    "baseUrl": "src",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
-  "include": ["src"],
+  "include": [
+    "src",
+    ".next/types/**/*.ts",
+    "./dist/types/**/*.ts",
+    "./build/types/**/*.ts",
+    "svgr.d.ts",
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
+  ],
   "exclude": ["node_modules", "build"]
 }

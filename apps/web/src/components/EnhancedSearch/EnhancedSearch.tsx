@@ -1,5 +1,6 @@
 import { Accordion, Avatar, Badge, Box, Flex, Text, TextInput, useMantineTheme, Skeleton } from '@mantine/core'
-import { ReactComponent as AssistantIcon } from 'assets/images/icon-assistant.svg'
+
+import AssistantIcon from 'assets/images/icon-assistant.svg'
 import { useExplorerContext } from 'contexts/ExplorerContext'
 import { useMemo, useState, useEffect, useRef } from 'react'
 import { LiaObjectGroup } from 'react-icons/lia'

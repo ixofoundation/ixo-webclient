@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import { FlexBox, SvgBox } from 'components/App/App.styles'
-import { ChainSelector, Input } from 'pages/CreateEntity/Components'
+import { ChainSelector, Input } from 'screens/CreateEntity/Components'
 import { TProposalActionModel } from 'types/entities'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
-import { ReactComponent as SearchIcon } from 'assets/images/icon-search.svg'
+
+import SearchIcon from 'assets/images/icon-search.svg'
 import { useLocation, useNavigate } from 'react-router-dom'
 import styled, { useTheme } from 'styled-components'
 import { useGetEntityById } from 'graphql/entities'

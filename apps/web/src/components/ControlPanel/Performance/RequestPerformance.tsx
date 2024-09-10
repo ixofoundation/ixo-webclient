@@ -1,12 +1,13 @@
 import React from 'react'
 import { Card } from '../Card'
-import { ReactComponent as ClockIcon } from 'assets/images/icon-clock-2.svg'
+
+import ClockIcon from 'assets/images/icon-clock-2.svg'
 import { IconCode, IconCoins, IconHourglassEmpty } from '@tabler/icons-react'
 import DaoIcon from 'assets/icons/DaoIcon'
 import { rem } from '@mantine/core'
 
 const RequestPerfomance: React.FC = () => {
-  const iconStyle = { width: rem(18), height: rem(18)}
+  const iconStyle = { width: rem(18), height: rem(18) }
   return (
     <Card
       icon={<ClockIcon />}
@@ -14,12 +15,12 @@ const RequestPerfomance: React.FC = () => {
       columns={2}
       items={[
         {
-          icon: <IconCoins style={iconStyle}/>,
+          icon: <IconCoins style={iconStyle} />,
           withoutSvgBox: true,
           content: `10000 IXO`,
         },
         {
-          icon: <IconCode style={iconStyle}/>,
+          icon: <IconCode style={iconStyle} />,
           withoutSvgBox: true,
           content: `Development`,
         },
@@ -28,9 +29,9 @@ const RequestPerfomance: React.FC = () => {
           content: 'ImpactsDAO', // TODO: number of Projects?
         },
         {
-          icon: <IconHourglassEmpty style={iconStyle}/>,
+          icon: <IconHourglassEmpty style={iconStyle} />,
           withoutSvgBox: true,
-          content: "61 days to go",
+          content: '61 days to go',
         },
       ]}
     />

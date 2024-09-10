@@ -1,5 +1,6 @@
 import styled from 'styled-components'
-import { ReactComponent as SearchIcon } from 'assets/images/icon-search.svg'
+
+import SearchIcon from 'assets/images/icon-search.svg'
 
 export const PairListWrapper = styled.div`
   position: relative;

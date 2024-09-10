@@ -1,10 +1,12 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import * as Modal from 'react-modal'
-import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
+
+import CloseIcon from 'assets/images/icon-close.svg'
 import { ModalStyles, CloseButton, ModalWrapper, ModalTitle } from 'components/Modals/styles'
-import { Button, ChainSelector, Input } from 'pages/CreateEntity/Components'
+import { Button, ChainSelector, Input } from 'screens/CreateEntity/Components'
 import { FlexBox, SvgBox } from 'components/App/App.styles'
-import { ReactComponent as SearchIcon } from 'assets/images/icon-search.svg'
+
+import SearchIcon from 'assets/images/icon-search.svg'
 import { useTheme } from 'styled-components'
 import { LinkedEntity } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { useGetEntityById } from 'graphql/entities'

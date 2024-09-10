@@ -1,7 +1,8 @@
 import { ActionIcon, Box, Card, Flex, Text } from '@mantine/core'
 import { LiaBoltSolid, LiaPlaySolid } from 'react-icons/lia'
 import { useCompanion } from 'hooks/useCompanion'
-import { ReactComponent as AssistantIcon } from 'assets/images/icon-assistant.svg'
+
+import AssistantIcon from 'assets/images/icon-assistant.svg'
 import { useMatch } from 'react-router-dom'
 
 export const ToolbarNavigation = () => {
@@ -20,12 +21,7 @@ export const ToolbarNavigation = () => {
   }
 
   return (
-    <Flex
-      justify={showActionsButton ? 'space-around' : 'flex-end'}
-      h='18%'
-      w='360px'
-      bg='#EBEBEB'
-    >
+    <Flex justify={showActionsButton ? 'space-around' : 'flex-end'} h='18%' w='360px' bg='#EBEBEB'>
       <Flex gap={35} mt={25}>
         {showActionsButton && (
           <ActionIcon size={46} radius='xl' bg='white' onClick={handleActionsClick}>
@@ -37,8 +33,14 @@ export const ToolbarNavigation = () => {
             <LiaBoltSolid size='24' color='#20798C' />
           </ActionIcon>
         )}
-        <ActionIcon size={46} radius='xl' color='#20798C' mr={showActionsButton ? 0 : 82} onClick={handleAssistantClick}>
-          <AssistantIcon color="white" />
+        <ActionIcon
+          size={46}
+          radius='xl'
+          color='#20798C'
+          mr={showActionsButton ? 0 : 82}
+          onClick={handleAssistantClick}
+        >
+          <AssistantIcon color='white' />
         </ActionIcon>
       </Flex>
     </Flex>

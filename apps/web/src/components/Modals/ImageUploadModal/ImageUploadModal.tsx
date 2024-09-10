@@ -2,14 +2,16 @@ import React, { useEffect, useState } from 'react'
 import 'react-image-crop/dist/ReactCrop.css'
 import * as Modal from 'react-modal'
 import { useDropzone } from 'react-dropzone'
-import { ReactComponent as CloseIcon } from 'assets/images/icon-close.svg'
-import { ReactComponent as ImageIcon } from 'assets/images/icon-image-fill.svg'
+
+import CloseIcon from 'assets/images/icon-close.svg'
+
+import ImageIcon from 'assets/images/icon-image-fill.svg'
 import { UploadBox, SelectImage, DisplayImage } from './ImageUploadModal.styles'
 import { ModalStyles, CloseButton, ModalBody, ModalRow, ModalWrapper, ModalInput } from 'components/Modals/styles'
 import { Box } from 'components/App/App.styles'
 import PulseLoader from 'components/Spinner/PulseLoader/PulseLoader'
 import { default as ImageCropModal } from '../ImageCropModal/ImageCropModal'
-import { Button } from 'pages/CreateEntity/Components'
+import { Button } from 'screens/CreateEntity/Components'
 import { Typography } from 'components/Typography'
 import * as Toast from 'utils/toast'
 import { useTheme } from 'styled-components'
@@ -58,7 +60,7 @@ const ImageUploadModal: React.FC<Props> = ({
           if (response?.url) {
             setTempValue(response.url)
           } else {
-            setTempValue(process.env.REACT_APP_PDS_URL + '/' + response.key)
+            setTempValue(process.env.NEXT_PUBLIC_PDS_URL + '/' + response.key)
           }
         }
       })
