@@ -96,7 +96,7 @@ export const SplashLaunchSection: FC = () => {
                 height='100%'
                 width='100%'
               />
-              <AnimationBackgroundImage src={marketplaceBackground} />
+              <AnimationBackgroundImage src={marketplaceBackground.src} />
             </MarketplaceAnimationContainer>
           </ColumnContainer>
         </RowContainer>

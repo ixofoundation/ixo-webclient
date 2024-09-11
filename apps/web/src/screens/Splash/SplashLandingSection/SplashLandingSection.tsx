@@ -17,9 +17,9 @@ import {
   BackgroundWaveAnimation,
 } from './SplashLandingSection.styles'
 import waveAnimation from './wave.lottie.json'
-import doubleArrow from 'assets/images/splash/doublearrow.svg'
-import googlePlay from 'assets/images/splash/GooglePlay.svg'
-import appleStore from 'assets/images/splash/AppStore.svg'
+import doubleArrow from 'assets/images/splash/doublearrow.svg?url'
+import googlePlay from 'assets/images/splash/GooglePlay.svg?url'
+import appleStore from 'assets/images/splash/AppStore.svg?url'
 import TypeWriter from '../../../components/TypeWriter/TypeWriter'
 
 const SplashLandingSection: FC = () => {

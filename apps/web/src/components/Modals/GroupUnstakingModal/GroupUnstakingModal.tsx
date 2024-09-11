@@ -3,7 +3,7 @@ import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 import { Box, FlexBox, HTMLFlexBoxProps, SvgBox } from 'components/App/App.styles'
 import { SignStep, TXStatus } from '../common'
 import { Typography } from 'components/Typography'
-import NextStepImage from 'assets/images/modal/nextstep.svg'
+import NextStepImage from 'assets/images/modal/nextstep.svg?url'
 import { contracts } from '@ixo/impactxclient-sdk'
 import { useAccount } from 'hooks/account'
 import {

@@ -3,8 +3,8 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
 import { deviceWidth } from 'constants/device'
-import chevronLeft from 'assets/images/splash/chevron-left.svg'
-import chevronRight from 'assets/images/splash/chevron-right.svg'
+import chevronLeft from 'assets/images/splash/chevron-left.svg?url'
+import chevronRight from 'assets/images/splash/chevron-right.svg?url'
 
 export const CarouselNextButton = styled.span`
   background-image: url(${chevronRight});

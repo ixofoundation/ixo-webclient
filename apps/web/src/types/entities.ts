@@ -1,5 +1,5 @@
-import { Schema as FilterSchema } from '../pages/EntitiesExplorer/Components/EntitiesFilter/schema/types'
-import { Schema as HeaderSchema } from '../pages/EntitiesExplorer/Components/EntitiesHero/schema/types'
+import { Schema as FilterSchema } from '../screens/EntitiesExplorer/Components/EntitiesFilter/schema/types'
+import { Schema as HeaderSchema } from '../screens/EntitiesExplorer/Components/EntitiesHero/schema/types'
 import { Schema as ControlPanelSchema } from 'components/ControlPanel/types'
 import { AgentRole } from 'redux/account/account.types'
 import { Entity } from '@ixo/impactxclient-sdk/types/codegen/ixo/entity/v1beta1/entity'

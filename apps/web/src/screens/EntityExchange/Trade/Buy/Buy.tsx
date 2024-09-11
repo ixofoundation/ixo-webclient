@@ -9,7 +9,7 @@ import { TradeWrapper, AssetCardWrapper, TradePanel } from '../Swap.styles'
 import { useNavigate, useLocation } from 'react-router-dom'
 import queryString from 'query-string'
 import { findDenomByMinimalDenom, minimalAmountToAmount } from 'redux/account/account.utils'
-import SliderSettings from 'assets/images/icon-sliders-h-solid.svg'
+import SliderSettings from 'assets/images/icon-sliders-h-solid.svg?url'
 import { selectSelectedAccountAddress } from 'redux/selectedEntityExchange/entityExchange.selectors'
 import * as _ from 'lodash'
 import {
