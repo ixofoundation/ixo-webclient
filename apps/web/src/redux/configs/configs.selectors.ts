@@ -1,18 +1,21 @@
-import { RootState } from 'redux/store'
 import { createSelector } from '@reduxjs/toolkit'
-import { AssetListConfig, ConfigsState, CurrencyInfo, ExchangeConfig, PaymentCoins, RelayerInfo } from './configs.types'
 import { selectEntityType } from 'redux/currentEntity/currentEntity.selectors'
-import { toRootEntityType } from 'utils/entities'
+import { RootState } from 'redux/store'
 import { EntityConfig } from 'types/entities'
+import { toRootEntityType } from 'utils/entities'
+import { AssetListConfig, ConfigsState, CurrencyInfo, ExchangeConfig, PaymentCoins, RelayerInfo } from './configs.types'
 
 const chainId = process.env.NEXT_PUBLIC_CHAIN_ID
 
-export const selectConfigs = (state: RootState): ConfigsState => state?.configs
+export const selectConfigs = (state: RootState): ConfigsState => {
+  console.log('state in selectConfigs', state)
+  return state.configs
+}
 
-export const selectAssetListConfig = createSelector(
-  selectConfigs,
-  (configs: ConfigsState): AssetListConfig[] => configs.assetListConfig,
-)
+export const selectAssetListConfig = createSelector(selectConfigs, (configs: ConfigsState): AssetListConfig[] => {
+  console.log('configs in selectAssetListConfig', configs)
+  return configs.assetListConfig
+})
 
 export const selectRelayersConfig = createSelector(
   selectConfigs,

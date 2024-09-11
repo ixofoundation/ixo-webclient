@@ -1,7 +1,8 @@
 'use client'
 
-import React, { Suspense } from 'react'
+import { useIxoConfigs } from 'hooks/configs'
 import dynamic from 'next/dynamic'
+import { Suspense, useEffect } from 'react'
 
 const App = dynamic(
   () =>
@@ -16,6 +17,15 @@ const App = dynamic(
 )
 
 export function ClientOnly() {
+  const { fetchEntityConfig, entityConfig } = useIxoConfigs()
+
+  useEffect(() => {
+    fetchEntityConfig()
+  }, [fetchEntityConfig])
+
+  if (!entityConfig) {
+    return null
+  }
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <App />
