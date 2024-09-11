@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
-import IconImage from 'assets/images/icon-image-fill.svg'
+
 import { ImageUploadModal } from 'components/Modals'
 import { Typography } from 'components/Typography'
 
@@ -56,7 +56,7 @@ const ImageUpload: React.FC<Props> = ({ image, handleChange, allowEdit = true })
       <Wrapper background={image} onClick={handleClick}>
         {!image ? (
           <>
-            <IconImage />
+            <img src="/assets/images/icon-image-fill.svg"  />
             <Typography color='white' size='xl'>
               Upload an Image
             </Typography>
@@ -67,7 +67,7 @@ const ImageUpload: React.FC<Props> = ({ image, handleChange, allowEdit = true })
         ) : (
           allowEdit && (
             <Overlay>
-              <IconImage />
+              <img src="/assets/images/icon-image-fill.svg"  />
               <Typography color='white' size='xl'>
                 Click to replace
               </Typography>

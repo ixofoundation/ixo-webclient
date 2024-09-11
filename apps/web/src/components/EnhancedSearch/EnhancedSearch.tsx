@@ -1,6 +1,6 @@
 import { Accordion, Avatar, Badge, Box, Flex, Text, TextInput, useMantineTheme, Skeleton } from '@mantine/core'
 
-import AssistantIcon from 'assets/images/icon-assistant.svg'
+
 import { useExplorerContext } from 'contexts/ExplorerContext'
 import { useMemo, useState, useEffect, useRef } from 'react'
 import { LiaObjectGroup } from 'react-icons/lia'
@@ -169,7 +169,7 @@ export const EnhancedSearch = () => {
     <Flex direction='column' pos={'relative'} w='600px' mx='auto' ref={searchRef}>
       <TextInput
         radius={'md'}
-        rightSection={<AssistantIcon onClick={handleAssistantIconClick} />}
+        rightSection={<img src="/assets/images/icon-assistant.svg" onClick={handleAssistantIconClick}  />}
         size='lg'
         placeholder='Search'
         style={{ overflow: 'hidden', zIndex: 2 }}

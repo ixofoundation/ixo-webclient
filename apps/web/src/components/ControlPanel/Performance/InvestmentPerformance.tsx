@@ -1,13 +1,13 @@
 import React from 'react'
 import { Card } from '../Card'
 
-import ClockIcon from 'assets/images/icon-clock-2.svg'
 
-import TagIcon from 'assets/images/icon-tag-solid.svg'
 
-import CoinsIcon from 'assets/images/icon-coins-solid.svg'
 
-import HandHoldingUsdIcon from 'assets/images/icon-hand-holding-usd-solid.svg'
+
+
+
+
 import BigNumber from 'bignumber.js'
 import { useCurrentEntityBondLinkedEntity } from 'hooks/currentEntity'
 import { useGetBondDid } from 'graphql/bonds'
@@ -22,20 +22,20 @@ const InvestmentPerformance: React.FC = () => {
 
   return (
     <Card
-      icon={<ClockIcon />}
+      icon={<img src="/assets/images/icon-clock-2.svg"  />}
       title='Performance'
       columns={1}
       items={[
         {
-          icon: <TagIcon />,
+          icon: <img src="/assets/images/icon-tag-solid.svg"  />,
           content: `Current Price: ${currentPrice ? serializeCoin(currentPrice).toUpperCase() : '--'}`,
         },
         {
-          icon: <CoinsIcon />,
+          icon: <img src="/assets/images/icon-coins-solid.svg"  />,
           content: `Total Supply: ${new BigNumber(currentSupply).toFormat()} ${token.toUpperCase()}`, // TODO:
         },
         {
-          icon: <HandHoldingUsdIcon />,
+          icon: <img src="/assets/images/icon-hand-holding-usd-solid.svg"  />,
           content: `Outcome Payment: ${new BigNumber(outcomePayment).toFormat()} ${token.toUpperCase()}`, // TODO:
         },
       ]}

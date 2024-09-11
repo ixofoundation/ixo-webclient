@@ -14,7 +14,7 @@ import { GrayText, WhiteText } from './AmountInputBox.styles'
 import { getUSDRateByCoingeckoId } from 'utils/coingecko'
 import { AssetType } from 'redux/configs/configs.types'
 import AssistantButton from 'components/AssistantButton/AssistantButton'
-import CashIcon from 'assets/images/assets/cash.svg?url'
+
 import { FlexBox } from 'components/App/App.styles'
 
 const decimals = 2
@@ -39,7 +39,7 @@ const CreditCard = ({ onClick }: any): JSX.Element => {
 
   return (
     <PairListTokenWrapper onClick={onClick}>
-      <img src={CashIcon} className='mr-3' alt='' />
+      <img src="/assets/images/assets/cash.svg" className='mr-3' alt='' />
       <div className='d-flex flex-column w-100'>
         <div className='d-flex align-items-center justify-content-between w-100'>
           <WhiteText lineHeight='21px' fontSize='18px' fontWeight={400}>

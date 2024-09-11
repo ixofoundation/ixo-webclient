@@ -9,7 +9,7 @@ import EditProperty from '../../components/EditProperty'
 import { useNavigate, useParams } from 'react-router-dom'
 import { FormCard } from 'components'
 
-import ExclamationIcon from 'assets/images/icon-exclamation-circle.svg'
+
 import { useAppSelector } from 'redux/hooks'
 import { getEntityById } from 'redux/entities/entities.selectors'
 import { useWallet } from 'wallet-connector'
@@ -70,7 +70,7 @@ const EditEntity: React.FC = () => {
           </Button>
         )}
         {currentEntity.status === 2 && isOwner && (
-          <FormCard title='Re-enable keys' preIcon={<ExclamationIcon />}>
+          <FormCard title='Re-enable keys' preIcon={<img src="/assets/images/icon-exclamation-circle.svg"  />}>
             <Typography>The former owner of the entity created a document to re-enable verification keys.</Typography>
             <Button size='flex' onClick={handleReEnableKeys} textTransform='uppercase'>
               Review

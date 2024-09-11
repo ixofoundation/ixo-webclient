@@ -1,9 +1,9 @@
 import { ixo } from '@ixo/impactxclient-sdk'
 import { Box, Flex } from '@mantine/core'
 
-import CheckInCircleIcon from 'assets/images/icon-check-in-circle.svg'
 
-import ProfileIcon from 'assets/images/icon-profile.svg'
+
+
 import { SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import PieChart from 'components/Widgets/PieChart'
@@ -59,7 +59,7 @@ const ClaimStatsCard: React.FC = () => {
   const { agents, pendingAgents, approvedAgents } = useGetJoiningAgentsByEntityId(entityId)
 
   return (
-    <Card label='Claims' icon={<CheckInCircleIcon />}>
+    <Card label='Claims' icon={<img src="/assets/images/icon-check-in-circle.svg"  />}>
       <Flex w='100%' h='100%' align={'center'} gap={4}>
         <Flex w='100%' direction={'column'} gap={16}>
           <Flex w='100%' direction={'column'} gap={16} ml={32}>
@@ -75,7 +75,7 @@ const ClaimStatsCard: React.FC = () => {
           <Flex w='100%' direction={'column'} gap={16}>
             <Flex gap={8} align={'center'}>
               <SvgBox color='white' $svgWidth={4.5} $svgHeight={4.5}>
-                <ProfileIcon />
+                <img src="/assets/images/icon-profile.svg"  />
               </SvgBox>
               <Typography variant='secondary' color='white' size='lg'>
                 Agents

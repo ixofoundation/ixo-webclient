@@ -5,7 +5,7 @@ import { selectEntityFooterUIConfig, selectEntityHeadTitleUIConfig } from 'redux
 import { useAppSelector } from 'redux/hooks'
 import styled from 'styled-components'
 
-import InfoIcon from 'assets/images/icon-info.svg'
+
 
 const StyledAnchor = styled(Anchor)`
   color: var(--mantine-color-white);
@@ -29,7 +29,7 @@ const Footer: React.FC = () => {
         <Tooltip label='Toggle Footer' position='right'>
           <ActionIcon variant='filled' aria-label='Footer' radius={'100%'} onClick={() => setCollapse((v) => !v)}>
             <SvgBox color='white' $svgWidth={6} $svgHeight={6}>
-              <InfoIcon />
+              <img src="/assets/images/icon-info.svg"  />
             </SvgBox>
           </ActionIcon>
         </Tooltip>

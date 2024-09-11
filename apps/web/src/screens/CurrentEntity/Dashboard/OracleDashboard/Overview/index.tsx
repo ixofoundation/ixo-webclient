@@ -3,14 +3,14 @@ import { Card } from 'screens/CurrentEntity/Components'
 import { OracleCard } from 'components/EntityCards/OracleCard'
 import React from 'react'
 
-import PiePieceIcon from 'assets/images/icon-pie-piece.svg'
+
 import { Typography } from 'components/Typography'
 import { useTheme } from 'styled-components'
 
-import CopyIcon from 'assets/images/icon-copy.svg'
+
 import moment from 'moment'
 
-import ClockIcon from 'assets/images/icon-clock.svg'
+
 // import ClaimLocation from './ClaimLocation'
 import { withEntityData } from 'components'
 import CopyToClipboard from 'react-copy-to-clipboard'
@@ -42,12 +42,12 @@ const Overview: React.FC = () => {
   const oracleEntity = { ...currentEntity, metrics: { minted, totalEvaluatedClaims, approvedPercentage } }
 
   const renderOracleStats = () => (
-    <Card icon={<PiePieceIcon />} label='Oracle Stats'>
+    <Card icon={<img src="/assets/images/icon-pie-piece.svg"  />} label='Oracle Stats'>
       <FlexBox $alignItems='center' $gap={2}>
         <Typography size='md'>{currentEntity.id}</Typography>
         <CopyToClipboard text={currentEntity.id} onCopy={() => successToast(`Copied to clipboard`)}>
           <SvgBox cursor='pointer' $svgWidth={4} $svgHeight={4} color={theme.ixoNewBlue}>
-            <CopyIcon />
+            <img src="/assets/images/icon-copy.svg"  />
           </SvgBox>
         </CopyToClipboard>
       </FlexBox>
@@ -104,7 +104,7 @@ const Overview: React.FC = () => {
   )
 
   const renderCreditsVerified = () => (
-    <Card icon={<PiePieceIcon />} label='Impact Credits Verified'>
+    <Card icon={<img src="/assets/images/icon-pie-piece.svg"  />} label='Impact Credits Verified'>
       <FlexBox
         $direction='column'
         $alignItems='center'
@@ -161,7 +161,7 @@ const Overview: React.FC = () => {
   )
 
   const renderClaimEvaluation = () => (
-    <Card icon={<PiePieceIcon />} label='Claim Evaluation'>
+    <Card icon={<img src="/assets/images/icon-pie-piece.svg"  />} label='Claim Evaluation'>
       <FlexBox width='100%' $justifyContent='flex-start'>
         <FlexBox $gap={4}>
           <FlexBox border={`1px solid ${theme.ixoNewBlue}`} $borderRadius='4px' py={1} px={4} cursor='pointer'>
@@ -181,19 +181,19 @@ const Overview: React.FC = () => {
   )
 
   // const renderClaimLocations = () => (
-  //   <Card icon={<PiePieceIcon />} label='Claim Locations'>
+  //   <Card icon={<img src="/assets/images/icon-pie-piece.svg"  />} label='Claim Locations'>
   //     <ClaimLocation />
   //   </Card>
   // )
 
   // const renderLatestClaims = () => (
-  //   <Card icon={<PiePieceIcon />} label='Latest Claims'>
+  //   <Card icon={<img src="/assets/images/icon-pie-piece.svg"  />} label='Latest Claims'>
   //     <LatestClaims />
   //   </Card>
   // )
 
   const renderEvaluatedClaims = () => (
-    <Card label='Evaluated Claims' icon={<ClockIcon />}>
+    <Card label='Evaluated Claims' icon={<img src="/assets/images/icon-clock.svg"  />}>
       <EvaluatedClaims evaluatedClaims={(evaluatedClaims ?? []) as any} />
     </Card>
   )

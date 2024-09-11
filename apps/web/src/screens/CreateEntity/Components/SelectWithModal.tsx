@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react'
 import styled, { useTheme } from 'styled-components'
 
-import IconChevDown from 'assets/images/icon-chev-down.svg'
+
 import { TypeSelectionModal } from 'components/Modals'
 import { Typography } from 'components/Typography'
 import { SvgBox } from 'components/App/App.styles'
@@ -84,7 +84,7 @@ const SelectWithModal: React.FC<Props> = ({
           </Typography>
           {!value && (
             <SvgBox color={theme.ixoGrey500}>
-              <IconChevDown />
+              <img src="/assets/images/icon-chev-down.svg"  />
             </SvgBox>
           )}
         </Label>

@@ -2,7 +2,7 @@ import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import React from 'react'
 
-import ThreeDotIcon from 'assets/images/icon-threedot.svg'
+
 import { useTheme } from 'styled-components'
 import { useLocation } from 'react-router-dom'
 
@@ -77,7 +77,7 @@ const Tab: React.FC<Props> = ({ id, prefix, color, header, body, footer, onClick
 
       {onClick && (
         <SvgBox color='white' position='absolute' top='12px' right='8px'>
-          <ThreeDotIcon />
+          <img src="/assets/images/icon-threedot.svg"  />
         </SvgBox>
       )}
     </FlexBox>

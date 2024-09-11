@@ -2,7 +2,7 @@ import { Box, FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { useMemo, useState } from 'react'
 
-import PlusIcon from 'assets/images/icon-plus.svg'
+
 import { Button, CheckBox, PropertyBox } from 'screens/CreateEntity/Components'
 import { AddDAOGroupModal } from 'components/Modals'
 import { v4 as uuidv4 } from 'uuid'
@@ -273,7 +273,7 @@ const SetupDAOGroups = ({ showNavigation = true }: { showNavigation?: boolean })
               </FlexBox>
             )
           })}
-          <PropertyBox icon={<PlusIcon />} noData handleClick={(): void => setOpenAddGroupModal(true)} />
+          <PropertyBox icon={<img src="/assets/images/icon-plus.svg"  />} noData handleClick={(): void => setOpenAddGroupModal(true)} />
         </FlexBox>
 
         <FlexBox $gap={5} $marginTop={10}>

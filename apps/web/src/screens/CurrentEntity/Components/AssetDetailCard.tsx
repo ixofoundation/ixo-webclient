@@ -2,7 +2,7 @@ import { TokenAssetInfo } from '@ixo/impactxclient-sdk/types/custom_queries/curr
 import { FlexBox, GridContainer, GridItem, SvgBox } from 'components/App/App.styles'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 
-import ArrowLeftIcon from 'assets/images/icon-arrow-left.svg'
+
 import { Typography } from 'components/Typography'
 import CurrencyFormat from 'react-currency-format'
 import BigNumber from 'bignumber.js'
@@ -233,7 +233,7 @@ const AssetDetailCard: React.FC<Props> = ({
           </FlexBox>
         </FlexBox>
         <SvgBox color='white' cursor='pointer' onClick={() => navigate(-1)}>
-          <ArrowLeftIcon />
+          <img src="/assets/images/icon-arrow-left.svg"  />
         </SvgBox>
       </FlexBox>
       {/* Card Body */}

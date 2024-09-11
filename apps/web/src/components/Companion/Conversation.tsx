@@ -1,6 +1,6 @@
 import { Box, Flex, ScrollArea } from '@mantine/core'
 
-import AssistantIcon from 'assets/images/icon-assistant.svg'
+
 import { useCompanion } from 'hooks/useCompanion'
 import { useEffect } from 'react'
 import Markdown from 'react-markdown'
@@ -25,7 +25,7 @@ const Conversation = () => {
                 return (
                   <Flex key={message.content} align='flex-start' justify='flex-start'>
                     <Box mt={10} mr={10}>
-                      <AssistantIcon fill='white' stroke='white' />
+                      <img src="/assets/images/icon-assistant.svg" fill='white' stroke='white'  />
                     </Box>
                     <Flex mt={8} direction='column'>
                       <Markdown>{message.content}</Markdown>

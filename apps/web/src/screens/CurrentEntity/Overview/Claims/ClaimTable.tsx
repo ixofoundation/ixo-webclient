@@ -6,7 +6,7 @@ import { selectEntityConfig } from 'redux/configs/configs.selectors'
 import { useAppSelector } from 'redux/hooks'
 import { useTheme } from 'styled-components'
 
-import ClaimIcon from 'assets/images/icon-claim.svg'
+
 import { SvgBox } from 'components/App/App.styles'
 import { useMemo } from 'react'
 import { useWallet } from 'wallet-connector'
@@ -74,7 +74,7 @@ const ClaimTable = () => {
         title: '',
         render: () => (
           <SvgBox $svgWidth={8} $svgHeight={8} color={primaryColor}>
-            <ClaimIcon />
+            <img src="/assets/images/icon-claim.svg"  />
           </SvgBox>
         ),
         style: { th: { width: rem(30) } },
@@ -130,7 +130,7 @@ const ClaimTable = () => {
         title: '',
         render: () => (
           <SvgBox $svgWidth={8} $svgHeight={8} color={primaryColor}>
-            <ClaimIcon />
+            <img src="/assets/images/icon-claim.svg"  />
           </SvgBox>
         ),
         style: { th: { width: rem(30) } },

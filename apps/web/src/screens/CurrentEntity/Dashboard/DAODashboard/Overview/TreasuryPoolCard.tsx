@@ -5,9 +5,9 @@ import { Flex } from '@mantine/core'
 import { Typography } from 'components/Typography'
 import { useTheme } from 'styled-components'
 
-import FundingIcon from 'assets/images/icon-funding.svg'
 
-import UpIcon from 'assets/images/icon-up-full.svg'
+
+
 
 import { AccountTypeToIconMap } from 'screens/CurrentEntity/Treasury/Components/AccountsCard'
 import { getTotalUSDvalueFromTreasuryCoins } from 'utils/treasury'
@@ -70,7 +70,7 @@ const TreasuryPoolCard: React.FC = () => {
       label='Treasury Accounts'
       icon={
         <SvgBox $svgWidth={6.25} $svgHeight={6.25}>
-          <FundingIcon />
+          <img src="/assets/images/icon-funding.svg"  />
         </SvgBox>
       }
       onAction={() => navigate(`/entity/${entityId}/treasury`)}
@@ -90,7 +90,7 @@ const TreasuryPoolCard: React.FC = () => {
           <Flex align={'center'} gap={4} style={{ color: theme.ixoGreen }}>
             <Typography size='md'>+0.00%</Typography>
             <SvgBox $svgWidth={5} $svgHeight={5}>
-              <UpIcon />
+              <img src="/assets/images/icon-up-full.svg"  />
             </SvgBox>
           </Flex>
           <Typography variant='secondary' color='grey700'>

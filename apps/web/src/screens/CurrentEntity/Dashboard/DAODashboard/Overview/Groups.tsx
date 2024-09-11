@@ -2,9 +2,9 @@ import { Flex } from '@mantine/core'
 import { Typography } from 'components/Typography'
 import React, { useEffect, useState } from 'react'
 
-import SortGToLIcon from 'assets/images/icon-sort-gtol.svg'
 
-import SortLToGIcon from 'assets/images/icon-sort-ltog.svg'
+
+
 import { SvgBox } from 'components/App/App.styles'
 import { useTheme } from 'styled-components'
 import GroupCard from './GroupCard'
@@ -39,8 +39,8 @@ const Groups = ({ daoGroups }: GroupProps) => {
         <Typography size='lg'>Members</Typography>
         {sortBy === 'members' && (
           <SvgBox $svgWidth={4.5} $svgHeight={4.5}>
-            {sortDirection && <SortGToLIcon />}
-            {!sortDirection && <SortLToGIcon />}
+            {sortDirection && <img src="/assets/images/icon-sort-gtol.svg"  />}
+            {!sortDirection && <img src="/assets/images/icon-sort-ltog.svg"  />}
           </SvgBox>
         )}
       </Flex>
@@ -54,8 +54,8 @@ const Groups = ({ daoGroups }: GroupProps) => {
         <Typography size='lg'>Treasury</Typography>
         {sortBy === 'treasury' && (
           <SvgBox $svgWidth={4.5} $svgHeight={4.5}>
-            {sortDirection && <SortGToLIcon />}
-            {!sortDirection && <SortLToGIcon />}
+            {sortDirection && <img src="/assets/images/icon-sort-gtol.svg"  />}
+            {!sortDirection && <img src="/assets/images/icon-sort-ltog.svg"  />}
           </SvgBox>
         )}
       </Flex>
@@ -69,8 +69,8 @@ const Groups = ({ daoGroups }: GroupProps) => {
         <Typography size='lg'>Proposals</Typography>
         {sortBy === 'proposals' && (
           <SvgBox $svgWidth={4.5} $svgHeight={4.5}>
-            {sortDirection && <SortGToLIcon />}
-            {!sortDirection && <SortLToGIcon />}
+            {sortDirection && <img src="/assets/images/icon-sort-gtol.svg"  />}
+            {!sortDirection && <img src="/assets/images/icon-sort-ltog.svg"  />}
           </SvgBox>
         )}
       </Flex>
@@ -84,8 +84,8 @@ const Groups = ({ daoGroups }: GroupProps) => {
         <Typography size='lg'>Type</Typography>
         {sortBy === 'type' && (
           <SvgBox $svgWidth={4.5} $svgHeight={4.5}>
-            {sortDirection && <SortGToLIcon />}
-            {!sortDirection && <SortLToGIcon />}
+            {sortDirection && <img src="/assets/images/icon-sort-gtol.svg"  />}
+            {!sortDirection && <img src="/assets/images/icon-sort-ltog.svg"  />}
           </SvgBox>
         )}
       </Flex>

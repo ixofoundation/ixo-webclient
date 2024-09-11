@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import * as Modal from 'react-modal'
 
-import CloseIcon from 'assets/images/icon-close.svg'
+
 import { ModalStyles, CloseButton, ModalBody, ModalWrapper, ModalRow, ModalTitle } from 'components/Modals/styles'
 import { Button, TagSelector } from 'screens/CreateEntity/Components'
 import { useAppSelector } from 'redux/hooks'
@@ -47,7 +47,7 @@ const DDOTagsSetupModal: React.FC<Props> = ({ ddoTags, entityType, open, onClose
     // @ts-ignore
     <Modal style={ModalStyles} isOpen={open} onRequestClose={onClose} contentLabel='Modal' ariaHideApp={false}>
       <CloseButton onClick={onClose}>
-        <CloseIcon />
+        <img src="/assets/images/icon-close.svg"  />
       </CloseButton>
 
       <ModalWrapper style={{ width: 600 }}>

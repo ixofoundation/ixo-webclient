@@ -2,15 +2,15 @@ import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { useTheme } from 'styled-components'
 import { Typography } from 'components/Typography'
 
-import ProfileIcon from 'assets/images/icon-profile.svg'
 
-import StarIcon from 'assets/images/icon-star.svg'
 
-import UserAstronautIcon from 'assets/images/icon-user-astronaut-solid.svg'
 
-import UserNinjaIcon from 'assets/images/icon-user-ninja-solid.svg'
 
-import UserCheckIcon from 'assets/images/icon-user-check-solid.svg'
+
+
+
+
+
 import { Card } from '../Card'
 import { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
 import { useParams } from 'react-router-dom'
@@ -46,7 +46,7 @@ const DAOGroupItem: React.FC<{ address: string }> = ({ address }) => {
           $justifyContent='center'
           $alignItems='center'
         >
-          <StarIcon />
+          <img src="/assets/images/icon-star.svg"  />
         </SvgBox>
         <SvgBox
           width='40px'
@@ -59,7 +59,7 @@ const DAOGroupItem: React.FC<{ address: string }> = ({ address }) => {
           $justifyContent='center'
           $alignItems='center'
         >
-          <ProfileIcon />
+          <img src="/assets/images/icon-profile.svg"  />
         </SvgBox>
       </FlexBox>
     </FlexBox>
@@ -74,7 +74,7 @@ const MyParticipationCard = () => {
 
   return (
     <Card
-      icon={<UserCheckIcon />}
+      icon={<img src="/assets/images/icon-user-check-solid.svg"  />}
       title='My Participation'
       columns={1}
       items={
@@ -94,7 +94,7 @@ const MyParticipationCard = () => {
                 $justifyContent='center'
                 $alignItems='center'
               >
-                <ProfileIcon />
+                <img src="/assets/images/icon-profile.svg"  />
               </SvgBox>
               <SvgBox
                 width='40px'
@@ -107,7 +107,7 @@ const MyParticipationCard = () => {
                 $justifyContent='center'
                 $alignItems='center'
               >
-                <UserAstronautIcon />
+                <img src="/assets/images/icon-user-astronaut-solid.svg"  />
               </SvgBox>
               <SvgBox
                 width='40px'
@@ -120,7 +120,7 @@ const MyParticipationCard = () => {
                 $justifyContent='center'
                 $alignItems='center'
               >
-                <UserNinjaIcon />
+                <img src="/assets/images/icon-user-ninja-solid.svg"  />
               </SvgBox>
             </FlexBox>
           </FlexBox>

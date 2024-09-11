@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react'
 import { TEntityPaymentModel } from 'types/entities'
 import { omitKey } from 'utils/objects'
 
-import PlusIcon from 'assets/images/icon-plus.svg'
+
 import { AccordedRight } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { EntityAccordedRightConfig } from 'constants/entity'
 
@@ -76,7 +76,7 @@ const SetupAccordedRight: React.FC<Props> = ({ hidden, accordedRight, updateAcco
               />
             )
           })}
-          <PropertyBox icon={<PlusIcon />} noData handleClick={(): void => setOpenAddAccordedRightModal(true)} />
+          <PropertyBox icon={<img src="/assets/images/icon-plus.svg"  />} noData handleClick={(): void => setOpenAddAccordedRightModal(true)} />
         </Box>
       </FlexBox>
       <AddAccordedRightModal

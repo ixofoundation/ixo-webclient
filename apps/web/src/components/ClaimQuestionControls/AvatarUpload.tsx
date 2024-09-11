@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import styled, { useTheme } from 'styled-components'
 
-import IconImage from 'assets/images/icon-image-fill.svg'
+
 import { ImageUploadModal } from 'components/Modals'
 import { Typography } from 'components/Typography'
 import { SvgBox } from 'components/App/App.styles'
 
-import TrashIcon from 'assets/images/icon-trash.svg'
+
 
 const Wrapper = styled.div<{ background?: string }>`
   background: ${(props) => (props.background ? `url(${props.background}) center center no-repeat` : `transparent`)};
@@ -49,7 +49,7 @@ const AvatarUpload: React.FC<Props> = ({ value, onChange }): JSX.Element => {
         {!value ? (
           <>
             <SvgBox color={theme.ixoNewBlue} mb={2} $svgWidth={6} $svgHeight={6}>
-              <IconImage />
+              <img src="/assets/images/icon-image-fill.svg"  />
             </SvgBox>
             <Typography color='blue' size='md'>
               Upload an Avatar
@@ -65,7 +65,7 @@ const AvatarUpload: React.FC<Props> = ({ value, onChange }): JSX.Element => {
               e.stopPropagation()
             }}
           >
-            <TrashIcon />
+            <img src="/assets/images/icon-trash.svg"  />
           </SvgBox>
         )}
       </Wrapper>

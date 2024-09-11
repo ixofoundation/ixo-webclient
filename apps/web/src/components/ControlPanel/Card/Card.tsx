@@ -3,7 +3,7 @@ import React from 'react'
 import { Typography } from 'components/Typography'
 import { useTheme } from 'styled-components'
 
-import AssistantIcon from 'assets/images/icon-assistant.svg'
+
 import { selectEntityConfig } from 'redux/configs/configs.selectors'
 import { useAppSelector } from 'redux/hooks'
 
@@ -48,7 +48,7 @@ const Card: React.FC<Props> = ({ icon, title, columns, items }) => {
           </Typography>
         </FlexBox>
         <SvgBox $svgWidth={6} $svgHeight={6} color={primaryColor}>
-          <AssistantIcon />
+          <img src="/assets/images/icon-assistant.svg"  />
         </SvgBox>
       </FlexBox>
 

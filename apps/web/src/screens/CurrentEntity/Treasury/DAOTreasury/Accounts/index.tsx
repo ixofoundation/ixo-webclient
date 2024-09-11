@@ -1,7 +1,7 @@
 //
-import ArrowLeftIcon from 'assets/images/icon-arrow-left.svg'
 
-import CopyIcon from 'assets/images/icon-copy.svg'
+
+
 import BigNumber from 'bignumber.js'
 import { FlexBox, GridContainer, SvgBox } from 'components/App/App.styles'
 import { DepositModal } from 'components/Modals'
@@ -115,7 +115,7 @@ const Accounts: React.FC = () => {
                 {truncateString(selectedAccount.address, 20, 'middle')}
               </Typography>
               <SvgBox color={theme.ixoNewBlue} $svgWidth={6} $svgHeight={6}>
-                <CopyIcon />
+                <img src="/assets/images/icon-copy.svg"  />
               </SvgBox>
             </FlexBox>
           </CopyToClipboard>
@@ -158,28 +158,28 @@ const Accounts: React.FC = () => {
 
           {/* Coins expanded view */}
           {/* <FlexBox width='100%' style={expand !== 'coins' ? { display: 'none' } : {}}>
-            <Card label='Coins' actionIcon={<ArrowLeftIcon />} onAction={() => history.goBack()}>
+            <Card label='Coins' actionIcon={<img src="/assets/images/icon-arrow-left.svg"  />} onAction={() => history.goBack()}>
               <Coins address={selectedAccount.address} />
             </Card>
           </FlexBox> */}
 
           {/* Impact Tokens expanded view */}
           {/* <FlexBox width='100%' style={expand !== 'impact_tokens' ? { display: 'none' } : {}}>
-            <Card label='Impact Tokens' actionIcon={<ArrowLeftIcon />} onAction={() => history.goBack()}>
+            <Card label='Impact Tokens' actionIcon={<img src="/assets/images/icon-arrow-left.svg"  />} onAction={() => history.goBack()}>
               <ImpactTokens address={selectedAccount.address} />
             </Card>
           </FlexBox> */}
 
           {/* Collections expanded view */}
           {/* <FlexBox width='100%' style={expand !== 'collections' ? { display: 'none' } : {}}>
-            <Card label='Collections' actionIcon={<ArrowLeftIcon />} onAction={() => history.goBack()}>
+            <Card label='Collections' actionIcon={<img src="/assets/images/icon-arrow-left.svg"  />} onAction={() => history.goBack()}>
               <Collections address={selectedAccount.address} />
             </Card>
           </FlexBox> */}
 
           {/* Transactions expanded view */}
           {/* <FlexBox width='100%' style={expand !== 'transactions' ? { display: 'none' } : {}}>
-            <Card label='Transactions' actionIcon={<ArrowLeftIcon />} onAction={() => history.goBack()}>
+            <Card label='Transactions' actionIcon={<img src="/assets/images/icon-arrow-left.svg"  />} onAction={() => history.goBack()}>
               <Transactions address={selectedAccount.address} />
             </Card>
           </FlexBox> */}

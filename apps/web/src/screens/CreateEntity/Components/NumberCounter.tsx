@@ -3,9 +3,9 @@ import styled, { useTheme } from 'styled-components'
 import { Box, FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 
-import PlusIcon from 'assets/images/icon-plus.svg'
 
-import MinusIcon from 'assets/images/icon-minus.svg'
+
+
 
 const StyledInput = styled.input<{ $textAlign: string }>`
   border: none;
@@ -123,10 +123,10 @@ const NumberCounter: React.FC<Props> = ({
         $gap={2}
       >
         <ActionButton onClick={(): void => onChange(value + 1)}>
-          <PlusIcon />
+          <img src="/assets/images/icon-plus.svg"  />
         </ActionButton>
         <ActionButton onClick={(): void => onChange(Math.max(value - 1, 0))}>
-          <MinusIcon />
+          <img src="/assets/images/icon-minus.svg"  />
         </ActionButton>
       </FlexBox>
     </Box>

@@ -2,7 +2,7 @@ import { Box, FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import React, { useState } from 'react'
 
-import PlusIcon from 'assets/images/icon-plus.svg'
+
 import { PropertyBox } from 'screens/CreateEntity/Components'
 import { deviceWidth } from 'constants/device'
 import { DAOGroupConfig } from 'constants/entity'
@@ -62,7 +62,7 @@ const TransferEntityToDAOGroup: React.FC = (): JSX.Element => {
             )
           })}
           <FlexBox $direction='column' $alignItems='center' $gap={4}>
-            <PropertyBox icon={<PlusIcon />} noData handleClick={handleClick('other')} />
+            <PropertyBox icon={<img src="/assets/images/icon-plus.svg"  />} noData handleClick={handleClick('other')} />
             <Typography variant='secondary' $overflowLines={1} style={{ width: 100, textAlign: 'center' }}>
               Other Account
             </Typography>

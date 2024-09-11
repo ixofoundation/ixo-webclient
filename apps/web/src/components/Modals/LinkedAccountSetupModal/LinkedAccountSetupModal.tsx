@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import * as Modal from 'react-modal'
 
-import CloseIcon from 'assets/images/icon-close.svg'
+
 import { ModalStyles, CloseButton, ModalWrapper, ModalTitle } from 'components/Modals/styles'
 import { Button, InputWithLabel } from 'screens/CreateEntity/Components'
 import { FlexBox } from 'components/App/App.styles'
@@ -66,7 +66,7 @@ const LinkedAccountSetupModal: React.FC<Props> = ({ open, onClose, onAdd }): JSX
       {/* @ts-ignore */}
       <Modal style={ModalStyles} isOpen={open} onRequestClose={onClose} contentLabel='Modal' ariaHideApp={false}>
         <CloseButton onClick={onClose}>
-          <CloseIcon />
+          <img src="/assets/images/icon-close.svg"  />
         </CloseButton>
 
         <ModalWrapper>

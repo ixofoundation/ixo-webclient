@@ -6,7 +6,7 @@ import { useIxoConfigs } from 'hooks/configs'
 import BigNumber from 'bignumber.js'
 import moment from 'moment'
 
-import EyeIcon from 'assets/images/icon-eye.svg'
+
 import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { useGetBondTransactions } from 'graphql/bonds'
@@ -169,7 +169,7 @@ const BondTransactions: React.FC<Props> = ({ bondDid }) => {
                 color='white'
                 hover={{ color: theme.ixoNewBlue }}
               >
-                <EyeIcon />
+                <img src="/assets/images/icon-eye.svg"  />
               </SvgBox>
             </FlexBox>
           )

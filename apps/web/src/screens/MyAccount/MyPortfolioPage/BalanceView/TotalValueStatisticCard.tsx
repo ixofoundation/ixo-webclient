@@ -8,7 +8,7 @@ import { useTheme } from 'styled-components'
 import { ResponsiveContainer, Line, LineChart } from 'recharts'
 import { SvgBox } from 'components/App/App.styles'
 
-import CoinsIcon from 'assets/images/icon-coins-solid.svg'
+
 import { useAccountStakedBalances, useAccountUSDBalances } from 'hooks/account'
 
 const data = [
@@ -98,7 +98,7 @@ const TotalValueStatisticCard: React.FC = () => {
         ) : (
           <>
             <SvgBox $svgWidth={10} $svgHeight={10} color={theme.ixoDarkBlue} mb={4}>
-              <CoinsIcon />
+              <img src="/assets/images/icon-coins-solid.svg"  />
             </SvgBox>
             <Typography variant='secondary' size='2xl'>
               No Assets were found.

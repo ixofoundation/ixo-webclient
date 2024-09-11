@@ -4,7 +4,7 @@ import { deviceWidth } from 'constants/device'
 import { Button, PropertyBox } from 'screens/CreateEntity/Components'
 import React, { useState } from 'react'
 
-import ClaimIcon from 'assets/images/icon-claim.svg'
+
 import { TEntityClaimModel } from 'types/entities'
 import { useParams, NavLink } from 'react-router-dom'
 
@@ -35,7 +35,7 @@ const ClaimCollectionCreationSelectStep: React.FC<Props> = ({ hidden, onSubmit, 
           {Object.values(claims).map((claim) => (
             <FlexBox key={claim.id} $direction='column' $alignItems='flex-start' $gap={4}>
               <PropertyBox
-                icon={<ClaimIcon />}
+                icon={<img src="/assets/images/icon-claim.svg"  />}
                 required={true}
                 set={true}
                 hovered={selected === claim.id}

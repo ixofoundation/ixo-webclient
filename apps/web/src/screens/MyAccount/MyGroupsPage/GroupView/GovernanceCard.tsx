@@ -6,7 +6,7 @@ import { SvgBox } from 'components/App/App.styles'
 import PieChart from 'components/Widgets/PieChart'
 import { Typography } from 'components/Typography'
 
-import CoinsIcon from 'assets/images/icon-coins-solid.svg'
+
 import { useTheme } from 'styled-components'
 import { useAccount } from 'hooks/account'
 import CurrencyFormat from 'react-currency-format'
@@ -33,8 +33,8 @@ const GovernanceCard: React.FC<Props> = ({ daoGroup }) => {
       <Flex w='100%' h='100%' direction={'column'} gap={24} align={'center'}>
         <Flex align={'center'} gap={4}>
           <SvgBox $svgWidth={5} $svgHeight={5}>
-            {daoGroup.type === 'membership' && <CoinsIcon />}
-            {daoGroup.type === 'staking' && <CoinsIcon />}
+            {daoGroup.type === 'membership' && <img src="/assets/images/icon-coins-solid.svg"  />}
+            {daoGroup.type === 'staking' && <img src="/assets/images/icon-coins-solid.svg"  />}
           </SvgBox>
           <Typography size='sm' transform='capitalize'>
             {daoGroup.type} based

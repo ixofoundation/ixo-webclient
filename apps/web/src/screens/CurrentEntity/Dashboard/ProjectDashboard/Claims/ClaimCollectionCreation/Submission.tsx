@@ -5,7 +5,7 @@ import { Button, PropertyBox } from 'screens/CreateEntity/Components'
 import React, { useState } from 'react'
 import { useTheme } from 'styled-components'
 
-import ClaimIcon from 'assets/images/icon-claim.svg'
+
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { selectAllDeedProtocols } from 'redux/entities/entities.selectors'
 import { TEntityModel } from 'types/entities'
@@ -66,7 +66,7 @@ const ClaimCollectionCreationSubmissionStep: React.FC<Props> = ({ hidden, onSubm
             {deedProtocols.map((entity: TEntityModel) => (
               <FlexBox key={entity.id} $direction='column' $alignItems='center' $gap={4}>
                 <PropertyBox
-                  icon={<ClaimIcon />}
+                  icon={<img src="/assets/images/icon-claim.svg"  />}
                   required={true}
                   set={true}
                   hovered={protocolDeedId === entity.id}

@@ -4,13 +4,13 @@ import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { Vote } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
 
-import ThumbsUpIcon from 'assets/images/icon-thumbs-up.svg'
 
-import ThumbsDownIcon from 'assets/images/icon-thumbs-down.svg'
 
-import HandPaperIcon from 'assets/images/icon-hand-paper.svg'
 
-import QuestionCircleIcon from 'assets/images/icon-question-circle.svg'
+
+
+
+
 import { SignStep, TXStatus } from '../common'
 import { useTheme } from 'styled-components'
 

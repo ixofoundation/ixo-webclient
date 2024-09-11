@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import * as Modal from 'react-modal'
 import _ from 'lodash'
 
-import CloseIcon from 'assets/images/icon-close.svg'
+
 import {
   ModalStyles,
   CloseButton,
@@ -75,7 +75,7 @@ const SelectionModal: React.FC<Props> = ({
     // @ts-ignore
     <Modal style={ModalStyles} isOpen={open} onRequestClose={onClose} contentLabel='Modal' ariaHideApp={false}>
       <CloseButton onClick={onClose}>
-        <CloseIcon />
+        <img src="/assets/images/icon-close.svg"  />
       </CloseButton>
 
       <ModalWrapper>

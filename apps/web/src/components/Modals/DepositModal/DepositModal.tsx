@@ -6,7 +6,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { convertDenomToMicroDenomWithDecimals, depositInfoToCoin } from 'utils/conversions'
 import { SignStep, TXStatus } from '../common'
 
-import ArrowDownIcon from 'assets/images/icon-arrow-down.svg'
+
 import { NATIVE_DENOM, NATIVE_MICRODENOM } from 'constants/chains'
 import { BankSendTrx, fee } from 'lib/protocol'
 import CurrencyFormat from 'react-currency-format'
@@ -21,7 +21,7 @@ import { isContractAddress } from 'utils/validation'
 
 import { DeliverTxResponse } from '@cosmjs/stargate'
 import { contracts } from '@ixo/impactxclient-sdk'
-import NextStepImage from 'assets/images/modal/nextstep.svg'
+
 import { Cw20BaseClient } from 'cosmwasm-clients'
 import { useParams } from 'react-router-dom'
 import { useWallet } from 'wallet-connector'
@@ -254,7 +254,7 @@ const DepositModal: React.FunctionComponent<Props> = ({
                   $boxShadow={theme.ixoShadow2}
                 >
                   <SvgBox color={theme.ixoNewBlue} $svgHeight={8}>
-                    <ArrowDownIcon />
+                    <img src="/assets/images/icon-arrow-down.svg"  />
                   </SvgBox>
                 </FlexBox>
                 {/* DAO name & Group Name */}
@@ -274,7 +274,7 @@ const DepositModal: React.FunctionComponent<Props> = ({
                   onClick={() => validAmount && handleSigning()}
                   color={validAmount ? theme.ixoNewBlue : theme.ixoDarkBlue}
                 >
-                  <NextStepImage />
+                  <img src="/assets/images/modal/nextstep.svg"  />
                 </SvgBox>
               </FlexBox>
             </FlexBox>

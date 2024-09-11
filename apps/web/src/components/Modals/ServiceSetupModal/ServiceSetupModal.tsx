@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import * as Modal from 'react-modal'
 
-import CloseIcon from 'assets/images/icon-close.svg'
+
 import { ModalStyles, CloseButton } from 'components/Modals/styles'
 import { TEntityServiceModel, NodeType } from 'types/entities'
 import { Button, Dropdown, InputWithLabel } from 'screens/CreateEntity/Components'
 import { Typography } from 'components/Typography'
 import { FlexBox, SvgBox } from 'components/App/App.styles'
 
-import MinusBoxIcon from 'assets/images/icon-minus-box.svg'
+
 import { useTheme } from 'styled-components'
 
 interface ServiceFormProps {
@@ -26,7 +26,7 @@ const ServiceForm: React.FC<ServiceFormProps> = ({ index, service, onUpdate, onR
         <Typography size='xl'>Service {index + 1}</Typography>
         {onRemove && (
           <SvgBox color={theme.ixoNewBlue} cursor='pointer' onClick={() => onRemove()}>
-            <MinusBoxIcon />
+            <img src="/assets/images/icon-minus-box.svg"  />
           </SvgBox>
         )}
       </FlexBox>
@@ -113,7 +113,7 @@ const ServiceSetupModal: React.FC<Props> = ({ service, open, onClose, onChange }
     // @ts-ignore
     <Modal style={ModalStyles} isOpen={open} onRequestClose={onClose} contentLabel='Modal' ariaHideApp={false}>
       <CloseButton onClick={onClose}>
-        <CloseIcon />
+        <img src="/assets/images/icon-close.svg"  />
       </CloseButton>
 
       <FlexBox $direction='column' width='600px' $gap={4}>

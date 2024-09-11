@@ -4,11 +4,11 @@ import Lottie from 'react-lottie'
 import TokenSelector from 'components/TokenSelector/TokenSelector'
 import { StepsTransactions } from 'components/StepsTransactions/StepsTransactions'
 import AmountInput from 'components/AmountInput/AmountInput'
-import OverlayButtonDownIcon from 'assets/images/modal/overlaybutton-down.svg'
-import OverlayButtonUpIcon from 'assets/images/modal/overlaybutton-up.svg?url'
-import NextStepIcon from 'assets/images/modal/nextstep.svg?url'
-import EyeIcon from 'assets/images/icon-eye.svg?url'
-import CheckIcon from 'assets/images/icon-check.svg?url'
+
+
+
+
+
 import { convertDecCoinToCoin, getDisplayAmount } from 'utils/currency'
 import { BigNumber } from 'bignumber.js'
 import pendingAnimation from 'assets/animations/transaction/pending.json'
@@ -368,7 +368,7 @@ const StakingModal: React.FunctionComponent<Props> = ({ accountAddress, defaultV
                     undefined
                   }
                 />
-                {currentStep === 2 && <img className='check-icon' src={CheckIcon} alt='check-icon' />}
+                {currentStep === 2 && <img className='check-icon' src="/assets/images/icon-check.svg" alt='check-icon' />}
               </CheckWrapper>
               <div className='mt-3' />
             </>
@@ -391,7 +391,7 @@ const StakingModal: React.FunctionComponent<Props> = ({ accountAddress, defaultV
                     : ''
                 }
               />
-              {currentStep === 2 && <img className='check-icon' src={CheckIcon} alt='check-icon' />}
+              {currentStep === 2 && <img className='check-icon' src="/assets/images/icon-check.svg" alt='check-icon' />}
             </CheckWrapper>
           )}
           <div className='mt-3' />
@@ -404,7 +404,7 @@ const StakingModal: React.FunctionComponent<Props> = ({ accountAddress, defaultV
                   handleChange={handleValidatorDstChange}
                   disable={currentStep !== 0}
                 />
-                {currentStep === 2 && <img className='check-icon' src={CheckIcon} alt='check-icon' />}
+                {currentStep === 2 && <img className='check-icon' src="/assets/images/icon-check.svg" alt='check-icon' />}
               </CheckWrapper>
               {selectedValidatorDst && (
                 <Label className='mt-2'>
@@ -493,7 +493,7 @@ const StakingModal: React.FunctionComponent<Props> = ({ accountAddress, defaultV
               disable={currentStep !== 1}
               suffix={selectedCoin!.denom.toUpperCase()}
             />
-            {currentStep === 2 && <img className='check-icon' src={CheckIcon} alt='check-icon' />}
+            {currentStep === 2 && <img className='check-icon' src="/assets/images/icon-check.svg" alt='check-icon' />}
           </CheckWrapper>
           <LabelWrapper className='mt-2'>
             <Label>
@@ -531,7 +531,7 @@ const StakingModal: React.FunctionComponent<Props> = ({ accountAddress, defaultV
           <span className='message'>{generateTXMessage(signTXStatus)}</span>
           {signTXStatus === TXStatus.SUCCESS && (
             <div className='transaction mt-3' onClick={handleViewTransaction}>
-              <img src={EyeIcon} alt='view transactions' />
+              <img src="/assets/images/icon-eye.svg" alt='view transactions' />
             </div>
           )}
         </TXStatusBoard>
@@ -539,12 +539,12 @@ const StakingModal: React.FunctionComponent<Props> = ({ accountAddress, defaultV
 
       {enableNextStep() && (
         <NextStep onClick={handleNextStep}>
-          <img src={NextStepIcon} alt='next-step' />
+          <img src="/assets/images/modal/nextstep.svg" alt='next-step' />
         </NextStep>
       )}
       {enablePrevStep() && (
         <PrevStep onClick={handlePrevStep}>
-          <img src={NextStepIcon} alt='prev-step' />
+          <img src="/assets/images/modal/nextstep.svg" alt='prev-step' />
         </PrevStep>
       )}
     </Container>

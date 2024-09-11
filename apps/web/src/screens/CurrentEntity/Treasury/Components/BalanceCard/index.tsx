@@ -4,7 +4,7 @@ import { Typography } from 'components/Typography'
 import React from 'react'
 import CurrencyFormat from 'react-currency-format'
 
-import CoinsIcon from 'assets/images/icon-coins-solid.svg'
+
 import { useTheme } from 'styled-components'
 import BigNumber from 'bignumber.js'
 
@@ -104,7 +104,7 @@ const BalanceCard: React.FC<Props> = ({ availableValue = '0', stakedValue = '0.0
         ) : (
           <>
             <SvgBox $svgWidth={10} $svgHeight={10} color={theme.ixoDarkBlue} mb={4}>
-              <CoinsIcon />
+              <img src="/assets/images/icon-coins-solid.svg"  />
             </SvgBox>
             <Typography variant='secondary' size='2xl'>
               No Treasury Assets could be found

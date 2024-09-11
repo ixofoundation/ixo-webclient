@@ -14,18 +14,18 @@ import React, { Dispatch, SetStateAction } from 'react'
 import { MemberCard } from './MemberCard'
 import { MemberListItem } from './MemberListItem'
 
-import SortAtoZIcon from 'assets/images/icon-sort-atoz.svg'
 
-import SortZtoAIcon from 'assets/images/icon-sort-ztoa.svg'
 
-import SortLtoGIcon from 'assets/images/icon-sort-ltog.svg'
 
-import SortGtoLIcon from 'assets/images/icon-sort-gtol.svg'
+
+
+
+
 import { useTheme } from 'styled-components'
 import useCurrentEntity from 'hooks/currentEntity'
 import { useQuery } from 'hooks/window'
 //
-import ChevDownIcon from 'assets/images/icon-chev-down.svg'
+
 
 interface Props {
   view: 'panel' | 'list'
@@ -76,10 +76,10 @@ const MembersView: React.FC<Props> = ({
         {label}
       </Typography>
       <SvgBox color={sort ? theme.ixoNewBlue : theme.ixoDarkBlue}>
-        {varType === 'string' && sort === 'desc' && <SortZtoAIcon />}
-        {varType === 'string' && sort !== 'desc' && <SortAtoZIcon />}
-        {varType === 'number' && sort === 'desc' && <SortGtoLIcon />}
-        {varType === 'number' && sort !== 'desc' && <SortLtoGIcon />}
+        {varType === 'string' && sort === 'desc' && <img src="/assets/images/icon-sort-ztoa.svg"  />}
+        {varType === 'string' && sort !== 'desc' && <img src="/assets/images/icon-sort-atoz.svg"  />}
+        {varType === 'number' && sort === 'desc' && <img src="/assets/images/icon-sort-gtol.svg"  />}
+        {varType === 'number' && sort !== 'desc' && <img src="/assets/images/icon-sort-ltog.svg"  />}
       </SvgBox>
     </FlexBox>
   )
@@ -166,7 +166,7 @@ const MembersView: React.FC<Props> = ({
         padding={4}
       >
         <SvgBox color={theme.ixoWhite}>
-          <ChevDownIcon />
+          <img src="/assets/images/icon-chev-down.svg"  />
         </SvgBox>
       </FlexBox> */}
     </FlexBox>

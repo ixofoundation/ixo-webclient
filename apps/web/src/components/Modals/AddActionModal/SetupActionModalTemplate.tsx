@@ -1,7 +1,7 @@
 import React from 'react'
 import * as Modal from 'react-modal'
 
-import CloseIcon from 'assets/images/icon-close.svg'
+
 import { ModalStyles, CloseButton } from 'components/Modals/styles'
 import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { Button } from 'screens/CreateEntity/Components'
@@ -57,7 +57,7 @@ const SetupActionModalTemplate: React.FC<Props> = ({
     // @ts-ignore
     <Modal style={ModalStyles} isOpen={open} onRequestClose={onClose} contentLabel='Modal' ariaHideApp={false}>
       <CloseButton onClick={onClose}>
-        <CloseIcon />
+        <img src="/assets/images/icon-close.svg"  />
       </CloseButton>
 
       <FlexBox $direction='column' $gap={8} width={width}>

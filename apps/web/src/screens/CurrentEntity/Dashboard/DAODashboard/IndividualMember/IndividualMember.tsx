@@ -7,17 +7,17 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { AssetDetailCard, Card } from '../../../Components'
 import { Groups, UserStakes, UserVotingPower, UserProposals } from '../Components'
 
-import ArrowLeftIcon from 'assets/images/icon-arrow-left.svg'
 
-import StakesIcon from 'assets/images/icon-stakes.svg'
 
-import ProposalsIcon from 'assets/images/icon-proposals.svg'
 
-import PieIcon from 'assets/images/icon-pie.svg'
+
+
+
+
 import { truncateString } from 'utils/formatters'
 import CopyToClipboard from 'react-copy-to-clipboard'
 
-import CopyIcon from 'assets/images/icon-copy.svg'
+
 import * as Toast from 'utils/toast'
 import { useTheme } from 'styled-components'
 import { useAppSelector } from 'redux/hooks'
@@ -59,7 +59,7 @@ const IndividualMember: React.FC = () => {
             </Typography>
             <CopyToClipboard text={address} onCopy={() => Toast.successToast(null, `Copied to clipboard`)}>
               <SvgBox color={theme.ixoDarkBlue} cursor='pointer' hover={{ color: theme.ixoNewBlue }}>
-                <CopyIcon />
+                <img src="/assets/images/icon-copy.svg"  />
               </SvgBox>
             </CopyToClipboard>
           </FlexBox>
@@ -68,9 +68,9 @@ const IndividualMember: React.FC = () => {
           {selectedDAOGroup.type === 'staking' && (
             <Card
               className={clxs({ 'd-none': expand !== 'token' })}
-              icon={<StakesIcon />}
+              icon={<img src="/assets/images/icon-stakes.svg"  />}
               label='Stakes'
-              actionIcon={<ArrowLeftIcon />}
+              actionIcon={<img src="/assets/images/icon-arrow-left.svg"  />}
               onAction={() => navigate(-1)}
             >
               <UserStakes show={expand === 'token'} coreAddress={selectedDAOGroup.coreAddress} userAddress={address} />
@@ -80,9 +80,9 @@ const IndividualMember: React.FC = () => {
           {selectedDAOGroup.type === 'membership' && (
             <Card
               className={clxs({ 'd-none': expand !== 'votingPower' })}
-              icon={<PieIcon />}
+              icon={<img src="/assets/images/icon-pie.svg"  />}
               label='Voting Power'
-              actionIcon={<ArrowLeftIcon />}
+              actionIcon={<img src="/assets/images/icon-arrow-left.svg"  />}
               onAction={() => navigate(-1)}
             >
               <UserVotingPower
@@ -95,9 +95,9 @@ const IndividualMember: React.FC = () => {
           {/* expand === 'proposal' */}
           <Card
             className={clxs({ 'd-none': expand !== 'proposal' })}
-            icon={<ProposalsIcon />}
+            icon={<img src="/assets/images/icon-proposals.svg"  />}
             label='Proposals'
-            actionIcon={<ArrowLeftIcon />}
+            actionIcon={<img src="/assets/images/icon-arrow-left.svg"  />}
             onAction={() => navigate(-1)}
           >
             <UserProposals
@@ -122,7 +122,7 @@ const IndividualMember: React.FC = () => {
             <GridItem $gridArea='a'>
               {selectedDAOGroup.type === 'staking' && (
                 <Card
-                  icon={<StakesIcon />}
+                  icon={<img src="/assets/images/icon-stakes.svg"  />}
                   label='Stakes'
                   onAction={() => navigate({ pathname: pathname, search: `?expand=token` })}
                 >
@@ -136,7 +136,7 @@ const IndividualMember: React.FC = () => {
 
               {selectedDAOGroup.type === 'membership' && (
                 <Card
-                  icon={<PieIcon />}
+                  icon={<img src="/assets/images/icon-pie.svg"  />}
                   label='Voting Power'
                   onAction={() => navigate({ pathname: pathname, search: `?expand=votingPower` })}
                 >
@@ -150,7 +150,7 @@ const IndividualMember: React.FC = () => {
             </GridItem>
             <GridItem $gridArea='b'>
               <Card
-                icon={<ProposalsIcon />}
+                icon={<img src="/assets/images/icon-proposals.svg"  />}
                 label='Proposals'
                 onAction={() => navigate({ pathname: pathname, search: `?expand=proposal` })}
               >

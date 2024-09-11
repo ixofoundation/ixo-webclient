@@ -1,9 +1,9 @@
-import CheckIcon from 'assets/images/icon-check.svg?url'
 
-import EmailIcon from 'assets/images/icon-email.svg?url'
-import NextStepIcon from 'assets/images/modal/nextstep.svg?url'
 
-import UserNameIcon from 'assets/images/modal/username.svg?url'
+
+
+
+
 import cx from 'classnames'
 import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 import ModalTextArea from 'components/Modal/ModalTextArea/ModalTextArea'
@@ -227,7 +227,7 @@ const JoinModal: React.FunctionComponent<Props> = ({ open, setOpen }) => {
           <CheckWrapper>
             <ModalInput
               name='agent_name'
-              preIcon={<UserNameIcon />}
+              preIcon={<img src="/assets/images/modal/username.svg"  />}
               placeholder='Agent Name'
               value={agentName!}
               onChange={(e): void => {
@@ -240,7 +240,7 @@ const JoinModal: React.FunctionComponent<Props> = ({ open, setOpen }) => {
               error={
                 agentEmail.length > 0 && !validationUtils.isEmail(agentEmail) ? 'This is not a valid Email address' : ''
               }
-              preIcon={<EmailIcon />}
+              preIcon={<img src="/assets/images/icon-email.svg"  />}
               placeholder='Agent Email'
               value={agentEmail}
               onChange={(e): void => {
@@ -267,12 +267,12 @@ const JoinModal: React.FunctionComponent<Props> = ({ open, setOpen }) => {
         {currentStep === 3 && (
           <>
             <CheckWrapper className='mb-2'>
-              <ModalInput name='agent_name' preIcon={<UserNameIcon />} value={agentName!} readOnly />
-              <img className='check-icon' src={CheckIcon} alt='check-icon' />
+              <ModalInput name='agent_name' preIcon={<img src="/assets/images/modal/username.svg"  />} value={agentName!} readOnly />
+              <img className='check-icon' src="/assets/images/icon-check.svg" alt='check-icon' />
             </CheckWrapper>
             <CheckWrapper className='mb-2'>
-              <ModalInput name='agent_email' preIcon={<EmailIcon />} value={agentEmail} readOnly />
-              <img className='check-icon' src={CheckIcon} alt='check-icon' />
+              <ModalInput name='agent_email' preIcon={<img src="/assets/images/icon-email.svg"  />} value={agentEmail} readOnly />
+              <img className='check-icon' src="/assets/images/icon-check.svg" alt='check-icon' />
             </CheckWrapper>
             <CheckWrapper className='mb-2'>
               <ModalTextArea
@@ -282,7 +282,7 @@ const JoinModal: React.FunctionComponent<Props> = ({ open, setOpen }) => {
                 rows={3}
                 readOnly
               />
-              <img className='check-icon' src={CheckIcon} alt='check-icon' />
+              <img className='check-icon' src="/assets/images/icon-check.svg" alt='check-icon' />
             </CheckWrapper>
           </>
         )}
@@ -290,10 +290,10 @@ const JoinModal: React.FunctionComponent<Props> = ({ open, setOpen }) => {
         {currentStep === 4 && <SignStep status={signTXStatus} />}
 
         <NextStep show={canNext} onClick={handleNextStep}>
-          <img src={NextStepIcon} alt='next-step' />
+          <img src="/assets/images/modal/nextstep.svg" alt='next-step' />
         </NextStep>
         <PrevStep show={canPrev} onClick={handlePrevStep}>
-          <img src={NextStepIcon} alt='prev-step' />
+          <img src="/assets/images/modal/nextstep.svg" alt='prev-step' />
         </PrevStep>
       </Container>
     </ModalWrapper>

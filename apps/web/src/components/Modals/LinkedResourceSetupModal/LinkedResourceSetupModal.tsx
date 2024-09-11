@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react'
 import * as Modal from 'react-modal'
 
-import CloseIcon from 'assets/images/icon-close.svg'
+
 import { useDropzone } from 'react-dropzone'
 import { ModalStyles, CloseButton } from 'components/Modals/styles'
 import { Button, InputWithLabel } from 'screens/CreateEntity/Components'
@@ -102,7 +102,7 @@ const LinkedResourceSetupModal: React.FC<Props> = ({ linkedResource, open, onClo
       ariaHideApp={false}
     >
       <CloseButton onClick={onClose}>
-        <CloseIcon />
+        <img src="/assets/images/icon-close.svg"  />
       </CloseButton>
 
       <FlexBox $direction='column' $gap={4} width='100%'>

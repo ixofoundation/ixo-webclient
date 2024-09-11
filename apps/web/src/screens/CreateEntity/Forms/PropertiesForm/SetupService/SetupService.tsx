@@ -3,7 +3,7 @@ import { Typography } from 'components/Typography'
 import { PropertyBox } from 'screens/CreateEntity/Components'
 import React, { useState } from 'react'
 
-import PlusIcon from 'assets/images/icon-plus.svg'
+
 import { AddServiceModal } from 'components/Modals'
 
 interface Props {
@@ -36,7 +36,7 @@ const SetupService: React.FC<Props> = ({ hidden }): JSX.Element => {
               />
             )
           })} */}
-          <PropertyBox icon={<PlusIcon />} noData handleClick={(): void => setOpenAddServiceModal(true)} />
+          <PropertyBox icon={<img src="/assets/images/icon-plus.svg"  />} noData handleClick={(): void => setOpenAddServiceModal(true)} />
         </Box>
       </FlexBox>
 

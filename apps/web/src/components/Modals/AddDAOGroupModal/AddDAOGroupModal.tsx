@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import _ from 'lodash'
 import * as Modal from 'react-modal'
 
-import CloseIcon from 'assets/images/icon-close.svg'
+
 import { ModalStyles, CloseButton, ModalBody, ModalWrapper, ModalRow, ModalTitle } from 'components/Modals/styles'
 import { AccountValidStatus, Button, InputWithLabel, PropertyBox } from 'screens/CreateEntity/Components'
 import { Typography } from 'components/Typography'
@@ -30,7 +30,7 @@ const AddDAOGroupModal: React.FC<Props> = ({ open, onClose, onAdd, onClone }): J
     // @ts-ignore
     <Modal style={ModalStyles} isOpen={open} onRequestClose={onClose} contentLabel='Modal' ariaHideApp={false}>
       <CloseButton onClick={onClose}>
-        <CloseIcon />
+        <img src="/assets/images/icon-close.svg"  />
       </CloseButton>
 
       <ModalWrapper>

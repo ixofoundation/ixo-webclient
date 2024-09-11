@@ -5,7 +5,7 @@ import { Button } from 'screens/CreateEntity/Components'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { ProposalResponse } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
 
-import EmptyIcon from 'assets/images/icon-empty.svg'
+
 import { useTheme } from 'styled-components'
 import { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
 import { TDAOGroupModel } from 'types/entities'
@@ -197,7 +197,7 @@ const Governance: React.FC = () => {
                 bg={theme.ixoGradientDark2}
                 style={{ borderRadius: 4 }}
               >
-                <EmptyIcon />
+                <img src="/assets/images/icon-empty.svg"  />
                 <Typography variant='secondary' color='dark-blue' size='2xl'>
                   There are no active proposals.
                 </Typography>
@@ -223,7 +223,7 @@ const Governance: React.FC = () => {
                 bg={theme.ixoGradientDark2}
                 style={{ borderRadius: 4 }}
               >
-                <EmptyIcon />
+                <img src="/assets/images/icon-empty.svg"  />
                 <Typography variant='secondary' color='dark-blue' size='2xl'>
                   There are no active proposals.
                 </Typography>
@@ -247,7 +247,7 @@ const Governance: React.FC = () => {
                 bg={theme.ixoGradientDark2}
                 style={{ borderRadius: 4 }}
               >
-                <EmptyIcon />
+                <img src="/assets/images/icon-empty.svg"  />
                 <Typography variant='secondary' color='dark-blue' size='2xl'>
                   There are no active proposals.
                 </Typography>

@@ -1,9 +1,9 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { StepsTransactions } from 'components/StepsTransactions/StepsTransactions'
 
-import OverlayButtonDownIcon from 'assets/images/modal/overlaybutton-down.svg?url'
-import NextStepIcon from 'assets/images/modal/nextstep.svg?url'
-import CheckIcon from 'assets/images/icon-check.svg?url'
+
+
+
 import Ring from 'assets/icons/ring'
 
 import { Container, NextStep, PrevStep, CheckWrapper, OverlayWrapper, Divider, LabelWrapper, Label } from '../styles'
@@ -144,7 +144,7 @@ const BondBuyModal: React.FC<Props> = ({ open, bondDid, setOpen }): JSX.Element 
           <div className='position-relative'>
             <CheckWrapper>
               <TokenSelector selectedToken={selectedCoin!} tokens={[selectedCoin!]} disabled className='mb-3' />
-              {currentStep === 2 && <img className='check-icon' src={CheckIcon} alt='check-icon' />}
+              {currentStep === 2 && <img className='check-icon' src="/assets/images/icon-check.svg" alt='check-icon' />}
             </CheckWrapper>
             <CheckWrapper>
               <TokenSelector
@@ -154,10 +154,10 @@ const BondBuyModal: React.FC<Props> = ({ open, bondDid, setOpen }): JSX.Element 
                 icon={<Ring fill={theme.ixoNewBlue} />}
                 customLabel={`MAX Available ${availableAmount}`}
               />
-              {currentStep === 2 && <img className='check-icon' src={CheckIcon} alt='check-icon' />}
+              {currentStep === 2 && <img className='check-icon' src="/assets/images/icon-check.svg" alt='check-icon' />}
             </CheckWrapper>
             <OverlayWrapper>
-              <img src={OverlayButtonDownIcon} alt='down' />
+              <img src="/assets/images/modal/overlaybutton-down.svg" alt='down' />
             </OverlayWrapper>
           </div>
         )}
@@ -190,7 +190,7 @@ const BondBuyModal: React.FC<Props> = ({ open, bondDid, setOpen }): JSX.Element 
                 }}
                 disabled={currentStep !== 1}
               />
-              {currentStep === 2 && <img className='check-icon' src={CheckIcon} alt='check-icon' />}
+              {currentStep === 2 && <img className='check-icon' src="/assets/images/icon-check.svg" alt='check-icon' />}
             </CheckWrapper>
             <LabelWrapper className='mt-2'>
               <Label>
@@ -212,10 +212,10 @@ const BondBuyModal: React.FC<Props> = ({ open, bondDid, setOpen }): JSX.Element 
         {currentStep === 3 && <SignStep status={txStatus} hash={txHash} />}
 
         <NextStep show={showNext} onClick={() => setCurrentStep(currentStep + 1)}>
-          <img src={NextStepIcon} alt='next-step' />
+          <img src="/assets/images/modal/nextstep.svg" alt='next-step' />
         </NextStep>
         <PrevStep show={showPrev} onClick={() => setCurrentStep(currentStep - 1)}>
-          <img src={NextStepIcon} alt='prev-step' />
+          <img src="/assets/images/modal/nextstep.svg" alt='prev-step' />
         </PrevStep>
       </Container>
     </ModalWrapper>

@@ -2,9 +2,9 @@ import React from 'react'
 import cx from 'classnames'
 import { AmountInputWrapper, IconWrapper, InputWrapper, MemoInputWrapper, DisplayWrapper } from './index.styles'
 
-import MemoEditIcon from 'assets/images/modal/memoedit.svg?url'
-import MemoCheckIcon from 'assets/images/modal/memocheck.svg?url'
-import MemoDoneIcon from 'assets/images/modal/memodone.svg?url'
+
+
+
 
 interface Props {
   amount: number
@@ -91,7 +91,7 @@ const AmountInput: React.FunctionComponent<Props> = ({
         <>
           {memo && (
             <IconWrapper style={{ opacity: '50%' }}>
-              <img src={MemoDoneIcon} alt='memo icon' />
+              <img src="/assets/images/modal/memodone.svg" alt='memo icon' />
             </IconWrapper>
           )}
           <DisplayWrapper style={{ pointerEvents: 'none' }}>

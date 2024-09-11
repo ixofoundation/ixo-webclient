@@ -1,7 +1,7 @@
 import React from 'react'
 import * as Modal from 'react-modal'
 
-import CloseIcon from 'assets/images/icon-close.svg'
+
 import { ModalStyles, CloseButton, ModalWrapper, ModalTitle, ModalBody, ModalRow } from 'components/Modals/styles'
 import { PropertyBox } from 'screens/CreateEntity/Components'
 import _ from 'lodash'
@@ -19,7 +19,7 @@ const AddLinkedEntityModal: React.FC<Props> = ({ open, onClose, onAdd }): JSX.El
       {/* @ts-ignore */}
       <Modal style={ModalStyles} isOpen={open} onRequestClose={onClose} contentLabel='Modal' ariaHideApp={false}>
         <CloseButton onClick={onClose}>
-          <CloseIcon />
+          <img src="/assets/images/icon-close.svg"  />
         </CloseButton>
 
         <ModalWrapper>

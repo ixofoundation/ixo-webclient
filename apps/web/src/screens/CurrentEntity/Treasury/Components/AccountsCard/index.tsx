@@ -6,14 +6,14 @@ import { Table } from 'components/Table'
 import CurrencyFormat from 'react-currency-format'
 import { truncateString } from 'utils/formatters'
 
-import CopyIcon from 'assets/images/icon-copy.svg'
+
 import CopyToClipboard from 'react-copy-to-clipboard'
 
-import GroupAccountIcon from 'assets/images/icon-group-account.svg'
 
-import EntityAccountIcon from 'assets/images/icon-entity-account.svg'
 
-import LinkedAccountIcon from 'assets/images/icon-linked-account.svg'
+
+
+
 import { successToast } from 'utils/toast'
 import Tooltip from 'components/Tooltip/Tooltip'
 import { capitalize } from 'lodash'
@@ -140,7 +140,7 @@ const AccountsCard: React.FC<Props> = ({ accounts, onSelect }) => {
                     {truncateString(address, 20, 'middle')}
                   </Typography>
                   <SvgBox color={theme.ixoNewBlue} $svgWidth={6} $svgHeight={6}>
-                    <CopyIcon />
+                    <img src="/assets/images/icon-copy.svg"  />
                   </SvgBox>
                 </FlexBox>
               </CopyToClipboard>

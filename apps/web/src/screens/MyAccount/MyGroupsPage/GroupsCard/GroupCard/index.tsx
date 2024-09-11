@@ -7,13 +7,13 @@ import { TEntityModel, TDAOGroupModel } from 'types/entities'
 import { useAccount } from 'hooks/account'
 import { SvgBox } from 'components/App/App.styles'
 
-import PieIcon from 'assets/images/icon-pie.svg'
 
-import ClaimIcon from 'assets/images/icon-claim.svg'
 
-import MultisigIcon from 'assets/images/icon-multisig.svg'
 
-import PaperIcon from 'assets/images/icon-paper.svg'
+
+
+
+
 import CurrencyFormat from 'react-currency-format'
 import { contracts } from '@ixo/impactxclient-sdk'
 import { convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
@@ -106,7 +106,7 @@ const GroupCard: React.FC<Props> = ({ daoGroup }) => {
         <Flex direction={'column'} gap={8} w={'100%'}>
           <Flex align='center' gap={8}>
             <SvgBox $svgWidth={6} $svgHeight={6} color={theme.ixoLightBlue}>
-              <PieIcon />
+              <img src="/assets/images/icon-pie.svg"  />
             </SvgBox>
             <Typography size='sm' color='white' weight='medium'>
               {new Intl.NumberFormat('en-us', {
@@ -119,7 +119,7 @@ const GroupCard: React.FC<Props> = ({ daoGroup }) => {
 
           <Flex align='center' gap={8}>
             <SvgBox $svgWidth={6} $svgHeight={6} color={theme.ixoLightBlue}>
-              <MultisigIcon />
+              <img src="/assets/images/icon-multisig.svg"  />
             </SvgBox>
             <Typography size='sm' color='white' weight='medium'>
               {userVotes ?? 0}
@@ -132,7 +132,7 @@ const GroupCard: React.FC<Props> = ({ daoGroup }) => {
             {daoGroup.type === 'staking' && (
               <>
                 <SvgBox $svgWidth={6} $svgHeight={6} color={theme.ixoLightBlue}>
-                  <ClaimIcon />
+                  <img src="/assets/images/icon-claim.svg"  />
                 </SvgBox>
                 <Typography size='sm' color='white' weight='medium'>
                   <CurrencyFormat displayType={'text'} value={userStakings} thousandSeparator />
@@ -142,7 +142,7 @@ const GroupCard: React.FC<Props> = ({ daoGroup }) => {
             {daoGroup.type !== 'staking' && (
               <>
                 <SvgBox $svgWidth={6} $svgHeight={6} color={theme.ixoDarkBlue}>
-                  <ClaimIcon />
+                  <img src="/assets/images/icon-claim.svg"  />
                 </SvgBox>
                 <Typography size='sm' color='white' weight='medium'>
                   n/a
@@ -153,7 +153,7 @@ const GroupCard: React.FC<Props> = ({ daoGroup }) => {
 
           <Flex align='center' gap={8}>
             <SvgBox $svgWidth={6} $svgHeight={6} color={theme.ixoLightBlue}>
-              <PaperIcon />
+              <img src="/assets/images/icon-paper.svg"  />
             </SvgBox>
             <Typography size='sm' color='white' weight='medium'>
               {userProposals ?? 0}

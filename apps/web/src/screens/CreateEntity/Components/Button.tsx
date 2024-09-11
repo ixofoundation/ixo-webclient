@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 
-import AssistantIcon from 'assets/images/icon-assistant.svg'
+
 import { DashboardThemeContext } from 'components/Dashboard/Dashboard'
 import { TTypographySize, TTypographyVariant, TTypographyWeight } from 'components/Typography/Typography'
 
@@ -146,7 +146,7 @@ const Button: React.FC<TButtonProps> = ({
     >
       {loading ? (
         <SvgBox color='currentColor'>
-          <AssistantIcon />
+          <img src="/assets/images/icon-assistant.svg"  />
         </SvgBox>
       ) : (
         <FlexBox $gap={2} $alignItems='center'>

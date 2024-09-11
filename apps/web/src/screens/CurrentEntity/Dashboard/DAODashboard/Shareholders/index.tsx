@@ -6,7 +6,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import styled from 'styled-components'
 import { mantineThemeColors } from 'styles/mantine'
 
-import ExternalLinkIcon from 'assets/images/icon-external-link-alt-solid.svg'
+
 import { useQuery } from 'hooks/window'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useCurrentEntityDAOGroup, useCurrentEntityDAOGroupToken } from 'hooks/currentEntity'
@@ -210,7 +210,7 @@ const Shareholders: React.FC = () => {
             <Flex p={16} direction={'column'} gap={4}>
               <Anchor href={`${blockExplorerAccountEndpoint}${addr}`} target='_blank'>
                 <SvgBox $svgWidth={6} $svgHeight={6} color={mantineThemeColors['ixo-blue'][6]} cursor='pointer'>
-                  <ExternalLinkIcon />
+                  <img src="/assets/images/icon-external-link-alt-solid.svg"  />
                 </SvgBox>
               </Anchor>
             </Flex>

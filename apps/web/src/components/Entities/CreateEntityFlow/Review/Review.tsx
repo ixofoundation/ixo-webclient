@@ -16,9 +16,9 @@ import { Button } from 'screens/CreateEntity/Components'
 import React, { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
-import CheckCircleIcon from 'assets/images/icon-check-circle.svg'
 
-import ExclamationIcon from 'assets/images/icon-exclamation-circle.svg'
+
+
 import { useTheme } from 'styled-components'
 import { CreationSuccessScreen } from './CreationSuccessScreen'
 import { createEntityCard, withEntityData } from 'components'
@@ -170,7 +170,7 @@ const Review = ({ showNavigation = true }: { showNavigation?: boolean }): JSX.El
               $textAlign='center'
             >
               <SvgBox color={theme.ixoLightGreen} $svgWidth={30} $svgHeight={30}>
-                <CheckCircleIcon />
+                <img src="/assets/images/icon-check-circle.svg"  />
               </SvgBox>
               <Typography variant='secondary' size='2xl'>
                 {profile?.name} Successfully created!
@@ -202,7 +202,7 @@ const Review = ({ showNavigation = true }: { showNavigation?: boolean }): JSX.El
               $textAlign='center'
             >
               <SvgBox color={theme.ixoDarkOrange} $svgWidth={30} $svgHeight={30}>
-                <ExclamationIcon />
+                <img src="/assets/images/icon-exclamation-circle.svg"  />
               </SvgBox>
               <Typography variant='secondary' size='2xl'>
                 Something went wrong. Please try again.

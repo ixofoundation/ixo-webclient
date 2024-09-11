@@ -14,7 +14,7 @@ import {
   LinkedResource,
   Service,
 } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
-import WaitIcon from 'assets/images/eco/wait.svg'
+
 import { ProgressBar } from 'components/ProgressBar/ProgressBar'
 import { useAccount } from 'hooks/account'
 import { useCreateEntity, useCreateEntityState } from 'hooks/createEntity'
@@ -27,10 +27,10 @@ import { durationToSeconds } from 'utils/conversions'
 import { truncateString } from 'utils/formatters'
 import * as Toast from 'utils/toast'
 
-import CheckCircleIcon from 'assets/images/icon-check-circle.svg'
+
 
 import { DeliverTxResponse } from '@cosmjs/stargate'
-import ExclamationIcon from 'assets/images/icon-exclamation-circle.svg'
+
 import { LinkedResourceSetupModal } from 'components/Modals'
 import { EntityLinkedResourceConfig, ProposalActionConfig } from 'constants/entity'
 import { DaoPreProposeSingleClient } from 'cosmwasm-clients'
@@ -406,7 +406,7 @@ const ReviewProposal: React.FC = () => {
 
         <FlexBox width='100%' $gap={3.5} $alignItems='center' mb={4}>
           <SvgBox $svgHeight={5} color={theme.ixoDarkestBlue}>
-            <WaitIcon />
+            <img src="/assets/images/eco/wait.svg"  />
           </SvgBox>
           <ProgressBar total={0} approved={0} rejected={0} height={20} />
         </FlexBox>
@@ -529,7 +529,7 @@ const ReviewProposal: React.FC = () => {
               $textAlign='center'
             >
               <SvgBox color={theme.ixoLightGreen} $svgWidth={30} $svgHeight={30}>
-                <CheckCircleIcon />
+                <img src="/assets/images/icon-check-circle.svg"  />
               </SvgBox>
               <Typography variant='secondary' size='2xl'>
                 {profile?.name} Successfully created!
@@ -553,7 +553,7 @@ const ReviewProposal: React.FC = () => {
               $gap={4}
             >
               <SvgBox color={theme.ixoDarkOrange} $svgWidth={30} $svgHeight={30}>
-                <ExclamationIcon />
+                <img src="/assets/images/icon-exclamation-circle.svg"  />
               </SvgBox>
               <Typography variant='secondary' size='2xl'>
                 Something went wrong. Please try again.

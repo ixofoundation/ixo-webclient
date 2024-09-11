@@ -3,7 +3,7 @@ import { Button, Flex, Image, Skeleton, Text } from '@mantine/core'
 import { Claim, ClaimsOrderBy, useClaimsQuery, useEntitiesLazyQuery } from 'generated/graphql'
 import { useTheme } from 'styled-components'
 import { getDisplayAmount } from 'utils/currency'
-import IxoCoin from 'assets/tokens/ixo.svg'
+
 import { cosmos, createSigningClient, ixo } from '@ixo/impactxclient-sdk'
 import { getQueryClient } from 'lib/queryClient'
 import { RPC_ENDPOINT, fee } from 'lib/protocol'

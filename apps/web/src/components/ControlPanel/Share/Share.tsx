@@ -1,8 +1,8 @@
 import React from 'react'
 
-import ShareIcon from 'assets/images/icon-share-alt-square-solid.svg'
 
-import TelegramIcon from 'assets/images/icon-telegram.svg'
+
+
 import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { useTheme } from 'styled-components'
@@ -11,7 +11,7 @@ const ShareCard: React.FC = () => {
   const theme: any = useTheme()
   const items = [
     {
-      icon: <TelegramIcon />,
+      icon: <img src="/assets/images/icon-telegram.svg"  />,
       onClick: () => {
         window.open('https://t.me/+eYI9xR6qQb9kZmU0')
       },
@@ -22,7 +22,7 @@ const ShareCard: React.FC = () => {
     <FlexBox $direction='column' $gap={5} background='#ffffff' $borderRadius='12px' p={5}>
       <FlexBox $gap={2} $alignItems='center'>
         <SvgBox $svgWidth={4} $svgHeight={4} color={theme.ixoNewBlue}>
-          <ShareIcon />
+          <img src="/assets/images/icon-share-alt-square-solid.svg"  />
         </SvgBox>
         <Typography variant='secondary' size='lg'>
           Share

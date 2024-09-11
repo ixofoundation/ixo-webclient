@@ -13,9 +13,9 @@ import { Avatar } from 'screens/CurrentEntity/Components'
 import { v4 as uuidv4 } from 'uuid'
 import { TProposalActionModel } from 'types/entities'
 
-import TimesCircleIcon from 'assets/images/icon-times-circle.svg'
 
-import CheckCircleIcon from 'assets/images/icon-check-circle.svg'
+
+
 import { useCreateEntityState } from 'hooks/createEntity'
 
 const SetupTargetGroup: React.FC = (): JSX.Element => {
@@ -100,7 +100,7 @@ const SetupTargetGroup: React.FC = (): JSX.Element => {
             <FlexBox width='100%' $justifyContent='flex-end' $alignItems='center' $gap={2}>
               <Typography size='xl'>Not a valid did</Typography>
               <SvgBox color={theme.ixoRed}>
-                <TimesCircleIcon />
+                <img src="/assets/images/icon-times-circle.svg"  />
               </SvgBox>
             </FlexBox>
           )}
@@ -113,7 +113,7 @@ const SetupTargetGroup: React.FC = (): JSX.Element => {
               <FlexBox $alignItems='center' $gap={2}>
                 <Typography size='xl'>You are not a delegate on this entity</Typography>
                 <SvgBox color={theme.ixoRed}>
-                  <TimesCircleIcon />
+                  <img src="/assets/images/icon-times-circle.svg"  />
                 </SvgBox>
               </FlexBox>
             </FlexBox>
@@ -127,7 +127,7 @@ const SetupTargetGroup: React.FC = (): JSX.Element => {
               <FlexBox $alignItems='center' $gap={2}>
                 <Typography size='xl'>You are a delegate on this entity</Typography>
                 <SvgBox color={theme.ixoGreen}>
-                  <CheckCircleIcon />
+                  <img src="/assets/images/icon-check-circle.svg"  />
                 </SvgBox>
               </FlexBox>
             </FlexBox>

@@ -6,7 +6,7 @@ import { TEntityClaimModel } from 'types/entities'
 import { omitKey } from 'utils/objects'
 import { v4 as uuidv4 } from 'uuid'
 
-import PlusIcon from 'assets/images/icon-plus.svg'
+
 
 interface Props {
   hidden: boolean
@@ -65,7 +65,7 @@ const SetupClaim: React.FC<Props> = ({ hidden, claim, updateClaim }): JSX.Elemen
             />
           ))}
           <PropertyBox
-            icon={<PlusIcon />}
+            icon={<img src="/assets/images/icon-plus.svg"  />}
             noData
             handleClick={(): void => {
               setEditModalOpen(true)

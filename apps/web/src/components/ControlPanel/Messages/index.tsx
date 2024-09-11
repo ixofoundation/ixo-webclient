@@ -6,11 +6,11 @@ import { Typography } from 'components/Typography'
 import { useState } from 'react'
 import { Input, TextArea } from 'screens/CreateEntity/Components'
 
-import CommentIcon from 'assets/images/icon-bell.svg'
 
-import SearchIcon from 'assets/images/icon-search.svg'
 
-import ArrowUpIcon from 'assets/images/icon-arrow-up.svg'
+
+
+
 
 const SearchBox = () => {
   const theme: any = useTheme()
@@ -19,7 +19,7 @@ const SearchBox = () => {
   return (
     <FlexBox width='100%' height='40px' $borderRadius='8px' px={3} $gap={1.5} $alignItems='center' background='#F0F3F9'>
       <SvgBox $svgWidth={5} $svgHeight={5} color={theme.ixoBlack}>
-        <SearchIcon />
+        <img src="/assets/images/icon-search.svg"  />
       </SvgBox>
       <Input
         placeholder='Type to Search'
@@ -108,7 +108,7 @@ const MessageBox = () => {
           $svgHeight={8}
           cursor='pointer'
         >
-          <ArrowUpIcon />
+          <img src="/assets/images/icon-arrow-up.svg"  />
         </SvgBox>
       </FlexBox>
     </FlexBox>
@@ -127,7 +127,7 @@ const MessagesCard = () => {
 
   return (
     <Card
-      icon={<CommentIcon />}
+      icon={<img src="/assets/images/icon-bell.svg"  />}
       title={
         <FlexBox $alignItems='center' $gap={4}>
           <FlexBox cursor='pointer' onClick={() => setSelected('')}>

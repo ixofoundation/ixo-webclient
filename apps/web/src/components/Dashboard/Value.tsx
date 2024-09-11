@@ -1,7 +1,7 @@
 import { FunctionComponent, useContext } from 'react'
 import styled from 'styled-components'
-import XIcon from 'assets/images/x-icon.svg?url'
-import EyeIcon from 'assets/images/icon-eye.svg?url'
+
+
 import { DashboardThemeContext, ThemeContext } from './Dashboard'
 
 interface ValueProps {
@@ -43,11 +43,11 @@ const Value: FunctionComponent<ValueProps> = ({ value, preIcon = true }) => {
   return (
     <ValueComponentContainer theme={theme}>
       <StyledValueContainer>
-        {preIcon && <img alt='' src={XIcon} />}
+        {preIcon && <img alt='' src="/assets/images/x-icon.svg" />}
         {value}
       </StyledValueContainer>
       <StyledEyeContainer theme={theme}>
-        <img alt='' src={EyeIcon} />
+        <img alt='' src="/assets/images/icon-eye.svg" />
       </StyledEyeContainer>
     </ValueComponentContainer>
   )

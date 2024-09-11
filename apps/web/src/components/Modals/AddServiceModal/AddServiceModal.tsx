@@ -2,7 +2,7 @@ import React from 'react'
 import _ from 'lodash'
 import * as Modal from 'react-modal'
 
-import CloseIcon from 'assets/images/icon-close.svg'
+
 import { ModalStyles, CloseButton, ModalBody, ModalWrapper, ModalRow, ModalTitle } from 'components/Modals/styles'
 import { PropertyBox } from 'screens/CreateEntity/Components'
 import { EntityServiceConfig } from 'constants/entity'
@@ -18,7 +18,7 @@ const AddServiceModal: React.FC<Props> = ({ open, onClose, onAdd }): JSX.Element
     // @ts-ignore
     <Modal style={ModalStyles} isOpen={open} onRequestClose={onClose} contentLabel='Modal' ariaHideApp={false}>
       <CloseButton onClick={onClose}>
-        <CloseIcon />
+        <img src="/assets/images/icon-close.svg"  />
       </CloseButton>
 
       <ModalWrapper>

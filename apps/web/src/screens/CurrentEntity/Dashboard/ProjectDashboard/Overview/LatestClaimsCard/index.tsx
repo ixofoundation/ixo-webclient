@@ -1,6 +1,6 @@
 import { Card } from 'screens/CurrentEntity/Components'
 
-import CheckInCircleIcon from 'assets/images/icon-check-in-circle.svg'
+
 import { Flex } from '@mantine/core'
 import { useClaimSetting } from 'hooks/claim'
 import { Typography } from 'components/Typography'
@@ -60,7 +60,7 @@ const LatestClaimsCard: React.FC = () => {
   const { data: claims } = useGetClaimsByEntityId(entityId!)
 
   return (
-    <Card label='Latest claims' icon={<CheckInCircleIcon />}>
+    <Card label='Latest claims' icon={<img src="/assets/images/icon-check-in-circle.svg"  />}>
       <Flex w='100%' direction={'column'} gap={8}>
         {claims.slice(0, 3).map((claim: Claim) => (
           <ClaimItem key={claim.claimId} claim={claim} />

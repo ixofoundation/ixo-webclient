@@ -18,7 +18,7 @@ import {
 } from '../EntityCard.styles'
 import SDGIcons from '../SDGIcons/SDGIcons'
 import Shield, { ShieldColor } from '../Shield/Shield'
-import flagged from 'assets/images/flagged.svg?url'
+
 import { useAppSelector } from 'redux/hooks'
 import { selectEntityPrimaryColor } from 'redux/entities/entities.selectors'
 import { requireCheckDefault } from 'utils/images'
@@ -65,7 +65,7 @@ const ProjectCard: React.FunctionComponent<Props> = ({ id, profile, tags, claim 
               <Shield label='Status' text={'Created'} color={primaryColor ?? ShieldColor.Blue} />
             </div>
             <div className='col-6 text-right'>
-              <img src={flagged} alt='Flag' />
+              <img src="/assets/images/flagged.svg" alt='Flag' />
             </div>
           </div>
           <MainContent>

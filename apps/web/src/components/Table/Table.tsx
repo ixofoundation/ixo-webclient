@@ -16,9 +16,9 @@ import { Flex, Pagination, Select } from '@mantine/core'
 import { SvgBox, theme } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 
-import SortLtoGIcon from 'assets/images/icon-sort-ltog.svg'
 
-import SortGtoLIcon from 'assets/images/icon-sort-gtol.svg'
+
+
 
 // Create a default prop getter
 const defaultPropGetter = () => ({})
@@ -182,8 +182,8 @@ export const renderTableHeader = (
     </Typography>
     {sort && (
       <SvgBox color={theme.ixoDarkBlue}>
-        {sort.direction !== 'desc' && <SortLtoGIcon />}
-        {sort.direction === 'desc' && <SortGtoLIcon />}
+        {sort.direction !== 'desc' && <img src="/assets/images/icon-sort-ltog.svg"  />}
+        {sort.direction === 'desc' && <img src="/assets/images/icon-sort-gtol.svg"  />}
       </SvgBox>
     )}
   </Flex>

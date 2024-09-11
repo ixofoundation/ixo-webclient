@@ -1,7 +1,7 @@
 import { Box, Flex, ScrollArea, Text, TextInput, rem } from '@mantine/core'
 import { Outlet } from 'react-router-dom'
 
-import AssistantIcon from 'assets/images/icon-assistant.svg'
+
 import { useRequestsContext } from 'contexts/RequestsContext'
 import ActionPanel from 'components/ActionPanel/ActionPanel'
 
@@ -29,7 +29,7 @@ const CreateFlowLayout = () => {
             mb={-20}
             mx='auto'
             radius={'md'}
-            rightSection={<AssistantIcon />}
+            rightSection={<img src="/assets/images/icon-assistant.svg"  />}
             size='lg'
             placeholder='Search'
             style={{ overflow: 'hidden', zIndex: 9999 }}

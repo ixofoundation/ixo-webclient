@@ -3,7 +3,7 @@ import { IconDotsVertical } from '@tabler/icons-react'
 import { truncate } from 'lodash'
 import { getEntityIcon } from 'utils/getEntityIcon'
 
-import IconIxoToken from 'assets/tokens/ixo.svg'
+
 import { thousandSeparator } from 'utils/formatters'
 import EarthIcon from 'assets/icons/EarthIcon'
 import { NavLink } from 'react-router-dom'
@@ -55,7 +55,7 @@ const RequestCard = ({ entityName, requestName, requestImage, requestDescription
         <Divider color='#213E59' />
 
         <Flex justify='space-between' mt='sm'>
-          <Badge fw={400} size='lg' leftSection={<IconIxoToken width={20} height={20} />} bg='#213E59'>
+          <Badge fw={400} size='lg' leftSection={<img src="/assets/tokens/ixo.svg" width={20} height={20}  />} bg='#213E59'>
             {thousandSeparator(10000, ',')} IXO
           </Badge>
           <Badge fw={400} size='lg' bg='#213E59'>

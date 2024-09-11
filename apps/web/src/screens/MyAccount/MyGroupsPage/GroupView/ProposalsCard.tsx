@@ -6,9 +6,9 @@ import { Typography } from 'components/Typography'
 import { useTheme } from 'styled-components'
 import { SvgBox } from 'components/App/App.styles'
 
-import AgentIcon from 'assets/img/sidebar/agents.svg'
 
-import SandClockIcon from 'assets/images/icon-sandclock.svg'
+
+
 import { expirationAtTimeToSecondsFromNow, formatMinutes } from 'utils/conversions'
 import { diffMinsFromNow } from 'utils/time'
 import { useNavigate } from 'react-router-dom'
@@ -53,7 +53,7 @@ const ProposalsCard: React.FC<Props> = ({ daoGroup }) => {
         <Badge bg={'#213E59'} color={theme.ixoNewBlue}>
           <Flex align={'center'} gap={4}>
             <SvgBox $svgWidth={4} $svgHeight={4}>
-              <SandClockIcon />
+              <img src="/assets/images/icon-sandclock.svg"  />
             </SvgBox>
             <Typography size='sm'>
               {formatMinutes(Math.floor(diffMinsFromNow(mostRecentProposal.proposal.expiration)))}
@@ -64,7 +64,7 @@ const ProposalsCard: React.FC<Props> = ({ daoGroup }) => {
     )
   }
   return (
-    <Card label='Proposals' icon={<AgentIcon />}>
+    <Card label='Proposals' icon={<img src="/assets/img/sidebar/agents.svg"  />}>
       <Flex w='100%' h={'100%'} direction={'column'} justify={'space-between'}>
         <Flex w={'100%'} />
 

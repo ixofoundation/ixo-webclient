@@ -5,7 +5,7 @@ import { Viewer, Worker } from '@react-pdf-viewer/core'
 import '@react-pdf-viewer/core/lib/styles/index.css'
 import '@react-pdf-viewer/default-layout/lib/styles/index.css'
 
-import AssistantIcon from 'assets/images/icon-assistant.svg'
+
 import { ActionCard } from 'components/ActionCard'
 import { createPlugins } from 'components/ReactPDFViewer/PageThumbnailPlugin'
 import { truncate, upperFirst } from 'lodash'
@@ -61,7 +61,7 @@ const KeyValuePanel = ({ data }: { data: any }) => {
   return (
     <ActionCard
       title={upperFirst(data?.type.split('#')[1])}
-      icon={<AssistantIcon height={15} width={15} />}
+      icon={<img src="/assets/images/icon-assistant.svg" height={15} width={15}  />}
       editable={false}
     >
       <Box h={260}>

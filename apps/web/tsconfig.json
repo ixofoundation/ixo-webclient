@@ -19,6 +19,10 @@
     "noEmit": true,
     "jsx": "preserve",
     "baseUrl": "src",
+    "paths": {
+      "assets/*": ["./../public/assets/*"],
+    },
+
     "incremental": true,
     "plugins": [
       {

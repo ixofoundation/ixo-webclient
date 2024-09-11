@@ -3,9 +3,9 @@ import 'react-image-crop/dist/ReactCrop.css'
 import * as Modal from 'react-modal'
 import { useDropzone } from 'react-dropzone'
 
-import CloseIcon from 'assets/images/icon-close.svg'
 
-import ImageIcon from 'assets/images/icon-image-fill.svg'
+
+
 import { UploadBox, SelectImage, DisplayImage } from './ImageUploadModal.styles'
 import { ModalStyles, CloseButton, ModalBody, ModalRow, ModalWrapper, ModalInput } from 'components/Modals/styles'
 import { Box } from 'components/App/App.styles'
@@ -125,7 +125,7 @@ const ImageUploadModal: React.FC<Props> = ({
       {/* @ts-ignore */}
       <Modal style={ModalStyles} isOpen={open} onRequestClose={onClose} contentLabel='Modal' ariaHideApp={false}>
         <CloseButton onClick={onClose}>
-          <CloseIcon />
+          <img src="/assets/images/icon-close.svg"  />
         </CloseButton>
 
         <ModalWrapper>
@@ -149,7 +149,7 @@ const ImageUploadModal: React.FC<Props> = ({
                 <UploadBox {...getRootProps()}>
                   <SelectImage>
                     <input {...getInputProps()} />
-                    <ImageIcon />
+                    <img src="/assets/images/icon-image-fill.svg"  />
                     <Typography color='blue' weight='semi-bold' size='2xl'>
                       Drop file or
                     </Typography>

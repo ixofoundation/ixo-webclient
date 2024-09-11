@@ -17,17 +17,17 @@ import { truncateString } from 'utils/formatters'
 import { diffMinsFromNow, expirationToTimestamp, isExpired } from 'utils/time'
 import { errorToast, successToast } from 'utils/toast'
 
-import SandClockIcon from 'assets/images/icon-sandclock.svg'
 
-import CheckCircleIcon from 'assets/images/icon-check-circle.svg'
 
-import TimesCircleIcon from 'assets/images/icon-times-circle.svg'
 
-import ThumbsUpIcon from 'assets/images/icon-thumbs-up.svg'
 
-import ThumbsDownIcon from 'assets/images/icon-thumbs-down.svg'
 
-import UnlinkIcon from 'assets/images/icon-unlink-solid.svg'
+
+
+
+
+
+
 import { DaoProposalSingleClient } from 'cosmwasm-clients'
 import { useEntity } from 'hooks/entity/useEntity'
 import { getEntityById } from 'redux/entities/entities.selectors'
@@ -41,7 +41,7 @@ const RemainingBadge: React.FC<{ minutes: number }> = ({ minutes }) => {
     <Badge w={110} px={8} py={4} style={{ color: theme.ixoLightBlue, backgroundColor: theme.ixoDarkBlue }}>
       <Flex align={'center'} gap={4}>
         <SvgBox $svgWidth={4} $svgHeight={4}>
-          <SandClockIcon />
+          <img src="/assets/images/icon-sandclock.svg"  />
         </SvgBox>
         <Typography size='sm' transform='none'>
           {/* 3d 4h 12min {moment(4000).format('d h m')} */}
@@ -58,7 +58,7 @@ const PassedBadge: React.FC = () => {
     <Badge w={110} px={8} py={4} style={{ color: theme.ixoWhite, backgroundColor: theme.ixoNewBlue }}>
       <Flex align={'center'} gap={4}>
         <SvgBox $svgWidth={4} $svgHeight={4}>
-          <CheckCircleIcon />
+          <img src="/assets/images/icon-check-circle.svg"  />
         </SvgBox>
         <Typography size='sm' transform='none'>
           Passed
@@ -74,7 +74,7 @@ const ExecutedBadge: React.FC = () => {
     <Badge w={110} px={8} py={4} style={{ color: theme.ixoWhite, backgroundColor: theme.ixoGreen }}>
       <Flex align={'center'} gap={4}>
         <SvgBox $svgWidth={4} $svgHeight={4}>
-          <CheckCircleIcon />
+          <img src="/assets/images/icon-check-circle.svg"  />
         </SvgBox>
         <Typography size='sm' transform='none'>
           Executed
@@ -90,7 +90,7 @@ const RejectedBadge: React.FC = () => {
     <Badge w={110} px={8} py={4} style={{ color: theme.ixoWhite, backgroundColor: theme.ixoRed }}>
       <Flex align={'center'} gap={4}>
         <SvgBox $svgWidth={4} $svgHeight={4}>
-          <TimesCircleIcon />
+          <img src="/assets/images/icon-times-circle.svg"  />
         </SvgBox>
         <Typography size='sm' transform='none'>
           Rejected
@@ -106,7 +106,7 @@ const FailedBadge: React.FC = () => {
     <Badge w={110} px={8} py={4} style={{ color: theme.ixoOrange, backgroundColor: theme.ixoDarkBlue }}>
       <Flex align={'center'} gap={4}>
         <SvgBox $svgWidth={4} $svgHeight={4}>
-          <UnlinkIcon />
+          <img src="/assets/images/icon-unlink-solid.svg"  />
         </SvgBox>
         <Typography size='sm' transform='none'>
           Failed
@@ -122,7 +122,7 @@ const ClosedBadge: React.FC = () => {
     <Badge w={110} px={8} py={4} style={{ color: theme.ixoWhite, backgroundColor: theme.ixoLightRed }}>
       <Flex align={'center'} gap={4}>
         <SvgBox $svgWidth={4} $svgHeight={4}>
-          <TimesCircleIcon />
+          <img src="/assets/images/icon-times-circle.svg"  />
         </SvgBox>
         <Typography size='sm' transform='none'>
           Closed
@@ -278,7 +278,7 @@ const ProposalCard: React.FC<Props> = ({ coreAddress, proposalId, proposal }) =>
           color='ixo-blue'
           leftSection={
             <SvgBox $svgWidth={5} $svgHeight={5}>
-              <ThumbsUpIcon />
+              <img src="/assets/images/icon-thumbs-up.svg"  />
             </SvgBox>
           }
           {...(allow_revoting && !isExpired(expiration) ? { onClick: () => setVoteModalOpen(true) } : [])}
@@ -295,7 +295,7 @@ const ProposalCard: React.FC<Props> = ({ coreAddress, proposalId, proposal }) =>
           color='ixo-blue.8'
           leftSection={
             <SvgBox $svgWidth={5} $svgHeight={5}>
-              <ThumbsDownIcon />
+              <img src="/assets/images/icon-thumbs-down.svg"  />
             </SvgBox>
           }
           {...(allow_revoting && !isExpired(expiration) ? { onClick: () => setVoteModalOpen(true) } : [])}

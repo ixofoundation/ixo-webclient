@@ -1,6 +1,6 @@
 import { LinkedEntity } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 
-import InvestmentIcon from 'assets/images/icon-investment.svg'
+
 import BigNumber from 'bignumber.js'
 import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
@@ -55,7 +55,7 @@ const InvestmentCard: React.FC<TEntityModel & { to?: string }> = (entity) => {
         <FlexBox background={`url(${image})`} $backgroundSize='cover' width='100%' height='200px' position='relative'>
           <FlexBox position='absolute' top='16px' left='16px' $alignItems='center' $gap={1}>
             <SvgBox $borderRadius='100%' p={1} $svgWidth={4} $svgHeight={4} background={'#20798C'} color={'white'}>
-              <InvestmentIcon />
+              <img src="/assets/images/icon-investment.svg"  />
             </SvgBox>
             <FlexBox $borderRadius='100px' px={2} py={1} background={'#20798C'}>
               <Typography color='white' size='sm'>

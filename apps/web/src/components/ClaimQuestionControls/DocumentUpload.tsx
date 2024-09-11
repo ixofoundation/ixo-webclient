@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import styled, { useTheme } from 'styled-components'
 
-import IconDocument from 'assets/images/icon-document.svg'
+
 import { LinkedResourceSetupModal } from 'components/Modals'
 import { Typography } from 'components/Typography'
 import { SvgBox } from 'components/App/App.styles'
 
-import TrashIcon from 'assets/images/icon-trash.svg'
+
 import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { ixo } from '@ixo/impactxclient-sdk'
 
@@ -49,7 +49,7 @@ const DocumentUpload: React.FC<Props> = ({ value, onChange }): JSX.Element => {
         {!value ? (
           <>
             <SvgBox className='mb-3' color={theme.ixoNewBlue}>
-              <IconDocument />
+              <img src="/assets/images/icon-document.svg"  />
             </SvgBox>
             <Typography color='blue' size='xl'>
               Upload a Document
@@ -65,7 +65,7 @@ const DocumentUpload: React.FC<Props> = ({ value, onChange }): JSX.Element => {
               e.stopPropagation()
             }}
           >
-            <TrashIcon />
+            <img src="/assets/images/icon-trash.svg"  />
           </SvgBox>
         )}
       </Wrapper>

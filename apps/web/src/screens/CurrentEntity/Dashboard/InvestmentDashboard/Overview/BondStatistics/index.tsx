@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { useTheme } from 'styled-components'
 import Tab from './Tab'
 
-import AlphqbondIcon from 'assets/images/icon-alphabond.svg'
+
 import { Spinner } from 'components/Spinner/Spinner'
 import BigNumber from 'bignumber.js'
 import { useAccount } from 'hooks/account'
@@ -100,7 +100,7 @@ const BondStatistics: React.FC<Props> = ({ bondDid }) => {
           id='alpha'
           prefix={
             <SvgBox color={theme.ixoNewBlue} $svgWidth={8} $svgHeight={8}>
-              <AlphqbondIcon />
+              <img src="/assets/images/icon-alphabond.svg"  />
             </SvgBox>
           }
           color={theme.ixoNewBlue}
@@ -114,7 +114,7 @@ const BondStatistics: React.FC<Props> = ({ bondDid }) => {
           id='alpha'
           prefix={
             <SvgBox color={theme.ixoNewBlue} $svgWidth={8} $svgHeight={8}>
-              <AlphqbondIcon />
+              <img src="/assets/images/icon-alphabond.svg"  />
             </SvgBox>
           }
           color={theme.ixoNewBlue}

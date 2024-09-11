@@ -1,16 +1,16 @@
 import React, { ChangeEvent, HTMLAttributes, KeyboardEvent, useEffect, useMemo, useState } from 'react'
 import Select, { components } from 'react-select'
-import LockIcon from 'assets/images/icon-lock.svg?url'
-import ArrowLeftIcon from 'assets/images/icon-arrow-left.svg?url'
+
+
 import CirclePayLogo from '/assets/images/exchange/circle-pay-logo.png'
-import MasterCardLogo from 'assets/images/exchange/mastercard.svg?url'
-import VisaCardLogo from 'assets/images/exchange/visa.svg?url'
 
-import CheckIcon from 'assets/images/icon-check.svg?url'
 
-import ChevDownIcon from 'assets/images/icon-chev-down.svg?url'
 
-import ClockIcon from 'assets/images/exchange/clock.svg?url'
+
+
+
+
+
 import {
   CirclePayInput,
   CirclePaySubmitButton,
@@ -192,7 +192,7 @@ const CardSetupStep = ({
   return (
     <>
       <HeaderTitle style={{ display: 'flex', gap: 10 }}>
-        <img src={LockIcon} alt='' />
+        <img src="/assets/images/icon-lock.svg" alt='' />
         Your card details are secure.
       </HeaderTitle>
       <form onSubmit={handleSubmit}>
@@ -331,13 +331,13 @@ const CardUseStep = ({ previousCards, handleNewCard, handleSubmit }: any): JSX.E
   const DropdownIndicator = (props: any): JSX.Element => {
     return (
       <components.DropdownIndicator {...props}>
-        <ChevDownIcon />
+        <img src="/assets/images/icon-chev-down.svg"  />
       </components.DropdownIndicator>
     )
   }
   const ValueContainer = (props: any): JSX.Element => (
     <components.ValueContainer {...props}>
-      <img src={MasterCardLogo} alt='' />
+      <img src="/assets/images/exchange/mastercard.svg" alt='' />
       {props.children}
     </components.ValueContainer>
   )
@@ -424,7 +424,7 @@ const OrderConfirm = ({ nftAsset, cardInfo, handleSubmit }: any): JSX.Element =>
         <CircleLabelWrapper label='Order' style={{ marginBottom: 20 }}>
           <NftSummaryWrapper nftAsset={nftAsset} nftPrice={nftPrice} />
           <QuoteRefreshWrapper>
-            <ClockIcon />
+            <img src="/assets/images/exchange/clock.svg"  />
             Quote updates in {remainingSec}s
           </QuoteRefreshWrapper>
         </CircleLabelWrapper>
@@ -435,7 +435,7 @@ const OrderConfirm = ({ nftAsset, cardInfo, handleSubmit }: any): JSX.Element =>
               setUserAgree((prev) => !prev)
             }}
           >
-            {userAgree && <CheckIcon />}
+            {userAgree && <img src="/assets/images/icon-check.svg"  />}
           </CircleUserAgreeRadio>
           <CircleUserAgreeText
             onClick={(): void => {
@@ -538,7 +538,7 @@ const CircleCheckout: React.FC<Props> = ({ nftAsset, handleFinished }): JSX.Elem
 
   return (
     <Container>
-      <LockIconEl src={LockIcon} alt='' />
+      <img src="/assets/images/icon-lock.svg"El src="/assets/images/icon-lock.svg" alt=''  />
       <CirclePayLogoEl src={CirclePayLogo.src} alt='' />
       {canBack && <CirclePayBackButtonEl src={ArrowLeftIcon} alt='' onClick={handleBackButton} />}
 

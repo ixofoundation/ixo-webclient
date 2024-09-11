@@ -1,5 +1,5 @@
 import { contracts } from '@ixo/impactxclient-sdk'
-import NextStepImage from 'assets/images/modal/nextstep.svg?url'
+
 import { Box, FlexBox, HTMLFlexBoxProps, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
@@ -9,7 +9,7 @@ import { convertMicroDenomToDenomWithDecimals } from 'utils/conversions'
 import { SignStep, TXStatus } from '../common'
 
 import { TokenInfoResponse } from '@ixo/impactxclient-sdk/types/codegen/Cw20Base.types'
-import ArrowDownIcon from 'assets/images/icon-arrow-down.svg'
+
 import { Cw20StakeClient } from 'cosmwasm-clients'
 import { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
 import { fee } from 'lib/protocol'
@@ -173,7 +173,7 @@ const GroupClaimModal: React.FunctionComponent<Props> = ({ daoGroup, open, setOp
                   $boxShadow={theme.ixoShadow2}
                 >
                   <SvgBox color={theme.ixoNewBlue} $svgHeight={8}>
-                    <ArrowDownIcon />
+                    <img src="/assets/images/icon-arrow-down.svg"  />
                   </SvgBox>
                 </FlexBox>
                 {/* Amount of tokens claimable */}
@@ -188,7 +188,7 @@ const GroupClaimModal: React.FunctionComponent<Props> = ({ daoGroup, open, setOp
               <FlexBox width='100%' $justifyContent='space-between' $alignItems='center'>
                 <Typography>Claim now?</Typography>
                 <Box cursor='pointer' width='30px' height='30px' onClick={handleSigning}>
-                  <img src={NextStepImage} alt='' />
+                  <img src="/assets/images/modal/nextstep.svg" alt='' />
                 </Box>
               </FlexBox>
             </FlexBox>

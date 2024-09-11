@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import * as Modal from 'react-modal'
 
-import CloseIcon from 'assets/images/icon-close.svg'
+
 import { ModalStyles, CloseButton, ModalBody, ModalWrapper, ModalRow, ModalTitle } from 'components/Modals/styles'
 import { Button, PropertyBox } from 'screens/CreateEntity/Components'
 import { FlexBox } from 'components/App/App.styles'
 
-import ClaimIcon from 'assets/images/icon-claim.svg'
+
 import { Typography } from 'components/Typography'
 import { useGetClaimTemplateEntityByCollectionId } from 'graphql/claims'
 import { AgentRoles } from 'types/models'
@@ -25,7 +25,7 @@ export const OfferBox: React.FC<OfferBoxProps> = ({ collection, selectedCollecti
   return (
     <FlexBox $direction='column' $alignItems='center' $gap={4}>
       <PropertyBox
-        icon={<ClaimIcon />}
+        icon={<img src="/assets/images/icon-claim.svg"  />}
         required={true}
         set={true}
         hovered={!!collectionId && selectedCollectionId === collectionId}
@@ -64,7 +64,7 @@ const ApplyToJoinModal: React.FC<Props> = ({ claimCollections = [], open, onClos
     // @ts-ignore
     <Modal style={ModalStyles} isOpen={open} onRequestClose={onClose} contentLabel='Modal' ariaHideApp={false}>
       <CloseButton onClick={onClose}>
-        <CloseIcon />
+        <img src="/assets/images/icon-close.svg"  />
       </CloseButton>
 
       <ModalWrapper style={{ width: 600 }}>

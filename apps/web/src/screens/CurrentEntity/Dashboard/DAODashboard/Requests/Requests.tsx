@@ -9,7 +9,7 @@ import {
 } from '@tabler/icons-react'
 import { upperFirst } from 'lodash'
 
-import AssistantIcon from 'assets/images/icon-assistant.svg'
+
 import { useTheme } from 'styled-components'
 import RequestCard from 'components/EntityCards/RequestCard'
 import TabsWrapper from 'components/Wrappers/TabsWrapper'
@@ -98,7 +98,7 @@ const Requests = () => {
                   <Flex align={'center'} gap={8}>
                     <IconLayoutGrid style={{ width: rem(30), height: rem(30), color: theme.ixoBlue }} />
                     <IconListDetails style={{ width: rem(30), height: rem(30), color: theme.ixoGrey500 }} />
-                    <AssistantIcon />
+                    <img src="/assets/images/icon-assistant.svg"  />
                   </Flex>
                 </Flex>
                 <Flex w='100%'>

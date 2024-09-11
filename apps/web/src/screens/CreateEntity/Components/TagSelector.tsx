@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
-import IconChevDown from 'assets/images/icon-chev-down.svg'
+
 import { SelectionModal } from 'components/Modals'
 
 const Label = styled.label`
@@ -75,7 +75,7 @@ const TagSelector: React.FC<Props> = ({
         {values.length === 0 && <Label>{label}</Label>}
         {values.length === 1 && <StyledValue>{values[0]}</StyledValue>}
         {values.length > 1 && <StyledValue>{values.length} selected</StyledValue>}
-        <IconChevDown />
+        <img src="/assets/images/icon-chev-down.svg"  />
       </SelectWrapper>
       <SelectionModal
         name={name}

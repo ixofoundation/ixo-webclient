@@ -6,8 +6,8 @@ import { TermsOfUseType } from 'types/entities'
 import { ExplorerEntity } from 'redux/entities/entities.types'
 import { FilterWrapper, InputWrapper } from './Pools.styles'
 import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
-import ResetIcon from 'assets/images/exchange/reset.svg?url'
-import SearchIcon from 'assets/images/exchange/search.svg?url'
+
+
 import SupplyLiquidityModal from 'components/ControlPanel/Actions/SupplyLiquidityModal'
 
 enum PoolFilterTypes {
@@ -65,7 +65,7 @@ const Pools: React.FunctionComponent = () => {
             </button>
           ))}
           <button className='reset' onClick={(): void => handleFilterChange(PoolFilterTypes.ALL, '')}>
-            <img src={ResetIcon} alt='reset' />
+            <img src="/assets/images/exchange/reset.svg" alt='reset' />
             Reset
           </button>
 
@@ -75,7 +75,7 @@ const Pools: React.FunctionComponent = () => {
               value={filter.search}
               onChange={(e: any): void => handleFilterChange(filter.type, e.target.value)}
             />
-            <img src={SearchIcon} alt='search' />
+            <img src="/assets/images/exchange/search.svg" alt='search' />
           </InputWrapper>
         </FilterWrapper>
       </div>

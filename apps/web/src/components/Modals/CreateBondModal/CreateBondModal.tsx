@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import * as Modal from 'react-modal'
 
-import CloseIcon from 'assets/images/icon-close.svg'
+
 import { CloseButton, ModalStyles, ModalTitle, ModalWrapper } from '../styles'
 import { AlphaBondInfo } from 'types/bond'
 import { FlexBox } from 'components/App/App.styles'
@@ -186,7 +186,7 @@ const CreateBondModal: React.FC<Props> = ({ open, bondDid, onSubmit, onClose }):
     // @ts-ignore
     <Modal style={ModalStyles} isOpen={open} onRequestClose={onClose} contentLabel='Modal' ariaHideApp={false}>
       <CloseButton onClick={onClose}>
-        <CloseIcon />
+        <img src="/assets/images/icon-close.svg"  />
       </CloseButton>
 
       <ModalWrapper>

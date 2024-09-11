@@ -3,15 +3,15 @@ import Slider from 'react-slick'
 import styled, { useTheme } from 'styled-components'
 import { Avatar, Card } from '../../../Components'
 
-import GroupsIcon from 'assets/images/icon-groups.svg'
 
-import ChevRightIcon from 'assets/images/icon-chev-right.svg'
+
+
 import { Box, FlexBox, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { deviceWidth } from 'constants/device'
 import { toTitleCase, truncateString } from 'utils/formatters'
 
-import CopyIcon from 'assets/images/icon-copy.svg'
+
 import CopyToClipboard from 'react-copy-to-clipboard'
 import { successToast } from 'utils/toast'
 import Tooltip from 'components/Tooltip/Tooltip'
@@ -51,7 +51,7 @@ const NextArrow = (props: any) => {
       onClick={props.onClick}
     >
       <SvgBox position='absolute' top='50%' left='50%' transform='translate(-50%, -50%)'>
-        <ChevRightIcon />
+        <img src="/assets/images/icon-chev-right.svg"  />
       </SvgBox>
     </Arrow>
   )
@@ -69,7 +69,7 @@ const PrevArrow = (props: any) => {
       onClick={props.onClick}
     >
       <SvgBox position='absolute' top='50%' left='50%' transform='translate(-50%, -50%) rotate(180deg)'>
-        <ChevRightIcon />
+        <img src="/assets/images/icon-chev-right.svg"  />
       </SvgBox>
     </Arrow>
   )
@@ -165,7 +165,7 @@ const Groups: React.FC<Props> = ({ selectedGroup, selectDaoGroup }): JSX.Element
               {truncateString(daoGroup.coreAddress, 20, 'middle')}
             </Typography>
             <SvgBox color={theme.ixoNewBlue} $svgWidth={5} $svgHeight={5}>
-              <CopyIcon />
+              <img src="/assets/images/icon-copy.svg"  />
             </SvgBox>
           </FlexBox>
         </CopyToClipboard>
@@ -219,7 +219,7 @@ const Groups: React.FC<Props> = ({ selectedGroup, selectDaoGroup }): JSX.Element
 
   return (
     <Box mb={4} width='100%'>
-      <Card icon={<GroupsIcon />} label='Groups'>
+      <Card icon={<img src="/assets/images/icon-groups.svg"  />} label='Groups'>
         <Box width='100%' color='white'>
           <StyledSlider {...settings}>
             {groups.map((daoGroup: TDAOGroupModel) => (

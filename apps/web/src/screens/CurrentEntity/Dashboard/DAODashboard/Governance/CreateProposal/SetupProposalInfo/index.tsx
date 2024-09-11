@@ -2,7 +2,7 @@ import { Typography } from 'components/Typography'
 import { deviceWidth } from 'constants/device'
 import React, { useEffect, useState } from 'react'
 
-import InfoIcon from 'assets/images/icon-info.svg'
+
 import { Button, InputWithLabel, TextArea } from 'screens/CreateEntity/Components'
 import { useCreateEntityState } from 'hooks/createEntity'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -45,7 +45,7 @@ const SetupProposalInfo: React.FC = (): JSX.Element => {
       <Flex direction='column' gap={60} w={deviceWidth.tablet + 'px'}>
         <CardWrapper $direction='column' $gap={5}>
           <Flex gap={2} align='center'>
-            <InfoIcon />
+            <img src="/assets/images/icon-info.svg"  />
             <Typography size='xl' weight='medium'>
               Proposal Info
             </Typography>

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import AssetStakingCard from 'components/Entities/EntitiesExplorer/Components/EntityCard/AssetCard/AssetStakingCard'
 import { TermsOfUseType } from 'types/entities'
 import { TradeWrapper, CardHeader, CardBody, WalletBox, TradePanel, AssetCardWrapper } from './Trade.styles'
-import IMG_wallet2 from 'assets/images/icon-keplr.svg?url'
+
 import { connect } from 'react-redux'
 import { RootState } from 'redux/store'
 import { NavLink, useNavigate } from 'react-router-dom'
@@ -48,7 +48,7 @@ const Trade = ({ currentEntity }: Pick<RootState, 'currentEntity'>) => {
             <CardBody>
               <NavLink style={{ textDecoration: 'none' }} to={{ pathname: '/exchange/trade/swap/wallet/keplr' }}>
                 <WalletBox>
-                  <img src={IMG_wallet2} alt='wallet2' />
+                  <img src="/assets/images/icon-keplr.svg" alt='wallet2' />
                   <span style={{ color: 'white' }}>Keplr</span>
                 </WalletBox>
               </NavLink>

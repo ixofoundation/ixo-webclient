@@ -1,9 +1,9 @@
 import React from 'react'
 import { Card } from '../Card'
 
-import ClockIcon from 'assets/images/icon-clock-2.svg'
 
-import FireIcon from 'assets/images/icon-fire.svg'
+
+
 import { useCurrentEntityAdminAccount } from 'hooks/currentEntity'
 import { useGetAccountTokens } from 'graphql/tokens'
 import { useParams } from 'react-router-dom'
@@ -30,12 +30,12 @@ const AssetPerformance: React.FC = () => {
 
   return (
     <Card
-      icon={<ClockIcon />}
+      icon={<img src="/assets/images/icon-clock-2.svg"  />}
       title='Performance'
       columns={1}
       items={[
         {
-          icon: <FireIcon />,
+          icon: <img src="/assets/images/icon-fire.svg"  />,
           content: `${carbonTokens.produced.toLocaleString()} kg CO₂ emissions saved`,
         },
       ]}

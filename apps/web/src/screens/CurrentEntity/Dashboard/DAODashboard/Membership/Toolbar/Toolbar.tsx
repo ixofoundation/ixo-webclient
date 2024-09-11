@@ -1,12 +1,12 @@
 import { FlexBox, SvgBox } from 'components/App/App.styles'
 import React, { ChangeEvent, useState } from 'react'
 import styled, { useTheme } from 'styled-components'
-import PanelsIcon from 'assets/images/icon-panels.svg?url'
-import ListIcon from 'assets/images/icon-list.svg?url'
 
-import ProfileIcon from 'assets/images/icon-profile.svg?url'
 
-import SearchIcon from 'assets/images/icon-search.svg?url'
+
+
+
+
 
 const Button = styled(FlexBox)`
   border-radius: 8px;
@@ -124,7 +124,7 @@ const Toolbar: React.FC<Props> = ({
             background={view === 'panel' ? theme.ixoNewBlue : theme.ixoDarkBlue}
             onClick={() => onViewChange('panel')}
           >
-            <img src={PanelsIcon} alt='panel-view' />
+            <img src="/assets/images/icon-panels.svg" alt='panel-view' />
           </Button>
 
           <Button
@@ -132,12 +132,12 @@ const Toolbar: React.FC<Props> = ({
             background={view === 'list' ? theme.ixoNewBlue : theme.ixoDarkBlue}
             onClick={() => onViewChange('list')}
           >
-            <img src={ListIcon} alt='list-view' />
+            <img src="/assets/images/icon-list.svg" alt='list-view' />
           </Button>
 
           <Button background={theme.ixoDarkBlue} $alignItems='center' $gap={1}>
             <SvgBox onClick={() => setIsSearching(!isSearching)}>
-              <SearchIcon />
+              <img src="/assets/images/icon-search.svg"  />
             </SvgBox>
             {(isSearching || keyword) && (
               <StyledInput
@@ -150,7 +150,7 @@ const Toolbar: React.FC<Props> = ({
 
           <Button $alignItems='center' background={theme.ixoDarkBlue} opacity={0.3} $gap={1}>
             {numOfMembers.toLocaleString()}
-            <ProfileIcon />
+            <img src="/assets/images/icon-profile.svg"  />
           </Button>
         </>
       )}

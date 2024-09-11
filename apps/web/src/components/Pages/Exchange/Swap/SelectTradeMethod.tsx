@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react'
 import { SelectTradeMethodWrapper, SelectTradeMethodText, PopoverList, PopoverItem } from './SelectTradeMethod.styles'
 import { TradeMethodType } from 'redux/selectedEntityExchange/entityExchange.types'
-import ChevDownIcon from 'assets/images/icon-chev-down.svg?url'
+
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { setSelectedTradeMethod } from 'redux/selectedEntityExchange/entityExchange.actions'
@@ -41,7 +41,7 @@ const SelectTradeMethod: React.FunctionComponent = () => {
         }}
       >
         <span>{selectedTradeMethod}</span>
-        <img src={ChevDownIcon} alt='' />
+        <img src="/assets/images/icon-chev-down.svg" alt='' />
       </SelectTradeMethodText>
 
       {isShowList && (

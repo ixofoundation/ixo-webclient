@@ -1,6 +1,6 @@
 import { Card } from 'screens/CurrentEntity/Components'
 
-import PiePieceIcon from 'assets/images/icon-pie-piece.svg'
+
 import { Flex } from '@mantine/core'
 import { useParams } from 'react-router-dom'
 import { useGetClaimCollectionsByEntityId, useGetClaimsByEntityId } from 'graphql/claims'
@@ -66,7 +66,7 @@ const PerformanceTimelineCard: React.FC = () => {
   }, [claims, collectionId])
 
   return (
-    <Card label='Project performance timeline' icon={<PiePieceIcon />}>
+    <Card label='Project performance timeline' icon={<img src="/assets/images/icon-pie-piece.svg"  />}>
       <Flex w={'100%'} direction={'column'} gap={16}>
         <Flex w={'100%'} gap={8}>
           {claimCollections.map((claimCollection: any) => (

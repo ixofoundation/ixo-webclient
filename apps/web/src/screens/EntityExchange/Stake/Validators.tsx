@@ -5,7 +5,7 @@ import { Typography } from 'components/Typography'
 import React, { useMemo, useState } from 'react'
 import styled, { useTheme } from 'styled-components'
 
-import AssistantIcon from 'assets/images/icon-assistant.svg'
+
 import { useValidators } from 'hooks/validator'
 import CurrencyFormat from 'react-currency-format'
 import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
@@ -246,7 +246,7 @@ const Validators: React.FC = () => {
                 hover={{ color: theme.ixoNewBlue }}
                 onClick={onValidatorSelect(address)}
               >
-                <AssistantIcon />
+                <img src="/assets/images/icon-assistant.svg"  />
               </SvgBox>
             </FlexBox>
           )

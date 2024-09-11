@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react'
 import * as Modal from 'react-modal'
 
-import CloseIcon from 'assets/images/icon-close.svg'
+
 import { ModalStyles, CloseButton } from 'components/Modals/styles'
 import { Button, Dropdown } from 'screens/CreateEntity/Components'
 import { deviceWidth } from 'constants/device'
@@ -83,7 +83,7 @@ const ProposalActionModal: React.FC<Props> = ({ linkedResource, open, onClose, o
       ariaHideApp={false}
     >
       <CloseButton onClick={onClose}>
-        <CloseIcon />
+        <img src="/assets/images/icon-close.svg"  />
       </CloseButton>
 
       <FlexBox $direction='column' $gap={4} width='100%'>

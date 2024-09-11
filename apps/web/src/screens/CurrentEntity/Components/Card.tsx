@@ -2,7 +2,7 @@ import { FlexBox, HTMLFlexBoxProps, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import React, { ReactNode } from 'react'
 
-import ExpandIcon from 'assets/images/icon-expand-alt.svg'
+
 import { useTheme } from 'styled-components'
 
 interface Props extends HTMLFlexBoxProps {
@@ -17,7 +17,7 @@ interface Props extends HTMLFlexBoxProps {
 const Card: React.FC<Props> = ({
   icon,
   label,
-  actionIcon = <ExpandIcon />,
+  actionIcon = <img src="/assets/images/icon-expand-alt.svg"  />,
   onAction,
   children,
   iconNode,

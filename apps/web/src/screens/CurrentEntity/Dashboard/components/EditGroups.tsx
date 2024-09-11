@@ -4,7 +4,7 @@ import useEditEntity from 'hooks/editEntity'
 import { CheckBox, PropertyBox } from 'screens/CreateEntity/Components'
 import { Typography } from 'components/Typography'
 
-import PlusIcon from 'assets/images/icon-plus.svg'
+
 import { AddDAOGroupModal } from 'components/Modals'
 import { v4 as uuidv4 } from 'uuid'
 import { initialMembershipGroup, initialStakingGroup } from 'screens/CreateEntity/EntityPages/SetupGroups/SetupGroups'
@@ -146,7 +146,7 @@ const EditGroups: React.FC = (): JSX.Element => {
             </FlexBox>
           )
         })}
-        <PropertyBox icon={<PlusIcon />} noData handleClick={(): void => setOpenAddGroupModal(true)} />
+        <PropertyBox icon={<img src="/assets/images/icon-plus.svg"  />} noData handleClick={(): void => setOpenAddGroupModal(true)} />
       </FlexBox>
       <AddDAOGroupModal
         open={openAddGroupModal}

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Card } from '../Card'
 
-import ClockIcon from 'assets/images/icon-clock-2.svg'
+
 import { IconCode, IconCoins, IconHourglassEmpty } from '@tabler/icons-react'
 import DaoIcon from 'assets/icons/DaoIcon'
 import { rem } from '@mantine/core'
@@ -10,7 +10,7 @@ const RequestPerfomance: React.FC = () => {
   const iconStyle = { width: rem(18), height: rem(18) }
   return (
     <Card
-      icon={<ClockIcon />}
+      icon={<img src="/assets/images/icon-clock-2.svg"  />}
       title='Performance'
       columns={2}
       items={[

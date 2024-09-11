@@ -12,7 +12,7 @@ import {
   NetworkSettingBody,
   NetworkSettingOption,
 } from './SettingsCard.styles'
-import ChevDownIcon from 'assets/images/icon-chev-down.svg?url'
+
 import { useIxoConfigs } from 'hooks/configs'
 import { useAppSelector } from 'redux/hooks'
 import { selectSlippage } from 'redux/exchange/exchange.selectors'
@@ -100,7 +100,7 @@ const SettingsCard: React.FC<Props> = ({ chainId, setChainId }): JSX.Element => 
             <span>Max Slippage</span>
             <div className='d-flex align-items-center'>
               <span>{slippage}%</span>
-              <img src={ChevDownIcon} alt='' className={cx('ml-2', { reverse: selectedOption === 1 })} />
+              <img src="/assets/images/icon-chev-down.svg" alt='' className={cx('ml-2', { reverse: selectedOption === 1 })} />
             </div>
           </SettingsCardOptionHeader>
           <SettingsCardOptionBody height={selectedOption === 1 ? '70px' : '0'}>
@@ -113,7 +113,7 @@ const SettingsCard: React.FC<Props> = ({ chainId, setChainId }): JSX.Element => 
         <SettingsCardOptionHeader onClick={(): void => toggleOption(2)}>
           <span>Network</span>
           <div className='d-flex align-items-center'>
-            <img src={ChevDownIcon} alt='' className={cx('ml-2', { reverse: selectedOption === 2 })} />
+            <img src="/assets/images/icon-chev-down.svg" alt='' className={cx('ml-2', { reverse: selectedOption === 2 })} />
           </div>
         </SettingsCardOptionHeader>
         <SettingsCardOptionBody height={selectedOption === 2 ? '140px' : '0'}>

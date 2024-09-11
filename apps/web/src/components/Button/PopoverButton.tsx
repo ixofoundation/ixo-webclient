@@ -3,7 +3,7 @@ import { Typography } from 'components/Typography'
 import React, { useState } from 'react'
 import { useTheme } from 'styled-components'
 
-import ArrowRightIcon from 'assets/images/icon-arrow-right.svg'
+
 
 interface Props {
   icon: JSX.Element
@@ -69,7 +69,7 @@ const PropoverButton: React.FC<Props> = ({ icon, title, description }) => {
             <FlexBox $alignItems='center' $gap={2} color={theme.ixoNewBlue} cursor='pointer'>
               <Typography size='sm'>View</Typography>
               <SvgBox $svgWidth={6} $svgHeight={6}>
-                <ArrowRightIcon />
+                <img src="/assets/images/icon-arrow-right.svg"  />
               </SvgBox>
             </FlexBox>
           </FlexBox>

@@ -7,13 +7,13 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { AssetDetailCard, Card } from '../../../Components'
 import { Groups, UserStakes, UserVotingPower, UserProposals } from '../Components'
 
-import ArrowLeftIcon from 'assets/images/icon-arrow-left.svg'
 
-import StakesIcon from 'assets/images/icon-stakes.svg'
 
-import ProposalsIcon from 'assets/images/icon-proposals.svg'
 
-import PieIcon from 'assets/images/icon-pie.svg'
+
+
+
+
 import { useAppSelector } from 'redux/hooks'
 import { getEntityById } from 'redux/entities/entities.selectors'
 
@@ -54,9 +54,9 @@ const MyParticipation: React.FC = () => {
           {selectedDAOGroup.type === 'staking' && (
             <Card
               className={clxs({ 'd-none': expand !== 'token' })}
-              icon={<StakesIcon />}
+              icon={<img src="/assets/images/icon-stakes.svg"  />}
               label='My Stakes'
-              actionIcon={<ArrowLeftIcon />}
+              actionIcon={<img src="/assets/images/icon-arrow-left.svg"  />}
               onAction={() => navigate(-1)}
             >
               <UserStakes show={expand === 'token'} coreAddress={selectedDAOGroup.coreAddress} />
@@ -66,9 +66,9 @@ const MyParticipation: React.FC = () => {
           {selectedDAOGroup.type === 'membership' && (
             <Card
               className={clxs({ 'd-none': expand !== 'votingPower' })}
-              icon={<PieIcon />}
+              icon={<img src="/assets/images/icon-pie.svg"  />}
               label='My Voting Power'
-              actionIcon={<ArrowLeftIcon />}
+              actionIcon={<img src="/assets/images/icon-arrow-left.svg"  />}
               onAction={() => navigate(-1)}
             >
               <UserVotingPower show={expand === 'votingPower'} coreAddress={selectedDAOGroup.coreAddress} />
@@ -77,9 +77,9 @@ const MyParticipation: React.FC = () => {
           {/* expand === 'proposal' */}
           <Card
             className={clxs({ 'd-none': expand !== 'proposal' })}
-            icon={<ProposalsIcon />}
+            icon={<img src="/assets/images/icon-proposals.svg"  />}
             label='My Proposals'
-            actionIcon={<ArrowLeftIcon />}
+            actionIcon={<img src="/assets/images/icon-arrow-left.svg"  />}
             onAction={() => navigate(-1)}
           >
             <UserProposals show={expand === 'proposal'} coreAddress={selectedDAOGroup.coreAddress} />
@@ -98,7 +98,7 @@ const MyParticipation: React.FC = () => {
             <GridItem $gridArea='a'>
               {selectedDAOGroup.type === 'staking' && (
                 <Card
-                  icon={<StakesIcon />}
+                  icon={<img src="/assets/images/icon-stakes.svg"  />}
                   label='My Stakes'
                   onAction={() => navigate({ pathname: pathname, search: `?expand=token` })}
                 >
@@ -108,7 +108,7 @@ const MyParticipation: React.FC = () => {
 
               {selectedDAOGroup.type === 'membership' && (
                 <Card
-                  icon={<PieIcon />}
+                  icon={<img src="/assets/images/icon-pie.svg"  />}
                   label='My Voting Power'
                   onAction={() => navigate({ pathname: pathname, search: `?expand=votingPower` })}
                 >
@@ -118,7 +118,7 @@ const MyParticipation: React.FC = () => {
             </GridItem>
             <GridItem $gridArea='b'>
               <Card
-                icon={<ProposalsIcon />}
+                icon={<img src="/assets/images/icon-proposals.svg"  />}
                 label='My Proposals'
                 onAction={() => navigate({ pathname: pathname, search: `?expand=proposal` })}
               >

@@ -3,20 +3,20 @@ import { FormCard } from 'components'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
-import ArrowCircleRightIcon from 'assets/images/icon-arrow-circle-right-solid.svg'
+
 import { Button, InputWithLabel, Switch } from 'screens/CreateEntity/Components'
 import { useTransferEntityState } from 'hooks/transferEntity'
 import { validateDid, validateWasmDid } from 'utils/validation'
 import { useTheme } from 'styled-components'
 import { Typography } from 'components/Typography'
 
-import TimesCircleIcon from 'assets/images/icon-times-circle.svg'
 
-import CheckCircleIcon from 'assets/images/icon-check-circle.svg'
 
-import LockOpenIcon from 'assets/images/icon-lock-open-solid.svg'
 
-import InfoIcon from 'assets/images/icon-info.svg'
+
+
+
+
 import { errorToast, successToast } from 'utils/toast'
 import { VerificationMethod } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { VMKeyMap } from 'constants/entity'
@@ -109,7 +109,7 @@ const TransferEntityTo: React.FC = (): JSX.Element => {
         <FormCard
           preIcon={
             <SvgBox $svgWidth={8} $svgHeight={8} color='black'>
-              <ArrowCircleRightIcon />
+              <img src="/assets/images/icon-arrow-circle-right-solid.svg"  />
             </SvgBox>
           }
           title='Transferring to'
@@ -149,7 +149,7 @@ const TransferEntityTo: React.FC = (): JSX.Element => {
                 <FlexBox width='100%' $justifyContent='flex-end' $alignItems='center' $gap={2}>
                   <Typography size='xl'>Not a valid ixo DID</Typography>
                   <SvgBox color={theme.ixoRed}>
-                    <TimesCircleIcon />
+                    <img src="/assets/images/icon-times-circle.svg"  />
                   </SvgBox>
                 </FlexBox>
               )}
@@ -157,7 +157,7 @@ const TransferEntityTo: React.FC = (): JSX.Element => {
                 <FlexBox width='100%' $justifyContent='flex-end' $alignItems='center' $gap={2}>
                   <Typography size='xl'>Valid ixo DID</Typography>
                   <SvgBox color={theme.ixoGreen}>
-                    <CheckCircleIcon />
+                    <img src="/assets/images/icon-check-circle.svg"  />
                   </SvgBox>
                 </FlexBox>
               )}
@@ -168,7 +168,7 @@ const TransferEntityTo: React.FC = (): JSX.Element => {
         <FormCard
           preIcon={
             <SvgBox $svgWidth={8} $svgHeight={8} color='black'>
-              <LockOpenIcon />
+              <img src="/assets/images/icon-lock-open-solid.svg"  />
             </SvgBox>
           }
           title='Keys'
@@ -197,7 +197,7 @@ const TransferEntityTo: React.FC = (): JSX.Element => {
             >
               <FlexBox $alignItems='center' color={theme.ixoDarkOrange} $gap={1}>
                 <SvgBox color='inherit' $svgWidth={6} $svgHeight={6}>
-                  <InfoIcon />
+                  <img src="/assets/images/icon-info.svg"  />
                 </SvgBox>
                 <Typography size='xl'>Warning</Typography>
               </FlexBox>

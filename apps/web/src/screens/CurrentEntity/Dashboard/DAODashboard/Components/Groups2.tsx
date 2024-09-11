@@ -7,13 +7,13 @@ import { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
 import { TDAOGroupModel, TEntityModel } from 'types/entities'
 import { Avatar, Flex } from '@mantine/core'
 
-import AgentsIcon from 'assets/img/sidebar/agents.svg'
+
 import { useQuery } from 'hooks/window'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import CopyToClipboard from 'react-copy-to-clipboard'
 import { truncateString } from 'utils/formatters'
 
-import CopyIcon from 'assets/images/icon-copy.svg'
+
 import { successToast } from 'utils/toast'
 import { useAppSelector } from 'redux/hooks'
 import { getEntityById } from 'redux/entities/entities.selectors'
@@ -79,7 +79,7 @@ const GroupCard = ({ daoGroup, dao }: GroupCardProps) => {
               {truncateString(daoGroup.coreAddress, 20, 'middle')}
             </Typography>
             <SvgBox color={theme.ixoNewBlue} $svgWidth={5} $svgHeight={5}>
-              <CopyIcon />
+              <img src="/assets/images/icon-copy.svg"  />
             </SvgBox>
           </Flex>
         </CopyToClipboard>
@@ -115,7 +115,7 @@ const Groups = ({ entityId, daoController }: { entityId: string; daoController: 
 
   return (
     <Box mb={4} width='100%'>
-      <Card label={`Groups`} icon={<AgentsIcon />}>
+      <Card label={`Groups`} icon={<img src="/assets/img/sidebar/agents.svg"  />}>
         <Flex gap={12} w={'100%'} style={{ overflowX: 'auto' }}>
           {sortedGroups.map((daoGroup: TDAOGroupModel, index: number) => (
             <GroupCard key={index} daoGroup={daoGroup} dao={entity} />

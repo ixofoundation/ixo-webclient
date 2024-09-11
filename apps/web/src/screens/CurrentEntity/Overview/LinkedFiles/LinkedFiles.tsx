@@ -3,11 +3,11 @@ import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import React from 'react'
 
-import PdfIcon from 'assets/images/linked-files/pdf.svg'
 
-import ImageIcon from 'assets/images/linked-files/image.svg'
 
-import TextIcon from 'assets/images/linked-files/text.svg'
+
+
+
 import { useTheme } from 'styled-components'
 import { serviceEndpointToUrl } from 'utils/entities'
 

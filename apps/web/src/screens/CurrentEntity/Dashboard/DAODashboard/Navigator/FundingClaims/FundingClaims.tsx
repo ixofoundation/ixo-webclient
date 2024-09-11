@@ -4,9 +4,9 @@ import { Box, FlexBox, SvgBox } from 'components/App/App.styles'
 import { CircleProgressbar } from 'components/Widgets/CircleProgressbar/CircleProgressbar'
 import { Typography } from 'components/Typography'
 
-import CheckIcon from 'assets/images/icon-check-in-circle.svg'
 
-import ExpandIcon from 'assets/images/icon-expand-alt.svg'
+
+
 import { useTheme } from 'styled-components'
 
 interface Props {
@@ -21,7 +21,7 @@ const FundingClaims: React.FC<Props> = ({ daoId, groupIds }): JSX.Element => {
     <Box width='12px' height='12px' background={color} $borderRadius='100%' />
   )
   return (
-    <Card icon={<CheckIcon />} label='Funding Claims'>
+    <Card icon={<img src="/assets/images/icon-check-in-circle.svg"  />} label='Funding Claims'>
       <FlexBox width='100%' $alignItems='center' $justifyContent='space-between' $gap={6} color='white' px={10}>
         <FlexBox $direction='column' $gap={2} $whiteSpace='nowrap'>
           <FlexBox $alignItems='center' $gap={5}>
@@ -60,7 +60,7 @@ const FundingClaims: React.FC<Props> = ({ daoId, groupIds }): JSX.Element => {
               Outcomes Contracts
             </Typography>
             <SvgBox $svgWidth={4.5}>
-              <ExpandIcon />
+              <img src="/assets/images/icon-expand-alt.svg"  />
             </SvgBox>
           </FlexBox>
 

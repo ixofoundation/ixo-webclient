@@ -1,4 +1,4 @@
-import BroomIcon from 'assets/images/icon-broom.svg'
+
 import { SvgBox } from 'components/App/App.styles'
 
 import { resetMessages } from 'redux/assistant/assistant.slice'
@@ -29,7 +29,7 @@ export default function ResetMessagesButton() {
       onClick={() => handleClick()}
       cursor='pointer'
     >
-      <BroomIcon />
+      <img src="/assets/images/icon-broom.svg"  />
     </SvgBox>
   )
 }

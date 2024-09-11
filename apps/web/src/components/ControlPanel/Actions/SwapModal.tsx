@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
-import OverlayButtonIcon from 'assets/images/modal/overlaybutton-down.svg?url'
+
 import { StepsTransactions } from 'components/StepsTransactions/StepsTransactions'
 import { Container, NextStep, Overlay } from './Modal.styles'
 import { AssetType } from 'redux/configs/configs.types'
-import NextStepIcon from 'assets/images/modal/nextstep.svg?url'
+
 import { getUSDRateByCoingeckoId } from 'utils/coingecko'
 import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 import BigNumber from 'bignumber.js'
 import { displayTokenAmount } from 'utils/currency'
 
-import WarningIcon from 'assets/images/exchange/warning.svg'
+
 import SignStep, { TXStatus } from './components/SignStep'
 import RenderSignStep from 'components/Pages/Exchange/Swap/RenderSignStep'
 import { ExchangeAsset } from 'redux/exchange/exchange.types'
@@ -201,7 +201,7 @@ const SwapModal: React.FunctionComponent<Props> = ({
 
       <PriceUpdateLabelWrapper visible={shouldPriceUpdate}>
         <PriceUpdateLabel onClick={handleUpdatePrice}>
-          <WarningIcon />
+          <img src="/assets/images/exchange/warning.svg"  />
           <span>Update Price</span>
         </PriceUpdateLabel>
       </PriceUpdateLabelWrapper>
@@ -249,7 +249,7 @@ const SwapModal: React.FunctionComponent<Props> = ({
 
         {currentStep === 0 && (
           <NextStep onClick={handleNextStep}>
-            <img src={NextStepIcon} alt='next-step' />
+            <img src="/assets/images/modal/nextstep.svg" alt='next-step' />
           </NextStep>
         )}
       </Container>

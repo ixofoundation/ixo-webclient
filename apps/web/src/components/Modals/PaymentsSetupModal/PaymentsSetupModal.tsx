@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import * as Modal from 'react-modal'
 
-import CloseIcon from 'assets/images/icon-close.svg'
+
 import { ModalStyles, CloseButton, ModalBody, ModalWrapper, ModalRow, ModalTitle } from 'components/Modals/styles'
 import { Button } from 'screens/CreateEntity/Components'
 import { FormData } from 'components/JsonForm/types'
@@ -40,7 +40,7 @@ const PaymentsSetupModal: React.FC<Props> = ({ payments, open, onClose, handleCh
     // @ts-ignore
     <Modal style={ModalStyles} isOpen={open} onRequestClose={onClose} contentLabel='Modal' ariaHideApp={false}>
       <CloseButton onClick={onClose}>
-        <CloseIcon />
+        <img src="/assets/images/icon-close.svg"  />
       </CloseButton>
 
       <ModalWrapper style={{ width: 600 }}>

@@ -5,7 +5,7 @@ import React, { useState } from 'react'
 // import { omitKey } from 'utils/objects'
 import { v4 as uuidv4 } from 'uuid'
 
-import PlusIcon from 'assets/images/icon-plus.svg'
+
 import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { omitKey } from 'utils/objects'
 import { EntityLinkedResourceConfig } from 'constants/entity'
@@ -73,7 +73,7 @@ const SetupLinkedResource: React.FC<Props> = ({ hidden, linkedResource, updateLi
                 />
               )
             })}
-          <PropertyBox icon={<PlusIcon />} noData handleClick={(): void => setOpenAddLinkedResourceModal(true)} />
+          <PropertyBox icon={<img src="/assets/images/icon-plus.svg"  />} noData handleClick={(): void => setOpenAddLinkedResourceModal(true)} />
         </Box>
       </FlexBox>
       <AddLinkedResourceModal

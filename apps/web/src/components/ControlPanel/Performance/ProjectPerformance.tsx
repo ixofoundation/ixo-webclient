@@ -1,11 +1,11 @@
 import React from 'react'
 import { Card } from '../Card'
 
-import ClockIcon from 'assets/images/icon-clock-2.svg'
 
-import ProjectIcon from 'assets/images/icon-project.svg'
 
-import ChartPieIcon from 'assets/images/icon-chart-pie-solid.svg'
+
+
+
 import { toTitleCase } from 'utils/formatters'
 import { EntityStatusMap } from 'constants/entity'
 import { useParams } from 'react-router-dom'
@@ -18,16 +18,16 @@ const ProjectPerformance: React.FC = () => {
 
   return (
     <Card
-      icon={<ClockIcon />}
+      icon={<img src="/assets/images/icon-clock-2.svg"  />}
       title='Performance'
       columns={1}
       items={[
         {
-          icon: <ProjectIcon />,
+          icon: <img src="/assets/images/icon-project.svg"  />,
           content: `Status: ${toTitleCase(EntityStatusMap[status])}`,
         },
         {
-          icon: <ChartPieIcon />,
+          icon: <img src="/assets/images/icon-chart-pie-solid.svg"  />,
           content: `${(0).toLocaleString()}/${(0).toLocaleString()} distributed`,
         },
       ]}

@@ -1,9 +1,9 @@
 import { Box } from 'components/App/App.styles'
 import React, { useMemo, useState } from 'react'
 
-import EntityIcon from 'assets/images/icon-entity.svg'
 
-import CreatorIcon from 'assets/images/icon-creator.svg'
+
+
 import { PageWrapper, Selections, SearchIcon } from './SelectCreationProcess.styles'
 import { Button, CateSelector, ChainSelector, Input } from 'screens/CreateEntity/Components'
 import { useCreateEntityState } from 'hooks/createEntity'
@@ -103,9 +103,9 @@ const SelectCreationProcess: React.FC = (): JSX.Element => {
   return (
     <PageWrapper>
       <Selections>
-        <CateSelector icon={<CreatorIcon />} label='Create a New Entity' onClick={handleCreate} />
+        <CateSelector icon={<img src="/assets/images/icon-creator.svg"  />} label='Create a New Entity' onClick={handleCreate} />
         <CateSelector
-          icon={<EntityIcon />}
+          icon={<img src="/assets/images/icon-entity.svg"  />}
           label='Clone an Existing Entity'
           active={isClone}
           onClick={(): void => setIsClone((pre) => !pre)}

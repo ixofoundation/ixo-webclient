@@ -4,15 +4,15 @@ import { Typography } from 'components/Typography'
 import { Avatar } from 'screens/CurrentEntity/Components'
 import CopyToClipboard from 'react-copy-to-clipboard'
 
-import ProfileIcon from 'assets/images/icon-profile.svg'
 
-import CopyIcon from 'assets/images/icon-copy.svg'
+
+
 //
-import StarIcon from 'assets/images/icon-star.svg'
+
 //
-import UserAstronautIcon from 'assets/images/icon-user-astronaut-solid.svg'
+
 //
-import UserNinjaIcon from 'assets/images/icon-user-ninja-solid.svg'
+
 import { Card } from '../Card'
 import { useAccount } from 'hooks/account'
 import { successToast } from 'utils/toast'
@@ -24,7 +24,7 @@ const AccountCard = () => {
 
   return (
     <Card
-      icon={<ProfileIcon />}
+      icon={<img src="/assets/images/icon-profile.svg"  />}
       title='My Connected Account'
       columns={1}
       items={
@@ -44,7 +44,7 @@ const AccountCard = () => {
               <Typography size='md'>{name}</Typography>
               <CopyToClipboard text={address} onCopy={() => successToast(`Copied to clipboard`)}>
                 <SvgBox color={theme.ixoNewBlue} cursor='pointer' $svgWidth={6} $svgHeight={6}>
-                  <CopyIcon />
+                  <img src="/assets/images/icon-copy.svg"  />
                 </SvgBox>
               </CopyToClipboard>
             </FlexBox>
@@ -57,7 +57,7 @@ const AccountCard = () => {
 
             <FlexBox $gap={2}>
               <PropoverButton
-                icon={<StarIcon />}
+                icon={<img src="/assets/images/icon-star.svg"  />}
                 title={'KYC Credential'}
                 description='This is a description of the Credential. It can say something about why the Credential is needed.'
               />
@@ -73,7 +73,7 @@ const AccountCard = () => {
                 $justifyContent='center'
                 $alignItems='center'
               >
-                <UserAstronautIcon />
+                <img src="/assets/images/icon-user-astronaut-solid.svg"  />
               </SvgBox>
               <SvgBox
                 width='40px'
@@ -86,7 +86,7 @@ const AccountCard = () => {
                 $justifyContent='center'
                 $alignItems='center'
               >
-                <UserNinjaIcon />
+                <img src="/assets/images/icon-user-ninja-solid.svg"  />
               </SvgBox>
             </FlexBox>
           </FlexBox> */}

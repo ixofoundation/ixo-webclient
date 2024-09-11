@@ -2,7 +2,7 @@ import { Box, FlexBox } from 'components/App/App.styles'
 import { PropertyBox } from 'screens/CreateEntity/Components'
 import React, { useEffect, useState } from 'react'
 
-import PlusIcon from 'assets/images/icon-plus.svg'
+
 import {
   AddSettingsModal,
   CreatorSetupModal,
@@ -193,7 +193,7 @@ const SetupSettings: React.FC<Props> = ({
               />
             ))}
 
-          <PropertyBox icon={<PlusIcon />} noData handleClick={(): void => setOpenAddSettingsModal(true)} />
+          <PropertyBox icon={<img src="/assets/images/icon-plus.svg"  />} noData handleClick={(): void => setOpenAddSettingsModal(true)} />
         </Box>
       </FlexBox>
       <AddSettingsModal

@@ -1,8 +1,8 @@
 //
-import ArrowLeftIcon from 'assets/images/icon-arrow-left.svg'
+
 import { customQueries } from '@ixo/impactxclient-sdk'
 
-import CopyIcon from 'assets/images/icon-copy.svg'
+
 import BigNumber from 'bignumber.js'
 import { FlexBox, GridContainer, SvgBox } from 'components/App/App.styles'
 import { DepositModal } from 'components/Modals'
@@ -261,7 +261,7 @@ const Accounts: React.FC = () => {
                 {truncateString(selectedAccount.address, 20, 'middle')}
               </Typography>
               <SvgBox color={theme.ixoNewBlue} $svgWidth={6} $svgHeight={6}>
-                <CopyIcon />
+                <img src="/assets/images/icon-copy.svg"  />
               </SvgBox>
             </FlexBox>
           </CopyToClipboard>

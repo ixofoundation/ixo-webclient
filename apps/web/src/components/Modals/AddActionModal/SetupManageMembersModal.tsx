@@ -5,9 +5,9 @@ import { Typography } from 'components/Typography'
 import { TProposalActionModel } from 'types/entities'
 import styled from 'styled-components'
 
-import PlusIcon from 'assets/images/icon-plus.svg'
 
-import TimesIcon from 'assets/images/icon-times.svg'
+
+
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 import { isAccountAddress } from 'utils/validation'
 import { Member } from 'types/dao'
@@ -134,14 +134,14 @@ const SetupManageMembersModal: React.FC<Props> = ({ open, action, onClose, onSub
                 handleChange={(value) => handleUpdateMemberToAdd(index, { ...member, addr: value })}
               />
               <SvgBox color='black' onClick={() => handleRemoveMemberToAdd(index)} cursor='pointer'>
-                <TimesIcon />
+                <img src="/assets/images/icon-times.svg"  />
               </SvgBox>
             </FlexBox>
           ))}
 
           <AddButton $alignItems='center' $gap={2.5} onClick={handleAddMemberToAdd}>
             <SvgBox color='black'>
-              <PlusIcon />
+              <img src="/assets/images/icon-plus.svg"  />
             </SvgBox>
             <Typography size='xl' weight='medium'>
               Add
@@ -163,14 +163,14 @@ const SetupManageMembersModal: React.FC<Props> = ({ open, action, onClose, onSub
                 handleChange={(value) => handleUpdateMemberToRemove(index, { ...member, addr: value })}
               />
               <SvgBox color='black' onClick={() => handleRemoveMemberToRemove(index)} cursor='pointer'>
-                <TimesIcon />
+                <img src="/assets/images/icon-times.svg"  />
               </SvgBox>
             </FlexBox>
           ))}
 
           <AddButton $alignItems='center' $gap={2.5} onClick={handleAddMemberToRemove}>
             <SvgBox color='black'>
-              <PlusIcon />
+              <img src="/assets/images/icon-plus.svg"  />
             </SvgBox>
             <Typography size='xl' weight='medium'>
               Add

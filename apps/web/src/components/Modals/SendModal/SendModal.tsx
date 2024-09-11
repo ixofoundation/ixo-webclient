@@ -4,10 +4,10 @@ import { Box, FlexBox, HTMLFlexBoxProps, SvgBox } from 'components/App/App.style
 import { SignStep, TXStatus } from '../common'
 import { Typography } from 'components/Typography'
 
-import NextStepImage from 'assets/images/modal/nextstep.svg'
+
 import { useAccount } from 'hooks/account'
 
-import ArrowDownIcon from 'assets/images/icon-arrow-down.svg'
+
 import { Input } from 'screens/CreateEntity/Components'
 import CurrencyFormat from 'react-currency-format'
 import styled, { useTheme } from 'styled-components'
@@ -180,7 +180,7 @@ const SendModal: React.FunctionComponent<Props> = ({ open, selectedDenomOrAddr, 
                   $boxShadow={theme.ixoShadow2}
                 >
                   <SvgBox color={theme.ixoNewBlue} $svgHeight={8}>
-                    <ArrowDownIcon />
+                    <img src="/assets/images/icon-arrow-down.svg"  />
                   </SvgBox>
                 </FlexBox>
                 {/* Recipient Address */}
@@ -202,7 +202,7 @@ const SendModal: React.FunctionComponent<Props> = ({ open, selectedDenomOrAddr, 
                     onClick={() => validSend && handleSigning()}
                     color={validSend ? theme.ixoNewBlue : theme.ixoDarkBlue}
                   >
-                    <NextStepImage />
+                    <img src="/assets/images/modal/nextstep.svg"  />
                   </SvgBox>
                 </FlexBox>
               </FlexBox>

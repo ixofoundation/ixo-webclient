@@ -2,9 +2,9 @@ import React, { useMemo } from 'react'
 import { Box, FlexBox, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 
-import GovernanceIcon from 'assets/images/icon-governance.svg'
 
-import SandClockIcon from 'assets/images/icon-sandclock-fill.svg'
+
+
 import { ProgressBar } from 'components/ProgressBar/ProgressBar'
 import { expirationAtTimeToSecondsFromNow, secondsToWdhms } from 'utils/conversions'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -57,7 +57,7 @@ const GovernanceCard: React.FC = (): JSX.Element => {
 
   return (
     <Card
-      icon={<GovernanceIcon />}
+      icon={<img src="/assets/images/icon-governance.svg"  />}
       label='Governance'
       onAction={() => navigate(`/entity/${entityId}/dashboard/governance`)}
     >
@@ -99,7 +99,7 @@ const GovernanceCard: React.FC = (): JSX.Element => {
 
             <FlexBox width='100%' $gap={3} $alignItems='center'>
               <SvgBox color={theme.ixoNewBlue}>
-                <SandClockIcon />
+                <img src="/assets/images/icon-sandclock-fill.svg"  />
               </SvgBox>
               <ProgressBar
                 height={8}

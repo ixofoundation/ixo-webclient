@@ -1,7 +1,7 @@
 import { Card } from 'screens/CurrentEntity/Components'
 import React, { useMemo } from 'react'
 
-import AgentIcon from 'assets/img/sidebar/agents.svg'
+
 import { Flex } from '@mantine/core'
 import { Typography } from 'components/Typography'
 import { TDAOGroupModel } from 'types/entities'
@@ -22,7 +22,7 @@ const VotingPowerCard: React.FC<Props> = ({ daoGroup }) => {
   }, [address, daoGroup, totalWeight])
 
   return (
-    <Card label='My Voting Power' icon={<AgentIcon />}>
+    <Card label='My Voting Power' icon={<img src="/assets/img/sidebar/agents.svg"  />}>
       <Flex w={'100%'} h={'100%'} direction={'column'} justify={'space-between'}>
         <Flex direction={'column'} gap={16}>
           <Flex align={'center'} justify={'space-between'}>

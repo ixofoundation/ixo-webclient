@@ -2,9 +2,9 @@ import { Box, FlexBox, SvgBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import React, { useEffect, useState } from 'react'
 
-import ProfileIcon from 'assets/images/icon-profile.svg'
 
-import TimesIcon from 'assets/images/icon-times.svg'
+
+
 import { Button, RangeInput, Switch } from 'screens/CreateEntity/Components'
 import { useTheme } from 'styled-components'
 
@@ -74,11 +74,11 @@ const MemberDetailCard: React.FC<Props> = ({ member, onClose }): JSX.Element => 
     >
       <FlexBox width='100%' $alignItems='center' $justifyContent='space-between'>
         <SvgBox $svgWidth={6} $svgHeight={6} color={theme.ixoNewBlue}>
-          <ProfileIcon />
+          <img src="/assets/images/icon-profile.svg"  />
         </SvgBox>
 
         <SvgBox $svgWidth={6} $svgHeight={6} color={theme.ixoBlack} cursor='pointer' onClick={onClose}>
-          <TimesIcon />
+          <img src="/assets/images/icon-times.svg"  />
         </SvgBox>
       </FlexBox>
 

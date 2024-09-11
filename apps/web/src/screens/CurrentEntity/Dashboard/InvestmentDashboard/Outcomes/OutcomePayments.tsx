@@ -7,7 +7,7 @@ import { Table } from 'components/Table'
 import { useGetBondOutcomePayments } from 'graphql/bonds'
 import { useIxoConfigs } from 'hooks/configs'
 
-import EyeIcon from 'assets/images/icon-eye.svg'
+
 import { truncateString } from 'utils/formatters'
 import { renderTableHeader } from 'components/Table/Table'
 
@@ -156,7 +156,7 @@ const OutcomePayments: React.FC<Props> = ({ bondDid }) => {
                 color='white'
                 hover={{ color: theme.ixoNewBlue }}
               >
-                <EyeIcon />
+                <img src="/assets/images/icon-eye.svg"  />
               </SvgBox>
             </FlexBox>
           )

@@ -3,9 +3,9 @@ import { Typography } from 'components/Typography'
 import React, { useMemo } from 'react'
 import styled from 'styled-components'
 
-import LockIcon from 'assets/images/icon-lock.svg'
 
-import BinIcon from 'assets/images/icon-trash-can.svg'
+
+
 
 const Wrapper = styled.div`
   position: relative;
@@ -141,14 +141,14 @@ const PropertyBox: React.FC<Props> = ({
       {!inherited && !required && handleRemove && (
         <Box className='action' onClick={handleRemove}>
           <SvgBox $svgWidth={6} $svgHeight={6} color='transparent'>
-            <BinIcon />
+            <img src="/assets/images/icon-trash-can.svg"  />
           </SvgBox>
         </Box>
       )}
       {inherited && (
         <Box className='action'>
           <SvgBox $svgWidth={4} $svgHeight={4} color='white'>
-            <LockIcon />
+            <img src="/assets/images/icon-lock.svg"  />
           </SvgBox>
         </Box>
       )}

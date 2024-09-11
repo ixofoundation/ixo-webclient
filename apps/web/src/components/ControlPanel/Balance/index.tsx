@@ -2,9 +2,9 @@ import { FlexBox, SvgBox } from 'components/App/App.styles'
 import { useTheme } from 'styled-components'
 import { Typography } from 'components/Typography'
 //
-import ArrowRightIcon from 'assets/images/icon-arrow-right.svg'
 
-import WalletIcon from 'assets/images/icon-wallet-solid.svg'
+
+
 import { Card } from '../Card'
 import { useAccount } from 'hooks/account'
 import { useMemo, useState } from 'react'
@@ -52,7 +52,7 @@ const BalanceCard = () => {
   return (
     <>
       <Card
-        icon={<WalletIcon />}
+        icon={<img src="/assets/images/icon-wallet-solid.svg"  />}
         title='My Balance'
         columns={1}
         items={
@@ -76,7 +76,7 @@ const BalanceCard = () => {
                 cursor='pointer'
                 onClick={onButtonClick}
               >
-                <WalletIcon />
+                <img src="/assets/images/icon-wallet-solid.svg"  />
               </SvgBox>
             </FlexBox>
             {/* 
@@ -91,7 +91,7 @@ const BalanceCard = () => {
                 cursor='pointer'
               >
                 <SvgBox $svgWidth={5} $svgHeight={5} transform='rotateZ(-45deg)'>
-                  <ArrowRightIcon />
+                  <img src="/assets/images/icon-arrow-right.svg"  />
                 </SvgBox>
                 <Typography size='sm'>Send</Typography>
               </FlexBox>
@@ -105,7 +105,7 @@ const BalanceCard = () => {
                 cursor='pointer'
               >
                 <SvgBox $svgWidth={5} $svgHeight={5} transform='rotateZ(135deg)'>
-                  <ArrowRightIcon />
+                  <img src="/assets/images/icon-arrow-right.svg"  />
                 </SvgBox>
                 <Typography size='sm'>Receive</Typography>
               </FlexBox>

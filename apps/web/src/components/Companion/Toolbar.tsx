@@ -2,7 +2,7 @@ import { ActionIcon, Box, Card, Flex, Text } from '@mantine/core'
 import { LiaBoltSolid, LiaPlaySolid } from 'react-icons/lia'
 import { useCompanion } from 'hooks/useCompanion'
 
-import AssistantIcon from 'assets/images/icon-assistant.svg'
+
 import { useMatch } from 'react-router-dom'
 
 export const ToolbarNavigation = () => {
@@ -40,7 +40,7 @@ export const ToolbarNavigation = () => {
           mr={showActionsButton ? 0 : 82}
           onClick={handleAssistantClick}
         >
-          <AssistantIcon color='white' />
+          <img src="/assets/images/icon-assistant.svg" color='white'  />
         </ActionIcon>
       </Flex>
     </Flex>
@@ -55,7 +55,7 @@ export const Toolbar = () => {
           <Text>Talking to</Text>
           <Card mt={8} bg='rgb(60,60,60)' radius={'sm'}>
             <Flex>
-              <AssistantIcon />{' '}
+              <img src="/assets/images/icon-assistant.svg"  />{' '}
               <Text ml={8} c='white'>
                 Oxi
               </Text>

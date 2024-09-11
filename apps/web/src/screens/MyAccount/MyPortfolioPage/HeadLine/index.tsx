@@ -1,9 +1,9 @@
 import { friendlyWalletNames } from 'wallet-connector'
 import { ActionIcon, Avatar, Flex, Stack } from '@mantine/core'
 
-import CopyIcon from 'assets/images/icon-copy.svg'
 
-import DisconnectIcon from 'assets/images/icon-disconnect.svg'
+
+
 import { SvgBox } from 'components/App/App.styles'
 import Tooltip from 'components/Tooltip/Tooltip'
 import { Typography } from 'components/Typography'
@@ -34,7 +34,7 @@ const HeadLine: React.FC = () => {
                 hover={{ color: theme.ixoNewBlue }}
                 cursor='pointer'
               >
-                <CopyIcon />
+                <img src="/assets/images/icon-copy.svg"  />
               </SvgBox>
             </Flex>
           </CopyToClipboard>
@@ -68,7 +68,7 @@ const HeadLine: React.FC = () => {
                 hover={{ color: theme.ixoNewBlue }}
                 cursor='pointer'
               >
-                <CopyIcon />
+                <img src="/assets/images/icon-copy.svg"  />
               </SvgBox>
             </CopyToClipboard>
           </Flex>
@@ -82,7 +82,7 @@ const HeadLine: React.FC = () => {
             style={{ borderColor: theme.ixoNewBlue }}
             onClick={disconnect}
           >
-            <DisconnectIcon />
+            <img src="/assets/images/icon-disconnect.svg"  />
           </ActionIcon>
         </Tooltip>
       </Flex>
