@@ -1,4 +1,4 @@
-import { useWallet } from '@ixo-webclient/wallet-connector'
+import { useWallet } from 'wallet-connector'
 import Assistant from '@ixo/assistant-sdk'
 import { chainNetwork } from './configs'
 import { ChatMessage } from '@ixo/assistant-sdk/types/types/assistant'
@@ -77,18 +77,21 @@ export const useCompanion = () => {
     }
   }, [executeTxBody, close, execute, assistant])
 
-  const sendMessage = useCallback(async (message: string) => {
-    if (!assistant) {
-      console.error('Assistant not connected.')
-      throw new Error('Assistant not connected.')
-    }
-    try {
-      const newMessages = await assistant.chat(false, message)
-      setMessages([...newMessages])
-    } catch (error: any) {
-      console.error('Error sending message:', error)
-    }
-  }, [assistant])
+  const sendMessage = useCallback(
+    async (message: string) => {
+      if (!assistant) {
+        console.error('Assistant not connected.')
+        throw new Error('Assistant not connected.')
+      }
+      try {
+        const newMessages = await assistant.chat(false, message)
+        setMessages([...newMessages])
+      } catch (error: any) {
+        console.error('Error sending message:', error)
+      }
+    },
+    [assistant],
+  )
 
   const newChat = useCallback(async () => {
     if (!assistant) {

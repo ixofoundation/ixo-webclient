@@ -24,7 +24,7 @@ import { useAppSelector } from 'redux/hooks'
 import { getEntityById, selectStakingGroupByCoreAddress } from 'redux/entities/entities.selectors'
 import { TDAOGroupModel } from 'types/entities'
 import { Cw20BaseClient } from '@ixo-webclient/cosmwasm-clients'
-import { useWallet } from '@ixo-webclient/wallet-connector'
+import { useWallet } from 'wallet-connector'
 import { useParams } from 'react-router-dom'
 
 const StyledCurrencyFormat = styled(CurrencyFormat)`

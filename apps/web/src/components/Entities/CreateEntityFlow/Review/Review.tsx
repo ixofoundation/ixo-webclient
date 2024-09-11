@@ -25,7 +25,7 @@ import { createEntityCard, withEntityData } from 'components'
 import { EntityType } from 'types/entities'
 import { Box } from '@mantine/core'
 import { toRootEntityType } from 'utils/entities'
-import { useWallet } from '@ixo-webclient/wallet-connector'
+import { useWallet } from 'wallet-connector'
 import { useCreateEntityStateAsActionState } from 'hooks/entity/useCreateEntityStateAsAction'
 
 const Review = ({ showNavigation = true }: { showNavigation?: boolean }): JSX.Element => {

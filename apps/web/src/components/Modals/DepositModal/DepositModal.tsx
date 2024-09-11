@@ -21,7 +21,7 @@ import { getEntityById, selectGroupByCoreAddress } from 'redux/entities/entities
 
 import NextStepImage from 'assets/images/modal/nextstep.svg'
 import { contracts } from '@ixo/impactxclient-sdk'
-import { useWallet } from '@ixo-webclient/wallet-connector'
+import { useWallet } from 'wallet-connector'
 import { Cw20BaseClient } from '@ixo-webclient/cosmwasm-clients'
 import { DeliverTxResponse } from '@cosmjs/stargate'
 import { useParams } from 'react-router-dom'

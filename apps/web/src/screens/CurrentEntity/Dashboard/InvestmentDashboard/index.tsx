@@ -14,7 +14,7 @@ import Outcomes from './Outcomes'
 import Overview from './Overview'
 import { useAppSelector } from 'redux/hooks'
 import { getEntityById } from 'redux/entities/entities.selectors'
-import { useWallet } from '@ixo-webclient/wallet-connector'
+import { useWallet } from 'wallet-connector'
 import { useGetUserGranteeRole } from 'hooks/claim'
 import Claims from '../ProjectDashboard/Claims'
 import ClaimDetail from '../ProjectDashboard/ClaimDetail'
@@ -22,7 +22,7 @@ import { AgentRoles } from 'types/models'
 
 const InvestmentDashboard: React.FC = (): JSX.Element => {
   const theme: any = useTheme()
-  const { entityId = "" } = useParams<{ entityId: string }>()
+  const { entityId = '' } = useParams<{ entityId: string }>()
   const isEditEntityRoute = useMatch('/entity/:entityId/dashboard/edit')
   const isClaimScreenRoute = useMatch('/entity/:entityId/dashboard/claims')
 
@@ -32,12 +32,11 @@ const InvestmentDashboard: React.FC = (): JSX.Element => {
 
   const signerRole = useGetUserGranteeRole(wallet?.address ?? '', owner, accounts, verificationMethod)
 
-  const isVerifiedOnEntity =  verificationMethod.some((verification) => verification?.blockchainAccountID === address)
+  const isVerifiedOnEntity = verificationMethod.some((verification) => verification?.blockchainAccountID === address)
 
   const showAgentsRoute = owner === address || isVerifiedOnEntity
   const ShowClaimsRoute = (owner === address && signerRole === AgentRoles.evaluators) || isVerifiedOnEntity
-  const showEditEntityRoute = (registered && owner === address )|| isVerifiedOnEntity
-
+  const showEditEntityRoute = (registered && owner === address) || isVerifiedOnEntity
 
   const routes: Path[] = [
     {
@@ -59,7 +58,7 @@ const InvestmentDashboard: React.FC = (): JSX.Element => {
       icon: requireCheckDefault(require('assets/img/sidebar/agent.svg')),
       sdg: 'Agents',
       tooltip: 'Agents',
-      disabled:  !showAgentsRoute,
+      disabled: !showAgentsRoute,
     },
     {
       url: `/entity/${entityId}/dashboard/claims`,
@@ -88,7 +87,7 @@ const InvestmentDashboard: React.FC = (): JSX.Element => {
     {
       url: `/entity/${entityId}/overview`,
       icon: '',
-      sdg: profile?.name ?? "",
+      sdg: profile?.name ?? '',
       tooltip: '',
     },
     {

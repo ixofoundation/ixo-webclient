@@ -1,4 +1,4 @@
-import { useWallet } from '@ixo-webclient/wallet-connector'
+import { useWallet } from 'wallet-connector'
 import { Box, Card, Flex, Image, LoadingOverlay, Text } from '@mantine/core'
 import { Button } from '../../Components'
 import { Entity, useEntitiesQuery } from 'generated/graphql'
@@ -59,7 +59,7 @@ const AddAssetToCollection = ({ showNavigation = true }: { showNavigation?: bool
 
   const handleNext = async (protocolId?: string): Promise<void> => {
     const entity = data.find((collection) => collection.id === protocolId) as any
-    await new Promise((resolve) => {  
+    await new Promise((resolve) => {
       apiEntityToEntity({ entity: entity }, (key: string, value: any, merge) => {
         switch (key) {
           case 'profile':
@@ -134,7 +134,13 @@ const AddAssetToCollection = ({ showNavigation = true }: { showNavigation?: bool
             <Button size='full' height={48} variant='secondary' onClick={handlePrev}>
               Back
             </Button>
-            <Button size='full' height={48} variant={'primary'} disabled={!protocolId} onClick={() => handleNext(protocolId)}>
+            <Button
+              size='full'
+              height={48}
+              variant={'primary'}
+              disabled={!protocolId}
+              onClick={() => handleNext(protocolId)}
+            >
               Continue
             </Button>
           </Box>

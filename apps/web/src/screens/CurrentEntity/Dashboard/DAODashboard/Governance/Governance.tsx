@@ -17,7 +17,7 @@ import { mantineThemeColors } from 'styles/mantine'
 import { useAppSelector } from 'redux/hooks'
 import { getEntityById } from 'redux/entities/entities.selectors'
 import { isImpactsDAO } from 'utils/application'
-import { useWallet } from '@ixo-webclient/wallet-connector'
+import { useWallet } from 'wallet-connector'
 
 const GovernanceHeader = React.memo(({ selectedDAOGroup }: { selectedDAOGroup?: TDAOGroupModel }) => (
   <>

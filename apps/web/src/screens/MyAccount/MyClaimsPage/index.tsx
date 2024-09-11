@@ -1,4 +1,4 @@
-import { useWallet } from '@ixo-webclient/wallet-connector'
+import { useWallet } from 'wallet-connector'
 import { Button, Flex, Image, Skeleton, Text } from '@mantine/core'
 import { Claim, ClaimsOrderBy, useClaimsQuery, useEntitiesLazyQuery } from 'generated/graphql'
 import { useTheme } from 'styled-components'

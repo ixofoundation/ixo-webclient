@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 import IxoSwapAdapter from 'adapters/IxoSwapAdapter'
 import { useAccount } from 'hooks/account'
 
-import { useWallet } from '@ixo-webclient/wallet-connector'
+import { useWallet } from 'wallet-connector'
 import { fee } from 'lib/protocol'
 
 type RenderSignStepProps = {
@@ -27,16 +27,17 @@ const RenderSignStep = ({ inputAsset, outputAsset, setCurrentStep }: RenderSignS
           setCurrentStep((prevStep) => prevStep + 1)
         }
 
-        const swapMessage = approveTrx !== null ? [approveTrx, swapTrx] : [swapTrx] as any
-     
-        execute({data: {messages: swapMessage, fee: fee, memo: undefined}, transactionConfig: { sequence: 1 }}).then(() => callback())
+        const swapMessage = approveTrx !== null ? [approveTrx, swapTrx] : ([swapTrx] as any)
+
+        execute({
+          data: { messages: swapMessage, fee: fee, memo: undefined },
+          transactionConfig: { sequence: 1 },
+        }).then(() => callback())
       })
     })
   }, [inputAsset, outputAsset, offlineSigner, setCurrentStep, address, execute])
 
-  return (
-    <SignStep status={TXStatus.PENDING} />
-  )
+  return <SignStep status={TXStatus.PENDING} />
 }
 
 export default RenderSignStep

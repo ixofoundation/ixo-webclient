@@ -15,7 +15,7 @@ import EditProperty from '../../components/EditProperty'
 import EditSurveyTemplate from '../../components/EditSurveyTemplate'
 import { useAppSelector } from 'redux/hooks'
 import { getEntityById } from 'redux/entities/entities.selectors'
-import { useWallet } from '@ixo-webclient/wallet-connector'
+import { useWallet } from 'wallet-connector'
 import { useEntity } from 'hooks/entity/useEntity'
 
 const EditEntity: React.FC = () => {

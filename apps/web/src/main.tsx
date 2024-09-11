@@ -18,30 +18,7 @@ export const gqlClient = new ApolloClient({
 })
 
 const App = () => {
-  const { fetchEntityConfig, fetchThemeConfig, entityConfig } = useIxoConfigs()
-  const dispatch = useAppDispatch()
-
-  useEffect(() => {
-    fetchEntityConfig()
-  }, [fetchEntityConfig])
-
-  return (
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        {/* <Suspense fallback={<Spinner info='Connecting to the Internet of Impacts' />}> */}
-        {/* <WalletProvider
-            chainNetwork={chainNetwork}
-            customComponent={<RedirectToMyAccount />}
-            rpcEndpoint={RPC_ENDPOINT ?? ''}
-          >
-            <WalletModal /> */}
-        <GlobalStyle />
-        <ApolloProvider client={gqlClient}>{entityConfig && <Router />}</ApolloProvider>
-        {/* </WalletProvider> */}
-        {/* </Suspense> */}
-      </PersistGate>
-    </Provider>
-  )
+  return null
 }
 
 export default App

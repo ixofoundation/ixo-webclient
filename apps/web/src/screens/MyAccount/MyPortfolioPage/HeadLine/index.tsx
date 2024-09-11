@@ -1,4 +1,4 @@
-import { friendlyWalletNames } from '@ixo-webclient/wallet-connector'
+import { friendlyWalletNames } from 'wallet-connector'
 import { ActionIcon, Avatar, Flex, Stack } from '@mantine/core'
 
 import CopyIcon from 'assets/images/icon-copy.svg'

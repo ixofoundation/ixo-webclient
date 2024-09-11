@@ -15,7 +15,7 @@ import ClaimCollectionCreationSuccessStep from './Success'
 import { useGetUserGranteeRole } from 'hooks/claim'
 import { AgentRoles } from 'types/models'
 import { useGetEntityByIdLazyQuery } from 'graphql/entities'
-import { useWallet } from '@ixo-webclient/wallet-connector'
+import { useWallet } from 'wallet-connector'
 import { DeliverTxResponse } from '@cosmjs/stargate'
 import { useAppSelector } from 'redux/hooks'
 import { getEntityById } from 'redux/entities/entities.selectors'
@@ -83,7 +83,10 @@ const ClaimCollectionCreation: React.FC = () => {
       ],
     )
 
-    const response = (await execute({ data: entityMessage, transactionConfig: { sequence: 1 }})) as unknown as DeliverTxResponse
+    const response = (await execute({
+      data: entityMessage,
+      transactionConfig: { sequence: 1 },
+    })) as unknown as DeliverTxResponse
     if (response.code !== 0) {
       throw response.rawLog
     }

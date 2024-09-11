@@ -18,7 +18,7 @@ import { useGetClaimCollectionByEntityIdAndClaimTemplateId } from 'graphql/claim
 import { useGetEntityById } from 'graphql/entities'
 import { CellnodePublicResource } from '@ixo/impactxclient-sdk/types/custom_queries/cellnode'
 import { chainNetwork } from 'hooks/configs'
-import { useWallet } from '@ixo-webclient/wallet-connector'
+import { useWallet } from 'wallet-connector'
 import { DeliverTxResponse } from '@cosmjs/stargate'
 import { useGetUserGranteeRole } from 'hooks/claim'
 import { Typography } from 'components/Typography'
@@ -38,7 +38,12 @@ const ClaimForm: React.FC<Props> = ({ claimId }) => {
   const claim: { [id: string]: TEntityClaimModel } = entity.claim ?? {}
 
   const { execute, wallet, close } = useWallet()
-  const userRole = useGetUserGranteeRole(wallet?.address ?? "", entity.owner, entity.accounts, entity.verificationMethod)
+  const userRole = useGetUserGranteeRole(
+    wallet?.address ?? '',
+    entity.owner,
+    entity.accounts,
+    entity.verificationMethod,
+  )
 
   const adminAddress = useCurrentEntityAdminAccount(entity.accounts)
   const selectedClaim: TEntityClaimModel = claim[claimId]
@@ -80,19 +85,19 @@ const ClaimForm: React.FC<Props> = ({ claimId }) => {
         (item: LinkedResource) => item.type === 'surveyTemplate',
       )
 
-        ; (async () => {
-          const responses = await Promise.all(
-            claimSchemaLinkedResources.map((item) => {
-              const url = serviceEndpointToUrl(item.serviceEndpoint, templateEntity.service)
-              return fetch(url)
-                .then((response) => response.json())
-                .then((response) => {
-                  return response
-                })
-            }),
-          )
-          setQuestionFormData(responses.map((response) => response.question))
-        })()
+      ;(async () => {
+        const responses = await Promise.all(
+          claimSchemaLinkedResources.map((item) => {
+            const url = serviceEndpointToUrl(item.serviceEndpoint, templateEntity.service)
+            return fetch(url)
+              .then((response) => response.json())
+              .then((response) => {
+                return response
+              })
+          }),
+        )
+        setQuestionFormData(responses.map((response) => response.question))
+      })()
     }
     return () => {
       setQuestionFormData([])
@@ -120,7 +125,10 @@ const ClaimForm: React.FC<Props> = ({ claimId }) => {
           adminAddress,
         })
 
-        const response = (await execute({ data: execAgentSubmitPayload, transactionConfig: { sequence: 1 }})) as unknown as DeliverTxResponse
+        const response = (await execute({
+          data: execAgentSubmitPayload,
+          transactionConfig: { sequence: 1 },
+        })) as unknown as DeliverTxResponse
         if (response.code !== 0) {
           throw response.rawLog
         }

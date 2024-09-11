@@ -16,7 +16,7 @@ import { errorToast, successToast } from 'utils/toast'
 import { useIxoConfigs } from 'hooks/configs'
 import { convertCoinToDecCoin } from 'utils/currency'
 import { useGetBondDid } from 'graphql/bonds'
-import { useWallet } from '@ixo-webclient/wallet-connector'
+import { useWallet } from 'wallet-connector'
 import { DeliverTxResponse } from '@cosmjs/stargate'
 
 interface Props {

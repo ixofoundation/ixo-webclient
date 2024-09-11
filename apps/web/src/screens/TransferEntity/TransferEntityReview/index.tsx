@@ -16,7 +16,7 @@ import { CosmosMsgForEmpty } from '@ixo/impactxclient-sdk/types/codegen/DaoPropo
 import { makeStargateMessage } from 'utils/messages'
 import { depositInfoToCoin } from 'utils/conversions'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/DaoPreProposeSingle.types'
-import { useWallet } from '@ixo-webclient/wallet-connector'
+import { useWallet } from 'wallet-connector'
 import { DeliverTxResponse } from '@cosmjs/stargate'
 import { DaoPreProposeSingleClient } from '@ixo-webclient/cosmwasm-clients'
 import { useTransferEntityState } from 'hooks/transferEntity'

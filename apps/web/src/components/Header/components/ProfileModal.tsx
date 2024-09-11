@@ -25,7 +25,7 @@ import { Cw20Token, NativeToken, TokenType } from 'types/tokens'
 import { useTheme } from 'styled-components'
 import { TokensTableColumns, TokensTableWrapper } from 'screens/MyAccount/MyPortfolioPage/BalanceView/NativeTokensCard'
 import { Table } from 'components/Table'
-import { friendlyWalletNames } from '@ixo-webclient/wallet-connector'
+import { friendlyWalletNames } from 'wallet-connector'
 import XIcon from 'assets/images/x-icon.svg?url'
 
 const ProfileModal: React.FC = () => {

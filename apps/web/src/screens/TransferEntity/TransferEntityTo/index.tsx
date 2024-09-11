@@ -22,7 +22,7 @@ import { VerificationMethod } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid
 import { VMKeyMap } from 'constants/entity'
 import { getEntityById } from 'redux/entities/entities.selectors'
 import { useAppSelector } from 'redux/hooks'
-import { useWallet } from '@ixo-webclient/wallet-connector'
+import { useWallet } from 'wallet-connector'
 
 const TransferEntityTo: React.FC = (): JSX.Element => {
   const theme: any = useTheme()

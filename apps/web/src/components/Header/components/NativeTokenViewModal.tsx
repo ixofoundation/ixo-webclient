@@ -1,5 +1,5 @@
 import { DeliverTxResponse } from '@cosmjs/stargate'
-import { useWallet } from '@ixo-webclient/wallet-connector'
+import { useWallet } from 'wallet-connector'
 import { cosmos } from '@ixo/impactxclient-sdk'
 import BigNumber from 'bignumber.js'
 import { FlexBox } from 'components/App/App.styles'

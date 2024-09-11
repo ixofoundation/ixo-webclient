@@ -1,3 +1,4 @@
+'use client'
 import { deviceWidth } from 'constants/device'
 import { ReactNode } from 'react'
 import styled, { css } from 'styled-components'
@@ -343,7 +344,8 @@ export const FlexBox = styled(Box)<HTMLFlexBoxProps>`
   justify-content: ${({ $justifyContent = 'flex-start' }): string => $justifyContent};
   align-items: ${({ $alignItems = 'flex-start' }): string => $alignItems};
   gap: ${({ $gap = 0 }): string => $gap * 0.25 + 'rem'};
-  ${({ $borderRadius }): string | number | undefined => ($borderRadius ? `border-radius: ${$borderRadius};` : undefined)}
+  ${({ $borderRadius }): string | number | undefined =>
+    $borderRadius ? `border-radius: ${$borderRadius};` : undefined}
   ${({ $flexWrap }): string | undefined => ($flexWrap ? `flex-wrap: ${$flexWrap}` : undefined)};
   ${({ $flexBasis }): string | undefined => ($flexBasis ? `flex-basis: ${$flexBasis}` : undefined)};
   ${({ $flexGrow }) => $flexGrow && `flex-grow: ${$flexGrow};`}

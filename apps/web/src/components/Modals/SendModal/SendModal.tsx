@@ -18,7 +18,7 @@ import { convertDenomToMicroDenomWithDecimals } from 'utils/conversions'
 import { WasmExecuteTrx } from 'lib/protocol/cosmwasm'
 import { BankSendTrx } from 'lib/protocol'
 import { errorToast, successToast } from 'utils/toast'
-import { useWallet } from '@ixo-webclient/wallet-connector'
+import { useWallet } from 'wallet-connector'
 import { DeliverTxResponse } from '@cosmjs/stargate'
 
 const StyledInput = styled(Input)`

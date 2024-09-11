@@ -1,5 +1,5 @@
 import { DeliverTxResponse } from '@cosmjs/stargate'
-import { useWallet } from '@ixo-webclient/wallet-connector'
+import { useWallet } from 'wallet-connector'
 import { FlexBox } from 'components/App/App.styles'
 import { Typography } from 'components/Typography'
 import { useGetClaimCollection } from 'graphql/claims'

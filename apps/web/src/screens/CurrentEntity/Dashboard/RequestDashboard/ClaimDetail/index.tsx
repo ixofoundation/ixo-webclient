@@ -1,5 +1,5 @@
 import { DeliverTxResponse } from '@cosmjs/stargate'
-import { useWallet } from '@ixo-webclient/wallet-connector'
+import { useWallet } from 'wallet-connector'
 import { customQueries, ixo } from '@ixo/impactxclient-sdk'
 import { EvaluationStatus } from '@ixo/impactxclient-sdk/types/codegen/ixo/claims/v1beta1/claims'
 import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'

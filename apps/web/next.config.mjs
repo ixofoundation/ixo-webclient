@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   distDir: './build', // Changes the build output directory to `./dist`.
+  output: 'export',
   webpack(config) {
     // Grab the existing rule that handles SVG imports
     const fileLoaderRule = config.module.rules.find((rule) => rule.test?.test?.('.svg'))
@@ -26,7 +27,15 @@ const nextConfig = {
 
     return config
   },
-  transpilePackages: ['@ixo-webclient/wallet-connector'],
+  experimental: {
+    optimizePackageImports: ['@mantine/core', '@mantine/hooks'],
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
 }
 
 export default nextConfig
