@@ -9,6 +9,8 @@
     "dev": {},
     "storybook": {},
     "@ixo-webclient/web#dev": {},
-    "@ixo-webclient/web#build": {}
+    "@ixo-webclient/web#build": {
+      "dependsOn": ["@ixo-webclient/types#build", "@ixo-webclient/utils#build"]
+    }
   }
 }
