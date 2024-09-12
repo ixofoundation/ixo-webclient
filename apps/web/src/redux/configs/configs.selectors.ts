@@ -8,12 +8,10 @@ import { AssetListConfig, ConfigsState, CurrencyInfo, ExchangeConfig, PaymentCoi
 const chainId = process.env.NEXT_PUBLIC_CHAIN_ID
 
 export const selectConfigs = (state: RootState): ConfigsState => {
-  console.log('state in selectConfigs', state)
   return state.configs
 }
 
 export const selectAssetListConfig = createSelector(selectConfigs, (configs: ConfigsState): AssetListConfig[] => {
-  console.log('configs in selectAssetListConfig', configs)
   return configs.assetListConfig
 })
 

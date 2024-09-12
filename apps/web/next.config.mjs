@@ -1,3 +1,6 @@
+import { createRequire } from 'module'
+const require = createRequire(import.meta.url)
+  console.log(require.resolve('readable-stream'))
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   distDir: './build', // Changes the build output directory to `./dist`.
@@ -11,6 +14,16 @@ const nextConfig = {
   },
   typescript: {
     ignoreBuildErrors: true,
+  },
+
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.resolve.fallback = {
+        stream: require.resolve('readable-stream'),
+      }
+    }
+
+    return config
   },
 }
 
