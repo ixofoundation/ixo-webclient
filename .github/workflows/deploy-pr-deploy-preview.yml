@@ -58,6 +58,7 @@ jobs:
       - name: Build
         run: |
           export NODE_OPTIONS="--max_old_space_size=8192"
+          export NODE_ENV=production
           yarn build  # Build Script
 
       - name: Deploy to dev.ixo.earth
@@ -103,6 +104,7 @@ jobs:
           NEXT_PUBLIC_PDS_URL: https://cellnode-pandora.ixo.earth/
         run: |
           export NODE_OPTIONS="--max_old_space_size=8192"
+          export NODE_ENV=production
           yarn build  # Build Script
 
       - name: Deploy to test.ixo.earth
@@ -141,6 +143,7 @@ jobs:
           NEXT_PUBLIC_CUSTOM_THEME_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/yoma/theme.json
         run: |
           export NODE_OPTIONS="--max_old_space_size=8192"
+          export NODE_ENV=production
           yarn build  # Build Script
 
       - name: Deploy to yoma.ixo.earth deploy preview
@@ -176,6 +179,7 @@ jobs:
           NEXT_PUBLIC_CUSTOM_THEME_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/idcc/theme.json
         run: |
           export NODE_OPTIONS="--max_old_space_size=8192"
+          export NODE_ENV=production
           yarn build  # Build Script
 
       - name: Deploy to idcc.ixo.earth deploy preview
@@ -213,6 +217,7 @@ jobs:
           NEXT_PUBLIC_CUSTOM_THEME_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/impacts-ai/theme.json
         run: |
           export NODE_OPTIONS="--max_old_space_size=8192"
+          export NODE_ENV=production
           yarn build  # Build Script
 
       - name: Deploy to platform.impacts.ai
