@@ -7,7 +7,7 @@ import {
   LinkedResource,
   Service,
 } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
-import { FlexBox, SvgBox } from 'components/App/App.styles'
+import { FlexBox, SvgBox } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
 import { deviceWidth } from 'constants/device'
 import { useCreateEntity, useCreateEntityState } from 'hooks/createEntity'
@@ -15,9 +15,6 @@ import { useQuery } from 'hooks/window'
 import { Button } from 'screens/CreateEntity/Components'
 import React, { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-
-
-
 
 import { useTheme } from 'styled-components'
 import { CreationSuccessScreen } from './CreationSuccessScreen'
@@ -173,7 +170,7 @@ const Review = ({ showNavigation = true }: { showNavigation?: boolean }): JSX.El
               $textAlign='center'
             >
               <SvgBox color={theme.ixoLightGreen} $svgWidth={30} $svgHeight={30}>
-                <img src="/assets/images/icon-check-circle.svg"  />
+                <img src='/assets/images/icon-check-circle.svg' />
               </SvgBox>
               <Typography variant='secondary' size='2xl'>
                 {profile?.name} Successfully created!
@@ -205,7 +202,7 @@ const Review = ({ showNavigation = true }: { showNavigation?: boolean }): JSX.El
               $textAlign='center'
             >
               <SvgBox color={theme.ixoDarkOrange} $svgWidth={30} $svgHeight={30}>
-                <img src="/assets/images/icon-exclamation-circle.svg"  />
+                <img src='/assets/images/icon-exclamation-circle.svg' />
               </SvgBox>
               <Typography variant='secondary' size='2xl'>
                 Something went wrong. Please try again.

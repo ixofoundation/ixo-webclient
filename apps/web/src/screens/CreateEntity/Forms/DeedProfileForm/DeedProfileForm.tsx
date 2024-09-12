@@ -3,7 +3,7 @@ import { FormWrapper, FormBody, FormRow, FormHeader } from './DeedProfileForm.st
 import { ImageUpload, InputWithLabel, SelectWithModal } from '../../Components'
 import { Typography } from 'components/Typography'
 import { EDeedType } from 'types/protocol'
-import { FlexBox } from 'components/App/App.styles'
+import { FlexBox } from 'components/CoreEntry/App.styles'
 import moment from 'moment'
 
 interface Props {
@@ -31,7 +31,7 @@ const DeedProfileForm: React.FC<Props> = ({
   return (
     <FormWrapper {...rest}>
       <FormHeader>
-      <ImageUpload image={image} handleChange={setImage} />
+        <ImageUpload image={image} handleChange={setImage} />
       </FormHeader>
 
       <FormBody>

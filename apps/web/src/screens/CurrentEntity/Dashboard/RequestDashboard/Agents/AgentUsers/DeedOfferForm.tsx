@@ -1,4 +1,4 @@
-import { FlexBox } from 'components/App/App.styles'
+import { FlexBox } from 'components/CoreEntry/App.styles'
 import { useGetOfferFormByClaimCollectionId } from 'graphql/entities'
 import React, { useEffect, useMemo, useState } from 'react'
 import { customQueries } from '@ixo/impactxclient-sdk'
@@ -39,7 +39,9 @@ const DeedOfferForm: React.FC<Props> = ({ collectionId, agent }) => {
 
   return (
     <FlexBox $direction='column' width='100%' $gap={7}>
-      {offerQuestionForm && answerData && deedOfferId && <DisplaySurvey surveyId={deedOfferId} surveyJson={offerQuestionForm} surveyData={answerData} />}
+      {offerQuestionForm && answerData && deedOfferId && (
+        <DisplaySurvey surveyId={deedOfferId} surveyJson={offerQuestionForm} surveyData={answerData} />
+      )}
     </FlexBox>
   )
 }

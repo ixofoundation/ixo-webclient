@@ -1,6 +1,6 @@
 // deepscan-disable
 import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
-import { FlexBox } from 'components/App/App.styles'
+import { FlexBox } from 'components/CoreEntry/App.styles'
 import { useSigner } from 'hooks/account'
 import { useCurrentEntityAdminAccount } from 'hooks/currentEntity'
 import { MsgExecAgentSubmit } from 'lib/protocol'

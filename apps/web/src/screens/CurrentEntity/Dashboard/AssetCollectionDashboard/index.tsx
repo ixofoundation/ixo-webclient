@@ -8,7 +8,7 @@ import { useAppSelector } from 'redux/hooks'
 import { getEntityById } from 'redux/entities/entities.selectors'
 
 const AssetCollectionDashboard: React.FC = (): JSX.Element => {
-  const { entityId = "" } = useParams<{ entityId: string }>()
+  const { entityId = '' } = useParams<{ entityId: string }>()
   const { type, owner, profile } = useAppSelector(getEntityById(entityId))
 
   const { registered, address } = useAccount()
@@ -16,7 +16,7 @@ const AssetCollectionDashboard: React.FC = (): JSX.Element => {
   const routes: Path[] = [
     {
       url: `/entity/${entityId}/dashboard/edit`,
-      icon: requireCheckDefault(require('assets/img/sidebar/gear.svg')),
+      icon: '/assets/img/sidebar/gear.svg',
       sdg: 'Edit Entity',
       tooltip: 'Edit Entity',
       disabled: !registered || owner !== address,
@@ -29,7 +29,7 @@ const AssetCollectionDashboard: React.FC = (): JSX.Element => {
   return (
     <Dashboard
       theme={'light'}
-      title={profile?.name ?? ""}
+      title={profile?.name ?? ''}
       subRoutes={routes}
       baseRoutes={breadcrumbs}
       tabs={tabs}

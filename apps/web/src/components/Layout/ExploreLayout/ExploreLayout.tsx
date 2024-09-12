@@ -1,5 +1,3 @@
-'use client'
-
 import { Box, Flex, ScrollArea } from '@mantine/core'
 import { Outlet } from 'react-router-dom'
 import { useSelector } from 'react-redux'
@@ -18,7 +16,7 @@ interface SearchResult {
   // Add other properties based on your Algolia index structure
 }
 
-const ExploreLayout = ({ children }: { children: React.ReactNode }) => {
+const ExploreLayout: React.FC = () => {
   const headConfig = useSelector(selectEntityHeadUIConfig)
   const title = headConfig?.title
 
@@ -64,7 +62,7 @@ const ExploreLayout = ({ children }: { children: React.ReactNode }) => {
           </Flex>
         </Flex>
         <ScrollArea w='100%' h='100%' bg='gray.2'>
-          {children}
+          <Outlet context={{ searchQuery, searchResults, updateSearchQuery }} />
         </ScrollArea>
       </InstantSearch>
     </Flex>

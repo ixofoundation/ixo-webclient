@@ -1,4 +1,4 @@
-import { FlexBox } from 'components/App/App.styles'
+import { FlexBox } from 'components/CoreEntry/App.styles'
 import { useRef } from 'react'
 import Map, { Layer, Source, MapRef, GeoJSONSource, LayerProps } from 'react-map-gl'
 import styled, { useTheme } from 'styled-components'

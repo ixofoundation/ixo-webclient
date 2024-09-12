@@ -1,3 +1,4 @@
+'use client'
 import { Block, BlockNoteSchema, defaultBlockSpecs } from '@blocknote/core'
 import { BlockNoteView } from '@blocknote/mantine'
 import { useCreateBlockNote } from '@blocknote/react'
@@ -8,7 +9,6 @@ import { useRef } from 'react'
 import { TEntityPageModel } from 'types/entities'
 import { uploadFile } from 'components/Editor/uploadFile'
 import { en } from 'components/Editor/customDictionary'
-import 'components/Editor/Editor.css'
 
 const schema = BlockNoteSchema.create({
   blockSpecs: {

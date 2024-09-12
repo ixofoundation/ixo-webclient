@@ -1,4 +1,4 @@
-import { FlexBox } from 'components/App/App.styles'
+import { FlexBox } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
 import useEditEntity from 'hooks/editEntity'
 import { Button } from 'screens/CreateEntity/Components'
@@ -8,7 +8,6 @@ import EditProfile from '../../components/EditProfile'
 import EditProperty from '../../components/EditProperty'
 import { useNavigate, useParams } from 'react-router-dom'
 import { FormCard } from 'components'
-
 
 import { useWallet } from 'wallet-connector'
 import { useAppSelector } from 'redux/hooks'
@@ -70,7 +69,7 @@ const EditEntity: React.FC = () => {
           </Button>
         )}
         {currentEntity.status === 2 && isOwner && (
-          <FormCard title='Re-enable keys' preIcon={<img src="/assets/images/icon-exclamation-circle.svg"  />}>
+          <FormCard title='Re-enable keys' preIcon={<img src='/assets/images/icon-exclamation-circle.svg' />}>
             <Typography>The former owner of the entity created a document to re-enable verification keys.</Typography>
             <Button size='flex' onClick={handleReEnableKeys} textTransform='uppercase'>
               Review

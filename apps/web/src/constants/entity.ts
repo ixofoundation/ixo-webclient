@@ -1,140 +1,140 @@
-import CreatorIcon from 'assets/images/icon-creator.svg'
+const CreatorIcon = '/assets/images/icon-creator.svg'
 
-import UserIcon from 'assets/images/icon-user.svg'
+const UserIcon = '/assets/images/icon-user.svg'
 
-import UserCircleIcon from 'assets/images/icon-user-circle.svg'
+const UserCircleIcon = '/assets/images/icon-user-circle.svg'
 
-import TagsIcon from 'assets/images/icon-tag.svg'
+const TagsIcon = '/assets/images/icon-tag.svg'
 
-import PageIcon from 'assets/images/icon-laptop.svg'
+const PageIcon = '/assets/images/icon-laptop.svg'
 
-import PaymentIcon from 'assets/images/icon-payment.svg'
+const PaymentIcon = '/assets/images/icon-payment.svg'
 
-import ImageIcon from 'assets/images/icon-image-outline.svg'
+const ImageIcon = '/assets/images/icon-image-outline.svg'
 
-import TextIcon from 'assets/images/icon-text.svg'
+const TextIcon = '/assets/images/icon-text.svg'
 
-import DatabaseIcon from 'assets/images/icon-database.svg'
+const DatabaseIcon = '/assets/images/icon-database.svg'
 
-import CredentialIcon from 'assets/images/icon-credential.svg'
+const CredentialIcon = '/assets/images/icon-credential.svg'
 
-import AuthorisationIcon from 'assets/images/icon-authorisation.svg'
+const AuthorisationIcon = '/assets/images/icon-authorisation.svg'
 
-import GlobeIcon from 'assets/images/icon-globe.svg'
+const GlobeIcon = '/assets/images/icon-globe.svg'
 
-import AlgorithmIcon from 'assets/images/icon-algorithm.svg'
+const AlgorithmIcon = '/assets/images/icon-algorithm.svg'
 
-import SmartContractIcon from 'assets/images/icon-smart-contract.svg'
+const SmartContractIcon = '/assets/images/icon-smart-contract.svg'
 
-import ClaimIcon from 'assets/images/icon-claim.svg'
+const ClaimIcon = '/assets/images/icon-claim.svg'
 
-import DashboardIcon from 'assets/images/icon-dashboard.svg'
+const DashboardIcon = '/assets/images/icon-dashboard.svg'
 
-import DocumentIcon from 'assets/images/icon-document.svg'
+const DocumentIcon = '/assets/images/icon-document.svg'
 
-import AgentAuthorisationIcon from 'assets/images/icon-agent-autorisation.svg'
+const AgentAuthorisationIcon = '/assets/images/icon-agent-autorisation.svg'
 
-import AgentCapabilityIcon from 'assets/images/icon-agent-capability.svg'
+const AgentCapabilityIcon = '/assets/images/icon-agent-capability.svg'
 
-import AgentUsageLicenseIcon from 'assets/images/icon-usage-license.svg'
+const AgentUsageLicenseIcon = '/assets/images/icon-usage-license.svg'
 
-import ProjectIcon from 'assets/images/icon-project.svg'
+const ProjectIcon = '/assets/images/icon-project.svg'
 
-import AlphaBondIcon from 'assets/images/icon-alphabond.svg'
+const AlphaBondIcon = '/assets/images/icon-alphabond.svg'
 
-import LBPIcon from 'assets/images/icon-lbp.svg'
+const LBPIcon = '/assets/images/icon-lbp.svg'
 
-import QuadraticIcon from 'assets/images/icon-quadratic.svg'
+const QuadraticIcon = '/assets/images/icon-quadratic.svg'
 
-import ConvertibleIcon from 'assets/images/icon-convertible.svg'
+const ConvertibleIcon = '/assets/images/icon-convertible.svg'
 
-import ClaimSchemaStoreIcon from 'assets/images/icon-claim-schema-store.svg'
+const ClaimSchemaStoreIcon = '/assets/images/icon-claim-schema-store.svg'
 
-import PublicDataNodeIcon from 'assets/images/icon-public-data-node.svg'
+const PublicDataNodeIcon = '/assets/images/icon-public-data-node.svg'
 
-import ChainServicesIcon from 'assets/images/icon-chain-services.svg'
+const ChainServicesIcon = '/assets/images/icon-chain-services.svg'
 
-import Web2ServicesIcon from 'assets/images/icon-web2-services.svg'
+const Web2ServicesIcon = '/assets/images/icon-web2-services.svg'
 
-import OracleServicesIcon from 'assets/images/icon-oracle-services.svg'
+const OracleServicesIcon = '/assets/images/icon-oracle-services.svg'
 
-import DataSourceIcon from 'assets/images/icon-data-source.svg'
+const DataSourceIcon = '/assets/images/icon-data-source.svg'
 
-import VerifiableDisplaySourceIcon from 'assets/images/icon-verifiable-display-source.svg'
+const VerifiableDisplaySourceIcon = '/assets/images/icon-verifiable-display-source.svg'
 
-import AuthenticationSourceIcon from 'assets/images/icon-authentication-source.svg'
+const AuthenticationSourceIcon = '/assets/images/icon-authentication-source.svg'
 
-import WebKeyManagementIcon from 'assets/images/icon-web-key-management.svg'
+const WebKeyManagementIcon = '/assets/images/icon-web-key-management.svg'
 
-import SmartContract2Icon from 'assets/images/icon-smart-contract2.svg'
+const SmartContract2Icon = '/assets/images/icon-smart-contract2.svg'
 
-import JamboDAppIcon from 'assets/images/icon-jambo-dapp.svg'
+const JamboDAppIcon = '/assets/images/icon-jambo-dapp.svg'
 
-import MatrixServerIcon from 'assets/images/icon-matrix-server.svg'
+const MatrixServerIcon = '/assets/images/icon-matrix-server.svg'
 
-import HandshakeIcon from 'assets/images/icon-handshake.svg'
+const HandshakeIcon = '/assets/images/icon-handshake.svg'
 
-import StakingIcon from 'assets/images/icon-staking.svg'
+const StakingIcon = '/assets/images/icon-staking.svg'
 
-import MultisigIcon from 'assets/images/icon-multisig.svg'
+const MultisigIcon = '/assets/images/icon-multisig.svg'
 
-import PlusIcon from 'assets/images/icon-plus.svg'
+const PlusIcon = '/assets/images/icon-plus.svg'
 
-import LockOnIcon from 'assets/images/icon-lock-open-solid.svg'
+const LockOnIcon = '/assets/images/icon-lock-open-solid.svg'
 
-import StarIcon from 'assets/images/icon-star.svg'
+const StarIcon = '/assets/images/icon-star.svg'
 
-import FireIcon from 'assets/images/icon-fire.svg'
+const FireIcon = '/assets/images/icon-fire.svg'
 
-import TreasuryIcon from 'assets/images/icon-treasury.svg'
+const TreasuryIcon = '/assets/images/icon-treasury.svg'
 
-import DatabaseMultiIcon from 'assets/images/icon-coins-solid.svg'
+const DatabaseMultiIcon = '/assets/images/icon-coins-solid.svg'
 
-import ArrowDownIcon from 'assets/images/icon-arrow-down.svg'
+const ArrowDownIcon = '/assets/images/icon-arrow-down.svg'
 
-import HandHoldingUsdIcon from 'assets/images/icon-hand-holding-usd-solid.svg'
+const HandHoldingUsdIcon = '/assets/images/icon-hand-holding-usd-solid.svg'
 
-import CycleIcon from 'assets/images/icon-cycle.svg'
+const CycleIcon = '/assets/images/icon-cycle.svg'
 
-import ArrowUpIcon from 'assets/images/icon-arrow-up.svg'
+const ArrowUpIcon = '/assets/images/icon-arrow-up.svg'
 
-import AuthGrantIcon from 'assets/images/icon-auth-grant.svg'
+const AuthGrantIcon = '/assets/images/icon-auth-grant.svg'
 
-import MemberGroupIcon from 'assets/images/icon-member-group.svg'
+const MemberGroupIcon = '/assets/images/icon-member-group.svg'
 
-import DAOIcon from 'assets/images/icon-dao.svg'
+const DAOIcon = '/assets/images/icon-dao.svg'
 
-import InfoIcon from 'assets/images/icon-info.svg'
+const InfoIcon = '/assets/images/icon-info.svg'
 
-import AnnouncementIcon from 'assets/images/icon-announcement.svg'
+const AnnouncementIcon = '/assets/images/icon-announcement.svg'
 
-import PaperIcon from 'assets/images/icon-paper2.svg'
+const PaperIcon = '/assets/images/icon-paper2.svg'
 
-import ProposalIcon from 'assets/images/icon-proposal.svg'
+const ProposalIcon = '/assets/images/icon-proposal.svg'
 
-import SmartContract3Icon from 'assets/images/icon-smart-contract3.svg'
+const SmartContract3Icon = '/assets/images/icon-smart-contract3.svg'
 
-import SmartContract4Icon from 'assets/images/icon-smart-contract4.svg'
+const SmartContract4Icon = '/assets/images/icon-smart-contract4.svg'
 
-import ProfileIcon from 'assets/images/icon-profile.svg'
+const ProfileIcon = '/assets/images/icon-profile.svg'
 
-import GearMultiIcon from 'assets/images/icon-gear-multi.svg'
+const GearMultiIcon = '/assets/images/icon-gear-multi.svg'
 
-import Plus2Icon from 'assets/images/icon-plus2.svg'
+const Plus2Icon = '/assets/images/icon-plus2.svg'
 
-import CodeIcon from 'assets/images/icon-code-solid.svg'
+const CodeIcon = '/assets/images/icon-code-solid.svg'
 
-import BoxOpenSolidIcon from 'assets/images/icon-box-open-solid.svg'
+const BoxOpenSolidIcon = '/assets/images/icon-box-open-solid.svg'
 
-import SlidersHSolidIcon from 'assets/images/icon-sliders-h-solid.svg'
+const SlidersHSolidIcon = '/assets/images/icon-sliders-h-solid.svg'
 
-import VoteYeaIcon from 'assets/images/icon-vote-yea-solid.svg'
+const VoteYeaIcon = '/assets/images/icon-vote-yea-solid.svg'
 
-import VolumeUpIcon from 'assets/images/icon-volume-up-solid.svg'
+const VolumeUpIcon = '/assets/images/icon-volume-up-solid.svg'
 
-import LinkedAccountIcon from 'assets/images/icon-linked-account.svg'
+const LinkedAccountIcon = '/assets/images/icon-linked-account.svg'
 
-import CheckSquareIcon from 'assets/images/icon-check-square.svg'
+const CheckSquareIcon = '/assets/images/icon-check-square.svg'
 import {
   SetupAuthzExecModal,
   SetupAuthzGrantModal,

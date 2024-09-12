@@ -1,7 +1,7 @@
-import { Box, FlexBox } from 'components/App/App.styles'
+'use client'
+import { Box, FlexBox } from 'components/CoreEntry/App.styles'
 import { PropertyBox } from 'screens/CreateEntity/Components'
 import React, { useEffect, useState } from 'react'
-
 
 import {
   AddSettingsModal,
@@ -184,7 +184,7 @@ const SetupSettings: React.FC<Props> = ({
             .map(([key, value]) => (
               <PropertyBox
                 key={key}
-                icon={<value.icon />}
+                icon={<img src={value.icon} />}
                 required={value.required}
                 set={Array.isArray(value.data) ? value.data.length > 0 : Object.keys(value.data ?? {}).length > 0}
                 label={value.text}
@@ -193,7 +193,11 @@ const SetupSettings: React.FC<Props> = ({
               />
             ))}
 
-          <PropertyBox icon={<img src="/assets/images/icon-plus.svg"  />} noData handleClick={(): void => setOpenAddSettingsModal(true)} />
+          <PropertyBox
+            icon={<img src='/assets/images/icon-plus.svg' />}
+            noData
+            handleClick={(): void => setOpenAddSettingsModal(true)}
+          />
         </Box>
       </FlexBox>
       <AddSettingsModal

@@ -1,4 +1,4 @@
-import { FlexBox, GridContainer } from 'components/App/App.styles'
+import { FlexBox, GridContainer } from 'components/CoreEntry/App.styles'
 import React, { useMemo } from 'react'
 import CollectionCard from './CollectionCard'
 import CollectionExplorer from './CollectionExplorer'

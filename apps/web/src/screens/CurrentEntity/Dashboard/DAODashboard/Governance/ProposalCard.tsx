@@ -2,7 +2,7 @@ import { contracts } from '@ixo/impactxclient-sdk'
 import { SingleChoiceProposal } from '@ixo/impactxclient-sdk/types/codegen/DaoMigrator.types'
 import { Vote, VoteInfo } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
 import { Badge, Button, Flex, Text } from '@mantine/core'
-import { SvgBox } from 'components/App/App.styles'
+import { SvgBox } from 'components/CoreEntry/App.styles'
 import { VoteModal } from 'components/Modals'
 import { Typography } from 'components/Typography'
 import { CircleProgressbar } from 'components/Widgets/CircleProgressbar/CircleProgressbar'
@@ -17,17 +17,6 @@ import { truncateString } from 'utils/formatters'
 import { diffMinsFromNow, expirationToTimestamp, isExpired } from 'utils/time'
 import { errorToast, successToast } from 'utils/toast'
 
-
-
-
-
-
-
-
-
-
-
-
 import { DaoProposalSingleClient } from 'cosmwasm-clients'
 import { useEntity } from 'hooks/entity/useEntity'
 import { getEntityById } from 'redux/entities/entities.selectors'
@@ -41,7 +30,7 @@ const RemainingBadge: React.FC<{ minutes: number }> = ({ minutes }) => {
     <Badge w={110} px={8} py={4} style={{ color: theme.ixoLightBlue, backgroundColor: theme.ixoDarkBlue }}>
       <Flex align={'center'} gap={4}>
         <SvgBox $svgWidth={4} $svgHeight={4}>
-          <img src="/assets/images/icon-sandclock.svg"  />
+          <img src='/assets/images/icon-sandclock.svg' />
         </SvgBox>
         <Typography size='sm' transform='none'>
           {/* 3d 4h 12min {moment(4000).format('d h m')} */}
@@ -58,7 +47,7 @@ const PassedBadge: React.FC = () => {
     <Badge w={110} px={8} py={4} style={{ color: theme.ixoWhite, backgroundColor: theme.ixoNewBlue }}>
       <Flex align={'center'} gap={4}>
         <SvgBox $svgWidth={4} $svgHeight={4}>
-          <img src="/assets/images/icon-check-circle.svg"  />
+          <img src='/assets/images/icon-check-circle.svg' />
         </SvgBox>
         <Typography size='sm' transform='none'>
           Passed
@@ -74,7 +63,7 @@ const ExecutedBadge: React.FC = () => {
     <Badge w={110} px={8} py={4} style={{ color: theme.ixoWhite, backgroundColor: theme.ixoGreen }}>
       <Flex align={'center'} gap={4}>
         <SvgBox $svgWidth={4} $svgHeight={4}>
-          <img src="/assets/images/icon-check-circle.svg"  />
+          <img src='/assets/images/icon-check-circle.svg' />
         </SvgBox>
         <Typography size='sm' transform='none'>
           Executed
@@ -90,7 +79,7 @@ const RejectedBadge: React.FC = () => {
     <Badge w={110} px={8} py={4} style={{ color: theme.ixoWhite, backgroundColor: theme.ixoRed }}>
       <Flex align={'center'} gap={4}>
         <SvgBox $svgWidth={4} $svgHeight={4}>
-          <img src="/assets/images/icon-times-circle.svg"  />
+          <img src='/assets/images/icon-times-circle.svg' />
         </SvgBox>
         <Typography size='sm' transform='none'>
           Rejected
@@ -106,7 +95,7 @@ const FailedBadge: React.FC = () => {
     <Badge w={110} px={8} py={4} style={{ color: theme.ixoOrange, backgroundColor: theme.ixoDarkBlue }}>
       <Flex align={'center'} gap={4}>
         <SvgBox $svgWidth={4} $svgHeight={4}>
-          <img src="/assets/images/icon-unlink-solid.svg"  />
+          <img src='/assets/images/icon-unlink-solid.svg' />
         </SvgBox>
         <Typography size='sm' transform='none'>
           Failed
@@ -122,7 +111,7 @@ const ClosedBadge: React.FC = () => {
     <Badge w={110} px={8} py={4} style={{ color: theme.ixoWhite, backgroundColor: theme.ixoLightRed }}>
       <Flex align={'center'} gap={4}>
         <SvgBox $svgWidth={4} $svgHeight={4}>
-          <img src="/assets/images/icon-times-circle.svg"  />
+          <img src='/assets/images/icon-times-circle.svg' />
         </SvgBox>
         <Typography size='sm' transform='none'>
           Closed
@@ -278,7 +267,7 @@ const ProposalCard: React.FC<Props> = ({ coreAddress, proposalId, proposal }) =>
           color='ixo-blue'
           leftSection={
             <SvgBox $svgWidth={5} $svgHeight={5}>
-              <img src="/assets/images/icon-thumbs-up.svg"  />
+              <img src='/assets/images/icon-thumbs-up.svg' />
             </SvgBox>
           }
           {...(allow_revoting && !isExpired(expiration) ? { onClick: () => setVoteModalOpen(true) } : [])}
@@ -295,7 +284,7 @@ const ProposalCard: React.FC<Props> = ({ coreAddress, proposalId, proposal }) =>
           color='ixo-blue.8'
           leftSection={
             <SvgBox $svgWidth={5} $svgHeight={5}>
-              <img src="/assets/images/icon-thumbs-down.svg"  />
+              <img src='/assets/images/icon-thumbs-down.svg' />
             </SvgBox>
           }
           {...(allow_revoting && !isExpired(expiration) ? { onClick: () => setVoteModalOpen(true) } : [])}

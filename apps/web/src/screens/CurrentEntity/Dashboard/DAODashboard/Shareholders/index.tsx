@@ -1,11 +1,10 @@
 import { Anchor, Avatar, Button, Flex, NumberFormatter } from '@mantine/core'
-import { SvgBox } from 'components/App/App.styles'
+import { SvgBox } from 'components/CoreEntry/App.styles'
 import Table, { renderTableHeader } from 'components/Table/Table'
 import { Typography } from 'components/Typography'
 import React, { useEffect, useMemo, useState } from 'react'
 import styled from 'styled-components'
 import { mantineThemeColors } from 'styles/mantine'
-
 
 import { useQuery } from 'hooks/window'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -210,7 +209,7 @@ const Shareholders: React.FC = () => {
             <Flex p={16} direction={'column'} gap={4}>
               <Anchor href={`${blockExplorerAccountEndpoint}${addr}`} target='_blank'>
                 <SvgBox $svgWidth={6} $svgHeight={6} color={mantineThemeColors['ixo-blue'][6]} cursor='pointer'>
-                  <img src="/assets/images/icon-external-link-alt-solid.svg"  />
+                  <img src='/assets/images/icon-external-link-alt-solid.svg' />
                 </SvgBox>
               </Anchor>
             </Flex>

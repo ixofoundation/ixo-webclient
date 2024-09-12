@@ -1,5 +1,5 @@
 import { Coin } from '@cosmjs/proto-signing'
-import { FlexBox } from 'components/App/App.styles'
+import { FlexBox } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
 import { useTheme } from 'styled-components'
 import { LineChart, Line, ResponsiveContainer } from 'recharts'

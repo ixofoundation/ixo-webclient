@@ -1,15 +1,8 @@
 import { useTheme } from 'styled-components'
 import { Card } from '../Card'
-import { FlexBox, SvgBox } from 'components/App/App.styles'
+import { FlexBox, SvgBox } from 'components/CoreEntry/App.styles'
 import { Avatar } from 'screens/CurrentEntity/Components'
 import { Typography } from 'components/Typography'
-
-
-
-
-
-
-
 
 import { useState } from 'react'
 
@@ -41,7 +34,7 @@ const FeedItem = () => {
             cursor='pointer'
           >
             <SvgBox $svgWidth={5} $svgHeight={5}>
-              <img src="/assets/images/icon-thumbs-up.svg"  />
+              <img src='/assets/images/icon-thumbs-up.svg' />
             </SvgBox>
             <Typography size='sm' color='grey500'>
               32
@@ -57,7 +50,7 @@ const FeedItem = () => {
             cursor='pointer'
           >
             <SvgBox $svgWidth={5} $svgHeight={5}>
-              <img src="/assets/images/icon-comment-alt.svg"  />
+              <img src='/assets/images/icon-comment-alt.svg' />
             </SvgBox>
             <Typography size='sm' color='grey500'>
               123
@@ -75,7 +68,7 @@ const FeedCard = () => {
 
   return (
     <Card
-      icon={<img src="/assets/images/icon-bell.svg"  />}
+      icon={<img src='/assets/images/icon-bell.svg' />}
       title={
         <FlexBox $alignItems='center' $gap={4}>
           <Typography variant='secondary' size='lg'>
@@ -105,7 +98,7 @@ const FeedCard = () => {
               onClick={() => setTab('favourite')}
             >
               <SvgBox $svgWidth={5} $svgHeight={5} color={theme.ixoWhite}>
-                <img src="/assets/images/icon-bookmark.svg"  />
+                <img src='/assets/images/icon-bookmark.svg' />
               </SvgBox>
               <Typography size='sm'>32</Typography>
             </FlexBox>

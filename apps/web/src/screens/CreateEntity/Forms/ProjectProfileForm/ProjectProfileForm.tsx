@@ -2,7 +2,7 @@ import React from 'react'
 import { FormWrapper, FormHeader, FormBody, FormRow } from './ProjectProfileForm.styles'
 import { HeadlineMetric, IconUpload, ImageUpload, InputWithLabel } from '../../Components'
 import { Typography } from 'components/Typography'
-import { FlexBox } from 'components/App/App.styles'
+import { FlexBox } from 'components/CoreEntry/App.styles'
 
 interface Props {
   image: string | undefined

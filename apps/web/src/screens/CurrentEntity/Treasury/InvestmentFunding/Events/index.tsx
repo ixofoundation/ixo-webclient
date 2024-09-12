@@ -1,4 +1,4 @@
-import { FlexBox } from 'components/App/App.styles'
+import { FlexBox } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
 import { Button } from 'screens/CreateEntity/Components'
 import EventsHistory from './EventsHistory'

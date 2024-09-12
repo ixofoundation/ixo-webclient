@@ -4,8 +4,7 @@ import { Table } from 'components/Table'
 import { useIxoConfigs } from 'hooks/configs'
 import moment from 'moment'
 
-
-import { FlexBox, SvgBox } from 'components/App/App.styles'
+import { FlexBox, SvgBox } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
 import { renderTableHeader } from 'components/Table/Table'
 
@@ -131,7 +130,7 @@ const EventsHistory: React.FC = () => {
                 color='white'
                 hover={{ color: theme.ixoNewBlue }}
               >
-                <img src="/assets/images/icon-eye.svg"  />
+                <img src='/assets/images/icon-eye.svg' />
               </SvgBox>
             </FlexBox>
           )

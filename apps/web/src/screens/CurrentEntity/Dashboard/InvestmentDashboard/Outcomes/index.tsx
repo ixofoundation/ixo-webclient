@@ -1,4 +1,4 @@
-import { FlexBox } from 'components/App/App.styles'
+import { FlexBox } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
 import { useCurrentEntityBondLinkedEntity } from 'hooks/currentEntity'
 import React from 'react'

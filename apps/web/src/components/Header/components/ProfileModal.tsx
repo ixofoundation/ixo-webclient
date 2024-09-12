@@ -1,17 +1,4 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-import { FlexBox, ScrollBox, SvgBox } from 'components/App/App.styles'
+import { FlexBox, ScrollBox, SvgBox } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
 import { useAccount } from 'hooks/account'
 import { Avatar, TabButton } from 'screens/CurrentEntity/Components'
@@ -26,7 +13,6 @@ import { useTheme } from 'styled-components'
 import { TokensTableColumns, TokensTableWrapper } from 'screens/MyAccount/MyPortfolioPage/BalanceView/NativeTokensCard'
 import { Table } from 'components/Table'
 import { friendlyWalletNames } from 'wallet-connector'
-
 
 const ProfileModal: React.FC = () => {
   const theme: any = useTheme()
@@ -51,7 +37,7 @@ const ProfileModal: React.FC = () => {
       <FlexBox width='100%' $direction='column' $gap={3}>
         <FlexBox $alignItems='center' $gap={2}>
           <SvgBox color={theme.ixoDarkBlue} $svgWidth={6} $svgHeight={6}>
-            <img src="/assets/images/icon-wallet-solid.svg"  />
+            <img src='/assets/images/icon-wallet-solid.svg' />
           </SvgBox>
           <Typography>Wallet</Typography>
         </FlexBox>
@@ -76,7 +62,7 @@ const ProfileModal: React.FC = () => {
               <Typography>{truncateString(address, 20, 'middle')}</Typography>
               <CopyToClipboard text={address} onCopy={() => successToast(null, `Copied to clipboard`)}>
                 <SvgBox color={theme.ixoDarkBlue} hover={{ color: theme.ixoNewBlue }} cursor='pointer'>
-                  <img src="/assets/images/icon-copy.svg"  />
+                  <img src='/assets/images/icon-copy.svg' />
                 </SvgBox>
               </CopyToClipboard>
             </FlexBox>
@@ -95,7 +81,7 @@ const ProfileModal: React.FC = () => {
             cursor='pointer'
             onClick={disconnect}
           >
-            <img src="/assets/images/icon-disconnect.svg"  />
+            <img src='/assets/images/icon-disconnect.svg' />
           </SvgBox>
         </FlexBox>
       </FlexBox>
@@ -103,20 +89,20 @@ const ProfileModal: React.FC = () => {
       <FlexBox width='100%' $direction='column' $gap={4}>
         <FlexBox $gap={2}>
           <TabButton
-            preIcon={<img src="/assets/images/icon-coins-solid.svg"  />}
+            preIcon={<img src='/assets/images/icon-coins-solid.svg' />}
             textSize='base'
             active={showAssetType === 'Coins'}
             onClick={() => setShowAssetType('Coins')}
           >
             Coins
           </TabButton>
-          <TabButton preIcon={<img src="/assets/images/icon-impact-token2.svg"  />} textSize='base'>
+          <TabButton preIcon={<img src='/assets/images/icon-impact-token2.svg' />} textSize='base'>
             Impact Tokens
           </TabButton>
-          <TabButton preIcon={<img src="/assets/images/icon-asset.svg"  />} textSize='base'>
+          <TabButton preIcon={<img src='/assets/images/icon-asset.svg' />} textSize='base'>
             Assets
           </TabButton>
-          <TabButton preIcon={<img src="/assets/images/icon-bond.svg"  />} textSize='base'>
+          <TabButton preIcon={<img src='/assets/images/icon-bond.svg' />} textSize='base'>
             Bonds
           </TabButton>
         </FlexBox>

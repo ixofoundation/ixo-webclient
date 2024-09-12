@@ -1,9 +1,7 @@
-import { FlexBox } from 'components/App/App.styles'
+import { FlexBox } from 'components/CoreEntry/App.styles'
 import { PropertyBox } from 'screens/CreateEntity/Components'
 import React, { useMemo, useState } from 'react'
 import { TProposalActionModel } from 'types/entities'
-
-
 
 import { AddActionModal } from 'components/Modals'
 import { ProposalActionConfig } from 'constants/entity'
@@ -54,7 +52,13 @@ const SetupActionsForm: React.FC<Props> = ({ actions, setActions, constant = fal
             />
           )
         })}
-        {!constant && <PropertyBox icon={<img src="/assets/images/icon-plus.svg"  />} noData handleClick={(): void => setOpenAddActionModal(true)} />}
+        {!constant && (
+          <PropertyBox
+            icon={<img src='/assets/images/icon-plus.svg' />}
+            noData
+            handleClick={(): void => setOpenAddActionModal(true)}
+          />
+        )}
       </FlexBox>
 
       <AddActionModal

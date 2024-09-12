@@ -1,11 +1,8 @@
 import React from 'react'
 import { Card } from '../../../../Components'
-import { Box, FlexBox, SvgBox } from 'components/App/App.styles'
+import { Box, FlexBox, SvgBox } from 'components/CoreEntry/App.styles'
 import { CircleProgressbar } from 'components/Widgets/CircleProgressbar/CircleProgressbar'
 import { Typography } from 'components/Typography'
-
-
-
 
 import { useTheme } from 'styled-components'
 
@@ -21,7 +18,7 @@ const FundingClaims: React.FC<Props> = ({ daoId, groupIds }): JSX.Element => {
     <Box width='12px' height='12px' background={color} $borderRadius='100%' />
   )
   return (
-    <Card icon={<img src="/assets/images/icon-check-in-circle.svg"  />} label='Funding Claims'>
+    <Card icon={<img src='/assets/images/icon-check-in-circle.svg' />} label='Funding Claims'>
       <FlexBox width='100%' $alignItems='center' $justifyContent='space-between' $gap={6} color='white' px={10}>
         <FlexBox $direction='column' $gap={2} $whiteSpace='nowrap'>
           <FlexBox $alignItems='center' $gap={5}>
@@ -60,7 +57,7 @@ const FundingClaims: React.FC<Props> = ({ daoId, groupIds }): JSX.Element => {
               Outcomes Contracts
             </Typography>
             <SvgBox $svgWidth={4.5}>
-              <img src="/assets/images/icon-expand-alt.svg"  />
+              <img src='/assets/images/icon-expand-alt.svg' />
             </SvgBox>
           </FlexBox>
 

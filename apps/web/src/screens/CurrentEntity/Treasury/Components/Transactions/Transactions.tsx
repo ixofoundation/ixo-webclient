@@ -1,15 +1,8 @@
-import { FlexBox, SvgBox } from 'components/App/App.styles'
+import { FlexBox, SvgBox } from 'components/CoreEntry/App.styles'
 import { Table } from 'components/Table'
 import { Typography } from 'components/Typography'
 import React, { useState } from 'react'
 import styled, { useTheme } from 'styled-components'
-
-
-
-
-
-
-
 
 import moment from 'moment'
 import { renderTableHeader } from 'components/Table/Table'
@@ -89,7 +82,7 @@ const Transactions: React.FC<Props> = ({ address }) => {
 
         const renderSendTx = () => (
           <>
-            <img src="/assets/images/icon-sent-transaction.svg"  />
+            <img src='/assets/images/icon-sent-transaction.svg' />
             <FlexBox $direction='column'>
               <Typography size='lg'>5,200.234 IXO</Typography>
               <Typography size='md'>Sent to ixo13452...ghbvd (by ixo12345...12345)</Typography>
@@ -99,7 +92,7 @@ const Transactions: React.FC<Props> = ({ address }) => {
         const renderGrantTx = () => (
           <>
             <SvgBox color={theme.ixoGreen}>
-              <img src="/assets/images/icon-user-plus-solid.svg"  />
+              <img src='/assets/images/icon-user-plus-solid.svg' />
             </SvgBox>
             <FlexBox $direction='column'>
               <Typography size='lg'>Authorisation granted</Typography>
@@ -109,7 +102,7 @@ const Transactions: React.FC<Props> = ({ address }) => {
         )
         const renderRevokeTx = () => (
           <>
-            <img src="/assets/images/icon-user-minus-solid.svg"  />
+            <img src='/assets/images/icon-user-minus-solid.svg' />
             <FlexBox $direction='column'>
               <Typography size='lg'>Authorisation revoked</Typography>
               <Typography size='md'>ixo12345...12345</Typography>
@@ -118,7 +111,7 @@ const Transactions: React.FC<Props> = ({ address }) => {
         )
         const renderReceiveTx = () => (
           <>
-            <img src="/assets/images/icon-incoming-transaction.svg"  />
+            <img src='/assets/images/icon-incoming-transaction.svg' />
             <FlexBox $direction='column'>
               <Typography size='lg'>1,200.234 CARBON</Typography>
               <Typography size='md'>Received from ixo13452...ghbcd</Typography>

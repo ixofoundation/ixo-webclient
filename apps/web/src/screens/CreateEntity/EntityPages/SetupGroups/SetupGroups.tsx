@@ -1,7 +1,6 @@
-import { Box, FlexBox } from 'components/App/App.styles'
+import { Box, FlexBox } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
 import { useMemo, useState } from 'react'
-
 
 import { Button, CheckBox, PropertyBox } from 'screens/CreateEntity/Components'
 import { AddDAOGroupModal } from 'components/Modals'
@@ -273,7 +272,11 @@ const SetupDAOGroups = ({ showNavigation = true }: { showNavigation?: boolean })
               </FlexBox>
             )
           })}
-          <PropertyBox icon={<img src="/assets/images/icon-plus.svg"  />} noData handleClick={(): void => setOpenAddGroupModal(true)} />
+          <PropertyBox
+            icon={<img src='/assets/images/icon-plus.svg' />}
+            noData
+            handleClick={(): void => setOpenAddGroupModal(true)}
+          />
         </FlexBox>
 
         <FlexBox $gap={5} $marginTop={10}>

@@ -1,15 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import * as Modal from 'react-modal'
-import { FlexBox, SvgBox } from 'components/App/App.styles'
+import { FlexBox, SvgBox } from 'components/CoreEntry/App.styles'
 import { Button, InputWithLabel } from 'screens/CreateEntity/Components'
 import { ModalStyles, CloseButton } from 'components/Modals/styles'
 import { Typography } from 'components/Typography'
 import { useTheme } from 'styled-components'
-
-
-
-
-
 
 import { validateDid } from 'utils/validation'
 
@@ -31,7 +26,7 @@ const TransferEntityModal: React.FC<Props> = ({ open, recipientDid, onClose, onS
     // @ts-ignore
     <Modal style={ModalStyles} isOpen={open} onRequestClose={onClose} contentLabel='Modal' ariaHideApp={false}>
       <CloseButton onClick={onClose}>
-        <img src="/assets/images/icon-close.svg"  />
+        <img src='/assets/images/icon-close.svg' />
       </CloseButton>
 
       <FlexBox $direction='column' $gap={8} width={'700px'}>
@@ -56,7 +51,7 @@ const TransferEntityModal: React.FC<Props> = ({ open, recipientDid, onClose, onS
               <FlexBox width='100%' $justifyContent='flex-end' $alignItems='center' $gap={2}>
                 <Typography size='xl'>Not a valid ixo DID</Typography>
                 <SvgBox color={theme.ixoRed}>
-                  <img src="/assets/images/icon-times-circle.svg"  />
+                  <img src='/assets/images/icon-times-circle.svg' />
                 </SvgBox>
               </FlexBox>
             )}
@@ -64,7 +59,7 @@ const TransferEntityModal: React.FC<Props> = ({ open, recipientDid, onClose, onS
               <FlexBox width='100%' $justifyContent='flex-end' $alignItems='center' $gap={2}>
                 <Typography size='xl'>Valid ixo DID</Typography>
                 <SvgBox color={theme.ixoGreen}>
-                  <img src="/assets/images/icon-check-circle.svg"  />
+                  <img src='/assets/images/icon-check-circle.svg' />
                 </SvgBox>
               </FlexBox>
             )}

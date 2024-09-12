@@ -1,4 +1,4 @@
-import { FlexBox } from 'components/App/App.styles'
+import { FlexBox } from 'components/CoreEntry/App.styles'
 import { FormCard } from 'components'
 import { Typography } from 'components/Typography'
 import useEditEntity from 'hooks/editEntity'
@@ -7,7 +7,6 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { errorToast, successToast } from 'utils/toast'
 import EditGroups from '../../components/EditGroups'
-
 
 import { useGetEntityByIdLazyQuery } from 'graphql/entities'
 import { useAccount } from 'hooks/account'
@@ -89,7 +88,7 @@ const EditEntity: React.FC = () => {
           </Button>
         )}
         {currentEntity.status === 2 && isOwner && (
-          <FormCard title='Re-enable keys' preIcon={<img src="/assets/images/icon-exclamation-circle.svg"  />}>
+          <FormCard title='Re-enable keys' preIcon={<img src='/assets/images/icon-exclamation-circle.svg' />}>
             <Typography>The former owner of the entity created a document to re-enable verification keys.</Typography>
             <Button size='flex' onClick={handleReEnableKeys} textTransform='uppercase'>
               Review

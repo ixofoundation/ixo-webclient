@@ -3,8 +3,7 @@ import React, { useState, useCallback } from 'react'
 import { Flex } from '@mantine/core'
 import styled, { useTheme } from 'styled-components'
 
-
-import { SvgBox } from 'components/App/App.styles'
+import { SvgBox } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
 import { PropertiesForm } from 'screens/CreateEntity/Forms'
 import { useCreateEntityState } from 'hooks/createEntity'
@@ -138,7 +137,7 @@ const SetupProposalPage: React.FC = (): JSX.Element => {
             onClick={() => setAddLinked(true)}
           >
             <SvgBox $svgWidth={6} $svgHeight={6}>
-              <img src="/assets/images/icon-plus-circle-solid.svg"  />
+              <img src='/assets/images/icon-plus-circle-solid.svg' />
             </SvgBox>
             <Typography>Add File</Typography>
           </Flex>

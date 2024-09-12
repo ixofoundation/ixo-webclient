@@ -1,4 +1,4 @@
-import { FlexBox, HTMLDivProps, SvgBox } from 'components/App/App.styles'
+import { FlexBox, HTMLDivProps, SvgBox } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
 import { ITypographyProps } from 'components/Typography/Typography'
 import { useTheme } from 'styled-components'

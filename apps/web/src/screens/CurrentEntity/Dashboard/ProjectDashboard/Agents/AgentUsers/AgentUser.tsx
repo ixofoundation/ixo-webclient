@@ -1,6 +1,6 @@
 import { DeliverTxResponse } from '@cosmjs/stargate'
 import { useWallet } from 'wallet-connector'
-import { FlexBox } from 'components/App/App.styles'
+import { FlexBox } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
 import { useGetClaimCollection } from 'graphql/claims'
 import { useGrantEntityAccountAuthZ } from 'hooks/claims/useGrantEntityAccountAuthZ'

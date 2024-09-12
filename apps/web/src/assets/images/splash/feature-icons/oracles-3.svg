@@ -1,0 +1,13 @@
+<svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle cx="50" cy="50" r="28" stroke="white" stroke-width="4"/>
+<path d="M38 72.8531C38 69.6044 40.6336 66.9708 43.8824 66.9708" stroke="white" stroke-width="3" stroke-linecap="round"/>
+<path d="M43.8824 55.206C40.6336 55.206 38 52.5723 38 49.3236C38 46.0749 40.6336 43.4413 43.8824 43.4413" stroke="white" stroke-width="3" stroke-linecap="round"/>
+<path d="M57.1178 55.2061C60.3665 55.2061 63.0001 57.8397 63.0001 61.0884C63.0001 64.3371 60.3665 66.9708 57.1178 66.9708" stroke="white" stroke-width="3" stroke-linecap="round"/>
+<path d="M53.4417 37.5589C53.4417 40.8076 50.808 43.4413 47.5593 43.4413" stroke="white" stroke-width="3" stroke-linecap="round"/>
+<path d="M57.1178 66.9708C53.3565 66.9708 45.8339 66.9708 43.1472 66.9708" stroke="white" stroke-width="3" stroke-linecap="round"/>
+<path d="M57.1178 55.206C53.3565 55.206 45.8339 55.206 43.1472 55.206" stroke="white" stroke-width="3" stroke-linecap="round"/>
+<path d="M53.4417 30.2059C53.4417 33.9672 53.4416 34.8722 53.4416 37.5589" stroke="white" stroke-width="3" stroke-linecap="round"/>
+<path d="M47.5583 43.4415C44.9848 43.4413 44.9848 43.4417 43.1466 43.4414" stroke="white" stroke-width="3" stroke-linecap="round"/>
+<line x1="53.4417" y1="30.1214" x2="47.7098" y2="35.8532" stroke="white" stroke-width="3" stroke-linecap="round"/>
+<line x1="59.1726" y1="35.853" x2="53.4408" y2="30.1212" stroke="white" stroke-width="3" stroke-linecap="round"/>
+</svg>

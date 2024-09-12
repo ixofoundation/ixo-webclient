@@ -1,4 +1,4 @@
-import { FlexBox } from 'components/App/App.styles'
+import { FlexBox } from 'components/CoreEntry/App.styles'
 import { NATIVE_MICRODENOM } from 'constants/chains'
 import { CodeMirror, Dropdown } from 'screens/CreateEntity/Components'
 import React, { useEffect, useMemo, useState } from 'react'

@@ -12,7 +12,7 @@ import {
   CardTags,
 } from '../EntityCard.styles'
 import SDGIcons from '../SDGIcons/SDGIcons'
-import { FlexBox } from 'components/App/App.styles'
+import { FlexBox } from 'components/CoreEntry/App.styles'
 import { requireCheckDefault } from 'utils/images'
 import { TDAOGroupModel, TEntityDDOTagModel, TEntityProfileModel } from 'types/entities'
 import { Typography } from 'components/Typography'

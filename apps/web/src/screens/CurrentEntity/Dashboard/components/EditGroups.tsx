@@ -1,9 +1,8 @@
-import { FlexBox } from 'components/App/App.styles'
+import { FlexBox } from 'components/CoreEntry/App.styles'
 import React, { useState } from 'react'
 import useEditEntity from 'hooks/editEntity'
 import { CheckBox, PropertyBox } from 'screens/CreateEntity/Components'
 import { Typography } from 'components/Typography'
-
 
 import { AddDAOGroupModal } from 'components/Modals'
 import { v4 as uuidv4 } from 'uuid'
@@ -146,7 +145,11 @@ const EditGroups: React.FC = (): JSX.Element => {
             </FlexBox>
           )
         })}
-        <PropertyBox icon={<img src="/assets/images/icon-plus.svg"  />} noData handleClick={(): void => setOpenAddGroupModal(true)} />
+        <PropertyBox
+          icon={<img src='/assets/images/icon-plus.svg' />}
+          noData
+          handleClick={(): void => setOpenAddGroupModal(true)}
+        />
       </FlexBox>
       <AddDAOGroupModal
         open={openAddGroupModal}

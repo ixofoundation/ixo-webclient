@@ -1,11 +1,9 @@
 import { ActionIcon, Anchor, Flex, Text, Tooltip } from '@mantine/core'
-import { SvgBox } from 'components/App/App.styles'
+import { SvgBox } from 'components/CoreEntry/App.styles'
 import React, { useState } from 'react'
 import { selectEntityFooterUIConfig, selectEntityHeadTitleUIConfig } from 'redux/entities/entities.selectors'
 import { useAppSelector } from 'redux/hooks'
 import styled from 'styled-components'
-
-
 
 const StyledAnchor = styled(Anchor)`
   color: var(--mantine-color-white);
@@ -29,7 +27,7 @@ const Footer: React.FC = () => {
         <Tooltip label='Toggle Footer' position='right'>
           <ActionIcon variant='filled' aria-label='Footer' radius={'100%'} onClick={() => setCollapse((v) => !v)}>
             <SvgBox color='white' $svgWidth={6} $svgHeight={6}>
-              <img src="/assets/images/icon-info.svg"  />
+              <img src='/assets/images/icon-info.svg' />
             </SvgBox>
           </ActionIcon>
         </Tooltip>

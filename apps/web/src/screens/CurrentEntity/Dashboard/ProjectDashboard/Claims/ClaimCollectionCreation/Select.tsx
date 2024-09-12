@@ -1,9 +1,8 @@
-import { FlexBox } from 'components/App/App.styles'
+import { FlexBox } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
 import { deviceWidth } from 'constants/device'
 import { Button, PropertyBox } from 'screens/CreateEntity/Components'
 import React, { useState } from 'react'
-
 
 import { TEntityClaimModel } from 'types/entities'
 import { useParams, NavLink } from 'react-router-dom'
@@ -35,7 +34,7 @@ const ClaimCollectionCreationSelectStep: React.FC<Props> = ({ hidden, onSubmit, 
           {Object.values(claims).map((claim) => (
             <FlexBox key={claim.id} $direction='column' $alignItems='flex-start' $gap={4}>
               <PropertyBox
-                icon={<img src="/assets/images/icon-claim.svg"  />}
+                icon={<img src='/assets/images/icon-claim.svg' />}
                 required={true}
                 set={true}
                 hovered={selected === claim.id}

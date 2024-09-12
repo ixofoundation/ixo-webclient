@@ -1,10 +1,9 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import * as Modal from 'react-modal'
 
-
 import { ModalStyles, CloseButton } from 'components/Modals/styles'
 import { TEntityCreatorModel, PDS_URL } from 'types/entities'
-import { Box, FlexBox } from 'components/App/App.styles'
+import { Box, FlexBox } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
 import { Button, CountryDropDown, InputWithLabel, TextArea } from 'screens/CreateEntity/Components'
 import { FormData } from 'components/JsonForm/types'
@@ -139,7 +138,7 @@ const CreatorSetupModal: React.FC<Props> = ({ creator, title, open, onClose, onC
         ariaHideApp={false}
       >
         <CloseButton onClick={onClose}>
-          <img src="/assets/images/icon-close.svg"  />
+          <img src='/assets/images/icon-close.svg' />
         </CloseButton>
 
         <FlexBox $direction='column' $gap={4} width='100%'>

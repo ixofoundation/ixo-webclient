@@ -13,7 +13,7 @@ import {
 } from '../Filters.styles'
 import { requireCheckDefault } from 'utils/images'
 import { ReactSVG } from 'react-svg'
-import { FlexBox, SvgBox } from 'components/App/App.styles'
+import { FlexBox, SvgBox } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
 import { Button } from 'screens/CreateEntity/Components'
 

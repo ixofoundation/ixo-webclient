@@ -31,20 +31,20 @@ const ProjectDashboard: React.FC = (): JSX.Element => {
   const routes: Path[] = [
     {
       url: `/entity/${entityId}/dashboard/overview`,
-      icon: requireCheckDefault(require('assets/img/sidebar/global.svg')),
+      icon: '/assets/img/sidebar/global.svg',
       sdg: 'Overview',
       tooltip: 'Overview',
     },
     {
       url: `/entity/${entityId}/dashboard/agents`,
-      icon: requireCheckDefault(require('assets/img/sidebar/agent.svg')),
+      icon: '/assets/img/sidebar/agent.svg',
       sdg: 'Agents',
       tooltip: 'Agents',
       disabled: !showAgentsRoute,
     },
     {
       url: `/entity/${entityId}/dashboard/claims`,
-      icon: requireCheckDefault(require('assets/img/sidebar/check.svg')),
+      icon: '/assets/img/sidebar/check.svg',
       sdg: 'Claims',
       tooltip: 'Claims',
       strict: true,
@@ -52,7 +52,7 @@ const ProjectDashboard: React.FC = (): JSX.Element => {
     },
     {
       url: `/entity/${entityId}/dashboard/edit`,
-      icon: requireCheckDefault(require('assets/img/sidebar/gear.svg')),
+      icon: '/assets/img/sidebar/gear.svg',
       sdg: 'Edit Entity',
       tooltip: 'Edit Entity',
       disabled: !showEditEntityRoute,
@@ -117,7 +117,7 @@ const ProjectDashboard: React.FC = (): JSX.Element => {
             <Route path='claims/:claimId' Component={ClaimDetail} />
           </>
         )}
-     {showEditEntityRoute && <Route path='edit' Component={EditEntity} />}
+        {showEditEntityRoute && <Route path='edit' Component={EditEntity} />}
       </Routes>
     </Dashboard>
   )

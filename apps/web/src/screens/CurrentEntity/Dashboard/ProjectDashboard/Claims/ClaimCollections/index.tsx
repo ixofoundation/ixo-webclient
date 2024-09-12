@@ -1,5 +1,5 @@
 import { ixo } from '@ixo/impactxclient-sdk'
-import { FlexBox } from 'components/App/App.styles'
+import { FlexBox } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
 import { useGetClaimCollection, useGetClaimCollectionsByEntityId, useGetClaims } from 'graphql/claims'
 import { useEffect, useMemo, useState } from 'react'

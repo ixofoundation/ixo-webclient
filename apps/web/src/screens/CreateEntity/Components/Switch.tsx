@@ -1,4 +1,4 @@
-import { FlexBox } from 'components/App/App.styles'
+import { FlexBox } from 'components/CoreEntry/App.styles'
 import React, { useMemo } from 'react'
 import styled from 'styled-components'
 import { Typography } from 'components/Typography'

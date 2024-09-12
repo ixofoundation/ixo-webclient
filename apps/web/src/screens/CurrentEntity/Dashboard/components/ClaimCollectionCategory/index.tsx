@@ -1,4 +1,4 @@
-import { FlexBox } from 'components/App/App.styles'
+import { FlexBox } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
 import { ClaimCollection } from 'generated/graphql'
 import { useGetClaimTemplateEntityByCollectionId } from 'graphql/claims'
@@ -13,7 +13,7 @@ interface Props {
 
 export const ClaimCollectionCategoryTitle = ({ claimCollection }: Partial<Props>) => {
   const templateEntity = useGetClaimTemplateEntityByCollectionId(claimCollection?.id ?? '')
-  if(!templateEntity) {
+  if (!templateEntity) {
     return null
   }
 

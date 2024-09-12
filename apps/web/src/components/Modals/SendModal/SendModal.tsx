@@ -1,12 +1,10 @@
 import React, { useMemo, useState } from 'react'
 import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
-import { Box, FlexBox, HTMLFlexBoxProps, SvgBox } from 'components/App/App.styles'
+import { Box, FlexBox, HTMLFlexBoxProps, SvgBox } from 'components/CoreEntry/App.styles'
 import { SignStep, TXStatus } from '../common'
 import { Typography } from 'components/Typography'
 
-
 import { useAccount } from 'hooks/account'
-
 
 import { Input } from 'screens/CreateEntity/Components'
 import CurrencyFormat from 'react-currency-format'
@@ -180,7 +178,7 @@ const SendModal: React.FunctionComponent<Props> = ({ open, selectedDenomOrAddr, 
                   $boxShadow={theme.ixoShadow2}
                 >
                   <SvgBox color={theme.ixoNewBlue} $svgHeight={8}>
-                    <img src="/assets/images/icon-arrow-down.svg"  />
+                    <img src='/assets/images/icon-arrow-down.svg' />
                   </SvgBox>
                 </FlexBox>
                 {/* Recipient Address */}
@@ -202,7 +200,7 @@ const SendModal: React.FunctionComponent<Props> = ({ open, selectedDenomOrAddr, 
                     onClick={() => validSend && handleSigning()}
                     color={validSend ? theme.ixoNewBlue : theme.ixoDarkBlue}
                   >
-                    <img src="/assets/images/modal/nextstep.svg"  />
+                    <img src='/assets/images/modal/nextstep.svg' />
                   </SvgBox>
                 </FlexBox>
               </FlexBox>

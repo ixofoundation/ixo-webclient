@@ -1,5 +1,5 @@
 import { Flex } from '@mantine/core'
-import { GridContainer, GridItem } from 'components/App/App.styles'
+import { GridContainer, GridItem } from 'components/CoreEntry/App.styles'
 import PerformanceTimelineCard from './PerformanceTimelineCard'
 import ClaimStatsCard from './ClaimStatsCard'
 import ClaimLocationActivityCard from './ClaimLocationActivityCard'

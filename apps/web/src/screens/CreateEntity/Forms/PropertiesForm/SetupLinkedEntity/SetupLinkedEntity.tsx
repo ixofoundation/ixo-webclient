@@ -1,4 +1,4 @@
-import { Box, FlexBox } from 'components/App/App.styles'
+import { Box, FlexBox } from 'components/CoreEntry/App.styles'
 import { AddLinkedEntityModal } from 'components/Modals'
 import { Typography } from 'components/Typography'
 import { PropertyBox } from 'screens/CreateEntity/Components'
@@ -6,7 +6,6 @@ import { Props as PropertyBoxProps } from 'screens/CreateEntity/Components/Prope
 import React, { useEffect, useMemo, useState } from 'react'
 import { TDAOGroupModel } from 'types/entities'
 import { omitKey } from 'utils/objects'
-
 
 import { toTitleCase, truncateString } from 'utils/formatters'
 import { LinkedEntity } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
@@ -137,7 +136,11 @@ const SetupLinkedEntity: React.FC<Props> = ({ hidden, linkedEntity, daoGroups, u
               }
             })
             .filter((v) => !!v)}
-          <PropertyBox icon={<img src="/assets/images/icon-plus.svg"  />} noData handleClick={(): void => setOpenAddLinkedEntityModal(true)} />
+          <PropertyBox
+            icon={<img src='/assets/images/icon-plus.svg' />}
+            noData
+            handleClick={(): void => setOpenAddLinkedEntityModal(true)}
+          />
         </Box>
       </FlexBox>
       <AddLinkedEntityModal

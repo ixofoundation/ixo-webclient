@@ -1,10 +1,7 @@
-import { Box, FlexBox, SvgBox } from 'components/App/App.styles'
+import { Box, FlexBox, SvgBox } from 'components/CoreEntry/App.styles'
 import React from 'react'
 import { Card } from '../../../../Components'
 import { Typography } from 'components/Typography'
-
-
-
 
 import { useTheme } from 'styled-components'
 import useCurrentEntity from 'hooks/currentEntity'
@@ -28,7 +25,7 @@ const Membership: React.FC<Props> = ({ groupAddresses = [] }): JSX.Element => {
   const rejecteds = 0
   const dayChanges = 0
   return (
-    <Card icon={<img src="/assets/images/icon-profile.svg"  />} label='Membership'>
+    <Card icon={<img src='/assets/images/icon-profile.svg' />} label='Membership'>
       <FlexBox width='100%' $alignItems='center' $direction='column' $gap={1}>
         <Box position='relative'>
           <Typography color='blue' size='5xl'>
@@ -42,7 +39,7 @@ const Membership: React.FC<Props> = ({ groupAddresses = [] }): JSX.Element => {
               %
             </Typography>
             <SvgBox color={theme.ixoGreen} $svgWidth={5} $svgHeight={5}>
-              <img src="/assets/images/icon-caret-up.svg"  />
+              <img src='/assets/images/icon-caret-up.svg' />
             </SvgBox>
           </FlexBox>
         </Box>

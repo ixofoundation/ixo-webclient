@@ -1,10 +1,9 @@
-import { FlexBox, SvgBox } from 'components/App/App.styles'
+import { FlexBox, SvgBox } from 'components/CoreEntry/App.styles'
 import { useGetBondDid } from 'graphql/bonds'
 import React, { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTheme } from 'styled-components'
 import Tab from './Tab'
-
 
 import { Spinner } from 'components/Spinner/Spinner'
 import BigNumber from 'bignumber.js'
@@ -100,7 +99,7 @@ const BondStatistics: React.FC<Props> = ({ bondDid }) => {
           id='alpha'
           prefix={
             <SvgBox color={theme.ixoNewBlue} $svgWidth={8} $svgHeight={8}>
-              <img src="/assets/images/icon-alphabond.svg"  />
+              <img src='/assets/images/icon-alphabond.svg' />
             </SvgBox>
           }
           color={theme.ixoNewBlue}
@@ -114,7 +113,7 @@ const BondStatistics: React.FC<Props> = ({ bondDid }) => {
           id='alpha'
           prefix={
             <SvgBox color={theme.ixoNewBlue} $svgWidth={8} $svgHeight={8}>
-              <img src="/assets/images/icon-alphabond.svg"  />
+              <img src='/assets/images/icon-alphabond.svg' />
             </SvgBox>
           }
           color={theme.ixoNewBlue}

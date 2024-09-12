@@ -1,6 +1,6 @@
 import { contracts } from '@ixo/impactxclient-sdk'
 
-import { Box, FlexBox, HTMLFlexBoxProps, SvgBox } from 'components/App/App.styles'
+import { Box, FlexBox, HTMLFlexBoxProps, SvgBox } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
 import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 import { useAccount } from 'hooks/account'
@@ -203,7 +203,7 @@ const GroupUnstakingModal: React.FunctionComponent<Props> = ({ daoGroup, open, s
                   $boxShadow={theme.ixoShadow2}
                 >
                   <SvgBox color={theme.ixoNewBlue} $svgHeight={8}>
-                    <img src="/assets/images/icon-arrow-down.svg"  />
+                    <img src='/assets/images/icon-arrow-down.svg' />
                   </SvgBox>
                 </FlexBox>
                 {/* Amount & Denom */}
@@ -246,7 +246,7 @@ const GroupUnstakingModal: React.FunctionComponent<Props> = ({ daoGroup, open, s
                   be available after that.
                 </Typography>
                 <Box cursor='pointer' width='30px' height='30px' onClick={handleSigning}>
-                  <img src="/assets/images/modal/nextstep.svg" alt='' />
+                  <img src='/assets/images/modal/nextstep.svg' alt='' />
                 </Box>
               </FlexBox>
             </FlexBox>

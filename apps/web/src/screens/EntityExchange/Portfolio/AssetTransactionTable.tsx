@@ -1,5 +1,5 @@
 import { Coin } from '@cosmjs/proto-signing'
-import { FlexBox, SvgBox } from 'components/App/App.styles'
+import { FlexBox, SvgBox } from 'components/CoreEntry/App.styles'
 import { EyeIcon } from 'components/Icons'
 import Table, { renderTableHeader } from 'components/Table/Table'
 import { Typography } from 'components/Typography'

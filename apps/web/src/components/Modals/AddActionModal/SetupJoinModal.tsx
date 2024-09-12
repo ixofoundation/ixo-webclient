@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { FlexBox, SvgBox } from 'components/App/App.styles'
+import { FlexBox, SvgBox } from 'components/CoreEntry/App.styles'
 import { InputWithLabel } from 'screens/CreateEntity/Components'
 import { TProposalActionModel } from 'types/protocol'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
@@ -10,10 +10,6 @@ import { useAccount } from 'hooks/account'
 import { useAppSelector } from 'redux/hooks'
 import { selectEntitiesByType } from 'redux/entities/entities.selectors'
 import { Avatar } from 'screens/CurrentEntity/Components'
-
-
-
-
 
 export interface JoinData {
   id: string
@@ -96,7 +92,7 @@ const SetupJoinModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): J
           <FlexBox width='100%' $justifyContent='flex-end' $alignItems='center' $gap={2}>
             <Typography size='xl'>Not a valid did</Typography>
             <SvgBox color={theme.ixoRed}>
-              <img src="/assets/images/icon-times-circle.svg"  />
+              <img src='/assets/images/icon-times-circle.svg' />
             </SvgBox>
           </FlexBox>
         )}
@@ -109,7 +105,7 @@ const SetupJoinModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): J
             <FlexBox $alignItems='center' $gap={2}>
               <Typography size='xl'>You are not a delegate on this entity</Typography>
               <SvgBox color={theme.ixoRed}>
-                <img src="/assets/images/icon-times-circle.svg"  />
+                <img src='/assets/images/icon-times-circle.svg' />
               </SvgBox>
             </FlexBox>
           </FlexBox>
@@ -123,7 +119,7 @@ const SetupJoinModal: React.FC<Props> = ({ open, action, onClose, onSubmit }): J
             <FlexBox $alignItems='center' $gap={2}>
               <Typography size='xl'>You are a delegate on this entity</Typography>
               <SvgBox color={theme.ixoGreen}>
-                <img src="/assets/images/icon-check-circle.svg"  />
+                <img src='/assets/images/icon-check-circle.svg' />
               </SvgBox>
             </FlexBox>
           </FlexBox>

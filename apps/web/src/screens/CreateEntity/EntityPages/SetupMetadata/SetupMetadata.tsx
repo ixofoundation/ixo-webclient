@@ -1,4 +1,4 @@
-import { Box, FlexBox } from 'components/App/App.styles'
+import { Box, FlexBox } from 'components/CoreEntry/App.styles'
 import React, { useMemo } from 'react'
 import { useCreateEntityState } from 'hooks/createEntity'
 import { Button } from '../../Components'
@@ -50,14 +50,16 @@ const SetupMetadata = ({ showNavigation = true }: { showNavigation?: boolean }):
           <AdditionalEntityInformation />
         </Box>
 
-        {showNavigation && <Box className='d-flex justify-content-end w-100 mt-4' style={{ gap: 20 }}>
-          <Button size='full' height={48} variant='secondary' onClick={handlePrev}>
-            Back
-          </Button>
-          <Button size='full' height={48} variant={'primary'} disabled={!canSubmit} onClick={handleNext}>
-            Continue
-          </Button>
-        </Box>}
+        {showNavigation && (
+          <Box className='d-flex justify-content-end w-100 mt-4' style={{ gap: 20 }}>
+            <Button size='full' height={48} variant='secondary' onClick={handlePrev}>
+              Back
+            </Button>
+            <Button size='full' height={48} variant={'primary'} disabled={!canSubmit} onClick={handleNext}>
+              Continue
+            </Button>
+          </Box>
+        )}
       </Box>
     </FlexBox>
   )

@@ -2,9 +2,8 @@
 
 import { customQueries } from '@ixo/impactxclient-sdk'
 
-
 import BigNumber from 'bignumber.js'
-import { FlexBox, GridContainer, SvgBox } from 'components/App/App.styles'
+import { FlexBox, GridContainer, SvgBox } from 'components/CoreEntry/App.styles'
 import { DepositModal } from 'components/Modals'
 import { Typography } from 'components/Typography'
 import { IxoCoinCodexRelayerApi } from 'hooks/configs'
@@ -261,7 +260,7 @@ const Accounts: React.FC = () => {
                 {truncateString(selectedAccount.address, 20, 'middle')}
               </Typography>
               <SvgBox color={theme.ixoNewBlue} $svgWidth={6} $svgHeight={6}>
-                <img src="/assets/images/icon-copy.svg"  />
+                <img src='/assets/images/icon-copy.svg' />
               </SvgBox>
             </FlexBox>
           </CopyToClipboard>

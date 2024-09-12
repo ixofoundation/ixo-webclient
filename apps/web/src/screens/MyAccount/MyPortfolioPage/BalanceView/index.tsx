@@ -1,4 +1,4 @@
-import { GridContainer, GridItem } from 'components/App/App.styles'
+import { GridContainer, GridItem } from 'components/CoreEntry/App.styles'
 import React from 'react'
 import TotalValueStatisticCard from './TotalValueStatisticCard'
 import NativeTokensCard from './NativeTokensCard'

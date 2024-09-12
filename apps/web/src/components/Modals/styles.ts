@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components'
 import { Input } from 'screens/CreateEntity/Components'
-import { Typography } from 'components/App/App.styles'
+import { Typography } from 'components/CoreEntry/App.styles'
 import { deviceWidth } from 'constants/device'
 
 const activeButtonCSS = css`

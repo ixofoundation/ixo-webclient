@@ -1,4 +1,4 @@
-import { FlexBox, GridContainer, GridItem } from 'components/App/App.styles'
+import { FlexBox, GridContainer, GridItem } from 'components/CoreEntry/App.styles'
 import React, { useEffect, useState } from 'react'
 import { apiEntityToEntity } from 'utils/entities'
 import { Typography } from 'components/Typography'

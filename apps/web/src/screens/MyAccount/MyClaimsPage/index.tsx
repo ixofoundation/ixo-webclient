@@ -1,5 +1,5 @@
 import { useWallet } from 'wallet-connector'
-import { Button, Flex, Image, Skeleton, Text } from '@mantine/core'
+import { Button, Flex, Skeleton, Text } from '@mantine/core'
 import { Claim, ClaimsOrderBy, useClaimsQuery, useEntitiesLazyQuery } from 'generated/graphql'
 import { useTheme } from 'styled-components'
 import { getDisplayAmount } from 'utils/currency'
@@ -15,6 +15,7 @@ import { OfflineSigner } from '@cosmjs/proto-signing'
 import { useEffect, useState } from 'react'
 import { TEntityProfileModel } from 'types/entities'
 import { transformStorageEndpoint } from '@ixo-webclient/utils'
+import Image from 'next/image'
 
 const getClaimAmount = (claim: Partial<Claim>) => {
   if (claim.evaluationByClaimId?.amount?.length > 0) {
@@ -135,7 +136,7 @@ const ClaimLine = ({
         <Text size='lg'>Claim: {profile?.name} </Text>
         <Flex direction={'row'}>
           <Flex align={'center'} mr={4} gap={4}>
-            <Image h={24} src={IxoCoin} />
+            <Image height={24} src={'/assets/tokens/ixo.svg'} alt='ixo' />
             <Text w={45}>{getClaimAmount(claim)}</Text>
           </Flex>
           <ClaimButton

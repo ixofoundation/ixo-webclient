@@ -1,4 +1,4 @@
-import { Box, FlexBox } from 'components/App/App.styles'
+import { Box, FlexBox } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
 import React from 'react'
 import styled from 'styled-components'

@@ -1,8 +1,7 @@
-import { FlexBox, GridContainer, SvgBox } from 'components/App/App.styles'
+import { FlexBox, GridContainer, SvgBox } from 'components/CoreEntry/App.styles'
 import React from 'react'
 import { Typography } from 'components/Typography'
 import { useTheme } from 'styled-components'
-
 
 import { selectEntityConfig } from 'redux/configs/configs.selectors'
 import { useAppSelector } from 'redux/hooks'
@@ -48,7 +47,7 @@ const Card: React.FC<Props> = ({ icon, title, columns, items }) => {
           </Typography>
         </FlexBox>
         <SvgBox $svgWidth={6} $svgHeight={6} color={primaryColor}>
-          <img src="/assets/images/icon-assistant.svg"  />
+          <img src='/assets/images/icon-assistant.svg' />
         </SvgBox>
       </FlexBox>
 

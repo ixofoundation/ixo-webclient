@@ -1,4 +1,4 @@
-import { AppConnected } from 'components/App/App'
+import { AppConnected } from 'components/CoreEntry/App'
 import {
   Navigate,
   Route,
@@ -60,28 +60,28 @@ const router = createBrowserRouter([
     path: '*',
     element: <AppConnected />,
     children: [
-      // {
-      //   path: 'explore-new',
-      //   Component: ExploreLayout.Component,
-      //   children: [
-      //     {
-      //       index: true,
-      //       Component: ExploreNew.Component,
-      //     },
-      //     {
-      //       path: 'search',
-      //       Component: Search.Component,
-      //     },
-      //   ],
-      // },
+      {
+        path: 'explore',
+        Component: ExploreLayout.Component,
+        children: [
+          {
+            index: true,
+            Component: ExploreNew.Component,
+          },
+          {
+            path: 'search',
+            Component: Search.Component,
+          },
+        ],
+      },
       {
         path: '*',
         Component: Routes,
       },
-      {
-        path: 'explore',
-        element: <Explore.Component />,
-      },
+      // {
+      //   path: 'explore',
+      //   element: <Explore.Component />,
+      // },
       {
         path: 'exchange/*',
         Component: EntityExchange.Component,

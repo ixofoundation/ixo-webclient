@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { Button } from 'screens/CreateEntity/Components'
-import { FlexBox } from 'components/App/App.styles'
+import { FlexBox } from 'components/CoreEntry/App.styles'
 import { deviceWidth } from 'constants/device'
 import { PropertiesForm } from 'screens/CreateEntity/Forms'
 import { Typography } from 'components/Typography'

@@ -1,15 +1,8 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import {
-  LayoutBody,
-  LayoutContainer,
-  LayoutHeader,
-  LayoutRow,
-  LayoutWrapper,
-  BreadCrumbs,
-} from './styles'
+import { LayoutBody, LayoutContainer, LayoutHeader, LayoutRow, LayoutWrapper, BreadCrumbs } from './styles'
 import { Typography } from 'components/Typography'
-import { Box } from 'components/App/App.styles'
+import { Box } from 'components/CoreEntry/App.styles'
 import { ScrollArea } from '@mantine/core'
 
 interface Props {

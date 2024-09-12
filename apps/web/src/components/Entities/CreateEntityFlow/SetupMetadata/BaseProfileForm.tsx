@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormWrapper, FormHeader, FormBody, FormRow } from './BaseProfileForm.styles'
 import { IconUpload, ImageUpload, InputWithLabel } from 'screens/CreateEntity/Components'
-import { FlexBox } from 'components/App/App.styles'
+import { FlexBox } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
 import _ from 'lodash'
 import { useCreateEntityStateAsActionState } from 'hooks/entity/useCreateEntityStateAsAction'

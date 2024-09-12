@@ -1,7 +1,7 @@
 import { Flex } from '@mantine/core'
 import React from 'react'
 import { AssetCard } from 'components/EntityCards/AssetCard'
-import { GridContainer, GridItem } from 'components/App/App.styles'
+import { GridContainer, GridItem } from 'components/CoreEntry/App.styles'
 import {
   AssetActivityIcon,
   AssetLocationIcon,
@@ -42,13 +42,21 @@ const AssetOverview: React.FC = () => {
   const location = useLocation()
   const searchParams = new URLSearchParams(location.search)
   const collection = searchParams.get('collection')
-  const { entityId = "" } = useParams()
-  const { id, accounts, externalId, alsoKnownAs, linkedResource, service, profile: entityProfile, tags, zlottie, metadata } = useAppSelector(getEntityById(entityId))
+  const { entityId = '' } = useParams()
+  const {
+    id,
+    accounts,
+    externalId,
+    alsoKnownAs,
+    linkedResource,
+    service,
+    profile: entityProfile,
+    tags,
+    zlottie,
+    metadata,
+  } = useAppSelector(getEntityById(entityId))
 
-  const adminAccount = React.useMemo(
-    () => accounts?.find((v: any) => v.name === 'admin')?.address || '',
-    [accounts],
-  )
+  const adminAccount = React.useMemo(() => accounts?.find((v: any) => v.name === 'admin')?.address || '', [accounts])
   const { data: accountTokens } = useGetAccountTokens(adminAccount)
 
   const [cookStove, setCookStove] = React.useState<any>()
@@ -80,7 +88,7 @@ const AssetOverview: React.FC = () => {
     return { retired: 0, produced: 0, claimable: 0 }
   }, [accountTokens])
 
-  const assetNumber = alsoKnownAs?.replace('{id}#', '') ?? ""
+  const assetNumber = alsoKnownAs?.replace('{id}#', '') ?? ''
 
   const inputAssetCardData = React.useMemo(() => {
     if (entityProfile) {
@@ -91,7 +99,7 @@ const AssetOverview: React.FC = () => {
         title: entityProfile?.brand,
         cardImage: entityProfile?.image,
         creator: entityProfile?.name,
-        tags: tags ?? [] as any,
+        tags: tags ?? ([] as any),
         animation: zlottie,
         assetNumber: assetNumber,
         maxSupply: '',

@@ -15,7 +15,7 @@ import Claims from '../ProjectDashboard/Claims'
 import ClaimDetail from '../ProjectDashboard/ClaimDetail'
 
 const OracleDashboard: React.FC = (): JSX.Element => {
-  const { entityId = "" } = useParams<{ entityId: string }>()
+  const { entityId = '' } = useParams<{ entityId: string }>()
   const isEditEntityRoute = useMatch('/entity/:entityId/dashboard/edit')
   const { type, owner, profile, verificationMethod, accounts } = useAppSelector(getEntityById(entityId))
   const { address } = useAccount()
@@ -25,25 +25,25 @@ const OracleDashboard: React.FC = (): JSX.Element => {
 
   const showAgentsRoute = owner === address || isVerifiedOnEntity
   const ShowClaimsRoute = (owner === address && signerRole === AgentRoles.evaluators) || isVerifiedOnEntity
-  const showEditEntityRoute = (owner === address) || isVerifiedOnEntity
+  const showEditEntityRoute = owner === address || isVerifiedOnEntity
 
   const routes: Path[] = [
     {
       url: `/entity/${entityId}/dashboard/overview`,
-      icon: requireCheckDefault(require('assets/img/sidebar/global.svg')),
+      icon: '/assets/img/sidebar/global.svg',
       sdg: 'Overview',
       tooltip: 'Overview',
     },
     {
       url: `/entity/${entityId}/dashboard/agents`,
-      icon: requireCheckDefault(require('assets/img/sidebar/agent.svg')),
+      icon: '/assets/img/sidebar/agent.svg',
       sdg: 'Agents',
       tooltip: 'Agents',
       disabled: !showAgentsRoute,
     },
     {
       url: `/entity/${entityId}/dashboard/claims`,
-      icon: requireCheckDefault(require('assets/img/sidebar/check.svg')),
+      icon: '/assets/img/sidebar/check.svg',
       sdg: 'Claims',
       tooltip: 'Claims',
       strict: true,
@@ -51,10 +51,10 @@ const OracleDashboard: React.FC = (): JSX.Element => {
     },
     {
       url: `/entity/${entityId}/dashboard/edit`,
-      icon: requireCheckDefault(require('assets/img/sidebar/gear.svg')),
+      icon: '/assets/img/sidebar/gear.svg',
       sdg: 'Edit Entity',
       tooltip: 'Edit Entity',
-      disabled: !showEditEntityRoute
+      disabled: !showEditEntityRoute,
     },
   ]
 
@@ -68,7 +68,7 @@ const OracleDashboard: React.FC = (): JSX.Element => {
     {
       url: `/entity/${entityId}/overview`,
       icon: '',
-      sdg: profile?.name ?? "",
+      sdg: profile?.name ?? '',
       tooltip: '',
     },
     {
@@ -103,7 +103,7 @@ const OracleDashboard: React.FC = (): JSX.Element => {
   return (
     <Dashboard
       theme={isEditEntityRoute ? 'light' : 'dark'}
-      title={profile?.name ?? ""}
+      title={profile?.name ?? ''}
       subRoutes={routes}
       baseRoutes={breadcrumbs}
       tabs={tabs}
@@ -112,7 +112,6 @@ const OracleDashboard: React.FC = (): JSX.Element => {
       <Routes>
         <Route index element={<Navigate to={'overview'} />} />
         <Route path='overview' Component={Overview} />
-
 
         {showAgentsRoute && <Route path='agents' Component={Agents} />}
 

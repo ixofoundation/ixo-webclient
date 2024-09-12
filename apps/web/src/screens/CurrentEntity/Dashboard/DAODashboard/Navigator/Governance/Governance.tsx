@@ -1,10 +1,7 @@
 import React, { useMemo } from 'react'
 import { Card } from '../../../../Components'
-import { Box, FlexBox, SvgBox } from 'components/App/App.styles'
+import { Box, FlexBox, SvgBox } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
-
-
-
 
 import { ProgressBar } from 'components/ProgressBar/ProgressBar'
 import { expirationAtTimeToSecondsFromNow, secondsToWdhms } from 'utils/conversions'
@@ -64,7 +61,7 @@ const Governance: React.FC<Props> = ({ daoId, groupAddresses }): JSX.Element => 
 
   return (
     <Card
-      icon={<img src="/assets/images/icon-governance.svg"  />}
+      icon={<img src='/assets/images/icon-governance.svg' />}
       label='Governance'
       onAction={() => navigate(`/entity/${entityId}/dashboard/governance`)}
     >
@@ -106,7 +103,7 @@ const Governance: React.FC<Props> = ({ daoId, groupAddresses }): JSX.Element => 
 
             <FlexBox width='100%' $gap={3} $alignItems='center'>
               <SvgBox color={theme.ixoNewBlue}>
-                <img src="/assets/images/icon-sandclock-fill.svg"  />
+                <img src='/assets/images/icon-sandclock-fill.svg' />
               </SvgBox>
               <ProgressBar
                 height={8}

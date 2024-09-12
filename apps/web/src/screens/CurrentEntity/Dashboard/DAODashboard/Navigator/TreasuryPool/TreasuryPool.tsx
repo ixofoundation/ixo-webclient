@@ -1,10 +1,7 @@
 import React from 'react'
 import { Card } from '../../../../Components'
-import { Box, FlexBox, GridContainer, SvgBox } from 'components/App/App.styles'
+import { Box, FlexBox, GridContainer, SvgBox } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
-
-
-
 
 import { useTheme } from 'styled-components'
 
@@ -18,7 +15,7 @@ const TreasuryPool: React.FC<Props> = ({ daoId, groupAddresses }): JSX.Element =
   const totalCw20Balances = 0
 
   return (
-    <Card icon={<img src="/assets/images/icon-funding.svg"  />} label='Treasury Accounts'>
+    <Card icon={<img src='/assets/images/icon-funding.svg' />} label='Treasury Accounts'>
       <FlexBox width='100%' $alignItems='center' $direction='column' $gap={1}>
         <Box position='relative'>
           <Typography color='blue' size='5xl'>
@@ -40,7 +37,7 @@ const TreasuryPool: React.FC<Props> = ({ daoId, groupAddresses }): JSX.Element =
               %
             </Typography>
             <SvgBox color={theme.ixoGreen} $svgWidth={5} $svgHeight={5}>
-              <img src="/assets/images/icon-caret-up.svg"  />
+              <img src='/assets/images/icon-caret-up.svg' />
             </SvgBox>
           </FlexBox>
         </Box>

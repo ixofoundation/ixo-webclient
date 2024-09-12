@@ -1,10 +1,9 @@
-import { Box, FlexBox } from 'components/App/App.styles'
+import { Box, FlexBox } from 'components/CoreEntry/App.styles'
 import { AddAccordedRightModal, PaymentsSetupModal } from 'components/Modals'
 import { PropertyBox } from 'screens/CreateEntity/Components'
 import React, { useEffect, useState } from 'react'
 import { TEntityPaymentModel } from 'types/entities'
 import { omitKey } from 'utils/objects'
-
 
 import { AccordedRight } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { EntityAccordedRightConfig } from 'constants/entity'
@@ -76,7 +75,11 @@ const SetupAccordedRight: React.FC<Props> = ({ hidden, accordedRight, updateAcco
               />
             )
           })}
-          <PropertyBox icon={<img src="/assets/images/icon-plus.svg"  />} noData handleClick={(): void => setOpenAddAccordedRightModal(true)} />
+          <PropertyBox
+            icon={<img src='/assets/images/icon-plus.svg' />}
+            noData
+            handleClick={(): void => setOpenAddAccordedRightModal(true)}
+          />
         </Box>
       </FlexBox>
       <AddAccordedRightModal

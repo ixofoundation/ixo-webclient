@@ -19,7 +19,7 @@ import {
   NftSelectBox,
   TokenSelectBox,
   NftPairListCard,
-} from 'components/Pages/Exchange/Swap'
+} from 'components/Sections/Exchange/Swap'
 import { getUSDRateByCoingeckoId } from 'utils/coingecko'
 import BigNumber from 'bignumber.js'
 import { useIxoConfigs } from 'hooks/configs'
@@ -176,7 +176,7 @@ const Buy: React.FunctionComponent = () => {
         setViewSettings(!viewSettings)
       }}
     >
-      <img src="/assets/images/icon-sliders-h-solid.svg" alt='' />
+      <img src='/assets/images/icon-sliders-h-solid.svg' alt='' />
     </SettingsButton>
   )
 

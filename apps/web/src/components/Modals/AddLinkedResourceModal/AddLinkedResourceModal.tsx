@@ -2,7 +2,6 @@ import React from 'react'
 import _ from 'lodash'
 import * as Modal from 'react-modal'
 
-
 import { ModalStyles, CloseButton, ModalBody, ModalWrapper, ModalRow, ModalTitle } from 'components/Modals/styles'
 import { PropertyBox } from 'screens/CreateEntity/Components'
 import { EntityLinkedResourceConfig } from 'constants/entity'
@@ -18,7 +17,7 @@ const AddLinkedResourceModal: React.FC<Props> = ({ open, onClose, onAdd }): JSX.
     // @ts-ignore
     <Modal style={ModalStyles} isOpen={open} onRequestClose={onClose} contentLabel='Modal' ariaHideApp={false}>
       <CloseButton onClick={onClose}>
-        <img src="/assets/images/icon-close.svg"  />
+        <img src='/assets/images/icon-close.svg' />
       </CloseButton>
 
       <ModalWrapper>
@@ -32,7 +31,7 @@ const AddLinkedResourceModal: React.FC<Props> = ({ open, onClose, onAdd }): JSX.
               {row.map(([key, value]) => (
                 <PropertyBox
                   key={key}
-                  icon={<value.icon />}
+                  icon={<img src={value.icon} />}
                   label={value.text}
                   disabled={value.disabled}
                   handleClick={(): void => {

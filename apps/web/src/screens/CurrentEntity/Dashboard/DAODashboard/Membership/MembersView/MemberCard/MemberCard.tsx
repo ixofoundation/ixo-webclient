@@ -1,14 +1,7 @@
-import { Box, FlexBox, GridContainer, HTMLFlexBoxProps, SvgBox } from 'components/App/App.styles'
+import { Box, FlexBox, GridContainer, HTMLFlexBoxProps, SvgBox } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
 import React, { useEffect, useMemo, useState } from 'react'
 import styled, { useTheme } from 'styled-components'
-
-
-
-
-
-
-
 
 import ThreeDot from 'assets/icons/ThreeDot'
 import { truncateString } from 'utils/formatters'
@@ -198,7 +191,7 @@ const MemberCard: React.FC<Props> = ({ member, selected, onSelectMember }): JSX.
       <GridContainer columns={2} $columnGap={2} $rowGap={2} width='100%'>
         <FlexBox $alignItems='center' $gap={2} $lineHeight='0px'>
           <SvgBox $svgWidth={6} $svgHeight={6} color={theme.ixoLightBlue}>
-            <img src="/assets/images/icon-pie.svg"  />
+            <img src='/assets/images/icon-pie.svg' />
           </SvgBox>
           <Typography size='sm' color='white' weight='medium'>
             {new Intl.NumberFormat('en-us', {
@@ -213,7 +206,7 @@ const MemberCard: React.FC<Props> = ({ member, selected, onSelectMember }): JSX.
           {type === 'staking' && (
             <>
               <SvgBox $svgWidth={6} $svgHeight={6} color={theme.ixoLightBlue}>
-                <img src="/assets/images/icon-claim.svg"  />
+                <img src='/assets/images/icon-claim.svg' />
               </SvgBox>
               <Typography size='sm' color='white' weight='medium'>
                 <CurrencyFormat displayType={'text'} value={userStakings} thousandSeparator />
@@ -223,7 +216,7 @@ const MemberCard: React.FC<Props> = ({ member, selected, onSelectMember }): JSX.
           {type !== 'staking' && (
             <>
               <SvgBox $svgWidth={6} $svgHeight={6} color={theme.ixoDarkBlue}>
-                <img src="/assets/images/icon-claim.svg"  />
+                <img src='/assets/images/icon-claim.svg' />
               </SvgBox>
               <Typography size='sm' color='white' weight='medium'>
                 n/a
@@ -234,7 +227,7 @@ const MemberCard: React.FC<Props> = ({ member, selected, onSelectMember }): JSX.
 
         <FlexBox $alignItems='center' $gap={2} $lineHeight='0px'>
           <SvgBox $svgWidth={6} $svgHeight={6} color={theme.ixoLightBlue}>
-            <img src="/assets/images/icon-multisig.svg"  />
+            <img src='/assets/images/icon-multisig.svg' />
           </SvgBox>
           <Typography size='sm' color='white' weight='medium'>
             {userVotes ?? 0}
@@ -243,7 +236,7 @@ const MemberCard: React.FC<Props> = ({ member, selected, onSelectMember }): JSX.
 
         <FlexBox $alignItems='center' $gap={2} $lineHeight='0px'>
           <SvgBox $svgWidth={6} $svgHeight={6} color={theme.ixoLightBlue}>
-            <img src="/assets/images/icon-paper.svg"  />
+            <img src='/assets/images/icon-paper.svg' />
           </SvgBox>
           <Typography size='sm' color='white' weight='medium'>
             {userProposals ?? 0}

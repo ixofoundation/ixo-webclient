@@ -1,10 +1,9 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import * as Modal from 'react-modal'
 
-
 import { ModalStyles, CloseButton } from 'components/Modals/styles'
 import { TProposalActionModel } from 'types/entities'
-import { FlexBox, GridContainer, GridItem } from 'components/App/App.styles'
+import { FlexBox, GridContainer, GridItem } from 'components/CoreEntry/App.styles'
 import { Button, Dropdown, PropertyBox } from 'screens/CreateEntity/Components'
 import { Typography } from 'components/Typography'
 import { v4 as uuidv4 } from 'uuid'
@@ -48,7 +47,7 @@ const AddActionModal: React.FC<Props> = ({ open, actionsToExclude = [], onClose,
     // @ts-ignore
     <Modal style={ModalStyles} isOpen={open} onRequestClose={onClose} contentLabel='Modal' ariaHideApp={false}>
       <CloseButton onClick={onClose}>
-        <img src="/assets/images/icon-close.svg"  />
+        <img src='/assets/images/icon-close.svg' />
       </CloseButton>
 
       <FlexBox $direction='column' $gap={4}>

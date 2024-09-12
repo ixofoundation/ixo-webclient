@@ -1,4 +1,4 @@
-import { FlexBox } from 'components/App/App.styles'
+import { FlexBox } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
 import { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
 import { Input, Switch } from 'screens/CreateEntity/Components'

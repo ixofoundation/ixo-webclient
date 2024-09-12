@@ -7,7 +7,7 @@ import { SetupLinkedResource } from './SetupLinkedResource'
 import { SetupAccordedRight } from './SetupAccordedRight'
 import { SetupLinkedEntity } from './SetupLinkedEntity'
 import { SetupService } from './SetupService'
-import { FlexBox } from 'components/App/App.styles'
+import { FlexBox } from 'components/CoreEntry/App.styles'
 import {
   TDAOGroupModel,
   TEntityAdministratorModel,

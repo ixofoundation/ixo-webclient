@@ -3,14 +3,12 @@ import _ from 'lodash'
 import * as Modal from 'react-modal'
 import { ModalStyles, CloseButton } from 'components/Modals/styles'
 
-
-import { FlexBox, SvgBox } from 'components/App/App.styles'
+import { FlexBox, SvgBox } from 'components/CoreEntry/App.styles'
 import { Button, Input } from 'screens/CreateEntity/Components'
 import { Typography } from 'components/Typography'
 import ClaimTemplateCard from '../ClaimSetupModal/ClaimTemplateCard'
 import { TEntityClaimTemplateModel } from 'types/entities'
 import styled, { useTheme } from 'styled-components'
-
 
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { selectAllClaimProtocols } from 'redux/entities/entities.selectors'
@@ -99,7 +97,7 @@ const ClaimSelectModal: React.FC<Props> = ({ open, onClose, onSelect }): JSX.Ele
     // @ts-ignore
     <Modal style={ModalStyles} isOpen={open} onRequestClose={onClose} contentLabel='Modal' ariaHideApp={false}>
       <CloseButton onClick={onClose}>
-        <img src="/assets/images/icon-close.svg"  />
+        <img src='/assets/images/icon-close.svg' />
       </CloseButton>
 
       <FlexBox $direction='column' $gap={8}>
@@ -115,7 +113,7 @@ const ClaimSelectModal: React.FC<Props> = ({ open, onClose, onSelect }): JSX.Ele
             handleChange={(value) => setKeyword(value)}
             preIcon={
               <SvgBox color={theme.ixoGrey300} $svgWidth={6}>
-                <img src="/assets/images/icon-search.svg"  />
+                <img src='/assets/images/icon-search.svg' />
               </SvgBox>
             }
             style={{ fontWeight: 500 }}

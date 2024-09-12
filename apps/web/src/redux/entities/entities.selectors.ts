@@ -5,7 +5,7 @@ import { EntityConfig, TEntityModel, TEntityDDOTagModel, TDAOGroupModel } from '
 import * as accountSelectors from 'redux/account/account.selectors'
 import { RootState } from 'redux/store'
 import { Schema as FilterSchema } from 'screens/EntitiesExplorer/Components/EntitiesFilter/schema/types'
-import { theme } from 'components/App/App.styles'
+import { theme } from 'components/CoreEntry/App.styles'
 import { LinkedEntity } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import {
   filterEntitiesByRelayerNode,

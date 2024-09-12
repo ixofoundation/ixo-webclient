@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import { FlexBox } from 'components/App/App.styles'
+import { FlexBox } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
 import { useGetTokenomics } from 'graphql/tokens'
 import React, { useMemo } from 'react'

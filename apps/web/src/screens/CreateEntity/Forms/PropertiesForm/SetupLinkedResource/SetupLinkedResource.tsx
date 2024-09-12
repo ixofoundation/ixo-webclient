@@ -1,10 +1,9 @@
-import { Box, FlexBox } from 'components/App/App.styles'
+import { Box, FlexBox } from 'components/CoreEntry/App.styles'
 import { AddLinkedResourceModal, LinkedResourceSetupModal } from 'components/Modals'
 import { PropertyBox } from 'screens/CreateEntity/Components'
 import React, { useState } from 'react'
 // import { omitKey } from 'utils/objects'
 import { v4 as uuidv4 } from 'uuid'
-
 
 import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { omitKey } from 'utils/objects'
@@ -73,7 +72,11 @@ const SetupLinkedResource: React.FC<Props> = ({ hidden, linkedResource, updateLi
                 />
               )
             })}
-          <PropertyBox icon={<img src="/assets/images/icon-plus.svg"  />} noData handleClick={(): void => setOpenAddLinkedResourceModal(true)} />
+          <PropertyBox
+            icon={<img src='/assets/images/icon-plus.svg' />}
+            noData
+            handleClick={(): void => setOpenAddLinkedResourceModal(true)}
+          />
         </Box>
       </FlexBox>
       <AddLinkedResourceModal

@@ -3,22 +3,11 @@ import { Typography } from 'components/Typography'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTheme } from 'styled-components'
 import { TDAOGroupModel } from 'types/entities'
-import { SvgBox } from 'components/App/App.styles'
+import { SvgBox } from 'components/CoreEntry/App.styles'
 import { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
 import CopyToClipboard from 'react-copy-to-clipboard'
 import { truncateString } from 'utils/formatters'
 import { successToast } from 'utils/toast'
-
-
-
-
-
-
-
-
-
-
-
 
 import { GetBalances, GetTokenAsset } from 'lib/protocol'
 import { customQueries } from '@ixo/impactxclient-sdk'
@@ -134,7 +123,7 @@ const GroupCard: React.FC<Props> = ({ daoGroup }) => {
               {truncateString(daoGroup.coreAddress, 20, 'middle')}
             </Typography>
             <SvgBox color={theme.ixoNewBlue} $svgWidth={5} $svgHeight={5}>
-              <img src="/assets/images/icon-copy.svg"  />
+              <img src='/assets/images/icon-copy.svg' />
             </SvgBox>
           </Flex>
         </CopyToClipboard>
@@ -144,7 +133,7 @@ const GroupCard: React.FC<Props> = ({ daoGroup }) => {
         <Flex direction={'column'} gap={8} w={'100%'}>
           <Flex align='center' gap={8} miw={80}>
             <SvgBox $svgWidth={6} $svgHeight={6} color={theme.ixoNewBlue}>
-              <img src="/assets/images/icon-profile.svg"  />
+              <img src='/assets/images/icon-profile.svg' />
             </SvgBox>
             <Typography size='sm' color='white' weight='medium'>
               {daoGroup.votingModule.members.length}
@@ -155,7 +144,7 @@ const GroupCard: React.FC<Props> = ({ daoGroup }) => {
             {daoGroup.type === 'staking' && (
               <>
                 <SvgBox $svgWidth={6} $svgHeight={6} color={theme.ixoNewBlue}>
-                  <img src="/assets/images/icon-coins-solid.svg"  />
+                  <img src='/assets/images/icon-coins-solid.svg' />
                 </SvgBox>
                 <Typography size='sm' color='white' weight='medium'>
                   Stake
@@ -165,7 +154,7 @@ const GroupCard: React.FC<Props> = ({ daoGroup }) => {
             {daoGroup.type !== 'staking' && (
               <>
                 <SvgBox $svgWidth={6} $svgHeight={6} color={theme.ixoNewBlue}>
-                  <img src="/assets/images/icon-handshake.svg"  />
+                  <img src='/assets/images/icon-handshake.svg' />
                 </SvgBox>
                 <Typography size='sm' color='white' weight='medium'>
                   Votes
@@ -178,7 +167,7 @@ const GroupCard: React.FC<Props> = ({ daoGroup }) => {
         <Flex direction={'column'} gap={8} w={'100%'}>
           <Flex align='center' gap={8} miw={80}>
             <SvgBox $svgWidth={6} $svgHeight={6} color={theme.ixoNewBlue}>
-              <img src="/assets/images/icon-funding.svg"  />
+              <img src='/assets/images/icon-funding.svg' />
             </SvgBox>
             <Typography size='sm' color='white' weight='medium'>
               {Intl.NumberFormat(undefined, {
@@ -192,7 +181,7 @@ const GroupCard: React.FC<Props> = ({ daoGroup }) => {
 
           <Flex align='center' gap={8} miw={80}>
             <SvgBox $svgWidth={6} $svgHeight={6} color={theme.ixoNewBlue}>
-              <img src="/assets/images/icon-paper.svg"  />
+              <img src='/assets/images/icon-paper.svg' />
             </SvgBox>
             <Typography size='sm' color='white' weight='medium'>
               {daoGroup.proposalModule.proposals.length}

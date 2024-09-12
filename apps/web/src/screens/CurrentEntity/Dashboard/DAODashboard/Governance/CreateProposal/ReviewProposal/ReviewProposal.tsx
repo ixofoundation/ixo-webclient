@@ -1,4 +1,4 @@
-import { FlexBox, SvgBox } from 'components/App/App.styles'
+import { FlexBox, SvgBox } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
 import useCurrentEntity, { useCurrentEntityDAOGroup } from 'hooks/currentEntity'
 import React, { useMemo, useState } from 'react'
@@ -26,8 +26,6 @@ import { TProposalActionModel } from 'types/entities'
 import { durationToSeconds } from 'utils/conversions'
 import { truncateString } from 'utils/formatters'
 import * as Toast from 'utils/toast'
-
-
 
 import { DeliverTxResponse } from '@cosmjs/stargate'
 
@@ -406,7 +404,7 @@ const ReviewProposal: React.FC = () => {
 
         <FlexBox width='100%' $gap={3.5} $alignItems='center' mb={4}>
           <SvgBox $svgHeight={5} color={theme.ixoDarkestBlue}>
-            <img src="/assets/images/eco/wait.svg"  />
+            <img src='/assets/images/eco/wait.svg' />
           </SvgBox>
           <ProgressBar total={0} approved={0} rejected={0} height={20} />
         </FlexBox>
@@ -529,7 +527,7 @@ const ReviewProposal: React.FC = () => {
               $textAlign='center'
             >
               <SvgBox color={theme.ixoLightGreen} $svgWidth={30} $svgHeight={30}>
-                <img src="/assets/images/icon-check-circle.svg"  />
+                <img src='/assets/images/icon-check-circle.svg' />
               </SvgBox>
               <Typography variant='secondary' size='2xl'>
                 {profile?.name} Successfully created!
@@ -553,7 +551,7 @@ const ReviewProposal: React.FC = () => {
               $gap={4}
             >
               <SvgBox color={theme.ixoDarkOrange} $svgWidth={30} $svgHeight={30}>
-                <img src="/assets/images/icon-exclamation-circle.svg"  />
+                <img src='/assets/images/icon-exclamation-circle.svg' />
               </SvgBox>
               <Typography variant='secondary' size='2xl'>
                 Something went wrong. Please try again.

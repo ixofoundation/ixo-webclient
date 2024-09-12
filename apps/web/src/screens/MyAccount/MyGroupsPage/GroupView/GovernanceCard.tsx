@@ -2,10 +2,9 @@ import { Avatar, Card } from 'screens/CurrentEntity/Components'
 import React, { useMemo } from 'react'
 import { TDAOGroupModel } from 'types/entities'
 import { Flex } from '@mantine/core'
-import { SvgBox } from 'components/App/App.styles'
+import { SvgBox } from 'components/CoreEntry/App.styles'
 import PieChart from 'components/Widgets/PieChart'
 import { Typography } from 'components/Typography'
-
 
 import { useTheme } from 'styled-components'
 import { useAccount } from 'hooks/account'
@@ -33,8 +32,8 @@ const GovernanceCard: React.FC<Props> = ({ daoGroup }) => {
       <Flex w='100%' h='100%' direction={'column'} gap={24} align={'center'}>
         <Flex align={'center'} gap={4}>
           <SvgBox $svgWidth={5} $svgHeight={5}>
-            {daoGroup.type === 'membership' && <img src="/assets/images/icon-coins-solid.svg"  />}
-            {daoGroup.type === 'staking' && <img src="/assets/images/icon-coins-solid.svg"  />}
+            {daoGroup.type === 'membership' && <img src='/assets/images/icon-coins-solid.svg' />}
+            {daoGroup.type === 'staking' && <img src='/assets/images/icon-coins-solid.svg' />}
           </SvgBox>
           <Typography size='sm' transform='capitalize'>
             {daoGroup.type} based

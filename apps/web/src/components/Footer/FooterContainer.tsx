@@ -13,8 +13,7 @@ import { AppLogo } from 'components/Header/HeaderLeft/HeaderLeft.styles'
 import { requireCheckDefault } from 'utils/images'
 import { Typography } from 'components/Typography'
 
-
-import { SvgBox } from 'components/App/App.styles'
+import { SvgBox } from 'components/CoreEntry/App.styles'
 import { useMemo } from 'react'
 import { getIxoWorldRoute } from 'utils/formatters'
 
@@ -65,7 +64,7 @@ const Footer: React.FC = () => {
       <div className='row align-items-center justify-content-center mt-4' style={{ gap: 8 }}>
         <Typography color='dark-blue'>Powered by</Typography>
         <SvgBox $svgWidth={7} color='#00D2FF' onClick={() => window.open('https://ixo.world', '_blank', 'noopener')}>
-          <img src="/assets/images/ixo-logo.svg"  />
+          <img src='/assets/images/ixo-logo.svg' />
         </SvgBox>
       </div>
     </BottomBar>

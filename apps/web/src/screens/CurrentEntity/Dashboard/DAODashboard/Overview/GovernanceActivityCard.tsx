@@ -1,12 +1,10 @@
 import React from 'react'
 import { BarChart, Bar, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
 import moment from 'moment'
-import { FlexBox } from 'components/App/App.styles'
+import { FlexBox } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
 import { useTheme } from 'styled-components'
 import { Card } from 'screens/CurrentEntity/Components'
-
-
 
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
@@ -31,7 +29,7 @@ const GovernanceActivityCard: React.FC = (): JSX.Element => {
   const theme: any = useTheme()
 
   return (
-    <Card icon={<img src="/assets/images/icon-pie.svg"  />} label='Governance Activity'>
+    <Card icon={<img src='/assets/images/icon-pie.svg' />} label='Governance Activity'>
       <ResponsiveContainer width='100%' height='100%'>
         <BarChart width={500} height={300} data={[]}>
           <defs>

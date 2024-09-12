@@ -1,13 +1,9 @@
-import { SvgBox } from 'components/App/App.styles'
+import { SvgBox } from 'components/CoreEntry/App.styles'
 import { Card } from 'screens/CurrentEntity/Components'
 import React, { useMemo } from 'react'
 import { Flex } from '@mantine/core'
 import { Typography } from 'components/Typography'
 import { useTheme } from 'styled-components'
-
-
-
-
 
 import { AccountTypeToIconMap } from 'screens/CurrentEntity/Treasury/Components/AccountsCard'
 import { getTotalUSDvalueFromTreasuryCoins } from 'utils/treasury'
@@ -70,7 +66,7 @@ const TreasuryPoolCard: React.FC = () => {
       label='Treasury Accounts'
       icon={
         <SvgBox $svgWidth={6.25} $svgHeight={6.25}>
-          <img src="/assets/images/icon-funding.svg"  />
+          <img src='/assets/images/icon-funding.svg' />
         </SvgBox>
       }
       onAction={() => navigate(`/entity/${entityId}/treasury`)}
@@ -90,7 +86,7 @@ const TreasuryPoolCard: React.FC = () => {
           <Flex align={'center'} gap={4} style={{ color: theme.ixoGreen }}>
             <Typography size='md'>+0.00%</Typography>
             <SvgBox $svgWidth={5} $svgHeight={5}>
-              <img src="/assets/images/icon-up-full.svg"  />
+              <img src='/assets/images/icon-up-full.svg' />
             </SvgBox>
           </Flex>
           <Typography variant='secondary' color='grey700'>

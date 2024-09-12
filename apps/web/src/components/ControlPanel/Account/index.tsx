@@ -1,11 +1,8 @@
-import { FlexBox, SvgBox } from 'components/App/App.styles'
+import { FlexBox, SvgBox } from 'components/CoreEntry/App.styles'
 import { useTheme } from 'styled-components'
 import { Typography } from 'components/Typography'
 import { Avatar } from 'screens/CurrentEntity/Components'
 import CopyToClipboard from 'react-copy-to-clipboard'
-
-
-
 
 //
 
@@ -24,7 +21,7 @@ const AccountCard = () => {
 
   return (
     <Card
-      icon={<img src="/assets/images/icon-profile.svg"  />}
+      icon={<img src='/assets/images/icon-profile.svg' />}
       title='My Connected Account'
       columns={1}
       items={
@@ -44,7 +41,7 @@ const AccountCard = () => {
               <Typography size='md'>{name}</Typography>
               <CopyToClipboard text={address} onCopy={() => successToast(`Copied to clipboard`)}>
                 <SvgBox color={theme.ixoNewBlue} cursor='pointer' $svgWidth={6} $svgHeight={6}>
-                  <img src="/assets/images/icon-copy.svg"  />
+                  <img src='/assets/images/icon-copy.svg' />
                 </SvgBox>
               </CopyToClipboard>
             </FlexBox>

@@ -1,8 +1,7 @@
-import { Box, FlexBox } from 'components/App/App.styles'
+import { Box, FlexBox } from 'components/CoreEntry/App.styles'
 import React, { useState } from 'react'
 import moment from 'moment'
 import { Card, TabButton } from '../../../../Components'
-
 
 import { Typography } from 'components/Typography'
 import { useTheme } from 'styled-components'
@@ -18,7 +17,7 @@ const Announcements: React.FC<Props> = ({ daoId, groupAddresses = [] }): JSX.Ele
   const [filterBy, setFilterBy] = useState(DEFAULT_FILTER_BY)
 
   return (
-    <Card icon={<img src="/assets/images/icon-bell-in-circle.svg"  />} label='Announcements'>
+    <Card icon={<img src='/assets/images/icon-bell-in-circle.svg' />} label='Announcements'>
       <FlexBox $gap={3}>
         <TabButton active={filterBy === 'newest'} onClick={() => setFilterBy('newest')}>
           Newest

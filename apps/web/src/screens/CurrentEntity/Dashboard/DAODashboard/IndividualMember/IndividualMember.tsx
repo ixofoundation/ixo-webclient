@@ -1,5 +1,5 @@
 import clxs from 'classnames'
-import { FlexBox, GridContainer, GridItem, SvgBox } from 'components/App/App.styles'
+import { FlexBox, GridContainer, GridItem, SvgBox } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
 import { useQuery } from 'hooks/window'
 import React, { useMemo } from 'react'
@@ -7,16 +7,8 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { AssetDetailCard, Card } from '../../../Components'
 import { Groups, UserStakes, UserVotingPower, UserProposals } from '../Components'
 
-
-
-
-
-
-
-
 import { truncateString } from 'utils/formatters'
 import CopyToClipboard from 'react-copy-to-clipboard'
-
 
 import * as Toast from 'utils/toast'
 import { useTheme } from 'styled-components'
@@ -59,7 +51,7 @@ const IndividualMember: React.FC = () => {
             </Typography>
             <CopyToClipboard text={address} onCopy={() => Toast.successToast(null, `Copied to clipboard`)}>
               <SvgBox color={theme.ixoDarkBlue} cursor='pointer' hover={{ color: theme.ixoNewBlue }}>
-                <img src="/assets/images/icon-copy.svg"  />
+                <img src='/assets/images/icon-copy.svg' />
               </SvgBox>
             </CopyToClipboard>
           </FlexBox>
@@ -68,9 +60,9 @@ const IndividualMember: React.FC = () => {
           {selectedDAOGroup.type === 'staking' && (
             <Card
               className={clxs({ 'd-none': expand !== 'token' })}
-              icon={<img src="/assets/images/icon-stakes.svg"  />}
+              icon={<img src='/assets/images/icon-stakes.svg' />}
               label='Stakes'
-              actionIcon={<img src="/assets/images/icon-arrow-left.svg"  />}
+              actionIcon={<img src='/assets/images/icon-arrow-left.svg' />}
               onAction={() => navigate(-1)}
             >
               <UserStakes show={expand === 'token'} coreAddress={selectedDAOGroup.coreAddress} userAddress={address} />
@@ -80,9 +72,9 @@ const IndividualMember: React.FC = () => {
           {selectedDAOGroup.type === 'membership' && (
             <Card
               className={clxs({ 'd-none': expand !== 'votingPower' })}
-              icon={<img src="/assets/images/icon-pie.svg"  />}
+              icon={<img src='/assets/images/icon-pie.svg' />}
               label='Voting Power'
-              actionIcon={<img src="/assets/images/icon-arrow-left.svg"  />}
+              actionIcon={<img src='/assets/images/icon-arrow-left.svg' />}
               onAction={() => navigate(-1)}
             >
               <UserVotingPower
@@ -95,9 +87,9 @@ const IndividualMember: React.FC = () => {
           {/* expand === 'proposal' */}
           <Card
             className={clxs({ 'd-none': expand !== 'proposal' })}
-            icon={<img src="/assets/images/icon-proposals.svg"  />}
+            icon={<img src='/assets/images/icon-proposals.svg' />}
             label='Proposals'
-            actionIcon={<img src="/assets/images/icon-arrow-left.svg"  />}
+            actionIcon={<img src='/assets/images/icon-arrow-left.svg' />}
             onAction={() => navigate(-1)}
           >
             <UserProposals
@@ -122,7 +114,7 @@ const IndividualMember: React.FC = () => {
             <GridItem $gridArea='a'>
               {selectedDAOGroup.type === 'staking' && (
                 <Card
-                  icon={<img src="/assets/images/icon-stakes.svg"  />}
+                  icon={<img src='/assets/images/icon-stakes.svg' />}
                   label='Stakes'
                   onAction={() => navigate({ pathname: pathname, search: `?expand=token` })}
                 >
@@ -136,7 +128,7 @@ const IndividualMember: React.FC = () => {
 
               {selectedDAOGroup.type === 'membership' && (
                 <Card
-                  icon={<img src="/assets/images/icon-pie.svg"  />}
+                  icon={<img src='/assets/images/icon-pie.svg' />}
                   label='Voting Power'
                   onAction={() => navigate({ pathname: pathname, search: `?expand=votingPower` })}
                 >
@@ -150,7 +142,7 @@ const IndividualMember: React.FC = () => {
             </GridItem>
             <GridItem $gridArea='b'>
               <Card
-                icon={<img src="/assets/images/icon-proposals.svg"  />}
+                icon={<img src='/assets/images/icon-proposals.svg' />}
                 label='Proposals'
                 onAction={() => navigate({ pathname: pathname, search: `?expand=proposal` })}
               >

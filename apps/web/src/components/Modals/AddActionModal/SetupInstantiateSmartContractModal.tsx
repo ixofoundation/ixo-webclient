@@ -1,12 +1,9 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { Box, FlexBox, SvgBox } from 'components/App/App.styles'
+import { Box, FlexBox, SvgBox } from 'components/CoreEntry/App.styles'
 import { CodeMirror, Dropdown, Input, NumberCounter } from 'screens/CreateEntity/Components'
 import { Typography } from 'components/Typography'
 import { TProposalActionModel } from 'types/entities'
 import styled from 'styled-components'
-
-
-
 
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
@@ -146,14 +143,14 @@ const SetupInstantiateSmartContractModal: React.FC<Props> = ({ open, action, onC
             />
 
             <SvgBox color='black' onClick={() => handleRemoveFund(index)} cursor='pointer'>
-              <img src="/assets/images/icon-times.svg"  />
+              <img src='/assets/images/icon-times.svg' />
             </SvgBox>
           </FlexBox>
         ))}
 
         <AddFundButton $alignItems='center' $gap={2.5} onClick={handleAddFund}>
           <SvgBox color='black'>
-            <img src="/assets/images/icon-plus.svg"  />
+            <img src='/assets/images/icon-plus.svg' />
           </SvgBox>
           <Typography size='xl' weight='medium'>
             Add Payment

@@ -1,5 +1,5 @@
 import { Flex } from '@mantine/core'
-import { GridContainer, GridItem } from 'components/App/App.styles'
+import { GridContainer, GridItem } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
 import { useGetDAOByGroupAddress } from 'hooks/dao'
 import React from 'react'

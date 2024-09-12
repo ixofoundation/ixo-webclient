@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import { FlexBox } from 'components/App/App.styles'
+import { FlexBox } from 'components/CoreEntry/App.styles'
 import BondWithdrawReserveModal from 'components/Modals/BondWithdrawReserveModal'
 import { useGetBondDid } from 'graphql/bonds'
 import { useAccount } from 'hooks/account'

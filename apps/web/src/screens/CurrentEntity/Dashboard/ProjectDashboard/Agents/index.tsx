@@ -1,4 +1,4 @@
-import { FlexBox } from 'components/App/App.styles'
+import { FlexBox } from 'components/CoreEntry/App.styles'
 import { useGetClaimCollectionsByEntityId } from 'graphql/claims'
 import { useQuery } from 'hooks/window'
 import React from 'react'

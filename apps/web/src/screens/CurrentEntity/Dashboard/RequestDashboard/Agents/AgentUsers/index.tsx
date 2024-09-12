@@ -1,4 +1,4 @@
-import { FlexBox } from 'components/App/App.styles'
+import { FlexBox } from 'components/CoreEntry/App.styles'
 import { useGetJoiningAgentsByCollectionId } from 'graphql/iid'
 import { useQuery } from 'hooks/window'
 import { useEffect, useMemo, useState } from 'react'
@@ -13,7 +13,7 @@ const AgentUsers: React.FC = () => {
   const theme: any = useTheme()
   const { getQuery } = useQuery()
   const collectionId = getQuery('collectionId')
-  const { entityId = "" } = useParams<{entityId: string}>()
+  const { entityId = '' } = useParams<{ entityId: string }>()
 
   const { agents, pendingAgents, approvedAgents } = useGetJoiningAgentsByCollectionId(collectionId, entityId)
   const [loading, setLoading] = useState(true)

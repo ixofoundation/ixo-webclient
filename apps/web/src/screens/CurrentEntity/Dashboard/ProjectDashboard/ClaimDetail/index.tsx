@@ -5,7 +5,7 @@ import { EvaluationStatus } from '@ixo/impactxclient-sdk/types/codegen/ixo/claim
 import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/coin'
 import { Flex, Button } from '@mantine/core'
-import { FlexBox } from 'components/App/App.styles'
+import { FlexBox } from 'components/CoreEntry/App.styles'
 import { InputWithLabel } from 'components/Form/InputWithLabel'
 import { DisplaySurvey } from 'components/Survey'
 import { TokenSelector } from 'components/Modals/AddActionModal/Component'

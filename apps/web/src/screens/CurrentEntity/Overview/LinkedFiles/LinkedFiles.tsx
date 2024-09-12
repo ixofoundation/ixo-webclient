@@ -1,26 +1,21 @@
 import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
-import { FlexBox } from 'components/App/App.styles'
+import { FlexBox } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
 import React from 'react'
-
-
-
-
-
 
 import { useTheme } from 'styled-components'
 import { serviceEndpointToUrl } from 'utils/entities'
 
 const MediaTypeToIconMap = {
-  'application/pdf': PdfIcon,
-  'image/jpeg': ImageIcon,
-  'image/png': ImageIcon,
-  'text/plain': TextIcon,
+  'application/pdf': '/assets/images/linked-files/pdf.svg',
+  'image/jpeg': '/assets/images/linked-files/image.svg',
+  'image/png': '/assets/images/linked-files/image.svg',
+  'text/plain': '/assets/images/linked-files/text.svg',
 }
 
 const LinkedFileBox = (props: LinkedResource & { service: any }) => {
   const theme: any = useTheme()
-  const Icon = MediaTypeToIconMap[props.mediaType]
+  const Icon = MediaTypeToIconMap[props.mediaType as keyof typeof MediaTypeToIconMap]
   const to = serviceEndpointToUrl(props.serviceEndpoint, props.service)
 
   return (
@@ -39,7 +34,7 @@ const LinkedFileBox = (props: LinkedResource & { service: any }) => {
         cursor='pointer'
         color={theme.ixoBlack}
       >
-        {Icon && <Icon />}
+        {Icon && <img src={Icon} />}
         <Typography weight='medium'>{props.description}</Typography>
       </FlexBox>
     </a>

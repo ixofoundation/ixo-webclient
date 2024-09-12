@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Box } from 'components/App/App.styles'
+import { Box } from 'components/CoreEntry/App.styles'
 import { TEntityPageModel } from 'types/entities'
 import Editor from 'components/Editor/Editor'
 

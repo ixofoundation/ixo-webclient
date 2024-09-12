@@ -1,10 +1,9 @@
 import { useEffect, useMemo, useState } from 'react'
 import * as Modal from 'react-modal'
 
-
 import { CloseButton, ModalStyles, ModalTitle, ModalWrapper } from '../styles'
 import { AlphaBondInfo } from 'types/bond'
-import { FlexBox } from 'components/App/App.styles'
+import { FlexBox } from 'components/CoreEntry/App.styles'
 import { Button, Dropdown, TextArea } from 'screens/CreateEntity/Components'
 import { InputWithLabel } from 'components/Form/InputWithLabel'
 import { useTheme } from 'styled-components'
@@ -186,7 +185,7 @@ const CreateBondModal: React.FC<Props> = ({ open, bondDid, onSubmit, onClose }):
     // @ts-ignore
     <Modal style={ModalStyles} isOpen={open} onRequestClose={onClose} contentLabel='Modal' ariaHideApp={false}>
       <CloseButton onClick={onClose}>
-        <img src="/assets/images/icon-close.svg"  />
+        <img src='/assets/images/icon-close.svg' />
       </CloseButton>
 
       <ModalWrapper>

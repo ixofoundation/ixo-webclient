@@ -1,10 +1,9 @@
-import { FlexBox, SvgBox } from 'components/App/App.styles'
+import { FlexBox, SvgBox } from 'components/CoreEntry/App.styles'
 import { Table } from 'components/Table'
 import { renderTableHeader } from 'components/Table/Table'
 import { Typography } from 'components/Typography'
 import React, { useMemo, useState } from 'react'
 import styled, { useTheme } from 'styled-components'
-
 
 import { useValidators } from 'hooks/validator'
 import CurrencyFormat from 'react-currency-format'
@@ -246,7 +245,7 @@ const Validators: React.FC = () => {
                 hover={{ color: theme.ixoNewBlue }}
                 onClick={onValidatorSelect(address)}
               >
-                <img src="/assets/images/icon-assistant.svg"  />
+                <img src='/assets/images/icon-assistant.svg' />
               </SvgBox>
             </FlexBox>
           )

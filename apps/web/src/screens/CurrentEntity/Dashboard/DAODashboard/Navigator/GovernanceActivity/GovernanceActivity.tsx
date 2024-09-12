@@ -3,8 +3,7 @@ import { BarChart, Bar, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
 import moment from 'moment'
 import { Card } from '../../../../Components'
 
-
-import { FlexBox } from 'components/App/App.styles'
+import { FlexBox } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
 import { useTheme } from 'styled-components'
 
@@ -36,7 +35,7 @@ const GovernanceActivity: React.FC<Props> = ({ daoId, groupIds }): JSX.Element =
   const theme: any = useTheme()
 
   return (
-    <Card icon={<img src="/assets/images/icon-pie.svg"  />} label='Governance Activity'>
+    <Card icon={<img src='/assets/images/icon-pie.svg' />} label='Governance Activity'>
       <ResponsiveContainer width='100%' height='100%'>
         <BarChart width={500} height={300} data={[] as any[]}>
           <defs>

@@ -1,4 +1,4 @@
-import { FlexBox } from 'components/App/App.styles'
+import { FlexBox } from 'components/CoreEntry/App.styles'
 import React from 'react'
 import ClaimCollectionCreation from './ClaimCollectionCreation'
 

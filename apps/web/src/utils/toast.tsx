@@ -1,5 +1,5 @@
 import Lottie from 'react-lottie'
-import { FlexBox } from 'components/App/App.styles'
+import { FlexBox } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
 import { toast, ToastContent, ToastOptions } from 'react-toastify'
 import SuccessAnimation from 'assets/lottie/sign_success.json'

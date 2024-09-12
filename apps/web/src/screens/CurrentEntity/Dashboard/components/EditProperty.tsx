@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from 'react'
-import { FlexBox } from 'components/App/App.styles'
+import { FlexBox } from 'components/CoreEntry/App.styles'
 import { deviceWidth } from 'constants/device'
 import { PropertiesForm } from 'screens/CreateEntity/Forms'
 import {

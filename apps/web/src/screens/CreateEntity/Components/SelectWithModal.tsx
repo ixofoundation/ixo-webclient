@@ -1,10 +1,9 @@
 import React, { useMemo, useState } from 'react'
 import styled, { useTheme } from 'styled-components'
 
-
 import { TypeSelectionModal } from 'components/Modals'
 import { Typography } from 'components/Typography'
-import { SvgBox } from 'components/App/App.styles'
+import { SvgBox } from 'components/CoreEntry/App.styles'
 
 const Label = styled.label<{ $filled?: boolean }>`
   position: absolute;
@@ -84,7 +83,7 @@ const SelectWithModal: React.FC<Props> = ({
           </Typography>
           {!value && (
             <SvgBox color={theme.ixoGrey500}>
-              <img src="/assets/images/icon-chev-down.svg"  />
+              <img src='/assets/images/icon-chev-down.svg' />
             </SvgBox>
           )}
         </Label>

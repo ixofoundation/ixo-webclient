@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import { FlexBox } from 'components/App/App.styles'
+import { FlexBox } from 'components/CoreEntry/App.styles'
 import { Table } from 'components/Table'
 import { Typography } from 'components/Typography'
 import React from 'react'

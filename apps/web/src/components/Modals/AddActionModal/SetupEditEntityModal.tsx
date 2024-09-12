@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
-import { FlexBox, SvgBox } from 'components/App/App.styles'
+import { FlexBox, SvgBox } from 'components/CoreEntry/App.styles'
 import { ChainSelector, Input } from 'screens/CreateEntity/Components'
 import { TProposalActionModel } from 'types/entities'
 import SetupActionModalTemplate from './SetupActionModalTemplate'
-
 
 import { useLocation, useNavigate } from 'react-router-dom'
 import styled, { useTheme } from 'styled-components'
@@ -57,7 +56,7 @@ const SetupEditEntityModal: React.FC<Props> = ({ open, action, onClose, onSubmit
           placeholder='Type to Search or enter a DID'
           preIcon={
             <SvgBox color={theme.ixoGrey700}>
-              <img src="/assets/images/icon-search.svg"  />
+              <img src='/assets/images/icon-search.svg' />
             </SvgBox>
           }
           width='400px'

@@ -1,7 +1,6 @@
 import { TokenAssetInfo } from '@ixo/impactxclient-sdk/types/custom_queries/currency.types'
-import { FlexBox, GridContainer, GridItem, SvgBox } from 'components/App/App.styles'
+import { FlexBox, GridContainer, GridItem, SvgBox } from 'components/CoreEntry/App.styles'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
-
 
 import { Typography } from 'components/Typography'
 import CurrencyFormat from 'react-currency-format'
@@ -233,7 +232,7 @@ const AssetDetailCard: React.FC<Props> = ({
           </FlexBox>
         </FlexBox>
         <SvgBox color='white' cursor='pointer' onClick={() => navigate(-1)}>
-          <img src="/assets/images/icon-arrow-left.svg"  />
+          <img src='/assets/images/icon-arrow-left.svg' />
         </SvgBox>
       </FlexBox>
       {/* Card Body */}

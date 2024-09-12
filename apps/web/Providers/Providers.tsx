@@ -2,7 +2,7 @@
 import { ReactNode } from 'react'
 import { MantineProvider } from '@mantine/core'
 import { ThemeProvider } from 'styled-components'
-import { theme } from 'components/App/App.styles'
+import { theme } from 'components/CoreEntry/App.styles'
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client'
 import { GlobalStyle } from 'styles/globalStyles'
 import StoreProvider from 'redux/StoreProvider'

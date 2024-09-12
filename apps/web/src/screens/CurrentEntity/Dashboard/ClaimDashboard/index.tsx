@@ -10,22 +10,22 @@ import { useAppSelector } from 'redux/hooks'
 import { getEntityById } from 'redux/entities/entities.selectors'
 
 const ClaimDashboard: React.FC = (): JSX.Element => {
-  const { entityId = "" } = useParams<{ entityId: string }>()
+  const { entityId = '' } = useParams<{ entityId: string }>()
   const entityType = 'protocol'
-  const { owner, profile} = useAppSelector(getEntityById(entityId))
+  const { owner, profile } = useAppSelector(getEntityById(entityId))
   const { registered, address } = useAccount()
 
   const routes: Path[] = [
     {
       url: `/entity/${entityId}/dashboard/questions`,
-      icon: requireCheckDefault(require('assets/img/sidebar/global.svg')),
+      icon: '/assets/img/sidebar/global.svg',
       sdg: 'Questions',
       tooltip: 'Questions',
       strict: true,
     },
     {
       url: `/entity/${entityId}/dashboard/edit`,
-      icon: requireCheckDefault(require('assets/img/sidebar/gear.svg')),
+      icon: '/assets/img/sidebar/gear.svg',
       sdg: 'Edit Entity',
       tooltip: 'Edit Entity',
       disabled: !registered || owner !== address,
@@ -42,7 +42,7 @@ const ClaimDashboard: React.FC = (): JSX.Element => {
     {
       url: `/entity/${entityId}/overview`,
       icon: '',
-      sdg: profile?.name ?? "",
+      sdg: profile?.name ?? '',
       tooltip: '',
     },
     {
@@ -74,7 +74,7 @@ const ClaimDashboard: React.FC = (): JSX.Element => {
   return (
     <Dashboard
       theme={theme}
-      title={profile?.name ?? ""}
+      title={profile?.name ?? ''}
       subRoutes={routes}
       baseRoutes={breadcrumbs}
       tabs={tabs}

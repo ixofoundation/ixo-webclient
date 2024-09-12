@@ -1,4 +1,4 @@
-import { Box, SvgBox } from 'components/App/App.styles'
+import { Box, SvgBox } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
 import React, { SVGProps } from 'react'
 import styled from 'styled-components'

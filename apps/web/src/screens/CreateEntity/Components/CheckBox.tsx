@@ -1,4 +1,4 @@
-import { FlexBox } from 'components/App/App.styles'
+import { FlexBox } from 'components/CoreEntry/App.styles'
 import { DashboardThemeContext } from 'components/Dashboard/Dashboard'
 import { Typography } from 'components/Typography'
 import { TTypographyColor, TTypographySize, TTypographyVariant } from 'components/Typography/Typography'

@@ -1,16 +1,10 @@
 import { useTheme } from 'styled-components'
 import { Card } from '../Card'
-import { FlexBox, SvgBox } from 'components/App/App.styles'
+import { FlexBox, SvgBox } from 'components/CoreEntry/App.styles'
 import { Avatar } from 'screens/CurrentEntity/Components'
 import { Typography } from 'components/Typography'
 import { useState } from 'react'
 import { Input, TextArea } from 'screens/CreateEntity/Components'
-
-
-
-
-
-
 
 const SearchBox = () => {
   const theme: any = useTheme()
@@ -19,7 +13,7 @@ const SearchBox = () => {
   return (
     <FlexBox width='100%' height='40px' $borderRadius='8px' px={3} $gap={1.5} $alignItems='center' background='#F0F3F9'>
       <SvgBox $svgWidth={5} $svgHeight={5} color={theme.ixoBlack}>
-        <img src="/assets/images/icon-search.svg"  />
+        <img src='/assets/images/icon-search.svg' />
       </SvgBox>
       <Input
         placeholder='Type to Search'
@@ -108,7 +102,7 @@ const MessageBox = () => {
           $svgHeight={8}
           cursor='pointer'
         >
-          <img src="/assets/images/icon-arrow-up.svg"  />
+          <img src='/assets/images/icon-arrow-up.svg' />
         </SvgBox>
       </FlexBox>
     </FlexBox>
@@ -127,7 +121,7 @@ const MessagesCard = () => {
 
   return (
     <Card
-      icon={<img src="/assets/images/icon-bell.svg"  />}
+      icon={<img src='/assets/images/icon-bell.svg' />}
       title={
         <FlexBox $alignItems='center' $gap={4}>
           <FlexBox cursor='pointer' onClick={() => setSelected('')}>

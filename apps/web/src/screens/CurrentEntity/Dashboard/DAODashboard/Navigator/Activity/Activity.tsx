@@ -2,21 +2,8 @@ import React, { useState } from 'react'
 import styled, { useTheme } from 'styled-components'
 import { Card, TabButton } from '../../../../Components'
 import { Table } from 'components/Table'
-import { Box, FlexBox, SvgBox } from 'components/App/App.styles'
+import { Box, FlexBox, SvgBox } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 import { truncateString } from 'utils/formatters'
 
@@ -113,12 +100,12 @@ const Activity: React.FC<Props> = ({ daoId, groupIds }): JSX.Element => {
       renderCell: (cell: any) => (
         <FlexBox height='100%'>
           <FlexBox width='100%' height='100%' p={5} $alignItems='center' background={theme.ixoNavyBlue} $gap={2.5}>
-            <img src="/assets/images/icon-ixo.svg"  />
+            <img src='/assets/images/icon-ixo.svg' />
             <Typography weight='bold'>{Intl.NumberFormat().format(cell.value)}</Typography>
           </FlexBox>
           <FlexBox height='100%' $alignItems='center' background={theme.ixoMediumBlue}>
             <SvgBox width='60px' $alignItems='center' $justifyContent='center' color={theme.ixoNewBlue} $svgWidth={5.5}>
-              <img src="/assets/images/icon-eye.svg"  />
+              <img src='/assets/images/icon-eye.svg' />
             </SvgBox>
           </FlexBox>
         </FlexBox>
@@ -127,21 +114,41 @@ const Activity: React.FC<Props> = ({ daoId, groupIds }): JSX.Element => {
   ]
   const [tab, setTab] = useState('Transactions')
   return (
-    <Card icon={<img src="/assets/images/icon-clock.svg"  />} label='Activity'>
+    <Card icon={<img src='/assets/images/icon-clock.svg' />} label='Activity'>
       <FlexBox width='100%' $gap={3}>
-        <TabButton active={tab === 'Transactions'} preIcon={<img src="/assets/images/icon-swap.svg"  />} onClick={() => setTab('Transactions')}>
+        <TabButton
+          active={tab === 'Transactions'}
+          preIcon={<img src='/assets/images/icon-swap.svg' />}
+          onClick={() => setTab('Transactions')}
+        >
           Transactions
         </TabButton>
-        <TabButton active={tab === 'Proposals'} preIcon={<img src="/assets/images/icon-paper.svg"  />} onClick={() => setTab('Proposals')}>
+        <TabButton
+          active={tab === 'Proposals'}
+          preIcon={<img src='/assets/images/icon-paper.svg' />}
+          onClick={() => setTab('Proposals')}
+        >
           Proposals
         </TabButton>
-        <TabButton active={tab === 'Claims'} preIcon={<img src="/assets/images/icon-claim.svg"  />} onClick={() => setTab('Claims')}>
+        <TabButton
+          active={tab === 'Claims'}
+          preIcon={<img src='/assets/images/icon-claim.svg' />}
+          onClick={() => setTab('Claims')}
+        >
           Claims
         </TabButton>
-        <TabButton active={tab === 'Members'} preIcon={<img src="/assets/images/icon-profile.svg"  />} onClick={() => setTab('Members')}>
+        <TabButton
+          active={tab === 'Members'}
+          preIcon={<img src='/assets/images/icon-profile.svg' />}
+          onClick={() => setTab('Members')}
+        >
           Members
         </TabButton>
-        <TabButton active={tab === 'Policies'} preIcon={<img src="/assets/images/icon-profile.svg"  />} onClick={() => setTab('Policies')}>
+        <TabButton
+          active={tab === 'Policies'}
+          preIcon={<img src='/assets/images/icon-profile.svg' />}
+          onClick={() => setTab('Policies')}
+        >
           Policies
         </TabButton>
       </FlexBox>

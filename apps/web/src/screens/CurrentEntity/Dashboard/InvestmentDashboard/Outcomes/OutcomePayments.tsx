@@ -1,4 +1,4 @@
-import { FlexBox, SvgBox } from 'components/App/App.styles'
+import { FlexBox, SvgBox } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
 import moment from 'moment'
 import React, { useMemo } from 'react'
@@ -6,7 +6,6 @@ import styled, { useTheme } from 'styled-components'
 import { Table } from 'components/Table'
 import { useGetBondOutcomePayments } from 'graphql/bonds'
 import { useIxoConfigs } from 'hooks/configs'
-
 
 import { truncateString } from 'utils/formatters'
 import { renderTableHeader } from 'components/Table/Table'
@@ -156,7 +155,7 @@ const OutcomePayments: React.FC<Props> = ({ bondDid }) => {
                 color='white'
                 hover={{ color: theme.ixoNewBlue }}
               >
-                <img src="/assets/images/icon-eye.svg"  />
+                <img src='/assets/images/icon-eye.svg' />
               </SvgBox>
             </FlexBox>
           )

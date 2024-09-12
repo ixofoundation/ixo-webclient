@@ -1,4 +1,4 @@
-import { Box } from 'components/App/App.styles'
+import { Box } from 'components/CoreEntry/App.styles'
 import { useTheme } from 'styled-components'
 
 interface AvatarProps {

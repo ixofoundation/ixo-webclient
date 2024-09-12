@@ -1,13 +1,12 @@
 import React, { useMemo, useState } from 'react'
 import * as Modal from 'react-modal'
 
-
 import { useDropzone } from 'react-dropzone'
 import { ModalStyles, CloseButton } from 'components/Modals/styles'
 import { Button, InputWithLabel } from 'screens/CreateEntity/Components'
 import { FormData } from 'components/JsonForm/types'
 import { deviceWidth } from 'constants/device'
-import { Box, FlexBox } from 'components/App/App.styles'
+import { Box, FlexBox } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
 import PulseLoader from 'components/Spinner/PulseLoader/PulseLoader'
 import { toTitleCase } from 'utils/formatters'
@@ -102,7 +101,7 @@ const LinkedResourceSetupModal: React.FC<Props> = ({ linkedResource, open, onClo
       ariaHideApp={false}
     >
       <CloseButton onClick={onClose}>
-        <img src="/assets/images/icon-close.svg"  />
+        <img src='/assets/images/icon-close.svg' />
       </CloseButton>
 
       <FlexBox $direction='column' $gap={4} width='100%'>

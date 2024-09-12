@@ -1,12 +1,3 @@
-
-
-
-
-
-
-
-import DaoIcon from 'assets/icons/DaoIcon'
-
 interface Style {
   color?: string
   fill?: string
@@ -17,18 +8,18 @@ export const getEntityIcon = (type: string | undefined, style?: Style): React.Re
   const svgStyle = style || {}
   switch (type) {
     case 'asset/device':
-      return <img src="/assets/images/icon-asset.svg" transform='scale(.8)' {...svgStyle}  />
+      return <img src='/assets/images/icon-asset.svg' {...svgStyle} />
     case 'dao':
-      return <DaoIcon transform='scale(.8)' {...svgStyle} />
+      return <img src='/assets/images/icon-dao.svg' {...svgStyle} />
     case 'project':
-      return <img src="/assets/images/icon-project.svg" transform='scale(.8)' {...svgStyle}  />
+      return <img src='/assets/images/icon-project.svg' {...svgStyle} />
     case 'investment':
-      return <img src="/assets/images/icon-investment.svg" transform='scale(.8)' {...svgStyle}  />
+      return <img src='/assets/images/icon-investment.svg' {...svgStyle} />
     case 'oracle':
-      return <img src="/assets/images/icon-oracle.svg" transform='scale(.8)' {...svgStyle}  />
+      return <img src='/assets/images/icon-oracle.svg' {...svgStyle} />
     case 'deed/request':
       // TODO: Add deed icon
-      return <img src="/assets/images/icon-project.svg" transform='scale(.8)' {...svgStyle}  />
+      return <img src='/assets/images/icon-project.svg' {...svgStyle} />
     default:
       return null
   }

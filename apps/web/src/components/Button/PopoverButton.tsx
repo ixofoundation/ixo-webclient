@@ -1,9 +1,7 @@
-import { FlexBox, SvgBox } from 'components/App/App.styles'
+import { FlexBox, SvgBox } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
 import React, { useState } from 'react'
 import { useTheme } from 'styled-components'
-
-
 
 interface Props {
   icon: JSX.Element
@@ -69,7 +67,7 @@ const PropoverButton: React.FC<Props> = ({ icon, title, description }) => {
             <FlexBox $alignItems='center' $gap={2} color={theme.ixoNewBlue} cursor='pointer'>
               <Typography size='sm'>View</Typography>
               <SvgBox $svgWidth={6} $svgHeight={6}>
-                <img src="/assets/images/icon-arrow-right.svg"  />
+                <img src='/assets/images/icon-arrow-right.svg' />
               </SvgBox>
             </FlexBox>
           </FlexBox>

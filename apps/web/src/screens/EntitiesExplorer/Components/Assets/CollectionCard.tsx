@@ -5,7 +5,7 @@ import { Typography } from 'components/Typography'
 import { getSDGIcon } from 'components/Modals/SelectionModal/SelectionModal'
 import { useAccount } from 'hooks/account'
 import { TEntityModel } from 'types/entities'
-import { FlexBox } from 'components/App/App.styles'
+import { FlexBox } from 'components/CoreEntry/App.styles'
 import { useGetAssetDevicesByCollectionIdAndOwner } from 'graphql/entities'
 import { transformStorageEndpoint } from '@ixo-webclient/utils'
 
@@ -15,7 +15,7 @@ const CollectionCard: React.FC<any> = (apiEntity) => {
   const [collection, setCollection] = useState<TEntityModel>()
 
   const collectionId = apiEntity.id
-  const logo = transformStorageEndpoint(collection?.token?.properties?.icon ?? "")
+  const logo = transformStorageEndpoint(collection?.token?.properties?.icon ?? '')
   const image = collection?.profile?.image
   const collectionName = collection?.token?.name
   const name = collection?.profile?.name
@@ -23,7 +23,7 @@ const CollectionCard: React.FC<any> = (apiEntity) => {
   // const description = collection?.token?.description
 
   const sdgs = collection?.tags
-    ? collection.tags.find((item) => item && item.category === 'SDG' && Array.isArray(item.tags))?.tags ?? []
+    ? (collection.tags.find((item) => item && item.category === 'SDG' && Array.isArray(item.tags))?.tags ?? [])
     : []
 
   const { totalCount: numOfPurchase } = useGetAssetDevicesByCollectionIdAndOwner(collectionId, address)

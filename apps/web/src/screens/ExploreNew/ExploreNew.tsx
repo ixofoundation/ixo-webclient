@@ -1,8 +1,7 @@
-'use client'
 import { Flex } from '@mantine/core'
 import ExploreCard from 'components/ExploreCard/ExploreCard'
 import { SearchSuggestion } from 'components/SearchSuggestion/SearchSuggestion'
-import { useRouter } from 'next/navigation'
+import { useNavigate, useOutletContext } from 'react-router-dom'
 
 export interface SearchResult {
   id: string
@@ -29,21 +28,17 @@ interface OutletContext {
 }
 
 const ExploreNew: React.FC = () => {
-  const router = useRouter()
-  const { searchQuery, searchResults, updateSearchQuery } = {
-    searchQuery: '',
-    searchResults: [],
-    updateSearchQuery: () => {},
-  }
+  const navigate = useNavigate()
+  const { searchQuery, searchResults, updateSearchQuery } = useOutletContext<OutletContext>()
 
   const handleNavigate = (path: string) => {
-    // updateSearchQuery(path)
+    updateSearchQuery(path)
   }
 
   const renderSearchResults = () => (
     <Flex direction='column' w='100%' h='100%' align='center' mt={80}>
       <Flex gap='lg' wrap='wrap' justify='center'>
-        {searchResults.map((result: any) => (
+        {searchResults.map((result) => (
           <ExploreCard
             key={result.objectID}
             image={result?.image}
@@ -51,7 +46,7 @@ const ExploreNew: React.FC = () => {
             name={result?.name}
             brand={result?.brand}
             logo={result?.logo}
-            onClick={() => router.push(`/entity/${result.id}`)}
+            onClick={() => navigate(`/entity/${result.id}`)}
           />
         ))}
       </Flex>

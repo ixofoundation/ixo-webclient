@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import Lottie from 'react-lottie'
-import { FlexBox } from 'components/App/App.styles'
+import { FlexBox } from 'components/CoreEntry/App.styles'
 import { ProgressBar } from 'components/ProgressBar/ProgressBar'
 import { apiEntityToEntity } from 'utils/entities'
 import { Typography } from 'components/Typography'

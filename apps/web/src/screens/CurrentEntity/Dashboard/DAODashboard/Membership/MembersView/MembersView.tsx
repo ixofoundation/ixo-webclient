@@ -8,24 +8,16 @@ import {
   TableHead,
   TableHeadItem,
   TableRow,
-} from 'components/App/App.styles'
+} from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
 import React, { Dispatch, SetStateAction } from 'react'
 import { MemberCard } from './MemberCard'
 import { MemberListItem } from './MemberListItem'
 
-
-
-
-
-
-
-
 import { useTheme } from 'styled-components'
 import useCurrentEntity from 'hooks/currentEntity'
 import { useQuery } from 'hooks/window'
 //
-
 
 interface Props {
   view: 'panel' | 'list'
@@ -76,10 +68,10 @@ const MembersView: React.FC<Props> = ({
         {label}
       </Typography>
       <SvgBox color={sort ? theme.ixoNewBlue : theme.ixoDarkBlue}>
-        {varType === 'string' && sort === 'desc' && <img src="/assets/images/icon-sort-ztoa.svg"  />}
-        {varType === 'string' && sort !== 'desc' && <img src="/assets/images/icon-sort-atoz.svg"  />}
-        {varType === 'number' && sort === 'desc' && <img src="/assets/images/icon-sort-gtol.svg"  />}
-        {varType === 'number' && sort !== 'desc' && <img src="/assets/images/icon-sort-ltog.svg"  />}
+        {varType === 'string' && sort === 'desc' && <img src='/assets/images/icon-sort-ztoa.svg' />}
+        {varType === 'string' && sort !== 'desc' && <img src='/assets/images/icon-sort-atoz.svg' />}
+        {varType === 'number' && sort === 'desc' && <img src='/assets/images/icon-sort-gtol.svg' />}
+        {varType === 'number' && sort !== 'desc' && <img src='/assets/images/icon-sort-ltog.svg' />}
       </SvgBox>
     </FlexBox>
   )

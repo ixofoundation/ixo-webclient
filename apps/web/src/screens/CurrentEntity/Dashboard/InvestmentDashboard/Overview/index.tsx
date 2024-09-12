@@ -1,4 +1,4 @@
-import { FlexBox } from 'components/App/App.styles'
+import { FlexBox } from 'components/CoreEntry/App.styles'
 import React from 'react'
 import { useLocation, useParams } from 'react-router-dom'
 import BondAlphaSection from './BondAlphaSection'
@@ -10,7 +10,7 @@ import { useAppSelector } from 'redux/hooks'
 import { getEntityById } from 'redux/entities/entities.selectors'
 
 const Overview: React.FC = () => {
-  const { entityId = "" } = useParams()
+  const { entityId = '' } = useParams()
   const { hash } = useLocation()
   const tab = hash.replace('#', '')
   const { linkedEntity } = useAppSelector(getEntityById(entityId))

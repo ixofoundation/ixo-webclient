@@ -3,7 +3,7 @@ import { FormWrapper, FormBody, FormRow, FormHeader } from './ClaimProfileForm.s
 import { ImageUpload, InputWithLabel, SelectWithModal } from '../../Components'
 import { Typography } from 'components/Typography'
 import { EClaimType } from 'types/protocol'
-import { FlexBox } from 'components/App/App.styles'
+import { FlexBox } from 'components/CoreEntry/App.styles'
 import moment from 'moment'
 
 interface Props {

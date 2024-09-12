@@ -1,4 +1,4 @@
-import { FlexBox } from 'components/App/App.styles'
+import { FlexBox } from 'components/CoreEntry/App.styles'
 import { Table } from 'components/Table'
 import { renderTableHeader } from 'components/Table/Table'
 import { Typography } from 'components/Typography'

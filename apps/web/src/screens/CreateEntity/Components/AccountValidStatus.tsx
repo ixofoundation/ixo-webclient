@@ -1,9 +1,6 @@
-import { FlexBox } from 'components/App/App.styles'
+import { FlexBox } from 'components/CoreEntry/App.styles'
 import React from 'react'
 import { isAccountAddress, isContractAddress } from 'utils/validation'
-
-
-
 
 import { useTheme } from 'styled-components'
 
@@ -25,8 +22,8 @@ const AccountValidStatus: React.FC<Props> = ({ address, ...rest }): JSX.Element 
       background={address ? (isValidAddress ? theme.ixoGreen : theme.ixoRed) : 'transparent'}
       {...rest}
     >
-      {address && isValidAddress && <img src="/assets/images/icon-check-big.svg"  />}
-      {address && !isValidAddress && <img src="/assets/images/icon-times.svg"  />}
+      {address && isValidAddress && <img src='/assets/images/icon-check-big.svg' />}
+      {address && !isValidAddress && <img src='/assets/images/icon-times.svg' />}
     </FlexBox>
   )
 }

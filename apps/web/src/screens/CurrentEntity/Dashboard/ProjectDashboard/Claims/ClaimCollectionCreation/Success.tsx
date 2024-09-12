@@ -1,8 +1,7 @@
-import { FlexBox, SvgBox } from 'components/App/App.styles'
+import { FlexBox, SvgBox } from 'components/CoreEntry/App.styles'
 import { deviceWidth } from 'constants/device'
 import { Button } from 'screens/CreateEntity/Components'
 import React from 'react'
-
 
 import { useTheme } from 'styled-components'
 import { Typography } from 'components/Typography'
@@ -23,7 +22,7 @@ const ClaimCollectionCreationSuccessStep: React.FC<Props> = ({ hidden, onSubmit 
     <FlexBox $direction='column'>
       <FlexBox $direction='column' $gap={9} width={deviceWidth.tablet + 'px'} mb={40}>
         <SvgBox $svgWidth={30} $svgHeight={30} color={theme.ixoLightGreen}>
-          <img src="/assets/images/icon-check-circle.svg"  />
+          <img src='/assets/images/icon-check-circle.svg' />
         </SvgBox>
 
         <Typography color='green'>Claim Collection successfully created!</Typography>

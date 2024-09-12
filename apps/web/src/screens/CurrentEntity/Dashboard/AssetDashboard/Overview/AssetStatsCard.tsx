@@ -1,4 +1,4 @@
-import { FlexBox } from 'components/App/App.styles'
+import { FlexBox } from 'components/CoreEntry/App.styles'
 // import { Card, CardProps } from './Card'
 import { HorizontalLine } from 'components/HorizontalLine'
 import { CopyIcon } from 'components/Icons'

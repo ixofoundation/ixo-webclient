@@ -1,11 +1,10 @@
-import { Box, FlexBox, HTMLFlexBoxProps, SvgBox } from 'components/App/App.styles'
+import { Box, FlexBox, HTMLFlexBoxProps, SvgBox } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
 import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 import { useAccount } from 'hooks/account'
 import React, { useEffect, useMemo, useState } from 'react'
 import { convertDenomToMicroDenomWithDecimals, depositInfoToCoin } from 'utils/conversions'
 import { SignStep, TXStatus } from '../common'
-
 
 import { NATIVE_DENOM, NATIVE_MICRODENOM } from 'constants/chains'
 import { BankSendTrx, fee } from 'lib/protocol'
@@ -254,7 +253,7 @@ const DepositModal: React.FunctionComponent<Props> = ({
                   $boxShadow={theme.ixoShadow2}
                 >
                   <SvgBox color={theme.ixoNewBlue} $svgHeight={8}>
-                    <img src="/assets/images/icon-arrow-down.svg"  />
+                    <img src='/assets/images/icon-arrow-down.svg' />
                   </SvgBox>
                 </FlexBox>
                 {/* DAO name & Group Name */}
@@ -274,7 +273,7 @@ const DepositModal: React.FunctionComponent<Props> = ({
                   onClick={() => validAmount && handleSigning()}
                   color={validAmount ? theme.ixoNewBlue : theme.ixoDarkBlue}
                 >
-                  <img src="/assets/images/modal/nextstep.svg"  />
+                  <img src='/assets/images/modal/nextstep.svg' />
                 </SvgBox>
               </FlexBox>
             </FlexBox>

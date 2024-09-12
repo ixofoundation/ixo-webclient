@@ -13,12 +13,8 @@ import {
   TableState,
 } from 'react-table'
 import { Flex, Pagination, Select } from '@mantine/core'
-import { SvgBox, theme } from 'components/App/App.styles'
+import { SvgBox, theme } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
-
-
-
-
 
 // Create a default prop getter
 const defaultPropGetter = () => ({})
@@ -182,8 +178,8 @@ export const renderTableHeader = (
     </Typography>
     {sort && (
       <SvgBox color={theme.ixoDarkBlue}>
-        {sort.direction !== 'desc' && <img src="/assets/images/icon-sort-ltog.svg"  />}
-        {sort.direction === 'desc' && <img src="/assets/images/icon-sort-gtol.svg"  />}
+        {sort.direction !== 'desc' && <img src='/assets/images/icon-sort-ltog.svg' />}
+        {sort.direction === 'desc' && <img src='/assets/images/icon-sort-gtol.svg' />}
       </SvgBox>
     )}
   </Flex>

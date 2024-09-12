@@ -9,7 +9,7 @@ import { getEntityById, selectEntitiesByType } from 'redux/entities/entities.sel
 import { findDAObyDelegateAccount } from 'utils/entities'
 import { useQuery } from 'hooks/window'
 import { Flex } from '@mantine/core'
-import { GridContainer, GridItem } from 'components/App/App.styles'
+import { GridContainer, GridItem } from 'components/CoreEntry/App.styles'
 import GovernanceCard from 'screens/MyAccount/MyGroupsPage/GroupView/GovernanceCard'
 import VotingPowerCard from 'screens/MyAccount/MyGroupsPage/GroupView/VotingPowerCard'
 import TokensCard from 'screens/MyAccount/MyGroupsPage/GroupView/TokensCard'

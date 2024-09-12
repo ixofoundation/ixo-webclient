@@ -9,7 +9,7 @@ import {
   BreadCrumbs,
 } from './CreateEntityLayout.styles'
 import { Typography } from 'components/Typography'
-import { Box } from 'components/App/App.styles'
+import { Box } from 'components/CoreEntry/App.styles'
 import { ScrollArea } from '@mantine/core'
 
 interface Props {

@@ -1,9 +1,8 @@
 import { ResponsiveContainer, Line, LineChart } from 'recharts'
-import { FlexBox, SvgBox } from 'components/App/App.styles'
+import { FlexBox, SvgBox } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
 import React from 'react'
 import CurrencyFormat from 'react-currency-format'
-
 
 import { useTheme } from 'styled-components'
 import BigNumber from 'bignumber.js'
@@ -104,7 +103,7 @@ const BalanceCard: React.FC<Props> = ({ availableValue = '0', stakedValue = '0.0
         ) : (
           <>
             <SvgBox $svgWidth={10} $svgHeight={10} color={theme.ixoDarkBlue} mb={4}>
-              <img src="/assets/images/icon-coins-solid.svg"  />
+              <img src='/assets/images/icon-coins-solid.svg' />
             </SvgBox>
             <Typography variant='secondary' size='2xl'>
               No Treasury Assets could be found

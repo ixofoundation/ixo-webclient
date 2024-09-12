@@ -1,4 +1,4 @@
-import { FlexBox, GridContainer, GridItem } from 'components/App/App.styles'
+import { FlexBox, GridContainer, GridItem } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
 import React, { useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'

@@ -18,8 +18,6 @@ import {
 } from './SplashLandingSection.styles'
 import waveAnimation from './wave.lottie.json'
 
-
-
 import TypeWriter from '../../../components/TypeWriter/TypeWriter'
 
 const SplashLandingSection: FC = () => {
@@ -77,7 +75,7 @@ const SplashLandingSection: FC = () => {
                 rel='noopener noreferrer'
                 title='Download on Google Play'
               >
-                <AppImg src={googlePlay} alt='Get it on Google Play' />
+                <AppImg src={'/assets/images/home/googlePlay.png'} alt='Get it on Google Play' />
               </GradientAppButton>
               <GradientAppButton
                 href='https://apps.apple.com/us/app/impacts-x/id6444948058?mt=8'
@@ -85,13 +83,13 @@ const SplashLandingSection: FC = () => {
                 rel='noopener noreferrer'
                 title='Download on the App Store'
               >
-                <AppImg src={appleStore} alt='Download on the App Store' />
+                <AppImg src={'/assets/images/home/appleStore.png'} alt='Download on the App Store' />
               </GradientAppButton>
             </FlexWrapper>
           </div>
         </BottomContainer>
         <NextSectionButton onClick={scrollDown} ref={scrollDownRef}>
-          <img src="/assets/images/splash/doublearrow.svg" alt='Scroll down to next section' />
+          <img src='/assets/images/splash/doublearrow.svg' alt='Scroll down to next section' />
         </NextSectionButton>
       </InnerContainer>
     </SectionContainer>

@@ -1,9 +1,7 @@
-import { FlexBox, SvgBox } from 'components/App/App.styles'
+import { FlexBox, SvgBox } from 'components/CoreEntry/App.styles'
 import { useTheme } from 'styled-components'
 import { Typography } from 'components/Typography'
 //
-
-
 
 import { Card } from '../Card'
 import { useAccount } from 'hooks/account'
@@ -52,7 +50,7 @@ const BalanceCard = () => {
   return (
     <>
       <Card
-        icon={<img src="/assets/images/icon-wallet-solid.svg"  />}
+        icon={<img src='/assets/images/icon-wallet-solid.svg' />}
         title='My Balance'
         columns={1}
         items={
@@ -76,7 +74,7 @@ const BalanceCard = () => {
                 cursor='pointer'
                 onClick={onButtonClick}
               >
-                <img src="/assets/images/icon-wallet-solid.svg"  />
+                <img src='/assets/images/icon-wallet-solid.svg' />
               </SvgBox>
             </FlexBox>
             {/* 

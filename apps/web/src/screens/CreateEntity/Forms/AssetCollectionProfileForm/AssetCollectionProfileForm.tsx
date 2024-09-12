@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormWrapper, FormHeader, FormBody, FormRow } from './AssetCollectionProfileForm.styles'
 import { IconUpload, ImageUpload, InputWithLabel } from '../../Components'
-import { FlexBox } from 'components/App/App.styles'
+import { FlexBox } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
 
 interface Props {

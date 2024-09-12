@@ -1,8 +1,7 @@
-import { Box, FlexBox } from 'components/App/App.styles'
+import { Box, FlexBox } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
 import { PropertyBox } from 'screens/CreateEntity/Components'
 import React, { useState } from 'react'
-
 
 import { AddServiceModal } from 'components/Modals'
 
@@ -36,7 +35,11 @@ const SetupService: React.FC<Props> = ({ hidden }): JSX.Element => {
               />
             )
           })} */}
-          <PropertyBox icon={<img src="/assets/images/icon-plus.svg"  />} noData handleClick={(): void => setOpenAddServiceModal(true)} />
+          <PropertyBox
+            icon={<img src='/assets/images/icon-plus.svg' />}
+            noData
+            handleClick={(): void => setOpenAddServiceModal(true)}
+          />
         </Box>
       </FlexBox>
 

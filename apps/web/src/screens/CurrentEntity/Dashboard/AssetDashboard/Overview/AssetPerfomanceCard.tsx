@@ -1,4 +1,4 @@
-import { FlexBox } from 'components/App/App.styles'
+import { FlexBox } from 'components/CoreEntry/App.styles'
 import { useEffect, useMemo, useState } from 'react'
 import { getCookingSessions } from 'api/netlify/getCookingSessions'
 import { Button, Flex } from '@mantine/core'

@@ -1,12 +1,9 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { FlexBox, SvgBox } from 'components/App/App.styles'
+import { FlexBox, SvgBox } from 'components/CoreEntry/App.styles'
 import { Input } from 'screens/CreateEntity/Components'
 import { Typography } from 'components/Typography'
 import { TProposalActionModel } from 'types/entities'
 import styled from 'styled-components'
-
-
-
 
 import SetupActionModalTemplate from './SetupActionModalTemplate'
 import { isAccountAddress } from 'utils/validation'
@@ -134,14 +131,14 @@ const SetupManageMembersModal: React.FC<Props> = ({ open, action, onClose, onSub
                 handleChange={(value) => handleUpdateMemberToAdd(index, { ...member, addr: value })}
               />
               <SvgBox color='black' onClick={() => handleRemoveMemberToAdd(index)} cursor='pointer'>
-                <img src="/assets/images/icon-times.svg"  />
+                <img src='/assets/images/icon-times.svg' />
               </SvgBox>
             </FlexBox>
           ))}
 
           <AddButton $alignItems='center' $gap={2.5} onClick={handleAddMemberToAdd}>
             <SvgBox color='black'>
-              <img src="/assets/images/icon-plus.svg"  />
+              <img src='/assets/images/icon-plus.svg' />
             </SvgBox>
             <Typography size='xl' weight='medium'>
               Add
@@ -163,14 +160,14 @@ const SetupManageMembersModal: React.FC<Props> = ({ open, action, onClose, onSub
                 handleChange={(value) => handleUpdateMemberToRemove(index, { ...member, addr: value })}
               />
               <SvgBox color='black' onClick={() => handleRemoveMemberToRemove(index)} cursor='pointer'>
-                <img src="/assets/images/icon-times.svg"  />
+                <img src='/assets/images/icon-times.svg' />
               </SvgBox>
             </FlexBox>
           ))}
 
           <AddButton $alignItems='center' $gap={2.5} onClick={handleAddMemberToRemove}>
             <SvgBox color='black'>
-              <img src="/assets/images/icon-plus.svg"  />
+              <img src='/assets/images/icon-plus.svg' />
             </SvgBox>
             <Typography size='xl' weight='medium'>
               Add

@@ -5,11 +5,6 @@ import TokenSelector from 'components/TokenSelector/TokenSelector'
 import { StepsTransactions } from 'components/StepsTransactions/StepsTransactions'
 import AmountInput from 'components/AmountInput/AmountInput'
 
-
-
-
-
-
 import { formatCurrency } from 'redux/account/account.utils'
 import pendingAnimation from 'assets/animations/transaction/pending.json'
 import successAnimation from 'assets/animations/transaction/success.json'
@@ -21,7 +16,7 @@ import { Coin } from '@ixo/impactxclient-sdk/types/codegen/cosmos/base/v1beta1/c
 import { ModalInput, TXStatus } from '../common'
 import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
 import { useGetBondDid } from 'graphql/bonds'
-import { FlexBox } from 'components/App/App.styles'
+import { FlexBox } from 'components/CoreEntry/App.styles'
 import { WithdrawReserve } from 'lib/protocol'
 import { useAccount } from 'hooks/account'
 import { cosmos } from '@ixo/impactxclient-sdk'
@@ -199,15 +194,20 @@ const BondWithdrawReserveModal: React.FC<Props> = ({ open, bondDid, setOpen }) =
                 handleChange={handleTokenChange}
                 disable={currentStep !== 0}
               />
-              {currentStep === 2 && <img className='check-icon' src="/assets/images/icon-check.svg" alt='check-icon' />}
+              {currentStep === 2 && <img className='check-icon' src='/assets/images/icon-check.svg' alt='check-icon' />}
             </CheckWrapper>
             <CheckWrapper>
               <div className='mt-3' />
-              <ModalInput disabled={true} preIcon={<img src="/assets/images/icon-qrcode.svg"  />} placeholder={accountAddress} value={''} />
-              {currentStep === 2 && <img className='check-icon' src="/assets/images/icon-check.svg" alt='check-icon' />}
+              <ModalInput
+                disabled={true}
+                preIcon={<img src='/assets/images/icon-qrcode.svg' />}
+                placeholder={accountAddress}
+                value={''}
+              />
+              {currentStep === 2 && <img className='check-icon' src='/assets/images/icon-check.svg' alt='check-icon' />}
             </CheckWrapper>
             <OverlayWrapper>
-              <img src="/assets/images/modal/overlaybutton-down.svg" alt='down' />
+              <img src='/assets/images/modal/overlaybutton-down.svg' alt='down' />
             </OverlayWrapper>
           </FlexBox>
         )}
@@ -224,7 +224,7 @@ const BondWithdrawReserveModal: React.FC<Props> = ({ open, bondDid, setOpen }) =
                 suffix={asset!.denom!.toUpperCase()}
                 placeholder='Reserve Amount'
               />
-              {currentStep === 2 && <img className='check-icon' src="/assets/images/icon-check.svg" alt='check-icon' />}
+              {currentStep === 2 && <img className='check-icon' src='/assets/images/icon-check.svg' alt='check-icon' />}
             </CheckWrapper>
             <AmountInputLabel className='mt-2' error={!validAmount}>
               {validAmount ? (
@@ -252,17 +252,17 @@ const BondWithdrawReserveModal: React.FC<Props> = ({ open, bondDid, setOpen }) =
             <span className='message'>{generateTXMessage(signTXStatus)}</span>
             {signTXStatus === TXStatus.SUCCESS && (
               <div className='transaction mt-3' onClick={handleViewTransaction}>
-                <img src="/assets/images/icon-eye.svg" alt='view transactions' />
+                <img src='/assets/images/icon-eye.svg' alt='view transactions' />
               </div>
             )}
           </TXStatusBoard>
         )}
 
         <NextStep show={showNext} onClick={() => setCurrentStep(currentStep + 1)}>
-          <img src="/assets/images/modal/nextstep.svg" alt='next-step' />
+          <img src='/assets/images/modal/nextstep.svg' alt='next-step' />
         </NextStep>
         <PrevStep show={showPrev} onClick={() => setCurrentStep(currentStep - 1)}>
-          <img src="/assets/images/modal/nextstep.svg" alt='prev-step' />
+          <img src='/assets/images/modal/nextstep.svg' alt='prev-step' />
         </PrevStep>
       </Container>
     </ModalWrapper>

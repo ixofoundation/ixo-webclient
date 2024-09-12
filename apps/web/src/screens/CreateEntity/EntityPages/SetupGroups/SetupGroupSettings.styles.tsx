@@ -1,4 +1,4 @@
-import { FlexBox } from 'components/App/App.styles'
+import { FlexBox } from 'components/CoreEntry/App.styles'
 import styled from 'styled-components'
 
 import PlusIconSvg from 'assets/images/icon-plus.svg'

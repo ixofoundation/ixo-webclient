@@ -1,7 +1,7 @@
 import { Coin } from '@cosmjs/proto-signing'
 import { contracts } from '@ixo/impactxclient-sdk'
 import BigNumber from 'bignumber.js'
-import { FlexBox } from 'components/App/App.styles'
+import { FlexBox } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
 import { useAccount } from 'hooks/account'
 import { useCurrentEntityAdminAccount } from 'hooks/currentEntity'

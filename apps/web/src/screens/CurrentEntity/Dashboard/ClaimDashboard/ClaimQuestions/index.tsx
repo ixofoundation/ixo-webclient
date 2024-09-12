@@ -1,5 +1,5 @@
 import { LinkedResource } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
-import { FlexBox } from 'components/App/App.styles'
+import { FlexBox } from 'components/CoreEntry/App.styles'
 import { FormData } from 'components/JsonForm/types'
 import React, { useEffect, useState } from 'react'
 import { serviceEndpointToUrl } from 'utils/entities'
@@ -11,7 +11,7 @@ import { useAppSelector } from 'redux/hooks'
 import { getEntityById } from 'redux/entities/entities.selectors'
 
 const ClaimQuestions: React.FC = () => {
-  const { entityId = "" } = useParams<{ entityId: string }>()
+  const { entityId = '' } = useParams<{ entityId: string }>()
   const { service, linkedResource } = useAppSelector(getEntityById(entityId))
   const [questionFormData, setQuestionFormData] = useState<FormData[]>([])
 

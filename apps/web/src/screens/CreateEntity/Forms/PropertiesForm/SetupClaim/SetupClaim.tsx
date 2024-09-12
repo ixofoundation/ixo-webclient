@@ -1,12 +1,10 @@
-import { Box, FlexBox } from 'components/App/App.styles'
+import { Box, FlexBox } from 'components/CoreEntry/App.styles'
 import { ClaimSetupModal } from 'components/Modals'
 import { PropertyBox } from 'screens/CreateEntity/Components'
 import React, { useState } from 'react'
 import { TEntityClaimModel } from 'types/entities'
 import { omitKey } from 'utils/objects'
 import { v4 as uuidv4 } from 'uuid'
-
-
 
 interface Props {
   hidden: boolean
@@ -65,7 +63,7 @@ const SetupClaim: React.FC<Props> = ({ hidden, claim, updateClaim }): JSX.Elemen
             />
           ))}
           <PropertyBox
-            icon={<img src="/assets/images/icon-plus.svg"  />}
+            icon={<img src='/assets/images/icon-plus.svg' />}
             noData
             handleClick={(): void => {
               setEditModalOpen(true)

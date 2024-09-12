@@ -1,11 +1,10 @@
 import React, { useState, useMemo, useEffect } from 'react'
 import * as Modal from 'react-modal'
 
-
 import { ModalStyles, CloseButton, ModalWrapper } from 'components/Modals/styles'
 import { Button, InputWithLabel, Switch, TextArea } from 'screens/CreateEntity/Components'
 import { TEntityClaimModel, TEntityClaimTemplateModel } from 'types/entities'
-import { FlexBox } from 'components/App/App.styles'
+import { FlexBox } from 'components/CoreEntry/App.styles'
 import ClaimTemplateCard from './ClaimTemplateCard'
 import ClaimSelectModal from '../ClaimSelectModal/ClaimSelectModal'
 import { Typography } from 'components/Typography'
@@ -53,7 +52,7 @@ const ClaimSetupModal: React.FC<Props> = ({ claim, open, onClose, onChange }): J
       {/* @ts-ignore */}
       <Modal style={ModalStyles} isOpen={open} onRequestClose={onClose} contentLabel='Modal' ariaHideApp={false}>
         <CloseButton onClick={onClose}>
-          <img src="/assets/images/icon-close.svg"  />
+          <img src='/assets/images/icon-close.svg' />
         </CloseButton>
 
         <StyledModalWrapper style={{ width: 870 }}>

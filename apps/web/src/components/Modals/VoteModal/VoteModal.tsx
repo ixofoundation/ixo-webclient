@@ -1,38 +1,30 @@
 import React, { useState } from 'react'
 import { ModalWrapper } from 'components/Wrappers/ModalWrapper'
-import { FlexBox, SvgBox } from 'components/App/App.styles'
+import { FlexBox, SvgBox } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
 import { Vote } from '@ixo/impactxclient-sdk/types/codegen/DaoProposalSingle.types'
-
-
-
-
-
-
-
-
 import { SignStep, TXStatus } from '../common'
 import { useTheme } from 'styled-components'
 
 const VoteOptions = [
   {
     value: 'yes',
-    icon: ThumbsUpIcon,
+    icon: '/assets/images/icon-thumbs-up.svg',
     text: 'Yes',
   },
   {
     value: 'no',
-    icon: ThumbsDownIcon,
+    icon: '/assets/images/icon-thumbs-down.svg',
     text: 'No',
   },
   {
     value: 'no',
-    icon: HandPaperIcon,
+    icon: '/assets/images/icon-hand-paper.svg',
     text: 'No with veto',
   },
   {
     value: 'abstain',
-    icon: QuestionCircleIcon,
+    icon: '/assets/images/icon-question-circle.svg',
     text: 'Abstain',
   },
 ]
@@ -72,7 +64,7 @@ const VoteModal: React.FunctionComponent<Props> = ({ open, setOpen, onVote }) =>
     >
       <FlexBox $gap={4} py={12} $justifyContent='center' width='560px'>
         {txStatus === TXStatus.UNDEFINED &&
-          VoteOptions.map(({ value, icon: Icon, text }, index) => (
+          VoteOptions.map(({ value, icon, text }, index) => (
             <FlexBox
               key={index}
               $direction='column'
@@ -97,7 +89,7 @@ const VoteModal: React.FunctionComponent<Props> = ({ open, setOpen, onVote }) =>
                 onClick={handleVote(value as Vote)}
               >
                 <SvgBox $svgWidth={12.5} $svgHeight={12.5} color='currentColor'>
-                  <Icon />
+                  <img src={icon} />
                 </SvgBox>
               </FlexBox>
               <Typography size='sm' weight='bold' transform='uppercase' color='inherit'>

@@ -1,20 +1,9 @@
-import { FlexBox, SvgBox } from 'components/App/App.styles'
+import { FlexBox, SvgBox } from 'components/CoreEntry/App.styles'
 import { Button } from 'screens/CreateEntity/Components'
 import React, { useMemo, useState } from 'react'
 import { TButtonProps } from 'screens/CreateEntity/Components/Button'
 import AssetCard from './AssetCard'
 import { AssetCardSelection, AssetCardWrapper } from './AssetCard.styles'
-
-
-
-
-
-
-
-
-
-
-
 
 import { InfiniteScroll } from 'components/InfiniteScroll'
 import { deviceWidth } from 'constants/device'
@@ -101,7 +90,7 @@ const Assets: React.FC<Props> = (props) => {
             variant={filterBy === 'all' ? 'primary' : 'tertiary'}
             icon={
               <SvgBox $svgWidth={6} $svgHeight={6} color={theme.ixoWhite}>
-                <img src="/assets/images/icon-globe.svg"  />
+                <img src='/assets/images/icon-globe.svg' />
               </SvgBox>
             }
             onClick={() => setFilterBy('all')}
@@ -112,7 +101,7 @@ const Assets: React.FC<Props> = (props) => {
             variant={filterBy === 'on-sale' ? 'primary' : 'tertiary'}
             icon={
               <SvgBox $svgWidth={6} $svgHeight={6} color={theme.ixoWhite}>
-                <img src="/assets/images/icon-diamond.svg"  />
+                <img src='/assets/images/icon-diamond.svg' />
               </SvgBox>
             }
             onClick={() => setFilterBy('on-sale')}
@@ -124,7 +113,7 @@ const Assets: React.FC<Props> = (props) => {
             variant={filterBy === 'owned' ? 'primary' : 'tertiary'}
             icon={
               <SvgBox $svgWidth={6} $svgHeight={6} color={theme.ixoWhite}>
-                <img src="/assets/images/icon-wallet-solid.svg"  />
+                <img src='/assets/images/icon-wallet-solid.svg' />
               </SvgBox>
             }
             onClick={() => setFilterBy('owned')}
@@ -139,7 +128,7 @@ const Assets: React.FC<Props> = (props) => {
               variant='primary'
               icon={
                 <SvgBox $svgWidth={6} $svgHeight={6} color={theme.ixoWhite}>
-                  <img src="/assets/images/icon-plus.svg"  />
+                  <img src='/assets/images/icon-plus.svg' />
                 </SvgBox>
               }
               onClick={handleSelecting}
@@ -152,7 +141,7 @@ const Assets: React.FC<Props> = (props) => {
                 variant='primary'
                 icon={
                   <SvgBox $svgWidth={6} $svgHeight={6} color={theme.ixoWhite}>
-                    <img src="/assets/images/icon-wallet-solid.svg"  />
+                    <img src='/assets/images/icon-wallet-solid.svg' />
                   </SvgBox>
                 }
               >
@@ -162,7 +151,7 @@ const Assets: React.FC<Props> = (props) => {
                 variant='tertiary'
                 icon={
                   <SvgBox $svgWidth={6} $svgHeight={6} color={theme.ixoWhite}>
-                    <img src="/assets/images/icon-close.svg"  />
+                    <img src='/assets/images/icon-close.svg' />
                   </SvgBox>
                 }
                 onClick={handleSelecting}
@@ -190,7 +179,9 @@ const Assets: React.FC<Props> = (props) => {
         {entities.map((asset, index) => (
           <AssetCardWrapper key={index} onClick={handleAssetCardClick(index)}>
             {selecting && (
-              <AssetCardSelection selected={selections[index]}>{selections[index] && <img src="/assets/images/icon-check-big.svg"  />}</AssetCardSelection>
+              <AssetCardSelection selected={selections[index]}>
+                {selections[index] && <img src='/assets/images/icon-check-big.svg' />}
+              </AssetCardSelection>
             )}
             <AssetCard collectionName={props.collectionName} entity={asset} />
           </AssetCardWrapper>

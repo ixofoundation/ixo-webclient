@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import * as Modal from 'react-modal'
 
-
 import { ModalStyles, CloseButton, ModalWrapper, ModalTitle } from 'components/Modals/styles'
 import { Button, InputWithLabel } from 'screens/CreateEntity/Components'
-import { FlexBox } from 'components/App/App.styles'
+import { FlexBox } from 'components/CoreEntry/App.styles'
 import { useTheme } from 'styled-components'
 import { LinkedEntity } from '@ixo/impactxclient-sdk/types/codegen/ixo/iid/v1beta1/types'
 import { KeplrChainInfo } from '@ixo/cosmos-chain-resolver/types/types/chain'
@@ -66,7 +65,7 @@ const LinkedAccountSetupModal: React.FC<Props> = ({ open, onClose, onAdd }): JSX
       {/* @ts-ignore */}
       <Modal style={ModalStyles} isOpen={open} onRequestClose={onClose} contentLabel='Modal' ariaHideApp={false}>
         <CloseButton onClick={onClose}>
-          <img src="/assets/images/icon-close.svg"  />
+          <img src='/assets/images/icon-close.svg' />
         </CloseButton>
 
         <ModalWrapper>

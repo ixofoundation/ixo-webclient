@@ -4,7 +4,6 @@ import { Route, useNavigate, Navigate, Routes } from 'react-router-dom'
 import MyPortfolioPage from './MyPortfolioPage'
 import Dashboard from 'components/Dashboard/Dashboard'
 import { Path } from 'components/Dashboard/types'
-import { requireCheckDefault } from 'utils/images'
 import MyGroupsPage from './MyGroupsPage'
 import MyclaimsPage from './MyClaimsPage'
 import { useIxoConfigs } from 'hooks/configs'
@@ -15,23 +14,22 @@ const MyAccountPage: React.FC = (): JSX.Element => {
   const title = 'My Portfolio'
   const { entityConfig } = useIxoConfigs()
 
-
   const routes: Path[] = [
     {
       url: `/myaccount/portfolio`,
-      icon: requireCheckDefault(require('assets/images/icon-entity-account.svg')),
+      icon: '/assets/images/icon-entity-account.svg',
       sdg: 'My Portfolio',
       tooltip: 'My Portfolio',
     },
     {
       url: `/myaccount/groups`,
-      icon: requireCheckDefault(require('assets/img/sidebar/agents.svg')),
+      icon: '/assets/img/sidebar/agents.svg',
       sdg: 'My Groups',
       tooltip: 'My Groups',
     },
     {
       url: `/myaccount/claims`,
-      icon: requireCheckDefault(require('assets/img/sidebar/check.svg')),
+      icon: '/assets/img/sidebar/check.svg',
       sdg: 'Claims',
       tooltip: 'Claims',
     },

@@ -1,11 +1,8 @@
 import React, { useMemo } from 'react'
 import Table, { renderTableHeader } from 'components/Table/Table'
 
-
-
-
 import styled, { useTheme } from 'styled-components'
-import { FlexBox, SvgBox } from 'components/App/App.styles'
+import { FlexBox, SvgBox } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
 import { timeAgo } from 'utils/time'
 import { Column } from 'react-table'
@@ -97,7 +94,7 @@ const EvaluatedClaims = ({ evaluatedClaims }: EvaluatedClaimsProps) => {
         Cell: ({ cell }) => (
           <FlexBox height='100%'>
             <FlexBox width='100%' height='100%' p={5} $alignItems='center' background={theme.ixoNavyBlue} $gap={2.5}>
-              <img src="/assets/images/icon-ixo.svg"  />
+              <img src='/assets/images/icon-ixo.svg' />
               <Typography weight='bold'>235 CARBON</Typography>
             </FlexBox>
             <FlexBox height='100%' $alignItems='center' background={theme.ixoMediumBlue}>
@@ -108,7 +105,7 @@ const EvaluatedClaims = ({ evaluatedClaims }: EvaluatedClaimsProps) => {
                 color={theme.ixoNewBlue}
                 $svgWidth={5.5}
               >
-                <img src="/assets/images/icon-eye.svg"  />
+                <img src='/assets/images/icon-eye.svg' />
               </SvgBox>
             </FlexBox>
           </FlexBox>

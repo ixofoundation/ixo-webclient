@@ -1,5 +1,5 @@
 import ThreeDot from 'assets/icons/ThreeDot'
-import { Box, FlexBox, TableBodyItem, TableRow } from 'components/App/App.styles'
+import { Box, FlexBox, TableBodyItem, TableRow } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
 import React, { useEffect, useState, useMemo } from 'react'
 import styled, { css, useTheme } from 'styled-components'
@@ -94,12 +94,13 @@ const MemberListItem: React.FC<Props> = ({ member, selected, onSelectMember }): 
   const { cwClient } = useAccount()
   const { getQuery } = useQuery()
   const selectedGroup = getQuery('selectedGroup')
-  const { entityId = "" } = useParams<{ entityId: string}>()
+  const { entityId = '' } = useParams<{ entityId: string }>()
   const { daoGroups = {} } = useAppSelector(getEntityById(entityId))
 
   const selectedDAOGroup = daoGroups[selectedGroup]
   const { type, daoGroup, proposals, votes, votingModuleAddress } = useCurrentEntityDAOGroup(
-    selectedDAOGroup?.coreAddress || '', daoGroups
+    selectedDAOGroup?.coreAddress || '',
+    daoGroups,
   )
   const { avatar, name, status, addr } = member
   const [detailView, setDetailView] = useState(false)

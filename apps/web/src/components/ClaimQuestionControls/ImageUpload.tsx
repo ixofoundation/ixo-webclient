@@ -1,12 +1,9 @@
 import React, { useState } from 'react'
 import styled, { useTheme } from 'styled-components'
 
-
 import { ImageUploadModal } from 'components/Modals'
 import { Typography } from 'components/Typography'
-import { SvgBox } from 'components/App/App.styles'
-
-
+import { SvgBox } from 'components/CoreEntry/App.styles'
 
 const Wrapper = styled.div<{ background?: string }>`
   background: ${(props) => (props.background ? `url(${props.background}) center center no-repeat` : `transparent`)};
@@ -47,7 +44,7 @@ const ImageUpload: React.FC<Props> = ({ value, onChange }): JSX.Element => {
         {!value ? (
           <>
             <SvgBox color={theme.ixoNewBlue}>
-              <img src="/assets/images/icon-image-fill.svg"  />
+              <img src='/assets/images/icon-image-fill.svg' />
             </SvgBox>
             <Typography color='blue' size='xl'>
               Upload an Image
@@ -63,7 +60,7 @@ const ImageUpload: React.FC<Props> = ({ value, onChange }): JSX.Element => {
               e.stopPropagation()
             }}
           >
-            <img src="/assets/images/icon-trash.svg"  />
+            <img src='/assets/images/icon-trash.svg' />
           </SvgBox>
         )}
       </Wrapper>

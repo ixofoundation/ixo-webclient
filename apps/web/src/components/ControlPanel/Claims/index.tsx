@@ -1,13 +1,11 @@
 import React from 'react'
 import { Card } from '../Card'
 
-
 import { TEntityClaimModel } from 'types/entities'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
-import { FlexBox, SvgBox } from 'components/App/App.styles'
+import { FlexBox, SvgBox } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
 import { useTheme } from 'styled-components'
-
 
 import { useGetClaimCollectionByEntityIdAndClaimTemplateId } from 'graphql/claims'
 import { useAppSelector } from 'redux/hooks'
@@ -56,7 +54,7 @@ export const ClaimsItem: React.FC<TEntityClaimModel> = (item) => {
         cursor={'pointer'}
       >
         <SvgBox $svgWidth={5} $svgHeight={5} color={theme.ixoBlack}>
-          <img src="/assets/images/icon-plus.svg"  />
+          <img src='/assets/images/icon-plus.svg' />
         </SvgBox>
         <Typography
           size='sm'
@@ -94,7 +92,7 @@ const ClaimsCard: React.FC = () => {
 
   if (items.length === 0) return null
 
-  return <Card icon={<img src="/assets/images/icon-claim.svg"  />} title='Claims' columns={1} items={items} />
+  return <Card icon={<img src='/assets/images/icon-claim.svg' />} title='Claims' columns={1} items={items} />
 }
 
 export default ClaimsCard

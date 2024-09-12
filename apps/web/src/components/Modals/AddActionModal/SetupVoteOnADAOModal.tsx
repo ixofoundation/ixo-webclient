@@ -1,4 +1,4 @@
-import { FlexBox, GridContainer } from 'components/App/App.styles'
+import { FlexBox, GridContainer } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
 import { Button, Dropdown } from 'screens/CreateEntity/Components'
 import React, { useEffect, useMemo, useState } from 'react'

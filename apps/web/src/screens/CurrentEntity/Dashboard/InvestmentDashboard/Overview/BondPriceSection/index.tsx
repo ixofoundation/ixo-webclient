@@ -1,4 +1,4 @@
-import { FlexBox } from 'components/App/App.styles'
+import { FlexBox } from 'components/CoreEntry/App.styles'
 import BondBuyModal from 'components/Modals/BondBuyModal'
 import { Typography } from 'components/Typography'
 import { useGetBondDid } from 'graphql/bonds'

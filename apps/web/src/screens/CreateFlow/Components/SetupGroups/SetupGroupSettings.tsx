@@ -1,4 +1,4 @@
-import { FlexBox } from 'components/App/App.styles'
+import { FlexBox } from 'components/CoreEntry/App.styles'
 import React, { useEffect, useMemo, useState } from 'react'
 import { TDAOGroupModel } from 'types/entities'
 import { useCreateEntity, useCreateEntityState } from 'hooks/createEntity'
@@ -34,8 +34,10 @@ const SetupGroupSettings: React.FC<Props> = ({ daoGroup, onBack, onSubmit }): JS
   const [submitting, setSubmitting] = useState(false)
   const [errMsg, setErrMsg] = useState('')
 
-  const isLedgeredGroup = Boolean(data?.id && Object.values(daoGroups).some((group) => group.coreAddress.includes("ixo") && group.id === data.id))
-  
+  const isLedgeredGroup = Boolean(
+    data?.id && Object.values(daoGroups).some((group) => group.coreAddress.includes('ixo') && group.id === data.id),
+  )
+
   useEffect(() => {
     setData(daoGroup)
   }, [daoGroup, setData])

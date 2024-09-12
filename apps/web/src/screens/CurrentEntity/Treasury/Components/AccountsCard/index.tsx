@@ -1,4 +1,4 @@
-import { FlexBox, SvgBox } from 'components/App/App.styles'
+import { FlexBox, SvgBox } from 'components/CoreEntry/App.styles'
 import { Typography } from 'components/Typography'
 import React, { useState } from 'react'
 import styled, { useTheme } from 'styled-components'
@@ -6,13 +6,7 @@ import { Table } from 'components/Table'
 import CurrencyFormat from 'react-currency-format'
 import { truncateString } from 'utils/formatters'
 
-
 import CopyToClipboard from 'react-copy-to-clipboard'
-
-
-
-
-
 
 import { successToast } from 'utils/toast'
 import Tooltip from 'components/Tooltip/Tooltip'
@@ -22,9 +16,9 @@ import BigNumber from 'bignumber.js'
 import { renderTableHeader } from 'components/Table/Table'
 
 export const AccountTypeToIconMap = {
-  group: GroupAccountIcon,
-  entity: EntityAccountIcon,
-  linked: LinkedAccountIcon,
+  group: '/assets/images/icon-group-account.svg',
+  entity: '/assets/images/icon-entity-account.svg',
+  linked: '/assets/images/icon-linked-account.svg',
 }
 
 const TableWrapper = styled.div`
@@ -108,7 +102,7 @@ const AccountsCard: React.FC<Props> = ({ accounts, onSelect }) => {
         const name = cell.value
         const address = cell.row.original?.address
         const type = cell.row.original?.type
-        const Icon = AccountTypeToIconMap[type]
+        const Icon = AccountTypeToIconMap[type as keyof typeof AccountTypeToIconMap]
 
         return (
           <FlexBox $alignItems='center' $gap={2} p={4}>
@@ -126,7 +120,7 @@ const AccountsCard: React.FC<Props> = ({ accounts, onSelect }) => {
                     background={theme.ixoDarkBlue}
                     style={{ flex: 1 }}
                   >
-                    <Icon />
+                    <img src={Icon} />
                   </SvgBox>
                 )}
                 <Typography variant='secondary' size='2xl'>
@@ -140,7 +134,7 @@ const AccountsCard: React.FC<Props> = ({ accounts, onSelect }) => {
                     {truncateString(address, 20, 'middle')}
                   </Typography>
                   <SvgBox color={theme.ixoNewBlue} $svgWidth={6} $svgHeight={6}>
-                    <img src="/assets/images/icon-copy.svg"  />
+                    <img src='/assets/images/icon-copy.svg' />
                   </SvgBox>
                 </FlexBox>
               </CopyToClipboard>
@@ -207,9 +201,14 @@ const AccountsCard: React.FC<Props> = ({ accounts, onSelect }) => {
               $svgWidth={6}
               $svgHeight={6}
               $borderRadius='100%'
-              background={filter[key] ? theme.ixoNewBlue : theme.ixoDarkBlue}
+              background={filter[key as keyof typeof filter] ? theme.ixoNewBlue : theme.ixoDarkBlue}
               cursor='pointer'
-              onClick={() => setFilter((filter) => ({ ...filter, [key]: !filter[key] }))}
+              onClick={() =>
+                setFilter((filter) => ({
+                  ...filter,
+                  [key as keyof typeof filter]: !filter[key as keyof typeof filter],
+                }))
+              }
             >
               <Icon />
             </SvgBox>
@@ -220,7 +219,7 @@ const AccountsCard: React.FC<Props> = ({ accounts, onSelect }) => {
       <TableWrapper>
         <Table
           columns={columns}
-          data={Object.values(accounts).filter(({ type }) => filter[type])}
+          data={Object.values(accounts).filter(({ type }) => filter[type as keyof typeof filter])}
           getRowProps={(state) => {
             return {
               style: { height: 100, cursor: 'pointer' },

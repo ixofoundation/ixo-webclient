@@ -1,6 +1,6 @@
 import { Badge, Box, Flex, SimpleGrid, Stack, Text } from '@mantine/core'
 import ActionCard from 'components/ActionCard/ActionCard'
-import { theme } from 'components/App/App.styles'
+import { theme } from 'components/CoreEntry/App.styles'
 
 interface ClaimsListProps {
   applicationStatus?: string
