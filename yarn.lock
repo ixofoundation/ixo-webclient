@@ -3354,6 +3354,11 @@
     lighthouse "^9.6.3"
     puppeteer "^18.0.0"
 
+"@netlify/plugin-nextjs@^5.7.1":
+  version "5.7.1"
+  resolved "https://registry.yarnpkg.com/@netlify/plugin-nextjs/-/plugin-nextjs-5.7.1.tgz#f097842708e3dffa2e0cd2368ffdb0a0aa94e4a6"
+  integrity sha512-32e2q8VqnyxfJixMypuupuHW+3F0XbP/uGNNB79Vn1asYh/oTbR9XBi4Cxnmgthy9hycaiMHm8SftGI+uWJmQw==
+
 "@netlify/serverless-functions-api@1.19.1":
   version "1.19.1"
   resolved "https://registry.yarnpkg.com/@netlify/serverless-functions-api/-/serverless-functions-api-1.19.1.tgz#f195d18dd9ef14c656225287abb57c333df3880f"

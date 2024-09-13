@@ -22,3 +22,6 @@
 
 [functions]
   directory = "apps/web/functions"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
