@@ -13,7 +13,7 @@
   # Production settings (when merged to main branch)
   # You can set environment variables or different build commands specific to production
   command = "yarn start"
-  
+
 [context.deploy-preview]
   # Settings for deploy previews (for pull requests)
   # You can set environment variables or different build commands specific to PR previews
@@ -22,6 +22,3 @@
 
 [functions]
   directory = "apps/web/functions"
-
-[images]
-  remote_images = ["https://cellnode-pandora.ixo.world/public/*"]
