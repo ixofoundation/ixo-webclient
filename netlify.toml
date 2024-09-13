@@ -8,6 +8,7 @@
   base = "/"
   publish = "build" # Replace with the directory where your build's output is stored
   package = "apps/web"
+  command = "next build"
 
 [context.production]
   # Production settings (when merged to main branch)
@@ -18,7 +19,7 @@
   # Settings for deploy previews (for pull requests)
   # You can set environment variables or different build commands specific to PR previews
   publish = "build" # Replace with the directory where your build's output is stored.
-  command = "yarn start"
+  command = "next start"
 
 [functions]
   directory = "apps/web/functions"
