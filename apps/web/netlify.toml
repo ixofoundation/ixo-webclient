@@ -18,7 +18,7 @@
 [context.deploy-preview]
   # Settings for deploy previews (for pull requests)
   # You can set environment variables or different build commands specific to PR previews
-  publish = "build" # Replace with the directory where your build's output is stored.
+  publish = ".next" # Replace with the directory where your build's output is stored.
   command = "next start"
 
 [functions]

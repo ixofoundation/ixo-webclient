@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "netlify-build": "netlify build",
     "generate": "graphql-codegen --require dotenv/config --config codegen.ts",
     "predev": "yarn generate",
     "prebuild": "yarn generate",
