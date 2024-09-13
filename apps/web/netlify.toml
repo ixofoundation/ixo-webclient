@@ -6,7 +6,7 @@
 [build]
   NODE_VERSION = "18.18.2"
   base = "/"
-  publish = "build" # Replace with the directory where your build's output is stored
+  publish = ".next" # Replace with the directory where your build's output is stored
   package = "apps/web"
   command = "next build"
 
