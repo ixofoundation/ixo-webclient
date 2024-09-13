@@ -12,11 +12,13 @@
 [context.production]
   # Production settings (when merged to main branch)
   # You can set environment variables or different build commands specific to production
-
+  command = "yarn start"
+  
 [context.deploy-preview]
   # Settings for deploy previews (for pull requests)
   # You can set environment variables or different build commands specific to PR previews
   publish = "build" # Replace with the directory where your build's output is stored.
+  command = "yarn start"
 
 [functions]
   directory = "apps/web/functions"
