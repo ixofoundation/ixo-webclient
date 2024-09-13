@@ -26,7 +26,7 @@ export const selectExchangeConfig = createSelector(
 )
 
 export const selectMyRelayer = createSelector(selectRelayersConfig, (relayers: RelayerInfo[]): RelayerInfo => {
-  return relayers.find((relayer) => relayer.chainId === chainId)!
+  return relayers?.find((relayer) => relayer.chainId === chainId)!
 })
 
 export const selectPaymentCoins = createSelector(

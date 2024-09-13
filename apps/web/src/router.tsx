@@ -78,10 +78,10 @@ const router = createBrowserRouter([
         path: '*',
         Component: Routes,
       },
-      // {
-      //   path: 'explore',
-      //   element: <Explore.Component />,
-      // },
+      {
+        path: 'browse',
+        element: <Explore.Component />,
+      },
       {
         path: 'exchange/*',
         Component: EntityExchange.Component,

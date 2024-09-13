@@ -35,6 +35,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' />
         <link href='https://fonts.google.com/specimen/Inter?query=inter' rel='stylesheet' />
         <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v3.1.0/mapbox-gl.css' rel='stylesheet' />
+
         <ColorSchemeScript />
       </head>
 

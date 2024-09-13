@@ -263,7 +263,7 @@ export function useService() {
     service: Service,
   ): Promise<CellnodePublicResource | CellnodeWeb3Resource | undefined> => {
     try {
-      if (questionJSON.pages.length === 0) {
+      if (questionJSON?.pages?.length === 0) {
         throw new Error('No Questions')
       }
 

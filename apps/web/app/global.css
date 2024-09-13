@@ -1,0 +1,21 @@
+@import 'react-toastify/dist/ReactToastify.css';
+
+:root {
+  --toastify-color-dark: #01283c;
+}
+
+.Toastify {
+  &__toast-container {
+    width: 420px;
+  }
+
+  &__toast {
+    border-radius: 1rem;
+    padding: 1rem;
+
+    &-icon {
+      width: unset;
+      margin-inline-end: 1.5rem;
+    }
+  }
+}
