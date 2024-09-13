@@ -103,7 +103,8 @@ export const Main = styled.div`
 `
 
 export const AppLogo = styled.img`
-  height: 40px;
+  height: 40px !important;
+  width: auto !important;
 
   @media (min-width: 430px) {
     margin-right: 60px;
