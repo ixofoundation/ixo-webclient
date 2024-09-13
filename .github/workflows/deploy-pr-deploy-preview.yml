@@ -233,6 +233,8 @@ jobs:
   build-and-deploy-stackworthdao:
     runs-on: ubuntu-latest
     environment: prod
+    outputs:
+      url: ${{ steps.stackworthdao_prod_deploy.outputs.NETLIFY_URL }}
     steps:
       - uses: actions/checkout@v4
 
@@ -254,6 +256,7 @@ jobs:
           NETLIFY_PUBLIC_CUSTOM_THEME_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/launchpad/theme.json
         run: |
           export NODE_OPTIONS="--max_old_space_size=8192"
+          export NODE_ENV=production
           yarn build  # Build Script
 
       - name: Deploy to stackworth
@@ -274,6 +277,7 @@ jobs:
         build-and-deploy-yoma-ixo-earth,
         build-and-deploy-idcc-ixo-earth,
         build-and-deploy-platform-impacts-ai,
+        build-and-deploy-stackworthdao,
       ]
     runs-on: ubuntu-latest
     steps:
@@ -286,7 +290,8 @@ jobs:
           URL3=${{ needs.build-and-deploy-idcc-ixo-earth.outputs.url }}
           URL4=${{ needs.build-and-deploy-yoma-ixo-earth.outputs.url }}
           URL5=${{ needs.build-and-deploy-platform-impacts-ai.outputs.url }}
+          URL6=${{ needs.build-and-deploy-stackworthdao.outputs.url }}
 
-          MESSAGE="Deployment to development environment for dev.ixo.earth: $URL1\nDeployment to development environment for test.ixo.earth: $URL2\nDeployment development environment for idcc.ixo.earth: $URL3\nDeployment to development environment for yoma.ixo.earth: $URL4\n Deployment to development environment for platform.impacts.ai: $URL5\n"
+          MESSAGE="Deployment to development environment for dev.ixo.earth: $URL1\nDeployment to development environment for test.ixo.earth: $URL2\nDeployment development environment for idcc.ixo.earth: $URL3\nDeployment to development environment for yoma.ixo.earth: $URL4\n Deployment to development environment for platform.impacts.ai: $URL5\n Deployment to development environment for stackworth: $URL6\n"
 
           curl -X POST -H 'Content-type: application/json' --data "{\"text\":\"$MESSAGE\"}" $SLACK_WEBHOOK_URL
