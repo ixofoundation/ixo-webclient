@@ -43,7 +43,7 @@ const SetupActionsForm: React.FC<Props> = ({ actions, setActions, constant = fal
           return (
             <PropertyBox
               key={item.id}
-              icon={Icon && <Icon />}
+              icon={Icon && <img src={Icon} alt='replaced' />}
               label={item.text}
               set={item.data}
               disabled={disabled}

@@ -1,5 +1,6 @@
 'use client'
 
+import { Spinner } from 'components/Spinner/Spinner'
 import { useIxoConfigs } from 'hooks/configs'
 import dynamic from 'next/dynamic'
 import { Suspense, useEffect } from 'react'
@@ -12,22 +13,23 @@ const App = dynamic(
     }),
   {
     ssr: false,
-    loading: () => <div>Loading...</div>,
+    loading: () => <Spinner />,
   },
 )
 
 export function ClientOnly() {
-  const { fetchEntityConfig, entityConfig } = useIxoConfigs()
+  const { fetchEntityConfig, fetchThemeConfig, entityConfig } = useIxoConfigs()
 
   useEffect(() => {
     fetchEntityConfig()
-  }, [fetchEntityConfig])
+    fetchThemeConfig()
+  }, [fetchEntityConfig, fetchThemeConfig])
 
   if (!entityConfig) {
     return null
   }
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<Spinner />}>
       <App />
     </Suspense>
   )

@@ -27,7 +27,7 @@ const SetupService: React.FC<Props> = ({ hidden }): JSX.Element => {
             return (
               <PropertyBox
                 key={key}
-                icon={Icon && <Icon />}
+                icon={Icon && <img src={Icon} alt="replaced" />}
                 label={value?.name ?? value?.text}
                 set={!!value?.name}
                 handleRemove={(): void => handleRemoveEntityLinkedResource(key)}

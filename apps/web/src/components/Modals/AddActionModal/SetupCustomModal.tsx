@@ -29,6 +29,7 @@ const SetupCustomModal: React.FC<Props> = ({ open, action, onClose, onSubmit }):
   }, [action])
 
   const handleUpdateFormData = (key: string, value: string | number) => {
+    console.log('handleUpdateFormData', key, value)
     onSubmit && setFormData((data: any) => ({ ...data, [key]: value }))
   }
 

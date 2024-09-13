@@ -249,7 +249,7 @@ const SetupDAOGroups = ({ showNavigation = true }: { showNavigation?: boolean })
             return (
               <FlexBox key={key} $direction='column' $alignItems='center' $gap={4}>
                 <PropertyBox
-                  icon={Icon && <Icon />}
+                  icon={Icon && <img src={Icon} alt='replaced' />}
                   label={text}
                   set={!!value.coreAddress}
                   handleRemove={(): void => handleRemoveGroup(key)}

@@ -152,7 +152,7 @@ const Groups: React.FC<Props> = ({ selectedGroup, selectDaoGroup }): JSX.Element
         </Box>
         <Tooltip text={`${toTitleCase(daoGroup.type)} Governance`}>
           <SvgBox $svgWidth={5} $svgHeight={5} color={theme.ixoNewBlue}>
-            {Icon && <Icon />}
+            {Icon && <img src={Icon} alt='replaced' />}
           </SvgBox>
         </Tooltip>
         <CopyToClipboard text={daoGroup.coreAddress} onCopy={() => successToast(null, `Copied to clipboard`)}>

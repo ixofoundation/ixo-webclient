@@ -4,6 +4,7 @@ import { Metadata } from 'next'
 import Providers from '../Providers/Providers'
 import './global.css'
 import '@mantine/dates/styles.css'
+import '@blocknote/mantine/style.css'
 
 export const metadata: Metadata = {
   title: 'Create Next App',

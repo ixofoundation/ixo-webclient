@@ -234,7 +234,7 @@ const Accounts: React.FC = () => {
               <FlexBox $alignItems='center' $gap={2} px={2} py={1} $borderRadius='100px' background={theme.ixoDarkBlue}>
                 {Icon && (
                   <SvgBox $svgWidth={6} $svgHeight={6} color={theme.ixoWhite}>
-                    <Icon />
+                    <img src={Icon} alt='replaced' />
                   </SvgBox>
                 )}
                 <Typography>{selectedAccount.type} account</Typography>

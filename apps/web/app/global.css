@@ -1,4 +1,9 @@
+@import 'codemirror/lib/codemirror.css';
+@import 'codemirror/theme/material.css';
 @import 'react-toastify/dist/ReactToastify.css';
+@import 'slick-carousel/slick/slick.css';
+@import 'slick-carousel/slick/slick-theme.css';
+@import 'react-dates/lib/css/_datepicker.css';
 
 :root {
   --toastify-color-dark: #01283c;

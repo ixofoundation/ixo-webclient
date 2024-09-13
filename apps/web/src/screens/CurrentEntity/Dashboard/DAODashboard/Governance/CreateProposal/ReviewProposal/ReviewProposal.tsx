@@ -451,7 +451,7 @@ const ReviewProposal: React.FC = () => {
                       cursor='pointer'
                       onClick={() => setSelectedLinkedResource(item)}
                     >
-                      <Icon />
+                      <img src={Icon} alt='replaced' />
                     </SvgBox>
                   )
                 })}
@@ -479,7 +479,7 @@ const ReviewProposal: React.FC = () => {
                       cursor='pointer'
                       onClick={() => setSelectedAction(action)}
                     >
-                      <Icon />
+                      <img src={Icon} alt='replaced' />
                     </SvgBox>
                   )
                 })}

@@ -210,7 +210,7 @@ const AccountsCard: React.FC<Props> = ({ accounts, onSelect }) => {
                 }))
               }
             >
-              <Icon />
+              <img src={Icon} />
             </SvgBox>
           </Tooltip>
         ))}

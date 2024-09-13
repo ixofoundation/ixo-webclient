@@ -82,7 +82,7 @@ const AddActionModal: React.FC<Props> = ({ open, actionsToExclude = [], onClose,
               return (
                 <GridItem key={item.text}>
                   <PropertyBox
-                    icon={<Icon />}
+                    icon={<img src={Icon} alt='replaced' />}
                     label={item.text}
                     disabled={disabled}
                     required

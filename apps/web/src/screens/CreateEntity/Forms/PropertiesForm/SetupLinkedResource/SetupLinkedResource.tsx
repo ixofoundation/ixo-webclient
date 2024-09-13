@@ -64,7 +64,7 @@ const SetupLinkedResource: React.FC<Props> = ({ hidden, linkedResource, updateLi
               return (
                 <PropertyBox
                   key={key}
-                  icon={Icon && <Icon />}
+                  icon={Icon && <img src={Icon} alt='replaced' />}
                   label={label}
                   set={!!value?.serviceEndpoint}
                   handleRemove={(): void => handleRemoveLinkedResource(key)}

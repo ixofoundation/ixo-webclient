@@ -67,7 +67,7 @@ const SetupAccordedRight: React.FC<Props> = ({ hidden, accordedRight, updateAcco
             return (
               <PropertyBox
                 key={key}
-                icon={Icon && <Icon />}
+                icon={Icon && <img src={Icon} alt='replaced' />}
                 label={label}
                 set={!!(value as any)?.data}
                 handleRemove={(): void => handleRemoveEntityAccordedRight(key)}

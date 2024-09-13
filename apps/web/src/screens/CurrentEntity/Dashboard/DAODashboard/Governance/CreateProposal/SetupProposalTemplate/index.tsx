@@ -86,7 +86,7 @@ const SetupProposalTemplate: React.FC = (): JSX.Element => {
                 return (
                   <PropertyBox
                     key={entity.id}
-                    // icon={Icon && <Icon />}
+                    // icon={Icon && <img src={Icon} alt="replaced" />}
                     label={entity.profile?.name}
                     set={selectedTemplateEntityId === entity.id}
                     handleClick={() => setselectedTemplateEntityId(entity.id)}
@@ -94,7 +94,7 @@ const SetupProposalTemplate: React.FC = (): JSX.Element => {
                 )
               })}
             <PropertyBox
-              // icon={Icon && <Icon />}
+              // icon={Icon && <img src={Icon} alt="replaced" />}
               label={'Custom Proposal'}
               set={selectedTemplateEntityId === 'custom'}
               handleClick={() => setselectedTemplateEntityId('custom')}

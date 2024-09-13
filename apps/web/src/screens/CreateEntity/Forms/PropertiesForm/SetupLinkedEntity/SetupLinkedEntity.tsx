@@ -113,7 +113,11 @@ const SetupLinkedEntity: React.FC<Props> = ({ hidden, linkedEntity, daoGroups, u
                 }
                 return (
                   <FlexBox key={key} $direction='column' $alignItems='center' $gap={4}>
-                    <PropertyBox icon={Icon && <Icon />} label={toTitleCase(label)} set={true} />
+                    <PropertyBox
+                      icon={Icon && <img src={Icon} alt='replaced' />}
+                      label={toTitleCase(label)}
+                      set={true}
+                    />
                     <Typography variant='secondary' $overflowLines={1} style={{ width: 100, textAlign: 'center' }}>
                       {name}
                     </Typography>
@@ -127,7 +131,7 @@ const SetupLinkedEntity: React.FC<Props> = ({ hidden, linkedEntity, daoGroups, u
                   <LinkedEntityPropertyBox
                     key={key}
                     id={key}
-                    icon={Icon && <Icon />}
+                    icon={Icon && <img src={Icon} alt='replaced' />}
                     label={label}
                     type={type}
                     handleRemove={() => handleRemoveLinkedEntity(key)}

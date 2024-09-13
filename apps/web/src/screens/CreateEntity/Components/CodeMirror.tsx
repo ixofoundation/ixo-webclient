@@ -1,7 +1,5 @@
 import React from 'react'
 import { Controlled } from 'react-codemirror2'
-import 'codemirror/lib/codemirror.css'
-import 'codemirror/theme/material.css'
 import styled from 'styled-components'
 
 const Wrapper = styled.div<{ readOnly: boolean }>`

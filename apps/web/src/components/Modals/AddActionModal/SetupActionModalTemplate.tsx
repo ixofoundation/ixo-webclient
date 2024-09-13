@@ -62,7 +62,7 @@ const SetupActionModalTemplate: React.FC<Props> = ({
       <FlexBox $direction='column' $gap={8} width={width}>
         <FlexBox $alignItems='center' $gap={4}>
           <SvgBox color={theme.ixoBlack} $svgWidth={8} $svgHeight={8}>
-            <Icon />
+            <img src={Icon} />
           </SvgBox>
           <Typography weight='medium' size='xl'>
             {!noTitle && action.text}

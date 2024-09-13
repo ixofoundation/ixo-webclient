@@ -189,7 +189,7 @@ const LinkedResourceSetupModal: React.FC<Props> = ({ linkedResource, open, onClo
               name='linked_resource_id'
               height='48px'
               label='ID'
-              inputValue={toTitleCase(formData?.id)}
+              inputValue={formData?.id}
               handleChange={(value) => handleFormDataChange('id', value)}
               style={{ fontWeight: 500 }}
             />
@@ -199,7 +199,8 @@ const LinkedResourceSetupModal: React.FC<Props> = ({ linkedResource, open, onClo
               name='linked_resource_type'
               height='48px'
               label='Type of Resource'
-              inputValue={toTitleCase(formData?.type)}
+              inputValue={formData?.type}
+              handleChange={(value) => handleFormDataChange('type', value)}
               style={{ fontWeight: 500 }}
             />
 

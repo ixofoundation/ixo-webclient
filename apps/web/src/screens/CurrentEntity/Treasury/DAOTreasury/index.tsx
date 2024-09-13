@@ -2,7 +2,6 @@ import Dashboard from 'components/Dashboard/Dashboard'
 import { HeaderTab, Path } from 'components/Dashboard/types'
 import { useCurrentEntityProfile } from 'hooks/currentEntity'
 import { Navigate, Route, Routes, useParams } from 'react-router-dom'
-import { requireCheckDefault } from 'utils/images'
 import Accounts from './Accounts'
 import { useAppSelector } from 'redux/hooks'
 import { getEntityById } from 'redux/entities/entities.selectors'
@@ -15,7 +14,7 @@ const DAOTreasury: React.FC = (): JSX.Element => {
   const routes: Path[] = [
     {
       url: `/entity/${entityId}/treasury/accounts`,
-      icon: requireCheckDefault(require('assets/img/sidebar/account.svg')),
+      icon: '/assets/img/sidebar/account.svg',
       sdg: 'Accounts',
       tooltip: 'Accounts',
     },

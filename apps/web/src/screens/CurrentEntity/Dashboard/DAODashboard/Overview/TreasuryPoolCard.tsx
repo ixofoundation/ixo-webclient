@@ -96,7 +96,7 @@ const TreasuryPoolCard: React.FC = () => {
 
         <Flex w='100%' h='170px' gap={16}>
           {treasuryAccounts.map((account, index) => {
-            const Icon = AccountTypeToIconMap[account.type]
+            const Icon = AccountTypeToIconMap[account.type as keyof typeof AccountTypeToIconMap]
 
             return (
               <Flex
@@ -113,7 +113,7 @@ const TreasuryPoolCard: React.FC = () => {
                   <Flex direction={'column'} align={'center'} gap={4} style={{ color: theme.ixoNewBlue }}>
                     {Icon && (
                       <SvgBox>
-                        <Icon />
+                        <img src={Icon} />
                       </SvgBox>
                     )}
                     <Typography size='md'>{account.label}</Typography>

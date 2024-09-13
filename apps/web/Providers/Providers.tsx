@@ -7,6 +7,7 @@ import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client'
 import { GlobalStyle } from 'styles/globalStyles'
 import StoreProvider from 'redux/StoreProvider'
 import { ToastContainer } from 'react-toastify'
+import mantineTheme from 'styles/mantine'
 
 interface ProvidersProps {
   children: ReactNode
@@ -21,7 +22,7 @@ export default function Providers({ children }: ProvidersProps) {
   return (
     <StoreProvider>
       <ThemeProvider theme={theme}>
-        <MantineProvider>
+        <MantineProvider theme={mantineTheme}>
           <ToastContainer theme='dark' hideProgressBar={true} position='top-right' />
 
           <GlobalStyle />

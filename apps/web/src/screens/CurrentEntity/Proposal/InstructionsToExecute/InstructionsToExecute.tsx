@@ -87,7 +87,7 @@ const InstructionsToExecute: React.FC = () => {
           return (
             <PropertyBox
               key={index}
-              icon={Icon && <Icon />}
+              icon={Icon && <img src={Icon} alt='replaced' />}
               label={action.text}
               set={action.data}
               handleClick={() => setSelectedAction(action)}
