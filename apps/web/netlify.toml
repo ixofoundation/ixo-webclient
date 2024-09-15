@@ -1,2 +1,2 @@
 [build]
-  publish = "apps/web/.next"
+  publish = "apps/web/out"

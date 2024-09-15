@@ -3,6 +3,7 @@ const require = createRequire(import.meta.url)
 console.log(require.resolve('readable-stream'))
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'export',
   experimental: {
     optimizePackageImports: ['@blocknote/core', '@blocknote/mantine', '@blocknote/react'],
   },

@@ -1,8 +1,8 @@
 import { ClientOnly } from './client'
 
-// export function generateStaticParams() {
-//   return [{ slug: ['explore-new'] }]
-// }
+export function generateStaticParams() {
+  return [{ slug: [''] }]
+}
 
 export const dynamic = 'auto'
 
