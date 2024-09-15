@@ -249,7 +249,7 @@ jobs:
 
       - name: Deploy to stackworth
         run: |
-          npx netlify-cli deploy --dir=apps/web/.next --build --filter @ixo-webclient/web
+          npx netlify-cli deploy --dir=.next --build --filter @ixo-webclient/web
         env:
           NODE_ENV: production`
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_STACKWORTH_AUTH_TOKEN }}
