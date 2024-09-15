@@ -3,9 +3,6 @@ const require = createRequire(import.meta.url)
 console.log(require.resolve('readable-stream'))
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  distDir: './.next', // Changes the build output directory to `./dist`.
-  // output: 'export',
-
   experimental: {
     optimizePackageImports: ['@blocknote/core', '@blocknote/mantine', '@blocknote/react'],
   },
