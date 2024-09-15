@@ -63,7 +63,7 @@ jobs:
 
       - name: Deploy to dev.ixo.earth
         run: |
-          npx netlify-cli deploy --dir=apps/web/build --filter @ixo-webclient/web
+          npx netlify-cli deploy --dir=apps/web/.next --filter @ixo-webclient/web
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: 98449c34-e6ca-47c1-9814-1a4007adb702
@@ -107,7 +107,7 @@ jobs:
 
       - name: Deploy to test.ixo.earth
         run: |
-          npx netlify-cli deploy --dir=apps/web/build --filter @ixo-webclient/web
+          npx netlify-cli deploy --dir=apps/web/.next --filter @ixo-webclient/web
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: 50ab39f7-d558-493b-8cc6-6f47fa4c8c56
@@ -143,7 +143,7 @@ jobs:
 
       - name: Deploy to yoma.ixo.earth deploy preview
         run: |
-          npx netlify-cli deploy --dir=apps/web/build --filter @ixo-webclient/web
+          npx netlify-cli deploy --dir=apps/web/.next --filter @ixo-webclient/web
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ffd81e41-b107-4846-a472-4a69bf1991d3
@@ -177,7 +177,7 @@ jobs:
 
       - name: Deploy to idcc.ixo.earth deploy preview
         run: |
-          npx netlify-cli deploy --dir=apps/web/build --filter @ixo-webclient/web
+          npx netlify-cli deploy --dir=apps/web/.next --filter @ixo-webclient/web
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: 8095507c-1245-49e1-9f54-167b18c2de4b
@@ -213,7 +213,7 @@ jobs:
 
       - name: Deploy to platform.impacts.ai
         run: |
-          npx netlify-cli deploy --dir=apps/web/build --filter @ixo-webclient/web
+          npx netlify-cli deploy --dir=apps/web/.next --filter @ixo-webclient/web
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: 1f5e8c66-5e62-42ed-9a55-1650bbb1fe43
@@ -249,7 +249,7 @@ jobs:
 
       - name: Deploy to stackworth
         run: |
-          npx netlify-cli deploy --dir=apps/web/build --build --filter @ixo-webclient/web
+          npx netlify-cli deploy --dir=apps/web/.next --build --filter @ixo-webclient/web
         env:
           NODE_ENV: production`
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_STACKWORTH_AUTH_TOKEN }}
