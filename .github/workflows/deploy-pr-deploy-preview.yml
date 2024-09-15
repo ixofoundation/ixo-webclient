@@ -251,6 +251,7 @@ jobs:
         run: |
           npx netlify-cli deploy --dir=apps/web/build --build --filter @ixo-webclient/web
         env:
+          NODE_ENV: production`
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_STACKWORTH_AUTH_TOKEN }}
           NETLIFY_SITE_ID: b320fbd1-e447-41e4-b6ce-cbe4a7533cbc
           NEXT_PUBLIC_RELAYER_NODE: did:ixo:entity:1690d5f6ae9749191cc84c504fbaf448
