@@ -1,9 +1,9 @@
 import { createRequire } from 'module'
 const require = createRequire(import.meta.url)
-  console.log(require.resolve('readable-stream'))
+console.log(require.resolve('readable-stream'))
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  distDir: './build', // Changes the build output directory to `./dist`.
+  distDir: './.next', // Changes the build output directory to `./dist`.
   // output: 'export',
 
   experimental: {
