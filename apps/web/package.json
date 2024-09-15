@@ -15,7 +15,8 @@
     "test:watch:win": "set \"TZ=UTC\" && craco test",
     "lint": "eslint --quiet --ext=js,jsx,ts,tsx src",
     "lint:fix": "eslint --ext=js,jsx,ts,tsx src --fix",
-    "format": "prettier --ext=js,jsx,ts,tsx,css,md,json src --write --config ./.prettierrc"
+    "format": "prettier --ext=js,jsx,ts,tsx,css,md,json src --write --config ./.prettierrc",
+    "postinstall": "patch-package"
   },
   "browserslist": {
     "production": [
