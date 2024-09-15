@@ -245,7 +245,7 @@ jobs:
       #   run: |
       #     export NODE_OPTIONS="--max_old_space_size=8192"
       #     export NODE_ENV=production
-          yarn build  # Build Script
+      # yarn build  # Build Script
 
       - name: Deploy to stackworth
         run: |
@@ -259,7 +259,6 @@ jobs:
           NETLIFY_PUBLIC_CONFIG_RELAYER_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/launchpad/app-config.json
           NETLIFY_PUBLIC_CONFIG_SCHEMA_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/launchpad/config.json
           NETLIFY_PUBLIC_CUSTOM_THEME_URL: https://raw.githubusercontent.com/ixofoundation/ixo-webclient/dev/apps/web/configs/launchpad/theme.json
-    
 
   notify-slack:
     needs:
