@@ -417,6 +417,11 @@ export const EntityLinkedResourceConfig: { [key: string]: any } = {
     icon: TextIcon,
     accept: { 'text/plain': ['.txt'] },
   },
+  json: {
+    text: 'json',
+    icon: ,
+    accept: { 'json': ['.json'] },
+  },
   database: {
     text: 'Database',
     icon: DatabaseIcon,
