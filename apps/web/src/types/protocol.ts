@@ -204,6 +204,8 @@ export enum ELocalisation {
 }
 
 export enum EClaimType {
+  Identity = 'Identity',
+  Accreditation = 'Accreditation',
   Service = 'Service',
   Outcome = 'Outcome',
   Credential = 'Credential',
@@ -974,6 +976,7 @@ export const ProposalActionConfigMap = {
 
 export enum EAssetType {
   ImpactToken = 'Impact Token',
+  Coin = 'Coin',
   Commodity = 'Commodity',
   Inventory = 'Inventory',
   Data = 'Data',

@@ -3808,6 +3808,36 @@
           "multiSelect": false,
           "tags": [
             {
+              "@type": "accreditation",
+              "name": "Accreditation",
+              "icon": "tag.svg"
+            },
+            {
+              "@type": "coin",
+              "name": "Coin",
+              "icon": "tag.svg"
+            },
+            {
+              "@type": "impact_credit",
+              "name": "Impact Credit",
+              "icon": "tag.svg"
+            },
+            {
+              "@type": "compliance",
+              "name": "Compliance",
+              "icon": "tag.svg"
+            },
+            {
+              "@type": "identity",
+              "name": "Identity",
+              "icon": "tag.svg"
+            },
+            {
+              "@type": "investment",
+              "name": "Investment",
+              "icon": "tag.svg"
+            },
+            {
               "@type": "Tag",
               "name": "Service",
               "icon": "service.svg"
@@ -3831,6 +3861,16 @@
               "@type": "Tag",
               "name": "Payment",
               "icon": "payment.svg"
+            },
+            {
+              "@type": "Tag",
+              "name": "Identity",
+              "icon": "identity.svg"
+            },
+            {
+              "@type": "Tag",
+              "name": "KYCAML",
+              "icon": "kycaml.svg"
             },
             {
               "@type": "Tag",
@@ -3876,6 +3916,21 @@
               "@type": "Tag",
               "name": "Impact",
               "icon": "impact.svg"
+            },
+            {
+              "@type": "Tag",
+              "name": "Impact Credit",
+              "icon": "impactCredit.svg"
+            },
+            {
+              "@type": "Tag",
+              "name": "Token",
+              "icon": "token.svg"
+            },
+            {
+              "@type": "Tag",
+              "name": "Stablecoin",
+              "icon": "stablecoin.svg"
             },
             {
               "@type": "Tag",
@@ -4617,6 +4672,21 @@
               "@type": "outcomeContract",
               "name": "Outcome Contract",
               "icon": "outcomecontract.svg"
+            },
+             {
+              "@type": "token",
+              "name": "Token",
+              "icon": "token.svg"
+            },
+             {
+              "@type": "pvSystem",
+              "name": "PV System",
+              "icon": "pvsystem.svg"
+            },
+            {
+              "@type": "ElectromagneticInductionStove",
+              "name": "Electromagnetic Induction Stove",
+              "icon": "electromagneticinductionstove.svg"
             },
             {
               "@type": "equity",
