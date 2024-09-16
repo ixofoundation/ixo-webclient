@@ -126,7 +126,7 @@ const EntitiesExplorer = ({
     onCompleted: async ({ entities }) => {
       const nodes = entities?.nodes ?? []
       if (nodes.length > 0) {
-        const updatedNodes = await populateEntitiesForEntityExplorer(nodes.slice(0, 10) as Entity[])
+        const updatedNodes = await populateEntitiesForEntityExplorer(nodes as Entity[])
         updateEntities(updatedNodes)
       }
     },
